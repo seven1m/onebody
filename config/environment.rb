@@ -74,7 +74,8 @@ CHURCH_OFFICE_PHONE = '(918) 254-0621'
 SITE_TITLE = 'Cedar Ridge Family'
 SITE_SIMPLE_URL = 'cedar.ridge.cc'
 SITE_URL = "http://#{SITE_SIMPLE_URL}/"
-VISITOR_URL = 'http://cedarridgecc.com/'
+VISITOR_SIMPLE_URL = 'cedarridgecc.com'
+VISITOR_URL = "http://#{VISITOR_SIMPLE_URL}"
 MONTHS = [
   ['January',  1],
   ['February',  2],
