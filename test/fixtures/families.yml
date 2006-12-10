@@ -1,0 +1,27 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+morgan:
+  id: 1
+  name: Tim & Jennie Morgan
+  last_name: Morgan
+  address1: 10717 S Delaware
+  city: Tulsa
+  state: OK
+  zip: 74137
+  home_phone: 9182992492
+  latitude: 36.008764
+  longitude: -95.944428
+zongker:
+  id: 2
+  name: Jeremy & Jeanette Zongker
+  last_name: Zongker
+  address1: 4604 S Ironwood Ave
+  city: Broken Arrow
+  state: OK
+  zip: 74011
+  home_phone: 9189460876
+  latitude: 36.005008
+  longitude: -95.801451
+somebody:
+  id: 3
+  name: Peter Somebody
+  last_name: Somebody

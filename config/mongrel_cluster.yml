@@ -1,0 +1,9 @@
+--- 
+user: mongrel
+cwd: /var/rails/cedarridgefamily
+port: "8000"
+environment: production
+group: mongrel
+address: 127.0.0.1
+pid_file: log/mongrel.pid
+servers: 3

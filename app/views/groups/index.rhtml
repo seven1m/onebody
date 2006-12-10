@@ -1,0 +1,71 @@
+<% content_for :wide do %>
+  <p>
+    Show:
+    <select onchange="location.href = '?category=' + this.value">
+      <option value="">All Groups</option>
+      <%= options_for_select @categories, params[:category] %>
+    </select>
+    <%= link_to_function 'Expand All', "document.getElementsByClassName('people').each(function(e){Element.show(e)})"%>
+  </p>
+  <table class="iconed">
+    <tr>
+      <td class="icon">
+        <%= link_to image_tag('add.gif', :alt => 'Create a Group'), :action => 'edit' %>
+      </td>
+      <td>
+        <span class="list-heading"><%= link_to 'Create a Group', :action => 'edit' %></span><br/>
+        Groups represent collections of people. A group can be
+        people who meet together regularly, friends online, people with
+        common interests, or anything else you can think of! If you can't
+        find the group you're looking for, create it!
+      </td>
+    </tr>
+    <% @groups.each do |group| %>
+      <tr>
+        <td class="icon">
+          <% unless group.private? and not group.people.include? @logged_in %><a href="<%= url_for :action => 'view', :id => group %>"><% end %>
+            <% if group.has_photo? %>
+              <%= image_tag url_for(:action => 'photo', :id => "#{group.id}.small.jpg"), :alt => group.name %>
+            <% else %>
+              <%= image_tag 'group.small.jpg', :alt => group.name %>
+            <% end %>
+          <% unless group.private? and not group.people.include? @logged_in %></a><% end %>
+        </td>
+        <td>
+          <span class="list-heading">
+            <% if @logged_in.sees? group %>
+              <%= link_to group.name, :action => 'view', :id => group %>
+            <% else %>
+              <%=h group.name %>
+            <% end %>
+            <% if group.private? %>(private)<% end %>
+          </span>
+          <% if group.admin?(@logged_in) %>
+            <%= link_to 'edit', {:action => 'edit', :id => group}, :class => 'discreet' %>
+            <% if group.link_code.to_s.any? %>
+              <%= image_tag 'link.png', :alt => group.link_code, :class => 'no-border', :style => 'vertical-align:middle;' %>
+            <% end %>
+          <% end %>
+          <br/>
+          <% if group.description.to_s.any? %>
+            <%=h group.description %><br/>
+          <% end %>
+          Created by: <%= link_to group.creator.name, :controller => 'people', :action => 'view', :id => group.creator %>
+          <% if @logged_in.sees? group %>
+            <br/>
+            <%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'no-border'), "Element.show('people_in_group_#{group.id}')" %>
+            <%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>
+            <div id="people_in_group_<%= group.id %>" style="display:none;" class="people">
+              <% group.people.each do |person| %>
+                <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
+                <br/>
+              <% end %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <br clear="both"/>
+<% end %>

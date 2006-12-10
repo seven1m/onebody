@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title><%= SITE_TITLE %></title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="/stylesheets/1.css" type="text/css" media="screen,projection" />
+  <%= javascript_include_tag :defaults %>
+  <%= yield :head %>
+</head>
+ 
+<body>
+
+<div id="wrapper">
+<div id="innerwrapper">
+
+		<div id="header">
+		
+			  <%= form_tag({:controller => 'people', :action => 'search'}, {:method => 'get'}) %>
+			    Type a name and hit <strong>enter</strong>:<br/>
+				  <input name="name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
+				</form>
+				
+				<script type="text/javascript"> $('search_name').value = 'People Search' </script>
+				
+				<h1><a href="/"><%= SITE_TITLE %></a></h1>
+				
+				<ul id="nav">
+				
+				    <% if @logged_in %>
+				      <li style="float:right;font-size:smaller;"><%= link_to 'sign out', :controller => 'account', :action => 'sign_out' %></li>
+				    <% end %>
+				    
+				    <li><%= link_to 'Profile', {:controller => 'people', :action => 'index'}, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
+				    <li><%= link_to 'Directory', {:controller => 'people', :action => 'search'}, :class => (params[:controller] == 'people' and params[:action] == 'search' ? 'active' : nil) %></li>
+				    <li><%= link_to 'Groups', {:controller => 'groups', :action => 'index'}, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li>
+				    <li><%= link_to 'Pictures', {:controller => 'pictures', :action => 'index'}, :class => (params[:controller] == 'pictures' ? 'active' : nil) %></li>
+				    <li><%= link_to 'Publications', {:controller => 'publications', :action => 'index'}, :class => (params[:controller] == 'publications' ? 'active' : nil) %></li>
+				
+				</ul>
+
+        <% if subnav = yield(:subnav) or flash[:notice] %>
+          <div id="subnav">
+            <%= subnav %>
+            <% if flash[:notice] %><br/><span id="notice"><%= flash[:notice] %></span><% end %>
+          </div>
+        <% end %>
+		</div>
+		
+		<% if wide = yield(:wide) %>
+  		<div id="wide">
+	  	  <%= wide %>
+		  </div>
+		<% end %>
+		
+		<% if sidebar = yield(:sidebar) %>
+  		<div id="sidebar">
+    		<%= sidebar %>
+		  </div>
+		<% end %>
+				
+		<div id="contentnorightbar" <% if sidebar.to_s.empty? %>style="margin-left:0px;padding-left:0px;"<% end %>>
+		  <%= yield %>
+		</div>
+		
+		<div id="footer">
+      &copy; <%= Date.today.year %>, <%= CHURCH_NAME %> |
+      Template design by <a href="http://www.sixshootermedia.com">Six Shooter Media</a>.
+		</div>
+		
+</div>
+</div>
+
+
+</body>
+</html>

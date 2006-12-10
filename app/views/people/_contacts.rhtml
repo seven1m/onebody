@@ -1,0 +1,15 @@
+<% if @person.contacts.count > 0 %>
+  <h2>Contacts</h2>
+  <table>
+    <% @person.people.each do |contact| %>
+      <tr>
+        <td>
+          <a href="<%= url_for :action => 'view', :id => contact %>">
+            <%= render :partial => 'thumbnail', :locals => {:person => contact} %>
+          </a>
+        </td>
+        <td><%= link_to contact.name, :action => 'view', :id => contact %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

@@ -1,0 +1,133 @@
+<h1>Privacy</h1>
+
+<% content_for :subnav do %>
+  <li><%= link_to 'View Profile', :action => 'index' %></li>
+<% end %>
+
+<% unless @logged_in.adult? %>
+  <p style="font-weight:bold;">
+    Only an adult can edit these settings. According to our records,
+    you are not. Please contact the church office if you believe this
+    to be an error.
+  </p>
+<% end %>
+
+<p>
+  All members/attenders of <%= CHURCH_NAME %> have an account on
+  this site. We've chosen some sensible defaults regarding how
+  much of your personal information is available to others here,
+  but you may wish to customize these settings to share more
+  information or keep it more private.
+</p>
+
+<h2>Privacy for the <em><%=h @family.name %> Family</em></h2>
+
+<p>
+  These settings affect your whole family. Person Privacy settings (see below)
+  may override these settings.
+</p>
+
+<% remote_form_for :family, @family, :url => {:action => 'privacy'} do |form| %>
+  <table>
+    <tr><th>Detail</th><th>Visible</th><th>Private</th></tr>
+    <tr>
+      <td>Address</td>
+      <td><%= form.radio_button :share_address, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_address, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td>Mobile Phone</td>
+      <td><%= form.radio_button :share_mobile_phone, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_mobile_phone, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td>Work Phone</td>
+      <td><%= form.radio_button :share_work_phone, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_work_phone, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td>Fax</td>
+      <td><%= form.radio_button :share_fax, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_fax, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
+      <td><em>People can always send you email <%= link_to_function 'through the site', 'alert("One user can send a message to another via this site. The system is monitored for abuse and allows people to contact you without getting your email address. We recommend you leave your email address private to prevent unsolicited email.")' %>.</em></td>
+    </tr>
+    <tr>
+      <td>Birthday</td>
+      <td><%= form.radio_button :share_birthday, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_birthday, false, :class => 'checkbox' %></td>
+      <td><em>The year is never shown.</em></td>
+    </tr>
+    <tr>
+      <td>Anniversary</td>
+      <td><%= form.radio_button :share_anniversary, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_anniversary, false, :class => 'checkbox' %></td>
+      <td><em>The year is never shown.</em></td>
+    </tr>
+    <tr>
+      <td>Home Phone*</td>
+      <td><input type="radio" checked="checked" disabled="disabled" class="checkbox"/></td>
+      <td><input type="radio" disabled="disabled" class="checkbox"/></td>
+    </tr>
+  </table>
+  
+  <p style="font-style:italic;">
+    *Your home phone number needs to remain visible to facilitate basic communication, but
+    if you wish to make it private, you may contact the church office to have it unlisted.
+  </p>
+  
+  <p><%= submit_tag 'Save Family Settings' %></p>
+<% end %>
+
+<% @family.people.each do |person| %>
+
+  <h2>Privacy for <em><%=h person.name %></em></h2>
+
+  <p>You may override the family settings for <%=h person.name %> by making changes below.</p>
+  
+  <%= person.share_mobile_phone %>
+  
+  <% remote_form_for :person, person, :url => {:action => 'privacy', :id => person} do |form| %>
+    <table>
+      <tr><th>Detail</th><th>Visible</th><th>Private</th><th>Use Family Setting</th></tr>
+      <tr>
+        <td>Mobile Phone</td>
+        <td><%= radio_button_tag 'person[share_mobile_phone]', true, person.attributes['share_mobile_phone'] == true, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_mobile_phone]', false, person.attributes['share_mobile_phone'] == false, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_mobile_phone]', 'nil', person.attributes['share_mobile_phone'] == nil, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Work Phone</td>
+        <td><%= radio_button_tag 'person[share_work_phone]', true, person.attributes['share_work_phone'] == true, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_work_phone]', false, person.attributes['share_work_phone'] == false, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_work_phone]', 'nil', person.attributes['share_work_phone'] == nil, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Fax</td>
+        <td><%= radio_button_tag 'person[share_fax]', true, person.attributes['share_fax'] == true, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_fax]', false, person.attributes['share_fax'] == false, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_fax]', 'nil', person.attributes['share_fax'] == nil, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><%= radio_button_tag 'person[share_email]', true, person.attributes['share_email'] == true, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_email]', false, person.attributes['share_email'] == false, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_email]', 'nil', person.attributes['share_email'] == nil, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Birthday</td>
+        <td><%= radio_button_tag 'person[share_birthday]', true, person.attributes['share_birthday'] == true, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_birthday]', false, person.attributes['share_birthday'] == false, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[share_birthday]', 'nil', person.attributes['share_birthday'] == nil, :class => 'checkbox' %></td>
+        <td><em>The year is never shown.</em></td>
+      </tr>
+    </table>
+    
+    <p><%= submit_tag 'Save Personal Settings' %></p>
+  <% end %>
+
+<% end %>

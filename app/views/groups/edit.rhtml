@@ -1,0 +1,132 @@
+<script type="text/javascript">
+  SAFE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  function remove_symbols(text) {
+    var sanitized = '';
+    for(var i=0; i<text.length; i++) {
+      var c = text.substring(i, i+1);
+      if(SAFE_CHARS.indexOf(c) > -1) sanitized += c;
+    }
+    return sanitized;
+  };
+  function custom_select_val(select_elm, prompt_text){
+    var val = prompt(prompt_text, '');
+    var option = document.createElement('option');
+    option.setAttribute('value', val);
+    option.innerHTML = val;
+    option.selected = true;
+    select_elm.appendChild(option);
+  };
+</script>
+
+<% if @group.id %>
+  <% content_for :sidebar do |wants| %>
+
+    <%= form_tag :action => 'remove_people', :id => @group %>
+    
+      <ul>
+        <% @group.people.each do |person| %>
+          <%= check_box_tag 'people[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or @group.linked?), :onclick => (person == @logged_in and not @logged_in.admin? ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
+          <%= link_to person.name_shortened(15), {:controller => 'people', :action => 'view', :id => person}, :title => person.name %>
+          <br/>
+        <% end %>
+      </ul>
+    
+      <% if @group.linked? %>
+        <p>
+          <%= image_tag 'link.png', :alt => @group.link_code, :class => 'no-border' %>
+          This group is linked with a code. You may not add or remove people from here.
+        </p>
+      <% elsif @group.people.length > 1 %>
+        <p><%= submit_tag 'Remove Selected' %></p>
+      <% else %>
+        <p><em>You cannot remove the last group admin. You may delete the group, however.</em></p>
+      <% end %>
+  
+    </form>
+  
+    <% unless @group.linked? %>
+      <%= form_remote_tag :url => {:controller => 'people', :action => 'search'} %>
+        <%= hidden_field_tag :select_person, true %>
+        <p>
+          <label for="name">Add somebody:</label> <%= text_field_tag 'name' %>
+          <%= submit_tag 'Search by Name' %>
+        </p>
+      </form>
+
+      <div id="add_member" style="display:none;">
+        <%= form_tag :action => 'add_people', :id => @group %>
+          <div id="results"></div>
+          <p><%= submit_tag 'Add Selected' %></p>
+        </form>
+      </div>
+    <% end %>
+  
+    <h2>Admins</h2>
+    <%= render :partial => 'admins' %>
+  <% end %>
+<% end %>
+
+<h1>Edit Group</h1>
+
+<% content_for :subnav do %>
+  <li><%= link_to 'List of Groups', :action => 'index' %></li>
+  <% if @group.id %>
+    <li><%= link_to 'View Group', :action => 'view', :id => @group %></li>
+    <li><%= link_to 'Delete Group', {:action => 'delete', :id => @group}, :confirm => 'Are you sure? This cannot be undone!', :post => true %></li>
+  <% end %>
+<% end %>
+
+<% form_for :group, @group, :url => {:action => 'edit', :id => @group}, :html => {:enctype => 'multipart/form-data'} do |form| %>
+
+  <h2>Group Picture</h2>
+  <%= render :partial => 'photo' %>
+  <input type="file" id="photo" name="photo"/>
+  <% if @group.has_photo? %>
+    <br/>
+    <%= link_to 'Remove Group Photo', {:action => 'edit', :photo => 'remove'}, :post => true, :confirm => 'Are you sure?' %>
+  <% end %>
+
+  <h2>Details</h2>
+  <label for="group_name">Group Name (required):</label>
+  <%= form.text_field :name %><br/>
+  <label for="group_category">Category (required):</label>
+  <select name="group[category]" id="group_category" onchange="if(this.value=='!') custom_select_val(this, 'Enter the new category.')">
+    <option value=""></option>
+    <%= options_for_select @categories, @group.category %>
+    <option value="!">[new category]</option>
+  </select><br/>
+  <label for="group_description">Description:</label>
+  <%= form.text_area :description, :rows => 3 %><br/>
+  <label for="group_notes">Other Notes:</label>
+  <%= form.text_area :notes, :rows => 3 %><br/>
+  <label>Creator:</label>
+  <%= text_field_tag 'creator', (@group.creator ? @group.creator.name : nil), :readonly => true %><br/>
+  <label for="group_private">Private:</label>
+  <%= form.check_box :private, :class => 'checkbox' %> Messages and members (except the creator) are hidden from outsiders and group administrators must add people.
+  
+  <h2>Meets</h2>
+  <label for="group_meets">Day &amp; Time:</label>
+  <%= form.text_field :meets %><br/>
+  <label for="group_location">Location:</label>
+  <%= form.text_field :location %><br/>
+  <label for="group_directions">Directions:</label>
+  <%= form.text_area :directions, :rows => 3 %><br/>
+  
+  <% if @logged_in.admin? %>
+    <h2>Advanced</h2>
+    The settings below are for staff, elders, and advanced users.
+    Don't edit any of the settings below unless you know what you are doing.<br/>
+    <!--
+    <label>Email Address:</label>
+    <%= text_field_tag 'group[address]', @group.address.to_s.split('@').first, :id => 'group_address', :style => 'width:150px;' %>@<%= GROUP_ADDRESS_DOMAIN %><br/>
+    -->
+    <label for="group_link_code">Class Link Code(s):</label>
+    <%= form.text_field :link_code %><br/>
+    <label for="group_members_send">Group Members Can Send Email:</label>
+    <%= form.check_box :members_send, :class => 'checkbox' %><br/>
+    <label for="group_subscription">This is a Subscription Group:</label>
+    <%= form.check_box :subscription, :class => 'checkbox' %>
+  <% end %>
+  
+  <p><%= submit_tag 'Save Changes' %></p>
+<% end %>

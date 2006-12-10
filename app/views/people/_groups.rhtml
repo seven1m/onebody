@@ -1,0 +1,24 @@
+<% if @person.groups.length > 0 %>
+  <p><%=h @person.first_name %> is a member of the following groups:</p>
+  <ul>
+    <% @person.groups.each do |group| %>
+      <li>
+        <%= link_to group.name, :controller => 'groups', :action => 'view', :id => group %>
+        (<%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>)
+        <span class="discreet">
+          email:
+          <% options = group.get_options_for @person %>
+          <% if options.nil? or options.get_email %>
+            <strong title="email from this group is ON">on</strong> |
+            <%= link_to 'off', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :post => true, :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
+          <% else %>
+            <%= link_to 'on', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :post => true, :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
+            <strong title="email from this group is OFF">off</strong>
+          <% end %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p><%=h @person.first_name %> isn't in any groups right now.</p>
+<% end %>

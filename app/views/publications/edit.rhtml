@@ -1,0 +1,11 @@
+<h1>Edit Publication</h1>
+
+<form method="post" enctype="multipart/form-data">
+  <label for="publication_name">Name:</label>
+  <%= text_field :publication, :name %><br/>
+  <label for="publication_description">Description:</label>
+  <%= text_area :publication, :description, :rows => 3 %><br/>
+  <label for="publication_file">File:</label>
+  <%= file_field :publication, :file %><br/>
+  <%= submit_tag 'Save Publication' %>
+</form>

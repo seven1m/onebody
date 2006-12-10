@@ -1,0 +1,4 @@
+<% for variable in @request.session.instance_variables -%>
+<% next if variable =~ /^@db/ -%>
+* <%= variable %>: <%= PP.pp(@request.session.instance_variable_get(variable),"").gsub(/\n/, "\n  ").strip %>
+<% end -%>

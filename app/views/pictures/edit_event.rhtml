@@ -1,0 +1,24 @@
+<h1>Edit Event</h1>
+<% if @event.id %>
+  <% content_for :subnav do %>
+    <li><%= link_to 'View Event', :action => 'view_event', :id => @event %></li>
+    <li><%= link_to 'Delete Event', {:action => 'delete_event', :id => @event}, :confirm => 'Are you sure? Deleting this event will cause all its pictures to be deleted as well.', :post => true %></li>
+  <% end %>
+<% end %>
+
+<% form_for :event, @event do |form| %>
+  <p>
+    <label for="event_name">Name of Event (required):</label>
+    <%= form.text_field :name %><br/>
+    <label for="event_description">Description (required):</label>
+    <%= form.text_area :description, :rows => 4 %><br/>
+    <label for="event_when">Date &amp; Time (recommended):</label>
+    <%= form.text_field :when %> MM/DD/YYYY HH:MM AM/PM<br/>
+    <label for="event_open">Open:</label>
+    <%= check_box_tag 'event[open]', true, @event.open, :class => 'checkbox', :id => 'event_open' %>
+    <%= hidden_field_tag 'event[open]', false %>
+    Anyone can post pictures<br/>
+    <br/>
+    <%= submit_tag 'Save Changes' %>
+  </p>
+<% end %>

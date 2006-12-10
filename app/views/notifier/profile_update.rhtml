@@ -1,0 +1,15 @@
+<%= @person.name %> has submitted a profile update:
+
+First Name<% if @updates[:first_name] != @person.first_name.to_s %> (changed)<% end %>: <%= @updates[:first_name] %>
+Last Name<% if @updates[:last_name] != @person.last_name.to_s %> (changed)<% end %>: <%= @updates[:last_name] %>
+Home Phone<% if @updates[:home_phone] != @person.home_phone.to_s %> (changed)<% end %>: <%= @updates[:home_phone] %>
+Mobile Phone<% if @updates[:mobile_phone] != @person.mobile_phone.to_s %> (changed)<% end %>: <%= @updates[:mobile_phone] %>
+Work Phone<% if @updates[:work_phone] != @person.work_phone.to_s %> (changed)<% end %>: <%= @updates[:work_phone] %>
+Fax<% if @updates[:fax] != @person.fax.to_s %> (changed)<% end %>: <%= @updates[:fax] %>
+Address 1<% if @updates[:address1] != @person.address1.to_s %> (changed)<% end %>: <%= @updates[:address1] %>
+Address 2<% if @updates[:address2] != @person.address2.to_s %> (changed)<% end %>: <%= @updates[:address2] %>
+City<% if @updates[:city] != @person.city.to_s %> (changed)<% end %>: <%= @updates[:city] %>
+State<% if @updates[:state] != @person.state.to_s %> (changed)<% end %>: <%= @updates[:state] %>
+Zip<% if @updates[:zip] != @person.zip.to_s %> (changed)<% end %>: <%= @updates[:zip] %>
+Birthday (may have changed): <%= @updates[:birthday] %>
+Anniversary (may have changed): <%= @updates[:anniversary] %>

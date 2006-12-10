@@ -1,0 +1,71 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'photo' %>
+  <% if not @group.has_photo? and @group.admin?(@logged_in) %>
+    <p><%= link_to 'Upload a Picture', :action => 'edit', :id => @group %></p>
+  <% end %>
+  
+  <% if @group.linked? %>
+    <p><em>This group is maintained by church office staff based on attendance records.</em></p>
+  <% else %>
+    <% if not @group.people.include? @logged_in %>
+      <p><%= link_to 'Join This Group', {:action => 'join', :id => @group}, :post => true %></p>
+    <% elsif not @group.last_admin?(@logged_in) %>
+      <p><%= link_to 'Leave This Group', {:action => 'leave', :id => @group}, :post => true, :confirm => ((@group.private? and not @logged_in.admin?) ? 'Are you sure? You will not be able to re-join this group later since it is private.' : ((@group.admin? @logged_in and not @logged_in.admin?) ? "You're about to remove yourself from this group! You won't be able to edit it anymore if you do that." : 'Are you sure?')) %></p>
+    <% end %>
+  <% end %>
+
+  <h2><%= @group.people.length %> <%= @group.people.length == 1 ? 'person' : 'people' %></h2>
+  
+  <%= render :partial => 'people' %>
+  
+<% end %>
+
+<h1><%=h @group.name %></h1>
+
+<% if @logged_in.admin? or @group.admin? @logged_in %>
+  <% content_for :subnav do %>
+    <li><%= link_to 'List of Groups', :action => 'index' %></li>
+    <li><%= link_to 'Edit Group', :action => 'edit', :id => @group %></li>
+  <% end %>
+<% end %>
+
+<p><%=h @group.description %></p>
+
+<table>
+  <% if @group.meets.to_s.any? %>
+    <tr><td>Meets:</td><td><%=h @group.meets %></td></tr>
+  <% end %>
+  <% if @group.location.to_s.any? %>
+    <tr><td>Location:</td><td><%=h @group.location %></td></tr>
+  <% end %>
+  <% if @group.directions.to_s.any? %>
+    <tr><td>Directions:</td><td><%=h @group.directions %></td></tr>
+  <% end %>
+  <% if @group.notes.to_s.any? %>
+    <tr><td>Notes:</td><td><%=h @group.notes %></td></tr>
+  <% end %>
+</table>
+
+<h2>Messages</h2>
+
+<% if @group.messages.count > 0 %>
+  <table>
+    <% @group.messages.each do |message| %>
+      <tr>
+        <td><%= link_to message.subject, :controller => 'messages', :action => 'view', :id => message %></td>
+        <td><%= message.created_at.strftime '%m/%d %I%p' %></td>
+        <td>
+          <%= count = message.children.count %> <%= count == 1 ? 'reply' : 'replies' %>
+          by <%= count = message.children.map { |c| c.person }.uniq.length %>
+          <%= count == 1 ? 'person' : 'people' %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p><em>No messages yet. Post one!</em></p>
+<% end %>
+
+<% if @group.people.include? @logged_in %>
+  <p><%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %></p>
+<% end %>

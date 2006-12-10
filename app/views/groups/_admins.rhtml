@@ -1,0 +1,18 @@
+<p>
+  <% @group.admins.each do |person| %>
+    <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
+    <% if @group.admins.length > 1 %>
+      <%= link_to 'x', {:action => 'demote', :id => @group, :person_id => person}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
+    <% end %>
+    <br/>
+  <% end %>
+  <% if not @group.linked? and (non_admins = @group.people.select { |p| not @group.admin? p }).any? %>
+    <%= form_tag :action => 'promote', :id => @group %>
+      <select name="person_id">
+        <option value=""></option>
+        <%= options_for_select non_admins.map { |p| [p.name, p.id] } %>
+      </select><br/>
+      <%= submit_tag 'Promote' %>
+    </form>
+  <% end %>
+</p>

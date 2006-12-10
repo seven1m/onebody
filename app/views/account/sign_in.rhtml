@@ -1,0 +1,31 @@
+<p>
+  <%= image_tag 'directory.gif', :alt => 'Member Directory' %>
+  <%= image_tag 'group.medium.jpg', :alt => 'Groups' %>
+  <%= image_tag 'camera.gif', :alt => 'Pictures' %>
+  <%= image_tag 'event.medium.gif', :alt => 'Service' %>
+</p>
+
+<p>
+  <strong>Welcome to the site for regular attenders and members of <%= CHURCH_NAME %>.</strong>
+  For information about classes, to download sermons, find out what our church believes,
+  practices, and so much more, <%= link_to 'visit our main website', VISITOR_URL %>.
+</p>
+
+<h2>Please sign in.</h2>
+
+<form method="post">
+  <table>
+    <tr><td><label for="email">Email Address:</label></td>
+    <td><%= text_field_tag :email, @email %></td></tr>
+    <tr><td><label for="password">Password:</label></td>
+    <td><%= password_field_tag :password %></td></tr>
+    <tr><td></td>
+    <td>
+      <input type="submit" value="Sign In"/><br/>
+      If you don't know your password or you've never logged in before,
+      <%= link_to 'click here', :action => 'verify_email' %>.
+    </td></tr>
+  </table>
+</form>
+
+<script type="text/javascript"> $("<%= @email.to_s.any? ? 'password' : 'email' %>").focus(); </script>

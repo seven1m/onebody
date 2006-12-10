@@ -1,0 +1,15 @@
+<% content_for :sidebar do %>
+  <p>
+    <%= link_to image_tag('acrobat.gif', :alt => 'Adobe Reader', :class => 'no-border'), 'http://www.adobe.com/products/acrobat/readstep2.html' %>
+    Make sure you have <%= link_to 'Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html' %>
+    or another program that can view PDF files.
+  </p>
+<% end %>
+
+<p id="status">
+  We're building your custom PDF right now. It will take a little while, but probably
+  not more than a minute. <strong>Do not close your browser or go to another page.</strong><br/>
+  <%= image_tag 'spinner.gif', :alt => 'loading', :class => 'no-border', :id => 'spinner' %>
+</p>
+
+<iframe src="<%= url_for :action => 'directory_to_pdf', :generate => true %>" style="display:none;" onload="$('status').innerHTML='Finished! Now you can save your custom PDF to your hard drive and/or print it out. Remember though, the most up-to-date information is always online.'"></iframe>

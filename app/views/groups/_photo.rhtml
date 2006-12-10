@@ -1,0 +1,7 @@
+<div>
+  <% if @group.has_photo? %>
+    <%= image_tag url_for(:action => 'photo', :id => "#{@group.id}.medium.jpg"), :alt => @group.name %>
+  <% else %>
+    <%= image_tag 'group.jpg', :alt => @group.name %>
+  <% end %>
+</div>

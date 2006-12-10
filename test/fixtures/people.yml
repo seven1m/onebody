@@ -1,0 +1,32 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+tim:
+  id: 1
+  family_id: 1
+  sequence: 1
+  gender: Male
+  first_name: Tim
+  last_name: Morgan
+  mobile_phone: 9185271886
+  birthday: 1981-04-28
+  anniversary: 2001-08-11
+  email: tim@timmorgan.org
+  encrypted_password: 0319e1d7b12c237edfa36ed6385e46b7
+  mail_group: M
+jeremy:
+  id: 2
+  family_id: 2
+  sequence: 1
+  gender: Male
+  first_name: Jeremy
+  last_name: Zongker
+  birthday: 1977-04-01
+  classes: BW,ZZ,PT,CF,W08,OF03,W04,W10
+  mail_group: M
+peter:
+  id: 3
+  family_id: 3
+  sequence: 1
+  gender: Male
+  first_name: Peter
+  last_name: Somebody
+  mail_group: P

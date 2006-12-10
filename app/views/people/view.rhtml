@@ -1,0 +1,130 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'photo' %>
+  <%= render :partial => 'families/photo' %>
+    
+  <% if (people = @person.family.people).length > 1 %>
+    <h2>Family</h2>
+    <table>
+      <% people.each do |person| %>
+        <tr>
+          <td>
+            <a href="<%= url_for :action => 'view', :id => person %>">
+              <%= render :partial => 'thumbnail', :locals => {:person => person} %>
+            </a>
+          </td>
+          <td><%= link_to person.name, :action => 'view', :id => person %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  
+  <%= render :partial => 'contacts' %>
+
+<% end %>
+
+<% if @person.mapable? and @person.share_address_with @logged_in %>
+  <div id="map-container" style="width:250px;float:right;display:none;">
+    <div id="map" style="width:250px;height:200px;"></div>
+    <div class="discreet" style="font-size:smaller;text-align:right;">this is only an approximation</div>
+  </div>
+<% end %>
+
+<h1>
+  <%=h @person.name %>
+  <% if @logged_in.can_edit? @person %>
+    <%= link_to 'edit', {:action => 'edit', :id => @person}, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+  <% end %>
+</h1>
+
+<% content_for :subnav do %>
+  <% if @logged_in.can_edit? @person %>
+    <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>
+    <li><%= link_to 'Privacy', :action => 'privacy' %></li>
+  <% elsif @logged_in.contacts.find_all_by_person_id(@person.id).any? %>
+    <li><%= link_to 'Remove from Contacts', :action => 'remove_contact', :id => @person %></li>
+  <% else %>
+    <li><%= link_to 'Add to Contacts', :action => 'add_contact', :id => @person %></li>
+  <% end %>
+  <% if @logged_in != @person %>
+    <li><%= link_to image_tag('message.gif', :alt => 'Send a Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Send a Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
+  <% end %>
+<% end %>
+
+<%= render :partial => 'details' %>
+
+<% if (count = @person.pictures.count) > 0 %>
+  <h2>Pictures</h2>
+  <p>
+    <% @person.pictures.find(:all, :order => 'rand()', :limit => 5).each do |picture| %>
+      <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.small.jpg"), :alt => 'click to enlarge'),
+        {:controller => 'pictures', :action => 'view', :id => picture}, :title => 'click to enlarge' %>
+    <% end %>
+    <%= link_to 'More...', :action => 'pictures', :id => @person %>
+  </p>
+<% end %>
+
+<% if @person.testimony.to_s.any? %>
+  <h2>Testimony</h2>
+  <p><%=h @person.testimony %></p>
+<% end %>
+
+<% if @person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any? or @person.about.to_s.any? %>
+  <h2>Favorites</h2>
+<% end %>
+<table>
+  <% if @person.activities.to_s.any? %>
+    <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
+  <% end %>
+  <% if @person.interests.to_s.any? %>
+    <tr><td>Interests:</td><td><%= linkify @person.interests, :interests %></td></tr>
+  <% end %>
+  <% if @person.music.to_s.any? %>
+    <tr><td>Music:</td><td><%= linkify @person.music, :music %></td></tr>
+  <% end %>
+  <% if @person.tv_shows.to_s.any? %>
+    <tr><td>TV Shows:</td><td><%= linkify @person.tv_shows, :tv_shows %></td></tr>
+  <% end %>
+  <% if @person.movies.to_s.any? %>
+    <tr><td>Movies:</td><td><%= linkify @person.movies, :movies %></td></tr>
+  <% end %>
+  <% if @person.books.to_s.any? %>
+    <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
+  <% end %>
+  <% if @person.quotes.to_s.any? %>
+    <tr><td>Quotes:</td><td><%= preserve_breaks @person.quotes %></td></tr>
+  <% end %>
+</table>
+
+<h2>Groups</h2>
+<%= render :partial => 'groups' %>
+
+<% if @person.family.mapable? and @person.share_address_with @logged_in %>
+  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
+  <script type="text/javascript">
+    var address = '<%= @person.family.mapable_address %>';
+    map_loaded = false;
+    function load_map() {
+      if(map_loaded) return;
+      if(typeof(YMap) == 'undefined') {
+        setTimeout('load_map()', 100);
+      } else {
+        map_loaded = true;
+        var ba = new YGeoPoint(36.06,-95.830);
+        var crcc = new YGeoPoint(36.0175,-95.84025);
+        var map = new YMap($('map'));
+        map.drawZoomAndCenter(address, 6);
+        map.addZoomLong();
+        map.setMapType(YAHOO_MAP_REG);
+        var img = new YImage();
+        img.src = '/images/map_marker.gif';
+        img.size = new YSize(16, 28);
+        var marker = new YMarker(address, img);
+        map.addOverlay(marker);
+        map.addTypeControl();
+        map.panToLatLon(address);
+      }
+    }
+    Element.show('map-container')
+    load_map();
+  </script>
+<% end %>

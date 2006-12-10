@@ -1,0 +1,13 @@
+<% form_for :message, @message do |form| %>
+  <%= hidden_field_tag :group_id, @message.group_id %>
+  <%= hidden_field_tag :parent_id, @message.parent_id %>
+  <p>
+    <% unless @message.parent %>
+      <label for="subject">Subject:</label>
+      <%= form.text_field :subject %><br/>
+    <% end %>
+    <label for="body">Message:</label>
+    <%= form.text_area :body, :rows => 15 %><br/>
+    <%= submit_tag 'Save Message' %>
+  </p>
+<% end %>

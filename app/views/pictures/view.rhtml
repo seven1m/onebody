@@ -1,0 +1,27 @@
+<% content_for :sidebar do %>
+  <p><%= link_to '&laquo; Back to Event', :action => 'view_event', :id => @picture.event %></p>
+  <p>
+    Picture uploaded by:<br/>
+    <%= link_to @picture.person.name, :controller => 'people', :action => 'view', :id => @picture.person %><br/>
+    <%= @picture.created_at.strftime '%m/%d/%Y %I:%M %p' %>
+  </p>
+  <% if @picture.event.admin?(@logged_in) %>
+    <p>
+      Rotate:
+      <%= link_to 'Left', {:action => 'rotate', :id => @picture, :degrees => -90}, :confirm => 'Are you sure?', :post => true %> |
+      <%= link_to 'Right', {:action => 'rotate', :id => @picture, :degrees => 90}, :confirm => 'Are you sure?', :post => true %><br/>
+      <%= link_to 'Make Cover for Event', {:action => 'select_event_cover', :id => @picture}, :post => true %><br/>
+      <%= link_to 'Delete Picture', {:action => 'delete', :id => @picture}, :confirm => 'Are you sure?', :post => true %>
+    </p>
+  <% end %>
+<% end %>
+
+<h1><%= link_to @picture.event.name, :action => 'view_event', :id => @picture.event %></h1>
+<% if @picture.event.when %>
+  <p class="below-h1"><%= @picture.event.when.strftime '%B %d, %Y %I:%M %p' %></p>
+<% end %>
+
+<p>
+  <%= link_to image_tag(url_for(:action => 'photo', :id => "#{@picture.id}.large.jpg"), :alt => 'click to see full size'),
+    :action => 'photo', :id => "#{@picture.id}.jpg" %>
+</p>

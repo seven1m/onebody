@@ -1,0 +1,38 @@
+<% content_for :wide do %>
+  <h2>Events</h2>
+  
+  <table class="iconed">
+    <tr>
+      <td class="pic">
+        <%= link_to image_tag('add.gif', :alt => 'Create an Event'), :action => 'edit_event' %>
+      </td>
+      <td>
+        <span class="list-heading"><%= link_to 'Create an Event', :action => 'edit_event' %></span><br/>
+        Share your event pictures by creating a new event and then uploading files from your hard drive.
+      </td>
+    </tr>
+    <% @events.each do |event| %>
+      <tr>
+        <td class="pic">
+          <% if event.cover_picture %>
+            <%= link_to image_tag(url_for(:action => 'photo', :id => "#{event.cover_picture.id}.small.jpg"), :alt => event.name), :action => 'view_event', :id => event %>
+          <% else %>
+            <%= link_to image_tag('event.gif', :alt => event.name), :action => 'view_event', :id => event %>
+          <% end %>
+        </td>
+        <td>
+          <span class="list-heading">
+            <a href="<%= url_for :action => 'view_event', :id => event %>"><%= event.when ? event.when.strftime('%m/%d/%Y:') : nil %> <%= event.name %></a>
+          </span>
+          (<%= count = event.pictures.count %> <%= count == 1 ? 'picture' : 'pictures' %>)
+          <% if event.admin? @logged_in %>
+            <%= link_to 'edit', {:action => 'edit_event', :id => event}, :class => 'discreet' %>
+          <% end %>
+          <br/>
+          <%=h event.description %><br/>
+          Created by: <%= link_to event.person.name, :controller => 'people', :action => 'view', :id => event.person %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

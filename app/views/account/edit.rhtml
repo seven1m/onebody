@@ -1,0 +1,22 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'View Profile', :controller => 'people', :action => 'view', :id => @person %></li>
+<% end %>
+
+<h1><%=h @person.name %></h1>
+<% form_for :person, @person do |form| %>
+  <p>
+    <label for="person_email">Email Address:</label>
+    <%= form.text_field :email, :style => 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>
+    <strong style="color:red;">After this change, all email from the church will be
+    sent to this address. It will also be the address
+    <%= @person == @logged_in ? 'you use' : @person.name + ' uses' %> to
+    sign into this site.</strong>
+    <br/>
+    <label for="person_password">Password:</label>
+    <%= form.password_field :password, :style => 'border:1px solid #ccc;' %><br/>
+    Leave these fields blank if you don't want to change your password.<br/>
+    <label for="person_password_confirmation">Password (confirm):</label>
+    <%= form.password_field :password_confirmation, :style => 'border:1px solid #ccc;' %><br/>
+    <%= submit_tag 'Save Changes' %>
+  </p>
+<% end %>

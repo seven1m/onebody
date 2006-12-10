@@ -1,0 +1,32 @@
+<% content_for :sidebar do %>
+  <p><%= link_to '&laquo; back to group', :controller => 'groups', :action => 'view', :id => @message.group %></p>
+  <% if @message.person == @logged_in or @message.group.admin?(@logged_in) %>
+    <p>
+      <%= link_to 'Delete Message', {:action => 'delete', :id => @message}, :confirm => 'Are you sure?', :post => true %>
+    </p>
+  <% end %>
+<% end %>
+
+<div class="message-details">
+  Message by <%= link_to @message.person.name, :controller => 'people', :action => 'view', :id => @message.person %><br/>
+  <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
+</div>
+<h1><%=h @message.subject %></h1>
+
+<p><%= preserve_breaks @message.body %></p>
+
+<% @message.children.each do |reply| %>
+  <div class="message">
+    <div class="message-details">
+      Reply by <%= link_to reply.person.name, :controller => 'people', :action => 'view', :id => reply.person %><br/>
+      <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
+    </div>
+    <p><%= preserve_breaks reply.body %></p>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to_remote 'Reply to this message &raquo;', :url => {:action => 'edit', :parent_id => @message.id} %>
+</p>
+
+<div id="reply"></div>

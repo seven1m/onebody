@@ -1,0 +1,17 @@
+development:
+  adapter: mysql
+  database: crccweb
+  username: root
+  password:
+  host: localhost
+
+test:
+  adapter: sqlite3
+  database: db/test.db
+
+production:
+  adapter: mysql
+  database: crccweb
+  username: root
+  password:
+  host: localhost

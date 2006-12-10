@@ -1,0 +1,12 @@
+<% content_for :wide do %>
+  <% @person.pictures.each do |picture| %>
+    <div class="picture">
+      <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.medium.jpg"), :alt => 'click to enlarge'),
+        {:controller => 'pictures', :action => 'view_picture', :id => picture}, :title => 'click to enlarge' %>
+    </div>
+  <% end %>
+
+  <% if @person.pictures.count == 0 %>
+    <p><em>This event doesn't have any pictures yet.</em></p>
+  <% end %>
+<% end %>

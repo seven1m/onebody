@@ -1,0 +1,99 @@
+<% content_for :sidebar do %>
+  <p><%= link_to '&laquo; cancel', :action => 'view', :id => @ministry %>
+  <h2>Servers to Add</h2>
+  <p>
+    <% @people.each do |person| %>
+      <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
+      <%= link_to 'x', {:action => 'remove_person_from_batch', :id => @ministry, :person_id => person.id}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+      <br/>
+    <% end %>
+    <% if @people.empty? %>
+      <em>none yet</em>
+    <% end %>
+  </p>
+  
+  <h2>Dates</h2>
+  <p>
+    <% last_date = nil %>
+    <% @dates.each do |date| %>
+      <% if (d = date[:start].strftime('%m/%d/%Y')) != last_date %>
+        <strong><%= d %></strong><br/>
+        <% last_date = d %>
+      <% end %>
+      <%= date[:start].strftime '%I:%M %p' %> -
+      <%= date[:end].strftime '%I:%M %p' %>
+      <%= link_to 'x', {:action => 'remove_date_from_batch', :id => @ministry, :start => date[:start], :end => date[:end]}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %><br/>
+      <% if date[:people] and date[:people].any? %>
+        <%= date[:people].map { |p| link_to(p.name, :controller => 'people', :action => 'view', :id => p) }.join(', ') %>
+        <br/>
+      <% end %>
+      <br/>
+    <% end %>
+    <% if @dates.any? and @dates.select { |d| d[:people] and d[:people].any? }.length > 0 %>
+      <%= link_to 'remove people from dates', {:action => 'remove_people_from_dates_in_batch', :id => @ministry}, :confirm => 'Are you sure?', :post => true %>
+    <% end %>
+    <% if @dates.empty? %><em>none yet</em><% end %>
+  </p>
+  
+  <% if @people.any? or @dates.any? %>
+    <p><%= link_to 'remove dates and people', {:action => 'clear_batch', :id => @ministry}, :confirm => 'Are you sure?', :post => true %></p>
+  <% end %>
+<% end %>
+
+<h1>Add Servers to <%=h @ministry.name %></h1>
+
+<%= form_remote_tag :url => {:controller => 'people', :action => 'search', :select_person => true } %>
+  <h2>1. Add Workers</h2>
+  <p>
+    <label for="name">Search for a servers by name:</label>
+    <%= text_field_tag :name %><br/>
+    <%= submit_tag 'Search' %>
+  </p>
+</form>
+
+<div id="add_member" style="display:none;">
+  <form method="post">
+    <p>Select a worker below and click the Add button:</p>
+    <div id="results"></div>
+    <p><%= submit_tag 'Add Selected' %></p>
+  </form>
+</div>
+
+<form method="post">
+  <h2>2. Enter Dates &amp; Times</h2>
+  <p>
+    <label for="date">Date:</label>
+    <%= text_field_tag 'date' %> <em>MM/DD/YYYY</em><br/>
+    <label for="start_time">Start Time:</label>
+    <%= text_field_tag 'start_time', params[:start_time] %> <em>HH:MM AM/PM</em><br/>
+    <label for="end_time">End Time:</label>
+    <%= text_field_tag 'end_time', params[:end_time] %> <em>HH:MM AM/PM</em><br/>
+    <%= submit_tag 'Add Date' %>
+  </p>
+</form>
+
+<form method="post">
+  <h2>3. Select Distribution Method</h2>
+  <p>
+    <%= radio_button_tag :distribution, 'all', false, :class => 'checkbox' %>
+    Add every server to all the times selected.<br/>
+    <%= radio_button_tag :distribution, 'spread', false, :class => 'checkbox' %>
+    Spread the servers across the times evenly.<br/>
+    <%= submit_tag 'Distribute Servers' %>
+  </p>
+</form>
+
+<% if @distributed %>
+  <form method="post">
+    <h2>4. Almost Done!</h2>
+    <p>
+      All that's left is to select a reminder (optional) and
+      click the <strong>Do it!</strong> button.
+    </p>
+    <p>
+      <%= check_box_tag :reminder, true, false, :class => 'checkbox' %>
+      Send a reminder to each person one week before their service date.<br/>
+      <%= submit_tag 'Do it!'%>
+    </p>
+  </form>
+<% end %>

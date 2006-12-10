@@ -1,0 +1,13 @@
+<%= @name %> has submitted a birthday verification request:
+
+Name: <%= @name %>
+Email: <%= @email %>
+Birthday: <%= @birthday %>
+Notes: <%= @notes.to_s.any? ? @notes : '(none)' %>
+
+----
+
+Once you've updated their email address in the system,
+send them the following link to allow them to sign in:
+
+<%= SITE_URL %>account/verify_code?id=<%= @verification.id %>&code=<%= @verification.code %>

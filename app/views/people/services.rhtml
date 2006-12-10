@@ -1,0 +1,24 @@
+<% content_for :sidebar do %>
+  <%= render :partial => 'photo' %>
+  <p>
+    Services provided by<br/>
+    <%= link_to @person.name, :action => 'view', :id => @person %>
+  </p>
+<% end %>
+
+<div><%= link_to 'Service Directory', :action => 'search', :service => true %> &raquo;</div>
+<h1><%=h @person.service_name %></h1>
+
+<p><%=h @person.service_description %></p>
+
+<table>
+  <% if @person.service_phone.to_i > 0 %>
+    <tr><td>Business Phone:</td><td><%= number_to_phone @person.service_phone, :area_code => true %></td></tr>
+  <% end %>
+  <% if @person.service_email.to_s.any? %>
+    <tr><td>Business Email:</td><td><%= mail_to @person.service_email %></td></tr>
+  <% end %>
+  <% if @person.service_website.to_s.any? %>
+    <tr><td>Business Website:</td><td><%= link_to @person.service_website %></td></tr>
+  <% end %>
+</table>

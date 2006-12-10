@@ -1,0 +1,21 @@
+<% if @msg.group -%>
+The following message was posted to the group
+"<%= @msg.group.name %>" by <%= @msg.person.name %>.
+<% else -%>
+<%= @msg.person.name %> sent you the following message.
+<% end -%>
+- - - - - - - - - - - - - - - - - - - - - - - -
+Subject: <%= @msg.subject %>
+<%= @msg.group ? 'Posted' : 'Sent' %>: <%= @msg.created_at.strftime '%m/%d/%Y %I:%M %p' %>
+
+<%= @msg.body %>
+- - - - - - - - - - - - - - - - - - - - - - - -
+<% if @msg.share_email -%>
+To keep your email address private, reply at the following link:
+<% else -%>
+You cannot reply directly; you must use the following link:
+<% end -%>
+<%= @msg.reply_url %>
+
+To report abuse of the system, click here:
+<%= SITE_URL %>messages/abuse

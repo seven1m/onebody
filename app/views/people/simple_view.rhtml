@@ -1,0 +1,16 @@
+<div style="width:75px;float:right;text-align:right;">
+  <%= link_to_function '[close]', 'Element.hide("trailimageid")', :class => 'discreet' %>
+</div>
+
+<h2><%=h @person.name %></h2>
+
+<% if @show_photo %>
+  <% @family = @person.family %>
+  <% if @person.has_photo? or not @family.has_photo? %>
+    <%= render :partial => 'photo' %>
+  <% else %>
+    <%= render :partial => 'families/photo' %>
+  <% end %>
+<% else %>
+  <%= render :partial => 'details' %>
+<% end %>

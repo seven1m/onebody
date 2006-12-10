@@ -1,0 +1,7 @@
+<% if sharing == :admin and not @person.send("share_#{attribute}") %>
+  <% if @logged_in.can_edit? @person %>
+    <%= link_to '(private)', {:action => 'privacy'}, :class => 'discreet' %>
+  <% else %>
+    <span class="discreet">(private)</span>
+  <% end %>
+<% end %>

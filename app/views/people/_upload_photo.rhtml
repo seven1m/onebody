@@ -1,0 +1,16 @@
+<p>
+  <%= form_tag(url, {:multipart => true}) %>
+    Select a file on your computer to upload:<br/>
+    <input type="file" name="photo"/><br/>
+    Or, type a web address for your image:<br/>
+    <input name="photo_url" value="http://"/><br/>
+    <input type="submit" value="Upload <%= name %>">
+    <% if object.has_photo? %>
+      <br/>
+      <%= link_to "Remove #{name}",
+        {:photo => 'remove'}.update(url),
+        :post => true,
+        :confirm => 'Are you sure?' %>
+    <% end %>
+  </form>
+</p>

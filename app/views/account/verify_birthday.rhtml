@@ -1,0 +1,15 @@
+<% content_for :wide do %>
+  <form method="post">
+    <p>
+      <label for="name">Your Full Name (required):</label>
+      <%= text_field_tag :name %><br/>
+      <label for="email">Email Address (required):</label>
+      <%= text_field_tag :email %><br/>
+      <label for="birthday">Birthday with Year (required):</label>
+      <%= text_field_tag :birthday, 'MM/DD/YYYY', :onfocus => "if(this.value=='MM/DD/YYYY')this.value=''", :onblur => "if(this.value=='')this.value='MM/DD/YYYY'"%>
+      <em>Year required</em><br/>
+      <label for="notes">Other Notes (optional):</label>
+      <%= text_area_tag :notes, nil, :rows => 3 %><br/>
+      <%= submit_tag 'Submit' %>
+  </form>
+<% end %>

@@ -1,0 +1,10 @@
+<div>
+  <% if @family.has_photo? %>
+    <%= link_to image_tag(url_for(:controller => 'families', :action => 'photo', :id => "#{@family.id}.medium.jpg"), :alt => @family.name),
+      :controller => 'families', :action => 'photo', :id => "#{@family.id}.jpg", :back => url_for(params) %>
+  <% elsif @logged_in.family == @family and params[:controller] == 'people' and params[:action] == 'view' %>
+    <%= image_tag 'family.jpg', :alt => @family.name %>
+    <br/>
+    <%= link_to 'Upload Family Picture', :action => 'edit' %>
+  <% end %>
+</div>
