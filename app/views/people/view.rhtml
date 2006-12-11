@@ -105,26 +105,22 @@
     map_loaded = false;
     function load_map() {
       if(map_loaded) return;
-      if(typeof(YMap) == 'undefined') {
-        setTimeout('load_map()', 100);
-      } else {
-        map_loaded = true;
-        var ba = new YGeoPoint(36.06,-95.830);
-        var crcc = new YGeoPoint(36.0175,-95.84025);
-        var map = new YMap($('map'));
-        map.drawZoomAndCenter(address, 6);
-        map.addZoomLong();
-        map.setMapType(YAHOO_MAP_REG);
-        var img = new YImage();
-        img.src = '/images/map_marker.gif';
-        img.size = new YSize(16, 28);
-        var marker = new YMarker(address, img);
-        map.addOverlay(marker);
-        map.addTypeControl();
-        map.panToLatLon(address);
-      }
+      map_loaded = true;
+      var ba = new YGeoPoint(36.06,-95.830);
+      var crcc = new YGeoPoint(36.0175,-95.84025);
+      var map = new YMap($('map'));
+      map.drawZoomAndCenter(address, 6);
+      map.addZoomLong();
+      map.setMapType(YAHOO_MAP_REG);
+      var img = new YImage();
+      img.src = '/images/map_marker.gif';
+      img.size = new YSize(16, 28);
+      var marker = new YMarker(address, img);
+      map.addOverlay(marker);
+      map.addTypeControl();
+      map.panToLatLon(address);
     }
     Element.show('map-container')
-    load_map();
+    onload = load_map;
   </script>
 <% end %>

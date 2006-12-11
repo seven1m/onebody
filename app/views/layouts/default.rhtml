@@ -17,7 +17,7 @@
 		
 			  <%= form_tag({:controller => 'people', :action => 'search'}, {:method => 'get'}) %>
 			    Type a name and hit <strong>enter</strong>:<br/>
-				  <input name="name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
+				  <input name="quick_name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
 				</form>
 				
 				<script type="text/javascript"> $('search_name').value = 'People Search' </script>

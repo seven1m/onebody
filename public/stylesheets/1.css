@@ -101,8 +101,8 @@ body {
 	border-top:2px solid #388CBA;
 	border-left:2px solid #388CBA;
 	border-right:2px solid #388CBA;
-	padding:10px 10px 10px 0 !important;
-	padding:4px 10px 10px 0;
+	padding:10px 10px 10px 0;
+	padding:expression(navigator.userAgent.match(/MSIE/g) ? '4px 10px 10px 0' : '10px 10px 10px 0;');
 }
 
 #header a em {
@@ -150,7 +150,7 @@ body {
 	color:#DEEDF5;
 	text-decoration:none;
 	font:100% Verdana;
-	padding:5px;
+        padding: 0px 5px;
 	border-bottom:2px solid #4F9EC9;
 }
 

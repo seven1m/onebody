@@ -56,6 +56,7 @@ class PeopleController < ApplicationController
     if p.any?
       @show_birthdays = params[:birthday_month].to_s.any? or params[:birthday_day].to_s.any?
       conditions = []
+      params[:name] = params.delete(:quick_name) if params[:quick_name]
       if params[:name].to_s.any?
         conditions.add_condition ["CONCAT(people.first_name, ' ', people.last_name) like ?", "%#{params[:name]}%"]
       end
