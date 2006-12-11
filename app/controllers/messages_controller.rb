@@ -64,21 +64,24 @@ class MessagesController < ApplicationController
   end
   
   def preview_message
-    return unless params[:subject].to_s.any? or params[:body].to_s.any?
-    @person = Person.find params[:id]
-    @msg = Message.new :person => @logged_in, :to => @person, :subject => params[:subject], :body => params[:body], :share_email => params[:share_email], :created_at => Time.now
-    @to = @msg.to
-    respond_to do |wants|
-      wants.html { render :action => 'notifier/message', :layout => false }
-      wants.js do
-        preview = render_to_string :action => '../notifier/message', :layout => false
-        preview.gsub!(/\n/, "<br/>\n").gsub!(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')
-        render(:update) do |page|
-          page.replace_html 'preview-email', preview
-          page.replace_html 'preview-from', h("From: #{@msg.email_from}")
-          page.show 'preview'
+    if params[:subject].to_s.any? or params[:body].to_s.any?
+      @person = Person.find params[:id]
+      @msg = Message.new :person => @logged_in, :to => @person, :subject => params[:subject], :body => params[:body], :share_email => params[:share_email], :created_at => Time.now
+      @to = @msg.to
+      respond_to do |wants|
+        wants.html { render :action => 'notifier/message', :layout => false }
+        wants.js do
+          preview = render_to_string :action => '../notifier/message', :layout => false
+          preview.gsub!(/\n/, "<br/>\n").gsub!(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')
+          render(:update) do |page|
+            page.replace_html 'preview-email', preview
+            page.replace_html 'preview-from', h("From: #{@msg.email_from}")
+            page.show 'preview'
+          end
         end
       end
+    else
+      render :nothing => true
     end
   end
 end
