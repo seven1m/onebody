@@ -67,5 +67,8 @@
 <% end %>
 
 <% if @group.people.include? @logged_in %>
-  <p><%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %></p>
+  <p>
+    <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
+    <em>Posting a message here sends email to everyone in the group.</em>
+  </p>
 <% end %>

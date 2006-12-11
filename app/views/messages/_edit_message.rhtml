@@ -8,6 +8,9 @@
     <% end %>
     <label for="body">Message:</label>
     <%= form.text_area :body, :rows => 15 %><br/>
-    <%= submit_tag 'Save Message' %>
+    <% unless @message.parent %>
+      <em>You are about to send a message to everyone in the group.</em><br/>
+    <% end %>
+    <%= submit_tag 'Send Message' %>
   </p>
 <% end %>
