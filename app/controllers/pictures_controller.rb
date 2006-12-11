@@ -34,6 +34,22 @@ class PicturesController < ApplicationController
   def view
     @picture = Picture.find params[:id]
   end
+
+  def next
+    @event = Picture.find(params[:id]).event
+    unless pic = @event.pictures.find(:first, :conditions => ['id > ?', params[:id]], :order => 'id')
+      pic = @event.pictures.find :first
+    end
+    redirect_to :action => 'view', :id => pic
+  end
+
+  def prev
+    @event = Picture.find(params[:id]).event
+    unless pic = @event.pictures.find(:first, :conditions => ['id < ?', params[:id]], :order => 'id desc')
+      pic = @event.pictures.find(:all).last
+    end
+    redirect_to :action => 'view', :id => pic
+  end
   
   def add_picture
     @event = Event.find params[:id]

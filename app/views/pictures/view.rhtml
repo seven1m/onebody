@@ -16,6 +16,12 @@
   <% end %>
 <% end %>
 
+<p>
+  <%= link_to '&laquo; prev', :action => 'prev', :id => @picture %>
+  |
+  <%= link_to 'next &raquo;', :action => 'next', :id => @picture %>
+</p>
+
 <h1><%= link_to @picture.event.name, :action => 'view_event', :id => @picture.event %></h1>
 <% if @picture.event.when %>
   <p class="below-h1"><%= @picture.event.when.strftime '%B %d, %Y %I:%M %p' %></p>

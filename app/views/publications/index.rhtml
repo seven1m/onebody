@@ -6,10 +6,10 @@
       <tr>
         <td>
           <%= link_to image_tag(publication.file_content_type == 'application/pdf' ? 'acrobat.gif' : 'publication.gif', :alt => publication.name, :class => 'no-border'),
-            {:action => 'view', :id => publication} %>
+            {:action => 'view', :id => publication}, :target => '_new' %>
         </td>
         <td>
-          <%= link_to publication.name, :action => 'view', :id => publication %>
+          <%= link_to publication.name, {:action => 'view', :id => publication}, :target => '_new' %>
           <% if @logged_in.admin? %>
             <%= link_to 'x', {:action => 'delete', :id => publication}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
           <% end %>
