@@ -1,7 +1,7 @@
 class CreateVerifications < ActiveRecord::Migration
   def self.up
     create_table :verifications do |t|
-      t.column :email, :strong, :limit => 255
+      t.column :email, :string, :limit => 255
       t.column :mobile_phone, :bigint
       t.column :code, :int
       t.column :verified, :boolean # nil = pending

@@ -42,8 +42,12 @@ class MessagesController < ApplicationController
   
   def delete
     @message = Message.find params[:id]
-    @message.destroy if @message.person == @logged_in or @message.group.admin? @logged_in
-    redirect_to :controller => 'groups', :action => 'view', :id => @message.group
+    @message.destroy if @message.person == @logged_in or @message.wall == @logged_in or @message.group.admin? @logged_in
+    if @message.group
+      redirect_to :controller => 'groups', :action => 'view', :id => @message.group
+    else
+      redirect_to :controller => 'people', :action => 'view', :id => @message.wall
+    end
   end
   
   def send_email

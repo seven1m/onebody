@@ -187,6 +187,13 @@ class PeopleController < ApplicationController
     redirect_to :action => 'view', :id => params[:id]
   end
   
+  def wall_post
+    person = Person.find params[:id]
+    message = Message.create :person => @logged_in, :wall => person, :body => params[:message]
+    flash[:notice] = 'Message saved.'
+    redirect_to :action => 'view', :id => person
+  end
+  
   def directory_to_pdf
     unless @logged_in.member?
       render :text => 'You are not allowed to print the directory. Sorry.', :layout => true
