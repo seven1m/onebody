@@ -119,6 +119,7 @@
       map.addOverlay(marker);
       map.addTypeControl();
       map.panToLatLon(address);
+      map.disableKeyControls();
     }
     Element.show('map-container')
     onload = load_map;

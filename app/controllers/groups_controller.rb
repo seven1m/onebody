@@ -27,7 +27,7 @@ class GroupsController < ApplicationController
         return
       end
     end
-    @categories = Group.find_by_sql('select distinct category from groups').map { |g| g.category }.select { |c| c }
+    @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != ''").map { |g| g.category }
     if request.post?
       if params[:group]
         if not @logged_in.admin? and (params[:group][:address] or params[:group][:link_code] or params[:group][:subscription] or params[:group][:members_send])
