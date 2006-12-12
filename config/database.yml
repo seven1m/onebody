@@ -2,8 +2,9 @@ development:
   adapter: mysql
   database: crccweb
   username: root
-  password:
+  password: 
   host: localhost
+  socket: /var/run/mysqld/mysqld.sock
 
 test:
   adapter: sqlite3
@@ -13,5 +14,5 @@ production:
   adapter: mysql
   database: crccweb
   username: root
-  password:
+  password: 
   host: localhost

@@ -1,0 +1,34 @@
+<div id="recipe">
+          <%= link_to "Show all recipes", 
+                      :controller => "recipes", 
+                      :action => "list" %>
+
+
+  <h3>  <%= h(@recipe.title) %>        
+        <% if @recipe.admin? @logged_in %>  
+        <%= link_to "(edit)", 
+                    {:action => "edit", :id => @recipe.id} %>
+        <% end %></h3>
+  <h4>
+  
+  <span class="info"> 
+      Prep/Cook:<%= h(@recipe.prep) %><br/>
+      Bake Time:<%= h(@recipe.bake) %>
+  </span> 
+  </h4>
+      <div class="notes">
+        <p><em>Description:</em> <%= h(@recipe.description) %></p>
+                 <p><em>Notes:</em> <%= h(@recipe.notes) %>
+        </p>
+      </div>
+      <div class="spacer"></div>
+      <div class="ingredients">
+        <p><%= @recipe.ingredients %></p>
+      </div>
+      <div class="directions">
+        <p><%= @recipe.directions %>
+      </div>
+      <div class="footer"> 
+        <small>created by:<%= h(@recipe.person.name) %> &nbsp; last edited: <%= h(@recipe.updated_at) %></small>
+      </div>
+</div>

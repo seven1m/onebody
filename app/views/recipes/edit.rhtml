@@ -1,0 +1,47 @@
+
+<%= start_form_tag( {:action=> "edit", :id => @recipe.id}, :multipart => true )%>
+<div title="Edit Recipe" id="newrecipe" class="form">
+ <div class="left">
+  <label for="recipe_title">Title: </label><br/>
+  <%= text_field "recipe", "title", :size => 30 %><br/>
+  <br/>
+  <label for="recipe_notes">Notes: </label><br/>
+  <%= text_field "recipe", "notes", :size => 30 %><br/>
+  <br/>
+  <label for="recipe_description">Description: </label><br/>
+  <%= text_field "recipe", "description", :size => 45 %><br/>
+  <br/>
+  <label for="recipe_prep">Prep/Cook Time: </label><br/>
+  <%= text_field "recipe", "prep", :size => 20 %><br/>
+  <br/>
+  <label for="recipe_bake">Bake Time: </label><br/>
+  <%= text_field "recipe", "bake", :size => 20 %><br/>
+  <br/>
+ <b>Add a picture:</b><br/><br/>
+
+ </div>
+ <div class="right">
+  <p>Useful html codes.<br/>
+     &deg; &nbsp; &amp;deg;<br/>
+     &frac14; &nbsp; &amp;frac14;<br/>
+     &frac12; &nbsp; &amp;frac12;<br/>
+     &frac34; &nbsp; &amp;frac34;<br/>
+  </p>
+  <small><p>Ingredients and Directions will be formatted with textile, a description of textile is at the bottom of the page.</p></small>
+  <div class="ingredients">
+  <label for="recipe_ingredients">Ingredients: </label><br/>
+  <%= text_area "recipe", "ingredients", :cols => 20, :rows => 20 %><br/>
+  <br/>
+  </div>
+  <div class="directions">
+  <label for="recipe_directions">Directions: </label><br/>
+  <%= text_area "recipe", "directions", :cols => 20, :rows => 20 %><br/>
+  <br/>
+  </div>
+ </div>
+<div class="footer">
+<input type="submit" value="Save" class="primary" />
+</div>
+
+</div>
+<%= end_form_tag %>

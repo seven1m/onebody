@@ -1,0 +1,33 @@
+<div id="box">
+<h1>All Recipes</h1>
+    <% @recipes.each do |recipe| %>
+        
+        <h3>
+        <%= link_to h(recipe.title), 
+                    :action => "show", 
+                    :id => recipe.id %>
+        
+        <% if recipe.admin? @logged_in %>  
+        <%= link_to "(delete)", 
+                    {:action => "delete", :id => recipe.id},
+                    :confirm => "Really delete #{recipe.title}?" %>
+        <%= link_to "(edit)", 
+                    {:action => "edit", :id => recipe.id} %>
+        <% end %>
+        </h3>
+        <div class="recipe">
+           Creator:  <%= h(recipe.person.name) %><br/>
+           Prep/Cook: <%= h(recipe.prep) %><br/>
+           Bake Time: <%= h(recipe.bake) %>
+        </div>
+        <div class="description">
+           Description: <%= truncate(h(recipe.description), 50, "...") %>
+        </div>
+    <% end %>
+    
+             <%= link_to "Create new recipe", 
+                      :controller => "recipes", 
+                      :action => "edit" %>
+</div>
+
+

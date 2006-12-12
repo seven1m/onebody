@@ -7,7 +7,7 @@ class CreateTags < ActiveRecord::Migration
       t.column :tag_id, :integer
       t.column :verse_id, :integer
     end
-    create_table :tags_recipes, :id => false do |t|
+    create_table :recipes_tags, :id => false do |t|
       t.column :tag_id, :integer
       t.column :recipe_id, :integer
     end
