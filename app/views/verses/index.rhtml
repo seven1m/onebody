@@ -9,25 +9,33 @@
 
 <h2>Tags</h2>
 <p>The bigger the tag, the more verses it describes.</p>
-<div class="tag-cloud">
-  <% @tags.each do |tag| %>
-    <% begin %>
-      <span style="font-size:<%= tag.verses.count * @factor + 9 %>pt;">
-        <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
-      </span>
-    <% rescue %>
-      <!-- tag error -->
+<% if @tags.any? %>
+  <div class="tag-cloud">
+    <% @tags.each do |tag| %>
+      <% begin %>
+        <span style="font-size:<%= tag.verses.count * @factor + 9 %>pt;">
+          <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
+        </span>
+      <% rescue %>
+        <!-- tag error -->
+      <% end %>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <p><em>No tags yet!</em></p>
+<% end %>
 
 <h2>Verses</h2>
 
-<table>
-  <% @verses.each do |verse| %>
-    <tr>
-      <td><%= link_to verse.reference, :action => 'view', :id => verse.reference %></td>
-      <td><%= verse.people_count %> <%= verse.people_count == 1 ? 'person' : 'people' %></td>
-    </tr>
-  <% end %>
-</table>
+<% if @verses.any? %>
+  <table>
+    <% @verses.each do |verse| %>
+      <tr>
+        <td><%= link_to verse.reference, :action => 'view', :id => verse.reference %></td>
+        <td><%= verse.people_count %> <%= verse.people_count == 1 ? 'person' : 'people' %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p><em>No verses yet!</em></p>
+<% end %>

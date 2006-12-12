@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(:version => 17) do
     t.column "anniversary", :datetime
   end
 
-  create_table "people_verses", :force => true do |t|
+  create_table "people_verses", :id => false, :force => true do |t|
     t.column "person_id", :integer
     t.column "verse_id", :integer
   end
@@ -197,12 +197,12 @@ ActiveRecord::Schema.define(:version => 17) do
     t.column "name", :string, :limit => 50
   end
 
-  create_table "tags_recipes", :force => true do |t|
+  create_table "tags_recipes", :id => false, :force => true do |t|
     t.column "tag_id", :integer
     t.column "recipe_id", :integer
   end
 
-  create_table "tags_verses", :force => true do |t|
+  create_table "tags_verses", :id => false, :force => true do |t|
     t.column "tag_id", :integer
     t.column "verse_id", :integer
   end
