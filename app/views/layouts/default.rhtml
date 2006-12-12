@@ -36,6 +36,7 @@
 				    <li><%= link_to 'Directory', {:controller => 'people', :action => 'search'}, :class => (params[:controller] == 'people' and params[:action] == 'search' ? 'active' : nil) %></li>
 				    <li><%= link_to 'Groups', {:controller => 'groups', :action => 'index'}, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li>
 				    <li><%= link_to 'Pictures', {:controller => 'pictures', :action => 'index'}, :class => (params[:controller] == 'pictures' ? 'active' : nil) %></li>
+            <li><%= link_to 'Verses', {:controller => 'verses', :action => 'index'}, :class => (params[:controller] == 'verses' ? 'active' : nil) %></li>
 				    <li><%= link_to 'Publications', {:controller => 'publications', :action => 'index'}, :class => (params[:controller] == 'publications' ? 'active' : nil) %></li>
 				
 				</ul>

@@ -1,5 +1,28 @@
 <h1>Verses</h1>
 
+<p>
+  People who add verses to their <%= link_to 'profile', '/' %>
+  contribute to this page. Over time, it will grow to be a
+  good resource for study and inspiration. As people "tag" verses
+  with relevant words, this becomes a sort of <em>living concordance</em>.
+</p>
+
+<h2>Tags</h2>
+<p>The bigger the tag, the more verses it describes.</p>
+<div class="tag-cloud">
+  <% @tags.each do |tag| %>
+    <% begin %>
+      <span style="font-size:<%= tag.verses.count * @factor + 9 %>pt;">
+        <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
+      </span>
+    <% rescue %>
+      <!-- tag error -->
+    <% end %>
+  <% end %>
+</div>
+
+<h2>Verses</h2>
+
 <table>
   <% @verses.each do |verse| %>
     <tr>
