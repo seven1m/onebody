@@ -1,21 +1,42 @@
+<%= SITE_TITLE %> (<%= SITE_URL %>) is a brand
+new site that connects members online. The site
+is currently in "beta" -- we're testing it out and
+finding bugs. You're welcome to sign in too, and
+help us improve the system!
+
 <% if @msg.group -%>
 The following message was posted to the group
-"<%= @msg.group.name %>" by <%= @msg.person.name %>.
+"<%= @msg.group.name %>" by <%= @msg.person.name %>:
+<% elsif @msg.wall -%>
+<%= @msg.person.name %> posted a message on your wall:
 <% else -%>
-<%= @msg.person.name %> sent you the following message.
+<%= @msg.person.name %> sent you the following message:
 <% end -%>
 - - - - - - - - - - - - - - - - - - - - - - - -
+<% if @msg.subject %>
 Subject: <%= @msg.subject %>
-<%= @msg.group ? 'Posted' : 'Sent' %>: <%= @msg.created_at.strftime '%m/%d/%Y %I:%M %p' %>
+<% end -%>
+<%= @msg.group or @msg.wall ? 'Posted' : 'Sent' %>: <%= @msg.created_at.strftime '%m/%d/%Y %I:%M %p' %>
 
 <%= @msg.body %>
 - - - - - - - - - - - - - - - - - - - - - - - -
+<% if @msg.wall %>
+<%= WALL_DESCRIPTION %>
+
+You can see your wall here:
+<%= SITE_URL %>people/view/<%= @msg.wall.id %>#wall
+
+You can post a message to <%=h @msg.person.name_possessive %>
+wall at the following link:
+<%= SITE_URL %>people/view/<%= @msg.person.id %>#wall
+<% else -%>
 <% if @msg.share_email -%>
 To keep your email address private, reply at the following link:
 <% else -%>
 You cannot reply directly; you must use the following link:
 <% end -%>
 <%= @msg.reply_url %>
+<% end -%>
 
 To report abuse of the system, click here:
 <%= SITE_URL %>messages/abuse

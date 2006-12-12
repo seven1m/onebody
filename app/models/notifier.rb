@@ -18,6 +18,8 @@ class Notifier < ActionMailer::Base
     from msg.email_from
     if msg.group
       subject "#{msg.subject} [#{msg.group.name}]"
+    elsif msg.wall
+      subject 'Wall Post'
     else
       subject msg.subject
     end

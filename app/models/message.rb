@@ -36,6 +36,8 @@ class Message < ActiveRecord::Base
       end
     elsif to
       Notifier.deliver_message(to, self) if to.email
+    elsif wall
+      Notifier.deliver_message(wall, self) if wall.email
     end
   end
   

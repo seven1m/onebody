@@ -46,7 +46,7 @@
     <li><%= link_to 'Add to Contacts', :action => 'add_contact', :id => @person %></li>
   <% end %>
   <% if @logged_in != @person and @person.email.to_s.any? %>
-    <li><%= link_to image_tag('message.gif', :alt => 'Send a Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Send a Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
+    <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Private Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
   <% end %>
 <% end %>
 
@@ -98,6 +98,7 @@
 <h2>Groups</h2>
 <%= render :partial => 'groups' %>
 
+<a name="wall"></a>
 <h2>Wall</h2>
 <%= render :partial => 'wall' %>
 

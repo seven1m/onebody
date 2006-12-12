@@ -46,7 +46,7 @@ class MessagesController < ApplicationController
     if @message.group
       redirect_to :controller => 'groups', :action => 'view', :id => @message.group
     else
-      redirect_to :controller => 'people', :action => 'view', :id => @message.wall
+      redirect_to :controller => 'people', :action => 'view', :id => @message.wall, :anchor => 'wall'
     end
   end
   

@@ -54,7 +54,7 @@
       <td>Email</td>
       <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
       <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
-      <td><em>People can always send you email <%= link_to_function 'through the site', 'alert("One user can send a message to another via this site. The system is monitored for abuse and allows people to contact you without getting your email address. We recommend you leave your email address private to prevent unsolicited email.")' %>.</em></td>
+      <td><em>People can always send you email <%= link_to_function 'through the site', "alert('#{SITE_MAIL_DESCRIPTION}')" %>.</em></td>
     </tr>
     <tr>
       <td>Birthday</td>

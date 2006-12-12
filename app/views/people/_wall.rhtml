@@ -1,8 +1,18 @@
 <p>
   <% if @logged_in == @person %>
-    This is a place for people to post messages for you and other people to see.
+    The <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %> is a place
+    for people to post messages for you.
   <% else %>
-    This is a place for you to post a message for <%= @person.name %> and other people to see.
+    <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();" %>
+    on <%= @person.name_possessive %> <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %>.
+    <div id="wall_message">
+      <%= form_tag({:action => 'wall_post', :id => @person}, :post => true, :style => 'border:none;') %>
+        <%= text_area_tag 'message', '', :rows => 3, :cols => 40, :id => 'wall_message_textarea' %>
+        <strong>Please respect the privacy of others. Abusing the wall will get you banned from the site.</strong>
+        <%= submit_tag 'Save Message' %>
+      </form>
+    </div>
+    <script type="text/javascript">Element.hide('wall_message'); Element.show('wall_message_link');</script>
   <% end %>
 </p>
 <% if @person.wall_messages.count > 0 %>
@@ -15,29 +25,17 @@
           </a>
         </td>
         <td>
-          <%= link_to message.person.name, :action => 'view', :id => message.person %> <%= message.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>:<br/>
-          <%= preserve_breaks message.body %>
+          <%= link_to message.person.name, :action => 'view', :id => message.person %> <%= message.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
           <% if @logged_in == message.person or @logged_in == @person %>
-            <br/>
-            <%= link_to 'delete', {:controller => 'messages', :action => 'delete', :id => message}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+            <%= link_to '[delete]', {:controller => 'messages', :action => 'delete', :id => message}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
           <% end %>
+          <br/>
+          <%= preserve_breaks message.body %>
+          <br/>&nbsp;
         </td>
       </tr>
     <% end %>
   </table>
 <% else %>
   <p><em>No messages yet!</em></p>
-<% end %>
-
-<% if @logged_in != @person %>
-  <p id="wall_message_link" style="display:none;">
-    <%= link_to_function 'New Message', "Element.show('wall_message'); $('wall_message_textarea').focus();" %>
-  </p>
-  <div id="wall_message">
-    <%= form_tag({:action => 'wall_post', :id => @person}, :post => true, :style => 'border:none;') %>
-      <%= text_area_tag 'message', '', :rows => 3, :cols => 40, :id => 'wall_message_textarea' %>
-      <%= submit_tag 'Save Message' %>
-    </form>
-  </div>
-  <script type="text/javascript">Element.hide('wall_message'); Element.show('wall_message_link');</script>
 <% end %>

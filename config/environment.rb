@@ -96,6 +96,8 @@ PHOTO_SIZES = {
   :medium => '150x150',
   :large => '400x400'
 }
+SITE_MAIL_DESCRIPTION = 'One user can send a message to another via this site. The system is monitored for abuse and allows people to contact you without getting your email address. We recommend you leave your email address private to prevent unsolicited email.'
+WALL_DESCRIPTION = 'The Wall is a place for people to post friendly messages for everyone to see. The messages are not private (except that you must be signed in). Think of the Wall like a guestbook.'
 SEND_UPDATES_TO = 'seven1m@gmail.com'
 BIRTHDAY_VERIFICATION_EMAIL = 'seven1m@gmail.com'
 SYSTEM_NOREPLY_EMAIL = 'no-reply@cedar.ridge.cc'
