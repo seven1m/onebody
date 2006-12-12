@@ -53,7 +53,7 @@ class Notifier < ActionMailer::Base
       email.to.each do |address|
         if group = Group.find_by_address(address.downcase) and group.can_send? person
           message = Message.create(
-            :group_id => params[:group_id],
+            :group => group,
             :person => person,
             :subject => email.subject,
             :body => email.body
