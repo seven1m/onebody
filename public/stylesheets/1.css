@@ -572,3 +572,8 @@ tr.centered td {
 	background: transparent;
 	padding: 0;
 }
+
+.verse-body {
+	background-color: #eee;
+	padding: 4px 0 4px 0;
+}

@@ -2,6 +2,14 @@
 
 <p style="font-size:130%;"><%=h @verse.text %></p>
 
+<%= form_tag({:action => 'add_tags', :id => @verse}, :style => 'border:none;padding:0;') %>
+  <p>
+    <strong>Tags:</strong>
+    <%= render :partial => 'tags', :locals => {:verse => @verse} %>
+    Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;' %>
+  </p>
+</form>
+
 <% if @verse.translation == 'WEB' %>
   <p style="font-size:90%;color:#999;">
     Scripture quotations marked "WEB" are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.

@@ -1,0 +1,10 @@
+<% if verse.tags.any? %>
+  <% verse.tags.each do |tag| %>
+    <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
+    <% if @verse == verse %>
+      <%= link_to '[x]', {:controller => 'verses', :action => 'delete_tag', :id => verse, :tag_id => tag.id, :return_to => request.request_uri}, :title => 'Delete this tag.', :class => 'discreet', :post => true, :confirm => 'Are you sure you want to delete this tag?' %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p><em>No tags yet!</em></p>
+<% end %>

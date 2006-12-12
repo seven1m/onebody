@@ -192,8 +192,7 @@ class PeopleController < ApplicationController
     if verse.errors.any?
       flash[:notice] = 'There was an error adding the verse. Make sure you entered the right reference.'
     else
-      verse.tag_string = params[:tag_string]
-      @logged_in.verses << verse
+      @logged_in.verses << verse unless @logged_in.verses.include? verse
       flash[:notice] = 'Verse saved.'
     end
     redirect_to :action => 'view', :id => @logged_in
