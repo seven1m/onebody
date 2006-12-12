@@ -48,9 +48,12 @@
           <% end %>
           <br/>
           <% if group.description.to_s.any? %>
-            <%=h group.description %><br/>
+            <%=h group.description %>
           <% end %>
-          Created by: <%= link_to group.creator.name, :controller => 'people', :action => 'view', :id => group.creator %>
+          <% if group.leader %>
+            <br/>
+            Leader: <%= link_to group.leader.name, :controller => 'people', :action => 'view', :id => group.leader %>
+          <% end %>
           <% if @logged_in.sees? group %>
             <br/>
             <%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'no-border'), "Element.show('people_in_group_#{group.id}')" %>

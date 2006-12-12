@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(:version => 18) do
     t.column "members_send", :boolean, :default => true
     t.column "link_code", :string, :limit => 10
     t.column "subscription", :boolean, :default => false
+    t.column "leader_id", :integer
   end
 
   create_table "memberships", :force => true do |t|

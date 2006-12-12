@@ -33,7 +33,6 @@ class GroupsController < ApplicationController
         if not @logged_in.admin? and (params[:group][:address] or params[:group][:link_code] or params[:group][:subscription] or params[:group][:members_send])
           raise 'You are not authorized to do that.'
         end
-        #params[:group][:address] = params[:group][:address] + '@' + GROUP_ADDRESS_DOMAIN
         if @group.update_attributes params[:group]
           @group.memberships.create(:person => @logged_in, :admin => true) if new_group
           flash[:notice] = 'Group changes saved.'

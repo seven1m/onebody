@@ -6,7 +6,7 @@
       var c = text.substring(i, i+1);
       if(SAFE_CHARS.indexOf(c) > -1) sanitized += c;
     }
-    return sanitized;
+    return sanitized.toLowerCase();
   };
   function custom_select_val(select_elm, prompt_text){
     if(val = prompt(prompt_text, '')) {
@@ -104,8 +104,16 @@
   <%= form.text_area :notes, :rows => 3 %><br/>
   <label>Creator:</label>
   <%= text_field_tag 'creator', (@group.creator ? @group.creator.name : nil), :readonly => true %><br/>
+  <label for="group_leader">Leader:</label>
+  <select name="group[leader_id]" id="group_leader_id">
+    <option value="">(none)</option>
+    <%= options_for_select @group.people.map { |p| [p.name, p.id] }, @group.leader_id %>
+  </select><br/>
+  <% if @group.people.length == 0 %>
+    <em>You'll need to add people to the group before you can set a leader.</em><br/>
+  <% end %>
   <label for="group_private">Private:</label>
-  <%= form.check_box :private, :class => 'checkbox' %> Messages and members (except the creator) are hidden from outsiders and group administrators must add people.
+  <%= form.check_box :private, :class => 'checkbox' %> Messages and members (except the creator and leader) are hidden from outsiders and group administrators must add people.
   
   <h2>Meets</h2>
   <label for="group_meets">Day &amp; Time:</label>
@@ -119,10 +127,8 @@
     <h2>Advanced</h2>
     The settings below are for staff, elders, and advanced users.
     Don't edit any of the settings below unless you know what you are doing.<br/>
-    <!--
     <label>Email Address:</label>
-    <%= text_field_tag 'group[address]', @group.address.to_s.split('@').first, :id => 'group_address', :style => 'width:150px;' %>@<%= GROUP_ADDRESS_DOMAIN %><br/>
-    -->
+    <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h GROUP_ADDRESS_DOMAIN %><br/>
     <label for="group_link_code">Class Link Code(s):</label>
     <%= form.text_field :link_code %><br/>
     <label for="group_members_send">Group Members Can Send Email:</label>

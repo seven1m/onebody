@@ -3,12 +3,15 @@ class Group < ActiveRecord::Base
   has_many :people, :through => :memberships
   has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc'
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
+  belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
+  has_and_belongs_to_many :tags, :order => 'name'
   
   validates_presence_of :name
   validates_presence_of :category
   validates_uniqueness_of :name
-  #validates_format_of :address, :with => /^[a-zA-Z0-9]+@[^@]+$/
-  #validates_uniqueness_of :address
+  validates_format_of :address, :with => /^[a-zA-Z0-9]+$/
+  validates_uniqueness_of :address
+  validates_length_of :address, :minimum => 6, :allow_nil => true
   validates_presence_of :creator_id
   
   acts_as_photo 'db/photos/groups', PHOTO_SIZES
@@ -51,4 +54,9 @@ class Group < ActiveRecord::Base
       members
     end
   end
+  
+  def can_send?(person)
+    (members_send and people.include? person) or admin? person
+  end
+  alias_method 'can_post?', 'can_send?'
 end

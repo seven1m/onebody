@@ -49,10 +49,17 @@ class Notifier < ActionMailer::Base
   end
   
   def receive(email)
-    logger.info email.to
-    logger.info email.subject
-    logger.info email.body
-    logger.info email.methods.sort
-    logger.info email.inspect
+    if person = Person.find_by_email(email.from)
+      email.to.each do |address|
+        if group = Group.find_by_address(address.downcase) and group.can_send? person
+          message = Message.create(
+            :group_id => params[:group_id],
+            :person => person,
+            :subject => email.subject,
+            :body => email.body
+          )
+        end
+      end
+    end
   end
 end

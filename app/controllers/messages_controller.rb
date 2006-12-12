@@ -20,8 +20,8 @@ class MessagesController < ApplicationController
     else
       raise 'Error.'
     end
-    unless @message.group.admin? @logged_in or @message.group.people.include? @logged_in
-      render :text => 'You cannot post in a group you do not belong to.', :layout => true
+    unless @message.group.can_post? @logged_in
+      render :text => 'You cannot post in this group.', :layout => true
     end
     if request.post? and params[:message]
       if @message.update_attributes params[:message]
