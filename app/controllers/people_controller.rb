@@ -67,8 +67,8 @@ class PeopleController < ApplicationController
       conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.member?
       conditions.add_condition ["MONTH(people.birthday) = ?", params[:birthday_month].to_i] if params[:birthday_month].to_s.any?
       conditions.add_condition ["DAY(people.birthday) = ?", params[:birthday_day].to_i] if params[:birthday_day].to_s.any?
-      conditions.add_condition ["MONTH(families.anniversary) = ?", params[:anniversary_month].to_i] if params[:anniversary_month].to_s.any?
-      conditions.add_condition ["DAY(families.anniversary) = ?", params[:anniversary_day].to_i] if params[:anniversary_day].to_s.any?
+      conditions.add_condition ["MONTH(people.anniversary) = ?", params[:anniversary_month].to_i] if params[:anniversary_month].to_s.any?
+      conditions.add_condition ["DAY(people.anniversary) = ?", params[:anniversary_day].to_i] if params[:anniversary_day].to_s.any?
       conditions.add_condition ["LCASE(families.city) = ?", params[:city].downcase] if params[:city].to_s.any?
       conditions.add_condition ["LCASE(families.state) = ?", params[:state].downcase] if params[:state].to_s.any?
       conditions.add_condition ["families.zip like ?", "#{params[:zip]}%"] if params[:zip].to_s.any?
@@ -185,6 +185,25 @@ class PeopleController < ApplicationController
       @logged_in.reload
     end
     redirect_to :action => 'view', :id => params[:id]
+  end
+  
+  def add_verse
+    verse = Verse.find_or_create_by_reference(Verse.normalize_reference(params[:reference]))
+    if verse.errors.any?
+      flash[:notice] = 'There was an error adding the verse. Make sure you entered the right reference.'
+    else
+      verse.tag_string = params[:tag_string]
+      @logged_in.verses << verse
+      flash[:notice] = 'Verse saved.'
+    end
+    redirect_to :action => 'view', :id => @logged_in
+  end
+  
+  def remove_verse
+    verse = Verse.find params[:id]
+    verse.people.delete @logged_in
+    flash[:notice] = 'Verse removed.'
+    redirect_to :action => 'view', :id => @logged_in
   end
   
   def wall_post

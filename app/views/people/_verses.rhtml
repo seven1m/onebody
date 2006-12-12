@@ -1,0 +1,28 @@
+<% if @person.verses.count > 0 %>
+  <% @person.verses.each do |verse| %>
+    <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
+  <% end %>
+<% else %>
+  <p><em>No verses yet!</em></p>
+<% end %>
+
+<% if @logged_in == @person %>
+  <p id="add_verse_link" style="display:none;"><%= link_to_function 'Add a Verse', "Element.show('add_verse')" %></p>
+  <div id="add_verse">
+    <%= form_tag({:action => 'add_verse'}, :post => true) %>
+      <p>
+        Type a reference and some tags below and hit enter:<br/>
+        Reference: <%= text_field_tag :reference, nil, :style => 'border:1px solid #ccc;width:100px;', :onfocus => "this.value=''" %>
+        Tags:
+        <%= text_field_tag :tag_string, nil, :style => 'border:1px solid #ccc;width:125px;', :onfocus => "this.value=''" %>
+        <%= submit_tag 'Add Verse', :style => 'width:100px;' %>
+      </p>
+    </form>
+  </div>
+  <script type="text/javascript">
+    Element.hide('add_verse');
+    Element.show('add_verse_link');
+    $('reference').value = 'john 3:16';
+    $('tag_string').value = 'salvation son love';
+  </script>
+<% end %>

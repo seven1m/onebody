@@ -1,0 +1,12 @@
+<p>
+  <strong><%= link_to verse.reference, :controller => 'verses', :action => 'view', :id => verse.reference %></strong>
+  <% if @logged_in == @person %>
+    <%= link_to '[remove]', {:action => 'remove_verse', :id => verse}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+  <% end %>
+  <% if verse.tags.any? %>Tags:<% end %>
+  <% verse.tags.each do |tag| %>
+    <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
+  <% end %>
+  <br/>
+  <%=h verse.text %>
+</p>

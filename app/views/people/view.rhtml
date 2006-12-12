@@ -68,6 +68,9 @@
   <p><%=h @person.testimony %></p>
 <% end %>
 
+<h2>Verses</h2>
+<%= render :partial => 'verses' %>
+
 <% if @person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any? or @person.about.to_s.any? %>
   <h2>Favorites</h2>
 <% end %>

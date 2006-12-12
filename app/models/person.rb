@@ -7,6 +7,7 @@ class Person < ActiveRecord::Base
   has_many :pictures, :order => 'created_at desc'
   has_many :messages
   has_many :wall_messages, :class_name => 'Message', :foreign_key => 'wall_id', :order => 'created_at desc'
+  has_and_belongs_to_many :verses
   
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES

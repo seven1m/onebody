@@ -1,0 +1,10 @@
+<h1>Verses</h1>
+
+<table>
+  <% @verses.each do |verse| %>
+    <tr>
+      <td><%= link_to verse.reference, :action => 'view', :id => verse %></td>
+      <td><%= verse.people_count %> <%= verse.people_count == 1 ? 'person' : 'people' %></td>
+    </tr>
+  <% end %>
+</table>
