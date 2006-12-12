@@ -59,7 +59,7 @@ class Person < ActiveRecord::Base
   def city; family.city; end
   def state; family.state; end
   def zip; family.zip; end
-  def anniversary; family.anniversary; end
+  #def anniversary; family.anniversary; end
   
   def can_see?(what)
     if what.is_a? Person

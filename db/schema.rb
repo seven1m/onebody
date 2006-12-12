@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 13) do
+ActiveRecord::Schema.define(:version => 15) do
 
   create_table "contacts", :force => true do |t|
     t.column "person_id", :integer
@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(:version => 13) do
     t.column "email", :string
     t.column "latitude", :float
     t.column "longitude", :float
-    t.column "anniversary", :datetime
     t.column "share_address", :boolean, :default => true
     t.column "share_mobile_phone", :boolean, :default => false
     t.column "share_work_phone", :boolean, :default => false
@@ -117,6 +116,7 @@ ActiveRecord::Schema.define(:version => 13) do
     t.column "subject", :string
     t.column "body", :text
     t.column "share_email", :boolean, :default => false
+    t.column "wall_id", :integer
   end
 
   create_table "ministries", :force => true do |t|
@@ -163,6 +163,7 @@ ActiveRecord::Schema.define(:version => 13) do
     t.column "legacy_id", :integer
     t.column "email_changed", :boolean, :default => false
     t.column "suffix", :string, :limit => 25
+    t.column "anniversary", :datetime
   end
 
   create_table "pictures", :force => true do |t|

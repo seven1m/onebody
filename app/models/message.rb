@@ -3,6 +3,7 @@ require 'uri'
 class Message < ActiveRecord::Base
   belongs_to :group
   belongs_to :person
+  belongs_to :wall, :class_name => 'Person', :foreign_key => 'wall_id'
   belongs_to :to, :class_name => 'Person', :foreign_key => 'to_id'
   belongs_to :parent, :class_name => 'Message', :foreign_key => 'parent_id'
   has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :dependent => :destroy
