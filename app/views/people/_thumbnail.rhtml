@@ -1,5 +1,5 @@
 <% if person.has_photo? %>
-  <%= image_tag url_for(:action => 'photo', :id => "#{person.id}.tn.jpg"), :alt => person.name, :class => 'no-border' %>
+  <%= image_tag url_for(:controller => 'people', :action => 'photo', :id => "#{person.id}.tn.jpg"), :alt => person.name, :class => 'no-border' %>
 <% else %>
   <% if ['male', 'boy', 'man'].include? person.gender.to_s.downcase %>
     <%= image_tag 'man.tn.gif', :alt => person.name, :class => 'no-border' %>
