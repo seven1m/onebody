@@ -2,7 +2,7 @@
   <div class="verse-heading">
     <strong><%= link_to verse.reference, :controller => 'verses', :action => 'view', :id => verse.reference %></strong>
     <% if @logged_in == @person %>
-      <%= link_to '[remove]', {:action => 'remove_verse', :id => verse}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+      <%= link_to '[delete]', {:action => 'remove_verse', :id => verse}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
     <% end %>
     Tags: <%= render :partial => 'verses/tags', :locals => {:verse => verse} %>
     <% unless verse == @verse %>

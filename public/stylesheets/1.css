@@ -404,20 +404,21 @@ h3 {
 /*
 	border-top:1px solid #eee;
 	border-bottom:1px solid #eee;
-*/
 	color:#79B933;
+*/
 }
 #content ul span {
 	color:#444;
 }
-#contentnorightbar ul {
+#contentnorightbar ul,
+#contentnorightbar ol {
 	margin:5px 0 15px 20px;
 	padding:0;
 /*
 	border-top:1px solid #eee;
 	border-bottom:1px solid #eee;
-*/
 	color:#79B933;
+*/
 }
 #contentnorightbar ul span {
 	color:#444;

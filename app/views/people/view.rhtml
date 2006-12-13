@@ -71,6 +71,22 @@
 <h2>Verses</h2>
 <%= render :partial => 'verses' %>
 
+<% if @person.recipes.any? %>
+  <h2>Recipes</h2>
+  <ul>
+    <% @person.recipes.each do |recipe| %>
+      <li>
+        <%= link_to recipe.title, :controller => 'recipes', :action => 'view', :id => recipe %>
+        <% if recipe.admin? @logged_in %>
+          <%= link_to '[edit]', {:controller => 'recipes', :action => 'edit', :id => recipe}, :class => 'discreet' %>
+          <%= link_to '[delete]', {:controller => 'recipes', :action => 'delete', :id => recipe, :return_to => request.request_uri}, :post => true, :confirm => 'Are you sure you want to delete this recipe?', :class => 'discreet' %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <p><%= link_to "New Recipe", :controller => "recipes", :action => "edit" %></p>
+<% end %>
+
 <% if @person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any? or @person.about.to_s.any? %>
   <h2>Favorites</h2>
 <% end %>

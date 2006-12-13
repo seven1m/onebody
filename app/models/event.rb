@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   belongs_to :person
   serialize :admins
   
-  validates_presence_of :name, :description
+  validates_presence_of :name
   
   def cover_picture
     if pictures.count > 0

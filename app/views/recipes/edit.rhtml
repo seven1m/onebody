@@ -1,47 +1,35 @@
+<%= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
+<script type="text/javascript">
+  tinyMCE.init({
+  	mode: "exact",
+  	elements: "recipe_ingredients,recipe_directions",
+  	theme: "simple",
+  	convert_newlines_to_brs : true,
+  	invalid_elements: "pre"
+  });
+</script>
+
+<h1>Edit Recipe</h1>
 
 <%= start_form_tag( {:action=> "edit", :id => @recipe.id}, :multipart => true )%>
-<div title="Edit Recipe" id="newrecipe" class="form">
- <div class="left">
-  <label for="recipe_title">Title: </label><br/>
-  <%= text_field "recipe", "title", :size => 30 %><br/>
-  <br/>
-  <label for="recipe_notes">Notes: </label><br/>
-  <%= text_field "recipe", "notes", :size => 30 %><br/>
-  <br/>
-  <label for="recipe_description">Description: </label><br/>
-  <%= text_field "recipe", "description", :size => 45 %><br/>
-  <br/>
-  <label for="recipe_prep">Prep/Cook Time: </label><br/>
-  <%= text_field "recipe", "prep", :size => 20 %><br/>
-  <br/>
-  <label for="recipe_bake">Bake Time: </label><br/>
-  <%= text_field "recipe", "bake", :size => 20 %><br/>
-  <br/>
- <b>Add a picture:</b><br/><br/>
+  <label for="recipe_title">Title:</label>
+  <%= text_field "recipe", "title" %><br/>
+  <label for="recipe_serving_size">Serving Size:</label>
+  <%= select "recipe", "serving_size", 1..100 %><br/>
+  <label for="recipe_description">Description:</label>
+  <%= text_area "recipe", "description", :rows => 3 %><br/>
+  <label for="recipe_prep">Prep/Cook Time:</label>
+  <%= text_field "recipe", "prep" %><br/>
+  <label for="recipe_bake">Bake Time:</label>
+  <%= text_field "recipe", "bake" %><br/>
+  <label>Picture:</label>
 
- </div>
- <div class="right">
-  <p>Useful html codes.<br/>
-     &deg; &nbsp; &amp;deg;<br/>
-     &frac14; &nbsp; &amp;frac14;<br/>
-     &frac12; &nbsp; &amp;frac12;<br/>
-     &frac34; &nbsp; &amp;frac34;<br/>
-  </p>
-  <small><p>Ingredients and Directions will be formatted with textile, a description of textile is at the bottom of the page.</p></small>
-  <div class="ingredients">
-  <label for="recipe_ingredients">Ingredients: </label><br/>
-  <%= text_area "recipe", "ingredients", :cols => 20, :rows => 20 %><br/>
+  <label for="recipe_ingredients">Ingredients:</label>
+  <%= text_area "recipe", "ingredients", :rows => 10 %><br/>
+  <label for="recipe_directions">Directions:</label>
+  <%= text_area "recipe", "directions", :rows => 10 %><br/>
+  <label for="recipe_notes">Other Notes:</label>
+  <%= text_area "recipe", "notes", :rows => 3 %><br/>
   <br/>
-  </div>
-  <div class="directions">
-  <label for="recipe_directions">Directions: </label><br/>
-  <%= text_area "recipe", "directions", :cols => 20, :rows => 20 %><br/>
-  <br/>
-  </div>
- </div>
-<div class="footer">
-<input type="submit" value="Save" class="primary" />
-</div>
-
-</div>
-<%= end_form_tag %>
+  <%= submit_tag 'Save Recipe' %>
+</form>
