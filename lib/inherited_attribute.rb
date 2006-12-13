@@ -13,7 +13,9 @@ module ActiveRecord
         class_eval \
           "
           def share_#{attribute}_with(person)
-            return :admin if self == person or person.admin? or self.family == person.family
+            return :admin if self == person or person.admin?
+            return :admin if self.is_a?(Family) and self == person.family
+            return :admin if self.is_a?(Person) and self.family == person.family
             return true if share_#{attribute}
             #memberships.find(:all, :conditions => ['share_#{attribute} = ?', true]).each do |m|
             #  return true if m.group.members.include? person
