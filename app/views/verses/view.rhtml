@@ -1,5 +1,7 @@
 <h1><%=h @verse.reference %> <span style="font-size:60%;color:#999;">(<%=h @verse.translation %>)</span></h1>
 
+<%= render :partial => 'shares/subnav' %>
+
 <p style="font-size:130%;"><%=h @verse.text %></p>
 
 <%= form_tag({:action => 'add_tags', :id => @verse}, :style => 'border:none;padding:0;') %>

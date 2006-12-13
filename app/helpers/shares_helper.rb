@@ -1,0 +1,2 @@
+module SharesHelper
+end

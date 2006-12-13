@@ -9,3 +9,9 @@ module ActiveRecord
     end
   end
 end
+
+class DateTime
+  def to_s
+    strftime '%Y-%m-%d %H:%M:%S'
+  end
+end

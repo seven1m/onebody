@@ -1,25 +1,11 @@
 <h1>Recipes</h1>
+
+<p>Share your favorite recipes with the <%= CHURCH_NAME %> family.</p>
+
+<%= render :partial => 'shares/subnav' %>
   
 <% if @recipes.any? %>
-  <table>
-    <tr><th>Name</th><th>Creator</th><th>Serving Size</th></tr>
-    <% @recipes.each do |recipe| %>
-      <tr>
-        <td><%= link_to recipe.title, :action => "view", :id => recipe %></td>
-        <td><%=h recipe.person.name %></td>
-        <td><%=h recipe.serving_size %></td>
-        <td>
-          <% if recipe.admin? @logged_in %>  
-            <%= link_to "[edit]", {:action => "edit", :id => recipe}, :class => 'discreet' %>
-            <%= link_to '[delete]', {:action => 'delete', :id => recipe, :return_to => request.request_uri}, :post => true, :confirm => 'Are you sure you want to delete this recipe?', :class => 'discreet' %>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="4"><%= truncate h(recipe.description), 50, '...' %></td>
-      </tr>
-    <% end %>
-  </table>
+  <%= render :partial => 'list' %>
 <% else %>
   <p><em>No recipes yet!</em></p>
 <% end %>

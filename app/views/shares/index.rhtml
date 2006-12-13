@@ -1,0 +1,52 @@
+<h1>Shares</h1>
+
+<%= render :partial => 'shares/subnav' %>
+
+<p>
+  <%= SITE_TITLE %> is a place to connect and share inspirational Bible verses,
+  good recipes, and more. From here, you can browse through the collection of
+  things our members have shared with you!
+</p>
+
+<h2><%= link_to 'Pictures', :controller => 'pictures' %></h2>
+
+<% if @pictures.any? %>
+  <p>
+    <% @pictures.each do |picture| %>
+      <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.small.jpg"), :alt => 'click to enlarge'),
+        {:controller => 'pictures', :action => 'view', :id => picture}, :title => 'click to enlarge' %>
+    <% end %>
+    <%= link_to 'More Pictures...', :controller => 'pictures' %>
+  </p>
+<% else %>
+  <p>
+    <em>No one has shared any pictures yet. You can
+    <%= link_to 'be the first', :controller => 'pictures' %>!</em>
+  </p>
+<% end %>
+
+<h2><%= link_to 'Verses', :controller => 'verses' %></h2>
+
+<% if @verses.any? %>
+  <% @verses.each do |verse| %>
+    <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
+  <% end %>
+  <%= link_to 'More Verses...', :controller => 'verses' %>
+<% else %>
+  <p>
+    <em>No one has shared any Bible verses yet. You can
+    <%= link_to 'be the first', :controller => 'verses' %>!</em>
+  </p>
+<% end %>
+
+<h2><%= link_to 'Recipes', :controller => 'recipes' %></h2>
+
+<% if @recipes.any? %>
+  <%= render :partial => 'recipes/list' %>
+  <%= link_to 'More Recipes...', :controller => 'recipes' %>
+<% else %>
+  <p>
+    <em>No one has shared any recipes yet. You can
+    <%= link_to 'be the first', :controller => 'recipes' %>!</em>
+  </p>
+<% end %>

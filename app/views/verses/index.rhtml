@@ -1,5 +1,7 @@
 <h1>Verses</h1>
 
+<%= render :partial => 'shares/subnav' %>
+
 <p>
   People who add verses to their <%= link_to 'profile', '/' %>
   contribute to this page. Over time, it will grow to be a
@@ -28,14 +30,7 @@
 <h2>Verses</h2>
 
 <% if @verses.any? %>
-  <table>
-    <% @verses.each do |verse| %>
-      <tr>
-        <td><%= link_to verse.reference, :action => 'view', :id => verse.reference %></td>
-        <td><%= verse.people_count %> <%= verse.people_count == 1 ? 'person' : 'people' %></td>
-      </tr>
-    <% end %>
-  </table>
+  <%= render :partial => 'counts' %>
 <% else %>
   <p><em>No verses yet!</em></p>
 <% end %>
