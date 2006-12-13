@@ -318,13 +318,14 @@ body {
 
 table {
 	margin:5px 0;
+	border-collapse: collapse;
 }
 
 td, th {
         font-size: 100%;
 	text-align: left;
 	vertical-align: top;
-	padding-right: 10px;
+	padding: 1px 10px 1px 1px;
 }
 
 .pre {
@@ -577,4 +578,8 @@ tr.centered td {
 .verse-body {
 	background-color: #eee;
 	padding: 4px 0 4px 0;
+}
+
+tr.odd td {
+	background-color: #eee;
 }

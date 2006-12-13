@@ -2,13 +2,19 @@
   <%= pagination_links @recipe_pages %>
 <% end %>
 
+<% today = Date.today %>
 <table>
-  <tr><th>Name</th><th>Creator</th><th>Serving Size</th></tr>
+  <tr><td></td><th>Name</th><th>Creator</th><th>Serves</th><th>Created</th></tr>
   <% @recipes.each do |recipe| %>
     <tr>
-      <td><%= link_to recipe.title, :action => "view", :id => recipe %></td>
+      <td style="vertical-align:middle;"><%= link_to image_tag('publication.gif', :alt => recipe.title, :class => 'no-border'), :action => "view", :id => recipe %></td>
+      <td>
+        <%= link_to recipe.title, :action => "view", :id => recipe %>
+        <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
+      </td>
       <td><%=h recipe.person.name %></td>
       <td><%=h recipe.serving_size %></td>
+      <td><%= recipe.created_at.strftime '%m/%d/%Y' %></td>
       <td>
         <% if recipe.admin? @logged_in %>  
           <%= link_to "[edit]", {:action => "edit", :id => recipe}, :class => 'discreet' %>
@@ -17,7 +23,8 @@
       </td>
     </tr>
     <tr>
-      <td colspan="4"><%= truncate h(recipe.description), 50, '...' %></td>
+      <td></td>
+      <td colspan="5"><%= truncate h(recipe.description), 50, '...' %></td>
     </tr>
   <% end %>
 </table>

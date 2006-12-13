@@ -12,38 +12,38 @@
   
 <table>
   <tr>
-    <td>Serving Size:</td>
+    <td style="white-space:nowrap;">Serving Size:</td>
     <td><%=h @recipe.serving_size %></td>
   </tr>
   <% if @recipe.prep.to_s.any? %>
     <tr>
-      <td>Prep/Cook Time:</td>
+      <td style="white-space:nowrap;">Prep/Cook Time:</td>
       <td><%=h @recipe.prep %></td>
     </tr>
   <% end %>
   <% if @recipe.bake.to_s.any? %>
     <tr>
-      <td>Bake Time:</td>
+      <td style="white-space:nowrap;">Bake Time:</td>
       <td><%=h @recipe.bake %></td>
     </tr>
   <% end %>
   <% if @recipe.description.to_s.any? %>
     <tr>
-      <td>Description:</td>
+      <td style="white-space:nowrap;">Description:</td>
       <td><%=h @recipe.description %></td>
     </tr>
   <% end %>
   <tr>
-    <td>Ingredients:</td>
+    <td style="white-space:nowrap;">Ingredients:</td>
     <td><%= @recipe.ingredients %></td>
   </tr>
   <tr>
-    <td>Directions:</td>
+    <td style="white-space:nowrap;">Directions:</td>
     <td><%= @recipe.directions %></td>
   </tr>
   <% if @recipe.notes.to_s.any? %>
     <tr>
-      <td>Other Notes:</td>
+      <td style="white-space:nowrap;">Other Notes:</td>
       <td><%=h @recipe.notes %></td>
     </tr>
   <% end %>

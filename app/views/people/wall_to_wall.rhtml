@@ -1,0 +1,10 @@
+<h1>Wall to Wall</h1>
+
+<p style="font-size:150%;">
+  <strong><%= link_to @person.name, :action => 'view', :id => @person %></strong> +
+  <strong><%= link_to @person2.name, :action => 'view', :id => @person2 %></strong>
+</p>
+
+<p><em>newest messages appear first</em></p>
+
+<%= render :partial => 'wall_messages', :locals => {:messages => @messages} %>

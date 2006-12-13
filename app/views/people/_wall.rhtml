@@ -16,26 +16,7 @@
   <% end %>
 </p>
 <% if @person.wall_messages.count > 0 %>
-  <table>
-    <% @person.wall_messages.each do |message| %>
-      <tr>
-        <td>
-          <a href="<%= url_for :action => 'view', :id => message.person %>">
-            <%= render :partial => 'thumbnail', :locals => {:person => message.person} %>
-          </a>
-        </td>
-        <td>
-          <%= link_to message.person.name, :action => 'view', :id => message.person %> <%= message.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
-          <% if @logged_in == message.person or @logged_in == @person %>
-            <%= link_to '[delete]', {:controller => 'messages', :action => 'delete', :id => message}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
-          <% end %>
-          <br/>
-          <%= preserve_breaks message.body %>
-          <br/>&nbsp;
-        </td>
-      </tr>
-    <% end %>
-  </table>
+  <%= render :partial => 'wall_messages', :locals => {:messages => @person.wall_messages} %>
 <% else %>
   <p><em>No messages yet!</em></p>
 <% end %>

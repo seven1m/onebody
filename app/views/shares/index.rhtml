@@ -10,6 +10,8 @@
 
 <h2><%= link_to 'Pictures', :controller => 'pictures' %></h2>
 
+<p>Random pictures uploaded by members:</p>
+
 <% if @pictures.any? %>
   <p>
     <% @pictures.each do |picture| %>
@@ -27,6 +29,8 @@
 
 <h2><%= link_to 'Verses', :controller => 'verses' %></h2>
 
+<p>Random Bible verses shared by members:</p>
+
 <% if @verses.any? %>
   <% @verses.each do |verse| %>
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
@@ -40,6 +44,8 @@
 <% end %>
 
 <h2><%= link_to 'Recipes', :controller => 'recipes' %></h2>
+
+<p>Random recipes shared by members:</p>
 
 <% if @recipes.any? %>
   <%= render :partial => 'recipes/list' %>

@@ -105,6 +105,7 @@ GROUP_ADDRESS_DOMAIN = 'cedar.ridge.cc'
 ADMIN_CHECK = Proc.new do |person|
   person.email =~ /@cedarridgecc.com$/ or person.classes.split(',').include?('EL') or person.email =~ /^tim@timmorgan/
 end
+DAYS_NEW = 7
 MAX_DAILY_VERIFICATION_ATTEMPTS = 3
 MOBILE_GATEWAYS = {
   'AT&T' => '%s@mobile.att.net',
