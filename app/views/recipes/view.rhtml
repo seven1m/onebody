@@ -5,9 +5,11 @@
   <% end %>
 <% end %>
 
-<div style="width:200;float:right;">
-  <%= image_tag(url_for(:action => 'photo', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %>
-</div>
+<% if @recipe.has_photo? %>
+  <div style="width:200;float:right;">
+    <%= image_tag(url_for(:action => 'photo', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %>
+  </div>
+<% end %>
 
 <h1><%=h @recipe.title %></h1>
 <p class="below-h1">

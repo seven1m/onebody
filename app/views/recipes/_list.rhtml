@@ -7,7 +7,10 @@
   <tr><td></td><th>Name</th><th>Creator</th><th>Serves</th><th>Created</th></tr>
   <% @recipes.each do |recipe| %>
     <tr>
-      <td><%= link_to image_tag(url_for(:controller => 'recipes', :action => 'photo', :id => "#{recipe.id}.tn.jpg"), :alt => recipe.title, :class => 'no-border'), :controller => 'recipes', :action => "view", :id => recipe %></td>
+      <td>
+        <% if recipe.has_photo? %>
+          <%= link_to image_tag(url_for(:controller => 'recipes', :action => 'photo', :id => "#{recipe.id}.tn.jpg"), :alt => recipe.title, :class => 'no-border'), :controller => 'recipes', :action => "view", :id => recipe %></td>
+        <% end %>
       <td>
         <%= link_to recipe.title, :controller => 'recipes', :action => "view", :id => recipe %>
         <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
