@@ -4,7 +4,7 @@
       :controller => 'people', :action => 'photo', :id => "#{@person.id}.jpg", :back => url_for(params) %>
   <% else %>
     <%= render :partial => 'silhouette' %>
-    <% if @person == @logged_in and params[:controller] == 'people' and params[:action] == 'view' %>
+    <% if @person == @logged_in %>
       <br/>
       <%= link_to 'Upload Your Picture', :action => 'edit' %>
     <% end %>

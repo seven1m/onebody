@@ -12,6 +12,19 @@
 <h1>Edit Recipe</h1>
 
 <%= start_form_tag( {:action=> "edit", :id => @recipe.id}, :multipart => true )%>
+  <div id="picture-upload">
+    <div style="text-align:center;">
+      <strong>Picture of Your Dish</strong><br/>
+      <% if @recipe.has_photo? %>
+        <%= image_tag(url_for(:action => 'photo', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %><br/>
+        <%= link_to "Remove Picture",
+          {:action => 'edit', :photo => 'remove'},
+          :post => true,
+          :confirm => 'Are you sure?' %>
+      <% end %>
+    </div>
+    <%= render :partial => 'people/photo_fields', :locals => {:object => @recipe, :name => 'Picture of Dish', :url => {:controller => 'recipes', :action => 'edit'}} %>
+  </div>
   <label for="recipe_title">Title:</label>
   <%= text_field "recipe", "title" %><br/>
   <label for="recipe_serving_size">Serving Size:</label>

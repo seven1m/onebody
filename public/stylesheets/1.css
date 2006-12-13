@@ -583,3 +583,19 @@ tr.centered td {
 tr.odd td {
 	background-color: #eee;
 }
+
+#picture-upload {
+	width: 275px;
+	float: right;
+	background-color: #eee;
+	padding: 5px;
+}
+
+#picture-upload input {
+	border: 1px solid #ccc;
+}
+
+#picture-upload .submit {
+	border-style: outset;
+	background-color: #ddd;
+}

@@ -39,6 +39,11 @@ class RecipesController < ApplicationController
     if request.post?
       if @recipe.update_attributes params[:recipe]
         flash[:notice] = 'Recipe saved.'
+        if params[:photo_url] and params[:photo_url].length > 7
+          @recipe.photo = params[:photo_url]
+        elsif params[:photo]
+          @recipe.photo = params[:photo] == 'remove' ? nil : params[:photo]
+        end
         redirect_to :action => 'view', :id => @recipe
       else
         flash[:notice] = @recipe.errors.full_messages.join('; ')
@@ -63,6 +68,11 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find params[:id]
     @recipe.tags.delete Tag.find(params[:tag_id])
     redirect_to :action => 'view', :id => @recipe
+  end
+  
+  def photo
+    @recipe = Recipe.find params[:id].to_i
+    send_photo @recipe
   end
 
 end

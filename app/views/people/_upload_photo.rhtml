@@ -1,11 +1,9 @@
 <p>
   <%= form_tag(url, {:multipart => true}) %>
-    Select a file on your computer to upload:<br/>
-    <input type="file" name="photo"/><br/>
-    Or, type a web address for your image:<br/>
-    <input name="photo_url" value="http://"/><br/>
+    <%= render :partial => 'photo_fields', :locals => {:object => object, :name => name, :url => url} %>
+    <br/>
     <strong>By clicking the button below, you certify that this photo is appropriate and not offensive to others.</strong><br/>
-    <input type="submit" value="Upload <%= name %>">
+    <input type="submit" value="Upload <%= name %>" class="submit">
     <% if object.has_photo? %>
       <br/>
       <%= link_to "Remove #{name}",
