@@ -11,7 +11,7 @@ class VersesController < ApplicationController
   end
   
   def view
-    if params[:id].to_i > 0
+    if params[:id] =~ /^\d+$/
       @verse = Verse.find params[:id]
     else
       @verse = Verse.find_by_reference params[:id]

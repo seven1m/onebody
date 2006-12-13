@@ -12,6 +12,12 @@
   </p>
 </form>
 
+<% if @logged_in.verses.include? @verse %>
+  <%= render :partial => 'add_verse' %>
+<% else %>
+  
+<% end %>
+
 <% if @verse.translation == 'WEB' %>
   <p style="font-size:90%;color:#999;">
     Scripture quotations marked "WEB" are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.

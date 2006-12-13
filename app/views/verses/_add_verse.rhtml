@@ -1,0 +1,15 @@
+<p id="add_verse_link" style="display:none;"><%= link_to_function (params[:controller] == 'verses' ? 'Add Another Verse' : 'Add a Verse'), "Element.show('add_verse')" %></p>
+<div id="add_verse">
+  <%= form_tag({:controller => 'people', :action => 'add_verse'}, :post => true) %>
+    <p>
+      Type a reference below and hit enter:<br/>
+      <%= text_field_tag :reference, nil, :style => 'border:1px solid #ccc;width:100px;', :onfocus => "this.value=''" %>
+      <%= submit_tag 'Add Verse', :style => 'width:100px;' %>
+    </p>
+  </form>
+</div>
+<script type="text/javascript">
+  Element.hide('add_verse');
+  Element.show('add_verse_link');
+  $('reference').value = 'john 3:16';
+</script>

@@ -17,8 +17,8 @@
     <% @pictures.each do |picture| %>
       <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.small.jpg"), :alt => 'click to enlarge'),
         {:controller => 'pictures', :action => 'view', :id => picture}, :title => 'click to enlarge' %>
-    <% end %>
-    <%= link_to 'More Pictures...', :controller => 'pictures' %>
+    <% end %><br/>
+    <%= link_to 'More Pictures', :controller => 'pictures' %> (or share your own)
   </p>
 <% else %>
   <p>
@@ -35,7 +35,7 @@
   <% @verses.each do |verse| %>
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
   <% end %>
-  <%= link_to 'More Verses...', :controller => 'verses' %>
+  <%= link_to 'More Verses', :controller => 'verses' %> (or share your own)
 <% else %>
   <p>
     <em>No one has shared any Bible verses yet. You can
@@ -49,7 +49,7 @@
 
 <% if @recipes.any? %>
   <%= render :partial => 'recipes/list' %>
-  <%= link_to 'More Recipes...', :controller => 'recipes' %>
+  <%= link_to 'More Recipes', :controller => 'recipes' %> (or share your own)
 <% else %>
   <p>
     <em>No one has shared any recipes yet. You can

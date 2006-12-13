@@ -195,7 +195,7 @@ class PeopleController < ApplicationController
       @logged_in.verses << verse unless @logged_in.verses.include? verse
       flash[:notice] = 'Verse saved.'
     end
-    redirect_to :action => 'view', :id => @logged_in
+    redirect_to :controller => 'verses', :action => 'view', :id => verse.reference
   end
   
   def remove_verse
