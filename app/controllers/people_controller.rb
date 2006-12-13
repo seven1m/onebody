@@ -215,7 +215,7 @@ class PeopleController < ApplicationController
   def wall_to_wall
     @person = Person.find params[:id]
     @person2 = Person.find params[:id2]
-    @messages = Message.find :all, :conditions => ['wall_id = ? or wall_id = ?', @person.id, @person2.id], :order => 'created_at desc'
+    @messages = Message.find :all, :conditions => ['(wall_id = ? and person_id = ?) or (wall_id = ? and person_id = ?)', @person.id, @person2.id, @person2.id, @person.id], :order => 'created_at desc'
   end
   
   def directory_to_pdf

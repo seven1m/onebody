@@ -69,8 +69,10 @@
 <% end %>
 
 <a name="verses"></a>
-<h2>Verses</h2>
-<%= render :partial => 'verses' %>
+<% if @person.verses.any? %>
+  <h2>Verses</h2>
+  <%= render :partial => 'verses' %>
+<% end %>
 
 <% if @person.recipes.any? %>
   <h2>Recipes</h2>
@@ -85,38 +87,42 @@
       </li>
     <% end %>
   </ul>
-  <p><%= link_to "New Recipe", :controller => "recipes", :action => "edit" %></p>
+  <% if @person == @logged_in %>
+    <p><%= link_to "New Recipe", :controller => "recipes", :action => "edit" %></p>
+  <% end %>
 <% end %>
 
 <% if @person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any? or @person.about.to_s.any? %>
   <h2>Favorites</h2>
+  <table>
+    <% if @person.activities.to_s.any? %>
+      <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
+    <% end %>
+    <% if @person.interests.to_s.any? %>
+      <tr><td>Interests:</td><td><%= linkify @person.interests, :interests %></td></tr>
+    <% end %>
+    <% if @person.music.to_s.any? %>
+      <tr><td>Music:</td><td><%= linkify @person.music, :music %></td></tr>
+    <% end %>
+    <% if @person.tv_shows.to_s.any? %>
+      <tr><td>TV Shows:</td><td><%= linkify @person.tv_shows, :tv_shows %></td></tr>
+    <% end %>
+    <% if @person.movies.to_s.any? %>
+      <tr><td>Movies:</td><td><%= linkify @person.movies, :movies %></td></tr>
+    <% end %>
+    <% if @person.books.to_s.any? %>
+      <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
+    <% end %>
+    <% if @person.quotes.to_s.any? %>
+      <tr><td>Quotes:</td><td><%= preserve_breaks @person.quotes %></td></tr>
+    <% end %>
+  </table>
 <% end %>
-<table>
-  <% if @person.activities.to_s.any? %>
-    <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
-  <% end %>
-  <% if @person.interests.to_s.any? %>
-    <tr><td>Interests:</td><td><%= linkify @person.interests, :interests %></td></tr>
-  <% end %>
-  <% if @person.music.to_s.any? %>
-    <tr><td>Music:</td><td><%= linkify @person.music, :music %></td></tr>
-  <% end %>
-  <% if @person.tv_shows.to_s.any? %>
-    <tr><td>TV Shows:</td><td><%= linkify @person.tv_shows, :tv_shows %></td></tr>
-  <% end %>
-  <% if @person.movies.to_s.any? %>
-    <tr><td>Movies:</td><td><%= linkify @person.movies, :movies %></td></tr>
-  <% end %>
-  <% if @person.books.to_s.any? %>
-    <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
-  <% end %>
-  <% if @person.quotes.to_s.any? %>
-    <tr><td>Quotes:</td><td><%= preserve_breaks @person.quotes %></td></tr>
-  <% end %>
-</table>
 
-<h2>Groups</h2>
-<%= render :partial => 'groups' %>
+<% if @person.groups.any? %>
+  <h2>Groups</h2>
+  <%= render :partial => 'groups' %>
+<% end %>
 
 <a name="wall"></a>
 <h2>Wall</h2>

@@ -7,7 +7,8 @@
 
 <h1><%=h @recipe.title %></h1>
 <p class="below-h1">
-  Added by: <%=h @recipe.person.name %> <%=h @recipe.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
+  Added by: <%= link_to @recipe.person.name, :controller => 'people', :action => 'view', :id => @recipe.person %>
+  <%=h @recipe.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
 </p>
   
 <table>
