@@ -29,6 +29,13 @@
   </div>
 <% end %>
 
+<% if @person.verses.empty? and @person.recipes.empty? and @person.pictures.empty? %>
+  <div style="width:236px;float:right;clear:right;margin-top:20px;background-color:#ddf3ff;padding:5px;border:2px solid #92d9ff;">
+    Hey! Did you know you can <%= link_to 'share', :controller => 'shares' %>
+    your favorite pictures, Bible verses, and even recipes on <%= SITE_TITLE %>?
+  </div>
+<% end %>
+
 <h1>
   <%=h @person.name %>
   <% if @logged_in.can_edit? @person %>
@@ -76,17 +83,7 @@
 
 <% if @person.recipes.any? %>
   <h2>Recipes</h2>
-  <ul>
-    <% @person.recipes.each do |recipe| %>
-      <li>
-        <%= link_to recipe.title, :controller => 'recipes', :action => 'view', :id => recipe %>
-        <% if recipe.admin? @logged_in %>
-          <%= link_to '[edit]', {:controller => 'recipes', :action => 'edit', :id => recipe}, :class => 'discreet' %>
-          <%= link_to '[delete]', {:controller => 'recipes', :action => 'delete', :id => recipe, :return_to => request.request_uri}, :post => true, :confirm => 'Are you sure you want to delete this recipe?', :class => 'discreet' %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
+  <%= render :partial => 'recipes/list', :locals => {:recipes => @person.recipes} %>
   <% if @person == @logged_in %>
     <p><%= link_to "New Recipe", :controller => "recipes", :action => "edit" %></p>
   <% end %>

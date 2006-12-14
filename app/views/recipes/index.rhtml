@@ -3,9 +3,29 @@
 <p>Share your favorite recipes with the <%= CHURCH_NAME %> family.</p>
 
 <%= render :partial => 'shares/subnav' %>
+
+<h2>Tags</h2>
+<p>The bigger the tag, the more verses it describes.</p>
+<% if @tags.any? %>
+  <div class="tag-cloud">
+    <% @tags.each do |tag| %>
+      <% begin %>
+        <span style="font-size:<%= tag.recipes.count * @factor + 9 %>pt;">
+          <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
+        </span>
+      <% rescue %>
+        <!-- tag error -->
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <p><em>No tags yet!</em></p>
+<% end %>
+
+<h2>Recipes</h2>
   
 <% if @recipes.any? %>
-  <%= render :partial => 'list' %>
+  <%= render :partial => 'list', :locals => {:recipes => @recipes} %>
 <% else %>
   <p><em>No recipes yet!</em></p>
 <% end %>

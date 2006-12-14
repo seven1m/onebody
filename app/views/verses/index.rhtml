@@ -27,7 +27,9 @@
 <h2>Verses</h2>
 
 <% if @verses.any? %>
-  <%= render :partial => 'counts' %>
+  <% @verses.each do |verse| %>
+    <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
+  <% end %>
 <% else %>
   <p><em>No verses yet!</em></p>
 <% end %>

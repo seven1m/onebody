@@ -594,3 +594,10 @@ tr.odd td {
 	border-style: outset;
 	background-color: #ddd;
 }
+
+h2 a,
+h2 a:link,
+h2 a:active,
+h2 a:visited {
+	text-decoration: underline;
+}

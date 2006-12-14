@@ -6,3 +6,8 @@
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
   <% end %>
 <% end %>
+
+<% if @tag.recipes.any? %>
+  <h2>Recipes</h2>
+  <%= render :partial => 'recipes/list', :locals => {:recipes => @tag.recipes} %>
+<% end %>

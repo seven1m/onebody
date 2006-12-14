@@ -7,7 +7,7 @@
 <%= form_tag({:action => 'add_tags', :id => @verse}, :style => 'border:none;padding:0;') %>
   <p>
     <strong>Tags:</strong>
-    <%= render :partial => 'tags', :locals => {:verse => @verse} %>
+    <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse} %>
     Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;' %>
   </p>
 </form>

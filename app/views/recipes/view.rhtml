@@ -19,6 +19,15 @@
   
 <table>
   <tr>
+    <td style="white-space:nowrap;">Tags:</td>
+    <td>
+      <%= form_tag({:action => 'add_tags', :id => @recipe}, :style => 'border:none;padding:0;margin:0;') %>
+        <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @recipe} %>
+        Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;margin:0;' %>
+      </form>
+    </td>
+  </tr>
+  <tr>
     <td style="white-space:nowrap;">Serving Size:</td>
     <td><%=h @recipe.serving_size %></td>
   </tr>

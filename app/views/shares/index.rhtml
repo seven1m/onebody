@@ -8,7 +8,10 @@
   things our members have shared with you and share some of your own!
 </p>
 
-<h2><%= link_to 'Pictures', :controller => 'pictures' %></h2>
+<h2>
+  Pictures
+  <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'pictures' %>)</span>
+</h2>
 
 <p>Random pictures uploaded by members:</p>
 
@@ -18,7 +21,7 @@
       <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.small.jpg"), :alt => 'click to enlarge'),
         {:controller => 'pictures', :action => 'view', :id => picture}, :title => 'click to enlarge' %>
     <% end %><br/>
-    <%= link_to 'More Pictures', :controller => 'pictures' %> (or share your own)
+    <%= link_to 'More Pictures', :controller => 'pictures' %>
   </p>
 <% else %>
   <p>
@@ -27,7 +30,10 @@
   </p>
 <% end %>
 
-<h2><%= link_to 'Verses', :controller => 'verses' %></h2>
+<h2>
+  Verses
+  <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'verses' %>)</span>
+</h2>
 
 <p>Random Bible verses shared by members:</p>
 
@@ -35,7 +41,7 @@
   <% @verses.each do |verse| %>
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
   <% end %>
-  <%= link_to 'More Verses', :controller => 'verses' %> (or share your own)
+  <%= link_to 'More Verses', :controller => 'verses' %>
 <% else %>
   <p>
     <em>No one has shared any Bible verses yet. You can
@@ -43,13 +49,16 @@
   </p>
 <% end %>
 
-<h2><%= link_to 'Recipes', :controller => 'recipes' %></h2>
+<h2>
+  Recipes
+  <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'recipes' %>)</span>
+</h2>
 
 <p>Random recipes shared by members:</p>
 
 <% if @recipes.any? %>
-  <%= render :partial => 'recipes/list' %>
-  <%= link_to 'More Recipes', :controller => 'recipes' %> (or share your own)
+  <%= render :partial => 'recipes/list', :locals => {:recipes => @recipes} %>
+  <%= link_to 'More Recipes', :controller => 'recipes' %>
 <% else %>
   <p>
     <em>No one has shared any recipes yet. You can

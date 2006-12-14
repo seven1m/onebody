@@ -4,6 +4,10 @@ class Verse < ActiveRecord::Base
   has_and_belongs_to_many :people
   has_and_belongs_to_many :tags, :order => 'name'
   
+  def admin?(person)
+    self.people.include? person or person.admin?
+  end
+  
   def reference=(ref)
     write_attribute :reference, Verse.normalize_reference(ref)
     lookup
@@ -18,7 +22,7 @@ class Verse < ActiveRecord::Base
     url = LS_BASE_URL + '&p=' + URI.escape(reference) + '&version=' + translation
     result = Net::HTTP.get(URI.parse(url))
     url = /<!\-\-\s*(http:\/\/api\.seek\-first\.com.+?)\s*\-\->/.match(result)[1]
-    result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/“|”/, '"').gsub(/‘|’/, "'").gsub('*', '')
+    result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/Ã¬|Ã®/, '"').gsub(/Ã«|Ã­/, "'").gsub('*', '')
     begin
        self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
     rescue

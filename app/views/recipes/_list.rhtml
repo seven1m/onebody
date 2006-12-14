@@ -4,30 +4,27 @@
 
 <% today = Date.today %>
 <table>
-  <tr><td></td><th>Name</th><th>Creator</th><th>Serves</th><th>Created</th></tr>
-  <% @recipes.each do |recipe| %>
+  <% recipes.each do |recipe| %>
     <tr>
       <td>
         <% if recipe.has_photo? %>
-          <%= link_to image_tag(url_for(:controller => 'recipes', :action => 'photo', :id => "#{recipe.id}.tn.jpg"), :alt => recipe.title, :class => 'no-border'), :controller => 'recipes', :action => "view", :id => recipe %></td>
+          <%= link_to image_tag(url_for(:controller => 'recipes', :action => 'photo', :id => "#{recipe.id}.tn.jpg"), :alt => recipe.title, :class => 'no-border'), :controller => 'recipes', :action => "view", :id => recipe %>
         <% end %>
+      </td>
       <td>
         <%= link_to recipe.title, :controller => 'recipes', :action => "view", :id => recipe %>
         <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
-      </td>
-      <td><%= link_to recipe.person.name, :controller => 'people', :action => 'view', :id => recipe.person %></td>
-      <td><%=h recipe.serving_size %></td>
-      <td><%= recipe.created_at.strftime '%m/%d/%Y' %></td>
-      <td>
+        <% unless @person %>
+          by <%= link_to recipe.person.name, :controller => 'people', :action => 'view', :id => recipe.person %>
+        <% end %>
         <% if recipe.admin? @logged_in %>
           <%= link_to "[edit]", {:controller => 'recipes', :action => "edit", :id => recipe}, :class => 'discreet' %>
           <%= link_to '[delete]', {:controller => 'recipes', :action => 'delete', :id => recipe, :return_to => request.request_uri}, :post => true, :confirm => 'Are you sure you want to delete this recipe?', :class => 'discreet' %>
         <% end %>
+        Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>
+        <br/>
+        <%= truncate h(recipe.description), 50, '...' %>
       </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td colspan="5"><%= truncate h(recipe.description), 50, '...' %></td>
     </tr>
   <% end %>
 </table>

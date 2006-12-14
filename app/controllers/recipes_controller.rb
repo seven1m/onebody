@@ -1,6 +1,13 @@
 class RecipesController < ApplicationController
   def index
     @recipe_pages, @recipes = paginate :recipes, :per_page => 10, :order => 'title'
+    biggest = Tag.find_by_sql("select count(tag_id) as num from recipes_tags where recipe_id is not null group by tag_id order by count(tag_id) desc limit 1").first.num.to_i rescue 0
+    # to get a range of point sizes between 8pt and 16pt,
+    # figure a factor to multiply by the count
+    # 1..11 + 9 (10..20)
+    @factor = biggest / 11
+    @factor = 1 if @factor.zero?
+    @tags = Tag.find :all, :conditions => '(select count(*) from recipes_tags where tag_id = tags.id and recipe_id is not null) > 0', :order => 'name'
   end
 
   def view
@@ -41,9 +48,13 @@ class RecipesController < ApplicationController
         flash[:notice] = 'Recipe saved.'
         if params[:photo_url] and params[:photo_url].length > 7
           @recipe.photo = params[:photo_url]
-        elsif params[:photo]
-          @recipe.photo = params[:photo] == 'remove' ? nil : params[:photo]
+        elsif params[:photo] and params[:photo].is_a? Tempfile
+          @recipe.photo = params[:photo]
+        elsif params[:photo] and params[:photo] == 'remove'
+          @recipe.photo = nil
         end
+        @recipe.tags.destroy_all
+        @recipe.tag_string = params[:tag_string]
         redirect_to :action => 'view', :id => @recipe
       else
         flash[:notice] = @recipe.errors.full_messages.join('; ')

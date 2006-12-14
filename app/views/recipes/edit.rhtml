@@ -27,6 +27,8 @@
   </div>
   <label for="recipe_title">Title:</label>
   <%= text_field "recipe", "title" %><br/>
+  <label for="recipe_tags">Tags:</label>
+  <%= text_field_tag "tag_string", @recipe.tags.map { |t| t.name }.join(' ') %><br/>
   <label for="recipe_serving_size">Serving Size:</label>
   <%= select "recipe", "serving_size", 1..100 %><br/>
   <label for="recipe_description">Description:</label>
