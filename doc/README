@@ -1,0 +1,26 @@
+Installation
+============
+
+Prerequisites: Ruby on Rails, MySQL, RMagick
+
+1. svn co http://svn.71m.org/svn/cedarridgefamily/trunk /where/you/want/cedarridgefamily
+2. gem install 'pdf-writer'
+3. Create a database in MySQL called "crccweb"
+4. If your MySQL root user has a password, modify config/database.yml appropriately
+5. cd /where/you/installed/cedarridgefamily
+6. rake migrate
+7. mysql -u root -p crccweb < db/crccweb.sql
+
+For development, you may run script/server and browse to http://127.0.0.1:3000
+
+For production environments, you may wish to set up some load balancing
+and such. Google is your friend.
+
+Email Forwarding
+----------------
+
+To set up the app to accept mail on a domain, set up your favorite
+mail server and create a catch-all address. In the home directory of
+the user to which this address is associated, copy the dot-forward file
+(in this directory) and rename as ".forward" (without the quotes).
+Edit the file and adjust the path to the app as appropriate.
