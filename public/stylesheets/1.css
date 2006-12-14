@@ -482,14 +482,9 @@ blockquote p {
 	border: none;
 }
 
-.message {
-	border-top: 1px solid #999;
-}
-
 .message-details {
-	width: 300px;
-	float: right;
-	text-align: right;
+        border-top: 1px solid #999;
+	background-color: #eee;
 }
 
 .member {

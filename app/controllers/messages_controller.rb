@@ -14,7 +14,7 @@ class MessagesController < ApplicationController
       end
     elsif params[:parent_id].to_i > 0
       parent = Message.find params[:parent_id]
-      @message = Message.new :parent => parent, :group_id => parent.group_id, :person => @logged_in
+      @message = Message.new :parent => parent, :group_id => parent.group_id, :person => @logged_in, :subject => "Re: #{parent.subject}"
     elsif params[:group_id]
       @message = Message.new :group_id => params[:group_id], :person => @logged_in
     else

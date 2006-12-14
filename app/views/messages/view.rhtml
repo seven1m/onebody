@@ -7,13 +7,14 @@
   <% end %>
 <% end %>
 
+<h1><%=h @message.subject %></h1>
+
 <div class="message-details">
   Message by <%= link_to @message.person.name, :controller => 'people', :action => 'view', :id => @message.person %><br/>
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
-<h1><%=h @message.subject %></h1>
 
-<p><%= preserve_breaks @message.body %></p>
+<p><%= preserve_breaks(@message.body) %></p>
 
 <% @message.children.each do |reply| %>
   <div class="message">
@@ -21,7 +22,21 @@
       Reply by <%= link_to reply.person.name, :controller => 'people', :action => 'view', :id => reply.person %><br/>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>
-    <p><%= preserve_breaks reply.body %></p>
+    <p>
+      <% if params[:show_quoted] %>
+        <%= preserve_breaks(reply.body) %>
+      <% else %>
+        <%= preserve_breaks(remove_bulk_quoting(reply.body)) %>
+        <% if reply.body.strip.split(/\n/).last =~ /^>/ %>
+          <br/>
+          <em style="color:#009;">
+            Some quoted text in this message is hidden;
+            <%= link_to 'Click here', :show_quoted => true %>
+            to show the entire message.
+          </em>
+        <% end %>
+      <% end %>
+    </p>
   </div>
 <% end %>
 
