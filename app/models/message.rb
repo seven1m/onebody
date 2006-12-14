@@ -9,8 +9,10 @@ class Message < ActiveRecord::Base
   has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :dependent => :destroy
   
   validates_presence_of :person
+  validates_presence_of :subject
+  validates_length_of :subject, :minimum => 2
   validates_presence_of :body
-  validates_length_of :body, :minimum => 1
+  validates_length_of :body, :minimum => 2
   
   def top
     top = self
