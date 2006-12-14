@@ -29,7 +29,7 @@
   </div>
 <% end %>
 
-<% if @person.verses.empty? and @person.recipes.empty? and @person.pictures.empty? %>
+<% if @person == @logged_in and (@person.verses.empty? and @person.recipes.empty? and @person.pictures.empty?) %>
   <div style="width:236px;float:right;clear:right;margin-top:20px;background-color:#ddf3ff;padding:5px;border:2px solid #92d9ff;">
     Hey! Did you know you can <%= link_to 'share', :controller => 'shares' %>
     your favorite pictures, Bible verses, and even recipes on <%= SITE_TITLE %>?
