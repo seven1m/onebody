@@ -43,6 +43,11 @@
   <% end %>
 </h1>
 
+<% if @person.mail_group == 'M' %>
+  <p class="below-h1"><em>Member</em></p>
+<% end %>
+
+
 <% content_for :subnav do %>
   <% if @logged_in.can_edit? @person %>
     <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>
@@ -89,7 +94,7 @@
   <% end %>
 <% end %>
 
-<% if @person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any? or @person.about.to_s.any? %>
+<% if @person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any? %>
   <h2>Favorites</h2>
   <table>
     <% if @person.activities.to_s.any? %>
