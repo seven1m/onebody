@@ -1,5 +1,6 @@
 <h1>Publications</h1>
 
+<% today = Date.today %> 
 <% if @publications.any? %>
   <table>
     <% @publications.each do |publication| %>
@@ -10,6 +11,7 @@
         </td>
         <td>
           <%= link_to publication.name, {:action => 'view', :id => publication}, :target => '_new' %>
+          <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
           <% if @logged_in.admin? %>
             <%= link_to '[delete]', {:action => 'delete', :id => publication}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
           <% end %>

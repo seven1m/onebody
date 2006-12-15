@@ -3,9 +3,11 @@
 <%= render :partial => 'shares/subnav' %>
 
 <p>
-  <%= SITE_TITLE %> is a place to connect and share inspirational Bible verses,
-  good recipes, and more. From here, you can browse through the collection of
-  things our members have shared with you and share some of your own!
+  <%= SITE_TITLE %> is a place to connect and share inspirational
+  <a href="#verses">Bible verses</a>, good
+  <a href="#recipes">recipes</a>, and more. From here, you can
+  browse through the collection of things our members have shared
+  and add some of your own!
 </p>
 
 <h2>
@@ -30,6 +32,7 @@
   </p>
 <% end %>
 
+<a name="verses"></a>
 <h2>
   Verses
   <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'verses' %>)</span>
@@ -49,6 +52,7 @@
   </p>
 <% end %>
 
+<a name="recipes"></a>
 <h2>
   Recipes
   <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'recipes' %>)</span>

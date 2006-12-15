@@ -1,6 +1,6 @@
 class PublicationsController < ApplicationController
   def index
-    @publications = Publication.find :all, :order => 'year(created_at) desc, month(created_at) desc, day(created_at) desc, name'
+    @publications = Publication.find :all, :order => 'created_at desc'
   end
   
   def edit
