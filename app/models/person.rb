@@ -96,7 +96,7 @@ class Person < ActiveRecord::Base
   
   def adult?
     today = Date.today
-    %w(male female man woman).include?(gender.downcase) or (birthday and birthday >= Date.new(today.year-18, today.month, today.day).to_time)
+    %w(male female man woman).include?(gender.downcase) or (birthday and birthday >= Date.new(today.year-18, today.month, today.day))
   end
   
   def member?
