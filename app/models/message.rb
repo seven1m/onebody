@@ -34,12 +34,12 @@ class Message < ActiveRecord::Base
         end
       end
       tos.each do |to|
-        Notifier.deliver_message(to, self) if to.email
+        Notifier.deliver_message(to, self) if to.email.to_s.any?
       end
     elsif to
-      Notifier.deliver_message(to, self) if to.email
+      Notifier.deliver_message(to, self) if to.email.to_s.any?
     elsif wall
-      Notifier.deliver_message(wall, self) if wall.email
+      Notifier.deliver_message(wall, self) if wall.email.to_s.any?
     end
   end
   
