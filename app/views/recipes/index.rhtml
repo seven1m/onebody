@@ -11,7 +11,7 @@
     <% @tags.each do |tag| %>
       <% begin %>
         <span style="font-size:<%= tag.recipes.count * @factor + 9 %>pt;">
-          <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
+          <%= link_to tag.name, {:controller => 'tags', :action => 'view', :id => tag.name}, :style => 'text-decoration:none;' %>
         </span>
       <% rescue %>
         <!-- tag error -->

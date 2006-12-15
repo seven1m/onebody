@@ -11,7 +11,7 @@
         <td>
           <%= link_to publication.name, {:action => 'view', :id => publication}, :target => '_new' %>
           <% if @logged_in.admin? %>
-            <%= link_to 'x', {:action => 'delete', :id => publication}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
+            <%= link_to '[delete]', {:action => 'delete', :id => publication}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
           <% end %>
           <br/>
           <%=h publication.description %>

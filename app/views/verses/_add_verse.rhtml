@@ -1,4 +1,4 @@
-<p id="add_verse_link" style="display:none;"><%= link_to_function (params[:controller] == 'verses' ? 'Add Another Verse' : 'Add a Verse'), "Element.show('add_verse')" %></p>
+<p id="add_verse_link" style="display:none;"><%= link_to_function (@verse ? 'Add Another Verse' : 'Add a Verse'), "Element.show('add_verse')" %></p>
 <div id="add_verse">
   <%= form_tag({:controller => 'people', :action => 'add_verse'}, :post => true) %>
     <p>

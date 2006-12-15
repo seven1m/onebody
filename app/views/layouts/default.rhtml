@@ -24,13 +24,13 @@
 				
 				<h1><a href="/"><%= SITE_TITLE %></a><sup style="font-size:40%">[beta]</sup><br/><span style="font-size:10pt;">&nbsp;<%=h SITE_SIMPLE_URL %> (not dot com :-)</span></h1>
 
-                                <p style="padding-top:5px;">Visit <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL %> for news, ministry info, sermon audio, etc.</p>
-				
+                                <div style="padding-top:5px;font-size:9pt;">Visit <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL %> for news, ministry info, sermon audio, etc.</div>
+
 				<ul id="nav">
 				
 				    <% if @logged_in %>
 				      <li style="float:right;font-size:smaller;color:#fff;">
-				        Signed in: <%= link_to @logged_in.name, '/' %>
+				        <%= link_to @logged_in.name, '/' %>
 				        (<%= link_to 'sign out', {:controller => 'account', :action => 'sign_out'}, :style => 'padding-left:5px;padding-right:5px;' %>)
 				      </li>
 				    <% end %>
