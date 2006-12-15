@@ -1,29 +1,47 @@
 <h1><%=h @verse.reference %> <span style="font-size:60%;color:#999;">(<%=h @verse.translation %>)</span></h1>
 
+<% content_for :sidebar do %>
+  <% if @logged_in.verses.include? @verse %>
+    <p>
+      <%= link_to 'Remove this verse', {:controller => 'people', :action => 'remove_verse', :id => @verse, :return_to => request.request_uri}, :post => true, :confirm => 'Are you sure?' %><br/>
+      from my list.
+    </p>
+  <% else %>
+    <p>
+      <%= link_to 'Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference, :return_to => request.request_uri}, :post => true %><br/>
+      to my list.
+    </p>
+  <% end %>
+  
+  <h2>Tags</h2>
+
+  <%= form_tag({:action => 'add_tags', :id => @verse}, :style => 'border:none;padding:0;') %>
+    <p>
+      <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse} %><br/>
+      Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;' %>
+    </p>
+  </form>
+  
+  <h2>People</h2>
+
+  <table>
+    <% @verse.people.each do |person| %>
+      <tr>
+        <td>
+          <a href="<%= url_for :controller => 'people', :action => 'view', :id => person %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          </a>
+        </td>
+        <td><%= link_to person.name, :controller => 'people', :action => 'view', :id => person %></td>
+      </tr>
+    <% end %>
+  </table>
+
+<% end %>
+
 <%= render :partial => 'shares/subnav' %>
 
 <p style="font-size:130%;"><%=h @verse.text %></p>
-
-<%= form_tag({:action => 'add_tags', :id => @verse}, :style => 'border:none;padding:0;') %>
-  <p>
-    <strong>Tags:</strong>
-    <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse} %>
-    Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;' %>
-  </p>
-</form>
-
-<% if @logged_in.verses.include? @verse %>
-  <p>
-    <%= link_to 'Remove this verse', {:controller => 'people', :action => 'remove_verse', :id => @verse}, :post => true, :confirm => 'Are you sure?' %>
-    from my list.
-  </p>
-  <%= render :partial => 'add_verse' %>
-<% else %>
-  <p>
-    <%= link_to 'Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference}, :post => true %>
-    to my list.
-  </p>
-<% end %>
 
 <% if @verse.translation == 'WEB' %>
   <p style="font-size:90%;color:#999;">
@@ -31,17 +49,43 @@
   </p>
 <% end %>
 
-<h2>People</h2>
+<h2>Comments</h2>
 
-<table>
-  <% @verse.people.each do |person| %>
-    <tr>
-      <td>
-        <a href="<%= url_for :controller => 'people', :action => 'view', :id => person %>">
-          <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
-        </a>
-      </td>
-      <td><%= link_to person.name, :controller => 'people', :action => 'view', :id => person %></td>
-    </tr>
-  <% end %>
-</table>
+<% if @verse.comments.any? %>
+  <table>
+    <% @verse.comments.each do |comment| %>
+      <tr>
+        <td>
+          <a href="<%= url_for :controller => 'people', :action => 'view', :id => comment.person %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => comment.person} %>
+          </a>
+        </td>
+        <td>
+          <%= link_to comment.person.name, :controller => 'people', :action => 'view', :id => comment.person %>
+          <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
+          <% if comment.admin? @logged_in %>
+            <%= link_to '[delete]', {:controller => 'comments', :action => 'delete', :id => comment}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+          <% end %>
+          <br/>
+          <%= preserve_breaks comment.text %>
+          <br/>&nbsp;
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p><em>none yet</em></p>
+<% end %>
+
+<p>
+  <%= link_to_function 'Add a comment', "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
+  about this verse. Share what it means to you, how it has helped you, or simply why you like it.
+  <div id="new_comment">
+    <%= form_tag({:controller => 'comments', :action => 'edit', :verse_id => @verse}, :post => true, :style => 'border:none;') %>
+      <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
+      <strong>Abusing the comment system will get you banned from the site.</strong><br/>
+      <%= submit_tag 'Save Comment' %>
+    </form>
+  </div>
+  <script type="text/javascript">Element.hide('new_comment'); Element.show('new_comment_link');</script>
+</p>

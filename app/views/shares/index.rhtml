@@ -15,8 +15,6 @@
   <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'pictures' %>)</span>
 </h2>
 
-<p>Random pictures uploaded by members:</p>
-
 <% if @pictures.any? %>
   <p>
     <% @pictures.each do |picture| %>
@@ -38,8 +36,6 @@
   <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'verses' %>)</span>
 </h2>
 
-<p>Random Bible verses shared by members:</p>
-
 <% if @verses.any? %>
   <% @verses.each do |verse| %>
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
@@ -57,8 +53,6 @@
   Recipes
   <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'recipes' %>)</span>
 </h2>
-
-<p>Random recipes shared by members:</p>
 
 <% if @recipes.any? %>
   <%= render :partial => 'recipes/list', :locals => {:recipes => @recipes} %>

@@ -571,8 +571,7 @@ tr.centered td {
 }
 
 .verse-body {
-	background-color: #eee;
-	padding: 4px 0 4px 0;
+	margin-bottom:10px;
 }
 
 tr.odd td {

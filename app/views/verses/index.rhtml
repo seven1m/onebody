@@ -6,25 +6,24 @@
 
 <%= render :partial => 'add_verse' %>
 
-<h2>Tags</h2>
-<p>The bigger the tag, the more verses it describes.</p>
-<% if @tags.any? %>
-  <div class="tag-cloud">
-    <% @tags.each do |tag| %>
-      <% begin %>
-        <span style="font-size:<%= tag.verses.count * @factor + 9 %>pt;">
-          <%= link_to tag.name, {:controller => 'tags', :action => 'view', :id => tag.name}, :style => 'text-decoration:none;' %>
-        </span>
-      <% rescue %>
-        <!-- tag error -->
+<% content_for :sidebar do %>
+  <h2>Tags</h2>
+  <% if @tags.any? %>
+    <div class="tag-cloud">
+      <% @tags.each do |tag| %>
+        <% begin %>
+          <span style="font-size:<%= tag.verses.count * @factor + 9 %>pt;">
+            <%= link_to tag.name, {:controller => 'tags', :action => 'view', :id => tag.name}, :style => 'text-decoration:none;' %>
+          </span>
+        <% rescue %>
+          <!-- tag error -->
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-<% else %>
-  <p><em>No tags yet!</em></p>
+    </div>
+  <% else %>
+    <p><em>No tags yet!</em></p>
+  <% end %>
 <% end %>
-
-<h2>Verses</h2>
 
 <% if @verses.any? %>
   <% @verses.each do |verse| %>

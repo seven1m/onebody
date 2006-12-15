@@ -3,6 +3,7 @@ require 'net/http'
 class Verse < ActiveRecord::Base
   has_and_belongs_to_many :people
   has_and_belongs_to_many :tags, :order => 'name'
+  has_many :comments
   
   def admin?(person)
     self.people.include? person or person.admin?

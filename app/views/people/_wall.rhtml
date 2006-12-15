@@ -3,7 +3,7 @@
     The <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %> is a place
     for people to post messages for you.
   <% else %>
-    <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();" %>
+    <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();", :id => 'wall_message_link', :style => 'display:none;' %>
     on <%= @person.name_possessive %> <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %>.
     <div id="wall_message">
       <%= form_tag({:action => 'wall_post', :id => @person}, :post => true, :style => 'border:none;') %>

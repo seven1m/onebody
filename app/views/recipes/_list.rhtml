@@ -12,7 +12,7 @@
         <% end %>
       </td>
       <td>
-        <%= link_to recipe.title, :controller => 'recipes', :action => "view", :id => recipe %>
+        <strong><%= link_to recipe.title, :controller => 'recipes', :action => "view", :id => recipe %></strong>
         <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
         <% unless @person %>
           by <%= link_to recipe.person.name, :controller => 'people', :action => 'view', :id => recipe.person %>
