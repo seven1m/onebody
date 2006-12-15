@@ -13,9 +13,16 @@
 </form>
 
 <% if @logged_in.verses.include? @verse %>
+  <p>
+    <%= link_to 'Remove this verse', {:controller => 'people', :action => 'remove_verse', :id => @verse}, :post => true, :confirm => 'Are you sure?' %>
+    from my list.
+  </p>
   <%= render :partial => 'add_verse' %>
 <% else %>
-  
+  <p>
+    <%= link_to 'Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference}, :post => true %>
+    to my list.
+  </p>
 <% end %>
 
 <% if @verse.translation == 'WEB' %>
