@@ -25,6 +25,7 @@ class Verse < ActiveRecord::Base
     result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/ì|î/, '"').gsub(/ë|í/, "'").gsub('*', '')
     begin
        self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
+       self.text.gsub!(/\223|\224/, '"').gsub!(/\221|\222/, "'")
     rescue
       nil
     end
