@@ -18,7 +18,7 @@
 			  <%= form_tag({:controller => 'people', :action => 'search'}, {:method => 'get'}) %>
 			    Type a name and hit <strong>enter</strong>:<br/>
 				  <input name="quick_name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
-				</form>
+			</form>
 				
 				<script type="text/javascript"> $('search_name').value = 'People Search' </script>
 				
@@ -51,10 +51,13 @@
         <% if subnav = yield(:subnav) or flash[:notice] %>
           <div id="subnav">
             <%= subnav %>
-            <% if flash[:notice] %><br/><span id="notice"><%= flash[:notice] %></span><% end %>
           </div>
         <% end %>
 		</div>
+
+                <% if flash[:notice] %>
+                  <div id="notice"><%= flash[:notice] %></div>
+                <% end %>
 		
 		<% if wide = yield(:wide) %>
   		<div id="wide">

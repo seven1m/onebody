@@ -8,7 +8,7 @@
     carrier. <span style="color:red">Do not start this verification process until you know
     what you will be charged to receive a text message!</span></strong>
   </p>
-  <form method="post" style="width:320px;">
+  <form method="post" style="width:320px;" onsubmit="return confirm('Your mobile carrier may and probably will charge you to receive this text message. Click OK to continue.')">
     <p>
       <label for="mobile">Type your mobile phone number here:</label>
       <%= text_field_tag :mobile, params[:mobile] %><br/>
