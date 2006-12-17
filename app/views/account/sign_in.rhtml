@@ -1,19 +1,28 @@
-<p>
-  <%= image_tag 'directory.gif', :alt => 'Member Directory' %>
-  <%= image_tag 'group.medium.jpg', :alt => 'Groups' %>
-  <%= image_tag 'camera.gif', :alt => 'Pictures' %>
-  <%= image_tag 'event.medium.gif', :alt => 'Service' %>
-</p>
+<!--
+  <p>
+    <%= image_tag 'directory.gif', :alt => 'Member Directory' %>
+    <%= image_tag 'group.medium.jpg', :alt => 'Groups' %>
+    <%= image_tag 'camera.gif', :alt => 'Pictures' %>
+    <%= image_tag 'event.medium.gif', :alt => 'Service' %>
+  </p>
+-->
 
 <p>
-  <strong>Welcome to the site for regular attenders and members of <%= CHURCH_NAME %>.</strong>
+  <strong>Welcome to the site for
+  <span style="color:#f00;">members and regular attenders</span>
+  of <%= CHURCH_NAME %>.</strong>
   For information about classes, to download sermons, find out what our church believes,
-  practices, and so much more, <%= link_to 'visit our main website', VISITOR_URL %>.
+  practices, and so much more, visit our main website:
+  <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL %>.
 </p>
 
 <h2>Please sign in.</h2>
 
 <form method="post">
+  <div style="width:150px;float:right;margin:10px;text-align:center;">
+    <%= link_to image_tag('help.gif', :alt => 'Help Signing In', :class => 'no-border'), :action => 'help' %><br/>
+    <%= link_to 'I need help.', :action => 'help' %>
+  </div>
   <table>
     <tr><td><label for="email">Email Address:</label></td>
     <td>
@@ -25,8 +34,8 @@
     <tr><td></td>
     <td>
       <input type="submit" value="Sign In"/><br/>
-      If you don't know your password or you've never logged in before,
-      <%= link_to 'click here', :action => 'verify_email' %>.
+      If you don't know your password or you've never signed in before,
+      <%= link_to 'click here', :action => 'help' %>.
     </td></tr>
   </table>
 </form>

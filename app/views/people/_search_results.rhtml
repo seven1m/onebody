@@ -21,6 +21,9 @@
       <% if @show_birthdays %>
         <th>Birthday</th>
       <% end %>
+      <% if @logged_in.admin? %>
+        <th>Mail Group</th>
+      <% end %>
     </tr>
     <% @people.each do |person| %>
       <tr>
@@ -44,8 +47,11 @@
         <% if @show_birthdays %>
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
         <% end %>
+        <% if @logged_in.admin? %>
+          <td><%= person.mail_group %></td>
+        <% end %>
         <td>
-          <% unless @logged_in.people.include? person or @logged_in == person %>
+          <% unless @logged_in.people.include? person or @logged_in == person or not @logged_in.member? %>
             <%= link_to_remote 'add to contacts', {:url => {:action => 'add_contact', :id => person}}, :class => 'discreet', :id => "add_contact_#{person.id}" %>
           <% end %>
         </td>

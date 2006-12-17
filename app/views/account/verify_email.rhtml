@@ -12,17 +12,4 @@
     </p>
     <p><%= submit_tag 'Verify Email', :style => 'font-size:12pt;border-style:outset;border-width:2px;' %></p>
   </form>
-  <p>
-    If you have been attending <%= CHURCH_NAME %> recently, you've filled out
-    an attendance tear strip, and we don't have your email address on file,
-    you can do one of the following:
-  </p>
-  <ul>
-    <li><%= link_to 'Verify by mobile phone.', :action => 'verify_mobile' %>
-      <em>Text messaging fees may apply.</em></li>
-    <li><%= link_to 'Verify by birthday.', :action => 'verify_birthday' %>
-      <em>These submissions are reviewed by a real person and may take a few
-      days to be approved.</em></li>
-    <li>Call the church office at <%= CHURCH_OFFICE_PHONE %> during church office hours.</li>
-  </ul>
 <% end %>

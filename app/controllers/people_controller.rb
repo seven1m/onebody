@@ -14,6 +14,7 @@ class PeopleController < ApplicationController
     @family = @person.family
     if not @logged_in.sees? @person
       render :text => 'You are not authorized to view this person.', :layout => true
+      return
     elsif not @logged_in.member?
       render :action => 'limited_view'
     end
@@ -64,6 +65,10 @@ class PeopleController < ApplicationController
         @show_service = true
         conditions.add_condition ["people.service_name is not null and people.service_name != ''"]
       end
+      unless @logged_in.admin?
+        mg = MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.map { |m| "'#{m}'" }.join(',')
+        conditions.add_condition ["people.mail_group in (#{mg})"]
+      end
       conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.member?
       conditions.add_condition ["MONTH(people.birthday) = ?", params[:birthday_month].to_i] if params[:birthday_month].to_s.any?
       conditions.add_condition ["DAY(people.birthday) = ?", params[:birthday_day].to_i] if params[:birthday_day].to_s.any?
@@ -80,19 +85,20 @@ class PeopleController < ApplicationController
         conditions = nil if conditions.empty?
         @count = Person.count :conditions => conditions, :include => :family
         @pages = Paginator.new self, @count, 100, params[:page]
-        @people = Person.find :all,
+        @people = Person.find(
+          :all,
           :conditions => conditions,
           :include => :family,
           :order => 'people.last_name, people.first_name',
           :limit => @pages.items_per_page,
           :offset => @pages.current.offset
-        # ensure we don't show something that's private
-        @people = @people.select do |person|
-          return false if person.nil?
-          return false if (params[:birthday_month].to_s.any? or params[:birthday_day].to_s.any?) and not person.share_birthday_with(@logged_in)
-          return false if (params[:anniversary_month].to_s.any? or params[:anniversary_day].to_s.any?) and not person.share_anniversary_with(@logged_in)
-          return false if (params[:city].to_s.any? or params[:state].to_s.any? or params[:zip].to_s.any?) and not person.share_address_with(@logged_in)
-          true
+        ).select do |person| # ensure we don't show someone based on a search on an attribute that's private
+          !(person.nil? \
+            or !@logged_in.sees?(person) \
+            or ((params[:birthday_month].to_s.any? or params[:birthday_day].to_s.any?) and not person.share_birthday_with(@logged_in)) \
+            or ((params[:anniversary_month].to_s.any? or params[:anniversary_day].to_s.any?) and not person.share_anniversary_with(@logged_in)) \
+            or ((params[:city].to_s.any? or params[:state].to_s.any? or params[:zip].to_s.any?) and not person.share_address_with(@logged_in))
+          )
         end
       end
     end

@@ -51,15 +51,27 @@ class AccountController < ApplicationController
     end
   end
   
+  def help
+  end
+  
+  def bad_status
+  end
+  
   def verify_email
-    if request.post? and params[:email].to_s.any?
-      if Person.find_by_email(params[:email]) or Family.find_by_email(params[:email])
-        v = Verification.create :email => params[:email]
-        if v.errors.any?
-          render :text => v.errors.full_messages.join('; '), :layout => true
+    if params[:email].to_s.any?
+      person = Person.find_by_email(params[:email])
+      family = Family.find_by_email(params[:email])
+      if person or family
+        if (person and MAIL_GROUPS_CAN_LOG_IN.include? person.mail_group) or (family and family.people.any? and MAIL_GROUPS_CAN_LOG_IN.include? family.people.first.mail_group)
+          v = Verification.create :email => params[:email]
+          if v.errors.any?
+            render :text => v.errors.full_messages.join('; '), :layout => true
+          else
+            Notifier.deliver_email_verification(v)
+            render :text => 'The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)', :layout => true
+          end
         else
-          Notifier.deliver_email_verification(v)
-          render :text => 'The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)', :layout => true
+          redirect_to :action => 'bad_status'
         end
       else
         flash[:notice] = "That email address could not be found in our system. If you have another address, try again."
@@ -70,17 +82,22 @@ class AccountController < ApplicationController
   def verify_mobile
     if request.post? and params[:mobile].to_s.any? and params[:carrier].to_s.any?
       mobile = params[:mobile].scan(/\d/).join('').to_i
-      if Person.find_by_mobile_phone(mobile)
-        unless gateway = MOBILE_GATEWAYS[params[:carrier]]
-          raise 'Error.'
-        end
-        v = Verification.create :email => gateway % mobile, :mobile_phone => mobile
-        if v.errors.any?
-          render :text => v.errors.full_messages.join('; '), :layout => true
+      person = Person.find_by_mobile_phone(mobile)
+      if person
+        if MAIL_GROUPS_CAN_LOG_IN.include? person.mail_group
+          unless gateway = MOBILE_GATEWAYS[params[:carrier]]
+            raise 'Error.'
+          end
+          v = Verification.create :email => gateway % mobile, :mobile_phone => mobile
+          if v.errors.any?
+            render :text => v.errors.full_messages.join('; '), :layout => true
+          else
+            Notifier.deliver_mobile_verification(v)
+            flash[:notice] = 'The verification message has been sent. Please check your phone and enter the code you receive.'
+            redirect_to :action => 'verify_code', :id => v.id
+          end
         else
-          Notifier.deliver_mobile_verification(v)
-          flash[:notice] = 'The verification message has been sent. Please check your phone and enter the code you receive.'
-          redirect_to :action => 'verify_code', :id => v.id
+          redirect_to :action => 'bad_status'
         end
       else
         flash[:notice] = "That mobile number could not be found in our system. You may try again."
@@ -89,13 +106,12 @@ class AccountController < ApplicationController
   end
   
   def verify_birthday
-    if request.post? and params[:name].to_s.any? and params[:email].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
-      v = Verification.create :email => params[:email]
-      if v.errors.any?
-        render :text => v.errors.full_messages.join('; '), :layout => true
-      else
-        Notifier.deliver_birthday_verification(params, v)
+    if request.post? 
+      if params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
+        Notifier.deliver_birthday_verification(params)
         render :text => 'Your submission will be reviewed as soon as possible. You will receive an email once you have been approved.', :layout => true
+      else
+        flash[:notice] = 'You must complete all the required fields.'
       end
     end
   end

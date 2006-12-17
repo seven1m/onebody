@@ -45,11 +45,10 @@ class Notifier < ActionMailer::Base
     body :verification => verification
   end
   
-  def birthday_verification(params, verification)
+  def birthday_verification(params)
     recipients BIRTHDAY_VERIFICATION_EMAIL
-    from verification.email
+    from params[:email]
     subject "Birthday Verification"
-    params[:verification] = verification
     body params
   end
   

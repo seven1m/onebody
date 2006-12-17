@@ -5,12 +5,18 @@ class ApplicationController < ActionController::Base
 
   layout 'default'
   
-  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person']
+  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'help', 'bad_status']
   
   private
     def authenticate_user
       if id = session[:logged_in_id]
-        @logged_in = Person.find id
+        person = Person.find(id)
+        unless MAIL_GROUPS_CAN_LOG_IN.include? person.mail_group
+          session[:logged_in_id] = nil
+          redirect_to :controller => 'account', :action => 'bad_status'
+          return
+        end
+        @logged_in = person
         session[:logged_in_name] = @logged_in.name
         unless @logged_in.email
           redirect_to :controller => 'account', :action => 'change_email_and_password'

@@ -38,15 +38,13 @@
 
 <h1>
   <%=h @person.name %>
+  <% if @person.mail_group == 'M' %>
+    <span style="font-size:10pt;">(Member)</span>
+  <% end %>
   <% if @logged_in.can_edit? @person %>
     <%= link_to 'edit', {:action => 'edit', :id => @person}, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
   <% end %>
 </h1>
-
-<% if @person.mail_group == 'M' %>
-  <p class="below-h1"><em>Member</em></p>
-<% end %>
-
 
 <% content_for :subnav do %>
   <% if @logged_in.can_edit? @person %>

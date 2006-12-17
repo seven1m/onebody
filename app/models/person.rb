@@ -17,6 +17,17 @@ class Person < ActiveRecord::Base
   validates_length_of :password, :minimum => 5, :allow_nil => true
   validates_confirmation_of :password
   
+  validates_each :email, :allow_nil => true do |record, attribute, value|
+    if attribute.to_s == 'email'
+      if Person.count(:conditions => ['LCASE(email) = ? and family_id != ?', value.downcase, record.family_id]) > 0
+        record.errors.add attribute, 'already taken by someone else.'
+      end
+      if value !~ /^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+        record.errors.add attribute, 'not a valid email address.'
+      end
+    end
+  end
+  
   def name
     if suffix
       "#{first_name} #{last_name}, #{suffix}" rescue '???'
@@ -68,11 +79,15 @@ class Person < ActiveRecord::Base
   def city; family.city; end
   def state; family.state; end
   def zip; family.zip; end
-  #def anniversary; family.anniversary; end
   
   def can_see?(what)
     if what.is_a? Person
-      member? or what.adult?
+      admin? or
+      (
+        MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.include? what.mail_group \
+        and
+        (member? or what.adult?)
+      )
     elsif what.is_a? Group
       not what.private? or what.people.include? self or what.admin? self
     else
@@ -96,7 +111,7 @@ class Person < ActiveRecord::Base
   
   def adult?
     today = Date.today
-    %w(male female man woman).include?(gender.downcase) or (birthday and birthday >= Date.new(today.year-18, today.month, today.day))
+    %w(male female man woman).include?(gender.downcase) or (birthday and birthday <= Date.new(today.year-18, today.month, today.day))
   end
   
   def member?
