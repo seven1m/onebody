@@ -25,7 +25,11 @@ class Group < ActiveRecord::Base
   end
   
   def admin?(person)
-    person.admin? or admins.include? person
+    if private?
+      admins.include? person
+    else
+      person.admin? or admins.include? person
+    end
   end
   
   def last_admin?(person)

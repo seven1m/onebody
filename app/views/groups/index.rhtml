@@ -23,13 +23,13 @@
     <% @groups.each do |group| %>
       <tr>
         <td class="icon">
-          <% unless group.private? and not group.people.include? @logged_in %><a href="<%= url_for :action => 'view', :id => group %>"><% end %>
+          <% if @logged_in.sees? group %><a href="<%= url_for :action => 'view', :id => group %>"><% end %>
             <% if group.has_photo? %>
               <%= image_tag url_for(:action => 'photo', :id => "#{group.id}.small.jpg"), :alt => group.name %>
             <% else %>
               <%= image_tag 'group.small.jpg', :alt => group.name %>
             <% end %>
-          <% unless group.private? and not group.people.include? @logged_in %></a><% end %>
+          <% if @logged_in.sees? group %></a><% end %>
         </td>
         <td>
           <span class="list-heading">
@@ -42,7 +42,7 @@
           </span>
           <% if group.admin?(@logged_in) %>
             <%= link_to 'edit', {:action => 'edit', :id => group}, :class => 'discreet' %>
-            <% if group.link_code.to_s.any? %>
+            <% if group.linked? %>
               <%= image_tag 'link.png', :alt => group.link_code, :class => 'no-border', :style => 'vertical-align:middle;' %>
             <% end %>
           <% end %>
