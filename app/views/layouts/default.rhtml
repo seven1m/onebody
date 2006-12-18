@@ -22,9 +22,12 @@
 				
 				<script type="text/javascript"> $('search_name').value = 'People Search' </script>
 				
-				<h1><a href="/"><%= SITE_TITLE %></a><sup style="font-size:40%">[beta]</sup><br/><span style="font-size:10pt;">&nbsp;<%=h SITE_SIMPLE_URL %> (not dot com :-)</span></h1>
+				<h1>
+				  <a href="/"><%= SITE_TITLE %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %><br/>
+				  <span style="font-size:10pt;">&nbsp;<%=h SITE_SIMPLE_URL %></span>
+				</h1>
 
-                                <div style="padding-top:5px;font-size:9pt;">Visit <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL %> for news, ministry info, sermon audio, etc.</div>
+        <div style="padding-top:5px;font-size:9pt;"><%= HEADER_MESSAGE %></div>
 
 				<ul id="nav">
 				

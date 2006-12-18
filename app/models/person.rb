@@ -8,6 +8,8 @@ class Person < ActiveRecord::Base
   has_many :messages
   has_many :wall_messages, :class_name => 'Message', :foreign_key => 'wall_id', :order => 'created_at desc'
   has_many :recipes, :order => 'title'
+  has_many :updates, :order => 'created_at'
+  has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
   has_and_belongs_to_many :verses
   
   acts_as_password
@@ -119,7 +121,6 @@ class Person < ActiveRecord::Base
   end
   
   def admin?
-    return false
     @admin ||= ADMIN_CHECK.call(self)
   end
   

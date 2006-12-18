@@ -46,6 +46,13 @@
   <% end %>
 </h1>
 
+<% if @person.pending_updates.count > 0 and @logged_in == @person %>
+  <p>
+    <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'no-border', :style => 'vertical-align:middle;' %>
+    The update to your profile is pending approval.
+  </p>
+<% end %>
+
 <% content_for :subnav do %>
   <% if @logged_in.can_edit? @person %>
     <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>

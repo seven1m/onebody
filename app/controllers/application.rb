@@ -60,4 +60,11 @@ class ApplicationController < ActionController::Base
         number
       end
     end
+    
+    def only_admins
+      unless @logged_in.admin?
+        render :text => 'You must be an administrator to use this section.', :layout => true
+        return false
+      end
+    end
 end

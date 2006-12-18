@@ -134,7 +134,13 @@ class PeopleController < ApplicationController
       elsif params[:photo]
         @person.photo = params[:photo] == 'remove' ? nil : params[:photo]
       elsif params[:person] and params[:person][:first_name]
-        Notifier.deliver_profile_update @person, params[:person]
+        params[:person][:birthday] = params[:person][:birthday].to_date
+        params[:person][:anniversary] = params[:person][:anniversary].to_date
+        updates = keep_changes(params[:person], @person)
+        updates[:birthday] = Date.new(1800, 1, 1) if updates.has_key?(:birthday) and updates[:birthday].nil?
+        updates[:anniversary] = Date.new(1800, 1, 1) if updates.has_key?(:anniversary) and updates[:anniversary].nil?
+        @person.updates.create(updates)
+        Notifier.deliver_profile_update(@person, updates)
         flash[:notice] = 'Changes submitted.'
       else # testimony, about, favorites, etc.
         if params[:person][:website] and params[:person][:website] !~ /^http:\/\//
@@ -318,4 +324,12 @@ class PeopleController < ApplicationController
     
     send_data pdf.to_s, :disposition => 'inline', :type => 'application/pdf', :filename => 'church_directory.pdf'
   end
+  
+  private
+  
+    def keep_changes(updates, person)
+      updates.delete_if do |key, value|
+        value.to_s == person.send(key).to_s
+      end
+    end
 end

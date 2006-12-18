@@ -2,33 +2,20 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 22) do
-
-  create_table "actions", :force => true do |t|
-    t.column "person_id", :integer
-    t.column "family_id", :integer
-    t.column "verse_id", :integer
-    t.column "comment_id", :integer
-    t.column "recipe_id", :integer
-    t.column "picture_id", :integer
-    t.column "group_id", :integer
-    t.column "description", :string
-    t.column "contact_id", :integer
-    t.column "message_id", :integer
-    t.column "created_at", :datetime
-    t.column "duplicate", :boolean, :default => false, :null => false
-  end
+ActiveRecord::Schema.define(:version => 23) do
 
   create_table "comments", :force => true do |t|
     t.column "verse_id", :integer
     t.column "person_id", :integer
     t.column "text", :text
     t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "contacts", :force => true do |t|
     t.column "person_id", :integer
     t.column "owner_id", :integer
+    t.column "updated_at", :datetime
   end
 
   create_table "events", :force => true do |t|
@@ -39,6 +26,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "created_at", :datetime
     t.column "open", :boolean, :default => false
     t.column "admins", :text
+    t.column "updated_at", :datetime
   end
 
   create_table "families", :force => true do |t|
@@ -62,6 +50,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "share_anniversary", :boolean, :default => true
     t.column "legacy_id", :integer
     t.column "mail_group", :string, :limit => 1
+    t.column "updated_at", :datetime
   end
 
   create_table "groups", :force => true do |t|
@@ -79,6 +68,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "private", :boolean, :default => false
     t.column "category", :string, :limit => 50
     t.column "leader_id", :integer
+    t.column "updated_at", :datetime
   end
 
   create_table "legacy_people", :force => true do |t|
@@ -128,6 +118,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "share_birthday", :boolean
     t.column "share_anniversary", :boolean
     t.column "get_email", :boolean, :default => true
+    t.column "updated_at", :datetime
     t.column "code", :integer
   end
 
@@ -141,12 +132,14 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "body", :text
     t.column "share_email", :boolean, :default => false
     t.column "wall_id", :integer
+    t.column "to_id", :integer
   end
 
   create_table "ministries", :force => true do |t|
     t.column "admin_id", :integer
     t.column "name", :string, :limit => 100
     t.column "description", :text
+    t.column "updated_at", :datetime
   end
 
   create_table "people", :force => true do |t|
@@ -188,6 +181,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "email_changed", :boolean, :default => false
     t.column "suffix", :string, :limit => 25
     t.column "anniversary", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "people_verses", :id => false, :force => true do |t|
@@ -200,6 +194,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "person_id", :integer
     t.column "created_at", :datetime
     t.column "cover", :boolean, :default => false, :null => false
+    t.column "updated_at", :datetime
   end
 
   create_table "publications", :force => true do |t|
@@ -207,10 +202,10 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "description", :text
     t.column "created_at", :datetime
     t.column "file", :string
+    t.column "updated_at", :datetime
   end
 
   create_table "recipes", :force => true do |t|
-    t.column "person_id", :integer
     t.column "title", :string
     t.column "notes", :text
     t.column "description", :text
@@ -218,14 +213,15 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "directions", :text
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
+    t.column "person_id", :integer
     t.column "prep", :string
     t.column "bake", :string
     t.column "serving_size", :integer
   end
 
   create_table "recipes_tags", :id => false, :force => true do |t|
-    t.column "tag_id", :integer
     t.column "recipe_id", :integer
+    t.column "tag_id", :integer
   end
 
   create_table "sessions", :force => true do |t|
@@ -238,11 +234,31 @@ ActiveRecord::Schema.define(:version => 22) do
 
   create_table "tags", :force => true do |t|
     t.column "name", :string, :limit => 50
+    t.column "updated_at", :datetime
   end
 
   create_table "tags_verses", :id => false, :force => true do |t|
     t.column "tag_id", :integer
     t.column "verse_id", :integer
+  end
+
+  create_table "updates", :force => true do |t|
+    t.column "person_id", :integer
+    t.column "first_name", :string
+    t.column "last_name", :string
+    t.column "home_phone", :integer, :limit => 20
+    t.column "mobile_phone", :integer, :limit => 20
+    t.column "work_phone", :integer, :limit => 20
+    t.column "fax", :integer, :limit => 20
+    t.column "address1", :string
+    t.column "address2", :string
+    t.column "city", :string
+    t.column "state", :string, :limit => 2
+    t.column "zip", :string, :limit => 10
+    t.column "birthday", :datetime
+    t.column "anniversary", :datetime
+    t.column "created_at", :datetime
+    t.column "complete", :boolean, :default => false
   end
 
   create_table "verifications", :force => true do |t|
@@ -251,6 +267,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "email", :string
     t.column "code", :integer
     t.column "mobile_phone", :integer, :limit => 20
+    t.column "updated_at", :datetime
   end
 
   create_table "verses", :force => true do |t|
@@ -258,6 +275,7 @@ ActiveRecord::Schema.define(:version => 22) do
     t.column "text", :text
     t.column "translation", :string, :limit => 10
     t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "workers", :force => true do |t|

@@ -65,7 +65,7 @@ require 'params_tools'
 ActionMailer::Base.server_settings = {
   :address  => 'localhost',
   :port  => 25,
-  :domain => 'cedar.ridge.cc',
+  :domain => 'crccfamily.com',
 }
 
 YAHOO_APP_ID = 'cedar_ridge_christian_church'
@@ -73,8 +73,8 @@ YAHOO_APP_ID = 'cedar_ridge_christian_church'
 CHURCH_NAME = 'Cedar Ridge Christian Church'
 CHURCH_OFFICE_PHONE = '(918) 254-0621'
 SITE_TITLE = 'Cedar Ridge Family'
-SITE_SIMPLE_URL = 'cedar.ridge.cc'
-SITE_URL = "http://#{SITE_SIMPLE_URL}/"
+SITE_SIMPLE_URL = 'crccfamily.com'
+SITE_URL = "http://www.#{SITE_SIMPLE_URL}/"
 VISITOR_SIMPLE_URL = 'cedarridgecc.com'
 VISITOR_URL = "http://www.#{VISITOR_SIMPLE_URL}"
 MONTHS = [
@@ -91,6 +91,7 @@ MONTHS = [
   ['November',  11],
   ['December',  12],
 ]
+YEARS = (Date.today.year-120)..Date.today.year
 PHOTO_SIZES = {
   :tn => '32x32',
   :small => '75x75',
@@ -101,8 +102,8 @@ SITE_MAIL_DESCRIPTION = 'One user can send a message to another via this site. T
 WALL_DESCRIPTION = 'The Wall is a place for people to post friendly messages for everyone to see. The messages are not private (except that you must be signed in). Think of it like a guestbook.'
 SEND_UPDATES_TO = 'seven1m@gmail.com'
 BIRTHDAY_VERIFICATION_EMAIL = 'seven1m@gmail.com'
-SYSTEM_NOREPLY_EMAIL = 'no-reply@cedar.ridge.cc'
-GROUP_ADDRESS_DOMAIN = 'cedar.ridge.cc'
+SYSTEM_NOREPLY_EMAIL = 'no-reply@crccfamily.com'
+GROUP_ADDRESS_DOMAIN = 'crccfamily.com'
 TECH_SUPPORT_CONTACT = 'Tim Morgan (tim@timmorgan.org)'
 ADMIN_CHECK = Proc.new do |person|
   person.email =~ /@cedarridgecc.com$/ or person.classes.split(',').include?('EL') or person.email =~ /^tim@timmorgan/
@@ -111,6 +112,7 @@ DAYS_NEW = 7
 MAIL_GROUPS_CAN_LOG_IN = %w(M A P Y O C V)
 MAIL_GROUPS_VISIBLE_BY_NON_ADMINS = MAIL_GROUPS_CAN_LOG_IN
 SITE_INTRO_FOR_EMAIL = "#{SITE_TITLE} (#{SITE_URL}) is a brand new site that connects members online. The site is currently in \"beta\" -- we're testing it out and finding bugs. You're welcome to sign in too, and help us improve the system!"
+HEADER_MESSAGE = "Visit <a href=\"#{VISITOR_URL}\">#{VISITOR_SIMPLE_URL}</a> for news, ministry info, sermon audio, etc."
 MAX_DAILY_VERIFICATION_ATTEMPTS = 3
 MOBILE_GATEWAYS = {
   'AT&T' => '%s@mobile.att.net',
@@ -123,7 +125,8 @@ MOBILE_GATEWAYS = {
   'Verizon' => '%s@vtext.com',
   'Virgin Mobile' => '%s@vmobl.com',
 }
+BETA = true
 
 ExceptionNotifier.exception_recipients = %w(seven1m@gmail.com)
 ExceptionNotifier.sender_address =
-  %("Rails App Error" <app-error@cedar.ridge.cc>)
+  %("Rails App Error" <app-error@crccfamily.com>)

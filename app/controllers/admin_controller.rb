@@ -1,4 +1,6 @@
 class AdminController < ApplicationController
+  before_filter :only_admins
+  
   RECORD_LIMIT = 100
   
   def log
@@ -23,6 +25,16 @@ class AdminController < ApplicationController
     @items << Tag.find(:all, :limit => RECORD_LIMIT, :order => 'updated_at desc')
     @items.flatten!
     @items.sort! { |a, b| b.updated_at.strftime('%Y%m%d%H%M%S') <=> a.updated_at.strftime('%Y%m%d%H%M%S') }
+  end
+  
+  def updates
+    @updates = Update.find_all_by_complete(params[:complete] == 'true')
+  end
+  
+  def toggle_complete
+    @update = Update.find params[:id]
+    @update.toggle! :complete
+    redirect_to :action => 'updates'
   end
 end
 

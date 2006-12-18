@@ -118,10 +118,11 @@
   <label for="person_zip">Zip Code:</label>
   <%= form.text_field :zip %><br/>
   <label for="person_birthday">Birthday:</label>
-  <%= text_field_tag 'person[birthday]', @person.birthday ? @person.birthday.strftime('%m/%d/%Y') : nil, :id => 'person_birthday' %>
+  <% this_year = Date.today.year %>
+  <%= select_a_date 'person[birthday]', 'person_birthday', @person.birthday %>
   <em>the year is never shown</em><br/>
   <label for="person_anniversary">Anniversary:</label>
-  <%= text_field_tag 'person[anniversary]', @person.anniversary ? @person.anniversary.strftime('%m/%d/%Y') : nil, :id => 'person_anniversary' %>
+  <%= select_a_date 'person[anniversary]', 'person_anniversary', @person.anniversary %>
   <em>the year is never shown</em>
   </div>
   
