@@ -60,6 +60,7 @@ require 'rexml/document'
 require 'inherited_attribute'
 require 'add_condition'
 require 'ar_date_fix'
+require 'params_tools'
 
 ActionMailer::Base.server_settings = {
   :address  => 'localhost',
@@ -109,6 +110,7 @@ end
 DAYS_NEW = 7
 MAIL_GROUPS_CAN_LOG_IN = %w(M A P Y O C V)
 MAIL_GROUPS_VISIBLE_BY_NON_ADMINS = MAIL_GROUPS_CAN_LOG_IN
+SITE_INTRO_FOR_EMAIL = "#{SITE_TITLE} (#{SITE_URL}) is a brand new site that connects members online. The site is currently in \"beta\" -- we're testing it out and finding bugs. You're welcome to sign in too, and help us improve the system!"
 MAX_DAILY_VERIFICATION_ATTEMPTS = 3
 MOBILE_GATEWAYS = {
   'AT&T' => '%s@mobile.att.net',

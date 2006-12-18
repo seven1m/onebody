@@ -10,56 +10,86 @@
   and add some of your own!
 </p>
 
-<h2>
-  Pictures
-  <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'pictures' %>)</span>
-</h2>
-
-<% if @pictures.any? %>
-  <p>
-    <% @pictures.each do |picture| %>
-      <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.small.jpg"), :alt => 'click to enlarge'),
-        {:controller => 'pictures', :action => 'view', :id => picture}, :title => 'click to enlarge' %>
-    <% end %><br/>
-    <%= link_to 'More Pictures', :controller => 'pictures' %>
-  </p>
-<% else %>
-  <p>
-    <em>No one has shared any pictures yet. You can
-    <%= link_to 'be the first', :controller => 'pictures' %>!</em>
-  </p>
-<% end %>
-
-<a name="verses"></a>
-<h2>
-  Verses
-  <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'verses' %>)</span>
-</h2>
-
-<% if @verses.any? %>
-  <% @verses.each do |verse| %>
-    <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
-  <% end %>
-  <%= link_to 'More Verses', :controller => 'verses' %>
-<% else %>
-  <p>
-    <em>No one has shared any Bible verses yet. You can
-    <%= link_to 'be the first', :controller => 'verses' %>!</em>
-  </p>
-<% end %>
-
-<a name="recipes"></a>
-<h2>
-  Recipes
-  <span style="font-size:10pt;">(<%= link_to 'share your own', :controller => 'recipes' %>)</span>
-</h2>
-
-<% if @recipes.any? %>
-  <%= render :partial => 'recipes/list', :locals => {:recipes => @recipes} %>
-  <%= link_to 'More Recipes', :controller => 'recipes' %>
-<% else %>
-  <p>
-    <em>No one has shared any recipes yet. You can
-    <%= link_to 'be the first', :controller => 'recipes' %>!</em>
-  </p>
-<% end %>
+<table>
+  <tr>
+    <td><%= link_to image_tag('camera.gif', :alt => 'Pictures'), :controller => 'pictures' %></td>
+    <td style="padding-bottom:30px;">
+      <h2 style="margin-top:0;">
+        Pictures
+        <%= link_to image_tag('next.gif', :alt => 'See more pictures and/or share your own.', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'pictures' %>
+        <%= link_to 'See More', {:controller => 'pictures'}, :style => 'font-size:10pt;' %>
+      </h2>
+      <p>
+        Newest <%= @pictures.length %> of
+        <%= @num_pictures %> <%= @num_pictures == 1 ? 'picture' : 'pictures' %>:
+      </p>
+      <% if @pictures.any? %>
+        <p>
+          <% @pictures.each do |picture| %>
+            <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.small.jpg"), :alt => 'click to enlarge'),
+              {:controller => 'pictures', :action => 'view', :id => picture}, :title => 'click to enlarge' %>
+          <% end %><br/>
+          <%= link_to image_tag('add_small.gif', :alt => 'Add your own pictures.', :style => 'vertical-align:middle', :class => 'no-border'), :controller => 'pictures' %>
+        <%= link_to 'Share your own!', :controller => 'pictures' %>
+        </p>
+      <% else %>
+        <p>
+          <em>No one has shared any pictures yet. You can
+          <%= link_to 'be the first', :controller => 'pictures' %>!</em>
+        </p>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td><%= link_to image_tag('bible.gif', :alt => 'Bible Verses'), :controller => 'verses' %></td>
+    <td style="padding-bottom:30px;">
+      <a name="verses"></a>
+      <h2 style="margin-top:0;">
+        Verses
+        <%= link_to image_tag('next.gif', :alt => 'See more verses and/or share your own.', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'verses' %>
+        <%= link_to 'See More', {:controller => 'verses'}, :style => 'font-size:10pt;' %>
+      </h2>
+      <p>
+        Newest <%= @verses.length %> of
+        <%= @num_verses %> <%= @num_verses == 1 ? 'verse' : 'verses' %>:
+      </p>
+      <% if @verses.any? %>
+        <% @verses.each do |verse| %>
+          <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
+        <% end %>
+        <%= link_to image_tag('add_small.gif', :alt => 'Add your own verses.', :style => 'vertical-align:middle', :class => 'no-border'), :controller => 'verses' %>
+        <%= link_to 'Share your own!', :controller => 'verses' %>
+      <% else %>
+        <p>
+          <em>No one has shared any Bible verses yet. You can
+          <%= link_to 'be the first', :controller => 'verses' %>!</em>
+        </p>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td><%= link_to image_tag('recipe.gif', :alt => 'Recipes'), :controller => 'recipes' %></td>
+    <td>
+      <a name="recipes"></a>
+      <h2 style="margin-top:0;">
+        Recipes
+        <%= link_to image_tag('next.gif', :alt => 'See more recipes and/or share your own.', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'recipes' %>
+        <%= link_to 'See More', {:controller => 'recipes'}, :style => 'font-size:10pt;' %>
+      </h2>
+      <p>
+        Newest <%= @recipes.length %> of
+        <%= @num_recipes %> <%= @num_recipes == 1 ? 'recipe' : 'recipes' %>:
+      </p>
+      <% if @recipes.any? %>
+        <%= render :partial => 'recipes/list', :locals => {:recipes => @recipes} %>
+        <%= link_to image_tag('add_small.gif', :alt => 'Add your own recipes.', :style => 'vertical-align:middle', :class => 'no-border'), :controller => 'recipes' %>
+        <%= link_to 'Share your own!', :controller => 'recipes' %>
+      <% else %>
+        <p>
+          <em>No one has shared any recipes yet. You can
+          <%= link_to 'be the first', :controller => 'recipes' %>!</em>
+        </p>
+      <% end %>
+    </td>
+  </tr>
+</table>

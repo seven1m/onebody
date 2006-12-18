@@ -11,4 +11,12 @@ class Membership < ActiveRecord::Base
   inherited_attribute :share_email, :person
   inherited_attribute :share_birthday, :person
   inherited_attribute :share_anniversary, :person
+  
+  # generates security code
+  def before_create
+    begin
+      code = rand(999999)
+      write_attribute :code, code
+    end until code > 0
+  end
 end

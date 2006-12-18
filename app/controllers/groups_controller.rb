@@ -33,9 +33,15 @@ class GroupsController < ApplicationController
         if not @logged_in.admin? and (params[:group][:address] or params[:group][:link_code] or params[:group][:subscription] or params[:group][:members_send])
           raise 'You are not authorized to do that.'
         end
+        params[:group].cleanse 'address'
+        puts params.inspect
         if @group.update_attributes params[:group]
           @group.memberships.create(:person => @logged_in, :admin => true) if new_group
-          flash[:notice] = 'Group changes saved.'
+          if new_group
+            flash[:notice] = 'Your group has been created. Now you can add people to it!'
+          else
+            flash[:notice] = 'Group changes saved.'
+          end
         else
           flash[:notice] = @group.errors.full_messages.join('; ')
         end
@@ -131,11 +137,15 @@ class GroupsController < ApplicationController
   def toggle_email
     @group = Group.find params[:id]
     @person = Person.find params[:person_id]
-    if @logged_in.can_edit? @group or @logged_in == @person
-      options = @group.get_options_for @person
-      get_email = !(options.nil? or options.get_email)
-      @group.set_options_for @person, {:get_email => get_email}
+    options = @group.get_options_for @person
+    if params[:code].to_i > 0 and options.code and params[:code].to_i == options.code
+      @group.set_options_for @person, {:get_email => !options.get_email}
+      render :text => "Your email preferences for the group #{@group.name} have been saved.", :layout => true
+    elsif @logged_in and (@logged_in.can_edit? @group or @logged_in == @person)
+      @group.set_options_for @person, {:get_email => !options.get_email}
+      redirect_to params[:from] || {:action => 'view', :id => @group}
+    else
+      raise 'There was an error changing your email settings.'
     end
-    redirect_to params[:from] || {:action => 'view', :id => @group}
   end
 end

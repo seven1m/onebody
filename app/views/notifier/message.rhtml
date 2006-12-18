@@ -1,4 +1,4 @@
-<%= SITE_TITLE %> (<%= SITE_URL %>) is a brand new site that connects members online. The site is currently in "beta" -- we're testing it out and finding bugs. You're welcome to sign in too, and help us improve the system!
+<%= SITE_INTRO_FOR_EMAIL %>
 
 <% if @msg.group -%>
 The following message was posted to the group "<%= @msg.group.name %>" by <%= @msg.person.name %>:
@@ -32,3 +32,7 @@ To reply, please use the following link:
 <% end -%>
 
 Report abuse of the system here: <%= SITE_URL %>messages/abuse
+
+<% if @msg.group -%>
+If you no longer wish to receive email from this group, click here: <%= SITE_URL %>groups/toggle_email/<%= @msg.group.id %>?person_id=<%= @to.id %>&code=<%= @msg.group.get_options_for(@to, true).code %>
+<% end -%>

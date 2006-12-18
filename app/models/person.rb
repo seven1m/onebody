@@ -119,6 +119,7 @@ class Person < ActiveRecord::Base
   end
   
   def admin?
+    return false
     @admin ||= ADMIN_CHECK.call(self)
   end
   

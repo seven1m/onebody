@@ -83,11 +83,12 @@
 
   <h2>Group Picture</h2>
   <%= render :partial => 'photo' %>
-  <input type="file" id="photo" name="photo"/>
+  <input type="file" id="photo" name="photo"/><br/>
   <% if @group.has_photo? %>
-    <br/>
     <%= link_to 'Remove Group Photo', {:action => 'edit', :photo => 'remove'}, :post => true, :confirm => 'Are you sure?' %>
+    <br/>
   <% end %>
+  <em>Click "Save Changes" at the bottom of this form to upload a new picture.</em>
 
   <h2>Details</h2>
   <label for="group_name">Group Name (required):</label>
@@ -110,7 +111,7 @@
     <%= options_for_select @group.people.map { |p| [p.name, p.id] }, @group.leader_id %>
   </select><br/>
   <% if @group.people.length == 0 %>
-    <em>You'll need to add people to the group before you can set a leader.</em><br/>
+    <em>You'll need to save the group and add people before you can set a leader.</em><br/>
   <% end %>
   <label for="group_private">Private:</label>
   <%= form.check_box :private, :class => 'checkbox' %> Messages and members (except the creator and leader) are hidden from outsiders and group administrators must add people.

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   layout 'default'
   
-  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'help', 'bad_status']
+  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'help', 'bad_status', 'toggle_email']
   
   private
     def authenticate_user

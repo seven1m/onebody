@@ -24,17 +24,10 @@ class Message < ActiveRecord::Base
   
   def after_save
     if group
-      if group.linked?
-        tos = group.memberships.find_all_by_get_email(true).map { |m| m.person }
-      else
-        tos = group.people
-        tos = tos.select do |person|
-          options = group.get_options_for(person)
-          options.nil? or options.get_email
+      group.people.each do |person|
+        if group.get_options_for(person).get_email and to.email.to_s.any?
+          Notifier.deliver_message(to, self)
         end
-      end
-      tos.each do |to|
-        Notifier.deliver_message(to, self) if to.email.to_s.any?
       end
     elsif to
       Notifier.deliver_message(to, self) if to.email.to_s.any?
