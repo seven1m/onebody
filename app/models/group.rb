@@ -67,4 +67,8 @@ class Group < ActiveRecord::Base
     (members_send and people.include? person) or admin? person
   end
   alias_method 'can_post?', 'can_send?'
+  
+  def full_address
+    address.to_s.any? ? (address + '@' + GROUP_ADDRESS_DOMAIN) : nil
+  end
 end
