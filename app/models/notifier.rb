@@ -76,69 +76,72 @@ class Notifier < ActionMailer::Base
 
     if person
       email.to.each do |address|
-        address = address.downcase.split('@').first.to_s.strip
-        if address.any? and group = Group.find_by_address(address) and group.can_send? person
-          # if is this a reply, link this message to its original based on the subject
-          if email.subject =~ /^re:/i
-            parent = group.messages.find_by_subject(email.subject.gsub(/^re:\s?/i, ''), :order => 'id desc')
-          else
-            parent = nil
-          end
-          # if the message is multipart, try to grab the plain text part
-          # and any attachments
-          if email.multipart?
-            parts = email.parts.select { |p| p.content_type.downcase == 'text/plain' }
-            body = parts.any? ? parts.first.body : nil
-          else
-            body = email.body
-          end
-          # if there is a readable body, send the message
-          if body
-            message = Message.create(
-              :group => group,
-              :parent => parent,
-              :person => person,
-              :subject => email.subject,
-              :body => body,
-              :dont_send => true
-            )
-            if message.errors.any?
-              if message.errors.on_base != 'already saved'
-                # notify user there were some errors
-                Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+        address, domain = address.downcase.split('@')
+        if domain.to_s.strip == GROUP_ADDRESS_DOMAIN
+          address = address.to_s.strip
+          if address.any? and group = Group.find_by_address(address) and group.can_send? person
+            # if is this a reply, link this message to its original based on the subject
+            if email.subject =~ /^re:/i
+              parent = group.messages.find_by_subject(email.subject.gsub(/^re:\s?/i, ''), :order => 'id desc')
+            else
+              parent = nil
+            end
+            # if the message is multipart, try to grab the plain text part
+            # and any attachments
+            if email.multipart?
+              parts = email.parts.select { |p| p.content_type.downcase == 'text/plain' }
+              body = parts.any? ? parts.first.body : nil
+            else
+              body = email.body
+            end
+            # if there is a readable body, send the message
+            if body
+              message = Message.create(
+                :group => group,
+                :parent => parent,
+                :person => person,
+                :subject => email.subject,
+                :body => body,
+                :dont_send => true
+              )
+              if message.errors.any?
+                if message.errors.on_base != 'already saved'
+                  # notify user there were some errors
+                  Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+                end
+              else
+                if email.has_attachments?
+                  email.attachments.each do |attachment|
+                    message.attachments.create(
+                      :name => File.split(attachment.original_filename.to_s).last,
+                      :file => attachment.read,
+                      :content_type => attachment.content_type.strip
+                    )
+                  end
+                end
+                message.send_to_group
               end
             else
-              if email.has_attachments?
-                email.attachments.each do |attachment|
-                  message.attachments.create(
-                    :name => File.split(attachment.original_filename.to_s).last,
-                    :file => attachment.read,
-                    :content_type => attachment.content_type.strip
-                  )
+              # notify the sender of the failure and ask to resend as plain text
+              Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+            end
+          
+          # send to the parents (don't save the message -- just send it raw)
+          elsif address.to_s.any? and group = Group.find_by_address(address.gsub(/\-parents$/, '')) and group.can_send? person
+            sent_to = []
+            group.people.each do |person|
+              person.parents.each do |parent|
+                if parent.email.to_s.any?
+                  email.to = parent.email
+                  Notifier.deliver(email)
+                  sent_to << parent.email
                 end
               end
-              message.send_to_group
             end
-          else
-            # notify the sender of the failure and ask to resend as plain text
-            Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
-          end
-        
-        # send to the parents (don't save the message -- just send it raw)
-        elsif address.to_s.any? and group = Group.find_by_address(address.gsub(/\-parents$/, '')) and group.can_send? person
-          sent_to = []
-          group.people.each do |person|
-            person.parents.each do |parent|
-              if parent.email.to_s.any?
-                email.to = parent.email
-                Notifier.deliver(email)
-                sent_to << parent.email
-              end
+            if sent_to.any?
+              # notify sender who the email was sent to
+              Notifier.deliver_simple_message(email.from, 'Message Sent', "Your message with subject \"#{email.subject}\" was delivered to the following email addresses: #{sent_to.join(', ')}")
             end
-          end
-          if sent_to.any?
-            # notify sender who the email was sent to
-            Notifier.deliver_simple_message(email.from, 'Message Sent', "Your message with subject \"#{email.subject}\" was delivered to the following email addresses: #{sent_to.join(', ')}")
           end
         end
       end
