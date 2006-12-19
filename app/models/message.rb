@@ -7,6 +7,7 @@ class Message < ActiveRecord::Base
   belongs_to :to, :class_name => 'Person', :foreign_key => 'to_id'
   belongs_to :parent, :class_name => 'Message', :foreign_key => 'parent_id'
   has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :dependent => :destroy
+  has_many :attachments
   
   validates_presence_of :person
   validates_presence_of :subject
@@ -21,18 +22,26 @@ class Message < ActiveRecord::Base
     end
     return top
   end
+
+  attr_accessor :dont_send
   
   def after_save
+    return if dont_send
     if group
-      group.people.each do |person|
-        if group.get_options_for(person).get_email and to.email.to_s.any?
-          Notifier.deliver_message(to, self)
-        end
-      end
+      send_to_group
     elsif to
       Notifier.deliver_message(to, self) if to.email.to_s.any?
     elsif wall
       Notifier.deliver_message(wall, self) if wall.email.to_s.any?
+    end
+  end
+
+  def send_to_group
+    return unless group
+    group.people.each do |person|
+      if group.get_options_for(person).get_email and person.email.to_s.any?
+        Notifier.deliver_message(person, self)
+      end
     end
   end
   
@@ -51,6 +60,14 @@ class Message < ActiveRecord::Base
       "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAIN) : SYSTEM_NOREPLY_EMAIL}>"
     else  
       "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{share_email ? person.email : SYSTEM_NOREPLY_EMAIL}>"
+    end
+  end
+
+  def email_reply_to
+    if group
+      "\"#{group.name}\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAIN) : SYSTEM_NOREPLY_EMAIL}>"
+    else  
+      "\"#{person.name}\" <#{share_email ? person.email : SYSTEM_NOREPLY_EMAIL}>"
     end
   end
 end

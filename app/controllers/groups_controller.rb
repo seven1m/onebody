@@ -141,7 +141,7 @@ class GroupsController < ApplicationController
     if params[:code].to_i > 0 and options.code and params[:code].to_i == options.code
       @group.set_options_for @person, {:get_email => !options.get_email}
       render :text => "Your email preferences for the group #{@group.name} have been saved.", :layout => true
-    elsif @logged_in and (@logged_in.can_edit? @group or @logged_in == @person)
+    elsif @logged_in and (@logged_in.can_edit?(@group) or @logged_in == @person)
       @group.set_options_for @person, {:get_email => !options.get_email}
       redirect_to params[:from] || {:action => 'view', :id => @group}
     else

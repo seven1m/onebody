@@ -25,6 +25,8 @@ wall at the following link: <%= SITE_URL %>people/view/<%= @msg.person.id %>#wal
 <% else -%>
 <% if @msg.share_email -%>
 To keep your email address private, reply at:
+<% elsif @msg.group and @msg.group.address.to_s.any? -%>
+You may reply directly or at the following link:
 <% else -%>
 To reply, please use the following link:
 <% end -%>

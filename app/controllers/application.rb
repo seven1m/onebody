@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   layout 'default'
   
-  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'help', 'bad_status', 'toggle_email']
+  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'help', 'bad_status']
   
   private
     def authenticate_user
@@ -24,6 +24,8 @@ class ApplicationController < ActionController::Base
         end
       elsif session[:family_id] and :action == 'change_email_and_password'
         @family = Family.find session[:family_id]
+      elsif params[:action] == 'toggle_email'
+        # don't do anything
       else
         redirect_to :controller => 'account', :action => 'sign_in', :from => request.request_uri
         return false

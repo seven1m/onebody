@@ -18,6 +18,7 @@ class Person < ActiveRecord::Base
   #validates_presence_of :email
   validates_length_of :password, :minimum => 5, :allow_nil => true
   validates_confirmation_of :password
+  validates_uniqueness_of :alternate_email, :allow_nil => true
   
   validates_each :email, :allow_nil => true do |record, attribute, value|
     if attribute.to_s == 'email'

@@ -152,3 +152,24 @@
   
   <p><%= submit_tag 'Save Changes' %></p>
 <% end %>
+
+<h2>Alternate Email</h2>
+
+<p>
+  If you have another email (perhaps a work address) you wish to
+  utilize to send email to groups, you may enter it here.
+  Please note:
+</p>
+
+<ul>
+  <li>This email address will not be visible to anyone except administrators.</li>
+  <li>You will not be able to use this address to sign into the site.</li>
+</ul>
+
+<% form_for :person, @person do |form| %>
+  <div>
+    <label for="person_alternate_email">Alternate Email:</label>
+    <%= form.text_field :alternate_email %><br/>
+    <%= submit_tag 'Save Changes' %>
+  </div>
+<% end %>

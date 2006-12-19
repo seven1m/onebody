@@ -16,6 +16,10 @@
 
 <p><%= preserve_breaks(@message.body) %></p>
 
+<% if (count = @message.attachments.count) > 0 %>
+  <p><%= count %> <%= count == 1 ? 'attachment' : 'attachments' %></p>
+<% end %>
+
 <% @message.children.each do |reply| %>
   <div class="message">
     <div class="message-details">
