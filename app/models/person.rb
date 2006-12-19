@@ -138,5 +138,9 @@ class Person < ActiveRecord::Base
     end
     g.flatten.uniq
   end
-   
+  
+  # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female
+  def parents
+    family.people.select { |p| p.adult? and [1, 2].include? p.sequence }
+  end
 end

@@ -28,9 +28,9 @@ class Notifier < ActionMailer::Base
     end
   end
 
-  def simple_message(to, s, b)
-    recipients to
-    from SYSTEM_NOREPLY_EMAIL
+  def simple_message(t, s, b, f=SYSTEM_NOREPLY_EMAIL)
+    recipients t
+    from f
     subject s
     body b
   end
@@ -102,8 +102,10 @@ class Notifier < ActionMailer::Base
               :dont_send => true
             )
             if message.errors.any?
-              # notify user there were some errors
-              Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+              if message.errors.on_base != 'already saved'
+                # notify user there were some errors
+                Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+              end
             else
               if email.has_attachments?
                 email.attachments.each do |attachment|
@@ -119,6 +121,16 @@ class Notifier < ActionMailer::Base
           else
             # notify the sender of the failure and ask to resend as plain text
             Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+          end
+        
+        # send to the parents (don't save the message -- just send it raw)
+        elsif address.to_s.any? and group = Group.find_by_address(address.gsub(/\-parents$/, '')) and group.can_send? person
+          group.people.each do |person|
+            person.parents.each do |parent|
+              if parent.email.to_s.any?
+                Notifier.deliver_simple_message(parent.email, email.subject, email.body, email.from)
+              end
+            end
           end
         end
       end

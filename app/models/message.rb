@@ -25,6 +25,9 @@ class Message < ActiveRecord::Base
   
   def before_save
     body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
+    if Message.find_by_person_and_subject_and_body(person, subject, body, :conditions => 'created_at >= curdate()-1')
+      errors.add_to_base 'already saved' # Notifier relies on this message (don't change it)
+    end
   end
 
   attr_accessor :dont_send
