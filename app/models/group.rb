@@ -57,7 +57,11 @@ class Group < ActiveRecord::Base
   
   def people
     if linked?
-      Person.find :all, :conditions => ['LCASE(classes) = ? or classes like ? or classes like ? or classes like ?', link_code.downcase, "#{link_code},%", "%,#{link_code}", "%,#{link_code},%"], :order => 'last_name, first_name'
+      conditions = []
+      link_code.downcase.split.each do |code|
+        conditions.add_condition ['LCASE(classes) = ? or classes like ? or classes like ? or classes like ?', code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
+      end
+      Person.find :all, :conditions => conditions, :order => 'last_name, first_name'
     else
       unlinked_members
     end
