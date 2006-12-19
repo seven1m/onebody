@@ -54,6 +54,10 @@
             <br/>
             Leader: <%= link_to group.leader.name, :controller => 'people', :action => 'view', :id => group.leader %>
           <% end %>
+          <% if group.address.to_s.any? and group.can_send? @logged_in %>
+            <br/>
+            Email Address: <%= mail_to group.full_address, group.full_address %>
+          <% end %>
           <% if @logged_in.sees? group %>
             <br/>
             <%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'no-border'), "Element.show('people_in_group_#{group.id}')" %>

@@ -58,6 +58,7 @@ class Notifier < ActionMailer::Base
   
   def receive(email)
     return unless email.from.to_s.any?
+    return if email.body.to_s =~ /mailboy-test/ # to protect people who don't know we upgraded
     person = nil
     people = Person.find :all, :conditions => ['LCASE(email) = ?', email.from.to_s.downcase]
     if people.length == 0
@@ -125,12 +126,19 @@ class Notifier < ActionMailer::Base
         
         # send to the parents (don't save the message -- just send it raw)
         elsif address.to_s.any? and group = Group.find_by_address(address.gsub(/\-parents$/, '')) and group.can_send? person
+          sent_to = []
           group.people.each do |person|
             person.parents.each do |parent|
               if parent.email.to_s.any?
-                Notifier.deliver_simple_message(parent.email, email.subject, email.body, email.from)
+                email.to = parent.email
+                Notifier.deliver(email)
+                sent_to << parent.email
               end
             end
+          end
+          if sent_to.any?
+            # notify sender who the email was sent to
+            Notifier.deliver_simple_message(email.from, 'Message Sent', "Your message with subject \"#{email.subject}\" was delivered to the following email addresses: #{sent_to.join(', ')}")
           end
         end
       end
