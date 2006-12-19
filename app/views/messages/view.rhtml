@@ -22,6 +22,7 @@
 <% @message.children.each do |reply| %>
   <div class="message">
     <div class="message-details">
+      <%= image_tag 'comment.gif', :alt => 'Reply', :class => 'no-border', :style => 'vertical-align:middle;' %>
       Reply by <%= link_to reply.person.name, :controller => 'people', :action => 'view', :id => reply.person %><br/>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>

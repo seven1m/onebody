@@ -132,7 +132,7 @@
     <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h GROUP_ADDRESS_DOMAIN %><br/>
     <label for="group_link_code">Class Link Code(s):</label>
     <%= form.text_field :link_code %><br/>
-    <label for="group_members_send">Group Members Can Send Email:</label>
+    <label for="group_members_send">Group Members Can Post Messages:</label>
     <%= form.check_box :members_send, :class => 'checkbox' %><br/>
     <label for="group_subscription">This is a Subscription Group:</label>
     <%= form.check_box :subscription, :class => 'checkbox' %>

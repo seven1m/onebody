@@ -71,10 +71,10 @@
     <% end %>
   </table>
 <% else %>
-  <p><em>No messages yet. Post one!</em></p>
+  <p><em>No messages yet.</em></p>
 <% end %>
 
-<% if @group.people.include? @logged_in %>
+<% if @group.can_post? @logged_in %>
   <p>
     <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
     <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
