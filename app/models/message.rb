@@ -22,6 +22,10 @@ class Message < ActiveRecord::Base
     end
     return top
   end
+  
+  def before_save
+    body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
+  end
 
   attr_accessor :dont_send
   

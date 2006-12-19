@@ -1,4 +1,4 @@
-<% form_for :message, @message do |form| %>
+<% form_for :message, @message, :html => {:enctype => 'multipart/form-data'} do |form| %>
   <%= hidden_field_tag :group_id, @message.group_id %>
   <%= hidden_field_tag :parent_id, @message.parent_id %>
   <p>
@@ -8,9 +8,9 @@
     <% end %>
     <label for="body">Message:</label>
     <%= form.text_area :body, :rows => 15 %><br/>
-    <% unless @message.parent %>
-      <em>You are about to send a message to everyone in the group.</em><br/>
-    <% end %>
+    <label for="file">Attachment (optional):</label>
+    <%= file_field_tag :file %><br/>
+    <em>You are about to send a message to everyone in the group.</em><br/>
     <%= submit_tag 'Send Message' %>
   </p>
 <% end %>

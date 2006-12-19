@@ -14,9 +14,9 @@ class MessagesController < ApplicationController
       end
     elsif params[:parent_id].to_i > 0
       parent = Message.find params[:parent_id]
-      @message = Message.new :parent => parent, :group_id => parent.group_id, :person => @logged_in, :subject => "Re: #{parent.subject}"
+      @message = Message.new :parent => parent, :group_id => parent.group_id, :person => @logged_in, :subject => "Re: #{parent.subject}", :dont_send => true
     elsif params[:group_id]
-      @message = Message.new :group_id => params[:group_id], :person => @logged_in
+      @message = Message.new :group_id => params[:group_id], :person => @logged_in, :dont_send => true
     else
       raise 'Error.'
     end
@@ -26,6 +26,17 @@ class MessagesController < ApplicationController
     if request.post? and params[:message]
       if @message.update_attributes params[:message]
         flash[:notice] = 'Message saved.'
+        if params[:file].size > 0
+          attachment = @message.attachments.create(
+            :name => File.split(params[:file].original_filename).last,
+            :content_type => params[:file].content_type,
+            :file => params[:file].read
+          )
+          if attachment.errors.any?
+            flash[:notice] = attachment.errors.full_messages.join('; ')
+          end
+        end
+        @message.send_to_group
         redirect_to :action => 'view', :id => @message.top
       else
         flash[:notice] = @message.errors.full_messages.join('; ')
