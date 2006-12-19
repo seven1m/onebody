@@ -52,7 +52,10 @@
   <table>
     <% @group.messages.each do |message| %>
       <tr>
-        <td><%= link_to message.subject, :controller => 'messages', :action => 'view', :id => message %></td>
+        <td>
+          <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
+          <%= link_to message.subject, :controller => 'messages', :action => 'view', :id => message %>
+        </td>
         <td><%= message.created_at.strftime '%m/%d %I%p' %></td>
         <td>
           <%= count = message.children.count %> <%= count == 1 ? 'reply' : 'replies' %>
@@ -68,6 +71,7 @@
 
 <% if @group.people.include? @logged_in %>
   <p>
+    <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
     <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
     <em>Posting a message here sends email to everyone in the group.</em>
   </p>

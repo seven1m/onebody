@@ -88,4 +88,13 @@ class MessagesController < ApplicationController
       render :nothing => true
     end
   end
+  
+  def view_attachment
+    attachment = Attachment.find params[:id]
+    unless attachment.message and attachment.message.group and @logged_in.sees? attachment.message.group
+      render :text => 'You are not authorized to view this attachment.', :layout => true
+      return
+    end
+    send_data attachment.file, :filename => attachment.name, :type => attachment.content_type, :disposition => 'inline'
+  end
 end
