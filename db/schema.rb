@@ -4,6 +4,21 @@
 
 ActiveRecord::Schema.define(:version => 25) do
 
+  create_table "actions", :force => true do |t|
+    t.column "person_id", :integer
+    t.column "family_id", :integer
+    t.column "verse_id", :integer
+    t.column "comment_id", :integer
+    t.column "recipe_id", :integer
+    t.column "picture_id", :integer
+    t.column "group_id", :integer
+    t.column "description", :string
+    t.column "contact_id", :integer
+    t.column "message_id", :integer
+    t.column "created_at", :datetime
+    t.column "duplicate", :boolean, :default => false, :null => false
+  end
+
   create_table "attachments", :force => true do |t|
     t.column "message_id", :integer
     t.column "name", :string
@@ -17,13 +32,11 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "person_id", :integer
     t.column "text", :text
     t.column "created_at", :datetime
-    t.column "updated_at", :datetime
   end
 
   create_table "contacts", :force => true do |t|
     t.column "person_id", :integer
     t.column "owner_id", :integer
-    t.column "updated_at", :datetime
   end
 
   create_table "events", :force => true do |t|
@@ -34,7 +47,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "created_at", :datetime
     t.column "open", :boolean, :default => false
     t.column "admins", :text
-    t.column "updated_at", :datetime
   end
 
   create_table "families", :force => true do |t|
@@ -58,7 +70,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "share_anniversary", :boolean, :default => true
     t.column "legacy_id", :integer
     t.column "mail_group", :string, :limit => 1
-    t.column "updated_at", :datetime
   end
 
   create_table "groups", :force => true do |t|
@@ -76,7 +87,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "private", :boolean, :default => false
     t.column "category", :string, :limit => 50
     t.column "leader_id", :integer
-    t.column "updated_at", :datetime
   end
 
   create_table "legacy_people", :force => true do |t|
@@ -126,7 +136,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "share_birthday", :boolean
     t.column "share_anniversary", :boolean
     t.column "get_email", :boolean, :default => true
-    t.column "updated_at", :datetime
     t.column "code", :integer
   end
 
@@ -146,7 +155,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "admin_id", :integer
     t.column "name", :string, :limit => 100
     t.column "description", :text
-    t.column "updated_at", :datetime
   end
 
   create_table "people", :force => true do |t|
@@ -188,7 +196,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "email_changed", :boolean, :default => false
     t.column "suffix", :string, :limit => 25
     t.column "anniversary", :datetime
-    t.column "updated_at", :datetime
     t.column "alternate_email", :string
   end
 
@@ -202,7 +209,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "person_id", :integer
     t.column "created_at", :datetime
     t.column "cover", :boolean, :default => false, :null => false
-    t.column "updated_at", :datetime
   end
 
   create_table "publications", :force => true do |t|
@@ -210,7 +216,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "description", :text
     t.column "created_at", :datetime
     t.column "file", :string
-    t.column "updated_at", :datetime
   end
 
   create_table "recipes", :force => true do |t|
@@ -242,7 +247,6 @@ ActiveRecord::Schema.define(:version => 25) do
 
   create_table "tags", :force => true do |t|
     t.column "name", :string, :limit => 50
-    t.column "updated_at", :datetime
   end
 
   create_table "tags_verses", :id => false, :force => true do |t|
@@ -275,7 +279,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "email", :string
     t.column "code", :integer
     t.column "mobile_phone", :integer, :limit => 20
-    t.column "updated_at", :datetime
   end
 
   create_table "verses", :force => true do |t|
@@ -283,7 +286,6 @@ ActiveRecord::Schema.define(:version => 25) do
     t.column "text", :text
     t.column "translation", :string, :limit => 10
     t.column "created_at", :datetime
-    t.column "updated_at", :datetime
   end
 
   create_table "workers", :force => true do |t|
