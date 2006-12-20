@@ -6,7 +6,7 @@
     <% end %>
     <br/>
   <% end %>
-  <% if not @group.linked? and (non_admins = @group.people.select { |p| not @group.admin? p }).any? %>
+  <% if not @group.linked? and (non_admins = @group.people.select { |p| not @group.admin?(p, true) }).any? %>
     <%= form_tag :action => 'promote', :id => @group %>
       <select name="person_id">
         <option value=""></option>

@@ -2,7 +2,7 @@
   <% @group.people.each do |person| %>
     <% if @logged_in.sees? person %>
       <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
-      <% if @group.admin? person %>(admin)<% end %>
+      <% if @group.admin?(person, true) %>(admin)<% end %>
       <br/>
     <% end %>
   <% end %>

@@ -1,7 +1,7 @@
 class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :people, :through => :memberships
-  has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc'
+  has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc', :dependent => :destroy
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
   #has_and_belongs_to_many :tags, :order => 'name'
@@ -24,8 +24,8 @@ class Group < ActiveRecord::Base
     memberships.find_all_by_admin(true).map { |m| m.person }
   end
   
-  def admin?(person)
-    if private?
+  def admin?(person, exclude_global_admins=false)
+    if private? or exclude_global_admins
       admins.include? person
     else
       person.admin? or admins.include? person

@@ -46,8 +46,8 @@
               <%= image_tag 'link.png', :alt => group.link_code, :class => 'no-border', :style => 'vertical-align:middle;' %>
             <% end %>
           <% end %>
-          <br/>
           <% if group.description.to_s.any? %>
+            <br/>
             <%=h group.description %>
           <% end %>
           <% if group.leader %>

@@ -7,7 +7,7 @@ class GroupsController < ApplicationController
       :conditions => conditions,
       :order => 'name'
     )
-    @categories = Group.find_by_sql('select distinct category from groups').map { |g| g.category }.select { |c| c }
+    @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != ''").map { |g| g.category }
   end
   
   def view
@@ -35,7 +35,6 @@ class GroupsController < ApplicationController
           raise 'You are not authorized to do that.'
         end
         params[:group].cleanse 'address'
-        puts params.inspect
         if @group.update_attributes params[:group]
           @group.memberships.create(:person => @logged_in, :admin => true) if new_group
           if new_group
@@ -47,8 +46,11 @@ class GroupsController < ApplicationController
           flash[:notice] = @group.errors.full_messages.join('; ')
         end
       end
-      if params[:photo]
-        @group.photo = (params[:photo] == 'remove') ? nil : params[:photo]
+      unless @group.errors.any?
+        if params[:photo]
+          @group.photo = (params[:photo] == 'remove') ? nil : params[:photo]
+        end
+        redirect_to :action => 'edit', :id => @group
       end
     end
   end
@@ -78,9 +80,9 @@ class GroupsController < ApplicationController
       rescue
         flash[:notice] = 'There was an error.'
       end
-      redirect_to :action => 'edit', :id => group.id
+      redirect_to :action => 'edit', :id => @group.id
     else
-      redirect_to :action => 'view', :id => group.id
+      redirect_to :action => 'view', :id => @group.id
     end
   end
   

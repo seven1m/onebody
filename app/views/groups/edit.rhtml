@@ -79,7 +79,7 @@
   <% end %>
 <% end %>
 
-<% form_for :group, @group, :url => {:action => 'edit', :id => @group}, :html => {:enctype => 'multipart/form-data'} do |form| %>
+<% form_for :group, @group, :html => {:enctype => 'multipart/form-data'} do |form| %>
 
   <h2>Group Picture</h2>
   <%= render :partial => 'photo' %>
