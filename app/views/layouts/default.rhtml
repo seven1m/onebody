@@ -4,6 +4,7 @@
   <title><%= SITE_TITLE %></title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" href="/stylesheets/1.css" type="text/css" media="screen,projection" />
+  <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />
   <%= javascript_include_tag :defaults %>
   <%= yield :head %>
 </head>
@@ -25,7 +26,7 @@
 				<h1>
 				  <a href="/"><%= SITE_TITLE %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %>
 				</h1>
-                                <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;">
+                                <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;width:300px;white-space:nowrap;">
                                   <%=h SITE_SIMPLE_URL %> | <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL, :style => 'text-decoration:none;' %>
                                 </div>
 

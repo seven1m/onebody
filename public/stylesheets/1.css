@@ -13,6 +13,10 @@ body {
 	
 }
 
+table {
+	font-size: 1em;
+} 
+
 #wrapper {
 	background:#fff;
 	border:3px solid #f1f1f1;
