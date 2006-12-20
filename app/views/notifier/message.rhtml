@@ -1,12 +1,6 @@
 <%= SITE_INTRO_FOR_EMAIL %>
 
-<% if @msg.group -%>
-The following message was posted to the group "<%= @msg.group.name %>" by <%= @msg.person.name %>:
-<% elsif @msg.wall -%>
-<%= @msg.person.name %> posted a message on your wall:
-<% else -%>
-<%= @msg.person.name %> sent you the following message:
-<% end -%>
+<%= @msg.introduction -%>
 - - - - - - - - - - - - - - - - - - - - - - - -
 <% if @msg.subject -%>
 Subject: <%= @msg.subject %>
@@ -15,26 +9,8 @@ Subject: <%= @msg.subject %>
 
 <%= @msg.body %>
 - - - - - - - - - - - - - - - - - - - - - - - -
-<% if @msg.wall -%>
-<%= WALL_DESCRIPTION %>
-
-You can see your wall here: <%= SITE_URL %>people/view/<%= @msg.wall.id %>#wall
-
-You can post a message to <%=h @msg.person.name_possessive %>
-wall at the following link: <%= SITE_URL %>people/view/<%= @msg.person.id %>#wall
-<% else -%>
-<% if @msg.share_email -%>
-To keep your email address private, reply at:
-<% elsif @msg.group and @msg.group.address.to_s.any? -%>
-You may reply directly or at the following link:
-<% else -%>
-To reply, please use the following link:
-<% end -%>
-<%= @msg.reply_url %>
-<% end -%>
-
-Report abuse of the system here: <%= SITE_URL %>messages/abuse
+<%= @msg.reply_instructions(@to) -%>
 
 <% if @msg.group -%>
-If you no longer wish to receive email from this group, click here: <%= SITE_URL %>groups/toggle_email/<%= @msg.group.id %>?person_id=<%= @to.id %>&code=<%= @msg.group.get_options_for(@to, true).code %>
+If you no longer wish to receive email from this group, click here: <%= SITE_URL %>groups/toggle_email/<%= @msg.group.id %>?person_id=<%= @to.id %>&code=<%= @msg.group.get_options_for(@to, true).code %><% if @msg.group.subscription and @msg.group.name == 'Publications' %>&return_to=/publications<% end %>
 <% end -%>

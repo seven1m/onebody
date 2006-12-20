@@ -7,5 +7,9 @@
   <%= text_area :publication, :description, :rows => 3 %><br/>
   <label for="publication_file">File:</label>
   <%= file_field :publication, :file %><br/>
+  <label for="send_update">Send Update:</label>
+  <%= check_box_tag 'send_update', true, true, :class => 'checkbox' %>
+  <em>You will be able to customize the notification email.</em><br/>
+  <br/>
   <%= submit_tag 'Save Publication' %>
 </form>

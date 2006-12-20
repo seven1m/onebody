@@ -120,8 +120,8 @@ class GroupsController < ApplicationController
       @group.memberships.create :person => Person.find(id)
     end
     unless person_id
-      flash[:notice] = 'You are now in this group.'
-      redirect_to :action => 'view', :id => @group
+      flash[:notice] = 'You have been signed up.'
+      redirect_to params[:return_to] || {:action => 'view', :id => @group}
     end
   end
   
@@ -132,8 +132,8 @@ class GroupsController < ApplicationController
       m.destroy unless @group.last_admin?(m.person)
     end
     unless person_id
-      flash[:notice] = 'You are no longer in that group.'
-      redirect_to :action => 'index'
+      flash[:notice] = 'You are no longer signed up.'
+      redirect_to params[:return_to] || {:action => 'index'}
     end
   end
   

@@ -1,6 +1,7 @@
 class PublicationsController < ApplicationController
   def index
     @publications = Publication.find :all, :order => 'created_at desc'
+    @group = Group.find_by_name('Publications')
   end
   
   def edit
@@ -12,10 +13,19 @@ class PublicationsController < ApplicationController
     end
     if request.post?
       file = params[:publication].delete(:file)
-      @publication.update_attributes params[:publication]
-      @publication.file = file
-      flash[:notice] = 'Publication saved.'
-      redirect_to :action => 'index'
+      if @publication.update_attributes params[:publication]
+        @publication.file = file
+        flash[:notice] = 'Publication saved.'
+        if params[:send_update]
+          @group = Group.find_by_name('Publications')
+          flash[:message] = Message.new(:subject => 'New Publication Available', :body => "This is to inform you that a new publication has been added to #{SITE_TITLE}.\n\n#{url_for :controller => 'publications'}", :person => @logged_in, :group => @group, :dont_send => true)
+          redirect_to :controller => 'messages', :action => 'edit', :group_id => @group.id
+        else
+          redirect_to :action => 'index'
+        end
+      else
+        flash[:notice] = @publication.errors.full_messages.join('; ')
+      end
     end
   end
   

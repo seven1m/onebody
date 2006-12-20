@@ -52,14 +52,52 @@ class Message < ActiveRecord::Base
     end
   end
   
+  def introduction
+    if group and group.subscription
+      ''
+    elsif group
+      "The following message was posted to the group \"#{group.name}\" by #{person.name}:\n"
+    elsif wall
+      "#{person.name} posted a message on your wall:\n"
+    else
+      "#{person.name} sent you the following message:\n"
+    end
+  end
+  
   def reply_url
     if group
       "#{SITE_URL}messages/view/#{self.id.to_s}"
+    elsif wall
+      "#{SITE_URL}people/view/#{person_id}#wall"
     else
       reply_subject = self.subject
       reply_subject = "RE: #{subject}" unless reply_subject =~ /^re:/i
       "#{SITE_URL}messages/send_email/#{self.person.id}?subject=#{URI.escape(reply_subject)}"
     end
+  end
+  
+  def reply_instructions(person)
+    msg = ''
+    if group and group.subscription
+      ''
+    elsif group
+      if group.can_post? person
+        if group.address.to_s.any?
+          msg << "You may reply directly or at the following link: #{reply_url}\n"
+        else
+          msg << "To reply, please use the following link: #{reply_url}\n"
+        end
+      end
+    elsif wall
+      msg << WALL_DESCRIPTION + "\n\n"
+      msg << "You can see your wall here: #{SITE_URL}people/view/#{wall_id}#wall\n\n"
+      msg << "You can post a message to #{self.person.name_possessive} wall here: #{reply_url}\n"
+    elsif share_email
+      msg << "To keep your email address private, reply at: #{reply_url}\n"
+    else
+      msg << "To reply, please use the following link: #{reply_url}\n"
+    end
+    msg
   end
   
   def email_from

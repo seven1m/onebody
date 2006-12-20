@@ -12,6 +12,8 @@ class MessagesController < ApplicationController
       unless @message.person == @logged_in
         raise 'You cannot edit a post you did not write.'
       end
+    elsif flash[:message]
+      @message = flash[:message]
     elsif params[:parent_id].to_i > 0
       parent = Message.find params[:parent_id]
       @message = Message.new :parent => parent, :group_id => parent.group_id, :person => @logged_in, :subject => "Re: #{parent.subject}", :dont_send => true

@@ -12,7 +12,6 @@ class Group < ActiveRecord::Base
   validates_format_of :address, :with => /^[a-zA-Z0-9]+$/, :allow_nil => true
   validates_uniqueness_of :address, :allow_nil => true
   validates_length_of :address, :minimum => 6, :allow_nil => true
-  validates_presence_of :creator_id
   
   acts_as_photo 'db/photos/groups', PHOTO_SIZES
   
