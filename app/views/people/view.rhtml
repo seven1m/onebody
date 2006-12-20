@@ -25,7 +25,10 @@
 <% if @person.mapable? and @person.share_address_with @logged_in %>
   <div id="map-container" style="width:250px;float:right;display:none;">
     <div id="map" style="width:250px;height:200px;"></div>
-    <div class="discreet" style="font-size:smaller;text-align:right;">this is only an approximation</div>
+    <div class="discreet" style="font-size:smaller;text-align:right;">
+      only an approximation |
+      <%= link_to 'show full screen', "http://maps.yahoo.com/broadband/#mvt=m&q1=#{URI.escape(@person.family.mapable_address)}", :target => '_new' %>
+    </div>
   </div>
 <% end %>
 
@@ -155,7 +158,7 @@
       var marker = new YMarker(address, img);
       map.addOverlay(marker);
       map.addTypeControl();
-      map.panToLatLon(address);
+      //map.panToLatLon(address);
       map.disableKeyControls();
     }
     Element.show('map-container')
