@@ -23,12 +23,15 @@
 				<script type="text/javascript"> $('search_name').value = 'People Search' </script>
 				
 				<h1>
-				  <a href="/"><%= SITE_TITLE %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %><br/>
-				  <span style="font-size:10pt;">&nbsp;<%=h SITE_SIMPLE_URL %></span>
+				  <a href="/"><%= SITE_TITLE %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %>
 				</h1>
+                                <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;">
+                                  <%=h SITE_SIMPLE_URL %> | <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL, :style => 'text-decoration:none;' %>
+                                </div>
 
+<!--
         <div style="padding-top:5px;font-size:9pt;"><%= HEADER_MESSAGE %></div>
-
+-->
 				<ul id="nav">
 				
 				    <% if @logged_in %>
