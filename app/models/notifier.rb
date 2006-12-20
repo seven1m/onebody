@@ -17,7 +17,7 @@ class Notifier < ActionMailer::Base
     recipients to.email
     from msg.email_from
     h = {'Reply-To' => msg.email_reply_to}
-    if group
+    if msg.group
       h.update(
         'List-ID' => "#{msg.group.name} group on #{SITE_TITLE} <#{msg.group.address}.#{SITE_SIMPLE_URL}>",
         'List-Help' => "<#{SITE_URL}>groups/view/#{msg.group.id}>",
