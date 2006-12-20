@@ -20,10 +20,10 @@ class Notifier < ActionMailer::Base
     if msg.group
       h.update(
         'List-ID' => "#{msg.group.name} group on #{SITE_TITLE} <#{msg.group.address}.#{SITE_SIMPLE_URL}>",
-        'List-Help' => "<#{SITE_URL}>groups/view/#{msg.group.id}>",
-        'List-Unsubscribe' => "<#{SITE_URL}groups/toggle_email/#{msg.group.id}>?person_id=#{to.id}&code=#{msg.group.get_options_for(to, true).code}>",
-        'List-Post' => (msg.group.can_post?(to) ? "<#{SITE_URL}>groups/view/#{msg.group.id}>" : 'NO (you are not allowed to post to this list)'),
-        'List-Archive' => "<#{SITE_URL}>groups/view/#{msg.group.id}>"
+        'List-Help' => "<#{SITE_URL}groups/view/#{msg.group.id}>",
+        'List-Unsubscribe' => "<#{SITE_URL}groups/toggle_email/#{msg.group.id}?person_id=#{to.id}&code=#{msg.group.get_options_for(to, true).code}>",
+        'List-Post' => (msg.group.can_post?(to) ? "<#{SITE_URL}groups/view/#{msg.group.id}>" : 'NO (you are not allowed to post to this list)'),
+        'List-Archive' => "<#{SITE_URL}groups/view/#{msg.group.id}>"
       )
       if msg.group.leader
         h.update 'List-Owner' => "<#{SITE_URL}>people/view/#{msg.person.id}> (#{msg.person.name})"
