@@ -1,0 +1,7 @@
+#/bin/sh
+
+svn update
+rake migrate
+chown -R mongrel:root .
+/etc/init.d/mongrel_cluster restart
+
