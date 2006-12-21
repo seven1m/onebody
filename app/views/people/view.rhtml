@@ -85,7 +85,7 @@
 
 <% if @person.testimony.to_s.any? %>
   <h2>Testimony</h2>
-  <p><%=h @person.testimony %></p>
+  <p><%= preserve_breaks @person.testimony %></p>
 <% end %>
 
 <a name="verses"></a>
