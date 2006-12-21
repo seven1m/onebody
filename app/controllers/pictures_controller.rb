@@ -17,6 +17,7 @@ class PicturesController < ApplicationController
       raise 'You are not authorized to edit this event.'
     end
     if request.post?
+      params[:event].cleanse 'when'
       if @event.update_attributes params[:event]
         redirect_to :action => 'view_event', :id => @event
       else

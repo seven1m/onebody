@@ -71,11 +71,17 @@ module Foo
             end
             
             def rotate_photo(degrees)
-              img = Magick::Image.from_blob(File.read(photo_path)).first
-              temp_path = File.join(RAILS_ROOT, '#{storage_path}', id.to_s + '.temp.jpg')
-              img.rotate(degrees).write(temp_path)
-              self.photo = File.open(temp_path)
-              File.delete temp_path
+              #img = Magick::Image.from_blob(File.read(photo_path)).first
+              #temp_path = File.join(RAILS_ROOT, '#{storage_path}', id.to_s + '.temp.jpg')
+              #img.rotate(degrees).write(temp_path)
+              #self.photo = File.open(temp_path)
+              #File.delete temp_path
+              # only rotate sized versions (not the original file)
+              PHOTO_SIZES.each do |name, dimensions|
+                path = send('photo_' + name.to_s + '_path')
+                img = Magick::Image.from_blob(File.read(path)).first
+                img.rotate(degrees).write(path)
+              end
             end
             
             def destroy
