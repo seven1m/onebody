@@ -33,3 +33,19 @@
   <%= link_to image_tag(url_for(:action => 'photo', :id => "#{@picture.id}.large.jpg"), :alt => 'click to see full size'),
     :action => 'photo', :id => "#{@picture.id}.jpg" %>
 </p>
+
+<% if flash[:refresh] %>
+  <script type="text/javascript">
+    location.reload();
+  </script>
+  <noscript>
+    <p><strong>You may need to click the Refresh button on your browser.</strong></p>
+  </noscript>
+<% end %>
+
+<!-- updates all the sizes on a refresh -->
+<div style="display:none;">
+  <%= image_tag url_for(:action => 'photo', :id => "#{@picture.id}.medium.jpg"), :alt => 'refresh' %>
+  <%= image_tag url_for(:action => 'photo', :id => "#{@picture.id}.small.jpg"), :alt => 'refresh' %>
+  <%= image_tag url_for(:action => 'photo', :id => "#{@picture.id}.tn.jpg"), :alt => 'refresh' %>
+</div>

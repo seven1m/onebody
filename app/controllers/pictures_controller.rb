@@ -89,6 +89,7 @@ class PicturesController < ApplicationController
     if @picture.event.admin? @logged_in
       @picture.rotate_photo params[:degrees].to_i
     end
+    flash[:refresh] = true
     redirect_to :action => 'view', :id => @picture
   end
   
