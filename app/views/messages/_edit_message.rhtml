@@ -1,4 +1,4 @@
-<% form_for :message, @message, :html => {:enctype => 'multipart/form-data'} do |form| %>
+<% form_for :message, @message, :html => {:enctype => 'multipart/form-data', :id => 'message'} do |form| %>
   <%= hidden_field_tag :group_id, @message.group_id %>
   <%= hidden_field_tag :parent_id, @message.parent_id %>
   <p>
@@ -14,3 +14,18 @@
     <%= submit_tag 'Send Message' %>
   </p>
 <% end %>
+
+<div id="preview" style="display:none;">
+  <h2>Preview</h2>
+  <div id="preview-from"></div>
+  <div id="preview-email" style="width:600px;border:1px solid #999;padding:10px;">
+</div>
+
+<script type="text/javascript">
+  function preview() {
+    new Ajax.Request('<%= url_for :action => "preview_message" %>', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('message'))});
+  }
+</script>
+
+<%= observe_field :message_subject, :url => {:action => 'preview_message'}, :function => 'preview()', :frequency => 2 %>
+<%= observe_field :message_body, :url => {:action => 'preview_message'}, :function => 'preview()', :frequency => 2 %>

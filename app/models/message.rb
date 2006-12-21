@@ -92,7 +92,7 @@ class Message < ActiveRecord::Base
       msg << WALL_DESCRIPTION + "\n\n"
       msg << "You can see your wall here: #{SITE_URL}people/view/#{wall_id}#wall\n\n"
       msg << "You can post a message to #{self.person.name_possessive} wall here: #{reply_url}\n"
-    elsif share_email
+    elsif share_email?
       msg << "To keep your email address private, reply at: #{reply_url}\n"
     else
       msg << "To reply, please use the following link: #{reply_url}\n"
@@ -104,15 +104,17 @@ class Message < ActiveRecord::Base
     if group
       "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAIN) : SYSTEM_NOREPLY_EMAIL}>"
     else  
-      "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{share_email ? person.email : SYSTEM_NOREPLY_EMAIL}>"
+      "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{share_email? ? person.email : SYSTEM_NOREPLY_EMAIL}>"
     end
   end
 
   def email_reply_to
     if group
       "\"#{group.name}\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAIN) : SYSTEM_NOREPLY_EMAIL}>"
-    else  
-      "\"#{person.name}\" <#{share_email ? person.email : SYSTEM_NOREPLY_EMAIL}>"
+    elsif share_email?
+      "\"#{person.name}\" <#{person.email}>"
+    else
+      "\"DO NOT REPLY\" <#{SYSTEM_NOREPLY_EMAIL}>"
     end
   end
 end

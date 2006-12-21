@@ -81,12 +81,24 @@ class MessagesController < ApplicationController
   end
   
   def preview_message
+    params[:subject] = params[:message] ? params[:message][:subject] : params[:subject]
+    params[:body] = params[:message] ? params[:message][:body] : params[:body]
     if params[:subject].to_s.any? or params[:body].to_s.any?
-      @person = Person.find params[:id]
-      @msg = Message.new :person => @logged_in, :to => @person, :subject => params[:subject], :body => params[:body], :share_email => params[:share_email], :created_at => Time.now
-      @to = @msg.to
+      if params[:id]
+        @person = Person.find params[:id]
+      else
+        @group = Group.find params[:group_id]
+      end
+      @msg = Message.new :person => @logged_in, :subject => params[:subject], :body => params[:body], :share_email => false, :created_at => Time.now
+      if @person
+        @to = @msg.to = @person
+        @msg.share_email = params[:share_email]
+      else
+        @msg.group = @group
+        @to = Person.new
+      end
       respond_to do |wants|
-        wants.html { render :action => 'notifier/message', :layout => false }
+        wants.html { render :action => '../notifier/message', :layout => false }
         wants.js do
           preview = render_to_string :action => '../notifier/message', :layout => false
           preview.gsub!(/\n/, "<br/>\n").gsub!(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')

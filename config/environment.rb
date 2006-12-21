@@ -108,7 +108,7 @@ GROUP_LEADER_EMAIL = 'ccasey@cedarridgecc.com'
 GROUP_LEADER_NAME = 'Craig Casey'
 TECH_SUPPORT_CONTACT = 'Tim Morgan (tim@timmorgan.org)'
 ADMIN_CHECK = Proc.new do |person|
-  person.email =~ /@cedarridgecc.com$/ or person.classes.split(',').include?('EL') or person.email =~ /^tim@timmorgan/
+  person.email =~ /@cedarridgecc.com$/ or (person.classes and person.classes.split(',').include?('EL')) or person.email =~ /^tim@timmorgan/
 end
 DAYS_NEW = 7
 MAIL_GROUPS_CAN_LOG_IN = %w(M A P Y O C V)
