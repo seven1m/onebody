@@ -133,10 +133,11 @@ class Person < ActiveRecord::Base
   
   def groups
     g = groups_without_linkage
+    conditions = []
     classes.split(',').each do |code|
-      g << Group.find(:all, :conditions => ['LCASE(link_code) = ? or link_code like ? or link_code like ? or link_code like ?', code.downcase, "#{code} %", "% #{code}", "% #{code} %"])
+      conditions.add_condition ['LCASE(link_code) = ? or link_code like ? or link_code like ? or link_code like ?', code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
     end
-    g.flatten.uniq
+    (g + Group.find(:all, :conditions => conditions)).uniq
   end
   
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female

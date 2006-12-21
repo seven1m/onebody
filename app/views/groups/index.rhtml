@@ -5,7 +5,7 @@
       <option value="">All Groups</option>
       <%= options_for_select @categories, params[:category] %>
     </select>
-    <%= link_to_function 'Expand All', "document.getElementsByClassName('people').each(function(e){Element.show(e)})"%>
+    <%= link_to_function 'Show All People', "document.getElementsByClassName('people').each(function(e){Element.toggle(e)})"%>
   </p>
   <table class="iconed">
     <tr>
@@ -60,7 +60,7 @@
           <% end %>
           <% if @logged_in.sees? group %>
             <br/>
-            <%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'no-border'), "Element.show('people_in_group_#{group.id}')" %>
+            <%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'no-border'), "Element.toggle('people_in_group_#{group.id}')" %>
             <%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>
             <div id="people_in_group_<%= group.id %>" style="display:none;" class="people">
               <% group.people.each do |person| %>
