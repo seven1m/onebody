@@ -59,7 +59,7 @@ class PicturesController < ApplicationController
       (1..10).each do |index|
         if (pic = params["picture#{index}"]).read.length > 0
           pic.seek(0)
-          picture = @event.pictures.create :person => @logged_in
+          picture = @event.pictures.create :person => (params[:remove_owner] ? nil : @logged_in)
           picture.photo = pic
           if picture.has_photo?
             success += 1

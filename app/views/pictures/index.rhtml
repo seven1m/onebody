@@ -35,7 +35,9 @@
           <%= link_to 'edit', {:action => 'edit_event', :id => event}, :class => 'discreet' %>
         <% end %>
         <br/>
-        <%=h event.description %><br/>
+        <% if event.description.to_s.any? %>
+          <%=h event.description %><br/>
+        <% end %>
         Created by: <%= link_to event.person.name, :controller => 'people', :action => 'view', :id => event.person %>
       </td>
     </tr>

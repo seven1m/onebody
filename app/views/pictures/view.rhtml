@@ -2,11 +2,13 @@
 
 <% content_for :sidebar do %>
   <p><%= link_to '&laquo; Back to Event', :action => 'view_event', :id => @picture.event %></p>
-  <p>
-    Picture uploaded by:<br/>
-    <%= link_to @picture.person.name, :controller => 'people', :action => 'view', :id => @picture.person %><br/>
-    <%= @picture.created_at.strftime '%m/%d/%Y %I:%M %p' %>
-  </p>
+  <% if @picture.person %>
+    <p>
+      Picture uploaded by:<br/>
+      <%= link_to @picture.person.name, :controller => 'people', :action => 'view', :id => @picture.person %><br/>
+      <%= @picture.created_at.strftime '%m/%d/%Y %I:%M %p' %>
+    </p>
+  <% end %>
   <% if @picture.event.admin?(@logged_in) %>
     <p>
       Rotate:

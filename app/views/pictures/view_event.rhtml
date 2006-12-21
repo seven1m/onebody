@@ -1,12 +1,14 @@
 <% content_for :sidebar do %>
   <h1><%=h @event.name %></h1>
-  <p>
-    <%=h @event.description %><br/>
-    <% if @event.when %>
+  <% if @event.description.to_s.any? %>
+    <p><%=h @event.description %></p>
+  <% end %>
+  <% if @event.when %>
+    <p>
       <%=h @event.when.strftime '%m/%d/%Y' %>
       <% unless (time = @event.when.strftime '%I:%M %p') == '12:00 AM' %><%= time %><% end %>
-    <% end %>
-  </p>
+    </p>
+  <% end %>
   <p>
     Event created by:<br/>
     <%= link_to @event.person.name, :controller => 'people', :action => 'view', :id => @event.person %>
@@ -51,6 +53,11 @@
           <%= file_field_tag 'picture10' %><br/>
         </span>
         <br/>
+        <% if @logged_in.admin? %>
+          <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox' %>
+          Don't show this upload set on my profile.
+          <br/>
+        <% end %>
         <%= submit_tag 'Upload!' %>
       </form>
     </p>
