@@ -30,6 +30,11 @@
 
 <h2>Worship Songs &amp; Chord Charts</h2>
 
+<p>
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a chord chart.', :style => 'vertical-align:middle', :class => 'no-border'), :action => 'edit' %>
+  <%= link_to 'Add a Song', :action => 'edit' %>
+</p>
+
 <% if @pages.page_count > 1 %>
   <p>Page: <%= pagination_links @pages %></p>
 <% end %>
@@ -39,8 +44,3 @@
 <% if @pages.page_count > 1 %>
   <p>Page: <%= pagination_links @pages %></p>
 <% end %>
-
-<p>
-  <%= link_to image_tag('add_small.gif', :alt => 'Add a chord chart.', :style => 'vertical-align:middle', :class => 'no-border'), :action => 'edit' %>
-  <%= link_to 'Add a Chord Chart', :action => 'edit' %>
-</p>

@@ -4,7 +4,7 @@
       <tr>
         <td style="padding-bottom:5px;">
           <% if song.image_small_url.to_s.any? %>
-            <%= link_to image_tag(song.image_small_url, :alt => song.title, :class => 'no-border'),
+            <%= link_to image_tag(song.image_small_url, :alt => song.title, :class => 'no-border', :width => 75),
               :controller => 'music', :action => 'view', :id => song %>
           <% end %>
         </td>

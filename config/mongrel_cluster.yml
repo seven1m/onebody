@@ -6,4 +6,4 @@ environment: production
 group: mongrel
 address: 127.0.0.1
 pid_file: log/mongrel.pid
-servers: 3
+servers: 5

@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 27) do
+ActiveRecord::Schema.define(:version => 28) do
 
   create_table "attachments", :force => true do |t|
     t.column "message_id", :integer
@@ -10,6 +10,7 @@ ActiveRecord::Schema.define(:version => 27) do
     t.column "file", :binary
     t.column "content_type", :string, :limit => 50
     t.column "created_at", :datetime
+    t.column "song_id", :integer
   end
 
   create_table "comments", :force => true do |t|
@@ -70,7 +71,7 @@ ActiveRecord::Schema.define(:version => 27) do
     t.column "notes", :string, :limit => 500
     t.column "creator_id", :integer
     t.column "address", :string
-    t.column "members_send", :boolean, :default => false
+    t.column "members_send", :boolean, :default => true
     t.column "link_code", :string, :limit => 10
     t.column "subscription", :boolean, :default => false
     t.column "private", :boolean, :default => false
@@ -140,7 +141,6 @@ ActiveRecord::Schema.define(:version => 27) do
     t.column "body", :text
     t.column "share_email", :boolean, :default => false
     t.column "wall_id", :integer
-    t.column "to_id", :integer
   end
 
   create_table "ministries", :force => true do |t|
@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(:version => 27) do
   end
 
   create_table "recipes", :force => true do |t|
+    t.column "person_id", :integer
     t.column "title", :string
     t.column "notes", :text
     t.column "description", :text
@@ -223,15 +224,14 @@ ActiveRecord::Schema.define(:version => 27) do
     t.column "directions", :text
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
-    t.column "person_id", :integer
     t.column "prep", :string
     t.column "bake", :string
     t.column "serving_size", :integer
   end
 
   create_table "recipes_tags", :id => false, :force => true do |t|
-    t.column "recipe_id", :integer
     t.column "tag_id", :integer
+    t.column "recipe_id", :integer
   end
 
   create_table "sessions", :force => true do |t|
@@ -241,6 +241,25 @@ ActiveRecord::Schema.define(:version => 27) do
   end
 
   add_index "sessions", ["session_id"], :name => "sessions_session_id_index"
+
+  create_table "songs", :force => true do |t|
+    t.column "title", :string
+    t.column "notes", :text
+    t.column "artists", :string, :limit => 500
+    t.column "album", :string
+    t.column "image_small_url", :string
+    t.column "image_medium_url", :string
+    t.column "image_large_url", :string
+    t.column "amazon_asin", :string, :limit => 50
+    t.column "amazon_url", :string
+    t.column "created_at", :datetime
+    t.column "person_id", :integer
+  end
+
+  create_table "songs_tags", :id => false, :force => true do |t|
+    t.column "song_id", :integer
+    t.column "tag_id", :integer
+  end
 
   create_table "tags", :force => true do |t|
     t.column "name", :string, :limit => 50

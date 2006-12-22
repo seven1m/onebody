@@ -1,4 +1,5 @@
 <% content_for :subnav do %>
+  <%= link_to 'List of Songs', :action => 'index' %>
   <%= link_to 'View', :action => 'view', :id => @song %>
   <%= link_to 'Delete', {:action => 'delete', :id => @song}, :confirm => 'Are you sure?', :post => true %>
 <% end %>
@@ -45,10 +46,10 @@
   }
 </script>
 
-<%= observe_field :song_album, :url => {:action => 'amazon_search'}, :function => 'search_amazon()', :frequency => 2 %>
-<%= observe_field :song_artists, :url => {:action => 'amazon_search'}, :function => 'search_amazon()', :frequency => 2 %>
-<%= observe_field :song_title, :url => {:action => 'amazon_search'}, :function => 'search_amazon()', :frequency => 2 %>
-<%= observe_field :song_amazon_asin, :url => {:action => 'amazon_grab'}, :with => 'song_amazon_asin', :frequency => 2 %>
+<%= observe_field :song_album, :url => {:action => 'amazon_search'}, :function => 'search_amazon()', :frequency => 5 %>
+<%= observe_field :song_artists, :url => {:action => 'amazon_search'}, :function => 'search_amazon()', :frequency => 5 %>
+<%= observe_field :song_title, :url => {:action => 'amazon_search'}, :function => 'search_amazon()', :frequency => 5 %>
+<%= observe_field :song_amazon_asin, :url => {:action => 'amazon_grab'}, :with => 'song_amazon_asin', :frequency => 5 %>
 
 <% unless @song.new_record? %>
   <h2>Attachments</h2>

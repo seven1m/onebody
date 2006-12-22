@@ -53,7 +53,7 @@ class Song < ActiveRecord::Base
       req = Amazon::Search::Request.new(AMAZON_ID)
       if query.is_a? String
         req.asin_search(query).products.first rescue nil
-      else
+      elsif query.is_a? Hash
         if query[:album].to_s.any?
           query_string = query[:album]
         elsif query[:artists].to_s.any?
@@ -67,6 +67,8 @@ class Song < ActiveRecord::Base
           product.artists.join(', ').downcase.index(query[:artists].to_s.downcase) and
           product.tracks and product.tracks.join(' ').downcase.index(query[:title].to_s.downcase)
         end
+      else
+        []
       end
     end
   end
