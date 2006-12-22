@@ -5,6 +5,7 @@ class AccountController < ApplicationController
       if person = Person.authenticate(params[:email], params[:password])
         session[:logged_in_id] = person.id
         cookies[:email] = params[:remember] ? {:value => person.email, :expires => Time.now+32000000} : nil
+        flash[:notice] = "Welcome, #{person.name}."
         redirect_to params[:from] || {:controller => 'people', :action => 'index'}
       elsif person == nil
         if family = Family.find_by_email(params[:email])

@@ -1,4 +1,4 @@
-<% controller = object.class.name.pluralize.downcase %>
+<% controller ||= object.class.name.pluralize.downcase %>
 <% if object.tags.any? %>
   <% object.tags.each do |tag| %>
     <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>

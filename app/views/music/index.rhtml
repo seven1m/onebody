@@ -1,25 +1,46 @@
+<% render :partial => 'shares/subnav' %>
+
+<% content_for :sidebar do %>
+  <form style="border:none;">
+    <%= text_field_tag 'artists', params[:artists], :style => 'width:120px;border:1px solid #ccc;' %>
+    <%= submit_tag 'Search by Artist', :style => 'width:120px;' %>
+  </form>
+  
+  <h2>Tags</h2>
+  <% if @tags.any? %>
+    <div class="tag-cloud">
+      <% @tags.each do |tag| %>
+        <% begin %>
+          <span style="font-size:<%= tag.recipes.count * @factor + 9 %>pt;">
+            <%= link_to tag.name, {:controller => 'tags', :action => 'view', :id => tag.name}, :style => 'text-decoration:none;' %>
+          </span>
+        <% rescue %>
+          <!-- tag error -->
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p><em>No tags yet!</em></p>
+  <% end %>
+<% end %>
+
 <h1>Music</h1>
+
+<p>This is the place for <%= CHURCH_NAME %> musicians and singers.</p>
 
 <h2>Worship Songs &amp; Chord Charts</h2>
 
-<% if @songs.any? %>
-  <table>
-    <% @songs.each do |song| %>
-      <tr>
-        <td>
-          <%= link_to image_tag(song.image_small_url, :alt => song.title),
-            :action => 'view', :id => song %>
-        </td>
-        <td>
-          <strong><%= link_to song.title, :action => 'view', :id => song %></strong><br/>
-          <%=h song.artists %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
-<% else %>
-  <p><em>None yet!</em></p>
+<% if @pages.page_count > 1 %>
+  <p>Page: <%= pagination_links @pages %></p>
 <% end %>
 
-<%= link_to image_tag('add_small.gif', :alt => 'Add a chord chart.', :style => 'vertical-align:middle', :class => 'no-border'), :action => 'edit' %>
-<%= link_to 'Add a Chord Chart', :action => 'edit' %>
+<%= render :partial => 'list', :locals => {:songs => @songs} %>
+
+<% if @pages.page_count > 1 %>
+  <p>Page: <%= pagination_links @pages %></p>
+<% end %>
+
+<p>
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a chord chart.', :style => 'vertical-align:middle', :class => 'no-border'), :action => 'edit' %>
+  <%= link_to 'Add a Chord Chart', :action => 'edit' %>
+</p>

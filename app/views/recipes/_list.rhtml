@@ -1,4 +1,4 @@
-<% if @recipe_pages %>
+<% if @recipe_pages and @recipe_pages.page_count > 1 %>
   Page: <%= pagination_links @recipe_pages %>
 <% end %>
 
@@ -29,6 +29,6 @@
   <% end %>
 </table>
 
-<% if @recipe_pages %>
+<% if @recipe_pages and @recipe_pages.page_count > 1 %>
   Page: <%= pagination_links @recipe_pages %>
 <% end %>
