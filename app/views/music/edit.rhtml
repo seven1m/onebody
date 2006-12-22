@@ -1,0 +1,14 @@
+<h1>Edit Song</h1>
+
+<% form_for :song, @song do |form| %>
+  <% form.hidden_field :asin %>
+  <p>
+    <label for="song_title">Title:</label>
+    <%= form.text_field :title %><br/>
+    <label for="song_artists">Artists:</label>
+    <%= form.text_field :artists %><br/>
+    <label for="song_album">Album:</label>
+    <%= form.text_field :album %><br/>
+    <%= submit_tag 'Save Changes' %>
+  </p>
+<% end %>

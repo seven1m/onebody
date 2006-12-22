@@ -57,6 +57,7 @@ require 'RMagick'
 require 'pdf/writer'
 require 'open-uri'
 require 'rexml/document'
+require 'amazon/search'
 require 'inherited_attribute'
 require 'add_condition'
 require 'ar_date_fix'
@@ -69,6 +70,7 @@ ActionMailer::Base.server_settings = {
 }
 
 YAHOO_APP_ID = 'cedar_ridge_christian_church'
+AMAZON_ID = '1VQ2K3ZK8QY3001WSD82'
 
 CHURCH_NAME = 'Cedar Ridge Christian Church'
 CHURCH_OFFICE_PHONE = '(918) 254-0621'

@@ -1,0 +1,25 @@
+<h1>Music</h1>
+
+<h2>Worship Songs &amp; Chord Charts</h2>
+
+<% if @songs.any? %>
+  <table>
+    <% @songs.each do |song| %>
+      <tr>
+        <td>
+          <%= link_to image_tag(song.image_small_url, :alt => song.title),
+            :action => 'view', :id => song %>
+        </td>
+        <td>
+          <strong><%= link_to song.title, :action => 'view', :id => song %></strong><br/>
+          <%=h song.artists %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p><em>None yet!</em></p>
+<% end %>
+
+<%= link_to image_tag('add_small.gif', :alt => 'Add a chord chart.', :style => 'vertical-align:middle', :class => 'no-border'), :action => 'edit' %>
+<%= link_to 'Add a Chord Chart', :action => 'edit' %>
