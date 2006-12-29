@@ -28,10 +28,29 @@
 
 <p>This is the place for <%= CHURCH_NAME %> musicians and singers.</p>
 
+<!--
+<h2>Setlists</h2>
+
+<% if @setlists.any? %>
+  <p>
+    <% @setlists.each_with_index do |setlist, index| %>
+      <%= link_to setlist.start.to_s, :action => 'view_setlist', :id => setlist %><% if index < @setlists.length-1 %>,<% end %>
+    <% end %>
+  </p>
+<% else %>
+  <p><em>No upcoming setlists.</em></p>
+<% end %>
+<p>
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a setlist', :style => 'vertical-align:middle', :class => 'no-border'), :action => 'edit_setlist' %>
+  <%= link_to 'Add a Setlist', :action => 'edit_setlist' %>
+</p>
+-->
+
+
 <h2>Worship Songs &amp; Chord Charts</h2>
 
 <p>
-  <%= link_to image_tag('add_small.gif', :alt => 'Add a chord chart.', :style => 'vertical-align:middle', :class => 'no-border'), :action => 'edit' %>
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a song.', :style => 'vertical-align:middle', :class => 'no-border'), :action => 'edit' %>
   <%= link_to 'Add a Song', :action => 'edit' %>
 </p>
 

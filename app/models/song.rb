@@ -1,6 +1,8 @@
 class Song < ActiveRecord::Base
   
   belongs_to :person
+  has_many :performances
+  has_many :setlists, :through => :performances
   has_many :attachments
   has_and_belongs_to_many :tags
   

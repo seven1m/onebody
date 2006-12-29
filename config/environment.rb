@@ -129,6 +129,11 @@ MOBILE_GATEWAYS = {
   'Verizon' => '%s@vtext.com',
   'Virgin Mobile' => '%s@vmobl.com',
 }
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+  :default => "%m/%d/%Y %I:%M %p",
+  :date => "%m/%d/%Y"
+)
+
 BETA = true
 
 ExceptionNotifier.exception_recipients = %w(seven1m@gmail.com)

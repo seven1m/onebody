@@ -15,6 +15,7 @@ class MusicController < ApplicationController
     @factor = biggest / 11
     @factor = 1 if @factor.zero?
     @tags = Tag.find :all, :conditions => '(select count(*) from songs_tags where tag_id = tags.id and song_id is not null) > 0', :order => 'name'
+    @setlists = Setlist.find :all, :conditions => 'start >= now()'
   end
   
   def view

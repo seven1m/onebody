@@ -2,7 +2,11 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
+<<<<<<< .mine
+ActiveRecord::Schema.define(:version => 30) do
+=======
 ActiveRecord::Schema.define(:version => 28) do
+>>>>>>> .r90
 
   create_table "attachments", :force => true do |t|
     t.column "message_id", :integer
@@ -199,6 +203,12 @@ ActiveRecord::Schema.define(:version => 28) do
     t.column "verse_id", :integer
   end
 
+  create_table "performances", :force => true do |t|
+    t.column "setlist_id", :integer
+    t.column "song_id", :integer
+    t.column "ordering", :integer
+  end
+
   create_table "pictures", :force => true do |t|
     t.column "event_id", :integer
     t.column "person_id", :integer
@@ -242,6 +252,13 @@ ActiveRecord::Schema.define(:version => 28) do
 
   add_index "sessions", ["session_id"], :name => "sessions_session_id_index"
 
+<<<<<<< .mine
+  create_table "setlists", :force => true do |t|
+    t.column "start", :datetime
+    t.column "person_id", :integer
+    t.column "created_at", :datetime
+  end
+
   create_table "songs", :force => true do |t|
     t.column "title", :string
     t.column "notes", :text
@@ -261,6 +278,27 @@ ActiveRecord::Schema.define(:version => 28) do
     t.column "tag_id", :integer
   end
 
+=======
+  create_table "songs", :force => true do |t|
+    t.column "title", :string
+    t.column "notes", :text
+    t.column "artists", :string, :limit => 500
+    t.column "album", :string
+    t.column "image_small_url", :string
+    t.column "image_medium_url", :string
+    t.column "image_large_url", :string
+    t.column "amazon_asin", :string, :limit => 50
+    t.column "amazon_url", :string
+    t.column "created_at", :datetime
+    t.column "person_id", :integer
+  end
+
+  create_table "songs_tags", :id => false, :force => true do |t|
+    t.column "song_id", :integer
+    t.column "tag_id", :integer
+  end
+
+>>>>>>> .r90
   create_table "tags", :force => true do |t|
     t.column "name", :string, :limit => 50
     t.column "updated_at", :datetime
