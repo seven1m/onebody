@@ -129,7 +129,7 @@
     The settings below are for staff, elders, and advanced users.
     Don't edit any of the settings below unless you know what you are doing.<br/>
     <label>Email Address:</label>
-    <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h GROUP_ADDRESS_DOMAIN %><br/>
+    <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h GROUP_ADDRESS_DOMAINS.first %><br/>
     <label for="group_link_code">Class Link Code(s):</label>
     <%= form.text_field :link_code %><br/>
     <label for="group_members_send">Group Members Can Post Messages:</label>

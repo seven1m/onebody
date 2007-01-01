@@ -102,7 +102,7 @@ class Message < ActiveRecord::Base
   
   def email_from
     if group
-      "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAIN) : SYSTEM_NOREPLY_EMAIL}>"
+      "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAINS.first) : SYSTEM_NOREPLY_EMAIL}>"
     else  
       "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{share_email? ? person.email : SYSTEM_NOREPLY_EMAIL}>"
     end
@@ -110,7 +110,7 @@ class Message < ActiveRecord::Base
 
   def email_reply_to
     if group
-      "\"#{group.name}\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAIN) : SYSTEM_NOREPLY_EMAIL}>"
+      "\"#{group.name}\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAINS.first) : SYSTEM_NOREPLY_EMAIL}>"
     elsif share_email?
       "\"#{person.name}\" <#{person.email}>"
     else

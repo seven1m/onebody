@@ -72,6 +72,6 @@ class Group < ActiveRecord::Base
   alias_method 'can_post?', 'can_send?'
   
   def full_address
-    address.to_s.any? ? (address + '@' + GROUP_ADDRESS_DOMAIN) : nil
+    address.to_s.any? ? (address + '@' + GROUP_ADDRESS_DOMAINS.first) : nil
   end
 end

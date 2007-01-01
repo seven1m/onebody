@@ -93,7 +93,7 @@ class Notifier < ActionMailer::Base
     if person
       email.to.each do |address|
         address, domain = address.downcase.split('@')
-        if domain.to_s.strip == GROUP_ADDRESS_DOMAIN
+        if GROUP_ADDRESS_DOMAINS.include? domain.to_s.strip
           address = address.to_s.strip
           if address.any? and group = Group.find_by_address(address) and group.can_send? person
             # if is this a reply, link this message to its original based on the subject
