@@ -93,9 +93,9 @@ class Notifier < ActionMailer::Base
     if person
       email.to.each do |address|
         address, domain = address.downcase.split('@')
-        if GROUP_ADDRESS_DOMAINS.include? domain.to_s.strip
+        if GROUP_ADDRESS_DOMAINS.include? domain.to_s.strip.downcase
           address = address.to_s.strip
-          if address.any? and group = Group.find_by_address(address) and group.can_send? person
+          if address.any? and group = Group.find_by_address(address.downcase) and group.can_send? person
             # if is this a reply, link this message to its original based on the subject
             if email.subject =~ /^re:/i
               parent = group.messages.find_by_subject(email.subject.gsub(/^re:\s?/i, ''), :order => 'id desc')
@@ -162,8 +162,17 @@ class Notifier < ActionMailer::Base
         end
       end
     else
-      # notify user we couldn't determine who they are
-      #Notifier.deliver_simple_message(email.from, 'User Unknown', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot determine who you are based on your email address. Please send email from the address we have in the system for you, or you may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+      valid = false
+      begin
+        email.to.each do |address|
+          valid = true if GROUP_ADDRESS_DOMAINS.include? address.downcase.split('@').last 
+        end
+      rescue
+        # do nothing
+      end
+      if valid # notify user we couldn't determine who they are
+        Notifier.deliver_simple_message(email.from, 'User Unknown', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot determine who you are based on your email address. Please send email from the address we have in the system for you, or you may post your message directly from the site after signing into #{SITE_URL}. If you send from this address often, you may sign into the site and add this address as your secondary email. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+      end
     end
   end
 end

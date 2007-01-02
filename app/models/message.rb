@@ -9,7 +9,7 @@ class Message < ActiveRecord::Base
   has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :dependent => :destroy
   has_many :attachments
   
-  validates_presence_of :person
+  validates_presence_of :person_id
   validates_presence_of :subject
   validates_length_of :subject, :minimum => 2
   validates_presence_of :body
@@ -25,8 +25,11 @@ class Message < ActiveRecord::Base
   
   def before_save
     body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
-    if Message.find_by_person_id_and_subject_and_body(person_id, subject, body, :conditions => 'created_at >= curdate()-1')
-      errors.add_to_base 'already saved' # Notifier relies on this message (don't change it)
+  end
+
+  validate_on_create do |record|
+    if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => 'created_at >= curdate()-1')
+      record.errors.add_to_base 'already saved' # Notifier relies on this message (don't change it)
     end
   end
 

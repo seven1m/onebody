@@ -43,7 +43,7 @@
       <% end %>
     <% when 'Tag' %>
       Something was tagged with
-      <%= link_to item.name, :controller => 'tags', :action => 'view', :id => item %>.
+      <%= link_to item.name, :controller => 'tags', :action => 'view', :id => item.name %>.
     <% when 'Comment' %>
       <% if item.verse %>
         <%= link_to item.verse.reference, :controller => 'verses', :action => 'view', :id => item.verse.reference %>
