@@ -1,11 +1,13 @@
 class AdminController < ApplicationController
   before_filter :only_admins
   
-  RECORD_LIMIT = 100
+  RECORD_LIMIT = 50
   
   def log
     @items = []
-    Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.each do |path|
+    filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }
+    filenames.sort! { |a, b| File::Stat.new(b).mtime <=> File::Stat.new(a).mtime }
+    filenames[0...RECORD_LIMIT].each do |path|
       model_name = path.split('/')[-2].classify
       if ['Picture', 'Family', 'Groups', 'People', 'Recipe'].include? model_name
         model = eval(model_name)
@@ -25,6 +27,7 @@ class AdminController < ApplicationController
     @items << Recipe.find(:all, :limit => RECORD_LIMIT, :order => 'updated_at desc')
     @items << Tag.find(:all, :limit => RECORD_LIMIT, :order => 'updated_at desc')
     @items.flatten!
+    @items = @items.select { |i| i.updated_at }
     @items.sort! { |a, b| b.updated_at.strftime('%Y%m%d%H%M%S') <=> a.updated_at.strftime('%Y%m%d%H%M%S') }
     @items = @items[0..100]
   end
