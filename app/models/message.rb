@@ -31,6 +31,9 @@ class Message < ActiveRecord::Base
     if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => 'created_at >= curdate()-1')
       record.errors.add_to_base 'already saved' # Notifier relies on this message (don't change it)
     end
+    if record.subject =~ /Out of Office/i
+      record.errors.add_to_base 'autoreply' # don't change!
+    end
   end
 
   attr_accessor :dont_send

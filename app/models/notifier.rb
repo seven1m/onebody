@@ -121,7 +121,7 @@ class Notifier < ActionMailer::Base
                 :dont_send => true
               )
               if message.errors.any?
-                if message.errors.on_base != 'already saved'
+                if message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
                   # notify user there were some errors
                   Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
                 end
