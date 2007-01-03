@@ -2,7 +2,22 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 30) do
+ActiveRecord::Schema.define(:version => 31) do
+
+  create_table "actions", :force => true do |t|
+    t.column "person_id", :integer
+    t.column "family_id", :integer
+    t.column "verse_id", :integer
+    t.column "comment_id", :integer
+    t.column "recipe_id", :integer
+    t.column "picture_id", :integer
+    t.column "group_id", :integer
+    t.column "description", :string
+    t.column "contact_id", :integer
+    t.column "message_id", :integer
+    t.column "created_at", :datetime
+    t.column "duplicate", :boolean, :default => false, :null => false
+  end
 
   create_table "attachments", :force => true do |t|
     t.column "message_id", :integer
@@ -62,6 +77,14 @@ ActiveRecord::Schema.define(:version => 30) do
     t.column "updated_at", :datetime
   end
 
+  create_table "groupmembers", :force => true do |t|
+    t.column "group_id", :integer, :default => 0, :null => false
+    t.column "member_id", :integer, :default => 0, :null => false
+    t.column "name", :string, :limit => 100, :default => "", :null => false
+    t.column "email", :string, :limit => 100, :default => "", :null => false
+    t.column "nomail", :integer, :limit => 4, :default => 0, :null => false
+  end
+
   create_table "groups", :force => true do |t|
     t.column "name", :string, :limit => 100
     t.column "description", :string, :limit => 500
@@ -79,6 +102,25 @@ ActiveRecord::Schema.define(:version => 30) do
     t.column "leader_id", :integer
     t.column "updated_at", :datetime
   end
+
+  create_table "groups_legacy", :force => true do |t|
+    t.column "name", :string, :limit => 100, :default => "", :null => false
+    t.column "description", :string, :default => "", :null => false
+    t.column "group_type", :string, :limit => 50, :default => "", :null => false
+    t.column "meets", :string, :limit => 100, :default => "", :null => false
+    t.column "location", :string, :limit => 100, :default => "", :null => false
+    t.column "directions", :text, :default => "", :null => false
+    t.column "notes", :text, :default => "", :null => false
+    t.column "host_id", :integer
+    t.column "list_address", :string, :limit => 100, :default => "", :null => false
+    t.column "friends", :text, :default => "", :null => false
+    t.column "only_friends", :integer, :limit => 4, :default => 0, :null => false
+    t.column "link_code", :string, :limit => 100, :default => "", :null => false
+    t.column "deleted", :integer, :limit => 4, :default => 0, :null => false
+  end
+
+  add_index "groups_legacy", ["list_address"], :name => "list_address", :unique => true
+  add_index "groups_legacy", ["name"], :name => "name"
 
   create_table "legacy_people", :force => true do |t|
     t.column "family_id", :integer, :default => 0, :null => false
@@ -141,6 +183,7 @@ ActiveRecord::Schema.define(:version => 30) do
     t.column "body", :text
     t.column "share_email", :boolean, :default => false
     t.column "wall_id", :integer
+    t.column "to_person_id", :integer
   end
 
   create_table "ministries", :force => true do |t|
