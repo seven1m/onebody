@@ -11,6 +11,7 @@ class Person < ActiveRecord::Base
   has_many :updates, :order => 'created_at'
   has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
   has_many :songs
+  has_many :prayer_signups
   has_and_belongs_to_many :verses
   
   acts_as_password
@@ -107,7 +108,7 @@ class Person < ActiveRecord::Base
     elsif what.is_a? Ministry
       admin? or what.administrator == self
     elsif what.is_a? Person
-      admin? or (what.family == self.family and self.adult?)
+      admin? or (what.family == self.family and self.adult?) or what == self
     else
       raise 'unknown "what"'
     end

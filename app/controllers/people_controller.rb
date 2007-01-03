@@ -2,6 +2,7 @@ class PeopleController < ApplicationController
   def index
     @person = @logged_in
     @family = @person.family
+    @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
     if @logged_in.member?
       render :action => 'view'
     else
@@ -12,6 +13,7 @@ class PeopleController < ApplicationController
   def view
     @person = Person.find params[:id]
     @family = @person.family
+    @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
     if not @logged_in.sees? @person
       render :text => 'You are not authorized to view this person.', :layout => true
       return

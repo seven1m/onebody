@@ -607,3 +607,9 @@ h2 a:active,
 h2 a:visited {
 	text-decoration: underline;
 }
+
+.highlight {
+	background-color: #ddf3ff;
+	padding: 5px;
+	border: 2px solid #92d9ff;
+}

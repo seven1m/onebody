@@ -33,7 +33,7 @@
 <% end %>
 
 <% if @person == @logged_in and (@person.verses.empty? and @person.recipes.empty? and @person.pictures.empty?) %>
-  <div style="width:236px;float:right;clear:right;margin-top:20px;background-color:#ddf3ff;padding:5px;border:2px solid #92d9ff;">
+  <div class="highlight" style="width:236px;float:right;clear:right;margin-top:20px;">
     Hey! Did you know you can <%= link_to 'share', :controller => 'shares' %>
     your favorite pictures, Bible verses, and even recipes on <%= SITE_TITLE %>?
   </div>
@@ -68,6 +68,17 @@
   <% if @logged_in != @person and @person.email.to_s.any? %>
     <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Private Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
   <% end %>
+<% end %>
+
+<% if @prayer_signups.any? %>
+  <p class="highlight" style="width:300px;">
+    <%= @person.first_name %> is praying at the following time(s):<br/>
+    <%= @prayer_signups.map { |s| s.start.strftime '%a %m/%d, %I:%M %p' }.join('<br/>') %>
+    <% if @person != @logged_in %>
+      <br/>
+      <%= link_to 'When are you praying?', :controller => 'prayer', :action => 'event' %>
+    <% end %>
+  </p>
 <% end %>
 
 <%= render :partial => 'details' %>

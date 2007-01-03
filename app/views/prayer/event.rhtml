@@ -1,5 +1,48 @@
 <h1>24/7 Prayer Week - Jan 21-28</h1>
 
+<table>
+  <% (@first..@last).each do |day| %>
+    <tr>
+      <td style="text-align:right;"><%= link_to day.strftime('%A'), :anchor => day.strftime('%Y%m%d') %>
+      <td>
+        <% num = @signups_by_day[day.strftime('%Y/%m/%d')].to_a.length %>
+        <%= image_tag 'bar.gif', :alt => '%', :style => "width:#{num*5}px;height:15px;vertical-align:middle;", :class => 'no-border' %>
+        <%= num %>
+      </td>
+  <% end %>
+</table>
+
 <% (@first..@last).each do |day| %>
-  <h2><%=h day.strftime '%w, %b %d, %Y' %></h2>
+  <a name="<%= day.strftime('%Y%m%d') %>"></a>
+  <h2><%=h day.strftime '%A, %B %d' %></h2>
+  <table>
+  <% (0..47).each do |hour| %>
+    <% min = (hour % 2 == 0) ? '00' : '30'
+       hour = hour / 2
+       day_and_time = Time.parse("#{day.to_s(:short)} #{hour}:#{min}")
+       start = day_and_time.strftime('%Y/%m/%d %H:%M') %>
+    <tr>
+      <td style="text-align:right;">
+        <%= case day_and_time.strftime('%I:%M %p')
+          when '12:00 AM' then 'Midnight'
+          when '12:00 PM' then 'Noon'
+          else day_and_time.strftime('%I:%M %p')
+        end %>
+      </td>
+      <td>
+        <% if signups = @signups[day_and_time.strftime('%Y/%m/%d %H:%M')] %>
+          <%= signups.sort_by { |s| s.created_at }.map do |signup|
+            link_to(signup.person.name, :controller => 'people', :action => 'view', :id => signup.person) + ((signup.person == @logged_in or @logged_in.admin?) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :post => true, :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : nil)
+          end.join(' | ') %>
+          <% unless signups.map { |s| s.person }.include? @logged_in %>
+            <br/>
+            <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?' %>
+          <% end %>
+        <% else %>
+          <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
 <% end %>
