@@ -128,11 +128,14 @@ class Notifier < ActionMailer::Base
               else
                 if email.has_attachments?
                   email.attachments.each do |attachment|
-                    message.attachments.create(
-                      :name => File.split(attachment.original_filename.to_s).last,
-                      :file => attachment.read,
-                      :content_type => attachment.content_type.strip
-                    )
+                    name = File.split(attachment.original_filename.to_s).last
+                    unless ATTACHMENTS_TO_IGNORE.include? name.downcase
+                      message.attachments.create(
+                        :name => name,
+                        :file => attachment.read,
+                        :content_type => attachment.content_type.strip
+                      )
+                    end
                   end
                 end
                 message.send_to_group

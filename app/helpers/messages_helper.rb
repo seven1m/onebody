@@ -1,5 +1,6 @@
 module MessagesHelper
   def remove_bulk_quoting(message_body)
+    message_body = message_body.strip.split(/[\-_]{10,}\n([^\n]+\n?)?http:\/\/[^\n]+/).first
     trimmed = []
     bulk = true
     message_body.strip.split(/\n/).reverse.each do |line|
@@ -8,8 +9,6 @@ module MessagesHelper
         bulk = false
       end
     end
-    trimmed = trimmed.reverse.join("\n").split(/\s*[\-_]+?.original.message.[\-_]+?/i).first.split(/[\-_]+\s*from:.*?\(via/i).first.strip #.split(/\n/)
-#    trimmed = trimmed[0...-4].join("\n") + "\n" + trimmed[-4..-1].join("\n").split(/[\-_]{5,}.*?/).first
-    trimmed.strip
+    trimmed.reverse.join("\n").split(/\s*[\-_]+?.original.message.[\-_]+?/i).first.split(/[\-_]+\s*from:.*?\(via/i).first.strip
   end
 end

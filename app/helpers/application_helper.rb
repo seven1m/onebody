@@ -8,6 +8,10 @@ module ApplicationHelper
     text.gsub(/(\n\s*){3,}/, "\n\n")
   end
   
+  def hide_contact_details(text)
+    text.gsub(/\(?\d\d\d\)?[\s\-\.]?\d\d\d[\s\-\.]\d\d\d\d/, '[phone number protected]').gsub(/[a-z\-_\.0-9]+@[a-z\-0-9\.]+\.[a-z]{2,4}/, '[email address protected]')
+  end
+  
   def image_tag(location, options)
     options[:title] = options[:alt] if options[:alt]
     super(location, options)

@@ -10,27 +10,37 @@
 <h1><%=h @message.subject %></h1>
 
 <div class="message-details">
+  <div style="width:32px;float:left;margin:4px;">
+    <a href="<%= url_for :controller => 'people', :action => 'view', :id => @message.person %>">
+      <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
+    </a>
+  </div>
   <%= image_tag 'comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;' %>
   Message by <%= link_to @message.person.name, :controller => 'people', :action => 'view', :id => @message.person %><br/>
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
 
-<p><%= preserve_breaks(remove_excess_breaks(@message.body)) %></p>
+<p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
 
 <%= render :partial => 'attachments', :locals => {:message => @message} %>
 
 <% @message.children.each do |reply| %>
   <div class="message">
     <div class="message-details">
+      <div style="width:32px;float:left;margin:4px;">
+        <a href="<%= url_for :controller => 'people', :action => 'view', :id => reply.person %>">
+          <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
+        </a>
+      </div>
       <%= image_tag 'comment.gif', :alt => 'Reply', :class => 'no-border', :style => 'vertical-align:middle;' %>
       Reply by <%= link_to reply.person.name, :controller => 'people', :action => 'view', :id => reply.person %><br/>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>
     <p>
       <% if params[:show_quoted] %>
-        <%= preserve_breaks(remove_excess_breaks(reply.body)) %>
+        <%= preserve_breaks(remove_excess_breaks(hide_contact_details(reply.body))) %>
       <% else %>
-        <% trimmed = remove_bulk_quoting(reply.body) %>
+        <% trimmed = remove_bulk_quoting(hide_contact_details(reply.body)) %>
         <%= preserve_breaks(remove_excess_breaks(trimmed)) %>
         <% if reply.body.split(/\n/).length != trimmed.split(/\n/).length %>
           <br/>
