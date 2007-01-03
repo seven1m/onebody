@@ -30,9 +30,11 @@
                                   <%=h SITE_SIMPLE_URL %> | <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL, :style => 'text-decoration:none;' %>
                                 </div>
 
-<!--
-        <div style="padding-top:5px;font-size:9pt;"><%= HEADER_MESSAGE %></div>
--->
+
+        <div style="padding-top:5px;font-size:9pt;">
+          <%= link_to image_tag('prayer_signup.png', :alt => 'Prayer Week', :class => 'no-border'), :controller => 'prayer', :action => 'event' %>
+        </div>
+
 				<ul id="nav">
 				
 				    <% if @logged_in %>
@@ -52,7 +54,7 @@
 				    <li><%= link_to 'Recipes', {:controller => 'recipes', :action => 'index'}, :class => (params[:controller] == 'recipes' ? 'active' : nil) %></li>
             -->
 				    <li><%= link_to 'Publications', {:controller => 'publications', :action => 'index'}, :class => (params[:controller] == 'publications' ? 'active' : nil) %></li>
-				
+
 				</ul>
 
         <% if subnav = yield(:subnav) %>

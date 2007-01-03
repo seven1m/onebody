@@ -1,0 +1,5 @@
+<h1>24/7 Prayer Week - Jan 21-28</h1>
+
+<% (@first..@last).each do |day| %>
+  <h2><%=h day.strftime '%w, %b %d, %Y' %></h2>
+<% end %>
