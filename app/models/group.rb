@@ -42,7 +42,7 @@ class Group < ActiveRecord::Base
   def get_options_for(person, create_if_missing=false)
     unless options = Membership.find_by_group_id_and_person_id(id, person.id)
       options = Membership.new(:group => self, :person => person)
-      options.save if create_if_missing and not person.new_record? and not group.new_record?
+      options.save if create_if_missing and not person.new_record? and not new_record?
     end
     options
   end
