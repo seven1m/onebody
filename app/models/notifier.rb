@@ -165,7 +165,7 @@ class Notifier < ActionMailer::Base
       valid = false
       begin
         email.to.each do |address|
-          valid = true if GROUP_ADDRESS_DOMAINS.include? address.downcase.split('@').last 
+          valid = true if GROUP_ADDRESS_DOMAINS.include?(address.downcase.split('@').last) and email.from !~ /MAILER.DAEMON/
         end
       rescue
         # do nothing

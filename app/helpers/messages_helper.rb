@@ -3,11 +3,13 @@ module MessagesHelper
     trimmed = []
     bulk = true
     message_body.strip.split(/\n/).reverse.each do |line|
-      unless line =~ /^>/ and bulk
+      unless (line.strip.empty? or line =~ /^>/) and bulk
         trimmed << line
         bulk = false
       end
     end
-    trimmed.reverse.join("\n").split(/\s*[\-_]+?.original.message.[\-_]+?/i).first.split(/[\-_]+\s*from:.*?\(via/i).first.strip
+    trimmed = trimmed.reverse.join("\n").split(/\s*[\-_]+?.original.message.[\-_]+?/i).first.split(/[\-_]+\s*from:.*?\(via/i).first.strip #.split(/\n/)
+#    trimmed = trimmed[0...-4].join("\n") + "\n" + trimmed[-4..-1].join("\n").split(/[\-_]{5,}.*?/).first
+    trimmed.strip
   end
 end

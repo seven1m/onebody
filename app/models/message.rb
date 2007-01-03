@@ -58,11 +58,15 @@ class Message < ActiveRecord::Base
     end
   end
   
-  def introduction
+  def introduction(person)
     if group and group.subscription
       ''
     elsif group
-      "The following message was posted to the group \"#{group.name}\" by #{person.name}:\n"
+      intro = "The following message was posted to the group \"#{group.name}\" by #{person.name}.\n"
+      if group.can_post?(person) and group.address.to_s.any?
+        intro << "REPLIES GO TO THE ENTIRE GROUP!\n"
+      end
+      intro
     elsif wall
       "#{person.name} posted a message on your wall:\n"
     else
@@ -89,7 +93,7 @@ class Message < ActiveRecord::Base
     elsif group
       if group.can_post? person
         if group.address.to_s.any?
-          msg << "You may reply directly or at the following link: #{reply_url}\n"
+          msg << "REPLIES GO TO THE ENTIRE GROUP! You may reply directly or at the following link: #{reply_url}\n"
         else
           msg << "To reply, please use the following link: #{reply_url}\n"
         end
