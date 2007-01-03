@@ -15,7 +15,7 @@
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
 
-<p><%= preserve_breaks(@message.body) %></p>
+<p><%= preserve_breaks(remove_excess_breaks(@message.body)) %></p>
 
 <%= render :partial => 'attachments', :locals => {:message => @message} %>
 
@@ -28,10 +28,10 @@
     </div>
     <p>
       <% if params[:show_quoted] %>
-        <%= preserve_breaks(reply.body) %>
+        <%= preserve_breaks(remove_excess_breaks(reply.body)) %>
       <% else %>
         <% trimmed = remove_bulk_quoting(reply.body) %>
-        <%= preserve_breaks(trimmed) %>
+        <%= preserve_breaks(remove_excess_breaks(trimmed)) %>
         <% if reply.body.split(/\n/).length != trimmed.split(/\n/).length %>
           <br/>
           <em style="color:#009;">

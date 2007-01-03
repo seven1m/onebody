@@ -4,6 +4,10 @@ module ApplicationHelper
     text.split(/\n/).map { |part| h(part) }.join('<br/>')
   end
   
+  def remove_excess_breaks(text)
+    text.gsub(/(\n\s*){3,}/, "\n\n")
+  end
+  
   def image_tag(location, options)
     options[:title] = options[:alt] if options[:alt]
     super(location, options)
