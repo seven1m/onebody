@@ -107,7 +107,7 @@ class Person < ActiveRecord::Base
     elsif what.is_a? Ministry
       admin? or what.administrator == self
     elsif what.is_a? Person
-      what.family == self.family and self.adult?
+      admin? or (what.family == self.family and self.adult?)
     else
       raise 'unknown "what"'
     end

@@ -8,6 +8,6 @@ module MessagesHelper
         bulk = false
       end
     end
-    trimmed.reverse.join("\n")
+    trimmed.reverse.join("\n").split(/\s*[\-_]+?.original.message.[\-_]+?/i).first.split(/[\-_]+\s*from:.*?\(via/i).first.strip
   end
 end

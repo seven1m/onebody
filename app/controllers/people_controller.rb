@@ -146,6 +146,9 @@ class PeopleController < ApplicationController
         if params[:person][:website] and params[:person][:website] !~ /^http:\/\//
           params[:person][:website] = 'http://' + params[:person][:website]
         end
+        if params[:person][:service_phone]
+          params[:person][:service_phone] = params[:person][:service_phone].scan(/\d/).join('')
+        end
         @person.update_attributes params[:person]
         flash[:notice] = 'Changes saved.'
       end

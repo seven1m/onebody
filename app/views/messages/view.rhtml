@@ -30,8 +30,9 @@
       <% if params[:show_quoted] %>
         <%= preserve_breaks(reply.body) %>
       <% else %>
-        <%= preserve_breaks(remove_bulk_quoting(reply.body)) %>
-        <% if reply.body.strip.split(/\n/).last =~ /^>/ %>
+        <% trimmed = remove_bulk_quoting(reply.body) %>
+        <%= preserve_breaks(trimmed) %>
+        <% if reply.body.split(/\n/).length != trimmed.split(/\n/).length %>
           <br/>
           <em style="color:#009;">
             Some quoted text in this message is hidden;
