@@ -1,10 +1,14 @@
 class PrayerController < ApplicationController
   def event
-    @first = Date.new(2007, 1, 21)
-    @last = Date.new(2007, 1, 27)
+    @first = DateTime.new(2007, 1, 21, 12)
+    @last = DateTime.new(2007, 1, 28, 11)
     signups = PrayerSignup.find :all, :conditions => ['start >= ? and start <= ?', @first, @last], :order => 'start'
     @signups = signups.group_by { |r| r.start.strftime '%Y/%m/%d %H:%M' }
-    @signups_by_day = signups.group_by { |r| r.start.strftime '%Y/%m/%d' }
+    @count_per_day = {}
+    signups.each do |s|
+      @count_per_day[s.start.strftime('%Y/%m/%d')] ||= 0
+      @count_per_day[s.start.strftime('%Y/%m/%d')] += 1
+    end
   end
   
   def event_signup

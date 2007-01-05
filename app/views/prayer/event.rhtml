@@ -1,48 +1,70 @@
 <h1>24/7 Prayer Week - Jan 21-28</h1>
 
-<table>
-  <% (@first..@last).each do |day| %>
-    <tr>
-      <td style="text-align:right;"><%= link_to day.strftime('%A'), :anchor => day.strftime('%Y%m%d') %>
-      <td>
-        <% num = @signups_by_day[day.strftime('%Y/%m/%d')].to_a.length %>
-        <%= image_tag 'bar.gif', :alt => '%', :style => "width:#{num*5}px;height:15px;vertical-align:middle;", :class => 'no-border' %>
-        <%= num %>
-      </td>
-  <% end %>
-</table>
+<p>
+  Churches throughout the Tulsa area are joining together to
+  make 2007 a year of prayer. Cedar Ridge has chosen January 21-28
+  as our week to pray together 24 hours-a-day for 7 days. The
+  prayer room will be manned around the clock all that week.
+</p>
 
-<% (@first..@last).each do |day| %>
-  <a name="<%= day.strftime('%Y%m%d') %>"></a>
-  <h2><%=h day.strftime '%A, %B %d' %></h2>
+<p style="font-weight:bold;">
+  Sign up to pray below. You may sign up for multiple hours.
+</p>
+
+<% content_for :sidebar do %>
+  <h2>Taken Time Slots</h2>
   <table>
-  <% (0..47).each do |hour| %>
-    <% min = (hour % 2 == 0) ? '00' : '30'
-       hour = hour / 2
-       day_and_time = Time.parse("#{day.to_s(:short)} #{hour}:#{min}")
-       start = day_and_time.strftime('%Y/%m/%d %H:%M') %>
-    <tr>
-      <td style="text-align:right;">
-        <%= case day_and_time.strftime('%I:%M %p')
-          when '12:00 AM' then 'Midnight'
-          when '12:00 PM' then 'Noon'
-          else day_and_time.strftime('%I:%M %p')
-        end %>
-      </td>
-      <td>
-        <% if signups = @signups[day_and_time.strftime('%Y/%m/%d %H:%M')] %>
-          <%= signups.sort_by { |s| s.created_at }.map do |signup|
-            link_to(signup.person.name, :controller => 'people', :action => 'view', :id => signup.person) + ((signup.person == @logged_in or @logged_in.admin?) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :post => true, :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : nil)
-          end.join(' | ') %>
-          <% unless signups.map { |s| s.person }.include? @logged_in %>
-            <br/>
-            <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?' %>
-          <% end %>
-        <% else %>
-          <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
+    <% slots = range_of_hours(@first, @last).group_by { |h| h.strftime('%Y/%m/%d') } %>
+    <% range_of_days(@first, @last).each do |day| %>
+      <%
+        num_slots = slots[day.strftime('%Y/%m/%d')].length
+        taken = @count_per_day[day.strftime('%Y/%m/%d')] || 0
+        percent = (taken / num_slots.to_f * 100).to_i
+      %>
+      <tr>
+        <td style="text-align:right;"><%= link_to day.strftime('%A'), :anchor => day.strftime('%Y%m%d') %>
+        <td style="line-height:15px;font-size:11px;color:#333;">
+          <div style="width:<%= [1, percent].max %>px;background:url(/images/bar.gif) top left repeat-x;height:15px;padding:0;float:left;text-align:right;">
+            <% if percent > 50 %><%= percent %>%&nbsp;<% end %>
+          </div>
+          <% if percent <= 50 %>&nbsp;<%= percent %>%<% end %>
+        </td>
+    <% end %>
   </table>
+<% end %>
+
+<% day = nil %>
+<% range_of_hours(@first, @last).each do |hour| %>
+  <% if hour.day != day %>
+    <a name="<%= hour.strftime('%Y%m%d') %>"></a>
+    <h2><%=h hour.strftime '%A, %B %d' %></h2>
+    <% day = hour.day %>
+    <table>
+  <% end %>
+  <% start = hour.strftime('%Y/%m/%d %H:%M') %>
+  <tr>
+    <td style="text-align:right;">
+      <%= case hour.strftime('%I:%M %p')
+        when '12:00 AM' then 'Midnight'
+        when '12:00 PM' then 'Noon'
+        else hour.strftime('%I:%M %p')
+      end %>
+    </td>
+    <td>
+      <% if signups = @signups[hour.strftime('%Y/%m/%d %H:%M')] %>
+        <%= signups.sort_by { |s| s.created_at }.map do |signup|
+          link_to(signup.person.name, :controller => 'people', :action => 'view', :id => signup.person) + ((signup.person == @logged_in or @logged_in.admin?) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :post => true, :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : nil)
+        end.join(' | ') %>
+        <% unless signups.map { |s| s.person }.include? @logged_in %>
+          <br/>
+          <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?' %>
+        <% end %>
+      <% else %>
+        <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
+      <% end %>
+    </td>
+  </tr>
+  <% if hour.hour == 23 or hour == @last %>
+    </table>
+  <% end %>
 <% end %>
