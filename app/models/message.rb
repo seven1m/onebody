@@ -52,7 +52,7 @@ class Message < ActiveRecord::Base
   def send_to_group
     return unless group
     group.people.each do |person|
-      if group.get_options_for(person).get_email and person.email.to_s.any?
+      if group.get_options_for(person).get_email and person.email.to_s.any? and person.email =~ VALID_EMAIL_ADDRESS
         Notifier.deliver_message(person, self)
       end
     end

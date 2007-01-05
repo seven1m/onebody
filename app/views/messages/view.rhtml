@@ -56,8 +56,10 @@
   </div>
 <% end %>
 
-<p>
-  <%= link_to_remote 'Reply to this message &raquo;', :url => {:action => 'edit', :parent_id => @message.id} %>
-</p>
+<% if @message.group and @message.group.can_post? @logged_in %>
+  <p>
+    <%= link_to_remote 'Reply to this message &raquo;', :url => {:action => 'edit', :parent_id => @message.id} %>
+  </p>
+<% end %>
 
 <div id="reply"></div>

@@ -142,7 +142,7 @@ class PeopleController < ApplicationController
         updates[:birthday] = Date.new(1800, 1, 1) if updates.has_key?(:birthday) and updates[:birthday].nil?
         updates[:anniversary] = Date.new(1800, 1, 1) if updates.has_key?(:anniversary) and updates[:anniversary].nil?
         @person.updates.create(updates)
-        Notifier.deliver_profile_update(@person, updates)
+        Notifier.deliver_profile_update(@person, updates) if SEND_UPDATES_TO
         flash[:notice] = 'Changes submitted.'
       else # testimony, about, favorites, etc.
         if params[:person][:website] and params[:person][:website] !~ /^http:\/\//
