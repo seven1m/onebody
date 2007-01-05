@@ -6,8 +6,12 @@ class PrayerController < ApplicationController
     @signups = signups.group_by { |r| r.start.strftime '%Y/%m/%d %H:%M' }
     @count_per_day = {}
     signups.each do |s|
-      @count_per_day[s.start.strftime('%Y/%m/%d')] ||= 0
-      @count_per_day[s.start.strftime('%Y/%m/%d')] += 1
+      d = s.start.strftime('%Y/%m/%d')
+      h = s.start.strftime('%H:%M')
+      @count_per_day[d] ||= []
+      unless @count_per_day[d].include? h
+        @count_per_day[d] << h
+      end
     end
   end
   

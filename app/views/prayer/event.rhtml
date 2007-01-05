@@ -18,7 +18,7 @@
     <% range_of_days(@first, @last).each do |day| %>
       <%
         num_slots = slots[day.strftime('%Y/%m/%d')].length
-        taken = @count_per_day[day.strftime('%Y/%m/%d')] || 0
+        taken = @count_per_day[day.strftime('%Y/%m/%d')] ? @count_per_day[day.strftime('%Y/%m/%d')].length : 0
         percent = (taken / num_slots.to_f * 100).to_i
       %>
       <tr>
