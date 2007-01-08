@@ -123,6 +123,7 @@ class Verse < ActiveRecord::Base
     # make the reference normal (proper book name, formatting, etc.)
     # we'll assume only one book per reference
     def normalize_reference(reference)
+      return nil unless reference
       book = normalize_book(reference.strip.downcase.match(/^.\s*[a-zA-Z]*/).to_s.strip)
       numbers = normalize_numbers(reference.gsub(/^.\s*[a-zA-Z]*/, ''))
       if book and numbers

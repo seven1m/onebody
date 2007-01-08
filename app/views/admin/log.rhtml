@@ -41,6 +41,13 @@
         Oops... this message isn't associated with anybody or any group!<br/>
         <%=h item.inspect %>
       <% end %>
+      <br/>
+      <% if item.to %>
+        <%= link_to_function 'show private message', "Element.toggle('message#{item.id}')" %>
+        <span id="message<%= item.id %>" style="display:none;"><br/><%=h item.body %></span>
+      <% else %>
+        <%=h item.body %>
+      <% end %>
     <% when 'Tag' %>
       Something was tagged with
       <%= link_to item.name, :controller => 'tags', :action => 'view', :id => item.name %>.

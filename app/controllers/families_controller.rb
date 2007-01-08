@@ -9,7 +9,8 @@ class FamiliesController < ApplicationController
   end
   
   def edit
-    @family = @logged_in.family
+    @family = params[:id] ? Family.find(params[:id]) : @logged_in.family
+    raise 'Error.' unless @logged_in.can_edit? @family.people.first
     if request.post?
       if params[:photo_url] and params[:photo_url].length > 7
         @family.photo = params[:photo_url]
@@ -18,6 +19,6 @@ class FamiliesController < ApplicationController
       end
       flash[:notice] = 'Photo saved.'
     end
-    redirect_to :controller => 'people', :action => 'edit'
+    redirect_to params[:return_to] || {:controller => 'people', :action => 'edit'}
   end
 end

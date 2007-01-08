@@ -125,7 +125,10 @@ class PeopleController < ApplicationController
   def edit
     if params[:id]
       @person = Person.find params[:id]
-      raise 'Error.' unless @logged_in.can_edit? @person
+      unless @logged_in.can_edit? @person
+        render :text => "Sorry. You may not edit this person's profile.", :layout => true
+        return
+      end
     else
       @person = @logged_in
     end

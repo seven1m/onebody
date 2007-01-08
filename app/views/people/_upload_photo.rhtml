@@ -7,7 +7,7 @@
     <% if object.has_photo? %>
       <br/>
       <%= link_to "Remove #{name}",
-        {:photo => 'remove'}.update(url),
+        {:id => object, :photo => 'remove', :return_to => request.request_uri}.update(url),
         :post => true,
         :confirm => 'Are you sure?' %>
     <% end %>

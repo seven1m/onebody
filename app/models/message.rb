@@ -58,12 +58,12 @@ class Message < ActiveRecord::Base
     end
   end
   
-  def introduction(person)
+  def introduction(to_person)
     if group and group.subscription
       ''
     elsif group
       intro = "The following message was posted to the group \"#{group.name}\" by #{person.name}.\n"
-      if group.can_post?(person) and group.address.to_s.any?
+      if group.can_post?(to_person) and group.address.to_s.any?
         intro << "REPLIES GO TO THE ENTIRE GROUP!\n"
       end
       intro

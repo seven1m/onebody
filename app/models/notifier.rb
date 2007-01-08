@@ -7,7 +7,7 @@ class Notifier < ActionMailer::Base
   end
   
   def email_update(person)
-    recipients SEND_UPDATES_TO
+    recipients SEND_EMAIL_CHANGES_TO
     from SYSTEM_NOREPLY_EMAIL
     subject "#{person.name} Changed Email"
     body :person => person
@@ -173,7 +173,7 @@ class Notifier < ActionMailer::Base
       rescue
         # do nothing
       end
-      if valid and email.from.to_s !~ /daemon/i and email.from.to_s !~ /no\-reply/i and email.from.to_s !~ /postmaster/i and email.subject.to_s !~ /user\sunknown/i
+      if valid and email.from.to_s !~ /daemon/i and email.from.to_s !~ /no\-reply/i and email.from.to_s !~ /postmaster/i and email.subject.to_s !~ /user\sunknown/i and email.subject !~ /returned mail/i
         # notify user we couldn't determine who they are
         Notifier.deliver_simple_message(email.from, 'User Unknown', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot determine who you are based on your email address. Please send email from the address we have in the system for you, or you may post your message directly from the site after signing into #{SITE_URL}. If you send from this address often, you may sign into the site and add this address as your secondary email. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
       end
