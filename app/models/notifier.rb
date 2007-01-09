@@ -147,9 +147,11 @@ class Notifier < ActionMailer::Base
           
           # send to the parents (don't save the message -- just send it raw)
           elsif address.to_s.any? and group = Group.find_by_address(address.gsub(/\-parents$/, '')) and group.can_send? person
+            email.cc = nil
+            email.bcc = nil
             sent_to = []
-            group.people.each do |person|
-              person.parents.each do |parent|
+            group.people.each do |p|
+              p.parents.each do |parent|
                 if parent.email.to_s.any?
                   email.to = parent.email
                   Notifier.deliver(email)
