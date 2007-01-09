@@ -3,7 +3,9 @@
     <% case item.class.name
       when 'Struct::PhotoFile' %>
       <%= image_tag url_for(:controller => item.record.class.name.downcase.pluralize, :action => 'photo', :id => "#{item.record.id}.small.jpg"), :style => 'float:left;margin-right:10px;' %>
-      <% if item.record.respond_to? :person %>
+      <% if item.record.is_a? Person %>
+        <%= link_to item.record.name, :controller => 'people', :action => 'view', :id => item.record %>
+      <% elsif item.record.respond_to? :person %>
         <%= link_to item.record.person.name, :controller => 'people', :action => 'view', :id => item.record.person %>
       <% else %>
         <%= link_to item.record.name, :controller => 'people', :action => 'view', :id => item.record.people.first %>

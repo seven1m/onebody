@@ -5,11 +5,10 @@ class AdminController < ApplicationController
   
   def log
     @items = []
-    filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }
-    filenames.sort! { |a, b| File::Stat.new(b).mtime <=> File::Stat.new(a).mtime }
+    filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
     filenames[0...RECORD_LIMIT].each do |path|
       model_name = path.split('/')[-2].classify
-      if ['Picture', 'Family', 'Groups', 'People', 'Recipe'].include? model_name
+      if ['Picture', 'Family', 'Group', 'Person', 'Recipe'].include? model_name
         model = eval(model_name)
         id = path.split('/').last.gsub(/\.jpg$/i, '').to_i
         if record = model.find(id) rescue nil
@@ -31,7 +30,7 @@ class AdminController < ApplicationController
     @items.sort! { |a, b| b.updated_at.strftime('%Y%m%d%H%M%S') <=> a.updated_at.strftime('%Y%m%d%H%M%S') }
     @items = @items[0..100]
   end
-  
+
   def updates
     @updates = Update.find_all_by_complete(params[:complete] == 'true')
   end
