@@ -17,8 +17,14 @@
     <script type="text/javascript">Element.hide('wall_message'); Element.show('wall_message_link');</script>
   <% end %>
 </p>
-<% if @person.wall_messages.count > 0 %>
-  <%= render :partial => 'wall_messages', :locals => {:messages => @person.wall_messages} %>
+<% if (messages = @person.wall_messages.find(:all)).any? %>
+  <%= render :partial => 'wall_messages', :locals => {:messages => messages[0...10]} %>
+  <% if messages.length > 10 %>
+    <p>
+      showing the last 10 of <%= messages.length %> wall messages |
+      <%= link_to 'View all...', :controller => 'people', :action => 'wall', :id => @person %>
+    </p>
+  <% end %>
 <% else %>
   <p><em>No messages yet!</em></p>
 <% end %>

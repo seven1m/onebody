@@ -53,6 +53,13 @@ class PeopleController < ApplicationController
     end
   end
   
+  def wall
+    @person = Person.find params[:id]
+    if not @logged_in.sees?(@person)
+      render :text => 'You are not authorized to view this person.', :layout => true
+    end
+  end
+  
   def search
     @people = nil
     p = params.clone; p.delete 'action'; p.delete 'controller'
