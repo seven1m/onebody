@@ -1,5 +1,6 @@
 class Publication < ActiveRecord::Base
   acts_as_file 'db/publications'
+  acts_as_logger LogItem
   
   def pseudo_file_name
     filename = name.scan(/[a-z0-9]/i).join

@@ -17,6 +17,8 @@ class Person < ActiveRecord::Base
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES
   
+  acts_as_logger LogItem
+  
   #validates_presence_of :email
   validates_length_of :password, :minimum => 5, :allow_nil => true
   validates_confirmation_of :password

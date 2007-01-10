@@ -1,0 +1,68 @@
+<% @items.each do |item| %>
+  <p style="clear:left;">
+    <% case item.class.name
+      when 'Struct::PhotoFile' %>
+      <%= image_tag url_for(:controller => item.record.class.name.downcase.pluralize, :action => 'photo', :id => "#{item.record.id}.small.jpg"), :style => 'float:left;margin-right:10px;' %>
+      <% if item.record.is_a? Person %>
+        <%= link_to item.record.name, :controller => 'people', :action => 'view', :id => item.record %>
+      <% elsif item.record.respond_to? :person %>
+        <%= link_to item.record.person.name, :controller => 'people', :action => 'view', :id => item.record.person %>
+      <% else %>
+        <%= link_to item.record.name, :controller => 'people', :action => 'view', :id => item.record.people.first %>
+      <% end %>
+      uploaded a 
+      <% if item.record.class.name == 'Picture' %>
+        Picture.
+      <% else %>
+        <%= item.record.class.name %> photo.
+      <% end %>
+    <% when 'Person' %>
+      <%= link_to item.name, :controller => 'people', :action => 'view', :id => item %>
+      updated their profile.
+    <% when 'Group' %>
+      <%= link_to item.name, :controller => 'groups', :action => 'view', :id => item %>
+      (group) has been updated.
+    <% when 'Verse' %>
+      <%= link_to item.reference, :controller => 'verses', :action => 'view', :id => item %>
+      has been added to
+      <%= item.people.map { |person|
+        link_to(person.name, :controller => 'people', :action => 'view', :id => person)
+      }.join(', ') %>
+    <% when 'Message' %>
+      <%= link_to item.person.name, :controller => 'people', :action => 'view', :id => item.person %>
+      <% if item.group %>
+        posted a <%= link_to 'message', :controller => 'messages', :action => 'view', :id => item %>
+        to <%= link_to item.group.name, :controller => 'groups', :action => 'view', :id => item.group %>
+      <% elsif item.wall %>
+        posted a message
+        on <%= link_to item.wall.name_possessive + ' wall', :controller => 'people', :action => 'view', :id => item.wall, :anchor => 'wall' %>.
+      <% elsif item.to %>
+        sent a private <%= link_to 'message', :controller => 'messages', :action => 'view', :id => item %>
+        to <%= link_to item.to.name, :controller => 'people', :action => 'view', :id => item.to %>.
+      <% else %>
+        Oops... this message isn't associated with anybody or any group!<br/>
+        <%=h item.inspect %>
+      <% end %>
+      <br/>
+      <% if item.to %>
+        <%= link_to_function 'show private message', "Element.toggle('message#{item.id}')" %>
+        <span id="message<%= item.id %>" style="display:none;"><br/><%=h item.body %></span>
+      <% else %>
+        <%=h item.body %>
+      <% end %>
+    <% when 'Tag' %>
+      Something was tagged with
+      <%= link_to item.name, :controller => 'tags', :action => 'view', :id => item.name %>.
+    <% when 'Comment' %>
+      <% if item.verse %>
+        <%= link_to item.verse.reference, :controller => 'verses', :action => 'view', :id => item.verse.reference %>
+        has a new comment. 
+      <% else %>
+        A comment was added, but I don't know what it is associated with:<br/>
+        <%=h item.inspect %>
+      <% end %>
+    <% else %>
+      <%= item.class.name %>
+    <% end %>
+  </p>
+<% end %>

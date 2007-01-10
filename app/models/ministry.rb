@@ -7,6 +7,8 @@ class Ministry < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_presence_of :admin_id
   
+  acts_as_logger LogItem
+  
   def dates
     dates = workers.find_by_sql "select MONTH(start) as m, DAY(start) as d, YEAR(start) as y, id from workers where ministry_id = #{self.id}"
     dates_hash = {}

@@ -15,6 +15,8 @@ class Message < ActiveRecord::Base
   validates_presence_of :body
   validates_length_of :body, :minimum => 2
   
+  acts_as_logger LogItem
+  
   def top
     top = self
     while top.parent

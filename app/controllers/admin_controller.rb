@@ -4,6 +4,26 @@ class AdminController < ApplicationController
   RECORD_LIMIT = 50
   
   def log
+    @pages = Paginator.new self, LogItem.count, 100, params[:page]
+    @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset
+  end
+  
+  def photos
+    @items = []
+    filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
+    filenames[0...RECORD_LIMIT].each do |path|
+      model_name = path.split('/')[-2].classify
+      if ['Picture', 'Family', 'Group', 'Person', 'Recipe'].include? model_name
+        model = eval(model_name)
+        id = path.split('/').last.gsub(/\.jpg$/i, '').to_i
+        if record = model.find(id) rescue nil
+          @items << PhotoFile.new(path, record, File::Stat.new(path).mtime)
+        end
+      end
+    end
+  end
+  
+  def old_log
     @items = []
     filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
     filenames[0...RECORD_LIMIT].each do |path|

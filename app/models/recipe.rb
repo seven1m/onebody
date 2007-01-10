@@ -9,6 +9,8 @@ class Recipe < ActiveRecord::Base
   
   acts_as_photo 'db/photos/recipes', PHOTO_SIZES
   
+  acts_as_logger LogItem
+  
   def admin?(person)
     person == self.person or person.admin?
   end

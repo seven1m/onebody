@@ -3,6 +3,8 @@ class Event < ActiveRecord::Base
   belongs_to :person
   serialize :admins
   
+  acts_as_logger LogItem
+  
   validates_presence_of :name
   
   def cover_picture

@@ -8,6 +8,8 @@ class Song < ActiveRecord::Base
   
   validates_presence_of :title
   
+  acts_as_logger LogItem
+  
   def amazon_asin=(asin)
     old_asin = amazon_asin
     write_attribute :amazon_asin, asin

@@ -1,0 +1,18 @@
+<% @items.each do |item| %>
+  <p style="clear:left;">
+    <%= image_tag url_for(:controller => item.record.class.name.downcase.pluralize, :action => 'photo', :id => "#{item.record.id}.small.jpg"), :style => 'float:left;margin-right:10px;' %>
+    <% if item.record.is_a? Person %>
+      <%= link_to item.record.name, :controller => 'people', :action => 'view', :id => item.record %>
+    <% elsif item.record.respond_to? :person %>
+      <%= link_to item.record.person.name, :controller => 'people', :action => 'view', :id => item.record.person %>
+    <% else %>
+      <%= link_to item.record.name, :controller => 'people', :action => 'view', :id => item.record.people.first %>
+    <% end %>
+    uploaded a 
+    <% if item.record.class.name == 'Picture' %>
+      <%= link_to 'picture', :controller => 'pictures', :action => 'view', :id => item.record %>
+    <% else %>
+      <%= item.record.class.name %> photo.
+    <% end %>
+  </p>
+<% end %>

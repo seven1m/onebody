@@ -3,6 +3,8 @@ class Family < ActiveRecord::Base
   
   acts_as_photo '/db/photos/families', PHOTO_SIZES
   
+  acts_as_logger LogItem
+  
   share_with :mobile_phone
   share_with :address
   share_with :anniversary

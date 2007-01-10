@@ -15,6 +15,8 @@ class Group < ActiveRecord::Base
   
   acts_as_photo 'db/photos/groups', PHOTO_SIZES
   
+  acts_as_logger LogItem
+  
   def inspect
     "<#{name}>"
   end

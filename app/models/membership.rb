@@ -2,6 +2,8 @@ class Membership < ActiveRecord::Base
   belongs_to :group
   belongs_to :person
   
+  acts_as_logger LogItem
+  
   def family; person.family; end
   
   inherited_attribute :share_address, :person

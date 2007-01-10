@@ -5,6 +5,8 @@ class Verse < ActiveRecord::Base
   has_and_belongs_to_many :tags, :order => 'name'
   has_many :comments
   
+  acts_as_logger LogItem
+  
   def admin?(person)
     self.people.include? person or person.admin?
   end
@@ -28,6 +30,7 @@ class Verse < ActiveRecord::Base
        self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
        self.text.gsub!(/\223|\224/, '"')
        self.text.gsub!(/\221|\222/, "'")
+       self.text.gsub!(/\227/, "--")
     rescue
       nil
     end
