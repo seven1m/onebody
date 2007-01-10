@@ -11,8 +11,9 @@ class FamiliesController < ApplicationController
   def edit
     @family = params[:id] ? Family.find(params[:id]) : @logged_in.family
     unless @logged_in.can_edit? @family.people.first
-      render :text => 'Sorry. You may not change this family photo because you are not an adult according to our records. (If we're wrong, let us know!)', :layout => true
+      render :text => 'Sorry. You may not change this family photo because you are not an adult according to our records. (If we are wrong, let us know!)', :layout => true
       return
+    end
     if request.post?
       if params[:photo_url] and params[:photo_url].length > 7
         @family.photo = params[:photo_url]
