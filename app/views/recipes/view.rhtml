@@ -3,6 +3,7 @@
   <% if @recipe.admin? @logged_in %>
     <%= link_to 'Edit Recipe', :action => 'edit', :id => @recipe %>
   <% end %>
+  <%= link_to 'New Recipe', :controller => 'recipes', :action => 'edit' %>
 <% end %>
 
 <% if @recipe.has_photo? %>

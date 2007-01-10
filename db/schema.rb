@@ -4,21 +4,6 @@
 
 ActiveRecord::Schema.define(:version => 32) do
 
-  create_table "actions", :force => true do |t|
-    t.column "person_id", :integer
-    t.column "family_id", :integer
-    t.column "verse_id", :integer
-    t.column "comment_id", :integer
-    t.column "recipe_id", :integer
-    t.column "picture_id", :integer
-    t.column "group_id", :integer
-    t.column "description", :string
-    t.column "contact_id", :integer
-    t.column "message_id", :integer
-    t.column "created_at", :datetime
-    t.column "duplicate", :boolean, :default => false, :null => false
-  end
-
   create_table "attachments", :force => true do |t|
     t.column "message_id", :integer
     t.column "name", :string
