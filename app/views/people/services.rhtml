@@ -19,6 +19,6 @@
     <tr><td>Business Email:</td><td><%= mail_to @person.service_email %></td></tr>
   <% end %>
   <% if @person.service_website.to_s.any? %>
-    <tr><td>Business Website:</td><td><%= link_to @person.service_website %></td></tr>
+    <tr><td>Business Website:</td><td><%= link_to @person.service_website, @person.service_website %></td></tr>
   <% end %>
 </table>
