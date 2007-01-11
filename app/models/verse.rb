@@ -16,6 +16,8 @@ class Verse < ActiveRecord::Base
     lookup
   end
   
+  alias_method :name, :reference
+  
   # living stones (KJV, ASV, YLT, AKJV, WEB)
   LS_BASE_URL = 'http://www.seek-first.com/Bible.php?q=&passage=Seek'
   

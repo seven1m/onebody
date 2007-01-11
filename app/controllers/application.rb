@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
           return
         end
         @logged_in = person
+        Person.logged_in = @logged_in
         session[:logged_in_name] = @logged_in.name
         unless @logged_in.email
           redirect_to :controller => 'account', :action => 'change_email_and_password'

@@ -1,4 +1,6 @@
-class Person < ActiveRecord::Base  
+class Person < ActiveRecord::Base
+  cattr_accessor :logged_in
+  
   belongs_to :family
   has_many :memberships
   has_many :groups, :through => :memberships, :order => 'groups.name', :conditions => ["groups.subscription = ? and (groups.link_code is null or groups.link_code = '')", false]
@@ -18,6 +20,12 @@ class Person < ActiveRecord::Base
   acts_as_photo '/db/photos/people', PHOTO_SIZES
   
   acts_as_logger LogItem
+
+  alias_method 'photo_without_logging=', 'photo='
+  def photo=(p)
+    LogItem.create :model_name => 'Person', :instance_id => id, :changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
+    self.photo_without_logging = p
+  end
   
   #validates_presence_of :email
   validates_length_of :password, :minimum => 5, :allow_nil => true

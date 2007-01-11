@@ -14,8 +14,13 @@ class Group < ActiveRecord::Base
   validates_length_of :address, :minimum => 2, :allow_nil => true
   
   acts_as_photo 'db/photos/groups', PHOTO_SIZES
-  
   acts_as_logger LogItem
+  
+  alias_method 'photo_without_logging=', 'photo='
+  def photo=(p)
+    LogItem.create :model_name => 'Group', :instance_id => id, :changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
+    self.photo_without_logging = p
+  end
   
   def inspect
     "<#{name}>"

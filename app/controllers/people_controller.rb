@@ -53,13 +53,6 @@ class PeopleController < ApplicationController
     end
   end
   
-  def wall
-    @person = Person.find params[:id]
-    if not @logged_in.sees?(@person)
-      render :text => 'You are not authorized to view this person.', :layout => true
-    end
-  end
-  
   def search
     @people = nil
     p = params.clone; p.delete 'action'; p.delete 'controller'
@@ -198,6 +191,9 @@ class PeopleController < ApplicationController
     end
   end
   
+  # Contacts
+  # ========
+  
   def add_contact
     person = Person.find params[:id]
     if @logged_in.sees?(person) and @logged_in.contacts.find_all_by_person_id(person.id).empty?
@@ -214,6 +210,9 @@ class PeopleController < ApplicationController
     end
     redirect_to :action => 'view', :id => params[:id]
   end
+  
+  # Verses
+  # ======
   
   def add_verse
     verse = Verse.find_or_create_by_reference(Verse.normalize_reference(params[:reference]))
@@ -233,6 +232,16 @@ class PeopleController < ApplicationController
     redirect_to :action => 'view', :id => @logged_in
   end
   
+  # Wall
+  # ====
+  
+  def wall
+    @person = Person.find params[:id]
+    if not @logged_in.sees?(@person)
+      render :text => 'You are not authorized to view this person.', :layout => true
+    end
+  end
+  
   def wall_post
     person = Person.find params[:id]
     message = Message.create :person => @logged_in, :wall => person, :subject => 'Wall Post', :body => params[:message]
@@ -245,6 +254,9 @@ class PeopleController < ApplicationController
     @person2 = Person.find params[:id2]
     @messages = Message.find :all, :conditions => ['(wall_id = ? and person_id = ?) or (wall_id = ? and person_id = ?)', @person.id, @person2.id, @person2.id, @person.id], :order => 'created_at desc'
   end
+  
+  # Printed Directory
+  # =================
   
   def directory_to_pdf
     unless @logged_in.member?

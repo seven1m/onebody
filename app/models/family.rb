@@ -2,8 +2,13 @@ class Family < ActiveRecord::Base
   has_many :people, :order => 'sequence'
   
   acts_as_photo '/db/photos/families', PHOTO_SIZES
-  
   acts_as_logger LogItem
+  
+  alias_method 'photo_without_logging=', 'photo='
+  def photo=(p)
+    LogItem.create :model_name => 'Family', :instance_id => id, :changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
+    self.photo_without_logging = p
+  end
   
   share_with :mobile_phone
   share_with :address

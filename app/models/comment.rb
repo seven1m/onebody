@@ -3,6 +3,10 @@ class Comment < ActiveRecord::Base
   belongs_to :person
   has_many :actions
   
+  def name
+    "Comment on #{verse.reference}"
+  end
+  
   acts_as_logger LogItem
   
   def admin?(person)

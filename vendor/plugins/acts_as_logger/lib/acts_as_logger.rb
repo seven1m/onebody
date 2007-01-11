@@ -31,7 +31,8 @@ module Foo
                 @@log_class.create(
                   :model_name => self.class.name,
                   :instance_id => self.id,
-                  :changes => @changes
+                  :changes => @changes,
+                  :person => Person.logged_in
                 )
               end
             end

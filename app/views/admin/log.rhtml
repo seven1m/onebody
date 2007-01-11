@@ -5,16 +5,24 @@
 <% end %>
 
 <table style="width:100%;">
-  <tr><th>Type</th><th>Thing</th><th>When</th><th>Who (if available)</th></tr>
+  <tr><th></th><th>Type</th><th>What</th><th>When</th><th>Who</th></tr>
   <% @items.each do |item| %>
     <% if item.object %>
       <tr>
-        <td><%=h item.model_name %>
+        <td>
+          <% if image_url = item.object_image_url %>
+            <img src="<%= image_url %>" class="no-border"/>
+          <% end %>
+        </td>
+        <td><%=h item.model_name %></td>
         <td>
           <%= link_to item.object_description, item.object_url %>
         </td>
         <td><%= item.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
-        <td><%= item.object and item.object.respond_to?(:person_id) ? link_to(item.object.person.name, :controller => 'people', :action => 'view', :id => item.object.person) : nil %></td>
+        <td>
+          <%= link_to item.person.name, :controller => 'people', :action => 'view', :id => item.person %>
+          <% if item.person.admin? %>(admin)<% end %>
+        </td>
         <td><%= link_to_function '[changes]', "Element.toggle('changes#{item.id}')" %></td>
       </tr>
       <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;">
