@@ -124,7 +124,9 @@
     <label for="group_members_send">Group Members Can Post Messages:</label>
     <%= form.check_box :members_send, :class => 'checkbox' %><br/>
     <label for="group_subscription">This is a Subscription Group:</label>
-    <%= form.check_box :subscription, :class => 'checkbox' %>
+    <%= form.check_box :subscription, :class => 'checkbox' %><br/>
+    <label for="group_archived">This group is archived (hidden from most people):</label>
+    <%= form.check_box :archived, :class => 'checkbox' %>
   <% end %>
   
   <p><%= submit_tag 'Save Changes' %></p>

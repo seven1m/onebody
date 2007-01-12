@@ -74,5 +74,14 @@
     <% end %>
   </table>
 
-  <br clear="both"/>
+  <% if @logged_in.admin? %>
+    <p>
+      <strong>Subscription Groups:</strong>
+      <%= @subscription_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
+    </p>
+    <p>
+      <strong>Archived Groups:</strong>
+      <%= @archived_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
+    </p>
+  <% end %>
 <% end %>

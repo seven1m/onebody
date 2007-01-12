@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   def index
-    conditions = ['subscription = ?', false]
+    conditions = ['subscription = ? and archived = ?', false, false]
     conditions.add_condition ['category = ?', params[:category]] if params[:category]
     @groups = Group.find(
       :all,
@@ -8,6 +8,8 @@ class GroupsController < ApplicationController
       :order => 'name'
     )
     @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != ''").map { |g| g.category }
+    @subscription_groups = Group.find_all_by_subscription_and_archived(true, false, :order => 'name')
+    @archived_groups = Group.find_all_by_archived(true, :order => 'name')
   end
   
   def view

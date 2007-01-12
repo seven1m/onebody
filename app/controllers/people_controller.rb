@@ -361,7 +361,7 @@ class PeopleController < ApplicationController
   
     def keep_changes(updates, person)
       updates.delete_if do |key, value|
-        value.to_s == person.send(key).to_s
+        value.to_s == person.send(key).to_s.gsub(/\s00:00:00$/, '')
       end
     end
 end
