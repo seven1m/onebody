@@ -4,8 +4,17 @@ class AdminController < ApplicationController
   RECORD_LIMIT = 50
   
   def log
-    @pages = Paginator.new self, LogItem.count, 100, params[:page]
-    @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset
+    conditions = []
+    if params[:date]
+      conditions.add_condition ['created_at >= ?', DateTime.parse(params[:date][:from])] if params[:date][:from]
+      if params[:date][:to]
+        params[:date][:to] += ' 11:59 pm' if params[:date][:to] !~ /:/
+        conditions.add_condition ['created_at <= ?', DateTime.parse(params[:date][:to])]
+      end
+    end
+    conditions = nil if conditions.empty?
+    @pages = Paginator.new self, LogItem.count(conditions), 100, params[:page]
+    @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset, :conditions => conditions
   end
   
   def photos

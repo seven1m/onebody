@@ -1,5 +1,20 @@
 <h1>Log</h1>
 
+<p><%= link_to_function 'Display Filtering Options &raquo;', "Element.toggle('log_options')" %></p>
+
+<form id="log_options" style="display:none;">
+  <strong>Date Range</strong>
+  (date format:
+  <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y' %></span> or
+  <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y %I:%M %p' %></span>)
+  <label for="date_from">From:</label>
+  <input name="date[from]" id="date_from" size="15" value="<%= params[:date] ? params[:date][:from] : nil %>"/>
+  <label for="date_to">To:</label>
+  <input name="date[to]" id="date_to" size="15" value="<%= params[:date] ? params[:date][:to] : nil %>"/>
+  <br/>
+  <%= submit_tag 'Update Display' %>
+</form>
+
 <% if @pages.length > 1 %>
   <p>Page: <%= pagination_links @pages %></p>
 <% end %>
@@ -19,6 +34,11 @@
           <%= link_to item.object_description, item.object_url %>
         </td>
         <td><%= item.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
+        <td style="width:32px;">
+          <a href="<%= url_for :controller => 'people', :action => 'view', :id => item.person %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
+          </a>
+        </td>
         <td>
           <%= link_to item.person.name, :controller => 'people', :action => 'view', :id => item.person %>
           <% if item.person.admin? %>(admin)<% end %>
@@ -26,7 +46,7 @@
         <td><%= link_to_function '[changes]', "Element.toggle('changes#{item.id}')" %></td>
       </tr>
       <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;">
-        <td colspan="5">
+        <td colspan="7">
           <table>
             <% item.changes.each do |key, value| %>
               <% unless key =~ /_id$/ %>
