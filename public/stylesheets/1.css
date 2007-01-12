@@ -613,3 +613,7 @@ h2 a:visited {
 	padding: 5px;
 	border: 2px solid #92d9ff;
 }
+
+li.grayed, li.grayed a {
+	color: #999;
+}

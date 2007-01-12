@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(:version => 35) do
     t.column "notes", :string, :limit => 500
     t.column "creator_id", :integer
     t.column "address", :string
-    t.column "members_send", :boolean, :default => false
+    t.column "members_send", :boolean, :default => true
     t.column "link_code", :string, :limit => 10
     t.column "subscription", :boolean, :default => false
     t.column "private", :boolean, :default => false
@@ -147,8 +147,8 @@ ActiveRecord::Schema.define(:version => 35) do
     t.column "model_name", :string, :limit => 50
     t.column "instance_id", :integer
     t.column "changes", :text
-    t.column "created_at", :datetime
     t.column "person_id", :integer
+    t.column "created_at", :datetime
   end
 
   create_table "memberships", :force => true do |t|
@@ -267,6 +267,7 @@ ActiveRecord::Schema.define(:version => 35) do
   end
 
   create_table "recipes", :force => true do |t|
+    t.column "person_id", :integer
     t.column "title", :string
     t.column "notes", :text
     t.column "description", :text
@@ -274,15 +275,14 @@ ActiveRecord::Schema.define(:version => 35) do
     t.column "directions", :text
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
-    t.column "person_id", :integer
     t.column "prep", :string
     t.column "bake", :string
     t.column "serving_size", :integer
   end
 
   create_table "recipes_tags", :id => false, :force => true do |t|
-    t.column "recipe_id", :integer
     t.column "tag_id", :integer
+    t.column "recipe_id", :integer
   end
 
   create_table "sessions", :force => true do |t|
