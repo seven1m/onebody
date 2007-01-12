@@ -16,6 +16,8 @@ class Recipe < ActiveRecord::Base
     self.photo_without_logging = p
   end
   
+  def name; title; end
+  
   def admin?(person)
     person == self.person or person.admin?
   end

@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   def view
     @message = Message.find params[:id]
-    unless @logged_in.sees? @message.group
+    unless @logged_in.sees? @message
       render :text => 'You are not allowed to view messages in this private group.'
     end
   end
@@ -60,7 +60,7 @@ class MessagesController < ApplicationController
     if @message.group
       redirect_to :controller => 'groups', :action => 'view', :id => @message.group
     else
-      redirect_to :controller => 'people', :action => 'view', :id => @message.wall, :anchor => 'wall'
+      redirect_to :controller => 'people', :action => 'view', :id => @message.wall || @message.to, :anchor => 'wall'
     end
   end
   

@@ -138,6 +138,12 @@
 
 <% form_for :person, @person do |form| %>
   <div>
+    <label for="person_service_category">Business Category:</label>
+    <select name="person[service_category]" id="person_service_category" onchange="if(this.value=='!') custom_select_val(this, 'Enter the new category.')">
+      <option value=""></option>
+      <%= options_for_select @service_categories, @person.service_category %>
+      <option value="!">[new category]</option>
+    </select><br/>
     <label for="person_service_name">Business Name:</label>
     <%= form.text_field :service_name %><br/>
     <label for="person_service_description">Description of Services:</label>

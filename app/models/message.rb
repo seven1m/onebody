@@ -17,6 +17,18 @@ class Message < ActiveRecord::Base
   
   acts_as_logger LogItem
   
+  def name
+    if self.to
+      "Private Message to #{to.name}"
+    elsif wall
+      "Post on #{wall.name_possessive} Wall"
+    elsif parent
+      "Reply to \"#{parent.subject}\" in Group #{top.group.name}"
+    else
+      "Message \"#{subject}\" in Group #{group.name}"
+    end
+  end
+  
   def top
     top = self
     while top.parent

@@ -31,17 +31,22 @@
         </td>
         <td><%=h item.model_name %></td>
         <td>
-          <%= link_to item.object_description, item.object_url %>
+          <%= link_to item.object_description, item.object_url %><br/>
+          <%=h item.object_excerpt %>
         </td>
         <td><%= item.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
         <td style="width:32px;">
-          <a href="<%= url_for :controller => 'people', :action => 'view', :id => item.person %>">
-            <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
-          </a>
+          <% if item.person %>
+            <a href="<%= url_for :controller => 'people', :action => 'view', :id => item.person %>">
+              <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
+            </a>
+          <% end %>
         </td>
         <td>
-          <%= link_to item.person.name, :controller => 'people', :action => 'view', :id => item.person %>
-          <% if item.person.admin? %>(admin)<% end %>
+          <% if item.person %>
+            <%= link_to item.person.name, :controller => 'people', :action => 'view', :id => item.person %>
+            <% if item.person.admin? %>(admin)<% end %>
+          <% end %>
         </td>
         <td><%= link_to_function '[changes]', "Element.toggle('changes#{item.id}')" %></td>
       </tr>
@@ -59,3 +64,7 @@
     <% end %>
   <% end %>
 </table>
+
+<% if @items.empty? %>
+  <p><em>no log items</em></p>
+<% end %>

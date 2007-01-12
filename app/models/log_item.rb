@@ -16,22 +16,36 @@ class LogItem < ActiveRecord::Base
     end
   end
   
+  def object_excerpt
+    return nil unless object
+    case model_name
+    when 'Message'
+      truncate(object.body)
+    when 'Comment', 'Verse'
+      truncate(object.text)
+    when 'Recipe'
+      truncate(object.description)
+    else
+      nil
+    end
+  end
+  
   def object_url
     action = 'view'
     id = instance_id
     case model_name
-      when 'Event'
-        controller = 'pictures'
-        action = 'view_event'
-      when 'Comment'
-        controller = 'verses'
-        id = object.verse.id
-      when 'Family'
-        controller = 'people'
-        id = object.people.first.id
-      else
-        controller = model_name.pluralize.downcase
-    end
+    when 'Event'
+      controller = 'pictures'
+      action = 'view_event'
+    when 'Comment'
+      controller = 'verses'
+      id = object.verse.id
+    when 'Family'
+      controller = 'people'
+      id = object.people.first.id
+    else
+      controller = model_name.pluralize.downcase
+  end
     "/#{controller}/#{action}/#{id}"
   end
   
@@ -44,4 +58,12 @@ class LogItem < ActiveRecord::Base
   end
   
   serialize :changes
+  
+  private
+    def truncate(text, length=50, truncate_string="...")
+      return nil unless text
+      l = length - truncate_string.length
+      chars = text.split(//)
+      chars.length > length ? chars[0...l].join + truncate_string : text
+    end
 end

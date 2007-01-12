@@ -15,9 +15,11 @@
       <th></th>
       <% if @show_service %>
         <th>Service</th>
+        <th>Category</th>
+      <% else %>
+        <th>Name</th>
+        <th>Family Name</th>
       <% end %>
-      <th>Name</th>
-      <th>Family Name</th>
       <% if @show_birthdays %>
         <th>Birthday</th>
       <% end %>
@@ -38,12 +40,18 @@
         </td>
         <% if @show_service %>
           <td><%= link_to person.service_name, {:action => 'services', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
+          <td>
+            <% if person.service_category.to_s.any? %>
+              <%= link_to person.service_category, :action => 'search', :service => true, :category => person.service_category %>
+            <% end %>
+          </td>
+        <% else %>
+          <td>
+            <%= link_to person.name, {:action => 'view', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
+            <% if person.mail_group == 'M' %><span title="Member" class="member">M</span><% end %>
+          </td>
+          <td><%=h person.family.name %></td>
         <% end %>
-        <td>
-          <%= link_to person.name, {:action => 'view', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
-          <% if person.mail_group == 'M' %><span title="Member" class="member">M</span><% end %>
-        </td>
-        <td><%=h person.family.name %></td>
         <% if @show_birthdays %>
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
         <% end %>

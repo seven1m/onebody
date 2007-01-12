@@ -105,6 +105,12 @@ class Person < ActiveRecord::Base
       )
     elsif what.is_a? Group
       not what.private? or what.people.include? self or what.admin? self
+    elsif what.is_a? Message
+      if what.group
+        can_see? what.group
+      else
+        admin? or what.to == self or what.wall == self or what.person == self
+      end
     else
       raise 'unknown "what"'
     end
@@ -119,6 +125,8 @@ class Person < ActiveRecord::Base
       admin? or what.administrator == self
     elsif what.is_a? Person
       admin? or (what.family == self.family and self.adult?) or what == self
+    elsif what.is_a? Message
+      admin? or what.person == self or (what.group and what.group.admin? self)
     else
       raise 'unknown "what"'
     end
@@ -130,7 +138,7 @@ class Person < ActiveRecord::Base
   end
   
   def member?
-    %w(M A).include? mail_group
+    %w(M A C).include? mail_group
   end
   
   def admin?

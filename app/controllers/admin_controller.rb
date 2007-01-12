@@ -6,10 +6,15 @@ class AdminController < ApplicationController
   def log
     conditions = []
     if params[:date]
-      conditions.add_condition ['created_at >= ?', DateTime.parse(params[:date][:from])] if params[:date][:from]
-      if params[:date][:to]
-        params[:date][:to] += ' 11:59 pm' if params[:date][:to] !~ /:/
-        conditions.add_condition ['created_at <= ?', DateTime.parse(params[:date][:to])]
+      if params[:date][:from] and date_from = format_date(params[:date][:from])
+        conditions.add_condition ['created_at >= ?', date_from]
+      else
+        params[:date][:from] = ''
+      end
+      if params[:date] and params[:date][:to] and date_to = format_date(params[:date][:to], '11:59 pm')
+        conditions.add_condition ['created_at <= ?', date_to]
+      else
+        params[:date][:to] = ''
       end
     end
     conditions = nil if conditions.empty?
@@ -69,6 +74,15 @@ class AdminController < ApplicationController
     @update.toggle! :complete
     redirect_to :action => 'updates'
   end
+  
+  private
+  
+    def format_date(date, default_time=nil)
+      if default_time and date !~ /:/
+        date += " #{default_time}"
+      end
+      DateTime.parse(date) rescue nil
+    end
 end
 
 PhotoFile = Struct.new('PhotoFile', :path, :record, :updated_at)

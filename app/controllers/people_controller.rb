@@ -17,7 +17,7 @@ class PeopleController < ApplicationController
     if not @logged_in.sees? @person
       render :text => 'You are not authorized to view this person.', :layout => true
       return
-    elsif not @logged_in.member?
+    elsif not @logged_in.member? and @logged_in != @person
       render :action => 'limited_view'
     end
   end
@@ -67,6 +67,9 @@ class PeopleController < ApplicationController
       if params[:service]
         @show_service = true
         conditions.add_condition ["people.service_name is not null and people.service_name != ''"]
+      end
+      if params[:category]
+        conditions.add_condition ["people.service_category = ?", params[:category]]
       end
       unless @logged_in.admin?
         mg = MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.map { |m| "'#{m}'" }.join(',')
@@ -134,6 +137,7 @@ class PeopleController < ApplicationController
       @person = @logged_in
     end
     @family = @person.family
+    @service_categories = Person.find_by_sql("select distinct service_category from people where service_category is not null and service_category != ''").map { |p| p.service_category }
     if request.post?
       if params[:photo_url] and params[:photo_url].length > 7
         @person.photo = params[:photo_url]
