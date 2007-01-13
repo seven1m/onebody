@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
 
   layout 'default'
   
-  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'help', 'bad_status']
-  
+  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'help', 'bad_status', 'news_feed']
+    
   private
     def authenticate_user
       if id = session[:logged_in_id]

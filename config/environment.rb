@@ -58,6 +58,7 @@ require 'pdf/writer'
 require 'open-uri'
 require 'rexml/document'
 require 'amazon/search'
+require 'net/http'
 require 'inherited_attribute'
 require 'add_condition'
 require 'ar_date_fix'
@@ -79,6 +80,7 @@ SITE_SIMPLE_URL = 'crccfamily.com'
 SITE_URL = "http://#{SITE_SIMPLE_URL}/"
 VISITOR_SIMPLE_URL = 'cedarridgecc.com'
 VISITOR_URL = "http://www.#{VISITOR_SIMPLE_URL}/"
+NEWS_RSS_URL = "http://cedarridgecc.com/news/RSS" # or nil
 MONTHS = [
   ['January',  1],
   ['February',  2],

@@ -27,7 +27,7 @@
 				  <a href="/"><%= SITE_TITLE %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %>
 				</h1>
                                 <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;width:300px;white-space:nowrap;">
-                                  <%=h SITE_SIMPLE_URL %> | <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL, :style => 'text-decoration:none;' %>
+                                  <%=h SITE_SIMPLE_URL %> | <span id="news_headlines" style="position:relative;"><%= link_to VISITOR_SIMPLE_URL, VISITOR_URL, :style => 'text-decoration:none;' %></span>
                                 </div>
 
 
@@ -92,6 +92,7 @@
 </div>
 </div>
 
+<script type="text/javascript" src="/account/news_feed"></script>
 
 </body>
 </html>
