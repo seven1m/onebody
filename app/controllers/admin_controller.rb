@@ -20,6 +20,8 @@ class AdminController < ApplicationController
     conditions = nil if conditions.empty?
     @pages = Paginator.new self, LogItem.count(conditions), 100, params[:page]
     @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset, :conditions => conditions
+    @last_log_view = DateTime.parse(cookies[:last_log_view]) rescue nil
+    cookies[:last_log_view] = DateTime.now.to_s unless params[:page]
   end
   
   def photos

@@ -222,11 +222,12 @@ class PeopleController < ApplicationController
     verse = Verse.find_or_create_by_reference(Verse.normalize_reference(params[:reference]))
     if verse.errors.any?
       flash[:notice] = 'There was an error adding the verse. Make sure you entered the right reference.'
+      redirect_to :action => 'view', :id => @logged_in
     else
       @logged_in.verses << verse unless @logged_in.verses.include? verse
       flash[:notice] = 'Verse saved.'
+      redirect_to :controller => 'verses', :action => 'view', :id => verse.reference
     end
-    redirect_to :controller => 'verses', :action => 'view', :id => verse.reference
   end
   
   def remove_verse

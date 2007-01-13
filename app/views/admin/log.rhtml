@@ -23,7 +23,7 @@
   <tr><th></th><th>Type</th><th>What</th><th>When</th><th>Who</th></tr>
   <% @items.each do |item| %>
     <% if item.object %>
-      <tr>
+      <tr <% if @last_log_view and item.created_at >= @last_log_view %>class="new"<% end %>>
         <td>
           <% if image_url = item.object_image_url %>
             <img src="<%= image_url %>" class="no-border"/>

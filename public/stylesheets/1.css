@@ -617,3 +617,7 @@ h2 a:visited {
 li.grayed, li.grayed a {
 	color: #999;
 }
+
+tr.new td {
+	background-color: #ffc;
+}

@@ -11,6 +11,8 @@ class LogItem < ActiveRecord::Base
     return nil unless object
     if object.respond_to?(:name)
       object.name
+    elsif object.is_a? Contact
+      object.person.name rescue '???'
     else
       object.id
     end
@@ -60,7 +62,7 @@ class LogItem < ActiveRecord::Base
   serialize :changes
   
   private
-    def truncate(text, length=50, truncate_string="...")
+    def truncate(text, length=30, truncate_string="...")
       return nil unless text
       l = length - truncate_string.length
       chars = text.split(//)

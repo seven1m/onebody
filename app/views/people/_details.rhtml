@@ -76,7 +76,7 @@
       <%= render :partial => 'private_attribute', :locals => {:sharing => sharing, :attribute => 'anniversary'} %>
     </tr>
   <% end %>
-  <% if @person.about.to_s.any? %>
+  <% if @person.about.to_s.any? and params[:action] != 'simple_view' %>
     <tr><td>About:</td><td><%= preserve_breaks @person.about %></td></tr>
   <% end %>
   <% if @person.service_name.to_s.any? %>
