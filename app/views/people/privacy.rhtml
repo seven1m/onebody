@@ -1,9 +1,5 @@
 <h1>Privacy</h1>
 
-<% content_for :subnav do %>
-  <li><%= link_to 'View Profile', :action => 'index' %></li>
-<% end %>
-
 <% unless @logged_in.adult? %>
   <p style="font-weight:bold;">
     Only an adult can edit these settings. According to our records,
@@ -18,6 +14,12 @@
   much of your personal information is available to others here,
   but you may wish to customize these settings to share more
   information or keep it more private.
+</p>
+
+<p style="font-weight:bold;">
+  If you wish to be removed or have your children removed from
+  this site, please let us know by sending an email to
+  <%= mail_to SEND_EMAIL_CHANGES_TO, SEND_EMAIL_CHANGES_TO %>.
 </p>
 
 <h2>Privacy for the <em><%=h @family.name %> Family</em></h2>

@@ -167,20 +167,39 @@ class PeopleController < ApplicationController
   end
   
   def privacy
-    @family = @logged_in.family
+    if params[:id]
+      @family = Person.find(params[:id]).family
+    else
+      @family = @logged_in.family
+    end
     if request.post?
-      if not @logged_in.adult?
-        render_message "Only an adult can edit privacy settings."
+      if not @logged_in.can_edit? @family
+        render_message "You may not edit these settings. Sorry."
       elsif params[:person]
         if person = @family.people.find(params[:id])
           params[:person].each { |k, v| params[:person][k] = (v == 'nil') ? nil : v } 
           person.update_attributes params[:person]
-          @logged_in.reload
-          render_message "Personal settings saved for #{person.name}."
+          flash[:notice] = "Personal settings saved for #{person.name}."
         end
       elsif params[:family]
         @family.update_attributes params[:family]
-        render_message "Family settings saved."
+        flash[:notice] = "Family settings saved."
+      end
+    end
+  end
+  
+  def email
+    @person = Person.find params[:id]
+    unless @logged_in.can_edit? @person
+      render :text => 'You are not authorized to edit this person.'
+      return
+    end
+    if request.post?
+      if @person.update_attributes params[:person]
+        flash[:notice] = 'Settings saved.'
+        redirect_to :action => 'email', :id => @person
+      else
+        flash[:notice] = @person.errors.full_messages.join('; ')
       end
     end
   end

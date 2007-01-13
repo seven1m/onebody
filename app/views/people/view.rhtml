@@ -59,14 +59,18 @@
 <% content_for :subnav do %>
   <% if @logged_in.can_edit? @person %>
     <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>
-    <li><%= link_to 'Privacy', :action => 'privacy' %></li>
-  <% elsif @logged_in.contacts.find_all_by_person_id(@person.id).any? %>
-    <li><%= link_to 'Remove from Contacts', :action => 'remove_contact', :id => @person %></li>
-  <% else %>
-    <li><%= link_to 'Add to Contacts', :action => 'add_contact', :id => @person %></li>
+    <li><%= link_to 'Privacy', :action => 'privacy', :id => @person %></li>
+    <li><%= link_to 'Email Preferences', :action => 'email', :id => @person %></li>
   <% end %>
-  <% if @logged_in != @person and @person.email.to_s.any? %>
-    <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Private Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
+  <% unless @logged_in == @person %>
+    <% if @logged_in.contacts.find_all_by_person_id(@person.id).any? %>
+      <li><%= link_to 'Remove from Contacts', :action => 'remove_contact', :id => @person %></li>
+    <% else %>
+      <li><%= link_to 'Add to Contacts', :action => 'add_contact', :id => @person %></li>
+    <% end %>
+    <% if @person.email.to_s.any? %>
+      <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Private Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
+    <% end %>
   <% end %>
 <% end %>
 

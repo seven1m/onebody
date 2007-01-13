@@ -95,7 +95,7 @@ class GroupsController < ApplicationController
   def add_people
     @group = Group.find params[:id]
     if @logged_in.can_edit? @group
-      params[:people].each { |id| join id }
+      params[:people].each { |id| join id } if params[:people]
       redirect_to :action => 'edit', :id => @group
     else
       redirect_to :action => 'view', :id => @group

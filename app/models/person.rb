@@ -125,6 +125,8 @@ class Person < ActiveRecord::Base
       admin? or what.administrator == self
     elsif what.is_a? Person
       admin? or (what.family == self.family and self.adult?) or what == self
+    elsif what.is_a? Family
+      admin? or (what == self.family and self.adult?)
     elsif what.is_a? Message
       admin? or what.person == self or (what.group and what.group.admin? self)
     else

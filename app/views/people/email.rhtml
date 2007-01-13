@@ -1,0 +1,24 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'View Profile', :action => 'view', :id => @person %></li>
+<% end %>
+
+<h1>Email Settings for <%= @person.name %></h1>
+
+<p>
+  If you wish to change your email address and/or password,
+  <%= link_to 'click here', :controller => 'account', :action => 'edit', :id => @person %>.
+</p>
+
+<h2>Wall Emails</h2>
+
+<% form_for :person, @person do |form| %>
+  <p>
+    <%= form.check_box :get_wall_email, :class => 'checkbox' %>
+    Send me an email when someone posts a message on my wall.<br/>
+    <%= submit_tag 'Save Changes' %>
+  </p>
+<% end %>
+
+<h2>Group Emails</h2>
+
+<%= render :partial => 'groups' %>

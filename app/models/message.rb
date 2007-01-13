@@ -59,7 +59,7 @@ class Message < ActiveRecord::Base
     elsif to
       Notifier.deliver_message(to, self) if to.email.to_s.any?
     elsif wall
-      Notifier.deliver_message(wall, self) if wall.email.to_s.any?
+      Notifier.deliver_message(wall, self) if wall.email.to_s.any? and wall.get_wall_email
     end
   end
 
