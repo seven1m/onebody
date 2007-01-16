@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   def index
-    conditions = ['subscription = ? and archived = ?', false, false]
+    conditions = ['subscription = ? and archived = ? and approved = ?', false, false, true]
     conditions.add_condition ['category = ?', params[:category]] if params[:category]
     @groups = Group.find(
       :all,
@@ -10,6 +10,11 @@ class GroupsController < ApplicationController
     @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != ''").map { |g| g.category }
     @subscription_groups = Group.find_all_by_subscription_and_archived(true, false, :order => 'name')
     @archived_groups = Group.find_all_by_archived(true, :order => 'name')
+    if @logged_in.admin?
+      @unapproved_groups = Group.find_all_by_approved(false)
+    else
+      @unapproved_groups = Group.find_all_by_creator_id_and_approved(@logged_in.id, false)
+    end
   end
   
   def view
@@ -38,9 +43,14 @@ class GroupsController < ApplicationController
         end
         params[:group].cleanse 'address'
         if @group.update_attributes params[:group]
-          @group.memberships.create(:person => @logged_in, :admin => true) if new_group
           if new_group
-            flash[:notice] = 'Your group has been created. Now you can add people to it!'
+            if @logged_in.admin?
+              @group.update_attribute(:approved, true)
+              flash[:notice] = 'The group has been created.'
+            else
+              @group.memberships.create(:person => @logged_in, :admin => true)
+              flash[:notice] = 'Your group has been created and is pending approval.'
+            end
           else
             flash[:notice] = 'Group changes saved.'
           end
@@ -94,7 +104,7 @@ class GroupsController < ApplicationController
   
   def add_people
     @group = Group.find params[:id]
-    if @logged_in.can_edit? @group
+    if @logged_in.can_edit? @group and @group.approved
       params[:people].each { |id| join id } if params[:people]
       redirect_to :action => 'edit', :id => @group
     else
@@ -152,5 +162,14 @@ class GroupsController < ApplicationController
     else
       raise 'There was an error changing your email settings.'
     end
+  end
+  
+  def approve
+    if request.post? and @logged_in.admin?
+      group = Group.find params[:id]
+      group.update_attribute :approved, true
+      flash[:notice] = 'The group has been approved.'
+    end
+    redirect_to :action => 'view', :id => group
   end
 end

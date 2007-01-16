@@ -37,20 +37,26 @@
     </form>
   
     <% unless @group.linked? %>
-      <%= form_remote_tag :url => {:controller => 'people', :action => 'search'} %>
-        <%= hidden_field_tag :select_person, true %>
-        <p>
-          <label for="name">Add somebody:</label> <%= text_field_tag 'name' %>
-          <%= submit_tag 'Search by Name' %>
-        </p>
-      </form>
-
-      <div id="add_member" style="display:none;">
-        <%= form_tag :action => 'add_people', :id => @group %>
-          <div id="results"></div>
-          <p><%= submit_tag 'Add Selected' %></p>
+      <% if @group.approved %>
+        <%= form_remote_tag :url => {:controller => 'people', :action => 'search'} %>
+          <%= hidden_field_tag :select_person, true %>
+          <p>
+            <label for="name">Add somebody:</label> <%= text_field_tag 'name' %>
+            <%= submit_tag 'Search by Name' %>
+          </p>
         </form>
-      </div>
+
+        <div id="add_member" style="display:none;">
+          <%= form_tag :action => 'add_people', :id => @group %>
+            <div id="results"></div>
+            <p><%= submit_tag 'Add Selected' %></p>
+          </form>
+        </div>
+      <% else %>
+        <p style="color:red;">
+          This group is pending approval. You may not add people to it yet.
+        </p>
+      <% end %>
     <% end %>
   
     <h2>Admins</h2>

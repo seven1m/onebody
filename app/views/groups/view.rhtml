@@ -6,6 +6,8 @@
   
   <% if @group.linked? %>
     <p><em>This group is maintained by church office staff based on attendance records.</em></p>
+  <% elsif not @group.approved %>
+    <p style="color:red;">This group is pending approval.</p>
   <% else %>
     <% if not @group.people.include? @logged_in %>
       <p><%= link_to 'Join This Group', {:action => 'join', :id => @group}, :post => true %></p>
@@ -26,6 +28,9 @@
   <% content_for :subnav do %>
     <li><%= link_to 'List of Groups', :action => 'index' %></li>
     <li><%= link_to 'Edit Group', :action => 'edit', :id => @group %></li>
+    <% if not @group.approved and @logged_in.admin? %>
+      <li><%= link_to 'Approve Group', {:action => 'approve', :id => @group}, :confirm => 'Are you sure?', :post => true %></li>
+    <% end %>
   <% end %>
 <% end %>
 

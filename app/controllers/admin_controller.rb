@@ -69,6 +69,7 @@ class AdminController < ApplicationController
 
   def updates
     @updates = Update.find_all_by_complete(params[:complete] == 'true')
+    @unapproved_groups = Group.find_all_by_approved(false)
   end
   
   def toggle_complete

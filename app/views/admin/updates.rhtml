@@ -3,6 +3,8 @@
   Updates
 </h1>
 
+<h2>Profile Updates</h2>
+
 <p><%= link_to "Show #{params[:complete] ? 'Pending' : 'Complete'}", :complete => params[:complete].nil? %>
 
 <table>
@@ -59,3 +61,9 @@
     </tr>
   <% end %>
 </table>
+
+<% unless params[:complete] %>
+  <h2>Groups Pending Approval</h2>
+  <p>The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
+  pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, :controller => 'groups', :action => 'view', :id => g) }.join(', ') %>
+<% end %>

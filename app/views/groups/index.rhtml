@@ -7,6 +7,14 @@
     </select>
     <%= link_to_function 'Show All People', "document.getElementsByClassName('people').each(function(e){Element.toggle(e)})"%>
   </p>
+  
+  <% if @unapproved_groups.any? %>
+    <p class="highlight">
+      The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
+      pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
+    </p>
+  <% end %>
+  
   <table class="iconed">
     <tr>
       <td class="icon">
