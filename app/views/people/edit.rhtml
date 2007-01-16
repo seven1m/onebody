@@ -25,6 +25,8 @@
 <p>
   Upload a <strong>picture of <%= @person == @logged_in ? 'yourself' : @person.name %></strong>. Please do not upload a picture of your
   family here; see the Family Picture section below for that.
+  Please only upload a <span style="color:red;">real photo</span> &mdash;
+  no graphics or fakes please.
 </p>
 <table><tr><td>
 <%= render :partial => 'photo' %>
@@ -33,7 +35,7 @@
 </td></tr></table>
 
 <h2>Family Picture</h2>
-<p>Upload a <strong>picture of your family</strong>.</p>
+<p>Upload a <strong>picture of your family</strong>. Please only upload a <span style="color:red;">real photo</span> &mdash; no graphics or fakes please.</p>
 <table><tr><td>
 <%= render :partial => 'families/photo' %>
 </td><td>

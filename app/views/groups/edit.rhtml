@@ -102,8 +102,6 @@
   <% if @group.people.length == 0 %>
     <em>You'll need to save the group and add people before you can set a leader.</em><br/>
   <% end %>
-  <label for="group_private">Private:</label>
-  <%= form.check_box :private, :class => 'checkbox' %> Messages and members (except the creator and leader) are hidden from outsiders and group administrators must add people.
   
   <h2>Meets</h2>
   <label for="group_meets">Day &amp; Time:</label>
@@ -117,6 +115,8 @@
     <h2>Advanced</h2>
     The settings below are for staff, elders, and advanced users.
     Don't edit any of the settings below unless you know what you are doing.<br/>
+    <label for="group_private">Private:</label>
+    <%= form.check_box :private, :class => 'checkbox' %> Messages and members (except the creator and leader) are hidden from outsiders and group administrators must add people.
     <label>Email Address:</label>
     <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h GROUP_ADDRESS_DOMAINS.first %><br/>
     <label for="group_link_code">Class Link Code(s):</label>
