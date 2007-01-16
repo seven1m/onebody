@@ -136,13 +136,13 @@ class PeopleController < ApplicationController
     else
       @person = @logged_in
     end
-    if @logged_in.frozen
-      render :text => "Your account has been frozen due to misuse."
-      return
-    end
     @family = @person.family
     @service_categories = Person.find_by_sql("select distinct service_category from people where service_category is not null and service_category != ''").map { |p| p.service_category }
     if request.post?
+      if @logged_in.frozen
+        render :text => "Your account has been frozen due to misuse.", :layout => true
+        return
+      end
       if params[:photo_url] and params[:photo_url].length > 7
         @person.photo = params[:photo_url]
       elsif params[:photo]
