@@ -129,16 +129,16 @@ class PeopleController < ApplicationController
   def edit
     if params[:id]
       @person = Person.find params[:id]
-      if @logged_in.frozen
-        render :text => "Your account has been frozen due to misuse. Please contact #{TECH_SUPPORT_CONTACT} to be reinstated."
-        return
-      end
       unless @logged_in.can_edit? @person
         render :text => "Sorry. You may not edit this person's profile.", :layout => true
         return
       end
     else
       @person = @logged_in
+    end
+    if @logged_in.frozen
+      render :text => "Your account has been frozen due to misuse."
+      return
     end
     @family = @person.family
     @service_categories = Person.find_by_sql("select distinct service_category from people where service_category is not null and service_category != ''").map { |p| p.service_category }
