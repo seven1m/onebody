@@ -129,6 +129,10 @@ class PeopleController < ApplicationController
   def edit
     if params[:id]
       @person = Person.find params[:id]
+      if @logged_in.frozen
+        render :text => "Your account has been frozen due to misuse. Please contact #{TECH_SUPPORT_CONTACT} to be reinstated."
+        return
+      end
       unless @logged_in.can_edit? @person
         render :text => "Sorry. You may not edit this person's profile.", :layout => true
         return
@@ -212,6 +216,13 @@ class PeopleController < ApplicationController
     else
       render :text => 'unauthorized to view this photo', :status => 404
     end
+  end
+
+  def freeze_account
+    raise 'Unauthorized.' unless @logged_in.admin?
+    person = Person.find params[:id]
+    person.update_attribute :frozen, !person.frozen
+    redirect_to :action => 'edit', :id => params[:id]
   end
   
   # Contacts

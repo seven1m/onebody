@@ -621,3 +621,8 @@ li.grayed, li.grayed a {
 tr.new td {
 	background-color: #ffc;
 }
+
+.attention {
+	background-color: #fcc;
+	font-weight: bold;
+}

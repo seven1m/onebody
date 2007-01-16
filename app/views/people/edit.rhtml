@@ -5,13 +5,27 @@
     <%= link_to person.name, :action => 'edit', :id => person %><br/>
   <% end %>
   </p>
+  <% if @logged_in.admin? and @person.frozen %>
+    <p style="color:red;">This account is frozen. <%= @person.name %> can not make changes to this profile or anyone else's until this account is unfrozen.</p>
+  <% end %>
 <% end %>
-
-<h1><%=h @person.name %></h1>
 
 <% content_for :subnav do %>
   <li><%= link_to 'View Profile', :action => 'view', :id => @person %></li>
   <li><%= link_to 'Change Email/Password', :controller => 'account', :action => 'edit', :id => @person %></li>
+  <% if @logged_in.admin? %>
+    <li><%= link_to (@person.frozen ? 'Unfreeze' : 'Freeze'), :action => 'freeze_account', :id => @person %></li>
+  <% end %>
+<% end %>
+
+<h1><%=h @person.name %></h1>
+
+<% if @person.frozen and @logged_in == @person %>
+  <p class="attention">
+    Your account has been frozen due to misuse.
+    You may not make changes to anything on this page
+    until your account is unfrozen.
+  </p>
 <% end %>
 
 <h2>Email &amp; Password</h2>

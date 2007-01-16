@@ -13,6 +13,8 @@ class LogItem < ActiveRecord::Base
       object.name
     elsif object.is_a? Contact
       object.person.name rescue '???'
+    elsif object.is_a? Membership
+      "#{object.person.name} in group #{object.group.name}" rescue '???'
     else
       object.id
     end
@@ -45,6 +47,9 @@ class LogItem < ActiveRecord::Base
     when 'Family'
       controller = 'people'
       id = object.people.first.id
+    when 'Membership'
+      controller = 'groups'
+      id = object.group.id rescue nil
     else
       controller = model_name.pluralize.downcase
   end
