@@ -79,6 +79,7 @@
   <h2>Group Picture</h2>
   <%= render :partial => 'photo' %>
   <input type="file" id="photo" name="photo"/><br/>
+  <strong>Only JPEG photos are accepted at this time. Please make sure the picture is appropriate and not offensive to others.</strong><br/>
   <% if @group.has_photo? %>
     <%= link_to 'Remove Group Photo', {:action => 'edit', :photo => 'remove'}, :post => true, :confirm => 'Are you sure?' %>
     <br/>

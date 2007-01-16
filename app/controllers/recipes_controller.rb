@@ -48,7 +48,7 @@ class RecipesController < ApplicationController
         flash[:notice] = 'Recipe saved.'
         if params[:photo_url] and params[:photo_url].length > 7
           @recipe.photo = params[:photo_url]
-        elsif params[:photo] and params[:photo].is_a? Tempfile
+        elsif params[:photo] and params[:photo].size > 0
           @recipe.photo = params[:photo]
         elsif params[:photo] and params[:photo] == 'remove'
           @recipe.photo = nil

@@ -60,7 +60,11 @@ class GroupsController < ApplicationController
       end
       unless @group.errors.any?
         if params[:photo]
-          @group.photo = (params[:photo] == 'remove') ? nil : params[:photo]
+          if params[:photo] == 'remove'
+            @group.photo = nil
+          elsif params[:photo].size > 0
+            @group.photo = params[:photo]
+          end
         end
         redirect_to :action => 'edit', :id => @group
       end
