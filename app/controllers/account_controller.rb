@@ -131,7 +131,7 @@ class AccountController < ApplicationController
           conditions = ['people.email = ? or families.email = ?', v.email, v.email]
         end
         @people = Person.find :all, :conditions => conditions, :include => :family
-        if @people.empty?
+        if @people.nil? or @people.empty?
           render :text => "Sorry. There was an error. If you requested the church office make a change, it's possible it just hasn't been done yet. Please try again later.", :layout => true
           return
         elsif @people.length == 1
@@ -152,7 +152,10 @@ class AccountController < ApplicationController
   end
   
   def select_person
-    raise 'Error.' unless session[:select_from_people]
+    unless session[:select_from_people]
+      render :text => 'This page is no longer valid.', :layout => true
+      return
+    end
     @people = session[:select_from_people]
     if request.post? and params[:id] and @people.map { |p| p.id }.include?(params[:id].to_i)
       session[:logged_in_id] = params[:id].to_i
