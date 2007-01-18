@@ -149,9 +149,11 @@
   <%= render :partial => 'groups' %>
 <% end %>
 
-<a name="wall"></a>
-<h2>Wall</h2>
-<%= render :partial => 'wall' %>
+<% if @person.wall_enabled %>
+  <a name="wall"></a>
+  <h2>Wall</h2>
+  <%= render :partial => 'wall' %>
+<% end %>
 
 <% if @person.family.mapable? and @person.share_address_with @logged_in %>
   <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>

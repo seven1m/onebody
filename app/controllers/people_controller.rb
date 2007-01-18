@@ -179,8 +179,11 @@ class PeopleController < ApplicationController
       elsif params[:person]
         if person = @family.people.find(params[:id])
           params[:person].each { |k, v| params[:person][k] = (v == 'nil') ? nil : v } 
-          person.update_attributes params[:person]
-          flash[:notice] = "Personal settings saved for #{person.name}."
+          if person.update_attributes params[:person]
+            flash[:notice] = "Personal settings saved for #{person.name}."
+          else
+            flash[:notice] = person.errors.full_messages.join('; ')
+          end
         end
       elsif params[:family]
         @family.update_attributes params[:family]

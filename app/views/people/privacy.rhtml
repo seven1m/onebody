@@ -29,9 +29,9 @@
   may override these settings.
 </p>
 
-<% remote_form_for :family, @family, :url => {:action => 'privacy'} do |form| %>
+<% form_for :family, @family, :url => {:action => 'privacy', :id => @family.people.first} do |form| %>
   <table>
-    <tr><th>Detail</th><th>Visible</th><th>Private</th></tr>
+    <tr><th>Detail</th><th>Visible</th><th>Hidden</th></tr>
     <tr>
       <td>Address</td>
       <td><%= form.radio_button :share_address, true, :class => 'checkbox' %></td>
@@ -75,6 +75,12 @@
       <td><input type="radio" checked="checked" disabled="disabled" class="checkbox"/></td>
       <td><input type="radio" disabled="disabled" class="checkbox"/></td>
     </tr>
+    <tr>
+      <td>Wall</td>
+      <td><%= form.radio_button :wall_enabled, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :wall_enabled, false, :class => 'checkbox' %></td>
+      <td><em>A space for people to post messages for you and others to see.</em></td>
+    </tr>
   </table>
   
   <p style="font-style:italic;">
@@ -93,9 +99,9 @@
   
   <%= person.share_mobile_phone %>
   
-  <% remote_form_for :person, person, :url => {:action => 'privacy', :id => person} do |form| %>
+  <% form_for :person, person, :url => {:action => 'privacy', :id => person} do |form| %>
     <table>
-      <tr><th>Detail</th><th>Visible</th><th>Private</th><th>Use Family Setting</th></tr>
+      <tr><th>Detail</th><th>Visible</th><th>Hidden</th><th>Use Family Setting</th></tr>
       <tr>
         <td>Mobile Phone</td>
         <td><%= radio_button_tag 'person[share_mobile_phone]', true, person.attributes['share_mobile_phone'] == true, :class => 'checkbox' %></td>
@@ -126,6 +132,13 @@
         <td><%= radio_button_tag 'person[share_birthday]', false, person.attributes['share_birthday'] == false, :class => 'checkbox' %></td>
         <td><%= radio_button_tag 'person[share_birthday]', 'nil', person.attributes['share_birthday'] == nil, :class => 'checkbox' %></td>
         <td><em>The year is never shown.</em></td>
+      </tr>
+      <tr>
+        <td>Wall</td>
+        <td><%= radio_button_tag 'person[wall_enabled]', true, person.attributes['wall_enabled'] == true, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[wall_enabled]', false, person.attributes['wall_enabled'] == false, :class => 'checkbox' %></td>
+        <td><%= radio_button_tag 'person[wall_enabled]', 'nil', person.attributes['wall_enabled'] == nil, :class => 'checkbox' %></td>
+        <td><em>A space for people to post messages for you and others to see.</em></td>
       </tr>
     </table>
     

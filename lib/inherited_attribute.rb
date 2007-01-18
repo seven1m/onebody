@@ -3,7 +3,7 @@ module ActiveRecord
     module ClassMethods
       def inherited_attribute(name, parent)
         name = name.to_s
-        class_eval "def #{name}; read_attribute(:#{name}) || #{parent.to_s}.#{name}; end"
+        class_eval "def #{name}; (v = read_attribute(:#{name})).nil? ? #{parent.to_s}.#{name} : v; end"
       end
       
       # generates a method like "share_mobile_phone_with(person)"

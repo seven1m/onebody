@@ -33,7 +33,7 @@ class Person < ActiveRecord::Base
   validates_uniqueness_of :alternate_email, :allow_nil => true
   
   validates_each :email, :allow_nil => true do |record, attribute, value|
-    if attribute.to_s == 'email'
+    if attribute.to_s == 'email' and value.to_s.any?
       if Person.count(:conditions => ['LCASE(email) = ? and family_id != ?', value.downcase, record.family_id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
       end
@@ -83,6 +83,7 @@ class Person < ActiveRecord::Base
   inherited_attribute :share_fax, :family
   inherited_attribute :share_email, :family
   inherited_attribute :share_birthday, :family
+  inherited_attribute :wall_enabled, :family
   def share_address; family.share_address; end
   def share_anniversary; family.share_anniversary; end
   
