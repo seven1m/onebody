@@ -54,7 +54,12 @@
     <td>
       <% if signups = @signups[hour.strftime('%Y/%m/%d %H:%M')] %>
         <%= signups.sort_by { |s| s.created_at }.map do |signup|
-          link_to(signup.person.name, :controller => 'people', :action => 'view', :id => signup.person) + ((signup.person == @logged_in or @logged_in.admin?) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :post => true, :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : '')
+          if signup.other.to_s.any?
+            signup.other
+          else
+            link_to(signup.person.name, :controller => 'people', :action => 'view', :id => signup.person) +
+            ((signup.person == @logged_in or @logged_in.admin?) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :post => true, :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : '')
+          end
         end.join(' | ') %>
         <% unless signups.map { |s| s.person }.include? @logged_in %>
           <br/>
