@@ -42,6 +42,11 @@ class Person < ActiveRecord::Base
       end
     end
   end
+
+  before_save :cleanup_website
+  def cleanup_website
+    self.website = "http://#{website}" if website.to_s.any? and website !~ /^http:\/\//
+  end
   
   def name
     if suffix

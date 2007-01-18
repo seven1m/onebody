@@ -157,9 +157,6 @@ class PeopleController < ApplicationController
         Notifier.deliver_profile_update(@person, updates) if SEND_UPDATES_TO
         flash[:notice] = 'Changes submitted.'
       else # testimony, about, favorites, etc.
-        if params[:person][:website] and params[:person][:website] !~ /^http:\/\//
-          params[:person][:website] = 'http://' + params[:person][:website]
-        end
         if params[:person][:service_phone]
           params[:person][:service_phone] = params[:person][:service_phone].scan(/\d/).join('')
         end
