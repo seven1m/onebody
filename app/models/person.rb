@@ -55,6 +55,11 @@ class Person < ActiveRecord::Base
       "#{first_name} #{last_name}" rescue '???'
     end
   end
+
+  def last_name
+    n = read_attribute(:last_name)
+    NAME_CONVERSIONS[n] || n
+  end
   
   def name_shortened(max)
     if name and name.length > max

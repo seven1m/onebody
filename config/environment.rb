@@ -144,3 +144,8 @@ BETA = false
 ExceptionNotifier.exception_recipients = %w(seven1m@gmail.com)
 ExceptionNotifier.sender_address =
   %("Rails App Error" <app-error@crccfamily.com>)
+
+# an ugly hack to convert names from legacy systems
+NAME_CONVERSIONS = {
+  'Munoz' => "Mu\303\261oz"
+}
