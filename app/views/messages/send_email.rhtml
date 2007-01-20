@@ -10,7 +10,8 @@
     <label for="subject">Subject:</label>
     <%= text_field_tag :subject, params[:subject] %><br/>
     <label for="body">Message:</label>
-    <%= text_area_tag :body, params[:body], :rows => 5 %>
+    <%= text_area_tag :body, params[:body], :rows => 5 %><br/>
+    <%= submit_tag 'Send Message' %>
   </p>
 </form>
 
