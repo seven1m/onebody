@@ -10,11 +10,7 @@
     <label for="subject">Subject:</label>
     <%= text_field_tag :subject, params[:subject] %><br/>
     <label for="body">Message:</label>
-    <%= text_area_tag :body, params[:body], :rows => 5 %><br/>
-    <%= check_box_tag :share_email, true, params[:share_email], :class => 'checkbox' %>
-    Share my email address with <%= @person.name %>.<br/>
-    <em>This will allow <%= @person.first_name %> to reply to you directly.</em><br/>
-    <%= submit_tag 'Send Message' %>
+    <%= text_area_tag :body, params[:body], :rows => 5 %>
   </p>
 </form>
 

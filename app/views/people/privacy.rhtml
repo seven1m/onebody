@@ -56,7 +56,7 @@
       <td>Email</td>
       <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
       <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
-      <td><em>People can always send you email <%= link_to_function 'through the site', "alert('#{SITE_MAIL_DESCRIPTION}')" %>.</em></td>
+      <td><em>People can still send your family email <%= link_to_function 'through the site', "alert('#{SITE_MAIL_DESCRIPTION}')" %> if Private Messages are enabled.</em></td>
     </tr>
     <tr>
       <td>Birthday</td>
@@ -97,11 +97,9 @@
 
   <p>You may override the family settings for <%=h person.name %> by making changes below.</p>
   
-  <%= person.share_mobile_phone %>
-  
   <% form_for :person, person, :url => {:action => 'privacy', :id => person} do |form| %>
     <table>
-      <tr><th>Detail</th><th>Visible</th><th>Hidden</th><th>Use Family Setting</th></tr>
+      <tr><th>Detail</th><th>Visible</th><th>Hidden</th><th>Default</th></tr>
       <tr>
         <td>Mobile Phone</td>
         <td><%= radio_button_tag 'person[share_mobile_phone]', true, person.attributes['share_mobile_phone'] == true, :class => 'checkbox' %></td>
@@ -138,9 +136,17 @@
         <td><%= radio_button_tag 'person[wall_enabled]', true, person.attributes['wall_enabled'] == true, :class => 'checkbox' %></td>
         <td><%= radio_button_tag 'person[wall_enabled]', false, person.attributes['wall_enabled'] == false, :class => 'checkbox' %></td>
         <td><%= radio_button_tag 'person[wall_enabled]', 'nil', person.attributes['wall_enabled'] == nil, :class => 'checkbox' %></td>
-        <td><em>A space for people to post messages for you and others to see.</em></td>
+        <td><em>A space for people to post messages for <%=h @logged_in == person ? 'you' : person.first_name %> and others to see.</em></td>
       </tr>
     </table>
+    
+    <p>
+      <%= image_tag 'message.gif', :alt => 'Private Message', :class => 'no-border', :style => 'vertical-align:middle;' %>
+      Private Messages Enabled:<br/>
+      <%= check_box_tag 'person[messages_enabled]', true, person.attributes['messages_enabled'], :class => 'checkbox' %>
+      <input name="person[messages_enabled]" type="hidden" value="false" />
+      If this is unchecked and <%=h @logged_in == person ? 'your' : person.name_possessive %> email address is hidden, others will have no way to send a private email directly to <%=h @logged_in == person ? 'you' : person.first_name %> through this site.
+    </p>
     
     <p><%= submit_tag 'Save Personal Settings' %></p>
   <% end %>

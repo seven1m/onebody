@@ -55,6 +55,9 @@ class AccountController < ApplicationController
   def help
   end
   
+  def safeguarding_children
+  end
+  
   def bad_status
   end
   
