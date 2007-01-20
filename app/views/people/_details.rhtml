@@ -80,6 +80,6 @@
     <tr><td>About:</td><td><%= preserve_breaks @person.about %></td></tr>
   <% end %>
   <% if @person.service_name.to_s.any? %>
-    <tr><td>Services:</td><td><%= link_to @person.service_name, :action => 'services', :id => @person %><br/><%=h @person.service_description %></td></tr>
+    <tr><td>Services:</td><td><%= link_to @person.service_name, :action => 'services', :id => @person %><br/><%=h truncate @person.service_description, 200 %></td></tr>
   <% end %>
 </table>
