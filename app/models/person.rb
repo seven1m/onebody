@@ -56,9 +56,20 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def first_name
+    if p = NAME_CONVERSIONS[:people][id] and n = p[:first_name]
+      n
+    else
+      read_attribute(:first_name)
+    end
+  end
+
   def last_name
-    n = read_attribute(:last_name)
-    NAME_CONVERSIONS[n] || n
+    if p = NAME_CONVERSIONS[:people][id] and n = p[:last_name]
+      n
+    else
+      read_attribute(:last_name)
+    end
   end
   
   def name_shortened(max)

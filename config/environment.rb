@@ -147,5 +147,15 @@ ExceptionNotifier.sender_address =
 
 # an ugly hack to convert names from legacy systems
 NAME_CONVERSIONS = {
-  'Munoz' => "Mu\303\261oz"
+  :people => {
+    25619 => {:last_name => "Mu\303\261oz"},
+    31329 => {:last_name => "Mu\303\261oz"},
+    31411 => {:last_name => "Mu\303\261oz"},
+    24792 => {:last_name => "Mu\303\261oz"},
+    32837 => {:last_name => "Mu\303\261oz"}
+  },
+  :families => {
+    12209 => {:last_name => "Mu\303\261oz", :name => "Ed & Sherry Mu\303\261oz"},
+    11564 => {:last_name => "Mu\303\261oz", :name => "Chris Mu\303\261oz"}
+  }
 }

@@ -77,7 +77,18 @@
     </tr>
   <% end %>
   <% if @person.about.to_s.any? and params[:action] != 'simple_view' %>
-    <tr><td>About:</td><td><%= preserve_breaks @person.about %></td></tr>
+    <tr>
+      <td>About:</td>
+      <td>
+        <% if too_big = @person.about.to_s.length > 5000 %>
+          <div style="height:300px;overflow:auto;">
+        <% end %>
+        <%= preserve_breaks @person.about %>
+        <% if too_big %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
   <% end %>
   <% if @person.service_name.to_s.any? %>
     <tr><td>Services:</td><td><%= link_to @person.service_name, :action => 'services', :id => @person %><br/><%=h truncate @person.service_description, 200 %></td></tr>

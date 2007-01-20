@@ -47,4 +47,20 @@ class Family < ActiveRecord::Base
       update_attributes :latitude => lat, :longitude => lon
     end
   end
+
+  def name
+    if f = NAME_CONVERSIONS[:families][id] and n = f[:name]
+      n
+    else
+      read_attribute(:name)
+    end
+  end
+
+  def last_name
+    if f = NAME_CONVERSIONS[:families][id] and n = f[:last_name]
+      n
+    else
+      read_attribute(:last_name)
+    end
+  end
 end

@@ -139,7 +139,18 @@
       <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
     <% end %>
     <% if @person.quotes.to_s.any? %>
-      <tr><td>Quotes:</td><td><%= preserve_breaks @person.quotes %></td></tr>
+      <tr>
+        <td>Quotes:</td>
+        <td>
+          <% if too_big = @person.quotes.to_s.length > 5000 %>
+            <div style="height:300px;overflow:auto;">
+          <% end %>
+          <%= preserve_breaks @person.quotes %>
+          <% if too_big %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
   </table>
 <% end %>
