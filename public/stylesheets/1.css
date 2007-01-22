@@ -630,3 +630,14 @@ tr.new td {
 .gray {
 	color: #999;
 }
+
+a.no-underline,
+a.no-underline:link,
+a.no-underline:visited,
+a.no-underline:active {
+	text-decoration: none;
+}
+
+a.no-underline:hover {
+	text-decoration: underline;
+}
