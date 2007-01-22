@@ -15,6 +15,7 @@ class Person < ActiveRecord::Base
   has_many :songs
   has_many :prayer_signups
   has_and_belongs_to_many :verses
+  has_many :log_items
   
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES
@@ -188,5 +189,9 @@ class Person < ActiveRecord::Base
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female
   def parents
     family.people.select { |p| p.adult? and [1, 2].include? p.sequence }
+  end
+
+  def active?
+    log_items.count(["created_at >= ?", 1.day.ago]) > 0
   end
 end

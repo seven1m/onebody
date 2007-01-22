@@ -50,6 +50,13 @@ class Notifier < ActionMailer::Base
     subject s
     body b
   end
+
+  def prayer_reminder(person)
+    recipients person.email
+    from SYSTEM_NOREPLY_EMAIL
+    subject "24-7 Prayer: Don't Forget!"
+    body :times => person.prayer_signups.find(:all, :order => 'start')
+  end
   
   def email_verification(verification)
     recipients verification.email
