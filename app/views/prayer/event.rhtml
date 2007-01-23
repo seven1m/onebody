@@ -1,4 +1,8 @@
-<h1>24/7 Prayer Week - Jan 21-28</h1>
+<h1>24/7 Prayer Week - Jan 21-<span style="text-decoration:line-through;">28</span>30</h1>
+
+<p style="color:red;">
+  Now extended until Tuesday!
+</p>
 
 <p>
   Churches throughout the Tulsa area are joining together to
@@ -69,7 +73,7 @@
           <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?' %>
         <% end %>
       <% else %>
-        <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
+        <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :style => 'color:red;', :post => true, :confirm => 'Are you sure?' %>
       <% end %>
     </td>
   </tr>

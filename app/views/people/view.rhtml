@@ -41,8 +41,10 @@
 
 <h1>
   <%=h @person.name %>
-  <% if @person.mail_group == 'M' %>
-    <span style="font-size:10pt;">(Member)</span>
+  <% if @person.church_member? %>
+    <span style="font-size:10pt;">
+      <%= image_tag 'star.gif', :alt => 'Member', :class => 'no-border' %>Member
+    </span>
   <% end %>
   <% if @logged_in.can_edit? @person %>
     <%= link_to 'edit', {:action => 'edit', :id => @person}, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
@@ -101,6 +103,7 @@
 <% if @person.testimony.to_s.any? %>
   <h2>Testimony</h2>
   <p><%= preserve_breaks @person.testimony %></p>
+  <p><%= link_to 'Read more testimonies...', :action => 'search', :testimony => true %></p>
 <% end %>
 
 <a name="verses"></a>

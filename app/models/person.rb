@@ -165,6 +165,10 @@ class Person < ActiveRecord::Base
   def member?
     %w(M A C).include? mail_group
   end
+
+  def church_member?
+    mail_group == 'M'
+  end
   
   def admin?
     @admin ||= ADMIN_CHECK.call(self)

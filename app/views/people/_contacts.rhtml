@@ -10,7 +10,7 @@
         </td>
         <td>
           <%= link_to contact.name, :action => 'view', :id => contact %>
-          <% if contact.active? %>
+          <% if @person == @logged_in and contact.active? %>
             <%= image_tag 'lightning.gif', :alt => 'recently active', :class => 'no-border', :style => 'vertical-align:middle;' %>
           <% end %>
         </td>

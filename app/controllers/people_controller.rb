@@ -71,6 +71,9 @@ class PeopleController < ApplicationController
       if params[:category]
         conditions.add_condition ["people.service_category = ?", params[:category]]
       end
+      if params[:testimony]
+        conditions.add_condition ["people.testimony is not null and people.testimony != ''"]
+      end
       unless @logged_in.admin?
         mg = MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.map { |m| "'#{m}'" }.join(',')
         conditions.add_condition ["people.mail_group in (#{mg})"]

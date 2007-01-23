@@ -48,7 +48,9 @@
         <% else %>
           <td>
             <%= link_to person.name, {:action => 'view', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
-            <% if person.mail_group == 'M' %><span title="Member" class="member">M</span><% end %>
+            <% if person.church_member? %>
+              <%= image_tag 'star.gif', :alt => 'Member', :class => 'no-border', :style => 'vertical-align:middle;' %>
+            <% end %>
           </td>
           <td><%=h person.family.name %></td>
         <% end %>
