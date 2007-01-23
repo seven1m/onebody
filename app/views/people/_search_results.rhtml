@@ -10,6 +10,16 @@
     <% end %>
   </p>
 
+  <% if @show_service %>
+    <p>
+      <label for="category">Service Category:</label>
+      <select id="category" onchange="location.href='?service=true&category='+value">
+        <option value="">(show all)</option>
+        <%= options_for_select @service_categories, params[:category] %>
+      </select>
+    </p>
+  <% end %>
+
   <table>
     <tr>
       <th></th>

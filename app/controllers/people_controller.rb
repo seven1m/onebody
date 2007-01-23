@@ -67,6 +67,7 @@ class PeopleController < ApplicationController
       if params[:service]
         @show_service = true
         conditions.add_condition ["people.service_name is not null and people.service_name != ''"]
+        @service_categories = Person.find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
       end
       if params[:category]
         conditions.add_condition ["people.service_category = ?", params[:category]]
@@ -98,7 +99,7 @@ class PeopleController < ApplicationController
           :all,
           :conditions => conditions,
           :include => :family,
-          :order => 'people.last_name, people.first_name',
+          :order => (params[:service] ? 'people.service_name' : 'people.last_name, people.first_name'),
           :limit => @pages.items_per_page,
           :offset => @pages.current.offset
         ).select do |person| # ensure we don't show someone based on a search on an attribute that's private
@@ -140,7 +141,7 @@ class PeopleController < ApplicationController
       @person = @logged_in
     end
     @family = @person.family
-    @service_categories = Person.find_by_sql("select distinct service_category from people where service_category is not null and service_category != ''").map { |p| p.service_category }
+    @service_categories = Person.find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
     if request.post?
       if @logged_in.frozen
         render :text => "Your account has been frozen due to misuse.", :layout => true

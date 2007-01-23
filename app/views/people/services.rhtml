@@ -26,4 +26,7 @@
   <% if @person.service_website.to_s.any? %>
     <tr><td>Business Website:</td><td><%= link_to @person.service_website, @person.service_website %></td></tr>
   <% end %>
+  <% if @person.service_address.to_s.any? %>
+    <tr><td>Business Address:</td><td><%= preserve_breaks @person.service_address %></td></tr>
+  <% end %>
 </table>

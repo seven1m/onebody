@@ -8,8 +8,8 @@ Prerequisites: Ruby on Rails, MySQL, RMagick
 3. Create a database in MySQL called "crccweb"
 4. If your MySQL root user has a password, modify config/database.yml appropriately
 5. cd /where/you/installed/cedarridgefamily
-6. rake migrate
-7. mysql -u root -p crccweb < db/crccweb.sql
+6. mysql -u root -p crccweb < db/crccweb.sql
+7. rake migrate
 
 For development, you may run script/server and browse to http://127.0.0.1:3000
 

@@ -170,7 +170,9 @@
     <label for="person_service_email">Business Email:</label>
     <%= form.text_field :service_email %><br/>
     <label for="person_service_website">Business Website:</label>
-    <%= form.text_field :service_website %>
+    <%= form.text_field :service_website %><br/>
+    <label for="person_service_address">Business Address:</label>
+    <%= form.text_area :service_address, :rows => 2 %>
   </div>
   
   <p><%= submit_tag 'Save Changes' %></p>

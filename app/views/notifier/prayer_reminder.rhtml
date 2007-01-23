@@ -1,0 +1,7 @@
+Don't forget! You've signed up to pray at the following times:
+
+<% @times.each do |time| -%>
+* <%= time.start.strftime '%A %I:%M %p' %>
+<% end -%>
+
+-<%= CHURCH_NAME %>
