@@ -41,7 +41,7 @@
   <p>Part of <a href="http://tulsaprayer.com">TulsaPrayer.com</a></p>
 <% end %>
 
-<% day = nil %>
+<% day = nil; now = DateTime.now; now = DateTime.new(now.year, now.month, now.day, now.hour, now.min) %>
 <% range_of_hours(@first, @last).each do |hour| %>
   <% if hour.day != day %>
     <a name="<%= hour.strftime('%Y%m%d') %>"></a>
@@ -68,11 +68,11 @@
             ((signup.person == @logged_in or @logged_in.admin?) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :post => true, :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : '')
           end
         end.join(' | ') %>
-        <% unless signups.map { |s| s.person }.include? @logged_in %>
+        <% unless signups.map { |s| s.person }.include? @logged_in or hour < now %>
           <br/>
           <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :post => true, :confirm => 'This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?' %>
         <% end %>
-      <% else %>
+      <% elsif hour >= now %>
         <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :style => 'color:red;', :post => true, :confirm => 'Are you sure?' %>
       <% end %>
     </td>
