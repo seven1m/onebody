@@ -66,7 +66,7 @@ class AccountController < ApplicationController
       person = Person.find_by_email(params[:email])
       family = Family.find_by_email(params[:email])
       if person or family
-        if (person and MAIL_GROUPS_CAN_LOG_IN.include? person.mail_group) or (family and family.people.any? and MAIL_GROUPS_CAN_LOG_IN.include? family.people.first.mail_group)
+        if (person and LOG_IN_CHECK.call(person)) or (family and family.people.any? and LOG_IN_CHECK.call(family.people.first))
           v = Verification.create :email => params[:email]
           if v.errors.any?
             render :text => v.errors.full_messages.join('; '), :layout => true
@@ -88,7 +88,7 @@ class AccountController < ApplicationController
       mobile = params[:mobile].scan(/\d/).join('').to_i
       person = Person.find_by_mobile_phone(mobile)
       if person
-        if MAIL_GROUPS_CAN_LOG_IN.include? person.mail_group
+        if LOG_IN_CHECK.call(person)
           unless gateway = MOBILE_GATEWAYS[params[:carrier]]
             raise 'Error.'
           end

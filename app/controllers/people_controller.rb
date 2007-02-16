@@ -77,7 +77,7 @@ class PeopleController < ApplicationController
       end
       unless @logged_in.admin?
         mg = MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.map { |m| "'#{m}'" }.join(',')
-        conditions.add_condition ["people.mail_group in (#{mg})"]
+        conditions.add_condition ["(people.mail_group in (#{mg}) or people.flags like ?)", "%#{FLAG_VISIBLE_BY_NON_ADMINS}%"]
       end
       conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.member?
       conditions.add_condition ["MONTH(people.birthday) = ?", params[:birthday_month].to_i] if params[:birthday_month].to_s.any?

@@ -122,7 +122,7 @@ class Person < ActiveRecord::Base
     if what.is_a? Person
       admin? or
       (
-        MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.include? what.mail_group \
+        (MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.include? what.mail_group or what.flags.to_s.include? FLAG_VISIBLE_BY_NON_ADMINS) \
         and
         (member? or what.adult?)
       )

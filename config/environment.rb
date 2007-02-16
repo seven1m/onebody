@@ -118,7 +118,12 @@ ADMIN_CHECK = Proc.new do |person|
 end
 DAYS_NEW = 7
 MAIL_GROUPS_CAN_LOG_IN = %w(M A P Y O C V)
+FLAG_CAN_LOG_IN = 'allow'
+LOG_IN_CHECK = Proc.new do |person|
+  MAIL_GROUPS_CAN_LOG_IN.include? person.mail_group or person.flags.to_s.include? FLAG_CAN_LOG_IN
+end
 MAIL_GROUPS_VISIBLE_BY_NON_ADMINS = MAIL_GROUPS_CAN_LOG_IN
+FLAG_VISIBLE_BY_NON_ADMINS = FLAG_CAN_LOG_IN
 SITE_INTRO_FOR_EMAIL = "#{SITE_TITLE} (#{SITE_URL}) is a brand new site that connects members online. The site is currently in \"beta\" -- we're testing it out and finding bugs. You're welcome to sign in too, and help us improve the system!"
 HEADER_MESSAGE = "Visit <a href=\"#{VISITOR_URL}\">#{VISITOR_SIMPLE_URL}</a> for news, ministry info, sermon audio, etc."
 ATTACHMENTS_TO_IGNORE = ['winmail.dat']

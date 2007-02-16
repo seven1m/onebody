@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     def authenticate_user
       if id = session[:logged_in_id]
         person = Person.find(id)
-        unless MAIL_GROUPS_CAN_LOG_IN.include? person.mail_group
+        unless LOG_IN_CHECK.call(person)
           session[:logged_in_id] = nil
           redirect_to :controller => 'account', :action => 'bad_status'
           return
