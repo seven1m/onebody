@@ -641,3 +641,24 @@ a.no-underline:active {
 a.no-underline:hover {
 	text-decoration: underline;
 }
+
+#search {
+float: right;
+width: 190px;
+padding-right: 15px;
+}
+#search form {
+border: 0px;
+}
+#search input {
+	width:150px;
+	padding:5px;
+	background:#fff;
+	border:2px solid #999;
+	font:150% Arial;
+	color:#999;
+}
+#searchresults {
+padding: 5px;
+margin-left: 5px;
+}

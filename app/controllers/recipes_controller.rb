@@ -25,12 +25,13 @@ class RecipesController < ApplicationController
     if 0 == @params['criteria'].length
       @items = nil
     else
-      @items = Recipe.find(:all, :order => 'title',
+      recipes = Recipe.find(:all, :order => 'title',
         :conditions => [ 'LOWER(concat(title,description,ingredients)) LIKE ?',
         '%' + @params['criteria'].downcase + '%' ])
+      @item_pages, @items = paginate :recipes, :per_page => 5, :order => 'title',:conditions => [ 'LOWER(concat(title,description,ingredients)) LIKE ?',
+        '%' + @params['criteria'].downcase + '%' ]
       @mark_term = @params['criteria']
-    end
-    render_without_layout
+    end    
   end
 
 

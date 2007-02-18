@@ -4,7 +4,7 @@ development:
   username: root
   password: 
   host: localhost
-  #socket: /var/run/mysqld/mysqld.sock
+  socket: /var/run/mysqld/mysqld.sock
 
 test:
   adapter: sqlite3
