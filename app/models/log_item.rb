@@ -1,5 +1,6 @@
 class LogItem < ActiveRecord::Base
   belongs_to :person
+  belongs_to :reviewed_by, :class_name => 'Person', :foreign_key => 'reviewed_by'
   
   def object
     if model_name =~ /^[A-Z][a-z]{1,15}$/

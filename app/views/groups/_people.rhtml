@@ -3,7 +3,7 @@
     <% if @logged_in.sees? person %>
       <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
       <% if @group.admin?(person, true) %>(admin)<% end %>
-      <% if @group.admin?(@logged_in) and (person.email.nil? or not @group.get_options_for(person).get_email) %>
+      <% if @group.admin?(@logged_in) and (person.email.to_s.empty? or not @group.get_options_for(person).get_email) %>
         <em>no mail</em>
       <% end %>
       <br/>

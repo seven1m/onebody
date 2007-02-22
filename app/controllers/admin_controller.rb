@@ -17,11 +17,24 @@ class AdminController < ApplicationController
         params[:date][:to] = ''
       end
     end
+    conditions.add_condition ['reviewed_on is null'] unless params[:reviewed] == 'visible'
     conditions = nil if conditions.empty?
     @pages = Paginator.new self, LogItem.count(conditions), 100, params[:page]
     @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset, :conditions => conditions
+    @items.delete_if { |i| i.object.nil? }
     @last_log_view = DateTime.parse(cookies[:last_log_view]) rescue nil
     cookies[:last_log_view] = {:value => DateTime.now.to_s, :expires => 1.month.from_now} unless params[:page]
+  end
+  
+  def mark_reviewed
+    now = Time.now
+    params[:log_items].each do |id|
+      log_item = LogItem.find(id)
+      log_item.reviewed_on = now
+      log_item.reviewed_by = @logged_in.id
+      log_item.save
+    end
+    redirect_to :action => 'log'
   end
   
   def photos

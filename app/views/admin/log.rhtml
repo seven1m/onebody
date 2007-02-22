@@ -1,8 +1,10 @@
 <h1>Log</h1>
 
-<p><%= link_to_function 'Display Filtering Options &raquo;', "Element.toggle('log_options')" %></p>
+<p><%= link_to_function 'Filtering Options &raquo;', "Element.toggle('log_options')" %></p>
 
 <form id="log_options" style="display:none;">
+  <strong>Reviewed Items:</strong>
+  <select name="reviewed"><%= options_for_select ['hidden', 'visible'], params[:reviewed] %></select><br/>
   <strong>Date Range</strong>
   (date format:
   <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y' %></span> or
@@ -19,52 +21,69 @@
   <p>Page: <%= pagination_links @pages %></p>
 <% end %>
 
-<table style="width:100%;">
-  <tr><th></th><th>Type</th><th>What</th><th>When</th><th>Who</th></tr>
-  <% @items.each do |item| %>
-    <% if item.object %>
-      <tr <% if @last_log_view and item.created_at >= @last_log_view %>class="new"<% end %>>
-        <td>
-          <% if image_url = item.object_image_url %>
-            <img src="<%= image_url %>" class="no-border"/>
-          <% end %>
-        </td>
-        <td><%=h item.model_name %></td>
-        <td>
-          <%= link_to item.object_description, item.object_url %><br/>
-          <%=h item.object_excerpt %>
-        </td>
-        <td><%= item.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
-        <td style="width:32px;">
-          <% if item.person %>
-            <a href="<%= url_for :controller => 'people', :action => 'view', :id => item.person %>">
-              <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
-            </a>
-          <% end %>
-        </td>
-        <td>
-          <% if item.person %>
-            <%= link_to item.person.name, :controller => 'people', :action => 'view', :id => item.person %>
-            <% if item.person.admin? %>(admin)<% end %>
-          <% end %>
-        </td>
-        <td><%= link_to_function '[changes]', "Element.toggle('changes#{item.id}')" %></td>
+<% if @items.any? %>
+  <%= form_tag :action => 'mark_reviewed' %>
+    <table style="width:100%;">
+      <tr>
+        <th><input type="checkbox" onclick="var checked=$('check_all').checked;$$('.log_item_checkbox').each(function(e){e.checked=checked});" class="checkbox" id="check_all"/></th>
+        <th></th>
+        <th>Type</th>
+        <th>What</th>
+        <th>When</th>
+        <th>Who</th>
       </tr>
-      <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;">
-        <td colspan="7">
-          <table>
-            <% item.changes.each do |key, value| %>
-              <% unless key =~ /_id$/ %>
-                <tr><td><%=h key %>:</td><td><%=h value %></td></tr>
-              <% end %>
+      <% @items.each do |item| %>
+        <tr <% if @last_log_view and item.created_at >= @last_log_view %>class="new"<% end %>>
+          <td style="font-size:smaller;line-height:13px;">
+            <% if item.reviewed_on %>
+              reviewed by <%= link_to item.reviewed_by.name, :controller => 'people', :action => 'view', :id => item.reviewed_by %>
+              on <%= item.reviewed_on.strftime '%m/%d/%Y %I:%M %p' %>
+            <% else %>
+              <%= check_box_tag 'log_items[]', item.id, nil, :class => 'checkbox log_item_checkbox' %>
             <% end %>
-          </table>
-        </td>
-      </tr>
-    <% end %>
-  <% end %>
-</table>
-
-<% if @items.empty? %>
-  <p><em>no log items</em></p>
+          </td>
+          <td>
+            <% if image_url = item.object_image_url %>
+              <img src="<%= image_url %>" class="no-border"/>
+            <% end %>
+          </td>
+          <td><%=h item.model_name %></td>
+          <td>
+            <%= link_to item.object_description, item.object_url, :confirm => (item.object.is_a? Message and item.object.to ? 'This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.' : nil) %><br/>
+            <%=h item.object_excerpt %>
+          </td>
+          <td><%= item.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
+          <td style="width:32px;">
+            <% if item.person %>
+              <a href="<%= url_for :controller => 'people', :action => 'view', :id => item.person %>">
+                <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
+              </a>
+            <% end %>
+          </td>
+          <td>
+            <% if item.person %>
+              <%= link_to item.person.name, :controller => 'people', :action => 'view', :id => item.person %>
+              <% if item.person.admin? %>(admin)<% end %>
+            <% end %>
+          </td>
+          <td><%= link_to_function '[changes]', "Element.toggle('changes#{item.id}')" %></td>
+        </tr>
+        <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;">
+          <td colspan="7">
+            <table>
+              <% item.changes.each do |key, value| %>
+                <% unless key =~ /_id$/ %>
+                  <tr><td><%=h key %>:</td><td><%=h value %></td></tr>
+                <% end %>
+              <% end %>
+            </table>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <p><%= submit_tag 'Hide Selected Items' %><br/>
+    <em>By hiding log items, you are indicating you have reviewed and accept each item as appropriate behavior.</em></p>
+  </form>
+<% else %>
+  <p><em>There is nothing to show. Check the Filtering Options to expand your query.</em></p>
 <% end %>
