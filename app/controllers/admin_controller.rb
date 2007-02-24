@@ -31,7 +31,7 @@ class AdminController < ApplicationController
     params[:log_items].each do |id|
       log_item = LogItem.find(id)
       log_item.reviewed_on = now
-      log_item.reviewed_by = @logged_in.id
+      log_item.reviewed_by = @logged_in
       log_item.save
     end
     redirect_to :action => 'log'
