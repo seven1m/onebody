@@ -154,6 +154,10 @@ class PeopleController < ApplicationController
       elsif params[:person] and params[:person][:first_name]
         params[:person][:birthday] = params[:person][:birthday].to_date
         params[:person][:anniversary] = params[:person][:anniversary].to_date
+        params[:person][:home_phone] = params[:person][:home_phone].scan(/\d/).join('')
+        params[:person][:mobile_phone] = params[:person][:mobile_phone].scan(/\d/).join('')
+        params[:person][:work_phone] = params[:person][:work_phone].scan(/\d/).join('')
+        params[:person][:fax] = params[:person][:fax].scan(/\d/).join('')
         updates = keep_changes(params[:person], @person)
         updates[:birthday] = Date.new(1800, 1, 1) if updates.has_key?(:birthday) and updates[:birthday].nil?
         updates[:anniversary] = Date.new(1800, 1, 1) if updates.has_key?(:anniversary) and updates[:anniversary].nil?
