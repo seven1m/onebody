@@ -169,6 +169,7 @@
   <%= render :partial => 'wall' %>
 <% end %>
 
+<!--
 <% if @logged_in.admin? %>
   <%= form_tag :controller => 'prayer', :action => 'event_signup', :id => @person %>
     Sign up for prayer:
@@ -176,6 +177,7 @@
     <%= submit_tag 'Save' %>
   </form>
 <% end %>
+-->
 
 <% if @person.family.mapable? and @person.share_address_with @logged_in %>
   <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
