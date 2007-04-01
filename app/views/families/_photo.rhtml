@@ -2,5 +2,7 @@
   <% if @family.has_photo? %>
     <%= link_to image_tag(url_for(:controller => 'families', :action => 'photo', :id => "#{@family.id}.medium.jpg"), :alt => @family.name),
       :controller => 'families', :action => 'photo', :id => "#{@family.id}.large.jpg", :back => url_for(params) %>
-  <% end %>
+    <% elsif params[:action] == 'edit' %>
+      <%= image_tag 'family.jpg', :alt => @family.name %>
+    <% end %>
 </div>

@@ -27,7 +27,7 @@
     <tr><td><label for="email">Email Address:</label></td>
     <td>
       <%= text_field_tag :email, @email %><br/>
-      <%= check_box_tag :remember, true, true, :class => 'checkbox' %> Remember me
+      <%= check_box_tag :remember, true, false, :class => 'checkbox' %> Remember my email
     </td></tr>
     <tr><td><label for="password">Password:</label></td>
     <td><%= password_field_tag :password %></td></tr>

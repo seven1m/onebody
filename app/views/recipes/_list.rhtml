@@ -15,7 +15,12 @@
         <strong><%= link_to recipe.title, :controller => 'recipes', :action => "view", :id => recipe %></strong>
         <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
         <% unless @person %>
-          by <%= link_to recipe.person.name, :controller => 'people', :action => 'view', :id => recipe.person %>
+          by
+          <% if recipe.person %>
+            <%= link_to recipe.person.name, :controller => 'people', :action => 'view', :id => recipe.person %>
+          <% else %>
+            ???
+          <% end %>
         <% end %>
         <% if recipe.admin? @logged_in %>
           <%= link_to "[edit]", {:controller => 'recipes', :action => "edit", :id => recipe}, :class => 'discreet' %>

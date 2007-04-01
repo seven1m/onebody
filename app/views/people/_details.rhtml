@@ -1,3 +1,10 @@
+<% if params[:action] == 'simple_view' and not @person.visible? %>
+  <p>
+    <%= image_tag 'lock.gif', :alt => 'Hidden Profile', :class => 'no-border', :style => 'vertical-align:middle;' %>
+    This profile is hidden from most people.
+  </p>
+<% end %>
+
 <table>
   <% if @person.home_phone.to_i > 0 %>
     <tr><td>Home:</td><td><%= number_to_phone @person.home_phone, :area_code => true %></td></tr>
@@ -62,8 +69,8 @@
       <td>
         <%= link_to @person.birthday.strftime('%B'), {:action => 'search', :birthday_month => @person.birthday.month}, :title => "search for #{@person.birthday.strftime('%B')} birthdays" %>
         <%= link_to @person.birthday.strftime('%d'), {:action => 'search', :birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day}, :title => "search for #{@person.birthday.strftime('%B %d')} birthdays" %>
+        <%= render :partial => 'private_attribute', :locals => {:sharing => sharing, :attribute => 'birthday'} %>
       </td>
-      <%= render :partial => 'private_attribute', :locals => {:sharing => sharing, :attribute => 'birthday'} %>
     </tr>
   <% end %>
   <% if sharing = @person.share_anniversary_with(@logged_in) and @person.anniversary %>
@@ -72,21 +79,7 @@
       <td>
         <%= link_to @person.anniversary.strftime('%B'), {:action => 'search', :anniversary_month => @person.anniversary.month}, :title => "search for #{@person.anniversary.strftime('%B')} anniversaries" %>
         <%= link_to @person.anniversary.strftime('%d'), {:action => 'search', :anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day}, :title => "search for #{@person.anniversary.strftime('%B %d')} anniversaries" %>
-      </td>
-      <%= render :partial => 'private_attribute', :locals => {:sharing => sharing, :attribute => 'anniversary'} %>
-    </tr>
-  <% end %>
-  <% if @person.about.to_s.any? and params[:action] != 'simple_view' %>
-    <tr>
-      <td>About:</td>
-      <td>
-        <% if too_big = @person.about.to_s.length > 5000 %>
-          <div style="height:300px;overflow:auto;">
-        <% end %>
-        <%= preserve_breaks @person.about %>
-        <% if too_big %>
-          </div>
-        <% end %>
+        <%= render :partial => 'private_attribute', :locals => {:sharing => sharing, :attribute => 'anniversary'} %>
       </td>
     </tr>
   <% end %>

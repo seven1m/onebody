@@ -2,7 +2,7 @@
   <%= render :partial => 'photo' %>
   <%= render :partial => 'families/photo' %>
     
-  <% if (people = @person.family.people).length > 1 %>
+  <% if (people = @person.family.people.find(:all, :conditions => @logged_in.admin? ? nil : ['visible = ?', true])).length > 1 %>
     <h2>Family</h2>
     <table>
       <% people.each do |person| %>
@@ -61,7 +61,7 @@
 <% content_for :subnav do %>
   <% if @logged_in.can_edit? @person %>
     <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>
-    <li><%= link_to 'Privacy', :action => 'privacy', :id => @person %></li>
+    <li><%= link_to 'Privacy Settings', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}" %></li>
     <li><%= link_to 'Email Preferences', :action => 'email', :id => @person %></li>
   <% end %>
   <% unless @logged_in == @person %>
@@ -100,10 +100,26 @@
   </p>
 <% end %>
 
+<% if @person.about.to_s.any? and params[:action] != 'simple_view' %>
+  <h2>About</h2>
+  <p <% if @person.about.to_s.length > 2000 %>style="height:200px;overflow:auto;"<% end %>>
+    <%= preserve_breaks @person.about %>
+  </p>
+<% end %>
+
 <% if @person.testimony.to_s.any? %>
   <h2>Testimony</h2>
-  <p><%= preserve_breaks @person.testimony %></p>
+  <p <% if @person.testimony.to_s.length > 2000 %>style="height:200px;overflow:auto;"<% end %>>
+    <%= preserve_breaks @person.testimony %>
+  </p>
   <p><%= link_to 'Read more testimonies...', :action => 'search', :testimony => true %></p>
+<% elsif @logged_in == @person %>
+  <p class="highlight">
+    You can share your testimomy here.
+    <%= link_to 'Get to it!', :action => 'edit', :id => @person, :anchor => 'about' %><br/>
+    Or you can read others' testimonies
+    <%= link_to 'here', :action => 'search', :testimony => true %>.
+  </p>
 <% end %>
 
 <a name="verses"></a>

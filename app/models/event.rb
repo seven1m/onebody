@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   has_many :pictures, :order => 'created_at', :dependent => :destroy
-  belongs_to :person
+  belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
   serialize :admins
   
   acts_as_logger LogItem

@@ -11,7 +11,7 @@
   <% end %>
   <p>
     Event created by:<br/>
-    <%= link_to @event.person.name, :controller => 'people', :action => 'view', :id => @event.person %>
+    <%= render :partial => 'people/link', :locals => {:person => @event.person} %>
   </p>
 <% end %>
 

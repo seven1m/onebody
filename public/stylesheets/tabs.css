@@ -1,0 +1,35 @@
+h2.tab span {
+  margin-left: 9px;
+  margin-right: 0px;
+  padding: 1px 10px 0px 10px;
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  cursor: pointer;
+  /* Remove the following if you don't want rounded corners (Mozilla only). */
+  -moz-border-radius: 7px 7px 0px 0px;
+}
+
+h2.tab span.not-selected {
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+  color: #999;
+}
+
+h2.tab span.selected {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+}
+
+h2.tab {
+  border-bottom: none;
+  font-weight: bold;
+  font-size: 100%;
+  margin-bottom: 0px;
+  font-style: normal;
+}
+
+div.section {
+  border: 1px solid #ccc;
+  padding: 15px 5px 5px 5px;
+}

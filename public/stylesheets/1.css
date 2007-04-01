@@ -455,8 +455,13 @@ label {
 	font-weight:bold;
 	color:#444;
 	margin:5px 0;
-
 }
+label.inline {
+	display:inline;
+	margin:0;
+	font-weight:normal;
+}
+
 input {
 	width:300px;
 	padding:4px;
@@ -661,4 +666,16 @@ border: 0px;
 #searchresults {
 padding: 5px;
 margin-left: 5px;
+}
+
+.invisible {
+	color: #999;
+}
+
+.person-visible-link strong {
+	color: red;
+}
+
+.invisible strong {
+	color: #999;
 }

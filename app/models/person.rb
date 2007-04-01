@@ -99,6 +99,10 @@ class Person < ActiveRecord::Base
   def share_address; family.share_address; end
   def share_anniversary; family.share_anniversary; end
   
+  def visible?
+    family.visible? and read_attribute(:visible)
+  end
+  
   share_with :mobile_phone
   share_with :work_phone
   share_with :fax
@@ -120,11 +124,14 @@ class Person < ActiveRecord::Base
   
   def can_see?(what)
     if what.is_a? Person
+      what == self or
       admin? or
       (
         (MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.include? what.mail_group or what.flags.to_s.include? FLAG_VISIBLE_BY_NON_ADMINS) \
         and
-        (member? or what.adult?)
+        (member? or what.adult?) \
+        and
+        what.visible?
       )
     elsif what.is_a? Group
       not what.private? or what.people.include? self or what.admin? self

@@ -1,5 +1,6 @@
 class MusicController < ApplicationController
-  before_filter :only_admins, :except => ['index', 'view', 'view_attachment']
+  before_filter :only_admins, :only => ['edit', 'delete', 'add_attachment', 'delete_attachment']
+  before_filter :check_access
   
   def index
     if params[:artists].to_s.any?
@@ -124,4 +125,13 @@ class MusicController < ApplicationController
     end
     send_data attachment.file, :filename => attachment.name, :type => attachment.content_type, :disposition => 'inline'
   end
+  
+  private
+    def check_access
+      unless @logged_in.admin? or @logged_in.music_access?
+        render :text => 'This section is only available to authorized users.', :layout => true
+        return false
+      end
+    end
+  
 end

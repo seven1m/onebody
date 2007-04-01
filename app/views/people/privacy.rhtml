@@ -1,4 +1,15 @@
+<%= stylesheet_link_tag 'tabs' %>
+<%= javascript_include_tag 'tabs' %>
+
 <h1>Privacy</h1>
+
+<% if @person %>
+  <% content_for :subnav do %>
+    <li><%= link_to 'View Profile', :controller => 'people', :action => 'view', :id => @person %></li>
+    <li><%= link_to 'Edit Profile', :controller => 'people', :action => 'edit', :id => @person %></li>
+    <li><%= link_to 'Change Email/Password', :controller => 'account', :action => 'edit', :id => @person %></li>
+  <% end %>
+<% end %>
 
 <% unless @logged_in.adult? %>
   <p style="font-weight:bold;">
@@ -11,144 +22,212 @@
 <p>
   All members/attenders of <%= CHURCH_NAME %> have an account on
   this site. We've chosen some sensible defaults regarding how
-  much of your personal information is available to others here,
+  much of your personal information is availa`ble to others here,
   but you may wish to customize these settings to share more
   information or keep it more private.
 </p>
 
-<p style="font-weight:bold;">
-  If you wish to be removed or have your children removed from
-  this site, please let us know by sending an email to
-  <%= mail_to SEND_EMAIL_CHANGES_TO, SEND_EMAIL_CHANGES_TO %>.
-</p>
+<h2 class="tab" id="f">Family Privacy</h2>
 
-<h2>Privacy for the <em><%=h @family.name %> Family</em></h2>
-
+<div class="section">
 <p>
-  These settings affect your whole family. Person Privacy settings (see below)
+  These settings affect your whole family. Person Privacy settings (the other tabs)
   may override these settings.
 </p>
 
-<% form_for :family, @family, :url => {:action => 'privacy', :id => @family.people.first} do |form| %>
-  <table>
-    <tr><th>Detail</th><th>Visible</th><th>Hidden</th></tr>
-    <tr>
-      <td>Address</td>
-      <td><%= form.radio_button :share_address, true, :class => 'checkbox' %></td>
-      <td><%= form.radio_button :share_address, false, :class => 'checkbox' %></td>
-    </tr>
-    <tr>
-      <td>Mobile Phone</td>
-      <td><%= form.radio_button :share_mobile_phone, true, :class => 'checkbox' %></td>
-      <td><%= form.radio_button :share_mobile_phone, false, :class => 'checkbox' %></td>
-    </tr>
-    <tr>
-      <td>Work Phone</td>
-      <td><%= form.radio_button :share_work_phone, true, :class => 'checkbox' %></td>
-      <td><%= form.radio_button :share_work_phone, false, :class => 'checkbox' %></td>
-    </tr>
-    <tr>
-      <td>Fax</td>
-      <td><%= form.radio_button :share_fax, true, :class => 'checkbox' %></td>
-      <td><%= form.radio_button :share_fax, false, :class => 'checkbox' %></td>
-    </tr>
-    <tr>
-      <td>Email</td>
-      <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
-      <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
-      <td><em>People can still send your family email <%= link_to_function 'through the site', "alert('#{SITE_MAIL_DESCRIPTION}')" %> if Private Messages are enabled.</em></td>
-    </tr>
-    <tr>
-      <td>Birthday</td>
-      <td><%= form.radio_button :share_birthday, true, :class => 'checkbox' %></td>
-      <td><%= form.radio_button :share_birthday, false, :class => 'checkbox' %></td>
-      <td><em>The year is never shown.</em></td>
-    </tr>
-    <tr>
-      <td>Anniversary</td>
-      <td><%= form.radio_button :share_anniversary, true, :class => 'checkbox' %></td>
-      <td><%= form.radio_button :share_anniversary, false, :class => 'checkbox' %></td>
-      <td><em>The year is never shown.</em></td>
-    </tr>
-    <tr>
-      <td>Home Phone*</td>
-      <td><input type="radio" checked="checked" disabled="disabled" class="checkbox"/></td>
-      <td><input type="radio" disabled="disabled" class="checkbox"/></td>
-    </tr>
-    <tr>
-      <td>Wall</td>
-      <td><%= form.radio_button :wall_enabled, true, :class => 'checkbox' %></td>
-      <td><%= form.radio_button :wall_enabled, false, :class => 'checkbox' %></td>
-      <td><em>A space for people to post messages for you and others to see.</em></td>
-    </tr>
-  </table>
-  
-  <p style="font-style:italic;">
-    *Your home phone number needs to remain visible to facilitate basic communication, but
-    if you wish to make it private, you may contact the church office to have it unlisted.
+<% form_for :family, @family, :url => {:action => 'privacy', :id => @family.people.first}, :html => {:style => 'border:none;'} do |form| %>
+
+  <p>
+    <%= form.check_box 'visible', :class => 'checkbox', :onclick => "check_visibility();if($('notice')) new Effect.Fade('notice');if(!changed_sections.include('family'))changed_sections.push('family')" %>
+    <strong style="color:red;">visible on site</strong><br/>
+    <em>By turning off site visibility, <%= @family == @logged_in.family ? 'your' : 'this' %> entire
+      family will not appear in any searches. It is still possible to join groups and receive email
+      from site administrators, though.</em>
   </p>
+
+  <div id="family">
+
+    <table>
+      <tr><th>Detail</th><th>Visible</th><th>Hidden</th></tr>
+      <tr>
+        <td>Address</td>
+        <td><%= form.radio_button :share_address, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_address, false, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Mobile Phone</td>
+        <td><%= form.radio_button :share_mobile_phone, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_mobile_phone, false, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Work Phone</td>
+        <td><%= form.radio_button :share_work_phone, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_work_phone, false, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Fax</td>
+        <td><%= form.radio_button :share_fax, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_fax, false, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
+        <td><em>People can still send your family email <%= link_to_function 'through the site', "alert('#{SITE_MAIL_DESCRIPTION}')" %> if Private Messages are enabled.</em></td>
+      </tr>
+      <tr>
+        <td>Birthday</td>
+        <td><%= form.radio_button :share_birthday, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_birthday, false, :class => 'checkbox' %></td>
+        <td><em>The year is never shown.</em></td>
+      </tr>
+      <tr>
+        <td>Anniversary</td>
+        <td><%= form.radio_button :share_anniversary, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_anniversary, false, :class => 'checkbox' %></td>
+        <td><em>The year is never shown.</em></td>
+      </tr>
+      <tr>
+        <td>Home Phone*</td>
+        <td><input type="radio" checked="checked" disabled="disabled" class="checkbox"/></td>
+        <td><input type="radio" disabled="disabled" class="checkbox"/></td>
+      </tr>
+      <tr>
+        <td>Wall</td>
+        <td><%= form.radio_button :wall_enabled, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :wall_enabled, false, :class => 'checkbox' %></td>
+        <td><em>A space for people to post messages for you and others to see.</em></td>
+      </tr>
+    </table>
+  
+    <p style="font-style:italic;">
+      *Your home phone number needs to remain visible to facilitate basic communication, but
+      if you wish to make it private, you may contact the church office to have it unlisted.
+    </p>
+    
+  </div>
   
   <p><%= submit_tag 'Save Family Settings' %></p>
 <% end %>
 
+</div>
+
+<div id="privacy-people">
+
 <% @family.people.each do |person| %>
 
-  <h2>Privacy for <em><%=h person.name %></em></h2>
-
+  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %></h2>
+  
+  <div class="section">
+  
   <p>You may override the family settings for <%=h person.name %> by making changes below.</p>
   
-  <% form_for :person, person, :url => {:action => 'privacy', :id => person} do |form| %>
-    <table>
-      <tr><th>Detail</th><th>Visible</th><th>Hidden</th><th>Default</th></tr>
-      <tr>
-        <td>Mobile Phone</td>
-        <td><%= radio_button_tag 'person[share_mobile_phone]', true, person.attributes['share_mobile_phone'] == true, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_mobile_phone]', false, person.attributes['share_mobile_phone'] == false, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_mobile_phone]', 'nil', person.attributes['share_mobile_phone'] == nil, :class => 'checkbox' %></td>
-      </tr>
-      <tr>
-        <td>Work Phone</td>
-        <td><%= radio_button_tag 'person[share_work_phone]', true, person.attributes['share_work_phone'] == true, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_work_phone]', false, person.attributes['share_work_phone'] == false, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_work_phone]', 'nil', person.attributes['share_work_phone'] == nil, :class => 'checkbox' %></td>
-      </tr>
-      <tr>
-        <td>Fax</td>
-        <td><%= radio_button_tag 'person[share_fax]', true, person.attributes['share_fax'] == true, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_fax]', false, person.attributes['share_fax'] == false, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_fax]', 'nil', person.attributes['share_fax'] == nil, :class => 'checkbox' %></td>
-      </tr>
-      <tr>
-        <td>Email</td>
-        <td><%= radio_button_tag 'person[share_email]', true, person.attributes['share_email'] == true, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_email]', false, person.attributes['share_email'] == false, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_email]', 'nil', person.attributes['share_email'] == nil, :class => 'checkbox' %></td>
-      </tr>
-      <tr>
-        <td>Birthday</td>
-        <td><%= radio_button_tag 'person[share_birthday]', true, person.attributes['share_birthday'] == true, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_birthday]', false, person.attributes['share_birthday'] == false, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[share_birthday]', 'nil', person.attributes['share_birthday'] == nil, :class => 'checkbox' %></td>
-        <td><em>The year is never shown.</em></td>
-      </tr>
-      <tr>
-        <td>Wall</td>
-        <td><%= radio_button_tag 'person[wall_enabled]', true, person.attributes['wall_enabled'] == true, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[wall_enabled]', false, person.attributes['wall_enabled'] == false, :class => 'checkbox' %></td>
-        <td><%= radio_button_tag 'person[wall_enabled]', 'nil', person.attributes['wall_enabled'] == nil, :class => 'checkbox' %></td>
-        <td><em>A space for people to post messages for <%=h @logged_in == person ? 'you' : person.first_name %> and others to see.</em></td>
-      </tr>
-    </table>
-    
-    <p>
-      <%= image_tag 'message.gif', :alt => 'Private Message', :class => 'no-border', :style => 'vertical-align:middle;' %>
-      Private Messages Enabled:<br/>
-      <%= check_box_tag 'person[messages_enabled]', true, person.attributes['messages_enabled'], :class => 'checkbox' %>
-      <input name="person[messages_enabled]" type="hidden" value="false" />
-      If this is unchecked and <%=h @logged_in == person ? 'your' : person.name_possessive %> email address is hidden, others will have no way to send a private email directly to <%=h @logged_in == person ? 'you' : person.first_name %> through this site.
+  <% form_for :person, person, :url => {:action => 'privacy', :id => person}, :html => {:style => 'border:none;'} do |form| %>
+    <p class="person-visible-link">
+      <%= form.check_box 'visible', :class => 'checkbox person-visible-checkbox', :id => "person-visible#{person.id}", :onclick => "check_visibility();" %>
+      <strong>visible on site</strong><br/>
+      <em>By turning off site visibility, <%=h person.first_name %> will not appear
+        anywhere on the site.</em>
     </p>
+    
+    <div id="person<%= person.id %>" class="person">
+    
+      <table>
+        <tr><th>Detail</th><th>Visible</th><th>Hidden</th><th>Default</th></tr>
+        <tr>
+          <td>Mobile Phone</td>
+          <td><%= radio_button_tag 'person[share_mobile_phone]', true, person.attributes['share_mobile_phone'] == true, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_mobile_phone]', false, person.attributes['share_mobile_phone'] == false, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_mobile_phone]', 'nil', person.attributes['share_mobile_phone'] == nil, :class => 'checkbox' %></td>
+        </tr>
+        <tr>
+          <td>Work Phone</td>
+          <td><%= radio_button_tag 'person[share_work_phone]', true, person.attributes['share_work_phone'] == true, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_work_phone]', false, person.attributes['share_work_phone'] == false, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_work_phone]', 'nil', person.attributes['share_work_phone'] == nil, :class => 'checkbox' %></td>
+        </tr>
+        <tr>
+          <td>Fax</td>
+          <td><%= radio_button_tag 'person[share_fax]', true, person.attributes['share_fax'] == true, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_fax]', false, person.attributes['share_fax'] == false, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_fax]', 'nil', person.attributes['share_fax'] == nil, :class => 'checkbox' %></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><%= radio_button_tag 'person[share_email]', true, person.attributes['share_email'] == true, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_email]', false, person.attributes['share_email'] == false, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_email]', 'nil', person.attributes['share_email'] == nil, :class => 'checkbox' %></td>
+        </tr>
+        <tr>
+          <td>Birthday</td>
+          <td><%= radio_button_tag 'person[share_birthday]', true, person.attributes['share_birthday'] == true, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_birthday]', false, person.attributes['share_birthday'] == false, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[share_birthday]', 'nil', person.attributes['share_birthday'] == nil, :class => 'checkbox' %></td>
+          <td><em>The year is never shown.</em></td>
+        </tr>
+        <tr>
+          <td>Wall</td>
+          <td><%= radio_button_tag 'person[wall_enabled]', true, person.attributes['wall_enabled'] == true, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[wall_enabled]', false, person.attributes['wall_enabled'] == false, :class => 'checkbox' %></td>
+          <td><%= radio_button_tag 'person[wall_enabled]', 'nil', person.attributes['wall_enabled'] == nil, :class => 'checkbox' %></td>
+          <td><em>A space for people to post messages for <%=h @logged_in == person ? 'you' : person.first_name %> and others to see.</em></td>
+        </tr>
+      </table>
+    
+      <p>
+        <%= image_tag 'message.gif', :alt => 'Private Message', :class => 'no-border', :style => 'vertical-align:middle;' %>
+        Private Messages Enabled:<br/>
+        <%= check_box_tag 'person[messages_enabled]', true, person.attributes['messages_enabled'], :class => 'checkbox' %>
+        <input name="person[messages_enabled]" type="hidden" value="false" />
+        If this is unchecked and <%=h @logged_in == person ? 'your' : person.name_possessive %> email address is hidden, others will have no way to send a private email directly to <%=h @logged_in == person ? 'you' : person.first_name %> through this site.
+      </p>
+    
+    </div>
+    
+    <%= hidden_field_tag :anchor, "p#{person.id}" %>
     
     <p><%= submit_tag 'Save Personal Settings' %></p>
   <% end %>
+  
+  </div>
 
 <% end %>
+
+</div>
+
+<script type="text/javascript">
+  function check_visibility() {
+    var checked = $('family_visible').checked;
+    $('family').style.display = checked ? '' : 'none';
+    for(var i=1; i<tabs.length; i++) {
+      tabs[i].style.display = checked ? '' : 'none';
+    }
+    $$('.person-visible-checkbox').each(function(e){
+      $('person' + e.id.substring(14)).style.display = e.checked ? '' : 'none';
+    });
+  }
+  set_up(); // tabs
+  check_visibility();
+  changes = false;
+  $$('.section input').concat($$('.section textarea')).each(function(e){
+    e.onchange = function() { changes = true };
+    if(e.type == 'submit') e.onclick = function() { changes = false };
+  });
+  original_tab_click = tab_click;
+  tab_click = function(e) {
+    if(changes) {
+      changes = false;
+      if(confirm('Looks like you made a change to something on this tab. Be sure to save your changes before going to another tab. Click OK to save your changes first.')) {
+        sections[lastSection].getElementsByTagName('form')[0].submit();
+      } else {
+        original_tab_click(e);
+      }
+    } else {
+      original_tab_click(e);
+    }
+  };
+  set_handlers();
+  onbeforeunload = function() {
+    if(changes) return 'Looks like you made a change to something on this page. Be sure to save your changes before leaving.';
+  };
+</script>

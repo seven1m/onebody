@@ -1,6 +1,5 @@
 class AccountController < ApplicationController
   def sign_in
-    @email = cookies[:email]
     if request.post?
       if person = Person.authenticate(params[:email], params[:password])
         session[:logged_in_id] = person.id
@@ -8,16 +7,18 @@ class AccountController < ApplicationController
         flash[:notice] = "Welcome, #{person.first_name}."
         redirect_to params[:from] || {:controller => 'people', :action => 'index'}
       elsif person == nil
+        cookies[:email] = nil
         if family = Family.find_by_email(params[:email])
-          flash[:notice] = 'That email address was found, but you must verify it before you can sign in.'
+          flash[:warning] = 'That email address was found, but you must verify it before you can sign in.'
           redirect_to :action => 'verify_email', :email => params[:email]
         else
-          flash[:notice] = 'That email address cannot be found in our system. Please try another email.'
+          flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
         end
       else
-        flash[:notice] = "The password you entered doesn't match our records. Please try again."
+        flash[:warning] = "The password you entered doesn't match our records. Please try again."
       end
     end
+    @email = cookies[:email]
   end
   
   def sign_out
@@ -32,7 +33,7 @@ class AccountController < ApplicationController
       if params[:person][:email].to_s.any? and params[:person][:email] != @person.email
         @person.update_attributes :email => params[:person][:email], :email_changed => true
         if @person.errors.any?
-          flash[:notice] = @person.errors.full_messages.join('; ')
+          flash[:warning] = @person.errors.full_messages.join('; ')
         else
           flash[:notice] = 'Changes saved.'
           Notifier.deliver_email_update @person
@@ -41,7 +42,7 @@ class AccountController < ApplicationController
       if @person.errors.empty? and (params[:person][:password].to_s.any? or params[:person][:password_confirmation].to_s.any?)
         @person.change_password params[:person][:password], params[:person][:password_confirmation]
         if @person.errors.any?
-          flash[:notice] = @person.errors.full_messages.join('; ')
+          flash[:warning] = @person.errors.full_messages.join('; ')
         else
           flash[:notice] = 'Changes saved.'
         end
@@ -78,7 +79,7 @@ class AccountController < ApplicationController
           redirect_to :action => 'bad_status'
         end
       else
-        flash[:notice] = "That email address could not be found in our system. If you have another address, try again."
+        flash[:warning] = "That email address could not be found in our system. If you have another address, try again."
       end
     end
   end
@@ -97,14 +98,14 @@ class AccountController < ApplicationController
             render :text => v.errors.full_messages.join('; '), :layout => true
           else
             Notifier.deliver_mobile_verification(v)
-            flash[:notice] = 'The verification message has been sent. Please check your phone and enter the code you receive.'
+            flash[:warning] = 'The verification message has been sent. Please check your phone and enter the code you receive.'
             redirect_to :action => 'verify_code', :id => v.id
           end
         else
           redirect_to :action => 'bad_status'
         end
       else
-        flash[:notice] = "That mobile number could not be found in our system. You may try again."
+        flash[:warning] = "That mobile number could not be found in our system. You may try again."
       end
     end
   end
@@ -115,7 +116,7 @@ class AccountController < ApplicationController
         Notifier.deliver_birthday_verification(params)
         render :text => 'Your submission will be reviewed as soon as possible. You will receive an email once you have been approved.', :layout => true
       else
-        flash[:notice] = 'You must complete all the required fields.'
+        flash[:warning] = 'You must complete all the required fields.'
       end
     end
   end
@@ -140,7 +141,7 @@ class AccountController < ApplicationController
         elsif @people.length == 1
           person = @people.first
           session[:logged_in_id] = person.id
-          flash[:notice] = "You must set your personal email address#{v.mobile_phone ? '' : ' (it may be different than the one you verified)'} and password to continue."
+          flash[:warning] = "You must set your personal email address#{v.mobile_phone ? '' : ' (it may be different than the one you verified)'} and password to continue."
           redirect_to :action => 'edit', :id => person.id
         else
           session[:select_from_people] = @people
@@ -163,7 +164,7 @@ class AccountController < ApplicationController
     if request.post? and params[:id] and @people.map { |p| p.id }.include?(params[:id].to_i)
       session[:logged_in_id] = params[:id].to_i
       session[:select_from_people] = nil
-      flash[:notice] = 'You must set your personal email address and password to continue.'
+      flash[:warning] = 'You must set your personal email address and password to continue.'
       redirect_to :action => 'edit', :id => session[:logged_in_id]
     end
   end

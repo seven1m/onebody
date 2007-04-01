@@ -4,6 +4,9 @@ class PeopleController < ApplicationController
     @family = @person.family
     @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
     if @logged_in.member?
+      unless @person.visible?
+        flash[:warning] = "Your profile is hidden! <a href=\"#{url_for :action => 'privacy'}\">Click here</a> to change your privacy settings."
+      end
       render :action => 'view'
     else
       render :action => 'limited_view'
@@ -11,14 +14,18 @@ class PeopleController < ApplicationController
   end
   
   def view
-    @person = Person.find params[:id]
-    @family = @person.family
-    @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
-    if not @logged_in.sees? @person
-      render :text => 'You are not authorized to view this person.', :layout => true
+    if @person = Person.find(params[:id]) rescue nil
+      @family = @person.family
+      @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
+    end
+    if not @person or not @logged_in.sees? @person
+      render :text => 'Sorry. Nothing to see here.', :layout => true
       return
     elsif not @logged_in.member? and @logged_in != @person
       render :action => 'limited_view'
+    end
+    unless @person.visible?
+      flash[:warning] = "This profile is hidden!"
     end
   end
   
@@ -62,7 +69,7 @@ class PeopleController < ApplicationController
       params[:name] = params.delete(:quick_name) if params[:quick_name]
       if params[:name].to_s.any?
         params[:name].gsub! /\sand\s/, ' & '
-        conditions.add_condition ["CONCAT(people.first_name, ' ', people.last_name) like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and (select name from families where id=people.family_id) like ?) or (people.first_name like ? and people.last_name like ?)", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
+        conditions.add_condition ["(CONCAT(people.first_name, ' ', people.last_name) like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and (select name from families where id=people.family_id) like ?) or (people.first_name like ? and people.last_name like ?))", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
       end
       if params[:service]
         @show_service = true
@@ -78,6 +85,7 @@ class PeopleController < ApplicationController
       unless @logged_in.admin?
         mg = MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.map { |m| "'#{m}'" }.join(',')
         conditions.add_condition ["(people.mail_group in (#{mg}) or people.flags like ?)", "%#{FLAG_VISIBLE_BY_NON_ADMINS}%"]
+        conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
       end
       conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.member?
       conditions.add_condition ["MONTH(people.birthday) = ?", params[:birthday_month].to_i] if params[:birthday_month].to_s.any?
@@ -171,15 +179,19 @@ class PeopleController < ApplicationController
         @person.update_attributes params[:person]
         flash[:notice] = 'Changes saved.'
       end
-      redirect_to :action => 'edit'
+      redirect_to :action => 'edit', :anchor => params[:anchor]
     end
   end
   
   def privacy
     if params[:id]
-      @family = Person.find(params[:id]).family
+      @person = Person.find(params[:id])
     else
-      @family = @logged_in.family
+      @person = @logged_in
+    end
+    @family = @person.family
+    unless @family.visible?
+      flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family is currently hidden from all pages on this site!"
     end
     if request.post?
       if not @logged_in.can_edit? @family
@@ -188,15 +200,25 @@ class PeopleController < ApplicationController
         if person = @family.people.find(params[:id])
           params[:person].each { |k, v| params[:person][k] = (v == 'nil') ? nil : v } 
           if person.update_attributes params[:person]
-            flash[:notice] = "Personal settings saved for #{person.name}."
+            if person.visible?
+              flash[:notice] = "Personal settings saved for #{person.name}."
+            else
+              flash[:warning] = "#{person.name} has been hidden from all pages on this site!"
+            end
           else
             flash[:notice] = person.errors.full_messages.join('; ')
           end
         end
       elsif params[:family]
         @family.update_attributes params[:family]
-        flash[:notice] = "Family settings saved."
+        if @family.visible?
+          flash[:notice] = "Family settings saved."
+          flash[:warning] = nil
+        else
+          flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family has been hidden from all pages on this site!"
+        end
       end
+      redirect_to :action => 'privacy', :id => @person, :anchor => params[:anchor]
     end
   end
   

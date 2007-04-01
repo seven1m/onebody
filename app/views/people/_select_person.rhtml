@@ -1,7 +1,7 @@
 <p>
   <% @people.each do |person| %>
     <%= check_box_tag 'people[]', person.id, false, :class => 'checkbox' %>
-    <%= link_to person.name, :action => 'view', :id => person %>
+    <%= render :partial => 'people/link', :locals => {:person => person} %>
     <br/>
   <% end %>
 </p>

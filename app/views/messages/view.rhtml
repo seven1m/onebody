@@ -1,7 +1,7 @@
 <% content_for :sidebar do %>
   <% if @message.group %>
     <p><%= link_to '&laquo; back to group', :controller => 'groups', :action => 'view', :id => @message.group %></p>
-  <% elsif person = (@message.to || @message.wall) %>
+  <% elsif person = (@message.to || @message.wall) and @logged_in.sees? person %>
     <p><%= link_to "&laquo; back to #{person.name}", :controller => 'people', :action => 'view', :id => person %></p>
   <% end %>
   <% if @message.person == @logged_in or @logged_in.can_edit? @message %>

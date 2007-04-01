@@ -61,6 +61,9 @@
             <% if person.church_member? %>
               <%= image_tag 'star.gif', :alt => 'Member', :class => 'no-border', :style => 'vertical-align:middle;' %>
             <% end %>
+            <% unless person.visible? %>
+              <%= image_tag 'lock.gif', :alt => 'Hidden Profile', :class => 'no-border', :style => 'vertical-align:middle;' %>
+            <% end %>
           </td>
           <td><%=h person.family.name %></td>
         <% end %>

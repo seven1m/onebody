@@ -18,7 +18,7 @@
       <ul>
         <% @group.people.each do |person| %>
           <%= check_box_tag 'people[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or @group.linked?), :onclick => (person == @logged_in and not @logged_in.admin? ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
-          <%= link_to person.name_shortened(15), {:controller => 'people', :action => 'view', :id => person}, :title => person.name %>
+          <%= render :partial => 'people/link', :locals => {:person => person} %>
           <br/>
         <% end %>
       </ul>

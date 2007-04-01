@@ -1,7 +1,7 @@
-<% if sharing == :admin and not @person.send("share_#{attribute}") %>
+<% if sharing == :admin and not (@person.send("share_#{attribute}") and @person.visible?) %>
   <% if @logged_in.can_edit? @person %>
-    <%= link_to '(private)', {:action => 'privacy'}, :class => 'discreet' %>
+    <%= link_to image_tag('lock.gif', :alt => 'Private / others cannot see this information / click to change privacy', :class => 'no-border'), {:action => 'privacy'}, :class => 'discreet' %>
   <% else %>
-    <span class="discreet">(private)</span>
+    <span class="discreet"><%= image_tag 'lock.gif', :alt => 'Private / others cannot see this information', :class => 'no-border' %></span>
   <% end %>
 <% end %>

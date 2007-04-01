@@ -1,24 +1,24 @@
-<% content_for :sidebar do %>
-  <h2>Edit:</h2>
-  <p>
-  <% @family.people.each do |person| %>
-    <%= link_to person.name, :action => 'edit', :id => person %><br/>
-  <% end %>
-  </p>
-  <% if @logged_in.admin? and @person.frozen %>
-    <p style="color:red;">This account is frozen. <%= @person.name %> can not make changes to this profile or anyone else's until this account is unfrozen.</p>
-  <% end %>
+<%= stylesheet_link_tag 'tabs' %>
+<%= javascript_include_tag 'tabs' %>
+<style type="text/css"> form { border:none; }</style>
+
+<p>
+  <strong><%= @family.name %> &middot; Edit:</strong>
+  <%= @family.people.map { |p| link_to(p == @person ? "<strong>#{p.first_name}</strong>" : p.first_name, :action => 'edit', :id => p) }.join(' | ') %>
+</p>
+
+<% if @logged_in.admin? and @person.frozen %>
+  <p style="color:red;">This account is frozen. <%= @person.name %> can not make changes to this profile or anyone else's until this account is unfrozen.</p>
 <% end %>
 
 <% content_for :subnav do %>
   <li><%= link_to 'View Profile', :action => 'view', :id => @person %></li>
-  <li><%= link_to 'Change Email/Password', :controller => 'account', :action => 'edit', :id => @person %></li>
+  <li><%= link_to 'Change Email/Password', {:controller => 'account', :action => 'edit', :id => @person}, :style => 'color:yellow;' %></li>
+  <li><%= link_to 'Privacy Settings', {:controller => 'people', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}"}, :style => 'color:yellow;' %></li>
   <% if @logged_in.admin? %>
-    <li><%= link_to (@person.frozen ? 'Unfreeze' : 'Freeze'), :action => 'freeze_account', :id => @person %></li>
+    <li><%= link_to (@person.frozen ? 'Unfreeze' : 'Freeze'), {:action => 'freeze_account', :id => @person}, :post => true, :confirm => 'Are you sure?' %></li>
   <% end %>
 <% end %>
-
-<h1><%=h @person.name %></h1>
 
 <% if @person.frozen and @logged_in == @person %>
   <p class="attention">
@@ -28,173 +28,220 @@
   </p>
 <% end %>
 
-<h2>Email &amp; Password</h2>
+<h2 class="tab" id="picture">Pic</h2>
+<div class="section">
+  <p>
+    Upload a <strong>picture of <%= @person == @logged_in ? 'yourself' : @person.name %></strong>.
+    Please only upload a <span style="color:red;">real photo</span> &mdash;
+    no graphics or fakes please.
+  </p>
+  <table><tr><td>
+  <%= render :partial => 'photo' %>
+  </td><td>
+  <%= render :partial => 'upload_photo', :locals => {:object => @person, :name => 'Individual Picture', :url => {:controller => 'people', :action => 'edit', :id => @person}} %>
+  </td></tr></table>
+</div>
 
-<p>
-  <%= link_to 'Click here', :controller => 'account', :action => 'edit', :id => @person %>
-  to change your email address and/or password.
-</p>
+<h2 class="tab" id="family-picture">Family Pic</h2>
+<div class="section">
+  <p>Upload a <strong>family picture</strong>. Please only upload a <span style="color:red;">real photo</span> &mdash; no graphics or fakes please.</p>
+  <table><tr><td>
+  <%= render :partial => 'families/photo' %>
+  </td><td>
+  <%= render :partial => 'upload_photo', :locals => {:object => @family, :name => 'Family Picture', :url => {:controller => 'families', :action => 'edit', :id => @family, :return_to => request.request_uri + '#family-picture'}} %>
+  </td></tr></table>
+</div>
 
-<h2>Individual Picture</h2>
-<p>
-  Upload a <strong>picture of <%= @person == @logged_in ? 'yourself' : @person.name %></strong>. Please do not upload a picture of your
-  family here; see the Family Picture section below for that.
-  Please only upload a <span style="color:red;">real photo</span> &mdash;
-  no graphics or fakes please.
-</p>
-<table><tr><td>
-<%= render :partial => 'photo' %>
-</td><td>
-<%= render :partial => 'upload_photo', :locals => {:object => @person, :name => 'Individual Picture', :url => {:controller => 'people', :action => 'edit'}} %>
-</td></tr></table>
+<h2 class="tab" id="basics">Basics</h2>
+<div class="section">
+  <p>
+    Changes to the details below must be reviewed by church staff. To request changes,
+    enter the details below and click "Submit." Your record will be updated within
+    two working days.
+  </p>
 
-<h2>Family Picture</h2>
-<p>Upload a <strong>picture of your family</strong>. Please only upload a <span style="color:red;">real photo</span> &mdash; no graphics or fakes please.</p>
-<table><tr><td>
-<%= render :partial => 'families/photo' %>
-</td><td>
-<%= render :partial => 'upload_photo', :locals => {:object => @family, :name => 'Family Picture', :url => {:controller => 'families', :action => 'edit'}} %>
-</td></tr></table>
-
-<% form_for :person, @person do |form| %>
-  <h2>About</h2>
-  <div>
-  <label for="person_testimony">Testimony:</label>
-  Share your personal testimony &mdash; how you came to know
-  Jesus Christ and how he has changed your life.<br/>
-  <%= form.text_area :testimony, :rows => 8 %><br/>
-  <label for="person_about">About Me:</label>
-  Tell us about yourself. What's your personality like?
-  What would your best friend say about you?<br/>
-  <%= form.text_area :about, :rows => 3 %><br/>
-  <label for="person_website">Website:</label>
-  <%= form.text_field :website %>
-  </div>
+  <% form_for :person, @person do |form| %>
+    <%= hidden_field_tag :anchor, 'basics' %>
+    <div>
+    <label for="person_first_name">First Name:</label>
+    <%= form.text_field :first_name %><br/>
+    <label for="person_last_name">Last Name:</label>
+    <%= form.text_field :last_name %><br/>
+    <label for="person_home_phone">Home Phone:</label>
+    <%= form.text_field :home_phone, :onkeyup => '' %><br/>
+    <label for="person_mobile_phone">Mobile Phone:</label>
+    <%= form.text_field :mobile_phone %><br/>
+    <label for="person_work_phone">Work Phone:</label>
+    <%= form.text_field :work_phone %><br/>
+    <label for="person_fax">Fax:</label>
+    <%= form.text_field :fax %><br/>
+    <label for="person_address1">Address Line 1:</label>
+    <%= form.text_field :address1 %><br/>
+    <label for="person_address2">Address Line 2:</label>
+    <%= form.text_field :address2 %><br/>
+    <label for="person_city">City:</label>
+    <%= form.text_field :city %><br/>
+    <label for="person_state">State:</label>
+    <%= form.text_field :state %><br/>
+    <label for="person_zip">Zip Code:</label>
+    <%= form.text_field :zip %><br/>
+    <label for="person_birthday">Birthday:</label>
+    <% this_year = Date.today.year %>
+    <%= select_a_date 'person[birthday]', 'person_birthday', @person.birthday %>
+    <em>the year is never shown</em><br/>
+    <label for="person_anniversary">Anniversary:</label>
+    <%= select_a_date 'person[anniversary]', 'person_anniversary', @person.anniversary %>
+    <em>the year is never shown</em>
+    </div>
   
-  <p><input type="submit" value="Save Changes"/></p>
+    <p><%= submit_tag 'Submit Changes for Review' %></p>
+  <% end %>
   
-  <h2>Favorites</h2>
-  <p style="font-style:italic;">Separate things with commas so the system can auto-link to other people with the same stuff.</p>
-  <div>
-  <label for="person_activities">Activities:</label>
-  <%= form.text_area :activities, :rows => 3 %>
-  <label for="person_interests">Interests:</label>
-  <%= form.text_area :interests, :rows => 3 %>
-  <label for="person_music">Music:</label>
-  <%= form.text_area :music, :rows => 3 %>
-  <label for="person_tv_shows">TV Shows:</label>
-  <%= form.text_area :tv_shows, :rows => 3 %>
-  <label for="person_movies">Movies:</label>
-  <%= form.text_area :movies, :rows => 3 %>
-  <label for="person_books">Books:</label>
-  <%= form.text_area :books, :rows => 3 %>
-  <label for="person_quotes">Quotes:</label>
-  <%= form.text_area :quotes, :rows => 3 %>
-  </div>
+  <h2>Alternate Email</h2>
+  <p>
+    If you have another email (perhaps a work address) you wish to
+    utilize to send email to groups, you may enter it here.
+    Please note:
+  </p>
+
+  <ul>
+    <li>This email address will not be visible to anyone except administrators.</li>
+    <li>You will not be able to use this address to sign into the site.</li>
+  </ul>
+
+  <% form_for :person, @person do |form| %>
+    <%= hidden_field_tag :anchor, 'basics' %>
+    <div>
+      <label for="person_alternate_email">Alternate Email:</label>
+      <%= form.text_field :alternate_email %><br/>
+      <%= submit_tag 'Save Changes' %>
+    </div>
+  <% end %>
+</div>
+
+<h2 class="tab" id="about">About</h2>
+<div class="section">
+  <% form_for :person, @person do |form| %>
+    <%= hidden_field_tag :anchor, 'about' %>
+    <div>
+      <label for="person_testimony">Testimony:</label>
+      Share your personal testimony &mdash; how you came to know
+      Jesus Christ and how he has changed your life.<br/>
+      <%= form.text_area :testimony, :rows => 15, :style => 'width:100%;' %><br/>
+      <label for="person_about">About Me:</label>
+      Tell us about yourself. What's your personality like?
+      What would your best friend say about you?<br/>
+      <%= form.text_area :about, :rows => 3 %><br/>
+      <label for="person_website">Website:</label>
+      <%= form.text_field :website %>
+    </div>
+    <p><input type="submit" value="Save Changes"/></p>
+  <% end %>
+</div>
+    
+<h2 class="tab" id="favorites">Favs</h2>
+<div class="section">
+  <% form_for :person, @person do |form| %>
+    <%= hidden_field_tag :anchor, 'favorites' %>
+    <p style="font-style:italic;">Separate things with commas so the system can auto-link to other people with the same stuff.</p>
+    <div>
+    <label for="person_activities">Activities:</label>
+    <%= form.text_area :activities, :rows => 3 %>
+    <label for="person_interests">Interests:</label>
+    <%= form.text_area :interests, :rows => 3 %>
+    <label for="person_music">Music:</label>
+    <%= form.text_area :music, :rows => 3 %>
+    <label for="person_tv_shows">TV Shows:</label>
+    <%= form.text_area :tv_shows, :rows => 3 %>
+    <label for="person_movies">Movies:</label>
+    <%= form.text_area :movies, :rows => 3 %>
+    <label for="person_books">Books:</label>
+    <%= form.text_area :books, :rows => 3 %>
+    <label for="person_quotes">Quotes:</label>
+    <%= form.text_area :quotes, :rows => 3 %>
+    </div>
+    <p><input type="submit" value="Save Changes"/></p>
+  <% end %>
+</div>
+
+<!--
+<h2 class="tab" id="shares">Shares</h2>
+<div class="section">
+  <p>
+    You can share pictures, Bible verses, and recipes on
+    <%= SITE_TITLE %> from the <%= link_to 'Shares', :controller => 'shares' %>
+    tab. Anything you share there will appear on your profile.
+  </p>
+</div>
+-->
+
+<h2 class="tab" id="services">Services</h2>
+<div class="section">
+  <p>
+    If you wish to be listed in the <%= link_to 'Service Directory', :action => 'search', :service => true %>,
+    Enter your business name, description, and other details below.
+  </p>
+
+  <% form_for :person, @person do |form| %>
+    <%= hidden_field_tag :anchor, 'services' %>
+    <div>
+      <label for="person_service_category">Business Category:</label>
+      <select name="person[service_category]" id="person_service_category" onchange="if(this.value=='!') custom_select_val(this, 'Enter the new category.')">
+        <option value=""></option>
+        <%= options_for_select @service_categories, @person.service_category %>
+        <option value="!">[new category]</option>
+      </select><br/>
+      <label for="person_service_name">Business Name:</label>
+      <%= form.text_field :service_name %><br/>
+      <label for="person_service_description">Description of Services:</label>
+      <%= form.text_area :service_description, :rows => 3 %><br/>
+      <label for="person_service_phone">Business Phone:</label>
+      <%= form.text_field :service_phone %><br/>
+      <label for="person_service_email">Business Email:</label>
+      <%= form.text_field :service_email %><br/>
+      <label for="person_service_website">Business Website:</label>
+      <%= form.text_field :service_website %><br/>
+      <label for="person_service_address">Business Address:</label>
+      <%= form.text_area :service_address, :rows => 2 %>
+    </div>
   
-  <p><input type="submit" value="Save Changes"/></p>
-<% end %>
+    <p><%= submit_tag 'Save Changes' %></p>
+  <% end %>
+</div>
 
-<h2>Shares</h2>
-<p>
-  You can share pictures, Bible verses, and recipes on
-  <%= SITE_TITLE %> from the <%= link_to 'Shares', :controller => 'shares' %>
-  tab. Anything you share there will appear on your profile.
-</p>
+<h2 class="tab" id="access">Access</h2>
+<div class="section">
+  <% if @logged_in.admin? %>
+    <% form_for :person, @person do |form| %>
+      <%= hidden_field_tag :anchor, 'access' %>
+      <p><%= form.check_box 'music_access', :class => 'checkbox' %> <label for="person_music_access" class="inline">Music Section</label></p>
+      <p><%= submit_tag 'Save' %></p>
+    <% end %>
+  <% end %>
+</div>
 
-<h2>Basics</h2>
-
-<p>
-  Changes to the details below must be reviewed by church staff. To request changes,
-  enter the details below and click "Submit." Your record will be updated within
-  two working days.
-</p>
-
-<% form_for :person, @person do |form| %>
-  <div>
-  <label for="person_first_name">First Name:</label>
-  <%= form.text_field :first_name %><br/>
-  <label for="person_last_name">Last Name:</label>
-  <%= form.text_field :last_name %><br/>
-  <label for="person_home_phone">Home Phone:</label>
-  <%= form.text_field :home_phone, :onkeyup => '' %><br/>
-  <label for="person_mobile_phone">Mobile Phone:</label>
-  <%= form.text_field :mobile_phone %><br/>
-  <label for="person_work_phone">Work Phone:</label>
-  <%= form.text_field :work_phone %><br/>
-  <label for="person_fax">Fax:</label>
-  <%= form.text_field :fax %><br/>
-  <label for="person_address1">Address Line 1:</label>
-  <%= form.text_field :address1 %><br/>
-  <label for="person_address2">Address Line 2:</label>
-  <%= form.text_field :address2 %><br/>
-  <label for="person_city">City:</label>
-  <%= form.text_field :city %><br/>
-  <label for="person_state">State:</label>
-  <%= form.text_field :state %><br/>
-  <label for="person_zip">Zip Code:</label>
-  <%= form.text_field :zip %><br/>
-  <label for="person_birthday">Birthday:</label>
-  <% this_year = Date.today.year %>
-  <%= select_a_date 'person[birthday]', 'person_birthday', @person.birthday %>
-  <em>the year is never shown</em><br/>
-  <label for="person_anniversary">Anniversary:</label>
-  <%= select_a_date 'person[anniversary]', 'person_anniversary', @person.anniversary %>
-  <em>the year is never shown</em>
-  </div>
-  
-  <p><%= submit_tag 'Submit Changes for Review' %></p>
-<% end %>
-
-<h2>Service Directory Entry</h2>
-
-<p>
-  If you wish to be listed in the <%= link_to 'Service Directory', :action => 'search', :service => true %>,
-  Enter your business name, description, and other details below.
-</p>
-
-<% form_for :person, @person do |form| %>
-  <div>
-    <label for="person_service_category">Business Category:</label>
-    <select name="person[service_category]" id="person_service_category" onchange="if(this.value=='!') custom_select_val(this, 'Enter the new category.')">
-      <option value=""></option>
-      <%= options_for_select @service_categories, @person.service_category %>
-      <option value="!">[new category]</option>
-    </select><br/>
-    <label for="person_service_name">Business Name:</label>
-    <%= form.text_field :service_name %><br/>
-    <label for="person_service_description">Description of Services:</label>
-    <%= form.text_area :service_description, :rows => 3 %><br/>
-    <label for="person_service_phone">Business Phone:</label>
-    <%= form.text_field :service_phone %><br/>
-    <label for="person_service_email">Business Email:</label>
-    <%= form.text_field :service_email %><br/>
-    <label for="person_service_website">Business Website:</label>
-    <%= form.text_field :service_website %><br/>
-    <label for="person_service_address">Business Address:</label>
-    <%= form.text_area :service_address, :rows => 2 %>
-  </div>
-  
-  <p><%= submit_tag 'Save Changes' %></p>
-<% end %>
-
-<h2>Alternate Email</h2>
-
-<p>
-  If you have another email (perhaps a work address) you wish to
-  utilize to send email to groups, you may enter it here.
-  Please note:
-</p>
-
-<ul>
-  <li>This email address will not be visible to anyone except administrators.</li>
-  <li>You will not be able to use this address to sign into the site.</li>
-</ul>
-
-<% form_for :person, @person do |form| %>
-  <div>
-    <label for="person_alternate_email">Alternate Email:</label>
-    <%= form.text_field :alternate_email %><br/>
-    <%= submit_tag 'Save Changes' %>
-  </div>
-<% end %>
+<script type="text/javascript">
+  set_up(); // tabs
+  changes = false;
+  $$('.section input').concat($$('.section textarea')).each(function(e){
+    e.onchange = function() { changes = true };
+    if(e.type == 'submit') e.onclick = function() { changes = false };
+  });
+  original_tab_click = tab_click;
+  tab_click = function(e) {
+    if(changes) {
+      changes = false;
+      if(confirm('Looks like you made a change to something on this tab. Be sure to save your changes before going to another tab. Click OK to save your changes first.')) {
+        sections[lastSection].getElementsByTagName('form')[0].submit();
+      } else {
+        original_tab_click(e);
+      }
+    } else {
+      original_tab_click(e);
+    }
+  };
+  set_handlers();
+  onbeforeunload = function() {
+    if(changes) return 'Looks like you made a change to something on this page. Be sure to save your changes before leaving.';
+  };
+</script>

@@ -3,8 +3,6 @@ development:
   database: crccweb
   username: root
   password: 
-  host: localhost
-  socket: /var/run/mysqld/mysqld.sock
 
 test:
   adapter: sqlite3

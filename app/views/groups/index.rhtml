@@ -72,7 +72,7 @@
             <%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>
             <div id="people_in_group_<%= group.id %>" style="display:none;" class="people">
               <% group.people.each do |person| %>
-                <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
+                <%= render :partial => 'people/link', :locals => {:person => person} %>
                 <br/>
               <% end %>
             </div>

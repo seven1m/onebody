@@ -38,7 +38,7 @@
         <% if event.description.to_s.any? %>
           <%=h event.description %><br/>
         <% end %>
-        Created by: <%= link_to event.person.name, :controller => 'people', :action => 'view', :id => event.person %>
+        Created by: <%= render :partial => 'people/link', :locals => {:person => event.person} %>
       </td>
     </tr>
   <% end %>
