@@ -679,3 +679,8 @@ margin-left: 5px;
 .invisible strong {
 	color: #999;
 }
+
+.page-nav {
+	background-color: #eee;
+	padding: 3px;
+}

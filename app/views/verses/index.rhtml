@@ -25,10 +25,18 @@
   <% end %>
 <% end %>
 
+<% if @pages.length > 1 %>
+  <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
+<% end %>
+
 <% if @verses.any? %>
   <% @verses.each do |verse| %>
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
   <% end %>
 <% else %>
   <p><em>No verses yet!</em></p>
+<% end %>
+
+<% if @pages.length > 1 %>
+  <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
 <% end %>

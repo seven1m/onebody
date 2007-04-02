@@ -18,6 +18,10 @@ class Verse < ActiveRecord::Base
   
   def name; reference; end
   
+  def book_name
+    @book_name ||= reference.gsub(/[\d\:\s\-;,]+$/, '')
+  end
+  
   # living stones (KJV, ASV, YLT, AKJV, WEB)
   LS_BASE_URL = 'http://www.seek-first.com/Bible.php?q=&passage=Seek'
   
@@ -33,6 +37,7 @@ class Verse < ActiveRecord::Base
        self.text.gsub!(/\223|\224/, '"')
        self.text.gsub!(/\221|\222/, "'")
        self.text.gsub!(/\227/, "--")
+       self.update_sortables
     rescue
       nil
     end
@@ -41,6 +46,16 @@ class Verse < ActiveRecord::Base
   def lookup!
     lookup
     save
+  end
+  
+  def update_sortables
+    self.book = Verse::BOOKS.index(self.book_name)
+    self.chapter = self.reference.gsub(/^.\s*[a-zA-Z]*/, '').to_i
+    self.verse = self.reference.split(':').last.to_i
+  end
+  
+  def <=>(v)
+    [book, chapter, verse] <=> [v.book, v.chapter, v.verse]
   end
   
   def tag_string=(text)

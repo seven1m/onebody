@@ -5,7 +5,7 @@ class PeopleController < ApplicationController
     @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
     if @logged_in.member?
       unless @person.visible?
-        flash[:warning] = "Your profile is hidden! <a href=\"#{url_for :action => 'privacy'}\">Click here</a> to change your privacy settings."
+        flash[:warning] = "<img src=\"/images/lock.gif\" class=\"no-border\"/> Your profile is hidden! <a href=\"#{url_for :action => 'privacy'}\">Click here</a> to change your privacy settings."
       end
       render :action => 'view'
     else
@@ -25,7 +25,7 @@ class PeopleController < ApplicationController
       render :action => 'limited_view'
     end
     unless @person.visible?
-      flash[:warning] = "This profile is hidden!"
+      flash[:warning] = '<img src="/images/lock.gif" class="no-border"/> This profile is hidden!'
     end
   end
   
