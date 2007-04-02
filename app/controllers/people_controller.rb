@@ -157,8 +157,10 @@ class PeopleController < ApplicationController
       end
       if params[:photo_url] and params[:photo_url].length > 7
         @person.photo = params[:photo_url]
+        flash[:refresh] = true
       elsif params[:photo]
         @person.photo = params[:photo] == 'remove' ? nil : params[:photo]
+        flash[:refresh] = true
       elsif params[:person] and params[:person][:first_name]
         params[:person][:birthday] = params[:person][:birthday].to_date
         params[:person][:anniversary] = params[:person][:anniversary].to_date
@@ -218,7 +220,7 @@ class PeopleController < ApplicationController
           flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family has been hidden from all pages on this site!"
         end
       end
-      redirect_to :action => 'privacy', :id => @person, :anchor => params[:anchor]
+      redirect_to :action => 'privacy', :id => @person, :section => params[:anchor]
     end
   end
   

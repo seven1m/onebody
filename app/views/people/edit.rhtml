@@ -48,14 +48,14 @@
   <table><tr><td>
   <%= render :partial => 'families/photo' %>
   </td><td>
-  <%= render :partial => 'upload_photo', :locals => {:object => @family, :name => 'Family Picture', :url => {:controller => 'families', :action => 'edit', :id => @family, :return_to => request.request_uri + '#family-picture'}} %>
+  <%= render :partial => 'upload_photo', :locals => {:object => @family, :name => 'Family Picture', :url => {:controller => 'families', :action => 'edit', :id => @family, :return_to => request.request_uri.split('?').first + '?section=family-picture'}} %>
   </td></tr></table>
 </div>
 
 <h2 class="tab" id="basics">Basics</h2>
 <div class="section">
   <p>
-    Changes to the details below must be reviewed by church staff. To request changes,
+    Changes to the details below must be <strong>reviewed by church staff</strong>. To request changes,
     enter the details below and click "Submit." Your record will be updated within
     two working days.
   </p>
@@ -96,27 +96,6 @@
   
     <p><%= submit_tag 'Submit Changes for Review' %></p>
   <% end %>
-  
-  <h2>Alternate Email</h2>
-  <p>
-    If you have another email (perhaps a work address) you wish to
-    utilize to send email to groups, you may enter it here.
-    Please note:
-  </p>
-
-  <ul>
-    <li>This email address will not be visible to anyone except administrators.</li>
-    <li>You will not be able to use this address to sign into the site.</li>
-  </ul>
-
-  <% form_for :person, @person do |form| %>
-    <%= hidden_field_tag :anchor, 'basics' %>
-    <div>
-      <label for="person_alternate_email">Alternate Email:</label>
-      <%= form.text_field :alternate_email %><br/>
-      <%= submit_tag 'Save Changes' %>
-    </div>
-  <% end %>
 </div>
 
 <h2 class="tab" id="about">About</h2>
@@ -131,7 +110,7 @@
       <label for="person_about">About Me:</label>
       Tell us about yourself. What's your personality like?
       What would your best friend say about you?<br/>
-      <%= form.text_area :about, :rows => 3 %><br/>
+      <%= form.text_area :about, :rows => 6, :style => 'width:100%;' %><br/>
       <label for="person_website">Website:</label>
       <%= form.text_field :website %>
     </div>
@@ -146,19 +125,19 @@
     <p style="font-style:italic;">Separate things with commas so the system can auto-link to other people with the same stuff.</p>
     <div>
     <label for="person_activities">Activities:</label>
-    <%= form.text_area :activities, :rows => 3 %>
+    <%= form.text_area :activities, :rows => 4 %>
     <label for="person_interests">Interests:</label>
-    <%= form.text_area :interests, :rows => 3 %>
+    <%= form.text_area :interests, :rows => 4 %>
     <label for="person_music">Music:</label>
-    <%= form.text_area :music, :rows => 3 %>
+    <%= form.text_area :music, :rows => 4 %>
     <label for="person_tv_shows">TV Shows:</label>
-    <%= form.text_area :tv_shows, :rows => 3 %>
+    <%= form.text_area :tv_shows, :rows => 4 %>
     <label for="person_movies">Movies:</label>
-    <%= form.text_area :movies, :rows => 3 %>
+    <%= form.text_area :movies, :rows => 4 %>
     <label for="person_books">Books:</label>
-    <%= form.text_area :books, :rows => 3 %>
+    <%= form.text_area :books, :rows => 4 %>
     <label for="person_quotes">Quotes:</label>
-    <%= form.text_area :quotes, :rows => 3 %>
+    <%= form.text_area :quotes, :rows => 4 %>
     </div>
     <p><input type="submit" value="Save Changes"/></p>
   <% end %>
@@ -206,6 +185,39 @@
     </div>
   
     <p><%= submit_tag 'Save Changes' %></p>
+  <% end %>
+</div>
+
+<h2 class="tab" id="email">Email</h2>
+<div class="section">
+  <div class="highlight">
+    <p>
+      Your email address is:<br/>
+      <span style="font-size:2em;"><%=h @person.email %></span>
+    </p>
+    <p><%= link_to 'Click here', :controller => 'account', :action => 'edit', :id => @person %> to change your email address.</p>
+  </div>
+  
+  <h2>Alternate Email</h2>
+
+  <p>
+    If you have another email (perhaps a work address) you wish to
+    utilize to send email to groups, you may enter it here.
+    Please note:
+  </p>
+
+  <ul>
+    <li>This email address will not be visible to anyone except administrators.</li>
+    <li>You will not be able to use this address to sign into the site.</li>
+  </ul>
+
+  <% form_for :person, @person do |form| %>
+    <%= hidden_field_tag :anchor, 'email' %>
+    <div>
+      <label for="person_alternate_email">Alternate Email:</label>
+      <%= form.text_field :alternate_email %><br/>
+      <%= submit_tag 'Save Changes' %>
+    </div>
   <% end %>
 </div>
 

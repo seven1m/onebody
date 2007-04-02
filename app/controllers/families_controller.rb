@@ -21,6 +21,7 @@ class FamiliesController < ApplicationController
         @family.photo = params[:photo] == 'remove' ? nil : params[:photo]
       end
       flash[:notice] = 'Photo saved.'
+      flash[:refresh] = true
     end
     redirect_to params[:return_to] || {:controller => 'people', :action => 'edit'}
   end

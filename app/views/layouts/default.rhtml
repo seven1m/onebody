@@ -3,6 +3,10 @@
 <head>
   <title><%= SITE_TITLE %></title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="no-cache"/>
+  <meta http-equiv="Expires" content="-1"/>
+  <meta http-equiv="Cache-Control" content="no-cache"/> 
   <link rel="stylesheet" href="/stylesheets/1.css" type="text/css" media="screen,projection" />
   <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />
   <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="<%= SITE_TITLE %> Search" />
@@ -28,7 +32,7 @@
 				  <a href="/"><%= SITE_TITLE %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %>
 				</h1>
                                 <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;width:300px;white-space:nowrap;">
-                                  <%=h SITE_SIMPLE_URL %> | <span id="news_headlines" style="position:relative;"><%= link_to VISITOR_SIMPLE_URL, VISITOR_URL, :style => 'text-decoration:none;' %></span>
+                                  <%=h SITE_SIMPLE_URL %> | <span id="news_headlines" style="position:relative;background-color:#fff;"><%= link_to VISITOR_SIMPLE_URL, VISITOR_URL, :style => 'text-decoration:none;' %></span>
                                 </div>
 
 <!--
@@ -68,16 +72,25 @@
     <% if flash[:notice] and not flash[:warning] %>
       <div id="notice"><%= flash[:notice] %></div>
       <script type="text/javascript">
-        setTimeout("new Effect.Fade('notice');", 10000)
-      </script>
+       setTimeout("new Effect.Fade('notice');", 15000)
+     </script>
     <% end %>
     
     <% if flash[:warning] %>
       <div id="notice"><%= flash[:warning] %></div>
       <script type="text/javascript">
-        new Effect.Pulsate('notice', {duration:1.0});
-        setTimeout("new Effect.Fade('notice');", 10000)
+       onload = function() { new Effect.Pulsate('notice', {duration:1.0}) };
+       setTimeout("new Effect.Fade('notice');", 15000)
+     </script>
+    <% end %>
+    
+    <% if flash[:refresh] %>
+      <script type="text/javascript">
+        location.reload();
       </script>
+      <noscript>
+        <p><strong>You may need to click the Refresh button on your browser.</strong></p>
+      </noscript>
     <% end %>
 		
 		<% if wide = yield(:wide) %>

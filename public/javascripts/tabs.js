@@ -62,7 +62,11 @@ function show_section(index){
   section.style.display = "block";
   tabs[index].className = TAB_SELECTED_CLASS;
   var id = sections[index].getAttribute('id') || headings[index].getAttribute('id');
-  if(id && index != lastSection) location.hash = '#' + id;
+  if(id && index != lastSection) {
+    var y = typeof window.pageYOffset != 'undefined' ? window.pageYOffset : document.documentElement.scrollTop;
+    location.hash = '#' + id;
+    window.scrollTo(0, y);
+  }
   lastSection = index;
 };
 
@@ -90,7 +94,7 @@ function get_selected(){
     for(var i=0; i<args.length; i++) {
       var name = args[i].split('=')[0];
       var value = args[i].split('=')[1];
-      if(name == QUERY_SEARCH_ARG){
+      if(name == QUERY_SECTION_ARG){
           selected = value;
           break;
       }
