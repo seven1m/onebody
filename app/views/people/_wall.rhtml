@@ -17,7 +17,7 @@
     <script type="text/javascript">Element.hide('wall_message'); Element.show('wall_message_link');</script>
   <% end %>
 </p>
-<% if (messages = @person.wall_messages.find(:all)).any? %>
+<% if (messages = @person.wall_messages.find(:all, :include => :person)).any? %>
   <%= render :partial => 'wall_messages', :locals => {:messages => messages[0...10]} %>
   <% if messages.length > 10 %>
     <p>

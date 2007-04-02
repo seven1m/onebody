@@ -12,10 +12,12 @@
     ???
   <% end %>
 <% end %>
-<% if recipe.admin? @logged_in %>
+<% if @person or recipe.admin? @logged_in %>
   <%= link_to "[edit]", {:controller => 'recipes', :action => "edit", :id => recipe}, :class => 'discreet' %>
   <%= link_to '[delete]', {:controller => 'recipes', :action => 'delete', :id => recipe, :return_to => request.request_uri}, :post => true, :confirm => 'Are you sure you want to delete this recipe?', :class => 'discreet' %>
 <% end %>
-Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>
+<% unless @person %>
+  Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>
+<% end %>
 <br/>
 <%= truncate h(recipe.description), 50, '...' %>

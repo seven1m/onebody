@@ -5,7 +5,7 @@
 # ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.1.6'
+RAILS_GEM_VERSION = '1.2.3'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -64,7 +64,7 @@ require 'add_condition'
 require 'ar_date_fix'
 require 'params_tools'
 
-ActionMailer::Base.server_settings = {
+ActionMailer::Base.smtp_settings = {
   :address  => 'localhost',
   :port  => 25,
   :domain => 'crccfamily.com',

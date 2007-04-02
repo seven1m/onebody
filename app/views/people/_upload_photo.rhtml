@@ -1,6 +1,6 @@
 <p>
   <%= form_tag(url, {:multipart => true}) %>
-    <%= render :partial => 'photo_fields', :locals => {:object => object, :name => name, :url => url} %>
+    <%= render :partial => 'photo_fields' %>
     <br/>
     <strong>By clicking the button below, you certify that this photo is appropriate and not offensive to others.</strong><br/>
     <input type="submit" value="Upload <%= name %>" class="submit">

@@ -1,0 +1,65 @@
+<p><%= link_to image_tag('back.gif', :alt => 'Back to Groups Homepage', :class => 'icon') + ' Back to Groups Homepage', :action => 'index' %></p>
+
+<% if @groups.any? %>
+
+  <p><%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'icon') + ' Show All People', "document.getElementsByClassName('people').each(function(e){Element.toggle(e)})"%></p>
+  <table class="iconed">
+    <% @groups.each do |group| %>
+      <tr>
+        <td class="icon">
+          <% if @logged_in.sees? group %><a href="<%= url_for :action => 'view', :id => group %>"><% end %>
+            <% if group.has_photo? %>
+              <%= image_tag url_for(:action => 'photo', :id => "#{group.id}.small.jpg"), :alt => group.name %>
+            <% else %>
+              <%= image_tag 'group.small.jpg', :alt => group.name %>
+            <% end %>
+          <% if @logged_in.sees? group %></a><% end %>
+        </td>
+        <td>
+          <span class="list-heading">
+            <% if @logged_in.sees? group %>
+              <%= link_to group.name, :action => 'view', :id => group %>
+            <% else %>
+              <%=h group.name %>
+            <% end %>
+            <% if group.private? %>(private)<% end %>
+          </span>
+          <% if group.admin?(@logged_in) %>
+            <%= link_to 'edit', {:action => 'edit', :id => group}, :class => 'discreet' %>
+            <% if group.linked? %>
+              <%= image_tag 'link.png', :alt => group.link_code, :class => 'no-border', :style => 'vertical-align:middle;' %>
+            <% end %>
+          <% end %>
+          <% if group.description.to_s.any? %>
+            <br/>
+            <%=h group.description %>
+          <% end %>
+          <% if group.leader %>
+            <br/>
+            Leader: <%= link_to group.leader.name, :controller => 'people', :action => 'view', :id => group.leader %>
+          <% end %>
+          <% if group.address.to_s.any? and group.can_send? @logged_in %>
+            <br/>
+            Email Address: <%= mail_to group.full_address, group.full_address %>
+          <% end %>
+          <% if @logged_in.sees? group %>
+            <br/>
+            <%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'no-border'), "Element.toggle('people_in_group_#{group.id}')" %>
+            <%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>
+            <div id="people_in_group_<%= group.id %>" style="display:none;" class="people">
+              <% group.people.each do |person| %>
+                <%= render :partial => 'people/link', :locals => {:person => person} %>
+                <br/>
+              <% end %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+<% else %>
+
+  <p><em>no groups found</em></p>
+
+<% end %>

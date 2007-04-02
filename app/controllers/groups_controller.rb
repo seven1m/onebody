@@ -1,13 +1,6 @@
 class GroupsController < ApplicationController
   def index
-    conditions = ['subscription = ? and archived = ? and approved = ?', false, false, true]
-    conditions.add_condition ['category = ?', params[:category]] if params[:category]
-    @groups = Group.find(
-      :all,
-      :conditions => conditions,
-      :order => 'name'
-    )
-    @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != ''").map { |g| g.category }
+    @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != '' and category != 'Subscription'").map { |g| g.category }
     @subscription_groups = Group.find_all_by_subscription_and_archived(true, false, :order => 'name')
     @archived_groups = Group.find_all_by_archived(true, :order => 'name')
     if @logged_in.admin?
@@ -15,6 +8,14 @@ class GroupsController < ApplicationController
     else
       @unapproved_groups = Group.find_all_by_creator_id_and_approved(@logged_in.id, false)
     end
+    @person = @logged_in
+  end
+  
+  def search
+    conditions = ['subscription = ? and archived = ? and approved = ?', false, false, true]
+    conditions.add_condition ['category = ?', params[:category]] if params[:category]
+    conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
+    @groups = Group.find(:all, :conditions => conditions, :order => 'name')
   end
   
   def view

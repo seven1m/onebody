@@ -2,6 +2,10 @@ class AccountController < ApplicationController
   def sign_in
     if request.post?
       if person = Person.authenticate(params[:email], params[:password])
+        unless person.can_sign_in?
+          redirect_to :action => 'unauthorized'
+          return
+        end
         session[:logged_in_id] = person.id
         cookies[:email] = params[:remember] ? {:value => person.email, :expires => Time.now+32000000} : nil
         flash[:notice] = "Welcome, #{person.first_name}."
@@ -51,6 +55,9 @@ class AccountController < ApplicationController
         redirect_to :controller => 'people', :action => 'view', :id => @person
       end
     end
+  end
+  
+  def unauthorized
   end
   
   def help

@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
   def index
     @person = @logged_in
     @family = @person.family
-    @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
+    @prayer_signups = [] #@person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
     if @logged_in.member?
       unless @person.visible?
         flash[:warning] = "<img src=\"/images/lock.gif\" class=\"no-border\"/> Your profile is hidden! <a href=\"#{url_for :action => 'privacy'}\">Click here</a> to change your privacy settings."
@@ -266,7 +266,16 @@ class PeopleController < ApplicationController
       @logged_in.contacts.create :person => person
       @logged_in.reload
     end
-    redirect_to :action => 'view', :id => params[:id]
+    respond_to do |wants|
+      wants.html do
+        redirect_to :action => 'view', :id => params[:id]
+      end
+      wants.js do
+        render :update do |page|
+          page.visual_effect :fade, "add_contact_#{person.id}"
+        end
+      end
+    end
   end
   
   def remove_contact
@@ -274,7 +283,18 @@ class PeopleController < ApplicationController
       contact.destroy
       @logged_in.reload
     end
-    redirect_to :action => 'view', :id => params[:id]
+    respond_to do |wants|
+      wants.html do
+        redirect_to :action => 'view', :id => params[:id]
+      end
+      wants.js do
+        render :update do |page|
+          page << "$('contact_#{params[:id]}').style.textDecoration = 'line-through'"
+          page.visual_effect :fade, "contact_spinner_#{params[:id]}"
+          page.remove "remove_contact_#{params[:id]}"
+        end
+      end
+    end
   end
   
   # Verses

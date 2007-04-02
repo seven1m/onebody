@@ -75,7 +75,7 @@
         <% end %>
         <td>
           <% unless @logged_in.people.include? person or @logged_in == person or not @logged_in.member? %>
-            <%= link_to_remote 'add to contacts', {:url => {:action => 'add_contact', :id => person}}, :class => 'discreet', :id => "add_contact_#{person.id}" %>
+            <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to contacts', :class => 'icon'), {:url => {:action => 'add_contact', :id => person}, :loading => "$('add_contact_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';"}, :class => 'discreet', :id => "add_contact_#{person.id}" %>
           <% end %>
         </td>
       </tr>

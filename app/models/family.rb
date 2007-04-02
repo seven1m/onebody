@@ -63,4 +63,8 @@ class Family < ActiveRecord::Base
       read_attribute(:last_name)
     end
   end
+  
+  def children_without_consent
+    people.select { |p| not (p.at_least_13? or p.parental_consent?) }
+  end
 end

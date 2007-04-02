@@ -2,7 +2,7 @@
   <%= render :partial => 'photo' %>
   <%= render :partial => 'families/photo' %>
     
-  <% if (people = @person.family.people.find(:all, :conditions => @logged_in.admin? ? nil : ['visible = ?', true])).length > 1 %>
+  <% if (people = @person.family.people.find(:all, :conditions => @logged_in.admin? ? nil : ['visible = ?', true]).select { |p| p.visible? }).length > 1 %>
     <h2>Family</h2>
     <table>
       <% people.each do |person| %>
@@ -16,6 +16,11 @@
         </tr>
       <% end %>
     </table>
+  <% end %>
+  
+  <% if @person.adult? and @person.family.children_without_consent %>
+    <p style="font-weight:bold;"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Why can't I see my children here?",
+      :controller => 'account', :action => 'safeguarding_children' %></p>
   <% end %>
   
   <%= render :partial => 'contacts' %>
@@ -177,6 +182,8 @@
 <% if @person.groups.any? %>
   <h2>Groups</h2>
   <%= render :partial => 'groups' %>
+  <p>To join, leave, or change email settings for any of your groups,
+    <%= link_to 'click here', :controller => 'groups' %>.</p>
 <% end %>
 
 <% if @person.wall_enabled %>

@@ -1,95 +1,42 @@
-<% content_for :wide do %>
-  <p>
-    Show:
-    <select onchange="location.href = '?category=' + this.value">
-      <option value="">All Groups</option>
-      <%= options_for_select @categories, params[:category] %>
-    </select>
-    <%= link_to_function 'Show All People', "document.getElementsByClassName('people').each(function(e){Element.toggle(e)})"%>
-  </p>
-  
+<h2>Your Groups</h2>
+<%= render :partial => 'people/groups' %>
+
+<h2>Find a Group</h2>
+
+<table>
+  <tr>
+    <td style="padding-right:50px;">
+      <p><strong>Browse by category:</strong></p>
+      <ul>
+        <% @categories.each do |category| %>
+          <li><%= link_to category, :action => 'search', :category => category %>
+        <% end %>
+      </ul>
+    </td>
+    <td style="width:170px;padding-left:50px;border-left:1px dotted #ccc;">
+      <%= form_tag({:action => 'search'}, :method => 'get', :style => 'border:none;') %>
+        <p><strong>Search by name:</strong></p>
+        <p><%= text_field_tag :name, nil, :style => 'width:120px;' %>
+          <input type="submit" value="Search" style="width:120px;"/></p>
+      </form>
+    </td>
+  </tr>
+</table>
+
+<% if @logged_in.admin? %>
+  <h2>Hidden Groups (for admins only)</h2>
   <% if @unapproved_groups.any? %>
     <p class="highlight">
       The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
       pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
     </p>
   <% end %>
-  
-  <table class="iconed">
-    <tr>
-      <td class="icon">
-        <%= link_to image_tag('add.gif', :alt => 'Create a Group'), :action => 'edit' %>
-      </td>
-      <td>
-        <span class="list-heading"><%= link_to 'Create a Group', :action => 'edit' %></span><br/>
-        Groups represent collections of people. A group can be
-        people who meet together regularly, friends online, people with
-        common interests, or anything else you can think of! If you can't
-        find the group you're looking for, create it!
-      </td>
-    </tr>
-    <% @groups.each do |group| %>
-      <tr>
-        <td class="icon">
-          <% if @logged_in.sees? group %><a href="<%= url_for :action => 'view', :id => group %>"><% end %>
-            <% if group.has_photo? %>
-              <%= image_tag url_for(:action => 'photo', :id => "#{group.id}.small.jpg"), :alt => group.name %>
-            <% else %>
-              <%= image_tag 'group.small.jpg', :alt => group.name %>
-            <% end %>
-          <% if @logged_in.sees? group %></a><% end %>
-        </td>
-        <td>
-          <span class="list-heading">
-            <% if @logged_in.sees? group %>
-              <%= link_to group.name, :action => 'view', :id => group %>
-            <% else %>
-              <%=h group.name %>
-            <% end %>
-            <% if group.private? %>(private)<% end %>
-          </span>
-          <% if group.admin?(@logged_in) %>
-            <%= link_to 'edit', {:action => 'edit', :id => group}, :class => 'discreet' %>
-            <% if group.linked? %>
-              <%= image_tag 'link.png', :alt => group.link_code, :class => 'no-border', :style => 'vertical-align:middle;' %>
-            <% end %>
-          <% end %>
-          <% if group.description.to_s.any? %>
-            <br/>
-            <%=h group.description %>
-          <% end %>
-          <% if group.leader %>
-            <br/>
-            Leader: <%= link_to group.leader.name, :controller => 'people', :action => 'view', :id => group.leader %>
-          <% end %>
-          <% if group.address.to_s.any? and group.can_send? @logged_in %>
-            <br/>
-            Email Address: <%= mail_to group.full_address, group.full_address %>
-          <% end %>
-          <% if @logged_in.sees? group %>
-            <br/>
-            <%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'no-border'), "Element.toggle('people_in_group_#{group.id}')" %>
-            <%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>
-            <div id="people_in_group_<%= group.id %>" style="display:none;" class="people">
-              <% group.people.each do |person| %>
-                <%= render :partial => 'people/link', :locals => {:person => person} %>
-                <br/>
-              <% end %>
-            </div>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
-
-  <% if @logged_in.admin? %>
-    <p>
-      <strong>Subscription Groups:</strong>
-      <%= @subscription_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
-    </p>
-    <p>
-      <strong>Archived Groups:</strong>
-      <%= @archived_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
-    </p>
-  <% end %>
+  <p>
+    <strong>Subscription Groups:</strong>
+    <%= @subscription_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
+  </p>
+  <p>
+    <strong>Archived Groups:</strong>
+    <%= @archived_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
+  </p>
 <% end %>

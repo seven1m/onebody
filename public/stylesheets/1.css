@@ -684,3 +684,18 @@ margin-left: 5px;
 	background-color: #eee;
 	padding: 3px;
 }
+
+img.icon {
+	padding: 0;
+	background: transparent;
+	border: none;
+	vertical-align: middle;
+}
+
+.contact .remove-contact {
+	display: none;
+}
+
+.contact:hover .remove-contact {
+	display: inline;
+}

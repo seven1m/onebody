@@ -99,10 +99,6 @@ class Person < ActiveRecord::Base
   def share_address; family.share_address; end
   def share_anniversary; family.share_anniversary; end
   
-  def visible?
-    family.visible? and read_attribute(:visible)
-  end
-  
   share_with :mobile_phone
   share_with :work_phone
   share_with :fax
@@ -164,13 +160,27 @@ class Person < ActiveRecord::Base
     end
   end
   
-  def adult?
-    today = Date.today
-    %w(male female man woman).include?(gender.downcase) or (birthday and birthday <= Date.new(today.year-18, today.month, today.day))
-  end
-  
   def member?
     %w(M A C).include? mail_group
+  end
+  
+  def at_least?(age)
+    today = Date.today
+    %w(male female man woman).include?(gender.downcase) or (birthday and birthday <= Date.new(today.year-age, today.month, today.day))
+  end
+  
+  def at_least_13?; at_least?(13); end
+  def adult?; at_least?(18); end
+  
+  def can_sign_in?
+    MAIL_GROUPS_CAN_LOG_IN.include? mail_group and
+    (at_least_13? or parental_consent?)
+  end
+  
+  def parental_consent?; not parental_consent_at.nil?; end
+  
+  def visible?
+    family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?)
   end
 
   def church_member?
@@ -178,7 +188,11 @@ class Person < ActiveRecord::Base
   end
   
   def admin?
-    @admin ||= ADMIN_CHECK.call(self)
+    return false
+    if @admin.nil?
+      @admin = ADMIN_CHECK.call(self) ? true : false
+    end
+    @admin
   end
   
   def mapable?
@@ -188,13 +202,16 @@ class Person < ActiveRecord::Base
   alias_method :groups_without_linkage, :groups
   
   def groups
-    g = groups_without_linkage
-    conditions = []
-    classes.split(',').each do |code|
-      conditions.add_condition ['LCASE(link_code) = ? or link_code like ? or link_code like ? or link_code like ?', code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
+    if @groups.nil?
+      g = groups_without_linkage
+      conditions = []
+      classes.split(',').each do |code|
+        conditions.add_condition ['LCASE(link_code) = ? or link_code like ? or link_code like ? or link_code like ?', code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
+      end
+      g = (g + Group.find(:all, :conditions => conditions)).uniq if conditions.any?
+      @groups = g
     end
-    g = (g + Group.find(:all, :conditions => conditions)).uniq if conditions.any?
-    return g
+    @groups
   end
   
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female
