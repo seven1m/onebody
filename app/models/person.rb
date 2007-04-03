@@ -173,11 +173,11 @@ class Person < ActiveRecord::Base
   def adult?; at_least?(18); end
   
   def can_sign_in?
-    MAIL_GROUPS_CAN_LOG_IN.include? mail_group and
-    (at_least_13? or parental_consent?)
+    MAIL_GROUPS_CAN_LOG_IN.include? mail_group and consent_or_13?
   end
   
   def parental_consent?; not parental_consent_at.nil?; end
+  def consent_or_13?; at_least_13? or parental_consent?; end
   
   def visible?
     family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?)

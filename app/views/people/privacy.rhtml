@@ -23,7 +23,7 @@
   Modify the privacy settings for you and your family below:
 </p>
 
-<h2 class="tab" id="f">Family Privacy</h2>
+<h2 class="tab" id="f">Family Privacy<% unless @family.visible? %> <%= image_tag('lock.gif', :alt => 'Invisible', :class => 'icon', :style => 'height:12px;') %><% end %></h2>
 
 <div class="section">
 <p>
@@ -112,7 +112,7 @@
 
 <% @family.people.each do |person| %>
 
-  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %></h2>
+  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %><% if not person.consent_or_13? %> <%= image_tag('lock_red.gif', :alt => 'Invisible', :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => 'Invisible', :class => 'icon', :style => 'height:12px;') %><% end %></h2>
   
   <div class="section">
   
