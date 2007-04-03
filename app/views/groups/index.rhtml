@@ -2,7 +2,6 @@
 <%= render :partial => 'people/groups' %>
 
 <h2>Find a Group</h2>
-
 <table>
   <tr>
     <td style="padding-right:50px;">
@@ -22,6 +21,14 @@
     </td>
   </tr>
 </table>
+
+<h2>Create a Group</h2>
+<p>
+  If you can't find the group you're looking for, create it!
+</p>
+<p>
+  <%= link_to image_tag('add_small.gif', :alt => 'Create a group.', :class => 'icon') + ' Create a Group', :action => 'edit' %>
+</p>
 
 <% if @logged_in.admin? %>
   <h2>Hidden Groups (for admins only)</h2>

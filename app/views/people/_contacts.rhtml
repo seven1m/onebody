@@ -1,7 +1,7 @@
-<% if @person.people.any? %>
+<% if (people = @person.people).any? %>
   <h2>Contacts</h2>
   <table>
-    <% @person.people.each do |contact| %>
+    <% people.each do |contact| %>
       <tr>
         <td>
           <a href="<%= url_for :action => 'view', :id => contact %>">
