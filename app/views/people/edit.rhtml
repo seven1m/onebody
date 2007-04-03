@@ -221,16 +221,16 @@
   <% end %>
 </div>
 
-<h2 class="tab" id="access">Access</h2>
-<div class="section">
-  <% if @logged_in.admin? %>
+<% if @logged_in.admin? %>
+  <h2 class="tab" id="access">Access</h2>
+  <div class="section">
     <% form_for :person, @person do |form| %>
       <%= hidden_field_tag :anchor, 'access' %>
       <p><%= form.check_box 'music_access', :class => 'checkbox' %> <label for="person_music_access" class="inline">Music Section</label></p>
       <p><%= submit_tag 'Save' %></p>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>
 
 <script type="text/javascript">
   set_up(); // tabs

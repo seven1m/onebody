@@ -188,7 +188,6 @@ class Person < ActiveRecord::Base
   end
   
   def admin?
-    return false
     if @admin.nil?
       @admin = ADMIN_CHECK.call(self) ? true : false
     end
