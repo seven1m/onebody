@@ -20,8 +20,8 @@
 
 <form method="post">
   <div style="width:150px;float:right;margin:10px;text-align:center;">
-    <%= link_to image_tag('help.gif', :alt => 'Help Signing In', :class => 'no-border'), :action => 'help' %><br/>
-    <%= link_to 'I need help.', :action => 'help' %>
+    <%= link_to image_tag('help.gif', :alt => 'Help Signing In', :class => 'no-border'), :controller => 'help' %><br/>
+    <%= link_to 'I need help.', :controller => 'help' %>
   </div>
   <table>
     <tr><td><label for="email">Email Address:</label></td>
@@ -37,7 +37,9 @@
       Sharing your password with other people will get you banned from the site.<br/>
       <input type="submit" value="Sign In"/><br/>
       If you don't know your password or you've never signed in before,
-      <%= link_to 'click here', :action => 'help' %>.
+      <%= link_to 'click here', :controller => 'help' %>.<br/>
+      <br/>
+      <strong>You may read our Privacy Policy <%= link_to 'here', :controller => 'help', :action => 'privacy_policy' %>.</strong>
     </td></tr>
   </table>
 </form>

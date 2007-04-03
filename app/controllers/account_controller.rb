@@ -3,7 +3,7 @@ class AccountController < ApplicationController
     if request.post?
       if person = Person.authenticate(params[:email], params[:password])
         unless person.can_sign_in?
-          redirect_to :action => 'unauthorized'
+          redirect_to :controller => 'help', :action => 'unauthorized'
           return
         end
         session[:logged_in_id] = person.id
@@ -57,18 +57,6 @@ class AccountController < ApplicationController
     end
   end
   
-  def unauthorized
-  end
-  
-  def help
-  end
-  
-  def safeguarding_children
-  end
-  
-  def bad_status
-  end
-  
   def verify_email
     if params[:email].to_s.any?
       person = Person.find_by_email(params[:email])
@@ -83,7 +71,7 @@ class AccountController < ApplicationController
             render :text => 'The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)', :layout => true
           end
         else
-          redirect_to :action => 'bad_status'
+          redirect_to :controller => 'help', :action => 'bad_status'
         end
       else
         flash[:warning] = "That email address could not be found in our system. If you have another address, try again."
@@ -109,7 +97,7 @@ class AccountController < ApplicationController
             redirect_to :action => 'verify_code', :id => v.id
           end
         else
-          redirect_to :action => 'bad_status'
+          redirect_to :controller => 'help', :action => 'bad_status'
         end
       else
         flash[:warning] = "That mobile number could not be found in our system. You may try again."
@@ -189,4 +177,6 @@ class AccountController < ApplicationController
       render :text => ''
     end
   end
+  
+  def safeguarding_children; redirect_to :controller => 'help', :action => 'safeguarding_children'; end
 end

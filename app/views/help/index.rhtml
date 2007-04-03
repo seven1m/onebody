@@ -1,0 +1,45 @@
+<h1>Access to <%= SITE_TITLE %></h1>
+
+<h2><%= VISITOR_SIMPLE_URL %></h2>
+<p>
+  You should be able to view information about classes, download sermons,
+  find out what our church believes, practices, and so much more from
+  our main site: <%= link_to VISITOR_SIMPLE_URL, VISITOR_URL %>.
+  You can do all this without being signed in.
+</p>
+
+<h2><%= SITE_SIMPLE_URL %></h2>
+
+<p>
+  This site is for <strong>members and regular attenders</strong>
+  to connect as a family. If you have been attending <%= CHURCH_NAME %>
+  recently, and you've filled out an attendance tear strip, then you have
+  access to sign into this site.
+</p>
+
+<p>
+  First, we need to verify you are who you say you are.
+  Please choose one of the following options to verify
+  your identity. You only have to do this once, and it
+  only takes a few minutes.
+</p>
+
+<ul>
+  <li>
+    <%= link_to 'Verify by email.', :controller => 'account', :action => 'verify_email' %><br/>
+    We send you an email, you click the link inside, and you're done.
+  </li>
+  <li>
+    <%= link_to 'Verify by mobile phone.', :controller => 'account', :action => 'verify_mobile' %><br/>
+    We send you a text message, you type the code it contains, and you're done.
+    <span style="color:#f00;">Text messaging fees may apply.</span>
+  </li>
+  <li>
+    <%= link_to 'Verify by birthday.', :controller => 'account', :action => 'verify_birthday' %><br/>
+    These submissions are reviewed by a real person and may take a few
+    days to be approved.
+  </li>
+  <li>
+    Call the church office at <%= CHURCH_OFFICE_PHONE %> during church office hours.
+  </li>
+</ul>

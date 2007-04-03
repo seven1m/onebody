@@ -5,16 +5,17 @@ class ApplicationController < ActionController::Base
 
   layout 'default'
   
-  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'help', 'bad_status', 'news_feed']
+  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'news_feed']
     
   private
     def authenticate_user
+      return true if params[:controller] == 'help'
       if id = session[:logged_in_id]
         person = Person.find(id)
         unless LOG_IN_CHECK.call(person)
           session[:logged_in_id] = nil
           redirect_to :controller => 'account', :action => 'bad_status'
-          return
+          return false
         end
         @logged_in = person
         Person.logged_in = @logged_in

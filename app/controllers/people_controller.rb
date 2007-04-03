@@ -219,6 +219,14 @@ class PeopleController < ApplicationController
         else
           flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family has been hidden from all pages on this site!"
         end
+      elsif params[:agree] == 'I Agree.'
+        if person = @family.people.find(params[:id])
+          @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) at #{Time.now.to_s}"
+          @person.save
+          flash[:notice] = 'Agreement saved.'
+        end
+      elsif params[:commit] == 'I Agree'
+        flash[:warning] = 'You must check the box indicating you agree to the statement below.'
       end
       redirect_to :action => 'privacy', :id => @person, :section => params[:anchor]
     end

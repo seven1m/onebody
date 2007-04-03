@@ -65,6 +65,6 @@ class Family < ActiveRecord::Base
   end
   
   def children_without_consent
-    people.select { |p| not (p.at_least_13? or p.parental_consent?) }
+    people.select { |p| !p.consent_or_13? }
   end
 end

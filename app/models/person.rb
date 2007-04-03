@@ -176,7 +176,7 @@ class Person < ActiveRecord::Base
     MAIL_GROUPS_CAN_LOG_IN.include? mail_group and consent_or_13?
   end
   
-  def parental_consent?; not parental_consent_at.nil?; end
+  def parental_consent?; parental_consent.to_s.any?; end
   def consent_or_13?; at_least_13? or parental_consent?; end
   
   def visible?

@@ -18,9 +18,9 @@
     </table>
   <% end %>
   
-  <% if @person.adult? and @person.family.children_without_consent %>
+  <% if @person.adult? and @person.family.children_without_consent.any? %>
     <p style="font-weight:bold;"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Why can't I see my children here?",
-      :controller => 'account', :action => 'safeguarding_children' %></p>
+      :controller => 'help', :action => 'safeguarding_children' %></p>
   <% end %>
   
   <%= render :partial => 'contacts' %>
