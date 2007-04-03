@@ -4,27 +4,57 @@
   This policy is effective as of April 3, 2007.
 </p>
 
-<h2>Principles</h2>
-<p>
-  Cedar Ridge Family was built to connect churchgoers together via online and offline communication.
-  Sensible defaults are chosen regarding your personal information which protect your privacy while
-  still allowing others in the church to contact you to facilitate fellowship. You have control over
-  what information (if any) is displayed to other members of this web site.
+<div class="highlight">
+  <h2>In a Nutshell</h2>
+  <ul>
+    <li>This site is primarily an electronic church directory with added social networking features.</li>
+    <li>Only regular attenders and members of the church may access any personal information on this site.</li>
+    <li>As a regular attender/member, some of your information is available to other users by default,
+    even if you have never provided the information via the Web. You can change how much is visible once
+    signed in.</li>
+    <li>If you wish to have all your personal information removed immediately, without first gaining access
+    and signing in, please contact the church office.</li>
+    <li>You may recieve periodic email messages via this site. You may disable them
+    by using the link at the bottom of the email you receive.</li>
+    <li>We do not share your personal information with third parties, marketers or otherwise. Only fellow
+    churchgoers, Staff, Elders, and select technical administrators involved with the operation of the
+    church and this site have access to your information.</li>
+  </ul>
+</div>
+<p style="font-weight:bold;">
+  Please read this entire document, so you have a complete understanding of what we do and how we use
+  your personal information.
 </p>
 
+<h2>Overview</h2>
 <p>
-  Cedar Ridge Family's Privacy Policy is designed to help you understand how we (Cedar Ridge Christian Church)
+  This Privacy Policy is designed to help you understand how we (<%=h CHURCH_NAME %>)
   collect and use the personal information you decide to share, and help you make informed decisions when using
-  this site located at www.crccfamily.com ("Cedar Ridge Family" or "Web Site").
+  this site located at <%= link_to SITE_SIMPLE_URL, SITE_URL %> ("<%=h SITE_TITLE %>" or "Web Site").
 </p>
 <p>
-  If you have questions or concerns regarding this statement, you should first contact our staff at
-  <a href="mailto:info@cedarridgecc.com">info@cedarridgecc.com</a>.
+  This Web Site is primarily a church directory, with added features that support
+  social networking and other online and offline communication.
+</p>
+<p>
+  When you attend <%=h CHURCH_NAME %> and provide information to the church, some of that
+  information is made available to other churchgoers on this Web Site.
+</p>
+<p>
+  Sensible defaults are chosen regarding how much of your personal information is displayed to
+  other churchgoers (Users of the site). This is meant to protect your privacy while still
+  facilitating basic communication and church fellowship by allowing others in the church to
+  contact you in a few basic ways. You have control over what information (if any) is displayed
+  to other Users of this web site.
+</p>
+<p>
+  If you have questions or concerns regarding this policy, you should first contact our staff at
+  <%= mail_to CONTACT_EMAIL, 'this address', :encode => 'hex' %>.
 </p>
 
 <h2>Site Access</h2>
 <p>
-  Only members and regular attenders of <%= CHURCH_NAME %> are given access
+  <strong>Only members and regular attenders</strong> of <%= CHURCH_NAME %> are given access
   to this site. In order to gain access, church-goers must demonstrate a
   certain level of commitment to the church and to attending regularly.
   All visitors to the church must have had some contact with church staff
@@ -34,9 +64,26 @@
   This restriction to regular attenders and members protects your private information
   from people who wish to use it for inappropriate and undesired purposes.
   All pages on this site containing personal information is protected from
-  accidental or purposeful access by people unrelated to Cedar Ridge Christian Church.
+  accidental or purposeful access by people unrelated to <%=h CHURCH_NAME %>.
   Only the sign in page, and other help documents such as this one,
   are available to everyone that views this Web Site.
+</p>
+<p>
+  Generally, when a churchgoer stops attending the Church, their access to this site is revoked.
+  In a few rare circumstances, access is maintained for respected people no longer
+  attending the church (but still involved), i.e. some Elders, Staff, etc.
+</p>
+<p>
+  People with a known history of abuse, a criminal record, etc. are not given
+  access to the site and its data.
+</p>
+
+<h3>Children Under Age 13</h3>
+<p>
+  We strive to protect children online. No one under 13 years of age is allowed to sign into the site
+  by default, nor is their information available to others on the site. In order to allow children
+  under 13 to sign in, a parent or guardian must first sign in, read this Privacy Policy, and give
+  consent on the <%= link_to 'Privacy', :controller => 'people', :action => 'privacy' %> page.
 </p>
 
 <h2>The Information We Collect</h2>
@@ -47,13 +94,13 @@
   <li>
     Personal information you knowingly choose to disclose, either:
     <ul>
-      <li>on our website</li>
+      <li>via our website</li>
       <li>via phone, email, postal mail, etc.</li>
-      <li>via forms, electronic or otherwise, you knowingly complete</li>
+      <li>via forms you complete, electronic or otherwise</li>
     </ul>
   </li>
   <li>Information knowingly or unkowingly recorded about your attendance at the Church</li>
-  <li>Web Site use information collected by us as you interact with our Web Site</li>
+  <li>Technical information collected by our server(s) as you interact with our Web Site</li>
 </ul>
 <p>
   When you provide information to the Church, such as your name, your email address,
@@ -63,7 +110,7 @@
 </p>
 <ul>
   <li>Provide limited contact information (based on your privacy settings) to other members of the Web Site</li>
-  <li>Provide contact information to Church staff and elders</li>
+  <li>Provide contact information to Church Staff and Elders</li>
   <li>Customize content offerings, news or otherwise, provided to you upon signing
   into the Web Site</li>
   <li>Customize announcements, flyers, and other ministry related information sent
@@ -73,7 +120,7 @@
   When you enter the Web Site, we collect your browser type and IP address. This information is gathered
   for all Web Site visitors. In addition, we store certain information from your browser using "cookies."
   A cookie is a piece of data stored on the user's computer tied to information about the user. We use
-  session ID cookies to confirm that users are logged in. These cookies terminate once the user closes
+  session ID cookies to confirm that users are signed in. These cookies terminate once the user closes
   the browser. If you choose the "Remember my email" option on the sign in screen, we use a persistent cookie that
   stores your email address (but not your password) to make it easier for you to sign in when you come back
   to the Web Site. You can remove or block this cookie using the settings in your browser if you want
@@ -103,21 +150,16 @@
 <p>
 -->
 
-<h2>Children Under Age 13</h2>
-<p>
-  We strive to protect children online. No one under 13 years of age is allowed to sign into the site
-  by default, nor is their information available to others on the site. In order to allow children
-  under 13 to sign in, a parent or guardian must first sign in, read our privacy policy, and give
-  consent.
-</p>
-
-
 <h2>Use of Information Obtained</h2>
 <p>
-  Your profile information, as well as your name, email and photo, are displayed to other members of the
-  Web Site to enable you to connect with people on the Web Site. We may occasionally use your name and email
-  address to send you notifications regarding new services offered by the Web Site that we think you may
-  find valuable.
+  Your profile information, including but not limited to your name, home phone, and address are displayed
+  to other members of the Web Site to enable you to connect with other churchgoers. We may occasionally use your
+  name and email address to send you notifications regarding new services offered by the Web Site that we think
+  you may find valuable.
+</p>
+<p>
+  Information about your children under 13 years of age &mdash; even the fact that you have children
+  under 13 &mdash; is never displayed without your censent.
 </p>
 <p>
   Profile information is used by the Web Site primarily to be presented back to and edited by you when you
@@ -126,31 +168,36 @@
   Web Site users may be able to supplement your profile.
 </p>
 <p>
-  Profile information you submit to the Web Site will be available to other users of the Web Site.
+  Profile information you submit to the Web Site will be available to other users of the Web Site according
+  to the privacy settings you have in place.
 </p>
 <p>
   We will send you only service-related announcements from time to time through the general operation
   of the service. For instance, if someone posts on your wall, you may receive an email alerting you to that fact.
+  Generally, you may opt-out of these communications, which are not promotional in nature.
 </p>
 <p>
-  Generally, you may opt-out of these communications, which are not promotional in nature.
+  Your password is encrypted using industry-standard technology, and church staff, technical administrators,
+  nor anyone else can get access to your password in its unencrypted form.
 </p>
 
 <h2>Sharing Your Information with Third Parties</h2>
 
 <p>
-  Cedar Ridge Family is about sharing information with other churchgoers, while providing you with controls
+  <%=h SITE_TITLE %> is about sharing information with other churchgoers, while providing you with controls
   that restrict them from accessing certain information. We allow you to choose the information you provide
   to others through the Web Site. We do not knowingly provide contact information to third party marketers,
   ever. We share your information with third parties only in limited circumstances where we believe such
   sharing is:
 </p>
 <ul>
-  <li>Reasonably necessary to offer the service</li>
-  <li>Legally required</li>
+  <li>Necessary for the operation of the service, i.e. database administrators, server operators, etc.</li>
+  <li>Legally required to do so, at the request of governmental authorities conducting an investigation,
+  to verify or enforce compliance with the policies governing our Web site and applicable laws, or to
+  protect against misuse or unauthorized use of our Web site.</li>
 </ul>
 <p>
-  Unlike most sites on the Web, Cedar Ridge Family limits access to site information by third party search
+  Unlike most sites on the Web, <%=h SITE_TITLE %> limits access to site information by third party search
   engine "crawlers" (e.g. Google, Yahoo, MSN, Ask). We block access by these engines to all personal information.
 </p>
 <p>
@@ -159,10 +206,10 @@
   for servers or to send out email updates about the Web Site.
 </p>
 <p>
-  The Web Site may contain links to other websites. We are of course not responsible for the privacy practices
+  The Web Site may contain links to other web sites. We are of course not responsible for the privacy practices
   of other web sites. We encourage our users to be aware when they leave our site to read the privacy
   statements of each and every web site that collects personally identifiable information. This Privacy Policy
-  applies solely to information collected by Cedar Ridge Christian Church.
+  applies solely to information collected by <%=h CHURCH_NAME %>.
 </p>
 
 <h2>Changing or Removing Information</h2>
@@ -176,6 +223,12 @@
   generally available to Users of the Web Site.
 </p>
 <p>
+  Because a person's limited personal contact information is made available on the Web Site without them
+  having signed in, anyone who wishes to have their information removed from the site may call the
+  church office at <%=h CHURCH_OFFICE_PHONE %> or email us at
+  <%= mail_to CONTACT_EMAIL, 'this address', :encode => 'hex' %> to have their information removed immediately.
+</p>
+<p>
   Where you make use of the communication features of the service to share information with other individuals,
   however, (e.g., sending a private message to another User) you generally cannot remove such communications.
 </p>
@@ -186,10 +239,10 @@
   on a secured server behind a firewall. Because email and instant messaging are not recognized as secure
   communications, we request that you not send private information to us by email or instant messaging services.
   If you have any questions about the security of the Web Site, please contact us at
-  <a href="mailto:info@cedarridgecc.com">info@cedarridgecc.com</a>.
+  <%= mail_to CONTACT_EMAIL, 'this address', :encode => 'hex' %>.
 </p>
 
-<h2>Terms of Use, Notices and Revisions</h2>
+<h2>Notices and Revisions</h2>
 
 <p>
   We reserve the right to change our Privacy Policy at any time. Non-material changes and clarifications will
@@ -200,9 +253,9 @@
   about you and your account.
 </p>
 
-<h2>Contacting the Web Site</h2>
+<h2>Contacting Us</h2>
 <p>
   If you have any questions about this privacy policy, please contact us at
-  <a href="mailto:info@cedarridgecc.com">info@cedarridgecc.com</a>. You may also contact us by mail at
-  4010 West New Orleans, Broken Arrow, OK 74011-1186.
+  <%= mail_to CONTACT_EMAIL, 'this address', :encode => 'hex' %>.
+  You may also contact us by mail at <%=h CONTACT_ADDRESS %>.
 </p>

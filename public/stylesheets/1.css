@@ -1,4 +1,3 @@
-
 body {
 	font: 80%/1.6em "Lucida Grande", "Lucida Sans Unicode", verdana, geneva, sans-serif;
 	word-spacing:2px;
@@ -617,6 +616,13 @@ h2 a:visited {
 	background-color: #ddf3ff;
 	padding: 5px;
 	border: 2px solid #92d9ff;
+}
+
+.highlight h1,
+.highlight h2,
+.highlight h3 {
+	color: #666;
+	border: none;
 }
 
 .alert {

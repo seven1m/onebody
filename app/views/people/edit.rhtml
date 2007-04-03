@@ -7,6 +7,11 @@
   <%= @family.people.map { |p| link_to(p == @person ? "<strong>#{p.first_name}</strong>" : p.first_name, :action => 'edit', :id => p) }.join(' | ') %>
 </p>
 
+<p>
+  Please read our <%= link_to 'Privacy Policy', :controller => 'help', :action => 'privacy_policy' %>
+  for details regarding the use of your personal information.
+</p>
+
 <% if @logged_in.admin? and @person.frozen %>
   <p style="color:red;">This account is frozen. <%= @person.name %> can not make changes to this profile or anyone else's until this account is unfrozen.</p>
 <% end %>
@@ -33,7 +38,7 @@
   <p>
     Upload a <strong>picture of <%= @person == @logged_in ? 'yourself' : @person.name %></strong>.
     Please only upload a <span style="color:red;">real photo</span> &mdash;
-    no graphics or fakes please.
+    no graphics, clip-art, or fakes please.
   </p>
   <table><tr><td>
   <%= render :partial => 'photo' %>
@@ -44,7 +49,7 @@
 
 <h2 class="tab" id="family-picture">Family Pic</h2>
 <div class="section">
-  <p>Upload a <strong>family picture</strong>. Please only upload a <span style="color:red;">real photo</span> &mdash; no graphics or fakes please.</p>
+  <p>Upload a <strong>family picture</strong>. Please only upload a <span style="color:red;">real photo</span> &mdash; no graphics, clip-art, or fakes please.</p>
   <table><tr><td>
   <%= render :partial => 'families/photo' %>
   </td><td>
@@ -57,7 +62,9 @@
   <p>
     Changes to the details below must be <strong>reviewed by church staff</strong>. To request changes,
     enter the details below and click "Submit." Your record will be updated within
-    two working days.
+    two working days. <span style="color:red;">If you wish to remove something below in order to keep others from
+    seeing it, instead go to the <%= link_to 'Privacy', :action => 'privacy', :id => @person %> page
+    and hide it.</span>
   </p>
 
   <% form_for :person, @person do |form| %>
