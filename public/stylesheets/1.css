@@ -341,7 +341,10 @@ td, th {
 .discreet,
 a.discreet:link,
 a.discreet:visited,
-a.discreet:active {
+a.discreet:active,
+.discreet a:link,
+.discreet a:visited,
+.discreet a:active {
 	color: #999;
 	text-decoration: none;
 }

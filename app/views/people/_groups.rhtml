@@ -5,19 +5,17 @@
       <% if (not group.archived and not group.subscription) or @logged_in.admin? %>
         <li <% if group.archived or group.subscription %>class="grayed"<% end %>>
           <%= link_to group.name, :controller => 'groups', :action => 'view', :id => group %>
-          <% if params[:controller] == 'groups' %>
-            (<%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>)<br/>
-            <span class="discreet">
-              email:
-              <% if group.get_options_for(@person).get_email %>
-                <strong title="email from this group is ON">on</strong> |
-                <%= link_to 'off', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :post => true, :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
-              <% else %>
-                <%= link_to 'on', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :post => true, :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
-                <strong title="email from this group is OFF">off</strong>
-              <% end %>
-            </span>
-          <% end %>
+          (<%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>)<br/>
+          <span class="discreet">
+            email:
+            <% if group.get_options_for(@person).get_email %>
+              <strong title="email from this group is ON">on</strong> |
+              <%= link_to 'off', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :post => true, :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
+            <% else %>
+              <%= link_to 'on', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :post => true, :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
+              <strong title="email from this group is OFF">off</strong>
+            <% end %>
+          </span>
         </li>
       <% end %>
     <% end %>

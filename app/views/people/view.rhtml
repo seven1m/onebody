@@ -104,7 +104,7 @@
   <% end %>
 <% end %>
 
-<% if @person.about.to_s.any? and params[:action] != 'simple_view' %>
+<% if @person.about.to_s.any? %>
   <h2 class="tab" id="about">About</h2>
   <div class="section">
     <%= preserve_breaks @person.about %>
@@ -121,36 +121,7 @@
 
 <% if @person.has_shares? %>
   <h2 class="tab" id="shares">Shares</h2>
-  <div class="section">
-    <% if (count = @person.pictures.count) > 0 %>
-      <h3 style="background-color:#eee;">Pictures</h3>
-      <div>
-        <% @person.pictures.find(:all, :order => 'rand()', :limit => 5).each do |picture| %>
-          <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.small.jpg"), :alt => 'click to enlarge'),
-            {:controller => 'pictures', :action => 'view', :id => picture}, :title => 'click to enlarge' %>
-        <% end %>
-        <%= link_to 'More...', :action => 'pictures', :id => @person %><br/>
-        <%= link_to image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add', :controller => "pictures" %>
-      </div>
-    <% end %>
-
-    <% if @person.verses.any? %>
-      <h3 style="background-color:#eee;">Verses</h3>
-      <div>
-        <%= render :partial => 'verses' %>
-      </div>
-    <% end %>
-
-    <% if @person.recipes.any? %>
-      <h3 style="background-color:#eee;">Recipes</h3>
-      <div>
-        <%= render :partial => 'recipes/list', :locals => {:recipes => @person.recipes} %>
-        <% if @person == @logged_in %>
-          <p><%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' Add a Recipe', :controller => "recipes", :action => "edit" %></p>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
+  <div class="section" id="shares_content"></div>
 <% end %>
 
 <% if @person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any? %>
@@ -195,18 +166,12 @@
 
 <% if @person.groups.any? %>
   <h2 class="tab" id="groups">Groups</h2>
-  <div class="section">
-    <%= render :partial => 'groups' %>
-    <p>To join, leave, or change email settings for any of your groups,
-      <%= link_to 'click here', :controller => 'groups' %>.</p>
-  </div>
+  <div class="section" id="groups_content"></div>
 <% end %>
 
 <% if @person.wall_enabled %>
   <h2 class="tab" id="wall">Wall</h2>
-  <div class="section">
-    <%= render :partial => 'wall' %>
-  </div>
+  <div class="section" id="wall_content"></div>
 <% end %>
 
 <!--
@@ -225,6 +190,45 @@
   div.section { border-style: solid none none none; }
 </style>
 <script type="text/javascript">
+  shares_loaded = groups_loaded = wall_loaded = false;
+  function load_tab(id) {
+    if(id == 'shares') {
+      if(!shares_loaded) {
+        new Ajax.Updater(
+          'shares_content',
+          '<%= url_for(:action => 'shares', :id => @person) %>',
+          {
+            method: 'get',
+            onLoading:function(){$('shares_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
+            onComplete:function(){
+              Element.hide('add_verse');
+              Element.show('add_verse_link');
+              $('reference').value = 'john 3:16';
+            }
+          }
+        );
+        shares_loaded = true;
+      }
+    } else if(id == 'groups') {
+      if(!groups_loaded) {
+        new Ajax.Updater(
+          'groups_content',
+          '<%= url_for(:action => 'groups', :id => @person) %>',
+          {method: 'get', onLoading:function(){$('groups_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
+        );
+        groups_loaded = true;
+      }
+    } else if(id == 'wall') {
+        if(!wall_loaded) {
+          new Ajax.Updater(
+            'wall_content',
+            '<%= url_for(:action => 'wall', :id => @person) %>',
+            {method: 'get', onLoading:function(){$('wall_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
+          );
+          wall_loaded = true;
+        }
+      }
+  }
   set_up(); // tabs
 </script>
 

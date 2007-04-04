@@ -10,9 +10,9 @@
     <% if @person and @person == @logged_in %>
       <%= link_to '[delete]', {:action => 'remove_verse', :id => verse}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
     <% end %>
-    <% unless @person %>
+    <span class="discreet">
       Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => verse} %>
-    <% end %>
+    </span>
   </div>
   <div class="verse-body">
     <%=h verse.text %>

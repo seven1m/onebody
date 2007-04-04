@@ -29,6 +29,24 @@ class PeopleController < ApplicationController
     end
   end
   
+  def shares
+    @person = Person.find params[:id]
+    if @logged_in.sees?(@person)
+      render :partial => 'shares'
+    else
+      render :text => 'You are not authorized to view this person.', :layout => true
+    end
+  end
+  
+  def groups
+    @person = Person.find params[:id]
+    if @logged_in.sees?(@person)
+      render :partial => 'groups'
+    else
+      render :text => 'You are not authorized to view this person.', :layout => true
+    end
+  end
+  
   def simple_view(show_photo=false)
     @person = Person.find params[:id]
     @family = @person.family
@@ -336,7 +354,12 @@ class PeopleController < ApplicationController
   
   def wall
     @person = Person.find params[:id]
-    if not @logged_in.sees?(@person)
+    if @logged_in.sees?(@person)
+      respond_to do |wants|
+        wants.js { render :partial => 'wall' }
+        wants.html
+      end
+    else
       render :text => 'You are not authorized to view this person.', :layout => true
     end
   end

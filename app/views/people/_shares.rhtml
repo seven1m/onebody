@@ -1,0 +1,28 @@
+<% if (count = @person.pictures.count) > 0 %>
+  <h3 style="background-color:#eee;">Pictures</h3>
+  <div>
+    <% @person.pictures.find(:all, :order => 'rand()', :limit => 5).each do |picture| %>
+      <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{picture.id}.small.jpg"), :alt => 'click to enlarge'),
+        {:controller => 'pictures', :action => 'view', :id => picture}, :title => 'click to enlarge' %>
+    <% end %>
+    <%= link_to 'More...', :action => 'pictures', :id => @person %><br/>
+    <%= link_to image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add a Picture', :controller => "pictures" %>
+  </div>
+<% end %>
+
+<% if @person.verses.any? %>
+  <h3 style="background-color:#eee;">Verses</h3>
+  <div>
+    <%= render :partial => 'verses' %>
+  </div>
+<% end %>
+
+<% if @person.recipes.any? %>
+  <h3 style="background-color:#eee;">Recipes</h3>
+  <div>
+    <%= render :partial => 'recipes/list', :locals => {:recipes => @person.recipes} %>
+    <% if @person == @logged_in %>
+      <p><%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' Add a Recipe', :controller => "recipes", :action => "edit" %></p>
+    <% end %>
+  </div>
+<% end %>

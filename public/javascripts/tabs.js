@@ -61,11 +61,12 @@ function show_section(index){
   if(!section) var section = sections[index=0];
   section.style.display = "block";
   tabs[index].className = TAB_SELECTED_CLASS;
-  var id = sections[index].getAttribute('id') || headings[index].getAttribute('id');
+  var id = headings[index].getAttribute('id') || sections[index].getAttribute('id');
   if(id && index != lastSection) {
     var y = typeof window.pageYOffset != 'undefined' ? window.pageYOffset : document.documentElement.scrollTop;
     location.hash = '#' + id;
     window.scrollTo(0, y);
+    if(typeof load_tab == 'function') load_tab(id);
   }
   lastSection = index;
 };

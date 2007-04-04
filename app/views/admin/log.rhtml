@@ -31,6 +31,8 @@
         <th>What</th>
         <th>When</th>
         <th>Who</th>
+        <th></th>
+        <th><%= link_to_function 'Changes', "$$('.changes').each(function(e){Element.toggle(e)})"%>
       </tr>
       <% @items.each do |item| %>
         <tr <% if @last_log_view and item.created_at >= @last_log_view %>class="new"<% end %>>
@@ -68,7 +70,7 @@
           </td>
           <td><%= link_to_function '[changes]', "Element.toggle('changes#{item.id}')" %></td>
         </tr>
-        <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;">
+        <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;" class="changes">
           <td colspan="7">
             <table>
               <% item.changes.each do |key, value| %>
