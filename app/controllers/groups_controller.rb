@@ -1,7 +1,6 @@
 class GroupsController < ApplicationController
   def index
     @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != '' and category != 'Subscription'").map { |g| g.category }
-    @subscription_groups = Group.find_all_by_subscription_and_hidden(true, false, :order => 'name')
     @hidden_groups = Group.find_all_by_hidden(true, :order => 'name')
     if @logged_in.admin?
       @unapproved_groups = Group.find_all_by_approved(false)
@@ -12,7 +11,7 @@ class GroupsController < ApplicationController
   end
   
   def search
-    conditions = ['subscription = ? and hidden = ? and approved = ?', false, false, true]
+    conditions = ['hidden = ? and approved = ?', false, true]
     conditions.add_condition ['category = ?', params[:category]] if params[:category]
     conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
     @groups = Group.find(:all, :conditions => conditions, :order => 'name')
@@ -39,7 +38,7 @@ class GroupsController < ApplicationController
     @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != ''").map { |g| g.category }
     if request.post?
       if params[:group]
-        if not @logged_in.admin? and (params[:group][:address] or params[:group][:link_code] or params[:group][:subscription] or params[:group][:members_send] or params[:group][:private])
+        if not @logged_in.admin? and (params[:group][:address] or params[:group][:link_code] or params[:group][:members_send] or params[:group][:private])
           raise 'You are not authorized to do that.'
         end
         params[:group].cleanse 'address'

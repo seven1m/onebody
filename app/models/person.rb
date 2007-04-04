@@ -3,7 +3,7 @@ class Person < ActiveRecord::Base
   
   belongs_to :family
   has_many :memberships
-  has_many :groups, :through => :memberships, :order => 'groups.name', :conditions => ["groups.subscription = ? and (groups.link_code is null or groups.link_code = '')", false]
+  has_many :groups, :through => :memberships, :order => 'groups.name', :conditions => "groups.link_code is null or groups.link_code = ''"
   has_many :contacts, :foreign_key => 'owner_id'
   has_many :people, :through => :contacts, :order => 'people.last_name, people.first_name'
   has_many :pictures, :order => 'created_at desc'

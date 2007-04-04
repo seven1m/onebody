@@ -117,7 +117,7 @@
     <em>You'll need to save the group and add people before you can set a leader.</em><br/>
   <% end %>
   
-  <h2>Meets</h2>
+  <h2>Meets (optional)</h2>
   <label for="group_meets">Day &amp; Time:</label>
   <%= form.text_field :meets %><br/>
   <label for="group_location">Location:</label>
@@ -129,18 +129,17 @@
     <h2>Advanced</h2>
     The settings below are for staff, elders, and advanced users.
     Don't edit any of the settings below unless you know what you are doing.<br/>
-    <label for="group_private">Private:</label>
-    <%= form.check_box :private, :class => 'checkbox' %> Messages are only visible to members of the group.
-    <label>Email Address:</label>
+    <label class="inline">Email Address:</label>
     <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h GROUP_ADDRESS_DOMAINS.first %><br/>
-    <label for="group_link_code">Class Link Code(s):</label>
+    <label for="group_link_code" class="inline">Class Link Code(s):</label>
     <%= form.text_field :link_code %><br/>
-    <label for="group_members_send">Group Members Can Post Messages:</label>
-    <%= form.check_box :members_send, :class => 'checkbox' %><br/>
-    <label for="group_subscription">This is a Subscription Group:</label>
-    <%= form.check_box :subscription, :class => 'checkbox' %><br/>
-    <label for="group_hidden">This group is hidden:</label>
+    <%= form.check_box :members_send, :class => 'checkbox' %>
+    <label for="group_members_send" class="inline">Group Members Can Post Messages</label><br/>
+    <%= form.check_box :private, :class => 'checkbox' %>
+    <label for="group_private" class="inline">Private Group</label>
+    <em>If checked, message are only visible to members of the group.</em><br/>
     <%= form.check_box :hidden, :class => 'checkbox' %>
+    <label for="group_hidden" class="inline">Hidden Group</label>
   <% end %>
   
   <p><%= submit_tag 'Save Changes' %></p>

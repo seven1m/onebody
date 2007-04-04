@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(:version => 53) do
     t.column "address",      :string
     t.column "members_send", :boolean,                 :default => true
     t.column "link_code",    :string,   :limit => 10
-    t.column "subscription", :boolean,                 :default => false
     t.column "private",      :boolean,                 :default => false
     t.column "category",     :string,   :limit => 50
     t.column "leader_id",    :integer

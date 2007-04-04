@@ -462,6 +462,7 @@ label.inline {
 	display:inline;
 	margin:0;
 	font-weight:normal;
+	padding:0;
 }
 
 input {
@@ -494,6 +495,7 @@ blockquote p {
 	width: auto;
 	width: inherit;
 	border: none;
+	margin: 0;
 }
 
 .message-details {
