@@ -130,7 +130,7 @@
     The settings below are for staff, elders, and advanced users.
     Don't edit any of the settings below unless you know what you are doing.<br/>
     <label for="group_private">Private:</label>
-    <%= form.check_box :private, :class => 'checkbox' %> Messages and members (except the creator and leader) are hidden from outsiders and group administrators must add people.
+    <%= form.check_box :private, :class => 'checkbox' %> Messages are only visible to members of the group.
     <label>Email Address:</label>
     <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h GROUP_ADDRESS_DOMAINS.first %><br/>
     <label for="group_link_code">Class Link Code(s):</label>
