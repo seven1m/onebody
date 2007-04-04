@@ -183,7 +183,7 @@ class Person < ActiveRecord::Base
   def consent_or_13?; at_least_13? or parental_consent?; end
   
   def visible?
-    family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?)
+    family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?) and MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.include? mail_group
   end
 
   def church_member?

@@ -239,4 +239,9 @@ class Notifier < ActionMailer::Base
       # this has the potential for error, but we'll just go with it and see
       body.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.strip
     end
+    
+    def parse_html_body(body)
+      # a work in progress
+      body.gsub(/\n/, '').gsub(/<br\s?\/?>/i, "\n").gsub(/<(p|div)>/i, "\n").gsub(/<script.*?>.*?</script>/i, '').gsub(/<.+?>/m, '').gsub(/&nbsp;/, ' ').strip
+    end
 end

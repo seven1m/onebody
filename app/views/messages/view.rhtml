@@ -6,7 +6,7 @@
   <% end %>
   <% if @message.person == @logged_in or @logged_in.can_edit? @message %>
     <p>
-      <%= link_to 'Delete Message', {:action => 'delete', :id => @message}, :confirm => 'Are you sure?', :post => true %>
+      <%= link_to 'Delete Message', {:action => 'delete', :id => @message}, :confirm => 'Are you sure?', :method => 'post' %>
     </p>
   <% end %>
 <% end %>

@@ -3,12 +3,12 @@
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to 'Remove this verse', {:controller => 'people', :action => 'remove_verse', :id => @verse, :return_to => request.request_uri}, :post => true, :confirm => 'Are you sure?' %><br/>
+      <%= link_to 'Remove this verse', {:controller => 'people', :action => 'remove_verse', :id => @verse, :return_to => request.request_uri}, :method => 'post', :confirm => 'Are you sure?' %><br/>
       from my list.
     </p>
   <% else %>
     <p>
-      <%= link_to 'Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference, :return_to => request.request_uri}, :post => true %><br/>
+      <%= link_to 'Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference, :return_to => request.request_uri}, :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>
@@ -64,7 +64,7 @@
           <%= link_to comment.person.name, :controller => 'people', :action => 'view', :id => comment.person %>
           <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
           <% if comment.admin? @logged_in %>
-            <%= link_to '[delete]', {:controller => 'comments', :action => 'delete', :id => comment}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+            <%= link_to '[delete]', {:controller => 'comments', :action => 'delete', :id => comment}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
           <% end %>
           <br/>
           <%= preserve_breaks comment.text %>
@@ -81,7 +81,7 @@
   <%= link_to_function 'Add a comment', "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
   about this verse. Share what it means to you, how it has helped you, or simply why you like it.
   <div id="new_comment">
-    <%= form_tag({:controller => 'comments', :action => 'edit', :verse_id => @verse}, :post => true, :style => 'border:none;') %>
+    <%= form_tag({:controller => 'comments', :action => 'edit', :verse_id => @verse}, :method => 'post', :style => 'border:none;') %>
       <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
       <strong>Abusing the comment system will get you banned from the site.</strong><br/>
       <%= submit_tag 'Save Comment' %>

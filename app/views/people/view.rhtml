@@ -18,13 +18,24 @@
     </table>
   <% end %>
   
-  <% if @person.adult? and @person.family.children_without_consent.any? %>
-    <p style="font-weight:bold;"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Why can't I see my children here?",
-      :controller => 'help', :action => 'safeguarding_children' %></p>
+  <% if @person.family.children_without_consent.any? %>
+    <% if @logged_in == @person and @person.adult? %>
+      <p style="font-weight:bold;"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Why can't I see my children here?",
+        :controller => 'help', :action => 'safeguarding_children' %></p>
+    <% else %>
+      <p><%= link_to image_tag('lock.gif', :alt => 'Hidden People', :class => 'icon') + ' Hidden People', :action => 'search', :family_id => @person.family_id %></p>
+    <% end %>
   <% end %>
   
   <%= render :partial => 'contacts' %>
 
+<% end %>
+
+<% unless @person.visible? %>
+  <p class="alert">
+    <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+    This profile is hidden!
+  </p>
 <% end %>
 
 <% if @person.mapable? and @person.share_address_with @logged_in %>

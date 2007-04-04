@@ -8,7 +8,7 @@
       <%= link_to '[edit]', {:controller => 'verses', :action => 'view', :id => verse.reference}, :class => 'discreet' %>
     <% end %>
     <% if @person and @person == @logged_in %>
-      <%= link_to '[delete]', {:action => 'remove_verse', :id => verse}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+      <%= link_to '[delete]', {:action => 'remove_verse', :id => verse}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
     <% end %>
     <span class="discreet">
       Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => verse} %>

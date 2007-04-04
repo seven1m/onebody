@@ -4,6 +4,9 @@
 
   <p>
     <%= @count %> <%= @count == 1 ? 'person' : 'people' %> found
+    <% if @logged_in.admin? and params[:show_hidden].nil? %>
+      (not showing hidden people)
+    <% end %>
     <% if @pages.length > 1 %>
       <br/>
       Page: <%= pagination_links @pages, :window_size => 5, :params => params %>

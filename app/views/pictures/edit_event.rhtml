@@ -2,7 +2,7 @@
 <% if @event.id %>
   <% content_for :subnav do %>
     <li><%= link_to 'View Event', :action => 'view_event', :id => @event %></li>
-    <li><%= link_to 'Delete Event', {:action => 'delete_event', :id => @event}, :confirm => 'Are you sure? Deleting this event will cause all its pictures to be deleted as well.', :post => true %></li>
+    <li><%= link_to 'Delete Event', {:action => 'delete_event', :id => @event}, :confirm => 'Are you sure? Deleting this event will cause all its pictures to be deleted as well.', :method => 'post' %></li>
   <% end %>
 <% end %>
 

@@ -24,9 +24,6 @@ class PeopleController < ApplicationController
     elsif not @logged_in.member? and @logged_in != @person
       render :action => 'limited_view'
     end
-    unless @person.visible?
-      flash[:warning] = '<img src="/images/lock.gif" class="no-border"/> This profile is hidden!'
-    end
   end
   
   def shares
@@ -100,7 +97,7 @@ class PeopleController < ApplicationController
       if params[:testimony]
         conditions.add_condition ["people.testimony is not null and people.testimony != ''"]
       end
-      unless @logged_in.admin?
+      unless @logged_in.admin? and params[:show_hidden]
         mg = MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.map { |m| "'#{m}'" }.join(',')
         conditions.add_condition ["(people.mail_group in (#{mg}) or people.flags like ?)", "%#{FLAG_VISIBLE_BY_NON_ADMINS}%"]
         conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
@@ -129,12 +126,12 @@ class PeopleController < ApplicationController
           :limit => @pages.items_per_page,
           :offset => @pages.current.offset
         ).select do |person| # ensure we don't show someone based on a search on an attribute that's private
-          !(person.nil? \
-            or !@logged_in.sees?(person) \
-            or ((params[:birthday_month].to_s.any? or params[:birthday_day].to_s.any?) and not person.share_birthday_with(@logged_in)) \
-            or ((params[:anniversary_month].to_s.any? or params[:anniversary_day].to_s.any?) and not person.share_anniversary_with(@logged_in)) \
-            or ((params[:city].to_s.any? or params[:state].to_s.any? or params[:zip].to_s.any?) and not person.share_address_with(@logged_in))
-          )
+          !person.nil? \
+            and @logged_in.sees?(person) \
+            and ((params[:birthday_month].to_s.empty? and params[:birthday_day].to_s.empty?) or person.share_birthday_with(@logged_in)) \
+            and ((params[:anniversary_month].to_s.empty? and params[:anniversary_day].to_s.empty?) or person.share_anniversary_with(@logged_in)) \
+            and ((params[:city].to_s.empty? and params[:state].to_s.empty? and params[:zip].to_s.empty?) or person.share_address_with(@logged_in)) \
+            and (person.consent_or_13? or (@logged_in.admin? and params[:show_hidden]))
         end
       end
     end

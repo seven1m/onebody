@@ -13,7 +13,7 @@
         <% end %>
         <%= message.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
         <% if @logged_in == message.person or @logged_in == @person %>
-          <%= link_to '[delete]', {:controller => 'messages', :action => 'delete', :id => message}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+          <%= link_to '[delete]', {:controller => 'messages', :action => 'delete', :id => message}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
         <% end %>
         <br/>
         <%= preserve_breaks message.body %>

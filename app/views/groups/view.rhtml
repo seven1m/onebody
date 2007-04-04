@@ -10,9 +10,9 @@
     <p style="color:red;">This group is pending approval.</p>
   <% else %>
     <% if not @group.people.include? @logged_in %>
-      <p><%= link_to 'Join This Group', {:action => 'join', :id => @group}, :post => true %></p>
+      <p><%= link_to 'Join This Group', {:action => 'join', :id => @group}, :method => 'post' %></p>
     <% elsif not @group.last_admin?(@logged_in) %>
-      <p><%= link_to 'Leave This Group', {:action => 'leave', :id => @group}, :post => true, :confirm => ((@group.private? and not @logged_in.admin?) ? 'Are you sure? You will not be able to re-join this group later since it is private.' : ((@group.admin? @logged_in and not @logged_in.admin?) ? "You're about to remove yourself from this group! You won't be able to edit it anymore if you do that." : 'Are you sure?')) %></p>
+      <p><%= link_to 'Leave This Group', {:action => 'leave', :id => @group}, :method => 'post', :confirm => ((@group.private? and not @logged_in.admin?) ? 'Are you sure? You will not be able to re-join this group later since it is private.' : ((@group.admin? @logged_in and not @logged_in.admin?) ? "You're about to remove yourself from this group! You won't be able to edit it anymore if you do that." : 'Are you sure?')) %></p>
     <% end %>
   <% end %>
 
@@ -36,7 +36,7 @@
     <li><%= link_to 'List of Groups', :action => 'index' %></li>
     <li><%= link_to 'Edit Group', :action => 'edit', :id => @group %></li>
     <% if not @group.approved and @logged_in.admin? %>
-      <li><%= link_to 'Approve Group', {:action => 'approve', :id => @group}, :confirm => 'Are you sure?', :post => true %></li>
+      <li><%= link_to 'Approve Group', {:action => 'approve', :id => @group}, :confirm => 'Are you sure?', :method => 'post' %></li>
     <% end %>
   <% end %>
 <% end %>

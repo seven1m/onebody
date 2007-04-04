@@ -8,7 +8,7 @@
       <br/>
       <%= link_to "Remove #{name}",
         {:id => object, :photo => 'remove', :return_to => request.request_uri}.update(url),
-        :post => true,
+        :method => 'post',
         :confirm => 'Are you sure?' %>
     <% end %>
   </form>

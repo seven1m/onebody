@@ -10,9 +10,9 @@
             email:
             <% if group.get_options_for(@person).get_email %>
               <strong title="email from this group is ON">on</strong> |
-              <%= link_to 'off', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :post => true, :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
+              <%= link_to 'off', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :method => 'post', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
             <% else %>
-              <%= link_to 'on', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :post => true, :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
+              <%= link_to 'on', {:controller => 'groups', :action => 'toggle_email', :id => group, :person_id => @person, :from => request.request_uri}, :class => 'discreet', :method => 'post', :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
               <strong title="email from this group is OFF">off</strong>
             <% end %>
           </span>

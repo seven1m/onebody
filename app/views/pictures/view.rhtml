@@ -12,10 +12,10 @@
   <% if @picture.event.admin?(@logged_in) %>
     <p>
       Rotate:
-      <%= link_to 'Left', {:action => 'rotate', :id => @picture, :degrees => -90}, :confirm => 'Are you sure?', :post => true %> |
-      <%= link_to 'Right', {:action => 'rotate', :id => @picture, :degrees => 90}, :confirm => 'Are you sure?', :post => true %><br/>
-      <%= link_to 'Make Cover for Event', {:action => 'select_event_cover', :id => @picture}, :post => true %><br/>
-      <%= link_to 'Delete Picture', {:action => 'delete', :id => @picture}, :confirm => 'Are you sure?', :post => true %>
+      <%= link_to 'Left', {:action => 'rotate', :id => @picture, :degrees => -90}, :confirm => 'Are you sure?', :method => 'post' %> |
+      <%= link_to 'Right', {:action => 'rotate', :id => @picture, :degrees => 90}, :confirm => 'Are you sure?', :method => 'post' %><br/>
+      <%= link_to 'Make Cover for Event', {:action => 'select_event_cover', :id => @picture}, :method => 'post' %><br/>
+      <%= link_to 'Delete Picture', {:action => 'delete', :id => @picture}, :confirm => 'Are you sure?', :method => 'post' %>
     </p>
   <% end %>
 <% end %>

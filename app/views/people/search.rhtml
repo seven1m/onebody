@@ -31,8 +31,8 @@
     <label for="zip">Zip:</label>
     <%= text_field_tag :zip, params[:zip] %><br/>
     <label for="status">Status:</label>
-    <%= check_box_tag :status, 'Member', params[:status], :class => 'checkbox' %>
-    Member
+    <%= check_box_tag :status, 'Member', params[:status], :class => 'checkbox' %> Member<br/>
+    <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> Show Hidden
     <br/>
     <%= submit_tag 'Search' %>
   </form>
@@ -125,3 +125,4 @@
 <%= observe_field :state, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
 <%= observe_field :zip, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
 <%= observe_field :status, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
+<%= observe_field :show_hidden, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>

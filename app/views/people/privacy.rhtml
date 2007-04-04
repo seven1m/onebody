@@ -225,6 +225,13 @@
         <%= submit_tag 'I Agree', :style => 'font-size:12pt;border-style:outset;border-width:2px;' %>
       </p>
       
+    <% else %>
+    
+      <p class="alert">
+        This child is under the age of 13, and his/her parents have not given consent
+        to allow their information to be displayed.
+      </p>
+      
     <% end %>
   <% end %>
   

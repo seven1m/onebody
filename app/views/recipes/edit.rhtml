@@ -19,7 +19,7 @@
         <%= image_tag(url_for(:action => 'photo', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %><br/>
         <%= link_to "Remove Picture",
           {:action => 'edit', :photo => 'remove'},
-          :post => true,
+          :method => 'post',
           :confirm => 'Are you sure?' %>
       <% end %>
     </div>

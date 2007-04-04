@@ -4,7 +4,7 @@
   <p>
     <% @people.each do |person| %>
       <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
-      <%= link_to 'x', {:action => 'remove_person_from_batch', :id => @ministry, :person_id => person.id}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %>
+      <%= link_to 'x', {:action => 'remove_person_from_batch', :id => @ministry, :person_id => person.id}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
       <br/>
     <% end %>
     <% if @people.empty? %>
@@ -22,7 +22,7 @@
       <% end %>
       <%= date[:start].strftime '%I:%M %p' %> -
       <%= date[:end].strftime '%I:%M %p' %>
-      <%= link_to 'x', {:action => 'remove_date_from_batch', :id => @ministry, :start => date[:start], :end => date[:end]}, :class => 'discreet', :confirm => 'Are you sure?', :post => true %><br/>
+      <%= link_to 'x', {:action => 'remove_date_from_batch', :id => @ministry, :start => date[:start], :end => date[:end]}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %><br/>
       <% if date[:people] and date[:people].any? %>
         <%= date[:people].map { |p| link_to(p.name, :controller => 'people', :action => 'view', :id => p) }.join(', ') %>
         <br/>
@@ -30,13 +30,13 @@
       <br/>
     <% end %>
     <% if @dates.any? and @dates.select { |d| d[:people] and d[:people].any? }.length > 0 %>
-      <%= link_to 'remove people from dates', {:action => 'remove_people_from_dates_in_batch', :id => @ministry}, :confirm => 'Are you sure?', :post => true %>
+      <%= link_to 'remove people from dates', {:action => 'remove_people_from_dates_in_batch', :id => @ministry}, :confirm => 'Are you sure?', :method => 'post' %>
     <% end %>
     <% if @dates.empty? %><em>none yet</em><% end %>
   </p>
   
   <% if @people.any? or @dates.any? %>
-    <p><%= link_to 'remove dates and people', {:action => 'clear_batch', :id => @ministry}, :confirm => 'Are you sure?', :post => true %></p>
+    <p><%= link_to 'remove dates and people', {:action => 'clear_batch', :id => @ministry}, :confirm => 'Are you sure?', :method => 'post' %></p>
   <% end %>
 <% end %>
 

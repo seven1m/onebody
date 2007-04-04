@@ -77,7 +77,7 @@
   <li><%= link_to 'List of Groups', :action => 'index' %></li>
   <% if @group.id %>
     <li><%= link_to 'View Group', :action => 'view', :id => @group %></li>
-    <li><%= link_to 'Delete Group', {:action => 'delete', :id => @group}, :confirm => 'Are you sure? This cannot be undone!', :post => true %></li>
+    <li><%= link_to 'Delete Group', {:action => 'delete', :id => @group}, :confirm => 'Are you sure? This cannot be undone!', :method => 'post' %></li>
   <% end %>
 <% end %>
 
@@ -88,7 +88,7 @@
   <input type="file" id="photo" name="photo"/><br/>
   <strong>Only JPEG photos are accepted at this time. Please make sure the picture is appropriate and not offensive to others.</strong><br/>
   <% if @group.has_photo? %>
-    <%= link_to 'Remove Group Photo', {:action => 'edit', :photo => 'remove'}, :post => true, :confirm => 'Are you sure?' %>
+    <%= link_to 'Remove Group Photo', {:action => 'edit', :photo => 'remove'}, :method => 'post', :confirm => 'Are you sure?' %>
     <br/>
   <% end %>
   <em>Click "Save Changes" at the bottom of this form to upload a new picture.</em>

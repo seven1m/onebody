@@ -1,6 +1,6 @@
 <p id="add_verse_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => 'Add a verse.', :class => 'no-border', :style => 'vertical-align:middle') + (@verse ? ' Add Another Verse' : ' Add a Verse'), "Element.show('add_verse')" %></p>
 <div id="add_verse">
-  <%= form_tag({:controller => 'people', :action => 'add_verse'}, :post => true) %>
+  <%= form_tag({:controller => 'people', :action => 'add_verse'}, :method => 'post') %>
     <p>
       Type a reference below and hit enter:<br/>
       <%= text_field_tag :reference, nil, :style => 'border:1px solid #ccc;width:100px;', :onfocus => "this.value=''" %>
