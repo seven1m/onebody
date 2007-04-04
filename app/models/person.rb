@@ -224,4 +224,9 @@ class Person < ActiveRecord::Base
   def active?
     log_items.count(["created_at >= ?", 1.day.ago]) > 0
   end
+  
+  def has_shares?
+    @has_shares = verses.any? or recipes.any? or pictures.any? if @has_shares.nil?
+    @has_shares
+  end
 end

@@ -192,6 +192,10 @@ class PeopleController < ApplicationController
       @person = @logged_in
     end
     @family = @person.family
+    if params[:consent] and child = @family.children_without_consent.first
+      redirect_to :anchor => "p#{child.id}"
+      return
+    end
     unless @family.visible?
       flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family is currently hidden from all pages on this site!"
     end

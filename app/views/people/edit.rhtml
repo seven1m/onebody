@@ -199,10 +199,15 @@
 <div class="section">
   <div class="highlight">
     <p>
-      Your email address is:<br/>
-      <span style="font-size:2em;"><%=h @person.email %></span>
+      <% if @person.email.to_s.any? %>
+        <%= @person == @logged_in ? 'Your' : @person.name_possessive %> email address is:<br/>
+        <span style="font-size:2em;"><%=h @person.email %></span>
+      <% else %>
+        <%= @person == @logged_in ? "You don't" : @person.name + " doesn't" %>
+        have an email address in the system
+      <% end %>
     </p>
-    <p><%= link_to 'Click here', :controller => 'account', :action => 'edit', :id => @person %> to change your email address.</p>
+    <p><%= link_to 'Click here', :controller => 'account', :action => 'edit', :id => @person %> to change this email address.</p>
   </div>
   
   <h2>Alternate Email</h2>

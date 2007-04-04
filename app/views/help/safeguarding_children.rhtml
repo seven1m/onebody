@@ -10,7 +10,7 @@
 
 <p class="highlight">
   I've already read this and the <%= link_to 'Privacy Policy', :action => 'privacy_policy' %>.
-  Just let me <%= link_to 'authorize my children', :controller => 'people', :action => 'privacy' %>.
+  Just let me <%= link_to 'authorize my children', :controller => 'people', :action => 'privacy', :consent => true %>.
 </p>
 
 <h2>Site Access: <span class="gray">Who can sign into this site?</span></h2>
@@ -39,7 +39,7 @@
 <p>
   While there are several different ways to send messages to people
   from this site, every one of them is logged and a system is in place
-  for monitoring and flagging the messaging system for abuse.
+  for monitoring and flagging the messaging system for misuse.
   While privacy of messages between members is important and respected,
   the protection of young people is an ongoing concern. In order to
   achieve both goals, our system flags suspicious private messages for review.
@@ -69,7 +69,7 @@
 <h2>Privacy Policy</h2>
 
 <p>
-  Please read our Privacy Policy located <a href="/privacypolicy.html">here</a>
+  Please read our Privacy Policy located <%= link_to 'here', :action => 'privacy_policy' %>
   in order to better understand how we use personal information collected
   on this web site and at the church.
 </p>

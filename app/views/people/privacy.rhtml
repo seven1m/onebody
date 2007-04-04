@@ -196,7 +196,7 @@
       
       <p><%= submit_tag 'Save Personal Settings' %></p>
       
-    <% else %>
+    <% elsif @logged_in.family == @family and @logged_in.adult? %>
     
       <p class="alert">
         This child is under the age of 13, and you have not given consent to 1) allow
