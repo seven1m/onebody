@@ -7,7 +7,7 @@ class Message < ActiveRecord::Base
   belongs_to :wall, :class_name => 'Person', :foreign_key => 'wall_id'
   belongs_to :to, :class_name => 'Person', :foreign_key => 'to_person_id'
   belongs_to :parent, :class_name => 'Message', :foreign_key => 'parent_id'
-  has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :dependent => :destroy
+  has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :conditions => 'to_person_id is null', :dependent => :destroy
   has_many :attachments
   
   validates_presence_of :person_id
@@ -55,6 +55,7 @@ class Message < ActiveRecord::Base
   
   def after_save
     return if dont_send
+    return if created_at < (Time.now - 1.day) # Yikes! I almost resent every message in the system!
     if group
       send_to_group
     elsif to
@@ -74,9 +75,7 @@ class Message < ActiveRecord::Base
   end
   
   def introduction(to_person)
-    if group and group.subscription
-      ''
-    elsif group
+    if group
       #intro = "The following message was posted to the group \"#{group.name}\" by #{person.name}.\n"
       #if group.can_post?(to_person) and group.address.to_s.any?
       #  intro << "REPLIES GO TO THE ENTIRE GROUP!\n"
@@ -86,7 +85,8 @@ class Message < ActiveRecord::Base
     elsif wall
       "#{person.name} posted a message on your wall:\n#{'- ' * 24}\n"
     else
-      "#{person.name} sent you the following message:\n#{'- ' * 24}\n"
+      #"#{person.name} sent you the following message:\n#{'- ' * 24}\n"
+      ''
     end
   end
   
@@ -102,50 +102,73 @@ class Message < ActiveRecord::Base
     end
   end
   
-  def reply_instructions(person)
+  def reply_instructions(to_person)
     msg = ''
-    if group and group.subscription
-      ''
-    elsif group
-      if group.can_post? person
+    if group
+      if group.can_post? to_person
         if group.address.to_s.any?
-          msg << "Group email: #{group.address + '@' + GROUP_ADDRESS_DOMAINS.first}\n"
-          msg << "Message address: #{reply_url}\n"
+          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + GROUP_ADDRESS_DOMAINS.first}\n"
+          msg << "Group page: #{SITE_URL}groups/view/#{group.id}\n"
         else
           msg << "To reply: #{reply_url}\n"
         end
       end
     elsif wall
-      msg << WALL_DESCRIPTION + "\n\n"
       msg << "Your wall: #{SITE_URL}people/view/#{wall_id}#wall\n\n"
       msg << "#{self.person.name_possessive} wall: #{reply_url}\n"
-    elsif share_email? # not used anymore
-      msg << "To keep your email address private, reply at: #{reply_url}\n"
-    else
-      msg << "Reply here: #{reply_url}\n"
+    #elsif share_email? # not used anymore
+    #  msg << "To keep your email address private, reply at: #{reply_url}\n"
+    #else
+    #  msg << "Reply here: #{reply_url}\n"
     end
     msg
   end
   
-  def email_from
+  def disable_email_instructions(to_person)
+    msg = ''
     if group
-      "\"#{person.name}\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAINS.first) : SYSTEM_NOREPLY_EMAIL}>"
-    else  
-      "\"#{person.name}\" <#{share_email? ? person.email : SYSTEM_NOREPLY_EMAIL}>"
+      msg << "To stop email from this group: "
+      if new_record?
+        msg << '-link to turn off email-'
+      else
+        msg << "#{SITE_URL}groups/toggle_email/#{group.id}?person_id=#{to_person.id}&code=#{group.get_options_for(to_person, true).code}"
+        msg << '&return_to=/publications' if group.name == 'Publications'
+      end
+    else
+      msg << "To stop these emails, go to your privacy page:\n#{SITE_URL}people/privacy"
+    end
+    msg
+  end
+  
+  def email_from(to_person)
+    if wall or not to_person.messages_enabled?
+      "\"#{person.name}\" <#{SYSTEM_NOREPLY_EMAIL}>"
+    elsif group
+      relay_address("#{person.name} [#{group.name}]")
+    else
+      relay_address(person.name)
     end
   end
 
-  def email_reply_to
-    if group
-      membership = group.get_options_for(person, true)
-      # sure, this isn't fort knox... it's just to protect that little code a tiny bit
-      # not that you can do much with that code anyway (except turn on/off somebody's group email)
-      email = "#{person.first_name.downcase.scan(/[a-z]/).join('')}.#{membership.id}.#{Digest::MD5.hexdigest(membership.code.to_s)[0..5]}"
-      "\"#{person.name}\" <#{email + '@' + GROUP_ADDRESS_DOMAINS.first}>"
-    elsif share_email?
-      "\"#{person.name}\" <#{person.email}>"
-    else
+  def email_reply_to(to_person)
+    if wall or not to_person.messages_enabled?
       "\"DO NOT REPLY\" <#{SYSTEM_NOREPLY_EMAIL}>"
+    else
+      relay_address(person.name)
     end
+  end
+  
+  # special time-limited address that relays a private message directly back to the sender
+  def relay_address(name)
+    email = "#{person.first_name.downcase.scan(/[a-z]/).join('')}.#{id}.#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
+    "\"#{name}\" <#{email + '@' + GROUP_ADDRESS_DOMAINS.first}>"
+  end
+  
+  # generates security code
+  def before_create
+    begin
+      code = rand(999999)
+      write_attribute :code, code
+    end until code > 0
   end
 end

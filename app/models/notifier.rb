@@ -15,8 +15,8 @@ class Notifier < ActionMailer::Base
   
   def message(to, msg)
     recipients to.email
-    from msg.email_from
-    h = {'Reply-To' => msg.email_reply_to}
+    from msg.email_from(to)
+    h = {'Reply-To' => msg.email_reply_to(to)}
     if msg.group
       h.update(
         'List-ID' => "#{msg.group.name} group on #{SITE_TITLE} <#{msg.group.address}.#{SITE_SIMPLE_URL}>",
@@ -30,6 +30,9 @@ class Notifier < ActionMailer::Base
       end
       if GROUP_LEADER_EMAIL and GROUP_LEADER_NAME
         h.update 'List-Owner' => "<mailto:#{GROUP_LEADER_EMAIL}> (#{GROUP_LEADER_NAME})"
+      end
+      if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
+        h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + GROUP_ADDRESS_DOMAINS.first}>"
       end
     end
     headers h
@@ -97,8 +100,10 @@ class Notifier < ActionMailer::Base
       person = people.first if people.length == 1
     end
 
+    message_sent_to_group = false
+
     if person
-      email.to.each do |address|
+      (email.cc + email.to).each do |address|
         address, domain = address.downcase.split('@')
         if GROUP_ADDRESS_DOMAINS.include? domain.to_s.strip.downcase
           address = address.to_s.strip
@@ -147,6 +152,7 @@ class Notifier < ActionMailer::Base
                   end
                 end
                 message.send_to_group
+                message_sent_to_group = true
               end
             else
               # notify the sender of the failure and ask to resend as plain text
@@ -173,33 +179,39 @@ class Notifier < ActionMailer::Base
             end
           
           # replying to a person who sent a group message
-          elsif address.to_s.any? and address =~ /^[a-z]*\.\d+\.[0-9abcdef]{6,6}$/
-            name, membership_id, code_hash = address.split('.')
-            membership = membership = Membership.find(membership_id) rescue nil
-            if membership and Digest::MD5.hexdigest(membership.code.to_s)[0..5] == code_hash
-              to_person = membership.person
-              # if the message is multipart, try to grab the plain text part
-              if email.multipart?
-                parts = email.parts.select { |p| p.content_type.downcase == 'text/plain' }
-                body = parts.any? ? parts.first.body : nil
+          elsif address.to_s.any? and address =~ /^[a-z]*\.\d+\.[0-9abcdef]{6,6}$/ and not message_sent_to_group
+            name, message_id, code_hash = address.split('.')
+            message = Message.find(message_id) rescue nil
+            if message and Digest::MD5.hexdigest(message.code.to_s)[0..5] == code_hash
+              if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)
+                # notify the sender that the message they're replying to is too old
+                Notifier.deliver_simple_message(email.from, 'Message Too Old', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the message to which you're replying is too old. This is to prevent unsolicited email to our users. If you wish to send a message to this person, please sign into #{SITE_URL} and send the message via the web site. If you need help, please contact #{TECH_SUPPORT_CONTACT}.")
               else
-                body = email.body
-              end
-              if body
-                body = clean_body(body)
-                message = Message.create(
-                  :to => to_person,
-                  :person => person,
-                  :subject => email.subject,
-                  :body => body
-                )
-                if message.errors.any?
-                  # notify user there were some errors
-                  Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+                to_person = message.person
+                # if the message is multipart, try to grab the plain text part
+                if email.multipart?
+                  parts = email.parts.select { |p| p.content_type.downcase == 'text/plain' }
+                  body = parts.any? ? parts.first.body : nil
+                else
+                  body = email.body
                 end
-              else
-                # notify the sender of the failure and ask to resend as plain text
-                Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may send your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+                if body
+                  body = clean_body(body)
+                  message = Message.create(
+                    :to => to_person,
+                    :person => person,
+                    :subject => email.subject,
+                    :body => body,
+                    :parent => message
+                  )
+                  if message.errors.any?
+                    # notify user there were some errors
+                    Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+                  end
+                else
+                  # notify the sender of the failure and ask to resend as plain text
+                  Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may send your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+                end
               end
             end
           end
@@ -225,6 +237,6 @@ class Notifier < ActionMailer::Base
   
     def clean_body(body)
       # this has the potential for error, but we'll just go with it and see
-      body.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first
+      body.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.strip
     end
 end

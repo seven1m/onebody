@@ -63,6 +63,13 @@
 <% if @group.private? and not @group.people.include? @logged_in %>
   <p><strong>This is a private group. You may not see messages in this group.</strong></p>
 <% else %>
+  <% if @group.can_post? @logged_in %>
+    <p>
+      <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
+      <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
+      <em>Posting a message here sends email to everyone in the group.</em>
+    </p>
+  <% end %>
   <% if @messages.any? %>
     <table>
       <% @messages.each do |message| %>
@@ -70,6 +77,9 @@
           <td>
             <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
             <%= link_to message.subject, :controller => 'messages', :action => 'view', :id => message %>
+          </td>
+          <td>
+            <%=h message.person.name %>
           </td>
           <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
           <td>
@@ -88,12 +98,4 @@
   <% else %>
     <p><em>No messages yet.</em></p>
   <% end %>
-<% end %>
-
-<% if @group.can_post? @logged_in %>
-  <p>
-    <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
-    <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
-    <em>Posting a message here sends email to everyone in the group.</em>
-  </p>
 <% end %>

@@ -368,7 +368,7 @@ class PeopleController < ApplicationController
     person = Person.find params[:id]
     message = Message.create :person => @logged_in, :wall => person, :subject => 'Wall Post', :body => params[:message]
     flash[:notice] = 'Message saved.'
-    redirect_to :action => 'view', :id => person
+    redirect_to :action => 'view', :id => person, :anchor => 'wall'
   end
   
   def wall_to_wall

@@ -185,9 +185,9 @@
         </table>
       
         <p>
-          <%= image_tag 'message.gif', :alt => 'Private Message', :class => 'no-border', :style => 'vertical-align:middle;' %>
+          <%= image_tag 'message.gif', :alt => 'Private Message', :class => 'icon' %>
           Private Messages Enabled:<br/>
-          <%= check_box_tag 'person[messages_enabled]', true, person.attributes['messages_enabled'], :class => 'checkbox' %>
+          <%= check_box_tag 'person[messages_enabled]', true, person.attributes['messages_enabled'], :class => 'checkbox', :onclick => "if(!this.checked) return confirm('Disabling private messages will prevent #{person.name} from receiving email through the web site. Also, #{person.name} will not be able to send messages to groups or to other people directly because there will be no way for people to reply. Are you sure you want to disable private messages?')" %>
           <input name="person[messages_enabled]" type="hidden" value="false" />
           If this is unchecked and <%=h @logged_in == person ? 'your' : person.name_possessive %> email address is hidden, others will have no way to send a private email directly to <%=h @logged_in == person ? 'you' : person.first_name %> through this site.
         </p>

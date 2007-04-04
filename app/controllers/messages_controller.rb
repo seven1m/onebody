@@ -105,7 +105,6 @@ class MessagesController < ApplicationController
           preview.gsub!(/\n/, "<br/>\n").gsub!(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')
           render(:update) do |page|
             page.replace_html 'preview-email', preview
-            page.replace_html 'preview-from', h("From: #{@msg.email_from}")
             page.show 'preview'
           end
         end

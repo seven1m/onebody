@@ -129,6 +129,7 @@ FLAG_VISIBLE_BY_NON_ADMINS = FLAG_CAN_LOG_IN
 SITE_INTRO_FOR_EMAIL = "#{SITE_TITLE} (#{SITE_URL}) is a brand new site that connects members online. The site is currently in \"beta\" -- we're testing it out and finding bugs. You're welcome to sign in too, and help us improve the system!"
 HEADER_MESSAGE = "Visit <a href=\"#{VISITOR_URL}\">#{VISITOR_SIMPLE_URL}</a> for news, ministry info, sermon audio, etc."
 ATTACHMENTS_TO_IGNORE = ['winmail.dat']
+MAX_DAYS_FOR_REPLIES = 100
 MAX_DAILY_VERIFICATION_ATTEMPTS = 3
 MOBILE_GATEWAYS = {
   'AT&T' => '%s@mobile.att.net',

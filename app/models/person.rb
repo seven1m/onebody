@@ -136,7 +136,7 @@ class Person < ActiveRecord::Base
       not what.hidden? or what.people.include? self or what.admin? self
     elsif what.is_a? Message
       if what.group
-        not what.group.priviate? or what.group.people.include?(self)
+        not what.group.private? or what.group.people.include?(self)
       else
         admin? or what.to == self or what.wall == self or what.person == self
       end

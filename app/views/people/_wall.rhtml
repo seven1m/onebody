@@ -3,7 +3,7 @@
     The <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %> is a place
     for people to post messages for you.
   <% else %>
-    <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();", :id => 'wall_message_link', :style => 'display:none;' %>
+    <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();", :id => 'wall_message_link' %>
     on <%= @person.name_possessive %> <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %>.
     <div id="wall_message">
       <%= form_tag({:action => 'wall_post', :id => @person}, :post => true, :style => 'border:none;') %>
@@ -14,7 +14,7 @@
         <%= submit_tag 'Save Message' %>
       </form>
     </div>
-    <script type="text/javascript">Element.hide('wall_message'); Element.show('wall_message_link');</script>
+    <script type="text/javascript">Element.hide('wall_message');</script>
   <% end %>
 </p>
 <% if (messages = @person.wall_messages.find(:all, :include => :person)).any? %>

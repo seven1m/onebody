@@ -9,7 +9,7 @@ Prerequisites: Ruby on Rails, MySQL, RMagick
 4. If your MySQL root user has a password, modify config/database.yml appropriately
 5. cd /where/you/installed/cedarridgefamily
 6. mysql -u root -p crccweb < db/crccweb.sql
-7. rake migrate
+7. rake db:migrate
 
 For development, you may run script/server and browse to http://127.0.0.1:3000
 

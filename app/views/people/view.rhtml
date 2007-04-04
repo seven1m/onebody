@@ -87,6 +87,12 @@
 
 <%= render :partial => 'details' %>
 
+<% if not @person.messages_enabled? or @person.email.to_s.empty? %>
+  <p style="font-style:italic;">
+    Private messaging is not enabled for <%= @person.first_name %>.
+  </p>
+<% end %>
+
 <% if @logged_in == @person %>
   <% if @person.testimony.to_s.empty? %>
     <p class="highlight">
@@ -121,10 +127,14 @@
 
 <% if @person.has_shares? %>
   <h2 class="tab" id="shares">Shares</h2>
-  <div class="section" id="shares_content"></div>
+  <div class="section" id="shares_content">
+    <% if not (@person.about.to_s.any? or @person.testimony.to_s.any?) %>
+      <%= render :partial => 'shares' %>
+    <% end %>
+  </div>
 <% end %>
 
-<% if @person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any? %>
+<% if has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
   <h2 class="tab" id="favorites">Favorites</h2>
   <div class="section">
     <table>
@@ -166,7 +176,11 @@
 
 <% if @person.groups.any? %>
   <h2 class="tab" id="groups">Groups</h2>
-  <div class="section" id="groups_content"></div>
+  <div class="section" id="groups_content">
+    <% if not (@person.about.to_s.any? or @person.testimony.to_s.any? or @person.has_shares? or has_favs) %>
+      <%= render :partial => 'groups' %>
+    <% end %>
+  </div>
 <% end %>
 
 <% if @person.wall_enabled %>
@@ -223,7 +237,11 @@
           new Ajax.Updater(
             'wall_content',
             '<%= url_for(:action => 'wall', :id => @person) %>',
-            {method: 'get', onLoading:function(){$('wall_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
+            {
+              method: 'get',
+              onLoading:function(){$('wall_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
+              onComplete:function(){Element.hide('wall_message')}
+            }
           );
           wall_loaded = true;
         }
