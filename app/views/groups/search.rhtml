@@ -17,12 +17,8 @@
         </td>
         <td>
           <span class="list-heading">
-            <% if @logged_in.sees? group %>
-              <%= link_to group.name, :action => 'view', :id => group %>
-            <% else %>
-              <%=h group.name %>
-            <% end %>
-            <% if group.private? %>(private)<% end %>
+            <%= link_to group.name, :action => 'view', :id => group %>
+            <% if group.private? %><%= image_tag('lock.gif', :alt => 'Private Group', :class => 'icon') %><% end %>
           </span>
           <% if group.admin?(@logged_in) %>
             <%= link_to 'edit', {:action => 'edit', :id => group}, :class => 'discreet' %>

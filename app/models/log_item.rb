@@ -25,7 +25,11 @@ class LogItem < ActiveRecord::Base
     return nil unless object
     case model_name
     when 'Message'
-      truncate(object.body)
+      if object.to
+        '-private message-'
+      else
+        truncate(object.body)
+      end
     when 'Comment', 'Verse'
       truncate(object.text)
     when 'Recipe'

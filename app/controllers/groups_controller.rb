@@ -1,8 +1,8 @@
 class GroupsController < ApplicationController
   def index
     @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != '' and category != 'Subscription'").map { |g| g.category }
-    @subscription_groups = Group.find_all_by_subscription_and_archived(true, false, :order => 'name')
-    @archived_groups = Group.find_all_by_archived(true, :order => 'name')
+    @subscription_groups = Group.find_all_by_subscription_and_hidden(true, false, :order => 'name')
+    @hidden_groups = Group.find_all_by_hidden(true, :order => 'name')
     if @logged_in.admin?
       @unapproved_groups = Group.find_all_by_approved(false)
     else
@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
   end
   
   def search
-    conditions = ['subscription = ? and archived = ? and approved = ?', false, false, true]
+    conditions = ['subscription = ? and hidden = ? and approved = ?', false, false, true]
     conditions.add_condition ['category = ?', params[:category]] if params[:category]
     conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
     @groups = Group.find(:all, :conditions => conditions, :order => 'name')

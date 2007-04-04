@@ -64,6 +64,13 @@
   <% end %>
 <% end %>
 
+<% if @group.private? %>
+  <p class="highlight">
+    <%= image_tag('lock.gif', :alt => 'Private Group', :class => 'icon') %>
+    This group is private. Only people in this group can see its messages.
+  </p>
+<% end %>
+
 <h1>Edit Group</h1>
 
 <% content_for :subnav do %>
@@ -132,8 +139,8 @@
     <%= form.check_box :members_send, :class => 'checkbox' %><br/>
     <label for="group_subscription">This is a Subscription Group:</label>
     <%= form.check_box :subscription, :class => 'checkbox' %><br/>
-    <label for="group_archived">This group is archived (hidden from most people):</label>
-    <%= form.check_box :archived, :class => 'checkbox' %>
+    <label for="group_hidden">This group is hidden:</label>
+    <%= form.check_box :hidden, :class => 'checkbox' %>
   <% end %>
   
   <p><%= submit_tag 'Save Changes' %></p>

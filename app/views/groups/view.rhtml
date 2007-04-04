@@ -22,6 +22,13 @@
   
 <% end %>
 
+<% if @group.private? %>
+  <p class="highlight">
+    <%= image_tag('lock.gif', :alt => 'Private Group', :class => 'icon') %>
+    This group is private. Only people in this group can see its messages.
+  </p>
+<% end %>
+
 <h1><%=h @group.name %></h1>
 
 <% if @logged_in.admin? or @group.admin? @logged_in %>
@@ -53,30 +60,34 @@
 
 <h2>Messages</h2>
 
-<% if @messages.any? %>
-  <table>
-    <% @messages.each do |message| %>
-      <tr>
-        <td>
-          <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
-          <%= link_to message.subject, :controller => 'messages', :action => 'view', :id => message %>
-        </td>
-        <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
-        <td>
-          <% if message.reply_count.to_i > 0 %>
-            <%= message.reply_count %> <%= message.reply_count.to_i == 1 ? 'reply' : 'replies' %>
-          <% end %>
-        </td>
-        <td>
-          <% if message.attachment_count.to_i > 0 %>
-            <%= message.attachment_count %> <%= message.attachment_count.to_i == 1 ? 'attachment' : 'attachments' %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
+<% if @group.private? and not @group.people.include? @logged_in %>
+  <p><strong>This is a private group. You may not see messages in this group.</strong></p>
 <% else %>
-  <p><em>No messages yet.</em></p>
+  <% if @messages.any? %>
+    <table>
+      <% @messages.each do |message| %>
+        <tr>
+          <td>
+            <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
+            <%= link_to message.subject, :controller => 'messages', :action => 'view', :id => message %>
+          </td>
+          <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
+          <td>
+            <% if message.reply_count.to_i > 0 %>
+              <%= message.reply_count %> <%= message.reply_count.to_i == 1 ? 'reply' : 'replies' %>
+            <% end %>
+          </td>
+          <td>
+            <% if message.attachment_count.to_i > 0 %>
+              <%= message.attachment_count %> <%= message.attachment_count.to_i == 1 ? 'attachment' : 'attachments' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <p><em>No messages yet.</em></p>
+  <% end %>
 <% end %>
 
 <% if @group.can_post? @logged_in %>

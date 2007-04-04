@@ -119,6 +119,7 @@ class Notifier < ActionMailer::Base
             end
             # if there is a readable body, send the message
             if body
+              body = clean_body(body)
               message = Message.create(
                 :group => group,
                 :parent => parent,
@@ -170,6 +171,37 @@ class Notifier < ActionMailer::Base
               # notify sender who the email was sent to
               Notifier.deliver_simple_message(email.from, 'Message Sent', "Your message with subject \"#{email.subject}\" was delivered to the following email addresses: #{sent_to.join(', ')}")
             end
+          
+          # replying to a person who sent a group message
+          elsif address.to_s.any? and address =~ /^[a-z]*\.\d+\.[0-9abcdef]{6,6}$/
+            name, membership_id, code_hash = address.split('.')
+            membership = membership = Membership.find(membership_id) rescue nil
+            if membership and Digest::MD5.hexdigest(membership.code.to_s)[0..5] == code_hash
+              to_person = membership.person
+              # if the message is multipart, try to grab the plain text part
+              if email.multipart?
+                parts = email.parts.select { |p| p.content_type.downcase == 'text/plain' }
+                body = parts.any? ? parts.first.body : nil
+              else
+                body = email.body
+              end
+              if body
+                body = clean_body(body)
+                message = Message.create(
+                  :to => to_person,
+                  :person => person,
+                  :subject => email.subject,
+                  :body => body
+                )
+                if message.errors.any?
+                  # notify user there were some errors
+                  Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+                end
+              else
+                # notify the sender of the failure and ask to resend as plain text
+                Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SITE_TITLE} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may send your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{TECH_SUPPORT_CONTACT}.")
+              end
+            end
           end
         end
       end
@@ -188,4 +220,11 @@ class Notifier < ActionMailer::Base
       #end
     end
   end
+  
+  private
+  
+    def clean_body(body)
+      # this has the potential for error, but we'll just go with it and see
+      body.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first
+    end
 end

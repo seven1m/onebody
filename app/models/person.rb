@@ -133,10 +133,10 @@ class Person < ActiveRecord::Base
         what.visible?
       )
     elsif what.is_a? Group
-      not what.private? or what.people.include? self or what.admin? self
+      not what.hidden? or what.people.include? self or what.admin? self
     elsif what.is_a? Message
       if what.group
-        can_see? what.group
+        not what.group.priviate? or what.group.people.include?(self)
       else
         admin? or what.to == self or what.wall == self or what.person == self
       end
@@ -149,7 +149,7 @@ class Person < ActiveRecord::Base
   
   def can_edit?(what)
     if what.is_a? Group
-      what.admin? self
+      what.admin? self or self.admin?
     elsif what.is_a? Ministry
       admin? or what.administrator == self
     elsif what.is_a? Person

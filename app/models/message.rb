@@ -1,4 +1,5 @@
 require 'uri'
+require 'digest/md5'
 
 class Message < ActiveRecord::Base
   belongs_to :group
@@ -76,15 +77,16 @@ class Message < ActiveRecord::Base
     if group and group.subscription
       ''
     elsif group
-      intro = "The following message was posted to the group \"#{group.name}\" by #{person.name}.\n"
-      if group.can_post?(to_person) and group.address.to_s.any?
-        intro << "REPLIES GO TO THE ENTIRE GROUP!\n"
-      end
-      intro
+      #intro = "The following message was posted to the group \"#{group.name}\" by #{person.name}.\n"
+      #if group.can_post?(to_person) and group.address.to_s.any?
+      #  intro << "REPLIES GO TO THE ENTIRE GROUP!\n"
+      #end
+      #intro
+      ''
     elsif wall
-      "#{person.name} posted a message on your wall:\n"
+      "#{person.name} posted a message on your wall:\n#{'- ' * 24}\n"
     else
-      "#{person.name} sent you the following message:\n"
+      "#{person.name} sent you the following message:\n#{'- ' * 24}\n"
     end
   end
   
@@ -107,34 +109,39 @@ class Message < ActiveRecord::Base
     elsif group
       if group.can_post? person
         if group.address.to_s.any?
-          msg << "REPLIES GO TO THE ENTIRE GROUP! You may reply directly or at the following link: #{reply_url}\n"
+          msg << "Group email: #{group.address + '@' + GROUP_ADDRESS_DOMAINS.first}\n"
+          msg << "Message address: #{reply_url}\n"
         else
-          msg << "To reply, please use the following link: #{reply_url}\n"
+          msg << "To reply: #{reply_url}\n"
         end
       end
     elsif wall
       msg << WALL_DESCRIPTION + "\n\n"
-      msg << "You can see your wall here: #{SITE_URL}people/view/#{wall_id}#wall\n\n"
-      msg << "You can post a message to #{self.person.name_possessive} wall here: #{reply_url}\n"
-    elsif share_email?
+      msg << "Your wall: #{SITE_URL}people/view/#{wall_id}#wall\n\n"
+      msg << "#{self.person.name_possessive} wall: #{reply_url}\n"
+    elsif share_email? # not used anymore
       msg << "To keep your email address private, reply at: #{reply_url}\n"
     else
-      msg << "To reply, please use the following link: #{reply_url}\n"
+      msg << "Reply here: #{reply_url}\n"
     end
     msg
   end
   
   def email_from
     if group
-      "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAINS.first) : SYSTEM_NOREPLY_EMAIL}>"
+      "\"#{person.name}\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAINS.first) : SYSTEM_NOREPLY_EMAIL}>"
     else  
-      "\"#{person.name} (via #{SITE_SIMPLE_URL})\" <#{share_email? ? person.email : SYSTEM_NOREPLY_EMAIL}>"
+      "\"#{person.name}\" <#{share_email? ? person.email : SYSTEM_NOREPLY_EMAIL}>"
     end
   end
 
   def email_reply_to
     if group
-      "\"#{group.name}\" <#{group.address.to_s.any? ? (group.address + '@' + GROUP_ADDRESS_DOMAINS.first) : SYSTEM_NOREPLY_EMAIL}>"
+      membership = group.get_options_for(person, true)
+      # sure, this isn't fort knox... it's just to protect that little code a tiny bit
+      # not that you can do much with that code anyway (except turn on/off somebody's group email)
+      email = "#{person.first_name.downcase.scan(/[a-z]/).join('')}.#{membership.id}.#{Digest::MD5.hexdigest(membership.code.to_s)[0..5]}"
+      "\"#{person.name}\" <#{email + '@' + GROUP_ADDRESS_DOMAINS.first}>"
     elsif share_email?
       "\"#{person.name}\" <#{person.email}>"
     else

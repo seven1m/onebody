@@ -1,18 +1,7 @@
 <%= @msg.introduction(@to) -%>
-- - - - - - - - - - - - - - - - - - - - - - - -
-<% if @msg.subject -%>
-Subject: <%= @msg.subject %>
-<% end -%>
-<%= (@msg.group or @msg.wall) ? 'Posted' : 'Sent' %>: <%= @msg.created_at.strftime '%m/%d/%Y %I:%M %p' %>
-
 <%= @msg.body %>
 - - - - - - - - - - - - - - - - - - - - - - - -
 <%= @msg.reply_instructions(@to) -%>
-
 <% if @msg.group -%>
-<% if @to.new_record? -%>
-If you no longer wish to receive email from this group, click here: -link to turn off email-
-<% else -%>
-If you no longer wish to receive email from this group, click here: <%= SITE_URL %>groups/toggle_email/<%= @msg.group.id %>?person_id=<%= @to.id %>&code=<%= @msg.group.get_options_for(@to, true).code %><% if @msg.group.subscription and @msg.group.name == 'Publications' %>&return_to=/publications<% end %>
-<% end -%>
+To stop email from this group: <% if @to.new_record? %>-link to turn off email-<% else %><%= SITE_URL %>groups/toggle_email/<%= @msg.group.id %>?person_id=<%= @to.id %>&code=<%= @msg.group.get_options_for(@to, true).code %><% if @msg.group.subscription and @msg.group.name == 'Publications' %>&return_to=/publications<% end %><% end %>
 <% end -%>
