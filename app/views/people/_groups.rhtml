@@ -3,7 +3,7 @@
   <ul>
     <% @person.groups.select { |g| @logged_in.sees? g }.each do |group| %>
       <% if not group.hidden? or @logged_in.admin? %>
-        <li <% if group.hidden? %>class="grayed"<% end %>>
+        <li <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
           <%= link_to group.name, :controller => 'groups', :action => 'view', :id => group %>
           (<%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>)<br/>
           <span class="discreet">
@@ -20,6 +20,9 @@
       <% end %>
     <% end %>
   </ul>
+  <% if @logged_in.admin? %>
+    <p><%= link_to_function 'Show Hidden Groups', "$$(.hidden-group).each(function(e){Element.toggle(e)})" %>
+  <% end %>
 <% else %>
   <p><%=h @person.first_name %> isn't in any groups right now.</p>
 <% end %>
