@@ -220,6 +220,7 @@ class PeopleController < ApplicationController
     if request.post?
       if not @logged_in.can_edit? @family
         render_message "You may not edit these settings. Sorry."
+        return
       elsif params[:person]
         if person = @family.people.find(params[:id])
           params[:person].each { |k, v| params[:person][k] = (v == 'nil') ? nil : v } 
