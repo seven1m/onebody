@@ -1,7 +1,11 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  def preserve_breaks(text)
-    text.split(/\n/).map { |part| h(part) }.join('<br/>')
+  def preserve_breaks(text, make_safe=true)
+    if make_safe
+      text.split(/\n/).map { |part| h(part) }.join('<br/>')
+    else
+      text.split(/\n/).join('<br/>')
+    end
   end
   
   def remove_excess_breaks(text)

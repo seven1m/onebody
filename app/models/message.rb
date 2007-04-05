@@ -9,6 +9,7 @@ class Message < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Message', :foreign_key => 'parent_id'
   has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :conditions => 'to_person_id is null', :dependent => :destroy
   has_many :attachments
+  has_many :log_items, :foreign_key => 'instance_id', :conditions => "model_name = 'Message'"
   
   validates_presence_of :person_id
   validates_presence_of :subject
@@ -170,5 +171,17 @@ class Message < ActiveRecord::Base
       code = rand(999999)
       write_attribute :code, code
     end until code > 0
+  end
+  
+  def flagged?
+    log_items.count(:id, :conditions => "flagged_on is not null") > 0
+  end
+  
+  def flagged_body
+    flagged = body.gsub(/&/, "&amp;").gsub(/\"/, "&quot;").gsub(/>/, "&gt;").gsub(/</, "&lt;")
+    FLAG_WORDS.each do |word|
+      flagged.gsub! word, '<span class="flagged">\&</span>'
+    end
+    flagged
   end
 end

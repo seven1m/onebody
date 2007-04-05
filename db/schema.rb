@@ -2,18 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 54) do
-
-  create_table "UserProperties", :id => false, :force => true do |t|
-    t.column "member_id",   :integer,                :default => 0,  :null => false
-    t.column "username",    :string,  :limit => 64,  :default => "", :null => false
-    t.column "prop_key",    :string,  :limit => 128, :default => "", :null => false
-    t.column "value",       :text,                   :default => "", :null => false
-    t.column "istemporary", :integer
-  end
-
-  add_index "UserProperties", ["username", "prop_key"], :name => "username_prop_idx", :unique => true
-  add_index "UserProperties", ["username"], :name => "username_idx"
+ActiveRecord::Schema.define(:version => 55) do
 
   create_table "attachments", :force => true do |t|
     t.column "message_id",   :integer
@@ -171,7 +160,7 @@ ActiveRecord::Schema.define(:version => 54) do
     t.column "reviewed_on", :datetime
     t.column "reviewed_by", :integer
     t.column "flagged_on",  :datetime
-    t.column "flagged_by",  :integer
+    t.column "flagged_by",  :string
   end
 
   create_table "memberships", :force => true do |t|

@@ -716,3 +716,8 @@ img.icon {
 .contact:hover .remove-contact {
 	display: inline;
 }
+
+.flagged {
+	background-color: #fc9;
+	font-weight: bold;
+}

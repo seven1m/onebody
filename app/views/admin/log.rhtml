@@ -27,6 +27,7 @@
       <tr>
         <th><input type="checkbox" onclick="var checked=$('check_all').checked;$$('.log_item_checkbox').each(function(e){e.checked=checked});" class="checkbox" id="check_all"/></th>
         <th></th>
+        <th></th>
         <th>Type</th>
         <th>What</th>
         <th>When</th>
@@ -35,13 +36,18 @@
         <th><%= link_to_function 'Changes', "$$('.changes').each(function(e){Element.toggle(e)})"%>
       </tr>
       <% @items.each do |item| %>
-        <tr <% if @last_log_view and item.created_at >= @last_log_view %>class="new"<% end %>>
+        <tr>
           <td style="font-size:smaller;line-height:13px;">
             <% if item.reviewed_on %>
               reviewed by <%= link_to item.reviewed_by.name, :controller => 'people', :action => 'view', :id => item.reviewed_by %>
               on <%= item.reviewed_on.strftime '%m/%d/%Y %I:%M %p' %>
             <% else %>
               <%= check_box_tag 'log_items[]', item.id, nil, :class => 'checkbox log_item_checkbox' %>
+            <% end %>
+          </td>
+          <td>
+            <% if item.flagged_on %>
+              <%= image_tag('flag_red.gif', :alt => 'Flagged', :class => 'icon') %>
             <% end %>
           </td>
           <td>

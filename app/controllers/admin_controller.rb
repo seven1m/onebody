@@ -22,8 +22,6 @@ class AdminController < ApplicationController
     @pages = Paginator.new self, LogItem.count(conditions), 100, params[:page]
     @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset, :conditions => conditions
     @items.delete_if { |i| i.object.nil? }
-    @last_log_view = DateTime.parse(cookies[:last_log_view]) rescue nil
-    cookies[:last_log_view] = {:value => DateTime.now.to_s, :expires => 1.month.from_now} unless params[:page]
   end
   
   def mark_reviewed

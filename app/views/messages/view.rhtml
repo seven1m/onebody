@@ -13,6 +13,13 @@
 
 <h1><%=h @message.subject %></h1>
 
+<% if @message.wall %>
+  <p>
+    <strong>Wall:</strong>
+    <%= link_to @message.wall.name, :controller => 'people', :action => 'view', :id => @message.wall %>
+  </p>
+<% end %>
+
 <div class="message-details">
   <div style="width:32px;float:left;margin:4px;">
     <a href="<%= url_for :controller => 'people', :action => 'view', :id => @message.person %>">
@@ -24,7 +31,11 @@
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
 
-<p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
+<% if @message.flagged? and @logged_in.admin? %>
+  <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.flagged_body)), false) %></p>
+<% else %>
+  <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
+<% end %>
 
 <%= render :partial => 'attachments', :locals => {:message => @message} %>
 

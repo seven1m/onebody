@@ -78,4 +78,41 @@ class LogItem < ActiveRecord::Base
       chars = text.split(//)
       chars.length > length ? chars[0...l].join + truncate_string : text
     end
+    
+  class << self
+    def flag_suspicious_activity(since=nil)
+      conditions = ["model_name in ('Message', 'Comment')"]
+      conditions.add_condition ["created_at > ?", since] if since
+      flagged = []
+      LogItem.find(:all, :conditions => conditions).each do |log_item|
+        if log_item.object
+          # flag bad/suspicious words
+          body = log_item.object.is_a?(Message) ? log_item.object.body : log_item.object.text
+          FLAG_WORDS.each do |word|
+            if body =~ word
+              log_item.flagged_on = Time.now
+              log_item.flagged_by = 'System'
+              log_item.save
+              flagged << log_item
+              break
+            end
+          end
+          if log_item.object.is_a? Message
+            # flag suspicious age differences
+            from = log_item.object.person
+            if to = log_item.object.to || log_item.object.wall
+              if (FLAG_AGES[:adult].include? from.years_of_age and FLAG_AGES[:child].include? to.years_of_age) \
+                or (FLAG_AGES[:child].include? from.years_of_age and FLAG_AGES[:adult].include? to.years_of_age)
+                log_item.flagged_on = Time.now
+                log_item.flagged_by = 'System'
+                log_item.save
+                flagged << log_item
+              end
+            end
+          end
+        end
+      end
+      flagged
+    end
+  end
 end

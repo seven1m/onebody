@@ -172,6 +172,14 @@ class Person < ActiveRecord::Base
     %w(male female man woman).include?(gender.downcase) or (birthday and birthday <= Date.new(today.year-age, today.month, today.day))
   end
   
+  def years_of_age(on=Date.today)
+    return nil unless birthday
+    years = on.year - birthday.year
+    years -= 1 if on.month < birthday.month
+    years -= 1 if on.month == birthday.month and on.day < birthday.day
+    years
+  end
+  
   def at_least_13?; at_least?(13); end
   def adult?; at_least?(18); end
   
