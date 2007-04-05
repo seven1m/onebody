@@ -97,6 +97,9 @@ class PeopleController < ApplicationController
       if params[:testimony]
         conditions.add_condition ["people.testimony is not null and people.testimony != ''"]
       end
+      if params[:family_id]
+        conditions.add_condition ["people.family_id = ?", params[:family_id]]
+      end
       unless @logged_in.admin? and params[:show_hidden]
         mg = MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.map { |m| "'#{m}'" }.join(',')
         conditions.add_condition ["(people.mail_group in (#{mg}) or people.flags like ?)", "%#{FLAG_VISIBLE_BY_NON_ADMINS}%"]

@@ -2,7 +2,7 @@
   <%= render :partial => 'photo' %>
   <%= render :partial => 'families/photo' %>
     
-  <% if (people = @person.family.people.find(:all, :conditions => @logged_in.admin? ? nil : ['visible = ?', true]).select { |p| p.visible? }).length > 1 %>
+  <% if (people = @person.family.people.find(:all).select { |p| @logged_in.admin? or p.visible? }).length > 1 %>
     <h2>Family</h2>
     <table>
       <% people.each do |person| %>
@@ -12,19 +12,20 @@
               <%= render :partial => 'thumbnail', :locals => {:person => person} %>
             </a>
           </td>
-          <td><%= link_to person.name, :action => 'view', :id => person %></td>
+          <td>
+            <%= link_to person.name, :action => 'view', :id => person %>
+            <% unless person.visible? %>
+              <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </table>
   <% end %>
   
-  <% if @person.family.children_without_consent.any? %>
-    <% if @logged_in == @person and @person.adult? %>
-      <p style="font-weight:bold;"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Why can't I see my children here?",
-        :controller => 'help', :action => 'safeguarding_children' %></p>
-    <% else %>
-      <p><%= link_to image_tag('lock.gif', :alt => 'Hidden People', :class => 'icon') + ' Hidden People', :action => 'search', :family_id => @person.family_id %></p>
-    <% end %>
+  <% if @person.family.children_without_consent.any? and @logged_in == @person and @person.adult? %>
+    <p style="font-weight:bold;"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Why can't I see my children here?",
+      :controller => 'help', :action => 'safeguarding_children' %></p>
   <% end %>
   
   <%= render :partial => 'contacts' %>
@@ -121,6 +122,8 @@
   <% end %>
 <% end %>
 
+<br clear="right"/>
+
 <% if @person.about.to_s.any? %>
   <h2 class="tab" id="about">About</h2>
   <div class="section">
@@ -196,7 +199,11 @@
 
 <% if @person.wall_enabled %>
   <h2 class="tab" id="wall">Wall</h2>
-  <div class="section" id="wall_content"></div>
+  <div class="section" id="wall_content">
+    <% if not (@person.about.to_s.any? or @person.testimony.to_s.any? or @person.has_shares? or has_favs or @person.groups.any?) %>
+      <%= render :partial => 'wall' %>
+    <% end %>
+  </div>
 <% end %>
 
 <!--
