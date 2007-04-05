@@ -21,7 +21,7 @@
     <% end %>
   </ul>
   <% if @logged_in.admin? %>
-    <p><%= link_to_function 'Show Hidden Groups', "$$(.hidden-group).each(function(e){Element.toggle(e)})" %>
+    <p><%= link_to_function 'Show Hidden Groups', "$$('.hidden-group').each(function(e){Element.toggle(e)})" %>
   <% end %>
 <% else %>
   <p><%=h @person.first_name %> isn't in any groups right now.</p>
