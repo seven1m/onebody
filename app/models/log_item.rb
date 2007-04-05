@@ -82,7 +82,10 @@ class LogItem < ActiveRecord::Base
   class << self
     def flag_suspicious_activity(since=nil)
       conditions = ["model_name in ('Message', 'Comment')"]
-      conditions.add_condition ["created_at > ?", since] if since
+      if since
+        since = Date.today - since if since.is_a? Fixnum
+        conditions.add_condition ["created_at > ?", since]
+      end
       flagged = []
       LogItem.find(:all, :conditions => conditions).each do |log_item|
         if log_item.object
