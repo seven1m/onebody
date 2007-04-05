@@ -68,7 +68,7 @@
               <% if item.person.admin? %>(admin)<% end %>
             <% end %>
           </td>
-          <td><%= link_to_function '[changes]', (item.object.is_a? Message and item.object.to ? "if(confirm('This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.'))Element.toggle('changes#{item.id}')" : "Element.toggle('changes#{item.id}')") %></td>
+          <td><%= link_to_function '[changes]', ((item.object.is_a? Message and item.object.to) ? "if(confirm('This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.'))Element.toggle('changes#{item.id}')" : "Element.toggle('changes#{item.id}')") %></td>
         </tr>
         <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;" class="changes">
           <td colspan="7">

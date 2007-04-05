@@ -20,13 +20,13 @@ class Message < ActiveRecord::Base
   
   def name
     if self.to
-      "Private Message to #{to.name}"
+      "Private Message to #{to.name rescue '[deleted]'}"
     elsif wall
-      "Post on #{wall.name_possessive} Wall"
+      "Post on #{wall.name_possessive rescue '[deleted]'} Wall"
     elsif parent
-      "Reply to \"#{parent.subject}\" in Group #{top.group.name}"
+      "Reply to \"#{parent.subject}\" in Group #{top.group.name rescue '[deleted]'}"
     else
-      "Message \"#{subject}\" in Group #{group.name}"
+      "Message \"#{subject}\" in Group #{group.name rescue '[deleted]'}"
     end
   end
   
