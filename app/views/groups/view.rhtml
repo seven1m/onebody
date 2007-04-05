@@ -29,6 +29,12 @@
   </p>
 <% end %>
 
+<% if @group.hidden? %>
+  <p class="highlight">
+    This group is hidden.
+  </p>
+<% end %>
+
 <h1><%=h @group.name %></h1>
 
 <% if @logged_in.admin? or @group.admin? @logged_in %>

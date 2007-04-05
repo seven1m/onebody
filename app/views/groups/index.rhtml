@@ -7,8 +7,11 @@
     <td style="padding-right:50px;">
       <p><strong>Browse by category:</strong></p>
       <ul>
-        <% @categories.each do |category| %>
-          <li><%= link_to category, :action => 'search', :category => category %>
+        <% @categories.each do |category, group_count| %>
+          <li>
+            <%= link_to category, :action => 'search', :category => category %>
+            (<%=h group_count %>)
+          </li>
         <% end %>
       </ul>
     </td>
