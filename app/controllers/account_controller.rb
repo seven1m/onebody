@@ -7,7 +7,7 @@ class AccountController < ApplicationController
           return
         end
         session[:logged_in_id] = person.id
-        cookies[:email] = params[:remember] ? {:value => person.email, :expires => Time.now+32000000} : nil
+        #cookies[:email] = params[:remember] ? {:value => person.email, :expires => Time.now+32000000} : nil
         flash[:notice] = "Welcome, #{person.first_name}."
         redirect_to params[:from] || {:controller => 'people', :action => 'index'}
       elsif person == nil

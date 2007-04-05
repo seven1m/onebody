@@ -5,19 +5,24 @@ class AdminController < ApplicationController
   
   def log
     conditions = []
-    if params[:date]
-      if params[:date][:from] and date_from = format_date(params[:date][:from])
+    session[:admin_log] ||= {}
+    session[:admin_log][:date] = params[:date] if params[:date]
+    if session[:admin_log][:date]
+      if session[:admin_log][:date][:from] and date_from = format_date(session[:admin_log][:date][:from])
         conditions.add_condition ['created_at >= ?', date_from]
       else
-        params[:date][:from] = ''
+        session[:admin_log][:date][:from] = ''
       end
-      if params[:date] and params[:date][:to] and date_to = format_date(params[:date][:to], '11:59 pm')
+      if session[:admin_log][:date] and session[:admin_log][:date][:to] and date_to = format_date(session[:admin_log][:date][:to], '11:59 pm')
         conditions.add_condition ['created_at <= ?', date_to]
       else
-        params[:date][:to] = ''
+        session[:admin_log][:date][:to] = ''
       end
     end
-    conditions.add_condition ['reviewed_on is null'] unless params[:reviewed] == 'visible'
+    session[:admin_log][:reviewed] = params[:reviewed] if params[:reviewed]
+    session[:admin_log][:nonflagged] = params[:nonflagged] if params[:nonflagged]
+    conditions.add_condition ['reviewed_on is null'] unless session[:admin_log][:reviewed] == 'visible'
+    conditions.add_condition ['flagged_on is not null'] unless session[:admin_log][:nonflagged] == 'visible'
     conditions = nil if conditions.empty?
     @pages = Paginator.new self, LogItem.count(conditions), 100, params[:page]
     @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset, :conditions => conditions

@@ -24,11 +24,10 @@
     <%= link_to 'I need help.', :controller => 'help' %>
   </div>
   <table>
-    <tr><td><label for="email">Email Address:</label></td>
-    <td>
-      <%= text_field_tag :email, @email %><br/>
-      <%= check_box_tag :remember, true, false, :class => 'checkbox' %> Remember my email
-    </td></tr>
+    <tr>
+      <td><label for="email">Email Address:</label></td>
+      <td><%= text_field_tag :email, @email %></td>
+    </tr>
     <tr><td><label for="password">Password:</label></td>
     <td><%= password_field_tag :password %></td></tr>
     <tr><td></td>

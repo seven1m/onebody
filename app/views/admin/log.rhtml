@@ -5,6 +5,8 @@
 <form id="log_options" style="display:none;">
   <strong>Reviewed Items:</strong>
   <select name="reviewed"><%= options_for_select ['hidden', 'visible'], params[:reviewed] %></select><br/>
+  <strong>Non-Flagged Items:</strong>
+  <select name="nonflagged"><%= options_for_select ['hidden', 'visible'], params[:nonflagged] %></select><br/>
   <strong>Date Range</strong>
   (date format:
   <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y' %></span> or
