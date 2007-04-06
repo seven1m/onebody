@@ -727,8 +727,15 @@ img.icon {
 	border: 1px solid #ccc;
 }
 
-.calendar .day a.event {
+.calendar .day a.event-pic {
 	text-decoration: none;
+	clear: left;
+	float: left;
+	margin-right: 3px;
+}
+
+.calendar .day {
+	line-height: 11pt;
 }
 
 .calendar .monthName {

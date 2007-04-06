@@ -2,7 +2,17 @@
 
 <h1>Events</h1>
 
+<p>
+  showing most recent (or future) events on top
+  |
+  <%= link_to 'Calendar View', :action => 'index' %>
+</p>
+
 <p><%= link_to image_tag('add_small.gif', :alt => 'Create an Event', :class => 'icon') + ' Add an Event', :action => 'edit' %></p>
+
+<% if @pages.length > 1 %>
+  <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
+<% end %>
 
 <table class="iconed">
   <% @events.each do |event| %>
@@ -36,3 +46,7 @@
     </tr>
   <% end %>
 </table>
+
+<% if @pages.length > 1 %>
+  <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
+<% end %>

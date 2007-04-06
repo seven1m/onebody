@@ -18,7 +18,11 @@ class EventsController < ApplicationController
   end
   
   def list
-    @events = Event.find :all, :order => '"when"'
+    @pages = Paginator.new self, Event.count, 25, params[:page]
+    @events = Event.find :all,
+      :order => '"when" desc',
+      :limit => @pages.items_per_page,
+      :offset => @pages.current.offset
   end
 
   def view
