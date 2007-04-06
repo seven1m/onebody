@@ -343,7 +343,11 @@ class PeopleController < ApplicationController
     else
       @logged_in.verses << verse unless @logged_in.verses.include? verse
       flash[:notice] = 'Verse saved.'
-      redirect_to :controller => 'verses', :action => 'view', :id => verse.reference
+      if params[:event_id]
+        redirect_to :controller => 'events', :action => 'view', :id => params[:event_id], :anchor => 'verses'
+      else
+        redirect_to :controller => 'verses', :action => 'view', :id => verse.reference
+      end
     end
   end
   

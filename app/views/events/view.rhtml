@@ -37,8 +37,8 @@
   <% else %>
     <p><em>This event doesn't have any pictures yet.</em></p>
   <% end %>
-  <p id="add_picture_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add a Picture', "Element.show('add_picture')" %></p>
-  <p id="add_picture">
+  <p id="add_picture_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add a Picture', "Element.show('add_picture');Element.hide('add_picture_link');" %></p>
+  <div id="add_picture">
     <%= form_tag({:controller => 'pictures', :action => 'add_picture', :id => @event}, :multipart => true) %>
       <label for="picture">Add a Picture:</label>
       <%= file_field_tag 'picture1' %><br/>
@@ -62,7 +62,7 @@
       <% end %>
       <%= submit_tag 'Upload!' %>
     </form>
-  </p>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -74,8 +74,7 @@
 <div class="section">
   <% if @event.verses.count > 0 %>
     <% @event.verses.each do |verse| %>
-      <%= link_to verse.reference, :controller => 'verses', :action => 'view', :id => verse %><br/>
-      <%= verse.text %>
+      <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
     <% end %>
     <p style="font-size:90%;color:#999;">
       Scripture quotations marked "WEB" are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.

@@ -46,7 +46,7 @@ class PicturesController < ApplicationController
     end
     flash[:notice] = "#{success} picture(s) saved"
     flash[:notice] += " (#{fail} not saved due to errors)" if fail > 0
-    redirect_to :controller => 'events', :action => 'view_event', :id => @event
+    redirect_to :controller => 'events', :action => 'view', :id => @event
   end
   
   def delete
@@ -55,7 +55,7 @@ class PicturesController < ApplicationController
       @picture.destroy
       flash[:notice] = 'Picture deleted.'
     end
-    redirect_to :controller => 'events', :action => 'view_event', :id => @picture.event
+    redirect_to :controller => 'events', :action => 'view', :id => @picture.event
   end
   
   def rotate
