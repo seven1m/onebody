@@ -3,7 +3,6 @@
 <% end %>
 
 <strong><%= link_to recipe.title, :controller => 'recipes', :action => "view", :id => recipe %></strong>
-<% if recipe.created_at >= Date.today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
 <% unless @person %>
   by
   <% if recipe.person %>
