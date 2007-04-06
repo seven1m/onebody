@@ -522,8 +522,8 @@ blockquote p {
 }
 
 .list-heading {
-  font-weight: bold;
-  font-size: larger;
+	font-weight: bold;
+	font-size: larger;
 }
 
 .picture {
@@ -713,4 +713,24 @@ img.icon {
 .flagged {
 	background-color: #fc9;
 	font-weight: bold;
+}
+
+.calendar {
+	width: 100%;
+}
+
+.calendar .day {
+	background-color: #eee;
+	padding: 2px;
+	width: 14%;
+	height: 60px;
+	border: 1px solid #ccc;
+}
+
+.calendar .day a {
+	text-decoration: none;
+}
+
+.calendar .monthName {
+	font-size: 20pt;
 }

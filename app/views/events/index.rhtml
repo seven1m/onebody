@@ -1,56 +1,23 @@
 <%= render :partial => 'shares/subnav' %>
 
-<h1>Events</h1>
+<% content_for :sidebar do %>
+  <h1>Events</h1>
+  <p><%= link_to image_tag('add_small.gif', :alt => 'Create an Event', :class => 'icon') + ' Add an Event', :action => 'edit' %></p>
+<% end %>
 
-<p>
-  Pictures are grouped by event. At this time, we ask that you only upload pictures
-  related to a <%= CHURCH_NAME %> event. Thank you.
-</p>
-
-<table class="iconed">
-  <tr>
-    <td class="pic">
-      <%= link_to image_tag('add.gif', :alt => 'Create an Event'), :action => 'edit' %>
-    </td>
-    <td>
-      <span class="list-heading"><%= link_to 'Create an Event', :action => 'edit' %></span><br/>
-      Share your event pictures by creating a new event and then uploading files from your hard drive.
-    </td>
-  </tr>
-  <% @events.each do |event| %>
-    <tr>
-      <td class="pic">
-        <% if event.cover_picture %>
-          <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.small.jpg"), :alt => event.name), :controller => 'events', :action => 'view', :id => event %>
-        <% else %>
-          <%= link_to image_tag('event.gif', :alt => event.name),:controller => 'events',  :action => 'view', :id => event %>
-        <% end %>
-      </td>
-      <td>
-        <span class="list-heading">
-          <a href="<%= url_for :action => 'view', :id => event %>"><%= event.when ? event.when.strftime('%m/%d/%Y:') : nil %> <%= event.name %></a>
-        </span>
-        <br/>
-        <b><%= count = event.pictures.count %></b> <%= link_to (count == 1 ? 'picture' : 'pictures'),
-                                                               :action => 'view',
-                                                               :id => event,
-                                                               :anchor => "picture" %> &nbsp;
-        <b><%= count = event.recipes.count %></b> <%= link_to (count == 1 ? 'recipe' : 'recipes'),
-                                                               :action => 'view',
-                                                               :id => event,
-                                                               :anchor => "recipes" %> &nbsp;
-        <b><%= count = event.verses.count %></b> <%= link_to (count == 1 ? 'verse' : 'verses'),
-                                                              :action => 'view',
-                                                              :id => event,
-                                                              :anchor => "verses" %>
-        <% if event.admin? @logged_in %>
-          <%= link_to 'edit', {:action => 'edit', :id => event}, :class => 'discreet' %>
-        <% end %>
-        <br/>
-        <% if event.description.to_s.any? %>
-          <%=h event.description %><br/>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-</table>
+<%=
+  calendar :year => @year, :month => @month do |day|
+    cell_text = "<strong>#{day.mday}</strong><br/>" 
+    cell_attrs = {:class => 'day'}
+    if @events[day].to_a.any?
+      event = @events[day].first
+      cell_text << link_to(image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'icon') + " #{event.name}", :controller => 'events', :action => 'view', :id => event)
+      cell_text << "<br/>" 
+      if @events[day].length > 1
+        cell_text << "and " + link_to("#{@events[day].length-1} more", :controller => 'events', :action => 'day', :year => @year, :month => @month, :day => day.mday)
+      end
+      cell_attrs[:class] = 'day'
+    end
+    [cell_text, cell_attrs]
+  end
+%>

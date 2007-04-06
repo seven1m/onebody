@@ -1,0 +1,38 @@
+<%= render :partial => 'shares/subnav' %>
+
+<h1>Events</h1>
+
+<p><%= link_to image_tag('add_small.gif', :alt => 'Create an Event', :class => 'icon') + ' Add an Event', :action => 'edit' %></p>
+
+<table class="iconed">
+  <% @events.each do |event| %>
+    <tr>
+      <td class="pic">
+        <% if event.cover_picture %>
+          <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.small.jpg"), :alt => event.name), :controller => 'events', :action => 'view', :id => event %>
+        <% else %>
+          <%= link_to image_tag('event.gif', :alt => event.name),:controller => 'events',  :action => 'view', :id => event %>
+        <% end %>
+      </td>
+      <td>
+        <span class="list-heading">
+          <a href="<%= url_for :action => 'view', :id => event %>"><%= event.name %></a>
+          <%= event.when ? event.when.strftime('<span class="discreet">%m/%d/%Y</span>') : nil %>
+        </span>
+        <% if event.admin? @logged_in %>
+          <%= link_to 'edit', {:action => 'edit', :id => event}, :class => 'discreet' %>
+        <% end %>
+        <br/>
+        <%= link_to (count = event.pictures.count).to_s + (count == 1 ? ' picture' : ' pictures'), :action => 'view', :id => event, :anchor => "pictures" %>
+        |
+        <%= link_to (count = event.recipes.count).to_s + (count == 1 ? ' recipe' : ' recipes'), :action => 'view', :id => event, :anchor => "recipes" %>
+        |
+        <%= link_to (count = event.verses.count).to_s + (count == 1 ? ' verse' : ' verses'), :action => 'view', :id => event, :anchor => "verses" %>
+        <% if event.description.to_s.any? %>
+          <br/>
+          <%=h event.description %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

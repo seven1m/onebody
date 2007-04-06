@@ -1,7 +1,14 @@
 class EventsController < ApplicationController
 
   def index
-    @events = Event.find :all, :order => '"when"'
+    today = Date.today
+    @year = params[:year] || today.year
+    @month = params[:month] || today.month
+    @events = Event.find(
+      :all,
+      :conditions => ['year(`when`) = ? and month(`when`) = ?', @year, @month],
+      :order => '"when"'
+    ).group_by &:when
   end
 
   def view
