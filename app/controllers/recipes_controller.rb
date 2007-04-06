@@ -41,12 +41,19 @@ class RecipesController < ApplicationController
     else
       @recipe = Recipe.new :person => @logged_in
     end
+    if params[:event]
+      @event = Event.find(params[:event])
+      @recipe.event = @event
+    else
+      @event = @recipe.event
+    end
     unless @recipe.admin?(@logged_in)
       raise 'You are not authorized to edit this recipe.'
     end
     if request.post?
       if @recipe.update_attributes params[:recipe]
         flash[:notice] = 'Recipe saved.'
+        p params
         if params[:photo_url] and params[:photo_url].length > 7
           @recipe.photo = params[:photo_url]
         elsif params[:photo] and params[:photo].size > 0
@@ -63,13 +70,20 @@ class RecipesController < ApplicationController
     end
   end
 
+  def remove
+    @recipe = Recipe.find params[:id]
+    @recipe.event = nil
+    @recipe.save
+    redirect_to params[:return_to] or {:action => 'index'}
+  end
+
   def delete
     @recipe = Recipe.find params[:id]
     @recipe.destroy if @recipe.admin? @logged_in
     flash[:notice] = 'Recipe deleted.'
     redirect_to params[:return_to] or {:action => 'index'}
   end
- 
+  
   def add_tags
     @recipe = Recipe.find params[:id]
     @recipe.tag_string = params[:tag_string]

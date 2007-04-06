@@ -37,6 +37,16 @@
     <td style="white-space:nowrap;">Serving Size:</td>
     <td><%=h @recipe.serving_size %></td>
   </tr>
+  <% if @recipe.event_id.to_s.any? %>
+    <tr>
+      <td style="white-space:nowrap;">Event:</td>
+      <td><%= link_to @recipe.event.name,
+                      :controller => 'events',
+                      :action => 'view_event',
+                      :id => @recipe.event,
+                      :anchor => 'recipes' %></td>
+    </tr>
+  <% end %>
   <% if @recipe.prep.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;">Prep/Cook Time:</td>

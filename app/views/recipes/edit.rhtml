@@ -10,7 +10,6 @@
 </script>
 
 <h1>Edit Recipe</h1>
-
 <%= start_form_tag( {:action=> "edit", :id => @recipe.id}, :multipart => true )%>
   <div id="picture-upload">
     <div style="text-align:center;">
@@ -31,14 +30,17 @@
   <%= text_field_tag "tag_string", @recipe.tags.map { |t| t.name }.join(' ') %><br/>
   <label for="recipe_serving_size">Serving Size:</label>
   <%= select "recipe", "serving_size", 1..100 %><br/>
+  <label for="recipe_event_id">Select your Event</label>
+    <select name="recipe[event_id]" id="recipe[event_id]">
+    <option value="">NONE</option>
+    <%= options_from_collection_for_select(Event.find(:all), :id, :name, @recipe.event_id) %>
+  </select>
   <label for="recipe_description">Description:</label>
   <%= text_area "recipe", "description", :rows => 3 %><br/>
   <label for="recipe_prep">Prep/Cook Time:</label>
   <%= text_field "recipe", "prep" %><br/>
   <label for="recipe_bake">Bake Time:</label>
   <%= text_field "recipe", "bake" %><br/>
-  <label>Picture:</label>
-
   <label for="recipe_ingredients">Ingredients:</label>
   <%= text_area "recipe", "ingredients", :rows => 10 %><br/>
   <label for="recipe_directions">Directions:</label>

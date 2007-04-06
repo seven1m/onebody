@@ -333,6 +333,10 @@ class PeopleController < ApplicationController
   
   def add_verse
     verse = Verse.find_or_create_by_reference(Verse.normalize_reference(params[:reference]))
+    if params[:event_id]
+      verse.events << Event.find(params[:event_id])
+      verse.save
+    end
     if verse.errors.any?
       flash[:notice] = 'There was an error adding the verse. Make sure you entered the right reference.'
       redirect_to :action => 'view', :id => @logged_in

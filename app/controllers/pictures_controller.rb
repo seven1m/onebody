@@ -1,36 +1,12 @@
 class PicturesController < ApplicationController
+  
   def index
-    @events = Event.find :all, :order => '"when"'
-  end
-  
-  def view_event
-    @event = Event.find params[:id]
-  end
-  
-  def edit_event
-    if params[:id]
-      @event = Event.find params[:id]
-    else
-      @event = Event.new :person => @logged_in
-    end
-    unless @event.admin?(@logged_in)
-      raise 'You are not authorized to edit this event.'
-    end
-    if request.post?
-      params[:event].cleanse 'when'
-      if @event.update_attributes params[:event]
-        redirect_to :action => 'view_event', :id => @event
-      else
-        flash[:notice] = @event.errors.full_messages.join('; ')
-      end
-    end
-  end
-  
-  def delete_event
-    @event = Event.find params[:id]
-    @event.destroy if @event.admin? @logged_in
-    redirect_to :action => 'index'
-  end
+    @pages = Paginator.new self, Picture.count, 25, params[:page]
+    @pictures = Picture.find :all,
+      :order => 'created_at desc',
+      :limit => @pages.items_per_page,
+      :offset => @pages.current.offset
+  end  
   
   def view
     @picture = Picture.find params[:id]
@@ -54,25 +30,23 @@ class PicturesController < ApplicationController
   
   def add_picture
     @event = Event.find params[:id]
-    if @event.admin? @logged_in
-      success = fail = 0
-      (1..10).each do |index|
-        if (pic = params["picture#{index}"]).read.length > 0
-          pic.seek(0)
-          picture = @event.pictures.create :person => (params[:remove_owner] ? nil : @logged_in)
-          picture.photo = pic
-          if picture.has_photo?
-            success += 1
-          else
-            fail += 1
-            picture.destroy
-          end
+    success = fail = 0
+    (1..10).each do |index|
+      if ((pic = params["picture#{index}"]).read rescue '').length > 0
+        pic.seek(0)
+        picture = @event.pictures.create :person => (params[:remove_owner] ? nil : @logged_in)
+        picture.photo = pic
+        if picture.has_photo?
+          success += 1
+        else
+          fail += 1
+          picture.destroy
         end
       end
-      flash[:notice] = "#{success} picture(s) saved"
-      flash[:notice] += " (#{fail} not saved due to errors)" if fail > 0
     end
-    redirect_to :action => 'view_event', :id => @event
+    flash[:notice] = "#{success} picture(s) saved"
+    flash[:notice] += " (#{fail} not saved due to errors)" if fail > 0
+    redirect_to :controller => 'events', :action => 'view_event', :id => @event
   end
   
   def delete
@@ -81,7 +55,7 @@ class PicturesController < ApplicationController
       @picture.destroy
       flash[:notice] = 'Picture deleted.'
     end
-    redirect_to :action => 'view_event', :id => @picture.event
+    redirect_to :controller => 'events', :action => 'view_event', :id => @picture.event
   end
   
   def rotate

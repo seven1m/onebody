@@ -1,7 +1,7 @@
 <%= render :partial => 'shares/subnav' %>
 
 <% content_for :sidebar do %>
-  <p><%= link_to '&laquo; Back to Event', :action => 'view_event', :id => @picture.event %></p>
+  <p><%= link_to '&laquo; Back to Event', :controller => 'events', :action => 'view_event', :id => @picture.event %></p>
   <% if @picture.person %>
     <p>
       Picture uploaded by:<br/>

@@ -1,0 +1,56 @@
+<%= render :partial => 'shares/subnav' %>
+
+<h1>Events</h1>
+
+<p>
+  Pictures are grouped by event. At this time, we ask that you only upload pictures
+  related to a <%= CHURCH_NAME %> event. Thank you.
+</p>
+
+<table class="iconed">
+  <tr>
+    <td class="pic">
+      <%= link_to image_tag('add.gif', :alt => 'Create an Event'), :action => 'edit_event' %>
+    </td>
+    <td>
+      <span class="list-heading"><%= link_to 'Create an Event', :action => 'edit_event' %></span><br/>
+      Share your event pictures by creating a new event and then uploading files from your hard drive.
+    </td>
+  </tr>
+  <% @events.each do |event| %>
+    <tr>
+      <td class="pic">
+        <% if event.cover_picture %>
+          <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.small.jpg"), :alt => event.name), :controller => 'events', :action => 'view_event', :id => event %>
+        <% else %>
+          <%= link_to image_tag('event.gif', :alt => event.name),:controller => 'events',  :action => 'view_event', :id => event %>
+        <% end %>
+      </td>
+      <td>
+        <span class="list-heading">
+          <a href="<%= url_for :action => 'view_event', :id => event %>"><%= event.when ? event.when.strftime('%m/%d/%Y:') : nil %> <%= event.name %></a>
+        </span>
+        <br/>
+        <b><%= count = event.pictures.count %></b> <%= link_to (count == 1 ? 'picture' : 'pictures'),
+                                                               :action => 'view_event',
+                                                               :id => event,
+                                                               :anchor => "picture" %> &nbsp;
+        <b><%= count = event.recipes.count %></b> <%= link_to (count == 1 ? 'recipe' : 'recipes'),
+                                                               :action => 'view_event',
+                                                               :id => event,
+                                                               :anchor => "recipes" %> &nbsp;
+        <b><%= count = event.verses.count %></b> <%= link_to (count == 1 ? 'verse' : 'verses'),
+                                                              :action => 'view_event',
+                                                              :id => event,
+                                                              :anchor => "verses" %>
+        <% if event.admin? @logged_in %>
+          <%= link_to 'edit', {:action => 'edit_event', :id => event}, :class => 'discreet' %>
+        <% end %>
+        <br/>
+        <% if event.description.to_s.any? %>
+          <%=h event.description %><br/>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
