@@ -11,7 +11,7 @@
         <% if event.cover_picture %>
           <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.small.jpg"), :alt => event.name), :controller => 'events', :action => 'view', :id => event %>
         <% else %>
-          <%= link_to image_tag('event.gif', :alt => event.name),:controller => 'events',  :action => 'view', :id => event %>
+          <%= link_to image_tag('event.gif', :alt => event.name), :controller => 'events',  :action => 'view', :id => event %>
         <% end %>
       </td>
       <td>

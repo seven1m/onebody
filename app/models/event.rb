@@ -8,6 +8,7 @@ class Event < ActiveRecord::Base
   acts_as_logger LogItem
   
   validates_presence_of :name
+  validates_presence_of :when
   
   def cover_picture
     if pictures.count > 0

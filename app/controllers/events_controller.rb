@@ -2,13 +2,23 @@ class EventsController < ApplicationController
 
   def index
     today = Date.today
-    @year = params[:year] || today.year
-    @month = params[:month] || today.month
+    @year = (params[:year] || today.year).to_i
+    @month = (params[:month] || today.month).to_i
     @events = Event.find(
       :all,
       :conditions => ['year(`when`) = ? and month(`when`) = ?', @year, @month],
       :order => '"when"'
-    ).group_by &:when
+    ).group_by { |e| e.when && e.when.strftime('%Y-%m-%d') }
+    @years_to_show = Event.minimum("year(`when`)")..Event.maximum("year(`when`)")
+  end
+  
+  def calendar
+    index
+    render :partial => 'calendar'
+  end
+  
+  def list
+    @events = Event.find :all, :order => '"when"'
   end
 
   def view

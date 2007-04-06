@@ -723,11 +723,11 @@ img.icon {
 	background-color: #eee;
 	padding: 2px;
 	width: 14%;
-	height: 60px;
+	height: 105px;
 	border: 1px solid #ccc;
 }
 
-.calendar .day a {
+.calendar .day a.event {
 	text-decoration: none;
 }
 

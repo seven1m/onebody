@@ -2,22 +2,28 @@
 
 <% content_for :sidebar do %>
   <h1>Events</h1>
-  <p><%= link_to image_tag('add_small.gif', :alt => 'Create an Event', :class => 'icon') + ' Add an Event', :action => 'edit' %></p>
+  <form style="border:none;padding:0;margin:0;">
+    <p style="margin-top:25px;">
+      Show Month: <%= image_tag 'spinner_small.gif', :alt => 'Loading...', :id => 'loading', :class => 'icon', :style => 'display:none;' %><br/>
+      <%= select_tag :month, options_for_select(MONTHS, @month), :onchange => "update_calendar()" %>
+      <%= select_tag :year, options_for_select(@years_to_show, @year), :style => 'width:55px;', :onchange => "update_calendar()" %>
+      <%= submit_tag 'Update', :id => 'calendar_update' %>
+    </p>
+  </form>
+  <p style="margin-top:25px;"><%= link_to image_tag('add_small.gif', :alt => 'Create an Event', :class => 'icon') + ' Add an Event', :action => 'edit' %></p>
 <% end %>
 
-<%=
-  calendar :year => @year, :month => @month do |day|
-    cell_text = "<strong>#{day.mday}</strong><br/>" 
-    cell_attrs = {:class => 'day'}
-    if @events[day].to_a.any?
-      event = @events[day].first
-      cell_text << link_to(image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'icon') + " #{event.name}", :controller => 'events', :action => 'view', :id => event)
-      cell_text << "<br/>" 
-      if @events[day].length > 1
-        cell_text << "and " + link_to("#{@events[day].length-1} more", :controller => 'events', :action => 'day', :year => @year, :month => @month, :day => day.mday)
-      end
-      cell_attrs[:class] = 'day'
-    end
-    [cell_text, cell_attrs]
-  end
-%>
+<div id="calendar">
+  <%= render :partial => 'calendar' %>
+</div>
+
+<script type="text/javascript">
+  Element.hide('calendar_update')
+  function update_calendar() {
+    new Ajax.Updater('calendar', '/events/calendar', {
+      parameters: "year=" + $F('year') + "&month=" + $F('month'),
+      onLoading: function(){Element.show('loading')},
+      onComplete: function(){Element.hide('loading')}
+    });
+  }
+</script>
