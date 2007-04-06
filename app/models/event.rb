@@ -1,8 +1,8 @@
 class Event < ActiveRecord::Base
   has_many :pictures, :order => 'created_at', :dependent => :destroy
-  has_many :recipes, :order => 'title'
+  has_many :recipes, :order => 'title', :dependent => :nullify
   has_and_belongs_to_many :verses, :order => 'reference'
-  belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
+  belongs_to :person
   serialize :admins
   
   acts_as_logger LogItem

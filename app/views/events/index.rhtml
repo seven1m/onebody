@@ -10,10 +10,10 @@
 <table class="iconed">
   <tr>
     <td class="pic">
-      <%= link_to image_tag('add.gif', :alt => 'Create an Event'), :action => 'edit_event' %>
+      <%= link_to image_tag('add.gif', :alt => 'Create an Event'), :action => 'edit' %>
     </td>
     <td>
-      <span class="list-heading"><%= link_to 'Create an Event', :action => 'edit_event' %></span><br/>
+      <span class="list-heading"><%= link_to 'Create an Event', :action => 'edit' %></span><br/>
       Share your event pictures by creating a new event and then uploading files from your hard drive.
     </td>
   </tr>
@@ -21,30 +21,30 @@
     <tr>
       <td class="pic">
         <% if event.cover_picture %>
-          <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.small.jpg"), :alt => event.name), :controller => 'events', :action => 'view_event', :id => event %>
+          <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.small.jpg"), :alt => event.name), :controller => 'events', :action => 'view', :id => event %>
         <% else %>
-          <%= link_to image_tag('event.gif', :alt => event.name),:controller => 'events',  :action => 'view_event', :id => event %>
+          <%= link_to image_tag('event.gif', :alt => event.name),:controller => 'events',  :action => 'view', :id => event %>
         <% end %>
       </td>
       <td>
         <span class="list-heading">
-          <a href="<%= url_for :action => 'view_event', :id => event %>"><%= event.when ? event.when.strftime('%m/%d/%Y:') : nil %> <%= event.name %></a>
+          <a href="<%= url_for :action => 'view', :id => event %>"><%= event.when ? event.when.strftime('%m/%d/%Y:') : nil %> <%= event.name %></a>
         </span>
         <br/>
         <b><%= count = event.pictures.count %></b> <%= link_to (count == 1 ? 'picture' : 'pictures'),
-                                                               :action => 'view_event',
+                                                               :action => 'view',
                                                                :id => event,
                                                                :anchor => "picture" %> &nbsp;
         <b><%= count = event.recipes.count %></b> <%= link_to (count == 1 ? 'recipe' : 'recipes'),
-                                                               :action => 'view_event',
+                                                               :action => 'view',
                                                                :id => event,
                                                                :anchor => "recipes" %> &nbsp;
         <b><%= count = event.verses.count %></b> <%= link_to (count == 1 ? 'verse' : 'verses'),
-                                                              :action => 'view_event',
+                                                              :action => 'view',
                                                               :id => event,
                                                               :anchor => "verses" %>
         <% if event.admin? @logged_in %>
-          <%= link_to 'edit', {:action => 'edit_event', :id => event}, :class => 'discreet' %>
+          <%= link_to 'edit', {:action => 'edit', :id => event}, :class => 'discreet' %>
         <% end %>
         <br/>
         <% if event.description.to_s.any? %>

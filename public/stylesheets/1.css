@@ -569,13 +569,6 @@ tr.centered td {
 	margin: 5px 0 15px 20px;
 }
 
-#pictures {
-	float: right;
-	width: 75px;
-	margin: 0 10px 10px 20px;
-	text-align: center;
-}
-
 #map {
 	border: 1px solid #999;
 }

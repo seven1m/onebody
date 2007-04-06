@@ -1,10 +1,10 @@
 <% if event.cover_picture %>
-  <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'icon'), :controller => 'events', :action => 'view_event', :id => event %>
+  <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'icon'), :controller => 'events', :action => 'view', :id => event %>
 <% else %>
-  <%= link_to image_tag('event.gif', :alt => event.name), :controller => 'events', :action => 'view_event', :id => event %>
+  <%= link_to image_tag('event.gif', :alt => event.name), :controller => 'events', :action => 'view', :id => event %>
 <% end %>
 
-<strong><%= link_to event.name, :controller => 'events', :action => "view_event", :id => event %></strong>
+<strong><%= link_to event.name, :controller => 'events', :action => "view", :id => event %></strong>
 <% if event.created_at >= Date.today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
 <% unless @person %>
   by
@@ -15,7 +15,7 @@
   <% end %>
 <% end %>
 <% if @person or event.admin? @logged_in %>
-  <%= link_to "[edit]", {:controller => 'events', :action => "edit_event", :id => event}, :class => 'discreet' %>
+  <%= link_to "[edit]", {:controller => 'events', :action => "edit", :id => event}, :class => 'discreet' %>
 <% end %>
 <br/>
 <%= truncate h(event.description), 50, '...' %>

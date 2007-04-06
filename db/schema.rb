@@ -2,18 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 56) do
-
-  create_table "UserProperties", :id => false, :force => true do |t|
-    t.column "member_id",   :integer,                :default => 0,  :null => false
-    t.column "username",    :string,  :limit => 64,  :default => "", :null => false
-    t.column "prop_key",    :string,  :limit => 128, :default => "", :null => false
-    t.column "value",       :text,                   :default => "", :null => false
-    t.column "istemporary", :integer
-  end
-
-  add_index "UserProperties", ["username", "prop_key"], :name => "username_prop_idx", :unique => true
-  add_index "UserProperties", ["username"], :name => "username_idx"
+ActiveRecord::Schema.define(:version => 58) do
 
   create_table "attachments", :force => true do |t|
     t.column "message_id",   :integer
@@ -47,6 +36,11 @@ ActiveRecord::Schema.define(:version => 56) do
     t.column "open",        :boolean,  :default => false
     t.column "admins",      :text
     t.column "updated_at",  :datetime
+  end
+
+  create_table "events_verses", :id => false, :force => true do |t|
+    t.column "event_id", :integer
+    t.column "verse_id", :integer
   end
 
   create_table "families", :force => true do |t|
@@ -312,6 +306,7 @@ ActiveRecord::Schema.define(:version => 56) do
     t.column "prep",         :string
     t.column "bake",         :string
     t.column "serving_size", :integer
+    t.column "event_id",     :integer
   end
 
   create_table "recipes_tags", :id => false, :force => true do |t|
