@@ -14,7 +14,7 @@ class Person < ActiveRecord::Base
   has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
   has_many :songs
   has_many :prayer_signups
-  has_and_belongs_to_many :verses
+  has_and_belongs_to_many :verses, :order => 'book, chapter, verse'
   has_many :log_items
   has_many :friendships
   has_many :friends, :class_name => 'Person', :finder_sql => 'select * from people p2 where #{id} in (select person_id from friendships where friend_id = p2.id and confirmed = 1) or #{id} in (select friend_id from friendships where person_id = p2.id and confirmed = 1) order by last_name, first_name'

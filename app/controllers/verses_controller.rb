@@ -1,6 +1,6 @@
 class VersesController < ApplicationController
   def index
-    Verse.destroy_all "(select count(*) from people_verses where verse_id = verses.id) = 0" # clean up
+    Verse.destroy_all "(select count(*) from people_verses where verse_id = verses.id) = 0 and (select count(*) from events_verses where verse_id = verses.id) = 0" # clean up
     @pages = Paginator.new self, Verse.count, 25, params[:page]
     @verses = Verse.find :all,
       :order => 'book, chapter, verse',
