@@ -1,4 +1,4 @@
-<h1>Edit Event</h1>
+<h1><%= @event.new_record? ? 'Create' : 'Edit' %> Event</h1>
 <% if @event.id %>
   <% content_for :subnav do %>
     <li><%= link_to 'View Event', :action => 'view', :id => @event %></li>

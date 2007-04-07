@@ -4,17 +4,17 @@
 
 <form id="log_options" style="display:none;">
   <strong>Reviewed Items:</strong>
-  <select name="reviewed"><%= options_for_select ['hidden', 'visible'], params[:reviewed] %></select><br/>
+  <select name="reviewed"><%= options_for_select ['hidden', 'visible'], session[:admin_log] ? session[:admin_log][:reviewed] : nil %></select><br/>
   <strong>Non-Flagged Items:</strong>
-  <select name="nonflagged"><%= options_for_select ['hidden', 'visible'], params[:nonflagged] %></select><br/>
+  <select name="nonflagged"><%= options_for_select ['hidden', 'visible'], session[:admin_log] ? session[:admin_log][:nonflagged] : nil %></select><br/>
   <strong>Date Range</strong>
   (date format:
   <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y' %></span> or
   <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y %I:%M %p' %></span>)
   <label for="date_from">From:</label>
-  <input name="date[from]" id="date_from" size="15" value="<%= params[:date] ? params[:date][:from] : nil %>"/>
+  <input name="date[from]" id="date_from" size="15" value="<%= session[:admin_log] && session[:admin_log][:date] ? session[:admin_log][:date][:from] : nil %>"/>
   <label for="date_to">To:</label>
-  <input name="date[to]" id="date_to" size="15" value="<%= params[:date] ? params[:date][:to] : nil %>"/>
+  <input name="date[to]" id="date_to" size="15" value="<%= session[:admin_log] && session[:admin_log][:date] ? session[:admin_log][:date][:to] : nil %>"/>
   <br/>
   <%= submit_tag 'Update Display' %>
 </form>

@@ -2,15 +2,22 @@
   calendar(:year => @year, :month => @month) do |day|
     cell_text = "<strong>#{day.mday}</strong><br/>" 
     cell_attrs = {:class => 'day'}
-    day_str = day.strftime('%Y-%m-%d')
+    day_str = day.strftime('%m/%d/%Y')
     if @events[day_str].to_a.any?
       @events[day_str].each do |event|
         cell_text << link_to((event.cover_picture ? image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'no-border') : image_tag('event.tn.gif', :alt => event.name, :class => 'icon')), {:controller => 'events', :action => 'view', :id => event}, :class => 'event-pic')
         cell_text << link_to(event.name, {:controller => 'events', :action => 'view', :id => event}, :class => 'event-title')
         cell_text << "<br/>"
-        cell_text << "#{count = event.pictures.count + event.verses.count + event.recipes.count} #{count == 1 ? 'share' : 'shares'}"
+        cell_text << "#{count = event.pictures.count + event.verses.count + event.recipes.count} #{count == 1 ? 'share' : 'shares'}<br/>"
       end
       cell_attrs[:class] = 'day'
+      if @events[day_str].length > 1
+        cell_attrs[:onclick] = "location.href='#{url_for :action => 'list', :year => day.year, :month => day.month}'"
+      else
+        cell_attrs[:onclick] = "location.href='#{url_for :action => 'view', :id => @events[day_str].first}'"
+      end
+    else
+      cell_attrs[:onclick] = "location.href='#{url_for :action => 'edit', :when => day_str}'"
     end
     [cell_text, cell_attrs]
   end

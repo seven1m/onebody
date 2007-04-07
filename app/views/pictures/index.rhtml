@@ -5,10 +5,10 @@
 <p id="add_picture_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' How do I add a picture here?', "Element.show('add_picture');Element.hide('add_picture_link');" %></p>
 <div id="add_picture">
   <p>
-    Because we'd rather not have random pictures of your dog Mr. Barky Von Schnauzer,
+    Because we'd rather not have random pictures of you and your dog Fluffy,
     at this time you may only upload pictures to an event on the <%= link_to 'Events', :controller => 'events' %>
-    page. Go there and find the appropriate event or create a new one. But please, don't
-    upload stuff that isn't related to some ministry event, small group, youth meetings,
+    page. Go there, and find the appropriate event or create a new one. But please, don't
+    upload stuff that isn't related to some ministry event, small group, youth meeting,
     or similar. Thanks!
   </p>
 </div>
@@ -16,7 +16,6 @@
   Element.hide('add_picture');
   Element.show('add_picture_link');
 </script>
-
 
 <% if @pages.length > 1 %>
   <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>

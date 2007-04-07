@@ -8,8 +8,10 @@ class EventsController < ApplicationController
       :all,
       :conditions => ['year(`when`) = ? and month(`when`) = ?', @year, @month],
       :order => '"when"'
-    ).group_by { |e| e.when && e.when.strftime('%Y-%m-%d') }
-    @years_to_show = Event.minimum("year(`when`)")..Event.maximum("year(`when`)")
+    ).group_by { |e| e.when && e.when.strftime('%m/%d/%Y') }
+    first = [Event.minimum("year(`when`)").to_i, today.year].max - 1
+    last = [Event.maximum("year(`when`)").to_i, today.year].max + 1
+    @years_to_show = first..last
   end
   
   def calendar
@@ -18,8 +20,13 @@ class EventsController < ApplicationController
   end
   
   def list
-    @pages = Paginator.new self, Event.count, 25, params[:page]
+    conditions = []
+    conditions.add_condition ['year(`when`) = ?', params[:year]] if params[:year]
+    conditions.add_condition ['month(`when`) = ?', params[:month]] if params[:month]
+    conditions = nil if conditions.empty?
+    @pages = Paginator.new self, Event.count('*', :conditions => conditions), 25, params[:page]
     @events = Event.find :all,
+      :conditions => conditions,
       :order => '"when" desc',
       :limit => @pages.items_per_page,
       :offset => @pages.current.offset
@@ -33,7 +40,7 @@ class EventsController < ApplicationController
     if params[:id]
       @event = Event.find params[:id]
     else
-      @event = Event.new :person => @logged_in
+      @event = Event.new :person => @logged_in, :when => params[:when]
     end
     unless @event.admin?(@logged_in)
       raise 'You are not authorized to edit this event.'

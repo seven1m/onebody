@@ -738,6 +738,10 @@ img.icon {
 	line-height: 11pt;
 }
 
+.calendar .day:hover {
+	background-color: #9cf;
+}
+
 .calendar .monthName {
 	font-size: 20pt;
 }

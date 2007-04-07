@@ -18,7 +18,7 @@
 <% end %>
 
 <% content_for :subnav do %>
-  <li><%= link_to 'List of Events', :action => 'index' %></li>
+  <li><%= link_to 'Calendar', :action => 'index' %></li>
   <% if @event.admin?(@logged_in) %>
     <li><%= link_to 'Edit Event', :action => 'edit', :id => @event %></li>
   <% end %>
