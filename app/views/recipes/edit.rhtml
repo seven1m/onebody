@@ -36,7 +36,7 @@
   <label for="recipe_event_id">Add this recipe to an Event?</label>
     <select name="recipe[event_id]" id="recipe[event_id]">
     <option value="">None selected</option>
-    <%= options_from_collection_for_select(Event.find(:all), :id, :name, @recipe.event_id) %>
+    <%= options_for_select(Event.find(:all, :order => '"when" desc').map { |e| ["#{e.name} (#{e.when.strftime('%m/%d/%Y') rescue '???'})", e.id]}, @recipe.event_id) %>
   </select>
   </td>
   <td>
