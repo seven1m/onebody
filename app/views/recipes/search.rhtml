@@ -13,9 +13,7 @@
         :controller => "recipes",
         :action => "view", :id => recipe.id %> &nbsp; &nbsp; &mdash; &nbsp; &nbsp;
       <small><%= @mark_term ? highlight(recipe.description, @mark_term) : h(recipe.description) %></small><br/>
-    
       <div class="smaller"><%= @mark_term ? highlight(recipe.ingredients, @mark_term) : h(recipe.ingredients) %></div>
-      
     </li>
   <% end %>
   </ul>

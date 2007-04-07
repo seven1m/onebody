@@ -30,11 +30,21 @@
   <%= text_field_tag "tag_string", @recipe.tags.map { |t| t.name }.join(' ') %><br/>
   <label for="recipe_serving_size">Serving Size:</label>
   <%= select "recipe", "serving_size", 1..100 %><br/>
-  <label for="recipe_event_id">Select your Event</label>
+  <table>
+  <tr>
+  <td>
+  <label for="recipe_event_id">Add this recipe to an Event?</label>
     <select name="recipe[event_id]" id="recipe[event_id]">
-    <option value="">NONE</option>
+    <option value="">None selected</option>
     <%= options_from_collection_for_select(Event.find(:all), :id, :name, @recipe.event_id) %>
   </select>
+  </td>
+  <td>
+  </td>
+  <td width=350 class="tip"><b>Did you know?</b><br/>You can now add recipes to an event.  Just pick the event from the drop down
+  box on the left, and voila!
+  </td>
+  </table>
   <label for="recipe_description">Description:</label>
   <%= text_area "recipe", "description", :rows => 3 %><br/>
   <label for="recipe_prep">Prep/Cook Time:</label>

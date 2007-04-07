@@ -16,6 +16,12 @@ table {
 	font-size: 1em;
 } 
 
+td.tip {
+	background-color: #ddf3ff;
+	padding: 5px;
+	border: 2px solid #92d9ff;
+}
+
 #wrapper {
 	background:#fff;
 	border:3px solid #f1f1f1;
