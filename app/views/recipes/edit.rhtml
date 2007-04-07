@@ -39,11 +39,11 @@
     <%= options_for_select(Event.find(:all, :order => '"when" desc').map { |e| ["#{e.name} (#{e.when.strftime('%m/%d/%Y') rescue '???'})", e.id]}, @recipe.event_id) %>
   </select>
   </td>
-  <td>
+  <tr>
+  <td class="tip"><b>Did you know?</b><br/>You can now add recipes to an event.  Just pick the event from the drop down
+  box above, and voila!
   </td>
-  <td width=350 class="tip"><b>Did you know?</b><br/>You can now add recipes to an event.  Just pick the event from the drop down
-  box on the left, and voila!
-  </td>
+  </tr>
   </table>
   <label for="recipe_description">Description:</label>
   <%= text_area "recipe", "description", :rows => 3 %><br/>
