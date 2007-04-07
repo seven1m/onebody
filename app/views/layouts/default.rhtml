@@ -43,16 +43,15 @@
 				<ul id="nav">
 				
 				    <% if @logged_in %>
-				      <li style="float:right;font-size:smaller;color:#fff;width:180px;text-align:right;">
-				        <%= link_to @logged_in.name, '/' %>
-				        (<%= link_to 'sign out', {:controller => 'account', :action => 'sign_out'}, :style => 'padding-left:5px;padding-right:5px;' %>)
+				      <li style="float:right;font-size:smaller;color:#fff;width:100px;text-align:right;">
+				        <%= link_to 'sign out', {:controller => 'account', :action => 'sign_out'}, :style => 'padding-left:5px;padding-right:5px;' %>
 				      </li>
 				    <% end %>
 				    
 				    <li><%= link_to 'Profile', {:controller => 'people', :action => 'index'}, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
 				    <li><%= link_to 'Directory', {:controller => 'people', :action => 'search'}, :class => (params[:controller] == 'people' and params[:action] == 'search' ? 'active' : nil) %></li>
 				    <li><%= link_to 'Groups', {:controller => 'groups', :action => 'index'}, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li>
-            <li><%= link_to 'Shares', {:controller => 'shares', :action => 'index'}, :class => (['shares', 'events', 'pictures', 'verses', 'recipes'].include?(params[:controller]) ? 'active' : nil) %></li>
+            <li><%= link_to 'Shares' + image_tag('new_on_blue.gif', :alt => 'New!', :class => 'icon', :style => 'margin-left:2px;'), {:controller => 'shares', :action => 'index'}, :class => (['shares', 'events', 'pictures', 'verses', 'recipes'].include?(params[:controller]) ? 'active' : nil) %></li>
             <!--
             <li><%= link_to 'Events', {:controller => 'events', :action => 'index'}, :class => (params[:controller] == 'events' ? 'active' : nil) %> </li>
 				    <li><%= link_to 'Pictures', {:controller => 'pictures', :action => 'index'}, :class => (params[:controller] == 'pictures' ? 'active' : nil) %></li>
