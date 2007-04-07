@@ -579,10 +579,6 @@ tr.centered td {
 	padding: 0;
 }
 
-.verse-body {
-	margin-bottom:10px;
-}
-
 tr.odd td {
 	background-color: #eee;
 }
@@ -744,4 +740,8 @@ img.icon {
 
 .calendar .monthName {
 	font-size: 20pt;
+}
+
+.comment-summary {
+	font-style: italic;
 }

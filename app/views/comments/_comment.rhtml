@@ -1,0 +1,22 @@
+<div style="float:left;margin-right:5px;">
+  <a href="<%= url_for :controller => 'people', :action => 'view', :id => comment.person %>">
+    <%= render :partial => 'people/thumbnail', :locals => {:person => comment.person} %>
+  </a>
+</div>
+<%= link_to comment.person.name, :controller => 'people', :action => 'view', :id => comment.person %>
+<% if params[:controller] == 'shares' %>
+  commented on
+  <% if (on = comment.on).is_a? Verse %>
+    <%= link_to on.reference, :controller => 'verses', :action => 'view', :id => on.reference %>
+  <% elsif on.is_a? Recipe %>
+    <%= link_to on.title, :controller => 'recipes', :action => 'view', :id => on %>
+  <% elsif on.is_a? Event %>
+    <%= link_to on.name, :controller => 'events', :action => 'view', :id => on %>
+  <% end %>
+<% end %>
+<%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
+<% if comment.admin? @logged_in %>
+  <%= link_to '[delete]', {:controller => 'comments', :action => 'delete', :id => comment}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
+<% end %>
+<br/>
+<%= preserve_breaks comment.text %>

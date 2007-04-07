@@ -24,7 +24,7 @@
 <% last_day = nil %>
 <% @shares.each do |share| %>
   <% if last_day.nil? or share.created_at.strftime('%Y-%m-%d') != last_day.strftime('%Y-%m-%d') %>
-    <p style="background-color:#eee;font-weight:bold;"><%=h (share.created_at > DateTime.now - 3) ? share.created_at.strftime('%A') : share.created_at.strftime('%B %d') %></p>
+    <p style="background-color:#eee;font-weight:bold;font-size:larger;"><%=h (share.created_at > DateTime.now - 3) ? share.created_at.strftime('%A') : share.created_at.strftime('%B %d') %></p>
     <% last_day = share.created_at %>
   <% end %>
   <% if share.is_a? Picture %>
@@ -36,5 +36,7 @@
     <p style="clear:left;"><%= render :partial => 'recipes/recipe', :locals => {:recipe => share} %></p>
   <% elsif share.is_a? Event %>
     <p style="clear:left;"><%= render :partial => 'events/event', :locals => {:event => share} %></p>
+  <% elsif share.is_a? Comment %>
+    <p style="clear:left;"><%= render :partial => 'comments/comment', :locals => {:comment => share} %></p>
   <% end %>
 <% end %>

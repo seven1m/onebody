@@ -17,4 +17,7 @@
   <div class="verse-body">
     <%=h verse.text %>
   </div>
+  <div class="comment-summary">
+    <%= render :partial => 'comments/comment_summary', :locals => {:object => verse} %>
+  </div>
 </p>

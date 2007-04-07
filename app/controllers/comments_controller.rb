@@ -1,18 +1,25 @@
 class CommentsController < ApplicationController
   def edit
-    @verse = Verse.find params[:verse_id]
-    @verse.comments.create :person => @logged_in, :text => params[:text]
+    if params[:verse_id]
+      object = Verse.find params[:verse_id]
+    elsif params[:recipe_id]
+      object = Recipe.find params[:recipe_id]
+    elsif params[:event_id]
+      object = Event.find params[:event_id]
+    else
+      raise 'Error.'
+    end
+    object.comments.create :person => @logged_in, :text => params[:text]
     flash[:notice] = 'Comment saved.'
-    redirect_to :controller => 'verses', :action => 'view', :id => @verse
+    redirect_to params[:return_to] + '#comments'
   end
   
   def delete
     comment = Comment.find params[:id]
-    verse = comment.verse
     if comment.admin? @logged_in
       comment.destroy
       flash[:notice] = 'Comment deleted.'
     end
-    redirect_to :controller => 'verses', :action => 'view', :id => verse
+    redirect_to params[:return_to]
    end
 end

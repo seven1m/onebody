@@ -13,8 +13,6 @@
     Event created by:<br/>
     <%= render :partial => 'people/link', :locals => {:person => @event.person} %>
   </p>
-
-
 <% end %>
 
 <% content_for :subnav do %>
@@ -100,6 +98,12 @@
     <p><em>This event doesn't have any recipes yet.</em></p>
   <% end %>
   <p><%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' Add a Recipe', :controller => 'recipes', :action => 'edit', :event => @event %></p>
+</div>
+
+<h2 class="tab" id="comments">Comments</h2>
+<div class="section">
+  <h2>Comments</h2>
+  <%= render :partial => 'comments/comments', :locals => {:comments => @event.comments, :params => {:event_id => @event}, :intro => 'about this event.'} %>
 </div>
 
 <%= javascript_include_tag 'tabs' %>

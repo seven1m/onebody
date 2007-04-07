@@ -1,0 +1,9 @@
+<% if (count = object.comments.count) > 0 %>
+  <%= count %> <%= count == 1 ? 'comment' : 'comments' %>
+  <% if count > 3 %>
+    by <%= object.comments.map { |c| c.person.name }.uniq[0..2].join(', ') %>
+    and others
+  <% elsif count > 0 %>
+    by <%= object.comments.map { |c| c.person.name }.uniq.to_sentence %>
+  <% end %>
+<% end %>

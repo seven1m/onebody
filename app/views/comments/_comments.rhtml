@@ -1,0 +1,38 @@
+<% if comments.any? %>
+  <table>
+    <% comments.each do |comment| %>
+      <tr>
+        <td>
+          <a href="<%= url_for :controller => 'people', :action => 'view', :id => comment.person %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => comment.person} %>
+          </a>
+        </td>
+        <td>
+          <%= link_to comment.person.name, :controller => 'people', :action => 'view', :id => comment.person %>
+          <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
+          <% if comment.admin? @logged_in %>
+            <%= link_to '[delete]', {:controller => 'comments', :action => 'delete', :id => comment, :return_to => request.request_uri}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
+          <% end %>
+          <br/>
+          <%= preserve_breaks comment.text %>
+          <br/>&nbsp;
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p><em>none yet</em></p>
+<% end %>
+
+<p>
+  <%= link_to_function 'Add a comment', "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
+  <%= intro %>
+  <div id="new_comment">
+    <%= form_tag(params.update({:controller => 'comments', :action => 'edit'}), :method => 'post', :style => 'border:none;') %>
+      <%= hidden_field_tag :return_to, request.request_uri %>
+      <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
+      <%= submit_tag 'Save Comment' %>
+    </form>
+  </div>
+  <script type="text/javascript">Element.hide('new_comment'); Element.show('new_comment_link');</script>
+</p>
