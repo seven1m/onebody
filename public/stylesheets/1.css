@@ -279,6 +279,13 @@ td.tip {
 	width:110px;
 }
 
+#sidebar .tag-cloud {
+  background-color: #f6f6f6 ;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
 #sidebarright {
 	width:170px;
 	float:right;
