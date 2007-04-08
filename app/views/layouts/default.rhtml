@@ -118,8 +118,8 @@
 </div>
 </div>
 
-<% unless request.port > 1000 %>
-  <script type="text/javascript" src="/account/news_feed"></script>
+<% unless nil and request.port > 1000 %>
+  <script type="text/javascript" src="/news/marquee"></script>
 <% end %>
 
 <%= ANALYTICS_CODE %>

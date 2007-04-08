@@ -79,8 +79,10 @@ SITE_TITLE = 'Cedar Ridge Family'
 SITE_SIMPLE_URL = 'crccfamily.com'
 SITE_URL = "http://#{SITE_SIMPLE_URL}/"
 VISITOR_SIMPLE_URL = 'cedarridgecc.com'
-VISITOR_URL = "http://www.#{VISITOR_SIMPLE_URL}/"
+VISITOR_URL = "http://#{VISITOR_SIMPLE_URL}/"
 NEWS_RSS_URL = "http://cedarridgecc.com/news/RSS" # or nil
+NEWS_SIMPLE_URL = 'cedarridgecc.com/news'
+NEWS_URL = "http://#{NEWS_SIMPLE_URL}/"
 MONTHS = [
   ['January',  1],
   ['February',  2],

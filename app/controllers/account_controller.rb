@@ -164,19 +164,5 @@ class AccountController < ApplicationController
     end
   end
   
-  # there's probably a better place for this, but we'll put it here for now
-  def news_feed
-    if NEWS_RSS_URL
-      xml = Net::HTTP.get(URI.parse(NEWS_RSS_URL))
-      root = REXML::Document.new(xml).root
-      @headlines = root.elements.to_a('item').map do |item|
-        [item.elements['title'].text, item.elements['link'].text]
-      end
-      render_without_layout
-    else
-      render :text => ''
-    end
-  end
-  
   def safeguarding_children; redirect_to :controller => 'help', :action => 'safeguarding_children'; end
 end

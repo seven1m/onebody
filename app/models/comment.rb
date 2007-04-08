@@ -3,14 +3,15 @@ class Comment < ActiveRecord::Base
   belongs_to :verse
   belongs_to :event
   belongs_to :recipe
+  belongs_to :news_item
   #belongs_to :picture # not for now
   
   def on
-    verse || event || recipe
+    verse || event || recipe || news_item
   end
   
   def name
-    "Comment on #{verse.reference}"
+    "Comment on #{on.name}"
   end
   
   acts_as_logger LogItem

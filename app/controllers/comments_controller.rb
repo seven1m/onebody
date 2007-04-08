@@ -6,6 +6,8 @@ class CommentsController < ApplicationController
       object = Recipe.find params[:recipe_id]
     elsif params[:event_id]
       object = Event.find params[:event_id]
+    elsif params[:news_item_id]
+      object = NewsItem.find params[:news_item_id]
     else
       raise 'Error.'
     end

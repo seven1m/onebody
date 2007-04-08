@@ -1,0 +1,11 @@
+<% if params[:controller] == 'news' %>
+  <h2 class="headline"><%= link_to news_item.title, :action => 'view', :id => news_item %></h2>
+<% else %>
+  <p style="font-weight:bold;"><%= link_to news_item.title, :action => 'view', :id => news_item %></p>
+<% end %>
+<%= news_item.body %>
+<% if (count = news_item.comments.count) > 0 %>
+  <div class="comment-summary">
+    <%= render :partial => 'comments/comment_summary', :locals => {:object => news_item} %>
+  </div>
+<% end %>

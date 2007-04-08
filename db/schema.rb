@@ -2,18 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 59) do
-
-  create_table "UserProperties", :id => false, :force => true do |t|
-    t.column "member_id",   :integer,                :default => 0,  :null => false
-    t.column "username",    :string,  :limit => 64,  :default => "", :null => false
-    t.column "prop_key",    :string,  :limit => 128, :default => "", :null => false
-    t.column "value",       :text,                   :default => "", :null => false
-    t.column "istemporary", :integer
-  end
-
-  add_index "UserProperties", ["username", "prop_key"], :name => "username_prop_idx", :unique => true
-  add_index "UserProperties", ["username"], :name => "username_idx"
+ActiveRecord::Schema.define(:version => 60) do
 
   create_table "attachments", :force => true do |t|
     t.column "message_id",   :integer
@@ -25,13 +14,14 @@ ActiveRecord::Schema.define(:version => 59) do
   end
 
   create_table "comments", :force => true do |t|
-    t.column "verse_id",   :integer
-    t.column "person_id",  :integer
-    t.column "text",       :text
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
-    t.column "event_id",   :integer
-    t.column "recipe_id",  :integer
+    t.column "verse_id",     :integer
+    t.column "person_id",    :integer
+    t.column "text",         :text
+    t.column "created_at",   :datetime
+    t.column "updated_at",   :datetime
+    t.column "event_id",     :integer
+    t.column "recipe_id",    :integer
+    t.column "news_item_id", :integer
   end
 
   create_table "contacts", :force => true do |t|
@@ -216,6 +206,14 @@ ActiveRecord::Schema.define(:version => 59) do
     t.column "name",        :string,   :limit => 100
     t.column "description", :text
     t.column "updated_at",  :datetime
+  end
+
+  create_table "news_items", :force => true do |t|
+    t.column "title",     :string
+    t.column "link",      :string
+    t.column "body",      :text
+    t.column "published", :datetime
+    t.column "active",    :boolean,  :default => true
   end
 
   create_table "people", :force => true do |t|
