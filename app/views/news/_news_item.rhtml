@@ -1,7 +1,7 @@
 <% if params[:controller] == 'news' %>
-  <h2 class="headline"><%= link_to news_item.title, :action => 'view', :id => news_item %></h2>
+  <h2 class="headline"><%= link_to news_item.title, :controller => 'news', :action => 'view', :id => news_item %></h2>
 <% else %>
-  <p style="font-weight:bold;"><%= link_to news_item.title, :action => 'view', :id => news_item %></p>
+  <p style="font-weight:bold;"><%= link_to news_item.title, :controller => 'news', :action => 'view', :id => news_item %></p>
 <% end %>
 <%= news_item.body %>
 <% if (count = news_item.comments.count) > 0 %>
