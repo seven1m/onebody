@@ -10,7 +10,7 @@ class NewsController < ApplicationController
   def marquee
     if (items = NewsItem.find :all, :order => 'published desc').any?
       @headlines = items.map do |item|
-        [item.title, item.link]
+        [item.title, url_for(:controller => 'news', :action => 'view', :id => item)]
       end
       render_without_layout
     else
