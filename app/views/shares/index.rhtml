@@ -24,7 +24,9 @@
 <% last_day = nil %>
 <% @shares.each do |share| %>
   <% if last_day.nil? or share.created_at.strftime('%Y-%m-%d') != last_day.strftime('%Y-%m-%d') %>
-    <p style="background-color:#eee;font-weight:bold;font-size:larger;clear:left;"><%=h (share.created_at > DateTime.now - 3) ? share.created_at.strftime('%A') : share.created_at.strftime('%B %d') %></p>
+    <p style="background-color:#eee;font-weight:bold;font-size:larger;clear:left;">
+      <%= Date.parse(share.created_at.strftime('%Y-%m-%d')).human_day %>
+    </p>
     <% last_day = share.created_at %>
   <% end %>
   <% if share.is_a? Picture %>

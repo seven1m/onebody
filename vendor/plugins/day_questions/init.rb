@@ -1,0 +1,1 @@
+require 'day_questions'
