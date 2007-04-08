@@ -19,30 +19,28 @@
   </tr>
 </table>
 
-<h2>Recent Shares</h2>
-
 <% last_day = nil %>
-<% @shares.each do |share| %>
+<% @shares.each_with_index do |share, index| %>
   <% if last_day.nil? or share.created_at.strftime('%Y-%m-%d') != last_day.strftime('%Y-%m-%d') %>
-    <p style="background-color:#eee;font-weight:bold;font-size:larger;clear:left;">
-      <%= Date.parse(share.created_at.strftime('%Y-%m-%d')).human_day %>
-    </p>
+    <h2><%= Date.parse(share.created_at.strftime('%Y-%m-%d')).human_day %></h2>
     <% last_day = share.created_at %>
   <% end %>
-  <% if share.is_a? Picture %>
-    <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{share.id}.small.jpg"), :alt => 'click to enlarge', :style => 'float:left;margin:10px;'),
-      {:controller => 'pictures', :action => 'view', :id => share}, :title => 'click to enlarge' %>
-  <% elsif share.is_a? Verse %>
-    <p style="clear:left;"><%= render :partial => 'verses/verse', :locals => {:verse => share} %></p>
-  <% elsif share.is_a? Recipe %>
-    <p style="clear:left;"><%= render :partial => 'recipes/recipe', :locals => {:recipe => share} %></p>
-  <% elsif share.is_a? Event %>
-    <p style="clear:left;"><%= render :partial => 'events/event', :locals => {:event => share} %></p>
-  <% elsif share.is_a? Comment %>
-    <p style="clear:left;"><%= render :partial => 'comments/comment', :locals => {:comment => share} %></p>
-  <% elsif share.is_a? NewsItem %>
-    <p style="clear:left;"><%= render :partial => 'news/news_item', :locals => {:news_item => share} %></p>
-  <% elsif share.is_a? Publication %>
-    <p style="clear:left;"><%= render :partial => 'publications/publication', :locals => {:publication => share} %></p>
-  <% end %>
+  <div style="margin:5px 0 5px 15px;padding:5px;<%= index % 2 == 0 ? 'background-color:#eee;' : '' %>">
+    <% if share.is_a? Picture %>
+      <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{share.id}.small.jpg"), :alt => 'click to enlarge'),
+        {:controller => 'pictures', :action => 'view', :id => share}, :title => 'click to enlarge' %>
+    <% elsif share.is_a? Verse %>
+      <%= render :partial => 'verses/verse', :locals => {:verse => share} %>
+    <% elsif share.is_a? Recipe %>
+      <%= render :partial => 'recipes/recipe', :locals => {:recipe => share} %>
+    <% elsif share.is_a? Event %>
+      <%= render :partial => 'events/event', :locals => {:event => share} %>
+    <% elsif share.is_a? Comment %>
+      <%= render :partial => 'comments/comment', :locals => {:comment => share} %>
+    <% elsif share.is_a? NewsItem %>
+      <%= render :partial => 'news/news_item', :locals => {:news_item => share} %>
+    <% elsif share.is_a? Publication %>
+      <%= render :partial => 'publications/publication', :locals => {:publication => share} %>
+    <% end %>
+  </div>
 <% end %>
