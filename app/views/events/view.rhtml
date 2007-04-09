@@ -24,6 +24,7 @@
 
 <h2 class="tab" id="pictures">Pictures</h2>
 <div class="section">
+  <br/><!-- fix IE visual bug with tabs -->
   <% if @event.pictures.count > 0 %>
     <% @event.pictures.each do |picture| %>
       <div class="picture">

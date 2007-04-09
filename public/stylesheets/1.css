@@ -751,8 +751,9 @@ img.icon {
 	background-color: #9cf;
 }
 
-.calendar .monthName {
+.calendar .monthName th {
 	font-size: 20pt;
+        padding-bottom: 10px;
 }
 
 .comment-summary {
