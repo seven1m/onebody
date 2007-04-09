@@ -10,10 +10,11 @@
         </td>
         <td style="padding-bottom:5px;">
           <strong><%= link_to song.title, :controller => 'music', :action => 'view', :id => song %></strong><br/>
-          <%=h song.artists %><br/>
+          <%=h song.artists %> | 
           Tags: <%= render :partial => 'tags/tags', :locals => {:object => song} %><br/>
           <%= count = song.attachments.count %>
-          <%= count == 1 ? 'attachment' : 'attachments' %>
+          <%= count == 1 ? 'attachment' : 'attachments' %><br/>
+          <%= render :partial => 'comments/comment_summary', :locals => {:object => song} %>
         </td>
       </tr>
     <% end %>

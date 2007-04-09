@@ -12,6 +12,10 @@
     <%= link_to on.title, :controller => 'recipes', :action => 'view', :id => on %>
   <% elsif on.is_a? Event %>
     <%= link_to on.name, :controller => 'events', :action => 'view', :id => on %>
+  <% elsif on.is_a? NewsItem %>
+    <%= link_to on.name, :controller => 'news', :action => 'view', :id => on %>
+  <% elsif on.is_a? Song %>
+    <%= link_to on.name, :controller => 'music', :action => 'view', :id => on %>
   <% end %>
 <% end %>
 <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>

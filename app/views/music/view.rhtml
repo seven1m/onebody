@@ -54,4 +54,7 @@
   <p><em>None yet!</em></p>
 <% end %>
 
+<h2>Comments</h2>
+<%= render :partial => 'comments/comments', :locals => {:comments => @song.comments, :params => {:song_id => @song}, :intro => 'about this song.'} %>
+
 <%= javascript_include_tag "http://www.apple.com/itunes/scripts/itmsSearch.php?searchTerm=#{@song.title}&searchType=song" %>

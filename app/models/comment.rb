@@ -4,10 +4,11 @@ class Comment < ActiveRecord::Base
   belongs_to :event
   belongs_to :recipe
   belongs_to :news_item
+  belongs_to :song
   #belongs_to :picture # not for now
   
   def on
-    verse || event || recipe || news_item
+    verse || event || recipe || news_item || song
   end
   
   def name

@@ -4,9 +4,12 @@ class Song < ActiveRecord::Base
   has_many :performances
   has_many :setlists, :through => :performances
   has_many :attachments
+  has_many :comments
   has_and_belongs_to_many :tags
   
   validates_presence_of :title
+  
+  def name; title; end
   
   acts_as_logger LogItem
   

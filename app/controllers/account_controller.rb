@@ -11,7 +11,7 @@ class AccountController < ApplicationController
         session[:logged_in_id] = person.id
         #cookies[:email] = params[:remember] ? {:value => person.email, :expires => Time.now+32000000} : nil
         flash[:notice] = "Welcome, #{person.first_name}."
-        if params[:from]
+        if params[:from] and request.port < 1000 # only needed if a production server (redirecting back to non-ssl protocol)
           redirect_to SITE_URL + params[:from].gsub(/^\//, '')
         else
           redirect_to params[:from] || {:controller => 'people', :action => 'index', :protocol => 'http://'}
