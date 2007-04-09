@@ -51,7 +51,7 @@
 				    <li><%= link_to 'Profile', {:controller => 'people', :action => 'index'}, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
 				    <li><%= link_to 'Directory', {:controller => 'people', :action => 'search'}, :class => (params[:controller] == 'people' and params[:action] == 'search' ? 'active' : nil) %></li>
 				    <li><%= link_to 'Groups', {:controller => 'groups', :action => 'index'}, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li>
-            <li><%= link_to 'Shares' + image_tag('new_on_blue.gif', :alt => 'New!', :class => 'icon', :style => 'margin-left:2px;'), {:controller => 'shares', :action => 'index'}, :class => (['shares', 'events', 'pictures', 'verses', 'recipes'].include?(params[:controller]) ? 'active' : nil) %></li>
+            <li><%= link_to 'Shares' + image_tag('new_on_blue.gif', :alt => 'New!', :class => 'icon', :style => 'padding-left:2px;'), {:controller => 'shares', :action => 'index'}, :class => (['shares', 'events', 'pictures', 'verses', 'recipes'].include?(params[:controller]) ? 'active' : nil) %></li>
             <!--
             <li><%= link_to 'Events', {:controller => 'events', :action => 'index'}, :class => (params[:controller] == 'events' ? 'active' : nil) %> </li>
 				    <li><%= link_to 'Pictures', {:controller => 'pictures', :action => 'index'}, :class => (params[:controller] == 'pictures' ? 'active' : nil) %></li>
