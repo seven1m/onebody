@@ -20,7 +20,7 @@ class AccountController < ApplicationController
         cookies[:email] = nil
         if family = Family.find_by_email(params[:email])
           flash[:warning] = 'That email address was found, but you must verify it before you can sign in.'
-          redirect_to :action => 'verify_email', :email => params[:email], :protocol => 'https://'
+          redirect_to :action => 'verify_email', :email => params[:email]
         else
           flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
         end
@@ -174,7 +174,7 @@ class AccountController < ApplicationController
 
   private
     def check_ssl
-      unless request.ssl?
+      unless request.ssl? or request.port > 1000
         redirect_to :protocol => 'https://', :from => params[:from]
         return
       end
