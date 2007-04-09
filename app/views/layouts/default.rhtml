@@ -118,7 +118,7 @@
 </div>
 </div>
 
-<% unless nil and request.port > 1000 %>
+<% unless @logged_in.nil? or request.port > 1000 %>
   <script type="text/javascript" src="/news/marquee"></script>
 <% end %>
 

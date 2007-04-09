@@ -1,20 +1,26 @@
 class AccountController < ApplicationController
+  before_filter :check_ssl, :except => [:sign_out]
+
   def sign_in
     if request.post?
       if person = Person.authenticate(params[:email], params[:password])
         unless person.can_sign_in?
-          redirect_to :controller => 'help', :action => 'unauthorized'
+          redirect_to :controller => 'help', :action => 'unauthorized', :protocol => 'http://'
           return
         end
         session[:logged_in_id] = person.id
         #cookies[:email] = params[:remember] ? {:value => person.email, :expires => Time.now+32000000} : nil
         flash[:notice] = "Welcome, #{person.first_name}."
-        redirect_to params[:from] || {:controller => 'people', :action => 'index'}
+        if params[:from]
+          redirect_to SITE_URL + params[:from].gsub(/^\//, '')
+        else
+          redirect_to params[:from] || {:controller => 'people', :action => 'index', :protocol => 'http://'}
+        end
       elsif person == nil
         cookies[:email] = nil
         if family = Family.find_by_email(params[:email])
           flash[:warning] = 'That email address was found, but you must verify it before you can sign in.'
-          redirect_to :action => 'verify_email', :email => params[:email]
+          redirect_to :action => 'verify_email', :email => params[:email], :protocol => 'https://'
         else
           flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
         end
@@ -52,7 +58,7 @@ class AccountController < ApplicationController
         end
       end
       if @person.errors.empty?
-        redirect_to :controller => 'people', :action => 'view', :id => @person
+        redirect_to :controller => 'people', :action => 'view', :id => @person, :protocol => 'http://'
       end
     end
   end
@@ -71,7 +77,7 @@ class AccountController < ApplicationController
             render :text => 'The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)', :layout => true
           end
         else
-          redirect_to :controller => 'help', :action => 'bad_status'
+          redirect_to :controller => 'help', :action => 'bad_status', :protocol => 'http://'
         end
       else
         flash[:warning] = "That email address could not be found in our system. If you have another address, try again."
@@ -97,7 +103,7 @@ class AccountController < ApplicationController
             redirect_to :action => 'verify_code', :id => v.id
           end
         else
-          redirect_to :controller => 'help', :action => 'bad_status'
+          redirect_to :controller => 'help', :action => 'bad_status', :protocol => 'http://'
         end
       else
         flash[:warning] = "That mobile number could not be found in our system. You may try again."
@@ -164,5 +170,13 @@ class AccountController < ApplicationController
     end
   end
   
-  def safeguarding_children; redirect_to :controller => 'help', :action => 'safeguarding_children'; end
+  def safeguarding_children; redirect_to :controller => 'help', :action => 'safeguarding_children', :protocol => 'http://'; end
+
+  private
+    def check_ssl
+      unless request.ssl?
+        redirect_to :protocol => 'https://', :from => params[:from]
+        return
+      end
+    end
 end
