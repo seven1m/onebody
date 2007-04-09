@@ -269,7 +269,11 @@
 </script>
 
 <% if @person.family.mapable? and @person.share_address_with @logged_in %>
-  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
+  <% if nil and request.ssl? %>
+    <script type="text/javascript" src="<%= SECURE_MAP_API_URL %>?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
+  <% else %>
+    <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
+  <% end %>
   <script type="text/javascript">
     var address = '<%= @person.family.mapable_address %>';
     map_loaded = false;

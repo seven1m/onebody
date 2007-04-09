@@ -72,6 +72,7 @@ ActionMailer::Base.smtp_settings = {
 
 YAHOO_APP_ID = 'cedar_ridge_christian_church'
 AMAZON_ID = '1VQ2K3ZK8QY3001WSD82'
+SECURE_MAP_API_URL = 'https://crccfamily.com/map_api'
 
 CHURCH_NAME = 'Cedar Ridge Christian Church'
 CHURCH_OFFICE_PHONE = '(918) 254-0621'
@@ -171,7 +172,7 @@ NAME_CONVERSIONS = {
 }
 
 ANALYTICS_CODE = <<-END_CODE
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+<script src="https://ssl.google-analytics.com/urchin.js" type="text/javascript">
 </script>
 <script type="text/javascript">
 _uacct = "UA-1286002-2";
