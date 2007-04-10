@@ -14,7 +14,7 @@ class Comment < ActiveRecord::Base
   def name
     "Comment on #{on.name}"
   end
-  
+    
   acts_as_logger LogItem
   
   def admin?(person)
