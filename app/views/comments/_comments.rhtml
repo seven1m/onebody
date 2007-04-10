@@ -25,7 +25,7 @@
 <% end %>
 
 <p>
-  <%= link_to_function 'Add a comment', "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
+  <%= link_to_function image_tag('add_small.gif', :alt => 'Add a comment', :class => 'icon') + ' Add a Comment', "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
   <%= intro %>
   <div id="new_comment">
     <%= form_tag(params.update({:controller => 'comments', :action => 'edit'}), :method => 'post', :style => 'border:none;') %>

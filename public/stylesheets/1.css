@@ -205,7 +205,7 @@ td.tip {
 #sidebar h2 {
 	font:130% Arial;
 	color:#333;
-	margin:10px 0 0 0;
+	margin:20px 0 0 0;
 	border:none;
 }
 
@@ -762,8 +762,4 @@ img.icon {
 
 h2.headline {
 	border: none;
-}
-
-h2.headline a {
-	color: #666;
 }

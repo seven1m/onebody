@@ -1,14 +1,12 @@
-<h1><%=h @verse.reference %> <span style="font-size:60%;color:#999;">(<%=h @verse.translation %>)</span></h1>
-
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to 'Remove this verse', {:controller => 'people', :action => 'remove_verse', :id => @verse, :return_to => request.request_uri}, :method => 'post', :confirm => 'Are you sure?' %><br/>
+      <%= link_to image_tag('remove.gif', :alt => 'Remove this verse from my list.', :class => 'icon') + ' Remove this verse', {:controller => 'people', :action => 'remove_verse', :verse_id => @verse, :return_to => request.request_uri}, :method => 'post', :confirm => 'Are you sure?' %><br/>
       from my list.
     </p>
   <% else %>
     <p>
-      <%= link_to 'Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference, :return_to => request.request_uri}, :method => 'post' %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference, :return_to => request.request_uri}, :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>
@@ -36,12 +34,20 @@
       </tr>
     <% end %>
   </table>
+  
+  <h2>Tools</h2>
+  <%= link_to 'Bible Gateway', "http://www.biblegateway.com/passage/?search=#{@verse.reference}" %>
 
 <% end %>
 
 <%= render :partial => 'shares/subnav' %>
 
-<p style="font-size:130%;"><%=h @verse.text %></p>
+<h1><%=h @verse.reference %> <span style="font-size:60%;color:#999;">(<%=h @verse.translation %>)</span></h1>
+
+<p>
+  <span style="font-size:170%;"><%=h @verse.text %></span>
+  <%= link_to 'Read more...', "http://www.biblegateway.com/passage/?search=#{@verse.reference.split(/:/).first}", :class => 'discreet' %>
+</p>
 
 <% if @verse.translation == 'WEB' %>
   <p style="font-size:90%;color:#999;">

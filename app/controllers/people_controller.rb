@@ -355,7 +355,7 @@ class PeopleController < ApplicationController
     verse = Verse.find params[:verse_id]
     verse.people.delete @logged_in
     flash[:notice] = 'Verse removed.'
-    redirect_to :action => 'view', :id => @logged_in, :anchor => 'shares'
+    redirect_to params[:return_to] || {:action => 'view', :id => @logged_in, :anchor => 'shares'}
   end
   
   # Wall
