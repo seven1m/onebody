@@ -29,13 +29,4 @@ module ApplicationHelper
     <select name="#{name}[day]" id="#{id}_day"><option value="" #{value ? '' : 'selected="selected"'}></option>#{days}</select>
     <select name="#{name}[year]" id="#{id}_year"><option value="" #{value ? '' : 'selected="selected"'}></option>#{years}</select>)
   end
-  
-  #def html_escape(s)
-  #  unless s.escaped
-  #    s = s.to_s.gsub(/&/, "&amp;").gsub(/\"/, "&quot;").gsub(/>/, "&gt;").gsub(/</, "&lt;")
-  #    s.escaped = true
-  #  end
-  #  return s
-  #end
-  #alias_method :h, :html_escape
 end

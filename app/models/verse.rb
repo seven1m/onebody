@@ -7,6 +7,8 @@ class Verse < ActiveRecord::Base
   has_and_belongs_to_many :events
   acts_as_logger LogItem
   
+  paranoid_attributes :reference, :text, :translation
+  
   def admin?(person)
     self.people.include? person or person.admin?
   end

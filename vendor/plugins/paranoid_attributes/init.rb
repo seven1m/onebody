@@ -1,1 +1,1 @@
-#require 'paranoid_attributes'
+require 'paranoid_attributes'

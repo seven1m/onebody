@@ -11,6 +11,8 @@ class Event < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :when
   
+  paranoid_attributes :name, :description
+  
   def cover_picture
     if pictures.count > 0
       pictures.find_all_by_cover(true).first || pictures.last

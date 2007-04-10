@@ -9,6 +9,8 @@ class Song < ActiveRecord::Base
   
   validates_presence_of :title
   
+  paranoid_attributes :title, :notes, :artists, :album, :image_small_url, :image_medium_url, :image_large_url, :amazon_asin, :amazon_url
+  
   def name; title; end
   
   acts_as_logger LogItem
