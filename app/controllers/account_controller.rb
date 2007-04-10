@@ -9,7 +9,7 @@ class AccountController < ApplicationController
           return
         end
         session[:logged_in_id] = person.id
-        session[:logged_in_name] = @logged_in.name
+        session[:logged_in_name] = person.name
         session[:ip_address] = request.remote_ip
         #cookies[:email] = params[:remember] ? {:value => person.email, :expires => Time.now+32000000} : nil
         flash[:notice] = "Welcome, #{person.first_name}."
