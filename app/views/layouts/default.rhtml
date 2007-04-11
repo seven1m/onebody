@@ -122,7 +122,7 @@
   <script type="text/javascript" src="/news/marquee"></script>
 <% end %>
 
-<%= ANALYTICS_CODE %>
+<% unless request.port > 1000 %><%= ANALYTICS_CODE %><% end %>
 
 </body>
 </html>

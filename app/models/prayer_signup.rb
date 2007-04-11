@@ -1,7 +1,6 @@
 class PrayerSignup < ActiveRecord::Base
   belongs_to :person
   acts_as_logger LogItem
-  paranoid_attributes :other
 
   class << self
     def deliver_reminders

@@ -8,9 +8,7 @@ class Recipe < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :ingredients
   validates_presence_of :directions
-  
-  paranoid_attributes :title, :notes, :description, :ingredients, :directions, :prep, :bake
-  
+    
   acts_as_photo 'db/photos/recipes', PHOTO_SIZES
   acts_as_logger LogItem
   

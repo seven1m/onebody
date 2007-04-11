@@ -1,5 +1,5 @@
 <% if @person.groups.length > 0 %>
-  <p><%=h @person.first_name %> is a member of the following groups:</p>
+  <p><%= h @person.first_name %> is a member of the following groups:</p>
   <ul>
     <% @person.groups.select { |g| @logged_in.sees? g }.each do |group| %>
       <% if not group.hidden? or @logged_in.admin? %>

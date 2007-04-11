@@ -22,9 +22,7 @@ class Person < ActiveRecord::Base
   
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES
-  
-  paranoid_attributes :gender, :first_name, :last_name, :email, :website, :classes, :shepherd, :mail_group, :activities, :interests, :music, :tv_shows, :movies, :books, :quotes, :about, :testimony, :service_name, :service_description, :service_email, :service_website, :suffix, :alternate_email, :service_category, :service_address, :flags, :parental_consent
-  
+    
   acts_as_logger LogItem
 
   alias_method 'photo_without_logging=', 'photo='

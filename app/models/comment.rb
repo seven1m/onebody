@@ -6,9 +6,7 @@ class Comment < ActiveRecord::Base
   belongs_to :news_item
   belongs_to :song
   #belongs_to :picture # not for now
-  
-  paranoid_attributes :text
-  
+    
   def on
     verse || event || recipe || news_item || song
   end
