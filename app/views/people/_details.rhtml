@@ -43,10 +43,10 @@
         <%=h @person.address1 %>
         <%= render :partial => 'private_attribute', :locals => {:sharing => sharing, :attribute => 'address'} %><br/>
         <% if @person.address2.to_s.any? %><%=h @person.address2 %><br/><% end %>
-        <%= link_to @person.city, {:action => 'search', :city => @person.city}, :title => 'search for people in this city' %>,
-        <%= link_to @person.state, {:action => 'search', :state => @person.state}, :title => 'search for people in this state' %>
+        <%= link_to h(@person.city), {:action => 'search', :city => @person.city}, :title => 'search for people in this city' %>,
+        <%= link_to h(@person.state), {:action => 'search', :state => @person.state}, :title => 'search for people in this state' %>
         <% if @person.zip %>
-          <%= link_to @person.zip.split('-').first, {:action => 'search', :zip => @person.zip.split('-').first}, :title => 'search for people in this zip code' %><% if @person.zip =~ /\-/ %>-<%= link_to @person.zip.split('-').last, {:action => 'search', :zip => @person.zip}, :title => 'search for people in this zip code' %><% end %>
+          <%= link_to h(@person.zip.split('-').first), {:action => 'search', :zip => @person.zip.split('-').first}, :title => 'search for people in this zip code' %><% if @person.zip =~ /\-/ %>-<%= link_to h(@person.zip.split('-').last), {:action => 'search', :zip => @person.zip}, :title => 'search for people in this zip code' %><% end %>
         <% end %>
       </td>
     </tr>
@@ -55,13 +55,13 @@
     <tr>
       <td>Email:</td>
       <td>
-        <%= mail_to @person.email %>
+        <%= mail_to @person.email, h(@person.email) %>
         <%= render :partial => 'private_attribute', :locals => {:sharing => sharing, :attribute => 'email'} %>
       </td>
     </tr>
   <% end %>
   <% if @person.website.to_s.any? %>
-    <tr><td>Website:</td><td><%= link_to @person.website.gsub(/^https?:\/\//, ''), @person.website %></td></tr>
+    <tr><td>Website:</td><td><%= link_to h(@person.website.gsub(/^https?:\/\//, '')), url_encode(@person.website.gsub(/javascript\:/, '')) %></td></tr>
   <% end %>
   <% if sharing = @person.share_birthday_with(@logged_in) and @person.birthday %>
     <tr>

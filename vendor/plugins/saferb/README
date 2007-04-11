@@ -35,8 +35,8 @@ If one inserts an ActiveRecord text attribute directly (without escaping it)
 he/she will get an error when viewing the page. To avoid the error,
 escape the text with h(...) or <%=h ... %>.
 
-If you *know* you want to insert unescaped text into the template,
-you may call u(...) or <%=u ... %>. The idea is to *not* get in the habit
+If you *know* your text is safe to insert into the template unescaped,
+you may call s(...) or <%=s ... %>. The idea is to *not* get in the habit
 of doing this, as that will defeat the purpose of using this plugin
 in the first place.
 

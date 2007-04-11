@@ -5,7 +5,7 @@ module ActiveRecord
     alias_method :non_tainting_read_attribute, :read_attribute
     def read_attribute(name)
       v = non_tainting_read_attribute(name)
-      v.taint if v.is_a? String
+      v.taint if v.is_a? String and self.class.name !~ /Session/
       return v
     end
   end
@@ -54,7 +54,7 @@ class ERB
                 out.push(content)
               end
             when '<%='
-              src = '<%=' + content.gsub(/"/, '\"') + '%>'
+              src = '<%=' + content.gsub(/\\/, '\\\\\\').gsub(/"/, '\"') + '%>'
               out.push("if (c=(#{content}).to_s).tainted?; raise \"unescaped string detected in ERB line: #{src}\"; else; #{@put_cmd}(c); end")
             when '<%#'
               # out.push("# #{content.dump}")
@@ -88,13 +88,22 @@ class ERB
     # use this sparingly, and definitely don't just
     # get in the habit of using to avoid those pesky error messages
     # (that kinda defeats the purpose)
-    def untaint_string(s)
+    def safe_string(s)
       s.untaint
       return s
     end
-    alias u untaint_string
+    alias s safe_string
+    module_function :s
+    module_function :safe_string
+    
+    def url_encode(s)
+      s = s.to_s.gsub(/[^a-zA-Z0-9_\-.]/n){ sprintf("%%%02X", $&.unpack("C")[0]) }
+      s.untaint
+      return s
+    end
+    alias u url_encode
     module_function :u
-    module_function :untaint_string
+    module_function :url_encode
   end
 end
 

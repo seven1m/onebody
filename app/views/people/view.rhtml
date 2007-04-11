@@ -13,7 +13,7 @@
             </a>
           </td>
           <td>
-            <%= link_to person.name, :action => 'view', :id => person %>
+            <%= link_to h(person.name), :action => 'view', :id => person %>
             <% unless person.visible? %>
               <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
             <% end %>
@@ -44,7 +44,7 @@
     <div id="map" style="width:250px;height:200px;"></div>
     <div class="discreet" style="font-size:smaller;text-align:right;">
       only an approximation |
-      <%= link_to 'show full screen', "http://maps.yahoo.com/broadband/#mvt=m&q1=#{URI.escape(@person.family.mapable_address)}", :target => '_new' %>
+      <%= link_to 'show full screen', "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@person.family.mapable_address)}", :target => '_new' %>
     </div>
   </div>
 <% end %>
@@ -275,7 +275,7 @@
     <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
   <% end %>
   <script type="text/javascript">
-    var address = '<%= @person.family.mapable_address %>';
+    var address = <%=s @person.family.mapable_address.inspect %>;
     map_loaded = false;
     function load_map() {
       if(map_loaded) return;
