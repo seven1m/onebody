@@ -11,6 +11,8 @@ module ActiveRecord
   end
 end
 
+require 'erb'
+
 class ERB
   class Compiler
     def compile(s)
@@ -55,7 +57,7 @@ class ERB
               end
             when '<%='
               src = '<%=' + content.gsub(/\\/, '\\\\\\').gsub(/"/, '\"') + '%>'
-              out.push("if (c=(#{content}).to_s).tainted?; raise \"unescaped string detected in ERB line: #{src}\"; else; #{@put_cmd}(c); end")
+              out.push("if (c=(#{content}).to_s).tainted? and \"#{src}\" !~ /@exception|@contents/; raise \"unescaped string detected in ERB line: #{src}\"; else; #{@put_cmd}(c); end")
             when '<%#'
               # out.push("# #{content.dump}")
             end
@@ -75,6 +77,7 @@ class ERB
   end
   
   module Util
+    public
     alias_method :non_tainting_html_escape, :html_escape
     def html_escape(s)
       s = non_tainting_html_escape(s)
@@ -96,8 +99,9 @@ class ERB
     module_function :s
     module_function :safe_string
     
+    alias_method :non_tainting_url_encode, :url_encode
     def url_encode(s)
-      s = s.to_s.gsub(/[^a-zA-Z0-9_\-.]/n){ sprintf("%%%02X", $&.unpack("C")[0]) }
+      s = non_tainting_url_encode(s)
       s.untaint
       return s
     end
