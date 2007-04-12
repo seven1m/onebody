@@ -57,7 +57,7 @@ class ERB
               end
             when '<%='
               src = '<%=' + content.gsub(/\\/, '\\\\\\').gsub(/"/, '\"') + '%>'
-              out.push("if (_erbcontent=(#{content}).to_s).tainted? and \"#{src}\" !~ /@exception|@contents|flash\\[/; raise \"unescaped string detected in ERB line: #{src}\"; else; #{@put_cmd}(_erbcontent); end")
+              out.push("if (_erbcontent=(#{content}).to_s).tainted? and \"#{src}\" !~ /@exception|@contents|flash\\[/ and defined? params; raise \"unescaped string detected in ERB line: #{src}\"; else; #{@put_cmd}(_erbcontent); end")
             when '<%#'
               # out.push("# #{content.dump}")
             end
