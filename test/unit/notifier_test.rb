@@ -15,6 +15,11 @@ class NotifierTest < Test::Unit::TestCase
     @expected = TMail::Mail.new
     @expected.set_content_type "text", "plain", { "charset" => CHARSET }
   end
+  
+  # Replace this with your real tests.
+  def test_truth
+    assert true
+  end
 
   private
     def read_fixture(action)

@@ -10,8 +10,8 @@ class SignUpTest < ActionController::IntegrationTest
     post '/account/verify_email', :email => people(:peter).email
     assert_response :success
     assert_select 'body', /email has been sent/
-    v = Verification.find(:first)
-    assert_equal v.email, people(:peter).email
+    v = Verification.find(:first, :order => 'id desc')
+    assert_equal people(:peter).email, v.email
     assert !v.code.nil?
     assert v.code > 0
     assert_select_email do
@@ -25,7 +25,7 @@ class SignUpTest < ActionController::IntegrationTest
     assert_response :success
     assert_template 'account/verify_mobile'
     post '/account/verify_mobile', :mobile => people(:peter).mobile_phone, :carrier => 'Cingular'
-    v = Verification.find(:first)
+    v = Verification.find(:first, :order => 'id desc')
     assert !v.code.nil?
     assert v.code > 0
     assert_select_email do
@@ -34,7 +34,7 @@ class SignUpTest < ActionController::IntegrationTest
     assert_redirected_to :action => 'verify_code', :id => v.id
     follow_redirect!
     assert_select 'div#notice', /message has been sent/
-    assert_equal v.mobile_phone, people(:peter).mobile_phone
+    assert_equal people(:peter).mobile_phone, v.mobile_phone
     verify_code(v, people(:peter))
   end
   
