@@ -6,7 +6,7 @@ tim:
   gender: Male
   first_name: Tim
   last_name: Morgan
-  mobile_phone: 9185271886
+  mobile_phone: 9181234567
   birthday: 1981-04-28
   anniversary: 2001-08-11
   email: tim@timmorgan.org
@@ -31,3 +31,5 @@ peter:
   last_name: Jones
   mail_group: P
   email: peter@example.com
+  mobile_phone: 1234567890
+  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret

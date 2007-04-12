@@ -30,9 +30,10 @@ module ApplicationHelper
     <select name="#{name}[year]" id="#{id}_year"><option value="" #{value ? '' : 'selected="selected"'}></option>#{years}</select>)
   end
   
-  def safe_string(s)
-    s.untaint
-    return s
-  end
-  alias s safe_string
+  # only necessary if the saferb plugin is uninstalled
+  #def safe_string(s)
+  #  s.untaint
+  #  return s
+  #end
+  #alias s safe_string
 end

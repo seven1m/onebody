@@ -62,6 +62,7 @@ require 'net/http'
 require 'inherited_attribute'
 require 'add_condition'
 require 'ar_date_fix'
+require 'ar_schema_dumper_fix'
 require 'params_tools'
 
 ActionMailer::Base.smtp_settings = {
