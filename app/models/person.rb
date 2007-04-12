@@ -35,6 +35,7 @@ class Person < ActiveRecord::Base
   validates_length_of :password, :minimum => 5, :allow_nil => true
   validates_confirmation_of :password
   validates_uniqueness_of :alternate_email, :allow_nil => true
+  validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/
   
   validates_each :email, :allow_nil => true do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any?

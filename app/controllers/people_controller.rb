@@ -196,8 +196,11 @@ class PeopleController < ApplicationController
         if params[:person][:service_phone]
           params[:person][:service_phone] = params[:person][:service_phone].scan(/\d/).join('')
         end
-        @person.update_attributes params[:person]
-        flash[:notice] = 'Changes saved.'
+        if @person.update_attributes params[:person]
+          flash[:notice] = 'Changes saved.'
+        else
+          flash[:warning] = @person.errors.full_messages.join('; ')
+        end
       end
       redirect_to :action => 'edit', :anchor => params[:anchor]
     end

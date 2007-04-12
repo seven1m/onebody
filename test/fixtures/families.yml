@@ -3,24 +3,20 @@ morgan:
   id: 1
   name: Tim & Jennie Morgan
   last_name: Morgan
-  address1: 10717 S Delaware
+  address1: 123 S Delaware
   city: Tulsa
   state: OK
-  zip: 74137
-  home_phone: 9182992492
-  latitude: 36.008764
-  longitude: -95.944428
+  zip: 74111
+  home_phone: 9181234567
 zongker:
   id: 2
   name: Jeremy & Jeanette Zongker
   last_name: Zongker
-  address1: 4604 S Ironwood Ave
+  address1: 404 S Ironwood
   city: Broken Arrow
   state: OK
-  zip: 74011
-  home_phone: 9189460876
-  latitude: 36.005008
-  longitude: -95.801451
+  zip: 74019
+  home_phone: 9181234567
 jones:
   id: 3
   name: Peter Jones

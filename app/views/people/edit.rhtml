@@ -36,7 +36,7 @@
 <h2 class="tab" id="picture">Pic</h2>
 <div class="section">
   <p>
-    Upload a <strong>picture of <%= @person == @logged_in ? 'yourself' : @person.name %></strong>.
+    Upload a <strong>picture of <%= @person == @logged_in ? 'yourself' : h(@person.name) %></strong>.
     Please only upload a <span style="color:red;">real photo</span> &mdash;
     no graphics, clip-art, or fakes please.
   </p>
@@ -203,7 +203,7 @@
         <%= @person == @logged_in ? 'Your' : @person.name_possessive %> email address is:<br/>
         <span style="font-size:2em;"><%=h @person.email %></span>
       <% else %>
-        <%= @person == @logged_in ? "You don't" : @person.name + " doesn't" %>
+        <%= @person == @logged_in ? "You don't" : h(@person.name) + " doesn't" %>
         have an email address in the system
       <% end %>
     </p>
