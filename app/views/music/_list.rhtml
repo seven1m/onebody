@@ -9,7 +9,7 @@
           <% end %>
         </td>
         <td style="padding-bottom:5px;">
-          <strong><%= link_to song.title, :controller => 'music', :action => 'view', :id => song %></strong><br/>
+          <strong><%= link_to h(song.title), :controller => 'music', :action => 'view', :id => song %></strong><br/>
           <%=h song.artists %> | 
           Tags: <%= render :partial => 'tags/tags', :locals => {:object => song} %><br/>
           <%= count = song.attachments.count %>

@@ -202,6 +202,10 @@ td.tip {
 	color:#666;
 }
 
+#sidebar h1 {
+	line-height: 1.2em;
+}
+
 #sidebar h2 {
 	font:130% Arial;
 	color:#333;

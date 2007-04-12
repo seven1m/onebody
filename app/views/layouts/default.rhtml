@@ -118,11 +118,11 @@
 </div>
 </div>
 
-<% unless @logged_in.nil? or request.port > 1000 %>
+<% unless @logged_in.nil? or RAILS_ENV != 'production' %>
   <script type="text/javascript" src="/news/marquee"></script>
 <% end %>
 
-<% unless request.port > 1000 %><%= ANALYTICS_CODE %><% end %>
+<% if RAILS_ENV == 'production' %><%= ANALYTICS_CODE %><% end %>
 
 </body>
 </html>

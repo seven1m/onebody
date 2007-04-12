@@ -29,4 +29,10 @@ module ApplicationHelper
     <select name="#{name}[day]" id="#{id}_day"><option value="" #{value ? '' : 'selected="selected"'}></option>#{days}</select>
     <select name="#{name}[year]" id="#{id}_year"><option value="" #{value ? '' : 'selected="selected"'}></option>#{years}</select>)
   end
+  
+  def safe_string(s)
+    s.untaint
+    return s
+  end
+  alias s safe_string
 end

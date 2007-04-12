@@ -21,7 +21,7 @@ zongker:
   home_phone: 9189460876
   latitude: 36.005008
   longitude: -95.801451
-somebody:
+jones:
   id: 3
-  name: Peter Somebody
-  last_name: Somebody
+  name: Peter Jones
+  last_name: Jones

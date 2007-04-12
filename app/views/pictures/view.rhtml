@@ -1,11 +1,14 @@
 <%= render :partial => 'shares/subnav' %>
 
 <% content_for :sidebar do %>
-  <p><%= link_to '&laquo; Back to Event', :controller => 'events', :action => 'view', :id => @picture.event %></p>
+  <h1><%= link_to h(@picture.event.name), :controller => 'events', :action => 'view', :id => @picture.event %></h1>
+  <% if @picture.event.when %>
+    <p class="below-h1"><%= @picture.event.when.strftime '%B %d, %Y %I:%M %p' %></p>
+  <% end %>
   <% if @picture.person %>
     <p>
       Picture uploaded by:<br/>
-      <%= link_to @picture.person.name, :controller => 'people', :action => 'view', :id => @picture.person %><br/>
+      <%= link_to h(@picture.person.name), :controller => 'people', :action => 'view', :id => @picture.person %><br/>
       <%= @picture.created_at.strftime '%m/%d/%Y %I:%M %p' %>
     </p>
   <% end %>
@@ -25,11 +28,6 @@
   |
   <%= link_to 'next &raquo;', :action => 'next', :id => @picture %>
 </p>
-
-<h1><%= link_to @picture.event.name, :controller => 'events', :action => 'view', :id => @picture.event %></h1>
-<% if @picture.event.when %>
-  <p class="below-h1"><%= @picture.event.when.strftime '%B %d, %Y %I:%M %p' %></p>
-<% end %>
 
 <p>
   <%= link_to image_tag(url_for(:action => 'photo', :id => "#{@picture.id}.large.jpg"), :alt => 'click to see full size'),

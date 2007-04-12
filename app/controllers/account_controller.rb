@@ -176,7 +176,7 @@ class AccountController < ApplicationController
 
   private
     def check_ssl
-      unless request.ssl? or request.port > 1000
+      unless request.ssl? or RAILS_ENV != 'production'
         redirect_to :protocol => 'https://', :from => params[:from]
         return
       end

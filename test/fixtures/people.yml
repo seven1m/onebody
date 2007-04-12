@@ -28,5 +28,6 @@ peter:
   sequence: 1
   gender: Male
   first_name: Peter
-  last_name: Somebody
+  last_name: Jones
   mail_group: P
+  email: peter@example.com

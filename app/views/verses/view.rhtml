@@ -6,7 +6,7 @@
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', {:controller => 'people', :action => 'add_verse', :reference => u(@verse.reference), :return_to => request.request_uri}, :method => 'post' %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', {:controller => 'people', :action => 'add_verse', :reference => s(@verse.reference), :return_to => request.request_uri}, :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>
@@ -30,13 +30,13 @@
             <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
           </a>
         </td>
-        <td><%= link_to person.name, :controller => 'people', :action => 'view', :id => person %></td>
+        <td><%= link_to h(person.name), :controller => 'people', :action => 'view', :id => person %></td>
       </tr>
     <% end %>
   </table>
   
   <h2>Tools</h2>
-  <%= link_to 'Bible Gateway', "http://www.biblegateway.com/passage/?search=#{@verse.reference}" %>
+  <%= link_to 'Bible Gateway', "http://www.biblegateway.com/passage/?search=#{u(@verse.reference)}" %>
 
 <% end %>
 
@@ -45,8 +45,8 @@
 <h1><%=h @verse.reference %> <span style="font-size:60%;color:#999;">(<%=h @verse.translation %>)</span></h1>
 
 <p>
-  <span style="font-size:170%;"><%=h @verse.text %></span>
-  <%= link_to 'Read more...', "http://www.biblegateway.com/passage/?search=#{@verse.reference.split(/:/).first}", :class => 'discreet' %>
+  <span style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;"><%=h @verse.text %></span>
+  <%= link_to 'Read more...', "http://www.biblegateway.com/passage/?search=#{u(@verse.reference.split(/:/).first)}", :class => 'discreet' %>
 </p>
 
 <% if @verse.translation == 'WEB' %>

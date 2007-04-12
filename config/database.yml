@@ -5,12 +5,10 @@ development:
   password: 
 
 test:
-  adapter: sqlite3
-  database: db/test.db
-
-production:
   adapter: mysql
-  database: crccweb
+  database: crccweb_test
   username: root
   password: 
-  host: localhost
+
+production:
+  development

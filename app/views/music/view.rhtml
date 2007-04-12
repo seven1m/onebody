@@ -6,11 +6,11 @@
     <h2><%=h @song.album %></h2>
     <p>
       <% if @song.amazon_url.to_s.any? %>
-        <%= link_to 'Amazon', @song.amazon_url %> |
+        <%= link_to 'Amazon', s(@song.amazon_url) %> |
       <% end %>
-      <%= link_to 'Walmart', @song.walmart_url %><br/>
-      <%= link_to 'Google', @song.google_url %> |
-      <%= link_to 'Yahoo', @song.yahoo_url %>
+      <%= link_to 'Walmart', s(@song.walmart_url) %><br/>
+      <%= link_to 'Google', s(@song.google_url) %> |
+      <%= link_to 'Yahoo', s(@song.yahoo_url) %>
     </p>
   <% end %>
 <% end %>
@@ -22,7 +22,7 @@
   <% end %>
 <% end %>
 
-<h1><%= @song.title %><br/><span style="font-size:smaller;"><%=h @song.artists %></span></h1>
+<h1><%=h @song.title %><br/><span style="font-size:smaller;"><%=h @song.artists %></span></h1>
 
 <p>
   <%= form_tag({:action => 'add_tags', :id => @song}, :style => 'border:none;padding:0;margin:0;') %>
@@ -45,7 +45,7 @@
 <% if @song.attachments.any? %>
   <% @song.attachments.each do |attachment| %>
     <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'no-border', :style => 'vertical-align:middle;'), :action => 'view_attachment', :id => attachment %>
-    <%= link_to attachment.name, :action => 'view_attachment', :id => attachment %>
+    <%= link_to h(attachment.name), :action => 'view_attachment', :id => attachment %>
     (<%= number_to_human_size attachment.file.length %>)
     <%= link_to '[delete]', {:action => 'delete_attachment', :id => attachment}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
     <br/>

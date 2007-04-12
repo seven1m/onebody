@@ -19,11 +19,11 @@ class ApplicationController < ActionController::Base
         end
         @logged_in = person
         Person.logged_in = @logged_in
-        if session[:ip_address] != request.remote_ip
-          # possibly someone trying to hijack session
-          session[:logged_in_id] = nil
-          raise "There was an error loading the session. (Expected IP address #{session[:ip_address]} but got #{request.remote_ip})"
-        end
+        #if session[:ip_address] != request.remote_ip
+        #  # possibly someone trying to hijack session
+        #  session[:logged_in_id] = nil
+        #  raise "There was an error loading the session. (Expected IP address #{session[:ip_address]} but got #{request.remote_ip})"
+        #end
         unless @logged_in.email
           redirect_to :controller => 'account', :action => 'change_email_and_password'
           return false

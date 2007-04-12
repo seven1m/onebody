@@ -1,11 +1,11 @@
 <p>
   <div class="verse-heading">
-    <strong><%= link_to h(verse.reference), :controller => 'verses', :action => 'view', :id => u(verse.reference) %></strong>
+    <strong><%= link_to h(verse.reference), :controller => 'verses', :action => 'view', :id => s(verse.reference) %></strong>
     <% unless @person or verse.people_count == 0 %>
       (<%= verse.people_count %> <%= verse.people_count == 1 ? 'person' : 'people' %>)
     <% end %>
     <% if @person or verse.admin? @logged_in %>
-      <%= link_to '[edit]', {:controller => 'verses', :action => 'view', :id => verse.reference}, :class => 'discreet' %>
+      <%= link_to '[edit]', {:controller => 'verses', :action => 'view', :id => s(verse.reference)}, :class => 'discreet' %>
     <% end %>
     <% if (@person and @person == @logged_in) or (@event and @event.admin? @logged_in) %>
       <%= link_to '[delete]', params.merge({:action => 'remove_verse', :verse_id => verse}), :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>

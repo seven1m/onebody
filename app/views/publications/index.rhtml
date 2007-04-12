@@ -10,7 +10,7 @@
             {:action => 'view', :id => publication}, :target => '_new' %>
         </td>
         <td>
-          <%= link_to publication.name, {:action => 'view', :id => publication}, :target => '_new' %>
+          <%= link_to h(publication.name), {:action => 'view', :id => publication}, :target => '_new' %>
           <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
           <% if @logged_in.admin? %>
             <%= link_to '[delete]', {:action => 'delete', :id => publication}, :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
