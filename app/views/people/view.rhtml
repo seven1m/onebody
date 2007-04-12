@@ -101,7 +101,7 @@
 
 <% if not @person.messages_enabled? or @person.email.to_s.empty? %>
   <p style="font-style:italic;">
-    Private messaging is not enabled for <%= @person.first_name %>.
+    Private messaging is not enabled for <%=h @person.first_name %>.
   </p>
 <% end %>
 

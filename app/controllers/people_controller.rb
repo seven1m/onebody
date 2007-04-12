@@ -256,7 +256,7 @@ class PeopleController < ApplicationController
   end
   
   def email
-    @person = Person.find params[:id]
+    @person = params[:id] ? Person.find(params[:id]) : @logged_in
     unless @logged_in.can_edit? @person
       render :text => 'You are not authorized to edit this person.'
       return

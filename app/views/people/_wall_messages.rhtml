@@ -7,7 +7,7 @@
         </a>
       </td>
       <td>
-        <%= link_to message.person.name, :action => 'view', :id => message.person %>
+        <%= link_to h(message.person.name), :action => 'view', :id => message.person %>
         <% if params[:action] != 'wall_to_wall' %>
           (<%= link_to 'wall to wall', :action => 'wall_to_wall', :id => @person, :id2 => message.person %>)
         <% end %>

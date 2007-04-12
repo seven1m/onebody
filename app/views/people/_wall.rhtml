@@ -4,7 +4,7 @@
     for people to post messages for you.
   <% else %>
     <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();", :id => 'wall_message_link' %>
-    on <%= @person.name_possessive %> <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %>.
+    on <%=h @person.name_possessive %> <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %>.
     <div id="wall_message">
       <%= form_tag({:action => 'wall_post', :id => @person}, :method => 'post', :style => 'border:none;') %>
         <em>All users will see your message; to send a private

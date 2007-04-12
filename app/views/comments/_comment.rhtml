@@ -7,7 +7,7 @@
 <% if params[:controller] == 'shares' %>
   commented on
   <% if (on = comment.on).is_a? Verse %>
-    <%= link_to h(on.reference), :controller => 'verses', :action => 'view', :id => u(on.reference) %>
+    <%= link_to h(on.reference), :controller => 'verses', :action => 'view', :id => s(on.reference) %>
   <% elsif on.is_a? Recipe %>
     <%= link_to h(on.title), :controller => 'recipes', :action => 'view', :id => on %>
   <% elsif on.is_a? Event %>
