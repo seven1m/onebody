@@ -4,6 +4,6 @@
     by <%= object.comments.map { |c| c.person.name }.uniq[0..2].join(', ') %>
     and others
   <% elsif count > 0 %>
-    by <%= object.comments.map { |c| c.person.name }.uniq.to_sentence %>
+    by <%= object.comments.map { |c| h(c.person.name) }.uniq.to_sentence %>
   <% end %>
 <% end %>

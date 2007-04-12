@@ -125,7 +125,7 @@
     
       <% if not person.at_least_13? %>
         <p class="highlight">
-          This child's profile has parental consent from <%= person.parental_consent %>.
+          This child's profile has parental consent from <%=h person.parental_consent %>.
           If you have concerns regarding this, please contact the church office at
           <%=h CHURCH_OFFICE_PHONE %> immediately.
         </p>

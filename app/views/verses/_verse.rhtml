@@ -1,6 +1,6 @@
 <p>
   <div class="verse-heading">
-    <strong><%= link_to verse.reference, :controller => 'verses', :action => 'view', :id => verse.reference %></strong>
+    <strong><%= link_to h(verse.reference), :controller => 'verses', :action => 'view', :id => u(verse.reference) %></strong>
     <% unless @person or verse.people_count == 0 %>
       (<%= verse.people_count %> <%= verse.people_count == 1 ? 'person' : 'people' %>)
     <% end %>

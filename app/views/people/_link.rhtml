@@ -1,5 +1,5 @@
 <% if person %>
-  <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
+  <%= link_to h(person.name), :controller => 'people', :action => 'view', :id => person %>
 <% else %>
   ???
 <% end %>

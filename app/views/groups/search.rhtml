@@ -17,7 +17,7 @@
         </td>
         <td>
           <span class="list-heading">
-            <%= link_to group.name, :action => 'view', :id => group %>
+            <%= link_to h(group.name), :action => 'view', :id => group %>
             <% if group.private? %><%= image_tag('lock.gif', :alt => 'Private Group', :class => 'icon') %><% end %>
           </span>
           <% if group.admin?(@logged_in) %>
@@ -32,11 +32,11 @@
           <% end %>
           <% if group.leader %>
             <br/>
-            Leader: <%= link_to group.leader.name, :controller => 'people', :action => 'view', :id => group.leader %>
+            Leader: <%= link_to h(group.leader.name), :controller => 'people', :action => 'view', :id => group.leader %>
           <% end %>
           <% if group.address.to_s.any? and group.can_send? @logged_in %>
             <br/>
-            Email Address: <%= mail_to group.full_address, group.full_address %>
+            Email Address: <%= mail_to u(group.full_address), h(group.full_address) %>
           <% end %>
           <% if @logged_in.sees? group %>
             <br/>
@@ -58,4 +58,12 @@
 
   <p><em>no groups found</em></p>
 
+<% end %>
+
+<% if @logged_in.admin? and @hidden_groups.any? %>
+  <h2>Hidden Groups</h2>
+  <p>
+    Only administrators (such as yourself) see this list:<br/>
+    <%= @hidden_groups.map { |g| link_to(h(g.name), :action => 'view', :id => g) }.join(', ') %>
+  </p>
 <% end %>

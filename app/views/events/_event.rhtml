@@ -4,11 +4,11 @@
   <%= link_to image_tag('event.tn.gif', :alt => event.name, :class => 'icon'), :controller => 'events', :action => 'view', :id => event %>
 <% end %>
 
-<strong><%= link_to event.name, :controller => 'events', :action => "view", :id => event %></strong>
+<strong><%= link_to h(event.name), :controller => 'events', :action => "view", :id => event %></strong>
 <% unless @person %>
   by
   <% if event.person %>
-    <%= link_to event.person.name, :controller => 'people', :action => 'view', :id => event.person %>
+    <%= link_to h(event.person.name), :controller => 'people', :action => 'view', :id => event.person %>
   <% else %>
     ???
   <% end %>

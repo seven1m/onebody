@@ -82,15 +82,15 @@
         <tr>
           <td>
             <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
-            <%= link_to message.subject, :controller => 'messages', :action => 'view', :id => message %>
+            <%= link_to h(message.subject), :controller => 'messages', :action => 'view', :id => message %>
           </td>
           <td>
             <%=h message.person.name %>
           </td>
           <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
           <td>
-            <% if message.reply_count.to_i > 0 %>
-              <%= message.reply_count %> <%= message.reply_count.to_i == 1 ? 'reply' : 'replies' %>
+            <% if (r = message.reply_count.to_i) > 0 %>
+              <%= r %> <%= r == 1 ? 'reply' : 'replies' %>
             <% end %>
           </td>
           <td>

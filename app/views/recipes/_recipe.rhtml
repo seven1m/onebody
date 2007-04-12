@@ -2,11 +2,11 @@
   <%= link_to image_tag(url_for(:controller => 'recipes', :action => 'photo', :id => "#{recipe.id}.tn.jpg"), :alt => recipe.title, :class => 'no-border'), :controller => 'recipes', :action => "view", :id => recipe, :style => 'float:left;' %>
 <% end %>
 
-<strong><%= link_to recipe.title, :controller => 'recipes', :action => "view", :id => recipe %></strong>
+<strong><%= link_to h(recipe.title), :controller => 'recipes', :action => "view", :id => recipe %></strong>
 <% unless @person %>
   by
   <% if recipe.person %>
-    <%= link_to recipe.person.name, :controller => 'people', :action => 'view', :id => recipe.person %>
+    <%= link_to h(recipe.person.name), :controller => 'people', :action => 'view', :id => recipe.person %>
   <% else %>
     ???
   <% end %>

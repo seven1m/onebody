@@ -4,7 +4,7 @@
     <% @person.groups.select { |g| @logged_in.sees? g }.each do |group| %>
       <% if not group.hidden? or @logged_in.admin? %>
         <li <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
-          <%= link_to group.name, :controller => 'groups', :action => 'view', :id => group %>
+          <%= link_to h(group.name), :controller => 'groups', :action => 'view', :id => group %>
           (<%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>)<br/>
           <span class="discreet">
             email:

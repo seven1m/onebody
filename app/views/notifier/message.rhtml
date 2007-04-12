@@ -1,5 +1,5 @@
-<%= @msg.introduction(@to) -%>
-<%= @msg.body %>
+<%=s @msg.introduction(@to) -%>
+<%=s @msg.body %>
 - - - - - - - - - - - - - - - - - - - - - - - -
-<%= @msg.reply_instructions(@to) -%>
-<%= @msg.disable_email_instructions(@to) -%>
+<%=s @msg.reply_instructions(@to) -%>
+<%=s @msg.disable_email_instructions(@to) -%>

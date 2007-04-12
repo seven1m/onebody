@@ -52,7 +52,7 @@
           </a>
         </td>
         <% if @show_service %>
-          <td><%= link_to person.service_name, {:action => 'services', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
+          <td><%= link_to h(person.service_name), {:action => 'services', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
           <td>
             <% if person.service_category.to_s.any? %>
               <%= link_to person.service_category, :action => 'search', :service => true, :category => person.service_category %>
@@ -60,7 +60,7 @@
           </td>
         <% else %>
           <td>
-            <%= link_to person.name, {:action => 'view', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
+            <%= link_to h(person.name), {:action => 'view', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
             <% if person.church_member? %>
               <%= image_tag 'star.gif', :alt => 'Member', :class => 'no-border', :style => 'vertical-align:middle;' %>
             <% end %>
@@ -74,7 +74,7 @@
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
         <% end %>
         <% if @logged_in.admin? %>
-          <td><%= person.mail_group %></td>
+          <td><%= h(person.mail_group) %></td>
         <% end %>
         <td>
           <% unless @logged_in.people.include? person or @logged_in == person or not @logged_in.member? %>

@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   def index
-    @categories = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' group by category").map { |g| [g.category, g.group_count] }
+    @categories = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' #{@logged_in.admin? ? '' : 'and hidden = 0'} group by category").map { |g| [g.category, g.group_count] }
     @hidden_groups = Group.find_all_by_hidden(true, :order => 'name')
     if @logged_in.admin?
       @unapproved_groups = Group.find_all_by_approved(false)
@@ -15,6 +15,8 @@ class GroupsController < ApplicationController
     conditions.add_condition ['category = ?', params[:category]] if params[:category]
     conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
     @groups = Group.find(:all, :conditions => conditions, :order => 'name')
+    conditions[1] = true # only hidden groups
+    @hidden_groups = Group.find(:all, :conditions => conditions, :order => 'name')
   end
   
   def view

@@ -1,7 +1,7 @@
 <% controller ||= object.class.name.pluralize.downcase %>
 <% if object.tags.any? %>
   <% object.tags.each do |tag| %>
-    <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
+    <%= link_to h(tag.name), :controller => 'tags', :action => 'view', :id => u(tag.name) %>
     <% if params[:controller] == controller %>
       <%= link_to '[x]', {:controller => controller, :action => 'delete_tag', :id => object, :tag_id => tag.id}, :title => 'Delete this tag.', :class => 'discreet', :style => 'margin-left:-5px;', :method => 'post', :confirm => 'Are you sure you want to delete this tag?' %>
     <% end %>

@@ -1,3 +1,10 @@
+<% if @unapproved_groups.any? %>
+  <p class="highlight">
+    The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
+    pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
+  </p>
+<% end %>
+
 <h2>Your Groups</h2>
 <%= render :partial => 'people/groups' %>
 
@@ -9,7 +16,7 @@
       <ul>
         <% @categories.each do |category, group_count| %>
           <li>
-            <%= link_to category, :action => 'search', :category => category %>
+            <%= link_to h(category), :action => 'search', :category => category %>
             (<%=h group_count %>)
           </li>
         <% end %>
@@ -32,16 +39,3 @@
 <p>
   <%= link_to image_tag('add_small.gif', :alt => 'Create a group.', :class => 'icon') + ' Create a Group', :action => 'edit' %>
 </p>
-
-<% if @logged_in.admin? %>
-  <h2>Hidden Groups (for admins only)</h2>
-  <% if @unapproved_groups.any? %>
-    <p class="highlight">
-      The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
-      pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
-    </p>
-  <% end %>
-  <p>
-    <%= @hidden_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
-  </p>
-<% end %>
