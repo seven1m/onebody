@@ -6,7 +6,7 @@
     <h2>Family</h2>
     <table>
       <% people.each do |person| %>
-        <tr>
+        <tr class="family-member">
           <td>
             <a href="<%= url_for :action => 'view', :id => person %>">
               <%= render :partial => 'thumbnail', :locals => {:person => person} %>

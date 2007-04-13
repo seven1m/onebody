@@ -216,7 +216,7 @@ class Person < ActiveRecord::Base
     if @groups.nil?
       g = groups_without_linkage
       conditions = []
-      classes.split(',').each do |code|
+      classes.to_s.split(',').each do |code|
         conditions.add_condition ['LCASE(link_code) = ? or link_code like ? or link_code like ? or link_code like ?', code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
       end
       g = (g + Group.find(:all, :conditions => conditions)).uniq if conditions.any?

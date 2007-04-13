@@ -9,8 +9,8 @@ tim:
   mobile_phone: 9181234567
   birthday: 1981-04-28
   anniversary: 2001-08-11
-  email: tim@timmorgan.org
-  encrypted_password: 0319e1d7b12c237edfa36ed6385e46b7
+  email: tim@somedomain.com
+  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
   mail_group: M
 jeremy:
   id: 2
@@ -29,7 +29,25 @@ peter:
   gender: Male
   first_name: Peter
   last_name: Jones
-  mail_group: P
+  mail_group: M
   email: peter@example.com
   mobile_phone: 1234567890
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+jennie:
+  id: 4
+  family_id: 1
+  sequence: 2
+  gender: Woman
+  first_name: Jennie
+  last_name: Morgan
+  mail_group: M
+  birthday: 1980-06-24
+mac:
+  id: 5
+  family_id: 1
+  sequence: 3
+  gender: Girl
+  first_name: Mac
+  last_name: Morgan
+  mail_group: M
+  birthday: 2006-11-03
