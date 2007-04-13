@@ -106,60 +106,6 @@ ActiveRecord::Schema.define(:version => 61) do
     t.column "link_code",    :string
   end
 
-  create_table "groups_legacy", :force => true do |t|
-    t.column "name",         :string,  :limit => 100, :default => "", :null => false
-    t.column "description",  :string,                 :default => "", :null => false
-    t.column "group_type",   :string,  :limit => 50,  :default => "", :null => false
-    t.column "meets",        :string,  :limit => 100, :default => "", :null => false
-    t.column "location",     :string,  :limit => 100, :default => "", :null => false
-    t.column "directions",   :text,                   :default => "", :null => false
-    t.column "notes",        :text,                   :default => "", :null => false
-    t.column "host_id",      :integer
-    t.column "list_address", :string,  :limit => 100, :default => "", :null => false
-    t.column "friends",      :text,                   :default => "", :null => false
-    t.column "only_friends", :integer, :limit => 4,   :default => 0,  :null => false
-    t.column "link_code",    :string,  :limit => 100, :default => "", :null => false
-    t.column "deleted",      :integer, :limit => 4,   :default => 0,  :null => false
-  end
-
-  add_index "groups_legacy", ["list_address"], :name => "list_address", :unique => true
-  add_index "groups_legacy", ["name"], :name => "name"
-
-  create_table "legacy_people", :force => true do |t|
-    t.column "family_id",          :integer,                :default => 0,  :null => false
-    t.column "sequence",           :integer,                :default => 0,  :null => false
-    t.column "gender",             :string,  :limit => 10
-    t.column "family_name",        :string,  :limit => 100, :default => "", :null => false
-    t.column "family_last_name",   :string,  :limit => 100, :default => "", :null => false
-    t.column "first_name",         :string,  :limit => 100, :default => "", :null => false
-    t.column "last_name",          :string,  :limit => 100, :default => "", :null => false
-    t.column "address1",           :string,  :limit => 100
-    t.column "address2",           :string,  :limit => 100
-    t.column "city",               :string,  :limit => 50
-    t.column "state",              :string,  :limit => 2
-    t.column "zip",                :string,  :limit => 10
-    t.column "phone",              :string,  :limit => 25
-    t.column "mobile_phone",       :string,  :limit => 25
-    t.column "birthday",           :date
-    t.column "anniversary",        :date
-    t.column "family_email",       :string,  :limit => 100
-    t.column "email",              :string,  :limit => 100
-    t.column "photograph",         :string,  :limit => 50,  :default => "", :null => false
-    t.column "classes",            :string,  :limit => 50,  :default => "", :null => false
-    t.column "shepherd",           :string,  :limit => 50,  :default => "", :null => false
-    t.column "mailgroup",          :string,  :limit => 1,   :default => "", :null => false
-    t.column "lat",                :string,  :limit => 25
-    t.column "lon",                :string,  :limit => 25
-    t.column "remove",             :integer, :limit => 4,   :default => 0,  :null => false
-    t.column "nomail",             :integer, :limit => 4,   :default => 0,  :null => false
-    t.column "encrypted_password", :string,  :limit => 100
-  end
-
-  add_index "legacy_people", ["family_id"], :name => "family_id"
-  add_index "legacy_people", ["first_name"], :name => "first_name"
-  add_index "legacy_people", ["last_name"], :name => "last_name"
-  add_index "legacy_people", ["family_last_name"], :name => "family_last_name"
-
   create_table "log_items", :force => true do |t|
     t.column "model_name",  :string,   :limit => 50
     t.column "instance_id", :integer

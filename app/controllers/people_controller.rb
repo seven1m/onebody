@@ -19,7 +19,7 @@ class PeopleController < ApplicationController
       @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
     end
     if not @person or not @logged_in.sees? @person
-      render :text => 'Sorry. Nothing to see here.', :layout => true
+      render :text => 'Not found.', :status => 404
       return
     elsif not @logged_in.member? and @logged_in != @person
       render :action => 'limited_view'

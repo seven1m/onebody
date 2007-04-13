@@ -1,5 +1,5 @@
 class Person < ActiveRecord::Base
-  cattr_accessor :logged_in
+  cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
   
   belongs_to :family
   has_many :memberships
@@ -31,12 +31,13 @@ class Person < ActiveRecord::Base
     self.photo_without_logging = p
   end
   
-  #validates_presence_of :email
   validates_length_of :password, :minimum => 5, :allow_nil => true
   validates_confirmation_of :password
   validates_uniqueness_of :alternate_email, :allow_nil => true
   validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/
   
+  # validate that an email address is unique to one family (family members may share an email address)
+  # validate that an email address is properly formatted
   validates_each :email, :allow_nil => true do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any?
       if Person.count(:conditions => ['LCASE(email) = ? and family_id != ?', value.downcase, record.family_id]) > 0
@@ -47,17 +48,22 @@ class Person < ActiveRecord::Base
       end
     end
   end
-
-  before_save :cleanup_website
-  def cleanup_website
-    self.website = "http://#{website}" if website.to_s.any? and website !~ /^http:\/\//
-  end
   
+  # This method is used all over the site to show the person's name.
+  # Since this method and the person's profile are the only places a child's personal information
+  #   could be displayed, we'll check that the person currently logged in can see this name.
+  # To do this for every attribute would generate too much overhead.
   def name
-    if suffix
-      "#{first_name} #{last_name}, #{suffix}" rescue '???'
-    else
-      "#{first_name} #{last_name}" rescue '???'
+    @name ||= begin
+      if Person.logged_in.can_see? self
+        if suffix
+          "#{first_name} #{last_name}, #{suffix}" rescue '???'
+        else
+          "#{first_name} #{last_name}" rescue '???'
+        end
+      else
+        '???'
+      end
     end
   end
 
@@ -125,6 +131,7 @@ class Person < ActiveRecord::Base
   def can_see?(what)
     if what.is_a? Person
       what == self or
+      what.family_id == self.family_id or
       admin? or
       (
         (MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.include? what.mail_group or what.flags.to_s.include? FLAG_VISIBLE_BY_NON_ADMINS) \
