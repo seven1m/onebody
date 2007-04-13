@@ -55,7 +55,7 @@ class Person < ActiveRecord::Base
   # To do this for every attribute would generate too much overhead.
   def name
     @name ||= begin
-      if Person.logged_in.can_see? self
+      if Person.logged_in.nil? or Person.logged_in.can_see? self
         if suffix
           "#{first_name} #{last_name}, #{suffix}" rescue '???'
         else

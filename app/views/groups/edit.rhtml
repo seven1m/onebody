@@ -1,4 +1,5 @@
 <script type="text/javascript">
+<![CDATA[
   SAFE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   function remove_symbols(text) {
     var sanitized = '';
@@ -8,6 +9,7 @@
     }
     return sanitized.toLowerCase();
   };
+]]>
 </script>
 
 <% if @group.id %>

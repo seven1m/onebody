@@ -205,7 +205,7 @@
       </p>
       
       <p>
-        To show <%= person.name %> on this site, please:
+        To show <%=h person.name %> on this site, please:
       </p>
       <ol>
         <li>Read our page about <%= link_to 'Safeguarding Children', :controller => 'help', :action => 'safeguarding_children' %>.</li>
@@ -216,10 +216,10 @@
       
       <p>
         <%= check_box_tag 'agree', 'I Agree.', false, :class => 'checkbox' %>
-        I, as a parent or legal gaurdian of <%= person.name %>, hereby agree that I have read
+        I, as a parent or legal gaurdian of <%=h person.name %>, hereby agree that I have read
         this site's <%= link_to 'Privacy Policy', :controller => 'help', :action => 'privacy_policy' %>,
-        that the personal information of <%= person.name %> may be displayed for other users of the
-        web site (as determined by the privacy settings on this page), and that <%= person.name %> may, if able, utilize this
+        that the personal information of <%=h person.name %> may be displayed for other users of the
+        web site (as determined by the privacy settings on this page), and that <%=h person.name %> may, if able, utilize this
         website as a normal user (including profile customization, and communication via private message,
         the wall, groups, etc.).<br/>
         <%= submit_tag 'I Agree', :style => 'font-size:12pt;border-style:outset;border-width:2px;' %>
@@ -242,6 +242,7 @@
 </div>
 
 <script type="text/javascript">
+<![CDATA[
   function check_visibility() {
     var checked = $('family_visible').checked;
     $('family').style.display = checked ? '' : 'none';
@@ -276,4 +277,5 @@
   onbeforeunload = function() {
     if(changes) return 'Looks like you made a change to something on this page. Be sure to save your changes before leaving.';
   };
+]]>
 </script>

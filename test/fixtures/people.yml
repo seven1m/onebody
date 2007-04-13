@@ -49,5 +49,7 @@ mac:
   gender: Girl
   first_name: Mac
   last_name: Morgan
+  email: mac@somedomain.com
   mail_group: M
   birthday: 2006-11-03
+  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
