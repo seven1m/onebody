@@ -245,7 +245,7 @@
 <% end %>
 
 <script type="text/javascript">
-<![CDATA[
+//<![CDATA[
   set_up(); // tabs
   changes = false;
   $$('.section input').concat($$('.section textarea')).each(function(e){
@@ -269,5 +269,5 @@
   onbeforeunload = function() {
     if(changes) return 'Looks like you made a change to something on this page. Be sure to save your changes before leaving.';
   };
-]]>
+//]]>
 </script>
