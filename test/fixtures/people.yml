@@ -9,7 +9,7 @@ tim:
   mobile_phone: 9181234567
   birthday: 1981-04-28
   anniversary: 2001-08-11
-  email: tim@somedomain.com
+  email: morgans@somedomain.com
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
   mail_group: M
 jeremy:
@@ -42,6 +42,8 @@ jennie:
   last_name: Morgan
   mail_group: M
   birthday: 1980-06-24
+  email: morgans@somedomain.com
+  encrypted_password: 5f4dcc3b5aa765d61d8327deb882cf99 # password
 mac:
   id: 5
   family_id: 1

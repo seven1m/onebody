@@ -43,7 +43,7 @@ class Person < ActiveRecord::Base
       if Person.count(:conditions => ['LCASE(email) = ? and family_id != ?', value.downcase, record.family_id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
       end
-      if value !~ /^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+      if value !~ /^[A-Z0-9\._%\-]+@[A-Z0-9\.\-]+\.[A-Z]{2,4}$/i
         record.errors.add attribute, 'not a valid email address.'
       end
     end

@@ -43,6 +43,7 @@ module Foo
           password = Digest::MD5.hexdigest(password)
           people = find_all_by_email(email)
           if people.length > 0
+            # try each person until a password matches
             people.each do |person|
               return person if person.encrypted_password == password
             end
