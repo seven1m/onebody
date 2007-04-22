@@ -7,8 +7,6 @@ module ActiveRecord
       end
       
       # generates a method like "share_mobile_phone_with(person)"
-      # if not sharing the information by default, then determines if
-      # the two people are in a group together where the info is shared
       def share_with(attribute)
         class_eval \
           "

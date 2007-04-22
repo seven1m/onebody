@@ -54,21 +54,23 @@ class PersonTest < Test::Unit::TestCase
   end
   
   def test_sharing
+    # update_attribute to nil doesn't seem to work for booleans on fixture instantiated instances
+    f = families(:morgan); p = Person.find(people(:jennie).id)
     # family = true, person = false, peter should not see
-    families(:morgan).update_attribute :share_mobile_phone, true
-    people(:jennie).update_attribute :share_mobile_phone, false
-    assert !people(:jennie).share_mobile_phone_with(people(:peter))
+    f.update_attribute :share_mobile_phone, true
+    p.update_attribute :share_mobile_phone, false
+    assert !p.share_mobile_phone_with(people(:peter))
     # family = false, person = true, peter should see
-    families(:morgan).update_attribute :share_mobile_phone, false
-    people(:jennie).update_attribute :share_mobile_phone, true
-    assert people(:jennie).share_mobile_phone_with(people(:peter))
+    f.update_attribute :share_mobile_phone, false
+    p.update_attribute :share_mobile_phone, true
+    assert p.share_mobile_phone_with(people(:peter))
     # family = true, person = nil, peter should see
-    families(:morgan).update_attribute :share_mobile_phone, true
-    people(:jennie).update_attributes :share_mobile_phone => nil
-    assert people(:jennie).share_mobile_phone_with(people(:peter))
+    f.update_attribute :share_mobile_phone, true
+    p.update_attribute :share_mobile_phone, nil
+    assert Person.find(people(:jennie).id).share_mobile_phone_with(people(:peter))
     # family = false, person = nil, peter should not see
-    families(:morgan).update_attribute :share_mobile_phone, false
-    people(:jennie).update_attributes :share_mobile_phone => nil
-    assert !people(:jennie).share_mobile_phone_with(people(:peter))
+    f.update_attribute :share_mobile_phone, false
+    p.update_attribute :share_mobile_phone, nil
+    assert !Person.find(people(:jennie).id).share_mobile_phone_with(people(:peter))
   end
 end
