@@ -31,9 +31,9 @@ module ApplicationHelper
   end
   
   # only necessary if the saferb plugin is uninstalled
-  #def safe_string(s)
-  #  s.untaint
-  #  return s
-  #end
-  #alias s safe_string
+  def safe_string(s)
+    s.untaint
+    return s
+  end
+  alias s safe_string
 end
