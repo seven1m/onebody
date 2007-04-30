@@ -32,4 +32,8 @@ class VersesController < ApplicationController
     @verse.tags.delete Tag.find(params[:tag_id])
     redirect_to :action => 'view', :id => @verse.reference
   end
+
+  def add_verse
+    redirect_to params.merge({:controller => 'people'})
+  end
 end
