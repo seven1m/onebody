@@ -1,6 +1,6 @@
 class NewsController < ApplicationController
   def index
-    @news_items = NewsItem.find :all, :order => 'published desc'
+    @news_items = NewsItem.find :all, :order => 'published desc', :conditions => ['active = ?', true]
   end
   
   def view
