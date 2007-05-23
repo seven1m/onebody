@@ -8,7 +8,7 @@ class NewsController < ApplicationController
   end
   
   def marquee
-    if (items = NewsItem.find :all, :order => 'published desc').any?
+    if (items = NewsItem.find :all, :order => 'published desc', :conditions => ['active = ?', true]).any?
       @headlines = items.map do |item|
         [item.title, url_for(:controller => 'news', :action => 'view', :id => item)]
       end
