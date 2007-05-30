@@ -1,5 +1,5 @@
 class AccountController < ApplicationController
-  before_filter :check_ssl, :except => [:sign_out]
+  before_filter :check_ssl, :except => [:sign_out, :verify_code]
 
   def sign_in
     if request.post?
