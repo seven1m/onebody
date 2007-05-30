@@ -28,6 +28,6 @@ class CommentsController < ApplicationController
       comment.destroy
       flash[:notice] = 'Comment deleted.'
     end
-    redirect_to params[:return_to]
+    redirect_to params[:return_to] || '/'
    end
 end
