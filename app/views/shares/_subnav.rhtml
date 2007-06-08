@@ -3,7 +3,8 @@
   <%= link_to 'Pictures', :controller => 'pictures' %>
   <%= link_to 'Verses', :controller => 'verses' %>
   <%= link_to 'Recipes', :controller => 'recipes' %>
-  <%= link_to 'News', :controller => 'news' %>
+  <%! link_to 'News', :controller => 'news' %>
+  <% if NEWS_URL %><%= link_to 'News', NEWS_URL %><% end %>
   <% if @logged_in.admin? or @logged_in.music_access? %>
     <%= link_to 'Music', :controller => 'music' %>
   <% end %>

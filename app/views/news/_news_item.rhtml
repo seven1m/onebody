@@ -2,7 +2,10 @@
   <h2 class="headline"><%= link_to news_item.title, :controller => 'news', :action => 'view', :id => news_item %></h2>
   <%= news_item.body %>
 <% else %>
-  <p style="font-weight:bold;"><%= link_to h(news_item.title), :controller => 'news', :action => 'view', :id => news_item %></p>
+  <p style="font-weight:bold;">
+    <%! link_to h(news_item.title), :controller => 'news', :action => 'view', :id => news_item %>
+    <%= link_to h(news_item.title), news_item.link %>
+  </p>
 <% end %>
 <% if (count = news_item.comments.count) > 0 %>
   <div class="comment-summary">
