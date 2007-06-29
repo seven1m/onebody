@@ -1,6 +1,9 @@
 Installation
 ============
 
+The following instructions are for Linux/Unix only. Installation on Windows
+should be possible, but as of the writing of this, 
+
 Prerequisites: Ruby on Rails, MySQL, RMagick
 
 1. svn co http://svn.71m.org/svn/cedarridgefamily/trunk /where/you/want/cedarridgefamily
@@ -20,7 +23,11 @@ Email Forwarding
 ----------------
 
 To set up the app to accept mail on a domain, set up your favorite
-mail server and create a catch-all address. In the home directory of
-the user to which this address is associated, copy the dot-forward file
-(in this directory) and rename as ".forward" (without the quotes).
-Edit the file and adjust the path to the app as appropriate.
+mail server and create a catch-all address for your domain.
+
+Add the following line to your /etc/crontab file:
+
+*/2 * * * * root /path/to/app/script/inbox host username password
+
+This will run the inbox script every two mintues, logging into "host" with
+"username" and "password", and grabbing new email.

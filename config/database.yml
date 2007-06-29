@@ -1,14 +1,17 @@
 development:
   adapter: mysql
-  database: crccweb
+  database: beonebody_dev
   username: root
   password: 
 
 test:
   adapter: mysql
-  database: crccweb_test
+  database: beonebody_test
   username: root
   password: 
 
 production:
-  development
+  adapter: mysql
+  database: beonebody
+  username: root
+  password: 

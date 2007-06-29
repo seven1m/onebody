@@ -1,12 +1,16 @@
 #!/usr/bin/env ruby
 
+# example:
+# script/inbox localhost username password
+
 require 'net/pop'
 require File.dirname(__FILE__) + '/../config/environment'
 
 logger = RAILS_DEFAULT_LOGGER
 
 logger.info "Running Mail Importer..." 
-Net::POP3.start("localhost", nil, "cedarridgefamily", "making_a_diff") do |pop|
+
+Net::POP3.start(ARGV[0], nil, ARGV[1], ARGV[2]) do |pop|
   if pop.mails.empty?
     logger.info "NO MAIL" 
   else
