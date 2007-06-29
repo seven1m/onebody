@@ -1,1 +1,0 @@
-"|/path/to/cedarridgefamily/script/runner -e production 'Notifier.receive(STDIN.read)'"
