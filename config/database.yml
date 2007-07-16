@@ -1,17 +1,17 @@
 development:
   adapter: mysql
-  database: beonebody_dev
+  database: onebody_dev
   username: root
   password: 
 
 test:
   adapter: mysql
-  database: beonebody_test
+  database: onebody_test
   username: root
   password: 
 
 production:
   adapter: mysql
-  database: beonebody
+  database: onebody
   username: root
   password: 

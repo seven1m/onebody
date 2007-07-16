@@ -1,0 +1,6 @@
+<% content_for :sidebar do %>
+  <p><%= link_to @person.name, person_url(:id => @person) %>
+  <%= render :partial => 'people/photo' %>
+<% end %>
+
+<%= render :partial => 'note', :locals => {:note => @note} %>

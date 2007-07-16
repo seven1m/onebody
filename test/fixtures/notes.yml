@@ -1,0 +1,27 @@
+# == Schema Information
+# Schema version: 63
+#
+# Table name: notes
+#
+#  id           :integer(11)   not null, primary key
+#  person_id    :integer(11)   
+#  title        :string(255)   
+#  body         :text          
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  original_url :string(255)   
+#  deleted      :boolean(1)    
+#
+
+one:
+  id: 1
+  person_id: 1
+  title: First Note
+  body: >
+    <p>This is the first note.</p>
+    <ul>
+      <li>item 1</li>
+      <li>item 2</li>
+    </ul>
+  created_at: 2007-07-15 10:00
+  updated_at: 2007-07-15 10:00

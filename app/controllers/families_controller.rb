@@ -1,7 +1,7 @@
 class FamiliesController < ApplicationController
   def photo
     @family = Family.find params[:id].to_i
-    if @logged_in.member?
+    if @logged_in.full_access?
       send_photo @family
     else
       render :text => 'unauthorized to view this photo', :status => 404

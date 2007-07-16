@@ -3,7 +3,7 @@ class PeopleController < ApplicationController
     @person = @logged_in
     @family = @person.family
     @prayer_signups = [] #@person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
-    if @logged_in.member?
+    if @logged_in.full_access?
       unless @person.visible?
         flash[:warning] = "<img src=\"/images/lock.gif\" class=\"no-border\"/> Your profile is hidden! <a href=\"#{url_for :action => 'privacy'}\">Click here</a> to change your privacy settings."
       end
@@ -16,13 +16,22 @@ class PeopleController < ApplicationController
   def view
     if @person = Person.find(params[:id]) rescue nil
       @family = @person.family
-      @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
+      #@prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
     end
     if not @person or not @logged_in.sees? @person
       render :text => 'Not found.', :status => 404
       return
-    elsif not @logged_in.member? and @logged_in != @person
+    elsif not @logged_in.full_access? and @logged_in != @person
       render :action => 'limited_view'
+    end
+  end
+  
+  def notes
+    @person = Person.find params[:id]
+    if @logged_in.sees?(@person)
+      render :partial => 'notes'
+    else
+      render :text => 'You are not authorized to view this person.', :layout => true
     end
   end
   
@@ -49,7 +58,7 @@ class PeopleController < ApplicationController
     @family = @person.family
     if not @logged_in.sees? @person
       render :text => 'You are not authorized to view this person.', :layout => true
-    elsif not @logged_in.member?
+    elsif not @logged_in.full_access?
       render :text => ''
     else
       @show_photo = show_photo
@@ -105,7 +114,7 @@ class PeopleController < ApplicationController
         conditions.add_condition ["(people.mail_group in (#{mg}) or people.flags like ?)", "%#{FLAG_VISIBLE_BY_NON_ADMINS}%"]
         conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
       end
-      conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.member?
+      conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.full_access?
       conditions.add_condition ["MONTH(people.birthday) = ?", params[:birthday_month].to_i] if params[:birthday_month].to_s.any?
       conditions.add_condition ["DAY(people.birthday) = ?", params[:birthday_day].to_i] if params[:birthday_day].to_s.any?
       conditions.add_condition ["MONTH(people.anniversary) = ?", params[:anniversary_month].to_i] if params[:anniversary_month].to_s.any?
@@ -360,7 +369,7 @@ class PeopleController < ApplicationController
     flash[:notice] = 'Verse removed.'
     redirect_to params[:return_to] || {:action => 'view', :id => @logged_in, :anchor => 'shares'}
   end
-  
+      
   # Wall
   # ====
   
@@ -393,7 +402,7 @@ class PeopleController < ApplicationController
   # =================
   
   def directory_to_pdf
-    unless @logged_in.member?
+    unless @logged_in.full_access?
       render :text => 'You are not allowed to print the directory. Sorry.', :layout => true
       return
     end

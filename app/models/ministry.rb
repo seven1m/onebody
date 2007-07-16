@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 63
+#
+# Table name: ministries
+#
+#  id          :integer(11)   not null, primary key
+#  admin_id    :integer(11)   
+#  name        :string(100)   
+#  description :text          
+#  updated_at  :datetime      
+#
+
 class Ministry < ActiveRecord::Base
   belongs_to :administrator, :class_name => 'Person', :foreign_key => 'admin_id'
   has_many :workers, :dependent => :destroy

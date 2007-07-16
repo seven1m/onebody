@@ -1,0 +1,11 @@
+<% if @person == @logged_in %>
+  <%= render :partial => 'notes/add_note' %>
+<% end %>
+
+<% if @person.has_notes? %>
+  <% @person.notes.find(:all, :limit => 5).each do |note| %>
+    <%= render :partial => 'notes/note', :locals => {:note => note} %>
+  <% end %>
+<% elsif @person == @logged_in %>
+  <p><em>You don't have any notes yet.</em></p>
+<% end %>

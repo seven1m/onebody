@@ -12,7 +12,7 @@ class PrivacyTest < ActionController::IntegrationTest
   end
 
   def test_help_for_parents_with_hidden_children
-    sign_in_as people(:tim)
+    sign_in_as people(:jeremy)
     get '/people/index'
     assert_response :success
     assert_template 'people/view'
@@ -54,7 +54,6 @@ class PrivacyTest < ActionController::IntegrationTest
     assert_redirected_to '/help/unauthorized'
     people(:mac).update_attribute :parental_consent, 'consent statement goes here' # not nil means this child has consent
     sign_in_as people(:mac)  # sign_in_as() will do assertions
-    people(:mac).update_attribute :parental_consent, nil # put it back for other tests
   end
   
   def test_parent_give_parental_consent
@@ -78,20 +77,14 @@ class PrivacyTest < ActionController::IntegrationTest
     assert_template 'people/view'
     assert_select '#sidebar tr.family-member', 3 # not 2 (should see child)
     assert_select '#sidebar tr.family-member', :minimum => 1, :text => Regexp.new(people(:mac).name)
-    people(:mac).update_attribute :parental_consent, nil # put it back for other tests
   end
   
   def test_invisible_profiles
-    people(:jennie).update_attribute :visible, false
-    sign_in_as people(:tim)
+    people(:jeanette).update_attribute :visible, false
+    sign_in_as people(:jeremy)
     assert_select '#sidebar tr.family-member', 0 # only 1 visible family member -- no people displayed when there's only 1
     sign_in_as people(:peter)
-    get "/people/view/#{people(:jennie).id}"
+    get "/people/view/#{people(:jeanette).id}"
     assert_response :missing
-    people(:jennie).update_attribute :visible, true # put it back for other tests
   end
-  
-  #def test_invisible_attributes
-    # later
-  #end
 end

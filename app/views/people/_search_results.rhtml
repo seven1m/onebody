@@ -43,7 +43,7 @@
     <% @people.each do |person| %>
       <tr>
         <td>
-          <a href="<%= url_for :action => 'view', :id => person %>" <% if @logged_in.member? %>onmouseover="try{clearTimeout(hider)}catch(e){};show_popup(<%= person.id %>, true)" onmouseout="hider=setTimeout('hide_popup()', 1000)"<% end %>>
+          <a href="<%= url_for :action => 'view', :id => person %>" <% if @logged_in.full_access? %>onmouseover="try{clearTimeout(hider)}catch(e){};show_popup(<%= person.id %>, true)" onmouseout="hider=setTimeout('hide_popup()', 1000)"<% end %>>
             <% if person.has_photo? %>
               <%= image_tag url_for(:action => 'photo', :id => "#{person.id}.tn.jpg"), :alt => person.name, :class => 'no-border' %>
             <% elsif person.family and person.family.has_photo? %>
@@ -52,7 +52,7 @@
           </a>
         </td>
         <% if @show_service %>
-          <td><%= link_to h(person.service_name), {:action => 'services', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
+          <td><%= link_to h(person.service_name), {:action => 'services', :id => person}, :onmouseover => (@logged_in.full_access? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.full_access? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
           <td>
             <% if person.service_category.to_s.any? %>
               <%= link_to person.service_category, :action => 'search', :service => true, :category => person.service_category %>
@@ -60,8 +60,8 @@
           </td>
         <% else %>
           <td>
-            <%= link_to h(person.name), {:action => 'view', :id => person}, :onmouseover => (@logged_in.member? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.member? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
-            <% if person.church_member? %>
+            <%= link_to h(person.name), {:action => 'view', :id => person}, :onmouseover => (@logged_in.full_access? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.full_access? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
+            <% if person.member? %>
               <%= image_tag 'star.gif', :alt => 'Member', :class => 'no-border', :style => 'vertical-align:middle;' %>
             <% end %>
             <% unless person.visible? %>
@@ -77,7 +77,7 @@
           <td><%= h(person.mail_group) %></td>
         <% end %>
         <td>
-          <% unless @logged_in.people.include? person or @logged_in == person or not @logged_in.member? %>
+          <% unless @logged_in.people.include? person or @logged_in == person or not @logged_in.full_access? %>
             <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to contacts', :class => 'icon'), {:url => {:action => 'add_contact', :id => person}, :loading => "$('add_contact_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';"}, :class => 'discreet', :id => "add_contact_#{person.id}" %>
           <% end %>
         </td>

@@ -1,23 +1,28 @@
 Installation
 ============
 
-The following instructions are for Linux/Unix only. Installation on Windows
-should be possible, but as of the writing of this, 
+The following instructions are for Linux/Unix only.
 
-Prerequisites: Ruby on Rails, MySQL, RMagick
+Prerequisites: Ruby, Ruby on Rails, MySQL (and ruby MySQL library), RMagick
 
-1. svn co http://svn.71m.org/svn/cedarridgefamily/trunk /where/you/want/cedarridgefamily
+1. svn co http://svn.71m.org/svn/onebody/trunk /where/you/want/onebody
 2. gem install 'pdf-writer'
-3. Create a database in MySQL called "crccweb"
-4. If your MySQL root user has a password, modify config/database.yml appropriately
-5. cd /where/you/installed/cedarridgefamily
-6. mysql -u root -p crccweb < db/crccweb.sql
+3. install ruby-amazon from http://www.caliban.org/ruby/ruby-amazon.shtml#files
+4. Create three databases in MySQL: "onebody", "onebody_dev", "onebody_test"
+5. If your MySQL root user has a password, modify config/database.yml appropriately
+6. cd /where/you/installed/onebody
 7. rake db:migrate
 
-For development, you may run script/server and browse to http://127.0.0.1:3000
+Development
+-----------
 
-For production environments, you may wish to set up some load balancing
-and such. Google is your friend.
+8. rake db:fixtures:load
+9. run script/server and browse to http://127.0.0.1:3000
+
+Production
+----------
+
+(Out of the scope of this document.)
 
 Email Forwarding
 ----------------
@@ -29,5 +34,5 @@ Add the following line to your /etc/crontab file:
 
 */2 * * * * root /path/to/app/script/inbox host username password
 
-This will run the inbox script every two mintues, logging into "host" with
+This will run the inbox script every two minutes, logging into "host" with
 "username" and "password", and grabbing new email.

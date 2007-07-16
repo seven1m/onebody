@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 63
+#
+# Table name: publications
+#
+#  id          :integer(11)   not null, primary key
+#  name        :string(255)   
+#  description :text          
+#  created_at  :datetime      
+#  file        :string(255)   
+#  updated_at  :datetime      
+#
+
 class Publication < ActiveRecord::Base
   acts_as_file 'db/publications'
   acts_as_logger LogItem

@@ -37,9 +37,9 @@
 
 <h1><%=h @group.name %></h1>
 
-<% if @logged_in.admin? or @group.admin? @logged_in %>
-  <% content_for :subnav do %>
-    <li><%= link_to 'List of Groups', :action => 'index' %></li>
+<% content_for :subnav do %>
+  <li><%= link_to 'List of Groups', :action => 'index' %></li>
+  <% if @logged_in.admin?(:manage_groups) or @group.admin? @logged_in %>
     <li><%= link_to 'Edit Group', :action => 'edit', :id => @group %></li>
     <% if not @group.approved and @logged_in.admin? %>
       <li><%= link_to 'Approve Group', {:action => 'approve', :id => @group}, :confirm => 'Are you sure?', :method => 'post' %></li>

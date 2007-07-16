@@ -28,6 +28,23 @@
       :controller => 'help', :action => 'safeguarding_children' %></p>
   <% end %>
   
+  <% if @logged_in == @person %>
+    <% if @person.testimony.to_s.empty? %>
+      <p class="highlight">
+        You can
+        <%= link_to 'share your testimony', :action => 'edit', :id => @person, :anchor => 'about' %>
+        on your profile. Or you can read others' testimonies
+        <%= link_to 'here', :action => 'search', :testimony => true %>.
+      </p>
+    <% end %>
+    <% if not (@person.has_shares? or @person.has_notes?) %>
+      <p class="highlight">
+        Hey! Did you know you can <%= link_to 'share', :controller => 'shares' %>
+        your favorite pictures, Bible verses, and even recipes?
+      </p>
+    <% end %>
+  <% end %>
+  
   <%= render :partial => 'contacts' %>
 
 <% end %>
@@ -51,7 +68,7 @@
 
 <h1>
   <%=h @person.name %>
-  <% if @person.church_member? %>
+  <% if @person.member? %>
     <span style="font-size:10pt;">
       <%= image_tag 'star.gif', :alt => 'Member', :class => 'no-border' %>Member
     </span>
@@ -86,7 +103,7 @@
   <% end %>
 <% end %>
 
-<% if @prayer_signups.any? %>
+<% if nil and @prayer_signups.any? %>
   <p class="highlight" style="width:300px;">
     <%= @person.first_name %> is praying at the following time(s):<br/>
     <%= @prayer_signups.map { |s| s.start.strftime '%a %m/%d, %I:%M %p' }.join('<br/>') %>
@@ -103,23 +120,6 @@
   <p style="font-style:italic;">
     Private messaging is not enabled for <%=h @person.first_name %>.
   </p>
-<% end %>
-
-<% if @logged_in == @person %>
-  <% if @person.testimony.to_s.empty? %>
-    <p class="highlight">
-      You can share your testimomy here.
-      <%= link_to 'Get to it!', :action => 'edit', :id => @person, :anchor => 'about' %><br/>
-      Or you can read others' testimonies
-      <%= link_to 'here', :action => 'search', :testimony => true %>.
-    </p>
-  <% end %>
-  <% if not @person.has_shares? %>
-    <p class="highlight">
-      Hey! Did you know you can <%= link_to 'share', :controller => 'shares' %>
-      your favorite pictures, Bible verses, and even recipes on <%= SITE_TITLE %>?
-    </p>
-  <% end %>
 <% end %>
 
 <br clear="right"/>
@@ -139,13 +139,14 @@
   </div>
 <% end %>
 
+<% if @person.has_notes? or @person == @logged_in %>
+  <h2 class="tab" id="notes">Notes</h2>
+  <div class="section" id="notes_content"></div>
+<% end %>
+
 <% if @person.has_shares? %>
   <h2 class="tab" id="shares">Shares</h2>
-  <div class="section" id="shares_content">
-    <% if not (@person.about.to_s.any? or @person.testimony.to_s.any?) %>
-      <%= render :partial => 'shares' %>
-    <% end %>
-  </div>
+  <div class="section" id="shares_content"></div>
 <% end %>
 
 <% if has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
@@ -188,22 +189,14 @@
   </div>
 <% end %>
 
-<% if @person.groups.any? %>
+<% if @person.has_groups? %>
   <h2 class="tab" id="groups">Groups</h2>
-  <div class="section" id="groups_content">
-    <% if not (@person.about.to_s.any? or @person.testimony.to_s.any? or @person.has_shares? or has_favs) %>
-      <%= render :partial => 'groups' %>
-    <% end %>
-  </div>
+  <div class="section" id="groups_content"></div>
 <% end %>
 
-<% if @person.wall_enabled %>
+<% if @person.wall_enabled? %>
   <h2 class="tab" id="wall">Wall</h2>
-  <div class="section" id="wall_content">
-    <% if not (@person.about.to_s.any? or @person.testimony.to_s.any? or @person.has_shares? or has_favs or @person.groups.any?) %>
-      <%= render :partial => 'wall' %>
-    <% end %>
-  </div>
+  <div class="section" id="wall_content"></div>
 <% end %>
 
 <!--
@@ -223,10 +216,25 @@
 </style>
 <script type="text/javascript">
 //<![CDATA[
-  shares_loaded = groups_loaded = wall_loaded = false;
+  notes_loaded = shares_loaded = groups_loaded = wall_loaded = false;
   function load_tab(id) {
-    if(id == 'shares') {
-      if(!shares_loaded) {
+    if(id == 'notes') {
+      if(!notes_loaded) {
+        new Ajax.Updater(
+          'notes_content',
+          '<%= url_for(:action => 'notes', :id => @person) %>',
+          {
+            method: 'get',
+            onLoading:function(){$('notes_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
+            onComplete:function(){
+              Element.hide('add_note');
+              Element.show('add_note_link');
+            }
+          }
+        );
+        notes_loaded = true;
+      }
+    } else if(id == 'shares') {
         new Ajax.Updater(
           'shares_content',
           '<%= url_for(:action => 'shares', :id => @person) %>',
@@ -241,7 +249,6 @@
           }
         );
         shares_loaded = true;
-      }
     } else if(id == 'groups') {
       if(!groups_loaded) {
         new Ajax.Updater(
@@ -270,12 +277,25 @@
 //]]>
 </script>
 
-<% if @person.family.mapable? and @person.share_address_with @logged_in %>
-  <% if nil and request.ssl? %>
-    <script type="text/javascript" src="<%= SECURE_MAP_API_URL %>?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
-  <% else %>
-    <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
+<script type="text/javascript">
+//<![CDATA[
+  <% if not (@person.about.to_s.any? or @person.testimony.to_s.any?) %>
+    <% if @person.has_notes? or @person == @logged_in %>
+      load_tab('notes')
+    <% elsif @person.has_shares? %>
+      load_tab('shares')
+    <% elsif has_favs %>
+    <% elsif @person.has_groups? %>
+      load_tab('groups')
+    <% elsif @person.wall_enabled? %>
+      load_tab('wall')
+    <% end %>
   <% end %>
+//]]>
+</script>
+
+<% if @person.family.mapable? and @person.share_address_with @logged_in %>
+  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
   <script type="text/javascript">
     var address = <%=s @person.family.mapable_address.inspect %>;
     map_loaded = false;

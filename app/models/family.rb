@@ -1,3 +1,36 @@
+# == Schema Information
+# Schema version: 63
+#
+# Table name: families
+#
+#  id                 :integer(11)   not null, primary key
+#  legacy_id          :integer(11)   
+#  name               :string(255)   
+#  last_name          :string(255)   
+#  suffix             :string(25)    
+#  address1           :string(255)   
+#  address2           :string(255)   
+#  city               :string(255)   
+#  state              :string(2)     
+#  zip                :string(10)    
+#  home_phone         :integer(20)   
+#  email              :string(255)   
+#  latitude           :float         
+#  longitude          :float         
+#  mail_group         :string(1)     
+#  security_token     :string(25)    
+#  share_address      :boolean(1)    default(TRUE)
+#  share_mobile_phone :boolean(1)    
+#  share_work_phone   :boolean(1)    
+#  share_fax          :boolean(1)    
+#  share_email        :boolean(1)    
+#  share_birthday     :boolean(1)    default(TRUE)
+#  share_anniversary  :boolean(1)    default(TRUE)
+#  updated_at         :datetime      
+#  wall_enabled       :boolean(1)    default(TRUE)
+#  visible            :boolean(1)    default(TRUE)
+#
+
 class Family < ActiveRecord::Base
   has_many :people, :order => 'sequence'
   
@@ -48,22 +81,6 @@ class Family < ActiveRecord::Base
     end
   end
 
-  def name
-    if f = NAME_CONVERSIONS[:families][id] and n = f[:name]
-      n
-    else
-      read_attribute(:name)
-    end
-  end
-
-  def last_name
-    if f = NAME_CONVERSIONS[:families][id] and n = f[:last_name]
-      n
-    else
-      read_attribute(:last_name)
-    end
-  end
-  
   def children_without_consent
     people.select { |p| !p.consent_or_13? }
   end

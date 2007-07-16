@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 63
+#
+# Table name: events
+#
+#  id          :integer(11)   not null, primary key
+#  person_id   :integer(11)   
+#  name        :string(255)   
+#  description :text          
+#  when        :datetime      
+#  created_at  :datetime      
+#  open        :boolean(1)    
+#  admins      :text          
+#  updated_at  :datetime      
+#
+
 class Event < ActiveRecord::Base
   has_many :pictures, :order => 'created_at', :dependent => :destroy
   has_many :recipes, :order => 'title', :dependent => :nullify

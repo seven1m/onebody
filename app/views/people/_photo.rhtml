@@ -3,8 +3,8 @@
     <%= link_to image_tag(url_for(:action => 'photo', :id => "#{@person.id}.medium.jpg"), :alt => h(@person.name)),
       :controller => 'people', :action => 'photo', :id => "#{@person.id}.large.jpg", :back => url_for(params) %>
   <% else %>
-    <%= render :partial => 'silhouette' %>
-    <% if @person == @logged_in and params[:action] != 'edit' %>
+    <%= render :partial => 'people/silhouette' %>
+    <% if @person == @logged_in and (params[:controller] == 'people' and params[:action] == 'view') %>
       <br/>
       <%= link_to image_tag('person_picture.gif', :alt => 'Upload your picture.', :class => 'no-border', :style => 'vertical-align:middle;') + ' Upload Your Picture', :action => 'edit' %>
     <% end %>

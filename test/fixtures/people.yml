@@ -1,3 +1,63 @@
+# == Schema Information
+# Schema version: 63
+#
+# Table name: people
+#
+#  id                  :integer(11)   not null, primary key
+#  legacy_id           :integer(11)   
+#  family_id           :integer(11)   
+#  sequence            :integer(11)   
+#  gender              :string(6)     
+#  first_name          :string(255)   
+#  last_name           :string(255)   
+#  suffix              :string(25)    
+#  mobile_phone        :integer(20)   
+#  work_phone          :integer(20)   
+#  fax                 :integer(20)   
+#  birthday            :datetime      
+#  email               :string(255)   
+#  email_changed       :boolean(1)    
+#  website             :string(255)   
+#  classes             :string(255)   
+#  shepherd            :string(255)   
+#  mail_group          :string(1)     
+#  encrypted_password  :string(100)   
+#  service_name        :string(100)   
+#  service_description :text          
+#  service_phone       :integer(20)   
+#  service_email       :string(255)   
+#  service_website     :string(255)   
+#  activities          :text          
+#  interests           :text          
+#  music               :text          
+#  tv_shows            :text          
+#  movies              :text          
+#  books               :text          
+#  quotes              :text          
+#  about               :text          
+#  testimony           :text          
+#  share_mobile_phone  :boolean(1)    
+#  share_work_phone    :boolean(1)    
+#  share_fax           :boolean(1)    
+#  share_email         :boolean(1)    
+#  share_birthday      :boolean(1)    
+#  anniversary         :datetime      
+#  updated_at          :datetime      
+#  alternate_email     :string(255)   
+#  email_bounces       :integer(11)   default(0)
+#  service_category    :string(100)   
+#  get_wall_email      :boolean(1)    default(TRUE)
+#  frozen              :boolean(1)    
+#  wall_enabled        :boolean(1)    
+#  messages_enabled    :boolean(1)    default(TRUE)
+#  service_address     :string(255)   
+#  flags               :string(255)   
+#  music_access        :boolean(1)    
+#  visible             :boolean(1)    default(TRUE)
+#  parental_consent    :string(255)   
+#  admin_id            :integer(11)   
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 tim:
   id: 1
@@ -12,6 +72,7 @@ tim:
   email: morgans@somedomain.com
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
   mail_group: M
+  wall_enabled: true
 jeremy:
   id: 2
   family_id: 2
@@ -22,6 +83,8 @@ jeremy:
   birthday: 1977-04-01
   classes: BW,ZZ,PT,CF,W08,OF03,W04,W10
   mail_group: M
+  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  email: jeremy@example.com
 peter:
   id: 3
   family_id: 3
@@ -54,4 +117,25 @@ mac:
   email: mac@somedomain.com
   mail_group: M
   birthday: 2006-11-03
+  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+jeanette:
+  id: 6
+  family_id: 2
+  sequence: 2
+  gender: Woman
+  first_name: Jeanette
+  last_name: Zongker
+  mail_group: M
+  birthday: 1980-06-24
+  email: jeanette@somedomain.com
+  encrypted_password: 5f4dcc3b5aa765d61d8327deb882cf99 # password
+katrina:
+  id: 7
+  family_id: 2
+  sequence: 3
+  gender: Girl
+  first_name: Katrina
+  last_name: Zongker
+  mail_group: M
+  birthday: 2006-10-26
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret

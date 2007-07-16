@@ -27,7 +27,7 @@ module Foo
             def log_changes
               @changes.delete 'updated_at'
               @changes.delete 'created_at'
-              if @changes.any?
+              if @changes.any? and @@log_class.table_exists?
                 @@log_class.create(
                   :model_name => self.class.name,
                   :instance_id => self.id,

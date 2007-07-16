@@ -1,0 +1,9 @@
+<%= form_tag(edit_note_url(:id => @note), :method => 'post') %>
+  <p>
+    <label for="note_title">Title:</label>
+    <%= text_field_tag 'note[title]', white_list(@note.title), :id => 'note_title' %><br/>
+    <label for="note_body">Note:</label><br/>
+    <%= text_area_tag 'note[body]', white_list(@note.body), :id => 'note_body', :rows => '10' %><br/>
+    <%= submit_tag 'Save Note', :style => 'width:100px;' %>
+  </p>
+</form>
