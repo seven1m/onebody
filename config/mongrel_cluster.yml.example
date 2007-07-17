@@ -1,6 +1,6 @@
 --- 
 user: mongrel
-cwd: /var/rails/cedarridgefamily
+cwd: /var/rails/onebody
 port: "8000"
 environment: production
 group: mongrel
