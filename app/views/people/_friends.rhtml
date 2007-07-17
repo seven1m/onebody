@@ -1,0 +1,20 @@
+<% if @person.friendships.count > 0 %>
+  <h2>Friends</h2>
+  <table>
+    <% @person.friends.each do |friend| %>
+      <tr>
+        <td>
+          <a href="<%= url_for :action => 'view', :id => friend %>">
+            <%= render :partial => 'thumbnail', :locals => {:person => friend} %>
+          </a>
+        </td>
+        <td class="friend">
+          <span id="friend_<%= friend.id %>">
+            <%= link_to h(friend.name), person_url(:id => friend) %>
+            <%= link_to_remote image_tag('remove.gif', :alt => 'Remove Friend', :class => 'icon'), {:url => remove_friend_url(:id => friend), :loading => "$('friend_#{friend.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\" id=\"contact_spinner_#{contact.id}\"/>';"}, :id => "remove_friend_#{friend.id}", :class => 'remove-friend' %>
+          </span>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

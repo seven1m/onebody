@@ -4,11 +4,19 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action/:id'
   map.connect ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
   
-  map.person 'people/view/:id', :controller => 'people', :action => 'view'
+  map.with_options :controller => 'people' do |m|
+    m.person 'people/view/:id', :action => 'view'
+    m.logged_in 'people', :action => 'index'
+  end
   
   map.with_options :controller => 'notes' do |m|
     m.new_note 'notes/edit', :action => 'edit'
     m.edit_note 'notes/edit/:id', :action => 'edit'
     m.delete_note 'notes/delete/:id', :action => 'delete'
+  end
+  
+  map.with_options :controller => 'friends' do |m|
+    m.remove_friend_url 'friends/remove/:id', :action => 'remove'
+    m.add_friend_url 'friends/add/:id', :action => 'add'
   end
 end
