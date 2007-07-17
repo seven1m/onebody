@@ -1,0 +1,67 @@
+== Transaction::Simple 1.4.0 / 2007.02.03
+
+* Adding a post-rewind hook (#_post_transaction_rewind) so that complex
+  graph objects can correct themselves after rewinding. See the
+  documentation for #rewind_transaction and tests/tc_broken_graph.rb for
+  more information.
+* Removed all warnings.
+* Deprecated the #transaction method.
+* Various administrative changes:
+  - Converted to a hoe-driven project.
+  - Made the gem and .tar.gz files idempotent.
+  - Cleaned up the code a little further.
+  - Changed non-gem installer to setup.rb version 3.4.1.
+
+== Transaction::Simple 1.3.1
+
+* Explicitly clearing the transaction checkpoint on objects when the
+  last open transaction is committed or aborted.
+* Fixed up behaviour to remove a lot of #respond_to? calls.
+
+== Transaction::Simple 1.3.0
+
+* Updated to fix a lot of warnings.
+* Added a per-transaction-object list of excluded instance variables.
+* Moved Transaction::simple::ThreadSafe to transaction/simple/threadsafe.
+* Added transaction groups. Transaction groups are wrapper objects to
+  allow the coordination of transactions with a group of objects. There
+  are both normal and threadsafe versions of transaction groups.
+* Fixed a long-standing problem where instance variables that were added
+  to an object after a transaction was started would remain.
+* Reorganised unit tests.
+
+== Transaction::Simple 1.2.0
+
+* Added a RubyGem.
+* Added a block form of Transaction::Simple.
+
+== Transaction::Simple 1.1.1
+
+* Cleaned up some documentation.
+
+== Transaction::Simple 1.1
+
+* Added Transaction::Simple::ThreadSafe for truly atomic and thread-safe
+  transactions.
+* Fixed the description of Transaction::Simple to note that it is *not*
+  atomic because it is not implicitly thread-safe.
+* Added support for named transactions. Named transactions can be used to
+  make checkpoints that can be committed, aborted, or rewound without
+  explicitly committing, aborting, or rewinding the intervening
+  transactions.
+
+== Transaction::Simple 1.0
+
+* Created. Initial release.
+
+== Copyright
+  Transaction::Simple
+  Simple object transaction support for Ruby
+  http://rubyforge.org/projects/trans-simple/
+
+  Licensed under a MIT-style licence. See Licence.txt in the main
+  distribution for full licensing information.
+
+  Copyright (c) 2003 - 2007 Austin Ziegler
+
+  $Id: History.txt 50 2007-02-03 20:26:19Z austin $

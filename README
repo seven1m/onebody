@@ -1,38 +1,94 @@
 Installation
 ============
 
-The following instructions are for Linux/Unix only.
+Linux/Unix Prerequisites
+------------------------
 
-Prerequisites: Ruby, Ruby on Rails, MySQL (and ruby MySQL library), RMagick
+Consult your operating system help for guidance on installing the
+packages below. Most likely, your distribution provides a package
+management program that will easily install all of these components.
 
-1. svn co http://svn.71m.org/svn/onebody/trunk /where/you/want/onebody
-2. gem install 'pdf-writer'
-3. install ruby-amazon from http://www.caliban.org/ruby/ruby-amazon.shtml#files
-4. Create three databases in MySQL: "onebody", "onebody_dev", "onebody_test"
-5. If your MySQL root user has a password, modify config/database.yml appropriately
-6. cd /where/you/installed/onebody
-7. rake db:migrate
+* Ruby
+* MySQL
+* Ruby MySQL library
+* ImageMagick
+* RMagick (aka Ruby ImageMagick library)
+* Rubygems
+* Apache
+
+The names on your system may be different from the above.
+
+
+Windows Prerequisites
+---------------------
+
+1. Install Ruby 1.8.5 (not 1.8.6) from
+   https://rubyforge.org/frs/?group_id=167&release_id=10461
+2. Download RMagick from http://rubyforge.org/frs/?group_id=12&release_id=8170
+   (choose the highlighted ZIP package)
+   a. Extract and run the ImageMagick installer.
+   b. From a command prompt, cd to the extracted folder and run:
+      gem install rmagick-x.x.x-win32.gem
+      (replace X with version numbers)
+3. Download and install MySQL from
+   http://mysql.org/downloads/mysql/5.0.html#win32
+   (choose Windows Essentials)
+4. Download and install Apache from
+   http://mirror.nyi.net/apache/httpd/binaries/win32/apache_2.2.4-win32-x86-no_ssl.msi
+   
+
+Install
+-------
+
+For installation on Windows, replace Unix paths (forward slashes) below
+with backslashes and add drive letter.
+
+1. Extract the OneBody package to the location of your choice
+   (the location where you want it to live forever).
+
+2. Copy OneBody's "config/settings.rb.example" to "config/settings.rb"
+   and change all the settings to match your needs.
+   
+3. Copy OneBody's "config/database.yml.example" to "config/database.yml"
+   and change the password to something secret. The password you enter
+   here will be necessary in the next step.
+
+4. From a command prompt/terminal window, create the database:
+
+   # mysql -uroot
+   > create database onebody;
+   > grant all privileges on onebody.* to onebody@localhost identified by password 'something secret';
+   > quit
+
+   # cd /path/to/onebody
+   # rake db:migrate
+   
+5. TO BE WRITTEN: Connecting Apache with OneBody in a production environment.
+
 
 Development
 -----------
 
-8. rake db:fixtures:load
-9. run script/server and browse to http://127.0.0.1:3000
+1. From a command prompt/terminal window:
 
-Production
-----------
+   # cd /path/to/onebody
+   # rake db:fixtures:load
+   # ruby script/server
 
-(Out of the scope of this document.)
+2. Browse to http://127.0.0.1:3000 and sign in as morgans@somedomain.com
+   with password "secret".
+
 
 Email Forwarding
 ----------------
 
 To set up the app to accept mail on a domain, set up your favorite
-mail server and create a catch-all address for your domain.
+mail server and create a catch-all address/mailbox for your domain.
 
 Add the following line to your /etc/crontab file:
 
 */2 * * * * root /path/to/app/script/inbox host username password
 
 This will run the inbox script every two minutes, logging into "host" with
-"username" and "password", and grabbing new email.
+"username" and "password", and grabbing new email (and deleting it from
+the mailbox).

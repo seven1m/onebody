@@ -1,0 +1,40 @@
+$Id: README,v 1.19 2006/08/03 14:07:52 ianmacd Exp $
+
+INTRODUCTION
+------------
+
+Ruby/Amazon is a Ruby language library that allows the programmer to retrieve
+information from the popular Amazon Web site via Amazon Web Services. In
+addition to the original amazon.com site, amazon.co.uk, amazon.de, amazon.fr,
+amazon.ca and amazon.co.jp are also supported.
+
+This library supports the vast majority of the AWS v3 API. All forms of
+product search are implemented, along with the transaction API and the remote
+shopping-cart API.
+
+You can generate HTML documentation for this library with the following
+command, executed from the directory into which you have untarred the archive:
+
+  rdoc lib
+
+Please see the resulting documentation for full information on how to use this
+software.
+
+More features are planned for future versions. See the TODO file.
+
+
+INSTALLATION
+------------
+
+Please see the INSTALL file for details of how to install Ruby/Amazon.
+
+
+LICENCE
+-------
+
+This software is copyright (C) 2004-2006 Ian Macdonald and distributed under
+the terms of the GNU GENERAL PUBLIC LICENSE, a copy of which is included.
+
+-- 
+Ian Macdonald
+<ian@caliban.org>

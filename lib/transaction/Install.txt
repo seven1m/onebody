@@ -1,0 +1,21 @@
+== Installing Transaction::Simple
+
+Transaction::Simple requires Ruby version 1.8.2 or better. It may be
+installed with:
+
+  % ruby setup.rb
+
+Alternatively, the RubyGems version of Transaction::Simple may be
+installed from the usual sources.
+
+== Copyright
+  Transaction::Simple
+  Simple object transaction support for Ruby
+  http://rubyforge.org/projects/trans-simple/
+
+  Licensed under a MIT-style licence. See Licence.txt in the main
+  distribution for full licensing information.
+
+  Copyright (c) 2003 - 2007 Austin Ziegler
+
+$Id: Install.txt 47 2007-02-03 15:02:51Z austin $

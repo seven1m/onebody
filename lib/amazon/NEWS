@@ -1,0 +1,741 @@
+$Id: NEWS,v 1.24 2006/08/09 20:07:39 ianmacd Exp $
+
+
+0.9.2, 2006-08-09
+
+- In methods that use the 'keywords' parameter, it was being URL-encoded too
+  early, which could lead to format-specifier-related exceptions. This is
+  another manifestation of the bug that was believed fixed in 0.9.1.
+
+- When using shopping carts, the purchase URL now works within the 'uk'
+  locale. Previously, only the 'us' locale worked. In all likelihood, the
+  other locales can now use it, too.
+
+
+0.9.1, 2006-08-05
+
+- Earlier this year, I received bug reports that AWS had started issuing HTTP
+  302 redirections in various locales and Ruby/Amazon was not following them.
+  Although I could not replicate the problem, I added to Ruby/Amazon the
+  ability to follow redirections.
+
+  Ruby/Amazon will therefore now follow a maximum of
+  Amazon::Search::MAX_REDIRECTS before aborting a search. MAX_DIRECTS is
+  currently set to 3.
+
+- A couple of months after adding the ability to chase redirections, I chanced
+  upon a bug in the code and realised why AWS was issuing redirections to some
+  users.
+
+  When a new locale was used with an existing request object, the reassignment
+  of the request object's @locale attribute was not causing a new HTTP
+  connection to be established with the new locale's server. Instead, the old
+  connection was reused.
+
+  This caused requests for, say, amazon.fr to be sent to amazon.co.uk's
+  server. The only case where this didn't matter was when switching the locale
+  from 'de' to 'uk' or vice versa, as those two locales use the same server.
+
+  Reassignment of the request object's locale will now, where necessary,
+  dynamically and transparently create a new HTTP connection to the new
+  locale's server. If you use a different Associate ID in the new locale, you
+  will still need to manually reassign the @id attribute.
+
+  Although the redirections reported by people were ultimately due to this
+  bug, the redirection-chasing code mentioned above has been left intact, just
+  in case AWS starts to issue redirections for some other reason in the
+  future.
+
+- A bug was fixed in multiple search methods, whereby the 'keywords' parameter
+  was not URL-escaped. This could cause the search to fail.
+
+- Multiple methods have undergone minor changes to comply with changes made by
+  Amazon to AWSv3 in March 2006. These changes came as a complete surprise to
+  me and were found only by running the unit test suite after fixing the
+  redirections bug mentioned above.
+  
+  A little investigation on-line revealed that Amazon has seen fit to make
+  changes to the well-defined and long-established AWSv3 API, even going so
+  far as to redefine a few method interfaces.
+
+  In particular, Amazon::Search::Exchange::Marketplace::Request#keyword_search
+  and Amazon::Search::Exchange::Marketplace::Request#listing_search now
+  take an extra parameter, seller_id, as their first parameter, pushing all
+  other parameters one position to the right. This does not actually break
+  anyone's code, as Amazon has already broken it by making the corresponding
+  change at the API level. The Ruby/Amazon changes simply enable people to
+  make their code work again.
+
+  Furthermore, Amazon::Search::Exchange::Marketplace::Request.sort_types now
+  returns a different and longer list of sort types, so this may cause working
+  code to fail.
+
+- Problems with third-party searches could cause an attempt to raise an
+  exception in the wrong namespace. This has been fixed.
+
+- The unit tests and example programs previously used fake developer tokens,
+  but this is no longer possible, because Amazon now verifies the validity of
+  the token. To run the unit tests or the example programs, the user should
+  ensure the presence of a dev_token in ~/.amazonrc.
+
+
+0.9.0, 2005-03-02
+
+- The international properties amazon.ca and amazon.fr are now also supported.
+  This includes geolocation for these areas.
+
+- #actor_search, #director_search, #manufacturer_search and
+  #text_stream_search were all broken. These have been fixed.
+
+
+0.8.5, 2004-09-26
+
+- Power searches were not working. This has been fixed.
+
+
+0.8.4, 2004-09-21
+
+- Geolocation was not working properly. This has been fixed.
+
+- Return nil instead of throwing an Amazon::AttributeError exception when
+  calling a non-existent property. This effectively removes the need for the
+  Amazon::AttributeError exception class.
+
+- Allow @catalogue as a synonym of @catalog when calling this item property.
+
+
+0.8.3, 2004-06-25
+
+- Users whose environment dictates the use of an HTTP proxy server may now
+  define this server in the $http_proxy environment variable. If set,
+  Ruby/Amazon will use the server specified in this variable to channel
+  outgoing HTTP requests.
+
+
+0.8.2, 2004-04-16
+
+- To help cope with the unreliable nature of AWS, the Fixnum class has been
+  extended with the #attempts method, which allows AWS operations to be
+  retried an arbitrary number of times without having to worry about dealing
+  with transient errors.
+
+  For example:
+
+  resp = 3.attempts do |x|
+    puts "Attempt #{x}..."
+    req.keyword_search('blogs', 'books', LITE, ALL_PAGES)
+  end
+
+- The Amazon::Search::SearchError exception class has been moved to
+  Amazon::Search::Request::SearchError for consistency with other search
+  request exceptions.
+
+- Responses to ShoppingCart transactions are no longer cached, regardless of
+  whether the user has requested the use of the cache.
+
+- @locale and @cache are now writable in Request objects, so that the user
+  may dynamically change the locale and the use of a cache at any time.
+
+- Error-checking during config file parsing has been improved. If an
+  error is found during parsing, an Amazon::Search::Request::ConfigError
+  exception is raised.
+
+- If a LocaleError exception is raised, the bad locale is now reported.
+
+
+0.8.1, 2004-04-02
+
+- Having no config file would cause an exception. This has now been fixed.
+  The same bug caused the parsing of the first config file to be ditched if
+  there was more than one config file.
+
+- Using a cache directory will now create the directory if it does not exist
+  and will also raise an Amazon::Search::Cache::PathError if the path given is
+  not a directory, or if the directory is either unreadable or unwritable.
+	    
+- The constant Amazon::Search::Request::ALL_PAGES has now been renamed
+  Amazon::Search::ALL_PAGES.
+
+- If a locale is provided in a config file, it will no longer override a
+  locale passed directly to a method.
+
+- A workaround for the fact that MerchantSku no longer seems to be returned by
+  remote shopping cart procedures has been implemented.
+
+
+0.8.0, 2004-03-23
+
+- A simple response caching system is now implemented.
+  Amazon::Search::Request#initialize now has 'cache' as its 4th argument,
+  which defaults to 'true'. If true, a new @cache attribute is initialised to
+  point to a cache directory. By default, this is /tmp/amazon, but this can be
+  changed by defining 'cache_dir' in either /etc/amazonrc or ~/.amazonrc.
+
+  When a cache directory is used, Ruby/Amazon will check the cache directory
+  for a recent copy of a response to the exact search that you are requesting.
+  If found, the cached response will be returned instead of the request being
+  forwarded to the AWS servers for processing. If no (recent) copy is found,
+  the request will be forwarded to the AWS servers as usual. Recency is
+  defined here as less than 24 hours old. 
+  
+  The new module Amazon::Search::Cache provides this new functionality. It
+  also provides a couple of methods for flushing the cache. One of these
+  deletes all responses from the cache, whilst the other deletes only those
+  responses that have expired. No automatic cache expiry takes place.
+
+  At the moment, there is a known interoperability issue between the use of
+  the cache and ALL_PAGES searches. Due to the use of threads in ALL_PAGES
+  searches, the response corresponding to a given page number may get cached
+  as if it were the response to another page number; or it may not get cached
+  at all.
+
+  For example, an ALL_PAGES search that yields 56 results will be spread over
+  6 pages. Page 3 may get cached as if it were page 4 and page 2 may not get
+  cached at all. I'm working to fix the problem, but for time time being, I
+  recommend you do not use the cache if ALL_PAGES searches are important to
+  you.
+
+- There is a new module, Amazon::Locale, that can be used to determine which
+  AWS locale should be used to serve a given request. For example, if a
+  customer in Austria is browsing your site and attempts to use code written
+  by you to perform a product search via AWS, you would most likely want that
+  search to take place in the DE locale, whereas an Irish customer attempting
+  to search for a DVD will most likely want to see products from the UK
+  catalogue.
+
+  The Amazon::Locale module contains methods that will return a sensible
+  locale to use for a given IP address or DNS hostname.
+
+- Passing a sort type parameter to a search method resulted in an error, as
+  the URL-encoded first character would later be confused with a format
+  specifer during final URL construction.
+
+- A SearchError exception is now raised if a Marketplace search explicitly
+  returns zero open listings.
+
+
+0.7.6, 2004-03-16
+
+- The names of Amazon::Product and Amazon::Exchange::Product properties have
+  been normalised, so that you would now refer to foo.total_customer_reviews,
+  not foo.totalcustomerreviews, etc.
+
+  Remember that you can use the Amazon::Product#properties method to give you
+  the entire list of readable properties.
+
+- Some new search modes have been added to the DE locale, in line with
+  Amazon's recent changes to that locale.
+
+- Certain product properties are now returned as integers or floats, not
+  strings, where relevant. @average_customer_rating, for example, is now a
+  float, whereas @num_media and @sales_rank are integers.
+
+- Some minor code clean-up has been done.
+
+
+0.7.5, 2004-03-10
+
+Again, this is mostly a bug fix release. There have been some improvements
+made to the documentation and robustness has been improved.
+
+- When instantiating Request objects, Ruby/Amazon will now look for
+  /etc/amazonrc and possibly also ~/.amazonrc (if $HOME is set appropriately).
+  If found, configuration directives will be read and evaluated. These should
+  take the following form:
+
+  dev_token = 'foo'
+  associate = 'bar-20'
+
+  Using this mechanism, it's possible to avoid passing any parameters
+  whatsoever to Amazon::Search::Request.new. Configuration parameters and
+  their values are stored in the new @config attribute.
+
+- Amazon::Search::Request#wishlist_search can now take a page parameter.
+
+- An Amazon::SearchError exception is now raised on an ALL_PAGES search if the
+  total number of pages to fetch cannot be determined from the first page
+  returned by AWS. This affects wishlist searches, which do not provide this
+  information. This is a known issue with AWS and Amazon is aware of it.
+
+- New class method, Amazon::ShoppingCart.one_click_form, allows the return of
+  an HTML form for making a purchase using Amazon's 1-Click purchasing.
+
+- Improve robustness of error detection when performing a seller profile
+  search.
+
+- Fixed bug whereby developer token was missing from HTML form produced by
+  baby registry, wedding registry, wishlist and shopping-cart modules.
+
+- Amazon::DEFAULT_ID is now a Hash and is used to set the Associates ID if
+  none is provided by the programmer. In that event, the Ruby/Amazon author's
+  Associates ID will be used for the given locale.
+
+- New constant Amazon::USER_AGENT provides the default user-agent passed to
+  the AWS servers.
+
+- A new example program is provided: cart. This program is rather like the
+  example program, rcart, in that it will accept a list of ASINs and add them
+  to a remote shopping-cart. However, cart goes further: instead of displaying
+  the purchase URL, it logs into Amazon using HTTPS and merges the remote cart
+  with the central one.
+
+
+0.7.0, 2004-02-29
+
+This is mostly a bug fix and code clean-up release.
+
+The design of the lower levels of Ruby/Amazon had been nagging at me for a
+while and I didn't want to implement any new features until I had addressed
+this. Specifically, having Request objects return Response objects that
+subsequently required the programmer to manually invoke the #parse method on
+them seemed unnatural. How many programmers are likely to want to conduct
+searches without parsing the results? Not many, I'm willing to wager.
+
+As a result, requesting a search now automatically parses the response and
+stores the result in an attribute of the Response object. This makes for much
+more natural programming. Furthermore, since it's no longer necessary or
+possible to manually invoke #parse, you can now pass an optional block to the
+search method, which also feels far more natural.
+
+The upshot of all of this is that obtaining search results is now as simple as
+this:
+
+  require 'amazon/search'
+  include Amazon::Search
+  
+  req  = Request.new('XXX')   # your token
+  resp = req.keyword_search('ruby') {|p| printf("Product:\n%s---\n", p)}
+
+Here follows the full list of changes in this release:
+
+- Amazon::Blended::ProductLine has been moved to Amazon::ProductLine.
+
+- Amazon::Seller, Amazon::Transaction and Amazon::ShoppingCart::Item are now
+  all subclasses of Amazon::Product, so that to_s and other utility methods
+  can be inherited.
+
+- Amazon::BabyRegistry.add_item has been moved to .add_item_form to make its
+  purpose clearer and its use consistent with the identically named methods in
+  the ShoppingCart class. Similarly, Amazon::WeddingRegistry.add_item and
+  Amazon::Wishlist.add_item have undergone the same renaming.
+
+- AWS now returns wishlists in ascending order, so we reverse the order of the
+  results to present them in descending order, which makes more sense.
+
+- All search methods can now take an optional block. If supplied, the
+  products, seller or whichever details are returned by the method are yielded
+  to the block.
+
+- It's no longer possible or necessary to manually call #parse on a Response
+  object. Instead, this is now automatically done when one of the search
+  methods is called by a Request object. Consequently, the now private
+  Response#parse no longer returns the object it once did (usually an Array),
+  but self. The object it once returned is now stored in an attribute of the
+  Response object. See below for more details.
+
+- ShoppingCart transactions now return an object of a new class,
+  Amazon::ShoppingCart::Response. This is pretty much transparent to the
+  programmer.
+
+- Amazon::Transaction::Response objects now have a @transactions attribute,
+  which substitutes for the now private #parse method returning an Array of
+  Amazon::Transaction objects.
+
+- Amazon::Search::Blended::Response objects now have a @product_lines
+  attribute, which substitutes for the now private #parse method returning an
+  Array of Amazon::ProductLine objects.
+
+- Amazon::Search::Exchange::Response objects now have a @products attribute,
+  which substitutes for the now private #parse method returning an Array of
+  Amazon::Exchange::Product objects.
+
+- Amazon::Search::Seller::Response objects now have a @seller attribute,
+  which substitutes for the now private #parse method returning an
+  Amazon::Seller object.
+
+- Amazon::Search::Exchange::Marketplace::Response objects now have a @products
+  attribute, which substitutes for the now private #parse method returning an
+  Array of Amazon::Exchange::Product objects. They also have @open_listings,
+  which contains the number of open listings returned by AWS.
+
+- Amazon::Search::Exchange::ThirdParty::Response objects now have a @products
+  attribute, which substitutes for the now private #parse method returning an
+  Array of Amazon::Exchange::Product objects. It also has @seller_nickname,
+  @store_id, @store_name and @open_listings.
+
+- Wishlist IDs can be 12 characters long, not just 13 as stated in the AWS
+  documentation. 12 character IDs are now supported.
+
+- Certain types of search on AWS are less reliable than others. Such searches,
+  which seem to be seller, marketplace and third-party searches, now detect
+  an empty search result set and raise SearchError accordingly. If, however,
+  the nature of the error cannot be determined, self (which is the XML page
+  returned by Amazon) is passed as the message when raising the SearchError
+  exception. Error detection in general has been improved in this release.
+
+- In accordance with AWS Newsletter #7, searches in the JP locale now go to
+  xml.amazon.co.jp. This change is transparent to the programmer.
+
+
+0.6.0, 2004-02-23
+
+- New instance method Amazon::Product#[] allows a product to be referenced by
+  any of its instance variables, as if it were a Hash. For example,
+  foo['asin'] would give you the ASIN of the Amazon::Product called foo.
+
+- New instance method Amazon::Product#to_h really does convert an
+  Amazon::Product to a Hash, so that all of the instance methods of that
+  class can be used.
+
+- It's no longer necessary to "require 'amazon'" when using the baby registry,
+  wedding registry, wishlist and shopping cart libraries.
+
+- The baby registry, wedding registry, wishlist and shopping cart libraries
+  were all producing non-functional forms for adding items to them. This bug
+  has been fixed.
+
+- Search errors were not causing exceptions to be properly raised. This has
+  now been corrected. Additionally, some types of search nest the error
+  message deeper in the XML node tree. This type of error is now also
+  detected.
+
+- There are new reader methods for Amazon::Search::Request instance variables
+  @id and @token.
+
+- Amazon AWS documentation does not mention that the sort order of search
+  results can be influenced when using REST (as opposed to SOAP), but this
+  can, in fact, be done. Relevant search methods (those that return multiple
+  results) now accept a sort type parameter. These methods are
+  #keyword_search, #node_search, #author_search, #power_search,
+  #artist_search, #director_search, #manufacturer_search and
+  #text_stream_search.
+
+- The valid sort types referred to in the last point can be obtained with the
+  Amazon::Search.sort_types method.
+
+- A new exception class, Amazon::Search::Request::SortError, exists for the
+  purpose of indicating the passing of an incorrect sort type to a search
+  method.
+
+- 'video' is now returned as a valid search mode by Amazon::Search.modes. This
+  mode is apparently the union of the 'dvd' and 'vhs' modes, but is not
+  documented as such in the AWS documentation. 'video' is now allowed as a
+  valid mode by #upc_search, #actor_search and #director_search.
+
+- #parse can now be called on the result of an Amazon::Search::Request,
+  regardless of whether an Amazon::Search::Response or an Array of such
+  responses is returned. This is achieved by creating a singleton #parse
+  method for the Array in the event of multiple page responses.
+
+- Amazon::ShoppingCart is now a class, not a module, and has been greatly
+  expanded with a full implementation of the functionality available via the
+  Remote Cart section of the AWS API.  After instantiating a member of this
+  class, the following instance methods can be used:
+
+  - #add_items adds one or more items to a shopping cart. The first item to be
+    added physically creates the cart on Amazon's servers. There is no need
+    for the user to track shopping cart ID or HMAC (see the AWS
+    documentation), as the objects themselves track these details from one
+    operation to the next.
+
+  - #modify_items changes the quantity of one or more items in a shopping
+    cart. The number may be zero, which results in an internal call to
+    #remove_items.
+
+  - #remove_items directly removes one or more items from a shopping cart.
+
+  - #retrieve_items returns the state of a shopping cart.
+
+  - #clear (or its synonym, #empty) clears a shopping cart of all products,
+    but does not destroy the cart. New items may still be added.
+
+  - #[] allows you to refer to an item in a shopping cart by its ASIN. This
+    will return an Array of Amazon::ShoppingCart::Item objects, one per entry
+    in the shopping cart. Note that adding the same product multiple times to
+    a cart will result in an Array of more than one Item for that ASIN. In
+    other words, Amazon does not aggregate items.
+
+- The ShoppingCart class has a couple of new supporting Exception classes,
+  CartError and QuantityError. These are raised when shopping cart
+  transactions fail or an illegal quantity is passed to a method.
+
+- ShoppingCart.add_items module method is now a class method and has been
+  renamed ShoppingCart.add_items_form.
+
+- ShoppingCart.add_items method was using the Associates ID in the POST
+  action. This should have been the ASIN.
+
+- ShoppingCart.add_marketplace_item module method is now a class method and
+  has been renamed ShoppingCart.add_items_form.
+
+- ShoppingCart.add_marketplace_item module was using the Associates ID in the
+  POST action. This should have been the ASIN.
+
+- New class Amazon::Transaction allows the use of Amazon's Transaction Details
+  API to verify up to five transactions.
+  
+  After instantiating an Amazon::Transaction::Request object, #get_details may
+  be used to request information on transactions. This returns an
+  Amazon::Transaction::Response, whose #parse method may be called to return
+  an Array of Amazon::Transaction items. Amazon::Transaction::Error objects
+  store the details of failed requests for transaction details. An Array of
+  these is stored in the @error instance variable of Amazon::Transaction
+  items.
+
+- New exception class Amazon::Transaction::Request::OrderIDError is raised
+  when an incorrect order ID is passed to #get_details.
+
+- @total_pages and @total_results were not being set in Array objects
+  returned by ALL_PAGES searches.
+
+- Classes that have a #parse method now always return the same result, whether
+  or not a block was given.
+
+
+0.5.0, 2004-02-15
+
+- New method Amazon::Search::Request#text_stream supports text stream
+  searches.
+
+- It's now no longer necessary to "require 'amazon'" before requiring
+  'amazon/search', 'amazon/babyregistry', 'amazon/shoppingcart',
+  'amazon/weddingregistry' and 'amazon/wishlist'.
+
+- The Amazon::Search::Offerings module has been removed, as offerings are
+  now completely integrated into Amazon::Search.
+
+- Failed searches will now populate the @error attribute of Response objects
+  when their #parse method is called.
+
+- New module method Amazon::Search.offer_types replaces method of same name
+  in Amazon::Search::Offerings.
+
+- It's now possible to return offering (third-party item) data when using
+  #asin_search, #keyword_search, #actor_search, #node_search,
+  #director_search, #artist_search, #author_search, #power_search and
+  #manufacturer_search. A new parameter must be passed to these methods to
+  indicate what type of offering data is desired. This parameter must be
+  equal to one of the offer types returned by Amazon::Search.offer_types.
+  If it is nil, no offering data is returned with the search results.
+
+- #asin_search now accepts an offer_page parameter, which is ignored if
+  the offerings parameter is nil. Otherwise, it determines which page of
+  offering results to return.
+
+- Search heaviness is now stored in the @type attribute of Request objects.
+
+- ALL_PAGES searches are now threaded, but this makes little difference if
+  Amazon::Search::RATE_LIMIT_REQUESTS is set, which, by default, it is.
+
+- Amazon::Search::Request#parse and similarly named methods in the subclasses
+  now return @args if a block was passed to them.
+
+- Amazon::Search::Response objects now populate a hash attribute, @args, when
+  their #parse method is called. This corresponds to the args nodes returned
+  by Amazon's servers.
+
+- The HTTP response code will now be printed whenever an HTTPError exception
+  is generated.
+
+- A minor bug was fixed, whereby the user-agent was not set when searching
+  for the second and subsequent pages of ALL_PAGES requests.
+
+- 'apparel' and 'wireless-phones' are now a valid search mode, although their
+  status with AWS is unofficial.
+
+
+0.4.0, 2004-02-07
+
+- New instance method Amazon::Search::Request#blended_search supports
+  blended searches, which return products from up to 15 Amazon categories.
+
+- New instance method Amazon::Search::Request#wishlist_search supports
+  wishlist searches, although these are currently broken on Amazon's AWS
+  servers.
+
+- New Amazon::Search::Exchange module supports exchange searches. Exchange
+  items are those offered for sale by third-parties. This module allows you
+  to search for them by their unique ID.
+
+- New Amazon::Search::Offerings module supports searching for offerings.
+  Offerings are products sold by third-party sellers. This module allows you
+  to search for them by their ASIN.
+
+- New Amazon::Search::Seller module supports seller profile searches.
+
+- New Amazon::Search::Exchange::ThirdParty module supports third party
+  product searches. This allows you to find all products for sale by a
+  given seller.
+
+- New Amazon::BabyRegistry module generates HTML form for adding an item to a
+  baby registry.
+
+- New Amazon::ShoppingCart module generates HTML form for adding items to a
+  shopping cart.
+
+- New Amazon::WeddingRegistry module generates HTML form for adding an item to
+  a wedding registry.
+
+- New Amazon::Wishlist module generates HTML form for adding an item to a
+  wishlist.
+
+- New Amazon::Product#to_s method allows for easy human-friendly printing
+  of products.
+
+- Amazon::Search::Response#parse and other such #parse methods in subclasses
+  can now act as iterators to an optional block, e.g.
+
+  products.parse {|p| puts p}
+
+- Amazon::Search::Request#similarity_search now allows up to 5 ASINs to be
+  searched for. These may be passed as a comma- or space-separaterd string,
+  or as an array of strings.
+
+- Amazon::Search::Request methods #author_search, #keyword_search and
+  #power_search now support an extra parameter at the end of the parameter
+  list. Set this to Amazon::Search::ALL_EDITIONS to retrieve multiple editions
+  of the same book or Amazon::Search::SINGLE_EDITION to retrieve just the
+  latest. The default is SINGLE_EDITION.
+
+- Amazon::Search::Response objects now contain new instance variables
+  @total_results and @total_pages for tracking the total number of results and
+  pages for each search.
+
+- New exception class Amazon::Search::HTTPError.
+
+- The URL of the page to be fetched is now printed if Ruby is run with -d.
+
+- Amazon::Marketplace::Product has been renamed Amazon::Exchange::Product.
+
+- Exception Amazon::Search::Request::SearchError has moved to
+  Amazon::Search::SearchError, as it's useful to the Response class, too.
+
+- Amazon::Search::Exchange::Marketplace#parse returns nil if no listings
+  were found.
+
+- Amazon::Search::Exchange::Marketplace#parse no longer returns a two-
+  element array, consisting of an array of products and the number of open
+  listings. Instead, a singleton array of products is returned, with the
+  number of open listings available as @openlistings.
+
+- Amazon::Search::Exchange::Marketplace class methods renamed:
+
+  Marketplace.keyword_searches	->  Marketplace.keyword_search_types
+  Marketplace.geos		->  Marketplace.geo_types
+  Marketplace.sorts		->  Marketplace.sort_types
+  Marketplace.indices		->  Marketplace.index_types
+
+- New classes Amazon::Offerings::Product, Amazon::Blended::ProductLine,
+  Amazon::Feedback, Amazon::ThirdPartyInfo and Amazon::Seller. These classes
+  are needed by the new types of search that have been added in this version.
+
+- Search facilities must now be specifically called, using:
+
+  require 'amazon'
+  require 'amazon/search'
+
+- Fixed bad exception raising on HTTP errors.
+
+- Fixed bug with searches using 'software' mode in 'uk' locale.
+
+- Fixed a bug in ALL_PAGES requests that caused the first page of results
+  to be fetched twice, resulting in duplicate products. The same bug caused
+  the last page to not be returned at all.
+
+- Improvements to RDoc documentation.
+
+- Lots of new unit tests.
+
+
+0.3.0, 2004-01-31
+
+- Amazon::Search::Request#search has been subdivided into #keyword_search,
+  #node_search, #asin_search, #upc_search, #author_search, #power_search,
+  #artist_search, #actor_search, #director_search, #manufacturer_search,
+  #listmania_search and #similarity_search.
+  
+  Rather than passing nil parameters where arguments were irrelevant, each of
+  these new methods requires only those arguments that make sense for the
+  particular type of search it supports.
+
+- New module Amazon::Search::Marketplace for Amazon Marketplace searches.
+
+- New product class Amazon::Search::Marketplace::Product.
+
+- New instance methods Amazon::Search::Marketplace#keyword_search and
+  Amazon::Search::Marketplace#listing_search for marketplace searches.
+  These return Amazon::Search::Marketplace::Response objects.
+
+- New class methods Amazon::Search::Marketplace.keyword_searches,
+  Amazon::Search::Marketplace.geos, Amazon::Search::Marketplace.sorts and
+  Amazon::Search::Marketplace.indices for determining valid keyword search
+  types, geos types, sort types and index types when doing a marketplace
+  search.
+
+- The international properties amazon.co.uk, amazon.de and amazon.co.jp are
+  now also supported via a 3rd parameter to Amazon::Search::Request.new. A two
+  letter string, 'us', 'uk', 'de' or 'jp', can be passed. Request objects
+  now contain a new instance variable, @locale, to track this when performing
+  searches.
+
+- Amazon::Search::Request.new can now take a 4th argument, which is a
+  user-agent to pass on to Amazon's Web Services
+
+- New Amazon::NAME constant gives library name.
+
+- ALL_PAGES searches are now returned more efficiently, as XML parsing
+  can be deferred until Amazon::Search#parse is used.
+
+- UPC search now accepts extra modes: classical, software, dvd, vhs,
+  electronics, pc-hardware.
+
+- Price range restrictions are now supported on relevant searches.
+
+- Single page ALL_PAGES searches now yield a single-element array, rather than
+  directly returning an Amazon::Search::Response object.
+
+- Exception classes are now subclasses of StandardError, not RuntimeError.
+
+- Better error-checking and exception raising all around.
+
+
+0.2.0, 2004-01-22
+
+- The Associates ID is now optional in Amazon::Search::Request.new. As such,
+  it has swapped places with the developer token as the second parameter. If
+  you don't have an Associates ID, don't pass the second argument to the
+  method and a default ('webservices-20') value will be used instead.
+
+- When passing an explicit page number to Amazon::Search::Request#search, you
+  can now use the constant Amazon::Search::Request::ALL_PAGES as the page
+  number. This will cause all pages pertaining to your search to be returned.
+  This can take quite some time for non-specific searches.
+
+- If ALL_PAGES is given, an Array of Amazon::Search::Responses will be
+  returned instead of a single Amazon::Search::Response, unless your search
+  returns a single page.
+
+- Search types that logically have no use for the 'page' parameter now ignore
+  it if it is specified. The searches in question are ASIN, UPC and Listmania
+  searches.
+
+- The Amazon::Search::TypeError exception class has been added to catch
+  non-existent search types.
+
+- @avgcustomerrating was not being set in Amazon::Search::Review objects.
+
+- There are new constants Amazon::Search::Request::HEAVY,
+  Amazon::Search::Request::LITE (and Amazon::Search::Request::LIGHT, just for
+  the sake of correct spelling).
+
+- Amazon::Search::Request::POWER_SEARCH is supported as a new search type.
+
+- Ruby/Amazon now makes calls to version 3 of the Amazon Web Services API.
+
+- The Amazon::Search::Review struct is now a real class. This was done in
+  order to make its instance variables read-only, which they now are.
+
+
+0.1.0, 2004-01-17
+
+- First public release.

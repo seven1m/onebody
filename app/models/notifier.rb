@@ -28,9 +28,9 @@ class Notifier < ActionMailer::Base
       if msg.group.leader
         h.update 'List-Owner' => "<#{SITE_URL}>people/view/#{msg.person.id}> (#{msg.person.name})"
       end
-      if GROUP_LEADER_EMAIL and GROUP_LEADER_NAME
-        h.update 'List-Owner' => "<mailto:#{GROUP_LEADER_EMAIL}> (#{GROUP_LEADER_NAME})"
-      end
+      #if GROUP_LEADER_EMAIL and GROUP_LEADER_NAME
+      #  h.update 'List-Owner' => "<mailto:#{GROUP_LEADER_EMAIL}> (#{GROUP_LEADER_NAME})"
+      #end
       if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
         h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + GROUP_ADDRESS_DOMAINS.first}>"
       end
