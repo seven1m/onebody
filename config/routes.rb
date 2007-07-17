@@ -7,6 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'people' do |m|
     m.person 'people/view/:id', :action => 'view'
     m.logged_in 'people', :action => 'index'
+    m.browse_directory 'people/browse', :action => 'search', :browse => true
   end
   
   map.with_options :controller => 'notes' do |m|
@@ -16,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.with_options :controller => 'friends' do |m|
-    m.remove_friend_url 'friends/remove/:id', :action => 'remove'
-    m.add_friend_url 'friends/add/:id', :action => 'add'
+    m.remove_friend 'friends/remove/:id', :action => 'remove'
+    m.add_friend 'friends/add/:id', :action => 'add'
   end
 end

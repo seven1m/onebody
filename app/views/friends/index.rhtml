@@ -1,0 +1,37 @@
+<h1>Friends</h1>
+
+<% if @pending.any? %>
+  <p class="highlight">
+    <h2>Pending Friend Requests</h2>
+    <p>The following people have requested to be your friend. Click <em>Accept</em> or <em>Decline</em>.</p>
+    <ul>
+      <% @pending.each do |friendship| %>
+        <li>
+          <%= link_to friendship.person.name, person_url(:id => friendship.person) %>
+          <strong>
+            <%= link_to '[accept]', {:action => 'accept', :id => friendship.person}, :post => true %> |
+            <%= link_to '[decline]', {:action => 'decline', :id => friendship.person}, :post => true, :confirm => 'Are you sure?' %>
+          </strong>
+        </li>
+      <% end %>
+    </ul>
+  </p>
+<% end %>
+
+<% if @friendships.any? %>
+  <ul id="friends">
+    <% @friendships.each do |friendship| %>
+      <li id="friendship_<%= friendship.id %>">
+        <%= image_tag 'reorder.png', :alt => 'Reorder this list by dragging.', :class => 'handle icon' %>
+        <%= link_to friendship.friend.name, person_url(:id => friendship.friend) %>
+        (added <%= friendship.created_at.to_time.to_s %>)
+        <%= link_to '[remove]', {:action => 'remove', :id => friendship.friend}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
+      </li>
+    <% end %>
+  </ul>
+  
+  <%= sortable_element 'friends', :url => {:action => 'reorder'}, :handle => 'handle' %>
+<% else %>
+  <p>Nobody yet! You can find your friends by browsing
+  <%= link_to 'the directory', browse_directory_url %>.</p>
+<% end %>

@@ -11,7 +11,7 @@
         <td class="friend">
           <span id="friend_<%= friend.id %>">
             <%= link_to h(friend.name), person_url(:id => friend) %>
-            <%= link_to_remote image_tag('remove.gif', :alt => 'Remove Friend', :class => 'icon'), {:url => remove_friend_url(:id => friend), :loading => "$('friend_#{friend.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\" id=\"contact_spinner_#{contact.id}\"/>';"}, :id => "remove_friend_#{friend.id}", :class => 'remove-friend' %>
+            <%= link_to_remote image_tag('remove.gif', :alt => 'Remove Friend', :class => 'icon'), {:url => remove_friend_url(:id => friend), :loading => "$('friend_#{friend.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\" id=\"contact_spinner_#{friend.id}\"/>';"}, :id => "remove_friend_#{friend.id}", :class => 'remove-friend' %>
           </span>
         </td>
       </tr>
