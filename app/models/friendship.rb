@@ -24,15 +24,23 @@ class Friendship < ActiveRecord::Base
   
   validates_presence_of :person_id
   validates_presence_of :friend_id
+  validates_presence_of :initiated_by_id
   validates_uniqueness_of :friend_id, :scope => :person_id
   
   def validate
-    # friendship pending and initiated by @logged_in
-    # friendship pending and initiated by params[:id]
-    # friendship rejected and rejected by @logged_in
-    # friendship rejected and rejected by params[:id]
-    # no existing friendships
-    
+    unless person.email.to_s.strip =~ VALID_EMAIL_RE
+      errors.add :person, 'must have a valid email address'
+    end
+    unless friend.email.to_s.strip =~ VALID_EMAIL_RE
+      errors.add :friend, 'must have a valid email address'
+    end
+    unless requested_to.friendship_requests
+      errors.add :base, 'does not accept friend requests'
+    end
+  end
+  
+  def requested_to
+    initiated_by == person ? friend : person
   end
   
   attr_accessor :skip_mirror
@@ -46,12 +54,19 @@ class Friendship < ActiveRecord::Base
       end
       mirror.friend_id = person_id
       mirror.skip_mirror = true
-      mirror.save
+      mirror.save!
     end
   end
   
   after_destroy :delete_mirror
   def delete_mirror
     Friendship.find_by_person_id(friend_id).destroy rescue nil
+  end
+  
+  after_create :send_request
+  def send_request
+    unless requested_to.friendship_requests
+      Notifier.deliver_friend_request(initiated_by, requested_to)
+    end
   end
 end

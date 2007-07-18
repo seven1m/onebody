@@ -4,7 +4,7 @@
       :controller => 'people', :action => 'photo', :id => "#{@person.id}.large.jpg", :back => url_for(params) %>
   <% else %>
     <%= render :partial => 'people/silhouette' %>
-    <% if @person == @logged_in and (params[:controller] == 'people' and params[:action] == 'view') %>
+    <% if @person == @logged_in and (params[:controller] == 'people' and ['index', 'view'].include? params[:action]) %>
       <br/>
       <%= link_to image_tag('person_picture.gif', :alt => 'Upload your picture.', :class => 'no-border', :style => 'vertical-align:middle;') + ' Upload Your Picture', :action => 'edit' %>
     <% end %>

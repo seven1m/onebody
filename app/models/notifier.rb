@@ -13,6 +13,13 @@ class Notifier < ActionMailer::Base
     body :person => person
   end
   
+  def friend_request(person, friend)
+    recipients "#{friend.name} <#{friend.email}>"
+    from "#{person.name} <#{person.email}>"
+    subject "Friend Request from #{person.name}"
+    body :person => person, :friend => friend
+  end
+  
   def message(to, msg)
     recipients to.email
     from msg.email_from(to)

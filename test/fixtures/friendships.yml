@@ -41,7 +41,7 @@ tim_to_jennie:
   initiated_by_id: 4
   created_at: 2007-07-18 12:00
   updated_at: 2007-07-18 12:00
-jeremy_to_tim:
+jennie_to_tim:
   id: 4
   person_id: 4
   friend_id: 1

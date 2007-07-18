@@ -1,3 +1,23 @@
+<% content_for :subnav do %>
+  <% if @logged_in.can_edit? @person %>
+    <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>
+    <li><%= link_to 'Privacy Settings', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}" %></li>
+    <li><%= link_to 'Email Preferences', :action => 'email', :id => @person %></li>
+  <% end %>
+  <% unless @logged_in == @person %>
+    <% if @logged_in.friend? @person %>
+      <li><%= link_to 'Remove from Friends', remove_friend_url(:id => @person), :post => true, :confirm => 'Are you sure?' %></li>
+    <% elsif @logged_in.can_request_friendship?(@person) %>
+      <li><%= link_to 'Add to Friends', add_friend_url(:id => @person), :post => true, :confirm => 'Are you sure?' %></li>
+    <% elsif @logged_in.pending_friend? @person %>
+      <li><em>friend request pending</em></li>
+    <% end %>
+    <% if @person.email.to_s.any? and @person.messages_enabled %>
+      <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Private Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
+    <% end %>
+  <% end %>
+<% end %>
+
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
   <%= render :partial => 'families/photo' %>
@@ -83,24 +103,6 @@
     <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'no-border', :style => 'vertical-align:middle;' %>
     The update to your profile is pending approval.
   </p>
-<% end %>
-
-<% content_for :subnav do %>
-  <% if @logged_in.can_edit? @person %>
-    <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>
-    <li><%= link_to 'Privacy Settings', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}" %></li>
-    <li><%= link_to 'Email Preferences', :action => 'email', :id => @person %></li>
-  <% end %>
-  <% unless @logged_in == @person %>
-    <% if @logged_in.contacts.find_all_by_person_id(@person.id).any? %>
-      <li><%= link_to 'Remove from Contacts', :action => 'remove_contact', :id => @person %></li>
-    <% else %>
-      <li><%= link_to 'Add to Contacts', :action => 'add_contact', :id => @person %></li>
-    <% end %>
-    <% if @person.email.to_s.any? and @person.messages_enabled %>
-      <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Private Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
-    <% end %>
-  <% end %>
 <% end %>
 
 <% if nil and @prayer_signups.any? %>

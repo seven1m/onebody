@@ -27,7 +27,12 @@ class FriendsController < ApplicationController
           end
         end
       else
-        @logged_in.friendships.create(:friend_id => params[:id])
+        if @person.friendship_requests
+          @logged_in.friendships.create(:friend_id => params[:id])
+          render :text => "A friend request has been sent to #{@person.name}.", :layout => true
+        else
+          render :text => 'This person does not accept friend requests.', :layout => true
+        end
       end
     end
   end

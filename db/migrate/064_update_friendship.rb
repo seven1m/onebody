@@ -8,6 +8,7 @@ class UpdateFriendship < ActiveRecord::Migration
     add_column :friendships, :created_at, :datetime
     add_column :friendships, :updated_at, :datetime
     add_column :friendships, :ordering, :integer, :default => 10000
+    add_column :people, :friendship_requests, :boolean, :default => true
   end
 
   def self.down
@@ -19,5 +20,6 @@ class UpdateFriendship < ActiveRecord::Migration
     remove_column :friendships, :created_at
     remove_column :friendships, :updated_at
     remove_column :friendships, :ordering
+    remove_column :people, :friendship_requests
   end
 end

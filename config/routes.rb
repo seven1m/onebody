@@ -1,8 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.connect '', :controller => "people"
-  map.connect ':controller/service.wsdl', :action => 'wsdl'
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
   
   map.with_options :controller => 'people' do |m|
     m.person 'people/view/:id', :action => 'view'
@@ -20,4 +16,10 @@ ActionController::Routing::Routes.draw do |map|
     m.remove_friend 'friends/remove/:id', :action => 'remove'
     m.add_friend 'friends/add/:id', :action => 'add'
   end
+
+  map.connect '', :controller => "people"
+  map.connect ':controller/service.wsdl', :action => 'wsdl'
+  map.connect ':controller/:action/:id'
+  map.connect ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
+
 end
