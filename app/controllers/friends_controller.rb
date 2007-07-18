@@ -1,59 +1,66 @@
 class FriendsController < ApplicationController
-  before_filter :get_friendship, :except => ['index', 'reorder']
+  before_filter :get_friendship, :only => ['remove']
+  before_filter :get_request, :only => ['accept', 'decline']
   
-  def index
-    @pending = @logged_in.all_friendships.find_all_by_pending(true)
-    @friendships = @logged_in.friendships.find(:all, :order => 'ordering, created_at')
+  verify :method => :post, :only => ['add', 'accept', 'decline', 'remove']
+  
+  def view
+    if params[:id]
+      @person = Person.find(params[:id])
+      @pending = []
+    else
+      @person = @logged_in
+      @pending = @logged_in.friendship_requests
+    end
+    @friendships = @person.friendships
   end
   
   def add
-    if request.post?
-      if @friendship
-        if @friendship.pending
-          if @friendship.initiated_by == @logged_in
-            render :text => 'A friend request is already pending with #{@person.name}.', :layout => true
-          else
-            @friendship.update_attribute :pending, false
-            flash[:notice] = "#{@person.name} has been added as a friend."
-            redirect_to logged_in_url
+    @person = Person.find params[:id]
+    if @person.friendship_waiting_on?(@logged_in) # already requested by other person
+      @logged_in.friendships.create! :friend => @person
+      @person.friendship_requests.find_by_from_id(@logged_in.id).destroy
+      message = "#{@person.name} has been added as a friend."
+    elsif @logged_in.can_request_friendship_with?(@person)
+      @person.friendship_requests.create!(:from => @logged_in)
+      message = "A friend request has been sent to #{@person.name}."
+    elsif @logged_in.friendship_waiting_on?(@person)
+      message = "A friend request is already pending with #{@person.name}."
+    elsif @logged_in.friendship_rejected_by?(@person)
+      message = :turned_down
+    else
+      raise 'unknown state'
+    end
+    respond_to do |wants|
+      wants.html do
+        render message.is_a?(String) ? {:text => message, :layout => true} : {:action => message}
+      end
+      wants.js do
+        render :update do |page|
+          if message.is_a? String
+            page.hide "add_friend_#{@person.id}"
+            page.alert message
+          elsif message.is_a? Symbol
+            page.redirect_to :action => message
           end
-        elsif @friendship.rejected
-          if @friendship.rejected_by == @logged_in
-            @friendship.destroy
-            @logged_in.friendships.create(:friend_id => params[:id])
-            render :text => "A friend request has been sent to #{@person.name}.", :layout => true
-          else
-            render :action => 'turned_down'
-          end
-        end
-      else
-        if @person.friendship_requests
-          @logged_in.friendships.create(:friend_id => params[:id])
-          render :text => "A friend request has been sent to #{@person.name}.", :layout => true
-        else
-          render :text => 'This person does not accept friend requests.', :layout => true
         end
       end
     end
   end
   
   def accept
-    if request.post? and @friendship and @friendship.pending and @friendship.initated_by == @person
-      @friendship.update_attribute :pending, false
-    end
-    redirect_to logged_in_url
+    @logged_in.friendships.create!(:friend => @request.from) if @request
+    redirect_to friends_url(:id => nil)
   end
   
   def decline
-    if request.post? and @friendship and @friendship.pending and @friendship.initated_by == @person
-      @friendship.update_attributes :rejected => true, :rejected_by => @logged_in, :pending => false
-    end
-    redirect_to logged_in_url
+    @request.update_attribute!(:rejected, true) if @request
+    redirect_to friends_url(:id => nil)
   end
   
   def remove
-    @friendship.destroy if request.post? and @friendship
-    redirect_to logged_in_url
+    @friendship.destroy if @friendship
+    redirect_to friends_url(:id => nil)
   end
   
   def reorder
@@ -67,7 +74,10 @@ class FriendsController < ApplicationController
   
   private
     def get_friendship
-      @person = Person.find(params[:id])
-      @friendship = @logged_in.all_friendships.find_by_friend_id(params[:id])
+      @friendship = @logged_in.friendships.find_by_friend_id(params[:id])
+    end
+    
+    def get_request
+      @request = @logged_in.friendship_requests.find_by_id(params[:id])
     end
 end

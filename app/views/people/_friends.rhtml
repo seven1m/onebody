@@ -1,7 +1,12 @@
-<% if @person.friendships.count > 0 %>
-  <h2>Friends</h2>
+<% if (count = @person.friendships.count) > 0 %>
+  <h2>
+    Friends
+    <% if @logged_in == @person %>
+      <%= link_to 'edit', friends_url, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+    <% end %>
+  </h2>
   <table>
-    <% @person.friends.each do |friend| %>
+    <% @person.friends.find(:all, :limit => 10).each do |friend| %>
       <tr>
         <td>
           <a href="<%= url_for :action => 'view', :id => friend %>">
@@ -14,4 +19,7 @@
       </tr>
     <% end %>
   </table>
+  <% if count > 10 %>
+    <p><%= link_to "All #{@person.namme_possessive} Friends", friends_url(:id => @person) %></p>
+  <% end %>
 <% end %>

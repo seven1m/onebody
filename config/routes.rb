@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'friends' do |m|
     m.remove_friend 'friends/remove/:id', :action => 'remove'
     m.add_friend 'friends/add/:id', :action => 'add'
+    m.friends 'friends/:id', :action => 'view'
   end
 
   map.connect '', :controller => "people"

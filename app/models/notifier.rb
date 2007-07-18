@@ -15,7 +15,7 @@ class Notifier < ActionMailer::Base
   
   def friend_request(person, friend)
     recipients "#{friend.name} <#{friend.email}>"
-    from "#{person.name} <#{person.email}>"
+    from SYSTEM_NOREPLY_EMAIL
     subject "Friend Request from #{person.name}"
     body :person => person, :friend => friend
   end

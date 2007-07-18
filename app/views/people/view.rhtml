@@ -76,6 +76,12 @@
   </p>
 <% end %>
 
+<% if @logged_in == @person and @logged_in.pending_friendship_requests.count > 0 %>
+  <p class="highlight">
+    You have <%= link_to 'pending friend requests', friends_url %>.
+  </p>
+<% end %>
+
 <% if @person.mapable? and @person.share_address_with @logged_in %>
   <div id="map-container" style="width:250px;float:right;display:none;">
     <div id="map" style="width:250px;height:200px;"></div>

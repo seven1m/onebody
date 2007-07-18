@@ -78,9 +78,10 @@ class Person < ActiveRecord::Base
   has_many :prayer_signups
   has_and_belongs_to_many :verses, :order => 'book, chapter, verse'
   has_many :log_items
-  has_many :friendships, :conditions => ['pending = ? and rejected = ?', false, false]
+  has_many :friendships, :order => 'ordering, created_at'
   has_many :friends, :class_name => 'Person', :through => :friendships, :order => 'friendships.ordering, friendships.created_at'
-  has_many :all_friendships, :class_name => 'Friendship'
+  has_many :friendship_requests
+  has_many :pending_friendship_requests, :conditions => ['rejected = ?', false]
     
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES
@@ -105,7 +106,7 @@ class Person < ActiveRecord::Base
       if Person.count(:conditions => ['LCASE(email) = ? and family_id != ?', value.downcase, record.family_id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
       end
-      if value !~ VALID_EMAIL_RE
+      if value.to_s.strip !~ VALID_EMAIL_RE
         record.errors.add attribute, 'not a valid email address.'
       end
     end
@@ -269,20 +270,24 @@ class Person < ActiveRecord::Base
     family.mapable?
   end
   
-  def can_request_friendship?(person)
-    person.email =~ VALID_EMAIL_RE and person.friendship_requests and not person.rejected_friendship?(self) and all_friendships.count('*', :conditions => ['friend_id = ? and initiated_by_id = ?', person.id, self.id]) == 0
+  def can_request_friendship_with?(person)
+    !friend?(person) and full_access? and person.full_access? and person.valid_email? and person.friends_enabled and !friendship_rejected_by?(person) and !friendship_waiting_on?(person)
   end
   
-  def rejected_friendship?(person)
-    all_friendships.find_by_friend_id_and_rejected_and_rejected_by_id(person.id, true, self.id)
+  def friendship_rejected_by?(person)
+    person.friendship_requests.count('*', :conditions => ['from_id = ? and rejected = ?', self.id, true]) > 0
   end
   
-  def pending_friend?(person)
-    all_friendships.count('*', :conditions => ['friend_id = ? and rejected = ? and pending = ? and initiated_by_id = ?', person.id, false, true, self.id]) > 0
+  def friendship_waiting_on?(person)
+    person.friendship_requests.count('*', :conditions => ['from_id = ? and rejected = ?', self.id, false]) > 0
   end
   
   def friend?(person)
-    friends.count('*', :conditions => ['friendships.friend_id = ? and pending = ? and rejected = ?', person.id, false, false]) > 0
+    friends.count('*', :conditions => ['friend_id = ?', person.id]) > 0
+  end
+  
+  def valid_email?
+    email.to_s.strip =~ VALID_EMAIL_RE
   end
   
   alias_method :groups_without_linkage, :groups

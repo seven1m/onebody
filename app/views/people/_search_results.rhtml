@@ -77,8 +77,8 @@
           <td><%= h(person.mail_group) %></td>
         <% end %>
         <td>
-          <% unless @logged_in.people.include? person or @logged_in == person or not @logged_in.full_access? %>
-            <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to contacts', :class => 'icon'), {:url => {:action => 'add_contact', :id => person}, :loading => "$('add_contact_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';"}, :class => 'discreet', :id => "add_contact_#{person.id}" %>
+          <% unless !@logged_in.can_request_friendship_with?(person) or @logged_in == person %>
+            <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon'), {:url => add_friend_url(:id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
           <% end %>
         </td>
       </tr>

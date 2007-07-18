@@ -48,12 +48,15 @@ with backslashes and add drive letter.
 
 2. Copy OneBody's "config/settings.rb.example" to "config/settings.rb"
    and change all the settings to match your needs.
+ 
+3. Copy OneBody's "config/messages.rb.example" to "config/messages.rb".
+   To customize text/message strings, edit this file.
    
-3. Copy OneBody's "config/database.yml.example" to "config/database.yml"
+4. Copy OneBody's "config/database.yml.example" to "config/database.yml"
    and change the password to something secret. The password you enter
    here will be necessary in the next step.
 
-4. From a command prompt/terminal window, create the database:
+5. From a command prompt/terminal window, create the database:
 
    # mysql -uroot
    > create database onebody;
@@ -63,7 +66,7 @@ with backslashes and add drive letter.
    # cd /path/to/onebody
    # rake db:migrate
    
-5. TO BE WRITTEN: Connecting Apache with OneBody in a production environment.
+6. TO BE WRITTEN: Connecting Apache with OneBody in a production environment.
 
 
 Development
