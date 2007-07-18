@@ -81,7 +81,7 @@ class Person < ActiveRecord::Base
   has_many :friendships, :order => 'ordering, created_at'
   has_many :friends, :class_name => 'Person', :through => :friendships, :order => 'friendships.ordering, friendships.created_at'
   has_many :friendship_requests
-  has_many :pending_friendship_requests, :conditions => ['rejected = ?', false]
+  has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
     
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES

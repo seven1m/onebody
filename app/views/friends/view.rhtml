@@ -4,16 +4,16 @@
   <div class="highlight">
     <h2>Pending Friend Requests</h2>
     <p>The following people have requested to be your friend. Click <em>Accept</em> or <em>Decline</em>.</p>
-    <ul>
-      <% @pending.each do |friendship| %>
+    <ul style="list-style-type:none;">
+      <% @pending.each do |friendship_request| %>
         <li>
-          <a href="<%= url_for person_url(:id => friendship.friend) %>">
-            <%= render :partial => 'people/thumbnail', :locals => {:person => friendship.friend} %>
+          <a href="<%= url_for person_url(:id => friendship_request.from) %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => friendship_request.from} %>
           </a>
-          <%= link_to friendship.friend.name, person_url(:id => friendship.friend) %>
+          <%= link_to friendship_request.from.name, person_url(:id => friendship_request.from) %>
           <strong>
-            <%= link_to '[accept]', {:action => 'accept', :id => friendship.friend}, :post => true %>
-            <%= link_to '[decline]', {:action => 'decline', :id => friendship.friend}, :post => true, :confirm => 'Are you sure?' %>
+            <%= link_to '[accept]', {:action => 'accept', :id => friendship_request}, :method => :post %>
+            <%= link_to '[decline]', {:action => 'decline', :id => friendship_request}, :method => :post, :confirm => 'Are you sure?' %>
           </strong>
         </li>
       <% end %>

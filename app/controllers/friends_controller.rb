@@ -10,7 +10,7 @@ class FriendsController < ApplicationController
       @pending = []
     else
       @person = @logged_in
-      @pending = @logged_in.friendship_requests
+      @pending = @logged_in.pending_friendship_requests
     end
     @friendships = @person.friendships
   end
@@ -19,14 +19,15 @@ class FriendsController < ApplicationController
     @person = Person.find params[:id]
     if @person.friendship_waiting_on?(@logged_in) # already requested by other person
       @logged_in.friendships.create! :friend => @person
-      @person.friendship_requests.find_by_from_id(@logged_in.id).destroy
+      @logged_in.friendship_requests.find_by_from_id(@person.id).destroy
       message = "#{@person.name} has been added as a friend."
     elsif @logged_in.can_request_friendship_with?(@person)
+      FriendshipRequest.delete_all ['person_id = ? and from_id = ? and rejected = ?', @logged_in.id, @person.id, true] # clean up past rejections
       @person.friendship_requests.create!(:from => @logged_in)
       message = "A friend request has been sent to #{@person.name}."
     elsif @logged_in.friendship_waiting_on?(@person)
       message = "A friend request is already pending with #{@person.name}."
-    elsif @logged_in.friendship_rejected_by?(@person)
+    elsif @logged_in.friendship_rejected_by?(@person) # there's really no way in the interface to get here, but oh well
       message = :turned_down
     else
       raise 'unknown state'
@@ -49,12 +50,15 @@ class FriendsController < ApplicationController
   end
   
   def accept
-    @logged_in.friendships.create!(:friend => @request.from) if @request
+    if @request
+      @logged_in.friendships.create!(:friend => @request.from)
+      @request.destroy
+    end
     redirect_to friends_url(:id => nil)
   end
   
   def decline
-    @request.update_attribute!(:rejected, true) if @request
+    @request.update_attribute(:rejected, true) if @request
     redirect_to friends_url(:id => nil)
   end
   

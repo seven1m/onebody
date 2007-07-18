@@ -7,9 +7,9 @@
   <% unless @logged_in == @person %>
     <% if @logged_in.friend? @person %>
       <li><%= link_to 'Remove from Friends', remove_friend_url(:id => @person), :post => true, :confirm => 'Are you sure?' %></li>
-    <% elsif @logged_in.can_request_friendship?(@person) %>
-      <li><%= link_to 'Add to Friends', add_friend_url(:id => @person), :post => true, :confirm => 'Are you sure?' %></li>
-    <% elsif @logged_in.pending_friend? @person %>
+    <% elsif @logged_in.can_request_friendship_with?(@person) %>
+      <li><%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon') + ' Add to Friends', {:url => add_friend_url(:id => @person), :loading => "$('add_friend_#{@person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{@person.id}" %></li>
+    <% elsif @logged_in.friendship_waiting_on? @person %>
       <li><em>friend request pending</em></li>
     <% end %>
     <% if @person.email.to_s.any? and @person.messages_enabled %>
