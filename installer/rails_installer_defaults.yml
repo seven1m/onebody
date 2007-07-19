@@ -1,0 +1,6 @@
+--- 
+rails-environment: production
+database: mysql
+web-server: mongrel
+threads: 3
+db_user: root

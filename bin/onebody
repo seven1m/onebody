@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require File.join(File.dirname(__FILE__), '../lib/rails-installer')
+
+class AppInstaller < RailsInstaller
+  application_name 'onebody'
+  support_location 'http://beonebody.com'
+end
+
+directory = ARGV[1]
+
+app = AppInstaller.new(directory)
+app.execute_command(*ARGV)
