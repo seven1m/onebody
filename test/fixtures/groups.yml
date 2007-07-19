@@ -23,7 +23,15 @@
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+morgan:
   id: 1
   name: Morgan Group
   creator_id: 1
+publications:
+  id: 2
+  name: Publications
+  description: People who wish to be notified when new publications become available on the website.
+  category: Subscription
+  address: publications
+  members_send: false
+  hidden: true

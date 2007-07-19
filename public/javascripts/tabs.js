@@ -7,7 +7,7 @@
   LOADING_ELM_ID = 'loading';
   CONTENT_HOLDER_ID = 'content-holder';
 
-  lastSection = 0
+  lastSection = -1
   function checkHash() {
     var section = get_selected();
     if(section != lastSection) {

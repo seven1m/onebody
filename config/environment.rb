@@ -102,6 +102,8 @@ end
 
 VALID_EMAIL_RE = /^[A-Z0-9\._%\-]+@[A-Z0-9\.\-]+\.[A-Z]{2,4}$/i
 
+MAX_FRIENDS_ON_PROFILE = 10
+
 # Bug Notification
 ExceptionNotifier.exception_recipients = [BUG_NOTIFICATION_EMAIL] if BUG_NOTIFICATION_EMAIL
 ExceptionNotifier.sender_address = "\"One Body Error\" <app-error@#{MAIL_DOMAIN}>"

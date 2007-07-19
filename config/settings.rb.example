@@ -42,6 +42,11 @@ MAIL_GROUPS_VISIBLE_BY_NON_ADMINS = MAIL_GROUPS_CAN_LOG_IN
 FLAG_VISIBLE_BY_NON_ADMINS = FLAG_CAN_LOG_IN
 SUPER_ADMINS = %w(morgans@somedomain.com) # by email address
 
+# Prayer Event Signup
+PRAYER_EVENT = nil
+# or...
+# PRAYER_EVENT = ['1/21/2007 12:00', '1/29/2007 21:00']
+
 # Stat Tracking
 ANALYTICS_CODE = <<-END_CODE
   <!-- site stats code goes here -->

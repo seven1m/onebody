@@ -4,6 +4,8 @@ class FriendshipRequestTest < Test::Unit::TestCase
   fixtures :friendship_requests, :people # no friendship fixtures
 
   def test_state_methods
+    Friendship.delete_all
+    
     # no requests and no friendships between tim and jeremy
     assert people(:tim).can_request_friendship_with?(people(:jeremy))
     assert !people(:tim).friendship_waiting_on?(people(:jeremy))

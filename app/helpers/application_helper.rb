@@ -2,9 +2,9 @@
 module ApplicationHelper
   def preserve_breaks(text, make_safe=true)
     if make_safe
-      text.split(/\n/).map { |part| h(part) }.join('<br/>')
+      text.to_s.split(/\n/).map { |part| h(part) }.join('<br/>')
     else
-      text.split(/\n/).join('<br/>')
+      text.to_s.split(/\n/).join('<br/>')
     end
   end
   

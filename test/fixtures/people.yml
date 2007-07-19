@@ -85,6 +85,7 @@ jeremy:
   mail_group: M
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
   email: jeremy@example.com
+  wall_enabled: true
 peter:
   id: 3
   family_id: 3
@@ -96,6 +97,7 @@ peter:
   email: peter@example.com
   mobile_phone: 1234567890
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  wall_enabled: true
 jennie:
   id: 4
   family_id: 1
@@ -107,6 +109,7 @@ jennie:
   birthday: 1980-06-24
   email: morgans@somedomain.com
   encrypted_password: 5f4dcc3b5aa765d61d8327deb882cf99 # password
+  wall_enabled: true
 mac:
   id: 5
   family_id: 1
@@ -118,6 +121,7 @@ mac:
   mail_group: M
   birthday: 2006-11-03
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  wall_enabled: true
 jeanette:
   id: 6
   family_id: 2
@@ -128,7 +132,8 @@ jeanette:
   mail_group: M
   birthday: 1980-06-24
   email: jeanette@somedomain.com
-  encrypted_password: 5f4dcc3b5aa765d61d8327deb882cf99 # password
+  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  wall_enabled: true
 katrina:
   id: 7
   family_id: 2
@@ -139,3 +144,4 @@ katrina:
   mail_group: M
   birthday: 2006-10-26
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  wall_enabled: true

@@ -41,6 +41,7 @@ morgan:
   state: OK
   zip: 74111
   home_phone: 9181234567
+  wall_enabled: true
 zongker:
   id: 2
   name: Jeremy & Jeanette Zongker
@@ -50,7 +51,9 @@ zongker:
   state: OK
   zip: 74019
   home_phone: 9181234567
+  wall_enabled: true
 jones:
   id: 3
   name: Peter Jones
   last_name: Jones
+  wall_enabled: true

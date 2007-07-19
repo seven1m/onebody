@@ -1,9 +1,8 @@
 <div id="search">
-			  <%= form_tag({:controller => 'recipes', :action => 'search'}) %>
-				  <input name="criteria" id="recipe_search_name" onfocus="if(this.value == 'Recipe Search') this.value = ''" onblur="if(this.value == '') this.value = 'Recipe Search'"/>
-			</form>
-				
-				<script type="text/javascript"> $('recipe_search_name').value = 'Recipe Search' </script>
+  <%= form_tag({:controller => 'recipes', :action => 'search'}) %>
+	  <input name="criteria" id="recipe_search_name" onfocus="if(this.value == 'Recipe Search') this.value = ''" onblur="if(this.value == '') this.value = 'Recipe Search'"/>
+	</form>
+	<script type="text/javascript"> $('recipe_search_name').value = 'Recipe Search' </script>
 </div>
 
 <h1>Recipes</h1>
@@ -38,4 +37,4 @@
   <p><em>No recipes yet!</em></p>
 <% end %>
 
-<p><%= link_to "New Recipe", :controller => "recipes", :action => "edit" %></p>
+<p><%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' New Recipe', :controller => "recipes", :action => "edit" %></p>

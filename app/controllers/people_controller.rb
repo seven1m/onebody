@@ -3,6 +3,7 @@ class PeopleController < ApplicationController
     @person = @logged_in
     @family = @person.family
     @prayer_signups = [] #@person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
+    @me = true
     if @logged_in.full_access?
       unless @person.visible?
         flash[:warning] = "<img src=\"/images/lock.gif\" class=\"no-border\"/> Your profile is hidden! <a href=\"#{url_for :action => 'privacy'}\">Click here</a> to change your privacy settings."
@@ -16,7 +17,8 @@ class PeopleController < ApplicationController
   def view
     if @person = Person.find(params[:id]) rescue nil
       @family = @person.family
-      #@prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
+      @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
+      @me = (@logged_in == @person)
     end
     if not @person or not @logged_in.sees? @person
       render :text => 'Not found.', :status => 404

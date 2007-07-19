@@ -4,7 +4,7 @@
     <li><%= link_to 'Privacy Settings', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}" %></li>
     <li><%= link_to 'Email Preferences', :action => 'email', :id => @person %></li>
   <% end %>
-  <% unless @logged_in == @person %>
+  <% unless @me %>
     <% if @logged_in.friend? @person %>
       <li><%= link_to 'Remove from Friends', remove_friend_url(:id => @person), :post => true, :confirm => 'Are you sure?' %></li>
     <% elsif @logged_in.can_request_friendship_with?(@person) %>
@@ -43,26 +43,9 @@
     </table>
   <% end %>
   
-  <% if @person.family.children_without_consent.any? and @logged_in == @person and @person.adult? %>
+  <% if @person.family.children_without_consent.any? and @me and @person.adult? %>
     <p style="font-weight:bold;"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Why can't I see my children here?",
       :controller => 'help', :action => 'safeguarding_children' %></p>
-  <% end %>
-  
-  <% if @logged_in == @person %>
-    <% if @person.testimony.to_s.empty? %>
-      <p class="highlight">
-        You can
-        <%= link_to 'share your testimony', :action => 'edit', :id => @person, :anchor => 'about' %>
-        on your profile. Or you can read others' testimonies
-        <%= link_to 'here', :action => 'search', :testimony => true %>.
-      </p>
-    <% end %>
-    <% if not (@person.has_shares? or @person.has_notes?) %>
-      <p class="highlight">
-        Hey! Did you know you can <%= link_to 'share', :controller => 'shares' %>
-        your favorite pictures, Bible verses, and even recipes?
-      </p>
-    <% end %>
   <% end %>
   
   <%= render :partial => 'friends' %>
@@ -76,7 +59,7 @@
   </p>
 <% end %>
 
-<% if @logged_in == @person and @logged_in.pending_friendship_requests.count > 0 %>
+<% if @me and @logged_in.pending_friendship_requests.count > 0 %>
   <p class="highlight">
     You have <%= link_to 'pending friend requests', friends_url %>.
   </p>
@@ -104,7 +87,7 @@
   <% end %>
 </h1>
 
-<% if @person.pending_updates.count > 0 and @logged_in == @person %>
+<% if @person.pending_updates.count > 0 and @me %>
   <p>
     <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'no-border', :style => 'vertical-align:middle;' %>
     The update to your profile is pending approval.
@@ -132,90 +115,105 @@
 
 <br clear="right"/>
 
-<% if @person.about.to_s.any? %>
-  <h2 class="tab" id="about">About</h2>
-  <div class="section">
+
+<h2 class="tab" id="about">About</h2>
+<div class="section" id="about_content">
+  <% if @person.about %>
     <%= preserve_breaks @person.about %>
-  </div>
-<% end %>
+  <% elsif @me %>
+    <em>Write something about yourself <%= link_to 'here', edit_profile_url(:anchor => 'about') %>.</em>
+  <% end %>
+</div>
 
-<% if @person.testimony.to_s.any? %>
-  <h2 class="tab" id="testimony">Testimony</h2>
-  <div class="section">
+
+<h2 class="tab" id="testimony">Testimony</h2>
+<div class="section" id="testimony_content">
+  <% if @person.testimony %>
     <%= preserve_breaks @person.testimony %>
-    <p><%= link_to 'Read more testimonies...', :action => 'search', :testimony => true %></p>
-  </div>
-<% end %>
+  <% elsif @me %>
+    <em>Share your story <%= link_to 'here', edit_profile_url(:anchor => 'about') %>.</em>
+  <% end %>
+  <p><%= link_to 'Read more testimonies...', :action => 'search', :testimony => true %></p>
+</div>
 
-<% if @person.has_notes? or @person == @logged_in %>
-  <h2 class="tab" id="notes">Notes</h2>
-  <div class="section" id="notes_content"></div>
-<% end %>
+<h2 class="tab" id="notes">Notes</h2>
+<div class="section" id="notes_content"></div>
 
-<% if @person.has_shares? %>
-  <h2 class="tab" id="shares">Shares</h2>
-  <div class="section" id="shares_content"></div>
-<% end %>
+<h2 class="tab" id="shares">Shares</h2>
+<div class="section" id="shares_content"></div>
 
-<% if has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
-  <h2 class="tab" id="favorites">Favorites</h2>
-  <div class="section">
-    <table>
-      <% if @person.activities.to_s.any? %>
-        <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
-      <% end %>
-      <% if @person.interests.to_s.any? %>
-        <tr><td>Interests:</td><td><%= linkify @person.interests, :interests %></td></tr>
-      <% end %>
-      <% if @person.music.to_s.any? %>
-        <tr><td>Music:</td><td><%= linkify @person.music, :music %></td></tr>
-      <% end %>
-      <% if @person.tv_shows.to_s.any? %>
-        <tr><td>TV Shows:</td><td><%= linkify @person.tv_shows, :tv_shows %></td></tr>
-      <% end %>
-      <% if @person.movies.to_s.any? %>
-        <tr><td>Movies:</td><td><%= linkify @person.movies, :movies %></td></tr>
-      <% end %>
-      <% if @person.books.to_s.any? %>
-        <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
-      <% end %>
-      <% if @person.quotes.to_s.any? %>
-        <tr>
-          <td>Quotes:</td>
-          <td>
-            <% if too_big = @person.quotes.to_s.length > 5000 %>
-              <div style="height:300px;overflow:auto;">
-            <% end %>
+<h2 class="tab" id="favorites">Favorites</h2>
+<div class="section" id="favorites_content">
+  <table>
+    <% if @person.activities %>
+      <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
+    <% end %>
+    <% if @person.interests %>
+      <tr><td>Interests:</td><td><%= linkify @person.interests, :interests %></td></tr>
+    <% end %>
+    <% if @person.music %>
+      <tr><td>Music:</td><td><%= linkify @person.music, :music %></td></tr>
+    <% end %>
+    <% if @person.tv_shows %>
+      <tr><td>TV Shows:</td><td><%= linkify @person.tv_shows, :tv_shows %></td></tr>
+    <% end %>
+    <% if @person.movies %>
+      <tr><td>Movies:</td><td><%= linkify @person.movies, :movies %></td></tr>
+    <% end %>
+    <% if @person.books %>
+      <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
+    <% end %>
+    <% if @person.quotes %>
+      <tr>
+        <td>Quotes:</td>
+        <td>
+          <div style="<%= @person.quotes.to_s.length > 5000 ? 'height:300px;overflow:auto;' : '' %>">
             <%= preserve_breaks @person.quotes %>
-            <% if too_big %>
-              </div>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
-<% end %>
-
-<% if @person.has_groups? %>
-  <h2 class="tab" id="groups">Groups</h2>
-  <div class="section" id="groups_content"></div>
-<% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  
+  <% unless !@me or has_favs = (@person.activities or @person.interests or @person.music or @person.tv_shows or @person.movies or @person.books or @person.quotes) %>
+    <p><em>Share your favorite interests, music, movies, and more
+      <%= link_to 'here', edit_profile_url(:anchor => 'favorites') %>.</em></p>
+  <% end %>
+</div>
 
 <% if @person.wall_enabled? %>
   <h2 class="tab" id="wall">Wall</h2>
   <div class="section" id="wall_content"></div>
 <% end %>
 
-<!--
-<% if @logged_in.admin? %>
-  <%= form_tag :controller => 'prayer', :action => 'event_signup', :id => @person %>
-    Sign up for prayer:
-    <%= text_field_tag 'start', nil %>
-    <%= submit_tag 'Save' %>
-  </form>
+<h2 class="tab" id="groups">Groups</h2>
+<div class="section" id="groups_content"></div>
+
+<% if PRAYER_EVENT %>
+  <% if @logged_in.admin? %>
+    <%= form_tag :controller => 'prayer', :action => 'event_signup', :id => @person %>
+      Sign up for prayer:
+      <%= text_field_tag 'start', nil %>
+      <%= submit_tag 'Save' %>
+    </form>
+  <% end %>
 <% end %>
--->
+
+<% unless @me %>
+  <script type="text/javascript">
+  //<![CDATA[
+    function remove_section(name) {
+      Element.remove(name);
+      Element.remove(name + '_content');
+    }
+    <% unless @person.about %>remove_section('about');<% end %>
+    <% unless @person.testimony %>remove_section('testimony');<% end %>
+    <% unless @person.notes.count > 0 %>remove_section('notes');<% end %>
+    <% unless @person.pictures.count > 0 or @person.verses.count > 0 or @person.recipes.count > 0 %>remove_section('shares');<% end %>
+    <% unless has_favs %>remove_section('favorites');<% end %>
+  //]]>
+  </script>
+<% end %>
 
 <%= javascript_include_tag 'tabs' %>
 <%= stylesheet_link_tag 'tabs' %>
@@ -282,23 +280,6 @@
       }
   }
   set_up(); // tabs
-//]]>
-</script>
-
-<script type="text/javascript">
-//<![CDATA[
-  <% if not (@person.about.to_s.any? or @person.testimony.to_s.any?) %>
-    <% if @person.has_notes? or @person == @logged_in %>
-      load_tab('notes')
-    <% elsif @person.has_shares? %>
-      load_tab('shares')
-    <% elsif has_favs %>
-    <% elsif @person.has_groups? %>
-      load_tab('groups')
-    <% elsif @person.wall_enabled? %>
-      load_tab('wall')
-    <% end %>
-  <% end %>
 //]]>
 </script>
 

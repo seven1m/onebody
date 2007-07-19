@@ -271,7 +271,7 @@ class Person < ActiveRecord::Base
   end
   
   def can_request_friendship_with?(person)
-    !friend?(person) and full_access? and person.full_access? and person.valid_email? and person.friends_enabled and !friendship_rejected_by?(person) and !friendship_waiting_on?(person)
+    person != self and !friend?(person) and full_access? and person.full_access? and person.valid_email? and person.friends_enabled and !friendship_rejected_by?(person) and !friendship_waiting_on?(person)
   end
   
   def friendship_rejected_by?(person)

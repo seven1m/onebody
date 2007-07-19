@@ -5,6 +5,9 @@
       <%= link_to 'edit', friends_url, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
     <% end %>
   </h2>
+  <% if count > MAX_FRIENDS_ON_PROFILE %>
+    <p><%= MAX_FRIENDS_ON_PROFILE %> of <%= count %></p>
+  <% end %>
   <table>
     <% @person.friends.find(:all, :limit => 10).each do |friend| %>
       <tr>
@@ -19,7 +22,7 @@
       </tr>
     <% end %>
   </table>
-  <% if count > 10 %>
-    <p><%= link_to "All #{@person.namme_possessive} Friends", friends_url(:id => @person) %></p>
+  <% if count > MAX_FRIENDS_ON_PROFILE %>
+    <p><%= link_to "All #{@person.name_possessive} Friends", friends_url(:id => @person) %></p>
   <% end %>
 <% end %>

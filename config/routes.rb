@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'people' do |m|
     m.person 'people/view/:id', :action => 'view'
+    m.edit_profile 'people/edit/:id', :action => 'edit'
     m.logged_in 'people', :action => 'index'
     m.browse_directory 'people/browse', :action => 'search', :browse => true
   end
@@ -17,6 +18,10 @@ ActionController::Routing::Routes.draw do |map|
     m.add_friend 'friends/add/:id', :action => 'add'
     m.friends 'friends/:id', :action => 'view'
   end
+  
+  map.shares 'shares', :controller => 'shares'
+  
+  map.groups 'groups', :controller => 'groups'
 
   map.connect '', :controller => "people"
   map.connect ':controller/service.wsdl', :action => 'wsdl'

@@ -1,4 +1,4 @@
-<% if (count = @person.pictures.count) > 0 %>
+<% if (pic_count = @person.pictures.count) > 0 %>
   <h3 style="background-color:#eee;">Pictures</h3>
   <div>
     <% @person.pictures.find(:all, :order => 'rand()', :limit => 5).each do |picture| %>
@@ -10,14 +10,14 @@
   </div>
 <% end %>
 
-<% if @person.verses.any? %>
+<% if (verse_count = @person.verses.count) > 0 %>
   <h3 style="background-color:#eee;">Verses</h3>
   <div>
     <%= render :partial => 'verses' %>
   </div>
 <% end %>
 
-<% if @person.recipes.any? %>
+<% if (recipe_count = @person.recipes.count) > 0 %>
   <h3 style="background-color:#eee;">Recipes</h3>
   <div>
     <%= render :partial => 'recipes/list', :locals => {:recipes => @person.recipes} %>
@@ -25,4 +25,10 @@
       <p><%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' Add a Recipe', :controller => "recipes", :action => "edit" %></p>
     <% end %>
   </div>
+<% end %>
+
+<% if pic_count == 0 and verse_count == 0 and recipe_count == 0 %>
+  <% if @logged_in == @person %>
+    <p><em>Share pictures, Bible verses, and recipes <%= link_to 'here', shares_url %>.</em></p>
+  <% end %>
 <% end %>
