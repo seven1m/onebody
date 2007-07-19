@@ -3,15 +3,11 @@
 #
 # Table name: friendships
 #
-#  id              :integer(11)   not null, primary key
-#  person_id       :integer(11)   
-#  friend_id       :integer(11)   
-#  pending         :boolean(1)    default(TRUE)
-#  rejected        :boolean(1)    
-#  initiated_by_id :integer(11)   
-#  rejected_by_id  :integer(11)   
-#  created_at      :datetime      
-#  updated_at      :datetime      
+#  id         :integer(11)   not null, primary key
+#  person_id  :integer(11)   
+#  friend_id  :integer(11)   
+#  created_at :datetime      
+#  ordering   :integer(11)   default(1000)
 #
 
 class Friendship < ActiveRecord::Base

@@ -17,6 +17,25 @@
 #  person_id        :integer(11)   
 #
 
+# == Schema Information
+# Schema version: 64
+#
+# Table name: songs
+#
+#  id               :integer(11)   not null, primary key
+#  title            :string(255)   
+#  notes            :text          
+#  artists          :string(500)   
+#  album            :string(255)   
+#  image_small_url  :string(255)   
+#  image_medium_url :string(255)   
+#  image_large_url  :string(255)   
+#  amazon_asin      :string(50)    
+#  amazon_url       :string(255)   
+#  created_at       :datetime      
+#  person_id        :integer(11)   
+#
+
 class Song < ActiveRecord::Base
   
   belongs_to :person

@@ -22,6 +22,22 @@ ActionController::Routing::Routes.draw do |map|
   map.shares 'shares', :controller => 'shares'
   
   map.groups 'groups', :controller => 'groups'
+  
+  map.with_options :controller => 'notes' do |m|
+    m.note 'notes/:id', :action => 'view'
+  end
+  
+  map.with_options :controller => 'verses' do |m|
+    m.verse 'verses/:id', :action => 'view'
+  end
+  
+  map.with_options :controller => 'recipes' do |m|
+    m.recipe 'recipes/:id', :action => 'view'
+  end
+  
+  map.with_options :controller => 'events' do |m|
+    m.event 'events/:id', :action => 'view'
+  end
 
   map.connect '', :controller => "people"
   map.connect ':controller/service.wsdl', :action => 'wsdl'

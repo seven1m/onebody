@@ -56,6 +56,7 @@
 #  visible             :boolean(1)    default(TRUE)
 #  parental_consent    :string(255)   
 #  admin_id            :integer(11)   
+#  friends_enabled     :boolean(1)    default(TRUE)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

@@ -1,0 +1,48 @@
+<% content_for :sidebar do %>
+  <a href="<%= url_for person_url(:id => @logged_in) %>">
+    <%= render :partial => 'people/thumbnail', :locals => {:person => @logged_in} %>
+  </a>
+  <strong><%= link_to @logged_in.name, person_url(:id => @logged_in) %></strong>
+<% end %>
+
+<% if @items.any? %>
+  <h1>What your friends are up to...</h1>
+  <table>
+    <% @items.each do |item| %>
+      <tr>
+        <td>
+          <a href="<%= url_for person_url(:id => item.person) %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
+          </a>
+        </td>
+        <td>
+          <%= link_to item.person.name, person_url(:id => item.person) %>
+          <% object = item.object %>
+          <% if object.is_a? Picture %>
+            uploaded a picture: <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{object.id}.small.jpg"), :alt => 'click to enlarge'),
+              {:controller => 'pictures', :action => 'view', :id => object}, :title => 'click to enlarge' %>
+          <% elsif object.is_a? Verse %>
+            added <%= link_to object.reference, verse_url(:id => object) %>.
+          <% elsif object.is_a? Recipe %>
+            added <%= link_to object.title, recipe_url(:id => recipe) %>.
+          <% elsif object.is_a? Event %>
+            added <%= link_to object.name, event_url(:id => event) %>.
+          <% elsif object.is_a? Comment %>
+            
+          <% elsif object.is_a? NewsItem %>
+            
+          <% elsif object.is_a? Publication %>
+            
+          <% elsif object.is_a? Note %>
+            wrote a <%= link_to 'note', note_url(:id => object) %>.
+          <% elsif object.is_a? Person %>
+            updated their 
+            <%= item.changes.keys.map { |k| k.capitalize }.to_sentence %>.
+          <% end %>
+          <br/>
+          <span class="discreet"><%= item.created_at.to_time.to_s %></span>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 64
+#
+# Table name: friendship_requests
+#
+#  id         :integer(11)   not null, primary key
+#  person_id  :integer(11)   
+#  from_id    :integer(11)   
+#  rejected   :boolean(1)    
+#  created_at :datetime      
+#
+
 class FriendshipRequest < ActiveRecord::Base
   belongs_to :person
   belongs_to :from, :class_name => 'Person', :foreign_key => 'from_id'

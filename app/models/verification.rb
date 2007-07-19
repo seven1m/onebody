@@ -12,6 +12,20 @@
 #  updated_at   :datetime      
 #
 
+# == Schema Information
+# Schema version: 64
+#
+# Table name: verifications
+#
+#  id           :integer(11)   not null, primary key
+#  email        :string(255)   
+#  mobile_phone :integer(20)   
+#  code         :integer(11)   
+#  verified     :boolean(1)    
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#
+
 class Verification < ActiveRecord::Base
 
   # generates security code

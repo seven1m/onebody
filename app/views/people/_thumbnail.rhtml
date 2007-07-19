@@ -1,9 +1,9 @@
 <% if person.has_photo? %>
-  <%= image_tag url_for(:controller => 'people', :action => 'photo', :id => "#{person.id}.tn.jpg"), :alt => person.name, :class => 'icon' %>
+  <%= image_tag url_for(:controller => 'people', :action => 'photo', :id => "#{person.id}.tn.jpg"), :alt => person.name, :class => 'icon thumbnail' %>
 <% else %>
   <% if ['male', 'boy', 'man'].include? person.gender.to_s.downcase %>
-    <%= image_tag 'man.tn.gif', :alt => person.name, :class => 'icon' %>
+    <%= image_tag 'man.tn.gif', :alt => person.name, :class => 'icon thumbnail' %>
   <% elsif ['female', 'girl', 'woman'].include? person.gender.to_s.downcase %>
-    <%= image_tag 'woman.tn.gif', :alt => person.name, :class => 'icon' %>
+    <%= image_tag 'woman.tn.gif', :alt => person.name, :class => 'icon thumbnail' %>
   <% end %>
 <% end %>

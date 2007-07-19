@@ -18,6 +18,26 @@
 #  event_id     :integer(11)   
 #
 
+# == Schema Information
+# Schema version: 64
+#
+# Table name: recipes
+#
+#  id           :integer(11)   not null, primary key
+#  person_id    :integer(11)   
+#  title        :string(255)   
+#  notes        :text          
+#  description  :text          
+#  ingredients  :text          
+#  directions   :text          
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  prep         :string(255)   
+#  bake         :string(255)   
+#  serving_size :integer(11)   
+#  event_id     :integer(11)   
+#
+
 class Recipe < ActiveRecord::Base
 
   has_many :comments

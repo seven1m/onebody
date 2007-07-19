@@ -17,6 +17,25 @@
 #  code         :integer(11)   
 #
 
+# == Schema Information
+# Schema version: 64
+#
+# Table name: messages
+#
+#  id           :integer(11)   not null, primary key
+#  group_id     :integer(11)   
+#  person_id    :integer(11)   
+#  to_person_id :integer(11)   
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  parent_id    :integer(11)   
+#  subject      :string(255)   
+#  body         :text          
+#  share_email  :boolean(1)    
+#  wall_id      :integer(11)   
+#  code         :integer(11)   
+#
+
 require 'uri'
 require 'digest/md5'
 

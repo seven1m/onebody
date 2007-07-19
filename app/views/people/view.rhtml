@@ -23,7 +23,12 @@
   <%= render :partial => 'families/photo' %>
     
   <% if (people = @person.family.people.find(:all).select { |p| @logged_in.admin? or p.visible? }).length > 1 %>
-    <h2>Family</h2>
+    <h2>
+      Family
+      <% if @logged_in == @person %>
+        <%= link_to 'edit', edit_profile_url, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+      <% end %>
+    </h2>
     <table>
       <% people.each do |person| %>
         <tr class="family-member">

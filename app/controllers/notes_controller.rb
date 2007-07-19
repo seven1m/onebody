@@ -25,6 +25,6 @@ class NotesController < ApplicationController
     if note.person == @logged_in or @logged_in.admin?
       note.update_attribute :deleted, true
     end
-    redirect_to person_url(:id => note.person), :anchor => 'notes'
+    redirect_to person_url(:id => note.person, :anchor => 'notes')
   end
 end
