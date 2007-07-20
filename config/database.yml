@@ -1,0 +1,17 @@
+production:
+  adapter: mysql
+  database: onebody
+  username: root
+  password: 
+
+development:
+  adapter: mysql
+  database: onebody_dev
+  username: root
+  password: 
+
+test:
+  adapter: mysql
+  database: onebody_test
+  username: root
+  password: 
