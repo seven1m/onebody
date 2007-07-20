@@ -1,3 +1,9 @@
+# Security
+# SSL is highly recommended to ensure security of users' passwords and accounts
+# Once your organization has a signed SSL certificate and you have Apache set up
+# to handle SSL requests, set the following value to true.
+USE_SSL = false
+
 # Name
 SITE_TITLE = 'Imaginary Church Family'
 CHURCH_NAME = 'First Imaginary Church'
