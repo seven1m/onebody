@@ -17,6 +17,11 @@
     <%= text_field_tag 'note[title]', white_list(@note.title), :id => 'note_title' %><br/>
     <label for="note_body">Note:</label><br/>
     <%= text_area_tag 'note[body]', white_list(@note.body), :id => 'note_body', :rows => '10' %><br/>
+    <label for="note_group_id">Post to Group (optional):</label>
+    <select name="note[group_id]" id="note_group_id">
+      <option value="">None</option>
+      <%= options_for_select @note.person.groups.map { |g| [g.name, g.id] }, @note.group_id %>
+    </select><br/>
     <%= submit_tag 'Save Note', :style => 'width:100px;' %>
   </p>
 </form>

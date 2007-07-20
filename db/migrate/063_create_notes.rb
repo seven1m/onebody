@@ -2,6 +2,7 @@ class CreateNotes < ActiveRecord::Migration
   def self.up
     create_table :notes do |t|
       t.column :person_id, :integer
+      t.column :group_id, :integer
       t.column :title, :string, :limit => 255
       t.column :body, :text
       t.column :created_at, :datetime

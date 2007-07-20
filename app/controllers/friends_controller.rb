@@ -4,6 +4,10 @@ class FriendsController < ApplicationController
   
   verify :method => :post, :only => ['add', 'accept', 'decline', 'remove']
   
+  def index
+    view; render :action => 'view'
+  end
+  
   def view
     if params[:id]
       @person = Person.find(params[:id])

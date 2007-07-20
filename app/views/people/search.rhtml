@@ -52,6 +52,18 @@
 <div id="results">
   <% if @people %>
     <%= render :partial => 'search_results' %>
+  <% elsif params[:action] == 'search_friends' %>
+    <h2>Find Your Friends</h2>
+    <ol>
+      <li>Use the <strong>fields on the left</strong> to search for your friends.</li>
+      <li>Click the <%= image_tag('contact_add.gif', :alt => 'Add Friend', :class => 'icon') %> icon to add them.</li>
+    </ol>
+    <p>
+      You can add as many friends as you like!
+      When you're finished, you can edit your
+      <%= link_to 'friends list', friends_url %> to
+      remove and put them in the order you want.
+    </p>
   <% else %>
     <table>
       <tr>

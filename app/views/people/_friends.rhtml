@@ -30,4 +30,6 @@
   <% if count > MAX_FRIENDS_ON_PROFILE %>
     <p><%= link_to "All #{@person.name_possessive} Friends", friends_url(:id => @person) %></p>
   <% end %>
+<% else %>
+  <p class="highlight"><%= link_to 'Add your friends', :action => 'search_friends' %> to your profile page!</p>
 <% end %>

@@ -113,6 +113,10 @@ class PeopleController < ApplicationController
     end
   end
   
+  def search_friends
+    render :action => 'search'
+  end
+  
   def search
     @people = nil
     p = params.clone; p.delete 'action'; p.delete 'controller'

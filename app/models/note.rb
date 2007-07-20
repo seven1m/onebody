@@ -15,6 +15,8 @@
 
 class Note < ActiveRecord::Base
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
+  belongs_to :group
+  
   acts_as_logger LogItem
   
   validates_presence_of :title
