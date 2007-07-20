@@ -17,13 +17,12 @@ class ApplicationController < ActionController::Base
           redirect_to :controller => 'account', :action => 'bad_status'
           return false
         end
-        @logged_in = person
-        Person.logged_in = @logged_in
-        #if session[:ip_address] != request.remote_ip
-        #  # possibly someone trying to hijack session
-        #  session[:logged_in_id] = nil
-        #  raise "There was an error loading the session. (Expected IP address #{session[:ip_address]} but got #{request.remote_ip})"
-        #end
+        Person.logged_in = @logged_in = person
+        # some minimal session hijacking protection
+        if session[:ip_address] and session[:ip_address].split('.')[0..1].join('.') != request.remote_ip.split('.')[0..1].join('.')
+          session[:logged_in_id] = nil
+          raise "There was an error loading the session. (Expected IP address #{session[:ip_address]} but got #{request.remote_ip})"
+        end
         unless @logged_in.email
           redirect_to :controller => 'account', :action => 'change_email_and_password'
           return false

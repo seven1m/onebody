@@ -11,12 +11,11 @@ class AccountController < ApplicationController
         session[:logged_in_id] = person.id
         session[:logged_in_name] = person.first_name + ' ' + person.last_name # person.name checks can_see? first
         session[:ip_address] = request.remote_ip
-        #cookies[:email] = params[:remember] ? {:value => person.email, :expires => Time.now+32000000} : nil
         flash[:notice] = "Welcome, #{person.first_name}."
-        if params[:from] and request.port < 1000 # only needed if a production server (redirecting back to non-ssl protocol)
-          redirect_to SITE_URL + params[:from].gsub(/^\//, '')
+        if params[:from]
+          redirect_to 'http://' + request.host + params[:from]
         else
-          redirect_to params[:from] || {:controller => 'people', :action => 'index', :protocol => 'http://'}
+          redirect_to :controller => 'people', :action => 'index', :protocol => 'http://'
         end
       elsif person == nil
         cookies[:email] = nil
@@ -176,7 +175,7 @@ class AccountController < ApplicationController
 
   private
     def check_ssl
-      unless request.ssl? or RAILS_ENV != 'production'
+      unless request.ssl? or RAILS_ENV != 'production' or !USE_SSL
         redirect_to :protocol => 'https://', :from => params[:from]
         return
       end
