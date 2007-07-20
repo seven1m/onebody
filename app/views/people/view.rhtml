@@ -38,7 +38,7 @@
             </a>
           </td>
           <td>
-            <%= link_to h(person.name), :action => 'view', :id => person %>
+            <%= link_to h(person.name), person_url(:id => person) %>
             <% unless person.visible? %>
               <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
             <% end %>

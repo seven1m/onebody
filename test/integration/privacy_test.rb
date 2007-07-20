@@ -3,14 +3,6 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 class PrivacyTest < ActionController::IntegrationTest
   fixtures :people, :families
   
-  def sign_in_as(person)
-    post '/account/sign_in', :email => person.email, :password => 'secret'
-    assert_redirected_to :controller => 'people', :action => 'index'
-    follow_redirect!
-    assert_template 'people/view'
-    assert_select 'h1', Regexp.new(person.name)
-  end
-
   def test_help_for_parents_with_hidden_children
     sign_in_as people(:jeremy)
     get '/people/index'

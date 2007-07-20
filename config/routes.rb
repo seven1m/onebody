@@ -3,8 +3,8 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'people' do |m|
     m.edit_profile 'people/edit/:id', :action => 'edit'
     m.browse_directory 'people/browse', :action => 'search', :browse => true
-    m.logged_in 'people', :action => 'index'
-    m.person 'people/:id', :action => 'view'
+    m.person 'people/:id', :action => 'view', :requirements => {:id => /\d/}
+    m.logged_in 'people/:action', :action => 'index'
   end
   
   map.with_options :controller => 'notes' do |m|
