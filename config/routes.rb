@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_profile 'people/edit/:id', :action => 'edit'
     m.browse_directory 'people/browse', :action => 'search', :browse => true
     m.person 'people/:id', :action => 'view', :requirements => {:id => /\d/}
-    m.logged_in 'people/:action', :action => 'index'
+    m.logged_in '', :action => 'index'
   end
   
   map.with_options :controller => 'notes' do |m|
@@ -16,30 +16,30 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'friends' do |m|
     m.remove_friend 'friends/remove/:id', :action => 'remove'
     m.add_friend 'friends/add/:id', :action => 'add'
-    m.friends 'friends/:id', :action => 'view'
+    m.friends 'friends/view/:id', :action => 'view'
   end
   
   map.shares 'shares', :controller => 'shares'
   
   map.with_options :controller => 'groups' do |m|
     m.groups 'groups', :action => 'index'
-    m.group 'groups/:id', :action => 'view'
+    m.group 'groups/view/:id', :action => 'view'
   end
   
   map.with_options :controller => 'notes' do |m|
-    m.note 'notes/:id', :action => 'view'
+    m.note 'notes/view/:id', :action => 'view'
   end
   
   map.with_options :controller => 'verses' do |m|
-    m.verse 'verses/:id', :action => 'view'
+    m.verse 'verses/view/:id', :action => 'view'
   end
   
   map.with_options :controller => 'recipes' do |m|
-    m.recipe 'recipes/:id', :action => 'view'
+    m.recipe 'recipes/view/:id', :action => 'view'
   end
   
   map.with_options :controller => 'events' do |m|
-    m.event 'events/:id', :action => 'view'
+    m.event 'events/view/:id', :action => 'view'
   end
 
   map.connect '', :controller => "people"

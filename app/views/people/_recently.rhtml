@@ -1,12 +1,4 @@
-<% content_for :sidebar do %>
-  <a href="<%= url_for person_url(:id => @logged_in) %>">
-    <%= render :partial => 'people/thumbnail', :locals => {:person => @logged_in} %>
-  </a>
-  <strong><%= link_to @logged_in.name, person_url(:id => @logged_in) %></strong>
-<% end %>
-
 <% if @items.any? %>
-  <h1>What your friends are up to...</h1>
   <table>
     <% @items.each do |item| %>
       <tr>
@@ -16,7 +8,8 @@
           </a>
         </td>
         <td>
-          <%= link_to item.person.name, person_url(:id => item.person) %>
+          <%= link_to (item.person == @logged_in ? 'You' : item.person.name),
+            person_url(:id => item.person) %>
           <% object = item.object %>
           <% if object.is_a? Picture %>
             uploaded a picture: <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{object.id}.small.jpg"), :alt => 'click to enlarge'),
@@ -33,10 +26,10 @@
             wrote a <%= link_to 'note', note_url(:id => object) %>.
           <% elsif object.is_a? Message and object.group %>
             posted a message to the
-            <%= link_to "#{object.group.name} group", group_url(:id => object.group) %>.
+            <%= link_to "#{object.group.name}#{object.group.name =~ /group$/i ? '' : ' group'}", group_url(:id => object.group) %>.
           <% elsif object.is_a? Message and object.wall %>
             posted a message on 
-            <%= link_to "#{object.wall.name_possessive} wall", person_url(:id => object.wall) %>.
+            <%= link_to "#{object.wall.name_possessive} wall", person_url(:id => object.wall, :anchor => 'wall') %>.
           <% elsif object.is_a? Person %>
             updated their <%= item.showable_change_keys.to_sentence %>.
           <% elsif object.is_a? Friendship %>

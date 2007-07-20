@@ -64,7 +64,7 @@
     var id = headings[index].getAttribute('id') || sections[index].getAttribute('id');
     if(id && index != lastSection) {
       var y = typeof window.pageYOffset != 'undefined' ? window.pageYOffset : document.documentElement.scrollTop;
-      if(!navigator.userAgent.match(/Safari/)) location.hash = '#' + id;
+      if(!navigator.userAgent.match(/Safari/) && (location.hash == null || lastSection != -1)) location.hash = '#' + id;
       window.scrollTo(0, y);
       if(typeof load_tab == 'function') load_tab(id);
     }

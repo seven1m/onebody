@@ -22,6 +22,10 @@
 <% end %>
 
 <% if @friendships.any? %>
+  <% if @friendships.length > 1 %>
+    <p>You can rearrange your friends list by dragging them up/down with your mouse.
+      (The top <%= MAX_FRIENDS_ON_PROFILE %> friends show on your profile page.)</p>
+  <% end %>
   <ul id="friends" style="list-style-type:none;">
     <% @friendships.each do |friendship| %>
       <li id="friendship_<%= friendship.id %>">

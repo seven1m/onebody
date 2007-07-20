@@ -120,6 +120,10 @@
 
 <br clear="right"/>
 
+<% if @me %>
+  <h2 class="tab" id="recently">Recently</h2>
+  <div class="section" id="recently_content"></div>
+<% end %>
 
 <h2 class="tab" id="about">About</h2>
 <div class="section" id="about_content">
@@ -227,7 +231,7 @@
 </style>
 <script type="text/javascript">
 //<![CDATA[
-  notes_loaded = shares_loaded = groups_loaded = wall_loaded = false;
+  notes_loaded = shares_loaded = groups_loaded = wall_loaded = recently_loaded = false;
   function load_tab(id) {
     if(id == 'notes') {
       if(!notes_loaded) {
@@ -270,19 +274,28 @@
         groups_loaded = true;
       }
     } else if(id == 'wall') {
-        if(!wall_loaded) {
-          new Ajax.Updater(
-            'wall_content',
-            '<%= url_for(:action => 'wall', :id => @person) %>',
-            {
-              method: 'get',
-              onLoading:function(){$('wall_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
-              onComplete:function(){Element.hide('wall_message')}
-            }
-          );
-          wall_loaded = true;
-        }
+       if(!wall_loaded) {
+        new Ajax.Updater(
+          'wall_content',
+          '<%= url_for(:action => 'wall', :id => @person) %>',
+          {
+            method: 'get',
+            onLoading:function(){$('wall_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
+            onComplete:function(){Element.hide('wall_message')}
+          }
+        );
+        wall_loaded = true;
       }
+    } else if(id == 'recently') {
+      if(!recently_loaded) {
+        new Ajax.Updater(
+          'recently_content',
+          '<%= url_for(:action => 'recently') %>',
+          {method: 'get', onLoading:function(){$('recently_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
+        );
+        recently_loaded = true;
+      }
+    }
   }
   set_up(); // tabs
 //]]>
