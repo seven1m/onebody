@@ -40,44 +40,49 @@ Windows Prerequisites
 Install
 -------
 
-For installation on Windows, replace Unix paths (forward slashes) below
-with backslashes and add drive letter.
+Run the following commands from a terminal/command prompt. For installation on Windows,
+replace Unix paths (forward slashes) below with Windows paths.
 
-1. Extract the OneBody package to the location of your choice
-   (the location where you want it to live forever).
+1. gem install onebody
 
-2. Copy OneBody's "config/settings.rb.example" to "config/settings.rb"
-   and change all the settings to match your needs.
- 
-3. Copy OneBody's "config/database.yml.example" to "config/database.yml"
-   and change the password to something secret. The password you enter
-   here will be necessary in the next step.
-
-4. From a command prompt/terminal window, create the database:
-
-   # mysql -uroot
-   > create database onebody;
-   > grant all privileges on onebody.* to onebody@localhost identified by password 'something secret';
-   > quit
-
-   # cd /path/to/onebody
-   # rake db:migrate
+2. onebody install INSTALL_DIR db_user=USER db_password=PASSWORD db_host=localhost
    
-5. TO BE WRITTEN: Connecting Apache with OneBody in a production environment.
+   INSTALL_DIR    = the path where you want it, e.g. /var/rails/onebody or c:\www\onebody
 
+   USER, PASSWORD = a user that can create databases and such
+                    probably "root" and "" (blank) on a stock install
 
-Development
------------
+OneBody should now be installed and just about ready to use. You have a few more things
+to do, but at this point you can fire up the Rails server and a web browser and poke
+around.
 
-1. From a command prompt/terminal window:
+To see OneBody in action right away, run:
 
-   # cd /path/to/onebody
-   # rake db:fixtures:load
-   # ruby script/server
+  cd INSTALL_DIR
+  rake db:fixtures:load
+  onebody start .
 
-2. Browse to http://127.0.0.1:3000 and sign in as morgans@somedomain.com
-   with password "secret".
+Then, visit the address on the screen with your web browser. You can sign in with the
+user "morgans@somedomain.com" and password "secret".
 
+Startup
+-------
+
+On Linux/Unix you'll need to set up an init.d script to start your Rails server
+when the OS boots.
+
+On Windows, run the following commands from a command prompt:
+1. gem install mongrel_service
+2. mongrel_rails service::install -N onebody -c INSTALL_DIR -p 4000 -e production
+3. net start onebody
+4. sc config onebody start= auto dependency= MySql
+
+Apache
+------
+
+View installer/apache13.conf.example or installer/apache20.conf.example (depending on
+the version of Apache you're running) for instructions to connect your public facing
+web server with the Rails server.
 
 Email Forwarding
 ----------------
