@@ -105,6 +105,14 @@ class LogItem < ActiveRecord::Base
   
   serialize :changes
   
+  def showable_change_keys
+    changes.keys.select do |key|
+      PEOPLE_ATTRIBUTES_SHOWABLE_ON_HOMEPAGE.include? key
+    end.map do |key|
+      key == 'tv_shows' ? 'TV Shows' : key.split('_').map { |w| w.capitalize }.join(' ')
+    end
+  end
+  
   private
     def truncate(text, length=30, truncate_string="...")
       return nil unless text

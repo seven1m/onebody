@@ -1,10 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'people' do |m|
-    m.person 'people/view/:id', :action => 'view'
     m.edit_profile 'people/edit/:id', :action => 'edit'
-    m.logged_in 'people', :action => 'index'
     m.browse_directory 'people/browse', :action => 'search', :browse => true
+    m.logged_in 'people', :action => 'index'
+    m.person 'people/:id', :action => 'view'
   end
   
   map.with_options :controller => 'notes' do |m|
@@ -21,7 +21,10 @@ ActionController::Routing::Routes.draw do |map|
   
   map.shares 'shares', :controller => 'shares'
   
-  map.groups 'groups', :controller => 'groups'
+  map.with_options :controller => 'groups' do |m|
+    m.groups 'groups', :action => 'index'
+    m.group 'groups/:id', :action => 'view'
+  end
   
   map.with_options :controller => 'notes' do |m|
     m.note 'notes/:id', :action => 'view'

@@ -35,3 +35,4 @@ publications:
   address: publications
   members_send: false
   hidden: true
+  approved: true

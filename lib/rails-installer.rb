@@ -4,9 +4,9 @@ require 'fileutils'
 require 'yaml'
 require 'digest/sha1'
 
-require 'rails-installer/databases'
-require 'rails-installer/web-servers'
-require 'rails-installer/commands'
+require File.join(File.dirname(__FILE__), 'rails-installer/databases')
+require File.join(File.dirname(__FILE__), 'rails-installer/web-servers')
+require File.join(File.dirname(__FILE__), 'rails-installer/commands')
 
 #
 # = Rails Application Installer

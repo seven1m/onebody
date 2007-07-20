@@ -20,13 +20,11 @@ class FriendshipRequest < ActiveRecord::Base
   
   def validate
     errors.add(:person, 'must have a valid email address') unless person.valid_email?
-    errors.add(:person, 'does not accept friend requests') unless person.friendship_requests
+    errors.add(:person, 'does not accept friend requests') unless person.friends_enabled
   end
 
   after_create :send_request
   def send_request
-    unless person.friendship_requests
-      Notifier.deliver_friend_request(from, person)
-    end
+    Notifier.deliver_friend_request(from, person)
   end
 end
