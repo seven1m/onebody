@@ -1,99 +1,17 @@
-Installation
-============
+OneBody - online church membership directory and social networking site
+http://beonebody.com
 
-Linux/Unix Prerequisites
-------------------------
+Copyright (C) 20007  Tim Morgan  http://timmorgan.org
 
-Consult your operating system help for guidance on installing the
-packages below. Most likely, your distribution provides a package
-management program that will easily install all of these components.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-* Ruby
-* MySQL
-* Ruby MySQL library
-* ImageMagick
-* RMagick (aka Ruby ImageMagick library)
-* Rubygems
-* Apache
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-The names on your system may be different from the above.
-
-
-Windows Prerequisites
----------------------
-
-1. Install Ruby 1.8.5 (not 1.8.6) from
-   https://rubyforge.org/frs/?group_id=167&release_id=10461
-2. Download RMagick from http://rubyforge.org/frs/?group_id=12&release_id=8170
-   (choose the highlighted ZIP package)
-   a. Extract and run the ImageMagick installer.
-   b. From a command prompt, cd to the extracted folder and run:
-      gem install rmagick-x.x.x-win32.gem
-      (replace X with version numbers)
-3. Download and install MySQL from
-   http://mysql.org/downloads/mysql/5.0.html#win32
-   (choose Windows Essentials)
-4. Download and install Apache from
-   http://mirror.nyi.net/apache/httpd/binaries/win32/apache_2.2.4-win32-x86-no_ssl.msi
-   
-
-Install
--------
-
-Run the following commands from a terminal/command prompt. For installation on Windows,
-replace Unix paths (forward slashes) below with Windows paths.
-
-1. gem install onebody
-
-2. onebody install INSTALL_DIR db_user=USER db_password=PASSWORD db_host=localhost
-   
-   INSTALL_DIR    = the path where you want it, e.g. /var/rails/onebody or c:\www\onebody
-
-   USER, PASSWORD = a user that can create databases and such
-                    probably "root" and "" (blank) on a stock install
-
-OneBody should now be installed and just about ready to use. You have a few more things
-to do, but at this point you can fire up the Rails server and a web browser and poke
-around.
-
-To see OneBody in action right away, run:
-
-  cd INSTALL_DIR
-  rake db:fixtures:load
-  onebody start .
-
-Then, visit the address on the screen with your web browser. You can sign in with the
-user "morgans@somedomain.com" and password "secret".
-
-Startup
--------
-
-On Linux/Unix you'll need to set up an init.d script to start your Rails server
-when the OS boots.
-
-On Windows, run the following commands from a command prompt:
-1. gem install mongrel_service
-2. mongrel_rails service::install -N onebody -c INSTALL_DIR -p 4000 -e production
-3. net start onebody
-4. sc config onebody start= auto dependency= MySql
-
-Apache
-------
-
-View installer/apache13.conf.example or installer/apache20.conf.example (depending on
-the version of Apache you're running) for instructions to connect your public facing
-web server with the Rails server.
-
-Email Forwarding
-----------------
-
-To set up the app to accept mail on a domain, set up your favorite
-mail server and create a catch-all address/mailbox for your domain.
-
-Add the following line to your /etc/crontab file:
-
-*/2 * * * * root /path/to/app/script/inbox host username password
-
-This will run the inbox script every two minutes, logging into "host" with
-"username" and "password", and grabbing new email (and deleting it from
-the mailbox).
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
