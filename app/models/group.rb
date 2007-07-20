@@ -26,7 +26,6 @@ class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :people, :through => :memberships, :order => 'last_name, first_name'
   has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc', :dependent => :destroy
-  has_many :notes, :order => 'created_at desc'
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
   #has_and_belongs_to_many :tags, :order => 'name'

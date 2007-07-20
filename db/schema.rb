@@ -178,7 +178,6 @@ ActiveRecord::Schema.define(:version => 64) do
 
   create_table "notes", :force => true do |t|
     t.column "person_id",    :integer
-    t.column "group_id",     :integer
     t.column "title",        :string
     t.column "body",         :text
     t.column "created_at",   :datetime

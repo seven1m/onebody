@@ -64,65 +64,44 @@
   <% end %>
 </table>
 
-<h2 class="tab" id="messages">Messages</h2>
-<div class="section">
-  <% if @group.private? and not @group.people.include? @logged_in %>
-    <p><strong>This is a private group. You may not see messages in this group.</strong></p>
-  <% else %>
-    <% if @group.can_post? @logged_in %>
-      <p>
-        <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
-        <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
-        <em>Posting a message here sends email to everyone in the group.</em>
-      </p>
-    <% end %>
-    <% if @messages.any? %>
-      <table>
-        <% @messages.each do |message| %>
-          <tr>
-            <td>
-              <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
-              <%= link_to h(message.subject), :controller => 'messages', :action => 'view', :id => message %>
-            </td>
-            <td>
-              <%=h message.person.name %>
-            </td>
-            <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
-            <td>
-              <% if (r = message.reply_count.to_i) > 0 %>
-                <%= r %> <%= r == 1 ? 'reply' : 'replies' %>
-              <% end %>
-            </td>
-            <td>
-              <% if message.attachment_count.to_i > 0 %>
-                <%= message.attachment_count %> <%= message.attachment_count.to_i == 1 ? 'attachment' : 'attachments' %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </table>
-    <% else %>
-      <p><em>No messages yet.</em></p>
-    <% end %>
-  <% end %>
-</div>
+<h2>Messages</h2>
 
-<h2 class="tab" id="notes">Notes</h2>
-<div class="section">
-  <% if @notes.any? %>
-    <% @notes.each do |note| %>
-      <%= render :partial => 'notes/note', :locals => {:note => note} %>
-    <% end %>
-  <% else %>
-    <p><em>No notes yet.</em></p>
+<% if @group.private? and not @group.people.include? @logged_in %>
+  <p><strong>This is a private group. You may not see messages in this group.</strong></p>
+<% else %>
+  <% if @group.can_post? @logged_in %>
+    <p>
+      <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
+      <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
+      <em>Posting a message here sends email to everyone in the group.</em>
+    </p>
   <% end %>
-</div>
-
-<%= javascript_include_tag 'tabs' %>
-<%= stylesheet_link_tag 'tabs' %>
-<style type="text/css">
-  div.section { border-style: solid none none none; }
-</style>
-<script type="text/javascript">
-  set_up(); // tabs
-</script>
+  <% if @messages.any? %>
+    <table>
+      <% @messages.each do |message| %>
+        <tr>
+          <td>
+            <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
+            <%= link_to h(message.subject), :controller => 'messages', :action => 'view', :id => message %>
+          </td>
+          <td>
+            <%=h message.person.name %>
+          </td>
+          <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
+          <td>
+            <% if (r = message.reply_count.to_i) > 0 %>
+              <%= r %> <%= r == 1 ? 'reply' : 'replies' %>
+            <% end %>
+          </td>
+          <td>
+            <% if message.attachment_count.to_i > 0 %>
+              <%= message.attachment_count %> <%= message.attachment_count.to_i == 1 ? 'attachment' : 'attachments' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <p><em>No messages yet.</em></p>
+  <% end %>
+<% end %>

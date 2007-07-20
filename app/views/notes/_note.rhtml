@@ -6,9 +6,6 @@
       <%= link_to '[delete]', delete_note_url(:id => note), :class => 'discreet', :confirm => true, :confirm => 'Are you sure?' %>
     <% end %>
     posted <%= note.created_at.to_time.to_s %>
-    <% if @group %>
-      by <%= link_to note.person.name, person_url(:id => note.person) %>
-    <% end %>
   </span>
 </div>
 
