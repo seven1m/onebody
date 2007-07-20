@@ -148,6 +148,11 @@ class Person < ActiveRecord::Base
     "<#{name}>"
   end
   
+  def birthday_soon?
+    today = Date.today
+    birthday and birthday >= today and birthday < (today + BIRTHDAY_SOON_DAYS)
+  end
+  
   inherited_attribute :share_mobile_phone, :family
   inherited_attribute :share_work_phone, :family
   inherited_attribute :share_fax, :family

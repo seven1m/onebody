@@ -3,11 +3,9 @@
 <%= render :partial => 'shares/subnav' %>
 
 <p>
-  <%= SITE_TITLE %> is a place to connect and share inspirational
-  <a href="#verses">Bible verses</a>, good
-  <a href="#recipes">recipes</a>, and more. From here, you can
-  browse through the collection of things our members have shared
-  and add some of your own!
+  <%= SITE_TITLE %> is a place to connect and share inspirational Bible verses,
+  good recipes, pictures, and more. From here, you can browse through the
+  collection of things our members have shared and add some of your own!
 </p>
 
 <table style="margin:0 auto 0 auto;">
@@ -18,29 +16,3 @@
     <td style="vertical-align:bottom;text-align:center;"><%= link_to image_tag('recipe.gif', :alt => 'Recipes', :class => 'no-border') + '<br/>Recipes', {:controller => 'recipes'}, :style => 'text-decoration:none;' %></td>
   </tr>
 </table>
-
-<% last_day = nil %>
-<% @shares.each_with_index do |share, index| %>
-  <% if last_day.nil? or share.created_at.strftime('%Y-%m-%d') != last_day.strftime('%Y-%m-%d') %>
-    <h2><%= Date.parse(share.created_at.strftime('%Y-%m-%d')).human_day %></h2>
-    <% last_day = share.created_at %>
-  <% end %>
-  <div style="margin:5px 0 5px 15px;padding:5px;<%= index % 2 == 0 ? 'background-color:#eee;' : '' %>">
-    <% if share.is_a? Picture %>
-      <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{share.id}.small.jpg"), :alt => 'click to enlarge'),
-        {:controller => 'pictures', :action => 'view', :id => share}, :title => 'click to enlarge' %>
-    <% elsif share.is_a? Verse %>
-      <%= render :partial => 'verses/verse', :locals => {:verse => share} %>
-    <% elsif share.is_a? Recipe %>
-      <%= render :partial => 'recipes/recipe', :locals => {:recipe => share} %>
-    <% elsif share.is_a? Event %>
-      <%= render :partial => 'events/event', :locals => {:event => share} %>
-    <% elsif share.is_a? Comment %>
-      <%= render :partial => 'comments/comment', :locals => {:comment => share} %>
-    <% elsif share.is_a? NewsItem %>
-      <%= render :partial => 'news/news_item', :locals => {:news_item => share} %>
-    <% elsif share.is_a? Publication %>
-      <%= render :partial => 'publications/publication', :locals => {:publication => share} %>
-    <% end %>
-  </div>
-<% end %>

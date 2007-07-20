@@ -1,3 +1,14 @@
+<%= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
+<script type="text/javascript">
+  tinyMCE.init({
+  	mode: "exact",
+  	elements: "note_body",
+  	theme: "simple",
+  	convert_newlines_to_brs : true,
+  	invalid_elements: "pre,font"
+  });
+</script>
+
 <h1>Edit Note</h1>
 
 <%= form_tag(edit_note_url(:id => @note), :method => 'post') %>

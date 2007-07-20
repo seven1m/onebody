@@ -1,6 +1,7 @@
 <% if @items.any? %>
   <table>
-    <% @items.each do |item| %>
+    <% @grouped_items.each do |items| %>
+      <% item = items.first %>
       <tr>
         <td>
           <a href="<%= url_for person_url(:id => item.person) %>">
@@ -8,12 +9,19 @@
           </a>
         </td>
         <td>
-          <%= link_to (item.person == @logged_in ? 'You' : item.person.name),
-            person_url(:id => item.person) %>
+          <% if item.person == @logged_in %>
+            You
+          <% else %>
+            <%= link_to item.person.name, person_url(:id => item.person) %>
+          <% end %>
+            
           <% object = item.object %>
           <% if object.is_a? Picture %>
-            uploaded a picture:<br/><%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{object.id}.small.jpg"), :alt => 'click to enlarge'),
-              {:controller => 'pictures', :action => 'view', :id => object}, :title => 'click to enlarge' %>
+            uploaded <%= items.length == 1 ? 'a picture' : 'pictures' %>:<br/>
+            <% items.each do |item| %>
+              <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{item.object.id}.small.jpg"), :alt => 'click to enlarge'),
+                {:controller => 'pictures', :action => 'view', :id => item.object}, :title => 'click to enlarge' %>
+            <% end %>
           <% elsif object.is_a? Verse %>
             added <%= link_to object.reference, verse_url(:id => object) %>.
           <% elsif object.is_a? Recipe %>
@@ -45,4 +53,6 @@
       </tr>
     <% end %>
   </table>
+<% else %>
+  <p><em>Once you and/or your friends post items to the site, you will see stuff here.</em></p>
 <% end %>

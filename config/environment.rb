@@ -103,8 +103,11 @@ end
 VALID_EMAIL_RE = /^[A-Z0-9\._%\-]+@[A-Z0-9\.\-]+\.[A-Z]{2,4}$/i
 
 MAX_FRIENDS_ON_PROFILE = 10
+BIRTHDAY_SOON_DAYS = 30
 
 PEOPLE_ATTRIBUTES_SHOWABLE_ON_HOMEPAGE = %w(website service_name service_description service_phone service_email service_website activities interests music tv_shows movies books quotes about testimony )
+
+WhiteListHelper.tags.merge %w(u)
 
 # Bug Notification
 ExceptionNotifier.exception_recipients = [BUG_NOTIFICATION_EMAIL] if BUG_NOTIFICATION_EMAIL

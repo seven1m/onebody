@@ -18,6 +18,11 @@
         </td>
         <td class="friend">
           <%= link_to h(friend.name), person_url(:id => friend) %>
+          <% if friend.birthday_soon? %>
+            <br/>
+            <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
+            birthday <%= friend.birthday.to_time.to_s :date rescue nil %>
+          <% end %>
         </td>
       </tr>
     <% end %>

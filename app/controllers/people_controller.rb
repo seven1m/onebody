@@ -32,6 +32,8 @@ class PeopleController < ApplicationController
     @person = Person.find params[:id]
     if @logged_in.sees?(@person)
       @objects = @person.blog_items
+      @pictures = @objects.select { |o| o.is_a? Picture }
+      @non_pictures = @objects.select { |o| !o.is_a? Picture }
       render :partial => 'blog'
     else
       render :text => 'You are not authorized to view this person.', :layout => true
@@ -49,8 +51,12 @@ class PeopleController < ApplicationController
   
   def recently
     friend_ids = (@logged_in.friends.find(:all, :select => 'people.id').map { |f| f.id } + [@logged_in.id]).join(',')
-    @items = LogItem.find(:all, :conditions => "model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and person_id in (#{friend_ids})", :order => 'created_at desc', :limit => 25)
-    @items = @items.select do |item|
+    @items = LogItem.find(
+      :all,
+      :conditions => "model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and person_id in (#{friend_ids})",
+      :order => 'created_at desc',
+      :limit => 25
+    ).select do |item|
       if item.object.is_a? Friendship
         item.object.person != item.person
       elsif item.object.is_a? Message
@@ -60,6 +66,19 @@ class PeopleController < ApplicationController
         true
       end
     end
+    # group nearby items
+    @grouped_items = []
+    last_model_name = nil
+    group = nil
+    @items.each do |item|
+      if item.model_name != last_model_name
+        @grouped_items << group if group
+        group = []
+      end
+      group << item
+      last_model_name = item.model_name
+    end
+    @grouped_items << group if group
     render :partial => 'recently'
   end
   

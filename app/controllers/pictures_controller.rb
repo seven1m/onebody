@@ -40,7 +40,8 @@ class PicturesController < ApplicationController
           success += 1
         else
           fail += 1
-          picture.destroy
+          picture.log_item.destroy rescue nil
+          picture.destroy rescue nil
         end
       end
     end

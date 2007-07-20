@@ -15,6 +15,8 @@ module Foo
             before_save :compare_changes
             after_save :log_changes
             
+            has_one :log_item, :foreign_key => 'instance_id'
+            
             def compare_changes
               if new_record?
                 @changes = attributes

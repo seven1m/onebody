@@ -3,4 +3,14 @@
   <%= render :partial => 'people/photo' %>
 <% end %>
 
-<%= render :partial => 'note', :locals => {:note => @note} %>
+<h1><%=h @note.title %></h1>
+
+<div class="note-timestamp">
+  <% if @note.person == @logged_in or @logged_in.admin? %>
+    <%= link_to '[edit]', edit_note_url(:id => @note), :class => 'discreet' %>
+    <%= link_to '[delete]', delete_note_url(:id => @note), :class => 'discreet', :confirm => true, :confirm => 'Are you sure?' %>
+  <% end %>
+  posted <%= @note.created_at.to_time.to_s %>
+</div><br/>
+
+<div><%= white_list @note.body %></div>

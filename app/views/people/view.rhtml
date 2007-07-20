@@ -212,6 +212,7 @@
       Element.remove(name);
       Element.remove(name + '_content');
     }
+    <% unless !@me or @person.friendships.count > 0 %>remove_section('recently');<% end %>
     <% unless @person.about %>remove_section('about');<% end %>
     <% unless @person.testimony %>remove_section('testimony');<% end %>
     <% unless @person.blog_items_count > 0 %>remove_section('blog');<% end %>
