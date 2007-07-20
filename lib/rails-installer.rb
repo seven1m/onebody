@@ -4,6 +4,8 @@ require 'fileutils'
 require 'yaml'
 require 'digest/sha1'
 
+WIN32 = RUBY_PLATFORM =~ /mswin32/
+
 require File.join(File.dirname(__FILE__), 'rails-installer/databases')
 require File.join(File.dirname(__FILE__), 'rails-installer/web-servers')
 require File.join(File.dirname(__FILE__), 'rails-installer/commands')
@@ -514,9 +516,7 @@ class RailsInstaller
       message "Downgrading schema from #{old_schema_version} to #{new_schema_version}"
       
       in_directory install_directory do
-        cmd = "rake -s db:migrate VERSION=#{new_schema_version}"
-        cmd = 'cmd.exe /c ' + cmd if RUBY_PLATFORM =~ /mswin32/
-        unless system(cmd)
+        unless system((WIN32 ? 'cmd.exe /c ' : '') + "rake -s db:migrate VERSION=#{new_schema_version}")
           raise InstallFailed, "Downgrade migrating from #{old_schema_version} to #{new_schema_version} failed."
         end
       end
@@ -528,9 +528,7 @@ class RailsInstaller
     message "Migrating #{@@app_name.capitalize}'s database to newest release"
     
     in_directory install_directory do
-      cmd = "rake -s db:migrate"
-      cmd = 'cmd.exe /c ' + cmd if RUBY_PLATFORM =~ /mswin32/
-      unless system(cmd)
+      unless system((WIN32 ? 'cmd.exe /c ' : '') + "rake -s db:migrate")
         raise InstallFailed, "Migration failed"
       end
     end
@@ -615,7 +613,7 @@ class RailsInstaller
       null = '/dev/null'
     end
     
-    system("#{command} > #{null} 2> #{null}")
+    system((WIN32 ? 'cmd.exe /c ' : '') + "#{command} > #{null} 2> #{null}")
   end
   
   # Expand configuration template files.

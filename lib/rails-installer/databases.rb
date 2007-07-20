@@ -223,8 +223,8 @@ class RailsInstaller
       # Create a PostgreSQL database.
       def self.create_database(installer)
         installer.message "Creating PostgreSQL database"
-        system("createdb -U #{db_user installer} #{db_name installer}")
-        system("createdb -U #{db_user installer} #{db_name installer}-test")
+        system((WIN32 ? 'cmd.exe /c ' : '') + "createdb -U #{db_user installer} #{db_name installer}")
+        system((WIN32 ? 'cmd.exe /c ' : '') + "createdb -U #{db_user installer} #{db_name installer}-test")
       end
     end
     
@@ -256,8 +256,8 @@ class RailsInstaller
         installer.message "Creating MySQL database"
         base_command = "mysql -u #{db_user installer} "
         base_command << "-p#{installer.config['db_password']}" if installer.config['db_password']
-        system("#{base_command} -e 'create database #{db_name installer}'")
-        system("#{base_command} -e 'create database #{db_name installer}_test'")
+        system((WIN32 ? 'cmd.exe /c ' : '') + "#{base_command} -e 'create database #{db_name installer}'")
+        system((WIN32 ? 'cmd.exe /c ' : '') + "#{base_command} -e 'create database #{db_name installer}_test'")
       end
     end
   end

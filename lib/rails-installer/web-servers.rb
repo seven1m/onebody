@@ -46,7 +46,7 @@ class RailsInstaller
         args_array = ['mongrel_rails', 'start', installer.install_directory] + args_array
         installer.message "Starting #{installer.app_name.capitalize} on port #{installer.config['port-number']}"
         in_directory installer.install_directory do
-          system(args_array.join(' '))
+          system((WIN32 ? 'cmd.exe /c ' : '') + args_array.join(' '))
         end
       end
   
@@ -58,7 +58,7 @@ class RailsInstaller
         args_array = ['mongrel_rails', 'stop', installer.install_directory] + args_array
         installer.message "Stopping #{installer.app_name.capitalize}"
         in_directory installer.install_directory do
-          system(args_array.join(' '))
+          system((WIN32 ? 'cmd.exe /c ' : '') + args_array.join(' '))
         end
         
       end
@@ -85,11 +85,11 @@ class RailsInstaller
         args_array = ['mongrel_rails', 'cluster::configure'] + args_array
         installer.message "Configuring mongrel_cluster for #{installer.app_name.capitalize}"
         in_directory installer.install_directory do
-          system(args_array.join(' '))
+          system((WIN32 ? 'cmd.exe /c ' : '') + args_array.join(' '))
         end
         installer.message "Starting #{installer.app_name.capitalize} on port #{installer.config['port-number']}"
         in_directory installer.install_directory do
-          system('mongrel_rails cluster::start')
+          system((WIN32 ? 'cmd.exe /c ' : '') + 'mongrel_rails cluster::start')
         end
         
       end
@@ -97,7 +97,7 @@ class RailsInstaller
       def self.stop(installer)
         installer.message "Stopping #{installer.app_name.capitalize}"
         in_directory installer.install_directory do
-          system('mongrel_rails cluster::stop')
+          system((WIN32 ? 'cmd.exe /c ' : '') + 'mongrel_rails cluster::stop')
         end
       end
     end
