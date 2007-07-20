@@ -1,0 +1,31 @@
+<table>
+  <tr>
+    <td>
+      <% @objects.select { |o| !o.is_a? Picture }.each do |object| %>
+        <% if object.is_a? Verse %>
+          <%= render :partial => 'verses/verse', :locals => {:verse => object} %>
+        <% elsif object.is_a? Recipe %>
+          <%= render :partial => 'recipes/recipe', :locals => {:recipe => object} %>
+        <% elsif object.is_a? Note %>
+          <%= render :partial => 'notes/note', :locals => {:note => object} %>
+        <% end %>
+        <br/>
+      <% end %>
+    </td>
+    <td>
+      <strong>Pictures:</strong><br/>
+      <% @objects.select { |o| o.is_a? Picture }.each do |object| %>
+        <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{object.id}.small.jpg"), :alt => 'click to enlarge'),
+          {:controller => 'pictures', :action => 'view', :id => object}, :title => 'click to enlarge' %>
+        <br/>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<% if @person == @logged_in %>
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', :controller => 'notes', :action => 'edit' %> &nbsp;&nbsp;
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a verse.', :class => 'icon') + ' Add a Verse', :controller => 'verses', :anchor => 'add' %> &nbsp;&nbsp;
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' Add a Recipe', :controller => "recipes", :action => "edit" %> &nbsp;&nbsp;
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add a Picture', {:controller => "events"}, :confirm => 'To add a picture, first select/create an event on the following page. Click OK to get started.' %>
+<% end %>

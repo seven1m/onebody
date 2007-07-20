@@ -12,6 +12,10 @@
   </form>
 </div>
 <script type="text/javascript">
-  Element.hide('add_verse');
-  Element.show('add_verse_link');
+  if(location.hash == '#add') {
+    $('reference').focus();
+  } else {
+    Element.hide('add_verse');
+    Element.show('add_verse_link');
+  }
 </script>

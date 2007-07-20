@@ -28,24 +28,16 @@ class PeopleController < ApplicationController
     end
   end
   
-  def notes
+  def blog
     @person = Person.find params[:id]
     if @logged_in.sees?(@person)
-      render :partial => 'notes'
+      @objects = @person.blog_items
+      render :partial => 'blog'
     else
       render :text => 'You are not authorized to view this person.', :layout => true
     end
   end
-  
-  def shares
-    @person = Person.find params[:id]
-    if @logged_in.sees?(@person)
-      render :partial => 'shares'
-    else
-      render :text => 'You are not authorized to view this person.', :layout => true
-    end
-  end
-  
+    
   def groups
     @person = Person.find params[:id]
     if @logged_in.sees?(@person)

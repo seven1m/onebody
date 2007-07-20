@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
     m.new_note 'notes/edit', :action => 'edit'
     m.edit_note 'notes/edit/:id', :action => 'edit'
     m.delete_note 'notes/delete/:id', :action => 'delete'
+    m.connect 'notes/:action/:id', :action => 'index'
   end
   
   map.with_options :controller => 'friends' do |m|

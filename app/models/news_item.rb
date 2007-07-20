@@ -11,19 +11,6 @@
 #  active    :boolean(1)    default(TRUE)
 #
 
-# == Schema Information
-# Schema version: 64
-#
-# Table name: news_items
-#
-#  id        :integer(11)   not null, primary key
-#  title     :string(255)   
-#  link      :string(255)   
-#  body      :text          
-#  published :datetime      
-#  active    :boolean(1)    default(TRUE)
-#
-
 class NewsItem < ActiveRecord::Base
   has_many :comments
   

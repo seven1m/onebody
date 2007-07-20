@@ -145,11 +145,8 @@
   <p><%= link_to 'Read more testimonies...', :action => 'search', :testimony => true %></p>
 </div>
 
-<h2 class="tab" id="notes">Notes</h2>
-<div class="section" id="notes_content"></div>
-
-<h2 class="tab" id="shares">Shares</h2>
-<div class="section" id="shares_content"></div>
+<h2 class="tab" id="blog">Blog</h2>
+<div class="section" id="blog_content"></div>
 
 <h2 class="tab" id="favorites">Favorites</h2>
 <div class="section" id="favorites_content">
@@ -217,8 +214,7 @@
     }
     <% unless @person.about %>remove_section('about');<% end %>
     <% unless @person.testimony %>remove_section('testimony');<% end %>
-    <% unless @person.notes.count > 0 %>remove_section('notes');<% end %>
-    <% unless @person.pictures.count > 0 or @person.verses.count > 0 or @person.recipes.count > 0 %>remove_section('shares');<% end %>
+    <% unless @person.blog_items_count > 0 %>remove_section('blog');<% end %>
     <% unless has_favs %>remove_section('favorites');<% end %>
   //]]>
   </script>
@@ -231,39 +227,26 @@
 </style>
 <script type="text/javascript">
 //<![CDATA[
-  notes_loaded = shares_loaded = groups_loaded = wall_loaded = recently_loaded = false;
+  blog_loaded = groups_loaded = wall_loaded = recently_loaded = false;
   function load_tab(id) {
-    if(id == 'notes') {
-      if(!notes_loaded) {
+    if(id == 'blog') {
+      if(!blog_loaded) {
         new Ajax.Updater(
-          'notes_content',
-          '<%= url_for(:action => 'notes', :id => @person) %>',
+          'blog_content',
+          '<%= url_for(:action => 'blog', :id => @person) %>',
           {
             method: 'get',
-            onLoading:function(){$('notes_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
+            onLoading:function(){$('blog_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
             onComplete:function(){
               Element.hide('add_note');
               Element.show('add_note_link');
-            }
-          }
-        );
-        notes_loaded = true;
-      }
-    } else if(id == 'shares') {
-        new Ajax.Updater(
-          'shares_content',
-          '<%= url_for(:action => 'shares', :id => @person) %>',
-          {
-            method: 'get',
-            onLoading:function(){$('shares_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
-            onComplete:function(){
               Element.hide('add_verse');
               Element.show('add_verse_link');
-              $('reference').value = 'john 3:16';
             }
           }
         );
-        shares_loaded = true;
+        blog_loaded = true;
+      }
     } else if(id == 'groups') {
       if(!groups_loaded) {
         new Ajax.Updater(

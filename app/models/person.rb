@@ -291,6 +291,19 @@ class Person < ActiveRecord::Base
     email.to_s.strip =~ VALID_EMAIL_RE
   end
   
+  def blog_items_count
+    pictures.count + verses.count + recipes.count + notes.count
+  end
+  
+  def blog_items
+    log_items.find(
+      :all,
+      :order => 'created_at desc',
+      :conditions => "model_name in ('Verse', 'Recipe', 'Note', 'Picture')",
+      :limit => 25
+    ).map { |item| item.object }
+  end
+  
   alias_method :groups_without_linkage, :groups
   
   def groups

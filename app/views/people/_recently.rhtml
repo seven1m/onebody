@@ -12,12 +12,12 @@
             person_url(:id => item.person) %>
           <% object = item.object %>
           <% if object.is_a? Picture %>
-            uploaded a picture: <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{object.id}.small.jpg"), :alt => 'click to enlarge'),
+            uploaded a picture:<br/><%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{object.id}.small.jpg"), :alt => 'click to enlarge'),
               {:controller => 'pictures', :action => 'view', :id => object}, :title => 'click to enlarge' %>
           <% elsif object.is_a? Verse %>
             added <%= link_to object.reference, verse_url(:id => object) %>.
           <% elsif object.is_a? Recipe %>
-            added <%= link_to object.title, recipe_url(:id => recipe) %>.
+            added <%= link_to object.title, recipe_url(:id => object) %>.
           <% elsif object.is_a? Event %>
             added <%= link_to object.name, event_url(:id => event) %>.
           <% elsif object.is_a? Comment %>

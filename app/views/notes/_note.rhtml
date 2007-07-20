@@ -1,12 +1,12 @@
-<h<%= h1 = params[:controller] == 'notes' ? '1' : '3' %>>
-  <%=h note.title %>
+<div class="note-heading">
+  <strong><%= link_to h(note.title), note_url(:id => note) %></strong>
   <span class="note-timestamp">
-    posted <%= note.created_at.to_time.to_s %>
     <% if note.person == @logged_in or @logged_in.admin? %>
       <%= link_to '[edit]', edit_note_url(:id => note), :class => 'discreet' %>
       <%= link_to '[delete]', delete_note_url(:id => note), :class => 'discreet', :confirm => true, :confirm => 'Are you sure?' %>
     <% end %>
+    posted <%= note.created_at.to_time.to_s %>
   </span>
-</h<%= h1 %>>
+</div>
 
 <div><%= white_list note.body %></div>
