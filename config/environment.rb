@@ -19,7 +19,6 @@ require 'ar_date_fix'
 require 'ar_schema_dumper_fix'
 require 'params_tools'
 
-#require 'settings'
 SETTINGS = YAML::load(File.open(File.join(File.dirname(__FILE__), 'settings.yml')))
 
 ActionMailer::Base.smtp_settings = {
@@ -87,16 +86,6 @@ NEWS_URL = "http://#{SETTINGS['url']['news']}/"
 SITE_MAIL_DESCRIPTION = 'One user can send a message to another via this site. The system is monitored for abuse and allows people to contact you without getting your email address. We recommend you leave your email address private to prevent unsolicited email.'
 WALL_DESCRIPTION = 'The Wall is a place for people to post friendly messages for everyone to see. The messages are not private (except that you must be signed in). Think of it like a guestbook.'
 
-# Checks
-LOG_IN_CHECK = Proc.new do |person|
-  SETTINGS['access']['mail_groups_can_log_in'].include? person.mail_group or person.flags.to_s.include? SETTINGS['access']['flag_can_log_in']
-end
-MEMBER_CHECK = Proc.new do |person|
-  SETTINGS['access']['member_mail_groups'].include? person.mail_group
-end
-FULL_ACCESS_CHECK = Proc.new do |person|
-  SETTINGS['access']['full_access_mail_groups'].include? person.mail_group or person.admin? or person.staff?
-end
 SUPER_ADMIN_CHECK = Proc.new do |person|
   SETTINGS['access']['super_admins'].include? person.email
 end

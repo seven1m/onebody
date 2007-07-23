@@ -64,11 +64,5 @@ contact:
   bug_notification_email:
 
 access:
-  mail_groups_can_log_in: [M, A, P, Y, O, C, V]
-  flag_can_log_in: allow
-  member_mail_groups: [M]
-  full_access_mail_groups: [M A C]
-  mail_groups_visible_by_non_admins: [M, A, P, Y, O, C, V]
-  flag_visible_by_non_admins: allow
   super_admins:
     - morgans@somedomain.com

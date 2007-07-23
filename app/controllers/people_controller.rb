@@ -149,8 +149,7 @@ class PeopleController < ApplicationController
         conditions.add_condition ["people.family_id = ?", params[:family_id]]
       end
       unless @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden]
-        mg = SETTINGS['access']['mail_groups_visible_by_non_admins'].map { |m| "'#{m}'" }.join(',')
-        conditions.add_condition ["(people.mail_group in (#{mg}) or people.flags like ?)", "%#{SETTINGS['access']['flag_visible_by_non_admins']}%"]
+        conditions.add_condition ["(people.visible_to_everyone = ?", true]
         conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
       end
       conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.full_access?
@@ -161,7 +160,7 @@ class PeopleController < ApplicationController
       conditions.add_condition ["LCASE(families.city) = ?", params[:city].downcase] if params[:city].to_s.any?
       conditions.add_condition ["LCASE(families.state) = ?", params[:state].downcase] if params[:state].to_s.any?
       conditions.add_condition ["families.zip like ?", "#{params[:zip]}%"] if params[:zip].to_s.any?
-      conditions.add_condition "LCASE(people.mail_group) = 'M'" if params[:status].to_s.any?
+      conditions.add_condition ["people.member = ?", true] if params[:status].to_s.any?
       [:activities, :interests, :music, :tv_shows, :movies, :books].each do |favorite|
         conditions.add_condition ["people.#{favorite.to_s} like ?", "%#{params[favorite].downcase}%"] if params[favorite].to_s.any?
       end
@@ -497,7 +496,7 @@ class PeopleController < ApplicationController
     
     Family.find(
       :all,
-      :conditions => ["families.mail_group in ('M', 'A')"],
+      :conditions => ["(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0", true],
       :order => 'families.last_name, families.name, people.sequence',
       :include => 'people'
     ).each do |family|

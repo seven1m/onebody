@@ -186,14 +186,8 @@ class Person < ActiveRecord::Base
       what == self or
       what.family_id == self.family_id or
       admin?(:view_hidden_profiles) or
-      staff? or
-      (
-        (SETTINGS['access']['mail_groups_visible_by_non_admins'].include? what.mail_group or what.flags.to_s.include? SETTINGS['access']['flag_visible_by_non_admins']) \
-        and
-        (full_access? or what.adult?) \
-        and
-        what.visible?
-      )
+      staff? or 
+      (what.visible_to_everyone? and (full_access? or what.adult?) and what.visible?)
     elsif what.is_a? Group
       not what.hidden? or what.people.include? self or what.admin? self
     elsif what.is_a? Message
@@ -226,7 +220,7 @@ class Person < ActiveRecord::Base
   end
   
   def full_access?
-    %w(M A C).include? mail_group or admin? or staff?
+    read_attribute(:full_access) or admin? or staff? or elder? or deacon?
   end
   
   def at_least?(age)
@@ -245,21 +239,13 @@ class Person < ActiveRecord::Base
   def at_least_13?; at_least?(13); end
   def adult?; at_least?(18); end
   
-  def can_sign_in?
-    SETTINGS['access']['mail_groups_can_log_in'].include? mail_group and consent_or_13?
-  end
-  
   def parental_consent?; parental_consent.to_s.any?; end
   def consent_or_13?; at_least_13? or parental_consent?; end
   
   def visible?
-    family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?) and SETTINGS['access']['mail_groups_visible_by_non_admins'].include? mail_group
+    family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?) and visible_to_everyone?
   end
 
-  def member?
-    @member ||= MEMBER_CHECK.call(self)
-  end
-  
   def admin=(a)
     if a == true
       Admin.create(:person => self)
@@ -277,11 +263,6 @@ class Person < ActiveRecord::Base
   
   def super_admin?
     @super_admin ||= SUPER_ADMIN_CHECK.call(self)
-  end
-  
-  def staff?
-    #@staff ||= STAFF_CHECK.call(self)
-    false # TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   end
   
   def mapable?
