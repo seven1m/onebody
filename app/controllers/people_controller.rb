@@ -132,7 +132,7 @@ class PeopleController < ApplicationController
       params[:name] = params.delete(:quick_name) if params[:quick_name]
       if params[:name].to_s.any?
         params[:name].gsub! /\sand\s/, ' & '
-        conditions.add_condition ["(CONCAT(people.first_name, ' ', people.last_name) like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and (select name from families where id=people.family_id) like ?) or (people.first_name like ? and people.last_name like ?))", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
+        conditions.add_condition ["(CONCAT(people.first_name, ' ', people.last_name) like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and families.name like ?) or (people.first_name like ? and people.last_name like ?))", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
       end
       if params[:service]
         @show_service = true
@@ -149,7 +149,7 @@ class PeopleController < ApplicationController
         conditions.add_condition ["people.family_id = ?", params[:family_id]]
       end
       unless @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden]
-        conditions.add_condition ["(people.visible_to_everyone = ?", true]
+        conditions.add_condition ["people.visible_to_everyone = ?", true]
         conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
       end
       conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.full_access?

@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
       return true if params[:controller] == 'help' # ignore entire help_controller
       if id = session[:logged_in_id]
         person = Person.find(id)
-        unless LOG_IN_CHECK.call(person)
+        unless person.can_sign_in?
           session[:logged_in_id] = nil
           redirect_to :controller => 'account', :action => 'bad_status'
           return false

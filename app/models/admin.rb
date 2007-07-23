@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 65
+# Schema version: 66
 #
 # Table name: admins
 #
@@ -7,7 +7,6 @@
 #  manage_publications    :boolean(1)    
 #  manage_log             :boolean(1)    
 #  manage_music           :boolean(1)    
-#  view_music             :boolean(1)    
 #  view_hidden_properties :boolean(1)    
 #  edit_profiles          :boolean(1)    
 #  manage_groups          :boolean(1)    
@@ -21,6 +20,7 @@
 #  manage_recipes         :boolean(1)    
 #  manage_pictures        :boolean(1)    
 #  manage_access          :boolean(1)    
+#  view_log               :boolean(1)    
 #
 
 class Admin < ActiveRecord::Base

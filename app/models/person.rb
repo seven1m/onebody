@@ -1,62 +1,70 @@
 # == Schema Information
-# Schema version: 65
+# Schema version: 66
 #
 # Table name: people
 #
-#  id                  :integer(11)   not null, primary key
-#  legacy_id           :integer(11)   
-#  family_id           :integer(11)   
-#  sequence            :integer(11)   
-#  gender              :string(6)     
-#  first_name          :string(255)   
-#  last_name           :string(255)   
-#  suffix              :string(25)    
-#  mobile_phone        :integer(20)   
-#  work_phone          :integer(20)   
-#  fax                 :integer(20)   
-#  birthday            :datetime      
-#  email               :string(255)   
-#  email_changed       :boolean(1)    
-#  website             :string(255)   
-#  classes             :string(255)   
-#  shepherd            :string(255)   
-#  mail_group          :string(1)     
-#  encrypted_password  :string(100)   
-#  service_name        :string(100)   
-#  service_description :text          
-#  service_phone       :integer(20)   
-#  service_email       :string(255)   
-#  service_website     :string(255)   
-#  activities          :text          
-#  interests           :text          
-#  music               :text          
-#  tv_shows            :text          
-#  movies              :text          
-#  books               :text          
-#  quotes              :text          
-#  about               :text          
-#  testimony           :text          
-#  share_mobile_phone  :boolean(1)    
-#  share_work_phone    :boolean(1)    
-#  share_fax           :boolean(1)    
-#  share_email         :boolean(1)    
-#  share_birthday      :boolean(1)    
-#  anniversary         :datetime      
-#  updated_at          :datetime      
-#  alternate_email     :string(255)   
-#  email_bounces       :integer(11)   default(0)
-#  service_category    :string(100)   
-#  get_wall_email      :boolean(1)    default(TRUE)
-#  frozen              :boolean(1)    
-#  wall_enabled        :boolean(1)    
-#  messages_enabled    :boolean(1)    default(TRUE)
-#  service_address     :string(255)   
-#  flags               :string(255)   
-#  music_access        :boolean(1)    
-#  visible             :boolean(1)    default(TRUE)
-#  parental_consent    :string(255)   
-#  admin_id            :integer(11)   
-#  friends_enabled     :boolean(1)    default(TRUE)
+#  id                           :integer(11)   not null, primary key
+#  legacy_id                    :integer(11)   
+#  family_id                    :integer(11)   
+#  sequence                     :integer(11)   
+#  gender                       :string(6)     
+#  first_name                   :string(255)   
+#  last_name                    :string(255)   
+#  suffix                       :string(25)    
+#  mobile_phone                 :integer(20)   
+#  work_phone                   :integer(20)   
+#  fax                          :integer(20)   
+#  birthday                     :datetime      
+#  email                        :string(255)   
+#  email_changed                :boolean(1)    
+#  website                      :string(255)   
+#  classes                      :string(255)   
+#  shepherd                     :string(255)   
+#  mail_group                   :string(1)     
+#  encrypted_password           :string(100)   
+#  service_name                 :string(100)   
+#  service_description          :text          
+#  service_phone                :integer(20)   
+#  service_email                :string(255)   
+#  service_website              :string(255)   
+#  activities                   :text          
+#  interests                    :text          
+#  music                        :text          
+#  tv_shows                     :text          
+#  movies                       :text          
+#  books                        :text          
+#  quotes                       :text          
+#  about                        :text          
+#  testimony                    :text          
+#  share_mobile_phone           :boolean(1)    
+#  share_work_phone             :boolean(1)    
+#  share_fax                    :boolean(1)    
+#  share_email                  :boolean(1)    
+#  share_birthday               :boolean(1)    
+#  anniversary                  :datetime      
+#  updated_at                   :datetime      
+#  alternate_email              :string(255)   
+#  email_bounces                :integer(11)   default(0)
+#  service_category             :string(100)   
+#  get_wall_email               :boolean(1)    default(TRUE)
+#  frozen                       :boolean(1)    
+#  wall_enabled                 :boolean(1)    
+#  messages_enabled             :boolean(1)    default(TRUE)
+#  service_address              :string(255)   
+#  flags                        :string(255)   
+#  music_access                 :boolean(1)    
+#  visible                      :boolean(1)    default(TRUE)
+#  parental_consent             :string(255)   
+#  admin_id                     :integer(11)   
+#  friends_enabled              :boolean(1)    default(TRUE)
+#  member                       :boolean(1)    
+#  staff                        :boolean(1)    
+#  elder                        :boolean(1)    
+#  deacon                       :boolean(1)    
+#  can_sign_in                  :boolean(1)    
+#  visible_to_everyone          :boolean(1)    
+#  visible_on_printed_directory :boolean(1)    
+#  full_access                  :boolean(1)    
 #
 
 class Person < ActiveRecord::Base
@@ -217,6 +225,10 @@ class Person < ActiveRecord::Base
     else
       raise 'unknown "what"'
     end
+  end
+  
+  def can_sign_in?
+    read_attribute(:can_sign_in) and consent_or_13?
   end
   
   def full_access?

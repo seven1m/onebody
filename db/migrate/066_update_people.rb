@@ -1,4 +1,4 @@
-class AddStaffAndElderToPeople < ActiveRecord::Migration
+class UpdatePeople < ActiveRecord::Migration
   def self.up
     add_column :people, :member, :boolean, :default => false
     add_column :people, :staff, :boolean, :default => false

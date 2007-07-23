@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 65) do
+ActiveRecord::Schema.define(:version => 66) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean, :default => false
@@ -196,59 +196,67 @@ ActiveRecord::Schema.define(:version => 65) do
   end
 
   create_table "people", :force => true do |t|
-    t.column "legacy_id",           :integer
-    t.column "family_id",           :integer
-    t.column "sequence",            :integer
-    t.column "gender",              :string,   :limit => 6
-    t.column "first_name",          :string
-    t.column "last_name",           :string
-    t.column "suffix",              :string,   :limit => 25
-    t.column "mobile_phone",        :bigint,   :limit => 20
-    t.column "work_phone",          :bigint,   :limit => 20
-    t.column "fax",                 :bigint,   :limit => 20
-    t.column "birthday",            :datetime
-    t.column "email",               :string
-    t.column "email_changed",       :boolean,                 :default => false
-    t.column "website",             :string
-    t.column "classes",             :string
-    t.column "shepherd",            :string
-    t.column "mail_group",          :string,   :limit => 1
-    t.column "encrypted_password",  :string,   :limit => 100
-    t.column "service_name",        :string,   :limit => 100
-    t.column "service_description", :text
-    t.column "service_phone",       :bigint,   :limit => 20
-    t.column "service_email",       :string
-    t.column "service_website",     :string
-    t.column "activities",          :text
-    t.column "interests",           :text
-    t.column "music",               :text
-    t.column "tv_shows",            :text
-    t.column "movies",              :text
-    t.column "books",               :text
-    t.column "quotes",              :text
-    t.column "about",               :text
-    t.column "testimony",           :text
-    t.column "share_mobile_phone",  :boolean
-    t.column "share_work_phone",    :boolean
-    t.column "share_fax",           :boolean
-    t.column "share_email",         :boolean
-    t.column "share_birthday",      :boolean
-    t.column "anniversary",         :datetime
-    t.column "updated_at",          :datetime
-    t.column "alternate_email",     :string
-    t.column "email_bounces",       :integer,                 :default => 0
-    t.column "service_category",    :string,   :limit => 100
-    t.column "get_wall_email",      :boolean,                 :default => true
-    t.column "frozen",              :boolean,                 :default => false
-    t.column "wall_enabled",        :boolean
-    t.column "messages_enabled",    :boolean,                 :default => true
-    t.column "service_address",     :string
-    t.column "flags",               :string
-    t.column "music_access",        :boolean,                 :default => false
-    t.column "visible",             :boolean,                 :default => true
-    t.column "parental_consent",    :string
-    t.column "admin_id",            :integer
-    t.column "friends_enabled",     :boolean,                 :default => true
+    t.column "legacy_id",                    :integer
+    t.column "family_id",                    :integer
+    t.column "sequence",                     :integer
+    t.column "gender",                       :string,   :limit => 6
+    t.column "first_name",                   :string
+    t.column "last_name",                    :string
+    t.column "suffix",                       :string,   :limit => 25
+    t.column "mobile_phone",                 :bigint,   :limit => 20
+    t.column "work_phone",                   :bigint,   :limit => 20
+    t.column "fax",                          :bigint,   :limit => 20
+    t.column "birthday",                     :datetime
+    t.column "email",                        :string
+    t.column "email_changed",                :boolean,                 :default => false
+    t.column "website",                      :string
+    t.column "classes",                      :string
+    t.column "shepherd",                     :string
+    t.column "mail_group",                   :string,   :limit => 1
+    t.column "encrypted_password",           :string,   :limit => 100
+    t.column "service_name",                 :string,   :limit => 100
+    t.column "service_description",          :text
+    t.column "service_phone",                :bigint,   :limit => 20
+    t.column "service_email",                :string
+    t.column "service_website",              :string
+    t.column "activities",                   :text
+    t.column "interests",                    :text
+    t.column "music",                        :text
+    t.column "tv_shows",                     :text
+    t.column "movies",                       :text
+    t.column "books",                        :text
+    t.column "quotes",                       :text
+    t.column "about",                        :text
+    t.column "testimony",                    :text
+    t.column "share_mobile_phone",           :boolean
+    t.column "share_work_phone",             :boolean
+    t.column "share_fax",                    :boolean
+    t.column "share_email",                  :boolean
+    t.column "share_birthday",               :boolean
+    t.column "anniversary",                  :datetime
+    t.column "updated_at",                   :datetime
+    t.column "alternate_email",              :string
+    t.column "email_bounces",                :integer,                 :default => 0
+    t.column "service_category",             :string,   :limit => 100
+    t.column "get_wall_email",               :boolean,                 :default => true
+    t.column "frozen",                       :boolean,                 :default => false
+    t.column "wall_enabled",                 :boolean
+    t.column "messages_enabled",             :boolean,                 :default => true
+    t.column "service_address",              :string
+    t.column "flags",                        :string
+    t.column "music_access",                 :boolean,                 :default => false
+    t.column "visible",                      :boolean,                 :default => true
+    t.column "parental_consent",             :string
+    t.column "admin_id",                     :integer
+    t.column "friends_enabled",              :boolean,                 :default => true
+    t.column "member",                       :boolean,                 :default => false
+    t.column "staff",                        :boolean,                 :default => false
+    t.column "elder",                        :boolean,                 :default => false
+    t.column "deacon",                       :boolean,                 :default => false
+    t.column "can_sign_in",                  :boolean,                 :default => false
+    t.column "visible_to_everyone",          :boolean,                 :default => false
+    t.column "visible_on_printed_directory", :boolean,                 :default => false
+    t.column "full_access",                  :boolean,                 :default => false
   end
 
   create_table "people_verses", :id => false, :force => true do |t|

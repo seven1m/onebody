@@ -11,7 +11,7 @@ class AccountController < ApplicationController
           return
         end
         session[:logged_in_id] = person.id
-        session[:logged_in_name] = person.first_name + ' ' + person.last_name # person.name checks can_see? first
+        session[:logged_in_name] = person.first_name + ' ' + person.last_name
         session[:ip_address] = request.remote_ip
         flash[:notice] = "Welcome, #{person.first_name}."
         if params[:from]
@@ -71,7 +71,7 @@ class AccountController < ApplicationController
       person = Person.find_by_email(params[:email])
       family = Family.find_by_email(params[:email])
       if person or family
-        if (person and LOG_IN_CHECK.call(person)) or (family and family.people.any? and LOG_IN_CHECK.call(family.people.first))
+        if (person and person.can_sign_in?) or (family and family.people.any? and family.people.first.can_sign_in?)
           v = Verification.create :email => params[:email]
           if v.errors.any?
             render :text => v.errors.full_messages.join('; '), :layout => true
@@ -93,7 +93,7 @@ class AccountController < ApplicationController
       mobile = params[:mobile].scan(/\d/).join('').to_i
       person = Person.find_by_mobile_phone(mobile)
       if person
-        if LOG_IN_CHECK.call(person)
+        if person.can_sign_in?
           unless gateway = MOBILE_GATEWAYS[params[:carrier]]
             raise 'Error.'
           end
