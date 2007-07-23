@@ -279,9 +279,10 @@ class Person < ActiveRecord::Base
     @super_admin ||= SUPER_ADMIN_CHECK.call(self)
   end
   
-  #def staff?
-  #  @staff ||= STAFF_CHECK.call(self)
-  #end
+  def staff?
+    #@staff ||= STAFF_CHECK.call(self)
+    false # TO DO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  end
   
   def mapable?
     family.mapable?
