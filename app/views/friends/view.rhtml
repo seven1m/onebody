@@ -43,7 +43,7 @@
         (added <%= friendship.created_at.to_time.to_s %>)
         <% if @logged_in == @person %>
           <% if @friendships.length > 1 %><%= image_tag 'reorder.png', :alt => 'Reorder this list by dragging.', :class => 'handle icon' %><% end %>
-          <%= link_to '[remove]', {:action => 'remove', :id => friendship.friend}, :class => 'discreet', :post => true, :confirm => 'Are you sure?' %>
+          <%= link_to '[remove]', {:action => 'remove', :id => friendship.friend}, :class => 'discreet', :method => :post, :confirm => 'Are you sure?' %>
         <% end %>
       </li>
     <% end %>

@@ -121,7 +121,7 @@ class ServeController < ApplicationController
   end
   
   def remove_person_from_batch
-    session[:batch_people].delete(Person.find params[:person_id]) if session[:batch_people]
+    session[:batch_people].delete(Person.find(params[:person_id])) if session[:batch_people]
     redirect_to :action => 'add_servers', :id => params[:id]
   end
   

@@ -2,6 +2,10 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 
 class FriendTest < ActionController::IntegrationTest
   fixtures :people, :families, :friendships, :friendship_requests
+  
+  def setup
+    SETTINGS['features']['friends'] = true
+  end
 
   def view_profile(person)
     get "/people/view/#{person.id}"

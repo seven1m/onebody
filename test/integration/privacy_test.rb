@@ -66,7 +66,7 @@ class PrivacyTest < ActionController::IntegrationTest
     assert_select 'div#notice', /Agreement saved\./
     people(:katrina).reload
     assert people(:katrina).parental_consent # not nil
-    assert people(:katrina).parental_consent.include? "#{people(:jeremy).name} \(#{people(:jeremy).id}\)"
+    assert people(:katrina).parental_consent.include?("#{people(:jeremy).name} \(#{people(:jeremy).id}\)")
     assert_select 'p.highlight', :minimum => 1, :text => /This child's profile has parental consent/
     get '/people/index'
     assert_response :success

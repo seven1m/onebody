@@ -22,7 +22,7 @@
 
 class Contact < ActiveRecord::Base
   belongs_to :person
-  belongs_to :owner, :class_name => 'Person'
+  belongs_to :owner, :class_name => 'Person', :foreign_key => 'owner_id'
   
   acts_as_logger LogItem
 end
