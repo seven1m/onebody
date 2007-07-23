@@ -54,7 +54,7 @@
         <%= file_field_tag 'picture10' %><br/>
       </span>
       <br/>
-      <% if @logged_in.admin? %>
+      <% if @logged_in.admin?(:manage_pictures) %>
         <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox' %>
         Don't show this upload set on my profile.
         <br/>

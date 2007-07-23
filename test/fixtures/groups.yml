@@ -1,4 +1,28 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: groups
+#
+#  id           :integer(11)   not null, primary key
+#  name         :string(100)   
+#  description  :text          
+#  meets        :string(100)   
+#  location     :string(100)   
+#  directions   :text          
+#  notes        :text          
+#  category     :string(50)    
+#  creator_id   :integer(11)   
+#  private      :boolean(1)    
+#  address      :string(255)   
+#  members_send :boolean(1)    default(TRUE)
+#  leader_id    :integer(11)   
+#  updated_at   :datetime      
+#  hidden       :boolean(1)    
+#  approved     :boolean(1)    
+#  link_code    :string(255)   
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: groups

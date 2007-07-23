@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 64
+# Schema version: 65
 #
 # Table name: events
 #
@@ -34,6 +34,6 @@ class Event < ActiveRecord::Base
   end
   
   def admin?(person)
-    person == self.person or person.admin?
+    person == self.person or person.admin?(:manage_events)
   end
 end

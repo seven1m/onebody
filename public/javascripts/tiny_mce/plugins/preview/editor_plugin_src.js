@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -67,7 +67,7 @@ var TinyMCE_PreviewPlugin = {
 					html += '<html xmlns="http://www.w3.org/1999/xhtml">';
 					html += '<head>';
 					html += '<title>' + tinyMCE.getLang('lang_preview_desc') + '</title>';
-					html += '<base href="' + tinyMCE.settings['base_href'] + '" />';
+					html += '<base href="' + tinyMCE.SETTINGS['base_href'] + '" />';
 					html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
 					for (i=0; i<css.length; i++)
@@ -127,7 +127,7 @@ var TinyMCE_PreviewPlugin = {
 	},
 
 	_writeFlash : function(p) {
-		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], p.src);
+		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], p.src);
 		TinyMCE_PreviewPlugin._writeEmbed(
 			'D27CDB6E-AE6D-11cf-96B8-444553540000',
 			'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
@@ -137,7 +137,7 @@ var TinyMCE_PreviewPlugin = {
 	},
 
 	_writeShockWave : function(p) {
-		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], p.src);
+		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], p.src);
 		TinyMCE_PreviewPlugin._writeEmbed(
 			'166B1BCA-3F9C-11CF-8075-444553540000',
 			'http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=8,5,1,0',
@@ -147,7 +147,7 @@ var TinyMCE_PreviewPlugin = {
 	},
 
 	_writeQuickTime : function(p) {
-		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], p.src);
+		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], p.src);
 		TinyMCE_PreviewPlugin._writeEmbed(
 			'02BF25D5-8C17-4B23-BC80-D3488ABDDC6B',
 			'http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0',
@@ -157,7 +157,7 @@ var TinyMCE_PreviewPlugin = {
 	},
 
 	_writeRealMedia : function(p) {
-		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], p.src);
+		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], p.src);
 		TinyMCE_PreviewPlugin._writeEmbed(
 			'CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA',
 			'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0',
@@ -167,7 +167,7 @@ var TinyMCE_PreviewPlugin = {
 	},
 
 	_writeWindowsMedia : function(p) {
-		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], p.src);
+		p.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], p.src);
 		p.url = p.src;
 		TinyMCE_PreviewPlugin._writeEmbed(
 			'6BF52A52-394A-11D3-B153-00C04F79FAA6',

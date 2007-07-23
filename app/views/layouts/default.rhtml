@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-  <title><%= SITE_TITLE %></title>
+  <title><%= SETTINGS['name']['site'] %></title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="Pragma" content="no-cache"/>
   <meta http-equiv="no-cache"/>
@@ -9,7 +9,7 @@
   <meta http-equiv="Cache-Control" content="no-cache"/> 
   <link rel="stylesheet" href="/stylesheets/1.css" type="text/css" media="screen,projection" />
   <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />
-  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="<%= SITE_TITLE %> Search" />
+  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="<%= SETTINGS['name']['site'] %> Search" />
   <%= javascript_include_tag :defaults %>
   <%= yield :head %>
 </head>
@@ -29,10 +29,10 @@
 				<script type="text/javascript"> $('search_name').value = 'People Search' </script>
 				
 				<h1>
-				  <a href="/"><%= SITE_TITLE %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %>
+				  <a href="/"><%= SETTINGS['name']['site'] %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %>
 				</h1>
                                 <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;width:300px;white-space:nowrap;">
-                                  <%=h SITE_SIMPLE_URL %> | <span id="news_headlines" style="position:relative;background-color:#fff;"><%= link_to VISITOR_SIMPLE_URL, VISITOR_URL, :style => 'text-decoration:none;' %></span>
+                                  <%=h SETTINGS['url']['site'] %> | <span id="news_headlines" style="position:relative;background-color:#fff;"><%= link_to SETTINGS['url']['visitor'], VISITOR_URL, :style => 'text-decoration:none;' %></span>
                                 </div>
 
 <!--
@@ -104,10 +104,10 @@
 		</div>
 		
 		<div id="footer">
-      &copy; <%= Date.today.year %>, <%= CHURCH_NAME %> |
+      &copy; <%= session[:copyright_year] ||= Date.today.year %>, <%= SETTINGS['name']['church'] %> |
       <a href="/help/privacy_policy">Privacy Policy</a> |
-      Design by <a href="http://www.sixshootermedia.com">Six Shooter Media</a> |
-      Icons by <a href="http://famfamfam.com/lab/icons/silk/">FamFamFam</a>
+      <%= link_to 'Credits', :controller => 'help', :action => 'credits' %> |
+      Powered by <a href="http://beonebody.org">OneBody</a>
 		</div>
 		
 </div>
@@ -117,7 +117,7 @@
   <script type="text/javascript" src="/news/marquee"></script>
 <% end %>
 
-<% if RAILS_ENV == 'production' %><%= ANALYTICS_CODE %><% end %>
+<% if RAILS_ENV == 'production' %><%= SETTINGS['services']['analytics'] %><% end %>
 
 </body>
 </html>

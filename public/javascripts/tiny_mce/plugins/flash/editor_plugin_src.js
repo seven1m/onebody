@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -20,7 +20,7 @@ var TinyMCE_FlashPlugin = {
 	},
 
 	initInstance : function(inst) {
-		if (!tinyMCE.settings['flash_skip_plugin_css'])
+		if (!tinyMCE.SETTINGS['flash_skip_plugin_css'])
 			tinyMCE.importCSS(inst.getDoc(), tinyMCE.baseURL + "/plugins/flash/css/content.css");
 	},
 
@@ -60,7 +60,7 @@ var TinyMCE_FlashPlugin = {
 					swffile = tinyMCE.getAttrib(focusElm, 'alt');
 
 					if (tinyMCE.getParam('convert_urls'))
-						swffile = eval(tinyMCE.settings['urlconverter_callback'] + "(swffile, null, true);");
+						swffile = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(swffile, null, true);");
 
 					swfwidth = tinyMCE.getAttrib(focusElm, 'width');
 					swfheight = tinyMCE.getAttrib(focusElm, 'height');
@@ -86,7 +86,7 @@ var TinyMCE_FlashPlugin = {
 							var src = tinyMCE.getAttrib(imgs[i], "alt");
 
 							if (tinyMCE.getParam('convert_urls'))
-								src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, null, true);");
+								src = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(src, null, true);");
 
 							imgs[i].setAttribute('alt', src);
 							imgs[i].setAttribute('title', src);
@@ -102,7 +102,7 @@ var TinyMCE_FlashPlugin = {
 						var src = tinyMCE.getAttrib(imgs[i], "alt");
 
 						if (tinyMCE.getParam('convert_urls'))
-							src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, null, true);");
+							src = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(src, null, true);");
 
 						imgs[i].setAttribute('alt', src);
 						imgs[i].setAttribute('title', src);

@@ -1,4 +1,14 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: tags
+#
+#  id         :integer(11)   not null, primary key
+#  name       :string(50)    
+#  updated_at :datetime      
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: tags

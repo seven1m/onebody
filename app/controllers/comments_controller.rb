@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
     elsif params[:news_item_id]
       object = NewsItem.find params[:news_item_id]
     elsif params[:song_id]
-      unless @logged_in.music_access? or @logged_in.admin?
+      unless @logged_in.music_access? or @logged_in.admin?(:manage_music)
         render :text => 'You are not authorized.'
         return
       end

@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -177,7 +177,7 @@ var TinyMCE_TablePlugin = {
 		if (elm.nodeName == "BODY" && (focusElm.nodeName == "TD" || focusElm.nodeName == "TH" || (focusElm.parentNode && focusElm.parentNode.nodeName == "TD") ||(focusElm.parentNode && focusElm.parentNode.nodeName == "TH") )) {
 			window.setTimeout(function() {
 				var tableElm = tinyMCE.getParentElement(focusElm, "table");
-				tinyMCE.handleVisualAid(tableElm, true, tinyMCE.settings['visual'], tinyMCE.selectedInstance);
+				tinyMCE.handleVisualAid(tableElm, true, tinyMCE.SETTINGS['visual'], tinyMCE.selectedInstance);
 			}, 10);
 		}
 	},
@@ -1057,7 +1057,7 @@ var TinyMCE_TablePlugin = {
 					}
 
 					tableElm = tinyMCE.getParentElement(inst.getFocusElement(), "table");
-					tinyMCE.handleVisualAid(tableElm, true, tinyMCE.settings['visual'], tinyMCE.selectedInstance);
+					tinyMCE.handleVisualAid(tableElm, true, tinyMCE.SETTINGS['visual'], tinyMCE.selectedInstance);
 					tinyMCE.triggerNodeChange();
 					inst.repaint();
 				}

@@ -1,4 +1,4 @@
-<% if @note.person == @logged_in or @logged_in.admin? %>
+<% if @note.person == @logged_in or @logged_in.admin?(:manage_notes) %>
   <% content_for :subnav do %>
     <%= link_to 'Edit Note', edit_note_url(:id => @note), :class => 'discreet' %>
     <%= link_to 'Delete Note', delete_note_url(:id => @note), :class => 'discreet', :confirm => true, :confirm => 'Are you sure?' %>

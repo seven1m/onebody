@@ -1,8 +1,8 @@
 class GroupsController < ApplicationController
   def index
-    @categories = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' #{@logged_in.admin? ? '' : 'and hidden = 0'} group by category").map { |g| [g.category, g.group_count] }
+    @categories = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' #{@logged_in.admin?(:manage_groups) ? '' : 'and hidden = 0'} group by category").map { |g| [g.category, g.group_count] }
     @hidden_groups = Group.find_all_by_hidden(true, :order => 'name')
-    if @logged_in.admin?
+    if @logged_in.admin?(:manage_groups)
       @unapproved_groups = Group.find_all_by_approved(false)
     else
       @unapproved_groups = Group.find_all_by_creator_id_and_approved(@logged_in.id, false)
@@ -40,13 +40,13 @@ class GroupsController < ApplicationController
     @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != ''").map { |g| g.category }
     if request.post?
       if params[:group]
-        if not @logged_in.admin? and (params[:group][:address] or params[:group][:link_code] or params[:group][:members_send] or params[:group][:private])
+        if not @logged_in.admin?(:manage_groups) and (params[:group][:address] or params[:group][:link_code] or params[:group][:members_send] or params[:group][:private])
           raise 'You are not authorized to do that.'
         end
         params[:group].cleanse 'address'
         if @group.update_attributes params[:group]
           if new_group
-            if @logged_in.admin?
+            if @logged_in.admin?(:manage_groups)
               @group.update_attribute(:approved, true)
               flash[:notice] = 'The group has been created.'
             else
@@ -172,7 +172,7 @@ class GroupsController < ApplicationController
   end
   
   def approve
-    if request.post? and @logged_in.admin?
+    if request.post? and @logged_in.admin?(:manage_groups)
       group = Group.find params[:id]
       group.update_attribute :approved, true
       flash[:notice] = 'The group has been approved.'

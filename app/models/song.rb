@@ -1,4 +1,23 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: songs
+#
+#  id               :integer(11)   not null, primary key
+#  title            :string(255)   
+#  notes            :text          
+#  artists          :string(500)   
+#  album            :string(255)   
+#  image_small_url  :string(255)   
+#  image_medium_url :string(255)   
+#  image_large_url  :string(255)   
+#  amazon_asin      :string(50)    
+#  amazon_url       :string(255)   
+#  created_at       :datetime      
+#  person_id        :integer(11)   
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: songs
@@ -41,7 +60,7 @@ class Song < ActiveRecord::Base
   def lookup
     return if amazon_asin.to_s.empty?
     begin
-      req = Amazon::Search::Request.new(AMAZON_ID)
+      req = Amazon::Search::Request.new(SETTINGS['services']['amazon'])
       product = req.asin_search(amazon_asin).products.first
       #self.artists = product.artists.join(', ')
       #self.album = product.product_name
@@ -76,7 +95,7 @@ class Song < ActiveRecord::Base
   
   class << self
     def search(query)
-      req = Amazon::Search::Request.new(AMAZON_ID)
+      req = Amazon::Search::Request.new(SETTINGS['services']['amazon'])
       if query.is_a? String
         req.asin_search(query).products.first rescue nil
       elsif query.is_a? Hash

@@ -3,6 +3,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 class FriendshipTest < Test::Unit::TestCase
   fixtures :friendships, :people
   
+  def setup
+    SETTINGS['features']['friends'] = true
+  end
+  
   def test_friendship_creation
     Friendship.destroy_all # kill the ones from the fixtures for this test
     assert_equal 0, people(:jeanette).friends.count

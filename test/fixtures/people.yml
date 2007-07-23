@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 64
+# Schema version: 65
 #
 # Table name: people
 #
@@ -59,7 +59,6 @@
 #  friends_enabled     :boolean(1)    default(TRUE)
 #
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 tim:
   id: 1
   family_id: 1
@@ -111,6 +110,7 @@ jennie:
   email: morgans@somedomain.com
   encrypted_password: 5f4dcc3b5aa765d61d8327deb882cf99 # password
   wall_enabled: true
+  admin_id: 1
 mac:
   id: 5
   family_id: 1

@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -65,14 +65,14 @@ var TinyMCE_AdvancedImagePlugin = {
 
 					if ((src = this._getImageSrc(onmouseover)) != "") {
 						if (tinyMCE.getParam('convert_urls'))
-							src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], src);
+							src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], src);
 
 						imgs[i].setAttribute('onmouseover', "this.src='" + src + "';");
 					}
 
 					if ((src = this._getImageSrc(onmouseout)) != "") {
 						if (tinyMCE.getParam('convert_urls'))
-							src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], src);
+							src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], src);
 
 						imgs[i].setAttribute('onmouseout', "this.src='" + src + "';");
 					}
@@ -87,14 +87,14 @@ var TinyMCE_AdvancedImagePlugin = {
 
 					if ((src = this._getImageSrc(onmouseover)) != "") {
 						if (tinyMCE.getParam('convert_urls'))
-							src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, null, true);");
+							src = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(src, null, true);");
 
 						imgs[i].setAttribute('onmouseover', "this.src='" + src + "';");
 					}
 
 					if ((src = this._getImageSrc(onmouseout)) != "") {
 						if (tinyMCE.getParam('convert_urls'))
-							src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, null, true);");
+							src = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(src, null, true);");
 
 						imgs[i].setAttribute('onmouseout', "this.src='" + src + "';");
 					}

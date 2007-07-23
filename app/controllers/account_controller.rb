@@ -1,4 +1,6 @@
 class AccountController < ApplicationController
+  filter_parameter_logging :password, :password_confirmation
+  
   before_filter :check_ssl, :except => [:sign_out, :verify_code]
 
   def sign_in
@@ -39,7 +41,7 @@ class AccountController < ApplicationController
   
   def edit
     @person = Person.find params[:id]
-    raise 'Error.' unless @logged_in.can_edit? @person or @logged_in.admin?
+    raise 'Error.' unless @logged_in.can_edit? @person or @logged_in.admin?(:edit_profiles)
     if request.post?
       if params[:person][:email].to_s.any? and params[:person][:email] != @person.email
         @person.update_attributes :email => params[:person][:email], :email_changed => true
@@ -175,7 +177,7 @@ class AccountController < ApplicationController
 
   private
     def check_ssl
-      unless request.ssl? or RAILS_ENV != 'production' or !USE_SSL
+      unless request.ssl? or RAILS_ENV != 'production' or !SETTINGS['features']['ssl']
         redirect_to :protocol => 'https://', :from => params[:from]
         return
       end

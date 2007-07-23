@@ -31,7 +31,7 @@
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
 
-<% if @message.flagged? and @logged_in.admin? %>
+<% if @message.flagged? and @logged_in.admin?(:manage_messages) %>
   <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.flagged_body)), false) %></p>
 <% else %>
   <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>

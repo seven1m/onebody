@@ -148,7 +148,7 @@ function insertTable() {
 
 	inst.execCommand('mceBeginUndoLevel');
 	inst.execCommand('mceInsertContent', false, html);
-	tinyMCE.handleVisualAid(inst.getBody(), true, tinyMCE.settings['visual']);
+	tinyMCE.handleVisualAid(inst.getBody(), true, tinyMCE.SETTINGS['visual']);
 	inst.execCommand('mceEndUndoLevel');
 
 	tinyMCEPopup.close();

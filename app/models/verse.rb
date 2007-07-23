@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 64
+# Schema version: 65
 #
 # Table name: verses
 #
@@ -24,7 +24,7 @@ class Verse < ActiveRecord::Base
   acts_as_logger LogItem
     
   def admin?(person)
-    self.people.include? person or person.admin?
+    self.people.include? person or person.admin?(:manage_verses)
   end
   
   def reference=(ref)

@@ -59,7 +59,7 @@ function insertLink() {
 
 	// Make anchors absolute
 	if (href.charAt(0) == '#')
-		href = tinyMCE.settings['document_base_url'] + href;
+		href = tinyMCE.SETTINGS['document_base_url'] + href;
 
 	if (target == '_self')
 		target = '';

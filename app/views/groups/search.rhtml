@@ -60,7 +60,7 @@
 
 <% end %>
 
-<% if @logged_in.admin? and @hidden_groups.any? %>
+<% if @logged_in.admin?(:manage_groups) and @hidden_groups.any? %>
   <h2>Hidden Groups</h2>
   <p>
     Only administrators (such as yourself) see this list:<br/>

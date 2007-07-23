@@ -10,7 +10,7 @@ class NotesController < ApplicationController
   
   def edit
     @note = params[:id] ? Note.find(params[:id]) : Note.new(:person => @logged_in)
-    if @note.person == @logged_in or @logged_in.admin?
+    if @note.person == @logged_in or @logged_in.admin?(:manage_notes)
       if request.post?
         @note.update_attributes params[:note]
         redirect_to :action => 'view', :id => @note
@@ -22,7 +22,7 @@ class NotesController < ApplicationController
   
   def delete
     note = Note.find params[:id]
-    if note.person == @logged_in or @logged_in.admin?
+    if note.person == @logged_in or @logged_in.admin?(:manage_notes)
       note.update_attribute :deleted, true
     end
     redirect_to person_url(:id => note.person, :anchor => 'notes')

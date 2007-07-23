@@ -2,7 +2,7 @@
  * $Id: editor_template_src.js 129 2006-10-23 09:45:17Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import theme specific language pack */
@@ -205,7 +205,7 @@ var TinyMCE_AdvancedTheme = {
 
 					onclick = tinyMCE.cleanupEventStr(onclick);
 
-					href = eval(tinyMCE.settings['urlconverter_callback'] + "(href, tinyMCE.linkElement, true);");
+					href = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(href, tinyMCE.linkElement, true);");
 
 					// Use mce_href if defined
 					mceRealHref = tinyMCE.getAttrib(tinyMCE.linkElement, 'mce_href');
@@ -213,7 +213,7 @@ var TinyMCE_AdvancedTheme = {
 						href = mceRealHref;
 
 						if (tinyMCE.getParam('convert_urls'))
-							href = eval(tinyMCE.settings['urlconverter_callback'] + "(href, tinyMCE.linkElement, true);");
+							href = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(href, tinyMCE.linkElement, true);");
 					}
 
 					action = "update";
@@ -229,8 +229,8 @@ var TinyMCE_AdvancedTheme = {
 				template['width'] += tinyMCE.getLang('lang_insert_link_delta_width', 0);
 				template['height'] += tinyMCE.getLang('lang_insert_link_delta_height', 0);
 
-				if (inst.settings['insertlink_callback']) {
-					var returnVal = eval(inst.settings['insertlink_callback'] + "(href, target, title, onclick, action, style_class);");
+				if (inst.SETTINGS['insertlink_callback']) {
+					var returnVal = eval(inst.SETTINGS['insertlink_callback'] + "(href, target, title, onclick, action, style_class);");
 					if (returnVal && returnVal['href'])
 						TinyMCE_AdvancedTheme._insertLink(returnVal['href'], returnVal['target'], returnVal['title'], returnVal['onclick'], returnVal['style_class']);
 				} else {
@@ -292,7 +292,7 @@ var TinyMCE_AdvancedTheme = {
 					//onmouseover = tinyMCE.getImageSrc(tinyMCE.cleanupEventStr(onmouseover));
 					//onmouseout = tinyMCE.getImageSrc(tinyMCE.cleanupEventStr(onmouseout));
 
-					src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, img, true);");
+					src = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(src, img, true);");
 
 					// Use mce_src if defined
 					mceRealSrc = tinyMCE.getAttrib(img, 'mce_src');
@@ -300,14 +300,14 @@ var TinyMCE_AdvancedTheme = {
 						src = mceRealSrc;
 
 						if (tinyMCE.getParam('convert_urls'))
-							src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, img, true);");
+							src = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(src, img, true);");
 					}
 
 					//if (onmouseover != "")
-					//	onmouseover = eval(tinyMCE.settings['urlconverter_callback'] + "(onmouseover, img, true);");
+					//	onmouseover = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(onmouseover, img, true);");
 
 					//if (onmouseout != "")
-					//	onmouseout = eval(tinyMCE.settings['urlconverter_callback'] + "(onmouseout, img, true);");
+					//	onmouseout = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(onmouseout, img, true);");
 
 					action = "update";
 				}
@@ -322,8 +322,8 @@ var TinyMCE_AdvancedTheme = {
 				template['width'] += tinyMCE.getLang('lang_insert_image_delta_width', 0);
 				template['height'] += tinyMCE.getLang('lang_insert_image_delta_height', 0);
 
-				if (inst.settings['insertimage_callback']) {
-					var returnVal = eval(inst.settings['insertimage_callback'] + "(src, alt, border, hspace, vspace, width, height, align, title, onmouseover, onmouseout, action);");
+				if (inst.SETTINGS['insertimage_callback']) {
+					var returnVal = eval(inst.SETTINGS['insertimage_callback'] + "(src, alt, border, hspace, vspace, width, height, align, title, onmouseover, onmouseout, action);");
 					if (returnVal && returnVal['src'])
 						TinyMCE_AdvancedTheme._insertImage(returnVal['src'], returnVal['alt'], returnVal['border'], returnVal['hspace'], returnVal['vspace'], returnVal['width'], returnVal['height'], returnVal['align'], returnVal['title'], returnVal['onmouseover'], returnVal['onmouseout']);
 				} else
@@ -536,8 +536,8 @@ var TinyMCE_AdvancedTheme = {
 
 		// Setup style select options -- MOVED UP FOR EXTERNAL TOOLBAR COMPATABILITY!
 		var styleSelectHTML = '<option value="">{$lang_theme_style_select}</option>';
-		if (settings['theme_advanced_styles']) {
-			var stylesAr = settings['theme_advanced_styles'].split(';');
+		if (SETTINGS['theme_advanced_styles']) {
+			var stylesAr = SETTINGS['theme_advanced_styles'].split(';');
 			
 			for (var i=0; i<stylesAr.length; i++) {
 				var key, value;
@@ -1408,16 +1408,16 @@ var TinyMCE_AdvancedTheme = {
 			var needsRepaint = false;
 			var msrc = src;
 
-			src = eval(tinyMCE.settings['urlconverter_callback'] + "(src, tinyMCE.imgElement);");
+			src = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(src, tinyMCE.imgElement);");
 
 			if (tinyMCE.getParam('convert_urls'))
 				msrc = src;
 
 			if (onmouseover && onmouseover != "")
-				onmouseover = "this.src='" + eval(tinyMCE.settings['urlconverter_callback'] + "(onmouseover, tinyMCE.imgElement);") + "';";
+				onmouseover = "this.src='" + eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(onmouseover, tinyMCE.imgElement);") + "';";
 
 			if (onmouseout && onmouseout != "")
-				onmouseout = "this.src='" + eval(tinyMCE.settings['urlconverter_callback'] + "(onmouseout, tinyMCE.imgElement);") + "';";
+				onmouseout = "this.src='" + eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(onmouseout, tinyMCE.imgElement);") + "';";
 
 			// Use alt as title if it's undefined
 			if (typeof(title) == "undefined")
@@ -1467,7 +1467,7 @@ var TinyMCE_AdvancedTheme = {
 			}
 
 			var mhref = href;
-			var thref = eval(tinyMCE.settings['urlconverter_callback'] + "(href, linkElement);");
+			var thref = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(href, linkElement);");
 			mhref = tinyMCE.getParam('convert_urls') ? href : mhref;
 
 			tinyMCE.setAttrib(linkElement, 'href', thref);
@@ -1497,7 +1497,7 @@ var TinyMCE_AdvancedTheme = {
 
 			for (var i=0; i<elementArray.length; i++) {
 				var mhref = href;
-				var thref = eval(tinyMCE.settings['urlconverter_callback'] + "(href, elementArray[i]);");
+				var thref = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(href, elementArray[i]);");
 				mhref = tinyMCE.getParam('convert_urls') ? href : mhref;
 
 				tinyMCE.setAttrib(elementArray[i], 'href', thref);
@@ -1513,7 +1513,7 @@ var TinyMCE_AdvancedTheme = {
 
 		if (tinyMCE.linkElement) {
 			var mhref = href;
-			href = eval(tinyMCE.settings['urlconverter_callback'] + "(href, tinyMCE.linkElement);");
+			href = eval(tinyMCE.SETTINGS['urlconverter_callback'] + "(href, tinyMCE.linkElement);");
 			mhref = tinyMCE.getParam('convert_urls') ? href : mhref;
 
 			tinyMCE.setAttrib(tinyMCE.linkElement, 'href', href);

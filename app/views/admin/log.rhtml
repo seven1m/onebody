@@ -3,10 +3,9 @@
 <p><%= link_to_function 'Filtering Options &raquo;', "Element.toggle('log_options')" %></p>
 
 <form id="log_options" style="display:none;">
-  <strong>Reviewed Items:</strong>
-  <select name="reviewed"><%= options_for_select ['hidden', 'visible'], session[:admin_log] ? session[:admin_log][:reviewed] : nil %></select><br/>
-  <strong>Non-Flagged Items:</strong>
-  <select name="nonflagged"><%= options_for_select ['hidden', 'visible'], session[:admin_log] ? session[:admin_log][:nonflagged] : nil %></select><br/>
+  <strong>Show:</strong>
+  <select name="reviewed"><%= options_for_select [['New Only', 'hidden'], ['New and Reviewed', 'visible']], session[:admin_log] ? session[:admin_log][:reviewed] : nil %></select>
+  <select name="nonflagged"><%= options_for_select [['Flagged Only', 'hidden'], ['Flagged and Not Flagged', 'visible']], session[:admin_log] ? session[:admin_log][:nonflagged] : nil %></select><br/>
   <strong>Date Range</strong>
   (date format:
   <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y' %></span> or

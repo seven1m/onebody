@@ -60,3 +60,6 @@ END_CODE
 
 # Bug Notification
 BUG_NOTIFICATION_EMAIL = TECH_SUPPORT_EMAIL # set to nil to turn off notifications
+
+# Friends
+FRIENDS_ENABLED = false

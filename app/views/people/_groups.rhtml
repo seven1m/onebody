@@ -2,7 +2,7 @@
   <p><%= h @person.first_name %> is a member of the following groups:</p>
   <ul>
     <% @person.groups.select { |g| @logged_in.sees? g }.each do |group| %>
-      <% if not group.hidden? or @logged_in.admin? %>
+      <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <li <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
           <%= link_to h(group.name), :controller => 'groups', :action => 'view', :id => group %>
           (<%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>)<br/>
@@ -20,7 +20,7 @@
       <% end %>
     <% end %>
   </ul>
-  <% if @logged_in.admin? %>
+  <% if @logged_in.admin?(:manage_groups) %>
     <p><%= link_to_function 'Show Hidden Groups', "$$('.hidden-group').each(function(e){Element.toggle(e)})" %>
   <% end %>
 <% elsif @logged_in == @person %>

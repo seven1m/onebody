@@ -2,7 +2,7 @@
 
 <h1>News</h1>
 
-<p>All news here is also available at <%= link_to NEWS_SIMPLE_URL, NEWS_URL %>.</p>
+<p>All news here is also available at <%= link_to SETTINGS['url']['news'], NEWS_URL %>.</p>
 
 <% @news_items.each do |news_item| %>
   <%= render :partial => 'news_item', :locals => {:news_item => news_item} %>

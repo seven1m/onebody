@@ -39,7 +39,8 @@
             posted a message on 
             <%= link_to "#{object.wall.name_possessive} wall", person_url(:id => object.wall, :anchor => 'wall') %>.
           <% elsif object.is_a? Person %>
-            updated their <%= item.showable_change_keys.to_sentence %>.
+            updated <%= item.person == @logged_in ? 'your' : 'their' %>
+            <%= item.showable_change_keys.to_sentence %>.
           <% elsif object.is_a? Friendship %>
             <% if object.person == @logged_in %>
               is now your friend.
@@ -54,5 +55,5 @@
     <% end %>
   </table>
 <% else %>
-  <p><em>Once you and/or your friends post items to the site, you will see stuff here.</em></p>
+  <p><em>Nothing to show here yet!</em></p>
 <% end %>

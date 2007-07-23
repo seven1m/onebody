@@ -1,4 +1,16 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: friendship_requests
+#
+#  id         :integer(11)   not null, primary key
+#  person_id  :integer(11)   
+#  from_id    :integer(11)   
+#  rejected   :boolean(1)    
+#  created_at :datetime      
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: friendship_requests

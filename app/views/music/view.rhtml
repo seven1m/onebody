@@ -17,7 +17,7 @@
 
 <% content_for :subnav do %>
   <%= link_to 'List of Songs', :action => 'index' %>
-  <% if @logged_in.admin? %>
+  <% if @logged_in.admin?(:manage_music) %>
     <%= link_to 'Edit', :action => 'edit', :id => @song %>
   <% end %>
 <% end %>
@@ -27,7 +27,7 @@
 <p>
   <%= form_tag({:action => 'add_tags', :id => @song}, :style => 'border:none;padding:0;margin:0;') %>
     Tags:
-    <% if @logged_in.admin? %>
+    <% if @logged_in.admin?(:manage_music) %>
       <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @song, :controller => 'music'} %>
     <% else %>
       <%= render :partial => 'tags/tags', :locals => {:object => @song} %>

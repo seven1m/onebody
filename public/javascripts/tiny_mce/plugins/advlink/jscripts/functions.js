@@ -136,7 +136,7 @@ function setFormValue(name, value) {
 }
 
 function convertURL(url, node, on_save) {
-	return eval("tinyMCEPopup.windowOpener." + tinyMCE.settings['urlconverter_callback'] + "(url, node, on_save);");
+	return eval("tinyMCEPopup.windowOpener." + tinyMCE.SETTINGS['urlconverter_callback'] + "(url, node, on_save);");
 }
 
 function parseWindowOpen(onclick) {
@@ -465,7 +465,7 @@ function setAllAttribs(elm) {
 
 	// Make anchors absolute
 	if (href.charAt(0) == '#' && tinyMCE.getParam('convert_urls'))
-		href = tinyMCE.settings['document_base_url'] + href;
+		href = tinyMCE.SETTINGS['document_base_url'] + href;
 
 	setAttrib(elm, 'href', convertURL(href, elm));
 	setAttrib(elm, 'mce_href', href);

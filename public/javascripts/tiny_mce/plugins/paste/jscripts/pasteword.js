@@ -24,7 +24,7 @@ function createIFrame() {
 var wHeight=0, wWidth=0, owHeight=0, owWidth=0;
 
 function initIframe(doc) {
-	var dir = tinyMCE.selectedInstance.settings['directionality'];
+	var dir = tinyMCE.selectedInstance.SETTINGS['directionality'];
 
 	doc.body.dir = dir;
 

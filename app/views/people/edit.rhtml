@@ -12,7 +12,7 @@
   for details regarding the use of your personal information.
 </p>
 
-<% if @logged_in.admin? and @person.frozen %>
+<% if @logged_in.admin?(:edit_profiles) and @person.frozen %>
   <p style="color:red;">This account is frozen. <%= @person.name %> can not make changes to this profile or anyone else's until this account is unfrozen.</p>
 <% end %>
 
@@ -20,7 +20,7 @@
   <li><%= link_to 'View Profile', :action => 'view', :id => @person %></li>
   <li><%= link_to 'Change Email/Password', {:controller => 'account', :action => 'edit', :id => @person}, :style => 'color:yellow;' %></li>
   <li><%= link_to 'Privacy Settings', {:controller => 'people', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}"}, :style => 'color:yellow;' %></li>
-  <% if @logged_in.admin? %>
+  <% if @logged_in.admin?(:edit_profiles) %>
     <li><%= link_to (@person.frozen ? 'Unfreeze' : 'Freeze'), {:action => 'freeze_account', :id => @person}, :method => 'post', :confirm => 'Are you sure?' %></li>
   <% end %>
 <% end %>
@@ -155,7 +155,7 @@
 <div class="section">
   <p>
     You can share pictures, Bible verses, and recipes on
-    <%= SITE_TITLE %> from the <%= link_to 'Shares', :controller => 'shares' %>
+    <%= SETTINGS['name']['site'] %> from the <%= link_to 'Shares', :controller => 'shares' %>
     tab. Anything you share there will appear on your profile.
   </p>
 </div>
@@ -233,7 +233,7 @@
   <% end %>
 </div>
 
-<% if @logged_in.admin? %>
+<% if @logged_in.admin?(:manage_access) %>
   <h2 class="tab" id="access">Access</h2>
   <div class="section">
     <% form_for :person, @person do |form| %>

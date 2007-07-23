@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -20,7 +20,7 @@ var TinyMCE_MediaPlugin = {
 	},
 
 	initInstance : function(inst) {
-		if (!tinyMCE.settings['media_skip_plugin_css'])
+		if (!tinyMCE.SETTINGS['media_skip_plugin_css'])
 			tinyMCE.importCSS(inst.getDoc(), tinyMCE.baseURL + "/plugins/media/css/content.css");
 	},
 
@@ -196,7 +196,7 @@ var TinyMCE_MediaPlugin = {
 
 						// Force absolute URL
 						if (!tinyMCE.getParam("relative_urls"))
-							pl.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], pl.src);
+							pl.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], pl.src);
 
 						embedHTML = TinyMCE_MediaPlugin._getEmbed(ci, cb, mt, pl, attribs);
 					} else {
@@ -231,7 +231,7 @@ var TinyMCE_MediaPlugin = {
 
 						// Force absolute URL
 						if (!tinyMCE.getParam("relative_urls")) {
-							pl.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], pl.src);
+							pl.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], pl.src);
 							at = at.replace(new RegExp("src:'[^']*'", "g"), "src:'" + pl.src + "'");
 						}
 

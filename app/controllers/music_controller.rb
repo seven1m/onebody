@@ -128,7 +128,7 @@ class MusicController < ApplicationController
   
   private
     def check_access
-      unless @logged_in.admin? or @logged_in.music_access?
+      unless @logged_in.admin?(:manage_music) or @logged_in.music_access?
         render :text => 'This section is only available to authorized users.', :layout => true
         return false
       end

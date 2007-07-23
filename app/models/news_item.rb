@@ -1,4 +1,17 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: news_items
+#
+#  id        :integer(11)   not null, primary key
+#  title     :string(255)   
+#  link      :string(255)   
+#  body      :text          
+#  published :datetime      
+#  active    :boolean(1)    default(TRUE)
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: news_items
@@ -36,8 +49,8 @@ class NewsItem < ActiveRecord::Base
     end  
     
     def get_feed_items
-      if NEWS_RSS_URL
-        xml = Net::HTTP.get(URI.parse(NEWS_RSS_URL))
+      if SETTINGS['url']['news_rss']
+        xml = Net::HTTP.get(URI.parse(SETTINGS['url']['news_rss']))
         root = REXML::Document.new(xml).root
         root.elements.to_a('item')
       end

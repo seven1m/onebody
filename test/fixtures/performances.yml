@@ -1,4 +1,15 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: performances
+#
+#  id         :integer(11)   not null, primary key
+#  setlist_id :integer(11)   
+#  song_id    :integer(11)   
+#  ordering   :integer(11)   
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: performances

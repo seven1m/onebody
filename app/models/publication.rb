@@ -1,4 +1,17 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: publications
+#
+#  id          :integer(11)   not null, primary key
+#  name        :string(255)   
+#  description :text          
+#  created_at  :datetime      
+#  file        :string(255)   
+#  updated_at  :datetime      
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: publications

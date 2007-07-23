@@ -1,8 +1,8 @@
 class PrayerController < ApplicationController
   def event
-    return unless PRAYER_EVENT
-    @first = DateTime.parse(PRAYER_EVENT.first)
-    @last = DateTime.parse(PRAYER_EVENT.last)
+    return unless SETTINGS['features']['prayer']
+    @first = DateTime.parse(SETTINGS['features']['prayer'].first)
+    @last = DateTime.parse(SETTINGS['features']['prayer'].last)
     signups = PrayerSignup.find :all, :conditions => ['start >= ? and start <= ?', @first, @last], :order => 'start'
     @signups = signups.group_by { |r| r.start.strftime '%Y/%m/%d %H:%M' }
     @count_per_day = {}
@@ -18,7 +18,7 @@ class PrayerController < ApplicationController
   
   def event_signup
     person = Person.find params[:id]
-    if (person == @logged_in or @logged_in.admin?) and params[:start]
+    if (person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) and params[:start]
       if s = person.prayer_signups.find_by_start(params[:start])
         s.destroy
         flash[:notice] = 'Removed from time slot'

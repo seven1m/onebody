@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 64
+# Schema version: 65
 #
 # Table name: people
 #
@@ -185,10 +185,10 @@ class Person < ActiveRecord::Base
     if what.is_a? Person
       what == self or
       what.family_id == self.family_id or
-      admin? or
+      admin?(:view_hidden_profiles) or
       staff? or
       (
-        (MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.include? what.mail_group or what.flags.to_s.include? FLAG_VISIBLE_BY_NON_ADMINS) \
+        (SETTINGS['access']['mail_groups_visible_by_non_admins'].include? what.mail_group or what.flags.to_s.include? SETTINGS['access']['flag_visible_by_non_admins']) \
         and
         (full_access? or what.adult?) \
         and
@@ -200,7 +200,7 @@ class Person < ActiveRecord::Base
       if what.group
         not what.group.private? or what.group.people.include?(self)
       else
-        admin? or what.to == self or what.wall == self or what.person == self
+        admin?(:manage_messages) or what.to == self or what.wall == self or what.person == self
       end
     else
       raise 'unknown "what"'
@@ -211,15 +211,15 @@ class Person < ActiveRecord::Base
   
   def can_edit?(what)
     if what.is_a? Group
-      what.admin? self or self.admin?
+      what.admin? self or self.admin?(:manage_groups)
     elsif what.is_a? Ministry
-      admin? or what.administrator == self
+      admin?(:manage_ministries) or what.administrator == self
     elsif what.is_a? Person
-      admin? or (what.family == self.family and self.adult?) or what == self
+      admin?(:edit_profiles) or (what.family == self.family and self.adult?) or what == self
     elsif what.is_a? Family
-      admin? or (what == self.family and self.adult?)
+      admin?(:edit_profiles) or (what == self.family and self.adult?)
     elsif what.is_a? Message
-      admin? or what.person == self or (what.group and what.group.admin? self)
+      admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self)
     else
       raise 'unknown "what"'
     end
@@ -246,18 +246,29 @@ class Person < ActiveRecord::Base
   def adult?; at_least?(18); end
   
   def can_sign_in?
-    MAIL_GROUPS_CAN_LOG_IN.include? mail_group and consent_or_13?
+    SETTINGS['access']['mail_groups_can_log_in'].include? mail_group and consent_or_13?
   end
   
   def parental_consent?; parental_consent.to_s.any?; end
   def consent_or_13?; at_least_13? or parental_consent?; end
   
   def visible?
-    family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?) and MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.include? mail_group
+    family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?) and SETTINGS['access']['mail_groups_visible_by_non_admins'].include? mail_group
   end
 
   def member?
     @member ||= MEMBER_CHECK.call(self)
+  end
+  
+  def admin=(a)
+    if a == true
+      Admin.create(:person => self)
+    elsif a == false
+      self.admin.destroy rescue nil
+    elsif a.is_a? Admin
+      a.person = self
+      a.save
+    end
   end
   
   def admin?(perm=nil)
@@ -268,9 +279,9 @@ class Person < ActiveRecord::Base
     @super_admin ||= SUPER_ADMIN_CHECK.call(self)
   end
   
-  def staff?
-    @staff ||= STAFF_CHECK.call(self)
-  end
+  #def staff?
+  #  @staff ||= STAFF_CHECK.call(self)
+  #end
   
   def mapable?
     family.mapable?

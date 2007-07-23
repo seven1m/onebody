@@ -61,7 +61,7 @@
             signup.other
           else
             link_to(signup.person.name, :controller => 'people', :action => 'view', :id => signup.person) +
-            ((signup.person == @logged_in or @logged_in.admin?) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :method => 'post', :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : '')
+            ((signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :method => 'post', :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : '')
           end
         end.join(' | ') %>
         <% unless signups.map { |s| s.person }.include? @logged_in or hour < now %>

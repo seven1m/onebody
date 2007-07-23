@@ -1,4 +1,16 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: friendships
+#
+#  id         :integer(11)   not null, primary key
+#  person_id  :integer(11)   
+#  friend_id  :integer(11)   
+#  created_at :datetime      
+#  ordering   :integer(11)   default(1000)
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: friendships

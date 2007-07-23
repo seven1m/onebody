@@ -1,4 +1,19 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: notes
+#
+#  id           :integer(11)   not null, primary key
+#  person_id    :integer(11)   
+#  title        :string(255)   
+#  body         :text          
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  original_url :string(255)   
+#  deleted      :boolean(1)    
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: notes

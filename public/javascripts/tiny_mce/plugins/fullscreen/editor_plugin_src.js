@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 128 2006-10-22 19:55:28Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
@@ -20,7 +20,7 @@ var TinyMCE_FullScreenPlugin = {
 	},
 
 	initInstance : function(inst) {
-		if (!tinyMCE.settings['fullscreen_skip_plugin_css'])
+		if (!tinyMCE.SETTINGS['fullscreen_skip_plugin_css'])
 			tinyMCE.importCSS(inst.getDoc(), tinyMCE.baseURL + "/plugins/fullscreen/css/content.css");
 	},
 

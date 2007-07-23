@@ -1,4 +1,23 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: messages
+#
+#  id           :integer(11)   not null, primary key
+#  group_id     :integer(11)   
+#  person_id    :integer(11)   
+#  to_person_id :integer(11)   
+#  created_at   :datetime      
+#  updated_at   :datetime      
+#  parent_id    :integer(11)   
+#  subject      :string(255)   
+#  body         :text          
+#  share_email  :boolean(1)    
+#  wall_id      :integer(11)   
+#  code         :integer(11)   
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: messages
@@ -127,7 +146,7 @@ class Message < ActiveRecord::Base
     if group
       if group.can_post? to_person
         if group.address.to_s.any?
-          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + GROUP_ADDRESS_DOMAINS.first}\n"
+          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + SETTINGS['contact']['group_address_domains'].first}\n"
           msg << "Group page: #{SITE_URL}groups/view/#{group.id}\n"
         else
           msg << "To reply: #{reply_url}\n"
@@ -162,7 +181,7 @@ class Message < ActiveRecord::Base
   
   def email_from(to_person)
     if wall or not to_person.messages_enabled?
-      "\"#{person.name}\" <#{SYSTEM_NOREPLY_EMAIL}>"
+      "\"#{person.name}\" <#{SETTINGS['contact']['system_noreply_email']}>"
     elsif group
       relay_address("#{person.name} [#{group.name}]")
     else
@@ -172,7 +191,7 @@ class Message < ActiveRecord::Base
 
   def email_reply_to(to_person)
     if wall or not to_person.messages_enabled?
-      "\"DO NOT REPLY\" <#{SYSTEM_NOREPLY_EMAIL}>"
+      "\"DO NOT REPLY\" <#{SETTINGS['contact']['system_noreply_email']}>"
     else
       relay_address(person.name)
     end
@@ -181,7 +200,7 @@ class Message < ActiveRecord::Base
   # special time-limited address that relays a private message directly back to the sender
   def relay_address(name)
     email = "#{person.first_name.downcase.scan(/[a-z]/).join('')}.#{id}.#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
-    "\"#{name}\" <#{email + '@' + GROUP_ADDRESS_DOMAINS.first}>"
+    "\"#{name}\" <#{email + '@' + SETTINGS['contact']['group_address_domains'].first}>"
   end
   
   # generates security code

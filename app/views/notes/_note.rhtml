@@ -1,7 +1,7 @@
 <div class="note-heading">
   <strong><%= link_to h(note.title), note_url(:id => note) %></strong>
   <span class="note-timestamp">
-    <% if note.person == @logged_in or @logged_in.admin? %>
+    <% if note.person == @logged_in or @logged_in.admin?(:manage_notes) %>
       <%= link_to '[edit]', edit_note_url(:id => note), :class => 'discreet' %>
       <%= link_to '[delete]', delete_note_url(:id => note), :class => 'discreet', :confirm => true, :confirm => 'Are you sure?' %>
     <% end %>

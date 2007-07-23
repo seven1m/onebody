@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 var TinyMCE_NonEditablePlugin = {
@@ -21,7 +21,7 @@ var TinyMCE_NonEditablePlugin = {
 
 		// Ugly hack
 		if (tinyMCE.isMSIE5_0)
-			tinyMCE.settings['plugins'] = tinyMCE.settings['plugins'].replace(/noneditable/gi, 'Noneditable');
+			tinyMCE.SETTINGS['plugins'] = tinyMCE.SETTINGS['plugins'].replace(/noneditable/gi, 'Noneditable');
 	},
 
 	handleEvent : function(e) {

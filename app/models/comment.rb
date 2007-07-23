@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 64
+# Schema version: 65
 #
 # Table name: comments
 #
@@ -35,6 +35,6 @@ class Comment < ActiveRecord::Base
   acts_as_logger LogItem
   
   def admin?(person)
-    person.admin? or self.person == person
+    person.admin?(:manage_comments) or self.person == person
   end
 end

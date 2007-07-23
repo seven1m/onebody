@@ -1,4 +1,21 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: log_items
+#
+#  id          :integer(11)   not null, primary key
+#  model_name  :string(50)    
+#  instance_id :integer(11)   
+#  changes     :text          
+#  person_id   :integer(11)   
+#  created_at  :datetime      
+#  reviewed_on :datetime      
+#  reviewed_by :integer(11)   
+#  flagged_on  :datetime      
+#  flagged_by  :string(255)   
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: log_items

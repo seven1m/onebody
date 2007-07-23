@@ -19,7 +19,7 @@ function preinit() {
 }
 
 function convertURL(url, node, on_save) {
-	return eval("tinyMCEPopup.windowOpener." + tinyMCE.settings['urlconverter_callback'] + "(url, node, on_save);");
+	return eval("tinyMCEPopup.windowOpener." + tinyMCE.SETTINGS['urlconverter_callback'] + "(url, node, on_save);");
 }
 
 function getImageSrc(str) {
@@ -473,7 +473,7 @@ function showPreviewImage(src, start) {
 	selectByValue(document.forms[0], 'imagelistsrc', src);
 
 	var elm = document.getElementById('prev');
-	var src = src == "" ? src : tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], src);
+	var src = src == "" ? src : tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], src);
 
 	if (!start && tinyMCE.getParam("advimage_update_dimensions_onchange", true))
 		resetImageData();

@@ -62,7 +62,7 @@ function getPluginInfo(name) {
 }
 
 function insertHelpIFrame() {
-	var html = '<iframe width="100%" height="300" src="' + tinyMCE.themeURL + "/docs/" + tinyMCE.settings['docs_language'] + "/index.htm" + '"></iframe>';
+	var html = '<iframe width="100%" height="300" src="' + tinyMCE.themeURL + "/docs/" + tinyMCE.SETTINGS['docs_language'] + "/index.htm" + '"></iframe>';
 
 	document.getElementById('iframecontainer').innerHTML = html;
 

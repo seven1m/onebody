@@ -1,4 +1,15 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: contacts
+#
+#  id         :integer(11)   not null, primary key
+#  person_id  :integer(11)   
+#  owner_id   :integer(11)   
+#  updated_at :datetime      
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: contacts

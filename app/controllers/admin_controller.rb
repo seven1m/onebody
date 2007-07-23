@@ -4,6 +4,7 @@ class AdminController < ApplicationController
   RECORD_LIMIT = 50
   
   def log
+    raise 'Unauthorized' unless @logged_in.admin?(:view_log)
     conditions = []
     session[:admin_log] ||= {}
     session[:admin_log][:date] = params[:date] if params[:date]
@@ -30,6 +31,7 @@ class AdminController < ApplicationController
   end
   
   def mark_reviewed
+    raise 'Unauthorized' unless @logged_in.admin?(:view_log)
     now = Time.now
     params[:log_items].each do |id|
       log_item = LogItem.find(id)
@@ -41,6 +43,7 @@ class AdminController < ApplicationController
   end
   
   def photos
+    raise 'Unauthorized' unless @logged_in.admin?(:view_log)
     @items = []
     filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
     filenames[0...RECORD_LIMIT].each do |path|
@@ -56,6 +59,7 @@ class AdminController < ApplicationController
   end
   
   def old_log
+    raise 'Unauthorized' unless @logged_in.admin?(:view_log)
     @items = []
     filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
     filenames[0...RECORD_LIMIT].each do |path|
@@ -84,14 +88,57 @@ class AdminController < ApplicationController
   end
 
   def updates
+    raise 'Unauthorized' unless @logged_in.admin?(:view_log)
     @updates = Update.find_all_by_complete(params[:complete] == 'true')
     @unapproved_groups = Group.find_all_by_approved(false)
   end
   
   def toggle_complete
+    raise 'Unauthorized' unless @logged_in.admin?(:view_log)
     @update = Update.find params[:id]
     @update.toggle! :complete
     redirect_to :action => 'updates'
+  end
+  
+  def index
+    raise 'Unauthorized' unless @logged_in.super_admin?
+    Admin.destroy_all '(select count(*) from people where people.admin_id = admins.id) = 0'
+    @admins = Admin.find(:all, :order => 'people.last_name, people.first_name', :include => :person)
+  end
+  
+  def edit_attribute
+    render :update do |page|
+      if @logged_in.super_admin?
+        Admin.find(params[:id]).update_attribute params[:name], params[:value]
+        status_id = "#{params[:name]}_#{params[:id]}_status"
+        page.show status_id
+        page.replace_html status_id, '<img src="/images/checkmark.png" class="icon"/> saved'
+        page.visual_effect :fade, status_id
+      else
+        page.alert('You are not authorized to make changes on this page.')
+      end
+    end
+  end
+  
+  def add_admin
+    if @logged_in.super_admin?
+      params[:people].to_a.each do |id|
+        person = Person.find(id)
+        if person.super_admin?
+          flash[:notice] = "#{person.name} is a Super Administrator."
+        else
+          Admin.create :person => person
+        end
+      end
+    end
+    redirect_to :action => 'index'
+  end
+  
+  def remove_admin
+    if @logged_in.super_admin?
+      Admin.find(params[:id]).destroy
+    end
+    redirect_to :action => 'index'
   end
   
   private

@@ -77,5 +77,5 @@ function getImageData() {
 	preloadImg = new Image();
 	tinyMCE.addEvent(preloadImg, "load", updateImageData);
 	tinyMCE.addEvent(preloadImg, "error", function () {var formObj = document.forms[0];formObj.width.value = formObj.height.value = "";});
-	preloadImg.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], document.forms[0].src.value);
+	preloadImg.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], document.forms[0].src.value);
 }

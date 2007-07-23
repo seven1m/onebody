@@ -2,11 +2,11 @@
  * $Id: editor_plugin_src.js 129 2006-10-23 09:45:17Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */
-if (!tinyMCE.settings['contextmenu_skip_plugin_css']) {
+if (!tinyMCE.SETTINGS['contextmenu_skip_plugin_css']) {
 	tinyMCE.loadCSS(tinyMCE.baseURL + "/plugins/contextmenu/css/contextmenu.css");
 }
 
@@ -262,7 +262,7 @@ TinyMCE_ContextMenu.prototype = {
 	},
 
 	addSeparator : function() {
-		this.html += '<tr class="contextMenuItem"><td class="contextMenuIcon"><img src="' + this.settings['spacer_image'] + '" width="20" height="1" class="contextMenuImage" /></td><td><img class="contextMenuSeparator" width="1" height="1" src="' + this.settings['spacer_image'] + '" /></td></tr>';
+		this.html += '<tr class="contextMenuItem"><td class="contextMenuIcon"><img src="' + this.SETTINGS['spacer_image'] + '" width="20" height="1" class="contextMenuImage" /></td><td><img class="contextMenuSeparator" width="1" height="1" src="' + this.SETTINGS['spacer_image'] + '" /></td></tr>';
 	},
 
 	addItem : function(icon, title, command, value, disabled) {
@@ -275,10 +275,10 @@ TinyMCE_ContextMenu.prototype = {
 		if (tinyMCE.isMSIE && !tinyMCE.isMSIE5_0)
 			onMouseDown = 'contextMenu.execCommand(\'' + command + '\', \'' + value + '\');return false;';
 		else
-			onMouseDown = this.settings['commandhandler'] + '(\'' + command + '\', \'' + value + '\');return false;';
+			onMouseDown = this.SETTINGS['commandhandler'] + '(\'' + command + '\', \'' + value + '\');return false;';
 
 		if (icon == "")
-			icon = this.settings['spacer_image'];
+			icon = this.SETTINGS['spacer_image'];
 
 		if (!disabled)
 			html += '<tr class="contextMenuItem">';
@@ -352,6 +352,6 @@ TinyMCE_ContextMenu.prototype = {
 	},
 
 	execCommand : function(command, value) {
-		eval(this.settings['commandhandler'] + "(command, value);");
+		eval(this.SETTINGS['commandhandler'] + "(command, value);");
 	}
 };

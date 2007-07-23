@@ -19,12 +19,13 @@ require 'ar_date_fix'
 require 'ar_schema_dumper_fix'
 require 'params_tools'
 
-require 'settings'
+#require 'settings'
+SETTINGS = YAML::load(File.open(File.join(File.dirname(__FILE__), 'settings.yml')))
 
 ActionMailer::Base.smtp_settings = {
-  :address  => MAIL_HOST,
+  :address  => SETTINGS['email']['host'],
   :port  => 25,
-  :domain => MAIL_DOMAIN,
+  :domain => SETTINGS['email']['domain'],
 }
 
 MONTHS = [
@@ -79,25 +80,25 @@ FLAG_AGES = { # flag interactions between adults and youth
   :adult => 30..120
 }
 
-SITE_URL = "http://#{SITE_SIMPLE_URL}/"
-VISITOR_URL = "http://#{VISITOR_SIMPLE_URL}/"
-NEWS_URL = "http://#{NEWS_SIMPLE_URL}/"
+SITE_URL = "http://#{SETTINGS['url']['site']}/"
+VISITOR_URL = "http://#{SETTINGS['url']['visitor']}/"
+NEWS_URL = "http://#{SETTINGS['url']['news']}/"
 
 SITE_MAIL_DESCRIPTION = 'One user can send a message to another via this site. The system is monitored for abuse and allows people to contact you without getting your email address. We recommend you leave your email address private to prevent unsolicited email.'
 WALL_DESCRIPTION = 'The Wall is a place for people to post friendly messages for everyone to see. The messages are not private (except that you must be signed in). Think of it like a guestbook.'
 
 # Checks
 LOG_IN_CHECK = Proc.new do |person|
-  MAIL_GROUPS_CAN_LOG_IN.include? person.mail_group or person.flags.to_s.include? FLAG_CAN_LOG_IN
+  SETTINGS['access']['mail_groups_can_log_in'].include? person.mail_group or person.flags.to_s.include? SETTINGS['access']['flag_can_log_in']
 end
 MEMBER_CHECK = Proc.new do |person|
-  MEMBER_MAIL_GROUPS.include? person.mail_group
+  SETTINGS['access']['member_mail_groups'].include? person.mail_group
 end
 FULL_ACCESS_CHECK = Proc.new do |person|
-  FULL_ACCESS_MAIL_GROUPS.include? person.mail_group or admin? or staff?
+  SETTINGS['access']['full_access_mail_groups'].include? person.mail_group or person.admin? or person.staff?
 end
 SUPER_ADMIN_CHECK = Proc.new do |person|
-  SUPER_ADMINS.include? person.email
+  SETTINGS['access']['super_admins'].include? person.email
 end
 
 VALID_EMAIL_RE = /^[A-Z0-9\._%\-]+@[A-Z0-9\.\-]+\.[A-Z]{2,4}$/i
@@ -110,5 +111,5 @@ PEOPLE_ATTRIBUTES_SHOWABLE_ON_HOMEPAGE = %w(website service_name service_descrip
 WhiteListHelper.tags.merge %w(u)
 
 # Bug Notification
-ExceptionNotifier.exception_recipients = [BUG_NOTIFICATION_EMAIL] if BUG_NOTIFICATION_EMAIL
-ExceptionNotifier.sender_address = "\"One Body Error\" <app-error@#{MAIL_DOMAIN}>"
+ExceptionNotifier.exception_recipients = [SETTINGS['contact']['bug_notification_email']] if SETTINGS['contact']['bug_notification_email']
+ExceptionNotifier.sender_address = "\"One Body Error\" <app-error@#{SETTINGS['email']['domain']}>"

@@ -1,4 +1,25 @@
 # == Schema Information
+# Schema version: 65
+#
+# Table name: memberships
+#
+#  id                 :integer(11)   not null, primary key
+#  group_id           :integer(11)   
+#  person_id          :integer(11)   
+#  admin              :boolean(1)    
+#  get_email          :boolean(1)    default(TRUE)
+#  share_address      :boolean(1)    
+#  share_mobile_phone :boolean(1)    
+#  share_work_phone   :boolean(1)    
+#  share_fax          :boolean(1)    
+#  share_email        :boolean(1)    
+#  share_birthday     :boolean(1)    
+#  share_anniversary  :boolean(1)    
+#  updated_at         :datetime      
+#  code               :integer(11)   
+#
+
+# == Schema Information
 # Schema version: 64
 #
 # Table name: memberships

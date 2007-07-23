@@ -544,7 +544,7 @@ function generatePreview(c) {
 		return;
 	}
 
-	pl.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], pl.src);
+	pl.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.SETTINGS['base_href'], pl.src);
 	pl.width = !pl.width ? 100 : pl.width;
 	pl.height = !pl.height ? 100 : pl.height;
 	pl.id = !pl.id ? 'obj' : pl.id;

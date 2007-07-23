@@ -2,7 +2,7 @@
  * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright Â© 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import plugin specific language pack */ 
@@ -207,7 +207,7 @@ var TinyMCE_PastePlugin = {
 					break;
 			}
 
-			content = content.replace(new RegExp('href="?' + TinyMCE_PastePlugin._reEscape("" + document.location) + '', 'gi'), 'href="' + tinyMCE.settings['document_base_url']);
+			content = content.replace(new RegExp('href="?' + TinyMCE_PastePlugin._reEscape("" + document.location) + '', 'gi'), 'href="' + tinyMCE.SETTINGS['document_base_url']);
 			content = content.replace(/<(\w[^>]*) lang=([^ |>]*)([^>]*)/gi, "<$1$3");
 			content = content.replace(/<\\?\?xml[^>]*>/gi, "");
 			content = content.replace(/<\/?\w+:[^>]*>/gi, "");
@@ -217,12 +217,12 @@ var TinyMCE_PastePlugin = {
 	//		content = content.replace(/\/?&nbsp;*/gi, ""); &nbsp;
 	//		content = content.replace(/<p>&nbsp;<\/p>/gi, '');
 
-			if (!tinyMCE.settings['force_p_newlines']) {
+			if (!tinyMCE.SETTINGS['force_p_newlines']) {
 				content = content.replace('', '' ,'gi');
 				content = content.replace('</p>', '<br /><br />' ,'gi');
 			}
 
-			if (!tinyMCE.isMSIE && !tinyMCE.settings['force_p_newlines']) {
+			if (!tinyMCE.isMSIE && !tinyMCE.SETTINGS['force_p_newlines']) {
 				content = content.replace(/<\/?p[^>]*>/gi, "");
 			}
 

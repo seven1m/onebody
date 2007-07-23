@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 64
+# Schema version: 65
 #
 # Table name: groups
 #
@@ -58,12 +58,12 @@ class Group < ActiveRecord::Base
     if private? or exclude_global_admins
       admins.include? person
     else
-      person.admin? or admins.include? person
+      person.admin?(:manage_groups) or admins.include? person
     end
   end
   
   def last_admin?(person)
-    (admin? person and not person.admin?) and admins.length == 1
+    (admin? person and not person.admin?(:manage_groups)) and admins.length == 1
   end
   
   def linked?
@@ -103,6 +103,6 @@ class Group < ActiveRecord::Base
   alias_method 'can_post?', 'can_send?'
   
   def full_address
-    address.to_s.any? ? (address + '@' + GROUP_ADDRESS_DOMAINS.first) : nil
+    address.to_s.any? ? (address + '@' + SETTINGS['contact']['group_address_domains'].first) : nil
   end
 end

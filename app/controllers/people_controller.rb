@@ -50,18 +50,24 @@ class PeopleController < ApplicationController
   end
   
   def recently
-    friend_ids = (@logged_in.friends.find(:all, :select => 'people.id').map { |f| f.id } + [@logged_in.id]).join(',')
+    if SETTINGS['features']['friends']
+      friend_ids = (@logged_in.friends.find(:all, :select => 'people.id').map { |f| f.id } + [@logged_in.id]).join(',')
+    else
+      friend_ids = @logged_in.id
+    end
     @items = LogItem.find(
       :all,
       :conditions => "model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and person_id in (#{friend_ids})",
       :order => 'created_at desc',
       :limit => 25
     ).select do |item|
-      if item.object.is_a? Friendship
+      if item.model_name == 'Friendship'
         item.object.person != item.person
-      elsif item.object.is_a? Message
+      elsif item.model_name == 'Message'
         (item.object.group and @logged_in.groups.include? item.object.group) \
           or (item.object.wall and @logged_in.friend? item.object.wall)
+      elsif item.model_name == 'Person'
+        item.showable_change_keys.any?
       else
         true
       end
@@ -142,9 +148,9 @@ class PeopleController < ApplicationController
       if params[:family_id]
         conditions.add_condition ["people.family_id = ?", params[:family_id]]
       end
-      unless @logged_in.admin? and params[:show_hidden]
-        mg = MAIL_GROUPS_VISIBLE_BY_NON_ADMINS.map { |m| "'#{m}'" }.join(',')
-        conditions.add_condition ["(people.mail_group in (#{mg}) or people.flags like ?)", "%#{FLAG_VISIBLE_BY_NON_ADMINS}%"]
+      unless @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden]
+        mg = SETTINGS['access']['mail_groups_visible_by_non_admins'].map { |m| "'#{m}'" }.join(',')
+        conditions.add_condition ["(people.mail_group in (#{mg}) or people.flags like ?)", "%#{SETTINGS['access']['flag_visible_by_non_admins']}%"]
         conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
       end
       conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless @logged_in.full_access?
@@ -176,7 +182,7 @@ class PeopleController < ApplicationController
             and ((params[:birthday_month].to_s.empty? and params[:birthday_day].to_s.empty?) or person.share_birthday_with(@logged_in)) \
             and ((params[:anniversary_month].to_s.empty? and params[:anniversary_day].to_s.empty?) or person.share_anniversary_with(@logged_in)) \
             and ((params[:city].to_s.empty? and params[:state].to_s.empty? and params[:zip].to_s.empty?) or person.share_address_with(@logged_in)) \
-            and (person.consent_or_13? or (@logged_in.admin? and params[:show_hidden]))
+            and (person.consent_or_13? or (@logged_in.admin?(:view_hidden_profiles) and params[:show_hidden]))
         end
       end
     end
@@ -232,7 +238,7 @@ class PeopleController < ApplicationController
         updates[:birthday] = Date.new(1800, 1, 1) if updates.has_key?(:birthday) and updates[:birthday].nil?
         updates[:anniversary] = Date.new(1800, 1, 1) if updates.has_key?(:anniversary) and updates[:anniversary].nil?
         @person.updates.create(updates)
-        Notifier.deliver_profile_update(@person, updates) if SEND_UPDATES_TO
+        Notifier.deliver_profile_update(@person, updates) if SETTINGS['contact']['send_updates_to']
         flash[:notice] = 'Changes submitted.'
       else # testimony, about, favorites, etc.
         if params[:person][:service_phone]
@@ -327,7 +333,7 @@ class PeopleController < ApplicationController
   end
 
   def freeze_account
-    raise 'Unauthorized.' unless @logged_in.admin?
+    raise 'Unauthorized.' unless @logged_in.admin?(:edit_profiles)
     person = Person.find params[:id]
     person.update_attribute :frozen, !person.frozen
     redirect_to :action => 'edit', :id => params[:id]
@@ -456,7 +462,7 @@ class PeopleController < ApplicationController
 
       x = pdf.absolute_left_margin
       y = pdf.absolute_top_margin + 30
-      pdf.add_text x, y, "#{CHURCH_NAME} Directory\n\n", size
+      pdf.add_text x, y, "#{SETTINGS['name']['church']} Directory\n\n", size
 
       x = pdf.absolute_left_margin
       w = pdf.absolute_right_margin

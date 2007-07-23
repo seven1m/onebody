@@ -13,7 +13,7 @@ module ActiveRecord
           def share_#{attribute}_with(person)
             return :admin if self.is_a?(Family) and not self.visible?
             return :admin if self.is_a?(Person) and not (self.visible? and self.family.visible?)
-            return :admin if self == person or person.admin?
+            return :admin if self == person or person.admin?(:view_hidden_properties)
             return :admin if self.is_a?(Family) and self == person.family
             return :admin if self.is_a?(Person) and self.family == person.family
             return true if share_#{attribute}

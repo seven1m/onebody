@@ -2,17 +2,25 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 64) do
+ActiveRecord::Schema.define(:version => 65) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean, :default => false
     t.column "manage_log",             :boolean, :default => false
     t.column "manage_music",           :boolean, :default => false
-    t.column "view_music",             :boolean, :default => false
     t.column "view_hidden_properties", :boolean, :default => false
     t.column "edit_profiles",          :boolean, :default => false
     t.column "manage_groups",          :boolean, :default => false
     t.column "manage_shares",          :boolean, :default => false
+    t.column "manage_notes",           :boolean, :default => false
+    t.column "manage_messages",        :boolean, :default => false
+    t.column "view_hidden_profiles",   :boolean, :default => false
+    t.column "manage_prayer_signups",  :boolean, :default => false
+    t.column "manage_comments",        :boolean, :default => false
+    t.column "manage_events",          :boolean, :default => false
+    t.column "manage_recipes",         :boolean, :default => false
+    t.column "manage_pictures",        :boolean, :default => false
+    t.column "manage_access",          :boolean, :default => false
   end
 
   create_table "attachments", :force => true do |t|

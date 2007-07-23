@@ -5,12 +5,14 @@
     <li><%= link_to 'Email Preferences', :action => 'email', :id => @person %></li>
   <% end %>
   <% unless @me %>
-    <% if @logged_in.friend? @person %>
-      <li><%= link_to 'Remove from Friends', remove_friend_url(:id => @person), :post => true, :confirm => 'Are you sure?' %></li>
-    <% elsif @logged_in.can_request_friendship_with?(@person) %>
-      <li><%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon') + ' Add to Friends', {:url => add_friend_url(:id => @person), :loading => "$('add_friend_#{@person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{@person.id}" %></li>
-    <% elsif @logged_in.friendship_waiting_on? @person %>
-      <li><em>friend request pending</em></li>
+    <% if SETTINGS['features']['friends'] %>
+      <% if @logged_in.friend? @person %>
+        <li><%= link_to 'Remove from Friends', remove_friend_url(:id => @person), :post => true, :confirm => 'Are you sure?' %></li>
+      <% elsif @logged_in.can_request_friendship_with?(@person) %>
+        <li><%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon') + ' Add to Friends', {:url => add_friend_url(:id => @person), :loading => "$('add_friend_#{@person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{@person.id}" %></li>
+      <% elsif @logged_in.friendship_waiting_on? @person %>
+        <li><em>friend request pending</em></li>
+      <% end %>
     <% end %>
     <% if @person.email.to_s.any? and @person.messages_enabled %>
       <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Private Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
@@ -22,7 +24,7 @@
   <%= render :partial => 'photo' %>
   <%= render :partial => 'families/photo' %>
     
-  <% if (people = @person.family.people.find(:all).select { |p| @logged_in.admin? or p.visible? }).length > 1 %>
+  <% if (people = @person.family.people.find(:all).select { |p| @logged_in.admin?(:view_hidden_profiles) or p.visible? }).length > 1 %>
     <h2>
       Family
       <% if @logged_in == @person %>
@@ -53,7 +55,7 @@
       :controller => 'help', :action => 'safeguarding_children' %></p>
   <% end %>
   
-  <%= render :partial => 'friends' %>
+  <% if SETTINGS['features']['friends'] %><%= render :partial => 'friends' %><% end %>
 
 <% end %>
 
@@ -195,8 +197,8 @@
 <h2 class="tab" id="groups">Groups</h2>
 <div class="section" id="groups_content"></div>
 
-<% if PRAYER_EVENT %>
-  <% if @logged_in.admin? %>
+<% if SETTINGS['features']['prayer'] %>
+  <% if @logged_in.admin?(:manage_prayer_signups) %>
     <%= form_tag :controller => 'prayer', :action => 'event_signup', :id => @person %>
       Sign up for prayer:
       <%= text_field_tag 'start', nil %>
@@ -286,7 +288,7 @@
 </script>
 
 <% if @person.family.mapable? and @person.share_address_with @logged_in %>
-  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= YAHOO_APP_ID %>"></script>
+  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= SETTINGS['services']['yahoo'] %>"></script>
   <script type="text/javascript">
     var address = <%=s @person.family.mapable_address.inspect %>;
     map_loaded = false;

@@ -5,7 +5,7 @@ class PublicationsController < ApplicationController
   end
   
   def edit
-    raise 'You must be an administrator to access this feature.' unless @logged_in.admin?
+    raise 'You must be an administrator to access this feature.' unless @logged_in.admin?(:manage_publications)
     if params[:id]
       @publication = Publication.find params[:id]
     else
@@ -18,7 +18,7 @@ class PublicationsController < ApplicationController
         flash[:notice] = 'Publication saved.'
         if params[:send_update]
           @group = Group.find_by_name('Publications')
-          flash[:message] = Message.new(:subject => 'New Publication Available', :body => "This is to inform you that a new publication has been added to #{SITE_TITLE}.\n\n#{url_for :controller => 'publications'}", :person => @logged_in, :group => @group, :dont_send => true)
+          flash[:message] = Message.new(:subject => 'New Publication Available', :body => "This is to inform you that a new publication has been added to #{SETTINGS['name']['site']}.\n\n#{url_for :controller => 'publications'}", :person => @logged_in, :group => @group, :dont_send => true)
           redirect_to :controller => 'messages', :action => 'edit', :group_id => @group.id
         else
           redirect_to :action => 'index'
@@ -39,7 +39,7 @@ class PublicationsController < ApplicationController
   end
   
   def delete
-    raise 'You must be an administrator to access this feature.' unless @logged_in.admin?
+    raise 'You must be an administrator to access this feature.' unless @logged_in.admin?(:manage_publications)
     if request.post?
       Publication.find(params[:id]).destroy
       flash[:notice] = 'Publication deleted.'

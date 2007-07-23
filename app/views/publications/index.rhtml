@@ -12,7 +12,7 @@
         <td>
           <%= link_to h(publication.name), {:action => 'view', :id => publication}, :target => '_new' %>
           <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
-          <% if @logged_in.admin? %>
+          <% if @logged_in.admin?(:manage_publications) %>
             <%= link_to '[delete]', {:action => 'delete', :id => publication}, :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
           <% end %>
           <br/>
@@ -31,7 +31,7 @@
   <p><em>There are currently no publications available.</em></p>
 <% end %>
 
-<% if @logged_in.admin? %>
+<% if @logged_in.admin?(:manage_publicatons) %>
   <p>
     <%= link_to image_tag('add_small.gif', :alt => 'New Publication', :class => 'no-border', :style => 'vertical-align:middle;'), :action => 'edit' %>
     <%= link_to 'New Publication', :action => 'edit' %>
@@ -54,7 +54,7 @@
   </p>
 <% end %>
 
-<% if @logged_in.admin? %>
+<% if @logged_in.admin?(:manage_publicatons) %>
   <p style="background-color:#ffc;">
     <%= l = @group.people.length %> <%= l == 1 ? 'person is' : 'people are' %>
     signed up to recieve notifications

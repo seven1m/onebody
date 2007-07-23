@@ -4,7 +4,7 @@
   <%= link_to 'Verses', :controller => 'verses' %>
   <%= link_to 'Recipes', :controller => 'recipes' %>
   <% if NEWS_URL %><%= link_to 'News', NEWS_URL %><% end %>
-  <% if @logged_in.admin? or @logged_in.music_access? %>
+  <% if @logged_in.admin?(:manage_music) or @logged_in.music_access? %>
     <%= link_to 'Music', :controller => 'music' %>
   <% end %>
 <% end %>

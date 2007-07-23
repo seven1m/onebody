@@ -98,7 +98,7 @@ TinyMCE_Popup.prototype = {
 		if (tinyMCE.getWindowArg('mce_replacevariables', true))
 			body.innerHTML = tinyMCE.applyTemplate(body.innerHTML, tinyMCE.windowArgs);
 
-		dir = tinyMCE.selectedInstance.settings['directionality'];
+		dir = tinyMCE.selectedInstance.SETTINGS['directionality'];
 		if (dir == "rtl" && document.forms && document.forms.length > 0) {
 			elms = document.forms[0].elements;
 			for (i=0; i<elms.length; i++) {
@@ -164,7 +164,7 @@ TinyMCE_Popup.prototype = {
 			// Create iframe
 			iframe = document.createElement("iframe");
 			iframe.id = "mcWinIframe";
-			iframe.src = document.location.href.toLowerCase().indexOf('https') == -1 ? "about:blank" : tinyMCE.settings['default_document'];
+			iframe.src = document.location.href.toLowerCase().indexOf('https') == -1 ? "about:blank" : tinyMCE.SETTINGS['default_document'];
 			iframe.width = "100%";
 			iframe.height = "100%";
 			iframe.style.margin = '0';
