@@ -343,7 +343,7 @@ class Person < ActiveRecord::Base
   end
   
   def has_notes?
-    notes.count > 0
+    @has_notes ||= notes.count > 0
   end
   
   def has_groups?
