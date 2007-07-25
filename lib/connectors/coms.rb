@@ -40,9 +40,12 @@ class Coms < ExternalDataConnector
   
   def each_person
     @db[:people].records[600..605].each do |record|
+      puts record.inspect
       if not (record.deceased or record.info_5 =~ /deny/i or record.familyname =~ /church$/i)
         member_phone_record = db[:phone].find(:first, 'MEMBERID' => record.memberid)
         family_phone_record = db[:phone].find(:first, 'FAMILYID' => record.familyid)
+        classes = get_classes(record.memberid)
+        can_sign_in = %w(M A P Y O C V).include?(record.mailgroup) or record.info_5 =~ /allow/i
         yield({
           :family_id => record.familyid,
           :sequence => record.fam_seq,
@@ -55,10 +58,17 @@ class Coms < ExternalDataConnector
           :fax => get_phone('FAX', 'FAX_EXT', 'FAX_UNL', [member_phone_record, family_phone_record]),
           :birthday => record.birthday,
           :email => record.email,
-          :classes => get_classes(record.memberid),
+          :classes => classes,
           :mail_group => record.mailgroup,
           :anniversary => record.weddate,
-          :member => record.mailgroup ..................
+          :member => %w(M A C).include?(record.mailgroup),
+          :staff => record.email =~ /@cedarridgecc\.com$/,
+          :elder => classes =~ /[\b,]EL[\b,]/,
+          :deacon => false,
+          :can_sign_in => can_sign_in,
+          :visible_to_everyone => can_sign_in,
+          :visible_on_printed_directory => %w(M A).include?(record.mailgroup),
+          :full_access => %w(M A C).include?(record.mailgroup)
         })
       end
     end

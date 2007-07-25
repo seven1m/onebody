@@ -30,7 +30,7 @@ class ExternalDataConnector
     # elder                        true/false
     # deacon                       true/false
     # can_sign_in                  true/false
-    # visible_to_everyone          true/false
+    # visible_to_everyone          true/false (overridden by individual user privacy settings)
     # visible_on_printed_directory true/false
     # full_access                  true/false
   end
