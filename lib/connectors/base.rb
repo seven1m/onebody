@@ -35,8 +35,8 @@ class ExternalDataConnector
     # full_access                  true/false
   end
   
-  def each_family
-    # for each family in external database, yield to the given block
+  def family_by_id(id)
+    # for the specified family (legacy) id, return
     # a hash or object with the following keys/attributes:
     
     # legacy_id         id from external database
