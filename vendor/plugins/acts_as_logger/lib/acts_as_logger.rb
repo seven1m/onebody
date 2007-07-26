@@ -14,6 +14,7 @@ module Foo
             @@log_class = #{log_class.name}
             before_save :compare_changes
             after_save :log_changes
+            after_destroy :log_destroy
             
             has_one :log_item, :foreign_key => 'instance_id'
             
@@ -34,6 +35,17 @@ module Foo
                   :model_name => self.class.name,
                   :instance_id => self.id,
                   :changes => @changes,
+                  :person => Person.logged_in
+                )
+              end
+            end
+            
+            def log_destroy
+              if @@log_class.table_exists?
+                @@log_class.create(
+                  :model_name => self.class.name,
+                  :instance_id => self.id,
+                  :deleted => true,
                   :person => Person.logged_in
                 )
               end

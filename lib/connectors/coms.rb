@@ -1,6 +1,14 @@
 # Coms Connector
 # run with: script/sync coms path/to/comsdata
 
+# This connector is used by Cedar Ridge Christian Church to connect with
+# an old system written in FoxPro called COMS. If writing a connector for
+# your own external database, please note it might not be nearly this
+# complicated. Some voodoo is done here because of the nature of working
+# with the COMS database and tools we have to do it.
+
+# Refer to base.rb in this directory for a template connector
+
 require File.dirname(__FILE__) + '/base'
 require 'rubygems'
 require 'dbf'
@@ -27,50 +35,99 @@ class Coms < ExternalDataConnector
     end
 
     precache_class_data
-    precache_family_data
     
     nil
   end
   
-  def each_person
+  def people_ids
+    @db[:people].each_record { |r| @people_ids << r.memberid } unless @people_ids
+    @people_ids
+  end
+  
+  def family_ids
+    @db[:families].each_record { |r| @family_ids << r.familyid } unless @family_ids
+    @family_ids
+  end
+  
+  def each_person(updated_since)
+    @people_ids = []
     @db[:people].each_record do |record|
+      new_data = false
       if not (record.deceased or record.info_5 =~ /deny/i or record.familyname =~ /church$/i)
+        @people_ids << record.memberid
         member_phone_record = @db[:phone].find(:first, 'MEMBERID' => record.memberid)
+        new_data = true if member_phone_record and member_phone_record.updates > updated_since
         family_phone_record = @db[:phone].find(:first, 'FAMILYID' => record.familyid)
-        classes = get_classes(record.memberid)
+        new_data = true if family_phone_record and family_phone_record.updates > updated_since
+        classes = []
+        @classes[record.memberid].to_a.each do |class_cat, updates|
+          new_data = true if updates > updated_since
+          classes << class_cat
+        end
         can_sign_in = %w(M A P Y O C V).include?(record.mailgroup) or record.info_5 =~ /allow/i
-        yield({
-          :legacy_id => record.memberid,
-          :family_id => record.familyid, # legacy id
-          :sequence => record.fam_seq,
-          :gender => record.sex,
-          :first_name => record.nickname || record.first,
-          :last_name => record.last =~ /,\s/ ? record.last.split(', ').first : record.last,
-          :suffix => record.last =~ /,\s/ ? record.last.split(', ').last : nil,
-          :mobile_phone => get_phone('CELLULAR', 'CELL_EXT', 'CELL_UNL', [member_phone_record, family_phone_record]),
-          :work_phone => get_phone('WORKPHONE', 'WORK_EXT', 'WORK_UNL', [record]),
-          :fax => get_phone('FAX', 'FAX_EXT', 'FAX_UNL', [member_phone_record, family_phone_record]),
-          :birthday => record.birthday,
-          :email => (e = record.email.to_s.strip.downcase).any? ? e : nil,
-          :classes => classes,
-          :mail_group => record.mailgroup == '(None)' ? nil : record.mailgroup,
-          :anniversary => record.weddate,
-          :member => %w(M A C).include?(record.mailgroup),
-          :staff => record.email =~ /@cedarridgecc\.com$/,
-          :elder => classes =~ /[\b,]EL[\b,]/,
-          :deacon => false,
-          :can_sign_in => can_sign_in,
-          :visible_to_everyone => can_sign_in,
-          :visible_on_printed_directory => %w(M A).include?(record.mailgroup),
-          :full_access => %w(M A C).include?(record.mailgroup)
-        })
+        new_data = true if record.updates > updated_since
+        if new_data
+          yield({
+            :legacy_id => record.memberid,
+            :legacy_family_id => record.familyid,
+            :sequence => record.fam_seq,
+            :gender => record.sex,
+            :first_name => record.nickname || record.first,
+            :last_name => record.last =~ /,\s/ ? record.last.split(', ').first : record.last,
+            :suffix => record.last =~ /,\s/ ? record.last.split(', ').last : nil,
+            :mobile_phone => get_phone('CELLULAR', 'CELL_EXT', 'CELL_UNL', [member_phone_record, family_phone_record]),
+            :work_phone => get_phone('WORKPHONE', 'WORK_EXT', 'WORK_UNL', [record]),
+            :fax => get_phone('FAX', 'FAX_EXT', 'FAX_UNL', [member_phone_record, family_phone_record]),
+            :birthday => record.birthday,
+            :email => (e = record.email.to_s.strip.downcase).any? ? e : nil,
+            :classes => classes.to_a.join(','),
+            :mail_group => record.mailgroup == '(None)' ? nil : record.mailgroup,
+            :anniversary => record.weddate,
+            :member => %w(M A C).include?(record.mailgroup),
+            :staff => record.email =~ /@cedarridgecc\.com$/,
+            :elder => classes =~ /[\b,]EL[\b,]/,
+            :deacon => false,
+            :can_sign_in => can_sign_in,
+            :visible_to_everyone => can_sign_in,
+            :visible_on_printed_directory => %w(M A).include?(record.mailgroup),
+            :full_access => %w(M A C).include?(record.mailgroup)
+          })
+        end
       end
     end
     nil
   end
   
-  def family_by_id(id)
-    @families[id]
+  def each_family(updated_since)
+    @family_ids = []
+    @db[:families].each_record do |record|
+      new_data = false
+      if record.familyname !~ /church$/i
+        @family_ids << record.familyid
+        family_phone_record = @db[:phone].find(:first, 'FAMILYID' => record.familyid)
+        new_data = true if family_phone_record and family_phone_record.updates > updated_since
+        family_postal_record = @db[:postal].find(:first, 'FAMILYID' => record.familyid)
+        new_data = true if family_postal_record and family_postal_record.updates > updated_since
+        new_data = true if record.updates > updated_since
+        if new_data
+          yield({
+            :legacy_id => record.familyid,
+            :name => record.familyname,
+            :last_name => record.last =~ /,\s/ ? record.last.split(', ').first : record.last,
+            :suffix => record.last =~ /,\s/ ? record.last.split(', ').last : nil,
+            :address1 => family_postal_record ? family_postal_record.address1 : nil,
+            :address2 => family_postal_record ? family_postal_record.address2 : nil,
+            :city => family_postal_record ? family_postal_record.city : nil,
+            :state => family_postal_record ? family_postal_record.state : nil,
+            :zip => family_postal_record ? family_postal_record.zip.to_s[0..9] : nil,
+            :home_phone => get_phone('HOMEPHONE', nil, 'UNLISTED', [family_phone_record]),
+            :email => (e = record.internet.to_s.strip.downcase).any? ? e : nil,
+            :mail_group => record.mailpick == '(None)' ? nil : record.mailpick
+          })
+        end
+      end
+    end
+    nil
   end
   
   private
@@ -93,10 +150,6 @@ class Coms < ExternalDataConnector
         end
       end
       return phone
-    end
-    
-    def get_classes(memberid)
-      @classes[memberid]
     end
     
     def precache_class_data
@@ -125,37 +178,10 @@ class Coms < ExternalDataConnector
           (@board_cats.include?(record.category) and record.category !~ /^[0-9]/) or
           @service_cats.include?(record.category)
         )
-          @classes[record.memberid] << record.category
+          @classes[record.memberid] << [record.category, record.updates]
         end
       end
     end
-    
-    def precache_family_data
-      logger.info 'loading family data'
-      @families = {}
-      @db[:families].each_record do |record|
-        if record.familyname !~ /church$/i
-          family_phone_record = @db[:phone].find(:first, 'FAMILYID' => record.familyid)
-          family_postal_record = @db[:postal].find(:first, 'FAMILYID' => record.familyid)
-          @families[record.familyid] = {
-            :legacy_id => record.familyid,
-            :name => record.familyname,
-            :last_name => record.last =~ /,\s/ ? record.last.split(', ').first : record.last,
-            :suffix => record.last =~ /,\s/ ? record.last.split(', ').last : nil,
-            :address1 => family_postal_record.address1,
-            :address2 => family_postal_record.address2,
-            :city => family_postal_record.city,
-            :state => family_postal_record.state,
-            :zip => family_postal_record.zip.to_s[0..9],
-            :home_phone => get_phone('HOMEPHONE', nil, 'UNLISTED', [family_phone_record]),
-            :email => (e = record.internet.to_s.strip.downcase).any? ? e : nil,
-            :mail_group => record.mailpick == '(None)' ? nil : record.mailpick
-          }
-        end
-      end
-      nil
-    end
-
 end
 
 module DBF

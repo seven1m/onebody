@@ -18,6 +18,7 @@ require 'add_condition'
 require 'ar_date_fix'
 require 'ar_schema_dumper_fix'
 require 'params_tools'
+require 'update_attributes_if_changed'
 
 SETTINGS = YAML::load(File.open(File.join(File.dirname(__FILE__), 'settings.yml')))
 

@@ -8,13 +8,26 @@ class ExternalDataConnector
   def initialize
     # do your database setup here
   end
+  
+  def people_ids
+    # array of ids of currently active people
+  end
+  
+  def family_ids
+    # array of ids of currently active families
+  end
 
-  def each_person
+  def each_person(updated_since)
     # for each person in external database, yield to the given block
     # a hash with the following keys (as symbols):
     
+    # this method should only return people who've been updated since
+    # the specified date; of course, you can ignore the updated_since
+    # arg and simply return all people every time, but that's not
+    # recommended unless your database is really small
+    
     # :legacy_id                    id from external database
-    # :family_id                    (will be legacy_id on families table)
+    # :legacy_family_id             family_id from external database
     # :sequence                     order of person in family (father usually first, then mother, then children in order of birth)
     # :gender                       'Male', 'Female' for adults; 'Boy', 'Girl' for children
     # :first_name
@@ -38,9 +51,14 @@ class ExternalDataConnector
     # :full_access                  true/false
   end
   
-  def family_by_id(id)
-    # for the specified family (legacy) id, return
+  def each_family(updated_since)
+    # for each family in external database, yield to the given block
     # a hash with the following keys (as symbols):
+    
+    # this method should only return families who've been updated since
+    # the specified date; of course, you can ignore the updated_since
+    # arg and simply return all families every time, but that's not
+    # recommended unless your database is really small
     
     # :legacy_id         id from external database
     # :name              should be family name, e.g. 'Tim & Jennie Morgan'
@@ -55,6 +73,4 @@ class ExternalDataConnector
     # :email             family email, if applicable
     # :mail_group        single-character mailing code for family, e.g. 'M', 'A', 'P'
   end
-  
-  
 end
