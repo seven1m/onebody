@@ -2,6 +2,7 @@
 # run with: script/sync coms path/to/comsdata
 
 require File.dirname(__FILE__) + '/base'
+require 'rubygems'
 require 'dbf'
 
 class Coms < ExternalDataConnector

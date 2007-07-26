@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_profile 'people/edit/:id', :action => 'edit'
     m.search_directory 'people/search', :action => 'search'
     m.browse_directory 'people/browse', :action => 'search', :browse => true
-    m.person 'people/:id', :action => 'view', :requirements => {:id => /\d/}
+    m.person 'people/:id', :action => 'view'#, :requirements => {:id => /\d/}
     m.logged_in '', :action => 'index'
   end
   
