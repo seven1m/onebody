@@ -1,10 +1,11 @@
+# Coms Connector
+# run with: script/sync coms path/to/comsdata
+
 require File.dirname(__FILE__) + '/base'
 require 'dbf'
 
 class Coms < ExternalDataConnector
   BEG_CLASS_WEEK_NUM = 25
-  
-  attr_accessor :db
   
   def initialize(db_path)
     # set up database tables
@@ -33,13 +34,13 @@ class Coms < ExternalDataConnector
   def each_person
     @db[:people].each_record do |record|
       if not (record.deceased or record.info_5 =~ /deny/i or record.familyname =~ /church$/i)
-        member_phone_record = db[:phone].find(:first, 'MEMBERID' => record.memberid)
-        family_phone_record = db[:phone].find(:first, 'FAMILYID' => record.familyid)
+        member_phone_record = @db[:phone].find(:first, 'MEMBERID' => record.memberid)
+        family_phone_record = @db[:phone].find(:first, 'FAMILYID' => record.familyid)
         classes = get_classes(record.memberid)
         can_sign_in = %w(M A P Y O C V).include?(record.mailgroup) or record.info_5 =~ /allow/i
         yield({
           :legacy_id => record.memberid,
-          :family_id => record.familyid,
+          :family_id => record.familyid, # legacy id
           :sequence => record.fam_seq,
           :gender => record.sex,
           :first_name => record.nickname || record.first,
@@ -98,7 +99,7 @@ class Coms < ExternalDataConnector
     end
     
     def precache_class_data
-      puts 'loading category data'
+      logger.info 'loading category data'
       @class_cats = []
       @board_cats = []
       @service_cats = []
@@ -113,7 +114,7 @@ class Coms < ExternalDataConnector
         end
       end
       
-      puts 'loading class attendance/membership data'
+      logger.info 'loading class attendance/membership data'
       @classes = {}
       years = [Date.today.year.to_s, (Date.today.year-1).to_s]
       @db[:classes].each_record do |record|
@@ -129,12 +130,12 @@ class Coms < ExternalDataConnector
     end
     
     def precache_family_data
-      puts 'loading family data'
+      logger.info 'loading family data'
       @families = {}
       @db[:families].each_record do |record|
         if record.familyname !~ /church$/i
-          family_phone_record = db[:phone].find(:first, 'FAMILYID' => record.familyid)
-          family_postal_record = db[:postal].find(:first, 'FAMILYID' => record.familyid)
+          family_phone_record = @db[:phone].find(:first, 'FAMILYID' => record.familyid)
+          family_postal_record = @db[:postal].find(:first, 'FAMILYID' => record.familyid)
           @families[record.familyid] = {
             :legacy_id => record.familyid,
             :name => record.familyname,
@@ -144,7 +145,7 @@ class Coms < ExternalDataConnector
             :address2 => family_postal_record.address2,
             :city => family_postal_record.city,
             :state => family_postal_record.state,
-            :zip => family_postal_record.zip,
+            :zip => family_postal_record.zip.to_s[0..9],
             :home_phone => get_phone('HOMEPHONE', nil, 'UNLISTED', [family_phone_record]),
             :email => (e = record.internet.to_s.strip.downcase).any? ? e : nil,
             :mail_group => record.mailpick == '(None)' ? nil : record.mailpick
@@ -156,38 +157,10 @@ class Coms < ExternalDataConnector
 
 end
 
-# legacy (python) code:
-<<-EOF
-    for member in members:
-        address = source.query("select address1, address2, city, state, zip from sspostal where familyid = %s" % member["familyid"], ["address1", "address2", "city", "state", "zip"])[0]
-
-        family = source.query("select familyname, last, internet, svname, mailpick, updates from ssfamily where familyid = %s" % member["familyid"], ["familyname", "last", "internet", "svname", "mailpick", "updates"])[0]
-        family_name = family["familyname"]
-        family_last_name = family["last"]
-        if family_last_name.find(',') > -1:
-            family_last_name = family_last_name.split(',')[0]
-        family_email = family["internet"]
-
-        family_mailgroup = family["mailpick"]
-        if family_mailgroup == '(None)': family_mailgroup = ''
-
-            if not destination.query("select email_changed from people where legacy_id=%s and email_changed=1" % member["memberid"], ['email_changed']):
-                query = "update people set email=%s where legacy_id = %s" % (quote(member["email"]), member["memberid"])
-                if debug: print query
-                else: destination.query(query)
-
-            email = destination.query("select email from people where legacy_id=%s and email_changed=1" % member["memberid"], ['email'])
-            if email and email[0]['email'].lower() == member["email"].lower():
-                query = "update people set email_changed=0 where legacy_id = %s" % member["memberid"]
-                if debug: print query
-                else: destination.query(query)
-
-EOF
-
-# fix bug in DBF code (or workaround bug in Coms dbf files; I don't know :-)
 module DBF
   class Record
     private
+    # fix bug in DBF code (or workaround bug in Coms dbf files; I don't know :-)
     def initialize_values(columns)
       columns.each do |column|
         case column.type

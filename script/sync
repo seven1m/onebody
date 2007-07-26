@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+# example:
+# sync CONNECTOR [connector_args]
+# script/sync coms ../comsdata
+
+MAX_ERRORS = 10
+
+connector_name = ARGV[0]
+args = ARGV[1..-1]
+
+require File.dirname(__FILE__) + "/../lib/connectors/#{connector_name}"
+require File.dirname(__FILE__) + '/../config/environment'
+
+logger = RAILS_DEFAULT_LOGGER
+
+logger.info "Initializing Sync..." 
+connector = eval(connector_name.capitalize).new(*args)
+
+logger.info "Syncing data..."
+people_ids = []
+family_ids = []
+error_count = 0
+connector.each_person do |person|
+  begin
+    p = Person.find_by_legacy_id(person[:legacy_id]) || Person.new(:legacy_id => person[:legacy_id])
+    family_id = person.delete(:family_id)
+    f = Family.find_by_legacy_id(person[:family_id]) || Family.new(:legacy_id => family_id)
+    unless family_ids.include? f.id # no need to do it more than once
+      f.update_attributes!(connector.family_by_id(family_id))
+    end
+    person[:family_id] = f.id
+    if p.email_changed?
+      if person[:email] != p.email
+        person.delete(:email)
+      else
+        person[:email_changed] = false
+      end
+    end
+    p.update_attributes!(person)
+    people_ids << p.id
+    family_ids << f.id
+  rescue => e
+    logger.error e 
+    error_count += 1
+    if error_count > MAX_ERRORS
+      raise "Too many errors. Check the log. Last error was:\n#{e}"
+    end
+  end
+end
+
+logger.info "Purging data..."
+Person.destroy_all "id not in #{people_ids.join(',')}"
+Family.destroy_all "id not in #{family_ids.join(',')}"
+
+logger.info "Finished Sync." 

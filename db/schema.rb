@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(:version => 66) do
     t.column "members_send", :boolean,                 :default => true
     t.column "leader_id",    :integer
     t.column "updated_at",   :datetime
-    t.column "hidden",       :boolean
+    t.column "hidden",       :boolean,                 :default => false
     t.column "approved",     :boolean,                 :default => false
     t.column "link_code",    :string
   end
