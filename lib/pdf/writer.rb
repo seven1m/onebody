@@ -11,7 +11,7 @@
 require 'thread'
 require 'open-uri'
 
-require 'transaction/simple'
+require 'transaction/simple' unless defined?(Transaction::Simple)
 require 'color'
 
   # A class to provide the core functionality to create a PDF document

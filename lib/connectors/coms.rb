@@ -56,11 +56,12 @@ class Coms < ExternalDataConnector
   end
   
   def each_person(updated_since)
-    @people_ids = []
+    people_ids # get all ids for completion reporting
+    index = 0
     @db[:people].each_record do |record|
       new_data = false
       if not (record.deceased or record.info_5 =~ /deny/i or record.familyname =~ /church$/i)
-        @people_ids << record.memberid
+        print "\r%.02f%% complete" % (index/@people_ids.length.to_f*100.0/2.0)
         member_phone_record = @db[:phone].find(:first, 'MEMBERID' => record.memberid)
         new_data = true if member_phone_record and member_phone_record.updates > updated_since
         family_phone_record = @db[:phone].find(:first, 'FAMILYID' => record.familyid)
@@ -99,17 +100,19 @@ class Coms < ExternalDataConnector
             :full_access => %w(M A C).include?(record.mailgroup)
           })
         end
+        index += 1
       end
     end
     nil
   end
   
   def each_family(updated_since)
-    @family_ids = []
+    family_ids
+    index = 0
     @db[:families].each_record do |record|
       new_data = false
       if record.familyname !~ /church$/i
-        @family_ids << record.familyid
+        print "\r%.02f%% complete" % (index/@family_ids.length.to_f*100.0/2.0+50.0)
         family_phone_record = @db[:phone].find(:first, 'FAMILYID' => record.familyid)
         new_data = true if family_phone_record and family_phone_record.updates > updated_since
         family_postal_record = @db[:postal].find(:first, 'FAMILYID' => record.familyid)
@@ -131,8 +134,10 @@ class Coms < ExternalDataConnector
             :mail_group => record.mailpick == '(None)' ? nil : record.mailpick
           })
         end
+        index += 1
       end
     end
+    print "\r100.00% complete\n"
     nil
   end
   
