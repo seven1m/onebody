@@ -1,10 +1,20 @@
 #!/usr/bin/env ruby
 
+# usage:
+# sync [options] CONNECTOR [connector_args]
+# options:
+# -q  quiet (do not report percent of completion)
 # example:
-# sync CONNECTOR [connector_args]
 # script/sync coms ../comsdata
 
 MAX_ERRORS = 10
+QUIET = ARGV.index('-q')
+
+ARGV.delete_if { |a| a =~ /^\-/ }
+if ARGV.length == 0
+  puts 'Usage: sync [options] CONNECTOR [connector_args]'
+  exit
+end
 
 connector_name = ARGV[0]
 args = ARGV[1..-1]
@@ -14,7 +24,8 @@ require File.dirname(__FILE__) + '/../config/environment'
 
 logger = RAILS_DEFAULT_LOGGER
 
-logger.info "Initializing Sync..." 
+logger.info "Initializing Sync..."
+puts "starting up..." unless QUIET
 connector = eval(connector_name.capitalize).new(*args)
 
 unless last_update = Date.parse(ActiveRecord::Base.connection.select_one("SELECT last_update FROM sync_info")).to_time rescue nil
@@ -26,6 +37,8 @@ end
 error_count = 0
 
 logger.info "Syncing people data..."
+people_ids = connector.people_ids
+index = 0
 connector.each_person(last_update) do |person|
   begin
     p = Person.find_by_legacy_id(person[:legacy_id]) || Person.new(:legacy_id => person[:legacy_id])
@@ -45,9 +58,13 @@ connector.each_person(last_update) do |person|
       raise "Too many errors. Check the log. Last error was:\n#{e}"
     end
   end
+  index += 1
+  print "\r%.02f%% complete" % (index/people_ids.length.to_f*100.0/2.0) if !QUIET and index % 10 == 0
 end
 
 logger.info "Syncing family data..."
+family_ids = connector.family_ids
+index = 0
 connector.each_family(last_update) do |family|
   begin
     f = Family.find_by_legacy_id(family[:legacy_id]) || Family.new(:legacy_id => family[:legacy_id])
@@ -61,11 +78,15 @@ connector.each_family(last_update) do |family|
       raise "Too many errors. Check the log. Last error was:\n#{e}"
     end
   end
+  index += 1
+  print "\r%.02f%% complete" % (index/family_ids.length.to_f*100.0/2.0+50.0) if !QUIET and index % 10 == 0
 end
 
 logger.info "Purging data..."
-Person.destroy_all "id not in (#{connector.people_ids.join(',')})"
-Family.destroy_all "id not in (#{connector.family_ids.join(',')})"
+Person.destroy_all "id not in (#{people_ids.join(',')})"
+Family.destroy_all "id not in (#{family_ids.join(',')})"
+
+print "\r100.00% complete" unless QUIET
 
 logger.info "Recording update details..."
 ActiveRecord::Base.connection.update("UPDATE sync_info SET last_update = '#{Time.now.strftime '%Y-%m-%d %H:%M'}'")

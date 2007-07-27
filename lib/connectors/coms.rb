@@ -159,11 +159,12 @@ class Coms < ExternalDataConnector
     end
     
     def precache_class_data
-      logger.info 'loading category data'
+      logger.info 'loading class attendance/membership data'
+      logger.info '  categories'
       @class_cats = []
       @board_cats = []
       @service_cats = []
-      @db[:categories].records.each do |record|
+      @db[:categories].each_record do |record|
         case record.modulename
         when 'CA-CLAS-CATE'
           @class_cats << record.category
@@ -174,16 +175,26 @@ class Coms < ExternalDataConnector
         end
       end
       
-      logger.info 'loading class attendance/membership data'
       @classes = {}
+      logger.info '  classes'
       years = [Date.today.year.to_s, (Date.today.year-1).to_s]
       @db[:classes].each_record do |record|
         @classes[record.memberid] ||= []
-        if (
-          (@class_cats.include?(record.category) and years.include?(record.year.to_s)) or
-          (@board_cats.include?(record.category) and record.category !~ /^[0-9]/) or
-          @service_cats.include?(record.category)
-        )
+        if @class_cats.include?(record.category) and years.include?(record.year.to_s)
+          @classes[record.memberid] << [record.category, record.updates]
+        end
+      end
+      logger.info '  board'
+      @db[:board].each_record do |record|
+        @classes[record.memberid] ||= []
+        if @board_cats.include?(record.category) and record.category !~ /^[0-9]/
+          @classes[record.memberid] << [record.category, record.updates]
+        end
+      end
+      logger.info '  service'
+      @db[:service].each_record do |record|
+        @classes[record.memberid] ||= []
+        if @service_cats.include?(record.category)
           @classes[record.memberid] << [record.category, record.updates]
         end
       end
