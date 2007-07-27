@@ -36,4 +36,8 @@ module ApplicationHelper
     return s
   end
   alias s safe_string
+  
+  def simple_url(url)
+    url.gsub(/^https?:\/\//, '').gsub(/\/$/, '')
+  end
 end

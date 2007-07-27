@@ -32,7 +32,7 @@
 				  <a href="/"><%= SETTINGS['name']['site'] %></a><% if BETA %><sup style="font-size:40%">[beta]</sup><% end %>
 				</h1>
                                 <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;width:300px;white-space:nowrap;">
-                                  <%=h SETTINGS['url']['site'] %> | <span id="news_headlines" style="position:relative;background-color:#fff;"><%= link_to SETTINGS['url']['visitor'], VISITOR_URL, :style => 'text-decoration:none;' %></span>
+                                  <%=h simple_url SETTINGS['url']['site'] %> | <span id="news_headlines" style="position:relative;background-color:#fff;"><%= link_to simple_url(SETTINGS['url']['visitor']), VISITOR_URL, :style => 'text-decoration:none;' %></span>
                                 </div>
 
 <!--
@@ -43,8 +43,13 @@
 				<ul id="nav">
 				
 				    <% if @logged_in %>
-				      <li style="float:right;font-size:smaller;color:#fff;width:100px;text-align:right;">
+				      <li style="float:right;font-size:smaller;color:#fff;text-align:right;">
 				        <%= link_to 'sign out', {:controller => 'account', :action => 'sign_out'}, :style => 'padding-left:5px;padding-right:5px;' %>
+				      </li>
+				    <% end %>
+            <% if @logged_in.admin? %>
+				      <li style="float:right;font-size:smaller;color:#fff;text-align:right;margin-right:10px;">
+				        <%= link_to 'admin', {:controller => 'admin'}, :style => 'padding-left:5px;padding-right:5px;' %>
 				      </li>
 				    <% end %>
 				    

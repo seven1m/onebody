@@ -45,7 +45,7 @@
 <h2>You</h2>
 
 <% if @logged_in.super_admin? %>
-  <p>You are a super administrator.</p>
+  <p>You are a super administrator (configured in config/settings.yml).</p>
 <% else %>
   <p>You have been an administrator since <%= @logged_in.admin.created_at.to_time.to_s :date %>,
   with the privileges: <%= @privileges.to_sentence %>.</p>

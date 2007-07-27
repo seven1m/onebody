@@ -31,7 +31,7 @@
   <p><em>There are currently no publications available.</em></p>
 <% end %>
 
-<% if @logged_in.admin?(:manage_publicatons) %>
+<% if @logged_in.admin?(:manage_publications) %>
   <p>
     <%= link_to image_tag('add_small.gif', :alt => 'New Publication', :class => 'no-border', :style => 'vertical-align:middle;'), :action => 'edit' %>
     <%= link_to 'New Publication', :action => 'edit' %>
@@ -54,7 +54,7 @@
   </p>
 <% end %>
 
-<% if @logged_in.admin?(:manage_publicatons) %>
+<% if @logged_in.admin?(:manage_publications) %>
   <p style="background-color:#ffc;">
     <%= l = @group.people.length %> <%= l == 1 ? 'person is' : 'people are' %>
     signed up to recieve notifications
