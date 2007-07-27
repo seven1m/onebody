@@ -11,9 +11,9 @@ class RoutesTest < ActionController::IntegrationTest
     get '/people/index'
     assert_response :success
     assert_template 'people/view'
-    get '/people/2'
-    assert_response :success
-    assert_template 'people/view'
+    #get '/people/2' # removed this routing style, as it was causing problems
+    #assert_response :success
+    #assert_template 'people/view'
     get '/people/view/2'
     assert_response :success
     assert_template 'people/view'

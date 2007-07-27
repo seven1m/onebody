@@ -13,7 +13,7 @@ require File.dirname(__FILE__) + '/base'
 require 'rubygems'
 require 'dbf'
 
-class Coms < ExternalDataConnector
+class ComsConnector < ExternalDataConnector
   BEG_CLASS_WEEK_NUM = 25
   
   def initialize(db_path)

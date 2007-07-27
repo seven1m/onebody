@@ -21,7 +21,7 @@ require File.dirname(__FILE__) + '/../config/environment'
 logger = RAILS_DEFAULT_LOGGER
 
 logger.info "Initializing Sync..."
-connector = eval(connector_name.capitalize).new(*args)
+connector = eval(connector_name.capitalize+'Connector').new(*args)
 
 unless last_update = Date.parse(ActiveRecord::Base.connection.select_one("SELECT last_update FROM sync_info")['last_update']).to_time rescue nil
   ActiveRecord::Base.connection.delete("DELETE FROM sync_info")

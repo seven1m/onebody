@@ -1,46 +1,24 @@
-# Example Connector
-# run with: script/sync example
-
-# This is an example connector and doesn't actually do anything
-# useful except serve as a basis for your own connector.
-
-# For a more involved (and perhaps convoluted) connector, see coms.rb.
+# Test Connector
+# This connector is only used to test the sync/connector system.
 
 require File.dirname(__FILE__) + '/base'
 
-# do your own requires of external libraries if needed
-
-# change "Example" below to match the filename of this connector
-class ExampleConnector < ExternalDataConnector
+class TestConnector < ExternalDataConnector
   def initialize
-    # do your database setup here
-    
-    # if your connector needs arguments passed from the command line,
-    # they can be specified like so:
-    # script/sync example arg1 arg2 arg3
-    # each argugment will be passed in order to this method
-    # you will need to change this method to accept them
+    @people = YAML::load(File.open(File.join(File.dirname(__FILE__), '/../../test/fixtures/people.yml')))
+    @families = YAML::load(File.open(File.join(File.dirname(__FILE__), '/../../test/fixtures/families.yml')))
   end
   
   def people_ids
-    # array of ids of currently active people
+    @people.map { |p| p[:id] }
   end
   
   def family_ids
-    # array of ids of currently active families
+    @families.map { |f| f[:id] }
   end
 
   def each_person(updated_since)
-    # for each person in external database, yield to the given block
-    # a hash like the following
-    
-    # this method should only return people who've been updated since
-    # the specified date; of course, you can ignore the updated_since
-    # arg and simply return all people every time, but that's not
-    # recommended unless your database is really small
-    
-    # (do some work here to get the people)
-    people.each do |person|
+    @people.each do |person|
       yield({
         :legacy_id                    => person.legacy_id,                    # id from external database
         :legacy_family_id             => person.legacy_family_id,             # family_id from external database
@@ -70,16 +48,7 @@ class ExampleConnector < ExternalDataConnector
   end
   
   def each_family(updated_since)
-    # for each family in external database, yield to the given block
-    # a hash like the following
-    
-    # this method should only return families who've been updated since
-    # the specified date; of course, you can ignore the updated_since
-    # arg and simply return all families every time, but that's not
-    # recommended unless your database is really small
-    
-    # (do some work here to get the families)
-    families.each do |family|
+    @families.each do |family|
       yield({
         :legacy_id  => family.legacy_id,  # id from external database
         :name       => family.name,       # should be family name, e.g. 'Tim & Jennie Morgan'
