@@ -158,13 +158,17 @@ class GroupsController < ApplicationController
   def toggle_email
     @group = Group.find params[:id]
     @person = Person.find params[:person_id]
-    options = @group.get_options_for(@person, true)
-    if params[:code].to_i > 0 and options.code and params[:code].to_i == options.code
-      Person.logged_in = @person 
-      @group.set_options_for @person, {:get_email => !options.get_email}
-      render :text => "Your email preferences for the group #{@group.name} have been saved.", :layout => true
+    @options = @group.get_options_for(@person, true)
+    if params[:code].to_i > 0 and @options.code and params[:code].to_i == @options.code
+      if request.post?
+        Person.logged_in = @person 
+        @group.set_options_for @person, {:get_email => !@options.get_email}
+        render :text => "Your email preferences for the group #{@group.name} have been saved.", :layout => true
+      else
+        render :action => 'toggle_email'
+      end
     elsif @logged_in and (@logged_in.can_edit?(@group) or @logged_in == @person or @logged_in.family.people.include? @person)
-      @group.set_options_for @person, {:get_email => !options.get_email}
+      @group.set_options_for @person, {:get_email => !@options.get_email}
       redirect_to params[:from] || {:action => 'view', :id => @group}
     else
       raise 'There was an error changing your email settings.'

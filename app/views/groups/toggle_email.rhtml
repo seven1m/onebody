@@ -1,0 +1,11 @@
+<h2>Change Email Settings</h2>
+
+<form method="POST">
+  <p>
+    Are you sure you want to <%= @options.get_email? ? 'disable' : 'enable' %>
+    email from the group <%=h @group.name %>?
+  </p>
+  <%= hidden_field_tag :person_id, params[:person_id] %>
+  <%= hidden_field_tag :code, params[:code] %>
+  <p><%= submit_tag 'Yes, do it.' %></p>
+</form>

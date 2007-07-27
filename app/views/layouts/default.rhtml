@@ -46,11 +46,11 @@
 				      <li style="float:right;font-size:smaller;color:#fff;text-align:right;">
 				        <%= link_to 'sign out', {:controller => 'account', :action => 'sign_out'}, :style => 'padding-left:5px;padding-right:5px;' %>
 				      </li>
-				    <% end %>
-            <% if @logged_in.admin? %>
-				      <li style="float:right;font-size:smaller;color:#fff;text-align:right;margin-right:10px;">
-				        <%= link_to 'admin', {:controller => 'admin'}, :style => 'padding-left:5px;padding-right:5px;' %>
-				      </li>
+              <% if @logged_in.admin? %>
+                <li style="float:right;font-size:smaller;color:#fff;text-align:right;margin-right:10px;">
+                  <%= link_to 'admin', {:controller => 'admin'}, :style => 'padding-left:5px;padding-right:5px;' %>
+                </li>
+              <% end %>
 				    <% end %>
 				    
 				    <li><%= link_to 'Profile', {:controller => 'people', :action => 'index'}, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
