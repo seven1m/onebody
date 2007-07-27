@@ -25,4 +25,8 @@
 
 class Admin < ActiveRecord::Base
   has_one :person
+  
+  def self.privilege_columns
+    columns.select { |c| !['id', 'created_at', 'updated_at'].include? c.name }
+  end
 end

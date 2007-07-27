@@ -106,6 +106,11 @@ class AdminController < ApplicationController
     @flag_count = LogItem.count '*', :conditions => 'reviewed_on is null and flagged_on is not null'
     @update_count = Update.count '*', :conditions => ['complete = ?', false]
     @group_count = Group.count '*', :conditions => ['approved = ?', false]
+    if @logged_in.super_admin?
+      @privileges = nil
+    else
+      @privileges = Admin.privilege_columns.select { |c| @logged_in.admin.send(c.name+'?') }.map { |c| c.name.gsub('_', ' ') }
+    end
   end
   
   def edit_attribute
