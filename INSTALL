@@ -1,3 +1,25 @@
+Development
+-----------
+
+If you're simply interested in setting up OneBody on your development
+machine, you may follow the appropriate Prerequisite section below
+and then run the following from a terminal/command prompt:
+
+# mysql -uroot
+  > create database onebody_dev;
+  > create database onebody_test;
+  > quit;
+# cd onebody
+# rake db:migrate
+# rake db:fixtures:load
+# chmod +x script/*
+
+Then, each time you wish to run the development server:
+# ruby script/server
+
+Browse to http://127.0.0.1:3000 and log in with
+username "morgans@somedomain.com" and password "secret".
+
 Linux/Unix Prerequisites
 ------------------------
 
@@ -25,8 +47,8 @@ Windows Prerequisites
    (choose the highlighted ZIP package)
    a. Extract and run the ImageMagick installer.
    b. From a command prompt, cd to the extracted folder and run:
-      gem install rmagick-x.x.x-win32.gem
-      (replace X with version numbers)
+      gem install rmagick-x.y.z-win32.gem
+      (replace x.y.z with version numbers)
 3. Download and install MySQL from
    http://mysql.org/downloads/mysql/5.0.html#win32
    (choose Windows Essentials)
@@ -40,7 +62,9 @@ Install
 Run the following commands from a terminal/command prompt. For installation on Windows,
 replace Unix paths (forward slashes) below with Windows paths.
 
-1. gem install onebody
+1. gem install onebody-x.y.z.gem
+   
+   (replace x.y.z with version number)
 
 2. onebody install INSTALL_DIR db_user=USER db_password=PASSWORD db_host=localhost
    
@@ -48,6 +72,7 @@ replace Unix paths (forward slashes) below with Windows paths.
 
    USER, PASSWORD = a user that can create databases and such
                     probably "root" and "" (blank) on a stock install
+                    (though that could be unsecure!)
 
 OneBody should now be installed and just about ready to use. You have a few more things
 to do, but at this point you can fire up the Rails server and a web browser and poke
@@ -61,6 +86,28 @@ To see OneBody in action right away, run:
 
 Then, visit the address on the screen with your web browser. You can sign in with the
 user "morgans@somedomain.com" and password "secret".
+
+Settings
+--------
+
+Edit the config/settings.yml file to match your church environment. Each setting
+in the file has an explanation to help.
+
+Connector
+---------
+
+To be of any use, OneBody must get its data from your church database. This is done
+via a "connector." A connector is simply a Ruby script that connects to your
+external database and returns people and families as needed by OneBody. To create
+a connector, make a copy of the file lib/connectors/example.rb and call it whatever
+you want. Edit the file as appropriate. Some Ruby experience will be needed.
+
+Of course, since the OneBody database is straightforward MySQL, there's no reason
+you can't manipulate the data directly without utilizing the OneBody connector system.
+Please note, one side effect will be the lack of logging when a family/person is
+added/changed/deleted. Viewing the log (from http://example.com/admin/log) will not
+show changes to the database following a synchronization (but that might not be a big
+deal to you).
 
 Startup
 -------
@@ -102,4 +149,4 @@ mail server and...
    Windows
    -------
    Set up a scheduled task to run the following command once every few minutes:
-   INSTALL_DIR\script\inbox host username password
+   INSTALL_DIR\script\inbox HOST USERNAME PASSWORD
