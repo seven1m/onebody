@@ -40,12 +40,18 @@ class Coms < ExternalDataConnector
   end
   
   def people_ids
-    @db[:people].each_record { |r| @people_ids << r.memberid } unless @people_ids
+    unless @people_ids
+      @people_ids = []
+      @db[:people].each_record { |r| @people_ids << r.memberid }
+    end
     @people_ids
   end
   
   def family_ids
-    @db[:families].each_record { |r| @family_ids << r.familyid } unless @family_ids
+    unless @family_ids
+      @family_ids = []
+      @db[:families].each_record { |r| @family_ids << r.familyid }
+    end
     @family_ids
   end
   

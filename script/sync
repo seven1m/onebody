@@ -17,9 +17,8 @@ logger = RAILS_DEFAULT_LOGGER
 logger.info "Initializing Sync..." 
 connector = eval(connector_name.capitalize).new(*args)
 
-if sync_info = ActiveRecord::Base.connection.select_one("SELECT last_update FROM sync_info")
-  last_update = sync_info["last_update"] || Date.new(1970, 1, 1).to_time
-else
+unless last_update = Date.parse(ActiveRecord::Base.connection.select_one("SELECT last_update FROM sync_info")).to_time rescue nil
+  ActiveRecord::Base.connection.delete("DELETE FROM sync_info")
   ActiveRecord::Base.connection.insert("INSERT INTO sync_info SET last_update = NULL")
   last_update = Date.new(1970, 1, 1).to_time
 end
@@ -37,6 +36,7 @@ connector.each_person(last_update) do |person|
         person[:email_changed] = false
       end
     end
+    %w(mobile_phone work_phone fax).each { |a| person[a] = person[a] ? person[a].to_s.scan(/\d/).join('').to_i : nil }
     p.update_attributes_if_changed!(person)
   rescue => e
     logger.error e
@@ -51,6 +51,7 @@ logger.info "Syncing family data..."
 connector.each_family(last_update) do |family|
   begin
     f = Family.find_by_legacy_id(family[:legacy_id]) || Family.new(:legacy_id => family[:legacy_id])
+    family[:home_phone] = family[:home_phone] ? family[:home_phone].to_s.scan(/\d/).join('').to_i : nil
     f.update_attributes_if_changed!(family)
     Person.update_all "family_id = #{f.id}", "legacy_family_id = #{family[:legacy_id]}"
   rescue => e
@@ -67,6 +68,6 @@ Person.destroy_all "id not in (#{connector.people_ids.join(',')})"
 Family.destroy_all "id not in (#{connector.family_ids.join(',')})"
 
 logger.info "Recording update details..."
-Base.connection.update("UPDATE sync_info SET last_update = '#{Time.now.strftime '%Y-%m-%d %H:%M'}'")
+ActiveRecord::Base.connection.update("UPDATE sync_info SET last_update = '#{Time.now.strftime '%Y-%m-%d %H:%M'}'")
 
 logger.info "Finished Sync." 
