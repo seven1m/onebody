@@ -27,7 +27,7 @@ class AdminController < ApplicationController
     conditions = nil if conditions.empty?
     @pages = Paginator.new self, LogItem.count(conditions), 100, params[:page]
     @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset, :conditions => conditions
-    @items.delete_if { |i| i.object.nil? }
+    #@items.delete_if { |i| i.object.nil? }
   end
   
   def mark_reviewed
@@ -101,18 +101,20 @@ class AdminController < ApplicationController
   end
   
   def index
-    raise 'Unauthorized' unless @logged_in.super_admin?
     Admin.destroy_all '(select count(*) from people where people.admin_id = admins.id) = 0'
     @admins = Admin.find(:all, :order => 'people.last_name, people.first_name', :include => :person)
+    @flag_count = LogItem.count '*', :conditions => 'reviewed_on is null and flagged_on is not null'
+    @update_count = Update.count '*', :conditions => ['complete = ?', false]
+    @group_count = Group.count '*', :conditions => ['approved = ?', false]
   end
   
   def edit_attribute
     render :update do |page|
-      if @logged_in.super_admin?
+      if @logged_in.admin?(:manage_access)
         Admin.find(params[:id]).update_attribute params[:name], params[:value]
         status_id = "#{params[:name]}_#{params[:id]}_status"
         page.show status_id
-        page.replace_html status_id, '<img src="/images/checkmark.png" class="icon"/> saved'
+        page.replace_html status_id, '<img src="/images/checkmark.png" class="icon"/>'
         page.visual_effect :fade, status_id
       else
         page.alert('You are not authorized to make changes on this page.')
@@ -121,7 +123,7 @@ class AdminController < ApplicationController
   end
   
   def add_admin
-    if @logged_in.super_admin?
+    if @logged_in.admin?(:manage_access)
       params[:people].to_a.each do |id|
         person = Person.find(id)
         if person.super_admin?
@@ -135,7 +137,7 @@ class AdminController < ApplicationController
   end
   
   def remove_admin
-    if @logged_in.super_admin?
+    if @logged_in.admin?(:manage_access)
       Admin.find(params[:id]).destroy
     end
     redirect_to :action => 'index'

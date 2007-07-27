@@ -32,6 +32,7 @@ module Foo
               @changes.delete 'created_at'
               if @changes.any? and @@log_class.table_exists?
                 @@log_class.create(
+                  :name => self.respond_to?(:name) ? self.name : nil,
                   :model_name => self.class.name,
                   :instance_id => self.id,
                   :changes => @changes,
@@ -43,6 +44,7 @@ module Foo
             def log_destroy
               if @@log_class.table_exists?
                 @@log_class.create(
+                  :name => self.respond_to?(:name) ? self.name : nil,
                   :model_name => self.class.name,
                   :instance_id => self.id,
                   :deleted => true,

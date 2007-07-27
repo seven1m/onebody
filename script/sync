@@ -44,7 +44,7 @@ connector.each_person(last_update) do |person|
         person[:email_changed] = false
       end
     end
-    %w(mobile_phone work_phone fax).each { |a| person[a] = person[a] ? person[a].to_s.scan(/\d/).join('').to_i : nil }
+    [:mobile_phone, :work_phone, :fax].each { |a| person[a] = person[a] ? person[a].to_s.scan(/\d/).join('').to_i : nil }
     p.update_attributes_if_changed!(person)
   rescue => e
     logger.error e

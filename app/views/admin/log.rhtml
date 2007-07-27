@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'Admin Home', :action => 'index' %></li>
+<% end %>
+
 <h1>Log</h1>
 
 <p><%= link_to_function 'Filtering Options &raquo;', "Element.toggle('log_options')" %></p>
@@ -58,8 +62,15 @@
           </td>
           <td><%=h item.model_name %></td>
           <td>
-            <%= link_to item.object_description, item.object_url, :confirm => (item.object.is_a? Message and item.object.to ? 'This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.' : nil) %><br/>
-            <%=h item.object_excerpt %>
+            <% if item.object_description %>
+              <%= link_to item.object_description, item.object_url, :confirm => (item.object.is_a? Message and item.object.to ? 'This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.' : nil) %><br/>
+              <%=h item.object_excerpt %>
+            <% elsif item.object %>
+              <%= item.name %>
+            <% else %>
+              <span style="text-decoration:line-through;"><%= item.name %></span>
+              <% if item.deleted? %>(deleted)<% end %>
+            <% end %>
           </td>
           <td><%= item.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
           <td style="width:32px;">
@@ -80,7 +91,7 @@
         <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;" class="changes">
           <td colspan="7">
             <table>
-              <% item.changes.each do |key, value| %>
+              <% item.changes.to_a.each do |key, value| %>
                 <% unless key =~ /_id$/ %>
                   <tr><td><%=h key %>:</td><td><%=h value %></td></tr>
                 <% end %>

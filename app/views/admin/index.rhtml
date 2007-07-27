@@ -1,42 +1,73 @@
 <% content_for :sidebar do %>
-  <%= form_remote_tag :url => {:controller => 'people', :action => 'search'} %>
-    <%= hidden_field_tag :select_person, true %>
-    <p>
-      <label for="name">Add administrator:</label> <%= text_field_tag 'name' %>
-      <br/>
-      <%= submit_tag 'Search by Name' %>
-    </p>
-  </form>
-
-  <div id="add_member" style="display:none;">
-    <%= form_tag :action => 'add_admin' %>
-      <div id="results"></div>
-      <p><%= submit_tag 'Add Selected' %></p>
-    </form>
-  </div>
-<% end %>
-
-<h2>Administrators</h2>
-
-<% @admins.each do |admin| %>
-  <div style="margin-bottom:10px;">
-    <%= link_to_function image_tag('plus.gif', :alt => 'show privileges', :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
-    <%= link_to admin.person.name, person_url(:id => admin.person) %>
-    <%= link_to '[remove]', {:action => 'remove_admin', :id => admin}, :class => 'discreet', :confirm => 'Are you sure?', :method => :post %>
-    <div id="privileges_<%= admin.id %>" style="display:none;margin-left:16px;">
-      <%= check_box_tag 'select_all', true, false, :onclick => "document.getElementsByClassName('privilege#{admin.id}').each(function(e){e.checked=$('select_all_#{admin.id}').checked;new Ajax.Request('#{url_for(:action => 'edit_attribute', :id => admin)}', {parameters:'name='+e.name+'&value='+e.checked});})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
-      <em>select all</em><br/>
-      <% all_selected = true %>
-      <% Admin.columns.map { |c| c.name }.sort.select { |c| c != 'id' }.each do |privilege| %>
-        <%= check_box_tag privilege, true, admin.send(privilege + '?'), :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{url_for(:action => 'edit_attribute', :id => admin)}', {parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %>
-        <%= privilege.gsub('_', ' ') %>
-        <span id="<%= privilege %>_<%= admin.id %>_status"></span>
-        <br/>
-        <% all_selected = false unless admin.send(privilege + '?') %>
-      <% end %>
-      <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
+  <h2>Administrators</h2>
+  <% @admins.each do |admin| %>
+    <div style="margin-bottom:3px;">
+      <%= link_to_function image_tag('plus.gif', :alt => 'show privileges', :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
+      <%= link_to admin.person.name, person_url(:id => admin.person) %>
+      <%= link_to '[x]', {:action => 'remove_admin', :id => admin}, :class => 'discreet', :confirm => 'Are you sure?', :method => :post %>
+      <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;">
+        <%= check_box_tag 'select_all', true, false, :onclick => "document.getElementsByClassName('privilege#{admin.id}').each(function(e){e.checked=$('select_all_#{admin.id}').checked;new Ajax.Request('#{url_for(:action => 'edit_attribute', :id => admin)}', {parameters:'name='+e.name+'&value='+e.checked});})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
+        <em>select all</em><br/>
+        <% all_selected = true %>
+        <% Admin.columns.map { |c| c.name }.sort.select { |c| c != 'id' }.each do |privilege| %>
+          <% unless admin.person == @logged_in and privilege == 'manage_access' %>
+            <%= check_box_tag privilege, true, admin.send(privilege + '?'), :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{url_for(:action => 'edit_attribute', :id => admin)}', {parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %>
+            <%= privilege.gsub('_', ' ') %>
+            <span id="<%= privilege %>_<%= admin.id %>_status"></span>
+            <br/>
+            <% all_selected = false unless admin.send(privilege + '?') %>
+          <% end %>
+        <% end %>
+        <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
+      </div>
     </div>
-  </div>
+  <% end %>
+  <%= image_tag 'checkmark.png', :style => 'visibility:hidden;' %>
+  <% if @logged_in.admin?(:manage_access) %>
+    <%= form_remote_tag :url => {:controller => 'people', :action => 'search'} %>
+      <%= hidden_field_tag :select_person, true %>
+      <p>
+        <label for="name">Add administrator:</label> <%= text_field_tag 'name' %>
+        <br/>
+        <%= submit_tag 'Search by Name' %>
+      </p>
+    </form>
+
+    <div id="add_member" style="display:none;">
+      <%= form_tag :action => 'add_admin' %>
+        <div id="results"></div>
+        <p><%= submit_tag 'Add Selected' %></p>
+      </form>
+    </div>
+  <% end %>
 <% end %>
 
-<%= image_tag 'checkmark.png', :style => 'display:none;' %>
+<% if @logged_in.admin?(:view_log) %>
+  <h2>Log</h2>
+  
+  <p style="font-weight:bold;<% if @flag_count > 0 %>color:red;<% end %>">
+    <%= @flag_count %> flagged <%= @flag_count == 1 ? 'item' : 'items' %>
+  </p>
+  
+  <p><%= link_to 'Click here', :action => 'log' %> to review the log.</p>
+<% end %>
+
+<% if @logged_in.admin?(:manage_updates) %>
+  <h2>Updates</h2>
+  
+  <p style="font-weight:bold;<% if @update_count > 0 %>color:red;<% end %>">
+    <%= @update_count %> <%= @update_count == 1 ? 'update' : 'updates' %>
+  </p>
+  
+  <p><%= link_to 'Click here', :action => 'updates' %> to review updates.</p>
+<% end %>
+
+<% if @logged_in.admin?(:manage_groups) %>
+  <h2>Groups</h2>
+  
+  <p style="font-weight:bold;<% if @group_count > 0 %>color:red;<% end %>">
+    <%= @group_count %> pending <%= @group_count == 1 ? 'group' : 'groups' %>
+  </p>
+  
+  <p><%= link_to 'Click here', :action => 'updates' %> to review pending groups.</p>
+<% end %>

@@ -15,28 +15,12 @@
 #  flagged_by  :string(255)   
 #
 
-# == Schema Information
-# Schema version: 64
-#
-# Table name: log_items
-#
-#  id          :integer(11)   not null, primary key
-#  model_name  :string(50)    
-#  instance_id :integer(11)   
-#  changes     :text          
-#  person_id   :integer(11)   
-#  created_at  :datetime      
-#  reviewed_on :datetime      
-#  reviewed_by :integer(11)   
-#  flagged_on  :datetime      
-#  flagged_by  :string(255)   
-#
-
 class LogItem < ActiveRecord::Base
   belongs_to :person
   belongs_to :reviewed_by, :class_name => 'Person', :foreign_key => 'reviewed_by'
   
   def object
+    return nil if deleted?
     if model_name =~ /^[A-Z][a-z]{1,15}$/
       @object ||= eval(model_name).find(instance_id) rescue nil
     end
@@ -74,6 +58,7 @@ class LogItem < ActiveRecord::Base
   end
   
   def object_url
+    return nil if deleted?
     action = 'view'
     id = instance_id
     case model_name
@@ -96,6 +81,7 @@ class LogItem < ActiveRecord::Base
   end
   
   def object_image_url
+    return nil if deleted?
     return nil unless object.respond_to? 'has_photo?' and object.has_photo?
     controller = model_name.pluralize.downcase
     action = 'photo'
@@ -106,6 +92,7 @@ class LogItem < ActiveRecord::Base
   serialize :changes
   
   def showable_change_keys
+    return [] if deleted?
     changes.keys.select do |key|
       PEOPLE_ATTRIBUTES_SHOWABLE_ON_HOMEPAGE.include? key
     end.map do |key|

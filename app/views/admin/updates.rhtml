@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'Admin Home', :action => 'index' %></li>
+<% end %>
+
 <h1>
   <% if params[:complete] %>Completed<% else %>Pending<% end %>
   Updates

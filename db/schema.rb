@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 69) do
+ActiveRecord::Schema.define(:version => 71) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean, :default => false
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 69) do
     t.column "manage_pictures",        :boolean, :default => false
     t.column "manage_access",          :boolean, :default => false
     t.column "view_log",               :boolean, :default => false
+    t.column "manage_updates",         :boolean, :default => false
   end
 
   create_table "attachments", :force => true do |t|
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(:version => 69) do
     t.column "flagged_on",  :datetime
     t.column "flagged_by",  :string
     t.column "deleted",     :boolean,                :default => false
+    t.column "name",        :string
   end
 
   create_table "memberships", :force => true do |t|
