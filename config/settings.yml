@@ -17,8 +17,8 @@ features:
   prayer:
 
 url:
-  # url for this site
-  site: http://imaginaryfamily.com
+  # url for this site (include trailing slash on this one)
+  site: http://imaginaryfamily.com/
   # url for main church website
   visitor: http://imaginarychurch.com
   # url for church news (can be blank)

@@ -23,11 +23,13 @@ logger = RAILS_DEFAULT_LOGGER
 logger.info "Initializing Sync..."
 connector = eval(connector_name.capitalize).new(*args)
 
-unless last_update = Date.parse(ActiveRecord::Base.connection.select_one("SELECT last_update FROM sync_info")).to_time rescue nil
+unless last_update = Date.parse(ActiveRecord::Base.connection.select_one("SELECT last_update FROM sync_info")['last_update']).to_time rescue nil
   ActiveRecord::Base.connection.delete("DELETE FROM sync_info")
   ActiveRecord::Base.connection.insert("INSERT INTO sync_info SET last_update = NULL")
   last_update = Date.new(1970, 1, 1).to_time
 end
+
+update_time = Time.now.strftime '%Y-%m-%d %H:%M'
 
 error_count = 0
 
@@ -70,10 +72,10 @@ connector.each_family(last_update) do |family|
 end
 
 logger.info "Purging data..."
-Person.destroy_all "id not in (#{connector.people_ids.join(',')})"
-Family.destroy_all "id not in (#{connector.family_ids.join(',')})"
+Person.destroy_all "legacy_id not in (#{connector.people_ids.join(',')})"
+Family.destroy_all "legacy_id not in (#{connector.family_ids.join(',')})"
 
 logger.info "Recording update details..."
-ActiveRecord::Base.connection.update("UPDATE sync_info SET last_update = '#{Time.now.strftime '%Y-%m-%d %H:%M'}'")
+ActiveRecord::Base.connection.update("UPDATE sync_info SET last_update = '#{update_time.strftime '%Y-%m-%d %H:%M'}'")
 
 logger.info "Finished Sync." 
