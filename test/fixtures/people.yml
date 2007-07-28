@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 66
+# Schema version: 69
 #
 # Table name: people
 #
@@ -65,6 +65,7 @@
 #  visible_to_everyone          :boolean(1)    
 #  visible_on_printed_directory :boolean(1)    
 #  full_access                  :boolean(1)    
+#  legacy_family_id             :integer(11)   
 #
 
 tim:

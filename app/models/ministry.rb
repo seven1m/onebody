@@ -1,17 +1,5 @@
 # == Schema Information
-# Schema version: 66
-#
-# Table name: ministries
-#
-#  id          :integer(11)   not null, primary key
-#  admin_id    :integer(11)   
-#  name        :string(100)   
-#  description :text          
-#  updated_at  :datetime      
-#
-
-# == Schema Information
-# Schema version: 64
+# Schema version: 69
 #
 # Table name: ministries
 #

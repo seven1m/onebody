@@ -1,18 +1,5 @@
 # == Schema Information
-# Schema version: 66
-#
-# Table name: news_items
-#
-#  id        :integer(11)   not null, primary key
-#  title     :string(255)   
-#  link      :string(255)   
-#  body      :text          
-#  published :datetime      
-#  active    :boolean(1)    default(TRUE)
-#
-
-# == Schema Information
-# Schema version: 64
+# Schema version: 69
 #
 # Table name: news_items
 #

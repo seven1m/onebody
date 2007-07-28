@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 66
+# Schema version: 69
 #
 # Table name: log_items
 #
@@ -13,6 +13,7 @@
 #  reviewed_by :integer(11)   
 #  flagged_on  :datetime      
 #  flagged_by  :string(255)   
+#  deleted     :boolean(1)    
 #
 
 class LogItem < ActiveRecord::Base

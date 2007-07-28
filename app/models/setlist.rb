@@ -1,16 +1,5 @@
 # == Schema Information
-# Schema version: 66
-#
-# Table name: setlists
-#
-#  id         :integer(11)   not null, primary key
-#  start      :datetime      
-#  person_id  :integer(11)   
-#  created_at :datetime      
-#
-
-# == Schema Information
-# Schema version: 64
+# Schema version: 69
 #
 # Table name: setlists
 #

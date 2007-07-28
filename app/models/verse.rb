@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 66
+# Schema version: 69
 #
 # Table name: verses
 #

@@ -1,18 +1,5 @@
 # == Schema Information
-# Schema version: 66
-#
-# Table name: prayer_signups
-#
-#  id         :integer(11)   not null, primary key
-#  person_id  :integer(11)   
-#  start      :datetime      
-#  created_at :datetime      
-#  reminded   :boolean(1)    
-#  other      :string(100)   
-#
-
-# == Schema Information
-# Schema version: 64
+# Schema version: 69
 #
 # Table name: prayer_signups
 #

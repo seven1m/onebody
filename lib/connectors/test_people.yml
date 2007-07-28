@@ -1,0 +1,24 @@
+tim:
+  legacy_id: 1
+  legacy_family_id: 1
+  sequence: 1
+  gender: Male
+  first_name: Tim
+  last_name: Morgan
+  suffix:
+  mobile_phone: 1234567890
+  work_phone: 1234567891
+  fax:
+  birthday: 1981-04-28
+  email: morgans@somedomain.com
+  classes: W2
+  mail_group: M
+  anniversary: 2001-08-11
+  member: true
+  staff: false
+  elder: false
+  deacon: false
+  can_sign_in: true
+  visible_to_everyone: true
+  visible_on_printed_directory: true
+  full_access: true
