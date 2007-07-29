@@ -1,3 +1,13 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'List of Groups', :action => 'index' %></li>
+  <% if @logged_in.admin?(:manage_groups) or @group.admin? @logged_in %>
+    <li><%= link_to 'Edit Group', :action => 'edit', :id => @group %></li>
+    <% if not @group.approved and @logged_in.admin?(:manage_groups) %>
+      <li><%= link_to 'Approve Group', {:action => 'approve', :id => @group}, :confirm => 'Are you sure?', :method => 'post', :style => 'color:yellow;font-weight:bold;' %></li>
+    <% end %>
+  <% end %>
+<% end %>
+
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
   <% if not @group.has_photo? and @group.admin?(@logged_in) %>
@@ -37,16 +47,6 @@
 
 <h1><%=h @group.name %></h1>
 
-<% content_for :subnav do %>
-  <li><%= link_to 'List of Groups', :action => 'index' %></li>
-  <% if @logged_in.admin?(:manage_groups) or @group.admin? @logged_in %>
-    <li><%= link_to 'Edit Group', :action => 'edit', :id => @group %></li>
-    <% if not @group.approved and @logged_in.admin?(:manage_groups) %>
-      <li><%= link_to 'Approve Group', {:action => 'approve', :id => @group}, :confirm => 'Are you sure?', :method => 'post' %></li>
-    <% end %>
-  <% end %>
-<% end %>
-
 <p><%=h @group.description %></p>
 
 <table>
@@ -64,44 +64,8 @@
   <% end %>
 </table>
 
-<h2>Messages</h2>
-
-<% if @group.private? and not @group.people.include? @logged_in %>
-  <p><strong>This is a private group. You may not see messages in this group.</strong></p>
+<% if @group.message_type == 'blog' %>
+  <%= render :partial => 'blog_messages' %>
 <% else %>
-  <% if @group.can_post? @logged_in %>
-    <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
-      <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
-      <em>Posting a message here sends email to everyone in the group.</em>
-    </p>
-  <% end %>
-  <% if @messages.any? %>
-    <table>
-      <% @messages.each do |message| %>
-        <tr>
-          <td>
-            <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
-            <%= link_to h(message.subject), :controller => 'messages', :action => 'view', :id => message %>
-          </td>
-          <td>
-            <%=h message.person.name %>
-          </td>
-          <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
-          <td>
-            <% if (r = message.reply_count.to_i) > 0 %>
-              <%= r %> <%= r == 1 ? 'reply' : 'replies' %>
-            <% end %>
-          </td>
-          <td>
-            <% if message.attachment_count.to_i > 0 %>
-              <%= message.attachment_count %> <%= message.attachment_count.to_i == 1 ? 'attachment' : 'attachments' %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  <% else %>
-    <p><em>No messages yet.</em></p>
-  <% end %>
+  <%= render :partial => 'forum_messages' %>
 <% end %>

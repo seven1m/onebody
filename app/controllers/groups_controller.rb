@@ -57,7 +57,7 @@ class GroupsController < ApplicationController
             flash[:notice] = 'Group changes saved.'
           end
         else
-          flash[:notice] = @group.errors.full_messages.join('; ')
+          flash[:warning] = @group.errors.full_messages.join('; ')
         end
       end
       unless @group.errors.any?

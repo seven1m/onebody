@@ -76,7 +76,7 @@ class Message < ActiveRecord::Base
   def after_save
     return if dont_send
     return if created_at < (Time.now - 1.day) # Yikes! I almost resent every message in the system!
-    if group
+    if group and group.message_type == 'forum'
       send_to_group
     elsif to
       Notifier.deliver_message(to, self) if to.email.to_s.any?
@@ -86,7 +86,7 @@ class Message < ActiveRecord::Base
   end
 
   def send_to_group
-    return unless group
+    return unless group and group.message_type == 'forum'
     group.people.each do |person|
       if group.get_options_for(person).get_email and person.email.to_s.any? and person.email =~ VALID_EMAIL_ADDRESS
         Notifier.deliver_message(person, self)
@@ -145,6 +145,7 @@ class Message < ActiveRecord::Base
   end
   
   def disable_email_instructions(to_person)
+    return '' if group and group.message_type != 'forum'
     msg = ''
     if group
       msg << "To stop email from this group: "

@@ -104,6 +104,10 @@
     <%= options_for_select @categories, @group.category %>
     <option value="!">[new category]</option>
   </select><br/>
+  <label for="group_message_type">Message Type:</label>
+  <select name="group[message_type]" id="group_message_type">
+    <%= options_for_select [['Forum', 'forum'], ['Blog', 'blog']], @group.message_type %>
+  </select><br/>
   <label for="group_description">Description:</label>
   <%= form.text_area :description, :rows => 3 %><br/>
   <label for="group_notes">Other Notes:</label>

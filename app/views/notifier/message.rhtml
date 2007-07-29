@@ -1,5 +1,5 @@
 <%= @msg.introduction(@to) -%>
 <%= @msg.body %>
-- - - - - - - - - - - - - - - - - - - - - - - -
+<%- unless !@msg.group or @msg.group.message_type != 'forum' -%>- - - - - - - - - - - - - - - - - - - - - - - -
 <%= @msg.reply_instructions(@to) -%>
-<%= @msg.disable_email_instructions(@to) -%>
+<%= @msg.disable_email_instructions(@to) -%><%- end -%>
