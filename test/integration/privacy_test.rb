@@ -8,7 +8,7 @@ class PrivacyTest < ActionController::IntegrationTest
     get '/people/index'
     assert_response :success
     assert_template 'people/view'
-    assert_select '#sidebar', /Why can't I see my children here\?/
+    assert_select '#sidebar', /Where are my kids\?/
     assert_select '#sidebar a[href=?]', /\/help\/safeguarding_children/
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
   end

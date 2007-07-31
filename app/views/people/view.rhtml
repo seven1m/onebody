@@ -51,7 +51,7 @@
   <% end %>
   
   <% if @person.family.children_without_consent.any? and @me and @person.adult? %>
-    <p style="font-weight:bold;"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Why can't I see my children here?",
+    <p class="discreet"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Where are my kids?",
       :controller => 'help', :action => 'safeguarding_children' %></p>
   <% end %>
   
@@ -84,15 +84,20 @@
 
 <h1>
   <%=h @person.name %>
-  <% if @person.member? %>
-    <span style="font-size:10pt;">
-      <%= image_tag 'star.gif', :alt => 'Member', :class => 'no-border' %>Member
-    </span>
-  <% end %>
   <% if @logged_in.can_edit? @person %>
     <%= link_to 'edit', {:action => 'edit', :id => @person}, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
   <% end %>
 </h1>
+
+<% if @person.elder? %>
+  <p class="user-type"><%= image_tag 'elder.png', :alt => 'Elder', :class => 'icon' %> Elder</p>
+<% elsif @person.deacon? %>
+  <p class="user-type"><%= image_tag 'deacon.png', :alt => 'Deacon', :class => 'icon' %> Deacon</p>
+<% elsif @person.staff? %>
+  <p class="user-type"><%= image_tag 'staff.png', :alt => 'Staff', :class => 'icon' %> Staff</p>
+<% elsif @person.member? %>
+  <p class="user-type"><%= image_tag 'star.gif', :alt => 'Member', :class => 'icon' %> Member</p>
+<% end %>
 
 <% if @person.pending_updates.count > 0 and @me %>
   <p>
