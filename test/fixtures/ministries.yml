@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 69
+# Schema version: 74
 #
 # Table name: ministries
 #

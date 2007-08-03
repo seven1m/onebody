@@ -1,6 +1,7 @@
 class CreateLogItems < ActiveRecord::Migration
   def self.up
     create_table :log_items do |t|
+      t.column :name, :string, :limit => 255
       t.column :model_name, :string, :limit => 50
       t.column :instance_id, :integer
       t.column :changes, :text

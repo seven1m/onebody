@@ -13,7 +13,11 @@ class NotesController < ApplicationController
     if @note.person == @logged_in or @logged_in.admin?(:manage_notes)
       if request.post?
         @note.update_attributes params[:note]
-        redirect_to :action => 'view', :id => @note
+        if @note.group
+          redirect_to group_url(:id => @note.group, :anchor => 'blog')
+        else
+          redirect_to person_url(:id => @note.person, :anchor => 'blog')
+        end
       end
     else
       render :text => 'You are not authorized.', :layout => true

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 69
+# Schema version: 74
 #
 # Table name: people
 #
@@ -92,6 +92,7 @@ class Person < ActiveRecord::Base
   has_many :friends, :class_name => 'Person', :through => :friendships, :order => 'friendships.ordering, friendships.created_at'
   has_many :friendship_requests
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
+  has_many :prayer_requests, :order => 'created_at desc'
     
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES

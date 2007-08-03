@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 69
+# Schema version: 74
 #
 # Table name: groups
 #
@@ -9,7 +9,7 @@
 #  meets        :string(100)   
 #  location     :string(100)   
 #  directions   :text          
-#  notes        :text          
+#  other_notes  :text          
 #  category     :string(50)    
 #  creator_id   :integer(11)   
 #  private      :boolean(1)    
@@ -26,6 +26,8 @@ class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :people, :through => :memberships, :order => 'last_name, first_name'
   has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc', :dependent => :destroy
+  has_many :notes, :order => 'created_at desc'
+  has_many :prayer_requests, :order => 'created_at desc'
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
   #has_and_belongs_to_many :tags, :order => 'name'

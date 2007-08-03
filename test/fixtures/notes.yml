@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 69
+# Schema version: 74
 #
 # Table name: notes
 #
@@ -11,14 +11,28 @@
 #  updated_at   :datetime      
 #  original_url :string(255)   
 #  deleted      :boolean(1)    
+#  group_id     :integer(11)   
 #
 
-one:
+person_note:
   id: 1
   person_id: 1
   title: First Note
   body: >
     <p>This is the first note.</p>
+    <ul>
+      <li>item 1</li>
+      <li>item 2</li>
+    </ul>
+  created_at: 2007-07-15 10:00
+  updated_at: 2007-07-15 10:00
+group_note:
+  id: 2
+  person_id: 2
+  group_id: 1
+  title: Group Note
+  body: >
+    <p>This is the group note.</p>
     <ul>
       <li>item 1</li>
       <li>item 2</li>

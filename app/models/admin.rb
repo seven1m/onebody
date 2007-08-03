@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 69
+# Schema version: 74
 #
 # Table name: admins
 #
@@ -21,6 +21,9 @@
 #  manage_pictures        :boolean(1)    
 #  manage_access          :boolean(1)    
 #  view_log               :boolean(1)    
+#  manage_updates         :boolean(1)    
+#  created_at             :datetime      
+#  updated_at             :datetime      
 #
 
 class Admin < ActiveRecord::Base

@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 73) do
+ActiveRecord::Schema.define(:version => 74) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean,  :default => false
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(:version => 73) do
     t.column "meets",        :string,   :limit => 100
     t.column "location",     :string,   :limit => 100
     t.column "directions",   :text
-    t.column "notes",        :text
+    t.column "other_notes",  :text
     t.column "category",     :string,   :limit => 50
     t.column "creator_id",   :integer
     t.column "private",      :boolean,                 :default => false
@@ -129,10 +129,10 @@ ActiveRecord::Schema.define(:version => 73) do
     t.column "hidden",       :boolean
     t.column "approved",     :boolean,                 :default => false
     t.column "link_code",    :string
-    t.column "message_type", :string,   :limit => 10
   end
 
   create_table "log_items", :force => true do |t|
+    t.column "name",        :string
     t.column "model_name",  :string,   :limit => 50
     t.column "instance_id", :integer
     t.column "changes",     :text
@@ -143,7 +143,6 @@ ActiveRecord::Schema.define(:version => 73) do
     t.column "flagged_on",  :datetime
     t.column "flagged_by",  :string
     t.column "deleted",     :boolean,                :default => false
-    t.column "name",        :string
   end
 
   create_table "memberships", :force => true do |t|
@@ -199,6 +198,7 @@ ActiveRecord::Schema.define(:version => 73) do
     t.column "updated_at",   :datetime
     t.column "original_url", :string
     t.column "deleted",      :boolean,  :default => false
+    t.column "group_id",     :integer
   end
 
   create_table "people", :force => true do |t|
@@ -283,6 +283,17 @@ ActiveRecord::Schema.define(:version => 73) do
     t.column "created_at", :datetime
     t.column "cover",      :boolean,  :default => false
     t.column "updated_at", :datetime
+  end
+
+  create_table "prayer_requests", :force => true do |t|
+    t.column "group_id",    :integer
+    t.column "person_id",   :integer
+    t.column "title",       :string,   :limit => 100
+    t.column "body",        :text
+    t.column "answer",      :text
+    t.column "answered_at", :datetime
+    t.column "created_at",  :datetime
+    t.column "updated_at",  :datetime
   end
 
   create_table "prayer_signups", :force => true do |t|

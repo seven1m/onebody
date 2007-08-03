@@ -22,6 +22,7 @@ class GroupsController < ApplicationController
   def view
     @group = Group.find params[:id]
     @messages = @group.messages.find :all, :select => '*, (select count(*) from messages r where r.parent_id=messages.id and r.to_person_id is null) as reply_count, (select count(*) from attachments where message_id=messages.id or message_id in (select id from messages r where r.parent_id=messages.id)) as attachment_count'
+    @notes = @group.notes.find :all, :order => 'created_at desc', :limit => 10
     unless @logged_in.sees? @group
       render :text => 'This group is private.', :layout => true
     end
@@ -57,7 +58,7 @@ class GroupsController < ApplicationController
             flash[:notice] = 'Group changes saved.'
           end
         else
-          flash[:warning] = @group.errors.full_messages.join('; ')
+          flash[:notice] = @group.errors.full_messages.join('; ')
         end
       end
       unless @group.errors.any?

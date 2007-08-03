@@ -37,10 +37,8 @@
   <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
 <% end %>
 
-<a name="attachments"></a>
 <%= render :partial => 'attachments', :locals => {:message => @message} %>
 
-<a name="replies"></a>
 <% @message.children.each do |reply| %>
   <div class="message">
     <div class="message-details">

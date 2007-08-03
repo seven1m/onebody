@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 69
+# Schema version: 74
 #
 # Table name: groups
 #
@@ -9,7 +9,7 @@
 #  meets        :string(100)   
 #  location     :string(100)   
 #  directions   :text          
-#  notes        :text          
+#  other_notes  :text          
 #  category     :string(50)    
 #  creator_id   :integer(11)   
 #  private      :boolean(1)    

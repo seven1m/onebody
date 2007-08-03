@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 69
+# Schema version: 74
 #
 # Table name: notes
 #
@@ -11,10 +11,13 @@
 #  updated_at   :datetime      
 #  original_url :string(255)   
 #  deleted      :boolean(1)    
+#  group_id     :integer(11)   
 #
 
 class Note < ActiveRecord::Base
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
+  belongs_to :group
+  
   acts_as_logger LogItem
   
   validates_presence_of :title

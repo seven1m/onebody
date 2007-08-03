@@ -104,14 +104,10 @@
     <%= options_for_select @categories, @group.category %>
     <option value="!">[new category]</option>
   </select><br/>
-  <label for="group_message_type">Message Type:</label>
-  <select name="group[message_type]" id="group_message_type">
-    <%= options_for_select [['Forum', 'forum'], ['Blog', 'blog']], @group.message_type %>
-  </select><br/>
   <label for="group_description">Description:</label>
   <%= form.text_area :description, :rows => 3 %><br/>
-  <label for="group_notes">Other Notes:</label>
-  <%= form.text_area :notes, :rows => 3 %><br/>
+  <label for="group_other_notes">Other Notes:</label>
+  <%= form.text_area :other_notes, :rows => 3 %><br/>
   <label>Creator:</label>
   <%= text_field_tag 'creator', (@group.creator ? @group.creator.name : nil), :readonly => true %><br/>
   <label for="group_leader">Leader:</label>

@@ -6,6 +6,9 @@
 <% end %>
 
 <% content_for :sidebar do %>
+  <% if @note.group %>
+    <p><%= link_to @note.group.name, group_url(:id => @note.group) %></p>
+  <% end %>
   <p><%= link_to @person.name, person_url(:id => @person) %>
   <%= render :partial => 'people/photo' %>
 <% end %>

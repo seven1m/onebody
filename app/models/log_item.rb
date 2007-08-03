@@ -1,9 +1,10 @@
 # == Schema Information
-# Schema version: 69
+# Schema version: 74
 #
 # Table name: log_items
 #
 #  id          :integer(11)   not null, primary key
+#  name        :string(255)   
 #  model_name  :string(50)    
 #  instance_id :integer(11)   
 #  changes     :text          
