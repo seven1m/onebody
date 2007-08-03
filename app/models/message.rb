@@ -27,7 +27,7 @@ class Message < ActiveRecord::Base
   belongs_to :to, :class_name => 'Person', :foreign_key => 'to_person_id'
   belongs_to :parent, :class_name => 'Message', :foreign_key => 'parent_id'
   has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :conditions => 'to_person_id is null', :dependent => :destroy
-  has_many :attachments
+  has_many :attachments, :dependent => :destroy
   has_many :log_items, :foreign_key => 'instance_id', :conditions => "model_name = 'Message'"
   
   validates_presence_of :person_id

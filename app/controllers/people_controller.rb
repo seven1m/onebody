@@ -50,22 +50,28 @@ class PeopleController < ApplicationController
   end
   
   def recently
-    if SETTINGS['features']['friends']
-      friend_ids = (@logged_in.friends.find(:all, :select => 'people.id').map { |f| f.id } + [@logged_in.id]).join(',')
+    if params[:id]
+      unless @person = Person.find(params[:id]) and params[:code] == @person.feed_code
+        render :text => 'There was an error getting this feed', :layout => true
+        return false
+      end
     else
-      friend_ids = @logged_in.id
+      @person = @logged_in
     end
+    friend_ids = [@person.id]
+    friend_ids += @person.friends.find(:all, :select => 'people.id').map { |f| f.id } if SETTINGS['features']['friends']
+    group_member_ids = @person.home_group.people.map { |p| p.id }
     @items = LogItem.find(
       :all,
-      :conditions => "model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and person_id in (#{friend_ids})",
+      :conditions => ["(model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and person_id in (#{friend_ids.join(',')}) and deleted = ?) or (model_name in ('Note', 'Message') and person_id in (#{group_member_ids.join(',')}) and deleted = ?)", false, false],
       :order => 'created_at desc',
       :limit => 25
     ).select do |item|
       if item.model_name == 'Friendship'
         item.object.person != item.person
       elsif item.model_name == 'Message'
-        (item.object.group and @logged_in.groups.include? item.object.group) \
-          or (item.object.wall and @logged_in.friend? item.object.wall)
+        (item.object.group and @person.groups.include? item.object.group) \
+          or (item.object.wall and @person.friend? item.object.wall)
       elsif item.model_name == 'Person'
         item.showable_change_keys.any?
       else
@@ -85,7 +91,10 @@ class PeopleController < ApplicationController
       last_model_name = item.model_name
     end
     @grouped_items << group if group
-    render :partial => 'recently'
+    respond_to do |wants|
+      wants.html { render_without_layout }
+      wants.js { render :partial => 'recently' }
+    end
   end
   
   def simple_view(show_photo=false)

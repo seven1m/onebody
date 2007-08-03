@@ -14,6 +14,8 @@ class CommentsController < ApplicationController
         return
       end
       object = Song.find params[:song_id]
+    elsif params[:note_id]
+      object = Note.find params[:note_id]
     else
       raise 'Error.'
     end

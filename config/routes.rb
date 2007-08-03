@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
     m.search_directory 'people/search', :action => 'search'
     m.browse_directory 'people/browse', :action => 'search', :browse => true
     m.person 'people/view/:id', :action => 'view'#, :requirements => {:id => /\d/}
+    m.recently 'people/recently', :action => 'recently'
     m.logged_in '', :action => 'index'
   end
   
@@ -26,6 +27,10 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'groups' do |m|
     m.groups 'groups', :action => 'index'
     m.group 'groups/view/:id', :action => 'view'
+  end
+  
+  map.with_options :controller => 'messages' do |m|
+    m.message 'messages/view/:id', :action => 'view'
   end
   
   map.with_options :controller => 'notes' do |m|

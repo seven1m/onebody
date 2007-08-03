@@ -1,12 +1,28 @@
-<div class="note-heading">
-  <strong><%= link_to h(note.title), note_url(:id => note) %></strong>
-  <span class="note-timestamp">
+<div class="note">
+  <div class="note-heading">
+    <div class="note-timestamp">
+      posted <%= note.created_at.to_time.to_s %>
+      <% if @group %>
+        by <%= link_to note.person.name, person_url(:id => note.person) %>
+      <% end %>
+    </div>
+    <%= link_to h(note.title), note_url(:id => note) %>
     <% if note.person == @logged_in or @logged_in.admin?(:manage_notes) %>
       <%= link_to '[edit]', edit_note_url(:id => note), :class => 'discreet' %>
       <%= link_to '[delete]', delete_note_url(:id => note), :class => 'discreet', :confirm => true, :confirm => 'Are you sure?' %>
     <% end %>
-    posted <%= note.created_at.to_time.to_s %>
-  </span>
-</div>
+  </div>
 
-<div><%= white_list note.body %></div>
+  <div class="note-body"><%= white_list note.body %></div>
+
+  <div class="note-comments">
+    <div class="comment-summary">
+      <%= render :partial => 'comments/comment_summary', :locals => {:object => note} %>
+    </div>
+    <p>
+      <%= link_to image_tag('comment.gif', :alt => 'Comments', :class => 'icon'), note_url(:id => note) %>
+      <%= link_to 'Add/Read Comments', note_url(:id => note) %>
+    </p>
+  </div>
+</div>
+<br/>

@@ -331,6 +331,10 @@ class Person < ActiveRecord::Base
     @groups
   end
   
+  def home_group
+    m = memberships.find_by_home_group(true) ? m.group : groups.select { |g| g.category != 'Subscription' }.first
+  end
+  
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female
   def parents
     family.people.select { |p| p.adult? and [1, 2].include? p.sequence }
@@ -350,5 +354,11 @@ class Person < ActiveRecord::Base
   
   def has_groups?
     @has_groups ||= groups.any?
+  end
+  
+  # generates security code for grabbing feed(s) without logging in
+  before_create :update_feed_code
+  def update_feed_code
+    write_attribute :feed_code, (1..50).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
   end
 end

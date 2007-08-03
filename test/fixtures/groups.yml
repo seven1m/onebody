@@ -27,6 +27,7 @@ morgan:
   id: 1
   name: Morgan Group
   creator_id: 1
+  category: Small Groups
 publications:
   id: 2
   name: Publications

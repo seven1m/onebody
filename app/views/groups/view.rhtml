@@ -29,7 +29,6 @@
   <h2><%= @group.people.length %> <%= @group.people.length == 1 ? 'person' : 'people' %></h2>
   
   <%= render :partial => 'people' %>
-  
 <% end %>
 
 <% if @group.private? %>
@@ -42,6 +41,13 @@
 <% if @group.hidden? %>
   <p class="highlight">
     This group is hidden.
+  </p>
+<% end %>
+
+<% if @logged_in.home_group == @group %>
+  <p class="highlight">
+    <%= image_tag 'home.png', :alt => 'Home Group', :class => 'icon' %> This is your home group.
+    <%= link_to 'What?', :controller => 'help', :action => 'home_group' %>
   </p>
 <% end %>
 
@@ -66,14 +72,14 @@
 
 <h2 class="tab" id="blog">Blog</h2>
 <div class="section">
-  <%= render :partial => 'notes/add_note' %>  
-  <% @notes.each do |note| %>
-    <h3><%=h note.title %></h3>
-    <p class="below-h1" style="color:#999;">
-      posted <%= note.created_at.to_time.to_s :date %>
-      by <%= link_to note.person.name, person_url(:id => note.person) %>
+  <% if @group.can_post? @logged_in %>
+    <p>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', :controller => 'notes', :action => 'edit', :group_id => @group %><br/>
+      <em>Posting a message here does <strong>not</strong> send any email to the group members.</em>
     </p>
-    <%= white_list note.body %>
+  <% end %>
+  <% @notes.each do |note| %>
+    <%= render :partial => 'notes/note', :locals => {:note => note} %>
   <% end %>
 </div>
 

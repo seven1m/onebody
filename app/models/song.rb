@@ -22,8 +22,8 @@ class Song < ActiveRecord::Base
   belongs_to :person
   has_many :performances
   has_many :setlists, :through => :performances
-  has_many :attachments
-  has_many :comments
+  has_many :attachments, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
   has_and_belongs_to_many :tags
   
   validates_presence_of :title

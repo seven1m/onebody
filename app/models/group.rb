@@ -48,6 +48,10 @@ class Group < ActiveRecord::Base
     self.photo_without_logging = p
   end
   
+  def name_group # returns something like "Morgan group"
+    "#{name}#{name =~ /group$/i ? '' : ' group'}"
+  end
+  
   def inspect
     "<#{name}>"
   end

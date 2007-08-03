@@ -12,7 +12,7 @@
 #
 
 class NewsItem < ActiveRecord::Base
-  has_many :comments
+  has_many :comments, :dependent => :destroy
   
   def name; title; end
   def created_at; published; end

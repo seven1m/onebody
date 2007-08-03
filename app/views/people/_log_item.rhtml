@@ -1,0 +1,47 @@
+<% object = item.object %>
+
+<% if item.person == @logged_in %>
+  You
+<% else %>
+  <%= link_to item.person.name, person_url(:id => item.person) %>
+<% end %>
+
+<% if object.is_a? Picture %>
+  uploaded <%= items.length == 1 ? 'a picture' : 'pictures' %>:<br/>
+  <% items.each do |item| %>
+    <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{item.object.id}.small.jpg"), :alt => 'click to enlarge'),
+      {:controller => 'pictures', :action => 'view', :id => item.object}, :title => 'click to enlarge' %>
+  <% end %>
+<% elsif object.is_a? Verse %>
+  added <%= link_to object.reference, verse_url(:id => object) %>.
+<% elsif object.is_a? Recipe %>
+  added <%= link_to object.title, recipe_url(:id => object) %>.
+<% elsif object.is_a? Event %>
+  added <%= link_to object.name, event_url(:id => event) %>.
+<% elsif object.is_a? Comment %>
+  commented on <%= link_to object.on.name, :controller => object.on.class.name.downcase.pluralize, :action => 'view', :id => object.on %>.
+<% elsif object.is_a? Note %>
+  wrote a note titled <%= link_to object.title, note_url(:id => object) %><% if !object.group %>.
+  <% else %>
+    in the <%= link_to h(object.group.name_group), group_url(:id => object.group) %>.
+  <% end %>
+<% elsif object.is_a? Message and object.group %>
+  <% if object.parent %>
+    posted a reply to <%= link_to h(object.top.subject), message_url(:id => object.top) %>
+  <% else %>
+    posted a message titled <%= link_to h(object.subject), message_url(:id => object) %>
+  <% end %>
+  in the <%= link_to h(object.group.name_group), group_url(:id => object.group) %>.
+<% elsif object.is_a? Message and object.wall %>
+  posted a message on 
+  <%= link_to "#{object.wall.name_possessive} wall", person_url(:id => object.wall, :anchor => 'wall') %>.
+<% elsif object.is_a? Person %>
+  updated <%= item.person == @logged_in ? 'your' : 'their' %>
+  <%= item.showable_change_keys.to_sentence %>.
+<% elsif object.is_a? Friendship %>
+  <% if object.person == @logged_in %>
+    is now your friend.
+  <% else %>
+    is now friends with <%= link_to object.person.name, person_url(:id => object.person) %>.
+  <% end %>
+<% end %>

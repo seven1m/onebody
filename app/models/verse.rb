@@ -19,7 +19,7 @@ require 'net/http'
 class Verse < ActiveRecord::Base
   has_and_belongs_to_many :people, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
   has_and_belongs_to_many :tags, :order => 'name'
-  has_many :comments
+  has_many :comments, :dependent => :destroy
   has_and_belongs_to_many :events
   acts_as_logger LogItem
     

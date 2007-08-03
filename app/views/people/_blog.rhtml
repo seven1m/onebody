@@ -31,7 +31,7 @@
 <% end %>
 
 <% if @person == @logged_in %>
-  <p>
+  <p style="margin-top:-10px;">
     Add stuff to your blog:<br/>
     <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', :controller => 'notes', :action => 'edit' %> &nbsp;&nbsp;
     <%= link_to image_tag('add_small.gif', :alt => 'Add a verse.', :class => 'icon') + ' Add a Verse', :controller => 'verses', :anchor => 'add' %> &nbsp;&nbsp;

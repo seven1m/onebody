@@ -7,8 +7,6 @@
     <%= link_to h(news_item.title), news_item.link %>
   </p>
 <% end %>
-<% if (count = news_item.comments.count) > 0 %>
-  <div class="comment-summary">
-    <%= render :partial => 'comments/comment_summary', :locals => {:object => news_item} %>
-  </div>
-<% end %>
+<div class="comment-summary">
+  <%= render :partial => 'comments/comment_summary', :locals => {:object => news_item} %>
+</div>

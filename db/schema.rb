@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 74) do
+ActiveRecord::Schema.define(:version => 77) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean,  :default => false
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 74) do
     t.column "recipe_id",    :integer
     t.column "news_item_id", :integer
     t.column "song_id",      :integer
+    t.column "note_id",      :integer
   end
 
   create_table "contacts", :force => true do |t|
@@ -159,6 +160,7 @@ ActiveRecord::Schema.define(:version => 74) do
     t.column "share_anniversary",  :boolean
     t.column "updated_at",         :datetime
     t.column "code",               :integer
+    t.column "home_group",         :boolean,  :default => false
   end
 
   create_table "messages", :force => true do |t|
@@ -264,6 +266,7 @@ ActiveRecord::Schema.define(:version => 74) do
     t.column "visible_on_printed_directory", :boolean,                 :default => false
     t.column "full_access",                  :boolean,                 :default => false
     t.column "legacy_family_id",             :integer
+    t.column "feed_code",                    :string,   :limit => 50
   end
 
   create_table "people_verses", :id => false, :force => true do |t|

@@ -11,6 +11,9 @@ class NotesController < ApplicationController
   def edit
     @note = params[:id] ? Note.find(params[:id]) : Note.new(:person => @logged_in)
     if @note.person == @logged_in or @logged_in.admin?(:manage_notes)
+      unless params[:group_id] and @group = Group.find_by_id(params[:group_id]) and @group.can_post?(@logged_in)
+        @group = nil
+      end
       if request.post?
         @note.update_attributes params[:note]
         if @note.group

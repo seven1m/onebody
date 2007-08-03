@@ -17,9 +17,12 @@
 class Note < ActiveRecord::Base
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
   belongs_to :group
+  has_many :comments, :dependent => :destroy
   
   acts_as_logger LogItem
   
   validates_presence_of :title
   validates_presence_of :body
+  
+  def name; title; end
 end
