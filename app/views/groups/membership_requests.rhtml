@@ -1,0 +1,23 @@
+<p><%= link_to '&laquo; back to the group', group_url(:id => @group) %></p>
+
+<h1><%= @group.name %> Membership Requests</h1>
+
+<% if @group.membership_requests.count > 0 %>
+  <%= form_tag :action => 'process_requests', :id => @group.id %>
+    <table>
+      <% @group.membership_requests.each do |req| %>
+        <tr>
+          <td><%= check_box_tag 'people[]', req.person.id, false, :class => 'checkbox' %></td>
+          <td><%= link_to req.person.name, person_url(:id => req.person) %></td>
+        </tr>
+      <% end %>
+    </table>
+    <p>
+      Select one or more above and choose an action:<br/>
+      <input type="submit" name="commit" value="Accept" style="font-weight:bold;"><br/>
+      <input type="submit" name="commit" value="Ignore">
+    </p>
+  </form>
+<% else %>
+  <p><em>No pending requests.</em></p>
+<% end %>

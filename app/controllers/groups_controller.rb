@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   def index
-    @categories = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' #{@logged_in.admin?(:manage_groups) ? '' : 'and hidden = 0'} group by category").map { |g| [g.category, g.group_count] }
+    @categories = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' #{@logged_in.admin?(:manage_groups) ? '' : 'and hidden = 0 and approved = 1'} group by category").map { |g| [g.category, g.group_count] }
     @hidden_groups = Group.find_all_by_hidden(true, :order => 'name')
     if @logged_in.admin?(:manage_groups)
       @unapproved_groups = Group.find_all_by_approved(false)
@@ -23,6 +23,9 @@ class GroupsController < ApplicationController
     @group = Group.find params[:id]
     @messages = @group.messages.find :all, :select => '*, (select count(*) from messages r where r.parent_id=messages.id and r.to_person_id is null) as reply_count, (select count(*) from attachments where message_id=messages.id or message_id in (select id from messages r where r.parent_id=messages.id)) as attachment_count'
     @notes = @group.notes.find :all, :order => 'created_at desc', :limit => 10
+    unless @group.approved? or @group.admin?(@logged_in)
+      render :text => 'This group is pending approval', :layout => true
+    end
     unless @logged_in.sees? @group
       render :text => 'This group is private.', :layout => true
     end
@@ -133,15 +136,18 @@ class GroupsController < ApplicationController
   
   def join(person_id=nil)
     @group = Group.find params[:id]
-    raise 'You cannot join a private group' if @group.private? and person_id.nil? and not @group.admin? @logged_in
     id = person_id || @logged_in.id
-    unless @group.memberships.find_all_by_person_id(id).any?
-      @group.memberships.create :person => Person.find(id)
+    if person_id or @group.admin?(@logged_in) # just do it
+      unless @group.memberships.find_all_by_person_id(id).any?
+        @group.memberships.create :person => Person.find(id)
+      end
+    else # send a request
+      unless @group.membership_requests.find_all_by_person_id(id).any?
+        @group.membership_requests.create :person => Person.find(id)
+        flash[:warning] = 'A request to join this group has been sent to the group administrator(s).'
+      end
     end
-    unless person_id
-      flash[:notice] = 'You have been signed up.'
-      redirect_to params[:return_to] || {:action => 'view', :id => @group}
-    end
+    redirect_to params[:return_to] || {:action => 'view', :id => @group} unless person_id
   end
   
   def leave(person_id=nil)
@@ -154,6 +160,23 @@ class GroupsController < ApplicationController
       flash[:notice] = 'You are no longer signed up.'
       redirect_to params[:return_to] || {:action => 'index'}
     end
+  end
+  
+  def membership_requests
+    @group = Group.find params[:id]
+    raise 'Unauthorized' unless @group.admin?(@logged_in)
+  end
+  
+  def process_requests
+    @group = Group.find params[:id]
+    raise 'Unauthorized' unless @group.admin?(@logged_in)
+    params[:people].each do |id|
+      @group.membership_requests.find_all_by_person_id(id).each do |req|
+        join(id) if params[:commit] == 'Accept'
+        req.destroy
+      end
+    end
+    redirect_to :action => 'membership_requests', :id => @group.id
   end
   
   def toggle_email

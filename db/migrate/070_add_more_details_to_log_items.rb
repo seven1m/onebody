@@ -1,4 +1,4 @@
-class AddNameAndGroupIdToLogItems < ActiveRecord::Migration
+class AddMoreDetailsToLogItems < ActiveRecord::Migration
   def self.up
     # only do this if it's not already done
     add_column :log_items, :name, :string, :limit => 255 rescue nil

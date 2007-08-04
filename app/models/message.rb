@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 76
+# Schema version: 78
 #
 # Table name: messages
 #
@@ -73,9 +73,8 @@ class Message < ActiveRecord::Base
 
   attr_accessor :dont_send
   
-  def after_save
+  def after_create
     return if dont_send
-    return if created_at < (Time.now - 1.day) # Yikes! I almost resent every message in the system!
     if group
       send_to_group
     elsif to

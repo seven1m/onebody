@@ -79,4 +79,12 @@
   </p>
   
   <p><%= link_to 'Click here', :action => 'updates' %> to review pending groups.</p>
+  
+  <h2>Group Memberships</h2>
+  
+  <p style="font-weight:bold;<% if @membership_request_count > 0 %>color:red;<% end %>">
+    <%= @membership_request_count %> pending <%= @membership_request_count == 1 ? 'membership request' : 'membership requests' %>
+  </p>
+  
+  <p><%= link_to 'Click here', :action => 'membership_requests' %> to review pending membership requests.</p>
 <% end %>

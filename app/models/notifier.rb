@@ -20,6 +20,18 @@ class Notifier < ActionMailer::Base
     body :person => person, :friend => friend
   end
   
+  def membership_request(group, person)
+    unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
+      unless (to = Admin.find_all_by_manage_updates(true).map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
+        to = SETTINGS['access']['super_admins']
+      end
+    end
+    recipients to
+    from person.email.to_s.any? ? "#{person.name} <#{person.email}>" : SETTINGS['contact']['system_noreply_email']
+    subject "Request to Join Group from #{person.name}"
+    body :person => person, :group => group
+  end
+  
   def message(to, msg)
     recipients to.email
     from msg.email_from(to)

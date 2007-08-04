@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 76
+# Schema version: 78
 #
 # Table name: people
 #
@@ -67,6 +67,7 @@
 #  full_access                  :boolean(1)    
 #  legacy_family_id             :integer(11)   
 #  feed_code                    :string(50)    
+#  share_activity               :boolean(1)    
 #
 
 class Person < ActiveRecord::Base
@@ -74,7 +75,8 @@ class Person < ActiveRecord::Base
   
   belongs_to :family
   belongs_to :admin
-  has_many :memberships
+  has_many :memberships, :dependent => :destroy
+  has_many :membership_requests, :dependent => :destroy
   has_many :groups, :through => :memberships, :order => 'groups.name', :conditions => "groups.link_code is null or groups.link_code = ''"
   has_many :contacts, :foreign_key => 'owner_id'
   has_many :people, :through => :contacts, :order => 'people.last_name, people.first_name'
@@ -169,6 +171,7 @@ class Person < ActiveRecord::Base
   inherited_attribute :share_fax, :family
   inherited_attribute :share_email, :family
   inherited_attribute :share_birthday, :family
+  inherited_attribute :share_activity, :family
   inherited_attribute :wall_enabled, :family
   def share_address; family.share_address; end
   def share_anniversary; family.share_anniversary; end
@@ -180,6 +183,7 @@ class Person < ActiveRecord::Base
   share_with :birthday
   share_with :address
   share_with :anniversary
+  share_with :activity
   
   def groups_sharing(attribute)
     memberships.find(:all, :conditions => ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }

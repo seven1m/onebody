@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 76
+# Schema version: 78
 #
 # Table name: verses
 #
@@ -33,8 +33,6 @@ class Verse < ActiveRecord::Base
   end
   
   def name; reference; end
-  
-  def to_param; reference; end
   
   def book_name
     @book_name ||= reference.gsub(/[\d\:\s\-;,]+$/, '')

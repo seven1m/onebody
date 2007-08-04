@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 76
+# Schema version: 78
 #
 # Table name: publications
 #

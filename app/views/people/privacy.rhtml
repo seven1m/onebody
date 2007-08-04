@@ -90,6 +90,19 @@
         <td><input type="radio" disabled="disabled" class="checkbox"/></td>
       </tr>
       <tr>
+        <td>Activity</td>
+        <td><%= form.radio_button :share_activity, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_activity, false, :class => 'checkbox' %></td>
+        <td>
+          <% if SETTINGS['features']['friends'] %>
+            <em>Your friends may see your activity online (public messages, verses, etc.) conveniently in their "Recently" tab.</em>
+          <% end %>
+          <% if SETTINGS['features']['sidebar_group_category'] %>
+            <em>Fellow group members may see your group messages, blog posts, and prayer requests conveniently in their "Recently" tab.</em>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
         <td>Wall</td>
         <td><%= form.radio_button :wall_enabled, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :wall_enabled, false, :class => 'checkbox' %></td>
@@ -174,6 +187,20 @@
             <td><%= radio_button_tag 'person[share_birthday]', false, person.attributes['share_birthday'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_birthday]', 'nil', person.attributes['share_birthday'] == nil, :class => 'checkbox' %></td>
             <td><em>The year is never shown.</em></td>
+          </tr>
+          <tr>
+            <td>Activity</td>
+            <td><%= radio_button_tag 'person[share_activity]', true, person.attributes['share_activity'] == true, :class => 'checkbox' %></td>
+            <td><%= radio_button_tag 'person[share_activity]', false, person.attributes['share_activity'] == false, :class => 'checkbox' %></td>
+            <td><%= radio_button_tag 'person[share_activity]', 'nil', person.attributes['share_activity'] == nil, :class => 'checkbox' %></td>
+            <td>
+              <% if SETTINGS['features']['friends'] %>
+                <em>Your friends may see your activity online (public messages, verses, etc.) conveniently in their "Recently" tab.</em>
+              <% end %>
+              <% if SETTINGS['features']['sidebar_group_category'] %>
+                <em>Fellow group members may see your group messages, blog posts, and prayer requests conveniently in their "Recently" tab.</em>
+              <% end %>
+            </td>
           </tr>
           <tr>
             <td>Wall</td>

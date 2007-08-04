@@ -106,11 +106,17 @@ class AdminController < ApplicationController
     @flag_count = LogItem.count '*', :conditions => 'reviewed_on is null and flagged_on is not null'
     @update_count = Update.count '*', :conditions => ['complete = ?', false]
     @group_count = Group.count '*', :conditions => ['approved = ?', false]
+    @membership_request_count = MembershipRequest.count
     if @logged_in.super_admin?
       @privileges = nil
     else
       @privileges = Admin.privilege_columns.select { |c| @logged_in.admin.send(c.name+'?') }.map { |c| c.name.gsub('_', ' ') }
     end
+  end
+  
+  def membership_requests
+    raise 'Unauthorized' unless @logged_in.admin?(:manage_groups)
+    @reqs_by_group = MembershipRequest.find(:all).select { |r| r.group }.group_by &:group
   end
   
   def edit_attribute

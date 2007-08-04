@@ -65,9 +65,10 @@ class PeopleController < ApplicationController
     end
     @items = LogItem.find(
       :all,
-      :conditions => ["(model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and person_id in (#{friend_ids.join(',')}) and deleted = ?) or (model_name in ('Note', 'Message', 'PrayerRequest') and group_id in (#{group_ids.join(',')}) and deleted = ?)", false, false],
-      :order => 'created_at desc',
-      :limit => 25
+      :conditions => ["((log_items.model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and log_items.person_id in (#{friend_ids.join(',')})) or (log_items.model_name in ('Note', 'Message', 'PrayerRequest') and log_items.group_id in (#{group_ids.join(',')}))) and log_items.deleted = ? and (people.share_activity = ? or (people.share_activity is null and (select share_activity from families where id=people.family_id limit 1) = ?))", false, true, true],
+      :order => 'log_items.created_at desc',
+      :limit => 25,
+      :include => :person
     ).select do |item|
       if item.model_name == 'Friendship'
         item.object.person != item.person
@@ -407,7 +408,7 @@ class PeopleController < ApplicationController
       if params[:event_id]
         redirect_to :controller => 'events', :action => 'view', :id => params[:event_id], :anchor => 'verses'
       else
-        redirect_to :controller => 'verses', :action => 'view', :id => verse.reference
+        redirect_to :controller => 'verses', :action => 'view', :id => verse
       end
     end
   end

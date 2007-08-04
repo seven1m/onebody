@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 76
+# Schema version: 78
 #
 # Table name: families
 #
@@ -29,6 +29,7 @@
 #  updated_at         :datetime      
 #  wall_enabled       :boolean(1)    default(TRUE)
 #  visible            :boolean(1)    default(TRUE)
+#  share_activity     :boolean(1)    default(TRUE)
 #
 
 class Family < ActiveRecord::Base

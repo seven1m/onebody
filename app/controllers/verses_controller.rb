@@ -24,13 +24,13 @@ class VersesController < ApplicationController
   def add_tags
     @verse = Verse.find params[:id]
     @verse.tag_string = params[:tag_string]
-    redirect_to :action => 'view', :id => @verse.reference
+    redirect_to :action => 'view', :id => @verse
   end
   
   def delete_tag
     @verse = Verse.find params[:id]
     @verse.tags.delete Tag.find(params[:tag_id])
-    redirect_to :action => 'view', :id => @verse.reference
+    redirect_to :action => 'view', :id => @verse
   end
 
   def add_verse

@@ -49,7 +49,8 @@ module Foo
                   :model_name => self.class.name,
                   :instance_id => self.id,
                   :deleted => true,
-                  :person => Person.logged_in
+                  :person => Person.logged_in,
+                  :group_id => self.respond_to?(:group_id) ? self.group_id : nil
                 )
               end
             end

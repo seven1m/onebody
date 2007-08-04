@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 76
+# Schema version: 78
 #
 # Table name: groups
 #
@@ -24,6 +24,7 @@
 
 class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
+  has_many :membership_requests, :dependent => :destroy
   has_many :people, :through => :memberships, :order => 'last_name, first_name'
   has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc', :dependent => :destroy
   has_many :notes, :order => 'created_at desc'
