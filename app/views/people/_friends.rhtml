@@ -9,7 +9,7 @@
     <p><%= MAX_FRIENDS_ON_PROFILE %> of <%= count %></p>
   <% end %>
   <table>
-    <% @person.friends.find(:all, :limit => 10).each do |friend| %>
+    <% @person.friends.find(:all, :limit => MAX_FRIENDS_ON_PROFILE, :order => 'first_name, last_name').each do |friend| %>
       <tr>
         <td>
           <a href="<%= url_for :action => 'view', :id => friend %>">

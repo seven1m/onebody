@@ -60,10 +60,12 @@ class PeopleController < ApplicationController
     end
     friend_ids = [@person.id]
     friend_ids += @person.friends.find(:all, :select => 'people.id').map { |f| f.id } if SETTINGS['features']['friends']
-    group_member_ids = @person.home_group.people.map { |p| p.id }
+    unless (group_ids = @person.groups.select { |g| !g.hidden? }.map { |g| g.id }).any?
+      group_ids = [0]
+    end
     @items = LogItem.find(
       :all,
-      :conditions => ["(model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and person_id in (#{friend_ids.join(',')}) and deleted = ?) or (model_name in ('Note', 'Message') and person_id in (#{group_member_ids.join(',')}) and deleted = ?)", false, false],
+      :conditions => ["(model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and person_id in (#{friend_ids.join(',')}) and deleted = ?) or (model_name in ('Note', 'Message', 'PrayerRequest') and group_id in (#{group_ids.join(',')}) and deleted = ?)", false, false],
       :order => 'created_at desc',
       :limit => 25
     ).select do |item|
@@ -83,7 +85,7 @@ class PeopleController < ApplicationController
     last_model_name = nil
     group = nil
     @items.each do |item|
-      if item.model_name != last_model_name
+      if item.model_name != last_model_name or item.model_name != 'Picture'
         @grouped_items << group if group
         group = []
       end

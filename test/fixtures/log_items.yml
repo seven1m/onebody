@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 74
+# Schema version: 76
 #
 # Table name: log_items
 #
@@ -9,6 +9,7 @@
 #  instance_id :integer(11)   
 #  changes     :text          
 #  person_id   :integer(11)   
+#  group_id    :integer(11)   
 #  created_at  :datetime      
 #  reviewed_on :datetime      
 #  reviewed_by :integer(11)   

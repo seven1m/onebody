@@ -55,7 +55,13 @@
       :controller => 'help', :action => 'safeguarding_children' %></p>
   <% end %>
   
-  <% if SETTINGS['features']['friends'] %><%= render :partial => 'friends' %><% end %>
+  <% if SETTINGS['features']['friends'] %>
+    <%= render :partial => 'friends' %>
+  <% end %>
+  
+  <% if SETTINGS['features']['sidebar_group_category'] %>
+    <%= render :partial => 'sidebar_people' %>
+  <% end %>
 
 <% end %>
 

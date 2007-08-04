@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 74
+# Schema version: 76
 #
 # Table name: groups
 #
@@ -28,6 +28,8 @@ morgan:
   name: Morgan Group
   creator_id: 1
   category: Small Groups
+  hidden: false
+  private: false
 publications:
   id: 2
   name: Publications

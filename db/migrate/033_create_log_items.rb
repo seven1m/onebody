@@ -6,6 +6,7 @@ class CreateLogItems < ActiveRecord::Migration
       t.column :instance_id, :integer
       t.column :changes, :text
       t.column :person_id, :integer
+      t.column :group_id, :integer
       t.column :created_at, :datetime
     end
   end

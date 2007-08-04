@@ -18,7 +18,7 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
         xml.link        url_for(:only_path => false, :controller => 'people')
         xml.description render(:partial => 'log_item', :locals => {:item => item})
         xml.pubDate     CGI.rfc1123_date(item.created_at.to_time)
-        xml.guid        Digest::MD5.md5("#{item.model_name}#{item.instance_id}#{item.created_at.to_time.to_s}")
+        xml.guid        Digest::MD5.hexdigest("#{item.model_name}#{item.instance_id}#{item.created_at.to_time.to_s}")
         xml.author      item.person.name
       end
     end

@@ -44,13 +44,6 @@
   </p>
 <% end %>
 
-<% if @logged_in.home_group == @group %>
-  <p class="highlight">
-    <%= image_tag 'home.png', :alt => 'Home Group', :class => 'icon' %> This is your home group.
-    <%= link_to 'What?', :controller => 'help', :action => 'home_group' %>
-  </p>
-<% end %>
-
 <h1><%=h @group.name %></h1>
 
 <p><%=h @group.description %></p>
@@ -91,8 +84,14 @@
     <% if @group.can_post? @logged_in %>
       <p>
         <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
-        <%= link_to 'New Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
-        <em>Posting a message here sends email to everyone in the group.</em>
+        <%= link_to 'Send a Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
+        <em>
+          Send a message to everyone in the group at once.
+          <% if @group.address.to_s.any? %>
+            <br/>
+            You can also do this by sending email to <%= mail_to @group.full_address, @group.full_address %>.
+          <% end %>
+        </em>
       </p>
     <% end %>
     <% if @messages.any? %>

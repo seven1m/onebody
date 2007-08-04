@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 74
+# Schema version: 76
 #
 # Table name: people
 #
@@ -66,6 +66,7 @@
 #  visible_on_printed_directory :boolean(1)    
 #  full_access                  :boolean(1)    
 #  legacy_family_id             :integer(11)   
+#  feed_code                    :string(50)    
 #
 
 class Person < ActiveRecord::Base
@@ -331,8 +332,15 @@ class Person < ActiveRecord::Base
     @groups
   end
   
-  def home_group
-    m = memberships.find_by_home_group(true) ? m.group : groups.select { |g| g.category != 'Subscription' }.first
+  def sidebar_groups
+    SETTINGS['features']['sidebar_group_category'] && \
+      groups.select { |g| g.category.to_s.downcase == SETTINGS['features']['sidebar_group_category'].downcase }
+  end
+  
+  def sidebar_group_people
+    @sidebar_group_people ||= begin
+      sidebar_groups.map { |g| g.people }.flatten.uniq.delete_if { |p| p == self }.sort_by(&:name)
+    end
   end
   
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female

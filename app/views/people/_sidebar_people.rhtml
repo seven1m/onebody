@@ -1,0 +1,22 @@
+<% if @person.sidebar_group_people.any? %>
+  <h2><%= SETTINGS['features']['sidebar_group_heading'] %></h2>
+  <table>
+    <% @person.sidebar_group_people.each do |person| %>
+      <tr>
+        <td>
+          <a href="<%= url_for :action => 'view', :id => person %>">
+            <%= render :partial => 'thumbnail', :locals => {:person => person} %>
+          </a>
+        </td>
+        <td class="person">
+          <%= link_to h(person.name), person_url(:id => person) %>
+          <% if person.birthday_soon? %>
+            <br/>
+            <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
+            birthday <%= person.birthday.to_time.to_s :date rescue nil %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

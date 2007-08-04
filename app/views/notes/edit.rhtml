@@ -15,6 +15,9 @@
   <% if @group %>
     <%= hidden_field_tag 'note[group_id]', @group.id %>
     <p><em>This note will be posted to the group blog for <%= @group.name %>.</em></p>
+    <% if @group.private? %>
+      <p style="color:red;">This note will <strong>not</strong> be private since it is a blog post. To send a private message, send an email to the group.</p>
+    <% end %>
   <% end %>
   <p>
     <label for="note_title">Title:</label>

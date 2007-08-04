@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 74
+# Schema version: 76
 #
 # Table name: admins
 #

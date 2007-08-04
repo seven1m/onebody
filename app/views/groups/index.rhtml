@@ -5,13 +5,14 @@
   </p>
 <% end %>
 
-<h2>Your Groups</h2>
-<%= render :partial => 'people/groups' %>
-
-<h2>Find a Group</h2>
 <table>
   <tr>
-    <td style="padding-right:50px;">
+    <td style="padding-right:25px;">
+      <h2 style="border:none;">Your Groups</h2>
+      <%= render :partial => 'people/groups' %>
+    </td>
+    <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;">
+      <h2 style="border:none;">Browse</h2>
       <p><strong>Browse by category:</strong></p>
       <ul>
         <% @categories.each do |category, group_count| %>
@@ -22,7 +23,8 @@
         <% end %>
       </ul>
     </td>
-    <td style="width:170px;padding-left:50px;border-left:1px dotted #ccc;">
+    <td style="padding-left:25px;border-left:1px dotted #ccc;">
+      <h2 style="border:none;">Search</h2>
       <%= form_tag({:action => 'search'}, :method => 'get', :style => 'border:none;') %>
         <p><strong>Search by name:</strong></p>
         <p><%= text_field_tag :name, nil, :style => 'width:120px;' %>
@@ -32,7 +34,7 @@
   </tr>
 </table>
 
-<h2>Create a Group</h2>
+<h2 style="border-top:1px dotted #ccc;border-bottom:none;">Create a Group</h2>
 <p>
   If you can't find the group you're looking for, create it!
 </p>

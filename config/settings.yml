@@ -15,6 +15,12 @@ features:
   # or set to: [first_time_slot, last_time_slot]
   # e.g., ['1/21/2007 12:00', '1/29/2007 21:00']
   prayer:
+  # sidebar group category (blank to disable)
+  # people in groups in this category
+  # will be displayed on the user's profile sidebar
+  sidebar_group_category: Small Groups
+  # heading to show above people (if enabled above)
+  sidebar_group_heading: Small Group
 
 url:
   # url for this site (include trailing slash on this one)
