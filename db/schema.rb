@@ -299,8 +299,7 @@ ActiveRecord::Schema.define(:version => 78) do
   create_table "prayer_requests", :force => true do |t|
     t.column "group_id",    :integer
     t.column "person_id",   :integer
-    t.column "title",       :string,   :limit => 100
-    t.column "body",        :text
+    t.column "request",     :text
     t.column "answer",      :text
     t.column "answered_at", :datetime
     t.column "created_at",  :datetime

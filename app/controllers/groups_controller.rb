@@ -23,6 +23,8 @@ class GroupsController < ApplicationController
     @group = Group.find params[:id]
     @messages = @group.messages.find :all, :select => '*, (select count(*) from messages r where r.parent_id=messages.id and r.to_person_id is null) as reply_count, (select count(*) from attachments where message_id=messages.id or message_id in (select id from messages r where r.parent_id=messages.id)) as attachment_count'
     @notes = @group.notes.find :all, :order => 'created_at desc', :limit => 10
+    @prayer_requests = @group.prayer_requests.find(:all, :conditions => "answer = '' or answer is null", :order => 'created_at desc')
+    @answered_prayer_count = @group.prayer_requests.count('*', :conditions => "answer != '' and answer is not null")
     unless @group.approved? or @group.admin?(@logged_in)
       render :text => 'This group is pending approval', :layout => true
     end

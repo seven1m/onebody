@@ -44,4 +44,7 @@
   <% else %>
     is now friends with <%= link_to object.person.name, person_url(:id => object.person) %>.
   <% end %>
+<% elsif object.is_a? PrayerRequest %>
+  edited a <%= link_to 'prayer request', prayer_request_url(:id => object) %>
+  in the <%= link_to h(object.group.name_group), group_url(:id => object.group) %>.
 <% end %>

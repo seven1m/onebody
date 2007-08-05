@@ -1,0 +1,23 @@
+<% if @logged_in.can_edit?(@req) %>
+  <% content_for :subnav do %>
+    <li><%= link_to 'Edit Request', edit_prayer_request_url(:id => @req) %></li>
+    <% if @req.group and @req.group.admin?(@logged_in) %>
+      <li><%= link_to 'Delete Request', delete_prayer_request_url(:id => @req), :confirm => 'Are you sure?', :method => :post %></li>
+    <% end %>
+  <% end %>
+<% end %>
+
+<h1>Prayer Request</h1>
+
+<p>
+  Submitted by <%= link_to @req.person.name, person_url(:id => @req.person) %>
+  on <%= @req.created_at.to_time.to_s :date %>
+</p>
+
+<p style="font-size:larger;"><%=h @req.request %></p>
+
+<% if @req.answer.to_s.any? %>
+  <h2>Answer</h2>
+  <p>Answered on <%= @req.answered_at.to_time.to_s :date %></p>
+  <p style="font-size:larger;"><%=h @req.answer %></p.>
+<% end %>

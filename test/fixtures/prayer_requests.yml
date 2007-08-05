@@ -6,8 +6,7 @@
 #  id          :integer(11)   not null, primary key
 #  group_id    :integer(11)   
 #  person_id   :integer(11)   
-#  title       :string(100)   
-#  body        :text          
+#  request     :text          
 #  answer      :text          
 #  answered_at :datetime      
 #  created_at  :datetime      

@@ -211,6 +211,9 @@ class Person < ActiveRecord::Base
       else
         admin?(:manage_messages) or what.to == self or what.wall == self or what.person == self
       end
+    elsif what.is_a? PrayerRequest
+      what.person == self or
+        (what.group and (what.group.people.include? self or what.group.admin?(self)))
     else
       raise 'unknown "what"'
     end
@@ -229,6 +232,8 @@ class Person < ActiveRecord::Base
       admin?(:edit_profiles) or (what == self.family and self.adult?)
     elsif what.is_a? Message
       admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self)
+    elsif what.is_a? PrayerRequest
+      admin?(:manage_groups) or what.person == self or (what.group and what.group.people.include? self) or (what.group and what.group.admin? self)
     else
       raise 'unknown "what"'
     end

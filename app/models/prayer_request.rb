@@ -6,8 +6,7 @@
 #  id          :integer(11)   not null, primary key
 #  group_id    :integer(11)   
 #  person_id   :integer(11)   
-#  title       :string(100)   
-#  body        :text          
+#  request     :text          
 #  answer      :text          
 #  answered_at :datetime      
 #  created_at  :datetime      
@@ -18,5 +17,7 @@ class PrayerRequest < ActiveRecord::Base
   belongs_to :group
   belongs_to :person
   
-  validates_length_of :title, :maximum => 100
+  acts_as_logger LogItem
+  
+  def name; "Prayer Request in #{group.name}"; end
 end

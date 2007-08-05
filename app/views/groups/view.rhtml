@@ -136,11 +136,23 @@
 
 <h2 class="tab" id="prayerrequests">Prayer Requests</h2>
 <div class="section">
-  <% if @logged_in.groups.include? @group %>
-    <% if @group.prayer_requests.count > 0 %>
-      
+  <% if @group.people.include? @logged_in %>
+    <p>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add a prayer request.', :class => 'icon') + ' Add a Prayer Request', new_prayer_request_url(:group_id => @group) %><br/>
+      <em>Prayer requests are private to this group.</em>
+    </p>
+    <% if @prayer_requests.length > 0 %>
+      <% @prayer_requests.each do |req| %>
+        <%= render :partial => 'prayer_requests/prayer_request', :locals => {:req => req} %>
+      <% end %>
     <% else %>
-      <p><em>No prayer requests yet.</em></p>
+      <p><em>no prayer requests</em></p>
+    <% end %>
+    <% if @answered_prayer_count > 0 %>
+      <p>
+        <%= @answered_prayer_count %> answered <%= @answered_prayer_count == 1 ? 'prayer' : 'prayers' %><br/>
+        <%= link_to 'View Answered Prayers &raquo;', :controller => 'prayer_requests', :action => 'answered', :id => @group %>
+      </p>
     <% end %>
   <% else %>
     <p><em>Only members of this group can read and add prayer requests.</em></p>

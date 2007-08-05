@@ -13,7 +13,16 @@ ActionController::Routing::Routes.draw do |map|
     m.new_note 'notes/edit', :action => 'edit'
     m.edit_note 'notes/edit/:id', :action => 'edit'
     m.delete_note 'notes/delete/:id', :action => 'delete'
+    m.note 'notes/view/:id', :action => 'view'
     m.connect 'notes/:action/:id', :action => 'index'
+  end
+  
+  map.with_options :controller => 'prayer_requests' do |m|
+    m.new_prayer_request 'prayer_requests/edit', :action => 'edit'
+    m.edit_prayer_request 'prayer_requests/edit/:id', :action => 'edit'
+    m.delete_prayer_request 'prayer_requests/delete/:id', :action => 'delete'
+    m.prayer_request 'prayer_requests/view/:id', :action => 'view'
+    m.connect 'prayer_requests/:action/:id', :action => 'index'
   end
   
   map.with_options :controller => 'friends' do |m|
@@ -31,10 +40,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'messages' do |m|
     m.message 'messages/view/:id', :action => 'view'
-  end
-  
-  map.with_options :controller => 'notes' do |m|
-    m.note 'notes/view/:id', :action => 'view'
   end
   
   map.with_options :controller => 'verses' do |m|

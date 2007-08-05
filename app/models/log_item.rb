@@ -25,7 +25,7 @@ class LogItem < ActiveRecord::Base
   
   def object
     return nil if deleted?
-    if model_name =~ /^[A-Z][a-z]{1,15}$/
+    if model_name =~ /^([A-Z][a-z]{1,15})+$/
       @object ||= eval(model_name).find(instance_id) rescue nil
     end
   end
