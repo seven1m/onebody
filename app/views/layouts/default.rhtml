@@ -35,11 +35,12 @@
                                   <%= simple_url(SETTINGS['url']['site']) %> | <span id="news_headlines" style="position:relative;background-color:#fff;"><%= link_to simple_url(SETTINGS['url']['visitor']), VISITOR_URL, :style => 'text-decoration:none;' %></span>
                                 </div>
 
-<!--
-        <div style="padding-top:5px;font-size:9pt;">
-          <%= link_to image_tag('prayer_signup.png', :alt => 'Prayer Week', :class => 'no-border'), :controller => 'prayer', :action => 'event' %>
-        </div>
--->
+        <% if SETTINGS['features']['prayer'] %>
+          <div style="padding-top:5px;font-size:9pt;">
+            <%= link_to image_tag('prayer_signup.png', :alt => 'Prayer Week', :class => 'no-border'), :controller => 'prayer', :action => 'event' %>
+          </div>
+        <% end %>
+
 				<ul id="nav">
 				
 				    <% if @logged_in %>

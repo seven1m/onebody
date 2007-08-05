@@ -1,17 +1,15 @@
-<h1>24/7 Prayer Week - Jan 21-<span style="text-decoration:line-through;">28</span>29</h1>
+<h1>24/7 Prayer Week - <%= @first.strftime('%b %d') %>-<%= @last.strftime('%d') %></h1>
 
 <p>
   Churches throughout the Tulsa area are joining together to
-  make 2007 a year of prayer. Cedar Ridge has chosen January 21-28
+  make <%= @first.strftime('%Y') %> a year of prayer. Cedar Ridge has chosen
+  <%= @first.strftime('%b %d') %>-<%= @last.strftime('%d') %>
   as our week to pray together 24 hours-a-day for 7 days. The
   prayer room will be manned around the clock all that week.
 </p>
 
 <p style="font-weight:bold;">
-<!--
   Sign up to pray below. You may sign up for multiple hours.
--->
-  Although we now have at least one person praying at every hour, we encourage you to continue to sign up for one or more hours. As many people that want may sign up for an hour spot. Have you already prayed and wish you had signed up for more? That's OK &mdash; go ahead and sign up for another hour later this week.   
 </p>
 
 <% content_for :sidebar do %>

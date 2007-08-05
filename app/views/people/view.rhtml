@@ -112,7 +112,7 @@
   </p>
 <% end %>
 
-<% if nil and @prayer_signups.any? %>
+<% if @prayer_signups.any? %>
   <p class="highlight" style="width:300px;">
     <%= @person.first_name %> is praying at the following time(s):<br/>
     <%= @prayer_signups.map { |s| s.start.strftime '%a %m/%d, %I:%M %p' }.join('<br/>') %>

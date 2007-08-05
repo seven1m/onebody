@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
   def index
     @person = @logged_in
     @family = @person.family
-    @prayer_signups = [] #@person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
+    @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()', :order => 'start')
     @me = true
     if @logged_in.full_access?
       unless @person.visible?
@@ -17,7 +17,7 @@ class PeopleController < ApplicationController
   def view
     if @person = Person.find(params[:id]) rescue nil
       @family = @person.family
-      @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()')
+      @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()', :order => 'start')
       @me = (@logged_in == @person)
     end
     if not @person or not @logged_in.sees? @person
