@@ -13,6 +13,11 @@
 </p>
 
 <% content_for :sidebar do %>
+  <p class="highlight">
+    Submit your prayer requests online
+    <%= link_to 'here', 'http://prayerweek.crccfamily.com/prayer' %>. 
+  </p>
+  
   <h2>Taken Time Slots</h2>
   <table>
     <% slots = range_of_hours(@first, @last).group_by { |h| h.strftime('%Y/%m/%d') } %>

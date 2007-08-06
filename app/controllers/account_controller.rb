@@ -15,7 +15,7 @@ class AccountController < ApplicationController
         session[:ip_address] = request.remote_ip
         flash[:notice] = "Welcome, #{person.first_name}."
         if params[:from]
-          redirect_to 'http://' + request.host + (request.port == 80 ? '' : ":#{request.port}") + params[:from]
+          redirect_to 'http://' + request.host + ([80, 443].include?(request.port) ? '' : ":#{request.port}") + params[:from]
         else
           redirect_to :controller => 'people', :action => 'index', :protocol => 'http://'
         end

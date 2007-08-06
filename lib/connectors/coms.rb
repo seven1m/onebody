@@ -20,18 +20,18 @@ class ComsConnector < ExternalDataConnector
     # set up database tables
     @db = {}
     {
-    # name            filename    in memory
-      :people =>     ['ssmember', false],
-      :postal =>     ['sspostal', true ],
-      :phone =>      ['ssphone',  true ],
-      :categories => ['sscatcod', false],
-      :classes =>    ['sswclass', false],
-      :board =>      ['ssboard',  false],
-      :service =>    ['sservice', false],
-      :families =>   ['ssfamily', false]
+    # name            filename        in memory
+      :people =>     ['ssmember.DBF', false],
+      :postal =>     ['sspostal.DBF', true ],
+      :phone =>      ['ssphone.DBF',  true ],
+      :categories => ['sscatcod.DBF', false],
+      :classes =>    ['sswclass.DBF', false],
+      :board =>      ['ssboard.DBF',  false],
+      :service =>    ['sservice.DBF', false],
+      :families =>   ['ssfamily.DBF', false]
     }.each do |name, details|
       file, in_memory = details
-      @db[name] = DBF::Table.new(File.join(db_path, file + '.dbf'), :in_memory => in_memory)
+      @db[name] = DBF::Table.new(File.join(db_path, file), :in_memory => in_memory)
     end
 
     precache_class_data

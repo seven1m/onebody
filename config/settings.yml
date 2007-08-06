@@ -1,14 +1,14 @@
 name:
   # name of this site
-  site: Imaginary Church Family
+  site: Cedar Ridge Family
   # name of church
-  church: First Imaginary Church
+  church: Cedar Ridge Christian Church
   
 features:
   # SSL is highly recommended to ensure security of users' passwords and accounts
   # Once your organization has a signed SSL certificate and you have Apache set up
   # to handle SSL requests, set the following value to true.
-  ssl: false
+  ssl: true
   # friends (set to true to enable MySpace-type mutual friendships, confirmed via email)
   friends: false
   # prayer event (blank to disable)
@@ -18,57 +18,64 @@ features:
   # sidebar group category (blank to disable)
   # people in groups in this category
   # will be displayed on the user's profile sidebar
-  sidebar_group_category: Small Groups
+  sidebar_group_category: Small Group
   # heading to show above people (if enabled above)
   sidebar_group_heading: Small Group
 
 url:
   # url for this site (include trailing slash on this one)
-  site: http://imaginaryfamily.com/
+  site: http://crccfamily.com/
   # url for main church website
-  visitor: http://imaginarychurch.com
+  visitor: http://cedarridgecc.com
   # url for church news (can be blank)
-  news: http://imaginarychurch.com/news
+  news: http://cedarridgecc.com/news
   # url for church news RSS feed (can be blank)
-  news_rss: http://imaginarychurch.com/news/RSS
+  news_rss: http://cedarridgecc.com/news/RSS
 
 email:
   host: localhost
-  domain: imaginaryfamily.com
+  domain: crccfamily.com
 
 services:
   # your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
-  yahoo:
+  yahoo: cedar_ridge_christian_church
   # your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
-  amazon:
+  amazon: 1VQ2K3ZK8QY3001WSD82
   # your site stats tracking code to be inserted in HTML of every page (can be blank)
-  analytics:
+  analytics: >
+    <script src="https://ssl.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      _uacct = "UA-1286002-2";
+      urchinTracker();
+    </script>
 
 contact:
   # phone number for church
-  church_office_phone: (123) 456-7890
+  church_office_phone: (918) 254-0621
   # email sent when someone updates their profile (can be blank)
-  send_updates_to: admin@imaginarychurch.com
+  send_updates_to:
   # when someone changes their email address
-  send_email_changes_to: admin@imaginarychurch.com
+  send_email_changes_to: siteadmin@cedarridgecc.com
   # when someone requests verification by birthday
-  birthday_verification_email: admin@imaginarychurch.com
+  birthday_verification_email: siteadmin@cedarridgecc.com
   # visible in some places on site
-  church_email: info@imaginarychurch.com
-  church_address: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
+  church_email: info@cedarridgecc.com
+  church_address: 4010 West New Orleans, Broken Arrow, OK 74011-1186
   # from address for some outgoing email
-  system_noreply_email: no-reply@imaginaryfamily.com
+  system_noreply_email: no-reply@crccfamily.com
   # list all domains where group email could be coming to
   group_address_domains: 
-    - imaginaryfamily.com
-    - imaginaryfamily.org
-    - imaginaryfamily.net
+    - crccfamily.com
+    - crccministries.com
+    - crccministries.org
+    - bridgeworship.org
   # technical help
-  tech_support_email: morgans@somedomain.com
-  tech_support_contact: Joe Schmo (joe@imaginaryhelp.com)
+  tech_support_email: tim@timmorgan.org
+  tech_support_contact: Tim Morgan (tim@timmorgan.org)
   # bug notification (if you want to be informed of site bugs, put your email address here)
-  bug_notification_email:
+  bug_notification_email: seven1m@gmail.com
 
 access:
   super_admins:
-    - morgans@somedomain.com
+    - tim@timmorgan.org
+    - jmorgan@cedarridgecc.com

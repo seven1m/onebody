@@ -2,18 +2,20 @@
   <table>
     <% @grouped_items.each do |items| %>
       <% item = items.first %>
-      <tr>
-        <td>
-          <a href="<%= url_for person_url(:id => item.person) %>">
-            <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
-          </a>
-        </td>
-        <td>
-          <%= render :partial => 'log_item', :locals => {:item => item} %>
-          <br/>
-          <span class="discreet"><%= item.created_at.to_time.to_s %></span>
-        </td>
-      </tr>
+      <% if item.object %>
+        <tr>
+          <td>
+            <a href="<%= url_for person_url(:id => item.person) %>">
+              <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
+            </a>
+          </td>
+          <td>
+            <%= render :partial => 'log_item', :locals => {:items => items, :item => item} %>
+            <br/>
+            <span class="discreet"><%= item.created_at.to_time.to_s %></span>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </table>
 <% else %>

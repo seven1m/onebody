@@ -140,7 +140,7 @@
 
 <h2 class="tab" id="about">About</h2>
 <div class="section" id="about_content">
-  <% if @person.about %>
+  <% if @person.about.to_s.any? %>
     <%= preserve_breaks @person.about %>
   <% elsif @me %>
     <em>Write something about yourself <%= link_to 'here', edit_profile_url(:anchor => 'about') %>.</em>
@@ -150,7 +150,7 @@
 
 <h2 class="tab" id="testimony">Testimony</h2>
 <div class="section" id="testimony_content">
-  <% if @person.testimony %>
+  <% if @person.testimony.to_s.any? %>
     <%= preserve_breaks @person.testimony %>
   <% elsif @me %>
     <em>Share your story <%= link_to 'here', edit_profile_url(:anchor => 'about') %>.</em>
@@ -164,25 +164,25 @@
 <h2 class="tab" id="favorites">Favorites</h2>
 <div class="section" id="favorites_content">
   <table>
-    <% if @person.activities %>
+    <% if @person.activities.to_s.any? %>
       <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
     <% end %>
-    <% if @person.interests %>
+    <% if @person.interests.to_s.any? %>
       <tr><td>Interests:</td><td><%= linkify @person.interests, :interests %></td></tr>
     <% end %>
-    <% if @person.music %>
+    <% if @person.music.to_s.any? %>
       <tr><td>Music:</td><td><%= linkify @person.music, :music %></td></tr>
     <% end %>
-    <% if @person.tv_shows %>
+    <% if @person.tv_shows.to_s.any? %>
       <tr><td>TV Shows:</td><td><%= linkify @person.tv_shows, :tv_shows %></td></tr>
     <% end %>
-    <% if @person.movies %>
+    <% if @person.movies.to_s.any? %>
       <tr><td>Movies:</td><td><%= linkify @person.movies, :movies %></td></tr>
     <% end %>
-    <% if @person.books %>
+    <% if @person.books.to_s.any? %>
       <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
     <% end %>
-    <% if @person.quotes %>
+    <% if @person.quotes.to_s.any? %>
       <tr>
         <td>Quotes:</td>
         <td>
@@ -194,7 +194,7 @@
     <% end %>
   </table>
   
-  <% unless !@me or has_favs = (@person.activities or @person.interests or @person.music or @person.tv_shows or @person.movies or @person.books or @person.quotes) %>
+  <% unless !@me or has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
     <p><em>Share your favorite interests, music, movies, and more
       <%= link_to 'here', edit_profile_url(:anchor => 'favorites') %>.</em></p>
   <% end %>
@@ -224,8 +224,8 @@
       Element.remove(name + '_content');
     }
     <% unless !@me or @person.friendships.count > 0 %>remove_section('recently');<% end %>
-    <% unless @person.about %>remove_section('about');<% end %>
-    <% unless @person.testimony %>remove_section('testimony');<% end %>
+    <% unless @person.about.to_s.any? %>remove_section('about');<% end %>
+    <% unless @person.testimony.to_s.any? %>remove_section('testimony');<% end %>
     <% unless @person.blog_items_count > 0 %>remove_section('blog');<% end %>
     <% unless has_favs %>remove_section('favorites');<% end %>
   //]]>

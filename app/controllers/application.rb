@@ -21,7 +21,9 @@ class ApplicationController < ActionController::Base
         # some minimal session hijacking protection
         if session[:ip_address] and session[:ip_address].split('.')[0..1].join('.') != request.remote_ip.split('.')[0..1].join('.')
           session[:logged_in_id] = nil
-          raise "There was an error loading the session. (Expected IP address #{session[:ip_address]} but got #{request.remote_ip})"
+          logger.warn "There was an error loading the session. (Expected IP address #{session[:ip_address]} but got #{request.remote_ip})" rescue nil
+          redirect_to :controller => 'people', :action => 'index'
+          return false
         end
         unless @logged_in.email
           redirect_to :controller => 'account', :action => 'change_email_and_password'

@@ -70,7 +70,11 @@ class PeopleController < ApplicationController
       :limit => 25,
       :include => :person
     ).select do |item|
-      if item.model_name == 'Friendship'
+      if !item.object
+        false
+      elsif item.model_name == 'Person'
+        item.object == @person and item.showable_change_keys.any?
+      elsif item.model_name == 'Friendship'
         item.object.person != item.person
       elsif item.model_name == 'Message'
         (item.object.group and @person.groups.include? item.object.group) \

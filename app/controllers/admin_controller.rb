@@ -140,9 +140,11 @@ class AdminController < ApplicationController
         if person.super_admin?
           flash[:notice] = "#{person.name} is a Super Administrator."
         else
-          Admin.create :person => person
+          Admin.create! :person => person
         end
       end
+    else
+      flash[:warning] = 'You are not authorized to do that.'
     end
     redirect_to :action => 'index'
   end

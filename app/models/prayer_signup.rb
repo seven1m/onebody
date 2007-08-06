@@ -21,9 +21,11 @@ class PrayerSignup < ActiveRecord::Base
       signups = signups.group_by &:person
       signups.each do |person, times|
         if person.email.to_s.any?
-          Notifier.deliver_prayer_reminder(person)
+          puts person.name
+          Notifier.deliver_prayer_reminder(person, times)
         end
       end
+      nil
     end
   end
 end
