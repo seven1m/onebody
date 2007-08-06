@@ -122,7 +122,7 @@ class Message < ActiveRecord::Base
   end
   
   def reply_instructions(to_person)
-    msg = ''
+    msg = "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
     if group
       if group.can_post? to_person
         if group.address.to_s.any?
