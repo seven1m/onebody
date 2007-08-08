@@ -62,7 +62,7 @@ class Group < ActiveRecord::Base
   end
   
   def admin?(person, exclude_global_admins=false)
-    if private? or exclude_global_admins
+    if exclude_global_admins
       admins.include? person
     else
       person.admin?(:manage_groups) or admins.include? person
