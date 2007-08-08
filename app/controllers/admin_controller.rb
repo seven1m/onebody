@@ -140,7 +140,10 @@ class AdminController < ApplicationController
         if person.super_admin?
           flash[:notice] = "#{person.name} is a Super Administrator."
         else
-          Admin.create! :person => person
+          person.admin = Admin.create!
+          unless person.save
+            flash[:warning] = person.errors.full_messages.join('; ')
+          end
         end
       end
     else

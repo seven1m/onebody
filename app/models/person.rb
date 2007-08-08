@@ -107,11 +107,15 @@ class Person < ActiveRecord::Base
     LogItem.create :model_name => 'Person', :instance_id => id, :changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
     self.photo_without_logging = p
   end
-  
+
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }
-  validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => Proc.new { Person.logged_in }
+  validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => :validate_website
+
+  def validate_website
+    Person.logged_in and website.to_s.strip.any?
+  end
   
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
