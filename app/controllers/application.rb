@@ -34,6 +34,8 @@ class ApplicationController < ActionController::Base
         @family = Family.find session[:family_id]
       elsif params[:action] == 'toggle_email'
         # don't do anything
+      elsif params[:action] == 'recently'
+        # don't do anything
       else
         redirect_to :controller => 'account', :action => 'sign_in', :from => request.request_uri
         return false
