@@ -56,6 +56,7 @@ class ComsConnector < ExternalDataConnector
   end
   
   def each_person(updated_since)
+    updated_since -= 1.day # because the COMS update time is a date only (time is midnight)
     people_ids # get all ids for completion reporting
     index = 0
     @db[:people].each_record do |record|
@@ -107,6 +108,7 @@ class ComsConnector < ExternalDataConnector
   end
   
   def each_family(updated_since)
+    updated_since -= 1.day # because the COMS update time is a date only (time is midnight)
     family_ids
     index = 0
     @db[:families].each_record do |record|
