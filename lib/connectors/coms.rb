@@ -86,11 +86,11 @@ class ComsConnector < ExternalDataConnector
             :mobile_phone => get_phone('CELLULAR', 'CELL_EXT', 'CELL_UNL', [member_phone_record, family_phone_record]),
             :work_phone => get_phone('WORKPHONE', 'WORK_EXT', 'WORK_UNL', [record]),
             :fax => get_phone('FAX', 'FAX_EXT', 'FAX_UNL', [member_phone_record, family_phone_record]),
-            :birthday => (record.birthday.to_time rescue nil),
+            :birthday => to_datetime(record.birthday),
             :email => (e = record.email.to_s.strip.downcase).any? ? e : nil,
             :classes => classes.to_a.join(','),
             :mail_group => record.mailgroup == '(None)' ? nil : record.mailgroup,
-            :anniversary => (record.weddate.to_time rescue nil),
+            :anniversary => to_datetime(record.weddate),
             :member => %w(M A C).include?(record.mailgroup),
             :staff => record.email =~ /@cedarridgecc\.com$/,
             :elder => classes =~ /[\b,]EL[\b,]/,
@@ -204,6 +204,12 @@ class ComsConnector < ExternalDataConnector
         if @service_cats.include?(record.category)
           @classes[record.memberid] << [record.category, record.updates]
         end
+      end
+    end
+
+    def to_datetime(time)
+      if time
+        DateTime.new(time.year, time.month, time.day) rescue nil
       end
     end
 end
