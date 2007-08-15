@@ -5,7 +5,7 @@ class CreateFeeds < ActiveRecord::Migration
       t.column :group_id, :integer
       t.column :name, :string, :limit => 255
       t.column :url, :string, :limit => 500
-      t.column :frequency, :integer
+      t.column :spec, :string, :limit => 5
       t.column :fetched_at, :datetime
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
