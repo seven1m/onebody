@@ -1,21 +1,32 @@
-require 'syndication/rss'
-require 'syndication/atom'
-require 'syndication/content'
+require 'rss/0.9'
+require 'rss/1.0'
+require 'rss/2.0'
+require 'atom'
 require 'open-uri'
 
 class Feed < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
   
+  attr_accessor :feed
+  
   def fetch
     data = open(url).read
     if data =~ /<feed[^>]+atom/i # must be Atom
       @feed = Syndication::Atom::Parser.new.parse(data)
-      update_attributes :spec => 'atom', :name => @feed.title.txt, :fetched_at => Time.now
+      update_attributes! :spec => 'atom', :name => @feed.title.txt, :fetched_at => Time.now
     else # must be some flavor of RSS
       @feed = Syndication::RSS::Parser.new.parse(data)
-      update_attributes :spec => 'rss', :name => @feed.channel.title, :fetched_at => Time.now
+      update_attributes! :spec => 'rss', :name => @feed.channel.title, :fetched_at => Time.now
     end
+  end
+  
+  def url
+    @url = read_attribute :url
+    if @url =~ /^file:/ and RAILS_ENV != 'production' # for testing
+      @url = File.join(File.dirname(__FILE__), '../..', @url.gsub(/^file:\/\//, ''))
+    end
+    @url
   end
 
   def entries

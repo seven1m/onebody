@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description:  No errors
+Message:      valid
+Author:       Validome Team <rss@validome.org>
+Copyright:    2006 - www.validome.org
+-->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Atom 1.0 Test</title>
+  <link rel="self" href="http://www.validome.org/check/RSS_validator/version/atom_1_0/action/xml/feed/4"/>
+  <updated>2006-08-13T11:44:08Z</updated>
+  <author>
+    <name>test name</name>
+  </author>
+  <id>urn:uuid:60a76c80-d399-11d9-b93C-5798hnt64</id>
+  <entry>
+    <title>Example entry</title>
+    <link rel="alternate" href="http://validome.org/atom03"/>
+    <id>urn:uuid:73555-cfb8-4ebb-bbbb-80da123efa6a</id>
+    <updated>2006-07-11T20:15:37Z</updated>
+    <summary>summary text</summary>
+  </entry>
+</feed>
