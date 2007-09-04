@@ -1,6 +1,6 @@
 <ul>
   <% @group.people.each do |person| %>
-    <% if @logged_in.sees? person %>
+    <% if person and @logged_in.sees? person %>
       <%= render :partial => 'people/link', :locals => {:person => person} %>
       <% if @group.admin?(person, true) %>(admin)<% end %>
       <% if @group.admin?(@logged_in) and (person.email.to_s.empty? or not @group.get_options_for(person).get_email) %>

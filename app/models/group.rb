@@ -93,7 +93,9 @@ class Group < ActiveRecord::Base
   alias_method :unlinked_members, :people
   
   def people
-    if linked?
+    if parents_of
+      Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq.select { |p| p }.sort_by { |p| [p.last_name, p.first_name] }
+    elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
         conditions.add_condition ['LCASE(classes) = ? or classes like ? or classes like ? or classes like ?', code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'

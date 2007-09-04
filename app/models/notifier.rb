@@ -179,13 +179,13 @@ class Notifier < ActionMailer::Base
             end
           
           # send to the parents (don't save the message -- just send it raw)
-          elsif address.to_s.any? and group = Group.find_by_address(address.gsub(/\-parents$/, '')) and group.can_send? person
+          elsif nil and address.to_s.any? and address.to_s =~ /\-parents$/ and group = Group.find_by_address(address.gsub(/\-parents$/, '')) and group.can_send? person
             email.cc = nil
             email.bcc = nil
             sent_to = []
             group.people.each do |p|
               p.parents.each do |parent|
-                if parent.email.to_s.any?
+                if parent.email.to_s.any? and not sent_to.include? parent.email
                   email.to = parent.email
                   Notifier.deliver(email)
                   sent_to << parent.email
