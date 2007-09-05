@@ -58,6 +58,10 @@ class PeopleController < ApplicationController
     else
       @person = @logged_in
     end
+    unless @person
+      render :text => 'There was an error getting this feed', :layout => true
+      return false
+    end
     friend_ids = [@person.id]
     friend_ids += @person.friends.find(:all, :select => 'people.id').map { |f| f.id } if SETTINGS['features']['friends']
     unless (group_ids = @person.groups.select { |g| !g.hidden? }.map { |g| g.id }).any?
