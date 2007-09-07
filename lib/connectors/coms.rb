@@ -42,7 +42,11 @@ class ComsConnector < ExternalDataConnector
   def people_ids
     unless @people_ids
       @people_ids = []
-      @db[:people].each_record { |r| @people_ids << r.memberid }
+      @db[:people].each_record do |record|
+        if not (record.deceased or record.info_5 =~ /deny/i or record.familyname =~ /church$/i)
+          @people_ids << record.memberid
+        end
+      end
     end
     @people_ids
   end
@@ -50,7 +54,11 @@ class ComsConnector < ExternalDataConnector
   def family_ids
     unless @family_ids
       @family_ids = []
-      @db[:families].each_record { |r| @family_ids << r.familyid }
+      @db[:families].each_record do |record|
+        if record.familyname !~ /church$/i
+          @family_ids << record.familyid }
+        end
+      end
     end
     @family_ids
   end
