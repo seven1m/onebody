@@ -40,6 +40,10 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :address, :allow_nil => true
   validates_length_of :address, :minimum => 2, :allow_nil => true
     
+  def validate
+    errors.add('parents_of', 'cannot point to self') if parents_of == id
+  end
+
   acts_as_photo 'db/photos/groups', PHOTO_SIZES
   acts_as_logger LogItem
   
