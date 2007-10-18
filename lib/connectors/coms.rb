@@ -56,7 +56,7 @@ class ComsConnector < ExternalDataConnector
       @family_ids = []
       @db[:families].each_record do |record|
         if record.familyname !~ /church$/i
-          @family_ids << record.familyid }
+          @family_ids << record.familyid
         end
       end
     end
