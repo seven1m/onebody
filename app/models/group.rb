@@ -41,7 +41,11 @@ class Group < ActiveRecord::Base
   validates_length_of :address, :minimum => 2, :allow_nil => true
     
   def validate
-    errors.add('parents_of', 'cannot point to self') if parents_of == id
+    begin
+      errors.add('parents_of', 'cannot point to self') if parents_of == id
+    rescue
+      puts 'error checking for self-referencing parents_of (OK if you are migrating)'
+    end
   end
 
   acts_as_photo 'db/photos/groups', PHOTO_SIZES
