@@ -121,7 +121,7 @@ class Person < ActiveRecord::Base
   # validate that an email address is properly formatted
   validates_each :email, :allow_nil => true do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any?
-      if Person.count('*', :conditions => ['LCASE(email) = ? and family_id != ?', value.downcase, record.family_id]) > 0
+      if Person.count('*', :conditions => ["#{SQL_LCASE}(email) = ? and family_id != ?", value.downcase, record.family_id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
       end
       if value.to_s.strip !~ VALID_EMAIL_RE
@@ -337,7 +337,7 @@ class Person < ActiveRecord::Base
       g = groups_without_linkage
       conditions = []
       classes.to_s.split(',').each do |code|
-        conditions.add_condition ['LCASE(link_code) = ? or link_code like ? or link_code like ? or link_code like ?', code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
+        conditions.add_condition ["#{SQL_LCASE}(link_code) = ? or link_code like ? or link_code like ? or link_code like ?", code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
       end
       g = (g + Group.find(:all, :conditions => conditions)).uniq if conditions.any?
       @groups = g
