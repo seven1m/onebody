@@ -105,10 +105,10 @@ class Notifier < ActionMailer::Base
     return unless email.from.to_s.any?
     return if email.body.to_s =~ /mailboy-test/ # to protect people who don't know we upgraded
     person = nil
-    people = Person.find :all, :conditions => ['LCASE(email) = ?', email.from.to_s.downcase]
+    people = Person.find :all, :conditions => ["#{SQL_LCASE}(email) = ?", email.from.to_s.downcase]
     if people.length == 0
       # user is not found in the system, try alternate email
-      person = Person.find :first, :conditions => ['LCASE(alternate_email) = ?', email.from.to_s.downcase]
+      person = Person.find :first, :conditions => ["#{SQL_LCASE}(alternate_email) = ?", email.from.to_s.downcase]
     elsif people.length == 1
       person = people.first
     elsif people.length > 1
