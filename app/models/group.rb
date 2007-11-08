@@ -106,7 +106,7 @@ class Group < ActiveRecord::Base
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
-        conditions.add_condition ['LCASE(classes) = ? or classes like ? or classes like ? or classes like ?', code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
+        conditions.add_condition ["#{SQL_LCASE}(classes) = ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
       end
       Person.find :all, :conditions => conditions, :order => 'last_name, first_name'
     else
