@@ -152,7 +152,7 @@ class PeopleController < ApplicationController
       params[:name] = params.delete(:quick_name) if params[:quick_name]
       if params[:name].to_s.any?
         params[:name].gsub! /\sand\s/, ' & '
-        if Person.connection.class == ActiveRecord::ConnectionAdapters::SQLite3Adapter
+        if SQLITE
           conditions.add_condition ["(people.first_name || ' ' || people.last_name like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and families.name like ?) or (people.first_name like ? and people.last_name like ?))", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
         else
           conditions.add_condition ["(CONCAT(people.first_name, ' ', people.last_name) like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and families.name like ?) or (people.first_name like ? and people.last_name like ?))", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
@@ -181,8 +181,8 @@ class PeopleController < ApplicationController
       conditions.add_condition ["DAY(people.birthday) = ?", params[:birthday_day].to_i] if params[:birthday_day].to_s.any?
       conditions.add_condition ["MONTH(people.anniversary) = ?", params[:anniversary_month].to_i] if params[:anniversary_month].to_s.any?
       conditions.add_condition ["DAY(people.anniversary) = ?", params[:anniversary_day].to_i] if params[:anniversary_day].to_s.any?
-      conditions.add_condition ["LCASE(families.city) = ?", params[:city].downcase] if params[:city].to_s.any?
-      conditions.add_condition ["LCASE(families.state) = ?", params[:state].downcase] if params[:state].to_s.any?
+      conditions.add_condition ["#{SQL_LCASE}(families.city) = ?", params[:city].downcase] if params[:city].to_s.any?
+      conditions.add_condition ["#{SQL_LCASE}(families.state) = ?", params[:state].downcase] if params[:state].to_s.any?
       conditions.add_condition ["families.zip like ?", "#{params[:zip]}%"] if params[:zip].to_s.any?
       conditions.add_condition ["people.member = ?", true] if params[:status].to_s.any?
       [:activities, :interests, :music, :tv_shows, :movies, :books].each do |favorite|
