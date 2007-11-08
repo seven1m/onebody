@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
   def index
     @person = @logged_in
     @family = @person.family
-    @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()', :order => 'start')
+    @prayer_signups = @person.prayer_signups.find(:all, :conditions => ['start >= ?', Time.now], :order => 'start')
     @me = true
     if @logged_in.full_access?
       unless @person.visible?
@@ -17,7 +17,7 @@ class PeopleController < ApplicationController
   def view
     if @person = Person.find(params[:id]) rescue nil
       @family = @person.family
-      @prayer_signups = @person.prayer_signups.find(:all, :conditions => 'start >= curdate()', :order => 'start')
+      @prayer_signups = @person.prayer_signups.find(:all, :conditions => ['start >= ?', Time.now], :order => 'start')
       @me = (@logged_in == @person)
     end
     if not @person or not @logged_in.sees? @person
@@ -152,7 +152,11 @@ class PeopleController < ApplicationController
       params[:name] = params.delete(:quick_name) if params[:quick_name]
       if params[:name].to_s.any?
         params[:name].gsub! /\sand\s/, ' & '
-        conditions.add_condition ["(CONCAT(people.first_name, ' ', people.last_name) like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and families.name like ?) or (people.first_name like ? and people.last_name like ?))", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
+        if Person.connection.class == ActiveRecord::ConnectionAdapters::SQLite3Adapter
+          conditions.add_condition ["(people.first_name || ' ' || people.last_name like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and families.name like ?) or (people.first_name like ? and people.last_name like ?))", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
+        else
+          conditions.add_condition ["(CONCAT(people.first_name, ' ', people.last_name) like ? or (#{params[:name].index('&') ? '1=1' : '1=0'} and families.name like ?) or (people.first_name like ? and people.last_name like ?))", "%#{params[:name]}%", "%#{params[:name]}%", "#{params[:name].split.first}%", "#{params[:name].split.last}%"]
+        end
       end
       if params[:service]
         @show_service = true
