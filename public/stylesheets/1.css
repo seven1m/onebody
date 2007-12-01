@@ -798,3 +798,12 @@ h2.headline {
   margin-top: -22px;
   font-weight: bold;
 }
+
+#banner {
+  padding: 3px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #fff;
+  margin: -10px 0 5px 0;
+  color: red;
+}

@@ -21,6 +21,10 @@ features:
   sidebar_group_category: Small Groups
   # heading to show above people (if enabled above)
   sidebar_group_heading: Small Group
+  # message to display across top of all pages on site (HTML)
+  banner_message: >
+    This is the live demo of <a href="http://beonebody.org">OneBody</a>.
+    Data is reset at the top of the hour.
 
 url:
   # url for this site (include trailing slash on this one)
