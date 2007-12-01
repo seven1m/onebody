@@ -5,16 +5,16 @@ name:
   church: First Imaginary Church
   
 features:
-  # SSL is highly recommended to ensure security of users' passwords and accounts
-  # Once your organization has a signed SSL certificate and you have Apache set up
-  # to handle SSL requests, set the following value to true.
+  # If you have SSL setup, you may turn on this feature, which will make the login
+  # page encrypted. If not, some advanced JavaScript hashing is enabled to make
+  # sure the users' passwords aren't being sent in plaintext.
   ssl: false
   # friends (set to true to enable MySpace-type mutual friendships, confirmed via email)
   friends: false
   # prayer event (blank to disable)
   # or set to: [first_time_slot, last_time_slot]
   # e.g., ['1/21/2007 12:00', '1/29/2007 21:00']
-  prayer: ['8/5/2007 12:00', '8/12/2007 12:00']
+  #prayer: ['8/5/2007 12:00', '8/12/2007 12:00']
   # sidebar group category (blank to disable)
   # people in groups in this category
   # will be displayed on the user's profile sidebar

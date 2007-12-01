@@ -4,8 +4,9 @@ class AccountController < ApplicationController
   before_filter :check_ssl, :except => [:sign_out, :verify_code]
 
   def sign_in
+    @salt = session_salt unless SETTINGS['features']['ssl']
     if request.post?
-      if person = Person.authenticate(params[:email], params[:password])
+      if person = Person.authenticate(params[:email], SETTINGS['features']['ssl'] ? params[:password] : params[:password_encrypted], :encrypted => !SETTINGS['features']['ssl'], :salt => @salt)
         unless person.can_sign_in?
           redirect_to :controller => 'help', :action => 'unauthorized', :protocol => 'http://'
           return
@@ -181,5 +182,13 @@ class AccountController < ApplicationController
         redirect_to :protocol => 'https://', :from => params[:from]
         return
       end
+    end
+    
+    def session_salt
+      unless session[:salt] and session[:salt_generated] > 5.minutes.ago
+        session[:salt] = (0..25).inject('') { |r, i| r << rand(93) + 33 }
+        session[:salt_generated] = Time.now
+      end
+      session[:salt]
     end
 end

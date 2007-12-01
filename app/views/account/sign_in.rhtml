@@ -1,11 +1,9 @@
-<!--
-  <p>
-    <%= image_tag 'directory.gif', :alt => 'Member Directory' %>
-    <%= image_tag 'group.medium.jpg', :alt => 'Groups' %>
-    <%= image_tag 'camera.gif', :alt => 'Pictures' %>
-    <%= image_tag 'event.medium.gif', :alt => 'Service' %>
-  </p>
--->
+<% unless SETTINGS['features']['ssl'] %>
+  <% content_for :head do %>
+    <%= javascript_include_tag 'md5' %>
+    <script type="text/javascript">salt = <%= @salt.inspect %></script>
+  <% end %>
+<% end %>
 
 <p>
   <strong>Welcome to the site for
@@ -18,18 +16,30 @@
 
 <h2>Please sign in.</h2>
 
-<form method="post">
+<form method="post"
+  <% unless SETTINGS['features']['ssl'] %>
+    onsubmit="$('password_encrypted').value = hex_md5(hex_md5($('password').value) + salt);$('password').value = ''"
+  <% end %>
+  >
+  <%= hidden_field_tag :password_encrypted, nil %>
   <div style="width:150px;float:right;margin:10px;text-align:center;">
     <%= link_to image_tag('help.gif', :alt => 'Help Signing In', :class => 'no-border'), :controller => 'help' %><br/>
     <%= link_to 'I need help.', :controller => 'help' %>
   </div>
+  <p><%= link_to 'Click here', :controller => 'help' %> if you don't know your password.</p>
   <table>
     <tr>
       <td><label for="email">Email Address:</label></td>
       <td><%= text_field_tag :email, @email %></td>
     </tr>
-    <tr><td><label for="password">Password:</label></td>
-    <td><%= password_field_tag :password %></td></tr>
+    <tr>
+      <td><label for="password">Password:</label></td>
+      <td>
+        <%= password_field_tag :password %>
+        <%= image_tag 'lock.gif', :alt => 'Secured', :class => 'no-border' %>
+        Secured with <% if SETTINGS['features']['ssl'] %>SSL<% else %>JavaScript<% end %>.
+      </td>
+    </tr>
     <tr><td></td>
     <td>
       <span style="color:#f00;">Never share your password with anyone!</span><br/>

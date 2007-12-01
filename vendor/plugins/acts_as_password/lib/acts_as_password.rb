@@ -39,13 +39,16 @@ module Foo
         # if email and password match, returns a Person object
         # if email cannot be found, returns nil
         # if email is found but password doesn't match, returns false
-        def authenticate(email, password)
-          password = Digest::MD5.hexdigest(password)
+        def authenticate(email, password, options={})
+          unless options[:encrypted]
+            password = Digest::MD5.hexdigest(password)
+          end
           people = find_all_by_email(email)
           if people.length > 0
             # try each person until a password matches
             people.each do |person|
-              return person if person.encrypted_password == password
+              compare = options[:encrypted] ? Digest::MD5.hexdigest(person.encrypted_password + options[:salt].to_s) : person.encrypted_password
+              return person if compare == password
             end
             return false
           else
