@@ -45,9 +45,9 @@ morgan:
   wall_enabled: true
 zongker:
   id: 2
-  name: Jeremy & Jeanette Zongker
+  name: Jeremy & Jeanette Smith
   last_name: Zongker
-  address1: 404 S Ironwood
+  address1: 404 S Dogwood
   city: Broken Arrow
   state: OK
   zip: 74019

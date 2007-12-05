@@ -96,7 +96,7 @@ jeremy:
   sequence: 1
   gender: Male
   first_name: Jeremy
-  last_name: Zongker
+  last_name: Smith
   birthday: 1977-04-01
   classes: BW,ZZ,PT,CF,W08,OF03,W04,W10
   mail_group: M
@@ -170,7 +170,7 @@ jeanette:
   sequence: 2
   gender: Woman
   first_name: Jeanette
-  last_name: Zongker
+  last_name: Smith
   mail_group: M
   birthday: 1980-06-24
   email: jeanette@somedomain.com
@@ -187,8 +187,8 @@ katrina:
   family_id: 2
   sequence: 3
   gender: Girl
-  first_name: Katrina
-  last_name: Zongker
+  first_name: Megan
+  last_name: Smith
   mail_group: M
   birthday: 2006-10-26
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
