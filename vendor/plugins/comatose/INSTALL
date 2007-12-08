@@ -1,0 +1,19 @@
+
+======================
+ Welcome to Comatose!
+======================
+
+From here you'll want to run:
+
+  $ ./script/generate comatose_migration
+
+When that's finished, run:
+
+  $ rake migrate
+
+That's it for the Comatose setup! Now just add the following line to the bottom of your config/routes.rb file:
+
+  map.comatose_admin
+  map.comatose_root ''
+
+Be sure to read the README file, and the 'Getting Started' guide. They are located at vendor/plugins/comatose/README and http://comatose.rubyforge.org/getting-started-guide respectively.

@@ -1,0 +1,30 @@
+<h1>Reorder Pages</h1>
+
+<h3>"<%= @page.title %>" child pages:</h3>
+
+<ul class="page-list">
+<% @page.children.each do |page| %>
+  <li>
+    <table cellpadding="0" cellspacing="0">
+      <tr>
+        <td rowspan="2" valign="center">
+          <%= image_tag 'comatose/page.gif', :size=>'25x31', :align=>"absmiddle" %>
+        </td>
+        <td>
+          <a class="page"><%= page.title %></a>
+        </td>
+      </tr>
+      <tr>
+        <td class="commands">
+          <%= link_to "Move Up", comatose_admin_url(:action=>'reorder', :cmd=>'up', :page=>page.id) %>,
+          <%= link_to "Move Down", comatose_admin_url(:action=>'reorder', :cmd=>'down', :page=>page.id) %>
+        </td>
+      </tr>
+    </table>
+  </li>
+<% end %>
+</ul>
+
+<div id="button-group">
+  <%= link_to "Finished", comatose_admin_url(:action=>'index') %>
+</div>

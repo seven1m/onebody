@@ -59,4 +59,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action/:id'
   map.connect ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
 
+  map.comatose_root 'pages', :layout => 'main'
+  map.comatose_admin 'editor'
 end

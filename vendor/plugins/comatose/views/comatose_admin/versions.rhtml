@@ -1,0 +1,40 @@
+<h1>Page Revisions</h1>
+<form>
+<div class="revisions older-content">
+  <div class="header">
+    <div class="header-actions">
+    <% form_tag comatose_admin_url(:action => 'versions', :id => @page), :html => { :method => :get } do %>
+      View Version: <%= select_tag "version", options_from_collection_for_select(@page.versions, 'version', 'version', @version_num), {'onchange'=>'this.form.submit();'} %>
+      <%= submit_tag 'Go', {'id'=>'go-btn'} %>
+    <% end %>
+    </div>
+    Version <%= @version_num %>
+  </div>
+  <div class="meta">
+    <label class="title"><span>Title:</span><%= @version.title %></label>
+    <label><span>Slug:</span> <%= @version.slug %></label>
+    <label><span>Keywords:</span> <%= @version.keywords %></label>
+  </div>
+  <%= @version.body.split("\n").join('<br/>') unless @version.body.nil? %>
+  <div id="button-group" class="footer">
+    <% form_tag comatose_admin_url(:action=>'set_version', :id => @page, :version => @version_num) do %>
+      <%= submit_tag "Set As Current Version" %>
+      or
+      <%= link_to "Cancel", comatose_admin_url(:action=>'index') %>
+    <% end %>
+  </div>
+</div>
+
+<div class="revisions current-content">
+  <div class="header">
+    Current Version
+  </div>
+  <div class="meta">
+    <label class="title"><span>Title:</span><%= @page.title %></label>
+    <label><span>Slug:</span> <%= @page.slug %></label>
+    <label><span>Keywords:</span> <%= @page.keywords %></label>
+  </div>
+  <%= @page.body.split("\n").join('<br/>') unless @page.body.nil? %>
+</div>
+
+<div style="clear:both">&nbsp;</div>

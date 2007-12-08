@@ -1,0 +1,26 @@
+<html>
+  <!-- Required Scripts -->
+  <script src="../../../../../public/javascripts/prototype.js" type="text/javascript"></script>
+  <script src="../../../../../public/javascripts/effects.js" type="text/javascript"></script>
+  <script src="../../../../../public/javascripts/dragdrop.js" type="text/javascript"></script>
+  <script src="../../../../../public/javascripts/controls.js" type="text/javascript"></script>
+  <script src="../../resources/public/javascripts/comatose_admin.js"></script>
+  <!-- Unit Tests -->
+  
+  <script>
+    var Tests = {
+      title: "Comatose JS Tests",
+    //  description: "Methods that start with testFail test that assertions fail property.",
+      
+      test_String_toSlug: function() {
+        assertEqual( 'hello-how-are-you', 'Hello, How Are You?'.toSlug() );
+        assertEqual( 'i-have-too-much-space', 'I    have  too   much space'.toSlug() );
+        assertEqual( 'what-about-dashes', 'What about - dashes?'.toSlug() );
+        assertEqual( 'a-bizarre-title', 'A !@!@#$%^&*()_+{} Bizarre TiTle!'.toSlug() );
+        assertEqual( '001-numbers-too', '001 Numbers too'.toSlug() );
+      }
+    }
+  </script>
+  <!-- UnitTestRunner -->
+  <script src="test_runner.js"></script>
+</html>

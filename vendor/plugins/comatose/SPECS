@@ -1,0 +1,54 @@
+Comatose Admin Controller should:
+ - show the index action
+ - show the new action
+ - successfully create pages
+ - create a page with an empty body
+ - not create a page with a missing title
+ - not create a page associated to an invalid parent
+ - contain all the correct options for filter_type
+ - show the edit action
+ - update pages with valid data
+ - not update pages with invalid data
+ - delete a page
+ - reorder pages
+Comatose Controller should:
+ - show pages based on path_info
+Class Options should:
+ - allow nil as a default
+ - allow boolean defaults
+ - allow string defaults
+ - allow numeric defaults
+ - allow symbolic defaults
+ - allow array literals as defaults
+ - allow hash literals as defaults
+Comatose Page should:
+ - create page
+ - create a new version of an updated page
+ - render content through textile and liquid processors
+ - not allow creation of page when missing a title
+ - have good fixtures for this to work out
+ - generate slugs correctly
+ - generate page paths correctly
+ - update page paths when pages are moved
+ - render body text accurately
+ - render data from parameterized calls too
+ - render data from a Drop
+Processing Context should:
+ - process liquid tags with no filters correctly
+ - process erb tags correctly
+ - support text translation and processing with ERB
+ - support text translation and processing with Liquid
+ - allow access to safe properties and methods when processing with ERB
+ - prevent access to protected properties and methods when processing with ERB
+ - allow access to safe properties and methods when processing with Liquid
+ - prevent access to protected properties and methods when processing with Liquid
+ - allow referenceing of defined ComatoseDrops
+ - let ComatoseDrop errors bubble upward
+Text Filters should:
+ - not alter output when using filter :none
+ - convert newlines into <br/>s when using :simple filter
+ - support Textile, if it's available, using :textile or 'Textile' as a key
+ - support Markdown, if it's available, using :markdown or 'Markdown' as a key
+ - support RDoc, if it's available, using :rdoc or 'RDoc' as a key
+ - support transformation of parameters via ERB
+ - support transformation of parameters via Liquid

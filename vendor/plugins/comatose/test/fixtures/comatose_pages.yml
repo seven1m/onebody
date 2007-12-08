@@ -1,0 +1,96 @@
+# Comatose::Page attributes
+#  - parent_id
+#  - title
+#  - full_path
+#  - slug
+#  - keywords
+#  - body
+#  - author
+#  - filter_type
+#  - position
+#  - version
+#  - updated_on
+#  - created_on
+
+root:
+  id: 1
+  parent_id: 
+  full_path: ""
+  slug: home-page
+  title: Home Page
+  body: |-
+    h1. {{ page.title }}
+    
+    This is your *home page*.
+  author: Comatose
+  keywords: "test, cms"
+  filter_type: Textile
+  position: 0
+  created_on: <%= 10.days.ago.to_s :db %>
+  updated_on: <%= 10.days.ago.to_s :db %>
+
+faq:
+  id: 2
+  parent_id: 1
+  full_path: "faq"
+  slug: faq
+  title: Frequently Asked Questions
+  body: |-
+    h1. {{ page.title }}
+    {% for c in page.children %}
+    h2. {{ c.link }}
+    
+    {{ c.to_html }}
+        
+    {% endfor %}
+  created_on: <%= 10.days.ago.to_s :db %>
+  updated_on: <%= 10.days.ago.to_s :db %>
+  author: Comatose
+  keywords: faq
+  filter_type: Textile
+  position: 0
+
+question_one:
+  id: 3
+  parent_id: 2
+  full_path: "faq/question-one"
+  slug: question-one
+  title: Question One?
+  body: |-
+    Content for *question one*.
+  created_on: <%= 10.days.ago.to_s :db %>
+  updated_on: <%= 10.days.ago.to_s :db %>
+  author: Comatose
+  keywords: faq
+  filter_type: Textile
+  position: 0
+
+question_two:
+  id: 4
+  parent_id: 2
+  full_path: "faq/question-two"
+  slug: question-two
+  title: Question Two?
+  body: |-
+    Content for *question two*.
+  created_on: <%= 10.days.ago.to_s :db %>
+  updated_on: <%= 10.days.ago.to_s :db %>
+  author: Comatose
+  keywords: faq
+  filter_type: Textile
+  position: 1
+
+param_driven:
+  id: 5
+  parent_id: 1
+  full_path: "params"
+  slug: params
+  title: Params
+  body: |-
+    I'm {{ extra }}
+  created_on: <%= 10.days.ago.to_s :db %>
+  updated_on: <%= 10.days.ago.to_s :db %>
+  author: Comatose
+  keywords: 
+  filter_type: Textile
+  position: 0

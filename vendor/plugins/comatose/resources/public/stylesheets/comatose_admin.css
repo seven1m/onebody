@@ -1,0 +1,381 @@
+BODY {
+  background: #DDD;
+  margin: 0px 100px;
+  padding: 0px;
+  font-family: "Lucida Grande", Tahoma, Verdana, Arial, Sans-Serif;
+  font-size: 12px;
+  min-width: 450px;
+}
+/* General Layout and Header Area */
+#page-container {
+  margin: 0px;
+  padding: 0px;
+}
+#header {
+  background: #0053C2;
+  padding: 5px;
+  border-bottom: 4px solid #00398B;
+}
+#header A {
+  text-decoration: none;
+  color: white;
+}
+#header A:hover {
+  color: white;
+}
+#header h1 {
+  margin: 0px;
+  padding: 0px;
+  padding-left: 10px;
+}
+#header h5 {
+  margin: 0px;
+  padding: 0px;
+  padding-left: 15px;
+  color: silver;
+}
+#header #flash {
+  float: right;
+  color: #4BA8FF;
+  font-weight: bold;
+  margin-right: 5px;
+}
+/* Content Area */
+#content {
+  padding: 15px;
+  background: white;
+  border-left: 1px solid silver;
+  border-right: 1px solid silver;
+}
+#content h1 {
+  margin: 0px;
+  padding: 0px;
+  font-size: 135%;
+  color: gray;
+}
+#content .action {
+  float: right;
+  color: gray;
+}
+#content .action A {
+  font-weight: bold;
+  text-decoration: none;
+  color: darkgreen;
+  border-bottom: 1px solid black;
+}
+#content .action A:hover {
+  color: red;
+  border-bottom: 1px solid red;
+}
+#content .page-header {
+  color: gray;
+}
+
+/* Page Listing */
+#content .tree-controller {
+  border: 0px;
+  cursor: pointer;
+}
+#content .page-list.root {
+  clear: both;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  margin-top: 10px;
+}
+#content .page-list.collapsed {
+  display: none;
+}
+#content .page-list {
+  background: white;
+  clear: both;
+  list-style: none;
+  border-left: 0px dotted silver;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 15px;
+  margin-top: 2px;
+}
+#content .page-list LI {
+  clear: both;
+  padding: 0px;
+  margin: 5px 0px;
+  padding-top: 2px;
+  padding-right: 0px;
+  padding-left: 2px;
+}
+#content .page-list .commands {
+  font-size: 90%;
+  padding-left: 5px;
+  color: silver;
+}
+#content .page-list .commands A {
+  color: gray;
+}
+#content .page-list .commands A.add-page:hover {
+  color: blue;
+}
+#content .page-list .commands A.reorder-children:hover {
+  color: black;
+}
+#content .page-list .commands A.delete-page:hover {
+  color: white;
+}
+#content .page-list .commands A.reordering {
+  background: navy;
+  color: white;
+}
+#content .page-list .commands A.reordering:hover {
+  color: white;
+}
+#content .page-list A.page {
+  text-decoration: none;
+  color: black;
+  margin-left: 3px;
+  font-size: 150%;
+  display: block;
+}
+#content .page-list A.page:hover {
+  /*color: blue;*/
+  background: white url(../images/comatose/title-hover-bg.gif) top left repeat-y;
+}
+#content .handle, #content .do-reorder UL LI .handle {
+  display: none;
+}
+
+#content .page-list .hover {
+  background: #F1F0DB;
+}
+#content .page-list .hover-delete {
+  background: red;
+  color: #FF8E90;
+}
+#content .page-list .hover-delete A,
+#content .page-list .hover-delete .commands A {
+  color: #FF8E90;
+}
+#content .page-list .hover-delete A.page {
+  color: white;
+  border-bottom: 0px;
+}
+#content .page-list .hover-delete UL LI A.page {
+  color: red;
+  border-bottom: 0px;
+}
+
+#content .do-reorder LI .handle {
+  display: inline;
+  background: gray;
+  color: white;
+  padding: 1px 3px;
+  cursor: move;
+}
+
+#content .page-list .do-reorder .commands A {
+  display: none;
+}
+
+/* Page Form */
+#content .page-form {
+  margin-top: 10px;
+}
+#content .page-form LABEL {
+  font-weight: bold;
+  color: #555;
+}
+#content .page-form .meta-info LABEL {
+  color: #999 !important;
+}
+#content .page-form .label { 
+  padding-top: 5px;
+  width: 75px;
+  text-align: right;
+  padding-right: 10px;
+}
+#content .page-form .label.body {
+  vertical-align: top;
+  padding-top: 10px;
+} 
+#content .page-form .field { 
+  padding-top: 5px;  
+}
+#content .page-form .field-help { 
+  color: gray;
+}
+#content .page-form #page_title {
+  font-size: 125%;
+  font-weight: bold;
+}
+#content .page-form #page_slug {
+  color: gray;
+}
+#content .page-form #page_body {
+  font-family: monospace;
+  font-size: 110%;
+}
+#content #button-group {
+  padding: 10px;
+  text-align: right;
+  background-color: #EAEAEA;
+  margin-top: 10px;
+}
+#content #button-group .last-update {
+  float: left;
+  color: gray;
+  padding-top: 4px;
+  font-weight: bold;
+}
+#content #button-group .last-update LABEL {
+  font-weight: normal;
+}
+#content #button-group .last-update A {
+  color: gray;
+}
+#content #button-group A {
+  color: maroon;
+}
+#content #button-group A:hover {
+  color: red;
+}
+#content #preview-area {
+  margin-top: 10px;
+}
+#content #preview-area FIELDSET {
+  border: 1px solid silver;
+}
+#content #preview-area LEGEND {
+  font-size: 125%;
+}
+#content #preview-area .preview-body {
+  padding: 10px;
+}
+#content #preview-area .preview-note {
+  background: #FFFFD9;
+  padding: 15px;
+}
+#content #preview-area .commands {
+  text-align: right;
+  color: gray;
+}
+#content #preview-area .commands A{
+  color: gray;
+}
+#content #preview-area .commands A:hover{
+  color: black;
+}
+#content .revisions {
+  padding: 10px;
+  width: 49%; 
+}
+#content .current-content {
+}
+#content .older-content {
+  background: #E9E9E9;
+  float: right;
+}
+
+#content .revisions label {
+  display: block;
+  color: #000;
+}
+#content .revisions label span {
+  color: #999;
+  font-weight: normal !important;
+}
+#content .revisions .title {
+  font-weight: bold;
+  margin-top: 5px;
+}
+#content .revisions .header {
+  font-size: 110%;
+  vertical-align: middle;
+  font-weight: bold;
+}
+#content .revisions .header-actions {
+  float: right;
+  font-size: 90%;
+  font-weight: normal;
+  color: #999;
+}
+#content .revisions .meta {
+  margin-bottom: 15px;
+}
+#content .revisions .footer {
+  margin-top: 25px !important;
+  text-align: center !important;
+}
+#content #go-btn {
+  display: none;
+}
+/* Errors */
+#errorExplanation {
+  border: 1px solid red;
+  background: #FFEAEB;
+  padding: 10px;
+  margin-top: 10px;
+}
+#errorExplanation h2 {
+  margin: 0px;
+  padding: 0px;
+  color: maroon;
+}
+#errorExplanation p {
+  margin: 0px;
+  padding: 0px;
+  padding-top: 5px;
+  padding-left: 15px;
+}
+#errorExplanation ul {  
+  margin: 0px;
+  padding: 0px;
+  padding-left: 35px;
+}
+#errorExplanation li {
+  margin: 0px;
+  padding: 0px;  
+  padding-top: 5px;
+}
+/* Footer Area*/
+#footer {
+  border-top: 4px solid #AAA;
+  text-align: center;
+  font-size: 90%;
+  color: #AAA;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+#footer A {
+  color: #AAA;
+  text-decoration: none;
+  font-weight: bold;
+}
+#footer A:hover {
+  color: #333;
+  text-decoration: underline;
+}
+
+/* Modifiers */
+
+/* When JavaScript is Turned Off... We need to adjust some things... */
+.noscript #more-options,
+.noscript #preview-area,
+.noscript #preview-btn,
+.noscript .tree-controller {
+  display: none;
+}
+.noscript .page-list.collapsed {
+  display: block !important;
+}
+.noscript .delete-page:hover {
+  color: red !important;
+}
+.noscript #content .page-form #page_title,
+.noscript #content .page-form #page_slug,
+.noscript #content .page-form #page_parent,
+.noscript #content .page-form #page_keywords,
+.noscript #content .page-form #page_body {
+  width: 100% !important;
+}
+.noscript #content .revisions #go-btn {
+  display: inline;
+}

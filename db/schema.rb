@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 80) do
+ActiveRecord::Schema.define(:version => 81) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean,  :default => false
@@ -34,6 +34,21 @@ ActiveRecord::Schema.define(:version => 80) do
     t.column "content_type", :string,   :limit => 50
     t.column "created_at",   :datetime
     t.column "song_id",      :integer
+  end
+
+  create_table "comatose_pages", :force => true do |t|
+    t.column "parent_id",   :integer
+    t.column "full_path",   :text
+    t.column "title",       :string
+    t.column "slug",        :string
+    t.column "keywords",    :string
+    t.column "body",        :text
+    t.column "filter_type", :string,   :limit => 25, :default => "Textile"
+    t.column "author",      :string
+    t.column "position",    :integer,                :default => 0
+    t.column "version",     :integer
+    t.column "updated_on",  :datetime
+    t.column "created_on",  :datetime
   end
 
   create_table "comments", :force => true do |t|
@@ -220,6 +235,22 @@ ActiveRecord::Schema.define(:version => 80) do
     t.column "original_url", :string
     t.column "deleted",      :boolean,  :default => false
     t.column "group_id",     :integer
+  end
+
+  create_table "page_versions", :force => true do |t|
+    t.column "page_id",     :integer
+    t.column "version",     :integer
+    t.column "parent_id",   :integer
+    t.column "full_path",   :text
+    t.column "title",       :string
+    t.column "slug",        :string
+    t.column "keywords",    :string
+    t.column "body",        :text
+    t.column "filter_type", :string,   :limit => 25, :default => "Textile"
+    t.column "author",      :string
+    t.column "position",    :integer,                :default => 0
+    t.column "updated_on",  :datetime
+    t.column "created_on",  :datetime
   end
 
   create_table "people", :force => true do |t|

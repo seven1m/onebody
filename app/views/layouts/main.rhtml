@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="description" content="Site description" />
+	<meta name="keywords" content="key, words" />
+	<title>
+	  <%= SETTINGS['name']['church'] %> / <%=h @page.title %>
+	</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+</head>
+<body>
+<div id="wrap">
+  <div id="header">
+    <h2><a href="/pages"><%= SETTINGS['name']['church'] %></a></h2>
+    <p>Customize this template at /app/views/layouts/main.rhtml</p>
+  </div>
+<div id="menu">
+  <ul>
+    <li <% if @page.full_path == ''%>class="current"<% end %>><a href="/pages">Home</a></li>
+  	<% Comatose::Page.find_all_by_parent_id(1, :select => 'full_path, title', :order => 'position').each do |link| %>
+  		<li <% if @page.full_path[0...link.full_path.length] == link.full_path %>class="current"<% end %>><%= link_to h(link.title), '/pages/' + link.full_path %></li>
+  	<% end %>
+  </ul>
+  <div id="login">
+    <p>Members can <a href="/">sign in</a>.</p>
+  </div>
+  </div>
+  <div id="page_desc">
+    <p>
+      <%= @page.breadcrumbs.map do |link|
+        link_to link.title, '/pages/' + link.full_path
+      end.join(' &raquo; ') %>
+    </p>
+    <div id="search">
+      <form action="?">
+        <div>
+          <input type="text" class="sfield" />
+          <input type="image" src="/images/search_button.gif" class="sbutton" />
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="content_wrap">
+    <div id="content">
+      <br/>
+      <%= yield %>
+      <% if @page.children.any? %>
+        <div id="sub-links">
+          <p>Sub Pages:</p>
+          <ul>
+            <% @page.children.each do |link| %>
+          		<li><%= link_to h(link.title), '/pages/' + link.full_path %></li>
+          	<% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+    <div id="sidebar">
+      <h2>About the Template</h2>
+      <p>This is a free template done by <a href="http://colorlightstudio.com">Igor Penjivrag</a>,
+        used by OneBody as the default visitor site template. You can modify this template
+        by opening up the file at <code>app/views/layouts/main.rhtml</code> and making changes.</p>
+      <h2>Sidebar Stuff</h2>
+      <ul>
+        <li><a href="#">a link</a></li>
+        <li><a href="#">another link</a></li>
+        <li><a href="#">one more</a></li>
+      </ul>
+      <h2>Another Heading</h2>
+      <p>You can put as much stuff in this sidebar as you want.</p>
+    </div>
+    <div id="footer">
+      <em>A motto might go nicely here.</em>
+    </div>
+  </div>
+</div>
+<div id="copyright">
+<p>Copyright &copy; <%= Date.today.year %>, <strong><%= SETTINGS['name']['church'] %></strong>.</p>
+<p>Design by <a href="http://colorlightstudio.com">Igor Penjivrag</a>. Background by <a href="http://squidfingers.com">Squid Fingers</a>.</p>
+</div>
+</body>
+</html>

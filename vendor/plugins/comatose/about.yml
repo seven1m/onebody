@@ -1,0 +1,7 @@
+author: Matt McCray
+summary: A micro CMS for embedding in Rails applications.
+homepage: http://mattmccray.com
+plugin: http://mattmccray.com/svn/rails/plugins/comatose
+license: MIT
+version: 0.8.1
+rails_version: 1.2+

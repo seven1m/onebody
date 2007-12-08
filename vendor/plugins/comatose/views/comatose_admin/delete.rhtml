@@ -1,0 +1,18 @@
+<h1>
+  Page Delete Confirmation
+</h1>
+
+<blockquote>
+  <p>Are you sure you want to delete the page titled  "<b><%= @page.title %></b>"?</p>
+<% unless @page.children.empty? %>
+  <p>It has <b><%= @page.children.length %></b> child pages that will also be deleted...</p>
+<% end %>
+</blockquote>
+
+<%= start_form_tag %>
+<div id="button-group">
+  <%= submit_tag "Yes, Delete The Page" %>
+  or
+  <%= link_to "Cancel", comatose_admin_url(:action=>'index') %>
+</div>
+<%= end_form_tag %>

@@ -106,3 +106,8 @@ ExceptionNotifier.sender_address = "\"One Body Error\" <app-error@#{SETTINGS['em
 
 SQLITE = Person.connection.class == ActiveRecord::ConnectionAdapters::SQLite3Adapter
 SQL_LCASE = SQLITE ? 'LOWER' : 'LCASE'
+
+Comatose.configure do |config|
+  config.admin_title = SETTINGS['name']['site']
+  config.admin_sub_title = 'Page Editor'
+end

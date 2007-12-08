@@ -11,7 +11,7 @@ module ActiveRecord
 end
 
 class DateTime
-  def to_s(dummy)
+  def to_s(dummy=nil)
     strftime '%Y-%m-%d %H:%M:%S'
   end
 end
