@@ -20,7 +20,7 @@
   <ul>
     <li <% if @page.full_path == ''%>class="current"<% end %>><a href="/pages">Home</a></li>
   	<% Comatose::Page.find_all_by_parent_id(1, :select => 'full_path, title', :order => 'position').each do |link| %>
-  		<li <% if @page.full_path[0...link.full_path.length] == link.full_path %>class="current"<% end %>><%= link_to h(link.title), '/pages/' + link.full_path %></li>
+  		<li <% if @page.full_path[0...link.full_path.length] == link.full_path %>class="current"<% end %>><%= link_to h(link.title), link.uri %></li>
   	<% end %>
   </ul>
   <div id="login">
@@ -30,8 +30,9 @@
   <div id="page_desc">
     <p>
       <%= @page.breadcrumbs.map do |link|
-        link_to link.title, '/pages/' + link.full_path
+        link_to link.title, link.uri
       end.join(' &raquo; ') %>
+      &nbsp;
     </p>
     <div id="search">
       <form action="?">
@@ -51,7 +52,7 @@
           <p>Sub Pages:</p>
           <ul>
             <% @page.children.each do |link| %>
-          		<li><%= link_to h(link.title), '/pages/' + link.full_path %></li>
+          		<li><%= link_to h(link.title), link.uri %></li>
           	<% end %>
           </ul>
         </div>
