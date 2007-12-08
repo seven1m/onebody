@@ -240,7 +240,7 @@ class PeopleController < ApplicationController
     @family = @person.family
     @service_categories = Person.find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
     if request.post?
-      if @logged_in.frozen
+      if @logged_in.account_frozen?
         render :text => "Your account has been frozen due to misuse.", :layout => true
         return
       end
@@ -358,7 +358,7 @@ class PeopleController < ApplicationController
   def freeze_account
     raise 'Unauthorized.' unless @logged_in.admin?(:edit_profiles)
     person = Person.find params[:id]
-    person.update_attribute :frozen, !person.frozen
+    person.update_attribute :frozen, !person.account_frozen?
     redirect_to :action => 'edit', :id => params[:id]
   end
   

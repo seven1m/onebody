@@ -1,4 +1,4 @@
-RAILS_GEM_VERSION = '1.2.6'
+RAILS_GEM_VERSION = '2.0.1'
 
 require File.join(File.dirname(__FILE__), 'boot')
 
@@ -104,7 +104,8 @@ WhiteListHelper.tags.merge %w(u)
 ExceptionNotifier.exception_recipients = [SETTINGS['contact']['bug_notification_email']] if SETTINGS['contact']['bug_notification_email']
 ExceptionNotifier.sender_address = "\"One Body Error\" <app-error@#{SETTINGS['email']['domain']}>"
 
-SQLITE = Person.connection.class == ActiveRecord::ConnectionAdapters::SQLite3Adapter
+# SQLite support on OneBody is non-existent right now
+SQLITE = false #Person.connection.class == ActiveRecord::ConnectionAdapters::SQLite3Adapter
 SQL_LCASE = SQLITE ? 'LOWER' : 'LCASE'
 
 Comatose.configure do |config|
