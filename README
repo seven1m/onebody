@@ -1,39 +1,13 @@
-OneBody - online church membership directory and social networking site
-http://beonebody.org
+OneBody is free, open-source, volunteer-built software that connects churchgoers on the web.
 
-History
--------
+Find out more at http://beonebody.org
 
-OneBody is a project that grew out of a need we had at Cedar Ridge
-Christian Church for an online directory. The project evolved over
-time to become what it is today. Now, as an open source project,
-we hope to see OneBody grow into something even greater as other
-people/churches contribute back to the project based on their own
-needs and desires.
-
-Features
---------
-
-* Searchable Online Directory
-* Editable Member Profiles
-* Granular Privacy Options
-* External Database Synchronization (one way)
-* Online Groups (with forum/mailing list)
-* Picture, Verse, Recipe, and Note Sharing
-* Private Messaging (without email address disclosure)
-* Public Messaging (via "The Wall")
-* Friendships
-* Child Protection Features
-
-...and probably more, but those are the main features
-
-See http://beonebody.org for more information about the features,
-administration, settings, and more.
+For installation and setup, visit http://beonebody.org/trac/wiki/InstallOneBody
 
 Copyright & License
 -------------------
 
-Copyright (C) 20007  Tim Morgan  http://timmorgan.org
+Copyright (C) 20007, Tim Morgan - http://timmorgan.org
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
