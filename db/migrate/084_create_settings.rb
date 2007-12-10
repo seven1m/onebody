@@ -3,7 +3,7 @@ class CreateSettings < ActiveRecord::Migration
     create_table :settings do |t|
       t.string :section, :name, :limit => 100
       t.string :format, :limit => 20
-      t.string :value, :text
+      t.string :value
       t.string :description, :limit => 500
       t.boolean :hidden, :default => false
       t.timestamps

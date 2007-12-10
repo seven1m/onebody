@@ -23,14 +23,14 @@ require 'update_attributes_if_changed'
 SETTINGS = {}
 if Setting.table_exists?
   Setting.load_settings
-else
+else # so intermediate migrations can run during setup
   %w(name features url email services contact access).each { |s| SETTINGS[s] = {} }
 end
 
 ActionMailer::Base.smtp_settings = {
-  :address  => SETTINGS['email']['host'],
-  :port  => 25,
-  :domain => SETTINGS['email']['domain'],
+  :address => SETTINGS['email']['host'] || '',
+  :port => 25,
+  :domain => SETTINGS['email']['domain'] || ''
 }
 
 MONTHS = [
