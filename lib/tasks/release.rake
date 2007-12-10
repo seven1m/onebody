@@ -20,16 +20,13 @@ spec = Gem::Specification.new do |s|
   s.require_path = '.'
   s.author = "Tim Morgan"
   s.email = "tim@timmorgan.org"
-  s.homepage = "http://beonebody.com"  
+  s.homepage = "http://beonebody.org"  
   s.rubyforge_project = "onebody"
   s.platform = Gem::Platform::RUBY 
   s.executables = ['onebody']
   
-  s.add_dependency("rails", "= 1.2.3")
-  s.add_dependency("mongrel", ">= 0.3.13.3")
-  s.add_dependency("mongrel_cluster", ">= 0.2.0")
-  #s.add_dependency("sqlite3-ruby", ">= 1.1.0")
-  #s.add_dependency("rails-app-installer", ">= 0.1.0")
+  s.add_dependency("rails", "= 2.0.1")
+  s.add_dependency("atom")
 end
 
 Rake::GemPackageTask.new(spec) do |p|
