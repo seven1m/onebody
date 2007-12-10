@@ -7,4 +7,11 @@ class Setting < ActiveRecord::Base
   end
   
   def value?; value; end
+  
+  def self.load_settings
+    find(:all).each do |setting|
+      SETTINGS[setting.section.downcase.gsub(/\s/, '_')] ||= {}
+      SETTINGS[setting.section.downcase][setting.name.downcase.gsub(/\s/, '_')] = setting.value
+    end
+  end
 end
