@@ -20,7 +20,15 @@ require 'ar_schema_dumper_fix'
 require 'params_tools'
 require 'update_attributes_if_changed'
 
-SETTINGS = YAML::load(File.open(File.join(File.dirname(__FILE__), 'settings.yml')))
+SETTINGS = {}
+if Setting.table_exists?
+  Setting.find(:all).each do |setting|
+    SETTINGS[setting.section.downcase.gsub(/\s/, '_')] ||= {}
+    SETTINGS[setting.section.downcase][setting.name.downcase.gsub(/\s/, '_')] = setting.value
+  end
+else
+  %w(name features url email services contact access).each { |s| SETTINGS[s] = {} }
+end
 
 ActionMailer::Base.smtp_settings = {
   :address  => SETTINGS['email']['host'],

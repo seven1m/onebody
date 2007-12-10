@@ -1,0 +1,42 @@
+<h1>Settings</h2>
+
+<%= form_tag({:action => 'edit'}, :style => "border:none;") %>
+  <% @settings.each do |section_name, section| %>
+    <h2 class="tab" id="<%= section_name %>"><%=h section_name %></h2>
+    <div class="section">
+      <table>
+        <% section.each_with_index do |setting, index| %>
+          <tr class="<%= index % 2 == 0 ? 'even' : 'odd' %>">
+            <td style="white-space:nowrap;font-weight:bold;">
+              <%=h setting.name %>:
+              <% if setting.format == 'list' %><br/>(one per line)<% end %>
+            </td>
+            <td style="white-space:nowrap;">
+              <% if setting.format == 'list' %>
+                <%= text_area_tag setting.id, setting.value.to_a.join("\n"), :rows => 3, :style => 'width:300px;' %>
+              <% elsif setting.format == 'boolean' %>
+                <%= check_box_tag setting.id, true, setting.value?, :class => 'checkbox' %>
+              <% else %>
+                <%= text_field_tag setting.id, setting.value %>
+              <% end %>
+            </td>
+            <td style="color:#666;padding-bottom:20px;"><%= setting.description %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
+  
+  <p><%= submit_tag 'Save Settings' %></p>
+</form>
+               
+<%= javascript_include_tag 'tabs' %>
+<%= stylesheet_link_tag 'tabs' %>
+<style type="text/css">
+  div.section { border-style: solid none none none; }
+</style>
+<script type="text/javascript">
+//<![CDATA[
+  set_up(); // tabs
+//]]>
+</script>

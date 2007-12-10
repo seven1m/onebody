@@ -1,0 +1,39 @@
+<h2>Administrators</h2>
+<% @admins.each do |admin| %>
+  <div style="margin-bottom:3px;">
+    <%= link_to_function image_tag('plus.gif', :alt => 'show privileges', :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
+    <%= link_to admin.person.name, person_url(:id => admin.person) %>
+    <%= link_to '[x]', {:action => 'remove_admin', :id => admin}, :class => 'discreet', :confirm => 'Are you sure?', :method => :post %>
+    <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;">
+      <%= check_box_tag 'select_all', true, false, :onclick => "document.getElementsByClassName('privilege#{admin.id}').each(function(e){e.checked=$('select_all_#{admin.id}').checked;new Ajax.Request('#{url_for(:action => 'edit_attribute', :id => admin)}', {parameters:'name='+e.name+'&value='+e.checked});})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
+      <em>select all</em><br/>
+      <% all_selected = true %>
+      <% Admin.privilege_columns.map { |c| c.name }.sort.each do |privilege| %>
+        <% unless admin.person == @logged_in and privilege == 'manage_access' %>
+          <%= check_box_tag privilege, true, admin.send(privilege + '?'), :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{url_for(:action => 'edit_attribute', :id => admin)}', {parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %>
+          <%= privilege.gsub('_', ' ') %>
+          <span id="<%= privilege %>_<%= admin.id %>_status"></span>
+          <br/>
+          <% all_selected = false unless admin.send(privilege + '?') %>
+        <% end %>
+      <% end %>
+      <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
+    </div>
+  </div>
+<% end %>
+<%= image_tag 'checkmark.png', :style => 'visibility:hidden;' %>
+<%= form_remote_tag :url => {:controller => 'people', :action => 'search'} %>
+  <%= hidden_field_tag :select_person, true %>
+  <p>
+    <label for="name">Add administrator:</label> <%= text_field_tag 'name' %>
+    <br/>
+    <%= submit_tag 'Search by Name' %>
+  </p>
+</form>
+
+<div id="add_member" style="display:none;">
+  <%= form_tag :action => 'add_admin' %>
+    <div id="results"></div>
+    <p><%= submit_tag 'Add Selected' %></p>
+  </form>
+</div>

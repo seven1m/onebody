@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 82) do
+ActiveRecord::Schema.define(:version => 84) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean,  :default => false
@@ -396,6 +396,7 @@ ActiveRecord::Schema.define(:version => 82) do
     t.column "session_id", :string
     t.column "data",       :text
     t.column "updated_at", :datetime
+    t.column "created_at", :datetime
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
@@ -404,6 +405,18 @@ ActiveRecord::Schema.define(:version => 82) do
     t.column "start",      :datetime
     t.column "person_id",  :integer
     t.column "created_at", :datetime
+  end
+
+  create_table "settings", :force => true do |t|
+    t.column "section",     :string,   :limit => 100
+    t.column "name",        :string,   :limit => 100
+    t.column "format",      :string,   :limit => 20
+    t.column "value",       :string
+    t.column "text",        :string
+    t.column "description", :string,   :limit => 500
+    t.column "hidden",      :boolean,                 :default => false
+    t.column "created_at",  :datetime
+    t.column "updated_at",  :datetime
   end
 
   create_table "songs", :force => true do |t|

@@ -53,6 +53,10 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'events' do |m|
     m.event 'events/view/:id', :action => 'view'
   end
+  
+  map.with_options :controller => 'settings' do |m|
+    m.settings 'admin/settings', :action => 'index'
+  end
 
   map.connect '', :controller => "people"
   map.connect ':controller/service.wsdl', :action => 'wsdl'

@@ -485,8 +485,9 @@ label.inline {
 input {
 	width:300px;
 	padding:4px;
-	border:none;
-	border-bottom:1px dotted #aaa;
+/*	border:none;
+	border-bottom:1px dotted #aaa;*/
+	border:1px dotted #aaa;
 	font:90% Verdana;
 	color:#777;
 	margin: 5px;
@@ -496,9 +497,10 @@ textarea {
 	width:400px;
 	padding:4px;
 	font:90% Verdana;
-	border:1px solid #ccc;
+	border:1px dotted #ccc;
 	display:block;
 	color:#777;
+	margin: 5px;
 }
 
 blockquote p {
@@ -512,7 +514,7 @@ blockquote p {
 	width: auto;
 	width: inherit;
 	border: none;
-	margin: 0;
+	margin: 5px;
 }
 
 .message-details {
