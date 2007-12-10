@@ -20,17 +20,20 @@ require 'ar_schema_dumper_fix'
 require 'params_tools'
 require 'update_attributes_if_changed'
 
-SETTINGS = {}
-if Setting.table_exists?
+if RAILS_ENV == 'test'
+  SETTINGS = YAML::load(File.open(File.join(RAILS_ROOT, 'test/settings.yml'))) 
+elsif Setting.table_exists?
+  SETTINGS = {}
   Setting.load_settings
 else # so intermediate migrations can run during setup
+  SETTINGS = {}
   %w(name features url email services contact access).each { |s| SETTINGS[s] = {} }
 end
 
 ActionMailer::Base.smtp_settings = {
-  :address => SETTINGS['email']['host'] || '',
+  :address => SETTINGS['email']['host'],
   :port => 25,
-  :domain => SETTINGS['email']['domain'] || ''
+  :domain => SETTINGS['email']['domain']
 }
 
 MONTHS = [

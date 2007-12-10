@@ -1,0 +1,75 @@
+name:
+  # name of this site
+  site: Imaginary Church Family
+  # name of church
+  church: First Imaginary Church
+  
+features:
+  # If you have SSL setup, you may turn on this feature, which will make the login
+  # page encrypted. If not, some advanced JavaScript hashing is enabled to make
+  # sure the users' passwords aren't being sent in plaintext.
+  ssl: false
+  # friends (set to true to enable MySpace-type mutual friendships, confirmed via email)
+  friends: true
+  # prayer event (blank to disable)
+  # or set to: [first_time_slot, last_time_slot]
+  # e.g., ['1/21/2007 12:00', '1/29/2007 21:00']
+  #prayer: ['8/5/2007 12:00', '8/12/2007 12:00']
+  # sidebar group category (blank to disable)
+  # people in groups in this category
+  # will be displayed on the user's profile sidebar
+  sidebar_group_category: Small Groups
+  # heading to show above people (if enabled above)
+  sidebar_group_heading: Small Group
+  banner_message:
+
+url:
+  # url for this site (include trailing slash on this one)
+  site: http://imaginaryfamily.com/
+  # url for main church website
+  visitor: http://imaginarychurch.com
+  # url for church news (can be blank)
+  news: http://imaginarychurch.com/news
+  # url for church news RSS feed (can be blank)
+  news_rss: http://imaginarychurch.com/news/RSS
+
+email:
+  host: localhost
+  domain: imaginaryfamily.com
+
+services:
+  # your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
+  yahoo:
+  # your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
+  amazon:
+  # your site stats tracking code to be inserted in HTML of every page (can be blank)
+  analytics:
+
+contact:
+  # phone number for church
+  church_office_phone: (123) 456-7890
+  # email sent when someone updates their profile (can be blank)
+  send_updates_to: admin@imaginarychurch.com
+  # when someone changes their email address
+  send_email_changes_to: admin@imaginarychurch.com
+  # when someone requests verification by birthday
+  birthday_verification_email: admin@imaginarychurch.com
+  # visible in some places on site
+  church_email: info@imaginarychurch.com
+  church_address: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
+  # from address for some outgoing email
+  system_noreply_email: no-reply@imaginaryfamily.com
+  # list all domains where group email could be coming to
+  group_address_domains: 
+    - imaginaryfamily.com
+    - imaginaryfamily.org
+    - imaginaryfamily.net
+  # technical help
+  tech_support_email: morgans@somedomain.com
+  tech_support_contact: Joe Schmo (joe@imaginaryhelp.com)
+  # bug notification (if you want to be informed of site bugs, put your email address here)
+  bug_notification_email:
+
+access:
+  super_admins:
+    - morgans@somedomain.com

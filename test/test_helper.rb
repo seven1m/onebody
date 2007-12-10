@@ -33,6 +33,4 @@ class Test::Unit::TestCase
     assert_template 'people/view'
     assert_select 'h1', Regexp.new(person.name)
   end
-  
-  fixtures :settings
 end
