@@ -13,7 +13,7 @@ class NewsController < ApplicationController
         #[item.title, url_for(:controller => 'news', :action => 'view', :id => item)]
         [item.title, item.link]
       end
-      render_without_layout
+      render :layout => false
     else
       render :text => ''
     end

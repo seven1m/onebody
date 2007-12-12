@@ -103,7 +103,7 @@ class PeopleController < ApplicationController
     end
     @grouped_items << group if group
     respond_to do |wants|
-      wants.html { render_without_layout }
+      wants.html { render :layout => false }
       wants.js { render :partial => 'recently' }
     end
   end
