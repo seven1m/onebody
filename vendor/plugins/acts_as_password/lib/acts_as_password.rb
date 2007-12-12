@@ -26,7 +26,7 @@ module Foo
               reload
               errors.clear
               self.password = new_password
-              self.password_confirmation = new_password_confirmation
+              cself.password_confirmation = new_password_confirmation
               return self.save
             end
             
@@ -46,7 +46,7 @@ module Foo
           people = find_all_by_email(email)
           if people.length > 0
             # try each person until a password matches
-            people.each do |person|
+            people.select { |p| p.encrypted_password }.each do |person|
               compare = options[:encrypted] ? Digest::MD5.hexdigest(person.encrypted_password + options[:salt].to_s) : person.encrypted_password
               return person if compare == password
             end
