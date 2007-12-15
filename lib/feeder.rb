@@ -3,7 +3,7 @@ require 'rss/0.9'
 require 'rss/1.0'
 require 'rss/2.0'
 require 'rss/content'
-require 'atom' # gem install atom
+require 'atom'
 
 module Feeder
   class Feed

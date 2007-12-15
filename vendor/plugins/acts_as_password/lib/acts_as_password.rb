@@ -26,7 +26,7 @@ module Foo
               reload
               errors.clear
               self.password = new_password
-              cself.password_confirmation = new_password_confirmation
+              self.password_confirmation = new_password_confirmation
               return self.save
             end
             
