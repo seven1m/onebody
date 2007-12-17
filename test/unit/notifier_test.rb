@@ -4,6 +4,8 @@ require 'notifier'
 class NotifierTest < Test::Unit::TestCase
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures'
   CHARSET = "utf-8"
+  
+  fixtures :people, :families
 
   include ActionMailer::Quoting
 
@@ -16,9 +18,14 @@ class NotifierTest < Test::Unit::TestCase
     @expected.set_content_type "text", "plain", { "charset" => CHARSET }
   end
   
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_email_update
+    Notifier.deliver_email_update(people(:tim))
+    assert !ActionMailer::Base.deliveries.empty?
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal [SETTINGS['contact']['send_email_changes_to']], sent.to
+    assert_equal "#{people(:tim).name} Changed Email", sent.subject
+    assert sent.body.index("#{people(:tim).name} has had their email changed.")
+    assert sent.body.index("Email: #{people(:tim).email}")
   end
 
   private
