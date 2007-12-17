@@ -11,7 +11,7 @@ class AddComatoseSupport < ActiveRecord::Migration
   def self.up
     create_table :comatose_pages do |t|
       t.column "parent_id",   :integer
-      t.column "full_path",   :text,   :default => ''
+      t.column "full_path",   :text
       t.column "title",       :string, :limit => 255
       t.column "slug",        :string, :limit => 255
       t.column "keywords",    :string, :limit => 255
