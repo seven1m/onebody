@@ -1,0 +1,28 @@
+<%= @person.name %> has submitted a profile update:
+
+<% if @updates[:first_name] %>
+First Name: <%= @updates[:first_name] %><% end -%>
+<% if @updates[:last_name] %>
+Last Name: <%= @updates[:last_name] %><% end -%>
+<% if @updates[:home_phone] %>
+Home Phone: <%= @updates[:home_phone] %><% end -%>
+<% if @updates[:mobile_phone] %>
+Mobile Phone: <%= @updates[:mobile_phone] %><% end -%>
+<% if @updates[:work_phone] %>
+Work Phone: <%= @updates[:work_phone] %><% end -%>
+<% if @updates[:fax] %>
+Fax: <%= @updates[:fax] %><% end -%>
+<% if @updates[:address1] %>
+Address 1: <%= @updates[:address1] %><% end -%>
+<% if @updates[:address2] %>
+Address 2: <%= @updates[:address2] %><% end -%>
+<% if @updates[:city] %>
+City: <%= @updates[:city] %><% end -%>
+<% if @updates[:state] %>
+State: <%= @updates[:state] %><% end -%>
+<% if @updates[:zip] %>
+Zip: <%= @updates[:zip] %><% end -%>
+<% if @updates[:birthday] %>
+Birthday: <%= @updates[:birthday].year == 1800 ? '' : @updates[:birthday].to_s %><% end -%>
+<% if @updates[:anniversary] %>
+Anniversary: <%= @updates[:anniversary].year == 1800 ? '' : @updates[:anniversary].to_s %><% end %>
