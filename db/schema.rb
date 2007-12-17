@@ -412,7 +412,6 @@ ActiveRecord::Schema.define(:version => 84) do
     t.column "name",        :string,   :limit => 100
     t.column "format",      :string,   :limit => 20
     t.column "value",       :string
-    t.column "text",        :string
     t.column "description", :string,   :limit => 500
     t.column "hidden",      :boolean,                 :default => false
     t.column "created_at",  :datetime
