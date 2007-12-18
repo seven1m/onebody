@@ -9,9 +9,23 @@ class Setting < ActiveRecord::Base
   def value?; value; end
   
   def self.load_settings
-    find(:all).each do |setting|
-      SETTINGS[setting.section.downcase.gsub(/\s/, '_')] ||= {}
-      SETTINGS[setting.section.downcase][setting.name.downcase.gsub(/\s/, '_')] = setting.value
+    load_settings_from_array find(:all).map { |s| [s.section, s.name, s.value] }
+    update_template_view_paths
+  end
+  
+  def self.load_settings_from_array(settings)
+    settings.each do |section, name, value|
+      section_name = section.downcase.gsub(/\s/, '_')
+      setting_name = name.downcase.gsub(/\s/, '_')
+      SETTINGS[section_name] ||= {}
+      SETTINGS[section_name][setting_name] = value
+    end
+  end
+  
+  def self.update_template_view_paths
+    if SETTINGS['appearance'] and SETTINGS['appearance']['theme']
+      ActionController::Base.view_paths.delete_if { |p| p =~ /themes/ }
+      ActionController::Base.view_paths.unshift File.join(RAILS_ROOT, 'themes', SETTINGS['appearance']['theme'])
     end
   end
 end

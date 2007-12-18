@@ -50,7 +50,7 @@ end
 #Specific environment using the environment variable "RAILS_ENV"
 #=> rake db:fixtures:export TABLE=assessment_components,lookups RAILS_ENV=test
 	
-desc "Export data from tables in the current environment db to fixtures (YML format). "
+desc "Export data from tables in the current environment db to fixtures (TABLE=table1,table2 for only certain tables). "
 namespace :db do
   namespace :fixtures do
       task :export => :environment do   
