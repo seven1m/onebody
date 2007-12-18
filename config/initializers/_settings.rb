@@ -9,7 +9,7 @@ if RAILS_ENV == 'test'
 
 # If the environment is fully loaded, the database exists, and the settings table exists,
 # then they're read from the database
-elsif (Setting.connection rescue nil) and Setting.table_exists?
+elsif (Setting.connection rescue nil) and Setting.table_exists? and Setting.count > 0
   Setting.load_settings
   
 # If the database and/or table isn't avaialable, all settings are set to nil
