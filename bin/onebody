@@ -6,7 +6,7 @@ if directory = ARGV[0]
 
   # copy files
   FileUtils.mkdir(directory) unless File.exists?(directory)
-  %w(deploy/config deploy/lib deploy/log deploy/script public themes).each do |dir|
+  %w(deploy/config deploy/lib deploy/log deploy/script deploy/Rakefile public themes).each do |dir|
     FileUtils.cp_r(File.join(File.dirname(__FILE__), "../#{dir}"), directory, :remove_destination => true)
   end
   
