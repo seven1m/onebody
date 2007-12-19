@@ -61,3 +61,15 @@ namespace :db do
     end
   end
 end
+
+task :init => [:environment, 'db:create', 'db:migrate'] do
+  puts
+  puts "Now, test your instance by running the following command:"
+  puts 'ruby script/server'
+  puts
+  puts 'Browse to http://localhost:3000'
+  puts 'If you see a login screen, then you are very close!'
+  puts 'If not, then something went wrong.'
+end
+
+RAILS_ENV = 'production'

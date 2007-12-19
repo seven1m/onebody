@@ -1,18 +1,21 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
+require 'highline/import'
 
-if directory = ARGV[0]
+
+if directory = File.expand_path(ARGV[0])
+
+  if NEW_INSTALL = !File.exists?(directory)
+    puts "Creating a new instance of OneBody at #{directory}"
+  else
+    puts "Upgrading your instance of OneBody at #{directory}"
+  end
 
   # copy files
-  FileUtils.mkdir(directory) unless File.exists?(directory)
-  %w(deploy/config deploy/lib deploy/log deploy/script deploy/Rakefile public themes).each do |dir|
+  FileUtils.mkdir(directory)
+  %w(deploy/config deploy/db deploy/lib deploy/log deploy/script deploy/Rakefile public themes).each do |dir|
     FileUtils.cp_r(File.join(File.dirname(__FILE__), "../#{dir}"), directory, :remove_destination => true)
-  end
-  
-  # create the database config file if it doesn't exist yet
-  unless File.exists? File.join(directory, "config/database.yml")
-    FileUtils.cp(File.join(File.dirname(__FILE__), "../config/database.yml"), File.join(directory, 'config/database.yml'))
   end
   
   # copy and tweak some Rails files
@@ -36,6 +39,27 @@ if directory = ARGV[0]
     File.open(dest, 'w') { |f| f.write src }
   end
   
+  puts "Done copying files.\n\n"
+  
+  # create the database config file if it doesn't exist yet
+  unless File.exists? File.join(directory, "config/database.yml")
+    puts 'Setting up the database configuration...'
+    puts 'Enter the MySQL username and password.'
+    db_user = ask('Username [root]: ')
+    db_user = 'root' unless db_user.any?
+    db_pass = ask('Password [blank]: ') { |q| q.echo = false }
+    db_name = ask('What would you like to name the database? [onebody] ')
+    db_name = 'onebody' unless db_name.any?
+    File.open(File.join(directory, 'config/database.yml'), 'w') do |file|
+      file.write "production:\n  adapter: mysql\n  database: #{db_name}\n  username: #{db_user}\n  password: #{db_pass}"
+    end
+    puts
+  end  
+  
+  if NEW_INSTALL
+    puts 'Now, cd to the new instance directory and run the following command:'
+    puts 'rake init'
+  end
 else
   
   puts 'Usage: onebody /path/to/deploy'
