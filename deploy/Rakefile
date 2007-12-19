@@ -72,4 +72,9 @@ task :init => [:environment, 'db:create', 'db:migrate'] do
   puts 'If not, then something went wrong.'
 end
 
+task :update => [:environment, 'db:migrate'] do
+  puts
+  puts 'System updated.'
+end
+
 RAILS_ENV = 'production'

@@ -8,12 +8,12 @@ if directory = File.expand_path(ARGV[0])
 
   if NEW_INSTALL = !File.exists?(directory)
     puts "Creating a new instance of OneBody at #{directory}"
+    FileUtils.mkdir(directory)
   else
     puts "Upgrading your instance of OneBody at #{directory}"
   end
 
   # copy files
-  FileUtils.mkdir(directory)
   %w(deploy/config deploy/db deploy/lib deploy/log deploy/script deploy/Rakefile public themes).each do |dir|
     FileUtils.cp_r(File.join(File.dirname(__FILE__), "../#{dir}"), directory, :remove_destination => true)
   end
@@ -56,9 +56,11 @@ if directory = File.expand_path(ARGV[0])
     puts
   end  
   
+  puts 'Now, cd to your instance directory and run the following command:'
   if NEW_INSTALL
-    puts 'Now, cd to the new instance directory and run the following command:'
     puts 'rake init'
+  else
+    puts 'rake update'
   end
 else
   
