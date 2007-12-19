@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+# example:
+# script/inbox localhost username password
+
+require 'net/pop'
+require File.dirname(__FILE__) + '/../config/environment'
+
+logger = RAILS_DEFAULT_LOGGER
+
+logger.info "Running Mail Importer..." 
+
+Net::POP3.start(ARGV[0], nil, ARGV[1], ARGV[2]) do |pop|
+  if pop.mails.empty?
+    logger.info "NO MAIL" 
+  else
+    pop.mails.each do |email|
+      begin
+        logger.info "receiving mail..." 
+        Notifier.receive(email.pop)
+        email.delete
+      rescue Exception => e
+        logger.error "Error receiving email at " + Time.now.to_s + "::: " + e.message
+      end
+    end
+  end
+end
+logger.info "Finished Mail Importer." 

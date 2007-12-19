@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+
+# usage:
+# sync [options] CONNECTOR [connector_args]
+# example:
+# script/sync coms ../comsdata
+
+MAX_ERRORS = 10
+
+if ARGV.length == 0
+  puts 'Usage: sync [options] CONNECTOR [connector_args]'
+  exit
+end
+
+connector_name = ARGV[0]
+args = ARGV[1..-1]
+
+require File.dirname(__FILE__) + "/../lib/connectors/#{connector_name}"
+require File.dirname(__FILE__) + '/../config/environment'
+
+logger = RAILS_DEFAULT_LOGGER
+
+logger.info "Initializing Sync..."
+connector = eval(connector_name.capitalize+'Connector').new(*args)
+
+unless last_update = Date.parse(ActiveRecord::Base.connection.select_one("SELECT last_update FROM sync_info")['last_update']).to_time rescue nil
+  ActiveRecord::Base.connection.delete("DELETE FROM sync_info")
+  ActiveRecord::Base.connection.insert("INSERT INTO sync_info SET last_update = NULL")
+  last_update = Date.new(1970, 1, 1).to_time
+end
+
+update_time = Time.now.strftime '%Y-%m-%d %H:%M'
+
+error_count = 0
+
+logger.info "Syncing people data..."
+connector.each_person(last_update) do |person|
+  begin
+    p = Person.find_by_legacy_id(person[:legacy_id]) || Person.new(:legacy_id => person[:legacy_id])
+    if p.email_changed?
+      if person[:email] != p.email
+        person.delete(:email)
+      else
+        person[:email_changed] = false
+      end
+    end
+    [:mobile_phone, :work_phone, :fax].each { |a| person[a] = person[a] ? person[a].to_s.scan(/\d/).join('').to_i : nil }
+    p.update_attributes_if_changed!(person)
+  rescue => e
+    logger.error e
+    error_count += 1
+    if error_count > MAX_ERRORS
+      raise "Too many errors. Check the log. Last error was:\n#{e}"
+    end
+  end
+end
+
+logger.info "Syncing family data..."
+connector.each_family(last_update) do |family|
+  begin
+    f = Family.find_by_legacy_id(family[:legacy_id]) || Family.new(:legacy_id => family[:legacy_id])
+    family[:home_phone] = family[:home_phone] ? family[:home_phone].to_s.scan(/\d/).join('').to_i : nil
+    f.update_attributes_if_changed!(family)
+    Person.update_all "family_id = #{f.id}", "legacy_family_id = #{family[:legacy_id]}"
+  rescue => e
+    logger.error e
+    error_count += 1
+    if error_count > MAX_ERRORS
+      raise "Too many errors. Check the log. Last error was:\n#{e}"
+    end
+  end
+end
+
+logger.info "Purging data..."
+Person.destroy_all "legacy_id not in (#{connector.people_ids.join(',')})"
+Family.destroy_all "legacy_id not in (#{connector.family_ids.join(',')})"
+Person.destroy_all "(select count(*) from families where id=people.family_id) = 0"
+
+logger.info "Recording update details..."
+ActiveRecord::Base.connection.update("UPDATE sync_info SET last_update = '#{update_time}'")
+
+logger.info "Finished Sync." 

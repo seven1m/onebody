@@ -1,5 +1,43 @@
 #!/usr/bin/env ruby
 
-directory = ARGV[1]
-	
-# TODO: write this
+require 'fileutils'
+
+if directory = ARGV[0]
+
+  # copy files
+  FileUtils.mkdir(directory) unless File.exists?(directory)
+  %w(deploy/config deploy/lib deploy/log deploy/script public themes).each do |dir|
+    FileUtils.cp_r(File.join(File.dirname(__FILE__), "../#{dir}"), directory, :remove_destination => true)
+  end
+  
+  # create the database config file if it doesn't exist yet
+  unless File.exists? File.join(directory, "config/database.yml")
+    FileUtils.cp(File.join(File.dirname(__FILE__), "../config/database.yml"), File.join(directory, 'config/database.yml'))
+  end
+  
+  # copy and tweak some Rails files
+  [ # orig, dest, hash_of_gsub_changes
+  
+    [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/console.rb'),
+      File.join(directory, 'lib/commands/console.rb'),
+      {/#\{RAILS_ROOT\}\/config\/environment/ => '#{APP_ROOT}/config/environment'} ],
+      
+    [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/server.rb'),
+      File.join(directory, 'lib/commands/server.rb'),
+      {/require "commands\/servers\/#\{server\}"/ => 'require APP_ROOT + "/lib/commands/servers/webrick"'} ],
+      
+    [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/servers/webrick.rb'),
+      File.join(directory, 'lib/commands/servers/webrick.rb'),
+      {/require RAILS_ROOT \+ "\/config\/environment"/ => 'require APP_ROOT + "/config/environment"'} ]
+      
+  ].each do |orig, dest, changes|
+    src = File.read(orig)
+    changes.each { |from, to| src.gsub!(from, to) }
+    File.open(dest, 'w') { |f| f.write src }
+  end
+  
+else
+  
+  puts 'Usage: onebody /path/to/deploy'
+  
+end
