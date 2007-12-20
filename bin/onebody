@@ -15,7 +15,16 @@ if directory = File.expand_path(ARGV[0])
 
   # copy files
   %w(deploy/config deploy/db deploy/lib deploy/log deploy/script deploy/Rakefile public themes).each do |dir|
-    FileUtils.cp_r(File.join(File.dirname(__FILE__), "../#{dir}"), directory, :remove_destination => true)
+    begin
+      FileUtils.cp_r(File.join(File.dirname(__FILE__), "../#{dir}"), directory, :remove_destination => true)
+    rescue => e
+      if dir == 'deploy/db' # the gem is missing the deploy/db directory - I don't know why
+        FileUtils.mkdir(File.join(directory, 'db'))
+      else
+        puts "There was an error copying files: #{e}"
+        exit(1)
+      end
+    end
   end
   
   # copy and tweak some Rails files

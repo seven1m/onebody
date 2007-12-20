@@ -112,6 +112,7 @@ class Person < ActiveRecord::Base
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => :validate_website
+  validates_presence_of :gender, :if => Proc.new { Person.logged_in }
 
   def validate_website
     Person.logged_in and website.to_s.strip.any?
