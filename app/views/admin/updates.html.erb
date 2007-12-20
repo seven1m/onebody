@@ -25,8 +25,13 @@
         <%= update.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
         <% if update.complete %>
           <%= link_to 'Uncomplete', :action => 'toggle_complete', :id => update %>
+        <% elsif SETTINGS['features']['standalone_use'] %>
+          <%= link_to 'Update', :action => 'toggle_complete', :id => update %> |
+          <%= link_to 'Update and Review', :action => 'toggle_complete', :id => update, :review => true %> |
+          <%= link_to 'Delete', {:action => 'delete_update', :id => update}, :confirm => 'Are you sure?' %>
         <% else %>
-          <%= link_to 'Complete', :action => 'toggle_complete', :id => update %>
+          <%= link_to 'Complete', :action => 'toggle_complete', :id => update %> |
+          <%= link_to 'Delete', {:action => 'delete_update', :id => update}, :confirm => 'Are you sure?' %>
         <% end %>
         <table>
           <% if update.first_name %><tr><td>First Name:</td><td><%= update.first_name %></td></tr><% end %>

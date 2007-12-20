@@ -23,3 +23,19 @@
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+update_tim:
+  first_name: Timothy
+  last_name: Morgans
+  person_id: 1
+  home_phone: 9183214321
+  mobile_phone: 9183214321
+  work_phone: 9183214321
+  fax: 9183214321
+  address1: address line 1
+  address2: address line 2
+  city: Siloam Springs
+  state: AR
+  zip: 12345
+  birthday: 2007-01-01
+  anniversary: 2001-01-01

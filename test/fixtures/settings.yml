@@ -226,6 +226,16 @@ settings_000007:
   section: Features
   created_at: 2007-12-18 10:33:25
   hidden: "0"
+settings_000031: 
+  name: Standalone Use
+  updated_at: 2007-12-20 14:36:33
+  format: boolean
+  id: "31"
+  description: If enabled, OneBody is expected to be your church's main membership database, i.e. you can edit people and family data directly.
+  value: "1"
+  section: Features
+  created_at: 2007-12-20 14:36:33
+  hidden: "0"
 settings_000020: 
   name: Send Email Changes To
   updated_at: 2007-12-18 10:33:25

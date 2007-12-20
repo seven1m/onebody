@@ -88,18 +88,34 @@ class AdminController < ApplicationController
   end
 
   def updates
-    raise 'Unauthorized' unless @logged_in.admin?(:view_log)
+    raise 'Unauthorized' unless @logged_in.admin?(:manage_updates)
     @updates = Update.find_all_by_complete(params[:complete] == 'true')
     @unapproved_groups = Group.find_all_by_approved(false)
   end
   
   def toggle_complete
-    raise 'Unauthorized' unless @logged_in.admin?(:view_log)
+    raise 'Unauthorized' unless @logged_in.admin?(:manage_updates)
     @update = Update.find params[:id]
     @update.toggle! :complete
+    if @update.complete and SETTINGS['features']['standalone_use']
+      unless @update.do!
+        flash[:warning] = 'There was an error saving this update.'
+      end
+      if params[:review]
+        redirect_to edit_profile_path(:id => @update.person, :anchor => 'basics')
+        return false
+      end
+    end
     redirect_to :action => 'updates'
   end
-  
+
+  def delete_update
+    raise 'Unauthorized' unless @logged_in.admin?(:manage_updates)
+    @update = Update.find params[:id]
+    @update.destroy
+    redirect_to :action => 'updates'
+  end
+
   def index
     Admin.destroy_all '(select count(*) from people where people.admin_id = admins.id) = 0'
     @admins = Admin.find(:all, :order => 'people.last_name, people.first_name', :include => :person)
