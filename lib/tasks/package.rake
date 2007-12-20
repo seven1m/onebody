@@ -1,12 +1,9 @@
-PKG_NAME = 'onebody'
-PKG_VERSION = '0.1.0'
-
 require 'rubygems'
 require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
-  s.name = PKG_NAME
-  s.version = PKG_VERSION
+  s.name = 'onebody'
+  s.version = File.read(File.join(File.dirname(__FILE__), '../../VERSION')).strip
   s.summary = "web-based church directory and social networking software"
   s.description = <<EOF
 OneBody is free, open-source, volunteer-built
@@ -19,11 +16,10 @@ EOF
   s.require_path = '.'
   s.author = "Tim Morgan"
   s.email = "tim@timmorgan.org"
-  s.homepage = "http://beonebody.org"  
+  s.homepage = "http://beonebody.org"
   s.rubyforge_project = "onebody"
   s.platform = Gem::Platform::RUBY 
   s.executables = ['onebody']
-  #s.add_dependency("rails", "= 2.0.1")
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
