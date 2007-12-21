@@ -57,12 +57,17 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'settings' do |m|
     m.settings 'admin/settings', :action => 'index'
   end
+  
+  map.with_options :controller => 'editor' do |m|
+    m.edit_person 'admin/people/edit/:id', :action => 'edit_person'
+    m.edit_family 'admin/families/edit/:id', :action => 'edit_family'
+  end
 
   map.connect '', :controller => "people"
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   map.connect ':controller/:action/:id'
   map.connect ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
 
-  map.comatose_root 'pages', :layout => 'main'
-  map.comatose_admin 'editor'
+  #map.comatose_root 'pages', :layout => 'main'
+  #map.comatose_admin 'editor'
 end
