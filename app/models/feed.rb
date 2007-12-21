@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 86
+#
+# Table name: feeds
+#
+#  id         :integer(11)   not null, primary key
+#  person_id  :integer(11)   
+#  group_id   :integer(11)   
+#  name       :string(255)   
+#  url        :string(500)   
+#  spec       :string(5)     
+#  fetched_at :datetime      
+#  created_at :datetime      
+#  updated_at :datetime      
+#
+
 require 'rss/0.9'
 require 'rss/1.0'
 require 'rss/2.0'

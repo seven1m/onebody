@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 86
 #
 # Table name: contacts
 #

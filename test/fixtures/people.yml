@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 86
 #
 # Table name: people
 #
@@ -47,7 +47,7 @@
 #  email_bounces                :integer(11)   default(0)
 #  service_category             :string(100)   
 #  get_wall_email               :boolean(1)    default(TRUE)
-#  frozen                       :boolean(1)    
+#  account_frozen               :boolean(1)    
 #  wall_enabled                 :boolean(1)    
 #  messages_enabled             :boolean(1)    default(TRUE)
 #  service_address              :string(255)   

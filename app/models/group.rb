@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 86
 #
 # Table name: groups
 #
@@ -20,6 +20,7 @@
 #  hidden       :boolean(1)    
 #  approved     :boolean(1)    
 #  link_code    :string(255)   
+#  parents_of   :integer(11)   
 #
 
 class Group < ActiveRecord::Base
