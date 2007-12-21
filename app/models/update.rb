@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 78
+# Schema version: 86
 #
 # Table name: updates
 #
@@ -27,16 +27,14 @@ class Update < ActiveRecord::Base
   
   def do!
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
-    %w(first_name last_name
-      mobile_phone work_phone fax
-      address1 address2 city state zip
-      birthday anniversary).each do |attribute|
+    %w(first_name last_name mobile_phone work_phone fax birthday anniversary).each do |attribute|
       person[attribute] = self[attribute] unless self[attribute].nil?
     end
     if person.save
-      unless self.home_phone.nil?
-        person.family.update_attribute :home_phone, self.home_phone
+      %w(home_phone address1 address2 city state zip).each do |attribute|
+        person.family[attribute] = self[attribute] unless self[attribute].nil?
       end
+      person.family.save
     else 
       false
     end
