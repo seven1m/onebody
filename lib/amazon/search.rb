@@ -1035,9 +1035,6 @@ module Amazon
 		 Response.new(body)
 	       end
 
-	# FIXME: This is a gross little hack to return wishlists in
-	# descending order.
-	#
 	if caller[0] =~ /`wishlist_search'$/
 	  body.products = body.products.reverse
 	end
@@ -1053,8 +1050,6 @@ module Amazon
 	  end
 
 	  # Get second and subsequent pages in parallel
-	  # FIXME: why is this not faster?
-	  #
 	  2.upto(total_pages) do |page_nr|
 
 	    # be nice to Amazon
@@ -1117,10 +1112,6 @@ module Amazon
       attr_reader :stream	      # :nodoc:
       attr_reader :args
 
-      #--
-      # FIXME: This can become a reader method if wishlists ever revert to
-      # being returned in descending order.
-      #++
       attr_accessor :products
 
       def initialize(stream)

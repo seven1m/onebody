@@ -1,0 +1,14 @@
+<p class="user-type">
+  <% if @person.elder? %>
+    <%= image_tag 'elder.png', :alt => 'Elder', :class => 'icon' %> Elder
+  <% end %>
+  <% if @person.deacon? %>
+    <%= image_tag 'deacon.png', :alt => 'Deacon', :class => 'icon' %> Deacon
+  <% end %>
+  <% if @person.staff? %>
+    <%= image_tag 'staff.png', :alt => 'Staff', :class => 'icon' %> Staff
+  <% end %>
+  <% if @person.member? %>
+    <%= image_tag 'star.gif', :alt => 'Member', :class => 'icon' %> Member
+  <% end %>
+</p>

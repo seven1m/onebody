@@ -2,14 +2,14 @@
   <%= render :partial => 'photo' %>
   <p>
     Services provided by<br/>
-    <%= link_to @person.name, :action => 'view', :id => @person %>
+    <%= link_to @person.name, person_path(:id => @person) %>
   </p>
 <% end %>
 
 <div>
-  <%= link_to 'Service Directory', :action => 'search', :service => true %> &raquo;
+  <%= link_to 'Service Directory', service_directory_path %> &raquo;
   <% if @person.service_category.to_s.any? %>
-    <%= link_to @person.service_category, :action => 'search', :service => true, :category => @person.service_category %> &raquo;
+    <%= link_to @person.service_category, service_directory_path(:category => @person.service_category) %> &raquo;
   <% end %>
 </div>
 <h1><%=h @person.service_name %></h1>

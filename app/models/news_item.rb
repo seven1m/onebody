@@ -1,14 +1,14 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: news_items
 #
-#  id        :integer(11)   not null, primary key
+#  id        :integer       not null, primary key
 #  title     :string(255)   
 #  link      :string(255)   
 #  body      :text          
 #  published :datetime      
-#  active    :boolean(1)    default(TRUE)
+#  active    :boolean       default(TRUE)
 #
 
 class NewsItem < ActiveRecord::Base

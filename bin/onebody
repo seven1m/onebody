@@ -36,7 +36,8 @@ if directory = File.expand_path(ARGV[0])
       
     [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/server.rb'),
       File.join(directory, 'lib/commands/server.rb'),
-      {/require "commands\/servers\/#\{server\}"/ => 'require APP_ROOT + "/lib/commands/servers/webrick"'} ],
+      {/require "commands\/servers\/#\{server\}"/ => 'require APP_ROOT + "/lib/commands/servers/webrick"',
+       /\|dir_to_make\| FileUtils\.mkdir_p\(File\.join\(RAILS_ROOT, 'tmp', dir_to_make\)\)/ => "|dir_to_make| FileUtils.mkdir_p(File.join(APP_ROOT, 'tmp', dir_to_make))"} ],
       
     [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/servers/webrick.rb'),
       File.join(directory, 'lib/commands/servers/webrick.rb'),
@@ -53,15 +54,23 @@ if directory = File.expand_path(ARGV[0])
   # create the database config file if it doesn't exist yet
   unless File.exists? File.join(directory, "config/database.yml")
     puts 'Setting up the database configuration...'
-    puts 'Enter the MySQL username and password.'
-    db_user = ask('Username [root]: ')
-    db_user = 'root' unless db_user.any?
-    db_pass = ask('Password [blank]: ') { |q| q.echo = false }
-    db_name = ask('What would you like to name the database? [onebody] ')
-    db_name = 'onebody' unless db_name.any?
-    File.open(File.join(directory, 'config/database.yml'), 'w') do |file|
-      file.write "production:\n  adapter: mysql\n  database: #{db_name}\n  username: #{db_user}\n  password: #{db_pass}"
+    begin
+      db_adapter = ask('Choose your database type (sqlite or mysql) [sqlite]: ')
+      db_adapter = 'sqlite' unless db_adapter.any?
+    end while not %w(sqlite mysql).include? db_adapter
+    case db_adapter
+    when 'sqlite'
+      config = "production:\n  adapter: sqlite3\n  database: db/onebody.db"
+    when 'mysql'
+      puts 'Enter the MySQL username and password.'
+      db_user = ask('Username [root]: ')
+      db_user = 'root' unless db_user.any?
+      db_pass = ask('Password [blank]: ') { |q| q.echo = false }
+      db_name = ask('Database name [onebody]: ')
+      db_name = 'onebody' unless db_name.any?
+      config = "production:\n  adapter: mysql\n  database: #{db_name}\n  username: #{db_user}\n  password: #{db_pass}"
     end
+    File.open(File.join(directory, 'config/database.yml'), 'w') { |f| f.write config }
     puts
   end  
   
@@ -71,6 +80,7 @@ if directory = File.expand_path(ARGV[0])
   else
     puts 'rake update'
   end
+  
 else
   
   puts 'Usage: onebody /path/to/deploy'

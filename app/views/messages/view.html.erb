@@ -26,7 +26,7 @@
       <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
     </a>
   </div>
-  <%= image_tag 'comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;' %>
+  <%= image_tag 'comment.gif', :alt => 'Message', :class => 'icon' %>
   Message by <%= link_to h(@message.person.name), :controller => 'people', :action => 'view', :id => @message.person %><br/>
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
@@ -47,7 +47,7 @@
           <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
         </a>
       </div>
-      <%= image_tag 'comment.gif', :alt => 'Reply', :class => 'no-border', :style => 'vertical-align:middle;' %>
+      <%= image_tag 'comment.gif', :alt => 'Reply', :class => 'icon' %>
       Reply by <%= link_to h(reply.person.name), :controller => 'people', :action => 'view', :id => reply.person %><br/>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>

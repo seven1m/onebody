@@ -1,0 +1,3 @@
+    <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>
+    <li><%= link_to 'Privacy Settings', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}" %></li>
+    <li><%= link_to 'Email Preferences', :action => 'email', :id => @person %></li>

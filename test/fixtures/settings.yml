@@ -1,15 +1,15 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: settings
 #
-#  id          :integer(11)   not null, primary key
+#  id          :integer       not null, primary key
 #  section     :string(100)   
 #  name        :string(100)   
 #  format      :string(20)    
 #  value       :string(255)   
 #  description :string(500)   
-#  hidden      :boolean(1)    
+#  hidden      :boolean       
 #  created_at  :datetime      
 #  updated_at  :datetime      
 #
@@ -115,7 +115,7 @@ settings_000026:
   format: string
   id: "26"
   description: Email to contact for technical help with the site.
-  value: morgans@somedomain.com
+  value: admin@example.com
   section: Contact
   created_at: 2007-12-18 10:33:25
   hidden: "0"
@@ -217,7 +217,7 @@ settings_000029:
   description: Email addresses of people who are the super admins
   value: |
     --- 
-    - morgans@somedomain.com
+    - admin@example.com
 
   section: Access
   created_at: 2007-12-18 10:33:25
@@ -282,6 +282,22 @@ settings_000008:
   section: Features
   created_at: 2007-12-18 10:33:25
   hidden: "0"
+settings_000032: 
+  name: Genders
+  updated_at: 2007-12-21 10:07:57
+  format: list
+  id: "32"
+  description: ""
+  value: |
+    --- 
+    - Male
+    - Female
+    - Boy
+    - Girl
+
+  section: System
+  created_at: 2007-12-21 10:07:57
+  hidden: "1"
 settings_000021: 
   name: Birthday Verification Email
   updated_at: 2007-12-18 10:33:25
@@ -311,6 +327,22 @@ settings_000009:
   value: http://imaginaryfamily.com/
   section: URL
   created_at: 2007-12-18 10:33:25
+  hidden: "0"
+settings_000033: 
+  name: Suffixes
+  updated_at: 2007-12-21 10:07:57
+  format: list
+  id: "33"
+  description: ""
+  value: |
+    --- 
+    - Jr.
+    - Sr.
+    - II
+    - III
+
+  section: System
+  created_at: 2007-12-21 10:07:57
   hidden: "0"
 settings_000022: 
   name: Church Email

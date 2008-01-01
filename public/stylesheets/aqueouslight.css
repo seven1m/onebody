@@ -483,7 +483,18 @@ label.inline {
 }
 
 input {
-	width:300px;
+	/*width:300px;*/
+	padding:4px;
+/*	border:none;
+	border-bottom:1px dotted #aaa;*/
+	border:1px dotted #aaa;
+	font:90% Verdana;
+	color:#777;
+	margin: 5px;
+}
+
+select {
+	width:100px;
 	padding:4px;
 /*	border:none;
 	border-bottom:1px dotted #aaa;*/
@@ -812,4 +823,30 @@ h2.headline {
   width:expression(this.width > 320 ? "320px" : this.width);
   min-width:760px;
   margin:-10px auto 5px auto;
+}
+
+fieldset {
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  margin: 5px 0 15px 0;
+  padding: 5px;
+}
+
+fieldset legend {
+  font:130% Arial;
+  color:#79B933;
+}
+
+input[type=checkbox], input[type=radio] {
+  border: none;
+  padding-bottom: 0;
+  vertical-align: middle;
+}
+
+input[type=submit] {
+  border: 1px solid #ccc;
+}
+
+.very-strong {
+  color: red;
 }

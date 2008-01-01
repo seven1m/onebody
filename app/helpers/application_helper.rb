@@ -30,14 +30,34 @@ module ApplicationHelper
     <select name="#{name}[year]" id="#{id}_year"><option value="" #{value ? '' : 'selected="selected"'}></option>#{years}</select>)
   end
   
-  # only necessary if the saferb plugin is uninstalled
-  def safe_string(s)
-    s.untaint
-    return s
-  end
-  alias s safe_string
-  
   def simple_url(url)
     url.gsub(/^https?:\/\//, '').gsub(/\/$/, '')
+  end
+end
+
+module ActionView
+  module Helpers
+    module FormHelper
+      def phone_field(object_name, method, options = {})
+        options[:area_code] = true if options[:area_code].nil?
+        options[:value] = number_to_phone(options[:object][method], :area_code => options.delete(:area_code))
+        options[:size] ||= 15
+        InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_input_field_tag("text", options)
+      end
+      def date_field(object_name, method, options = {})
+        options[:value] = options[:object][method].to_s(:date) rescue nil
+        options[:size] ||= 12
+        InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_input_field_tag("text", options)
+      end  
+      # @person.birthday.to_s(:date)
+    end
+    class FormBuilder
+      def phone_field(method, options = {})
+        @template.phone_field(@object_name, method, options.merge(:object => @object))
+      end
+      def date_field(method, options = {})
+        @template.date_field(@object_name, method, options.merge(:object => @object))
+      end
+    end
   end
 end

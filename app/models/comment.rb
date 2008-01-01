@@ -1,19 +1,19 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: comments
 #
-#  id           :integer(11)   not null, primary key
-#  verse_id     :integer(11)   
-#  person_id    :integer(11)   
+#  id           :integer       not null, primary key
+#  verse_id     :integer       
+#  person_id    :integer       
 #  text         :text          
 #  created_at   :datetime      
 #  updated_at   :datetime      
-#  event_id     :integer(11)   
-#  recipe_id    :integer(11)   
-#  news_item_id :integer(11)   
-#  song_id      :integer(11)   
-#  note_id      :integer(11)   
+#  event_id     :integer       
+#  recipe_id    :integer       
+#  news_item_id :integer       
+#  song_id      :integer       
+#  note_id      :integer       
 #
 
 class Comment < ActiveRecord::Base

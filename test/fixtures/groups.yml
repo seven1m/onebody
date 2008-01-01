@@ -1,9 +1,9 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: groups
 #
-#  id           :integer(11)   not null, primary key
+#  id           :integer       not null, primary key
 #  name         :string(100)   
 #  description  :text          
 #  meets        :string(100)   
@@ -11,16 +11,16 @@
 #  directions   :text          
 #  other_notes  :text          
 #  category     :string(50)    
-#  creator_id   :integer(11)   
-#  private      :boolean(1)    
+#  creator_id   :integer       
+#  private      :boolean       
 #  address      :string(255)   
-#  members_send :boolean(1)    default(TRUE)
-#  leader_id    :integer(11)   
+#  members_send :boolean       default(TRUE)
+#  leader_id    :integer       
 #  updated_at   :datetime      
-#  hidden       :boolean(1)    
-#  approved     :boolean(1)    
+#  hidden       :boolean       
+#  approved     :boolean       
 #  link_code    :string(255)   
-#  parents_of   :integer(11)   
+#  parents_of   :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

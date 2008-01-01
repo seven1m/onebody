@@ -1,25 +1,29 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: updates
 #
-#  id           :integer(11)   not null, primary key
-#  person_id    :integer(11)   
-#  first_name   :string(255)   
-#  last_name    :string(255)   
-#  home_phone   :integer(20)   
-#  mobile_phone :integer(20)   
-#  work_phone   :integer(20)   
-#  fax          :integer(20)   
-#  address1     :string(255)   
-#  address2     :string(255)   
-#  city         :string(255)   
-#  state        :string(2)     
-#  zip          :string(10)    
-#  birthday     :datetime      
-#  anniversary  :datetime      
-#  created_at   :datetime      
-#  complete     :boolean(1)    
+#  id               :integer       not null, primary key
+#  person_id        :integer       
+#  first_name       :string(255)   
+#  last_name        :string(255)   
+#  home_phone       :integer       
+#  mobile_phone     :integer       
+#  work_phone       :integer       
+#  fax              :integer       
+#  address1         :string(255)   
+#  address2         :string(255)   
+#  city             :string(255)   
+#  state            :string(2)     
+#  zip              :string(10)    
+#  birthday         :datetime      
+#  anniversary      :datetime      
+#  created_at       :datetime      
+#  complete         :boolean       
+#  suffix           :string(25)    
+#  gender           :string(6)     
+#  family_name      :string(255)   
+#  family_last_name :string(255)   
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
@@ -30,7 +34,7 @@ update_tim:
   person_id: 1
   home_phone: 9183214321
   mobile_phone: 9183214321
-  work_phone: 9183214321
+  work_phone:
   fax: 9183214321
   address1: address line 1
   address2: address line 2
@@ -38,4 +42,8 @@ update_tim:
   state: AR
   zip: 12345
   birthday: 2007-01-01
-  anniversary: 2001-01-01
+  anniversary: 1800-01-01
+  gender: Male
+  suffix:
+  family_last_name: Morgans
+  family_name: Timothy & Jennie Morgans

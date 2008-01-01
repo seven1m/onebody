@@ -1,17 +1,17 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: verses
 #
-#  id          :integer(11)   not null, primary key
+#  id          :integer       not null, primary key
 #  reference   :string(50)    
 #  text        :text          
 #  translation :string(10)    
 #  created_at  :datetime      
 #  updated_at  :datetime      
-#  book        :integer(11)   
-#  chapter     :integer(11)   
-#  verse       :integer(11)   
+#  book        :integer       
+#  chapter     :integer       
+#  verse       :integer       
 #
 
 require 'net/http'

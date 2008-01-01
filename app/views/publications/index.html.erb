@@ -23,7 +23,7 @@
   </table>
   
   <p>
-    For files with the Acrobat icon <%= image_tag('acrobat.gif', :alt => 'Adobe Acrobat', :class => 'no-border', :style => 'vertical-align:middle;') %>,
+    For files with the Acrobat icon <%= image_tag('acrobat.gif', :alt => 'Adobe Acrobat', :class => 'icon') %>,
     you will need <%= link_to 'Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html' %>
     (aka "Acrobat Reader") or another program capable of viewing PDF files.
   </p>
@@ -33,7 +33,7 @@
 
 <% if @logged_in.admin?(:manage_publications) %>
   <p>
-    <%= link_to image_tag('add_small.gif', :alt => 'New Publication', :class => 'no-border', :style => 'vertical-align:middle;'), :action => 'edit' %>
+    <%= link_to image_tag('add_small.gif', :alt => 'New Publication', :class => 'icon'), :action => 'edit' %>
     <%= link_to 'New Publication', :action => 'edit' %>
   </p>
 <% end %>
@@ -41,14 +41,14 @@
 <h2>Update Notifications</h2>
 <% if @group.people.include? @logged_in %>
   <p>
-    <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'no-border', :style => 'vertical-align:middle' %>
+    <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
     You are currently signed up to receive email notifications when new publications are made available here.
     <%= link_to 'Click here', :controller => 'groups', :action => 'leave', :id => @group, :return_to => request.request_uri %>
     to stop receiving these notifications.
   </p>
 <% else %>
   <p>
-    <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'no-border', :style => 'vertical-align:middle' %>
+    <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
     If you wish to recieve email notifications when new publications are made available on this page,
     <%= link_to 'click here', :controller => 'groups', :action => 'join', :id => @group, :return_to => request.request_uri %>.
   </p>

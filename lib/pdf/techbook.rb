@@ -614,7 +614,6 @@ class PDF::TechBook < PDF::Writer
 
     right = absolute_right_margin
 
-      # TODO -- implement tocdots as a replace tag and a single drawing tag.
     @table_of_contents.each do |entry|
       progress.inc if progress
 

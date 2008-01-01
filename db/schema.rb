@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 86) do
+ActiveRecord::Schema.define(:version => 89) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean,  :default => false
@@ -37,25 +37,10 @@ ActiveRecord::Schema.define(:version => 86) do
   create_table "attachments", :force => true do |t|
     t.column "message_id",   :integer
     t.column "name",         :string
-    t.column "file",         :binary
+    t.column "file",         :binary,   :limit => 10485760
     t.column "content_type", :string,   :limit => 50
     t.column "created_at",   :datetime
     t.column "song_id",      :integer
-  end
-
-  create_table "comatose_pages", :force => true do |t|
-    t.column "parent_id",   :integer
-    t.column "full_path",   :text
-    t.column "title",       :string
-    t.column "slug",        :string
-    t.column "keywords",    :string
-    t.column "body",        :text
-    t.column "filter_type", :string,   :limit => 25, :default => "Textile"
-    t.column "author",      :string
-    t.column "position",    :integer,                :default => 0
-    t.column "version",     :integer
-    t.column "updated_on",  :datetime
-    t.column "created_on",  :datetime
   end
 
   create_table "comments", :force => true do |t|
@@ -103,7 +88,7 @@ ActiveRecord::Schema.define(:version => 86) do
     t.column "city",               :string
     t.column "state",              :string,   :limit => 2
     t.column "zip",                :string,   :limit => 10
-    t.column "home_phone",         :bigint,   :limit => 20
+    t.column "home_phone",         :integer
     t.column "email",              :string
     t.column "latitude",           :float
     t.column "longitude",          :float
@@ -161,7 +146,7 @@ ActiveRecord::Schema.define(:version => 86) do
     t.column "members_send", :boolean,                 :default => true
     t.column "leader_id",    :integer
     t.column "updated_at",   :datetime
-    t.column "hidden",       :boolean
+    t.column "hidden",       :boolean,                 :default => false
     t.column "approved",     :boolean,                 :default => false
     t.column "link_code",    :string
     t.column "parents_of",   :integer
@@ -244,22 +229,6 @@ ActiveRecord::Schema.define(:version => 86) do
     t.column "group_id",     :integer
   end
 
-  create_table "page_versions", :force => true do |t|
-    t.column "page_id",     :integer
-    t.column "version",     :integer
-    t.column "parent_id",   :integer
-    t.column "full_path",   :text
-    t.column "title",       :string
-    t.column "slug",        :string
-    t.column "keywords",    :string
-    t.column "body",        :text
-    t.column "filter_type", :string,   :limit => 25, :default => "Textile"
-    t.column "author",      :string
-    t.column "position",    :integer,                :default => 0
-    t.column "updated_on",  :datetime
-    t.column "created_on",  :datetime
-  end
-
   create_table "people", :force => true do |t|
     t.column "legacy_id",                    :integer
     t.column "family_id",                    :integer
@@ -268,9 +237,9 @@ ActiveRecord::Schema.define(:version => 86) do
     t.column "first_name",                   :string
     t.column "last_name",                    :string
     t.column "suffix",                       :string,   :limit => 25
-    t.column "mobile_phone",                 :bigint,   :limit => 20
-    t.column "work_phone",                   :bigint,   :limit => 20
-    t.column "fax",                          :bigint,   :limit => 20
+    t.column "mobile_phone",                 :integer
+    t.column "work_phone",                   :integer
+    t.column "fax",                          :integer
     t.column "birthday",                     :datetime
     t.column "email",                        :string
     t.column "email_changed",                :boolean,                 :default => false
@@ -281,7 +250,7 @@ ActiveRecord::Schema.define(:version => 86) do
     t.column "encrypted_password",           :string,   :limit => 100
     t.column "service_name",                 :string,   :limit => 100
     t.column "service_description",          :text
-    t.column "service_phone",                :bigint,   :limit => 20
+    t.column "service_phone",                :integer
     t.column "service_email",                :string
     t.column "service_website",              :string
     t.column "activities",                   :text
@@ -304,7 +273,7 @@ ActiveRecord::Schema.define(:version => 86) do
     t.column "email_bounces",                :integer,                 :default => 0
     t.column "service_category",             :string,   :limit => 100
     t.column "get_wall_email",               :boolean,                 :default => true
-    t.column "account_frozen",               :boolean
+    t.column "account_frozen",               :boolean,                 :default => false
     t.column "wall_enabled",                 :boolean
     t.column "messages_enabled",             :boolean,                 :default => true
     t.column "service_address",              :string
@@ -452,27 +421,31 @@ ActiveRecord::Schema.define(:version => 86) do
   end
 
   create_table "updates", :force => true do |t|
-    t.column "person_id",    :integer
-    t.column "first_name",   :string
-    t.column "last_name",    :string
-    t.column "home_phone",   :bigint,   :limit => 20
-    t.column "mobile_phone", :bigint,   :limit => 20
-    t.column "work_phone",   :bigint,   :limit => 20
-    t.column "fax",          :bigint,   :limit => 20
-    t.column "address1",     :string
-    t.column "address2",     :string
-    t.column "city",         :string
-    t.column "state",        :string,   :limit => 2
-    t.column "zip",          :string,   :limit => 10
-    t.column "birthday",     :datetime
-    t.column "anniversary",  :datetime
-    t.column "created_at",   :datetime
-    t.column "complete",     :boolean,                :default => false
+    t.column "person_id",        :integer
+    t.column "first_name",       :string
+    t.column "last_name",        :string
+    t.column "home_phone",       :bigint
+    t.column "mobile_phone",     :bigint
+    t.column "work_phone",       :bigint
+    t.column "fax",              :bigint
+    t.column "address1",         :string
+    t.column "address2",         :string
+    t.column "city",             :string
+    t.column "state",            :string,   :limit => 2
+    t.column "zip",              :string,   :limit => 10
+    t.column "birthday",         :datetime
+    t.column "anniversary",      :datetime
+    t.column "created_at",       :datetime
+    t.column "complete",         :boolean,                :default => false
+    t.column "suffix",           :string,   :limit => 25
+    t.column "gender",           :string,   :limit => 6
+    t.column "family_name",      :string
+    t.column "family_last_name", :string
   end
 
   create_table "verifications", :force => true do |t|
     t.column "email",        :string
-    t.column "mobile_phone", :bigint,   :limit => 20
+    t.column "mobile_phone", :bigint
     t.column "code",         :integer
     t.column "verified",     :boolean
     t.column "created_at",   :datetime

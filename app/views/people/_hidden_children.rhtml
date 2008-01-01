@@ -1,0 +1,4 @@
+  <% if @person.family.children_without_consent.any? and @me and @person.adult? and not @logged_in.admin?(:view_hidden_profiles) %>
+    <p class="discreet"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Where are my kids?",
+      :controller => 'help', :action => 'safeguarding_children' %></p>
+  <% end %>

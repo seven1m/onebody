@@ -40,7 +40,7 @@
   
     <% unless @group.linked? or @group.parents_of %>
       <% if @group.approved %>
-        <%= form_remote_tag :url => {:controller => 'people', :action => 'search'} %>
+        <%= form_remote_tag :url => {:controller => 'directory', :action => 'search'} %>
           <%= hidden_field_tag :select_person, true %>
           <p>
             <label for="name">Add somebody:</label> <%= text_field_tag 'name' %>
@@ -55,7 +55,7 @@
           </form>
         </div>
       <% else %>
-        <p style="color:red;">
+        <p class="very-strong">
           This group is pending approval. You may not add people to it yet.
         </p>
       <% end %>

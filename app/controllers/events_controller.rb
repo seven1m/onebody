@@ -6,11 +6,11 @@ class EventsController < ApplicationController
     @month = (params[:month] || today.month).to_i
     @events = Event.find(
       :all,
-      :conditions => ['year(`when`) = ? and month(`when`) = ?', @year, @month],
+      :conditions => ["#{sql_year('`when`')} = ? and #{sql_month('`when`')} = ?", @year, @month],
       :order => '"when"'
     ).group_by { |e| e.when && e.when.strftime('%m/%d/%Y') }
-    first = [Event.minimum("year(`when`)").to_i, today.year].max - 1
-    last = [Event.maximum("year(`when`)").to_i, today.year].max + 1
+    first = [Event.minimum(sql_year('`when`')).to_i, today.year].max - 1
+    last = [Event.maximum(sql_year('`when`')).to_i, today.year].max + 1
     @years_to_show = first..last
   end
   
@@ -21,8 +21,8 @@ class EventsController < ApplicationController
   
   def list
     conditions = []
-    conditions.add_condition ['year(`when`) = ?', params[:year]] if params[:year]
-    conditions.add_condition ['month(`when`) = ?', params[:month]] if params[:month]
+    conditions.add_condition ["#{sql_year('`when`')} = ?", params[:year]] if params[:year]
+    conditions.add_condition ["#{sql_month('`when`')} = ?", params[:month]] if params[:month]
     conditions = nil if conditions.empty?
     @pages = Paginator.new self, Event.count('*', :conditions => conditions), 25, params[:page]
     @events = Event.find :all,

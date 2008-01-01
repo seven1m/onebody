@@ -1,15 +1,15 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: settings
 #
-#  id          :integer(11)   not null, primary key
+#  id          :integer       not null, primary key
 #  section     :string(100)   
 #  name        :string(100)   
 #  format      :string(20)    
 #  value       :string(255)   
 #  description :string(500)   
-#  hidden      :boolean(1)    
+#  hidden      :boolean       
 #  created_at  :datetime      
 #  updated_at  :datetime      
 #
@@ -19,7 +19,7 @@ class Setting < ActiveRecord::Base
   
   def value
     v = read_attribute(:value)
-    format == 'boolean' ? ![0, '0'].include?(v) : v
+    format == 'boolean' ? ![0, '0', 'f'].include?(v) : v
   end
   
   def value?; value; end
@@ -30,11 +30,11 @@ class Setting < ActiveRecord::Base
   end
   
   def self.load_settings_from_array(settings)
-    settings.each do |section, name, value|
+    settings.each do |section, name, value, format|
       section_name = section.downcase.gsub(/\s/, '_')
       setting_name = name.downcase.gsub(/\s/, '_')
       SETTINGS[section_name] ||= {}
-      SETTINGS[section_name][setting_name] = value
+      SETTINGS[section_name][setting_name] = (format == 'list' ? YAML::load(value) : value)
     end
   end
   

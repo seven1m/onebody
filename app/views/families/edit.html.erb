@@ -1,0 +1,20 @@
+<h1>Edit Family</h1>
+
+<% form_for :family, @family do |form| %>
+  <p>
+    <%= form.label :name %>                     <%= form.text_field :name, :onkeyup => 'last_name(this.value)' %> <em>John &amp; Jane Doe</em><br/>
+    <%= form.label :last_name %>                <%= form.text_field :last_name %> <em>Doe</em><br/>
+    <%= form.label :address1, 'Address' %>      <%= form.text_field :address1 %> <em>Line 1</em><br/>
+                                                <%= form.text_field :address2 %> <em>Line 2 (optional)</em><br/>
+    <%= form.label :city, 'City, State, Zip' %> <%= form.text_field :city, :size => 15 %>, <%= form.text_field :state, :size => 2 %>, <%= form.text_field :zip, :size => 10 %><br/>
+    <%= form.label :home_phone %>               <%= form.phone_field :home_phone %><br/>
+    <%= submit_tag 'Save Family' %>
+  </p>
+<% end %>
+
+<script type="text/javascript">
+  function last_name(full_name) {
+    var parts = full_name.split(/\s/);
+    $('family_last_name').value = parts[parts.length-1];
+  }
+</script>

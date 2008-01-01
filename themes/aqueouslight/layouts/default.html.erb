@@ -9,7 +9,7 @@
   <meta http-equiv="Cache-Control" content="no-cache"/> 
   <link rel="stylesheet" href="/stylesheets/aqueouslight.css" type="text/css" media="screen,projection" />
   <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />
-  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="<%= SETTINGS['name']['site'] %> Search" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_path %>" title="<%= SETTINGS['name']['site'] %> Search" />
   <%= javascript_include_tag :defaults %>
   <%= yield :head %>
 </head>
@@ -25,7 +25,7 @@
 
 		<div id="header">
 		
-			  <%= form_tag({:controller => 'people', :action => 'search'}, {:method => 'get'}) %>
+			  <%= form_tag({:controller => 'directory', :action => 'search'}, {:method => 'get'}) %>
 			    Type a name and hit <strong>enter</strong>:<br/>
 				  <input name="quick_name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
 			</form>
@@ -58,11 +58,11 @@
               <% end %>
 				    <% end %>
 				    
-				    <li><%= link_to 'Profile', {:controller => 'people', :action => 'index'}, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
-				    <li><%= link_to 'Directory', {:controller => 'people', :action => 'search'}, :class => (params[:controller] == 'people' and params[:action] == 'search' ? 'active' : nil) %></li>
-				    <li><%= link_to 'Groups', {:controller => 'groups', :action => 'index'}, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li>
-				    <li><%= link_to 'Shares', {:controller => 'shares', :action => 'index'}, :class => (['shares', 'events', 'pictures', 'verses', 'recipes'].include?(params[:controller]) ? 'active' : nil) %></li>
-				    <li><%= link_to 'Publications', {:controller => 'publications', :action => 'index'}, :class => (params[:controller] == 'publications' ? 'active' : nil) %></li>
+				    <li><%= link_to 'Profile', logged_in_path, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
+				    <li><%= link_to 'Directory', search_directory_path, :class => (params[:controller] == 'directory' ? 'active' : nil) %></li>
+				    <li><%= link_to 'Groups', groups_path, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li>
+				    <li><%= link_to 'Shares', shares_path, :class => (['shares', 'events', 'pictures', 'verses', 'recipes'].include?(params[:controller]) ? 'active' : nil) %></li>
+				    <li><%= link_to 'Publications', publications_path, :class => (params[:controller] == 'publications' ? 'active' : nil) %></li>
 
 				</ul>
 
@@ -76,7 +76,7 @@
     <% if flash[:notice] and not flash[:warning] %>
       <div id="notice"><%= flash[:notice] %></div>
       <script type="text/javascript">
-       setTimeout("new Effect.Fade('notice');", 15000)
+       setTimeout("new Effect.BlindUp('notice');", 15000)
      </script>
     <% end %>
     

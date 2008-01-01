@@ -1,11 +1,11 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: contacts
 #
-#  id         :integer(11)   not null, primary key
-#  person_id  :integer(11)   
-#  owner_id   :integer(11)   
+#  id         :integer       not null, primary key
+#  person_id  :integer       
+#  owner_id   :integer       
 #  updated_at :datetime      
 #
 

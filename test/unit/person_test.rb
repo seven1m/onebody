@@ -4,9 +4,9 @@ class PersonTest < Test::Unit::TestCase
   fixtures :people, :families
   
   def test_email_address_unique_within_family
-    # tim already has email address morgans@somedomain.com
+    # tim already has email address
     p = people(:peter)
-    p.email = 'morgans@somedomain.com'
+    p.email = people(:tim).email
     p.save
     assert_equal 'already taken by someone else.', p.errors[:email]
   end

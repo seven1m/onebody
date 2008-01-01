@@ -1,22 +1,22 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: people
 #
-#  id                           :integer(11)   not null, primary key
-#  legacy_id                    :integer(11)   
-#  family_id                    :integer(11)   
-#  sequence                     :integer(11)   
+#  id                           :integer       not null, primary key
+#  legacy_id                    :integer       
+#  family_id                    :integer       
+#  sequence                     :integer       
 #  gender                       :string(6)     
 #  first_name                   :string(255)   
 #  last_name                    :string(255)   
 #  suffix                       :string(25)    
-#  mobile_phone                 :integer(20)   
-#  work_phone                   :integer(20)   
-#  fax                          :integer(20)   
+#  mobile_phone                 :integer       
+#  work_phone                   :integer       
+#  fax                          :integer       
 #  birthday                     :datetime      
 #  email                        :string(255)   
-#  email_changed                :boolean(1)    
+#  email_changed                :boolean       
 #  website                      :string(255)   
 #  classes                      :string(255)   
 #  shepherd                     :string(255)   
@@ -24,7 +24,7 @@
 #  encrypted_password           :string(100)   
 #  service_name                 :string(100)   
 #  service_description          :text          
-#  service_phone                :integer(20)   
+#  service_phone                :integer       
 #  service_email                :string(255)   
 #  service_website              :string(255)   
 #  activities                   :text          
@@ -36,38 +36,38 @@
 #  quotes                       :text          
 #  about                        :text          
 #  testimony                    :text          
-#  share_mobile_phone           :boolean(1)    
-#  share_work_phone             :boolean(1)    
-#  share_fax                    :boolean(1)    
-#  share_email                  :boolean(1)    
-#  share_birthday               :boolean(1)    
+#  share_mobile_phone           :boolean       
+#  share_work_phone             :boolean       
+#  share_fax                    :boolean       
+#  share_email                  :boolean       
+#  share_birthday               :boolean       
 #  anniversary                  :datetime      
 #  updated_at                   :datetime      
 #  alternate_email              :string(255)   
-#  email_bounces                :integer(11)   default(0)
+#  email_bounces                :integer       default(0)
 #  service_category             :string(100)   
-#  get_wall_email               :boolean(1)    default(TRUE)
-#  account_frozen               :boolean(1)    
-#  wall_enabled                 :boolean(1)    
-#  messages_enabled             :boolean(1)    default(TRUE)
+#  get_wall_email               :boolean       default(TRUE)
+#  account_frozen               :boolean       
+#  wall_enabled                 :boolean       
+#  messages_enabled             :boolean       default(TRUE)
 #  service_address              :string(255)   
 #  flags                        :string(255)   
-#  music_access                 :boolean(1)    
-#  visible                      :boolean(1)    default(TRUE)
+#  music_access                 :boolean       
+#  visible                      :boolean       default(TRUE)
 #  parental_consent             :string(255)   
-#  admin_id                     :integer(11)   
-#  friends_enabled              :boolean(1)    default(TRUE)
-#  member                       :boolean(1)    
-#  staff                        :boolean(1)    
-#  elder                        :boolean(1)    
-#  deacon                       :boolean(1)    
-#  can_sign_in                  :boolean(1)    
-#  visible_to_everyone          :boolean(1)    
-#  visible_on_printed_directory :boolean(1)    
-#  full_access                  :boolean(1)    
-#  legacy_family_id             :integer(11)   
+#  admin_id                     :integer       
+#  friends_enabled              :boolean       default(TRUE)
+#  member                       :boolean       
+#  staff                        :boolean       
+#  elder                        :boolean       
+#  deacon                       :boolean       
+#  can_sign_in                  :boolean       
+#  visible_to_everyone          :boolean       
+#  visible_on_printed_directory :boolean       
+#  full_access                  :boolean       
+#  legacy_family_id             :integer       
 #  feed_code                    :string(50)    
-#  share_activity               :boolean(1)    
+#  share_activity               :boolean       
 #
 
 tim:
@@ -80,7 +80,7 @@ tim:
   mobile_phone: 9181234567
   birthday: 1981-04-28
   anniversary: 2001-08-11
-  email: morgans@somedomain.com
+  email: admin@example.com
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
   mail_group: M
   wall_enabled: true
@@ -101,7 +101,7 @@ jeremy:
   classes: BW,ZZ,PT,CF,W08,OF03,W04,W10
   mail_group: M
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
-  email: jeremy@example.com
+  email: user@example.com
   wall_enabled: true
   member: true
   can_sign_in: true
@@ -109,6 +109,7 @@ jeremy:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  deacon: true
 peter:
   id: 3
   family_id: 3
@@ -136,7 +137,7 @@ jennie:
   last_name: Morgan
   mail_group: M
   birthday: 1980-06-24
-  email: morgans@somedomain.com
+  email: admin@example.com
   encrypted_password: 5f4dcc3b5aa765d61d8327deb882cf99 # password
   wall_enabled: true
   admin_id: 1
@@ -146,6 +147,7 @@ jennie:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  staff: true
 mac:
   id: 5
   family_id: 1
@@ -153,7 +155,7 @@ mac:
   gender: Girl
   first_name: Mac
   last_name: Morgan
-  email: mac@somedomain.com
+  email: mac@example.com
   mail_group: M
   birthday: 2006-11-03
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
@@ -164,16 +166,16 @@ mac:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
-jeanette:
+jane:
   id: 6
   family_id: 2
   sequence: 2
   gender: Woman
-  first_name: Jeanette
+  first_name: Jane
   last_name: Smith
   mail_group: M
   birthday: 1980-06-24
-  email: jeanette@somedomain.com
+  email: jane@example.com
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
   wall_enabled: true
   member: true
@@ -182,6 +184,7 @@ jeanette:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  staff: true
 katrina:
   id: 7
   family_id: 2

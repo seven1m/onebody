@@ -13,7 +13,7 @@
 </p>
 
 <% if @logged_in.admin?(:edit_profiles) and @person.account_frozen? %>
-  <p style="color:red;">This account is frozen. <%= @person.name %> can not make changes to this profile or anyone else's until this account is unfrozen.</p>
+  <p class="very-strong">This account is frozen. <%= @person.name %> can not make changes to this profile or anyone else's until this account is unfrozen.</p>
 <% end %>
 
 <% content_for :subnav do %>
@@ -37,7 +37,7 @@
 <div class="section">
   <p>
     Upload a <strong>picture of <%= @person == @logged_in ? 'yourself' : h(@person.name) %></strong>.
-    Please only upload a <span style="color:red;">real photo</span> &mdash;
+    Please only upload a <span class="very-strong">real photo</span> &mdash;
     no graphics, clip-art, or fakes please.
   </p>
   <table><tr><td>
@@ -49,7 +49,7 @@
 
 <h2 class="tab" id="family-picture">Family Pic</h2>
 <div class="section">
-  <p>Upload a <strong>family picture</strong>. Please only upload a <span style="color:red;">real photo</span> &mdash; no graphics, clip-art, or fakes please.</p>
+  <p>Upload a <strong>family picture</strong>. Please only upload a <span class="very-strong">real photo</span> &mdash; no graphics, clip-art, or fakes please.</p>
   <table><tr><td>
   <%= render :partial => 'families/photo' %>
   </td><td>
@@ -59,50 +59,7 @@
 
 <h2 class="tab" id="basics">Basics</h2>
 <div class="section">
-  <p>
-    Changes to the details below must be <strong>reviewed by church staff</strong>. To request changes,
-    enter the details below and click "Submit." Your record will be updated within
-    two working days. <span style="color:red;">If you wish to remove something below in order to keep others from
-    seeing it, instead go to the <%= link_to 'Privacy', :action => 'privacy', :id => @person %> page
-    and hide it.</span>
-  </p>
-
-  <% form_for :person, @person do |form| %>
-    <%= hidden_field_tag :anchor, 'basics' %>
-    <div>
-    <label for="person_first_name">First Name:</label>
-    <%= form.text_field :first_name %><br/>
-    <label for="person_last_name">Last Name:</label>
-    <%= form.text_field :last_name %><br/>
-    <label for="person_home_phone">Home Phone:</label>
-    <%= form.text_field :home_phone, :onkeyup => '' %><br/>
-    <label for="person_mobile_phone">Mobile Phone:</label>
-    <%= form.text_field :mobile_phone %><br/>
-    <label for="person_work_phone">Work Phone:</label>
-    <%= form.text_field :work_phone %><br/>
-    <label for="person_fax">Fax:</label>
-    <%= form.text_field :fax %><br/>
-    <label for="person_address1">Address Line 1:</label>
-    <%= form.text_field :address1 %><br/>
-    <label for="person_address2">Address Line 2:</label>
-    <%= form.text_field :address2 %><br/>
-    <label for="person_city">City:</label>
-    <%= form.text_field :city %><br/>
-    <label for="person_state">State:</label>
-    <%= form.text_field :state %><br/>
-    <label for="person_zip">Zip Code:</label>
-    <%= form.text_field :zip %><br/>
-    <label for="person_birthday">Birthday:</label>
-    <% this_year = Date.today.year %>
-    <%= select_a_date 'person[birthday]', 'person_birthday', @person.birthday %>
-    <em>the year is never shown</em><br/>
-    <label for="person_anniversary">Anniversary:</label>
-    <%= select_a_date 'person[anniversary]', 'person_anniversary', @person.anniversary %>
-    <em>the year is never shown</em>
-    </div>
-  
-    <p><%= submit_tag 'Submit Changes for Review' %></p>
-  <% end %>
+  <%= render :partial => 'edit_basics' %>
 </div>
 
 <h2 class="tab" id="about">About</h2>
@@ -164,7 +121,7 @@
 <h2 class="tab" id="services">Services</h2>
 <div class="section">
   <p>
-    If you wish to be listed in the <%= link_to 'Service Directory', :action => 'search', :service => true %>,
+    If you wish to be listed in the <%= link_to 'Service Directory', :controller => 'directory', :action => 'search', :service => true %>,
     Enter your business name, description, and other details below.
   </p>
 
@@ -236,11 +193,7 @@
 <% if @logged_in.admin?(:manage_access) %>
   <h2 class="tab" id="access">Access</h2>
   <div class="section">
-    <% form_for :person, @person do |form| %>
-      <%= hidden_field_tag :anchor, 'access' %>
-      <p><%= form.check_box 'music_access', :class => 'checkbox' %> <label for="person_music_access" class="inline">Music Section</label></p>
-      <p><%= submit_tag 'Save' %></p>
-    <% end %>
+    <%= render :partial => 'access' %>
   </div>
 <% end %>
 

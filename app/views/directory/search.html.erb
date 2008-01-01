@@ -1,0 +1,87 @@
+<%= javascript_include_tag 'popup' %>
+<%= javascript_include_tag 'only_one_of_class' %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'form' %>
+<% end %>
+
+<% content_for :subnav do %>
+  <%= render :partial => 'subnav' %>
+<% end %>
+
+<p id="searching" style="font-size:14pt;display:none;">
+  <%= image_tag 'spinner.gif', :alt => 'searching', :class => 'no-border' %>
+  Searching...
+</p>
+
+<div id="results">
+  <% if @people %>
+    <%= render :partial => 'search_results' %>
+  <% elsif params[:search_friends] %>
+    <h2>Find Your Friends</h2>
+    <ol>
+      <li>Use the <strong>fields on the left</strong> to search for your friends.</li>
+      <li>Click the <%= image_tag('contact_add.gif', :alt => 'Add Friend', :class => 'icon') %> icon to add them.</li>
+    </ol>
+    <p>
+      You can add as many friends as you like!
+      When you're finished, you can edit your
+      <%= link_to 'friends list', friends_url %> to
+      remove and put them in the order you want.
+    </p>
+  <% else %>
+    <table>
+      <tr>
+        <td>
+          <%= link_to_function image_tag('search.gif', :alt => 'Search the Directory'),
+            "$('name').focus();new Effect.Highlight('name', {})" %>
+        </td>
+        <td>
+          <strong>You can always find someone quickly by typing all or part
+          of their name in the
+          <%= link_to_function 'top-right', "$('search_name').focus();new Effect.Highlight('search_name', {})" %>
+          of the screen.</strong>
+          Or, use the
+          <%= link_to_function 'advanced search', "$('name').focus();new Effect.Highlight('name', {})" %>
+          feature to change the results interactively.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to image_tag('directory.gif', :alt => 'Browse the Directory'),
+            :action => 'search', :browse => true %>
+        </td>
+        <td>
+          Of course, you can also
+          <%= link_to 'browse the directory', :action => 'search', :browse => true %>
+          by name.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to image_tag('service.gif', :alt => 'Service Directory'),
+            :action => 'search', :service => true %>
+        </td>
+        </td>
+        <td>
+          Some of our members have businesses they'd like you to know about.
+          Next time you go to grab the yellow pages, try the church
+          <%= link_to 'Service Directory', :action => 'search', :service => true %> first.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to image_tag('print.gif', :alt => 'Printed Directory'),
+            :action => 'directory_to_pdf' %>
+        </td>
+        </td>
+        <td>
+          The directory is constantly changing. While finding someone online is
+          usually your best bet, you may desire to
+          <%= link_to 'print the directory', :action => 'directory_to_pdf' %>
+          for those "offline" moments.
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

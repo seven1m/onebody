@@ -1,15 +1,15 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: workers
 #
-#  id          :integer(11)   not null, primary key
-#  ministry_id :integer(11)   
-#  person_id   :integer(11)   
+#  id          :integer       not null, primary key
+#  ministry_id :integer       
+#  person_id   :integer       
 #  start       :datetime      
 #  end         :datetime      
 #  remind_on   :datetime      
-#  reminded    :boolean(1)    
+#  reminded    :boolean       
 #
 
 class Worker < ActiveRecord::Base

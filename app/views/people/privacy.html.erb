@@ -36,7 +36,7 @@
 
   <p>
     <%= form.check_box 'visible', :class => 'checkbox', :onclick => "check_visibility();if($('notice')) new Effect.Fade('notice');if(!changed_sections.include('family'))changed_sections.push('family')" %>
-    <strong style="color:red;">visible on site</strong><br/>
+    <strong class="very-strong">visible on site</strong><br/>
     <em>By turning off site visibility, <%= @family == @logged_in.family ? 'your' : 'this' %> entire
       family will not appear in any searches. It is still possible to join groups and receive email
       from site administrators, though.</em>

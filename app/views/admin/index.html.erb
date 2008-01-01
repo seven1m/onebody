@@ -20,7 +20,7 @@
 <% if @logged_in.admin?(:view_log) %>
   <h2>Log</h2>
   
-  <p style="font-weight:bold;<% if @flag_count > 0 %>color:red;<% end %>">
+  <p <% if @flag_count > 0 %>class="very-strong"<% end %>>
     <%= @flag_count %> flagged <%= @flag_count == 1 ? 'item' : 'items' %>
   </p>
   
@@ -30,7 +30,7 @@
 <% if @logged_in.admin?(:manage_updates) %>
   <h2>Updates</h2>
   
-  <p style="font-weight:bold;<% if @update_count > 0 %>color:red;<% end %>">
+  <p <% if @update_count > 0 %>class="very-strong"<% end %>>
     <%= @update_count %> <%= @update_count == 1 ? 'update' : 'updates' %>
   </p>
   
@@ -40,7 +40,7 @@
 <% if @logged_in.admin?(:manage_groups) %>
   <h2>Groups</h2>
   
-  <p style="font-weight:bold;<% if @group_count > 0 %>color:red;<% end %>">
+  <p <% if @group_count > 0 %>class="very-strong"<% end %>>
     <%= @group_count %> pending <%= @group_count == 1 ? 'group' : 'groups' %>
   </p>
   
@@ -48,7 +48,7 @@
   
   <h2>Group Memberships</h2>
   
-  <p style="font-weight:bold;<% if @membership_request_count > 0 %>color:red;<% end %>">
+  <p <% if @membership_request_count > 0 %>class="very-strong"<% end %>>
     <%= @membership_request_count %> pending <%= @membership_request_count == 1 ? 'membership request' : 'membership requests' %>
   </p>
   

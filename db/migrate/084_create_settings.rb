@@ -35,10 +35,10 @@ class CreateSettings < ActiveRecord::Migration
       ['Contact',  'Church Address',              'string',  false, '123 West Imaginary Street, Broken Arrow, OK 12345-6789', 'Visible on Terms of Use'],
       ['Contact',  'System Noreply Email',        'string',  false, 'no-reply@imaginaryfamily.com',        'Email address where some email is sent (email that does not allow replies)'],
       ['Contact',  'Group Address Domains',       'list',    false, %w(imaginaryfamily.com imaginaryfamily.org), 'Domains to which email could be coming'],
-      ['Contact',  'Tech Support Email',          'string',  false, 'morgans@somedomain.com',              'Email to contact for technical help with the site.'],
-      ['Contact',  'Tech Support Contact',        'string',  false, 'Joe Schmo (joe@imaginaryhelp.com)',   'Name and email to contact for technical help with the site.'],
+      ['Contact',  'Tech Support Email',          'string',  false, 'admin@example.com',                   'Email to contact for technical help with the site.'],
+      ['Contact',  'Tech Support Contact',        'string',  false, 'Joe Schmo (admin@example.com)',       'Name and email to contact for technical help with the site.'],
       ['Contact',  'Bug Notification Email',      'string',  false, nil,                                   'Email address to send bug reports to'],
-      ['Access',   'Super Admins',                'list',    false, %w(morgans@somedomain.com),            'Email addresses of people who are the super admins']
+      ['Access',   'Super Admins',                'list',    false, %w(admin@example.com),                 'Email addresses of people who are the super admins']
     ].each do |section, name, format, hidden, value, description|
       Setting.create(:section => section, :name => name, :value => value, :format => format, :description => description, :hidden => hidden)
     end

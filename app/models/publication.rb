@@ -1,9 +1,9 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: publications
 #
-#  id          :integer(11)   not null, primary key
+#  id          :integer       not null, primary key
 #  name        :string(255)   
 #  description :text          
 #  created_at  :datetime      

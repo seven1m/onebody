@@ -1,7 +1,6 @@
 <p>
   <% if @logged_in == @person %>
-    The <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %> is a place
-    for people to post messages for you.
+    <em>The Wall is a place for people to post friendly messages for you and others to see.</em>
   <% else %>
     <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();", :id => 'wall_message_link' %>
     on <%=h @person.name_possessive %> <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %>.

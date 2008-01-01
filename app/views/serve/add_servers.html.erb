@@ -42,7 +42,7 @@
 
 <h1>Add Servers to <%=h @ministry.name %></h1>
 
-<%= form_remote_tag :url => {:controller => 'people', :action => 'search', :select_person => true } %>
+<%= form_remote_tag :url => search_directory_path(:select_person => true) %>
   <h2>1. Add Workers</h2>
   <p>
     <label for="name">Search for a servers by name:</label>

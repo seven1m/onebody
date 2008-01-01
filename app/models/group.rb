@@ -1,9 +1,9 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: groups
 #
-#  id           :integer(11)   not null, primary key
+#  id           :integer       not null, primary key
 #  name         :string(100)   
 #  description  :text          
 #  meets        :string(100)   
@@ -11,16 +11,16 @@
 #  directions   :text          
 #  other_notes  :text          
 #  category     :string(50)    
-#  creator_id   :integer(11)   
-#  private      :boolean(1)    
+#  creator_id   :integer       
+#  private      :boolean       
 #  address      :string(255)   
-#  members_send :boolean(1)    default(TRUE)
-#  leader_id    :integer(11)   
+#  members_send :boolean       default(TRUE)
+#  leader_id    :integer       
 #  updated_at   :datetime      
-#  hidden       :boolean(1)    
-#  approved     :boolean(1)    
+#  hidden       :boolean       
+#  approved     :boolean       
 #  link_code    :string(255)   
-#  parents_of   :integer(11)   
+#  parents_of   :integer       
 #
 
 class Group < ActiveRecord::Base
@@ -107,7 +107,7 @@ class Group < ActiveRecord::Base
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
-        conditions.add_condition ["#{SQL_LCASE}(classes) = ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
+        conditions.add_condition ["#{sql_lcase('classes')} = ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
       end
       Person.find :all, :conditions => conditions, :order => 'last_name, first_name'
     else

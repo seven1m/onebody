@@ -1,20 +1,20 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: messages
 #
-#  id           :integer(11)   not null, primary key
-#  group_id     :integer(11)   
-#  person_id    :integer(11)   
-#  to_person_id :integer(11)   
+#  id           :integer       not null, primary key
+#  group_id     :integer       
+#  person_id    :integer       
+#  to_person_id :integer       
 #  created_at   :datetime      
 #  updated_at   :datetime      
-#  parent_id    :integer(11)   
+#  parent_id    :integer       
 #  subject      :string(255)   
 #  body         :text          
-#  share_email  :boolean(1)    
-#  wall_id      :integer(11)   
-#  code         :integer(11)   
+#  share_email  :boolean       
+#  wall_id      :integer       
+#  code         :integer       
 #
 
 require 'uri'
@@ -94,17 +94,9 @@ class Message < ActiveRecord::Base
   end
   
   def introduction(to_person)
-    if group
-      #intro = "The following message was posted to the group \"#{group.name}\" by #{person.name}.\n"
-      #if group.can_post?(to_person) and group.address.to_s.any?
-      #  intro << "REPLIES GO TO THE ENTIRE GROUP!\n"
-      #end
-      #intro
-      ''
-    elsif wall
+    if wall
       "#{person.name} posted a message on your wall:\n#{'- ' * 24}\n"
     else
-      #"#{person.name} sent you the following message:\n#{'- ' * 24}\n"
       ''
     end
   end
@@ -122,8 +114,11 @@ class Message < ActiveRecord::Base
   end
   
   def reply_instructions(to_person)
-    msg = "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
-    if group
+    msg = ''
+    if to
+      msg << "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
+    elsif group
+      msg << "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
       if group.can_post? to_person
         if group.address.to_s.any?
           msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + SETTINGS['contact']['group_address_domains'].first}\n"
@@ -135,10 +130,6 @@ class Message < ActiveRecord::Base
     elsif wall
       msg << "Your wall: #{SITE_URL}people/view/#{wall_id}#wall\n\n"
       msg << "#{self.person.name_possessive} wall: #{reply_url}\n"
-    #elsif share_email? # not used anymore
-    #  msg << "To keep your email address private, reply at: #{reply_url}\n"
-    #else
-    #  msg << "Reply here: #{reply_url}\n"
     end
     msg
   end
@@ -201,5 +192,13 @@ class Message < ActiveRecord::Base
       flagged.gsub! word, '<span class="flagged">\&</span>'
     end
     flagged
+  end
+  
+  def can_see?(p)
+    (group and p.groups.include? group) or # a person in the group
+    ((not group or not group.private?) and admin?(:manage_messages)) # admin of groups (still cannot see private groups)
+    (wall and p.can_see? wall) or
+    (to and to == p) or # to me
+    (person == p) # from me
   end
 end

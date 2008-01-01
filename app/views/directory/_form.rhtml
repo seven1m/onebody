@@ -1,0 +1,57 @@
+<%= form_tag({:action => 'search'}, :method => :get, :id => 'search-form') %>
+  <h2>Advanced Search</h2>
+  <label for="name">Name:</label>
+  <%= text_field_tag 'name', params[:name] %><br/>
+  <label for="birthday_month">Birthday:</label>
+  <select name="birthday_month" id="birthday_month">
+    <option value=""></option>
+    <%= options_for_select MONTHS, params[:birthday_month] %>
+  </select>
+  <select name="birthday_day" id="birthday_day">
+    <option value=""></option>
+    <%= options_for_select 1..31, params[:birthday_day] %>
+  </select><br/>
+  <label for="anniversary_month">Anniversary:</label>
+  <select name="anniversary_month" id="anniversary_month">
+    <option value=""></option>
+    <%= options_for_select MONTHS, params[:anniversary_month] %>
+  </select>
+  <select name="anniversary_day" id="anniversary_day">
+    <option value=""></option>
+    <%= options_for_select 1..31, params[:anniversary_day] %>
+  </select><br/>
+  <label for="city">City:</label>
+  <%= text_field_tag :city, params[:city] %><br/>
+  <label for="state">State:</label>
+  <%= text_field_tag :state, params[:state] %><br/>
+  <label for="zip">Zip:</label>
+  <%= text_field_tag :zip, params[:zip] %><br/>
+  <label for="type">Type:</label>
+  <select name="type" id="type">
+    <option value="">All</option>
+    <%= options_for_select %w(Member Staff Deacon Elder), params[:type] %>
+  </select><br/>
+  <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> Show Hidden
+  <%= submit_tag 'Search' %>
+</form>
+
+<script type="text/javascript">
+//<![CDATA[
+  $('name').focus();
+  function search() {
+    new Ajax.Request('<%= url_for :action => "search" %>', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('search-form')), onLoading:function(){$('results').innerHTML='';Element.show('searching')}, onComplete:function(){Element.hide('searching')}});
+  }
+//]]>
+</script>
+
+<%= observe_field :name, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
+<%= observe_field :birthday_month, :url => {:action => 'search'}, :function => 'search()' %>
+<%= observe_field :birthday_day, :url => {:action => 'search'}, :function => 'search()' %>
+<%= observe_field :anniversary_month, :url => {:action => 'search'}, :function => 'search()' %>
+<%= observe_field :anniversary_day, :url => {:action => 'search'}, :function => 'search()' %>
+<%= observe_field :city, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
+<%= observe_field :state, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
+<%= observe_field :zip, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
+<%= observe_field :type, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
+<%= observe_field :show_hidden, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
+

@@ -23,7 +23,7 @@
           <% if group.admin?(@logged_in) %>
             <%= link_to 'edit', {:action => 'edit', :id => group}, :class => 'discreet' %>
             <% if group.linked? %>
-              <%= image_tag 'link.png', :alt => group.link_code, :class => 'no-border', :style => 'vertical-align:middle;' %>
+              <%= image_tag 'link.png', :alt => group.link_code, :class => 'icon' %>
             <% end %>
           <% end %>
           <% if group.description.to_s.any? %>

@@ -17,10 +17,10 @@
   <% if @group.linked? %>
     <p><em>This group is maintained by church office staff.</em></p>
   <% elsif not @group.approved %>
-    <p style="color:red;">This group is pending approval.</p>
+    <p class="very-strong">This group is pending approval.</p>
   <% else %>
     <% if @group.membership_requests.count('*', :conditions => ['person_id = ?', @logged_in.id]) > 0 %>
-      <p style="color:red;">You have requested to join this group.</p>
+      <p class="very-strong">You have requested to join this group.</p>
     <% elsif not @group.people.include? @logged_in %>
       <p><%= link_to 'Join This Group', {:action => 'join', :id => @group}, :method => 'post', :confirm => @group.admin?(@logged_in) ? nil : 'Are you sure? A request will be sent to the group administrator(s).' %></p>
     <% elsif not @group.last_admin?(@logged_in) %>
@@ -92,7 +92,7 @@
   <% else %>
     <% if @group.can_post? @logged_in %>
       <p>
-        <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'edit', :group_id => @group %>
+        <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'icon'), :controller => 'messages', :action => 'edit', :group_id => @group %>
         <%= link_to 'Send a Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
         <em>
           Send a message to everyone in the group at once.
@@ -108,7 +108,7 @@
         <% @messages.each do |message| %>
           <tr>
             <td>
-              <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'no-border', :style => 'vertical-align:middle;'), :controller => 'messages', :action => 'view', :id => message %>
+              <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'icon'), :controller => 'messages', :action => 'view', :id => message %>
               <%= link_to h(message.subject), :controller => 'messages', :action => 'view', :id => message %>
             </td>
             <td>

@@ -1,6 +1,8 @@
 class FamiliesController < ApplicationController
+  before_filter :get_family
+  before_filter :check_standalone_and_admin, :only => [:view, :add_person]
+  
   def photo
-    @family = Family.find params[:id].to_i
     if @logged_in.full_access?
       send_photo @family
     else
@@ -9,20 +11,51 @@ class FamiliesController < ApplicationController
   end
   
   def edit
-    @family = params[:id] ? Family.find(params[:id]) : @logged_in.family
-    unless @logged_in.can_edit? @family.people.first
-      render :text => 'Sorry. You may not change this family photo because you are not an adult according to our records. (If we are wrong, let us know!)', :layout => true
-      return
-    end
+    @family = Family.new unless params[:id]
     if request.post?
-      if params[:photo_url] and params[:photo_url].length > 7
-        @family.photo = params[:photo_url]
-      elsif params[:photo]
-        @family.photo = params[:photo] == 'remove' ? nil : params[:photo]
+      if params[:family]
+        check_standalone_and_admin
+        params[:family][:home_phone] = params[:family][:home_phone].digits_only
+        @family.update_attributes params[:family]
+      else
+        unless @logged_in.can_edit? @family
+          render :text => 'You cannot edit this family photo.', :layout => true
+          return false
+        end
+        if params[:photo_url] and params[:photo_url].length > 7
+          @family.photo = params[:photo_url]
+        elsif params[:photo]
+          @family.photo = params[:photo] == 'remove' ? nil : params[:photo]
+        end
+        flash[:notice] = 'Photo saved.'
+        flash[:refresh] = true
       end
-      flash[:notice] = 'Photo saved.'
-      flash[:refresh] = true
+      redirect_to params[:return_to] || (@logged_in.admin?(:edit_profiles) ? family_path(:id => @family) : edit_profile_path(:id => @logged_in))
     end
-    redirect_to params[:return_to] || {:controller => 'people', :action => 'edit'}
+  end
+  
+  def view
+  end
+  
+  def add_person
+    @person = Person.new(:family => @family)
+    if @person.update_attributes params[:person]
+      redirect_to edit_profile_path(:id => @person)
+    else
+      flash[:warning] = @person.errors.full_messages.join('; ')
+    end
+  end
+  
+  private 
+  
+  def get_family
+    @family = Family.find params[:id].to_i if params[:id]
+  end
+  
+  def check_standalone_and_admin
+    unless SETTINGS['features']['standalone_use'] and @logged_in.admin?(:edit_profiles)
+      render :text => 'This feature is not available either because you are not an admin or Standalone Mode is off.', :layout => true
+      return false
+    end
   end
 end

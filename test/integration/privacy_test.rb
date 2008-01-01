@@ -24,13 +24,15 @@ class PrivacyTest < ActionController::IntegrationTest
   def test_children_without_consent_profiles_hidden
     sign_in_as people(:peter)
     get "/people/view/#{people(:mac).id}" # view Mac's profile (child)
-    assert_response :missing
+    assert_response :success
+    assert_select 'body', /not authorized/
+    assert_select 'body', :html => /mac/i, :count => 0
   end
   
   def test_children_without_consent_hidden_in_search_results
     sign_in_as people(:peter)
-    get "/people/search", :name => 'Mac'
-    assert_template 'people/search'
+    get "/directory/search", :name => 'Mac'
+    assert_template 'directory/search'
     assert_select 'body', /Your search didn't match any people\./
   end
   
@@ -76,11 +78,13 @@ class PrivacyTest < ActionController::IntegrationTest
   end
   
   def test_invisible_profiles
-    people(:jeanette).update_attribute :visible, false
+    people(:jane).update_attribute :visible, false
     sign_in_as people(:jeremy)
     assert_select '#sidebar tr.family-member', 0 # only 1 visible family member -- no people displayed when there's only 1
     sign_in_as people(:peter)
-    get "/people/view/#{people(:jeanette).id}"
-    assert_response :missing
+    get "/people/view/#{people(:jane).id}"
+    assert_response :success
+    assert_select 'body', /not authorized/
+    assert_select 'body', :html => /jane/i, :count => 0
   end
 end

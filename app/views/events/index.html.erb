@@ -6,7 +6,7 @@
     <p style="margin-top:25px;">
       Show Month: <%= image_tag 'spinner_small.gif', :alt => 'Loading...', :id => 'loading', :class => 'icon', :style => 'display:none;' %><br/>
       <%= select_tag :month, options_for_select(MONTHS, @month), :onchange => "update_calendar()" %>
-      <%= select_tag :year, options_for_select(@years_to_show, @year), :style => 'width:55px;', :onchange => "update_calendar()" %>
+      <%= select_tag :year, options_for_select(@years_to_show, @year), :onchange => "update_calendar()" %>
       <%= submit_tag 'Update', :id => 'calendar_update' %>
     </p>
   </form>

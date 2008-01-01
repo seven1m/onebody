@@ -1,9 +1,9 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: tags
 #
-#  id         :integer(11)   not null, primary key
+#  id         :integer       not null, primary key
 #  name       :string(50)    
 #  updated_at :datetime      
 #

@@ -1,22 +1,22 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: people
 #
-#  id                           :integer(11)   not null, primary key
-#  legacy_id                    :integer(11)   
-#  family_id                    :integer(11)   
-#  sequence                     :integer(11)   
+#  id                           :integer       not null, primary key
+#  legacy_id                    :integer       
+#  family_id                    :integer       
+#  sequence                     :integer       
 #  gender                       :string(6)     
 #  first_name                   :string(255)   
 #  last_name                    :string(255)   
 #  suffix                       :string(25)    
-#  mobile_phone                 :integer(20)   
-#  work_phone                   :integer(20)   
-#  fax                          :integer(20)   
+#  mobile_phone                 :integer       
+#  work_phone                   :integer       
+#  fax                          :integer       
 #  birthday                     :datetime      
 #  email                        :string(255)   
-#  email_changed                :boolean(1)    
+#  email_changed                :boolean       
 #  website                      :string(255)   
 #  classes                      :string(255)   
 #  shepherd                     :string(255)   
@@ -24,7 +24,7 @@
 #  encrypted_password           :string(100)   
 #  service_name                 :string(100)   
 #  service_description          :text          
-#  service_phone                :integer(20)   
+#  service_phone                :integer       
 #  service_email                :string(255)   
 #  service_website              :string(255)   
 #  activities                   :text          
@@ -36,38 +36,38 @@
 #  quotes                       :text          
 #  about                        :text          
 #  testimony                    :text          
-#  share_mobile_phone           :boolean(1)    
-#  share_work_phone             :boolean(1)    
-#  share_fax                    :boolean(1)    
-#  share_email                  :boolean(1)    
-#  share_birthday               :boolean(1)    
+#  share_mobile_phone           :boolean       
+#  share_work_phone             :boolean       
+#  share_fax                    :boolean       
+#  share_email                  :boolean       
+#  share_birthday               :boolean       
 #  anniversary                  :datetime      
 #  updated_at                   :datetime      
 #  alternate_email              :string(255)   
-#  email_bounces                :integer(11)   default(0)
+#  email_bounces                :integer       default(0)
 #  service_category             :string(100)   
-#  get_wall_email               :boolean(1)    default(TRUE)
-#  account_frozen               :boolean(1)    
-#  wall_enabled                 :boolean(1)    
-#  messages_enabled             :boolean(1)    default(TRUE)
+#  get_wall_email               :boolean       default(TRUE)
+#  account_frozen               :boolean       
+#  wall_enabled                 :boolean       
+#  messages_enabled             :boolean       default(TRUE)
 #  service_address              :string(255)   
 #  flags                        :string(255)   
-#  music_access                 :boolean(1)    
-#  visible                      :boolean(1)    default(TRUE)
+#  music_access                 :boolean       
+#  visible                      :boolean       default(TRUE)
 #  parental_consent             :string(255)   
-#  admin_id                     :integer(11)   
-#  friends_enabled              :boolean(1)    default(TRUE)
-#  member                       :boolean(1)    
-#  staff                        :boolean(1)    
-#  elder                        :boolean(1)    
-#  deacon                       :boolean(1)    
-#  can_sign_in                  :boolean(1)    
-#  visible_to_everyone          :boolean(1)    
-#  visible_on_printed_directory :boolean(1)    
-#  full_access                  :boolean(1)    
-#  legacy_family_id             :integer(11)   
+#  admin_id                     :integer       
+#  friends_enabled              :boolean       default(TRUE)
+#  member                       :boolean       
+#  staff                        :boolean       
+#  elder                        :boolean       
+#  deacon                       :boolean       
+#  can_sign_in                  :boolean       
+#  visible_to_everyone          :boolean       
+#  visible_on_printed_directory :boolean       
+#  full_access                  :boolean       
+#  legacy_family_id             :integer       
 #  feed_code                    :string(50)    
-#  share_activity               :boolean(1)    
+#  share_activity               :boolean       
 #
 
 class Person < ActiveRecord::Base
@@ -122,7 +122,7 @@ class Person < ActiveRecord::Base
   # validate that an email address is properly formatted
   validates_each :email, :allow_nil => true do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any?
-      if Person.count('*', :conditions => ["#{SQL_LCASE}(email) = ? and family_id != ?", value.downcase, record.family_id]) > 0
+      if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ?", value.downcase, record.family_id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
       end
       if value.to_s.strip !~ VALID_EMAIL_RE
@@ -211,11 +211,7 @@ class Person < ActiveRecord::Base
     elsif what.is_a? Group
       not what.hidden? or what.people.include? self or what.admin? self
     elsif what.is_a? Message
-      if what.group
-        not what.group.private? or what.group.people.include?(self)
-      else
-        admin?(:manage_messages) or what.to == self or what.wall == self or what.person == self
-      end
+      what.can_see?(self)
     elsif what.is_a? PrayerRequest
       what.person == self or
         (what.group and (what.group.people.include? self or what.group.admin?(self)))
@@ -338,7 +334,7 @@ class Person < ActiveRecord::Base
       g = groups_without_linkage
       conditions = []
       classes.to_s.split(',').each do |code|
-        conditions.add_condition ["#{SQL_LCASE}(link_code) = ? or link_code like ? or link_code like ? or link_code like ?", code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
+        conditions.add_condition ["#{sql_lcase('link_code')} = ? or link_code like ? or link_code like ? or link_code like ?", code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
       end
       g = (g + Group.find(:all, :conditions => conditions)).uniq if conditions.any?
       @groups = g
@@ -384,5 +380,63 @@ class Person < ActiveRecord::Base
   before_create :update_feed_code
   def update_feed_code
     write_attribute :feed_code, (1..50).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
+  end
+  
+  def update_from_params(params, can_edit_basics=false)
+    person_basics = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
+    if params[:photo_url] and params[:photo_url].length > 7 # not just "http://"
+      photo = params[:photo_url]
+      'photo'
+    elsif params[:photo]
+      photo = params[:photo] == 'remove' ? nil : params[:photo]
+      'photo'
+    elsif params[:person] and (person_basics.select { |a| params[:person][a] }.any? or params[:family])
+      if can_edit_basics
+        %w(mobile_phone work_phone fax).each do |a|
+          params[:person][a.to_sym] = params[:person][a.to_sym].digits_only if params[:person][a.to_sym]
+        end
+        params[:family][:home_phone] = params[:family][:home_phone].digits_only if params[:family][:home_phone]
+        params[:person][:suffix] = nil if params[:person][:suffix].to_s.empty?
+        %w(birthday anniversary).each { |a| params[:person][a.to_sym] = nil if params[:person][a.to_sym].to_s.empty? }
+        update_attributes(params[:person]) && family.update_attributes(params[:family])
+      else
+        Update.create_from_params(params, self)
+      end
+    else # testimony, about, favorites, etc.
+      params[:person][:service_phone] = params[:person][:service_phone].digits_only if params[:person][:service_phone]
+      update_attributes params[:person]
+    end
+  end
+  
+  def recently_tab_items
+    friend_ids = [id]
+    friend_ids += friends.find(:all, :select => 'people.id').map { |f| f.id } if SETTINGS['features']['friends']
+    group_ids = groups.select { |g| !g.hidden? }.map { |g| g.id }
+    group_ids = [0] unless group_ids.any?
+    LogItem.find(
+      :all,
+      :conditions => ["((log_items.model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and log_items.person_id in (#{friend_ids.join(',')})) or (log_items.model_name in ('Note', 'Message', 'PrayerRequest') and log_items.group_id in (#{group_ids.join(',')}))) and log_items.deleted = ? and (people.share_activity = ? or (people.share_activity is null and (select share_activity from families where id=people.family_id limit 1) = ?))", false, true, true],
+      :order => 'log_items.created_at desc',
+      :limit => 25,
+      :include => :person
+    ).select do |item|
+      if !item.object
+        false
+      elsif item.model_name == 'Person'
+        item.object == self and item.showable_change_keys.any?
+      elsif item.model_name == 'Friendship'
+        item.object.person != item.person
+      elsif item.model_name == 'Message'
+        item.object.can_see?(self)
+      elsif item.model_name == 'Person'
+        item.showable_change_keys.any?
+      else
+        true
+      end
+    end
+  end
+  
+  def self.service_categories
+    find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
   end
 end

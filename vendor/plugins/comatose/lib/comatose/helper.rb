@@ -1,1 +1,0 @@
-module Comatose::Helper; end

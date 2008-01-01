@@ -4,13 +4,4 @@
 
 <h2><%=h @person.name %></h2>
 
-<% if @show_photo %>
-  <% @family = @person.family %>
-  <% if @person.has_photo? or not @family.has_photo? %>
-    <%= render :partial => 'photo' %>
-  <% else %>
-    <%= render :partial => 'families/photo' %>
-  <% end %>
-<% else %>
-  <%= render :partial => 'details' %>
-<% end %>
+<%= render :partial => 'details' %>

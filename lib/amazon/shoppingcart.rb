@@ -97,7 +97,7 @@ EOF
 
 
     # Returns an HTML form to allow the user to purchase an item through
-    # Amazon's 1-Click® technology.
+    # Amazon's 1-ClickÂ® technology.
     # 
     def ShoppingCart.one_click_form(associate, dev_id, asin, locale='us')
 
@@ -210,8 +210,6 @@ EOF
 
       asin_list.each { |asin| url << "&Asin.%s=%s" % [asin, quantity] }
 
-      # FIXME: add exchange items with &ExchangeId.[EXCHANGE_ID]=1
-
       url = check_cart(url)
 
       @page = search(url)
@@ -316,13 +314,6 @@ EOF
     end
 
 
-    # FIXME: The following method should be in the Response class for
-    # consistency with the other modules. Then, assuming Response could be
-    # made a sub-class of Amazon::Search::Response, Request#get_args could be
-    # eliminated, too.
-
-    # Parse the response from a shopping cart transaction.
-    #
     def parse
 
       # check for error

@@ -1,13 +1,13 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: friendships
 #
-#  id         :integer(11)   not null, primary key
-#  person_id  :integer(11)   
-#  friend_id  :integer(11)   
+#  id         :integer       not null, primary key
+#  person_id  :integer       
+#  friend_id  :integer       
 #  created_at :datetime      
-#  ordering   :integer(11)   default(1000)
+#  ordering   :integer       default(1000)
 #
 
 tim_to_jeremy:

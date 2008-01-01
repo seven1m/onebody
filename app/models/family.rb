@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: families
 #
-#  id                 :integer(11)   not null, primary key
-#  legacy_id          :integer(11)   
+#  id                 :integer       not null, primary key
+#  legacy_id          :integer       
 #  name               :string(255)   
 #  last_name          :string(255)   
 #  suffix             :string(25)    
@@ -13,23 +13,23 @@
 #  city               :string(255)   
 #  state              :string(2)     
 #  zip                :string(10)    
-#  home_phone         :integer(20)   
+#  home_phone         :integer       
 #  email              :string(255)   
 #  latitude           :float         
 #  longitude          :float         
 #  mail_group         :string(1)     
 #  security_token     :string(25)    
-#  share_address      :boolean(1)    default(TRUE)
-#  share_mobile_phone :boolean(1)    
-#  share_work_phone   :boolean(1)    
-#  share_fax          :boolean(1)    
-#  share_email        :boolean(1)    
-#  share_birthday     :boolean(1)    default(TRUE)
-#  share_anniversary  :boolean(1)    default(TRUE)
+#  share_address      :boolean       default(TRUE)
+#  share_mobile_phone :boolean       
+#  share_work_phone   :boolean       
+#  share_fax          :boolean       
+#  share_email        :boolean       
+#  share_birthday     :boolean       default(TRUE)
+#  share_anniversary  :boolean       default(TRUE)
 #  updated_at         :datetime      
-#  wall_enabled       :boolean(1)    default(TRUE)
-#  visible            :boolean(1)    default(TRUE)
-#  share_activity     :boolean(1)    default(TRUE)
+#  wall_enabled       :boolean       default(TRUE)
+#  visible            :boolean       default(TRUE)
+#  share_activity     :boolean       default(TRUE)
 #
 
 class Family < ActiveRecord::Base
@@ -84,5 +84,9 @@ class Family < ActiveRecord::Base
 
   def children_without_consent
     people.select { |p| !p.consent_or_13? }
+  end
+  
+  def visible_people
+    people.find(:all).select { |p| Person.logged_in.admin?(:view_hidden_profiles) or p.visible? }
   end
 end

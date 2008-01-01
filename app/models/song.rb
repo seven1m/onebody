@@ -1,9 +1,9 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: songs
 #
-#  id               :integer(11)   not null, primary key
+#  id               :integer       not null, primary key
 #  title            :string(255)   
 #  notes            :text          
 #  artists          :string(500)   
@@ -14,7 +14,7 @@
 #  amazon_asin      :string(50)    
 #  amazon_url       :string(255)   
 #  created_at       :datetime      
-#  person_id        :integer(11)   
+#  person_id        :integer       
 #
 
 class Song < ActiveRecord::Base

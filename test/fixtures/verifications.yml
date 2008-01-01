@@ -1,13 +1,13 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: verifications
 #
-#  id           :integer(11)   not null, primary key
+#  id           :integer       not null, primary key
 #  email        :string(255)   
-#  mobile_phone :integer(20)   
-#  code         :integer(11)   
-#  verified     :boolean(1)    
+#  mobile_phone :integer       
+#  code         :integer       
+#  verified     :boolean       
 #  created_at   :datetime      
 #  updated_at   :datetime      
 #

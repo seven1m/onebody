@@ -1,11 +1,11 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: prayer_requests
 #
-#  id          :integer(11)   not null, primary key
-#  group_id    :integer(11)   
-#  person_id   :integer(11)   
+#  id          :integer       not null, primary key
+#  group_id    :integer       
+#  person_id   :integer       
 #  request     :text          
 #  answer      :text          
 #  answered_at :datetime      

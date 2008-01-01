@@ -1,0 +1,94 @@
+<h2>Search Results</h2>
+
+<% if @people and @people.any? %>
+
+  <p>
+    <%= @count %> <%= @count == 1 ? 'person' : 'people' %> found
+    <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
+      (not showing hidden people)
+    <% end %>
+    <% if @pages.length > 1 %>
+      <br/>
+      Page: <%= pagination_links @pages, :window_size => 5, :params => params %>
+    <% end %>
+  </p>
+
+  <% if @search.show_services %>
+    <p>
+      <label for="category">Service Category:</label>
+      <select id="category" onchange="location.href='?service=true&category='+value">
+        <option value="">(show all)</option>
+        <%= options_for_select @service_categories, params[:category] %>
+      </select>
+    </p>
+  <% end %>
+
+  <table>
+    <tr>
+      <th></th>
+      <% if @search.show_services %>
+        <th>Service</th>
+        <th>Category</th>
+      <% else %>
+        <th>Name</th>
+        <th>Family Name</th>
+      <% end %>
+      <% if @show_birthdays %>
+        <th>Birthday</th>
+      <% end %>
+      <% if SETTINGS['features']['show_mail_group'] and @logged_in.admin? %>
+        <th>Mail Group</th>
+      <% end %>
+    </tr>
+    <% @people.each do |person| %>
+      <tr>
+        <td>
+          <a href="<%= person_url(:id => person) %>" <% if @logged_in.full_access? %>onmouseover="try{clearTimeout(hider)}catch(e){};show_popup(<%= person.id %>, true)" onmouseout="hider=setTimeout('hide_popup()', 1000)"<% end %>>
+            <% if person.has_photo? %>
+              <%= image_tag url_for(:action => 'photo', :id => "#{person.id}.tn.jpg"), :alt => person.name, :class => 'no-border' %>
+            <% elsif person.family and person.family.has_photo? %>
+              <%= image_tag url_for(:controller => 'families', :action => 'photo', :id => "#{person.family.id}.tn.jpg"), :alt => person.family.name, :class => 'no-border' %>
+            <% end %>
+          </a>
+        </td>
+        <% if @search.show_services %>
+          <td><%= link_to h(person.service_name), services_from_path(:id => person), :onmouseover => (@logged_in.full_access? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.full_access? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
+          <td>
+            <% if person.service_category.to_s.any? %>
+              <%= link_to person.service_category, :action => 'search', :service => true, :category => person.service_category %>
+            <% end %>
+          </td>
+        <% else %>
+          <td>
+            <%= link_to h(person.name), person_path(:id => person), :onmouseover => (@logged_in.full_access? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.full_access? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
+            <%= render :partial => 'person_type', :locals => {:person => person} %>
+            <% unless person.visible? %>
+              <%= image_tag 'lock.gif', :alt => 'Hidden Profile', :class => 'icon' %>
+            <% end %>
+          </td>
+          <td><%=h person.family.name %></td>
+        <% end %>
+        <% if @show_birthdays %>
+          <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
+        <% end %>
+        <% if SETTINGS['features']['show_mail_group'] and @logged_in.admin? %>
+          <td><%= h(person.mail_group) %></td>
+        <% end %>
+        <td>
+          <% if SETTINGS['features']['friends'] and @logged_in.can_request_friendship_with?(person) and @logged_in != person %>
+            <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon'), {:url => add_friend_url(:id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <% if @pages.length > 1 %>
+    <p>Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
+  <% end %>
+
+<% else %>
+
+  <p><em>Your search didn't match any people.</em></p>
+
+<% end %>

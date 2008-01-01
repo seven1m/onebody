@@ -9,7 +9,7 @@
     <% if @ministry.people.count == 0 %><em>none yet</em><% end %>
   </p>
   <% if @logged_in.can_edit? @ministry %>
-    <%= form_remote_tag :url => {:controller => 'people', :action => 'search', :select_person => true} %>
+    <%= form_remote_tag :url => search_directory_path(:select_person => true) %>
       <label for="name">Add a Server:</label>
       <%= text_field_tag :name %><br/>
       <%= submit_tag 'Search' %>
@@ -73,7 +73,7 @@
         <% end %>
         <td style="padding-left:10px;">
           <%=h worker.person.name %>
-          <% if worker.remind_on %><%= image_tag 'reminder.gif', :alt => "A reminder will be sent on #{worker.remind_on.strftime '%m/%d/%Y'}.", :class => 'no-border', :style => 'vertical-align:middle;' %><% end %>
+          <% if worker.remind_on %><%= image_tag 'reminder.gif', :alt => "A reminder will be sent on #{worker.remind_on.strftime '%m/%d/%Y'}.", :class => 'icon' %><% end %>
         </td>
         <% if @logged_in.can_edit? @ministry %>
           <td>

@@ -49,7 +49,6 @@ module Atom
 				when 'text/plain', 'text/html': element.texts.map {|t| t.value }.join
 				when 'text/xhtml' :
 					REXML::XPath.first(element, 'xhtml:div', 'xhtml' => XHTML_NAMESPACE).children.to_s
-					# TODO: resolve relative uris
 			end
 
 			super value

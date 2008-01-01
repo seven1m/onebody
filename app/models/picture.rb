@@ -1,13 +1,13 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: pictures
 #
-#  id         :integer(11)   not null, primary key
-#  event_id   :integer(11)   
-#  person_id  :integer(11)   
+#  id         :integer       not null, primary key
+#  event_id   :integer       
+#  person_id  :integer       
 #  created_at :datetime      
-#  cover      :boolean(1)    
+#  cover      :boolean       
 #  updated_at :datetime      
 #
 

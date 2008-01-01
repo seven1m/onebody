@@ -2,7 +2,7 @@
   <p>
     <strong>Attachments:</strong><br/>
     <% message.attachments.each do |attachment| %>
-      <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'no-border', :style => 'vertical-align:middle;'), :action => 'view_attachment', :id => attachment %>
+      <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), :action => 'view_attachment', :id => attachment %>
       <%= link_to attachment.name, :action => 'view_attachment', :id => attachment %>
       (<%= number_to_human_size attachment.file.length %>)
       <br/>

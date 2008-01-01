@@ -1,21 +1,16 @@
 <% content_for :subnav do %>
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <div style="float:right;">
+      <%= link_to 'New Family', new_family_path %>
+    </div>
+  <% end %>
   <% if @logged_in.can_edit? @person %>
-    <li><%= link_to 'Edit Profile', :action => 'edit', :id => @person %></li>
-    <li><%= link_to 'Privacy Settings', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}" %></li>
-    <li><%= link_to 'Email Preferences', :action => 'email', :id => @person %></li>
+    <%= render :partial => 'edit_person' %>
   <% end %>
   <% unless @me %>
-    <% if SETTINGS['features']['friends'] %>
-      <% if @logged_in.friend? @person %>
-        <li><%= link_to 'Remove from Friends', remove_friend_url(:id => @person), :method => :post, :confirm => 'Are you sure?' %></li>
-      <% elsif @logged_in.can_request_friendship_with?(@person) %>
-        <li><%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon') + ' Add to Friends', {:url => add_friend_url(:id => @person), :loading => "$('add_friend_#{@person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{@person.id}" %></li>
-      <% elsif @logged_in.friendship_waiting_on? @person %>
-        <li><em>friend request pending</em></li>
-      <% end %>
-    <% end %>
+    <%= render :partial => 'friendship' %>
     <% if @person.email.to_s.any? and @person.messages_enabled %>
-      <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'no-border', :style => 'vertical-align:middle;') + ' Private Message', :controller => 'messages', :action => 'send_email', :id => @person %></li>
+      <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'icon') + ' Private Message', send_email_path(:id => @person) %></li>
     <% end %>
   <% end %>
 <% end %>
@@ -23,46 +18,14 @@
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
   <%= render :partial => 'families/photo' %>
-    
-  <% if (people = @person.family.people.find(:all).select { |p| @logged_in.admin?(:view_hidden_profiles) or p.visible? }).length > 1 %>
-    <h2>
-      Family
-      <% if @logged_in == @person %>
-        <%= link_to 'edit', edit_profile_url, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
-      <% end %>
-    </h2>
-    <table>
-      <% people.each do |person| %>
-        <tr class="family-member">
-          <td>
-            <a href="<%= url_for :action => 'view', :id => person %>">
-              <%= render :partial => 'thumbnail', :locals => {:person => person} %>
-            </a>
-          </td>
-          <td>
-            <%= link_to h(person.name), person_url(:id => person) %>
-            <% unless person.visible? %>
-              <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  <% end %>
-  
-  <% if @person.family.children_without_consent.any? and @me and @person.adult? %>
-    <p class="discreet"><%= link_to image_tag('help_small.gif', :alt => 'Where are my kids?', :class => 'icon') + " Where are my kids?",
-      :controller => 'help', :action => 'safeguarding_children' %></p>
-  <% end %>
-  
+  <%= render :partial => 'family' %>
+  <%= render :partial => 'hidden_children' %>
   <% if SETTINGS['features']['friends'] %>
     <%= render :partial => 'friends' %>
   <% end %>
-  
   <% if SETTINGS['features']['sidebar_group_category'] %>
     <%= render :partial => 'sidebar_people' %>
   <% end %>
-
 <% end %>
 
 <% unless @person.visible? %>
@@ -95,19 +58,11 @@
   <% end %>
 </h1>
 
-<% if @person.elder? %>
-  <p class="user-type"><%= image_tag 'elder.png', :alt => 'Elder', :class => 'icon' %> Elder</p>
-<% elsif @person.deacon? %>
-  <p class="user-type"><%= image_tag 'deacon.png', :alt => 'Deacon', :class => 'icon' %> Deacon</p>
-<% elsif @person.staff? %>
-  <p class="user-type"><%= image_tag 'staff.png', :alt => 'Staff', :class => 'icon' %> Staff</p>
-<% elsif @person.member? %>
-  <p class="user-type"><%= image_tag 'star.gif', :alt => 'Member', :class => 'icon' %> Member</p>
-<% end %>
+<%= render :partial => 'person_type' %>
 
 <% if @person.pending_updates.count > 0 and @me %>
   <p>
-    <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'no-border', :style => 'vertical-align:middle;' %>
+    <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'icon' %>
     The update to your profile is pending approval.
   </p>
 <% end %>
@@ -143,7 +98,7 @@
   <% if @person.about.to_s.any? %>
     <%= preserve_breaks @person.about %>
   <% elsif @me %>
-    <em>Write something about yourself <%= link_to 'here', edit_profile_url(:anchor => 'about') %>.</em>
+    <em>Write something <%= link_to 'about yourself', edit_profile_url(:anchor => 'about') %>.</em>
   <% end %>
 </div>
 
@@ -153,9 +108,9 @@
   <% if @person.testimony.to_s.any? %>
     <%= preserve_breaks @person.testimony %>
   <% elsif @me %>
-    <em>Share your story <%= link_to 'here', edit_profile_url(:anchor => 'about') %>.</em>
+    <em>Share <%= link_to 'your story', edit_profile_url(:anchor => 'about') %>.</em>
   <% end %>
-  <p><%= link_to 'Read more testimonies...', :action => 'search', :testimony => true %></p>
+  <p><%= link_to 'Read more testimonies...', :controller => 'directory', :action => 'search', :testimony => true %></p>
 </div>
 
 <h2 class="tab" id="blog">Blog</h2>
@@ -195,7 +150,7 @@
   </table>
   
   <% unless !@me or has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
-    <p><em>Share your favorite interests, music, movies, and more
+    <p><em>Tell about your favorite interests, music, movies, and more
       <%= link_to 'here', edit_profile_url(:anchor => 'favorites') %>.</em></p>
   <% end %>
 </div>
@@ -299,7 +254,7 @@
 <% if @person.family.mapable? and @person.share_address_with @logged_in %>
   <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= SETTINGS['services']['yahoo'] %>"></script>
   <script type="text/javascript">
-    var address = <%=s @person.family.mapable_address.inspect %>;
+    var address = <%= @person.family.mapable_address.inspect %>;
     map_loaded = false;
     function load_map() {
       if(map_loaded) return;

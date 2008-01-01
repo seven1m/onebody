@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: ministries
 #
-#  id          :integer(11)   not null, primary key
-#  admin_id    :integer(11)   
+#  id          :integer       not null, primary key
+#  admin_id    :integer       
 #  name        :string(100)   
 #  description :text          
 #  updated_at  :datetime      
@@ -22,7 +22,7 @@ class Ministry < ActiveRecord::Base
   acts_as_logger LogItem
   
   def dates
-    dates = workers.find_by_sql "select MONTH(start) as m, DAY(start) as d, YEAR(start) as y, id from workers where ministry_id = #{self.id}"
+    dates = workers.find_by_sql "select #{sql_month('start')} as m, #{sql_day('start')} as d, #{sql_year('start')} as y, id from workers where ministry_id = #{self.id}"
     dates_hash = {}
     dates.each do |date|
       d = Date.new(date.y.to_i, date.m.to_i, date.d.to_i)

@@ -1,15 +1,15 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: events
 #
-#  id          :integer(11)   not null, primary key
-#  person_id   :integer(11)   
+#  id          :integer       not null, primary key
+#  person_id   :integer       
 #  name        :string(255)   
 #  description :text          
 #  when        :datetime      
 #  created_at  :datetime      
-#  open        :boolean(1)    
+#  open        :boolean       
 #  admins      :text          
 #  updated_at  :datetime      
 #

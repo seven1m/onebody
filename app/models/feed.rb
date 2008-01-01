@@ -1,11 +1,11 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: feeds
 #
-#  id         :integer(11)   not null, primary key
-#  person_id  :integer(11)   
-#  group_id   :integer(11)   
+#  id         :integer       not null, primary key
+#  person_id  :integer       
+#  group_id   :integer       
 #  name       :string(255)   
 #  url        :string(500)   
 #  spec       :string(5)     

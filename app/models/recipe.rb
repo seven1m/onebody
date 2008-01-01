@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: recipes
 #
-#  id           :integer(11)   not null, primary key
-#  person_id    :integer(11)   
+#  id           :integer       not null, primary key
+#  person_id    :integer       
 #  title        :string(255)   
 #  notes        :text          
 #  description  :text          
@@ -14,8 +14,8 @@
 #  updated_at   :datetime      
 #  prep         :string(255)   
 #  bake         :string(255)   
-#  serving_size :integer(11)   
-#  event_id     :integer(11)   
+#  serving_size :integer       
+#  event_id     :integer       
 #
 
 class Recipe < ActiveRecord::Base

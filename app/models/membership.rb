@@ -1,22 +1,22 @@
 # == Schema Information
-# Schema version: 86
+# Schema version: 89
 #
 # Table name: memberships
 #
-#  id                 :integer(11)   not null, primary key
-#  group_id           :integer(11)   
-#  person_id          :integer(11)   
-#  admin              :boolean(1)    
-#  get_email          :boolean(1)    default(TRUE)
-#  share_address      :boolean(1)    
-#  share_mobile_phone :boolean(1)    
-#  share_work_phone   :boolean(1)    
-#  share_fax          :boolean(1)    
-#  share_email        :boolean(1)    
-#  share_birthday     :boolean(1)    
-#  share_anniversary  :boolean(1)    
+#  id                 :integer       not null, primary key
+#  group_id           :integer       
+#  person_id          :integer       
+#  admin              :boolean       
+#  get_email          :boolean       default(TRUE)
+#  share_address      :boolean       
+#  share_mobile_phone :boolean       
+#  share_work_phone   :boolean       
+#  share_fax          :boolean       
+#  share_email        :boolean       
+#  share_birthday     :boolean       
+#  share_anniversary  :boolean       
 #  updated_at         :datetime      
-#  code               :integer(11)   
+#  code               :integer       
 #
 
 class Membership < ActiveRecord::Base

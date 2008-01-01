@@ -72,7 +72,7 @@
           <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :method => 'post', :confirm => 'This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?' %>
         <% end %>
       <% elsif hour >= now %>
-        <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :style => 'color:red;', :method => 'post', :confirm => 'Are you sure?' %>
+        <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => "very-strong", :method => 'post', :confirm => 'Are you sure?' %>
       <% end %>
     </td>
   </tr>

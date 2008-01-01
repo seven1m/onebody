@@ -22,7 +22,7 @@
   </div>
 <% end %>
 <%= image_tag 'checkmark.png', :style => 'visibility:hidden;' %>
-<%= form_remote_tag :url => {:controller => 'people', :action => 'search'} %>
+<%= form_remote_tag :url => select_person_path %>
   <%= hidden_field_tag :select_person, true %>
   <p>
     <label for="name">Add administrator:</label> <%= text_field_tag 'name' %>

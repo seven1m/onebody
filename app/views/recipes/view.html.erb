@@ -67,11 +67,11 @@
   <% end %>
   <tr>
     <td style="white-space:nowrap;">Ingredients:</td>
-    <td><%=s white_list @recipe.ingredients %></td>
+    <td><%= white_list @recipe.ingredients %></td>
   </tr>
   <tr>
     <td style="white-space:nowrap;">Directions:</td>
-    <td><%=s white_list @recipe.directions %></td>
+    <td><%= white_list @recipe.directions %></td>
   </tr>
   <% if @recipe.notes.to_s.any? %>
     <tr>
