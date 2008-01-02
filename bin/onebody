@@ -34,11 +34,6 @@ if directory = File.expand_path(ARGV[0])
       File.join(directory, 'lib/commands/console.rb'),
       {/#\{RAILS_ROOT\}\/config\/environment/ => '#{APP_ROOT}/config/environment'} ],
       
-    [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/server.rb'),
-      File.join(directory, 'lib/commands/server.rb'),
-      {/require "commands\/servers\/#\{server\}"/ => 'require APP_ROOT + "/lib/commands/servers/webrick"',
-       /\|dir_to_make\| FileUtils\.mkdir_p\(File\.join\(RAILS_ROOT, 'tmp', dir_to_make\)\)/ => "|dir_to_make| FileUtils.mkdir_p(File.join(APP_ROOT, 'tmp', dir_to_make))"} ],
-      
     [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/servers/webrick.rb'),
       File.join(directory, 'lib/commands/servers/webrick.rb'),
       {/require RAILS_ROOT \+ "\/config\/environment"/ => 'require APP_ROOT + "/config/environment"'} ]
@@ -55,12 +50,12 @@ if directory = File.expand_path(ARGV[0])
   unless File.exists? File.join(directory, "config/database.yml")
     puts 'Setting up the database configuration...'
     begin
-      db_adapter = ask('Choose your database type (sqlite or mysql) [sqlite]: ')
-      db_adapter = 'sqlite' unless db_adapter.any?
-    end while not %w(sqlite mysql).include? db_adapter
+      db_adapter = ask('Choose your database (sqlite3 or mysql) [sqlite3]: ')
+      db_adapter = 'sqlite3' unless db_adapter.any?
+    end while not %w(sqlite3 mysql).include? db_adapter
     case db_adapter
-    when 'sqlite'
-      config = "production:\n  adapter: sqlite3\n  database: db/onebody.db"
+    when 'sqlite3'
+      config = "production:\n  adapter: sqlite3\n  database: <%= APP_ROOT %>/db/onebody.db"
     when 'mysql'
       puts 'Enter the MySQL username and password.'
       db_user = ask('Username [root]: ')
