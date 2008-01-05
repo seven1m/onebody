@@ -68,6 +68,13 @@ class PeopleController < ApplicationController
     end
   end
   
+  def delete
+    if request.post? and SETTINGS['features']['standalone_use'] and @logged_in.admin?(:edit_profiles)
+      family = Person.find(params[:id]).destroy.family
+      redirect_to params[:return_to] || family_path(:id => family)
+    end
+  end
+  
   def privacy
     if params[:consent] and child = @family.children_without_consent.first
       redirect_to :anchor => "p#{child.id}"

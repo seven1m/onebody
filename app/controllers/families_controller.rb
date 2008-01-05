@@ -1,6 +1,6 @@
 class FamiliesController < ApplicationController
   before_filter :get_family
-  before_filter :check_standalone_and_admin, :only => [:view, :add_person]
+  before_filter :check_standalone_and_admin, :only => [:view, :add_person, :delete_person]
   
   def photo
     if @logged_in.full_access?
@@ -39,8 +39,9 @@ class FamiliesController < ApplicationController
   
   def add_person
     @person = Person.new(:family => @family)
+    params[:person].merge! :can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true
     if @person.update_attributes params[:person]
-      redirect_to view_family_path(:id => @family)
+      redirect_to family_path(:id => @family)
     else
       flash[:warning] = @person.errors.full_messages.join('; ')
     end

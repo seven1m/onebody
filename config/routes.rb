@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_profile 'people/edit/:id', :action => 'edit'
     m.edit_person 'people/edit/:id', :action => 'edit'
     m.new_person 'people/edit', :action => 'edit'
+    m.delete_person 'people/delete/:id', :action => 'delete'
     m.person 'people/view/:id', :action => 'view'#, :requirements => {:id => /\d/}
     m.recently 'people/recently', :action => 'recently'
     m.logged_in '', :action => 'index'
