@@ -385,10 +385,10 @@ class Person < ActiveRecord::Base
   def update_from_params(params, can_edit_basics=false)
     person_basics = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
     if params[:photo_url] and params[:photo_url].length > 7 # not just "http://"
-      photo = params[:photo_url]
+      self.photo = params[:photo_url]
       'photo'
     elsif params[:photo]
-      photo = params[:photo] == 'remove' ? nil : params[:photo]
+      self.photo = params[:photo] == 'remove' ? nil : params[:photo]
       'photo'
     elsif params[:person] and (person_basics.select { |a| params[:person][a] }.any? or params[:family])
       if can_edit_basics

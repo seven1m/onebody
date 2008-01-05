@@ -1,6 +1,6 @@
 <h1>Edit Family</h1>
 
-<% form_for :family, @family do |form| %>
+<% form_for :family, @family, :url => edit_family_path(:id => @family) do |form| %>
   <p>
     <%= form.label :name %>                     <%= form.text_field :name, :onkeyup => 'last_name(this.value)' %> <em>John &amp; Jane Doe</em><br/>
     <%= form.label :last_name %>                <%= form.text_field :last_name %> <em>Doe</em><br/>

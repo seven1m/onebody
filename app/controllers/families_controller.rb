@@ -40,7 +40,7 @@ class FamiliesController < ApplicationController
   def add_person
     @person = Person.new(:family => @family)
     if @person.update_attributes params[:person]
-      redirect_to edit_profile_path(:id => @person)
+      redirect_to view_family_path(:id => @family)
     else
       flash[:warning] = @person.errors.full_messages.join('; ')
     end

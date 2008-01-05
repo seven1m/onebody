@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
+$LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../lib')))
 require 'highline/import'
 
 
@@ -14,18 +15,21 @@ if directory = File.expand_path(ARGV[0])
   end
 
   # copy files
-  %w(deploy/config deploy/db deploy/lib deploy/log deploy/script deploy/Rakefile public themes).each do |dir|
+  %w(deploy/config deploy/lib deploy/log deploy/script deploy/Rakefile public themes).each do |dir|
     begin
       FileUtils.cp_r(File.join(File.dirname(__FILE__), "../#{dir}"), directory, :remove_destination => true)
     rescue => e
-      if dir == 'deploy/db' # the gem is missing the deploy/db directory - I don't know why
-        FileUtils.mkdir(File.join(directory, 'db'))
-      else
-        puts "There was an error copying files: #{e}"
-        exit(1)
-      end
+      puts "There was an error copying files: #{e}"
+      exit(1)
     end
   end
+  
+  # build the db directories
+  FileUtils.mkdir_p(File.join(directory, 'db/photos'))
+  %w(families groups people pictures recipes).each do |dir|
+    FileUtils.mkdir_p(File.join(directory, 'db/photos', dir))
+  end
+  FileUtils.mkdir_p(File.join(directory, 'db/publications'))
   
   # copy and tweak some Rails files
   [ # orig, dest, hash_of_gsub_changes
