@@ -25,7 +25,7 @@ connector = eval(connector_name.capitalize+'Connector').new(*args)
 
 unless last_update = Date.parse(ActiveRecord::Base.connection.select_one("SELECT last_update FROM sync_info")['last_update']).to_time rescue nil
   ActiveRecord::Base.connection.delete("DELETE FROM sync_info")
-  ActiveRecord::Base.connection.insert("INSERT INTO sync_info SET last_update = NULL")
+  ActiveRecord::Base.connection.insert("INSERT INTO sync_info (last_update) values (NULL)")
   last_update = Date.new(1970, 1, 1).to_time
 end
 
