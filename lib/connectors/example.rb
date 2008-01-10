@@ -23,11 +23,11 @@ class ExampleConnector < ExternalDataConnector
   end
   
   def people_ids
-    # array of ids of currently active people
+    # array of ids of currently active people (legacy id, i.e. id from external source)
   end
   
   def family_ids
-    # array of ids of currently active families
+    # array of ids of currently active families (legacy id, i.e. id from external source)
   end
 
   def each_person(updated_since)
