@@ -15,8 +15,8 @@ end
 connector_name = ARGV[0]
 args = ARGV[1..-1]
 
-require File.dirname(__FILE__) + "/../lib/connectors/#{connector_name}"
 require File.dirname(__FILE__) + '/../config/environment'
+require RAILS_ROOT + "/lib/connectors/#{connector_name}"
 
 logger = RAILS_DEFAULT_LOGGER
 
