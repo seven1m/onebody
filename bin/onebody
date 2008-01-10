@@ -5,8 +5,10 @@ $LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../lib'))
 require 'highline/import'
 
 
-if directory = File.expand_path(ARGV[0])
-
+if ARGV[0]
+  
+  directory = File.expand_path(ARGV[0])
+  
   if NEW_INSTALL = !File.exists?(directory)
     puts "Creating a new instance of OneBody at #{directory}"
     FileUtils.mkdir(directory)
