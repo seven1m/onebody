@@ -12,49 +12,42 @@ if ARGV[0]
   
   if NEW_INSTALL = !File.exists?(directory)
     puts "Creating a new instance of OneBody at #{directory}"
-    FileUtils.mkdir(directory)
+    FileUtils.mkdir(directory) # this will fail if directory already exists, thus no existing files will be overwritten
   else
     puts "Upgrading your instance of OneBody at #{directory}"
+    exit unless agree('This operation will overwrite files. Are you sure? ')
   end
 
   # copy files
-  %w(deploy/config deploy/lib deploy/log deploy/script deploy/Rakefile public themes).each do |dir|
-    begin
-      FileUtils.cp_r(File.join(File.dirname(__FILE__), "../#{dir}"), directory, :remove_destination => true)
-    rescue => e
-      puts "There was an error copying files: #{e}"
-      exit(1)
+  begin
+    # copy main files from gem
+    files = Dir[File.dirname(File.dirname(__FILE__)) + "/*"]
+    files.each_with_index do |file, index|
+      next if file =~ /config|bin$/
+      FileUtils.cp_r(file, directory, :remove_destination => true)
+      print "#{index+1} of #{files.length} copied\r"
     end
-  end
-  
-  # build the db directories
-  FileUtils.mkdir_p(File.join(directory, 'db/photos'))
-  %w(families groups people pictures recipes).each do |dir|
-    FileUtils.mkdir_p(File.join(directory, 'db/photos', dir))
-  end
-  FileUtils.mkdir_p(File.join(directory, 'db/publications'))
-  
-  # copy and tweak some Rails files
-  [ # orig, dest, hash_of_gsub_changes
-  
-    [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/console.rb'),
-      File.join(directory, 'lib/commands/console.rb'),
-      {/#\{RAILS_ROOT\}\/config\/environment/ => '#{APP_ROOT}/config/environment'} ],
-      
-    [ File.join(File.dirname(__FILE__), '../vendor/rails/railties/lib/commands/servers/webrick.rb'),
-      File.join(directory, 'lib/commands/servers/webrick.rb'),
-      {/require RAILS_ROOT \+ "\/config\/environment"/ => 'require APP_ROOT + "/config/environment"'} ]
-      
-  ].each do |orig, dest, changes|
-    src = File.read(orig)
-    changes.each { |from, to| src.gsub!(from, to) }
-    File.open(dest, 'w') { |f| f.write src }
+    # create and copy config directory (except database.yml)
+    FileUtils.mkdir(File.join(directory, 'config')) unless File.exists? File.join(directory, 'config')
+    Dir[File.dirname(File.dirname(__FILE__)) + "/config/*"].each do |file|
+      next if file.include? 'database.yml'
+      FileUtils.cp_r(file, File.join(directory, 'config'), :remove_destination => true)
+    end
+    # remove pesky .svn directories
+    Dir[File.join(directory, '**', '.svn')].each { |d| FileUtils.rm_rf(d) }
+    # set to production mode
+    env_file = File.read(env_filename = File.join(directory, 'config/environment.rb'))
+    File.open(env_filename, 'w') { |f| f.write "ENV['RAILS_ENV'] ||= 'production'\n\n" + env_file }
+    puts
+  rescue => e
+    puts "There was an error copying files: #{e}"
+    exit(1)
   end
   
   puts "Done copying files.\n\n"
   
   # create the database config file if it doesn't exist yet
-  unless File.exists? File.join(directory, "config/database.yml")
+  if NEW_INSTALL
     puts 'Setting up the database configuration...'
     begin
       db_adapter = ask('Choose your database (sqlite3 or mysql) [sqlite3]: ')
@@ -62,7 +55,7 @@ if ARGV[0]
     end while not %w(sqlite3 mysql).include? db_adapter
     case db_adapter
     when 'sqlite3'
-      config = "production:\n  adapter: sqlite3\n  database: <%= APP_ROOT %>/db/onebody.db"
+      config = "production:\n  adapter: sqlite3\n  database: db/onebody.db\ndevelopment:\n  production"
     when 'mysql'
       puts 'Enter the MySQL username and password.'
       db_user = ask('Username [root]: ')
@@ -70,7 +63,7 @@ if ARGV[0]
       db_pass = ask('Password [blank]: ') { |q| q.echo = false }
       db_name = ask('Database name [onebody]: ')
       db_name = 'onebody' unless db_name.any?
-      config = "production:\n  adapter: mysql\n  database: #{db_name}\n  username: #{db_user}\n  password: #{db_pass}"
+      config = "production:\n  adapter: mysql\n  database: #{db_name}\n  username: #{db_user}\n  password: #{db_pass}\ndevelopment:\n  production"
     end
     File.open(File.join(directory, 'config/database.yml'), 'w') { |f| f.write config }
     puts

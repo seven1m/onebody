@@ -14,7 +14,7 @@ module Foo
           sizes.each do |name, dimensions|
             class_eval <<-END
               def photo_#{name.to_s}_path
-                File.join(APP_OR_RAILS_ROOT, '#{storage_path}', id.to_s + ".#{name.to_s}.jpg")
+                File.join(RAILS_ROOT, '#{storage_path}', id.to_s + ".#{name.to_s}.jpg")
               end
             END
           end
@@ -26,7 +26,7 @@ module Foo
             end
             
             def photo_path
-              File.join(APP_OR_RAILS_ROOT, '#{storage_path}', id.to_s + '.jpg')
+              File.join(RAILS_ROOT, '#{storage_path}', id.to_s + '.jpg')
             end
             
             def photo_path_from_id(id)
@@ -72,7 +72,7 @@ module Foo
             
             def rotate_photo(degrees)
               #img = Magick::Image.from_blob(File.read(photo_path)).first
-              #temp_path = File.join(APP_OR_RAILS_ROOT, '#{storage_path}', id.to_s + '.temp.jpg')
+              #temp_path = File.join(RAILS_ROOT, '#{storage_path}', id.to_s + '.temp.jpg')
               #img.rotate(degrees).write(temp_path)
               #self.photo = File.open(temp_path)
               #File.delete temp_path

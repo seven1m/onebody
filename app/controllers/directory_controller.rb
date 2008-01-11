@@ -71,7 +71,7 @@ class DirectoryController < ApplicationController
     y = pdf.margin_y_middle - pdf.margin_height/4 # below center
     pdf.add_text x, y, 'Directory', s
     
-    pdf.add_image File.read(File.join(APP_OR_RAILS_ROOT, 'public/images/logo.png')), pdf.margin_x_middle - 120, pdf.absolute_top_margin - 200
+    pdf.add_image File.read(File.join(RAILS_ROOT, 'public/images/logo.png')), pdf.margin_x_middle - 120, pdf.absolute_top_margin - 200
     
     t = "Created especially for #{@logged_in.name} on #{Date.today.strftime '%B %e, %Y'}"
     s = 14

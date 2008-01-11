@@ -45,7 +45,7 @@ class AdminController < ApplicationController
   def photos
     raise 'Unauthorized' unless @logged_in.admin?(:view_log)
     @items = []
-    filenames = Dir[File.join(APP_OR_RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
+    filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
     filenames[0...RECORD_LIMIT].each do |path|
       model_name = path.split('/')[-2].classify
       if ['Picture', 'Family', 'Group', 'Person', 'Recipe'].include? model_name
@@ -61,7 +61,7 @@ class AdminController < ApplicationController
   def old_log
     raise 'Unauthorized' unless @logged_in.admin?(:view_log)
     @items = []
-    filenames = Dir[File.join(APP_OR_RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
+    filenames = Dir[File.join(RAILS_ROOT, 'db/photos/**/*.jpg')].select { |p| p =~ /\d+\.jpg/ }.sort{ |a, b| File.mtime(b) <=> File.mtime(a)}
     filenames[0...RECORD_LIMIT].each do |path|
       model_name = path.split('/')[-2].classify
       if ['Picture', 'Family', 'Group', 'Person', 'Recipe'].include? model_name
