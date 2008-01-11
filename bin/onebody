@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
+$LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../vendor')))
 $LOAD_PATH.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../lib')))
 require 'highline/import'
 
