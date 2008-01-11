@@ -85,6 +85,9 @@ if ARGV[0]
   
 else
   
+  puts 'OneBody instance creation script. Run this to create a new instance'
+  puts 'or to update an existing one (will overwrite files, so make a backup).'
+  puts
   puts 'Usage: onebody /path/to/deploy'
   
 end
