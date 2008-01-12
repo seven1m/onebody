@@ -24,7 +24,7 @@ settings_000023:
   value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000012: 
   name: News RSS
   updated_at: 2007-12-18 10:33:25
@@ -34,7 +34,7 @@ settings_000012:
   value: http://imaginarychurch.com/news/RSS
   section: URL
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000001: 
   name: Site
   updated_at: 2007-12-18 10:33:25
@@ -44,7 +44,7 @@ settings_000001:
   value: Imaginary Church Family
   section: Name
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000024: 
   name: System Noreply Email
   updated_at: 2007-12-18 10:33:25
@@ -54,7 +54,7 @@ settings_000024:
   value: no-reply@imaginaryfamily.com
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000013: 
   name: Host
   updated_at: 2007-12-18 10:33:25
@@ -64,7 +64,7 @@ settings_000013:
   value: localhost
   section: Email
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000002: 
   name: Church
   updated_at: 2007-12-18 10:33:25
@@ -74,7 +74,7 @@ settings_000002:
   value: First Imaginary Church
   section: Name
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000025: 
   name: Group Address Domains
   updated_at: 2007-12-18 10:33:25
@@ -88,7 +88,7 @@ settings_000025:
 
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000014: 
   name: Domain
   updated_at: 2007-12-18 10:33:25
@@ -98,7 +98,7 @@ settings_000014:
   value: imaginaryfamily.com
   section: Email
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000003: 
   name: SSL
   updated_at: 2007-12-18 10:33:25
@@ -108,7 +108,7 @@ settings_000003:
   value: "0"
   section: Features
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000026: 
   name: Tech Support Email
   updated_at: 2007-12-18 10:33:25
@@ -118,7 +118,7 @@ settings_000026:
   value: admin@example.com
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000015: 
   name: Yahoo
   updated_at: 2007-12-18 10:33:25
@@ -128,7 +128,7 @@ settings_000015:
   value: 
   section: Services
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000004: 
   name: Friends
   updated_at: 2007-12-18 10:33:25
@@ -138,7 +138,7 @@ settings_000004:
   value: "1"
   section: Features
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000027: 
   name: Tech Support Contact
   updated_at: 2007-12-18 10:33:25
@@ -148,7 +148,7 @@ settings_000027:
   value: Joe Schmo (joe@imaginaryhelp.com)
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000016: 
   name: Amazon
   updated_at: 2007-12-18 10:33:25
@@ -158,7 +158,7 @@ settings_000016:
   value: 
   section: Services
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000005: 
   name: Prayer
   updated_at: 2007-12-18 10:33:25
@@ -178,7 +178,7 @@ settings_000028:
   value: 
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000017: 
   name: Analytics
   updated_at: 2007-12-18 10:33:25
@@ -188,7 +188,7 @@ settings_000017:
   value: 
   section: Services
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000006: 
   name: Sidebar Group Category
   updated_at: 2007-12-18 10:33:25
@@ -198,7 +198,7 @@ settings_000006:
   value: Small Groups
   section: Features
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000030: 
   name: Theme
   updated_at: 2007-12-18 10:33:25
@@ -208,7 +208,7 @@ settings_000030:
   value: aqueouslight
   section: Appearance
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000029: 
   name: Super Admins
   updated_at: 2007-12-18 10:33:25
@@ -221,7 +221,7 @@ settings_000029:
 
   section: Access
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000018: 
   name: Church Office Phone
   updated_at: 2007-12-18 10:33:25
@@ -231,7 +231,7 @@ settings_000018:
   value: (123) 456-7890
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000007: 
   name: Sidebar Group Heading
   updated_at: 2007-12-18 10:33:25
@@ -241,7 +241,7 @@ settings_000007:
   value: Small Group
   section: Features
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000031: 
   name: Standalone Use
   updated_at: 2007-12-20 14:36:33
@@ -251,7 +251,7 @@ settings_000031:
   value: "1"
   section: Features
   created_at: 2007-12-20 14:36:33
-  hidden: "0"
+  hidden: false
 settings_000020: 
   name: Send Email Changes To
   updated_at: 2007-12-18 10:33:25
@@ -261,7 +261,7 @@ settings_000020:
   value: admin@imaginarychurch.com
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000019: 
   name: Send Updates To
   updated_at: 2007-12-18 10:33:25
@@ -271,7 +271,7 @@ settings_000019:
   value: admin@imaginarychurch.com
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000008: 
   name: Banner Message
   updated_at: 2007-12-18 10:33:25
@@ -281,7 +281,7 @@ settings_000008:
   value: 
   section: Features
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000032: 
   name: Genders
   updated_at: 2007-12-21 10:07:57
@@ -307,7 +307,7 @@ settings_000021:
   value: admin@imaginarychurch.com
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000010: 
   name: Visitor
   updated_at: 2007-12-18 10:33:25
@@ -317,7 +317,7 @@ settings_000010:
   value: http://imaginarychurch.com
   section: URL
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000009: 
   name: Site
   updated_at: 2007-12-18 10:33:25
@@ -327,7 +327,7 @@ settings_000009:
   value: http://imaginaryfamily.com/
   section: URL
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000033: 
   name: Suffixes
   updated_at: 2007-12-21 10:07:57
@@ -343,7 +343,7 @@ settings_000033:
 
   section: System
   created_at: 2007-12-21 10:07:57
-  hidden: "0"
+  hidden: false
 settings_000022: 
   name: Church Email
   updated_at: 2007-12-18 10:33:25
@@ -353,7 +353,7 @@ settings_000022:
   value: info@imaginarychurch.com
   section: Contact
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
 settings_000011: 
   name: News
   updated_at: 2007-12-18 10:33:25
@@ -363,4 +363,4 @@ settings_000011:
   value: http://imaginarychurch.com/news
   section: URL
   created_at: 2007-12-18 10:33:25
-  hidden: "0"
+  hidden: false
