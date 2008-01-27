@@ -149,7 +149,7 @@
     <% end %>
   </table>
   
-  <% unless !@me or has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
+  <% unless has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) or !@me %>
     <p><em>Tell about your favorite interests, music, movies, and more
       <%= link_to 'here', edit_profile_url(:anchor => 'favorites') %>.</em></p>
   <% end %>
