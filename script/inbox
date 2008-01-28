@@ -3,14 +3,41 @@
 # example:
 # script/inbox localhost username password
 
+# multisite example:
+# script/inbox -s "Site 1" localhost username password
+
+require 'optparse'
+options = {}
+parser = OptionParser.new do |opts|
+  connectors = Dir[File.join(File.dirname(__FILE__), '../lib/connectors/*.rb')].to_a.map { |f| File.split(f).last.split('.').first }.select { |c| !%w(base test example).include? c }
+  opts.banner = "Usage: script/inbox [options] host username password"
+  opts.on("-s", '--site "Site Name"', "specify site name (if multisite enabled)") do |val|
+    options[:site] = val
+  end
+end
+parser.parse!
+
+host, username, password = ARGV
+
+if not (host and username and password)
+  puts parser.help
+  exit
+end
+
 require 'net/pop'
 require File.dirname(__FILE__) + '/../config/environment'
 
 logger = RAILS_DEFAULT_LOGGER
 
-logger.info "Running Mail Importer..." 
+logger.info "Running Mail Importer..."
 
-Net::POP3.start(ARGV[0], nil, ARGV[1], ARGV[2]) do |pop|
+if Setting.get(:features, :multisite)
+  Site.current = Site.find_by_name(options[:site])
+else
+  Site.current = Site.find(1)
+end
+
+Net::POP3.start(host, nil, username, password) do |pop|
   if pop.mails.empty?
     logger.info "NO MAIL" 
   else

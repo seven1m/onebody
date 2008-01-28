@@ -2,17 +2,31 @@
 
 # usage:
 # sync [options] CONNECTOR [connector_args]
-# example:
-# script/sync coms ../comsdata
+
+# examples:
+# script/sync csv /path/to/people.csv /path/to/families.csv
+# script/sync coms /path/to/comsdata
+
+# multisite example:
+# script/sync -s "Site 1" csv /path/to/people.csv /path/to/families.csv
 
 MAX_ERRORS = 10
 
-if ARGV.length == 0
-  puts 'Usage: sync [options] CONNECTOR [connector_args]'
+require 'optparse'
+options = {}
+parser = OptionParser.new do |opts|
+  connectors = Dir[File.join(File.dirname(__FILE__), '../lib/connectors/*.rb')].to_a.map { |f| File.split(f).last.split('.').first }.select { |c| !%w(base test example).include? c }
+  opts.banner = "Usage: script/sync [options] CONNECTOR [connector_args]\nAvailable Connectors: #{connectors.join(', ')}"
+  opts.on("-s", '--site "Site Name"', "specify site name (if multisite enabled)") do |val|
+    options[:site] = val
+  end
+end
+parser.parse!
+
+unless connector_name = ARGV[0]
+  puts parser.help
   exit
 end
-
-connector_name = ARGV[0]
 args = ARGV[1..-1]
 
 require File.dirname(__FILE__) + '/../config/environment'
@@ -32,6 +46,12 @@ end
 update_time = Time.now.strftime '%Y-%m-%d %H:%M'
 
 error_count = 0
+
+if Setting.get(:features, :multisite)
+  Site.current = Site.find_by_name(options[:site])
+else
+  Site.current = Site.find(1)
+end
 
 logger.info "Syncing people data..."
 connector.each_person(last_update) do |person|
