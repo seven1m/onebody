@@ -1,4 +1,4 @@
-<%= @person.name %> wants to be your friend on <%= SETTINGS['name']['site'] %>.
+<%= @person.name %> wants to be your friend on <%= Setting.get(:name, :site) %>.
 
 To either accept or decline, please sign in here:
-<%= SITE_URL %>friends
+<%= Setting.get(:url, :site) %>friends

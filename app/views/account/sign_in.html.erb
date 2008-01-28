@@ -1,4 +1,4 @@
-<% unless SETTINGS['features']['ssl'] %>
+<% unless Setting.get(:features, :ssl) %>
   <% content_for :head do %>
     <%= javascript_include_tag 'md5' %>
     <script type="text/javascript">salt = <%= @salt.inspect %></script>
@@ -8,16 +8,16 @@
 <p>
   <strong>Welcome to the site for
   <span style="color:#f00;">members and regular attenders</span>
-  of <%= SETTINGS['name']['church'] %>.</strong>
+  of <%= Setting.get(:name, :church) %>.</strong>
   For information about classes, to download sermons, find out what our church believes,
   practices, and so much more, visit our main website:
-  <%= link_to SETTINGS['url']['visitor'], VISITOR_URL %>.
+  <%= link_to Setting.get(:url, :visitor), Setting.get(:url, :visitor) %>.
 </p>
 
 <h2>Please sign in.</h2>
 
 <form method="post"
-  <% unless SETTINGS['features']['ssl'] %>
+  <% unless Setting.get(:features, :ssl) %>
     onsubmit="$('password_encrypted').value = hex_md5(hex_md5($('password').value) + salt);$('password').value = ''"
   <% end %>
   >
@@ -37,7 +37,7 @@
       <td>
         <%= password_field_tag :password %>
         <%= image_tag 'lock.gif', :alt => 'Secured', :class => 'no-border' %>
-        Secured with <% if SETTINGS['features']['ssl'] %>SSL<% else %>JavaScript<% end %>.
+        Secured with <% if Setting.get(:features, :ssl) %>SSL<% else %>JavaScript<% end %>.
       </td>
     </tr>
     <tr><td></td>

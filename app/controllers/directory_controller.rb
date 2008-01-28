@@ -52,7 +52,7 @@ class DirectoryController < ApplicationController
 
       x = pdf.absolute_left_margin
       y = pdf.absolute_top_margin + 30
-      pdf.add_text x, y, "#{SETTINGS['name']['church']} Directory\n\n", size
+      pdf.add_text x, y, "#{Setting.get(:name, :church)} Directory\n\n", size
 
       x = pdf.absolute_left_margin
       w = pdf.absolute_right_margin

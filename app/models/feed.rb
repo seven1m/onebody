@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: feeds
 #
@@ -12,6 +12,7 @@
 #  fetched_at :datetime      
 #  created_at :datetime      
 #  updated_at :datetime      
+#  site_id    :integer       
 #
 
 require 'rss/0.9'
@@ -23,6 +24,9 @@ require 'open-uri'
 class Feed < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   attr_accessor :feed
   

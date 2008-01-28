@@ -3,7 +3,7 @@
   
   <h2>Basic Access &amp; Visibility</h2>
   <p>
-    <% if SETTINGS['features']['standalone_use'] %>
+    <% if Setting.get(:features, :standalone_use) %>
       <em>
         Most members and regular attenders should probably have
         all of these boxes checked to have complete access and visibility.

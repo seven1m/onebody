@@ -1,8 +1,8 @@
 class PrayerController < ApplicationController
   def event
-    return unless SETTINGS['features']['prayer']
-    @first = DateTime.parse(SETTINGS['features']['prayer'].first)
-    @last = DateTime.parse(SETTINGS['features']['prayer'].last)
+    return unless Setting.get(:features, :prayer)
+    @first = DateTime.parse(Setting.get(:features, :prayer).first)
+    @last = DateTime.parse(Setting.get(:features, :prayer).last)
     signups = PrayerSignup.find :all, :conditions => ['start >= ? and start <= ?', @first, @last], :order => 'start'
     @signups = signups.group_by { |r| r.start.strftime '%Y/%m/%d %H:%M' }
     @count_per_day = {}

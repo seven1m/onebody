@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: groups
 #
@@ -21,10 +21,12 @@
 #  approved     :boolean       
 #  link_code    :string(255)   
 #  parents_of   :integer       
+#  site_id      :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 morgan:
+  site_id: 1
   id: 1
   name: Morgan Group
   creator_id: 1
@@ -32,6 +34,7 @@ morgan:
   hidden: false
   private: false
 publications:
+  site_id: 1
   id: 2
   name: Publications
   description: People who wish to be notified when new publications become available on the website.

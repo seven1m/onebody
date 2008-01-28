@@ -132,7 +132,7 @@
     The settings below are for staff, elders, and advanced users.
     Don't edit any of the settings below unless you know what you are doing.<br/>
     <label class="inline">Email Address:</label>
-    <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h SETTINGS['contact']['group_address_domains'].first %><br/>
+    <%= text_field_tag 'group[address]', @group.address, :id => 'group_address', :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h Setting.get(:contact, :group_address_domains).first %><br/>
     <label for="group_link_code" class="inline">Class Link Code(s):</label>
     <%= form.text_field :link_code %><br/>
     <label for="group_parents_of" class="inline">Parents of:</label>

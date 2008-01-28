@@ -1,5 +1,5 @@
 <% if @person.sidebar_group_people.any? %>
-  <h2><%= SETTINGS['features']['sidebar_group_heading'] %></h2>
+  <h2><%= Setting.get(:features, :sidebar_group_heading) %></h2>
   <table>
     <% @person.sidebar_group_people.each do |person| %>
       <tr>

@@ -1,4 +1,4 @@
 <%= @person.name %> has requested to join the group <%= @group.name %>.
 
 To approve or ignore, sign in and visit the following address:
-<%= SITE_URL %>groups/membership_requests/<%= @group.id %>
+<%= Setting.get(:url, :site) %>groups/membership_requests/<%= @group.id %>

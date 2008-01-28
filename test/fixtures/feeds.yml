@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: feeds
 #
@@ -12,40 +12,48 @@
 #  fetched_at :datetime      
 #  created_at :datetime      
 #  updated_at :datetime      
+#  site_id    :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-morgan:
+morgan:  
+  site_id: 1
   id: 1
   name: Morgan Family
   url: file://test/fixtures/morgan.xml
   person_id: 1
 mpov:
+  site_id: 1
   id: 2
   name: MPOV
   url: file://test/fixtures/mpov.xml
   person_id: 1
 rss09:
+  site_id: 1
   id: 3
   name: RSS 0.9
   url: file://test/fixtures/rss09.xml
   person_id: 1
 rss10:
+  site_id: 1
   id: 4
   name: RSS 1.0
   url: file://test/fixtures/rss10.xml
   person_id: 1
 rss20:
+  site_id: 1
   id: 5
   name: RSS 2.0
   url: file://test/fixtures/rss20.xml
   person_id: 1
 atom03:
+  site_id: 1
   id: 6
   name: Atom 0.3
   url: file://test/fixtures/atom03.xml
   person_id: 1
 atom10:
+  site_id: 1
   id: 7
   name: Atom 1.0
   url: file://test/fixtures/atom10.xml

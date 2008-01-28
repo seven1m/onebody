@@ -94,10 +94,10 @@
         <td><%= form.radio_button :share_activity, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_activity, false, :class => 'checkbox' %></td>
         <td>
-          <% if SETTINGS['features']['friends'] %>
+          <% if Setting.get(:features, :friends) %>
             <em>Your friends may see your activity online (public messages, verses, etc.) conveniently in their "Recently" tab.</em>
           <% end %>
-          <% if SETTINGS['features']['sidebar_group_category'] %>
+          <% if Setting.get(:features, :sidebar_group_category) %>
             <em>Fellow group members may see your group messages, blog posts, and prayer requests conveniently in their "Recently" tab.</em>
           <% end %>
         </td>
@@ -140,7 +140,7 @@
         <p class="highlight">
           This child's profile has parental consent from <%=h person.parental_consent %>.
           If you have concerns regarding this, please contact the church office at
-          <%=h SETTINGS['contact']['church_office_phone'] %> immediately.
+          <%=h Setting.get(:contact, :church_office_phone) %> immediately.
         </p>
       <% end %>
     
@@ -194,10 +194,10 @@
             <td><%= radio_button_tag 'person[share_activity]', false, person.attributes['share_activity'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_activity]', 'nil', person.attributes['share_activity'] == nil, :class => 'checkbox' %></td>
             <td>
-              <% if SETTINGS['features']['friends'] %>
+              <% if Setting.get(:features, :friends) %>
                 <em>Your friends may see your activity online (public messages, verses, etc.) conveniently in their "Recently" tab.</em>
               <% end %>
-              <% if SETTINGS['features']['sidebar_group_category'] %>
+              <% if Setting.get(:features, :sidebar_group_category) %>
                 <em>Fellow group members may see your group messages, blog posts, and prayer requests conveniently in their "Recently" tab.</em>
               <% end %>
             </td>

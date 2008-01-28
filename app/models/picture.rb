@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: pictures
 #
@@ -9,11 +9,16 @@
 #  created_at :datetime      
 #  cover      :boolean       
 #  updated_at :datetime      
+#  site_id    :integer       
 #
 
 class Picture < ActiveRecord::Base
   belongs_to :event
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  
   acts_as_photo 'db/photos/pictures', PHOTO_SIZES
   acts_as_logger LogItem
 end

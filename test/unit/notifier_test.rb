@@ -22,7 +22,7 @@ class NotifierTest < Test::Unit::TestCase
     Notifier.deliver_email_update(people(:tim))
     assert !ActionMailer::Base.deliveries.empty?
     sent = ActionMailer::Base.deliveries.first
-    assert_equal [SETTINGS['contact']['send_email_changes_to']], sent.to
+    assert_equal [Setting.get(:contact, :send_email_changes_to)], sent.to
     assert_equal "#{people(:tim).name} Changed Email", sent.subject
     assert sent.body.index("#{people(:tim).name} has had their email changed.")
     assert sent.body.index("Email: #{people(:tim).email}")

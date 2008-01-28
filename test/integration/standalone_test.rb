@@ -11,7 +11,7 @@ class StandaloneTest < ActionController::IntegrationTest
   end
   
   def test_can_edit_person
-    SETTINGS['features']['standalone_use'] = true
+    Setting.set(1, 'Features', 'Standalone Use', true)
     edit_path = edit_profile_path(:id => people(:jeremy))
     sign_in_as people(:tim)
     get edit_path
@@ -32,7 +32,7 @@ class StandaloneTest < ActionController::IntegrationTest
   end
   
   def test_cannot_edit_person_but_can_submit_changes
-    SETTINGS['features']['standalone_use'] = false
+    Setting.set(1, 'Features', 'Standalone Use', false)
     edit_path = edit_profile_path(:id => people(:jeremy))
     sign_in_as people(:jeremy)
     get edit_path

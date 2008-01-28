@@ -20,10 +20,10 @@
   <%= render :partial => 'families/photo' %>
   <%= render :partial => 'family' %>
   <%= render :partial => 'hidden_children' %>
-  <% if SETTINGS['features']['friends'] %>
+  <% if Setting.get(:features, :friends) %>
     <%= render :partial => 'friends' %>
   <% end %>
-  <% if SETTINGS['features']['sidebar_group_category'] %>
+  <% if Setting.get(:features, :sidebar_group_category) %>
     <%= render :partial => 'sidebar_people' %>
   <% end %>
 <% end %>
@@ -163,7 +163,7 @@
 <h2 class="tab" id="groups">Groups</h2>
 <div class="section" id="groups_content"></div>
 
-<% if SETTINGS['features']['prayer'] and @logged_in.admin?(:manage_prayer_signups) %>
+<% if Setting.get(:features, :prayer) and @logged_in.admin?(:manage_prayer_signups) %>
   <%= form_tag :controller => 'prayer', :action => 'event_signup', :id => @person %>
     Sign up for prayer:
     <%= text_field_tag 'start', nil %>
@@ -252,7 +252,7 @@
 </script>
 
 <% if @person.family.mapable? and @person.share_address_with @logged_in %>
-  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= SETTINGS['services']['yahoo'] %>"></script>
+  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= Setting.get(:services, :yahoo) %>"></script>
   <script type="text/javascript">
     var address = <%= @person.family.mapable_address.inspect %>;
     map_loaded = false;

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: performances
 #
@@ -7,11 +7,15 @@
 #  setlist_id :integer       
 #  song_id    :integer       
 #  ordering   :integer       
+#  site_id    :integer       
 #
 
 class Performance < ActiveRecord::Base
   belongs_to :song
   belongs_to :setlist
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   acts_as_logger LogItem
 end

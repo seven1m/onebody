@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 89) do
+ActiveRecord::Schema.define(:version => 91) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean,  :default => false
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "manage_updates",         :boolean,  :default => false
     t.column "created_at",             :datetime
     t.column "updated_at",             :datetime
+    t.column "site_id",                :integer
   end
 
   create_table "attachments", :force => true do |t|
@@ -41,6 +42,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "content_type", :string,   :limit => 50
     t.column "created_at",   :datetime
     t.column "song_id",      :integer
+    t.column "site_id",      :integer
   end
 
   create_table "comments", :force => true do |t|
@@ -54,12 +56,14 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "news_item_id", :integer
     t.column "song_id",      :integer
     t.column "note_id",      :integer
+    t.column "site_id",      :integer
   end
 
   create_table "contacts", :force => true do |t|
     t.column "person_id",  :integer
     t.column "owner_id",   :integer
     t.column "updated_at", :datetime
+    t.column "site_id",    :integer
   end
 
   create_table "events", :force => true do |t|
@@ -71,6 +75,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "open",        :boolean,  :default => false
     t.column "admins",      :text
     t.column "updated_at",  :datetime
+    t.column "site_id",     :integer
   end
 
   create_table "events_verses", :id => false, :force => true do |t|
@@ -105,6 +110,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "wall_enabled",       :boolean,                :default => true
     t.column "visible",            :boolean,                :default => true
     t.column "share_activity",     :boolean,                :default => true
+    t.column "site_id",            :integer
   end
 
   create_table "feeds", :force => true do |t|
@@ -116,6 +122,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "fetched_at", :datetime
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
+    t.column "site_id",    :integer
   end
 
   create_table "friendship_requests", :force => true do |t|
@@ -123,6 +130,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "from_id",    :integer
     t.column "rejected",   :boolean,  :default => false
     t.column "created_at", :datetime
+    t.column "site_id",    :integer
   end
 
   create_table "friendships", :force => true do |t|
@@ -130,6 +138,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "friend_id",  :integer
     t.column "created_at", :datetime
     t.column "ordering",   :integer,  :default => 1000
+    t.column "site_id",    :integer
   end
 
   create_table "groups", :force => true do |t|
@@ -150,6 +159,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "approved",     :boolean,                 :default => false
     t.column "link_code",    :string
     t.column "parents_of",   :integer
+    t.column "site_id",      :integer
   end
 
   create_table "log_items", :force => true do |t|
@@ -165,12 +175,14 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "flagged_on",  :datetime
     t.column "flagged_by",  :string
     t.column "deleted",     :boolean,                :default => false
+    t.column "site_id",     :integer
   end
 
   create_table "membership_requests", :force => true do |t|
     t.column "person_id",  :integer
     t.column "group_id",   :integer
     t.column "created_at", :datetime
+    t.column "site_id",    :integer
   end
 
   create_table "memberships", :force => true do |t|
@@ -187,6 +199,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "share_anniversary",  :boolean
     t.column "updated_at",         :datetime
     t.column "code",               :integer
+    t.column "site_id",            :integer
   end
 
   create_table "messages", :force => true do |t|
@@ -201,6 +214,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "share_email",  :boolean,  :default => false
     t.column "wall_id",      :integer
     t.column "code",         :integer
+    t.column "site_id",      :integer
   end
 
   create_table "ministries", :force => true do |t|
@@ -208,6 +222,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "name",        :string,   :limit => 100
     t.column "description", :text
     t.column "updated_at",  :datetime
+    t.column "site_id",     :integer
   end
 
   create_table "news_items", :force => true do |t|
@@ -216,6 +231,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "body",      :text
     t.column "published", :datetime
     t.column "active",    :boolean,  :default => true
+    t.column "site_id",   :integer
   end
 
   create_table "notes", :force => true do |t|
@@ -227,6 +243,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "original_url", :string
     t.column "deleted",      :boolean,  :default => false
     t.column "group_id",     :integer
+    t.column "site_id",      :integer
   end
 
   create_table "people", :force => true do |t|
@@ -294,6 +311,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "legacy_family_id",             :integer
     t.column "feed_code",                    :string,   :limit => 50
     t.column "share_activity",               :boolean
+    t.column "site_id",                      :integer
   end
 
   create_table "people_verses", :id => false, :force => true do |t|
@@ -305,6 +323,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "setlist_id", :integer
     t.column "song_id",    :integer
     t.column "ordering",   :integer
+    t.column "site_id",    :integer
   end
 
   create_table "pictures", :force => true do |t|
@@ -313,6 +332,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "created_at", :datetime
     t.column "cover",      :boolean,  :default => false
     t.column "updated_at", :datetime
+    t.column "site_id",    :integer
   end
 
   create_table "prayer_requests", :force => true do |t|
@@ -323,6 +343,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "answered_at", :datetime
     t.column "created_at",  :datetime
     t.column "updated_at",  :datetime
+    t.column "site_id",     :integer
   end
 
   create_table "prayer_signups", :force => true do |t|
@@ -331,6 +352,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "created_at", :datetime
     t.column "reminded",   :boolean,                 :default => false
     t.column "other",      :string,   :limit => 100
+    t.column "site_id",    :integer
   end
 
   create_table "publications", :force => true do |t|
@@ -339,6 +361,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "created_at",  :datetime
     t.column "file",        :string
     t.column "updated_at",  :datetime
+    t.column "site_id",     :integer
   end
 
   create_table "recipes", :force => true do |t|
@@ -354,6 +377,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "bake",         :string
     t.column "serving_size", :integer
     t.column "event_id",     :integer
+    t.column "site_id",      :integer
   end
 
   create_table "recipes_tags", :id => false, :force => true do |t|
@@ -374,6 +398,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "start",      :datetime
     t.column "person_id",  :integer
     t.column "created_at", :datetime
+    t.column "site_id",    :integer
   end
 
   create_table "settings", :force => true do |t|
@@ -385,6 +410,15 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "hidden",      :boolean,                 :default => false
     t.column "created_at",  :datetime
     t.column "updated_at",  :datetime
+    t.column "site_id",     :integer
+    t.column "global",      :boolean,                 :default => false
+  end
+
+  create_table "sites", :force => true do |t|
+    t.column "name",       :string
+    t.column "host",       :string
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "songs", :force => true do |t|
@@ -399,6 +433,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "amazon_url",       :string
     t.column "created_at",       :datetime
     t.column "person_id",        :integer
+    t.column "site_id",          :integer
   end
 
   create_table "songs_tags", :id => false, :force => true do |t|
@@ -413,6 +448,7 @@ ActiveRecord::Schema.define(:version => 89) do
   create_table "tags", :force => true do |t|
     t.column "name",       :string,   :limit => 50
     t.column "updated_at", :datetime
+    t.column "site_id",    :integer
   end
 
   create_table "tags_verses", :id => false, :force => true do |t|
@@ -424,10 +460,10 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "person_id",        :integer
     t.column "first_name",       :string
     t.column "last_name",        :string
-    t.column "home_phone",       :bigint
-    t.column "mobile_phone",     :bigint
-    t.column "work_phone",       :bigint
-    t.column "fax",              :bigint
+    t.column "home_phone",       :integer
+    t.column "mobile_phone",     :integer
+    t.column "work_phone",       :integer
+    t.column "fax",              :integer
     t.column "address1",         :string
     t.column "address2",         :string
     t.column "city",             :string
@@ -441,15 +477,17 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "gender",           :string,   :limit => 6
     t.column "family_name",      :string
     t.column "family_last_name", :string
+    t.column "site_id",          :integer
   end
 
   create_table "verifications", :force => true do |t|
     t.column "email",        :string
-    t.column "mobile_phone", :bigint
+    t.column "mobile_phone", :integer
     t.column "code",         :integer
     t.column "verified",     :boolean
     t.column "created_at",   :datetime
     t.column "updated_at",   :datetime
+    t.column "site_id",      :integer
   end
 
   create_table "verses", :force => true do |t|
@@ -461,6 +499,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "book",        :integer
     t.column "chapter",     :integer
     t.column "verse",       :integer
+    t.column "site_id",     :integer
   end
 
   create_table "workers", :force => true do |t|
@@ -470,6 +509,7 @@ ActiveRecord::Schema.define(:version => 89) do
     t.column "end",         :datetime
     t.column "remind_on",   :datetime
     t.column "reminded",    :boolean,  :default => false
+    t.column "site_id",     :integer
   end
 
 end

@@ -54,7 +54,7 @@ class FamiliesController < ApplicationController
   end
   
   def check_standalone_and_admin
-    unless SETTINGS['features']['standalone_use'] and @logged_in.admin?(:edit_profiles)
+    unless Setting.get(:features, :standalone_use) and @logged_in.admin?(:edit_profiles)
       render :text => 'This feature is not available either because you are not an admin or Standalone Mode is off.', :layout => true
       return false
     end

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: messages
 #
@@ -15,6 +15,7 @@
 #  share_email  :boolean       
 #  wall_id      :integer       
 #  code         :integer       
+#  site_id      :integer       
 #
 
 require 'uri'
@@ -29,6 +30,9 @@ class Message < ActiveRecord::Base
   has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :conditions => 'to_person_id is null', :dependent => :destroy
   has_many :attachments, :dependent => :destroy
   has_many :log_items, :foreign_key => 'instance_id', :conditions => "model_name = 'Message'"
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   validates_presence_of :person_id
   validates_presence_of :subject
@@ -103,13 +107,13 @@ class Message < ActiveRecord::Base
   
   def reply_url
     if group
-      "#{SITE_URL}messages/view/#{self.id.to_s}"
+      "#{Setting.get(:url, :site)}messages/view/#{self.id.to_s}"
     elsif wall
-      "#{SITE_URL}people/view/#{person_id}#wall"
+      "#{Setting.get(:url, :site)}people/view/#{person_id}#wall"
     else
       reply_subject = self.subject
       reply_subject = "RE: #{subject}" unless reply_subject =~ /^re:/i
-      "#{SITE_URL}messages/send_email/#{self.person.id}?subject=#{URI.escape(reply_subject)}"
+      "#{Setting.get(:url, :site)}messages/send_email/#{self.person.id}?subject=#{URI.escape(reply_subject)}"
     end
   end
   
@@ -121,14 +125,14 @@ class Message < ActiveRecord::Base
       msg << "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
       if group.can_post? to_person
         if group.address.to_s.any?
-          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + SETTINGS['contact']['group_address_domains'].first}\n"
-          msg << "Group page: #{SITE_URL}groups/view/#{group.id}\n"
+          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + Setting.get(:contact, :group_address_domains).first}\n"
+          msg << "Group page: #{Setting.get(:url, :site)}groups/view/#{group.id}\n"
         else
           msg << "To reply: #{reply_url}\n"
         end
       end
     elsif wall
-      msg << "Your wall: #{SITE_URL}people/view/#{wall_id}#wall\n\n"
+      msg << "Your wall: #{Setting.get(:url, :site)}people/view/#{wall_id}#wall\n\n"
       msg << "#{self.person.name_possessive} wall: #{reply_url}\n"
     end
     msg
@@ -141,18 +145,18 @@ class Message < ActiveRecord::Base
       if new_record?
         msg << '-link to turn off email-'
       else
-        msg << "#{SITE_URL}groups/toggle_email/#{group.id}?person_id=#{to_person.id}&code=#{group.get_options_for(to_person, true).code}"
+        msg << "#{Setting.get(:url, :site)}groups/toggle_email/#{group.id}?person_id=#{to_person.id}&code=#{group.get_options_for(to_person, true).code}"
         msg << '&return_to=/publications' if group.name == 'Publications'
       end
     else
-      msg << "To stop these emails, go to your privacy page:\n#{SITE_URL}people/privacy"
+      msg << "To stop these emails, go to your privacy page:\n#{Setting.get(:url, :site)}people/privacy"
     end
     msg
   end
   
   def email_from(to_person)
     if wall or not to_person.messages_enabled?
-      "\"#{person.name}\" <#{SETTINGS['contact']['system_noreply_email']}>"
+      "\"#{person.name}\" <#{Site.current.noreply_email}>"
     elsif group
       relay_address("#{person.name} [#{group.name}]")
     else
@@ -162,7 +166,7 @@ class Message < ActiveRecord::Base
 
   def email_reply_to(to_person)
     if wall or not to_person.messages_enabled?
-      "\"DO NOT REPLY\" <#{SETTINGS['contact']['system_noreply_email']}>"
+      "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
     else
       relay_address(person.name)
     end
@@ -171,7 +175,7 @@ class Message < ActiveRecord::Base
   # special time-limited address that relays a private message directly back to the sender
   def relay_address(name)
     email = "#{person.first_name.downcase.scan(/[a-z]/).join('')}.#{id}.#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
-    "\"#{name}\" <#{email + '@' + SETTINGS['contact']['group_address_domains'].first}>"
+    "\"#{name}\" <#{email + '@' + Setting.get(:contact, :group_address_domains).first}>"
   end
   
   # generates security code

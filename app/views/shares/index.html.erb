@@ -3,7 +3,7 @@
 <%= render :partial => 'shares/subnav' %>
 
 <p>
-  <%= SETTINGS['name']['site'] %> is a place to connect and share inspirational Bible verses,
+  <%= Setting.get(:name, :site) %> is a place to connect and share inspirational Bible verses,
   good recipes, pictures, and more. From here, you can browse through the
   collection of things our members have shared and add some of your own!
 </p>

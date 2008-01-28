@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: updates
 #
@@ -24,10 +24,14 @@
 #  gender           :string(6)     
 #  family_name      :string(255)   
 #  family_last_name :string(255)   
+#  site_id          :integer       
 #
 
 class Update < ActiveRecord::Base
   belongs_to :person
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   def do!
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
@@ -65,9 +69,10 @@ class Update < ActiveRecord::Base
     updates[:birthday] = Date.new(1800, 1, 1) if updates.has_key?(:birthday) and updates[:birthday].nil?
     updates[:anniversary] = Date.new(1800, 1, 1) if updates.has_key?(:anniversary) and updates[:anniversary].nil?
     # save
-    person.updates.create(updates)
+    u = person.updates.create(updates)
     # send notification
-    Notifier.deliver_profile_update(person, updates) if SETTINGS['contact']['send_updates_to']
+    Notifier.deliver_profile_update(person, updates) if Setting.get(:contact, :send_updates_to)
+    return u
   end
 end
 

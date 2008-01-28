@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: settings
 #
@@ -12,282 +12,338 @@
 #  hidden      :boolean       
 #  created_at  :datetime      
 #  updated_at  :datetime      
+#  site_id     :integer       
+#  global      :boolean       
 #
 
 --- 
+settings_000034: 
+  name: Multisite
+  format: boolean
+  updated_at: 2008-01-26 15:21:08
+  id: "34"
+  value: false
+  description: When enabled, this instance can handle multiple sites, based on domain name.
+  global: true
+  section: Features
+  hidden: false
+  created_at: 2008-01-26 15:21:08
 settings_000023: 
   name: Church Address
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "23"
-  description: Visible on Terms of Use
   value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
+  description: Visible on Terms of Use
+  global: false
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000012: 
   name: News RSS
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "12"
-  description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
   value: http://imaginarychurch.com/news/RSS
+  description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
+  global: false
   section: URL
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000001: 
   name: Site
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "1"
-  description: The name of the member portion of this website
   value: Imaginary Church Family
+  description: truehe name of the member portion of this website
+  global: false
   section: Name
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000024: 
   name: System Noreply Email
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "24"
-  description: Email address where some email is sent (email that does not allow replies)
   value: no-reply@imaginaryfamily.com
+  description: Email address where some email is sent (email that does not allow replies)
+  global: false
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000013: 
   name: Host
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:08
   id: "13"
-  description: Hostname of your SMTP server
   value: localhost
+  description: Hostname of your SMTP server
+  global: true
   section: Email
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000002: 
   name: Church
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "2"
-  description: The name of the church
   value: First Imaginary Church
+  description: truehe name of the church
+  global: false
   section: Name
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000025: 
   name: Group Address Domains
-  updated_at: 2007-12-18 10:33:25
   format: list
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "25"
-  description: Domains to which email could be coming
   value: |
     --- 
     - imaginaryfamily.com
     - imaginaryfamily.org
 
+  description: Domains to which email could be coming
+  global: false
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000014: 
   name: Domain
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:08
   id: "14"
-  description: Domain name for your SMTP email server
   value: imaginaryfamily.com
+  description: Domain name for your SMTP email server
+  global: true
   section: Email
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000003: 
   name: SSL
-  updated_at: 2007-12-18 10:33:25
   format: boolean
+  updated_at: 2008-01-26 15:21:08
   id: "3"
+  value: false
   description: If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext.
-  value: "0"
+  global: true
   section: Features
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000026: 
   name: Tech Support Email
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:08
   id: "26"
-  description: Email to contact for technical help with the site.
   value: admin@example.com
+  description: Email to contact for technical help with the site.
+  global: true
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000015: 
   name: Yahoo
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:08
   id: "15"
-  description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
   value: 
+  description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
+  global: true
   section: Services
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000004: 
   name: Friends
-  updated_at: 2007-12-18 10:33:25
   format: boolean
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "4"
+  value: true
   description: Enable MySpace-style mutual friendships (confirmed via email)
-  value: "1"
+  global: false
   section: Features
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000027: 
   name: Tech Support Contact
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:08
   id: "27"
+  value: Joe Schmo (admin@example.com)
   description: Name and email to contact for technical help with the site.
-  value: Joe Schmo (joe@imaginaryhelp.com)
+  global: true
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000016: 
   name: Amazon
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:08
   id: "16"
-  description: Your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
   value: 
+  description: Your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
+  global: true
   section: Services
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000005: 
   name: Prayer
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "5"
-  description: ""
   value: 
+  description: ""
+  global: false
   section: Features
-  created_at: 2007-12-18 10:33:25
-  hidden: "1"
+  hidden: true
+  created_at: 2008-01-26 15:21:06
 settings_000028: 
   name: Bug Notification Email
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:08
   id: "28"
-  description: Email address to send bug reports to
   value: 
+  description: Email address to send bug reports to
+  global: true
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000017: 
   name: Analytics
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:08
   id: "17"
-  description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
   value: 
+  description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
+  global: true
   section: Services
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000006: 
   name: Sidebar Group Category
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "6"
-  description: People in mutual groups of this category will be displayed on the user's profile sidebar.
   value: Small Groups
+  description: People in mutual groups of this category will be displayed on the user's profile sidebar.
+  global: false
   section: Features
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000030: 
   name: Theme
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "30"
-  description: Name of selected theme (from themes/ directory).
   value: aqueouslight
+  description: Name of selected theme (from themes/ directory).
+  global: false
   section: Appearance
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000029: 
   name: Super Admins
-  updated_at: 2007-12-18 10:33:25
   format: list
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "29"
-  description: Email addresses of people who are the super admins
   value: |
     --- 
     - admin@example.com
 
+  description: Email addresses of people who are the super admins
+  global: false
   section: Access
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000018: 
   name: Church Office Phone
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "18"
-  description: Phone number for the church office
   value: (123) 456-7890
+  description: Phone number for the church office
+  global: false
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000007: 
   name: Sidebar Group Heading
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "7"
-  description: Heading to show above people in mutual groups (see above setting)
   value: Small Group
+  description: Heading to show above people in mutual groups (see above setting)
+  global: false
   section: Features
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000031: 
   name: Standalone Use
-  updated_at: 2007-12-20 14:36:33
   format: boolean
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "31"
+  value: true
   description: If enabled, OneBody is expected to be your church's main membership database, i.e. you can edit people and family data directly.
-  value: "1"
+  global: false
   section: Features
-  created_at: 2007-12-20 14:36:33
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000020: 
   name: Send Email Changes To
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "20"
-  description: Email sent when someone changes their email address (can be blank for no email)
   value: admin@imaginarychurch.com
+  description: Email sent when someone changes their email address (can be blank for no email)
+  global: false
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000019: 
   name: Send Updates To
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "19"
-  description: Email sent when someone updates their profile (can be blank for no email)
   value: admin@imaginarychurch.com
+  description: Email sent when someone updates their profile (can be blank for no email)
+  global: false
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000008: 
   name: Banner Message
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "8"
-  description: Message to display across top of all pages on site (HTML), like an alert
   value: 
+  description: Message to display across top of all pages on site (HTML), like an alert
+  global: false
   section: Features
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000032: 
   name: Genders
-  updated_at: 2007-12-21 10:07:57
   format: list
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "32"
-  description: ""
   value: |
     --- 
     - Male
@@ -295,45 +351,53 @@ settings_000032:
     - Boy
     - Girl
 
+  description: ""
+  global: false
   section: System
-  created_at: 2007-12-21 10:07:57
-  hidden: "1"
+  hidden: true
+  created_at: 2008-01-26 15:21:06
 settings_000021: 
   name: Birthday Verification Email
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "21"
-  description: Email sent when someone requests verification via birthday (shouldn't be blank)
   value: admin@imaginarychurch.com
+  description: Email sent when someone requests verification via birthday (shouldn't be blank)
+  global: false
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000010: 
   name: Visitor
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "10"
-  description: URL for main website (visitors will be pointed here if they happen across the member site.)
   value: http://imaginarychurch.com
+  description: URL for main website (visitors will be pointed here if they happen across the member site.)
+  global: false
   section: URL
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000009: 
   name: Site
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "9"
-  description: URL for this site (including the trailing slash please)
   value: http://imaginaryfamily.com/
+  description: URL for this site (including the trailing slash please)
+  global: false
   section: URL
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000033: 
   name: Suffixes
-  updated_at: 2007-12-21 10:07:57
   format: list
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "33"
-  description: ""
   value: |
     --- 
     - Jr.
@@ -341,26 +405,32 @@ settings_000033:
     - II
     - III
 
+  description: ""
+  global: false
   section: System
-  created_at: 2007-12-21 10:07:57
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000022: 
   name: Church Email
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "22"
-  description: Visible in some places on site
   value: info@imaginarychurch.com
+  description: Visible in some places on site
+  global: false
   section: Contact
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06
 settings_000011: 
   name: News
-  updated_at: 2007-12-18 10:33:25
   format: string
+  updated_at: 2008-01-26 15:21:06
+  site_id: "1"
   id: "11"
-  description: URL for church news (people will be pointed here for news)
   value: http://imaginarychurch.com/news
+  description: URL for church news (people will be pointed here for news)
+  global: false
   section: URL
-  created_at: 2007-12-18 10:33:25
   hidden: false
+  created_at: 2008-01-26 15:21:06

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: comments
 #
@@ -14,6 +14,7 @@
 #  news_item_id :integer       
 #  song_id      :integer       
 #  note_id      :integer       
+#  site_id      :integer       
 #
 
 class Comment < ActiveRecord::Base
@@ -24,7 +25,9 @@ class Comment < ActiveRecord::Base
   belongs_to :news_item
   belongs_to :song
   belongs_to :note
-  #belongs_to :picture # not for now
+  belongs_to :site
+
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
     
   def on
     verse || event || recipe || news_item || song || note

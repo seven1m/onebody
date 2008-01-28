@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: events
 #
@@ -12,6 +12,7 @@
 #  open        :boolean       
 #  admins      :text          
 #  updated_at  :datetime      
+#  site_id     :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

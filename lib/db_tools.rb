@@ -17,3 +17,7 @@ end
 def sql_day(expr)
   SQLITE ? "CAST(STRFTIME('%d', #{expr}) as 'INTEGER')" : "DAY(#{expr})"
 end
+
+def sql_now
+  SQLITE ? "CURRENT_TIMESTAMP" : "NOW()"
+end

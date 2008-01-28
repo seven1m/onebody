@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: groups
 #
@@ -21,6 +21,7 @@
 #  approved     :boolean       
 #  link_code    :string(255)   
 #  parents_of   :integer       
+#  site_id      :integer       
 #
 
 class Group < ActiveRecord::Base
@@ -32,6 +33,9 @@ class Group < ActiveRecord::Base
   has_many :prayer_requests, :order => 'created_at desc'
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   #has_and_belongs_to_many :tags, :order => 'name'
   
   validates_presence_of :name
@@ -43,7 +47,7 @@ class Group < ActiveRecord::Base
     
   def validate
     begin
-      errors.add('parents_of', 'cannot point to self') if parents_of == id
+      errors.add('parents_of', 'cannot point to self') if not new_record? and parents_of == id
     rescue
       puts 'error checking for self-referencing parents_of (OK if you are migrating)'
     end
@@ -121,6 +125,6 @@ class Group < ActiveRecord::Base
   alias_method 'can_post?', 'can_send?'
   
   def full_address
-    address.to_s.any? ? (address + '@' + SETTINGS['contact']['group_address_domains'].first) : nil
+    address.to_s.any? ? (address + '@' + Setting.get(:contact, :group_address_domains).first) : nil
   end
 end

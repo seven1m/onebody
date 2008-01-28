@@ -4,7 +4,7 @@ class FriendshipTest < Test::Unit::TestCase
   fixtures :friendships, :people
   
   def setup
-    SETTINGS['features']['friends'] = true
+    Setting.set(1, 'Features', 'Friends', true)
   end
   
   def test_friendship_creation

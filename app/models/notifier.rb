@@ -1,21 +1,21 @@
 class Notifier < ActionMailer::Base
   def profile_update(person, updates)
-    recipients SETTINGS['contact']['send_updates_to']
-    from SETTINGS['contact']['system_noreply_email']
+    recipients Setting.get(:contact, :send_updates_to)
+    from Site.current.noreply_email
     subject "Profile Update from #{person.name}."
     body :person => person, :updates => updates
   end
   
   def email_update(person)
-    recipients SETTINGS['contact']['send_email_changes_to']
-    from SETTINGS['contact']['system_noreply_email']
+    recipients Setting.get(:contact, :send_email_changes_to)
+    from Site.current.noreply_email
     subject "#{person.name} Changed Email"
     body :person => person
   end
   
   def friend_request(person, friend)
     recipients "#{friend.name} <#{friend.email}>"
-    from SETTINGS['contact']['system_noreply_email']
+    from Site.current.noreply_email
     subject "Friend Request from #{person.name}"
     body :person => person, :friend => friend
   end
@@ -23,11 +23,11 @@ class Notifier < ActionMailer::Base
   def membership_request(group, person)
     unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
       unless (to = Admin.find_all_by_manage_updates(true).map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
-        to = SETTINGS['access']['super_admins']
+        to = Setting.get(:access, :super_admins)
       end
     end
     recipients to
-    from person.email.to_s.any? ? "#{person.name} <#{person.email}>" : SETTINGS['contact']['system_noreply_email']
+    from person.email.to_s.any? ? "#{person.name} <#{person.email}>" : Site.current.noreply_email
     subject "Request to Join Group from #{person.name}"
     body :person => person, :group => group
   end
@@ -38,20 +38,20 @@ class Notifier < ActionMailer::Base
     h = {'Reply-To' => msg.email_reply_to(to)}
     if msg.group
       h.update(
-        'List-ID' => "#{msg.group.name} group on #{SETTINGS['name']['site']} <#{msg.group.address}.#{SETTINGS['url']['site']}>",
-        'List-Help' => "<#{SITE_URL}groups/view/#{msg.group.id}>",
-        'List-Unsubscribe' => "<#{SITE_URL}groups/toggle_email/#{msg.group.id}?person_id=#{to.id}&code=#{msg.group.get_options_for(to, true).code}>",
-        'List-Post' => (msg.group.can_post?(to) ? "<#{SITE_URL}groups/view/#{msg.group.id}>" : 'NO (you are not allowed to post to this list)'),
-        'List-Archive' => "<#{SITE_URL}groups/view/#{msg.group.id}>"
+        'List-ID' => "#{msg.group.name} group on #{Setting.get(:name, :site)} <#{msg.group.address}.#{Setting.get(:url, :site)}>",
+        'List-Help' => "<#{Setting.get(:url, :site)}groups/view/#{msg.group.id}>",
+        'List-Unsubscribe' => "<#{Setting.get(:url, :site)}groups/toggle_email/#{msg.group.id}?person_id=#{to.id}&code=#{msg.group.get_options_for(to, true).code}>",
+        'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/view/#{msg.group.id}>" : 'NO (you are not allowed to post to this list)'),
+        'List-Archive' => "<#{Setting.get(:url, :site)}groups/view/#{msg.group.id}>"
       )
       if msg.group.leader
-        h.update 'List-Owner' => "<#{SITE_URL}>people/view/#{msg.person.id}> (#{msg.person.name})"
+        h.update 'List-Owner' => "<#{Setting.get(:url, :site)}>people/view/#{msg.person.id}> (#{msg.person.name})"
       end
       #if GROUP_LEADER_EMAIL and GROUP_LEADER_NAME
       #  h.update 'List-Owner' => "<mailto:#{GROUP_LEADER_EMAIL}> (#{GROUP_LEADER_NAME})"
       #end
       if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
-        h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + SETTINGS['contact']['group_address_domains'].first}>"
+        h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Setting.get(:contact, :group_address_domains).first}>"
       end
     end
     headers h
@@ -66,7 +66,7 @@ class Notifier < ActionMailer::Base
     end
   end
 
-  def simple_message(t, s, b, f=SETTINGS['contact']['system_noreply_email'])
+  def simple_message(t, s, b, f=Site.current.noreply_email)
     recipients t
     from f
     subject s
@@ -75,27 +75,27 @@ class Notifier < ActionMailer::Base
 
   def prayer_reminder(person, times)
     recipients person.email
-    from SETTINGS['contact']['system_noreply_email']
+    from Site.current.noreply_email
     subject "24-7 Prayer: Don't Forget!"
     body :times => times
   end
   
   def email_verification(verification)
     recipients verification.email
-    from SETTINGS['contact']['system_noreply_email']
+    from Site.current.noreply_email
     subject "Verify Email"
     body :verification => verification
   end
   
   def mobile_verification(verification)
     recipients verification.email
-    from SETTINGS['contact']['system_noreply_email']
+    from Site.current.noreply_email
     subject "Verify Mobile"
     body :verification => verification
   end
   
   def birthday_verification(params)
-    recipients SETTINGS['contact']['birthday_verification_email']
+    recipients Setting.get(:contact, :birthday_verification_email)
     from params[:email]
     subject "Birthday Verification"
     body params
@@ -124,7 +124,7 @@ class Notifier < ActionMailer::Base
     if person
       (email.cc.to_a + email.to.to_a).each do |address|
         address, domain = address.downcase.split('@')
-        if SETTINGS['contact']['group_address_domains'].include? domain.to_s.strip.downcase
+        if Setting.get(:contact, :group_address_domains).include? domain.to_s.strip.downcase
           address = address.to_s.strip
           if address.any? and group = Group.find_by_address(address.downcase) and group.can_send? person
             # if is this a reply, link this message to its original based on the subject
@@ -155,7 +155,7 @@ class Notifier < ActionMailer::Base
               if message.errors.any?
                 if message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
                   # notify user there were some errors
-                  Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SETTINGS['name']['site']} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{SETTINGS['contact']['tech_support_contact']}.")
+                  Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
                 end
               else
                 if email.has_attachments?
@@ -175,7 +175,7 @@ class Notifier < ActionMailer::Base
               end
             else
               # notify the sender of the failure and ask to resend as plain text
-              Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SETTINGS['name']['site']} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{SETTINGS['contact']['tech_support_contact']}.")
+              Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
             end
           
           # send to the parents (don't save the message -- just send it raw)
@@ -204,7 +204,7 @@ class Notifier < ActionMailer::Base
             if message and Digest::MD5.hexdigest(message.code.to_s)[0..5] == code_hash
               if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)
                 # notify the sender that the message they're replying to is too old
-                Notifier.deliver_simple_message(email.from, 'Message Too Old', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the message to which you're replying is too old. This is to prevent unsolicited email to our users. If you wish to send a message to this person, please sign into #{SITE_URL} and send the message via the web site. If you need help, please contact #{SETTINGS['contact']['tech_support_contact']}.")
+                Notifier.deliver_simple_message(email.from, 'Message Too Old', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the message to which you're replying is too old. This is to prevent unsolicited email to our users. If you wish to send a message to this person, please sign into #{Setting.get(:url, :site)} and send the message via the web site. If you need help, please contact #{Setting.get(:contact, :tech_support_contact)}.")
               else
                 to_person = message.person
                 # if the message is multipart, try to grab the plain text part
@@ -225,11 +225,11 @@ class Notifier < ActionMailer::Base
                   )
                   if message.errors.any? and message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
                     # notify user there were some errors
-                    Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SETTINGS['name']['site']} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{SETTINGS['contact']['tech_support_contact']}.")
+                    Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
                   end
                 else
                   # notify the sender of the failure and ask to resend as plain text
-                  Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SETTINGS['name']['site']} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may send your message directly from the site after signing into #{SITE_URL}. If you continue to have trouble, please contact #{SETTINGS['contact']['tech_support_contact']}.")
+                  Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may send your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
                 end
               end
             end
@@ -240,14 +240,14 @@ class Notifier < ActionMailer::Base
       valid = false
       begin
         email.to.each do |address|
-          valid = true if SETTINGS['contact']['group_address_domains'].include?(address.downcase.split('@').last) and email.from !~ /MAILER.DAEMON/
+          valid = true if Setting.get(:contact, :group_address_domains).include?(address.downcase.split('@').last) and email.from !~ /MAILER.DAEMON/
         end
       rescue
         # do nothing
       end
       #if valid and email.from.to_s !~ /daemon/i and email.from.to_s !~ /no\-reply/i and email.from.to_s !~ /postmaster/i and email.subject.to_s !~ /user\sunknown/i and email.subject !~ /returned mail/i and email.subject !~ /failure notice/i
       #  # notify user we couldn't determine who they are
-      #  Notifier.deliver_simple_message(email.from, 'User Unknown', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{SETTINGS['name']['site']} site cannot determine who you are based on your email address. Please send email from the address we have in the system for you, or you may post your message directly from the site after signing into #{SITE_URL}. If you send from this address often, you may sign into the site and add this address as your secondary email. If you continue to have trouble, please contact #{SETTINGS['contact']['tech_support_contact']}.")
+      #  Notifier.deliver_simple_message(email.from, 'User Unknown', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot determine who you are based on your email address. Please send email from the address we have in the system for you, or you may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you send from this address often, you may sign into the site and add this address as your secondary email. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
       #end
     end
   end

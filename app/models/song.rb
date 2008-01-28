@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: songs
 #
@@ -15,6 +15,7 @@
 #  amazon_url       :string(255)   
 #  created_at       :datetime      
 #  person_id        :integer       
+#  site_id          :integer       
 #
 
 class Song < ActiveRecord::Base
@@ -25,6 +26,9 @@ class Song < ActiveRecord::Base
   has_many :attachments, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_and_belongs_to_many :tags
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   validates_presence_of :title
     
@@ -41,7 +45,7 @@ class Song < ActiveRecord::Base
   def lookup
     return if amazon_asin.to_s.empty?
     begin
-      req = Amazon::Search::Request.new(SETTINGS['services']['amazon'])
+      req = Amazon::Search::Request.new(Setting.get(:services, :amazon))
       product = req.asin_search(amazon_asin).products.first
       #self.artists = product.artists.join(', ')
       #self.album = product.product_name
@@ -76,7 +80,7 @@ class Song < ActiveRecord::Base
   
   class << self
     def search(query)
-      req = Amazon::Search::Request.new(SETTINGS['services']['amazon'])
+      req = Amazon::Search::Request.new(Setting.get(:services, :amazon))
       if query.is_a? String
         req.asin_search(query).products.first rescue nil
       elsif query.is_a? Hash

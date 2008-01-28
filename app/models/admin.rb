@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: admins
 #
@@ -24,12 +24,16 @@
 #  manage_updates         :boolean       
 #  created_at             :datetime      
 #  updated_at             :datetime      
+#  site_id                :integer       
 #
 
 class Admin < ActiveRecord::Base
   has_one :person
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   def self.privilege_columns
-    columns.select { |c| !['id', 'created_at', 'updated_at'].include? c.name }
+    columns.select { |c| !%w(id created_at updated_at).include? c.name }
   end
 end

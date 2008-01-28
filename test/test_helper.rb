@@ -26,11 +26,13 @@ class Test::Unit::TestCase
 
   # Add more helper methods to be used by all tests here...
   def sign_in_as(person, password='secret')
-    SETTINGS['features']['ssl'] = true
+    Setting.set(nil, 'Features', 'SSL', true)
     post '/account/sign_in', :email => person.email, :password => password
     assert_redirected_to :controller => 'people', :action => 'index'
     follow_redirect!
     assert_template 'people/view'
     assert_select 'h1', Regexp.new(person.name)
   end
+  
+  fixtures :all
 end

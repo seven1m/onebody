@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: events
 #
@@ -12,6 +12,7 @@
 #  open        :boolean       
 #  admins      :text          
 #  updated_at  :datetime      
+#  site_id     :integer       
 #
 
 class Event < ActiveRecord::Base
@@ -20,6 +21,10 @@ class Event < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_and_belongs_to_many :verses, :order => 'reference'
   belongs_to :person
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  
   serialize :admins
   
   acts_as_logger LogItem

@@ -97,7 +97,7 @@ class AdminController < ApplicationController
     raise 'Unauthorized' unless @logged_in.admin?(:manage_updates)
     @update = Update.find params[:id]
     @update.toggle! :complete
-    if @update.complete and SETTINGS['features']['standalone_use']
+    if @update.complete and Setting.get(:features, :standalone_use)
       unless @update.do!
         flash[:warning] = 'There was an error saving this update.'
       end

@@ -1,7 +1,7 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
                        xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-<ShortName><%= SETTINGS['name']['site'] %> Search</ShortName>
-<Description>Search for people on <%= SETTINGS['url']['site'] %></Description>
+<ShortName><%= Setting.get(:name, :site) %> Search</ShortName>
+<Description>Search for people on <%= Setting.get(:url, :site) %></Description>
 <InputEncoding>utf-8</InputEncoding>
 <% if nil # no onebody icon yet %>
 <Image width="16" height="16">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABSklEQVR42p3SzYvOYRTG8c9jBonomsYgL5FYSlOyYbKVFFlTSt428wdY+wtYKrEYyliQZqFs7JmE0mRlISmdHUkZm3uKX88zv3J2p3Nd5/6ec+6BIZFkO2ZxGpN4jitV9aOrHQwxz+ARpjqlU1W10NWv6Zi3YR5b8QS3W+kb3gyjHe/kFzCBy3iNF3iP8zicZGNVLY0kwEE8rao72IermK6qRbzFzT6CL+1FVfW4jTX4SzuTZH1V/RxFMIc9zXggyX28SjKGa02z3HeFQ9iFh/iOsziJG7hbVZf6GozhI/biEza0qyzheFV9XW2J8HtlD22cSTzDia55KEGjmMA77MA9XKyq5d5/kGRdQ5/Ch9bg8yjzPwRJZnEUW7AZO7Ebv7CAW3jZbTawSiTZhCPtCuewiOvDdtEbSdYmOZPkQZL9/jeSjCc5tpL/AcTxYB5QOd5qAAAAAElFTkSuQmCC</Image>

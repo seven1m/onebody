@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: people
 #
@@ -68,6 +68,7 @@
 #  legacy_family_id             :integer       
 #  feed_code                    :string(50)    
 #  share_activity               :boolean       
+#  site_id                      :integer       
 #
 
 class Person < ActiveRecord::Base
@@ -96,6 +97,9 @@ class Person < ActiveRecord::Base
   has_many :friendship_requests
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :prayer_requests, :order => 'created_at desc'
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
     
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES
@@ -343,8 +347,8 @@ class Person < ActiveRecord::Base
   end
   
   def sidebar_groups
-    SETTINGS['features']['sidebar_group_category'] && \
-      groups.select { |g| g.category.to_s.downcase == SETTINGS['features']['sidebar_group_category'].downcase }
+    Setting.get(:features, :sidebar_group_category) && \
+      groups.select { |g| g.category.to_s.downcase == Setting.get(:features, :sidebar_group_category).downcase }
   end
   
   def sidebar_group_people
@@ -401,6 +405,7 @@ class Person < ActiveRecord::Base
         update_attributes(params[:person]) && family.update_attributes(params[:family])
       else
         Update.create_from_params(params, self)
+        self
       end
     else # testimony, about, favorites, etc.
       params[:person][:service_phone] = params[:person][:service_phone].digits_only if params[:person][:service_phone]
@@ -410,7 +415,7 @@ class Person < ActiveRecord::Base
   
   def recently_tab_items
     friend_ids = [id]
-    friend_ids += friends.find(:all, :select => 'people.id').map { |f| f.id } if SETTINGS['features']['friends']
+    friend_ids += friends.find(:all, :select => 'people.id').map { |f| f.id } if Setting.get(:features, :friends)
     group_ids = groups.select { |g| !g.hidden? }.map { |g| g.id }
     group_ids = [0] unless group_ids.any?
     LogItem.find(

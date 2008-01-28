@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: families
 #
@@ -30,10 +30,12 @@
 #  wall_enabled       :boolean       default(TRUE)
 #  visible            :boolean       default(TRUE)
 #  share_activity     :boolean       default(TRUE)
+#  site_id            :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 morgan:
+  site_id: 1
   id: 1
   name: Tim & Jennie Morgan
   last_name: Morgan
@@ -44,6 +46,7 @@ morgan:
   home_phone: 9181234567
   wall_enabled: true
 smith:
+  site_id: 1
   id: 2
   name: Jeremy & Jane Smith
   last_name: Smith
@@ -54,7 +57,30 @@ smith:
   home_phone: 9181234567
   wall_enabled: true
 jones:
+  site_id: 1
   id: 3
   name: Peter Jones
   last_name: Jones
+  wall_enabled: true
+morgan1:
+  site_id: 2
+  id: 4
+  name: Jim & Jennie Morgan
+  last_name: Morgan
+  address1: 123 S Peoria
+  city: Tulsa
+  state: OK
+  zip: 74111
+  home_phone: 9181234567
+  wall_enabled: true
+morgan2:
+  site_id: 3
+  id: 5
+  name: Tom & Jennie Morgan
+  last_name: Morgan
+  address1: 123 S Peoria
+  city: Tulsa
+  state: OK
+  zip: 74111
+  home_phone: 9181234567
   wall_enabled: true

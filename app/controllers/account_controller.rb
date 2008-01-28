@@ -4,9 +4,10 @@ class AccountController < ApplicationController
   before_filter :check_ssl, :except => [:sign_out, :verify_code]
 
   def sign_in
-    @salt = session_salt unless SETTINGS['features']['ssl']
+    flash[:warning] = 'There are no users in the system.' unless Person.count > 0
+    @salt = session_salt unless Setting.get(:features, :ssl)
     if request.post?
-      if person = Person.authenticate(params[:email], SETTINGS['features']['ssl'] ? params[:password] : params[:password_encrypted], :encrypted => !SETTINGS['features']['ssl'], :salt => @salt)
+      if person = Person.authenticate(params[:email], Setting.get(:features, :ssl) ? params[:password] : params[:password_encrypted], :encrypted => !Setting.get(:features, :ssl), :salt => @salt)
         unless person.can_sign_in?
           redirect_to :controller => 'help', :action => 'unauthorized', :protocol => 'http://'
           return
@@ -178,7 +179,7 @@ class AccountController < ApplicationController
 
   private
     def check_ssl
-      unless request.ssl? or RAILS_ENV != 'production' or !SETTINGS['features']['ssl']
+      unless request.ssl? or RAILS_ENV != 'production' or !Setting.get(:features, :ssl)
         redirect_to :protocol => 'https://', :from => params[:from]
         return
       end

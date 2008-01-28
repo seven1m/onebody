@@ -41,7 +41,7 @@
     <p>
       <%= form.label :first_name %>  <%= form.text_field :first_name %><br/>
       <%= form.label :last_name %>   <%= form.text_field :last_name %><br/>
-      <%= form.label :gender %>      <%= form.select :gender, SETTINGS['system']['genders'] %><br/>
+      <%= form.label :gender %>      <%= form.select :gender, Setting.get(:system, :genders) %><br/>
       <%= form.label :email %>       <%= form.text_field :email %><br/>
       <%= submit_tag 'Add Person' %>
     </p>

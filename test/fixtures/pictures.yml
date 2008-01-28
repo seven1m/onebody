@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: pictures
 #
@@ -9,6 +9,7 @@
 #  created_at :datetime      
 #  cover      :boolean       
 #  updated_at :datetime      
+#  site_id    :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

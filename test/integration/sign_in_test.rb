@@ -4,7 +4,7 @@ class SignInTest < ActionController::IntegrationTest
   fixtures :people
 
   def test_sign_in
-    SETTINGS['features']['ssl'] = true
+    Setting.set(nil, 'Features', 'SSL', true)
     get '/'
     assert_redirected_to :controller => 'account', :action => 'sign_in'
     follow_redirect!
@@ -19,7 +19,7 @@ class SignInTest < ActionController::IntegrationTest
   end
   
   def test_email_address_sharing_among_family_members
-    SETTINGS['features']['ssl'] = true
+    Setting.set(nil, 'Features', 'SSL', true)
     # tim
     post '/account/sign_in', :email => people(:tim).email, :password => 'secret'
     assert_redirected_to :controller => 'people', :action => 'index'

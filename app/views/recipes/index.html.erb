@@ -7,7 +7,7 @@
 
 <h1>Recipes</h1>
 
-<p>Share your favorite recipes with the <%= SETTINGS['name']['church'] %> family.</p>
+<p>Share your favorite recipes with the <%= Setting.get(:name, :church) %> family.</p>
 
 <%= render :partial => 'shares/subnav' %>
 

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: verses
 #
@@ -12,6 +12,7 @@
 #  book        :integer       
 #  chapter     :integer       
 #  verse       :integer       
+#  site_id     :integer       
 #
 
 require 'net/http'
@@ -21,6 +22,10 @@ class Verse < ActiveRecord::Base
   has_and_belongs_to_many :tags, :order => 'name'
   has_many :comments, :dependent => :destroy
   has_and_belongs_to_many :events
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  
   acts_as_logger LogItem
     
   def admin?(person)

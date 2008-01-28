@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: news_items
 #
@@ -9,10 +9,14 @@
 #  body      :text          
 #  published :datetime      
 #  active    :boolean       default(TRUE)
+#  site_id   :integer       
 #
 
 class NewsItem < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   def name; title; end
   def created_at; published; end
@@ -36,8 +40,8 @@ class NewsItem < ActiveRecord::Base
     end  
     
     def get_feed_items
-      if SETTINGS['url']['news_rss']
-        xml = Net::HTTP.get(URI.parse(SETTINGS['url']['news_rss']))
+      if Setting.get(:url, :news_rss)
+        xml = Net::HTTP.get(URI.parse(Setting.get(:url, :news_rss)))
         root = REXML::Document.new(xml).root
         root.elements.to_a('item')
       end

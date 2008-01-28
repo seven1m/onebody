@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: verifications
 #
@@ -10,9 +10,13 @@
 #  verified     :boolean       
 #  created_at   :datetime      
 #  updated_at   :datetime      
+#  site_id      :integer       
 #
 
 class Verification < ActiveRecord::Base
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
 
   # generates security code
   def before_create

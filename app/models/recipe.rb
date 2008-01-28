@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: recipes
 #
@@ -16,6 +16,7 @@
 #  bake         :string(255)   
 #  serving_size :integer       
 #  event_id     :integer       
+#  site_id      :integer       
 #
 
 class Recipe < ActiveRecord::Base
@@ -24,6 +25,9 @@ class Recipe < ActiveRecord::Base
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
   belongs_to :event
   has_and_belongs_to_many :tags
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   validates_presence_of :title
   validates_presence_of :ingredients

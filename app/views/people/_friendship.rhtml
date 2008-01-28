@@ -1,4 +1,4 @@
-    <% if SETTINGS['features']['friends'] %>
+    <% if Setting.get(:features, :friends) %>
       <% if @logged_in.friend? @person %>
         <li><%= link_to 'Remove from Friends', remove_friend_url(:id => @person), :method => :post, :confirm => 'Are you sure?' %></li>
       <% elsif @logged_in.can_request_friendship_with?(@person) %>

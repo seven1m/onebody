@@ -1,7 +1,7 @@
 <h1>Safeguarding Children</h1>
 
 <p>
-  We take the safety of children online very seriously. <%= SETTINGS['name']['church'] %> has
+  We take the safety of children online very seriously. <%= Setting.get(:name, :church) %> has
   taken several measures to ensure this site is never utilized in a manner
   that is harmful to anyone, especially children. This page is here to tell
   you what we've done, and to inform you of your options for further
@@ -16,7 +16,7 @@
 <h2>Site Access: <span class="gray">Who can sign into this site?</span></h2>
 
 <p>
-  Only members and regular attenders of <%= SETTINGS['name']['church'] %> are given access
+  Only members and regular attenders of <%= Setting.get(:name, :church) %> are given access
   to this site. In order to gain access, church-goers must demonstrate a
   certain level of commitment to the church and to attending regularly.
   All visitors to the church must have had some contact with church staff

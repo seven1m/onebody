@@ -4,7 +4,7 @@ class FriendTest < ActionController::IntegrationTest
   fixtures :people, :families, :friendships, :friendship_requests
   
   def setup
-    SETTINGS['features']['friends'] = true
+    Setting.set(1, 'Features', 'Friends', true)
   end
 
   def view_profile(person)

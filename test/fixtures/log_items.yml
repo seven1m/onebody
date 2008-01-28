@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: log_items
 #
@@ -16,6 +16,7 @@
 #  flagged_on  :datetime      
 #  flagged_by  :string(255)   
 #  deleted     :boolean       
+#  site_id     :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

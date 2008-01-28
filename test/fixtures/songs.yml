@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: songs
 #
@@ -15,6 +15,7 @@
 #  amazon_url       :string(255)   
 #  created_at       :datetime      
 #  person_id        :integer       
+#  site_id          :integer       
 #
 
 

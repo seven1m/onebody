@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: prayer_requests
 #
@@ -11,11 +11,15 @@
 #  answered_at :datetime      
 #  created_at  :datetime      
 #  updated_at  :datetime      
+#  site_id     :integer       
 #
 
 class PrayerRequest < ActiveRecord::Base
   belongs_to :group
   belongs_to :person
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   acts_as_logger LogItem
   

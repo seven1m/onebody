@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: notes
 #
@@ -12,12 +12,16 @@
 #  original_url :string(255)   
 #  deleted      :boolean       
 #  group_id     :integer       
+#  site_id      :integer       
 #
 
 class Note < ActiveRecord::Base
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
   belongs_to :group
   has_many :comments, :dependent => :destroy
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   acts_as_logger LogItem
   

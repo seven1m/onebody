@@ -36,7 +36,7 @@
       <% if @show_birthdays %>
         <th>Birthday</th>
       <% end %>
-      <% if SETTINGS['features']['show_mail_group'] and @logged_in.admin? %>
+      <% if Setting.get(:features, :show_mail_group) and @logged_in.admin? %>
         <th>Mail Group</th>
       <% end %>
     </tr>
@@ -71,11 +71,11 @@
         <% if @show_birthdays %>
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
         <% end %>
-        <% if SETTINGS['features']['show_mail_group'] and @logged_in.admin? %>
+        <% if Setting.get(:features, :show_mail_group) and @logged_in.admin? %>
           <td><%= h(person.mail_group) %></td>
         <% end %>
         <td>
-          <% if SETTINGS['features']['friends'] and @logged_in.can_request_friendship_with?(person) and @logged_in != person %>
+          <% if Setting.get(:features, :friends) and @logged_in.can_request_friendship_with?(person) and @logged_in != person %>
             <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon'), {:url => add_friend_url(:id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
           <% end %>
         </td>

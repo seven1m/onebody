@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: friendship_requests
 #
@@ -8,11 +8,15 @@
 #  from_id    :integer       
 #  rejected   :boolean       
 #  created_at :datetime      
+#  site_id    :integer       
 #
 
 class FriendshipRequest < ActiveRecord::Base
   belongs_to :person
   belongs_to :from, :class_name => 'Person', :foreign_key => 'from_id'
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   validates_presence_of :person_id
   validates_presence_of :from_id

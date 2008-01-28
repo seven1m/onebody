@@ -52,7 +52,7 @@ class PeopleController < ApplicationController
   
   def edit
     @service_categories = Person.find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
-    @can_edit_basics = SETTINGS['features']['standalone_use'] && @logged_in.admin?(:edit_profiles)
+    @can_edit_basics = Setting.get(:features, :standalone_use) && @logged_in.admin?(:edit_profiles)
     if request.post?
       if @logged_in.account_frozen?
         render :text => "Your account has been frozen due to misuse.", :layout => true
@@ -69,7 +69,7 @@ class PeopleController < ApplicationController
   end
   
   def delete
-    if request.post? and SETTINGS['features']['standalone_use'] and @logged_in.admin?(:edit_profiles)
+    if request.post? and Setting.get(:features, :standalone_use) and @logged_in.admin?(:edit_profiles)
       family = Person.find(params[:id]).destroy.family
       redirect_to params[:return_to] || family_path(:id => family)
     end

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: recipes
 #
@@ -16,6 +16,7 @@
 #  bake         :string(255)   
 #  serving_size :integer       
 #  event_id     :integer       
+#  site_id      :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

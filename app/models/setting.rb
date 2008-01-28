@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: settings
 #
@@ -12,10 +12,22 @@
 #  hidden      :boolean       
 #  created_at  :datetime      
 #  updated_at  :datetime      
+#  site_id     :integer       
+#  global      :boolean       
 #
 
 class Setting < ActiveRecord::Base
+  GLOBAL_SETTINGS = [
+    'Email.Host', 'Email.Domain',
+    'Contact.Tech Support Email', 'Contact.Tech Support Contact', 'Contact.Bug Notification Email',
+    'Services.Yahoo', 'Services.Amazon', 'Services.Analytics',
+    'Features.Multisite', 'Features.SSL'
+  ]
+  
   serialize :value
+  belongs_to :site
+  
+  cattr_accessor :current
   
   def value
     v = read_attribute(:value)
@@ -24,24 +36,60 @@ class Setting < ActiveRecord::Base
   
   def value?; value; end
   
-  def self.load_settings
-    load_settings_from_array find(:all).map { |s| [s.section, s.name, s.value] }
-    update_template_view_paths
-  end
-  
-  def self.load_settings_from_array(settings)
-    settings.each do |section, name, value, format|
-      section_name = section.downcase.gsub(/\s/, '_')
-      setting_name = name.downcase.gsub(/\s/, '_')
-      SETTINGS[section_name] ||= {}
-      SETTINGS[section_name][setting_name] = (format == 'list' ? YAML::load(value) : value)
+  class << self
+    @@settings = nil
+    
+    def get(section, name)
+      precache_settings unless @@settings
+      return nil unless @@settings
+      section, name = section.to_s, name.to_s
+      if global?(section, name)
+        @@settings[0][section][name]
+      else
+        if Site.current
+          if @@settings[Site.current.id][section]
+            @@settings[Site.current.id][section][name]
+          else
+            nil
+          end
+        else
+          raise "Site.current is not set so Setting.get(:#{section}, :#{name}) failed."
+        end
+      end
     end
-  end
-  
-  def self.update_template_view_paths
-    if SETTINGS['appearance'] and SETTINGS['appearance']['theme']
-      ActionController::Base.view_paths.delete_if { |p| p =~ /themes/ }
-      ActionController::Base.view_paths.unshift File.join(RAILS_ROOT, 'themes', SETTINGS['appearance']['theme'])
+    
+    def global?(section, name)
+      Setting::GLOBAL_SETTINGS.map { |s| s.split('.').map { |p| p.underscore.gsub(' ', '_') } }.include? [section, name]
+    end
+    
+    def delete(section, name) # must be proper case section and name
+      raise 'Must be proper case string' if name.is_a? Symbol
+      find_by_section_and_name(section, name).destroy rescue nil
+    end
+    
+    def set(site_id, section, name, value) # must be proper case section and name
+      raise 'Must be proper case string' if name.is_a? Symbol
+      if setting = find_by_site_id_and_section_and_name(site_id, section, name)
+        setting.update_attributes! :value => value
+      else
+        raise "No setting found for #{section}/#{name}."
+      end
+      precache_settings(true)
+    end
+    
+    def precache_settings(fresh=false)
+      return if @@settings and not fresh
+      return unless table_exists?
+      @@settings = {}
+      find(:all).each do |setting|
+        site_id = setting.global? ? 0 : setting.site_id
+        section = setting.section.downcase.gsub(/\s/, '_')
+        name = setting.name.downcase.gsub(/\s/, '_')
+        @@settings[site_id] ||= {}
+        @@settings[site_id][section] ||= {}
+        @@settings[site_id][section][name] = setting.value
+      end
+      @@settings
     end
   end
 end

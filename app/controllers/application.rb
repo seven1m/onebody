@@ -5,19 +5,47 @@ class ApplicationController < ActionController::Base
 
   layout 'default'
   
+  before_filter :get_site
   before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'news_feed']
-    
+  
   private
+    def get_site
+      if Setting.get(:features, :multisite)
+        Site.current = Site.find_by_host(request.host)
+      else
+        Site.current = Site.find(1) or raise 'No Default site found.'
+      end
+      if Site.current
+        update_view_paths
+      else
+        render :text => 'There is no site configured at this address: ' + request.host
+        return false
+      end
+    end
+    
+    def update_view_paths
+      self.view_paths = [File.join(RAILS_ROOT, 'themes', Setting.get(:appearance, :theme))] + ActionController::Base.view_paths
+    end
+  
     def authenticate_user
       return true if params[:controller] == 'help' # ignore entire help_controller
       if id = session[:logged_in_id]
-        person = Person.find(id)
+        unless person = Person.find_by_id(id)
+          session[:logged_in_id] = nil
+          redirect_to :controller => 'account', :action => 'sign_in'
+          return false
+        end
         unless person.can_sign_in?
           session[:logged_in_id] = nil
           redirect_to :controller => 'account', :action => 'bad_status'
           return false
         end
         Person.logged_in = @logged_in = person
+        if Site.current.id != @logged_in.site_id
+          session[:logged_in_id] = nil
+          redirect_to :controller => 'account', :action => 'sign_in'
+          return false
+        end
         unless @logged_in.email
           redirect_to :controller => 'account', :action => 'change_email_and_password'
           return false
@@ -72,3 +100,17 @@ class ApplicationController < ActionController::Base
       end
     end
 end
+
+# UGLY
+# module ActionController
+#   class Dispatcher
+#     cattr_accessor :cgi
+#     class << self
+#       alias_method :rails_original_dispatch, :dispatch
+#       def dispatch(cgi = nil, *args)
+#         ActionController::Dispatcher.cgi = cgi
+#         rails_original_dispatch(cgi, *args)
+#       end
+#     end
+#   end
+# end

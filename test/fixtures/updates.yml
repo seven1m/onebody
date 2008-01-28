@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: updates
 #
@@ -24,11 +24,13 @@
 #  gender           :string(6)     
 #  family_name      :string(255)   
 #  family_last_name :string(255)   
+#  site_id          :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 update_tim:
+  site_id: 1
   first_name: Timothy
   last_name: Morgans
   person_id: 1

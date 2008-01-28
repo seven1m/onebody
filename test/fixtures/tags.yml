@@ -1,11 +1,12 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: tags
 #
 #  id         :integer       not null, primary key
 #  name       :string(50)    
 #  updated_at :datetime      
+#  site_id    :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

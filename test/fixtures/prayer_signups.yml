@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: prayer_signups
 #
@@ -9,6 +9,7 @@
 #  created_at :datetime      
 #  reminded   :boolean       
 #  other      :string(100)   
+#  site_id    :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

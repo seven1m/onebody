@@ -18,7 +18,7 @@ class PublicationsController < ApplicationController
         flash[:notice] = 'Publication saved.'
         if params[:send_update]
           @group = Group.find_by_name('Publications')
-          flash[:message] = Message.new(:subject => 'New Publication Available', :body => "This is to inform you that a new publication has been added to #{SETTINGS['name']['site']}.\n\n#{url_for :controller => 'publications'}", :person => @logged_in, :group => @group, :dont_send => true)
+          flash[:message] = Message.new(:subject => 'New Publication Available', :body => "This is to inform you that a new publication has been added to #{Setting.get(:name, :site)}.\n\n#{url_for :controller => 'publications'}", :person => @logged_in, :group => @group, :dont_send => true)
           redirect_to :controller => 'messages', :action => 'edit', :group_id => @group.id
         else
           redirect_to :action => 'index'

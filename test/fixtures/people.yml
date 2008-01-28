@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: people
 #
@@ -68,9 +68,11 @@
 #  legacy_family_id             :integer       
 #  feed_code                    :string(50)    
 #  share_activity               :boolean       
+#  site_id                      :integer       
 #
 
 tim:
+  site_id: 1
   id: 1
   family_id: 1
   sequence: 1
@@ -91,6 +93,7 @@ tim:
   full_access: true
   feed_code: bla
 jeremy:
+  site_id: 1
   id: 2
   family_id: 2
   sequence: 1
@@ -111,6 +114,7 @@ jeremy:
   feed_code: bla
   deacon: true
 peter:
+  site_id: 1
   id: 3
   family_id: 3
   sequence: 1
@@ -129,6 +133,7 @@ peter:
   full_access: true
   feed_code: bla
 jennie:
+  site_id: 1
   id: 4
   family_id: 1
   sequence: 2
@@ -149,6 +154,7 @@ jennie:
   feed_code: bla
   staff: true
 mac:
+  site_id: 1
   id: 5
   family_id: 1
   sequence: 3
@@ -167,6 +173,7 @@ mac:
   full_access: true
   feed_code: bla
 jane:
+  site_id: 1
   id: 6
   family_id: 2
   sequence: 2
@@ -186,6 +193,7 @@ jane:
   feed_code: bla
   staff: true
 katrina:
+  site_id: 1
   id: 7
   family_id: 2
   sequence: 3
@@ -195,6 +203,48 @@ katrina:
   mail_group: M
   birthday: 2006-10-26
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  wall_enabled: true
+  member: true
+  can_sign_in: true
+  visible_to_everyone: true
+  visible_on_printed_directory: true
+  full_access: true
+  feed_code: bla
+jim:
+  site_id: 2
+  id: 8
+  family_id: 4
+  sequence: 1
+  gender: Male
+  first_name: Jim
+  last_name: Morgan
+  mobile_phone: 9181234567
+  birthday: 1981-04-28
+  anniversary: 2001-08-11
+  email: admin@example.com
+  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  mail_group: M
+  wall_enabled: true
+  member: true
+  can_sign_in: true
+  visible_to_everyone: true
+  visible_on_printed_directory: true
+  full_access: true
+  feed_code: bla
+tom:
+  site_id: 3
+  id: 9
+  family_id: 5
+  sequence: 1
+  gender: Male
+  first_name: Tom
+  last_name: Morgan
+  mobile_phone: 9181234567
+  birthday: 1981-04-28
+  anniversary: 2001-08-11
+  email: admin@example.com
+  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  mail_group: M
   wall_enabled: true
   member: true
   can_sign_in: true

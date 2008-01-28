@@ -10,7 +10,7 @@ xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
     if @items.any?
       xml.pubDate     CGI.rfc1123_date(@items.first.created_at.to_time)
     end
-    xml.description "Friends and Group Members' Activity on #{SETTINGS['name']['site']}"
+    xml.description "Friends and Group Members' Activity on #{Setting.get(:name, :site)}"
 
     @items.each do |item|
       xml.item do

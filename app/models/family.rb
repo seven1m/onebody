@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: families
 #
@@ -30,10 +30,14 @@
 #  wall_enabled       :boolean       default(TRUE)
 #  visible            :boolean       default(TRUE)
 #  share_activity     :boolean       default(TRUE)
+#  site_id            :integer       
 #
 
 class Family < ActiveRecord::Base
   has_many :people, :order => 'sequence'
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   acts_as_photo '/db/photos/families', PHOTO_SIZES
   acts_as_logger LogItem
@@ -70,7 +74,7 @@ class Family < ActiveRecord::Base
   
   def update_lat_lon
     return nil unless mapable?
-    url = "http://api.local.yahoo.com/MapsService/V1/geocode?appid=#{SETTINGS['services']['yahoo']}&location=#{URI.escape(mapable_address)}"
+    url = "http://api.local.yahoo.com/MapsService/V1/geocode?appid=#{Setting.get(:services, :yahoo)}&location=#{URI.escape(mapable_address)}"
     begin
       xml = URI(url).read
       result = REXML::Document.new(xml).elements['/ResultSet/Result']

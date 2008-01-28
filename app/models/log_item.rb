@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: log_items
 #
@@ -16,12 +16,16 @@
 #  flagged_on  :datetime      
 #  flagged_by  :string(255)   
 #  deleted     :boolean       
+#  site_id     :integer       
 #
 
 class LogItem < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
   belongs_to :reviewed_by, :class_name => 'Person', :foreign_key => 'reviewed_by'
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   def object
     return nil if deleted?

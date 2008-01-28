@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: ministries
 #
@@ -8,12 +8,16 @@
 #  name        :string(100)   
 #  description :text          
 #  updated_at  :datetime      
+#  site_id     :integer       
 #
 
 class Ministry < ActiveRecord::Base
   belongs_to :administrator, :class_name => 'Person', :foreign_key => 'admin_id'
   has_many :workers, :dependent => :destroy
   has_many :people, :through => :workers, :conditions => ['workers.start >= ?', Date.today-120], :order => 'last_name, first_name'
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   validates_presence_of :name
   validates_uniqueness_of :name

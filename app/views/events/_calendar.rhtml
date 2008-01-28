@@ -3,7 +3,7 @@
     cell_text = "<strong>#{day.mday}</strong><br/>" 
     cell_attrs = {:class => 'day'}
     day_str = day.strftime('%m/%d/%Y')
-    if @events[day_str].to_a.any?
+    if @events.any? and @events[day_str].to_a.any?
       @events[day_str].each do |event|
         cell_text << link_to((event.cover_picture ? image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'no-border') : image_tag('event.tn.gif', :alt => event.name, :class => 'icon')), {:controller => 'events', :action => 'view', :id => event}, :class => 'event-pic')
         cell_text << link_to(truncate(event.name, 10), {:controller => 'events', :action => 'view', :id => event}, :class => 'event-title')

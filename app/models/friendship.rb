@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 89
+# Schema version: 91
 #
 # Table name: friendships
 #
@@ -8,11 +8,15 @@
 #  friend_id  :integer       
 #  created_at :datetime      
 #  ordering   :integer       default(1000)
+#  site_id    :integer       
 #
 
 class Friendship < ActiveRecord::Base
   belongs_to :person
   belongs_to :friend, :class_name => 'Person', :foreign_key => 'friend_id'
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   validates_presence_of :person_id
   validates_presence_of :friend_id
