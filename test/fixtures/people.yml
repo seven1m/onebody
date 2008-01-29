@@ -217,11 +217,11 @@ jim:
   sequence: 1
   gender: Male
   first_name: Jim
-  last_name: Morgan
+  last_name: Williams
   mobile_phone: 9181234567
   birthday: 1981-04-28
   anniversary: 2001-08-11
-  email: admin@example.com
+  email: jim@example.com
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
   mail_group: M
   wall_enabled: true
@@ -238,11 +238,11 @@ tom:
   sequence: 1
   gender: Male
   first_name: Tom
-  last_name: Morgan
+  last_name: Jones
   mobile_phone: 9181234567
   birthday: 1981-04-28
   anniversary: 2001-08-11
-  email: admin@example.com
+  email: tom@example.com
   encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
   mail_group: M
   wall_enabled: true

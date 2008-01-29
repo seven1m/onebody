@@ -24,14 +24,26 @@ class Test::Unit::TestCase
   # then set this back to true.
   self.use_instantiated_fixtures  = false
 
-  # Add more helper methods to be used by all tests here...
   def sign_in_as(person, password='secret')
-    Setting.set(nil, 'Features', 'SSL', true)
-    post '/account/sign_in', :email => person.email, :password => password
+    sign_in_and_assert_name(person.email, person.name, password)
+  end
+
+  def sign_in_and_assert_name(email, name, password='secret')
+    post_sign_in_form(email, password)
     assert_redirected_to :controller => 'people', :action => 'index'
     follow_redirect!
     assert_template 'people/view'
-    assert_select 'h1', Regexp.new(person.name)
+    assert_select 'h1', Regexp.new(name)
+  end
+  
+  def post_sign_in_form(email, password='secret')
+    Setting.set_global('Features', 'SSL', true)
+    post '/account/sign_in', :email => email, :password => password
+  end
+  
+  def site!(site)
+    host! site
+    get '/'
   end
   
   fixtures :all

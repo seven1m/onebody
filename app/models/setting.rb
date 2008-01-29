@@ -47,6 +47,10 @@ class Setting < ActiveRecord::Base
         @@settings[0][section][name]
       else
         if Site.current
+          if @@settings[Site.current.id].nil?
+            Site.current.duplicate_settings
+            Setting.precache_settings(true)
+          end
           if @@settings[Site.current.id][section]
             @@settings[Site.current.id][section][name]
           else
@@ -76,6 +80,8 @@ class Setting < ActiveRecord::Base
       end
       precache_settings(true)
     end
+    
+    def set_global(section, name, value); set(nil, section, name, value); end
     
     def precache_settings(fresh=false)
       return if @@settings and not fresh

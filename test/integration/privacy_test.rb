@@ -44,7 +44,7 @@ class PrivacyTest < ActionController::IntegrationTest
   end
   
   def test_children_cannot_sign_in_without_consent
-    post '/account/sign_in', :email => people(:mac).email, :password => 'secret'
+    post_sign_in_form people(:mac).email
     assert_redirected_to '/help/unauthorized'
     people(:mac).update_attribute :parental_consent, 'consent statement goes here' # not nil means this child has consent
     sign_in_as people(:mac)  # sign_in_as() will do assertions
