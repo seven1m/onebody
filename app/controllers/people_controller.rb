@@ -9,6 +9,7 @@ class PeopleController < ApplicationController
       @prayer_signups = @person.prayer_signups.find(:all, :conditions => ['start >= ?', Time.now], :order => 'start')
       @family_people = @person.family.visible_people
       @me = (@logged_in == @person)
+      @show_map = Setting.get(:services, :yahoo) and @person.family.mapable? and @person.share_address_with @logged_in
       render :action => (@logged_in.full_access? or @me) ? 'view' : 'limited_view'
     else
       render :text => 'Not found.', :status => 404

@@ -41,7 +41,7 @@
   </p>
 <% end %>
 
-<% if @person.mapable? and @person.share_address_with @logged_in %>
+<% if @show_map %>
   <div id="map-container" style="width:250px;float:right;display:none;">
     <div id="map" style="width:250px;height:200px;"></div>
     <div class="discreet" style="font-size:smaller;text-align:right;">
@@ -251,7 +251,7 @@
 //]]>
 </script>
 
-<% if @person.family.mapable? and @person.share_address_with @logged_in %>
+<% if @show_map %>
   <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= Setting.get(:services, :yahoo) %>"></script>
   <script type="text/javascript">
     var address = <%= @person.family.mapable_address.inspect %>;

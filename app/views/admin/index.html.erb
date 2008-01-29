@@ -2,10 +2,6 @@
   <% if @logged_in.admin?(:manage_access) %>
     <%= render :partial => 'administrators' %>
   <% end %>
-  <% if @logged_in.super_admin? %>
-    <h2>Settings</h2>
-    <p><%= link_to 'Click here', settings_url %> to edit system settings.</p>
-  <% end %>
 <% end %>
 
 <h2>You</h2>
@@ -15,6 +11,11 @@
 <% else %>
   <p>You have been an administrator since <%= @logged_in.admin.created_at.to_time.to_s :date %>,
     with the privileges: <%= @privileges.to_sentence %>.</p>
+<% end %>
+
+<% if @logged_in.super_admin? %>
+  <h2>Settings</h2>
+  <p><%= link_to 'Edit settings', settings_url %> for this site.</p>
 <% end %>
 
 <% if @logged_in.admin?(:view_log) %>
