@@ -239,7 +239,9 @@ class PeopleController < ApplicationController
   private
   
   def get_person
-    unless params[:id] and @person = Person.find_by_id(params[:id])
+    if params[:id]
+      @person = Person.find_by_id(params[:id])
+    else
       @person = @logged_in
       @me = true
     end

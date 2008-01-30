@@ -65,8 +65,8 @@ jones:
 morgan1:
   site_id: 2
   id: 4
-  name: Jim & Jennie Morgan
-  last_name: Morgan
+  name: Jim & Judy Williams
+  last_name: Williams
   address1: 123 S Peoria
   city: Tulsa
   state: OK
@@ -76,8 +76,8 @@ morgan1:
 morgan2:
   site_id: 3
   id: 5
-  name: Tom & Jennie Morgan
-  last_name: Morgan
+  name: Tom & Mary Jones
+  last_name: Jones
   address1: 123 S Peoria
   city: Tulsa
   state: OK

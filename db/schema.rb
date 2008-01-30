@@ -460,10 +460,10 @@ ActiveRecord::Schema.define(:version => 91) do
     t.column "person_id",        :integer
     t.column "first_name",       :string
     t.column "last_name",        :string
-    t.column "home_phone",       :integer
-    t.column "mobile_phone",     :integer
-    t.column "work_phone",       :integer
-    t.column "fax",              :integer
+    t.column "home_phone",       :bigint
+    t.column "mobile_phone",     :bigint
+    t.column "work_phone",       :bigint
+    t.column "fax",              :bigint
     t.column "address1",         :string
     t.column "address2",         :string
     t.column "city",             :string
@@ -482,7 +482,7 @@ ActiveRecord::Schema.define(:version => 91) do
 
   create_table "verifications", :force => true do |t|
     t.column "email",        :string
-    t.column "mobile_phone", :integer
+    t.column "mobile_phone", :bigint
     t.column "code",         :integer
     t.column "verified",     :boolean
     t.column "created_at",   :datetime

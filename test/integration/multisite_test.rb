@@ -22,4 +22,15 @@ class MultisiteTest < ActionController::IntegrationTest
     assert_response :success
     assert flash[:warning] =~ /email address cannot be found/
   end
+  
+  def test_browse
+    site! 'site1'
+    sign_in_as people(:jim)
+    get '/directory/browse'
+    assert_select 'body', /1 person found/
+    assert_select 'body', /Jim Williams/
+    assert_select 'body', :html => /Tom Jones/, :count => 0
+    get '/people/view/9'
+    assert_response :missing
+  end
 end
