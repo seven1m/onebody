@@ -35,7 +35,7 @@ class ComsConnector < ExternalDataConnector
     end
 
     precache_class_data
-    
+
     nil
   end
   
@@ -99,7 +99,7 @@ class ComsConnector < ExternalDataConnector
             :classes => classes.to_a.join(','),
             :mail_group => record.mailgroup == '(None)' ? nil : record.mailgroup,
             :anniversary => to_datetime(record.weddate),
-            :member => %w(M A C).include?(record.mailgroup),
+            :member => (record.date1 and not %w(N F).include?(record.mailgroup)),
             :staff => record.email =~ /@cedarridgecc\.com$/,
             :elder => classes =~ /[\b,]EL[\b,]/,
             :deacon => false,
@@ -133,7 +133,7 @@ class ComsConnector < ExternalDataConnector
             :legacy_id => record.familyid,
             :name => record.familyname,
             :last_name => record.last =~ /,\s/ ? record.last.split(', ').first : record.last,
-            :suffix => record.last =~ /,\s/ ? record.last.split(', ').last : nil,
+            #:suffix => record.last =~ /,\s/ ? record.last.split(', ').last : nil,
             :address1 => family_postal_record ? family_postal_record.address1 : nil,
             :address2 => family_postal_record ? family_postal_record.address2 : nil,
             :city => family_postal_record ? family_postal_record.city : nil,
