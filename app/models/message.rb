@@ -200,7 +200,7 @@ class Message < ActiveRecord::Base
   
   def can_see?(p)
     (group and p.groups.include? group) or # a person in the group
-    ((not group or not group.private?) and admin?(:manage_messages)) # admin of groups (still cannot see private groups)
+    ((not group or not group.private?) and p.admin?(:manage_messages)) # admin of groups (still cannot see private groups)
     (wall and p.can_see? wall) or
     (to and to == p) or # to me
     (person == p) # from me

@@ -1,20 +1,11 @@
 production:
-  adapter: sqlite3
-  database: db/production.db
-  # or...
-  # adapter: mysql
-  # database: onebody
-  # username: root
-  # password:
+  adapter: mysql
+  database: onebody_new
+  username: onebody
+  password: onebody
 
 development:
-  adapter: sqlite3
-  database: db/dev.db
-  # or...
-  # adapter: mysql
-  # database: onebody_dev
-  # username: root
-  # password:
+  production
 
 test:
   adapter: sqlite3

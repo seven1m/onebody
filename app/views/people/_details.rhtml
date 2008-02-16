@@ -61,7 +61,7 @@
     </tr>
   <% end %>
   <% if @person.website.to_s.any? %>
-    <tr><td>Website:</td><td><%= link_to h(@person.website.gsub(/^https?:\/\//, '')), s(@person.website.gsub(/javascript\:/, '')) %></td></tr>
+    <tr><td>Website:</td><td><%= link_to h(@person.website.gsub(/^https?:\/\//, '')), @person.website.gsub(/javascript\:/, '') %></td></tr>
   <% end %>
   <% if sharing = @person.share_birthday_with(@logged_in) and @person.birthday %>
     <tr>
