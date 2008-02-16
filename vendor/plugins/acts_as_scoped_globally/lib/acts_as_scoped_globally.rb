@@ -36,7 +36,7 @@ module Foo
                   if m[:find][:conditions].any?
                     m[:find][:conditions] += ' and'
                   end
-                  m[:find][:conditions] += ' "#{table_name}".#{foreign_key} = ' + #{value}.to_s
+                  m[:find][:conditions] += ' `#{table_name}`.#{foreign_key} = ' + #{value}.to_s
                 end
                 return m
               end

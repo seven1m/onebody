@@ -30,13 +30,14 @@ end
 
 task :init => [:environment, 'db:create', 'db:migrate'] do
   puts
-  Rake::Task['db:newuser'].invoke if agree('Do you want to create a new admin user? ')
+  new_user = agree('Do you want to create a new admin user? ')
+  Rake::Task['db:newuser'].invoke if new_user
   puts
   puts "Now, test your instance by running the following command:"
-  puts 'ruby script/server'
+  puts 'sudo ruby script/server'
   puts
   puts 'Browse to http://localhost:3000'
-  puts 'Sign in with the email and password you just entered.'
+  puts 'Sign in with the email and password you just entered.' if new_user
 end
 
 task :update => [:environment, 'db:migrate'] do
