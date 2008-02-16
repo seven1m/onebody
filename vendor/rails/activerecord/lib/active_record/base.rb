@@ -1237,9 +1237,16 @@ module ActiveRecord #:nodoc:
         end
 
         def find_every(options)
-          records = scoped?(:find, :include) || options[:include] ?
-            find_with_associations(options) :
-            find_by_sql(construct_finder_sql(options))
+          include_associations = merge_includes(scope(:find, :include), options[:include])
+
+          if include_associations.any? && references_eager_loaded_tables?(options)
+            records = find_with_associations(options)
+          else
+            records = find_by_sql(construct_finder_sql(options))
+            if include_associations.any?
+              preload_associations(records, include_associations)
+            end
+          end
 
           records.each { |record| record.readonly! } if options[:readonly]
 
@@ -1560,7 +1567,23 @@ module ActiveRecord #:nodoc:
           attributes
         end
 
+        # Similar in purpose to +expand_hash_conditions_for_aggregates+.
+        def expand_attribute_names_for_aggregates(attribute_names)
+          expanded_attribute_names = []
+          attribute_names.each do |attribute_name|
+            unless (aggregation = reflect_on_aggregation(attribute_name.to_sym)).nil?
+              aggregate_mapping(aggregation).each do |field_attr, aggregate_attr|
+                expanded_attribute_names << field_attr
+              end
+            else
+              expanded_attribute_names << attribute_name
+            end
+          end
+          expanded_attribute_names
+        end
+
         def all_attributes_exists?(attribute_names)
+          attribute_names = expand_attribute_names_for_aggregates(attribute_names)
           attribute_names.all? { |name| column_methods_hash.include?(name.to_sym) }
         end
 
@@ -1801,6 +1824,41 @@ module ActiveRecord #:nodoc:
           end
         end
 
+        def aggregate_mapping(reflection)
+          mapping = reflection.options[:mapping] || [reflection.name, reflection.name]
+          mapping.first.is_a?(Array) ? mapping : [mapping]
+        end
+
+        # Accepts a hash of sql conditions and replaces those attributes
+        # that correspond to a +composed_of+ relationship with their expanded
+        # aggregate attribute values.
+        # Given:
+        #     class Person < ActiveRecord::Base
+        #       composed_of :address, :class_name => "Address",
+        #         :mapping => [%w(address_street street), %w(address_city city)]
+        #     end
+        # Then:
+        #     { :address => Address.new("813 abc st.", "chicago") }
+        #       # => { :address_street => "813 abc st.", :address_city => "chicago" }
+        def expand_hash_conditions_for_aggregates(attrs)
+          expanded_attrs = {}
+          attrs.each do |attr, value|
+            unless (aggregation = reflect_on_aggregation(attr.to_sym)).nil?
+              mapping = aggregate_mapping(aggregation)
+              mapping.each do |field_attr, aggregate_attr|
+                if mapping.size == 1 && !value.respond_to?(aggregate_attr)
+                  expanded_attrs[field_attr] = value
+                else
+                  expanded_attrs[field_attr] = value.send(aggregate_attr)
+                end
+              end
+            else
+              expanded_attrs[attr] = value
+            end
+          end
+          expanded_attrs
+        end
+
         # Sanitizes a hash of attribute/value pairs into SQL conditions for a WHERE clause.
         #   { :name => "foo'bar", :group_id => 4 }
         #     # => "name='foo''bar' and group_id= 4"
@@ -1810,7 +1868,12 @@ module ActiveRecord #:nodoc:
         #     # => "age BETWEEN 13 AND 18"
         #   { 'other_records.id' => 7 }
         #     # => "`other_records`.`id` = 7"
+        # And for value objects on a composed_of relationship:
+        #   { :address => Address.new("123 abc st.", "chicago") }
+        #     # => "address_street='123 abc st.' and address_city='chicago'"
         def sanitize_sql_hash_for_conditions(attrs)
+          attrs = expand_hash_conditions_for_aggregates(attrs)
+
           conditions = attrs.map do |attr, value|
             attr = attr.to_s
 
@@ -2025,7 +2088,7 @@ module ActiveRecord #:nodoc:
       # The extent of a "deep" clone is application-specific and is therefore
       # left to the application to implement according to its need.
       def clone
-        attrs = self.attributes_before_type_cast
+        attrs = clone_attributes(:read_attribute_before_type_cast)
         attrs.delete(self.class.primary_key)
         record = self.class.new
         record.send :instance_variable_set, '@attributes', attrs
@@ -2149,30 +2212,20 @@ module ActiveRecord #:nodoc:
       end
 
 
-      # Returns a hash of all the attributes with their names as keys and clones of their objects as values.
+      # Returns a hash of all the attributes with their names as keys and the values of the attributes as values.
       def attributes(options = nil)
-        attributes = clone_attributes :read_attribute
-
-        if options.nil?
-          attributes
-        else
-          if except = options[:except]
-            except = Array(except).collect { |attribute| attribute.to_s }
-            except.each { |attribute_name| attributes.delete(attribute_name) }
-            attributes
-          elsif only = options[:only]
-            only = Array(only).collect { |attribute| attribute.to_s }
-            attributes.delete_if { |key, value| !only.include?(key) }
-            attributes
-          else
-            raise ArgumentError, "Options does not specify :except or :only (#{options.keys.inspect})"
-          end
+        self.attribute_names.inject({}) do |attrs, name|
+          attrs[name] = read_attribute(name)
+          attrs
         end
       end
 
-      # Returns a hash of cloned attributes before typecasting and deserialization.
+      # Returns a hash of attributes before typecasting and deserialization.
       def attributes_before_type_cast
-        clone_attributes :read_attribute_before_type_cast
+        self.attribute_names.inject({}) do |attrs, name|
+          attrs[name] = read_attribute_before_typecast(name)
+          attrs
+        end
       end
 
       # Format attributes nicely for inspect.
@@ -2363,11 +2416,12 @@ module ActiveRecord #:nodoc:
       # Returns a copy of the attributes hash where all the values have been safely quoted for use in
       # an SQL statement.
       def attributes_with_quotes(include_primary_key = true, include_readonly_attributes = true)
-        quoted = attributes.inject({}) do |result, (name, value)|
+        quoted = {}
+        connection = self.class.connection
+        @attributes.each_pair do |name, value|
           if column = column_for_attribute(name)
-            result[name] = quote_value(value, column) unless !include_primary_key && column.primary
+            quoted[name] = connection.quote(read_attribute(name), column) unless !include_primary_key && column.primary
           end
-          result
         end
         include_readonly_attributes ? quoted : remove_readonly_attributes(quoted)
       end
@@ -2406,7 +2460,14 @@ module ActiveRecord #:nodoc:
         )
       end
 
-      # Includes an ugly hack for Time.local instead of Time.new because the latter is reserved by Time itself.
+      def instantiate_time_object(name, values)
+        if Time.zone && !self.class.skip_time_zone_conversion_for_attributes.include?(name.to_sym)
+          Time.zone.local(*values)
+        else
+          @@default_timezone == :utc ? Time.utc_time(*values) : Time.local_time(*values)
+        end
+      end
+
       def execute_callstack_for_multiparameter_attributes(callstack)
         errors = []
         callstack.each do |name, values|
@@ -2415,7 +2476,19 @@ module ActiveRecord #:nodoc:
             send(name + "=", nil)
           else
             begin
-              send(name + "=", Time == klass ? (@@default_timezone == :utc ? klass.utc(*values) : klass.local(*values)) : klass.new(*values))
+              value = if Time == klass
+                instantiate_time_object(name, values)
+              elsif Date == klass
+                begin
+                  Date.new(*values)
+                rescue ArgumentError => ex # if Date.new raises an exception on an invalid date
+                  instantiate_time_object(name, values).to_date # we instantiate Time object and convert it back to a date thus using Time's logic in handling invalid dates
+                end
+              else
+                klass.new(*values)
+              end
+
+              send(name + "=", value)
             rescue => ex
               errors << AttributeAssignmentError.new("error on assignment #{values.inspect} to #{name}", ex, name)
             end
@@ -2457,8 +2530,9 @@ module ActiveRecord #:nodoc:
       end
 
       def quoted_column_names(attributes = attributes_with_quotes)
+        connection = self.class.connection
         attributes.keys.collect do |column_name|
-          self.class.connection.quote_column_name(column_name)
+          connection.quote_column_name(column_name)
         end
       end
 

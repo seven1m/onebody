@@ -78,11 +78,6 @@ class NewRenderTestController < ActionController::Base
     @secret = 'in the sauce'
     render :file => 'test/render_file_with_ivar', :use_full_path => true
   end
- 
-  def render_file_not_using_full_path_with_relative_path
-    @secret = 'in the sauce'
-    render :file => 'test/../test/render_file_with_ivar', :use_full_path => true
-  end
   
   def render_file_not_using_full_path_with_dot_in_path
     @secret = 'in the sauce'
@@ -141,11 +136,11 @@ class NewRenderTestController < ActionController::Base
   end
 
   def partial_with_form_builder
-    render :partial => ActionView::Helpers::FormBuilder.new(:post, nil, @template, nil, Proc.new {})
+    render :partial => ActionView::Helpers::FormBuilder.new(:post, nil, @template, {}, Proc.new {})
   end
-  
+
   def partial_with_form_builder_subclass
-    render :partial => LabellingFormBuilder.new(:post, nil, @template, nil, Proc.new {})
+    render :partial => LabellingFormBuilder.new(:post, nil, @template, {}, Proc.new {})
   end
 
   def partial_collection
@@ -154,6 +149,10 @@ class NewRenderTestController < ActionController::Base
 
   def partial_collection_with_locals
     render :partial => "customer_greeting", :collection => [ Customer.new("david"), Customer.new("mary") ], :locals => { :greeting => "Bonjour" }
+  end
+
+  def partial_collection_shorthand_with_locals
+    render :partial => [ Customer.new("david"), Customer.new("mary") ], :locals => { :greeting => "Bonjour" }
   end
 
   def empty_partial_collection
@@ -488,11 +487,6 @@ class NewRenderTest < Test::Unit::TestCase
     assert_equal "The secret is in the sauce\n", @response.body
   end
 
-  def test_render_file_not_using_full_path_with_relative_path
-    get :render_file_not_using_full_path_with_relative_path
-    assert_equal "The secret is in the sauce\n", @response.body
-  end
-
   def test_render_file_not_using_full_path_with_dot_in_path
     get :render_file_not_using_full_path_with_dot_in_path
     assert_equal "The secret is in the sauce\n", @response.body
@@ -715,6 +709,11 @@ EOS
 
   def test_partial_collection_with_locals
     get :partial_collection_with_locals
+    assert_equal "Bonjour: davidBonjour: mary", @response.body
+  end
+
+  def test_partial_collection_shorthand_with_locals
+    get :partial_collection_shorthand_with_locals
     assert_equal "Bonjour: davidBonjour: mary", @response.body
   end
 

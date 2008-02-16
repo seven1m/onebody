@@ -393,6 +393,11 @@ module ActionMailer #:nodoc:
       def register_template_extension(extension)
         template_extensions << extension
       end
+
+      def template_root=(root)
+        write_inheritable_attribute(:template_root, root)
+        ActionView::TemplateFinder.process_view_paths(root)
+      end
     end
 
     # Instantiate a new mailer object. If +method_name+ is not +nil+, the mailer
@@ -463,7 +468,10 @@ module ActionMailer #:nodoc:
     # no alternate has been given as the parameter, this will fail.
     def deliver!(mail = @mail)
       raise "no mail object available for delivery!" unless mail
-      logger.info "Sent mail:\n #{mail.encoded}" unless logger.nil?
+      unless logger.nil?
+        logger.info  "Sent mail to #{recipients.to_a.join(', ')}"
+        logger.debug "\n#{mail.encoded}"
+      end
 
       begin
         __send__("perform_delivery_#{delivery_method}", mail) if perform_deliveries

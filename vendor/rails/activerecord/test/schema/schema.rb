@@ -154,6 +154,7 @@ ActiveRecord::Schema.define do
       t.string  :title, :null => false
       t.text    :body, :null => false
       t.string  :type
+      t.integer :comments_count, :default => 0
     end
 
     create_table :projects, :force => true do |t|
@@ -207,6 +208,8 @@ ActiveRecord::Schema.define do
                add FOREIGN KEY (`fk_id`) REFERENCES `fk_test_has_pk`(`id`)'
 
 
+  else
+    add_column :posts, :comments_count, :integer, :default => 0
   end
 
   # For Firebird, set the sequence values 10000 when create_table is called;
@@ -239,9 +242,9 @@ ActiveRecord::Schema.define do
 
   add_column :posts, :taggings_count, :integer, :default => 0
   add_column :authors, :author_address_id, :integer
+  add_column :authors, :author_address_extra_id, :integer
 
   create_table :author_addresses, :force => true do |t|
-    t.column :author_address_id, :integer
   end
 
   create_table :author_favorites, :force => true do |t|
@@ -354,5 +357,20 @@ ActiveRecord::Schema.define do
 
   create_table 'warehouse-things', :force => true do |t|
     t.integer :value
+  end
+
+  create_table :owners, :primary_key => :owner_id ,:force => true do |t|
+    t.string :name
+  end
+
+  create_table :pets, :primary_key => :pet_id ,:force => true do |t|
+    t.string :name
+    t.integer :owner_id, :integer
+  end
+
+  create_table :price_estimates, :force => true do |t|
+    t.string :estimate_of_type
+    t.integer :estimate_of_id
+    t.integer :price
   end
 end

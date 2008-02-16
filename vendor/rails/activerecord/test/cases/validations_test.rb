@@ -1,4 +1,4 @@
-require 'abstract_unit'
+require "cases/helper"
 require 'models/topic'
 require 'models/reply'
 require 'models/person'
@@ -54,7 +54,7 @@ end
 class Thaumaturgist < IneptWizard
 end
 
-class ValidationsTest < ActiveSupport::TestCase
+class ValidationsTest < ActiveRecord::TestCase
   fixtures :topics, :developers, 'warehouse-things'
 
   def setup
@@ -487,6 +487,14 @@ class ValidationsTest < ActiveSupport::TestCase
     assert_nil t.errors.on(:title)
 
     assert_raise(ArgumentError) { Topic.validates_format_of(:title, :content) }
+  end
+
+  def test_validate_format_with_allow_blank
+    Topic.validates_format_of(:title, :with => /^Validation\smacros \w+!$/, :allow_blank=>true)
+    assert !Topic.create("title" => "Shouldn't be valid").valid?
+    assert Topic.create("title" => "").valid?
+    assert Topic.create("title" => nil).valid?
+    assert Topic.create("title" => "Validation macros rule!").valid?
   end
 
   # testing ticket #3142
@@ -1017,7 +1025,7 @@ class ValidationsTest < ActiveSupport::TestCase
 
   def test_invalid_validator
     Topic.validate 3
-    assert_raise(ActiveRecord::ActiveRecordError) { t = Topic.create }
+    assert_raise(ArgumentError) { t = Topic.create }
   end
 
   def test_throw_away_typing
@@ -1281,7 +1289,7 @@ class ValidationsTest < ActiveSupport::TestCase
 end
 
 
-class ValidatesNumericalityTest < ActiveSupport::TestCase
+class ValidatesNumericalityTest < ActiveRecord::TestCase
   NIL = [nil]
   BLANK = ["", " ", " \t \r \n"]
   BIGDECIMAL_STRINGS = %w(12345678901234567890.1234567890) # 30 significent digits

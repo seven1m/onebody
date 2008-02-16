@@ -1,4 +1,4 @@
-require 'abstract_unit'
+require "cases/helper"
 require 'models/topic'
 require 'models/developer'
 require 'models/reply'
@@ -64,7 +64,7 @@ class MultiObserver < ActiveRecord::Observer
   end
 end
 
-class LifecycleTest < ActiveSupport::TestCase
+class LifecycleTest < ActiveRecord::TestCase
   fixtures :topics, :developers
 
   def test_before_destroy
@@ -133,5 +133,9 @@ class LifecycleTest < ActiveSupport::TestCase
 
   def test_invalid_observer
     assert_raise(ArgumentError) { Topic.observers = Object.new; Topic.instantiate_observers }
+  end
+
+  def test_getting_observed_class_from_class_name
+    assert_equal Topic, TopicObserver.observed_class
   end
 end

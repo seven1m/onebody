@@ -45,15 +45,16 @@ module ActiveSupport #:nodoc:
         #   Time::DATE_FORMATS[:month_and_year] = "%B %Y"
         #   Time::DATE_FORMATS[:short_ordinal] = lambda { |time| time.strftime("%B #{time.day.ordinalize}") }
         def to_formatted_s(format = :default)
-          if formatter = DATE_FORMATS[format]
-            if formatter.respond_to?(:call)
-              formatter.call(self).to_s
-            else
-              strftime(formatter)
-            end
-          else
-            to_default_s
-          end
+          return to_default_s unless formatter = DATE_FORMATS[format]
+          formatter.respond_to?(:call) ? formatter.call(self).to_s : strftime(formatter)
+        end
+        
+        # Returns the utc_offset as an +HH:MM formatted string. Examples:
+        #
+        #   Time.local(2000).formatted_offset         # => "-06:00"
+        #   Time.local(2000).formatted_offset(false)  # => "-0600"
+        def formatted_offset(colon = true, alternate_utc_string = nil)
+          utc? && alternate_utc_string || utc_offset.to_utc_offset_s(colon)
         end
 
         # Convert a Time object to a Date, dropping hour, minute, and second precision.

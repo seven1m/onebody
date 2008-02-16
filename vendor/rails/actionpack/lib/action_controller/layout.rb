@@ -208,12 +208,6 @@ module ActionController #:nodoc:
           conditions.inject({}) {|hash, (key, value)| hash.merge(key => [value].flatten.map {|action| action.to_s})}
         end
         
-        def layout_directory_exists_cache
-          @@layout_directory_exists_cache ||= Hash.new do |h, dirname|
-            h[dirname] = File.directory? dirname
-          end
-        end
-        
         def default_layout_with_format(format, layout)
           list = layout_list
           if list.grep(%r{layouts/#{layout}\.#{format}(\.[a-z][0-9a-z]*)+$}).empty?
@@ -249,7 +243,7 @@ module ActionController #:nodoc:
     end
 
     protected
-      def render_with_a_layout(options = nil, &block) #:nodoc:
+      def render_with_a_layout(options = nil, extra_options = {}, &block) #:nodoc:
         template_with_options = options.is_a?(Hash)
         
         if apply_layout?(template_with_options, options) && (layout = pick_layout(template_with_options, options))
@@ -258,7 +252,7 @@ module ActionController #:nodoc:
           options = options.merge :layout => false if template_with_options
           logger.info("Rendering template within #{layout}") if logger
 
-          content_for_layout = render_with_no_layout(options, &block)
+          content_for_layout = render_with_no_layout(options, extra_options, &block)
           erase_render_results
           add_variables_to_assigns
           @template.instance_variable_set("@content_for_layout", content_for_layout)
@@ -266,7 +260,7 @@ module ActionController #:nodoc:
           status = template_with_options ? options[:status] : nil
           render_for_text(@template.render_file(layout, true), status)
         else
-          render_with_no_layout(options, &block)
+          render_with_no_layout(options, extra_options, &block)
         end
       end
 
@@ -313,13 +307,8 @@ module ActionController #:nodoc:
         end
       end
       
-      # Does a layout directory for this class exist?
-      # we cache this info in a class level hash
       def layout_directory?(layout_name)
-        view_paths.find do |path| 
-          next unless template_path = Dir[File.join(path, 'layouts', layout_name) + ".*"].first
-          self.class.send!(:layout_directory_exists_cache)[File.dirname(template_path)]
-        end
+        @template.finder.find_template_extension_from_handler(File.join('layouts', layout_name))
       end
   end
 end

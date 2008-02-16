@@ -1,5 +1,6 @@
 module ActionView
   class TemplateHandler
+
     def self.line_offset
       0
     end

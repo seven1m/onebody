@@ -1,15 +1,19 @@
-require 'abstract_unit'
+require "cases/helper"
 require 'models/post'
+require 'models/tagging'
 require 'models/comment'
 require 'models/author'
 require 'models/category'
 require 'models/company'
 require 'models/person'
 require 'models/reader'
+require 'models/owner'
+require 'models/pet'
 
-class EagerAssociationTest < ActiveSupport::TestCase
+class EagerAssociationTest < ActiveRecord::TestCase
   fixtures :posts, :comments, :authors, :categories, :categories_posts,
-            :companies, :accounts, :tags, :people, :readers
+            :companies, :accounts, :tags, :taggings, :people, :readers,
+            :owners, :pets
 
   def test_loading_with_one_association
     posts = Post.find(:all, :include => :comments)
@@ -56,6 +60,13 @@ class EagerAssociationTest < ActiveSupport::TestCase
     assert posts.first.comments.include?(comments(:greetings))
   end
 
+  def test_duplicate_middle_objects
+    comments = Comment.find :all, :conditions => 'post_id = 1', :include => [:post => :author]
+    assert_no_queries do
+      comments.each {|comment| comment.post.author.name}
+    end
+  end
+
   def test_loading_from_an_association
     posts = authors(:david).posts.find(:all, :include => :comments, :order => "posts.id")
     assert_equal 2, posts.first.comments.size
@@ -63,6 +74,11 @@ class EagerAssociationTest < ActiveSupport::TestCase
 
   def test_loading_with_no_associations
     assert_nil Post.find(posts(:authorless).id, :include => :author).author
+  end
+
+  def test_eager_association_loading_with_belongs_to_and_foreign_keys
+    pets = Pet.find(:all, :include => :owner)
+    assert_equal 3, pets.length
   end
 
   def test_eager_association_loading_with_belongs_to
@@ -101,6 +117,32 @@ class EagerAssociationTest < ActiveSupport::TestCase
     comments = Comment.find(:all, :include => :post, :conditions => ['post_id = ?',4], :limit => 3, :offset => 1, :order => 'comments.id')
     assert_equal 3, comments.length
     assert_equal [6,7,8], comments.collect { |c| c.id }
+  end
+
+  def test_eager_association_loading_with_belongs_to_and_conditions_string_with_unquoted_table_name
+    assert_nothing_raised do
+      Comment.find(:all, :include => :post, :conditions => ['posts.id = ?',4])
+    end
+  end
+
+  def test_eager_association_loading_with_belongs_to_and_conditions_string_with_quoted_table_name
+    quoted_posts_id= Comment.connection.quote_table_name('posts') + '.' + Comment.connection.quote_column_name('id')
+    assert_nothing_raised do
+      Comment.find(:all, :include => :post, :conditions => ["#{quoted_posts_id} = ?",4])
+    end
+  end
+
+  def test_eager_association_loading_with_belongs_to_and_order_string_with_unquoted_table_name
+    assert_nothing_raised do
+      Comment.find(:all, :include => :post, :order => 'posts.id')
+    end
+  end
+
+  def test_eager_association_loading_with_belongs_to_and_order_string_with_quoted_table_name
+    quoted_posts_id= Comment.connection.quote_table_name('posts') + '.' + Comment.connection.quote_column_name('id')
+    assert_nothing_raised do
+      Comment.find(:all, :include => :post, :order => quoted_posts_id)
+    end
   end
 
   def test_eager_association_loading_with_belongs_to_and_limit_and_multiple_associations
@@ -353,6 +395,17 @@ class EagerAssociationTest < ActiveSupport::TestCase
     assert_equal posts(:sti_post_and_comments, :sti_comments), Post.find(:all, :include => [:author, :comments], :conditions => "authors.name = 'David'", :order => 'UPPER(posts.title) DESC, posts.id', :limit => 2, :offset => 1)
   end
 
+  def test_preload_with_interpolation
+    assert_equal [comments(:greetings)], Post.find(posts(:welcome).id, :include => :comments_with_interpolated_conditions).comments_with_interpolated_conditions
+  end
+
+  def test_polymorphic_type_condition
+    post = Post.find(posts(:thinking).id, :include => :taggings)
+    assert post.taggings.include?(taggings(:thinking_general))
+    post = SpecialPost.find(posts(:thinking).id, :include => :taggings)
+    assert post.taggings.include?(taggings(:thinking_general))
+  end
+
   def test_eager_with_multiple_associations_with_same_table_has_many_and_habtm
     # Eager includes of has many and habtm associations aren't necessarily sorted in the same way
     def assert_equal_after_sort(item1, item2, item3 = nil)
@@ -405,34 +458,40 @@ class EagerAssociationTest < ActiveSupport::TestCase
 
   def test_preconfigured_includes_with_belongs_to
     author = posts(:welcome).author_with_posts
-    assert_equal 5, author.posts.size
+    assert_no_queries {assert_equal 5, author.posts.size}
   end
 
   def test_preconfigured_includes_with_has_one
     comment = posts(:sti_comments).very_special_comment_with_post
-    assert_equal posts(:sti_comments), comment.post
+    assert_no_queries {assert_equal posts(:sti_comments), comment.post}
   end
 
   def test_preconfigured_includes_with_has_many
     posts = authors(:david).posts_with_comments
     one = posts.detect { |p| p.id == 1 }
-    assert_equal 5, posts.size
-    assert_equal 2, one.comments.size
+    assert_no_queries do
+      assert_equal 5, posts.size
+      assert_equal 2, one.comments.size
+    end
   end
 
   def test_preconfigured_includes_with_habtm
     posts = authors(:david).posts_with_categories
     one = posts.detect { |p| p.id == 1 }
-    assert_equal 5, posts.size
-    assert_equal 2, one.categories.size
+    assert_no_queries do
+      assert_equal 5, posts.size
+      assert_equal 2, one.categories.size
+    end
   end
 
   def test_preconfigured_includes_with_has_many_and_habtm
     posts = authors(:david).posts_with_comments_and_categories
     one = posts.detect { |p| p.id == 1 }
-    assert_equal 5, posts.size
-    assert_equal 2, one.comments.size
-    assert_equal 2, one.categories.size
+    assert_no_queries do
+      assert_equal 5, posts.size
+      assert_equal 2, one.comments.size
+      assert_equal 2, one.categories.size
+    end
   end
 
   def test_count_with_include

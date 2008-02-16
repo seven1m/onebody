@@ -26,6 +26,7 @@ $:.unshift(File.dirname(__FILE__))
 require 'active_support/vendor'
 require 'active_support/basic_object'
 require 'active_support/inflector'
+require 'active_support/callbacks'
 
 require 'active_support/core_ext'
 
@@ -49,3 +50,5 @@ require 'active_support/json'
 require 'active_support/multibyte'
 
 require 'active_support/base64'
+
+require 'active_support/time_with_zone'

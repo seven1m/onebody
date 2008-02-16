@@ -1,3 +1,5 @@
+require 'benchmark'
+
 module ActiveSupport
   module Cache
     def self.lookup_store(*store_option)
@@ -47,9 +49,10 @@ module ActiveSupport
         self
       end
 
-      def fetch(key, options = nil)
-        @logger_off = true        
-        if value = read(key, options)
+      # Pass :force => true to force a cache miss.
+      def fetch(key, options = {})
+        @logger_off = true
+        if !options[:force] && value = read(key, options)
           @logger_off = false
           log("hit", key, options)
           value

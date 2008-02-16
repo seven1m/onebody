@@ -1,4 +1,4 @@
-require 'abstract_unit'
+require "cases/helper"
 require 'models/topic'
 require 'models/reply'
 require 'models/company'
@@ -71,7 +71,7 @@ class TopicWithProtectedContentAndAccessibleAuthorName < ActiveRecord::Base
   attr_protected  :content
 end
 
-class BasicsTest < ActiveSupport::TestCase
+class BasicsTest < ActiveRecord::TestCase
   fixtures :topics, :companies, :developers, :projects, :computers, :accounts, :minimalistics, 'warehouse-things'
 
   def test_table_exists
@@ -877,7 +877,7 @@ class BasicsTest < ActiveSupport::TestCase
   end
 
   def test_readonly_attributes
-    assert_equal Set.new([ 'title' ]), ReadonlyTitlePost.readonly_attributes
+    assert_equal Set.new([ 'title', 'comments_count' ]), ReadonlyTitlePost.readonly_attributes
 
     post = ReadonlyTitlePost.create(:title => "cannot change this", :body => "changeable")
     post.reload
@@ -922,6 +922,71 @@ class BasicsTest < ActiveSupport::TestCase
     topic = Topic.find(1)
     topic.attributes = attributes
     assert_equal Time.local(2004, 6, 24, 16, 24, 0), topic.written_on
+  end
+  
+  def test_multiparameter_attributes_on_time_with_old_date
+    attributes = {
+      "written_on(1i)" => "1850", "written_on(2i)" => "6", "written_on(3i)" => "24",
+      "written_on(4i)" => "16", "written_on(5i)" => "24", "written_on(6i)" => "00"
+    }
+    topic = Topic.find(1)
+    topic.attributes = attributes
+    # testing against to_s(:db) representation because either a Time or a DateTime might be returned, depending on platform
+    assert_equal "1850-06-24 16:24:00", topic.written_on.to_s(:db)
+  end
+
+  def test_multiparameter_attributes_on_time_with_utc
+    ActiveRecord::Base.default_timezone = :utc
+    attributes = {
+      "written_on(1i)" => "2004", "written_on(2i)" => "6", "written_on(3i)" => "24",
+      "written_on(4i)" => "16", "written_on(5i)" => "24", "written_on(6i)" => "00"
+    }
+    topic = Topic.find(1)
+    topic.attributes = attributes
+    assert_equal Time.utc(2004, 6, 24, 16, 24, 0), topic.written_on
+  ensure
+    ActiveRecord::Base.default_timezone = :local
+  end
+
+  uses_tzinfo "test_multiparameter_attributes_on_time_with_time_zone_aware_attributes" do
+    def test_multiparameter_attributes_on_time_with_time_zone_aware_attributes
+      ActiveRecord::Base.time_zone_aware_attributes = true
+      ActiveRecord::Base.default_timezone = :utc
+      Time.zone = TimeZone[-28800]
+      attributes = {
+        "written_on(1i)" => "2004", "written_on(2i)" => "6", "written_on(3i)" => "24",
+        "written_on(4i)" => "16", "written_on(5i)" => "24", "written_on(6i)" => "00"
+      }
+      topic = Topic.find(1)
+      topic.attributes = attributes
+      assert_equal Time.utc(2004, 6, 24, 23, 24, 0), topic.written_on
+      assert_equal Time.utc(2004, 6, 24, 16, 24, 0), topic.written_on.time
+      assert_equal Time.zone, topic.written_on.time_zone
+    ensure
+      ActiveRecord::Base.time_zone_aware_attributes = false
+      ActiveRecord::Base.default_timezone = :local
+      Time.zone = nil
+    end
+  end
+
+  def test_multiparameter_attributes_on_time_with_skip_time_zone_conversion_for_attributes
+    ActiveRecord::Base.time_zone_aware_attributes = true
+    ActiveRecord::Base.default_timezone = :utc
+    Time.zone = TimeZone[-28800]
+    Topic.skip_time_zone_conversion_for_attributes = [:written_on]
+    attributes = {
+      "written_on(1i)" => "2004", "written_on(2i)" => "6", "written_on(3i)" => "24",
+      "written_on(4i)" => "16", "written_on(5i)" => "24", "written_on(6i)" => "00"
+    }
+    topic = Topic.find(1)
+    topic.attributes = attributes
+    assert_equal Time.utc(2004, 6, 24, 16, 24, 0), topic.written_on
+    assert_equal false, topic.written_on.respond_to?(:time_zone)
+  ensure
+    ActiveRecord::Base.time_zone_aware_attributes = false
+    ActiveRecord::Base.default_timezone = :local
+    Time.zone = nil
+    Topic.skip_time_zone_conversion_for_attributes = []
   end
 
   def test_multiparameter_attributes_on_time_with_empty_seconds
@@ -1711,23 +1776,6 @@ class BasicsTest < ActiveSupport::TestCase
     end
     assert_equal "<company>", xml.first(9)
     assert xml.include?(%(<arbitrary-element>#{value}</arbitrary-element>))
-  end
-
-  def test_except_attributes
-    assert_equal(
-      %w( author_name type id approved replies_count bonus_time written_on content author_email_address parent_id last_read).sort,
-      topics(:first).attributes(:except => :title).keys.sort
-    )
-
-    assert_equal(
-      %w( replies_count bonus_time written_on content author_email_address parent_id last_read).sort,
-      topics(:first).attributes(:except => [ :title, :id, :type, :approved, :author_name ]).keys.sort
-    )
-  end
-
-  def test_include_attributes
-    assert_equal(%w( title ), topics(:first).attributes(:only => :title).keys)
-    assert_equal(%w( title author_name type id approved ).sort, topics(:first).attributes(:only => [ :title, :id, :type, :approved, :author_name ]).keys.sort)
   end
 
   def test_type_name_with_module_should_handle_beginning

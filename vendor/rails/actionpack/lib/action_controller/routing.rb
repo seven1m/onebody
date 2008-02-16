@@ -7,6 +7,7 @@ require 'action_controller/routing/route'
 require 'action_controller/routing/segments'
 require 'action_controller/routing/builder'
 require 'action_controller/routing/route_set'
+require 'action_controller/routing/recognition_optimisation'
 
 module ActionController
   # == Routing
@@ -113,6 +114,12 @@ module ActionController
   #   # and provide these named routes
   #   root_url   # => 'http://www.example.com/'
   #   root_path  # => ''
+  #
+  # You can also specify an already-defined named route in your map.root call:
+  #
+  #   # In routes.rb
+  #   map.new_session :controller => 'sessions', :action => 'new'
+  #   map.root :new_session
   #
   # Note: when using +with_options+, the route is simply named after the
   # method you call on the block parameter rather than map.

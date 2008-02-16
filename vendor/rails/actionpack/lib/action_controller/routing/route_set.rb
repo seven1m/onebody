@@ -19,6 +19,11 @@ module ActionController
 
         # Creates a named route called "root" for matching the root level request.
         def root(options = {})
+          if options.is_a?(Symbol)
+            if source_route = @set.named_routes.routes[options]
+              options = source_route.defaults.merge({ :conditions => source_route.conditions })
+            end
+          end
           named_route("root", '', options)
         end
 
@@ -208,6 +213,9 @@ module ActionController
         named_routes.clear
         @combined_regexp = nil
         @routes_by_controller = nil
+        # This will force routing/recognition_optimization.rb
+        # to refresh optimisations.
+        @compiled_recognize_optimized = nil
       end
 
       def install_helpers(destinations = [ActionController::Base, ActionView::Base], regenerate_code = false)
@@ -379,19 +387,7 @@ module ActionController
       end
 
       def recognize_path(path, environment={})
-        routes.each do |route|
-          result = route.recognize(path, environment) and return result
-        end
-
-        allows = HTTP_METHODS.select { |verb| routes.find { |r| r.recognize(path, :method => verb) } }
-
-        if environment[:method] && !HTTP_METHODS.include?(environment[:method])
-          raise NotImplemented.new(*allows)
-        elsif !allows.empty?
-          raise MethodNotAllowed.new(*allows)
-        else
-          raise RoutingError, "No route matches #{path.inspect} with #{environment.inspect}"
-        end
+        raise "Not optimized! Check that routing/recognition_optimisation overrides RouteSet#recognize_path."
       end
 
       def routes_by_controller

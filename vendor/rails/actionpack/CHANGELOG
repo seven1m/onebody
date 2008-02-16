@@ -1,5 +1,43 @@
 *SVN*
 
+* Remove support for multivalued (e.g., '&'-delimited) cookies. [Jamis Buck]
+
+* Fix problem with render :partial collections, records, and locals. #11057 [lotswholetime] 
+
+* Added support for naming concrete classes in sweeper declarations [DHH]
+
+* Remove ERB trim variables from trace template in case ActionView::Base.erb_trim_mode is changed in the application.  #10098 [tpope, kampers]
+
+* Fix typo in form_helper documentation.  #10650 [xaviershay, kampers]
+
+* Fix bug with setting Request#format= after the getter has cached the value.  #10889 [cch1]
+
+* Correct inconsistencies in RequestForgeryProtection docs.  #11032 [mislav]
+
+* Introduce a Template class to ActionView.  #11024 [lifofifo]
+
+* Introduce the :index option for form_for and fields_for to simplify multi-model forms (see http://railscasts.com/episodes/75).  #9883 [rmm5t]
+
+* Introduce map.resources :cards, :as => 'tarjetas' to use a custom resource name in the URL: cards_path == '/tarjetas'.  #10578 [blj]
+
+* TestSession supports indifferent access.  #7372 [tamc, Arsen7, mhackett, julik, jean.helou]
+
+* Make assert_routing aware of the HTTP method used.  #8039 [mpalmer]
+  e.g. assert_routing({ :method => 'put', :path => '/product/321' }, { :controller => "product", :action => "update", :id => "321" })
+
+* Make map.root accept a single symbol as an argument to declare an alias.  #10818 [bscofield] 
+
+  e.g.  map.dashboard '/dashboard', :controller=>'dashboard'
+        map.root      :dashboard
+
+* Handle corner case with image_tag when passed 'messed up' image names. #9018 [duncanbeevers, mpalmer]
+
+* Add label_tag helper for generating elements. #10802 [DefV]
+
+* Introduce TemplateFinder to handle view paths and lookups.  #10800 [Pratik Naik] 
+
+* Performance: optimize route recognition. Large speedup for apps with many resource routes.  #10835 [oleganza]
+
 * Make render :partial recognise form builders and use the _form partial.  #10814 [djanowski]
 
 * Allow users to declare other namespaces when using the atom feed helpers. #10304 [david.calavera]

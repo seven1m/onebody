@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'date'
 require 'abstract_unit'
 require 'inflector_test_cases'
@@ -165,6 +166,23 @@ class StringInflectionsTest < Test::Unit::TestCase
     assert s.end_with?('o')
     assert s.end_with?('lo')
     assert !s.end_with?('el')
+  end
+
+  def test_string_squish
+    original = %{ A string with tabs(\t\t), newlines(\n\n), and
+                  many spaces(  ). }
+
+    expected = "A string with tabs( ), newlines( ), and many spaces( )."
+
+    # Make sure squish returns what we expect:
+    assert_equal original.squish,  expected
+    # But doesn't modify the original string:
+    assert_not_equal original, expected
+
+    # Make sure squish! returns what we expect:
+    assert_equal original.squish!, expected
+    # And changes the original string:
+    assert_equal original, expected
   end
 
   if RUBY_VERSION < '1.9'

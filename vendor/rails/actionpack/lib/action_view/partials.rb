@@ -107,17 +107,18 @@ module ActionView
         case partial_path
         when String, Symbol, NilClass
           path, partial_name = partial_pieces(partial_path)
+          full_partial_path = File.join(path, "_#{partial_name}")
           object = extracting_object(partial_name, object_assigns)
           local_assigns = local_assigns ? local_assigns.clone : {}
           add_counter_to_local_assigns!(partial_name, local_assigns)
           add_object_to_local_assigns!(partial_name, local_assigns, object)
 
           if logger && logger.debug?
-            ActionController::Base.benchmark("Rendered #{path}/_#{partial_name}", Logger::DEBUG, false) do
-              render("#{path}/_#{partial_name}", local_assigns)
+            ActionController::Base.benchmark("Rendered #{full_partial_path}", Logger::DEBUG, false) do
+              render(full_partial_path, local_assigns)
             end
           else
-            render("#{path}/_#{partial_name}", local_assigns)
+              render(full_partial_path, local_assigns)
           end
         when ActionView::Helpers::FormBuilder
           builder_partial_path = partial_path.class.to_s.demodulize.underscore.sub(/_builder$/, '')
@@ -126,14 +127,14 @@ module ActionView
           if partial_path.any?
             path       = ActionController::RecordIdentifier.partial_path(partial_path.first)
             collection = partial_path
-            render_partial_collection(path, collection, nil, object_assigns.value)
+            render_partial_collection(path, collection, nil, local_assigns)
           else
             ""
           end
         else
           render_partial(
             ActionController::RecordIdentifier.partial_path(partial_path),
-            object_assigns, local_assigns)
+            partial_path, local_assigns)
         end
       end
 
@@ -171,7 +172,9 @@ module ActionView
       end
 
       def partial_variable_name(partial_name)
-        partial_name.split('/').last.split('.').first.intern
+        @@partial_variable_names ||= {}
+        @@partial_variable_names[partial_name] ||=
+          partial_name.split('/').last.split('.').first.intern
       end
 
       def extracting_object(partial_name, object_assigns)

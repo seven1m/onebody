@@ -9,24 +9,26 @@ module ActiveSupport #:nodoc:
           base.class_eval do
             alias_method :plus_without_duration, :+
             alias_method :+, :plus_with_duration
+            
             alias_method :minus_without_duration, :-
             alias_method :-, :minus_with_duration
+            
+            alias_method :minus_without_coercion, :-
+            alias_method :-, :minus_with_coercion
+            
+            alias_method :compare_without_coercion, :<=>
+            alias_method :<=>, :compare_with_coercion
           end
         end
 
+        COMMON_YEAR_DAYS_IN_MONTH = [nil, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
         module ClassMethods
-          # Return the number of days in the given month. If a year is given,
-          # February will return the correct number of days for leap years.
-          # Otherwise, this method will always report February as having 28
-          # days.
-          def days_in_month(month, year=nil)
-            if month == 2
-              !year.nil? && (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)) ?  29 : 28
-            elsif month <= 7
-              month % 2 == 0 ? 30 : 31
-            else
-              month % 2 == 0 ? 31 : 30
-            end
+          # Return the number of days in the given month. 
+          # If no year is specified, it will use the current year. 
+          def days_in_month(month, year = now.year)
+            return 29 if month == 2 && ::Date.gregorian_leap?(year)
+            COMMON_YEAR_DAYS_IN_MONTH[month]
           end
 
           # Returns a new Time if requested year can be accommodated by Ruby's Time class
@@ -216,6 +218,27 @@ module ActiveSupport #:nodoc:
             other.until(self)
           else
             minus_without_duration(other)
+          end
+        end
+        
+        # Time#- can also be used to determine the number of seconds between two Time instances.
+        # We're layering on additional behavior so that ActiveSupport::TimeWithZone instances
+        # are coerced into values that Time#- will recognize
+        def minus_with_coercion(other)
+          other = other.comparable_time if other.respond_to?(:comparable_time)
+          minus_without_coercion(other)
+        end
+        
+        # Layers additional behavior on Time#<=> so that DateTime and ActiveSupport::TimeWithZone instances
+        # can be chronologically compared with a Time
+        def compare_with_coercion(other)
+          # if other is an ActiveSupport::TimeWithZone, coerce a Time instance from it so we can do <=> comparision
+          other = other.comparable_time if other.respond_to?(:comparable_time)
+          if other.acts_like?(:date)
+            # other is a Date/DateTime, so coerce self #to_datetime and hand off to DateTime#<=>
+            to_datetime.compare_without_coercion(other)
+          else
+            compare_without_coercion(other)
           end
         end
       end

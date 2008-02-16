@@ -5,7 +5,6 @@ module ActiveSupport #:nodoc:
       module Conversions
         def self.included(base) #:nodoc:
           base.class_eval do
-            alias_method :to_datetime_default_s, :to_s
             alias_method :to_s, :to_formatted_s
             alias_method :default_inspect, :inspect
             alias_method :inspect, :readable_inspect
@@ -41,17 +40,19 @@ module ActiveSupport #:nodoc:
         #   Time::DATE_FORMATS[:month_and_year] = "%B %Y"
         #   Time::DATE_FORMATS[:short_ordinal] = lambda { |time| time.strftime("%B #{time.day.ordinalize}") }
         def to_formatted_s(format = :default)
-          if formatter = ::Time::DATE_FORMATS[format]
-            if formatter.respond_to?(:call)
-              formatter.call(self).to_s
-            else
-              strftime(formatter)
-            end
-          else
-            to_datetime_default_s
-          end
+          return to_default_s unless formatter = ::Time::DATE_FORMATS[format]
+          formatter.respond_to?(:call) ? formatter.call(self).to_s : strftime(formatter)
         end
 
+        # Returns the utc_offset as an +HH:MM formatted string. Examples:
+        #
+        #   datetime = DateTime.civil(2000, 1, 1, 0, 0, 0, Rational(-6, 24))
+        #   datetime.formatted_offset         # => "-06:00"
+        #   datetime.formatted_offset(false)  # => "-0600"
+        def formatted_offset(colon = true, alternate_utc_string = nil)
+          utc? && alternate_utc_string || utc_offset.to_utc_offset_s(colon)
+        end
+        
         # Overrides the default inspect method with a human readable one, e.g., "Mon, 21 Feb 2005 14:30:00 +0000"
         def readable_inspect
           to_s(:rfc822)

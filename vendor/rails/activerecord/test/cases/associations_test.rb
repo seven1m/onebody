@@ -1,4 +1,4 @@
-require 'abstract_unit'
+require "cases/helper"
 require 'models/developer'
 require 'models/project'
 require 'models/company'
@@ -16,10 +16,19 @@ require 'models/tag'
 require 'models/tagging'
 require 'models/person'
 require 'models/reader'
+require 'models/parrot'
+require 'models/pirate'
+require 'models/treasure'
+require 'models/price_estimate'
 
-class AssociationsTest < ActiveSupport::TestCase
+class AssociationsTest < ActiveRecord::TestCase
   fixtures :accounts, :companies, :developers, :projects, :developers_projects,
            :computers
+
+  def test_include_with_order_works
+    assert_nothing_raised {Account.find(:first, :order => 'id', :include => :firm)}
+    assert_nothing_raised {Account.find(:first, :order => :id, :include => :firm)}
+  end
 
   def test_bad_collection_keys
     assert_raise(ArgumentError, 'ActiveRecord should have barked on bad collection keys') do
@@ -73,7 +82,7 @@ class AssociationsTest < ActiveSupport::TestCase
   end
 end
 
-class AssociationProxyTest < ActiveSupport::TestCase
+class AssociationProxyTest < ActiveRecord::TestCase
   fixtures :authors, :posts, :categorizations, :categories, :developers, :projects, :developers_projects
 
   def test_proxy_accessors
@@ -166,7 +175,7 @@ class AssociationProxyTest < ActiveSupport::TestCase
   end
 end
 
-class HasOneAssociationsTest < ActiveSupport::TestCase
+class HasOneAssociationsTest < ActiveRecord::TestCase
   fixtures :accounts, :companies, :developers, :projects, :developers_projects
 
   def setup
@@ -460,12 +469,17 @@ class HasOneAssociationsTest < ActiveSupport::TestCase
     end
   end
 
+  def test_cant_save_readonly_association
+    assert_raise(ActiveRecord::ReadOnlyRecord) { companies(:first_firm).readonly_account.save!  }
+    assert companies(:first_firm).readonly_account.readonly?
+  end
+
 end
 
 
-class HasManyAssociationsTest < ActiveSupport::TestCase
+class HasManyAssociationsTest < ActiveRecord::TestCase
   fixtures :accounts, :companies, :developers, :projects,
-           :developers_projects, :topics, :authors, :comments
+           :developers_projects, :topics, :authors, :comments, :author_addresses
 
   def setup
     Client.destroyed_client_ids.clear
@@ -533,6 +547,11 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
   def test_dynamic_find_all_limit_should_override_association_limit
     assert_equal 2, companies(:first_firm).limited_clients.find(:all, :conditions => "type = 'Client'", :limit => 9_000).length
     assert_equal 2, companies(:first_firm).limited_clients.find_all_by_type('Client', :limit => 9_000).length
+  end
+
+  def test_dynamic_find_all_should_respect_readonly_access
+    companies(:first_firm).readonly_clients.find(:all).each { |c| assert_raise(ActiveRecord::ReadOnlyRecord) { c.save!  } }
+    companies(:first_firm).readonly_clients.find(:all).each { |c| assert c.readonly? }
   end
 
   def test_triple_equality
@@ -990,6 +1009,23 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
     assert_equal 1, Client.find_all_by_client_of(firm.id).size
   end
 
+  def test_dependent_delete_and_destroy_with_belongs_to
+    author_address = author_addresses(:david_address)
+    assert_equal [], AuthorAddress.destroyed_author_address_ids[authors(:david).id]
+
+    assert_difference "AuthorAddress.count", -2 do
+      authors(:david).destroy
+    end
+
+    assert_equal [author_address.id], AuthorAddress.destroyed_author_address_ids[authors(:david).id]
+  end
+
+  def test_invalid_belongs_to_dependent_option_raises_exception
+    assert_raises ArgumentError do
+      Author.belongs_to :special_author_address, :dependent => :nullify
+    end
+  end
+
   def test_clearing_without_initial_access
     firm = companies(:first_firm)
 
@@ -1196,7 +1232,7 @@ class HasManyAssociationsTest < ActiveSupport::TestCase
 
 end
 
-class BelongsToAssociationsTest < ActiveSupport::TestCase
+class BelongsToAssociationsTest < ActiveRecord::TestCase
   fixtures :accounts, :companies, :developers, :projects, :topics,
            :developers_projects, :computers, :authors, :posts, :tags, :taggings
 
@@ -1284,6 +1320,18 @@ class BelongsToAssociationsTest < ActiveSupport::TestCase
 
     trash.destroy
     assert_equal 0, Topic.find(debate.id).send(:read_attribute, "replies_count"), "First reply deleted"
+  end
+
+  def test_belongs_to_counter_with_assigning_nil
+    p = Post.find(1)
+    c = Comment.find(1)
+
+    assert_equal p.id, c.post_id
+    assert_equal 2, Post.find(p.id).comments.size
+
+    c.post = nil
+
+    assert_equal 1, Post.find(p.id).comments.size
   end
 
   def test_belongs_to_counter_with_reassigning
@@ -1543,6 +1591,11 @@ class BelongsToAssociationsTest < ActiveSupport::TestCase
     assert_equal post.author_id, author2.id
   end
 
+  def test_cant_save_readonly_association
+    assert_raise(ActiveRecord::ReadOnlyRecord) { companies(:first_client).readonly_firm.save! }
+    assert companies(:first_client).readonly_firm.readonly?
+  end
+
 end
 
 
@@ -1572,8 +1625,9 @@ class DeveloperForProjectWithAfterCreateHook < ActiveRecord::Base
 end
 
 
-class HasAndBelongsToManyAssociationsTest < ActiveSupport::TestCase
-  fixtures :accounts, :companies, :categories, :posts, :categories_posts, :developers, :projects, :developers_projects
+class HasAndBelongsToManyAssociationsTest < ActiveRecord::TestCase
+  fixtures :accounts, :companies, :categories, :posts, :categories_posts, :developers, :projects, :developers_projects,
+           :parrots, :pirates, :treasures, :price_estimates
 
   def test_has_and_belongs_to_many
     david = Developer.find(1)
@@ -1948,6 +2002,11 @@ class HasAndBelongsToManyAssociationsTest < ActiveSupport::TestCase
     assert_equal 2, projects(:active_record).limited_developers.find_all_by_name('Jamis', :limit => 9_000).length
   end
 
+  def test_dynamic_find_all_should_respect_readonly_access
+    projects(:active_record).readonly_developers.each { |d| assert_raise(ActiveRecord::ReadOnlyRecord) { d.save!  } if d.valid?}
+    projects(:active_record).readonly_developers.each { |d| d.readonly? }
+  end
+
   def test_new_with_values_in_collection
     jamis = DeveloperForProjectWithAfterCreateHook.find_by_name('Jamis')
     david = DeveloperForProjectWithAfterCreateHook.find_by_name('David')
@@ -2109,10 +2168,14 @@ class HasAndBelongsToManyAssociationsTest < ActiveSupport::TestCase
       tag.save!
     end
   end
+
+  def test_has_many_through_polymorphic_has_manys_works
+    assert_equal [10, 20].to_set, pirates(:redbeard).treasure_estimates.map(&:price).to_set
+  end
 end
 
 
-class OverridingAssociationsTest < ActiveSupport::TestCase
+class OverridingAssociationsTest < ActiveRecord::TestCase
   class Person < ActiveRecord::Base; end
   class DifferentPerson < ActiveRecord::Base; end
 

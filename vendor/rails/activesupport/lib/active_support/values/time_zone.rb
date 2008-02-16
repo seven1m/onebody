@@ -1,58 +1,165 @@
-# A value object representing a time zone. A time zone is simply a named
-# offset (in seconds) from GMT. Note that two time zone objects are only
-# equivalent if they have both the same offset, and the same name.
-#
-# A TimeZone instance may be used to convert a Time value to the corresponding
-# time zone.
-#
-# The class also includes #all, which returns a list of all TimeZone objects.
 class TimeZone
-  include Comparable
+  MAPPING = {
+    "International Date Line West" => "Pacific/Midway",
+    "Midway Island"                => "Pacific/Midway",
+    "Samoa"                        => "Pacific/Pago_Pago",
+    "Hawaii"                       => "Pacific/Honolulu",
+    "Alaska"                       => "America/Juneau",
+    "Pacific Time (US & Canada)"   => "America/Los_Angeles",
+    "Tijuana"                      => "America/Tijuana",
+    "Mountain Time (US & Canada)"  => "America/Denver",
+    "Arizona"                      => "America/Phoenix",
+    "Chihuahua"                    => "America/Chihuahua",
+    "Mazatlan"                     => "America/Mazatlan",
+    "Central Time (US & Canada)"   => "America/Chicago",
+    "Saskatchewan"                 => "America/Regina",
+    "Guadalajara"                  => "America/Mexico_City",
+    "Mexico City"                  => "America/Mexico_City",
+    "Monterrey"                    => "America/Monterrey",
+    "Central America"              => "America/Guatemala",
+    "Eastern Time (US & Canada)"   => "America/New_York",
+    "Indiana (East)"               => "America/Indiana/Indianapolis",
+    "Bogota"                       => "America/Bogota",
+    "Lima"                         => "America/Lima",
+    "Quito"                        => "America/Lima",
+    "Atlantic Time (Canada)"       => "America/Halifax",
+    "Caracas"                      => "America/Caracas",
+    "La Paz"                       => "America/La_Paz",
+    "Santiago"                     => "America/Santiago",
+    "Newfoundland"                 => "America/St_Johns",
+    "Brasilia"                     => "America/Argentina/Buenos_Aires",
+    "Buenos Aires"                 => "America/Argentina/Buenos_Aires",
+    "Georgetown"                   => "America/Argentina/San_Juan",
+    "Greenland"                    => "America/Godthab",
+    "Mid-Atlantic"                 => "Atlantic/South_Georgia",
+    "Azores"                       => "Atlantic/Azores",
+    "Cape Verde Is."               => "Atlantic/Cape_Verde",
+    "Dublin"                       => "Europe/Dublin",
+    "Edinburgh"                    => "Europe/Dublin",
+    "Lisbon"                       => "Europe/Lisbon",
+    "London"                       => "Europe/London",
+    "Casablanca"                   => "Africa/Casablanca",
+    "Monrovia"                     => "Africa/Monrovia",
+    "UTC"                          => "UTC",
+    "Belgrade"                     => "Europe/Belgrade",
+    "Bratislava"                   => "Europe/Bratislava",
+    "Budapest"                     => "Europe/Budapest",
+    "Ljubljana"                    => "Europe/Ljubljana",
+    "Prague"                       => "Europe/Prague",
+    "Sarajevo"                     => "Europe/Sarajevo",
+    "Skopje"                       => "Europe/Skopje",
+    "Warsaw"                       => "Europe/Warsaw",
+    "Zagreb"                       => "Europe/Zagreb",
+    "Brussels"                     => "Europe/Brussels",
+    "Copenhagen"                   => "Europe/Copenhagen",
+    "Madrid"                       => "Europe/Madrid",
+    "Paris"                        => "Europe/Paris",
+    "Amsterdam"                    => "Europe/Amsterdam",
+    "Berlin"                       => "Europe/Berlin",
+    "Bern"                         => "Europe/Berlin",
+    "Rome"                         => "Europe/Rome",
+    "Stockholm"                    => "Europe/Stockholm",
+    "Vienna"                       => "Europe/Vienna",
+    "West Central Africa"          => "Africa/Algiers",
+    "Bucharest"                    => "Europe/Bucharest",
+    "Cairo"                        => "Africa/Cairo",
+    "Helsinki"                     => "Europe/Helsinki",
+    "Kyev"                         => "Europe/Kiev",
+    "Riga"                         => "Europe/Riga",
+    "Sofia"                        => "Europe/Sofia",
+    "Tallinn"                      => "Europe/Tallinn",
+    "Vilnius"                      => "Europe/Vilnius",
+    "Athens"                       => "Europe/Athens",
+    "Istanbul"                     => "Europe/Istanbul",
+    "Minsk"                        => "Europe/Minsk",
+    "Jerusalem"                    => "Asia/Jerusalem",
+    "Harare"                       => "Africa/Harare",
+    "Pretoria"                     => "Africa/Johannesburg",
+    "Moscow"                       => "Europe/Moscow",
+    "St. Petersburg"               => "Europe/Moscow",
+    "Volgograd"                    => "Europe/Moscow",
+    "Kuwait"                       => "Asia/Kuwait",
+    "Riyadh"                       => "Asia/Riyadh",
+    "Nairobi"                      => "Africa/Nairobi",
+    "Baghdad"                      => "Asia/Baghdad",
+    "Tehran"                       => "Asia/Tehran",
+    "Abu Dhabi"                    => "Asia/Muscat",
+    "Muscat"                       => "Asia/Muscat",
+    "Baku"                         => "Asia/Baku",
+    "Tbilisi"                      => "Asia/Tbilisi",
+    "Yerevan"                      => "Asia/Yerevan",
+    "Kabul"                        => "Asia/Kabul",
+    "Ekaterinburg"                 => "Asia/Yekaterinburg",
+    "Islamabad"                    => "Asia/Karachi",
+    "Karachi"                      => "Asia/Karachi",
+    "Tashkent"                     => "Asia/Tashkent",
+    "Chennai"                      => "Asia/Calcutta",
+    "Kolkata"                      => "Asia/Calcutta",
+    "Mumbai"                       => "Asia/Calcutta",
+    "New Delhi"                    => "Asia/Calcutta",
+    "Kathmandu"                    => "Asia/Katmandu",
+    "Astana"                       => "Asia/Dhaka",
+    "Dhaka"                        => "Asia/Dhaka",
+    "Sri Jayawardenepura"          => "Asia/Dhaka",
+    "Almaty"                       => "Asia/Almaty",
+    "Novosibirsk"                  => "Asia/Novosibirsk",
+    "Rangoon"                      => "Asia/Rangoon",
+    "Bangkok"                      => "Asia/Bangkok",
+    "Hanoi"                        => "Asia/Bangkok",
+    "Jakarta"                      => "Asia/Jakarta",
+    "Krasnoyarsk"                  => "Asia/Krasnoyarsk",
+    "Beijing"                      => "Asia/Shanghai",
+    "Chongqing"                    => "Asia/Chongqing",
+    "Hong Kong"                    => "Asia/Hong_Kong",
+    "Urumqi"                       => "Asia/Urumqi",
+    "Kuala Lumpur"                 => "Asia/Kuala_Lumpur",
+    "Singapore"                    => "Asia/Singapore",
+    "Taipei"                       => "Asia/Taipei",
+    "Perth"                        => "Australia/Perth",
+    "Irkutsk"                      => "Asia/Irkutsk",
+    "Ulaan Bataar"                 => "Asia/Ulaanbaatar",
+    "Seoul"                        => "Asia/Seoul",
+    "Osaka"                        => "Asia/Tokyo",
+    "Sapporo"                      => "Asia/Tokyo",
+    "Tokyo"                        => "Asia/Tokyo",
+    "Yakutsk"                      => "Asia/Yakutsk",
+    "Darwin"                       => "Australia/Darwin",
+    "Adelaide"                     => "Australia/Adelaide",
+    "Canberra"                     => "Australia/Melbourne",
+    "Melbourne"                    => "Australia/Melbourne",
+    "Sydney"                       => "Australia/Sydney",
+    "Brisbane"                     => "Australia/Brisbane",
+    "Hobart"                       => "Australia/Hobart",
+    "Vladivostok"                  => "Asia/Vladivostok",
+    "Guam"                         => "Pacific/Guam",
+    "Port Moresby"                 => "Pacific/Port_Moresby",
+    "Magadan"                      => "Asia/Magadan",
+    "Solomon Is."                  => "Asia/Magadan",
+    "New Caledonia"                => "Pacific/Noumea",
+    "Fiji"                         => "Pacific/Fiji",
+    "Kamchatka"                    => "Asia/Kamchatka",
+    "Marshall Is."                 => "Pacific/Majuro",
+    "Auckland"                     => "Pacific/Auckland",
+    "Wellington"                   => "Pacific/Auckland",
+    "Nuku'alofa"                   => "Pacific/Tongatapu"
+  }
 
+  include Comparable
   attr_reader :name, :utc_offset
 
-  # Create a new TimeZone object with the given name and offset. The offset is
-  # the number of seconds that this time zone is offset from UTC (GMT). Seconds
-  # were chosen as the offset unit because that is the unit that Ruby uses
-  # to represent time zone offsets (see Time#utc_offset).
+  # Create a new TimeZone object with the given name and offset. The
+  # offset is the number of seconds that this time zone is offset from UTC
+  # (GMT). Seconds were chosen as the offset unit because that is the unit that
+  # Ruby uses to represent time zone offsets (see Time#utc_offset).
   def initialize(name, utc_offset)
     @name = name
     @utc_offset = utc_offset
   end
 
   # Returns the offset of this time zone as a formatted string, of the
-  # format "+HH:MM". If the offset is zero, this returns the empty
-  # string. If +colon+ is false, a colon will not be inserted into the
-  # result.
-  def formatted_offset( colon=true )
-    return "" if utc_offset == 0
-    utc_offset.to_utc_offset_s(colon)
-  end
-
-  # Compute and return the current time, in the time zone represented by
-  # +self+.
-  def now
-    adjust(Time.now)
-  end
-
-  # Return the current date in this time zone.
-  def today
-    now.to_date
-  end
-
-  # Adjust the given time to the time zone represented by +self+.
-  def adjust(time)
-    time = time.to_time unless time.is_a?(::Time)
-    time + utc_offset - time.utc_offset
-  end
-
-  # Reinterprets the given time value as a time in the current time
-  # zone, and then adjusts it to return the corresponding time in the
-  # local time zone.
-  def unadjust(time)
-    time = time.to_time unless time.is_a?(::Time)
-    time = time.localtime
-    time - utc_offset - time.utc_offset
+  # format "+HH:MM".
+  def formatted_offset(colon=true, alternate_utc_string = nil)
+    utc_offset == 0 && alternate_utc_string || utc_offset.to_utc_offset_s(colon)
   end
 
   # Compare this time zone to the parameter. The two are comapred first on
@@ -67,16 +174,69 @@ class TimeZone
   def to_s
     "(UTC#{formatted_offset}) #{name}"
   end
+  
+  # Method for creating new ActiveSupport::TimeWithZone instance in time zone of self. Example:
+  #
+  #   Time.zone = "Hawaii"                      # => "Hawaii"
+  #   Time.zone.local(2007, 2, 1, 15, 30, 45)   # => Thu, 01 Feb 2007 15:30:45 HST -10:00
+  def local(*args)
+    Time.utc_time(*args).change_time_zone(self)
+  end
+
+  begin # the following methods depend on the tzinfo gem
+    require_library_or_gem "tzinfo" unless Object.const_defined?(:TZInfo)
+    
+    # Returns an ActiveSupport::TimeWithZone instance representing the current time
+    # in the time zone represented by +self+. Example:
+    #
+    #   Time.zone = 'Hawaii'  # => "Hawaii"
+    #   Time.zone.now         # => Wed, 23 Jan 2008 20:24:27 HST -10:00
+    def now
+      tzinfo.now.change_time_zone(self)
+    end
+
+    # Return the current date in this time zone.
+    def today
+      tzinfo.now.to_date
+    end
+
+    # Adjust the given time to the simultaneous time in the time zone represented by +self+. Returns a 
+    # Time.utc() instance -- if you want an ActiveSupport::TimeWithZone instance, use Time#in_time_zone() instead.
+    def utc_to_local(time)
+      tzinfo.utc_to_local(time)
+    end
+    
+    # Adjust the given time to the simultaneous time in UTC. Returns a Time.utc() instance.
+    def local_to_utc(time, dst=true)
+      tzinfo.local_to_utc(time, dst)
+    end
+
+    # Available so that TimeZone instances respond like TZInfo::Timezone instances
+    def period_for_local(time, dst=true)
+      tzinfo.period_for_local(time, dst)
+    end
+    
+    def tzinfo
+      return @tzinfo if @tzinfo
+      @tzinfo = MAPPING[name]
+      if String === @tzinfo
+        @tzinfo = TZInfo::Timezone.get(@tzinfo)
+        MAPPING[name] = @tzinfo
+      end
+      @tzinfo
+    end
+    
+  rescue LoadError # Tzinfo gem is not available
+    # re-raise LoadError only when a tzinfo-dependent method is called:
+    %w(now today utc_to_local local_to_utc period_for_local tzinfo).each do |method|
+      define_method(method) {|*args| raise LoadError, "TZInfo gem is required for TimeZone##{method}. `gem install tzinfo` and try again."}
+    end
+  end
 
   @@zones = nil
 
   class << self
-    # Create a new TimeZone instance with the given name and offset.
-    def create(name, offset)
-      zone = allocate
-      zone.send!(:initialize, name, offset)
-      zone
-    end
+    alias_method :create, :new
 
     # Return a TimeZone instance with the given name, or +nil+ if no
     # such TimeZone instance exists. (This exists to support the use of
@@ -85,18 +245,18 @@ class TimeZone
       self[name]
     end
 
-    # Return an array of all TimeZone objects. There are multiple TimeZone
-    # objects per time zone, in many cases, to make it easier for users to
-    # find their own time zone.
+    # Return an array of all TimeZone objects. There are multiple
+    # TimeZone objects per time zone, in many cases, to make it easier
+    # for users to find their own time zone.
     def all
       unless @@zones
         @@zones = []
-        [[-43_200, "International Date Line West" ],
-         [-39_600, "Midway Island", "Samoa" ],
+        @@zones_map = {}
+        [[-39_600, "International Date Line West", "Midway Island", "Samoa" ],
          [-36_000, "Hawaii" ],
          [-32_400, "Alaska" ],
          [-28_800, "Pacific Time (US & Canada)", "Tijuana" ],
-         [-25_200, "Mountain Time (US & Canada)", "Chihuahua", "Mazatlan", 
+         [-25_200, "Mountain Time (US & Canada)", "Chihuahua", "Mazatlan",
                    "Arizona" ],
          [-21_600, "Central Time (US & Canada)", "Saskatchewan", "Guadalajara",
                    "Mexico City", "Monterrey", "Central America" ],
@@ -108,7 +268,7 @@ class TimeZone
          [ -7_200, "Mid-Atlantic" ],
          [ -3_600, "Azores", "Cape Verde Is." ],
          [      0, "Dublin", "Edinburgh", "Lisbon", "London", "Casablanca",
-                   "Monrovia" ],
+                   "Monrovia", "UTC" ],
          [  3_600, "Belgrade", "Bratislava", "Budapest", "Ljubljana", "Prague",
                    "Sarajevo", "Skopje", "Warsaw", "Zagreb", "Brussels",
                    "Copenhagen", "Madrid", "Paris", "Amsterdam", "Berlin",
@@ -141,7 +301,11 @@ class TimeZone
                    "Wellington" ],
          [ 46_800, "Nuku'alofa" ]].
         each do |offset, *places|
-          places.each { |place| @@zones << create(place, offset).freeze }
+          places.each do |place|
+            zone = create(place, offset)
+            @@zones << zone
+            @@zones_map[place] = zone
+          end
         end
         @@zones.sort!
       end
@@ -156,8 +320,9 @@ class TimeZone
     def [](arg)
       case arg
         when String
-          all.find { |z| z.name == arg }
-        when Numeric
+          all # force the zones to be loaded
+          @@zones_map[arg]
+        when Numeric, ActiveSupport::Duration
           arg *= 3600 if arg.abs <= 13
           all.find { |z| z.utc_offset == arg.to_i }
         else
@@ -167,7 +332,7 @@ class TimeZone
 
     # A regular expression that matches the names of all time zones in
     # the USA.
-    US_ZONES = /US|Arizona|Indiana|Hawaii|Alaska/ unless defined?(US_ZONES)
+    US_ZONES = /US|Arizona|Indiana|Hawaii|Alaska/
 
     # A convenience method for returning a collection of TimeZone objects
     # for time zones in the USA.

@@ -125,6 +125,20 @@ module ActiveRecord
   #
   # Observers will not be invoked unless you define these in your application configuration.
   #
+  # == Loading
+  #
+  # Observers register themselves in the model class they observe, since it is the class that
+  # notifies them of events when they occur. As a side-effect, when an observer is loaded its
+  # corresponding model class is loaded.
+  # 
+  # Up to (and including) Rails 2.0.2 observers were instantiated between plugins and
+  # application initializers. Now observers are loaded after application initializers, 
+  # so observed models can make use of extensions.
+  # 
+  # If by any chance you are using observed models in the initialization you can still
+  # load their observers by calling <tt>ModelObserver.instance</tt> before. Observers are
+  # singletons and that call instantiates and registers them.
+  #
   class Observer
     include Singleton
 
@@ -137,10 +151,10 @@ module ActiveRecord
       end
 
       # The class observed by default is inferred from the observer's class name:
-      #   assert_equal [Person], PersonObserver.observed_class
+      #   assert_equal Person, PersonObserver.observed_class
       def observed_class
-        if observed_class_name = name.scan(/(.*)Observer/)[0]
-          observed_class_name[0].constantize
+        if observed_class_name = /(.*)Observer/.match(name)[1]
+          observed_class_name.constantize
         else
           nil
         end

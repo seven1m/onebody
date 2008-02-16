@@ -1,5 +1,29 @@
 *SVN*
 
+* Improve associations performance by using symbol callbacks instead of string callbacks. #11108 [adymo]
+
+* Optimise the BigDecimal conversion code.  #11110 [adymo]
+
+* Introduce the :readonly option to all associations. Records from the association cannot be saved.  #11084 [miloops]
+
+* Multiparameter attributes for time columns fail over to DateTime when out of range of Time [Geoff Buesing]
+
+* Base#instantiate_time_object uses Time.zone.local() [Geoff Buesing]
+
+* Add timezone-aware attribute readers and writers. #10982 [Geoff Buesing]
+
+* Instantiating time objects in multiparameter attributes uses Time.zone if available.  #10982 [rick]
+
+* Add note about how ActiveRecord::Observer classes are initialized in a Rails app. #10980 [fxn]
+
+* MySQL: omit text/blob defaults from the schema instead of using an empty string.  #10963 [mdeiters]
+
+* belongs_to supports :dependent => :destroy and :delete.  #10592 [Jonathan Viney]
+
+* Introduce preload query strategy for eager :includes.  #9640 [Frederick Cheung, Aleksey Kondratenko, codafoo]
+
+* Support aggregations in finder conditions.  #10572 [Ryan Kinderman]
+
 * Organize and clean up the Active Record test suite.  #10742 [John Barnette]
 
 * Ensure that modifying has_and_belongs_to_many actions clear the query cache.  Closes #10840 [john.andrews]
