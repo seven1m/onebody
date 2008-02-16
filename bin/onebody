@@ -33,6 +33,8 @@ if ARGV[0]
       next if file.include? 'database.yml'
       FileUtils.cp_r(file, File.join(directory, 'config'), :remove_destination => true)
     end
+    # create log directory
+    FileUtils.mkdir(File.join(directory, 'log'))
     # remove pesky .svn directories
     Dir[File.join(directory, '**', '.svn')].each { |d| FileUtils.rm_rf(d) }
     # set to production mode
