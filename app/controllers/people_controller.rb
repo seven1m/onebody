@@ -1,5 +1,6 @@
 class PeopleController < ApplicationController
-  before_filter :get_person, :can_see?, :except => [:index, :search, :directory_to_pdf, :add_verse, :remove_verse]
+  before_filter :get_person, :except => [:index, :search, :directory_to_pdf, :add_verse, :remove_verse]
+  before_filter :can_see?, :except => [:recently, :index, :search, :directory_to_pdf, :add_verse, :remove_verse]
   before_filter :can_edit?, :only => [:email, :edit]
   
   def index; @person = @logged_in; @family = @person.family; view; end
@@ -26,12 +27,17 @@ class PeopleController < ApplicationController
   def groups; render(:partial => 'groups'); end
   
   def recently
+    @person = params[:id] ? Person.find(params[:id]) : @logged_in
     return render_no_auth unless params[:code] == @person.feed_code or @me
     @items = @person.recently_tab_items
     @grouped_items = @items.group_by_model_name
-    respond_to do |wants|
-      wants.html { render :partial => 'recently', :layout => false }
-      wants.js { render :partial => 'recently' }
+    if params[:code]
+      render :file => '../app/views/people/recently.xml.builder'
+    else
+      respond_to do |wants|
+        wants.html { render :partial => 'recently', :layout => false }
+        wants.js { render :partial => 'recently' }
+      end
     end
   end
   
