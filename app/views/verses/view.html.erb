@@ -6,7 +6,7 @@
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', {:controller => 'people', :action => 'add_verse', :reference => s(@verse.reference), :return_to => request.request_uri}, :method => 'post' %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference, :return_to => request.request_uri}, :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>

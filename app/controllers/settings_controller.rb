@@ -11,6 +11,7 @@ class SettingsController < ApplicationController
   
   def edit
     Setting.find_all_by_site_id(Site.current.id).each do |setting|
+      next if setting.hidden?
       value = params[setting.id.to_s]
       value = value.split(/\n/) if value and setting.format == 'list'
       value = value == '' ? nil : value

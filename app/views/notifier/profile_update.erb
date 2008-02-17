@@ -23,6 +23,6 @@ State: <%= @updates[:state] %><% end -%>
 <% if @updates[:zip] %>
 Zip: <%= @updates[:zip] %><% end -%>
 <% if @updates[:birthday] %>
-Birthday: <%= @updates[:birthday].year == 1800 ? '' : @updates[:birthday].to_s %><% end -%>
+Birthday: <%= @updates[:birthday].respond_to? :year and @updates[:birthday].year == 1800 ? '' : @updates[:birthday].to_s %><% end -%>
 <% if @updates[:anniversary] %>
-Anniversary: <%= @updates[:anniversary].year == 1800 ? '' : @updates[:anniversary].to_s %><% end %>
+Anniversary: <%= @updates[:anniversary].respond_to? :year and @updates[:anniversary].year == 1800 ? '' : @updates[:anniversary].to_s %><% end %>
