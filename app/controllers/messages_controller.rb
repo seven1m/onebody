@@ -99,9 +99,9 @@ class MessagesController < ApplicationController
         @to = Person.new
       end
       respond_to do |wants|
-        wants.html { render :action => '../notifier/message', :layout => false }
+        wants.html { render :file => 'app/views/notifier/message.html.erb', :layout => false }
         wants.js do
-          preview = render_to_string :action => '../notifier/message', :layout => false
+          preview = render_to_string :file => 'app/views/notifier/message.html.erb', :layout => false
           preview.gsub!(/\n/, "<br/>\n").gsub!(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')
           render(:update) do |page|
             page.replace_html 'preview-email', preview
