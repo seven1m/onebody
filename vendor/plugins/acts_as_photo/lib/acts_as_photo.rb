@@ -109,7 +109,7 @@ class ActionController::Base
   def send_photo(object)
     if object.has_photo?
       if params[:id] =~ /^\d+\.[a-z]+\.jpg$/ and request.env["HTTP_ACCEPT"].split(/,|;/).include? 'text/html'
-        render :action => '../picture', :layout => true
+        render :file => File.join(RAILS_ROOT, 'app/views/picture.html.erb'), :layout => true
       else
         path = object.photo_path_from_id(params[:id])
         updated_time = File.stat(path).mtime
