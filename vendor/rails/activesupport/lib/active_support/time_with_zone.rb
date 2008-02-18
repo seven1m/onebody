@@ -125,14 +125,29 @@ module ActiveSupport
       utc <=> other
     end
     
+    def between?(min, max)
+      utc.between?(min, max)
+    end
+    
     def eql?(other)
       utc == other
     end
     
-    # Need to override #- to intercept situation where a Time or Time With Zone object is passed in
+    # If wrapped #time is a DateTime, use DateTime#since instead of #+
+    # Otherwise, just pass on to #method_missing
+    def +(other)
+      time.acts_like?(:date) ? method_missing(:since, other) : method_missing(:+, other)
+    end
+    
+    # If a time-like object is passed in, compare it with #utc
+    # Else if wrapped #time is a DateTime, use DateTime#ago instead of #-
     # Otherwise, just pass on to method missing
     def -(other)
-      other.acts_like?(:time) ? utc - other : method_missing(:-, other)
+      if other.acts_like?(:time)
+        utc - other
+      else
+        time.acts_like?(:date) ? method_missing(:ago, other) : method_missing(:-, other)
+      end
     end
     
     def to_a
@@ -149,7 +164,7 @@ module ActiveSupport
     alias_method :hash, :to_i
     alias_method :tv_sec, :to_i
   
-    # A TimeProxy acts like a Time, so just return self
+    # A TimeWithZone acts like a Time, so just return self
     def to_time
       self
     end
@@ -176,6 +191,8 @@ module ActiveSupport
   
     # Ensure proxy class responds to all methods that underlying time instance responds to
     def respond_to?(sym)
+      # consistently respond false to acts_like?(:date), regardless of whether #time is a Time or DateTime
+      return false if sym.to_s == 'acts_like_date?'
       super || time.respond_to?(sym)
     end
   

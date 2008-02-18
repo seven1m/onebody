@@ -76,6 +76,12 @@ class EagerAssociationTest < ActiveRecord::TestCase
     assert_nil Post.find(posts(:authorless).id, :include => :author).author
   end
 
+  def test_nested_loading_with_no_associations
+    assert_nothing_raised do
+      Post.find(posts(:authorless).id, :include => {:author => :author_addresss})
+    end
+  end
+
   def test_eager_association_loading_with_belongs_to_and_foreign_keys
     pets = Pet.find(:all, :include => :owner)
     assert_equal 3, pets.length
@@ -245,6 +251,12 @@ class EagerAssociationTest < ActiveRecord::TestCase
     author = authors(:david)
     author_posts_without_comments = author.posts.select { |post| post.comments.blank? }
     assert_equal author_posts_without_comments.size, author.posts.count(:all, :include => :comments, :conditions => 'comments.id is null')
+  end
+  
+  def test_eager_count_performed_on_a_has_many_through_association_with_multi_table_conditional
+    person = people(:michael)
+    person_posts_without_comments = person.posts.select { |post| post.comments.blank? }
+    assert_equal person_posts_without_comments.size, person.posts_with_no_comments.count
   end
 
   def test_eager_with_has_and_belongs_to_many_and_limit
