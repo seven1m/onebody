@@ -1,4 +1,4 @@
-*.log
+log/*
 db/*.db
 tmp
 pkg

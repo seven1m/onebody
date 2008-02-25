@@ -25,7 +25,7 @@ class AdminController < ApplicationController
     conditions.add_condition ['reviewed_on is null'] unless session[:admin_log][:reviewed] == 'visible'
     conditions.add_condition ['flagged_on is not null'] unless session[:admin_log][:nonflagged] == 'visible'
     conditions = nil if conditions.empty?
-    @pages = Paginator.new self, LogItem.count(conditions), 100, params[:page]
+    @pages = Paginator.new self, LogItem.count('*', :conditions => conditions), 100, params[:page]
     @items = LogItem.find :all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset, :conditions => conditions
     #@items.delete_if { |i| i.object.nil? }
   end
