@@ -34,6 +34,6 @@ class Admin < ActiveRecord::Base
   acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   def self.privilege_columns
-    columns.select { |c| !%w(id created_at updated_at).include? c.name }
+    columns.select { |c| !%w(id created_at updated_at site_id).include? c.name }
   end
 end
