@@ -1,6 +1,7 @@
-log/*
+log/*.log
 db/*.db
 tmp
 pkg
 .DS_Store
 db/schema.rb
+db/photos/**/*.jpg
