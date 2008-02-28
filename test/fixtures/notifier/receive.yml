@@ -1,0 +1,15 @@
+from_jim_to_morgan_group_in_site1:
+  from: jim@example.com
+  to: morgan@site1
+  subject: test to morgan group in site 1
+  body: Hello Site 1 from Jim!
+from_jim_to_morgan_group_in_site2:
+  from: jim@example.com
+  to: morgan@site2
+  subject: test to morgan group in site 2
+  body: Hello Site 2 from Jim! (This should fail)
+from_tom_to_morgan_group_in_site2:
+  from: tom@example.com
+  to: morgan@site2
+  subject: test to morgan group in site 2
+  body: Hello Site 2 from Tom!

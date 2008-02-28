@@ -16,6 +16,8 @@ class NotifierTest < Test::Unit::TestCase
 
     @expected = TMail::Mail.new
     @expected.set_content_type "text", "plain", { "charset" => CHARSET }
+    
+    @receive_emails = read_fixtures('receive')
   end
   
   def test_email_update
@@ -27,10 +29,45 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("#{people(:tim).name} has had their email changed.")
     assert sent.body.index("Email: #{people(:tim).email}")
   end
+  
+  def test_receive_for_site
+    Notifier.receive(@receive_emails['from_jim_to_morgan_group_in_site1'].to_s)
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal @receive_emails['from_jim_to_morgan_group_in_site1'].subject, sent.subject
+    assert sent.body.index(@receive_emails['from_jim_to_morgan_group_in_site1'].body)
+    assert_equal [people(:jim).email], sent.to
+  end
+  
+  def test_receive_for_other_site
+    Notifier.receive(@receive_emails['from_tom_to_morgan_group_in_site2'].to_s)
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal @receive_emails['from_tom_to_morgan_group_in_site2'].subject, sent.subject
+    assert sent.body.index(@receive_emails['from_tom_to_morgan_group_in_site2'].body)
+    assert_equal [people(:tom).email], sent.to
+  end
+  
+  def test_receive_for_wrong_site
+    Notifier.receive(@receive_emails['from_jim_to_morgan_group_in_site2'].to_s)
+    assert_equal 0, ActionMailer::Base.deliveries.length
+  end
+  
+  def teardown
+    Site.current = Site.find(1)
+  end
 
   private
-    def read_fixture(action)
-      IO.readlines("#{FIXTURES_PATH}/notifier/#{action}")
+    def read_fixtures(action)
+      emails = {}
+      YAML::load(File.open("#{FIXTURES_PATH}/notifier/#{action}.yml")).each do |name, values|
+        emails[name] = TMail::Mail.new
+        emails[name].to = values['to']
+        emails[name].from = values['from']
+        emails[name].subject = values['subject']
+        emails[name].body = values['body']
+      end
+      emails
     end
 
     def encode(subject)

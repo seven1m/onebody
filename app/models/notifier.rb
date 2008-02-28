@@ -51,7 +51,7 @@ class Notifier < ActionMailer::Base
       #  h.update 'List-Owner' => "<mailto:#{GROUP_LEADER_EMAIL}> (#{GROUP_LEADER_NAME})"
       #end
       if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
-        h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Setting.get(:contact, :group_address_domains).first}>"
+        h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Site.current.host}>"
       end
     end
     headers h
@@ -101,10 +101,18 @@ class Notifier < ActionMailer::Base
     body params
   end
   
+  # TODO: This is probably the ugliest bit of code in the whole app.
   def receive(email)
     return unless email.from.to_s.any?
     return if email.body.to_s =~ /mailboy-test/ # to protect people who don't know we upgraded
     person = nil
+    (email.cc.to_a + email.to.to_a).each do |address|
+      if site = Site.find_by_host(address.downcase.split('@').last)
+        Site.current = site
+        break
+      end
+    end
+    return unless Site.current
     people = Person.find :all, :conditions => ["#{sql_lcase('email')} = ?", email.from.to_s.downcase]
     if people.length == 0
       # user is not found in the system, try alternate email
@@ -124,7 +132,7 @@ class Notifier < ActionMailer::Base
     if person
       (email.cc.to_a + email.to.to_a).each do |address|
         address, domain = address.downcase.split('@')
-        if Setting.get(:contact, :group_address_domains).include? domain.to_s.strip.downcase
+        if domain.to_s.strip.downcase == Site.current.host
           address = address.to_s.strip
           if address.any? and group = Group.find_by_address(address.downcase) and group.can_send? person
             # if is this a reply, link this message to its original based on the subject
@@ -236,19 +244,6 @@ class Notifier < ActionMailer::Base
           end
         end
       end
-    else
-      valid = false
-      begin
-        email.to.each do |address|
-          valid = true if Setting.get(:contact, :group_address_domains).include?(address.downcase.split('@').last) and email.from !~ /MAILER.DAEMON/
-        end
-      rescue
-        # do nothing
-      end
-      #if valid and email.from.to_s !~ /daemon/i and email.from.to_s !~ /no\-reply/i and email.from.to_s !~ /postmaster/i and email.subject.to_s !~ /user\sunknown/i and email.subject !~ /returned mail/i and email.subject !~ /failure notice/i
-      #  # notify user we couldn't determine who they are
-      #  Notifier.deliver_simple_message(email.from, 'User Unknown', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot determine who you are based on your email address. Please send email from the address we have in the system for you, or you may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you send from this address often, you may sign into the site and add this address as your secondary email. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
-      #end
     end
   end
   

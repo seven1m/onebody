@@ -99,22 +99,6 @@ settings_000002:
   section: Name
   hidden: false
   created_at: 2008-01-26 15:21:06
-settings_000025: 
-  name: Group Address Domains
-  format: list
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "25"
-  value: |
-    --- 
-    - imaginaryfamily.com
-    - imaginaryfamily.org
-
-  description: Domains to which email could be coming
-  global: false
-  section: Contact
-  hidden: false
-  created_at: 2008-01-26 15:21:06
 settings_000014: 
   name: Domain
   format: string

@@ -67,7 +67,7 @@ class Message < ActiveRecord::Base
   end
 
   validate_on_create do |record|
-    if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => 'created_at >= curdate()-1')
+    if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => ['created_at >= ?', Date.today-1])
       record.errors.add_to_base 'already saved' # Notifier relies on this message (don't change it)
     end
     if record.subject =~ /Out of Office/i
@@ -125,7 +125,7 @@ class Message < ActiveRecord::Base
       msg << "Hit \"Reply\" to send a message to #{self.person.name rescue 'the sender'} only.\n"
       if group.can_post? to_person
         if group.address.to_s.any?
-          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + Setting.get(:contact, :group_address_domains).first}\n"
+          msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + Site.current.host}\n"
           msg << "Group page: #{Setting.get(:url, :site)}groups/view/#{group.id}\n"
         else
           msg << "To reply: #{reply_url}\n"
@@ -175,7 +175,7 @@ class Message < ActiveRecord::Base
   # special time-limited address that relays a private message directly back to the sender
   def relay_address(name)
     email = "#{person.first_name.downcase.scan(/[a-z]/).join('')}.#{id}.#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
-    "\"#{name}\" <#{email + '@' + Setting.get(:contact, :group_address_domains).first}>"
+    "\"#{name}\" <#{email + '@' + Site.current.host}>"
   end
   
   # generates security code

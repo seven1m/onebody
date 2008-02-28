@@ -43,3 +43,23 @@ publications:
   members_send: false
   hidden: true
   approved: true
+morgan_in_site_1:
+  site_id: 2
+  id: 3
+  name: Morgan Group
+  creator_id: 1
+  category: Small Groups
+  hidden: false
+  private: false
+  address: morgan
+  approved: true
+morgan_in_site_2:
+  site_id: 3
+  id: 4
+  name: Morgan Group
+  creator_id: 1
+  category: Small Groups
+  hidden: false
+  private: false
+  address: morgan
+  approved: true

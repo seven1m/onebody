@@ -125,6 +125,6 @@ class Group < ActiveRecord::Base
   alias_method 'can_post?', 'can_send?'
   
   def full_address
-    address.to_s.any? ? (address + '@' + Setting.get(:contact, :group_address_domains).first) : nil
+    address.to_s.any? ? (address + '@' + Site.current.host) : nil
   end
 end

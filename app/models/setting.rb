@@ -68,7 +68,7 @@ class Setting < ActiveRecord::Base
     
     def delete(section, name) # must be proper case section and name
       raise 'Must be proper case string' if name.is_a? Symbol
-      find_by_section_and_name(section, name).destroy rescue nil
+      find_all_by_section_and_name(section, name).each { |s| s.destroy }
     end
     
     def set(site_id, section, name, value) # must be proper case section and name
