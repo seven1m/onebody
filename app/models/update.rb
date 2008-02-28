@@ -61,13 +61,14 @@ class Update < ActiveRecord::Base
     end
     params[:family][:home_phone] = params[:family][:home_phone].digits_only if params[:family][:home_phone]
     # keep only values that have changed from the originals
-    family_updates = keep_changes(params[:family], person.family)
+    family_updates = params[:family].clone
     family_updates[:family_name] = family_updates.delete(:name)
     family_updates[:family_last_name] = family_updates.delete(:last_name)
+    family_updates = keep_changes(params[:family], person.family)
     updates = keep_changes(params[:person], person) + family_updates
     # date year 1800 means to blank the date
-    updates[:birthday] = Date.new(1800, 1, 1) if updates.has_key?(:birthday) and updates[:birthday].nil?
-    updates[:anniversary] = Date.new(1800, 1, 1) if updates.has_key?(:anniversary) and updates[:anniversary].nil?
+    updates[:birthday] = Date.new(1800, 1, 1) if updates.has_key?(:birthday) and updates[:birthday].to_s.blank?
+    updates[:anniversary] = Date.new(1800, 1, 1) if updates.has_key?(:anniversary) and updates[:anniversary].to_s.blank?
     # save
     u = person.updates.create(updates)
     # send notification
@@ -76,8 +77,8 @@ class Update < ActiveRecord::Base
   end
 end
 
-def keep_changes(updates, person)
+def keep_changes(updates, obj)
   updates.delete_if do |key, value|
-    value.to_s == person.send(key).to_s.gsub(/\s00:00:00$/, '')
+    value.to_s == obj.send(key).to_s.gsub(/\s00:00:00$/, '')
   end
 end
