@@ -15,12 +15,20 @@
   <% @updates.each do |update| %>
     <tr>
       <td>
-        <a href="<%= url_for :controller => 'people', :action => 'view', :id => update.person %>">
-          <%= render :partial => 'people/thumbnail', :locals => {:person => update.person} %>
-        </a>
+        <% if update.person %>
+          <a href="<%= url_for :controller => 'people', :action => 'view', :id => update.person %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => update.person} %>
+          </a>
+        <% else %>
+          <%= image_tag 'man.tn.gif', :alt => '(person deleted)', :class => 'icon thumbnail' %>
+        <% end %>
       </td>
       <td>
-        <%= link_to update.person.name, :controller => 'people', :action => 'view', :id => update.person %>
+        <% if update.person %>
+          <%= link_to update.person.name, :controller => 'people', :action => 'view', :id => update.person %>
+        <% else %>
+          '(person deleted)'
+        <% end %>
         updated
         <%= update.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
         <% if update.complete %>
