@@ -11,7 +11,7 @@ software that connects churchgoers on the web.
 EOF
   s.has_rdoc = false
   s.files = Dir.glob('**/*', File::FNM_DOTMATCH).reject do |f| 
-     [ /\.$/, /\.log$/, /^pkg/, /\.svn/, /\~$/, /\/\._/, /\/#/ ].any? {|regex| f =~ regex }
+     [ /\.$/, /\.log$/, /^pkg/, /\.svn/, /\.git/, /\~$/, /\/\._/, /\/#/ ].any? {|regex| f =~ regex }
   end
   s.require_path = '.'
   s.author = "Tim Morgan"
