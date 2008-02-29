@@ -254,7 +254,8 @@ class Person < ActiveRecord::Base
   
   def at_least?(age)
     today = Date.today
-    %w(male female man woman).include?(gender.downcase) or (birthday and birthday <= Date.new(today.year-age, today.month, today.day))
+    back = Date.new(today.year-age, today.month, today.day) rescue Date.new(today.year-age, today.month, today.day-1)
+    %w(male female man woman).include?(gender.downcase) or (birthday and birthday <= back)
   end
   
   def years_of_age(on=Date.today)
