@@ -10,7 +10,7 @@ module ActiveRecord
       # preload_options is passed only one level deep: don't pass to the child associations when associations is a Hash
       protected
       def preload_associations(records, associations, preload_options={})
-        records = [records].flatten.compact
+        records = [records].flatten.compact.uniq
         return if records.empty?
         case associations
         when Array then associations.each {|association| preload_associations(records, association, preload_options)}
@@ -162,12 +162,13 @@ module ActiveRecord
 
           # Construct a mapping from klass to a list of ids to load and a mapping of those ids back to their parent_records
           records.each do |record|
-            klass = record.send(polymorph_type)
-            klass_id = record.send(primary_key_name)
+            if klass = record.send(polymorph_type)
+              klass_id = record.send(primary_key_name)
 
-            id_map = klasses_and_ids[klass] ||= {}
-            id_list_for_klass_id = (id_map[klass_id] ||= [])
-            id_list_for_klass_id << record
+              id_map = klasses_and_ids[klass] ||= {}
+              id_list_for_klass_id = (id_map[klass_id] ||= [])
+              id_list_for_klass_id << record
+            end
           end
           klasses_and_ids = klasses_and_ids.to_a
         else

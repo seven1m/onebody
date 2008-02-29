@@ -25,7 +25,7 @@ module Rails
     end
 
     def preinitialize
-      load(preinitializer_path) if File.exists?(preinitializer_path)
+      load(preinitializer_path) if File.exist?(preinitializer_path)
     end
 
     def preinitializer_path
@@ -93,7 +93,7 @@ module Rails
       end
 
       def parse_gem_version(text)
-        $1 if text =~ /^[^#]*RAILS_GEM_VERSION\s*=\s*'([!~<>=]*\s*[\d.]+)'/
+        $1 if text =~ /^[^#]*RAILS_GEM_VERSION\s*=\s*["']([!~<>=]*\s*[\d.]+)["']/
       end
 
       private
