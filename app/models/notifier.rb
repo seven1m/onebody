@@ -186,10 +186,14 @@ class Notifier < ActionMailer::Base
               Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
             end
           
-          # replying to a person who sent a group message
-          elsif address.to_s.any? and address =~ /^[a-z]*\.\d+\.[0-9abcdef]{6,6}$/ and not message_sent_to_group
-            name, message_id, code_hash = address.split('.')
-            message = Message.find(message_id) rescue nil
+          # replying to a person who sent a group or private message
+          elsif address.to_s.any? and not message_sent_to_group
+            begin
+              message_id, code_hash = email.in_reply_to.first.match(/<(\d+)_([0-9abcdef]{6,6})_/)[1..2]
+              message = Message.find(message_id)
+            rescue
+              message = nil
+            end
             if message and Digest::MD5.hexdigest(message.code.to_s)[0..5] == code_hash
               if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)
                 # notify the sender that the message they're replying to is too old

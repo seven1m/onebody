@@ -30,6 +30,31 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("Email: #{people(:tim).email}")
   end
   
+  def test_private_email_and_reply
+    Message.create :person => people(:jeremy), :to => people(:jennie), :subject => 'test from jeremy', :body => 'hello jennie'
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal [people(:jennie).email], sent.to
+    assert_equal "test from jeremy", sent.subject
+    assert sent.from != people(:jeremy).email
+    assert sent.body.index("hello jennie")
+    # now reply
+    reply = TMail::Mail.new
+    reply.from = "Jennie Morgan <#{people(:jennie).email}>"
+    reply.to = sent.from
+    reply.subject = 'test reply from jennie'
+    reply.body = 'hello jeremy'
+    reply.in_reply_to = sent.message_id
+    ActionMailer::Base.deliveries = []
+    Notifier.receive(reply.to_s)
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal [people(:jeremy).email], sent.to
+    assert_equal "test reply from jennie", sent.subject
+    assert sent.from != people(:jennie).email
+    assert sent.body.index("hello jeremy")
+  end
+  
   def test_receive_for_site
     Notifier.receive(@receive_emails['from_jim_to_morgan_group_in_site1'].to_s)
     assert_equal 1, ActionMailer::Base.deliveries.length

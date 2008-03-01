@@ -82,9 +82,18 @@ class Message < ActiveRecord::Base
     if group
       send_to_group
     elsif to
-      Notifier.deliver_message(to, self) if to.email.to_s.any?
+      send_to_person(to)
     elsif wall
-      Notifier.deliver_message(wall, self) if wall.email.to_s.any? and wall.get_wall_email
+      send_to_person(wall) if wall.get_wall_email
+    end
+  end
+  
+  def send_to_person(person)
+    if person.email.to_s.any?
+      email = Notifier.create_message(person, self)
+      email.add_message_id
+      email.message_id = "<#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}_#{email.message_id.gsub(/^</, '')}"
+      Notifier.deliver(email)
     end
   end
 
@@ -92,7 +101,7 @@ class Message < ActiveRecord::Base
     return unless group
     group.people.each do |person|
       if group.get_options_for(person).get_email and person.email.to_s.any? and person.email =~ VALID_EMAIL_ADDRESS
-        Notifier.deliver_message(person, self)
+        send_to_person(person)
       end
     end
   end
@@ -174,7 +183,8 @@ class Message < ActiveRecord::Base
   
   # special time-limited address that relays a private message directly back to the sender
   def relay_address(name)
-    email = "#{person.first_name.downcase.scan(/[a-z]/).join('')}.#{id}.#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
+    email = person.name.downcase.scan(/[a-z]/).join('')
+    email = email + person.id.to_s if Group.find_by_address(email)
     "\"#{name}\" <#{email + '@' + Site.current.host}>"
   end
   
