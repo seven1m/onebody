@@ -188,11 +188,15 @@ class Notifier < ActionMailer::Base
           
           # replying to a person who sent a group or private message
           elsif address.to_s.any? and not message_sent_to_group
-            begin
-              message_id, code_hash = email.in_reply_to.first.match(/<(\d+)_([0-9abcdef]{6,6})_/)[1..2]
-              message = Message.find(message_id)
-            rescue
-              message = nil
+            message_id, code_hash, message = nil
+            (email.in_reply_to.to_a + email.references.to_a).each do |in_reply_to|
+              begin
+                message_id, code_hash = in_reply_to.match(/<(\d+)_([0-9abcdef]{6,6})_/)[1..2]
+                message = Message.find(message_id)
+                break
+              rescue
+                message = nil
+              end
             end
             if message and Digest::MD5.hexdigest(message.code.to_s)[0..5] == code_hash
               if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)

@@ -216,3 +216,12 @@ class Message < ActiveRecord::Base
     (person == p) # from me
   end
 end
+
+module TMail
+  class Mail
+    # please don't mess with my message_id!
+    def add_message_id( fqdn = nil )
+      self.message_id ||= ::TMail::new_message_id(fqdn)
+    end
+  end
+end
