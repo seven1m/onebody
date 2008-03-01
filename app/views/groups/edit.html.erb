@@ -19,13 +19,13 @@
     
       <ul>
         <% @group.people.each do |person| %>
-          <%= check_box_tag 'people[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or @group.linked? or @group.parents_of), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
+          <%= check_box_tag 'people[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or @group.linked? or (@group.parents_of and !@unlinked_ids.include?(person.id))), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
           <%= render :partial => 'people/link', :locals => {:person => person} %>
           <br/>
         <% end %>
       </ul>
     
-      <% if @group.linked? or @group.parents_of %>
+      <% if @group.linked? %>
         <p>
           <%= image_tag 'link.png', :alt => @group.link_code, :class => 'no-border' %>
           This group is linked with a code. You may not add or remove people from here.
@@ -38,12 +38,17 @@
   
     </form>
   
-    <% unless @group.linked? or @group.parents_of %>
+    <% unless @group.linked? %>
       <% if @group.approved %>
         <%= form_remote_tag :url => {:controller => 'directory', :action => 'search'} %>
           <%= hidden_field_tag :select_person, true %>
           <p>
             <label for="name">Add somebody:</label> <%= text_field_tag 'name' %>
+            <% if @group.parents_of %>
+              <strong>Remember, this is a group automatically containing
+                parents of people in <%= link_to @group.parents_of_group.name, group_path(:id => @group.parents_of_group) %>.
+                Adding people manually should be done sparingly.
+            <% end %>
             <%= submit_tag 'Search by Name' %>
           </p>
         </form>

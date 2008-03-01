@@ -33,6 +33,7 @@ class Group < ActiveRecord::Base
   has_many :prayer_requests, :order => 'created_at desc'
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
+  belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', 'Site.current.id'
@@ -107,7 +108,7 @@ class Group < ActiveRecord::Base
   
   def people
     if parents_of
-      Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq.select { |p| p }.sort_by { |p| [p.last_name, p.first_name] }
+      (unlinked_members + Group.find(parents_of).people.map { |p| p.parents }).flatten.uniq.select { |p| p }.sort_by { |p| [p.last_name, p.first_name] }
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|

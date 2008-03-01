@@ -14,7 +14,7 @@
     <p><%= link_to 'Upload a Picture', :action => 'edit', :id => @group %></p>
   <% end %>
   
-  <% if @group.linked? %>
+  <% if @group.linked? or @group.parents_of %>
     <p><em>This group is maintained by church office staff.</em></p>
   <% elsif not @group.approved %>
     <p class="very-strong">This group is pending approval.</p>

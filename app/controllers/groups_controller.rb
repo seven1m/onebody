@@ -42,6 +42,7 @@ class GroupsController < ApplicationController
         render :text => 'You are not authorized to edit this group.', :layout => true
         return
       end
+      @unlinked_ids = @group.unlinked_members.map { |p| p.id }
     end
     @categories = Group.find_by_sql("select distinct category from groups where category is not null and category != ''").map { |g| g.category }
     if request.post?
