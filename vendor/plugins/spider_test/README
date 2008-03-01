@@ -1,0 +1,98 @@
+SpiderTester
+============
+
+SpiderTester is an automated integration-testing script that iterates over every page in your application.
+It performs a few valuable tasks for you:
+
+  - parses the html of every page, so if you have invalid html, you will be warned.
+  - finds every link to within your site and follows it, whether static or dynamic.
+  - finds every Ajax.Updater link and follows it.
+  - finds every form and tries to submit it, filling in values where possible.
+  
+This is helpful in determining:
+
+  - missing static pages (.html)
+  - poor code coverage - forgot to test a file?  Don't wait for a user to find it.
+  - simple fuzzing of form values.
+  - automated testing of form paths.  Often we have forms which point to incorrect
+    locations, and up until now this has been impossible to test in an automated fashion
+    or without being strongly coupled to your code.
+
+================
+
+USAGE
+
+$ script/plugin install svn://caboo.se/plugins/court3nay/spider_test
+$ script/generate integration_test spider_test
+
+Load up the test/integration/spider_test.rb and make it look something like this, replacing 
+your own implementation details where appropriate.  You'll probably want to load all of your
+fixtures.
+
+  require "#{File.dirname(__FILE__)}/../test_helper"
+  
+  class SpiderTest < ActionController::IntegrationTest
+    fixtures :users, :roles, :images, :categories
+    include Caboose::SpiderIntegrator
+  
+    def test_spider
+      get '/'
+      assert_response :success
+  
+      spider(@response.body, '/')
+    end
+  
+  end
+
+If you require a login for your app, you'll need to specifically log in. I do it like:
+
+  require "#{File.dirname(__FILE__)}/../test_helper"
+  
+  class SpiderTest < ActionController::IntegrationTest
+    fixtures :users, :roles, :images, :categories
+    include Caboose::SpiderIntegrator
+  
+    def test_spider
+      get '/sessions/new'
+      assert_response :success
+      post '/sessions/create', :login => 'admin', :password => 'test'
+      assert session[:user]
+      assert_response :redirect
+      assert_redirected_to '/'
+      follow_redirect!
+
+      spider(@response.body, '/', 
+               :verbose => true,
+               :ignore_urls => ['/login', %r{^.+logout}, %r{^.+delete.?}, %r{^.+/destroy.?}], 
+               :ignore_forms => [])
+     end
+  
+  end
+
+
+Todo:
+
+  - better, aka more random, fuzzing.
+    currently, I check the fieldname and change the data types accordingly.  It'd be
+    good to have some more advanced algorithm in here
+    
+  - specify which actions to ignore
+    you can modify this by editing the plugin and setting @visited_urls and @visited_forms
+    but this should be more easily settable.
+
+  - use hpricot instead of html::document
+    no clue, really, but I hear hpricot is faster.
+    
+  x better capturing of errors
+    instead of dying each time there's an error, store them all up so the user can fix
+    'em all at once.
+
+
+Changelog:
+
+
+SVN
+      Better capturing of errors (waits until the end to display the errors or missing pages)
+      More fun status dots (! for error, ? for missing file)
+
+0.1 : Initial release

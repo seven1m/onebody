@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>consume_page (Caboose::SpiderIntegrator)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 98</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">consume_page</span>( <span class="ruby-identifier">html</span>, <span class="ruby-identifier">url</span> )
+    <span class="ruby-identifier">body</span> = <span class="ruby-constant">HTML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">html</span>
+    <span class="ruby-identifier">body</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">:tag=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">'a'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">tag</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">queue_link</span>( <span class="ruby-identifier">tag</span>, <span class="ruby-identifier">url</span> )
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">body</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">:tag</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value str">'form'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">form</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">queue_form</span>( <span class="ruby-identifier">form</span>, <span class="ruby-identifier">url</span> )
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

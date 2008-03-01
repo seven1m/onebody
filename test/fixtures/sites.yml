@@ -15,6 +15,7 @@
 default:
   id: 1
   name: Default
+  host: example.com
 site1:
   id: 2
   name: Site 1

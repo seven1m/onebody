@@ -22,15 +22,15 @@ class RecipesController < ApplicationController
   end
  
   def search
-    if 0 == @params['criteria'].length
+    if !params['criteria'] or 0 == params['criteria'].length
       @items = nil
     else
       recipes = Recipe.find(:all, :order => 'title',
-        :conditions => [ 'LOWER(concat(title,description,ingredients)) LIKE ?',
-        '%' + @params['criteria'].downcase + '%' ])
-      @item_pages, @items = paginate :recipes, :per_page => 5, :order => 'title',:conditions => [ 'LOWER(concat(title,description,ingredients)) LIKE ?',
-        '%' + @params['criteria'].downcase + '%' ]
-      @mark_term = @params['criteria']
+        :conditions => [ "LOWER(#{sql_concat 'title', 'description', 'ingredients'}) LIKE ?",
+        '%' + params['criteria'].downcase + '%' ])
+      @item_pages, @items = paginate :recipes, :per_page => 5, :order => 'title',:conditions => [ "LOWER(#{sql_concat 'title', 'description', 'ingredients'}) LIKE ?",
+        '%' + params['criteria'].downcase + '%' ]
+      @mark_term = params['criteria']
     end    
   end
 
@@ -53,7 +53,6 @@ class RecipesController < ApplicationController
     if request.post?
       if @recipe.update_attributes params[:recipe]
         flash[:notice] = 'Recipe saved.'
-        p params
         if params[:photo_url] and params[:photo_url].length > 7
           @recipe.photo = params[:photo_url]
         elsif params[:photo] and params[:photo].size > 0

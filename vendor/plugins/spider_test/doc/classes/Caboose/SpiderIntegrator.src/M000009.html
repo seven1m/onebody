@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>finish (Caboose::SpiderIntegrator)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 166</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">finish</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\nFinished with #{@errors.size} error(s).&quot;</span>
+    <span class="ruby-comment cmt"># todo: dump this in a file instead.</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-ivar">@errors</span>.<span class="ruby-identifier">empty?</span>, <span class="ruby-node">&quot;\n\n=========================\n#{@errors.join(&quot;\n&quot;)}\n======================Stacktraces:\n#{@stacktraces.join(&quot;\n==========\n&quot;)}&quot;</span>
+
+    <span class="ruby-comment cmt"># reset our history. If you want to get access to some of these variables,</span>
+    <span class="ruby-comment cmt"># such as a trace of what you tested, don't clear them here!</span>
+    <span class="ruby-ivar">@visited_forms</span>, <span class="ruby-ivar">@visited_urls</span>, <span class="ruby-ivar">@links_to_visit</span>, <span class="ruby-ivar">@forms_to_visit</span> = <span class="ruby-keyword kw">nil</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

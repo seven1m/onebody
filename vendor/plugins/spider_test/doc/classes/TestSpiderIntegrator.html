@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: TestSpiderIntegrator</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">TestSpiderIntegrator</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/test/spider_test_test_rb.html">
+                test/spider_test_test.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Test::Unit::TestCase
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+These are the tests for some of the spider integrator internal methods.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000001">setup</a>&nbsp;&nbsp;
+      <a href="#M000004">test_queue_link_doesnt_follow_external_links</a>&nbsp;&nbsp;
+      <a href="#M000005">test_queue_link_doesnt_follow_hex_encoded_emails</a>&nbsp;&nbsp;
+      <a href="#M000003">test_queue_link_follows_regular_links</a>&nbsp;&nbsp;
+      <a href="#M000002">test_queue_link_ignores_emails</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="Caboose/SpiderIntegrator.html">Caboose::SpiderIntegrator</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">FakeLink</td>
+          <td>=</td>
+          <td class="context-item-value">Struct.new( :attributes )</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="#M000001" class="method-signature">
+          <span class="method-name">setup</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000001-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000001-source">
+<pre>
+<span class="ruby-comment cmt"># File test/spider_test_test.rb, line 12</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">setup</span>
+    <span class="ruby-ivar">@links_to_visit</span> = []
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="#M000004" class="method-signature">
+          <span class="method-name">test_queue_link_doesnt_follow_external_links</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000004-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000004-source">
+<pre>
+<span class="ruby-comment cmt"># File test/spider_test_test.rb, line 26</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_queue_link_doesnt_follow_external_links</span>
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">queue_link</span>(<span class="ruby-constant">FakeLink</span>.<span class="ruby-identifier">new</span>({ <span class="ruby-value str">'href'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'http://google.com/'</span> }), <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-identifier">assert</span> <span class="ruby-ivar">@links_to_visit</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="#M000005" class="method-signature">
+          <span class="method-name">test_queue_link_doesnt_follow_hex_encoded_emails</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000005-source">
+<pre>
+<span class="ruby-comment cmt"># File test/spider_test_test.rb, line 31</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_queue_link_doesnt_follow_hex_encoded_emails</span>
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">queue_link</span>(<span class="ruby-constant">FakeLink</span>.<span class="ruby-identifier">new</span>({ <span class="ruby-value str">'href'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'&amp;#109;&amp;#97;&amp;#105;&amp;#108;&amp;#116;&amp;#111;&amp;#58;'</span> }), <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-identifier">assert</span> <span class="ruby-ivar">@links_to_visit</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="#M000003" class="method-signature">
+          <span class="method-name">test_queue_link_follows_regular_links</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000003-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000003-source">
+<pre>
+<span class="ruby-comment cmt"># File test/spider_test_test.rb, line 21</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_queue_link_follows_regular_links</span>
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">queue_link</span>(<span class="ruby-constant">FakeLink</span>.<span class="ruby-identifier">new</span>({ <span class="ruby-value str">'href'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'/users/foo/bar'</span> }), <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">1</span>, <span class="ruby-ivar">@links_to_visit</span>.<span class="ruby-identifier">size</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="#M000002" class="method-signature">
+          <span class="method-name">test_queue_link_ignores_emails</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000002-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000002-source">
+<pre>
+<span class="ruby-comment cmt"># File test/spider_test_test.rb, line 16</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_queue_link_ignores_emails</span>
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">queue_link</span>(<span class="ruby-constant">FakeLink</span>.<span class="ruby-identifier">new</span>({ <span class="ruby-value str">'href'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'mailto:joe@test.com'</span> }), <span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-identifier">assert</span> <span class="ruby-ivar">@links_to_visit</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

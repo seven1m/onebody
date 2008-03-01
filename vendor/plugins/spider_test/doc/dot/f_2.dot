@@ -1,0 +1,46 @@
+digraph TopLevel {
+    compound = true
+    bgcolor = lightcyan1
+    fontname = Arial
+    fontsize = 8
+    label = "TopLevel"
+    node [
+        fontname = Arial,
+        fontsize = 8,
+        color = black
+    ]
+
+    subgraph cluster_Caboose {
+        fillcolor = palegreen1
+        URL = "classes/Caboose.html"
+        fontname = Arial
+        color = blue
+        label = "Caboose"
+        style = filled
+        Caboose [
+            shape = plaintext,
+            height = 0.01,
+            width = 0.01,
+            label = ""
+        ]
+
+        subgraph cluster_Caboose__SpiderIntegrator {
+            fillcolor = palegreen3
+            URL = "classes/Caboose/SpiderIntegrator.html"
+            fontname = Arial
+            color = blue
+            label = "SpiderIntegrator"
+            style = filled
+            Caboose__SpiderIntegrator [
+                shape = plaintext,
+                height = 0.01,
+                width = 0.75,
+                label = ""
+            ]
+
+        }
+
+    }
+
+}
+

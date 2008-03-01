@@ -1,0 +1,23 @@
+Fixed: Workaround for inputs without a name (e.g. input type="button" onclick="...")
+Fixed: Now accepts form method="GET" as well as "get"
+Fixed: Better static file checking (checks if rails can generate it, THEN checks if the static file exists
+Added: now checks LINK tags
+Added: Input fields with existing values will now be mutated (aka heckled) to show you any errors in your association handling
+Added: Form errors now show the query
+Added: Better form-based error messages (now you can just copy/paste them into a new integration test)
+Added: You can now ignore by regex (Christos Zisopoulos)
+Fixed: visited_uris vs visited_urls (Zach Dennis)
+Added: Started adding a few basic tests.. heh.
+Fixed: Ignore mailto: and hex-encoded urls (Erin Staniland)
+Added: Allow users to override links_to_visit and forms_to_visit, as well as visited_links and visited_forms
+       without hacking the source to the plugin. (Alex Soto)
+Fixed: Caboose.rb is now a module
+Fixed: Link class now is namespaced
+Added: You can now hit CTRL-C to break out of the test and it'll still show you the errors. All of them.
+Fixed: Page anchors not showing properly.
+Fixed: Workaround for shitty rails integration tests not liking :put
+Fixed: better error messages
+Added: Show form errors at the end
+Added: Show errors at the end
+
+Release

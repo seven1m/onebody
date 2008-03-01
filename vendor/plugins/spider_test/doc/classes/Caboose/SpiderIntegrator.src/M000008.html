@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>do_spider (Caboose::SpiderIntegrator)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 109</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_spider</span>( <span class="ruby-identifier">body</span>, <span class="ruby-identifier">uri</span> )
+    <span class="ruby-ivar">@links_to_visit</span> <span class="ruby-operator">||=</span> []
+    <span class="ruby-ivar">@forms_to_visit</span> <span class="ruby-operator">||=</span> []
+    <span class="ruby-ivar">@visited_urls</span> <span class="ruby-operator">||=</span> { <span class="ruby-value str">'/logout'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }
+    <span class="ruby-ivar">@visited_forms</span> <span class="ruby-operator">||=</span> { <span class="ruby-value str">'/login'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }
+    <span class="ruby-ivar">@visited_uris</span>[<span class="ruby-identifier">uri</span>] = <span class="ruby-keyword kw">true</span>
+    
+    <span class="ruby-identifier">consume_page</span>( <span class="ruby-identifier">body</span>, <span class="ruby-identifier">uri</span> )
+    <span class="ruby-keyword kw">until</span> <span class="ruby-ivar">@links_to_visit</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">next_link</span> = <span class="ruby-ivar">@links_to_visit</span>.<span class="ruby-identifier">shift</span>
+      <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@visited_uris</span>[<span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span>]
+      <span class="ruby-comment cmt"># puts next_link.uri</span>
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/\.(html|png|jpg|gif)$/</span> <span class="ruby-comment cmt"># static file, probably.</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-node">&quot;#{RAILS_ROOT}/public/#{next_link.uri}&quot;</span>)
+          <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">body</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{RAILS_ROOT}/public/#{next_link.uri}&quot;</span>).<span class="ruby-identifier">read</span>
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">&quot;.&quot;</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">&quot;?&quot;</span>
+          <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;File not found: #{next_link.uri} from #{next_link.source}&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">get</span> <span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-node">%w( 200 302 401 )</span>.<span class="ruby-identifier">include?</span>( <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">code</span> )
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">'.'</span>
+        <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">code</span> <span class="ruby-operator">==</span> <span class="ruby-value">404</span>
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">'?'</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">'!'</span>
+          <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Received response code #{ @response.code } for URI #{ next_link.uri } from #{ next_link.source }&quot;</span>
+          <span class="ruby-ivar">@stacktraces</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">body</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">consume_page</span>( <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">body</span>, <span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span> )
+      <span class="ruby-ivar">@visited_uris</span>[<span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span>] = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\nTesting forms..&quot;</span>
+    <span class="ruby-keyword kw">until</span> <span class="ruby-ivar">@forms_to_visit</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">next_form</span> = <span class="ruby-ivar">@forms_to_visit</span>.<span class="ruby-identifier">shift</span>
+      <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@visited_forms</span>[<span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">action</span>]
+      <span class="ruby-comment cmt"># puts &quot;#{next_form.method} : #{next_form.action} with #{next_form.query.inspect}&quot;</span>
+      <span class="ruby-identifier">printf</span> <span class="ruby-value str">'.'</span>
+      <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-identifier">send</span>(<span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">method</span>, <span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">action</span>, <span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">query</span>)
+      <span class="ruby-keyword kw">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
+        <span class="ruby-identifier">printf</span> <span class="ruby-value str">&quot;*&quot;</span>
+        <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Could not spider page #{next_form.action} because of error #{err.message}&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-node">%w( 200 302 401 )</span>.<span class="ruby-identifier">include?</span>( <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">code</span> )
+        <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Received response code #{ @response.code } for URI #{ next_form.action } from #{ next_form.source }&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">consume_page</span>( <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">body</span>, <span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">action</span> )
+      <span class="ruby-ivar">@visited_forms</span>[<span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">action</span>] = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

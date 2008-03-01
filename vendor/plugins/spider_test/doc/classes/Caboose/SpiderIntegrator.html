@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: Caboose::SpiderIntegrator</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">Caboose::SpiderIntegrator</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/caboose/spider_integrator_rb.html">
+                lib/caboose/spider_integrator.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>SpiderTester</h1>
+<p>
+SpiderTester is an automated integration-testing script that iterates over
+every page in your application. It performs a few valuable tasks for you:
+</p>
+<ul>
+<li>parses the html of every page, so if you have invalid html, you will be
+warned.
+
+</li>
+<li>finds every link to within your site and follows it, whether static or
+dynamic.
+
+</li>
+<li>finds every Ajax.Updater link and follows it.
+
+</li>
+<li>finds every form and tries to submit it, filling in values where possible.
+
+</li>
+</ul>
+<p>
+This is helpful in determining:
+</p>
+<ul>
+<li>missing static pages (.html)
+
+</li>
+<li>poor code coverage - forgot to test a file? Don&#8216;t wait for a user to
+find it.
+
+</li>
+<li>simple fuzzing of form values.
+
+</li>
+<li>automated testing of form paths. Often we have forms which point to
+incorrect locations, and up until now this has been impossible to test in
+an automated fashion or without being strongly coupled to your code.
+
+</li>
+</ul>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000007">consume_page</a>&nbsp;&nbsp;
+      <a href="#M000011">create_data</a>&nbsp;&nbsp;
+      <a href="#M000008">do_spider</a>&nbsp;&nbsp;
+      <a href="#M000009">finish</a>&nbsp;&nbsp;
+      <a href="#M000012">queue_form</a>&nbsp;&nbsp;
+      <a href="#M000010">queue_link</a>&nbsp;&nbsp;
+      <a href="#M000006">spider</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">Link</td>
+          <td>=</td>
+          <td class="context-item-value">Struct.new( :uri, :source )</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">Form</td>
+          <td>=</td>
+          <td class="context-item-value">Struct.new( :method, :action, :query, :source )</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="#M000006" class="method-signature">
+          <span class="method-name">spider</span><span class="method-args">( body, uri )</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Begin spidering your application.
+</p>
+<table>
+<tr><td valign="top"><tt>body</tt>:</td><td>the HTML request.body from a page in your app
+
+</td></tr>
+<tr><td valign="top"><tt>uri</tt>:</td><td>the URL which generated the request.body. This is used in stack traces
+(followed link &lt;&#8230;&gt; from &lt;uri&gt;)
+
+</td></tr>
+</table>
+<p>
+You can override certain instance methods if necessary:
+</p>
+<pre>
+   @links_to_visit : array containing Caboose::SpiderIntegrator::Link.new( dest_url, source_url ) objects
+   @forms_to_visit : array containing Caboose::SpiderIntegrator::Form.new( method, action, query, source ) objects
+   @visited_urls   : hash containing key/value pairs like '/logout' =&gt; true ; these urls will be ignored.
+   @visited_forms  : hash containing key/value pairs like '/users/create' =&gt; true ; forms with these actions will be ignored.
+                     todo: forms are unique on method+action, not just action. this should get fixed.
+</pre>
+<p>
+If you decide to override the visited_* remember to ignore your
+&#8216;logout&#8217; action (as necessary) You may find it useful to have
+two <a href="SpiderIntegrator.html#M000006">spider</a> tests, one logged in
+and one logged out.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000006-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000006-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 92</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">spider</span>( <span class="ruby-identifier">body</span>, <span class="ruby-identifier">uri</span> )
+    <span class="ruby-ivar">@errors</span>, <span class="ruby-ivar">@stacktraces</span> = [], []
+    <span class="ruby-keyword kw">begin</span>
+      <span class="ruby-identifier">do_spider</span>(<span class="ruby-identifier">body</span>, <span class="ruby-identifier">uri</span>)
+
+    <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Interrupt</span>
+      <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Caught CTRL-C&quot;</span>
+    <span class="ruby-keyword kw">ensure</span>
+      <span class="ruby-identifier">finish</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="#M000007" class="method-signature">
+          <span class="method-name">consume_page</span><span class="method-args">( html, url )</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Use HTML::Document to suck the links and forms out of the spidered page.
+todo: use hpricot or something else more fun.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000007-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000007-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 110</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">consume_page</span>( <span class="ruby-identifier">html</span>, <span class="ruby-identifier">url</span> )
+    <span class="ruby-identifier">body</span> = <span class="ruby-constant">HTML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">html</span>
+    <span class="ruby-identifier">body</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">:tag=</span><span class="ruby-operator">&gt;</span><span class="ruby-value str">'a'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">tag</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">queue_link</span>( <span class="ruby-identifier">tag</span>, <span class="ruby-identifier">url</span> )
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">body</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">:tag</span> =<span class="ruby-operator">&gt;</span><span class="ruby-value str">'form'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">form</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">queue_form</span>( <span class="ruby-identifier">form</span>, <span class="ruby-identifier">url</span> )
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">create_data</span><span class="method-args">(input)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Randomly create data to push to form values, depending on the name of the
+input field.
+</p>
+<p>
+We&#8216;re trying to be clever about the sort of crap to push into the
+field.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 213</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_data</span>(<span class="ruby-identifier">input</span>)
+    <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>]
+    <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/amount/</span><span class="ruby-operator">:</span> <span class="ruby-identifier">rand</span>(<span class="ruby-value">10000</span>) <span class="ruby-operator">-</span> <span class="ruby-value">5000</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/uploaded_data/</span><span class="ruby-operator">:</span> <span class="ruby-comment cmt"># attachment_fu</span>
+      <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">rand</span>(<span class="ruby-value">10000</span>).<span class="ruby-identifier">to_s</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="#M000008" class="method-signature">
+          <span class="method-name">do_spider</span><span class="method-args">( body, uri )</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+This is the actual worker method to grab the page.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 121</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_spider</span>( <span class="ruby-identifier">body</span>, <span class="ruby-identifier">uri</span> )
+    <span class="ruby-ivar">@links_to_visit</span> <span class="ruby-operator">||=</span> []
+    <span class="ruby-ivar">@forms_to_visit</span> <span class="ruby-operator">||=</span> []
+    <span class="ruby-ivar">@visited_urls</span> <span class="ruby-operator">||=</span> { <span class="ruby-value str">'/logout'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }
+    <span class="ruby-ivar">@visited_forms</span> <span class="ruby-operator">||=</span> { <span class="ruby-value str">'/login'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }
+    <span class="ruby-ivar">@visited_uris</span>[<span class="ruby-identifier">uri</span>] = <span class="ruby-keyword kw">true</span>
+    
+    <span class="ruby-identifier">consume_page</span>( <span class="ruby-identifier">body</span>, <span class="ruby-identifier">uri</span> )
+    <span class="ruby-keyword kw">until</span> <span class="ruby-ivar">@links_to_visit</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">next_link</span> = <span class="ruby-ivar">@links_to_visit</span>.<span class="ruby-identifier">shift</span>
+      <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@visited_uris</span>[<span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span>]
+      <span class="ruby-comment cmt"># puts next_link.uri</span>
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/\.(html|png|jpg|gif)$/</span> <span class="ruby-comment cmt"># static file, probably.</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-node">&quot;#{RAILS_ROOT}/public/#{next_link.uri}&quot;</span>)
+          <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">body</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{RAILS_ROOT}/public/#{next_link.uri}&quot;</span>).<span class="ruby-identifier">read</span>
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">&quot;.&quot;</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">&quot;?&quot;</span>
+          <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;File not found: #{next_link.uri} from #{next_link.source}&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">get</span> <span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-node">%w( 200 302 401 )</span>.<span class="ruby-identifier">include?</span>( <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">code</span> )
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">'.'</span>
+        <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">code</span> <span class="ruby-operator">==</span> <span class="ruby-value">404</span>
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">'?'</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">printf</span> <span class="ruby-value str">'!'</span>
+          <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Received response code #{ @response.code } for URI #{ next_link.uri } from #{ next_link.source }&quot;</span>
+          <span class="ruby-ivar">@stacktraces</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">body</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">consume_page</span>( <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">body</span>, <span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span> )
+      <span class="ruby-ivar">@visited_uris</span>[<span class="ruby-identifier">next_link</span>.<span class="ruby-identifier">uri</span>] = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\nTesting forms..&quot;</span>
+    <span class="ruby-keyword kw">until</span> <span class="ruby-ivar">@forms_to_visit</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">next_form</span> = <span class="ruby-ivar">@forms_to_visit</span>.<span class="ruby-identifier">shift</span>
+      <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@visited_forms</span>[<span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">action</span>]
+      <span class="ruby-comment cmt"># puts &quot;#{next_form.method} : #{next_form.action} with #{next_form.query.inspect}&quot;</span>
+      <span class="ruby-identifier">printf</span> <span class="ruby-value str">'.'</span>
+      <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-identifier">send</span>(<span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">method</span>, <span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">action</span>, <span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">query</span>)
+      <span class="ruby-keyword kw">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">err</span>
+        <span class="ruby-identifier">printf</span> <span class="ruby-value str">&quot;*&quot;</span>
+        <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Could not spider page #{next_form.action} because of error #{err.message}&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-node">%w( 200 302 401 )</span>.<span class="ruby-identifier">include?</span>( <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">code</span> )
+        <span class="ruby-ivar">@errors</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Received response code #{ @response.code } for URI #{ next_form.action } from #{ next_form.source }&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">consume_page</span>( <span class="ruby-ivar">@response</span>.<span class="ruby-identifier">body</span>, <span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">action</span> )
+      <span class="ruby-ivar">@visited_forms</span>[<span class="ruby-identifier">next_form</span>.<span class="ruby-identifier">action</span>] = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="#M000009" class="method-signature">
+          <span class="method-name">finish</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Finalize the test and display any errors. Todo: make this look much better;
+and optionally save to a file instead of dumping to the page.&quot;
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000009-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000009-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 180</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">finish</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\nFinished with #{@errors.size} error(s).&quot;</span>
+    <span class="ruby-comment cmt"># todo: dump this in a file instead.</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-ivar">@errors</span>.<span class="ruby-identifier">empty?</span>, <span class="ruby-node">&quot;\n\n=========================\n#{@errors.join(&quot;\n&quot;)}\n======================Stacktraces:\n#{@stacktraces.join(&quot;\n==========\n&quot;)}&quot;</span>
+
+    <span class="ruby-comment cmt"># reset our history. If you want to get access to some of these variables,</span>
+    <span class="ruby-comment cmt"># such as a trace of what you tested, don't clear them here!</span>
+    <span class="ruby-ivar">@visited_forms</span>, <span class="ruby-ivar">@visited_urls</span>, <span class="ruby-ivar">@links_to_visit</span>, <span class="ruby-ivar">@forms_to_visit</span> = <span class="ruby-keyword kw">nil</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">queue_form</span><span class="method-args">( form, source )</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Parse the variables and elements from a form, including inputs and
+textareas, and fill them with crap.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 225</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">queue_form</span>( <span class="ruby-identifier">form</span>, <span class="ruby-identifier">source</span> )
+    <span class="ruby-identifier">form_method</span> = <span class="ruby-identifier">form</span>[<span class="ruby-value str">'method'</span>]
+    <span class="ruby-identifier">form_action</span> = <span class="ruby-identifier">form</span>[<span class="ruby-value str">'action'</span>]
+    <span class="ruby-identifier">form_action</span> = <span class="ruby-identifier">source</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">form_action</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">form_action</span>.<span class="ruby-identifier">empty?</span>
+
+    <span class="ruby-identifier">input_hash</span> = {}
+    <span class="ruby-identifier">form</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">:tag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'input'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">input</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'_method'</span> <span class="ruby-comment cmt"># and value.in?['put','post',..] # rails is faking the post/put etc</span>
+        <span class="ruby-identifier">form_method</span> = <span class="ruby-identifier">input</span>[<span class="ruby-value str">'value'</span>]
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">input</span>[<span class="ruby-value str">'type'</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'hidden'</span>
+          <span class="ruby-identifier">input_hash</span>[ <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>] ] = <span class="ruby-identifier">create_data</span>(<span class="ruby-identifier">input</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">input_hash</span>[ <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>] ] = <span class="ruby-identifier">input</span>[<span class="ruby-value str">'value'</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">create_data</span>(<span class="ruby-identifier">input</span>)
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">form</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">:tag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'textarea'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">input</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">input_hash</span>[ <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>] ] = <span class="ruby-identifier">input</span>[<span class="ruby-value str">'value'</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">create_data</span>(<span class="ruby-identifier">input</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-ivar">@forms_to_visit</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Caboose</span><span class="ruby-operator">::</span><span class="ruby-constant">SpiderIntegrator</span><span class="ruby-operator">::</span><span class="ruby-constant">Form</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">form_method</span>, <span class="ruby-identifier">form_action</span>, <span class="ruby-identifier">input_hash</span>, <span class="ruby-identifier">source</span> )
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="#M000010" class="method-signature">
+          <span class="method-name">queue_link</span><span class="method-args">( tag, source )</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds all &lt;a href=..&gt; links to the list of links to be spidered. If it
+finds an Ajax.Updater url, it&#8216;ll call that too. Potentially there are
+other ajax links here to follow (TODO!)
+</p>
+<p>
+Will automatically ignore the following:
+</p>
+<ul>
+<li>external links (starting with http://). This means, if you call foo_url in
+your app it will be ignored.
+
+</li>
+<li>mailto: links
+
+</li>
+<li>hex-encoded links (&amp;109;&amp;97;) generally encoded email addresses
+
+</li>
+<li>empty or purely anchor links (&lt;a href=&quot;#&quot;&gt;&lt;/a&gt;)
+
+</li>
+<li>links where there is an ajax action, e.g. &lt;a href=&quot;/foo/bar&quot;
+onclick=&quot;new Ajax.Updater(...)&quot;&gt; (todo!) only the ajax action
+will be followed in that case.
+
+</li>
+</ul>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 202</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">queue_link</span>( <span class="ruby-identifier">tag</span>, <span class="ruby-identifier">source</span> )
+    <span class="ruby-identifier">dest</span> = (<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">attributes</span>[<span class="ruby-value str">'onclick'</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^new Ajax.Updater\(['&quot;].*?['&quot;], ['&quot;](.*?)['&quot;]/i</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">$1</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">attributes</span>[<span class="ruby-value str">'href'</span>]
+    <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">dest</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">%r{^(http://|mailto:|#|&amp;#)}</span>
+      <span class="ruby-identifier">dest</span> = <span class="ruby-identifier">dest</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">'#'</span>)[<span class="ruby-value">0</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dest</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value str">&quot;#&quot;</span>) <span class="ruby-comment cmt"># don't want page anchors</span>
+      <span class="ruby-ivar">@links_to_visit</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Caboose</span><span class="ruby-operator">::</span><span class="ruby-constant">SpiderIntegrator</span><span class="ruby-operator">::</span><span class="ruby-constant">Link</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">dest</span>, <span class="ruby-identifier">source</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dest</span>.<span class="ruby-identifier">any?</span> <span class="ruby-comment cmt"># could be empty, make sure there's no empty links queueing</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

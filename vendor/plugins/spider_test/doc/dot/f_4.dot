@@ -1,0 +1,42 @@
+digraph TopLevel {
+    compound = true
+    bgcolor = lightcyan1
+    fontname = Arial
+    fontsize = 8
+    label = "TopLevel"
+    node [
+        fontname = Arial,
+        fontsize = 8,
+        color = black
+    ]
+
+    TestSpiderIntegrator [
+        fontcolor = black,
+        URL = "classes/TestSpiderIntegrator.html",
+        shape = ellipse,
+        color = palegoldenrod,
+        style = filled,
+        label = "TestSpiderIntegrator"
+    ]
+
+    Caboose__SpiderIntegrator [
+        URL = "classes/Caboose/SpiderIntegrator.html",
+        shape = box,
+        label = "Caboose::SpiderIntegrator"
+    ]
+
+    Caboose__SpiderIntegrator -> TestSpiderIntegrator [
+
+    ]
+
+    Test__Unit__TestCase [
+        URL = "classes/Test/Unit/TestCase.html",
+        label = "Test::Unit::TestCase"
+    ]
+
+    Test__Unit__TestCase -> TestSpiderIntegrator [
+
+    ]
+
+}
+

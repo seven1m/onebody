@@ -188,7 +188,7 @@ module HTML #:nodoc:
           end
           
           unless scanner.scan(/\s*>/)
-            if strict
+            if strict and nil
               raise "expected > (got #{scanner.rest.inspect} for #{content}, #{attributes.inspect})" 
             else
               # throw away all text until we find what we're looking for

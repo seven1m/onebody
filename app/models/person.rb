@@ -408,9 +408,11 @@ class Person < ActiveRecord::Base
         Update.create_from_params(params, self)
         self
       end
-    else # testimony, about, favorites, etc.
+    elsif params[:person] # testimony, about, favorites, etc.
       params[:person][:service_phone] = params[:person][:service_phone].digits_only if params[:person][:service_phone]
       update_attributes params[:person]
+    else
+      self
     end
   end
   

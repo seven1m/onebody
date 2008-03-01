@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>queue_form (Caboose::SpiderIntegrator)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 206</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">queue_form</span>( <span class="ruby-identifier">form</span>, <span class="ruby-identifier">source</span> )
+    <span class="ruby-identifier">form_method</span> = <span class="ruby-identifier">form</span>[<span class="ruby-value str">'method'</span>]
+    <span class="ruby-identifier">form_action</span> = <span class="ruby-identifier">form</span>[<span class="ruby-value str">'action'</span>]
+    <span class="ruby-identifier">form_action</span> = <span class="ruby-identifier">source</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">form_action</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">form_action</span>.<span class="ruby-identifier">empty?</span>
+
+    <span class="ruby-identifier">input_hash</span> = {}
+    <span class="ruby-identifier">form</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">:tag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'input'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">input</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'_method'</span> <span class="ruby-comment cmt"># and value.in?['put','post',..] # rails is faking the post/put etc</span>
+        <span class="ruby-identifier">form_method</span> = <span class="ruby-identifier">input</span>[<span class="ruby-value str">'value'</span>]
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">input</span>[<span class="ruby-value str">'type'</span>] <span class="ruby-operator">==</span> <span class="ruby-value str">'hidden'</span>
+          <span class="ruby-identifier">input_hash</span>[ <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>] ] = <span class="ruby-identifier">create_data</span>(<span class="ruby-identifier">input</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">input_hash</span>[ <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>] ] = <span class="ruby-identifier">input</span>[<span class="ruby-value str">'value'</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">create_data</span>(<span class="ruby-identifier">input</span>)
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">form</span>.<span class="ruby-identifier">find_all</span>(<span class="ruby-identifier">:tag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'textarea'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">input</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">input_hash</span>[ <span class="ruby-identifier">input</span>[<span class="ruby-value str">'name'</span>] ] = <span class="ruby-identifier">input</span>[<span class="ruby-value str">'value'</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">create_data</span>(<span class="ruby-identifier">input</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-ivar">@forms_to_visit</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Caboose</span><span class="ruby-operator">::</span><span class="ruby-constant">SpiderIntegrator</span><span class="ruby-operator">::</span><span class="ruby-constant">Form</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">form_method</span>, <span class="ruby-identifier">form_action</span>, <span class="ruby-identifier">input_hash</span>, <span class="ruby-identifier">source</span> )
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

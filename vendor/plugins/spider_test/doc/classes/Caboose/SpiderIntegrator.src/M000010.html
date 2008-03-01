@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>queue_link (Caboose::SpiderIntegrator)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/caboose/spider_integrator.rb, line 188</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">queue_link</span>( <span class="ruby-identifier">tag</span>, <span class="ruby-identifier">source</span> )
+    <span class="ruby-identifier">dest</span> = (<span class="ruby-identifier">tag</span>.<span class="ruby-identifier">attributes</span>[<span class="ruby-value str">'onclick'</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^new Ajax.Updater\(['&quot;].*?['&quot;], ['&quot;](.*?)['&quot;]/i</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">$1</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">attributes</span>[<span class="ruby-value str">'href'</span>]
+    <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">dest</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">%r{^(http://|mailto:|#|&amp;#)}</span>
+      <span class="ruby-identifier">dest</span> = <span class="ruby-identifier">dest</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">'#'</span>)[<span class="ruby-value">0</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dest</span>.<span class="ruby-identifier">index</span>(<span class="ruby-value str">&quot;#&quot;</span>) <span class="ruby-comment cmt"># don't want page anchors</span>
+      <span class="ruby-ivar">@links_to_visit</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Caboose</span><span class="ruby-operator">::</span><span class="ruby-constant">SpiderIntegrator</span><span class="ruby-operator">::</span><span class="ruby-constant">Link</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">dest</span>, <span class="ruby-identifier">source</span> ) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dest</span>.<span class="ruby-identifier">any?</span> <span class="ruby-comment cmt"># could be empty, make sure there's no empty links queueing</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
