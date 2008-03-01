@@ -186,25 +186,6 @@ class Notifier < ActionMailer::Base
               Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
             end
           
-          # send to the parents (don't save the message -- just send it raw)
-          elsif nil and address.to_s.any? and address.to_s =~ /\-parents$/ and group = Group.find_by_address(address.gsub(/\-parents$/, '')) and group.can_send? person
-            email.cc = nil
-            email.bcc = nil
-            sent_to = []
-            group.people.each do |p|
-              p.parents.each do |parent|
-                if parent.email.to_s.any? and not sent_to.include? parent.email
-                  email.to = parent.email
-                  Notifier.deliver(email)
-                  sent_to << parent.email
-                end
-              end
-            end
-            if sent_to.any?
-              # notify sender who the email was sent to
-              Notifier.deliver_simple_message(email.from, 'Message Sent', "Your message with subject \"#{email.subject}\" was delivered to the following email addresses: #{sent_to.join(', ')}")
-            end
-          
           # replying to a person who sent a group message
           elsif address.to_s.any? and address =~ /^[a-z]*\.\d+\.[0-9abcdef]{6,6}$/ and not message_sent_to_group
             name, message_id, code_hash = address.split('.')
