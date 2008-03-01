@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 3) do
 
   create_table "admins", :force => true do |t|
     t.column "manage_publications",    :boolean,  :default => false
@@ -43,6 +43,57 @@ ActiveRecord::Schema.define(:version => 2) do
     t.column "created_at",   :datetime
     t.column "song_id",      :integer
     t.column "site_id",      :integer
+  end
+
+  create_table "bj_config", :id => false, :force => true do |t|
+    t.column "bj_config_id", :integer, :null => false
+    t.column "hostname",     :text
+    t.column "key",          :text
+    t.column "value",        :text
+    t.column "cast",         :text
+  end
+
+  add_index "bj_config", ["hostname", "key"], :name => "index_bj_config_on_hostname_and_key", :unique => true
+
+  create_table "bj_job", :id => false, :force => true do |t|
+    t.column "bj_job_id",      :integer,  :null => false
+    t.column "command",        :text
+    t.column "state",          :text
+    t.column "priority",       :integer
+    t.column "tag",            :text
+    t.column "is_restartable", :integer
+    t.column "submitter",      :text
+    t.column "runner",         :text
+    t.column "pid",            :integer
+    t.column "submitted_at",   :datetime
+    t.column "started_at",     :datetime
+    t.column "finished_at",    :datetime
+    t.column "env",            :text
+    t.column "stdin",          :text
+    t.column "stdout",         :text
+    t.column "stderr",         :text
+    t.column "exit_status",    :integer
+  end
+
+  create_table "bj_job_archive", :id => false, :force => true do |t|
+    t.column "bj_job_archive_id", :integer,  :null => false
+    t.column "command",           :text
+    t.column "state",             :text
+    t.column "priority",          :integer
+    t.column "tag",               :text
+    t.column "is_restartable",    :integer
+    t.column "submitter",         :text
+    t.column "runner",            :text
+    t.column "pid",               :integer
+    t.column "submitted_at",      :datetime
+    t.column "started_at",        :datetime
+    t.column "finished_at",       :datetime
+    t.column "archived_at",       :datetime
+    t.column "env",               :text
+    t.column "stdin",             :text
+    t.column "stdout",            :text
+    t.column "stderr",            :text
+    t.column "exit_status",       :integer
   end
 
   create_table "comments", :force => true do |t|

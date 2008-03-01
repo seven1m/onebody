@@ -1,0 +1,55 @@
+#! /usr/bin/env ruby
+
+require 'main'
+require 'bj'
+
+Main {
+  option('rails_root', 'R'){
+    argument_required
+    default '.'
+  }
+
+  option('rails_env', 'E'){
+    argument_required
+    default 'development'
+  }
+
+  def run
+    help!
+  end
+
+  mode 'setup' do
+    def run
+      bj.setup!
+    end
+  end
+
+  mode 'test' do
+    def run 
+      Bj.boot!
+      y Bj
+    end
+  end
+
+  mode 'migration' do
+    #puts Bj.migration
+  end
+
+  mode 'configure' do
+  end
+
+  mode 'submit' do
+  end
+
+  mode 'list' do
+  end
+
+  def bj
+    return @bj if defined? @bj
+    options = %w[
+      rails_root
+      rails_env
+    ].inject(Hash.new){|h,k| h.update k => params[k].value}
+    @bj = Bj.new options.merge(:logger => logger)
+  end
+}

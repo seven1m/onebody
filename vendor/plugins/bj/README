@@ -1,0 +1,142 @@
+NAME
+  bj
+
+SYNOPSIS
+  bj (migration_code|generate_migration|migrate|setup|run|submit|list|set|config|pid) [options]+
+
+DESCRIPTION
+  ________________________________
+  Overview
+  --------------------------------
+  
+    Backgroundjob (Bj) is a simple to use background priority queue for rails.
+    Although not yet tested on windows, the design of bj is such that operation
+    should be possible on any operating system, including M$.
+  
+    Jobs can be submitted to the queue directly using the api or from the
+    commandline using the 'bj' script.  For example
+  
+    code:
+        Bj.submit 'cat /etc/password'
+  
+      cli:
+        bj submit cat /etc/password
+  
+    When used from inside a rails application bj arranges that another process
+    will always be running in the background to process the jobs that you submit.
+    By using a separate process to run jobs bj does not impact the resource
+    utilization of your rails application at all and enables several very cool
+    features:
+  
+      1) Bj allows you to sumbit jobs to any of your configured databases and,
+      in each case, spawns a separate background process to run jobs from that
+      queue
+  
+        Bj.in :production do
+          Bj.submit 'production_job.exe'
+        end
+  
+        Bj.in :development do
+          Bj.submit 'development_job.exe'
+        end
+  
+      2) Although bj ensures that a process is always running to process
+      your jobs, you can start a proces manually.  This means that any machine
+      capable of seeing your RAILS_ROOT can run jobs for your application, allowing
+      one to setup a cluster of machines doing the work of a single front end rails
+      applicaiton.
+  
+  ________________________________
+  Install 
+  --------------------------------
+    
+    Bj can be installed two ways: as a gem or as a plugin.
+  
+      gem:
+        1) $sudo gem install bj
+        2) add "require 'bj'" to config/environment.rb
+        3) bj setup
+  
+      plugin:
+        1) ./script/plugin install http://codeforpeople.rubyforge.org/svn/rails/plugins/bj
+        2) ./script/bj setup
+  
+  ________________________________
+  Api
+  --------------------------------
+  
+    submit jobs for background processing.  'jobs' can be a string or array of
+    strings.  options are applied to each job in the 'jobs', and the list of
+    submitted jobs is always returned.  options (string or symbol) can be
+    
+      :rails_env => production|development|key_in_database_yml 
+                    when given this keyword causes bj to submit jobs to the
+                    specified database.  default is RAILS_ENV.
+    
+      :priority => any number, including negative ones.  default is zero.
+    
+      :tag => a tag added to the job.  simply makes searching easier.
+    
+      :env => a hash specifying any additional environment vars the background
+              process should have.
+    
+      :stdin => any stdin the background process should have.
+    
+    eg:
+    
+      jobs = Bj.submit 'echo foobar', :tag => 'simple job'
+    
+      jobs = Bj.submit '/bin/cat', :stdin => 'in the hat', :priority => 42
+    
+      jobs = Bj.submit './script/runner ./scripts/a.rb', :rails_env => 'production'
+     
+      jobs = Bj.submit './script/runner /dev/stdin',
+                       :stdin => 'p RAILS_ENV',
+                       :tag => 'dynamic ruby code'
+  
+      jobs Bj.submit array_of_commands, :priority => 451 
+    
+  when jobs are run, they are run in RAILS_ROOT.  various attributes are
+  available *only* once the job has finished.  you can check whether or not a
+  job is finished by using the #finished method, which simple does a reload and
+  checks to see if the exit_status is non-nil.
+    
+    eg:
+    
+      jobs = Bj.submit list_of_jobs, :tag => 'important'
+      ...
+      
+      jobs.each do |job|
+        if job.finished?
+          p job.exit_status
+          p job.stdout
+          p job.stderr
+        end
+      end
+  
+  See lib/bj/api.rb for more details.
+  
+  ________________________________
+  Sponsors 
+  --------------------------------
+    http://www.engineyard.com/
+    http://quintess.com/
+    http://eparklabs.com/
+
+PARAMETERS
+  --rails_root=rails_root, -R (0 ~> rails_root=) 
+      the rails_root will be guessed unless you set this 
+  --rails_env=rails_env, -E (0 ~> rails_env=development) 
+      set the rails_env 
+  --log=log, -l (0 ~> log=STDERR) 
+      set the logfile 
+  --help, -h 
+
+AUTHOR
+  ara.t.howard@gmail.com
+
+URIS
+  http://codeforpeople.com/lib/ruby/
+  http://rubyforge.org/projects/codeforpeople/
+  http://codeforpeople.rubyforge.org/svn/rails/plugins/
+

@@ -1,0 +1,679 @@
+#! /usr/bin/env ruby
+
+require "bj"
+require "main"
+
+Main {
+  usage["description"] = <<-txt
+    ________________________________
+    Overview
+    --------------------------------
+
+    Backgroundjob (Bj) is a brain dead simple zero admin background priority queue
+    for Rails.  Bj is robust, platform independent (including windows), and
+    supports internal or external manangement of the background runner process.
+
+    Jobs can be submitted to the queue directly using the api or from the command
+    line using the ./script/bj:
+
+      api:
+        Bj.submit 'cat /etc/password'
+
+      command line:
+        bj submit cat /etc/password
+
+    Bj's priority queue lives in the database and is therefore durable - your jobs
+    will live across an app crash or machine reboot.  The job management is
+    comprehensive capturing stdout, stderr, exit_status, and temporal statistics
+    about each job:
+
+      jobs = Bj.submit array_of_commands, :priority => 42
+
+      ...
+
+      jobs.each do |job|
+        if job.finished?
+          p job.stdout
+          p job.stderr
+          p job.exit_status
+          p job.started_at
+          p job.finished_at
+        end
+      end
+
+    In addition the background runner process logs all commands run and their
+    exit_status to a log named using the following convention:
+
+      rails_root/log/bj.\#{ HOSTNAME }.\#{ RAILS_ENV }.log
+
+    Bj allows you to submit jobs to multiple databases; for instance, if your
+    application is running in development mode you may do:
+
+      Bj.in :production do
+        Bj.submit 'my_job.exe'
+      end
+
+    Bj manages the ever growing list of jobs ran by automatically archiving them
+    into another table (by default jobs > 24 hrs old are archived) to prevent the
+    jobs table from becoming bloated and huge.
+
+    All Bj's tables are namespaced and accessible via the Bj module:
+
+      Bj.table.job.find(:all)         # jobs table
+      Bj.table.job_archive.find(:all) # archived jobs
+      Bj.table.config.find(:all)      # configuration and runner state
+
+    Bj always arranges for submitted jobs to run with a current working directory
+    of RAILS_ROOT and with the correct RAILS_ENV setting.  For example, if you
+    submit a job in production it will have ENV['RAILS_ENV'] == 'production'.
+
+    When Bj manages the background runner it will never outlive the rails
+    application - it is started and stopped on demand as the rails app is started
+    and stopped.  This is also true for ./script/console - Bj will automatically
+    fire off the background runner to process jobs submitted using the console.
+
+    Bj ensures that only one background process is running for your application -
+    firing up three mongrels or fcgi processes will result in only one background
+    runner being started.  Note that the number of background runners does not
+    determine throughput - that is determined primarily by the nature of the jobs
+    themselves and how much work they perform per process.
+
+
+    ________________________________
+    Architecture
+    --------------------------------
+
+    If one ignores platform specific details the design of Bj is quite simple: the
+    main Rails application submits jobs to table, stored in the database.  The act
+    of submitting triggers exactly one of two things to occur:
+
+      1) a new long running background runner to be started
+
+      2) an existing background runner to be signaled
+
+    The background runner refuses to run two copies of itself for a given
+    hostname/rails_env combination.  For example you may only have one background
+    runner processing jobs on localhost in development mode.
+
+    The background runner, under normal circumstances, is managed by Bj itself -
+    you need do nothing to start, monitor, or stop it - it just works.  However,
+    some people will prefer manage their own background process, see 'External
+    Runner' section below for more on this.
+
+    The runner simply processes each job in a highest priority oldest-in fashion,
+    capturing stdout, stderr, exit_status, etc. and storing the information back
+    into the database while logging it's actions.  When there are no jobs to run
+    the runner goes to sleep for 42 seconds; however this sleep is interuptable,
+    such as when the runner is signaled that a new job has been submitted so,
+    under normal circumstances there will be zero lag between job submission and
+    job running for an empty queue.
+
+
+    ________________________________
+    External Runner / Clustering
+    --------------------------------
+
+    For the paranoid control freaks out there (myself included) it is quite
+    possible to manage and monitor the runner process manually.  This can be
+    desirable in production setups where monitoring software may kill leaking
+    rails apps periodically.
+
+    Recalling that Bj will only allow one copy of itself to process jobs per
+    hostname/rails_env pair we can simply do something like this in cron
+
+      cmd = bj run --forever \\
+                   --rails_env=development \\
+                   --rails_root=/Users/ahoward/rails_root
+
+      */15 * * * * $cmd 
+
+    this will simply attempt the start the background runner every 15 minutes if,
+    and only if, it's not *already* running.
+
+    In addtion to this you'll want to tell Bj not to manage the runner itself
+    using
+
+      Bj.config["production.no_tickle"] = true
+
+    Note that, for clusting setups, it's as simple as adding a crontab and config
+    entry like this for each host.  Because Bj throttles background runners per
+    hostname this will allow one runner per hostname - making it quite simple to
+    cluster three nodes behind a besieged rails application.
+
+
+    ________________________________
+    Designing Jobs
+    --------------------------------
+
+    Bj runs it's jobs as command line applications.  It ensures that all jobs run
+    in RAILS_ROOT so it's quite natural to apply a pattern such as
+
+      mkdir ./jobs
+      edit ./jobs/background_job_to_run
+
+      ...
+
+      Bj.submit "./jobs/background_job_to_run"
+
+    If you need to run you jobs under an entire rails environment you'll need to
+    do this:
+
+      Bj.submit "./script/runner ./jobs/background_job_to_run"
+
+    Obviously "./script/runner" loads the rails environment for you.  It's worth
+    noting that this happens for each job and that this is by design: the reason
+    is that most rails applications leak memory like a sieve so, if one were to
+    spawn a long running process that used the application code base you'd have a
+    lovely doubling of memory usage on you app servers.  Although loading the
+    rails environment for each background job requires a little time, a little
+    cpu, and a lot less memory.  A future version of Bj will provide a way to load
+    the rails environment once and to process background jobs in this environment,
+    but anyone wanting to use this in production will be required to duct tape
+    their entire chest and have a team of oxen rip off the tape without screaming
+    to prove steelyness of spirit and profound understanding of the other side.
+
+    Don't forget that you can submit jobs with command line arguments:
+
+      Bj.submit "./jobs/a.rb 1 foobar --force" 
+
+    and that you can do powerful things by passing stdin to a job that powers
+    through a list of work.  For instance, assume a "./jobs/bulkmail" job
+    resembling
+
+      STDIN.each do |line|
+        address = line.strip
+        mail_message_to address
+      end
+      
+    then you could
+
+      stdin = [
+        "foo@bar.com",
+        "bar@foo.com",
+        "ara.t.howard@codeforpeople.com",
+      ]
+
+      Bj.submit "./script/runner ./jobs/bulkmail", :stdin => stdin
+
+    and all those emails would be sent in the background.
+
+    Bj's power is putting jobs in the background in a simple and robust fashion.
+    It's your task to build intelligent jobs that leverage batch processing, and
+    other, possibilities.  The upshot of building tasks this way is that they are
+    quite easy to test before submitting them from inside your application.
+
+
+    ________________________________
+    Install 
+    --------------------------------
+      
+      Bj can be installed two ways: as a plugin or via rubygems
+
+        plugin:
+          1) ./script/plugin install http://codeforpeople.rubyforge.org/svn/rails/plugins/bj
+          2) ./script/bj setup
+
+        gem:
+          1) $sudo gem install bj
+          2) add "require 'bj'" to config/environment.rb
+          3) bj setup
+
+    ________________________________
+    Api
+    --------------------------------
+
+    submit jobs for background processing.  'jobs' can be a string or array of
+    strings.  options are applied to each job in the 'jobs', and the list of
+    submitted jobs is always returned.  options (string or symbol) can be
+      
+      :rails_env => production|development|key_in_database_yml 
+                    when given this keyword causes bj to submit jobs to the
+                    specified database.  default is RAILS_ENV.
+
+      :priority => any number, including negative ones.  default is zero.
+
+      :tag => a tag added to the job.  simply makes searching easier.
+
+      :env => a hash specifying any additional environment vars the background
+              process should have.
+
+      :stdin => any stdin the background process should have.  must respond_to
+                to_s
+      
+    eg:
+
+      jobs = Bj.submit 'echo foobar', :tag => 'simple job'
+
+      jobs = Bj.submit '/bin/cat', :stdin => 'in the hat', :priority => 42
+
+      jobs = Bj.submit './script/runner ./scripts/a.rb', :rails_env => 'production'
+
+      jobs = Bj.submit './script/runner /dev/stdin',
+                       :stdin => 'p RAILS_ENV',
+                       :tag => 'dynamic ruby code'
+
+      jobs Bj.submit array_of_commands, :priority => 451 
+      
+    when jobs are run, they are run in RAILS_ROOT.  various attributes are
+    available *only* once the job has finished.  you can check whether or not a
+    job is finished by using the #finished method, which simple does a reload and
+    checks to see if the exit_status is non-nil.
+      
+      eg:
+      
+        jobs = Bj.submit list_of_jobs, :tag => 'important'
+        ...
+        
+        jobs.each do |job|
+          if job.finished?
+            p job.exit_status
+            p job.stdout
+            p job.stderr
+          end
+        end
+
+    See lib/bj/api.rb for more details.
+
+    ________________________________
+    Sponsors 
+    --------------------------------
+      http://quintess.com/
+      http://www.engineyard.com/
+      http://igicom.com/
+      http://eparklabs.com/
+
+      http://your_company.com/      <<-- (targeted marketing aimed at *you*)
+
+    ________________________________
+    Version
+    --------------------------------
+    #{ Bj.version }
+txt
+
+  usage["uris"] = <<-txt
+    http://codeforpeople.com/lib/ruby/
+    http://rubyforge.org/projects/codeforpeople/
+    http://codeforpeople.rubyforge.org/svn/rails/plugins/
+  txt
+
+  author "ara.t.howard@gmail.com"
+
+  option("rails_root", "R"){
+    description "the rails_root will be guessed unless you set this"
+    argument_required
+    default RAILS_ROOT
+  }
+
+  option("rails_env", "E"){
+    description "set the rails_env"
+    argument_required
+    default RAILS_ENV
+  }
+
+  option("log", "l"){
+    description "set the logfile"
+    argument_required
+    default STDERR
+  }
+
+
+  mode "migration_code" do
+    description "dump migration code on stdout"
+
+    def run
+      puts Bj.table.migration_code
+    end
+  end
+
+  mode "generate_migration" do
+    description "generate a migration"
+
+    def run
+      Bj.generate_migration
+    end
+  end
+
+  mode "migrate" do
+    description "migrate the db"
+
+    def run
+      Bj.migrate
+    end
+  end
+
+  mode "setup" do
+    description "generate a migration and migrate"
+
+    def run
+      set_rails_env(argv.first) if argv.first
+      Bj.setup
+    end
+  end
+
+  mode "plugin" do
+    description "dump the plugin into rails_root"
+
+    def run
+      Bj.plugin
+    end
+  end
+
+  mode "run" do
+    description "start a job runnner, possibly as a daemon"
+
+    option("--forever"){}
+    option("--ppid"){
+      argument :required
+      cast :integer
+    }
+    option("--wait"){
+      argument :required
+      cast :integer
+    }
+    option("--limit"){
+      argument :required
+      cast :integer
+    }
+    option("--redirect"){
+      argument :required
+    }
+    option("--daemon"){}
+
+    def run
+      options = {}
+
+=begin
+      %w[ forever ].each do |key|
+        options[key.to_sym] = true if param[key].given?
+      end
+=end
+
+      %w[ forever ppid wait limit ].each do |key|
+        options[key.to_sym] = param[key].value if param[key].given?
+      end
+
+#p options
+#exit
+      if param["redirect"].given?
+        open(param["redirect"].value, "a+") do |fd|
+          STDERR.reopen fd 
+          STDOUT.reopen fd 
+        end
+        STDERR.sync = true
+        STDOUT.sync = true
+      end
+
+      trap("SIGTERM"){
+        info{ "SIGTERM" }
+        exit
+      }
+
+      if param["daemon"].given?
+        daemon{ Bj.run options }
+      else
+        Bj.run options 
+      end
+    end
+  end
+
+  mode "submit" do
+    keyword("file"){
+      argument :required
+      attr
+    }
+
+    def run
+      joblist = Bj.joblist.for argv.join(' ') 
+
+      case file
+        when "-"
+          joblist.push(Bj.joblist.jobs_from_io(STDIN))
+        when "--", "---"
+          joblist.push(Bj.joblist.jobs_from_yaml(STDIN))
+        else
+          open(file){|io| joblist.push(Bj.joblist.jobs_from_io(io)) }
+      end
+
+      jobs = Bj.submit joblist, :no_tickle => true
+
+      oh = lambda{|job| OrderedHash["id", job.id, "command", job.command]}
+
+      y jobs.map{|job| oh[job]} 
+    end
+  end
+
+  mode "list" do
+    def run
+      Bj.transaction do
+        y Bj::Table::Job.find(:all).map(&:to_hash)
+      end
+    end
+  end
+
+  mode "set" do
+    argument("key"){ attr }
+
+    argument("value"){ attr }
+
+    option("hostname", "H"){
+      argument :required
+      default Bj.hostname
+      attr
+    }
+
+    option("cast", "c"){
+      argument :required
+      default "to_s" 
+      attr
+    }
+
+    def run
+      Bj.transaction do
+        Bj.config.set(key, value, :hostname => hostname, :cast => cast)
+        y Bj.table.config.for(:hostname => hostname)
+      end
+    end
+  end
+
+  mode "config" do
+    option("hostname", "H"){
+      argument :required
+      default Bj.hostname
+    }
+
+    def run
+      Bj.transaction do
+        y Bj.table.config.for(:hostname => param["hostname"].value)
+      end
+    end
+  end
+
+  mode "pid" do
+    option("hostname", "H"){
+      argument :required
+      default Bj.hostname
+    }
+
+    def run
+      Bj.transaction do
+        config = Bj.table.config.for(:hostname => param["hostname"].value)
+        puts config[ "#{ RAILS_ENV }.pid" ] if config
+      end
+    end
+  end
+
+
+  def run 
+    help!
+  end
+
+  def before_run 
+    self.logger = param["log"].value
+    Bj.logger = logger
+    set_rails_root(param["rails_root"].value) if param["rails_root"].given?
+    set_rails_env(param["rails_env"].value) if param["rails_env"].given?
+  end
+
+  def set_rails_root rails_root
+    ENV["RAILS_ROOT"] = rails_root 
+    ::Object.instance_eval do
+      remove_const :RAILS_ROOT
+      const_set :RAILS_ROOT, rails_root
+    end
+  end
+
+  def set_rails_env rails_env
+    ENV["RAILS_ENV"] = rails_env 
+    ::Object.instance_eval do
+      remove_const :RAILS_ENV
+      const_set :RAILS_ENV, rails_env
+    end
+  end
+
+  def daemon
+    ra, wa = IO.pipe
+    rb, wb = IO.pipe
+    if fork
+      at_exit{ exit! }
+      wa.close
+      r = ra
+      rb.close
+      w = wb
+      pid = r.gets
+      w.puts pid
+      Integer pid.strip
+    else
+      ra.close
+      w = wa
+      wb.close
+      r = rb
+      open("/dev/null", "r+") do |fd|
+        STDIN.reopen fd 
+        STDOUT.reopen fd 
+        STDERR.reopen fd 
+      end
+      Process::setsid rescue nil
+      pid =
+        fork do
+          Dir::chdir RAILS_ROOT
+          File::umask 0
+          $DAEMON = true
+          yield
+          exit!
+        end
+      w.puts pid
+      r.gets
+      exit!
+    end
+  end
+}
+
+
+
+
+
+#
+# we setup a few things so the script works regardless of whether it was
+# called out of /usr/local/bin, ./script, or wherever.  note that the script
+# does *not* require the entire rails application to be loaded into memory!
+# we could just load boot.rb and environment.rb, but this method let's
+# submitting and running jobs be infinitely more lightweight.
+#
+
+BEGIN {
+#
+# see if we're running out of RAILS_ROOT/script/
+#
+unless defined?(BJ_SCRIPT)
+  BJ_SCRIPT =
+    if %w[ script config app ].map{|d| test ?d, "#{ File.dirname __FILE__ }/../#{ d }"}.all?
+      __FILE__
+    else
+      nil
+    end
+end
+#
+# setup RAILS_ROOT
+#
+unless defined?(RAILS_ROOT)
+  ### grab env var first
+  rails_root = ENV["RAILS_ROOT"]
+
+  ### commandline usage clobbers
+  kv = nil
+  ARGV.delete_if{|arg| arg =~ %r/^RAILS_ROOT=/ and kv = arg}
+  rails_root = kv.split(%r/=/,2).last if kv
+
+  ### we know the rails_root if we are in RAILS_ROOT/script/ 
+  unless rails_root 
+    if BJ_SCRIPT
+      rails_root = File.expand_path "#{ File.dirname __FILE__ }/.."
+    end
+  end
+
+  ### perhaps the current directory is a rails_root?
+  unless rails_root 
+    if %w[ script config app ].map{|d| test(?d, d)}.all?
+      rails_root = File.expand_path "."
+    end
+  end
+
+  ### bootstrap 
+  RAILS_ROOT = rails_root
+end
+#
+# setup RAILS_ENV
+#
+unless defined?(RAILS_ENV)
+  ### grab env var first
+  rails_env = ENV["RAILS_ENV"]
+
+  ### commandline usage clobbers
+  kv = nil
+  ARGV.delete_if{|arg| arg =~ %r/^RAILS_ENV=/ and kv = arg}
+  rails_env = kv.split(%r/=/,2).last if kv
+
+  ### fallback to development
+  unless rails_env
+    rails_env = "development"
+  end 
+
+  ### bootstrap 
+  RAILS_ENV = rails_env
+end
+#
+# ensure that rubygems is loaded
+#
+  begin
+    require "rubygems"
+  rescue
+    42
+  end
+#
+# load gems from plugin dir iff installed as plugin - otherwise load normally
+#
+if RAILS_ROOT and BJ_SCRIPT
+=begin
+  dir = Gem.dir
+  path = Gem.path
+  gem_home = File.join RAILS_ROOT, "vendor", "plugins", "bj", "gem_home"
+  gem_path = [gem_home]
+  Gem.send :use_paths, gem_home, gem_path
+  gem "bj"
+  require "bj"
+  gem "main"
+  require "main"
+=end
+  libdir = File.join(RAILS_ROOT, "vendor", "plugins", "bj", "lib")
+  $LOAD_PATH.unshift libdir
+end
+#
+# hack of #to_s of STDERR/STDOUT for nice help messages
+#
+  class << STDERR
+    def to_s() 'STDERR' end
+  end
+  class << STDOUT
+    def to_s() 'STDOUT' end
+  end
+}
