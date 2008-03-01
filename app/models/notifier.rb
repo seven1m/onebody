@@ -229,6 +229,9 @@ class Notifier < ActionMailer::Base
                   Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may send your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
                 end
               end
+            else
+              # notify the sender that the message is unsolicited and was not delivered
+              Notifier.deliver_simple_message(email.from, 'Message Rejected', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but it appears the message was unsolicited. If you want to send a message to someone, please sign in at #{Setting.get(:url, :site)}, find the person, and click \"private message.\"")
             end
           end
         end
