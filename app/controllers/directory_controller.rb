@@ -51,6 +51,8 @@ class DirectoryController < ApplicationController
           end
         else
           render :update do |page|
+            page.show('status')
+            page.hide('generate_form')
             page << check_js
           end
         end
