@@ -292,24 +292,22 @@ If you are rendering a subtemplate, you must now use controller-like partial syn
     
     # Renders the template present at <tt>template_path</tt> (relative to the view_paths array). 
     # The hash in <tt>local_assigns</tt> is made available as local variables.
-    def render(options = {}, old_local_assigns = {}, &block) #:nodoc:
+    def render(options = {}, local_assigns = {}, &block) #:nodoc:
       if options.is_a?(String)
-        render_file(options, true, old_local_assigns)
+        render_file(options, true, local_assigns)
       elsif options == :update
         update_page(&block)
       elsif options.is_a?(Hash)
         options = options.reverse_merge(:locals => {}, :use_full_path => true)
 
-        if options[:layout]
-          path, partial_name = partial_pieces(options.delete(:layout))
-
+        if partial_layout = options.delete(:layout)
           if block_given?
             wrap_content_for_layout capture(&block) do 
-              concat(render(options.merge(:partial => "#{path}/#{partial_name}")), block.binding)
+              concat(render(options.merge(:partial => partial_layout)), block.binding)
             end
           else
             wrap_content_for_layout render(options) do
-              render(options.merge(:partial => "#{path}/#{partial_name}"))
+              render(options.merge(:partial => partial_layout))
             end
           end
         elsif options[:file]
@@ -325,17 +323,8 @@ If you are rendering a subtemplate, you must now use controller-like partial syn
       end
     end
 
-    # Renders the +template+ which is given as a string as either erb or builder depending on <tt>template_extension</tt>.
-    # The hash in <tt>local_assigns</tt> is made available as local variables.
     def render_template(template) #:nodoc:
-      handler = template.handler
-      @current_render_extension = template.extension
-
-      if handler.compilable?
-        compile_and_render_template(handler, template)
-      else
-        handler.render(template.source, template.locals)
-      end
+      template.render
     end
 
     # Returns true is the file may be rendered implicitly.
@@ -344,13 +333,32 @@ If you are rendering a subtemplate, you must now use controller-like partial syn
     end
 
     # symbolized version of the :format parameter of the request, or :html by default.
+    #
+    # EXCEPTION: If the :format parameter is not set, the Accept header will be examined for
+    # whether it contains the JavaScript mime type as its first priority. If that's the case,
+    # it will be used. This ensures that Ajax applications can use the same URL to support both
+    # JavaScript and non-JavaScript users.
     def template_format
       return @template_format if @template_format
-      format = controller && controller.respond_to?(:request) && controller.request.parameters[:format]
-      @template_format = format.blank? ? :html : format.to_sym
+
+      if controller && controller.respond_to?(:request)
+        parameter_format = controller.request.parameters[:format]
+        accept_format    = controller.request.accepts.first
+
+        case
+        when parameter_format.blank? && accept_format != :js
+          @template_format = :html
+        when parameter_format.blank? && accept_format == :js
+          @template_format = :js
+        else
+          @template_format = parameter_format.to_sym
+        end
+      else
+        @template_format = :html
+      end
     end
 
-    private
+    private    
       def wrap_content_for_layout(content)
         original_content_for_layout = @content_for_layout
         @content_for_layout = content
@@ -369,24 +377,11 @@ If you are rendering a subtemplate, you must now use controller-like partial syn
       def assign_variables_from_controller
         @assigns.each { |key, value| instance_variable_set("@#{key}", value) }
       end
-
-      # Render the provided template with the given local assigns. If the template has not been rendered with the provided
-      # local assigns yet, or if the template has been updated on disk, then the template will be compiled to a method.
-      #
-      # Either, but not both, of template and file_path may be nil. If file_path is given, the template
-      # will only be read if it has to be compiled.
-      #
-      def compile_and_render_template(handler, template) #:nodoc:
-        # compile the given template, if necessary
-        handler.compile_template(template)
-
-        # Get the method name for this template and run it
-        method_name = @@method_names[template.method_key]
-        evaluate_assigns
-
-        send(method_name, template.locals) do |*name|
-          instance_variable_get "@content_for_#{name.first || 'layout'}"
-        end
+      
+      def execute(template)
+        send(template.method, template.locals) do |*names|
+          instance_variable_get "@content_for_#{names.first || 'layout'}"
+        end        
       end
   end
 end
