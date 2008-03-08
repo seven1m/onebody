@@ -11,7 +11,8 @@ class GroupsController < ApplicationController
   end
   
   def search
-    conditions = ['hidden = ? and approved = ?', false, true]
+    conditions = []
+    conditions.add_condition ['hidden = ? and approved = ?', false, true] unless @logged_in.admin?(:manage_groups)
     conditions.add_condition ['category = ?', params[:category]] if params[:category]
     conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
     @groups = Group.find(:all, :conditions => conditions, :order => 'name')
@@ -22,7 +23,7 @@ class GroupsController < ApplicationController
   def view
     @group = Group.find params[:id]
     @messages = @group.messages.find :all, :select => '*, (select count(*) from messages r where r.parent_id=messages.id and r.to_person_id is null) as reply_count, (select count(*) from attachments where message_id=messages.id or message_id in (select id from messages r where r.parent_id=messages.id)) as attachment_count'
-    @notes = @group.notes.find :all, :order => 'created_at desc', :limit => 10
+    @notes = @group.notes.find_all_by_deleted(false, :order => 'created_at desc', :limit => 10)
     @prayer_requests = @group.prayer_requests.find(:all, :conditions => "answer = '' or answer is null", :order => 'created_at desc')
     @answered_prayer_count = @group.prayer_requests.count('*', :conditions => "answer != '' and answer is not null")
     unless @group.approved? or @group.admin?(@logged_in)

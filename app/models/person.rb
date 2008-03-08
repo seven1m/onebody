@@ -329,7 +329,7 @@ class Person < ActiveRecord::Base
       :order => 'created_at desc',
       :conditions => "model_name in ('Verse', 'Recipe', 'Note', 'Picture')",
       :limit => 25
-    ).map { |item| item.object }
+    ).map { |item| item.object }.select { |o| o.person == self and not (o.respond_to?(:deleted?) and o.deleted?) }
   end
   
   alias_method :groups_without_linkage, :groups
@@ -429,6 +429,10 @@ class Person < ActiveRecord::Base
       :include => :person
     ).select do |item|
       if !item.object
+        false
+      elsif !(p = item.object.person) or p != self
+        false
+      elsif item.object.respond_to?(:deleted?) and item.object.deleted?
         false
       elsif item.model_name == 'Person'
         item.object == self and item.showable_change_keys.any?
