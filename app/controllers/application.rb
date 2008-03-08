@@ -100,17 +100,3 @@ class ApplicationController < ActionController::Base
       end
     end
 end
-
-# UGLY
-# module ActionController
-#   class Dispatcher
-#     cattr_accessor :cgi
-#     class << self
-#       alias_method :rails_original_dispatch, :dispatch
-#       def dispatch(cgi = nil, *args)
-#         ActionController::Dispatcher.cgi = cgi
-#         rails_original_dispatch(cgi, *args)
-#       end
-#     end
-#   end
-# end
