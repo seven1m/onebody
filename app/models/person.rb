@@ -435,7 +435,7 @@ class Person < ActiveRecord::Base
       elsif item.model_name == 'Friendship'
         item.object.person != item.person
       elsif item.model_name == 'Message'
-        item.object.can_see?(self)
+        item.object.can_see?(self) and not item.object.to
       elsif item.model_name == 'Person'
         item.showable_change_keys.any?
       else

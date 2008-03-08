@@ -5,10 +5,10 @@ xml.instruct!
 xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
   xml.channel do
 
-    xml.title       "#{@person.name_possessive} Recently Feed"
-    xml.link        url_for(:only_path => false, :controller => 'people')
+    xml.title "#{@person.name_possessive} Recently Feed"
+    xml.link url_for(:only_path => false, :controller => 'people')
     if @items.any?
-      xml.pubDate     CGI.rfc1123_date(@items.first.created_at.to_time)
+      xml.pubDate CGI.rfc1123_date(@items.first.created_at.to_time)
     end
     xml.description "Friends and Group Members' Activity on #{Setting.get(:name, :site)}"
 
