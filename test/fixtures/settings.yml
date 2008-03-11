@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 4
 #
 # Table name: settings
 #
@@ -17,317 +17,87 @@
 #
 
 --- 
-settings_000034: 
-  name: Multisite
-  format: boolean
-  updated_at: 2008-01-26 15:21:08
-  id: "34"
-  value: false
-  description: When enabled, this instance can handle multiple sites, based on domain name.
-  global: true
-  section: Features
-  hidden: false
-  created_at: 2008-01-26 15:21:08
-settings_000023: 
-  name: Church Address
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "23"
-  value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
-  description: Visible on Terms of Use
-  global: false
-  section: Contact
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000012: 
-  name: News RSS
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "12"
-  value: http://imaginarychurch.com/news/RSS
-  description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
-  global: false
-  section: URL
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000001: 
-  name: Site
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "1"
-  value: Imaginary Church Family
-  description: truehe name of the member portion of this website
-  global: false
-  section: Name
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000024: 
-  name: System Noreply Email
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "24"
-  value: no-reply@imaginaryfamily.com
-  description: Email address where some email is sent (email that does not allow replies)
-  global: false
-  section: Contact
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000013: 
-  name: Host
-  format: string
-  updated_at: 2008-01-26 15:21:08
-  id: "13"
-  value: localhost
-  description: Hostname of your SMTP server
-  global: true
-  section: Email
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000002: 
-  name: Church
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "2"
-  value: First Imaginary Church
-  description: truehe name of the church
-  global: false
-  section: Name
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000014: 
-  name: Domain
-  format: string
-  updated_at: 2008-01-26 15:21:08
-  id: "14"
-  value: imaginaryfamily.com
-  description: Domain name for your SMTP email server
-  global: true
-  section: Email
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000003: 
-  name: SSL
-  format: boolean
-  updated_at: 2008-01-26 15:21:08
-  id: "3"
-  value: false
-  description: If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext.
-  global: true
-  section: Features
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000026: 
-  name: Tech Support Email
-  format: string
-  updated_at: 2008-01-26 15:21:08
-  id: "26"
-  value: admin@example.com
-  description: Email to contact for technical help with the site.
-  global: true
-  section: Contact
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000015: 
-  name: Yahoo
-  format: string
-  updated_at: 2008-01-26 15:21:08
-  id: "15"
-  value: 
-  description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
-  global: true
-  section: Services
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000004: 
-  name: Friends
-  format: boolean
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "4"
-  value: true
-  description: Enable MySpace-style mutual friendships (confirmed via email)
-  global: false
-  section: Features
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000027: 
-  name: Tech Support Contact
-  format: string
-  updated_at: 2008-01-26 15:21:08
-  id: "27"
-  value: Joe Schmo (admin@example.com)
-  description: Name and email to contact for technical help with the site.
-  global: true
-  section: Contact
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000016: 
-  name: Amazon
-  format: string
-  updated_at: 2008-01-26 15:21:08
-  id: "16"
-  value: 
-  description: Your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
-  global: true
-  section: Services
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000005: 
-  name: Prayer
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "5"
-  value: 
-  description: ""
-  global: false
-  section: Features
-  hidden: true
-  created_at: 2008-01-26 15:21:06
-settings_000028: 
-  name: Bug Notification Email
-  format: string
-  updated_at: 2008-01-26 15:21:08
-  id: "28"
-  value: 
-  description: Email address to send bug reports to
-  global: true
-  section: Contact
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000017: 
-  name: Analytics
-  format: string
-  updated_at: 2008-01-26 15:21:08
-  id: "17"
-  value: 
-  description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
-  global: true
-  section: Services
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000006: 
-  name: Sidebar Group Category
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "6"
-  value: Small Groups
-  description: People in mutual groups of this category will be displayed on the user's profile sidebar.
-  global: false
-  section: Features
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000030: 
-  name: Theme
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "30"
-  value: aqueouslight
-  description: Name of selected theme (from themes/ directory).
-  global: false
-  section: Appearance
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000029: 
-  name: Super Admins
-  format: list
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "29"
-  value: |
-    --- 
-    - admin@example.com
-
-  description: Email addresses of people who are the super admins
-  global: false
-  section: Access
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000018: 
-  name: Church Office Phone
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "18"
-  value: (123) 456-7890
-  description: Phone number for the church office
-  global: false
-  section: Contact
-  hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000007: 
+features_sidebargroupheading: 
   name: Sidebar Group Heading
-  format: string
-  updated_at: 2008-01-26 15:21:06
   site_id: "1"
-  id: "7"
-  value: Small Group
+  updated_at: 2008-01-26 15:21:06
+  format: string
   description: Heading to show above people in mutual groups (see above setting)
+  value: Small Group
   global: false
   section: Features
-  hidden: false
   created_at: 2008-01-26 15:21:06
-settings_000031: 
-  name: Standalone Use
-  format: boolean
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "31"
-  value: true
-  description: If enabled, OneBody is expected to be your church's main membership database, i.e. you can edit people and family data directly.
-  global: false
-  section: Features
   hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000020: 
-  name: Send Email Changes To
+email_host: 
+  name: Host
+  updated_at: 2008-01-26 15:21:08
   format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "20"
-  value: admin@imaginarychurch.com
-  description: Email sent when someone changes their email address (can be blank for no email)
-  global: false
-  section: Contact
-  hidden: false
+  description: Hostname of your SMTP server
+  value: localhost
+  global: true
+  section: Email
   created_at: 2008-01-26 15:21:06
-settings_000019: 
+  hidden: false
+contact_sendupdatesto: 
   name: Send Updates To
-  format: string
-  updated_at: 2008-01-26 15:21:06
   site_id: "1"
-  id: "19"
-  value: admin@imaginarychurch.com
+  updated_at: 2008-01-26 15:21:06
+  format: string
   description: Email sent when someone updates their profile (can be blank for no email)
+  value: admin@imaginarychurch.com
   global: false
   section: Contact
-  hidden: false
   created_at: 2008-01-26 15:21:06
-settings_000008: 
-  name: Banner Message
-  format: string
-  updated_at: 2008-01-26 15:21:06
+  hidden: false
+contact_churchofficephone: 
+  name: Church Office Phone
   site_id: "1"
-  id: "8"
-  value: 
-  description: Message to display across top of all pages on site (HTML), like an alert
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Phone number for the church office
+  value: (123) 456-7890
+  global: false
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+features_friends: 
+  name: Friends
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: boolean
+  description: Enable MySpace-style mutual friendships (confirmed via email)
+  value: true
   global: false
   section: Features
-  hidden: false
   created_at: 2008-01-26 15:21:06
-settings_000032: 
-  name: Genders
-  format: list
-  updated_at: 2008-01-26 15:21:06
+  hidden: false
+contact_systemnoreplyemail: 
+  name: System Noreply Email
   site_id: "1"
-  id: "32"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Email address where some email is sent (email that does not allow replies)
+  value: no-reply@imaginaryfamily.com
+  global: false
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+features_multisite: 
+  name: Multisite
+  updated_at: 2008-01-26 15:21:08
+  format: boolean
+  description: When enabled, this instance can handle multiple sites, based on domain name.
+  value: false
+  global: true
+  section: Features
+  created_at: 2008-01-26 15:21:08
+  hidden: false
+system_genders: 
+  name: Genders
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: list
+  description: ""
   value: |
     --- 
     - Male
@@ -335,53 +105,155 @@ settings_000032:
     - Boy
     - Girl
 
-  description: ""
   global: false
   section: System
-  hidden: true
   created_at: 2008-01-26 15:21:06
-settings_000021: 
-  name: Birthday Verification Email
-  format: string
-  updated_at: 2008-01-26 15:21:06
+  hidden: true
+features_bannermessage: 
+  name: Banner Message
   site_id: "1"
-  id: "21"
-  value: admin@imaginarychurch.com
-  description: Email sent when someone requests verification via birthday (shouldn't be blank)
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Message to display across top of all pages on site (HTML), like an alert
+  value: 
+  global: false
+  section: Features
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+appearance_theme: 
+  name: Theme
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Name of selected theme (from themes/ directory).
+  value: aqueouslight
+  global: false
+  section: Appearance
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+contact_churchemail: 
+  name: Church Email
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Visible in some places on site
+  value: info@imaginarychurch.com
   global: false
   section: Contact
-  hidden: false
   created_at: 2008-01-26 15:21:06
-settings_000010: 
-  name: Visitor
-  format: string
-  updated_at: 2008-01-26 15:21:06
+  hidden: false
+features_standaloneuse: 
+  name: Standalone Use
   site_id: "1"
-  id: "10"
-  value: http://imaginarychurch.com
-  description: URL for main website (visitors will be pointed here if they happen across the member site.)
+  updated_at: 2008-01-26 15:21:06
+  format: boolean
+  description: If enabled, OneBody is expected to be your church's main membership database, i.e. you can edit people and family data directly.
+  value: true
   global: false
-  section: URL
-  hidden: false
+  section: Features
   created_at: 2008-01-26 15:21:06
-settings_000009: 
+  hidden: false
+contact_birthdayverificationemail: 
+  name: Birthday Verification Email
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Email sent when someone requests verification via birthday (shouldn't be blank)
+  value: admin@imaginarychurch.com
+  global: false
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+url_site: 
   name: Site
-  format: string
-  updated_at: 2008-01-26 15:21:06
   site_id: "1"
-  id: "9"
-  value: http://imaginaryfamily.com/
+  updated_at: 2008-01-26 15:21:06
+  format: string
   description: URL for this site (including the trailing slash please)
+  value: http://imaginaryfamily.com/
   global: false
   section: URL
-  hidden: false
   created_at: 2008-01-26 15:21:06
-settings_000033: 
-  name: Suffixes
-  format: list
-  updated_at: 2008-01-26 15:21:06
+  hidden: false
+services_analytics: 
+  name: Analytics
+  updated_at: 2008-01-26 15:21:08
+  format: string
+  description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
+  value: 
+  global: true
+  section: Services
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+services_amazon: 
+  name: Amazon
+  updated_at: 2008-01-26 15:21:08
+  format: string
+  description: Your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
+  value: 
+  global: true
+  section: Services
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+contact_techsupportemail: 
+  name: Tech Support Email
+  updated_at: 2008-01-26 15:21:08
+  format: string
+  description: Email to contact for technical help with the site.
+  value: admin@example.com
+  global: true
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+url_news: 
+  name: News
   site_id: "1"
-  id: "33"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: URL for church news (people will be pointed here for news)
+  value: http://imaginarychurch.com/news
+  global: false
+  section: URL
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+features_sidebargroupcategory: 
+  name: Sidebar Group Category
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: People in mutual groups of this category will be displayed on the user's profile sidebar.
+  value: Small Groups
+  global: false
+  section: Features
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+email_domain: 
+  name: Domain
+  updated_at: 2008-01-26 15:21:08
+  format: string
+  description: Domain name for your SMTP email server
+  value: imaginaryfamily.com
+  global: true
+  section: Email
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+contact_churchaddress: 
+  name: Church Address
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Visible on Terms of Use
+  value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
+  global: false
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+system_suffixes: 
+  name: Suffixes
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: list
+  description: ""
   value: |
     --- 
     - Jr.
@@ -389,32 +261,154 @@ settings_000033:
     - II
     - III
 
-  description: ""
   global: false
   section: System
-  hidden: false
   created_at: 2008-01-26 15:21:06
-settings_000022: 
-  name: Church Email
-  format: string
-  updated_at: 2008-01-26 15:21:06
-  site_id: "1"
-  id: "22"
-  value: info@imaginarychurch.com
-  description: Visible in some places on site
-  global: false
-  section: Contact
   hidden: false
-  created_at: 2008-01-26 15:21:06
-settings_000011: 
-  name: News
-  format: string
-  updated_at: 2008-01-26 15:21:06
+url_visitor: 
+  name: Visitor
   site_id: "1"
-  id: "11"
-  value: http://imaginarychurch.com/news
-  description: URL for church news (people will be pointed here for news)
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: URL for main website (visitors will be pointed here if they happen across the member site.)
+  value: http://imaginarychurch.com
   global: false
   section: URL
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+access_superadmins: 
+  name: Super Admins
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: list
+  description: Email addresses of people who are the super admins
+  value: |
+    --- 
+    - admin@example.com
+
+  global: false
+  section: Access
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+url_newsrss: 
+  name: News RSS
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
+  value: http://imaginarychurch.com/news/RSS
+  global: false
+  section: URL
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+contact_sendemailchangesto: 
+  name: Send Email Changes To
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Email sent when someone changes their email address (can be blank for no email)
+  value: admin@imaginarychurch.com
+  global: false
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+features_prayer: 
+  name: Prayer
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: ""
+  value: 
+  global: false
+  section: Features
+  created_at: 2008-01-26 15:21:06
+  hidden: true
+services_yahoo: 
+  name: Yahoo
+  format: string
+  updated_at: 2008-01-26 15:21:08
+  value:
+  description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
+  global: true
+  section: Services
+  hidden: false
+  created_at: 2008-01-26 15:21:06
+name_site: 
+  name: Site
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: truehe name of the member portion of this website
+  value: Imaginary Church Family
+  global: false
+  section: Name
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+contact_bugnotificationemail: 
+  name: Bug Notification Email
+  updated_at: 2008-01-26 15:21:08
+  format: string
+  description: Email address to send bug reports to
+  value: 
+  global: true
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+contact_sendemailchangesto: 
+  name: Send Email Changes To
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Email sent when someone changes their email address (can be blank for no email)
+  value: admin@imaginarychurch.com
+  global: false
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+features_prayer: 
+  name: Prayer
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: ""
+  value: 
+  global: false
+  section: Features
+  created_at: 2008-01-26 15:21:06
+  hidden: true
+contact_churchaddress: 
+  name: Church Address
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Visible on Terms of Use
+  value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
+  global: false
+  section: Contact
+  created_at: 2008-01-26 15:21:06
+  hidden: false
+features_checkinsections: 
+  name: Checkin Sections
+  site_id: "1"
+  updated_at: 2008-03-08 20:45:06
+  format: list
+  description: Sections/Locations using the Checkin system, i.e. Elementary, Preschool
+  value: |
+    --- 
+    - Elementary
+    - Preschool
+ 
+  global: false
+  section: Features
+  created_at: 2008-03-08 20:45:06
+  hidden: false
+features_ssl:
+  name: SSL
+  format: boolean
+  updated_at: 2008-01-26 15:21:08
+  value: false
+  description: If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext.
+  global: true
+  section: Features
   hidden: false
   created_at: 2008-01-26 15:21:06

@@ -64,7 +64,11 @@ class ExampleConnector < ExternalDataConnector
         :can_sign_in                  => person.can_sign_in,                  # true/false
         :visible_to_everyone          => person.visible_to_everyone,          # true/false (overridden by individual user privacy settings)
         :visible_on_printed_directory => person.visible_on_printed_directory, # true/false
-        :full_access                  => person.full_access                   # true/false
+        :full_access                  => person.full_access,                  # true/false
+        :can_pick_up                  => person.can_pick_up,                  # notes about who can pick up this child (if applicable)
+        :cannot_pick_up               => record.cannot_pick_up,               # notes about who cannot pick up this child (if applicable)
+        :medical_notes                => record.medical_notes                 # special medical notes (in case of emergency)
+        :barcode_id                   => record.legacy_id                     # number/code to be used to match when scanned for checkin
       })
     end
   end

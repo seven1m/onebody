@@ -106,7 +106,11 @@ class ComsConnector < ExternalDataConnector
             :can_sign_in => can_sign_in,
             :visible_to_everyone => can_sign_in,
             :visible_on_printed_directory => %w(M A).include?(record.mailgroup),
-            :full_access => (%w(M A C).include?(record.mailgroup) or record.info_5 =~ /allow/i)
+            :full_access => (%w(M A C).include?(record.mailgroup) or record.info_5 =~ /allow/i),
+            :can_pick_up => record.info_10,
+            :cannot_pick_up => record.info_11,
+            :medical_notes => record.info_12,
+            :barcode_id => record.memberid
           })
         end
         index += 1

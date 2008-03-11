@@ -5,7 +5,12 @@ class GroupTest < ActionController::IntegrationTest
     assert_select 'body', :hmlt => /pending approval.*Morgan\sGroup/
     get '/groups/search?category=Small+Groups'
     assert_response :success
+    assert_select 'body', :html => /Morgan Group/
+    sign_in_as people(:jeremy)
+    get '/groups/search?category=Small+Groups'
+    assert_response :success
     assert_select 'body', :html => /no groups found/
+    sign_in_as people(:tim)
     get 'groups/view/1'
     assert_select 'body', :html => /Approve Group/
     post '/groups/approve/1'

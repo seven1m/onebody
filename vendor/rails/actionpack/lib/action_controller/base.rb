@@ -5,8 +5,7 @@ require 'action_controller/routing'
 require 'action_controller/resources'
 require 'action_controller/url_rewriter'
 require 'action_controller/status_codes'
-require 'action_view/template'
-require 'action_view/template_finder'
+require 'action_view'
 require 'drb'
 require 'set'
 
@@ -329,9 +328,6 @@ module ActionController #:nodoc:
     # The logger is used for generating information on the action run-time (including benchmarking) if available.
     # Can be set to nil for no logging. Compatible with both Ruby's own Logger and Log4r loggers.
     cattr_accessor :logger
-
-    # Determines which template class should be used by ActionController.
-    cattr_accessor :template_class
 
     # Turn on +ignore_missing_templates+ if you want to unit test actions without making the associated templates.
     cattr_accessor :ignore_missing_templates
@@ -1123,10 +1119,6 @@ module ActionController #:nodoc:
       end
       
       def initialize_template_class(response)
-        unless @@template_class
-          raise "You must assign a template class through ActionController.template_class= before processing a request"
-        end
-
         response.template = ActionView::Base.new(self.class.view_paths, {}, self)
         response.template.extend self.class.master_helper_module
         response.redirected_to = nil
@@ -1226,7 +1218,7 @@ module ActionController #:nodoc:
       end
 
       def add_class_variables_to_assigns
-        %w(view_paths logger template_class ignore_missing_templates).each do |cvar|
+        %w(view_paths logger ignore_missing_templates).each do |cvar|
           @assigns[cvar] = self.send(cvar)
         end
       end

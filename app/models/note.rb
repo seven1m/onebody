@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 4
 #
 # Table name: notes
 #

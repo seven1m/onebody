@@ -42,6 +42,7 @@ class CsvConnector < ExternalDataConnector
          classes mail_group
          member staff elder deacon
          can_sign_in visible_to_everyone visible_on_printed_directory full_access
+         can_pick_up cannot_pick_up medical_notes barcode_id
       ).each_with_index do |field, index|
         next if row[0] == 'legacy_id'
         hash[field.to_sym] = row[index]

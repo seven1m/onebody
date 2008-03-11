@@ -1,0 +1,6 @@
+if @error
+  page.redirect_to checkin_section_url(:section => params[:section])
+else
+  page.replace_html 'attendance', :partial => 'attendance'
+  page.visual_effect :highlight, "record#{@highlight}"
+end

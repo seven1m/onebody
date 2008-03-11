@@ -3,7 +3,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
 
-  layout 'default'
+  layout 'default.html.erb'
   
   before_filter :get_site
   before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'news_feed']

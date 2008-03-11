@@ -13,14 +13,15 @@
       <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, nil, :class => 'inline' %><br/>
       <%= form.check_box :full_access %>                  <%= form.label :full_access, 'Full access to the site &mdash; not just limited viewing rights.', :class => 'inline' %><br/>
     <% else %>
-      <em>This system is configured in Standalone Mode; all basic access is configured
+      <em>This system is not configured in Standalone Mode; all basic access is configured
         via synchronization with external sources.</em>
     <% end %>
   </p>
   
   <h2>Extra Access</h2>
   <p>
-    <%= form.check_box :music_access %>                 <%= form.label :music_access, nil, :class => 'inline' %>
+    <%= form.check_box :music_access %> <%= form.label :music_access, nil, :class => 'inline' %><br/>
+    <%= form.check_box :checkin_access %> <%= form.label :checkin_access, nil, :class => 'inline' %>
   </p>
   <p><%= submit_tag 'Save Access' %></p>
 <% end %>

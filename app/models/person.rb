@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 4
 #
 # Table name: people
 #
@@ -69,6 +69,11 @@
 #  feed_code                    :string(50)    
 #  share_activity               :boolean       
 #  site_id                      :integer       
+#  barcode_id                   :string(50)    
+#  can_pick_up                  :string(100)   
+#  cannot_pick_up               :string(100)   
+#  medical_notes                :string(200)   
+#  checkin_access               :boolean       
 #
 
 class Person < ActiveRecord::Base
@@ -97,6 +102,7 @@ class Person < ActiveRecord::Base
   has_many :friendship_requests
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :prayer_requests, :order => 'created_at desc'
+  has_many :attendance_records
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', 'Site.current.id'
@@ -256,6 +262,10 @@ class Person < ActiveRecord::Base
     today = Date.today
     back = Date.new(today.year-age, today.month, today.day) rescue Date.new(today.year-age, today.month, today.day-1)
     %w(male female man woman).include?(gender.downcase) or (birthday and birthday <= back)
+  end
+  
+  def age
+    birthday && birthday.distance_to(Date.today)
   end
   
   def years_of_age(on=Date.today)
@@ -430,7 +440,7 @@ class Person < ActiveRecord::Base
     ).select do |item|
       if !item.object
         false
-      elsif !(p = item.object.person) or p != self
+      elsif !(p = item.object.person) or p != item.person
         false
       elsif item.object.respond_to?(:deleted?) and item.object.deleted?
         false

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 4
 #
 # Table name: people
 #
@@ -69,6 +69,11 @@
 #  feed_code                    :string(50)    
 #  share_activity               :boolean       
 #  site_id                      :integer       
+#  barcode_id                   :string(50)    
+#  can_pick_up                  :string(100)   
+#  cannot_pick_up               :string(100)   
+#  medical_notes                :string(200)   
+#  checkin_access               :boolean       
 #
 
 tim:
@@ -172,6 +177,7 @@ mac:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  barcode_id: 123
 jane:
   site_id: 1
   id: 6
@@ -210,6 +216,7 @@ katrina:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  barcode_id: 124
 jim:
   site_id: 2
   id: 8

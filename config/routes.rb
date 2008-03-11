@@ -76,6 +76,14 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'settings' do |m|
     m.settings 'admin/settings', :action => 'index'
   end
+  
+  map.with_options :controller => 'checkin' do |m|
+    m.checkin 'checkin', :action => 'index'
+    m.checkin_date_and_time 'checkin/date_and_time', :action => 'date_and_time'
+    m.checkin_section 'checkin/:section', :action => 'section'
+    m.check 'checkin/:section/check', :action => 'check'
+    m.checkin_attendance 'checkin/:section/attendance', :action => 'attendance'
+  end
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   map.connect ':controller/:action/:id'

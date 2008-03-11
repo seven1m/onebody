@@ -1,3 +1,3 @@
-legacy_id,legacy_family_id,sequence,gender,first_name,last_name,suffix,mobile_phone,work_phone,fax,birthday,anniversary,email,classes,mail_group,member,staff,elder,deacon,can_sign_in,visible_to_everyone,visible_on_printed_directory,full_access
-1,1,1,Male,Tim,Morgan,,9181234567,9181235678,,4/28/1981,8/11/2001,info@beonebody.org,,,1,,,,1,1,1,1
-2,1,2,Female,Jennie,Morgan,,9182345678,9182346789,,6/24/1980,8/11/2001,,,,1,,,,1,1,1,1
+legacy_id,legacy_family_id,sequence,gender,first_name,last_name,suffix,mobile_phone,work_phone,fax,birthday,anniversary,email,classes,mail_group,member,staff,elder,deacon,can_sign_in,visible_to_everyone,visible_on_printed_directory,full_access,can_pick_up,cannot_pick_up,medical_notes,barcode_id
+1,1,1,Male,Tim,Morgan,,9181234567,9181235678,,4/28/1981,8/11/2001,info@beonebody.org,,,1,,,,1,1,1,1,,,1
+2,1,2,Female,Jennie,Morgan,,9182345678,9182346789,,6/24/1980,8/11/2001,,,,1,,,,1,1,1,1,,,2

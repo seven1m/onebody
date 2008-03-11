@@ -850,3 +850,16 @@ input[type=submit] {
 .very-strong {
   color: red;
 }
+
+table.attendance {
+  width: 100%;
+}
+
+table.attendance tr th {
+  border-bottom: 1px solid #ccc;
+}
+
+#notice.warning {
+  background-color: #fee;
+  border-color: #f00;
+}

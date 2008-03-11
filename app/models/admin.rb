@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 4
 #
 # Table name: admins
 #
@@ -25,6 +25,7 @@
 #  created_at             :datetime      
 #  updated_at             :datetime      
 #  site_id                :integer       
+#  manage_checkin         :boolean       
 #
 
 class Admin < ActiveRecord::Base

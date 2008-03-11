@@ -1,0 +1,30 @@
+<div style="float:right;width:350px;text-align:right;">
+  <% form_remote_tag :url => check_url(:section => params[:section]),
+    :html => {:style => 'padding:0;border:none;'},
+    :after => "$('id').value = ''",
+    :loading => "Element.show('loading')",
+    :complete => "Element.hide('loading')" do %>
+    <span id="loading" style="display:none;"><%= image_tag 'spinner_small.gif', :alt => 'Loading...', :class => 'icon' %></span>
+    <label for="id" class="inline">Check In/Out:</label>
+    <%= text_field_tag :id, nil, :style => 'vertical-align:middle;' %>
+  <% end %>
+</div>
+
+<h1><%=h @section %> <span style="font-size:11pt;" id="date_and_time"></span></h1>
+
+<div id="attendance">
+  <%= render :partial => 'attendance' %>
+</div>
+
+<script type="text/javascript">
+  $('id').value = '';
+  $('id').focus();
+  document.body.onclick = function() { $('id').focus() }
+  function update_date_and_time() {
+    new Ajax.Updater('date_and_time', <%= url_for(checkin_date_and_time_url).inspect %>);
+  }
+  setInterval("update_date_and_time()", 60000);
+  update_date_and_time();
+  var update_url = <%= url_for(checkin_attendance_url(:section => params[:section])).inspect %>;
+  setInterval("new Ajax.Updater('attendance', update_url)", 120000);
+</script>

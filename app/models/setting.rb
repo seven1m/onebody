@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 4
 #
 # Table name: settings
 #
@@ -96,6 +96,18 @@ class Setting < ActiveRecord::Base
         @@settings[site_id][section][name] = setting.value
       end
       @@settings
+    end
+    
+    def update_from_yaml(filename)
+      settings = YAML::load(File.open(filename))
+      Site.find(:all).each do |site|
+        settings.each do |fixture, values|
+          unless Setting.find_by_site_id_and_section_and_name(site.id, values['section'], values['name'])
+            values.update 'site_id' => site.id
+            Setting.create(values)
+          end
+        end
+      end
     end
   end
 end

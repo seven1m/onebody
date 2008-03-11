@@ -16,5 +16,6 @@ YEARS = (Date.today.year-120)..Date.today.year
 
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
   :default => "%m/%d/%Y %I:%M %p",
-  :date => "%m/%d/%Y"
+  :date => "%m/%d/%Y",
+  :time => "%I:%M %p"
 )
