@@ -21,7 +21,7 @@
   $('id').focus();
   document.body.onclick = function() { $('id').focus() }
   function update_date_and_time() {
-    new Ajax.Updater('date_and_time', <%= url_for(checkin_date_and_time_url).inspect %>);
+    new Ajax.Request(<%= url_for(checkin_date_and_time_url).inspect %>);
   }
   setInterval("update_date_and_time()", 60000);
   update_date_and_time();

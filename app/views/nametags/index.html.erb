@@ -1,0 +1,20 @@
+<h1>Checkin Name Tags</h1>
+
+<p>To select people for which to print checkin name tags,
+  <%= link_to image_tag('add_small.gif', :alt => 'Select People for Name Tags', :class => 'icon') + ' click here', select_for_nametags_url %>. You will be taken to the
+  directory where you can search and select people. Click the
+  <%= image_tag 'nametag_add.gif', :alt => 'Select Icon', :class => 'icon' %>
+  icon for each person who needs a name tag.</p>
+
+<p>Selected people:</p>
+
+<% if @selected.any? %>
+  <ul>
+    <% @selected.each do |person| %>
+      <li><%= link_to person.name, person_url(:id => person) %>
+        [<%= link_to 'x', remove_nametag_url(:id => person), :post => true %>]</li>
+    <% end %>
+  </ul>
+<% else %>
+  <p><em>No people have been selected yet.</em></p>
+<% end %>

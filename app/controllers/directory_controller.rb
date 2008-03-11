@@ -80,4 +80,9 @@ class DirectoryController < ApplicationController
       render :text => 'Sorry, we could not retrieve your custom directory. Either you already downloaded it or there was an error. You can try to have it generated again by <a href="directory_to_pdf">clicking here</a>. If this problem persists, please contact the system administrator.', :layout => true
     end
   end
+  
+  def select_for_nametags
+    session[:select_for_nametags] = true
+    redirect_to directory_url
+  end
 end

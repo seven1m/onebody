@@ -1,0 +1,1 @@
+page.visual_effect :fade, "add_nametag_#{@person.id}"

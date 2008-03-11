@@ -19,11 +19,13 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.with_options :controller => 'directory' do |m|
+    m.directory 'directory', :action => 'index'
     m.search_directory 'directory', :action => 'index'
     m.select_person 'directory/search', :action => 'search', :select_person => true
     m.browse_directory 'directory/browse', :action => 'search', :browse => true
     m.search_friends 'directory/search_friends', :action => 'search', :search_friends => true
     m.service_directory 'directory/service', :action => 'search', :service => true
+    m.select_for_nametags 'directory/select_for_nametags', :action => 'select_for_nametags'
   end
   
   map.with_options :controller => 'notes' do |m|
@@ -80,9 +82,17 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'checkin' do |m|
     m.checkin 'checkin', :action => 'index'
     m.checkin_date_and_time 'checkin/date_and_time', :action => 'date_and_time'
+    m.report_date_and_time 'checkin/report_date_and_time', :action => 'report_date_and_time'
     m.checkin_section 'checkin/:section', :action => 'section'
     m.check 'checkin/:section/check', :action => 'check'
     m.checkin_attendance 'checkin/:section/attendance', :action => 'attendance'
+  end
+  
+  map.with_options :controller => 'nametags' do |m|
+    m.nametags 'nametags', :action => 'index'
+    m.add_nametag 'nametags/add/:id', :action => 'add'
+    m.remove_nametag 'nametags/remove/:id', :action => 'remove'
+    m.barcode 'nametags/barcode/:id', :action => 'barcode'
   end
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'

@@ -1,0 +1,1 @@
+page.replace_html 'date_and_time', "#{Time.now.to_s} #{link_to_remote 'incorrect?', :url => report_date_and_time_url, :post => true, :confirm => 'This will send an email to the system administrator. Please only click OK if the time is significantly wrong (more than a few minutes). Are you sure?', :html => {:style => 'text-decoration:none;font-size:smaller;'}}"

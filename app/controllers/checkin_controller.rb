@@ -1,5 +1,4 @@
 class CheckinController < ApplicationController
-  before_filter :only_admins, :only => %w(report)
   before_filter :check_access
   before_filter :get_sections, :only => %w(index section check attendance)
   
@@ -39,7 +38,22 @@ class CheckinController < ApplicationController
   
   def date_and_time
     respond_to do |format|
-      format.js { render :text => Time.now.to_s, :layout => false }
+      format.js
+    end
+  end
+  
+  def report_date_and_time
+    Notifier.deliver_date_and_time_report unless session[:delivered_date_and_time_report]
+    session[:delivered_date_and_time_report] = true
+    respond_to do |format|
+      format.js
+    end
+  end
+  
+  def report
+    unless @logged_in.admin?(:manage_checkin)
+      render :text => 'This section is only available to authorized users.', :layout => true
+      return false
     end
   end
   

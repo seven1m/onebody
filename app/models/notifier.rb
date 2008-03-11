@@ -13,6 +13,12 @@ class Notifier < ActionMailer::Base
     body :person => person
   end
   
+  def date_and_time_report
+    recipients Setting.get(:contact, :tech_support_email)
+    from Site.current.noreply_email
+    subject "Date & Time Incorrect"
+  end
+  
   def friend_request(person, friend)
     recipients "#{friend.name} <#{friend.email}>"
     from Site.current.noreply_email
