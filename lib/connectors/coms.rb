@@ -101,7 +101,7 @@ class ComsConnector < ExternalDataConnector
             :anniversary => to_datetime(record.weddate),
             :member => (record.date1 and not %w(N F).include?(record.mailgroup)),
             :staff => record.email =~ /@cedarridgecc\.com$/,
-            :elder => classes =~ /[\b,]EL[\b,]/,
+            :elder => classes =~ /[\b,]BEL[\b,]/,
             :deacon => false,
             :can_sign_in => can_sign_in,
             :visible_to_everyone => can_sign_in,
@@ -200,21 +200,21 @@ class ComsConnector < ExternalDataConnector
       @db[:classes].each_record do |record|
         @classes[record.memberid] ||= []
         if @class_cats.include?(record.category) and years.include?(record.year.to_s)
-          @classes[record.memberid] << [record.category, record.updates]
+          @classes[record.memberid] << ['C'+record.category, record.updates]
         end
       end
       logger.info '  board'
       @db[:board].each_record do |record|
         @classes[record.memberid] ||= []
         if @board_cats.include?(record.category) and record.category !~ /^[0-9]/
-          @classes[record.memberid] << [record.category, record.updates]
+          @classes[record.memberid] << ['B'+record.category, record.updates]
         end
       end
       logger.info '  service'
       @db[:service].each_record do |record|
         @classes[record.memberid] ||= []
         if @service_cats.include?(record.category)
-          @classes[record.memberid] << [record.category, record.updates]
+          @classes[record.memberid] << ['S'+record.category, record.updates]
         end
       end
     end
