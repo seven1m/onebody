@@ -430,7 +430,7 @@ class Person < ActiveRecord::Base
     ).select do |item|
       if !item.object
         false
-      elsif !(p = item.object.person) or p != self
+      elsif !(p = item.object.person) or p != item.person
         false
       elsif item.object.respond_to?(:deleted?) and item.object.deleted?
         false
