@@ -2,7 +2,8 @@ class GroupTest < ActionController::IntegrationTest
   def test_search
     sign_in_as people(:tim)
     get '/groups'
-    assert_select 'body', :hmlt => /pending approval.*Morgan\sGroup/
+    assert_select 'body', :html => /pending approval.*Morgan\sGroup/
+    sign_in_as people(:jeremy)
     get '/groups/search?category=Small+Groups'
     assert_response :success
     assert_select 'body', :html => /Morgan Group/
