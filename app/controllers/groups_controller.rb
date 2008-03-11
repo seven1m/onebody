@@ -174,7 +174,7 @@ class GroupsController < ApplicationController
   def process_requests
     @group = Group.find params[:id]
     raise 'Unauthorized' unless @group.admin?(@logged_in)
-    params[:people].each do |id|
+    params[:people].to_a.each do |id|
       @group.membership_requests.find_all_by_person_id(id).each do |req|
         join(id) if params[:commit] == 'Accept'
         req.destroy
