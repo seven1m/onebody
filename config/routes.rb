@@ -19,7 +19,6 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.with_options :controller => 'directory' do |m|
-    m.directory 'directory', :action => 'index'
     m.search_directory 'directory', :action => 'index'
     m.select_person 'directory/search', :action => 'search', :select_person => true
     m.browse_directory 'directory/browse', :action => 'search', :browse => true
