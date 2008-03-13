@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'RMagick'
 require 'pdf/writer'
 require 'open-uri'
 require 'rexml/document'
