@@ -1,6 +1,6 @@
 <% if session[:select_for_nametags] %>
   <p class="very-strong">Select people for name tags by clicking <%= image_tag 'nametag_add.gif', :alt => 'Select Icon', :class => 'icon' %>
-    below. When you are finished, <%= link_to 'click here', nametags_url %>.</p>
+    below. When you are finished, <%= link_to 'click here', done_selecting_for_nametags_url %>.</p>
 <% end %>
 
 <h2>Search Results</h2>

@@ -37,6 +37,12 @@ class NametagsController < ApplicationController
       render :text => 'No barcode ID for this person.', :status => :missing
     end
   end
+  
+  def print
+    @selected = session[:nametag_selections].to_a.sort_by &:name
+    @groups = @selected.in_groups_of(4)
+    render :layout => false
+  end
 
   private
     def check_access

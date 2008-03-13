@@ -85,4 +85,9 @@ class DirectoryController < ApplicationController
     session[:select_for_nametags] = true
     redirect_to search_directory_url
   end
+  
+  def done_selecting_for_nametags
+    session[:select_for_nametags] = false
+    redirect_to nametags_url
+  end
 end

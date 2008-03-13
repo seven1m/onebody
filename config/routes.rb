@@ -25,6 +25,7 @@ ActionController::Routing::Routes.draw do |map|
     m.search_friends 'directory/search_friends', :action => 'search', :search_friends => true
     m.service_directory 'directory/service', :action => 'search', :service => true
     m.select_for_nametags 'directory/select_for_nametags', :action => 'select_for_nametags'
+    m.done_selecting_for_nametags 'directory/done_selecting_for_nametags', :action => 'done_selecting_for_nametags'
   end
   
   map.with_options :controller => 'notes' do |m|

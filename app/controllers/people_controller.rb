@@ -44,7 +44,7 @@ class PeopleController < ApplicationController
     if not @logged_in.full_access?
       render :text => ''
     else
-      render :action => (show_photo ? 'simple_photo_view' : 'simple_view'), :layout => false
+      render :action => (show_photo ? 'simple_photo_view.html.erb' : 'simple_view.html.erb'), :layout => false
     end
   end
   

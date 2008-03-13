@@ -97,6 +97,7 @@ tim:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  barcode_id: 1001
 jeremy:
   site_id: 1
   id: 2
@@ -118,6 +119,7 @@ jeremy:
   full_access: true
   feed_code: bla
   deacon: true
+  barcode_id: 1002
 peter:
   site_id: 1
   id: 3
@@ -137,6 +139,7 @@ peter:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  barcode_id: 1003
 jennie:
   site_id: 1
   id: 4
@@ -158,6 +161,7 @@ jennie:
   full_access: true
   feed_code: bla
   staff: true
+  barcode_id: 1004
 mac:
   site_id: 1
   id: 5
@@ -177,7 +181,7 @@ mac:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
-  barcode_id: 123
+  barcode_id: 1005
 jane:
   site_id: 1
   id: 6
@@ -198,6 +202,7 @@ jane:
   full_access: true
   feed_code: bla
   staff: true
+  barcode_id: 1006
 katrina:
   site_id: 1
   id: 7
@@ -217,6 +222,7 @@ katrina:
   full_access: true
   feed_code: bla
   barcode_id: 124
+  barcode_id: 1007
 jim:
   site_id: 2
   id: 8
@@ -238,6 +244,7 @@ jim:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  barcode_id: 1008
 tom:
   site_id: 3
   id: 9
@@ -259,3 +266,4 @@ tom:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  barcode_id: 1009
