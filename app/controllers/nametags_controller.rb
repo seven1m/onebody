@@ -30,9 +30,8 @@ class NametagsController < ApplicationController
   def barcode
     @person = Person.find(params[:id])
     if @person.barcode_id
-      code = '0' + code while (code = @person.barcode_id).length < 3
-      image = BarcodeGenerator.get_barcode_image(code)
-      send_data image, :type => 'image/gif', :disposition => 'inline'
+      img = Barcode.new(@person.barcode_id).to_gif
+      send_data img, :type => 'image/gif', :disposition => 'inline'
     else
       render :text => 'No barcode ID for this person.', :status => :missing
     end
