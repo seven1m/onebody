@@ -1,5 +1,6 @@
 require 'active_record'
 require 'net/http'
+require 'mini_magick'
 
 module Foo
   module Acts #:nodoc:
@@ -46,21 +47,21 @@ module Foo
               if photo
                 if defined? photo.read
                   photo = photo.read
-                elsif photo.is_a?(String) and photo =~ /^http:\\/\\//
+                elsif photo.is_a?(String) and photo =~ /^http:\\/\\// #/
                   photo = Net::HTTP.get(URI.parse(photo))
                 else # not a photo I know how to handle
                   return false
                 end
                 begin
-                  img = Magick::Image.from_blob(photo).first
+                  img = MiniMagick::Image.from_blob(photo)
                 rescue # error with photo -- maybe zero length?
                   return false
                 end
-                if img.format == 'JPEG'
+                if img['format'] == 'JPEG'
                   img.write photo_path
                   PHOTO_SIZES.each do |name, dimensions|
-                    sized_img = img.copy
-                    sized_img.change_geometry(dimensions) { |c, r, i| i.resize! c, r }
+                    sized_img = MiniMagick::Image.from_blob(img.to_blob)
+                    sized_img.thumbnail dimensions
                     sized_img.write send('photo_' + name.to_s + '_path')
                   end
                 else
@@ -71,15 +72,9 @@ module Foo
             end
             
             def rotate_photo(degrees)
-              #img = Magick::Image.from_blob(File.read(photo_path)).first
-              #temp_path = File.join(RAILS_ROOT, '#{storage_path}', id.to_s + '.temp.jpg')
-              #img.rotate(degrees).write(temp_path)
-              #self.photo = File.open(temp_path)
-              #File.delete temp_path
-              # only rotate sized versions (not the original file)
               PHOTO_SIZES.each do |name, dimensions|
                 path = send('photo_' + name.to_s + '_path')
-                img = Magick::Image.from_blob(File.read(path)).first
+                img = MiniMagick::Image.from_blob(File.read(path))
                 img.rotate(degrees).write(path)
               end
             end

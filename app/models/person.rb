@@ -440,7 +440,7 @@ class Person < ActiveRecord::Base
     ).select do |item|
       if !item.object
         false
-      elsif !(p = item.object.person) or p != item.person
+      elsif !(p = item.object.is_a?(Person) ? item.object : item.object.person) or p != item.person
         false
       elsif item.object.respond_to?(:deleted?) and item.object.deleted?
         false
