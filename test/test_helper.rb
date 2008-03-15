@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
+require 'notifier'
 
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -46,5 +47,20 @@ class Test::Unit::TestCase
     get '/'
   end
   
+  def assert_deliveries(count)
+    assert_equal count, ActionMailer::Base.deliveries.length
+  end
+  
+  def assert_emails_delivered(email, people)
+    people.each do |person|
+      matches = ActionMailer::Base.deliveries.select do |delivered|
+        delivered.subject == email.subject and \
+        delivered.body.index(email.body) and \
+        delivered.to == [person.email]
+      end
+      assert_equal 1, matches.length
+    end
+  end
+
   fixtures :all
 end

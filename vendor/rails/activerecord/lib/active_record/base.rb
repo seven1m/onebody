@@ -430,11 +430,13 @@ module ActiveRecord #:nodoc:
     @@schema_format = :ruby
 
     class << self # Class methods
-      # Find operates with three different retrieval approaches:
+      # Find operates with four different retrieval approaches:
       #
       # * Find by id: This can either be a specific id (1), a list of ids (1, 5, 6), or an array of ids ([5, 6, 10]).
       #   If no record can be found for all of the listed ids, then RecordNotFound will be raised.
       # * Find first: This will return the first record matched by the options used. These options can either be specific
+      #   conditions or merely an order. If no record can be matched, nil is returned.
+      # * Find last: This will return the last record matched by the options used. These options can either be specific
       #   conditions or merely an order. If no record can be matched, nil is returned.
       # * Find all: This will return all the records matched by the options used. If no records are found, an empty array is returned.
       #
@@ -475,6 +477,11 @@ module ActiveRecord #:nodoc:
       #   Person.find(:first, :conditions => [ "user_name = ?", user_name])
       #   Person.find(:first, :order => "created_on DESC", :offset => 5)
       #
+      # Examples for find last:
+      #   Person.find(:last) # returns the last object fetched by SELECT * FROM people
+      #   Person.find(:last, :conditions => [ "user_name = ?", user_name])
+      #   Person.find(:last, :order => "created_on DESC", :offset => 5)
+      #
       # Examples for find all:
       #   Person.find(:all) # returns an array of objects for all the rows fetched by SELECT * FROM people
       #   Person.find(:all, :conditions => [ "category IN (?)", categories], :limit => 50)
@@ -499,6 +506,7 @@ module ActiveRecord #:nodoc:
 
         case args.first
           when :first then find_initial(options)
+          when :last  then find_last(options)
           when :all   then find_every(options)
           else             find_from_ids(args, options)
         end
@@ -1236,6 +1244,35 @@ module ActiveRecord #:nodoc:
           find_every(options).first
         end
 
+        def find_last(options)
+          order = options[:order]
+
+          if order
+            order = reverse_sql_order(order)
+          elsif !scoped?(:find, :order)
+            order = "#{table_name}.#{primary_key} DESC"
+          end
+
+          if scoped?(:find, :order)
+            scoped_order = reverse_sql_order(scope(:find, :order))
+            scoped_methods.select { |s| s[:find].update(:order => scoped_order) }
+          end
+          
+          find_initial(options.merge({ :order => order }))
+        end
+
+        def reverse_sql_order(order_query)
+          reversed_query = order_query.split(/,/).each { |s|
+            if s.match(/\s(asc|ASC)$/)
+              s.gsub!(/\s(asc|ASC)$/, ' DESC')
+            elsif s.match(/\s(desc|DESC)$/)
+              s.gsub!(/\s(desc|DESC)$/, ' ASC')
+            elsif !s.match(/\s(asc|ASC|desc|DESC)$/) 
+              s.concat(' DESC')
+            end
+          }.join(',')
+        end
+        
         def find_every(options)
           include_associations = merge_includes(scope(:find, :include), options[:include])
 
@@ -1441,13 +1478,14 @@ module ActiveRecord #:nodoc:
         # The optional scope argument is for the current :find scope.
         def add_joins!(sql, options, scope = :auto)
           scope = scope(:find) if :auto == scope
-          join = (scope && scope[:joins]) || options[:joins]
-          case join
-          when Symbol, Hash, Array
-            join_dependency = ActiveRecord::Associations::ClassMethods::InnerJoinDependency.new(self, join, nil)
-            sql << " #{join_dependency.join_associations.collect { |assoc| assoc.association_join }.join} "
-          else
-            sql << " #{join} "
+          [(scope && scope[:joins]), options[:joins]].each do |join|
+            case join
+            when Symbol, Hash, Array
+              join_dependency = ActiveRecord::Associations::ClassMethods::InnerJoinDependency.new(self, join, nil)
+              sql << " #{join_dependency.join_associations.collect { |assoc| assoc.association_join }.join} "
+            else
+              sql << " #{join} "
+            end
           end
         end
 
@@ -2059,6 +2097,12 @@ module ActiveRecord #:nodoc:
 
       # * No record exists: Creates a new record with values matching those of the object attributes.
       # * A record does exist: Updates the record with values matching those of the object attributes.
+      #
+      # Note: If your model specifies any validations then the method declaration dynamically
+      # changes to:
+      #   save(perform_validation=true)
+      # Calling save(false) saves the model without running validations.  
+      # See ActiveRecord::Validations for more information.
       def save
         create_or_update
       end
@@ -2139,6 +2183,7 @@ module ActiveRecord #:nodoc:
       end
 
       # Increments the +attribute+ and saves the record.
+      # Note: Updates made with this method aren't subjected to validation checks
       def increment!(attribute, by = 1)
         increment(attribute, by).update_attribute(attribute, self[attribute])
       end
@@ -2151,6 +2196,7 @@ module ActiveRecord #:nodoc:
       end
 
       # Decrements the +attribute+ and saves the record.
+      # Note: Updates made with this method aren't subjected to validation checks
       def decrement!(attribute, by = 1)
         decrement(attribute, by).update_attribute(attribute, self[attribute])
       end
@@ -2162,6 +2208,7 @@ module ActiveRecord #:nodoc:
       end
 
       # Toggles the +attribute+ and saves the record.
+      # Note: Updates made with this method aren't subjected to validation checks
       def toggle!(attribute)
         toggle(attribute).update_attribute(attribute, self[attribute])
       end

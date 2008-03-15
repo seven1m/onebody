@@ -17,7 +17,7 @@ class NotifierTest < Test::Unit::TestCase
     @expected = TMail::Mail.new
     @expected.set_content_type "text", "plain", { "charset" => CHARSET }
     
-    @receive_emails = read_fixtures('receive')
+    #@receive_emails = read_fixtures('receive')
   end
   
   def test_email_update
@@ -55,27 +55,29 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("hello jeremy")
   end
   
-  def test_receive_for_site
-    Notifier.receive(@receive_emails['from_jim_to_morgan_group_in_site1'].to_s)
-    assert_equal 1, ActionMailer::Base.deliveries.length
-    sent = ActionMailer::Base.deliveries.first
-    assert_equal @receive_emails['from_jim_to_morgan_group_in_site1'].subject, sent.subject
-    assert sent.body.index(@receive_emails['from_jim_to_morgan_group_in_site1'].body)
-    assert_equal [people(:jim).email], sent.to
-  end
-  
-  def test_receive_for_other_site
-    Notifier.receive(@receive_emails['from_tom_to_morgan_group_in_site2'].to_s)
-    assert_equal 1, ActionMailer::Base.deliveries.length
-    sent = ActionMailer::Base.deliveries.first
-    assert_equal @receive_emails['from_tom_to_morgan_group_in_site2'].subject, sent.subject
-    assert sent.body.index(@receive_emails['from_tom_to_morgan_group_in_site2'].body)
-    assert_equal [people(:tom).email], sent.to
+  def test_receive_for_different_sites
+    email = to_email(:from => 'jim@example.com', :to => 'morgan@site1', :subject => 'test to morgan group in site 1', :body => 'Hello Site 1 from Jim!')
+    Notifier.receive(email.to_s)
+    assert_deliveries 1
+    assert_emails_delivered(email, groups(:morgan_in_site_1).people)
+    ActionMailer::Base.deliveries = []
+    email = to_email(:from => 'tom@example.com', :to => 'morgan@site2', :subject => 'test to morgan group in site 2', :body => 'Hello Site 2 from Tom!')
+    Notifier.receive(email.to_s)
+    assert_deliveries 1
+    assert_emails_delivered(email, groups(:morgan_in_site_2).people)
   end
   
   def test_receive_for_wrong_site
-    Notifier.receive(@receive_emails['from_jim_to_morgan_group_in_site2'].to_s)
-    assert_equal 0, ActionMailer::Base.deliveries.length
+    email = to_email(:from => 'jim@example.com', :to => 'morgan@site2', :subject => 'test to morgan group in site 2 (should fail)', :body => 'Hello Site 2 from Tom! This should fail.')
+    Notifier.receive(email.to_s)
+    assert_deliveries 0
+  end
+  
+  def test_receive_from_user
+    email = to_email(:from => 'user@example.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
+    Notifier.receive(email.to_s)
+    assert_deliveries 2 # 2 people in college group
+    assert_emails_delivered(email, groups(:college).people)
   end
   
   def teardown
@@ -83,16 +85,14 @@ class NotifierTest < Test::Unit::TestCase
   end
 
   private
-    def read_fixtures(action)
-      emails = {}
-      YAML::load(File.open("#{FIXTURES_PATH}/notifier/#{action}.yml")).each do |name, values|
-        emails[name] = TMail::Mail.new
-        emails[name].to = values['to']
-        emails[name].from = values['from']
-        emails[name].subject = values['subject']
-        emails[name].body = values['body']
-      end
-      emails
+    def to_email(values)
+      values.symbolize_keys!
+      email = TMail::Mail.new
+      email.to = values[:to]
+      email.from = values[:from]
+      email.subject = values[:subject]
+      email.body = values[:body]
+      email
     end
 
     def encode(subject)
