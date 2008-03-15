@@ -1,3 +1,8 @@
+from_jeremy_to_college_group:
+  from: user@example.com
+  to: college@example.com
+  subject: test message
+  body: test to college group
 from_jim_to_morgan_group_in_site1:
   from: jim@example.com
   to: morgan@site1

@@ -185,7 +185,7 @@ class GroupsController < ApplicationController
   
   def toggle_email
     @group = Group.find params[:id]
-    @person = Person.find params[:person_id]
+    @person = Person.find params[:person_id] || params['amp;person_id'] # ??? This fixes the spider test, but it shouldn't be needed!
     @options = @group.get_options_for(@person, true)
     if params[:code].to_i > 0 and @options.code and params[:code].to_i == @options.code
       if request.post?
@@ -197,7 +197,7 @@ class GroupsController < ApplicationController
       end
     elsif @logged_in and (@logged_in.can_edit?(@group) or @logged_in == @person or @logged_in.family.people.include? @person)
       @group.set_options_for @person, {:get_email => !@options.get_email}
-      redirect_to params[:from] || {:action => 'view', :id => @group}
+      redirect_to params[:from] || group_url(:id => @group)
     else
       raise 'There was an error changing your email settings.'
     end

@@ -8,7 +8,7 @@ class SpiderTest < ActionController::IntegrationTest
     spider(
       @response.body,
       '/directory/browse',
-      #:verbose => true,
+      # :verbose => true,
       :ignore_urls => %w(/account/sign_out /account/sign_in /events /directory/directory_to_pdf)
     ) # TODO: ignoring /events url for now due to unknown error
   end

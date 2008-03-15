@@ -6,8 +6,13 @@ class GroupTest < ActionController::IntegrationTest
     sign_in_as people(:jeremy)
     get '/groups/search?category=Small+Groups'
     assert_response :success
-    assert_select 'body', :html => /no groups found/
+    assert_select 'body', :html => /College Group/
+    assert_select 'body', :html => /Morgan Group/, :count => 0
     sign_in_as people(:tim)
+    get '/groups/search?category=Small+Groups'
+    assert_response :success
+    assert_select 'body', :html => /College Group/
+    assert_select 'body', :html => /Morgan Group/
     get 'groups/view/1'
     assert_select 'body', :html => /Approve Group/
     post '/groups/approve/1'
@@ -16,5 +21,16 @@ class GroupTest < ActionController::IntegrationTest
     get '/groups/search?category=Small+Groups'
     assert_response :success
     assert_select 'body', :html => /Morgan\sGroup/
+  end
+  
+  def test_disable_email
+    sign_in_as people(:jeremy)
+    assert groups(:college).get_options_for(people(:jeremy), true).get_email
+    post "/groups/toggle_email/#{groups(:college).id}?person_id=#{people(:jeremy).id}"
+    assert_redirected_to group_url(:id => groups(:college))
+    assert !groups(:college).get_options_for(people(:jeremy)).get_email
+    post "/groups/toggle_email/#{groups(:college).id}?person_id=#{people(:jeremy).id}"
+    assert_redirected_to group_url(:id => groups(:college))
+    assert groups(:college).get_options_for(people(:jeremy)).get_email
   end
 end
