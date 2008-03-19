@@ -150,6 +150,7 @@ jennie:
   last_name: Morgan
   mail_group: M
   birthday: 1980-06-24
+  mobile_phone: 3452348765
   email: admin@example.com
   encrypted_password: 5f4dcc3b5aa765d61d8327deb882cf99 # password
   wall_enabled: true

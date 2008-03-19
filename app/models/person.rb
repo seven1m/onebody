@@ -374,6 +374,10 @@ class Person < ActiveRecord::Base
       family.people.select { |p| p.adult? and [1, 2].include? p.sequence }
     end
   end
+  
+  def parent_mobile_phones(formatted=false)
+    parents.map { |p| number_to_phone(p.mobile_phone, :area_code => true) }.select { |p| p.any? }
+  end
 
   def active?
     log_items.count(["created_at >= ?", 1.day.ago]) > 0

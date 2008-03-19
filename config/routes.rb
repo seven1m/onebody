@@ -94,6 +94,7 @@ ActionController::Routing::Routes.draw do |map|
     m.add_nametag 'nametags/add/:id', :action => 'add'
     m.remove_nametag 'nametags/remove/:id', :action => 'remove'
     m.barcode 'nametags/barcode/:id', :action => 'barcode'
+    m.print_nametags 'nametags/print', :action => 'print'
   end
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'

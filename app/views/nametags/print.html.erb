@@ -13,15 +13,20 @@
 	    padding: 0;
 	  }
 	</style>
+  <style type="text/css" media="print">
+    #bg {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
   <% @groups.each_with_index do |people, page| %>
+    <div style="page-break-after:always;">&nbsp;</div>
     <img id="bg" src="/images/nametags.jpg" style="position:absolute;z-index:1;left:0px;top:<%= page*11 %>in;width:8.5in;height:11in;"/>
-    <div style="position:absolute;z-index:2;left:0.5in;top:<%= page*11+0.5 %>in;width:7.5in;height:10in;padding:0;border-collapse:collapse;page-break-after:always;">
+    <div style="position:absolute;z-index:2;left:0.5in;top:<%= page*11+0.5 %>in;width:7.5in;height:10in;padding:0;border-collapse:collapse;">
       <% people.select{|p|p}.each do |person| %>
-        <div style="margin-left:3.8in;text-align:center;width:3.25in;height:2in;margin-top:.32in;margin-bottom:1.65in;">
-           <br/>
+        <div style="margin-left:3.8in;text-align:center;width:3.25in;height:1.95in;padding-top:0.05in;margin-top:.32in;margin-bottom:1.65in;">
            <strong style="font-size:.5in;"><%=h person.first_name %></strong><br/>
            <strong style="font-size:.3in;"><%=h person.last_name %></strong><br/>
            <%= image_tag barcode_url(:id => person), :alt => person.name %>
