@@ -1,36 +1,33 @@
-<% @groups.each do |group| %>
-  <table style="width:7.5in;height:10in;margin:0;padding:0;border-collapse:collapse;page-break-after:always;">
-    <tr>
-      <% if group[0] %>
-        <td style="padding:1in;text-align:center;width:50%;">
-           <strong style="font-size:.5in;"><%=h group[0].first_name %></strong><br/>
-           <strong style="font-size:.3in;"><%=h group[0].last_name %></strong><br/>
-           <img src="<%= url_for barcode_url(:id => group[0]) %>"/>
-        </td>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>Nametags</title>
+	
+	<style type="text/css">
+	  body {
+	    margin: 0;
+	    padding: 0;
+	  }
+	</style>
+</head>
+
+<body>
+  <% @groups.each_with_index do |people, page| %>
+    <img id="bg" src="/images/nametags.jpg" style="position:absolute;z-index:1;left:0px;top:<%= page*11 %>in;width:8.5in;height:11in;"/>
+    <div style="position:absolute;z-index:2;left:0.5in;top:<%= page*11+0.5 %>in;width:7.5in;height:10in;padding:0;border-collapse:collapse;page-break-after:always;">
+      <% people.select{|p|p}.each do |person| %>
+        <div style="margin-left:3.8in;text-align:center;width:3.25in;height:2in;margin-top:.32in;margin-bottom:1.65in;">
+           <br/>
+           <strong style="font-size:.5in;"><%=h person.first_name %></strong><br/>
+           <strong style="font-size:.3in;"><%=h person.last_name %></strong><br/>
+           <%= image_tag barcode_url(:id => person), :alt => person.name %>
+        </div>
       <% end %>
-      <% if group[1] %>
-        <td style="padding:1in;text-align:center;width:50%;">
-           <strong style="font-size:.5in;"><%=h group[1].first_name %></strong><br/>
-           <strong style="font-size:.3in;"><%=h group[1].last_name %></strong><br/>
-           <img src="<%= url_for barcode_url(:id => group[1]) %>"/>
-        </td>
-      <% end %>
-    </tr>
-    <tr>
-      <% if group[2] %>
-        <td style="padding:1in;text-align:center;width:50%;">
-           <strong style="font-size:.5in;"><%=h group[2].first_name %></strong><br/>
-           <strong style="font-size:.3in;"><%=h group[2].last_name %></strong><br/>
-           <img src="<%= url_for barcode_url(:id => group[2]) %>"/>
-        </td>
-      <% end %>
-      <% if group[3] %>
-        <td style="padding:1in;text-align:center;width:50%;">
-           <strong style="font-size:.5in;"><%=h group[3].first_name %></strong><br/>
-           <strong style="font-size:.3in;"><%=h group[3].last_name %></strong><br/>
-           <img src="<%= url_for barcode_url(:id => group[3]) %>"/>
-        </td>
-      <% end%>
-    </tr>
-  </table>
-<% end %>
+    </div>
+  <% end %>
+</body>
+</html>

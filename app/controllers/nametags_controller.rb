@@ -23,10 +23,6 @@ class NametagsController < ApplicationController
     redirect_to nametags_url
   end
   
-  def print
-    @selected = session[:nametag_selections].to_a.sort_by &:name
-  end
-  
   def barcode
     @person = Person.find(params[:id])
     if @person.barcode_id
@@ -39,7 +35,7 @@ class NametagsController < ApplicationController
   
   def print
     @selected = session[:nametag_selections].to_a.sort_by &:name
-    @groups = @selected.in_groups_of(4)
+    @groups = @selected.in_groups_of(3)
     render :layout => false
   end
 

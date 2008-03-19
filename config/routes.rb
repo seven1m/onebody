@@ -86,6 +86,7 @@ ActionController::Routing::Routes.draw do |map|
     m.checkin_section 'checkin/:section', :action => 'section'
     m.check 'checkin/:section/check', :action => 'check'
     m.checkin_attendance 'checkin/:section/attendance', :action => 'attendance'
+    m.void_attendance_record 'checkin/:section/void', :action => 'void'
   end
   
   map.with_options :controller => 'nametags' do |m|

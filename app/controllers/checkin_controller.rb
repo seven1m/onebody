@@ -1,6 +1,6 @@
 class CheckinController < ApplicationController
   before_filter :check_access
-  before_filter :get_sections, :only => %w(index section check attendance)
+  before_filter :get_sections, :only => %w(index section check attendance void)
   
   def index
   end
@@ -16,6 +16,7 @@ class CheckinController < ApplicationController
       @highlight = rec.id
     else
       flash[:warning] = "There was an error scanning this ID: #{params[:id]}"
+      flash[:warning] += "<br/>No one was found with that ID number." unless rec
       flash[:warning] += "<br/>#{rec.errors.full_messages.join('; ')}" if rec and rec.errors.any?
       @error = true
     end
@@ -24,6 +25,12 @@ class CheckinController < ApplicationController
       format.js
       format.html { redirect_to checkin_section_url(:section => params[:section]) }
     end
+  end
+  
+  def void
+    @record = AttendanceRecord.find(params[:id])
+    @record.update_attribute :void, true
+    attendance
   end
   
   def attendance(dont_render=false)

@@ -24,7 +24,7 @@ class AttendanceRecord < ActiveRecord::Base
   class << self
     def check(person, section)
       today = Date.today
-      if prev_record = person.attendance_records.find(:first, :conditions => ['section = ? and "in" >= ? and "in" < ? and out is null', section, today, today+1])
+      if prev_record = person.attendance_records.find(:first, :conditions => ['section = ? and "in" >= ? and "in" < ? and out is null and void = ?', section, today, today+1, false])
         prev_record.update_attribute :out, Time.now
         prev_record
       else

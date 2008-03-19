@@ -863,3 +863,13 @@ table.attendance tr th {
   background-color: #fee;
   border-color: #f00;
 }
+
+tr.void td,
+tr.void td a,
+tr.void td a:link,
+tr.void td a:visited,
+tr.void td a:hover,
+tr.void td a:active {
+  text-decoration: line-through;
+  color: #999;
+}
