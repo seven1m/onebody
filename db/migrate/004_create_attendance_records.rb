@@ -8,6 +8,9 @@ class CreateAttendanceRecords < ActiveRecord::Migration
       t.datetime :in
       t.datetime :out
       t.boolean :void, :default => false
+      t.string :can_pick_up, :limit => 100
+      t.string :cannot_pick_up, :limit => 100
+      t.string :medical_notes, :limit => 200
       t.timestamps
     end
     add_column :people, :barcode_id, :string, :limit => 50

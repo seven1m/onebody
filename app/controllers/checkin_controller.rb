@@ -13,7 +13,7 @@ class CheckinController < ApplicationController
     if @person = Person.find_by_barcode_id(params[:id]) \
       and rec = AttendanceRecord.check(@person, @section) \
       and rec.errors.empty?
-      @highlight = rec.id
+      @highlight = rec
     else
       flash[:warning] = "There was an error scanning this ID: #{params[:id]}"
       flash[:warning] += "<br/>No one was found with that ID number." unless rec

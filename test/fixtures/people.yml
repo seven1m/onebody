@@ -183,6 +183,8 @@ mac:
   full_access: true
   feed_code: bla
   barcode_id: 1005
+  can_pick_up: Tim or Jennie Morgan
+  cannot_pick_up: John Smith
 jane:
   site_id: 1
   id: 6
@@ -204,7 +206,7 @@ jane:
   feed_code: bla
   staff: true
   barcode_id: 1006
-katrina:
+megan:
   site_id: 1
   id: 7
   family_id: 2
@@ -222,8 +224,8 @@ katrina:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
-  barcode_id: 124
   barcode_id: 1007
+  medical_notes: Type 1 Diabetes
 jim:
   site_id: 2
   id: 8

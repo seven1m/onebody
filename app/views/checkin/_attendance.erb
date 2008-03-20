@@ -5,11 +5,21 @@
       <td><%=h record.barcode_id %>
       <td><%= link_to "#{record.first_name} #{record.last_name}", person_url(:id => record.person_id) %></td>
       <td><%=h record.age %></td>
-      <td><%=h record.in && record.in.to_s(:time) %></td>
-      <td><%=h record.out && record.out.to_s(:time) %></td>
+      <td id="in<%= record.id %>"><%=h record.in && record.in.to_s(:time) %></td>
+      <td id="out<%= record.id %>"><%=h record.out && record.out.to_s(:time) %></td>
       <% unless record.void? %>
         <td><%= link_to_remote "void", :update => 'attendance', :url => void_attendance_record_url(:section => params[:section], :id => record), :confirm => 'Are you sure?' %></td>
       <% end %>
     </tr>
+    <% if record.can_pick_up.to_s.any? or record.cannot_pick_up.to_s.any? or record.medical_notes.to_s.any? %>
+      <tr id="notice<%= record.id %>" <% if record.void? %>class="void"<% end %>>
+        <td></td>
+        <td colspan="4" style="padding-left:10px;">
+          <% if record.can_pick_up.to_s.any? %><strong>Can pick up:</strong> <%= record.can_pick_up %><br/><% end %>
+          <% if record.cannot_pick_up.to_s.any? %><strong>Cannot pick up:</strong> <%= record.cannot_pick_up %><br/><% end %>
+          <% if record.medical_notes.to_s.any? %><strong>Medical notes:</strong> <%= record.medical_notes %><% end %>
+        </td>
+      </tr>
+    <% end %>
   <% end %>
 </table>

@@ -2,5 +2,8 @@ if @error
   page.redirect_to checkin_section_url(:section => params[:section])
 else
   page.replace_html 'attendance', :partial => 'attendance'
-  page.visual_effect :highlight, "record#{@highlight}"
+  page.visual_effect :highlight, "record#{@highlight.id}", :duration => 3
+  if @person.can_pick_up.to_s.any? or @person.cannot_pick_up.to_s.any? or @person.medical_notes.to_s.any?
+    page.visual_effect :highlight, "notice#{@highlight.id}", :startcolor => "#ff0000", :duration => 3
+  end
 end

@@ -28,7 +28,7 @@ class AttendanceRecord < ActiveRecord::Base
         prev_record.update_attribute :out, Time.now
         prev_record
       else
-        person.attendance_records.create(:barcode_id => person.barcode_id, :first_name => person.first_name, :last_name => person.last_name, :family_name => person.family.name, :age => person.age[:years], :section => section, :in => Time.now) rescue nil
+        person.attendance_records.create(:barcode_id => person.barcode_id, :first_name => person.first_name, :last_name => person.last_name, :family_name => person.family.name, :age => person.age[:years], :section => section, :in => Time.now, :can_pick_up => person.can_pick_up, :cannot_pick_up => person.cannot_pick_up, :medical_notes => person.medical_notes) rescue nil
       end
     end
   end
