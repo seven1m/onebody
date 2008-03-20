@@ -1,5 +1,17 @@
 *SVN*
 
+* Time, DateTime and TimeWithZone #in_time_zone defaults to Time.zone. Removing now unneeded #in_current_time_zone [Geoff Buesing]
+
+* TZInfo caches Timezone instances in its own internal hash cache, so TimeZone::MAPPING doesn't need to cache them as well [Geoff Buesing]
+
+* Adding TimeZone#parse [Geoff Buesing]
+
+* Adding TimeZone#at and DateTime#to_f [Geoff Buesing]
+
+* TimeWithZone responds to Ruby 1.9 weekday-named query methods [Geoff Buesing]
+
+* TimeWithZone caches TZInfo::TimezonePeriod used for time conversion so that it can be reused, and enforces DST rules correctly when instance is created from a local time [Geoff Buesing]
+
 * Fixed that BufferedLogger should create its own directory if one doesn't already exist #11285 [lotswholetime]
 
 * Fix Numeric time tests broken by DST change by anchoring them to fixed times instead of Time.now. Anchor TimeZone#now DST test to time specified with Time.at instead of Time.local to work around platform differences with Time.local and DST representation [Geoff Buesing]

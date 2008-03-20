@@ -2,20 +2,45 @@
 
 <p>Selected people:</p>
 
-<% if @selected.any? %>
-  <ul>
-    <% @selected.each do |person| %>
-      <li>
-        <%= link_to person.name, person_url(:id => person) %>
-        <%= link_to image_tag('remove.gif', :alt => 'Unselect Person', :class => 'icon'), remove_nametag_url(:id => person), :post => true %>
-      </li>
+<% form_tag print_nametags_url, :id => 'print_nametags_form' do %>
+  <% if @selected.any? %>
+    <%= hidden_field_tag 'show_first_name[]', 0 %>
+    <%= hidden_field_tag 'show_last_name[]', 0 %>
+    <%= hidden_field_tag 'show_barcode[]', 0 %>
+    <%= hidden_field_tag 'show_dob[]', 0 %>
+    <%= hidden_field_tag 'show_family_name[]', 0 %>
+    <%= hidden_field_tag 'show_mobile_phones[]', 0 %>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th><%= check_box_tag :show_first_name_global, true, true, :onclick => "document.getElementsByClassName('show_first_name').each(function(e){e.checked=$('show_first_name_global').checked})" %> First</th>
+        <th><%= check_box_tag :show_last_name_global, true, true, :onclick => "document.getElementsByClassName('show_last_name').each(function(e){e.checked=$('show_last_name_global').checked})" %> Last</th>
+        <th><%= check_box_tag :show_barcode_global, true, true, :onclick => "document.getElementsByClassName('show_barcode').each(function(e){e.checked=$('show_barcode_global').checked})" %> Barcode</th>
+        <th><%= check_box_tag :show_dob_global, true, true, :onclick => "document.getElementsByClassName('show_dob').each(function(e){e.checked=$('show_dob_global').checked})" %> DOB</th>
+        <th><%= check_box_tag :show_family_name_global, true, true, :onclick => "document.getElementsByClassName('show_family_name').each(function(e){e.checked=$('show_family_name_global').checked})" %> Family</th>
+        <th><%= check_box_tag :show_mobile_phones_global, true, true, :onclick => "document.getElementsByClassName('show_mobile_phones').each(function(e){e.checked=$('show_mobile_phones_global').checked})" %> Mobiles</th>
+        <th>Remove</th>
+      </tr>
+      <% @selected.each do |person| %>
+        <tr>
+          <td><%= link_to person.name, person_url(:id => person) %></td>
+          <td><%= check_box_tag 'show_first_name[]', person.id, true, :class => 'show_first_name' %></td>
+          <td><%= check_box_tag 'show_last_name[]', person.id, true, :class => 'show_last_name' %></td>
+          <td><%= check_box_tag 'show_barcode[]', person.id, true, :class => 'show_barcode' %></td>
+          <td><%= check_box_tag 'show_dob[]', person.id, true, :class => 'show_dob' %></td>
+          <td><%= check_box_tag 'show_family_name[]', person.id, true, :class => 'show_family_name' %></td>
+          <td><%= check_box_tag 'show_mobile_phones[]', person.id, true, :class => 'show_mobile_phones' %></td>
+          <td><%= link_to image_tag('remove.gif', :alt => 'Unselect Person', :class => 'icon'), remove_nametag_url(:id => person), :post => true %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <p><em>No people have been selected yet.</em></p>
+  <% end %>
+  <p>
+    <%= link_to image_tag('add_small.gif', :alt => 'Select People for Name Tags', :class => 'icon') + ' Add', select_for_nametags_url %>
+    <% if @selected.any? %>
+      <%= link_to_function image_tag('print_small.gif', :alt => 'Print Name Tags', :class => 'icon') + ' Print', "$('print_nametags_form').submit();" %>
     <% end %>
-  </ul>
-<% else %>
-  <p><em>No people have been selected yet.</em></p>
-<% end %>
-
-<p><%= link_to image_tag('add_small.gif', :alt => 'Select People for Name Tags', :class => 'icon') + ' Add', select_for_nametags_url %></p>
-<% if @selected.any? %>
-  <p><%= link_to image_tag('print_small.gif', :alt => 'Print Name Tags', :class => 'icon') + ' Print', print_nametags_url %></p>
+  </p>
 <% end %>

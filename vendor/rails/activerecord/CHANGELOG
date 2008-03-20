@@ -1,5 +1,11 @@
 *SVN*
 
+* Migrations: create_table supports primary_key_prefix_type.  #10314 [student, thechrisoshow]
+
+* Added logging for dependency load errors with fixtures #11056 [stuthulhu]
+
+* Time zone aware attributes use Time#in_time_zone [Geoff Buesing]
+
 * Fixed that scoped joins would not always be respected #6821 [Theory/Danger]
 
 * Ensure that ActiveRecord::Calculations disambiguates field names with the table name.  #11027 [cavalle]

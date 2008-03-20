@@ -48,24 +48,34 @@ class NametagsController < ApplicationController
         x = 330
         y = {0 => 696, 1 => 434, 2 => 164}[index]
         # name
-        pdf.add_text x, y, person.first_name, 28
-        pdf.add_text x, y-20, person.last_name, 18
+        if params[:show_first_name].include? person.id.to_s
+          pdf.add_text x, y, person.first_name, 28
+        end
+        if params[:show_last_name].include? person.id.to_s
+          pdf.add_text x, y-20, person.last_name, 18
+        end
         # barcode
-        pdf.add_image Barcode.new(person.barcode_id).to_jpg, x, y-90, nil, 60
+        if params[:show_barcode].include? person.id.to_s
+          pdf.add_image Barcode.new(person.barcode_id).to_jpg, x, y-90, nil, 60
+        end
         # birthday
-        if person.birthday
+        if person.birthday and params[:show_dob].include? person.id.to_s
           x = 530 - pdf.text_width(t = person.birthday.strftime('%B'), s = 10)
           pdf.add_text x, y, t, s
           x = 530 - pdf.text_width(t = person.birthday.strftime('%Y'), s = 20)
           pdf.add_text x, y-18, t, s
         end
         # family name
-        x = 530 - pdf.text_width(t = person.family.name, s = 9)
-        pdf.add_text x, y-50, t, s
+        if params[:show_family_name].include? person.id.to_s
+          x = 530 - pdf.text_width(t = person.family.name, s = 9)
+          pdf.add_text x, y-50, t, s
+        end
         # family mobile phone numbers
-        person.parent_mobile_phones.each_with_index do |phone, phone_index|
-          x = 530 - pdf.text_width(t = phone, s = 8)
-          pdf.add_text x, y-60-(phone_index*10), t, s
+        if params[:show_mobile_phones].include? person.id.to_s
+          person.parent_mobile_phones.each_with_index do |phone, phone_index|
+            x = 530 - pdf.text_width(t = phone, s = 8)
+            pdf.add_text x, y-60-(phone_index*10), t, s
+          end
         end
       end
     end

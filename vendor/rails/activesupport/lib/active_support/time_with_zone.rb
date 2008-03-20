@@ -5,40 +5,34 @@ module ActiveSupport
     include Comparable
     attr_reader :time_zone
   
-    def initialize(utc_time, time_zone, local_time = nil)
-      @utc = utc_time
-      @time = local_time
-      @time_zone = time_zone
+    def initialize(utc_time, time_zone, local_time = nil, period = nil)
+      @utc, @time_zone, @time = utc_time, time_zone, local_time
+      @period = @utc ? period : get_period_and_ensure_valid_local_time
     end
   
-    # Returns a Time instance that represents the time in time_zone
+    # Returns a Time or DateTime instance that represents the time in time_zone
     def time
-      @time ||= time_zone.utc_to_local(@utc)
+      @time ||= utc_to_local
     end
 
-    # Returns a Time instance that represents the time in UTC
+    # Returns a Time or DateTime instance that represents the time in UTC
     def utc
-      @utc ||= time_zone.local_to_utc(@time)
+      @utc ||= local_to_utc
     end
     alias_method :comparable_time, :utc
     alias_method :getgm, :utc
     alias_method :getutc, :utc
     alias_method :gmtime, :utc
   
-    # Returns the underlying TZInfo::TimezonePeriod for the local time
+    # Returns the underlying TZInfo::TimezonePeriod
     def period
-      @period ||= time_zone.period_for_utc(utc)
+      @period ||= time_zone.period_for_utc(@utc)
     end
 
-    # Returns the simultaneous time in the specified zone
-    def in_time_zone(new_zone)
+    # Returns the simultaneous time in Time.zone, or the specified zone
+    def in_time_zone(new_zone = ::Time.zone)
       return self if time_zone == new_zone
       utc.in_time_zone(new_zone)
-    end
-  
-    # Returns the simultaneous time in Time.zone
-    def in_current_time_zone
-      utc.in_current_time_zone
     end
   
     # Returns a Time.local() instance of the simultaneous time in your system's ENV['TZ'] zone
@@ -154,8 +148,14 @@ module ActiveSupport
     alias_method :mday, :day
     alias_method :month, :mon
     
+    %w(sunday? monday? tuesday? wednesday? thursday? friday? saturday?).each do |name|
+      define_method(name) do
+        time.__send__(name)
+      end
+    end unless RUBY_VERSION < '1.9'
+    
     def to_a
-      time.to_a[0, 8].push(dst?, zone)
+      [time.sec, time.min, time.hour, time.day, time.mon, time.year, time.wday, time.yday, dst?, zone]
     end
     
     def to_f
@@ -214,5 +214,33 @@ module ActiveSupport
       result = result.in_time_zone(time_zone) if result.acts_like?(:time)
       result
     end
+    
+    private      
+      def get_period_and_ensure_valid_local_time
+        # we don't want a Time.local instance enforcing its own DST rules as well, 
+        # so transfer time values to a utc constructor if necessary
+        @time = transfer_time_values_to_utc_constructor(@time) unless @time.utc?
+        begin
+          @time_zone.period_for_local(@time)
+        rescue ::TZInfo::PeriodNotFound
+          # time is in the "spring forward" hour gap, so we're moving the time forward one hour and trying again
+          @time += 1.hour
+          retry
+        end
+      end
+      
+      def transfer_time_values_to_utc_constructor(time)
+        ::Time.utc_time(time.year, time.month, time.day, time.hour, time.min, time.sec, time.respond_to?(:usec) ? time.usec : 0)
+      end
+    
+      # Replicating logic from TZInfo::Timezone#utc_to_local because we want to cache the period in an instance variable for reuse
+      def utc_to_local
+        ::TZInfo::TimeOrDateTime.wrap(utc) {|utc| period.to_local(utc)}
+      end
+      
+      # Replicating logic from TZInfo::Timezone#local_to_utc because we want to cache the period in an instance variable for reuse
+      def local_to_utc
+        ::TZInfo::TimeOrDateTime.wrap(time) {|time| period.to_utc(time)}
+      end
   end
 end
