@@ -1,5 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
   
+  map.with_options :controller => 'setup' do |m|
+    m.setup 'setup', :action => 'index'
+    m.get_current_version 'setup/current_version', :action => 'current_version'
+  end
+  
   map.with_options :controller => 'people' do |m|
     m.edit_profile 'people/edit/:id', :action => 'edit'
     m.edit_person 'people/edit/:id', :action => 'edit'

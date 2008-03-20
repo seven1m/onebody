@@ -5,3 +5,5 @@ Rails::Initializer.run do |config|
   config.log_path = File.join(File.dirname(__FILE__), "../log/#{RAILS_ENV}.log")
   config.database_configuration_file = File.expand_path(File.join(File.dirname(__FILE__), 'database.yml'))
 end
+
+ONEBODY_VERSION = File.read(File.join(RAILS_ROOT, 'VERSION')).strip

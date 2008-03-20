@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
   
   private
     def get_site
+      if RAILS_ENV == 'setup'
+        redirect_to setup_url
+        return false
+      end
       if Setting.get(:features, :multisite)
         Site.current = Site.find_by_host(request.host)
       else
@@ -28,7 +32,6 @@ class ApplicationController < ActionController::Base
     end
   
     def authenticate_user
-      return true if params[:controller] == 'help' # ignore entire help_controller
       if id = session[:logged_in_id]
         unless person = Person.find_by_id(id)
           session[:logged_in_id] = nil

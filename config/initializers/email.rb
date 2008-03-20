@@ -5,7 +5,7 @@ begin
     :domain => Setting.get(:email, :domain)
   }
 rescue
-  puts 'Error reading settings for smtp connection setup (OK if running migrations).'
+  puts 'Error reading settings for smtp connection setup (OK if running setup).'
 end
 
 VALID_EMAIL_ADDRESS = /^[a-z\-_0-9\.]+\@[a-z\-0-9\.]+\.[a-z]{2,4}$/i

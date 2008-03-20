@@ -37,9 +37,11 @@ if ARGV[0]
     FileUtils.mkdir(File.join(directory, 'log')) unless File.exists? File.join(directory, 'log')
     # remove pesky .svn directories
     Dir[File.join(directory, '**', '.svn')].each { |d| FileUtils.rm_rf(d) }
+    # indicate install method
+    File.open(File.join(directory, 'installed-from-gem'), 'w') { |f| f.write 'This instance of OneBody was installed via RubyGems.' }
     # set to production mode
-    env_file = File.read(env_filename = File.join(directory, 'config/environment.rb'))
-    File.open(env_filename, 'w') { |f| f.write "ENV['RAILS_ENV'] ||= 'production'\n\n" + env_file }
+    #env_file = File.read(env_filename = File.join(directory, 'config/environment.rb'))
+    #File.open(env_filename, 'w') { |f| f.write "ENV['RAILS_ENV'] ||= 'production'\n\n" + env_file }
     puts
   rescue => e
     puts "There was an error copying files: #{e}"
