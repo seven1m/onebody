@@ -1,0 +1,36 @@
+<%= render :partial => 'database_version' %>
+<% unless @info.database_up_to_date %>
+  <p>Link to run migrations here.</p>
+<% end %>
+
+<h2>Database Settings</h2>
+<p>(from <code>config/database.yml</code>)</p>
+<% form_tag setup_edit_database_url do %>
+  <table>
+    <tr><td>Adapter</td><td><%= select_tag :adapter, options_for_select(%w(mysql sqlite3), @info.database_config['adapter']), :onchange => 'switch_adapter(this.value)' %></td></tr>
+    <tr><td id="database_label">Database</td><td><%= text_field_tag :database, @info.database_config['database'] %></td></tr>
+    <tr id="username_row"><td>Username</td><td><%= text_field_tag :username, @info.database_config['username'] %></td></tr>
+    <tr id="password_row"><td>Password</td><td><%= password_field_tag :password, @info.database_config['password'] %></td></tr>
+    <tr id="password_confirm_row"><td>Password (confirm)</td><td><%= password_field_tag :password_confirm, @info.database_config['password'] %></td></tr>
+  </table>
+  <p>
+    <%= submit_tag 'Test Connection', :id => 'test_button', :name => 'test', :onclick => "new Ajax.Request('/setup/edit_database', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this.form)}); return false;" %>
+    <%= submit_tag 'Save Settings' %>
+  </p>
+<% end %>
+
+<script type="text/javascript">
+  function switch_adapter(adapter, keep_values) {
+    if(adapter == 'mysql') {
+      $('database_label').innerHTML = 'Database Name';
+      ['username_row', 'password_row', 'password_confirm_row', 'test_button'].each(Element.show);
+    } else {
+      $('database_label').innerHTML = 'File';
+      ['username_row', 'password_row', 'password_confirm_row', 'test_button'].each(Element.hide);
+    }
+    if(!keep_values) {
+      ['database', 'username', 'password', 'password_confirm'].each(function(id){$(id).value = ''});
+    }
+  };
+  switch_adapter(<%= @info.database_config['adapter'].inspect %>, true);
+</script>

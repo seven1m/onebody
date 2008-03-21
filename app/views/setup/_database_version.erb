@@ -1,0 +1,11 @@
+<% if @info.database_up_to_date.nil? %>
+  <h2>Database: <strong>Not Found</strong></h2>
+  <p>Your database was not found (or there was an error establishing a connection). You need to run <code><%= @info.database_upgrade_code %></code>.</p>
+<% elsif @info.database_up_to_date %>
+  <h2>Database: <strong>Up-to-date</strong></h2>
+  <p>Your database is up-to-date with the current installed version of OneBody.</p>
+<% else %>
+  <h2>Database: <strong>Need To Upgrade</strong></h2>
+  <p>This instance's database version is <%= @info.database_version %>,
+    but should be <%= @info.max_database_version %>.</p>
+<% end %>

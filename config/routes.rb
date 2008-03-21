@@ -2,9 +2,13 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'setup' do |m|
     m.setup 'setup', :action => 'index'
+    m.setup_authorize_ip 'setup/authorize_ip', :action => 'authorize_ip'
     m.setup_precache 'setup/precache', :action => 'precache'
     m.setup_dashboard 'setup/dashboard', :action => 'dashboard'
     m.setup_environment 'setup/environment', :action => 'environment'
+    m.setup_database 'setup/database', :action => 'database'
+    m.setup_edit_database 'setup/edit_database', :action => 'edit_database'
+    m.setup_change_environment 'setup/change_environment', :action => 'change_environment'
   end
   
   map.with_options :controller => 'people' do |m|

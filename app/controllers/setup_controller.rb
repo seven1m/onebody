@@ -1,6 +1,7 @@
 class SetupController < ApplicationController
   skip_before_filter :get_site, :authenticate_user
-  before_filter :check_setup_env, :get_info
+  before_filter :check_setup_env, :get_info, :except => %w(not_local_or_secret_not_given authorize_ip)
+  verify :method => :post, :only => %w(db_create db_drop db_migrate edit_database)
   
   layout "setup"
   
@@ -8,7 +9,7 @@ class SetupController < ApplicationController
   end
   
   def precache
-    @info.precache_info
+    @info.precache # also reload
     respond_to do |format|
       format.js { render(:update) { |p| p.redirect_to setup_dashboard_url } }
     end
@@ -20,10 +21,81 @@ class SetupController < ApplicationController
   def environment
   end
   
+  def database
+  end
+  
+  def edit_database
+    if params[:test]
+      if @info.test_database_config(params)
+        message = 'Database connection successful!'
+      else
+        message = 'Error. Could not connect to database.'
+      end
+    else
+      @info.edit_database(params)
+      @info.precache
+      message = 'New database config saved.'
+      @redirect = true
+    end
+    respond_to do |format|
+      format.html { flash[:notice] = message; redirect_to setup_database_url }
+      format.js { render(:update) { |p| p.alert(message); p.redirect_to(setup_database_url) if @redirect } }
+    end
+  end
+  
+  def db_migrate
+    v = params[:version] ? "VERSION=#{params[:version].to_i}" : nil
+    `rake db:migrate RAILS_ENV=#{session[:setup_environment]} #{v}`
+  end
+  
+  def change_environment
+    if %w(production development).include? params[:environment]
+      OneBodyInfo.setup_environment = session[:setup_environment] = params[:environment]
+    end
+    flash[:notice] = "Environment switched to #{session[:setup_environment]}."
+    redirect_to setup_url
+  end
+  
+  def not_local_or_secret_not_given
+    @secret_file_path = File.expand_path(File.join(RAILS_ROOT, 'setup-secret'))
+  end
+  
+  def authorize_ip
+    if params[:setup_secret] == File.read(File.join(RAILS_ROOT, 'setup-secret'))
+      write_auth_file
+      redirect_to setup_url
+    else
+      File.open(File.join(RAILS_ROOT, 'setup-secret'), 'w') { |f| f.write random_chars(50) } # regenerate
+      flash[:notice] = 'That secret is incorrect. Please try again.'
+      redirect_to :action => 'not_local_or_secret_not_given'
+    end
+  end
+  
+  def cleanup
+    File.delete(File.join(RAILS_ROOT, 'setup-authorized-ip'))
+    File.delete(File.join(RAILS_ROOT, 'setup-secret'))
+  end
+  
   private
     def check_setup_env
       unless RAILS_ENV == 'setup'
         redirect_to '/'
+        return false
+      end
+      OneBodyInfo.setup_environment = session[:setup_environment] ||= 'production'
+      write_auth_file if request.remote_ip == '127.0.0.12' 
+      if File.exists?(auth_filename = File.join(RAILS_ROOT, 'setup-authorized-ip'))
+        unless request.remote_ip == File.read(auth_filename)
+          render :text => 'Only one IP can be authorized at a time. (Delete the setup-authorized-ip file to try again.)', :layout => true
+          return false
+        end
+      else
+        redirect_to :action => 'not_local_or_secret_not_given'
+        return false
+      end
+      if START_SETUP_TIME < MAX_SETUP_TIME.minutes.ago
+        render :text => 'This setup server time has expired. Please restart the server to continue.', :layout => true
+        cleanup
         return false
       end
     end
@@ -31,4 +103,18 @@ class SetupController < ApplicationController
     def get_info
       @info = (session[:one_body_info] ||= OneBodyInfo.new)
     end
+    
+    def get_setup_secret
+      File.read(File.join(RAILS_ROOT, 'setup-secret'))
+    end
+    
+    def write_auth_file
+      File.open(File.join(RAILS_ROOT, 'setup-authorized-ip'), 'w') do |file|
+        file.write(request.remote_ip)
+      end
+    end
+end
+
+def random_chars(length)
+  (1..length).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
 end

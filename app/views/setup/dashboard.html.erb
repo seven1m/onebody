@@ -10,16 +10,14 @@
   <h2>Files: <strong>Need To Upgrade</strong></h2>
   <p>This instance of OneBody seems out of date. For help upgrading, visit
     <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a> on the wiki.</p>
+  <% if @info.git_install_method? %>
+    <p>(Since this instance of OneBody is installed via Git glone, this may simply indicate that
+      you committed changes and some of your files are different than the official revision
+      of OneBody. That's OK.)</p>
+  <% end %>
 <% end %>
 
 <p><%= link_to "Click here", setup_environment_url %> to see detailed information about
   your current running version, available versions, and other information.</p>
 
-<% if @info.database_up_to_date %>
-  <h2>Database: <strong>Up-to-date</strong></h2>
-  <p>Your database is up-to-date.</p>
-<% else %>
-  <h2>Database: <strong>Need To Upgrade</strong></h2>
-  <p>This instance's database version is <%= @info.database_version %>,
-    but should be <%= @info.max_database_version %>.</p>
-<% end %>
+<%= render :partial => 'database_version' %>
