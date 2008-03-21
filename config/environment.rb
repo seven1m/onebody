@@ -6,4 +6,4 @@ Rails::Initializer.run do |config|
   config.database_configuration_file = File.expand_path(File.join(File.dirname(__FILE__), 'database.yml'))
 end
 
-ONEBODY_VERSION = File.read(File.join(RAILS_ROOT, 'VERSION')).strip
+PHONE_HOME_FOR_VERSION_INFO = true

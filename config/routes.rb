@@ -2,7 +2,9 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'setup' do |m|
     m.setup 'setup', :action => 'index'
-    m.get_current_version 'setup/current_version', :action => 'current_version'
+    m.setup_precache 'setup/precache', :action => 'precache'
+    m.setup_dashboard 'setup/dashboard', :action => 'dashboard'
+    m.setup_environment 'setup/environment', :action => 'environment'
   end
   
   map.with_options :controller => 'people' do |m|

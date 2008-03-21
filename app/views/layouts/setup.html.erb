@@ -31,7 +31,8 @@
         </div>
 
         <ul id="nav">
-            <li><%= link_to 'Dashboard', setup_path, :class => (params[:action] == 'index' ? 'active' : nil) %></li>
+            <li><%= link_to 'Dashboard', setup_dashboard_path, :class => (params[:action] == 'dashboard' ? 'active' : nil) %></li>
+            <li><%= link_to 'Environment', setup_environment_path, :class => (params[:action] == 'environment' ? 'active' : nil) %></li>
         </ul>
 
         <% if subnav = yield(:subnav) %>

@@ -1,0 +1,16 @@
+<% if @up_to_date.nil? %>
+  <p>This instance of OneBody is at version <%= @this_version %>.
+    For help upgrading, visit <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a>
+    on the wiki.</p>
+<% elsif @up_to_date %>
+  <h2>Up-to-date!</h2>
+  <p>Your instance of OneBody is up-to-date.</p>
+<% else %>
+  <h2>Not Up-to-date.</h2>
+  <p>This instance of OneBody seems out of date. For help upgrading, visit
+    <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a> on the wiki.</p>
+<% end %>
+
+<h2>Version &amp; Other Info</h2>
+<p><%= link_to "Click here", setup_environment_url %> to see detailed information about
+  your current running version, available versions, and other information.</p>

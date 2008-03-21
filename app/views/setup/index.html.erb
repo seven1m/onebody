@@ -1,21 +1,6 @@
-<h2>OneBody Environment</h2>
-<table>
-  <tr><td>This version</td><td><%=h ONEBODY_VERSION %></td></tr>
-  <tr><td>Current version</td><td><span id="current_version"><%= link_to_remote 'find out', :url => get_current_version_url %></span> (clicking will "phone home" to check for updates)</td></tr>
-  <tr>
-    <td>Install method</td>
-    <td>
-      <% case @install_method when :gem %>
-        RubyGem
-      <% when :git %>
-        Git Clone
-      <% when :manual %>
-        Tar.gz or Other
-      <% end %>
-    </td>
-  </tr>
-</table>
+<%= image_tag('spinner.gif', :alt => 'Loading...', :class => 'icon') %>
+Gathering data...
 
-<h2>Ruby/Rails Environment</h2>
-<%= Rails::Info.to_html %>
-
+<script type="text/javascript">
+  new Ajax.Request(<%= setup_precache_url.inspect %>);
+</script>
