@@ -15,16 +15,6 @@ class SetupController < ApplicationController
   end
   
   def dashboard
-    if PHONE_HOME_FOR_VERSION_INFO
-      if @info.install_method == :git
-        @up_to_date = @info.this_revision == @info.development_revision
-      else
-        @up_to_date = @info.this_version >= @info.development_version
-      end
-    else
-      @up_to_date = nil
-      @this_version = @info.this_version
-    end
   end
   
   def environment

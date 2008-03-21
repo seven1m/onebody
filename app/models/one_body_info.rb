@@ -47,6 +47,33 @@ class OneBodyInfo
     end
   end
   
+  def up_to_date
+    if PHONE_HOME_FOR_VERSION_INFO
+      if install_method == :git
+        this_revision == development_revision
+      else
+        this_version >= development_version
+      end
+    end
+  end
+  
+  def database_version(env='production')
+    @database_version ||= begin
+      ActiveRecord::Base.establish_connection(YAML::load_file(File.join(RAILS_ROOT, 'config/database.yml'))[env.to_s])
+      ActiveRecord::Base.connection.select_value("SELECT version FROM schema_info").to_i
+    rescue
+      nil
+    end
+  end
+  
+  def max_database_version
+    Dir[File.join(RAILS_ROOT, 'db/migrate/*.rb')].sort.map { |m| File.split(m).last.split('_').first }.last.to_i
+  end
+  
+  def database_up_to_date
+    database_version >= max_database_version
+  end
+  
   def precache_info
     install_method
     this_version

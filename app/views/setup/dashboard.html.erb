@@ -1,16 +1,25 @@
-<% if @up_to_date.nil? %>
-  <p>This instance of OneBody is at version <%= @this_version %>.
+<% if @info.up_to_date.nil? %>
+  <h2>Files</h2>
+  <p>This instance of OneBody is at version <%= @info.this_version %>.
     For help upgrading, visit <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a>
     on the wiki.</p>
-<% elsif @up_to_date %>
-  <h2>Up-to-date!</h2>
+<% elsif @info.up_to_date %>
+  <h2>Files: <strong>Up-to-date</strong></h2>
   <p>Your instance of OneBody is up-to-date.</p>
 <% else %>
-  <h2>Not Up-to-date.</h2>
+  <h2>Files: <strong>Need To Upgrade</strong></h2>
   <p>This instance of OneBody seems out of date. For help upgrading, visit
     <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a> on the wiki.</p>
 <% end %>
 
-<h2>Version &amp; Other Info</h2>
 <p><%= link_to "Click here", setup_environment_url %> to see detailed information about
   your current running version, available versions, and other information.</p>
+
+<% if @info.database_up_to_date %>
+  <h2>Database: <strong>Up-to-date</strong></h2>
+  <p>Your database is up-to-date.</p>
+<% else %>
+  <h2>Database: <strong>Need To Upgrade</strong></h2>
+  <p>This instance's database version is <%= @info.database_version %>,
+    but should be <%= @info.max_database_version %>.</p>
+<% end %>
