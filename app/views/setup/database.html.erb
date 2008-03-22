@@ -1,6 +1,6 @@
 <%= render :partial => 'database_version' %>
 <% unless @info.database_up_to_date %>
-  <p>Link to run migrations here.</p>
+  <p><%= link_to "Migrate Database", setup_migrate_database_url, :confirm => 'Are you sure?', :method => :post %> to latest version.</p>
 <% end %>
 
 <h2>Database Settings</h2>

@@ -3,7 +3,7 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'onebody'
-  s.version = File.read(File.join(File.dirname(__FILE__), '../../VERSION')).strip
+  s.version = File.read(File.join(File.dirname(__FILE__), '../../VERSION')).strip.split('-').first
   s.summary = "web-based church directory and social networking software"
   s.description = <<EOF
 OneBody is free, open-source, volunteer-built

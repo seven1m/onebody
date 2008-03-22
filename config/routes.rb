@@ -7,6 +7,8 @@ ActionController::Routing::Routes.draw do |map|
     m.setup_dashboard 'setup/dashboard', :action => 'dashboard'
     m.setup_environment 'setup/environment', :action => 'environment'
     m.setup_database 'setup/database', :action => 'database'
+    m.setup_sites 'setup/sites', :action => 'sites'
+    m.setup_migrate_database 'setup/migrate_database', :action => 'migrate_database'
     m.setup_edit_database 'setup/edit_database', :action => 'edit_database'
     m.setup_change_environment 'setup/change_environment', :action => 'change_environment'
   end

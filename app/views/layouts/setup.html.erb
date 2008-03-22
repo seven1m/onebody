@@ -15,10 +15,7 @@
  
 <body>
 
-<div id="banner">
-  OneBody is currently running in <em>setup</em> mode.
-  You have about <%= (MAX_SETUP_TIME - (Time.now - START_SETUP_TIME) / 60).to_i %> minutes left.
-</div>
+<div id="banner">OneBody is currently running in <em>setup</em> mode.</div>
 
 <div id="wrapper">
 <div id="innerwrapper">
@@ -42,6 +39,7 @@
             <li><%= link_to 'Dashboard', setup_dashboard_path, :class => (params[:action] == 'dashboard' ? 'active' : nil) %></li>
             <li><%= link_to 'Environment', setup_environment_path, :class => (params[:action] == 'environment' ? 'active' : nil) %></li>
             <li><%= link_to 'Database', setup_database_path, :class => (params[:action] == 'database' ? 'active' : nil) %></li>
+            <li><%= link_to 'Sites', setup_sites_path, :class => (params[:action] == 'sites' ? 'active' : nil) %></li>
         </ul>
 
         <% if subnav = yield(:subnav) %>

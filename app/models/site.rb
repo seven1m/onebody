@@ -25,6 +25,7 @@ class Site < ActiveRecord::Base
   
   cattr_accessor :current
   
+  validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
   
   def noreply_email

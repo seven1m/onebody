@@ -137,8 +137,12 @@ class OneBodyInfo
     ActiveRecord::Base.connection
   end
   
+  def possible_database_versions
+    Dir[File.join(RAILS_ROOT, 'db/migrate/*.rb')].map { |m| File.split(m).last.split('_').first.to_i }.sort
+  end
+  
   def max_database_version
-    Dir[File.join(RAILS_ROOT, 'db/migrate/*.rb')].sort.map { |m| File.split(m).last.split('_').first }.last.to_i
+    possible_database_versions.last
   end
   
   def database_up_to_date

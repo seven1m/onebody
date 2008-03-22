@@ -16,6 +16,3 @@ require 'rails/railties/builtin/rails_info/rails/info'
 
 File.delete(File.join(RAILS_ROOT, 'setup-authorized-ip')) if File.exists? File.join(RAILS_ROOT, 'setup-authorized-ip')
 File.open(File.join(RAILS_ROOT, 'setup-secret'), 'w') { |f| f.write random_chars(50) }
-
-MAX_SETUP_TIME = 30
-START_SETUP_TIME = Time.now

@@ -57,3 +57,7 @@ class Array
     return grouped
   end
 end
+
+def random_chars(length)
+  (1..length).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
+end
