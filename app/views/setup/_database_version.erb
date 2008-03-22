@@ -8,4 +8,7 @@
   <h2>Database: <strong>Need To Upgrade</strong></h2>
   <p>This instance's database version is <%= @info.database_version %>,
     but should be <%= @info.max_database_version %>.</p>
+  <% unless params[:action] == 'database' %>
+    <p><%= link_to 'Click here', setup_database_url %> for more information.</p>
+  <% end %>
 <% end %>

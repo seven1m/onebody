@@ -1,17 +1,29 @@
-<p><label for="multisite">Multisite Enabled?</label>
-  <%= select_tag :multisite, options_for_select({'Yes' => true, 'No' => false}, Setting.get(:features, :multisite)) %></p>
+<% form_tag setup_edit_multisite_url do %>
+  <p><label for="multisite">Multisite Enabled?</label>
+    <%= select_tag :multisite, options_for_select({'Yes' => true, 'No' => false}, Setting.get(:features, :multisite)) %>
+    <%= submit_tag 'Save' %></p>
+<% end %>
 
 <p>With the Multisite feature disabled, OneBody will always display the "default" site
   (the site with ID number 1 below).</p>
   
 <table>
-  <tr><th>ID</th><th>Name</th><th>Host</th><th>Visible Name (from settings)</th></tr>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Host</th>
+    <th>Visible Name (from settings)</th>
+    <th>Email Domain</th>
+    <th>Matching Virtual Host</th>
+  </tr>
   <% @sites.each do |site| %>
     <tr>
       <td><%= site.id %></td>
       <td><%= site.name %></td>
       <td><%= site.host %></td>
       <td><%= site.visible_name %></td>
+      <td>@<%= site.host %></td>
+      <td><%= site.multisite_host %></td>
     </tr>
   <% end %>
 </table>

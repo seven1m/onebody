@@ -100,13 +100,19 @@ class Setting < ActiveRecord::Base
     
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
+      # per site settings
       Site.find(:all).each do |site|
         settings.each do |fixture, values|
+          next if values['global']
           unless Setting.find_by_site_id_and_section_and_name(site.id, values['section'], values['name'])
             values.update 'site_id' => site.id
             Setting.create(values)
           end
         end
+      end
+      # globals
+      settings.select { |f, v| v['global'] }.each do |fixture, values|
+        Setting.create(values) unless Setting.find_by_site_id_and_section_and_name(nil, values['section'], values['name'])
       end
     end
   end

@@ -1,7 +1,7 @@
 class SetupController < ApplicationController
   skip_before_filter :get_site, :authenticate_user
   before_filter :check_setup_env, :check_auth, :get_info, :except => %w(not_local_or_secret_not_given authorize_ip)
-  verify :method => :post, :only => %w(migrate_database edit_database)
+  verify :method => :post, :only => %w(migrate_database edit_database edit_multisite)
   
   layout "setup"
   
@@ -25,7 +25,18 @@ class SetupController < ApplicationController
   end
   
   def sites
-    @sites = Site.find(:all, :order => 'name')
+    begin
+      @info.connect_to_database(@info.database_config)
+      @sites = Site.find(:all, :order => 'name')
+    rescue
+      render :text => 'Could not establish database connection or database not up-to-date.', :layout => true
+    end
+  end
+  
+  def edit_multisite
+    Setting.set_global('Features', 'Multisite', params[:multisite] == 'true')
+    flash[:notice] = 'Multisite feature changed.'
+    redirect_to setup_sites_url
   end
   
   def edit_database

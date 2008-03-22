@@ -28,6 +28,14 @@ class Site < ActiveRecord::Base
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
   
+  def multisite_host
+    if id == 1 and not Setting.get(:features, :multisite)
+      '(any)'
+    else
+      host
+    end
+  end
+  
   def noreply_email
     "noreply@#{self.host}"
   end
