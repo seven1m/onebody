@@ -11,10 +11,12 @@
 #
 
 class Site < ActiveRecord::Base
+  SETTINGS_YAML_FILE = File.join(RAILS_ROOT, 'test/fixtures/settings.yml')
+  
   class << self
     def sub_tables
-      rejects = %w(sites searches notifiers barcodes one_body_info)
-      @@sub_tables ||= Dir[File.join(File.dirname(__FILE__), '*.rb')].to_a.map { |f| File.split(f).last.split('.').first.pluralize }.select { |f| !rejects.include? f }
+      rejects = %w(site search notifier barcode one_body_info)
+      @@sub_tables ||= Dir[File.join(File.dirname(__FILE__), '*.rb')].to_a.map { |f| File.split(f).last.split('.').first }.select { |f| !rejects.include? f }.map { |f| f.pluralize }
     end
     def sub_models
       @@sub_models ||= sub_tables.map { |t| eval(t.classify) }
@@ -29,10 +31,10 @@ class Site < ActiveRecord::Base
   validates_uniqueness_of :name, :host
   
   def multisite_host
-    if id == 1 and not Setting.get(:features, :multisite)
-      '(any)'
-    else
+    if Setting.get(:features, :multisite)
       host
+    else
+      id == 1 ? '(any)' : '(none)'
     end
   end
   
@@ -41,14 +43,23 @@ class Site < ActiveRecord::Base
   end
   
   def visible_name
-    settings.find_by_section_and_name('Name', 'Site').value
+    settings.find_by_section_and_name('Name', 'Site').value rescue nil
   end
   
-  after_create :duplicate_settings
+  def count_people
+    connection.select_value("SELECT count(*) from people where site_id=#{id}").to_i
+  end
   
-  def duplicate_settings
-    if self.id != 1 and self.settings.count == 0
-      Setting.find_all_by_site_id(1).each { |s| s.clone.update_attributes! :site_id => self.id }
+  after_create :add_settings
+  
+  def add_settings
+    settings = YAML::load(File.open(SETTINGS_YAML_FILE))
+    settings.each do |fixture, values|
+      next if values['global']
+      unless Setting.find_by_site_id_and_section_and_name(self.id, values['section'], values['name'])
+        values.update 'site_id' => self.id
+        Setting.create(values)
+      end
     end
   end
   

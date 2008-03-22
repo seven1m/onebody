@@ -2,6 +2,7 @@ class CreateAttendanceRecords < ActiveRecord::Migration
   def self.up
     create_table :attendance_records do |t|
       t.integer :person_id
+      t.integer :site_id
       t.string :barcode_id, :limit => 50
       t.string :first_name, :last_name, :family_name, :age, :limit => 255
       t.string :section, :limit => 255

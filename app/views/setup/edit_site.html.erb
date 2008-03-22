@@ -1,0 +1,7 @@
+<h2>Edit Site</h2>
+
+<% form_for :site, @site, :url => setup_edit_site_url(:id => @site) do |form| %>
+  <p><%= form.label :name %> <%= form.text_field :name %></p>
+  <p><%= form.label :host %> <%= form.text_field :host %></p>
+  <p><%= submit_tag 'Save Changes' %>
+<% end %>

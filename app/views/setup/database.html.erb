@@ -1,5 +1,7 @@
 <%= render :partial => 'database_version' %>
-<% unless @info.database_up_to_date %>
+<% if @info.database_up_to_date %>
+  <p><%= link_to "Load Sample Data", setup_load_fixtures_url, :confirm => 'Are you sure?', :method => :post %></p>
+<% else %>
   <p><%= link_to "Migrate Database", setup_migrate_database_url, :confirm => 'Are you sure?', :method => :post %> to latest version.</p>
 <% end %>
 
@@ -18,6 +20,9 @@
     <%= submit_tag 'Save Settings' %>
   </p>
 <% end %>
+
+<h2>Backup Database</h2>
+<p><%= link_to 'Click here', setup_backup_database_url, :method => :post %> to make a backup of your SQL database.</p>
 
 <script type="text/javascript">
   function switch_adapter(adapter, keep_values) {

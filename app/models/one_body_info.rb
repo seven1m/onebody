@@ -155,6 +155,22 @@ class OneBodyInfo
     "rake db:migrate RAILS_ENV=#{OneBodyInfo.setup_environment}"
   end
   
+  def backup_database
+    base_filename = File.expand_path(File.join(RAILS_ROOT, 'db', "#{OneBodyInfo.setup_environment}.backup.#{Time.now.strftime('%Y%m%d%H%M')}"))
+    if database_config['adapter'] == 'mysql'
+      filename = base_filename + '.sql'
+      `mysqldump -u#{database_config['username']} -p#{database_config['password']} #{database_config['database']} > #{filename}`
+    else # sqlite3
+      filename = base_filename + '.db'
+      FileUtils.cp(File.expand_path(File.join(RAILS_ROOT, database_config['database'])), filename)
+    end
+    if File.exists? filename
+      filename
+    else
+      false
+    end
+  end
+  
   def precache
     @install_method = nil;       install_method
     @this_version = nil;         this_version

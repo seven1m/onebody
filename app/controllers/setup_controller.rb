@@ -1,7 +1,7 @@
 class SetupController < ApplicationController
   skip_before_filter :get_site, :authenticate_user
   before_filter :check_setup_env, :check_auth, :get_info, :except => %w(not_local_or_secret_not_given authorize_ip)
-  verify :method => :post, :only => %w(migrate_database edit_database edit_multisite)
+  verify :method => :post, :only => %w(migrate_database edit_database edit_multisite delete_site)
   
   layout "setup"
   
@@ -31,12 +31,49 @@ class SetupController < ApplicationController
     rescue
       render :text => 'Could not establish database connection or database not up-to-date.', :layout => true
     end
+    @new_site = Site.new
   end
   
   def edit_multisite
     Setting.set_global('Features', 'Multisite', params[:multisite] == 'true')
     flash[:notice] = 'Multisite feature changed.'
     redirect_to setup_sites_url
+  end
+  
+  def delete_site
+    if params[:sure]
+      Site.find(params[:id]).destroy_for_sure
+      flash[:notice] = 'Site deleted.'
+    end
+    redirect_to setup_sites_url
+  end
+  
+  def edit_site
+    @site = params[:id] ? Site.find(params[:id]) : Site.new
+    if request.post?
+      if @site.update_attributes params[:site]
+        flash[:notice] = 'Site updated.'
+        redirect_to setup_sites_url
+      else
+        flash[:warning] = @site.errors.full_messages.join('; ')
+      end
+    end
+  end
+  
+  def backup_database
+    if path = @info.backup_database
+      flash[:notice] = "The database has been backed up to #{path}"
+    else
+      flash[:warning] = "There was an error backing up your database."
+    end
+    redirect_to setup_database_url
+  end
+  
+  def load_fixtures
+    logger.info `rake db:fixtures:load RAILS_ENV=#{session[:setup_environment]}`
+    flash[:notice] = 'Sample data loaded.'
+    @info.reload
+    redirect_to setup_database_url
   end
   
   def edit_database

@@ -20,6 +20,9 @@
 
 class AttendanceRecord < ActiveRecord::Base
   belongs_to :person
+  belongs_to :site
+  
+  acts_as_scoped_globally 'site_id', 'Site.current.id'
   
   class << self
     def check(person, section)
