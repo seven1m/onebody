@@ -1,0 +1,9 @@
+<% if @sites.first.host == 'example.com' %>
+  <h2>Sites: <strong class="very-strong">Need Updated Host</strong></h2>
+  <p>You should change the host on the Default site
+    <%= link_to 'here', setup_sites_url %> to match your
+    domain. Until you do, incoming and outgoing email won't work as expected.</p>
+<% else %>
+  <h2>Sites: <%= @sites.length %> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
+  <p><%= link_to 'Click here', setup_sites_url %> for more information.</p>
+<% end %>

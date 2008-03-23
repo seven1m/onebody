@@ -1,3 +1,8 @@
+<% if @sites.first.host == 'example.com' %>
+  <p class="alert">You should change the host on the Default site below to match your
+    domain. Until you do, incoming and outgoing email won't work as expected.</p>
+<% end %>
+
 <% form_tag setup_edit_multisite_url do %>
   <p><label for="multisite">Multisite Enabled?</label>
     <%= select_tag :multisite, options_for_select({'Yes' => true, 'No' => false}, Setting.get(:features, :multisite)) %>

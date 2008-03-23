@@ -16,6 +16,7 @@ class SetupController < ApplicationController
   end
   
   def dashboard
+    @sites = Site.find(:all, :order => 'name')
   end
   
   def environment
@@ -28,10 +29,10 @@ class SetupController < ApplicationController
     begin
       @info.connect_to_database(@info.database_config)
       @sites = Site.find(:all, :order => 'name')
+      @new_site = Site.new
     rescue
       render :text => 'Could not establish database connection or database not up-to-date.', :layout => true
     end
-    @new_site = Site.new
   end
   
   def edit_multisite
