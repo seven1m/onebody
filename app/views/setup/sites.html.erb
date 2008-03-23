@@ -13,8 +13,8 @@
     <th>Name</th>
     <th>Host</th>
     <th>Email Domain</th>
-    <th>Matching Virtual Host</th>
-    <th>Visible Name (from settings)</th>
+    <th>Virtual Host</th>
+    <th>Name From Settings</th>
     <th>People</th>
   </tr>
   <% @sites.each do |site| %>
@@ -27,6 +27,7 @@
       <td><%= site.visible_name %></td>
       <td><%= site.count_people %></td>
       <td><%= link_to 'edit', setup_edit_site_url(:id => site) %></td>
+      <td><%= link_to 'settings', setup_settings_url(:id => site) %></td>
       <td><%= link_to 'delete', setup_delete_site_url(:id => site, :sure => true), :confirm => 'There is no undo and this will delete ALL data for the entire site!', :method => :post %></td>
     </tr>
   <% end %>

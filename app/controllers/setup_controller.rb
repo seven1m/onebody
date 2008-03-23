@@ -1,7 +1,7 @@
 class SetupController < ApplicationController
   skip_before_filter :get_site, :authenticate_user
   before_filter :check_setup_env, :check_auth, :get_info, :except => %w(not_local_or_secret_not_given authorize_ip)
-  verify :method => :post, :only => %w(migrate_database edit_database edit_multisite delete_site)
+  verify :method => :post, :only => %w(migrate_database edit_database edit_multisite delete_site edit_settings)
   
   layout "setup"
   
@@ -42,8 +42,12 @@ class SetupController < ApplicationController
   
   def delete_site
     if params[:sure]
-      Site.find(params[:id]).destroy_for_sure
-      flash[:notice] = 'Site deleted.'
+      if @info.backup_database
+        Site.find(params[:id]).destroy_for_sure
+        flash[:notice] = 'Site deleted.'
+      else
+        flash[:warning] = 'Site was not deleted because backup failed.'
+      end
     end
     redirect_to setup_sites_url
   end
@@ -70,9 +74,13 @@ class SetupController < ApplicationController
   end
   
   def load_fixtures
-    logger.info `rake db:fixtures:load RAILS_ENV=#{session[:setup_environment]}`
-    flash[:notice] = 'Sample data loaded.'
-    @info.reload
+    if @info.backup_database
+      logger.info `rake db:fixtures:load RAILS_ENV=#{session[:setup_environment]}`
+      flash[:notice] = 'Sample data loaded.'
+      @info.reload
+    else
+      flash[:warning] = 'Sample data was not loaded because database backup failed.'
+    end
     redirect_to setup_database_url
   end
   
@@ -128,6 +136,28 @@ class SetupController < ApplicationController
   def cleanup
     File.delete(File.join(RAILS_ROOT, 'setup-authorized-ip'))
     File.delete(File.join(RAILS_ROOT, 'setup-secret'))
+  end
+  
+  def settings
+    @settings = Setting.find_all_by_site_id_and_hidden(
+      params[:id],
+      false,
+      :order => 'section, name'
+    ).group_by &:section
+    render :template => 'settings/index'
+  end
+  
+  def edit_settings
+    Setting.find_all_by_site_id(params[:id]).each do |setting|
+      next if setting.hidden?
+      value = params[setting.id.to_s]
+      value = value.split(/\n/) if value and setting.format == 'list'
+      value = value == '' ? nil : value
+      setting.update_attributes! :value => value
+    end
+    Setting.precache_settings(true)
+    flash[:notice] = 'Settings saved.'
+    redirect_to setup_settings_url(:id => params[:id])
   end
   
   private

@@ -1,7 +1,12 @@
+require 'zlib'
+require 'archive/tar/minitar'
+
 class OneBodyInfo
   RELEASED_VERSION_URL = 'http://beonebody.org/releases/CURRENT.txt'
   DEV_VERSION_URL = 'http://github.com/seven1m/onebody/tree/master/VERSION?raw=true'
   GIT_REVISION_YAML_URL = 'http://github.com/api/v1/yaml/seven1m/onebody/commits/master'
+  
+  include Archive::Tar
   
   cattr_accessor :setup_environment
   
@@ -156,7 +161,10 @@ class OneBodyInfo
   end
   
   def backup_database
-    base_filename = File.expand_path(File.join(RAILS_ROOT, 'db', "#{OneBodyInfo.setup_environment}.backup.#{Time.now.strftime('%Y%m%d%H%M')}"))
+    # first backup database
+    timestamp = Time.now.strftime('%Y%m%d%H%M')
+    base_path = File.join(RAILS_ROOT, 'db')
+    base_filename = File.expand_path(File.join(base_path, "#{OneBodyInfo.setup_environment}.backup.#{timestamp}"))
     if database_config['adapter'] == 'mysql'
       filename = base_filename + '.sql'
       `mysqldump -u#{database_config['username']} -p#{database_config['password']} #{database_config['database']} > #{filename}`
@@ -165,6 +173,9 @@ class OneBodyInfo
       FileUtils.cp(File.expand_path(File.join(RAILS_ROOT, database_config['database'])), filename)
     end
     if File.exists? filename
+      # now backup photos and publications files
+      paths_to_backup = [File.join(base_path, 'photos'), File.join(base_path, 'publications')]
+      File.open(base_filename + '.tar', 'wb') { |tar| Minitar.pack(paths_to_backup, tar) }
       filename
     else
       false

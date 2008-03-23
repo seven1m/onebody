@@ -1,7 +1,5 @@
 <%= render :partial => 'database_version' %>
-<% if @info.database_up_to_date %>
-  <p><%= link_to "Load Sample Data", setup_load_fixtures_url, :confirm => 'Are you sure?', :method => :post %></p>
-<% else %>
+<% unless @info.database_up_to_date %>
   <p><%= link_to "Migrate Database", setup_migrate_database_url, :confirm => 'Are you sure?', :method => :post %> to latest version.</p>
 <% end %>
 
@@ -22,16 +20,24 @@
 <% end %>
 
 <h2>Backup Database</h2>
-<p><%= link_to 'Click here', setup_backup_database_url, :method => :post %> to make a backup of your SQL database.</p>
+<p><%= link_to 'Click here', setup_backup_database_url, :method => :post, :confirm => 'If successful, two files will be created in the "db" folder with the current timestamp.' %> to make a backup of your SQL database and all files.</p>
+
+<% if @info.database_up_to_date %>
+  <h2>Load Sample Data</h2>
+  <p><%= link_to "Click here", setup_load_fixtures_url, :confirm => 'Are you sure? This will delete ALL data in the database!', :method => :post %> to load the OneBody sample data.
+    <strong>Warning: this operation will delete all data in the database!</strong></p>
+<% end %>
+
 
 <script type="text/javascript">
   function switch_adapter(adapter, keep_values) {
+    toggles = ['username_row', 'password_row', 'password_confirm_row', 'test_button'];
     if(adapter == 'mysql') {
       $('database_label').innerHTML = 'Database Name';
-      ['username_row', 'password_row', 'password_confirm_row', 'test_button'].each(Element.show);
+      toggles.each(Element.show);
     } else {
       $('database_label').innerHTML = 'File';
-      ['username_row', 'password_row', 'password_confirm_row', 'test_button'].each(Element.hide);
+      toggles.each(Element.hide);
     }
     if(!keep_values) {
       ['database', 'username', 'password', 'password_confirm'].each(function(id){$(id).value = ''});
