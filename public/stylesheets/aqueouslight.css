@@ -873,3 +873,7 @@ tr.void td a:active {
   text-decoration: line-through;
   color: #999;
 }
+
+tr.disabled td {
+  color: #999;
+}

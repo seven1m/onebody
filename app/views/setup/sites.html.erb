@@ -18,7 +18,7 @@
     <th>People</th>
   </tr>
   <% @sites.each do |site| %>
-    <tr>
+    <tr <% unless site.enabled? %>class="disabled"<% end %>>
       <td><%= site.id %></td>
       <td><%= site.name %></td>
       <td><%= site.host %></td>

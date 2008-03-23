@@ -50,6 +50,10 @@ class Site < ActiveRecord::Base
     connection.select_value("SELECT count(*) from people where site_id=#{id}").to_i
   end
   
+  def enabled?
+    Setting.get(:features, :multisite) or self.id == 1
+  end
+  
   after_create :add_settings
   
   def add_settings
