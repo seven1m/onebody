@@ -5,6 +5,10 @@ Find out more at http://beonebody.org
 For installation and setup, visit
 http://beonebody.org/trac/wiki/InstallOneBody
 
+For the impatient:
+script/server -e setup
+...then browse to http://localhost:3000
+
 Copyright & License
 -------------------
 

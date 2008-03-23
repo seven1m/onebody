@@ -199,6 +199,6 @@ class OneBodyInfo
     end
     
     def get_revision_from_yaml(yaml)
-      YAML::load(yaml)['commits'].first['tree']
+      YAML::load(yaml)['commits'].first['id']
     end
 end

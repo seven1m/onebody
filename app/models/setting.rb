@@ -48,7 +48,7 @@ class Setting < ActiveRecord::Base
       else
         if Site.current
           if @@settings[Site.current.id].nil?
-            Site.current.duplicate_settings
+            Site.current.add_settings
             Setting.precache_settings(true)
           end
           if @@settings[Site.current.id][section]

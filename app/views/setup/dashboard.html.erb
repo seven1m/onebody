@@ -4,7 +4,7 @@
     For help upgrading, visit <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a>
     on the wiki.</p>
 <% elsif @info.up_to_date %>
-  <h2>Files: <strong>Up-to-date</strong></h2>
+  <h2>Files: <strong>Up-to-date</strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
   <p>Your instance of OneBody is up-to-date.</p>
 <% else %>
   <h2>Files: <strong>Need To Upgrade</strong></h2>
