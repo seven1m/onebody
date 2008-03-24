@@ -16,7 +16,7 @@ class SetupController < ApplicationController
   end
   
   def dashboard
-    @sites = Site.find(:all, :order => 'name')
+    @sites = Site.find(:all, :order => 'name') rescue []
   end
   
   def environment

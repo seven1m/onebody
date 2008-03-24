@@ -35,13 +35,8 @@ if ARGV[0]
     end
     # create log directory
     FileUtils.mkdir(File.join(directory, 'log')) unless File.exists? File.join(directory, 'log')
-    # remove pesky .svn directories
-    Dir[File.join(directory, '**', '.svn')].each { |d| FileUtils.rm_rf(d) }
     # indicate install method
     File.open(File.join(directory, 'installed-from-gem'), 'w') { |f| f.write 'This instance of OneBody was installed via RubyGems.' }
-    # set to production mode
-    #env_file = File.read(env_filename = File.join(directory, 'config/environment.rb'))
-    #File.open(env_filename, 'w') { |f| f.write "ENV['RAILS_ENV'] ||= 'production'\n\n" + env_file }
     puts
   rescue => e
     puts "There was an error copying files: #{e}"
@@ -52,39 +47,22 @@ if ARGV[0]
   
   # create the database config file if it doesn't exist yet
   if NEW_INSTALL
-    puts 'Setting up the database configuration...'
-    begin
-      db_adapter = ask('Choose your database (sqlite3 or mysql) [sqlite3]: ')
-      db_adapter = 'sqlite3' unless db_adapter.any?
-    end while not %w(sqlite3 mysql).include? db_adapter
-    case db_adapter
-    when 'sqlite3'
-      config = "production:\n  adapter: sqlite3\n  database: db/onebody.db\ndevelopment:\n  production"
-    when 'mysql'
-      puts 'Enter the MySQL username and password.'
-      db_user = ask('Username [root]: ')
-      db_user = 'root' unless db_user.any?
-      db_pass = ask('Password [blank]: ') { |q| q.echo = false }
-      db_name = ask('Database name [onebody]: ')
-      db_name = 'onebody' unless db_name.any?
-      config = "production:\n  adapter: mysql\n  database: #{db_name}\n  username: #{db_user}\n  password: #{db_pass}\ndevelopment:\n  production"
-    end
+    config = "production:\n  adapter: sqlite3\n  database: db/onebody.db\ndevelopment:\n  production"
     File.open(File.join(directory, 'config/database.yml'), 'w') { |f| f.write config }
     puts
   end  
   
   puts 'Now, cd to your instance directory and run the following command:'
-  if NEW_INSTALL
-    puts 'rake init'
-  else
-    puts 'rake update'
-  end
+  puts 'ruby script/server -e setup # then browse to http://localhost:3000'
   
 else
   
   puts 'OneBody instance creation script. Run this to create a new instance'
   puts 'or to update an existing one (will overwrite files, so make a backup).'
   puts
-  puts 'Usage: onebody /path/to/deploy'
+  puts 'Usage:'
+  puts 'onebody /path/to/instance'
+  puts 'cd /path/to/instance'
+  puts 'ruby script/server -e setup # then browse to http://localhost:3000'
   
 end
