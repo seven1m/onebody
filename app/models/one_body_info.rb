@@ -137,6 +137,26 @@ class OneBodyInfo
     end
   end
   
+  def people_count
+    begin
+      connect_to_database(database_config)
+    rescue
+      nil # no database found (or error establishing connection)
+    else
+      ActiveRecord::Base.connection.select_value("SELECT count(*) FROM people").to_i rescue nil
+    end
+  end
+  
+  def date_of_last_sync
+    begin
+      connect_to_database(database_config)
+    rescue
+      nil # no database found (or error establishing connection)
+    else
+      ActiveRecord::Base.connection.select_value("SELECT last_update FROM sync_info") rescue nil
+    end
+  end
+  
   def connect_to_database(config)
     ActiveRecord::Base.establish_connection(config)
     ActiveRecord::Base.connection

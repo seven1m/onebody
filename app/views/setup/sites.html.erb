@@ -1,6 +1,9 @@
 <% if @sites.first.host == 'example.com' %>
-  <p class="alert">You should change the host on the Default site below to match your
+  <h2 class="status">Sites: <strong class="stop">Need To Update</strong></h2>
+  <p>You should change the host on the Default site below to match your
     domain. Until you do, incoming and outgoing email won't work as expected.</p>
+<% else %>
+  <h2 class="status">Sites: <strong class="go"><%= @sites.length %></strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
 <% end %>
 
 <% form_tag setup_edit_multisite_url do %>

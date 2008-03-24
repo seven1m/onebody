@@ -1,13 +1,13 @@
 <% if @info.up_to_date.nil? %>
-  <h2>Files</h2>
+  <h2 class="status">Files</h2>
   <p>This instance of OneBody is at version <%= @info.this_version %>.
     For help upgrading, visit <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a>
     on the wiki.</p>
 <% elsif @info.up_to_date %>
-  <h2>Files: <strong>Up-to-date</strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
+  <h2 class="status">Files: <strong class="go">Up-to-date</strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
   <p>Your instance of OneBody is up-to-date.</p>
 <% else %>
-  <h2>Files: <strong class="very-strong">Need To Upgrade</strong></h2>
+  <h2 class="status">Files: <strong class="stop">Need To Upgrade</strong></h2>
   <p>This instance of OneBody seems out of date. For help upgrading, visit
     <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a> on the wiki.</p>
   <% if @info.git_install_method? %>
@@ -21,5 +21,7 @@
   your current running version, available versions, and other information.</p>
 
 <%= render :partial => 'database_version' %>
+
+<%= render :partial => 'data' %>
 
 <%= render :partial => 'sites_status' %>

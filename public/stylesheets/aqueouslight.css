@@ -877,3 +877,15 @@ tr.void td a:active {
 tr.disabled td {
   color: #999;
 }
+
+h2.status {
+  color: #000;
+}
+
+h2.status .stop {
+  color: #f00;
+}
+
+h2.status .go {
+	color:#79B933;
+}
