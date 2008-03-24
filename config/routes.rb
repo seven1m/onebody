@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
     m.setup_database 'setup/database', :action => 'database'
     m.setup_sites 'setup/sites', :action => 'sites'
     m.setup_settings 'setup/settings/:id', :action => 'settings'
+    m.setup_global_settings 'setup/global_settings', :action => 'global_settings'
     m.setup_edit_multisite 'setup/edit_multisite', :action => 'edit_multisite'
     m.setup_edit_site 'setup/edit_site', :action => 'edit_site'
     m.setup_delete_site 'setup/delete_site', :action => 'delete_site'

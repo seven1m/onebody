@@ -149,7 +149,8 @@ class SetupController < ApplicationController
   end
   
   def edit_settings
-    Setting.find_all_by_site_id(params[:id]).each do |setting|
+    (params[:id] ? Setting.find_all_by_site_id(params[:id]) : []) + \
+    Setting.find_all_by_site_id_and_global(nil, true).each do |setting|
       next if setting.hidden?
       value = params[setting.id.to_s]
       value = value.split(/\n/) if value and setting.format == 'list'
@@ -158,9 +159,18 @@ class SetupController < ApplicationController
     end
     Setting.precache_settings(true)
     flash[:notice] = 'Settings saved.'
-    redirect_to setup_settings_url(:id => params[:id])
+    redirect_to params[:id] ? setup_settings_url(:id => params[:id]) : setup_global_settings_url
   end
   
+  def global_settings
+    @settings = Setting.find_all_by_site_id_and_hidden(
+      nil,
+      false,
+      :order => 'section, name'
+    ).group_by &:section
+    render :template => 'settings/index'
+  end
+
   private
     def check_setup_env
       unless RAILS_ENV == 'setup'
