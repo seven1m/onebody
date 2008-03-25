@@ -20,6 +20,9 @@ parser = OptionParser.new do |opts|
   opts.on("-s", '--site "Site Name"', "specify site name (if multisite enabled)") do |val|
     options[:site] = val
   end
+  opts.on("-e", '--environment production', "specify environment (development, production)") do |val|
+    options[:environment] = val
+  end
 end
 parser.parse!
 
@@ -28,6 +31,8 @@ unless connector_name = ARGV[0]
   exit
 end
 args = ARGV[1..-1]
+
+RAILS_ENV = options[:environment]
 
 require File.dirname(__FILE__) + '/../config/environment'
 require RAILS_ROOT + "/lib/connectors/#{connector_name}"

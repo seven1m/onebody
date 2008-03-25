@@ -25,21 +25,30 @@ class Scheduler < Daemon::Base
     now = Time.now
     self.run_tasks_and_delete('now')
     self.run_tasks('minutely')
-    self.run_tasks('hourly') if @last_run.nil? or now >= @last_run + HOUR
-    self.run_tasks('nightly') if NIGHT_HOUR.include?(now.hour) and (@last_run.nil? or now >= @last_run + DAY)
-    @last_run = now
+    if @last_hourly_run.nil? or now >= @last_hourly_run + HOUR
+      self.run_tasks('hourly') 
+      @last_hourly_run = now
+    end
+    if NIGHT_HOURS.include?(now.hour) and (@last_nightly_run.nil? or now >= @last_nightly_run + DAY)
+      self.run_tasks('nightly')
+      @last_nightly_run = now
+    end
   end
   
   def self.run_task(file)
     File.read(file).split(/\r?\n/).each do |line|
       if line.strip.any? and line.strip !~ /^#/
-        `#{line.gsub(/RAILS_ROOT/, @rails_root).gsub(/RAILS_ENV/, @rails_env)}`
+        puts line.gsub(/RAILS_ROOT/, @rails_root).gsub(/RAILS_ENV/, @rails_env)
+        puts system(line.gsub(/RAILS_ROOT/, @rails_root).gsub(/RAILS_ENV/, @rails_env))
+        STDOUT.flush
       end
     end
   end
   
   def self.run_tasks(directory)
-    Dir[File.join(TASKS_DIR, directory, '*')].each { |f| run_task(f) }
+    Dir[File.join(TASKS_DIR, directory, '*')].each do |file|
+      run_task(file) unless file =~ /\.example$/
+    end
   end
   
   def self.run_tasks_and_delete(directory)
@@ -51,4 +60,4 @@ class Scheduler < Daemon::Base
   end
 end
 
-Scheduler.daemonize(RAILS_ROOT)
+Scheduler.daemonize(RAILS_ROOT, File.join(RAILS_ROOT, 'log/scheduler.log'))

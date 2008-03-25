@@ -37,12 +37,13 @@ class DirectoryController < ApplicationController
     end
     
     if params[:generate]
+      filename = File.join(RAILS_ROOT, 'tmp', @logged_in.id.to_s + '.pdf')
       check_js = "setTimeout('new Ajax.Request(\"/directory/directory_to_pdf\", {parameters:\"generate=true\"})', 5000)"
-      if job = session[:directory_pdf_job]
-        if job.finished?
+      if job_path = session[:directory_pdf_job]
+        if not File.exists?(job_path)
           session[:directory_pdf_job] = nil
           render :update do |page|
-            if job.exit_status == 0
+            if File.exists?(filename)
               page.replace_html('status', 'Success!<br/><br/>You should see your PDF pop up any second.')
               page.redirect_to :action => 'pickup_pdf'
             else
@@ -57,12 +58,18 @@ class DirectoryController < ApplicationController
           end
         end
       else
-        filename = File.join(RAILS_ROOT, 'tmp', @logged_in.id.to_s + '.pdf')
-        session[:directory_pdf_job] = Bj.submit("./script/runner \"Site.current = Site.find(#{Site.current.id}); File.open('#{filename}', 'wb') { |f| f.write Person.find(#{@logged_in.id}).generate_directory_pdf }\"").first
-        render :update do |page|
-          page.show('status')
-          page.hide('generate_form')
-          page << check_js
+        job_path = File.join(RAILS_ROOT, 'db/tasks/now', @logged_in.id.to_s)
+        cmd = "RAILS_ROOT/script/runner -e RAILS_ENV \"Site.current = Site.find(#{Site.current.id}); File.open('#{filename}', 'wb') { |f| f.write Person.find(#{@logged_in.id}).generate_directory_pdf }\""
+        begin
+          File.open(job_path, 'w') { |f| f.write(cmd) }
+          session[:directory_pdf_job] = job_path
+          render :update do |page|
+            page.show('status')
+            page.hide('generate_form')
+            page << check_js
+          end
+        rescue => e
+          render(:update) { |p| p.alert('There was an error: ' + e.to_s) }
         end
       end
     else

@@ -1,5 +1,0 @@
-# Uncomment (remove the # sign) and edit the line below to match your email host
-#   and mailbox login details. Replace host, username and password like this:
-#   RAILS_ROOT/script/inbox -e RAILS_ENV localhost onebody secret
-
-# RAILS_ROOT/script/inbox -e RAILS_ENV host username password

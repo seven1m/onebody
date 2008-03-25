@@ -25,9 +25,10 @@ module Daemon
       File.join(@@working_dir, "#{name}.pid")
     end
     
-    def self.daemonize(working_dir)
+    def self.daemonize(working_dir, log_path)
       @@working_dir = working_dir
-      Controller.daemonize(self, @@working_dir)
+      @@log_path = log_path
+      Controller.daemonize(self, @@working_dir, @@log_path)
     end
   end
   
@@ -42,8 +43,9 @@ module Daemon
   end
   
   module Controller
-    def self.daemonize(daemon, working_dir)
+    def self.daemonize(daemon, working_dir, log_path)
       @@working_dir = working_dir
+      @@log_path = log_path
       case !ARGV.empty? && ARGV[0]
       when 'run'
         run(daemon)
@@ -69,7 +71,8 @@ module Daemon
           Dir.chdir @@working_dir
           File.umask 0000
           STDIN.reopen "/dev/null"
-          STDOUT.reopen "/dev/null", "a"
+          #STDOUT.reopen "/dev/null", "a"
+          STDOUT.reopen @@log_path, "a"
           STDERR.reopen STDOUT
           trap("TERM") {daemon.stop; exit}
           daemon.start

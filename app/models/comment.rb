@@ -27,7 +27,7 @@ class Comment < ActiveRecord::Base
   belongs_to :note
   belongs_to :site
 
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
     
   def on
     verse || event || recipe || news_item || song || note

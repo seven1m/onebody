@@ -14,6 +14,9 @@ parser = OptionParser.new do |opts|
   opts.on("-s", '--site "Site Name"', "specify site name (if multisite enabled)") do |val|
     options[:site] = val
   end
+  opts.on("-e", '--environment production', "specify environment (development, production)") do |val|
+    options[:environment] = val
+  end
 end
 parser.parse!
 
@@ -23,6 +26,8 @@ if not (host and username and password)
   puts parser.help
   exit
 end
+
+RAILS_ENV = options[:environment]
 
 require 'net/pop'
 require File.dirname(__FILE__) + '/../config/environment'

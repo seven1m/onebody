@@ -296,7 +296,7 @@ url_newsrss:
   updated_at: 2008-01-26 15:21:06
   format: string
   description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
-  value: http://imaginarychurch.com/news/RSS
+  value: http://cedarridgecc.com/news/RSS
   global: false
   section: URL
   created_at: 2008-01-26 15:21:06
