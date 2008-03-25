@@ -1,6 +1,0 @@
-[submodule "vendor/plugins/acts_as_scoped_globally"]
-	path = vendor/plugins/acts_as_scoped_globally
-	url = git://github.com/seven1m/acts_as_scoped_globally.git
-[submodule "vendor/plugins/acts_as_photo"]
-	path = vendor/plugins/acts_as_photo
-	url = git://github.com/seven1m/acts_as_photo.git

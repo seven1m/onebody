@@ -1,5 +1,5 @@
 <% if not @sites.any? %>
-  <h2 class="status">Sites: <strong class="stop">None!</strong></h2>
+  <h2 class="status">Sites: <strong class="stop">None</strong></h2>
   <p>Perhaps your database isn't up-to-date?</p>
 <% elsif @sites.first.host == 'example.com' %>
   <h2 class="status">Sites: <strong class="stop">Need To Update Host</strong></h2>

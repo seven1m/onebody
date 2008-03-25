@@ -76,7 +76,7 @@ class SetupController < ApplicationController
   
   def load_fixtures
     if @info.backup_database
-      logger.info `rake db:fixtures:load RAILS_ENV=#{session[:setup_environment]}`
+      logger.info `#{rake_cmd} db:fixtures:load RAILS_ENV=#{session[:setup_environment]}`
       flash[:notice] = 'Sample data loaded.'
       @info.reload
     else
@@ -105,7 +105,7 @@ class SetupController < ApplicationController
   end
   
   def migrate_database
-    logger.info `rake db:migrate RAILS_ENV=#{session[:setup_environment]}`
+    logger.info `#{rake_cmd} db:migrate RAILS_ENV=#{session[:setup_environment]}`
     flash[:notice] = 'Database migrated.'
     @info.reload
     redirect_to setup_database_url
@@ -163,12 +163,18 @@ class SetupController < ApplicationController
   end
   
   def global_settings
-    @settings = Setting.find_all_by_site_id_and_hidden(
-      nil,
-      false,
-      :order => 'section, name'
-    ).group_by &:section
-    render :template => 'settings/index'
+    begin
+      @info.connect_to_database(@info.database_config)
+      @settings = Setting.find_all_by_site_id_and_hidden(
+        nil,
+        false,
+        :order => 'section, name'
+      ).group_by &:section
+    rescue
+      render :text => 'Could not establish database connection or database not up-to-date.', :layout => true
+    else
+      render :template => 'settings/index'
+    end
   end
 
   private
@@ -205,5 +211,13 @@ class SetupController < ApplicationController
       File.open(File.join(RAILS_ROOT, 'setup-authorized-ip'), 'w') do |file|
         file.write(request.remote_ip)
       end
+    end
+    
+    def rake_cmd
+      windows? ? 'rake.cmd' : 'rake'
+    end
+    
+    def windows?
+      RUBY_PLATFORM =~ /mswin32/
     end
 end

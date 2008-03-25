@@ -1,3 +1,7 @@
+<p>OneBody is running in setup mode. Once you are happy with the configuration,
+  you can run OneBody for real with:<br/>
+  <code style="color:#00f;">ruby script/server -e <%= session[:setup_environment] %></code></p>
+
 <% if @info.up_to_date.nil? %>
   <h2 class="status">Files</h2>
   <p>This instance of OneBody is at version <%= @info.this_version %>.
@@ -23,6 +27,9 @@
 <%= render :partial => 'database_version' %>
 
 <%= render :partial => 'data' %>
+
+<hr/>
+<p><em>Warnings below this line will not affect local usage of OneBody for development and/or testing purposes.</em></p>
 
 <%= render :partial => 'sites_status' %>
 

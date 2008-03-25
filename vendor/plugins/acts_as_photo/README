@@ -1,0 +1,56 @@
+ActsAsPhoto
+===========
+
+Allows a model to have an attached photo (per record/instance).
+When a photo is saved to the model, the original photo file is placed
+in the specified path, along with several resized versions, based
+on the specified sizes (see below).
+
+Only JPEG images are supported at this time.
+
+Requirements
+------------
+
+* ImageMagick
+* MiniMagick (*not* RMagick)
+
+Usage
+-----
+
+# app/models/person.rb
+class Person < ActiveRecord::Base
+  PHOTO_SIZES = {
+    :tn => '32x32',
+    :small => '75x75',
+    :medium => '150x150',
+    :large => '400x400'
+  }
+  acts_as_photo '/db/photos/people', PHOTO_SIZES
+end
+
+# config/routes.rb
+ActionController::Routing::Routes.draw do |map|
+  map.connect 'people/photo/:id', :controller => 'people', :action => 'photo', :requirements => { :id => /.*/ }
+end
+
+# app/controllers/people_controller.rb
+class PeopleController < ApplicationController
+  # url looks like "/people/photo/123.jpg" or "/people/photo/123.small.jpg" or "/people/photo/123.tn.jpg"
+  def photo; send_photo @person; end
+end
+
+# and elsewhere...
+
+person.photo = file_like_object # form submission, File.open, etc.
+# or
+person.photo = 'http://example.com/tim.jpg'
+
+person.rotate_photo('-90') # degrees
+
+person.has_photo?
+# => true
+
+person.photo_path
+# => 'db/photos/123.jpg'
+
+person.photo = nil # deletes the photo file(s)

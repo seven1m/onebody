@@ -1,5 +1,8 @@
-<% if (count = @info.people_count) > 0 %>
-  <h2 class="status">Data: <strong class="go">Synchronized</strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
+<% if (count = @info.people_count).nil? %>
+  <h2 class="status">Data: <strong class="stop">None</strong></h2>
+  <p>Perhaps your database isn't up-to-date?</p>
+<% elsif count > 0 %>
+  <h2 class="status">Data: <strong class="go">Imported</strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
   <p>There are currently <%= count %> <%= count == 1 ? 'person' : 'people' %>
     in the database (across all sites).</p>
   <% if sync_date = @info.date_of_last_sync %>

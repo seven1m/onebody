@@ -1,0 +1,2 @@
+# You should not have to edit this file.
+RAILS_ROOT/script/runner -e RAILS_ENV "Site.find(:all).each { |s| Site.current = s; LogItem.flag_suspicious_activity(1) }"
