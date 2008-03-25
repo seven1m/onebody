@@ -105,7 +105,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
     
   acts_as_password
   acts_as_photo '/db/photos/people', PHOTO_SIZES

@@ -31,7 +31,7 @@ class Update < ActiveRecord::Base
   belongs_to :person
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   def do!
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)

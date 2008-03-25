@@ -17,7 +17,7 @@ class Ministry < ActiveRecord::Base
   has_many :people, :through => :workers, :conditions => ['workers.start >= ?', Date.today-120], :order => 'last_name, first_name'
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   validates_presence_of :name
   validates_uniqueness_of :name

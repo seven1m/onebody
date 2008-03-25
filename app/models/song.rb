@@ -28,7 +28,7 @@ class Song < ActiveRecord::Base
   has_and_belongs_to_many :tags
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   validates_presence_of :title
     

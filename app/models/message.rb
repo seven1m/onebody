@@ -32,7 +32,7 @@ class Message < ActiveRecord::Base
   has_many :log_items, :foreign_key => 'instance_id', :conditions => "model_name = 'Message'"
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   validates_presence_of :person_id
   validates_presence_of :subject

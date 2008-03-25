@@ -25,7 +25,7 @@ class LogItem < ActiveRecord::Base
   belongs_to :reviewed_by, :class_name => 'Person', :foreign_key => 'reviewed_by'
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   def object
     return nil if deleted?

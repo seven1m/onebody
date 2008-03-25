@@ -17,7 +17,7 @@ class Picture < ActiveRecord::Base
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   acts_as_photo 'db/photos/pictures', PHOTO_SIZES
   acts_as_logger LogItem

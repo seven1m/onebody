@@ -26,7 +26,7 @@ class Feed < ActiveRecord::Base
   belongs_to :group
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', 'Site.current.id'
+  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   attr_accessor :feed
   
