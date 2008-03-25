@@ -157,20 +157,10 @@ class OneBodyInfo
     end
   end
   
-  # returns true, an array of missing items, or nil if file could not be found or read
-  def cron_setup
-    if File.exists?('/etc/crontab') and cron = File.read('/etc/crontab')
-      missing = []
-      missing << 'Suspicious Activity Flagger' unless cron =~ /LogItem\.flag_suspicious_activity/
-      missing << 'News Feed Updater' unless cron =~ /NewsItem\.update_from_feed/
-      missing << 'Background Job Runner' unless cron =~ /script\/bj run \-\-forever \-\-rails_root/
-      missing << 'Set Your Environment' unless cron =~ /RAILS_ENV\s*=\s*production/
-      missing << 'Email Downloader' unless cron =~ /script\/inbox/
-      missing << 'Connector Sync' unless cron =~ /script\/sync/
-      missing.any? ? missing : true
-    end
+  def scheduler_running?
+    File.exists?(File.join(RAILS_ROOT, 'Scheduler.pid'))
   end
-  
+
   def connect_to_database(config)
     ActiveRecord::Base.establish_connection(config)
     ActiveRecord::Base.connection

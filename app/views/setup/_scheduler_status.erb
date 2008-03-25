@@ -1,0 +1,12 @@
+<% if @info.scheduler_running? %>
+  <h2 class="status">Scheduler: <strong class="go">Running</strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
+  <p>Scheduler is running. You should check that you have setup the following tasks in <code>db/tasks</code>:</p>
+  <ul>
+    <li><code>minutely/email_downloader</code> allows receiving of email</li>
+    <li><code>nightly/connector_sync</code> synchronizes your data with an external source</li>
+  </ul>
+<% else %>
+  <h2 class="status">Scheduler: <strong class="stop">Not Running</strong></h2>
+  <p>Scheduler does not appear to be running. You can run scheduler with the command:
+    <code>script/scheduler start production</code></p>
+<% end %>
