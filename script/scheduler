@@ -7,24 +7,30 @@ require 'time'
 
 class Scheduler < Daemon::Base
   TASKS_DIR = File.join(RAILS_ROOT, 'db/tasks')
+  DELAY = 15
   MINUTE = 60
   HOUR = 60 * MINUTE
   DAY = 24 * HOUR
   NIGHT_HOURS = 0..3
   
   def self.start
+    puts "Scheduler started at #{timestamp}"
+    puts
     @rails_root = File.expand_path(RAILS_ROOT)
     @rails_env = ARGV[1] || 'production'
     loop do
       self.run
-      sleep MINUTE
+      sleep DELAY
     end
   end
   
   def self.run
     now = Time.now
     self.run_tasks_and_delete('now')
-    self.run_tasks('minutely')
+    if @last_minutely_run.nil? or now >= @last_minutely_run + MINUTE
+      self.run_tasks('minutely')
+      @last_minutely_run = now
+    end
     if @last_hourly_run.nil? or now >= @last_hourly_run + HOUR
       self.run_tasks('hourly') 
       @last_hourly_run = now
@@ -35,19 +41,31 @@ class Scheduler < Daemon::Base
     end
   end
   
-  def self.run_task(file)
+  def self.run_task(file, type=nil)
     File.read(file).split(/\r?\n/).each do |line|
       if line.strip.any? and line.strip !~ /^#/
-        puts line.gsub(/RAILS_ROOT/, @rails_root).gsub(/RAILS_ENV/, @rails_env)
-        puts system(line.gsub(/RAILS_ROOT/, @rails_root).gsub(/RAILS_ENV/, @rails_env))
+        cmd_line = line.gsub(/RAILS_ROOT/, @rails_root).gsub(/RAILS_ENV/, @rails_env)
+        puts (type ? type.capitalize + ' ' : '') + "Task: #{cmd_line}"
+        puts "Running at #{timestamp}..."
+        #success = system(cmd_line)
+        cmd = IO.popen(cmd_line, "w+"); cmd.close_write
+        result = cmd.read
+        puts "Finished at #{timestamp}"
+        puts 'Output:'
+        puts result.to_s.strip.any? ? result : '(blank)'
+        puts
         STDOUT.flush
       end
     end
   end
   
+  def self.timestamp
+    Time.now.strftime('%m/%d/%Y %I:%M:%S %p')
+  end
+
   def self.run_tasks(directory)
     Dir[File.join(TASKS_DIR, directory, '*')].each do |file|
-      run_task(file) unless file =~ /\.example$/
+      run_task(file, directory) unless file =~ /^\./ or file =~ /\.example$/
     end
   end
   
@@ -56,7 +74,8 @@ class Scheduler < Daemon::Base
   end
   
   def self.stop
-    # nothing yet
+    puts "Scheduler stopped at #{timestamp}"
+    puts
   end
 end
 

@@ -32,7 +32,17 @@ class OneBodyInfo
   
   def this_revision
     if install_method == :git
-      @this_revision ||= File.read(File.join(RAILS_ROOT, '.git/refs/heads/master')).strip
+      @this_revision ||= begin
+        # we want to do this without running any real git command on the system
+        # this might not be the best way to get this information, but seems to work
+        if File.exists?(head = File.join(RAILS_ROOT, '.git/refs/heads/master'))
+          File.read(head).strip
+        elsif File.exists?(head = File.join(RAILS_ROOT, '.git/logs/HEAD'))
+          File.read(head).split[1]
+        else
+          '???'
+        end
+      end
     end
   end
   

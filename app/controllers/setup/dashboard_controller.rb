@@ -16,6 +16,7 @@ class Setup::DashboardController < SetupBaseController
       OneBodyInfo.setup_environment = session[:setup_environment] = params[:environment]
     end
     flash[:notice] = "Environment switched to #{session[:setup_environment]}."
+    @info.reload
     redirect_to setup_url
   end
   
