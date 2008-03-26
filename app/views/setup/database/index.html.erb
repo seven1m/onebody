@@ -1,4 +1,4 @@
-<%= render :partial => 'database_version' %>
+<%= render :partial => 'version' %>
 <% unless @info.database_up_to_date %>
   <p><%= link_to "Migrate Database", setup_migrate_database_url, :confirm => 'Are you sure?', :method => :post %> to latest version.</p>
 <% end %>
@@ -14,7 +14,7 @@
     <tr id="password_confirm_row"><td>Password (confirm)</td><td><%= password_field_tag :password_confirm, @info.database_config['password'] %></td></tr>
   </table>
   <p>
-    <%= submit_tag 'Test Connection', :id => 'test_button', :name => 'test', :onclick => "new Ajax.Request('/setup/edit_database', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this.form)}); return false;" %>
+    <%= submit_tag 'Test Connection', :id => 'test_button', :name => 'test', :onclick => "new Ajax.Request('/setup/database/edit', {asynchronous:true, evalScripts:true, parameters:Form.serialize(this.form)}); return false;" %>
     <%= submit_tag 'Save Settings' %>
   </p>
 <% end %>

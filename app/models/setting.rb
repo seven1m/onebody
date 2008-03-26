@@ -115,5 +115,27 @@ class Setting < ActiveRecord::Base
         Setting.create(values) unless Setting.find_by_site_id_and_section_and_name(nil, values['section'], values['name'])
       end
     end
+    
+    def update_site_from_params(id, params)
+      Setting.find_all_by_site_id(id).each do |setting|
+        next if setting.hidden?
+        value = params[setting.id.to_s]
+        value = value.split(/\n/) if value and setting.format == 'list'
+        value = value == '' ? nil : value
+        setting.update_attributes! :value => value
+      end
+      Setting.precache_settings(true)
+    end
+    
+    def update_global_from_params(params)
+      Setting.find_all_by_site_id_and_global(nil, true).each do |setting|
+        next if setting.hidden?
+        value = params[setting.id.to_s]
+        value = value.split(/\n/) if value and setting.format == 'list'
+        value = value == '' ? nil : value
+        setting.update_attributes! :value => value
+      end
+      Setting.precache_settings(true)
+    end
   end
 end

@@ -73,6 +73,10 @@ class Site < ActiveRecord::Base
   end
   def destroy_for_sure
     raise 'You cannot delete the default site (ID=1).' if self.id == 1
+    # TO DO: this is messy
+    was = Site.current
+    Site.current = self
     rails_original_destroy
+    Site.current = was
   end
 end

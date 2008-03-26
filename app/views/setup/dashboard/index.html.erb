@@ -24,13 +24,13 @@
 <p><%= link_to "Click here", setup_environment_url %> to see detailed information about
   your current running version, available versions, and other information.</p>
 
-<%= render :partial => 'database_version' %>
+<%= render :partial => 'setup/database/version' %>
 
-<%= render :partial => 'data' %>
+<%= render :partial => 'setup/database/data_status' %>
 
 <hr/>
 <p><em>Warnings below this line will not affect local usage of OneBody for development and/or testing purposes.</em></p>
 
-<%= render :partial => 'sites_status' %>
+<%= render :partial => 'setup/sites/status' %>
 
 <%= render :partial => 'scheduler_status' %>

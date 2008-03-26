@@ -47,8 +47,6 @@ module Daemon
       @@working_dir = working_dir
       @@log_path = log_path
       case !ARGV.empty? && ARGV[0]
-      when 'run'
-        run(daemon)
       when 'start'
         start(daemon)
       when 'stop'
@@ -57,7 +55,7 @@ module Daemon
         stop(daemon)
         start(daemon)
       else
-        puts "Invalid command. Please specify run, start, stop or restart."
+        puts "Invalid command. Please specify start, stop or restart."
         exit
       end
     end
@@ -78,7 +76,7 @@ module Daemon
           daemon.start
         end
       rescue NotImplementedError # windows
-        puts 'Windows is not supported. Try "run" instead (will run once and quit).'
+        puts 'Windows is not supported.'
       end
     end
     

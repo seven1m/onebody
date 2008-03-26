@@ -36,7 +36,9 @@
       <td><%= site.count_people %></td>
       <td><%= link_to 'edit', setup_edit_site_url(:id => site) %></td>
       <td><%= link_to 'settings', setup_settings_url(:id => site) %></td>
-      <td><%= link_to 'delete', setup_delete_site_url(:id => site, :sure => true), :confirm => 'There is no undo and this will delete ALL data for the entire site!', :method => :post %></td>
+      <% unless site.id == 1 %>
+        <td><%= link_to 'delete', setup_delete_site_url(:id => site, :sure => true), :confirm => 'There is no undo and this will delete ALL data for the entire site!', :method => :post %></td>
+      <% end %>
     </tr>
   <% end %>
 </table>
