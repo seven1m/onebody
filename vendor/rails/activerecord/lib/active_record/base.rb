@@ -255,7 +255,7 @@ module ActiveRecord #:nodoc:
   # actually Person.find_by_user_name(user_name, options). So you could call <tt>Payment.find_all_by_amount(50, :order => "created_on")</tt>.
   #
   # The same dynamic finder style can be used to create the object if it doesn't already exist. This dynamic finder is called with
-  # <tt>find_or_create_by_</tt> and will return the object if it already exists and otherwise creates it, then returns it. Example:
+  # <tt>find_or_create_by_</tt> and will return the object if it already exists and otherwise creates it, then returns it. Protected attributes won't be set unless they are given in a block. For example:
   #
   #   # No 'Summer' tag exists
   #   Tag.find_or_create_by_name("Summer") # equal to Tag.create(:name => "Summer")
@@ -263,7 +263,10 @@ module ActiveRecord #:nodoc:
   #   # Now the 'Summer' tag does exist
   #   Tag.find_or_create_by_name("Summer") # equal to Tag.find_by_name("Summer")
   #
-  # Use the <tt>find_or_initialize_by_</tt> finder if you want to return a new record without saving it first. Example:
+  #   # Now 'Bob' exist and is an 'admin'
+  #   User.find_or_create_by_name('Bob', :age => 40) { |u| u.admin = true }
+  #
+  # Use the <tt>find_or_initialize_by_</tt> finder if you want to return a new record without saving it first. Protected attributes won't be setted unless they are given in a block. For example:
   #
   #   # No 'Winter' tag exists
   #   winter = Tag.find_or_initialize_by_name("Winter")
@@ -511,7 +514,19 @@ module ActiveRecord #:nodoc:
           else             find_from_ids(args, options)
         end
       end
+      
+      # This is an alias for find(:first).  You can pass in all the same arguments to this method as you can
+      # to find(:first)
+      def first(*args)
+        find(:first, *args)
+      end
 
+      # This is an alias for find(:last).  You can pass in all the same arguments to this method as you can
+      # to find(:last)
+      def last(*args)
+        find(:last, *args)
+      end
+      
       #
       # Executes a custom sql query against your database and returns all the results.  The results will
       # be returned as an array with columns requested encapsulated as attributes of the model you call
@@ -1426,6 +1441,20 @@ module ActiveRecord #:nodoc:
          (safe_to_array(first) + safe_to_array(second)).uniq
         end
 
+        # Merges conditions so that the result is a valid +condition+
+        def merge_conditions(*conditions)
+          segments = []
+
+          conditions.each do |condition|
+            unless condition.blank?
+              sql = sanitize_sql(condition)
+              segments << sql unless sql.blank?
+            end
+          end
+
+          "(#{segments.join(') AND (')})" unless segments.empty?
+        end
+
         # Object#to_a is deprecated, though it does have the desired behavior
         def safe_to_array(o)
           case o
@@ -1498,12 +1527,11 @@ module ActiveRecord #:nodoc:
         # The optional scope argument is for the current :find scope.
         def add_conditions!(sql, conditions, scope = :auto)
           scope = scope(:find) if :auto == scope
-          segments = []
-          segments << sanitize_sql(scope[:conditions]) if scope && !scope[:conditions].blank?
-          segments << sanitize_sql(conditions) unless conditions.blank?
-          segments << type_condition if finder_needs_type_condition?
-          segments.delete_if{|s| s.blank?}
-          sql << "WHERE (#{segments.join(") AND (")}) " unless segments.empty?
+          conditions = [conditions]
+          conditions << scope[:conditions] if scope
+          conditions << type_condition if finder_needs_type_condition?
+          merged_conditions = merge_conditions(*conditions)
+          sql << "WHERE #{merged_conditions} " unless merged_conditions.blank?
         end
 
         def type_condition
@@ -1566,7 +1594,10 @@ module ActiveRecord #:nodoc:
 
             self.class_eval %{
               def self.#{method_id}(*args)
+                guard_protected_attributes = false
+                
                 if args[0].is_a?(Hash)
+                  guard_protected_attributes = true
                   attributes = args[0].with_indifferent_access
                   find_attributes = attributes.slice(*[:#{attribute_names.join(',:')}])
                 else
@@ -1577,8 +1608,10 @@ module ActiveRecord #:nodoc:
                 set_readonly_option!(options)
 
                 record = find_initial(options)
-                if record.nil?
-                  record = self.new { |r| r.send(:attributes=, attributes, false) }
+                 
+                 if record.nil?
+                  record = self.new { |r| r.send(:attributes=, attributes, guard_protected_attributes) }
+                  #{'yield(record) if block_given?'}
                   #{'record.save' if instantiator == :create}
                   record
                 else
@@ -1745,7 +1778,7 @@ module ActiveRecord #:nodoc:
                     (hash[method].keys + params.keys).uniq.each do |key|
                       merge = hash[method][key] && params[key] # merge if both scopes have the same key
                       if key == :conditions && merge
-                        hash[method][key] = [params[key], hash[method][key]].collect{ |sql| "( %s )" % sanitize_sql(sql) }.join(" AND ")
+                        hash[method][key] = merge_conditions(params[key], hash[method][key])
                       elsif key == :include && merge
                         hash[method][key] = merge_includes(hash[method][key], params[key]).uniq
                       else
@@ -1939,7 +1972,7 @@ module ActiveRecord #:nodoc:
         #   { :status => nil, :group_id => 1 }
         #     # => "status = NULL , group_id = 1"
         def sanitize_sql_hash_for_assignment(attrs)
-          conditions = attrs.map do |attr, value|
+          attrs.map do |attr, value|
             "#{connection.quote_column_name(attr)} = #{quote_bound_value(value)}"
           end.join(', ')
         end

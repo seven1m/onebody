@@ -1,5 +1,17 @@
 *SVN*
 
+* Improve documentation. [Radar, Jan De Poorter, chuyeow, xaviershay, danger, miloops, Xavier Noria,  Sunny Ripert]
+
+* Fixed that FormHelper#radio_button would produce invalid ids #11298 [harlancrystal]
+
+* Added :confirm option to submit_tag #11415 [miloops]
+
+* Fixed NumberHelper#number_with_precision to properly round in a way that works equally on Mac, Windows, Linux (closes #11409, #8275, #10090, #8027) [zhangyuanyi]
+
+* Allow the #simple_format text_helper to take an html_options hash for each paragraph.  #2448 [Francois Beausoleil, thechrisoshow]
+
+* Fix regression from filter refactoring where re-adding a skipped filter resulted in it being called twice.  [rick]
+
 * Refactor filters to use Active Support callbacks.  #11235 [Josh Peek]
 
 * Fixed that polymorphic routes would modify the input array #11363 [thomas.lee]
@@ -9,6 +21,8 @@
 * Fixed that TextHelper#excerpt would include one character too many #11268 [Irfy]
 
 * Fix more obscure nested parameter hash parsing bug.  #10797 [thomas.lee]
+
+* Added ActionView::Helpers::register_javascript/stylesheet_expansion to make it easier for plugin developers to inject multiple assets.  #10350 [lotswholetime]
 
 * Fix nested parameter hash parsing bug.  #10797 [thomas.lee]
 

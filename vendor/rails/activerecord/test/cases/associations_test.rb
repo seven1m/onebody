@@ -20,6 +20,10 @@ require 'models/parrot'
 require 'models/pirate'
 require 'models/treasure'
 require 'models/price_estimate'
+require 'models/club'
+require 'models/member'
+require 'models/membership'
+require 'models/sponsor'
 
 class AssociationsTest < ActiveRecord::TestCase
   fixtures :accounts, :companies, :developers, :projects, :developers_projects,
@@ -186,7 +190,7 @@ class HasOneAssociationsTest < ActiveRecord::TestCase
     assert_equal companies(:first_firm).account, Account.find(1)
     assert_equal Account.find(1).credit_limit, companies(:first_firm).account.credit_limit
   end
-
+  
   def test_has_one_cache_nils
     firm = companies(:another_firm)
     assert_queries(1) { assert_nil firm.account }
@@ -476,10 +480,79 @@ class HasOneAssociationsTest < ActiveRecord::TestCase
 
 end
 
+class HasOneThroughAssociationsTest < ActiveRecord::TestCase
+  fixtures :members, :clubs, :memberships, :sponsors
+  
+  def setup
+    @member = members(:groucho)
+  end
+
+  def test_has_one_through_with_has_one
+    assert_equal clubs(:boring_club), @member.club
+  end
+
+  def test_has_one_through_with_has_many
+    assert_equal clubs(:moustache_club), @member.favourite_club
+  end
+  
+  def test_creating_association_creates_through_record
+    new_member = Member.create(:name => "Chris")
+    new_member.club = Club.create(:name => "LRUG")
+    assert_not_nil new_member.current_membership
+    assert_not_nil new_member.club
+  end
+  
+  def test_replace_target_record
+    new_club = Club.create(:name => "Marx Bros")
+    @member.club = new_club
+    @member.reload
+    assert_equal new_club, @member.club
+  end
+  
+  def test_replacing_target_record_deletes_old_association
+    assert_no_difference "Membership.count" do
+      new_club = Club.create(:name => "Bananarama")
+      @member.club = new_club
+      @member.reload      
+    end
+  end
+  
+  def test_has_one_through_polymorphic
+    assert_equal clubs(:moustache_club), @member.sponsor_club
+  end
+  
+  def has_one_through_to_has_many
+    assert_equal 2, @member.fellow_members.size
+  end
+  
+  def test_has_one_through_eager_loading
+    members = Member.find(:all, :include => :club, :conditions => ["name = ?", "Groucho Marx"])
+    assert_equal 1, members.size
+    assert_not_nil assert_no_queries {members[0].club}
+  end
+  
+  def test_has_one_through_eager_loading_through_polymorphic
+    members = Member.find(:all, :include => :sponsor_club, :conditions => ["name = ?", "Groucho Marx"])
+    assert_equal 1, members.size
+    assert_not_nil assert_no_queries {members[0].sponsor_club}    
+  end
+
+  def test_has_one_through_polymorphic_with_source_type
+    assert_equal members(:groucho), clubs(:moustache_club).sponsored_member
+  end
+
+  def test_eager_has_one_through_polymorphic_with_source_type
+    clubs = Club.find(:all, :include => :sponsored_member, :conditions => ["name = ?","Moustache and Eyebrow Fancier Club"])
+    # Only the eyebrow fanciers club has a sponsored_member
+    assert_not_nil assert_no_queries {clubs[0].sponsored_member}
+  end
+
+end
 
 class HasManyAssociationsTest < ActiveRecord::TestCase
   fixtures :accounts, :companies, :developers, :projects,
-           :developers_projects, :topics, :authors, :comments, :author_addresses
+           :developers_projects, :topics, :authors, :comments, :author_addresses,
+           :people, :posts
 
   def setup
     Client.destroyed_client_ids.clear
@@ -1014,6 +1087,18 @@ class HasManyAssociationsTest < ActiveRecord::TestCase
     assert_equal 1, Client.find_all_by_client_of(firm.id).size
   end
 
+  def test_creation_respects_hash_condition
+    ms_client = companies(:first_firm).clients_like_ms_with_hash_conditions.build
+    
+    assert        ms_client.save
+    assert_equal  'Microsoft', ms_client.name
+    
+    another_ms_client = companies(:first_firm).clients_like_ms_with_hash_conditions.create
+
+    assert        !another_ms_client.new_record?
+    assert_equal  'Microsoft', another_ms_client.name
+  end
+
   def test_dependent_delete_and_destroy_with_belongs_to
     author_address = author_addresses(:david_address)
     assert_equal [], AuthorAddress.destroyed_author_address_ids[authors(:david).id]
@@ -1233,6 +1318,10 @@ class HasManyAssociationsTest < ActiveRecord::TestCase
   def test_dynamic_find_all_order_should_override_association_limit_for_through
     assert_equal 4, authors(:david).limited_comments.find(:all, :conditions => "comments.type = 'SpecialComment'", :limit => 9_000).length
     assert_equal 4, authors(:david).limited_comments.find_all_by_type('SpecialComment', :limit => 9_000).length
+  end
+  
+  def test_find_all_include_over_the_same_table_for_through
+    assert_equal 2, people(:michael).posts.find(:all, :include => :people).length
   end
 
 end
@@ -1824,6 +1913,18 @@ class HasAndBelongsToManyAssociationsTest < ActiveRecord::TestCase
     assert !proj2.new_record?
     assert_equal devel.projects.last, proj2
     assert_equal Developer.find_by_name("Marcel").projects.last, proj2  # prove join table is updated
+  end
+
+  def test_creation_respects_hash_condition
+    post = categories(:general).post_with_conditions.build(:body => '')
+    
+    assert        post.save
+    assert_equal  'Yet Another Testing Title', post.title
+    
+    another_post = categories(:general).post_with_conditions.create(:body => '')
+
+    assert        !another_post.new_record?
+    assert_equal  'Yet Another Testing Title', another_post.title
   end
 
   def test_uniq_after_the_fact

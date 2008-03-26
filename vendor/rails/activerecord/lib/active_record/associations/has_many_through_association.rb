@@ -139,8 +139,10 @@ module ActiveRecord
             else
               super
             end
+          elsif @reflection.klass.scopes.include?(method)
+            @reflection.klass.scopes[method].call(self, *args)
           else
-            @reflection.klass.send(:with_scope, construct_scope) do
+            with_scope construct_scope do
               if block_given?
                 @reflection.klass.send(method, *args) { |*block_args| yield(*block_args) }
               else
@@ -151,7 +153,7 @@ module ActiveRecord
         end
 
         def find_target
-          records = @reflection.klass.find(:all,
+          @reflection.klass.find(:all,
             :select     => construct_select,
             :conditions => construct_conditions,
             :from       => construct_from,
@@ -162,9 +164,6 @@ module ActiveRecord
             :readonly   => @reflection.options[:readonly],
             :include    => @reflection.options[:include] || @reflection.source_reflection.options[:include]
           )
-
-          records.uniq! if @reflection.options[:uniq]
-          records
         end
 
         # Construct attributes for associate pointing to owner.
@@ -213,7 +212,8 @@ module ActiveRecord
         end
 
         def construct_select(custom_select = nil)
-          selected = custom_select || @reflection.options[:select] || "#{@reflection.quoted_table_name}.*"
+          distinct = "DISTINCT " if @reflection.options[:uniq]
+          selected = custom_select || @reflection.options[:select] || "#{distinct}#{@reflection.quoted_table_name}.*"
         end
 
         def construct_joins(custom_joins = nil)

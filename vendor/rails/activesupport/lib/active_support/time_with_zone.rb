@@ -63,7 +63,7 @@ module ActiveSupport
   
     # Time uses #zone to display the time zone abbreviation, so we're duck-typing it
     def zone
-      period.abbreviation.to_s
+      period.zone_identifier.to_s
     end
   
     def inspect
@@ -80,7 +80,11 @@ module ActiveSupport
     end
     
     def to_yaml(options = {})
-      time.to_yaml(options).gsub('Z', formatted_offset(true, 'Z'))
+      if options.kind_of?(YAML::Emitter)
+        utc.to_yaml(options)
+      else
+        time.to_yaml(options).gsub('Z', formatted_offset(true, 'Z'))
+      end
     end
     
     def httpdate
@@ -139,7 +143,7 @@ module ActiveSupport
       end
     end
     
-    %w(asctime day hour min mon sec usec wday yday year).each do |name|
+    %w(asctime day hour min mon sec usec wday yday year to_date).each do |name|
       define_method(name) do
         time.__send__(name)
       end

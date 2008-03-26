@@ -41,7 +41,7 @@ module ActiveRecord
         delete(@target)
         reset_target!
       end
-
+      
       # Calculate sum using SQL, not Enumerable
       def sum(*args)
         if block_given?
@@ -168,8 +168,10 @@ module ActiveRecord
             else
               super
             end
-          else
-            @reflection.klass.send(:with_scope, construct_scope) do
+          elsif @reflection.klass.scopes.include?(method)
+            @reflection.klass.scopes[method].call(self, *args)
+          else          
+            with_scope(construct_scope) do
               if block_given?
                 @reflection.klass.send(method, *args) { |*block_args| yield(*block_args) }
               else
@@ -202,6 +204,7 @@ module ActiveRecord
       private
 
         def create_record(attrs)
+          attrs.update(@reflection.options[:conditions]) if @reflection.options[:conditions].is_a?(Hash)
           ensure_owner_is_not_new
           record = @reflection.klass.send(:with_scope, :create => construct_scope[:create]) { @reflection.klass.new(attrs) }
           if block_given?
@@ -212,6 +215,7 @@ module ActiveRecord
         end
 
         def build_record(attrs)
+          attrs.update(@reflection.options[:conditions]) if @reflection.options[:conditions].is_a?(Hash)
           record = @reflection.klass.new(attrs)
           if block_given?
             add_record_to_target_with_callbacks(record) { |*block_args| yield(*block_args) }
