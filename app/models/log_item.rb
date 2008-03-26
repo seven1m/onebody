@@ -25,6 +25,8 @@ class LogItem < ActiveRecord::Base
   belongs_to :reviewed_by, :class_name => 'Person', :foreign_key => 'reviewed_by'
   belongs_to :site
   
+  serialize :changes
+  
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   def object
@@ -96,8 +98,6 @@ class LogItem < ActiveRecord::Base
     id = "#{instance_id}.tn.jpg"
     "/#{controller}/#{action}/#{id}"
   end
-  
-  serialize :changes
   
   def showable_change_keys
     return [] if deleted?

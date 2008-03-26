@@ -1,4 +1,4 @@
-class SettingsController < ApplicationController
+class Admin::SettingsController < ApplicationController
   verify :method => :post, :only => :edit
   
   def index

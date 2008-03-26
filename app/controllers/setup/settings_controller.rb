@@ -1,4 +1,4 @@
-class Setup::SettingsController < SetupBaseController
+class Setup::SettingsController < Setup::BaseController
   verify :method => :post, :only => %w(edit)
 
   def view
@@ -7,7 +7,7 @@ class Setup::SettingsController < SetupBaseController
       false,
       :order => 'section, name'
     ).group_by &:section
-    render :template => 'settings/index'
+    render :template => 'admin/settings/index'
   end
   
   def edit
@@ -31,7 +31,7 @@ class Setup::SettingsController < SetupBaseController
     rescue
       render :text => 'Could not establish database connection or database not up-to-date.', :layout => true
     else
-      render :template => 'settings/index'
+      render :template => 'admin/settings/index'
     end
   end
 end

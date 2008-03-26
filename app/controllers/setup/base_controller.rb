@@ -1,9 +1,9 @@
-class SetupBaseController < ApplicationController
+class Setup::BaseController < ActionController::Base
   skip_before_filter :get_site, :authenticate_user
   before_filter :check_setup_env, :check_auth, :get_info, :except => %w(not_local_or_secret_not_given authorize_ip)
   
   layout "setup"
-
+  
   private
     def check_setup_env
       unless RAILS_ENV == 'setup'

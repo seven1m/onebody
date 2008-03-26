@@ -1,4 +1,4 @@
-class AdminController < ApplicationController
+class Admin::DashboardController < ApplicationController
   before_filter :only_admins
   
   RECORD_LIMIT = 50
@@ -132,7 +132,7 @@ class AdminController < ApplicationController
   
   def membership_requests
     raise 'Unauthorized' unless @logged_in.admin?(:manage_groups)
-    @reqs_by_group = MembershipRequest.find(:all).select { |r| r.group }.group_by &:group
+    @reqs_by_group = MembershipRequest.find(:all).group_by &:group
   end
   
   def edit_attribute

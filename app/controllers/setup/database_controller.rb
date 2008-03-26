@@ -1,4 +1,4 @@
-class Setup::DatabaseController < SetupBaseController
+class Setup::DatabaseController < Setup::BaseController
   verify :method => :post, :only => %w(migrate edit)
   
   def index

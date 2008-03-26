@@ -1,4 +1,4 @@
-class Setup::SitesController < SetupBaseController
+class Setup::SitesController < Setup::BaseController
   verify :method => :post, :only => %w(edit_multisite delete)
 
   def index

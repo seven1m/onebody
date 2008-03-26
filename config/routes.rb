@@ -85,6 +85,7 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'groups' do |m|
     m.groups 'groups', :action => 'index'
     m.group 'groups/view/:id', :action => 'view'
+    m.group_membership_requests 'groups/membership_requests/:id', :action => 'membership_requests'
   end
   
   map.with_options :controller => 'messages' do |m|
@@ -104,7 +105,11 @@ ActionController::Routing::Routes.draw do |map|
     m.event 'events/view/:id', :action => 'view'
   end
   
-  map.with_options :controller => 'settings' do |m|
+  map.with_options :controller => 'admin/dashboard' do |m|
+    m.admin 'admin', :action => 'index'
+  end
+  
+  map.with_options :controller => 'admin/settings' do |m|
     m.settings 'admin/settings', :action => 'index'
   end
   

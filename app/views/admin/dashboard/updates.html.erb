@@ -86,5 +86,5 @@
 <% unless params[:complete] or @unapproved_groups.empty? %>
   <h2>Groups Pending Approval</h2>
   <p>The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
-  pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, :controller => 'groups', :action => 'view', :id => g) }.join(', ') %>
+  pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, group_path(:id => g)) }.join(', ') %>
 <% end %>

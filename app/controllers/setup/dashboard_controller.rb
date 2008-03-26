@@ -1,4 +1,4 @@
-class Setup::DashboardController < SetupBaseController
+class Setup::DashboardController < Setup::BaseController
   
   def index
     begin
