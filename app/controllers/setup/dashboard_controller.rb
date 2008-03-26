@@ -1,7 +1,11 @@
 class Setup::DashboardController < SetupBaseController
   
   def index
-    @sites = Site.find(:all, :order => 'name') rescue []
+    begin
+      @sites = Site.find(:all, :order => 'name')
+    rescue
+      @sites = []
+    end
   end
   
   def environment
