@@ -1,0 +1,8 @@
+production:
+  adapter: mysql
+  host: localhost
+  database: onebody
+  username: root
+  password:
+
+# we don't want our app running in development or test mode

@@ -1,0 +1,29 @@
+h1. Deployment
+
+Some ways of deploying OneBody in a production environment.
+
+h2. Capistrano
+
+# Copy config/deploy.rb.example to deploy.rb and edit.
+# Log into server
+# Create /var/www/apps directory.
+# Create "deploy" user.
+# <pre>
+    mysql -uroot -p
+    mysql> create database onebody;
+    mysql> grant all on onebody.* to onebody@localhost identified by 'onebody';
+  </pre>
+# Copy public key to /home/deploy/.ssh/authorized_keys
+# <pre>
+    cap deploy:setup
+    cap deploy:update
+  </pre>
+# edit shared/config/database.yml
+# <pre>
+    cap deploy:migrate
+    cap deploy:start
+  </pre>
+
+Try to hit http://localhost:8000 
+
+cap deploy:stop

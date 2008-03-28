@@ -10,3 +10,4 @@ setup-secret
 config/database.yml.backup
 db/*.backup.*
 Scheduler.pid
+config/deploy.rb

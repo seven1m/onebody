@@ -1,0 +1,19 @@
+set :application, "onebody"
+
+set :user, 'deploy'
+set :runner, user
+
+set :scm, :git
+set :repository,  "git://github.com/seven1m/onebody.git"
+set :repository_cache, 'git_cache'
+set :deploy_via, :remote_cache
+set :deploy_to, "/var/www/apps/#{application}"
+
+role :app, 'beonebody.org:2222'
+role :web, 'beonebody.org:2222'
+role :db,  'beonebody.org:2222', :primary => true
+
+set :thin_servers, 1
+set :thin_port, 8000
+set :rails_env, 'production'
+set :use_sudo, false
