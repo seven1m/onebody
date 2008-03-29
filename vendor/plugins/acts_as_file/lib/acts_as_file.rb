@@ -41,13 +41,12 @@ module Foo
             
             def file_name
               return nil unless id
-              directory = File.join(RAILS_ROOT, '#{storage_path}')
-              matches = Dir.new(directory).grep(Regexp.new('^' + id.to_s + '.'))
+              matches = Dir.new('#{storage_path}').grep(Regexp.new('^' + id.to_s + '.'))
               matches.any? ? matches.first : nil
             end
             
             def file_path
-              file_name ? File.join(RAILS_ROOT, '#{storage_path}', file_name) : nil
+              file_name ? File.join('#{storage_path}', file_name) : nil
             end
             
             def file_content_type
@@ -64,7 +63,7 @@ module Foo
                 else # not a file I know how to handle
                   return false
                 end
-                output_path = File.join(RAILS_ROOT, '#{storage_path}', id.to_s + '.' + filename.split('.').last.downcase)
+                output_path = File.join('#{storage_path}', id.to_s + '.' + filename.split('.').last.downcase)
                 File.open(output_path, 'w') do |f|
                   f.write(file)
                 end
