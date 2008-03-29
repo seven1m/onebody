@@ -41,6 +41,35 @@ namespace :deploy do
 end
 
 namespace :onebody do
+  
+  namespace :setup do
+    desc 'Starts a thin server in setup mode on port 7999 (by default).'
+    task :start do
+      as = fetch(:runner, 'app')
+      via = fetch(:run_method, :sudo)
+      port = fetch(:setup_port, 7999)
+      env = 'setup'
+      cmd = "sh -c 'cd #{current_path} && thin start -d -e #{env} -p #{port} -P #{shared_path}/pids/thin-setup.pid -l #{shared_path}/log/thin-setup.log'"
+      invoke_command cmd, :via => via, :as => as
+    end
+    
+    desc 'Stops the thin server in setup mode.'
+    task :stop do
+      as = fetch(:runner, 'app')
+      via = fetch(:run_method, :sudo)
+      port = fetch(:setup_port, 7999)
+      cmd = "sh -c 'cd #{current_path} && thin stop -p #{port} -P #{shared_path}/pids/thin-setup.pid'"
+      invoke_command cmd, :via => via, :as => as
+    end
+    
+    desc 'Retrieve the setup authorization secret.'
+    task :secret do
+      secret = run_and_return("cat #{current_path}/setup-secret")
+      puts
+      puts 'The setup secret is:'
+      puts secret
+    end
+  end
 
   namespace :shared do
     task :setup do
