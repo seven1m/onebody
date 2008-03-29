@@ -96,10 +96,15 @@ namespace :onebody do
     end
     after 'deploy:update_code', 'onebody:shared:point_db_dirs'
     
+    desc 'Copy images, etc. from current release to shared path.'
     task :update_public_files do
-      run "cp -r #{release_path}/public/*   #{shared_path}/public/"
+      run "cp -r #{current_path}/public/* #{shared_path}/public/"
     end
-    after 'onebody:shared_setup', 'onebody:shared:update_public_files'
+
+    desc 'Copy tasks from current release to shared path.'
+    task :update_task_files do
+      run "cp -r #{current_path}/db/tasks/* #{shared_path}/db/tasks/"
+    end
     
     task :create_symlinks do
       %w(config/database.yml public).each do |file|
