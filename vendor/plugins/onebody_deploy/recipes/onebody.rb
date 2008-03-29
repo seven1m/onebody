@@ -44,7 +44,7 @@ namespace :onebody do
   
   namespace :setup do
     desc 'Starts a thin server in setup mode on port 7999 (by default).'
-    task :start do
+    task :start, :roles => :app do
       as = fetch(:runner, 'app')
       via = fetch(:run_method, :sudo)
       port = fetch(:setup_port, 7999)
@@ -54,7 +54,7 @@ namespace :onebody do
     end
     
     desc 'Stops the thin server in setup mode.'
-    task :stop do
+    task :stop, :roles => :app do
       as = fetch(:runner, 'app')
       via = fetch(:run_method, :sudo)
       port = fetch(:setup_port, 7999)
@@ -62,13 +62,40 @@ namespace :onebody do
       invoke_command cmd, :via => via, :as => as
     end
     
-    desc 'Retrieve the setup authorization secret.'
-    task :secret do
+    desc 'Retrieves the setup authorization secret.'
+    task :secret, :roles => :app do
       secret = run_and_return("cat #{current_path}/setup-secret")
       puts
       puts 'The setup secret is:'
       puts secret
     end
+  end
+  
+  namespace :scheduler do
+    
+    desc 'Starts the Scheduler daemon.'
+    task :start, :roles => :app do
+      as = fetch(:runner, 'app')
+      via = fetch(:run_method, :sudo)
+      env = fetch(:rails_env, 'production')
+      cmd = "sh -c 'cd #{current_path} && script/scheduler start #{env}'"
+      invoke_command cmd, :via => via, :as => as
+    end   
+     
+    desc 'Stops the Scheduler daemon.'
+    task :stop, :roles => :app do
+      as = fetch(:runner, 'app')
+      via = fetch(:run_method, :sudo)
+      cmd = "sh -c 'cd #{current_path} && script/scheduler stop'"
+      invoke_command cmd, :via => via, :as => as
+    end
+    
+    desc 'Restarts the Scheduler daemon.'
+    task :restart, :roles => :app do
+      stop
+      start
+    end
+    
   end
 
   namespace :shared do
@@ -101,10 +128,10 @@ namespace :onebody do
     end
     after 'deploy:update_code', 'onebody:shared:update_public_files'
 
-    desc 'Copy tasks from current release to shared path.'
-    task :update_task_files do
+    task :update_tasks do
       run "cp -r #{current_path}/db/tasks/* #{shared_path}/db/tasks/"
     end
+    after 'onebody:shared:update_public_files', 'onebody:shared:update_tasks'
     
     task :create_symlinks do
       %w(config/database.yml public).each do |file|
@@ -112,7 +139,8 @@ namespace :onebody do
         run "ln -s #{shared_path}/#{file} #{release_path}/#{file}"
       end
     end
-    after 'onebody:shared:update_public_files', 'onebody:shared:create_symlinks'
+    after 'onebody:shared:update_tasks', 'onebody:shared:create_symlinks'
+
   end
   
 end
