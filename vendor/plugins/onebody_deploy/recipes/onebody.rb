@@ -96,10 +96,10 @@ namespace :onebody do
     end
     after 'deploy:update_code', 'onebody:shared:point_db_dirs'
     
-    desc 'Copy images, etc. from current release to shared path.'
     task :update_public_files do
-      run "cp -r #{current_path}/public/* #{shared_path}/public/"
+      run "cp -r #{release_path}/public/* #{shared_path}/public/"
     end
+    after 'deploy:update_code', 'onebody:shared:update_public_files'
 
     desc 'Copy tasks from current release to shared path.'
     task :update_task_files do
@@ -112,7 +112,7 @@ namespace :onebody do
         run "ln -s #{shared_path}/#{file} #{release_path}/#{file}"
       end
     end
-    after 'deploy:update_code', 'onebody:shared:create_symlinks'
+    after 'onebody:shared:update_public_files', 'onebody:shared:create_symlinks'
   end
   
 end
