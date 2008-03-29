@@ -7,6 +7,6 @@ Rails::Initializer.run do |config|
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
-DB_PHOTO_PATH = 'db/photos' unless defined? DB_PHOTO_PATH
-DB_PUBLICATIONS_PATH = 'db/publications' unless defined? DB_PUBLICATIONS_PATH
-DB_TASKS_PATH = 'db/tasks' unless defined? DB_TASKS_PATH
+DB_PHOTO_PATH = File.join(RAILS_ROOT, 'db/photos') unless defined? DB_PHOTO_PATH
+DB_PUBLICATIONS_PATH = File.join(RAILS_ROOT, 'db/publications') unless defined? DB_PUBLICATIONS_PATH
+DB_TASKS_PATH = File.join(RAILS_ROOT, 'db/tasks') unless defined? DB_TASKS_PATH

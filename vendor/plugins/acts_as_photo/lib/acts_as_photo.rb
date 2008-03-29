@@ -15,8 +15,7 @@ module Foo
           sizes.each do |name, dimensions|
             class_eval <<-END
               def photo_#{name.to_s}_path
-                filename = id.to_s + ".#{name.to_s}.jpg"
-                #{storage_path =~ /^\// ? "File.join('#{storage_path}', filename)" : "File.join(RAILS_ROOT, '#{storage_path}', filename)"}
+                File.join('#{storage_path}', id.to_s + ".#{name.to_s}.jpg")
               end
             END
           end
@@ -28,7 +27,7 @@ module Foo
             end
             
             def photo_path
-              File.join(RAILS_ROOT, '#{storage_path}', id.to_s + '.jpg')
+              File.join('#{storage_path}', id.to_s + '.jpg')
             end
             
             def photo_path_from_id(id)
