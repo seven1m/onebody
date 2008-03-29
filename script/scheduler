@@ -3,10 +3,13 @@
 RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 require File.join(RAILS_ROOT, 'vendor/daemon')
 
+links_filename = File.join(RAILS_ROOT, 'config/initializers/links.rb')
+load links_filename if File.exists?(links_filename)
+
 require 'time'
 
 class Scheduler < Daemon::Base
-  TASKS_DIR = File.join(RAILS_ROOT, 'db/tasks')
+  TASKS_DIR = defined?(DB_TASKS_PATH) ? DB_TASKS_PATH : File.join(RAILS_ROOT, 'db/tasks')
   DELAY = 15
   MINUTE = 60
   HOUR = 60 * MINUTE

@@ -58,7 +58,7 @@ class DirectoryController < ApplicationController
           end
         end
       else
-        job_path = File.join(RAILS_ROOT, 'db/tasks/now', @logged_in.id.to_s)
+        job_path = File.join(DB_TASKS_PATH, 'now', @logged_in.id.to_s)
         cmd = "RAILS_ROOT/script/runner -e RAILS_ENV \"Site.current = Site.find(#{Site.current.id}); File.open('#{filename}', 'wb') { |f| f.write Person.find(#{@logged_in.id}).generate_directory_pdf }\""
         begin
           File.open(job_path, 'w') { |f| f.write(cmd) }
