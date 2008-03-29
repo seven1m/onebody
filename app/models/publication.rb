@@ -17,7 +17,7 @@ class Publication < ActiveRecord::Base
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
-  acts_as_file 'db/publications'
+  acts_as_file DB_PUBLICATIONS_PATH
   acts_as_logger LogItem
   
   def pseudo_file_name

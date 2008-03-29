@@ -11,7 +11,7 @@
 
 namespace :deploy do
   
-  desc 'Starts one or more thin servers running the application as specified in the deploy.rb file.'
+  desc 'Starts one or more thin servers.'
   task :start, :roles => :app do
     as = fetch(:runner, 'app')
     via = fetch(:run_method, :sudo)
@@ -32,39 +32,53 @@ namespace :deploy do
     invoke_command cmd, :via => via, :as => as
   end
   
+  desc 'Restarts the thin server(s).'
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    stop
+    start
+  end
+  
 end
 
 namespace :onebody do
 
   namespace :shared do
     task :setup do
-      run "mkdir -p #{shared_path}/db/photos"
+      run "mkdir -p #{shared_path}/db/photos/families"
+      run "mkdir -p #{shared_path}/db/photos/groups"
+      run "mkdir -p #{shared_path}/db/photos/people"
+      run "mkdir -p #{shared_path}/db/photos/pictures"
+      run "mkdir -p #{shared_path}/db/photos/recipes"
       run "mkdir -p #{shared_path}/db/publications"
       run "mkdir -p #{shared_path}/db/tasks"
       run "mkdir -p #{shared_path}/config"
       run "mkdir -p #{shared_path}/public"
       run "mkdir -p #{shared_path}/themes"
       unless run_and_return("ls #{shared_path}/config").match(/database\.yml/)
-        yml = File.read(File.dirname(__FILE__) + "/templates/database.yml")
+        yml = File.read(File.dirname(__FILE__) + '/templates/database.yml')
         put yml, "#{shared_path}/config/database.yml"
       end
     end
     after 'deploy:setup', 'onebody:shared:setup'
     
-    task :update_files do
-      run "cp -r #{release_path}/db/tasks/* #{shared_path}/db/tasks/"
-      run "cp -r #{release_path}/public/*   #{shared_path}/public/"
-      run "cp -r #{release_path}/themes/*   #{shared_path}/themes/"
+    task :point_db_dirs do
+      rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
+      put rb, "#{release_path}/config/initializers/links.rb"
     end
-    after 'deploy:update_code', 'onebody:shared:update_files'
+    after 'deploy:update_code', 'onebody:shared:point_db_dirs'
+    
+    task :update_public_files do
+      run "cp -r #{release_path}/public/*   #{shared_path}/public/"
+    end
+    after 'onebody:shared_setup', 'onebody:shared:update_public_files'
     
     task :create_symlinks do
-      %w(config/database.yml db/photos db/publications db/tasks public themes).each do |file|
+      %w(config/database.yml public).each do |file|
         run "rm -rf #{release_path}/#{file}"
         run "ln -s #{shared_path}/#{file} #{release_path}/#{file}"
       end
     end
-    after 'onebody:shared:update_files', 'onebody:shared:create_symlinks'
+    after 'deploy:update_code', 'onebody:shared:create_symlinks'
   end
   
 end

@@ -33,7 +33,7 @@ class Recipe < ActiveRecord::Base
   validates_presence_of :ingredients
   validates_presence_of :directions
     
-  acts_as_photo 'db/photos/recipes', PHOTO_SIZES
+  acts_as_photo "#{DB_PHOTO_PATH}/recipes", PHOTO_SIZES
   acts_as_logger LogItem
   
   alias_method 'photo_without_logging=', 'photo='

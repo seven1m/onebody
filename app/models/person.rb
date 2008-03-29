@@ -108,7 +108,7 @@ class Person < ActiveRecord::Base
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
     
   acts_as_password
-  acts_as_photo '/db/photos/people', PHOTO_SIZES
+  acts_as_photo "#{DB_PHOTO_PATH}/people", PHOTO_SIZES
     
   acts_as_logger LogItem
 

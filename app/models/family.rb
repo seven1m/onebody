@@ -39,7 +39,7 @@ class Family < ActiveRecord::Base
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
-  acts_as_photo '/db/photos/families', PHOTO_SIZES
+  acts_as_photo "#{DB_PHOTO_PATH}/families", PHOTO_SIZES
   acts_as_logger LogItem
   
   alias_method 'photo_without_logging=', 'photo='

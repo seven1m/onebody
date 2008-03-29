@@ -28,7 +28,11 @@ class ApplicationController < ActionController::Base
     end
     
     def update_view_paths
-      self.view_paths = [File.join(RAILS_ROOT, 'themes', Setting.get(:appearance, :theme))] + ActionController::Base.view_paths
+      theme_dirs = [File.join(RAILS_ROOT, 'themes', Setting.get(:appearance, :theme))]
+      if defined? DEPLOY_THEME_DIR
+        theme_dirs = [DEPLOY_THEME_DIR] + theme_dirs
+      end
+      self.view_paths = theme_dirs + ActionController::Base.view_paths
     end
   
     def authenticate_user
