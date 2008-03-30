@@ -59,10 +59,12 @@ module Foo
                 end
                 if img['format'] == 'JPEG'
                   img.write photo_path
+                  File.chmod(0644, photo_path)
                   PHOTO_SIZES.each do |name, dimensions|
                     sized_img = MiniMagick::Image.from_blob(img.to_blob)
                     sized_img.thumbnail dimensions
                     sized_img.write send('photo_' + name.to_s + '_path')
+                    File.chmod(0644, send('photo_' + name.to_s + '_path'))
                   end
                 else
                   return false
@@ -76,6 +78,7 @@ module Foo
                 path = send('photo_' + name.to_s + '_path')
                 img = MiniMagick::Image.from_blob(File.read(path))
                 img.rotate(degrees).write(path)
+                File.chmod(0644, path)
               end
             end
             

@@ -44,7 +44,7 @@
         <tr>
           <td style="font-size:smaller;line-height:13px;">
             <% if item.reviewed_on %>
-              reviewed by <%= link_to item.reviewed_by.name, :controller => 'people', :action => 'view', :id => item.reviewed_by %>
+              reviewed by <%= link_to item.reviewed_by.name, person_path(:id => item.reviewed_by) %>
               on <%= item.reviewed_on.strftime '%m/%d/%Y %I:%M %p' %>
             <% else %>
               <%= check_box_tag 'log_items[]', item.id, nil, :class => 'checkbox log_item_checkbox' %>
@@ -75,14 +75,14 @@
           <td><%= item.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
           <td style="width:32px;">
             <% if item.person %>
-              <a href="<%= url_for :controller => 'people', :action => 'view', :id => item.person %>">
+              <a href="<%= url_for :controller => '/people', :action => 'view', :id => item.person %>">
                 <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
               </a>
             <% end %>
           </td>
           <td>
             <% if item.person %>
-              <%= link_to item.person.name, :controller => 'people', :action => 'view', :id => item.person %>
+              <%= link_to item.person.name, person_path(:id => item.person) %>
               <% if item.person.admin? %>(admin)<% end %>
             <% end %>
           </td>

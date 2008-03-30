@@ -53,7 +53,7 @@
 				      </li>
               <% if @logged_in.admin? %>
                 <li style="float:right;font-size:smaller;color:#fff;text-align:right;margin-right:10px;">
-                  <%= link_to 'admin', {:controller => 'admin'}, :style => 'padding-left:5px;padding-right:5px;' %>
+                  <%= link_to 'admin', admin_path, :style => 'padding-left:5px;padding-right:5px;' %>
                 </li>
               <% end %>
 				    <% end %>

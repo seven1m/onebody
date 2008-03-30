@@ -23,6 +23,6 @@ h2. Where To Get Help
 
 h2. Copyright
 
-Copyright (C) 2007, "Tim Morgan":http://timmorgan.org
+Copyright (C) 2008, "Tim Morgan":http://timmorgan.org
 
 Please see the license file provided with this program.

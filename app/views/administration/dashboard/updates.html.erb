@@ -16,7 +16,7 @@
     <tr>
       <td>
         <% if update.person %>
-          <a href="<%= url_for :controller => 'people', :action => 'view', :id => update.person %>">
+          <a href="<%= url_for :controller => '/people', :action => 'view', :id => update.person %>">
             <%= render :partial => 'people/thumbnail', :locals => {:person => update.person} %>
           </a>
         <% else %>
@@ -25,7 +25,7 @@
       </td>
       <td>
         <% if update.person %>
-          <%= link_to update.person.name, :controller => 'people', :action => 'view', :id => update.person %>
+          <%= link_to update.person.name, person_path(:id => update.person) %>
         <% else %>
           '(person deleted)'
         <% end %>
