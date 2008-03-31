@@ -339,7 +339,7 @@ class Person < ActiveRecord::Base
       :order => 'created_at desc',
       :conditions => "model_name in ('Verse', 'Recipe', 'Note', 'Picture')",
       :limit => 25
-    ).map { |item| item.object }.select { |o| o.person == self and not (o.respond_to?(:deleted?) and o.deleted?) }
+    ).map { |item| item.object }.select { |o| o and (o.respond_to?(:person_id) ? o.person_id == self.id : o.people.include?(self)) and not (o.respond_to?(:deleted?) and o.deleted?) }
   end
   
   alias_method :groups_without_linkage, :groups
@@ -442,18 +442,20 @@ class Person < ActiveRecord::Base
       :limit => 25,
       :include => :person
     ).select do |item|
-      if !item.object
+      if !(obj = item.object)
         false
-      elsif !(p = item.object.is_a?(Person) ? item.object : item.object.person) or p != item.person
+      elsif item.model_name == 'Verse' and item.person.verses.include?(obj)
+        true
+      elsif !(p = obj.is_a?(Person) ? obj : obj.person) or p != item.person
         false
-      elsif item.object.respond_to?(:deleted?) and item.object.deleted?
+      elsif obj.respond_to?(:deleted?) and obj.deleted?
         false
       elsif item.model_name == 'Person'
-        item.object == self and item.showable_change_keys.any?
+        obj == self and item.showable_change_keys.any?
       elsif item.model_name == 'Friendship'
-        item.object.person != item.person
+        obj.person != item.person
       elsif item.model_name == 'Message'
-        item.object.can_see?(self) and not item.object.to
+        obj.can_see?(self) and not obj.to
       elsif item.model_name == 'Person'
         item.showable_change_keys.any?
       else

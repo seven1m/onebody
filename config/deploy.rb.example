@@ -12,6 +12,7 @@ set :scm, :git
 set :repository, "git://github.com/seven1m/onebody.git"
 set :repository_cache, 'git_cache'
 set :deploy_via, :remote_cache
+
 set :deploy_to, "/var/www/apps/#{application}"
 
 role :app, 'beonebody.org'
@@ -23,4 +24,6 @@ set :thin_port, 8000
 set :rails_env, 'production'
 set :use_sudo, false
 
-# see WEBSERVER.textile for help proxying from your webserver to thin.
+set :setup_port, 7999
+
+set :maintenance_file_path, "#{shared_path}/public/maintenance.html"
