@@ -17,9 +17,9 @@ script/server -e setup
 
 h2. Where To Get Help
 
-* "HowToContribute":http://beonebody.org/trac/wiki/HowToContribute
-* "InstallOneBody":http://beonebody.org/trac/wiki/InstallOneBody
-* "ContactUs":http://beonebody.org/trac/wiki/ContactUs
+* "HowToContribute":http://github.com/seven1m/onebody/wikis/howtocontribute
+* "InstallOneBody":http://github.com/seven1m/onebody/wikis/installonebody
+* "ContactUs":http://github.com/seven1m/onebody/wikis/contactus
 
 h2. Copyright
 
