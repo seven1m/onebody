@@ -5,7 +5,7 @@
 <% if @info.up_to_date.nil? %>
   <h2 class="status">Files</h2>
   <p>This instance of OneBody is at version <%= @info.this_version %>.
-    For help upgrading, visit <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a>
+    For help upgrading, visit <a href="http://github.com/seven1m/onebody/wikis/UpgradeOneBody">UpgradeOneBody</a>
     on the wiki.</p>
 <% elsif @info.up_to_date %>
   <h2 class="status">Files: <strong class="go">Up-to-date</strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
@@ -13,7 +13,7 @@
 <% else %>
   <h2 class="status">Files: <strong class="stop">Need To Upgrade</strong></h2>
   <p>This instance of OneBody seems out of date. For help upgrading, visit
-    <a href="http://beonebody.org/trac/wiki/UpgradeOneBody">UpgradeOneBody</a> on the wiki.</p>
+    <a href="http://github.com/seven1m/onebody/wikis/UpgradeOneBody">UpgradeOneBody</a> on the wiki.</p>
   <% if @info.git_install_method? %>
     <p>(Since this instance of OneBody is installed via Git glone, this may simply indicate that
       you committed changes and some of your files are different than the official revision

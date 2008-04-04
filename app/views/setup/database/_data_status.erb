@@ -6,17 +6,17 @@
   <p>There are currently <%= count %> <%= count == 1 ? 'person' : 'people' %>
     in the database (across all sites).</p>
   <% if sync_date = @info.date_of_last_sync %>
-    <p>It appears your <%= link_to 'Connector', 'http://beonebody.org/trac/wiki/OneBodyConnector' %>
+    <p>It appears your <%= link_to 'Connector', 'http://github.com/seven1m/onebody/wikis/OneBodyConnector' %>
       last synchronized the database <%= sync_date.strftime('%m/%d/%Y %I:%M %p') %>.</p>
   <% else %>
     <p>Note: There is no recorded "sync date" which could indicate that your
-      <%= link_to 'Connector', 'http://beonebody.org/trac/wiki/OneBodyConnector' %> isn't
+      <%= link_to 'Connector', 'http://github.com/seven1m/onebody/wikis/OneBodyConnector' %> isn't
       working properly (OK if you are synchronizing data by some other means).</p>
   <% end %>
 <% else %>
   <h2 class="status">Data: <strong class="stop">None</strong></h2>
   <p>Your database is empty. Please visit
-    <%= link_to 'OneBodyConnector', 'http://beonebody.org/trac/wiki/OneBodyConnector' %>
+    <%= link_to 'OneBodyConnector', 'http://github.com/seven1m/onebody/wikis/OneBodyConnector' %>
     on the wiki for help setting up a Connector and getting data in your database.</p>
   <p>Note: if you really just want to play with OneBody, you can go to the
     <%= link_to 'Database tab', setup_database_url %> and click "Load Sample Data."</p>
