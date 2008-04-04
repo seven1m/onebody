@@ -116,6 +116,10 @@ class Setting < ActiveRecord::Base
       end
     end
     
+    def update_all
+      Setting.update_from_yaml(File.join(RAILS_ROOT, "test/fixtures/settings.yml"))
+    end
+    
     def update_site_from_params(id, params)
       Setting.find_all_by_site_id(id).each do |setting|
         next if setting.hidden?

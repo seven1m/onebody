@@ -503,7 +503,7 @@ class CreateAll < ActiveRecord::Migration
     
     
     Site.current = Site.create :name => 'Default', :host => 'example.com'
-    Setting.update_from_yaml(File.join(RAILS_ROOT, "test/fixtures/settings.yml"))
+    Setting.update_all
     
     Group.create :name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true
   end
