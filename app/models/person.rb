@@ -103,6 +103,8 @@ class Person < ActiveRecord::Base
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :prayer_requests, :order => 'created_at desc'
   has_many :attendance_records
+  has_many :sync_instances, :conditions => ['owner_id = ?', Person.logged_in.id]
+  has_many :remote_accounts
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
@@ -552,6 +554,7 @@ class Person < ActiveRecord::Base
     
     pdf
   end
+
 end
 
 # stolen from ActionView::Helpers::NumberHelper
