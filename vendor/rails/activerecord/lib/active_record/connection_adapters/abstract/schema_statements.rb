@@ -161,12 +161,12 @@ module ActiveRecord
       # an Array of Symbols.
       #
       # The index will be named after the table and the first column name,
-      # unless you pass +:name+ as an option.
+      # unless you pass <tt>:name</tt> as an option.
       #
       # When creating an index on multiple columns, the first column is used as a name
       # for the index. For example, when you specify an index on two columns
-      # [+:first+, +:last+], the DBMS creates an index for both columns as well as an
-      # index for the first column +:first+. Using just the first name for this index
+      # [<tt>:first</tt>, <tt>:last</tt>], the DBMS creates an index for both columns as well as an
+      # index for the first column <tt>:first</tt>. Using just the first name for this index
       # makes sense, because you will never have to create a singular index with this
       # name.
       #
@@ -232,12 +232,20 @@ module ActiveRecord
 
       # Should not be called normally, but this operation is non-destructive.
       # The migrations module handles this automatically.
-      def initialize_schema_information
+      def initialize_schema_information(current_version=0)
         begin
-          execute "CREATE TABLE #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)} (version #{type_to_sql(:integer)})"
-          execute "INSERT INTO #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)} (version) VALUES(0)"
+          execute "CREATE TABLE #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)} (version #{type_to_sql(:string)})"
+          execute "INSERT INTO #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)} (version) VALUES(#{current_version})"
         rescue ActiveRecord::StatementInvalid
-          # Schema has been initialized
+          # Schema has been initialized, make sure version is a string
+          version_column = columns(:schema_info).detect { |c| c.name == "version" }
+          
+          # can't just alter the table, since SQLite can't deal
+          unless version_column.type == :string
+            version = ActiveRecord::Migrator.current_version
+            execute "DROP TABLE #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)}"
+            initialize_schema_information(version)
+          end
         end
       end
 

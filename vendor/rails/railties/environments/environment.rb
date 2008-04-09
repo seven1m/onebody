@@ -20,6 +20,12 @@ Rails::Initializer.run do |config|
   # you must remove the Active Record framework.
   # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
 
+  # Specify gems that this application depends on. 
+  # They can then be installed with rake gem:install on new installations.
+  # config.gem "bj"
+  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
+  # config.gem "aws-s3", :lib => "aws/s3"
+
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -31,6 +37,11 @@ Rails::Initializer.run do |config|
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
+
+  # Make Time.zone default to the specified zone, and make ActiveRecord store time values
+  # in the database in UTC, and return them converted to the specified local zone.
+  # Run `rake -D time` for a list of tasks for finding time zone names. Uncomment to use default local time.
+  config.time_zone = 'UTC'
 
   # Your secret key for verifying cookie session data integrity.
   # If you change this key, all old sessions will become invalid!
@@ -53,9 +64,4 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-
-  # Make Time.zone default to the specified zone, and make ActiveRecord store time values
-  # in the database in UTC, and return them converted to the specified local zone.
-  # Run `rake -D time` for a list of tasks for finding time zone names.
-  # config.time_zone = 'UTC'
 end

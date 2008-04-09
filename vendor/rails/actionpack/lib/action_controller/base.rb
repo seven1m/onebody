@@ -316,9 +316,10 @@ module ActionController #:nodoc:
     # A YAML parser is also available and can be turned on with:
     #
     #   ActionController::Base.param_parsers[Mime::YAML] = :yaml
-    @@param_parsers = { Mime::MULTIPART_FORM => :multipart_form,
+    @@param_parsers = { Mime::MULTIPART_FORM   => :multipart_form,
                         Mime::URL_ENCODED_FORM => :url_encoded_form,
-                        Mime::XML => :xml_simple }
+                        Mime::XML              => :xml_simple,
+                        Mime::JSON             => :json }
     cattr_accessor :param_parsers
 
     # Controls the default charset for all renders.
@@ -836,12 +837,12 @@ module ActionController #:nodoc:
         if options.nil?
           return render_for_file(default_template_name, nil, true)
         elsif !extra_options.is_a?(Hash)
-          raise RenderError, "You called render with invalid options : #{options}, #{extra_options}"
+          raise RenderError, "You called render with invalid options : #{options.inspect}, #{extra_options.inspect}"
         else
           if options == :update
             options = extra_options.merge({ :update => true })
           elsif !options.is_a?(Hash)
-            raise RenderError, "You called render with invalid options : #{options}"
+            raise RenderError, "You called render with invalid options : #{options.inspect}"
           end
         end
 

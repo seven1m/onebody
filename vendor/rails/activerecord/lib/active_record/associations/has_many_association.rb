@@ -1,19 +1,6 @@
 module ActiveRecord
   module Associations
     class HasManyAssociation < AssociationCollection #:nodoc:
-      def initialize(owner, reflection)
-        super
-        construct_sql
-      end
-
-      def build(attributes = {})
-        if attributes.is_a?(Array)
-          attributes.collect { |attr| build(attr) }
-        else
-          build_record(attributes) { |record| set_belongs_to_association_for(record) }
-        end
-      end
-
       # Count the number of associated records. All arguments are optional.
       def count(*args)
         if @reflection.options[:counter_sql]
@@ -31,62 +18,7 @@ module ActiveRecord
         end
       end
 
-      def find(*args)
-        options = args.extract_options!
-
-        # If using a custom finder_sql, scan the entire collection.
-        if @reflection.options[:finder_sql]
-          expects_array = args.first.kind_of?(Array)
-          ids           = args.flatten.compact.uniq.map(&:to_i)
-
-          if ids.size == 1
-            id = ids.first
-            record = load_target.detect { |r| id == r.id }
-            expects_array ? [ record ] : record
-          else
-            load_target.select { |r| ids.include?(r.id) }
-          end
-        else
-          conditions = "#{@finder_sql}"
-          if sanitized_conditions = sanitize_sql(options[:conditions])
-            conditions << " AND (#{sanitized_conditions})"
-          end
-          options[:conditions] = conditions
-
-          if options[:order] && @reflection.options[:order]
-            options[:order] = "#{options[:order]}, #{@reflection.options[:order]}"
-          elsif @reflection.options[:order]
-            options[:order] = @reflection.options[:order]
-          end
-
-          merge_options_from_reflection!(options)
-
-          # Pass through args exactly as we received them.
-          args << options
-          @reflection.klass.find(*args)
-        end
-      end
-
       protected
-        def load_target
-          if !@owner.new_record? || foreign_key_present
-            begin
-              if !loaded?
-                if @target.is_a?(Array) && @target.any?
-                  @target = (find_target + @target).uniq
-                else
-                  @target = find_target
-                end
-              end
-            rescue ActiveRecord::RecordNotFound
-              reset
-            end
-          end
-
-          loaded if target
-          target
-        end
-
         def count_records
           count = if has_cached_counter?
             @owner.send(:read_attribute, cached_counter_attribute_name)

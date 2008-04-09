@@ -350,7 +350,7 @@ module ActiveResource
       #
       def element_path(id, prefix_options = {}, query_options = nil)
         prefix_options, query_options = split_options(prefix_options) if query_options.nil?
-        "#{prefix(prefix_options)}#{collection_name}/#{id}.#{format.extension}#{query_string(query_options)}"
+        "#{prefix(prefix_options)}#{collection_name}/#{id}.#{format.extension}#{query_string(query_options)}"        
       end
 
       # Gets the collection path for the REST resources.  If the +query_options+ parameter is omitted, Rails
@@ -606,6 +606,43 @@ module ActiveResource
       load(attributes)
     end
 
+    # Returns a clone of the resource that hasn't been assigned an id yet and
+    # is treated as a new resource.
+    #
+    #  ryan = Person.find(1)
+    #  not_ryan = ryan.clone
+    #  not_ryan.new?  # => true
+    #
+    # Any active resource member attributes will NOT be cloned, though all other
+    # attributes are.  This is to prevent the conflict between any prefix_options
+    # that refer to the original parent resource and the newly cloned parent
+    # resource that does not exist.
+    #
+    #  ryan = Person.find(1)
+    #  ryan.address = StreetAddress.find(1, :person_id => ryan.id)
+    #  ryan.hash = {:not => "an ARes instance"}
+    #
+    #  not_ryan = ryan.clone
+    #  not_ryan.new?            # => true
+    #  not_ryan.address         # => NoMethodError
+    #  not_ryan.hash            # => {:not => "an ARes instance"}
+    #
+    def clone
+      # Clone all attributes except the pk and any nested ARes
+      cloned = attributes.reject {|k,v| k == self.class.primary_key || v.is_a?(ActiveResource::Base)}.inject({}) do |attrs, (k, v)|
+        attrs[k] = v.clone
+        attrs
+      end
+      # Form the new resource - bypass initialize of resource with 'new' as that will call 'load' which
+      # attempts to convert hashes into member objects and arrays into collections of objects.  We want
+      # the raw objects to be cloned so we bypass load by directly setting the attributes hash.
+      resource = self.class.new({})
+      resource.prefix_options = self.prefix_options
+      resource.send :instance_variable_set, '@attributes', cloned
+      resource
+    end
+
+
     # A method to determine if the resource a new object (i.e., it has not been POSTed to the remote service yet).
     #
     # ==== Examples
@@ -760,7 +797,7 @@ module ActiveResource
     #   that_guy.exists?
     #   # => false
     def exists?
-      !new? && self.class.exists?(id, :params => prefix_options)
+      !new? && self.class.exists?(to_param, :params => prefix_options)      
     end
 
     # A method to convert the the resource to an XML string.
@@ -807,7 +844,7 @@ module ActiveResource
     #   my_branch.name
     #   # => Wilson Road
     def reload
-      self.load(self.class.find(id, :params => @prefix_options).attributes)
+      self.load(self.class.find(to_param, :params => @prefix_options).attributes)
     end
 
     # A method to manually load attributes from a hash. Recursively loads collections of
@@ -903,7 +940,7 @@ module ActiveResource
       end
 
       def element_path(options = nil)
-        self.class.element_path(id, options || prefix_options)
+        self.class.element_path(to_param, options || prefix_options)
       end
 
       def collection_path(options = nil)

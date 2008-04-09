@@ -1,5 +1,34 @@
 *SVN*
 
+* Automatically parse posted JSON content for Mime::JSON requests.  [rick]
+
+  POST /posts
+  {"post": {"title": "Breaking News"}}
+
+  def create
+    @post = Post.create params[:post]
+    # ...
+  end
+
+* add json_escape ERB util to escape html entities in json strings that are output in HTML pages. [rick]
+
+* Provide a helper proxy to access helper methods from outside views. Closes #10839 [Josh Peek]
+  e.g. ApplicationController.helpers.simple_format(text)
+
+* Improve documentation. [Xavier Noria, leethal, jerome]
+
+* Ensure RJS redirect_to doesn't html-escapes string argument. Closes #8546 [josh, eventualbuddha, Pratik]
+
+* Support render :partial => collection of heterogeneous elements.  #11491 [Zach Dennis]
+
+* Avoid remote_ip spoofing.  [Brian Candler]
+
+* Added support for regexp flags like ignoring case in the :requirements part of routes declarations #11421 [NeilW]
+
+* Fixed that ActionController::Base#read_multipart would fail if boundary was exactly 10240 bytes #10886 [ariejan]
+
+* Fixed HTML::Tokenizer (used in sanitize helper) didn't handle unclosed CDATA tags #10071 [esad, packagethief]
+
 * Improve documentation. [Radar, Jan De Poorter, chuyeow, xaviershay, danger, miloops, Xavier Noria,  Sunny Ripert]
 
 * Fixed that FormHelper#radio_button would produce invalid ids #11298 [harlancrystal]

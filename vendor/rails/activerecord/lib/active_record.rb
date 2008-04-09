@@ -55,12 +55,15 @@ require 'active_record/schema'
 require 'active_record/calculations'
 require 'active_record/serialization'
 require 'active_record/attribute_methods'
+require 'active_record/dirty'
 
 ActiveRecord::Base.class_eval do
   extend ActiveRecord::QueryCache
   include ActiveRecord::Validations
   include ActiveRecord::Locking::Optimistic
   include ActiveRecord::Locking::Pessimistic
+  include ActiveRecord::AttributeMethods
+  include ActiveRecord::Dirty
   include ActiveRecord::Callbacks
   include ActiveRecord::Observing
   include ActiveRecord::Timestamp
@@ -72,7 +75,6 @@ ActiveRecord::Base.class_eval do
   include ActiveRecord::Reflection
   include ActiveRecord::Calculations
   include ActiveRecord::Serialization
-  include ActiveRecord::AttributeMethods
 end
 
 require 'active_record/connection_adapters/abstract_adapter'

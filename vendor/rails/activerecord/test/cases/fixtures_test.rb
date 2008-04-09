@@ -180,7 +180,9 @@ class FixturesTest < ActiveRecord::TestCase
 
   def test_binary_in_fixtures
     assert_equal 1, @binaries.size
-    data = File.open(ASSETS_ROOT + "/flowers.jpg", "rb").read.freeze
+    data = File.read(ASSETS_ROOT + "/flowers.jpg")
+    data.force_encoding('ASCII-8BIT') if data.respond_to?(:force_encoding)
+    data.freeze
     assert_equal data, @flowers.data
   end
 end
@@ -355,9 +357,12 @@ class ForeignKeyFixturesTest < ActiveRecord::TestCase
   end
 end
 
-class SetTableNameFixturesTest < ActiveRecord::TestCase
+class CheckSetTableNameFixturesTest < ActiveRecord::TestCase
   set_fixture_class :funny_jokes => 'Joke'
   fixtures :funny_jokes
+  # Set to false to blow away fixtures cache and ensure our fixtures are loaded 
+  # and thus takes into account our set_fixture_class
+  self.use_transactional_fixtures = false
 
   def test_table_method
     assert_kind_of Joke, funny_jokes(:a_joke)
@@ -367,6 +372,9 @@ end
 class CustomConnectionFixturesTest < ActiveRecord::TestCase
   set_fixture_class :courses => Course
   fixtures :courses
+  # Set to false to blow away fixtures cache and ensure our fixtures are loaded 
+  # and thus takes into account our set_fixture_class
+  self.use_transactional_fixtures = false
 
   def test_connection
     assert_kind_of Course, courses(:ruby)
@@ -376,6 +384,9 @@ end
 
 class InvalidTableNameFixturesTest < ActiveRecord::TestCase
   fixtures :funny_jokes
+  # Set to false to blow away fixtures cache and ensure our fixtures are loaded 
+  # and thus takes into account our lack of set_fixture_class
+  self.use_transactional_fixtures = false
 
   def test_raises_error
     assert_raises FixtureClassNotFound do
@@ -387,6 +398,9 @@ end
 class CheckEscapedYamlFixturesTest < ActiveRecord::TestCase
   set_fixture_class :funny_jokes => 'Joke'
   fixtures :funny_jokes
+  # Set to false to blow away fixtures cache and ensure our fixtures are loaded 
+  # and thus takes into account our set_fixture_class
+  self.use_transactional_fixtures = false
 
   def test_proper_escaped_fixture
     assert_equal "The \\n Aristocrats\nAte the candy\n", funny_jokes(:another_joke).name

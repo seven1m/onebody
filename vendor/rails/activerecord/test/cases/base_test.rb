@@ -1,6 +1,8 @@
 require "cases/helper"
+require 'models/author'
 require 'models/topic'
 require 'models/reply'
+require 'models/category'
 require 'models/company'
 require 'models/customer'
 require 'models/developer'
@@ -11,6 +13,7 @@ require 'models/column_name'
 require 'models/subscriber'
 require 'models/keyboard'
 require 'models/post'
+require 'models/comment'
 require 'models/minimalistic'
 require 'models/warehouse_thing'
 require 'rexml/document'
@@ -72,7 +75,7 @@ class TopicWithProtectedContentAndAccessibleAuthorName < ActiveRecord::Base
 end
 
 class BasicsTest < ActiveRecord::TestCase
-  fixtures :topics, :companies, :developers, :projects, :computers, :accounts, :minimalistics, 'warehouse-things'
+  fixtures :topics, :companies, :developers, :projects, :computers, :accounts, :minimalistics, 'warehouse-things', :authors
 
   def test_table_exists
     assert !NonExistentTable.table_exists?
@@ -150,6 +153,7 @@ class BasicsTest < ActiveRecord::TestCase
 
     assert_equal 2, Topic.find(topic.id).content["two"]
 
+    topic.content_will_change!
     topic.content["three"] = 3
     topic.save
 
@@ -970,25 +974,23 @@ class BasicsTest < ActiveRecord::TestCase
     ActiveRecord::Base.default_timezone = :local
   end
 
-  uses_tzinfo "test_multiparameter_attributes_on_time_with_time_zone_aware_attributes" do
-    def test_multiparameter_attributes_on_time_with_time_zone_aware_attributes
-      ActiveRecord::Base.time_zone_aware_attributes = true
-      ActiveRecord::Base.default_timezone = :utc
-      Time.zone = TimeZone[-28800]
-      attributes = {
-        "written_on(1i)" => "2004", "written_on(2i)" => "6", "written_on(3i)" => "24",
-        "written_on(4i)" => "16", "written_on(5i)" => "24", "written_on(6i)" => "00"
-      }
-      topic = Topic.find(1)
-      topic.attributes = attributes
-      assert_equal Time.utc(2004, 6, 24, 23, 24, 0), topic.written_on
-      assert_equal Time.utc(2004, 6, 24, 16, 24, 0), topic.written_on.time
-      assert_equal Time.zone, topic.written_on.time_zone
-    ensure
-      ActiveRecord::Base.time_zone_aware_attributes = false
-      ActiveRecord::Base.default_timezone = :local
-      Time.zone = nil
-    end
+  def test_multiparameter_attributes_on_time_with_time_zone_aware_attributes
+    ActiveRecord::Base.time_zone_aware_attributes = true
+    ActiveRecord::Base.default_timezone = :utc
+    Time.zone = TimeZone[-28800]
+    attributes = {
+      "written_on(1i)" => "2004", "written_on(2i)" => "6", "written_on(3i)" => "24",
+      "written_on(4i)" => "16", "written_on(5i)" => "24", "written_on(6i)" => "00"
+    }
+    topic = Topic.find(1)
+    topic.attributes = attributes
+    assert_equal Time.utc(2004, 6, 24, 23, 24, 0), topic.written_on
+    assert_equal Time.utc(2004, 6, 24, 16, 24, 0), topic.written_on.time
+    assert_equal Time.zone, topic.written_on.time_zone
+  ensure
+    ActiveRecord::Base.time_zone_aware_attributes = false
+    ActiveRecord::Base.default_timezone = :local
+    Time.zone = nil
   end
 
   def test_multiparameter_attributes_on_time_with_time_zone_aware_attributes_false

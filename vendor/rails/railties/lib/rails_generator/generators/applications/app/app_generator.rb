@@ -52,17 +52,17 @@ class AppGenerator < Rails::Generator::Base
       m.template "helpers/application_helper.rb", "app/helpers/application_helper.rb"
       m.template "helpers/test_helper.rb",        "test/test_helper.rb"
 
-      # database.yml and .htaccess
+      # database.yml and routes.rb
       m.template "configs/databases/#{options[:db]}.yml", "config/database.yml", :assigns => {
         :app_name => @app_name,
         :socket   => options[:db] == "mysql" ? mysql_socket_location : nil
       }
-      m.template "configs/routes.rb",     "config/routes.rb"
-      m.template "configs/apache.conf",   "public/.htaccess"
+      m.template "configs/routes.rb", "config/routes.rb"
 
       # Initializers
       m.template "configs/initializers/inflections.rb", "config/initializers/inflections.rb"
-      m.template "configs/initializers/mime_types.rb",  "config/initializers/mime_types.rb"
+      m.template "configs/initializers/mime_types.rb", "config/initializers/mime_types.rb"
+      m.template "configs/initializers/new_rails_defaults.rb", "config/initializers/new_rails_defaults.rb"
 
       # Environments
       m.file "environments/boot.rb",    "config/boot.rb"
@@ -155,8 +155,6 @@ class AppGenerator < Rails::Generator::Base
     test/fixtures
     test/functional
     test/integration
-    test/mocks/development
-    test/mocks/test
     test/unit
     vendor
     vendor/plugins

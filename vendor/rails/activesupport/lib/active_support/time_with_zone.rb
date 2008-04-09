@@ -1,3 +1,4 @@
+require 'tzinfo'
 module ActiveSupport
   # A Time-like class that can represent a time in any time zone. Necessary because standard Ruby Time instances are 
   # limited to UTC and the system's ENV['TZ'] zone
@@ -12,12 +13,12 @@ module ActiveSupport
   
     # Returns a Time or DateTime instance that represents the time in time_zone
     def time
-      @time ||= utc_to_local
+      @time ||= period.to_local(@utc)
     end
 
     # Returns a Time or DateTime instance that represents the time in UTC
     def utc
-      @utc ||= local_to_utc
+      @utc ||= period.to_utc(@time)
     end
     alias_method :comparable_time, :utc
     alias_method :getgm, :utc
@@ -143,20 +144,9 @@ module ActiveSupport
       end
     end
     
-    %w(asctime day hour min mon sec usec wday yday year to_date).each do |name|
-      define_method(name) do
-        time.__send__(name)
-      end
+    def usec
+      time.respond_to?(:usec) ? time.usec : 0
     end
-    alias_method :ctime, :asctime
-    alias_method :mday, :day
-    alias_method :month, :mon
-    
-    %w(sunday? monday? tuesday? wednesday? thursday? friday? saturday?).each do |name|
-      define_method(name) do
-        time.__send__(name)
-      end
-    end unless RUBY_VERSION < '1.9'
     
     def to_a
       [time.sec, time.min, time.hour, time.day, time.mon, time.year, time.wday, time.yday, dst?, zone]
@@ -202,7 +192,7 @@ module ActiveSupport
     end
     
     def marshal_load(variables)
-      initialize(variables[0], ::TimeZone[variables[1]], variables[2])
+      initialize(variables[0], ::Time.send!(:get_zone, variables[1]), variables[2])
     end
   
     # Ensure proxy class responds to all methods that underlying time instance responds to
@@ -214,9 +204,13 @@ module ActiveSupport
   
     # Send the missing method to time instance, and wrap result in a new TimeWithZone with the existing time_zone
     def method_missing(sym, *args, &block)
-      result = utc.__send__(sym, *args, &block)
-      result = result.in_time_zone(time_zone) if result.acts_like?(:time)
-      result
+      if %w(+ - since ago advance).include?(sym.to_s)
+        result = utc.__send__(sym, *args, &block)
+        result.acts_like?(:time) ? result.in_time_zone(time_zone) : result
+      else
+        result = time.__send__(sym, *args, &block)
+        result.acts_like?(:time) ? self.class.new(nil, time_zone, result) : result
+      end
     end
     
     private      
@@ -235,16 +229,6 @@ module ActiveSupport
       
       def transfer_time_values_to_utc_constructor(time)
         ::Time.utc_time(time.year, time.month, time.day, time.hour, time.min, time.sec, time.respond_to?(:usec) ? time.usec : 0)
-      end
-    
-      # Replicating logic from TZInfo::Timezone#utc_to_local because we want to cache the period in an instance variable for reuse
-      def utc_to_local
-        ::TZInfo::TimeOrDateTime.wrap(utc) {|utc| period.to_local(utc)}
-      end
-      
-      # Replicating logic from TZInfo::Timezone#local_to_utc because we want to cache the period in an instance variable for reuse
-      def local_to_utc
-        ::TZInfo::TimeOrDateTime.wrap(time) {|time| period.to_utc(time)}
       end
   end
 end

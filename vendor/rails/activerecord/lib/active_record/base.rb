@@ -191,6 +191,10 @@ module ActiveRecord #:nodoc:
   #
   #   Student.find(:all, :conditions => { :grade => 9..12 })
   #
+  # An array may be used in the hash to use the SQL IN operator:
+  #
+  #   Student.find(:all, :conditions => { :grade => [9,11,12] })
+  #
   # == Overwriting default accessors
   #
   # All column values are automatically available through basic accessors on the Active Record object, but sometimes you
@@ -431,7 +435,7 @@ module ActiveRecord #:nodoc:
     # adapters for, e.g., your development and test environments.
     cattr_accessor :schema_format , :instance_writer => false
     @@schema_format = :ruby
-
+    
     class << self # Class methods
       # Find operates with four different retrieval approaches:
       #
@@ -488,6 +492,7 @@ module ActiveRecord #:nodoc:
       # Examples for find all:
       #   Person.find(:all) # returns an array of objects for all the rows fetched by SELECT * FROM people
       #   Person.find(:all, :conditions => [ "category IN (?)", categories], :limit => 50)
+      #   Person.find(:all, :conditions => { :friends => ["Bob", "Steve", "Fred"] }
       #   Person.find(:all, :offset => 10, :limit => 10)
       #   Person.find(:all, :include => [ :account, :friends ])
       #   Person.find(:all, :group => "category")
@@ -1258,6 +1263,13 @@ module ActiveRecord #:nodoc:
         defined?(@abstract_class) && @abstract_class == true
       end
 
+      def respond_to?(method_id, include_private = false)
+        if match = matches_dynamic_finder?(method_id) || matches_dynamic_finder_with_initialize_or_create?(method_id)
+          return true if all_attributes_exists?(extract_attribute_names_from_match(match))
+        end
+        super
+      end
+
       private
         def find_initial(options)
           options.update(:limit => 1) unless options[:include]
@@ -1563,7 +1575,7 @@ module ActiveRecord #:nodoc:
         # Each dynamic finder or initializer/creator is also defined in the class after it is first invoked, so that future
         # attempts to use it do not run through method_missing.
         def method_missing(method_id, *arguments)
-          if match = /^find_(all_by|by)_([_a-zA-Z]\w*)$/.match(method_id.to_s)
+          if match = matches_dynamic_finder?(method_id)
             finder = determine_finder(match)
 
             attribute_names = extract_attribute_names_from_match(match)
@@ -1587,7 +1599,7 @@ module ActiveRecord #:nodoc:
               end
             }, __FILE__, __LINE__
             send(method_id, *arguments)
-          elsif match = /^find_or_(initialize|create)_by_([_a-zA-Z]\w*)$/.match(method_id.to_s)
+          elsif match = matches_dynamic_finder_with_initialize_or_create?(method_id)
             instantiator = determine_instantiator(match)
             attribute_names = extract_attribute_names_from_match(match)
             super unless all_attributes_exists?(attribute_names)
@@ -1623,6 +1635,14 @@ module ActiveRecord #:nodoc:
           else
             super
           end
+        end
+
+        def matches_dynamic_finder?(method_id)
+          /^find_(all_by|by)_([_a-zA-Z]\w*)$/.match(method_id.to_s)
+        end
+
+        def matches_dynamic_finder_with_initialize_or_create?(method_id)
+          /^find_or_(initialize|create)_by_([_a-zA-Z]\w*)$/.match(method_id.to_s)
         end
 
         def determine_finder(match)
@@ -2407,8 +2427,8 @@ module ActiveRecord #:nodoc:
 
       # Updates the associated record with values matching those of the instance attributes.
       # Returns the number of affected rows.
-      def update
-        quoted_attributes = attributes_with_quotes(false, false)
+      def update(attribute_names = @attributes.keys)
+        quoted_attributes = attributes_with_quotes(false, false, attribute_names)
         return 0 if quoted_attributes.empty?
         connection.update(
           "UPDATE #{self.class.quoted_table_name} " +
@@ -2500,10 +2520,10 @@ module ActiveRecord #:nodoc:
 
       # Returns a copy of the attributes hash where all the values have been safely quoted for use in
       # an SQL statement.
-      def attributes_with_quotes(include_primary_key = true, include_readonly_attributes = true)
+      def attributes_with_quotes(include_primary_key = true, include_readonly_attributes = true, attribute_names = @attributes.keys)
         quoted = {}
         connection = self.class.connection
-        @attributes.each_pair do |name, value|
+        attribute_names.each do |name|
           if column = column_for_attribute(name)
             quoted[name] = connection.quote(read_attribute(name), column) unless !include_primary_key && column.primary
           end

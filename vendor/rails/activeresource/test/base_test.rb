@@ -7,40 +7,45 @@ class BaseTest < Test::Unit::TestCase
   def setup
     @matz  = { :id => 1, :name => 'Matz' }.to_xml(:root => 'person')
     @david = { :id => 2, :name => 'David' }.to_xml(:root => 'person')
+    @greg  = { :id => 3, :name => 'Greg' }.to_xml(:root => 'person')    
     @addy  = { :id => 1, :street => '12345 Street' }.to_xml(:root => 'address')
     @default_request_headers = { 'Content-Type' => 'application/xml' }
     @rick = { :name => "Rick", :age => 25 }.to_xml(:root => "person")
     @people = [{ :id => 1, :name => 'Matz' }, { :id => 2, :name => 'David' }].to_xml(:root => 'people')
     @people_david = [{ :id => 2, :name => 'David' }].to_xml(:root => 'people')
     @addresses = [{ :id => 1, :street => '12345 Street' }].to_xml(:root => 'addresses')
-    
+
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get    "/people/1.xml",             {}, @matz
-      mock.get    "/people/2.xml",             {}, @david
-      mock.get    "/people/3.xml",             {'key' => 'value'}, nil, 404
-      mock.put    "/people/1.xml",             {}, nil, 204
-      mock.delete "/people/1.xml",             {}, nil, 200
-      mock.delete "/people/2.xml",             {}, nil, 400
-      mock.get    "/people/99.xml",            {}, nil, 404
-      mock.post   "/people.xml",               {}, @rick, 201, 'Location' => '/people/5.xml'
-      mock.get    "/people.xml",               {}, @people
-      mock.get    "/people/1/addresses.xml",   {}, @addresses
-      mock.get    "/people/1/addresses/1.xml", {}, @addy
-      mock.get    "/people/1/addresses/2.xml", {}, nil, 404
-      mock.get    "/people/2/addresses/1.xml", {}, nil, 404
-      mock.put    "/people/1/addresses/1.xml", {}, nil, 204
-      mock.delete "/people/1/addresses/1.xml", {}, nil, 200
-      mock.post   "/people/1/addresses.xml",   {}, nil, 201, 'Location' => '/people/1/addresses/5'
-      mock.get    "/people//addresses.xml",    {}, nil, 404
-      mock.get    "/people//addresses/1.xml",  {}, nil, 404
-      mock.put    "/people//addresses/1.xml",  {}, nil, 404
-      mock.delete "/people//addresses/1.xml",  {}, nil, 404
-      mock.post   "/people//addresses.xml",    {}, nil, 404
-      mock.head   "/people/1.xml",             {}, nil, 200
-      mock.head   "/people/99.xml",            {}, nil, 404
-      mock.head   "/people/1/addresses/1.xml", {}, nil, 200
-      mock.head   "/people/1/addresses/2.xml", {}, nil, 404
-      mock.head   "/people/2/addresses/1.xml", {}, nil, 404
+      mock.get    "/people/1.xml",                {}, @matz
+      mock.get    "/people/2.xml",                {}, @david
+      mock.get    "/people/Greg.xml",             {}, @greg      
+      mock.get    "/people/4.xml",                {'key' => 'value'}, nil, 404
+      mock.put    "/people/1.xml",                {}, nil, 204
+      mock.delete "/people/1.xml",                {}, nil, 200
+      mock.delete "/people/2.xml",                {}, nil, 400
+      mock.get    "/people/99.xml",               {}, nil, 404
+      mock.post   "/people.xml",                  {}, @rick, 201, 'Location' => '/people/5.xml'
+      mock.get    "/people.xml",                  {}, @people
+      mock.get    "/people/1/addresses.xml",      {}, @addresses
+      mock.get    "/people/1/addresses/1.xml",    {}, @addy
+      mock.get    "/people/1/addresses/2.xml",    {}, nil, 404
+      mock.get    "/people/2/addresses/1.xml",    {}, nil, 404
+      mock.get    "/people/Greg/addresses/1.xml", {}, @addy      
+      mock.put    "/people/1/addresses/1.xml",    {}, nil, 204
+      mock.delete "/people/1/addresses/1.xml",    {}, nil, 200
+      mock.post   "/people/1/addresses.xml",      {}, nil, 201, 'Location' => '/people/1/addresses/5'
+      mock.get    "/people//addresses.xml",       {}, nil, 404
+      mock.get    "/people//addresses/1.xml",     {}, nil, 404
+      mock.put    "/people//addresses/1.xml",     {}, nil, 404
+      mock.delete "/people//addresses/1.xml",     {}, nil, 404
+      mock.post   "/people//addresses.xml",       {}, nil, 404
+      mock.head   "/people/1.xml",                {}, nil, 200
+      mock.head   "/people/Greg.xml",             {}, nil, 200
+      mock.head   "/people/99.xml",               {}, nil, 404
+      mock.head   "/people/1/addresses/1.xml",    {}, nil, 200
+      mock.head   "/people/1/addresses/2.xml",    {}, nil, 404
+      mock.head   "/people/2/addresses/1.xml",    {}, nil, 404
+      mock.head   "/people/Greg/addresses/1.xml", {}, nil, 200
     end
 
     Person.user = nil
@@ -302,6 +307,30 @@ class BaseTest < Test::Unit::TestCase
   def test_custom_element_path
     assert_equal '/people/1/addresses/1.xml', StreetAddress.element_path(1, :person_id => 1)
     assert_equal '/people/1/addresses/1.xml', StreetAddress.element_path(1, 'person_id' => 1)
+    assert_equal '/people/Greg/addresses/1.xml', StreetAddress.element_path(1, 'person_id' => 'Greg')    
+  end
+  
+  def test_custom_element_path_with_redefined_to_param
+    Person.module_eval do
+      alias_method :original_to_param_element_path, :to_param
+       def to_param  
+         name
+       end
+    end
+
+    # Class method.
+    assert_equal '/people/Greg.xml', Person.element_path('Greg')
+    
+    # Protected Instance method.
+    assert_equal '/people/Greg.xml', Person.find('Greg').send(:element_path)
+
+    ensure
+      # revert back to original
+      Person.module_eval do
+        # save the 'new' to_param so we don't get a warning about discarding the method
+        alias_method :element_path_to_param, :to_param
+        alias_method :to_param, :original_to_param_element_path
+      end
   end
 
   def test_custom_element_path_with_parameters
@@ -406,7 +435,7 @@ class BaseTest < Test::Unit::TestCase
 
   def test_custom_header
     Person.headers['key'] = 'value'
-    assert_raises(ActiveResource::ResourceNotFound) { Person.find(3) }
+    assert_raises(ActiveResource::ResourceNotFound) { Person.find(4) }
   ensure
     Person.headers.delete('key')
   end
@@ -487,6 +516,26 @@ class BaseTest < Test::Unit::TestCase
     assert_equal address, address.reload
   end
   
+  def test_reload_with_redefined_to_param
+    Person.module_eval do
+      alias_method :original_to_param_reload, :to_param
+       def to_param  
+         name
+       end
+    end
+
+    person = Person.find('Greg')
+    assert_equal person, person.reload
+
+    ensure
+      # revert back to original
+      Person.module_eval do
+        # save the 'new' to_param so we don't get a warning about discarding the method
+        alias_method :reload_to_param, :to_param
+        alias_method :to_param, :original_to_param_reload
+      end
+  end  
+  
   def test_reload_works_without_prefix_options    
     person = Person.find(:first)
     assert_equal person, person.reload
@@ -508,6 +557,41 @@ class BaseTest < Test::Unit::TestCase
     end    
     assert_raises(ActiveResource::ResourceConflict) { Person.create(:name => 'Rick') }
   end
+
+  def test_clone
+   matz = Person.find(1)
+   matz_c = matz.clone
+   assert matz_c.new?
+   matz.attributes.each do |k, v|
+     assert_equal v, matz_c.send(k) if k != Person.primary_key
+   end
+ end
+
+ def test_nested_clone
+   addy = StreetAddress.find(1, :params => {:person_id => 1})
+   addy_c = addy.clone
+   assert addy_c.new?
+   addy.attributes.each do |k, v|
+     assert_equal v, addy_c.send(k) if k != StreetAddress.primary_key
+   end
+   assert_equal addy.prefix_options, addy_c.prefix_options
+ end
+
+ def test_complex_clone
+   matz = Person.find(1)
+   matz.address = StreetAddress.find(1, :params => {:person_id => matz.id})
+   matz.non_ar_hash = {:not => "an ARes instance"}
+   matz.non_ar_arr = ["not", "ARes"]
+   matz_c = matz.clone
+   assert matz_c.new?
+   assert_raises(NoMethodError) {matz_c.address}
+   assert_equal matz.non_ar_hash, matz_c.non_ar_hash
+   assert_equal matz.non_ar_arr, matz_c.non_ar_arr
+
+   # Test that actual copy, not just reference copy
+   matz.non_ar_hash[:not] = "changed"
+   assert_not_equal matz.non_ar_hash, matz_c.non_ar_hash
+ end
 
   def test_update
     matz = Person.find(:first)
@@ -594,6 +678,35 @@ class BaseTest < Test::Unit::TestCase
     assert !StreetAddress.new({:id => 1, :person_id => 2}).exists?
     assert !StreetAddress.new({:id => 2, :person_id => 1}).exists?
   end
+  
+  def test_exists_with_redefined_to_param
+    Person.module_eval do
+      alias_method :original_to_param_exists, :to_param
+       def to_param  
+         name
+       end
+    end
+
+    # Class method.
+    assert Person.exists?('Greg')    
+
+    # Instance method.
+    assert Person.find('Greg').exists?    
+
+    # Nested class method.
+    assert StreetAddress.exists?(1,  :params => { :person_id => Person.find('Greg').to_param })    
+
+    # Nested instance method.
+    assert StreetAddress.find(1, :params => { :person_id => Person.find('Greg').to_param }).exists?
+
+    ensure
+      # revert back to original
+      Person.module_eval do
+        # save the 'new' to_param so we don't get a warning about discarding the method
+        alias_method :exists_to_param, :to_param
+        alias_method :to_param, :original_to_param_exists
+      end
+  end  
   
   def test_to_xml
     matz = Person.find(1)

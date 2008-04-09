@@ -553,9 +553,10 @@ module ActiveRecord
             too_long  = options[:too_long]  % option_value.end
 
             validates_each(attrs, options) do |record, attr, value|
-              if value.nil? or value.split(//).size < option_value.begin
+              value = value.split(//) if value.kind_of?(String)
+              if value.nil? or value.size < option_value.begin
                 record.errors.add(attr, too_short)
-              elsif value.split(//).size > option_value.end
+              elsif value.size > option_value.end
                 record.errors.add(attr, too_long)
               end
             end
@@ -569,11 +570,8 @@ module ActiveRecord
             message = (options[:message] || options[message_options[option]]) % option_value
 
             validates_each(attrs, options) do |record, attr, value|
-              if value.kind_of?(String)
-                record.errors.add(attr, message) unless !value.nil? and value.split(//).size.method(validity_checks[option])[option_value]
-              else
-                record.errors.add(attr, message) unless !value.nil? and value.size.method(validity_checks[option])[option_value]
-              end
+              value = value.split(//) if value.kind_of?(String)
+              record.errors.add(attr, message) unless !value.nil? and value.size.method(validity_checks[option])[option_value]
             end
         end
       end
@@ -604,8 +602,8 @@ module ActiveRecord
       #
       # Configuration options:
       # * <tt>message</tt> - Specifies a custom error message (default is: "has already been taken")
-      # * <tt>scope</tt> - One or more columns by which to limit the scope of the uniquness constraint.
-      # * <tt>case_sensitive</tt> - Looks for an exact match.  Ignored by non-text columns (true by default).
+      # * <tt>scope</tt> - One or more columns by which to limit the scope of the uniqueness constraint.
+      # * <tt>case_sensitive</tt> - Looks for an exact match.  Ignored by non-text columns (false by default).
       # * <tt>allow_nil</tt> - If set to true, skips this validation if the attribute is null (default is: false)
       # * <tt>allow_blank</tt> - If set to true, skips this validation if the attribute is blank (default is: false)
       # * <tt>if</tt> - Specifies a method, proc or string to call to determine if the validation should
@@ -615,14 +613,30 @@ module ActiveRecord
       #   not occur (e.g. :unless => :skip_validation, or :unless => Proc.new { |user| user.signup_step <= 2 }).  The
       #   method, proc or string should return or evaluate to a true or false value.
       def validates_uniqueness_of(*attr_names)
-        configuration = { :message => ActiveRecord::Errors.default_error_messages[:taken], :case_sensitive => true }
+        configuration = { :message => ActiveRecord::Errors.default_error_messages[:taken] }
         configuration.update(attr_names.extract_options!)
 
         validates_each(attr_names,configuration) do |record, attr_name, value|
-          if value.nil? || (configuration[:case_sensitive] || !columns_hash[attr_name.to_s].text?)
+          # The check for an existing value should be run from a class that
+          # isn't abstract. This means working down from the current class
+          # (self), to the first non-abstract class. Since classes don't know
+          # their subclasses, we have to build the hierarchy between self and
+          # the record's class.
+          class_hierarchy = [record.class]
+          while class_hierarchy.first != self
+            class_hierarchy.insert(0, class_hierarchy.first.superclass)
+          end
+
+          # Now we can work our way down the tree to the first non-abstract
+          # class (which has a database table to query from).
+          finder_class = class_hierarchy.detect { |klass| !klass.abstract_class? }
+
+          if value.nil? || (configuration[:case_sensitive] || !finder_class.columns_hash[attr_name.to_s].text?)
             condition_sql = "#{record.class.quoted_table_name}.#{attr_name} #{attribute_condition(value)}"
             condition_params = [value]
           else
+            # sqlite has case sensitive SELECT query, while MySQL/Postgresql don't.
+            # Hence, this is needed only for sqlite.
             condition_sql = "LOWER(#{record.class.quoted_table_name}.#{attr_name}) #{attribute_condition(value)}"
             condition_params = [value.downcase]
           end
@@ -640,22 +654,26 @@ module ActiveRecord
             condition_params << record.send(:id)
           end
 
-          # The check for an existing value should be run from a class that
-          # isn't abstract. This means working down from the current class
-          # (self), to the first non-abstract class. Since classes don't know
-          # their subclasses, we have to build the hierarchy between self and
-          # the record's class.
-          class_hierarchy = [record.class]
-          while class_hierarchy.first != self
-            class_hierarchy.insert(0, class_hierarchy.first.superclass)
+          results = finder_class.with_exclusive_scope do
+            connection.select_all(
+              construct_finder_sql(
+                :select     => "#{attr_name}",
+                :from       => "#{finder_class.quoted_table_name}",
+                :conditions => [condition_sql, *condition_params]
+              )
+            )
           end
 
-          # Now we can work our way down the tree to the first non-abstract
-          # class (which has a database table to query from).
-          finder_class = class_hierarchy.detect { |klass| !klass.abstract_class? }
+          unless results.length.zero?
+            found = true
 
-          if finder_class.find(:first, :conditions => [condition_sql, *condition_params])
-            record.errors.add(attr_name, configuration[:message])
+            # As MySQL/Postgres don't have case sensitive SELECT queries, we try to find duplicate
+            # column in ruby when case sensitive option
+            if configuration[:case_sensitive] && finder_class.columns_hash[attr_name.to_s].text?
+              found = results.any? { |a| a[attr_name.to_s] == value }
+            end
+
+            record.errors.add(attr_name, configuration[:message]) if found
           end
         end
       end
@@ -705,7 +723,7 @@ module ActiveRecord
       #
       # Configuration options:
       # * <tt>in</tt> - An enumerable object of available items
-      # * <tt>message</tt> - Specifies a customer error message (default is: "is not included in the list")
+      # * <tt>message</tt> - Specifies a custom error message (default is: "is not included in the list")
       # * <tt>allow_nil</tt> - If set to true, skips this validation if the attribute is null (default is: false)
       # * <tt>allow_blank</tt> - If set to true, skips this validation if the attribute is blank (default is: false)
       # * <tt>if</tt> - Specifies a method, proc or string to call to determine if the validation should
@@ -737,7 +755,7 @@ module ActiveRecord
       #
       # Configuration options:
       # * <tt>in</tt> - An enumerable object of items that the value shouldn't be part of
-      # * <tt>message</tt> - Specifies a customer error message (default is: "is reserved")
+      # * <tt>message</tt> - Specifies a custom error message (default is: "is reserved")
       # * <tt>allow_nil</tt> - If set to true, skips this validation if the attribute is null (default is: false)
       # * <tt>allow_blank</tt> - If set to true, skips this validation if the attribute is blank (default is: false)
       # * <tt>if</tt> - Specifies a method, proc or string to call to determine if the validation should
@@ -862,7 +880,9 @@ module ActiveRecord
               when :odd, :even
                 record.errors.add(attr_name, configuration[:message] || ActiveRecord::Errors.default_error_messages[option]) unless raw_value.to_i.method(ALL_NUMERICALITY_CHECKS[option])[]
               else
-                record.errors.add(attr_name, configuration[:message] || (ActiveRecord::Errors.default_error_messages[option] % configuration[option])) unless raw_value.method(ALL_NUMERICALITY_CHECKS[option])[configuration[option]]
+                message = configuration[:message] || ActiveRecord::Errors.default_error_messages[option]
+                message = message % configuration[option] if configuration[option]
+                record.errors.add(attr_name, message) unless raw_value.method(ALL_NUMERICALITY_CHECKS[option])[configuration[option]]
             end
           end
         end

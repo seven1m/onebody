@@ -1,5 +1,35 @@
 *SVN*
 
+* Add config.active_support.escape_html_entities_in_json to allow disabling of html entity escaping.  [rick]
+
+* Improve documentation. [Xavier Noria]
+
+* Modified ActiveSupport::Callbacks::Callback#call to accept multiple arguments.
+
+* Time #yesterday and #tomorrow behave correctly crossing DST boundary. Closes #7399 [sblackstone]
+
+* TimeWithZone: Adding tests for dst and leap day edge cases when advancing time [Geoff Buesing]
+
+* TimeWithZone#method_missing: send to utc to advance with dst correctness, otherwise send to time. Adding tests for time calculations methods [Geoff Buesing]
+
+* Add config.active_support.use_standard_json_time_format setting so that Times and Dates export to ISO 8601 dates.  [rick]
+
+* TZInfo: Removing unneeded TimezoneProxy class [Geoff Buesing]
+
+* TZInfo: Removing unneeded TimezoneIndexDefinition, since we're not including Indexes::Timezones [Geoff Buesing] 
+
+* Removing unnecessary uses_tzinfo helper from tests, given that TZInfo is now bundled [Geoff Buesing]
+
+* Bundling abbreviated version of TZInfo gem 0.3.8: only the classes and zone definitions required to support Rails time zone features are included. If a recent version of the full TZInfo gem is installed, this will take precedence over the bundled version [Geoff Buesing]
+
+* TimeWithZone#marshal_load does zone lookup via Time.get_zone, so that tzinfo/Olson identifiers are handled [Geoff Buesing]
+
+* Time.zone= accepts TZInfo::Timezone instances and Olson identifiers; wraps result in TimeZone instance [Geoff Buesing] 
+
+* TimeWithZone time conversions don't need to be wrapped in TimeOrDateTime, because TZInfo does this internally [Geoff Buesing]
+
+* TimeWithZone#usec returns 0 instead of error when DateTime is wrapped [Geoff Buesing]
+
 * Improve documentation. [Radar, Jan De Poorter, chuyeow, xaviershay, danger, miloops, Xavier Noria,  Sunny Ripert]
 
 * Ensure that TimeWithZone#to_yaml works when passed a YAML::Emitter.  [rick]

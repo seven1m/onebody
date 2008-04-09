@@ -13,9 +13,17 @@ class RequestTest < Test::Unit::TestCase
     assert_equal '1.2.3.4', @request.remote_ip
 
     @request.env['HTTP_CLIENT_IP'] = '2.3.4.5'
+    assert_equal '1.2.3.4', @request.remote_ip
+
+    @request.remote_addr = '192.168.0.1'
     assert_equal '2.3.4.5', @request.remote_ip
     @request.env.delete 'HTTP_CLIENT_IP'
 
+    @request.remote_addr = '1.2.3.4'
+    @request.env['HTTP_X_FORWARDED_FOR'] = '3.4.5.6'
+    assert_equal '1.2.3.4', @request.remote_ip
+
+    @request.remote_addr = '127.0.0.1'
     @request.env['HTTP_X_FORWARDED_FOR'] = '3.4.5.6'
     assert_equal '3.4.5.6', @request.remote_ip
 
@@ -35,10 +43,23 @@ class RequestTest < Test::Unit::TestCase
     assert_equal '3.4.5.6', @request.remote_ip
 
     @request.env['HTTP_X_FORWARDED_FOR'] = '127.0.0.1,3.4.5.6'
-    assert_equal '127.0.0.1', @request.remote_ip
+    assert_equal '3.4.5.6', @request.remote_ip
 
     @request.env['HTTP_X_FORWARDED_FOR'] = 'unknown,192.168.0.1'
-    assert_equal '1.2.3.4', @request.remote_ip
+    assert_equal 'unknown', @request.remote_ip
+
+    @request.env['HTTP_X_FORWARDED_FOR'] = '9.9.9.9, 3.4.5.6, 10.0.0.1, 172.31.4.4'
+    assert_equal '3.4.5.6', @request.remote_ip
+
+    @request.env['HTTP_CLIENT_IP'] = '8.8.8.8'
+    e = assert_raises(ActionController::ActionControllerError) {
+      @request.remote_ip
+    }
+    assert_match /IP spoofing attack/, e.message
+    assert_match /HTTP_X_FORWARDED_FOR="9.9.9.9, 3.4.5.6, 10.0.0.1, 172.31.4.4"/, e.message
+    assert_match /HTTP_CLIENT_IP="8.8.8.8"/, e.message
+
+    @request.env.delete 'HTTP_CLIENT_IP'
     @request.env.delete 'HTTP_X_FORWARDED_FOR'
   end
 
@@ -601,7 +622,7 @@ class UrlEncodedRequestParameterParsingTest < Test::Unit::TestCase
       "ie_products[string]" => [ UploadedStringIO.new("Microsoft") ],
       "ie_products[file]" => [ ie_file ],
       "text_part" => [non_file_text_part]
-    }
+      }
 
     expected_output =  {
       "something" => "",
@@ -744,6 +765,25 @@ class MultipartRequestParameterParsingTest < Test::Unit::TestCase
     assert_equal 'contents', file.read
   end
 
+  def test_boundary_problem_file
+    params = process('boundary_problem_file')
+    assert_equal %w(file foo), params.keys.sort
+
+    file = params['file']
+    foo  = params['foo']
+    
+    if RUBY_VERSION > '1.9'
+      assert_kind_of File, file
+    else
+      assert_kind_of Tempfile, file
+    end
+    
+    assert_equal 'file.txt', file.original_filename
+    assert_equal "text/plain", file.content_type
+    
+    assert_equal 'bar', foo
+  end
+  
   def test_large_text_file
     params = process('large_text_file')
     assert_equal %w(file foo), params.keys.sort
@@ -795,8 +835,10 @@ class MultipartRequestParameterParsingTest < Test::Unit::TestCase
     assert_equal 'bar', params['foo']
 
     # Ruby CGI doesn't handle multipart/mixed for us.
-    assert_kind_of String, params['files']
-    assert_equal 19756, params['files'].size
+    files = params['files']
+    assert_kind_of String, files
+    files.force_encoding('ASCII-8BIT') if files.respond_to?(:force_encoding)
+    assert_equal 19756, files.size
   end
 
   private
@@ -809,8 +851,13 @@ class MultipartRequestParameterParsingTest < Test::Unit::TestCase
     end
 end
 
-
 class XmlParamsParsingTest < Test::Unit::TestCase
+  def test_hash_params
+    person = parse_body("<person><name>David</name></person>")[:person]
+    assert_kind_of Hash, person
+    assert_equal 'David', person['name']
+  end
+
   def test_single_file
     person = parse_body("<person><name>David</name><avatar type='file' name='me.jpg' content_type='image/jpg'>#{ActiveSupport::Base64.encode64('ABC')}</avatar></person>")
 
@@ -852,6 +899,22 @@ class LegacyXmlParamsParsingTest < XmlParamsParsingTest
   private
     def parse_body(body)
       env = { 'HTTP_X_POST_DATA_FORMAT' => 'xml',
+              'CONTENT_LENGTH' => body.size.to_s }
+      cgi = ActionController::Integration::Session::StubCGI.new(env, body)
+      ActionController::CgiRequest.new(cgi).request_parameters
+    end
+end
+
+class JsonParamsParsingTest < Test::Unit::TestCase
+  def test_hash_params
+    person = parse_body({:person => {:name => "David"}}.to_json)[:person]
+    assert_kind_of Hash, person
+    assert_equal 'David', person['name']
+  end
+
+  private
+    def parse_body(body)
+      env = { 'CONTENT_TYPE'   => 'application/json',
               'CONTENT_LENGTH' => body.size.to_s }
       cgi = ActionController::Integration::Session::StubCGI.new(env, body)
       ActionController::CgiRequest.new(cgi).request_parameters

@@ -7,18 +7,37 @@ require 'railties_path'
 require 'rails/version'
 require 'rails/plugin/locator'
 require 'rails/plugin/loader'
+require 'rails/gem_dependency'
 
 
 RAILS_ENV = (ENV['RAILS_ENV'] || 'development').dup unless defined?(RAILS_ENV)
 
 module Rails
-  # The Configuration instance used to configure the Rails environment
-  def self.configuration
-    @@configuration
-  end
+  class << self
+    # The Configuration instance used to configure the Rails environment
+    def configuration
+      @@configuration
+    end
   
-  def self.configuration=(configuration)
-    @@configuration = configuration
+    def configuration=(configuration)
+      @@configuration = configuration
+    end
+  
+    def logger
+      RAILS_DEFAULT_LOGGER
+    end
+  
+    def root
+      RAILS_ROOT
+    end
+  
+    def env
+      RAILS_ENV
+    end
+  
+    def cache
+      RAILS_CACHE
+    end
   end
   
   # The Initializer is responsible for processing the Rails configuration, such
@@ -72,10 +91,12 @@ module Rails
       Rails.configuration = configuration
 
       check_ruby_version
+      install_gem_spec_stubs
       set_load_path
       
       require_frameworks
       set_autoload_paths
+      add_gem_load_paths
       add_plugin_load_paths
       load_environment
 
@@ -97,7 +118,12 @@ module Rails
 
       add_support_load_paths
 
+      load_gems
       load_plugins
+
+      # pick up any gems that plugins depend on
+      add_gem_load_paths
+      load_gems
 
       load_application_initializers
 
@@ -116,6 +142,26 @@ module Rails
     # from the `rails` program as well without duplication.
     def check_ruby_version
       require 'ruby_version_check'
+    end
+
+    # If Rails is vendored and RubyGems is available, install stub GemSpecs
+    # for Rails, ActiveSupport, ActiveRecord, ActionPack, ActionMailer, and
+    # ActiveResource. This allows Gem plugins to depend on Rails even when
+    # the Gem version of Rails shouldn't be loaded.
+    def install_gem_spec_stubs
+      if Rails.vendor_rails?
+        begin; require "rubygems"; rescue LoadError; return; end
+
+        stubs = %w(rails activesupport activerecord actionpack actionmailer activeresource)
+        stubs.reject! { |s| Gem.loaded_specs.key?(s) }
+
+        stubs.each do |stub|
+          Gem.loaded_specs[stub] = Gem::Specification.new do |s|
+            s.name = stub
+            s.version = Rails::VERSION::STRING
+          end
+        end
+      end
     end
 
     # Set the <tt>$LOAD_PATH</tt> based on the value of
@@ -164,6 +210,17 @@ module Rails
       plugin_loader.add_plugin_load_paths
     end
 
+    def add_gem_load_paths
+      unless @configuration.gems.empty?
+        require "rubygems"
+        @configuration.gems.each &:add_load_paths
+      end
+    end
+
+    def load_gems
+      @configuration.gems.each &:load
+    end
+
     # Loads all plugins in <tt>config.plugin_paths</tt>.  <tt>plugin_paths</tt>
     # defaults to <tt>vendor/plugins</tt> but may also be set to a list of
     # paths, such as
@@ -208,7 +265,11 @@ module Rails
 
     def load_observers
       if configuration.frameworks.include?(:active_record)
-        ActiveRecord::Base.instantiate_observers
+        if @configuration.gems.any? { |g| !g.loaded? }
+          puts "Unable to instantiate observers, some gems that this application depends on are missing.  Run 'rake gems:install'"
+        else
+          ActiveRecord::Base.instantiate_observers
+        end
       end
     end
 
@@ -328,9 +389,15 @@ module Rails
       end
     end
 
+    # Sets the default value for Time.zone, and turns on ActiveRecord time_zone_aware_attributes.
+    # If assigned value cannot be matched to a TimeZone, an exception will be raised.
     def initialize_time_zone
       if configuration.time_zone
-        Time.zone_default = TimeZone[configuration.time_zone]
+        zone_default = Time.send!(:get_zone, configuration.time_zone)
+        unless zone_default
+          raise "Value assigned to config.time_zone not recognized. Run `rake -D time` for a list of tasks for finding appropriate time zone names."
+        end
+        Time.zone_default = zone_default
         if configuration.frameworks.include?(:active_record)
           ActiveRecord::Base.time_zone_aware_attributes = true
           ActiveRecord::Base.default_timezone = :utc
@@ -348,6 +415,9 @@ module Rails
         configuration.send(framework).each do |setting, value|
           base_class.send("#{setting}=", value)
         end
+      end
+      configuration.active_support.each do |setting, value|
+        ActiveSupport.send("#{setting}=", value)
       end
     end
 
@@ -393,6 +463,9 @@ module Rails
 
     # A stub for setting options on ActiveRecord::Base
     attr_accessor :active_resource
+
+    # A stub for setting options on ActiveSupport
+    attr_accessor :active_support
 
     # Whether or not classes should be cached (set to false if you want
     # application classes to be reloaded on each request)
@@ -468,6 +541,41 @@ module Rails
     # the implementation of Rails::Plugin::Loader for more details.
     attr_accessor :plugin_loader
     
+    # Enables or disables plugin reloading.  You can get around this setting per plugin.
+    # If #reload_plugins? == false, add this to your plugin's init.rb to make it reloadable:
+    #
+    #   Dependencies.load_once_paths.delete lib_path
+    #
+    # If #reload_plugins? == true, add this to your plugin's init.rb to only load it once:
+    #
+    #   Dependencies.load_once_paths << lib_path
+    #
+    attr_accessor :reload_plugins
+
+    # Returns true if plugin reloading is enabled.
+    def reload_plugins?
+      !!@reload_plugins
+    end
+
+    # An array of gems that this rails application depends on.  Rails will automatically load
+    # these gems during installation, and allow you to install any missing gems with:
+    #
+    #   rake gems:install
+    #
+    # You can add gems with the #gem method.
+    attr_accessor :gems
+
+    # Adds a single Gem dependency to the rails application.
+    #
+    #   # gem 'aws-s3', '>= 0.4.0'
+    #   # require 'aws/s3'
+    #   config.gem 'aws-s3', :lib => 'aws/s3', :version => '>= 0.4.0', \
+    #     :source => "http://code.whytheluckystiff.net"
+    #
+    def gem(name, options = {})
+      @gems << Rails::GemDependency.new(name, options)
+    end
+    
     # Deprecated options:
     def breakpoint_server(_ = nil)
       $stderr.puts %(
@@ -502,10 +610,12 @@ module Rails
       self.plugin_locators              = default_plugin_locators
       self.plugin_loader                = default_plugin_loader
       self.database_configuration_file  = default_database_configuration_file
+      self.gems                         = default_gems
 
       for framework in default_frameworks
         self.send("#{framework}=", Rails::OrderedOptions.new)
       end
+      self.active_support = Rails::OrderedOptions.new
     end
 
     # Set the root_path to RAILS_ROOT and canonicalize it.
@@ -564,8 +674,10 @@ module Rails
     #
     # See Dispatcher#to_prepare.
     def to_prepare(&callback)
-      require 'dispatcher' unless defined?(::Dispatcher)
-      Dispatcher.to_prepare(&callback)
+      after_initialize do 
+        require 'dispatcher' unless defined?(::Dispatcher)
+        Dispatcher.to_prepare(&callback)
+      end
     end
 
     def builtin_directories
@@ -594,7 +706,10 @@ module Rails
       end
 
       def default_load_paths
-        paths = ["#{root_path}/test/mocks/#{environment}"]
+        paths = []
+        
+        # Add the old mock paths only if the directories exists
+        paths.concat(Dir["#{root_path}/test/mocks/#{environment}"]) if File.exists?("#{root_path}/test/mocks/#{environment}")
 
         # Add the app's controller directory
         paths.concat(Dir["#{root_path}/app/controllers/"])
@@ -666,7 +781,9 @@ module Rails
       end
 
       def default_plugin_locators
-        [Plugin::FileSystemLocator]
+        locators = []
+        locators << Plugin::GemLocator if defined? Gem
+        locators << Plugin::FileSystemLocator
       end
 
       def default_plugin_loader
@@ -679,6 +796,10 @@ module Rails
         else
           :memory_store
         end
+      end
+      
+      def default_gems
+        []
       end
   end
 end

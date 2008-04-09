@@ -1,5 +1,43 @@
 *SVN*
 
+* ActiveRecord::Base#sum defaults to 0 if no rows are returned.  Closes #11550 [kamal]
+
+* Ensure that respond_to? considers dynamic finder methods. Closes #11538. [floehopper]
+
+* Ensure that save on parent object fails for invalid has_one association. Closes #10518. [Pratik]
+
+* Remove duplicate code from associations. [Pratik]
+
+* Refactor HasManyThroughAssociation to inherit from HasManyAssociation. Association callbacks and <association>_ids= now work with hm:t. #11516 [rubyruy]
+
+* Ensure HABTM#create and HABTM#build do not load entire association. [Pratik]
+
+* Improve documentation. [Xavier Noria, Jack Danger Canty, leethal]
+
+* Tweak ActiveRecord::Base#to_json to include a root value in the returned hash: {"post": {"title": ...}} [rick]
+
+  Post.find(1).to_json # => {"title": ...}
+  config.active_record.include_root_in_json = true
+  Post.find(1).to_json # => {"post": {"title": ...}}
+
+* Add efficient #include? to AssociationCollection (for has_many/has_many :through/habtm).  [stopdropandrew]
+
+* PostgreSQL: create_ and drop_database support.  #9042 [ez, pedz, nicksieger]
+
+* Ensure that validates_uniqueness_of works with with_scope. Closes #9235. [nik.wakelin, cavalle]
+
+* Partial updates include only unsaved attributes. Off by default; set YourClass.partial_updates = true to enable.  [Jeremy Kemper]
+
+* Removing unnecessary uses_tzinfo helper from tests, given that TZInfo is now bundled [Geoff Buesing]
+
+* Fixed that validates_size_of :within works in associations #11295, #10019 [cavalle]
+
+* Track changes to unsaved attributes.  [Jeremy Kemper]
+
+* Switched to UTC-timebased version numbers for migrations and the schema. This will as good as eliminate the problem of multiple migrations getting the same version assigned in different branches. Also added rake db:migrate:up/down to apply individual migrations that may need to be run when you merge branches #11458 [jbarnette]
+
+* Fixed that has_many :through would ignore the hash conditions #11447 [miloops]
+
 * Fix issue where the :uniq option of a has_many :through association is ignored when find(:all) is called.  Closes #9407 [cavalle]
 
 * Fix duplicate table alias error when including an association with a has_many :through association on the same join table.  Closes #7310 [cavalle]

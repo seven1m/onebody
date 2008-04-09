@@ -97,6 +97,10 @@ class CalculationsTest < ActiveRecord::TestCase
     assert_equal 105, Account.sum(:credit_limit, :conditions => 'firm_id = 6')
   end
 
+  def test_should_return_zero_if_sum_conditions_return_nothing
+    assert_equal 0, Account.sum(:credit_limit, :conditions => '1 = 2')
+  end
+
   def test_should_group_by_summed_field_with_conditions
     c = Account.sum(:credit_limit, :conditions => 'firm_id > 1',
                                    :group => :firm_id)
@@ -239,6 +243,10 @@ class CalculationsTest < ActiveRecord::TestCase
   def test_should_count_selected_field_with_include
     assert_equal 6, Account.count(:distinct => true, :include => :firm)
     assert_equal 4, Account.count(:distinct => true, :include => :firm, :select => :credit_limit)
+  end
+
+  def test_should_count_manual_select_with_include
+    assert_equal 6, Account.count(:select => "DISTINCT accounts.id", :include => :firm)
   end
 
   def test_count_with_column_parameter

@@ -20,12 +20,5 @@ unless defined? uses_mocha
   end
 end
 
-# Wrap tests that use TZInfo and skip if unavailable.
-unless defined? uses_tzinfo
-  def uses_tzinfo(test_name, &block)
-    uses_gem('tzinfo', test_name, '>= 0.2.0', &block)
-  end
-end
-
 # Show backtraces for deprecated behavior for quicker cleanup.
 ActiveSupport::Deprecation.debug = true
