@@ -26,6 +26,7 @@
   <li><%= link_to 'View Profile', :action => 'view', :id => @person %></li>
   <li><%= link_to 'Change Email/Password', {:controller => 'account', :action => 'edit', :id => @person}, :style => 'color:yellow;' %></li>
   <li><%= link_to 'Privacy Settings', {:controller => 'people', :action => 'privacy', :id => @person, :anchor => "p#{@person.id}"}, :style => 'color:yellow;' %></li>
+  <li><%= link_to 'Remote Accounts', remote_accounts_path(:person_id => @person) %></li>
   <% if @logged_in.admin?(:edit_profiles) %>
     <li><%= link_to (@person.account_frozen? ? 'Unfreeze' : 'Freeze'), {:action => 'freeze_account', :id => @person}, :method => 'post', :confirm => 'Are you sure?' %></li>
   <% end %>

@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'View Profile', person_path(:id => @person) %></li>
+<% end %>
+
 <h1>Remote Accounts</h1>
 
 <table>
