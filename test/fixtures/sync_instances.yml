@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20080409165237
+#
+# Table name: sync_instances
+#
+#  id                :integer       not null, primary key
+#  site_id           :integer       
+#  owner_id          :integer       
+#  person_id         :integer       
+#  remote_id         :integer       
+#  remote_account_id :integer       
+#  account_type      :string(25)    
+#  created_at        :datetime      
+#  updated_at        :datetime      
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 # one:

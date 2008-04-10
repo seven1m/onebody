@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 4
+# Schema version: 20080409165237
 #
 # Table name: people
 #
@@ -103,7 +103,7 @@ class Person < ActiveRecord::Base
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :prayer_requests, :order => 'created_at desc'
   has_many :attendance_records
-  has_many :sync_instances, :conditions => ['owner_id = ?', Person.logged_in.id]
+  has_many :sync_instances
   has_many :remote_accounts
   belongs_to :site
   
@@ -207,6 +207,7 @@ class Person < ActiveRecord::Base
   end
   
   def home_phone; family.home_phone; end
+  def address; family.address; end
   def address1; family.address1; end
   def address2; family.address2; end
   def city; family.city; end

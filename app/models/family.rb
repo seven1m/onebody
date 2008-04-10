@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 4
+# Schema version: 20080409165237
 #
 # Table name: families
 #
@@ -51,6 +51,10 @@ class Family < ActiveRecord::Base
   share_with :mobile_phone
   share_with :address
   share_with :anniversary
+  
+  def address
+    address1.to_s + (address2.to_s.any? ? "\n#{address2}" : '')
+  end
   
   def mapable?
     address1.to_s.any? and city.to_s.any? and state.to_s.any? and zip.to_s.any?

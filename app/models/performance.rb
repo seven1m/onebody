@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 4
+# Schema version: 20080409165237
 #
 # Table name: performances
 #
