@@ -1,0 +1,2 @@
+module RemoteAccountsHelper
+end

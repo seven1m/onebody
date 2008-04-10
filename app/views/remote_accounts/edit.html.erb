@@ -1,0 +1,8 @@
+<h1>Edit Account</h1>
+
+<% form_for :remote_account, @remote_account, :url => edit_remote_account_path(:person_id => params[:person_id], :id => params[:id]) do |form| %>
+  <p><%= form.label :account_type %> <%= form.select :account_type, RemoteAccount::ACCOUNT_TYPES %></p>
+  <p><%= form.label :username %>     <%= form.text_field :username %></p>
+  <p><%= form.label :token %>        <%= form.text_field :token %></p>
+  <p><%= submit_tag 'Save Account' %></p>
+<% end %>

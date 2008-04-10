@@ -12,6 +12,9 @@
     <% if @person.email.to_s.any? and @person.messages_enabled %>
       <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'icon') + ' Private Message', send_email_path(:id => @person) %></li>
     <% end %>
+    <% if @logged_in.can_sync_remotely? %>
+      <li><%= link_to_remote 'Sync &raquo;', :url => sync_person_options_path(:id => @person, :where => 'extra') %></li>
+    <% end %>
   <% end %>
 <% end %>
 
@@ -27,6 +30,8 @@
     <%= render :partial => 'sidebar_people' %>
   <% end %>
 <% end %>
+
+<div id="extra" style="display:none;" class="highlight"></div>
 
 <% unless @person.visible? %>
   <p class="alert">

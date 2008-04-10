@@ -12,10 +12,16 @@
 #
 
 class RemoteAccount < ActiveRecord::Base
+  RemoteAccount::ACCOUNT_TYPES = %w(highrise)
+  
   belongs_to :site
   belongs_to :person
-  has_many :sync_instances
+  has_many :sync_instances, :dependent => :destroy
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  
+  validates_presence_of :username, :token, :account_type
+  validates_inclusion_of :account_type, :in => ACCOUNT_TYPES
+  validates_uniqueness_of :account_type, :scope => :person_id
   
   def site_uri
     case self.account_type
@@ -73,6 +79,10 @@ class RemoteAccount < ActiveRecord::Base
   
   def update_all_remote_people
     self.sync_instances.each { |s| s.update_remote_person }
+  end
+  
+  def synced?(person)
+    self.sync_instances.find_by_person_id(person.id)
   end
   
 end

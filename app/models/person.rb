@@ -248,9 +248,15 @@ class Person < ActiveRecord::Base
       admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self)
     elsif what.is_a? PrayerRequest
       admin?(:manage_groups) or what.person == self or (what.group and what.group.people.include? self) or (what.group and what.group.admin? self)
+    elsif what.is_a? RemoteAccount
+      self.can_edit?(what.person)
     else
       raise 'unknown "what"'
     end
+  end
+  
+  def can_sync_remotely?
+    self.admin?(:view_hidden_properties)
   end
   
   def can_sign_in?

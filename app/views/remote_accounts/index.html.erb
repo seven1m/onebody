@@ -1,0 +1,21 @@
+<h1>Remote Accounts</h1>
+
+<table>
+  <tr><th>Type</th><th>Username</th><th>Token/Key</th><th>Synced Contacts</th></tr>
+  <% @remote_accounts.each do |remote_account| %>
+    <tr>
+      <td><%=h remote_account.account_type %></td>
+      <td><%=h remote_account.username %></td>
+      <td>
+        <%= link_to_function 'view &raquo;', "Element.toggle('remote_account_#{remote_account.id}')" %>
+        <% content_tag_for(:span, remote_account, :style => 'display:none;') do %><%=h remote_account.token %><% end %>
+      </td>
+      <td><%= remote_account.sync_instances.count %></td>
+      <td><%= link_to 'sync', sync_remote_account_path(:id => remote_account), :method => :post, :confirm => "Are you sure? This operation *will* make changes to this #{remote_account.account_type} account." %></td>
+      <td><%= link_to 'edit', edit_remote_account_path(:id => remote_account) %></td>
+      <td><%= link_to 'delete', delete_remote_account_path(:id => remote_account), :method => :post, :confirm => 'Are you sure?' %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to 'New Account', new_remote_account_path(:person_id => @person) %></p>

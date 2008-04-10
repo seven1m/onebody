@@ -130,6 +130,16 @@ ActionController::Routing::Routes.draw do |map|
     m.barcode 'nametags/barcode/:id', :action => 'barcode'
     m.print_nametags 'nametags/print', :action => 'print'
   end
+  
+  map.with_options :controller => 'remote_accounts' do |m|
+    m.new_remote_account 'remote_accounts/edit', :action => 'edit'
+    m.edit_remote_account 'remote_accounts/edit/:id', :action => 'edit'
+    m.delete_remote_account 'remote_accounts/delete/:id', :action => 'delete'
+    m.sync_remote_account 'remote_accounts/sync/:id', :action => 'sync'
+    m.remote_accounts 'remote_accounts/:person_id', :action => 'index'
+    m.sync_person_options 'remote_accounts/sync_person_options/:id', :action => 'sync_person_options'
+    m.sync_person 'remote_accounts/sync_person/:id', :action => 'sync_person'
+  end
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   map.connect ':controller/:action/:id'
