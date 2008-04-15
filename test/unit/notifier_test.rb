@@ -42,7 +42,7 @@ class NotifierTest < Test::Unit::TestCase
     reply = TMail::Mail.new
     reply.from = "Jennie Morgan <#{people(:jennie).email}>"
     reply.to = sent.from
-    reply.subject = 'test reply from jennie'
+    reply.subject = 're: test from jeremy'
     reply.body = 'hello jeremy'
     reply.in_reply_to = sent.message_id
     ActionMailer::Base.deliveries = []
@@ -50,9 +50,73 @@ class NotifierTest < Test::Unit::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.length
     sent = ActionMailer::Base.deliveries.first
     assert_equal [people(:jeremy).email], sent.to
-    assert_equal "test reply from jennie", sent.subject
+    assert_equal 're: test from jeremy', sent.subject
     assert sent.from != people(:jennie).email
     assert sent.body.index("hello jeremy")
+  end
+  
+  def test_private_email_and_reply_from_outlook
+    Message.create :person => people(:jeremy), :to => people(:jennie), :subject => 'test from jeremy', :body => 'hello jennie'
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal [people(:jennie).email], sent.to
+    assert_equal "test from jeremy", sent.subject
+    assert sent.from != people(:jeremy).email
+    assert sent.body.index("hello jennie")
+    # now reply
+    reply = TMail::Mail.new
+    reply.from = "Jennie Morgan <#{people(:jennie).email}>"
+    reply.to = sent.from
+    reply.subject = 're: test from jeremy'
+    reply.body = "hello jeremy\n" + sent.body
+    ActionMailer::Base.deliveries = []
+    Notifier.receive(reply.to_s)
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal [people(:jeremy).email], sent.to
+    assert_equal 're: test from jeremy', sent.subject
+    assert sent.from != people(:jennie).email
+    assert sent.body.index("hello jeremy")
+  end 
+  
+  def test_unsolicited_email
+    msg = TMail::Mail.new
+    msg.from = "Jennie Morgan <#{people(:jennie).email}>"
+    msg.to = 'jeremysmith@example.com'
+    msg.subject = 'hi jeremy'
+    msg.body = 'hello jeremy'
+    Notifier.receive(msg.to_s)
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal [people(:jennie).email], sent.to
+    assert_equal 'Message Rejected', sent.subject
+    assert_equal [Site.current.noreply_email], sent.from
+    assert sent.body.index("unsolicited")
+  end
+  
+  def test_email_from_unknown_sender
+    msg = TMail::Mail.new
+    msg.from = "Joe Spammer <joe@spammy.com>"
+    msg.to = 'jeremysmith@example.com'
+    msg.subject = 'hi jeremy'
+    msg.body = 'hello jeremy'
+    Notifier.receive(msg.to_s)
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal ['joe@spammy.com'], sent.to
+    assert_equal 'Message Rejected', sent.subject
+    assert_equal [Site.current.noreply_email], sent.from
+    assert sent.body.index("the system does not recognize your email address")
+  end
+  
+  def test_email_to_noreply_address_gets_discarded
+    msg = TMail::Mail.new
+    msg.from = "Jennie Morgan <#{people(:jennie).email}>" # even from known address
+    msg.to = Site.current.noreply_email
+    msg.subject = 're: hi jeremy'
+    msg.body = 'some sort of automated response'
+    Notifier.receive(msg.to_s)
+    assert_equal 0, ActionMailer::Base.deliveries.length
   end
   
   def test_receive_for_different_sites
@@ -70,7 +134,12 @@ class NotifierTest < Test::Unit::TestCase
   def test_receive_for_wrong_site
     email = to_email(:from => 'jim@example.com', :to => 'morgan@site2', :subject => 'test to morgan group in site 2 (should fail)', :body => 'Hello Site 2 from Tom! This should fail.')
     Notifier.receive(email.to_s)
-    assert_deliveries 0
+    assert_deliveries 1
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal email.from, sent.to
+    assert_equal 'Message Rejected', sent.subject
+    assert_equal [Site.current.noreply_email], sent.from
+    assert sent.body.index("the system does not recognize your email address")
   end
   
   def test_receive_from_user

@@ -3,3 +3,6 @@
 - - - - - - - - - - - - - - - - - - - - - - - -
 <%= @msg.reply_instructions(@to) -%>
 <%= @msg.disable_email_instructions(@to) -%>
+<% if @id_and_code %>
+Message ID: <%= @id_and_code -%>
+<% end -%>

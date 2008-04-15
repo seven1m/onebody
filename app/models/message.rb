@@ -90,9 +90,10 @@ class Message < ActiveRecord::Base
   
   def send_to_person(person)
     if person.email.to_s.any?
-      email = Notifier.create_message(person, self)
+      id_and_code = "#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
+      email = Notifier.create_message(person, self, id_and_code)
       email.add_message_id
-      email.message_id = "<#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}_#{email.message_id.gsub(/^</, '')}"
+      email.message_id = "<#{id_and_code}_#{email.message_id.gsub(/^</, '')}"
       Notifier.deliver(email)
     end
   end

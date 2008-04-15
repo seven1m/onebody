@@ -38,7 +38,7 @@ class Notifier < ActionMailer::Base
     body :person => person, :group => group
   end
   
-  def message(to, msg)
+  def message(to, msg, id_and_code=nil)
     recipients to.email
     from msg.email_from(to)
     h = {'Reply-To' => msg.email_reply_to(to)}
@@ -66,7 +66,7 @@ class Notifier < ActionMailer::Base
     else
       subject msg.subject
     end
-    body :to => to, :msg => msg
+    body :to => to, :msg => msg, :id_and_code => id_and_code
     msg.attachments.each do |a|
       attachment :content_type => a.content_type, :filename => a.name, :body => a.file
     end
@@ -110,7 +110,6 @@ class Notifier < ActionMailer::Base
   # TODO: This is probably the ugliest bit of code in the whole app.
   def receive(email)
     return unless email.from.to_s.any?
-    return if email.body.to_s =~ /mailboy-test/ # to protect people who don't know we upgraded
     person = nil
     (email.cc.to_a + email.to.to_a).each do |address|
       if site = Site.find_by_host(address.downcase.split('@').last)
@@ -119,6 +118,10 @@ class Notifier < ActionMailer::Base
       end
     end
     return unless Site.current
+    
+    # never respond to messages sent to no-reply
+    return if email.to.select { |to| to =~ /no\-?reply/ or to =~ Regexp.new(Site.current.noreply_email) }.any?
+    
     people = Person.find :all, :conditions => ["#{sql_lcase('email')} = ?", email.from.to_s.downcase]
     if people.length == 0
       # user is not found in the system, try alternate email
@@ -147,16 +150,8 @@ class Notifier < ActionMailer::Base
             else
               parent = nil
             end
-            # if the message is multipart, try to grab the plain text part
-            # and any attachments
-            if email.multipart?
-              parts = email.parts.select { |p| p.content_type.downcase == 'text/plain' }
-              body = parts.any? ? parts.first.body : nil
-            else
-              body = email.body
-            end
             # if there is a readable body, send the message
-            if body
+            if body = get_body(email)
               body = clean_body(body)
               message = Message.create(
                 :group => group,
@@ -194,12 +189,24 @@ class Notifier < ActionMailer::Base
           
           # replying to a person who sent a group or private message
           elsif address.to_s.any? and not message_sent_to_group
+            body = get_body(email)
             message_id, code_hash, message = nil
+            # first try in-reply-to and references headers
             (email.in_reply_to.to_a + email.references.to_a).each do |in_reply_to|
               begin
                 message_id, code_hash = in_reply_to.match(/<(\d+)_([0-9abcdef]{6,6})_/)[1..2]
                 message = Message.find(message_id)
                 break
+              rescue
+                message = nil
+              end
+            end
+            # fallback to using id and code hash inside email body
+            # (Outlook does not use the psuedo-standard headers we rely on above)
+            if message.nil? and body
+              begin
+                message_id, code_hash = body.match(/id:\s*(\d+)_([0-9abcdef]{6,6})/i)[1..2]
+                message = Message.find(message_id)
               rescue
                 message = nil
               end
@@ -210,13 +217,6 @@ class Notifier < ActionMailer::Base
                 Notifier.deliver_simple_message(email.from, 'Message Too Old', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the message to which you're replying is too old. This is to prevent unsolicited email to our users. If you wish to send a message to this person, please sign into #{Setting.get(:url, :site)} and send the message via the web site. If you need help, please contact #{Setting.get(:contact, :tech_support_contact)}.")
               else
                 to_person = message.person
-                # if the message is multipart, try to grab the plain text part
-                if email.multipart?
-                  parts = email.parts.select { |p| p.content_type.downcase == 'text/plain' }
-                  body = parts.any? ? parts.first.body : nil
-                else
-                  body = email.body
-                end
                 if body
                   body = clean_body(body)
                   message = Message.create(
@@ -242,18 +242,31 @@ class Notifier < ActionMailer::Base
           end
         end
       end
+    else
+      Notifier.deliver_simple_message(email.from, 'Message Rejected', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the system does not recognize your email address as a user of the system. If you want to send a message to someone, please send from your registered account email address or sign in at #{Setting.get(:url, :site)} and send your message via the Web")
     end
   end
   
   private
   
+    def get_body(email)
+      # if the message is multipart, try to grab the plain text part
+      if email.multipart?
+        email.parts.each do |part|
+          return part.body if part.content_type.downcase == 'text/plain'
+          if part.content_type.downcase == 'multipart/alternative'
+            if b = part.parts.select { |p| p.content_type.downcase == 'text/plain' }.first
+              return b
+            end
+          end
+        end
+      else
+        return email.body
+      end
+    end
+  
     def clean_body(body)
       # this has the potential for error, but we'll just go with it and see
       body.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.strip
     end
-    
-    #def parse_html_body(body)
-    #  # a work in progress
-    #  body.gsub(/\n/, '').gsub(/<br\s?\/?>/i, "\n").gsub(/<(p|div)>/i, "\n").gsub(/<script.*?>.*?</script>/i, '').gsub(/<.+?>/m, '').gsub(/&nbsp;/, ' ').strip
-    #end
 end
