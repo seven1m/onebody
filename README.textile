@@ -4,9 +4,9 @@ h1. OneBody
 
 OneBody is free, open-source, volunteer-built software that connects churchgoers on the web.
 
-Built by volunteers at a 1000-member, independent church in the heart of the United States, OneBody is one of the most complete and feature-rich online church membership projects available today (at least we think so).
+Built by volunteers at a mid-sized, independent church in the heart of the United States, OneBody allows any church to add social network features to their website by using data stored in their existing church management software.
 
-*What It Isn't:* OneBody does not replace your church's standard membership database software (at least not yet). Our software is only useful when used in conjunction with your existing database. See "how it works":http://github.com/seven1m/onebody/wikis/HowItWorks.
+The revolutionary thing about OneBody is that it is designed to work with any church management software or database.
 
 h2. Up And Running
 
