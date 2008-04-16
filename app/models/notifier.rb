@@ -136,7 +136,7 @@ class Notifier < ActionMailer::Base
     end
 
     message_sent_to_group = false
-
+    
     if person
       (email.cc.to_a + email.to.to_a).each do |address|
         address, domain = address.downcase.split('@')
@@ -254,8 +254,8 @@ class Notifier < ActionMailer::Base
         email.parts.each do |part|
           return part.body if part.content_type.downcase == 'text/plain'
           if part.content_type.downcase == 'multipart/alternative'
-            if b = part.parts.select { |p| p.content_type.downcase == 'text/plain' }.first
-              return b
+            if sub_part = part.parts.select { |p| p.content_type.downcase == 'text/plain' }.first
+              return sub_part.body
             end
           end
         end

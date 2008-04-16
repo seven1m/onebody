@@ -109,6 +109,14 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("the system does not recognize your email address")
   end
   
+  def test_multipart_email_with_attachment
+    Notifier.receive(File.read(File.join(FIXTURES_PATH, 'multipart.email')))
+    assert_equal 2, ActionMailer::Base.deliveries.length
+    assert message = Message.find(:first, :order => 'id desc')
+    assert_equal 'multipart test', message.subject
+    assert_equal 1, message.attachments.count
+  end
+  
   def test_email_to_noreply_address_gets_discarded
     msg = TMail::Mail.new
     msg.from = "Jennie Morgan <#{people(:jennie).email}>" # even from known address
