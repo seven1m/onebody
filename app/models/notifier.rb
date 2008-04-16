@@ -112,16 +112,15 @@ class Notifier < ActionMailer::Base
     return unless email.from.to_s.any?
     person = nil
     (email.cc.to_a + email.to.to_a).each do |address|
+      # never respond to messages sent to no-reply
+      return if address =~ /no\-?reply/i
       if site = Site.find_by_host(address.downcase.split('@').last)
         Site.current = site
         break
       end
     end
     return unless Site.current
-    
-    # never respond to messages sent to no-reply
-    return if email.to.select { |to| to =~ /no\-?reply/ or to =~ Regexp.new(Site.current.noreply_email) }.any?
-    
+
     people = Person.find :all, :conditions => ["#{sql_lcase('email')} = ?", email.from.to_s.downcase]
     if people.length == 0
       # user is not found in the system, try alternate email
