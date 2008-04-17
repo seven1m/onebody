@@ -197,6 +197,13 @@
   <% end %>
 </div>
 
+<% if Site.current.twitter_enabled? %>
+  <h2 class="tab" id="twitter">Twitter</h2>
+  <div class="section">
+    <%= render :partial => 'twitter' %>
+  </div>
+<% end %>
+
 <% if @logged_in.admin?(:manage_access) %>
   <h2 class="tab" id="access">Access</h2>
   <div class="section">

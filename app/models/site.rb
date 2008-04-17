@@ -15,7 +15,7 @@ class Site < ActiveRecord::Base
   
   class << self
     def sub_tables
-      rejects = %w(site search notifier barcode one_body_info)
+      rejects = %w(site search notifier barcode one_body_info twitter_relay)
       @@sub_tables ||= Dir[File.join(File.dirname(__FILE__), '*.rb')].to_a.map { |f| File.split(f).last.split('.').first }.select { |f| !rejects.include? f }.map { |f| f.pluralize }
     end
     def sub_models
@@ -65,6 +65,11 @@ class Site < ActiveRecord::Base
         Setting.create(values)
       end
     end
+  end
+  
+  def twitter_enabled?
+    @twitter_enabled ||= self.settings.find_by_name('Twitter Account Email Address').value.to_s.any? \
+      && self.settings.find_by_name('Twitter Account Password').value.to_s.any?
   end
   
   alias_method :rails_original_destroy, :destroy

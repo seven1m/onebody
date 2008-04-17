@@ -1,0 +1,108 @@
+# recognized *direct* messages:
+# lookup Tim Morgan (gets mobile & home numbers)
+# phone Tim Morgan (gets mobile & home numbers)
+# mobile Tim Morgan (gets mobile number)
+# home Tim Morgan (gets home number)
+# work Tim Morgan (gets work number)
+# email Tim Morgan (gets email address)
+# address Tim Morgan (gets home address)
+
+require 'twitter'
+
+class TwitterMessage < ActiveRecord::Base
+  MAX_MESSAGES_PER_MINUTE = 100
+  
+  belongs_to :person
+  
+  validates_uniqueness_of :twitter_id
+  validates_presence_of :twitter_screen_name
+  
+  def validate
+    if TwitterMessage.count('*', :conditions => ['created_at >= ?', 1.minutes.ago]) > MAX_MESSAGES_PER_MINUTE
+      errors.add_to_base('Too many messages per minute.')
+    end
+    unless self.person
+      errors.add(:twitter_screen_name, 'Twitter screen name unknown.')
+    end
+  end
+    
+  def twitter_screen_name=(screen_name)
+    write_attribute :twitter_screen_name, screen_name
+    self.person = Person.find_by_twitter_account(screen_name)
+  end
+  
+  def build_reply
+    raise 'No message' unless self.message.to_s.strip.any?
+    if self.message =~ /^\s*(lookup|phone|mobile|home|work|address)\s*(.+)/
+      lookup_name = sql_lcase(sql_concat('first_name', "' '", 'last_name'))
+      if found = Person.find(:first, :conditions => ["#{lookup_name} like ?", $2.downcase + '%']) \
+        and self.person.can_see?(found)
+        case $1
+        when 'lookup', 'phone', 'mobile'
+          if found.share_mobile_phone_with(self.person) and found.mobile_phone.to_i > 0
+            self.reply = "#{found.mobile_phone} - #{found.name}"
+          else
+            self.reply = "Mobile number not available for #{found.name}"
+          end
+        when 'home'
+          if found.home_phone.to_i > 0
+            self.reply = "#{found.home_phone} - #{found.name}"
+          else
+            self.reply = "Home number not available for #{found.name}"
+          end
+        when 'work'
+          if found.share_work_phone_with(self.person) and found.work_phone.to_i > 0
+            self.reply = "#{found.work_phone} - #{found.name}"
+          else
+            self.reply = "Work number not available for #{found.name}"
+          end
+        when 'address'
+          if found.share_address_with(self.person) and found.address1.to_s.any? and found.city.to_s.any? and found.state.to_s.any?
+            self.reply = "#{found.family.mapable_address} - #{found.name}"
+          else
+            self.reply = "Address not available for #{found.name}"
+          end
+        end
+      else
+        self.reply = 'No one with that name could be found.'
+      end
+    else
+      self.reply = 'Send "mobile John Doe" or "address John Doe" or similar.'
+    end
+  end
+  
+  class << self
+    def t
+      @t ||= Twitter::Base.new(Setting.get(:features, :twitter_account_email_address), Setting.get(:features, :twitter_account_password))
+    end
+    
+    def process_messages(debug=false)
+      t.direct_messages(1.day.ago.strftime('%a, %d %b %Y %H:%M:%S GMT')).each do |message|
+        unless find_by_twitter_id(message.id)
+          m = create(:twitter_id => message.id, :twitter_screen_name => message.sender_screen_name, :message => message.text)
+          if m.errors.any?
+            if m.errors.on(:twitter_screen_name) == 'Twitter screen name unknown.'
+              m.reply = "I don't recognize your Twitter account. Update your account at #{Setting.get(:url, :site)}"
+              t.d message.sender_screen_name, m.reply
+            end
+          else
+            m.build_reply
+            t.d m.person.twitter_account, m.reply
+          end
+          m.save
+          puts "Sent: #{m.reply}" if debug
+        end
+      end
+    end
+    
+    def update_followers(debug=false)
+      friends = t.friends.map { |f| f.screen_name }
+      t.followers.each do |follower|
+        unless friends.include? follower.screen_name
+          puts 'now following ' + follower.screen_name if debug
+          t.create_friendship follower.screen_name
+        end
+      end
+    end
+  end
+end

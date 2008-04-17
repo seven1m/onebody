@@ -1,0 +1,7 @@
+<h2>Twitter Account</h2>
+
+<% form_for :person, @person, :url => edit_person_path(:id => @person) do |form| %>
+  <p><%= form.label :twitter_account, 'Your Twitter username:' %>
+  <%= form.text_field :twitter_account %><br/>
+  <%= submit_tag 'Save Changes' %>
+<% end %>
