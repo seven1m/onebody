@@ -58,14 +58,4 @@ class TwitterMessage < ActiveRecord::Base
       self.reply = 'Send "mobile John Doe" or "address John Doe" or similar.'
     end
   end
-  
-  # def update_followers(debug=false)
-  #   friends = t.friends.map { |f| f.screen_name }
-  #   t.followers.each do |follower|
-  #     unless friends.include? follower.screen_name
-  #       puts 'now following ' + follower.screen_name if debug
-  #       t.create_friendship follower.screen_name
-  #     end
-  #   end
-  # end
 end

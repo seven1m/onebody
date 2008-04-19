@@ -51,6 +51,14 @@ class TwitterBot
   end
   
   def twitter
-    @twitter ||= Twitter::Base.new(Setting.get(:features, :twitter_account), Setting.get(:features, :twitter_password))
+    @twitter ||= Twitterbot.twitter
+  end
+  
+  def self.twitter
+    Twitter::Base.new(Setting.get(:features, :twitter_account), Setting.get(:features, :twitter_password))
+  end
+  
+  def self.follow(twitter_account)
+    twitter.create_friendship twitter_account
   end
 end

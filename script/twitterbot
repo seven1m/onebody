@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+RAILS_ENV = ARGV[2] || 'production'
+
 RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 require File.join(RAILS_ROOT, 'vendor/daemon')
 

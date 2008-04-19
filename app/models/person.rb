@@ -433,6 +433,9 @@ class Person < ActiveRecord::Base
       end
     elsif params[:person] # testimony, about, favorites, etc.
       params[:person][:service_phone] = params[:person][:service_phone].digits_only if params[:person][:service_phone]
+      if params[:person][:twitter_account].to_s.strip.any? and params[:person][:twitter_account] != self.twitter_account
+        TwitterBot.follow(params[:person][:twitter_account])
+      end
       update_attributes params[:person]
     else
       self
