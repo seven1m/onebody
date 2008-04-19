@@ -1,7 +1,6 @@
 class Twitter < ActiveRecord::Migration
   def self.up
     create_table :twitter_messages do |t|
-      t.integer :twitter_id
       t.integer :twitter_screen_name
       t.integer :person_id
       t.string :message, :limit => 140

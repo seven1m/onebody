@@ -68,8 +68,8 @@ class Site < ActiveRecord::Base
   end
   
   def twitter_enabled?
-    @twitter_enabled ||= self.settings.find_by_name('Twitter Account Email Address').value.to_s.any? \
-      && self.settings.find_by_name('Twitter Account Password').value.to_s.any?
+    @twitter_enabled ||= self.settings.find_by_name('Twitter Account').value.to_s.any? \
+      && self.settings.find_by_name('Twitter Password').value.to_s.any?
   end
   
   alias_method :rails_original_destroy, :destroy

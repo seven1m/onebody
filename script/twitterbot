@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+require File.join(RAILS_ROOT, 'vendor/daemon')
+
+require File.dirname(__FILE__) + '/../config/environment'
+
+require 'xmpp4r/client'
+require 'twitter'
+
+if ARGV.first == 'start'
+  if ARGV.length < 3 or not Site.current = Site.find_by_name(ARGV[1])
+    puts 'Usage: ruby twitterbot start/stop/restart "Site Name" production'
+    exit(1)
+  elsif Setting.get(:features, :jabber_account).to_s.empty?
+    'You must setup your Jabber account on the Settings screen.'
+    exit(1)
+  elsif Setting.get(:features, :twitter_account).to_s.empty?
+    'You must setup your Twitter account on the Settings screen.'
+    exit(1)
+  end
+end
+
+class TwitterBotDaemon < Daemon::Base
+  
+  def self.start
+    puts "TwitterBot started at #{timestamp}"
+    puts
+    @rails_root = File.expand_path(RAILS_ROOT)
+    @site_name = ARGV[1] || 'Default'
+    @rails_env = ARGV[2] || 'production'
+    bot = TwitterBot.new(
+      Setting.get(:features, :jabber_account),
+      Setting.get(:features, :jabber_password)
+    )
+    bot.run
+  end
+
+  def self.timestamp
+    Time.now.strftime('%m/%d/%Y %I:%M:%S %p')
+  end
+  
+  def self.stop
+    puts "TwitterBot stopped at #{timestamp}"
+    puts
+  end
+end
+
+TwitterBotDaemon.daemonize(RAILS_ROOT, File.join(RAILS_ROOT, 'log/twitterbot.log'))

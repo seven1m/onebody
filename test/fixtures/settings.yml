@@ -412,24 +412,46 @@ features_ssl:
   section: Features
   hidden: false
   created_at: 2008-01-26 15:21:06
-features_twitteremail:
-  name: Twitter Account Email Address
+features_twitteraccount:
+  name: Twitter Account
   format: string
   updated_at: 2008-04-16 17:35:00
   created_at: 2008-04-16 17:35:00
   value:
-  description: Login (email address) of church Twitter account.
+  description: Account name of church Twitter account.
   global: false
   section: Features
   hidden: false
   site_id: "1"
 features_twitterpassword:
-  name: Twitter Account Password
+  name: Twitter Password
   format: password
   updated_at: 2008-04-16 17:35:00
   created_at: 2008-04-16 17:35:00
   value:
   description: Password of church Twitter account.
+  global: false
+  section: Features
+  hidden: false
+  site_id: "1"
+features_jabberaccount:
+  name: Jabber Account
+  format: string
+  updated_at: 2008-04-16 17:35:00
+  created_at: 2008-04-16 17:35:00
+  value:
+  description: Account (email address) for connecting to Twitter through Jabber/XMPP.
+  global: false
+  section: Features
+  hidden: false
+  site_id: "1"
+features_jabberpassword:
+  name: Jabber Password
+  format: password
+  updated_at: 2008-04-16 17:35:00
+  created_at: 2008-04-16 17:35:00
+  value:
+  description: Password of Jabber account.
   global: false
   section: Features
   hidden: false
