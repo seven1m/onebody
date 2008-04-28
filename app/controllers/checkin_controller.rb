@@ -34,11 +34,10 @@ class CheckinController < ApplicationController
   end
   
   def attendance(dont_render=false)
-    today = Date.today
     @records = AttendanceRecord.find(
       :all,
-      :conditions => ['section = ? and "in" >= ? and "in" < ?', @section, today, today+1],
-      :order => '"in" desc'
+      :conditions => ['section = ? and `in` >= ?', @section, Date.today],
+      :order => '`in` desc'
     )
     render :partial => 'attendance' unless dont_render
   end
