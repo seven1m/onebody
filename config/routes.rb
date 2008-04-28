@@ -112,6 +112,12 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'administration/settings' do |m|
     m.settings 'administration/settings', :action => 'index'
   end
+
+  map.with_options :controller => 'checkin/admin' do |m|
+    # FIXME: cannot get next route to work minus "index" on the end - clashes with checkin_section route
+    m.checkin_admin 'checkin/admin/index', :action => 'index'
+    m.checkin_report 'checkin/admin/report', :action => 'report'
+  end
   
   map.with_options :controller => 'checkin' do |m|
     m.checkin 'checkin', :action => 'index'

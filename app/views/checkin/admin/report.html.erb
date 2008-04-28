@@ -1,0 +1,14 @@
+<p><%= link_to '&laquo; Report Options', checkin_admin_path %></p>
+
+<table class="attendance">
+  <tr><th>Barcode</th><th>Name</th><th>Age</th><th>In</th><th>Out</th></tr>
+  <% @records.each do |record| %>
+    <tr id="record<%= record.id %>" <% if record.void? %>class="void"<% end %>>
+      <td><%=h record.barcode_id %>
+      <td><%= link_to "#{record.first_name} #{record.last_name}", person_url(:id => record.person_id) %></td>
+      <td><%=h record.age %></td>
+      <td id="in<%= record.id %>"><%=h record.in && record.in.to_s(:time) %></td>
+      <td id="out<%= record.id %>"><%=h record.out && record.out.to_s(:time) %></td>
+    </tr>
+  <% end %>
+</table>
