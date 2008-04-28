@@ -1,28 +1,35 @@
+RAILS_ROOT = File.dirname(__FILE__) + "/../.."
+
 require 'rubygems'
 require 'rake/gempackagetask'
+require 'time'
 
-spec = Gem::Specification.new do |s|
-  s.name = 'onebody'
-  s.version = File.read(File.join(File.dirname(__FILE__), '../../VERSION')).strip.split('-').first
-  s.summary = "web-based church directory and social networking software"
-  s.description = <<EOF
-OneBody is free, open-source, volunteer-built
-software that connects churchgoers on the web.
-EOF
-  s.has_rdoc = false
-  s.files = Dir.glob('**/*', File::FNM_DOTMATCH).reject do |f| 
-     [ /\.$/, /\.log$/, /^pkg/, /\.svn/, /\.git/, /\~$/, /\/\._/, /\/#/ ].any? {|regex| f =~ regex }
+namespace :onebody do
+  namespace :gem do
+    desc 'Build the onebody.gemspec.'
+    task :spec do
+      files = Dir.glob('**/*', File::FNM_DOTMATCH).reject do |file|
+        [ /\.$/, /\.log$/, /^pkg/, /\.git/, /\~$/, /\/\._/, /\/#/ ].any? { |regex| file =~ regex }
+      end
+
+      spec = File.read(RAILS_ROOT + '/onebody.gemspec')
+      spec.sub!(
+        /s\.version\s=\s'\d(\.\d+)+'/,
+        "s.version = '" + Time.now.strftime('0.%Y.%j.%H').sub(/^0.20+/, '0.') + "'"
+      )
+      # we must generate a static list of files for the GitHub auto gem build process to work
+      spec.sub!(
+        /s\.files\s=\s\[.*?\]/m,
+        "s.files = [\n    " + files.map { |f| f.inspect }.join(",\n    ") + "\n  ]"
+      )
+
+      File.open(RAILS_ROOT + '/onebody.gemspec', 'w') { |f| f.write spec }
+    end
+    
+    #desc 'Generate onebody.gemspec and build gem.'
+    #task :build => :spec
+    #  load RAILS_ROOT + '/onebody.gemspec'
+    #  TODO: figure out command needed to build gem from spec
+    #end
   end
-  s.require_path = '.'
-  s.author = "Tim Morgan"
-  s.email = "tim@timmorgan.org"
-  s.homepage = "http://beonebody.org"
-  s.rubyforge_project = "onebody"
-  s.platform = Gem::Platform::RUBY 
-  s.executables = ['onebody']
-end
-
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.need_zip = false
-  pkg.need_tar = false
 end
