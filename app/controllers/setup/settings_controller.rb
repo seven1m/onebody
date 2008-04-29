@@ -31,7 +31,7 @@ class Setup::SettingsController < Setup::BaseController
     rescue
       render :text => 'Could not establish database connection or database not up-to-date.', :layout => true
     else
-      render :template => 'admin/settings/index'
+      render :template => 'administration/settings/index'
     end
   end
 end

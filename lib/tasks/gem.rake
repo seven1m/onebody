@@ -2,21 +2,18 @@ RAILS_ROOT = File.dirname(__FILE__) + "/../.."
 
 require 'rubygems'
 require 'rake/gempackagetask'
-require 'time'
 
 namespace :onebody do
   namespace :gem do
     desc 'Build the onebody.gemspec.'
-    task :spec do
+    task :spec => 'onebody:version:update' do
       files = Dir.glob('**/*', File::FNM_DOTMATCH).reject do |file|
         [ /\.$/, /\.log$/, /^pkg/, /\.git/, /\~$/, /\/\._/, /\/#/ ].any? { |regex| file =~ regex }
       end
 
       spec = File.read(RAILS_ROOT + '/onebody.gemspec')
-      spec.sub!(
-        /s\.version\s=\s'\d(\.\d+)+'/,
-        "s.version = '" + Time.now.strftime('0.%Y.%j.%H').sub(/^0.20+/, '0.') + "'"
-      )
+      spec.sub!(/s\.version\s=\s'\d(\.\d+)+'/, "s.version = '#{File.read(RAILS_ROOT + '/VERSION')}'")
+      
       # we must generate a static list of files for the GitHub auto gem build process to work
       spec.sub!(
         /s\.files\s=\s\[.*?\]/m,

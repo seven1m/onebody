@@ -2,8 +2,8 @@ require 'zlib'
 require 'archive/tar/minitar'
 
 class OneBodyInfo
-  RELEASED_VERSION_URL = 'http://beonebody.org/releases/CURRENT.txt'
-  DEV_VERSION_URL = 'http://github.com/seven1m/onebody/tree/master/VERSION?raw=true'
+  RELEASED_VERSION_URL = nil
+  DEV_VERSION_URL = 'http://github.com/seven1m/onebody/tree/master%2FVERSION?raw=true'
   GIT_REVISION_YAML_URL = 'http://github.com/api/v1/yaml/seven1m/onebody/commits/master'
   
   include Archive::Tar
@@ -12,9 +12,7 @@ class OneBodyInfo
   
   def install_method
     @install_method ||= begin
-      if File.exists?(File.join(RAILS_ROOT, 'installed-from-gem')) 
-        :gem
-      elsif File.exists?(File.join(RAILS_ROOT, '.git'))
+      if File.exists?(File.join(RAILS_ROOT, '.git'))
         :git
       else
         :manual
@@ -47,18 +45,22 @@ class OneBodyInfo
   end
   
   def released_version
-    if PHONE_HOME_FOR_VERSION_INFO
-      @released_version ||= get_version_from_url(RELEASED_VERSION_URL)
-    else
-      "Visit #{RELEASED_VERSION_URL} to find out."
+    if RELEASED_VERSION_URL
+      if PHONE_HOME_FOR_VERSION_INFO
+        @released_version ||= get_version_from_url(RELEASED_VERSION_URL)
+      else
+        "Visit #{RELEASED_VERSION_URL} to find out."
+      end
     end
   end
   
   def development_version
-    if PHONE_HOME_FOR_VERSION_INFO
-      @development_version ||= get_version_from_url(DEV_VERSION_URL)
-    else
-      "Visit #{DEV_VERSION_URL} to find out."
+    if DEV_VERSION_URL
+      if PHONE_HOME_FOR_VERSION_INFO
+        @development_version ||= get_version_from_url(DEV_VERSION_URL)
+      else
+        "Visit #{DEV_VERSION_URL} to find out."
+      end
     end
   end
   
@@ -70,11 +72,7 @@ class OneBodyInfo
   
   def up_to_date
     if PHONE_HOME_FOR_VERSION_INFO
-      if install_method == :git
-        this_revision == development_revision
-      else
-        this_version >= development_version
-      end
+      this_version >= development_version
     end
   end
   
@@ -140,7 +138,7 @@ class OneBodyInfo
       nil # no database found (or error establishing connection)
     else
       begin
-        ActiveRecord::Base.connection.select_value("SELECT version FROM schema_info").to_i
+        ActiveRecord::Base.connection.select_value("SELECT version FROM schema_migrations ORDER BY CAST(version AS UNSIGNED) DESC LIMIT 1").to_i
       rescue
         0
       end

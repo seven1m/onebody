@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s|
   s.name = 'onebody'
-  s.version = '0.8.120.14'
+  s.version = '0.8.120.15'
   s.summary = "web-based church directory and social networking software"
   s.description = <<EOF
 OneBody is free, open-source, volunteer-built software that connects churchgoers on the web.
@@ -408,6 +408,8 @@ EOF
     "db/photos/pictures/.empty",
     "db/photos/recipes",
     "db/photos/recipes/.empty",
+    "db/production.backup.200804291457.db",
+    "db/production.backup.200804291457.tar",
     "db/production.db",
     "db/publications",
     "db/publications/.empty",
@@ -448,6 +450,7 @@ EOF
     "lib/tasks/init.rake",
     "lib/tasks/multisite.rake",
     "lib/tasks/rename_views.rake",
+    "lib/tasks/version.rake",
     "lib/update_attributes_if_changed.rb",
     "LICENSE",
     "log",

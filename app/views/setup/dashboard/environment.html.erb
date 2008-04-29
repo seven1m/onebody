@@ -3,31 +3,23 @@
   <tr>
     <td>Install method</td>
     <td>
-      <% case @info.install_method when :gem %>
-        RubyGem
-      <% when :git %>
-        Git Clone
+      <% case @info.install_method when :git %>
+        Git
       <% when :manual %>
         Tar.gz or Other
       <% end %>
     </td>
   </tr>
   <tr>
-    <td>This version</td>
+    <td>Your version</td>
     <td>
       <%=h @info.this_version %>
-      <% if @info.this_revision %>(rev <%= @info.this_revision %>)<% end %>
     </td>
   </tr>
   <tr>
-    <td>Released version</td>
-    <td><%= auto_link @info.released_version %></td>
-  </tr>
-  <tr>
-    <td>Development version</td>
+    <td>Official version</td>
     <td>
       <%= auto_link @info.development_version %>
-      <% if @info.development_revision %>(rev <%= @info.development_revision %>)<% end %>
     </td>
   </tr>
 </table>
