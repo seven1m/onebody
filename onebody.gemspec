@@ -1,11 +1,21 @@
 spec = Gem::Specification.new do |s|
   s.name = 'onebody'
-  s.version = '0.8.119.15'
+  s.version = '0.8.120.09'
   s.summary = "web-based church directory and social networking software"
   s.description = <<EOF
-OneBody is free, open-source, volunteer-built
-software that connects churchgoers on the web.
+OneBody is free, open-source, volunteer-built software that connects churchgoers on the web.
+
+Built by volunteers at a mid-sized, independent church in the heart of the United States,
+OneBody allows any church to add social network features to their website by using data
+stored in their existing church management software.
 EOF
+  s.require_path = '.'
+  s.author = "Tim Morgan"
+  s.email = "tim@timmorgan.org"
+  s.homepage = "http://beonebody.org"
+  s.rubyforge_project = "onebody"
+  s.platform = Gem::Platform::RUBY 
+  s.executables = ['onebody']
   s.has_rdoc = false
   s.files = [
     "app",
@@ -3404,11 +3414,4 @@ EOF
     "vendor/TWITTER_LICENSE",
     "vendor/xmlmapping.rb"
   ]
-  s.require_path = '.'
-  s.author = "Tim Morgan"
-  s.email = "tim@timmorgan.org"
-  s.homepage = "http://beonebody.org"
-  s.rubyforge_project = "onebody"
-  s.platform = Gem::Platform::RUBY 
-  s.executables = ['onebody']
 end
