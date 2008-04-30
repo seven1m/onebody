@@ -6,9 +6,9 @@ require 'rake/gempackagetask'
 namespace :onebody do
   namespace :gem do
     desc 'Build the onebody.gemspec.'
-    task :spec => 'onebody:version:update' do
-      files = Dir.glob('**/*', File::FNM_DOTMATCH).reject do |file|
-        [ /\.$/, /\.log$/, /^pkg/, /\.git/, /\~$/, /\/\._/, /\/#/ ].any? { |regex| file =~ regex }
+    task :spec do
+      files = `git ls-files`.split(/\n/).reject do |file|
+        [ /\.$/, /\.log$/, /^pkg/, /\.git/, /\~$/, /\/\._/, /\/#/, /\.DS_Store/ ].any? { |regex| file =~ regex }
       end
 
       spec = File.read(RAILS_ROOT + '/onebody.gemspec')
@@ -17,7 +17,7 @@ namespace :onebody do
       # we must generate a static list of files for the GitHub auto gem build process to work
       spec.sub!(
         /s\.files\s=\s\[.*?\]/m,
-        "s.files = [\n    " + files.map { |f| f.inspect }.join(",\n    ") + "\n  ]"
+        "s.files = [\n    " + files.sort.map { |f| f.inspect }.join(",\n    ") + "\n  ]"
       )
 
       File.open(RAILS_ROOT + '/onebody.gemspec', 'w') { |f| f.write spec }
