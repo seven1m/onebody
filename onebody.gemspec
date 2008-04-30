@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'onebody'
-  s.version = '0.8.120.21'
+  s.version = '0.8.121.20'
   s.summary = "web-based church directory and social networking software"
   s.description = <<EOF
 OneBody is free, open-source, volunteer-built software that connects churchgoers on the web.
@@ -346,6 +346,7 @@ EOF
     "db/migrate/004_create_attendance_records.rb",
     "db/migrate/20080409165237_add_remote_sync.rb",
     "db/migrate/20080416214310_twitter.rb",
+    "db/migrate/20080430175131_add_cached_parents_to_groups.rb",
     "db/photos/families/.empty",
     "db/photos/groups/.empty",
     "db/photos/people/.empty",
@@ -353,6 +354,7 @@ EOF
     "db/photos/recipes/.empty",
     "db/publications/.empty",
     "db/tasks/hourly/grab_news_from_rss_feed",
+    "db/tasks/hourly/update_group_cached_parents",
     "db/tasks/minutely/email_downloader.example",
     "db/tasks/nightly/connector_sync.example",
     "db/tasks/nightly/suspicious_activity_flagger",

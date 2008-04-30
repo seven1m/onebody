@@ -45,7 +45,9 @@ class Group < ActiveRecord::Base
   validates_format_of :address, :with => /^[a-zA-Z0-9]+$/, :allow_nil => true
   validates_uniqueness_of :address, :allow_nil => true
   validates_length_of :address, :minimum => 2, :allow_nil => true
-    
+  
+  serialize :cached_parents
+  
   def validate
     begin
       errors.add('parents_of', 'cannot point to self') if not new_record? and parents_of == id
@@ -108,7 +110,10 @@ class Group < ActiveRecord::Base
   
   def people
     if parents_of
-      (unlinked_members + Group.find(parents_of).people.map { |p| p.parents }).flatten.uniq.select { |p| p }.sort_by { |p| [p.last_name, p.first_name] }
+      update_cached_parents if cached_parents.empty?
+      cached_parent_ids = cached_parents.map { |id| id.to_i }.join(',')
+      cached_parent_objects = Person.find(:all, :conditions => "id in (#{cached_parent_ids})")
+      (unlinked_members + cached_parent_objects).uniq.sort_by { |p| [p.last_name, p.first_name] }
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
@@ -120,6 +125,17 @@ class Group < ActiveRecord::Base
     end
   end
   
+  after_save :update_cached_parents
+  def update_cached_parents
+    return unless Group.columns.map { |c| c.name }.include? 'cached_parents'
+    if self.parents_of.nil?
+      self.cached_parents = []
+    else
+      ids = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq.map { |p| p.id }
+      self.cached_parents = ids
+    end
+  end
+  
   def can_send?(person)
     (members_send and people.include?(person) and person.messages_enabled?) or admin?(person)
   end
@@ -127,5 +143,11 @@ class Group < ActiveRecord::Base
   
   def full_address
     address.to_s.any? ? (address + '@' + Site.current.host) : nil
+  end
+  
+  class << self
+    def update_cached_parents
+      find(:all).each { |group| group.save }
+    end
   end
 end

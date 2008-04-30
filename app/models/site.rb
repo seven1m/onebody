@@ -84,4 +84,13 @@ class Site < ActiveRecord::Base
     rails_original_destroy
     Site.current = was
   end
+  
+  class << self
+    def each
+      Site.find(:all).each do |site|
+        Site.current = site
+        yield
+      end
+    end
+  end
 end
