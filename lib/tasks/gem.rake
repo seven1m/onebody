@@ -7,7 +7,7 @@ namespace :onebody do
   namespace :gem do
     desc 'Build the onebody.gemspec.'
     task :spec do
-      files = Dir.glob('**/*', File::FNM_DOTMATCH).reject do |file|
+      files = `git ls-files`.split(/\n/).reject do |file|
         [ /\.$/, /\.log$/, /^pkg/, /\.git/, /\~$/, /\/\._/, /\/#/, /\.DS_Store/ ].any? { |regex| file =~ regex }
       end
 
