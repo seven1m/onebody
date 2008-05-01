@@ -49,7 +49,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'directory' do |m|
     m.search_directory 'directory', :action => 'index'
-    m.select_person 'directory/search', :action => 'search', :select_person => true
+    m.select_person 'directory/search/select', :action => 'search', :select_person => true
     m.browse_directory 'directory/browse', :action => 'search', :browse => true
     m.search_friends 'directory/search_friends', :action => 'search', :search_friends => true
     m.service_directory 'directory/service', :action => 'search', :service => true
