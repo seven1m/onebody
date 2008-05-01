@@ -269,7 +269,7 @@ class Person < ActiveRecord::Base
   
   def member_of?(group)
     if group.parents_of
-      group.cached_parents.include? self.id
+      group.cached_parents.to_a.include? self.id
     elsif group.linked?
       codes = self.classes.split(',')
       group.link_code.downcase.split.each do |code|
