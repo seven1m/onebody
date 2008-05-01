@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'onebody'
-  s.version = '0.8.121.21'
+  s.version = '0.8.121.22'
   s.summary = "web-based church directory and social networking software"
   s.description = <<EOF
 OneBody is free, open-source, volunteer-built software that connects churchgoers on the web.

@@ -39,7 +39,7 @@
 <% end %>
 
 <h2>Update Notifications</h2>
-<% if @group.people.include? @logged_in %>
+<% if @logged_in.member_of?(@group) %>
   <p>
     <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
     You are currently signed up to receive email notifications when new publications are made available here.

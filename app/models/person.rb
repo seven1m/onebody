@@ -222,12 +222,12 @@ class Person < ActiveRecord::Base
       staff? or 
       (what.visible_to_everyone? and (full_access? or what.adult?) and what.visible?)
     elsif what.is_a? Group
-      not what.hidden? or what.people.include? self or what.admin? self
+      not what.hidden? or self.member_of?(what) or what.admin?(self)
     elsif what.is_a? Message
       what.can_see?(self)
     elsif what.is_a? PrayerRequest
       what.person == self or
-        (what.group and (what.group.people.include? self or what.group.admin?(self)))
+        (what.group and (self.member_of?(what.group) or what.group.admin?(self)))
     else
       raise 'unknown "what"'
     end
@@ -247,7 +247,7 @@ class Person < ActiveRecord::Base
     elsif what.is_a? Message
       admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self)
     elsif what.is_a? PrayerRequest
-      admin?(:manage_groups) or what.person == self or (what.group and what.group.people.include? self) or (what.group and what.group.admin? self)
+      admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group)) or (what.group and what.group.admin? self)
     elsif what.is_a? RemoteAccount
       self.can_edit?(what.person)
     else
@@ -265,6 +265,20 @@ class Person < ActiveRecord::Base
   
   def full_access?
     read_attribute(:full_access) or admin? or staff? or elder? or deacon?
+  end
+  
+  def member_of?(group)
+    if group.parents_of
+      group.cached_parents.include? self.id
+    elsif group.linked?
+      codes = self.classes.split(',')
+      group.link_code.downcase.split.each do |code|
+        return true if codes.include? code
+      end
+      return false
+    else
+      self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
+    end
   end
   
   def at_least?(age)

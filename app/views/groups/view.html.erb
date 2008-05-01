@@ -21,7 +21,7 @@
   <% else %>
     <% if @group.membership_requests.count('*', :conditions => ['person_id = ?', @logged_in.id]) > 0 %>
       <p class="very-strong">You have requested to join this group.</p>
-    <% elsif not @group.people.include? @logged_in %>
+    <% elsif not @logged_in.member_of?(@group) %>
       <p><%= link_to 'Join This Group', {:action => 'join', :id => @group}, :method => 'post', :confirm => @group.admin?(@logged_in) ? nil : 'Are you sure? A request will be sent to the group administrator(s).' %></p>
     <% elsif not @group.last_admin?(@logged_in) %>
       <p><%= link_to 'Leave This Group', {:action => 'leave', :id => @group}, :method => 'post', :confirm => 'Are you sure?' %></p>
@@ -87,7 +87,7 @@
 
 <h2 class="tab" id="messages">Emails</h2>
 <div class="section">
-  <% if @group.private? and not @group.people.include? @logged_in %>
+  <% if @group.private? and not @logged_in.member_of?(@group) %>
     <p><strong>This is a private group. You may not see messages in this group.</strong></p>
   <% else %>
     <% if @group.can_post? @logged_in %>
@@ -136,7 +136,7 @@
 
 <h2 class="tab" id="prayerrequests">Prayer Requests</h2>
 <div class="section">
-  <% if @group.people.include? @logged_in %>
+  <% if @logged_in.member_of?(@group) %>
     <p>
       <%= link_to image_tag('add_small.gif', :alt => 'Add a prayer request.', :class => 'icon') + ' Add a Prayer Request', new_prayer_request_url(:group_id => @group) %><br/>
       <em>Prayer requests are private to this group.</em>

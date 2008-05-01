@@ -38,17 +38,6 @@
             <br/>
             Email Address: <%= mail_to u(group.full_address), h(group.full_address) %>
           <% end %>
-          <% if @logged_in.sees? group %>
-            <br/>
-            <%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'no-border'), "Element.toggle('people_in_group_#{group.id}')" %>
-            <%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>
-            <div id="people_in_group_<%= group.id %>" style="display:none;" class="people">
-              <% group.people.each do |person| %>
-                <%= render :partial => 'people/link', :locals => {:person => person} %>
-                <br/>
-              <% end %>
-            </div>
-          <% end %>
         </td>
       </tr>
     <% end %>

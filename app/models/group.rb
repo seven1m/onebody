@@ -137,7 +137,7 @@ class Group < ActiveRecord::Base
   end
   
   def can_send?(person)
-    (members_send and people.include?(person) and person.messages_enabled?) or admin?(person)
+    (members_send and person.member_of?(self) and person.messages_enabled?) or admin?(person)
   end
   alias_method 'can_post?', 'can_send?'
   
