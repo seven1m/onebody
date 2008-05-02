@@ -269,7 +269,8 @@ class Person < ActiveRecord::Base
   
   def member_of?(group)
     if group.parents_of
-      group.cached_parents.to_a.include? self.id
+      group.cached_parents.to_a.include?(self.id) \
+        || self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
     elsif group.linked?
       codes = self.classes.split(',')
       group.link_code.downcase.split.each do |code|
