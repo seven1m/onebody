@@ -3,6 +3,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 class PersonTest < Test::Unit::TestCase
   fixtures :people, :families
   
+  def test_member_of
+    Group.find(:all).each do |group|
+      group.people.each do |person|
+        assert person.member_of?(group)
+      end
+    end
+  end
+  
   def test_email_address_unique_within_family
     # tim already has email address
     p = people(:peter)

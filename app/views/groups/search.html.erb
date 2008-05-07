@@ -38,6 +38,8 @@
             <br/>
             Email Address: <%= mail_to u(group.full_address), h(group.full_address) %>
           <% end %>
+          <br/>
+          <%= count = group.people_count %> <%= count == 1 ? 'person' : 'people' %>
         </td>
       </tr>
     <% end %>

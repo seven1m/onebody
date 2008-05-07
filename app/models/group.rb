@@ -94,11 +94,13 @@ class Group < ActiveRecord::Base
   end
   
   def get_options_for(person, create_if_missing=false)
-    unless options = Membership.find_by_group_id_and_person_id(id, person.id)
-      options = Membership.new(:group => self, :person => person)
-      options.save if create_if_missing and not person.new_record? and not new_record?
+    if person.member_of?(self)
+      unless options = Membership.find_by_group_id_and_person_id(id, person.id)
+        options = Membership.new(:group => self, :person => person)
+        options.save if create_if_missing and not person.new_record? and not new_record?
+      end
+      options
     end
-    options
   end
   
   def set_options_for(person, options)
@@ -108,20 +110,41 @@ class Group < ActiveRecord::Base
   
   alias_method :unlinked_members, :people
   
-  def people
+  def people(select='people.*')
     if parents_of
       update_cached_parents if cached_parents.to_a.empty?
       cached_parent_ids = cached_parents.map { |id| id.to_i }.join(',')
-      cached_parent_objects = Person.find(:all, :conditions => "id in (#{cached_parent_ids})")
-      (unlinked_members + cached_parent_objects).uniq.sort_by { |p| [p.last_name, p.first_name] }
+      cached_parent_objects = Person.find(:all, :conditions => "id in (#{cached_parent_ids})", :select => select)
+      (unlinked_members.find(:all, :select => select) + cached_parent_objects).uniq.sort_by { |p| [p.last_name, p.first_name] }
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
         conditions.add_condition ["#{sql_lcase('classes')} = ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
       end
-      Person.find :all, :conditions => conditions, :order => 'last_name, first_name'
+      Person.find :all, :conditions => conditions, :order => 'last_name, first_name', :select => select
     else
-      unlinked_members
+      unlinked_members.find(:all, :select => select)
+    end
+  end
+
+  def people_names_and_ids
+    #(what.visible_to_everyone? and (full_access? or what.adult?) and what.visible?)
+    select = %w(id family_id first_name last_name suffix birthday gender email visible_to_everyone full_access).map { |c| "people.#{c}" }.join(',')
+    self.people(select + ',memberships.get_email')
+  end
+
+  def people_count
+    if parents_of
+      update_cached_parents if cached_parents.to_a.empty?
+      unlinked_members.count('*') + cached_parents.length
+    elsif linked?
+      conditions = []
+      link_code.downcase.split.each do |code|
+        conditions.add_condition ["#{sql_lcase('classes')} = ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
+      end
+      Person.count '*', :conditions => conditions
+    else
+      unlinked_members.count('*')
     end
   end
   

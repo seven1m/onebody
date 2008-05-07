@@ -195,7 +195,7 @@ class GroupsController < ApplicationController
       else
         render :action => 'toggle_email'
       end
-    elsif @logged_in and (@logged_in.can_edit?(@group) or @logged_in == @person or @logged_in.family.people.include? @person)
+    elsif @logged_in and (@logged_in.can_edit?(@group) or @logged_in == @person or @logged_in.family_id == @person.family_id)
       @group.set_options_for @person, {:get_email => !@options.get_email}
       redirect_to params[:from] || group_url(:id => @group)
     else

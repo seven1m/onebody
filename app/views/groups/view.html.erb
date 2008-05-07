@@ -28,7 +28,7 @@
     <% end %>
   <% end %>
 
-  <h2><%= @group.people.length %> <%= @group.people.length == 1 ? 'person' : 'people' %></h2>
+  <h2><%= @group.people_count %> <%= @group.people_count == 1 ? 'person' : 'people' %></h2>
   
   <%= render :partial => 'people' %>
 <% end %>

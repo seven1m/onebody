@@ -29,4 +29,8 @@ class Note < ActiveRecord::Base
   validates_presence_of :body
   
   def name; title; end
+
+  def person_name
+    Person.find_by_sql(["select people.family_id, people.first_name, people.last_name, people.suffix from people left outer join families on families.id = people.family_id where people.id = ? and people.visible = ? and families.visible = ?", self.person_id.to_i, true, true]).first.name rescue nil
+  end
 end
