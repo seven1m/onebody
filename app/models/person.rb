@@ -272,7 +272,7 @@ class Person < ActiveRecord::Base
       group.cached_parents.to_a.include?(self.id) \
         || self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
     elsif group.linked?
-      codes = self.classes.split(',')
+      codes = self.classes.downcase.split(',')
       group.link_code.downcase.split.each do |code|
         return true if codes.include? code
       end
