@@ -108,7 +108,7 @@
 		<div id="footer">
       &copy; <%= session[:copyright_year] ||= Date.today.year %>, <%= Setting.get(:name, :church) %> |
       <a href="/help/privacy_policy">Privacy Policy</a> |
-      <%= link_to 'Credits', :controller => 'help', :action => 'credits' %> |
+      <%= link_to 'Credits', '/help/credits' %> |
       Powered by <a href="http://beonebody.org">OneBody</a>
 		</div>
 		

@@ -2,7 +2,7 @@
   <h2 class="status">Sites: <strong class="stop">None</strong></h2>
   <p>Perhaps your database isn't up-to-date?</p>
 <% elsif @sites.first.host == 'example.com' %>
-  <h2 class="status">Sites: <strong class="stop">Need To Update Host</strong></h2>
+  <h2 class="status">Sites: <strong class="slow">Need To Update Host</strong></h2>
   <p>You should change the host on the Default site
     <%= link_to 'here', setup_sites_url %> to match your
     domain. Until you do, incoming and outgoing email won't work as expected.</p>
