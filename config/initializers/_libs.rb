@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'pdf/writer'
 require 'open-uri'
 require 'rexml/document'
 require 'amazon/search'

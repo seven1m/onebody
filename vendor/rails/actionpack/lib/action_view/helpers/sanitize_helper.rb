@@ -10,7 +10,7 @@ module ActionView
         base.extend(ClassMethods)
       end
       
-      # This #sanitize helper will html encode all tags and strip all attributes that aren't specifically allowed.  
+      # This +sanitize+ helper will html encode all tags and strip all attributes that aren't specifically allowed.
       # It also strips href/src tags with invalid protocols, like javascript: especially.  It does its best to counter any
       # tricks that hackers may use, like throwing in unicode/ascii/hex values to get past the javascript: filters.  Check out
       # the extensive test suite.
@@ -18,7 +18,7 @@ module ActionView
       #   <%= sanitize @article.body %>
       # 
       # You can add or remove tags/attributes if you want to customize it a bit.  See ActionView::Base for full docs on the
-      # available options.  You can add tags/attributes for single uses of #sanitize by passing either the :attributes or :tags options:
+      # available options.  You can add tags/attributes for single uses of +sanitize+ by passing either the <tt>:attributes</tt> or <tt>:tags</tt> options:
       #
       # Normal Use
       #
@@ -48,6 +48,11 @@ module ActionView
       #     config.action_view.sanitized_allowed_attributes = 'id', 'class', 'style'
       #   end
       # 
+      # Please note that sanitizing user-provided text does not guarantee that the
+      # resulting markup is valid (conforming to a document type) or even well-formed.
+      # The output may still contain e.g. unescaped '<', '>', '&' characters and
+      # confuse browsers.
+      #
       def sanitize(html, options = {})
         self.class.white_list_sanitizer.sanitize(html, options)
       end

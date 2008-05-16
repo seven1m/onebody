@@ -255,10 +255,10 @@ module ActionView
         link_to_function(name, remote_function(options), html_options || options.delete(:html))
       end
 
-      # Periodically calls the specified url (<tt>options[:url]</tt>) every 
+      # Periodically calls the specified url (<tt>options[:url]</tt>) every
       # <tt>options[:frequency]</tt> seconds (default is 10). Usually used to
-      # update a specified div (<tt>options[:update]</tt>) with the results 
-      # of the remote call. The options for specifying the target with :url 
+      # update a specified div (<tt>options[:update]</tt>) with the results
+      # of the remote call. The options for specifying the target with <tt>:url</tt>
       # and defining callbacks is the same as link_to_remote.
       # Examples:
       #  # Call get_averages and put its results in 'avg' every 10 seconds
@@ -291,11 +291,11 @@ module ActionView
       # though it's using JavaScript to serialize the form elements, the form
       # submission will work just like a regular submission as viewed by the
       # receiving side (all elements available in <tt>params</tt>). The options for 
-      # specifying the target with :url and defining callbacks is the same as
-      # link_to_remote.
+      # specifying the target with <tt>:url</tt> and defining callbacks is the same as
+      # +link_to_remote+.
       #
       # A "fall-through" target for browsers that doesn't do JavaScript can be
-      # specified with the :action/:method options on :html.
+      # specified with the <tt>:action</tt>/<tt>:method</tt> options on <tt>:html</tt>.
       #
       # Example:
       #   # Generates:
@@ -304,11 +304,11 @@ module ActionView
       #   form_remote_tag :html => { :action => 
       #     url_for(:controller => "some", :action => "place") }
       #
-      # The Hash passed to the :html key is equivalent to the options (2nd) 
+      # The Hash passed to the <tt>:html</tt> key is equivalent to the options (2nd)
       # argument in the FormTagHelper.form_tag method.
       #
       # By default the fall-through action is the same as the one specified in 
-      # the :url (and the default method is :post).
+      # the <tt>:url</tt> (and the default method is <tt>:post</tt>).
       #
       # form_remote_tag also takes a block, like form_tag:
       #   # Generates:
@@ -422,8 +422,8 @@ module ActionView
       end
       
       # Returns '<tt>eval(request.responseText)</tt>' which is the JavaScript function
-      # that form_remote_tag can call in :complete to evaluate a multiple
-      # update return document using update_element_function calls.
+      # that +form_remote_tag+ can call in <tt>:complete</tt> to evaluate a multiple
+      # update return document using +update_element_function+ calls.
       def evaluate_remote_response
         "eval(request.responseText)"
       end
@@ -458,7 +458,7 @@ module ActionView
 
         url_options = options[:url]
         url_options = url_options.merge(:escape => false) if url_options.is_a?(Hash)
-        function << "'#{url_for(url_options)}'"
+        function << "'#{escape_javascript(url_for(url_options))}'"
         function << ", #{javascript_options})"
 
         function = "#{options[:before]}; #{function}" if options[:before]
@@ -629,6 +629,27 @@ module ActionView
         #   # Controller action
         #   def poll
         #     render(:update) { |page| page.update_time }
+        #   end
+        #
+        # Calls to JavaScriptGenerator not matching a helper method below
+        # generate a proxy to the JavaScript Class named by the method called.
+        #
+        # Examples:
+        #
+        #   # Generates:
+        #   #     Foo.init();
+        #   update_page do |page|
+        #     page.foo.init
+        #   end
+        #
+        #   # Generates:
+        #   #     Event.observe('one', 'click', function () {
+        #   #       $('two').show();
+        #   #     });
+        #   update_page do |page|
+        #     page.event.observe('one', 'click') do |p|
+        #      p[:two].show
+        #     end
         #   end
         #
         # You can also use PrototypeHelper#update_page_tag instead of 
@@ -855,12 +876,21 @@ module ActionView
           # 
           # Examples:
           #
-          #  # Generates: Element.replace(my_element, "My content to replace with.")
-          #  page.call 'Element.replace', 'my_element', "My content to replace with."
-          #
-          #  # Generates: alert('My message!')
-          #  page.call 'alert', 'My message!'
-          #
+          #   # Generates: Element.replace(my_element, "My content to replace with.")
+          #   page.call 'Element.replace', 'my_element', "My content to replace with."
+          #   
+          #   # Generates: alert('My message!')
+          #   page.call 'alert', 'My message!'
+          #   
+          #   # Generates:
+          #   #     my_method(function() {
+          #   #       $("one").show();
+          #   #       $("two").hide();
+          #   #    });
+          #   page.call(:my_method) do |p|
+          #      p[:one].show
+          #      p[:two].hide
+          #   end
           def call(function, *arguments, &block)
             record "#{function}(#{arguments_for_call(arguments, block)})"
           end

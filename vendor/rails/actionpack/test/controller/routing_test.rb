@@ -25,7 +25,7 @@ class UriReservedCharactersRoutingTest < Test::Unit::TestCase
     ActionController::Routing.use_controllers! ['controller']
     @set = ActionController::Routing::RouteSet.new
     @set.draw do |map|
-      map.connect ':controller/:action/:variable'
+      map.connect ':controller/:action/:variable/*additional'
     end
 
     safe, unsafe = %w(: @ & = + $ , ;), %w(^ / ? # [ ])
@@ -36,17 +36,26 @@ class UriReservedCharactersRoutingTest < Test::Unit::TestCase
   end
 
   def test_route_generation_escapes_unsafe_path_characters
-    assert_equal "/contr#{@segment}oller/act#{@escaped}ion/var#{@escaped}iable",
+    assert_equal "/contr#{@segment}oller/act#{@escaped}ion/var#{@escaped}iable/add#{@escaped}itional-1/add#{@escaped}itional-2",
       @set.generate(:controller => "contr#{@segment}oller",
                     :action => "act#{@segment}ion",
-                    :variable => "var#{@segment}iable")
+                    :variable => "var#{@segment}iable",
+                    :additional => ["add#{@segment}itional-1", "add#{@segment}itional-2"])
   end
 
   def test_route_recognition_unescapes_path_components
     options = { :controller => "controller",
                 :action => "act#{@segment}ion",
-                :variable => "var#{@segment}iable" }
-    assert_equal options, @set.recognize_path("/controller/act#{@escaped}ion/var#{@escaped}iable")
+                :variable => "var#{@segment}iable",
+                :additional => ["add#{@segment}itional-1", "add#{@segment}itional-2"] }
+    assert_equal options, @set.recognize_path("/controller/act#{@escaped}ion/var#{@escaped}iable/add#{@escaped}itional-1/add#{@escaped}itional-2")
+  end
+
+  def test_route_generation_allows_passing_non_string_values_to_generated_helper
+    assert_equal "/controller/action/variable/1/2", @set.generate(:controller => "controller",
+                                                                  :action => "action",
+                                                                  :variable => "variable",
+                                                                  :additional => [1, 2])
   end
 end
 
@@ -2341,11 +2350,13 @@ uses_mocha 'route loading' do
     def setup
       routes.instance_variable_set '@routes_last_modified', nil
       silence_warnings { Object.const_set :RAILS_ROOT, '.' }
+      ActionController::Routing::Routes.configuration_file = File.join(RAILS_ROOT, 'config', 'routes.rb')
 
       @stat = stub_everything
     end
 
     def teardown
+      ActionController::Routing::Routes.configuration_file = nil
       Object.send :remove_const, :RAILS_ROOT
     end
 
@@ -2385,6 +2396,14 @@ uses_mocha 'route loading' do
       routes.expects(:reload!)
 
       Inflector.inflections { |inflect| inflect.uncountable('equipment') }
+    end
+    
+    def test_load_with_configuration
+      routes.configuration_file = "foobarbaz"
+      File.expects(:stat).returns(@stat)
+      routes.expects(:load).with("foobarbaz")
+
+      routes.reload
     end
 
     private

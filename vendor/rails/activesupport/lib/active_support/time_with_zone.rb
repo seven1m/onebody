@@ -77,7 +77,11 @@ module ActiveSupport
     alias_method :iso8601, :xmlschema
   
     def to_json(options = nil)
-      %("#{time.strftime("%Y/%m/%d %H:%M:%S")} #{formatted_offset(false)}")
+      if ActiveSupport.use_standard_json_time_format
+        xmlschema.inspect
+      else
+        %("#{time.strftime("%Y/%m/%d %H:%M:%S")} #{formatted_offset(false)}")
+      end
     end
     
     def to_yaml(options = {})
@@ -97,7 +101,8 @@ module ActiveSupport
     end
     alias_method :rfc822, :rfc2822
   
-    # :db format outputs time in UTC; all others output time in local. Uses TimeWithZone's strftime, so %Z and %z work correctly
+    # <tt>:db</tt> format outputs time in UTC; all others output time in local.
+    # Uses TimeWithZone's +strftime+, so <tt>%Z</tt> and <tt>%z</tt> work correctly.
     def to_s(format = :default) 
       return utc.to_s(format) if format == :db
       if formatter = ::Time::DATE_FORMATS[format]
@@ -107,7 +112,7 @@ module ActiveSupport
       end
     end
     
-    # Replaces %Z and %z directives with #zone and #formatted_offset, respectively, before passing to 
+    # Replaces <tt>%Z</tt> and <tt>%z</tt> directives with +zone+ and +formatted_offset+, respectively, before passing to
     # Time#strftime, so that zone information is correct
     def strftime(format)
       format = format.gsub('%Z', zone).gsub('%z', formatted_offset(false))
@@ -130,18 +135,40 @@ module ActiveSupport
     # If wrapped #time is a DateTime, use DateTime#since instead of #+
     # Otherwise, just pass on to #method_missing
     def +(other)
-      time.acts_like?(:date) ? method_missing(:since, other) : method_missing(:+, other)
+      result = utc.acts_like?(:date) ? utc.since(other) : utc + other
+      result.in_time_zone(time_zone)
     end
     
-    # If a time-like object is passed in, compare it with #utc
-    # Else if wrapped #time is a DateTime, use DateTime#ago instead of #-
-    # Otherwise, just pass on to method missing
+    # If a time-like object is passed in, compare it with +utc+.
+    # Else if wrapped +time+ is a DateTime, use DateTime#ago instead of DateTime#-.
+    # Otherwise, just pass on to +method_missing+.
     def -(other)
       if other.acts_like?(:time)
         utc - other
       else
-        time.acts_like?(:date) ? method_missing(:ago, other) : method_missing(:-, other)
+        result = utc.acts_like?(:date) ? utc.ago(other) : utc - other
+        result.in_time_zone(time_zone)
       end
+    end
+    
+    def since(other)
+      utc.since(other).in_time_zone(time_zone)
+    end
+    
+    def ago(other)
+      utc.ago(other).in_time_zone(time_zone)
+    end
+    
+    def advance(options)
+      utc.advance(options).in_time_zone(time_zone)
+    end
+    
+    %w(year mon month day mday hour min sec).each do |method_name|
+      class_eval <<-EOV
+        def #{method_name}
+          time.#{method_name}
+        end
+      EOV
     end
     
     def usec
@@ -162,7 +189,7 @@ module ActiveSupport
     alias_method :hash, :to_i
     alias_method :tv_sec, :to_i
   
-    # A TimeWithZone acts like a Time, so just return self
+    # A TimeWithZone acts like a Time, so just return +self+.
     def to_time
       self
     end
@@ -204,13 +231,8 @@ module ActiveSupport
   
     # Send the missing method to time instance, and wrap result in a new TimeWithZone with the existing time_zone
     def method_missing(sym, *args, &block)
-      if %w(+ - since ago advance).include?(sym.to_s)
-        result = utc.__send__(sym, *args, &block)
-        result.acts_like?(:time) ? result.in_time_zone(time_zone) : result
-      else
-        result = time.__send__(sym, *args, &block)
-        result.acts_like?(:time) ? self.class.new(nil, time_zone, result) : result
-      end
+      result = time.__send__(sym, *args, &block)
+      result.acts_like?(:time) ? self.class.new(nil, time_zone, result) : result
     end
     
     private      

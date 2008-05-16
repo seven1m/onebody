@@ -118,7 +118,7 @@ module ActiveRecord
       end
 
       def inspect
-        reload unless loaded?
+        load_target
         @target.inspect
       end
 
@@ -167,7 +167,7 @@ module ActiveRecord
         def with_scope(*args, &block)
           @reflection.klass.send :with_scope, *args, &block
         end
-          
+
       private
         def method_missing(method, *args)
           if load_target
@@ -179,6 +179,16 @@ module ActiveRecord
           end
         end
 
+        # Loads the target if needed and returns it.
+        #
+        # This method is abstract in the sense that it relies on +find_target+,
+        # which is expected to be provided by descendants.
+        #
+        # If the target is already loaded it is just returned. Thus, you can call
+        # +load_target+ unconditionally to get the target.
+        #
+        # ActiveRecord::RecordNotFound is rescued within the method, and it is
+        # not reraised. The proxy is reset and +nil+ is the return value.
         def load_target
           return nil unless defined?(@loaded)
 

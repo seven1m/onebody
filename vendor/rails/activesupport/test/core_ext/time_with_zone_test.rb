@@ -67,6 +67,13 @@ class TimeWithZoneTest < Test::Unit::TestCase
       assert_equal "\"1999/12/31 19:00:00 -0500\"", @twz.to_json
     end
   end
+  
+  def test_to_json_with_use_standard_json_time_format_config_set_to_true
+    old, ActiveSupport.use_standard_json_time_format = ActiveSupport.use_standard_json_time_format, true
+    assert_equal "\"1999-12-31T19:00:00-05:00\"", @twz.to_json
+  ensure
+    ActiveSupport.use_standard_json_time_format = old
+  end
     
   def test_strftime
     silence_warnings do # silence warnings raised by tzinfo gem
@@ -321,10 +328,18 @@ class TimeWithZoneTest < Test::Unit::TestCase
       assert_equal Time.utc(1999, 12, 31, 19), mtime.time
     end
   end
-    
+  
   def test_method_missing_with_non_time_return_value
     silence_warnings do # silence warnings raised by tzinfo gem
+      @twz.time.expects(:foo).returns('bar')
+      assert_equal 'bar', @twz.foo
+    end
+  end
+  
+  def test_date_part_value_methods
+    silence_warnings do # silence warnings raised by tzinfo gem
       twz = ActiveSupport::TimeWithZone.new(Time.utc(1999,12,31,19,18,17,500), @time_zone)
+      twz.stubs(:method_missing).returns(nil) #ensure these methods are defined directly on class
       assert_equal 1999, twz.year
       assert_equal 12, twz.month
       assert_equal 31, twz.day
@@ -618,6 +633,30 @@ class TimeWithZoneMethodsForTimeAndDateTimeTest < Test::Unit::TestCase
     assert_equal nil, Time.zone
     Time.zone = -15.hours
     assert_equal nil, Time.zone
+  end
+  
+  uses_mocha 'TestTimeCurrent' do
+    def test_current_returns_time_now_when_zone_default_not_set
+      with_env_tz 'US/Eastern' do
+        Time.stubs(:now).returns Time.local(2000)
+        assert_equal false, Time.current.is_a?(ActiveSupport::TimeWithZone)
+        assert_equal Time.local(2000), Time.current
+      end
+    end
+    
+    def test_current_returns_time_zone_now_when_zone_default_set
+      silence_warnings do # silence warnings raised by tzinfo gem
+        Time.zone_default = TimeZone['Eastern Time (US & Canada)']
+        with_env_tz 'US/Eastern' do
+          Time.stubs(:now).returns Time.local(2000)
+          assert_equal true, Time.current.is_a?(ActiveSupport::TimeWithZone)
+          assert_equal 'Eastern Time (US & Canada)', Time.current.time_zone.name
+          assert_equal Time.utc(2000), Time.current.time
+        end
+      end
+    ensure
+      Time.zone_default = nil
+    end
   end
   
   protected

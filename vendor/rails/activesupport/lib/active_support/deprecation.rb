@@ -175,6 +175,7 @@ module ActiveSupport
           ActiveSupport::Deprecation.warn("#{@var} is deprecated! Call #{@method}.#{called} instead of #{@var}.#{called}. Args: #{args.inspect}", callstack)
         end
     end
+
   end
 end
 

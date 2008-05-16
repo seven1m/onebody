@@ -28,7 +28,11 @@ module Rails
     end
   
     def root
-      RAILS_ROOT
+      if defined?(RAILS_ROOT)
+        RAILS_ROOT
+      else
+        nil
+      end
     end
   
     def env
@@ -37,6 +41,14 @@ module Rails
   
     def cache
       RAILS_CACHE
+    end
+
+    def public_path
+      @@public_path ||= self.root ? File.join(self.root, "public") : "public"
+    end
+
+    def public_path=(path)
+      @@public_path = path
     end
   end
   
@@ -130,6 +142,9 @@ module Rails
       # the framework is now fully initialized
       after_initialize
 
+      # Prepare dispatcher callbacks and run 'prepare' callbacks
+      prepare_dispatcher
+
       # Routing must be initialized after plugins to allow the former to extend the routes
       initialize_routing
 
@@ -149,6 +164,10 @@ module Rails
     # ActiveResource. This allows Gem plugins to depend on Rails even when
     # the Gem version of Rails shouldn't be loaded.
     def install_gem_spec_stubs
+      unless Rails.respond_to?(:vendor_rails?)
+        abort "Your config/boot.rb is outdated: Run 'rake rails:update'."
+      end
+
       if Rails.vendor_rails?
         begin; require "rubygems"; rescue LoadError; return; end
 
@@ -367,6 +386,7 @@ module Rails
     def initialize_routing
       return unless configuration.frameworks.include?(:action_controller)
       ActionController::Routing.controller_paths = configuration.controller_paths
+      ActionController::Routing::Routes.configuration_file = configuration.routes_configuration_file
       ActionController::Routing::Routes.reload
     end
 
@@ -434,6 +454,12 @@ module Rails
       end
     end
 
+    def prepare_dispatcher
+      require 'dispatcher' unless defined?(::Dispatcher)
+      Dispatcher.define_dispatcher_callbacks(configuration.cache_classes)
+      Dispatcher.new(RAILS_DEFAULT_LOGGER).send :run_callbacks, :prepare_dispatch
+    end
+
   end
 
   # The Configuration class holds all the parameters for the Initializer and
@@ -478,6 +504,10 @@ module Rails
     # The path to the database configuration file to use. (Defaults to
     # <tt>config/database.yml</tt>.)
     attr_accessor :database_configuration_file
+    
+    # The path to the routes configuration file to use. (Defaults to
+    # <tt>config/routes.rb</tt>.)
+    attr_accessor :routes_configuration_file
 
     # The list of rails framework components that should be loaded. (Defaults
     # to <tt>:active_record</tt>, <tt>:action_controller</tt>,
@@ -542,11 +572,13 @@ module Rails
     attr_accessor :plugin_loader
     
     # Enables or disables plugin reloading.  You can get around this setting per plugin.
-    # If #reload_plugins? == false, add this to your plugin's init.rb to make it reloadable:
+    # If <tt>reload_plugins?</tt> is false, add this to your plugin's <tt>init.rb</tt>
+    # to make it reloadable:
     #
     #   Dependencies.load_once_paths.delete lib_path
     #
-    # If #reload_plugins? == true, add this to your plugin's init.rb to only load it once:
+    # If <tt>reload_plugins?</tt> is true, add this to your plugin's <tt>init.rb</tt>
+    # to only load it once:
     #
     #   Dependencies.load_once_paths << lib_path
     #
@@ -610,6 +642,7 @@ module Rails
       self.plugin_locators              = default_plugin_locators
       self.plugin_loader                = default_plugin_loader
       self.database_configuration_file  = default_database_configuration_file
+      self.routes_configuration_file    = default_routes_configuration_file
       self.gems                         = default_gems
 
       for framework in default_frameworks
@@ -645,7 +678,7 @@ module Rails
       YAML::load(ERB.new(IO.read(database_configuration_file)).result)
     end
 
-    # The path to the current environment's file (development.rb, etc.). By
+    # The path to the current environment's file (<tt>development.rb</tt>, etc.). By
     # default the file is at <tt>config/environments/#{environment}.rb</tt>.
     def environment_path
       "#{root_path}/config/environments/#{environment}.rb"
@@ -748,6 +781,10 @@ module Rails
 
       def default_database_configuration_file
         File.join(root_path, 'config', 'database.yml')
+      end
+
+      def default_routes_configuration_file
+        File.join(root_path, 'config', 'routes.rb')
       end
 
       def default_view_path

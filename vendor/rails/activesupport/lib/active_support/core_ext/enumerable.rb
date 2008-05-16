@@ -1,11 +1,14 @@
 module Enumerable
+  # Ruby 1.8.7 introduces group_by, but the result isn't ordered. Override it.
+  remove_method(:group_by) if [].respond_to?(:group_by) && RUBY_VERSION < '1.9'
+
   # Collect an enumerable into sets, grouped by the result of a block. Useful,
   # for example, for grouping records by date.
   #
   # Example:
   #
   #   latest_transcripts.group_by(&:day).each do |day, transcripts| 
-  #     p "#{day} -> #{transcripts.map(&:class) * ', '}"
+  #     p "#{day} -> #{transcripts.map(&:class).join(', ')}"
   #   end
   #   "2006-03-01 -> Transcript"
   #   "2006-02-28 -> Transcript"
@@ -19,25 +22,26 @@ module Enumerable
       (grouped[yield(element)] ||= []) << element
       grouped
     end
-  end if RUBY_VERSION < '1.9'
+  end unless [].respond_to?(:group_by)
 
   # Calculates a sum from the elements. Examples:
   #
-  #   payments.sum { |p| p.price * p.tax_rate }
-  #   payments.sum(&:price)
+  #  payments.sum { |p| p.price * p.tax_rate }
+  #  payments.sum(&:price)
   #
-  # This is instead of
+  # The latter is a shortcut for:
   #
-  #   payments.inject { |sum, p| sum + p.price }
+  #  payments.inject { |sum, p| sum + p.price }
   #
-  # Also calculates sums without the use of a block:
+  # It can also calculate the sum without the use of a block.
   #
-  #   [5, 15, 10].sum # => 30
+  #  [5, 15, 10].sum # => 30
+  #  ["foo", "bar"].sum # => "foobar"
+  #  [[1, 2], [3, 1, 5]].sum => [1, 2, 3, 1, 5]
   #
-  # The default identity (sum of an empty list) is zero. 
-  # However, you can override this default:
+  # The default sum of an empty list is zero. You can override this default:
   #
-  #   [].sum(Payment.new(0)) { |i| i.amount } # => Payment.new(0)
+  #  [].sum(Payment.new(0)) { |i| i.amount } # => Payment.new(0)
   #
   def sum(identity = 0, &block)
     return identity unless size > 0

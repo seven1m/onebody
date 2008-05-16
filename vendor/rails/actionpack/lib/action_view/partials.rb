@@ -100,18 +100,18 @@ module ActionView
   #     Title: <%= chief.name %>
   #   </div>
   #
-  # As you can see, the :locals hash is shared between both the partial and its layout.
+  # As you can see, the <tt>:locals</tt> hash is shared between both the partial and its layout.
   module Partials
     private
       def render_partial(partial_path, object_assigns = nil, local_assigns = {}) #:nodoc:
         case partial_path
         when String, Symbol, NilClass
           # Render the template
-          ActionView::PartialTemplate.new(self, partial_path, object_assigns, local_assigns).render
+          ActionView::PartialTemplate.new(self, partial_path, object_assigns, local_assigns).render_template
         when ActionView::Helpers::FormBuilder
           builder_partial_path = partial_path.class.to_s.demodulize.underscore.sub(/_builder$/, '')
           render_partial(builder_partial_path, object_assigns, (local_assigns || {}).merge(builder_partial_path.to_sym => partial_path))
-        when Array, ActiveRecord::Associations::AssociationCollection, ActiveRecord::Associations::HasManyThroughAssociation
+        when Array, ActiveRecord::Associations::AssociationCollection, ActiveRecord::NamedScope::Scope
           if partial_path.any?
             collection = partial_path
             render_partial_collection(nil, collection, nil, local_assigns)
@@ -119,7 +119,7 @@ module ActionView
             ""
           end
         else
-          render_partial(ActionController::RecordIdentifier.partial_path(partial_path), partial_path, local_assigns)
+          render_partial(ActionController::RecordIdentifier.partial_path(partial_path, controller.class.controller_path), partial_path, local_assigns)
         end
       end
 
@@ -147,7 +147,7 @@ module ActionView
         templates = Hash.new
         i = 0
         collection.map do |element|
-          partial_path = ActionController::RecordIdentifier.partial_path(element)
+          partial_path = ActionController::RecordIdentifier.partial_path(element, controller.class.controller_path)
           template = templates[partial_path] ||= ActionView::PartialTemplate.new(self, partial_path, nil, local_assigns)
           template.counter = i
           i += 1

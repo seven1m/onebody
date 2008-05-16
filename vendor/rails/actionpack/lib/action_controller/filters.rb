@@ -126,8 +126,8 @@ module ActionController #:nodoc:
     #   end
     #
     # To use a filter object with around_filter, pass an object responding
-    # to :filter or both :before and :after. With a filter method, yield to
-    # the block as above:
+    # to <tt>:filter</tt> or both <tt>:before</tt> and <tt>:after</tt>. With a
+    # filter method, yield to the block as above:
     #
     #   around_filter BenchmarkingFilter
     #
@@ -191,8 +191,9 @@ module ActionController #:nodoc:
     # == Filter conditions
     #
     # Filters may be limited to specific actions by declaring the actions to
-    # include or exclude. Both options accept single actions (:only => :index)
-    # or arrays of actions (:except => [:foo, :bar]).
+    # include or exclude. Both options accept single actions
+    # (<tt>:only => :index</tt>) or arrays of actions
+    # (<tt>:except => [:foo, :bar]</tt>).
     #
     #   class Journal < ActionController::Base
     #     # Require authentication for edit and delete.
@@ -265,7 +266,7 @@ module ActionController #:nodoc:
       def skip_filter_in_chain(*filters, &test)
         filters, conditions = extract_options(filters)
         filters.each do |filter|
-          if callback = find_callback(filter) then delete(callback) end
+          if callback = find(filter) then delete(callback) end
         end if conditions.empty?
         update_filter_in_chain(filters, :skip => conditions, &test)
       end
@@ -302,7 +303,7 @@ module ActionController #:nodoc:
         def find_or_create_filter(filter, filter_type, options = {})
           update_filter_in_chain([filter], options)
 
-          if found_filter = find_callback(filter) { |f| f.type == filter_type }
+          if found_filter = find(filter) { |f| f.type == filter_type }
             found_filter
           else
             filter_kind = case
@@ -326,7 +327,7 @@ module ActionController #:nodoc:
         end
 
         def update_filter_in_chain(filters, options, &test)
-          filters.map! { |f| block_given? ? find_callback(f, &test) : find_callback(f) }
+          filters.map! { |f| block_given? ? find(f, &test) : find(f) }
           filters.compact!
 
           map! do |filter|

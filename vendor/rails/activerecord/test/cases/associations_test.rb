@@ -41,7 +41,7 @@ class AssociationsTest < ActiveRecord::TestCase
   end
 
   def test_should_construct_new_finder_sql_after_create
-    person = Person.new
+    person = Person.new :first_name => 'clark'
     assert_equal [], person.readers.find(:all)
     person.save!
     reader = Reader.create! :person => person, :post => Post.new(:title => "foo", :body => "bar")
@@ -147,6 +147,12 @@ class AssociationProxyTest < ActiveRecord::TestCase
     assert !david.projects.loaded?
     david.update_attribute(:created_at, Time.now)
     assert !david.projects.loaded?
+  end
+
+  def test_inspect_does_not_reload_a_not_yet_loaded_target
+    andreas = Developer.new :name => 'Andreas', :log => 'new developer added'
+    assert !andreas.audit_logs.loaded?
+    assert_match(/message: "new developer added"/, andreas.audit_logs.inspect)
   end
 
   def test_save_on_parent_saves_children

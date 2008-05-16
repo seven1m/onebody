@@ -1,10 +1,13 @@
 module ActionView #:nodoc:
   class ActionViewError < StandardError #:nodoc:
   end
+  
+  class MissingTemplate < ActionViewError #:nodoc:
+  end
 
-  # Action View templates can be written in three ways. If the template file has a +.erb+ (or +.rhtml+) extension then it uses a mixture of ERb 
-  # (included in Ruby) and HTML. If the template file has a +.builder+ (or +.rxml+) extension then Jim Weirich's Builder::XmlMarkup library is used. 
-  # If the template file has a +.rjs+ extension then it will use ActionView::Helpers::PrototypeHelper::JavaScriptGenerator.
+  # Action View templates can be written in three ways. If the template file has a <tt>.erb</tt> (or <tt>.rhtml</tt>) extension then it uses a mixture of ERb 
+  # (included in Ruby) and HTML. If the template file has a <tt>.builder</tt> (or <tt>.rxml</tt>) extension then Jim Weirich's Builder::XmlMarkup library is used. 
+  # If the template file has a <tt>.rjs</tt> extension then it will use ActionView::Helpers::PrototypeHelper::JavaScriptGenerator.
   # 
   # = ERb
   # 
@@ -21,7 +24,7 @@ module ActionView #:nodoc:
   #
   #   Hi, Mr. <% puts "Frodo" %>
   #
-  # If you absolutely must write from within a function, you can use the TextHelper#concat
+  # If you absolutely must write from within a function, you can use the TextHelper#concat.
   #
   # <%- and -%> suppress leading and trailing whitespace, including the trailing newline, and can be used interchangeably with <% and %>.
   #
@@ -43,7 +46,7 @@ module ActionView #:nodoc:
   #   <% @page_title = "A Wonderful Hello" %>
   #   <%= render "shared/header" %>
   #
-  # Now the header can pick up on the @page_title variable and use it for outputting a title tag:
+  # Now the header can pick up on the <tt>@page_title</tt> variable and use it for outputting a title tag:
   #
   #   <title><%= @page_title %></title>
   #
@@ -53,7 +56,7 @@ module ActionView #:nodoc:
   #
   #   <%= render "shared/header", { :headline => "Welcome", :person => person } %>
   #
-  # These can now be accessed in shared/header with:
+  # These can now be accessed in <tt>shared/header</tt> with:
   #
   #   Headline: <%= headline %>
   #   First name: <%= person.first_name %>
@@ -74,13 +77,13 @@ module ActionView #:nodoc:
   #
   # == Builder
   #
-  # Builder templates are a more programmatic alternative to ERb. They are especially useful for generating XML content. An +XmlMarkup+ object 
-  # named +xml+ is automatically made available to templates with a +.builder+ extension. 
+  # Builder templates are a more programmatic alternative to ERb. They are especially useful for generating XML content. An XmlMarkup object 
+  # named +xml+ is automatically made available to templates with a <tt>.builder</tt> extension. 
   #
   # Here are some basic examples:
   #
   #   xml.em("emphasized")                              # => <em>emphasized</em>
-  #   xml.em { xml.b("emph & bold") }                    # => <em><b>emph &amp; bold</b></em>
+  #   xml.em { xml.b("emph & bold") }                   # => <em><b>emph &amp; bold</b></em>
   #   xml.a("A Link", "href"=>"http://onestepback.org") # => <a href="http://onestepback.org">A Link</a>
   #   xml.target("name"=>"compile", "option"=>"fast")   # => <target option="fast" name="compile"\>
   #                                                     # NOTE: order of attributes is not specified.
@@ -127,18 +130,18 @@ module ActionView #:nodoc:
   #
   # == JavaScriptGenerator
   #
-  # JavaScriptGenerator templates end in +.rjs+. Unlike conventional templates which are used to 
+  # JavaScriptGenerator templates end in <tt>.rjs</tt>. Unlike conventional templates which are used to 
   # render the results of an action, these templates generate instructions on how to modify an already rendered page. This makes it easy to 
   # modify multiple elements on your page in one declarative Ajax response. Actions with these templates are called in the background with Ajax 
   # and make updates to the page where the request originated from.
   # 
   # An instance of the JavaScriptGenerator object named +page+ is automatically made available to your template, which is implicitly wrapped in an ActionView::Helpers::PrototypeHelper#update_page block. 
   #
-  # When an .rjs action is called with +link_to_remote+, the generated JavaScript is automatically evaluated.  Example:
+  # When an <tt>.rjs</tt> action is called with +link_to_remote+, the generated JavaScript is automatically evaluated.  Example:
   #
   #   link_to_remote :url => {:action => 'delete'}
   #
-  # The subsequently rendered +delete.rjs+ might look like:
+  # The subsequently rendered <tt>delete.rjs</tt> might look like:
   #
   #   page.replace_html  'sidebar', :partial => 'sidebar'
   #   page.remove        "person-#{@person.id}"
@@ -153,9 +156,6 @@ module ActionView #:nodoc:
     attr_reader   :finder
     attr_accessor :base_path, :assigns, :template_extension, :first_render
     attr_accessor :controller
-
-    attr_reader :logger, :response, :headers
-    attr_internal :cookies, :flash, :headers, :params, :request, :response, :session
     
     attr_writer :template_format
     attr_accessor :current_render_extension
@@ -182,7 +182,10 @@ module ActionView #:nodoc:
     @@erb_variable = '_erbout'
     cattr_accessor :erb_variable
     
-    delegate :request_forgery_protection_token, :to => :controller
+    attr_internal :request
+
+    delegate :request_forgery_protection_token, :template, :params, :session, :cookies, :response, :headers,
+             :flash, :logger, :action_name, :to => :controller
  
     module CompiledTemplates #:nodoc:
       # holds compiled template code
@@ -202,22 +205,23 @@ module ActionView #:nodoc:
     class ObjectWrapper < Struct.new(:value) #:nodoc:
     end
 
-    def self.load_helpers #:nodoc:
-      Dir.entries("#{File.dirname(__FILE__)}/helpers").sort.each do |file|
+    def self.helper_modules #:nodoc:
+      helpers = []
+      Dir.entries(File.expand_path("#{File.dirname(__FILE__)}/helpers")).sort.each do |file|
         next unless file =~ /^([a-z][a-z_]*_helper).rb$/
         require "action_view/helpers/#{$1}"
         helper_module_name = $1.camelize
         if Helpers.const_defined?(helper_module_name)
-          include Helpers.const_get(helper_module_name)
+          helpers << Helpers.const_get(helper_module_name)
         end
       end
+      return helpers
     end
 
     def initialize(view_paths = [], assigns_for_first_render = {}, controller = nil)#:nodoc:
       @assigns = assigns_for_first_render
       @assigns_added = nil
       @controller = controller
-      @logger = controller && controller.logger
       @finder = TemplateFinder.new(self, view_paths)
     end
 
@@ -238,18 +242,7 @@ If you are rendering a subtemplate, you must now use controller-like partial syn
         END_ERROR
       end
       
-      template = Template.new(self, template_path, use_full_path, local_assigns)
-
-      begin
-        render_template(template)
-      rescue Exception => e
-        if TemplateError === e
-          e.sub_template_of(template.filename)
-          raise e
-        else
-          raise TemplateError.new(template, @assigns, e)
-        end
-      end
+      Template.new(self, template_path, use_full_path, local_assigns).render_template
     end
     
     # Renders the template present at <tt>template_path</tt> (relative to the view_paths array). 
@@ -279,14 +272,14 @@ If you are rendering a subtemplate, you must now use controller-like partial syn
         elsif options[:partial]
           render_partial(options[:partial], ActionView::Base::ObjectWrapper.new(options[:object]), options[:locals])
         elsif options[:inline]
-          template = Template.new(self, options[:inline], false, options[:locals], true, options[:type])
+          template = InlineTemplate.new(self, options[:inline], options[:locals], options[:type])
           render_template(template)
         end
       end
     end
 
     def render_template(template) #:nodoc:
-      template.render
+      template.render_template
     end
 
     # Returns true is the file may be rendered implicitly.
@@ -294,9 +287,10 @@ If you are rendering a subtemplate, you must now use controller-like partial syn
       template_path.split('/').last[0,1] != '_'
     end
 
-    # symbolized version of the :format parameter of the request, or :html by default.
+    # Returns a symbolized version of the <tt>:format</tt> parameter of the request,
+    # or <tt>:html</tt> by default.
     #
-    # EXCEPTION: If the :format parameter is not set, the Accept header will be examined for
+    # EXCEPTION: If the <tt>:format</tt> parameter is not set, the Accept header will be examined for
     # whether it contains the JavaScript mime type as its first priority. If that's the case,
     # it will be used. This ensures that Ajax applications can use the same URL to support both
     # JavaScript and non-JavaScript users.
@@ -320,7 +314,7 @@ If you are rendering a subtemplate, you must now use controller-like partial syn
       end
     end
 
-    private    
+    private
       def wrap_content_for_layout(content)
         original_content_for_layout = @content_for_layout
         @content_for_layout = content

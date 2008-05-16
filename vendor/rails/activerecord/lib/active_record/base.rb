@@ -11,22 +11,18 @@ module ActiveRecord #:nodoc:
   class SubclassNotFound < ActiveRecordError #:nodoc:
   end
 
-  # Raised when object assigned to association is of incorrect type.
+  # Raised when an object assigned to an association has an incorrect type.
   #
-  # Example:
+  #   class Ticket < ActiveRecord::Base
+  #     has_many :patches
+  #   end
   #
-  # class Ticket < ActiveRecord::Base
-  #   has_many :patches
-  # end
+  #   class Patch < ActiveRecord::Base
+  #     belongs_to :ticket
+  #   end
   #
-  # class Patch < ActiveRecord::Base
-  #   belongs_to :ticket
-  # end
-  #
-  # and somewhere in the code:
-  #
-  # @ticket.patches << Comment.new(:content => "Please attach tests to your patch.")
-  # @ticket.save
+  #   # Comments are not patches, this assignment raises AssociationTypeMismatch.
+  #   @ticket.patches << Comment.new(:content => "Please attach tests to your patch.")
   class AssociationTypeMismatch < ActiveRecordError
   end
 
@@ -59,14 +55,14 @@ module ActiveRecord #:nodoc:
   class StatementInvalid < ActiveRecordError
   end
 
-  # Raised when number of bind variables in statement given to :condition key (for example, when using +find+ method)
+  # Raised when number of bind variables in statement given to <tt>:condition</tt> key (for example, when using +find+ method)
   # does not match number of expected variables.
   #
-  # Example:
+  # For example, in
   #
-  # Location.find :all, :conditions => ["lat = ? AND lng = ?", 53.7362]
+  #   Location.find :all, :conditions => ["lat = ? AND lng = ?", 53.7362]
   #
-  # in example above two placeholders are given but only one variable to fill them.
+  # two placeholders are given but only one variable to fill them.
   class PreparedStatementInvalid < ActiveRecordError
   end
 
@@ -96,13 +92,15 @@ module ActiveRecord #:nodoc:
   class DangerousAttributeError < ActiveRecordError
   end
 
-  # Raised when you've tried to access a column which wasn't
-  # loaded by your finder.  Typically this is because :select
-  # has been specified
+  # Raised when you've tried to access a column which wasn't loaded by your finder.
+  # Typically this is because <tt>:select</tt> has been specified.
   class MissingAttributeError < NoMethodError
   end
 
-  class AttributeAssignmentError < ActiveRecordError #:nodoc:
+  # Raised when an error occured while doing a mass assignment to an attribute through the
+  # <tt>attributes=</tt> method. The exception has an +attribute+ property that is the name of the
+  # offending attribute.
+  class AttributeAssignmentError < ActiveRecordError
     attr_reader :exception, :attribute
     def initialize(message, exception, attribute)
       @exception = exception
@@ -111,7 +109,10 @@ module ActiveRecord #:nodoc:
     end
   end
 
-  class MultiparameterAssignmentErrors < ActiveRecordError #:nodoc:
+  # Raised when there are multiple errors while doing a mass assignment through the +attributes+
+  # method. The exception has an +errors+ property that contains an array of AttributeAssignmentError
+  # objects, each corresponding to the error while assigning to an attribute.
+  class MultiparameterAssignmentErrors < ActiveRecordError
     attr_reader :errors
     def initialize(errors)
       @errors = errors
@@ -206,7 +207,7 @@ module ActiveRecord #:nodoc:
   #     # Uses an integer of seconds to hold the length of the song
   #
   #     def length=(minutes)
-  #       write_attribute(:length, minutes * 60)
+  #       write_attribute(:length, minutes.to_i * 60)
   #     end
   #
   #     def length
@@ -234,8 +235,8 @@ module ActiveRecord #:nodoc:
   # == Accessing attributes before they have been typecasted
   #
   # Sometimes you want to be able to read the raw attribute data without having the column-determined typecast run its course first.
-  # That can be done by using the <attribute>_before_type_cast accessors that all attributes have. For example, if your Account model
-  # has a balance attribute, you can call account.balance_before_type_cast or account.id_before_type_cast.
+  # That can be done by using the <tt><attribute>_before_type_cast</tt> accessors that all attributes have. For example, if your Account model
+  # has a balance attribute, you can call <tt>account.balance_before_type_cast</tt> or <tt>account.id_before_type_cast</tt>.
   #
   # This is especially useful in validation situations where the user might supply a string for an integer field and you want to display
   # the original string back in an error message. Accessing the attribute normally would typecast the string to 0, which isn't what you
@@ -256,7 +257,7 @@ module ActiveRecord #:nodoc:
   #
   # It's even possible to use all the additional parameters to find. For example, the full interface for Payment.find_all_by_amount
   # is actually Payment.find_all_by_amount(amount, options). And the full interface to Person.find_by_user_name is
-  # actually Person.find_by_user_name(user_name, options). So you could call <tt>Payment.find_all_by_amount(50, :order => "created_on")</tt>.
+  # actually <tt>Person.find_by_user_name(user_name, options)</tt>. So you could call <tt>Payment.find_all_by_amount(50, :order => "created_on")</tt>.
   #
   # The same dynamic finder style can be used to create the object if it doesn't already exist. This dynamic finder is called with
   # <tt>find_or_create_by_</tt> and will return the object if it already exists and otherwise creates it, then returns it. Protected attributes won't be set unless they are given in a block. For example:
@@ -336,26 +337,26 @@ module ActiveRecord #:nodoc:
   #
   # == Exceptions
   #
-  # * +ActiveRecordError+ -- generic error class and superclass of all other errors raised by Active Record
-  # * +AdapterNotSpecified+ -- the configuration hash used in <tt>establish_connection</tt> didn't include an
+  # * ActiveRecordError - Generic error class and superclass of all other errors raised by Active Record.
+  # * AdapterNotSpecified - The configuration hash used in <tt>establish_connection</tt> didn't include an
   #   <tt>:adapter</tt> key.
-  # * +AdapterNotFound+ -- the <tt>:adapter</tt> key used in <tt>establish_connection</tt> specified a non-existent adapter
+  # * AdapterNotFound - The <tt>:adapter</tt> key used in <tt>establish_connection</tt> specified a non-existent adapter
   #   (or a bad spelling of an existing one).
-  # * +AssociationTypeMismatch+ -- the object assigned to the association wasn't of the type specified in the association definition.
-  # * +SerializationTypeMismatch+ -- the serialized object wasn't of the class specified as the second parameter.
-  # * +ConnectionNotEstablished+ -- no connection has been established. Use <tt>establish_connection</tt> before querying.
-  # * +RecordNotFound+ -- no record responded to the find* method.
-  #   Either the row with the given ID doesn't exist or the row didn't meet the additional restrictions.
-  # * +StatementInvalid+ -- the database server rejected the SQL statement. The precise error is added in the  message.
-  #   Either the record with the given ID doesn't exist or the record didn't meet the additional restrictions.
-  # * +MultiparameterAssignmentErrors+ -- collection of errors that occurred during a mass assignment using the
-  #   +attributes=+ method. The +errors+ property of this exception contains an array of +AttributeAssignmentError+
+  # * AssociationTypeMismatch - The object assigned to the association wasn't of the type specified in the association definition.
+  # * SerializationTypeMismatch - The serialized object wasn't of the class specified as the second parameter.
+  # * ConnectionNotEstablished+ - No connection has been established. Use <tt>establish_connection</tt> before querying.
+  # * RecordNotFound - No record responded to the +find+ method. Either the row with the given ID doesn't exist
+  #   or the row didn't meet the additional restrictions. Some +find+ calls do not raise this exception to signal
+  #   nothing was found, please check its documentation for further details.
+  # * StatementInvalid - The database server rejected the SQL statement. The precise error is added in the message.
+  # * MultiparameterAssignmentErrors - Collection of errors that occurred during a mass assignment using the
+  #   <tt>attributes=</tt> method. The +errors+ property of this exception contains an array of AttributeAssignmentError
   #   objects that should be inspected to determine which attributes triggered the errors.
-  # * +AttributeAssignmentError+ -- an error occurred while doing a mass assignment through the +attributes=+ method.
+  # * AttributeAssignmentError - An error occurred while doing a mass assignment through the <tt>attributes=</tt> method.
   #   You can inspect the +attribute+ property of the exception object to determine which attribute triggered the error.
   #
   # *Note*: The attributes listed are class-level attributes (accessible from both the class and instance level).
-  # So it's possible to assign a logger to the class through Base.logger= which will then be used by all
+  # So it's possible to assign a logger to the class through <tt>Base.logger=</tt> which will then be used by all
   # instances in the current object space.
   class Base
     # Accepts a logger conforming to the interface of Log4r or the default Ruby 1.8+ Logger class, which is then passed
@@ -423,7 +424,9 @@ module ActiveRecord #:nodoc:
     @@default_timezone = :local
 
     # Determines whether to use a connection for each thread, or a single shared connection for all threads.
-    # Defaults to false. Set to true if you're writing a threaded application.
+    # Defaults to false. If you're writing a threaded application, set to true
+    # and periodically call verify_active_connections! to clear out connections
+    # assigned to stale threads.
     cattr_accessor :allow_concurrency, :instance_writer => false
     @@allow_concurrency = false
 
@@ -435,7 +438,11 @@ module ActiveRecord #:nodoc:
     # adapters for, e.g., your development and test environments.
     cattr_accessor :schema_format , :instance_writer => false
     @@schema_format = :ruby
-    
+
+    # Determine whether to store the full constant name including namespace when using STI
+    superclass_delegating_accessor :store_full_sti_class
+    self.store_full_sti_class = false
+
     class << self # Class methods
       # Find operates with four different retrieval approaches:
       #
@@ -455,9 +462,9 @@ module ActiveRecord #:nodoc:
       # * <tt>:limit</tt>: An integer determining the limit on the number of rows that should be returned.
       # * <tt>:offset</tt>: An integer determining the offset from where the rows should be fetched. So at 5, it would skip rows 0 through 4.
       # * <tt>:joins</tt>: Either an SQL fragment for additional joins like "LEFT JOIN comments ON comments.post_id = id" (rarely needed)
-      #   or named associations in the same form used for the :include option, which will perform an INNER JOIN on the associated table(s).
+      #   or named associations in the same form used for the <tt>:include</tt> option, which will perform an INNER JOIN on the associated table(s).
       #   If the value is a string, then the records will be returned read-only since they will have attributes that do not correspond to the table's columns.
-      #   Pass :readonly => false to override.
+      #   Pass <tt>:readonly => false</tt> to override.
       # * <tt>:include</tt>: Names associations that should be loaded alongside using LEFT OUTER JOINs. The symbols named refer
       #   to already defined associations. See eager loading under Associations.
       # * <tt>:select</tt>: By default, this is * as in SELECT * FROM, but can be changed if you, for example, want to do a join but not
@@ -466,7 +473,7 @@ module ActiveRecord #:nodoc:
       #   of a database view).
       # * <tt>:readonly</tt>: Mark the returned records read-only so they cannot be saved or updated.
       # * <tt>:lock</tt>: An SQL fragment like "FOR UPDATE" or "LOCK IN SHARE MODE".
-      #   :lock => true gives connection's default exclusive lock, usually "FOR UPDATE".
+      #   <tt>:lock => true</tt> gives connection's default exclusive lock, usually "FOR UPDATE".
       #
       # Examples for find by id:
       #   Person.find(1)       # returns the object for ID = 1
@@ -476,7 +483,7 @@ module ActiveRecord #:nodoc:
       #   Person.find(1, :conditions => "administrator = 1", :order => "created_on DESC")
       #
       # Note that returned records may not be in the same order as the ids you
-      # provide since database rows are unordered. Give an explicit :order
+      # provide since database rows are unordered. Give an explicit <tt>:order</tt>
       # to ensure the results are sorted.
       #
       # Examples for find first:
@@ -519,7 +526,7 @@ module ActiveRecord #:nodoc:
           else             find_from_ids(args, options)
         end
       end
-      
+
       # This is an alias for find(:first).  You can pass in all the same arguments to this method as you can
       # to find(:first)
       def first(*args)
@@ -531,7 +538,13 @@ module ActiveRecord #:nodoc:
       def last(*args)
         find(:last, *args)
       end
-      
+
+      # This is an alias for find(:all).  You can pass in all the same arguments to this method as you can
+      # to find(:all)
+      def all(*args)
+        find(:all, *args)
+      end
+
       #
       # Executes a custom sql query against your database and returns all the results.  The results will
       # be returned as an array with columns requested encapsulated as attributes of the model you call
@@ -578,10 +591,10 @@ module ActiveRecord #:nodoc:
       def exists?(id_or_conditions)
         connection.select_all(
           construct_finder_sql(
-            :select     => "#{quoted_table_name}.#{primary_key}", 
-            :conditions => expand_id_conditions(id_or_conditions), 
+            :select     => "#{quoted_table_name}.#{primary_key}",
+            :conditions => expand_id_conditions(id_or_conditions),
             :limit      => 1
-          ), 
+          ),
           "#{name} Exists"
         ).size > 0
       end
@@ -595,13 +608,25 @@ module ActiveRecord #:nodoc:
       # ==== Examples
       #   # Create a single new object
       #   User.create(:first_name => 'Jamie')
+      #
       #   # Create an Array of new objects
-      #   User.create([{:first_name => 'Jamie'}, {:first_name => 'Jeremy'}])
-      def create(attributes = nil)
+      #   User.create([{ :first_name => 'Jamie' }, { :first_name => 'Jeremy' }])
+      #
+      #   # Create a single object and pass it into a block to set other attributes.
+      #   User.create(:first_name => 'Jamie') do |u|
+      #     u.is_admin = false
+      #   end
+      #
+      #   # Creating an Array of new objects using a block, where the block is executed for each object:
+      #   User.create([{ :first_name => 'Jamie' }, { :first_name => 'Jeremy' }]) do |u|
+      #     u.is_admin = false
+      #   end
+      def create(attributes = nil, &block)
         if attributes.is_a?(Array)
-          attributes.collect { |attr| create(attr) }
+          attributes.collect { |attr| create(attr, &block) }
         else
           object = new(attributes)
+          yield(object) if block_given?
           object.save
           object
         end
@@ -610,18 +635,18 @@ module ActiveRecord #:nodoc:
       # Updates an object (or multiple objects) and saves it to the database, if validations pass.
       # The resulting object is returned whether the object was saved successfully to the database or not.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +id+          This should be the id or an array of ids to be updated
-      # +attributes+  This should be a Hash of attributes to be set on the object, or an array of Hashes.
+      # * +id+ - This should be the id or an array of ids to be updated.
+      # * +attributes+ - This should be a Hash of attributes to be set on the object, or an array of Hashes.
       #
       # ==== Examples
       #
       #   # Updating one record:
-      #   Person.update(15, {:user_name => 'Samuel', :group => 'expert'})
+      #   Person.update(15, { :user_name => 'Samuel', :group => 'expert' })
       #
       #   # Updating multiple records:
-      #   people = { 1 => { "first_name" => "David" }, 2 => { "first_name" => "Jeremy"} }
+      #   people = { 1 => { "first_name" => "David" }, 2 => { "first_name" => "Jeremy" } }
       #   Person.update(people.keys, people.values)
       def update(id, attributes)
         if id.is_a?(Array)
@@ -640,9 +665,9 @@ module ActiveRecord #:nodoc:
       #
       # Objects are _not_ instantiated with this method.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +id+  Can be either an Integer or an Array of Integers
+      # * +id+ - Can be either an Integer or an Array of Integers.
       #
       # ==== Examples
       #
@@ -663,9 +688,9 @@ module ActiveRecord #:nodoc:
       # This essentially finds the object (or multiple objects) with the given id, creates a new object
       # from the attributes, and then calls destroy on it.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +id+  Can be either an Integer or an Array of Integers
+      # * +id+ - Can be either an Integer or an Array of Integers.
       #
       # ==== Examples
       #
@@ -686,12 +711,12 @@ module ActiveRecord #:nodoc:
       # Updates all records with details given if they match a set of conditions supplied, limits and order can
       # also be supplied.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +updates+     A String of column and value pairs that will be set on any records that match conditions
-      # +conditions+  An SQL fragment like "administrator = 1" or [ "user_name = ?", username ].
-      #               See conditions in the intro for more info.
-      # +options+     Additional options are :limit and/or :order, see the examples for usage.
+      # * +updates+ - A String of column and value pairs that will be set on any records that match conditions.
+      # * +conditions+ - An SQL fragment like "administrator = 1" or [ "user_name = ?", username ].
+      #   See conditions in the intro for more info.
+      # * +options+ - Additional options are <tt>:limit</tt> and/or <tt>:order</tt>, see the examples for usage.
       #
       # ==== Examples
       #
@@ -718,9 +743,9 @@ module ActiveRecord #:nodoc:
       # many records. If you want to simply delete records without worrying about dependent associations or
       # callbacks, use the much faster +delete_all+ method instead.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +conditions+   Conditions are specified the same way as with +find+ method.
+      # * +conditions+ - Conditions are specified the same way as with +find+ method.
       #
       # ==== Example
       #
@@ -736,9 +761,9 @@ module ActiveRecord #:nodoc:
       # calling the destroy method and invoking callbacks. This is a single SQL query, much more efficient
       # than destroy_all.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +conditions+   Conditions are specified the same way as with +find+ method.
+      # * +conditions+ - Conditions are specified the same way as with +find+ method.
       #
       # ==== Example
       #
@@ -756,9 +781,9 @@ module ActiveRecord #:nodoc:
       # The use of this method should be restricted to complicated SQL queries that can't be executed
       # using the ActiveRecord::Calculations class methods.  Look into those before using this.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +sql+: An SQL statement which should return a count query from the database, see the example below
+      # * +sql+ - An SQL statement which should return a count query from the database, see the example below.
       #
       # ==== Examples
       #
@@ -774,12 +799,11 @@ module ActiveRecord #:nodoc:
       # with the given ID, altering the given hash of counters by the amount
       # given by the corresponding value:
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +id+        The id of the object you wish to update a counter on
-      # +counters+  An Array of Hashes containing the names of the fields
-      #             to update as keys and the amount to update the field by as
-      #             values
+      # * +id+ - The id of the object you wish to update a counter on.
+      # * +counters+ - An Array of Hashes containing the names of the fields
+      #   to update as keys and the amount to update the field by as values.
       #
       # ==== Examples
       #
@@ -805,10 +829,10 @@ module ActiveRecord #:nodoc:
       # For example, a DiscussionBoard may cache post_count and comment_count otherwise every time the board is
       # shown it would have to run an SQL query to find how many posts and comments there are.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +counter_name+  The name of the field that should be incremented
-      # +id+            The id of the object that should be incremented
+      # * +counter_name+ - The name of the field that should be incremented.
+      # * +id+ - The id of the object that should be incremented.
       #
       # ==== Examples
       #
@@ -822,10 +846,10 @@ module ActiveRecord #:nodoc:
       #
       # This works the same as increment_counter but reduces the column value by 1 instead of increasing it.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +counter_name+  The name of the field that should be decremented
-      # +id+            The id of the object that should be decremented
+      # * +counter_name+ - The name of the field that should be decremented.
+      # * +id+ - The id of the object that should be decremented.
       #
       # ==== Examples
       #
@@ -870,9 +894,9 @@ module ActiveRecord #:nodoc:
       # overwritten by URL/form hackers. If you'd rather start from an all-open default and restrict
       # attributes as needed, have a look at attr_protected.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # <tt>*attributes</tt>   A comma separated list of symbols that represent columns _not_ to be protected
+      # * <tt>*attributes</tt>   A comma separated list of symbols that represent columns _not_ to be protected
       #
       # ==== Examples
       #
@@ -911,10 +935,10 @@ module ActiveRecord #:nodoc:
       # The serialization is done through YAML. If +class_name+ is specified, the serialized object must be of that
       # class on retrieval or +SerializationTypeMismatch+ will be raised.
       #
-      # ==== Options
+      # ==== Attributes
       #
-      # +attr_name+   The field name that should be serialized
-      # +class_name+  Optional, class name that the object type should be equal to
+      # * +attr_name+ - The field name that should be serialized.
+      # * +class_name+ - Optional, class name that the object type should be equal to.
       #
       # ==== Example
       #   # Serialize a preferences attribute
@@ -1003,9 +1027,9 @@ module ActiveRecord #:nodoc:
         key = 'id'
         case primary_key_prefix_type
           when :table_name
-            key = Inflector.foreign_key(base_name, false)
+            key = base_name.to_s.foreign_key(false)
           when :table_name_with_underscore
-            key = Inflector.foreign_key(base_name)
+            key = base_name.to_s.foreign_key
         end
         key
       end
@@ -1102,18 +1126,7 @@ module ActiveRecord #:nodoc:
 
       # Indicates whether the table associated with this class exists
       def table_exists?
-        if connection.respond_to?(:tables)
-          connection.tables.include? table_name
-        else
-          # if the connection adapter hasn't implemented tables, there are two crude tests that can be
-          # used - see if getting column info raises an error, or if the number of columns returned is zero
-          begin
-            reset_column_information
-            columns.size > 0
-          rescue ActiveRecord::StatementInvalid
-            false
-          end
-        end
+        connection.table_exists?(table_name)
       end
 
       # Returns an array of column objects for the table associated with this class.
@@ -1272,7 +1285,7 @@ module ActiveRecord #:nodoc:
 
       private
         def find_initial(options)
-          options.update(:limit => 1) unless options[:include]
+          options.update(:limit => 1)
           find_every(options).first
         end
 
@@ -1289,7 +1302,7 @@ module ActiveRecord #:nodoc:
             scoped_order = reverse_sql_order(scope(:find, :order))
             scoped_methods.select { |s| s[:find].update(:order => scoped_order) }
           end
-          
+
           find_initial(options.merge({ :order => order }))
         end
 
@@ -1299,12 +1312,12 @@ module ActiveRecord #:nodoc:
               s.gsub!(/\s(asc|ASC)$/, ' DESC')
             elsif s.match(/\s(desc|DESC)$/)
               s.gsub!(/\s(desc|DESC)$/, ' ASC')
-            elsif !s.match(/\s(asc|ASC|desc|DESC)$/) 
+            elsif !s.match(/\s(asc|ASC|desc|DESC)$/)
               s.concat(' DESC')
             end
           }.join(',')
         end
-        
+
         def find_every(options)
           include_associations = merge_includes(scope(:find, :include), options[:include])
 
@@ -1501,7 +1514,7 @@ module ActiveRecord #:nodoc:
           end
         end
 
-        # The optional scope argument is for the current :find scope.
+        # The optional scope argument is for the current <tt>:find</tt> scope.
         def add_limit!(sql, options, scope = :auto)
           scope = scope(:find) if :auto == scope
 
@@ -1513,15 +1526,15 @@ module ActiveRecord #:nodoc:
           connection.add_limit_offset!(sql, options)
         end
 
-        # The optional scope argument is for the current :find scope.
-        # The :lock option has precedence over a scoped :lock.
+        # The optional scope argument is for the current <tt>:find</tt> scope.
+        # The <tt>:lock</tt> option has precedence over a scoped <tt>:lock</tt>.
         def add_lock!(sql, options, scope = :auto)
           scope = scope(:find) if :auto == scope
           options = options.reverse_merge(:lock => scope[:lock]) if scope
           connection.add_lock!(sql, options)
         end
 
-        # The optional scope argument is for the current :find scope.
+        # The optional scope argument is for the current <tt>:find</tt> scope.
         def add_joins!(sql, options, scope = :auto)
           scope = scope(:find) if :auto == scope
           [(scope && scope[:joins]), options[:joins]].each do |join|
@@ -1536,7 +1549,7 @@ module ActiveRecord #:nodoc:
         end
 
         # Adds a sanitized version of +conditions+ to the +sql+ string. Note that the passed-in +sql+ string is changed.
-        # The optional scope argument is for the current :find scope.
+        # The optional scope argument is for the current <tt>:find</tt> scope.
         def add_conditions!(sql, conditions, scope = :auto)
           scope = scope(:find) if :auto == scope
           conditions = [conditions]
@@ -1548,8 +1561,8 @@ module ActiveRecord #:nodoc:
 
         def type_condition
           quoted_inheritance_column = connection.quote_column_name(inheritance_column)
-          type_condition = subclasses.inject("#{quoted_table_name}.#{quoted_inheritance_column} = '#{name.demodulize}' ") do |condition, subclass|
-            condition << "OR #{quoted_table_name}.#{quoted_inheritance_column} = '#{subclass.name.demodulize}' "
+          type_condition = subclasses.inject("#{quoted_table_name}.#{quoted_inheritance_column} = '#{store_full_sti_class ? name : name.demodulize}' ") do |condition, subclass|
+            condition << "OR #{quoted_table_name}.#{quoted_inheritance_column} = '#{store_full_sti_class ? subclass.name : subclass.name.demodulize}' "
           end
 
           " (#{type_condition}) "
@@ -1557,8 +1570,8 @@ module ActiveRecord #:nodoc:
 
         # Guesses the table name, but does not decorate it with prefix and suffix information.
         def undecorated_table_name(class_name = base_class.name)
-          table_name = Inflector.underscore(Inflector.demodulize(class_name))
-          table_name = Inflector.pluralize(table_name) if pluralize_table_names
+          table_name = class_name.to_s.demodulize.underscore
+          table_name = table_name.pluralize if pluralize_table_names
           table_name
         end
 
@@ -1607,7 +1620,7 @@ module ActiveRecord #:nodoc:
             self.class_eval %{
               def self.#{method_id}(*args)
                 guard_protected_attributes = false
-                
+
                 if args[0].is_a?(Hash)
                   guard_protected_attributes = true
                   attributes = args[0].with_indifferent_access
@@ -1620,7 +1633,7 @@ module ActiveRecord #:nodoc:
                 set_readonly_option!(options)
 
                 record = find_initial(options)
-                 
+
                  if record.nil?
                   record = self.new { |r| r.send(:attributes=, attributes, guard_protected_attributes) }
                   #{'yield(record) if block_given?'}
@@ -1733,8 +1746,8 @@ module ActiveRecord #:nodoc:
 
       protected
         # Scope parameters to method calls within the block.  Takes a hash of method_name => parameters hash.
-        # method_name may be :find or :create. :find parameters may include the <tt>:conditions</tt>, <tt>:joins</tt>,
-        # <tt>:include</tt>, <tt>:offset</tt>, <tt>:limit</tt>, and <tt>:readonly</tt> options. :create parameters are an attributes hash.
+        # method_name may be <tt>:find</tt> or <tt>:create</tt>. <tt>:find</tt> parameters may include the <tt>:conditions</tt>, <tt>:joins</tt>,
+        # <tt>:include</tt>, <tt>:offset</tt>, <tt>:limit</tt>, and <tt>:readonly</tt> options. <tt>:create</tt> parameters are an attributes hash.
         #
         #   class Article < ActiveRecord::Base
         #     def self.create_with_scope
@@ -1747,12 +1760,12 @@ module ActiveRecord #:nodoc:
         #   end
         #
         # In nested scopings, all previous parameters are overwritten by the innermost rule, with the exception of
-        # :conditions and :include options in :find, which are merged.
+        # <tt>:conditions</tt> and <tt>:include</tt> options in <tt>:find</tt>, which are merged.
         #
         #   class Article < ActiveRecord::Base
         #     def self.find_with_scope
         #       with_scope(:find => { :conditions => "blog_id = 1", :limit => 1 }, :create => { :blog_id => 1 }) do
-        #         with_scope(:find => { :limit => 10})
+        #         with_scope(:find => { :limit => 10 })
         #           find(:all) # => SELECT * from articles WHERE blog_id = 1 LIMIT 10
         #         end
         #         with_scope(:find => { :conditions => "author_id = 3" })
@@ -1901,6 +1914,8 @@ module ActiveRecord #:nodoc:
         #   { :name => "foo'bar", :group_id => 4 }  returns "name='foo''bar' and group_id='4'"
         #   "name='foo''bar' and group_id='4'" returns "name='foo''bar' and group_id='4'"
         def sanitize_sql_for_conditions(condition)
+          return nil if condition.blank?
+
           case condition
             when Array; sanitize_sql_array(condition)
             when Hash;  sanitize_sql_hash_for_conditions(condition)
@@ -2118,14 +2133,14 @@ module ActiveRecord #:nodoc:
         # We can't use alias_method here, because method 'id' optimizes itself on the fly.
         (id = self.id) ? id.to_s : nil # Be sure to stringify the id for routes
       end
-      
+
       # Returns a cache key that can be used to identify this record. Examples:
       #
       #   Product.new.cache_key     # => "products/new"
       #   Product.find(5).cache_key # => "products/5" (updated_at not available)
       #   Person.find(5).cache_key  # => "people/5-20071224150000" (updated_at available)
       def cache_key
-        case 
+        case
         when new_record?
           "#{self.class.name.tableize}/new"
         when self[:updated_at]
@@ -2159,7 +2174,7 @@ module ActiveRecord #:nodoc:
       # Note: If your model specifies any validations then the method declaration dynamically
       # changes to:
       #   save(perform_validation=true)
-      # Calling save(false) saves the model without running validations.  
+      # Calling save(false) saves the model without running validations.
       # See ActiveRecord::Validations for more information.
       def save
         create_or_update
@@ -2197,9 +2212,9 @@ module ActiveRecord #:nodoc:
         record
       end
 
-      # Returns an instance of the specified klass with the attributes of the current record. This is mostly useful in relation to
+      # Returns an instance of the specified +klass+ with the attributes of the current record. This is mostly useful in relation to
       # single-table inheritance structures where you want a subclass to appear as the superclass. This can be used along with record
-      # identification in Action Pack to allow, say, Client < Company to do something like render :partial => @client.becomes(Company)
+      # identification in Action Pack to allow, say, <tt>Client < Company</tt> to do something like render <tt>:partial => @client.becomes(Company)</tt>
       # to render that instance using the companies/company partial instead of clients/client.
       #
       # Note: The new instance will share a link to the same attributes as the original class. So any change to the attributes in either
@@ -2233,40 +2248,53 @@ module ActiveRecord #:nodoc:
         save!
       end
 
-      # Initializes the +attribute+ to zero if nil and adds the value passed as +by+ (default is one). Only makes sense for number-based attributes. Returns self.
+      # Initializes +attribute+ to zero if +nil+ and adds the value passed as +by+ (default is 1).
+      # The increment is performed directly on the underlying attribute, no setter is invoked.
+      # Only makes sense for number-based attributes. Returns +self+.
       def increment(attribute, by = 1)
         self[attribute] ||= 0
         self[attribute] += by
         self
       end
 
-      # Increments the +attribute+ and saves the record.
-      # Note: Updates made with this method aren't subjected to validation checks
+      # Wrapper around +increment+ that saves the record. This method differs from
+      # its non-bang version in that it passes through the attribute setter.
+      # Saving is not subjected to validation checks. Returns +true+ if the
+      # record could be saved.
       def increment!(attribute, by = 1)
         increment(attribute, by).update_attribute(attribute, self[attribute])
       end
 
-      # Initializes the +attribute+ to zero if nil and subtracts the value passed as +by+ (default is one). Only makes sense for number-based attributes. Returns self.
+      # Initializes +attribute+ to zero if +nil+ and subtracts the value passed as +by+ (default is 1).
+      # The decrement is performed directly on the underlying attribute, no setter is invoked.
+      # Only makes sense for number-based attributes. Returns +self+.
       def decrement(attribute, by = 1)
         self[attribute] ||= 0
         self[attribute] -= by
         self
       end
 
-      # Decrements the +attribute+ and saves the record.
-      # Note: Updates made with this method aren't subjected to validation checks
+      # Wrapper around +decrement+ that saves the record. This method differs from
+      # its non-bang version in that it passes through the attribute setter.
+      # Saving is not subjected to validation checks. Returns +true+ if the
+      # record could be saved.
       def decrement!(attribute, by = 1)
         decrement(attribute, by).update_attribute(attribute, self[attribute])
       end
 
-      # Turns an +attribute+ that's currently true into false and vice versa. Returns self.
+      # Assigns to +attribute+ the boolean opposite of <tt>attribute?</tt>. So
+      # if the predicate returns +true+ the attribute will become +false+. This
+      # method toggles directly the underlying value without calling any setter.
+      # Returns +self+.
       def toggle(attribute)
         self[attribute] = !send("#{attribute}?")
         self
       end
 
-      # Toggles the +attribute+ and saves the record.
-      # Note: Updates made with this method aren't subjected to validation checks
+      # Wrapper around +toggle+ that saves the record. This method differs from
+      # its non-bang version in that it passes through the attribute setter.
+      # Saving is not subjected to validation checks. Returns +true+ if the
+      # record could be saved.
       def toggle!(attribute)
         toggle(attribute).update_attribute(attribute, self[attribute])
       end
@@ -2318,7 +2346,7 @@ module ActiveRecord #:nodoc:
 
 
       # Returns a hash of all the attributes with their names as keys and the values of the attributes as values.
-      def attributes(options = nil)
+      def attributes
         self.attribute_names.inject({}) do |attrs, name|
           attrs[name] = read_attribute(name)
           attrs
@@ -2468,7 +2496,7 @@ module ActiveRecord #:nodoc:
       # Message class in that example.
       def ensure_proper_type
         unless self.class.descends_from_active_record?
-          write_attribute(self.class.inheritance_column, Inflector.demodulize(self.class.name))
+          write_attribute(self.class.inheritance_column, store_full_sti_class ? self.class.name : self.class.name.demodulize)
         end
       end
 
@@ -2566,7 +2594,7 @@ module ActiveRecord #:nodoc:
       end
 
       def instantiate_time_object(name, values)
-        if Time.zone && self.class.time_zone_aware_attributes && !self.class.skip_time_zone_conversion_for_attributes.include?(name.to_sym)
+        if self.class.time_zone_aware_attributes && !self.class.skip_time_zone_conversion_for_attributes.include?(name.to_sym)
           Time.zone.local(*values)
         else
           Time.time_with_datetime_fallback(@@default_timezone, *values)

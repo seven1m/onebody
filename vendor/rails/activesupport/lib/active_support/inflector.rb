@@ -3,6 +3,11 @@ require 'singleton'
 # The Inflector transforms words from singular to plural, class names to table names, modularized class names to ones without,
 # and class names to foreign keys. The default inflections for pluralization, singularization, and uncountable words are kept
 # in inflections.rb.
+#
+# The Rails core team has stated patches for the inflections library will not be accepted
+# in order to avoid breaking legacy applications which may be relying on errant inflections.
+# If you discover an incorrect inflection and require it for your application, you'll need
+# to correct it yourself (explained below).
 module Inflector
   # A singleton instance of this class is yielded by Inflector.inflections, which can then be used to specify additional
   # inflection rules. Examples:
@@ -68,8 +73,9 @@ module Inflector
       (@uncountables << words).flatten!
     end
 
-    # Clears the loaded inflections within a given scope (default is :all). Give the scope as a symbol of the inflection type,
-    # the options are: :plurals, :singulars, :uncountables
+    # Clears the loaded inflections within a given scope (default is <tt>:all</tt>).
+    # Give the scope as a symbol of the inflection type, the options are: <tt>:plurals</tt>,
+    # <tt>:singulars</tt>, <tt>:uncountables</tt>.
     #
     # Examples:
     #   clear :all
@@ -245,13 +251,23 @@ module Inflector
     underscore(demodulize(class_name)) + (separate_class_name_and_id_with_underscore ? "_id" : "id")
   end
 
-  # Constantize tries to find a declared constant with the name specified
-  # in the string. It raises a NameError when the name is not in CamelCase
-  # or is not initialized.
+  # Tries to find a constant with the name specified in the argument string:
   #
-  # Examples
-  #   "Module".constantize #=> Module
-  #   "Class".constantize #=> Class
+  #   "Module".constantize     # => Module
+  #   "Test::Unit".constantize # => Test::Unit
+  #
+  # The name is assumed to be the one of a top-level constant, no matter whether
+  # it starts with "::" or not. No lexical context is taken into account:
+  #
+  #   C = 'outside'
+  #   module M
+  #     C = 'inside'
+  #     C               # => 'inside'
+  #     "C".constantize # => 'outside', same as ::C
+  #   end
+  #
+  # NameError is raised when the name is not in CamelCase or the constant is
+  # unknown.
   def constantize(camel_cased_word)
     unless /\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\z/ =~ camel_cased_word
       raise NameError, "#{camel_cased_word.inspect} is not a valid constant name!"

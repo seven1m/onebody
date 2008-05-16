@@ -11,7 +11,6 @@ module ActiveRecord
     def self.included(base)
       base.class_eval do
         extend ClassMethods
-        named_scope :all
         named_scope :scoped, lambda { |scope| scope }
       end
     end
@@ -72,6 +71,18 @@ module ActiveRecord
       #     end
       #   end
       #
+      #
+      # For testing complex named scopes, you can examine the scoping options using the
+      # <tt>proxy_options</tt> method on the proxy itself.
+      #
+      #   class Shirt < ActiveRecord::Base
+      #     named_scope :colored, lambda { |color|
+      #       { :conditions => { :color => color } }
+      #     }
+      #   end
+      #
+      #   expected_options = { :conditions => { :colored => 'red' } }
+      #   assert_equal expected_options, Shirt.colored('red').proxy_options
       def named_scope(name, options = {}, &block)
         scopes[name] = lambda do |parent_scope, *args|
           Scope.new(parent_scope, case options

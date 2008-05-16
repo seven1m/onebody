@@ -46,12 +46,12 @@ module ActiveSupport #:nodoc:
             ::DateTime.civil(year, month, day, hour, min, sec, offset)
           end
 
-          # wraps class method time_with_datetime_fallback with utc_or_local == :utc
+          # Wraps class method +time_with_datetime_fallback+ with +utc_or_local+ set to <tt>:utc</tt>.
           def utc_time(*args)
             time_with_datetime_fallback(:utc, *args)
           end
 
-          # wraps class method time_with_datetime_fallback with utc_or_local == :local
+          # Wraps class method +time_with_datetime_fallback+ with +utc_or_local+ set to <tt>:local</tt>.
           def local_time(*args)
             time_with_datetime_fallback(:local, *args)
           end
@@ -78,8 +78,10 @@ module ActiveSupport #:nodoc:
           )
         end
 
-        # Uses Date to provide precise Time calculations for years, months, and days.  The +options+ parameter takes a hash with
-        # any of these keys: :years, :months, :weeks, :days, :hours, :minutes, :seconds.
+        # Uses Date to provide precise Time calculations for years, months, and days.
+        # The +options+ parameter takes a hash with any of these keys: <tt>:years</tt>,
+        # <tt>:months</tt>, <tt>:weeks</tt>, <tt>:days</tt>, <tt>:hours</tt>,
+        # <tt>:minutes</tt>, <tt>:seconds</tt>.
         def advance(options)
           d = to_date.advance(options)
           time_advanced_by_date = change(:year => d.year, :month => d.month, :day => d.day)
@@ -88,18 +90,21 @@ module ActiveSupport #:nodoc:
         end
 
         # Returns a new Time representing the time a number of seconds ago, this is basically a wrapper around the Numeric extension
-        # Do not use this method in combination with x.months, use months_ago instead!
         def ago(seconds)
           self.since(-seconds)
         end
 
         # Returns a new Time representing the time a number of seconds since the instance time, this is basically a wrapper around
-        # the Numeric extension. Do not use this method in combination with x.months, use months_since instead!
+        # the Numeric extension.
         def since(seconds)
-          initial_dst = self.dst? ? 1 : 0
           f = seconds.since(self)
-          final_dst   = f.dst? ? 1 : 0
-          (seconds.abs >= 86400 && initial_dst != final_dst) ? f + (initial_dst - final_dst).hours : f
+          if ActiveSupport::Duration === seconds
+            f
+          else
+            initial_dst = self.dst? ? 1 : 0
+            final_dst   = f.dst? ? 1 : 0
+            (seconds.abs >= 86400 && initial_dst != final_dst) ? f + (initial_dst - final_dst).hours : f
+          end
         rescue
           self.to_datetime.since(seconds)          
         end

@@ -1,4 +1,31 @@
-*SVN*
+*2.1.0 RC1 (May 11th, 2008)*
+
+* Fixed that forgery protection can be used without session tracking (Peter Jones) [#139]
+
+* Added session(:on) to turn session management back on in a controller subclass if the superclass turned it off (Peter Jones) [#136]
+
+* Change the request forgery protection to go by Content-Type instead of request.format so that you can't bypass it by POSTing to "#{request.uri}.xml" [rick]
+* InstanceTag#default_time_from_options with hash args uses Time.current as default; respects hash settings when time falls in system local spring DST gap [Geoff Buesing]
+
+* select_date defaults to Time.zone.today when config.time_zone is set [Geoff Buesing]
+
+* Fixed that TextHelper#text_field would corrypt when raw HTML was used as the value (mchenryc, Kevin Glowacz) [#80]
+
+* Added ActionController::TestCase#rescue_action_in_public! to control whether the action under test should use the regular rescue_action path instead of simply raising the exception inline (great for error testing) [DHH]
+
+* Reduce number of instance variables being copied from controller to view. [Pratik]
+
+* select_datetime and select_time default to Time.zone.now when config.time_zone is set [Geoff Buesing]
+
+* datetime_select defaults to Time.zone.now when config.time_zone is set [Geoff Buesing]
+
+* Remove ActionController::Base#view_controller_internals flag. [Pratik]
+
+* Add conditional options to caches_page method. [Paul Horsfall]
+
+* Move missing template logic to ActionView. [Pratik]
+
+* Introduce ActionView::InlineTemplate class. [Pratik]
 
 * Automatically parse posted JSON content for Mime::JSON requests.  [rick]
 

@@ -48,6 +48,12 @@ class HasManyAssociationsTest < ActiveRecord::TestCase
     assert_equal 2, Firm.find(:first).clients.length
   end
 
+  def test_find_with_blank_conditions
+    [[], {}, nil, ""].each do |blank|
+      assert_equal 2, Firm.find(:first).clients.find(:all, :conditions => blank).size
+    end
+  end
+
   def test_find_many_with_merged_options
     assert_equal 1, companies(:first_firm).limited_clients.size
     assert_equal 1, companies(:first_firm).limited_clients.find(:all).size
@@ -831,6 +837,17 @@ class HasManyAssociationsTest < ActiveRecord::TestCase
     end
     assert ! firm.clients.loaded?
   end
+
+  def test_include_loads_collection_if_target_uses_finder_sql
+    firm = companies(:first_firm)
+    client = firm.clients_using_sql.first
+    
+    firm.reload
+    assert ! firm.clients_using_sql.loaded?
+    assert firm.clients_using_sql.include?(client)
+    assert firm.clients_using_sql.loaded?
+  end
+  
 
   def test_include_returns_false_for_non_matching_record_to_verify_scoping
     firm = companies(:first_firm)

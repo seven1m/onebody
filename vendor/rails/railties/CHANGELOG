@@ -1,4 +1,16 @@
-*SVN*
+*2.1.0 RC1 (May 11th, 2008)*
+
+* script/dbconsole fires up the command-line database client.  #102 [Steve Purcell]
+
+* Fix bug where plugin init.rb files from frozen gem specs weren't being run.  (pjb3) [#122 state:resolved]
+
+* Made the location of the routes file configurable with config.routes_configuration_file (Scott Fleckenstein) [#88]
+
+* Rails Edge info returns the latest git commit hash [Francesc Esplugas]
+
+* Added Rails.public_path to control where HTML and assets are expected to be loaded from (defaults to Rails.root + "/public") #11581 [nicksieger]
+
+* rake time:zones:local finds correct base utc offset for zones in the Southern Hemisphere [Geoff Buesing]
 
 * Don't require rails/gem_builder during rails initialization, it's only needed for the gems:build task. [rick]
 

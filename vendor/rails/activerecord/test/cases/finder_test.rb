@@ -8,6 +8,8 @@ require 'models/entrant'
 require 'models/developer'
 require 'models/post'
 require 'models/customer'
+require 'models/job'
+require 'models/categorization'
 
 class FinderTest < ActiveRecord::TestCase
   fixtures :companies, :topics, :entrants, :developers, :developers_projects, :posts, :comments, :accounts, :authors, :customers
@@ -855,6 +857,19 @@ class FinderTest < ActiveRecord::TestCase
       Company.connection.select_rows("SELECT id, firm_id, client_of, name FROM companies WHERE id IN (1,2,3) ORDER BY id").map! {|i| i.map! {|j| j.to_s unless j.nil?}})
     assert_equal [["1", "37signals"], ["2", "Summit"], ["3", "Microsoft"]],
       Company.connection.select_rows("SELECT id, name FROM companies WHERE id IN (1,2,3) ORDER BY id").map! {|i| i.map! {|j| j.to_s unless j.nil?}}
+  end
+
+  def test_find_with_order_on_included_associations_with_construct_finder_sql_for_association_limiting_and_is_distinct
+    assert_equal 2, Post.find(:all, :include => { :authors => :author_address }, :order => ' author_addresses.id DESC ', :limit => 2).size
+
+    assert_equal 3, Post.find(:all, :include => { :author => :author_address, :authors => :author_address},
+                              :order => ' author_addresses_authors.id DESC ', :limit => 3).size
+  end
+
+  def test_with_limiting_with_custom_select
+    posts = Post.find(:all, :include => :author, :select => ' posts.*, authors.id as "author_id"', :limit => 3)
+    assert_equal 3, posts.size
+    assert_equal [0, 1, 1], posts.map(&:author_id).sort
   end
 
   protected

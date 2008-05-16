@@ -1,4 +1,26 @@
-*SVN*
+*2.1.0 RC1 (May 11th, 2008)*
+
+* Remove unused JSON::RESERVED_WORDS, JSON.valid_identifier? and JSON.reserved_word? methods. Resolves #164. [Cheah Chu Yeow]
+
+* Adding Date.current, which returns Time.zone.today if config.time_zone is set; otherwise returns Date.today [Geoff Buesing]
+
+* TimeWithZone: date part getter methods (#year #mon #day etc) are defined on class; no longer relying on method_missing [Geoff Buesing]
+
+* Time.zone.parse return nil for strings with no date information [Geoff Buesing]
+
+* Time.zone.parse respects offset information in string. Resolves #105. [Scott Fleckenstein, Geoff Buesing]
+
+* Added Ruby 1.8 implementation of Process.daemon
+
+* Duration #since and #ago with no argument (e.g., 5.days.ago) return TimeWithZone when config.time_zone is set. Introducing Time.current, which returns Time.zone.now if config.time_zone is set, otherwise just returns Time.now [Geoff Buesing]
+
+* Time#since behaves correctly when passed a Duration. Closes #11527 [kemiller]
+
+* Add #getutc alias for DateTime#utc [Geoff Buesing]
+
+* Refactor TimeWithZone: don't send #since, #ago, #+, #-, #advance through method_missing [Geoff Buesing]
+
+* TimeWithZone respects config.active_support.use_standard_json_time_format [Geoff Buesing]
 
 * Add config.active_support.escape_html_entities_in_json to allow disabling of html entity escaping.  [rick]
 

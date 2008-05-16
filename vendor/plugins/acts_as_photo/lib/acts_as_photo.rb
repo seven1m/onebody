@@ -1,6 +1,10 @@
 require 'active_record'
 require 'net/http'
-require 'mini_magick'
+begin
+  require 'mini_magick'
+rescue LoadError
+  puts 'mini_magick gem not installed'
+end
 
 module Foo
   module Acts #:nodoc:

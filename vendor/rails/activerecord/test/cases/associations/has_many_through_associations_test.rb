@@ -25,7 +25,7 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
     new_person = nil # so block binding catches it
     
     assert_queries(0) do
-      new_person = Person.new
+      new_person = Person.new :first_name => 'bob'
     end
     
     # Associating new records always saves them
@@ -113,6 +113,18 @@ class HasManyThroughAssociationsTest < ActiveRecord::TestCase
     end
     
     assert posts(:thinking).reload.people(true).collect(&:first_name).include?("Jeb")
+  end
+
+  def test_associate_with_create_and_no_options
+    peeps = posts(:thinking).people.count
+    posts(:thinking).people.create(:first_name => 'foo')
+    assert_equal peeps + 1, posts(:thinking).people.count
+  end
+
+  def test_associate_with_create_exclamation_and_no_options
+    peeps = posts(:thinking).people.count
+    posts(:thinking).people.create!(:first_name => 'foo')
+    assert_equal peeps + 1, posts(:thinking).people.count
   end
 
   def test_clear_associations

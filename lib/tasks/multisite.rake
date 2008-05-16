@@ -1,4 +1,8 @@
-require 'highline/import'
+begin
+  require 'highline/import'
+rescue LoadError
+  puts 'highline gem not installed'
+end
 
 class String
   def ljust!(len)
