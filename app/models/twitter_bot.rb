@@ -1,3 +1,6 @@
+require 'twitter'
+require 'xmpp4r'
+
 class TwitterBot
   def initialize(account, password)
     account = account + '/' + account unless account =~ /\//
@@ -11,11 +14,12 @@ class TwitterBot
   
   def run
     @mainthread = Thread.current
+    Thread.abort_on_exception = true
     @client.add_message_callback do |m|
       if m.type.to_s != 'error' and m.from.to_s == 'twitter@twitter.com'
         if m.body.to_s =~ /Direct from ([^\s]+):/
           from = $1
-          body = m.body.to_s.gsub(/Direct from .+:\n/, '').gsub(/Reply with [^\n]+/, '')
+          body = m.body.to_s.sub(/Direct from .+:\n/, '').sub(/Reply with [^\n]+/, '')
           msg = TwitterMessage.create(:twitter_screen_name => from, :message => body)
           if msg.errors.any?
             if msg.errors.on(:twitter_screen_name) == 'Twitter screen name unknown.'
@@ -43,7 +47,11 @@ class TwitterBot
   
   def send_via_twitter_api(to, body)
     puts "sending #{body} to #{to}"
-    twitter.d(to, body)
+    begin
+      twitter.d(to.strip, body)
+    rescue => e
+      puts e.inspect
+    end
   end
   
   def send(to, body)
@@ -51,7 +59,7 @@ class TwitterBot
   end
   
   def twitter
-    @twitter ||= Twitterbot.twitter
+    @twitter ||= TwitterBot.twitter
   end
   
   def self.twitter
