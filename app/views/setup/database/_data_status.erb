@@ -7,7 +7,7 @@
     in the database (across all sites).</p>
   <% if sync_date = @info.date_of_last_sync %>
     <p>It appears your <%= link_to 'Connector', 'http://github.com/seven1m/onebody/wikis/OneBodyConnector' %>
-      last synchronized the database <%= sync_date.strftime('%m/%d/%Y %I:%M %p') %>.</p>
+      last synchronized the database <%= sync_date %>.</p>
   <% else %>
     <p>Note: There is no recorded "sync date" which could indicate that your
       <%= link_to 'Connector', 'http://github.com/seven1m/onebody/wikis/OneBodyConnector' %> isn't
