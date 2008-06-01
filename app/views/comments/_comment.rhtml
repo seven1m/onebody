@@ -1,9 +1,9 @@
 <div style="float:left;margin-right:5px;">
-  <a href="<%= url_for :controller => 'people', :action => 'view', :id => comment.person %>">
+  <a href="<%= person_url(comment.person) %>">
     <%= render :partial => 'people/thumbnail', :locals => {:person => comment.person} %>
   </a>
 </div>
-<%= link_to h(comment.person.name), :controller => 'people', :action => 'view', :id => comment.person %>
+<%= link_to h(comment.person.name), person_path(comment.person) %>
 <% if params[:controller] == 'shares' %>
   commented on
   <% if (on = comment.on).is_a? Verse %>

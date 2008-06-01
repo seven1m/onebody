@@ -29,9 +29,12 @@ ActionController::Routing::Routes.draw do |map|
     m.setup_settings 'setup/settings/:id', :action => 'view'
   end
   
-  map.with_options :controller => 'people' do |m|
+  map.with_options :controller => 'people', :protocol => 'http' do |m|
     m.edit_profile 'people/edit/:id', :action => 'edit'
     m.edit_person 'people/edit/:id', :action => 'edit'
+    m.person_privacy 'people/privacy/:id', :action => 'privacy'
+    m.person_photo 'people/photo/:id', :action => 'photo'
+    m.person_wall 'people/wall/:id', :action => 'wall'
     m.new_person 'people/edit', :action => 'edit'
     m.delete_person 'people/delete/:id', :action => 'delete'
     m.person 'people/view/:id', :action => 'view'#, :requirements => {:id => /\d/}

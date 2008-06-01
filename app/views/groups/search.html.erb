@@ -32,7 +32,7 @@
           <% end %>
           <% if group.leader %>
             <br/>
-            Leader: <%= link_to h(group.leader.name), :controller => 'people', :action => 'view', :id => group.leader %>
+            Leader: <%= link_to h(group.leader.name), person_path(group.leader) %>
           <% end %>
           <% if group.address.to_s.any? and group.can_send? @logged_in %>
             <br/>

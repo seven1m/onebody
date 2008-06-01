@@ -16,7 +16,7 @@
 <p class="below-h1">
   Added by:
   <% if @recipe.person %>
-    <%= link_to h(@recipe.person.name), :controller => 'people', :action => 'view', :id => @recipe.person %>
+    <%= link_to h(@recipe.person.name), person_path(@recipe.person) %>
   <% else %>
     ???
   <% end %>

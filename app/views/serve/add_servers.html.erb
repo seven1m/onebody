@@ -3,7 +3,7 @@
   <h2>Servers to Add</h2>
   <p>
     <% @people.each do |person| %>
-      <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
+      <%= link_to person.name, person_path(person) %>
       <%= link_to 'x', {:action => 'remove_person_from_batch', :id => @ministry, :person_id => person.id}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
       <br/>
     <% end %>
@@ -24,7 +24,7 @@
       <%= date[:end].strftime '%I:%M %p' %>
       <%= link_to 'x', {:action => 'remove_date_from_batch', :id => @ministry, :start => date[:start], :end => date[:end]}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %><br/>
       <% if date[:people] and date[:people].any? %>
-        <%= date[:people].map { |p| link_to(p.name, :controller => 'people', :action => 'view', :id => p) }.join(', ') %>
+        <%= date[:people].map { |p| link_to(p.name, person_path(p)) }.join(', ') %>
         <br/>
       <% end %>
       <br/>

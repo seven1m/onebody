@@ -1,5 +1,5 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'View Profile', :controller => 'people', :action => 'view', :id => @person %></li>
+  <li><%= link_to 'View Profile', person_path(@person) %></li>
 <% end %>
 
 <h1><%=h @person.name %></h1>

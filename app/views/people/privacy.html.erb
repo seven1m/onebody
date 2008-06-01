@@ -5,8 +5,8 @@
 
 <% if @person %>
   <% content_for :subnav do %>
-    <li><%= link_to 'View Profile', :controller => 'people', :action => 'view', :id => @person %></li>
-    <li><%= link_to 'Edit Profile', :controller => 'people', :action => 'edit', :id => @person %></li>
+    <li><%= link_to 'View Profile', person_path(@person) %></li>
+    <li><%= link_to 'Edit Profile', edit_person_path(@person) %></li>
     <li><%= link_to 'Change Email/Password', :controller => 'account', :action => 'edit', :id => @person %></li>
   <% end %>
 <% end %>

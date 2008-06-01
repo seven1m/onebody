@@ -3,7 +3,7 @@
   <h2>Servers</h2>
   <p>
     <% @ministry.people.find(:all).uniq.each do |person| %>
-      <%= link_to person.name, :controller => 'people', :action => 'view', :id => person %>
+      <%= link_to person.name, person_path(person) %>
       <br/>
     <% end %>
     <% if @ministry.people.count == 0 %><em>none yet</em><% end %>

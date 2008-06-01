@@ -8,7 +8,7 @@
 <% unless @person %>
   by
   <% if event.person %>
-    <%= link_to h(event.person.name), :controller => 'people', :action => 'view', :id => event.person %>
+    <%= link_to h(event.person.name), person_path(event.person) %>
   <% else %>
     ???
   <% end %>

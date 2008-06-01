@@ -21,7 +21,7 @@
   <% if messages.length > 10 %>
     <p>
       showing the last 10 of <%= messages.length %> wall messages |
-      <%= link_to 'View all...', :controller => 'people', :action => 'wall', :id => @person %>
+      <%= link_to 'View all...', person_wall_path(@person) %>
     </p>
   <% end %>
 <% else %>

@@ -8,7 +8,7 @@
   <% if @picture.person %>
     <p>
       Picture uploaded by:<br/>
-      <%= link_to h(@picture.person.name), :controller => 'people', :action => 'view', :id => @picture.person %><br/>
+      <%= link_to h(@picture.person.name), person_path(@picture.person) %><br/>
       <%= @picture.created_at.strftime '%m/%d/%Y %I:%M %p' %>
     </p>
   <% end %>

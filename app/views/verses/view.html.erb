@@ -26,11 +26,11 @@
     <% @verse.people.each do |person| %>
       <tr>
         <td>
-          <a href="<%= url_for :controller => 'people', :action => 'view', :id => person %>">
+          <a href="<%= person_url(person) %>">
             <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
           </a>
         </td>
-        <td><%= link_to h(person.name), :controller => 'people', :action => 'view', :id => person %></td>
+        <td><%= link_to h(person.name), person_path(person) %></td>
       </tr>
     <% end %>
   </table>
