@@ -151,6 +151,7 @@ namespace :onebody do
       run "mkdir -p #{shared_path}/db/photos/pictures"
       run "mkdir -p #{shared_path}/db/photos/recipes"
       run "mkdir -p #{shared_path}/db/publications"
+      run "mkdir -p #{shared_path}/db/attachments"
       run "mkdir -p #{shared_path}/db/tasks"
       run "mkdir -p #{shared_path}/config"
       run "mkdir -p #{shared_path}/public"

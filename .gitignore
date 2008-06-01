@@ -5,6 +5,8 @@ pkg
 .DS_Store
 db/schema.rb
 db/photos/**/*.jpg
+db/publications/*
+db/attachments/*
 setup-authorized-ip
 setup-secret
 config/database.yml.backup

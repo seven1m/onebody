@@ -53,6 +53,10 @@ module Foo
               file_name ? CONTENT_TYPES[file_name.split('.').last] : nil
             end
             
+            def file_size
+              @file_size ||= File::Stat.new(file_path).size
+            end
+            
             def file=(file)
               raise 'Cannot save file before saving record.' unless id
               File.delete file_path if file_path

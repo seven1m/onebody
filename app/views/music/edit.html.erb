@@ -59,7 +59,7 @@
     <% @song.attachments.each do |attachment| %>
       <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), :action => 'view_attachment', :id => attachment %>
       <%= link_to h(attachment.name), :action => 'view_attachment', :id => attachment %>
-      (<%= number_to_human_size attachment.file.length %>)
+      (<%= number_to_human_size attachment.file_size %>)
       <%= link_to '[delete]', {:action => 'delete_attachment', :id => attachment}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
       <br/>
     <% end %>

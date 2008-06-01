@@ -120,6 +120,7 @@ class MessagesController < ApplicationController
       render :text => 'You are not authorized to view this attachment.', :layout => true
       return
     end
-    send_data attachment.file, :filename => attachment.name, :type => attachment.content_type, :disposition => 'inline'
+    # TODO: routes this file serve through regular web server
+    send_data File.read(attachment.file_path), :filename => attachment.name, :type => attachment.content_type, :disposition => 'inline'
   end
 end

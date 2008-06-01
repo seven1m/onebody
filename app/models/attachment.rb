@@ -18,4 +18,5 @@ class Attachment < ActiveRecord::Base
   belongs_to :song
   belongs_to :site
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  acts_as_file DB_ATTACHMENTS_PATH
 end
