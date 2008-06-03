@@ -1,18 +1,27 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'messages_controller'
+require 'test_helper'
 
-# Re-raise errors caught by the controller.
-class MessagesController; def rescue_action(e) raise e end; end
+class MessagesControllerTest < ActionController::TestCase
 
-class MessagesControllerTest < Test::Unit::TestCase
   def setup
-    @controller = MessagesController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
+    @person = Person.create! :first_name => Faker::Name.first_name, :last_name => Faker::Name.last_name, :gender => 'Male'
   end
+  
+  should "allow the creation of new wall posts via regular post" #do
+    #body = Faker::Lorem.sentence
+    #post :create, {:id => @person.id, 'message[body]' => body}, {:logged_in_id => people(:jeremy).id}
+    #assert_redirected_to 
+  #end   
+   
+  should "allow the creation of new wall posts via ajax" #do
+    #body = Faker::Lorem.sentence
+    #post :create, {:id => @person.id, 'message[body]' => body}, {:logged_in_id => people(:jeremy).id}
+    #assert_redirected_to 
+  #end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
+  should "not allow the creation of a new wall post if the user cannot see the person's profile"
+  
+  should "allow a wall post to be deleted"
+
+  should "not allow anyone but an admin or the owner to delete a wall post"
+
 end

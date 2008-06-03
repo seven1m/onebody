@@ -1,0 +1,2 @@
+class FeedsController < ApplicationController
+end

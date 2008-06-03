@@ -76,6 +76,10 @@ class ApplicationController < ActionController::Base
       end
     end
     
+    def me?
+      @logged_in and @person and @logged_in == @person
+    end
+    
     def decimal_in_words(number)
       if number % 1 == 0.0
         "exactly #{number}"

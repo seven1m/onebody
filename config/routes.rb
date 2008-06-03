@@ -34,7 +34,6 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_person 'people/edit/:id', :action => 'edit'
     m.person_privacy 'people/privacy/:id', :action => 'privacy'
     m.person_photo 'people/photo/:id', :action => 'photo'
-    m.person_wall 'people/wall/:id', :action => 'wall'
     m.new_person 'people/edit', :action => 'edit'
     m.delete_person 'people/delete/:id', :action => 'delete'
     m.person 'people/view/:id', :action => 'view'#, :requirements => {:id => /\d/}
@@ -149,6 +148,10 @@ ActionController::Routing::Routes.draw do |map|
     m.sync_person_options 'remote_accounts/sync_person_options/:id', :action => 'sync_person_options'
     m.sync_person 'remote_accounts/sync_person/:id', :action => 'sync_person'
   end
+  
+  map.resources :blogs
+  map.resources :walls
+  map.resources :feeds
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   map.connect ':controller/:action/:id'

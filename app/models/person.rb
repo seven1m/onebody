@@ -214,23 +214,25 @@ class Person < ActiveRecord::Base
   def state; family.state; end
   def zip; family.zip; end
   
-  def can_see?(what)
-    if what.is_a? Person
-      what == self or
-      what.family_id == self.family_id or
-      admin?(:view_hidden_profiles) or
-      staff? or 
-      (what.visible_to_everyone? and (full_access? or what.adult?) and what.visible?)
-    elsif what.is_a? Group
-      not what.hidden? or self.member_of?(what) or what.admin?(self)
-    elsif what.is_a? Message
-      what.can_see?(self)
-    elsif what.is_a? PrayerRequest
-      what.person == self or
-        (what.group and (self.member_of?(what.group) or what.group.admin?(self)))
-    else
-      raise 'unknown "what"'
-    end
+  def can_see?(*whats)
+    whats.select do |what|
+      if what.is_a? Person
+        what == self or
+        what.family_id == self.family_id or
+        admin?(:view_hidden_profiles) or
+        staff? or 
+        (what.visible_to_everyone? and (full_access? or what.adult?) and what.visible?)
+      elsif what.is_a? Group
+        not what.hidden? or self.member_of?(what) or what.admin?(self)
+      elsif what.is_a? Message
+        what.can_see?(self)
+      elsif what.is_a? PrayerRequest
+        what.person == self or
+          (what.group and (self.member_of?(what.group) or what.group.admin?(self)))
+      else
+        raise 'unknown "what"'
+      end
+    end.length == whats.length
   end
   
   alias_method :sees?, :can_see?

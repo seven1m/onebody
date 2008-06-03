@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require 'notifier'
+require 'faker'
 
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -31,6 +32,7 @@ class Test::Unit::TestCase
 
   def sign_in_and_assert_name(email, name, password='secret')
     post_sign_in_form(email, password)
+    assert !flash.empty?
     assert_redirected_to logged_in_path
     follow_redirect!
     assert_template 'people/view'
@@ -63,4 +65,14 @@ class Test::Unit::TestCase
   end
 
   fixtures :all
+end
+
+class ActionController::TestCase
+  def self.should(name, &block)
+    if block_given?
+      define_method 'test ' + name, &block
+    else
+      puts "Unimplemented: " + name
+    end
+  end
 end

@@ -1,0 +1,15 @@
+<p>
+  <% if me? %>
+    <em>The Wall is a place for people to post friendly messages for you and others to see.</em>
+  <% else %>
+    <%= render :partial => 'wall_post' %>
+  <% end %>
+</p>
+<% if @messages.any? %>
+  <%= render :partial => 'messages' %>
+  <p>
+    <%= link_to 'View all wall messages...', wall_path(@person) %>
+  </p>
+<% else %>
+  <p><em>No messages yet!</em></p>
+<% end %>

@@ -1,7 +1,3 @@
-<p>
-  <% if @logged_in == @person %>
-    <em>The Wall is a place for people to post friendly messages for you and others to see.</em>
-  <% else %>
     <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();", :id => 'wall_message_link' %>
     on <%=h @person.name_possessive %> <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %>.
     <div id="wall_message">
@@ -14,16 +10,3 @@
       </form>
     </div>
     <script type="text/javascript">Element.hide('wall_message');</script>
-  <% end %>
-</p>
-<% if (messages = @person.wall_messages.find(:all, :include => :person)).any? %>
-  <%= render :partial => 'wall_messages', :locals => {:messages => messages[0...10]} %>
-  <% if messages.length > 10 %>
-    <p>
-      showing the last 10 of <%= messages.length %> wall messages |
-      <%= link_to 'View all...', person_wall_path(@person) %>
-    </p>
-  <% end %>
-<% else %>
-  <p><em>No messages yet!</em></p>
-<% end %>

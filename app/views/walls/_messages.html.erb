@@ -1,0 +1,15 @@
+<table>
+  <% @messages.each do |message| %>
+    <tr>
+      <td>
+        <a href="<%= person_path(message.person) %>">
+          <%= render :partial => 'people/thumbnail', :locals => {:person => message.person} %>
+        </a>
+      </td>
+      <td>
+        <%= render :partial => 'message', :locals => {:message => message} %>
+        <br/>&nbsp;
+      </td>
+    </tr>
+  <% end %>
+</table>

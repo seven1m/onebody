@@ -232,7 +232,7 @@
        if(!wall_loaded) {
         new Ajax.Updater(
           'wall_content',
-          '<%= url_for(:action => 'wall', :id => @person) %>',
+          '<%= wall_path(@person) %>',
           {
             method: 'get',
             onLoading:function(){$('wall_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},

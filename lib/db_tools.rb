@@ -21,3 +21,7 @@ end
 def sql_now
   SQLITE ? "CURRENT_TIMESTAMP" : "NOW()"
 end
+
+def sql_random
+  SQLITE ? "RANDOM()" : "RAND()"
+end

@@ -1,0 +1,2 @@
+module WallsHelper
+end

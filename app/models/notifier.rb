@@ -174,7 +174,7 @@ class Notifier < ActionMailer::Base
                         :name => name,
                         :content_type => attachment.content_type.strip
                       )
-                      att.file = attachment.read
+                      att.file = attachment
                     end
                   end
                 end

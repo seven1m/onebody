@@ -33,6 +33,10 @@ module ApplicationHelper
   def simple_url(url)
     url.gsub(/^https?:\/\//, '').gsub(/\/$/, '')
   end
+  
+  def me?
+    @logged_in and @person and @logged_in == @person
+  end
 end
 
 module ActionView

@@ -1,0 +1,8 @@
+        <%= link_to h(message.person.name), person_path(message.person) %>
+        <% if @person %>(<%= link_to 'wall to wall', walls_path(:id => [@person, message.person]) %>)<% end %>
+        <%= message.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
+        <% if @logged_in.can_edit?(message) %>
+          <%= link_to '[delete]', message_path(message), :method => :destroy, :class => 'discreet', :confirm => 'Are you sure?' %>
+        <% end %>
+        <br/>
+        <%= preserve_breaks message.body %>

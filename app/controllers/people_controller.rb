@@ -216,27 +216,6 @@ class PeopleController < ApplicationController
     redirect_to params[:return_to] || {:action => 'view', :id => @logged_in, :anchor => 'shares'}
   end
       
-  # Wall
-  # ====
-  
-  def wall
-    respond_to do |wants|
-      wants.js { render :partial => 'wall' }
-      wants.html
-    end
-  end
-  
-  def wall_post
-    message = Message.create :person => @logged_in, :wall => @person, :subject => 'Wall Post', :body => params[:message]
-    flash[:notice] = 'Message saved.'
-    redirect_to :action => 'view', :id => @person, :anchor => 'wall'
-  end
-  
-  def wall_to_wall
-    @person2 = Person.find params[:id2]
-    @messages = Message.find :all, :conditions => ['(wall_id = ? and person_id = ?) or (wall_id = ? and person_id = ?)', @person.id, @person2.id, @person2.id, @person.id], :order => 'created_at desc'
-  end
-  
   def opensearch
     render :layout => false, :content_type => Mime::XML
   end
