@@ -68,7 +68,7 @@ class Notifier < ActionMailer::Base
     end
     body :to => to, :msg => msg, :id_and_code => id_and_code
     msg.attachments.each do |a|
-      attachment :content_type => a.content_type, :filename => a.name, :body => a.file
+      attachment :content_type => a.content_type, :filename => a.name, :body => File.read(a.file_path)
     end
   end
 
@@ -170,11 +170,11 @@ class Notifier < ActionMailer::Base
                   email.attachments.each do |attachment|
                     name = File.split(attachment.original_filename.to_s).last
                     unless ATTACHMENTS_TO_IGNORE.include? name.downcase
-                      message.attachments.create(
+                      att = message.attachments.create(
                         :name => name,
-                        :file => attachment.read,
                         :content_type => attachment.content_type.strip
                       )
+                      att.file = attachment.read
                     end
                   end
                 end
