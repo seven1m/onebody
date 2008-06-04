@@ -27,13 +27,39 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :missing
   end
   
-  should "not create a new wall post if the person's wall is disabled"
+  should "not create a new wall post if the person's wall is disabled" do
+    @person.update_attribute :wall_enabled, false
+    body = Faker::Lorem.sentence
+    post :create, {:wall_id => @person, :message => {:body => body}}, {:logged_in_id => @other_person}
+    assert_response :missing
+  end
   
-  should "delete a wall post"
-
-  should "not allow anyone but an admin or the owner to delete a wall post"
+  should "delete a wall post" do
+    @message = @person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @other_person
+    post :destroy, {:id => @message}, {:logged_in_id => @person}
+    assert_response :redirect
+  end
   
-  should "create new private messages"
+  should "delete a group message" do
+    @group = Group.create! :name => 'Some Group', :category => 'test'
+    @message = @group.messages.create! :subject => 'Just a Test', :body => Faker::Lorem.paragraph, :person => @person
+    post :destroy, {:id => @message}, {:logged_in_id => @person}
+    assert_response :redirect
+  end
+  
+  should "not allow anyone but an admin or the owner to delete a wall post" do
+    @message = @person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @person
+    post :destroy, {:id => @message}, {:logged_in_id => @other_person}
+    assert_response :error
+  end
+  
+  should "create new private messages" do
+    body = Faker::Lorem.sentence
+    post :create, {:person_id => @person, :message => {:subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person}
+    assert_response :success
+    assert_select 'body', /message.+sent/
+    
+  end
   
   should "create new group messages"
 

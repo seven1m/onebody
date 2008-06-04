@@ -247,7 +247,7 @@ class Person < ActiveRecord::Base
     elsif what.is_a? Family
       admin?(:edit_profiles) or (what == self.family and self.adult?)
     elsif what.is_a? Message
-      admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self)
+      admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
     elsif what.is_a? PrayerRequest
       admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group)) or (what.group and what.group.admin? self)
     elsif what.is_a? RemoteAccount

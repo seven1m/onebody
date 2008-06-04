@@ -80,6 +80,14 @@ class ApplicationController < ActionController::Base
       @logged_in and @person and @logged_in == @person
     end
     
+    def redirect_back(fallback=nil)
+      request.env["HTTP_REFERER"] ? redirect_to(request.env["HTTP_REFERER"]) : redirect_to(fallback || logged_in_path)
+    end
+    
+    def add_errors_to_flash(record)
+      flash[:warning] = record.errors.full_messages.join('; ')
+    end
+        
     def decimal_in_words(number)
       if number % 1 == 0.0
         "exactly #{number}"

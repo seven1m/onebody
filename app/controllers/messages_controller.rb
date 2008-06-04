@@ -3,6 +3,8 @@ class MessagesController < ApplicationController
   def create
     if params[:wall_id]
       create_on_wall(params[:wall_id])
+    elsif params[:person_id]
+      create_private(params[:person_id])
     end
   end
   
@@ -10,7 +12,7 @@ class MessagesController < ApplicationController
   
   def create_on_wall(person_id)
     @person = Person.find(person_id)
-    if @logged_in.can_see? @person
+    if @logged_in.can_see?(@person) and @person.wall_enabled?
       @person.wall_messages.create! params[:message].merge(:subject => 'Wall Post', :person => @logged_in)
       respond_to do |format|
         format.html { redirect_to person_path(@person, :hash => 'wall') }
@@ -24,7 +26,34 @@ class MessagesController < ApplicationController
     end
   end
   
+  def create_private(person_id)
+    @person = Person.find(person_id)
+    if @person.email
+      @message = Message.create params[:message].merge(:person => @logged_in, :to => @person)
+      if @message.errors.any?
+        add_errors_to_flash(@message)
+        redirect_back
+      else
+        render :text => 'Your message has been sent.', :layout => true
+      end
+    else
+      render :text => "Sorry. We don't have an email address on file for #{@person.name}.", :layout => true, :status => :error
+    end
+  end
+  
   public
+  
+  def destroy
+    @message = Message.find(params[:id])
+    if @logged_in.can_edit? @message
+      @message.destroy
+      redirect_back
+    else
+      render :text => 'Not authorized.', :status => 500
+    end
+  end
+  
+  # - - - - - - - - - - - - - - - - - - - - 
     
   def view
     @message = Message.find params[:id]
