@@ -58,9 +58,15 @@ class MessagesControllerTest < ActionController::TestCase
     post :create, {:person_id => @person, :message => {:subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person}
     assert_response :success
     assert_select 'body', /message.+sent/
-    
   end
   
-  should "create new group messages"
+  should "create new group messages" do
+    @group = Group.create! :name => 'Some Group', :category => 'test'
+    @group.memberships.create! :person => @person
+    body = Faker::Lorem.sentence
+    post :create, {:group_id => @group, :message => {:subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
+    assert_response :success
+    assert_select 'body', /message.+sent/
+  end
 
 end
