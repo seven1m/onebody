@@ -3,16 +3,10 @@ require 'test_helper'
 class WallsControllerTest < ActionController::TestCase
   
   def setup
-    @family1 = Family.create! :name => Faker::Name.name, :last_name => Faker::Name.last_name
-    @person = @family1.people.create! :first_name => Faker::Name.first_name, :last_name => Faker::Name.last_name, :gender => 'Male', :visible_to_everyone => true, :visible => true, :can_sign_in => true, :full_access => true, :email => Faker::Internet.email, :encrypted_password => '5ebe2294ecd0e0f08eab7690d2a6ee69'
-    @family2 = Family.create! :name => Faker::Name.name, :last_name => Faker::Name.last_name
-    @other_person = @family2.people.create! :first_name => Faker::Name.first_name, :last_name => Faker::Name.last_name, :gender => 'Male', :visible_to_everyone => true, :visible => true, :can_sign_in => true, :full_access => true, :email => Faker::Internet.email, :encrypted_password => '5ebe2294ecd0e0f08eab7690d2a6ee69'
-    15.times do
-      @person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @other_person
-    end
-    12.times do
-      @other_person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @person
-    end
+    @person = FixtureFactory::Person.create
+    @other_person = FixtureFactory::Person.create
+    15.times { @person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @other_person }
+    12.times { @other_person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @person }
   end
     
   should "show all messages from one person's wall when rendered as html" do

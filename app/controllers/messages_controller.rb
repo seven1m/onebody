@@ -1,4 +1,31 @@
 class MessagesController < ApplicationController
+  
+  def create
+    if params[:wall_id]
+      create_on_wall(params[:wall_id])
+    end
+  end
+  
+  private
+  
+  def create_on_wall(person_id)
+    @person = Person.find(person_id)
+    if @logged_in.can_see? @person
+      @person.wall_messages.create! params[:message].merge(:subject => 'Wall Post', :person => @logged_in)
+      respond_to do |format|
+        format.html { redirect_to person_path(@person, :hash => 'wall') }
+        format.js do
+          @messages = @person.wall_messages.find(:all, :limit => 10)
+          render :partial => 'walls/wall'
+        end
+      end
+    else
+      render :text => 'Wall not found.', :status => 404
+    end
+  end
+  
+  public
+    
   def view
     @message = Message.find params[:id]
     unless @logged_in.sees? @message
