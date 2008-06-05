@@ -1,10 +1,21 @@
 class MessagesController < ApplicationController
   
+  def new
+    if params[:to_person_id] 
+      # private message
+      @person = Person.find(params[:to_person_id])
+      @message = Message.new(:to_person_id => @person.id, :subject => params[:subject], :body => params[:body]) # TODO: not sure if this params stuff is needed any more
+      render :action => 'new_private_message'
+    else
+      raise 'Unknown message type.'
+    end
+  end
+  
   def create
     if params[:wall_id]
       create_wall_message(params[:wall_id])
-    elsif params[:person_id]
-      create_private_message(params[:person_id])
+    elsif params[:to_person_id]
+      create_private_message(params[:to_person_id])
     elsif params[:group_id]
       create_group_message(params[:group_id])
     else
@@ -14,12 +25,12 @@ class MessagesController < ApplicationController
   
   private
   
-  def create_wall_message(person_id)
-    @person = Person.find(person_id)
+  def create_wall_message(wall_id)
+    @person = Person.find(wall_id)
     if @logged_in.can_see?(@person) and @person.wall_enabled?
       @person.wall_messages.create! params[:message].merge(:subject => 'Wall Post', :person => @logged_in)
       respond_to do |format|
-        format.html { redirect_to person_path(@person, :hash => 'wall') }
+        format.html { redirect_to person_path(@person) + '#wall' }
         format.js do
           @messages = @person.wall_messages.find(:all, :limit => 10)
           render :partial => 'walls/wall'
@@ -30,15 +41,26 @@ class MessagesController < ApplicationController
     end
   end
   
-  def create_private_message(person_id)
-    @person = Person.find(person_id)
+  def create_private_message(to_person_id)
+    @person = Person.find(to_person_id)
     if @person.email
-      @message = Message.create params[:message].merge(:person => @logged_in, :to => @person)
-      if @message.errors.any?
-        add_errors_to_flash(@message)
-        redirect_back
+      attributes = params[:message].merge(:person => @logged_in, :to => @person)
+      if params[:preview]
+        @msg = @message = Message.new(attributes) # TODO: get rid of this @msg at some point
+        preview = render_to_string(:file => File.join(RAILS_ROOT, 'app/views/notifier/message.html.erb'), :layout => false)
+        preview.gsub!(/\n/, "<br/>\n").gsub!(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')
+        render(:update) do |page|
+          page.replace_html 'preview-email', preview
+          page.show 'preview'
+        end
       else
-        render :text => 'Your message has been sent.', :layout => true
+        @message = Message.create(attributes)
+        if @message.errors.any?
+          add_errors_to_flash(@message)
+          redirect_back
+        else
+          render :text => 'Your message has been sent.', :layout => true
+        end
       end
     else
       render :text => "Sorry. We don't have an email address on file for #{@person.name}.", :layout => true, :status => :error

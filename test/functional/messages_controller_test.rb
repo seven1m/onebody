@@ -10,7 +10,7 @@ class MessagesControllerTest < ActionController::TestCase
   should "create new wall posts" do
     body = Faker::Lorem.sentence
     post :create, {:wall_id => @person, :message => {:body => body}}, {:logged_in_id => @other_person}
-    assert_redirected_to person_path(@person, :hash => 'wall')
+    assert_redirected_to person_path(@person) + '#wall'
   end
    
   should "create new wall posts via ajax" do
@@ -54,8 +54,10 @@ class MessagesControllerTest < ActionController::TestCase
   end
   
   should "create new private messages" do
+    get :new, {:to_person_id => @person}, {:logged_in_id => @other_person}
+    assert_response :success
     body = Faker::Lorem.sentence
-    post :create, {:person_id => @person, :message => {:subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person}
+    post :create, {:to_person_id => @person, :message => {:subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person}
     assert_response :success
     assert_select 'body', /message.+sent/
   end

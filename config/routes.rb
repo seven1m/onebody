@@ -90,11 +90,6 @@ ActionController::Routing::Routes.draw do |map|
     m.group_membership_requests 'groups/membership_requests/:id', :action => 'membership_requests'
   end
   
-  map.with_options :controller => 'messages' do |m|
-    m.message 'messages/view/:id', :action => 'view'
-    m.send_email 'messages/send_email/:id', :action => 'send_email'
-  end
-  
   map.with_options :controller => 'verses' do |m|
     m.verse 'verses/view/:id', :action => 'view'
   end
@@ -152,6 +147,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :blogs
   map.resources :walls
   map.resources :feeds
+  
+  #map.with_options :controller => 'messages' do |m|
+  #  m.message 'messages/view/:id', :action => 'view'
+  #  m.send_email 'messages/send_email/:id', :action => 'send_email'
+  #end
+  map.resources :messages
 
   map.connect ':controller/service.wsdl', :action => 'wsdl'
   map.connect ':controller/:action/:id'

@@ -1,12 +1,15 @@
-    <%= link_to_function 'Post a message', "Element.show('wall_message'); $('wall_message_textarea').focus();", :id => 'wall_message_link' %>
-    on <%=h @person.name_possessive %> <%= link_to_function 'wall', "alert('#{WALL_DESCRIPTION}')" %>.
-    <div id="wall_message">
-      <%= form_tag({:action => 'wall_post', :id => @person}, :method => 'post', :style => 'border:none;') %>
-        <em>All users will see your message; to send a private
-        message, <%= link_to 'click here', :controller => 'messages', :action => 'send_email', :id => @person %>.</em><br/>
-        <%= text_area_tag 'message', '', :rows => 3, :cols => 40, :id => 'wall_message_textarea' %>
-        <strong>Please respect the privacy of others. Abusing the wall will get you banned from the site.</strong>
-        <%= submit_tag 'Save Message' %>
-      </form>
-    </div>
-    <script type="text/javascript">Element.hide('wall_message');</script>
+<%= link_to_function 'Post a message', "Element.show('wall_message'); $('message_body').focus();" %>
+on <%=h @person.name_possessive %> wall.
+
+<div id="wall_message">
+  <% form_for(:message, nil, :url => messages_path, :method => 'post', :html => {:style => 'border:none;'}) do |form| %>
+    <%= hidden_field_tag :wall_id, @person.id %>
+    <em>All users will see your message; to send a private
+    message, <%= link_to 'click here', new_message_path(:person_id => @person) %>.</em><br/>
+    <%= form.text_area :body, :rows => 3, :cols => 40 %>
+    <strong>Please respect the privacy of others. Abusing the wall will get you banned from the site.</strong><br/>
+    <%= submit_tag 'Save Message' %>
+  <% end %>
+</div>
+
+<script type="text/javascript">Element.hide('wall_message');</script>
