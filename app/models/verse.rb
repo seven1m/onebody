@@ -160,6 +160,10 @@ class Verse < ActiveRecord::Base
   ]
   
   class << self
+    
+    def find_by_reference(reference)
+      find_or_create_by_reference(Verse.normalize_reference(params[:reference]))
+    end
 
     # make the reference normal (proper book name, formatting, etc.)
     # we'll assume only one book per reference

@@ -17,13 +17,6 @@ class PeopleController < ApplicationController
     end
   end
   
-  def blog
-    @objects = @person.blog_items
-    @pictures = @objects.select { |o| o.is_a? Picture }
-    @non_pictures = @objects.select { |o| !o.is_a? Picture }
-    render :partial => 'blog'
-  end
-    
   def groups; render(:partial => 'groups'); end
   
   def recently

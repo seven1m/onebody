@@ -205,7 +205,7 @@
       if(!blog_loaded) {
         new Ajax.Updater(
           'blog_content',
-          '<%= url_for(:action => 'blog', :id => @person) %>',
+          '<%= blog_path(@person) %>',
           {
             method: 'get',
             onLoading:function(){$('blog_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
