@@ -3,8 +3,7 @@ require 'test_helper'
 class WallsControllerTest < ActionController::TestCase
   
   def setup
-    @person = FixtureFactory::Person.create
-    @other_person = FixtureFactory::Person.create
+    @person, @other_person = Person.forge, Person.forge
     15.times { @person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @other_person }
     12.times { @other_person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @person }
   end

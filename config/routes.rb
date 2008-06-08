@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.resources :blogs
+  map.resources :walls
+  map.resource :feed
   
   map.with_options :controller => 'setup/dashboard' do |m|
     m.setup 'setup', :action => 'index'
@@ -143,10 +147,6 @@ ActionController::Routing::Routes.draw do |map|
     m.sync_person_options 'remote_accounts/sync_person_options/:id', :action => 'sync_person_options'
     m.sync_person 'remote_accounts/sync_person/:id', :action => 'sync_person'
   end
-  
-  map.resources :blogs
-  map.resources :walls
-  map.resources :feeds
   
   #map.with_options :controller => 'messages' do |m|
   #  m.message 'messages/view/:id', :action => 'view'

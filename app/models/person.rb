@@ -469,24 +469,23 @@ class Person < ActiveRecord::Base
       :conditions => ["((log_items.model_name in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and log_items.person_id in (#{friend_ids.join(',')})) or (log_items.model_name in ('Note', 'Message', 'PrayerRequest') and log_items.group_id in (#{group_ids.join(',')}))) and log_items.deleted = ? and (people.share_activity = ? or (people.share_activity is null and (select share_activity from families where id=people.family_id limit 1) = ?))", false, true, true],
       :order => 'log_items.created_at desc',
       :limit => 25,
-      :include => :person
+      :select => "log_items.*, people.family_id, people.share_activity",
+      :joins => :person
     ).select do |item|
       if !(obj = item.object)
         false
-      elsif item.model_name == 'Verse' and item.person.verses.include?(obj)
+      elsif item.model_name == 'Verse' # habtm
         true
-      elsif !(p = obj.is_a?(Person) ? obj : obj.person) or p != item.person
+      elsif !(p_id = obj.is_a?(Person) ? obj.id : obj.person_id) or p_id != item.person_id # in case an admin does something
         false
       elsif obj.respond_to?(:deleted?) and obj.deleted?
         false
-      elsif item.model_name == 'Person'
+      elsif item.model_name == 'Person' # made some profile adjustments
         obj == self and item.showable_change_keys.any?
       elsif item.model_name == 'Friendship'
-        obj.person != item.person
+        obj.person_id != item.person_id
       elsif item.model_name == 'Message'
         obj.can_see?(self) and not obj.to
-      elsif item.model_name == 'Person'
-        item.showable_change_keys.any?
       else
         true
       end

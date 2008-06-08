@@ -245,7 +245,7 @@
       if(!recently_loaded) {
         new Ajax.Updater(
           'recently_content',
-          '<%= url_for(:action => 'recently') %>',
+          '<%= feed_path %>',
           {method: 'get', onLoading:function(){$('recently_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
         );
         recently_loaded = true;

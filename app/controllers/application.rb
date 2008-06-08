@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   layout 'default.html.erb'
   
   before_filter :get_site
-  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person', 'news_feed']
+  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person']
   
   private
     def get_site
@@ -59,9 +59,12 @@ class ApplicationController < ActionController::Base
         end
       elsif session[:family_id] and :action == 'change_email_and_password'
         @family = Family.find session[:family_id]
+      elsif params[:code]
+        unless Person.logged_in = @logged_in = Person.find_by_feed_code(params[:code])
+          render :text => 'Invalid code.', :status => 500
+          return false
+        end
       elsif params[:action] == 'toggle_email'
-        # don't do anything
-      elsif params[:action] == 'recently'
         # don't do anything
       else
         redirect_to :controller => 'account', :action => 'sign_in', :from => request.request_uri

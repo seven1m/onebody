@@ -2,7 +2,8 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require 'notifier'
-require 'faker'
+
+require File.dirname(__FILE__) + '/forgeries'
 
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -73,19 +74,6 @@ class ActionController::TestCase
       define_method 'test ' + name, &block
     else
       puts "Unimplemented: " + name
-    end
-  end
-end
-
-module FixtureFactory
-  class Person
-    def self.create(attributes={})
-      attributes.symbolize_keys!
-      first_name = Faker::Name.first_name
-      last_name = Faker::Name.last_name
-      family = attributes.delete(:family) || Family.create!(:name => first_name + ' ' + last_name, :last_name => last_name)
-      defaults = {:first_name => first_name, :last_name => last_name, :gender => 'Male', :visible_to_everyone => true, :visible => true, :can_sign_in => true, :full_access => true, :email => Faker::Internet.email, :encrypted_password => '5ebe2294ecd0e0f08eab7690d2a6ee69'}
-      family.people.create! defaults.merge(attributes)
     end
   end
 end

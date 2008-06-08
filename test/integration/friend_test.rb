@@ -44,17 +44,4 @@ class FriendTest < ActionController::IntegrationTest
     get '/directory/browse'
     assert_select '#add_friend_' + people(:jeremy).id.to_s, :count => 0
   end
-  
-  def test_recently_tab
-    sign_in_as people(:jeremy)
-    get '/people/recently'
-    assert_select 'p', /this is where/i
-    sign_in_as people(:tim)
-    people(:tim).notes.create(:title => 'test', :body => 'testing the recently tab')
-    get '/people/recently'
-    assert_select 'td', /You.*wrote a note titled.*test/m
-    sign_in_as people(:jeremy)
-    get '/people/recently'
-    assert_select 'td', /Tim.*wrote a note titled.*test/m
-  end
 end

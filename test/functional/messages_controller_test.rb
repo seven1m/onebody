@@ -3,8 +3,7 @@ require 'test_helper'
 class MessagesControllerTest < ActionController::TestCase
 
   def setup
-    @person = FixtureFactory::Person.create
-    @other_person = FixtureFactory::Person.create
+    @person, @other_person = Person.forge, Person.forge
   end
   
   should "create new wall posts" do

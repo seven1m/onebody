@@ -1,7 +1,6 @@
 <% if @items.any? %>
   <table>
-    <% @grouped_items.each do |items| %>
-      <% item = items.first %>
+    <% @items.each do |item| %>
       <% if item.object %>
         <tr>
           <td>
@@ -10,7 +9,7 @@
             </a>
           </td>
           <td>
-            <%= render :partial => 'log_item', :locals => {:items => items, :item => item} %>
+            <%= render :partial => 'log_item', :locals => {:items => [item], :item => item} %>
             <br/>
             <span class="discreet"><%= item.created_at.to_time.to_s %></span>
           </td>
@@ -23,8 +22,9 @@
 <% end %>
 
 <p>
-  <%= link_to image_tag('feed_small.png', :alt => 'Activity Feed', :class => 'icon'),
-    :action => 'recently', :id => @logged_in, :code => @logged_in.feed_code %>
+  <%= link_to image_tag('feed_small.png', :alt => 'Activity Feed', :class => 'icon'), formatted_feed_path('rss', :code => @logged_in.feed_code) %>
   Subscribe to the
-  <%= link_to 'activity feed', :action => 'recently', :id => @logged_in, :code => @logged_in.feed_code %>.
+  <%= link_to 'activity feed', formatted_feed_path('rss', :code => @logged_in.feed_code) %>.
 </p>
+
+<p><%= link_to 'old link', :controller => 'people', :action => 'recently', :id => @logged_in, :code => @logged_in.feed_code %></p>
