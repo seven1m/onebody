@@ -137,7 +137,7 @@ class MessagesController < ApplicationController
           end
         end
         @message.send_to_group
-        redirect_to :action => 'view', :id => @message.top
+        redirect_to @message.top
       else
         flash[:notice] = @message.errors.full_messages.join('; ')
       end
@@ -155,7 +155,7 @@ class MessagesController < ApplicationController
     @message = Message.find params[:id]
     @message.destroy if @message.person == @logged_in or @message.wall == @logged_in or (@message.group and @message.group.admin? @logged_in) or @logged_in.admin?(:manage_messages)
     if @message.group
-      redirect_to :controller => 'groups', :action => 'view', :id => @message.group
+      redirect_to @message.group
     else
       redirect_to person_path(@message.wall_id), :anchor => 'wall'
     end

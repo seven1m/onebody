@@ -1,7 +1,7 @@
 <% if @unapproved_groups.any? %>
   <p class="highlight">
     The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
-    pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, :action => 'view', :id => g) }.join(', ') %>
+    pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, group_path(g)) }.join(', ') %>
   </p>
 <% end %>
 
@@ -17,7 +17,7 @@
       <ul>
         <% @categories.each do |category, group_count| %>
           <li>
-            <%= link_to h(category), :action => 'search', :category => category %>
+            <%= link_to h(category), search_groups_path(:category => category) %>
             (<%=h group_count %>)
           </li>
         <% end %>
@@ -25,7 +25,7 @@
     </td>
     <td style="padding-left:25px;border-left:1px dotted #ccc;">
       <h2 style="border:none;">Search</h2>
-      <%= form_tag({:action => 'search'}, :method => 'get', :style => 'border:none;') %>
+      <%= form_tag(search_groups_path, :method => 'get', :style => 'border:none;') %>
         <p><strong>Search by name:</strong></p>
         <p><%= text_field_tag :name, nil, :style => 'width:120px;' %>
           <input type="submit" value="Search" style="width:120px;"/></p>
@@ -39,5 +39,5 @@
   If you can't find the group you're looking for, create it!
 </p>
 <p>
-  <%= link_to image_tag('add_small.gif', :alt => 'Create a group.', :class => 'icon') + ' Create a Group', :action => 'edit' %>
+  <%= link_to image_tag('add_small.gif', :alt => 'Create a group.', :class => 'icon') + ' Create a Group', new_group_path %>
 </p>

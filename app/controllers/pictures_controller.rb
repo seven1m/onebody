@@ -17,7 +17,7 @@ class PicturesController < ApplicationController
     unless pic = @event.pictures.find(:first, :conditions => ['id > ?', params[:id]], :order => 'id')
       pic = @event.pictures.find :first
     end
-    redirect_to :action => 'view', :id => pic
+    redirect_to pic
   end
 
   def prev
@@ -25,7 +25,7 @@ class PicturesController < ApplicationController
     unless pic = @event.pictures.find(:first, :conditions => ['id < ?', params[:id]], :order => 'id desc')
       pic = @event.pictures.find(:all).last
     end
-    redirect_to :action => 'view', :id => pic
+    redirect_to pic
   end
   
   def add_picture
@@ -47,7 +47,7 @@ class PicturesController < ApplicationController
     end
     flash[:notice] = "#{success} picture(s) saved"
     flash[:notice] += " (#{fail} not saved due to errors)" if fail > 0
-    redirect_to :controller => 'events', :action => 'view', :id => @event
+    redirect_to @event
   end
   
   def delete
@@ -56,7 +56,7 @@ class PicturesController < ApplicationController
       @picture.destroy
       flash[:notice] = 'Picture deleted.'
     end
-    redirect_to :controller => 'events', :action => 'view', :id => @picture.event
+    redirect_to @picture.event
   end
   
   def rotate
@@ -65,7 +65,7 @@ class PicturesController < ApplicationController
       @picture.rotate_photo params[:degrees].to_i
     end
     flash[:refresh] = true
-    redirect_to :action => 'view', :id => @picture
+    redirect_to @picture
   end
   
   def select_event_cover
@@ -75,7 +75,7 @@ class PicturesController < ApplicationController
       @picture.update_attribute :cover, true
       flash[:notice] = 'Cover picture updated.'
     end
-    redirect_to :action => 'view', :id => @picture
+    redirect_to @picture
   end
   
   def photo

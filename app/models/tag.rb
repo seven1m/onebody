@@ -20,4 +20,8 @@ class Tag < ActiveRecord::Base
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   acts_as_logger LogItem
+  
+  def to_param
+    self.name
+  end
 end

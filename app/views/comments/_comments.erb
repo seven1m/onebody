@@ -11,7 +11,7 @@
           <%= link_to h(comment.person.name), person_path(comment.person) %>
           <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
           <% if comment.admin? @logged_in %>
-            <%= link_to '[delete]', {:controller => 'comments', :action => 'delete', :id => comment, :return_to => request.request_uri}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
+            <%= link_to '[delete]', delete_comment_path(comment, :return_to => request.request_uri), :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
           <% end %>
           <br/>
           <%= preserve_breaks comment.text %>

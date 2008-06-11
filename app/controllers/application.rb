@@ -39,22 +39,22 @@ class ApplicationController < ActionController::Base
       if id = session[:logged_in_id]
         unless person = Person.find_by_id(id)
           session[:logged_in_id] = nil
-          redirect_to :controller => 'account', :action => 'sign_in'
+          redirect_to sign_in_path
           return false
         end
         unless person.can_sign_in?
           session[:logged_in_id] = nil
-          redirect_to :controller => 'account', :action => 'bad_status'
+          redirect_to bad_status_path
           return false
         end
         Person.logged_in = @logged_in = person
         if Site.current.id != @logged_in.site_id
           session[:logged_in_id] = nil
-          redirect_to :controller => 'account', :action => 'sign_in'
+          redirect_to sign_in_path
           return false
         end
         unless @logged_in.email
-          redirect_to :controller => 'account', :action => 'change_email_and_password'
+          redirect_to change_email_and_password_path
           return false
         end
       elsif session[:family_id] and :action == 'change_email_and_password'
@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
       elsif params[:action] == 'toggle_email'
         # don't do anything
       else
-        redirect_to :controller => 'account', :action => 'sign_in', :from => request.request_uri
+        redirect_to sign_in_path(:from => request.request_uri)
         return false
       end
     end

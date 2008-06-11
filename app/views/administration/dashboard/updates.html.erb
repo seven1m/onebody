@@ -1,5 +1,5 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'Admin Home', :action => 'index' %></li>
+  <li><%= link_to 'Admin Home', admin_path %></li>
 <% end %>
 
 <h1>
@@ -16,7 +16,7 @@
     <tr>
       <td>
         <% if update.person %>
-          <a href="<%= url_for :controller => '/people', :action => 'view', :id => update.person %>">
+          <a href="<%= person_path(update.person) %>">
             <%= render :partial => 'people/thumbnail', :locals => {:person => update.person} %>
           </a>
         <% else %>
@@ -32,14 +32,14 @@
         updated
         <%= update.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
         <% if update.complete %>
-          <%= link_to 'Uncomplete', :action => 'toggle_complete', :id => update %>
+          <%= link_to 'Uncomplete', admin_toggle_complete(update) %>
         <% elsif Setting.get(:features, :standalone_use) %>
-          <%= link_to 'Update', :action => 'toggle_complete', :id => update %> |
-          <%= link_to 'Update and Review', :action => 'toggle_complete', :id => update, :review => true %> |
-          <%= link_to 'Delete', {:action => 'delete_update', :id => update}, :confirm => 'Are you sure?' %>
+          <%= link_to 'Update', admin_toggle_complete(update) %> |
+          <%= link_to 'Update and Review', admin_toggle_complete(update, :review => true) %> |
+          <%= link_to 'Delete', admin_delete_update(update), :confirm => 'Are you sure?' %>
         <% else %>
-          <%= link_to 'Complete', :action => 'toggle_complete', :id => update %> |
-          <%= link_to 'Delete', {:action => 'delete_update', :id => update}, :confirm => 'Are you sure?' %>
+          <%= link_to 'Complete', admin_toggle_complete(update) %> |
+          <%= link_to 'Delete', admin_delete_update(update), :confirm => 'Are you sure?' %>
         <% end %>
         <table>
           <% if update.first_name %><tr><td>First Name:</td><td><%= update.first_name %></td></tr><% end %>

@@ -37,7 +37,13 @@ class Verse < ActiveRecord::Base
     lookup
   end
   
+  def to_param
+    self.reference
+  end
+  
   def name; reference; end
+  
+  def title; reference; end
   
   def book_name
     @book_name ||= reference.gsub(/[\d\:\s\-;,]+$/, '')

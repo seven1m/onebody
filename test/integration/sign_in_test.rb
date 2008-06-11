@@ -6,7 +6,7 @@ class SignInTest < ActionController::IntegrationTest
   def test_sign_in
     Setting.set(nil, 'Features', 'SSL', true)
     get '/'
-    assert_redirected_to :controller => 'account', :action => 'sign_in'
+    assert_redirected_to sign_in_path(:from => '/')
     follow_redirect!
     post '/account/sign_in', :email => 'bad-email', :password => ''
     assert_response :success

@@ -25,7 +25,7 @@
 
 		<div id="header">
 		
-			  <%= form_tag({:controller => 'directory', :action => 'search'}, {:method => 'get'}) %>
+			  <%= form_tag(search_directory_path, :method => 'get') %>
 			    Type a name and hit <strong>enter</strong>:<br/>
 				  <input name="quick_name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
 			</form>
@@ -41,7 +41,7 @@
 
         <% if Setting.get(:features, :prayer) %>
           <div style="padding-top:5px;font-size:9pt;">
-            <%= link_to image_tag('prayer_signup.png', :alt => 'Prayer Week', :class => 'no-border'), :controller => 'prayer', :action => 'event' %>
+            <%= link_to image_tag('prayer_signup.png', :alt => 'Prayer Week', :class => 'no-border'), prayer_event_path %>
           </div>
         <% end %>
 
@@ -49,7 +49,7 @@
 				
 				    <% if @logged_in %>
 				      <li style="float:right;font-size:smaller;color:#fff;text-align:right;">
-				        <%= link_to 'sign out', {:controller => 'account', :action => 'sign_out'}, :style => 'padding-left:5px;padding-right:5px;' %>
+				        <%= link_to 'sign out', sign_out_path, :style => 'padding-left:5px;padding-right:5px;' %>
 				      </li>
               <% if @logged_in.admin? %>
                 <li style="float:right;font-size:smaller;color:#fff;text-align:right;margin-right:10px;">

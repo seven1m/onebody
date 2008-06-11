@@ -6,17 +6,7 @@
 <%= link_to h(comment.person.name), person_path(comment.person) %>
 <% if params[:controller] == 'shares' %>
   commented on
-  <% if (on = comment.on).is_a? Verse %>
-    <%= link_to h(on.reference), :controller => 'verses', :action => 'view', :id => s(on.reference) %>
-  <% elsif on.is_a? Recipe %>
-    <%= link_to h(on.title), :controller => 'recipes', :action => 'view', :id => on %>
-  <% elsif on.is_a? Event %>
-    <%= link_to h(on.name), :controller => 'events', :action => 'view', :id => on %>
-  <% elsif on.is_a? NewsItem %>
-    <%= link_to h(on.name), :controller => 'news', :action => 'view', :id => on %>
-  <% elsif on.is_a? Song %>
-    <%= link_to h(on.name), :controller => 'music', :action => 'view', :id => on %>
-  <% end %>
+  <%= link_to h(on.title), comment.on %>
 <% end %>
 <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
 <% if comment.admin? @logged_in %>

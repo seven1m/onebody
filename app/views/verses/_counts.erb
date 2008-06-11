@@ -1,7 +1,7 @@
 <table>
   <% @verses.each do |verse| %>
     <tr>
-      <td><%= link_to verse.reference, :action => 'view', :id => verse.reference %></td>
+      <td><%= link_to verse.reference, verse %></td>
       <td><%= verse.people_count %> <%= verse.people_count == 1 ? 'person' : 'people' %></td>
     </tr>
   <% end %>

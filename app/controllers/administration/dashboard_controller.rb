@@ -53,7 +53,7 @@ class Administration::DashboardController < ApplicationController
       log_item.reviewed_by = @logged_in
       log_item.save
     end
-    redirect_to :action => 'log'
+    redirect_to admin_log_path
   end
   
   def photos
@@ -120,14 +120,14 @@ class Administration::DashboardController < ApplicationController
         return false
       end
     end
-    redirect_to :action => 'updates'
+    redirect_to admin_updates_path
   end
 
   def delete_update
     raise 'Unauthorized' unless @logged_in.admin?(:manage_updates)
     @update = Update.find params[:id]
     @update.destroy
-    redirect_to :action => 'updates'
+    redirect_to admin_updates_path
   end
   
   def membership_requests
@@ -165,14 +165,14 @@ class Administration::DashboardController < ApplicationController
     else
       flash[:warning] = 'You are not authorized to do that.'
     end
-    redirect_to :action => 'index'
+    redirect_to admin_path
   end
   
   def remove_admin
     if @logged_in.admin?(:manage_access)
       Admin.find(params[:id]).destroy
     end
-    redirect_to :action => 'index'
+    redirect_to admin_path
   end
   
   private

@@ -76,7 +76,7 @@ class GroupsController < ApplicationController
             @group.photo = params[:photo]
           end
         end
-        redirect_to :action => 'edit', :id => @group
+        redirect_to edit_group_path(@group)
       end
     end
   end
@@ -89,7 +89,7 @@ class GroupsController < ApplicationController
     else
       flash[:notice] = 'You are not authorized to delete this group.'
     end
-    redirect_to :action => 'index'
+    redirect_to groups_path
   end
   
   def photo
@@ -106,9 +106,9 @@ class GroupsController < ApplicationController
       rescue
         flash[:notice] = 'There was an error.'
       end
-      redirect_to :action => 'edit', :id => @group.id
+      redirect_to edit_group_path(@group.id)
     else
-      redirect_to :action => 'view', :id => @group.id
+      redirect_to @group
     end
   end
   
@@ -120,9 +120,9 @@ class GroupsController < ApplicationController
     @group = Group.find params[:id]
     if @logged_in.can_edit? @group and @group.approved
       params[:people].each { |id| join id } if params[:people]
-      redirect_to :action => 'edit', :id => @group
+      redirect_to edit_group_path(@group)
     else
-      redirect_to :action => 'view', :id => @group
+      redirect_to @group
     end
   end
   
@@ -132,9 +132,9 @@ class GroupsController < ApplicationController
       if params[:people]
         params[:people].each { |id| leave id }
       end
-      redirect_to :action => 'edit', :id => @group
+      redirect_to edit_group_path(@group)
     else
-      redirect_to :action => 'view', :id => @group
+      redirect_to @group
     end
   end
   
@@ -151,7 +151,7 @@ class GroupsController < ApplicationController
         flash[:warning] = 'A request to join this group has been sent to the group administrator(s).'
       end
     end
-    redirect_to params[:return_to] || {:action => 'view', :id => @group} unless person_id
+    redirect_to params[:return_to] || @group unless person_id
   end
   
   def leave(person_id=nil)
@@ -162,7 +162,7 @@ class GroupsController < ApplicationController
     end
     unless person_id
       flash[:notice] = 'You are no longer signed up.'
-      redirect_to params[:return_to] || {:action => 'index'}
+      redirect_to params[:return_to] || groups_path
     end
   end
   
@@ -180,7 +180,7 @@ class GroupsController < ApplicationController
         req.destroy
       end
     end
-    redirect_to :action => 'membership_requests', :id => @group.id
+    redirect_to group_membership_requests_path(@group)
   end
   
   def toggle_email
@@ -209,6 +209,6 @@ class GroupsController < ApplicationController
       group.update_attribute :approved, true
       flash[:notice] = 'The group has been approved.'
     end
-    redirect_to :action => 'view', :id => group
+    redirect_to group
   end
 end

@@ -108,7 +108,7 @@ class PeopleController < ApplicationController
       elsif params[:commit] == 'I Agree'
         flash[:warning] = 'You must check the box indicating you agree to the statement below.'
       end
-      redirect_to :action => 'privacy', :id => @person, :section => params[:anchor]
+      redirect_to person_privacy_path(@person, :section => params[:anchor])
     end
   end
   
@@ -116,7 +116,7 @@ class PeopleController < ApplicationController
     if request.post?
       if @person.update_attributes params[:person]
         flash[:notice] = 'Settings saved.'
-        redirect_to :action => 'email', :id => @person
+        redirect_to person_email_prefs_path(@person)
       else
         flash[:notice] = @person.errors.full_messages.join('; ')
       end
@@ -129,7 +129,7 @@ class PeopleController < ApplicationController
   def freeze_account
     raise 'Unauthorized.' unless @logged_in.admin?(:edit_profiles)
     @person.toggle! :frozen
-    redirect_to :action => 'edit', :id => params[:id]
+    redirect_to edit_person_path(params[:id])
   end
   
   # Contacts
@@ -142,7 +142,7 @@ class PeopleController < ApplicationController
     end
     respond_to do |wants|
       wants.html do
-        redirect_to :action => 'view', :id => params[:id]
+        redirect_to person_path(params[:id])
       end
       wants.js do
         render :update do |page|
@@ -159,7 +159,7 @@ class PeopleController < ApplicationController
     end
     respond_to do |wants|
       wants.html do
-        redirect_to :action => 'view', :id => params[:id]
+        redirect_to person_path(params[:id])
       end
       wants.js do
         render :update do |page|
@@ -182,14 +182,14 @@ class PeopleController < ApplicationController
     end
     if verse.errors.any?
       flash[:notice] = 'There was an error adding the verse. Make sure you entered the right reference.'
-      redirect_to :action => 'view', :id => @logged_in
+      redirect_to person_path(@logged_in)
     else
       @logged_in.verses << verse unless @logged_in.verses.include? verse
       flash[:notice] = 'Verse saved.'
       if params[:event_id]
-        redirect_to :controller => 'events', :action => 'view', :id => params[:event_id], :anchor => 'verses'
+        redirect_to event_path(params[:event_id], :anchor => 'verses')
       else
-        redirect_to :controller => 'verses', :action => 'view', :id => verse
+        redirect_to verse_path(verse)
       end
     end
   end
@@ -198,7 +198,7 @@ class PeopleController < ApplicationController
     verse = Verse.find params[:verse_id]
     verse.people.delete @logged_in
     flash[:notice] = 'Verse removed.'
-    redirect_to params[:return_to] || {:action => 'view', :id => @logged_in, :anchor => 'shares'}
+    redirect_to params[:return_to] || person_path(@logged_in, :anchor => 'shares')
   end
       
   def opensearch

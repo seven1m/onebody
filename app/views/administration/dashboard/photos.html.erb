@@ -1,6 +1,6 @@
 <% @items.each do |item| %>
   <p style="clear:left;">
-    <%= image_tag url_for(:controller => item.record.class.name.downcase.pluralize, :action => 'photo', :id => "#{item.record.id}.small.jpg"), :style => 'float:left;margin-right:10px;' %>
+    <%= image_tag photo_path(:controller => item.record.class.name.downcase.pluralize, :id => "#{item.record.id}.small.jpg"), :style => 'float:left;margin-right:10px;' %>
     <% if item.record.is_a? Person %>
       <%= link_to item.record.name, person_path(item.record) %>
     <% elsif item.record.respond_to? :person %>
@@ -10,7 +10,7 @@
     <% end %>
     uploaded a 
     <% if item.record.class.name == 'Picture' %>
-      <%= link_to 'picture', :controller => 'pictures', :action => 'view', :id => item.record %>
+      <%= link_to 'picture', picture_path(item.record) %>
     <% else %>
       <%= item.record.class.name %> photo.
     <% end %>

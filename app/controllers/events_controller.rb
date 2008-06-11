@@ -48,7 +48,7 @@ class EventsController < ApplicationController
     if request.post?
       params[:event].cleanse 'when'
       if @event.update_attributes params[:event]
-        redirect_to :action => 'view', :id => @event
+        redirect_to @event
       else
         flash[:notice] = @event.errors.full_messages.join('; ')
       end
@@ -58,19 +58,19 @@ class EventsController < ApplicationController
   def delete
     @event = Event.find params[:id]
     @event.destroy if @event.admin? @logged_in
-    redirect_to :action => 'index'
+    redirect_to events_path
   end
   
   def add_verse
     verse = Verse.find_or_create_by_reference(Verse.normalize_reference(params[:reference]))
     if verse.errors.any?
       flash[:notice] = 'There was an error adding the verse. Make sure you entered the right reference.'
-      redirect_to :action => 'view', :id => params[:id]
+      redirect_to event_path(params[:id])
     else
       event = Event.find(params[:id])
       verse.events << event unless event.verses.include? verse
       flash[:notice] = 'Verse saved.'
-      redirect_to :controller => 'events', :action => 'view', :id => params[:id], :anchor => 'verses'
+      redirect_to event_path(params[:id], :anchor => 'verses')
     end
   end
   
@@ -78,7 +78,7 @@ class EventsController < ApplicationController
     verse = Verse.find params[:verse_id]
     verse.events.delete Event.find(params[:id])
     flash[:notice] = 'Verse removed.'
-    redirect_to :action => 'view', :id => params[:id], :anchor => 'verses'
+    redirect_to event_path(params[:id], :anchor => 'verses')
   end
 
 end

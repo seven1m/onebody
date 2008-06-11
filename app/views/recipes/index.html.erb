@@ -1,5 +1,5 @@
 <div id="search">
-  <%= form_tag({:controller => 'recipes', :action => 'search'}) %>
+  <%= form_tag(search_recipes_path) %>
 	  <input name="criteria" id="recipe_search_name" onfocus="if(this.value == 'Recipe Search') this.value = ''" onblur="if(this.value == '') this.value = 'Recipe Search'"/>
 	</form>
 	<script type="text/javascript"> $('recipe_search_name').value = 'Recipe Search' </script>
@@ -19,7 +19,7 @@
       <% @tags.each do |tag| %>
         <% begin %>
           <span style="font-size:<%= tag.recipes.count * @factor + 9 %>pt;">
-            <%= link_to h(tag.name), {:controller => 'tags', :action => 'view', :id => tag.name}, :style => 'text-decoration:none;' %>
+            <%= link_to h(tag.name), tag.name, :style => 'text-decoration:none;' %>
           </span>
         <% rescue %>
           <!-- tag error -->
@@ -37,4 +37,4 @@
   <p><em>No recipes yet!</em></p>
 <% end %>
 
-<p><%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' New Recipe', :controller => "recipes", :action => "edit" %></p>
+<p><%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' New Recipe', new_recipes_path %></p>

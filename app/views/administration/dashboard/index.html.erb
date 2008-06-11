@@ -25,7 +25,7 @@
     <%= @flag_count %> flagged <%= @flag_count == 1 ? 'item' : 'items' %>
   </p>
   
-  <p><%= link_to 'Click here', :action => 'log' %> to review the log.</p>
+  <p><%= link_to 'Click here', admin_log_path %> to review the log.</p>
 <% end %>
 
 <% if @logged_in.admin?(:manage_updates) %>
@@ -35,7 +35,7 @@
     <%= @update_count %> <%= @update_count == 1 ? 'update' : 'updates' %>
   </p>
   
-  <p><%= link_to 'Click here', :action => 'updates' %> to review updates.</p>
+  <p><%= link_to 'Click here', admin_updates_path %> to review updates.</p>
 <% end %>
 
 <% if @logged_in.admin?(:manage_groups) %>
@@ -45,7 +45,7 @@
     <%= @group_count %> pending <%= @group_count == 1 ? 'group' : 'groups' %>
   </p>
   
-  <p><%= link_to 'Click here', :action => 'updates' %> to review pending groups.</p>
+  <p><%= link_to 'Click here', admin_updates_path %> to review pending groups.</p>
   
   <h2>Group Memberships</h2>
   
@@ -53,5 +53,5 @@
     <%= @membership_request_count %> pending <%= @membership_request_count == 1 ? 'membership request' : 'membership requests' %>
   </p>
   
-  <p><%= link_to 'Click here', :action => 'membership_requests' %> to review pending membership requests.</p>
+  <p><%= link_to 'Click here', admin_membership_requests_path %> to review pending membership requests.</p>
 <% end %>

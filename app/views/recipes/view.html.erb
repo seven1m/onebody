@@ -1,14 +1,14 @@
 <% content_for :subnav do %>
-  <%= link_to "All Recipes", :controller => "recipes", :action => "index" %>
+  <%= link_to "All Recipes", recipes_path %>
   <% if @recipe.admin? @logged_in %>
-    <%= link_to 'Edit Recipe', :action => 'edit', :id => @recipe %>
+    <%= link_to 'Edit Recipe', edit_recipe_path(@recipe) %>
   <% end %>
-  <%= link_to 'New Recipe', :controller => 'recipes', :action => 'edit' %>
+  <%= link_to 'New Recipe', new_recipe_path %>
 <% end %>
 
 <% if @recipe.has_photo? %>
   <div style="width:200;float:right;">
-    <%= image_tag(url_for(:action => 'photo', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %>
+    <%= image_tag(photo_url(:controller => 'recipes', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %>
   </div>
 <% end %>
 
@@ -27,7 +27,7 @@
   <tr>
     <td style="white-space:nowrap;">Tags:</td>
     <td>
-      <%= form_tag({:action => 'add_tags', :id => @recipe}, :style => 'border:none;padding:0;margin:0;') %>
+      <%= form_tag(recipe_add_tags_path(@recipe), :style => 'border:none;padding:0;margin:0;') %>
         <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @recipe} %>
         Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;margin:0;' %>
       </form>
@@ -40,11 +40,7 @@
   <% if @recipe.event_id.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;">Event:</td>
-      <td><%= link_to @recipe.event.name,
-                      :controller => 'events',
-                      :action => 'view',
-                      :id => @recipe.event,
-                      :anchor => 'recipes' %></td>
+      <td><%= link_to h(@recipe.event.name), event_path(@recipe.event, :anchor => 'recipes') %></td>
     </tr>
   <% end %>
   <% if @recipe.prep.to_s.any? %>

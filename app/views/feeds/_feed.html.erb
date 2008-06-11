@@ -26,5 +26,3 @@
   Subscribe to the
   <%= link_to 'activity feed', formatted_feed_path('rss', :code => @logged_in.feed_code) %>.
 </p>
-
-<p><%= link_to 'old link', :controller => 'people', :action => 'recently', :id => @logged_in, :code => @logged_in.feed_code %></p>

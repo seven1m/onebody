@@ -9,8 +9,8 @@
 <% if object.is_a? Picture %>
   uploaded <%= items.length == 1 ? 'a picture' : 'pictures' %>:<br/>
   <% items.each do |item| %>
-    <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{item.object.id}.small.jpg"), :alt => 'click to enlarge'),
-      {:controller => 'pictures', :action => 'view', :id => item.object}, :title => 'click to enlarge' %>
+    <%= link_to image_tag(picture_photo_path("#{item.object.id}.small.jpg"), :alt => 'click to enlarge'),
+      picture_path(item.object), :title => 'click to enlarge' %>
   <% end %>
 <% elsif object.is_a? Verse %>
   added <%= link_to object.reference, verse_url(:id => object) %>.
@@ -19,7 +19,7 @@
 <% elsif object.is_a? Event %>
   added <%= link_to object.name, event_url(:id => event) %>.
 <% elsif object.is_a? Comment %>
-  commented on <%= link_to object.on.name, :controller => object.on.class.name.downcase.pluralize, :action => 'view', :id => object.on %>.
+  commented on <%=h object.on.name %>. <%# link_to object.on.name, :controller => object.on.class.name.downcase.pluralize, :action => 'view', :id => object.on %>
 <% elsif object.is_a? Note %>
   wrote a note titled <%= link_to object.title, note_url(:id => object) %><% if !object.group %>.
   <% else %>

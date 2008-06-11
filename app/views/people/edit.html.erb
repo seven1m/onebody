@@ -10,11 +10,11 @@
       <%=h @family.name %>
     <% end %>
     &middot; Edit:</strong>
-  <%= @family.people.map { |p| link_to(p == @person ? "<strong>#{h(p.first_name)}</strong>" : h(p.first_name), :action => 'edit', :id => p) }.join(' | ') %>
+  <%= @family.people.map { |p| link_to(p == @person ? "<strong>#{h(p.first_name)}</strong>" : h(p.first_name), edit_person_path(p)) }.join(' | ') %>
 </p>
 
 <p>
-  Please read our <%= link_to 'Privacy Policy', :controller => 'help', :action => 'privacy_policy' %>
+  Please read our <%= link_to 'Privacy Policy', privacy_policy_path %>
   for details regarding the use of your personal information.
 </p>
 
@@ -23,12 +23,12 @@
 <% end %>
 
 <% content_for :subnav do %>
-  <li><%= link_to 'View Profile', :action => 'view', :id => @person %></li>
-  <li><%= link_to 'Change Email/Password', {:controller => 'account', :action => 'edit', :id => @person}, :style => 'color:yellow;' %></li>
+  <li><%= link_to 'View Profile', person_path(@person) %></li>
+  <li><%= link_to 'Change Email/Password', edit_account_path(@person), :style => 'color:yellow;' %></li>
   <li><%= link_to 'Privacy Settings', person_privacy_path(@person, :anchor => "p#{@person.id}"), :style => 'color:yellow;' %></li>
   <li><%= link_to 'Remote Accounts', remote_accounts_path(:person_id => @person) %></li>
   <% if @logged_in.admin?(:edit_profiles) %>
-    <li><%= link_to (@person.account_frozen? ? 'Unfreeze' : 'Freeze'), {:action => 'freeze_account', :id => @person}, :method => 'post', :confirm => 'Are you sure?' %></li>
+    <li><%= link_to (@person.account_frozen? ? 'Unfreeze' : 'Freeze'), freeze_account_path(@person), :method => 'post', :confirm => 'Are you sure?' %></li>
   <% end %>
 <% end %>
 
@@ -60,7 +60,7 @@
   <table><tr><td>
   <%= render :partial => 'families/photo' %>
   </td><td>
-  <%= render :partial => 'upload_photo', :locals => {:object => @family, :name => 'Family Picture', :url => {:controller => 'families', :action => 'edit', :id => @family, :return_to => request.request_uri.split('?').first + '?section=family-picture'}} %>
+  <%= render :partial => 'upload_photo', :locals => {:object => @family, :name => 'Family Picture', :url => edit_family_path(@family, :return_to => request.request_uri.split('?').first + '?section=family-picture')} %>
   </td></tr></table>
 </div>
 
@@ -128,7 +128,7 @@
 <h2 class="tab" id="services">Services</h2>
 <div class="section">
   <p>
-    If you wish to be listed in the <%= link_to 'Service Directory', :controller => 'directory', :action => 'search', :service => true %>,
+    If you wish to be listed in the <%= link_to 'Service Directory', search_directory_path(:service => true) %>,
     Enter your business name, description, and other details below.
   </p>
 
@@ -171,7 +171,7 @@
         have an email address in the system
       <% end %>
     </p>
-    <p><%= link_to 'Click here', :controller => 'account', :action => 'edit', :id => @person %> to change this email address.</p>
+    <p><%= link_to 'Click here', edit_account_path(@person) %> to change this email address.</p>
   </div>
   
   <h2>Alternate Email</h2>

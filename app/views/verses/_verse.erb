@@ -1,13 +1,16 @@
 <div class="verse-heading">
-  <strong><%= link_to h(verse.reference), :controller => 'verses', :action => 'view', :id => verse.reference %></strong>
+  <strong><%= link_to h(verse.reference), verse %></strong>
   <% unless @person or (people_count = verse.people.count) == 0 %>
     (<%= people_count %> <%= people_count == 1 ? 'person' : 'people' %>)
   <% end %>
   <% if @person or verse.admin? @logged_in %>
-    <%= link_to '[edit]', {:controller => 'verses', :action => 'view', :id => verse.reference}, :class => 'discreet' %>
+    <%= link_to '[edit]', verse, :class => 'discreet' %>
   <% end %>
-  <% if (@person and @person == @logged_in) or (@event and @event.admin? @logged_in) %>
-    <%= link_to '[delete]', params.merge({:action => 'remove_verse', :verse_id => verse}), :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
+  <% if (@person and @person == @logged_in) %>
+    <%= link_to '[delete]', remove_verse_from_person_path(:id => @person, :verse_id => verse), :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
+  <% end %>
+  <% if (@event and @event.admin? @logged_in) %>
+    <%= link_to '[delete]', remove_verse_from_event_path(:id => @event, :verse_id => verse), :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
   <% end %>
   <span class="discreet">
     Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => verse} %>

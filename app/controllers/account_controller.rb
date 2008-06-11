@@ -9,7 +9,7 @@ class AccountController < ApplicationController
     if request.post?
       if person = Person.authenticate(params[:email], Setting.get(:features, :ssl) ? params[:password] : params[:password_encrypted], :encrypted => !Setting.get(:features, :ssl), :salt => @salt)
         unless person.can_sign_in?
-          redirect_to :controller => 'help', :action => 'unauthorized', :protocol => 'http://'
+          redirect_to unauthorized_path(:protocol => 'http://')
           return
         end
         session[:logged_in_id] = person.id
@@ -25,7 +25,7 @@ class AccountController < ApplicationController
         cookies[:email] = nil
         if family = Family.find_by_email(params[:email])
           flash[:warning] = 'That email address was found, but you must verify it before you can sign in.'
-          redirect_to :action => 'verify_email', :email => params[:email]
+          redirect_to verify_email_path(:email => params[:email])
         else
           flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
         end
@@ -82,7 +82,7 @@ class AccountController < ApplicationController
             render :text => 'The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)', :layout => true
           end
         else
-          redirect_to :controller => 'help', :action => 'bad_status', :protocol => 'http://'
+          redirect_to bad_status_path(:protocol => 'http://')
         end
       else
         flash[:warning] = "That email address could not be found in our system. If you have another address, try again."
@@ -105,10 +105,10 @@ class AccountController < ApplicationController
           else
             Notifier.deliver_mobile_verification(v)
             flash[:warning] = 'The verification message has been sent. Please check your phone and enter the code you receive.'
-            redirect_to :action => 'verify_code', :id => v.id
+            redirect_to verify_code_path(v.id)
           end
         else
-          redirect_to :controller => 'help', :action => 'bad_status', :protocol => 'http://'
+          redirect_to bad_status_path(:protocol => 'http://')
         end
       else
         flash[:warning] = "That mobile number could not be found in our system. You may try again."
@@ -148,10 +148,10 @@ class AccountController < ApplicationController
           person = @people.first
           session[:logged_in_id] = person.id
           flash[:warning] = "You must set your personal email address#{v.mobile_phone ? '' : ' (it may be different than the one you verified)'} and password to continue."
-          redirect_to :action => 'edit', :id => person.id
+          redirect_to edit_account_path(person.id)
         else
           session[:select_from_people] = @people
-          redirect_to :action => 'select_person'
+          redirect_to select_person_path
         end
         v.update_attribute :verified, true
       else
@@ -171,11 +171,11 @@ class AccountController < ApplicationController
       session[:logged_in_id] = params[:id].to_i
       session[:select_from_people] = nil
       flash[:warning] = 'You must set your personal email address and password to continue.'
-      redirect_to :action => 'edit', :id => session[:logged_in_id]
+      redirect_to edit_account_path(session[:logged_in_id])
     end
   end
   
-  def safeguarding_children; redirect_to :controller => 'help', :action => 'safeguarding_children', :protocol => 'http://'; end
+  def safeguarding_children; redirect_to safeguarding_children_path(:protocol => 'http://'); end
 
   private
     def check_ssl

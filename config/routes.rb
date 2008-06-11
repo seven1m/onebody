@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
     m.setup_authorize_ip 'setup/authorize_ip', :action => 'authorize_ip'
     m.setup_change_environment 'setup/change_environment', :action => 'change_environment'
     m.setup_environment 'setup/environment', :action => 'environment'
+    m.not_local_or_secret_not_given 'setup/not_local_or_secret_not_given', :action => 'not_local_or_secret_not_given'
   end
 
   map.with_options :controller => 'setup/sites' do |m|
@@ -37,7 +38,9 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_profile 'people/edit/:id', :action => 'edit'
     m.edit_person 'people/edit/:id', :action => 'edit'
     m.person_privacy 'people/privacy/:id', :action => 'privacy'
+    m.person_email_prefs 'people/email/:id', :action => 'email'
     m.person_photo 'people/photo/:id', :action => 'photo'
+    m.person_groups 'people/groups/:id', :action => 'groups'
     m.new_person 'people/edit', :action => 'edit'
     m.delete_person 'people/delete/:id', :action => 'delete'
     m.person 'people/view/:id', :action => 'view'#, :requirements => {:id => /\d/}
@@ -45,6 +48,10 @@ ActionController::Routing::Routes.draw do |map|
     m.logged_in '', :action => 'index'
     m.services_from 'people/services/:id', :action => 'services'
     m.opensearch 'opensearch.xml', :action => 'opensearch', :format => 'xml'
+    m.remove_verse_from_person 'people/remove_verse/:id', :action => 'remove_verse'
+    m.freeze_account 'people/freeze/:id', :action => 'edit'
+    m.person_add_verse 'people/add_verse', :action => 'add_verse'
+    m.person_remove_verse 'people/remove_verse', :action => 'remove_verse'
   end
   
   map.with_options :controller => 'families' do |m|
@@ -61,6 +68,7 @@ ActionController::Routing::Routes.draw do |map|
     m.service_directory 'directory/service', :action => 'search', :service => true
     m.select_for_nametags 'directory/select_for_nametags', :action => 'select_for_nametags'
     m.done_selecting_for_nametags 'directory/done_selecting_for_nametags', :action => 'done_selecting_for_nametags'
+    m.directory_pickup_pdf 'directory/directory_pickup_pdf', :action => 'directory_pickup_pdf'
   end
   
   map.with_options :controller => 'notes' do |m|
@@ -77,12 +85,18 @@ ActionController::Routing::Routes.draw do |map|
     m.delete_prayer_request 'prayer_requests/delete/:id', :action => 'delete'
     m.prayer_request 'prayer_requests/view/:id', :action => 'view'
     m.connect 'prayer_requests/:action/:id', :action => 'index'
+    m.answered_prayer_requests 'prayer_requests/answered/:id', :action => 'answered'
   end
   
+  map.with_options :controller => 'prayer' do |m|
+    m.prayer_event 'prayer/event', :action => 'event'
+  end
+    
   map.with_options :controller => 'friends' do |m|
     m.remove_friend 'friends/remove/:id', :action => 'remove'
     m.add_friend 'friends/add/:id', :action => 'add'
     m.friends 'friends/view/:id', :action => 'view'
+    m.friend_turned_down 'friends/turned_down', :action => 'turned_down'
   end
   
   map.shares 'shares', :controller => 'shares'
@@ -91,27 +105,66 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'groups' do |m|
     m.groups 'groups', :action => 'index'
     m.group 'groups/view/:id', :action => 'view'
+    m.new_group 'groups/edit', :action => 'edit'
+    m.edit_group 'groups/edit/:id', :action => 'edit'
+    m.approve_group 'groups/approve/:id', :action => 'approve'
     m.group_membership_requests 'groups/membership_requests/:id', :action => 'membership_requests'
+    m.toggle_email 'groups/toggle_email/:id', :action => 'toggle_email'
+    m.search_groups 'groups/search', :action => 'search'
+    m.join_group 'groups/join/:id', :action => 'join'
+    m.leave_group 'groups/leave/:id', :action => 'leave'
   end
   
   map.with_options :controller => 'verses' do |m|
+    m.verses 'verses', :action => 'index'
     m.verse 'verses/view/:id', :action => 'view'
+    m.verse_add_tags 'verses/add_tags/:id', :action => 'add_tags'
+    m.delete_tag_from_verse 'verses/delete_tag/:id', :action => 'delete_tag'
   end
   
   map.with_options :controller => 'recipes' do |m|
     m.recipe 'recipes/view/:id', :action => 'view'
+    m.new_recipe 'recipes/edit', :action => 'edit'
+    m.edit_recipe 'recipes/edit/:id', :action => 'edit'
+    m.search_recipes 'recipes/search', :action => 'search'
+    m.delete_recipe 'recipes/delete/:id', :action => 'delete'
+    m.recipe_add_tags 'recipes/add_tags/:id', :action => 'add_tags'
+    m.delete_tag_from_recipe 'recipe/delete_tag/:id', :action => 'delete_tag'
+  end
+  
+  map.with_options :controller => 'music' do |m|
+    m.music 'music', :action => 'index'
+    m.song 'music/view/:id', :action => 'view'
+    m.edit_song 'music/edit/:id', :action => 'edit'
+    m.delete_tag_from_music 'music/delete_tag/:id', :action => 'delete_tag'
+  end
+  
+  map.with_options :controller => 'comments' do |m|
+    m.delete_comment 'comments/delete/:id', :action => 'delete'
   end
   
   map.with_options :controller => 'events' do |m|
+    m.events 'events', :action => 'index'
     m.event 'events/view/:id', :action => 'view'
+    m.remove_verse_from_event 'events/remove_verse/:id', :action => 'remove_verse'
   end
   
   map.with_options :controller => 'administration/dashboard' do |m|
     m.admin 'administration/dashboard', :action => 'index'
+    m.admin_log 'administration/dashboard/log', :action => 'log'
+    m.admin_updates 'administration/dashboard/updates', :action => 'updates'
+    m.remove_admin 'administration/dashboard/remove_admin', :action => 'remove_admin'
+    m.edit_attribute 'administration/dashboard/edit_attribute', :action => 'edit_attribute'
+    m.add_admin 'administration/dashboard/add_admin', :action => 'add_admin'
+    m.admin_membership_requests 'administration/dashboard/admin_membership_requests', :action => 'admin_membership_requests'
+    m.mark_reviewed 'administration/dashboard/mark_reviewed', :action => 'mark_reviewed'
+    m.admin_toggle_complete 'administration/dashboard/toggle_complete', :action => 'toggle_complete'
+    m.admin_delete_update 'administration/dashboard/delete_update', :action => 'delete_update'
   end
 
   map.with_options :controller => 'administration/settings' do |m|
     m.settings 'administration/settings', :action => 'index'
+    m.edit_settings 'administration/settings/edit/:id', :action => 'edit'
   end
 
   map.with_options :controller => 'checkin/admin' do |m|
@@ -148,13 +201,45 @@ ActionController::Routing::Routes.draw do |map|
     m.sync_person 'remote_accounts/sync_person/:id', :action => 'sync_person'
   end
   
+  map.with_options :controller => 'account' do |m|
+    m.edit_account 'account/edit/:id', :action => 'edit'
+    m.sign_in 'account/sign_in', :action => 'sign_in'
+    m.sign_out 'account/sign_out', :action => 'sign_out'
+    m.verify_email 'account/verify_email', :action => 'verify_email'
+    m.verify_code 'account/verify_code', :action => 'verify_code'
+    m.select_person 'account/select_person', :action => 'select_person'
+    m.safeguarding_children 'account/safeguarding_children', :action => 'safeguarding_children'
+    m.change_email_and_password 'account/change_email_and_password', :action => 'change_email_and_password'
+  end
+  
+  map.with_options :controller => 'help' do |m|
+    m.help 'help', :action => 'index'
+    m.privacy_policy 'help/privacy_policy', :action => 'privacy_policy'
+    m.unauthorized 'help/unauthorized', :action => 'unauthorized'
+    m.bad_status 'help/bad_status', :action => 'bad_status'
+  end
+  
+  map.with_options :controller => 'tags' do |m|
+    m.tag 'tags/view/:id', :action => 'view'
+  end
+
+  map.with_options :controller => 'news' do |m|
+    m.new_item 'news/view/:id', :action => 'view'
+  end
+  
+    
   #map.with_options :controller => 'messages' do |m|
   #  m.message 'messages/view/:id', :action => 'view'
   #  m.send_email 'messages/send_email/:id', :action => 'send_email'
   #end
   map.resources :messages
-
-  map.connect ':controller/service.wsdl', :action => 'wsdl'
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
+  
+  map.with_options :controller => 'pictures' do |m|
+    m.picture 'pictures/view/:id', :action => 'view', :requirements => { :id => /.*/ }
+    m.picture_photo 'pictures/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
+  end
+  
+  #map.connect ':controller/service.wsdl', :action => 'wsdl'
+  #map.connect ':controller/:action/:id'
+  map.photo ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
 end

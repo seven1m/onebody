@@ -9,9 +9,7 @@
  <ul id="searchResultsul">
   <% for recipe in @items %>
     <li>
-      <%= link_to @mark_term ? highlight(recipe.title, @mark_term) : h(recipe.title),
-        :controller => "recipes",
-        :action => "view", :id => recipe.id %> &nbsp; &nbsp; &mdash; &nbsp; &nbsp;
+      <%= link_to h(recipe.title), recipe %> &nbsp; &nbsp; &mdash; &nbsp; &nbsp;
       <small><%= @mark_term ? highlight(recipe.description, @mark_term) : h(recipe.description) %></small><br/>
       <div class="smaller"><%= @mark_term ? highlight(recipe.ingredients, @mark_term) : h(recipe.ingredients) %></div>
     </li>
@@ -26,7 +24,5 @@
 <% if @item_pages and @item_pages.page_count > 1 %>
   Page: <%= pagination_links @item_pages, :params => {:criteria => @mark_term} %>
 <% end %><br/>
-<%= link_to "Back",
-            :controller => "recipes",
-            :action => "index" %>
+<%= link_to "Back", recipes_path %>
 </div>

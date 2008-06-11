@@ -45,7 +45,7 @@ class DirectoryController < ApplicationController
           render :update do |page|
             if File.exists?(filename)
               page.replace_html('status', 'Success!<br/><br/>You should see your PDF pop up any second.')
-              page.redirect_to :action => 'pickup_pdf'
+              page.redirect_to directory_pickup_pdf_path
             else
               page.replace_html('status', "There was an error generating your custom directory. Please notify the system administrator. Please provide this error message: <pre>#{job.stderr.to_s.gsub(/</, '&lt;').gsub(/>/, '&gt;')}</pre>")
             end

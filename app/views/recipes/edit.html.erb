@@ -10,19 +10,16 @@
 </script>
 
 <h1>Edit Recipe</h1>
-<%= form_tag( {:action=> "edit", :id => @recipe.id}, :multipart => true )%>
+<%= form_tag edit_recipe_path(@recipe.id), :multipart => true %>
   <div id="picture-upload">
     <div style="text-align:center;">
       <strong>Picture of Your Dish</strong><br/>
       <% if @recipe.has_photo? %>
-        <%= image_tag(url_for(:action => 'photo', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %><br/>
-        <%= link_to "Remove Picture",
-          {:action => 'edit', :photo => 'remove'},
-          :method => 'post',
-          :confirm => 'Are you sure?' %>
+        <%= image_tag(photo_path(:controller => 'recipes', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %><br/>
+        <%= link_to "Remove Picture", edit_recipe_path(@recipe, :photo => 'remove'), :method => 'post', :confirm => 'Are you sure?' %>
       <% end %>
     </div>
-    <%= render :partial => 'people/photo_fields', :locals => {:object => @recipe, :name => 'Picture of Dish', :url => {:controller => 'recipes', :action => 'edit'}} %>
+    <%= render :partial => 'people/photo_fields', :locals => {:object => @recipe, :name => 'Picture of Dish', :url => new_recipe_path} %>
   </div>
   <label for="recipe_title">Title:</label>
   <%= text_field "recipe", "title" %><br/>

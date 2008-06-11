@@ -1,6 +1,6 @@
 <h1>Settings</h2>
 
-<%= form_tag({:action => 'edit', :id => params[:id]}, :style => "border:none;") %>
+<%= form_tag(admin_edit_settings(params[:id]), :style => "border:none;") %>
   <% @settings.each do |section_name, section| %>
     <h2 class="tab" id="<%= section_name %>"><%=h section_name %></h2>
     <div class="section">

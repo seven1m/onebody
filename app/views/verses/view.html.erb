@@ -1,19 +1,19 @@
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to image_tag('remove.gif', :alt => 'Remove this verse from my list.', :class => 'icon') + ' Remove this verse', {:controller => 'people', :action => 'remove_verse', :verse_id => @verse, :return_to => request.request_uri}, :method => 'post', :confirm => 'Are you sure?' %><br/>
+      <%= link_to image_tag('remove.gif', :alt => 'Remove this verse from my list.', :class => 'icon') + ' Remove this verse', person_remove_verse_path(:verse_id => @verse, :return_to => request.request_uri), :method => 'post', :confirm => 'Are you sure?' %><br/>
       from my list.
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', {:controller => 'people', :action => 'add_verse', :reference => @verse.reference, :return_to => request.request_uri}, :method => 'post' %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', person_add_verse_path(:reference => @verse.reference, :return_to => request.request_uri), :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>
   
   <h2>Tags</h2>
 
-  <%= form_tag({:action => 'add_tags', :id => @verse}, :style => 'border:none;padding:0;') %>
+  <%= form_tag(verse_add_tags_path(@verse), :style => 'border:none;padding:0;') %>
     <p>
       <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse} %><br/>
       Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;' %>

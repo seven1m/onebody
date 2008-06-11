@@ -1,9 +1,9 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'List of Groups', :action => 'index' %></li>
+  <li><%= link_to 'List of Groups', groups_path %></li>
   <% if @logged_in.admin?(:manage_groups) or @group.admin? @logged_in %>
-    <li><%= link_to 'Edit Group', :action => 'edit', :id => @group %></li>
+    <li><%= link_to 'Edit Group', edit_group_path(@group) %></li>
     <% if not @group.approved and @logged_in.admin?(:manage_groups) %>
-      <li><%= link_to 'Approve Group', {:action => 'approve', :id => @group}, :confirm => 'Are you sure?', :method => 'post', :style => 'color:yellow;' %></li>
+      <li><%= link_to 'Approve Group', approve_group_path(@group), :confirm => 'Are you sure?', :method => 'post', :style => 'color:yellow;' %></li>
     <% end %>
   <% end %>
 <% end %>
@@ -11,7 +11,7 @@
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
   <% if not @group.has_photo? and @group.admin?(@logged_in) %>
-    <p><%= link_to 'Upload a Picture', :action => 'edit', :id => @group %></p>
+    <p><%= link_to 'Upload a Picture', edit_group_path(@group) %></p>
   <% end %>
   
   <% if @group.linked? or @group.parents_of %>
@@ -22,9 +22,9 @@
     <% if @group.membership_requests.count('*', :conditions => ['person_id = ?', @logged_in.id]) > 0 %>
       <p class="very-strong">You have requested to join this group.</p>
     <% elsif not @logged_in.member_of?(@group) %>
-      <p><%= link_to 'Join This Group', {:action => 'join', :id => @group}, :method => 'post', :confirm => @group.admin?(@logged_in) ? nil : 'Are you sure? A request will be sent to the group administrator(s).' %></p>
+      <p><%= link_to 'Join This Group', join_group_path(@group), :method => 'post', :confirm => @group.admin?(@logged_in) ? nil : 'Are you sure? A request will be sent to the group administrator(s).' %></p>
     <% elsif not @group.last_admin?(@logged_in) %>
-      <p><%= link_to 'Leave This Group', {:action => 'leave', :id => @group}, :method => 'post', :confirm => 'Are you sure?' %></p>
+      <p><%= link_to 'Leave This Group', leave_group_path(@group), :method => 'post', :confirm => 'Are you sure?' %></p>
     <% end %>
   <% end %>
 
@@ -49,7 +49,7 @@
 <% if @group.admin?(@logged_in) and  @group.membership_requests.count > 0 %>
   <p class="highlight">
     This group has pending
-    <%= link_to 'group membership requests', :action => 'membership_requests', :id => @group %>.
+    <%= link_to 'group membership requests', group_membership_requests_path(@group) %>.
   </p>
 <% end %>
 
@@ -76,7 +76,7 @@
 <div class="section">
   <% if @group.can_post? @logged_in %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', :controller => 'notes', :action => 'edit', :group_id => @group %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', new_note_path(:group_id => @group) %><br/>
       <em>Posting a note here does <strong>not</strong> send any email to the group members.</em>
     </p>
   <% end %>
@@ -92,8 +92,8 @@
   <% else %>
     <% if @group.can_post? @logged_in %>
       <p>
-        <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'icon'), :controller => 'messages', :action => 'edit', :group_id => @group %>
-        <%= link_to 'Send a Message', :controller => 'messages', :action => 'edit', :group_id => @group %><br/>
+        <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'icon'), new_message_path(:group_id => @group) %>
+        <%= link_to 'Send a Message', new_message_path(:group_id => @group) %><br/>
         <em>
           Send a message to everyone in the group at once.
           <% if @group.address.to_s.any? %>
@@ -108,8 +108,8 @@
         <% @messages.each do |message| %>
           <tr>
             <td>
-              <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'icon'), :controller => 'messages', :action => 'view', :id => message %>
-              <%= link_to h(message.subject), :controller => 'messages', :action => 'view', :id => message %>
+              <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'icon'), message %>
+              <%= link_to h(message.subject), message %>
             </td>
             <td>
               <%=h message.person.name %>
@@ -151,7 +151,7 @@
     <% if @answered_prayer_count > 0 %>
       <p>
         <%= @answered_prayer_count %> answered <%= @answered_prayer_count == 1 ? 'prayer' : 'prayers' %><br/>
-        <%= link_to 'View Answered Prayers &raquo;', :controller => 'prayer_requests', :action => 'answered', :id => @group %>
+        <%= link_to 'View Answered Prayers &raquo;', answered_prayer_requests_path(@group) %>
       </p>
     <% end %>
   <% else %>

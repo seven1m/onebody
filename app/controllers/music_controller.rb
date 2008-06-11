@@ -35,7 +35,7 @@ class MusicController < ApplicationController
         unless params[:id]
           flash[:notice] += ' Now you can attach your chord chart(s).'
         end
-        redirect_to :action => 'edit', :id => @song
+        redirect_to edit_song_path(@song)
       else
         flash[:notice] = @song.errors.full_messages.join('; ')
       end
@@ -45,7 +45,7 @@ class MusicController < ApplicationController
   def delete
     Song.find(params[:id]).destroy
     flash[:notice] = 'Song deleted.'
-    redirect_to :action => 'index'
+    redirect_to music_path
   end
   
   def amazon_search
@@ -86,13 +86,13 @@ class MusicController < ApplicationController
   def add_tags
     @song = Song.find params[:id]
     @song.tag_string = params[:tag_string]
-    redirect_to :action => 'view', :id => @song
+    redirect_to @song
   end
   
   def delete_tag
     @song = Song.find params[:id]
     @song.tags.delete Tag.find(params[:tag_id])
-    redirect_to :action => 'view', :id => @song
+    redirect_to @song
   end
   
   def add_attachment
@@ -107,14 +107,14 @@ class MusicController < ApplicationController
     else
       flash[:notice] = 'Attachment saved.'
     end
-    redirect_to :action => 'edit', :id => song
+    redirect_to edit_song_path(song)
   end
   
   def delete_attachment
     attachment = Attachment.find params[:id]
     attachment.destroy
     flash[:notice] = 'Attachment deleted.'
-    redirect_to :action => 'edit', :id => attachment.song
+    redirect_to edit_song_path(attachment.song)
   end
   
   def view_attachment

@@ -33,6 +33,6 @@ class PrayerController < ApplicationController
     else
       raise 'You are not authorized to do that'
     end
-    redirect_to :action => 'event'
+    redirect_to prayer_event_path
   end
 end

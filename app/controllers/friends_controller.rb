@@ -45,8 +45,8 @@ class FriendsController < ApplicationController
           if message.is_a? String
             page.hide "add_friend_#{@person.id}"
             page.alert message
-          elsif message.is_a? Symbol
-            page.redirect_to :action => message
+          elsif message == :turned_down
+            page.redirect_to friend_turned_down_path
           end
         end
       end

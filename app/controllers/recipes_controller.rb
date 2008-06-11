@@ -62,7 +62,7 @@ class RecipesController < ApplicationController
         end
         @recipe.tags.destroy_all
         @recipe.tag_string = params[:tag_string]
-        redirect_to :action => 'view', :id => @recipe
+        redirect_to @recipe
       else
         flash[:notice] = @recipe.errors.full_messages.join('; ')
       end
@@ -73,26 +73,26 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find params[:id]
     @recipe.event = nil
     @recipe.save
-    redirect_to params[:return_to] or {:action => 'index'}
+    redirect_to params[:return_to] or recipes_path
   end
 
   def delete
     @recipe = Recipe.find params[:id]
     @recipe.destroy if @recipe.admin? @logged_in
     flash[:notice] = 'Recipe deleted.'
-    redirect_to params[:return_to] or {:action => 'index'}
+    redirect_to params[:return_to] or recipes_path
   end
   
   def add_tags
     @recipe = Recipe.find params[:id]
     @recipe.tag_string = params[:tag_string]
-    redirect_to :action => 'view', :id => @recipe
+    redirect_to @recipe
   end
   
   def delete_tag
     @recipe = Recipe.find params[:id]
     @recipe.tags.delete Tag.find(params[:tag_id])
-    redirect_to :action => 'view', :id => @recipe
+    redirect_to @recipe
   end
   
   def photo

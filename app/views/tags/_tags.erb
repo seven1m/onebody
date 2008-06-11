@@ -1,6 +1,6 @@
 <% if object.tags.any? %>
   <% object.tags.each do |tag| %>
-    <%= link_to tag.name, :controller => 'tags', :action => 'view', :id => tag.name %>
+    <%= link_to h(tag.name), tag %>
   <% end %>
 <% else %>
   <em>none</em>

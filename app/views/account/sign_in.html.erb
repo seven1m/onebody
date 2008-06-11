@@ -23,7 +23,7 @@
   >
   <%= hidden_field_tag :password_encrypted, nil %>
   <div style="width:150px;float:right;margin:10px;text-align:center;">
-    <%= link_to image_tag('help.gif', :alt => 'Help Signing In', :class => 'no-border'), :controller => 'help' %><br/>
+    <%= link_to image_tag('help.gif', :alt => 'Help Signing In', :class => 'no-border'), help_path %><br/>
     <%= link_to 'I need help.', :controller => 'help' %>
   </div>
   <p><%= link_to 'Click here', :controller => 'help' %> if you don't know your password.</p>
@@ -46,7 +46,7 @@
       Sharing your password with other people will get you banned from the site.<br/>
       <input type="submit" value="Sign In"/><br/>
       <br/>
-      <strong>You may read our Privacy Policy <%= link_to 'here', :controller => 'help', :action => 'privacy_policy' %>.</strong>
+      <strong>You may read our Privacy Policy <%= link_to 'here', privacy_policy_path %>.</strong>
     </td></tr>
   </table>
 </form>

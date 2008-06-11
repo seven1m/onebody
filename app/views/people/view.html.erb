@@ -115,7 +115,7 @@
   <% elsif @me %>
     <em>Share <%= link_to 'your story', edit_profile_url(:anchor => 'about') %>.</em>
   <% end %>
-  <p><%= link_to 'Read more testimonies...', :controller => 'directory', :action => 'search', :testimony => true %></p>
+  <p><%= link_to 'Read more testimonies...', search_directory_path(:testimony => true) %></p>
 </div>
 
 <h2 class="tab" id="blog">Blog</h2>
@@ -223,7 +223,7 @@
       if(!groups_loaded) {
         new Ajax.Updater(
           'groups_content',
-          '<%= url_for(:action => 'groups', :id => @person) %>',
+          '<%= person_groups_path(@person) %>',
           {method: 'get', onLoading:function(){$('groups_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
         );
         groups_loaded = true;
