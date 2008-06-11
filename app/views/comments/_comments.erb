@@ -28,7 +28,7 @@
   <%= link_to_function image_tag('add_small.gif', :alt => 'Add a comment', :class => 'icon') + ' Add a Comment', "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
   <%= intro %>
   <div id="new_comment">
-    <%= form_tag(params.update({:controller => 'comments', :action => 'edit'}), :method => 'post', :style => 'border:none;') %>
+    <%= form_tag(new_comment_path(params.reject { |k, v| k.to_s =~ /_id$/ }), :method => 'post', :style => 'border:none;') %>
       <%= hidden_field_tag :return_to, request.request_uri %>
       <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
       <%= submit_tag 'Save Comment' %>

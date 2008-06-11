@@ -167,8 +167,16 @@ class Verse < ActiveRecord::Base
   
   class << self
     
+    def find(reference_or_id, options=nil)
+      if reference_or_id.to_i == 0
+        find_by_reference(reference_or_id)
+      else
+        super
+      end
+    end
+    
     def find_by_reference(reference)
-      find_or_create_by_reference(Verse.normalize_reference(params[:reference]))
+      find_or_create_by_reference(Verse.normalize_reference(reference))
     end
 
     # make the reference normal (proper book name, formatting, etc.)

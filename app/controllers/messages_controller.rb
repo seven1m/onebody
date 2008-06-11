@@ -1,11 +1,17 @@
 class MessagesController < ApplicationController
   
   def new
-    if params[:to_person_id] 
+    if params[:to_person_id] and @person = Person.find(params[:to_person_id])
       # private message
-      @person = Person.find(params[:to_person_id])
       @message = Message.new(:to_person_id => @person.id, :subject => params[:subject], :body => params[:body]) # TODO: not sure if this params stuff is needed any more
       render :action => 'new_private_message'
+    elsif params[:group_id] and @group = Group.find(params[:group_id])
+      # group message
+      @message = Message.new(:group_id => @group.id, :subject => params[:subject], :body => params[:body], :dont_send => true) # TODO: not sure if this params stuff is needed any more
+      render :action => 'edit'
+    elsif params[:parent_id] and @parent = Message.find(params[:parent_id]) and @logged_in.can_see?(@parent)
+      # reply message
+      @message = Message.new(:parent => @parent, :group_id => @parent.group_id, :person => @logged_in, :subject => "Re: #{@parent.subject}", :dont_send => true)
     else
       raise 'Unknown message type.'
     end
@@ -96,7 +102,7 @@ class MessagesController < ApplicationController
   
   # - - - - - - - - - - - - - - - - - - - - 
     
-  def view
+  def show
     @message = Message.find params[:id]
     unless @logged_in.sees? @message
       render :text => 'You are not allowed to view messages in this private group.'

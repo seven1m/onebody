@@ -53,7 +53,7 @@ class PeopleController < ApplicationController
         flash[:refresh] = true if updated == 'photo'
         flash[:notice] = 'Changes saved.'
       else
-        flash[:warning] = updated.errors.full_messages.join('; ')
+        flash[:warning] = @person.errors.full_messages.join('; ')
       end
       redirect_to edit_profile_path(:id => @person, :anchor => params[:anchor])
     end
@@ -195,7 +195,7 @@ class PeopleController < ApplicationController
   end
 
   def remove_verse
-    verse = Verse.find params[:verse_id]
+    verse = Verse.find(params[:verse_id])
     verse.people.delete @logged_in
     flash[:notice] = 'Verse removed.'
     redirect_to params[:return_to] || person_path(@logged_in, :anchor => 'shares')

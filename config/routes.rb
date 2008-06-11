@@ -146,6 +146,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.with_options :controller => 'recipes' do |m|
+    m.recipes 'recipes', :action => 'index'
     m.recipe 'recipes/view/:id', :action => 'view'
     m.new_recipe 'recipes/edit', :action => 'edit'
     m.edit_recipe 'recipes/edit/:id', :action => 'edit'
@@ -170,6 +171,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.with_options :controller => 'comments' do |m|
+    m.edit_comment 'comments/edit/:id', :action => 'edit'
     m.delete_comment 'comments/delete/:id', :action => 'delete'
   end
   
@@ -272,6 +274,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.with_options :controller => 'pictures' do |m|
+    m.pictures 'pictures', :action => 'index'
     m.picture 'pictures/view/:id', :action => 'view', :requirements => { :id => /.*/ }
     m.add_picture 'pictures/add_picture/:id', :action => 'add_picture'
     m.delete_picture 'pictures/delete/:id', :action => 'delete'
