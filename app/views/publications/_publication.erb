@@ -1,8 +1,7 @@
-<%= link_to image_tag(publication.file_content_type == 'application/pdf' ? 'acrobat.gif' : 'publication.gif', :alt => publication.name, :class => 'icon'),
-    {:controller => 'publications', :action => 'view', :id => publication}, :target => '_new' %>
-<%= link_to h(publication.name), {:controller => 'publications', :action => 'view', :id => publication}, :target => '_new' %>
+<%= link_to image_tag(publication.file_content_type == 'application/pdf' ? 'acrobat.gif' : 'publication.gif', :alt => publication.name, :class => 'icon'), publication, :target => '_new' %>
+<%= link_to h(publication.name), publication, :target => '_new' %>
 <% if @logged_in.admin?(:manage_publications) %>
-  <%= link_to '[delete]', {:controller => 'publications', :action => 'delete', :id => publication}, :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
+  <%= link_to '[delete]', delete_publication_path(publication), :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
 <% end %>
 <br/>
 <%=h publication.description %>

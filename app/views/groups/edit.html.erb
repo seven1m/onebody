@@ -15,7 +15,7 @@
 <% if @group.id %>
   <% content_for :sidebar do |wants| %>
 
-    <%= form_tag :action => 'remove_people', :id => @group %>
+    <%= form_tag remove_people_from_group_path(@group) %>
     
       <ul>
         <% @group.people.each do |person| %>
@@ -40,7 +40,7 @@
   
     <% unless @group.linked? %>
       <% if @group.approved %>
-        <%= form_remote_tag :url => {:controller => 'directory', :action => 'search'} %>
+        <%= form_remote_tag :url => search_directory_path %>
           <%= hidden_field_tag :select_person, true %>
           <p>
             <label for="name">Add somebody:</label> <%= text_field_tag 'name' %>
@@ -54,7 +54,7 @@
         </form>
 
         <div id="add_member" style="display:none;">
-          <%= form_tag :action => 'add_people', :id => @group %>
+          <%= form_tag add_people_to_group_path(@group) %>
             <div id="results"></div>
             <p><%= submit_tag 'Add Selected' %></p>
           </form>
@@ -81,10 +81,10 @@
 <h1>Edit Group</h1>
 
 <% content_for :subnav do %>
-  <li><%= link_to 'List of Groups', :action => 'index' %></li>
+  <li><%= link_to 'List of Groups', groups_path %></li>
   <% if @group.id %>
-    <li><%= link_to 'View Group', :action => 'view', :id => @group %></li>
-    <li><%= link_to 'Delete Group', {:action => 'delete', :id => @group}, :confirm => 'Are you sure? This cannot be undone!', :method => 'post' %></li>
+    <li><%= link_to 'View Group', @group %></li>
+    <li><%= link_to 'Delete Group', delete_group(@group), :confirm => 'Are you sure? This cannot be undone!', :method => 'post' %></li>
   <% end %>
 <% end %>
 
@@ -95,7 +95,7 @@
   <input type="file" id="photo" name="photo"/><br/>
   <strong>Only JPEG photos are accepted at this time. Please make sure the picture is appropriate and not offensive to others.</strong><br/>
   <% if @group.has_photo? %>
-    <%= link_to 'Remove Group Photo', {:action => 'edit', :photo => 'remove'}, :method => 'post', :confirm => 'Are you sure?' %>
+    <%= link_to 'Remove Group Photo', edit_group_path(:photo => 'remove'), :method => 'post', :confirm => 'Are you sure?' %>
     <br/>
   <% end %>
   <em>Click "Save Changes" at the bottom of this form to upload a new picture.</em>

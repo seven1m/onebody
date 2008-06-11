@@ -64,15 +64,15 @@
             signup.other
           else
             link_to(signup.person.name, person_path(signup.person)) +
-            ((signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) ? link_to('[x]', {:action => 'event_signup', :id => signup.person, :start => start}, :method => 'post', :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : '')
+            ((signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) ? link_to('[x]', prayer_event_signup_path(signup.person, :start => start), :method => 'post', :confirm => "Are you sure you want to remove #{signup.person.name} from this time slot?", :class => 'discreet') : '')
           end
         end.join(' | ') %>
         <% unless signups.map { |s| s.person }.include? @logged_in or hour < now %>
           <br/>
-          <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => 'discreet', :method => 'post', :confirm => 'This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?' %>
+          <%= link_to 'sign up here', prayer_event_signup_path(@logged_in, :start => start), :class => 'discreet', :method => 'post', :confirm => 'This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?' %>
         <% end %>
       <% elsif hour >= now %>
-        <%= link_to 'sign up here', {:action => 'event_signup', :start => start, :id => @logged_in}, :class => "very-strong", :method => 'post', :confirm => 'Are you sure?' %>
+        <%= link_to 'sign up here', prayer_event_signup_path(@logged_in, :start => start), :class => "very-strong", :method => 'post', :confirm => 'Are you sure?' %>
       <% end %>
     </td>
   </tr>

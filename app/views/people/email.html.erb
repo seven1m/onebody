@@ -1,12 +1,12 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'View Profile', :action => 'view', :id => @person %></li>
+  <li><%= link_to 'View Profile', @person %></li>
 <% end %>
 
 <h1>Email Settings for <%=h @person.name %></h1>
 
 <p>
   If you wish to change your email address and/or password,
-  <%= link_to 'click here', :controller => 'account', :action => 'edit', :id => @person %>.
+  <%= link_to 'click here', edit_account_path(@person) %>.
 </p>
 
 <h2>Wall Emails</h2>

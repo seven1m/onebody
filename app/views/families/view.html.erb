@@ -15,7 +15,7 @@
     <% @family.people.each do |person| %>
       <tr class="family-member">
         <td>
-          <a href="<%= url_for :action => 'view', :id => person %>">
+          <a href="<%= url_for person %>">
             <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
           </a>
         </td>
@@ -37,7 +37,7 @@
 
 <p id="add_person_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => 'Add a person.', :class => 'icon') + ' Add a Person', "Element.show('add_person');Element.hide('add_person_link');$('person_first_name').focus();" %></p>
 <div id="add_person">
-  <% form_for :person, @person, :url => {:action => 'add_person', :id => @family} do |form| %>
+  <% form_for :person, @person, :url => family_add_person_path(@family) do |form| %>
     <p>
       <%= form.label :first_name %>  <%= form.text_field :first_name %><br/>
       <%= form.label :last_name %>   <%= form.text_field :last_name %><br/>

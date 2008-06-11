@@ -1,5 +1,5 @@
 <h1>Edit Prayer Request</h1>
-<% form_for :prayer_request, @req, :url => {:action => 'edit', :id => @req} do |form| %>
+<% form_for :prayer_request, @req, :url => edit_prayer_request_path(@req) do |form| %>
   <%= form.hidden_field :group_id %>
   <h2>Request</h2>
   <p>

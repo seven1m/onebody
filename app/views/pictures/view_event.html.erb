@@ -16,9 +16,9 @@
 <% end %>
 
 <% content_for :subnav do %>
-  <li><%= link_to 'List of Events', :action => 'index' %></li>
+  <li><%= link_to 'List of Events', events_path %></li>
   <% if @event.admin?(@logged_in) %>
-    <li><%= link_to 'Edit Event', :action => 'edit', :id => @event %></li>
+    <li><%= link_to 'Edit Event', edit_event_path(@event) %></li>
   <% end %>
 <% end %>
 
@@ -26,8 +26,7 @@
 
   <% @event.pictures.each do |picture| %>
     <div class="picture">
-      <%= link_to image_tag(url_for(:action => 'photo', :id => "#{picture.id}.medium.jpg"), :alt => 'click to enlarge'),
-        {:action => 'view', :id => picture}, :title => 'click to enlarge' %>
+      <%= link_to image_tag(picture_photo_path("#{picture.id}.medium.jpg"), :alt => 'click to enlarge'), picture, :title => 'click to enlarge' %>
     </div>
   <% end %>
 
@@ -37,7 +36,7 @@
 
   <% if @event.open? or @event.admin? @logged_in %>
     <p style="clear:left;">
-      <%= form_tag({:action => 'add_picture', :id => @event}, :multipart => true) %>
+      <%= form_tag(add_picture_path(@event), :multipart => true) %>
         <label for="picture">Add a Picture:</label>
         <%= file_field_tag 'picture1' %><br/>
         <%= link_to_function 'upload more &raquo;', 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>

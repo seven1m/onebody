@@ -1,12 +1,12 @@
 <% content_for :sidebar do %>
   <% if @message.group %>
-    <p><%= link_to '&laquo; back to group', :controller => 'groups', :action => 'view', :id => @message.group %></p>
+    <p><%= link_to '&laquo; back to group', @message.group %></p>
   <% elsif person = (@message.to || @message.wall) and @logged_in.sees? person %>
-    <p><%= link_to "&laquo; back to #{person.name}", person_path(person) %></p>
+    <p><%= link_to "&laquo; back to #{person.name}", person %></p>
   <% end %>
   <% if @message.person == @logged_in or @logged_in.can_edit? @message %>
     <p>
-      <%= link_to 'Delete Message', {:action => 'delete', :id => @message}, :confirm => 'Are you sure?', :method => 'post' %>
+      <%= link_to 'Delete Message', @message, :method => 'delete', :confirm => 'Are you sure?' %>
     </p>
   <% end %>
 <% end %>
@@ -22,12 +22,12 @@
 
 <div class="message-details">
   <div style="width:32px;float:left;margin:4px;">
-    <a href="<%= url_for person_path(@message.person) %>">
+    <a href="<%= url_for @message.person %>">
       <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
     </a>
   </div>
   <%= image_tag 'comment.gif', :alt => 'Message', :class => 'icon' %>
-  Message by <%= link_to h(@message.person.name), person_path(@message.person) %><br/>
+  Message by <%= link_to h(@message.person.name), @message.person %><br/>
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
 
@@ -43,12 +43,12 @@
   <div class="message">
     <div class="message-details">
       <div style="width:32px;float:left;margin:4px;">
-        <a href="<%= url_for person_path(reply.person) %>">
+        <a href="<%= url_for reply.person %>">
           <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
         </a>
       </div>
       <%= image_tag 'comment.gif', :alt => 'Reply', :class => 'icon' %>
-      Reply by <%= link_to h(reply.person.name), person_path(reply.person) %><br/>
+      Reply by <%= link_to h(reply.person.name), reply.person %><br/>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>
     <p>
@@ -73,7 +73,7 @@
 
 <% if @message.group and @message.group.can_post? @logged_in %>
   <p>
-    <%= link_to_remote 'Reply to this message &raquo;', :url => {:action => 'edit', :parent_id => @message.id} %>
+    <%= link_to_remote 'Reply to this message &raquo;', :url => new_message_path(:parent_id => @message.id) %>
   </p>
 <% end %>
 

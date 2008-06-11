@@ -59,7 +59,7 @@
 <h1>
   <%=h @person.name %>
   <% if @logged_in.can_edit? @person %>
-    <%= link_to 'edit', {:action => 'edit', :id => @person}, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+    <%= link_to 'edit', edit_person_path(@person), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
   <% end %>
 </h1>
 
@@ -76,10 +76,6 @@
   <p class="highlight" style="width:300px;">
     <%= @person.first_name %> is praying at the following time(s):<br/>
     <%= @prayer_signups.map { |s| s.start.strftime '%a %m/%d, %I:%M %p' }.join('<br/>') %>
-    <% if @person != @logged_in %>
-      <br/>
-      <%= link_to 'When are you praying?', :controller => 'prayer', :action => 'event' %>
-    <% end %>
   </p>
 <% end %>
 
@@ -167,14 +163,6 @@
 
 <h2 class="tab" id="groups">Groups</h2>
 <div class="section" id="groups_content"></div>
-
-<% if Setting.get(:features, :prayer) and @logged_in.admin?(:manage_prayer_signups) %>
-  <%= form_tag :controller => 'prayer', :action => 'event_signup', :id => @person %>
-    Sign up for prayer:
-    <%= text_field_tag 'start', nil %>
-    <%= submit_tag 'Save' %>
-  </form>
-<% end %>
 
 <% unless @me %>
   <script type="text/javascript">

@@ -1,12 +1,12 @@
 <div>
   <% if @person.has_photo? %>
-    <%= link_to image_tag(url_for(:action => 'photo', :id => "#{@person.id}.medium.jpg"), :alt => h(@person.name)),
+    <%= link_to image_tag(person_photo_path("#{@person.id}.medium.jpg"), :alt => h(@person.name)),
       person_photo_path("#{@person.id}.large.jpg"), :back => url_for(params) %>
   <% else %>
     <%= render :partial => 'people/silhouette' %>
     <% if @person == @logged_in and (params[:controller] == 'people' and ['index', 'view'].include? params[:action]) %>
       <br/>
-      <%= link_to image_tag('person_picture.gif', :alt => 'Upload your picture.', :class => 'icon') + ' Upload Your Picture', :action => 'edit' %>
+      <%= link_to image_tag('person_picture.gif', :alt => 'Upload your picture.', :class => 'icon') + ' Upload Your Picture', edit_person_path %>
     <% end %>
   <% end %>
 </div>

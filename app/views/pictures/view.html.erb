@@ -1,7 +1,7 @@
 <%= render :partial => 'shares/subnav' %>
 
 <% content_for :sidebar do %>
-  <h1><%= link_to h(@picture.event.name), :controller => 'events', :action => 'view', :id => @picture.event %></h1>
+  <h1><%= link_to h(@picture.event.name), @picture.event %></h1>
   <% if @picture.event.when %>
     <p class="below-h1"><%= @picture.event.when.strftime '%B %d, %Y %I:%M %p' %></p>
   <% end %>
@@ -15,28 +15,27 @@
   <% if @picture.event.admin?(@logged_in) %>
     <p>
       Rotate:
-      <%= link_to 'Left', {:action => 'rotate', :id => @picture, :degrees => -90}, :confirm => 'Are you sure?', :method => 'post' %> |
-      <%= link_to 'Right', {:action => 'rotate', :id => @picture, :degrees => 90}, :confirm => 'Are you sure?', :method => 'post' %><br/>
-      <%= link_to 'Make Cover for Event', {:action => 'select_event_cover', :id => @picture}, :method => 'post' %><br/>
-      <%= link_to 'Delete Picture', {:action => 'delete', :id => @picture}, :confirm => 'Are you sure?', :method => 'post' %>
+      <%= link_to 'Left', rotate_picture_path(@picture, :degrees => -90), :confirm => 'Are you sure?', :method => 'post' %> |
+      <%= link_to 'Right', rotate_picture_path(@picture, :degrees => 90), :confirm => 'Are you sure?', :method => 'post' %><br/>
+      <%= link_to 'Make Cover for Event', select_event_cover_path(@picture), :method => 'post' %><br/>
+      <%= link_to 'Delete Picture', delete_picture_path(@picture), :confirm => 'Are you sure?', :method => 'post' %>
     </p>
   <% end %>
 <% end %>
 
 <p>
-  <%= link_to '&laquo; prev', :action => 'prev', :id => @picture %>
+  <%= link_to '&laquo; prev', previous_picture_path(@picture) %>
   |
-  <%= link_to 'next &raquo;', :action => 'next', :id => @picture %>
+  <%= link_to 'next &raquo;', next_picture_path(@picture) %>
 </p>
 
 <p>
-  <%= link_to image_tag(url_for(:action => 'photo', :id => "#{@picture.id}.large.jpg"), :alt => 'click to see full size'),
-    :action => 'photo', :id => "#{@picture.id}.jpg" %>
+  <%= link_to image_tag(picture_photo_path("#{@picture.id}.large.jpg"), :alt => 'click to see full size'), picture_photo_path("#{@picture.id}.jpg") %>
 </p>
 
 <!-- updates all the sizes on a refresh -->
 <div style="display:none;">
-  <%= image_tag url_for(:action => 'photo', :id => "#{@picture.id}.medium.jpg"), :alt => 'refresh' %>
-  <%= image_tag url_for(:action => 'photo', :id => "#{@picture.id}.small.jpg"), :alt => 'refresh' %>
-  <%= image_tag url_for(:action => 'photo', :id => "#{@picture.id}.tn.jpg"), :alt => 'refresh' %>
+  <%= image_tag picture_photo_path("#{@picture.id}.medium.jpg"), :alt => 'refresh' %>
+  <%= image_tag picture_photo_path("#{@picture.id}.small.jpg"), :alt => 'refresh' %>
+  <%= image_tag picture_photo_path("#{@picture.id}.tn.jpg"), :alt => 'refresh' %>
 </div>

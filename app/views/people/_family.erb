@@ -9,7 +9,7 @@
       <% @family_people.each do |person| %>
         <tr class="family-member">
           <td>
-            <a href="<%= url_for :action => 'view', :id => person %>">
+            <a href="<%= url_for person %>">
               <%= render :partial => 'thumbnail', :locals => {:person => person} %>
             </a>
           </td>

@@ -1,4 +1,4 @@
-<%= form_tag({:action => 'search'}, :method => :get, :id => 'search-form') %>
+<%= form_tag(search_directory_path, :method => :get, :id => 'search-form') %>
   <h2>Advanced Search</h2>
   <label for="name">Name:</label>
   <%= text_field_tag 'name', params[:name] %><br/>
@@ -39,19 +39,19 @@
 //<![CDATA[
   $('name').focus();
   function search() {
-    new Ajax.Request('<%= url_for :action => "search" %>', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('search-form')), onLoading:function(){$('results').innerHTML='';Element.show('searching')}, onComplete:function(){Element.hide('searching')}});
+    new Ajax.Request('<%= search_directory_path, {asynchronous:true, evalScripts:true, parameters:Form.serialize($('search-form')), onLoading:function(){$('results').innerHTML='';Element.show('searching')}, onComplete:function(){Element.hide('searching')}});
   }
 //]]>
 </script>
 
-<%= observe_field :name, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
-<%= observe_field :birthday_month, :url => {:action => 'search'}, :function => 'search()' %>
-<%= observe_field :birthday_day, :url => {:action => 'search'}, :function => 'search()' %>
-<%= observe_field :anniversary_month, :url => {:action => 'search'}, :function => 'search()' %>
-<%= observe_field :anniversary_day, :url => {:action => 'search'}, :function => 'search()' %>
-<%= observe_field :city, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
-<%= observe_field :state, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
-<%= observe_field :zip, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
-<%= observe_field :type, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
-<%= observe_field :show_hidden, :url => {:action => 'search'}, :function => 'search()', :frequency => 2 %>
+<%= observe_field :name, :url => search_directory_path, :function => 'search()', :frequency => 2 %>
+<%= observe_field :birthday_month, :url => search_directory_path, :function => 'search()' %>
+<%= observe_field :birthday_day, :url => search_directory_path, :function => 'search()' %>
+<%= observe_field :anniversary_month, :url => search_directory_path, :function => 'search()' %>
+<%= observe_field :anniversary_day, :url => search_directory_path, :function => 'search()' %>
+<%= observe_field :city, :url => search_directory_path, :function => 'search()', :frequency => 2 %>
+<%= observe_field :state, :url => search_directory_path, :function => 'search()', :frequency => 2 %>
+<%= observe_field :zip, :url => search_directory_path, :function => 'search()', :frequency => 2 %>
+<%= observe_field :type, :url => search_directory_path, :function => 'search()', :frequency => 2 %>
+<%= observe_field :show_hidden, :url => search_directory_path, :function => 'search()', :frequency => 2 %>
 

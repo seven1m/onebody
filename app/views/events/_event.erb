@@ -1,10 +1,10 @@
 <% if event.cover_picture %>
-  <%= link_to image_tag(url_for(:controller => 'pictures', :action => 'photo', :id => "#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'icon'), :controller => 'events', :action => 'view', :id => event %>
+  <%= link_to image_tag(picture_photo_path("#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'icon'), event %>
 <% else %>
-  <%= link_to image_tag('event.tn.gif', :alt => event.name, :class => 'icon'), :controller => 'events', :action => 'view', :id => event %>
+  <%= link_to image_tag('event.tn.gif', :alt => event.name, :class => 'icon'), event %>
 <% end %>
 
-<strong><%= link_to h(event.name), :controller => 'events', :action => "view", :id => event %></strong>
+<strong><%= link_to h(event.name), event %></strong>
 <% unless @person %>
   by
   <% if event.person %>
@@ -14,7 +14,7 @@
   <% end %>
 <% end %>
 <% if @person or event.admin? @logged_in %>
-  <%= link_to "[edit]", {:controller => 'events', :action => "edit", :id => event}, :class => 'discreet' %>
+  <%= link_to "[edit]", edit_event_path(event), :class => 'discreet' %>
 <% end %>
 <br/>
 <%= truncate h(event.description), 50, '...' %>

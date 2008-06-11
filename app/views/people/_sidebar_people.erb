@@ -4,7 +4,7 @@
     <% @person.sidebar_group_people.each do |person| %>
       <tr>
         <td>
-          <a href="<%= url_for :action => 'view', :id => person %>">
+          <a href="<%= url_for person %>">
             <%= render :partial => 'thumbnail', :locals => {:person => person} %>
           </a>
         </td>

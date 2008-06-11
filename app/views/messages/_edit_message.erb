@@ -23,9 +23,9 @@
 
 <script type="text/javascript">
   function preview() {
-    new Ajax.Request('<%= url_for :action => "preview_message" %>', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('message'))});
+    new Ajax.Request('<%= preview_message_path %>', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('message'))});
   }
 </script>
 
-<%= observe_field :message_subject, :url => {:action => 'preview_message'}, :function => 'preview()', :frequency => 2 %>
-<%= observe_field :message_body, :url => {:action => 'preview_message'}, :function => 'preview()', :frequency => 2 %>
+<%= observe_field :message_subject, :url => preview_message_path, :function => 'preview()', :frequency => 2 %>
+<%= observe_field :message_body, :url => preview_message_path, :function => 'preview()', :frequency => 2 %>

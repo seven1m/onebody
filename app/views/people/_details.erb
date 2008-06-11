@@ -84,6 +84,6 @@
     </tr>
   <% end %>
   <% if @person.service_name.to_s.any? %>
-    <tr><td>Services:</td><td><%= link_to @person.service_name, :action => 'services', :id => @person %><br/><%=h truncate(@person.service_description, 200) %></td></tr>
+    <tr><td>Services:</td><td><%= link_to @person.service_name, services_from_path(@person) %><br/><%=h truncate(@person.service_description, 200) %></td></tr>
   <% end %>
 </table>

@@ -3,7 +3,7 @@
 <h1><%= @group.name %> Membership Requests</h1>
 
 <% if @group.membership_requests.count > 0 %>
-  <%= form_tag :action => 'process_requests', :id => @group.id %>
+  <%= form_tag group_process_requests(@group) %>
     <table>
       <% @group.membership_requests.each do |req| %>
         <tr>

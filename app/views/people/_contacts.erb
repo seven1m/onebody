@@ -4,14 +4,14 @@
     <% people.each do |contact| %>
       <tr>
         <td>
-          <a href="<%= url_for :action => 'view', :id => contact %>">
+          <a href="<%= url_for contact %>">
             <%= render :partial => 'thumbnail', :locals => {:person => contact} %>
           </a>
         </td>
         <td class="contact">
           <span id="contact_<%= contact.id %>">
-            <%= link_to h(contact.name), :action => 'view', :id => contact %>
-            <%= link_to_remote image_tag('remove.gif', :alt => 'Remove from contacts', :class => 'icon'), {:url => {:action => 'remove_contact', :id => contact}, :loading => "$('contact_#{contact.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\" id=\"contact_spinner_#{contact.id}\"/>';"}, :id => "remove_contact_#{contact.id}", :class => 'remove-contact' %>
+            <%= link_to h(contact.name), contact %>
+            <%= link_to_remote image_tag('remove.gif', :alt => 'Remove from contacts', :class => 'icon'), {:url => remove_contact_path(contact), :loading => "$('contact_#{contact.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\" id=\"contact_spinner_#{contact.id}\"/>';"}, :id => "remove_contact_#{contact.id}", :class => 'remove-contact' %>
           </span>
         </td>
       </tr>

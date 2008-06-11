@@ -19,7 +19,7 @@
 <% elsif object.is_a? Event %>
   added <%= link_to object.name, event_url(:id => event) %>.
 <% elsif object.is_a? Comment %>
-  commented on <%=h object.on.name %>. <%# link_to object.on.name, :controller => object.on.class.name.downcase.pluralize, :action => 'view', :id => object.on %>
+  commented on <%=h object.on.name %>. <%# link_to object.on.name, :controller => object.on.class.name.downcase.pluralize, : action => 'view', :id => object.on %>
 <% elsif object.is_a? Note %>
   wrote a note titled <%= link_to object.title, note_url(:id => object) %><% if !object.group %>.
   <% else %>

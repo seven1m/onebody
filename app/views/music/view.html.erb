@@ -16,16 +16,16 @@
 <% end %>
 
 <% content_for :subnav do %>
-  <%= link_to 'List of Songs', :action => 'index' %>
+  <%= link_to 'List of Songs', music_path %>
   <% if @logged_in.admin?(:manage_music) %>
-    <%= link_to 'Edit', :action => 'edit', :id => @song %>
+    <%= link_to 'Edit', edit_song_path(@song) %>
   <% end %>
 <% end %>
 
 <h1><%=h @song.title %><br/><span style="font-size:smaller;"><%=h @song.artists %></span></h1>
 
 <p>
-  <%= form_tag({:action => 'add_tags', :id => @song}, :style => 'border:none;padding:0;margin:0;') %>
+  <%= form_tag(add_tags_to_music_path(@song), :style => 'border:none;padding:0;margin:0;') %>
     Tags:
     <% if @logged_in.admin?(:manage_music) %>
       <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @song, :controller => 'music'} %>
@@ -44,10 +44,10 @@
 
 <% if @song.attachments.any? %>
   <% @song.attachments.each do |attachment| %>
-    <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), :action => 'view_attachment', :id => attachment %>
-    <%= link_to h(attachment.name), :action => 'view_attachment', :id => attachment %>
+    <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), view_song_attachment_path(attachment) %>
+    <%= link_to h(attachment.name), view_song_attachment_path(attachment) %>
     (<%= number_to_human_size attachment.file_size %>)
-    <%= link_to '[delete]', {:action => 'delete_attachment', :id => attachment}, :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
+    <%= link_to '[delete]', delete_song_attachment_path(attachment), :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
     <br/>
   <% end %>
 <% else %>

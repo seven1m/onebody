@@ -7,7 +7,7 @@
   <% content_for :subnav do %>
     <li><%= link_to 'View Profile', person_path(@person) %></li>
     <li><%= link_to 'Edit Profile', edit_person_path(@person) %></li>
-    <li><%= link_to 'Change Email/Password', :controller => 'account', :action => 'edit', :id => @person %></li>
+    <li><%= link_to 'Change Email/Password', edit_account_path(@person) %></li>
   <% end %>
 <% end %>
 
@@ -21,7 +21,7 @@
 
 <p>
   Modify the privacy settings for you and your family below. To understand how we use the personal information
-  of you and your family, please read our <%= link_to 'Privacy Policy', :controller => 'help', :action => 'privacy_policy' %>.
+  of you and your family, please read our <%= link_to 'Privacy Policy', privacy_policy_path %>.
 </p>
 
 <h2 class="tab" id="f">Family Privacy<% unless @family.visible? %> <%= image_tag('lock.gif', :alt => 'Invisible', :class => 'icon', :style => 'height:12px;') %><% end %></h2>
@@ -32,7 +32,7 @@
   may override these settings.
 </p>
 
-<% form_for :family, @family, :url => {:action => 'privacy', :id => @family.people.first}, :html => {:style => 'border:none;padding:0;'} do |form| %>
+<% form_for :family, @family, :url => person_privacy_path(@family.people.first), :html => {:style => 'border:none;padding:0;'} do |form| %>
 
   <p>
     <%= form.check_box 'visible', :class => 'checkbox', :onclick => "check_visibility();if($('notice')) new Effect.Fade('notice');if(!changed_sections.include('family'))changed_sections.push('family')" %>
@@ -130,7 +130,7 @@
   
   <div class="section">
   
-  <% form_for :person, person, :url => {:action => 'privacy', :id => person}, :html => {:style => 'border:none;padding:0;'} do |form| %>
+  <% form_for :person, person, :url => person_privacy_path(person), :html => {:style => 'border:none;padding:0;'} do |form| %>
   
     <%= hidden_field_tag :anchor, "p#{person.id}" %>
     
@@ -235,8 +235,8 @@
         To show <%=h person.name %> on this site, please:
       </p>
       <ol>
-        <li>Read our page about <%= link_to 'Safeguarding Children', :controller => 'help', :action => 'safeguarding_children' %>.</li>
-        <li>Read our <%= link_to 'Privacy Policy', :controller => 'help', :action => 'privacy_policy' %>.</li>
+        <li>Read our page about <%= link_to 'Safeguarding Children', safeguarding_children_path %>.</li>
+        <li>Read our <%= link_to 'Privacy Policy', privacy_policy_path %>.</li>
         <li>Read the statement below and agree to it by checking the corresponding checkbox.</li>
         <li>Click the "I Agree" button.</li>
       </ol>
@@ -244,7 +244,7 @@
       <p>
         <%= check_box_tag 'agree', 'I Agree.', false, :class => 'checkbox' %>
         I, as a parent or legal gaurdian of <%=h person.name %>, hereby agree that I have read
-        this site's <%= link_to 'Privacy Policy', :controller => 'help', :action => 'privacy_policy' %>,
+        this site's <%= link_to 'Privacy Policy', privacy_policy_path %>,
         that the personal information of <%=h person.name %> may be displayed for other users of the
         web site (as determined by the privacy settings on this page), and that <%=h person.name %> may, if able, utilize this
         website as a normal user (including profile customization, and communication via private message,

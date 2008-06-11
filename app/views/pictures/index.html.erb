@@ -24,8 +24,7 @@
 <% if @pictures.any? %>
   <% @pictures.each do |picture| %>
     <div class="picture">
-      <%= link_to image_tag(url_for(:action => 'photo', :id => "#{picture.id}.medium.jpg"), :alt => 'click to enlarge'),
-        {:action => 'view', :id => picture}, :title => 'click to enlarge' %>
+      <%= link_to image_tag(picture_photo_path("#{picture.id}.medium.jpg"), :alt => 'click to enlarge'), picture, :title => 'click to enlarge' %>
     </div>
   <% end %>
   <br clear="both"/>

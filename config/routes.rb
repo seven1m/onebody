@@ -41,6 +41,7 @@ ActionController::Routing::Routes.draw do |map|
     m.person_email_prefs 'people/email/:id', :action => 'email'
     m.person_photo 'people/photo/:id', :action => 'photo'
     m.person_groups 'people/groups/:id', :action => 'groups'
+    m.person_pictures 'people/pictures/:id', :action => 'pictures'
     m.new_person 'people/edit', :action => 'edit'
     m.delete_person 'people/delete/:id', :action => 'delete'
     m.person 'people/view/:id', :action => 'view'#, :requirements => {:id => /\d/}
@@ -52,12 +53,15 @@ ActionController::Routing::Routes.draw do |map|
     m.freeze_account 'people/freeze/:id', :action => 'edit'
     m.person_add_verse 'people/add_verse', :action => 'add_verse'
     m.person_remove_verse 'people/remove_verse', :action => 'remove_verse'
+    m.remove_contact 'people/remove_contact/:id', :action => 'remove_contact'
   end
   
   map.with_options :controller => 'families' do |m|
     m.family 'families/view/:id', :action => 'view'
     m.new_family 'families/edit', :action => 'edit'
     m.edit_family 'families/edit/:id', :action => 'edit'
+    m.family_add_person 'families/add_person/:id', :action => 'add_person'
+    m.family_photo 'families/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
   end
   
   map.with_options :controller => 'directory' do |m|
@@ -68,7 +72,9 @@ ActionController::Routing::Routes.draw do |map|
     m.service_directory 'directory/service', :action => 'search', :service => true
     m.select_for_nametags 'directory/select_for_nametags', :action => 'select_for_nametags'
     m.done_selecting_for_nametags 'directory/done_selecting_for_nametags', :action => 'done_selecting_for_nametags'
-    m.directory_pickup_pdf 'directory/directory_pickup_pdf', :action => 'directory_pickup_pdf'
+    m.directory_to_pdf 'directory/directory_to_pdf', :action => 'directory_to_pdf'
+    m.directory_pickup_pdf 'directory/pickup_pdf', :action => 'pickup_pdf'
+    m.directory_creating_pdf 'directory/creating_pdf', :action => 'creating_pdf'
   end
   
   map.with_options :controller => 'notes' do |m|
@@ -90,29 +96,46 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'prayer' do |m|
     m.prayer_event 'prayer/event', :action => 'event'
+    m.prayer_event_signup 'prayer/event_signup/:id', :action => 'event_signup'
   end
     
   map.with_options :controller => 'friends' do |m|
     m.remove_friend 'friends/remove/:id', :action => 'remove'
     m.add_friend 'friends/add/:id', :action => 'add'
     m.friends 'friends/view/:id', :action => 'view'
+    m.accept_friendship_request 'friends/accept/:id', :action => 'accept'
+    m.decline_friendship_request 'friends/decline/:id', :action => 'decline'
     m.friend_turned_down 'friends/turned_down', :action => 'turned_down'
+    m.reorder_friends 'friends/reorder', :action => 'reorder'
   end
   
   map.shares 'shares', :controller => 'shares'
-  map.publications 'publications', :controller => 'publications'
+  
+  map.with_options :controller => 'publications' do |m|
+    m.publications 'publications', :action => 'index'
+    m.publication 'publications/view/:id', :action => 'view'
+    m.new_publication 'publications/edit', :action => 'edit'
+    m.delete_publication 'publications/delete/:id', :action => 'delete'
+  end
   
   map.with_options :controller => 'groups' do |m|
     m.groups 'groups', :action => 'index'
     m.group 'groups/view/:id', :action => 'view'
     m.new_group 'groups/edit', :action => 'edit'
     m.edit_group 'groups/edit/:id', :action => 'edit'
+    m.delete_group 'groups/delete/:id', :action => 'delete'
     m.approve_group 'groups/approve/:id', :action => 'approve'
+    m.group_promote_person 'groups/promote/:id', :action => 'promote'
+    m.group_demote_person 'groups/demote/:id', :action => 'demote'
     m.group_membership_requests 'groups/membership_requests/:id', :action => 'membership_requests'
+    m.group_process_requests 'groups/process_requests/:id', :action => 'process_requests'
     m.toggle_email 'groups/toggle_email/:id', :action => 'toggle_email'
     m.search_groups 'groups/search', :action => 'search'
     m.join_group 'groups/join/:id', :action => 'join'
     m.leave_group 'groups/leave/:id', :action => 'leave'
+    m.add_people_to_group 'groups/add_people/:id', :action => 'add_people'
+    m.remove_people_from_group 'groups/remove_people/:id', :action => 'remove_people'
+    m.group_photo 'groups/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
   end
   
   map.with_options :controller => 'verses' do |m|
@@ -128,6 +151,7 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_recipe 'recipes/edit/:id', :action => 'edit'
     m.search_recipes 'recipes/search', :action => 'search'
     m.delete_recipe 'recipes/delete/:id', :action => 'delete'
+    m.remove_recipe_from_event 'recipes/remove/:id', :action => 'remove'
     m.recipe_add_tags 'recipes/add_tags/:id', :action => 'add_tags'
     m.delete_tag_from_recipe 'recipe/delete_tag/:id', :action => 'delete_tag'
   end
@@ -136,7 +160,13 @@ ActionController::Routing::Routes.draw do |map|
     m.music 'music', :action => 'index'
     m.song 'music/view/:id', :action => 'view'
     m.edit_song 'music/edit/:id', :action => 'edit'
+    m.add_tags_to_music 'music/add_tags/:id', :action => 'add_tags'
     m.delete_tag_from_music 'music/delete_tag/:id', :action => 'delete_tag'
+    m.amazon_search 'music/amazon_search', :action => 'amazon_search'
+    m.amazon_grab 'music/amazon_grab', :action => 'amazon_grab'
+    m.view_song_attachment 'music/view_attachment/:id', :action => 'view_attachment'
+    m.delete_song_attachment 'music/delete_attachment/:id', :action => 'delete_attachment'
+    m.add_song_attachment 'music/add_attachment/:id', :action => 'add_attachment'
   end
   
   map.with_options :controller => 'comments' do |m|
@@ -145,7 +175,11 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'events' do |m|
     m.events 'events', :action => 'index'
+    m.event_list 'events/list', :action => 'list'
     m.event 'events/view/:id', :action => 'view'
+    m.new_event 'events/edit', :action => 'edit'
+    m.edit_event 'events/edit/:id', :action => 'edit'
+    m.delete_event 'events/delete/:id', :action => 'delete'
     m.remove_verse_from_event 'events/remove_verse/:id', :action => 'remove_verse'
   end
   
@@ -205,7 +239,9 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_account 'account/edit/:id', :action => 'edit'
     m.sign_in 'account/sign_in', :action => 'sign_in'
     m.sign_out 'account/sign_out', :action => 'sign_out'
+    m.verify_birthday 'account/verify_birthday', :action => 'verify_birthday'
     m.verify_email 'account/verify_email', :action => 'verify_email'
+    m.verify_mobile 'account/verify_mobile', :action => 'verify_mobile'
     m.verify_code 'account/verify_code', :action => 'verify_code'
     m.select_person 'account/select_person', :action => 'select_person'
     m.safeguarding_children 'account/safeguarding_children', :action => 'safeguarding_children'
@@ -224,19 +260,26 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.with_options :controller => 'news' do |m|
-    m.new_item 'news/view/:id', :action => 'view'
+    m.news 'news', :action => 'index'
+    m.news_item 'news/view/:id', :action => 'view'
   end
   
-    
-  #map.with_options :controller => 'messages' do |m|
-  #  m.message 'messages/view/:id', :action => 'view'
-  #  m.send_email 'messages/send_email/:id', :action => 'send_email'
-  #end
   map.resources :messages
+  
+  map.with_options :controller => 'messages' do |m|
+    m.view_message_attachment 'messages/:id/view_attachment', :action => 'view_attachment'
+    m.preview_message 'messages/preview_message', :action => 'preview_message'
+  end
   
   map.with_options :controller => 'pictures' do |m|
     m.picture 'pictures/view/:id', :action => 'view', :requirements => { :id => /.*/ }
+    m.add_picture 'pictures/add_picture/:id', :action => 'add_picture'
+    m.delete_picture 'pictures/delete/:id', :action => 'delete'
     m.picture_photo 'pictures/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
+    m.rotate_picture 'pictures/rotate/:id', :action => 'rotate'
+    m.select_event_cover 'pictures/select_event_cover/:id', :action => 'select_event_cover'
+    m.previous_picture 'pictures/prev/:id', :action => 'prev'
+    m.next_picture 'pictures/next/:id', :action => 'next'
   end
   
   #map.connect ':controller/service.wsdl', :action => 'wsdl'

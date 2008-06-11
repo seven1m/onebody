@@ -6,14 +6,13 @@
     <% @publications.each do |publication| %>
       <tr>
         <td>
-          <%= link_to image_tag(publication.file_content_type == 'application/pdf' ? 'acrobat.gif' : 'publication.gif', :alt => publication.name, :class => 'no-border'),
-            {:action => 'view', :id => publication}, :target => '_new' %>
+          <%= link_to image_tag(publication.file_content_type == 'application/pdf' ? 'acrobat.gif' : 'publication.gif', :alt => publication.name, :class => 'no-border'), publication, :target => '_new' %>
         </td>
         <td>
-          <%= link_to h(publication.name), {:action => 'view', :id => publication}, :target => '_new' %>
+          <%= link_to h(publication.name), publication, :target => '_new' %>
           <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
           <% if @logged_in.admin?(:manage_publications) %>
-            <%= link_to '[delete]', {:action => 'delete', :id => publication}, :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
+            <%= link_to '[delete]', delete_publication_path(publication), :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
           <% end %>
           <br/>
           <%=h publication.description %>
@@ -33,8 +32,8 @@
 
 <% if @logged_in.admin?(:manage_publications) %>
   <p>
-    <%= link_to image_tag('add_small.gif', :alt => 'New Publication', :class => 'icon'), :action => 'edit' %>
-    <%= link_to 'New Publication', :action => 'edit' %>
+    <%= link_to image_tag('add_small.gif', :alt => 'New Publication', :class => 'icon'), new_publication_path %>
+    <%= link_to 'New Publication', new_publication_path %>
   </p>
 <% end %>
 
@@ -43,14 +42,14 @@
   <p>
     <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
     You are currently signed up to receive email notifications when new publications are made available here.
-    <%= link_to 'Click here', :controller => 'groups', :action => 'leave', :id => @group, :return_to => request.request_uri %>
+    <%= link_to 'Click here', leave_group_path(@group, :return_to => request.request_uri) %>
     to stop receiving these notifications.
   </p>
 <% else %>
   <p>
     <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
     If you wish to recieve email notifications when new publications are made available on this page,
-    <%= link_to 'click here', :controller => 'groups', :action => 'join', :id => @group, :return_to => request.request_uri %>.
+    <%= link_to 'click here', join_group_path(@group, :return_to => request.request_uri) %>.
   </p>
 <% end %>
 
@@ -59,6 +58,6 @@
     <%= l = @group.people.length %> <%= l == 1 ? 'person is' : 'people are' %>
     signed up to recieve notifications
     |
-    <%= link_to 'View Group', :controller => 'groups', :action => 'view', :id => @group %>
+    <%= link_to 'View Group', @group %>
   </p>
 <% end %>

@@ -4,12 +4,11 @@
       <tr>
         <td style="padding-bottom:5px;">
           <% if song.image_small_url.to_s.any? %>
-            <%= link_to image_tag(song.image_small_url, :alt => song.title, :class => 'no-border', :width => 75),
-              :controller => 'music', :action => 'view', :id => song %>
+            <%= link_to image_tag(song.image_small_url, :alt => song.title, :class => 'no-border', :width => 75), song %>
           <% end %>
         </td>
         <td style="padding-bottom:5px;">
-          <strong><%= link_to h(song.title), :controller => 'music', :action => 'view', :id => song %></strong><br/>
+          <strong><%= link_to h(song.title), song %></strong><br/>
           <%=h song.artists %> | 
           Tags: <%= render :partial => 'tags/tags', :locals => {:object => song} %><br/>
           <%= count = song.attachments.count %>

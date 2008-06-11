@@ -12,7 +12,7 @@
       <% @tags.each do |tag| %>
         <% begin %>
           <span style="font-size:<%= tag.recipes.count * @factor + 9 %>pt;">
-            <%= link_to tag.name, {:controller => 'tags', :action => 'view', :id => tag.name}, :style => 'text-decoration:none;' %>
+            <%= link_to tag.name, tag, :style => 'text-decoration:none;' %>
           </span>
         <% rescue %>
           <!-- tag error -->
@@ -28,30 +28,11 @@
 
 <p>This is the place for <%= Setting.get(:name, :church) %> musicians and singers.</p>
 
-<!--
-<h2>Setlists</h2>
-
-<% if @setlists.any? %>
-  <p>
-    <% @setlists.each_with_index do |setlist, index| %>
-      <%= link_to setlist.start.to_s, :action => 'view_setlist', :id => setlist %><% if index < @setlists.length-1 %>,<% end %>
-    <% end %>
-  </p>
-<% else %>
-  <p><em>No upcoming setlists.</em></p>
-<% end %>
-<p>
-  <%= link_to image_tag('add_small.gif', :alt => 'Add a setlist', :class => 'icon'), :action => 'edit_setlist' %>
-  <%= link_to 'Add a Setlist', :action => 'edit_setlist' %>
-</p>
--->
-
-
 <h2>Worship Songs &amp; Chord Charts</h2>
 
 <p>
-  <%= link_to image_tag('add_small.gif', :alt => 'Add a song.', :class => 'icon'), :action => 'edit' %>
-  <%= link_to 'Add a Song', :action => 'edit' %>
+  <%= link_to image_tag('add_small.gif', :alt => 'Add a song.', :class => 'icon'), new_song_path %>
+  <%= link_to 'Add a Song', new_song_path %>
 </p>
 
 <% if @pages.page_count > 1 %>

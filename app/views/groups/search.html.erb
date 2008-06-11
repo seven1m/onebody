@@ -1,4 +1,4 @@
-<p><%= link_to image_tag('back.gif', :alt => 'Back to Groups Homepage', :class => 'icon') + ' Back to Groups Homepage', :action => 'index' %></p>
+<p><%= link_to image_tag('back.gif', :alt => 'Back to Groups Homepage', :class => 'icon') + ' Back to Groups Homepage', groups_path %></p>
 
 <% if @groups.any? %>
 
@@ -7,9 +7,9 @@
     <% @groups.each do |group| %>
       <tr>
         <td class="icon">
-          <% if @logged_in.sees? group %><a href="<%= url_for :action => 'view', :id => group %>"><% end %>
+          <% if @logged_in.sees? group %><a href="<%= url_for group %>"><% end %>
             <% if group.has_photo? %>
-              <%= image_tag url_for(:action => 'photo', :id => "#{group.id}.small.jpg"), :alt => group.name %>
+              <%= image_tag group_photo_path("#{group.id}.small.jpg"), :alt => group.name %>
             <% else %>
               <%= image_tag 'group.small.jpg', :alt => group.name %>
             <% end %>
@@ -17,11 +17,11 @@
         </td>
         <td>
           <span class="list-heading">
-            <%= link_to h(group.name), :action => 'view', :id => group %>
+            <%= link_to h(group.name), group %>
             <% if group.private? %><%= image_tag('lock.gif', :alt => 'Private Group', :class => 'icon') %><% end %>
           </span>
           <% if group.admin?(@logged_in) %>
-            <%= link_to 'edit', {:action => 'edit', :id => group}, :class => 'discreet' %>
+            <%= link_to 'edit', edit_group_path(group), :class => 'discreet' %>
             <% if group.linked? %>
               <%= image_tag 'link.png', :alt => group.link_code, :class => 'icon' %>
             <% end %>
@@ -55,6 +55,6 @@
   <h2>Hidden Groups</h2>
   <p>
     Only administrators (such as yourself) see this list:<br/>
-    <%= @hidden_groups.map { |g| link_to(h(g.name), :action => 'view', :id => g) }.join(', ') %>
+    <%= @hidden_groups.map { |g| link_to(h(g.name), g) }.join(', ') %>
   </p>
 <% end %>

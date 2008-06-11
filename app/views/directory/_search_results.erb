@@ -51,7 +51,7 @@
             <% if person.has_photo? %>
               <%= image_tag person_url("#{person.id}.tn.jpg"), :alt => person.name, :class => 'no-border' %>
             <% elsif person.family and person.family.has_photo? %>
-              <%= image_tag url_for(:controller => 'families', :action => 'photo', :id => "#{person.family.id}.tn.jpg"), :alt => person.family.name, :class => 'no-border' %>
+              <%= image_tag photo_path(:controller => 'families', :id => "#{person.family.id}.tn.jpg"), :alt => person.family.name, :class => 'no-border' %>
             <% end %>
           </a>
         </td>
@@ -59,7 +59,7 @@
           <td><%= link_to h(person.service_name), services_from_path(:id => person), :onmouseover => (@logged_in.full_access? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.full_access? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
           <td>
             <% if person.service_category.to_s.any? %>
-              <%= link_to person.service_category, :action => 'search', :service => true, :category => person.service_category %>
+              <%= link_to person.service_category, service_directory_path(:category => person.service_category) %>
             <% end %>
           </td>
         <% else %>

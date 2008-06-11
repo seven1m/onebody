@@ -12,7 +12,7 @@
     <% @person.friends.find(:all, :limit => MAX_FRIENDS_ON_PROFILE, :order => 'first_name, last_name').each do |friend| %>
       <tr>
         <td>
-          <a href="<%= url_for :action => 'view', :id => friend %>">
+          <a href="<%= url_for friend %>">
             <%= render :partial => 'thumbnail', :locals => {:person => friend} %>
           </a>
         </td>
