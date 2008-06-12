@@ -61,18 +61,13 @@ module Foo
               raise 'Cannot save file before saving record.' unless id
               File.delete file_path if file_path
               if file
-                if defined? file.read
-                  filename = file.original_filename
-                  file = file.read
-                else # not a file I know how to handle
-                  return false
-                end
+                filename = file.original_filename
+                file = file.read
                 output_path = File.join('#{storage_path}', id.to_s + '.' + filename.split('.').last.downcase)
                 File.open(output_path, 'w') do |f|
                   f.write(file)
                 end
               end
-              return true
             end
             
             def destroy
