@@ -25,7 +25,7 @@
 
 		<div id="header">
 		
-			  <%= form_tag(search_directory_path, :method => 'get') %>
+			  <%= form_tag(search_directory_results_path, :method => 'get') %>
 			    Type a name and hit <strong>enter</strong>:<br/>
 				  <input name="quick_name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
 			</form>

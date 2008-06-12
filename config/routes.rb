@@ -66,6 +66,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'directory' do |m|
     m.search_directory 'directory', :action => 'index'
+    m.search_directory_results 'directory/search', :action => 'search'
     m.select_person 'directory/search/select', :action => 'search', :select_person => true
     m.browse_directory 'directory/browse', :action => 'search', :browse => true
     m.search_friends 'directory/search_friends', :action => 'search', :search_friends => true
@@ -244,9 +245,8 @@ ActionController::Routing::Routes.draw do |map|
     m.verify_birthday 'account/verify_birthday', :action => 'verify_birthday'
     m.verify_email 'account/verify_email', :action => 'verify_email'
     m.verify_mobile 'account/verify_mobile', :action => 'verify_mobile'
-    m.verify_code 'account/verify_code', :action => 'verify_code'
+    m.verify_code 'account/verify_code/:id', :action => 'verify_code'
     m.select_person 'account/select_person', :action => 'select_person'
-    m.safeguarding_children 'account/safeguarding_children', :action => 'safeguarding_children'
     m.change_email_and_password 'account/change_email_and_password', :action => 'change_email_and_password'
   end
   
@@ -255,6 +255,7 @@ ActionController::Routing::Routes.draw do |map|
     m.privacy_policy 'help/privacy_policy', :action => 'privacy_policy'
     m.unauthorized 'help/unauthorized', :action => 'unauthorized'
     m.bad_status 'help/bad_status', :action => 'bad_status'
+    m.safeguarding_children 'help/safeguarding_children', :action => 'safeguarding_children'
   end
   
   map.with_options :controller => 'tags' do |m|

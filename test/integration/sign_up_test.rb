@@ -31,7 +31,7 @@ class SignUpTest < ActionController::IntegrationTest
     assert_select_email do
       assert_select '', Regexp.new(v.code.to_s)
     end
-    assert_redirected_to :action => 'verify_code', :id => v.id
+    assert_redirected_to verify_code_path(v.id)
     follow_redirect!
     assert_select 'div#notice', /message has been sent/
     assert_equal people(:peter).mobile_phone, v.mobile_phone
@@ -40,7 +40,7 @@ class SignUpTest < ActionController::IntegrationTest
   
   def verify_code(v, person)
     get '/account/verify_code', :id => v.id, :code => v.code
-    assert_redirected_to :action => 'edit', :id => person.id
+    assert_redirected_to edit_account_path(person.id)
     follow_redirect!
     assert_response :success
     assert_template 'account/edit'

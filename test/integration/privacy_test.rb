@@ -5,7 +5,7 @@ class PrivacyTest < ActionController::IntegrationTest
   
   def test_help_for_parents_with_hidden_children
     sign_in_as people(:jeremy)
-    get '/people/index'
+    get '/'
     assert_response :success
     assert_template 'people/view'
     assert_select '#sidebar', /Where are my kids\?/
@@ -52,7 +52,7 @@ class PrivacyTest < ActionController::IntegrationTest
   
   def test_parent_give_parental_consent
     sign_in_as people(:jeremy)
-    get '/people/index'
+    get '/'
     assert_response :success
     assert_template 'people/view'
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
@@ -70,7 +70,7 @@ class PrivacyTest < ActionController::IntegrationTest
     assert people(:megan).parental_consent # not nil
     assert people(:megan).parental_consent.include?("#{people(:jeremy).name} \(#{people(:jeremy).id}\)")
     assert_select 'p.highlight', :minimum => 1, :text => /This child's profile has parental consent/
-    get '/people/index'
+    get '/'
     assert_response :success
     assert_template 'people/view'
     assert_select '#sidebar tr.family-member', 3 # not 2 (should see child)

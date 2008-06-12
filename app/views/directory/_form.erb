@@ -39,7 +39,7 @@
 //<![CDATA[
   $('name').focus();
   function search() {
-    new Ajax.Request('<%= search_directory_path, {asynchronous:true, evalScripts:true, parameters:Form.serialize($('search-form')), onLoading:function(){$('results').innerHTML='';Element.show('searching')}, onComplete:function(){Element.hide('searching')}});
+    new Ajax.Request('<%= search_directory_results_path %>', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('search-form')), onLoading:function(){$('results').innerHTML='';Element.show('searching')}, onComplete:function(){Element.hide('searching')}});
   }
 //]]>
 </script>
