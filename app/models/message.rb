@@ -83,7 +83,9 @@ class Message < ActiveRecord::Base
 
   attr_accessor :dont_send
   
-  def after_create
+  after_create :send_message
+  
+  def send_message
     return if dont_send
     if group
       send_to_group
@@ -221,6 +223,35 @@ class Message < ActiveRecord::Base
     (wall and p.can_see? wall) or
     (to and to == p) or # to me
     (person == p) # from me
+  end
+  
+  def self.preview(attributes)
+    msg = Message.new(attributes)
+    returning Notifier.create_message(Person.new(:email => 'test@example.com'), msg).to_s do |preview|
+      preview.gsub!(/\n/, "<br/>\n").gsub!(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')
+    end
+  end
+  
+  def self.create_with_attachments(attributes, files)
+    message = Message.create(attributes.update(:dont_send => true))
+    unless message.errors.any?
+      files.select { |f| f && f.size > 0 }.each do |file|
+        attachment = message.attachments.create(:name => File.split(file.original_filename).last, :content_type => file.content_type)
+        if attachment.errors.any?
+          attachment.errors.each_full { |e| message.errors.add_to_base(e) }
+          return message
+        else
+          begin
+            attachment.file = file
+          rescue
+            message.errors.add_to_base('Attachment could not be read.')
+            return message
+          end
+        end
+      end
+      message.send_message
+    end
+    message
   end
 end
 

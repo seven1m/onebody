@@ -1,0 +1,4 @@
+if @preview
+  page.replace_html 'preview-email', @preview
+  page.show 'preview'
+end

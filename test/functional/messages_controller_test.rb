@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class MessagesControllerTest < ActionController::TestCase
 
@@ -62,6 +62,13 @@ class MessagesControllerTest < ActionController::TestCase
     assert_select 'body', /message.+sent/
   end
   
+  should "render preview of private message" do
+    body = Faker::Lorem.sentence
+    post :create, {:format => 'js', :preview => true, :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person}
+    assert_response :success
+    assert_template 'create'
+  end
+  
   should "create new group messages" do
     get :new, {:group_id => @group.id}, {:logged_in_id => @person}
     assert_response :success
@@ -71,13 +78,35 @@ class MessagesControllerTest < ActionController::TestCase
     assert_select 'body', /message.+sent/
   end
   
-  should "not allow someone to post to a group they don't belong to unless they're an admin"
+  should "render preview of group message" do
+    body = Faker::Lorem.sentence
+    post :create, {:format => 'js', :preview => true, :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
+    assert_response :success
+    assert_template 'create'
+  end
+  
+  should "not allow someone to post to a group they don't belong to unless they're an admin" do
+    get :new, {:group_id => @group.id}, {:logged_in_id => @other_person}
+    assert_response :error
+    body = Faker::Lorem.sentence
+    post :create, {:message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person}
+    assert_response :error
+  end
   
   should "create new group messages with an attachment" do
     get :new, {:group_id => @group.id}, {:logged_in_id => @person}
     assert_response :success
     body = Faker::Lorem.sentence
     post :create, {:file => fixture_file_upload('files/attachment.pdf'), :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
+    assert_response :success
+    assert_select 'body', /message.+sent/
+  end
+  
+  should "create new private messages with an attachment" do
+    get :new, {:to_person_id => @person.id}, {:logged_in_id => @other_person}
+    assert_response :success
+    body = Faker::Lorem.sentence
+    post :create, {:file => fixture_file_upload('files/attachment.pdf'), :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :success
     assert_select 'body', /message.+sent/
   end

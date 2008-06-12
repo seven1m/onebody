@@ -1,14 +1,14 @@
 class MessagesController < ApplicationController
   
   def new
-    if params[:to_person_id] and @person = Person.find(params[:to_person_id])
+    if params[:to_person_id] and @person = Person.find(params[:to_person_id]) and @logged_in.can_see?(@person)
       @message = Message.new(:to_person_id => @person.id)
-    elsif params[:group_id] and @group = Group.find(params[:group_id])
+    elsif params[:group_id] and @group = Group.find(params[:group_id]) and @group.can_post?(@logged_in)
       @message = Message.new(:group_id => @group.id)
     elsif params[:parent_id] and @parent = Message.find(params[:parent_id]) and @logged_in.can_see?(@parent)
       @message = Message.new(:parent => @parent, :group_id => @parent.group_id, :subject => "Re: #{@parent.subject}", :dont_send => true)
     else
-      raise 'Unknown message type.'
+      render :text => 'There was an error in your request.', :status => 500
     end
   end
   
@@ -48,55 +48,34 @@ class MessagesController < ApplicationController
   
   def create_private_message
     @person = Person.find(params[:message][:to_person_id])
-    if @person.email
-      attributes = params[:message].merge(:person => @logged_in, :to => @person)
-      if params[:preview]
-        @msg = @message = Message.new(attributes) # TODO: get rid of this @msg at some point
-        preview = render_to_string(:file => File.join(RAILS_ROOT, 'app/views/notifier/message.html.erb'), :layout => false)
-        preview.gsub!(/\n/, "<br/>\n").gsub!(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')
-        render(:update) do |page|
-          page.replace_html 'preview-email', preview
-          page.show 'preview'
-        end
-      else
-        @message = Message.create(attributes)
-        if @message.errors.any?
-          add_errors_to_flash(@message)
-          redirect_back
-        else
-          render :text => 'Your message has been sent.', :layout => true
-        end
-      end
+    if @person.email and @logged_in.can_see?(@person)
+      send_message
     else
-      render :text => "Sorry. We don't have an email address on file for #{@person.name}.", :layout => true, :status => :error
+      render :text => "Sorry. We don't have an email address on file for #{@person.name}.", :layout => true, :status => 500
     end
   end
   
   def create_group_message
     @group = Group.find(params[:message][:group_id])
     if @group.can_post? @logged_in
-      @message = Message.create params[:message].merge(:person => @logged_in, :group => @group, :dont_send => true)
+      send_message
+    else
+      render :text => 'You are not authorized to post to this group.', :layout => true, :status => 500
+    end
+  end
+  
+  def send_message
+    attributes = params[:message].merge(:person => @logged_in)
+    if params[:preview]
+      @preview = Message.preview(attributes)
+    else
+      @message = Message.create_with_attachments(attributes, [params[:file]].compact)
       if @message.errors.any?
         add_errors_to_flash(@message)
-        redirect_back
+        return redirect_back
       else
-        if params[:file] and params[:file].size > 0
-          attachment = @message.attachments.create(
-            :name => File.split(params[:file].original_filename).last,
-            :content_type => params[:file].content_type
-          )
-          if attachment.errors.any?
-            add_errors_to_flash(attachment)
-            redirect_back
-          else
-            attachment.file = params[:file]  
-          end
-        end
-        @message.send_to_group
         render :text => 'Your message has been sent.', :layout => true
       end
-    else
-      render :text => 'You are not authorized to post to this group.', :layout => true, :status => :error
     end
   end
   
@@ -106,7 +85,7 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     if @logged_in.can_edit? @message
       @message.destroy
-      redirect_back
+      return redirect_back
     else
       render :text => 'Not authorized.', :status => 500
     end
@@ -123,7 +102,7 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     if @logged_in.can_edit?(@message)
       @message.destroy
-      redirect_back
+      return redirect_back
     else
       render :text => 'You are not authorized to delete this message.', :status => 500
     end
