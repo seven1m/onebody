@@ -15,7 +15,7 @@ Rails::Initializer.run do |config|
   config.gem 'mini_magick'
 end
 
-ActionController::Base.perform_caching = false
+# ActionController::Base.perform_caching = false # use less memory
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
 DB_PHOTO_PATH = File.join(RAILS_ROOT, 'db/photos') unless defined? DB_PHOTO_PATH
