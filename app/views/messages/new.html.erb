@@ -1,0 +1,15 @@
+<% if @message.to %>
+  <h1>Private Message to <%=h @message.to.name %></h1>
+  <p>
+    This will send an email to <%=h @person.name %>.
+    <strong>Please respect the privacy of others. Abusing this system will get you banned from the site.</strong>
+  </p>
+<% elsif @message.group %>
+  <h1>Group Message to <%=h @message.group.name %></h1>
+  <p>
+    This will send an email to <%=h @message.group.name %>.
+    <strong>Please respect the privacy of others. Abusing this system will get you banned from the site.</strong>
+  </p>
+<% end %>
+
+<%= render :partial => 'form_with_preview' %>

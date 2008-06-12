@@ -270,6 +270,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :messages
   
+  # TODO: Remove this as we refactor MessagesController to be fully RESTful
   map.with_options :controller => 'messages' do |m|
     m.view_message_attachment 'messages/:id/view_attachment', :action => 'view_attachment'
     m.preview_message 'messages/preview_message', :action => 'preview_message'

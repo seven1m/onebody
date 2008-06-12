@@ -2,37 +2,36 @@ class MessagesController < ApplicationController
   
   def new
     if params[:to_person_id] and @person = Person.find(params[:to_person_id])
-      # private message
-      @message = Message.new(:to_person_id => @person.id, :subject => params[:subject], :body => params[:body]) # TODO: not sure if this params stuff is needed any more
-      render :action => 'new_private_message'
+      @message = Message.new(:to_person_id => @person.id)
     elsif params[:group_id] and @group = Group.find(params[:group_id])
-      # group message
-      @message = Message.new(:group_id => @group.id, :subject => params[:subject], :body => params[:body], :dont_send => true) # TODO: not sure if this params stuff is needed any more
-      render :action => 'edit'
+      @message = Message.new(:group_id => @group.id)
     elsif params[:parent_id] and @parent = Message.find(params[:parent_id]) and @logged_in.can_see?(@parent)
-      # reply message
-      @message = Message.new(:parent => @parent, :group_id => @parent.group_id, :person => @logged_in, :subject => "Re: #{@parent.subject}", :dont_send => true)
+      @message = Message.new(:parent => @parent, :group_id => @parent.group_id, :subject => "Re: #{@parent.subject}", :dont_send => true)
     else
       raise 'Unknown message type.'
     end
   end
   
   def create
-    if params[:wall_id]
-      create_wall_message(params[:wall_id])
-    elsif params[:to_person_id]
-      create_private_message(params[:to_person_id])
-    elsif params[:group_id]
-      create_group_message(params[:group_id])
+    if m = params[:message]
+      if m[:wall_id].to_i > 0
+        create_wall_message
+      elsif m[:to_person_id].to_i > 0
+        create_private_message
+      elsif m[:group_id].to_i > 0
+        create_group_message
+      else
+        raise 'Unknown message type.'
+      end
     else
-      raise 'Unknown message type.'
+      raise 'Missing the message param.'
     end
   end
   
   private
   
-  def create_wall_message(wall_id)
-    @person = Person.find(wall_id)
+  def create_wall_message
+    @person = Person.find(params[:message][:wall_id])
     if @logged_in.can_see?(@person) and @person.wall_enabled?
       @person.wall_messages.create! params[:message].merge(:subject => 'Wall Post', :person => @logged_in)
       respond_to do |format|
@@ -47,8 +46,8 @@ class MessagesController < ApplicationController
     end
   end
   
-  def create_private_message(to_person_id)
-    @person = Person.find(to_person_id)
+  def create_private_message
+    @person = Person.find(params[:message][:to_person_id])
     if @person.email
       attributes = params[:message].merge(:person => @logged_in, :to => @person)
       if params[:preview]
@@ -73,14 +72,27 @@ class MessagesController < ApplicationController
     end
   end
   
-  def create_group_message(group_id)
-    @group = Group.find(group_id)
+  def create_group_message
+    @group = Group.find(params[:message][:group_id])
     if @group.can_post? @logged_in
-      @message = Message.create params[:message].merge(:person => @logged_in, :group => @group)
+      @message = Message.create params[:message].merge(:person => @logged_in, :group => @group, :dont_send => true)
       if @message.errors.any?
         add_errors_to_flash(@message)
         redirect_back
       else
+        if params[:file] and params[:file].size > 0
+          attachment = @message.attachments.create(
+            :name => File.split(params[:file].original_filename).last,
+            :content_type => params[:file].content_type
+          )
+          if attachment.errors.any?
+            add_errors_to_flash(attachment)
+            redirect_back
+          else
+            attachment.file = params[:file]  
+          end
+        end
+        @message.send_to_group
         render :text => 'Your message has been sent.', :layout => true
       end
     else
@@ -100,90 +112,23 @@ class MessagesController < ApplicationController
     end
   end
   
-  # - - - - - - - - - - - - - - - - - - - - 
-    
   def show
-    @message = Message.find params[:id]
+    @message = Message.find(params[:id])
     unless @logged_in.sees? @message
       render :text => 'You are not allowed to view messages in this private group.'
     end
   end
   
-  def edit
-    if params[:id]
-      @message = Message.find params[:id]
-      unless @message.person == @logged_in
-        raise 'You cannot edit a post you did not write.'
-      end
-    elsif flash[:message]
-      @message = flash[:message]
-    elsif params[:parent_id].to_i > 0
-      parent = Message.find params[:parent_id]
-      @message = Message.new :parent => parent, :group_id => parent.group_id, :person => @logged_in, :subject => "Re: #{parent.subject}", :dont_send => true
-    elsif params[:group_id]
-      @message = Message.new :group_id => params[:group_id], :person => @logged_in, :dont_send => true
+  def destroy
+    @message = Message.find(params[:id])
+    if @logged_in.can_edit?(@message)
+      @message.destroy
+      redirect_back
     else
-      raise 'Error.'
-    end
-    if @message.group and not @message.group.can_post? @logged_in
-      render :text => 'You cannot post in this group.', :layout => true
-      return
-    end
-    if request.post? and params[:message]
-      if @message.update_attributes params[:message]
-        flash[:notice] = 'Message saved.'
-        if params[:file].size > 0
-          attachment = @message.attachments.create(
-            :name => File.split(params[:file].original_filename).last,
-            :content_type => params[:file].content_type,
-            :file => params[:file].read
-          )
-          if attachment.errors.any?
-            flash[:notice] = attachment.errors.full_messages.join('; ')
-          end
-        end
-        @message.send_to_group
-        redirect_to @message.top
-      else
-        flash[:notice] = @message.errors.full_messages.join('; ')
-      end
-    else
-      respond_to do |wants|
-        wants.html { render :partial => 'edit_message', :layout => true }
-        wants.js do
-          render(:update) { |p| p.replace_html 'reply', :partial => 'edit_message' }
-        end
-      end
+      render :text => 'You are not authorized to delete this message.', :status => 500
     end
   end
-  
-  def delete
-    @message = Message.find params[:id]
-    @message.destroy if @message.person == @logged_in or @message.wall == @logged_in or (@message.group and @message.group.admin? @logged_in) or @logged_in.admin?(:manage_messages)
-    if @message.group
-      redirect_to @message.group
-    else
-      redirect_to person_path(@message.wall_id), :anchor => 'wall'
-    end
-  end
-  
-  def send_email
-    @person = Person.find params[:id]
-    render :text => "Sorry. We don't have an email address on file for #{@person.name}.", :layout => true unless @person.email
-    if request.post?
-      if params[:subject].to_s.any? and params[:body].to_s.any?
-        message = Message.create :person => @logged_in, :to => @person, :subject => params[:subject], :body => params[:body], :share_email => params[:share_email]
-        if message.errors.any?
-          flash[:notice] = message.errors.full_messages.join('; ')
-        else
-          render :text => 'Your message has been sent.', :layout => true
-        end
-      else
-        flash[:notice] = 'You must enter a subject and a message.'
-      end
-    end
-  end
-  
+
   def preview_message
     params[:subject] = params[:message] ? params[:message][:subject] : params[:subject]
     params[:body] = params[:message] ? params[:message][:body] : params[:body]

@@ -85,6 +85,7 @@ class ApplicationController < ActionController::Base
     
     def redirect_back(fallback=nil)
       request.env["HTTP_REFERER"] ? redirect_to(request.env["HTTP_REFERER"]) : redirect_to(fallback || logged_in_path)
+      return false
     end
     
     def add_errors_to_flash(record)
