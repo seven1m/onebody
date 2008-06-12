@@ -256,6 +256,7 @@ ActionController::Routing::Routes.draw do |map|
     m.unauthorized 'help/unauthorized', :action => 'unauthorized'
     m.bad_status 'help/bad_status', :action => 'bad_status'
     m.safeguarding_children 'help/safeguarding_children', :action => 'safeguarding_children'
+    m.credits 'help/credits', :action => 'credits'
   end
   
   map.with_options :controller => 'tags' do |m|
