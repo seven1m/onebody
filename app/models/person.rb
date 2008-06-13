@@ -226,9 +226,13 @@ class Person < ActiveRecord::Base
         not what.hidden? or self.member_of?(what) or what.admin?(self)
       elsif what.is_a? Message
         what.can_see?(self)
+      elsif what.is_a? Attachment
+        what.visible_to?(self)
       elsif what.is_a? PrayerRequest
         what.person == self or
           (what.group and (self.member_of?(what.group) or what.group.admin?(self)))
+      elsif what.is_a? Song
+        what.visible_to?(self)
       else
         raise 'unknown "what"'
       end

@@ -78,6 +78,10 @@ class Song < ActiveRecord::Base
     tags
   end
   
+  def visible_to?(person)
+    person.music_access? or person.admin?(:manage_music)
+  end
+  
   class << self
     def search(query)
       req = Amazon::Search::Request.new(Setting.get(:services, :amazon))

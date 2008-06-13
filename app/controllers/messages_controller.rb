@@ -107,14 +107,4 @@ class MessagesController < ApplicationController
       render :text => 'You are not authorized to delete this message.', :status => 500
     end
   end
-  
-  def view_attachment
-    attachment = Attachment.find params[:id]
-    unless attachment.message and attachment.message.group and @logged_in.sees? attachment.message.group
-      render :text => 'You are not authorized to view this attachment.', :layout => true
-      return
-    end
-    # TODO: routes this file serve through regular web server
-    send_data File.read(attachment.file_path), :filename => attachment.name, :type => attachment.content_type, :disposition => 'inline'
-  end
 end

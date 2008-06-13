@@ -1,8 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.resource :feed
+  
   map.resources :blogs
   map.resources :walls
-  map.resource :feed
+  map.resources :messages
+  map.resources :attachments
   
   map.with_options :controller => 'setup/dashboard' do |m|
     m.setup 'setup', :action => 'index'
@@ -266,13 +269,6 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'news' do |m|
     m.news 'news', :action => 'index'
     m.news_item 'news/view/:id', :action => 'view'
-  end
-  
-  map.resources :messages
-  
-  # TODO: Remove this as we refactor MessagesController to be fully RESTful
-  map.with_options :controller => 'messages' do |m|
-    m.view_message_attachment 'messages/:id/view_attachment', :action => 'view_attachment'
   end
   
   map.with_options :controller => 'pictures' do |m|

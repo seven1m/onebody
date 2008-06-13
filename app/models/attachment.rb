@@ -19,4 +19,9 @@ class Attachment < ActiveRecord::Base
   belongs_to :site
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   acts_as_file DB_ATTACHMENTS_PATH
+  
+  def visible_to?(person)
+    (message and person.can_see?(message)) or
+    (song and person.can_see?(song))
+  end
 end
