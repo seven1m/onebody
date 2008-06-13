@@ -218,11 +218,19 @@ class Message < ActiveRecord::Base
   end
   
   def can_see?(p)
-    (group and p.groups.include? group) or # a person in the group
-    ((not group or not group.private?) and p.admin?(:manage_messages)) or # admin of groups (still cannot see private groups)
-    (wall and p.can_see? wall) or
-    (to and to == p) or # to me
-    (person == p) # from me
+    if group and group.private?
+      p.member_of?(group)
+    elsif group
+      p.member_of?(group) or p.admin?(:manage_messages)
+    elsif wall and not wall.wall_enabled?
+      p == wall
+    elsif wall
+      p.can_see?(wall)
+    elsif to
+      to == p or person == p
+    else
+      raise 'Invalid message.'
+    end
   end
   
   def self.preview(attributes)

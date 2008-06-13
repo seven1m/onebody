@@ -68,8 +68,8 @@ class Test::Unit::TestCase
   fixtures :all
 end
 
-class ActionController::TestCase
-  def self.should(name, &block)
+module TestExtensions
+  def should(name, &block)
     if block_given?
       define_method 'test ' + name, &block
     else
@@ -77,3 +77,6 @@ class ActionController::TestCase
     end
   end
 end
+
+ActionController::TestCase.extend(TestExtensions)
+Test::Unit::TestCase.extend(TestExtensions)

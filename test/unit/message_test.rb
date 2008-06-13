@@ -2,9 +2,42 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < Test::Unit::TestCase
   fixtures :messages
+  
+  def setup
+    @person, @second_person, @third_person = Person.forge, Person.forge, Person.forge
+    @admin_person = Person.forge(:admin_id => Admin.create(:manage_messages => true).id)
+    @group = Group.create! :name => 'Some Group', :category => 'test'
+    @group.memberships.create! :person => @person
+  end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  should "create a new message with attachments"
+  
+  should "preview a message"
+  
+  should "know who can see the message" do
+    # group message
+    @message = Message.create(:group => @group, :person => @person, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph)
+    assert @person.can_see?(@message)
+    assert !@second_person.can_see?(@message)
+    assert @admin_person.can_see?(@message)
+    # group message in private group
+    @group.update_attributes! :private => true
+    assert !@third_person.can_see?(@message)
+    assert !@admin_person.can_see?(@message)
+    # wall message
+    @message = Message.create(:wall => @person, :person => @second_person, :subject => 'Wall Post', :body => Faker::Lorem.paragraph)
+    assert @person.can_see?(@message)
+    assert @second_person.can_see?(@message)
+    assert @third_person.can_see?(@message)
+    # wall message with wall disabled
+    @person.update_attributes! :wall_enabled => false
+    assert @person.can_see?(@message)
+    assert !@second_person.can_see?(@message)
+    assert !@third_person.can_see?(@message)
+    # private message
+    @message = Message.create(:to => @second_person, :person => @person, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph)
+    assert @person.can_see?(@message)
+    assert @second_person.can_see?(@message)
+    assert !@third_person.can_see?(@message)
   end
 end
