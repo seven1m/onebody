@@ -3,14 +3,15 @@
 <div id="preview" style="display:none;">
   <h2>Preview</h2>
   <div id="preview-from"></div>
+  <div id="preview-subject"></div>
   <div id="preview-email" style="width:600px;border:1px solid #999;padding:10px;"></div>
 </div>
 
 <script type="text/javascript">
   function preview() {
-    new Ajax.Request('<%= preview_message_path %>', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('message'))});
+    new Ajax.Request('<%= messages_path %>', {method:'post', asynchronous:true, evalScripts:true, parameters:Form.serialize($('message')) + '&preview=true'});
   }
 </script>
 
-<%= observe_field :message_subject, :url => preview_message_path, :function => 'preview()', :frequency => 2 %>
-<%= observe_field :message_body, :url => preview_message_path, :function => 'preview()', :frequency => 2 %>
+<%= observe_field :message_subject, :function => 'preview()', :frequency => 2 %>
+<%= observe_field :message_body,    :function => 'preview()', :frequency => 2 %>

@@ -235,9 +235,7 @@ class Message < ActiveRecord::Base
   
   def self.preview(attributes)
     msg = Message.new(attributes)
-    preview = Notifier.create_message(Person.new(:email => 'test@example.com'), msg).to_s
-    preview = preview.split(/\n\n/, 2).last
-    preview.gsub(/\n/, "<br/>\n").gsub(/http:\/\/[^\s<]+/, '<a href="\0">\0</a>')
+    Notifier.create_message(Person.new(:email => 'test@example.com'), msg)
   end
   
   def self.create_with_attachments(attributes, files)

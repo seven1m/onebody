@@ -17,11 +17,12 @@ class MessageTest < Test::Unit::TestCase
   end
   
   should "preview a message" do
-    body = Faker::Lorem.paragraph
-    @preview = Message.preview(:to => @person, :person => @second_person, :subject => Faker::Lorem.sentence, :body => body)
-    assert @preview.index(body)
-    assert @preview.index('Hit "Reply" to send a message')
-    assert @preview.index(/http:\/\/.+\/people\/privacy/)
+    subject, body = Faker::Lorem.sentence, Faker::Lorem.paragraph
+    @preview = Message.preview(:to => @person, :person => @second_person, :subject => subject, :body => body)
+    assert_equal subject, @preview.subject
+    assert @preview.body.index(body)
+    assert @preview.body.index('Hit "Reply" to send a message')
+    assert @preview.body.index(/http:\/\/.+\/people\/privacy/)
   end
   
   should "know who can see the message" do
