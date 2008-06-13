@@ -10,9 +10,19 @@ class MessageTest < Test::Unit::TestCase
     @group.memberships.create! :person => @person
   end
 
-  should "create a new message with attachments"
+  should "create a new message with attachments" do
+    files = [fixture_file_upload('files/attachment.pdf')]
+    @message = Message.create_with_attachments({:to => @person, :person => @second_person, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph}, files)
+    assert_equal 1, @message.attachments.count
+  end
   
-  should "preview a message"
+  should "preview a message" do
+    body = Faker::Lorem.paragraph
+    @preview = Message.preview(:to => @person, :person => @second_person, :subject => Faker::Lorem.sentence, :body => body)
+    assert @preview.index(body)
+    assert @preview.index('Hit "Reply" to send a message')
+    assert @preview.index(/http:\/\/.+\/people\/privacy/)
+  end
   
   should "know who can see the message" do
     # group message
