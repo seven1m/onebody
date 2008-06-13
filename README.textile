@@ -11,6 +11,7 @@ The revolutionary thing about OneBody is that it is designed to work with any ch
 h2. Up And Running
 
 <pre>
+rake gems:install
 script/server -e setup
 </pre>
 ...then browse to "http://localhost:3000":http://localhost:3000 and get everything set up.
