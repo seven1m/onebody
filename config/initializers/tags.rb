@@ -1,0 +1,1 @@
+TagList.delimiter = /\s+|,/

@@ -1,0 +1,2 @@
+class SpecialPost < Post
+end

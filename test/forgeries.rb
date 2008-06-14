@@ -103,6 +103,9 @@ class Verse
   def self.forge(attributes={})
     verse = Verse.new(:text => Faker::Lorem.sentence)
     verse.write_attribute :reference, "#{Faker::Lorem.words(1).join} #{rand(25)}:#{rand(50)}"
+    attributes.each do |attr, val|
+      verse.send("#{attr}=", val) # will allow tag_list= to work
+    end
     verse.save!
     verse
   end

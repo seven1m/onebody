@@ -8,35 +8,19 @@
 
 <% content_for :sidebar do %>
   <h2>Tags</h2>
-  <% if @tags.any? %>
-    <div class="tag-cloud">
-      <% @tags.each do |tag| %>
-        <% begin %>
-          <span style="font-size:<%= tag.verses.count * @factor + 9 %>pt;">
-            <%= link_to h(tag.name), tag, :style => 'text-decoration:none;' %>
-          </span>
-        <% rescue %>
-          <!-- tag error -->
-        <% end %>
-      <% end %>
-    </div>
-  <% else %>
-    <p><em>No tags yet!</em></p>
-  <% end %>
+  <div class="tag-cloud">
+    <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
+      <%= link_to tag.name, tag, :class => css_class %>
+    <% end %>
+  </div>
 <% end %>
 
-<% if @pages.length > 1 %>
-  <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
-<% end %>
+<%= will_paginate @verses %>
 
 <% if @verses.any? %>
-  <% @verses.each do |verse| %>
-    <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
-  <% end %>
+  <%= render :partial => @verses %>
 <% else %>
   <p><em>No verses yet!</em></p>
 <% end %>
 
-<% if @pages.length > 1 %>
-  <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
-<% end %>
+<%= will_paginate @verses %>

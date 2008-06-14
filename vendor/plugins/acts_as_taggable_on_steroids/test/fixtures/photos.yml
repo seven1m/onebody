@@ -1,0 +1,24 @@
+jonathan_dog:
+  id: 1
+  user_id: 1
+  title: A small dog
+  
+jonathan_questioning_dog:
+  id: 2
+  user_id: 1
+  title: What does this dog want?
+  
+jonathan_bad_cat:
+  id: 3
+  user_id: 1
+  title: Bad cat
+  
+sam_flower:
+  id: 4
+  user_id: 2
+  title: Flower
+  
+sam_sky:
+  id: 5
+  user_id: 2
+  title: Sky

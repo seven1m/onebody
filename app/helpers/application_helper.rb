@@ -1,5 +1,7 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  include TagsHelper
+
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe
     simple_format(text.to_s)

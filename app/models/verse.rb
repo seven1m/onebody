@@ -19,14 +19,13 @@ require 'net/http'
 
 class Verse < ActiveRecord::Base
   has_and_belongs_to_many :people, :conditions => ['people.visible = ?', true]
-  has_and_belongs_to_many :tags, :order => 'name'
   has_many :comments, :dependent => :destroy
   has_and_belongs_to_many :events
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
-  
   acts_as_logger LogItem
+  acts_as_taggable
     
   def admin?(person)
     self.people.include? person or person.admin?(:manage_verses)
@@ -83,14 +82,6 @@ class Verse < ActiveRecord::Base
   
   def <=>(v)
     [book, chapter, verse] <=> [v.book, v.chapter, v.verse]
-  end
-  
-  def tag_string=(text)
-    text.split.each do |tag_name|
-      tag = Tag.find_or_create_by_name(tag_name.downcase)
-      tags << tag if not tags.include? tag
-    end
-    tags
   end
 
   validates_presence_of :text, :reference

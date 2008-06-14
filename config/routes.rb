@@ -6,6 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :walls
   map.resources :messages
   map.resources :attachments
+  map.resources :verses
   
   map.with_options :controller => 'setup/dashboard' do |m|
     m.setup 'setup', :action => 'index'
@@ -142,13 +143,6 @@ ActionController::Routing::Routes.draw do |map|
     m.group_photo 'groups/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
   end
   
-  map.with_options :controller => 'verses' do |m|
-    m.verses 'verses', :action => 'index'
-    m.verse 'verses/view/:id', :action => 'view'
-    m.verse_add_tags 'verses/add_tags/:id', :action => 'add_tags'
-    m.delete_tag_from_verse 'verses/delete_tag/:id', :action => 'delete_tag'
-  end
-  
   map.with_options :controller => 'recipes' do |m|
     m.recipes 'recipes', :action => 'index'
     m.recipe 'recipes/view/:id', :action => 'view'
@@ -175,6 +169,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.with_options :controller => 'comments' do |m|
+    m.new_comment 'comments/edit', :action => 'edit'
     m.edit_comment 'comments/edit/:id', :action => 'edit'
     m.delete_comment 'comments/delete/:id', :action => 'delete'
   end

@@ -1,35 +1,25 @@
 class VersesController < ApplicationController
+
   def index
-    Verse.destroy_all "(select count(*) from people_verses where verse_id = verses.id) = 0 and (select count(*) from events_verses where verse_id = verses.id) = 0" # clean up
-    @pages = Paginator.new self, Verse.count, 25, params[:page]
-    @verses = Verse.find :all,
+    @verses = Verse.paginate(
       :order => 'book, chapter, verse',
       :select => '*, (select count(*) from people_verses where verse_id = verses.id) as people_count',
-      :limit => @pages.items_per_page,
-      :offset => @pages.current.offset
-    biggest = Tag.find_by_sql("select count(tag_id) as num from tags_verses where verse_id is not null group by tag_id order by count(tag_id) desc limit 1").first.num.to_i rescue 0
-    @factor = biggest / 11
-    @factor = 1 if @factor.zero?
-    @tags = Tag.find :all, :conditions => '(select count(*) from tags_verses where tag_id = tags.id and verse_id is not null) > 0', :order => 'name'
+      :page => params[:page]
+    )
+    @tags = Verse.tag_counts
   end
   
-  def view
-    if params[:id] =~ /^\d+$/
-      @verse = Verse.find params[:id]
-    else
-      @verse = Verse.find_by_reference params[:id]
-    end
+  def show
+    @verse = Verse.find(params[:id])
   end
   
-  def add_tags
-    @verse = Verse.find params[:id]
-    @verse.tag_string = params[:tag_string]
-    redirect_to @verse
-  end
-  
-  def delete_tag
-    @verse = Verse.find params[:id]
-    @verse.tags.delete Tag.find(params[:tag_id])
+  # add/remove tags
+  # add/remove people
+  def update
+    @verse = Verse.find(params[:id])
+    @verse.tag_list.remove(params[:remove_tag]) if params[:remove_tag]
+    @verse.tag_list.add(*params[:add_tags].split) if params[:add_tags]
+    @verse.save
     redirect_to @verse
   end
 end

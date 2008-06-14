@@ -13,10 +13,10 @@
   
   <h2>Tags</h2>
 
-  <%= form_tag(verse_add_tags_path(@verse), :style => 'border:none;padding:0;') %>
+  <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>
     <p>
       <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse} %><br/>
-      Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;' %>
+      Add tags: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
     </p>
   </form>
   

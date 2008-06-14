@@ -1,0 +1,167 @@
+[13 March 08]
+
+* Added helper methods for will_paginate compatibility (Clinton R. Nixon)
+* Fixed :conditions in tag_counts to accept array to sanitize (Clinton R. Nixon)
+
+[07 March 08]
+
+* Added support for regexp delimiter (Matt Aimonetti)
+
+[30 Jan 08]
+
+* Fix Tag.destroy_unused on Rails 2.0.
+
+[23 October 2007]
+
+* Make find_options_for_tag_counts and find_options_for_tagged_with dup their options.
+
+* Apply conditions properly in find_options_for_tag_counts.
+
+* Fix tag_cloud when no tags are present.
+
+[22 October 2007]
+
+* Fix find_tagged_with using :match_all and :include.
+
+* Use inner joins instead of left outer joins.
+
+[15 October 2007]
+
+* Make find_tagged_with correctly apply :conditions
+
+* Add Tag.destroy_unused option.
+
+[11 October 2007]
+
+* Make tag_counts work correctly with STI.
+
+[3 October 2007]
+
+* Improve documentation.
+
+* Fix TagsHelper and test.
+
+[2 October 2007]
+
+* Remove TagList.parse, use TagList.from instead.
+
+* Add :parse option to TagList#new, TagList#add, and TagList#remove.
+
+    tag_list = TagList.new("One, Two", :parse => true) # ["One", "Two"]
+    
+    tag_list # ["One", "Two"]
+    tag_list.add("Three, Four", :parse => true) # ["One", "Two", "Three", "Four"]
+    
+* Remove TagList#names.
+
+[29 September 2007]
+
+* Add TagsHelper to assist with generating tag clouds and provide a simple example.
+
+[27 September 2007]
+
+* Add #tag_counts method to get tag counts for a specific object's tags.
+
+* BACKWARDS INCOMPATIBILITY: Rename #find_options_for_tagged_with to #find_options_for_find_tagged_with
+
+[17 September 2007]
+
+* Fix clearing of cached tag list when all tags removed.
+
+[12 September 2007]
+
+* Make the TagList class inherit from Array.
+
+* Deprecate obsolete TagList#names.
+
+[6 September 2007]
+
+* Add TagList#include? and TagList#empty?
+
+[26 August 2006]
+
+* Remove deprecated Tag.delimiter. Use TagList.delimiter instead.
+
+[25 August 2007]
+
+* Make tag_counts work with has_many :through
+
+[23 August 2007]
+
+* Make search comparisons case-insensitive across different databases. [Moisés Machado]
+
+* Improve compatiblity with STI. [Moisés Machado]
+
+[25 July 2007]
+
+* Respect custom table names for the Tag and Tagging classes.
+
+* Fix the :exclude option for find_tagged_with
+
+[17 July 2007]
+
+* Make the migration work on edge rails
+
+[8 July 2007]
+
+* find_options_for_tagged_with should not alter its arguments
+
+[1 July 2007]
+
+* Fix incorrect tagging when the case of the tag list is changed.
+
+* Fix deprecated Tag.delimiter accessor.
+
+[23 June 2007]
+
+* Add validation to Tag model.
+
+* find_options_for_tagged_with should always return a hash.
+
+* find_tagged_with passing in no tags should return an empty array.
+
+* Improve compatibility with PostgreSQL.
+
+[21 June 2007]
+
+* Remove extra .rb from generated migration file name.
+
+[15 June 2007]
+
+* Introduce TagList class.
+
+* Various cleanups and improvements.
+
+* Use TagList.delimiter now, not Tag.delimiter. Tag.delimiter will be removed at some stage.
+
+[11 June 2007]
+
+* Restructure the creation of the options for find_tagged_with [Thijs Cadier]
+
+* Add an example migration with a generator.
+
+* Add caching.
+
+* Fix compatibility with Ruby < 1.8.6
+
+[23 April 2007]
+
+* Make tag_list to respect Tag.delimiter
+
+[31 March 2007]
+
+* Add Tag.delimiter accessor to change how tags are parsed.
+
+* Fix :include => :tags when used with find_tagged_with
+
+[7 March 2007]
+
+* Fix tag_counts for SQLServer [Brad Young]
+
+[21 Feb 2007]
+
+* Use scoping instead of TagCountsExtension [Michael Schuerig]
+
+[7 Jan 2007]
+
+* Add :match_all to find_tagged_with [Michael Sheakoski]
