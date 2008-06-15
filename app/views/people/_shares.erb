@@ -2,7 +2,7 @@
   <h3 style="background-color:#eee;">Pictures</h3>
   <div>
     <% @person.pictures.find(:all, :order => 'rand()', :limit => 5).each do |picture| %>
-      <%= link_to image_tag(picture_photo_path("#{picture.id}.small.jpg"), :alt => 'click to enlarge'), picture, :title => 'click to enlarge' %>
+      <%= link_to image_tag(photo_with_size_path(picture, :size => 'small', :type => 'picture'), :alt => 'click to enlarge'), picture, :title => 'click to enlarge' %>
     <% end %>
     <%= link_to 'More...', person_pictures_path(@person) %><br/>
     <%= link_to image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add a Picture', :controller => "pictures" %>

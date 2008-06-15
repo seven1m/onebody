@@ -1,5 +1,5 @@
 <% if recipe.has_photo? %>
-  <%= link_to image_tag(photo_path(:controller => 'recipes', :id => "#{recipe.id}.tn.jpg"), :alt => recipe.title, :class => 'no-border'), recipe, :style => 'float:left;' %>
+  <%= link_to image_tag(photo_with_size_path(recipe, :size => 'tn', :type => 'recipe'), :alt => recipe.title, :class => 'no-border'), recipe, :style => 'float:left;' %>
 <% end %>
 
 <div class="recipe-title">

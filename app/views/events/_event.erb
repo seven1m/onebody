@@ -1,5 +1,5 @@
 <% if event.cover_picture %>
-  <%= link_to image_tag(picture_photo_path("#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'icon'), event %>
+  <%= link_to image_tag(photo_with_size_path(event.cover_picture, :size => 'tn', :type => 'picture'), :alt => event.name, :class => 'icon'), event %>
 <% else %>
   <%= link_to image_tag('event.tn.gif', :alt => event.name, :class => 'icon'), event %>
 <% end %>

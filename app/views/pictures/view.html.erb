@@ -30,12 +30,15 @@
 </p>
 
 <p>
-  <%= link_to image_tag(picture_photo_path("#{@picture.id}.large.jpg"), :alt => 'click to see full size'), picture_photo_path("#{@picture.id}.jpg") %>
+  <%= link_to image_tag(photo_with_size_path(@picture, :size => 'large', :type => 'picture'), :alt => 'click to see full size'),
+   photo_path(@picture, :type => 'picture') %>
 </p>
 
 <!-- updates all the sizes on a refresh -->
-<div style="display:none;">
-  <%= image_tag picture_photo_path("#{@picture.id}.medium.jpg"), :alt => 'refresh' %>
-  <%= image_tag picture_photo_path("#{@picture.id}.small.jpg"), :alt => 'refresh' %>
-  <%= image_tag picture_photo_path("#{@picture.id}.tn.jpg"), :alt => 'refresh' %>
-</div>
+<% if params[:refresh] %>
+  <div style="display:none;">
+    <%= image_tag photo_with_size_path(@picture, :size => 'medium', :type => 'picture'), :alt => 'refresh' %>
+    <%= image_tag photo_with_size_path(@picture, :size => 'small',  :type => 'picture'), :alt => 'refresh' %>
+    <%= image_tag photo_with_size_path(@picture, :size => 'tn',     :type => 'picture'), :alt => 'refresh' %>
+  </div>
+<% end %>

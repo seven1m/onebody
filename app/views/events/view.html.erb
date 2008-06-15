@@ -28,7 +28,7 @@
   <% if @event.pictures.count > 0 %>
     <% @event.pictures.each do |picture| %>
       <div class="picture">
-        <%= link_to image_tag(photo_path(:controller => 'pictures', :id => "#{picture.id}.medium.jpg"), :alt => 'click to enlarge'), picture, :title => 'click to enlarge' %>
+        <%= link_to image_tag(photo_with_size_path(picture, :size => 'medium', :type => 'picture'), :alt => 'click to enlarge'), picture, :title => 'click to enlarge' %>
       </div>
     <% end %>
     <br clear="both"/>

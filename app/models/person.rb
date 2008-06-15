@@ -143,20 +143,12 @@ class Person < ActiveRecord::Base
     end
   end
   
-  # This method is used all over the site to show the person's name.
-  # Since this method and the person's profile are the only places a child's personal information
-  #   could be displayed, we'll check that the person currently logged in can see this name.
-  # To do this for every attribute would generate too much overhead.
   def name
     @name ||= begin
-      if Person.logged_in.nil? or Person.logged_in.can_see? self
-        if suffix
-          "#{first_name} #{last_name}, #{suffix}" rescue '???'
-        else
-          "#{first_name} #{last_name}" rescue '???'
-        end
+      if suffix
+        "#{first_name} #{last_name}, #{suffix}" rescue '???'
       else
-        '???'
+        "#{first_name} #{last_name}" rescue '???'
       end
     end
   end
@@ -216,25 +208,30 @@ class Person < ActiveRecord::Base
   
   def can_see?(*whats)
     whats.select do |what|
-      if what.is_a? Person
+      case what.class.name
+      when 'Person'
         what == self or
         what.family_id == self.family_id or
         admin?(:view_hidden_profiles) or
         staff? or 
         (what.visible_to_everyone? and (full_access? or what.adult?) and what.visible?)
-      elsif what.is_a? Group
+      when 'Family'
+        what.visible? or admin?(:view_hidden_profiles)
+      when 'Group'
         not what.hidden? or self.member_of?(what) or what.admin?(self)
-      elsif what.is_a? Message
+      when 'Message'
         what.can_see?(self)
-      elsif what.is_a? Attachment
+      when 'Attachment'
         what.visible_to?(self)
-      elsif what.is_a? PrayerRequest
+      when 'PrayerRequest'
         what.person == self or
           (what.group and (self.member_of?(what.group) or what.group.admin?(self)))
-      elsif what.is_a? Song
+      when 'Song'
         what.visible_to?(self)
+      when 'Recipe', 'Picture'
+        true
       else
-        raise 'unknown "what"'
+        raise "Unrecognized argument to can_see? (#{what.inspect})"
       end
     end.length == whats.length
   end

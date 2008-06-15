@@ -49,9 +49,9 @@
         <td>
           <a href="<%= person_url(:id => person) %>" <% if @logged_in.full_access? %>onmouseover="try{clearTimeout(hider)}catch(e){};show_popup(<%= person.id %>, true)" onmouseout="hider=setTimeout('hide_popup()', 1000)"<% end %>>
             <% if person.has_photo? %>
-              <%= image_tag person_url("#{person.id}.tn.jpg"), :alt => person.name, :class => 'no-border' %>
+              <%= image_tag photo_path(person, :type => 'person', :size => 'tn'), :alt => person.name, :class => 'no-border' %>
             <% elsif person.family and person.family.has_photo? %>
-              <%= image_tag photo_path(:controller => 'families', :id => "#{person.family.id}.tn.jpg"), :alt => person.family.name, :class => 'no-border' %>
+              <%= image_tag tn_family_photo_path(person.family), :alt => person.family.name, :class => 'no-border' %>
             <% end %>
           </a>
         </td>

@@ -1,5 +1,5 @@
 <% if person.has_photo? %>
-  <%= image_tag person_photo_path("#{person.id}.tn.jpg"), :alt => person.name, :class => 'icon thumbnail' %>
+  <%= image_tag photo_with_size_path(person, :size => 'tn', :type => 'person'), :alt => person.name, :class => 'icon thumbnail' %>
 <% else %>
   <% if ['male', 'boy', 'man'].include? person.gender.to_s.downcase %>
     <%= image_tag 'man.tn.gif', :alt => person.name, :class => 'icon thumbnail' %>

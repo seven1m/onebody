@@ -36,6 +36,16 @@ module ApplicationHelper
   def me?
     @logged_in and @person and @logged_in == @person
   end
+  
+  def photo_upload_for(object)
+    if object.is_a? Family
+      url = family_photo_path(object, :return_to => request.request_uri + '#family-picture')
+    else
+      url = photo_path(:id => object, :type => object.class.name.downcase, :return_to => request.request_uri)
+    end
+    render :partial => 'photos/upload',
+      :locals => {:url => url, :name => "#{object.class.name} Photo", :delete => object.has_photo?}
+  end
 end
 
 module ActionView

@@ -9,7 +9,7 @@
 <% if object.is_a? Picture %>
   uploaded <%= items.length == 1 ? 'a picture' : 'pictures' %>:<br/>
   <% items.each do |item| %>
-    <%= link_to image_tag(picture_photo_path("#{item.object.id}.small.jpg"), :alt => 'click to enlarge'),
+    <%= link_to image_tag(photo_with_size_path(item.object, :size => 'small', :type => 'picture'), :alt => 'click to enlarge'),
       picture_path(item.object), :title => 'click to enlarge' %>
   <% end %>
 <% elsif object.is_a? Verse %>

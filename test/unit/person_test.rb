@@ -49,18 +49,6 @@ class PersonTest < Test::Unit::TestCase
     assert_equal 'is invalid', p.errors[:website]
   end
   
-  def test_name
-    # can see name
-    Person.logged_in = people(:tim)
-    assert_equal 'Mac Morgan', Person.find(people(:mac).id).name # must do a fresh load
-    # cannot see name
-    Person.logged_in = people(:peter)
-    assert_equal '???', Person.find(people(:mac).id).name # must do a fresh load
-    # can see name
-    people(:mac).update_attribute :parental_consent, 'yes'
-    assert_equal 'Mac Morgan', Person.find(people(:mac).id).name # must do a fresh load
-  end
-  
   def test_sharing
     # update_attribute to nil doesn't seem to work for booleans on fixture instantiated instances
     f = families(:morgan); p = Person.find(people(:jennie).id)

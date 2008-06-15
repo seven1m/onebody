@@ -50,7 +50,7 @@
   <table><tr><td>
   <%= render :partial => 'photo' %>
   </td><td>
-  <%= render :partial => 'upload_photo', :locals => {:object => @person, :name => 'Individual Picture', :url => edit_person_path(@person)} %>
+  <%= photo_upload_for @person %>
   </td></tr></table>
 </div>
 
@@ -60,7 +60,7 @@
   <table><tr><td>
   <%= render :partial => 'families/photo' %>
   </td><td>
-  <%= render :partial => 'upload_photo', :locals => {:object => @family, :name => 'Family Picture', :url => edit_family_path(@family, :return_to => request.request_uri.split('?').first + '?section=family-picture')} %>
+  <%= photo_upload_for @family %>
   </td></tr></table>
 </div>
 

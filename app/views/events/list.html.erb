@@ -19,7 +19,7 @@
     <tr>
       <td class="pic">
         <% if event.cover_picture %>
-          <%= link_to image_tag(photo_path(:controller => 'pictures', :id => "#{event.cover_picture.id}.small.jpg"), :alt => event.name), event %>
+          <%= link_to image_tag(photo_with_size_path(event.cover_picture, :size => 'small', :type => 'picture'), :alt => event.name), event %>
         <% else %>
           <%= link_to image_tag('event.gif', :alt => event.name), event %>
         <% end %>

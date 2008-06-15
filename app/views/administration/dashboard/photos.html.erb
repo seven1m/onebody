@@ -1,6 +1,6 @@
 <% @items.each do |item| %>
   <p style="clear:left;">
-    <%= image_tag photo_path(:controller => item.record.class.name.downcase.pluralize, :id => "#{item.record.id}.small.jpg"), :style => 'float:left;margin-right:10px;' %>
+    <%= image_tag photo_with_size_path(item.record.id, :size => 'small', :type => item.record.class.name.downcase), :style => 'float:left;margin-right:10px;' %>
     <% if item.record.is_a? Person %>
       <%= link_to item.record.name, person_path(item.record) %>
     <% elsif item.record.respond_to? :person %>

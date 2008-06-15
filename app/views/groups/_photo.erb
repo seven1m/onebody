@@ -1,6 +1,6 @@
 <div>
   <% if @group.has_photo? %>
-    <%= image_tag group_photo_path("#{@group.id}.medium.jpg"), :alt => @group.name %>
+    <%= image_tag photo_with_size_path(@group, :size => 'medium', :type => 'group'), :alt => @group.name %>
   <% else %>
     <%= image_tag 'group.jpg', :alt => @group.name %>
   <% end %>

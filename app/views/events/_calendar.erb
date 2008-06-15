@@ -5,7 +5,7 @@
     day_str = day.strftime('%m/%d/%Y')
     if @events.any? and @events[day_str].to_a.any?
       @events[day_str].each do |event|
-        cell_text << link_to((event.cover_picture ? image_tag(picture_photo_path("#{event.cover_picture.id}.tn.jpg"), :alt => event.name, :class => 'no-border') : image_tag('event.tn.gif', :alt => event.name, :class => 'icon')), event, :class => 'event-pic')
+        cell_text << link_to((event.cover_picture ? image_tag(photo_with_size_path(event.cover_picture, :size => 'tn', :type => 'picture'), :alt => event.name, :class => 'no-border') : image_tag('event.tn.gif', :alt => event.name, :class => 'icon')), event, :class => 'event-pic')
         cell_text << link_to(truncate(event.name, 10), event, :class => 'event-title')
         cell_text << "<br/>"
         cell_text << "#{count = event.pictures.count + event.verses.count + event.recipes.count} #{count == 1 ? 'share' : 'shares'}<br/>"

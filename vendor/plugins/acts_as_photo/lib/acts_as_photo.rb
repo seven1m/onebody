@@ -34,9 +34,14 @@ module Foo
               File.join('#{storage_path}', id.to_s + '.jpg')
             end
             
-            def photo_path_from_id(id)
-              if id.to_s.count('.') == 2
-                send('photo_' + id.to_s.split('.')[1] + '_path')
+            def photo_path_from_params(params)
+              if params[:id].to_s.count('.') == 2
+                size = params[:id].to_s.split('.')[1]
+              else
+                size = params[:size]
+              end
+              if size.to_s.any? and self.respond_to?(m = 'photo_' + size + '_path')
+                send(m)
               else
                 photo_path
               end
@@ -110,10 +115,11 @@ end
 class ActionController::Base
   def send_photo(object)
     if object.has_photo?
-      if params[:id] =~ /^\d+\.[a-z]+\.jpg$/ and request.env["HTTP_ACCEPT"].split(/,|;/).include? 'text/html'
+      if (params[:id] =~ /^\d+\.[a-z]+\.jpg$/ or params[:size]) \
+        and request.env["HTTP_ACCEPT"].to_s.split(/,|;/).include?('text/html')
         render :file => File.join(RAILS_ROOT, 'app/views/picture.html.erb'), :layout => true
       else
-        path = object.photo_path_from_id(params[:id])
+        path = object.photo_path_from_params(params)
         updated_time = File.stat(path).mtime
         browser_time = Time.rfc2822(request.env["HTTP_IF_MODIFIED_SINCE"]) rescue nil
         if browser_time.nil? or updated_time > browser_time

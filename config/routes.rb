@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  
+  PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
 
   map.resource :feed
   
@@ -7,6 +9,22 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :messages
   map.resources :attachments
   map.resources :verses
+  
+  map.resources :families do |families|
+    families.resource :photo, :member => PHOTO_SIZE_METHODS
+  end
+
+  # this can go away once people, recipes, groups, and pictures
+  map.resources :photos
+  map.photo_with_size 'photos/show/:id.:size.jpg',
+    :controller   => 'photos',
+    :action       => 'show',
+    :method       => :get
+
+  map.with_options :controller => 'families' do |m|
+    m.family_add_person 'families/add_person/:id', :action => 'add_person'
+    #m.family_photo 'families/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
+  end
   
   map.with_options :controller => 'setup/dashboard' do |m|
     m.setup 'setup', :action => 'index'
@@ -58,14 +76,9 @@ ActionController::Routing::Routes.draw do |map|
     m.person_add_verse 'people/add_verse', :action => 'add_verse'
     m.person_remove_verse 'people/remove_verse', :action => 'remove_verse'
     m.remove_contact 'people/remove_contact/:id', :action => 'remove_contact'
-  end
-  
-  map.with_options :controller => 'families' do |m|
-    m.family 'families/view/:id', :action => 'view'
-    m.new_family 'families/edit', :action => 'edit'
-    m.edit_family 'families/edit/:id', :action => 'edit'
-    m.family_add_person 'families/add_person/:id', :action => 'add_person'
-    m.family_photo 'families/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
+    # these last two are in javascripts/popup.js as well
+    m.simple_view 'people/simple_view/:id', :action => 'simple_view'
+    m.simple_photo_view 'people/simple_photo_view/:id', :action => 'simple_photo_view'
   end
   
   map.with_options :controller => 'directory' do |m|
@@ -280,5 +293,5 @@ ActionController::Routing::Routes.draw do |map|
   
   #map.connect ':controller/service.wsdl', :action => 'wsdl'
   #map.connect ':controller/:action/:id'
-  map.photo ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
+  #map.photo ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
 end

@@ -15,7 +15,7 @@
     <div style="text-align:center;">
       <strong>Picture of Your Dish</strong><br/>
       <% if @recipe.has_photo? %>
-        <%= image_tag(photo_path(:controller => 'recipes', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %><br/>
+        <%= image_tag(photo_with_size_path(@recipe, :size => 'medium', :type => 'recipe'), :alt => @recipe.title) %><br/>
         <%= link_to "Remove Picture", edit_recipe_path(@recipe, :photo => 'remove'), :method => 'post', :confirm => 'Are you sure?' %>
       <% end %>
     </div>

@@ -7,6 +7,14 @@ module Forgeable
     eval(association.to_s.classify).forge(attributes)
   end
   
+  def forge_photo(photo=true)
+    if photo.is_a?(String)
+      self.photo = File.open(photo)
+    else
+      self.photo = File.open(RAILS_ROOT + '/public/images/family.jpg')
+    end
+  end
+  
   def self.included(mod)
     mod.extend(ClassMethods)
     mod.class_eval <<-END
@@ -38,7 +46,10 @@ module Forgeable
     
     def forge(attributes={})
       attributes.symbolize_keys!
-      create! forgery_defaults.merge(attributes)
+      photo = attributes.delete(:photo)
+      returning create!(forgery_defaults.merge(attributes)) do |obj|
+        obj.forge_photo(photo) if photo
+      end
     end
     
     def fake(symbol)
@@ -49,14 +60,19 @@ module Forgeable
         Faker::Lorem.send(symbol)
       when :email
         Faker::Internet.send(symbol)
+      when :name
+        "#{fake :first_name} #{fake :last_name}"
+      when :first_name, :last_name
+        Faker::Name.send(symbol)
       else
         raise 'Unrecognized faker symbol.'
       end
     end
+    
   end
 end
 
-%w(Person Recipe Note Picture Verse).each do |model|
+%w(Family Person Recipe Note Picture Verse Group).each do |model|
   eval model
   eval "class #{model}; include Forgeable; end"
 end
@@ -66,9 +82,12 @@ class Person
     attributes.symbolize_keys!
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
-    attributes[:family] ||= Family.create!(:name => first_name + ' ' + last_name, :last_name => last_name)
+    photo = attributes.delete(:photo)
+    attributes[:family] ||= Family.forge(:name => "#{first_name} #{last_name}", :last_name => last_name)
     defaults = {:first_name => first_name, :last_name => last_name, :gender => 'Male', :visible_to_everyone => true, :visible => true, :can_sign_in => true, :full_access => true, :email => Faker::Internet.email, :encrypted_password => '5ebe2294ecd0e0f08eab7690d2a6ee69'}
-    create! defaults.merge(attributes)
+    person = create!(defaults.merge(attributes))
+    person.forge_photo if photo
+    person
   end
   
   def forge_blog
@@ -82,6 +101,14 @@ class Person
   end
 end
 
+class Group
+  self.forgery_defaults = {:name => :word, :category => :word}
+end
+
+class Family
+  self.forgery_defaults = {:name => :name, :last_name => :last_name}
+end
+
 class Recipe
   self.forgery_defaults = {:title => :word, :ingredients => :paragraph, :directions => :paragraph}
 end
@@ -91,22 +118,19 @@ class Note
 end
 
 class Picture
-  def self.forge(attributes={})
-    photo_path = File.join(RAILS_ROOT, attributes.delete(:photo) || 'public/images/man.gif')
-    pic = Picture.create! attributes
-    pic.photo = File.open(photo_path)
-    pic
-  end
+  self.forgery_defaults = {:photo => true}
 end
 
 class Verse
   def self.forge(attributes={})
+    photo = attributes.delete(:photo)
     verse = Verse.new(:text => Faker::Lorem.sentence)
     verse.write_attribute :reference, "#{Faker::Lorem.words(1).join} #{rand(25)}:#{rand(50)}"
     attributes.each do |attr, val|
       verse.send("#{attr}=", val) # will allow tag_list= to work
     end
     verse.save!
+    verse.forge_photo if photo
     verse
   end
 end

@@ -36,13 +36,6 @@ class PrivacyTest < ActionController::IntegrationTest
     assert_select 'body', /Your search didn't match any people\./
   end
   
-  def test_name_attribute
-    sign_in_as people(:peter)
-    assert_equal '???', Person.find(people(:mac).id).name # do a full load because name is cached
-    sign_in_as people(:tim)
-    assert_equal 'Mac Morgan', Person.find(people(:mac).id).name # do a full load because name is cached
-  end
-  
   def test_children_cannot_sign_in_without_consent
     post_sign_in_form people(:mac).email
     assert_redirected_to '/help/unauthorized'
