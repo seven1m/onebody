@@ -107,11 +107,7 @@ class OneBodyInfo
   end
   
   def test_database_config(config)
-    begin
-      connect_to_database(build_database_config(config)[OneBodyInfo.setup_environment])
-    rescue
-      false
-    end
+    connect_to_database(build_database_config(config)[OneBodyInfo.setup_environment])
   end
   
   def build_database_config(config)
@@ -133,34 +129,24 @@ class OneBodyInfo
   
   def database_version
     @database_version ||= begin
-      connect_to_database(database_config)
-    rescue
-      nil # no database found (or error establishing connection)
-    else
-      begin
-        ActiveRecord::Base.connection.select_value("SELECT version FROM schema_migrations ORDER BY CAST(version AS UNSIGNED) DESC LIMIT 1").to_i
-      rescue
-        0
+      if connect_to_database(database_config)
+        begin
+          ActiveRecord::Base.connection.select_value("SELECT version FROM schema_migrations ORDER BY CAST(version AS UNSIGNED) DESC LIMIT 1").to_i
+        rescue
+          0
+        end
       end
     end
   end
   
   def people_count
-    begin
-      connect_to_database(database_config)
-    rescue
-      nil # no database found (or error establishing connection)
-    else
+    if connect_to_database(database_config)
       ActiveRecord::Base.connection.select_value("SELECT count(*) FROM people").to_i rescue nil
     end
   end
   
   def date_of_last_sync
-    begin
-      connect_to_database(database_config)
-    rescue
-      nil # no database found (or error establishing connection)
-    else
+    if connect_to_database(database_config)
       ActiveRecord::Base.connection.select_value("SELECT last_update FROM sync_info") rescue nil
     end
   end
@@ -170,8 +156,13 @@ class OneBodyInfo
   end
 
   def connect_to_database(config)
-    ActiveRecord::Base.establish_connection(config)
-    ActiveRecord::Base.connection
+    begin
+      ActiveRecord::Base.establish_connection(config)
+    rescue
+      nil
+    else
+      ActiveRecord::Base.connection
+    end
   end
   
   def possible_database_versions
