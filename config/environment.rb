@@ -2,6 +2,9 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 RAILS_GEM_VERSION = '2.1' unless defined? RAILS_GEM_VERSION
 
+# temporary until Rails bug fixed
+require 'fix_locator_bug'
+
 Rails::Initializer.run do |config|
   config.action_controller.session_store = :active_record_store
   config.log_path = File.join(File.dirname(__FILE__), "../log/#{RAILS_ENV}.log")
