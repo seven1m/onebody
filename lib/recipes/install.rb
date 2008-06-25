@@ -1,10 +1,9 @@
 REE_PATH = 'http://rubyforge.org/frs/download.php/38755/ruby-enterprise-1.8.6-20080621.tar.gz'
 
 namespace :deploy do
-  
   namespace :install do
     desc 'Install server software on Ubuntu'
-    task :all do
+    task :default do
       prerequisites
       ruby
       passenger
@@ -13,7 +12,7 @@ namespace :deploy do
     end
     
     desc 'Install server software, including Ruby Enterprise Edition'
-    task :all_with_ree do
+    task :ree do
       prerequisites
       ree
       passenger
@@ -30,7 +29,11 @@ namespace :deploy do
       sudo 'aptitude update'
       sudo 'aptitude install -y ruby1.8-dev libgems-ruby1.8 libmysql-ruby1.8'
       sudo 'ln -sf /usr/bin/ruby1.8 /usr/bin/ruby'
-      sudo 'ln -sf /usr/bin/gem1.8 /usr/bin/gem'
+      run 'cd /tmp && wget -nv http://rubyforge.org/frs/download.php/38646/rubygems-1.2.0.tgz && tar xzf rubygems-1.2.0.tgz'
+      run 'cd /tmp/rubygems-1.2.0 && sudo ruby setup.rb'
+      if run_and_return('gem1.8 --version') =~ /1\.2\.0/
+        sudo 'ln -sf /usr/bin/gem1.8 /usr/bin/gem'
+      end
       sudo 'gem update --system'
     end
     

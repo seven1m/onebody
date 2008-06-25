@@ -1,25 +1,33 @@
-set :application, "onebody"
-
-# sudo adduser deploy
+# copy this file to config/deploy.rb and adjust, then on the server:
+# # sudo adduser deploy
+# add user "deploy" to /etc/sudoers
 # copy your ssh public key (~/.ssh/id_rsa.pub) to the remote server (/home/deploy/.ssh/authorized_keys)
-# cap deploy:install:all
+# finally, on your local machine:
+# # cap deploy:install
+# # cap deploy:setup
+# # cap deploy:cold
+# See http://www.capify.org/getting-started/rails for more help
 
-set :user, 'deploy'
-set :runner, user
+# point to your server
+set :host, 'beonebody.org'
 
-set :scm, :git
+# if you have multiple servers, point these individually
+role :app, host
+role :web, host
+role :db,  host, :primary => true
+
+# point to your github fork if you have one
 set :repository, "git://github.com/seven1m/onebody.git"
-set :repository_cache, 'git_cache'
-set :deploy_via, :remote_cache
+set :scm, :git
 
-set :deploy_to, "/var/www/apps/#{application}"
-
-role :app, 'beonebody.org'
-role :web, 'beonebody.org'
-role :db,  'beonebody.org', :primary => true
-
-set :use_sudo, false
-
+# port to run OneBody Setup Mode on
 set :setup_port, 7999
 
+set :application, 'onebody'
+set :user, 'deploy'
+set :runner, user
+set :repository_cache, 'git_cache'
+set :deploy_via, :remote_cache
+set :deploy_to, "/var/www/apps/#{application}"
+set :use_sudo, false
 set :maintenance_file_path, "#{shared_path}/public/maintenance.html"

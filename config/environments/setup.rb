@@ -12,7 +12,7 @@ config.action_controller.perform_caching = false
 config.action_view.cache_template_extensions = false
 config.action_view.debug_rjs = true
 config.action_mailer.raise_delivery_errors = false
-#require 'rails/railties/builtin/rails_info/rails/info'
+#require 'rails/builtin/rails_info/rails/info' # FIXME: need right path
 
 File.delete(File.join(RAILS_ROOT, 'setup-authorized-ip')) if File.exists? File.join(RAILS_ROOT, 'setup-authorized-ip')
 File.open(File.join(RAILS_ROOT, 'setup-secret'), 'w') { |f| f.write random_chars(50) }
