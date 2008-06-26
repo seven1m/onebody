@@ -1,3 +1,0 @@
-h1. onebody_deploy
-
-Capistrano deployment tasks for "OneBody":http://github.com/seven1m/onebody.

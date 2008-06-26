@@ -12,7 +12,6 @@
 set :host, 'beonebody.org'
 
 # if you have multiple servers, point these individually
-role :app, host
 role :web, host
 role :db,  host, :primary => true
 

@@ -8,7 +8,6 @@ namespace :deploy do
       ruby
       passenger
       db_server
-      mysql
     end
     
     desc 'Install server software, including Ruby Enterprise Edition'
@@ -17,12 +16,11 @@ namespace :deploy do
       ree
       passenger
       db_server
-      mysql
     end
     
     task :prerequisites do
       sudo 'aptitude update'
-      sudo 'aptitude install -y build-essential ruby1.8 imagemagick apache2 apache2-dev apache2-mpm-prefork'
+      sudo 'aptitude install -y build-essential ruby1.8 imagemagick apache2 apache2-dev apache2-mpm-prefork apache2-prefork-dev git-core'
     end
     
     task :ruby, :roles => :web do
@@ -35,8 +33,11 @@ namespace :deploy do
         sudo 'ln -sf /usr/bin/gem1.8 /usr/bin/gem'
       end
       sudo 'gem update --system'
+      sudo 'gem install rails --no-rdoc --no-ri'
     end
     
+    # desc 'Install Ruby Enterprise Edition in place of MRI.'
+    # This probably needs some work.
     task :ree, :roles => :web do
       ree_file = REE_PATH.split('/').last
       ree_dir = ree_file.gsub(/\.tar\.gz$/, '')
@@ -80,11 +81,6 @@ namespace :deploy do
       sudo 'aptitude update'
       sudo 'aptitude install -y mysql-server'
     end
-    
-    # TODO: move this out of :install namespace
-    task :mysql, :roles => :db do
-      db_password = Highline.ask('Password to use for the "onebody" MySQL user: ')
-      run "mysql -u root -e \"create database onebody; grant all on onebody.* to onebody identified by '#{db_password}'\""
-    end
+
   end
 end
