@@ -55,10 +55,7 @@ namespace :deploy do
     after 'deploy:shared:update_public_files', 'deploy:shared:update_tasks'
     
     task :create_symlinks do
-      %w(config/database.yml public).each do |file|
-        run "rm -rf #{release_path}/#{file}"
-        run "ln -s #{shared_path}/#{file} #{release_path}/#{file}"
-      end
+      run "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     end
     after 'deploy:shared:update_tasks', 'deploy:shared:create_symlinks'
     

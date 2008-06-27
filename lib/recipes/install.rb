@@ -72,7 +72,7 @@ namespace :deploy do
       passenger_path = "#{gems_path}/#{gem_name}"
       run "cd #{passenger_path} && sudo rake clean apache2"
       run "echo 'LoadModule passenger_module #{passenger_path}/ext/apache2/mod_passenger.so' | sudo tee /etc/apache2/mods-available/passenger.load"
-      run "echo '<IfModule passenger_module>\\n  RailsSpawnServer #{passenger_path}/bin/passenger-spawn-server\\n  RailsRuby /usr/bin/ruby\\n</IfModule>' | sudo tee /etc/apache2/mods-available/passenger.conf"
+      run "echo '<IfModule passenger_module>\\n  PassengerRoot #{passenger_path}\\n  PassengerRuby /usr/bin/ruby\\n</IfModule>' | sudo tee /etc/apache2/mods-available/passenger.conf"
       sudo "a2enmod passenger"
       sudo "/etc/init.d/apache2 force-reload"
     end
