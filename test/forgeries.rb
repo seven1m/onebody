@@ -45,9 +45,10 @@ module Forgeable
   module ClassMethods
     
     def forge(attributes={})
+      attributes = forgery_defaults.merge(attributes)
       attributes.symbolize_keys!
       photo = attributes.delete(:photo)
-      returning create!(forgery_defaults.merge(attributes)) do |obj|
+      returning create!(attributes) do |obj|
         obj.forge_photo(photo) if photo
       end
     end
