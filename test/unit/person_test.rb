@@ -73,22 +73,22 @@ class PersonTest < Test::Unit::TestCase
   
   def test_update
     tim = {
-      :person => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
-      :family => partial_fixture('families', 'morgan', %w(name last_name home_phone address1 address2 city state zip))
+      'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
+      'family' => partial_fixture('families', 'morgan', %w(name last_name home_phone address1 address2 city state zip))
     }
 
-    (tim_change_first_name = tim.clone)[:person][:first_name] = 'Timothy'
+    (tim_change_first_name = tim.clone)['person']['first_name'] = 'Timothy'
     update = Update.create_from_params(tim_change_first_name, people(:tim))
     assert_equal 'Timothy', update.first_name
     assert_equal '04/28/1981', update.birthday.strftime('%m/%d/%Y')
     assert_equal '08/11/2001', update.anniversary.strftime('%m/%d/%Y')
 
-    (tim_change_birthday = tim.clone)[:person][:birthday] = '06/24/1980'
+    (tim_change_birthday = tim.clone)['person']['birthday'] = '06/24/1980'
     update = Update.create_from_params(tim_change_birthday, people(:tim))
     assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
     assert_equal '08/11/2001', update.anniversary.strftime('%m/%d/%Y')
     
-    (tim_remove_anniversary = tim.clone)[:person][:anniversary] = ''
+    (tim_remove_anniversary = tim.clone)['person']['anniversary'] = ''
     update = Update.create_from_params(tim_remove_anniversary, people(:tim))
     assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
     assert_equal '01/01/1800', update.anniversary.strftime('%m/%d/%Y')
@@ -97,8 +97,11 @@ class PersonTest < Test::Unit::TestCase
   private
   
     def partial_fixture(table, name, valid_attributes)
-      YAML::load(File.open(File.join(RAILS_ROOT, "test/fixtures/#{table}.yml")))[name].delete_if do |key, val|
-        !valid_attributes.include? key
+      returning YAML::load(File.open(File.join(RAILS_ROOT, "test/fixtures/#{table}.yml")))[name] do |fixture|
+        fixture.delete_if { |key, val| !valid_attributes.include? key }
+        fixture.each do |key, val|
+          fixture[key] = val.to_s
+        end
       end
     end
 end

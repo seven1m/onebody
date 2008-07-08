@@ -117,7 +117,7 @@ jeremy:
   visible_to_everyone: true
   visible_on_printed_directory: true
   full_access: true
-  feed_code: bla
+  feed_code: bla2
   deacon: true
   barcode_id: 1002
 peter:
@@ -138,7 +138,7 @@ peter:
   visible_to_everyone: true
   visible_on_printed_directory: true
   full_access: true
-  feed_code: bla
+  feed_code: bla3
   barcode_id: 1003
 jennie:
   site_id: 1
@@ -160,7 +160,7 @@ jennie:
   visible_to_everyone: true
   visible_on_printed_directory: true
   full_access: true
-  feed_code: bla
+  feed_code: bla4
   staff: true
   barcode_id: 1004
 mac:
@@ -181,7 +181,7 @@ mac:
   visible_to_everyone: true
   visible_on_printed_directory: true
   full_access: true
-  feed_code: bla
+  feed_code: bla5
   barcode_id: 1005
   can_pick_up: Tim or Jennie Morgan
   cannot_pick_up: John Smith
@@ -203,7 +203,7 @@ jane:
   visible_to_everyone: true
   visible_on_printed_directory: true
   full_access: true
-  feed_code: bla
+  feed_code: bla6
   staff: true
   barcode_id: 1006
 megan:
@@ -223,7 +223,7 @@ megan:
   visible_to_everyone: true
   visible_on_printed_directory: true
   full_access: true
-  feed_code: bla
+  feed_code: bla7
   barcode_id: 1007
   medical_notes: Type 1 Diabetes
 jim:
@@ -246,7 +246,7 @@ jim:
   visible_to_everyone: true
   visible_on_printed_directory: true
   full_access: true
-  feed_code: bla
+  feed_code: bla8
   barcode_id: 1008
 tom:
   site_id: 3
@@ -268,5 +268,5 @@ tom:
   visible_to_everyone: true
   visible_on_printed_directory: true
   full_access: true
-  feed_code: bla
+  feed_code: bla9
   barcode_id: 1009

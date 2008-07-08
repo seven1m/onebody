@@ -3,10 +3,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UpdateTest < Test::Unit::TestCase
   fixtures :updates, :people
 
-  # Replace this with your real tests.
   def test_update
     Person.logged_in = people(:tim)
-    updates(:update_tim).do!
+    assert updates(:update_tim).do!
     people(:tim).reload
     %w(first_name last_name suffix gender mobile_phone work_phone fax).each do |attribute|
       assert_equal updates(:update_tim)[attribute], people(:tim)[attribute]

@@ -123,6 +123,7 @@ class Person < ActiveRecord::Base
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }
+  validates_uniqueness_of :feed_code, :allow_nil => true
   validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => :validate_website
   validates_presence_of :gender, :if => Proc.new { Person.logged_in }
 
@@ -426,7 +427,10 @@ class Person < ActiveRecord::Base
   # generates security code for grabbing feed(s) without logging in
   before_create :update_feed_code
   def update_feed_code
-    write_attribute :feed_code, (1..50).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
+    begin # ensure unique
+      code = (1..50).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
+      write_attribute :feed_code, code
+    end while Person.count('*', :conditions => ['feed_code = ?', code]) > 0
   end
   
   def update_from_params(params, can_edit_basics=false)

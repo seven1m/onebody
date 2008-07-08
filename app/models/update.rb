@@ -49,13 +49,14 @@ class Update < ActiveRecord::Base
         person.family[attribute.gsub(/^family_/, '')] = self[attribute] unless self[attribute].nil?
       end
       person.family.save
-    else 
+    else
+      puts person.errors.full_messages.join('; ')
       false
     end
   end
   
   def self.create_from_params(params, person)
-    raise 'params must be a HashWithIndifferentAccess' unless params.is_a? HashWithIndifferentAccess
+    params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
     # turn formatted phone numbers into digits only
     %w(mobile_phone work_phone fax).each do |a|
       params['person'][a] = params['person'][a].digits_only if params['person'][a]

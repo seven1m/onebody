@@ -67,7 +67,4 @@ class PeopleController < ApplicationController
     end
   end
 
-  def recently # backwards compatibility with old RSS feed links
-    redirect_to formatted_feed_path('rss', :code => params[:code])
-  end
 end

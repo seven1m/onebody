@@ -1,13 +1,21 @@
 class GroupsController < ApplicationController
   def index
-    @categories = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' #{@logged_in.admin?(:manage_groups) ? '' : 'and hidden = 0 and approved = 1'} group by category").map { |g| [g.category, g.group_count] }
-    @hidden_groups = Group.find_all_by_hidden(true, :order => 'name')
-    if @logged_in.admin?(:manage_groups)
-      @unapproved_groups = Group.find_all_by_approved(false)
+    if params[:person_id]
+      @person = Person.find(params[:person_id])
+      respond_to do |format|
+        format.js   { render :partial => 'person_groups' }
+        format.html { render :partial => 'person_groups', :layout => true }
+      end
     else
-      @unapproved_groups = Group.find_all_by_creator_id_and_approved(@logged_in.id, false)
+      @categories = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' #{@logged_in.admin?(:manage_groups) ? '' : 'and hidden = 0 and approved = 1'} group by category").map { |g| [g.category, g.group_count] }
+      @hidden_groups = Group.find_all_by_hidden(true, :order => 'name')
+      if @logged_in.admin?(:manage_groups)
+        @unapproved_groups = Group.find_all_by_approved(false)
+      else
+        @unapproved_groups = Group.find_all_by_creator_id_and_approved(@logged_in.id, false)
+      end
+      @person = @logged_in
     end
-    @person = @logged_in
   end
   
   def search

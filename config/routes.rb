@@ -1,8 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   
   PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
-  
-  map.recently 'people/recently', :controller => 'people', :action => 'recently' # old rss links
+
+  map.connect '', :controller => 'people'
   
   map.resources :people do |people|
     people.resources :groups
@@ -11,8 +11,6 @@ ActionController::Routing::Routes.draw do |map|
     people.resource :privacy
     people.resource :photo, :member => PHOTO_SIZE_METHODS
   end
-  
-  map.logged_in '', :controller => 'people', :action => 'index' # TODO: replace every occurrence with people_path
   
   map.resources :blogs
   map.resources :walls
