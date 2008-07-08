@@ -38,6 +38,7 @@ class PersonTest < Test::Unit::TestCase
   end
   
   def test_website
+    Person.logged_in = people(:peter)
     # good
     p = people(:peter)
     p.website = 'http://goodwebsite.com/a/path?some=args'
