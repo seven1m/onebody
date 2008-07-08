@@ -55,20 +55,21 @@ class Update < ActiveRecord::Base
   end
   
   def self.create_from_params(params, person)
+    raise 'params must be a HashWithIndifferentAccess' unless params.is_a? HashWithIndifferentAccess
     # turn formatted phone numbers into digits only
     %w(mobile_phone work_phone fax).each do |a|
-      params[:person][a.to_sym] = params[:person][a.to_sym].digits_only if params[:person][a.to_sym]
+      params['person'][a] = params['person'][a].digits_only if params['person'][a]
     end
-    params[:family][:home_phone] = params[:family][:home_phone].digits_only if params[:family][:home_phone]
+    params['family']['home_phone'] = params['family']['home_phone'].digits_only if params['family']['home_phone']
     # keep only values that have changed from the originals
-    family_updates = params[:family].clone
-    family_updates[:family_name] = family_updates.delete(:name)
-    family_updates[:family_last_name] = family_updates.delete(:last_name)
-    family_updates = keep_changes(params[:family], person.family)
-    updates = keep_changes(params[:person], person) + family_updates
+    family_updates = params['family'].clone
+    family_updates = keep_changes(family_updates, person.family)
+    family_updates['family_name'] = family_updates.delete('name')
+    family_updates['family_last_name'] = family_updates.delete('last_name')
+    updates = keep_changes(params['person'], person) + family_updates
     # date year 1800 means to blank the date
-    updates[:birthday] = Date.new(1800, 1, 1) if updates.has_key?(:birthday) and updates[:birthday].to_s.blank?
-    updates[:anniversary] = Date.new(1800, 1, 1) if updates.has_key?(:anniversary) and updates[:anniversary].to_s.blank?
+    updates['birthday'] = Date.new(1800, 1, 1) if updates.has_key?('birthday') and updates['birthday'].to_s.blank?
+    updates['anniversary'] = Date.new(1800, 1, 1) if updates.has_key?('anniversary') and updates['anniversary'].to_s.blank?
     # save
     u = person.updates.create(updates)
     # send notification

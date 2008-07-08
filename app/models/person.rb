@@ -239,6 +239,7 @@ class Person < ActiveRecord::Base
   alias_method :sees?, :can_see?
   
   def can_edit?(what)
+    return false if self.account_frozen?
     if what.is_a? Group
       what.admin? self or self.admin?(:manage_groups)
     elsif what.is_a? Ministry
@@ -448,6 +449,10 @@ class Person < ActiveRecord::Base
       else
         Update.create_from_params(params, self)
         self
+      end
+    elsif params[:freeze] and Person.logged_in.admin?(:edit_profiles)
+      if Person.logged_in != self
+        toggle!(:account_frozen)
       end
     elsif params[:person] # testimony, about, favorites, etc.
       params[:person][:service_phone] = params[:person][:service_phone].digits_only if params[:person][:service_phone]

@@ -19,7 +19,7 @@ class AccountController < ApplicationController
         if params[:from]
           redirect_to 'http://' + request.host + ([80, 443].include?(request.port) ? '' : ":#{request.port}") + params[:from]
         else
-          redirect_to logged_in_url
+          redirect_to people_url
         end
       elsif person == nil
         cookies[:email] = nil
@@ -38,7 +38,7 @@ class AccountController < ApplicationController
   
   def sign_out
     session[:logged_in_id] = nil
-    redirect_to logged_in_path
+    redirect_to people_path
   end
   
   def edit

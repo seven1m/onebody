@@ -28,7 +28,7 @@
   <li><%= link_to 'Privacy Settings', person_privacy_path(@person, :anchor => "p#{@person.id}"), :style => 'color:yellow;' %></li>
   <li><%= link_to 'Remote Accounts', remote_accounts_path(:person_id => @person) %></li>
   <% if @logged_in.admin?(:edit_profiles) %>
-    <li><%= link_to (@person.account_frozen? ? 'Unfreeze' : 'Freeze'), freeze_account_path(@person), :method => 'post', :confirm => 'Are you sure?' %></li>
+    <li><%= link_to (@person.account_frozen? ? 'Unfreeze' : 'Freeze'), person_path(@person, :freeze => 'toggle'), :method => 'put', :confirm => 'Are you sure?' %></li>
   <% end %>
 <% end %>
 
@@ -71,7 +71,7 @@
 
 <h2 class="tab" id="about">About</h2>
 <div class="section">
-  <% form_for :person, @person do |form| %>
+  <% form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'about' %>
     <div>
       <label for="person_testimony">Testimony:</label>
@@ -91,7 +91,7 @@
     
 <h2 class="tab" id="favorites">Favs</h2>
 <div class="section">
-  <% form_for :person, @person do |form| %>
+  <% form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'favorites' %>
     <p style="font-style:italic;">Separate things with commas so the system can auto-link to other people with the same stuff.</p>
     <div>
@@ -132,7 +132,7 @@
     Enter your business name, description, and other details below.
   </p>
 
-  <% form_for :person, @person do |form| %>
+  <% form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'services' %>
     <div>
       <label for="person_service_category">Business Category:</label>
@@ -187,7 +187,7 @@
     <li>You will not be able to use this address to sign into the site.</li>
   </ul>
 
-  <% form_for :person, @person do |form| %>
+  <% form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'email' %>
     <div>
       <label for="person_alternate_email">Alternate Email:</label>

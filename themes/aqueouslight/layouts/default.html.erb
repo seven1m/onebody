@@ -58,7 +58,7 @@
               <% end %>
 				    <% end %>
 				    
-				    <li><%= link_to 'Profile', logged_in_path, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
+				    <li><%= link_to 'Profile', people_path, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
 				    <li><%= link_to 'Directory', search_directory_path, :class => (params[:controller] == 'directory' ? 'active' : nil) %></li>
 				    <li><%= link_to 'Groups', groups_path, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li>
 				    <li><%= link_to 'Shares', shares_path, :class => (['shares', 'events', 'pictures', 'verses', 'recipes'].include?(params[:controller]) ? 'active' : nil) %></li>

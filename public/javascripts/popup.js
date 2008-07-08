@@ -35,9 +35,9 @@ function show_popup(id, show_photo){
 	hide_popup();
 	var obj = gettrailobj();
 	if(show_photo) {
-	  new Ajax.Updater('trailimageid', '/people/simple_photo_view/' + id, {onComplete:function(){$('trailimageid').style.display = 'block'}, onlyLatestOfClass:'person'});
+	  new Ajax.Updater('trailimageid', '/people/' + id + '?simple=true&photo=true', {onComplete:function(){$('trailimageid').style.display = 'block'}, onlyLatestOfClass:'person'});
 	} else {
-	  new Ajax.Updater('trailimageid', '/people/simple_view/' + id, {onComplete:function(){$('trailimageid').style.display = 'block'}, onlyLatestOfClass:'person'});
+	  new Ajax.Updater('trailimageid', '/people/' + id + '?simple=true', {onComplete:function(){$('trailimageid').style.display = 'block'}, onlyLatestOfClass:'person'});
   }
 	//document.onmousemove = followmouse;
 	obj.left = mouseX + 'px';

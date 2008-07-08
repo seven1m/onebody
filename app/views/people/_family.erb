@@ -2,7 +2,7 @@
     <h2>
       Family
       <% if @me %>
-        <%= link_to 'edit', edit_profile_url, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+        <%= link_to 'edit', edit_person_url(@logged_in), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
       <% end %>
     </h2>
     <table>
@@ -14,7 +14,7 @@
             </a>
           </td>
           <td>
-            <%= link_to h(person.name), person_url(:id => person) %>
+            <%= link_to h(person.name), person %>
             <% unless person.visible? %>
               <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
             <% end %>

@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
     end
     
     def redirect_back(fallback=nil)
-      request.env["HTTP_REFERER"] ? redirect_to(request.env["HTTP_REFERER"]) : redirect_to(fallback || logged_in_path)
+      request.env["HTTP_REFERER"] ? redirect_to(request.env["HTTP_REFERER"]) : redirect_to(fallback || people_path)
       return false
     end
     

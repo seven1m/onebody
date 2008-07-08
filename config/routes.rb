@@ -1,40 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
   
   PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
-
-  map.resource :feed
+  
+  map.recently 'people/recently', :controller => 'people', :action => 'recently' # old rss links
   
   map.resources :people do |people|
     people.resources :groups
+    people.resources :pictures
+    people.resource :service
     people.resource :privacy
     people.resource :photo, :member => PHOTO_SIZE_METHODS
   end
-  map.logged_in '', :controller => 'people', :action => 'index'
-
-#  map.with_options :controller => 'people', :protocol => 'http' do |m|
-#    m.edit_profile 'people/edit/:id', :action => 'edit'
-#     m.edit_person 'people/edit/:id', :action => 'edit'
-#     m.person_privacy 'people/privacy/:id', :action => 'privacy'
-#     m.person__email_prefs 'people/email/:id', :action => 'email'
-#    m.person_photo 'people/photo/:id', :action => 'photo'
-#     m.person_groups 'people/groups/:id', :action => 'groups'
-#    m.person_pictures 'people/pictures/:id', :action => 'pictures'
-#    m.new_person 'people/edit', :action => 'edit'
-#    m.delete_person 'people/delete/:id', :action => 'delete'
-#    m.person 'people/view/:id', :action => 'view'#, :requirements => {:id => /\d/}
-#    m.recently 'people/recently', :action => 'recently'
-#    m.logged_in '', :action => 'index'
-#    m.services_from 'people/services/:id', :action => 'services'
-#     m.opensearch 'opensearch.xml', :action => 'opensearch', :format => 'xml'
-#    m.remove_verse_from_person 'people/remove_verse/:id', :action => 'remove_verse'
-#    m.freeze_account 'people/freeze/:id', :action => 'edit'
-#    m.person_add_verse 'people/add_verse', :action => 'add_verse'
-#    m.person_remove_verse 'people/remove_verse', :action => 'remove_verse'
-#    m.remove_contact 'people/remove_contact/:id', :action => 'remove_contact'
-#    # these last two are in javascripts/popup.js as well
-#    m.simple_view 'people/simple_view/:id', :action => 'simple_view'
-#    m.simple_photo_view 'people/simple_photo_view/:id', :action => 'simple_photo_view'
-#  end
+  
+  map.logged_in '', :controller => 'people', :action => 'index' # TODO: replace every occurrence with people_path
   
   map.resources :blogs
   map.resources :walls
@@ -52,6 +30,8 @@ ActionController::Routing::Routes.draw do |map|
     :controller   => 'photos',
     :action       => 'show',
     :method       => :get
+
+  map.resource :feed
 
   map.with_options :controller => 'families' do |m|
     m.family_add_person 'families/add_person/:id', :action => 'add_person'
