@@ -42,7 +42,7 @@
 
 <% if @me and @logged_in.pending_friendship_requests.count > 0 %>
   <p class="highlight">
-    You have <%= link_to 'pending friend requests', friends_url %>.
+    You have <%= link_to 'pending friend requests', friends_path %>.
   </p>
 <% end %>
 
@@ -72,13 +72,6 @@
   </p>
 <% end %>
 
-<% if @prayer_signups.any? %>
-  <p class="highlight" style="width:300px;">
-    <%= @person.first_name %> is praying at the following time(s):<br/>
-    <%= @prayer_signups.map { |s| s.start.strftime '%a %m/%d, %I:%M %p' }.join('<br/>') %>
-  </p>
-<% end %>
-
 <%= render :partial => 'details' %>
 
 <% if not @person.messages_enabled? or @person.email.to_s.empty? %>
@@ -99,7 +92,7 @@
   <% if @person.about.to_s.any? %>
     <%= preserve_breaks @person.about %>
   <% elsif @me %>
-    <em>Write something <%= link_to 'about yourself', edit_profile_url(:anchor => 'about') %>.</em>
+    <em>Write something <%= link_to 'about yourself', edit_person_path(@person, :anchor => 'about') %>.</em>
   <% end %>
 </div>
 
@@ -109,7 +102,7 @@
   <% if @person.testimony.to_s.any? %>
     <%= preserve_breaks @person.testimony %>
   <% elsif @me %>
-    <em>Share <%= link_to 'your story', edit_profile_url(:anchor => 'about') %>.</em>
+    <em>Share <%= link_to 'your story', edit_person_path(@person, :anchor => 'about') %>.</em>
   <% end %>
   <p><%= link_to 'Read more testimonies...', search_directory_path(:testimony => true) %></p>
 </div>
@@ -152,7 +145,7 @@
   
   <% unless has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) or !@me %>
     <p><em>Tell about your favorite interests, music, movies, and more
-      <%= link_to 'here', edit_profile_url(:anchor => 'favorites') %>.</em></p>
+      <%= link_to 'here', edit_person_path(@person, :anchor => 'favorites') %>.</em></p>
   <% end %>
 </div>
 

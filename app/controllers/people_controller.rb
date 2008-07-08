@@ -1,39 +1,42 @@
 class PeopleController < ApplicationController
-  before_filter :get_person, :except => [:index, :search, :directory_to_pdf, :add_verse, :remove_verse]
-  before_filter :can_see?, :except => [:recently, :index, :search, :directory_to_pdf, :add_verse, :remove_verse]
-  before_filter :can_edit?, :only => [:email, :edit]
+  #before_filter :get_person, :except => [:index, :show, :search, :directory_to_pdf, :add_verse, :remove_verse]
+  #before_filter :can_see?, :except => [:recently, :index, :search, :directory_to_pdf, :add_verse, :remove_verse]
+  #before_filter :can_edit?, :only => [:email, :edit]
   
   def recently # backwards compatibility with old RSS feed links
     redirect_to formatted_feed_path('rss', :code => params[:code])
   end
   
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  def index
+    redirect_to @logged_in
+  end
   
-  def index; @person = @logged_in; @family = @person.family; view; end
-  
-  def view
-    if @person
-      @prayer_signups = @person.prayer_signups.find(:all, :conditions => ['start >= ?', Time.now], :order => 'start')
+  def show
+    if @person = Person.find_by_id(params[:id], :include => :family) and @logged_in.can_see?(@person)
+      @family = @person.family
       @family_people = @person.family.visible_people
       @me = (@logged_in == @person)
-      @show_map = Setting.get(:services, :yahoo) and @person.family.mapable? and @person.share_address_with @logged_in
-      render :action => (@logged_in.full_access? or @me) ? 'view' : 'limited_view'
+      @show_map = Setting.get(:services, :yahoo) and @person.family.mapable? and @person.share_address_wit(@logged_in)
+      if params[:simple]
+        if @logged_in.full_access?
+          if params[:photo]
+            render :action => 'show_simple_photo', :layout => false
+          else
+            render :action => 'show_simple', :layout => false
+          end
+        else
+          render :text => '', :status => 404
+        end
+      elsif not @logged_in.full_access? and not @me
+        render :action => 'show_limited'
+      end
     else
-      render :text => 'Not found.', :status => 404
+      render :text => 'Person not found.', :status => 404
     end
   end
   
-  def groups; render(:partial => 'groups'); end
   
-  def simple_view(show_photo=false)
-    if not @logged_in.full_access?
-      render :text => ''
-    else
-      render :action => (show_photo ? 'simple_photo_view.html.erb' : 'simple_view.html.erb'), :layout => false
-    end
-  end
-  
-  def simple_photo_view; simple_view(true); end
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   
   def pictures
   end
@@ -116,7 +119,7 @@ class PeopleController < ApplicationController
     if request.post?
       if @person.update_attributes params[:person]
         flash[:notice] = 'Settings saved.'
-        redirect_to person_email_prefs_path(@person)
+        redirect_to edit_person_path(@person, :email => true)
       else
         flash[:notice] = @person.errors.full_messages.join('; ')
       end
@@ -199,10 +202,6 @@ class PeopleController < ApplicationController
     verse.people.delete @logged_in
     flash[:notice] = 'Verse removed.'
     redirect_to params[:return_to] || person_path(@logged_in, :anchor => 'shares')
-  end
-      
-  def opensearch
-    render :layout => false, :content_type => Mime::XML
   end
   
   private
