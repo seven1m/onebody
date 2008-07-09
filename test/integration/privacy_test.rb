@@ -45,16 +45,16 @@ class PrivacyTest < ActionController::IntegrationTest
     follow_redirect!
     assert_template 'people/show'
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
-    get "people/#{people(:jeremy).id}/privacy"
+    get "people/#{people(:jeremy).id}/privacy/edit"
     assert_response :success
-    assert_template 'privacies/show'
+    assert_template 'privacies/edit'
     assert_select 'p.alert', :minimum => 1, :text => /you have not given consent/
     assert_select 'li', :minimum => 1, :text => /Privacy Policy/
     assert_select 'input[type=submit][value=I Agree]', 1
     put "/people/#{people(:megan).id}/privacy", :agree => 'I Agree.'
     assert_response :redirect
     follow_redirect!
-    assert_template 'privacies/show'
+    assert_template 'privacies/edit'
     assert_select 'div#notice', /Agreement saved\./
     people(:megan).reload
     assert people(:megan).parental_consent # not nil
