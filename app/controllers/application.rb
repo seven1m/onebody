@@ -88,6 +88,10 @@ class ApplicationController < ActionController::Base
       return false
     end
     
+    def params_without_action
+      params.delete_if { |k, v| %w(controller action).include? k }
+    end
+    
     def add_errors_to_flash(record)
       flash[:warning] = record.errors.full_messages.join('; ')
     end

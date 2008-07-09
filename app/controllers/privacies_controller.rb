@@ -1,24 +1,14 @@
 class PrivaciesController < ApplicationController
 
   def show
-    if params[:person_id]
-      if @person = Person.find(params[:person_id]) and @logged_in.can_edit?(@person)
-        @family = @person.family
-      else
-        render :text => 'You are not authorized to edit this person', :status => 401
-      end
-    else
-      redirect_to person_privacy_path(@logged_in, :anchor => "p#{@logged_in.id}")
-    end
+    id = params[:person_id] || @logged_in.id
+    redirect_to edit_person_privacy_path(id, params_without_action.merge(:anchor => "p#{id}"))
   end
 
   def edit
     if @person = Person.find(params[:person_id]) and @logged_in.can_edit?(@person)
       @family = @person.family
-      if params[:consent] and child = @family.children_without_consent.first
-        redirect_to :anchor => "p#{child.id}"
-        return
-      end
+      
       unless @family.visible?
         flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family is currently hidden from all pages on this site!"
       end
@@ -63,7 +53,7 @@ class PrivaciesController < ApplicationController
     elsif params[:commit] == 'I Agree'
       flash[:warning] = 'You must check the box indicating you agree to the statement below.'
     end
-    redirect_to person_privacy_path(@person, :section => params[:anchor])
+    redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
   end
 
 end

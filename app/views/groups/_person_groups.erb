@@ -23,8 +23,13 @@
   <% if @logged_in.admin?(:manage_groups) %>
     <p><%= link_to_function 'Show Hidden Groups', "$$('.hidden-group').each(function(e){Element.toggle(e)})" %>
   <% end %>
-<% elsif @logged_in == @person %>
-  <p>You aren't in any groups yet. Find a group <%= link_to 'here', groups_url %>.</p>
+<% elsif me? %>
+  <p>
+    You aren't in any groups yet.
+    <% if params[:person_id] %>
+      Find a group <%= link_to 'here', groups_url %>.
+    <% end %>
+  </p>
 <% else %>
   <p><%=h @person.first_name %> isn't in any groups right now.</p>
 <% end %>
