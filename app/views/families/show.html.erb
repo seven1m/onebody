@@ -25,7 +25,7 @@
         <% end %>
       </td>
       <td>
-        <%= link_to '[delete]', delete_person_path(:id => person), :confirm => 'Are you sure?', :method => :post %>
+        <%= link_to '[delete]', person, :confirm => 'Are you sure?', :method => :delete %>
       </td>
     </tr>
   <% end %>

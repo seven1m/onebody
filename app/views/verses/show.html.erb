@@ -1,12 +1,12 @@
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to image_tag('remove.gif', :alt => 'Remove this verse from my list.', :class => 'icon') + ' Remove this verse', person_remove_verse_path(:verse_id => @verse, :return_to => request.request_uri), :method => 'post', :confirm => 'Are you sure?' %><br/>
+      <%= link_to image_tag('remove.gif', :alt => 'Remove this verse from my list.', :class => 'icon') + ' Remove this verse', @verse, :method => 'delete', :confirm => 'Are you sure?' %><br/>
       from my list.
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', person_add_verse_path(:reference => @verse.reference, :return_to => request.request_uri), :method => 'post' %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', @verse, :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>

@@ -12,9 +12,13 @@ class VersesController < ApplicationController
   def show
     @verse = Verse.find(params[:id])
   end
+
+  def create
+    @verse = Verse.find(params[:id])
+    @verse.people << @logged_in unless @verse.people.include? @logged_in
+    redirect_to @verse
+  end
   
-  # add/remove tags
-  # add/remove people
   def update
     @verse = Verse.find(params[:id])
     @verse.tag_list.remove(params[:remove_tag]) if params[:remove_tag]
@@ -22,4 +26,16 @@ class VersesController < ApplicationController
     @verse.save
     redirect_to @verse
   end
+  
+  def destroy
+    @verse = Verse.find(params[:id])
+    @verse.people.delete @logged_in
+    unless @verse.people.count == 0
+      redirect_to @verse
+    else
+      @verse.destroy
+      redirect_to verses_path
+    end
+  end
+
 end

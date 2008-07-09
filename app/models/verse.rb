@@ -52,20 +52,26 @@ class Verse < ActiveRecord::Base
   LS_BASE_URL = 'http://www.seek-first.com/Bible.php?q=&passage=Seek'
   
   def lookup
-    return if reference.nil? or reference.empty?
-    self.translation = 'WEB' if translation.nil?
-    url = LS_BASE_URL + '&p=' + URI.escape(reference) + '&version=' + translation
-    result = Net::HTTP.get(URI.parse(url))
-    url = /<!\-\-\s*(http:\/\/api\.seek\-first\.com.+?)\s*\-\->/.match(result)[1]
-    result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/ì|î/, '"').gsub(/ë|í/, "'").gsub('*', '')
-    begin
-       self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
-       self.text.gsub!(/\223|\224/, '"')
-       self.text.gsub!(/\221|\222/, "'")
-       self.text.gsub!(/\227/, "--")
-       self.update_sortables
-    rescue
-      nil
+    if Rails.env == 'test'
+      self.translation = 'WEB'
+      self.text = 'test'
+      self.update_sortables
+    else
+      return if reference.nil? or reference.empty?
+      self.translation = 'WEB' if translation.nil?
+      url = LS_BASE_URL + '&p=' + URI.escape(reference) + '&version=' + translation
+      result = Net::HTTP.get(URI.parse(url))
+      url = /<!\-\-\s*(http:\/\/api\.seek\-first\.com.+?)\s*\-\->/.match(result)[1]
+      result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/ì|î/, '"').gsub(/ë|í/, "'").gsub('*', '')
+      begin
+         self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
+         self.text.gsub!(/\223|\224/, '"')
+         self.text.gsub!(/\221|\222/, "'")
+         self.text.gsub!(/\227/, "--")
+         self.update_sortables
+      rescue
+        nil
+      end
     end
   end
   
@@ -159,10 +165,10 @@ class Verse < ActiveRecord::Base
   class << self
     
     def find(reference_or_id, options=nil)
-      if reference_or_id.to_i == 0
-        find_by_reference(reference_or_id)
-      else
+      if reference_or_id.is_a?(Symbol) or reference_or_id.to_s =~ /^\d+$/
         super
+      else
+        find_by_reference(reference_or_id)
       end
     end
     
