@@ -1,34 +1,6 @@
 <h1>Publications</h1>
 
-<% today = Date.today %> 
-<% if @publications.any? %>
-  <table>
-    <% @publications.each do |publication| %>
-      <tr>
-        <td>
-          <%= link_to image_tag(publication.file_content_type == 'application/pdf' ? 'acrobat.gif' : 'publication.gif', :alt => publication.name, :class => 'no-border'), publication, :target => '_new' %>
-        </td>
-        <td>
-          <%= link_to h(publication.name), publication, :target => '_new' %>
-          <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
-          <% if @logged_in.admin?(:manage_publications) %>
-            <%= link_to '[delete]', delete_publication_path(publication), :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
-          <% end %>
-          <br/>
-          <%=h publication.description %>
-        </td>
-      </tr>
-    <% end %>
-  </table>
-  
-  <p>
-    For files with the Acrobat icon <%= image_tag('acrobat.gif', :alt => 'Adobe Acrobat', :class => 'icon') %>,
-    you will need <%= link_to 'Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html' %>
-    (aka "Acrobat Reader") or another program capable of viewing PDF files.
-  </p>
-<% else %>
-  <p><em>There are currently no publications available.</em></p>
-<% end %>
+<%= render :partial => 'list' %>
 
 <% if @logged_in.admin?(:manage_publications) %>
   <p>

@@ -20,7 +20,6 @@ require 'net/http'
 class Verse < ActiveRecord::Base
   has_and_belongs_to_many :people, :conditions => ['people.visible = ?', true]
   has_many :comments, :dependent => :destroy
-  has_and_belongs_to_many :events
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"

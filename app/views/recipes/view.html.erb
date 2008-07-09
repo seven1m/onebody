@@ -8,7 +8,7 @@
 
 <% if @recipe.has_photo? %>
   <div style="width:200;float:right;">
-    <%= image_tag(photo_url(:controller => 'recipes', :id => "#{@recipe.id}.medium.jpg"), :alt => @recipe.title) %>
+    <%= image_tag(photo_with_size_path(:type => 'recipe', :id => @recipe, :size => 'medium'), :alt => @recipe.title) %>
   </div>
 <% end %>
 

@@ -41,12 +41,6 @@ class RecipesController < ApplicationController
     else
       @recipe = Recipe.new :person => @logged_in
     end
-    if params[:event]
-      @event = Event.find(params[:event])
-      @recipe.event = @event
-    else
-      @event = @recipe.event
-    end
     unless @recipe.admin?(@logged_in)
       raise 'You are not authorized to edit this recipe.'
     end
@@ -71,7 +65,6 @@ class RecipesController < ApplicationController
 
   def remove
     @recipe = Recipe.find params[:id]
-    @recipe.event = nil
     @recipe.save
     redirect_to params[:return_to] or recipes_path
   end
