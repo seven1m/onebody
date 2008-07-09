@@ -256,7 +256,7 @@ class Person < ActiveRecord::Base
     elsif what.is_a? RemoteAccount
       self.can_edit?(what.person)
     else
-      raise 'unknown "what"'
+      raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end
   end
   

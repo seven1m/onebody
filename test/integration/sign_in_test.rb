@@ -15,22 +15,22 @@ class SignInTest < ActionController::IntegrationTest
     assert_response :success
     assert_select 'div#notice', /password/
     post '/account/sign_in', :email => people(:peter).email, :password => 'secret'
-    assert_redirected_to people_path
+    assert_redirected_to person_path(people(:peter))
   end
   
   def test_email_address_sharing_among_family_members
     Setting.set(nil, 'Features', 'SSL', true)
     # tim
     post '/account/sign_in', :email => people(:tim).email, :password => 'secret'
-    assert_redirected_to people_path
+    assert_redirected_to person_path(people(:tim))
     follow_redirect!
-    assert_template 'people/view'
+    assert_template 'people/show'
     assert_select 'h1', Regexp.new(people(:tim).name)
     # jennie
     post '/account/sign_in', :email => people(:jennie).email, :password => 'password'
-    assert_redirected_to people_path
+    assert_redirected_to person_path(people(:jennie))
     follow_redirect!
-    assert_template 'people/view'
+    assert_template 'people/show'
     assert_select 'h1', Regexp.new(people(:jennie).name)
   end
 end

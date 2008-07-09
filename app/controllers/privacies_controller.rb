@@ -1,7 +1,16 @@
-class PrivacyController < ApplicationController
+class PrivaciesController < ApplicationController
+
+  def show
+    if @person = Person.find(params[:person_id]) and @logged_in.can_edit?(@person)
+      @family = @person.family
+    else
+      render :text => 'You are not authorized to edit this person', :status => 401
+    end
+  end
 
   def edit
     if @person = Person.find(params[:person_id]) and @logged_in.can_edit?(@person)
+      @family = @person.family
       if params[:consent] and child = @family.children_without_consent.first
         redirect_to :anchor => "p#{child.id}"
         return
@@ -15,11 +24,13 @@ class PrivacyController < ApplicationController
   end
   
   def update
+    @person = Person.find(params[:person_id])
+    @family = @person.family
     if not @logged_in.can_edit? @family
-      render_message "You may not edit these settings. Sorry."
+      render :text => "You may not edit these settings. Sorry.", :status => 401
       return
     elsif params[:person]
-      if person = @family.people.find(params[:id])
+      if person = @family.people.find(params[:person_id])
         params[:person].each { |k, v| params[:person][k] = (v == 'nil') ? nil : v } 
         if person.update_attributes params[:person]
           if person.visible?
@@ -40,7 +51,7 @@ class PrivacyController < ApplicationController
         flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family has been hidden from all pages on this site!"
       end
     elsif params[:agree] == 'I Agree.'
-      if person = @family.people.find(params[:id])
+      if person = @family.people.find(params[:person_id])
         @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) at #{Time.now.to_s}"
         @person.save
         flash[:notice] = 'Agreement saved.'

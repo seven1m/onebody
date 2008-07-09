@@ -5,9 +5,6 @@ class PrivacyTest < ActionController::IntegrationTest
   
   def test_help_for_parents_with_hidden_children
     sign_in_as people(:jeremy)
-    get '/'
-    assert_response :success
-    assert_template 'people/view'
     assert_select '#sidebar', /Where are my kids\?/
     assert_select '#sidebar a[href=?]', /\/help\/safeguarding_children/
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
@@ -15,18 +12,16 @@ class PrivacyTest < ActionController::IntegrationTest
   
   def test_children_without_consent_hidden_on_family_profiles
     sign_in_as people(:peter)
-    get "/people/view/#{people(:tim).id}" # view Tim's profile
+    get "/people/#{people(:tim).id}" # view Tim's profile
     assert_response :success
-    assert_template 'people/view'
+    assert_template 'people/show'
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
   end
   
   def test_children_without_consent_profiles_hidden
     sign_in_as people(:peter)
-    get "/people/view/#{people(:mac).id}" # view Mac's profile (child)
-    assert_response :success
-    assert_select 'body', /not authorized/
-    assert_select 'body', :html => /mac/i, :count => 0
+    get "/people/#{people(:mac).id}" # view Mac's profile (child)
+    assert_response :missing
   end
   
   def test_children_without_consent_hidden_in_search_results
@@ -46,26 +41,28 @@ class PrivacyTest < ActionController::IntegrationTest
   def test_parent_give_parental_consent
     sign_in_as people(:jeremy)
     get '/'
-    assert_response :success
-    assert_template 'people/view'
+    assert_response :redirect
+    follow_redirect!
+    assert_template 'people/show'
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
-    get '/people/privacy'
+    get "people/#{people(:jeremy).id}/privacy"
     assert_response :success
-    assert_template 'people/privacy'
+    assert_template 'privacies/show'
     assert_select 'p.alert', :minimum => 1, :text => /you have not given consent/
     assert_select 'li', :minimum => 1, :text => /Privacy Policy/
     assert_select 'input[type=submit][value=I Agree]', 1
-    post "/people/privacy/#{people(:megan).id}", :agree => 'I Agree.'
-    assert_redirected_to :controller => 'people', :action => 'privacy'
+    put "/people/#{people(:megan).id}/privacy", :agree => 'I Agree.'
+    assert_response :redirect
     follow_redirect!
+    assert_template 'privacies/show'
     assert_select 'div#notice', /Agreement saved\./
     people(:megan).reload
     assert people(:megan).parental_consent # not nil
     assert people(:megan).parental_consent.include?("#{people(:jeremy).name} \(#{people(:jeremy).id}\)")
     assert_select 'p.highlight', :minimum => 1, :text => /This child's profile has parental consent/
-    get '/'
+    get "/people/#{people(:megan).id}"
     assert_response :success
-    assert_template 'people/view'
+    assert_template 'people/show'
     assert_select '#sidebar tr.family-member', 3 # not 2 (should see child)
     assert_select '#sidebar tr.family-member', :minimum => 1, :text => Regexp.new(people(:megan).name)
   end
@@ -75,9 +72,7 @@ class PrivacyTest < ActionController::IntegrationTest
     sign_in_as people(:jeremy)
     assert_select '#sidebar tr.family-member', 0 # only 1 visible family member -- no people displayed when there's only 1
     sign_in_as people(:peter)
-    get "/people/view/#{people(:jane).id}"
-    assert_response :success
-    assert_select 'body', /not authorized/
-    assert_select 'body', :html => /jane/i, :count => 0
+    get "/people/#{people(:jane).id}"
+    assert_response :missing
   end
 end

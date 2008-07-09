@@ -19,7 +19,7 @@ class AccountController < ApplicationController
         if params[:from]
           redirect_to 'http://' + request.host + ([80, 443].include?(request.port) ? '' : ":#{request.port}") + params[:from]
         else
-          redirect_to people_url
+          redirect_to person
         end
       elsif person == nil
         cookies[:email] = nil

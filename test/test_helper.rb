@@ -34,9 +34,9 @@ class Test::Unit::TestCase
   def sign_in_and_assert_name(email, name, password='secret')
     post_sign_in_form(email, password)
     assert !flash.empty?
-    assert_redirected_to people_path
+    assert_response :redirect
     follow_redirect!
-    assert_template 'people/view'
+    assert_template 'people/show'
     assert_select 'h1', Regexp.new(name)
   end
   

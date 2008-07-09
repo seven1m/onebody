@@ -8,9 +8,9 @@ class FriendTest < ActionController::IntegrationTest
   end
 
   def view_profile(person)
-    get "/people/view/#{person.id}"
+    get "/people/#{person.id}"
     assert_response :success
-    assert_template 'people/view'
+    assert_template 'people/show'
     assert_select 'h1', Regexp.new(person.name)
   end
   

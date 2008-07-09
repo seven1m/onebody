@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PrivacyControllerTest < ActionController::TestCase
+class PrivaciesControllerTest < ActionController::TestCase
   # Replace this with your real tests.
   def test_truth
     assert true
