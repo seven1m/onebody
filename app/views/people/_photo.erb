@@ -4,7 +4,7 @@
       photo_with_size_path(@person, :size => 'large', :type => 'person'), :back => url_for(params) %>
   <% else %>
     <%= render :partial => 'people/silhouette' %>
-    <% if @person == @logged_in and (params[:controller] == 'people' and ['index', 'view'].include? params[:action]) %>
+    <% if me? and (params[:controller] == 'people' and params[:action] == 'show') %>
       <br/>
       <%= link_to image_tag('person_picture.gif', :alt => 'Upload your picture.', :class => 'icon') + ' Upload Your Picture', edit_person_path %>
     <% end %>

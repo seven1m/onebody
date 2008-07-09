@@ -14,9 +14,12 @@ class VersesController < ApplicationController
   end
 
   def create
-    @verse = Verse.find(params[:id])
-    @verse.people << @logged_in unless @verse.people.include? @logged_in
-    redirect_to @verse
+    if @verse = Verse.find(params[:id]) rescue nil
+      @verse.people << @logged_in unless @verse.people.include? @logged_in
+      redirect_to @verse
+    else
+      render :text => 'That verse could not be found. Did you type the reference correctly?', :layout => true, :status => 404
+    end
   end
   
   def update

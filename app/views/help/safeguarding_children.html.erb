@@ -10,7 +10,7 @@
 
 <p class="highlight">
   I've already read this and the <%= link_to 'Privacy Policy', privacy_policy_path %>.
-  Just let me <%= link_to 'authorize my children', person_privacy_path(:consent => true) %>.
+  Just let me <%= link_to 'authorize my children', person_privacy_path(@logged_in, :consent => true) %>.
 </p>
 
 <h2>Site Access: <span class="gray">Who can sign into this site?</span></h2>
@@ -29,7 +29,7 @@
   their information available anywhere on the site for other Users.
   You may, however, choose to display information about your children
   and allow them to sign in via the
-  <%= link_to 'Privacy', person_privacy_path %>
+  <%= link_to 'Privacy', person_privacy_path(@logged_in) %>
   page. Please read our <%= link_to 'Privacy Policy', privacy_policy_path %>
   for more information.
 </p>

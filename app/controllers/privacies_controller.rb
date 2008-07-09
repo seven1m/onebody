@@ -1,10 +1,14 @@
 class PrivaciesController < ApplicationController
 
   def show
-    if @person = Person.find(params[:person_id]) and @logged_in.can_edit?(@person)
-      @family = @person.family
+    if params[:person_id]
+      if @person = Person.find(params[:person_id]) and @logged_in.can_edit?(@person)
+        @family = @person.family
+      else
+        render :text => 'You are not authorized to edit this person', :status => 401
+      end
     else
-      render :text => 'You are not authorized to edit this person', :status => 401
+      redirect_to person_privacy_path(@logged_in, :anchor => "p#{@logged_in.id}")
     end
   end
 

@@ -24,8 +24,8 @@
 
 <% content_for :subnav do %>
   <li><%= link_to 'View Profile', person_path(@person) %></li>
-  <li><%= link_to 'Change Email/Password', edit_account_path(@person), :style => 'color:yellow;' %></li>
-  <li><%= link_to 'Privacy Settings', person_privacy_path(@person, :anchor => "p#{@person.id}"), :style => 'color:yellow;' %></li>
+  <li><%= link_to 'Change Email/Password', edit_account_path(@person) %></li>
+  <li><%= link_to 'Privacy Settings', person_privacy_path(@person, :anchor => "p#{@person.id}") %></li>
   <li><%= link_to 'Remote Accounts', remote_accounts_path(:person_id => @person) %></li>
   <% if @logged_in.admin?(:edit_profiles) %>
     <li><%= link_to (@person.account_frozen? ? 'Unfreeze' : 'Freeze'), person_path(@person, :freeze => 'toggle'), :method => 'put', :confirm => 'Are you sure?' %></li>
@@ -164,7 +164,7 @@
   <div class="highlight">
     <p>
       <% if @person.email.to_s.any? %>
-        <%= @person == @logged_in ? 'Your' : @person.name_possessive %> email address is:<br/>
+        <%= @person == @logged_in ? 'Your' : @person.name_possessive %> email address (account login) is:<br/>
         <span style="font-size:2em;"><%=h @person.email %></span>
       <% else %>
         <%= @person == @logged_in ? "You don't" : h(@person.name) + " doesn't" %>
@@ -174,6 +174,18 @@
     <p><%= link_to 'Click here', edit_account_path(@person) %> to change this email address.</p>
   </div>
   
+  <h2>Wall Emails</h2>
+  <% form_for @person do |form| %>
+    <p>
+      <%= form.check_box :get_wall_email, :class => 'checkbox' %>
+      Send me an email when someone posts a message on my wall.<br/>
+      <%= submit_tag 'Save Changes' %>
+    </p>
+  <% end %>
+
+  <h2>Group Emails</h2>
+  <%= render :partial => 'groups/person_groups' %>
+
   <h2>Alternate Email</h2>
 
   <p>
@@ -195,6 +207,7 @@
       <%= submit_tag 'Save Changes' %>
     </div>
   <% end %>
+
 </div>
 
 <% if Site.current.twitter_enabled? %>

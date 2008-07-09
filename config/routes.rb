@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   
   PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
+  # remember to update ApplicationHelper#photo_upload_for as the photo resource is added to RESTful controllers
 
   map.connect '', :controller => 'people'
   
@@ -22,7 +23,7 @@ ActionController::Routing::Routes.draw do |map|
     families.resource :photo, :member => PHOTO_SIZE_METHODS
   end
 
-  # this can go away once people, recipes, groups, and pictures are all restful
+  # this can go away once recipes, groups, and pictures are all restful
   map.resources :photos
   map.photo_with_size 'photos/show/:id.:size.jpg',
     :controller   => 'photos',
@@ -30,6 +31,7 @@ ActionController::Routing::Routes.draw do |map|
     :method       => :get
 
   map.resource :feed
+  map.resource :privacy
 
   map.with_options :controller => 'families' do |m|
     m.family_add_person 'families/add_person/:id', :action => 'add_person'
