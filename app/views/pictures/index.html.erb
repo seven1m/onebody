@@ -1,24 +1,25 @@
-<%= render :partial => 'shares/subnav' %>
-
-<h1>Pictures</h1>
-
-<p><em>The ability to upload new pictures is currently disabled as we make some improvements. Please check back soon!</em></p>
-
-<% if @pages.length > 1 %>
-  <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
-<% end %>
-
-<% if @pictures.any? %>
-  <% @pictures.each do |picture| %>
-    <div class="picture">
-      <%= link_to image_tag(photo_with_size_path(picture, :size => 'medium', :type => 'picture'), :alt => 'click to enlarge'), picture, :title => 'click to enlarge' %>
-    </div>
+<% content_for :subnav do %>
+  <li><%= link_to 'Albums', albums_path %></li>
+  <% if @logged_in.can_edit? @album %>
+    <li><%= link_to 'Edit', edit_album_path(@album) %></li>
+    <li><%= link_to 'Delete', album_path(@album), :method => 'delete', :confirm => 'Are you sure? Deleting this album will also delete all its pictures!' %></li>
   <% end %>
-  <br clear="both"/>
-<% else %>
-  <!--<p><em>No pictures yet!</em></p>-->
 <% end %>
 
-<% if @pages.length > 1 %>
-  <p class="page-nav">Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
+<h1><%=h @album.name %></h1>
+
+<p><%=h @album.description %></p>
+
+<%= render :partial => 'upload' %>
+
+<%= will_paginate @pictures %>
+
+<% @pictures.each do |picture| %>
+  <div class="picture">
+    <%= link_to image_tag(medium_picture_path(picture), :alt => 'click to enlarge'),
+      [@album, picture], :title => 'click to enlarge' %>
+  </div>
 <% end %>
+<br clear="both"/>
+
+<%= will_paginate @pictures %>

@@ -10,9 +10,9 @@
 
 <table>
   <tr>
-    <td style="padding-right:50px;text-align:center;"><%= link_to image_tag('camera.gif', :alt => 'Pictures', :class => 'no-border') + '<br/>Pictures', {:controller => 'pictures'}, :style => 'text-decoration:none;' %></td>
-    <td style="padding-right:50px;text-align:center;"><%= link_to image_tag('bible.gif', :alt => 'Bible Verses', :class => 'no-border') + '<br/>Verses', {:controller => 'verses'}, :style => 'text-decoration:none;' %></td>
-    <td style="vertical-align:bottom;text-align:center;"><%= link_to image_tag('recipe.gif', :alt => 'Recipes', :class => 'no-border') + '<br/>Recipes', {:controller => 'recipes'}, :style => 'text-decoration:none;' %></td>
+    <td style="padding-right:50px;text-align:center;">   <%= link_to image_tag('camera.gif', :alt => 'Pictures',     :class => 'no-border') + '<br/>Pictures', albums_path,  :style => 'text-decoration:none;' %></td>
+    <td style="padding-right:50px;text-align:center;">   <%= link_to image_tag('bible.gif',  :alt => 'Bible Verses', :class => 'no-border') + '<br/>Verses',   verses_path,  :style => 'text-decoration:none;' %></td>
+    <td style="vertical-align:bottom;text-align:center;"><%= link_to image_tag('recipe.gif', :alt => 'Recipes',      :class => 'no-border') + '<br/>Recipes',  recipes_path, :style => 'text-decoration:none;' %></td>
   </tr>
 </table>
 

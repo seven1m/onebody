@@ -44,7 +44,7 @@ class PhotosController < ApplicationController
   def get_object
     # /families/123/photo
     # /families/123/photo/large
-    if id_key = params.keys.select { |k| k =~ /_id$/ }.first \
+    if id_key = params.keys.select { |k| k =~ /_id$/ }.last \
       and PHOTO_TYPES.include?(@type = id_key.split('_').first.classify)
       @object = Kernel.const_get(@type).find(params[id_key])
     # /photos/123?type=family&size=large

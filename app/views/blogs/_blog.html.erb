@@ -2,7 +2,7 @@
   <p>
     <% @pictures.each do |object| %>
       <%= link_to image_tag(photo_with_size_path(object, :size => 'small', :type => 'small'), :alt => 'click to enlarge'),
-        picture_path(object), :title => 'click to enlarge' %>
+        large_picture_path(object), :title => 'click to enlarge' %>
     <% end %>
   </p>
 <% end %>

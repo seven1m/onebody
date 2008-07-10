@@ -13,29 +13,33 @@ ActionController::Routing::Routes.draw do |map|
     people.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
-  map.resources :blogs
-  map.resources :walls
-  map.resources :messages
-  map.resources :attachments
-  map.resources :verses
+  map.resources :albums do |albums|
+    albums.resources :pictures, :member => {:next => :get, :prev => :get} do |pictures|
+      pictures.resource :photo, :member => PHOTO_SIZE_METHODS
+    end
+  end
   
   map.resources :families do |families|
     families.resource :photo, :member => PHOTO_SIZE_METHODS
   end
 
-  # this can go away once recipes, groups, and pictures are all restful
+  # this can go away once recipes and groups are restful
   map.resources :photos
   map.photo_with_size 'photos/show/:id.:size.jpg',
     :controller   => 'photos',
     :action       => 'show',
     :method       => :get
 
+  map.resources :blogs
+  map.resources :walls
+  map.resources :messages
+  map.resources :attachments
+  map.resources :verses
+
   map.resource :feed
   map.resource :privacy
-
-  map.with_options :controller => 'families' do |m|
-    m.family_add_person 'families/add_person/:id', :action => 'add_person'
-  end
+  
+  # here there be dragons
   
   map.with_options :controller => 'setup/dashboard' do |m|
     m.setup 'setup', :action => 'index'
@@ -150,7 +154,6 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_recipe 'recipes/edit/:id', :action => 'edit'
     m.search_recipes 'recipes/search', :action => 'search'
     m.delete_recipe 'recipes/delete/:id', :action => 'delete'
-    m.remove_recipe_from_event 'recipes/remove/:id', :action => 'remove'
     m.recipe_add_tags 'recipes/add_tags/:id', :action => 'add_tags'
     m.delete_tag_from_recipe 'recipe/delete_tag/:id', :action => 'delete_tag'
   end
@@ -172,16 +175,6 @@ ActionController::Routing::Routes.draw do |map|
     m.new_comment 'comments/edit', :action => 'edit'
     m.edit_comment 'comments/edit/:id', :action => 'edit'
     m.delete_comment 'comments/delete/:id', :action => 'delete'
-  end
-  
-  map.with_options :controller => 'events' do |m|
-    m.events 'events', :action => 'index'
-    m.event_list 'events/list', :action => 'list'
-    m.event 'events/view/:id', :action => 'view'
-    m.new_event 'events/edit', :action => 'edit'
-    m.edit_event 'events/edit/:id', :action => 'edit'
-    m.delete_event 'events/delete/:id', :action => 'delete'
-    m.remove_verse_from_event 'events/remove_verse/:id', :action => 'remove_verse'
   end
   
   map.with_options :controller => 'administration/dashboard' do |m|
@@ -265,20 +258,4 @@ ActionController::Routing::Routes.draw do |map|
     m.news 'news', :action => 'index'
     m.news_item 'news/view/:id', :action => 'view'
   end
-  
-  map.with_options :controller => 'pictures' do |m|
-    m.pictures 'pictures', :action => 'index'
-    m.picture 'pictures/view/:id', :action => 'view', :requirements => { :id => /.*/ }
-    m.add_picture 'pictures/add_picture/:id', :action => 'add_picture'
-    m.delete_picture 'pictures/delete/:id', :action => 'delete'
-    m.picture_photo 'pictures/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
-    m.rotate_picture 'pictures/rotate/:id', :action => 'rotate'
-    m.select_event_cover 'pictures/select_event_cover/:id', :action => 'select_event_cover'
-    m.previous_picture 'pictures/prev/:id', :action => 'prev'
-    m.next_picture 'pictures/next/:id', :action => 'next'
-  end
-  
-  #map.connect ':controller/service.wsdl', :action => 'wsdl'
-  #map.connect ':controller/:action/:id'
-  #map.photo ':controller/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
 end

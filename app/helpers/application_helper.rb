@@ -1,6 +1,22 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include TagsHelper
+  
+  def picture_path(picture)
+    album_picture_path(picture.album, picture)
+  end
+  
+  def medium_picture_path(picture)
+    medium_album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_f)
+  end
+  
+  def large_picture_path(picture)
+    large_album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_f)
+  end
+  
+  def full_picture_path(picture)
+    album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_f)
+  end
 
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe
@@ -42,6 +58,8 @@ module ApplicationHelper
       url = family_photo_path(object, :return_to => request.request_uri + '#family-picture')
     elsif object.is_a? Person
       url = person_photo_path(object, :return_to => request.request_uri + '#picture')
+    elsif object.is_a? Picture
+      url = picture_photo_path(object, :return_to => request.request_uri)
     else
       url = photo_path(:id => object, :type => object.class.name.downcase, :return_to => request.request_uri)
     end

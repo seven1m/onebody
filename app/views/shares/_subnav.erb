@@ -1,6 +1,6 @@
 <% content_for :subnav do %>
   <%= link_to 'Publications', publications_path %>
-  <%= link_to 'Pictures', pictures_path %>
+  <%= link_to 'Pictures', albums_path %>
   <%= link_to 'Verses', verses_path %>
   <%= link_to 'Recipes', recipes_path %>
   <% if Setting.get(:url, :news) %><%= link_to 'News', Setting.get(:url, :news) %><% end %>

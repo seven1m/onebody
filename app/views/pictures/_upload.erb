@@ -1,0 +1,32 @@
+<p id="add_picture_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add a Picture', "Element.show('add_picture');Element.hide('add_picture_link');" %></p>
+<div id="add_picture">
+  <% form_for Picture.new, :url => album_pictures_path(@album), :html => {:multipart => true} do |form| %>
+    <%= hidden_field_tag :album_id, @album %>
+    <label for="picture">Add a Picture:</label>
+    <%= file_field_tag 'picture1' %><br/>
+    <%= link_to_function 'upload more &raquo;', 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
+    <span id="more_upload" style="display:none;">
+      <%= file_field_tag 'picture2' %><br/>
+      <%= file_field_tag 'picture3' %><br/>
+      <%= file_field_tag 'picture4' %><br/>
+      <%= file_field_tag 'picture5' %><br/>
+      <%= file_field_tag 'picture6' %><br/>
+      <%= file_field_tag 'picture7' %><br/>
+      <%= file_field_tag 'picture8' %><br/>
+      <%= file_field_tag 'picture9' %><br/>
+      <%= file_field_tag 'picture10' %><br/>
+    </span>
+    <br/>
+    <% if @logged_in.admin?(:manage_pictures) %>
+      <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox' %>
+      Don't show this upload set on my profile.
+      <br/>
+    <% end %>
+    <%= submit_tag 'Upload!' %>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  Element.hide('add_picture');
+  Element.show('add_picture_link');
+</script>

@@ -16,10 +16,11 @@ module Foo
 
       module ClassMethods
         def acts_as_photo(storage_path, sizes)
+          photo_env = Rails.env == 'production' ? '' : ('.' + Rails.env)
           sizes.each do |name, dimensions|
             class_eval <<-END
               def photo_#{name.to_s}_path
-                File.join('#{storage_path}', id.to_s + ".#{name.to_s}.jpg")
+                File.join('#{storage_path}', id.to_s + "#{photo_env}.#{name.to_s}.jpg")
               end
             END
           end
@@ -31,7 +32,7 @@ module Foo
             end
             
             def photo_path
-              File.join('#{storage_path}', id.to_s + '.jpg')
+              File.join('#{storage_path}', id.to_s + '#{photo_env}.jpg')
             end
             
             def photo_path_from_params(params)
@@ -54,12 +55,14 @@ module Foo
                 File.delete path if FileTest.exists? path
               end
               if photo
-                if defined? photo.read
-                  photo = photo.read
-                elsif photo.is_a?(String) and photo =~ /^http:\\/\\// #/
+                if photo.is_a?(String) and photo =~ /^http:\\/\\//
                   photo = Net::HTTP.get(URI.parse(photo))
-                else # not a photo I know how to handle
-                  return false
+                else
+                  begin
+                    photo = photo.read
+                  rescue
+                    return false
+                  end
                 end
                 begin
                   img = MiniMagick::Image.from_blob(photo)
@@ -79,6 +82,8 @@ module Foo
                   return false
                 end
               end
+              self.updated_at = Time.now
+              save
               return true
             end
             
@@ -89,6 +94,8 @@ module Foo
                 img.rotate(degrees).write(path)
                 File.chmod(0644, path)
               end
+              self.updated_at = Time.now
+              save
             end
             
             def destroy
@@ -115,19 +122,14 @@ end
 class ActionController::Base
   def send_photo(object)
     if object.has_photo?
-      if (params[:id] =~ /^\d+\.[a-z]+\.jpg$/ or params[:size]) \
-        and request.env["HTTP_ACCEPT"].to_s.split(/,|;/).include?('text/html')
-        render :file => File.join(RAILS_ROOT, 'app/views/picture.html.erb'), :layout => true
+      path = object.photo_path_from_params(params)
+      updated_time = File.stat(path).mtime
+      browser_time = Time.rfc2822(request.env["HTTP_IF_MODIFIED_SINCE"]) rescue nil
+      if browser_time.nil? or updated_time > browser_time
+        response.headers['Last-Modified'] = updated_time.httpdate
+        send_file path, :type => 'image/jpeg', :disposition => 'inline'
       else
-        path = object.photo_path_from_params(params)
-        updated_time = File.stat(path).mtime
-        browser_time = Time.rfc2822(request.env["HTTP_IF_MODIFIED_SINCE"]) rescue nil
-        if browser_time.nil? or updated_time > browser_time
-          response.headers['Last-Modified'] = updated_time.httpdate
-          send_file path, :type => 'image/jpeg', :disposition => 'inline'
-        else
-          render :text => 'photo not modified', :status => 304
-        end
+        render :text => 'photo not modified', :status => 304
       end
     else
       render :text => 'photo unavailable', :status => 404

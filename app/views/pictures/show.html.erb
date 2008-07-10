@@ -1,0 +1,31 @@
+<%= render :partial => 'shares/subnav' %>
+
+<% content_for :sidebar do %>
+  <h1><%= link_to h(@picture.album.name), @picture.album %></h1>
+  <% if @picture.person %>
+    <p>
+      Picture uploaded by:<br/>
+      <%= link_to h(@picture.person.name), @picture.person %><br/>
+      <%= @picture.created_at.strftime '%m/%d/%Y %I:%M %p' %>
+    </p>
+  <% end %>
+  <% if @logged_in.can_edit?(@picture) %>
+    <p>
+      Rotate:
+      <%= link_to 'Left', album_picture_path(@album, @picture, :degrees => -90), :confirm => 'Are you sure?', :method => 'put' %> |
+      <%= link_to 'Right', album_picture_path(@album, @picture, :degrees => 90), :confirm => 'Are you sure?', :method => 'put' %><br/>
+      <%= link_to 'Make Cover for Album', album_picture_path(@album, @picture, :cover => true), :method => 'put', :confirm => 'Are you sure?' %><br/>
+      <%= link_to 'Delete Picture', album_picture_path(@album, @picture), :confirm => 'Are you sure?', :method => 'delete' %>
+    </p>
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to '&laquo; prev', prev_album_picture_path(@album, @picture) %>
+  |
+  <%= link_to 'next &raquo;', next_album_picture_path(@album, @picture) %>
+</p>
+
+<p>
+  <%= link_to image_tag(large_picture_path(@picture), :alt => 'click to see full size'), full_picture_path(@picture) %>
+</p>

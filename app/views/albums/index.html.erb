@@ -1,0 +1,13 @@
+<%= render :partial => 'shares/subnav' %>
+
+<h1>Picture Albums</h1>
+
+<p><%= link_to image_tag('add_small.gif', :alt => 'add album', :class => 'icon') + ' New Album', new_album_path %></p>
+
+<% @albums.each do |album| %>
+  <div class="picture">
+    <%= link_to image_tag(album.cover ? medium_picture_path(album.cover) : 'camera.gif', :alt => 'click to view'), album, :title => 'click to view' %><br/>
+    <%=h album.name %>
+  </div>
+<% end %>
+<br clear="both"/>

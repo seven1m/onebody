@@ -1,40 +1,36 @@
 class PicturesController < ApplicationController
   
   def index
-    @pages = Paginator.new self, Picture.count, 25, params[:page]
-    @pictures = Picture.find :all,
-      :order => 'created_at desc',
-      :limit => @pages.items_per_page,
-      :offset => @pages.current.offset
-  end  
-  
-  def view
-    @picture = Picture.find params[:id]
+    @album = Album.find(params[:album_id])
+    @pictures = @album.pictures.paginate(:order => 'id', :page => params[:page])
   end
-
+  
+  def show
+    @album = Album.find(params[:album_id])
+    @picture = Picture.find(params[:id])
+  end
+  
   def next
-    @event = Picture.find(params[:id]).event
-    unless pic = @event.pictures.find(:first, :conditions => ['id > ?', params[:id]], :order => 'id')
-      pic = @event.pictures.find :first
-    end
-    redirect_to pic
-  end
-
-  def prev
-    @event = Picture.find(params[:id]).event
-    unless pic = @event.pictures.find(:first, :conditions => ['id < ?', params[:id]], :order => 'id desc')
-      pic = @event.pictures.find(:all).last
-    end
-    redirect_to pic
+    @album = Album.find(params[:album_id])
+    ids = @album.picture_ids
+    next_id = ids[ids.index(params[:id].to_i)+1] || ids.first
+    redirect_to album_picture_path(params[:album_id], next_id)
   end
   
-  def add_picture
-    @event = Event.find params[:id]
+  def prev
+    @album = Album.find(params[:album_id])
+    ids = @album.picture_ids
+    prev_id = ids[ids.index(params[:id].to_i)-1]
+    redirect_to album_picture_path(params[:album_id], prev_id)
+  end
+
+  def create
+    @album = Album.find(params[:album_id])
     success = fail = 0
     (1..10).each do |index|
       if ((pic = params["picture#{index}"]).read rescue '').length > 0
         pic.seek(0)
-        picture = @event.pictures.create :person => (params[:remove_owner] ? nil : @logged_in)
+        picture = @album.pictures.create(:person => (params[:remove_owner] ? nil : @logged_in))
         picture.photo = pic
         if picture.has_photo?
           success += 1
@@ -47,38 +43,35 @@ class PicturesController < ApplicationController
     end
     flash[:notice] = "#{success} picture(s) saved"
     flash[:notice] += " (#{fail} not saved due to errors)" if fail > 0
-    redirect_to @event
+    redirect_to @album
   end
   
-  def delete
-    @picture = Picture.find params[:id]
-    if @picture.event.admin? @logged_in
+  # rotate / cover selection
+  def update
+    @album = Album.find(params[:album_id])
+    @picture = Picture.find(params[:id])
+    if @logged_in.can_edit?(@picture)
+      if params[:degrees]
+        @picture.rotate_photo params[:degrees].to_i
+      elsif params[:cover]
+        @album.pictures.all.each { |p| p.update_attribute :cover, false }
+        @picture.update_attribute :cover, true
+      end
+      redirect_to [@album, @picture]
+    else
+      render :text => 'You cannot edit this picture.', :layout => true, :status => 401
+    end
+  end
+  
+  def destroy
+    @album = Album.find(params[:album_id])
+    @picture = Picture.find(params[:id])
+    if @logged_in.can_edit?(@picture)
       @picture.destroy
-      flash[:notice] = 'Picture deleted.'
+      redirect_to @album
+    else
+      render :text => 'You cannot delete this picture.', :layout => true, :status => 401
     end
-    redirect_to @picture.event
   end
   
-  def rotate
-    @picture = Picture.find params[:id]
-    if @picture.event.admin? @logged_in
-      @picture.rotate_photo params[:degrees].to_i
-    end
-    flash[:refresh] = true
-    redirect_to @picture
-  end
-  
-  def select_event_cover
-    @picture = Picture.find params[:id]
-    if @picture.event.admin? @logged_in
-      @picture.event.pictures.update_all 'cover = 0'
-      @picture.update_attribute :cover, true
-      flash[:notice] = 'Cover picture updated.'
-    end
-    redirect_to @picture
-  end
-  
-  def photo
-    send_photo Picture.find(params[:id].to_i)
-  end
 end

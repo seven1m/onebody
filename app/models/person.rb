@@ -241,20 +241,25 @@ class Person < ActiveRecord::Base
   
   def can_edit?(what)
     return false if self.account_frozen?
-    if what.is_a? Group
+    case what.class.name
+    when 'Group'
       what.admin? self or self.admin?(:manage_groups)
-    elsif what.is_a? Ministry
+    when 'Ministry'
       admin?(:manage_ministries) or what.administrator == self
-    elsif what.is_a? Person
+    when 'Person'
       admin?(:edit_profiles) or (what.family == self.family and self.adult?) or what == self
-    elsif what.is_a? Family
+    when 'Family'
       admin?(:edit_profiles) or (what == self.family and self.adult?)
-    elsif what.is_a? Message
+    when 'Message'
       admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
-    elsif what.is_a? PrayerRequest
+    when 'PrayerRequest'
       admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group)) or (what.group and what.group.admin? self)
-    elsif what.is_a? RemoteAccount
-      self.can_edit?(what.person)
+    when 'RemoteAccount'
+      can_edit?(what.person)
+    when 'Album'
+      admin?(:edit_pictures) or (what.person_id == self.id)
+    when 'Picture'
+      admin?(:edit_pictures) or (what.album and can_edit?(what.album)) or what.person_id == self.id
     else
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end

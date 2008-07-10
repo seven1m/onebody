@@ -13,6 +13,7 @@
 #
 
 class Picture < ActiveRecord::Base
+  belongs_to :album
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
   belongs_to :site
   

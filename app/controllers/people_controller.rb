@@ -27,6 +27,18 @@ class PeopleController < ApplicationController
       render :text => 'Person not found.', :status => 404
     end
   end
+  
+  def create
+    if Setting.get(:features, :standalone_use) and @logged_in.admin?(:edit_profiles)
+      @family = Family.find(params[:family_id])
+      @person = Person.new(:family => @family)
+      params[:person].merge! :can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true
+      unless @person.update_attributes(params[:person])
+        flash[:warning] = @person.errors.full_messages.join('; ')
+      end
+      redirect_back
+    end
+  end
 
   def edit
     if @person = Person.find_by_id(params[:id]) and @logged_in.can_edit?(@person)

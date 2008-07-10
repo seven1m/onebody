@@ -8,16 +8,6 @@ class FamiliesController < ApplicationController
     end
   end
   
-  def add_person
-    @person = Person.new(:family => @family)
-    params[:person].merge! :can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true
-    if @person.update_attributes params[:person]
-      redirect_to family_path(:id => @family)
-    else
-      flash[:warning] = @person.errors.full_messages.join('; ')
-    end
-  end
-  
   before_filter :can_edit?, :only => %w(new create edit update)
   
   def new
