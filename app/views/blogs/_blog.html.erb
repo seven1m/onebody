@@ -1,8 +1,8 @@
 <% if @pictures.any? %>
   <p>
     <% @pictures.each do |object| %>
-      <%= link_to image_tag(photo_with_size_path(object, :size => 'small', :type => 'small'), :alt => 'click to enlarge'),
-        large_picture_path(object), :title => 'click to enlarge' %>
+      <%= link_to image_tag(small_picture_path(object), :alt => 'click to enlarge'),
+        picture_path(object), :title => 'click to enlarge' %>
     <% end %>
   </p>
 <% end %>
@@ -34,6 +34,6 @@
     <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', new_note_path %> &nbsp;&nbsp;
     <%= link_to image_tag('add_small.gif', :alt => 'Add a verse.', :class => 'icon') + ' Add a Verse', verses_path(:anchor => 'add') %> &nbsp;&nbsp;
     <%= link_to image_tag('add_small.gif', :alt => 'Add a recipe.', :class => 'icon') + ' Add a Recipe', new_recipe_path %> &nbsp;&nbsp;
-    <%= link_to image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add a Picture', events_path, :confirm => 'To add a picture, first select/create an event on the following page. Click OK to get started.' %>
+    <%= link_to image_tag('add_small.gif', :alt => 'Add a picture.', :class => 'icon') + ' Add a Picture', albums_path %>
   </p>
 <% end %>

@@ -6,6 +6,10 @@ module ApplicationHelper
     album_picture_path(picture.album, picture)
   end
   
+  def small_picture_path(picture)
+    small_album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_s(:number))
+  end
+  
   def medium_picture_path(picture)
     medium_album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_s(:number))
   end
