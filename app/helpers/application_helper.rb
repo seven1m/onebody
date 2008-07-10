@@ -7,15 +7,15 @@ module ApplicationHelper
   end
   
   def medium_picture_path(picture)
-    medium_album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_f)
+    medium_album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_s(:number))
   end
   
   def large_picture_path(picture)
-    large_album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_f)
+    large_album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_s(:number))
   end
   
   def full_picture_path(picture)
-    album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_f)
+    album_picture_photo_path(picture.album, picture, :m => picture.updated_at.to_s(:number))
   end
 
   def preserve_breaks(text, make_safe=true)
