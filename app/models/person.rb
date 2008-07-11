@@ -231,7 +231,7 @@ class Person < ActiveRecord::Base
         what.visible_to?(self)
       when 'Note'
         what.person and can_see?(what.person)
-      when 'Recipe', 'Picture'
+      when 'Recipe', 'Picture', 'Verse'
         true
       else
         raise "Unrecognized argument to can_see? (#{what.inspect})"
@@ -266,6 +266,8 @@ class Person < ActiveRecord::Base
       self == what.person or self.admin?(:manage_recipes)
     when 'Note'
       self == what.person or self.admin?(:manage_notes)
+    when 'Comment'
+      self == what.person or self.admin?(:manage_comments)
     else
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end

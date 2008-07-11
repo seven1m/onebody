@@ -1,17 +1,17 @@
-<% if comments.any? %>
+<% if object.comments.any? %>
   <table>
-    <% comments.each do |comment| %>
+    <% object.comments.each do |comment| %>
       <tr>
         <td>
-          <a href="<%= url_for person_path(comment.person) %>">
+          <a href="<%= url_for comment.person %>">
             <%= render :partial => 'people/thumbnail', :locals => {:person => comment.person} %>
           </a>
         </td>
         <td>
-          <%= link_to h(comment.person.name), person_path(comment.person) %>
+          <%= link_to h(comment.person.name), comment.person %>
           <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
-          <% if comment.admin? @logged_in %>
-            <%= link_to '[delete]', delete_comment_path(comment, :return_to => request.request_uri), :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
+          <% if @logged_in.can_edit?(comment) %>
+            <%= link_to '[delete]', comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
           <% end %>
           <br/>
           <%= preserve_breaks comment.text %>
@@ -28,11 +28,12 @@
   <%= link_to_function image_tag('add_small.gif', :alt => 'Add a comment', :class => 'icon') + ' Add a Comment', "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
   <%= intro %>
   <div id="new_comment">
-    <%= form_tag(new_comment_path(params.reject { |k, v| k.to_s !~ /_id$/ }), :method => 'post', :style => 'border:none;') %>
+    <% form_for Comment.new, :html => {:style => 'border:none;'} do |form| %>
+      <%= hidden_field_tag object.class.name.downcase + '_id', object.id %>
       <%= hidden_field_tag :return_to, request.request_uri %>
       <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
-      <%= submit_tag 'Save Comment' %>
-    </form>
+      <%= form.submit 'Save Comment' %>
+    <% end %>
   </div>
   <script type="text/javascript">Element.hide('new_comment'); Element.show('new_comment_link');</script>
 </p>

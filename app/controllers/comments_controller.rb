@@ -1,35 +1,33 @@
 class CommentsController < ApplicationController
-  def edit
+
+  def create
     if params[:verse_id]
-      object = Verse.find params[:verse_id]
+      object = Verse.find(params[:verse_id])
     elsif params[:recipe_id]
-      object = Recipe.find params[:recipe_id]
-    elsif params[:event_id]
-      object = Event.find params[:event_id]
-    elsif params[:news_item_id]
-      object = NewsItem.find params[:news_item_id]
-    elsif params[:song_id]
-      unless @logged_in.music_access? or @logged_in.admin?(:manage_music)
-        render :text => 'You are not authorized.'
-        return
-      end
-      object = Song.find params[:song_id]
+      object = Recipe.find(params[:recipe_id])
     elsif params[:note_id]
-      object = Note.find params[:note_id]
+      object = Note.find(params[:note_id])
     else
       raise 'Error.'
     end
-    object.comments.create :person => @logged_in, :text => params[:text]
-    flash[:notice] = 'Comment saved.'
-    redirect_to params[:return_to] + '#comments'
+    if @logged_in.can_see?(object)
+      object.comments.create(:person => @logged_in, :text => params[:text])
+      flash[:notice] = 'Comment saved.'
+      redirect_back
+    else
+      render :text => "That #{object.class.name} was not found.", :layout => true, :status => 404
+    end
   end
   
-  def delete
-    comment = Comment.find params[:id]
-    if comment.admin? @logged_in
-      comment.destroy
+  def destroy
+    @comment = Comment.find(params[:id])
+    if @logged_in.can_edit?(@comment)
+      @comment.destroy
       flash[:notice] = 'Comment deleted.'
+      redirect_back
+    else
+      render :text => 'You are not authorized to delete this comment.', :layout => true, :status => 401
     end
-    redirect_to params[:return_to] || '/'
-   end
+  end
+   
 end

@@ -164,7 +164,9 @@ class Verse < ActiveRecord::Base
   class << self
     
     def find(reference_or_id, options=nil)
-      if reference_or_id.is_a?(Symbol) or reference_or_id.to_s =~ /^\d+$/
+      if reference_or_id.nil?
+        nil
+      elsif reference_or_id.is_a?(Symbol) or reference_or_id.to_s =~ /^\d+$/
         super
       else
         find_by_reference(reference_or_id)

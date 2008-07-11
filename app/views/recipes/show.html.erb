@@ -74,4 +74,4 @@
 </table>
 
 <h2>Comments</h2>
-<%= render :partial => 'comments/comments', :locals => {:comments => @recipe.comments, :params => {:recipe_id => @recipe}, :intro => 'about this recipe.'} %>
+<%= render :partial => 'comments/comments', :locals => {:object => @recipe, :intro => 'about this recipe.'} %>

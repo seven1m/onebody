@@ -87,7 +87,7 @@ module Forgeable
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem).each do |model|
+%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment).each do |model|
   eval model
   eval "class #{model}; include Forgeable; end"
 end
@@ -150,18 +150,21 @@ end
 
 class Verse
   def self.forge(attributes={})
-    photo = attributes.delete(:photo)
-    verse = Verse.new(:text => Faker::Lorem.sentence)
-    verse.write_attribute :reference, "#{Faker::Lorem.words(1).join} #{rand(25)}:#{rand(50)}"
-    attributes.each do |attr, val|
-      verse.send("#{attr}=", val) # will allow tag_list= to work
+    returning Verse.find("#{Verse::BOOKS.rand} #{rand(25)+1}:#{rand(50)+1}") do |verse|
+      photo = attributes.delete(:photo)
+      attributes.each do |attr, val|
+        verse.send("#{attr}=", val) # will allow tag_list= to work
+      end
+      verse.save!
+      verse.forge_photo if photo
     end
-    verse.save!
-    verse.forge_photo if photo
-    verse
   end
 end
 
 class Tag
   self.forgery_defaults = {:name => :word}
+end
+
+class Comment
+  self.forgery_defaults = {:text => :sentence}
 end

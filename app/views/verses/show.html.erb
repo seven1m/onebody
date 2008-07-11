@@ -56,4 +56,4 @@
 <% end %>
 
 <h2>Comments</h2>
-<%= render :partial => 'comments/comments', :locals => {:comments => @verse.comments, :params => {:verse_id => @verse}, :intro => 'about this verse. Share what it means to you, how it has helped you, or simply why you like it.'} %>
+<%= render :partial => 'comments/comments', :locals => {:object => @verse, :intro => 'about this verse. Share what it means to you, how it has helped you, or simply why you like it.'} %>

@@ -29,16 +29,12 @@ class Comment < ActiveRecord::Base
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
     
   def on
-    verse || event || recipe || news_item || song || note
+    verse || recipe || note
   end
   
   def name
-    "Comment on #{on.name}"
+    "Comment on #{on ? on.name : '?'}"
   end
     
   acts_as_logger LogItem
-  
-  def admin?(person)
-    person.admin?(:manage_comments) or self.person == person
-  end
 end

@@ -3,14 +3,14 @@
     <%= render :partial => 'people/thumbnail', :locals => {:person => comment.person} %>
   </a>
 </div>
-<%= link_to h(comment.person.name), person_path(comment.person) %>
+<%= link_to h(comment.person.name),comment.person %>
 <% if params[:controller] == 'shares' %>
   commented on
   <%= link_to h(on.title), comment.on %>
 <% end %>
 <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
-<% if comment.admin? @logged_in %>
-  <%= link_to '[delete]', delete_comment_path(comment), :class => 'discreet', :confirm => 'Are you sure?', :method => 'post' %>
+<% if @logged_in.can_edit?(comment) %>
+  <%= link_to '[delete]', comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
 <% end %>
 <br/>
 <%= preserve_breaks comment.text %>

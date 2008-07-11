@@ -19,4 +19,4 @@
 <div><%= white_list @note.body %></div>
 
 <h2>Comments</h2>
-<%= render :partial => 'comments/comments', :locals => {:comments => @note.comments, :params => {:note_id => @note}, :intro => 'about this note.'} %>
+<%= render :partial => 'comments/comments', :locals => {:object => @note, :intro => 'about this note.'} %>
