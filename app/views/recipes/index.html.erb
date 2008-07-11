@@ -1,10 +1,3 @@
-<div id="search">
-  <%= form_tag(search_recipes_path) %>
-	  <input name="criteria" id="recipe_search_name" onfocus="if(this.value == 'Recipe Search') this.value = ''" onblur="if(this.value == '') this.value = 'Recipe Search'"/>
-	</form>
-	<script type="text/javascript"> $('recipe_search_name').value = 'Recipe Search' </script>
-</div>
-
 <h1>Recipes</h1>
 
 <p>Share your favorite recipes with the <%= Setting.get(:name, :church) %> family.</p>
@@ -12,23 +5,12 @@
 <%= render :partial => 'shares/subnav' %>
 
 <% content_for :sidebar do %>
-
   <h2>Tags</h2>
-  <% if @tags.any? %>
-    <div class="tag-cloud">
-      <% @tags.each do |tag| %>
-        <% begin %>
-          <span style="font-size:<%= tag.recipes.count * @factor + 9 %>pt;">
-            <%= link_to h(tag.name), tag.name, :style => 'text-decoration:none;' %>
-          </span>
-        <% rescue %>
-          <!-- tag error -->
-        <% end %>
-      <% end %>
-    </div>
-  <% else %>
-    <p><em>No tags yet!</em></p>
-  <% end %>
+  <div class="tag-cloud">
+    <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
+      <%= link_to tag.name, tag, :class => css_class %>
+    <% end %>
+  </div>
 <% end %>
 
 <% if @recipes.any? %>

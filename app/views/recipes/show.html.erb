@@ -20,16 +20,18 @@
   <% else %>
     ???
   <% end %>
-  <%=h @recipe.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
+  <%=h @recipe.created_at.strftime('on %m/%d/%Y at %I:%M %p') %>
 </p>
   
 <table>
   <tr>
     <td style="white-space:nowrap;">Tags:</td>
     <td>
-      <%= form_tag(recipe_add_tags_path(@recipe), :style => 'border:none;padding:0;margin:0;') %>
-        <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @recipe} %>
-        Add tags: <%= text_field_tag :tag_string, nil, :style => 'width:125px;margin:0;' %>
+      <%= form_tag(@recipe, :method => 'put', :style => 'border:none;padding:0;') %>
+        <p>
+          <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @recipe} %><br/>
+          Add tags: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+        </p>
       </form>
     </td>
   </tr>
@@ -37,12 +39,6 @@
     <td style="white-space:nowrap;">Serving Size:</td>
     <td><%=h @recipe.serving_size %></td>
   </tr>
-  <% if @recipe.event_id.to_s.any? %>
-    <tr>
-      <td style="white-space:nowrap;">Event:</td>
-      <td><%= link_to h(@recipe.event.name), event_path(@recipe.event, :anchor => 'recipes') %></td>
-    </tr>
-  <% end %>
   <% if @recipe.prep.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;">Prep/Cook Time:</td>
@@ -58,7 +54,7 @@
   <% if @recipe.description.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;">Description:</td>
-      <td><%=h @recipe.description %></td>
+      <td><%= white_list @recipe.description %></td>
     </tr>
   <% end %>
   <tr>
@@ -72,7 +68,7 @@
   <% if @recipe.notes.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;">Other Notes:</td>
-      <td><%=h @recipe.notes %></td>
+      <td><%= white_list @recipe.notes %></td>
     </tr>
   <% end %>
 </table>

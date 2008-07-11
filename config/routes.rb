@@ -22,8 +22,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :families do |families|
     families.resource :photo, :member => PHOTO_SIZE_METHODS
   end
+  
+  map.resources :recipes do |recipes|
+    recipes.resource :photo, :member => PHOTO_SIZE_METHODS
+  end
 
-  # this can go away once recipes and groups are restful
+  # this can go away once groups are restful
   map.resources :photos
   map.photo_with_size 'photos/show/:id.:size.jpg',
     :controller   => 'photos',
@@ -113,30 +117,6 @@ ActionController::Routing::Routes.draw do |map|
     m.add_people_to_group 'groups/add_people/:id', :action => 'add_people'
     m.remove_people_from_group 'groups/remove_people/:id', :action => 'remove_people'
     m.group_photo 'groups/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
-  end
-  
-  map.with_options :controller => 'recipes' do |m|
-    m.recipes 'recipes', :action => 'index'
-    m.recipe 'recipes/view/:id', :action => 'view'
-    m.new_recipe 'recipes/edit', :action => 'edit'
-    m.edit_recipe 'recipes/edit/:id', :action => 'edit'
-    m.search_recipes 'recipes/search', :action => 'search'
-    m.delete_recipe 'recipes/delete/:id', :action => 'delete'
-    m.recipe_add_tags 'recipes/add_tags/:id', :action => 'add_tags'
-    m.delete_tag_from_recipe 'recipe/delete_tag/:id', :action => 'delete_tag'
-  end
-  
-  map.with_options :controller => 'music' do |m|
-    m.music 'music', :action => 'index'
-    m.song 'music/view/:id', :action => 'view'
-    m.edit_song 'music/edit/:id', :action => 'edit'
-    m.add_tags_to_music 'music/add_tags/:id', :action => 'add_tags'
-    m.delete_tag_from_music 'music/delete_tag/:id', :action => 'delete_tag'
-    m.amazon_search 'music/amazon_search', :action => 'amazon_search'
-    m.amazon_grab 'music/amazon_grab', :action => 'amazon_grab'
-    m.view_song_attachment 'music/view_attachment/:id', :action => 'view_attachment'
-    m.delete_song_attachment 'music/delete_attachment/:id', :action => 'delete_attachment'
-    m.add_song_attachment 'music/add_attachment/:id', :action => 'add_attachment'
   end
   
   map.with_options :controller => 'comments' do |m|

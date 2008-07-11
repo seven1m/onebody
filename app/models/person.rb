@@ -262,6 +262,8 @@ class Person < ActiveRecord::Base
       admin?(:edit_pictures) or (what.person_id == self.id)
     when 'Picture'
       admin?(:edit_pictures) or (what.album and can_edit?(what.album)) or what.person_id == self.id
+    when 'Recipe'
+      self == what.person or self.admin?(:manage_recipes)
     when 'Note'
       self == what.person or self.admin?(:manage_notes)
     else

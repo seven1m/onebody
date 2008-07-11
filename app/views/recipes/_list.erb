@@ -24,7 +24,7 @@
         <% end %>
         <% if @person or recipe.admin? @logged_in %>
           <%= link_to "[edit]", edit_recipe_path(recipe), :class => 'discreet' %>
-          <%= link_to '[delete]', delete_recipe_path(recipe, :return_to => request.request_uri), :method => 'post', :confirm => 'Are you sure you want to delete this recipe?', :class => 'discreet' %>
+          <%= link_to '[delete]', recipe, :method => 'delete', :confirm => 'Are you sure you want to delete this recipe?', :class => 'discreet' %>
         <% end %>
         <% unless @person %>
           Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>

@@ -3,8 +3,10 @@ require 'faker'
 module Forgeable
   def forge(association, attributes={}, foreign_key=nil)
     foreign_key ||= self.class.name.downcase + '_id'
-    attributes[foreign_key] = self.id
-    eval(association.to_s.classify).forge(attributes)
+    returning eval(association.to_s.classify).forge(attributes) do |obj|
+      obj.send(foreign_key + '=', self.id) # to get around attr_protected
+      obj.save
+    end
   end
   
   def forge_photo(photo=true)

@@ -13,16 +13,27 @@ class ActsAsTaggableMigration < ActiveRecord::Migration
       conn.execute("insert into taggings (tag_id, taggable_id, taggable_type) values (#{tagging['tag_id']}, #{tagging['verse_id']}, 'Verse')")
     end
     drop_table :tags_verses
+    conn.select_all('select * from recipes_tags').each do |tagging|
+      conn.execute("insert into taggings (tag_id, taggable_id, taggable_type) values (#{tagging['tag_id']}, #{tagging['recipe_id']}, 'Recipe')")
+    end
+    drop_table :recipes_tags
   end
   
   def self.down
+    conn = ActiveRecord::Base.connection
     create_table :tags_verses, :id => false do |t|
       t.integer :tag_id
       t.integer :verse_id
     end
-    conn = ActiveRecord::Base.connection
     conn.select_all("select * from taggings where taggable_type = 'Verse'").each do |tagging|
       conn.execute("insert into tags_verses (tag_id, verse_id) values (#{tagging['tag_id']}, #{tagging['taggable_id']})")
+    end
+    create_table :recipes_tags, :id => false do |t|
+      t.integer :tag_id
+      t.integer :recipe_id
+    end
+    conn.select_all("select * from taggings where taggable_type = 'Recipe'").each do |tagging|
+      conn.execute("insert into recipes_tags (tag_id, recipe_id) values (#{tagging['tag_id']}, #{tagging['taggable_id']})")
     end
     drop_table :taggings
   end

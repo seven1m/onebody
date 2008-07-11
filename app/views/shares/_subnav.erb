@@ -4,7 +4,4 @@
   <%= link_to 'Verses', verses_path %>
   <%= link_to 'Recipes', recipes_path %>
   <% if Setting.get(:url, :news) %><%= link_to 'News', Setting.get(:url, :news) %><% end %>
-  <% if @logged_in.admin?(:manage_music) or @logged_in.music_access? %>
-    <!--<%= link_to 'Music', music_path %>-->
-  <% end %>
 <% end %>

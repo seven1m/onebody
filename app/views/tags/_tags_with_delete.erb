@@ -4,12 +4,11 @@
     <%= link_to h(tag.name), tag_path(tag.name) %>
     <% if params[:controller] == controller %>
       <% if controller == 'verses' %>
-        <%= link_to '[x]', verse_path(:id => object, :remove_tag => tag.name), :title => 'Delete this tag.', :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => 'Are you sure you want to delete this tag?' %>
+        <% url = verse_path(:id => object, :remove_tag => tag.name) %>
       <% elsif controller == 'recipes' %>
-        <%= link_to '[x]', delete_tag_from_recipe_path(:id => object, :tag_id => tag.id), :title => 'Delete this tag.', :class => 'discreet', :style => 'margin-left:-5px;', :method => 'post', :confirm => 'Are you sure you want to delete this tag?' %>
-      <% elsif controller == 'music' %>
-        <%= link_to '[x]', delete_tag_from_music_path(:id => object, :tag_id => tag.id), :title => 'Delete this tag.', :class => 'discreet', :style => 'margin-left:-5px;', :method => 'post', :confirm => 'Are you sure you want to delete this tag?' %>
+        <% url = recipe_path(:id => object, :remove_tag => tag.name) %>
       <% end %>
+      <%= link_to '[x]', url, :title => 'Delete this tag.', :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => 'Are you sure you want to delete this tag?' %>
     <% end %>
   <% end %>
 <% else %>

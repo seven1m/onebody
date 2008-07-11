@@ -13,8 +13,3 @@
   <h2>Recipes</h2>
   <%= render :partial => 'recipes/list', :locals => {:recipes => @tag.recipes} %>
 <% end %>
-
-<% if @tag.songs.any? %>
-  <h2>Songs</h2>
-  <%= render :partial => 'music/list', :locals => {:songs => @tag.songs} %>
-<% end %>

@@ -64,6 +64,8 @@ module ApplicationHelper
       url = person_photo_path(object, :return_to => request.request_uri + '#picture')
     elsif object.is_a? Picture
       url = picture_photo_path(object, :return_to => request.request_uri)
+    elsif object.is_a? Recipe
+      url = recipe_photo_path(object, :return_to => request.request_uri)
     else
       url = photo_path(:id => object, :type => object.class.name.downcase, :return_to => request.request_uri)
     end

@@ -15,7 +15,8 @@ class Tag < ActiveRecord::Base
   belongs_to :site
   
   has_many :taggings
-  has_many :verses, :through => :taggings, :conditions => "taggings.taggable_type = 'Verse'"
+  has_many :verses,  :through => :taggings, :conditions => "taggings.taggable_type = 'Verse'"
+  has_many :recipes, :through => :taggings, :conditions => "taggings.taggable_type = 'Recipe'"
   
   validates_presence_of :name
   validates_uniqueness_of :name

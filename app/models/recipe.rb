@@ -34,6 +34,7 @@ class Recipe < ActiveRecord::Base
     
   acts_as_photo "#{DB_PHOTO_PATH}/recipes", PHOTO_SIZES
   acts_as_logger LogItem
+  acts_as_taggable
   
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
@@ -41,10 +42,13 @@ class Recipe < ActiveRecord::Base
     self.photo_without_logging = p
   end
   
+  attr_protected :site_id, :person_id
+  
   def name; title; end
   
+  # not needed any more?
   def admin?(person)
-    person == self.person or person.admin?(:manage_recipes)
+    person.can_edit?(self)
   end
 
   def tag_string=(text)

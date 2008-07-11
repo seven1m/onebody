@@ -1,0 +1,25 @@
+<%= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
+<script type="text/javascript">
+  tinyMCE.init({
+  	mode: "exact",
+  	elements: "recipe_ingredients,recipe_directions",
+  	theme: "simple",
+  	convert_newlines_to_brs : true,
+  	invalid_elements: "pre,font"
+  });
+</script>
+
+<% form_for @recipe, :html => {:multipart => true} do |form| %>
+  <p>
+    <%= form.label :title %>                  <%= form.text_field :title %>                  <br/>
+    <%= form.label :tag_list %>               <%= form.text_field :tag_list %>               <br/>
+    <%= form.label :serving_size %>           <%= form.select :serving_size, 1..100 %>       <br/>
+    <%= form.label :description %>            <%= form.text_area :description, :rows => 3 %><br/>
+    <%= form.label :prep, 'Prep/Cook time' %> <%= form.text_field :prep %>                   <br/>
+    <%= form.label :bake, 'Bake time' %>      <%= form.text_field :bake %>                   <br/>
+    <%= form.label :ingredients %>            <%= form.text_area :ingredients, :rows => 10 %><br/>
+    <%= form.label :directions %>             <%= form.text_area :directions, :rows => 10 %> <br/>
+    <%= form.label :notes, 'Other notes' %>   <%= form.text_area :notes, :rows => 3 %>       <br/>
+    <%= form.submit 'Save Recipe' %>
+  </p>
+<% end %>
