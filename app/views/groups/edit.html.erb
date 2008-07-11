@@ -40,7 +40,7 @@
   
     <% unless @group.linked? %>
       <% if @group.approved %>
-        <%= form_remote_tag :url => search_directory_path %>
+        <%= form_remote_tag :url => search_path %>
           <%= hidden_field_tag :select_person, true %>
           <p>
             <label for="name">Add somebody:</label> <%= text_field_tag 'name' %>

@@ -16,7 +16,7 @@
 
 <div id="results">
   <% if @people %>
-    <%= render :partial => 'search_results' %>
+    <%= render :partial => 'results' %>
   <% elsif params[:search_friends] %>
     <h2>Find Your Friends</h2>
     <ol>
@@ -48,32 +48,32 @@
       </tr>
       <tr>
         <td>
-          <%= link_to image_tag('directory.gif', :alt => 'Browse the Directory'), browse_directory_path %>
+          <%= link_to image_tag('directory.gif', :alt => 'Browse the Directory'), search_path(:browse => true) %>
         </td>
         <td>
           Of course, you can also
-          <%= link_to 'browse the directory', browse_directory_path %>
+          <%= link_to 'browse the directory', search_path(:browse => true) %>
           by name.
         </td>
       </tr>
       <tr>
         <td>
-          <%= link_to image_tag('service.gif', :alt => 'Service Directory'), service_directory_path %>
+          <%= link_to image_tag('service.gif', :alt => 'Service Directory'), search_path(:services => true) %>
         </td>
         <td>
           Some of our members have businesses they'd like you to know about.
           Next time you go to grab the yellow pages, try the church
-          <%= link_to 'Service Directory', service_directory_path %> first.
+          <%= link_to 'Service Directory', search_path(:services => true) %> first.
         </td>
       </tr>
       <tr>
         <td>
-          <%= link_to image_tag('print.gif', :alt => 'Printed Directory'), directory_to_pdf_path %>
+          <%= link_to image_tag('print.gif', :alt => 'Printed Directory'), printable_directory_path %>
         </td>
         <td>
           The directory is constantly changing. While finding someone online is
           usually your best bet, you may desire to
-          <%= link_to 'print the directory', directory_to_pdf_path %>
+          <%= link_to 'print the directory', printable_directory_path %>
           for those "offline" moments.
         </td>
       </tr>

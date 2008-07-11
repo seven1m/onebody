@@ -43,10 +43,10 @@
         <%=h @person.address1 %>
         <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'address'} %><br/>
         <% if @person.address2.to_s.any? %><%=h @person.address2 %><br/><% end %>
-        <%= link_to h(@person.city), search_directory_path(:city => @person.city), :title => 'search for people in this city' %>,
-        <%= link_to h(@person.state), search_directory_path(:state => @person.state), :title => 'search for people in this state' %>
+        <%= link_to h(@person.city), search_path(:city => @person.city), :title => 'search for people in this city' %>,
+        <%= link_to h(@person.state), search_path(:state => @person.state), :title => 'search for people in this state' %>
         <% if @person.zip %>
-          <%= link_to h(@person.zip.split('-').first), search_directory_path(:zip => @person.zip.split('-').first), :title => 'search for people in this zip code' %><% if @person.zip =~ /\-/ %>-<%= link_to h(@person.zip.split('-').last), search_directory_path(:zip => @person.zip), :title => 'search for people in this zip code' %><% end %>
+          <%= link_to h(@person.zip.split('-').first), search_path(:zip => @person.zip.split('-').first), :title => 'search for people in this zip code' %><% if @person.zip =~ /\-/ %>-<%= link_to h(@person.zip.split('-').last), search_path(:zip => @person.zip), :title => 'search for people in this zip code' %><% end %>
         <% end %>
       </td>
     </tr>
@@ -67,8 +67,8 @@
     <tr>
       <td>Birthday:</td>
       <td>
-        <%= link_to @person.birthday.strftime('%B'), search_directory_path(:birthday_month => @person.birthday.month), :title => "search for #{@person.birthday.strftime('%B')} birthdays" %>
-        <%= link_to @person.birthday.strftime('%d'), search_directory_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => "search for #{@person.birthday.strftime('%B %d')} birthdays" %>
+        <%= link_to @person.birthday.strftime('%B'), search_path(:birthday_month => @person.birthday.month), :title => "search for #{@person.birthday.strftime('%B')} birthdays" %>
+        <%= link_to @person.birthday.strftime('%d'), search_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => "search for #{@person.birthday.strftime('%B %d')} birthdays" %>
         <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'birthday'} %>
       </td>
     </tr>
@@ -77,13 +77,13 @@
     <tr>
       <td>Anniversary:</td>
       <td>
-        <%= link_to @person.anniversary.strftime('%B'), search_directory_path(:anniversary_month => @person.anniversary.month), :title => "search for #{@person.anniversary.strftime('%B')} anniversaries" %>
-        <%= link_to @person.anniversary.strftime('%d'), search_directory_path(:anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day), :title => "search for #{@person.anniversary.strftime('%B %d')} anniversaries" %>
+        <%= link_to @person.anniversary.strftime('%B'), search_path(:anniversary_month => @person.anniversary.month), :title => "search for #{@person.anniversary.strftime('%B')} anniversaries" %>
+        <%= link_to @person.anniversary.strftime('%d'), search_path(:anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day), :title => "search for #{@person.anniversary.strftime('%B %d')} anniversaries" %>
         <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'anniversary'} %>
       </td>
     </tr>
   <% end %>
   <% if @person.service_name.to_s.any? %>
-    <tr><td>Services:</td><td><%= link_to @person.service_name, services_from_path(@person) %><br/><%=h truncate(@person.service_description, 200) %></td></tr>
+    <tr><td>Services:</td><td><%= link_to h(@person.service_name), person_path(@person, :services => true) %><br/><%=h truncate(@person.service_description, 200) %></td></tr>
   <% end %>
 </table>

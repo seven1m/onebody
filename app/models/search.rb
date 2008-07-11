@@ -94,7 +94,7 @@ class Search
   def self.new_from_params(params)
     search = new
     search.name = params[:name] || params[:quick_name]
-    search.show_services = params[:service]
+    search.show_services = params[:service] || params[:services]
     search.service_category= params[:category]
     search.testimony = params[:testimony]
     search.family_id = params[:family_id]

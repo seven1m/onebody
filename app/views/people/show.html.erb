@@ -104,7 +104,7 @@
   <% elsif @me %>
     <em>Share <%= link_to 'your story', edit_person_path(@person, :anchor => 'about') %>.</em>
   <% end %>
-  <p><%= link_to 'Read more testimonies...', search_directory_path(:testimony => true) %></p>
+  <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
 </div>
 
 <h2 class="tab" id="blog">Blog</h2>

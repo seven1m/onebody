@@ -26,7 +26,7 @@ class MultisiteTest < ActionController::IntegrationTest
   def test_browse
     site! 'site1'
     sign_in_as people(:jim)
-    get '/directory/browse'
+    get '/search', :browse => true
     assert_select 'body', /1 person found/
     assert_select 'body', /Jim Williams/
     assert_select 'body', :html => /Tom Jones/, :count => 0

@@ -27,11 +27,11 @@ class FriendTest < ActionController::IntegrationTest
     assert_select '#add_friend_' + people(:tim).id.to_s, :count => 0
     view_profile people(:jane)
     assert_select '#subnav', :html => /Add to Friends/
-    get '/directory/browse'
+    get '/search', :browse => true
     assert_select '#add_friend_' + people(:jane).id.to_s
     request_friendship people(:jane)
     assert_select 'body', :html => /friend request has been sent/
-    get '/directory/browse'
+    get '/search', :browse => true
     assert_select '#add_friend_' + people(:jane).id.to_s, :count => 0
     view_profile people(:jane)
     assert_select '#subnav', :html => /friend request pending/
@@ -41,7 +41,7 @@ class FriendTest < ActionController::IntegrationTest
     post "/friends/accept/#{f.id}"
     view_profile people(:jeremy)
     assert_select '#subnav', :html => /Remove from Friends/
-    get '/directory/browse'
+    get '/search', :browse => true
     assert_select '#add_friend_' + people(:jeremy).id.to_s, :count => 0
   end
 end

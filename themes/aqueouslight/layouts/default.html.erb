@@ -9,7 +9,7 @@
   <meta http-equiv="Cache-Control" content="no-cache"/> 
   <link rel="stylesheet" href="/stylesheets/aqueouslight.css" type="text/css" media="screen,projection" />
   <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_path %>" title="<%= Setting.get(:name, :site) %> Search" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= formatted_opensearch_search_path(:format => 'xml') %>" title="<%= Setting.get(:name, :site) %> Search" />
   <%= javascript_include_tag :defaults %>
   <%= yield :head %>
 </head>
@@ -25,7 +25,7 @@
 
 		<div id="header">
 		
-			  <%= form_tag(search_directory_results_path, :method => 'get') %>
+			  <%= form_tag(search_path, :method => 'get') %>
 			    Type a name and hit enter:<br/>
 				  <input name="quick_name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
 			  </form>
@@ -59,7 +59,7 @@
 				    <% end %>
 				    
 				    <li><%= link_to 'Profile', people_path, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
-				    <li><%= link_to 'Directory', search_directory_path, :class => (params[:controller] == 'directory' ? 'active' : nil) %></li>
+				    <li><%= link_to 'Directory', new_search_path, :class => (%w(searches printable_directories).include?(params[:controller]) ? 'active' : nil) %></li>
 				    <li><%= link_to 'Groups', groups_path, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li>
 				    <li><%= link_to 'More', shares_path, :class => (['shares', 'events', 'pictures', 'verses', 'recipes'].include?(params[:controller]) ? 'active' : nil) %></li>
 

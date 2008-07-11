@@ -1,0 +1,2 @@
+module PrintableDirectoriesHelper
+end

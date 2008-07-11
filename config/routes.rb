@@ -37,7 +37,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :verses
   map.resources :publications
   map.resources :notes
-
+  map.resources :shares
+  
+  map.resource :search, :member => {:opensearch => :get}
+  map.resource :printable_directory
   map.resource :feed
   map.resource :privacy
   
@@ -73,21 +76,6 @@ ActionController::Routing::Routes.draw do |map|
     m.setup_settings 'setup/settings/:id', :action => 'view'
   end
   
-  map.with_options :controller => 'directory' do |m|
-    m.opensearch 'opensearch.xml', :action => 'opensearch', :format => 'xml'
-    m.search_directory 'directory', :action => 'index'
-    m.search_directory_results 'directory/search', :action => 'search'
-    m.select_person 'directory/search/select', :action => 'search', :select_person => true
-    m.browse_directory 'directory/browse', :action => 'search', :browse => true
-    m.search_friends 'directory/search_friends', :action => 'search', :search_friends => true
-    m.service_directory 'directory/service', :action => 'search', :service => true
-    m.select_for_nametags 'directory/select_for_nametags', :action => 'select_for_nametags'
-    m.done_selecting_for_nametags 'directory/done_selecting_for_nametags', :action => 'done_selecting_for_nametags'
-    m.directory_to_pdf 'directory/directory_to_pdf', :action => 'directory_to_pdf'
-    m.directory_pickup_pdf 'directory/pickup_pdf', :action => 'pickup_pdf'
-    m.directory_creating_pdf 'directory/creating_pdf', :action => 'creating_pdf'
-  end
-  
   map.with_options :controller => 'prayer_requests' do |m|
     m.new_prayer_request 'prayer_requests/edit', :action => 'edit'
     m.edit_prayer_request 'prayer_requests/edit/:id', :action => 'edit'
@@ -95,11 +83,6 @@ ActionController::Routing::Routes.draw do |map|
     m.prayer_request 'prayer_requests/view/:id', :action => 'view'
     m.connect 'prayer_requests/:action/:id', :action => 'index'
     m.answered_prayer_requests 'prayer_requests/answered/:id', :action => 'answered'
-  end
-  
-  map.with_options :controller => 'prayer' do |m|
-    m.prayer_event 'prayer/event', :action => 'event'
-    m.prayer_event_signup 'prayer/event_signup/:id', :action => 'event_signup'
   end
     
   map.with_options :controller => 'friends' do |m|
@@ -111,8 +94,6 @@ ActionController::Routing::Routes.draw do |map|
     m.friend_turned_down 'friends/turned_down', :action => 'turned_down'
     m.reorder_friends 'friends/reorder', :action => 'reorder'
   end
-  
-  map.shares 'shares', :controller => 'shares'
   
   map.with_options :controller => 'groups' do |m|
     m.groups 'groups', :action => 'index'

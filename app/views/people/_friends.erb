@@ -31,5 +31,5 @@
     <p><%= link_to "All #{@person.name_possessive} Friends", friends_url(:id => @person) %></p>
   <% end %>
 <% elsif @me %>
-  <p class="highlight"><%= link_to 'Add your friends', search_friends_path %> to your profile page!</p>
+  <p class="highlight"><%= link_to 'Add your friends', search_path(:search_friends => true) %> to your profile page!</p>
 <% end %>

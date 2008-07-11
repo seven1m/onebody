@@ -20,6 +20,8 @@ class PeopleController < ApplicationController
         else
           render :text => '', :status => 404
         end
+      elsif params[:services]
+        render :action => 'services'
       elsif not @logged_in.full_access? and not @me
         render :action => 'show_limited'
       end

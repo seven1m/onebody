@@ -26,8 +26,8 @@ class PrivacyTest < ActionController::IntegrationTest
   
   def test_children_without_consent_hidden_in_search_results
     sign_in_as people(:peter)
-    get "/directory/search", :name => 'Mac'
-    assert_template 'directory/search'
+    get "/search", :name => 'Mac'
+    assert_template 'searches/new'
     assert_select 'body', /Your search didn't match any people\./
   end
   

@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <%= render :partial => 'searches/subnav' %>
+<% end %>
+
 <% content_for :sidebar do %>
   <p>
     <%= link_to image_tag('acrobat.gif', :alt => 'Adobe Reader', :class => 'no-border'), 'http://www.adobe.com/products/acrobat/readstep2.html' %>
@@ -12,7 +16,7 @@
   <%= image_tag 'spinner.gif', :alt => 'loading', :class => 'no-border', :id => 'spinner' %>
 </p>
 
-<% form_remote_tag :url => directory_to_pdf_path(:generate => true), :html => {:id => 'generate_form'} do %>
+<% form_remote_tag :url => printable_directory_path, :html => {:method => 'post', :id => 'generate_form'} do %>
   <p>Click the button below to generate your custom PDF file.</p>
   <p><%= submit_tag 'Generate my Printable Directory' %></p>
 <% end %>

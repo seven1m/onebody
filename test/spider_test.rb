@@ -9,7 +9,7 @@ class SpiderTest < ActionController::IntegrationTest
     sign_in_as people(:peter)
     spider(
       @response.body,
-      '/directory/browse',
+      '/search?browse=true',
       :verbose => true,
       :ignore_urls => %w(/account/sign_out /account/sign_in /events /directory/directory_to_pdf /groups/leave/2),
       :ignore_forms => %w(/verses)
