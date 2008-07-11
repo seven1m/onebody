@@ -54,10 +54,10 @@ class ApplicationController < ActionController::Base
           return false
         end
         unless @logged_in.email
-          redirect_to change_email_and_password_path
+          redirect_to edit_account_path
           return false
         end
-      elsif session[:family_id] and :action == 'change_email_and_password'
+      elsif session[:family_id] and params[:controller] == 'account' and params[:action] == 'edit'
         @family = Family.find session[:family_id]
       elsif params[:code]
         unless Person.logged_in = @logged_in = Person.find_by_feed_code(params[:code])

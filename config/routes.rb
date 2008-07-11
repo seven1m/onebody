@@ -43,6 +43,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :notes
   map.resources :shares
   map.resources :tags
+  map.resources :news
 
   map.resource :session
   map.resource :search, :member => {:opensearch => :get}
@@ -186,7 +187,6 @@ ActionController::Routing::Routes.draw do |map|
     m.verify_mobile 'account/verify_mobile', :action => 'verify_mobile'
     m.verify_code 'account/verify_code/:id', :action => 'verify_code'
     m.select_person 'account/select_person', :action => 'select_person'
-    m.change_email_and_password 'account/change_email_and_password', :action => 'change_email_and_password'
   end
   
   map.with_options :controller => 'help' do |m|
@@ -196,10 +196,5 @@ ActionController::Routing::Routes.draw do |map|
     m.bad_status 'help/bad_status', :action => 'bad_status'
     m.safeguarding_children 'help/safeguarding_children', :action => 'safeguarding_children'
     m.credits 'help/credits', :action => 'credits'
-  end
-
-  map.with_options :controller => 'news' do |m|
-    m.news 'news', :action => 'index'
-    m.news_item 'news/view/:id', :action => 'view'
   end
 end

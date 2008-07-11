@@ -77,6 +77,8 @@ module Forgeable
         "#{fake :first_name} #{fake :last_name}"
       when :first_name, :last_name
         Faker::Name.send(symbol)
+      when :link
+        "http://#{Faker::Internet.domain_name}"
       else
         raise 'Unrecognized faker symbol.'
       end
@@ -85,7 +87,7 @@ module Forgeable
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album Publication Tag).each do |model|
+%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem).each do |model|
   eval model
   eval "class #{model}; include Forgeable; end"
 end
@@ -140,6 +142,10 @@ end
 
 class Publication
   self.forgery_defaults = {:name => :word, :description => :paragraph, :file => true}
+end
+
+class NewsItem
+  self.forgery_defaults = {:title => :sentence, :link => :link}
 end
 
 class Verse

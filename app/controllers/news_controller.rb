@@ -1,20 +1,17 @@
 class NewsController < ApplicationController
   def index
-    @news_items = NewsItem.find :all, :order => 'published desc', :conditions => ['active = ?', true]
-  end
-  
-  def view
-    @news_item = NewsItem.find params[:id]
-  end
-  
-  def marquee
-    if (items = NewsItem.find :all, :order => 'published desc', :conditions => ['active = ?', true]).any?
-      @headlines = items.map do |item|
-        [item.title, item.link]
+    @news_items = NewsItem.all(:order => 'published desc', :conditions => ['active = ?', true])
+    respond_to do |format|
+      format.js do
+        if @news_items.any?
+          @headlines = @news_items.map do |item|
+            [item.title, item.link]
+          end
+          render :layout => false
+        else
+          render :text => ''
+        end
       end
-      render :layout => false
-    else
-      render :text => ''
     end
   end
 end

@@ -1,9 +1,0 @@
-<%= render :partial => 'shares/subnav' %>
-
-<h1>News</h1>
-
-<p>All news here is also available at <%= link_to Setting.get(:url, :news), Setting.get(:url, :news) %>.</p>
-
-<% @news_items.each do |news_item| %>
-  <%= render :partial => 'news_item', :locals => {:news_item => news_item} %>
-<% end %>
