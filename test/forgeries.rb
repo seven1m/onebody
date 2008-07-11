@@ -15,6 +15,14 @@ module Forgeable
     end
   end
   
+  def forge_file(file=true)
+    if file.is_a?(String)
+      self.file = File.open(file)
+    else
+      self.file = ActionController::TestUploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', nil, false)
+    end
+  end
+  
   def self.included(mod)
     mod.extend(ClassMethods)
     mod.class_eval <<-END
@@ -48,8 +56,10 @@ module Forgeable
       attributes = forgery_defaults.merge(attributes)
       attributes.symbolize_keys!
       photo = attributes.delete(:photo)
+      file = attributes.delete(:file)
       returning create!(attributes) do |obj|
         obj.forge_photo(photo) if photo
+        obj.forge_file(file)   if file
       end
     end
     
@@ -73,7 +83,7 @@ module Forgeable
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album).each do |model|
+%w(Family Person Recipe Note Picture Verse Group Album Publication).each do |model|
   eval model
   eval "class #{model}; include Forgeable; end"
 end
@@ -124,6 +134,10 @@ end
 
 class Album
   self.forgery_defaults = {:name => :word}
+end
+
+class Publication
+  self.forgery_defaults = {:name => :word, :description => :paragraph, :file => true}
 end
 
 class Verse

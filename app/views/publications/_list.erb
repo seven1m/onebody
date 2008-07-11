@@ -10,7 +10,7 @@
           <%= link_to h(publication.name), publication, :target => '_new' %>
           <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
           <% if @logged_in.admin?(:manage_publications) %>
-            <%= link_to '[delete]', delete_publication_path(publication), :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
+            <%= link_to '[delete]', publication, :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
           <% end %>
           <br/>
           <%=h publication.description %>

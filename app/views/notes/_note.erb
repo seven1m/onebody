@@ -1,15 +1,15 @@
 <div class="note">
   <div class="note-heading">
     <div class="note-timestamp">
-      posted <%= note.created_at.to_time.to_s %>
-      <% if @group %>
-        by <%= link_to note.person_name, person_url(:id => note.person_id) %>
+      posted <%= note.created_at.to_s %>
+      <% if note.group %>
+        by <%= link_to note.person.name, note.person %>
       <% end %>
     </div>
-    <%= link_to h(note.title), note_url(:id => note) %>
-    <% if note.person_id == @logged_in.id or @logged_in.admin?(:manage_notes) %>
-      <%= link_to '[edit]', edit_note_url(:id => note), :class => 'discreet' %>
-      <%= link_to '[delete]', delete_note_url(:id => note), :class => 'discreet', :confirm => true, :confirm => 'Are you sure?' %>
+    <%= link_to h(note.title), note %>
+    <% if @logged_in.can_edit?(note) %>
+      <%= link_to '[edit]', edit_note_path(note), :class => 'discreet' %>
+      <%= link_to '[delete]', note_path(note), :class => 'discreet', :confirm => 'Are you sure?', :method => 'delete' %>
     <% end %>
   </div>
 
@@ -20,8 +20,8 @@
       <%= render :partial => 'comments/comment_summary', :locals => {:object => note} %>
     </div>
     <p>
-      <%= link_to image_tag('comment.gif', :alt => 'Comments', :class => 'icon'), note_url(:id => note) %>
-      <%= link_to 'Add/Read Comments', note_url(:id => note) %>
+      <%= link_to image_tag('comment.gif', :alt => 'Comments', :class => 'icon'), note %>
+      <%= link_to 'Add/Read Comments', note %>
     </p>
   </div>
 </div>

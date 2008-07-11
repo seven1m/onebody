@@ -229,6 +229,8 @@ class Person < ActiveRecord::Base
           (what.group and (self.member_of?(what.group) or what.group.admin?(self)))
       when 'Song'
         what.visible_to?(self)
+      when 'Note'
+        what.person and can_see?(what.person)
       when 'Recipe', 'Picture'
         true
       else
@@ -243,7 +245,7 @@ class Person < ActiveRecord::Base
     return false if self.account_frozen?
     case what.class.name
     when 'Group'
-      what.admin? self or self.admin?(:manage_groups)
+      what.admin?(self) or self.admin?(:manage_groups)
     when 'Ministry'
       admin?(:manage_ministries) or what.administrator == self
     when 'Person'
@@ -260,6 +262,8 @@ class Person < ActiveRecord::Base
       admin?(:edit_pictures) or (what.person_id == self.id)
     when 'Picture'
       admin?(:edit_pictures) or (what.album and can_edit?(what.album)) or what.person_id == self.id
+    when 'Note'
+      self == what.person or self.admin?(:manage_notes)
     else
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end

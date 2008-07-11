@@ -1,0 +1,13 @@
+<h1>New Publication</h1>
+
+<% form_for @publication, :html => {:multipart => true} do |form| %>
+  <%= form.error_messages %>
+  <p>
+    <%= form.label :name %>         <%= form.text_field :name %><br/>
+    <%= form.label :description %> <%= form.text_area :description, :rows => 3 %><br/>
+    <%= form.label :file %>         <%= form.file_field :file %><br/>
+    <%= check_box_tag :send_update, true, true, :class => 'checkbox' %>
+    <em>Start a new message to Publications subscribers.</em><br/>
+    <%= form.submit 'Save Publication' %>
+  </p>
+<% end %>

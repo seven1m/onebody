@@ -35,6 +35,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :messages
   map.resources :attachments
   map.resources :verses
+  map.resources :publications
+  map.resources :notes
 
   map.resource :feed
   map.resource :privacy
@@ -86,14 +88,6 @@ ActionController::Routing::Routes.draw do |map|
     m.directory_creating_pdf 'directory/creating_pdf', :action => 'creating_pdf'
   end
   
-  map.with_options :controller => 'notes' do |m|
-    m.new_note 'notes/edit', :action => 'edit'
-    m.edit_note 'notes/edit/:id', :action => 'edit'
-    m.delete_note 'notes/delete/:id', :action => 'delete'
-    m.note 'notes/view/:id', :action => 'view'
-    m.connect 'notes/:action/:id', :action => 'index'
-  end
-  
   map.with_options :controller => 'prayer_requests' do |m|
     m.new_prayer_request 'prayer_requests/edit', :action => 'edit'
     m.edit_prayer_request 'prayer_requests/edit/:id', :action => 'edit'
@@ -119,13 +113,6 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.shares 'shares', :controller => 'shares'
-  
-  map.with_options :controller => 'publications' do |m|
-    m.publications 'publications', :action => 'index'
-    m.publication 'publications/view/:id', :action => 'view'
-    m.new_publication 'publications/edit', :action => 'edit'
-    m.delete_publication 'publications/delete/:id', :action => 'delete'
-  end
   
   map.with_options :controller => 'groups' do |m|
     m.groups 'groups', :action => 'index'

@@ -20,6 +20,9 @@ class Publication < ActiveRecord::Base
   acts_as_file DB_PUBLICATIONS_PATH
   acts_as_logger LogItem
   
+  validates_presence_of :name
+  validates_uniqueness_of :name
+  
   def pseudo_file_name
     filename = name.scan(/[a-z0-9]/i).join
     filename = id.to_s if filename.empty?
