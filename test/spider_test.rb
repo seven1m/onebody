@@ -11,7 +11,7 @@ class SpiderTest < ActionController::IntegrationTest
       @response.body,
       '/search?browse=true',
       :verbose => true,
-      :ignore_urls => %w(/account/sign_out /account/sign_in /events /directory/directory_to_pdf /groups/leave/2),
+      :ignore_urls => %w(/groups/leave/2 /session/new /session),
       :ignore_forms => %w(/verses)
     )
   end

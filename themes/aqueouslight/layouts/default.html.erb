@@ -49,7 +49,7 @@
 				
 				    <% if @logged_in %>
 				      <li style="float:right;font-size:smaller;color:#fff;text-align:right;">
-				        <%= link_to 'sign out', sign_out_path, :style => 'padding-left:5px;padding-right:5px;' %>
+				        <%= link_to 'sign out', session_path, :method => 'delete', :style => 'padding-left:5px;padding-right:5px;' %>
 				      </li>
               <% if @logged_in.admin? %>
                 <li style="float:right;font-size:smaller;color:#fff;text-align:right;margin-right:10px;">

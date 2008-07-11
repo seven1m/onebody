@@ -42,7 +42,7 @@ class Test::Unit::TestCase
   
   def post_sign_in_form(email, password='secret')
     Setting.set_global('Features', 'SSL', true)
-    post '/account/sign_in', :email => email, :password => password
+    post '/session', :email => email, :password => password
   end
   
   def site!(site)

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   layout 'default.html.erb'
   
   before_filter :get_site
-  before_filter :authenticate_user, :except => ['sign_in', 'family_email', 'verify_email', 'verify_mobile', 'verify_birthday', 'verify_code', 'select_person']
+  before_filter :authenticate_user, :except => %w(family_email verify_email verify_mobile verify_birthday verify_code select_person)
   
   private
     def get_site
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
       if id = session[:logged_in_id]
         unless person = Person.find_by_id(id)
           session[:logged_in_id] = nil
-          redirect_to sign_in_path
+          redirect_to new_session_path
           return false
         end
         unless person.can_sign_in?
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
         Person.logged_in = @logged_in = person
         if Site.current.id != @logged_in.site_id
           session[:logged_in_id] = nil
-          redirect_to sign_in_path
+          redirect_to new_session_path
           return false
         end
         unless @logged_in.email
@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
       elsif params[:action] == 'toggle_email'
         # don't do anything
       else
-        redirect_to sign_in_path(:from => request.request_uri)
+        redirect_to new_session_path(:from => request.request_uri)
         return false
       end
     end

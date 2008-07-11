@@ -16,7 +16,7 @@
 
 <h2>Please sign in.</h2>
 
-<form method="post"
+<form method="post" action="/session" method="post"
   <% unless Setting.get(:features, :ssl) %>
     onsubmit="$('password_encrypted').value = hex_md5(hex_md5($('password').value) + salt);$('password').value = ''"
   <% end %>

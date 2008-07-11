@@ -43,11 +43,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :notes
   map.resources :shares
   map.resources :tags
-  
+
+  map.resource :session
   map.resource :search, :member => {:opensearch => :get}
   map.resource :printable_directory
   map.resource :feed
-  map.resource :privacy
+  map.resource :privacy # redirects to people/1/privacy
   
   # here there be dragons
   
@@ -180,8 +181,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'account' do |m|
     m.edit_account 'account/edit/:id', :action => 'edit'
-    m.sign_in 'account/sign_in', :action => 'sign_in'
-    m.sign_out 'account/sign_out', :action => 'sign_out'
     m.verify_birthday 'account/verify_birthday', :action => 'verify_birthday'
     m.verify_email 'account/verify_email', :action => 'verify_email'
     m.verify_mobile 'account/verify_mobile', :action => 'verify_mobile'

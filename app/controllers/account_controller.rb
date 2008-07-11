@@ -3,44 +3,6 @@ class AccountController < ApplicationController
   
   before_filter :check_ssl, :except => [:sign_out, :verify_code]
 
-  def sign_in
-    flash[:warning] = 'There are no users in the system.' unless Person.count > 0
-    @salt = session_salt unless Setting.get(:features, :ssl)
-    if request.post?
-      if person = Person.authenticate(params[:email], Setting.get(:features, :ssl) ? params[:password] : params[:password_encrypted], :encrypted => !Setting.get(:features, :ssl), :salt => @salt)
-        unless person.can_sign_in?
-          redirect_to unauthorized_path(:protocol => 'http://')
-          return
-        end
-        session[:logged_in_id] = person.id
-        session[:logged_in_name] = person.first_name + ' ' + person.last_name
-        session[:ip_address] = request.remote_ip
-        flash[:notice] = "Welcome, #{person.first_name}."
-        if params[:from]
-          redirect_to 'http://' + request.host + ([80, 443].include?(request.port) ? '' : ":#{request.port}") + params[:from]
-        else
-          redirect_to person
-        end
-      elsif person == nil
-        cookies[:email] = nil
-        if family = Family.find_by_email(params[:email])
-          flash[:warning] = 'That email address was found, but you must verify it before you can sign in.'
-          redirect_to verify_email_path(:email => params[:email])
-        else
-          flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
-        end
-      else
-        flash[:warning] = "The password you entered doesn't match our records. Please try again."
-      end
-    end
-    @email = cookies[:email]
-  end
-  
-  def sign_out
-    session[:logged_in_id] = nil
-    redirect_to people_path
-  end
-  
   def edit
     @person = Person.find params[:id]
     raise 'Error.' unless @logged_in.can_edit? @person or @logged_in.admin?(:edit_profiles)
