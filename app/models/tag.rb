@@ -20,6 +20,7 @@ class Tag < ActiveRecord::Base
   
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_exclusion_of :name, :in => %w(edit new delete destroy create update index)
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   

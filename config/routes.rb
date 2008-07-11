@@ -42,6 +42,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :publications
   map.resources :notes
   map.resources :shares
+  map.resources :tags
   
   map.resource :search, :member => {:opensearch => :get}
   map.resource :printable_directory
@@ -196,10 +197,6 @@ ActionController::Routing::Routes.draw do |map|
     m.bad_status 'help/bad_status', :action => 'bad_status'
     m.safeguarding_children 'help/safeguarding_children', :action => 'safeguarding_children'
     m.credits 'help/credits', :action => 'credits'
-  end
-  
-  map.with_options :controller => 'tags' do |m|
-    m.tag 'tags/view/:id', :action => 'view'
   end
 
   map.with_options :controller => 'news' do |m|

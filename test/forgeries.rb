@@ -85,7 +85,7 @@ module Forgeable
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album Publication).each do |model|
+%w(Family Person Recipe Note Picture Verse Group Album Publication Tag).each do |model|
   eval model
   eval "class #{model}; include Forgeable; end"
 end
@@ -154,4 +154,8 @@ class Verse
     verse.forge_photo if photo
     verse
   end
+end
+
+class Tag
+  self.forgery_defaults = {:name => :word}
 end

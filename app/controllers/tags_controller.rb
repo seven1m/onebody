@@ -1,5 +1,7 @@
 class TagsController < ApplicationController
-  def view
-    @tag = Tag.find_by_name(params[:id]) || Tag.find(params[:id])
+
+  def show
+    @tag = params[:id] =~ /^\d+$/ ? Tag.find(params[:id]) : Tag.find_by_name(params[:id])
   end
+
 end

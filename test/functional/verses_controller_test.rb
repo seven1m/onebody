@@ -25,7 +25,7 @@ class VersesControllerTest < ActionController::TestCase
   should "tag a verse" do
     assert_equal 2, @verse.tag_list.length
     # add just 1
-    get :update, {:id => @verse.id, :add_tags => 'new'}, {:logged_in_id => @person.id}
+    get :update, {:id => @verse.id, :add_tags => 'dude'}, {:logged_in_id => @person.id}
     assert_redirected_to verse_path(@verse)
     assert_equal 3, @verse.reload.tag_list.length
     # add 2 more
