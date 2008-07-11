@@ -1,4 +1,6 @@
 class Notifier < ActionMailer::Base
+  helper :notifier
+
   def profile_update(person, updates)
     recipients Setting.get(:contact, :send_updates_to)
     from Site.current.noreply_email

@@ -145,7 +145,7 @@ jennie:
   id: 4
   family_id: 1
   sequence: 2
-  gender: Woman
+  gender: Female
   first_name: Jennie
   last_name: Morgan
   mail_group: M
@@ -190,7 +190,7 @@ jane:
   id: 6
   family_id: 2
   sequence: 2
-  gender: Woman
+  gender: Female
   first_name: Jane
   last_name: Smith
   mail_group: M

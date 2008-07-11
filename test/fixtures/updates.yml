@@ -31,20 +31,20 @@
 
 update_tim:
   site_id: 1
-  first_name: Timothy
+  first_name: Tim
   last_name: Morgans
   person_id: 1
-  home_phone: 9183214321
+  home_phone: 9181234568
   mobile_phone: 9183214321
   work_phone:
   fax: 9183214321
-  address1: address line 1
-  address2: address line 2
-  city: Siloam Springs
-  state: AR
-  zip: 12345
-  birthday: 2007-01-01
-  anniversary: 1800-01-01
+  address1: 123 S Peoria
+  address2: 
+  city: Tulsa
+  state: OK
+  zip: 74111
+  birthday: 1981-04-28
+  anniversary: 
   gender: Male
   suffix:
   family_last_name: Morgans

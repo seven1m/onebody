@@ -28,59 +28,82 @@
 #
 
 class Update < ActiveRecord::Base
+  PERSON_ATTRIBUTES = %w(first_name last_name mobile_phone work_phone fax birthday anniversary suffix gender)
+  FAMILY_ATTRIBUTES = %w(family_name family_last_name home_phone address1 address2 city state zip)
+  
   belongs_to :person
   belongs_to :site
+  
+  attr_protected :person_id, :site_id, :complete
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   def do!
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
-    %w(first_name last_name suffix gender mobile_phone work_phone fax).each do |attribute|
-      person[attribute] = self[attribute] unless self[attribute].nil?
+    returning (person.update_attributes(person_attributes) and person.family.update_attributes(family_attributes)) do |success|
+      puts (person.errors.full_messages + person.family.errors.full_messages).join('; ') unless success
     end
-    # I know this is ugly... a date with year 1800 means to blank out the attribute (because nil means no update)
-    %w(birthday anniversary).each do |attribute|
-      unless self[attribute].nil?
-        person[attribute] = self[attribute].to_s(:date) =~ /1800/ ? nil : self[attribute]
-      end
+  end
+  
+  def mobile_phone=(phone)
+    write_attribute :mobile_phone, phone.to_s.digits_only
+  end
+  
+  def work_phone=(phone)
+    write_attribute :work_phone, phone.to_s.digits_only
+  end
+  
+  def fax=(phone)
+    write_attribute :fax, phone.to_s.digits_only
+  end
+  
+  def home_phone=(phone)
+    write_attribute :home_phone, phone.to_s.digits_only
+  end
+  
+  def person_attributes
+    self.attributes.reject do |key, val|
+      !PERSON_ATTRIBUTES.include?(key)
     end
-    if person.save
-      %w(home_phone address1 address2 city state zip family_name family_last_name).each do |attribute|
-        person.family[attribute.gsub(/^family_/, '')] = self[attribute] unless self[attribute].nil?
-      end
-      person.family.save
-    else
-      puts person.errors.full_messages.join('; ')
-      false
-    end
+  end
+  
+  def person_attributes=(attributes)
+    self.attributes = attributes
+  end
+  
+  def family_attributes
+    {
+      :name      => self.family_name,
+      :last_name => self.family_last_name,
+    }.merge(self.attributes.reject { |k, v| !(FAMILY_ATTRIBUTES - %w(family_name family_last_name)).include?(k) })
+  end
+  
+  def family_attributes=(attributes)
+    attributes = attributes.clone
+    self.family_name = attributes.delete(:name)
+    self.family_last_name = attributes.delete(:last_name)
+    self.attributes = attributes
+  end
+  
+  def changes
+    p = self.person
+    p.attributes = person_attributes
+    f = p.family
+    f.attributes = family_attributes
+    f_changes = f.changes.clone
+    f_changes['family_name']      = f_changes.delete('name')      if f_changes['name']
+    f_changes['family_last_name'] = f_changes.delete('last_name') if f_changes['last_name']
+    p.changes.merge(f_changes)
   end
   
   def self.create_from_params(params, person)
     params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
-    # turn formatted phone numbers into digits only
-    %w(mobile_phone work_phone fax).each do |a|
-      params['person'][a] = params['person'][a].digits_only if params['person'][a]
+    returning person.updates.new do |update|
+      update.person_attributes = params[:person].reject_blanks
+      update.family_attributes = params[:family].reject_blanks
+      update.save
+      Notifier.deliver_profile_update(person, update.changes) if Setting.get(:contact, :send_updates_to)
     end
-    params['family']['home_phone'] = params['family']['home_phone'].digits_only if params['family']['home_phone']
-    # keep only values that have changed from the originals
-    family_updates = params['family'].clone
-    family_updates = keep_changes(family_updates, person.family)
-    family_updates['family_name'] = family_updates.delete('name')
-    family_updates['family_last_name'] = family_updates.delete('last_name')
-    updates = keep_changes(params['person'], person) + family_updates
-    # date year 1800 means to blank the date
-    updates['birthday'] = Date.new(1800, 1, 1) if updates.has_key?('birthday') and updates['birthday'].to_s.blank?
-    updates['anniversary'] = Date.new(1800, 1, 1) if updates.has_key?('anniversary') and updates['anniversary'].to_s.blank?
-    # save
-    u = person.updates.create(updates)
-    # send notification
-    Notifier.deliver_profile_update(person, updates) if Setting.get(:contact, :send_updates_to)
-    return u
   end
-end
 
-def keep_changes(updates, obj)
-  updates.delete_if do |key, value|
-    value.to_s == obj.send(key).to_s.gsub(/\s00:00:00$/, '')
-  end
 end

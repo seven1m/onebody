@@ -91,7 +91,7 @@ class PersonTest < Test::Unit::TestCase
     (tim_remove_anniversary = tim.clone)['person']['anniversary'] = ''
     update = Update.create_from_params(tim_remove_anniversary, people(:tim))
     assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
-    assert_equal '01/01/1800', update.anniversary.strftime('%m/%d/%Y')
+    assert_equal nil,          update.anniversary
   end
   
   private
