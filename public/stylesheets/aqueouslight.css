@@ -917,3 +917,11 @@ code {
 	border: 1px solid #ccc;
 	padding: 1px;
 }
+
+.verse {
+  margin-bottom: 15px;
+}
+
+.verse-body {
+  font-size: larger;
+}

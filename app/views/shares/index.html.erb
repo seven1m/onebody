@@ -1,23 +1,46 @@
 <%= render :partial => 'shares/subnav' %>
 
-<h2>Sharing</h2>
+<div style="width:50%;float:right;margin-left:25px;">
 
-<p>
-  <%= Setting.get(:name, :site) %> is a place to connect and share inspirational Bible verses,
-  good recipes, pictures, and more. From here, you can browse through the
-  collection of things our members have shared and add some of your own!
-</p>
+  <h2><%= link_to 'Verses' + image_tag('next.gif', :alt => 'Verses', :class => 'icon'), verses_path %></h2>
 
-<table>
-  <tr>
-    <td style="padding-right:50px;text-align:center;">   <%= link_to image_tag('camera.gif', :alt => 'Pictures',     :class => 'no-border') + '<br/>Pictures', albums_path,  :style => 'text-decoration:none;' %></td>
-    <td style="padding-right:50px;text-align:center;">   <%= link_to image_tag('bible.gif',  :alt => 'Bible Verses', :class => 'no-border') + '<br/>Verses',   verses_path,  :style => 'text-decoration:none;' %></td>
-    <td style="vertical-align:bottom;text-align:center;"><%= link_to image_tag('recipe.gif', :alt => 'Recipes',      :class => 'no-border') + '<br/>Recipes',  recipes_path, :style => 'text-decoration:none;' %></td>
-  </tr>
-</table>
+  <% if @verses.any? %>
+    <%= render :partial => 'verses/verse', :collection => @verses %>
+  <% else %>
+    <p><em>No verses yet... Add some!</em></p>
+  <% end %>
 
-<h2>Publications</h2>
+  <p><%= link_to 'Click here', verses_path %> to see more and to share your own favorite verses.</p>
+
+  <h2><%= link_to 'Recipes' + image_tag('next.gif', :alt => 'Recipes', :class => 'icon'), recipes_path %></h2>
+
+  <% if @recipes.any? %>
+    <%= render :partial => 'recipes/list', :locals => {:recipes => @recipes} %>
+  <% else %>
+    <p><em>No recipes yet... Add some!</em></p>
+  <% end %>
+
+  <p><%= link_to 'Click here', recipes_path %> to see more and to share your own favorite recipes.</p>
+  
+</div>
+
+<h2><%= link_to 'Publications' + image_tag('next.gif', :alt => 'Publications', :class => 'icon'), publications_path %></h2>
 
 <%= render :partial => 'publications/list' %>
 
 <p><%= link_to 'Click here', publications_path %> for more details and to sign up for updates.</p>
+
+<h2><%= link_to 'Pictures' + image_tag('next.gif', :alt => 'Pictures', :class => 'icon'), albums_path %></h2>
+
+<% if @pictures.any? %>
+  <p>
+    <% @pictures.each do |object| %>
+      <%= link_to image_tag(small_picture_path(object), :alt => 'click to enlarge'),
+        picture_path(object), :title => 'click to enlarge' %>
+    <% end %>
+  </p>
+<% else %>
+  <p><em>No pictures yet... Add some!</em></p>
+<% end %>
+
+<p><%= link_to 'Click here', albums_path %> to see more and to upload your own pictures.</p>
