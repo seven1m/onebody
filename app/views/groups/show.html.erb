@@ -2,8 +2,8 @@
   <li><%= link_to 'List of Groups', groups_path %></li>
   <% if @logged_in.admin?(:manage_groups) or @group.admin? @logged_in %>
     <li><%= link_to 'Edit Group', edit_group_path(@group) %></li>
-    <% if not @group.approved and @logged_in.admin?(:manage_groups) %>
-      <li><%= link_to 'Approve Group', approve_group_path(@group), :confirm => 'Are you sure?', :method => 'post', :style => 'color:yellow;' %></li>
+    <% if not @group.approved? and @logged_in.admin?(:manage_groups) %>
+      <li><%= link_to 'Approve Group', group_path(@group, :group => {:approved => true}), :confirm => 'Are you sure?', :method => 'put', :style => 'color:yellow;' %></li>
     <% end %>
   <% end %>
 <% end %>
@@ -22,9 +22,9 @@
     <% if @group.membership_requests.count('*', :conditions => ['person_id = ?', @logged_in.id]) > 0 %>
       <p class="very-strong">You have requested to join this group.</p>
     <% elsif not @logged_in.member_of?(@group) %>
-      <p><%= link_to 'Join This Group', join_group_path(@group), :method => 'post', :confirm => @group.admin?(@logged_in) ? nil : 'Are you sure? A request will be sent to the group administrator(s).' %></p>
+      <p><%= link_to 'Join This Group', group_memberships_path(@group, :id => @logged_in), :method => 'post', :confirm => @group.admin?(@logged_in) ? 'Are you sure?' : 'Are you sure? A request will be sent to the group administrator(s).' %></p>
     <% elsif not @group.last_admin?(@logged_in) %>
-      <p><%= link_to 'Leave This Group', leave_group_path(@group), :method => 'post', :confirm => 'Are you sure?' %></p>
+      <p><%= link_to 'Leave This Group', group_membership_path(@group, @group.memberships.find_by_person_id(@logged_in.id)), :method => 'delete', :confirm => 'Are you sure?' %></p>
     <% end %>
   <% end %>
 
@@ -33,18 +33,9 @@
   <%= render :partial => 'people' %>
 <% end %>
 
-<% if @group.private? %>
-  <p class="highlight">
-    <%= image_tag('lock.gif', :alt => 'Private Group', :class => 'icon') %>
-    This group is private. Only people in this group can see its messages.
-  </p>
-<% end %>
+<% if @group.private? %><%= render :partial => 'private' %><% end %>
 
-<% if @group.hidden? %>
-  <p class="highlight">
-    This group is hidden.
-  </p>
-<% end %>
+<% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
 
 <% if @group.admin?(@logged_in) and  @group.membership_requests.count > 0 %>
   <p class="highlight">
@@ -53,7 +44,10 @@
   </p>
 <% end %>
 
-<h1><%=h @group.name %></h1>
+<h1>
+  <span style="font-size:10pt"><%=h @group.category %></span><br/>
+  <%=h @group.name %>
+</h1>
 
 <p><%=h @group.description %></p>
 
@@ -76,7 +70,10 @@
 <div class="section">
   <% if @group.can_post? @logged_in %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', new_note_path(:group_id => @group) %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', new_group_note_path(@group) %>
+      &nbsp;
+      <%= link_to image_tag('add_small.gif', :alt => 'Send an email.', :class => 'icon') + ' Send an Email', new_group_message_path(@group) %>
+      <br/>
       <em>Posting a note here does <strong>not</strong> send any email to the group members.</em>
     </p>
   <% end %>

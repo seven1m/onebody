@@ -1,14 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
   
   PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
-  # remember to update ApplicationHelper#photo_upload_for as the photo resource is added to RESTful controllers
 
   map.connect '', :controller => 'people'
   
   map.resources :people do |people|
     people.resources :groups
     people.resources :pictures
-    people.resource :service
     people.resource :privacy
     people.resource :photo, :member => PHOTO_SIZE_METHODS
   end
@@ -26,13 +24,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :recipes do |recipes|
     recipes.resource :photo, :member => PHOTO_SIZE_METHODS
   end
-
-  # this can go away once groups are restful
-  map.resources :photos
-  map.photo_with_size 'photos/show/:id.:size.jpg',
-    :controller   => 'photos',
-    :action       => 'show',
-    :method       => :get
+  
+  map.resources :groups do |groups|
+    groups.resources :memberships, :collection => {:batch => :any}
+    groups.resources :notes
+    groups.resources :messages
+    groups.resource :photo, :member => PHOTO_SIZE_METHODS
+  end
+  
 
   map.resources :blogs
   map.resources :walls
@@ -53,7 +52,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :privacy # redirects to people/1/privacy
   
   # here there be dragons
-  
+
   map.with_options :controller => 'prayer_requests' do |m|
     m.new_prayer_request 'prayer_requests/edit', :action => 'edit'
     m.edit_prayer_request 'prayer_requests/edit/:id', :action => 'edit'
@@ -71,26 +70,6 @@ ActionController::Routing::Routes.draw do |map|
     m.decline_friendship_request 'friends/decline/:id', :action => 'decline'
     m.friend_turned_down 'friends/turned_down', :action => 'turned_down'
     m.reorder_friends 'friends/reorder', :action => 'reorder'
-  end
-  
-  map.with_options :controller => 'groups' do |m|
-    m.groups 'groups', :action => 'index'
-    m.group 'groups/view/:id', :action => 'view'
-    m.new_group 'groups/edit', :action => 'edit'
-    m.edit_group 'groups/edit/:id', :action => 'edit'
-    m.delete_group 'groups/delete/:id', :action => 'delete'
-    m.approve_group 'groups/approve/:id', :action => 'approve'
-    m.group_promote_person 'groups/promote/:id', :action => 'promote'
-    m.group_demote_person 'groups/demote/:id', :action => 'demote'
-    m.group_membership_requests 'groups/membership_requests/:id', :action => 'membership_requests'
-    m.group_process_requests 'groups/process_requests/:id', :action => 'process_requests'
-    m.toggle_email 'groups/toggle_email/:id', :action => 'toggle_email'
-    m.search_groups 'groups/search', :action => 'search'
-    m.join_group 'groups/join/:id', :action => 'join'
-    m.leave_group 'groups/leave/:id', :action => 'leave'
-    m.add_people_to_group 'groups/add_people/:id', :action => 'add_people'
-    m.remove_people_from_group 'groups/remove_people/:id', :action => 'remove_people'
-    m.group_photo 'groups/photo/:id', :action => 'photo', :requirements => { :id => /.*/ }
   end
   
   map.with_options :controller => 'setup/dashboard' do |m|

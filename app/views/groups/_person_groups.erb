@@ -1,18 +1,17 @@
-<% if @person.groups.length > 0 %>
-  <p><%= h @person.first_name %> is a member of the following groups:</p>
+<% if @person.has_groups? %>
+  <p><%=h @person.first_name %> is a member of the following groups:</p>
   <ul>
-    <% @person.groups.select { |g| @logged_in.sees? g }.each do |group| %>
+    <% @person.groups.select { |g| @logged_in.can_see? g }.each do |group| %>
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <li <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
-          <%= link_to h(group.name), group_path(group) %>
-          (<%= n = group.people.length %> <%= n == 1 ? 'person' : 'people' %>)<br/>
-          <span class="discreet">
+          <%= link_to h(group.name), group %><br/>
+          <span>
             email:
             <% if group.get_options_for(@person).get_email %>
               <strong title="email from this group is ON">on</strong> |
-              <%= link_to 'off', toggle_email_path(group, :person_id => @person, :from => request.xhr? ? person_url(:id => @person, :anchor => 'groups') : request.request_uri), :class => 'discreet', :method => 'post', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
+              <%= link_to 'off', group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
             <% else %>
-              <%= link_to 'on', toggle_email_path(group, :person_id => @person, :from => request.xhr? ? person_url(:id => @person, :anchor => 'groups') : request.request_uri), :class => 'discreet', :method => 'post', :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
+              <%= link_to 'on', group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
               <strong title="email from this group is OFF">off</strong>
             <% end %>
           </span>

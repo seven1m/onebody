@@ -1,0 +1,5 @@
+page.replace_html 'memberships', :partial => 'groups/memberships'
+params[:ids].each do |id|
+  page.visual_effect :highlight, "person_label#{id}", :duration => 3.0
+end
+page << "$('add_person_name').focus()"

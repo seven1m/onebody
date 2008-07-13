@@ -1,0 +1,59 @@
+<% form_for @group, :html => {:multipart => true} do |form| %>
+
+  <%= form.error_messages %>
+
+  <h2>Group Picture</h2>
+  <%= render :partial => 'photo' %>
+  <p>
+    <%= form.file_field :photo %><br/>
+    <strong>Only JPEG photos are accepted at this time. Please make sure the picture is appropriate and not offensive to others.</strong><br/>
+    <% if @group.has_photo? %>
+      <%= link_to 'Remove Group Photo', group_path(@group, :group => {:photo => 'remove'}), :method => 'put', :confirm => 'Are you sure?' %>
+      <br/>
+    <% end %>
+    <em>Click "Save Changes" at the bottom of this form to upload a new picture.</em>
+  </p>
+
+  <h2>Details</h2>
+  <p>
+    <%= form.label :name %> (required)     <%= form.text_field :name %><br/>
+    <%= form.label :category %> (required) <%= form.select :category, @categories << ['[new category]', '!'], :onchange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')" %><br/>
+    <%= form.label :description %>         <%= form.text_area :description, :rows => 3 %><br/>
+    <%= form.label :other_notes %>         <%= form.text_area :other_notes, :rows => 3 %><br/>
+    <%= form.label :creator %>             <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>
+    <%= form.label :leader_id, 'Leader' %> <%= form.select :leader_id, [['(none)', '']] + @group.people.map { |p| [p.name, p.id] } %><br/>
+    <% if @group.people_count == 0 %>
+      <em>Save the group and add people before you set a leader.</em><br/>
+    <% end %>
+  </p>
+  
+  <h2>Meets (optional)</h2>
+  <p>
+    <%= form.label :meets %>      <%= form.text_field :meets %><br/>
+    <%= form.label :location %>   <%= form.text_field :location %><br/>
+    <%= form.label :directions %> <%= form.text_area :directions, :rows => 3 %>
+  </p>
+  
+  <% if @logged_in.admin?(:manage_groups) %>
+    <h2>Advanced</h2>
+    <p>
+      The settings below are for advanced users.<br/>
+      Don't edit any of the settings below unless you know what you are doing.<br/>
+      <%= form.label :address, 'Email Address', :class => 'inline' %>
+      <%= form.text_field :address, :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h Site.current.host %><br/>
+      <%= form.label :link_code, 'Class Link Code(s):', :class => 'inline' %>
+      <%= form.text_field :link_code %><br/>
+      <%= form.label :parents_of, 'Parents of:', :class => 'inline' %>
+      <%= form.select :parents_of, [['(none)', '']] + Group.find(:all, :order => 'name').map { |g| [g.name, g.id] } %><br/>
+      <%= form.check_box :members_send, :class => 'checkbox' %>
+      <%= form.label :members_send, 'Group Members Can Post Messages', :class => 'inline' %><br/>
+      <%= form.check_box :private, :class => 'checkbox' %>
+      <%= form.label :private, 'Private Group', :class => 'inline' %><br/>
+      <em>If checked, message are only visible to members of the group.</em><br/>
+      <%= form.check_box :hidden, :class => 'checkbox' %>
+      <%= form.label :hidden, 'Hidden Group', :class => 'inline' %>
+    </p>
+  <% end %>
+  
+  <p><%= form.submit 'Save Changes' %></p>
+<% end %>

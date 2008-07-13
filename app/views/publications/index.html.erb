@@ -21,7 +21,7 @@
   <p>
     <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
     If you wish to recieve email notifications when new publications are made available on this page,
-    <%= link_to 'click here', join_group_path(@group, :return_to => request.request_uri) %>.
+    <%= link_to 'click here', group_memberships_path(@group, :id => @logged_in), :method => 'post' %>.
   </p>
 <% end %>
 

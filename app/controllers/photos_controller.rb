@@ -47,12 +47,8 @@ class PhotosController < ApplicationController
     if id_key = params.keys.select { |k| k =~ /_id$/ }.last \
       and PHOTO_TYPES.include?(@type = id_key.split('_').first.classify)
       @object = Kernel.const_get(@type).find(params[id_key])
-    # /photos/123?type=family&size=large
-    elsif params[:type] and PHOTO_TYPES.include?(@type = params[:type].classify)
-      @object = Kernel.const_get(@type).find(params[:id])
-    end
-    unless @object
-      render :text => 'Object not found. Please specify a "type" argument from ' + PHOTO_TYPES.join(', '), :status => 404
+    else
+      render :text => 'Object not found.', :layout => true, :status => 404
       return false
     end
   end

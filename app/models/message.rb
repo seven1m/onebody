@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: messages
 #
@@ -163,8 +163,7 @@ class Message < ActiveRecord::Base
       if new_record?
         msg << '-link to turn off email-'
       else
-        msg << "#{Setting.get(:url, :site)}groups/toggle_email/#{group.id}?person_id=#{to_person.id}&code=#{group.get_options_for(to_person, true).code}"
-        msg << '&return_to=/publications' if group.name == 'Publications'
+        msg << "#{Setting.get(:url, :site)}groups/#{group.id}/memberships/#{to_person.id}&code=#{to_person.feed_code}&email=off"
       end
     else
       msg << "To stop these emails, go to your privacy page:\n#{Setting.get(:url, :site)}people/privacy"

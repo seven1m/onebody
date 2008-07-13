@@ -1,5 +1,7 @@
 class SearchesController < ApplicationController
 
+  MAX_SELECT_PEOPLE = 5
+
   def show
     # A search should be referencable by URI, thus "show" makes sense;
     # though "create" makes more sense from a resource standpoint.

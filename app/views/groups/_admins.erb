@@ -1,18 +1,13 @@
 <p>
   <% @group.admins.each do |person| %>
-    <%= render :partial => 'people/link', :locals => {:person => person} %>
-    <% if @group.admins.length > 1 %>
-      <%= link_to 'x', group_demote_person(@group, :person_id => person), :class => 'discreet', :method => 'post', :confirm => 'Are you sure?' %>
-    <% end %>
+    <%= link_to h(person.name), person %>
+    <%= link_to 'x', group_membership_path(@group, person.id), :method => 'put', :confirm => 'Are you sure?', :class => 'discreet' %>
     <br/>
   <% end %>
   <% if not @group.linked? and (non_admins = @group.people.select { |p| not @group.admin?(p, true) }).any? %>
-    <%= form_tag group_promote_person(@group) %>
-      <select name="person_id">
-        <option value=""></option>
-        <%= options_for_select non_admins.map { |p| [p.name, p.id] } %>
-      </select><br/>
-      <%= submit_tag 'Promote' %>
-    </form>
+    <% form_tag group_memberships_path(@group), :method => 'put', :onsubmit => "this.action += '/' + $('promote_id').value" do %>
+      <%= select_tag 'id', options_for_select([''] + non_admins.map { |p| [p.name, p.id] }), :id => 'promote_id' %><br/>
+      <%= submit_tag 'Promote', :name => 'promote' %>
+    <% end %>
   <% end %>
 </p>

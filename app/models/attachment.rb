@@ -1,12 +1,11 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: attachments
 #
 #  id           :integer       not null, primary key
 #  message_id   :integer       
 #  name         :string(255)   
-#  file         :binary(104857 
 #  content_type :string(50)    
 #  created_at   :datetime      
 #  song_id      :integer       

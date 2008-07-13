@@ -7,52 +7,53 @@ class PhotosControllerTest < ActionController::TestCase
     @person = Person.forge(:photo => true)
   end
 
-  should "show a family photo by id and type" do
-    get :show, {:id => @family.id, :type => 'family'}, {:logged_in_id => @person}
+  should "show a family photo" do
+    get :show, {:family_id => @family.id}, {:logged_in_id => @person}
     assert_response :success
   end
   
-  should "show a family photo by id and type and size" do
-    get :show, {:id => @family.id, :size => 'tn', :type => 'family'}, {:logged_in_id => @person}
+  should "show a family photo by size" do
+    get :show, {:family_id => @family.id, :size => 'tn'}, {:logged_in_id => @person}
     assert_response :success
   end
    
-  should "show a family photo by family_id and size method" do
+  should "show a family photo by size method" do
     get :medium, {:family_id => @family.id}, {:logged_in_id => @person}
     assert_response :success
   end
   
-  should "show a person photo by id and type" do
-    get :show, {:id => @person.id, :type => 'person'}, {:logged_in_id => @person}
+  should "show a person photo" do
+    get :show, {:person_id => @person.id}, {:logged_in_id => @person}
     assert_response :success
   end  
   
-  should "show a person photo by id and type and size" do
-    get :show, {:id => @person.id, :size => 'large', :type => 'person'}, {:logged_in_id => @person}
+  should "show a person photo by size" do
+    get :show, {:person_id => @person.id, :size => 'large'}, {:logged_in_id => @person}
     assert_response :success
   end
 
   should "not show a person photo if the logged in user cannot see the person" do
     @child = Person.forge(:birthday => 1.year.ago, :gender => 'girl', :photo => true)
-    get :show, {:id => @child.id, :type => 'person'}, {:logged_in_id => @person}
+    get :show, {:person_id => @child.id}, {:logged_in_id => @person}
     assert_response :missing
   end
   
-  should "show a group photo by id and type" do
+  should "show a group photo" do
     @group = Group.forge(:photo => true)
-    get :show, {:id => @group.id, :type => 'group'}, {:logged_in_id => @person}
+    get :show, {:group_id => @group.id}, {:logged_in_id => @person}
     assert_response :success
   end  
 
-  should "show a picture photo by id and type" do
-    @picture = Picture.forge
-    get :show, {:id => @picture.id, :type => 'picture'}, {:logged_in_id => @person}
+  should "show a picture photo" do
+    @album = Album.forge
+    @picture = @album.forge(:picture)
+    get :show, {:album_id => @album.id, :picture_id => @picture.id}, {:logged_in_id => @person}
     assert_response :success
   end
 
-  should "show a recipe photo by id and type" do
+  should "show a recipe photo" do
     @recipe = Recipe.forge(:photo => true)
-    get :show, {:id => @recipe.id, :type => 'recipe'}, {:logged_in_id => @person}
+    get :show, {:recipe_id => @recipe.id}, {:logged_in_id => @person}
     assert_response :success
   end
   

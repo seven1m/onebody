@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20080709134559
+#
+# Table name: twitter_messages
+#
+#  id                  :integer       not null, primary key
+#  twitter_screen_name :integer       
+#  person_id           :integer       
+#  message             :string(140)   
+#  reply               :string(140)   
+#  created_at          :datetime      
+#  updated_at          :datetime      
+#
+
 class TwitterMessage < ActiveRecord::Base
   MAX_MESSAGES_PER_MINUTE = 200
   

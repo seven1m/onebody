@@ -1,7 +1,7 @@
 <div>
   <% if @person.has_photo? %>
-    <%= link_to image_tag(photo_with_size_path(@person, :size => 'medium', :type => 'person'), :alt => h(@person.name)),
-      photo_with_size_path(@person, :size => 'large', :type => 'person'), :back => url_for(params) %>
+    <%= link_to image_tag(medium_person_photo_path(@person), :alt => h(@person.name)),
+      large_person_photo_path(@person) %>
   <% else %>
     <%= render :partial => 'people/silhouette' %>
     <% if me? and (params[:controller] == 'people' and params[:action] == 'show') %>

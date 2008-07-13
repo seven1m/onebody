@@ -1,7 +1,11 @@
 <p>
   <% @people.each do |person| %>
-    <%= check_box_tag 'people[]', person.id, false, :class => 'checkbox' %>
+    <%= check_box_tag 'ids[]', person.id, @people.length == 1, :class => 'checkbox' %>
     <%= render :partial => 'people/link', :locals => {:person => person} %>
     <br/>
   <% end %>
 </p>
+
+<% if @people.length == 1 %>
+  <script type="text/javascript"> $('add_people_form').onsubmit() </script>
+<% end %>

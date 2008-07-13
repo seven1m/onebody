@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: recipes
 #
@@ -15,7 +15,6 @@
 #  prep         :string(255)   
 #  bake         :string(255)   
 #  serving_size :integer       
-#  event_id     :integer       
 #  site_id      :integer       
 #
 

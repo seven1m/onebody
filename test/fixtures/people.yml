@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: people
 #
@@ -74,6 +74,7 @@
 #  cannot_pick_up               :string(100)   
 #  medical_notes                :string(200)   
 #  checkin_access               :boolean       
+#  twitter_account              :string(100)   
 #
 
 tim:

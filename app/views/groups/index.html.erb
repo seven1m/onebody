@@ -17,7 +17,7 @@
       <ul>
         <% @categories.each do |category, group_count| %>
           <li>
-            <%= link_to h(category), search_groups_path(:category => category) %>
+            <%= link_to h(category), groups_path(:category => category) %>
             (<%=h group_count %>)
           </li>
         <% end %>
@@ -25,7 +25,7 @@
     </td>
     <td style="padding-left:25px;border-left:1px dotted #ccc;">
       <h2 style="border:none;">Search</h2>
-      <%= form_tag(search_groups_path, :method => 'get', :style => 'border:none;') %>
+      <%= form_tag(groups_path, :method => 'get', :style => 'border:none;') %>
         <p><strong>Search by name:</strong></p>
         <p><%= text_field_tag :name, nil, :style => 'width:120px;' %>
           <input type="submit" value="Search" style="width:120px;"/></p>

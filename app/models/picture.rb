@@ -1,15 +1,15 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: pictures
 #
 #  id         :integer       not null, primary key
-#  event_id   :integer       
 #  person_id  :integer       
 #  created_at :datetime      
 #  cover      :boolean       
 #  updated_at :datetime      
 #  site_id    :integer       
+#  album_id   :integer       
 #
 
 class Picture < ActiveRecord::Base

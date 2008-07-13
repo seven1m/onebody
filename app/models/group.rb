@@ -1,27 +1,28 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: groups
 #
-#  id           :integer       not null, primary key
-#  name         :string(100)   
-#  description  :text          
-#  meets        :string(100)   
-#  location     :string(100)   
-#  directions   :text          
-#  other_notes  :text          
-#  category     :string(50)    
-#  creator_id   :integer       
-#  private      :boolean       
-#  address      :string(255)   
-#  members_send :boolean       default(TRUE)
-#  leader_id    :integer       
-#  updated_at   :datetime      
-#  hidden       :boolean       
-#  approved     :boolean       
-#  link_code    :string(255)   
-#  parents_of   :integer       
-#  site_id      :integer       
+#  id             :integer       not null, primary key
+#  name           :string(100)   
+#  description    :text          
+#  meets          :string(100)   
+#  location       :string(100)   
+#  directions     :text          
+#  other_notes    :text          
+#  category       :string(50)    
+#  creator_id     :integer       
+#  private        :boolean       
+#  address        :string(255)   
+#  members_send   :boolean       default(TRUE)
+#  leader_id      :integer       
+#  updated_at     :datetime      
+#  hidden         :boolean       
+#  approved       :boolean       
+#  link_code      :string(255)   
+#  parents_of     :integer       
+#  site_id        :integer       
+#  cached_parents :text          
 #
 
 class Group < ActiveRecord::Base
@@ -171,6 +172,19 @@ class Group < ActiveRecord::Base
   class << self
     def update_cached_parents
       find(:all).each { |group| group.save }
+    end
+    
+    def categories
+      returning({}) do |cats|
+        if Person.logged_in.admin?(:manage_groups)
+          results = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' group by category").map { |g| [g.category, g.group_count] }
+        else
+          results = Group.find_by_sql(["select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' and hidden = ? and approved = ? group by category", false, true]).map { |g| [g.category, g.group_count] }
+        end
+        results.each do |cat, count|
+          cats[cat] = count.to_i
+        end
+      end
     end
   end
 end

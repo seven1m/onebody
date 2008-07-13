@@ -10,7 +10,7 @@ class NotesController < ApplicationController
   end
   
   def new
-    @note = Note.new
+    @note = Note.new(:group => Group.find_by_id(params[:group_id]))
   end
   
   def create

@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20080709134559
+#
+# Table name: albums
+#
+#  id          :integer       not null, primary key
+#  name        :string(255)   
+#  description :text          
+#  person_id   :integer       
+#  site_id     :integer       
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#
+
 class Album < ActiveRecord::Base
   belongs_to :album
   belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]

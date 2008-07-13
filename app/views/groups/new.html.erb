@@ -1,0 +1,19 @@
+<script type="text/javascript">
+//<![CDATA[
+  SAFE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  function remove_symbols(text) {
+    var sanitized = '';
+    for(var i=0; i<text.length; i++) {
+      var c = text.substring(i, i+1);
+      if(SAFE_CHARS.indexOf(c) > -1) sanitized += c;
+    }
+    return sanitized.toLowerCase();
+  };
+//]]>
+</script>
+
+<h1>New Group</h1>
+
+<%= render :partial => 'subnav' %>
+
+<%= render :partial => 'form' %>

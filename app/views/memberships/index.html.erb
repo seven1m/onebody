@@ -2,10 +2,10 @@
 
 <h1><%= @group.name %> Membership Requests</h1>
 
-<% if @group.membership_requests.count > 0 %>
-  <%= form_tag group_process_requests(@group) %>
+<% if @requests.any? %>
+  <% form_for Membership.new do |form| %>
     <table>
-      <% @group.membership_requests.each do |req| %>
+      <% @requests.each do |req| %>
         <tr>
           <td><%= check_box_tag 'people[]', req.person.id, false, :class => 'checkbox' %></td>
           <td><%= link_to req.person.name, person_url(:id => req.person) %></td>
@@ -17,7 +17,7 @@
       <input type="submit" name="commit" value="Accept" style="font-weight:bold;"><br/>
       <input type="submit" name="commit" value="Ignore">
     </p>
-  </form>
+  <% end %>
 <% else %>
   <p><em>No pending requests.</em></p>
 <% end %>

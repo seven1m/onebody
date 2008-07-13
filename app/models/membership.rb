@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: memberships
 #
@@ -24,6 +24,8 @@ class Membership < ActiveRecord::Base
   belongs_to :group
   belongs_to :person
   belongs_to :site
+  
+  validates_uniqueness_of :group_id, :scope => :person_id
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   

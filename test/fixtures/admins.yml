@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: admins
 #
@@ -16,7 +16,6 @@
 #  view_hidden_profiles   :boolean       
 #  manage_prayer_signups  :boolean       
 #  manage_comments        :boolean       
-#  manage_events          :boolean       
 #  manage_recipes         :boolean       
 #  manage_pictures        :boolean       
 #  manage_access          :boolean       

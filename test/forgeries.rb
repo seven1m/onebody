@@ -117,7 +117,7 @@ class Person
 end
 
 class Group
-  self.forgery_defaults = {:name => :word, :category => :word}
+  self.forgery_defaults = {:name => :word, :category => :word, :approved => true}
 end
 
 class Family

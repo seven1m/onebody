@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080409165237
+# Schema version: 20080709134559
 #
 # Table name: comments
 #
@@ -9,7 +9,6 @@
 #  text         :text          
 #  created_at   :datetime      
 #  updated_at   :datetime      
-#  event_id     :integer       
 #  recipe_id    :integer       
 #  news_item_id :integer       
 #  song_id      :integer       
