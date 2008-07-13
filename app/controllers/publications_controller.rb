@@ -2,6 +2,10 @@ class PublicationsController < ApplicationController
   def index
     @publications = Publication.all(:order => 'created_at desc')
     @group = Group.find_by_name('Publications')
+    respond_to do |format|
+      format.html
+      format.xml { render :layout => false }
+    end
   end
   
   def show
