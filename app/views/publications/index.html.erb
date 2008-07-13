@@ -1,3 +1,5 @@
+<%= render :partial => 'shares/subnav' %>
+
 <h1>Publications</h1>
 
 <%= render :partial => 'list' %>
@@ -14,7 +16,7 @@
   <p>
     <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
     You are currently signed up to receive email notifications when new publications are made available here.
-    <%= link_to 'Click here', leave_group_path(@group, :return_to => request.request_uri) %>
+    <%= link_to 'Click here', group_membership_path(@group, @logged_in), :method => 'delete' %>
     to stop receiving these notifications.
   </p>
 <% else %>

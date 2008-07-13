@@ -52,7 +52,7 @@ class MembershipsController < ApplicationController
   # leave group
   def destroy
     @group = Group.find(params[:group_id])
-    @membership = Membership.find(params[:id])
+    @membership = @group.memberships.find_by_person_id(params[:id])
     if @logged_in.can_edit?(@group) or @membership.person == @logged_in
       if @group.last_admin?(@membership.person)
         flash[:warning] = "#{person.name} is the last admin and cannot be removed."

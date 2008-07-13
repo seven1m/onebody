@@ -24,7 +24,7 @@
     <% elsif not @logged_in.member_of?(@group) %>
       <p><%= link_to 'Join This Group', group_memberships_path(@group, :id => @logged_in), :method => 'post', :confirm => @group.admin?(@logged_in) ? 'Are you sure?' : 'Are you sure? A request will be sent to the group administrator(s).' %></p>
     <% elsif not @group.last_admin?(@logged_in) %>
-      <p><%= link_to 'Leave This Group', group_membership_path(@group, @group.memberships.find_by_person_id(@logged_in.id)), :method => 'delete', :confirm => 'Are you sure?' %></p>
+      <p><%= link_to 'Leave This Group', group_membership_path(@group, @logged_in), :method => 'delete', :confirm => 'Are you sure?' %></p>
     <% end %>
   <% end %>
 
