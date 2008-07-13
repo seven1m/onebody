@@ -66,95 +66,105 @@
   <% end %>
 </table>
 
-<h2 class="tab" id="blog">Blog</h2>
-<div class="section">
-  <% if @group.can_post? @logged_in %>
-    <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', new_group_note_path(@group) %>
-      &nbsp;
-      <%= link_to image_tag('add_small.gif', :alt => 'Send an email.', :class => 'icon') + ' Send an Email', new_group_message_path(@group) %>
-      <br/>
-      <em>Posting a note here does <strong>not</strong> send any email to the group members.</em>
-    </p>
-  <% end %>
-  <% @notes.each do |note| %>
-    <%= render :partial => 'notes/note', :locals => {:note => note} %>
-  <% end %>
-</div>
-
-<h2 class="tab" id="messages">Emails</h2>
-<div class="section">
-  <% if @group.private? and not @logged_in.member_of?(@group) %>
-    <p><strong>This is a private group. You may not see messages in this group.</strong></p>
-  <% else %>
+<% if @group.blog? %>
+  <h2 class="tab" id="blog">Blog</h2>
+  <div class="section">
     <% if @group.can_post? @logged_in %>
       <p>
-        <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'icon'), new_message_path(:group_id => @group) %>
-        <%= link_to 'Send a Message', new_message_path(:group_id => @group) %><br/>
-        <em>
-          Send a message to everyone in the group at once.
-          <% if @group.address.to_s.any? %>
-            <br/>
-            You can also do this by sending email to <%= mail_to @group.full_address, @group.full_address %>.
-          <% end %>
-        </em>
+        <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', new_group_note_path(@group) %>
+        &nbsp;
+        <% if @group.email? %><%= link_to image_tag('add_small.gif', :alt => 'Send an email.', :class => 'icon') + ' Send an Email', new_group_message_path(@group) %><% end %>
+        <br/>
+        <em>Posting a note here does <strong>not</strong> send any email to the group members.</em>
       </p>
     <% end %>
-    <% if @messages.any? %>
-      <table>
-        <% @messages.each do |message| %>
-          <tr>
-            <td>
-              <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'icon'), message %>
-              <%= link_to h(message.subject), message %>
-            </td>
-            <td>
-              <%=h message.person.name %>
-            </td>
-            <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
-            <td>
-              <% if (r = message.reply_count.to_i) > 0 %>
-                <%= r %> <%= r == 1 ? 'reply' : 'replies' %>
-              <% end %>
-            </td>
-            <td>
-              <% if message.attachment_count.to_i > 0 %>
-                <%= message.attachment_count %> <%= message.attachment_count.to_i == 1 ? 'attachment' : 'attachments' %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </table>
-    <% else %>
-      <p><em>No messages yet.</em></p>
+    <% @notes.each do |note| %>
+      <%= render :partial => 'notes/note', :locals => {:note => note} %>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>
 
-<h2 class="tab" id="prayerrequests">Prayer Requests</h2>
-<div class="section">
-  <% if @logged_in.member_of?(@group) %>
-    <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add a prayer request.', :class => 'icon') + ' Add a Prayer Request', new_prayer_request_url(:group_id => @group) %><br/>
-      <em>Prayer requests are private to this group.</em>
-    </p>
-    <% if @prayer_requests.length > 0 %>
-      <% @prayer_requests.each do |req| %>
-        <%= render :partial => 'prayer_requests/prayer_request', :locals => {:req => req} %>
+<% if @group.email? %>
+  <h2 class="tab" id="messages">Emails</h2>
+  <div class="section">
+    <% if @group.private? and not @logged_in.member_of?(@group) %>
+      <p><strong>This is a private group. You may not see messages in this group.</strong></p>
+    <% else %>
+      <% if @group.can_post? @logged_in %>
+        <p>
+          <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'icon'), new_message_path(:group_id => @group) %>
+          <%= link_to 'Send a Message', new_message_path(:group_id => @group) %><br/>
+          <em>
+            Send a message to everyone in the group at once.
+            <% if @group.address.to_s.any? %>
+              <br/>
+              You can also do this by sending email to <%= mail_to @group.full_address, @group.full_address %>.
+            <% end %>
+          </em>
+        </p>
+      <% end %>
+      <% if @messages.any? %>
+        <table>
+          <% @messages.each do |message| %>
+            <tr>
+              <td>
+                <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'icon'), message %>
+                <%= link_to h(message.subject), message %>
+              </td>
+              <td>
+                <%=h message.person.name %>
+              </td>
+              <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
+              <td>
+                <% if (r = message.reply_count.to_i) > 0 %>
+                  <%= r %> <%= r == 1 ? 'reply' : 'replies' %>
+                <% end %>
+              </td>
+              <td>
+                <% if message.attachment_count.to_i > 0 %>
+                  <%= message.attachment_count %> <%= message.attachment_count.to_i == 1 ? 'attachment' : 'attachments' %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      <% else %>
+        <p><em>No messages yet.</em></p>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @group.prayer? %>
+  <h2 class="tab" id="prayerrequests">Prayer Requests</h2>
+  <div class="section">
+    <% if @logged_in.member_of?(@group) %>
+      <p>
+        <%= link_to image_tag('add_small.gif', :alt => 'Add a prayer request.', :class => 'icon') + ' Add a Prayer Request', new_prayer_request_url(:group_id => @group) %><br/>
+        <em>Prayer requests are private to this group.</em>
+      </p>
+      <% if @prayer_requests.length > 0 %>
+        <% @prayer_requests.each do |req| %>
+          <%= render :partial => 'prayer_requests/prayer_request', :locals => {:req => req} %>
+        <% end %>
+      <% else %>
+        <p><em>no prayer requests</em></p>
+      <% end %>
+      <% if @answered_prayer_count > 0 %>
+        <p>
+          <%= @answered_prayer_count %> answered <%= @answered_prayer_count == 1 ? 'prayer' : 'prayers' %><br/>
+          <%= link_to 'View Answered Prayers &raquo;', answered_prayer_requests_path(@group) %>
+        </p>
       <% end %>
     <% else %>
-      <p><em>no prayer requests</em></p>
+      <p><em>Only members of this group can read and add prayer requests.</em></p>
     <% end %>
-    <% if @answered_prayer_count > 0 %>
-      <p>
-        <%= @answered_prayer_count %> answered <%= @answered_prayer_count == 1 ? 'prayer' : 'prayers' %><br/>
-        <%= link_to 'View Answered Prayers &raquo;', answered_prayer_requests_path(@group) %>
-      </p>
-    <% end %>
-  <% else %>
-    <p><em>Only members of this group can read and add prayer requests.</em></p>
-  <% end %>
-</div>
+  </div>
+<% end %>
+
+<% unless @group.blog? or @group.email? or @group.prayer? %>
+  <p><em>This group does not offer any features and is for informational purposes only.</em></p>
+<% end %>
 
 <%= javascript_include_tag 'tabs' %>
 <%= stylesheet_link_tag 'tabs' %>
