@@ -38,8 +38,8 @@ class GroupsController < ApplicationController
     unless @group.approved? or @group.admin?(@logged_in)
       render :text => 'This group is pending approval', :layout => true
     end
-    unless @logged_in.sees? @group
-      render :text => 'This group is private.', :layout => true
+    unless @logged_in.can_see?(@group)
+      render :text => 'Group not found.', :layout => true, :status => 404
     end
   end
   
@@ -91,7 +91,7 @@ class GroupsController < ApplicationController
       params[:group].cleanse 'address'
       if @group.update_attributes(params[:group])
         flash[:notice] = 'Group settings have been saved.'
-        @group.photo = photo if photo and (photo.respond_to?(:read) or photo == 'remove')
+        @group.photo = photo if photo and (photo.respond_to?(:read) or photo == 'remove' or photo.is_a?(ActionController::TestUploadedFile))
         redirect_to @group
       else
         edit; render :action => 'edit'

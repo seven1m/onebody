@@ -12,12 +12,11 @@
 //]]>
 </script>
 
-<% content_for :sidebar do |wants| %>
-
+<% content_for :sidebar do %>
   <div id="memberships">
     <%= render :partial => 'memberships' %>
   </div>
-  
+ 
 <% end %>
 
 <% if @group.private? %><%= render :partial => 'private' %><% end %>

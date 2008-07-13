@@ -220,7 +220,7 @@ class Person < ActiveRecord::Base
       when 'Family'
         what.visible? or admin?(:view_hidden_profiles)
       when 'Group'
-        not what.hidden? or self.member_of?(what) or what.admin?(self)
+        not (what.hidden? or what.private?) or self.member_of?(what) or what.admin?(self)
       when 'Message'
         what.can_see?(self)
       when 'Attachment'

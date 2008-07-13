@@ -8,41 +8,116 @@ class GroupsControllerTest < ActionController::TestCase
     @group.memberships.create(:person => @person, :admin => true)
   end
   
-  should "show a group"
+  should "show a group" do
+    get :show, {:id => @group.id}, {:logged_in_id => @person.id}
+    assert_response :success
+    assert_tag :tag => 'h1', :content => Regexp.new(@group.name)
+  end
   
-  should "not show a group if group is private and user is not a member of the group"
+  should "not show a group if group is private and user is not a member of the group" do
+    @private_group = Group.forge(:private => true)
+    get :show, {:id => @private_group.id}, {:logged_in_id => @person.id}
+    assert_response :missing
+  end
   
-  should "not show a group if it is hidden"
+  should "not show a group if it is hidden" do
+    @hidden_group = Group.forge(:hidden => true)
+    get :show, {:id => @hidden_group.id}, {:logged_in_id => @person.id}
+    assert_response :missing
+  end
   
-  should "show a hidden group if the user can manage groups"
+  should "show a hidden group if the user can manage groups" do
+    @hidden_group = Group.forge(:hidden => true)
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    get :show, {:id => @hidden_group.id}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_tag :tag => 'h1', :content => Regexp.new(@hidden_group.name)
+  end
   
-  should "list a person's groups"
+  should "list a person's groups" do
+    get :index, {:person_id => @person.id}, {:logged_in_id => @person.id}
+    assert_response :success
+    assert_equal 1, assigns(:person).groups.length
+  end
   
-  should "not list a person's hidden groups"
+  should "not list a person's hidden groups" do
+    @group.update_attribute :hidden, true
+    get :index, {:person_id => @person.id}, {:logged_in_id => @person.id}
+    assert_no_tag :tag => 'li', :attributes => {:class => 'grayed hidden-group'}
+  end
   
-  should "list a person's hidden groups if the user can manage groups"
+  should "list a person's hidden groups if the user can manage groups" do
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @group.update_attribute :hidden, true
+    get :index, {:person_id => @person.id}, {:logged_in_id => @admin.id}
+    assert_tag :tag => 'li', :attributes => {:class => 'grayed hidden-group'}
+  end
   
-  should "search for groups by name"
+  should "search for groups by name" do
+    Group.forge(:name => 'foo')
+    get :index, {:name => 'foo'}, {:logged_in_id => @person.id}
+    assert_equal 1, assigns(:groups).length
+  end
   
-  should "search for groups by category"
+  should "search for groups by category" do
+    get :index, {:category => 'Small Groups'}, {:logged_in_id => @person.id}
+    assert_equal 2, assigns(:groups).length
+  end
   
-  should "list a person's unapproved groups"
+  should "list a person's unapproved groups" do
+    Group.delete_all
+    @group = Group.forge(:creator_id => @person.id, :approved => false)
+    @group.memberships.create(:person => @person, :admin => true)
+    2.times { Group.forge(:approved => false) }
+    get :index, nil, {:logged_in_id => @person.id}
+    assert_equal 1, assigns(:unapproved_groups).length
+  end
   
-  should "list all unapproved groups if the user can manage groups"
+  should "list all unapproved groups if the user can manage groups" do
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    Group.delete_all
+    2.times { Group.forge(:approved => false) }
+    get :index, nil, {:logged_in_id => @admin.id}
+    assert_equal 2, assigns(:unapproved_groups).length
+  end
   
-  should "add a group photo"
+  should "add a group photo" do
+    @group.photo = nil
+    assert !@group.has_photo?
+    post :update, {:id => @group.id, :group => {:photo => fixture_file_upload('files/family.jpg')}}, {:logged_in_id => @person.id}
+    assert_redirected_to group_path(@group)
+    assert Group.find(@group.id).has_photo?
+  end
   
-  should "remove a group photo"
+  should "remove a group photo" do
+    @group.forge_photo
+    assert @group.has_photo?
+    post :update, {:id => @group.id, :group => {:photo => 'remove'}}, {:logged_in_id => @person.id}
+    assert_redirected_to group_path(@group)
+    assert !Group.find(@group.id).has_photo?
+  end
   
-  should "edit a group"
+  should "edit a group" do
+    get :edit, {:id => @group.id}, {:logged_in_id => @person.id}
+    assert_response :success
+    post :update, {:id => @group.id, :group => {:name => 'test name', :category => 'test cat'}}, {:logged_in_id => @person.id}
+    assert_redirected_to group_path(@group)
+    assert_equal 'test name', @group.reload.name
+    assert_equal 'test cat',  @group.category
+  end
   
-  should "not edit a group unless user is group admin or can manage groups"
+  should "not edit a group unless user is group admin or can manage groups" do
+    get :edit, {:id => @group.id}, {:logged_in_id => @other_person.id}
+    assert_response :unauthorized
+    post :update, {:id => @group.id, :group => {:name => 'test name', :category => 'test cat'}}, {:logged_in_id => @other_person.id}
+    assert_response :unauthorized
+  end
   
   should "create a group pending approval" do
-    get :new, nil, {:logged_in_id => @person}
+    get :new, nil, {:logged_in_id => @person.id}
     assert_response :success
     group_count = Group.count
-    post :create, {:group => {:name => 'test name', :category => 'test cat'}}, {:logged_in_id => @person}
+    post :create, {:group => {:name => 'test name', :category => 'test cat'}}, {:logged_in_id => @person.id}
     assert_response :redirect
     assert_equal group_count+1, Group.count
     new_group = Group.last
@@ -51,12 +126,12 @@ class GroupsControllerTest < ActionController::TestCase
     assert !new_group.approved?
   end
   
-  should "create an approved group" do
+  should "create an approved group if user can manage groups" do
     @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
-    get :new, nil, {:logged_in_id => @admin}
+    get :new, nil, {:logged_in_id => @admin.id}
     assert_response :success
     group_count = Group.count
-    post :create, {:group => {:name => 'test name', :category => 'test cat'}}, {:logged_in_id => @admin}
+    post :create, {:group => {:name => 'test name', :category => 'test cat'}}, {:logged_in_id => @admin.id}
     assert_response :redirect
     assert_equal group_count+1, Group.count
     new_group = Group.last
@@ -64,34 +139,5 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal 'test cat',  new_group.category
     assert new_group.approved?
   end
-#  
-#  should "edit an album" do
-#    get :edit, {:id => @album.id}, {:logged_in_id => @person}
-#    assert_response :success
-#    post :update, {:id => @album.id, :album => {:name => 'test name', :description => 'test desc'}}, {:logged_in_id => @person}
-#    assert_redirected_to album_path(@album)
-#    assert_equal 'test name', @album.reload.name
-#    assert_equal 'test desc', @album.description
-#  end
-#  
-#  should "not edit an album unless user is owner or admin" do
-#    get :edit, {:id => @album.id}, {:logged_in_id => @other_person}
-#    assert_response :unauthorized
-#    post :update, {:id => @album.id, :album => {:name => 'test name', :description => 'test desc'}}, {:logged_in_id => @other_person}
-#    assert_response :unauthorized
-#  end
-#  
-#  should "delete an album" do
-#    post :destroy, {:id => @album.id}, {:logged_in_id => @person}
-#    assert_raise(ActiveRecord::RecordNotFound) do
-#      @album.reload
-#    end
-#    assert_redirected_to albums_path
-#  end
-#  
-#  should "not delete an album unless user is owner or admin" do
-#    post :destroy, {:id => @album.id}, {:logged_in_id => @other_person}
-#    assert_response :unauthorized
-#  end
   
 end
