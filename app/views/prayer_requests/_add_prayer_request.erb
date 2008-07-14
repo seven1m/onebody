@@ -1,6 +1,6 @@
 <p id="add_prayer_request_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => 'Add a prayer request.', :class => 'icon') + ' Add a Prayer Request', "Element.show('add_prayer_request');Element.hide('add_prayer_request_link');$('prayer_request_request').focus();" %></p>
 <div id="add_prayer_request">
-  <%= form_tag(new_prayer_request_url, :method => 'post') %>
+  <% form_for PrayerRequest.new do |form| %>
     <% if @group %>
       <%= hidden_field_tag 'prayer_request[group_id]', @group.id %>
     <% end %>
@@ -9,7 +9,7 @@
       <%= text_area_tag 'prayer_request[request]', '', :id => 'prayer_request_request', :rows => '10' %><br/>
       <%= submit_tag 'Add Prayer Request', :style => 'width:125px;' %>
     </p>
-  </form>
+  <% end %>
 </div>
 <script type="text/javascript">
   Element.hide('add_prayer_request');

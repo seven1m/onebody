@@ -29,6 +29,7 @@ ActionController::Routing::Routes.draw do |map|
     groups.resources :memberships, :collection => {:batch => :any}
     groups.resources :notes
     groups.resources :messages
+    groups.resources :prayer_requests
     groups.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
@@ -53,14 +54,14 @@ ActionController::Routing::Routes.draw do |map|
   
   # here there be dragons
 
-  map.with_options :controller => 'prayer_requests' do |m|
-    m.new_prayer_request 'prayer_requests/edit', :action => 'edit'
-    m.edit_prayer_request 'prayer_requests/edit/:id', :action => 'edit'
-    m.delete_prayer_request 'prayer_requests/delete/:id', :action => 'delete'
-    m.prayer_request 'prayer_requests/view/:id', :action => 'view'
-    m.connect 'prayer_requests/:action/:id', :action => 'index'
-    m.answered_prayer_requests 'prayer_requests/answered/:id', :action => 'answered'
-  end
+#  map.with_options :controller => 'prayer_requests' do |m|
+#    m.new_prayer_request 'prayer_requests/edit', :action => 'edit'
+#    m.edit_prayer_request 'prayer_requests/edit/:id', :action => 'edit'
+#    m.delete_prayer_request 'prayer_requests/delete/:id', :action => 'delete'
+#    m.prayer_request 'prayer_requests/view/:id', :action => 'view'
+#    m.connect 'prayer_requests/:action/:id', :action => 'index'
+#    m.answered_prayer_requests 'prayer_requests/answered/:id', :action => 'answered'
+#  end
     
   map.with_options :controller => 'friends' do |m|
     m.remove_friend 'friends/remove/:id', :action => 'remove'

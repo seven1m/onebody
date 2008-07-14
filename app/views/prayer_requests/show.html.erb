@@ -1,8 +1,8 @@
 <% if @logged_in.can_edit?(@req) %>
   <% content_for :subnav do %>
-    <li><%= link_to 'Edit Request', edit_prayer_request_url(:id => @req) %></li>
+    <li><%= link_to 'Edit Request', edit_group_prayer_request_path(@req.group, @req) %></li>
     <% if @req.group and @req.group.admin?(@logged_in) %>
-      <li><%= link_to 'Delete Request', delete_prayer_request_url(:id => @req), :confirm => 'Are you sure?', :method => :post %></li>
+      <li><%= link_to 'Delete Request', group_prayer_request_path(@req.group, @req), :confirm => 'Are you sure?', :method => 'delete' %></li>
     <% end %>
   <% end %>
 <% end %>

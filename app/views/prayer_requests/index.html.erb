@@ -1,0 +1,11 @@
+<p><%= link_to '&laquo; back to group', group_path(:id => @group, :anchor => 'prayerrequests') %></p>
+
+<h1><%= params[:answered] ? 'Answered ' : '' %>Prayer Requests</h1>
+
+<% if @reqs.any? %>
+  <% @reqs.each do |req| %>
+    <%= render :partial => 'prayer_request', :locals => {:req => req} %>
+  <% end %>
+<% else %>
+  <p><em>none yet</em></p>
+<% end %>

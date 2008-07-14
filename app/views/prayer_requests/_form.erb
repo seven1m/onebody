@@ -1,0 +1,19 @@
+<% form_for [@group, @req] do |form| %>
+  <%= form.hidden_field :group_id %>
+  <h2>Request</h2>
+  <p>
+    <%= form.label :person_id, 'By' %> <%= form.select :person_id, @req.group.people.map { |p| [p.name, p.id] } %><br/>
+    <%= form.label :request %>         <%= form.text_area :request, :rows => 5 %>
+  </p>
+  
+  <p><%= form.submit 'Save Prayer Request' %></p>
+  
+  <h2>Answer</h2>
+  <p>Remember to come back and fill this section so your group can have a record of answered prayers.</p>
+  <p>
+    <%= form.label :answered_at, 'Answer Date' %> <%= form.text_field :answered_at %> <em>MM/DD/YYYY</em><br/>
+    <%= form.label :answer %>                     <%= form.text_area :answer, :rows => 5 %>
+  </p>
+  
+  <p><%= form.submit 'Save Prayer Request' %></p>
+<% end %>

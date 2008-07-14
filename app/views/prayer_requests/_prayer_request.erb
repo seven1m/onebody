@@ -1,15 +1,15 @@
 <p>
-  <%= link_to req.person.name, person_url(:id => req.person) %> |
-  <%= req.created_at.to_time.to_s :date %>
+  <%= link_to req.person.name, req.person %> |
+  <%= req.created_at.to_s :date %>
   <% if @logged_in.can_edit?(req) %>
-    <%= link_to '[edit]', edit_prayer_request_url(:id => req), :class => 'discreet' %>
+    <%= link_to '[edit]', edit_group_prayer_request_path(req.group, req), :class => 'discreet' %>
   <% end %>
   <% if (req.group and req.group.admin? @logged_in) or req.person == @logged_in %>
-    <%= link_to '[delete]', delete_prayer_request_url(:id => req, :return_to => request.request_uri), :class => 'discreet', :confirm => 'Are you sure?', :method => :post %>
+    <%= link_to '[delete]', group_prayer_request_path(req.group, req), :class => 'discreet', :confirm => 'Are you sure?', :method => 'delete' %>
   <% end %>
   <br/>
   <%=h req.request %>
-  <% if req.answer.to_s.any? %>
-    <br/><strong>Answered on <%= req.answered_at.to_time.to_s :date %>:</strong> <%=h req.answer %>
+  <% if req.answered_at %>
+    <br/><strong>Answered on <%= req.answered_at.to_s :date %>:</strong> <%=h req.answer %>
   <% end %>
 </p>

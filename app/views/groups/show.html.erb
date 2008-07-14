@@ -140,7 +140,7 @@
   <div class="section">
     <% if @logged_in.member_of?(@group) %>
       <p>
-        <%= link_to image_tag('add_small.gif', :alt => 'Add a prayer request.', :class => 'icon') + ' Add a Prayer Request', new_prayer_request_url(:group_id => @group) %><br/>
+        <%= link_to image_tag('add_small.gif', :alt => 'Add a prayer request.', :class => 'icon') + ' Add a Prayer Request', new_group_prayer_request_path(@group) %><br/>
         <em>Prayer requests are private to this group.</em>
       </p>
       <% if @prayer_requests.length > 0 %>
@@ -153,7 +153,7 @@
       <% if @answered_prayer_count > 0 %>
         <p>
           <%= @answered_prayer_count %> answered <%= @answered_prayer_count == 1 ? 'prayer' : 'prayers' %><br/>
-          <%= link_to 'View Answered Prayers &raquo;', answered_prayer_requests_path(@group) %>
+          <%= link_to 'View Answered Prayers &raquo;', group_prayer_requests_path(@group, :answered => true) %>
         </p>
       <% end %>
     <% else %>

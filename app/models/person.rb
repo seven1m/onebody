@@ -256,7 +256,7 @@ class Person < ActiveRecord::Base
     when 'Message'
       admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
     when 'PrayerRequest'
-      admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group)) or (what.group and what.group.admin? self)
+      admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group))
     when 'RemoteAccount'
       can_edit?(what.person)
     when 'Album'
