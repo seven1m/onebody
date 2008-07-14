@@ -1,0 +1,2 @@
+module SyncsHelper
+end

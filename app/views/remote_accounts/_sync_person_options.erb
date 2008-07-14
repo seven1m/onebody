@@ -1,7 +1,0 @@
-<% @remote_accounts.each do |remote_account| %>
-  <%= link_to image_tag('contact_add.gif', :alt => 'Sync', :class => 'icon') + "Sync with #{remote_account.account_type.capitalize}", sync_person_path(:id => remote_account, :person_id => @person), :method => :post, :confirm => 'Are you sure?' %>
-<% end %>
-
-<% if @remote_accounts.empty? %>
-  <p><em>There are no <%= link_to 'Remote Accounts', remote_accounts_path(:person_id => @person.id) %> set up.</em></p>
-<% end %>

@@ -1,37 +1,43 @@
-class AccountController < ApplicationController
+class AccountsController < ApplicationController
   filter_parameter_logging :password, :password_confirmation
   
-  before_filter :check_ssl, :except => [:sign_out, :verify_code]
+  before_filter :check_ssl, :except => [:verify]
+  skip_before_filter :authenticate_user, :except => %w(edit update)
+  
+  def show
+    if params[:person_id]
+      redirect_to person_account_path(params[:person_id])
+    else
+      redirect_to new_account_path
+    end
+  end
 
-  def edit
-    @person = Person.find params[:id]
-    raise 'Error.' unless @logged_in.can_edit? @person or @logged_in.admin?(:edit_profiles)
-    if request.post?
-      if params[:person][:email].to_s.any? and params[:person][:email] != @person.email
-        @person.update_attributes :email => params[:person][:email], :email_changed => true
-        if @person.errors.any?
-          flash[:warning] = @person.errors.full_messages.join('; ')
-        else
-          flash[:notice] = 'Changes saved.'
-          Notifier.deliver_email_update @person
-        end
-      end
-      if @person.errors.empty? and (params[:person][:password].to_s.any? or params[:person][:password_confirmation].to_s.any?)
-        @person.change_password params[:person][:password], params[:person][:password_confirmation]
-        if @person.errors.any?
-          flash[:warning] = @person.errors.full_messages.join('; ')
-        else
-          flash[:notice] = 'Changes saved.'
-        end
-      end
-      if @person.errors.empty?
-        redirect_to person_url(@person)
-      end
+  def new
+    if params[:email]
+      render :action => 'new_by_email'
+    elsif params[:mobile]
+      render :action => 'new_by_mobile'
+    elsif params[:birthday]
+      render :action => 'new_by_birthday'
     end
   end
   
-  def verify_email
-    if params[:email].to_s.any?
+  def create
+    if params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
+      create_by_birthday
+    elsif params[:mobile].to_s.any? and params[:carrier].to_s.any?
+      create_by_mobile
+    elsif params[:email].to_s.any?
+      create_by_email
+    else
+      flash[:warning] = 'Please fill in all required fields.'
+      render :action => 'new'
+    end
+  end
+  
+  private
+  
+    def create_by_email
       person = Person.find_by_email(params[:email])
       family = Family.find_by_email(params[:email])
       if person or family
@@ -48,12 +54,11 @@ class AccountController < ApplicationController
         end
       else
         flash[:warning] = "That email address could not be found in our system. If you have another address, try again."
+        render :action => 'new'
       end
     end
-  end
   
-  def verify_mobile
-    if request.post? and params[:mobile].to_s.any? and params[:carrier].to_s.any?
+    def create_by_mobile
       mobile = params[:mobile].scan(/\d/).join('').to_i
       person = Person.find_by_mobile_phone(mobile)
       if person
@@ -67,32 +72,33 @@ class AccountController < ApplicationController
           else
             Notifier.deliver_mobile_verification(v)
             flash[:warning] = 'The verification message has been sent. Please check your phone and enter the code you receive.'
-            redirect_to verify_code_path(v.id)
+            redirect_to verify_code_account_path(:id => v.id)
           end
         else
           redirect_to bad_status_path(:protocol => 'http://')
         end
       else
         flash[:warning] = "That mobile number could not be found in our system. You may try again."
+        render :action => 'new'
       end
     end
-  end
   
-  def verify_birthday
-    if request.post? 
+    def create_by_birthday
       if params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
         Notifier.deliver_birthday_verification(params)
         render :text => 'Your submission will be reviewed as soon as possible. You will receive an email once you have been approved.', :layout => true
       else
         flash[:warning] = 'You must complete all the required fields.'
+        render :action => 'new'
       end
     end
-  end
+
+  public
   
   def verify_code
-    v = Verification.find params[:id]
+    v = Verification.find(params[:id])
     unless v.pending?
-      render :text => 'There was an error.', :layout => true
+      render :text => 'There was an error.', :layout => true, :status => 500
       return
     end
     if params[:code].to_i > 0
@@ -104,26 +110,59 @@ class AccountController < ApplicationController
         end
         @people = Person.find :all, :conditions => conditions, :include => :family
         if @people.nil? or @people.empty?
-          render :text => "Sorry. There was an error. If you requested the church office make a change, it's possible it just hasn't been done yet. Please try again later.", :layout => true
+          render :text => "Sorry. There was an error. If you requested the church office make a change, it's possible it just hasn't been done yet. Please try again later.", :layout => true, :status => 500
           return
         elsif @people.length == 1
           person = @people.first
           session[:logged_in_id] = person.id
           flash[:warning] = "You must set your personal email address#{v.mobile_phone ? '' : ' (it may be different than the one you verified)'} and password to continue."
-          redirect_to edit_account_path(person.id)
+          redirect_to edit_person_account_path(person.id)
         else
           session[:select_from_people] = @people
-          redirect_to select_person_path
+          redirect_to select_account_path
         end
         v.update_attribute :verified, true
       else
         v.update_attribute :verified, false
-        render :text => 'You entered the wrong code.', :layout => true
+        render :text => 'You entered the wrong code.', :layout => true, :status => 500
       end
     end
   end
   
-  def select_person
+  def edit
+    @person = Person.find(params[:person_id])
+    unless @logged_in.can_edit?(@person)
+      render :text => 'You cannot edit this account.', :layout => true, :status => 401
+    end
+  end
+  
+  def update
+    @person = Person.find(params[:person_id])
+    if @logged_in.can_edit?(@person)
+      params[:person].cleanse(:password, :password_confirmation)
+      @person.attributes = params[:person]
+      @person.email_changed = @person.changed.include?('email')
+      @person.save
+      if @person.errors.any?
+        render :action => 'edit'
+      elsif params[:person][:password] or params[:person][:password_confirmation]
+        @person.change_password(params[:person][:password], params[:person][:password_confirmation])
+        if @person.errors.any?
+          render :action => 'edit'
+        else
+          flash[:notice] = 'Changes saved.'
+          redirect_to @person
+        end
+      else
+        flash[:notice] = 'Changes saved.'
+        redirect_to @person
+      end
+    else
+      render :text => 'You cannot edit this account.', :layout => true, :status => 401
+    end
+  end
+  
+  def select
     unless session[:select_from_people]
       render :text => 'This page is no longer valid.', :layout => true
       return
@@ -133,25 +172,15 @@ class AccountController < ApplicationController
       session[:logged_in_id] = params[:id].to_i
       session[:select_from_people] = nil
       flash[:warning] = 'You must set your personal email address and password to continue.'
-      redirect_to edit_account_path(session[:logged_in_id])
+      redirect_to edit_person_account_path(session[:logged_in_id])
     end
   end
   
-  def safeguarding_children; redirect_to safeguarding_children_path(:protocol => 'http://'); end
-
   private
     def check_ssl
       unless request.ssl? or RAILS_ENV != 'production' or !Setting.get(:features, :ssl)
         redirect_to :protocol => 'https://', :from => params[:from]
         return
       end
-    end
-    
-    def session_salt
-      unless session[:salt] and session[:salt_generated] > 5.minutes.ago
-        session[:salt] = (0..25).inject('') { |r, i| r << rand(93) + 33 }
-        session[:salt_generated] = Time.now
-      end
-      session[:salt]
     end
 end

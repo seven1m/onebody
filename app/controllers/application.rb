@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   layout 'default.html.erb'
   
   before_filter :get_site
-  before_filter :authenticate_user, :except => %w(family_email verify_email verify_mobile verify_birthday verify_code select_person)
+  before_filter :authenticate_user, :except => %w(family_email)
   
   private
     def get_site
@@ -53,19 +53,17 @@ class ApplicationController < ActionController::Base
           redirect_to new_session_path
           return false
         end
-        unless @logged_in.email
-          redirect_to edit_account_path
-          return false
-        end
-      elsif session[:family_id] and params[:controller] == 'account' and params[:action] == 'edit'
-        @family = Family.find session[:family_id]
+#        unless @logged_in.email
+#          redirect_to edit_account_path
+#          return false
+#        end
+#      elsif session[:family_id] and params[:controller] == 'account' and params[:action] == 'edit'
+#        @family = Family.find session[:family_id]
       elsif params[:code]
         unless Person.logged_in = @logged_in = Person.find_by_feed_code(params[:code])
           render :text => 'Invalid code.', :status => 500
           return false
         end
-      elsif params[:action] == 'toggle_email'
-        # don't do anything
       else
         redirect_to new_session_path(:from => request.request_uri)
         return false

@@ -11,4 +11,4 @@ Notes: <%= @notes %>
 1. Verify this person's identity. Be cautious; if in doubt, use the phone number provided to validate this person is who they say they are.
 2. Update their record in the church database.
 3. WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished.
-4. Click the following link to complete the process: <%= Setting.get(:url, :site) %>account/verify_email?email=<%= @email %>
+4. Click the following link to complete the process: <%= Setting.get(:url, :site) %>account/new?email<%= @email %>

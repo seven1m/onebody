@@ -1,5 +1,5 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'View Profile', person_path(:id => @person) %></li>
+  <li><%= link_to 'View Profile', @person %></li>
 <% end %>
 
 <h1>Remote Accounts</h1>
@@ -15,11 +15,11 @@
         <% content_tag_for(:span, remote_account, :style => 'display:none;') do %><%=h remote_account.token %><% end %>
       </td>
       <td><%= remote_account.sync_instances.count %></td>
-      <td><%= link_to 'sync', sync_remote_account_path(:id => remote_account), :method => :post, :confirm => "Are you sure? This operation *will* make changes to this #{remote_account.account_type} account." %></td>
-      <td><%= link_to 'edit', edit_remote_account_path(:id => remote_account) %></td>
-      <td><%= link_to 'delete', delete_remote_account_path(:id => remote_account), :method => :post, :confirm => 'Are you sure?' %></td>
+      <td><%= link_to 'sync', sync_person_remote_account_path(@person, remote_account), :method => :post, :confirm => "Are you sure? This operation *will* make changes to this #{remote_account.account_type} account." %></td>
+      <td><%= link_to 'edit', edit_person_remote_account_path(@person, remote_account) %></td>
+      <td><%= link_to 'delete', person_remote_account_path(@person, remote_account), :method => 'delete', :confirm => 'Are you sure?' %></td>
     </tr>
   <% end %>
 </table>
 
-<p><%= link_to 'New Account', new_remote_account_path(:person_id => @person) %></p>
+<p><%= link_to 'New Account', new_person_remote_account_path(@person) %></p>

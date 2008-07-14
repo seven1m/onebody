@@ -1,0 +1,22 @@
+<h1>Verify by Mobile Phone</h1>
+<p>
+  Enter your mobile phone number, select your carrier, then click
+  the button below. If we have the number on file, a text message
+  will be sent to it allowing you to verify yourself and gain access
+  to this site. <strong>Text messaging rates may be charged by your
+  carrier. <span class="very-strong">Do not start this verification process until you know
+  what you will be charged to receive a text message!</span></strong>
+</p>
+<% form_tag account_path, :method => 'post', :onsubmit => "return confirm('Your mobile carrier may and probably will charge you to receive this text message. Click OK to continue.')" do %>
+  <p>
+    <label for="mobile">Type your mobile phone number here:</label>
+    <%= text_field_tag :mobile, params[:mobile] == 'true' ? '' : params[:mobile] %><br/>
+    <label for="carrier">Select your mobile carrier:</label>
+    <select id="carrier" name="carrier">
+      <option value=""></option>
+      <%= options_for_select MOBILE_GATEWAYS.keys, params[:carrier] %>
+    </select>
+  </p>
+  <p><%= submit_tag 'Verify Mobile', :style => 'font-size:12pt;border-style:outset;border-width:2px;' %></p>
+<% end %>
+

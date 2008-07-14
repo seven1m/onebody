@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
     elsif person == nil
       if family = Family.find_by_email(params[:email])
         flash[:warning] = 'That email address was found, but you must verify it before you can sign in.'
-        redirect_to verify_email_path(:email => params[:email])
+        redirect_to new_account_path(:email => params[:email])
       else
         flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
         render :action => 'new'

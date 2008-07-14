@@ -177,6 +177,12 @@ class Person < ActiveRecord::Base
     birthday and birthday >= today and birthday < (today + BIRTHDAY_SOON_DAYS)
   end
   
+  def email_changed=(bool)
+    if bool
+      Notifier.deliver_email_update(self)
+    end
+  end
+  
   inherited_attribute :share_mobile_phone, :family
   inherited_attribute :share_work_phone, :family
   inherited_attribute :share_fax, :family

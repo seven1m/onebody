@@ -1,5 +1,5 @@
 <% content_for :wide do %>
-  <form method="post">
+  <% form_tag account_path, :method => 'post' do %>
     <p>
       <label for="name">Your Full Name (required):</label>
       <%= text_field_tag :name %><br/>
@@ -17,5 +17,5 @@
       and any other information that may help us verify your identity.<br/>
       <%= text_area_tag :notes, nil, :rows => 3 %><br/>
       <%= submit_tag 'Submit' %>
-  </form>
+  <% end %>
 <% end %>

@@ -1,2 +1,0 @@
-page.replace_html params[:where], :partial => 'sync_person_options'
-page.visual_effect :appear, params[:where]

@@ -17,29 +17,4 @@
   access to sign into this site.
 </p>
 
-<p>
-  First, we need to verify you are who you say you are.
-  Please choose one of the following options to verify
-  your identity. You only have to do this once, and it
-  only takes a few minutes.
-</p>
-
-<ul>
-  <li>
-    <%= link_to 'Verify by email.', verify_email_path %><br/>
-    We send you an email, you click the link inside, and you're done.
-  </li>
-  <li>
-    <%= link_to 'Verify by mobile phone.', verify_mobile_path %><br/>
-    We send you a text message, you type the code it contains, and you're done.
-    <span style="color:#f00;">Text messaging fees may apply.</span>
-  </li>
-  <li>
-    <%= link_to 'Verify by birthday.', verify_birthday_path %><br/>
-    These submissions are reviewed by a real person and may take a few
-    days to be approved.
-  </li>
-  <li>
-    Call the church office at <%= Setting.get(:contact, :church_office_phone) %> during church office hours.
-  </li>
-</ul>
+<%= render :partial => 'accounts/how_to_verify' %>

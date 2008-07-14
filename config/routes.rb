@@ -4,13 +4,18 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '', :controller => 'people'
   
+  map.resource :account, :member => {:verify_code => :any, :select => :any}
+  
   map.resources :people do |people|
     people.resources :groups
     people.resources :pictures
+    people.resources :friends, :collection => {:reorder => :post}
+    people.resources :remote_accounts, :member => {:sync => :post}
+    people.resource :account, :member => {:verify_code => :any, :select => :any}
+    people.resource :sync
     people.resource :privacy
     people.resource :blog
     people.resource :wall, :member => {:with => :get}
-    people.resources :friends, :collection => {:reorder => :post}
     people.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
@@ -55,16 +60,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :privacy
   
   # here there be dragons
-  
-  map.with_options :controller => 'remote_accounts' do |m|
-    m.new_remote_account 'remote_accounts/edit', :action => 'edit'
-    m.edit_remote_account 'remote_accounts/edit/:id', :action => 'edit'
-    m.delete_remote_account 'remote_accounts/delete/:id', :action => 'delete'
-    m.sync_remote_account 'remote_accounts/sync/:id', :action => 'sync'
-    m.remote_accounts 'remote_accounts/:person_id', :action => 'index'
-    m.sync_person_options 'remote_accounts/sync_person_options/:id', :action => 'sync_person_options'
-    m.sync_person 'remote_accounts/sync_person/:id', :action => 'sync_person'
-  end
 
   map.with_options :controller => 'setup/dashboard' do |m|
     m.setup 'setup', :action => 'index'
@@ -128,15 +123,6 @@ ActionController::Routing::Routes.draw do |map|
     m.check 'checkin/:section/check', :action => 'check'
     m.checkin_attendance 'checkin/:section/attendance', :action => 'attendance'
     m.void_attendance_record 'checkin/:section/void', :action => 'void'
-  end
-  
-  map.with_options :controller => 'account' do |m|
-    m.edit_account 'account/edit/:id', :action => 'edit'
-    m.verify_birthday 'account/verify_birthday', :action => 'verify_birthday'
-    m.verify_email 'account/verify_email', :action => 'verify_email'
-    m.verify_mobile 'account/verify_mobile', :action => 'verify_mobile'
-    m.verify_code 'account/verify_code/:id', :action => 'verify_code'
-    m.select_person 'account/select_person', :action => 'select_person'
   end
   
   map.with_options :controller => 'help' do |m|

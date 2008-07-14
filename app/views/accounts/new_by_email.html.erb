@@ -1,0 +1,14 @@
+<h1>Verify by Email</h1>
+<p>
+  Enter your email address, then click the button below.
+  If we have the address on file, an email will be sent to it
+  allowing you to verify yourself and gain access to this site.
+</p>
+<% form_tag account_path, :method => 'post' do %>
+  <p>
+    <label for="email">Type your email address here:</label>
+    <%= text_field_tag :email, params[:email] == 'true' ? '' : params[:email] %>
+  </p>
+  <p><%= submit_tag 'Verify Email', :style => 'font-size:12pt;border-style:outset;border-width:2px;' %></p>
+<% end %>
+
