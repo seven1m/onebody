@@ -8,7 +8,7 @@
 <% if @messages.any? %>
   <%= render :partial => 'walls/messages' %>
   <p>
-    <%= link_to 'View all wall messages...', wall_path(@person) %>
+    <%= link_to 'View all wall messages...', person_wall_path(@person) %>
   </p>
 <% else %>
   <p><em>No messages yet!</em></p>

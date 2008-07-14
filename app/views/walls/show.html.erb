@@ -1,3 +1,7 @@
-<h1><%= @person.name_possessive %> Wall</h1>
+<h1><%= link_to h(@person.name_possessive), @person %> Wall</h1>
 
-<%= render :partial => 'messages', :locals => {:messages => @person.wall_messages} %>
+<%= will_paginate @messages %>
+
+<%= render :partial => 'messages', :locals => {:messages => @messages} %>
+
+<%= will_paginate @messages %>

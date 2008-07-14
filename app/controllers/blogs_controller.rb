@@ -1,7 +1,7 @@
 class BlogsController < ApplicationController
   
   def show
-    @person = Person.find(params[:id])
+    @person = Person.find(params[:person_id])
     if @logged_in.can_see? @person
       @objects = @person.blog_items
       @pictures = @objects.select { |o| o.is_a? Picture }

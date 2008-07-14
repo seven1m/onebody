@@ -110,5 +110,22 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'body', /message.+sent/
   end
+  
+  should "show a message" do
+    @message = @group.messages.create!(:person => @person, :subject => 'test subject', :body => 'test body')
+    get :show, {:id => @message.id}, {:logged_in_id => @person}
+    assert_response :success
+  end
+  
+  should "show a message with an attachment" do
+    @message = Message.create_with_attachments(
+      {:group => @group, :person => @person, :subject => 'test subject', :body => 'test body'},
+      [fixture_file_upload('files/attachment.pdf')]
+    )
+    @attachment = @message.attachments.first
+    get :show, {:id => @message.id}, {:logged_in_id => @person}
+    assert_response :success
+    assert_select 'body', /attachment\.pdf/
+  end
 
 end

@@ -14,12 +14,12 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
   
   should "show an attachment" do
-    get :show, {:id => @attachment.id}, {:logged_in_id => @person}
+    get :show, {:message_id => @message.id, :id => @attachment.id}, {:logged_in_id => @person}
     assert_response :success
   end
   
   should "not show an attachment unless the person can see what it is attached to" do
-    get :show, {:id => @attachment.id}, {:logged_in_id => @other_person}
+    get :show, {:message_id => @message.id, :id => @attachment.id}, {:logged_in_id => @other_person}
     assert_response :missing
   end
 

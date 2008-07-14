@@ -2,9 +2,9 @@
   <p>
     <strong>Attachments:</strong><br/>
     <% message.attachments.each do |attachment| %>
-      <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), attachment %>
-      <%= link_to attachment.name, attachment %>
-      (<%= number_to_human_size attachment.file_size %>)
+      <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), [message, attachment] %>
+      <%= link_to attachment.name, [message, attachment] %>
+      (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
       <br/>
     <% end %>
   </p>

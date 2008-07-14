@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
     elsif params[:parent_id] and @parent = Message.find(params[:parent_id]) and @logged_in.can_see?(@parent)
       @message = Message.new(:parent => @parent, :group_id => @parent.group_id, :subject => "Re: #{@parent.subject}", :dont_send => true)
     else
-      render :text => 'There was an error in your request.', :status => 500
+      render :text => 'There was an error in your request.', :layout => true, :status => 500
     end
   end
   
@@ -42,7 +42,7 @@ class MessagesController < ApplicationController
         end
       end
     else
-      render :text => 'Wall not found.', :status => 404
+      render :text => 'Wall not found.', :layout => true, :status => 404
     end
   end
   
@@ -72,7 +72,7 @@ class MessagesController < ApplicationController
       @message = Message.create_with_attachments(attributes, [params[:file]].compact)
       if @message.errors.any?
         add_errors_to_flash(@message)
-        return redirect_back
+        redirect_back
       else
         render :text => 'Your message has been sent.', :layout => true
       end
@@ -85,16 +85,16 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     if @logged_in.can_edit? @message
       @message.destroy
-      return redirect_back
+      render :text => 'Message deleted.', :layout => true
     else
-      render :text => 'Not authorized.', :status => 500
+      render :text => 'Not authorized.', :layout => true, :status => 500
     end
   end
   
   def show
     @message = Message.find(params[:id])
-    unless @logged_in.sees? @message
-      render :text => 'You are not allowed to view messages in this private group.'
+    unless @logged_in.can_see?(@message)
+      render :text => 'Message not found.', :layout => true, :status => 404
     end
   end
   
@@ -102,9 +102,9 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     if @logged_in.can_edit?(@message)
       @message.destroy
-      return redirect_back
+      redirect_back
     else
-      render :text => 'You are not authorized to delete this message.', :status => 500
+      render :text => 'You are not authorized to delete this message.', :layout => true, :status => 500
     end
   end
 end

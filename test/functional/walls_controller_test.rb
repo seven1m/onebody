@@ -9,7 +9,7 @@ class WallsControllerTest < ActionController::TestCase
   end
     
   should "show all messages from one person's wall when rendered as html" do
-    get :show, {:id => @person.id}, {:logged_in_id => @other_person.id}
+    get :show, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :success
     assert_template 'show'
     assert assigns(:person)
@@ -18,7 +18,7 @@ class WallsControllerTest < ActionController::TestCase
   end
 
   should "show 10 messages from one person's wall when rendered for ajax" do
-    get :show, {:id => @person.id, :format => 'js'}, {:logged_in_id => @other_person.id}
+    get :show, {:person_id => @person.id, :format => 'js'}, {:logged_in_id => @other_person.id}
     assert_response :success
     assert_template '_wall'
     assert assigns(:person)
@@ -28,20 +28,20 @@ class WallsControllerTest < ActionController::TestCase
 
   should "not show a peron's wall if the user cannot see the profile" do
     @person.update_attribute :visible_to_everyone, false
-    get :show, {:id => @person.id}, {:logged_in_id => @other_person.id}
+    get :show, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
   
   should "not show a person's wall if they have it disabled" do
     @person.update_attribute :wall_enabled, false
-    get :show, {:id => @person.id}, {:logged_in_id => @other_person.id}
+    get :show, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
   
   should "show the interaction of two people (wall-to-wall)" do
-    get :index, {'id' => [@person.id, @other_person.id]}, {:logged_in_id => @other_person.id}
+    get :with, {:person_id => @person.id, :id => @other_person.id}, {:logged_in_id => @other_person.id}
     assert_response :success
-    assert_template 'index'
+    assert_template 'with'
     assert assigns(:person1)
     assert assigns(:person2)
     assert assigns(:messages)
@@ -50,21 +50,20 @@ class WallsControllerTest < ActionController::TestCase
 
   should "not show the interaction of two people (wall-to-wall) if any one of the people cannot be seen by the current user" do
     @person.update_attribute :visible_to_everyone, false
-    get :index, {'id' => [@person.id, @other_person.id]}, {:logged_in_id => @other_person.id}
+    get :with, {:person_id => @person.id, :id => @other_person.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
   
   should "not show the interaction of two people (wall-to-wall) if any of the people have their wall disabled" do
     @person.update_attribute :wall_enabled, false
-    get :index, {'id' => [@person.id, @other_person.id]}, {:logged_in_id => @other_person.id}
+    get :with, {:person_id => @person.id, :id => @other_person.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
   
-  should "not show index unless at least two people's ids are specified" do
-    get :index, nil, {:logged_in_id => @other_person.id}
-    assert_response :error
-    get :index, {'id' => [@person.id]}, {:logged_in_id => @other_person.id}
-    assert_response :error
+  should "not show 'with' unless id is specified" do
+    assert_raise(ActiveRecord::RecordNotFound) do
+      get :with, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
+    end
   end
 
 end

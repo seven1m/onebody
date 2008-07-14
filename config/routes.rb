@@ -8,22 +8,14 @@ ActionController::Routing::Routes.draw do |map|
     people.resources :groups
     people.resources :pictures
     people.resource :privacy
+    people.resource :blog
+    people.resource :wall, :member => {:with => :get}
     people.resources :friends, :collection => {:reorder => :post}
     people.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
-  map.resources :albums do |albums|
-    albums.resources :pictures, :member => {:next => :get, :prev => :get} do |pictures|
-      pictures.resource :photo, :member => PHOTO_SIZE_METHODS
-    end
-  end
-  
   map.resources :families do |families|
     families.resource :photo, :member => PHOTO_SIZE_METHODS
-  end
-  
-  map.resources :recipes do |recipes|
-    recipes.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
   map.resources :groups do |groups|
@@ -34,11 +26,20 @@ ActionController::Routing::Routes.draw do |map|
     groups.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
+  map.resources :albums do |albums|
+    albums.resources :pictures, :member => {:next => :get, :prev => :get} do |pictures|
+      pictures.resource :photo, :member => PHOTO_SIZE_METHODS
+    end
+  end
+ 
+  map.resources :recipes do |recipes|
+    recipes.resource :photo, :member => PHOTO_SIZE_METHODS
+  end
 
-  map.resources :blogs
-  map.resources :walls
-  map.resources :messages
-  map.resources :attachments
+  map.resources :messages do |messages|
+    messages.resources :attachments
+  end
+  
   map.resources :verses
   map.resources :publications
   map.resources :notes
@@ -51,10 +52,20 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :search, :member => {:opensearch => :get}
   map.resource :printable_directory
   map.resource :feed
-  map.resource :privacy # redirects to people/1/privacy
+  map.resource :privacy
   
   # here there be dragons
   
+  map.with_options :controller => 'remote_accounts' do |m|
+    m.new_remote_account 'remote_accounts/edit', :action => 'edit'
+    m.edit_remote_account 'remote_accounts/edit/:id', :action => 'edit'
+    m.delete_remote_account 'remote_accounts/delete/:id', :action => 'delete'
+    m.sync_remote_account 'remote_accounts/sync/:id', :action => 'sync'
+    m.remote_accounts 'remote_accounts/:person_id', :action => 'index'
+    m.sync_person_options 'remote_accounts/sync_person_options/:id', :action => 'sync_person_options'
+    m.sync_person 'remote_accounts/sync_person/:id', :action => 'sync_person'
+  end
+
   map.with_options :controller => 'setup/dashboard' do |m|
     m.setup 'setup', :action => 'index'
     m.setup_not_authorized 'setup/not_local_or_secret_not_given', :action => 'not_local_or_secret_not_given'
@@ -117,16 +128,6 @@ ActionController::Routing::Routes.draw do |map|
     m.check 'checkin/:section/check', :action => 'check'
     m.checkin_attendance 'checkin/:section/attendance', :action => 'attendance'
     m.void_attendance_record 'checkin/:section/void', :action => 'void'
-  end
-  
-  map.with_options :controller => 'remote_accounts' do |m|
-    m.new_remote_account 'remote_accounts/edit', :action => 'edit'
-    m.edit_remote_account 'remote_accounts/edit/:id', :action => 'edit'
-    m.delete_remote_account 'remote_accounts/delete/:id', :action => 'delete'
-    m.sync_remote_account 'remote_accounts/sync/:id', :action => 'sync'
-    m.remote_accounts 'remote_accounts/:person_id', :action => 'index'
-    m.sync_person_options 'remote_accounts/sync_person_options/:id', :action => 'sync_person_options'
-    m.sync_person 'remote_accounts/sync_person/:id', :action => 'sync_person'
   end
   
   map.with_options :controller => 'account' do |m|

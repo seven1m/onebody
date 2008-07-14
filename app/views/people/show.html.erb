@@ -186,7 +186,7 @@
       if(!blog_loaded) {
         new Ajax.Updater(
           'blog_content',
-          '<%= blog_path(@person) %>',
+          '<%= person_blog_path(@person) %>',
           {
             method: 'get',
             onLoading:function(){$('blog_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
@@ -213,7 +213,7 @@
        if(!wall_loaded) {
         new Ajax.Updater(
           'wall_content',
-          '<%= wall_path(@person) %>',
+          '<%= person_wall_path(@person) %>',
           {
             method: 'get',
             onLoading:function(){$('wall_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
