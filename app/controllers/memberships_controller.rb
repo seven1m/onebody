@@ -2,7 +2,11 @@ class MembershipsController < ApplicationController
   
   def show
     # allow email links to work (since they will be GET requests)
-    update if params[:email]
+    if params[:email]
+      update
+    else
+      raise ActionController::UnknownAction, 'No action responded to show'
+    end
   end
   
   def index
