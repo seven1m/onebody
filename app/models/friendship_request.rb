@@ -31,4 +31,15 @@ class FriendshipRequest < ActiveRecord::Base
   def send_request
     Notifier.deliver_friend_request(from, person)
   end
+  
+  def accept
+    raise 'Only target can accept friendship' unless Person.logged_in == self.person
+    self.person.friendships.create!(:friend => self.from)
+    self.destroy
+  end
+  
+  def reject
+    raise 'Only target can reject friendship' unless Person.logged_in == self.person
+    self.update_attribute(:rejected, true)
+  end
 end

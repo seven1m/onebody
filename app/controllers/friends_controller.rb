@@ -1,79 +1,59 @@
 class FriendsController < ApplicationController
-  before_filter :get_friendship, :only => ['remove']
-  before_filter :get_request, :only => ['accept', 'decline']
-  
-  verify :method => :post, :only => ['add', 'accept', 'decline', 'remove']
+  before_filter :person_must_be_user, :except => %w(index)
   
   def index
-    view; render :action => 'view'
+    @person = Person.find(params[:person_id])
+    if @logged_in.can_see?(@person)
+      @pending = me? ? @person.pending_friendship_requests : []
+      @friendships = @person.friendships.all.select { |f| @logged_in.can_see? f.friend }
+    else
+      render :text => 'Person not found.', :layout => true, :status => 404
+    end
   end
   
-  def view
-    if params[:id]
-      @person = Person.find(params[:id])
-      @pending = []
-    else
-      @person = @logged_in
-      @pending = @logged_in.pending_friendship_requests
-    end
-    @friendships = @person.friendships
-  end
-  
-  def add
-    @person = Person.find params[:id]
-    if @person.friendship_waiting_on?(@logged_in) # already requested by other person
-      @logged_in.friendships.create! :friend => @person
-      @logged_in.friendship_requests.find_by_from_id(@person.id).destroy
-      message = "#{@person.name} has been added as a friend."
-    elsif @logged_in.can_request_friendship_with?(@person)
-      FriendshipRequest.delete_all ['person_id = ? and from_id = ? and rejected = ?', @logged_in.id, @person.id, true] # clean up past rejections
-      @person.friendship_requests.create!(:from => @logged_in)
-      message = "A friend request has been sent to #{@person.name}."
-    elsif @logged_in.friendship_waiting_on?(@person)
-      message = "A friend request is already pending with #{@person.name}."
-    elsif @logged_in.friendship_rejected_by?(@person) # there's really no way in the interface to get here, but oh well
-      message = :turned_down
-    else
-      raise 'unknown state'
-    end
+  # friend_id = Person (other person)
+  def create
+    @person = Person.find(params[:person_id])
+    @other_person = Person.find(params[:friend_id])
+    @message = @person.request_friendship_with(@other_person)
     respond_to do |wants|
-      wants.html do
-        render message.is_a?(String) ? {:text => message, :layout => true} : {:action => message}
-      end
-      wants.js do
-        render :update do |page|
-          if message.is_a? String
-            page.hide "add_friend_#{@person.id}"
-            page.alert message
-          elsif message == :turned_down
-            page.redirect_to friend_turned_down_path
-          end
-        end
-      end
+      wants.html
+      wants.js
     end
   end
   
-  def accept
-    if @request
-      @logged_in.friendships.create!(:friend => @request.from)
-      @request.destroy
+  # id = FriendshipRequest
+  def update
+    @person = Person.find(params[:person_id])
+    @friendship_request = @person.friendship_requests.find(params[:id])
+    if params[:accept]
+      @friendship_request.accept
+      flash[:notice] = 'Friendship accepted.'
+      redirect_to person_friends_path(@person)
+    elsif params[:reject]
+      @friendship_request.reject
+      flash[:notice] = 'Friendship rejected.'
+      redirect_to person_friends_path(@person)
+    else
+      render :text => 'Must specify accept=true or reject=true', :layout => true, :status => 500
     end
-    redirect_to friends_url(:id => nil)
   end
   
-  def decline
-    @request.update_attribute(:rejected, true) if @request
-    redirect_to friends_url(:id => nil)
-  end
-  
-  def remove
-    @friendship.destroy if @friendship
-    redirect_to friends_url(:id => nil)
+  # id = Person (friend)
+  def destroy
+    @person = Person.find(params[:person_id])
+    if @friendship = @person.friendships.find_by_friend_id(params[:id])
+      @friendship.destroy
+      redirect_to person_friends_path(@person)
+    else
+      render :text => 'Friend not found.', :layout => true, :status => 404
+    end
   end
   
   def reorder
+    @person = Person.find(params[:person_id])
     params[:friends].each_with_index do |id, index|
-      if f = @logged_in.friendships.find_by_id(id)
+      if f = @person.friendships.find_by_id(id)
         f.update_attribute :ordering, index
       end
     end
@@ -81,11 +61,12 @@ class FriendsController < ApplicationController
   end
   
   private
-    def get_friendship
-      @friendship = @logged_in.friendships.find_by_friend_id(params[:id])
+  
+    def person_must_be_user
+      unless @logged_in.id == params[:person_id].to_i
+        render :text => 'You may not manage friendships for anyone but yourself.', :layout => true, :status => 401
+        return false
+      end
     end
-    
-    def get_request
-      @request = @logged_in.friendship_requests.find_by_id(params[:id])
-    end
+
 end

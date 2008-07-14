@@ -42,7 +42,7 @@
 
 <% if @me and @logged_in.pending_friendship_requests.count > 0 %>
   <p class="highlight">
-    You have <%= link_to 'pending friend requests', friends_path %>.
+    You have <%= link_to 'pending friend requests', person_friends_path(@person) %>.
   </p>
 <% end %>
 

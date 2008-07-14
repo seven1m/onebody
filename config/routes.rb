@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
     people.resources :groups
     people.resources :pictures
     people.resource :privacy
+    people.resources :friends, :collection => {:reorder => :post}
     people.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
@@ -53,16 +54,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :privacy # redirects to people/1/privacy
   
   # here there be dragons
-    
-  map.with_options :controller => 'friends' do |m|
-    m.remove_friend 'friends/remove/:id', :action => 'remove'
-    m.add_friend 'friends/add/:id', :action => 'add'
-    m.friends 'friends/view/:id', :action => 'view'
-    m.accept_friendship_request 'friends/accept/:id', :action => 'accept'
-    m.decline_friendship_request 'friends/decline/:id', :action => 'decline'
-    m.friend_turned_down 'friends/turned_down', :action => 'turned_down'
-    m.reorder_friends 'friends/reorder', :action => 'reorder'
-  end
   
   map.with_options :controller => 'setup/dashboard' do |m|
     m.setup 'setup', :action => 'index'

@@ -45,6 +45,13 @@ class Test::Unit::TestCase
     post '/session', :email => email, :password => password
   end
   
+  def view_profile(person)
+    get "/people/#{person.id}"
+    assert_response :success
+    assert_template 'people/show'
+    assert_select 'h1', Regexp.new(person.name)
+  end
+  
   def site!(site)
     host! site
     get '/'

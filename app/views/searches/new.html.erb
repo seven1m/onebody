@@ -26,7 +26,7 @@
     <p>
       You can add as many friends as you like!
       When you're finished, you can edit your
-      <%= link_to 'friends list', friends_url %> to
+      <%= link_to 'friends list', person_friends_path(@logged_in) %> to
       remove and put them in the order you want.
     </p>
   <% else %>
