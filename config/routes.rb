@@ -53,15 +53,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :privacy # redirects to people/1/privacy
   
   # here there be dragons
-
-#  map.with_options :controller => 'prayer_requests' do |m|
-#    m.new_prayer_request 'prayer_requests/edit', :action => 'edit'
-#    m.edit_prayer_request 'prayer_requests/edit/:id', :action => 'edit'
-#    m.delete_prayer_request 'prayer_requests/delete/:id', :action => 'delete'
-#    m.prayer_request 'prayer_requests/view/:id', :action => 'view'
-#    m.connect 'prayer_requests/:action/:id', :action => 'index'
-#    m.answered_prayer_requests 'prayer_requests/answered/:id', :action => 'answered'
-#  end
     
   map.with_options :controller => 'friends' do |m|
     m.remove_friend 'friends/remove/:id', :action => 'remove'
@@ -135,14 +126,6 @@ ActionController::Routing::Routes.draw do |map|
     m.check 'checkin/:section/check', :action => 'check'
     m.checkin_attendance 'checkin/:section/attendance', :action => 'attendance'
     m.void_attendance_record 'checkin/:section/void', :action => 'void'
-  end
-  
-  map.with_options :controller => 'nametags' do |m|
-    m.nametags 'nametags', :action => 'index'
-    m.add_nametag 'nametags/add/:id', :action => 'add'
-    m.remove_nametag 'nametags/remove/:id', :action => 'remove'
-    m.barcode 'nametags/barcode/:id', :action => 'barcode'
-    m.print_nametags 'nametags/print', :action => 'print'
   end
   
   map.with_options :controller => 'remote_accounts' do |m|
