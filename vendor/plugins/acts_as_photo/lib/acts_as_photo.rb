@@ -99,7 +99,7 @@ module Foo
             end
             
             def destroy
-              photo = nil
+              self.photo = nil
               super
             end
           END

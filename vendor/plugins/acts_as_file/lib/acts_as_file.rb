@@ -10,6 +10,7 @@ module Foo
 
       module ClassMethods
         def acts_as_file(storage_path)
+          file_env = Rails.env == 'production' ? '' : ('.' + Rails.env)
           class_eval <<-END
             CONTENT_TYPES = {
               'gif' => "image/gif",
@@ -41,7 +42,7 @@ module Foo
             
             def file_name
               return nil unless id
-              matches = Dir.new('#{storage_path}').grep(Regexp.new('^' + id.to_s + '.'))
+              matches = Dir[File.join('#{storage_path}', id.to_s + '#{file_env}.*')].select { |p| p.index('#{file_env}') }.map { |p| File.split(p).last }
               matches.any? ? matches.first : nil
             end
             
@@ -63,7 +64,7 @@ module Foo
               if file
                 filename = file.original_filename
                 file = file.read
-                output_path = File.join('#{storage_path}', id.to_s + '.' + filename.split('.').last.downcase)
+                output_path = File.join('#{storage_path}', id.to_s + '#{file_env}.' + filename.split('.').last.downcase)
                 File.open(output_path, 'w') do |f|
                   f.write(file)
                 end
@@ -71,7 +72,7 @@ module Foo
             end
             
             def destroy
-              photo = nil
+              self.file = nil
               super
             end
           END
