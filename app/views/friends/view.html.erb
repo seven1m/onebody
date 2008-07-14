@@ -57,7 +57,7 @@
     Nobody yet!
     <% if @logged_in == @person %>
       You can find your friends by browsing
-      <%= link_to 'the directory', search_friends_path %>.
+      <%= link_to 'the directory', new_search_path(:search_friends => true) %>.
     <% end %>
   </p>
 <% end %>

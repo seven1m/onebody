@@ -83,13 +83,6 @@
             <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon'), {:url => add_friend_url(:id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
           <% end %>
         </td>
-        <% if session[:select_for_nametags] %>
-          <td>
-            <% if not session[:nametag_selections].to_a.include? person %>
-              <%= link_to_remote image_tag('nametag_add.gif', :alt => 'Select for Name Tag Printing', :class => 'icon'), {:url => add_nametag_url(:id => person)}, :id => "add_nametag_#{person.id}" %>
-            <% end %>
-          </td>
-        <% end %>
       </tr>
     <% end %>
   </table>

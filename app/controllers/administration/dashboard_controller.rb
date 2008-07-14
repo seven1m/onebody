@@ -71,7 +71,7 @@ class Administration::DashboardController < ApplicationController
         flash[:warning] = 'There was an error saving this update.'
       end
       if params[:review]
-        redirect_to edit_profile_path(:id => @update.person, :anchor => 'basics')
+        redirect_to edit_person_path(@update.person, :anchor => 'basics')
         return false
       end
     end

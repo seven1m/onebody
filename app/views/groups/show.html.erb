@@ -37,10 +37,10 @@
 
 <% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
 
-<% if @group.admin?(@logged_in) and  @group.membership_requests.count > 0 %>
+<% if @group.admin?(@logged_in) and @group.membership_requests.count > 0 %>
   <p class="highlight">
     This group has pending
-    <%= link_to 'group membership requests', group_membership_requests_path(@group) %>.
+    <%= link_to 'group membership requests', group_memberships_path(@group) %>.
   </p>
 <% end %>
 

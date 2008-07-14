@@ -7,9 +7,9 @@
 <% end %>
 
 <div>
-  <%= link_to 'Service Directory', service_directory_path %> &raquo;
+  <%= link_to 'Service Directory', search_path(:service => true) %> &raquo;
   <% if @person.service_category.to_s.any? %>
-    <%= link_to @person.service_category, service_directory_path(:category => @person.service_category) %> &raquo;
+    <%= link_to @person.service_category, search_path(:service => true, :category => @person.service_category) %> &raquo;
   <% end %>
 </div>
 <h1><%=h @person.service_name %></h1>
