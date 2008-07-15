@@ -17,11 +17,11 @@ module Foo
             after_destroy :log_destroy
             
             def get_changes
-              @logger_changes = self.changes
+              @logger_changes = self.changes.reject { |k, v| %w(updated_at created_at).include? k }
             end
             
             def log_changes
-              if self.changes.any? and @@log_class.table_exists?
+              if @logger_changes.any? and @@log_class.table_exists?
                 @@log_class.create(
                   :name => self.respond_to?(:name) ? self.name : nil,
                   :model_name => self.class.name,
@@ -43,6 +43,10 @@ module Foo
                   :person => Person.logged_in,
                   :group_id => self.respond_to?(:group_id) ? self.group_id : nil
                 )
+                @@log_class.find_all_by_model_name_and_instance_id(
+                  self.class.name,
+                  self.id
+                ).each { |l| l.update_attribute :deleted, true }
               end
             end
           END

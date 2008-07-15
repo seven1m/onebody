@@ -1,4 +1,5 @@
 class FeedsController < ApplicationController
+
   def show
     @person = @logged_in
     @items = @person.recently_tab_items
@@ -9,4 +10,5 @@ class FeedsController < ApplicationController
       format.rss { render :layout => false } # show.rss.builder
     end
   end
+
 end

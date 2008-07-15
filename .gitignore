@@ -14,3 +14,4 @@ db/*.backup.*
 Scheduler.pid
 config/deploy.rb
 plugins/checkin/enable
+cache/views/*

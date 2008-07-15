@@ -21,4 +21,8 @@ class Picture < ActiveRecord::Base
   
   acts_as_photo "#{DB_PHOTO_PATH}/pictures", PHOTO_SIZES
   acts_as_logger LogItem
+  
+  def name
+    "Picture #{id} in Album \"#{album.name}\""
+  end
 end
