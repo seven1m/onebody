@@ -1,2 +1,0 @@
-module Setup::SitesHelper
-end

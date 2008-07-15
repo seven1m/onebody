@@ -1,4 +1,4 @@
-module Checkin
+module CheckinPlugin
   class Routes
     def draw(map)
     

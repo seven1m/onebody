@@ -6,7 +6,7 @@ module ActionController
           plugin = routes_file.match(/plugins\/(.+?)\/routes\.rb$/)[1]
           if File.exist?(Rails.root + '/plugins/' + plugin + '/enable')
             load(routes_file)
-            Kernel.const_get(plugin.classify)::Routes.new.send('draw', Mapper.new(self))
+            Kernel.const_get(plugin.classify + 'Plugin')::Routes.new.send('draw', Mapper.new(self))
           end
         end
       end
