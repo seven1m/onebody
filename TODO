@@ -1,2 +1,0 @@
-* put lib/db_tools.rb methods into a namespace
-* make sure new attachments work from all web interfaces
