@@ -1,5 +1,8 @@
 class PeopleController < ApplicationController
-  
+
+  caches_action :show, :cache_path => Proc.new { |c| "/users/#{Person.logged_in.id}/people/#{c.params[:id]}" }
+  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy)
+
   def index
     redirect_to @logged_in
   end

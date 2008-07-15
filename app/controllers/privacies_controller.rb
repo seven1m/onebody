@@ -1,5 +1,7 @@
 class PrivaciesController < ApplicationController
 
+  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(update)
+
   def show
     id = params[:person_id] || @logged_in.id
     redirect_to edit_person_privacy_path(id, params_without_action.merge(:anchor => "p#{id}"))
