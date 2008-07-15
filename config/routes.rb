@@ -63,21 +63,21 @@ ActionController::Routing::Routes.draw do |map|
   # almost done...
 
   map.with_options :controller => 'administration/dashboard' do |m|
-    m.admin 'administration/dashboard', :action => 'index'
-    m.admin_log 'administration/dashboard/log', :action => 'log'
-    m.admin_updates 'administration/dashboard/updates', :action => 'updates'
-    m.remove_admin 'administration/dashboard/remove_admin', :action => 'remove_admin'
-    m.edit_attribute 'administration/dashboard/edit_attribute', :action => 'edit_attribute'
-    m.add_admin 'administration/dashboard/add_admin', :action => 'add_admin'
-    m.admin_membership_requests 'administration/dashboard/admin_membership_requests', :action => 'admin_membership_requests'
-    m.mark_reviewed 'administration/dashboard/mark_reviewed', :action => 'mark_reviewed'
-    m.admin_toggle_complete 'administration/dashboard/toggle_complete', :action => 'toggle_complete'
-    m.admin_delete_update 'administration/dashboard/delete_update', :action => 'delete_update'
+    m.admin 'admin', :action => 'index'
+    m.admin_log 'admin/dashboard/log', :action => 'log'
+    m.admin_updates 'admin/dashboard/updates', :action => 'updates'
+    m.remove_admin 'admin/dashboard/remove_admin', :action => 'remove_admin'
+    m.edit_attribute 'admin/dashboard/edit_attribute', :action => 'edit_attribute'
+    m.add_admin 'admin/dashboard/add_admin', :action => 'add_admin'
+    m.admin_membership_requests 'admin/dashboard/membership_requests', :action => 'membership_requests'
+    m.mark_reviewed 'admin/dashboard/mark_reviewed', :action => 'mark_reviewed'
+    m.admin_toggle_complete 'admin/dashboard/toggle_complete', :action => 'toggle_complete'
+    m.admin_delete_update 'admin/dashboard/delete_update', :action => 'delete_update'
   end
 
   map.with_options :controller => 'administration/settings' do |m|
-    m.settings 'administration/settings', :action => 'index'
-    m.edit_settings 'administration/settings/edit/:id', :action => 'edit'
+    m.settings 'admin/settings', :action => 'index'
+    m.edit_settings 'admin/settings/edit/:id', :action => 'edit'
   end
   
   ActionController::Routing::Routes.draw_plugin_routes

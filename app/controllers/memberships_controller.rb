@@ -70,18 +70,22 @@ class MembershipsController < ApplicationController
   def batch
     @group = Group.find(params[:group_id])
     if @logged_in.can_edit?(@group)
-      params[:ids].each do |id|
-        if request.post?
-          @group.memberships.create(:person => Person.find(id))
-        elsif request.delete?
-          if @membership = @group.memberships.find_by_person_id(id)
-            @membership.destroy unless @group.last_admin?(@membership.person)
+      if params[:ids] and params[:ids].is_a?(Array)
+        params[:ids].each do |id|
+          if request.post?
+            @group.memberships.create(:person => Person.find(id))
+          elsif request.delete?
+            if @membership = @group.memberships.find_by_person_id(id)
+              @membership.destroy unless @group.last_admin?(@membership.person)
+            end
           end
         end
-      end
-      respond_to do |format|
-        format.js
-        format.html { redirect_back }
+        respond_to do |format|
+          format.js
+          format.html { redirect_back }
+        end
+      else
+        render :text => 'You must specify a list of ids.'
       end
     else
       render :text => 'You are not authorized to perform batch operations on this group.', :layout => true, :status => 401

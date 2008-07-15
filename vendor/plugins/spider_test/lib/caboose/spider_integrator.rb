@@ -173,7 +173,11 @@ module Caboose::SpiderIntegrator
     
   end
   
-  def spider_should_ignore_url?(uri)
+  def spider_should_ignore_url?(uri, method)
+     if method == 'delete'
+       return true
+     end
+  
      if @visited_urls[uri] then
        return true
      end
@@ -208,11 +212,20 @@ module Caboose::SpiderIntegrator
     consume_page( body, uri )
     until @links_to_visit.empty?
       next_link = @links_to_visit.shift
-      next if spider_should_ignore_url?(next_link.uri)
+      next if spider_should_ignore_url?(next_link.uri, next_link.method)
       
-      get next_link.uri
+      case next_link.method.downcase
+      when 'post'
+        post next_link.uri
+      when 'put'
+        put next_link.uri
+      when 'delete'
+        delete next_link.uri
+      else
+        get next_link.uri
+      end
       if %w( 200 201 302 401 ).include?( @response.code )
-        console "GET '#{next_link.uri}'"
+        console "#{next_link.method.upcase || 'GET'} '#{next_link.uri}'"
       elsif @response.code == '404'
         #if next_link.uri =~ /\.(html|png|jpg|gif)$/ # static file, probably.
         if exists = File.exist?(File.expand_path("#{RAILS_ROOT}/public/#{next_link.uri}"))
@@ -300,12 +313,22 @@ module Caboose::SpiderIntegrator
   #   only the ajax action will be followed in that case.  This behavior probably should be changed
   #
   def queue_link( tag, source )
-    dest = (tag.attributes['onclick'] =~ /^new Ajax.Updater\(['"].*?['"], ['"](.*?)['"]/i) ? $1 : tag.attributes['href']
+    if tag.attributes['onclick'] =~ /^new Ajax.Updater\(['"].*?['"], ['"](.*?)['"]/i
+      dest = $1
+      method = 'get'
+    elsif tag.attributes['onclick'] =~ /document\.createElement\('form'\).+?f\.method\s*=\s*'(.+?)'(.+?m\.setAttribute\('name',\s*'_method'\);\s*m\.setAttribute\('value',\s*'(.+?)'\))?/
+      dest = tag.attributes['href']
+      method = ($3 || $1 || 'get').downcase
+      method = 'get' unless method.strip.any?
+    else
+      dest = tag.attributes['href']
+      method = 'get'
+    end
     return if dest.nil?
     dest.gsub!(/([?]\d+)$/, '') # fix asset caching
     unless dest =~ %r{^(http://|mailto:|#|&#)} 
       dest = dest.split('#')[0] if dest.index("#") # don't want page anchors
-      @links_to_visit << Caboose::SpiderIntegrator::Link.new( dest, source ) if dest.any? # could be empty, make sure there's no empty links queueing
+      @links_to_visit << Caboose::SpiderIntegrator::Link.new( dest, source, method ) if dest.any? # could be empty, make sure there's no empty links queueing
     end
   end
 
@@ -319,6 +342,6 @@ module Caboose::SpiderIntegrator
     # @forms_to_visit << Caboose::SpiderIntegrator::Form.new( form_method, form_action, mutate_inputs(form, true), source )
   end
 
-  Caboose::SpiderIntegrator::Link = Struct.new( :uri, :source )
+  Caboose::SpiderIntegrator::Link = Struct.new( :uri, :source, :method )
   Caboose::SpiderIntegrator::Form = Struct.new( :method, :action, :query, :source )
 end 

@@ -154,7 +154,7 @@ class Group < ActiveRecord::Base
     return unless Group.columns.map { |c| c.name }.include? 'cached_parents'
     if self.parents_of.nil?
       self.cached_parents = []
-    else
+    elsif self.parents_of != self.id
       ids = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq.map { |p| p.id }
       self.cached_parents = ids
     end

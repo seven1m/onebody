@@ -39,7 +39,7 @@ class Administration::DashboardController < ApplicationController
     conditions.add_condition ['reviewed_on is null'] unless session[:admin_log][:reviewed] == 'visible'
     conditions.add_condition ['flagged_on is not null'] unless session[:admin_log][:nonflagged] == 'visible'
     conditions = nil if conditions.empty?
-    @items = LogItem.paginate(:all, :order => 'created_at desc', :limit => @pages.items_per_page, :offset => @pages.current.offset, :conditions => conditions, :page => params[:page])
+    @items = LogItem.paginate(:all, :order => 'created_at desc', :conditions => conditions, :page => params[:page])
   end
   
   def mark_reviewed

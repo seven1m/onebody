@@ -297,7 +297,7 @@ class Person < ActiveRecord::Base
       group.cached_parents.to_a.include?(self.id) \
         || self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
     elsif group.linked?
-      codes = self.classes.downcase.split(',')
+      codes = self.classes.to_s.downcase.split(',')
       group.link_code.downcase.split.each do |code|
         return true if codes.include? code
       end
@@ -499,7 +499,9 @@ class Person < ActiveRecord::Base
         self
       end
     elsif params[:freeze] and Person.logged_in.admin?(:edit_profiles)
-      if Person.logged_in != self
+      if Person.logged_in == self
+        self.errors.add_to_base('Cannot freeze your own account.')
+      else
         toggle!(:account_frozen)
       end
     elsif params[:person] # testimony, about, favorites, etc.

@@ -20,7 +20,7 @@
     <% end %>
   </ul>
   <% if @logged_in.admin?(:manage_groups) %>
-    <p><%= link_to_function 'Show Hidden Groups', "$$('.hidden-group').each(function(e){Element.toggle(e)})" %>
+    <p><%= link_to_function 'Show Hidden Groups', "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
   <% end %>
 <% elsif me? %>
   <p>
