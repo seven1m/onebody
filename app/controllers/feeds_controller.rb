@@ -6,8 +6,8 @@ class FeedsController < ApplicationController
     @grouped_items = @items.group_by_model_name
     respond_to do |format|
       format.html # show.html.erb
-      format.js { render :partial => 'feed' }
-      format.rss { render :layout => false } # show.rss.builder
+      format.js  { render :partial => 'feed' }
+      format.xml { render :layout => false }
     end
   end
 
