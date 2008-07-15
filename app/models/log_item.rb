@@ -69,25 +69,17 @@ class LogItem < ActiveRecord::Base
   
   def object_url
     return nil if deleted?
-    action = 'view'
     id = instance_id
     case model_name
-    when 'Event'
-      controller = 'pictures'
-      action = 'view_event'
     when 'Comment'
-      controller = 'verses'
-      id = object.verse.id
+      object.on
     when 'Family'
-      controller = 'people'
-      id = object.people.first.id
+      object.people.first
     when 'Membership'
-      controller = 'groups'
-      id = object.group.id rescue nil
+      object.group
     else
-      controller = model_name.pluralize.downcase
-  end
-    "/#{controller}/#{action}/#{id}"
+      object
+    end
   end
   
   def object_image_url
