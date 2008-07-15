@@ -104,7 +104,7 @@ class Administration::DashboardController < ApplicationController
   
   def add_admin
     if @logged_in.admin?(:manage_access)
-      params[:people].to_a.each do |id|
+      params[:ids].to_a.each do |id|
         person = Person.find(id)
         if person.super_admin?
           flash[:notice] = "#{person.name} is a Super Administrator."

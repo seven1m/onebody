@@ -338,11 +338,20 @@ name_site:
   site_id: "1"
   updated_at: 2008-01-26 15:21:06
   format: string
-  description: truehe name of the member portion of this website
+  description: The name of the member portion of this website
   value: Imaginary Church Family
   global: false
   section: Name
   created_at: 2008-01-26 15:21:06
+  hidden: false
+name_church:
+  name: Church
+  site_id: "1"
+  format: string
+  description: The name of the church
+  value: Imaginary Church
+  global: false
+  section: Name
   hidden: false
 contact_bugnotificationemail: 
   name: Bug Notification Email

@@ -501,6 +501,7 @@ class Person < ActiveRecord::Base
     elsif params[:freeze] and Person.logged_in.admin?(:edit_profiles)
       if Person.logged_in == self
         self.errors.add_to_base('Cannot freeze your own account.')
+        false
       else
         toggle!(:account_frozen)
       end
