@@ -146,7 +146,6 @@ class AccountsController < ApplicationController
       @person.attributes = params[:person]
       @person.email_changed = @person.changed.include?('email')
       @person.save
-      puts params[:person].inspect, '===================='
       if @person.errors.any?
         render :action => 'edit'
       elsif password.to_s.any? or password_confirmation.to_s.any?

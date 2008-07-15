@@ -23,6 +23,6 @@ class Picture < ActiveRecord::Base
   acts_as_logger LogItem
   
   def name
-    "Picture #{id} in Album \"#{album.name}\""
+    "Picture #{id}#{album ? ' in Album ' + album.name : nil}"
   end
 end
