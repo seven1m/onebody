@@ -9,6 +9,7 @@ Rails::Initializer.run do |config|
   config.action_controller.session_store = :active_record_store
   config.log_path = File.join(File.dirname(__FILE__), "../log/#{RAILS_ENV}.log")
   config.database_configuration_file = File.expand_path(File.join(File.dirname(__FILE__), 'database.yml'))
+  config.plugin_paths << Rails.root + '/plugins'
   config.gem 'pdf-writer', :lib => 'pdf/writer'
   config.gem 'highline'
   config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
