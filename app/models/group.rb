@@ -149,7 +149,7 @@ class Group < ActiveRecord::Base
     end
   end
   
-  after_save :update_cached_parents
+  before_save :update_cached_parents
   def update_cached_parents
     return unless Group.columns.map { |c| c.name }.include? 'cached_parents'
     if self.parents_of.nil?
