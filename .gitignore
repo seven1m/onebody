@@ -13,4 +13,4 @@ config/database.yml.backup
 db/*.backup.*
 Scheduler.pid
 config/deploy.rb
-plugins/**/enable
+plugins/checkin/enable
