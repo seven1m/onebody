@@ -1,2 +1,0 @@
-module Checkin::AdminHelper
-end

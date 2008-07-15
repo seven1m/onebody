@@ -3,7 +3,7 @@ class Checkin::AdminController < ApplicationController
   before_filter :only_admins
   
   def index
-    @sections = Setting.get(:features, :checkin_sections)
+    @sections = Setting.get(:features, :checkin_sections, %w(Preschool Elementary))
     @last_sunday_or_wednesday = Date.today
     while not [0, 3].include? @last_sunday_or_wednesday.wday
       @last_sunday_or_wednesday -= 1

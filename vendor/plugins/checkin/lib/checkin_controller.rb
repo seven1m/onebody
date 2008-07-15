@@ -66,7 +66,7 @@ class CheckinController < ApplicationController
   private
     def get_sections
       @sections = {}
-      Setting.get(:features, :checkin_sections).each do |section|
+      Setting.get(:features, :checkin_sections, %w(Elementary Preschool)).each do |section|
         @sections[section.gsub(/\s/, '_').downcase] = section
       end
       @section = @sections[params[:section]] if params[:section]

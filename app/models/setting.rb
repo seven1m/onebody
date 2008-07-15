@@ -39,7 +39,7 @@ class Setting < ActiveRecord::Base
   class << self
     @@settings = nil
     
-    def get(section, name)
+    def get(section, name, default=nil)
       precache_settings unless @@settings
       return nil unless @@settings
       section, name = section.to_s, name.to_s
@@ -52,9 +52,9 @@ class Setting < ActiveRecord::Base
             Setting.precache_settings(true)
           end
           if @@settings[Site.current.id][section]
-            @@settings[Site.current.id][section][name]
+            @@settings[Site.current.id][section][name] || default
           else
-            nil
+            default
           end
         else
           raise "Site.current is not set so Setting.get(:#{section}, :#{name}) failed."
