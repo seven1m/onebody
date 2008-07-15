@@ -21,7 +21,7 @@
 
 <p>
   Modify the privacy settings for you and your family below. To understand how we use the personal information
-  of you and your family, please read our <%= link_to 'Privacy Policy', privacy_policy_path %>.
+  of you and your family, please read our <%= link_to 'Privacy Policy', help_path('privacy_policy') %>.
 </p>
 
 <h2 class="tab" id="f">Family Privacy<% unless @family.visible? %> <%= image_tag('lock.gif', :alt => 'Invisible', :class => 'icon', :style => 'height:12px;') %><% end %></h2>
@@ -235,8 +235,8 @@
         To show <%=h person.name %> on this site, please:
       </p>
       <ol>
-        <li>Read our page about <%= link_to 'Safeguarding Children', safeguarding_children_path %>.</li>
-        <li>Read our <%= link_to 'Privacy Policy', privacy_policy_path %>.</li>
+        <li>Read our page about <%= link_to 'Safeguarding Children', help_path('safeguarding_children') %>.</li>
+        <li>Read our <%= link_to 'Privacy Policy', help_path('privacy_policy') %>.</li>
         <li>Read the statement below and agree to it by checking the corresponding checkbox.</li>
         <li>Click the "I Agree" button.</li>
       </ol>
@@ -244,7 +244,7 @@
       <p>
         <%= check_box_tag 'agree', 'I Agree.', false, :class => 'checkbox' %>
         I, as a parent or legal gaurdian of <%=h person.name %>, hereby agree that I have read
-        this site's <%= link_to 'Privacy Policy', privacy_policy_path %>,
+        this site's <%= link_to 'Privacy Policy', help_path('privacy_policy') %>,
         that the personal information of <%=h person.name %> may be displayed for other users of the
         web site (as determined by the privacy settings on this page), and that <%=h person.name %> may, if able, utilize this
         website as a normal user (including profile customization, and communication via private message,

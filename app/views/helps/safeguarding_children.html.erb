@@ -9,7 +9,7 @@
 </p>
 
 <p class="highlight">
-  I've already read this and the <%= link_to 'Privacy Policy', privacy_policy_path %>.
+  I've already read this and the <%= link_to 'Privacy Policy', help_path('privacy_policy') %>.
   Just let me <%= link_to 'authorize my children', privacy_path(:consent => true) %>.
 </p>
 
@@ -30,7 +30,7 @@
   You may, however, choose to display information about your children
   and allow them to sign in via the
   <%= link_to 'Privacy', privacy_path %>
-  page. Please read our <%= link_to 'Privacy Policy', privacy_policy_path %>
+  page. Please read our <%= link_to 'Privacy Policy', help_path('privacy_policy') %>
   for more information.
 </p>
 
@@ -69,7 +69,7 @@
 <h2>Privacy Policy</h2>
 
 <p>
-  Please read our Privacy Policy located <%= link_to 'here', privacy_policy_path %>
+  Please read our Privacy Policy located <%= link_to 'here', help_path('privacy_policy') %>
   in order to better understand how we use personal information collected
   on this web site and at the church.
 </p>

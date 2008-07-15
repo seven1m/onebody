@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     @salt = session_salt unless Setting.get(:features, :ssl)
     if person = Person.authenticate(params[:email], Setting.get(:features, :ssl) ? params[:password] : params[:password_encrypted], :encrypted => !Setting.get(:features, :ssl), :salt => @salt)
       unless person.can_sign_in?
-        redirect_to unauthorized_path(:protocol => 'http://')
+        redirect_to help_path('unauthorized')
         return
       end
       session[:logged_in_id] = person.id

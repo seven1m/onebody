@@ -52,7 +52,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :tags
   map.resources :news
   map.resources :comments
-
+  map.resources :helps, :as => 'help'
+  
   map.resource :session
   map.resource :search, :member => {:opensearch => :get}
   map.resource :printable_directory
@@ -123,14 +124,5 @@ ActionController::Routing::Routes.draw do |map|
     m.check 'checkin/:section/check', :action => 'check'
     m.checkin_attendance 'checkin/:section/attendance', :action => 'attendance'
     m.void_attendance_record 'checkin/:section/void', :action => 'void'
-  end
-  
-  map.with_options :controller => 'help' do |m|
-    m.help 'help', :action => 'index'
-    m.privacy_policy 'help/privacy_policy', :action => 'privacy_policy'
-    m.unauthorized 'help/unauthorized', :action => 'unauthorized'
-    m.bad_status 'help/bad_status', :action => 'bad_status'
-    m.safeguarding_children 'help/safeguarding_children', :action => 'safeguarding_children'
-    m.credits 'help/credits', :action => 'credits'
   end
 end
