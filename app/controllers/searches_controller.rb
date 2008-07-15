@@ -20,7 +20,7 @@ class SearchesController < ApplicationController
     params.reject_blanks!
     @search = Search.new_from_params(params)
     @people = @search.query(params[:page])
-    @pages, @count = @search.pages, @search.count
+    @count = @search.count
     @show_birthdays = params[:birthday_month] or params[:birthday_day]
     @service_categories = Person.service_categories if @search.show_services
     respond_to do |wants|

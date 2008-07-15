@@ -1,6 +1,4 @@
-<% if @recipe_pages and @recipe_pages.page_count > 1 %>
-    <p class="page-nav">Page: <%= pagination_links @recipe_pages %></p>
-<% end %>
+<%= will_paginate recipes %>
 
 <% today = Date.today %>
 <table>
@@ -36,6 +34,4 @@
   <% end %>
 </table>
 
-<% if @recipe_pages and @recipe_pages.page_count > 1 %>
-  <p class="page-nav">Page: <%= pagination_links @recipe_pages %></p>
-<% end %>
+<%= will_paginate recipes %>

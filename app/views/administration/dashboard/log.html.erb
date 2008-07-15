@@ -22,9 +22,7 @@
   <%= submit_tag 'Update Display' %>
 </form>
 
-<% if @pages.length > 1 %>
-  <p>Page: <%= pagination_links @pages %></p>
-<% end %>
+<%= will_paginate @items %>
 
 <% if @items.any? %>
   <%= form_tag mark_reviewed_path %>

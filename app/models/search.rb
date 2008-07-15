@@ -3,9 +3,7 @@ class Search
   ITEMS_PER_PAGE = 100
   
   attr_accessor :show_services, :show_hidden, :testimony, :member
-  attr_reader :count, :pages, :people
-  
-  include ActionController::Pagination
+  attr_reader :count, :people
   
   def initialize
     @people = []
@@ -73,14 +71,12 @@ class Search
     @conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless Person.logged_in.full_access?
     @conditions.add_condition ["people.#{@type} = ?", true] if @type
     @count = Person.count :conditions => @conditions, :include => :family
-    @pages = Paginator.new self, @count, ITEMS_PER_PAGE, page
-    @people = Person.find(
+    @people = Person.paginate(
       :all,
+      :page => page,
       :conditions => @conditions,
       :include => :family,
-      :order => (show_services ? 'people.service_name' : 'people.last_name, people.first_name'),
-      :limit => @pages.items_per_page,
-      :offset => @pages.current.offset
+      :order => (show_services ? 'people.service_name' : 'people.last_name, people.first_name')
     ).select do |person| # additional checks that don't work well in raw sql
       !person.nil? \
         and Person.logged_in.sees?(person) \
@@ -89,6 +85,7 @@ class Search
         and (not @search_address or person.share_address_with(Person.logged_in)) \
         and (person.consent_or_13? or (Person.logged_in.admin?(:view_hidden_profiles) and @show_hidden))
     end
+    @people = WillPaginate::Collection.new(page || 1, 30, @count).replace(@people)
   end
   
   def self.new_from_params(params)

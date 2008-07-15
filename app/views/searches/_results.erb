@@ -11,10 +11,7 @@
     <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
       (not showing hidden people)
     <% end %>
-    <% if @pages.length > 1 %>
-      <br/>
-      Page: <%= pagination_links @pages, :window_size => 5, :params => params %>
-    <% end %>
+    <%= will_paginate @people %>
   </p>
 
   <% if @search.show_services %>
@@ -49,7 +46,7 @@
         <td>
           <a href="<%= person_url(:id => person) %>" <% if @logged_in.full_access? %>onmouseover="try{clearTimeout(hider)}catch(e){};show_popup(<%= person.id %>, true)" onmouseout="hider=setTimeout('hide_popup()', 1000)"<% end %>>
             <% if person.has_photo? %>
-              <%= image_tag photo_path(person, :type => 'person', :size => 'tn'), :alt => person.name, :class => 'no-border' %>
+              <%= image_tag tn_person_photo_path(person), :alt => person.name, :class => 'no-border' %>
             <% elsif person.family and person.family.has_photo? %>
               <%= image_tag tn_family_photo_path(person.family), :alt => person.family.name, :class => 'no-border' %>
             <% end %>
@@ -80,16 +77,14 @@
         <% end %>
         <td>
           <% if Setting.get(:features, :friends) and @logged_in.can_request_friendship_with?(person) and @logged_in != person %>
-            <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon'), {:url => person_friend_path(@logged_in, :friend_id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
+            <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon'), {:url => person_friends_path(@logged_in, :friend_id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
           <% end %>
         </td>
       </tr>
     <% end %>
   </table>
 
-  <% if @pages.length > 1 %>
-    <p>Page: <%= pagination_links @pages, :window_size => 5, :params => params %></p>
-  <% end %>
+  <%= will_paginate @people %>
 
 <% else %>
 

@@ -1,2 +1,2 @@
-page.hide "add_friend_#{@person.id}"
+page.hide "add_friend_#{@other_person.id}"
 page.alert @message

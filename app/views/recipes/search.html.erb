@@ -1,28 +1,28 @@
 <%= render :partial => 'shares/subnav' %>
 <div id="searchresults">
-<h1>Search Results</h1>
-<% if @item_pages and @item_pages.page_count > 1 %>
-  Page: <%= pagination_links @item_pages, :params => {:criteria => @mark_term} %>
-<% end %>
-<p>
-<% if @items && @items.length > 0 %>
- <ul id="searchResultsul">
-  <% for recipe in @items %>
-    <li>
-      <%= link_to h(recipe.title), recipe %> &nbsp; &nbsp; &mdash; &nbsp; &nbsp;
-      <small><%= @mark_term ? highlight(recipe.description, @mark_term) : h(recipe.description) %></small><br/>
-      <div class="smaller"><%= @mark_term ? highlight(recipe.ingredients, @mark_term) : h(recipe.ingredients) %></div>
-    </li>
-  <% end %>
-  </ul>
-<% elsif @mark_term && @mark_term.length > 0 %>
-  No Results
-<% else %>
-  &nbsp;
-<% end %>
-</p>
-<% if @item_pages and @item_pages.page_count > 1 %>
-  Page: <%= pagination_links @item_pages, :params => {:criteria => @mark_term} %>
-<% end %><br/>
-<%= link_to "Back", recipes_path %>
+  <h1>Search Results</h1>
+
+  <%= will_paginate recipes %>
+
+  <p>
+    <% if @items && @items.length > 0 %>
+     <ul id="searchResultsul">
+      <% for recipe in @items %>
+        <li>
+          <%= link_to h(recipe.title), recipe %> &nbsp; &nbsp; &mdash; &nbsp; &nbsp;
+          <small><%= @mark_term ? highlight(recipe.description, @mark_term) : h(recipe.description) %></small><br/>
+          <div class="smaller"><%= @mark_term ? highlight(recipe.ingredients, @mark_term) : h(recipe.ingredients) %></div>
+        </li>
+      <% end %>
+      </ul>
+    <% elsif @mark_term && @mark_term.length > 0 %>
+      No Results
+    <% else %>
+      &nbsp;
+    <% end %>
+  </p>
+
+  <%= will_paginate recipes %>
+
+  <%= link_to "Back", recipes_path %>
 </div>
