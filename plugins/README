@@ -3,7 +3,8 @@ This is the simple start of a standard OneBody Plugin architecture.
 Each directory in the /plugins directory can add routes, models,
 views, and controllers to your OneBody installation.
 
-Each plugin in this directory is disabled by default. To enable:
+Plugins in this directory (except the Setup plugin) are disabled
+by default. To enable, run:
 
 # ruby plugins/checkin/install.rb
 
