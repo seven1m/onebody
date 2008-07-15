@@ -30,10 +30,10 @@ class FeedsControllerTest < ActionController::TestCase
   end
   
   should "show the feed as RSS" do
-    get :show, {:format => 'rss', :code => @person.feed_code}, {:logged_in_id => nil}
+    get :show, {:format => 'xml', :code => @person.feed_code}, {:logged_in_id => nil}
     assert_response :success
-    assert_tag :tag => 'rss'
-    assert_tag :tag => 'channel'
+    assert_tag :tag => 'feed'
+    assert_tag :tag => 'entry'
   end
   
 end
