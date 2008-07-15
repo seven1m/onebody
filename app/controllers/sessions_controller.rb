@@ -4,6 +4,10 @@ class SessionsController < ApplicationController
   skip_before_filter :authenticate_user
   before_filter :check_ssl, :except => %w(destroy)
   
+  def show
+    redirect_to new_session_path
+  end
+  
   # sign in form
   def new
     flash[:warning] = 'There are no users in the system.' unless Person.count > 0

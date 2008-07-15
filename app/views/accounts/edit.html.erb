@@ -4,6 +4,7 @@
 
 <h1><%=h @person.name %></h1>
 <% form_for @person, :url => person_account_path(@person) do |form| %>
+  <%= form.error_messages %>
   <p>
     <label for="person_email">Email Address:</label>
     <%= form.text_field :email, :style => 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>

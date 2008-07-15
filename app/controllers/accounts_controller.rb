@@ -4,6 +4,8 @@ class AccountsController < ApplicationController
   before_filter :check_ssl, :except => [:verify]
   skip_before_filter :authenticate_user, :except => %w(edit update)
   
+  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update)
+  
   def show
     if params[:person_id]
       redirect_to person_account_path(params[:person_id])
@@ -139,14 +141,16 @@ class AccountsController < ApplicationController
   def update
     @person = Person.find(params[:person_id])
     if @logged_in.can_edit?(@person)
-      params[:person].cleanse(:password, :password_confirmation)
+      password = params[:person].delete(:password)
+      password_confirmation = params[:person].delete(:password_confirmation)
       @person.attributes = params[:person]
       @person.email_changed = @person.changed.include?('email')
       @person.save
+      puts params[:person].inspect, '===================='
       if @person.errors.any?
         render :action => 'edit'
-      elsif params[:person][:password] or params[:person][:password_confirmation]
-        @person.change_password(params[:person][:password], params[:person][:password_confirmation])
+      elsif password.to_s.any? or password_confirmation.to_s.any?
+        @person.change_password(password, password_confirmation)
         if @person.errors.any?
           render :action => 'edit'
         else
