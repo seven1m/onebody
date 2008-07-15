@@ -1,0 +1,18 @@
+This plugin is utilized by Cedar Ridge (OneBody's pilot church)
+for its very simple child security checkin and attendance system.
+
+It has been pluginized because it is so specialized to Cedar Ridge.
+
+To enable, ruby plugins/checkin/install.rb and navigate to /checkin.
+
+Each person gets extra attributes, including:
+* barcode_id     used to reference person when scanned
+* checkin_access true/false indicates if person is checkin worker
+
+The following are for informational purposes only. They are displayed
+to the checkin workers:
+* can_pick_up    text field to indicate people who can pick up this child
+* cannot_pick_up text field to indicate who cannot pick up this child
+* medical_notes  text field to indicate any medical conditions, allergies, etc.
+
+It is up to you to somehow supply these values to the database.

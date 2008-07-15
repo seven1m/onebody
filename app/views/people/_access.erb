@@ -20,8 +20,13 @@
   
   <h2>Extra Access</h2>
   <p>
-    <%= form.check_box :music_access %> <%= form.label :music_access, nil, :class => 'inline' %><br/>
-    <%= form.check_box :checkin_access %> <%= form.label :checkin_access, nil, :class => 'inline' %>
+    <% if (attributes = @person.access_attributes).any? %>
+      <% attributes.each do |attribute| %>
+        <%= form.check_box attribute %> <%= form.label attribute, nil, :class => 'inline' %><br/>
+      <% end %>
+    <% else %>
+      <em>No additional access options available at this time.</em>
+    <% end %>
   </p>
   <p><%= submit_tag 'Save Access' %></p>
 <% end %>

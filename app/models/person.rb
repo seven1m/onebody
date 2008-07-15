@@ -464,6 +464,10 @@ class Person < ActiveRecord::Base
     @has_groups ||= groups.any?
   end
   
+  def access_attributes
+    self.attributes.keys.grep(/_access$/).reject { |a| a == 'full_access' }
+  end
+  
   # generates security code for grabbing feed(s) without logging in
   before_create :update_feed_code
   def update_feed_code
