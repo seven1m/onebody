@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
 
-  caches_action :show, :cache_path => Proc.new { |c| "/users/#{Person.logged_in.id}/people/#{c.params[:id]}" }
+  caches_action :show, :for => 1.hour, :cache_path => Proc.new { |c| "people/#{c.params[:id]}_for_#{Person.logged_in.id}" }
   cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy)
 
   def index
