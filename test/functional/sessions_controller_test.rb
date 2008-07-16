@@ -31,4 +31,9 @@ class SessionsControllerTest < ActionController::TestCase
     assert_nil session[:logged_in_id]
   end
   
+  should "redirect to original location after sign in" do
+    post :create, {:email => @person.email, :password => 'secret', :from => "/groups"}
+    assert_redirected_to groups_path
+  end
+  
 end

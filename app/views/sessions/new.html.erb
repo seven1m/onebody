@@ -22,6 +22,7 @@
   <% end %>
   >
   <%= hidden_field_tag :password_encrypted, nil %>
+  <%= hidden_field_tag :from, params[:from] %>
   <div style="width:150px;float:right;margin:10px;text-align:center;">
     <%= link_to image_tag('help.gif', :alt => 'Help Signing In', :class => 'no-border'), helps_path %><br/>
     <%= link_to 'I need help.', helps_path %>
