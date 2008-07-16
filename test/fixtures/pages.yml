@@ -9,6 +9,7 @@
 #  body       :text          
 #  parent_id  :integer       
 #  path       :string(255)   
+#  published  :boolean       default(TRUE)
 #  site_id    :integer       
 #  created_at :datetime      
 #  updated_at :datetime      

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080709134559
+# Schema version: 20080715223033
 #
 # Table name: friendships
 #

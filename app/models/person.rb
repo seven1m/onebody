@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080709134559
+# Schema version: 20080715223033
 #
 # Table name: people
 #
@@ -52,7 +52,6 @@
 #  messages_enabled             :boolean       default(TRUE)
 #  service_address              :string(255)   
 #  flags                        :string(255)   
-#  music_access                 :boolean       
 #  visible                      :boolean       default(TRUE)
 #  parental_consent             :string(255)   
 #  admin_id                     :integer       
@@ -69,11 +68,6 @@
 #  feed_code                    :string(50)    
 #  share_activity               :boolean       
 #  site_id                      :integer       
-#  barcode_id                   :string(50)    
-#  can_pick_up                  :string(100)   
-#  cannot_pick_up               :string(100)   
-#  medical_notes                :string(200)   
-#  checkin_access               :boolean       
 #  twitter_account              :string(100)   
 #
 
@@ -275,6 +269,10 @@ class Person < ActiveRecord::Base
       self == what.person or self.admin?(:manage_notes)
     when 'Comment'
       self == what.person or self.admin?(:manage_comments)
+    when 'Page'
+      self.admin?(:edit_pages)
+    when 'Attachment'
+      (what.page and self.can_edit?(what.page)) or (what.message and self.can_edit?(what.message))
     else
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end

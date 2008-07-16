@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080709134559
+# Schema version: 20080715223033
 #
 # Table name: admins
 #
@@ -24,7 +24,7 @@
 #  created_at             :datetime      
 #  updated_at             :datetime      
 #  site_id                :integer       
-#  manage_checkin         :boolean       
+#  edit_pages             :boolean       
 #
 
 # == Schema Information

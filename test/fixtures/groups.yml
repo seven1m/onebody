@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080709134559
+# Schema version: 20080715223033
 #
 # Table name: groups
 #
@@ -23,6 +23,9 @@
 #  parents_of     :integer       
 #  site_id        :integer       
 #  cached_parents :text          
+#  blog           :boolean       default(TRUE)
+#  email          :boolean       default(TRUE)
+#  prayer         :boolean       default(TRUE)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
