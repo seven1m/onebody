@@ -3,11 +3,11 @@ class FriendshipSweeper < ActionController::Caching::Sweeper
 
   def after_save(record)
     if record.is_a? FriendshipRequest
-      expire_action(:controller => 'people', :action => 'show', :id => record.person_id)
-      expire_action(:controller => 'people', :action => 'show', :id => record.from_id)
+      expire_fragment(%r{views/people/#{record.person_id}_})
+      expire_fragment(%r{views/people/#{record.from_id}_})
     elsif record.is_a? Friendship
-      expire_action(:controller => 'people', :action => 'show', :id => record.person_id)
-      expire_action(:controller => 'people', :action => 'show', :id => record.friend_id)
+      expire_fragment(%r{views/people/#{record.person_id}_})
+      expire_fragment(%r{views/people/#{record.friend_id}_})
     end
   end
   

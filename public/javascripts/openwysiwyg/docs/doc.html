@@ -1,0 +1,536 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<title>openWYSIWYG</title>
+	<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+	<table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
+		<tbody>
+		<tr style="vertical-align: top;">
+			<td>
+				<a href="http://www.openwebware.com" target="_blank">
+					<img src="images/logo.gif" border="0">
+				</a>
+			</td>
+			<td style="text-align:right;">
+				<font class="naviblock">
+					<a href="doc.html" class="navi" title="Documentation">DOCUMENTATION</a> | <a href="addons.html" class="navi" title="Addons">ADDONS</a> | <a href="../example.html" class="navi" title="Examples">EXAMPLES</a>
+				</font>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<br>
+				<table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
+				<tbody>
+					<tr>
+						<td class="headline">
+							<h1>Documentation</h1>
+						</td>
+					</tr>
+					<tr>
+						<td class="info">
+							Copyright (c) 2006 openWebWare.com
+						</td>
+					</tr>
+					<tr>
+						<td style="">
+							<br>
+							<h2>Setup the openWYSIWYG editor</h2>
+							<p>
+								Include the javascript files like the following:
+								<br>
+								<div class="codeblock">
+									<span class="blue">&lt;script language=</span><span class="green">"JavaScript"</span> <span class="blue">type=</span><span class="green">"text/javascript"</span> <span class="blue">src=</span><span class="green">"<span class="red">scripts</span>/wysiwyg.js"</span><span class="blue">&gt;&lt;/script&gt;</span>
+									<br>
+									<span class="blue">&lt;script language=</span><span class="green">"JavaScript"</span> <span class="blue">type=</span><span class="green">"text/javascript"</span> <span class="blue">src=</span><span class="green">"<span class="red">scripts</span>/wysiwyg-settings.js"</span><span class="blue">&gt;&lt;/script&gt;<span class="green"> // optional</span></span>
+								</div>
+								<br>
+								Note: You might need to change the src path (red), depending on where you put the files.
+							</p>
+							<p>Now you have to attach the openWYSIWYG editor to all or to defined textareas of your page.<br>
+								<div class="codeblock">
+									<span class="blue"></span><span class="blue">&#060;script language=</span><span class="green">"javascript1.2"</span><span class="blue">&gt;<br>&nbsp;&nbsp; </span><span class="darkblue"><span class="green">// attach the editor to all textareas of your page.</span></span><br>
+									&nbsp;&nbsp;&nbsp;<span class="darkblue">WYSIWYG.<strong>attach</strong>('all'); <br>&nbsp;&nbsp; <br></span><span class="darkblue">&nbsp;&nbsp; <span class="green">// attach the editor to the textarea with the identifier 'textarea1'.</span></span><br><span class="darkblue">&nbsp;&nbsp; WYSIWYG.<strong>attach</strong>('textarea1');<br></span><span class="darkblue"></span>
+									<span class="blue">&#060;/script&#062;</span>
+								</div>
+								<br>
+								Now try it out! 
+								<br><br>
+								If you don't see any images on the toolbar then you have to change the image path.<br>
+								Have a look at the customize section.
+								<br><br>
+								If you need to display contents of textarea's with HTML output support, but without the editing possibilities, you can use a function called display.
+								<div class="codeblock">
+									<span class="blue"></span><span class="blue">&#060;script language=</span><span class="green">"javascript1.2"</span><span class="blue">&gt;<br>&nbsp;&nbsp; </span><span class="darkblue"><span class="green">// display iframes instead of textareas. It apply's to all textareas of your page.</span></span><br>
+									&nbsp;&nbsp;&nbsp;<span class="darkblue">WYSIWYG.<strong>display</strong>('all'); <br>&nbsp;&nbsp; <br></span><span class="darkblue">&nbsp;&nbsp; <span class="green">// display an iframe instead of the textarea with the identifier 'textarea1'</span></span><br><span class="darkblue">&nbsp;&nbsp; WYSIWYG.<strong>display</strong>('textarea1');<br></span><span class="darkblue"></span>
+									<span class="blue">&#060;/script&#062;</span>
+								</div>
+							</p>
+							<br><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h2>
+								Customize the openWYSIWYG
+							</h2>								
+							This section describe how you can customize the openWYSIWYG editor.<br><br>
+							<h3>The Settings object:</h3><br>
+							You can create a new instance of the settings object. 
+							This object will be used to customize your editor.
+							<div class="codeblock">
+								<span class="darkblue">var <span class="red">mysettings</span> = new WYSIWYG.Settings();</span>
+							</div>
+							<br>Now attach the editor to all or to defined textareas of your page.<br> 
+							<div class="codeblock">
+							<span class="darkblue">WYSIWYG.<b>attach</b>(</span><span class="green">'all'</span><span class="darkblue">, <span class="red">mysettings</span><span class="darkblue">);</span><br>
+							</div>
+							<br><br>
+							<h3>Properties of the Settings object:</h3>
+							<br>
+							Here is a list of all properties you can change to customize the look and feel of your editor.
+							<br>
+							<table border="0" cellpadding="2" cellspacing="0" class="codeblock" style="width:91%">
+								<colgroup>
+									<col width="35%">
+									<col width="65%">
+								</colgroup>
+								<tbody>
+								<tr>	
+									<td><span class="red">mysettings</span>.<b>ImagesDir</b> = "&lt;path&gt;";</td>
+									<td><span class="green">The path where your images are located (default: 'images/')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>PopupsDir</b> = "&lt;path&gt;"; </td>
+									<td><span class="green">The path where your popup htmls are located (default: 'popups/')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>CSSFile</b> = "&lt;path&gt;"; </td>
+									<td><span class="green">The path + file where your stylesheet file is located (default: 'styles/wysiwyg.css')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>Width</b> = "&lt;width&gt;"; </td>
+									<td><span class="green">The width of the editor window (valid units are px and %) (default: '500px')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>Height</b> = "&lt;height&gt;"; </td>
+									<td><span class="green">The height of the editor window (valid units are px and %) (default: '200px')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>DefaultStyle</b> = "&lt;stylesheet&gt;"; </td>
+									<td><span class="green">The default stylesheet of the editor window <br>(default: 'font-family: Arial; font-size: 12px; background-color: #FFFFFF')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>DisabledStyle</b> = "&lt;stylesheet&gt;"; </td>
+									<td><span class="green">The style which appears if the editor is disabled<br> (default: 'font-family: Arial; font-size: 12px; background-color: #EEEEEE')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>ReplaceLineBreaks</b> = &lt;true/false&gt;; </td>
+									<td><span class="green">Replace line breaks (\n) with html line breaks &lt;br&gt; (used for none html content) (default: false)</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>PreviewWidth</b> = &lt;width&gt;; </td>
+									<td><span class="green">The width of the preview popup (default: 500)</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>PreviewHeight</b> = &lt;height&gt;; </td>
+									<td><span class="green">The height of the preview popup (default: 400)</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>RemoveFormatConfMessage</b> = "&lt;text&gt;"; </td>
+									<td><span class="green">Text which appears if the MS word clean up button is pressed (default: 'Clean HTML inserted by MS Word ?')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>NoValidBrowserMessage</b> = "&lt;text&gt;"; </td>
+									<td><span class="green">Text which appears if the browser is not supported by openWYSIWYG (default: 'openWYSIWYG does not support your browser.')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>AnchorPathToStrip</b> = "&lt;url&gt;"; </td>
+									<td><span class="green">The url which is striped off on anchors (only IE, recommended: auto) (default: 'auto')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>ImagePathToStrip</b> = "&lt;url&gt;"; </td>
+									<td><span class="green">The url which is striped off on images (only IE, recommended: auto) (default: 'auto')</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>ContextMenu</b> = &lt;true/false&gt;;</td>
+									<td><span class="green">Enable / disable the custom context menu (default: true)</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>StatusBarEnabled</b> = &lt;true/false&gt;;</td>
+									<td><span class="green">Enable / disable the status bar (default: true)</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>InvertIELineBreaks</b> = &lt;true/false&gt;;</td>
+									<td><span class="green">Enable / disable invert of line break capability in IE (default: false)</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>InsertImagePopup</b> = &lt;path/file&gt;;</td>
+									<td><span class="green">If you use another implementation like an image library written in PHP, then you can use this setting to customize the location of the implementation file. No need to edit the main javascript file.<br>(It's used for future upcoming image library addons)</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>InsertImageWith</b> = &lt;width&gt;;</td>
+									<td><span class="green">Width of the image popup window. (Default: 400)</span></td>
+								</tr>
+								<tr>
+									<td><span class="red">mysettings</span>.<b>InsertImageWith</b> = &lt;height&gt;;</td>
+									<td><span class="green">Height of the image popup window. (Default: 210)</span></td>
+								</tr>
+								</tbody>
+							</table>
+							<br>
+							<h3>Methods of the Settings object:</h3>
+							<br>
+							There are three methods to customize the toolbar elements. (Recommended if you newly to javascript)
+							<br>	
+							<table border="0" cellpadding="2" cellspacing="0" class="codeblock" style="width:91%">
+								<colgroup>
+									<col width="50%">
+									<col width="50%">
+								</colgroup>
+								<tbody>
+								<tr>	
+									<td><span class="red">mysettings</span>.<b>addToolbarElement</b>("&lt;element&gt;", &lt;toolbar&gt;, &lt;position&gt;);</td>
+									<td>
+										<span class="green">
+											Add the given &lt;element&gt; to the defined &lt;toolbar&gt; on the defined &lt;position&gt;.<br><br>
+											Valid elements are:<br>
+											<i>font, fontsize,	bold, italic, underline, forecolor, backcolor, justifyleft, justifycenter, justifyright, 
+											unorderedlist, orderedlist, outdent, indent, subscript, superscript, cut, copy, paste, removeformat,
+											undo, redo, inserttable, insertimage, createlink, seperator, undo, redo, seperator, preview, print, 
+											viewSource, help</i>
+											<br><br>
+											The element <i>seperator</i> adds a line seperator between elements
+											<br><br>
+											&lt;toolbar&gt; is an integer starts with 1.
+											<br>
+											&lt;position&gt; is an integer starts with 1.
+											<br><br>
+											Example:
+										</span>
+										<span color="darkblue"> mysettings.addToolbarElement("bold", 1, 1);</span>
+										<br><br>
+									</td>
+								</tr>		
+								<tr>	
+									<td><span class="red">mysettings</span>.<b>removeToolbarElement</b>("&lt;element&gt;");</td>
+									<td>
+										<span class="green">
+											Removes the given &lt;element&gt; on the toolbar.<br><br>
+											Valid elements are:<br>
+											<i>font, fontsize,	bold, italic, underline, forecolor, backcolor, justifyleft, justifycenter, justifyright, 
+											unorderedlist, orderedlist, outdent, indent, subscript, superscript, cut, copy, paste, removeformat,
+											undo, redo, inserttable, insertimage, createlink, seperator, undo, redo, seperator, preview, print, 
+											viewSource, help</i>
+											<br><br>
+											You can not remove the element <i>seperator</i> only overriding with the function addToolbarElement()
+											<br><br>
+											Example:
+										</span>
+										<span color="darkblue"> mysettings.removeToolbarElement("bold");</span>
+										<br><br>
+									</td>
+								</tr>		
+								<tr>	
+									<td><span class="red">mysettings</span>.<b>clearToolbar</b>(&lt;toolbar&gt;);</td>
+									<td>
+										<span class="green">
+											Clears the given &lt;toolbar&gt;. If the element &lt;toolbar&gt; is not defined then the functions clear all existing toolbars.<br><br>
+											<br><br>
+											&lt;toolbar&gt; is an integer starts with 1.
+											<br><br>
+											Example:
+										</span>
+										<span color="darkblue"> mysettings.clearToolbar(1);</span>
+									</td>
+								</tr>		
+								</tbody>
+							</table>
+							<br><br>
+							<br>
+							<h3>Array of the Settings object:</h3>
+							<br>
+							There are some arrays within the Settings object you can define directly. So let`s show how does it works.
+							<br>
+							<br>	
+							<table border="0" cellpadding="2" cellspacing="0" class="codeblock" style="width:91%">
+								<colgroup>
+									<col width="50%">
+									<col width="50%">
+								</colgroup>
+								<tbody>
+								<tr>	
+									<td><span class="red">mysettings</span>.<b>Toolbar</b>[&lt;toolbar index&gt;][&lt;element index&gt;] = "&lt;element&gt;";</td>
+									<td>
+										<span class="green">
+											The toolbar array is defined in two dimensions, the first dimension is the toolbar index,
+											the second the element index. If you want to define an element in toolbar 2 on position 3 
+											then you have to do this: 
+										</span>	
+										<span class="darkblue">
+											mysettings.Toolbar[1][2] = "bold";
+										</span>
+										<br><br>
+										<span class="green">
+											Valid elements can be found on addToolbarElement().
+										</span>
+										<br><br>
+									</td>
+								</tr>	
+								<tr>	
+									<td><span class="red">mysettings</span>.<b>Fonts</b>[&lt;element index&gt;] = "&lt;element&gt;";</td>
+									<td>
+										<span class="green">
+											You have the posibility to change the font families by setting the Fonts array 
+											of the Settings object. If you want to add Arial on the second position then you have to do this:
+										</span>	
+										<span class="darkblue">
+											mysettings.Fonts[1] = "Arial";
+										</span>
+										<br><br>
+										<span class=green>
+											Valid elements are:<br>
+											All font family elements (look at a stylesheet description of the tag font-family)
+										</span>
+										<br><br>
+									</td>
+								</tr>	
+								<tr>	
+									<td><span class="red">mysettings</span>.<b>Fontsizes</b>[&lt;element index&gt;] = "&lt;size&gt;";</td>
+									<td>
+										<span class="green">
+											You can also change the font size which you can use on the editor.
+											If you want to add the font size 5 on the first position of drop down box,
+											then you have to do this:
+										</span>	
+										<span class="darkblue">
+											mysettings.Fontsizes[0] = "5";
+										</span>
+										<br><br>
+										<span class=green>
+											Valid sizes are:<br>
+											1 - ... (i dont know if the size attribute is limit)
+											
+										</span>
+									</td>
+								</tr>	
+								</tbody>
+							</table>	
+							
+							<br><br><br><br>	
+						</td>
+					</tr>	
+					<tr>
+						<td>
+							<h2>
+								Change Log
+							</h2>								
+								<p>
+								<b>v1.4.7 (Released: September 9, 2007)</b><br> 
+								Addresses the following: <br></p>
+								<ul>
+								<li>added - Possibilty to maximize the editor window</li>
+								<li>fixed - Correct relative image path on preview, now it works for all images</li>
+								<li>added - Table highlighting possibility</li>
+								<li>added - Possiblity to assign headings (crashed)</li>
+								<li>changed - Code improvments to tons of functions</li>
+								<li>changed - WYSIWYG.formatText() function renamed to WYSIWYG.execCommand()</li>
+								<li>changed - WYSIWYG.findParentTag() renamed to WYSIWYG.findParent()</li>
+								<li>added - WYSIWYG_Core.findParentNode(tagName, node) function which finds a parent node by tag name starts on the given node</li>
+								<li>fixed - Implement function WYSIWYG_Core.getAttribute which solve the problem while getting the style attribute on IE</li>
+								<li>changed - Getting style attribute while editing a link</li>
+								<li>added - WYSIWYG_Table object, which is used for improving table editing</li>
+								<li>changed - New icons print and preview (thx sweb)</li>
+								<li>added - Save and return button on toolbar, the return button is disabled by default. (thx sweb)</li>
+								<li>added - Table function improvments</li>
+								<li>added - New WYSIWYG_Color object, which handels the color choosing</li>
+								<li>added - Full justify text (code by tim)</li>
+								</ul>
+								<p>
+								<b>v1.4.6c (Released: December 25, 2006)</b><br> 
+								Addresses the following: <br></p>
+								<ul>
+								<li>fixed - Solved issue with backcolor command on IE</li>
+								<li>changed - Add parameter value to WYSIWYG_Core.execCommand() function</li>
+								</ul>
+								<b>v1.4.6b (Released: December 23, 2006)</b><br> 
+								Addresses the following: <br></p>
+								<ul>
+								<li>changed - Debug code on context menu removed</li>
+								<li>fixed - Add "px" to left and top style information on context menu</li>
+								<li>changed - Correct comment of wyswiwyg-settings.js</li>
+								</ul>
+								<b>v1.4.6a (Released: December 21, 2006)</b><br> 
+								Addresses the following: <br></p>
+								<ul>
+								<li>fixed - bad class name on mouse over of toolbar buttons fixed</li>
+								<li>changed - Rewritten function to get the current position of an element (iframe)</li>
+								<li>fixed - Context menu position issue solved</li>
+								<li>fixed - Wrong variable call fixed</li>
+								<li>fixed - Problem while removing elements with the context menu solved</li>
+								</ul>
+								<b>v1.4.6 (Released: December 17, 2006)</b><br> 
+								Addresses the following: <br></p>
+								<ul>
+								<li>changed - Modification changed to be the official version of openWYSIWYG</li>
+								<li>fixed - Child nodes will be copied to the parent if a node is removed</li>
+								<li>changed - Complete rewritten context menu</li>
+								<li>changed - Behaviours of the context menu dependents on selection</li>
+								<li>added - Copy/Cut/Paste to context menu</li>
+								<li>changed - Code structure changes</li>
+								<li>added - wysiwyg-popup.js which holds popup specific functions</li>
+								<li>added - new object WYSIWYG_Core added, which holds all core functions</li>
+								<li>added - addEvent() and removeEvent() core function added</li>
+								<li>added - attach() and attachAll() functions which used to attach the editor to textareas</li>
+								<li>changed - Complete rewritten insertLink function, now it works with tags like img, h1 etc</li>
+								<li>added - Override width and height of the editor with size given by the style attributes width and height of the textarea</li>
+								<li>added - New function includeCSS() in Core object, which includes a given stylesheet file on the head tag of the current page</li>
+								<li>fixed - Solved problem if you want to attach the editor to all textareas</li>
+								<li>changed - Include of stylesheet files changed, now using the includeCSS function</li>
+								<li>changed - Complete rewritten display function, now you can use it like like function attach()</li>
+								</ul>
+								<b>Modification v0.4.5 (Released: November 12, 2006)</b><br> 
+								Addresses the following: 
+								</p><ul>
+								<li>added - openImageLibrary addon (for now PHP only)</li>
+								<li>fixed - correct relative anchor and image path on preview</li>
+								<li>changed - various javascript code changes</li>
+								</ul>
+								<b>Modification v0.4.4 (Released: November 11, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>added - capability of using image library addons</li>
+								<li>fixed - corrupt font + font size selection html</li>
+								</ul>
+								<b>Modification v0.4.3 (Released: October 20, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>added - Possibility to invert the line break print outs of IE (ENTER = &lt;br&gt;, SHIFT + ENTER = &lt;p&gt;)</li>
+								<li>fixed - Replace of &lt;p&gt; with &lt;br&gt; on carriage return prevented the IE to set ordered and unordered lists.</li>
+								<li>added - Settings object to customize the Editor</li>
+								<li>fixed - Solve javascript error on example.html</li>
+								<li>fixed - Change html layout of the editor to solve the minimum width problem on dynamic editor size.</li>
+								<li>added - Enable/disable possibilty of the context menu</li>
+								<li>added - A general remove function, so it is possible to remove each html element</li>
+								<li>added - Adding an option 'Remove Node' to the context menu</li>
+								<li>added - Adding the possibilty to add the font + font size selection to toolbar2 or placing them where ever you want on the toolbars</li>
+								<li>changed - Removing the vars EnableFontSelection and EnableFontSizeSelection because font + font size selection goes to ToolBar Array like all other buttons.</li>
+								<li>changed - Removing vars EditorMinimumWidth and EditorMinimumHeight after solving the minimum width problem on IE. No more use.</li>
+								<li>added - New Function addToolbarElement() and removeToolbarElement within the settings object</li>
+								<li>added - Possibility to select a html node using the status bar node structure </li>
+								<li>changed - Complete redesign of the toolbar implementation</li>
+								<li>changed - Remove function removeImage() and removeLink(), because function removeNode() do it for all</li>
+								<li>added - Two new functions getEditorOffsetY() and getEditorOffsetX() to get the offsets of the editor window to the body if the the page</li>
+								<li>fixed - broken image path on toolbar button text view</li>
+								<li>added - New function enable(), now you can enable/display the editor on the fly</li>
+								</ul>
+								<b>Modification v0.4.2 (Released: October 16, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>added - Converting decimal colors to hex colors within style attributes</li>
+								<li>changed - Rename getParentTag() to findParentTag(), the function finds a tag by a given tag name</li>
+								<li>changed - Improving function findParentTag(), now it finds IMG tags and do not return #tags but the parent tag</li>
+								<li>added - Reimplementing function getTag(). The function gets the current selected tag</li>
+								<li>added - New Function getParent(). Returns the parent node of the given element</li>
+								<li>added - New Function getNodeTree(). The function returns a tree of nodes as array, beginning with the current selected element (node) and ending with the HTML node (element).</li>
+								<li>added - New status bar implemented. It's shown the element structure, beginning with the current selected element and ending with the HTML element.</li>
+								<li>added - New Function updateStatusBar(). Updates the status bar with the element structure.</li>
+								<li>changed - Possibility of setting dynamic width and height of the editor</li>
+								<li>fixed - Solving bug while setting style attribute on links</li>
+								</ul>
+								<p><b>Modification v0.4.1 (Released: October 14, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>added - Custom context menu for images and links</li>
+								<li>added - Remove option for images and links on the context menu</li>
+								<li>added - New functions removeLink() and removeImages()
+								<li>added - New function $() implemented, its a replacement for document.getElementById()</li>
+								<li>changed - Some small other code changes</li>
+								</ul>
+								<p><b>Modification v0.4 (Released: October 12, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>fixed - Dublicated id attribute in color chooser popup</li>
+								<li>fixed - Preventing IE to insert &lt;p&gt; tags on carriage return. IE will insert a normal &lt;br&gt; instead. (Thx to richyrich)</li>
+								<li>fixed - Crappy layout of hyperlink popup on IE (fields: class and name)</li>
+								<li>fixed - With multiple editors on one form, the global var viewTextMode is not unique for each editor. Used an Array instead to set the var for each editor individually</li>
+								<li>fixed - Submitting the editor while in text mode then it will submit escaped html (&lt;br&gt; -> submit -> &amp;lt;br&amp;gt;). Auto switch to HTML Mode if submit</li>
+								<li>fixed - Validate objects on hideFonts() and hideFontSizes() function</li>
+								<li>changed - Improvements on closing font + font size selection. Add a unique event listener for each selection.</li>
+								</ul>
+								<p><b>Modification v0.3.2a (Released: October 11, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>added - Improvements on font and font size selection, now the drop downs will be closed if you go through the editor.</li>
+								<li>fixed - Opera bug in insertNodeAtSelection() function solved. That's why the table popup won`t close if you submit it.</li>
+								<li>fixed - CSS file problem in table popup. There was a hard coded path to the CSS file. I changed it so the path to the CSS file will be dynamically inserted.</li>
+								<li>added - Improvements to the color selection menus on table popup, now the button "pick" has a toggle function (open/close the color selections).</li>
+								</ul>
+								<p><b>Modification v0.3.2a (Released: October 11, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>fixed - Font and font size selection fixed. I improved the closing a little bit, so if you choose font and then click an font size the font menue will be closed before.</li>
+								<li>added - Added a select field to the hyperlink popup which holds the default targets _blank, _self, _parent, _top. On change the select field updates the 'target' text field.</li>
+								</ul>
+								<p><b>Modification v0.3.1 (Released: October 10, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>fixed - Solve the habit of IE to convert relative urls into absolute. 
+								Now you can set two vars AnchorPathToStrip and ImagePathToStrip 
+								which holds an url that will be stripped off the href and src attributes. 
+								If you set the vars to "auto" then the url will automatically get of the current document. I recommend that you use the "auto" methode. </li>
+								</ul>
+								<p><b>Modification v0.3 (Released: October 9, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>added - Default style now also applies to the preview window</li>
+								<li>added - Print button + function</li>
+								<li>fixed - A little mistake within the function setAttribute, attr.toLowerCase -&gt; attr.toLowerCase() it prevented the script to apply the styles in IE correctly</li>
+								<li>fixed - Problem while replacing \n with &lt;br&gt; after submitting data in IE solved.</li>
+								<li>fixed - Complete rewritten function insertLink + insertImage. Improving edit capabiltity on both links and images. </li>
+								</ul>
+								<p><b>Modification v0.2 (Released: October 8, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>added - New function insertLink(), now you can insert and edit links. 
+								New available attributes are target, styleclass, name and style. 
+								(IE has some limitations, getting style attribute doesn`t work, hope i can solve this problem)</li>
+								<li>fixed - Stripping MS Word HTML (removed some bugs within the regex)</li>
+								<li>changed - Complete rewritten source code, now all functions + var are within a var WYSIWYG. (ex. WYSIWYG.generate('textarea1', 500, 200); )</li>
+								<li>fixed - Replace &lt;div&gt; with &lt;span&gt; while insert html on none IE Browsers, this solve the new line problem after the &lt;div&gt; tag.</li>
+								<li>added - New function insertImage(), now you can insert and editing images</li>
+								<li>added - Validation of browser versions (thx to TIM) </li>
+								</ul>
+							
+								<p><b>Modification v0.1 (Released: October 6, 2006)</b><br />
+								Addresses the following:
+								<ul>
+								<li>added - Possibility to replace \n with &lt;br&gt; to be compatible with previous content coming from a database, for example.</li>
+								<li>added - Button to strip any HTML added by word</li>
+								<li>changed - Modified generate_wysiwyg() method (added width and height to customize size of each editor, width and height are optional parameter)</li>
+								<li>added - Possibility to set the default font family, font size and font color of the editor area</li>
+								<li>added - New function disable_wysiwyg() to disable a editor area</li>
+								<li>changed - Some changes were made to toolbar1 and toolbar2. now toolbar2 is hidden if no elements are assigned.</li>
+								<li>changed - Now you can add the viewSource button to toolbar1</li>
+								<li>added - A new function display_wysiwyg() only for displaying an iframe with content of a textarea (without any editable features)</li>
+								<li>added - A style-class for the iframe to customize the background-color (useful in firefox, because firefox use the background of the parent element)</li>
+								<li>added - Preview button + function (thx to Korvo), now it works in Firefox and use the innerHTML of the iframe instead of the texteare value</li>
+								<li>fixed - Some code improvements for better compatibility with Firefox + IE</li>
+								<li>changed - The var cssDir changed to cssFile, now it includes the complete file path (ex. styles/wysiwyg.css)</li>
+								<li>added - new stylesheet classes, check the css file</li>
+								<li>added - Possibility to enable/disable font + font size selection</li>
+								<li>fixed - Firefox BackColor problem fixed (thx to Merk), no hilite button needed only solve the problem on firefox </li>
+								</ul>
+								</p>
+							</td>
+						</tr>	
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</body>
+</html>

@@ -1,0 +1,46 @@
+# == Schema Information
+# Schema version: 20080715223033
+#
+# Table name: pages
+#
+#  id         :integer       not null, primary key
+#  slug       :string(255)   
+#  title      :string(255)   
+#  body       :text          
+#  parent_id  :integer       
+#  path       :string(255)   
+#  site_id    :integer       
+#  created_at :datetime      
+#  updated_at :datetime      
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+home:
+  slug: home
+  title: Home
+  body: This is the homepage.
+  path: home
+  site_id: 1
+
+foo:
+  slug: foo
+  title: Foo
+  body: Foo rocks.
+  path: foo
+  site_id: 1
+
+bar:
+  slug: bar
+  title: Bar
+  body: Bar is the best.
+  path: bar
+  site_id: 1
+
+baz:
+  slug: baz
+  title: Baz
+  body: Baz is rad.
+  parent: foo
+  path: foo/baz
+  site_id: 1

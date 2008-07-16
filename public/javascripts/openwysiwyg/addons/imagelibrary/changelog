@@ -1,0 +1,10 @@
+v0.2.2
+	* changed - Using full php tags instead of <? only
+	* fixed - Solved problem while generate source of an image if it is within a subdirectory 
+	* changed - Hide upload button if $allowuploads is false 
+
+v0.2.1
+	* fixed - Problem with relative URL to images using openImageLibrary
+
+v0.1
+	* inital release

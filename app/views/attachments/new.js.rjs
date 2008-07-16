@@ -1,0 +1,2 @@
+page.insert_html :after, 'new_attachment_link', :partial => 'form'
+page.hide 'new_attachment_link'

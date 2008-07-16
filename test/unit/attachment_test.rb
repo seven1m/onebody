@@ -31,4 +31,10 @@ class AttachmentTest < Test::Unit::TestCase
     assert !File.exist?(file_path)
   end
   
+  should "create an attachment with file at once" do
+    @attachment = Attachment.create_from_file(:message_id => @message.id, :file => fixture_file_upload('files/attachment.pdf'))
+    assert @attachment.valid?
+    assert @attachment.has_file?
+  end
+  
 end

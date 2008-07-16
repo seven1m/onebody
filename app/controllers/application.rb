@@ -85,8 +85,16 @@ class ApplicationController < ActionController::Base
     end
     
     def redirect_back(fallback=nil)
-      request.env["HTTP_REFERER"] ? redirect_to(request.env["HTTP_REFERER"]) : redirect_to(fallback || people_path)
-      return false
+      if params[:from]
+        redirect_to(params[:from])
+      elsif request.env["HTTP_REFERER"]
+        redirect_to(request.env["HTTP_REFERER"])
+      elsif fallback
+        redirect_to(fallback)
+      else
+        redirect_to(people_path)
+      end
+      return false # in case you want to halt action
     end
     
     def params_without_action

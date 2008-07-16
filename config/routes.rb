@@ -52,6 +52,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :tags
   map.resources :news
   map.resources :comments
+  map.resources :attachments, :member => {:get => :get}
   map.resources :helps, :as => 'help'
   
   map.resource :session
@@ -59,6 +60,14 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :printable_directory
   map.resource :feed
   map.resource :privacy
+  
+  map.resources :pages, :as => 'pages/admin' do |pages|
+    pages.resources :attachments
+  end
+  
+  map.with_options :controller => 'pages' do |pages|
+    pages.page_for_public 'pages/*path', :action => 'show_for_public', :conditions => {:method => :get}
+  end
   
   # almost done...
 

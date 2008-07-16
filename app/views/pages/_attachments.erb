@@ -1,0 +1,13 @@
+<ul>
+  <% @page.attachments.each do |attachment| %>
+    <li>
+      <%= link_to attachment.name, get_attachment_path(attachment) %>
+      (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
+      <%= link_to 'delete', attachment, :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+    </li>
+  <% end %>
+</ul>
+
+<p>
+  <%= link_to_remote 'Upload Attachment', :url => new_attachment_path(:page_id => @page), :method => 'get', :html => {:id => 'new_attachment_link'} %>
+</p>

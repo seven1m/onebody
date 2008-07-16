@@ -3,7 +3,8 @@ class FamilySweeper < ActionController::Caching::Sweeper
 
   def after_save(record)
     record.people.each do |person|
-      expire_action(:controller => 'people', :action => 'show', :id => person.id)
+      # expire_fragment allows regexps, while expire_action does not
+      expire_fragment(%r{views/people/#{record.id}_})
     end
   end
   

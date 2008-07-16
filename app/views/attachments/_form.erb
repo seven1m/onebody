@@ -1,0 +1,7 @@
+<% form_for @attachment, :html => {:multipart => true} do |form| %>
+  <%= form.hidden_field :page_id %>
+  <p>
+    <%= label_tag 'attachment_file', 'File' %> <%= file_field_tag 'attachment[file]', :id => 'attachment_file' %><br/>
+    <%= form.submit 'Upload File' %>
+  </p>
+<% end %>

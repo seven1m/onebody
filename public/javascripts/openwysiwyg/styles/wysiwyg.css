@@ -1,0 +1,53 @@
+/********************************************************************
+ * openWYSIWYG stylesheet file Copyright (c) 2006 openWebWare.com
+ * Contact us at devs@openwebware.com
+ * This copyright notice MUST stay intact for use.
+ *
+ * $Id: wysiwyg.css,v 1.2 2007/01/29 19:19:49 xhaggi Exp $
+ ********************************************************************/
+
+/* Toolbar */
+.toolbar1   { height: 26px; background-image: url(../images/background_silver.jpg); }
+/*.toolbar1   { height: 26px; background-color: #F4F4F4; border-bottom:1px solid #C9C9C9; }*/
+
+/* Command Buttons */
+.buttonEditor     { width: 20px; height: 20px; border: 0px solid transparent; margin: 1px; padding: 0px; background: transparent; }
+.buttonEditorOver { width: 20px; height: 20px; border: 1px solid #999999; margin: 0; padding: 0px; }
+
+/* Table Textarea */
+.tableTextareaEditor { border: 1px solid #888888; }
+.iframeText { background-color: #FFFFFF; }
+
+/* Status Bar */
+.wysiwyg-statusbar {font-family: Arial; font-size: 9px; background-color: #EEEEEE;}
+a.wysiwyg-statusbar {font-family: Arial; font-size: 9px; color: #000000; text-decoration:none;}
+a.wysiwyg-statusbar:hover {font-family: Arial; font-size: 9px; color: #000000; text-decoration:underline;}
+
+/* Font Type and Size Drop Down */
+.dropdown          { background-color: #FFFFFF; border: 1px solid #333333; height: 140px; overflow: auto; padding: 1px;}
+button.mouseOver   { background-color: #EEEEEE; border: 1px solid #CCCCCC; padding: 3px; cursor: default; text-align: left;}
+button.mouseOut    { background-color: #FFFFFF; border: 1px solid #FFFFFF; padding: 3px; cursor: default; text-align: left;}
+
+/* Context Menu */
+.wysiwyg-context-menu-div { background-color:#F4F4F4; border: 1px solid #C9C9C9; width:170px; }
+.wysiwyg-context-menu { font-family: Arial; font-size:11px; color:#000000; width:100%;}
+.wysiwyg-context-menu .icon {background-color:#EEEEEE;}
+.wysiwyg-context-menu .disabled { font-family: Arial; font-size:11px; color:#999999; text-decoration:none; padding-left: 3px; }
+.wysiwyg-context-menu a { font-family: Arial; font-size:11px; color:#000000; text-decoration:none; padding-left: 3px;}
+.wysiwyg-context-menu .mouseover {background-color: #EEEEEE;}
+
+
+/* CREATE TABLE POPUP */
+
+/* Select Border Width/Type */
+.on   { background-color: #EEEEEE; border: 1px solid #CCCCCC; padding: 6px; width: 140px; cursor: default; height: 5px;}
+.off  { background-color: #FFFFFF; border: 1px solid #FFFFFF; padding: 6px; width: 140px; cursor: default; height: 5px;}
+
+/* Select Shading/Border Color */
+.wysiwyg-color-picker-table  { border: 1px solid #7E7E81; background-color: #F7F7F7; padding: 1px; }
+.wysiwyg-color-picker-div    { font-size: 1px; height:12px; width:12px; }
+.selectColorBorder { border: 1px solid #F7F7F7; }
+.selectColorOn     { border: 1px solid #999999; background-color: #CCCCCC; }
+.selectColorOff    { border: 1px solid #F7F7F7; background-color: #F7F7F7; }
+
+

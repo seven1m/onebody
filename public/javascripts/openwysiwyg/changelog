@@ -1,0 +1,152 @@
+v1.4.7
+	* added - Possibilty to maximize the editor window
+	* fixed - Correct relative image path on preview, now it works for all images
+	* added - Table highlighting possibility
+	* added - Possiblity to assign headings (crashed)
+	* changed - Code improvments to tons of functions
+	* changed - WYSIWYG.formatText() function renamed to WYSIWYG.execCommand()
+	* changed - WYSIWYG.findParentTag() renamed to WYSIWYG.findParent()
+	* added - WYSIWYG_Core.findParentNode(tagName, node) function which finds a parent node by tag name starts on the given node
+	* fixed - Implement function WYSIWYG_Core.getAttribute which solve the problem while getting the style attribute on IE
+	* changed - Getting style attribute while editing a link
+	* added - WYSIWYG_Table object, which is used for improving table editing
+	* changed - New icons print and preview (thx sweb)
+	* added - Save and return button on toolbar, the return button is disabled by default. (thx sweb)
+	* added - Table function improvments
+	* added - New WYSIWYG_Color object, which handels the color choosing
+	* added - Full justify text (code by tim)
+	
+v1.4.6c
+	* fixed - Solved issue with backcolor command on IE
+	* changed - Add parameter value to WYSIWYG_Core.execCommand() function
+	
+v1.4.6b
+	* changed - Debug code on context menu removed
+	* fixed - Add "px" to left and top style information on context menu
+	* changed - Correct comment of wyswiwyg-settings.js
+
+v1.4.6a
+	* fixed - bad class name on mouse over of toolbar buttons fixed
+	* changed - Rewritten function to get the current position of an element (iframe)
+	* fixed - Context menu position issue solved
+	* fixed - Wrong variable call fixed
+	* fixed - Problem while removing elements with the context menu solved
+	
+v1.4.6 (2006-12-17)
+	* changed - Modification changed to be the official version of openWYSIWYG
+	* fixed - Child nodes will be copied to the parent if a node is removed
+	* changed - Complete rewritten context menu
+	* changed - Behaviours of the context menu dependents on selection
+	* added - Copy/Cut/Paste to context menu
+	* changed - Code structure changes
+	* added - wysiwyg-popup.js which holds popup specific functions
+	* added - new object WYSIWYG_Core added, which holds all core functions
+	* added - addEvent() and removeEvent() core function added
+	* added - attach() and attachAll() functions which used to attach the editor to textareas
+	* changed - Complete rewritten insertLink function, now it works with tags like img, h1 etc
+	* added - Override width and height of the editor with size given by the style attributes width and height of the textarea
+	* added - New function includeCSS() in Core object, which includes a given stylesheet file on the head tag of the current page
+	* fixed - Solved problem if you want to attach the editor to all textareas
+	* changed - Include of stylesheet files changed, now using the includeCSS function
+	* changed - Complete rewritten display function, now you can use it like like function attach()
+
+v0.4.5 (2006-11-12)
+	* added - openImageLibrary addon (for now PHP only)
+    * fixed - correct relative anchor and image path on preview
+    * changed - various javascript code changes
+
+v0.4.4 (2006-11-11)
+    * added - capability of using image library addons
+    * fixed - corrupt font + font size selection html
+
+v0.4.3 (2006-10-20)
+    * added - Possibility to invert the line break print outs of IE (ENTER = <br>, SHIFT + ENTER = <p>)
+    * fixed - Replace of <p> with <br> on carriage return prevented the IE to set ordered and unordered lists.
+    * added - Settings object to customize the Editor
+    * fixed - Solve javascript error on example.html
+    * fixed - Change html layout of the editor to solve the minimum width problem on dynamic editor size.
+    * added - Enable/disable possibilty of the context menu
+    * added - A general remove function, so it is possible to remove each html element
+    * added - Adding an option 'Remove Node' to the context menu
+    * added - Adding the possibilty to add the font + font size selection to toolbar2 or placing them where ever you want on the toolbars
+    * changed - Removing the vars EnableFontSelection and EnableFontSizeSelection because font + font size selection goes to ToolBar Array like all other buttons.
+    * changed - Removing vars EditorMinimumWidth and EditorMinimumHeight after solving the minimum width problem on IE. No more use.
+    * added - New Function addToolbarElement() and removeToolbarElement within the settings object
+    * added - Possibility to select a html node using the status bar node structure
+    * changed - Complete redesign of the toolbar implementation
+    * changed - Remove function removeImage() and removeLink(), because function removeNode() do it for all
+    * added - Two new functions getEditorOffsetY() and getEditorOffsetX() to get the offsets of the editor window to the body if the the page
+    * fixed - broken image path on toolbar button text view
+    * added - New function enable(), now you can enable/display the editor on the fly
+
+v0.4.2 (2006-10-16)
+    * added - Converting decimal colors to hex colors within style attributes
+    * changed - Rename getParentTag() to findParentTag(), the function finds a tag by a given tag name
+    * changed - Improving function findParentTag(), now it finds IMG tags and do not return #tags but the parent tag
+    * added - Reimplementing function getTag(). The function gets the current selected tag
+    * added - New Function getParent(). Returns the parent node of the given element
+    * added - New Function getNodeTree(). The function returns a tree of nodes as array, beginning with the current selected element (node) and ending with the HTML node (element).
+    * added - New status bar implemented. It's shown the element structure, beginning with the current selected element and ending with the HTML element.
+    * added - New Function updateStatusBar(). Updates the status bar with the element structure.
+    * changed - Possibility of setting dynamic width and height of the editor
+    * fixed - Solving bug while setting style attribute on links
+
+v0.4.1 (2006-10-14)
+    * added - Custom context menu for images and links
+    * added - Remove option for images and links on the context menu
+    * added - New functions removeLink() and removeImages()
+    * added - New function $() implemented, its a replacement for document.getElementById()
+    * changed - Some small other code changes
+
+v0.4 (2006-10-12)
+    * fixed - Dublicated id attribute in color chooser popup
+    * fixed - Preventing IE to insert <p> tags on carriage return. IE will insert a normal <br> instead. (Thx to richyrich)
+    * fixed - Crappy layout of hyperlink popup on IE (fields: class and name)
+    * fixed - With multiple editors on one form, the global var viewTextMode is not unique for each editor. Used an Array instead to set the var for each editor individually
+    * fixed - Submitting the editor while in text mode then it will submit escaped html (<br> -> submit -> &lt;br&gt;). Auto switch to HTML Mode if submit
+    * fixed - Validate objects on hideFonts() and hideFontSizes() function
+    * changed - Improvements on closing font + font size selection. Add a unique event listener for each selection.
+
+v0.3.2a (2006-10-11)
+    * added - Improvements on font and font size selection, now the drop downs will be closed if you go through the editor.
+    * fixed - Opera bug in insertNodeAtSelection() function solved. That's why the table popup won`t close if you submit it.
+    * fixed - CSS file problem in table popup. There was a hard coded path to the CSS file. I changed it so the path to the CSS file will be dynamically inserted.
+    * added - Improvements to the color selection menus on table popup, now the button "pick" has a toggle function (open/close the color selections).
+    * fixed - Font and font size selection fixed. I improved the closing a little bit, so if you choose font and then click an font size the font menue will be closed before.
+    * added - Added a select field to the hyperlink popup which holds the default targets _blank, _self, _parent, _top. On change the select field updates the 'target' text field.
+   
+
+v0.3.1 (2006-10-10)
+    * fixed - Solve the habit of IE to convert relative urls into absolute. Now you can set two vars AnchorPathToStrip and ImagePathToStrip which holds an url that will be stripped off the href and src attributes. If you set the vars to "auto" then the url will automatically get of the current document. I recommend that you use the "auto" methode.
+
+v0.3 (2006-10-09)
+    * added - Default style now also applies to the preview window
+    * added - Print button + function
+    * fixed - A little mistake within the function setAttribute, attr.toLowerCase -> attr.toLowerCase() it prevented the script to apply the styles in IE correctly
+    * fixed - Problem while replacing \n with <br> after submitting data in IE solved.
+    * fixed - Complete rewritten function insertLink + insertImage. Improving edit capabiltity on both links and images.
+
+v0.2 (2006-10-08)
+    * added - New function insertLink(), now you can insert and edit links. New available attributes are target, styleclass, name and style. (IE has some limitations, getting style attribute doesn`t work, hope i can solve this problem)
+    * fixed - Stripping MS Word HTML (removed some bugs within the regex)
+    * changed - Complete rewritten source code, now all functions + var are within a var WYSIWYG. (ex. WYSIWYG.generate('textarea1', 500, 200); )
+    * fixed - Replace <div> with <span> while insert html on none IE Browsers, this solve the new line problem after the <div> tag.
+    * added - New function insertImage(), now you can insert and editing images
+    * added - Validation of browser versions (thx to TIM)
+
+v0.1 (2006-10-06)
+    * added - Possibility to replace \n with <br> to be compatible with previous content coming from a database, for example.
+    * added - Button to strip any HTML added by word
+    * changed - Modified generate_wysiwyg() method (added width and height to customize size of each editor, width and height are optional parameter)
+    * added - Possibility to set the default font family, font size and font color of the editor area
+    * added - New function disable_wysiwyg() to disable a editor area
+    * changed - Some changes were made to toolbar1 and toolbar2. now toolbar2 is hidden if no elements are assigned.
+    * changed - Now you can add the viewSource button to toolbar1
+    * added - A new function display_wysiwyg() only for displaying an iframe with content of a textarea (without any editable features)
+    * added - A style-class for the iframe to customize the background-color (useful in firefox, because firefox use the background of the parent element)
+    * added - Preview button + function (thx to Korvo), now it works in Firefox and use the innerHTML of the iframe instead of the texteare value
+    * fixed - Some code improvements for better compatibility with Firefox + IE
+    * changed - The var cssDir changed to cssFile, now it includes the complete file path (ex. styles/wysiwyg.css)
+    * added - new stylesheet classes, check the css file
+    * added - Possibility to enable/disable font + font size selection
+    * fixed - Firefox BackColor problem fixed (thx to Merk), no hilite button needed only solve the problem on firefox

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>Preview</title>
+</head>
+<script type="text/javascript" src="../scripts/wysiwyg-popup.js"></script>
+<script type="text/javascript">
+
+function preview() {	
+	// get params
+	var n = WYSIWYG_Popup.getParam('wysiwyg');
+	// set default styles
+	WYSIWYG_Core.setAttribute(document.body, "style", WYSIWYG.config[n].DefaultStyle);
+	// get content
+	WYSIWYG_Table.disableHighlighting(n);
+	var content = WYSIWYG.getEditorWindow(n).document.body.innerHTML;
+	WYSIWYG_Table.refreshHighlighting(n);
+	content = content.replace(/src="([^/|^http|^https])/gi, "src=\"../$1"); // correct relative image path
+	content = content.replace(/href="([^/|^http|^https|^ftp])/gi, "href=\"../$1"); // correct relative anchor path
+	// set content
+	document.body.innerHTML = content;
+}
+</script>
+<body onLoad="preview();">
+</body>
+</html> 
+

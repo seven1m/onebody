@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<title>openWYSIWYG</title>
+	<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+	<table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
+		<tbody>
+		<tr style="vertical-align: top;">
+			<td>
+				<a href="http://www.openwebware.com" target="_blank">
+					<img src="images/logo.gif" border="0">
+				</a>
+			</td>
+			<td style="text-align:right;">
+				<font class="naviblock">
+					<a href="doc.html" class="navi" title="Documentation">DOCUMENTATION</a> | <a href="addons.html" class="navi" title="Addons">ADDONS</a> | <a href="../example.html" class="navi" title="Examples">EXAMPLES</a>
+				</font>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<br>
+				<table border="0" cellpadding="2" cellspacing="0" style="width:100%;">
+				<tbody>
+					<tr>
+						<td class="headline">
+							<h1>Addons</h1>
+						</td>
+					</tr>
+					<tr>
+						<td class="info">
+							Copyright (c) 2006 openWebWare.com
+						</td>
+					</tr>
+					<tr>
+						<td style="">
+							<br>
+							<h2>openImageLibrary addon (PHP)<br></h2>
+							<p> 
+								Here we want to explain how you can use the openImageLibrary addon (for now PHP only) to let your users uploading, browsing and selecting images on your webserver.<br>
+								First you have to download the latest version of the openWYSIWYG modification, which includes the openImageLibrary addon.<br>
+								You will find a directory called <i>addons</i> in the root of the openWYSIWYG directory. If it not there you do not have the latest version of the openWYSIWYG editor.<br><br>
+								To enable the openImageLibrary addon you have to customize the insert image popup implementation of the openWYSIWYG.<br>
+								The following shows how you change the implementation of the insert image popup.
+								<div class="codeblock">
+									<span class="darkblue">var <span class="red">mysettings</span> = new WYSIWYG.Settings();</span>
+									<br><br>
+									<span class="green">// define the location of the openImageLibrary addon</span><br>
+									<span class="darkblue"><span class="red">mysettings</span>.<b>ImagePopupFile</b> = "addons/imagelibrary/insert_image.php";</span>
+									<br>
+									<span class="green">// define the width of the insert image popup</span><br>
+									<span class="darkblue"><span class="red">mysettings</span>.<b>ImagePopupWidth</b> = 600;</span>
+									<br>
+									<span class="green">// define the height of the insert image popup</span><br>
+									<span class="darkblue"><span class="red">mysettings</span>.<b>ImagePopupHeight</b> = 245;</span>
+									<br>
+								</div>
+								<br>Attach the editor on the textarea with the previously defined <span class="red"><i>mysettings</i></span> object.
+								<div class="codeblock">
+									<span class="blue"></span><span class="blue">&#060;script language=</span><span class="green">"javascript1.2"</span><span class="blue">&#062;</span><br>
+									&nbsp;&nbsp;&nbsp;<span class="darkblue">WYSIWYG.<b>attach</b>('textareaID', <span class="red">mysettings</span><span class="darkblue">);</span><br>
+									<span class="blue">&#060;/script&#062;</span>
+								</div>
+								<br>
+								Now try it out! 
+								<br>
+							</p>
+							<br><br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h2>
+								Customize the openImageLibrary addon
+							</h2>								
+							This section describe how you can customize the openImageLibrary addon.<br><br>
+							
+							<h3>Settings of the openImageLibrary addon:</h3>
+							<br>
+							The following settings can be modified within the config file <i>(addons/imagelibrary/config.inc.php)</i>
+							<br>
+							<table border="0" cellpadding="2" cellspacing="0" class="codeblock" style="width:91%">
+								<colgroup>
+									<col width="35%">
+									<col width="65%">
+								</colgroup>
+								<tbody>
+								<tr>	
+									<td>
+										<b>$imagebasedir</b> = '../../uploads';
+									</td>
+									<td>
+										<span class="green">
+											Path to a directory which holds the images.
+										</span>
+									</td>
+								</tr>
+								<tr>	
+									<td>
+										<b>$imagebaseurl</b> = 'uploads';
+									</td>
+									<td>
+										<span class="green">
+											An absolute or relative URL to the image folder.
+											This url is used to generate the source of the image.
+										</span>
+									</td>
+								</tr>
+								<tr>	
+									<td>
+										<b>$browsedirs</b> = true;
+									</td>
+									<td>
+										<span class="green">
+											Allow your users to browse the subdir of the defined basedir.
+										</span>
+									</td>
+								</tr>
+								<tr>	
+									<td>
+										<b>$allowuploads</b> = true;
+									</td>
+									<td>
+										<span class="green">
+											If enabled users will be able to upload files to any viewable directory. 
+											You should really only enable this if the area this script is in is already password protected.
+										</span>
+									</td>
+								</tr>
+								<tr>	
+									<td>
+										<b>$overwrite</b> = false;
+									</td>
+									<td>
+										<span class="green">
+											If a user uploads a file with the same name as an existing 
+											file do you want the existing file to be overwritten ?
+										</span>
+									</td>
+								</tr>
+								<tr>	
+									<td>
+										<b>$supportedextentions</b> = array(&lt;file extensions&gt;);
+									</td>
+									<td>
+										<span class="green">
+											Define the extentions you want to show within the directory listing.<br>
+											The extensions also limit the files the user can upload to your image folders. 
+										</span>
+									</td>
+								</tr>
+								<tr>	
+									<td>
+										<b>$filetypes</b> = array (&lt;extension&gt; => &lt;filename&gt;)
+									</td>
+									<td>
+										<span class="green">
+											If you want to add your own special file icons use this section below. 
+											Each entry relates to the extension of the given file, in the form &lt;extension&gt; => &lt;filename&gt;. <br>
+											These files must be located within the dlf directory.
+										</span>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<br>					
+						</td>
+					</tr>	
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</body>
+</html>

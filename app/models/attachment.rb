@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080709134559
+# Schema version: 20080715223033
 #
 # Table name: attachments
 #
@@ -14,13 +14,25 @@
 
 class Attachment < ActiveRecord::Base
   belongs_to :message
-  belongs_to :song
+  belongs_to :page
   belongs_to :site
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   acts_as_file DB_ATTACHMENTS_PATH
   
   def visible_to?(person)
-    (message and person.can_see?(message)) or
-    (song and person.can_see?(song))
+    (message and person.can_see?(message)) or page
+  end
+  
+  class << self
+    def create_from_file(attributes)
+      file = attributes.delete(:file)
+      attributes.merge!(:name => File.split(file.original_filename).last, :content_type => file.content_type)
+      returning create(attributes) do |attachment|
+        if attachment.valid?
+          attachment.file = file
+          attachment.errors.add_to_base('File could not be saved.') unless attachment.has_file?
+        end
+      end
+    end
   end
 end

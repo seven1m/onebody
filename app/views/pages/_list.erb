@@ -1,0 +1,16 @@
+<% if @pages.any? %>
+  <ul class="page-listing">
+    <% @pages.each do |page| %>
+      <li>
+        <%= link_to_remote   image_tag('plus.gif',  :alt => 'expand',   :class => 'icon'), :url => pages_path(:parent_id => page), :method => 'get', :html => {:id => "page#{page.id}_expand_link"} %>
+        <%= link_to_function image_tag('minus.gif', :alt => 'collapse', :class => 'icon'), "Element.show('page#{page.id}_expand_link');Element.hide('page#{page.id}_collapse_link');Element.update('page#{page.id}_children', '')", :id => "page#{page.id}_collapse_link", :style => 'display:none;' %>
+        <%= link_to page.title, page %>
+        <span class="discreet">
+          <%= link_to 'edit', edit_page_path(page), :class => 'discreet' %> |
+          <%= link_to 'new here', new_page_path(:parent_id => page), :class => 'discreet' %>
+        </span>
+        <div id="page<%= page.id %>_children"></div>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,0 +1,14 @@
+<p id="breadcrumbs"><%= breadcrumbs_for @page %></p>
+
+<h1>
+  <% unless @page.published? %>
+    <span class="discreet" style="font-size:14pt;">(unpublished)</span><br/>
+  <% end %>
+  <%=h @page.title %>
+  <% if @logged_in and @logged_in.can_edit?(@page) %>
+    <span style="font-size:10pt" class="discreet"><%= link_to 'edit', edit_page_path(@page) %></span>
+  <% end %>
+</h1>
+
+<%= @page.body %>
+

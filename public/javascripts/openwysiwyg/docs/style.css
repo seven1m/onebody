@@ -1,0 +1,112 @@
+body {
+	font-family: Arial;
+	color: #000000;
+	font-weight: normal;
+	font-size: 13px;	
+	background-color: #EEEEEE;
+}
+
+td {
+	font-family: Arial;
+	color: #000000;
+	font-weight: normal;
+	font-size: 13px;		
+}
+
+h1 {
+	font-family: Tahoma;
+	color: #444444;
+	font-weight: bold;
+	font-size: 16px;	
+	margin: 0px;
+}
+
+h2 {
+	font-family: Tahoma;
+	color: #444444;
+	font-weight: bold;
+	font-size: 14px;	
+	margin: 0px;
+	text-decoration: underline;	
+}
+
+h3 {
+	font-family: Tahoma;
+	color: #444444;
+	font-weight: bold;
+	font-size: 12px;	
+	margin: 0px;
+	text-decoration: underline;	
+}
+
+.headline {
+	border-bottom: 1px solid #FF3300;
+	font-weight: bold;
+}
+
+.naviblock {
+	width:280px;
+	text-align:center;
+	border: 1px solid #AAAAAA;
+	padding:5px; 
+	background-color:#FFFFFF;	
+}
+
+a.navi {
+	font-family: Tahoma;
+	color: #444444;
+	font-weight: bold;
+	font-size: 13px;
+	text-decoration: none;		
+}
+
+a.navi:hover {
+	text-decoration: underline;	
+}
+
+a {
+	color: #333333;	
+}
+
+.codeblock {
+	background-color: #FFFFEE; 
+	font-family: courier new; 
+	font-size: 12px; 
+	padding: 5px; 
+	width: 90%; 
+	border: 1px solid #AAAAAA; 
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+ .codeblock td {
+ 	font-family: courier new; 
+	font-size: 12px; 
+	vertical-align: top;
+	color: #000088;
+ }
+
+.list {
+	line-height: 20px;	
+}
+
+.red {
+	color: #FF3300;	
+}
+
+.blue {
+	color: #0000FF;	
+}
+
+.green {
+	color: #008080;
+}
+
+.darkblue {
+	color: #000088;
+}
+
+.info {
+	color: #EE0000;
+	font-size:10px;
+}
