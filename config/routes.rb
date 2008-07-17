@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   
   PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
 
-  map.connect '', :controller => 'people'
+  map.home '', :controller => 'pages', :action => 'show_for_public'
   
   map.resource :account, :member => {:verify_code => :any, :select => :any}
   
@@ -90,4 +90,5 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   ActionController::Routing::Routes.draw_plugin_routes
+  
 end

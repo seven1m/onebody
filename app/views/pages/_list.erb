@@ -7,6 +7,7 @@
         <%= link_to page.title, page %>
         <span class="discreet">
           <%= link_to 'edit', edit_page_path(page), :class => 'discreet' %> |
+          <%= link_to 'delete', page, :method => 'delete', :confirm => 'Are you sure? This will be permanent and will delete all children of this page!', :class => 'discreet' %> |
           <%= link_to 'new here', new_page_path(:parent_id => page), :class => 'discreet' %>
         </span>
         <div id="page<%= page.id %>_children"></div>

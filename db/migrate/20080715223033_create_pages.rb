@@ -19,6 +19,7 @@ class CreatePages < ActiveRecord::Migration
       t.remove :song_id
       t.integer :page_id
     end
+    Setting.update_all
   end
 
   def self.down

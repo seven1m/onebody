@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     end
     
     def update_view_paths
-      theme_dirs = [File.join(RAILS_ROOT, 'themes', Setting.get(:appearance, :theme))]
+      theme_dirs = [File.join(RAILS_ROOT, 'themes', get_theme_name)]
       if defined? DEPLOY_THEME_DIR
         theme_dirs = [DEPLOY_THEME_DIR] + theme_dirs
       end
@@ -36,6 +36,10 @@ class ApplicationController < ActionController::Base
       if defined? PLUGIN_VIEW_PATHS
         PLUGIN_VIEW_PATHS.each { |p| self.append_view_path(p) }
       end
+    end
+    
+    def get_theme_name
+      Setting.get(:appearance, :theme)
     end
   
     def authenticate_user
@@ -79,6 +83,17 @@ class ApplicationController < ActionController::Base
         wants.html { render :text => message, :layout => true }
       end
     end
+    
+    def rescue_action_with_page_detection(exception)
+      get_site
+      path, args = request.request_uri.downcase.split('?')
+      if exception.is_a?(ActionController::RoutingError) and @page = Page.find_by_path(path)
+        redirect_to '/pages/' + @page.path + (args ? "?#{args}" : '')
+      else
+        rescue_action_without_page_detection(exception)
+      end
+    end
+    alias_method_chain :rescue_action, :page_detection
     
     def me?
       @logged_in and @person and @logged_in == @person

@@ -40,12 +40,12 @@ class PrivacyTest < ActionController::IntegrationTest
   
   def test_parent_give_parental_consent
     sign_in_as people(:jeremy)
-    get '/'
+    get '/people'
     assert_response :redirect
     follow_redirect!
     assert_template 'people/show'
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
-    get "people/#{people(:jeremy).id}/privacy/edit"
+    get "/people/#{people(:jeremy).id}/privacy/edit"
     assert_response :success
     assert_template 'privacies/edit'
     assert_select 'p.alert', :minimum => 1, :text => /you have not given consent/

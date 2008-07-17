@@ -20,7 +20,7 @@
 home:
   slug: home
   title: Home
-  body: This is the homepage.
+  body: This is the homepage. Visit /pages/admin to edit.
   path: home
   site_id: 1
 

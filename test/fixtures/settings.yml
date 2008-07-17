@@ -450,3 +450,14 @@ features_jabberpassword:
   section: Features
   hidden: false
   site_id: "1"
+appearance_publictheme: 
+  name: Public Theme
+  site_id: "1"
+  updated_at: 2008-01-26 15:21:06
+  format: string
+  description: Name of selected theme (from themes/ directory) for the public CMS site.
+  value: aqueouslight
+  global: false
+  section: Appearance
+  created_at: 2008-01-26 15:21:06
+  hidden: false

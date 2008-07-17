@@ -94,5 +94,13 @@ class PagesController < ApplicationController
     def get_page
       @page = Page.find(@path)
     end
+    
+    def get_theme_name
+      if params[:action] == 'show_for_public'
+        Setting.get(:appearance, :public_theme)
+      else
+        super
+      end
+    end
 
 end

@@ -17,7 +17,7 @@
 
 class Page < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Page'
-  has_many :children, :class_name => 'Page', :foreign_key => 'parent_id'
+  has_many :children, :class_name => 'Page', :foreign_key => 'parent_id', :dependent => :destroy
   has_many :attachments
   belongs_to :site
   
@@ -29,10 +29,6 @@ class Page < ActiveRecord::Base
   validates_exclusion_of :slug, :in => %w(admin edit new)
   validates_format_of :slug, :with => /^[a-z_]+$/
   
-#  def slug=(s)
-#    write_attribute :slug, s.downcase.scan(/[a-z_]/).join
-#  end
-  
   before_save :update_path
   
   def update_path
@@ -41,6 +37,10 @@ class Page < ActiveRecord::Base
     else
       self.path = slug
     end
+  end
+  
+  def home?
+    path == 'home'
   end
   
   class << self
@@ -70,6 +70,10 @@ class Page < ActiveRecord::Base
     
     def paths_and_ids
       connection.select_all("select path, id from pages where path != '' order by path").map { |r| [r['path'], r['id'].to_i] }
+    end
+    
+    def root_pages(include_home=false)
+      Page.find_all_by_parent_id(nil).select { |p| include_home or not p.home? }
     end
   
   end

@@ -34,13 +34,6 @@ class PagesControllerTest < ActionController::TestCase
     end
   end
   
-  should "show home link on every page except the homepage" do
-    get :show_for_public, {:path => 'foo'}
-    assert_tag 'p', :content => /Home/, :attributes => {:id => 'breadcrumbs'}
-    get :show_for_public, {:path => ''}
-    assert_no_tag 'p', :content => /Home/, :attributes => {:id => 'breadcrumbs'}
-  end
-  
   should "show breadcrumb trail on non-root pages" do
     get :show_for_public, {:path => 'foo/baz'}
     assert_tag 'p', :content => /Foo/, :attributes => {:id => 'breadcrumbs'}
