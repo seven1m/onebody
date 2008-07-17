@@ -15,3 +15,7 @@ Scheduler.pid
 config/deploy.rb
 plugins/checkin/enable
 cache/views/*
+public/images/cedarridge
+public/javascripts/cedarridge
+public/stylesheets/cedarridge
+themes/cedarridge
