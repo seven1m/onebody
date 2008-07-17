@@ -43,6 +43,14 @@ class Page < ActiveRecord::Base
     path == 'home'
   end
   
+  def body
+    uncooked = read_attribute(:body)
+    cooked = Verse.link_references_in_text(uncooked)
+    cooked.gsub(/\{\{([a-z\s'&,.]+)\}\}/i) do
+      "<a href=\"/search?name=#{CGI.escape($1)}\">#{$1}</a>"
+    end
+  end
+  
   class << self
     
     def find(id, *args)

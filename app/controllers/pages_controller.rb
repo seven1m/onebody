@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   cache_sweeper :page_sweeper, :only => %w(create update destroy)
   
   def index
-    @pages = Page.find_all_by_parent_id(params[:parent_id])
+    @pages = Page.find_all_by_parent_id(params[:parent_id], :order => 'title')
     @parent = Page.find_by_id(params[:parent_id])
   end
   

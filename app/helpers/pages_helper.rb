@@ -14,5 +14,9 @@ module PagesHelper
       page_for_public_path(path)
     end
   end
+  
+  def home_path
+    page_path(Page.find_by_path('home'))
+  end
 
 end

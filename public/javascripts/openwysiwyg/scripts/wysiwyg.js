@@ -1146,7 +1146,7 @@ var WYSIWYG = {
 			
 			// Create Link
 			case "CreateLink": 
-				window.open(this.config[n].PopupsDir + 'insert_hyperlink.html?wysiwyg=' + n, 'popup', 'location=0,status=0,scrollbars=0,resizable=0,width=350,height=160,top=' + popupPosition.top + ',left=' + popupPosition.left).focus();
+				window.open(this.config[n].PopupsDir + 'insert_hyperlink.html?wysiwyg=' + n, 'popup', 'location=0,status=0,scrollbars=0,resizable=0,width=350,height=190,top=' + popupPosition.top + ',left=' + popupPosition.left).focus();
 			break;
 			
 			// InsertTable
