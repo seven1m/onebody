@@ -1,6 +1,6 @@
 <h1>Settings</h2>
 
-<%= form_tag(edit_settings_path(params[:id]), :style => "border:none;") %>
+<% form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
   <% @settings.each do |section_name, section| %>
     <h2 class="tab" id="<%= section_name %>"><%=h section_name %></h2>
     <div class="section">
@@ -31,7 +31,7 @@
   <% end %>
   
   <p><%= submit_tag 'Save Settings' %></p>
-</form>
+<% end %>
                
 <%= javascript_include_tag 'tabs' %>
 <%= stylesheet_link_tag 'tabs' %>

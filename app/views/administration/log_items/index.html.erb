@@ -25,7 +25,7 @@
 <%= will_paginate @items %>
 
 <% if @items.any? %>
-  <%= form_tag mark_reviewed_path %>
+  <%= form_tag batch_administration_log_items_path, :method => 'put' %>
     <table style="width:100%;">
       <tr>
         <th><input type="checkbox" onclick="var checked=$('check_all').checked;$$('.log_item_checkbox').each(function(e){e.checked=checked});" class="checkbox" id="check_all"/></th>
@@ -99,8 +99,7 @@
         </tr>
       <% end %>
     </table>
-    <p><%= submit_tag 'Hide Selected Items' %><br/>
-    <em>By hiding log items, you are indicating you have reviewed and accept each item as appropriate behavior.</em></p>
+    <p><%= submit_tag 'Mark Selected as Reviewed' %></p>
   </form>
 <% else %>
   <p><em>There is nothing to show. Check the Filtering Options to expand your query.</em></p>

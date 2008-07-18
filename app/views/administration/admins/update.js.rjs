@@ -1,0 +1,4 @@
+status_id = "#{params[:name]}_#{params[:id]}_status"
+page.show status_id
+page.replace_html status_id, '<img src="/images/checkmark.png" class="icon"/>'
+page.visual_effect :fade, status_id

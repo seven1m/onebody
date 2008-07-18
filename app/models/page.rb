@@ -39,6 +39,8 @@ class Page < ActiveRecord::Base
     end
   end
   
+  def name; title; end
+  
   def home?
     path == 'home'
   end

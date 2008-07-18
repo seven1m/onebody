@@ -1,5 +1,4 @@
 class Administration::SettingsController < ApplicationController
-  verify :method => :post, :only => :edit
   
   def index
     @settings = Setting.find_all_by_site_id_and_hidden(
@@ -9,7 +8,7 @@ class Administration::SettingsController < ApplicationController
     ).group_by &:section
   end
   
-  def edit
+  def batch
     Setting.find_all_by_site_id(Site.current.id).each do |setting|
       next if setting.hidden?
       value = params[setting.id.to_s]
@@ -19,6 +18,6 @@ class Administration::SettingsController < ApplicationController
     end
     Setting.precache_settings(true)
     flash[:notice] = 'Settings saved.'
-    redirect_to settings_url
+    redirect_to administration_settings_path
   end
 end

@@ -38,7 +38,9 @@ class LogItem < ActiveRecord::Base
   
   def object_description
     return nil unless object
-    if object.respond_to?(:name)
+    if object.is_a? Page
+      object.path
+    elsif object.respond_to?(:name)
       object.name
     elsif object.is_a? Contact
       object.person.name rescue '???'
