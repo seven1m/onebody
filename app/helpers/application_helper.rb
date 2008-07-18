@@ -1,8 +1,8 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include TagsHelper
-  
   include PicturesHelper
+  include PhotosHelper
 
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe
@@ -37,22 +37,6 @@ module ApplicationHelper
   
   def me?
     @logged_in and @person and @logged_in == @person
-  end
-  
-  def photo_upload_for(object)
-    if object.is_a? Family
-      url = family_photo_path(object, :return_to => request.request_uri + '#family-picture')
-    elsif object.is_a? Person
-      url = person_photo_path(object, :return_to => request.request_uri + '#picture')
-    elsif object.is_a? Picture
-      url = picture_photo_path(object, :return_to => request.request_uri)
-    elsif object.is_a? Recipe
-      url = recipe_photo_path(object, :return_to => request.request_uri)
-    else
-      url = photo_path(:id => object, :type => object.class.name.downcase, :return_to => request.request_uri)
-    end
-    render :partial => 'photos/upload',
-      :locals => {:url => url, :name => "#{object.class.name} Photo", :delete => object.has_photo?}
   end
 end
 

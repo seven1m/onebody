@@ -1,6 +1,6 @@
 <div>
   <% if @person.has_photo? %>
-    <%= link_to image_tag(medium_person_photo_path(@person), :alt => h(@person.name)),
+    <%= link_to image_tag(medium_person_photo_path(@person, :m => @person.updated_at.to_s(:number)), :alt => h(@person.name)),
       large_person_photo_path(@person) %>
   <% else %>
     <%= render :partial => 'people/silhouette' %>
