@@ -41,6 +41,14 @@ class ApplicationController < ActionController::Base
     def get_theme_name
       Setting.get(:appearance, :theme)
     end
+    
+    # used by some anonymous controller actions to see if someone is logged in
+    # (without redirecting if they are not)
+    def get_user
+      if id = session[:logged_in_id]
+        Person.logged_in = @logged_in = Person.find_by_id(id)
+      end
+    end
   
     def authenticate_user
       if id = session[:logged_in_id]

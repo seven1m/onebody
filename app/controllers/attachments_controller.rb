@@ -17,7 +17,8 @@ class AttachmentsController < ApplicationController
   # only for page attachments
   def get
     @attachment = Attachment.find(params[:id])
-    if @attachment.page and !@attachment.message and @attachment.page.published? and @attachment.has_file?
+    if (@attachment.page and !@attachment.message and @attachment.has_file?) \
+      and (@attachment.page.published? or (get_user and @logged_in.admin?(:edit_pages)))
       send_data File.read(@attachment.file_path), :filename => @attachment.name, :type => @attachment.content_type || 'application/octet-stream', :disposition => 'inline'
     else
       render :text => 'This file cannot be found.', :layout => true, :status => 404

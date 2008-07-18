@@ -89,6 +89,10 @@ class PagesController < ApplicationController
   
     def get_path
       @path = params[:path].to_a.join('/')
+      if @path.sub!(%r{/edit$}, '')
+        redirect_to edit_page_path(Page.find(@path))
+        return false
+      end
     end
     
     def get_page
