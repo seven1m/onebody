@@ -17,6 +17,7 @@ class Administration::SettingsController < ApplicationController
       setting.update_attributes! :value => value
     end
     Setting.precache_settings(true)
+    expire_fragment(%r{views/})
     flash[:notice] = 'Settings saved.'
     redirect_to administration_settings_path
   end
