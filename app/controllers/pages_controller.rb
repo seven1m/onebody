@@ -40,7 +40,7 @@ class PagesController < ApplicationController
       @page = Page.create(params[:page])
       unless @page.errors.any?
         flash[:notice] = 'Page saved.'
-        redirect_to @page
+        redirect_to params[:commit] =~ /continue editing/i ? edit_page_path(@page) : @page
       else
         @page_paths_and_ids = Page.paths_and_ids
         render :action => 'new'
@@ -64,7 +64,7 @@ class PagesController < ApplicationController
     if @logged_in.can_edit?(@page)
       if @page.update_attributes(params[:page])
         flash[:notice] = 'Page saved.'
-        redirect_to @page
+        redirect_to params[:commit] =~ /continue editing/i ? edit_page_path(@page) : @page
       else
         @page_paths_and_ids = Page.paths_and_ids
         render :action => 'edit'

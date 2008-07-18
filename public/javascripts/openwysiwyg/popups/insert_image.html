@@ -17,16 +17,20 @@ function insertImage() {
 	// get values from form fields
 	var src = document.getElementById('src').value;
 	var alt = document.getElementById('alt').value;
+	/*
 	var width = document.getElementById('width').value
 	var height = document.getElementById('height').value
 	var border = document.getElementById('border').value
-	var align = document.getElementById('align').value
 	var vspace = document.getElementById('vspace').value
 	var hspace = document.getElementById('hspace').value
+	*/
+	var align = document.getElementById('align').value
+	var style = document.getElementById('style').value
 	
 	// insert image
-	WYSIWYG.insertImage(src, width, height, align, border, alt, hspace, vspace, n);
-  	window.close();
+	//WYSIWYG.insertImage(src, width, height, align, border, alt, hspace, vspace, n, style);
+	WYSIWYG.insertImage(src, '', '', align, '', alt, '', '', n, style);
+  window.close();
 }
 
 /* ---------------------------------------------------------------------- *\
@@ -64,6 +68,7 @@ function loadImage() {
 				case "align":
 					selectItemByValue(document.getElementById('align'), value);
 				break;
+				/*
 				case "border":
 					document.getElementById('border').value = value;
 				break;
@@ -78,16 +83,21 @@ function loadImage() {
 				break;
 				case "height":
 					document.getElementById('height').value = value;
+				break;
+				*/
+				case "style":
+				  document.getElementById('style').value = value;
 				break;				
 			}
 		}
 	}
-	
+	/*
 	// get width and height from style attribute in none IE browsers
 	if(!WYSIWYG_Core.isMSIE && document.getElementById('width').value == "" && document.getElementById('width').value == "") {
 		document.getElementById('width').value = img.style.width.replace(/px/, "");
 		document.getElementById('height').value = img.style.height.replace(/px/, "");
 	}
+	*/
 }
 
 /* ---------------------------------------------------------------------- *\
@@ -120,10 +130,31 @@ function selectItemByValue(element, value) {
   <td style="padding-bottom: 2px; padding-top: 0px; font-family: arial, verdana, helvetica; font-size: 11px;">Alternate Text:</td>
 	<td style="padding-bottom: 2px; padding-top: 0px;"><input type="text" name="alt" id="alt" value=""  style="font-size: 10px; width: 100%;"></td>
  </tr>
+ <tr>
+  <td style="padding-bottom: 2px; padding-top: 0px; font-family: arial, verdana, helvetica; font-size: 11px;">Style:</td>
+	<td style="padding-bottom: 2px; padding-top: 0px;"><input type="text" name="style" id="style" value=""  style="font-size: 10px; width: 100%;"></td>
+ </tr>
+ <tr>
+  <td style="width: 115px;padding-bottom: 2px; padding-top: 0px; font-family: arial, verdana, helvetica; font-size: 11px;" width="100">Alignment:</td>
+	<td style="width: 85px;padding-bottom: 2px; padding-top: 0px;">
+	<select name="align" id="align" style="font-family: arial, verdana, helvetica; font-size: 11px; width: 100%;">
+	 <option value="">Not Set</option>
+	 <option value="left">Left</option>
+	 <option value="right">Right</option>
+	 <option value="texttop">Texttop</option>
+	 <option value="absmiddle">Absmiddle</option>
+	 <option value="baseline">Baseline</option>
+	 <option value="absbottom">Absbottom</option>
+	 <option value="bottom">Bottom</option>
+	 <option value="middle">Middle</option>
+	 <option value="top">Top</option>
+	</select>
+	</td>
+ </tr>
 </table>
 	
 
-
+<!--
 <table width="380" border="0" cellpadding="0" cellspacing="0" style="margin-top: 10px;"><tr><td style="vertical-align:top;">
 
 <span style="font-family: arial, verdana, helvetica; font-size: 11px; font-weight: bold;">Layout:</span>
@@ -140,8 +171,7 @@ function selectItemByValue(element, value) {
   <td style="padding-bottom: 2px; padding-top: 0px; font-family: arial, verdana, helvetica; font-size: 11px;">Border:</td>
 	<td style="padding-bottom: 2px; padding-top: 0px;"><input type="text" name="border" id="border" value="0"  style="font-size: 10px; width: 100%;"></td>
  </tr>
-</table>	
-
+</table>
 </td>
 <td width="10">&nbsp;</td>
 <td style="vertical-align:top;">
@@ -174,6 +204,7 @@ function selectItemByValue(element, value) {
 	<td style="padding-bottom: 2px; padding-top: 0px;"><input type="text" name="vspace" id="vspace" value=""  style="font-size: 10px; width: 100%;"></td>
  </tr>
 </table>	
+-->
 
 </td></tr></table>
 

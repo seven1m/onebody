@@ -440,7 +440,7 @@ var WYSIWYG = {
 	 * @param {Integer} vspace Vertical Space
 	 * @param {String} n The editor identifier (the textarea's ID)
 	 */
-	insertImage: function(src, width, height, align, border, alt, hspace, vspace, n) {
+	insertImage: function(src, width, height, align, border, alt, hspace, vspace, n, style) {
 	
 		// get editor
 		var doc = this.getEditorWindow(n).document;
@@ -459,7 +459,9 @@ var WYSIWYG = {
 		
 		// set the attributes
 		WYSIWYG_Core.setAttribute(img, "src", src);
-		WYSIWYG_Core.setAttribute(img, "style", "width:" + width + ";height:" + height);
+		style = style || '';
+		//if(!style.match(/(width|height)\s?:/)) style += ";width:" + width + ";height:" + height;
+		WYSIWYG_Core.setAttribute(img, "style", style);
 		if(align != "") { WYSIWYG_Core.setAttribute(img, "align", align); } else { img.removeAttribute("align"); }
 		WYSIWYG_Core.setAttribute(img, "border", border);
 		WYSIWYG_Core.setAttribute(img, "alt", alt);
