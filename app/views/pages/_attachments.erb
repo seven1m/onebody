@@ -1,13 +1,24 @@
-<ul>
-  <% @page.attachments.each do |attachment| %>
-    <li>
-      <%= link_to attachment.name, get_attachment_path(attachment) %>
-      (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
-      <%= link_to 'delete', attachment, :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
-    </li>
-  <% end %>
-</ul>
+<div id="attachments">
 
-<p>
-  <%= link_to_remote 'Upload Attachment', :url => new_attachment_path(:page_id => @page), :method => 'get', :html => {:id => 'new_attachment_link'} %>
-</p>
+  <ul>
+    <% @page.attachments.each do |attachment| %>
+      <li>
+        <%= link_to attachment.name, get_attachment_path(attachment) %>
+        (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
+        <%= link_to_function 'insert', "insertImage('#{get_attachment_path(attachment)}', '#{attachment.human_name}', '#{attachment.width}px', '#{attachment.height}px')" %>
+        <%= link_to          'delete', attachment, :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+      </li>
+    <% end %>
+  </ul>
+
+  <p>
+    <%= link_to_remote 'Upload Attachment', :url => new_attachment_path(:page_id => @page), :method => 'get', :html => {:id => 'new_attachment_link'} %>
+  </p>
+
+</div>
+
+<script type="text/javascript">
+  function insertImage(src, name, width, height) {
+	  WYSIWYG.insertImage(src, width, height, 'left', 0, name, 0, 0, 'page_body');
+  }
+</script>

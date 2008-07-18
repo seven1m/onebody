@@ -16,7 +16,11 @@ module PagesHelper
   end
   
   def home_path
-    page_path(Page.find_by_path('home'))
+    if @logged_in and @logged_in.admin?(:edit_pages)
+      page_path(Page.find_by_path('home'))
+    else
+      super
+    end
   end
 
 end

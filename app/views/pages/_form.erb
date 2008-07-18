@@ -5,8 +5,9 @@
   page_full = new WYSIWYG.Settings();
   page_full.ImagesDir = "/javascripts/openwysiwyg/images/";
   page_full.PopupsDir = "/javascripts/openwysiwyg/popups/";
-  page_full.CSSFile = "/javascripts/openwysiwyg/styles/wysiwyg.css";
-  page_full.ImagePopupFile = "/pages/admin/insert_image";
+  page_full.CSSFile   = "/javascripts/openwysiwyg/styles/wysiwyg.css";
+  page_full.Width     = "1125px";
+  page_full.Height    = "350px";
 	WYSIWYG.attach('page_body', page_full);
 </script>
 
@@ -16,7 +17,7 @@
     <%= form.label :title %>               <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
     <%= form.label :parent_id, 'Path' %>   <%= form.select :parent_id, [['(root)', nil]] + @page_paths_and_ids, {}, :style => 'width:auto;' %> /
                                            <%= form.text_field :slug %><br/>
-    <%= form.label :body %>                <%= form.text_area :body, :rows => 20, :cols => 80, :style => 'width:90%;' %><br/>
+    <%= form.label :body %>                <%= form.text_area :body, :rows => 20, :cols => 80 %><br/>
     <%= form.submit 'Save' %>
     <%= form.check_box :published, :class => 'checkbox' %> <%= form.label :published, 'Published', :class => 'inline' %>
   </p>

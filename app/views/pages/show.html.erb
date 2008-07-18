@@ -18,7 +18,10 @@
   <% end %>
   <%=h @page.title %>
   <% if @logged_in and @logged_in.can_edit?(@page) %>
-    <span style="font-size:10pt" class="discreet"><%= link_to 'edit', edit_page_path(@page) %></span>
+    <span style="font-size:10pt" class="discreet">
+      <%= link_to 'edit', edit_page_path(@page) %>
+      <%= link_to 'preview', page_for_public_path(@page.path) %>
+    </span>
   <% end %>
 </h1>
 
