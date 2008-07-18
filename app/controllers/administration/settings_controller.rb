@@ -6,6 +6,9 @@ class Administration::SettingsController < ApplicationController
       false,
       :order => 'section, name'
     ).group_by &:section
+    @lists = {'Appearance' => {}}
+    info = OneBodyInfo.new
+    @lists['Appearance']['Theme'] = @lists['Appearance']['Public Theme'] = info.themes
   end
   
   def batch

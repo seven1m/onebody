@@ -20,7 +20,11 @@
               <% elsif setting.format == 'password' %>
                 <%= password_field_tag setting.id, setting.value %>
               <% else %>
-                <%= text_field_tag setting.id, setting.value %>
+                <% if @lists[setting.section] and vals = @lists[setting.section][setting.name] %>
+                  <%= select_tag setting.id, options_for_select(vals, setting.value) %>
+                <% else %>
+                  <%= text_field_tag setting.id, setting.value %>
+                <% end %>
               <% end %>
             </td>
             <td style="color:#666;padding-bottom:20px;"><%= setting.description %></td>
