@@ -25,7 +25,7 @@
 
 		<div id="header">
 		
-			  <%= form_tag(search_path, :method => 'get') %>
+			  <%= form_tag(search_path, :method => 'get', :style => @logged_in.nil? && 'visibility:hidden;') %>
 			    Type a name and hit enter:<br/>
 				  <input name="quick_name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
 			  </form>
