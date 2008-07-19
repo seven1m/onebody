@@ -27,27 +27,20 @@ class Attachment < ActiveRecord::Base
     name.split('.').first.humanize
   end
   
+  def image
+    @img ||= MiniMagick::Image.from_blob(File.read(self.file_path)) rescue nil
+  end
+  
+  def image?
+    image and %w(JPEG PNG GIF).include?(image['format'])
+  end
+  
   def width
-    size
-    @width
+    image? and image['width']
   end
   
   def height
-    size
-    @height
-  end
-  
-  def size
-    unless @width or @height
-      begin
-        img = MiniMagick::Image.from_blob(File.read(self.file_path))
-        @width  = img['width']
-        @height = img['height']
-      rescue
-        @width = @height = 0
-      end
-    end
-    [@width, @height]
+    image? and image['height']
   end
   
   class << self
