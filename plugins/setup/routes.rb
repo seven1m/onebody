@@ -26,11 +26,22 @@ module SetupPlugin
         m.setup_backup_database 'setup/database/backup', :action => 'backup'
       end
 
-      map.with_options :controller => 'setup/settings' do |m|
-        m.setup_edit_settings 'setup/settings/edit/:id', :action => 'edit'
-        m.setup_global_settings 'setup/settings/global', :action => 'global'
-        m.setup_settings 'setup/settings/:id', :action => 'view'
+      map.namespace 'setup' do |admin|
+        admin.resources :settings, :collection => {:batch => :put}
       end
+      
+      if Rails.env == 'setup'
+        map.with_options :controller => 'setup/settings' do |m|
+          m.administration_settings       'setup/settings',       :conditions => {:method => :get}
+          m.batch_administration_settings 'setup/settings/batch', :conditions => {:method => :put}, :action => 'batch'
+        end
+      end
+      
+#      map.with_options :controller => 'setup/settings' do |m|
+#        m.setup_edit_settings 'setup/settings/edit/:id', :action => 'edit'
+#        m.setup_global_settings 'setup/settings/global', :action => 'global'
+#        m.setup_settings 'setup/settings/:id', :action => 'view'
+#      end
       
     end
   end

@@ -1,6 +1,7 @@
 <h1>Settings</h2>
 
 <% form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
+  <% if params[:site_id] %><%= hidden_field_tag :site_id, params[:site_id] %><% end %>
   <% @settings.each do |section_name, section| %>
     <h2 class="tab" id="<%= section_name %>"><%=h section_name %></h2>
     <div class="section">
@@ -20,7 +21,7 @@
               <% elsif setting.format == 'password' %>
                 <%= password_field_tag setting.id, setting.value %>
               <% else %>
-                <% if @lists[setting.section] and vals = @lists[setting.section][setting.name] %>
+                <% if @lists and @lists[setting.section] and vals = @lists[setting.section][setting.name] %>
                   <%= select_tag setting.id, options_for_select(vals, setting.value) %>
                 <% else %>
                   <%= text_field_tag setting.id, setting.value %>

@@ -15,7 +15,7 @@ class Site < ActiveRecord::Base
   
   class << self
     def sub_tables
-      rejects = %w(site search notifier barcode one_body_info twitter_relay)
+      rejects = %w(site search notifier barcode one_body_info twitter_bot tagging highrise)
       @@sub_tables ||= Dir[File.join(File.dirname(__FILE__), '*.rb')].to_a.map { |f| File.split(f).last.split('.').first }.select { |f| !rejects.include? f }.map { |f| f.pluralize }
     end
     def sub_models
