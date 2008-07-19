@@ -15,4 +15,13 @@ class BlogsController < ApplicationController
     end
   end
   
+  private
+  
+    def feature_enabled?
+      unless Setting.get(:features, :blog)
+        redirect_to people_path
+        false
+      end
+    end
+  
 end

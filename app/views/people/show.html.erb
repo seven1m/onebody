@@ -107,8 +107,10 @@
   <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
 </div>
 
-<h2 class="tab" id="blog">Blog</h2>
-<div class="section" id="blog_content"></div>
+<% if Setting.get(:features, :blog) %>
+  <h2 class="tab" id="blog">Blog</h2>
+  <div class="section" id="blog_content"></div>
+<% end %>
 
 <h2 class="tab" id="favorites">Favorites</h2>
 <div class="section" id="favorites_content">
@@ -154,8 +156,10 @@
   <div class="section" id="wall_content"></div>
 <% end %>
 
-<h2 class="tab" id="groups">Groups</h2>
-<div class="section" id="groups_content"></div>
+<% if Setting.get(:features, :groups) %>
+  <h2 class="tab" id="groups">Groups</h2>
+  <div class="section" id="groups_content"></div>
+<% end %>
 
 <% unless @me %>
   <script type="text/javascript">

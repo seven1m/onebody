@@ -112,4 +112,12 @@ class GroupsController < ApplicationController
     end
   end
   
+  private
+  
+    def feature_enabled?
+      unless Setting.get(:features, :groups)
+        redirect_to people_path
+        false
+      end
+    end
 end

@@ -2,45 +2,45 @@
 
 <div style="width:50%;float:right;margin-left:25px;">
 
-  <h2><%= link_to 'Verses' + image_tag('next.gif', :alt => 'Verses', :class => 'icon'), verses_path %></h2>
-
-  <% if @verses.any? %>
-    <%= render :partial => 'verses/verse', :collection => @verses %>
-  <% else %>
-    <p><em>No verses yet... Add some!</em></p>
+  <% if Setting.get(:features, :verses) %>
+    <h2><%= link_to 'Verses' + image_tag('next.gif', :alt => 'Verses', :class => 'icon'), verses_path %></h2>
+    <% if @verses.any? %>
+      <%= render :partial => 'verses/verse', :collection => @verses %>
+    <% else %>
+      <p><em>No verses yet... Add some!</em></p>
+    <% end %>
+    <p><%= link_to 'Click here', verses_path %> to see more and to share your own favorite verses.</p>
   <% end %>
 
-  <p><%= link_to 'Click here', verses_path %> to see more and to share your own favorite verses.</p>
-
-  <h2><%= link_to 'Recipes' + image_tag('next.gif', :alt => 'Recipes', :class => 'icon'), recipes_path %></h2>
-
-  <% if @recipes.any? %>
-    <%= render :partial => 'recipes/list', :locals => {:recipes => @recipes} %>
-  <% else %>
-    <p><em>No recipes yet... Add some!</em></p>
+  <% if Setting.get(:features, :recipes) %>
+    <h2><%= link_to 'Recipes' + image_tag('next.gif', :alt => 'Recipes', :class => 'icon'), recipes_path %></h2>
+    <% if @recipes.any? %>
+      <%= render :partial => 'recipes/list', :locals => {:recipes => @recipes} %>
+    <% else %>
+      <p><em>No recipes yet... Add some!</em></p>
+    <% end %>
+    <p><%= link_to 'Click here', recipes_path %> to see more and to share your own favorite recipes.</p>
   <% end %>
-
-  <p><%= link_to 'Click here', recipes_path %> to see more and to share your own favorite recipes.</p>
   
 </div>
 
-<h2><%= link_to 'Publications' + image_tag('next.gif', :alt => 'Publications', :class => 'icon'), publications_path %></h2>
-
-<%= render :partial => 'publications/list' %>
-
-<p><%= link_to 'Click here', publications_path %> for more details and to sign up for updates.</p>
-
-<h2><%= link_to 'Pictures' + image_tag('next.gif', :alt => 'Pictures', :class => 'icon'), albums_path %></h2>
-
-<% if @pictures.any? %>
-  <p>
-    <% @pictures.each do |object| %>
-      <%= link_to image_tag(small_picture_path(object), :alt => 'click to enlarge'),
-        picture_path(object), :title => 'click to enlarge' %>
-    <% end %>
-  </p>
-<% else %>
-  <p><em>No pictures yet... Add some!</em></p>
+<% if Setting.get(:features, :publications) %>
+  <h2><%= link_to 'Publications' + image_tag('next.gif', :alt => 'Publications', :class => 'icon'), publications_path %></h2>
+  <%= render :partial => 'publications/list' %>
+  <p><%= link_to 'Click here', publications_path %> for more details and to sign up for updates.</p>
 <% end %>
 
-<p><%= link_to 'Click here', albums_path %> to see more and to upload your own pictures.</p>
+<% if Setting.get(:features, :pictures) %>
+  <h2><%= link_to 'Pictures' + image_tag('next.gif', :alt => 'Pictures', :class => 'icon'), albums_path %></h2>
+  <% if @pictures.any? %>
+    <p>
+      <% @pictures.each do |object| %>
+        <%= link_to image_tag(small_picture_path(object), :alt => 'click to enlarge'),
+          picture_path(object), :title => 'click to enlarge' %>
+      <% end %>
+    </p>
+  <% else %>
+    <p><em>No pictures yet... Add some!</em></p>
+  <% end %>
+  <p><%= link_to 'Click here', albums_path %> to see more and to upload your own pictures.</p>
+<% end %>

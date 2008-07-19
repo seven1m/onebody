@@ -106,5 +106,12 @@ class PagesController < ApplicationController
         super
       end
     end
+    
+    def feature_enabled?
+      unless Setting.get(:features, :content_management_system)
+        redirect_to people_path
+        false
+      end
+    end
 
 end

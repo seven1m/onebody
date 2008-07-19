@@ -401,10 +401,12 @@ class Person < ActiveRecord::Base
   end
   
   def blog_items
+    classes = %w(Verse Recipe Note Picture).select { |c| Setting.get(:features, c.downcase.pluralize.to_sym) }
+    classes.map! { |c| "'" + c + "'" }
     log_items.find(
       :all,
       :order => 'created_at desc',
-      :conditions => "model_name in ('Verse', 'Recipe', 'Note', 'Picture')",
+      :conditions => "model_name in (#{classes.join(',')})",
       :limit => 25
     ).map { |item| item.object }.select { |o| o and (o.respond_to?(:person_id) ? o.person_id == self.id : o.people.include?(self)) and not (o.respond_to?(:deleted?) and o.deleted?) }
   end

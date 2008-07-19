@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   layout 'default.html.erb'
   
   before_filter :get_site
+  before_filter :feature_enabled?
   before_filter :authenticate_user, :except => %w(family_email)
   
   private
@@ -157,5 +158,9 @@ class ApplicationController < ActionController::Base
         render :text => 'You must be an administrator to use this section.', :layout => true, :status => 401
         return false
       end
+    end
+    
+    def feature_enabled?
+      true
     end
 end
