@@ -1,21 +1,40 @@
-<% unless @can_edit_basics %>
-  <p>Changes to the details below must be <strong>reviewed by church staff</strong>. To request changes,
+<% if @logged_in.admin?(:edit_profiles) %>
+  <p>
+    If your system is set up to synchronize its data with an external source
+    (a church managment system database perhaps), changes you make here may
+    be overwritten on the next sync.
+  </p>
+<% else %>
+  <p>
+    Changes to the details below must be <strong>reviewed by church staff</strong>. To request changes,
     enter the details below and click "Submit." Your record will be updated within
     two working days. <span class="very-strong">If you wish to remove something below in order to keep others from
     seeing it, instead go to the <%= link_to 'Privacy', edit_person_privacy_path(@person) %> page
-    and hide it.</span></p>
+    and hide it.</span>
+  </p>
 <% end %>
 
 <% form_for @person do |form| %>
-  <% if @can_edit_basics %>
-    <fieldset>
-      <legend>Person Type</legend>
-      <em>These do not control access &mdash; only appearance.</em><br/>
-      <%= form.check_box :member %> <%= form.label :member, nil, :class => 'inline' %><br/>
-      <%= form.check_box :staff %>  <%= form.label :staff, nil, :class => 'inline' %><br/>
-      <%= form.check_box :elder %>  <%= form.label :elder, nil, :class => 'inline' %><br/>
-      <%= form.check_box :deacon %> <%= form.label :deacon, nil, :class => 'inline' %>
-    </fieldset>
+  <%= form.error_messages %>
+  <%= form.hidden_field :family_id %>
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <div style="width:250px;float:right;">
+      <fieldset>
+        <legend>Person Type</legend>
+        <em>These do not control access &mdash; only appearance.</em><br/>
+        <%= form.check_box :member %> <%= form.label :member, nil, :class => 'inline' %><br/>
+        <%= form.check_box :staff %>  <%= form.label :staff,  nil, :class => 'inline' %><br/>
+        <%= form.check_box :elder %>  <%= form.label :elder,  nil, :class => 'inline' %><br/>
+        <%= form.check_box :deacon %> <%= form.label :deacon, nil, :class => 'inline' %>
+      </fieldset>
+      <fieldset>
+        <legend>Visibility</legend>
+        <%= form.check_box :can_sign_in %>                  <%= form.label :can_sign_in,                  nil, :class => 'inline' %><br/>
+        <%= form.check_box :visible_to_everyone %>          <%= form.label :visible_to_everyone,          nil, :class => 'inline' %><br/>
+        <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, nil, :class => 'inline' %><br/>
+        <%= form.check_box :full_access %>                  <%= form.label :full_access,                  nil, :class => 'inline' %>
+      </fieldset>
+    </div>
   <% end %>
   <%= hidden_field_tag :anchor, 'basics' %>
   <%= form.label :first_name %>   <%= form.text_field :first_name %><br/>
@@ -27,16 +46,12 @@
   <%= form.label :fax %>          <%= form.phone_field :fax %><br/>
   <%= form.label :birthday %>     <%= form.date_field :birthday %>    <em>MM/DD/YYYY (the year is never shown)</em><br/>
   <%= form.label :anniversary %>  <%= form.date_field :anniversary %> <em>MM/DD/YYYY (the year is never shown)</em>
-  <% fields_for :family, @family do |family| %>
-    <%= family.label :name,      'Family Name' %>      <%= family.text_field :name %> <em>John Doe</em> or <em>John &amp; Jane Doe</em><br/>
-    <%= family.label :last_name, 'Family Last Name' %> <%= family.text_field :last_name %><br/>
-    <%= family.label :home_phone %>                    <%= family.phone_field :home_phone %><br/>
-    <%= family.label :address1,  'Address' %>          <%= family.text_field :address1 %><br/>
-    <%= family.label :address2,  'Address Line 2' %>   <%= family.text_field :address2 %><br/>
-    <%= family.label :city,      'City, ST, Zip' %>    <%= family.text_field :city %>, <%= family.text_field :state, :size => 2 %>, <%= family.text_field :zip, :size => 11 %><br/>
+  <% unless @logged_in.admin?(:edit_profiles) %>
+    <% fields_for :family, @family do |family| %>
+      <%= render :partial => 'families/form_fields', :locals => {:form => family} %>
+    <% end %>
   <% end %>
-
-  <p><%= submit_tag @can_edit_basics ? 'Save Changes' : 'Submit Changes for Review' %></p>
+  <p><%= submit_tag 'Submit' %></p>
 <% end %>
 
 <script type="text/javascript"> $('person_first_name').focus() </script>

@@ -94,6 +94,13 @@ class PersonTest < Test::Unit::TestCase
     assert_equal nil,          update.anniversary
   end
   
+  should "mark email_changed when email address changes" do
+    people(:tim).email = 'change@example.com'
+    assert !people(:tim).email_changed?
+    people(:tim).save
+    assert people(:tim).email_changed?
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)

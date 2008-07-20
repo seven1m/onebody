@@ -153,7 +153,7 @@ class PeopleControllerTest < ActionController::TestCase
   should "not freeze self" do
     @person.admin = Admin.create!(:edit_profiles => true)
     post :update, {:id => @person.id, :freeze => 'toggle'}, {:logged_in_id => @person.id}
-    assert_response :error
+    assert_select 'body', /cannot freeze your own account/i
     assert !@person.reload.account_frozen?
   end
   

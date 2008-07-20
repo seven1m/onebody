@@ -477,7 +477,7 @@ class Person < ActiveRecord::Base
     end while Person.count('*', :conditions => ['feed_code = ?', code]) > 0
   end
   
-  def update_from_params(params, can_edit_basics=false)
+  def update_from_params(params)
     person_basics = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
     if params[:photo_url] and params[:photo_url].length > 7 # not just "http://"
       self.photo = params[:photo_url]
@@ -486,13 +486,7 @@ class Person < ActiveRecord::Base
       self.photo = params[:photo] == 'remove' ? nil : params[:photo]
       'photo'
     elsif params[:person] and (person_basics.select { |a| params[:person][a] }.any? or params[:family])
-      if can_edit_basics
-        %w(mobile_phone work_phone fax).each do |a|
-          params[:person][a.to_sym] = params[:person][a.to_sym].digits_only if params[:person][a.to_sym]
-        end
-        params[:family][:home_phone] = params[:family][:home_phone].digits_only if params[:family][:home_phone]
-        params[:person][:suffix] = nil if params[:person][:suffix].to_s.empty?
-        %w(birthday anniversary).each { |a| params[:person][a.to_sym] = nil if params[:person][a.to_sym].to_s.empty? }
+      if Person.logged_in.admin?(:edit_profiles)
         update_attributes(params[:person]) && family.update_attributes(params[:family])
       else
         Update.create_from_params(params, self)
@@ -513,6 +507,18 @@ class Person < ActiveRecord::Base
       update_attributes params[:person]
     else
       self
+    end
+  end
+  
+  def suffix=(s)
+    s = nil if s.blank?
+    write_attribute(:suffix, s)
+  end
+  
+  before_update :mark_email_changed
+  def mark_email_changed
+    if changed.include?('email')
+      self.write_attribute(:email_changed, true)
     end
   end
   

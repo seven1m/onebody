@@ -4,8 +4,8 @@
 
 <p>
   <strong>
-    <% if @can_edit_basics %>
-      <%= link_to h(@family.name), family_path(:id => @family) %>
+    <% if @logged_in.admin?(:edit_profiles) %>
+      <%= link_to h(@family.name), @family %>
     <% else %>
       <%=h @family.name %>
     <% end %>
@@ -19,7 +19,7 @@
 </p>
 
 <% if @logged_in.admin?(:edit_profiles) and @person.account_frozen? %>
-  <p class="very-strong">This account is frozen. <%= @person.name %> can not make changes to this profile or anyone else's until this account is unfrozen.</p>
+  <p class="very-strong">This account is frozen. <%= @person.name %> cannot make changes to this profile or anyone else's until this account is unfrozen.</p>
 <% end %>
 
 <% content_for :subnav do %>
@@ -32,18 +32,22 @@
   <% end %>
 <% end %>
 
-<% if @person.account_frozen? and @logged_in == @person %>
+<% if @person.account_frozen? and me? %>
   <p class="attention">
-    Your account has been frozen due to misuse.
-    You may not make changes to anything on this page
-    until your account is unfrozen.
+    Your account has been frozen.
+    You may not make changes to your account at this time.
   </p>
 <% end %>
+
+<h2 class="tab" id="basics">Basics</h2>
+<div class="section">
+  <%= render :partial => 'edit_basics' %>
+</div>
 
 <h2 class="tab" id="picture">Pic</h2>
 <div class="section">
   <p>
-    Upload a <strong>picture of <%= @person == @logged_in ? 'yourself' : h(@person.name) %></strong>.
+    Upload a <strong>picture of <%= me? ? 'yourself' : h(@person.name) %></strong>.
     Please only upload a <span class="very-strong">real photo</span> &mdash;
     no graphics, clip-art, or fakes please.
   </p>
@@ -56,17 +60,16 @@
 
 <h2 class="tab" id="family-picture">Family Pic</h2>
 <div class="section">
-  <p>Upload a <strong>family picture</strong>. Please only upload a <span class="very-strong">real photo</span> &mdash; no graphics, clip-art, or fakes please.</p>
+  <p>
+    Upload a <strong>family picture</strong>.
+    Please only upload a <span class="very-strong">real photo</span> &mdash;
+    no graphics, clip-art, or fakes please.
+  </p>
   <table><tr><td>
   <%= render :partial => 'families/photo' %>
   </td><td>
   <%= photo_upload_for @family %>
   </td></tr></table>
-</div>
-
-<h2 class="tab" id="basics">Basics</h2>
-<div class="section">
-  <%= render :partial => 'edit_basics' %>
 </div>
 
 <h2 class="tab" id="about">About</h2>
@@ -221,6 +224,18 @@
   <h2 class="tab" id="access">Access</h2>
   <div class="section">
     <%= render :partial => 'access' %>
+  </div>
+<% end %>
+
+<% if @logged_in.admin?(:edit_profiles) %>
+  <h2 class="tab" id="delete">Delete</h2>
+  <div class="section">
+    <% form_for @person, :html => {:method => 'delete'} do |form| %>
+      <p>If your system is set up to synchronize its data with an external source
+      (a church managment system database perhaps), deleting this person may not
+      be permanent and they may reappear following the next sync.</p>
+      <p><%= form.submit "Delete #{@person.name}" %></p>
+    <% end %>
   </div>
 <% end %>
 

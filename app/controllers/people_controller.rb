@@ -33,49 +33,59 @@ class PeopleController < ApplicationController
     end
   end
   
-  def create
-    if Setting.get(:features, :standalone_use) and @logged_in.admin?(:edit_profiles)
+  def new
+    if @logged_in.admin?(:edit_profiles)
       @family = Family.find(params[:family_id])
-      @person = Person.new(:family => @family)
-      params[:person].merge! :can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true
-      unless @person.update_attributes(params[:person])
-        flash[:warning] = @person.errors.full_messages.join('; ')
+      defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
+      @person = Person.new(defaults.merge(:family_id => @family.id).merge(:last_name => @family.last_name))
+    else
+      render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
+    end
+  end
+  
+  def create
+    if @logged_in.admin?(:edit_profiles)
+      @person = Person.create(params[:person])
+      unless @person.errors.any?
+        redirect_to @person.family
+      else
+        render :action => 'new'
       end
-      redirect_back
+    else
+      render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
     end
   end
 
   def edit
-    if @person = Person.find_by_id(params[:id]) and @logged_in.can_edit?(@person)
+    @person ||= Person.find(params[:id])
+    if @logged_in.can_edit?(@person)
       @family = @person.family
       @service_categories = Person.service_categories
-      @can_edit_basics = Setting.get(:features, :standalone_use) && @logged_in.admin?(:edit_profiles)
     else
       render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
     end
   end
   
   def update
-    if @person = Person.find_by_id(params[:id]) and @logged_in.can_edit?(@person)
-      @can_edit_basics = Setting.get(:features, :standalone_use) && @logged_in.admin?(:edit_profiles)
-      if updated = @person.update_from_params(params, @can_edit_basics)
-        flash[:refresh] = true if updated == 'photo'
+    @person = Person.find(params[:id])
+    if @logged_in.can_edit?(@person)
+      if updated = @person.update_from_params(params)
         flash[:notice] = 'Changes saved.'
         redirect_to edit_person_path(@person, :anchor => params[:anchor])
       else
-        render :text => @person.errors.full_messages.join('; '), :layout => true, :status => 500
+        edit; render :action => 'edit'
       end
     else
-      render :text => 'You are not authorized to edit this person.', :status => 401
+      render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
     end
   end
   
   def destroy
-    if Setting.get(:features, :standalone_use) and @logged_in.admin?(:edit_profiles)
+    if @logged_in.admin?(:edit_profiles)
       @person = Person.find(params[:id])
-      unless @logged_in == @person
-        family = @person.destroy.family
-        redirect_to params[:return_to] || family_path(:id => family)
+      unless me?
+        @person.destroy
+        redirect_to @person.family
       else
         render :text => 'You cannot delete yourself.', :status => 500
       end

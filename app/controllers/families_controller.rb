@@ -15,9 +15,8 @@ class FamiliesController < ApplicationController
   end
   
   def create
-    @family = Family.new
-    @family.update_attributes params[:family]
-    redirect_back
+    @family = Family.create(params[:family])
+    redirect_to @family
   end
   
   def edit
@@ -26,18 +25,16 @@ class FamiliesController < ApplicationController
 
   def update
     @family = Family.find(params[:id])
-    @family.update_attributes params[:family]
-    redirect_back
+    @family.update_attributes(params[:family])
+    redirect_to @family
   end
   
   private
 
   def can_edit?
-    if Setting.get(:features, :standalone_use) and @logged_in.admin?(:edit_profiles)
-      true
-    else
-      render :text => 'Not authorized or feature unavailable.', :status => 401
-      false
+    unless @logged_in.admin?(:edit_profiles)
+      render :text => 'Not authorized or feature unavailable.', :layout => true, :status => 401
+      return false
     end
   end
 end
