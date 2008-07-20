@@ -6,6 +6,10 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.js   { render :partial => 'person_groups' }
         format.html { render :partial => 'person_groups', :layout => true }
+        if @logged_in.admin?(:export_data)
+          format.xml { render :xml =>  @person.groups.to_xml }
+          format.csv { render :text => @person.groups.to_csv }
+        end
       end
     # search by name or category
     elsif params[:category] or params[:name]
@@ -16,7 +20,13 @@ class GroupsController < ApplicationController
       @groups = Group.find(:all, :conditions => conditions, :order => 'name')
       conditions[1] = true # only hidden groups
       @hidden_groups = Group.find(:all, :conditions => conditions, :order => 'name')
-      render :action => 'search'
+      respond_to do |format|
+        format.html { render :action => 'search' }
+        if @logged_in.admin?(:export_data)
+          format.xml { render :xml =>  @groups.to_xml }
+          format.csv { render :text => @groups.to_csv }
+        end
+      end
     # regular index
     else
       @categories = Group.categories
@@ -26,8 +36,30 @@ class GroupsController < ApplicationController
         @unapproved_groups = Group.find_all_by_creator_id_and_approved(@logged_in.id, false)
       end
       @person = @logged_in
+      respond_to do |format|
+        format.html
+        if @logged_in.admin?(:export_data)
+          @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || 50)
+          format.xml { render :xml =>  @groups.to_xml }
+          format.csv { render :text => @groups.to_csv }
+        end
+      end
     end
   end
+  
+#  def index
+#    respond_to do |format|
+#      format.html { redirect_to @logged_in }
+#      format.xml do
+#        if @logged_in.admin?(:export_data)
+#          @families = Family.all(:order => 'last_name, name, suffix')
+#          render :xml => @families.to_xml
+#        else
+#          render :xml => '<xml><error>You are not authorized to export data.</error></xml>', :status => 401
+#        end
+#      end
+#    end
+#  end
     
   def show
     @group = Group.find params[:id]

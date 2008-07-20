@@ -41,7 +41,8 @@ class Update < ActiveRecord::Base
   def do!
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
     returning (person.update_attributes(person_attributes) and person.family.update_attributes(family_attributes)) do |success|
-      puts((person.errors.full_messages + person.family.errors.full_messages).join('; ')) unless success
+      person.errors.full_messages.each        { |m| self.errors.add_to_base "Person: #{m}" }
+      person.family.errors.full_messages.each { |m| self.errors.add_to_base "Family: #{m}" }
     end
   end
   

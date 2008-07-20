@@ -32,13 +32,11 @@
         updated
         <%= update.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
         <% if update.complete %>
-          <%= link_to 'Uncomplete', administration_update_path(update, :complete => false), :method => 'put' %>
-        <% elsif Setting.get(:features, :standalone_use) %>
-          <%= link_to 'Update', administration_update_path(update, :complete => true), :method => 'put' %> |
-          <%= link_to 'Update and Review', administration_update_path(update, :complete => true, :review => true), :method => 'put' %> |
-          <%= link_to 'Delete', administration_update_path(update), :method => 'destroy', :confirm => 'Are you sure?' %>
+          <%= link_to 'Mark Incomplete', administration_update_path(update, :complete => false), :method => 'put' %>
         <% else %>
-          <%= link_to 'Complete', administration_update_path(update, :complete => true), :method => 'put' %> |
+          <%= link_to 'Update', administration_update_path(update, :complete => true, :update => true), :method => 'put' %> |
+          <%= link_to 'Update and Review', administration_update_path(update, :complete => true, :update => true, :review => true), :method => 'put' %> |
+          <%= link_to 'Mark Complete', administration_update_path(update, :complete => true), :method => 'put' %> |
           <%= link_to 'Delete', administration_update_path(update), :method => 'delete', :confirm => 'Are you sure?' %>
         <% end %>
         <table>

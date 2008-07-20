@@ -9,16 +9,20 @@ class Administration::UpdatesController < ApplicationController
   def update
     @update = Update.find(params[:id])
     @update.toggle! :complete
-    if @update.complete and Setting.get(:features, :standalone_use)
-      unless @update.do!
-        flash[:warning] = 'There was an error saving this update.'
+    if @update.complete and params[:update]
+      if @update.do!
+        if params[:review]
+          redirect_to edit_person_path(@update.person, :anchor => 'basics')
+        else
+          redirect_to administration_updates_path
+        end
+      else
+        flash[:warning] = "There was an error saving this update: #{@update.errors.full_messages.join('; ')}"
+        index; render :action => 'index'
       end
-      if params[:review]
-        redirect_to edit_person_path(@update.person, :anchor => 'basics')
-        return false
-      end
+    else
+      redirect_to administration_updates_path
     end
-    redirect_to administration_updates_path
   end
 
   def destroy

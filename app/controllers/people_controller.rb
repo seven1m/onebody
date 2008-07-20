@@ -4,7 +4,14 @@ class PeopleController < ApplicationController
   cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy)
 
   def index
-    redirect_to @logged_in
+    respond_to do |format|
+      format.html { redirect_to @logged_in }
+      if @logged_in.admin?(:export_data)
+        @people = Person.paginate(:order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
+        format.xml { render :xml  => @people.to_xml(:except => %w(feed_code encrypted_password), :include => [:groups]) }
+        format.csv { render :text => @people.to_csv(:except => %w(feed_code encrypted_password) }
+      end
+    end
   end
   
   def show
@@ -92,6 +99,10 @@ class PeopleController < ApplicationController
     else
      render :text => 'You are not authorized to delete this person.', :status => 401
     end
+  end
+  
+  def import
+    
   end
 
 end

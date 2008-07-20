@@ -1,24 +1,6 @@
 <% form_for @person do |form| %>
   <%= hidden_field_tag :anchor, 'access' %>
-  
-  <h2>Basic Access &amp; Visibility</h2>
-  <p>
-    <% if Setting.get(:features, :standalone_use) %>
-      <em>
-        Most members and regular attenders should probably have
-        all of these boxes checked to have complete access and visibility.
-      </em><br/>
-      <%= form.check_box :can_sign_in %>                  <%= form.label :can_sign_in, nil, :class => 'inline' %><br/>
-      <%= form.check_box :visible_to_everyone %>          <%= form.label :visible_to_everyone, 'May be visible on the site.<br/>(separate from the user-controlled privacy setting "Visible" &mdash; both must be enabled to show this person)', :class => 'inline' %><br/>
-      <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, nil, :class => 'inline' %><br/>
-      <%= form.check_box :full_access %>                  <%= form.label :full_access, 'Full access to the site &mdash; not just limited viewing rights.', :class => 'inline' %><br/>
-    <% else %>
-      <em>This system is not configured in Standalone Mode; all basic access is configured
-        via synchronization with external sources.</em>
-    <% end %>
-  </p>
-  
-  <h2>Extra Access</h2>
+    
   <p>
     <% if (attributes = @person.access_attributes).any? %>
       <% attributes.each do |attribute| %>

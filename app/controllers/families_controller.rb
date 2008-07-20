@@ -1,5 +1,18 @@
 class FamiliesController < ApplicationController
   
+  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy)
+  
+  def index
+    respond_to do |format|
+      format.html { redirect_to @logged_in }
+      if @logged_in.admin?(:export_data)
+        @families = Family.paginate(:order => 'last_name, name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
+        format.xml { render :xml  => @families.to_xml(:include => [:people]) }
+        format.csv { render :text => @families.to_csv }
+      end
+    end
+  end
+  
   def show
     @family = Family.find(params[:id])
     @people = @family.people.all.select { |p| @logged_in.can_see? p }

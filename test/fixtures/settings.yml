@@ -100,14 +100,6 @@ contact_churchemail:
   description: Visible in some places on site
   value: info@imaginarychurch.com
   section: Contact
-features_standaloneuse: 
-  name: Standalone Use
-  site_id: 1
-  format: boolean
-  description: If enabled, OneBody is expected to be your church's main membership database, i.e. you can edit people and family data directly.
-  value: false
-  section: Features
-  hidden: true
 contact_birthdayverificationemail: 
   name: Birthday Verification Email
   site_id: 1
