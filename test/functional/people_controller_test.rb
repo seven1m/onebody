@@ -94,8 +94,7 @@ class PeopleControllerTest < ActionController::TestCase
     assert_equal 0, @person.updates.count
   end
   
-  should "edit a person basics when in standalone mode and user is admin" do
-    Setting.set(1, 'Features', 'Standalone Use', true)
+  should "edit a person basics when user is admin" do
     @other_person.admin = Admin.create!(:edit_profiles => true)
     post :update,
       {
@@ -116,7 +115,6 @@ class PeopleControllerTest < ActionController::TestCase
   end
   
   should "delete a person" do
-    Setting.set(1, 'Features', 'Standalone Use', true)
     @other_person.admin = Admin.create!(:edit_profiles => true)
     post :destroy, {:id => @person.id}, {:logged_in_id => @other_person.id}
     assert_raises(ActiveRecord::RecordNotFound) do
@@ -125,17 +123,15 @@ class PeopleControllerTest < ActionController::TestCase
   end
   
   should "not delete self" do
-    Setting.set(1, 'Features', 'Standalone Use', true)
     @person.admin = Admin.create!(:edit_profiles => true)
     post :destroy, {:id => @person.id}, {:logged_in_id => @person.id}
     assert_response :error
     assert @person.reload
   end
   
-  should "not delete a person unless admin and in standalone mode" do
+  should "not delete a person unless admin" do
     post :destroy, {:id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
-    Setting.set(1, 'Features', 'Standalone Use', true)
     post :destroy, {:id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end

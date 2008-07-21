@@ -7,11 +7,6 @@ class FamiliesControllerTest < ActionController::TestCase
     @family = @person.family
     @child = Person.forge(:family => @family, :birthday => 1.year.ago, :gender => 'Girl')
     @admin = Person.forge(:admin => Admin.create(:edit_profiles => true))
-    Setting.set(1, 'Features', 'Standalone Use', true)
-  end
-  
-  def teardown
-    Setting.set(1, 'Features', 'Standalone Use', false)
   end
   
   should "show a family" do
@@ -74,9 +69,5 @@ class FamiliesControllerTest < ActionController::TestCase
   should "add a person to a family"
   
   should "remove a person from a family"
-  
-  should "not allow adding a family member if not in standalone mode"
-  
-  should "not allow removing a family member if not in standalone mode"
 
 end
