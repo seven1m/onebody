@@ -8,8 +8,8 @@ class PeopleController < ApplicationController
       format.html { redirect_to @logged_in }
       if @logged_in.admin?(:export_data)
         @people = Person.paginate(:order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
-        format.xml { render :xml  => @people.to_xml(:except => %w(feed_code encrypted_password), :include => [:groups]) }
-        format.csv { render :text => @people.to_csv(:except => %w(feed_code encrypted_password) }
+        format.xml { render :xml  => @people.to_xml(:except => %w(feed_code encrypted_password), :include => [:groups, :family]) }
+        format.csv { render :text => @people.to_csv(:except => %w(feed_code encrypted_password), :include => [:family]) }
       end
     end
   end
@@ -102,7 +102,21 @@ class PeopleController < ApplicationController
   end
   
   def import
-    
+    if @logged_in.admin?(:import_data)
+      if request.get?
+        @column_names  = Person.columns.map { |c| c.name }
+        @column_names += Family.columns.map { |c| "family_#{c.name}" }
+        @column_names.reject! { |c| c =~ /site_id/ }
+      elsif request.post?
+        @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name])
+        render :action => 'import_queue'
+      elsif request.put?
+        Person.import_data(params)
+        render :text => 'Import successful.', :layout => true
+      end
+    else
+      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+    end
   end
 
 end

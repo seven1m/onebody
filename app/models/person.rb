@@ -72,6 +72,7 @@
 #
 
 class Person < ActiveRecord::Base
+
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
   
   belongs_to :family
@@ -169,12 +170,6 @@ class Person < ActiveRecord::Base
   def birthday_soon?
     today = Date.today
     birthday and birthday >= today and birthday < (today + BIRTHDAY_SOON_DAYS)
-  end
-  
-  def email_changed=(bool)
-    if bool
-      Notifier.deliver_email_update(self)
-    end
   end
   
   inherited_attribute :share_mobile_phone, :family
@@ -519,7 +514,63 @@ class Person < ActiveRecord::Base
   def mark_email_changed
     if changed.include?('email')
       self.write_attribute(:email_changed, true)
+      Notifier.deliver_email_update(self)
     end
+  end
+  
+  class << self # Import data methods
+  
+    def queue_import_from_csv_file(file, match_by_name=true)
+      data = CSV.parse(file)
+      attributes = data.shift
+      data.map do |row|
+        record = get_record(attributes, row, match_by_name)
+        record.changed? && record || nil
+      end.compact
+    end
+    
+    def get_record(attributes, row, match_by_name=true)
+      row_as_hash = {}
+      row.each_with_index do |col, index|
+        row_as_hash[attributes[index]] = col
+      end
+      person_hash = row_as_hash.reject { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
+      family_hash = row_as_hash.reject { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
+      if record = tiered_find(person_hash, match_by_name)
+        record.attributes = person_hash
+      else
+        record = new(person_hash)
+      end
+      record
+    end
+    
+    def tiered_find(attributes, match_by_name=true)
+      a = attributes.clone.reject_blanks
+      a['id']        &&
+        find_by_id(a['id'])               ||
+      a['legacy_id'] &&
+        find_by_legacy_id(a['legacy_id']) ||
+      match_by_name  && a['first_name'] && a['last_name'] && a['birthday'] &&
+        find_by_first_name_and_last_name_and_birthday(a['first_name'], a['last_name'], Date.parse(a['birthday'])) ||
+      match_by_name  && a['first_name'] && a['last_name'] &&
+        find_by_first_name_and_last_name(a['first_name'], a['last_name'])
+    end
+    
+    def import_data(params)
+      Person.transaction do
+        params[:new].to_a.each do |key, vals|
+          person = Person.create!(vals)
+          unless person.family
+            person.family = Family.create(:name => person.name, :last_name => person.last_name)
+          end
+        end
+        params[:changes].to_a.each do |id, vals|
+          vals.cleanse(:birthday, :anniversary)
+          Person.find(id).update_attributes!(vals)
+        end
+      end
+    end
+  
   end
   
   def recently_tab_items

@@ -1,0 +1,46 @@
+<h1>Import People</h1>
+
+<% if @records.any? %>
+  <% form_tag({}, :method => 'put') do %>
+    <p>
+      The following changes will be made. Only selected records will be created/updated.
+    </p>
+    
+    <% if @records.any? %>
+      <ul style="list-style:none;">
+        <% @records.each_with_index do |record, index| %>
+          <li>
+            <% if record.new_record? %>
+              <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.new_#{index}').each(function(e){e.checked=$('record#{index}').checked})" %>
+              <%=h record.name %> <strong>(new)</strong>
+            <% else %>
+              <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.changes_#{record.id}').each(function(e){e.checked=$('record#{index}').checked})" %>
+              <%= link_to h(record.name), record %>
+            <% end %>
+            <%= link_to_function 'changes &raquo;', "Element.toggle('details#{index}')", :class => 'discreet' %>
+            <ul id="details<%= index %>" style="list-style:none;padding-left:25px;display:none;">
+              <% record.changes.each do |key, val| %>
+                <% val = val.last %>
+                <li>
+                  <label class="inline">
+                    <% if record.new_record? %>
+                      <%= check_box_tag "new[#{index}][#{key}]", val.to_s, true, :class => "new_#{index}" %>
+                    <% else %>
+                      <%= check_box_tag "changes[#{record.id}][#{key}]", val.to_s, true, :class => "changes_#{record.id}" %>
+                    <% end %>
+                    <%=h key %>: <%=h val.inspect %>
+                  </label>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    
+    <p><%= submit_tag 'Import Selected People' %></p>
+    
+  <% end %>
+<% else %>
+  <p><em>No records were found to import.</em></p>
+<% end %>

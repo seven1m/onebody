@@ -1,9 +1,17 @@
 class CleanUp < ActiveRecord::Migration
   def self.up
-    remove_column :families, :security_token
+    change_table :families do |t|
+      t.remove :security_token
+      t.remove :email
+      t.remove :mail_group
+    end
   end
 
   def self.down
-    add_column :families, :security_token, :string, :limit => 25
+    change_table :families do |t|
+      t.string :security_token, :limit => 25
+      t.string :email
+      t.string :mail_group, :limit => 1
+    end
   end
 end

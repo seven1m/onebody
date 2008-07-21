@@ -1,0 +1,23 @@
+<h1>Import People</h1>
+
+<% form_tag({}, :method => 'post', :multipart => true) do %>
+  <p>
+    Select a Comma Separated File (CSV) file to import with attribute names as the header row.
+    <%= link_to_function 'Click here', "Element.toggle('attributes')" %> for a list of available attributes
+    (not all attributes are required).
+  </p>
+  <ul id="attributes" style="display:none;">
+    <% @column_names.each do |name| %>
+      <li><%=h name %></li>
+    <% end %>
+  </ul>
+  <p>
+    <%= file_field_tag :file %><br/>
+    <%= check_box_tag 'match_by_name', true, true %>
+    <label for="match_by_name" class="inline">Attempt to match existing people by name if no IDs are included.</label><br/>
+    <%= submit_tag 'Import Data...' %>
+  </p>
+<% end %>
+<p>
+  Hint: Excel documents can be exported as CSV from the File &mdash;&gt; Save As menu.
+</p>
