@@ -20,7 +20,7 @@
       <% unless person.visible? %>
         <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
       <% end %>
-      <span class="discreet handle">[reorder]</span>
+      <%= image_tag('reorder.png', :alt => 'reorder family members', :class => 'handle icon') %>
       <%= link_to '[edit]', edit_person_path(person), :class => 'discreet' %>
       <%= link_to '[delete]', person, :confirm => 'Are you sure?', :method => :delete, :class => 'discreet' %>
     </li>

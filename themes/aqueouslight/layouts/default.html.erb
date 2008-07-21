@@ -58,7 +58,7 @@
               <% end %>
 				    <% end %>
 				    
-            <% if Setting.get(:features, :content_management_system) %><li><%= link_to 'Home', home_path, :class => (params[:controller] == 'pages' and @page and @page.home? ? 'active' : nil) %></li><% end %>
+            <% if Setting.get(:features, :content_management_system) %><li style="padding-right:8px;border-right:1px dotted #fff;"><%= link_to 'Home', home_path, :class => (params[:controller] == 'pages' and @page and @page.home? ? 'active' : nil) %></li><% end %>
 				    <li><%= link_to 'Profile', people_path, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
 				    <li><%= link_to 'Directory', new_search_path, :class => (%w(searches printable_directories).include?(params[:controller]) ? 'active' : nil) %></li>
 				    <% if Setting.get(:features, :groups) %><li><%= link_to 'Groups', groups_path, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li><% end %>
