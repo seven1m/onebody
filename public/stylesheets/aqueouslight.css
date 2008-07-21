@@ -943,3 +943,7 @@ code {
   margin: 0;
   vertical-align: top;
 }
+
+.handle {
+  cursor: move;
+}

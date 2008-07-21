@@ -10,27 +10,22 @@
 
 <h2>People</h2>
 
-<table>
+<ol id="people">
   <% @people.each do |person| %>
-    <tr class="family-member">
-      <td>
-        <a href="<%= url_for person %>">
-          <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
-        </a>
-      </td>
-      <td>
-        <%= link_to h(person.name), person %>
-        <% unless person.visible? %>
-          <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to '[edit]', edit_person_path(person), :class => 'discreet' %>
-        <%= link_to '[delete]', person, :confirm => 'Are you sure?', :method => :delete, :class => 'discreet' %>
-      </td>
-    </tr>
+    <li class="family-member" id="person_<%= person.id %>">
+      <a href="<%= url_for person %>">
+        <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+      </a>
+      <%= link_to h(person.name), person %>
+      <% unless person.visible? %>
+        <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+      <% end %>
+      <span class="discreet handle">[reorder]</span>
+      <%= link_to '[edit]', edit_person_path(person), :class => 'discreet' %>
+      <%= link_to '[delete]', person, :confirm => 'Are you sure?', :method => :delete, :class => 'discreet' %>
+    </li>
   <% end %>
-</table>
+</ol>
 
 <% if @people.empty? %>
   <p><em>No one in this family yet.</em></p>
@@ -38,3 +33,6 @@
 
 <p><%= link_to image_tag('add_small.gif', :alt => 'add person', :class => 'icon') + ' Add a person to this family.',
   new_person_path(:family_id => @family) %></p>
+  
+<%= sortable_element('people', :url => reorder_family_path(@family)) %>
+

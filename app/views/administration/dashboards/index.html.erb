@@ -55,3 +55,37 @@
   
   <p><%= link_to 'Click here', administration_membership_requests_path %> to review pending membership requests.</p>
 <% end %>
+
+<% if @logged_in.admin?(:import_data) %>
+  <h2>Import Data</h2>
+  
+  <p><%= link_to 'Click here', import_people_path %> to import people data from a Comma Separated Values (CSV) file.</p>
+<% end %>
+
+<% if @logged_in.admin?(:export_data) %>
+  <h2>Export Data</h2>
+  
+  <table>
+    <tr>
+      <th>People</th>
+      <td><%= link_to 'XML', formatted_people_path('xml') %></td>
+      <td><%= link_to 'CSV', formatted_people_path('csv') %></td>
+    </tr>
+    <tr>
+      <th>Families</th>
+      <td><%= link_to 'XML', formatted_families_path('xml') %></td>
+      <td><%= link_to 'CSV', formatted_families_path('csv') %></td>
+    </tr>
+    <% if Setting.get(:features, :groups) %>
+      <tr>
+        <th>Groups</th>
+        <td><%= link_to 'XML', formatted_groups_path('xml') %></td>
+        <td><%= link_to 'CSV', formatted_groups_path('csv') %></td>
+      </tr>
+    <% end %>
+  </table>
+  <p>
+    Only 50 records will be exported at a time. If you have more than 50 records,
+    you may append <code>?page=2</code> and so on to the export URL you click above.
+  </p>
+<% end %>

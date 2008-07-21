@@ -21,7 +21,7 @@ class FamiliesController < ApplicationController
     end
   end
   
-  before_filter :can_edit?, :only => %w(new create edit update)
+  before_filter :can_edit?, :only => %w(new create edit update reorder)
   
   def new
     @family = Family.new
@@ -40,6 +40,14 @@ class FamiliesController < ApplicationController
     @family = Family.find(params[:id])
     @family.update_attributes(params[:family])
     redirect_to @family
+  end
+  
+  def reorder
+    @family = Family.find(params[:id])
+    params[:people].to_a.each_with_index do |id, index|
+      @family.people.find_by_id(id).update_attribute(:sequence, index+1)
+    end
+    render :nothing => true
   end
   
   private
