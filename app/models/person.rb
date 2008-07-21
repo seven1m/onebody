@@ -172,6 +172,18 @@ class Person < ActiveRecord::Base
     birthday and birthday >= today and birthday < (today + BIRTHDAY_SOON_DAYS)
   end
   
+  def mobile_phone=(phone)
+    write_attribute :mobile_phone, phone.to_s.digits_only
+  end
+  
+  def work_phone=(phone)
+    write_attribute :work_phone, phone.to_s.digits_only
+  end
+  
+  def fax=(phone)
+    write_attribute :fax, phone.to_s.digits_only
+  end
+  
   inherited_attribute :share_mobile_phone, :family
   inherited_attribute :share_work_phone, :family
   inherited_attribute :share_fax, :family
