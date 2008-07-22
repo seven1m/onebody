@@ -3,7 +3,9 @@ class PagesController < ApplicationController
   before_filter :get_path
   before_filter :get_page, :get_user, :only => %w(show_for_public)
   
-  #caches_action :show_for_public, :for => 1.day, :cache_path => Proc.new { |c| "pages/#{c.instance_eval('@page.path')}" rescue '' }
+  caches_action :show_for_public, :for => 1.day,
+    :cache_path => Proc.new { |c| "pages/#{c.instance_eval('@page.path')}" rescue '' },
+    :if => Proc.new { |c| !(l = c.instance_eval('@logged_in')) or !l.admin?(:edit_pages) }
   cache_sweeper :page_sweeper, :only => %w(create update destroy)
   
   def index

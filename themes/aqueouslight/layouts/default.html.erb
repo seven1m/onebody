@@ -56,6 +56,10 @@
                   <%= link_to 'admin', admin_path, :style => 'padding-left:5px;padding-right:5px;' %>
                 </li>
               <% end %>
+				    <% else %>
+				      <li style="float:right;font-size:smaller;color:#fff;text-align:right;">
+				        <%= link_to 'sign in', new_session_path(:from => request.request_uri) %>
+				      </li>
 				    <% end %>
 				    
             <% if Setting.get(:features, :content_management_system) %><li style="padding-right:8px;border-right:1px dotted #fff;"><%= link_to 'Home', home_path, :class => (params[:controller] == 'pages' and @page and @page.home? ? 'active' : nil) %></li><% end %>
