@@ -34,7 +34,7 @@
   in the <%= link_to h(object.group.name_group), url_for(object.group) %>.
 <% elsif object.is_a? Message and object.wall %>
   posted a message on 
-  <%= link_to "#{object.wall.name_possessive} wall", person_for(object.wall, :anchor => 'wall') %>.
+  <%= link_to "#{object.wall.name_possessive} wall", url_for(object.wall, :anchor => 'wall') %>.
 <% elsif object.is_a? Person %>
   updated <%= item.person == @logged_in ? 'your' : 'their' %>
   <%= item.showable_change_keys.to_sentence %>.
