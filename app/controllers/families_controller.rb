@@ -21,7 +21,7 @@ class FamiliesController < ApplicationController
     end
   end
   
-  before_filter :can_edit?, :only => %w(new create edit update reorder)
+  before_filter :can_edit?, :only => %w(new create edit update destroy reorder)
   
   def new
     @family = Family.new
@@ -40,6 +40,17 @@ class FamiliesController < ApplicationController
     @family = Family.find(params[:id])
     @family.update_attributes(params[:family])
     redirect_to @family
+  end
+  
+  def destroy
+    @family = Family.find(params[:id])
+    if @family == @logged_in.family
+      flash[:warning] = 'You cannot delete your own family.'
+      redirect_to @family
+    else
+      @family.destroy
+      redirect_to people_path
+    end
   end
   
   def reorder

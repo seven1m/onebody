@@ -67,7 +67,7 @@
               <%= image_tag 'lock.gif', :alt => 'Hidden Profile', :class => 'icon' %>
             <% end %>
           </td>
-          <td><%=h person.family.name %></td>
+          <td><%=h person.family ? person.family.name : '(no family)' %></td>
         <% end %>
         <% if @show_birthdays %>
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>

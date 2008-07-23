@@ -34,7 +34,7 @@
 #
 
 class Family < ActiveRecord::Base
-  has_many :people, :order => 'sequence'
+  has_many :people, :order => 'sequence', :dependent => :destroy
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
@@ -62,6 +62,15 @@ class Family < ActiveRecord::Base
   
   def mapable_address
     "#{address1}, #{address2.to_s.any? ? address2+', ' : ''}#{city}, #{state} #{zip}".gsub(/'/, "\\'")
+  end
+  
+  def pretty_address
+    a = ''
+    a << address1.to_s   if address1.to_s.any?
+    a << ", #{address2}" if address2.to_s.any?
+    a << ", #{city}"     if city.to_s.any?
+    a << ", #{state}"    if state.to_s.any?
+    a << "  #{zip}"      if zip.to_s.any?
   end
   
   def latitude

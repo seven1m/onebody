@@ -1,12 +1,15 @@
-<% content_for :subnav do %>
-  <%= link_to 'Edit Family', edit_family_path(@family) %>
+<% if @logged_in.admin?(:edit_profiles) %>
+  <% content_for :subnav do %>
+    <li><%= link_to 'Edit Family', edit_family_path(@family) %></li>
+    <li><%= link_to 'Delete Family', @family, :method => 'delete', :confirm => 'Are you sure?' %></li>
+  <% end %>
 <% end %>
 
 <h1><%=h @family.name %></h1>
 
 <p><%= number_to_phone @family.home_phone, :area_code => true %></p>
 
-<p><%= @family.mapable_address %></p>
+<p><%= @family.pretty_address %></p>
 
 <h2>People</h2>
 
