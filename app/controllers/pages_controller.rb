@@ -1,7 +1,9 @@
 class PagesController < ApplicationController
   skip_before_filter :authenticate_user, :only => %w(show_for_public)
+  skip_before_filter :feature_enabled?
   before_filter :get_path
   before_filter :get_page, :get_user, :only => %w(show_for_public)
+  before_filter :feature_enabled? # must follow get_page
   
   #caches_action :show_for_public, :for => 1.day,
   #  :cache_path => Proc.new { |c| "pages/#{c.instance_eval('@page.path')}" rescue '' },
@@ -80,7 +82,11 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     if @logged_in.can_edit?(@page)
       @page.destroy
-      flash[:notice] = 'Page deleted.'
+      if @page.errors.any?
+        flash[:warning] = @page.errors.full_messages.join('; ')
+      else
+        flash[:notice] = 'Page deleted.'
+      end
       redirect_to pages_path
     else
       render :text => 'You are not authorized to delete this page.', :layout => true, :status => 401
@@ -110,7 +116,7 @@ class PagesController < ApplicationController
     end
     
     def feature_enabled?
-      unless Setting.get(:features, :content_management_system)
+      unless (@page.system? and !@page.home?) or Setting.get(:features, :content_management_system)
         redirect_to people_path
         false
       end
