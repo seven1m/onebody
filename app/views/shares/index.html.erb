@@ -44,3 +44,9 @@
   <% end %>
   <p><%= link_to 'Click here', albums_path %> to see more and to upload your own pictures.</p>
 <% end %>
+
+<% PLUGIN_HOOKS[:more_page].each do |partial, conditional| %>
+  <% if conditional.nil? or (conditional.respond_to?(:call) and conditional.call(self)) %>
+    <%= render :partial => partial %>
+  <% end %>
+<% end %>
