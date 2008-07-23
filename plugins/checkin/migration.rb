@@ -1,6 +1,6 @@
 class CheckinMigration < ActiveRecord::Migration
   def self.up
-    create_table :attendance_records do |t|
+    create_table :checkin_attendance_records do |t|
       t.integer :person_id
       t.integer :site_id
       t.string :barcode_id, :limit => 50
@@ -28,7 +28,7 @@ class CheckinMigration < ActiveRecord::Migration
   end
   
   def self.down
-    drop_table :attendance_records
+    drop_table :checkin_attendance_records
     change_table :people do |t|
       t.remove :barcode_id
       t.remove :can_pick_up

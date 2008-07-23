@@ -1,7 +1,7 @@
 # == Schema Information
 # Schema version: 20080709134559
 #
-# Table name: attendance_records
+# Table name: checkin_attendance_records
 #
 #  id             :integer       not null, primary key
 #  person_id      :integer       
@@ -22,7 +22,7 @@
 #  updated_at     :datetime      
 #
 
-class AttendanceRecord < ActiveRecord::Base
+class CheckinAttendanceRecord < ActiveRecord::Base
   belongs_to :person
   belongs_to :site
   
@@ -39,4 +39,8 @@ class AttendanceRecord < ActiveRecord::Base
       end
     end
   end
+end
+
+Person.class_eval do
+  has_many :attendance_records, :class_name => 'CheckinAttendanceRecord'
 end

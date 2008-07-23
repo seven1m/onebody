@@ -23,7 +23,7 @@ class Checkin::AdminController < ApplicationController
     unless ORDERS.values.include? @order
       @order = "`in`"
     end
-    @records = AttendanceRecord.find(
+    @records = CheckinAttendanceRecord.find(
       :all,
       :conditions => conditions,
       :order => @order

@@ -11,7 +11,7 @@ class CheckinController < ApplicationController
   
   def check
     if @person = Person.find_by_barcode_id(params[:id]) \
-      and rec = AttendanceRecord.check(@person, @section) \
+      and rec = CheckinAttendanceRecord.check(@person, @section) \
       and rec.errors.empty?
       @highlight = rec
     else
@@ -28,13 +28,13 @@ class CheckinController < ApplicationController
   end
   
   def void
-    @record = AttendanceRecord.find(params[:id])
+    @record = CheckinAttendanceRecord.find(params[:id])
     @record.update_attribute :void, true
     attendance
   end
   
   def attendance(dont_render=false)
-    @records = AttendanceRecord.find(
+    @records = CheckinAttendanceRecord.find(
       :all,
       :conditions => ['section = ? and `in` >= ?', @section, Date.today],
       :order => '`in` desc'
