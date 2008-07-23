@@ -65,22 +65,23 @@
 <% if @logged_in.admin?(:export_data) %>
   <h2>Export Data</h2>
   
+  <% onclick = "page = prompt('Enter a page number. If there are 50 records or less, then all records will be retrieved with page 1.', '1'); if(page) this.href = this.href.replace(/page=\d+/, 'page='+page)" %>
   <table>
     <tr>
       <th>People</th>
-      <td><%= link_to 'XML', formatted_people_path('xml') %></td>
-      <td><%= link_to 'CSV', formatted_people_path('csv') %></td>
+      <td><%= link_to 'XML', formatted_people_path('xml', :page => 1), :onclick => onclick %></td>
+      <td><%= link_to 'CSV', formatted_people_path('csv', :page => 1), :onclick => onclick %></td>
     </tr>
     <tr>
       <th>Families</th>
-      <td><%= link_to 'XML', formatted_families_path('xml') %></td>
-      <td><%= link_to 'CSV', formatted_families_path('csv') %></td>
+      <td><%= link_to 'XML', formatted_families_path('xml', :page => 1), :onclick => onclick %></td>
+      <td><%= link_to 'CSV', formatted_families_path('csv', :page => 1), :onclick => onclick %></td>
     </tr>
     <% if Setting.get(:features, :groups) %>
       <tr>
         <th>Groups</th>
-        <td><%= link_to 'XML', formatted_groups_path('xml') %></td>
-        <td><%= link_to 'CSV', formatted_groups_path('csv') %></td>
+        <td><%= link_to 'XML', formatted_groups_path('xml', :page => 1), :onclick => onclick %></td>
+        <td><%= link_to 'CSV', formatted_groups_path('csv', :page => 1), :onclick => onclick %></td>
       </tr>
     <% end %>
   </table>

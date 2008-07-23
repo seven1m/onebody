@@ -536,24 +536,30 @@ class Person < ActiveRecord::Base
       data = CSV.parse(file)
       attributes = data.shift
       data.map do |row|
-        record = get_record(attributes, row, match_by_name)
-        record.changed? && record || nil
+        person, family = get_changes_for_import(attributes, row, match_by_name)
+        if person.changed? or family.changed?
+          changes = person.changes.clone
+          family.changes.each { |k, v| changes['family_' + k] = v }
+          [person, changes]
+        else
+          nil
+        end
       end.compact
     end
     
-    def get_record(attributes, row, match_by_name=true)
+    def get_changes_for_import(attributes, row, match_by_name=true)
       row_as_hash = {}
       row.each_with_index do |col, index|
         row_as_hash[attributes[index]] = col
       end
-      person_hash = row_as_hash.reject { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
-      family_hash = row_as_hash.reject { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
+      person_hash, family_hash = split_change_hash(row_as_hash)
       if record = tiered_find(person_hash, match_by_name)
         record.attributes = person_hash
+        record.family.attributes = family_hash
+        [record, record.family]
       else
-        record = new(person_hash)
+        [new(person_hash), Family.new(family_hash)]
       end
-      record
     end
     
     def tiered_find(attributes, match_by_name=true)
@@ -571,16 +577,35 @@ class Person < ActiveRecord::Base
     def import_data(params)
       Person.transaction do
         params[:new].to_a.each do |key, vals|
-          person = Person.create!(vals)
-          unless person.family
-            person.family = Family.create(:name => person.name, :last_name => person.last_name)
-          end
+          person_vals, family_vals = split_change_hash(vals)
+          name = "#{person_vals['first_name']} #{person_vals['last_name']}"
+          last_name = person_vals['last_name']
+          family = Family.create!({:name => name, :last_name => last_name}.merge(family_vals))
+          person = Person.create!(person_vals.merge(:family_id => family.id))
         end
         params[:changes].to_a.each do |id, vals|
           vals.cleanse(:birthday, :anniversary)
-          Person.find(id).update_attributes!(vals)
+          person_vals, family_vals = split_change_hash(vals)
+          person = Person.find(id)
+          person.update_attributes!(person_vals)
+          person.family.update_attributes!(family_vals)
         end
       end
+    end
+
+    def split_change_hash(vals)
+      person_vals = {}
+      family_vals = {}
+      vals.each do |key, val|
+        if key =~ /^family_/
+          family_vals[key.sub(/^family_/, '')] = val
+        else
+          person_vals[key] = val
+        end
+      end
+      person_vals.reject! { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
+      family_vals.reject! { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
+      [person_vals, family_vals]
     end
   
   end

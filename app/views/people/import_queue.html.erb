@@ -9,24 +9,25 @@
     <% if @records.any? %>
       <ul style="list-style:none;">
         <% @records.each_with_index do |record, index| %>
+          <% person, changes = record %>
           <li>
-            <% if record.new_record? %>
+            <% if person.new_record? %>
               <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.new_#{index}').each(function(e){e.checked=$('record#{index}').checked})" %>
-              <%=h record.name %> <strong>(new)</strong>
+              <%=h person.name %> <strong>(new)</strong>
             <% else %>
-              <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.changes_#{record.id}').each(function(e){e.checked=$('record#{index}').checked})" %>
-              <%= link_to h(record.name), record %>
+              <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.changes_#{person.id}').each(function(e){e.checked=$('record#{index}').checked})" %>
+              <%= link_to h(person.name), person %>
             <% end %>
             <%= link_to_function 'changes &raquo;', "Element.toggle('details#{index}')", :class => 'discreet' %>
             <ul id="details<%= index %>" style="list-style:none;padding-left:25px;display:none;">
-              <% record.changes.each do |key, val| %>
+              <% changes.each do |key, val| %>
                 <% val = val.last %>
                 <li>
                   <label class="inline">
-                    <% if record.new_record? %>
+                    <% if person.new_record? %>
                       <%= check_box_tag "new[#{index}][#{key}]", val.to_s, true, :class => "new_#{index}" %>
                     <% else %>
-                      <%= check_box_tag "changes[#{record.id}][#{key}]", val.to_s, true, :class => "changes_#{record.id}" %>
+                      <%= check_box_tag "changes[#{person.id}][#{key}]", val.to_s, true, :class => "changes_#{person.id}" %>
                     <% end %>
                     <%=h key %>: <%=h val.inspect %>
                   </label>
