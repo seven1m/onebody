@@ -28,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
     groups.resources :notes
     groups.resources :messages
     groups.resources :prayer_requests
+    groups.resources :attendance, :collection => {:batch => :post}
     groups.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   

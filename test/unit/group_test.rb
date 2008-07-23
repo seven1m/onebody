@@ -26,4 +26,16 @@ class GroupTest < ActiveSupport::TestCase
     assert_equal 1, cats['bar']
     assert cats['Subscription'].nil?
   end
+  
+  should "get attendance records by date per person" do
+    @group.memberships.create!(:person_id => @person.id)
+    @group.memberships.create!(:person_id => Person.forge.id)
+    records = @group.get_people_attendance_records_for_date('2008-07-22')
+    assert_equal 2, records.length
+    assert !records.any? { |r| r.last }
+    @group.attendance_records.create!(:person_id => @person.id, :attended_at => '2008-07-22')
+    records = @group.get_people_attendance_records_for_date(Date.parse('2008-07-22'))
+    assert_equal 2, records.length
+    assert_equal 1, records.select { |r| r.last }.length
+  end
 end

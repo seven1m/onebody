@@ -162,6 +162,24 @@
   </div>
 <% end %>
 
+<% if @group.attendance? and @group.admin?(@logged_in) %>
+  <h2 class="tab" id="attendance">Attendance</h2>
+  <div class="section">
+    <% form_remote_tag :url => group_attendance_index_path(@group), :method => 'get',
+      :loading => "$('attendance_records').innerHTML = '#{image_tag('spinner.gif', :alt => 'loading')}'",
+      :html => {:id => 'attendance_date_form'} do %>
+      <p>
+        <%= text_field_tag :attended_at, Time.now.to_s(:date) %>
+        <%= submit_tag 'View/Update Attendance' %>
+        Dates with attendance data:
+        <%= select_tag 'existing_date', options_for_select([''] + @attendance_dates.map { |d| d.to_s(:date) }),
+          :onchange => "$('attended_at').value = this.value; $('attendance_date_form').onsubmit()" %>
+      </p>
+    <% end %>
+    <div id="attendance_records"></div>
+  </div>
+<% end %>
+
 <% unless @group.blog? or @group.email? or @group.prayer? %>
   <p><em>This group does not offer any features and is for informational purposes only.</em></p>
 <% end %>

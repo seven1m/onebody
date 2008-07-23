@@ -1,0 +1,12 @@
+<% form_remote_tag :url => batch_group_attendance_path(@group) do %>
+  <%= hidden_field_tag :attended_at, @attended_at %>
+  <ul style="list-style:none;">
+    <% @records.each do |person, record| %>
+      <li>
+        <%= check_box_tag 'person_ids[]', person.id, record ? true : false %>
+        <%=h person.name %>
+      </li>
+    <% end %>
+  </ul>
+  <p><%= submit_tag 'Save Attendance' %></p>
+<% end %>

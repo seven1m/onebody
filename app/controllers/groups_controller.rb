@@ -46,20 +46,6 @@ class GroupsController < ApplicationController
       end
     end
   end
-  
-#  def index
-#    respond_to do |format|
-#      format.html { redirect_to @logged_in }
-#      format.xml do
-#        if @logged_in.admin?(:export_data)
-#          @families = Family.all(:order => 'last_name, name, suffix')
-#          render :xml => @families.to_xml
-#        else
-#          render :xml => '<xml><error>You are not authorized to export data.</error></xml>', :status => 401
-#        end
-#      end
-#    end
-#  end
     
   def show
     @group = Group.find params[:id]
@@ -67,6 +53,7 @@ class GroupsController < ApplicationController
     @notes = @group.notes.find_all_by_deleted(false, :order => 'created_at desc', :limit => 10)
     @prayer_requests = @group.prayer_requests.find(:all, :conditions => "answer = '' or answer is null", :order => 'created_at desc')
     @answered_prayer_count = @group.prayer_requests.count('*', :conditions => "answer != '' and answer is not null")
+    @attendance_dates = @group.attendance_dates
     unless @group.approved? or @group.admin?(@logged_in)
       render :text => 'This group is pending approval', :layout => true
     end

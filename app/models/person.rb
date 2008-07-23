@@ -100,6 +100,7 @@ class Person < ActiveRecord::Base
   has_many :prayer_requests, :order => 'created_at desc'
   has_many :sync_instances
   has_many :remote_accounts
+  has_many :attendance_records
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"

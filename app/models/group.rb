@@ -35,6 +35,7 @@ class Group < ActiveRecord::Base
   has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc', :dependent => :destroy
   has_many :notes, :order => 'created_at desc'
   has_many :prayer_requests, :order => 'created_at desc'
+  has_many :attendance_records
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
@@ -170,6 +171,19 @@ class Group < ActiveRecord::Base
   
   def full_address
     address.to_s.any? ? (address + '@' + Site.current.host) : nil
+  end
+  
+  def get_people_attendance_records_for_date(date)
+    records = {}
+    people.each { |p| records[p.id] = [p, false] }
+    attendance_records.find_all_by_attended_at(date.to_time).each do |record|
+      records[record.person.id] = [record.person, record]
+    end
+    records.values.sort_by { |r| r[0].name }
+  end
+  
+  def attendance_dates
+    attendance_records.find_by_sql("select distinct attended_at from attendance_records where group_id = #{id} order by attended_at desc").map { |r| r.attended_at }
   end
   
   class << self
