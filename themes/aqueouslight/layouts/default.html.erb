@@ -40,7 +40,11 @@
 				  <% end %>
 				</h1>
         <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;width:300px;white-space:nowrap;">
-          <%= simple_url(Setting.get(:url, :site)) %> |
+          <% if !@page or @page.for_members? %>
+            <%= simple_url(Setting.get(:url, :site)) %>
+          <% else %>
+            <%= simple_url(Setting.get(:url, :visitor)) %>
+          <% end %> |
           <span id="news_headlines" style="position:relative;background-color:#fff;"><%=h Setting.get(:name, :slogan, 'your slogan here') %></span>
         </div>
 
