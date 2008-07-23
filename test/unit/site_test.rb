@@ -14,7 +14,8 @@ class SiteTest < ActiveSupport::TestCase
   end
   
   def test_sub_tables
-    assert !Site.sub_tables.include?('notifiers')
+    # easiest way is to delete a site and see if the all the ":dependent => :destroy" stuff works
+    Site.find(2).destroy_for_sure
   end
   
   private
