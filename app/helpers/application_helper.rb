@@ -38,6 +38,18 @@ module ApplicationHelper
   def me?
     @logged_in and @person and @logged_in == @person
   end
+  
+  def help_path(name=nil)
+    page_for_public_path("help/#{name}")
+  end
+  
+  def system_path(name=nil)
+    page_for_public_path("system/#{name}")
+  end
+  
+  def render_page_content(path)
+    Page.find_by_path(path).body rescue ''
+  end
 end
 
 module ActionView

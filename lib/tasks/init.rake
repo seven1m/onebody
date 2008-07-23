@@ -37,25 +37,27 @@ namespace :onebody do
     puts 'Create new admin user...'
     site = ENV['SITE'] ? Site.find_by_name(ENV['SITE']) : Site.find(1)
     Site.current = site # TODO: would be nice if acts_as_scoped_globally could allow bypass of this requirement
-    person = site.people.create(
+    password = ask('Password: ')         { |q| q.echo = false }
+    confirm  = ask('Password (again): ') { |q| q.echo = false }
+    raise 'Passwords do not match.' unless password == confirm
+    person = site.people.create!(
       :email => ask('Email Address: '),
       :first_name => ask('First Name: '),
       :last_name => ask('Last Name: '),
-      :password => ask('Password: ') { |q| q.echo = false },
-      :password_confirmation => ask('Password (again): ') { |q| q.echo = false },
+      :password => password,
       :gender => ask('Gender ("m" or "f"): ').downcase == 'm' ? 'Male' : 'Female',
       :can_sign_in => true,
       :visible_to_everyone => true,
       :visible_on_printed_directory => true,
       :full_access => true
     )
-    family = site.families.create(
+    family = site.families.create!(
       :name => person.name,
       :last_name => person.last_name
     )
     family.people << person
     admins = site.settings.find_by_name('Super Admins')
-    admins.update_attribute :value, admins.value << person.email
+    admins.update_attributes! :value => [person.email]
   end
 
 end

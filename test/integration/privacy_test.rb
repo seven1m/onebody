@@ -6,7 +6,7 @@ class PrivacyTest < ActionController::IntegrationTest
   def test_help_for_parents_with_hidden_children
     sign_in_as people(:jeremy)
     assert_select '#sidebar', /Where are my kids\?/
-    assert_select '#sidebar a[href=?]', /\/help\/safeguarding_children/
+    assert_select '#sidebar a[href=?]', /\/pages\/help\/safeguarding_children/
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
   end
   
@@ -33,7 +33,7 @@ class PrivacyTest < ActionController::IntegrationTest
   
   def test_children_cannot_sign_in_without_consent
     post_sign_in_form people(:mac).email
-    assert_redirected_to '/help/unauthorized'
+    assert_redirected_to '/pages/system/unauthorized'
     people(:mac).update_attribute :parental_consent, 'consent statement goes here' # not nil means this child has consent
     sign_in_as people(:mac)  # sign_in_as() will do assertions
   end

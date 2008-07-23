@@ -1,12 +1,3 @@
-<style type="text/css">
-  .highlight em {
-    background-color: #ffc;
-    font-style: normal;
-  }
-</style>
-
-<h1>Privacy Policy</h1>
-
 <p>
   This policy is effective as of April 3, 2007.
 </p>
@@ -35,16 +26,16 @@
 
 <h2>Overview</h2>
 <p>
-  This Privacy Policy is designed to help you understand how we (<%=h Setting.get(:name, :church) %>)
+  This Privacy Policy is designed to help you understand how we ([[name|church]])
   collect and use the personal information you decide to share, and help you make informed decisions when using
-  this site located at <%= link_to Setting.get(:url, :site), Setting.get(:url, :site) %> ("<%=h Setting.get(:name, :site) %>" or "Web Site").
+  this site located at <a href="[[url|site]]">[[url|site]]</a> ("[[name|site]]" or "Web Site").
 </p>
 <p>
   This Web Site is primarily a church directory, with added features that support
   social networking and other online and offline communication.
 </p>
 <p>
-  When you attend <%=h Setting.get(:name, :church) %> and provide information to the church, some of that
+  When you attend [[name|church]] and provide information to the church, some of that
   information is made available to other churchgoers on this Web Site.
 </p>
 <p>
@@ -56,12 +47,12 @@
 </p>
 <p>
   If you have questions or concerns regarding this policy, you should first contact our staff at
-  <%= mail_to Setting.get(:contact, :church_email), 'this address', :encode => 'hex' %>.
+  <a href="mailto:[[contact|church_email]]">[[contact||church_email]]</a>.
 </p>
 
 <h2>Site Access</h2>
 <p>
-  <strong>Only members and regular attenders</strong> of <%= Setting.get(:name, :church) %> are given access
+  <strong>Only members and regular attenders</strong> of [[name|church]] are given access
   to this site. In order to gain access, church-goers must demonstrate a
   certain level of commitment to the church and to attending regularly.
   All visitors to the church must have had some contact with church staff
@@ -71,7 +62,7 @@
   This restriction to regular attenders and members protects your private information
   from people who wish to use it for inappropriate and undesired purposes.
   All pages on this site containing personal information is protected from
-  accidental or purposeful access by people unrelated to <%=h Setting.get(:name, :church) %>.
+  accidental or purposeful access by people unrelated to [[name|church]].
   Only the sign in page, and other help documents such as this one,
   are available to everyone that views this Web Site.
 </p>
@@ -90,7 +81,7 @@
   We strive to protect children online. No one under 13 years of age is allowed to sign into the site
   by default, nor is their information available to others on the site. In order to allow children
   under 13 to sign in, a parent or guardian must first sign in, read this Privacy Policy, and give
-  consent on the <%= link_to 'Privacy', privacy_path %> page.
+  consent on the <a href="/privacy">Privacy</a> page.
 </p>
 
 <h2>The Information We Collect</h2>
@@ -151,12 +142,6 @@
   pages or if other Users have copied or stored your User Content.
 </p>
 
-<!--
-<p>
-  Any improper collection or misuse of information provided on ___ is a violation of the ___ Terms of Service and should be reported to 
-<p>
--->
-
 <h2>Use of Information Obtained</h2>
 <p>
   Your profile information, including but not limited to your name, home phone, and address are displayed
@@ -191,7 +176,7 @@
 <h2>Sharing Your Information with Third Parties</h2>
 
 <p>
-  <%=h Setting.get(:name, :site) %> is about sharing information with other churchgoers, while providing you with controls
+  [[name|site]] is about sharing information with other churchgoers, while providing you with controls
   that restrict them from accessing certain information. We allow you to choose the information you provide
   to others through the Web Site. We do not knowingly provide contact information to third party marketers,
   ever. We share your information with third parties only in limited circumstances where we believe such
@@ -204,7 +189,7 @@
   protect against misuse or unauthorized use of our Web site.</li>
 </ul>
 <p>
-  Unlike most sites on the Web, <%=h Setting.get(:name, :site) %> limits access to site information by third party search
+  Unlike most sites on the Web, [[name|site]] limits access to site information by third party search
   engine "crawlers" (e.g. Google, Yahoo, MSN, Ask). We block access by these engines to all personal information.
 </p>
 <p>
@@ -216,7 +201,7 @@
   The Web Site may contain links to other web sites. We are of course not responsible for the privacy practices
   of other web sites. We encourage our users to be aware when they leave our site to read the privacy
   statements of each and every web site that collects personally identifiable information. This Privacy Policy
-  applies solely to information collected by <%=h Setting.get(:name, :church) %>.
+  applies solely to information collected by [[name|church]].
 </p>
 
 <h2>Changing or Removing Information</h2>
@@ -232,8 +217,8 @@
 <p>
   Because a person's limited personal contact information is made available on the Web Site without them
   having signed in, anyone who wishes to have their information removed from the site may call the
-  church office at <%=h Setting.get(:contact, :church_office_phone) %> or email us at
-  <%= mail_to Setting.get(:contact, :church_email), 'this address', :encode => 'hex' %> to have their information removed immediately.
+  church office at [[contact|church_office_phone]] or email us at
+  [[contact|church_email]] to have their information removed immediately.
 </p>
 <p>
   Where you make use of the communication features of the service to share information with other individuals,
@@ -246,7 +231,7 @@
   on a secured server behind a firewall. Because email and instant messaging are not recognized as secure
   communications, we request that you not send private information to us by email or instant messaging services.
   If you have any questions about the security of the Web Site, please contact us at
-  <%= mail_to Setting.get(:contact, :church_email), 'this address', :encode => 'hex' %>.
+  [[contact|church_email]].
 </p>
 
 <h2>Notices and Revisions</h2>
@@ -263,6 +248,6 @@
 <h2>Contacting Us</h2>
 <p>
   If you have any questions about this privacy policy, please contact us at
-  <%= mail_to Setting.get(:contact, :church_email), 'this address', :encode => 'hex' %>.
-  You may also contact us by mail at <%=h Setting.get(:contact, :church_address) %>.
+  [[contact|church_email]].
+  You may also contact us by mail at [[contact|church_address]].
 </p>

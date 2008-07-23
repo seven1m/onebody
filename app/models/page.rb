@@ -51,6 +51,26 @@ class Page < ActiveRecord::Base
     cooked.gsub(/\{\{([a-z\s'&,.]+)\}\}/i) do
       "<a href=\"/search?name=#{CGI.escape($1)}\">#{$1}</a>"
     end
+    cooked.gsub(/\[\[([a-z_]+)\|([a-z_]+)\]\]/) do
+      Setting.get($1.to_sym, $2.to_sym).to_s rescue '???'
+    end
+  end
+  
+  def navigation_pages
+    if home?
+      Page.root_pages
+    else
+      children.find_all_by_published_and_navigation(true, true)
+    end
+  end
+  
+  before_destroy :cannot_destroy_system_page
+  
+  def cannot_destroy_system_page
+    if system?
+      errors.add_to_base('Cannot delete system pages.')
+      return false
+    end
   end
   
   class << self
@@ -82,8 +102,8 @@ class Page < ActiveRecord::Base
       connection.select_all("select path, id from pages where path != '' order by path").map { |r| [r['path'], r['id'].to_i] }
     end
     
-    def root_pages(include_home=false)
-      Page.find_all_by_parent_id(nil).select { |p| include_home or not p.home? }
+    def root_pages(include_home=false, published=true, navigation=true)
+      Page.find_all_by_parent_id_and_published_and_navigation(nil, published, navigation).select { |p| include_home or not p.home? }
     end
   
   end

@@ -20,6 +20,9 @@
     <%= form.label :body %>                <%= form.text_area :body, :rows => 20, :cols => 80 %><br/>
     <%= form.submit 'Save' %>
     <%= form.submit 'Save and Continue Editing' %>
-    <%= form.check_box :published, :class => 'checkbox' %> <%= form.label :published, 'Published', :class => 'inline' %>
+    <%= form.check_box :published, :class => 'checkbox', :onclick => "$('page_navigation').checked=this.checked" %>
+    <%= form.label :published, 'Published', :class => 'inline' %>
+    <%= form.check_box :navigation, :class => 'checkbox' %>
+    <%= form.label :navigation, 'Visibile in Navigation', :class => 'inline' %>
   </p>
 <% end %>

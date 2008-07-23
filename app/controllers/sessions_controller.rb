@@ -10,8 +10,12 @@ class SessionsController < ApplicationController
   
   # sign in form
   def new
-    flash[:warning] = 'There are no users in the system.' unless Person.count > 0
-    @salt = session_salt unless Setting.get(:features, :ssl)
+    if Person.count > 0
+      @salt = session_salt unless Setting.get(:features, :ssl)
+    else
+      @show_help = local_request?
+      render :action => 'no_users'
+    end
   end
   
   # sign in
@@ -19,7 +23,7 @@ class SessionsController < ApplicationController
     @salt = session_salt unless Setting.get(:features, :ssl)
     if person = Person.authenticate(params[:email], Setting.get(:features, :ssl) ? params[:password] : params[:password_encrypted], :encrypted => !Setting.get(:features, :ssl), :salt => @salt)
       unless person.can_sign_in?
-        redirect_to help_path('unauthorized')
+        redirect_to page_for_public_path('system/unauthorized')
         return
       end
       session[:logged_in_id] = person.id

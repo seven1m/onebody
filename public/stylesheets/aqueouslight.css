@@ -640,6 +640,11 @@ h2 a:visited {
 	border: 2px solid #92d9ff;
 }
 
+.highlight em {
+  background-color: #ffc;
+  font-style: normal;
+}
+
 .highlight h1,
 .highlight h2,
 .highlight h3 {

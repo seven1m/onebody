@@ -5,7 +5,7 @@
   <% unless @page.home? %>
     <li><%= link_to 'Home', home_path %></li>
   <% end %>
-  <% (@page.home? ? Page.root_pages : @page.children).each do |page| %>
+  <% @page.navigation_pages.each do |page| %>
     <li><%= link_to page.title, page_path(page) %></li>
   <% end %>
 <% end %>

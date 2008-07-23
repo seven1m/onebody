@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
         end
         unless person.can_sign_in?
           session[:logged_in_id] = nil
-          redirect_to help_path('bad_status')
+          redirect_to page_for_public_path('system/bad_status')
           return false
         end
         Person.logged_in = @logged_in = person

@@ -58,11 +58,11 @@
               <% end %>
 				    <% else %>
 				      <li style="float:right;font-size:smaller;color:#fff;text-align:right;">
-				        <%= link_to 'sign in', new_session_path(:from => request.request_uri) %>
+				        <%= link_to 'sign in', new_session_path %>
 				      </li>
 				    <% end %>
 				    
-            <% if Setting.get(:features, :content_management_system) %><li style="padding-right:8px;border-right:1px dotted #fff;"><%= link_to 'Home', home_path, :class => (params[:controller] == 'pages' and @page and @page.home? ? 'active' : nil) %></li><% end %>
+            <% if Setting.get(:features, :content_management_system) %><li style="padding-right:8px;border-right:1px dotted #fff;"><%= link_to 'Home', '/', :class => (params[:controller] == 'pages' and @page and @page.home? ? 'active' : nil) %></li><% end %>
 				    <li><%= link_to 'Profile', people_path, :class => (params[:controller] == 'people' and @person == @logged_in ? 'active' : nil) %></li>
 				    <li><%= link_to 'Directory', new_search_path, :class => (%w(searches printable_directories).include?(params[:controller]) ? 'active' : nil) %></li>
 				    <% if Setting.get(:features, :groups) %><li><%= link_to 'Groups', groups_path, :class => (params[:controller] == 'groups' ? 'active' : nil) %></li><% end %>
@@ -111,8 +111,8 @@
 		
 		<div id="footer">
       &copy; <%= session[:copyright_year] ||= Date.today.year %>, <%= Setting.get(:name, :church) %> |
-      <a href="/help/privacy_policy">Privacy Policy</a> |
-      <%= link_to 'Credits', '/help/credits' %> |
+      <a href="/pages/help/privacy_policy">Privacy Policy</a> |
+      <%= link_to 'Credits', '/pages/system/credits' %> |
       Powered by <a href="http://beonebody.org">OneBody</a>
 		</div>
 		

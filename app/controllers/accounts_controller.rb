@@ -52,7 +52,7 @@ class AccountsController < ApplicationController
             render :text => 'The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)', :layout => true
           end
         else
-          redirect_to help_path('bad_status')
+          redirect_to page_for_public_path('system/bad_status')
         end
       else
         flash[:warning] = "That email address could not be found in our system. If you have another address, try again."
@@ -77,7 +77,7 @@ class AccountsController < ApplicationController
             redirect_to verify_code_account_path(:id => v.id)
           end
         else
-          redirect_to help_path('bad_status')
+          redirect_to page_for_public_path('system/bad_status')
         end
       else
         flash[:warning] = "That mobile number could not be found in our system. You may try again."

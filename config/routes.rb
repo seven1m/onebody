@@ -53,7 +53,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :news
   map.resources :comments
   map.resources :attachments, :member => {:get => :get}
-  map.resources :helps, :as => 'help'
   
   map.resource :session
   map.resource :search, :member => {:opensearch => :get}

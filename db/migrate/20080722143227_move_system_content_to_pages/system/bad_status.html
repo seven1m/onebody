@@ -1,4 +1,4 @@
-<h1>Sorry, but...</h1>
+<h2>Sorry, but...</h2>
 
 <p>
   We've found your record in our database, but it appears your current
@@ -10,11 +10,11 @@
 
 <ul>
   <li>
-    <%= link_to 'Verify by birthday.', new_account_path(:birthday => true) %><br/>
+    <a href="/account/new?birthday=true">Verify by birthday.</a><br/>
     These submissions are reviewed by a real person and may take a few
     days to be approved.
   </li>
   <li>
-    Call the church office at <%= Setting.get(:contact, :church_office_phone) %> during church office hours.
+    Call the church office at [[contact|church_office_phone]] during church office hours.
   </li>
 </ul>

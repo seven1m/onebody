@@ -30,11 +30,15 @@ class Site < ActiveRecord::Base
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
   
+  def default?
+    id == 1
+  end
+  
   def multisite_host
     if Setting.get(:features, :multisite)
       host
     else
-      id == 1 ? '(any)' : '(none)'
+      default? ? '(any)' : '(none)'
     end
   end
   
@@ -51,7 +55,7 @@ class Site < ActiveRecord::Base
   end
   
   def enabled?
-    Setting.get(:features, :multisite) or self.id == 1
+    Setting.get(:features, :multisite) or default?
   end
   
   after_create :add_settings
@@ -77,7 +81,7 @@ class Site < ActiveRecord::Base
     raise 'This is such a destructive method that it has been renamed to destroy_for_sure for your safety.'
   end
   def destroy_for_sure
-    raise 'You cannot delete the default site (ID=1).' if self.id == 1
+    raise 'You cannot delete the default site (ID=1).' if default?
     # TO DO: this is messy
     was = Site.current
     Site.current = self
