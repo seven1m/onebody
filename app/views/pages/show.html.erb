@@ -1,6 +1,6 @@
 <% content_for :subnav do %>
   <% if @logged_in and @logged_in.admin?(:edit_pages) %>
-    <div style="float:right;"><%= link_to 'Edit Pages', pages_path, :style => 'color:#ff6;font-weight:bold;' %></div>
+    <div style="float:right;"><%= link_to 'Edit Pages', pages_path %></div>
   <% end %>
   <% unless @page.home? %>
     <li><%= link_to 'Home', home_path %></li>

@@ -234,6 +234,13 @@ name_church:
   description: The name of the church
   value: Imaginary Church
   section: Name
+name_church:
+  name: Slogan
+  site_id: 1
+  format: string
+  description: Slogan displayed at top of every page.
+  value: a pretend church for testing OneBody
+  section: Name
 contact_bugnotificationemail: 
   name: Bug Notification Email
   format: string

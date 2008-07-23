@@ -64,6 +64,10 @@ class Page < ActiveRecord::Base
     end
   end
   
+  def for_members?
+    path =~ /^system\//
+  end
+  
   before_destroy :cannot_destroy_system_page
   
   def cannot_destroy_system_page
