@@ -15,7 +15,7 @@ class Setup::DatabaseController < Setup::BaseController
   
   def load_fixtures
     if @info.backup_database
-      logger.info `#{rake_cmd} db:fixtures:load RAILS_ENV=#{session[:setup_environment]}`
+      logger.info `#{rake_cmd} onebody:load_sample_data RAILS_ENV=#{session[:setup_environment]}`
       flash[:notice] = 'Sample data loaded.'
       @info.reload
     else
