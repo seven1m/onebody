@@ -134,7 +134,7 @@ class Person < ActiveRecord::Base
       if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ?", value.downcase, record.family_id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
       end
-      if value.to_s.strip !~ VALID_EMAIL_RE
+      if value.to_s.strip !~ VALID_EMAIL_ADDRESS
         record.errors.add attribute, 'not a valid email address.'
       end
     end
@@ -400,7 +400,7 @@ class Person < ActiveRecord::Base
   end
   
   def valid_email?
-    email.to_s.strip =~ VALID_EMAIL_RE
+    email.to_s.strip =~ VALID_EMAIL_ADDRESS
   end
   
   def blog_items_count
