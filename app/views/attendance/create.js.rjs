@@ -1,0 +1,1 @@
+page.replace_html :attendance_records, :partial => 'records'

@@ -23,7 +23,7 @@
 
 <% unless @group.linked? %>
   <% if @group.approved %>
-    <%= form_remote_tag :url => search_path %>
+    <% form_remote_tag :url => search_path do %>
       <%= hidden_field_tag :select_person, true %>
       <p>
         <label for="add_person_name">Add somebody:</label>
@@ -35,13 +35,13 @@
         <% end %>
         <%= submit_tag 'Search by Name' %>
       </p>
-    </form>
+    <% end %>
 
     <div id="add_member" style="display:none;">
-      <%= form_remote_tag :url => batch_group_memberships_path(@group), :html => {:id => 'add_people_form'} %>
+      <% form_remote_tag :url => batch_group_memberships_path(@group), :html => {:id => 'add_people_form'} do %>
         <div id="results"></div>
         <p><%= submit_tag 'Add Selected' %></p>
-      </form>
+      <% end %>
     </div>
   <% else %>
     <p class="very-strong">
