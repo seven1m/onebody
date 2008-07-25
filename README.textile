@@ -2,19 +2,26 @@ h1. OneBody
 
 "http://beonebody.org":http://beonebody.org
 
-OneBody is free, open-source, volunteer-built software that connects churchgoers on the web.
+OneBody is open source software that connects community members on the web.
 
-Built by volunteers at a mid-sized, independent church in the heart of the United States, OneBody allows any church to add social network features to their website by using data stored in their existing church management software.
+h2. Features
 
-The revolutionary thing about OneBody is that it is designed to work with any church management software or database.
+* Basic Church Management System (ChMS)
+* Online Directory
+* Groups (with email list management, attendance tracking, and more)
+* Social Networking
+
+...and more.
 
 h2. Up And Running
 
-<pre>
-rake gems:install
-script/server -e setup
-</pre>
-...then browse to "http://localhost:3000":http://localhost:3000 and get everything set up.
+<pre class="console"><code>
+[sudo] rake gems:install
+rake db:migrate
+rake onebody:newuser # or rake onebody:load_sample_data
+script/server
+</code></pre>
+...then browse to "http://localhost:3000":http://localhost:3000
 
 h2. Where To Get Help
 
