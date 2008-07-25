@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080715223033
+# Schema version: 20080724143144
 #
 # Table name: groups
 #
@@ -26,6 +26,7 @@
 #  blog           :boolean       default(TRUE)
 #  email          :boolean       default(TRUE)
 #  prayer         :boolean       default(TRUE)
+#  attendance     :boolean       default(TRUE)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080715223033
+# Schema version: 20080724143144
 #
 # Table name: admins
 #
@@ -25,6 +25,9 @@
 #  updated_at             :datetime      
 #  site_id                :integer       
 #  edit_pages             :boolean       
+#  import_data            :boolean       
+#  export_data            :boolean       
+#  run_reports            :boolean       
 #
 
 class Admin < ActiveRecord::Base

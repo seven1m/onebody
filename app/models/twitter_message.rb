@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080715223033
+# Schema version: 20080724143144
 #
 # Table name: twitter_messages
 #
@@ -10,6 +10,7 @@
 #  reply               :string(140)   
 #  created_at          :datetime      
 #  updated_at          :datetime      
+#  site_id             :integer       
 #
 
 class TwitterMessage < ActiveRecord::Base

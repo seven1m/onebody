@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080715223033
+# Schema version: 20080724143144
 #
 # Table name: families
 #
@@ -17,8 +17,6 @@
 #  email              :string(255)   
 #  latitude           :float         
 #  longitude          :float         
-#  mail_group         :string(1)     
-#  security_token     :string(25)    
 #  share_address      :boolean       default(TRUE)
 #  share_mobile_phone :boolean       
 #  share_work_phone   :boolean       

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080715223033
+# Schema version: 20080724143144
 #
 # Table name: pages
 #
@@ -13,6 +13,8 @@
 #  site_id    :integer       
 #  created_at :datetime      
 #  updated_at :datetime      
+#  navigation :boolean       default(TRUE)
+#  system     :boolean       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

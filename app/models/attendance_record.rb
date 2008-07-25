@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20080724143144
+#
+# Table name: attendance_records
+#
+#  id          :integer       not null, primary key
+#  site_id     :integer       
+#  person_id   :integer       
+#  group_id    :integer       
+#  attended_at :datetime      
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#
+
 class AttendanceRecord < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
