@@ -16,6 +16,9 @@
 <% if @logged_in.super_admin? %>
   <h2>Settings</h2>
   <p><%= link_to 'Edit settings', administration_settings_path %> for this site.</p>
+  
+  <h2>Scheduled Tasks</h2>
+  <p><%= link_to 'Edit scheduled tasks', administration_scheduled_tasks_path %> for this site.</p>
 <% end %>
 
 <% if @logged_in.admin?(:view_log) %>

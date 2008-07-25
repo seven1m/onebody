@@ -76,6 +76,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :membership_requests
     admin.resources :log_items, :collection => {:batch => :put}
     admin.resources :settings, :collection => {:batch => :put}
+    admin.resources :scheduled_tasks
   end
   
   ActionController::Routing::Routes.draw_plugin_routes

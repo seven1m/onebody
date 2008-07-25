@@ -1,0 +1,13 @@
+<h1>Scheduled Tasks</h1>
+
+<table>
+  <tr><th>Name</th><th>Interval</th><th>Active</th></tr>
+  <% @tasks.each do |task| %>
+    <tr>
+      <td><%= link_to h(task.name), edit_administration_scheduled_task_path(task) %></td>
+      <td><%=h task.interval %></td>
+      <td><%=h task.active? ? 'yes' : 'no' %></td>
+      <td><%= link_to 'delete', administration_scheduled_task_path(task), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %></td>
+    </tr>
+  <% end %>
+</table>

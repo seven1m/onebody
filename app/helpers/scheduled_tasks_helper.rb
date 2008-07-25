@@ -1,0 +1,2 @@
+module ScheduledTasksHelper
+end
