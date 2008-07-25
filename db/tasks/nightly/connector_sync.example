@@ -1,8 +1,0 @@
-# Copy this file and remove the ".example" extension.
-# Uncomment (remove # sign) and edit the appropriate line below...
-# If you have more than one site, duplicate the lines and change the -s "Default"
-#   part to match the name of each site.
-
-# RAILS_ROOT/script/sync -e RAILS_ENV -s "Default" csv /var/data/people.csv /var/data/families.csv
-
-# RAILS_ROOT/script/sync -e RAILS_ENV -s "Default" coms /var/data/coms_data

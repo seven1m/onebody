@@ -9,8 +9,8 @@ class PrintableDirectoriesController < ApplicationController
   def create
     filename = File.join(RAILS_ROOT, 'tmp', @logged_in.id.to_s + '.pdf')
     check_js = "setTimeout('new Ajax.Request(\"/printable_directory\", {parameters:\"generate=true\",method:\"post\"})', 5000)"
-    if job_path = session[:directory_pdf_job]
-      if not File.exists?(job_path)
+    if task_id = session[:directory_pdf_job]
+      if not ScheduledTask.find_by_id(task_id)
         session[:directory_pdf_job] = nil
         render :update do |page|
           if File.exists?(filename)
@@ -28,11 +28,12 @@ class PrintableDirectoriesController < ApplicationController
         end
       end
     else
-      job_path = File.join(DB_TASKS_PATH, 'now', @logged_in.id.to_s)
-      cmd = "RAILS_ROOT/script/runner -e RAILS_ENV \"Site.current = Site.find(#{Site.current.id}); File.open('#{filename}.tmp', 'wb') { |f| f.write Person.find(#{@logged_in.id}).generate_directory_pdf }; File.rename('#{filename}.tmp', '#{filename}')\""
       begin
-        File.open(job_path, 'w') { |f| f.write(cmd) }
-        session[:directory_pdf_job] = job_path
+        task = ScheduledTask.queue(
+          "Printed Directory for #{@logged_in.name} (#{@logged_in.id})",
+          "File.open('#{filename}.tmp', 'wb') { |f| f.write Person.find(#{@logged_in.id}).generate_directory_pdf }; File.rename('#{filename}.tmp', '#{filename}')"
+        )
+        session[:directory_pdf_job] = task.id
         render :update do |page|
           page.show('status')
           page.hide('generate_form')

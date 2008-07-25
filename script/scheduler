@@ -3,13 +3,16 @@
 RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 require File.join(RAILS_ROOT, 'vendor/daemon')
 
-links_filename = File.join(RAILS_ROOT, 'config/initializers/links.rb')
-load links_filename if File.exists?(links_filename)
-
+require 'rubygems'
+require 'active_record'
+require 'yaml'
 require 'time'
 
+config = YAML::load_file(RAILS_ROOT + '/config/database.yml')['development']
+ActiveRecord::Base.establish_connection(config)
+%w(scheduled_task site setting).each { |model| require RAILS_ROOT + "/app/models/#{model}" }
+
 class Scheduler < Daemon::Base
-  TASKS_DIR = defined?(DB_TASKS_PATH) ? DB_TASKS_PATH : File.join(RAILS_ROOT, 'db/tasks')
   DELAY = 15
   MINUTE = 60
   HOUR = 60 * MINUTE
@@ -44,36 +47,47 @@ class Scheduler < Daemon::Base
     end
   end
   
-  def self.run_task(file, type=nil)
-    File.read(file).split(/\r?\n/).each do |line|
-      if line.strip.any? and line.strip !~ /^#/
-        cmd_line = line.gsub(/RAILS_ROOT/, @rails_root).gsub(/RAILS_ENV/, @rails_env)
-        puts (type ? type.capitalize + ' ' : '') + "Task: #{cmd_line}"
-        puts "Running at #{timestamp}..."
-        #success = system(cmd_line)
-        cmd = IO.popen(cmd_line, "w+"); cmd.close_write
-        result = cmd.read
-        puts "Finished at #{timestamp}"
-        puts 'Output:'
-        puts result.to_s.strip.any? ? result : '(blank)'
-        puts
-        STDOUT.flush
+  def self.run_task(task)
+    command = task.command.gsub(/"/, "\\\"")
+    if task.runner?
+      if task.site
+        command = "RAILS_ROOT/script/runner -e RAILS_ENV \"Site.current = Site.find(#{task.site_id}); #{command}\""
+      else
+        command = "RAILS_ROOT/script/runner -e RAILS_ENV \"Site.each { |site| #{command} }\""
       end
     end
+    command.gsub!(/RAILS_ROOT/, @rails_root)
+    command.gsub!(/RAILS_ENV/,  @rails_env )
+    if task.site
+      command.gsub!(/SITE_NAME/,      task.site.name || '')
+      command.gsub!(/EMAIL_HOST/,     Setting.find_by_section_and_name_and_global('Email', 'Host', true).value || '')
+      command.gsub!(/EMAIL_USERNAME/, task.site.settings.find_by_section_and_name('Email', 'Username'  ).value || '')
+      command.gsub!(/EMAIL_PASSWORD/, task.site.settings.find_by_section_and_name('Email', 'Password'  ).value || '')
+    end
+    puts "#{task.name} (#{task.interval})"
+    puts command
+    puts "Running at #{timestamp}..."
+    cmd = IO.popen(command, "w+"); cmd.close_write
+    result = cmd.read
+    puts "Finished at #{timestamp}"
+    puts 'Output:'
+    puts result.to_s.strip.any? ? result : '(blank)'
+    puts
+    STDOUT.flush
   end
   
   def self.timestamp
     Time.now.strftime('%m/%d/%Y %I:%M:%S %p')
   end
 
-  def self.run_tasks(directory)
-    Dir[File.join(TASKS_DIR, directory, '*')].each do |file|
-      run_task(file, directory) unless file =~ /^\./ or file =~ /\.example$/
+  def self.run_tasks(interval)
+    ScheduledTask.find_all_by_interval_and_active(interval, true).each do |task|
+      run_task(task)
     end
   end
   
-  def self.run_tasks_and_delete(directory)
-    run_tasks(directory).each { |f| File.delete f }
+  def self.run_tasks_and_delete(interval)
+    run_tasks(interval).each { |t| t.destroy }
   end
   
   def self.stop

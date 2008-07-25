@@ -31,6 +31,41 @@ email_host:
   value: localhost
   description: Hostname of your SMTP server
   format: string
+email_authenticationrequired:
+  global: true
+  section: Email
+  name: Authentication Required
+  value: false
+  description: Authentication Required for SMTP
+  format: boolean
+email_smtpusername:
+  global: true
+  section: Email
+  name: SMTP Username
+  value: 
+  description: SMTP Username to use if authentication is required
+  format: string
+email_smtppassword:
+  global: true
+  section: Email
+  name: SMTP Password
+  value: 
+  description: SMTP Password to use if authentication is required
+  format: password
+email_username:
+  section: Email
+  name: Username
+  site_id: 1
+  value: 
+  description: Username for POP email download
+  format: string
+email_password:
+  section: Email
+  name: Password
+  site_id: 1
+  value: 
+  description: Password for POP email download
+  format: password
 contact_sendupdatesto: 
   section: Contact
   name: Send Updates To
@@ -234,7 +269,7 @@ name_church:
   description: The name of the church
   value: Imaginary Church
   section: Name
-name_church:
+name_slogan:
   name: Slogan
   site_id: 1
   format: string

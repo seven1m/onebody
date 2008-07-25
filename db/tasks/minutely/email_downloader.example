@@ -1,6 +1,0 @@
-# Copy this file and remove the ".example" extension. Edit the line below to
-#   match your email host and mailbox login details. Replace host, username
-#   and password like this:
-#   RAILS_ROOT/script/inbox -e RAILS_ENV -s "Default" localhost onebody secret
-
-# RAILS_ROOT/script/inbox -e RAILS_ENV -s "Default" host username password

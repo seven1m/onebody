@@ -58,7 +58,7 @@ class Site < ActiveRecord::Base
     Setting.get(:features, :multisite) or default?
   end
   
-  after_create :add_settings
+  after_create :add_settings, :add_tasks
   
   def add_settings
     settings = YAML::load(File.open(SETTINGS_YAML_FILE))
@@ -69,6 +69,20 @@ class Site < ActiveRecord::Base
         Setting.create(values)
       end
     end
+  end
+  
+  def add_tasks
+    return unless ScheduledTask.table_exists?
+    [
+      {:name => 'Update News Feed',            :command => 'NewsItem.update_from_feed',                  :interval => 'hourly'},
+      {:name => 'Update Group Cached Parents', :command => 'Group.update_cached_parents',                :interval => 'hourly'},
+      {:name => 'Flag Suspicious Activity',    :command => 'LogItem.flag_suspicious_activity("1 hour")', :interval => 'hourly'},
+      {:name     => 'Email Downloader',
+       :runner   => false,
+       :command  => 'RAILS_ROOT/script/inbox -e RAILS_ENV -s "SITE_NAME" EMAIL_HOST EMAIL_USERNAME EMAIL_PASSWORD',
+       :interval => 'minutely',
+       :active   => false}
+    ].each { |t| self.scheduled_tasks.create!(t) unless self.scheduled_tasks.find_by_name(t[:name]) }
   end
   
   def twitter_enabled?
@@ -93,7 +107,7 @@ class Site < ActiveRecord::Base
     def each
       Site.find(:all).each do |site|
         Site.current = site
-        yield
+        yield(site)
       end
     end
   end

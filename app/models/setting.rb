@@ -18,7 +18,7 @@
 
 class Setting < ActiveRecord::Base
   GLOBAL_SETTINGS = [
-    'Email.Host', 'Email.Domain',
+    'Email.Host', 'Email.Domain', 'Email.Authentication Required',
     'Contact.Tech Support Email', 'Contact.Tech Support Contact', 'Contact.Bug Notification Email',
     'Services.Yahoo', 'Services.Amazon', 'Services.Analytics',
     'Features.Multisite', 'Features.SSL'
@@ -31,7 +31,7 @@ class Setting < ActiveRecord::Base
   
   def value
     v = read_attribute(:value)
-    format == 'boolean' ? ![0, '0', 'f'].include?(v) : v
+    self.format == 'boolean' ? ![0, '0', 'f'].include?(v) : v
   end
   
   def value?; value; end
@@ -106,7 +106,7 @@ class Setting < ActiveRecord::Base
           next if values['global']
           unless Setting.find_by_site_id_and_section_and_name(site.id, values['section'], values['name'])
             values.update 'site_id' => site.id
-            Setting.create(values)
+            Setting.create!(values)
           end
         end
       end
