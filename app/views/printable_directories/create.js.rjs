@@ -1,0 +1,9 @@
+if @task.reload.active?
+  page.show('status')
+  page.hide('generate_form')
+  page << "setTimeout('new Ajax.Request(\"/printable_directory\", {parameters:\"generate=true\", method:\"post\"})', 5000)"
+else
+  page.hide('status')
+  page.show('success')
+  page.redirect_to printable_directory_path
+end

@@ -731,6 +731,10 @@ class Person < ActiveRecord::Base
     
     pdf
   end
+  
+  def generate_directory_pdf_to_file(filename)
+    File.open(filename, 'wb') { |f| f.write(generate_directory_pdf) }
+  end
 
 end
 

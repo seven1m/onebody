@@ -3,6 +3,8 @@
 RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 require File.join(RAILS_ROOT, 'vendor/daemon')
 
+RAILS_ENV = ARGV[1] || 'production'
+
 require 'rubygems'
 require 'active_record'
 require 'yaml'
@@ -10,20 +12,23 @@ require 'time'
 
 config = YAML::load_file(RAILS_ROOT + '/config/database.yml')['development']
 ActiveRecord::Base.establish_connection(config)
+
+require RAILS_ROOT + '/config/initializers/paths'
+require RAILS_ROOT + '/vendor/plugins/acts_as_file/lib/acts_as_file'
 %w(scheduled_task site setting).each { |model| require RAILS_ROOT + "/app/models/#{model}" }
 
 class Scheduler < Daemon::Base
-  DELAY = 15
+  DELAY  = 15
   MINUTE = 60
-  HOUR = 60 * MINUTE
-  DAY = 24 * HOUR
+  HOUR   = 60 * MINUTE
+  DAY    = 24 * HOUR
   NIGHT_HOURS = 0..3
   
   def self.start
     puts "Scheduler started at #{timestamp}"
     puts
     @rails_root = File.expand_path(RAILS_ROOT)
-    @rails_env = ARGV[1] || 'production'
+    @rails_env = RAILS_ENV
     loop do
       self.run
       sleep DELAY
@@ -32,7 +37,7 @@ class Scheduler < Daemon::Base
   
   def self.run
     now = Time.now
-    self.run_tasks_and_delete('now')
+    self.run_tasks_and_inactivate('now')
     if @last_minutely_run.nil? or now >= @last_minutely_run + MINUTE
       self.run_tasks('minutely')
       @last_minutely_run = now
@@ -58,6 +63,7 @@ class Scheduler < Daemon::Base
     end
     command.gsub!(/RAILS_ROOT/, @rails_root)
     command.gsub!(/RAILS_ENV/,  @rails_env )
+    command.gsub!(/TASK_BASE_FILE_PATH/, task.base_file_path)
     if task.site
       command.gsub!(/SITE_NAME/,      task.site.name || '')
       command.gsub!(/EMAIL_HOST/,     Setting.find_by_section_and_name_and_global('Email', 'Host', true).value || '')
@@ -86,8 +92,8 @@ class Scheduler < Daemon::Base
     end
   end
   
-  def self.run_tasks_and_delete(interval)
-    run_tasks(interval).each { |t| t.destroy }
+  def self.run_tasks_and_inactivate(interval)
+    run_tasks(interval).each { |t| t.update_attribute(:active, false) }
   end
   
   def self.stop

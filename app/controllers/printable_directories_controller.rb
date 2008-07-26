@@ -1,59 +1,42 @@
 class PrintableDirectoriesController < ApplicationController
 
+  before_filter :check_access
+
   def new
-    unless @logged_in.full_access?
-      render :text => 'You are not allowed to print the directory. Sorry.', :layout => true, :status => 401
-    end
   end
   
   def create
-    filename = File.join(RAILS_ROOT, 'tmp', @logged_in.id.to_s + '.pdf')
-    check_js = "setTimeout('new Ajax.Request(\"/printable_directory\", {parameters:\"generate=true\",method:\"post\"})', 5000)"
-    if task_id = session[:directory_pdf_job]
-      if not ScheduledTask.find_by_id(task_id)
-        session[:directory_pdf_job] = nil
-        render :update do |page|
-          if File.exists?(filename)
-            page.replace_html('status', 'Success!<br/><br/>You should see your PDF pop up any second.')
-            page.redirect_to printable_directory_path
-          else
-            page.replace_html('status', "There was an error generating your custom directory. Please notify the system administrator.")
-          end
-        end
-      else
-        render :update do |page|
-          page.show('status')
-          page.hide('generate_form')
-          page << check_js
-        end
-      end
-    else
-      begin
-        task = ScheduledTask.queue(
-          "Printed Directory for #{@logged_in.name} (#{@logged_in.id})",
-          "File.open('#{filename}.tmp', 'wb') { |f| f.write Person.find(#{@logged_in.id}).generate_directory_pdf }; File.rename('#{filename}.tmp', '#{filename}')"
-        )
-        session[:directory_pdf_job] = task.id
-        render :update do |page|
-          page.show('status')
-          page.hide('generate_form')
-          page << check_js
-        end
-      rescue => e
-        render(:update) { |p| p.alert('There was an error: ' + e.to_s) }
-      end
+    unless @task = session[:directory_pdf_job]
+      @task = ScheduledTask.queue(
+        "Printed Directory for #{@logged_in.name} (#{@logged_in.id})",
+        "Person.find(#{@logged_in.id}).generate_directory_pdf_to_file('TASK_BASE_FILE_PATH.pdf')"
+      )
+      session[:directory_pdf_job] = @task
     end
   end
   
   def show
-    filename = File.join(RAILS_ROOT, 'tmp', @logged_in.id.to_s + '.pdf')
-    if File.exists?(filename)
-      pdf = File.read(filename)
-      File.delete(filename)
-      send_data pdf, :disposition => 'inline', :type => 'application/pdf', :filename => 'church_directory.pdf'
+    if @task = session[:directory_pdf_job]
+      session[:directory_pdf_job] = nil
+      if @task.has_file?
+        send_data File.read(@task.file_path), :disposition => 'inline', :type => 'application/pdf', :filename => 'church_directory.pdf'
+        @task.destroy
+      else
+        flash[:warning] = 'There was an error locating your custom PDF.'
+        redirect_to new_printable_directory_path
+      end
     else
       redirect_to new_printable_directory_path
     end
   end
+  
+  private
+  
+    def check_access
+      unless @logged_in.full_access?
+        render :text => 'You are not allowed to print the directory. Sorry.', :layout => true, :status => 401
+        return false
+      end
+    end
 
 end

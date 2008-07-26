@@ -10,7 +10,7 @@ module Foo
 
       module ClassMethods
         def acts_as_file(storage_path)
-          file_env = Rails.env == 'production' ? '' : ('.' + Rails.env)
+          file_env = RAILS_ENV == 'production' ? '' : ('.' + RAILS_ENV)
           class_eval <<-END
             CONTENT_TYPES = {
               'gif' => "image/gif",
@@ -48,6 +48,11 @@ module Foo
             
             def file_path
               file_name ? File.join('#{storage_path}', file_name) : nil
+            end
+            
+            def base_file_path
+              return nil unless id
+              File.join('#{storage_path}', id.to_s + '#{file_env}')
             end
             
             def file_content_type

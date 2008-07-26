@@ -18,6 +18,8 @@ class ScheduledTask < ActiveRecord::Base
   belongs_to :site
   validates_presence_of :name, :command
   
+  acts_as_file DB_TASK_FILES_PATH
+  
   def self.queue(name, command, runner=true)
     Site.current.scheduled_tasks.create!(
       :name     => name,
