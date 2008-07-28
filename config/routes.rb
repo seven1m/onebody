@@ -79,6 +79,6 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :scheduled_tasks
   end
   
-  ActionController::Routing::Routes.draw_plugin_routes
+  ActionController::Routing::Routes.draw_plugin_routes rescue nil
   
 end
