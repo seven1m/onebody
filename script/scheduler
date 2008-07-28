@@ -10,7 +10,7 @@ require 'active_record'
 require 'yaml'
 require 'time'
 
-config = YAML::load_file(RAILS_ROOT + '/config/database.yml')['development']
+config = YAML::load_file(RAILS_ROOT + '/config/database.yml')[RAILS_ENV]
 ActiveRecord::Base.establish_connection(config)
 
 require RAILS_ROOT + '/config/initializers/paths'

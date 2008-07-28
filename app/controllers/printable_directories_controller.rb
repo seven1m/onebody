@@ -1,6 +1,7 @@
 class PrintableDirectoriesController < ApplicationController
 
   before_filter :check_access
+  before_filter :check_scheduler, :only => 'new'
 
   def new
   end
