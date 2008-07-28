@@ -15,7 +15,6 @@ Rails::Initializer.run do |config|
   # dependencies
   config.gem 'pdf-writer', :lib => 'pdf/writer'
   config.gem 'highline'
-  config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
   config.gem 'mini_magick'
 end
 

@@ -1,12 +1,7 @@
-require 'zlib'
-require 'archive/tar/minitar'
-
 class OneBodyInfo
   RELEASED_VERSION_URL = nil
   DEV_VERSION_URL = 'http://github.com/seven1m/onebody/tree/master%2FVERSION?raw=true'
   GIT_REVISION_YAML_URL = 'http://github.com/api/v1/yaml/seven1m/onebody/commits/master'
-  
-  include Archive::Tar
   
   cattr_accessor :setup_environment
   
@@ -185,28 +180,6 @@ class OneBodyInfo
   
   def database_upgrade_code
     "rake db:migrate RAILS_ENV=#{OneBodyInfo.setup_environment}"
-  end
-  
-  def backup_database
-    # first backup database
-    timestamp = Time.now.strftime('%Y%m%d%H%M')
-    base_path = File.join(RAILS_ROOT, 'db')
-    base_filename = File.expand_path(File.join(base_path, "#{OneBodyInfo.setup_environment}.backup.#{timestamp}"))
-    if database_config['adapter'] == 'mysql'
-      filename = base_filename + '.sql'
-      `mysqldump -u#{database_config['username']} -p#{database_config['password']} #{database_config['database']} > #{filename}`
-    else # sqlite3
-      filename = base_filename + '.db'
-      FileUtils.cp(File.expand_path(File.join(RAILS_ROOT, database_config['database'])), filename)
-    end
-    if File.exists? filename
-      # now backup photos and publications files
-      paths_to_backup = [File.join(base_path, 'photos'), File.join(base_path, 'publications')]
-      File.open(base_filename + '.tar', 'wb') { |tar| Minitar.pack(paths_to_backup, tar) }
-      filename
-    else
-      false
-    end
   end
   
   def precache

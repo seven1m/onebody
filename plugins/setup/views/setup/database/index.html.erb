@@ -19,9 +19,6 @@
   </p>
 <% end %>
 
-<h2>Backup Database</h2>
-<p><%= link_to 'Click here', setup_backup_database_url, :method => :post, :confirm => 'If successful, two files will be created in the "db" folder with the current timestamp.' %> to make a backup of your SQL database and all files.</p>
-
 <% if @info.database_up_to_date %>
   <h2>Load Sample Data</h2>
   <p><%= link_to "Click here", setup_load_fixtures_url, :confirm => 'Are you sure? This will delete ALL data in the database!', :method => :post %> to load the OneBody sample data.

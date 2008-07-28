@@ -19,12 +19,8 @@ class Setup::SitesController < Setup::BaseController
   
   def delete
     if params[:sure]
-      if @info.backup_database
-        Site.find(params[:id]).destroy_for_sure
-        flash[:notice] = 'Site deleted.'
-      else
-        flash[:warning] = 'Site was not deleted because backup failed.'
-      end
+      Site.find(params[:id]).destroy_for_sure
+      flash[:notice] = 'Site deleted.'
     end
     redirect_to setup_sites_url
   end

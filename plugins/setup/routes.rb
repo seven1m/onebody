@@ -23,7 +23,6 @@ module SetupPlugin
         m.setup_load_fixtures 'setup/database/load_fixtures', :action => 'load_fixtures'
         m.setup_migrate_database 'setup/database/migrate', :action => 'migrate'
         m.setup_edit_database 'setup/database/edit', :action => 'edit'
-        m.setup_backup_database 'setup/database/backup', :action => 'backup'
       end
 
       map.namespace 'setup' do |admin|

@@ -4,23 +4,10 @@ class Setup::DatabaseController < Setup::BaseController
   def index
   end
   
-  def backup
-    if path = @info.backup_database
-      flash[:notice] = "The database has been backed up to #{path}"
-    else
-      flash[:warning] = "There was an error backing up your database."
-    end
-    redirect_to setup_database_url
-  end
-  
   def load_fixtures
-    if @info.backup_database
-      logger.info `#{rake_cmd} onebody:load_sample_data RAILS_ENV=#{session[:setup_environment]}`
-      flash[:notice] = 'Sample data loaded.'
-      @info.reload
-    else
-      flash[:warning] = 'Sample data was not loaded because database backup failed.'
-    end
+    logger.info `#{rake_cmd} onebody:load_sample_data RAILS_ENV=#{session[:setup_environment]}`
+    flash[:notice] = 'Sample data loaded.'
+    @info.reload
     redirect_to setup_database_url
   end
   
