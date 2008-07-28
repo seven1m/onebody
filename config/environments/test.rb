@@ -19,3 +19,5 @@ config.action_controller.perform_caching             = false
 config.action_mailer.delivery_method = :test
 
 config.gem 'faker'
+
+require Rails.root + '/config/initializers/paths'
