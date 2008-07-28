@@ -5,7 +5,7 @@
   <label for="birthday_month">Birthday:</label>
   <select name="birthday_month" id="birthday_month">
     <option value=""></option>
-    <%= options_for_select MONTHS, params[:birthday_month] %>
+    <%= options_for_select MONTHS_FOR_SELECT, params[:birthday_month] %>
   </select>
   <select name="birthday_day" id="birthday_day">
     <option value=""></option>
@@ -14,7 +14,7 @@
   <label for="anniversary_month">Anniversary:</label>
   <select name="anniversary_month" id="anniversary_month">
     <option value=""></option>
-    <%= options_for_select MONTHS, params[:anniversary_month] %>
+    <%= options_for_select MONTHS_FOR_SELECT, params[:anniversary_month] %>
   </select>
   <select name="anniversary_day" id="anniversary_day">
     <option value=""></option>

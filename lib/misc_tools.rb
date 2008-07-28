@@ -56,6 +56,14 @@ class Array
     grouped << group if group
     return grouped
   end
+  
+  def with_indexes
+    returning([]) do |with|
+      self.each_with_index do |item, index|
+        with << [item, index]
+      end
+    end
+  end
 end
 
 def random_chars(length)
