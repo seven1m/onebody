@@ -6,8 +6,14 @@
 <% end %>
 
 <table>
-  <% if @person.home_phone.to_i > 0 %>
-    <tr><td>Home:</td><td><%= number_to_phone @person.home_phone, :area_code => true %></td></tr>
+  <% if sharing = @person.share_home_phone_with(@logged_in) and @person.home_phone.to_i > 0 %>
+    <tr>
+      <td>Home:</td>
+      <td>
+        <%= number_to_phone @person.home_phone, :area_code => true %>
+        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'home_phone'} %>
+      </td>
+    </tr>
   <% end %>
   <% if sharing = @person.share_mobile_phone_with(@logged_in) and @person.mobile_phone.to_i > 0 %>
     <tr>

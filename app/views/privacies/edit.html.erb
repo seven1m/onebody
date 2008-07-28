@@ -36,7 +36,7 @@
 
   <p>
     <%= form.check_box 'visible', :class => 'checkbox', :onclick => "check_visibility();if($('notice')) new Effect.Fade('notice');if(!changed_sections.include('family'))changed_sections.push('family')" %>
-    <strong class="very-strong">visible on site</strong><br/>
+    <strong>visible on site</strong><br/>
     <em>By turning off site visibility, <%= @family == @logged_in.family ? 'your' : 'this' %> entire
       family will not appear in any searches. It is still possible to join groups and receive email
       from site administrators, though.</em>
@@ -55,6 +55,11 @@
         <td>Mobile Phone</td>
         <td><%= form.radio_button :share_mobile_phone, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_mobile_phone, false, :class => 'checkbox' %></td>
+      </tr>
+      <tr>
+        <td>Home Phone</td>
+        <td><%= form.radio_button :share_home_phone, true, :class => 'checkbox' %></td>
+        <td><%= form.radio_button :share_home_phone, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
         <td>Work Phone</td>
@@ -85,11 +90,6 @@
         <td><em>The year is never shown.</em></td>
       </tr>
       <tr>
-        <td>Home Phone*</td>
-        <td><input type="radio" checked="checked" disabled="disabled" class="checkbox" name="home_phone"/></td>
-        <td><input type="radio" disabled="disabled" class="checkbox" name="home_phone"/></td>
-      </tr>
-      <tr>
         <td>Activity</td>
         <td><%= form.radio_button :share_activity, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_activity, false, :class => 'checkbox' %></td>
@@ -109,12 +109,7 @@
         <td><em>A space for people to post messages for you and others to see.</em></td>
       </tr>
     </table>
-  
-    <p style="font-style:italic;">
-      *Your home phone number needs to remain visible to facilitate basic communication, but
-      if you wish to make it private, you may contact the church office to have it unlisted.
-    </p>
-    
+ 
   </div>
   
   <p><%= submit_tag 'Save Family Settings' %></p>
@@ -146,7 +141,7 @@
     
       <p>You may override the family settings for <%=h person.name %> by making changes below.</p>
       
-      <p class="person-visible-link">
+      <p>
         <%= form.check_box 'visible', :class => 'checkbox person-visible-checkbox', :id => "person-visible#{person.id}", :onclick => "check_visibility();" %>
         <strong>visible on site</strong><br/>
         <em>By turning off site visibility, <%=h person.first_name %> will not appear

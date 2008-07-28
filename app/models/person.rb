@@ -191,9 +191,11 @@ class Person < ActiveRecord::Base
   inherited_attribute :share_birthday, :family
   inherited_attribute :share_activity, :family
   inherited_attribute :wall_enabled, :family
-  def share_address; family.share_address; end
+  def share_home_phone ; family.share_home_phone ; end
+  def share_address    ; family.share_address    ; end
   def share_anniversary; family.share_anniversary; end
-  
+
+  share_with :home_phone  
   share_with :mobile_phone
   share_with :work_phone
   share_with :fax
