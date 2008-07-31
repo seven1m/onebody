@@ -19,7 +19,7 @@ class PeopleController < ApplicationController
       @family = @person.family
       @family_people = @person.family.visible_people
       @me = (@logged_in == @person)
-      @show_map = Setting.get(:services, :yahoo) and @person.family.mapable? and @person.share_address_wit(@logged_in)
+      @show_map = Setting.get(:services, :yahoo) and @person.family.mapable? and @person.share_address_with(@logged_in)
       if params[:simple]
         if @logged_in.full_access?
           if params[:photo]
