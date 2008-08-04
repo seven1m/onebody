@@ -35,21 +35,25 @@ namespace :onebody do
   desc 'Create a new (admin) user. Use SITE="Site Name" for multisite.'
   task :newuser => :environment do
     puts 'Create new admin user...'
-    site = ENV['SITE'] ? Site.find_by_name(ENV['SITE']) : Site.find(1)
-    Site.current = site # TODO: would be nice if acts_as_scoped_globally could allow bypass of this requirement
-    password = ask('Password: ')         { |q| q.echo = false }
-    confirm  = ask('Password (again): ') { |q| q.echo = false }
-    raise 'Passwords do not match.' unless password == confirm
+    Site.current = site = ENV['SITE'] ? Site.find_by_name(ENV['SITE']) : Site.find(1)
+    unless password = ENV['PASSWORD']
+      password = ask('Password: ')         { |q| q.echo = false }
+      confirm  = ask('Password (again): ') { |q| q.echo = false }
+      raise 'Passwords do not match.' unless password == confirm
+    end
+    unless gender = ENV['GENDER']
+      gender = ask('Gender ("m" or "f"): ').downcase == 'm' ? 'Male' : 'Female'
+    end
     person = site.people.create!(
-      :email => ask('Email Address: '),
-      :first_name => ask('First Name: '),
-      :last_name => ask('Last Name: '),
-      :password => password,
-      :gender => ask('Gender ("m" or "f"): ').downcase == 'm' ? 'Male' : 'Female',
-      :can_sign_in => true,
-      :visible_to_everyone => true,
+      :email                        => ENV['EMAIL'] || ask('Email Address: '),
+      :first_name                   => ENV['FIRST'] || ask('First Name: '),
+      :last_name                    => ENV['LAST']  || ask('Last Name: '),
+      :password                     => password,
+      :gender                       => gender,
+      :can_sign_in                  => true,
+      :visible_to_everyone          => true,
       :visible_on_printed_directory => true,
-      :full_access => true
+      :full_access                  => true
     )
     family = site.families.create!(
       :name => person.name,
