@@ -8,7 +8,8 @@ class Administration::SettingsController < ApplicationController
     ).group_by &:section
     @lists = {'Appearance' => {}}
     info = OneBodyInfo.new
-    @lists['Appearance']['Theme'] = @lists['Appearance']['Public Theme'] = info.themes
+    @lists['Appearance']['Theme'] = info.themes
+    @lists['Appearance']['Public Theme'] = info.themes + ['page:template']
   end
   
   def batch

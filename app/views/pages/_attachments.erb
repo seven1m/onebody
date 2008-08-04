@@ -5,10 +5,12 @@
       <li>
         <%= link_to attachment.name, get_attachment_path(attachment) %>
         (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
-        <% if attachment.image? %>
-          <%= link_to_function 'insert', "insertImage('#{get_attachment_path(attachment)}', '#{attachment.human_name}', '#{attachment.width}px', '#{attachment.height}px')" %>
-        <% else %>
-          <%= link_to_function 'insert', "insertLink('#{get_attachment_path(attachment)}')" %>
+        <% unless @page.path == 'template' %>
+          <% if attachment.image? %>
+            <%= link_to_function 'insert', "insertImage('#{get_attachment_path(attachment)}', '#{attachment.human_name}', '#{attachment.width}px', '#{attachment.height}px')" %>
+          <% else %>
+            <%= link_to_function 'insert', "insertLink('#{get_attachment_path(attachment)}')" %>
+          <% end %>
         <% end %>
         <%= link_to 'delete', attachment, :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
       </li>

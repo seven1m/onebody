@@ -16,10 +16,18 @@ class PagesController < ApplicationController
   end
   
   def show_for_public
-    if @page.published?
-      render :action => 'show'
+    if @theme_name == 'page:template'
+      if @page.published?
+        render_with_template(@page)
+      else
+        render_with_template('Page not found.', 404)
+      end
     else
-      render :text => 'Page not found.', :status => 404
+      if @page.published?
+        render :action => 'show'
+      else
+        render :text => 'Page not found.', :status => 404
+      end
     end
   end
   
@@ -95,6 +103,15 @@ class PagesController < ApplicationController
   
   private
   
+    def render_with_template(page, status=200)
+      content = page.is_a?(String) ? page : page.body
+      if template = Page.find_by_path('template')
+        render :text => template.body.sub(/\[\[content\]\]/, content), :status => status
+      else
+        render :text => 'Template not found.', :layout => true, :status => 500
+      end
+    end
+  
     def get_path
       @path = params[:path].to_a.join('/')
       if @path.sub!(%r{/edit$}, '')
@@ -109,7 +126,11 @@ class PagesController < ApplicationController
     
     def get_theme_name
       if params[:action] == 'show_for_public'
-        Setting.get(:appearance, :public_theme)
+        if (@theme_name = Setting.get(:appearance, :public_theme)) == 'page:template'
+          'aqueouslight'
+        else
+          @theme_name
+        end
       else
         super
       end

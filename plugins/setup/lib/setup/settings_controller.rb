@@ -5,7 +5,8 @@ class Setup::SettingsController < Setup::BaseController
     @settings = Setting.find_all_by_site_id_and_hidden(params[:site_id], false, :order => 'section, name').group_by &:section
     @lists = {'Appearance' => {}}
     info = OneBodyInfo.new
-    @lists['Appearance']['Theme'] = @lists['Appearance']['Public Theme'] = info.themes
+    @lists['Appearance']['Theme'] = info.themes
+    @lists['Appearance']['Public Theme'] = info.themes + ['page:template']
     render :template => 'administration/settings/index'
   end
   

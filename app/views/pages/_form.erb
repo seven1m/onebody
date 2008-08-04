@@ -1,15 +1,17 @@
-<%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg.js' %>
-<%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg-settings.js' %>
+<% unless @page.path == 'template' %>
+  <%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg.js' %>
+  <%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg-settings.js' %>
 
-<script type="text/javascript">
-  page_full = new WYSIWYG.Settings();
-  page_full.ImagesDir = "/javascripts/openwysiwyg/images/";
-  page_full.PopupsDir = "/javascripts/openwysiwyg/popups/";
-  page_full.CSSFile   = "/javascripts/openwysiwyg/styles/wysiwyg.css";
-  page_full.Width     = "1125px";
-  page_full.Height    = "350px";
-	WYSIWYG.attach('page_body', page_full);
-</script>
+  <script type="text/javascript">
+    page_full = new WYSIWYG.Settings();
+    page_full.ImagesDir = "/javascripts/openwysiwyg/images/";
+    page_full.PopupsDir = "/javascripts/openwysiwyg/popups/";
+    page_full.CSSFile   = "/javascripts/openwysiwyg/styles/wysiwyg.css";
+    page_full.Width     = "80%";
+    page_full.Height    = "350px";
+	  WYSIWYG.attach('page_body', page_full);
+  </script>
+<% end %>
 
 <% form_for @page do |form| %>
   <%= form.error_messages %>
@@ -17,7 +19,7 @@
     <%= form.label :title %>               <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
     <%= form.label :parent_id, 'Path' %>   <%= form.select :parent_id, [['(root)', nil]] + @page_paths_and_ids, {}, :style => 'width:auto;' %> /
                                            <%= form.text_field :slug %><br/>
-    <%= form.label :body %>                <%= form.text_area :body, :rows => 20, :cols => 80 %><br/>
+    <%= form.label :body %>                <%= form.text_area :body, :rows => 20, :cols => 80, :style => 'width:80%;font-family:monaco,monospace;' %><br/>
     <%= form.submit 'Save' %>
     <%= form.submit 'Save and Continue Editing' %>
     <%= form.check_box :published, :class => 'checkbox', :onclick => "$('page_navigation').checked=this.checked" %>
