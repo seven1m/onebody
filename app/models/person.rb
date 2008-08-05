@@ -481,9 +481,13 @@ class Person < ActiveRecord::Base
   before_create :update_feed_code
   def update_feed_code
     begin # ensure unique
-      code = (1..50).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
+      code = random_chars(50)
       write_attribute :feed_code, code
     end while Person.count('*', :conditions => ['feed_code = ?', code]) > 0
+  end
+  
+  def generate_api_key
+    write_attribute :api_key, random_chars(50)
   end
   
   def update_from_params(params)

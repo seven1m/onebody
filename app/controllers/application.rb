@@ -50,8 +50,12 @@ class ApplicationController < ActionController::Base
         Person.logged_in = @logged_in = Person.find_by_id(id)
       end
     end
+    
+    def authenticate_user # default
+      authenticate_user_with_http_basic_or_session
+    end
   
-    def authenticate_user
+    def authenticate_user_with_session
       if id = session[:logged_in_id]
         unless person = Person.find_by_id(id)
           session[:logged_in_id] = nil
@@ -77,18 +81,19 @@ class ApplicationController < ActionController::Base
     
     def authenticate_user_with_code_or_session
       unless params[:code] and Person.logged_in = @logged_in = Person.find_by_feed_code(params[:code])
-        authenticate_user
+        authenticate_user_with_session
       end
     end
     
-    def authenticate_user_with_http_basic
-      authenticate_with_http_basic do |username, password|
-        if (key = password.any? ? password : username).any?
-          Person.logged_in = @logged_in = Person.find_by_feed_code(key)
+    def authenticate_user_with_http_basic_or_session
+      authenticate_with_http_basic do |email, api_key|
+        if email.to_s.any? and api_key.to_s.length == 50
+          Person.logged_in = @logged_in = Person.find_by_email_and_api_key(email, api_key)
+          Person.logged_in = @logged_in = nil unless @logged_in.super_admin?
         end
       end
       unless @logged_in
-        authenticate_user
+        authenticate_user_with_session
       end
     end
     

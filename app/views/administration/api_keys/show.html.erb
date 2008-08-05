@@ -1,0 +1,46 @@
+<h1>API</h1>
+
+<% if @key %>
+
+  <p>Your API login details:</p>
+  <table>
+    <tr>
+      <th style="text-align:right;">Username:</th>
+      <td><%=h @logged_in.email %></td>
+    </tr>
+    <tr>
+      <th style="text-align:right;">Key:</th>
+      <td><code id="key" style="display:none;"><%=h @key %></code><%= link_to_function 'display', "Element.show('key');Element.hide('key_link');", :id => 'key_link' %></td>
+    <tr/>
+  </table>
+  
+  <p><%= link_to 'Generate', administration_api_key_path, :method => 'post', :confirm => 'Are you sure you want to invalidate this key and create a new one?' %>
+  a new API key or <%= link_to 'disable', administration_api_key_path, :method => 'delete', :confirm => 'Are you sure?' %> your key.</p>
+  
+  <h2>Help</h2>
+  
+  <p>
+    To use the REST API with Ruby, you might do this:
+  </p>
+  
+  <pre>
+    require 'rubygems'
+    require 'activeresource'
+    
+    class Person < ActiveResource::Base
+      self.site = 'https://beonebody.com/api/<%=h Site.current.host %>/'
+      self.user = 'user@example.com'
+      self.password = 'api-key-goes-here'
+    end
+    
+    Person.find(1)
+    # => &lt;Person ...&gt;
+  </pre>
+
+<% else %>
+
+  <p>You do not yet have an API key.
+  <%= link_to 'Enable', administration_api_key_path, :method => 'post', :confirm => 'Are you sure you want to enable your API key?' %>
+  your API key now.</p>
+
+<% end %>
