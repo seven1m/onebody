@@ -29,6 +29,7 @@ class Site < ActiveRecord::Base
   
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
+  validates_exclusion_of :host, :in => %w(admin api home onebody)
   
   def default?
     id == 1
