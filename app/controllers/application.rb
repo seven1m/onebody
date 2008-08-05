@@ -89,7 +89,7 @@ class ApplicationController < ActionController::Base
       authenticate_with_http_basic do |email, api_key|
         if email.to_s.any? and api_key.to_s.length == 50
           Person.logged_in = @logged_in = Person.find_by_email_and_api_key(email, api_key)
-          Person.logged_in = @logged_in = nil unless @logged_in.super_admin?
+          Person.logged_in = @logged_in = nil unless @logged_in and @logged_in.super_admin?
         end
       end
       unless @logged_in

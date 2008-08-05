@@ -4,6 +4,7 @@ require 'test_help'
 require 'notifier'
 
 require File.dirname(__FILE__) + '/forgeries'
+require File.dirname(__FILE__) + '/test_extensions'
 
 class Test::Unit::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -74,16 +75,3 @@ class Test::Unit::TestCase
 
   fixtures :all
 end
-
-module TestExtensions
-  def should(name, &block)
-    if block_given?
-      define_method 'test ' + name, &block
-    else
-      puts "Unimplemented: " + name
-    end
-  end
-end
-
-ActionController::TestCase.extend(TestExtensions)
-Test::Unit::TestCase.extend(TestExtensions)

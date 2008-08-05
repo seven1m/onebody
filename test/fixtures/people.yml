@@ -92,6 +92,7 @@ tim:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla
+  api_key: dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp
 jeremy:
   site_id: 1
   id: 2
@@ -113,6 +114,7 @@ jeremy:
   full_access: true
   feed_code: bla2
   deacon: true
+  api_key: dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKq
 peter:
   site_id: 1
   id: 3
@@ -132,6 +134,7 @@ peter:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla3
+  api_key: abc # invalid key
 jennie:
   site_id: 1
   id: 4
