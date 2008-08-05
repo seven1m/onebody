@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :get_site
   before_filter :feature_enabled?
-  before_filter :authenticate_user, :except => %w(family_email)
+  before_filter :authenticate_user
   
   private
     def get_site
@@ -69,20 +69,26 @@ class ApplicationController < ActionController::Base
           redirect_to new_session_path
           return false
         end
-#        unless @logged_in.email
-#          redirect_to edit_account_path
-#          return false
-#        end
-#      elsif session[:family_id] and params[:controller] == 'account' and params[:action] == 'edit'
-#        @family = Family.find session[:family_id]
-      elsif params[:code]
-        unless Person.logged_in = @logged_in = Person.find_by_feed_code(params[:code])
-          render :text => 'Invalid code.', :status => 500
-          return false
-        end
       else
         redirect_to new_session_path(:from => request.request_uri)
         return false
+      end
+    end
+    
+    def authenticate_user_with_code_or_session
+      unless params[:code] and Person.logged_in = @logged_in = Person.find_by_feed_code(params[:code])
+        authenticate_user
+      end
+    end
+    
+    def authenticate_user_with_http_basic
+      authenticate_with_http_basic do |username, password|
+        if (key = password.any? ? password : username).any?
+          Person.logged_in = @logged_in = Person.find_by_feed_code(key)
+        end
+      end
+      unless @logged_in
+        authenticate_user
       end
     end
     

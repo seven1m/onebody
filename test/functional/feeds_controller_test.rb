@@ -25,7 +25,7 @@ class FeedsControllerTest < ActionController::TestCase
   should "show the feed if the user is logged in or the security code is provided" do
     get :show, nil,                          {:logged_in_id => @person.id}; assert_response :success
     get :show, {:code => @person.feed_code}, {:logged_in_id => nil};        assert_response :success
-    get :show, {:code => 'bad code'},        {:logged_in_id => nil};        assert_response :error
+    get :show, {:code => 'bad code'},        {:logged_in_id => nil};        assert_response :redirect
     get :show, nil,                          {:logged_in_id => nil};        assert_response :redirect
   end
   

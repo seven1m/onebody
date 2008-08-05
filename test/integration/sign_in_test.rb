@@ -3,7 +3,7 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 class SignInTest < ActionController::IntegrationTest
   fixtures :people
 
-  def test_sign_in
+  should "allow sign in" do
     Setting.set(nil, 'Features', 'SSL', true)
     get '/people'
     assert_redirected_to new_session_path(:from => '/people')
@@ -18,7 +18,7 @@ class SignInTest < ActionController::IntegrationTest
     assert_redirected_to person_path(people(:peter))
   end
   
-  def test_email_address_sharing_among_family_members
+  should "allow family members to share an email address" do
     Setting.set(nil, 'Features', 'SSL', true)
     # tim
     post '/session', :email => people(:tim).email, :password => 'secret'
@@ -33,4 +33,16 @@ class SignInTest < ActionController::IntegrationTest
     assert_template 'people/show'
     assert_select 'h1', Regexp.new(people(:jennie).name)
   end
+  
+  should "not allow users to access most actions with feed code" do
+    get "/people?code=#{people(:tim).feed_code}"
+    assert_response :redirect
+    get "/groups?code=#{people(:tim).feed_code}"
+    assert_response :redirect
+    get "/feed.xml?code=#{people(:tim).feed_code}"
+    assert_response :success
+    get "/groups/#{groups(:morgan).id}/memberships/#{people(:jeremy).id}?code=#{people(:jeremy).feed_code}&email=off"
+    assert_redirected_to people_path
+  end
+  
 end

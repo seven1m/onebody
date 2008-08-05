@@ -1,5 +1,8 @@
 class MembershipsController < ApplicationController
   
+  skip_before_filter :authenticate_user, :only => %w(show update)
+  before_filter :authenticate_user_with_code_or_session, :only => %w(show update)
+  
   def show
     # allow email links to work (since they will be GET requests)
     if params[:email]

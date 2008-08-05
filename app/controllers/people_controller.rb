@@ -34,9 +34,14 @@ class PeopleController < ApplicationController
         render :action => 'services'
       elsif not @logged_in.full_access? and not @me
         render :action => 'show_limited'
+      else
+        respond_to do |format|
+          format.html
+          format.xml { render :xml => @person.to_xml }
+        end
       end
     else
-      render :text => 'Person not found.', :status => 404
+      render :text => 'Person not found.', :status => 404, :layout => true
     end
   end
   

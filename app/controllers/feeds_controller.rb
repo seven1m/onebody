@@ -1,5 +1,8 @@
 class FeedsController < ApplicationController
 
+  skip_before_filter :authenticate_user
+  before_filter :authenticate_user_with_code_or_session
+
   def show
     @person = @logged_in
     @items = @person.recently_tab_items
