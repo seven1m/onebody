@@ -32,7 +32,7 @@ class Setup::SitesController < Setup::BaseController
         flash[:notice] = 'Site updated.'
         redirect_to setup_sites_url
       else
-        flash[:warning] = @site.errors.full_messages.join('; ')
+        add_errors_to_flash(@site)
       end
     end
   end

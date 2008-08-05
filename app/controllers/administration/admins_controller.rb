@@ -13,9 +13,7 @@ class Administration::AdminsController < ApplicationController
         flash[:notice] = "#{person.name} is a Super Administrator."
       else
         person.admin = Admin.create!
-        unless person.save
-          flash[:warning] = person.errors.full_messages.join('; ')
-        end
+        add_errors_to_flash(person) unless person.save
       end
     end
     redirect_to admin_path

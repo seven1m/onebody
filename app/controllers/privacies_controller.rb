@@ -35,7 +35,7 @@ class PrivaciesController < ApplicationController
             flash[:warning] = "#{person.name} has been hidden from all pages on this site!"
           end
         else
-          flash[:notice] = person.errors.full_messages.join('; ')
+          add_errors_to_flash(person)
         end
       end
     elsif params[:family]

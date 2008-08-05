@@ -91,7 +91,7 @@ class PagesController < ApplicationController
     if @logged_in.can_edit?(@page)
       @page.destroy
       if @page.errors.any?
-        flash[:warning] = @page.errors.full_messages.join('; ')
+        add_errors_to_flash(@page)
       else
         flash[:notice] = 'Page deleted.'
       end

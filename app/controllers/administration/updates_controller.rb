@@ -17,7 +17,7 @@ class Administration::UpdatesController < ApplicationController
           redirect_to administration_updates_path
         end
       else
-        flash[:warning] = "There was an error saving this update: #{@update.errors.full_messages.join('; ')}"
+        add_errors_to_flash(@update)
         index; render :action => 'index'
       end
     else
