@@ -103,13 +103,6 @@ class ApplicationController < ActionController::Base
       end
     end
     
-    def render_message(message)
-      respond_to do |wants|
-        wants.js { render(:update) { |p| p.alert message } }
-        wants.html { render :text => message, :layout => true }
-      end
-    end
-    
     def rescue_action_with_page_detection(exception)
       get_site
       path, args = request.request_uri.downcase.split('?')
@@ -144,30 +137,6 @@ class ApplicationController < ActionController::Base
     
     def add_errors_to_flash(record)
       flash[:warning] = record.errors.full_messages.join('; ')
-    end
-        
-    def decimal_in_words(number)
-      if number % 1 == 0.0
-        "exactly #{number}"
-      elsif number % 1 < 0.5
-        "more than #{number.to_i}"
-      elsif number % 1 >= 0.5
-        "less than #{number.to_i + 1}"
-      end
-    end
-    
-    # stolen from ActionView::Helpers::NumberHelper
-    def number_to_phone(number, options = {})
-      options   = options.stringify_keys
-      area_code = options.delete("area_code") { false }
-      delimiter = options.delete("delimiter") { "-" }
-      extension = options.delete("extension") { "" }
-      begin
-        str = area_code == true ? number.to_s.gsub(/([0-9]{3})([0-9]{3})([0-9]{4})/,"(\\1) \\2#{delimiter}\\3") : number.to_s.gsub(/([0-9]{3})([0-9]{3})([0-9]{4})/,"\\1#{delimiter}\\2#{delimiter}\\3")
-        extension.to_s.strip.empty? ? str : "#{str} x #{extension.to_s.strip}"
-      rescue
-        number
-      end
     end
     
     def only_admins

@@ -101,6 +101,10 @@ class PersonTest < Test::Unit::TestCase
     assert people(:tim).email_changed?
   end
   
+  should "generate a custom directory pdf" do
+    assert_match /PDF\-1\.3/, people(:tim).generate_directory_pdf.to_s[0..100]
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)

@@ -649,6 +649,8 @@ class Person < ActiveRecord::Base
     find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
   end
   
+  include ActionView::Helpers::NumberHelper # number_to_phone used by pdf generation below
+  
   def generate_directory_pdf
     pdf = PDF::Writer.new
     pdf.margins_pt 70, 20, 20, 20
@@ -740,16 +742,3 @@ class Person < ActiveRecord::Base
 
 end
 
-# stolen from ActionView::Helpers::NumberHelper
-def number_to_phone(number, options = {})
-  options   = options.stringify_keys
-  area_code = options.delete("area_code") { false }
-  delimiter = options.delete("delimiter") { "-" }
-  extension = options.delete("extension") { "" }
-  begin
-    str = area_code == true ? number.to_s.gsub(/([0-9]{3})([0-9]{3})([0-9]{4})/,"(\\1) \\2#{delimiter}\\3") : number.to_s.gsub(/([0-9]{3})([0-9]{3})([0-9]{4})/,"\\1#{delimiter}\\2#{delimiter}\\3")
-    extension.to_s.strip.empty? ? str : "#{str} x #{extension.to_s.strip}"
-  rescue
-    number
-  end
-end
