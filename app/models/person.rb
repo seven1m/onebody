@@ -112,9 +112,11 @@ class Person < ActiveRecord::Base
 
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
-    LogItem.create :model_name => 'Person', :instance_id => id, :changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
+    LogItem.create :model_name => 'Person', :instance_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
     self.photo_without_logging = p
   end
+  
+  attr_protected :api_key, :feed_code
 
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }

@@ -26,7 +26,7 @@ module Foo
                   :name => self.respond_to?(:name) ? self.name : nil,
                   :model_name => self.class.name,
                   :instance_id => self.id,
-                  :changes => @logger_changes,
+                  :object_changes => @logger_changes,
                   :person => Person.logged_in,
                   :group_id => self.respond_to?(:group_id) ? self.group_id : nil
                 )

@@ -37,7 +37,7 @@ class Recipe < ActiveRecord::Base
   
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
-    LogItem.create :model_name => 'Recipe', :instance_id => id, :changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
+    LogItem.create :model_name => 'Recipe', :instance_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
     self.photo_without_logging = p
   end
   

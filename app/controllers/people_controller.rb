@@ -82,8 +82,13 @@ class PeopleController < ApplicationController
     @person = Person.find(params[:id])
     if @logged_in.can_edit?(@person)
       if updated = @person.update_from_params(params)
-        flash[:notice] = 'Changes saved.'
-        redirect_to edit_person_path(@person, :anchor => params[:anchor])
+        respond_to do |format|
+          format.html do
+            flash[:notice] = 'Changes saved.'
+            redirect_to edit_person_path(@person, :anchor => params[:anchor])
+          end
+          format.xml { render :xml => @person.to_xml }
+        end
       else
         edit; render :action => 'edit'
       end

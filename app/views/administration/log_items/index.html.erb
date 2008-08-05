@@ -89,7 +89,7 @@
         <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;" class="changes">
           <td colspan="7">
             <table>
-              <% item.changes.to_a.each do |key, value| %>
+              <% item.object_changes.to_a.each do |key, value| %>
                 <% unless key =~ /_id$/ %>
                   <tr><td><%=h key %>:</td><td><%=h value %></td></tr>
                 <% end %>

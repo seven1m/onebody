@@ -25,7 +25,7 @@ class LogItem < ActiveRecord::Base
   belongs_to :reviewed_by, :class_name => 'Person', :foreign_key => 'reviewed_by'
   belongs_to :site
   
-  serialize :changes
+  serialize :object_changes
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
@@ -95,10 +95,14 @@ class LogItem < ActiveRecord::Base
   
   def showable_change_keys
     return [] if deleted?
-    changes.keys.select do |key|
-      PEOPLE_ATTRIBUTES_SHOWABLE_ON_HOMEPAGE.include? key
-    end.map do |key|
-      key == 'tv_shows' ? 'TV Shows' : key.split('_').map { |w| w.capitalize }.join(' ')
+    begin
+      object_changes.keys.select do |key|
+        PEOPLE_ATTRIBUTES_SHOWABLE_ON_HOMEPAGE.include? key
+      end.map do |key|
+        key == 'tv_shows' ? 'TV Shows' : key.split('_').map { |w| w.capitalize }.join(' ')
+      end
+    rescue NoMethodError # sometimes object_changes doesn't un-serialize. Weird.
+      []
     end
   end
   
