@@ -1,22 +1,21 @@
 # == Schema Information
-# Schema version: 20080724143144
 #
 # Table name: log_items
 #
-#  id          :integer       not null, primary key
-#  name        :string(255)   
-#  model_name  :string(50)    
-#  instance_id :integer       
-#  changes     :text          
-#  person_id   :integer       
-#  group_id    :integer       
-#  created_at  :datetime      
-#  reviewed_on :datetime      
-#  reviewed_by :integer       
-#  flagged_on  :datetime      
-#  flagged_by  :string(255)   
-#  deleted     :boolean       
-#  site_id     :integer       
+#  id             :integer       not null, primary key
+#  name           :string(255)   
+#  model_name     :string(50)    
+#  instance_id    :integer       
+#  object_changes :text          
+#  person_id      :integer       
+#  group_id       :integer       
+#  created_at     :datetime      
+#  reviewed_on    :datetime      
+#  reviewed_by    :integer       
+#  flagged_on     :datetime      
+#  flagged_by     :string(255)   
+#  deleted        :boolean       
+#  site_id        :integer       
 #
 
 class LogItem < ActiveRecord::Base

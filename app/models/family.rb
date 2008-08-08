@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 20080724143144
 #
 # Table name: families
 #
@@ -29,6 +28,7 @@
 #  visible            :boolean       default(TRUE)
 #  share_activity     :boolean       default(TRUE)
 #  site_id            :integer       
+#  share_home_phone   :boolean       default(TRUE)
 #
 
 class Family < ActiveRecord::Base

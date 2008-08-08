@@ -104,9 +104,9 @@ module AnnotateModels
   def self.do_annotations
     header = PREFIX.dup
     version = ActiveRecord::Migrator.current_version rescue 0
-    if version > 0
-      header << "\n# Schema version: #{version}"
-    end
+    #if version > 0
+    #  header << "\n# Schema version: #{version}"
+    #end
     
     self.get_model_names.each do |m|
       class_name = m.sub(/\.rb$/,'').camelize

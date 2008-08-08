@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 20080724143144
 #
 # Table name: scheduled_tasks
 #
@@ -12,6 +11,7 @@
 #  site_id    :integer       
 #  created_at :datetime      
 #  updated_at :datetime      
+#  person_id  :integer       
 #
 
 class ScheduledTask < ActiveRecord::Base

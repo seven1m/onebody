@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 20080724143144
 #
 # Table name: news_items
 #

@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 20080724143144
 #
 # Table name: people
 #
@@ -69,6 +68,7 @@
 #  share_activity               :boolean       
 #  site_id                      :integer       
 #  twitter_account              :string(100)   
+#  api_key                      :string(50)    
 #
 
 tim:
