@@ -10,75 +10,117 @@ class String
   end
 end
 
-namespace :multisite do
-  desc "Enable Multisite feature"
-  task :on => :environment do
-    Setting.set(nil, 'Features', 'Multisite', true)
-  end
-  
-  desc "Disable Multisite feature"
-  task :off => :environment do
-    Setting.set(nil, 'Features', 'Multisite', false)
-  end
-  
-  desc "List all sites"
-  task :list => :environment do
-    puts "Name                Host                Visible Name (from settings)  People"
-    puts '-' * 76
-    Site.find(:all, :order => 'name').each do |site|
-      Site.current = site # TODO: would be nice if acts_as_scoped_globally could allow bypass of this requirement
-      puts "#{site.name.ljust!(19)} #{site.host.ljust!(19)} #{site.visible_name.ljust!(29)} #{site.people.count}"
-    end
-  end
-  
-  desc "Add a site (NAME and HOST required)"
-  task :add => :environment do
-    if ENV['NAME'] and ENV['HOST']
-      Site.current = Site.create(:name => ENV['NAME'], :host => ENV['HOST'])
-      
+namespace :onebody do
+
+  task :sites => :environment do
+    if Setting.get(:features, :multisite)
+      puts "Name              Host              Visible Name (in settings)  People Active"
+      puts '-' * 77
+      Site.each do |site|
+        puts "#{site.name.ljust!(17)} #{site.host.to_s.ljust!(17)} #{site.visible_name.to_s.ljust!(27)} #{site.people.count.to_s.ljust(6)} #{site.active? ? 'yes' : 'no'}"
+      end
     else
-      puts 'Usage: rake multsite:add NAME="Second Site" HOST=site2.example.com'
+      puts 'Multiple sites feature is disabled. Run rake onebody:sites:on to enable.'
     end
   end
-  
-  desc "Delete a site (NAME required)"
-  task :delete => :environment do
-    if ENV['NAME']
-      if site = Site.find_by_name(ENV['NAME']) and site.id != 1
-        Site.current = site # TODO: would be nice if acts_as_scoped_globally could allow bypass of this requirement
-        puts "Site:         #{site.name}"
-        puts "Host:         #{site.host}"
-        puts "Visible Name: #{site.visible_name}"
-        puts "Stats:"
-        puts " families:    #{site.families.count}"
-        puts " people:      #{site.people.count}"
-        puts " groups:      #{site.groups.count}"
-        puts " verses:      #{site.verses.count}"
-        puts
-        if agree('Are you sure you want to delete this site and ALL its data? ')
-          site.destroy_for_sure
-          puts 'Site deleted.'
+
+  namespace :sites do
+    desc "Enable multiple sites"
+    task :on => :environment do
+      Setting.set(nil, 'Features', 'Multisite', true)
+      puts 'Multiple sites can now be hosted.'
+    end
+    
+    desc "Disable multiple sites"
+    task :off => :environment do
+      Setting.set(nil, 'Features', 'Multisite', false)
+      puts 'Multiple sites feature disabled. Default site will answer for all requests now.'
+    end
+    
+    desc "Add a site"
+    task :add => :environment do
+      if ENV['NAME'] and ENV['HOST']
+        args = site_args(:name => ENV['NAME'], :host => ENV['HOST'])
+        Site.create!(args)
+        Rake::Task['onebody:sites'].invoke
+      else
+        puts 'Usage: rake onebody:sites:add NAME="Second Site" HOST=site2.example.com'
+      end
+    end
+    
+    desc "Delete a site"
+    task :delete => :environment do
+      if ENV['NAME']
+        if site = Site.find_by_name(ENV['NAME']) and site.id != 1
+          Site.current = site
+          puts "Site:         #{site.name}"
+          puts "Host:         #{site.host}"
+          puts "Visible Name: #{site.visible_name}"
+          puts "Stats:"
+          puts " families:    #{site.families.count}"
+          puts " people:      #{site.people.count}"
+          puts " groups:      #{site.groups.count}"
+          puts " verses:      #{site.verses.count}"
+          puts
+          if ENV['SURE'] or agree('Are you sure you want to delete this site and ALL its data? ')
+            site.destroy_for_sure
+            Rake::Task['onebody:sites'].invoke
+          else
+            puts 'aborted'
+          end
+        elsif site.id == 1
+          raise 'You cannot delete the default site (ID=1).'
+        else
+          raise 'No site found with NAME ' + ENV['NAME']
         end
-      elsif site.id == 1
-        raise 'You cannot delete the default site (ID=1).'
       else
-        raise 'No site found with NAME ' + ENV['NAME']
+        puts 'Usage: rake onebody:sites:add NAME="Second Site" HOST=site2.example.com'
       end
-    else
-      puts 'Usage: rake multsite:add NAME="Second Site" HOST=site2.example.com'
     end
-  end
-  
-  desc "Modify a site (NAME, NEW_NAME, NEW_HOST required)"
-  task :modify => :environment do
-    if ENV['NAME'] and ENV['NEW_NAME'] and ENV['NEW_HOST']
-      if site = Site.find_by_name(ENV['NAME'])
-        site.update_attributes! :name => ENV['NEW_NAME'], :host => ENV['NEW_HOST']
+    
+    desc "Modify a site"
+    task :modify => :environment do
+      if ENV['NAME'] and ENV['NEW_NAME'] and ENV['NEW_HOST']
+        if site = Site.find_by_name(ENV['NAME'])
+          args = site_args(:name => ENV['NEW_NAME'], :host => ENV['NEW_HOST'])
+          site.update_attributes!(args)
+          Rake::Task['onebody:sites'].invoke
+        else
+          raise 'No site found with NAME ' + ENV['NAME']
+        end
       else
-        raise 'No site found with NAME ' + ENV['NAME']
+        puts 'Usage: rake onebody:sites:modify NAME="Second Site" NEW_NAME="Site 2" NEW_HOST=site2.com'
       end
-    else
-      puts 'Usage: rake multsite:modify NAME="Second Site" NEW_NAME="Site 2" NEW_HOST=site2.com'
+    end
+    
+    desc "Activate a site"
+    task :activate => :environment do
+      if ENV['NAME'] and site = Site.find_by_name(ENV['NAME']) and site.id != 1
+        site.update_attributes!(:active => true)
+        Rake::Task['onebody:sites'].invoke
+      else
+        puts 'Usage: rake onebody:sites:activate NAME="Second Site"'
+        puts '(you cannot activate/deactivate the default site)'
+      end
+    end
+    
+    desc "Deactivate a site"
+    task :deactivate => :environment do
+      if ENV['NAME'] and site = Site.find_by_name(ENV['NAME']) and site.id != 1
+        site.update_attributes!(:active => false)
+        Rake::Task['onebody:sites'].invoke
+      else
+        puts 'Usage: rake onebody:sites:deactivate NAME="Second Site"'
+        puts '(you cannot activate/deactivate the default site)'
+      end
+    end
+    
+    def site_args(args={})
+      %w(secondary_host max_admins max_people max_groups).each { |a| args[a] = ENV[a.upcase] }
+      %w(import_export_enabled cms_enabled pictures_enabled publications_enabled).each do |arg|
+        args[arg] = (ENV[arg.upcase].nil? or %w(true yes on).include?(ENV[arg.upcase].downcase))
+      end
+      args
     end
   end
 end

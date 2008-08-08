@@ -2,20 +2,20 @@
 #
 # Table name: sites
 #
-#  id             :integer       not null, primary key
-#  name           :string(255)   
-#  host           :string(255)   
-#  created_at     :datetime      
-#  updated_at     :datetime      
-#  secondary_host :string(255)   
-#  max_admins     :integer       
-#  max_people     :integer       
-#  max_groups     :integer       
-#  import_export  :boolean       default(TRUE)
-#  cms            :boolean       default(TRUE)
-#  pictures       :boolean       default(TRUE)
-#  publications   :boolean       default(TRUE)
-#  active         :boolean       default(TRUE)
+#  id                    :integer       not null, primary key
+#  name                  :string(255)   
+#  host                  :string(255)   
+#  created_at            :datetime      
+#  updated_at            :datetime      
+#  secondary_host        :string(255)   
+#  max_admins            :integer       
+#  max_people            :integer       
+#  max_groups            :integer       
+#  import_export_enabled :boolean       default(TRUE)
+#  cms_enabled           :boolean       default(TRUE)
+#  pictures_enabled      :boolean       default(TRUE)
+#  publications_enabled  :boolean       default(TRUE)
+#  active                :boolean       default(TRUE)
 #
 
 class Site < ActiveRecord::Base
