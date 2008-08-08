@@ -34,11 +34,8 @@ namespace :multisite do
   desc "Add a site (NAME and HOST required)"
   task :add => :environment do
     if ENV['NAME'] and ENV['HOST']
-      Site.create(:name => ENV['NAME'], :host => ENV['HOST'])
-      if agree('Do you want to create a new admin user? ')
-        ENV['SITE'] = ENV['NAME']
-        Rake::Task['db:newuser'].invoke
-      end
+      Site.current = Site.create(:name => ENV['NAME'], :host => ENV['HOST'])
+      
     else
       puts 'Usage: rake multsite:add NAME="Second Site" HOST=site2.example.com'
     end
