@@ -51,6 +51,7 @@ class Setting < ActiveRecord::Base
             Setting.precache_settings(true)
           end
           if @@settings[Site.current.id][section]
+            return false if section == 'features' and Site.current.respond_to?("#{name}_enabled?") and not Site.current.send("#{name}_enabled?")
             @@settings[Site.current.id][section][name] || default
           else
             default

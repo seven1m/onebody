@@ -5,7 +5,7 @@ class FamiliesController < ApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to @logged_in }
-      if @logged_in.admin?(:export_data)
+      if @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
         @families = Family.paginate(:order => 'last_name, name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
         format.xml { render :xml  => @families.to_xml(:include => [:people]) }
         format.csv { render :text => @families.to_csv }

@@ -8,12 +8,16 @@ class Administration::AdminsController < ApplicationController
   
   def create
     params[:ids].to_a.each do |id|
-      person = Person.find(id)
-      if person.super_admin?
-        flash[:notice] = "#{person.name} is a Super Administrator."
+      if Site.current.max_admins.nil? or Admin.count < Site.current.max_admins
+        person = Person.find(id)
+        if person.super_admin?
+          flash[:notice] = "#{person.name} is a Super Administrator."
+        else
+          person.admin = Admin.create!
+          add_errors_to_flash(person) unless person.save
+        end
       else
-        person.admin = Admin.create!
-        add_errors_to_flash(person) unless person.save
+        flash[:notice] = 'No more admins are allowed.'
       end
     end
     redirect_to admin_path

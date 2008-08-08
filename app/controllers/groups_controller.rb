@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.js   { render :partial => 'person_groups' }
         format.html { render :partial => 'person_groups', :layout => true }
-        if @logged_in.admin?(:export_data)
+        if @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
           format.xml { render :xml =>  @person.groups.to_xml }
           format.csv { render :text => @person.groups.to_csv }
         end
@@ -63,11 +63,16 @@ class GroupsController < ApplicationController
   end
   
   def new
-    @group = Group.new(:creator_id => @logged_in.id)
-    @categories = Group.categories.keys
+    if Site.current.max_groups.nil? or Group.count < Site.current.max_groups
+      @group = Group.new(:creator_id => @logged_in.id)
+      @categories = Group.categories.keys
+    else
+      render :text => 'No groups can be created at this time. Sorry.', :layout => true, :status => 500
+    end
   end
   
   def create
+    raise 'no more groups can be created' unless Site.current.max_groups.nil? or Group.count < Site.current.max_groups
     photo = params[:group].delete(:photo)
     if not @logged_in.admin?(:manage_groups) and (params[:group][:address] or params[:group][:link_code] or params[:group][:members_send] or params[:group][:private])
       raise 'You are not authorized to do that.'
@@ -134,7 +139,7 @@ class GroupsController < ApplicationController
   private
   
     def feature_enabled?
-      unless Setting.get(:features, :groups)
+      unless Setting.get(:features, :groups) and Site.current.max_groups > 0
         redirect_to people_path
         false
       end

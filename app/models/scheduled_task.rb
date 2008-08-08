@@ -11,7 +11,6 @@
 #  site_id    :integer       
 #  created_at :datetime      
 #  updated_at :datetime      
-#  person_id  :integer       
 #
 
 class ScheduledTask < ActiveRecord::Base

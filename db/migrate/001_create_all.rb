@@ -152,19 +152,19 @@ class CreateAll < ActiveRecord::Migration
     end
 
     create_table "log_items" do |t|
-      t.column "name",        :string
-      t.column "model_name",  :string,   :limit => 50
-      t.column "instance_id", :integer
-      t.column "changes",     :text
-      t.column "person_id",   :integer
-      t.column "group_id",    :integer
-      t.column "created_at",  :datetime
-      t.column "reviewed_on", :datetime
-      t.column "reviewed_by", :integer
-      t.column "flagged_on",  :datetime
-      t.column "flagged_by",  :string
-      t.column "deleted",     :boolean,                :default => false
-      t.column "site_id",     :integer
+      t.column "name",           :string
+      t.column "model_name",     :string,   :limit => 50
+      t.column "instance_id",    :integer
+      t.column "object_changes", :text
+      t.column "person_id",      :integer
+      t.column "group_id",       :integer
+      t.column "created_at",     :datetime
+      t.column "reviewed_on",    :datetime
+      t.column "reviewed_by",    :integer
+      t.column "flagged_on",     :datetime
+      t.column "flagged_by",     :string
+      t.column "deleted",        :boolean,                :default => false
+      t.column "site_id",        :integer
     end
 
     create_table "membership_requests" do |t|

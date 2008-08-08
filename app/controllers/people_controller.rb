@@ -6,7 +6,7 @@ class PeopleController < ApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to @logged_in }
-      if @logged_in.admin?(:export_data)
+      if @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
         @people = Person.paginate(:order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
         format.xml { render :xml  => @people.to_xml(:except => %w(feed_code encrypted_password), :include => [:groups, :family]) }
         format.csv { render :text => @people.to_csv(:except => %w(feed_code encrypted_password), :include => [:family]) }
@@ -46,16 +46,21 @@ class PeopleController < ApplicationController
   end
   
   def new
-    if @logged_in.admin?(:edit_profiles)
-      @family = Family.find(params[:family_id])
-      defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
-      @person = Person.new(defaults.merge(:family_id => @family.id).merge(:last_name => @family.last_name))
+    if Site.current.max_groups.nil? or Group.count < Site.current.max_groups
+      if @logged_in.admin?(:edit_profiles)
+        @family = Family.find(params[:family_id])
+        defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
+        @person = Person.new(defaults.merge(:family_id => @family.id).merge(:last_name => @family.last_name))
+      else
+        render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
+      end
     else
-      render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
+      render :text => 'No people can be added at this time. Sorry.', :layout => true, :status => 500
     end
   end
   
   def create
+    raise 'no more groups can be created' unless Site.current.max_people.nil? or Person.count < Site.current.max_people
     if @logged_in.admin?(:edit_profiles)
       @person = Person.create(params[:person])
       unless @person.errors.any?
@@ -112,7 +117,7 @@ class PeopleController < ApplicationController
   end
   
   def import
-    if @logged_in.admin?(:import_data)
+    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if request.get?
         @column_names  = Person.columns.map { |c| c.name }
         @column_names += Family.columns.map { |c| "family_#{c.name}" }

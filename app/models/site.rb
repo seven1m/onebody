@@ -12,7 +12,7 @@
 #  max_people            :integer       
 #  max_groups            :integer       
 #  import_export_enabled :boolean       default(TRUE)
-#  cms_enabled           :boolean       default(TRUE)
+#  pages_enabled         :boolean       default(TRUE)
 #  pictures_enabled      :boolean       default(TRUE)
 #  publications_enabled  :boolean       default(TRUE)
 #  active                :boolean       default(TRUE)

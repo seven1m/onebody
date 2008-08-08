@@ -80,16 +80,19 @@ namespace :onebody do
     
     desc "Modify a site"
     task :modify => :environment do
-      if ENV['NAME'] and ENV['NEW_NAME'] and ENV['NEW_HOST']
+      if ENV['NAME']
         if site = Site.find_by_name(ENV['NAME'])
-          args = site_args(:name => ENV['NEW_NAME'], :host => ENV['NEW_HOST'])
+          args = {}
+          args['name'] = ENV['NEW_NAME'] unless ENV['NEW_NAME'].nil?
+          args['host'] = ENV['HOST'] unless ENV['HOST'].nil?
+          args = site_args(args)
           site.update_attributes!(args)
           Rake::Task['onebody:sites'].invoke
         else
           raise 'No site found with NAME ' + ENV['NAME']
         end
       else
-        puts 'Usage: rake onebody:sites:modify NAME="Second Site" NEW_NAME="Site 2" NEW_HOST=site2.com'
+        puts 'Usage: rake onebody:sites:modify NAME="Second Site" NEW_NAME="Site 2" HOST=site2.com'
       end
     end
     
@@ -116,9 +119,9 @@ namespace :onebody do
     end
     
     def site_args(args={})
-      %w(secondary_host max_admins max_people max_groups).each { |a| args[a] = ENV[a.upcase] }
-      %w(import_export_enabled cms_enabled pictures_enabled publications_enabled).each do |arg|
-        args[arg] = (ENV[arg.upcase].nil? or %w(true yes on).include?(ENV[arg.upcase].downcase))
+      %w(secondary_host max_admins max_people max_groups).each { |a| args[a] = ENV[a.upcase] unless ENV[a.upcase].nil? }
+      %w(import_export_enabled pages_enabled pictures_enabled publications_enabled).each do |arg|
+        args[arg] = %w(true yes on).include?(ENV[arg.upcase].downcase) unless ENV[arg.upcase].nil?
       end
       args
     end
