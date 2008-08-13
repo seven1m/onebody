@@ -1,31 +1,32 @@
-REE_PATH = 'http://rubyforge.org/frs/download.php/38755/ruby-enterprise-1.8.6-20080621.tar.gz'
-
 namespace :deploy do
   namespace :install do
-    desc 'Install server software on Ubuntu'
+  
+    desc 'Install all required server software on Ubuntu'
     task :default do
       prerequisites
       ruby
+      rubygems
+      rails
       passenger
-      db_server
+      mysql
     end
     
-    desc 'Install server software, including Ruby Enterprise Edition'
-    task :ree do
-      prerequisites
-      ree
-      passenger
-      db_server
-    end
-    
+    desc 'Install Ruby/OneBody prerequisites'
     task :prerequisites do
       sudo 'aptitude update'
-      sudo 'aptitude install -y build-essential ruby1.8 imagemagick apache2 apache2-dev apache2-mpm-prefork apache2-prefork-dev git-core'
+      sudo 'aptitude install -y build-essential imagemagick apache2 apache2-dev apache2-mpm-prefork apache2-prefork-dev git-core'
     end
     
+    desc 'Install Ruby'
     task :ruby, :roles => :web do
       sudo 'aptitude update'
-      sudo 'aptitude install -y ruby1.8-dev libgems-ruby1.8 libmysql-ruby1.8'
+      sudo 'aptitude install -y ruby1.8 ruby1.8-dev'
+    end
+    
+    desc 'Install RubyGems'
+    task :rubygems, :roles => :web do
+      sudo 'aptitude update'
+      sudo 'aptitude install -y libgems-ruby1.8'
       sudo 'ln -sf /usr/bin/ruby1.8 /usr/bin/ruby'
       run 'cd /tmp && wget -nv http://rubyforge.org/frs/download.php/38646/rubygems-1.2.0.tgz && tar xzf rubygems-1.2.0.tgz'
       run 'cd /tmp/rubygems-1.2.0 && sudo ruby setup.rb'
@@ -33,22 +34,18 @@ namespace :deploy do
         sudo 'ln -sf /usr/bin/gem1.8 /usr/bin/gem'
       end
       sudo 'gem update --system'
-      sudo 'gem install rails --no-rdoc --no-ri'
     end
     
-    # desc 'Install Ruby Enterprise Edition in place of MRI.'
-    # This probably needs some work.
-    task :ree, :roles => :web do
-      ree_file = REE_PATH.split('/').last
-      ree_dir = ree_file.gsub(/\.tar\.gz$/, '')
-      run "cd /tmp && wget -nv #{REE_PATH} && tar xzf #{ree_file}"
-      sudo "ln -sf /usr/bin/ruby1.8 /usr/bin/ruby"
-      sudo "/tmp/#{ree_dir}/installer -a /opt/#{ree_dir}"
-      sudo "ln -sf /opt/#{ree_dir}/bin/ruby /usr/bin/ruby"
-      sudo "ln -sf /opt/#{ree_dir}/bin/gem /usr/bin/gem"
-      sudo 'gem update --system'
+    desc 'Install/Update Rails'
+    task :rails do
+      rails_version = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').match(/RAILS_GEM_VERSION = '(.+?)'/)[1]
+      unless run_and_return('gem list rails') =~ Regexp.new(rails_version)
+        sudo "gem install -v=#{rails_version} rails --no-rdoc --no-ri"
+      end
     end
+    after 'deploy:update_code', 'deploy:install:rails'
     
+    desc 'Install Passenger'
     task :passenger, :roles => :web do
       gem_name = nil
       send(:sudo, 'gem install passenger --no-rdoc --no-ri') do |channel, stream, data|
@@ -77,9 +74,10 @@ namespace :deploy do
       sudo "/etc/init.d/apache2 force-reload"
     end
     
-    task :db_server, :roles => :db do
+    desc 'Install MySQL'
+    task :mysql, :roles => :db do
       sudo 'aptitude update'
-      sudo 'aptitude install -y mysql-server'
+      sudo 'aptitude install -y mysql-server libmysql-ruby1.8'
     end
 
   end

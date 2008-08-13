@@ -4,7 +4,7 @@ class Capistrano::Configuration
     result   = ERB.new(template).result(binding)
   end
   
-  def db_password
+  def get_db_password
     @db_password ||= HighLine.new.ask('Password to use for the "onebody" MySQL user: ')
   end
   

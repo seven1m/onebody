@@ -3,7 +3,7 @@ production:
   host: localhost
   database: onebody
   username: onebody
-  password: <%= db_password %>
+  password: <%= get_db_password %>
   
 development:
   production

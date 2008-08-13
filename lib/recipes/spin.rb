@@ -1,6 +1,6 @@
 namespace :deploy do
   
-  desc 'Restart App in Passenger.'
+  desc 'Restart app (Passenger).'
   task :restart, :roles => :web do
     run "touch #{current_path}/tmp/restart.txt"
   end
