@@ -9,6 +9,7 @@ namespace :deploy do
       rails
       passenger
       mysql
+      postfix
     end
     
     desc 'Install Ruby/OneBody prerequisites'
@@ -78,6 +79,22 @@ namespace :deploy do
     task :mysql, :roles => :db do
       sudo 'aptitude update'
       sudo 'aptitude install -y mysql-server libmysql-ruby1.8'
+    end
+    
+    desc 'Install Postfix'
+    task :postfix, :roles => :web do
+      sudo 'aptitude update'
+      sudo 'aptitude install -y postfix'
+    end
+    
+    # Configure iptables firewall (assumes iptables already installed)
+    # use at your own risk (check templates/iptables.txt before you use this)
+    task :firewall, :roles => :web do
+      rules = render_erb_template(File.dirname(__FILE__) + '/templates/iptables.txt')
+      put rules, "/tmp/iptables.up.rules"
+      sudo "mv /tmp/iptables.up.rules /etc/"
+      sudo "ruby -e \"d=File.read('/etc/network/interfaces'); exit if d =~ /iptables/; d.gsub!(/(iface lo inet loopback)(\\n)/, '\\1\\2pre-up iptables-restore < /etc/iptables.up.rules\\2'); File.open('/etc/network/interfaces', 'w') { |f| f.write(d) }\""
+      puts 'Restart the server for the config to take effect.'
     end
 
   end
