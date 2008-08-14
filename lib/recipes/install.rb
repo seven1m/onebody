@@ -79,6 +79,8 @@ namespace :deploy do
     task :mysql, :roles => :db do
       sudo 'aptitude update'
       sudo 'aptitude install -y mysql-server libmysql-ruby1.8'
+      password = HighLine.new.ask('Password for MySQL root user: ') { |q| q.echo = false }
+      run 'mysqladmin -uroot password #{password}'
     end
     
     desc 'Install Postfix'
