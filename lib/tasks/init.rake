@@ -36,7 +36,7 @@ namespace :onebody do
   task :newuser => :environment do
     puts 'Create new admin user...'
     Site.current = site = ENV['SITE'] ? Site.find_by_name(ENV['SITE']) : Site.find(1)
-    unless password = ENV['PASSWORD']
+    unless password = ENV['PASSWORD'] or encrypted_password = ENV['ENCRYPTED_PASSWORD']
       password = ask('Password: ')         { |q| q.echo = false }
       confirm  = ask('Password (again): ') { |q| q.echo = false }
       raise 'Passwords do not match.' unless password == confirm
@@ -44,17 +44,19 @@ namespace :onebody do
     unless gender = ENV['GENDER']
       gender = ask('Gender ("m" or "f"): ').downcase == 'm' ? 'Male' : 'Female'
     end
-    person = site.people.create!(
+    attrs = {
       :email                        => ENV['EMAIL'] || ask('Email Address: '),
       :first_name                   => ENV['FIRST'] || ask('First Name: '),
       :last_name                    => ENV['LAST']  || ask('Last Name: '),
-      :password                     => password,
       :gender                       => gender,
       :can_sign_in                  => true,
       :visible_to_everyone          => true,
       :visible_on_printed_directory => true,
       :full_access                  => true
-    )
+    }
+    attrs[:password] = password if password
+    attrs[:encrypted_password] = encrypted_password if encrypted_password
+    person = site.people.create!(attrs)
     family = site.families.create!(
       :name => person.name,
       :last_name => person.last_name

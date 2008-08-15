@@ -67,7 +67,7 @@ class Site < ActiveRecord::Base
     Setting.get(:features, :multisite) or default?
   end
   
-  after_create :add_settings, :add_tasks
+  after_create :add_settings, :add_tasks, :add_pages
   
   def add_settings
     settings = YAML::load(File.open(SETTINGS_YAML_FILE))
@@ -92,6 +92,13 @@ class Site < ActiveRecord::Base
        :interval => 'minutely',
        :active   => false}
     ].each { |t| self.scheduled_tasks.create!(t) unless self.scheduled_tasks.find_by_name(t[:name]) }
+  end
+  
+  def add_pages
+    if connection.select_value("SELECT count(*) from pages where site_id=#{id}").to_i == 0
+      require Rails.root + "/db/migrate/20080722143227_move_system_content_to_pages"
+      MoveSystemContentToPages.up
+    end
   end
   
   def twitter_enabled?
