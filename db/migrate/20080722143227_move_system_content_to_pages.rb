@@ -5,7 +5,9 @@ class MoveSystemContentToPages < ActiveRecord::Migration
         html = File.read(filename)
         path, filename = filename.split('pages/').last.split('/')
         pub = nav = path != 'system'
-        Page.create!(:slug => path, :title => path.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
+        unless Page.find_by_path(path)
+          Page.create!(:slug => path, :title => path.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
+        end
       end
       Dir[File.dirname(__FILE__) + "/20080722143227_move_system_content_to_pages/**/*.html"].each do |filename|
         next if filename =~ /index\.html$/
@@ -13,7 +15,10 @@ class MoveSystemContentToPages < ActiveRecord::Migration
         path, filename = filename.split('pages/').last.split('/')
         slug = filename.split('.').first
         nav = path != 'system'
-        Page.find_by_path(path).children.create!(:slug => slug, :title => slug.titleize, :body => html, :system => true, :navigation => nav, :published => true)
+        parent = Page.find_by_path(path)
+        unless parent.children.find_by_slug(slug)
+          parent.children.create!(:slug => slug, :title => slug.titleize, :body => html, :system => true, :navigation => nav, :published => true)
+        end
       end
       unless Page.find_by_path('home')
         Page.create!(:slug => 'home', :title => 'Home', :body => 'Congratulations! OneBody is up and running.', :system => true)

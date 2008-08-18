@@ -95,7 +95,7 @@ class Site < ActiveRecord::Base
   end
   
   def add_pages
-    if connection.select_value("SELECT count(*) from pages where site_id=#{id}").to_i == 0
+    if Page.table_exists?
       require Rails.root + "/db/migrate/20080722143227_move_system_content_to_pages"
       MoveSystemContentToPages.up
     end
