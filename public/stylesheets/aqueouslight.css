@@ -948,3 +948,9 @@ code {
 .handle {
   cursor: move;
 }
+
+.share-box {
+  width: 45%;
+  float: left;
+  margin-right: 20px;
+}

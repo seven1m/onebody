@@ -1,8 +1,7 @@
 <%= render :partial => 'shares/subnav' %>
 
-<div style="width:50%;float:right;margin-left:25px;">
-
-  <% if Setting.get(:features, :verses) %>
+<% if Setting.get(:features, :verses) %>
+  <div class="share-box">
     <h2><%= link_to 'Verses' + image_tag('next.gif', :alt => 'Verses', :class => 'icon'), verses_path %></h2>
     <% if @verses.any? %>
       <%= render :partial => 'verses/verse', :collection => @verses %>
@@ -10,9 +9,11 @@
       <p><em>No verses yet... Add some!</em></p>
     <% end %>
     <p><%= link_to 'Click here', verses_path %> to see more and to share your own favorite verses.</p>
-  <% end %>
+  </div>
+<% end %>
 
-  <% if Setting.get(:features, :recipes) %>
+<% if Setting.get(:features, :recipes) %>
+  <div class="share-box">
     <h2><%= link_to 'Recipes' + image_tag('next.gif', :alt => 'Recipes', :class => 'icon'), recipes_path %></h2>
     <% if @recipes.any? %>
       <%= render :partial => 'recipes/list', :locals => {:recipes => @recipes} %>
@@ -20,33 +21,38 @@
       <p><em>No recipes yet... Add some!</em></p>
     <% end %>
     <p><%= link_to 'Click here', recipes_path %> to see more and to share your own favorite recipes.</p>
-  <% end %>
+  </div>
+<% end %>
   
-</div>
-
 <% if Setting.get(:features, :publications) %>
-  <h2><%= link_to 'Publications' + image_tag('next.gif', :alt => 'Publications', :class => 'icon'), publications_path %></h2>
-  <%= render :partial => 'publications/list' %>
-  <p><%= link_to 'Click here', publications_path %> for more details and to sign up for updates.</p>
+  <div class="share-box">
+    <h2><%= link_to 'Publications' + image_tag('next.gif', :alt => 'Publications', :class => 'icon'), publications_path %></h2>
+    <%= render :partial => 'publications/list' %>
+    <p><%= link_to 'Click here', publications_path %> for more details and to sign up for updates.</p>
+  </div>
 <% end %>
 
 <% if Setting.get(:features, :pictures) %>
-  <h2><%= link_to 'Pictures' + image_tag('next.gif', :alt => 'Pictures', :class => 'icon'), albums_path %></h2>
-  <% if @pictures.any? %>
-    <p>
-      <% @pictures.each do |object| %>
-        <%= link_to image_tag(small_picture_path(object), :alt => 'click to enlarge'),
-          picture_path(object), :title => 'click to enlarge' %>
-      <% end %>
-    </p>
-  <% else %>
-    <p><em>No pictures yet... Add some!</em></p>
-  <% end %>
-  <p><%= link_to 'Click here', albums_path %> to see more and to upload your own pictures.</p>
+  <div class="share-box">
+    <h2><%= link_to 'Pictures' + image_tag('next.gif', :alt => 'Pictures', :class => 'icon'), albums_path %></h2>
+    <% if @pictures.any? %>
+      <p>
+        <% @pictures.each do |object| %>
+          <%= link_to image_tag(small_picture_path(object), :alt => 'click to enlarge'),
+            picture_path(object), :title => 'click to enlarge' %>
+        <% end %>
+      </p>
+    <% else %>
+      <p><em>No pictures yet... Add some!</em></p>
+    <% end %>
+    <p><%= link_to 'Click here', albums_path %> to see more and to upload your own pictures.</p>
+  </div>
 <% end %>
 
 <% PLUGIN_HOOKS[:more_page].each do |partial, conditional| %>
   <% if conditional.nil? or (conditional.respond_to?(:call) and conditional.call(self)) %>
-    <%= render :partial => partial %>
+    <div class="share-box">
+      <%= render :partial => partial %>
+    </div>
   <% end %>
 <% end %>
