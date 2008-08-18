@@ -28,7 +28,7 @@ class Page < ActiveRecord::Base
   validates_presence_of :slug, :title, :body
   validates_uniqueness_of :path
   validates_exclusion_of :slug, :in => %w(admin edit new)
-  validates_format_of :slug, :with => /^[a-z_]+$/
+  validates_format_of :slug, :with => /^[a-z][a-z_]*$/
   
   before_save :update_path
   
