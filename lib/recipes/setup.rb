@@ -29,12 +29,12 @@ namespace :deploy do
     yml = render_erb_template(File.dirname(__FILE__) + '/templates/database.yml')
     put yml, "#{shared_path}/config/database.yml"
   end
+  
+  task :after_update_code do
+    rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
+    put rb, "#{release_path}/config/initializers/links.rb"
+    run "cp -r #{release_path}/public/* #{shared_path}/public/"
+    run "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
 
-end
-
-task :after_deploy do
-  rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
-  put rb, "#{release_path}/config/initializers/links.rb"
-  run "cp -r #{release_path}/public/* #{shared_path}/public/"
-  run "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
 end
