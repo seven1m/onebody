@@ -1,8 +1,6 @@
 h1. OneBody
 
-"http://beonebody.org":http://beonebody.org
-
-OneBody is open source software that connects community members on the web.
+OneBody is web-based software that connects community members, especially churches, on the web.
 
 h2. Features
 
@@ -10,6 +8,7 @@ h2. Features
 * Online Directory
 * Groups (with email list management, attendance tracking, and more)
 * Social Networking
+* Content Management System
 
 ...and more.
 
@@ -23,11 +22,9 @@ script/server
 </code></pre>
 ...then browse to "http://localhost:3000":http://localhost:3000
 
-h2. Where To Get Help
+h2. More Information
 
-* "HowToContribute":http://github.com/seven1m/onebody/wikis/howtocontribute
-* "InstallOneBody":http://github.com/seven1m/onebody/wikis/installonebody
-* "ContactUs":http://github.com/seven1m/onebody/wikis/contactus
+* "Wiki":http://github.com/seven1m/onebody/wikis
 
 h2. Copyright
 
