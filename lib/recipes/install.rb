@@ -80,7 +80,7 @@ namespace :deploy do
       sudo 'aptitude update'
       sudo 'aptitude install -y mysql-server libmysql-ruby1.8'
       password = HighLine.new.ask('Password for MySQL root user: ') { |q| q.echo = false }
-      run 'mysqladmin -uroot password #{password}'
+      run "mysqladmin -uroot password \"#{password}\""
     end
     
     desc 'Install Postfix'
@@ -98,6 +98,13 @@ namespace :deploy do
       sudo "ruby -e \"d=File.read('/etc/network/interfaces'); exit if d =~ /iptables/; d.gsub!(/(iface lo inet loopback)(\\n)/, '\\1\\2pre-up iptables-restore < /etc/iptables.up.rules\\2'); File.open('/etc/network/interfaces', 'w') { |f| f.write(d) }\""
       puts 'Restart the server for the config to take effect.'
     end
+    
+    desc 'Install gem dependencies'
+    task :dependencies, :roles => :web do
+      sudo 'echo'
+      run "cd #{release_path}; sudo rake gems:install"
+    end
+    after 'deploy:update_code', 'deploy:install:dependencies'
 
   end
 end
