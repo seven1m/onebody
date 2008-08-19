@@ -73,8 +73,7 @@ class Scheduler < Daemon::Base
     puts "#{task.name} (#{task.interval})"
     puts command
     puts "Running at #{timestamp}..."
-    cmd = IO.popen(command, "w+"); cmd.close_write
-    result = cmd.read
+    result = system(command)
     puts "Finished at #{timestamp}"
     puts 'Output:'
     puts result.to_s.strip.any? ? result : '(blank)'
