@@ -26,8 +26,12 @@ class SessionsController < ApplicationController
   
   # sign in
   def create
-    key = OpenSSL::PKey::RSA.new(session[:key])
-    password = key.private_decrypt(Base64.decode64(params[:encrypted_password]))
+    if Rails.env == 'test' and params[:password]
+      password = params[:password]
+    else
+      key = OpenSSL::PKey::RSA.new(session[:key])
+      password = key.private_decrypt(Base64.decode64(params[:encrypted_password]))
+    end
     if person = Person.authenticate(params[:email], password)
       reset_session
       unless person.can_sign_in?

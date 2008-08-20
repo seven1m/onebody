@@ -189,7 +189,7 @@ class Person < ActiveRecord::Base
   before_create :generate_salt
   
   def generate_salt
-    self.salt = random_chars(50)
+    self.salt = random_chars(50) unless read_attribute(:salt)
   end
   
   def salt

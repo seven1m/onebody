@@ -4,7 +4,7 @@ class SessionsControllerTest < ActionController::TestCase
   
   def setup
     Setting.set_global('Features', 'SSL', true)
-    @person = Person.forge(:encrypted_password => '5ebe2294ecd0e0f08eab7690d2a6ee69')
+    @person = Person.forge(:password => 'secret')
   end
   
   should "redirect show action to new action" do
@@ -33,6 +33,7 @@ class SessionsControllerTest < ActionController::TestCase
   
   should "redirect to original location after sign in" do
     post :create, {:email => @person.email, :password => 'secret', :from => "/groups"}
+    assert_nil flash[:warning]
     assert_redirected_to groups_path
   end
   

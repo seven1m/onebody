@@ -83,7 +83,7 @@ tim:
   birthday: 1981-04-28
   anniversary: 2001-08-11
   email: admin@example.com
-  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  encrypted_password: ec30317d2d9133b897cfac6718680f60a0110cec # secret
   mail_group: M
   wall_enabled: true
   member: true
@@ -93,6 +93,7 @@ tim:
   full_access: true
   feed_code: bla
   api_key: dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp
+  salt: 0vrXxHlAjAY1w1frfCBYwcbHUHeOBcHlSn8VVXeSg9tWZfjYbq
 jeremy:
   site_id: 1
   id: 2
@@ -104,7 +105,7 @@ jeremy:
   birthday: 1977-04-01
   classes: BW,ZZ,PT,CF,W08,OF03,W04,W10
   mail_group: M
-  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  encrypted_password: 52cb50001a2065b4b24c1691be476be31a135d63 # secret
   email: user@example.com
   wall_enabled: true
   member: true
@@ -115,6 +116,7 @@ jeremy:
   feed_code: bla2
   deacon: true
   api_key: dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKq
+  salt: GUeBW2wFQ1MzagtXLeSUE6NbxaJAc3Iz5Q9UDpLHCeEYdnnIyv
 peter:
   site_id: 1
   id: 3
@@ -126,7 +128,7 @@ peter:
   mail_group: M
   email: peter@example.com
   mobile_phone: 1234567890
-  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  encrypted_password: cedf91e6f238f16a62c95ba434af03c04f7b5e4d # secret
   wall_enabled: true
   member: true
   can_sign_in: true
@@ -135,6 +137,7 @@ peter:
   full_access: true
   feed_code: bla3
   api_key: abc # invalid key
+  salt: T2GTTah9DsC9xZQapvWqysYoTc92qPs3HuWAYMLxnnUlFbFm56
 jennie:
   site_id: 1
   id: 4
@@ -147,7 +150,7 @@ jennie:
   birthday: 1980-06-24
   mobile_phone: 3452348765
   email: admin@example.com
-  encrypted_password: 5f4dcc3b5aa765d61d8327deb882cf99 # password
+  encrypted_password: 3904a1595eecc3d494465fd9f5a72ceda74dbcb8 # password
   wall_enabled: true
   admin_id: 1
   member: true
@@ -157,6 +160,7 @@ jennie:
   full_access: true
   feed_code: bla4
   staff: true
+  salt: BnkrynYU0dBft9CALnAGriXJWPsOotGBHaxKIp3rrEBgpRiCeW
 mac:
   site_id: 1
   id: 5
@@ -168,7 +172,7 @@ mac:
   email: mac@example.com
   mail_group: M
   birthday: 2006-11-03
-  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  encrypted_password: 090ef914e5b5364e6440aa0113c71d1e1f4e838c # secret
   wall_enabled: true
   member: true
   can_sign_in: true
@@ -176,6 +180,7 @@ mac:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla5
+  salt: cbzcuNI41xtfHGVzWujVQJGya8W11GKY9YpX9WRQVuOVoaodWO
 jane:
   site_id: 1
   id: 6
@@ -187,7 +192,7 @@ jane:
   mail_group: M
   birthday: 1980-06-24
   email: jane@example.com
-  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  encrypted_password: 57d1376901782c1c4e4b02f12a68b5a0e55d68f0 # secret
   wall_enabled: true
   member: true
   can_sign_in: true
@@ -196,6 +201,7 @@ jane:
   full_access: true
   feed_code: bla6
   staff: true
+  salt: Xoi0wtyeHDKb3bVO5eQPIO24iY6qFvwSAZhybOwQ78rO7UULhy
 megan:
   site_id: 1
   id: 7
@@ -206,7 +212,7 @@ megan:
   last_name: Smith
   mail_group: M
   birthday: 2006-10-26
-  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  encrypted_password: f696a2ad865f5c03626cad74c1e677cf0c64b783 # secret
   wall_enabled: true
   member: true
   can_sign_in: true
@@ -214,6 +220,7 @@ megan:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla7
+  salt: U606Bdg6IEod4aNnJTI0S4QzU7Vn5TkoSFwqDjcFA1y8EUbpwZ
 jim:
   site_id: 2
   id: 8
@@ -226,7 +233,7 @@ jim:
   birthday: 1981-04-28
   anniversary: 2001-08-11
   email: jim@example.com
-  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  encrypted_password: 4cf5384ef334336db8d2c6b204f84a23374a0069 # secret
   mail_group: M
   wall_enabled: true
   member: true
@@ -235,6 +242,7 @@ jim:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla8
+  salt: q4C6N0pPR3qElo9YIaQSQJvNRXBT3vfL7UXbAFl8gISAs4TjR8
 tom:
   site_id: 3
   id: 9
@@ -247,7 +255,7 @@ tom:
   birthday: 1981-04-28
   anniversary: 2001-08-11
   email: tom@example.com
-  encrypted_password: 5ebe2294ecd0e0f08eab7690d2a6ee69 # secret
+  encrypted_password: ef1159b680f66f27f501d63c9c40763b497df4f8 # secret
   mail_group: M
   wall_enabled: true
   member: true
@@ -256,3 +264,4 @@ tom:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla9
+  salt: 9ryVTNMs4aON7I9cOHxI50JMOtf5SiHT5ArIkuVIxH93hmtmTv

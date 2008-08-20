@@ -95,10 +95,13 @@ class Site < ActiveRecord::Base
   end
   
   def add_pages
+    # FIXME: Move the migration code into a Site #method and quit calling migrations from code!
+    site_was = Site.current
     if Page.table_exists?
       require Rails.root + "/db/migrate/20080722143227_move_system_content_to_pages"
       MoveSystemContentToPages.up
     end
+    Site.current = site_was
   end
   
   def twitter_enabled?

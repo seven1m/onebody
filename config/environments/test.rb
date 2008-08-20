@@ -21,3 +21,4 @@ config.action_mailer.delivery_method = :test
 config.gem 'faker'
 
 require Rails.root + '/config/initializers/paths'
+require Rails.root + '/config/initializers/photos'
