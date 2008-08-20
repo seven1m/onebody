@@ -31,16 +31,16 @@ class CheckinAttendanceRecord < ActiveRecord::Base
   class << self
     def check(person, section)
       today = Date.today
-      if prev_record = person.attendance_records.find(:first, :conditions => ['section = ? and `in` >= ? and `out` is null and void = ?', section, today, false])
+      if prev_record = person.checkin_attendance_records.find(:first, :conditions => ['section = ? and `in` >= ? and `out` is null and void = ?', section, today, false])
         prev_record.update_attribute :out, Time.now
         prev_record
       else
-        person.attendance_records.create(:barcode_id => person.barcode_id, :first_name => person.first_name, :last_name => person.last_name, :family_name => person.family.name, :age => person.age[:years], :section => section, :in => Time.now, :can_pick_up => person.can_pick_up, :cannot_pick_up => person.cannot_pick_up, :medical_notes => person.medical_notes) rescue nil
+        person.checkin_attendance_records.create(:barcode_id => person.barcode_id, :first_name => person.first_name, :last_name => person.last_name, :family_name => person.family.name, :age => (person.age ? person.age[:years] : '?'), :section => section, :in => Time.now, :can_pick_up => person.can_pick_up, :cannot_pick_up => person.cannot_pick_up, :medical_notes => person.medical_notes) rescue nil
       end
     end
   end
 end
 
 Person.class_eval do
-  has_many :attendance_records, :class_name => 'CheckinAttendanceRecord'
+  has_many :checkin_attendance_records
 end

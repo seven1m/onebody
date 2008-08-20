@@ -37,7 +37,7 @@ class CheckinController < ApplicationController
     @records = CheckinAttendanceRecord.find(
       :all,
       :conditions => ['section = ? and `in` >= ?', @section, Date.today],
-      :order => '`in` desc'
+      :order => 'updated_at desc'
     )
     render :partial => 'attendance' unless dont_render
   end
