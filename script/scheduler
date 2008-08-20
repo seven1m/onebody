@@ -13,6 +13,9 @@ require 'time'
 config = YAML::load_file(RAILS_ROOT + '/config/database.yml')[RAILS_ENV]
 ActiveRecord::Base.establish_connection(config)
 
+if File.exist?(RAILS_ROOT + '/config/initializers/links.rb')
+  require RAILS_ROOT + '/config/initializers/links'
+end
 require RAILS_ROOT + '/config/initializers/paths'
 require RAILS_ROOT + '/vendor/plugins/acts_as_file/lib/acts_as_file'
 %w(scheduled_task site setting).each { |model| require RAILS_ROOT + "/app/models/#{model}" }
