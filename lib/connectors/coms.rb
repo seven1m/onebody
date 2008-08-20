@@ -144,8 +144,7 @@ class ComsConnector < ExternalDataConnector
             :state => family_postal_record ? family_postal_record.state : nil,
             :zip => family_postal_record ? family_postal_record.zip.to_s[0..9] : nil,
             :home_phone => get_phone('HOMEPHONE', nil, 'UNLISTED', [family_phone_record]),
-            :email => (e = record.internet.to_s.strip.downcase).any? ? e : nil,
-            :mail_group => record.mailpick == '(None)' ? nil : record.mailpick
+            :email => (e = record.internet.to_s.strip.downcase).any? ? e : nil
           })
         end
         index += 1
