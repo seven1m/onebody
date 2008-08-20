@@ -69,6 +69,7 @@
 #  site_id                      :integer       
 #  twitter_account              :string(100)   
 #  api_key                      :string(50)    
+#  salt                         :string(50)    
 #
 
 class Person < ActiveRecord::Base
