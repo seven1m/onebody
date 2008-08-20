@@ -1,5 +1,6 @@
 require 'active_record'
 require 'digest/md5'
+require 'digest/sha1'
 
 module Foo
   module Acts #:nodoc:
@@ -16,7 +17,7 @@ module Foo
             def password=(unencrypted_password)
               @password = unencrypted_password
               if unencrypted_password
-                self.encrypted_password = Digest::MD5.hexdigest(unencrypted_password)
+                self.encrypted_password = encrypt_second_pass(encrypt_first_pass(unencrypted_password))
               else
                 self.encrypted_password = nil
               end
@@ -30,6 +31,15 @@ module Foo
               return self.save
             end
             
+            def encrypt_first_pass(pass)
+              Digest::MD5.hexdigest(pass)
+            end
+            
+            def encrypt_second_pass(pass)
+              10.times { pass = Digest::SHA1.hexdigest(pass + salt) }
+              return pass
+            end
+            
             extend Foo::Acts::Password::SingletonMethods
           end
         end
@@ -40,15 +50,14 @@ module Foo
         # if email cannot be found, returns nil
         # if email is found but password doesn't match, returns false
         def authenticate(email, password, options={})
-          unless options[:encrypted]
-            password = Digest::MD5.hexdigest(password)
-          end
           people = find_all_by_email(email)
           if people.length > 0
             # try each person until a password matches
-            people.select { |p| p.encrypted_password }.each do |person|
-              compare = options[:encrypted] ? Digest::MD5.hexdigest(person.encrypted_password + options[:salt].to_s) : person.encrypted_password
-              return person if compare == password
+            people.each do |person|
+              if person.encrypted_password
+                compare = person.encrypt_second_pass(person.encrypt_first_pass(password))
+                return person if person.encrypted_password == compare
+              end
             end
             return false
           else

@@ -186,6 +186,16 @@ class Person < ActiveRecord::Base
     write_attribute :fax, phone.to_s.digits_only
   end
   
+  before_create :generate_salt
+  
+  def generate_salt
+    self.salt = random_chars(50)
+  end
+  
+  def salt
+    read_attribute(:salt) || generate_salt
+  end
+  
   inherited_attribute :share_mobile_phone, :family
   inherited_attribute :share_work_phone, :family
   inherited_attribute :share_fax, :family

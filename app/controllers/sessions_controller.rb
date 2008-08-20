@@ -1,3 +1,6 @@
+require 'openssl'
+require 'base64'
+
 class SessionsController < ApplicationController
   filter_parameter_logging :password
   
@@ -11,7 +14,10 @@ class SessionsController < ApplicationController
   # sign in form
   def new
     if Person.count > 0
-      @salt = session_salt unless Setting.get(:features, :ssl)
+      key = OpenSSL::PKey::RSA.new(1024)
+      @public_modulus  = key.public_key.n.to_s(16)
+      @public_exponent = key.public_key.e.to_s(16)
+      session[:key] = key.to_pem
     else
       @show_help = local_request?
       render :action => 'no_users'
@@ -20,8 +26,10 @@ class SessionsController < ApplicationController
   
   # sign in
   def create
-    @salt = session_salt unless Setting.get(:features, :ssl)
-    if person = Person.authenticate(params[:email], Setting.get(:features, :ssl) ? params[:password] : params[:password_encrypted], :encrypted => !Setting.get(:features, :ssl), :salt => @salt)
+    key = OpenSSL::PKey::RSA.new(session[:key])
+    password = key.private_decrypt(Base64.decode64(params[:encrypted_password]))
+    if person = Person.authenticate(params[:email], password)
+      reset_session
       unless person.can_sign_in?
         redirect_to page_for_public_path('system/unauthorized')
         return
@@ -41,17 +49,18 @@ class SessionsController < ApplicationController
         redirect_to new_account_path(:email => params[:email])
       else
         flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
-        render :action => 'new'
+        new; render :action => 'new'
       end
     else
       flash[:warning] = "The password you entered doesn't match our records. Please try again."
-      render :action => 'new'
+      new; render :action => 'new'
     end
   end
   
   # sign out
   def destroy
-    session[:logged_in_id] = nil
+    #session[:logged_in_id] = nil
+    reset_session
     redirect_to new_session_path
   end
   

@@ -1,48 +1,52 @@
-<% unless Setting.get(:features, :ssl) %>
-  <% content_for :head do %>
-    <%= javascript_include_tag 'md5' %>
-    <script type="text/javascript">salt = <%= @salt.inspect %></script>
-  <% end %>
-<% end %>
+<%= javascript_include_tag('rsa/jsbn', 'rsa/prng4', 'rsa/rng', 'rsa/rsa', 'rsa/base64', :cache => 'rsa') %>
+
+<script type="text/javascript">
+  function encrypt_password() {
+    var rsa = new RSAKey();
+    rsa.setPublic('<%= @public_modulus %>', '<%= @public_exponent %>');
+    var res = rsa.encrypt($('password').value);
+    if (res) {
+      $('encrypted_password').value = hex2b64(res);
+      $('password').value = '';
+      return true;
+    }
+    return false;
+  }
+</script>
 
 <%= render_page_content 'system/sign_in_header' %>
 
 <h2>Please sign in.</h2>
 
-<form method="post" action="/session" method="post"
-  <% unless Setting.get(:features, :ssl) %>
-    onsubmit="$('password_encrypted').value = hex_md5(hex_md5($('password').value) + salt);$('password').value = ''"
-  <% end %>
-  >
-  <%= hidden_field_tag :password_encrypted, nil %>
+<form method="post" action="/session" method="post" onsubmit="return encrypt_password()">
   <%= hidden_field_tag :from, params[:from] %>
+  <%= hidden_field_tag :encrypted_password %>
   <div style="width:150px;float:right;margin:10px;text-align:center;">
     <%= link_to image_tag('help.gif', :alt => 'Help Signing In', :class => 'no-border'), help_path %><br/>
     <%= link_to 'I need help.', help_path %>
   </div>
+  
   <p><%= link_to 'Click here', help_path %> if you don't know your password.</p>
+  
   <table>
     <tr>
       <td><label for="email">Email Address:</label></td>
-      <td><%= text_field_tag :email, @email, :size => 30 %></td>
+      <td><%= text_field_tag :email, params[:email], :size => 30 %></td>
     </tr>
     <tr>
       <td><label for="password">Password:</label></td>
+      <td><input type="password" id="password"/></td>
+    </tr>
+    <tr>
+      <td></td>
       <td>
-        <%= password_field_tag :password %>
-        <%= image_tag 'lock.gif', :alt => 'Secured', :class => 'no-border' %>
-        Secured with <% if Setting.get(:features, :ssl) %>SSL<% else %>JavaScript<% end %>.
+        <span style="color:#f00;">Never share your password with anyone!</span><br/>
+        <input type="submit" value="Sign In"/><br/>
+        <br/>
+        <strong>You may read our Privacy Policy <%= link_to 'here', help_path('privacy_policy') %>.</strong>
       </td>
     </tr>
-    <tr><td></td>
-    <td>
-      <span style="color:#f00;">Never share your password with anyone!</span><br/>
-      Sharing your password with other people will get you banned from the site.<br/>
-      <input type="submit" value="Sign In"/><br/>
-      <br/>
-      <strong>You may read our Privacy Policy <%= link_to 'here', help_path('privacy_policy') %>.</strong>
-    </td></tr>
   </table>
 </form>
 
-<script type="text/javascript"> $("<%= @email.to_s.any? ? 'password' : 'email' %>").focus(); </script>
+<script type="text/javascript"> $('<%= params[:email].to_s.any? ? 'password' : 'email' %>').focus(); </script>
