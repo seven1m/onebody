@@ -29,4 +29,3 @@ set :repository_cache, 'git_cache'
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/apps/#{application}"
 set :use_sudo, false
-set :maintenance_file_path, "#{shared_path}/public/maintenance.html"

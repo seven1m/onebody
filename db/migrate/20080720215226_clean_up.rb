@@ -1,7 +1,7 @@
 class CleanUp < ActiveRecord::Migration
   def self.up
     change_table :families do |t|
-      t.remove :security_token
+      t.remove :security_token rescue nil
       t.remove :mail_group
     end
   end

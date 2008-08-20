@@ -13,7 +13,7 @@ class CreateAlbums < ActiveRecord::Migration
     Site.each do |site|
       Picture.all.each do |picture|
         name, description, person_id = \
-          picture.connection.select_one(['select name, description, person_id from events where id = ?', picture.event_id])
+          picture.connection.select_one("select name, description, person_id from events where id = #{picture.event_id}")
         album = Album.find_or_initialize_by_name(name)
         album.update_attributes! :description => description, :person_id => person_id
         picture.album = album

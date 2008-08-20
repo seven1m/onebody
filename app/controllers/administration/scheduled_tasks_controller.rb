@@ -1,9 +1,9 @@
-class ScheduledTasksController < ApplicationController
+class Administration::ScheduledTasksController < ApplicationController
 
   before_filter :only_admins
   
   def index
-    @tasks = Site.current.scheduled_tasks.find(:all, :conditions => ["interval != ?", 'now'])
+    @tasks = Site.current.scheduled_tasks.find(:all, :conditions => ["\"interval\" != ?", 'now'])
   end
   
   def new

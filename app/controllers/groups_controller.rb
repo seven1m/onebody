@@ -139,7 +139,7 @@ class GroupsController < ApplicationController
   private
   
     def feature_enabled?
-      unless Setting.get(:features, :groups) and Site.current.max_groups > 0
+      unless Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
         redirect_to people_path
         false
       end

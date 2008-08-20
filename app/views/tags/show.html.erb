@@ -11,5 +11,5 @@
 
 <% if @tag.recipes.any? %>
   <h2>Recipes</h2>
-  <%= render :partial => 'recipes/list', :locals => {:recipes => @tag.recipes} %>
+  <%= render :partial => 'recipes/list', :locals => {:recipes => @tag.recipes.paginate(:page => 1, :per_page => 100)} %>
 <% end %>
