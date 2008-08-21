@@ -9,7 +9,7 @@
           </a>
         </td>
         <td class="person">
-          <%= link_to h(person.name), person_url(:id => person) %>
+          <%= link_to h(person.name), person %>
           <% if person.birthday_soon? %>
             <br/>
             <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>

@@ -1,7 +1,7 @@
 <% if (count = @person.friendships.count) > 0 %>
   <h2>
     Friends
-    <% if @logged_in == @person %>
+    <% if me? %>
       <%= link_to 'edit', person_friends_path(@person), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
     <% end %>
   </h2>
@@ -30,6 +30,6 @@
   <% if count > MAX_FRIENDS_ON_PROFILE %>
     <p><%= link_to "All #{@person.name_possessive} Friends", person_friends_path(@person) %></p>
   <% end %>
-<% elsif @me %>
+<% elsif me? %>
   <p class="highlight"><%= link_to 'Add your friends', search_path(:search_friends => true) %> to your profile page!</p>
 <% end %>
