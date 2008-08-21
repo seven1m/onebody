@@ -1,7 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class SiteTest < ActiveSupport::TestCase
-  def test_settings_get_added
+  
+  should "add settings" do
     start_count = Setting.count('*')
     new_site = Site.create(:name => 'Test', :host => 'testhost')
     assert new_site
@@ -13,9 +14,14 @@ class SiteTest < ActiveSupport::TestCase
     end
   end
   
-  def test_sub_tables
+  should "have sub tables" do
     # easiest way is to delete a site and see if the all the ":dependent => :destroy" stuff works
     Site.find(2).destroy_for_sure
+  end
+  
+  should "add pages" do
+    s = Site.create!(:name => 'testpages', :host => 'testpages')
+    assert Page.connection.select_value("select count(*) from pages where site_id = #{s.id}").to_i > 3
   end
   
   private
