@@ -89,7 +89,7 @@ class PeopleController < ApplicationController
       if updated = @person.update_from_params(params)
         respond_to do |format|
           format.html do
-            flash[:notice] = 'Changes saved.'
+            flash[:notice] = 'Changes submitted (some changes may require staff review).'
             redirect_to edit_person_path(@person, :anchor => params[:anchor])
           end
           format.xml { render :xml => @person.to_xml }

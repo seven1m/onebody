@@ -515,6 +515,7 @@ class Person < ActiveRecord::Base
       if Person.logged_in.admin?(:edit_profiles)
         update_attributes(params[:person]) && family.update_attributes(params[:family])
       else
+        params[:person].delete(:family_id)
         Update.create_from_params(params, self)
         self
       end
