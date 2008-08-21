@@ -29,7 +29,12 @@ class ApiTest < Test::Unit::TestCase
     assert_equal 'Tim', person.first_name
   end
   
-  should "update a person"
+  should "update a person" do
+    person = PersonResource.find(1)
+    person.first_name = 'Joe'
+    person.save
+    assert_equal 'Joe', PersonResource.find(1).first_name
+  end
   
   should "not mangle share_ attributes when updating a person"
   
@@ -40,6 +45,7 @@ end
 
 if $0 == __FILE__
   puts `cd #{File.dirname(__FILE__)}/.. && rake db:schema:load db:fixtures:load RAILS_ENV=test && mongrel_rails start -p 3001 -e test -d`
+  sleep 1
   Test::Unit::UI::Console::TestRunner.run(ApiTest)
   puts `cd #{File.dirname(__FILE__)}/.. && mongrel_rails stop`
 end
