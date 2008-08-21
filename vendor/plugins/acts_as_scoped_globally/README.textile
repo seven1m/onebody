@@ -45,6 +45,14 @@ The acts_as method takes two arguments: a foreign key and an expression to scope
   # INSERT INTO people (email, site_id) values ('tim@example.com', 12)
 </pre>
 
-h2. To Do
+h2. Bypassing the Global Scope
 
-* Create a @find_unscoped@ or similar method to allow bypass of scope setting requirement.
+<pre>
+  Person.first
+  # SELECT * FROM people where site_id = 12 limit 1;
+  
+  Person.without_global_scope do
+    Person.first
+    # SELECT * FROM people limit 1;
+  end
+</pre>
