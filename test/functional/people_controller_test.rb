@@ -63,6 +63,7 @@ class PeopleControllerTest < ActionController::TestCase
       {
         :id => @person.id,
         :person => {
+          :family_id => @person.family_id, # should be ignored
           :first_name => 'Bob',
           :last_name => 'Smith'
         },
