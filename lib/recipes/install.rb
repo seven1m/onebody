@@ -104,7 +104,14 @@ namespace :deploy do
       sudo 'echo'
       run "cd #{release_path}; sudo rake gems:install"
     end
-    after 'deploy:update_code', 'deploy:install:dependencies'
 
+  end
+  
+  # reconfigure to install dependencies
+  task :cold do
+    update
+    find_and_execute_task('deploy:install:dependencies')
+    migrate
+    start
   end
 end
