@@ -1,6 +1,3 @@
-require 'openssl'
-require 'base64'
-
 class SessionsController < ApplicationController
   filter_parameter_logging :password
   
@@ -14,10 +11,7 @@ class SessionsController < ApplicationController
   # sign in form
   def new
     if Person.count > 0
-      key = OpenSSL::PKey::RSA.new(1024)
-      @public_modulus  = key.public_key.n.to_s(16)
-      @public_exponent = key.public_key.e.to_s(16)
-      session[:key] = key.to_pem
+      generate_encryption_key
     else
       @show_help = local_request?
       render :action => 'no_users'
@@ -29,8 +23,7 @@ class SessionsController < ApplicationController
     if Rails.env == 'test' and params[:password]
       password = params[:password]
     else
-      key = OpenSSL::PKey::RSA.new(session[:key])
-      password = key.private_decrypt(Base64.decode64(params[:encrypted_password]))
+      password = decrypt_password(params[:encrypted_password])
     end
     if person = Person.authenticate(params[:email], password)
       reset_session

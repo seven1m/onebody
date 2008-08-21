@@ -1,9 +1,25 @@
+<%= javascript_include_tag('rsa/jsbn', 'rsa/prng4', 'rsa/rng', 'rsa/rsa', 'rsa/base64', :cache => 'rsa') %>
+
+<script type="text/javascript">
+  function encrypt_passwords() {
+    var rsa = new RSAKey();
+    rsa.setPublic('<%= @public_modulus %>', '<%= @public_exponent %>');
+    $('encrypted_password').value = hex2b64(rsa.encrypt($('password').value));
+    $('password').value = '';
+    $('encrypted_password_confirmation').value = hex2b64(rsa.encrypt($('password_confirmation').value));
+    $('password_confirmation').value = '';
+    return true
+  }
+</script>
+
 <% content_for :subnav do %>
   <li><%= link_to 'View Profile', person_path(@person) %></li>
 <% end %>
 
 <h1><%=h @person.name %></h1>
-<% form_for @person, :url => person_account_path(@person) do |form| %>
+<% form_for @person, :url => person_account_path(@person), :html => {:onsubmit => "return encrypt_passwords()"} do |form| %>
+  <%= hidden_field_tag :encrypted_password %>
+  <%= hidden_field_tag :encrypted_password_confirmation %>
   <%= form.error_messages %>
   <p>
     <label for="person_email">Email Address:</label>
@@ -13,11 +29,11 @@
     <%= @person == @logged_in ? 'you use' : @person.name + ' uses' %> to
     sign into this site.</strong>
     <br/>
-    <label for="person_password">Password:</label>
-    <%= form.password_field :password, :style => 'border:1px solid #ccc;' %><br/>
+    <label for="password">Password:</label>
+    <%= password_field_tag :password, nil %><br/>
     Leave these fields blank if you don't want to change your password.<br/>
-    <label for="person_password_confirmation">Password (confirm):</label>
-    <%= form.password_field :password_confirmation, :style => 'border:1px solid #ccc;' %><br/>
+    <label for="password_confirmation">Password (confirm):</label>
+    <%= password_field_tag :password_confirmation, nil %><br/>
     <%= submit_tag 'Save Changes' %>
   </p>
 <% end %>

@@ -10,7 +10,7 @@ class AccountsControllerTest < ActionController::TestCase
     password_was = @person.encrypted_password
     get :edit, {:person_id => @person.id}, {:logged_in_id => @person.id}
     assert_response :success
-    post :update, {:person_id => @person.id, :person => {:email => 'foo@example.com', :password => 'password', :password_confirmation => 'password'}}, {:logged_in_id => @person.id}
+    post :update, {:person_id => @person.id, :person => {:email => 'foo@example.com'}, :password => 'password', :password_confirmation => 'password'}, {:logged_in_id => @person.id}
     assert_redirected_to person_path(@person)
     assert_equal 'foo@example.com', @person.reload.email
     assert @person.encrypted_password != password_was
@@ -19,7 +19,7 @@ class AccountsControllerTest < ActionController::TestCase
   should "not edit account unless user is admin" do
     get :edit, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
-    post :update, {:person_id => @person.id, :person => {:email => 'foo@example.com', :password => 'password', :password_confirmation => 'password'}}, {:logged_in_id => @other_person.id}
+    post :update, {:person_id => @person.id, :person => {:email => 'foo@example.com'}, :password => 'password', :password_confirmation => 'password'}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
   

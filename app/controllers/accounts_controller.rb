@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  filter_parameter_logging :password, :password_confirmation
+  filter_parameter_logging :password
   
   before_filter :check_ssl, :except => [:verify]
   skip_before_filter :authenticate_user, :except => %w(edit update)
@@ -132,8 +132,10 @@ class AccountsController < ApplicationController
   end
   
   def edit
-    @person = Person.find(params[:person_id])
-    unless @logged_in.can_edit?(@person)
+    @person ||= Person.find(params[:person_id])
+    if @logged_in.can_edit?(@person)
+      generate_encryption_key
+    else
       render :text => 'You cannot edit this account.', :layout => true, :status => 401
     end
   end
@@ -141,17 +143,22 @@ class AccountsController < ApplicationController
   def update
     @person = Person.find(params[:person_id])
     if @logged_in.can_edit?(@person)
-      password = params[:person].delete(:password)
-      password_confirmation = params[:person].delete(:password_confirmation)
+      if Rails.env == 'test' and params[:password]
+        password = params[:password]
+        password_confirmation = params[:password_confirmation]
+      else
+        password = decrypt_password(params[:encrypted_password])
+        password_confirmation = decrypt_password(params[:encrypted_password_confirmation])
+      end
       @person.attributes = params[:person]
       @person.email_changed = @person.changed.include?('email')
       @person.save
       if @person.errors.any?
-        render :action => 'edit'
+        edit; render :action => 'edit'
       elsif password.to_s.any? or password_confirmation.to_s.any?
         @person.change_password(password, password_confirmation)
         if @person.errors.any?
-          render :action => 'edit'
+          edit; render :action => 'edit'
         else
           flash[:notice] = 'Changes saved.'
           redirect_to @person

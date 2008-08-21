@@ -97,6 +97,18 @@ class ApplicationController < ActionController::Base
       end
     end
     
+    def generate_encryption_key
+      key = OpenSSL::PKey::RSA.new(1024)
+      @public_modulus  = key.public_key.n.to_s(16)
+      @public_exponent = key.public_key.e.to_s(16)
+      session[:key] = key.to_pem
+    end
+    
+    def decrypt_password(pass)
+      key = OpenSSL::PKey::RSA.new(session[:key])
+      key.private_decrypt(Base64.decode64(pass))
+    end
+    
     def check_scheduler
       unless File.exist?(Rails.root + '/Scheduler.pid')
         if @logged_in.admin?
