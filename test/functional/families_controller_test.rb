@@ -69,5 +69,16 @@ class FamiliesControllerTest < ActionController::TestCase
   should "add a person to a family"
   
   should "remove a person from a family"
+  
+  should "not show xml unless user can export data" do
+    get :show, {:id => @family.id, :format => 'xml'}, {:logged_in_id => @person.id}
+    assert_response 406
+  end
+  
+  should "show xml for admin who can export data" do
+    @other_person.admin = Admin.create!(:export_data => true)
+    get :show, {:id => @family.id, :format => 'xml'}, {:logged_in_id => @other_person.id}
+    assert_response :success
+  end
 
 end

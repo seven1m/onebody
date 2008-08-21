@@ -6,7 +6,7 @@ class PeopleController < ApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to @logged_in }
-      if @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
+      if can_export?
         @people = Person.paginate(:order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
         format.xml { render :xml  => @people.to_xml(:except => %w(feed_code encrypted_password), :include => [:groups, :family]) }
         format.csv { render :text => @people.to_csv(:except => %w(feed_code encrypted_password), :include => [:family]) }
@@ -37,7 +37,7 @@ class PeopleController < ApplicationController
       else
         respond_to do |format|
           format.html
-          format.xml { render :xml => @person.to_xml }
+          format.xml { render :xml => @person.to_xml } if can_export?
         end
       end
     else
@@ -92,7 +92,7 @@ class PeopleController < ApplicationController
             flash[:notice] = 'Changes submitted (some changes may require staff review).'
             redirect_to edit_person_path(@person, :anchor => params[:anchor])
           end
-          format.xml { render :xml => @person.to_xml }
+          format.xml { render :xml => @person.to_xml } if can_export?
         end
       else
         edit; render :action => 'edit'

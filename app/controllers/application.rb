@@ -166,4 +166,8 @@ class ApplicationController < ActionController::Base
     def feature_enabled?
       true
     end
+    
+    def can_export?
+      @logged_in and @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
+    end
 end

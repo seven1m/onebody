@@ -154,6 +154,15 @@ class PeopleControllerTest < ActionController::TestCase
     assert !@person.reload.account_frozen?
   end
   
-  should "not freeze account unless user is admin"
+  should "not show xml unless user can export data" do
+    get :show, {:id => @person.id, :format => 'xml'}, {:logged_in_id => @person.id}
+    assert_response 406
+  end
+  
+  should "show xml for admin who can export data" do
+    @other_person.admin = Admin.create!(:export_data => true)
+    get :show, {:id => @person.id, :format => 'xml'}, {:logged_in_id => @other_person.id}
+    assert_response :success
+  end
 
 end

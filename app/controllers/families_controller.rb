@@ -5,7 +5,7 @@ class FamiliesController < ApplicationController
   def index
     respond_to do |format|
       format.html { redirect_to @logged_in }
-      if @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
+      if can_export?
         @families = Family.paginate(:order => 'last_name, name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
         format.xml { render :xml  => @families.to_xml(:include => [:people]) }
         format.csv { render :text => @families.to_csv }
@@ -16,7 +16,12 @@ class FamiliesController < ApplicationController
   def show
     @family = Family.find(params[:id])
     @people = @family.people.all.select { |p| @logged_in.can_see? p }
-    unless @logged_in.can_see?(@family)
+    if @logged_in.can_see?(@family)
+      respond_to do |format|
+        format.html
+        format.xml { render :xml => @family.to_xml } if can_export?
+      end
+    else
       render :text => 'Family not found.', :status => 404
     end
   end
@@ -39,7 +44,10 @@ class FamiliesController < ApplicationController
   def update
     @family = Family.find(params[:id])
     @family.update_attributes(params[:family])
-    redirect_to @family
+    respond_to do |format|
+      format.html { redirect_to @family }
+      format.xml  { render :xml => @family.to_xml } if can_export?
+    end
   end
   
   def destroy

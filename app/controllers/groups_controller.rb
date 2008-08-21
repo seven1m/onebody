@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.js   { render :partial => 'person_groups' }
         format.html { render :partial => 'person_groups', :layout => true }
-        if @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
+        if can_export?
           format.xml { render :xml =>  @person.groups.to_xml }
           format.csv { render :text => @person.groups.to_csv }
         end
@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
       @hidden_groups = Group.find(:all, :conditions => conditions, :order => 'name')
       respond_to do |format|
         format.html { render :action => 'search' }
-        if @logged_in.admin?(:export_data)
+        if can_export?
           format.xml { render :xml =>  @groups.to_xml }
           format.csv { render :text => @groups.to_csv }
         end
@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
       @person = @logged_in
       respond_to do |format|
         format.html
-        if @logged_in.admin?(:export_data)
+        if can_export?
           @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || 50)
           format.xml { render :xml =>  @groups.to_xml }
           format.csv { render :text => @groups.to_csv }
