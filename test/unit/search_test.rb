@@ -30,7 +30,7 @@ class SearchTest < ActiveSupport::TestCase
     END
   end
 
-  def test_search_children
+  should "not show children without consent" do
     @search = Search.new
     @search.name = 'mac'
     assert_equal 0, @search.query.length
@@ -38,6 +38,18 @@ class SearchTest < ActiveSupport::TestCase
     results = @search.query
     assert_equal 1, results.length
     assert_equal 'Mac Morgan', results.first.name
+  end
+  
+  should "not show people under 18 unless user has full access" do
+    # with full access
+    Person.logged_in = people(:peter)
+    people(:jane).update_attributes!(:birthday => 17.years.ago)
+    @search = Search.new
+    @search.name = 'jane'
+    assert_equal 1, @search.query.length
+    # without full access
+    people(:peter).update_attributes!(:full_access => false)
+    assert_equal 0, @search.query.length
   end
 
 end

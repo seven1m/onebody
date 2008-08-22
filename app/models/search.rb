@@ -67,8 +67,13 @@ class Search
       @conditions.add_condition ["people.visible_to_everyone = ?", true]
       @conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
     end
-    # FIXME: "DATE_ADD" and "INTERVAL 18 YEAR" can't possibly work in Sqlite
-    @conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"] unless Person.logged_in.full_access?
+    unless Person.logged_in.full_access?
+      if SQLITE
+        @conditions.add_condition ["#{sql_now}-people.birthday >= 18"]
+      else
+        @conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"]
+      end
+    end
     @conditions.add_condition ["people.#{@type} = ?", true] if @type
     @count = Person.count :conditions => @conditions, :include => :family
     @people = Person.paginate(
