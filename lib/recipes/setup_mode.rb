@@ -9,7 +9,7 @@ namespace :deploy do
     
     desc 'Stops setup mode.'
     task :stop, :roles => :web do
-      pid = run_and_return("ps aux | grep '[r]uby script/server webrick -d -e setup'").split[1]
+      pid = run_and_return("ps aux | grep '[r]uby script/server -d -e setup'").split[1]
       run "kill -HUP #{pid}"
     end
     
