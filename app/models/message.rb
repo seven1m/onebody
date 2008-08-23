@@ -233,6 +233,10 @@ class Message < ActiveRecord::Base
     end
   end
   
+  def code_hash
+    Digest::MD5.hexdigest(code.to_s)[0..5]
+  end
+  
   def self.preview(attributes)
     msg = Message.new(attributes)
     Notifier.create_message(Person.new(:email => 'test@example.com'), msg)

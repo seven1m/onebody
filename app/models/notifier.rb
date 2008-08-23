@@ -106,146 +106,185 @@ class Notifier < ActionMailer::Base
     body params
   end
   
-  # TODO: This is probably the ugliest bit of code in the whole app.
   def receive(email)
-    return unless email.from.to_s.any?
-    person = nil
-    (email.cc.to_a + email.to.to_a).each do |address|
-      # never respond to messages sent to no-reply
-      return if address =~ /no\-?reply/i
-      if site = Site.find_by_host(address.downcase.split('@').last)
-        Site.current = site
-        break
-      end
-    end
-    return unless Site.current
-
-    people = Person.find :all, :conditions => ["#{sql_lcase('email')} = ?", email.from.to_s.downcase]
-    if people.length == 0
-      # user is not found in the system, try alternate email
-      person = Person.find :first, :conditions => ["#{sql_lcase('alternate_email')} = ?", email.from.to_s.downcase]
-    elsif people.length == 1
-      person = people.first
-    elsif people.length > 1
-      # try to narrow it down based on name in the from line
-      people = people.select do |p|
-        p.name.downcase.split.first == email.friendly_from.to_s.downcase.split.first
-      end
-      person = people.first if people.length == 1
-    end
-
-    message_sent_to_group = false
+    sent_to = email.cc.to_a + email.to.to_a
     
-    if person
-      (email.cc.to_a + email.to.to_a).each do |address|
-        address, domain = address.downcase.split('@')
-        if domain.to_s.strip.downcase == Site.current.host
-          address = address.to_s.strip
-          if address.any? and group = Group.find_by_address(address.downcase) and group.can_send? person
-            # if is this a reply, link this message to its original based on the subject
-            if email.subject =~ /^re:/i
-              parent = group.messages.find_by_subject(email.subject.gsub(/^re:\s?/i, ''), :order => 'id desc')
-            else
-              parent = nil
-            end
-            # if there is a readable body, send the message
-            if body = get_body(email)
-              body = clean_body(body)
-              message = Message.create(
-                :group => group,
-                :parent => parent,
-                :person => person,
-                :subject => email.subject,
-                :body => body,
-                :dont_send => true
-              )
-              if message.errors.any?
-                if message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
-                  # notify user there were some errors
-                  Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
-                end
-              else
-                if email.has_attachments?
-                  email.attachments.each do |attachment|
-                    name = File.split(attachment.original_filename.to_s).last
-                    unless ATTACHMENTS_TO_IGNORE.include? name.downcase
-                      att = message.attachments.create(
-                        :name => name,
-                        :content_type => attachment.content_type.strip
-                      )
-                      att.file = attachment
-                    end
-                  end
-                end
-                message.send_to_group
-                message_sent_to_group = true
-              end
-            else
-              # notify the sender of the failure and ask to resend as plain text
-              Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
-            end
-          
-          # replying to a person who sent a group or private message
-          elsif address.to_s.any? and not message_sent_to_group
-            body = get_body(email)
-            message_id, code_hash, message = nil
-            # first try in-reply-to and references headers
-            (email.in_reply_to.to_a + email.references.to_a).each do |in_reply_to|
-              begin
-                message_id, code_hash = in_reply_to.match(/<(\d+)_([0-9abcdef]{6,6})_/)[1..2]
-                message = Message.find(message_id)
-                break
-              rescue
-                message = nil
-              end
-            end
-            # fallback to using id and code hash inside email body
-            # (Outlook does not use the psuedo-standard headers we rely on above)
-            if message.nil? and body
-              begin
-                message_id, code_hash = body.match(/id:\s*(\d+)_([0-9abcdef]{6,6})/i)[1..2]
-                message = Message.find(message_id)
-              rescue
-                message = nil
-              end
-            end
-            if message and Digest::MD5.hexdigest(message.code.to_s)[0..5] == code_hash
-              if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)
-                # notify the sender that the message they're replying to is too old
-                Notifier.deliver_simple_message(email.from, 'Message Too Old', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the message to which you're replying is too old. This is to prevent unsolicited email to our users. If you wish to send a message to this person, please sign into #{Setting.get(:url, :site)} and send the message via the web site. If you need help, please contact #{Setting.get(:contact, :tech_support_contact)}.")
-              else
-                to_person = message.person
-                if body
-                  body = clean_body(body)
-                  message = Message.create(
-                    :to => to_person,
-                    :person => person,
-                    :subject => email.subject,
-                    :body => body,
-                    :parent => message
-                  )
-                  if message.errors.any? and message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
-                    # notify user there were some errors
-                    Notifier.deliver_simple_message(email.from, 'Message Error', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site had trouble saving the message (#{message.errors.full_messages.join('; ')}). You may post your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
-                  end
-                else
-                  # notify the sender of the failure and ask to resend as plain text
-                  Notifier.deliver_simple_message(email.from, 'Message Unreadable', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read the message because it is not formatted as plain text nor does it have a plain text part. Please format your message as plain text (turn off Rich Text or HTML formatting in your email client), or you may send your message directly from the site after signing into #{Setting.get(:url, :site)}. If you continue to have trouble, please contact #{Setting.get(:contact, :tech_support_contact)}.")
-                end
-              end
-            else
-              # notify the sender that the message is unsolicited and was not delivered
-              Notifier.deliver_simple_message(email.from, 'Message Rejected', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but it appears the message was unsolicited. If you want to send a message to someone, please sign in at #{Setting.get(:url, :site)}, find the person, and click \"private message.\"")
-            end
-          end
-        end
+    return unless email.from.to_s.any?
+    return if sent_to.detect { |a| a =~ /no\-?reply/i }
+    return if email.from.to_s =~ /no\-?reply/i
+    return unless get_site(email)
+    
+    unless @person = get_from_person(email)
+      Notifier.deliver_simple_message(
+        email.from,
+        'Message Rejected',
+        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
+        "Sorry for the inconvenience, but the system does not recognize your email address " +
+        "as a user of the system. If you want to send a message to someone, please send from " +
+        "your registered account email address or sign in at #{Setting.get(:url, :site)} and " +
+        "send your message via the Web."
+      )
+      return
+    end
+    
+    unless body = get_body(email)
+      Notifier.deliver_simple_message(
+        email.from,
+        'Message Unreadable',
+        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
+        "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read " +
+        "the message because it is not formatted as plain text nor does it have a plain text part. " +
+        "Please set your email client to plain text (turn off Rich Text or HTML formatting), " +
+        "or you may send your message directly from the site after signing into " +
+        "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
+        "#{Setting.get(:contact, :tech_support_contact)}."
+      )
+      return
+    end
+
+    @message_sent_to_group = false
+    
+    sent_to.each do |address|
+      address, domain = address.strip.downcase.split('@')
+      next unless address.any? and domain.any?
+      next unless [Site.current.host, Site.current.secondary_host].compact.include?(domain)
+      if group = Group.find_by_address(address) and group.can_send?(@person)
+        group_email(group, email, body)
+      elsif address.to_s.any? and not @message_sent_to_group # reply to previous message
+        reply_email(email, body)
       end
-    else
-      Notifier.deliver_simple_message(email.from, 'Message Rejected', "Your message with subject \"#{email.subject}\" was not delivered.\n\nSorry for the inconvenience, but the system does not recognize your email address as a user of the system. If you want to send a message to someone, please send from your registered account email address or sign in at #{Setting.get(:url, :site)} and send your message via the Web")
     end
   end
   
   private
+  
+    def group_email(group, email, body)
+      # if is this looks like a reply, try to link this message to its original based on the subject
+      if email.subject =~ /^re:/i
+        parent = group.messages.find_by_subject(email.subject.sub(/^re:\s?/i, ''), :order => 'id desc')
+      else
+        parent = nil
+      end
+      message = Message.create(
+        :group => group,
+        :parent => parent,
+        :person => @person,
+        :subject => email.subject,
+        :body => clean_body(body),
+        :dont_send => true
+      )
+      if message.errors.any?
+        if message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
+          Notifier.message_error_notification(email, message)
+        end
+      else
+        if email.has_attachments?
+          email.attachments.each do |attachment|
+            name = File.split(attachment.original_filename.to_s).last
+            unless ATTACHMENTS_TO_IGNORE.include? name.downcase
+              att = message.attachments.create(
+                :name => name,
+                :content_type => attachment.content_type.strip
+              )
+              att.file = attachment
+            end
+          end
+        end
+        message.send_to_group
+        @message_sent_to_group = true
+      end
+    end
+    
+    def reply_email(email, body)
+      message, code_hash = get_in_reply_to_message_and_code(email)
+      if message and message.code_hash == code_hash
+        if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)
+          Notifier.deliver_simple_message(
+            email.from,
+            'Message Too Old',
+            "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
+            "Sorry for the inconvenience, but the message to which you're replying is too old. " +
+            "This is to prevent unsolicited email to our users. If you wish to send a message " +
+            "to this person, please sign into #{Setting.get(:url, :site)} and send the message " +
+            "via the web site. If you need help, please contact " +
+            "#{Setting.get(:contact, :tech_support_contact)}."
+          )
+        else
+          to_person = message.person
+          message = Message.create(
+            :to => to_person,
+            :person => @person,
+            :subject => email.subject,
+            :body => clean_body(body),
+            :parent => message
+          )
+          if message.errors.any? and message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
+            Notifier.message_error_notification(email, message)
+          end
+        end
+      else
+        # notify the sender that the message is unsolicited and was not delivered
+        Notifier.deliver_simple_message(
+          email.from,
+          'Message Rejected',
+          "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
+          "Sorry for the inconvenience, but it appears the message was unsolicited. " +
+          "If you want to send a message to someone, please sign in at #{Setting.get(:url, :site)}, " +
+          "find the person, and click \"private message.\""
+        )
+      end
+    end
+    
+    def get_in_reply_to_message_and_code(email)
+      message_id, code_hash, message = nil
+      # first try in-reply-to and references headers
+      (email.in_reply_to.to_a + email.references.to_a).each do |in_reply_to|
+        message_id, code_hash = (m = in_reply_to.match(/<(\d+)_([0-9abcdef]{6,6})_/)) && m[1..2]
+        if message = Message.find_by_id(message_id)
+          return [message, code_hash]
+        end
+      end
+      # fallback to using id and code hash inside email body
+      # (Outlook does not use the psuedo-standard headers we rely on above)
+      message_id, code_hash = (m = get_body(email).match(/id:\s*(\d+)_([0-9abcdef]{6,6})/i)) && m[1..2]
+      if message = Message.find_by_id(message_id)
+        return [message, code_hash]
+      end
+    end
+    
+    def message_error_notification(email, message)
+      Notifier.deliver_simple_message(
+        email.from,
+        'Message Error',
+        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
+        "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site had " +
+        "trouble saving the message (#{message.errors.full_messages.join('; ')}). " + 
+        "You may post your message directly from the site after signing into " +
+        "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
+        "#{Setting.get(:contact, :tech_support_contact)}."
+      )
+    end
+  
+    def get_site(email)
+      (email.cc.to_a + email.to.to_a).each do |address|
+        return Site.current if Site.current = Site.find_by_host(address.downcase.split('@').last)
+      end
+    end
+    
+    def get_from_person(email)
+      people = Person.find :all, :conditions => ["#{sql_lcase('email')} = ?", email.from.to_s.downcase]
+      if people.length == 0
+        # user is not found in the system, try alternate email
+        Person.find :first, :conditions => ["#{sql_lcase('alternate_email')} = ?", email.from.to_s.downcase]
+      elsif people.length == 1
+        people.first
+      elsif people.length > 1
+        # try to narrow it down based on name in the from line
+        people.detect do |p|
+          p.name.downcase.split.first == email.friendly_from.to_s.downcase.split.first
+        end
+      end
+    end
   
     def get_body(email)
       # if the message is multipart, try to grab the plain text part
