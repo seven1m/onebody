@@ -2,8 +2,8 @@
 on <%=h @person.name_possessive %> wall.
 
 <div id="wall_message">
-  <% form_for(:message, nil, :url => messages_path, :method => 'post', :html => {:style => 'border:none;'}) do |form| %>
-    <%= hidden_field_tag :wall_id, @person.id %>
+  <% form_for Message.new(:wall => @person), :html => {:style => 'border:none;'} do |form| %>
+    <%= form.hidden_field :wall_id %>
     <em>All users will see your message; to send a private
     message, <%= link_to 'click here', new_message_path(:person_id => @person) %>.</em><br/>
     <%= form.text_area :body, :rows => 3, :cols => 40 %>
