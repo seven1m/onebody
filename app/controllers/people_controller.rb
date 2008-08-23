@@ -133,5 +133,20 @@ class PeopleController < ApplicationController
       render :text => 'You are not authorized to import data.', :layout => true, :status => 401
     end
   end
+  
+  def hashify
+    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
+      params[:ids] ||= [params[:id]].compact
+      params[:legacy_ids] ||= [params[:legacy_id]].compact
+      hashes = params[:ids][0...50].map do |id|
+        record_hash(Person.find_by_id(id), :id => id)
+      end + params[:legacy_ids][0...50].map do |legacy_id|
+        record_hash(Person.find_by_legacy_id(legacy_id), :legacy_id => legacy_id)
+      end
+      render :xml => hashes
+    else
+      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+    end
+  end
 
 end

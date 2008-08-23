@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resource :account, :member => {:verify_code => :any, :select => :any}
   
-  map.resources :people, :collection => {:import => :any} do |people|
+  map.resources :people, :collection => {:import => :any, :hashify => :get} do |people|
     people.resources :groups
     people.resources :pictures
     people.resources :friends, :collection => {:reorder => :post}
