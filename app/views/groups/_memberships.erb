@@ -2,18 +2,14 @@
 
   <ul>
     <% @group.people.each do |person| %>
-      <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or @group.linked? or (@group.parents_of and !@unlinked_ids.include?(person.id))), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
+      <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or person.linked? or (@group.parents_of and !@unlinked_ids.include?(person.id))), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
       <%= link_to(h(person.name), person, :id => "person_label#{person.id}") rescue '?' %>
+      <% if person.linked? %><%= image_tag 'link.png', :alt => 'linked', :class => 'icon' %><% end %>
       <br/>
     <% end %>
   </ul>
 
-  <% if @group.linked? %>
-    <p>
-      <%= image_tag 'link.png', :alt => @group.link_code, :class => 'no-border' %>
-      This group is linked with a code. You may not add or remove people from here.
-    </p>
-  <% elsif @group.people.length > 1 %>
+  <% if @group.people.length > 1 %>
     <p><%= submit_tag 'Remove Selected' %></p>
   <% else %>
     <p><em>You cannot remove the last group admin. You may delete the group, however.</em></p>
@@ -21,33 +17,31 @@
 
 <% end %>
 
-<% unless @group.linked? %>
-  <% if @group.approved %>
-    <% form_remote_tag :url => search_path do %>
-      <%= hidden_field_tag :select_person, true %>
-      <p>
-        <label for="add_person_name">Add somebody:</label>
-        <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
-        <% if @group.parents_of %>
-          <strong>Remember, this is a group automatically containing
-            parents of people in <%= link_to @group.parents_of_group.name, @group.parents_of_group %>.
-            Adding people manually should be done sparingly.
-        <% end %>
-        <%= submit_tag 'Search by Name' %>
-      </p>
-    <% end %>
-
-    <div id="add_member" style="display:none;">
-      <% form_remote_tag :url => batch_group_memberships_path(@group), :html => {:id => 'add_people_form'} do %>
-        <div id="results"></div>
-        <p><%= submit_tag 'Add Selected' %></p>
+<% if @group.approved %>
+  <% form_remote_tag :url => search_path do %>
+    <%= hidden_field_tag :select_person, true %>
+    <p>
+      <label for="add_person_name">Add somebody:</label>
+      <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
+      <% if @group.parents_of %>
+        <strong>Remember, this is a group automatically containing
+          parents of people in <%= link_to @group.parents_of_group.name, @group.parents_of_group %>.
+          Adding people manually should be done sparingly.
       <% end %>
-    </div>
-  <% else %>
-    <p class="very-strong">
-      This group is pending approval. You may not add people to it yet.
+      <%= submit_tag 'Search by Name' %>
     </p>
   <% end %>
+
+  <div id="add_member" style="display:none;">
+    <% form_remote_tag :url => batch_group_memberships_path(@group), :html => {:id => 'add_people_form'} do %>
+      <div id="results"></div>
+      <p><%= submit_tag 'Add Selected' %></p>
+    <% end %>
+  </div>
+<% else %>
+  <p class="very-strong">
+    This group is pending approval. You may not add people to it yet.
+  </p>
 <% end %>
 
 <h2>Admins</h2>

@@ -313,17 +313,14 @@ class Person < ActiveRecord::Base
   end
   
   def member_of?(group)
+    return true if self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
     if group.parents_of
-      group.cached_parents.to_a.include?(self.id) \
-        || self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
+      group.cached_parents.to_a.include?(self.id)
     elsif group.linked?
       codes = self.classes.to_s.downcase.split(',')
       group.link_code.downcase.split.each do |code|
         return true if codes.include? code
       end
-      return false
-    else
-      self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
     end
   end
   

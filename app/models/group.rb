@@ -42,7 +42,6 @@ class Group < ActiveRecord::Base
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
-  #has_and_belongs_to_many :tags, :order => 'name'
   
   validates_presence_of :name
   validates_presence_of :category
@@ -116,24 +115,25 @@ class Group < ActiveRecord::Base
   alias_method :unlinked_members, :people
   
   def people(select='people.*')
+    unlinked = unlinked_members.find(:all, :select => select+',0 as linked')
     if parents_of
       update_cached_parents if cached_parents.to_a.empty?
       cached_parent_ids = cached_parents.map { |id| id.to_i }.join(',')
-      cached_parent_objects = Person.find(:all, :conditions => "id in (#{cached_parent_ids})", :select => select)
-      (unlinked_members.find(:all, :select => select) + cached_parent_objects).uniq.sort_by { |p| [p.last_name, p.first_name] }
+      cached_parent_objects = Person.find(:all, :conditions => "id in (#{cached_parent_ids})", :select => select + ',1 as linked')
+      (cached_parent_objects + unlinked).uniq.sort_by { |p| [p.last_name, p.first_name] }
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
         conditions.add_condition ["#{sql_lcase('classes')} = ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
       end
-      Person.find :all, :conditions => conditions, :order => 'last_name, first_name', :select => select
+      linked = Person.find(:all, :conditions => conditions, :order => 'last_name, first_name', :select => select + ',1 as linked')
+      (linked + unlinked).uniq.sort_by { |p| [p.last_name, p.first_name] }
     else
-      unlinked_members.find(:all, :select => select)
+      unlinked
     end
   end
 
   def people_names_and_ids
-    #(what.visible_to_everyone? and (full_access? or what.adult?) and what.visible?)
     select = %w(id family_id first_name last_name suffix birthday gender email visible_to_everyone full_access classes).map { |c| "people.#{c}" }.join(',')
     self.people(select)
   end
@@ -145,9 +145,13 @@ class Group < ActiveRecord::Base
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
-        conditions.add_condition ["#{sql_lcase('classes')} = ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
+        conditions << "#{sql_lcase('classes')} = #{Person.connection.quote(code)}"
+        conditions << "classes like #{Person.connection.quote(code + ',%')}"
+        conditions << "classes like #{Person.connection.quote('%,' + code)}"
+        conditions << "classes like #{Person.connection.quote('%,' + code + ',%')}"
       end
-      Person.count '*', :conditions => conditions
+      linked_ids = Person.connection.select_values("select id from people where #{conditions.join(' or ')}")
+      linked_ids.length + unlinked_members.count('*', :conditions => "people.id not in (#{linked_ids.join(',')})")
     else
       unlinked_members.count('*')
     end

@@ -47,7 +47,7 @@ class MembershipsController < ApplicationController
       end
     # promote/demote
     elsif @logged_in.can_edit?(@group)
-      @membership = @group.memberships.find_by_person_id(params[:id])
+      @membership = @group.memberships.find_or_create_by_person_id(params[:id])
       @membership.update_attribute :admin, !params[:promote].nil?
       flash[:notice] = 'User settings saved.'
       redirect_back
@@ -72,11 +72,13 @@ class MembershipsController < ApplicationController
   
   def batch
     @group = Group.find(params[:group_id])
+    group_people = @group.people
     if @logged_in.can_edit?(@group)
       if params[:ids] and params[:ids].is_a?(Array)
         params[:ids].each do |id|
           if request.post?
-            @group.memberships.create(:person => Person.find(id))
+            person = Person.find(id)
+            @group.memberships.create(:person => person) unless group_people.include?(person)
           elsif request.delete?
             if @membership = @group.memberships.find_by_person_id(id)
               @membership.destroy unless @group.last_admin?(@membership.person)
