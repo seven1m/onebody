@@ -9,16 +9,20 @@ class MessagesControllerTest < ActionController::TestCase
   end
   
   should "create new wall posts" do
+    ActionMailer::Base.deliveries = []
     body = Faker::Lorem.sentence
     post :create, {:message => {:wall_id => @person.id, :body => body}}, {:logged_in_id => @other_person}
     assert_redirected_to person_path(@person) + '#wall'
+    assert ActionMailer::Base.deliveries.any?
   end
    
   should "create new wall posts via ajax" do
+    ActionMailer::Base.deliveries = []
     body = Faker::Lorem.sentence
     post :create, {:message => {:wall_id => @person.id, :body => body}, :format => 'js'}, {:logged_in_id => @other_person}
     assert_response :success
     assert_template '_wall'
+    assert ActionMailer::Base.deliveries.any?
   end
 
   should "not create a new wall post if the user cannot see the person's profile" do
@@ -54,22 +58,27 @@ class MessagesControllerTest < ActionController::TestCase
   end
   
   should "create new private messages" do
+    ActionMailer::Base.deliveries = []
     get :new, {:to_person_id => @person.id}, {:logged_in_id => @other_person}
     assert_response :success
     body = Faker::Lorem.sentence
     post :create, {:message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person}
     assert_response :success
     assert_select 'body', /message.+sent/
+    assert ActionMailer::Base.deliveries.any?
   end
   
   should "render preview of private message" do
+    ActionMailer::Base.deliveries = []
     body = Faker::Lorem.sentence
     post :create, {:format => 'js', :preview => true, :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person}
     assert_response :success
     assert_template 'create'
+    assert ActionMailer::Base.deliveries.empty?
   end
   
   should "create new group messages" do
+    ActionMailer::Base.deliveries = []
     get :new, {:group_id => @group.id}, {:logged_in_id => @person}
     assert_response :success
     body = Faker::Lorem.sentence
@@ -80,10 +89,12 @@ class MessagesControllerTest < ActionController::TestCase
   end
   
   should "render preview of group message" do
+    ActionMailer::Base.deliveries = []
     body = Faker::Lorem.sentence
     post :create, {:format => 'js', :preview => true, :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :success
     assert_template 'create'
+    assert ActionMailer::Base.deliveries.empty?
   end
   
   should "not allow someone to post to a group they don't belong to unless they're an admin" do
@@ -95,21 +106,25 @@ class MessagesControllerTest < ActionController::TestCase
   end
   
   should "create new group messages with an attachment" do
+    ActionMailer::Base.deliveries = []
     get :new, {:group_id => @group.id}, {:logged_in_id => @person}
     assert_response :success
     body = Faker::Lorem.sentence
     post :create, {:file => fixture_file_upload('files/attachment.pdf'), :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :success
     assert_select 'body', /message.+sent/
+    assert ActionMailer::Base.deliveries.any?
   end
   
   should "create new private messages with an attachment" do
+    ActionMailer::Base.deliveries = []
     get :new, {:to_person_id => @person.id}, {:logged_in_id => @other_person}
     assert_response :success
     body = Faker::Lorem.sentence
     post :create, {:file => fixture_file_upload('files/attachment.pdf'), :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :success
     assert_select 'body', /message.+sent/
+    assert ActionMailer::Base.deliveries.any?
   end
   
   should "show a message" do
