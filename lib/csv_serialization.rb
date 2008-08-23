@@ -31,7 +31,7 @@ module ActiveSupport
         def to_csv(options = {})
           raise "Not all elements respond to to_csv" unless all? { |e| e.respond_to? :to_csv }
           names  = ActiveRecord::CsvSerializer.new(first, options).serializable_attribute_names
-          options[:include].each do |association|
+          options[:include].to_a.each do |association|
             names += Kernel.const_get(association.to_s.classify).column_names.map { |c| "#{association}_#{c}" }
           end
           CSV.generate_line(names) + "\n" +
