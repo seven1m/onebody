@@ -76,6 +76,7 @@ class MessagesControllerTest < ActionController::TestCase
     post :create, {:message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :success
     assert_select 'body', /message.+sent/
+    assert ActionMailer::Base.deliveries.any?
   end
   
   should "render preview of group message" do
