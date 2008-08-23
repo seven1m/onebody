@@ -25,3 +25,11 @@ end
 def sql_random
   SQLITE ? "RANDOM()" : "RAND()"
 end
+
+class ActiveRecord::Base
+  def values_hash(*attrs)
+    attrs = attrs.first if attrs.first.is_a?(Array)
+    values = attrs.map { |a| attributes[a.to_s] }
+    Digest::SHA1.hexdigest(values.to_s)
+  end
+end

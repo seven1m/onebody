@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class PersonTest < Test::Unit::TestCase
   fixtures :people, :families
   
-  def test_member_of
+  should "know which groups the person belongs to" do
     Group.find(:all).each do |group|
       group.people.each do |person|
         assert person.member_of?(group)
@@ -11,15 +11,16 @@ class PersonTest < Test::Unit::TestCase
     end
   end
   
-  def test_email_address_unique_within_family
+  should "not allow someone outside the family to share the same email address" do
     # tim already has email address
     p = people(:peter)
     p.email = people(:tim).email
     p.save
+    assert !p.valid?
     assert_equal 'already taken by someone else.', p.errors[:email]
   end
   
-  def test_email_address_format
+  should "validate format of email address" do
     # test every character allowed
     p = people(:peter)
     p.email = 'abcdefghijklmnopqrstuvwxyz0123456789._%-@abcdefghijklmnopqrstuvwxyz0123456789.-.com'
@@ -34,10 +35,11 @@ class PersonTest < Test::Unit::TestCase
     p = people(:peter)
     p.email = 'bad address@example.com'
     p.save
+    assert !p.valid?
     assert_equal 'not a valid email address.', p.errors[:email]
   end
   
-  def test_website
+  should "validate format of website" do
     Person.logged_in = people(:peter)
     # good
     p = people(:peter)
@@ -47,10 +49,11 @@ class PersonTest < Test::Unit::TestCase
     # bad
     p.website = "javascript://void(alert('do evil stuff'))"
     p.save
+    assert !p.valid?
     assert_equal 'is invalid', p.errors[:website]
   end
   
-  def test_sharing
+  should "inherit attribute sharing from family" do
     # update_attribute to nil doesn't seem to work for booleans on fixture instantiated instances
     f = families(:morgan); p = Person.find(people(:jennie).id)
     # family = true, person = false, peter should not see
@@ -71,7 +74,7 @@ class PersonTest < Test::Unit::TestCase
     assert !Person.find(people(:jennie).id).share_mobile_phone_with(people(:peter))
   end
   
-  def test_update
+  should "create an update" do
     tim = {
       'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
       'family' => partial_fixture('families', 'morgan', %w(name last_name home_phone address1 address2 city state zip))
@@ -95,6 +98,7 @@ class PersonTest < Test::Unit::TestCase
   end
   
   should "mark email_changed when email address changes" do
+    Person.logged_in = people(:tim)
     people(:tim).email = 'change@example.com'
     assert !people(:tim).email_changed?
     people(:tim).save
@@ -103,6 +107,13 @@ class PersonTest < Test::Unit::TestCase
   
   should "generate a custom directory pdf" do
     assert_match /PDF\-1\.3/, people(:tim).generate_directory_pdf.to_s[0..100]
+  end
+  
+  should "generate a unique hash of values based on specified attributes" do
+    was = people(:tim).values_hash(:first_name, :last_name)
+    assert_equal was, people(:tim).reload.values_hash(:first_name, :last_name) # hasn't changed
+    people(:tim).update_attributes!(:first_name => 'Timothy')
+    assert_not_equal was, people(:tim).reload.values_hash(:first_name, :last_name) # changed
   end
   
   private
