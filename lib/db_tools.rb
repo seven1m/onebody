@@ -29,7 +29,10 @@ end
 class ActiveRecord::Base
   def values_hash(*attrs)
     attrs = attrs.first if attrs.first.is_a?(Array)
-    values = attrs.map { |a| attributes[a.to_s] }
+    values = attrs.map do |attr|
+      value = attributes[attr.to_s]
+      value.respond_to?(:strftime) ? value.strftime('%Y%m%d%H%M') : value
+    end
     Digest::SHA1.hexdigest(values.to_s)
   end
 end

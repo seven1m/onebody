@@ -116,6 +116,12 @@ class PersonTest < Test::Unit::TestCase
     assert_not_equal was, people(:tim).reload.values_hash(:first_name, :last_name) # changed
   end
   
+  should "consistently hash datetime values" do
+    assert_equal \
+      Digest::SHA1.hexdigest(people(:tim).birthday.strftime('%Y%m%d%H%M')),
+      people(:tim).values_hash(:birthday)
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)
