@@ -107,9 +107,11 @@ class Message < ActiveRecord::Base
 
   def send_to_group
     return unless group
+    sent_to = []
     group.people.each do |person|
-      if group.get_options_for(person).get_email and person.email.to_s.any? and person.email =~ VALID_EMAIL_ADDRESS
+      if group.get_options_for(person).get_email and person.email.to_s.any? and person.email =~ VALID_EMAIL_ADDRESS and not sent_to.include?(person.email)
         send_to_person(person)
+        sent_to << person.email
       end
     end
   end
@@ -253,6 +255,7 @@ class Message < ActiveRecord::Base
           end
         end
       end
+      message.dont_send = false
       message.send_message
     end
     message
