@@ -541,7 +541,7 @@ class Person < ActiveRecord::Base
   
   before_update :mark_email_changed
   def mark_email_changed
-    if changed.include?('email')
+    if changed.include?('email') and Person.logged_in
       self.write_attribute(:email_changed, true)
       Notifier.deliver_email_update(self)
     end
