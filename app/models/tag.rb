@@ -10,7 +10,6 @@
 
 class Tag < ActiveRecord::Base
   has_and_belongs_to_many :recipes
-  has_and_belongs_to_many :songs
   belongs_to :site
   
   has_many :taggings
