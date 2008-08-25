@@ -74,7 +74,7 @@ namespace :onebody do
           raise 'No site found with NAME ' + ENV['NAME']
         end
       else
-        puts 'Usage: rake onebody:sites:add NAME="Second Site" HOST=site2.example.com'
+        puts 'Usage: rake onebody:sites:delete NAME="Second Site"'
       end
     end
     
