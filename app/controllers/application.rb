@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
         return false
       end
       if Setting.get(:features, :multisite)
-        Site.current = Site.find_by_host(request.host)
+        Site.current = Site.find_by_host_and_active(request.host, true)
       else
         Site.current = Site.find(1) or raise 'No Default site found.'
       end
