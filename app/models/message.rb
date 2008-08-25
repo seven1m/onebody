@@ -145,7 +145,7 @@ class Message < ActiveRecord::Base
       if group.can_post? to_person
         if group.address.to_s.any?
           msg << "Hit \"Reply to All\" to send a message to the group, or send to: #{group.address + '@' + Site.current.host}\n"
-          msg << "Group page: #{Setting.get(:url, :site)}groups/view/#{group.id}\n"
+          msg << "Group page: #{Setting.get(:url, :site)}groups/#{group.id}\n"
         else
           msg << "To reply: #{reply_url}\n"
         end
@@ -167,7 +167,7 @@ class Message < ActiveRecord::Base
         msg << "#{Setting.get(:url, :site)}groups/#{group.id}/memberships/#{to_person.id}?code=#{to_person.feed_code}&email=off"
       end
     else
-      msg << "To stop these emails, go to your privacy page:\n#{Setting.get(:url, :site)}people/privacy"
+      msg << "To stop these emails, go to your privacy page:\n#{Setting.get(:url, :site)}privacy"
     end
     msg
   end
