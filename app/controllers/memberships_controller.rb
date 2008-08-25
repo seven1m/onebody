@@ -41,6 +41,7 @@ class MembershipsController < ApplicationController
       @person = Person.find(params[:id])
       if @logged_in.can_edit?(@group) or @logged_in.can_edit?(@person)
         @group.set_options_for @person, {:get_email => (params[:email] == 'on')}
+        flash[:notice] = 'Your email settings for the group have been changed.'
         redirect_back
       else  
         render :text => 'There was an error changing your email settings.', :layout => true, :status => 500

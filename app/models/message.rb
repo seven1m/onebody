@@ -164,7 +164,7 @@ class Message < ActiveRecord::Base
       if new_record?
         msg << '-link to turn off email-'
       else
-        msg << "#{Setting.get(:url, :site)}groups/#{group.id}/memberships/#{to_person.id}&code=#{to_person.feed_code}&email=off"
+        msg << "#{Setting.get(:url, :site)}groups/#{group.id}/memberships/#{to_person.id}?code=#{to_person.feed_code}&email=off"
       end
     else
       msg << "To stop these emails, go to your privacy page:\n#{Setting.get(:url, :site)}people/privacy"
