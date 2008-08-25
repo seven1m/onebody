@@ -17,6 +17,7 @@ namespace :deploy do
       run "mkdir -p #{shared_path}/config"
       run "mkdir -p #{shared_path}/public"
       run "mkdir -p #{shared_path}/themes"
+      run "mkdir -p #{shared_path}/plugins"
     end
     after 'deploy:setup', 'deploy:shared:setup'
     
@@ -35,6 +36,7 @@ namespace :deploy do
     put rb, "#{release_path}/config/initializers/links.rb"
     run "cp -r #{release_path}/public/* #{shared_path}/public/"
     run "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "cd #{shared_path}/plugins && find -name enable -exec cp {} #{release_path}/plugins/{} \\;"
   end
   
   task :copy_ssh_key do
