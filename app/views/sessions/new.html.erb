@@ -6,8 +6,9 @@
     rsa.setPublic('<%= @public_modulus %>', '<%= @public_exponent %>');
     var res = rsa.encrypt($('password').value);
     if (res) {
-      $('encrypted_password').value = hex2b64(res);
-      $('password').value = '';
+      encrypted = linebrk(hex2b64(res), 64);
+      $('encrypted_password').setAttribute('value', encrypted);
+      $('password').setAttribute('value', '');
       return true;
     }
     return false;

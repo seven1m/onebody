@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  filter_parameter_logging :password
-  
   skip_before_filter :authenticate_user
   before_filter :check_ssl, :except => %w(destroy)
   
