@@ -148,6 +148,7 @@ url_site:
   description: URL for this site (including the trailing slash please)
   value: http://imaginaryfamily.com/
   section: URL
+  hidden: true
 services_analytics: 
   name: Analytics
   format: string

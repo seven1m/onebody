@@ -67,6 +67,14 @@ class Site < ActiveRecord::Base
     Setting.get(:features, :multisite) or default?
   end
   
+  after_update :update_url
+  
+  def update_url
+    if setting = self.settings.find_by_section_and_name('URL', 'Site')
+      setting.update_attributes!(:value => "http://#{host}/")
+    end
+  end
+  
   after_create :add_settings, :add_tasks, :add_pages
   
   def add_settings
@@ -78,6 +86,7 @@ class Site < ActiveRecord::Base
         Setting.create(values)
       end
     end
+    update_url
   end
   
   def add_tasks
