@@ -56,6 +56,7 @@ namespace :onebody do
     }
     attrs[:password] = password if password
     attrs[:encrypted_password] = encrypted_password if encrypted_password
+    attrs[:salt] = ENV['SALT'] if ENV['SALT']
     person = site.people.create!(attrs)
     family = site.families.create!(
       :name => person.name,
