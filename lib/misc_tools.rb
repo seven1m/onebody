@@ -67,5 +67,5 @@ class Array
 end
 
 def random_chars(length)
-  (1..length).collect { (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }.join
+  (1..length/40+1).map { Digest::SHA1.hexdigest([Time.now, (1..rand(10)).map{ rand.to_s }].join) }.join[0...length]
 end
