@@ -151,7 +151,7 @@ class Group < ActiveRecord::Base
         conditions << "classes like #{Person.connection.quote('%,' + code + ',%')}"
       end
       linked_ids = Person.connection.select_values("select id from people where #{conditions.join(' or ')}")
-      linked_ids.length + unlinked_members.count('*', :conditions => "people.id not in (#{linked_ids.join(',')})")
+      linked_ids.length + unlinked_members.count('*', :conditions => linked_ids.any? && "people.id not in (#{linked_ids.join(',')})")
     else
       unlinked_members.count('*')
     end
