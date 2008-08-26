@@ -49,5 +49,12 @@ class Administration::ScheduledTasksController < ApplicationController
         return false
       end
     end
+    
+    def feature_enabled?
+      unless Site.current.edit_tasks_enabled?
+        render :text => 'This feature is unavailable.', :layout => true
+        return false
+      end
+    end
   
 end

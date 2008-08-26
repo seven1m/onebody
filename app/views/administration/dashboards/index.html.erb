@@ -17,8 +17,10 @@
   <h2>Settings</h2>
   <p><%= link_to 'Edit settings', administration_settings_path %> for this site.</p>
   
-  <h2>Scheduled Tasks</h2>
-  <p><%= link_to 'Edit scheduled tasks', administration_scheduled_tasks_path %> for this site.</p>
+  <% if Site.current.edit_tasks_enabled? %>
+    <h2>Scheduled Tasks</h2>
+    <p><%= link_to 'Edit scheduled tasks', administration_scheduled_tasks_path %> for this site.</p>
+  <% end %>
 <% end %>
 
 <% if @logged_in.admin?(:view_log) %>
