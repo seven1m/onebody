@@ -86,13 +86,6 @@ features_friends:
   description: Enable MySpace-style mutual friendships (confirmed via email)
   value: true
   section: Features
-contact_systemnoreplyemail: 
-  name: System Noreply Email
-  site_id: 1
-  format: string
-  description: Email address where some email is sent (email that does not allow replies)
-  value: no-reply@imaginaryfamily.com
-  section: Contact
 features_multisite: 
   name: Multisite
   format: boolean
