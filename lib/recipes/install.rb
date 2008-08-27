@@ -15,7 +15,7 @@ namespace :deploy do
     desc 'Install Ruby/OneBody prerequisites'
     task :prerequisites do
       sudo 'aptitude update'
-      sudo 'aptitude install -y build-essential imagemagick apache2 apache2-dev apache2-mpm-prefork apache2-prefork-dev git-core'
+      sudo 'aptitude install -y build-essential imagemagick apache2 apache2-dev apache2-mpm-worker apache2-threaded-dev git-core'
     end
     
     desc 'Install Ruby'
