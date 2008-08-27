@@ -119,7 +119,7 @@ class Group < ActiveRecord::Base
     if parents_of
       update_cached_parents if cached_parents.to_a.empty?
       cached_parent_ids = cached_parents.map { |id| id.to_i }.join(',')
-      cached_parent_objects = Person.find(:all, :conditions => "id in (#{cached_parent_ids})", :select => select + ',1 as linked')
+      cached_parent_objects = cached_parent_ids.any? ? Person.find(:all, :conditions => "id in (#{cached_parent_ids})", :select => select + ',1 as linked') : []
       (cached_parent_objects + unlinked).uniq.sort_by { |p| [p.last_name, p.first_name] }
     elsif linked?
       conditions = []
