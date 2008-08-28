@@ -4,7 +4,12 @@ SITE       = 'http://localhost:3000'
 USER_EMAIL = 'admin@example.com'
 USER_KEY   = 'dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp'
 
+DATETIME_ATTRIBUTES = %w(birthday anniversary updated_at created_at)
+BOOLEAN_ATTRIBUTES  = %w(share_* email_changed get_wall_email account_frozen wall_enabled messages_enabled visible friends_enabled member staff elder deacon can_sign_in visible_to_everyone visible_on_printed_directory full_access)
+
+require 'date'
 require 'csv'
+require 'optparse'
 require 'rubygems'
 require 'activeresource'
 require 'digest/sha1'
@@ -29,19 +34,39 @@ class Hash
   end
 end
 
+class Array
+  def include_with_wildcards?(object)
+    self.each do |item|
+      if item =~ /\*$/
+        return true if Regexp.new('^' + Regexp.escape(item.sub(/\*/, ''))).match(object)
+      elsif item =~ /^\*/
+        return true if Regexp.new(Regexp.escape(item.sub(/\*/, '')) + '$').match(object)
+      else
+        return true if object == item
+      end
+    end
+    return false
+  end
+end
+
 class UpdateAgent
   def initialize(filename)
-    schema = resource.find(:first).attributes
     csv = CSV.open(filename, 'r')
     @attributes = csv.shift
     @data = csv.map do |row|
       hash = {}
       row.each_with_index do |value, index|
         key = @attributes[index]
-        if [true, false].include?(schema[key])
-          value = !['false', 'no', '0'].include?(value)
-        elsif schema[key].respond_to?(:strftime)
-          value = value.strftime('%Y%m%d%H%M')
+        if DATETIME_ATTRIBUTES.include_with_wildcards?(key)
+          value = DateTime.parse(value).strftime('%Y%m%d%H%M')
+        elsif BOOLEAN_ATTRIBUTES.include_with_wildcards?(key)
+          if value == '' or value == nil
+            value = nil
+          elsif %w(no false 0).include?(value.downcase)
+            value = false
+          else
+            value = true
+          end
         end
         hash[key] = value
       end
@@ -60,9 +85,21 @@ class UpdateAgent
   end
 
   def compare
-    ids.each_slice(50) do |slice_ids|
-      resource.get(:hashify, :ids => slice_ids, :attrs => @attributes).each do |record|
-        row = @data.detect { |r| r['id'] == record['id'] }
+    compare_hashes(ids)
+    compare_hashes(legacy_ids, true)
+  end
+  
+  attr_reader :update, :create
+  
+  class << self; attr_accessor :resource; end
+  def resource; self.class.resource; end
+  
+  protected
+  
+  def compare_hashes(ids, legacy=false)
+    ids.each_slice(50) do |some_ids|
+      resource.get(:hashify, :attrs => @attributes, legacy ? :legacy_ids : :ids => ids).each do |record|
+        row = @data.detect { |r| legacy ? (r['legacy_id'] == record['legacy_id']) : (r['id'] == record['id']) }
         if record['exists']
           @update << row if row.values_hash(@attributes) != record['hash']
         else
@@ -71,9 +108,6 @@ class UpdateAgent
       end
     end
   end
-  
-  class << self; attr_accessor :resource; end
-  def resource; self.class.resource; end
 end
 
 class PeopleUpdater < UpdateAgent
@@ -81,9 +115,22 @@ class PeopleUpdater < UpdateAgent
 end
 
 if __FILE__ == $0
+  options = {:confirm => true}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: ruby updateagent.rb [options] path/to/people.csv path/to/families.csv"
+    opts.on("-y", "--no-confirm", "Assume 'yes' to any questions") do |v|
+      options[:confirm] = false
+    end
+  end.parse!
   if ARGV[0] and ARGV[1]
     agent = PeopleUpdater.new(ARGV[0])
-    agent
+    agent.compare
+    require 'pp'
+    puts 'UPDATE', '------------'
+    pp agent.update
+    puts
+    puts 'CREATE', '------------'
+    pp agent.create
   else
     puts 'Usage: ruby updateagent.rb people.csv families.csv'
   end
