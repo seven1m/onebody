@@ -11,8 +11,11 @@ require 'date'
 require 'csv'
 require 'optparse'
 require 'rubygems'
+require 'highline/import'
 require 'activeresource'
 require 'digest/sha1'
+
+HighLine.track_eof = false
 
 class Base < ActiveResource::Base
   self.site     = SITE
@@ -28,7 +31,7 @@ class Hash
     attrs = attrs.first if attrs.first.is_a?(Array)
     values = attrs.map do |attr|
       value = self[attr.to_s]
-      value.respond_to?(:strftime) ? value.strftime('%Y%m%d%H%M') : value
+      value.respond_to?(:strftime) ? value.strftime('%Y/%m/%d %H:%M') : value
     end
     Digest::SHA1.hexdigest(values.to_s)
   end
@@ -81,12 +84,42 @@ class UpdateAgent
   end
   
   def legacy_ids
-    @data.map { |r| r['legacy_id'] }.compact
+    @data.map { |r| r['legacy_id'] && r['id'].to_s.empty? }.compact
   end
 
   def compare
     compare_hashes(ids)
     compare_hashes(legacy_ids, true)
+  end
+
+  def present  
+    puts 'The following records will be pushed...'
+    puts 'type   id     legacy id  name'
+    puts '------ ------ ---------- -------------------------------------'
+    (@create + @update).each do |row|
+      puts "#{resource.name.ljust(6)} #{row['id'].to_s.ljust(10)} #{row['legacy_id'].to_s.ljust(6)} #{name_for(row)}"
+    end
+    puts
+  end
+  
+  def confirm
+    agree('Do you want to continue, pushing these records to OneBody? ')
+  end
+  
+  def push
+    puts 'Updating remote end...'
+    @create.each do |row|
+      puts "Pushing #{resource.name.downcase} #{name_for(row)} (new)"
+      record = resource.new
+      record.attributes.merge! row.reject { |k, v| k == 'id' }
+      record.save
+    end
+    @update.each do |row|
+      puts "Pushing #{resource.name.downcase} #{name_for(row)}"
+      record = row['id'] ? resource.find(row['id']) : resource.find_by_legacy_id(row['legacy_id'])
+      record.attributes.merge! row.reject { |k, v| k == 'id' }
+      record.save
+    end
   end
   
   attr_reader :update, :create
@@ -112,26 +145,32 @@ end
 
 class PeopleUpdater < UpdateAgent
   self.resource = Person
+  def name_for(row)
+    "#{row['first_name']} #{row['last_name']}"
+  end
 end
 
 if __FILE__ == $0
   options = {:confirm => true}
-  OptionParser.new do |opts|
+  opt_parser = OptionParser.new do |opts|
     opts.banner = "Usage: ruby updateagent.rb [options] path/to/people.csv path/to/families.csv"
     opts.on("-y", "--no-confirm", "Assume 'yes' to any questions") do |v|
       options[:confirm] = false
     end
-  end.parse!
+  end
+  opt_parser.parse!
   if ARGV[0] and ARGV[1]
     agent = PeopleUpdater.new(ARGV[0])
     agent.compare
-    require 'pp'
-    puts 'UPDATE', '------------'
-    pp agent.update
-    puts
-    puts 'CREATE', '------------'
-    pp agent.create
+    if options[:confirm]
+      agent.present
+      unless agent.confirm
+        puts 'canceled by user'
+        exit
+      end
+    end
+    agent.push
   else
-    puts 'Usage: ruby updateagent.rb people.csv families.csv'
+    puts opt_parser.help
   end
 end
