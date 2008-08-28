@@ -31,8 +31,37 @@ class ActiveRecord::Base
     attrs = attrs.first if attrs.first.is_a?(Array)
     values = attrs.map do |attr|
       value = attributes[attr.to_s]
-      value.respond_to?(:strftime) ? value.strftime('%Y%m%d%H%M') : value
+      value.respond_to?(:strftime) ? value.strftime('%Y/%m/%d %H:%M') : value
     end
     Digest::SHA1.hexdigest(values.to_s)
+  end
+end
+
+# add option to to_xml to specify that read_attribute() should be used rather than send()
+# for grabbing attribute values
+module ActiveRecord
+  class XmlSerializer
+
+    def serializable_attributes_with_read_attribute_option
+      if options[:read_attribute]
+        serializable_attribute_names.collect { |name| DataOnlyAttribute.new(name, @record) }
+      else
+        serializable_attributes_without_read_attribute_option
+      end
+    end
+    alias_method_chain :serializable_attributes, :read_attribute_option
+
+    class DataOnlyAttribute < Attribute
+      protected
+        def compute_value
+          value = @record.read_attribute(name)
+
+          if formatter = Hash::XML_FORMATTING[type.to_s]
+            value ? formatter.call(value) : nil
+          else
+            value
+          end
+        end
+    end
   end
 end

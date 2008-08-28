@@ -37,7 +37,7 @@ class PeopleController < ApplicationController
       else
         respond_to do |format|
           format.html
-          format.xml { render :xml => @person.to_xml } if can_export?
+          format.xml { render :xml => @person.to_xml(:read_attribute => true) } if can_export?
         end
       end
     else
