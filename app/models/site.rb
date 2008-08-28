@@ -16,6 +16,7 @@
 #  pictures_enabled      :boolean       default(TRUE)
 #  publications_enabled  :boolean       default(TRUE)
 #  active                :boolean       default(TRUE)
+#  edit_tasks_enabled    :boolean       default(TRUE)
 #
 
 class Site < ActiveRecord::Base

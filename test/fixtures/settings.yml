@@ -6,7 +6,7 @@
 #  section     :string(100)   
 #  name        :string(100)   
 #  format      :string(20)    
-#  value       :string(255)   
+#  value       :string(500)   
 #  description :string(500)   
 #  hidden      :boolean       
 #  created_at  :datetime      
