@@ -8,14 +8,19 @@ class PeopleController < ApplicationController
       format.html { redirect_to @logged_in }
       if can_export?
         @people = Person.paginate(:order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
-        format.xml { render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password), :include => [:groups, :family]) }
-        format.csv { render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password), :include => params[:no_family] ? nil : [:family]) }
+        format.xml { render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family]) }
+        format.csv { render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family]) }
       end
     end
   end
   
   def show
-    if @person = Person.find_by_id(params[:id], :include => :family) and @logged_in.can_see?(@person)
+    if params[:legacy_id]
+      @person = Person.find_by_legacy_id(params[:id], :include => :family)
+    else
+      @person = Person.find_by_id(params[:id], :include => :family)
+    end
+    if @person and @logged_in.can_see?(@person)
       @family = @person.family
       @family_people = @person.family.visible_people
       @me = (@logged_in == @person)
@@ -62,11 +67,15 @@ class PeopleController < ApplicationController
   def create
     raise 'no more groups can be created' unless Site.current.max_people.nil? or Person.count < Site.current.max_people
     if @logged_in.admin?(:edit_profiles)
-      @person = Person.create(params[:person])
-      unless @person.errors.any?
-        redirect_to @person.family
-      else
-        render :action => 'new'
+      @person = Person.new(params[:person])
+      respond_to do |format|
+        if @person.save
+          format.html { redirect_to @person.family }
+          format.xml  { render :xml => @person, :status => :created, :location => @person }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
+        end
       end
     else
       render :text => 'You are not authorized to create a person.', :layout => true, :status => 401

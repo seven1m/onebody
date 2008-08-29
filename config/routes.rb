@@ -19,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
     people.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
-  map.resources :families, :member => {:reorder => :post} do |families|
+  map.resources :families, :collection => {:hashify => :get}, :member => {:reorder => :post} do |families|
     families.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   

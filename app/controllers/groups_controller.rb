@@ -7,8 +7,8 @@ class GroupsController < ApplicationController
         format.js   { render :partial => 'person_groups' }
         format.html { render :partial => 'person_groups', :layout => true }
         if can_export?
-          format.xml { render :xml =>  @person.groups.to_xml }
-          format.csv { render :text => @person.groups.to_csv }
+          format.xml { render :xml =>  @person.groups.to_xml(:except => %w(site_id)) }
+          format.csv { render :text => @person.groups.to_csv(:except => %w(site_id)) }
         end
       end
     # search by name or category
@@ -23,8 +23,8 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.html { render :action => 'search' }
         if can_export?
-          format.xml { render :xml =>  @groups.to_xml }
-          format.csv { render :text => @groups.to_csv }
+          format.xml { render :xml =>  @groups.to_xml(:except => %w(site_id)) }
+          format.csv { render :text => @groups.to_csv(:except => %w(site_id)) }
         end
       end
     # regular index
@@ -40,8 +40,8 @@ class GroupsController < ApplicationController
         format.html
         if can_export?
           @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || 50)
-          format.xml { render :xml =>  @groups.to_xml }
-          format.csv { render :text => @groups.to_csv }
+          format.xml { render :xml =>  @groups.to_xml(:except => %w(site_id)) }
+          format.csv { render :text => @groups.to_csv(:except => %w(site_id)) }
         end
       end
     end
