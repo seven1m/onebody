@@ -61,7 +61,7 @@ class UpdateAgent
       row.each_with_index do |value, index|
         key = @attributes[index]
         if DATETIME_ATTRIBUTES.include_with_wildcards?(key)
-          value = DateTime.parse(value).strftime('%Y%m%d%H%M')
+          value = DateTime.parse(value)
         elsif BOOLEAN_ATTRIBUTES.include_with_wildcards?(key)
           if value == '' or value == nil
             value = nil
@@ -90,6 +90,10 @@ class UpdateAgent
   def compare
     compare_hashes(ids)
     compare_hashes(legacy_ids, true)
+  end
+  
+  def has_work?
+    (@create + @update).any?
   end
 
   def present  
@@ -157,19 +161,27 @@ if __FILE__ == $0
     opts.on("-y", "--no-confirm", "Assume 'yes' to any questions") do |v|
       options[:confirm] = false
     end
+    opts.on("-l", "--log LOGFILE", "Output to log rather than stdout") do |log|
+      $stdout = $stderr = File.open(log, 'a')
+    end
   end
   opt_parser.parse!
   if ARGV[0] and ARGV[1]
+    puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}"
     agent = PeopleUpdater.new(ARGV[0])
     agent.compare
-    if options[:confirm]
-      agent.present
-      unless agent.confirm
-        puts 'canceled by user'
-        exit
+    if agent.has_work?
+      if options[:confirm]
+        agent.present
+        unless agent.confirm
+          puts 'canceled by user'
+          exit
+        end
       end
+      agent.push
+    else
+      puts 'Nothing to push'
     end
-    agent.push
   else
     puts opt_parser.help
   end
