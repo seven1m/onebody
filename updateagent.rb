@@ -1,5 +1,39 @@
 #!/usr/bin/env ruby
 
+# OneBody Update Agent
+
+# To use, copy this script (updateagent.rb) somewhere.
+# The script can run locally or remotely, separately from OneBody.
+
+# Using your membership management software, reporting solution,
+# database utility, custom script, etc., export your people
+# and family data to two comma separated values (CSV) files, e.g.
+# people.csv and families.csv.
+
+# The first row of each file is the attribute headings, and must
+# exactly match the attributes available, e.g. see app/models/person.rb
+# and app/models/family.rb for all available attributes.
+
+# Or, you may navigate to http://yoursite.com/people.csv and
+# http://yoursite.com/families.csv to download current OneBody data
+# (if you have any records in the OneBody database).
+
+# "legacy_id" and "legacy_family_id" are two attributes you may use
+# in order to track the identity/foreign keys from your existing
+# membership management database.
+
+# Edit the first three constants below to match your environment. You
+# can get your api key from OneBody (you must be a super user) by
+# running the following command (on the server):
+#   cd /path/to/onebody
+#   rake onebody:api:key EMAIL=admin@example.com
+# (use your own email address; account must already exist)
+
+# Your SITE address will probably be something like http://example.com
+# (not including ":3000", unless you are running in development mode).
+
+# Run "ruby updateagent.rb" for command line usage and options.
+
 SITE       = 'http://localhost:3000'
 USER_EMAIL = 'admin@example.com'
 USER_KEY   = 'dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp'
