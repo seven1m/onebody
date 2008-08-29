@@ -22,7 +22,7 @@ class MessageTest < Test::Unit::TestCase
     assert_equal subject, @preview.subject
     assert @preview.body.index(body)
     assert @preview.body.index('Hit "Reply" to send a message')
-    assert @preview.body.index(/http:\/\/.+\/people\/privacy/)
+    assert @preview.body.index(/http:\/\/.+\/privacy/)
   end
   
   should "know who can see the message" do

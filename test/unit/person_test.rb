@@ -118,7 +118,7 @@ class PersonTest < Test::Unit::TestCase
   
   should "consistently hash datetime values" do
     assert_equal \
-      Digest::SHA1.hexdigest(people(:tim).birthday.strftime('%Y%m%d%H%M')),
+      Digest::SHA1.hexdigest(people(:tim).birthday.strftime('%Y/%m/%d %H:%M')),
       people(:tim).values_hash(:birthday)
   end
   
