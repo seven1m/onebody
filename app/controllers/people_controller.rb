@@ -8,8 +8,8 @@ class PeopleController < ApplicationController
       format.html { redirect_to @logged_in }
       if can_export?
         @people = Person.paginate(:order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || 50)
-        format.xml { render :xml  => @people.to_xml(:except => %w(feed_code encrypted_password), :include => [:groups, :family]) }
-        format.csv { render :text => @people.to_csv(:except => %w(feed_code encrypted_password), :include => [:family]) }
+        format.xml { render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password), :include => [:groups, :family]) }
+        format.csv { render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password), :include => params[:no_family] ? nil : [:family]) }
       end
     end
   end

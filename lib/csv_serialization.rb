@@ -10,7 +10,9 @@ module ActiveRecord
   class CsvSerializer < ActiveRecord::Serialization::Serializer
    
     def serialize
-      values = serializable_attribute_names.map { |a| @record.send(a).to_s }
+      values = serializable_attribute_names.map do |a|
+        options[:read_attribute] ? @record.read_attribute(a).to_s : @record.send(a).to_s
+      end
       add_includes do |association, records, opts|
         # only handles belongs_to
         if records.is_a?(ActiveRecord::Base)

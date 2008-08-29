@@ -6,6 +6,7 @@ USER_KEY   = 'dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp'
 
 DATETIME_ATTRIBUTES = %w(birthday anniversary updated_at created_at)
 BOOLEAN_ATTRIBUTES  = %w(share_* email_changed get_wall_email account_frozen wall_enabled messages_enabled visible friends_enabled member staff elder deacon can_sign_in visible_to_everyone visible_on_printed_directory full_access)
+IGNORE_ATTRIBUTES   = %w(updated_at created_at)
 
 require 'date'
 require 'csv'
@@ -33,7 +34,7 @@ class Hash
       value = self[attr.to_s]
       value.respond_to?(:strftime) ? value.strftime('%Y/%m/%d %H:%M') : value
     end
-    Digest::SHA1.hexdigest(values.to_s)
+    Digest::SHA1.hexdigest(values.join)
   end
 end
 
@@ -60,8 +61,18 @@ class UpdateAgent
       hash = {}
       row.each_with_index do |value, index|
         key = @attributes[index]
+        next if IGNORE_ATTRIBUTES.include?(key)
         if DATETIME_ATTRIBUTES.include_with_wildcards?(key)
-          value = DateTime.parse(value)
+          if value.blank?
+            value = nil
+          else
+            begin
+              value = DateTime.parse(value)
+            rescue ArgumentError
+              puts "Invalid date in #{filename} record #{index} (#{key}) - #{value}"
+              exit(1)
+            end
+          end
         elsif BOOLEAN_ATTRIBUTES.include_with_wildcards?(key)
           if value == '' or value == nil
             value = nil
@@ -75,6 +86,7 @@ class UpdateAgent
       end
       hash
     end
+    @attributes.reject! { |a| IGNORE_ATTRIBUTES.include?(a) }
     @create = []
     @update = []
   end
@@ -84,7 +96,7 @@ class UpdateAgent
   end
   
   def legacy_ids
-    @data.map { |r| r['legacy_id'] && r['id'].to_s.empty? }.compact
+    @data.map { |r| r['id'].to_s.empty? ? r['legacy_id'] : nil }.compact
   end
 
   def compare
@@ -96,7 +108,7 @@ class UpdateAgent
     (@create + @update).any?
   end
 
-  def present  
+  def present
     puts 'The following records will be pushed...'
     puts 'type   id     legacy id  name'
     puts '------ ------ ---------- -------------------------------------'
@@ -168,6 +180,7 @@ if __FILE__ == $0
   opt_parser.parse!
   if ARGV[0] and ARGV[1]
     puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}"
+    puts
     agent = PeopleUpdater.new(ARGV[0])
     agent.compare
     if agent.has_work?
@@ -175,6 +188,7 @@ if __FILE__ == $0
         agent.present
         unless agent.confirm
           puts 'canceled by user'
+          puts
           exit
         end
       end
@@ -185,4 +199,5 @@ if __FILE__ == $0
   else
     puts opt_parser.help
   end
+  puts
 end
