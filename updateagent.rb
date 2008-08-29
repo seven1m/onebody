@@ -7,20 +7,24 @@
 
 # Using your membership management software, reporting solution,
 # database utility, custom script, etc., export your people
-# and family data to two comma separated values (CSV) files, e.g.
-# people.csv and families.csv.
+# and family data to a single comma separated values (CSV) file,
+# e.g. people.csv.
 
-# The first row of each file is the attribute headings, and must
+# Duplicate family data should be present for each member of
+# the same family.
+
+# The first row of the file is the attribute headings, and must
 # exactly match the attributes available, e.g. see app/models/person.rb
-# and app/models/family.rb for all available attributes.
+# and app/models/family.rb (prefixed with "family_"). Not all
+# attributes are required (use as few as needed).
 
-# Or, you may navigate to http://yoursite.com/people.csv and
-# http://yoursite.com/families.csv to download current OneBody data
-# (if you have any records in the OneBody database).
+# Or, you may hit http://yoursite.com/people.csv to download current
+# OneBody data (if you have any records in the OneBody database) as
+# a starting point.
 
-# "legacy_id" and "legacy_family_id" are two attributes you may use
-# in order to track the identity/foreign keys from your existing
-# membership management database.
+# Use the attributes "legacy_id" and "legacy_family_id" in order to
+# track the identity/foreign keys from your existing membership
+# management database.
 
 # Edit the first three constants below to match your environment. You
 # can get your api key from OneBody (you must be a super user) by
@@ -38,9 +42,10 @@ SITE       = 'http://localhost:3000'
 USER_EMAIL = 'admin@example.com'
 USER_KEY   = 'dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp'
 
+# TODO: grab these from OneBody on each run
 DATETIME_ATTRIBUTES = %w(birthday anniversary updated_at created_at)
-BOOLEAN_ATTRIBUTES  = %w(share_* email_changed get_wall_email account_frozen wall_enabled messages_enabled visible friends_enabled member staff elder deacon can_sign_in visible_to_everyone visible_on_printed_directory full_access)
-IGNORE_ATTRIBUTES   = %w(updated_at created_at)
+BOOLEAN_ATTRIBUTES  = %w(share_* family_share_* email_changed get_wall_email account_frozen *wall_enabled messages_enabled visible family_visible friends_enabled member staff elder deacon can_sign_in visible_to_everyone visible_on_printed_directory full_access)
+IGNORE_ATTRIBUTES   = %w(updated_at created_at family_updated_at family_created_at site_id family_latitude family_longitude)
 
 require 'date'
 require 'csv'
@@ -63,6 +68,7 @@ class Family < Base; end
 
 class Hash
   def values_hash(*attrs)
+    attrs = keys.sort unless attrs.any?
     attrs = attrs.first if attrs.first.is_a?(Array)
     values = attrs.map do |attr|
       value = self[attr.to_s]
@@ -88,7 +94,30 @@ class Array
 end
 
 class UpdateAgent
-  def initialize(filename)
+  def initialize(data=nil)
+    @attributes = []
+    @data = []
+    @create = []
+    @update = []
+    if data
+      if data.is_a?(Array)
+        @data = data
+        @attributes = data.first.keys.sort
+      else
+        read_from_file(data)
+      end
+    end
+    if invalid = @data.detect { |row| row['id'].to_s.any? and row['legacy_id'].to_s.any? }
+      puts "Error: one or more records contain both 'id' and 'legacy_id' columns."
+      puts "Please remove one of the columns or blank the values."
+      puts "It is usually best to utilize 'legacy_id' rather than 'id' so that"
+      puts "identity and foreign keys are maintained from your existing membership"
+      puts "management database."
+      exit
+    end
+  end
+  
+  def read_from_file(filename)
     csv = CSV.open(filename, 'r')
     @attributes = csv.shift
     @data = csv.map do |row|
@@ -121,8 +150,6 @@ class UpdateAgent
       hash
     end
     @attributes.reject! { |a| IGNORE_ATTRIBUTES.include?(a) }
-    @create = []
-    @update = []
   end
   
   def ids
@@ -130,7 +157,7 @@ class UpdateAgent
   end
   
   def legacy_ids
-    @data.map { |r| r['id'].to_s.empty? ? r['legacy_id'] : nil }.compact
+    @data.map { |r| r['legacy_id'] }.compact
   end
 
   def compare
@@ -143,13 +170,16 @@ class UpdateAgent
   end
 
   def present
-    puts 'The following records will be pushed...'
-    puts 'type   id     legacy id  name'
-    puts '------ ------ ---------- -------------------------------------'
-    (@create + @update).each do |row|
-      puts "#{resource.name.ljust(6)} #{row['id'].to_s.ljust(10)} #{row['legacy_id'].to_s.ljust(6)} #{name_for(row)}"
-    end
+    puts "The following #{resource.name.downcase} records will be pushed..."
+    puts 'legacy id  name'
+    puts '---------- -------------------------------------'
+    @create.each { |r| present_record(r, true) }
+    @update.each { |r| present_record(r) }
     puts
+  end
+  
+  def present_record(row, new=false)
+    puts "#{row['legacy_id'].to_s.ljust(10)} #{name_for(row)} #{new ? '(new)' : ''}"
   end
   
   def confirm
@@ -163,15 +193,18 @@ class UpdateAgent
       record = resource.new
       record.attributes.merge! row.reject { |k, v| k == 'id' }
       record.save
+      row['id'] = record.id
     end
     @update.each do |row|
       puts "Pushing #{resource.name.downcase} #{name_for(row)}"
-      record = row['id'] ? resource.find(row['id']) : resource.find_by_legacy_id(row['legacy_id'])
+      record = row['id'] ? resource.find(row['id']) : resource.find(row['legacy_id'], :params => {:legacy_id => true})
       record.attributes.merge! row.reject { |k, v| k == 'id' }
       record.save
+      row['id'] = record.id
     end
   end
-  
+
+  attr_accessor :attributes, :data
   attr_reader :update, :create
   
   class << self; attr_accessor :resource; end
@@ -195,15 +228,81 @@ end
 
 class PeopleUpdater < UpdateAgent
   self.resource = Person
+  
+  def initialize(filename)
+    super(filename)
+    person_data = []
+    family_data = []
+    @data.each do |row|
+      person, family = split_change_hash(row)
+      if existing_family = family_data.detect { |r| r.values_hash == family.values_hash }
+        person['family'] = existing_family
+        person_data << person
+      else
+        person['family'] = family
+        person_data << person
+        family_data << family
+      end
+    end
+    @data = person_data
+    @family_agent = FamilyUpdater.new(family_data)
+  end
+  
   def name_for(row)
     "#{row['first_name']} #{row['last_name']}"
+  end
+  
+  def compare
+    @family_agent.compare
+    super
+  end
+  
+  def has_work?
+    @family_agent.has_work? or super
+  end
+  
+  def present
+    @family_agent.present if @family_agent.has_work?
+    super
+  end
+  
+  def push
+    @family_agent.push
+    @data.each do |row|
+      row['family_id'] = row['family']['id'] if row['family']['id']
+      row.delete('family')
+    end
+    super
+  end
+  
+  protected
+  
+    def split_change_hash(vals)
+      person_vals = {}
+      family_vals = {}
+      vals.each do |key, val|
+        if key =~ /^family_/
+          family_vals[key.sub(/^family_/, '')] = val
+        else
+          person_vals[key] = val
+        end
+      end
+      family_vals['legacy_id'] ||= person_vals['legacy_family_id']
+      [person_vals, family_vals]
+    end
+end
+
+class FamilyUpdater < UpdateAgent
+  self.resource = Family
+  def name_for(row)
+    row['name']
   end
 end
 
 if __FILE__ == $0
   options = {:confirm => true}
   opt_parser = OptionParser.new do |opts|
-    opts.banner = "Usage: ruby updateagent.rb [options] path/to/people.csv path/to/families.csv"
+    opts.banner = "Usage: ruby updateagent.rb [options] path/to/people.csv"
     opts.on("-y", "--no-confirm", "Assume 'yes' to any questions") do |v|
       options[:confirm] = false
     end
@@ -212,26 +311,24 @@ if __FILE__ == $0
     end
   end
   opt_parser.parse!
-  if ARGV[0] and ARGV[1]
-    puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}"
-    puts
+  if ARGV[0]
+    puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}\n\n"
     agent = PeopleUpdater.new(ARGV[0])
     agent.compare
     if agent.has_work?
       if options[:confirm]
         agent.present
         unless agent.confirm
-          puts 'canceled by user'
-          puts
+          puts "Canceled by user\n"
           exit
         end
       end
       agent.push
+      puts "Completed at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}\n\n"
     else
-      puts 'Nothing to push'
+      puts "Nothing to push\n"
     end
   else
     puts opt_parser.help
   end
-  puts
 end
