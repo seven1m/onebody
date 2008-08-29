@@ -18,7 +18,7 @@
 # and app/models/family.rb (prefixed with "family_"). Not all
 # attributes are required (use as few as needed).
 
-# Or, you may hit http://yoursite.com/people.csv to download current
+# Or, you can run "rake onebody:export:people:csv" to export current
 # OneBody data (if you have any records in the OneBody database) as
 # a starting point.
 
