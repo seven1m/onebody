@@ -24,6 +24,4 @@ class BlogsControllerTest < ActionController::TestCase
     assert_equal 0, assigns(:non_pictures).select { |o| o.is_a? Note }.length
   end
   
-  should "not show any blog items if the person has their blog disabled"
-  
 end

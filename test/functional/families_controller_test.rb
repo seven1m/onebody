@@ -64,12 +64,6 @@ class FamiliesControllerTest < ActionController::TestCase
     assert_response :redirect
   end
   
-  should "only allow adult family members and admins to edit a family"
-  
-  should "add a person to a family"
-  
-  should "remove a person from a family"
-  
   should "not show xml unless user can export data" do
     get :show, {:id => @family.id, :format => 'xml'}, {:logged_in_id => @person.id}
     assert_response 406

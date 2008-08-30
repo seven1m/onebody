@@ -3,4 +3,4 @@ PHOTO_SIZES = {
   :small => '75x75',
   :medium => '150x150',
   :large => '400x400'
-}
+} unless defined? PHOTO_SIZES
