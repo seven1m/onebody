@@ -161,9 +161,9 @@ class UpdateAgent
     @data.map { |r| r['legacy_id'] }.compact
   end
 
-  def compare
-    compare_hashes(ids)
-    compare_hashes(legacy_ids, true)
+  def compare(force=false)
+    compare_hashes(ids, false, force)
+    compare_hashes(legacy_ids, true, force)
   end
   
   def has_work?
@@ -216,12 +216,12 @@ class UpdateAgent
   
   # ask remote end for value hashe for each record (50 at a time) 
   # mark records to create or update based on response
-  def compare_hashes(ids, legacy=false)
+  def compare_hashes(ids, legacy=false, force=false)
     ids.each_slice(50) do |some_ids|
       resource.get(:hashify, :attrs => @attributes, legacy ? :legacy_ids : :ids => ids).each do |record|
         row = @data.detect { |r| legacy ? (r['legacy_id'] == record['legacy_id']) : (r['id'] == record['id']) }
         if record['exists']
-          @update << row if row.values_hash(@attributes) != record['hash']
+          @update << row if force or row.values_hash(@attributes) != record['hash']
         else
           @create << row
         end
@@ -259,9 +259,9 @@ class PeopleUpdater < UpdateAgent
     "#{row['first_name']} #{row['last_name']}"
   end
   
-  def compare
-    @family_agent.compare
-    super
+  def compare(force=false)
+    @family_agent.compare(force)
+    super(force)
   end
   
   def has_work?
@@ -310,7 +310,7 @@ end
 
 if __FILE__ == $0
 
-  options = {:confirm => true}
+  options = {:confirm => true, :force => false}
   opt_parser = OptionParser.new do |opts|
     opts.banner = "Usage: ruby updateagent.rb [options] path/to/people.csv"
     opts.on("-y", "--no-confirm", "Assume 'yes' to any questions") do |v|
@@ -319,13 +319,16 @@ if __FILE__ == $0
     opts.on("-l", "--log LOGFILE", "Output to log rather than stdout") do |log|
       $stdout = $stderr = File.open(log, 'a')
     end
+    opts.on("-f", "--force", "Force update all records") do |f|
+      options[:force] = true
+    end
   end
   opt_parser.parse!
   
   if ARGV[0] # path/to/people.csv
     puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}\n\n"
     agent = PeopleUpdater.new(ARGV[0])
-    agent.compare
+    agent.compare(options[:force])
     if agent.has_work?
       if options[:confirm]
         agent.present
