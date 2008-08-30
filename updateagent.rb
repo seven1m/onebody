@@ -24,7 +24,8 @@
 
 # Use the attributes "legacy_id" and "legacy_family_id" in order to
 # track the identity/foreign keys from your existing membership
-# management database.
+# management database. You should *not* use/include "id" and
+# "family_id" unless you know what you're doing.
 
 # Edit the first three constants below to match your environment. You
 # can get your api key from OneBody (you must be a super user) by
@@ -41,11 +42,6 @@
 SITE       = 'http://localhost:3000'
 USER_EMAIL = 'admin@example.com'
 USER_KEY   = 'dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp'
-
-# TODO: grab these from OneBody on each run
-DATETIME_ATTRIBUTES = %w(birthday anniversary updated_at created_at)
-BOOLEAN_ATTRIBUTES  = %w(share_* family_share_* email_changed get_wall_email account_frozen *wall_enabled messages_enabled visible family_visible friends_enabled member staff elder deacon can_sign_in visible_to_everyone visible_on_printed_directory full_access)
-IGNORE_ATTRIBUTES   = %w(updated_at created_at family_updated_at family_created_at site_id family_latitude family_longitude)
 
 require 'date'
 require 'csv'
@@ -66,6 +62,21 @@ end
 class Person < Base; end
 class Family < Base; end
 
+class Schema
+  def initialize(resource)
+    @schema = resource.get(:schema)
+  end
+  def type(t)
+    @schema.select { |c| c['type'] == t }.map { |c| c['name'] }.uniq
+  end
+end
+person_schema = Schema.new(Person)
+family_schema = Schema.new(Family)
+
+DATETIME_ATTRIBUTES = person_schema.type(:datetime) + family_schema.type(:datetime).map { |c| 'family_' + c }
+BOOLEAN_ATTRIBUTES  = person_schema.type(:boolean)  + family_schema.type(:boolean).map  { |c| 'family_' + c }
+IGNORE_ATTRIBUTES   = %w(updated_at created_at family_updated_at family_latitude family_longitude)
+
 class Hash
   # creates a uniq sha1 digest of the hash's values
   # should mirror similar code in OneBody's lib/db_tools.rb
@@ -77,23 +88,6 @@ class Hash
       value.respond_to?(:strftime) ? value.strftime('%Y/%m/%d %H:%M') : value
     end
     Digest::SHA1.hexdigest(values.join)
-  end
-end
-
-class Array
-  # allow array#include? to match items beginning or ending with asterisk,
-  # e.g. "share_*" will match "share_email" and "share_mobile"
-  def include_with_wildcards?(object)
-    self.each do |item|
-      if item =~ /\*$/
-        return true if Regexp.new('^' + Regexp.escape(item.sub(/\*/, ''))).match(object)
-      elsif item =~ /^\*/
-        return true if Regexp.new(Regexp.escape(item.sub(/\*/, '')) + '$').match(object)
-      else
-        return true if object == item
-      end
-    end
-    return false
   end
 end
 
@@ -132,7 +126,7 @@ class UpdateAgent
       row.each_with_index do |value, index|
         key = @attributes[index]
         next if IGNORE_ATTRIBUTES.include?(key)
-        if DATETIME_ATTRIBUTES.include_with_wildcards?(key)
+        if DATETIME_ATTRIBUTES.include?(key)
           if value.blank?
             value = nil
           else
@@ -143,7 +137,7 @@ class UpdateAgent
               exit(1)
             end
           end
-        elsif BOOLEAN_ATTRIBUTES.include_with_wildcards?(key)
+        elsif BOOLEAN_ATTRIBUTES.include?(key)
           if value == '' or value == nil
             value = nil
           elsif %w(no false 0).include?(value.downcase)
@@ -257,6 +251,7 @@ class PeopleUpdater < UpdateAgent
       end
     end
     @data = person_data
+    @attributes.reject! { |a| a =~ /^family_/ and a != 'family_id' }
     @family_agent = FamilyUpdater.new(family_data)
   end
   
@@ -342,9 +337,10 @@ if __FILE__ == $0
       agent.push
       puts "Completed at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}\n\n"
     else
-      puts "Nothing to push\n"
+      puts "Nothing to push\n\n"
     end
   else
     puts opt_parser.help
   end
+  
 end

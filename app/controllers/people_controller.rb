@@ -157,5 +157,9 @@ class PeopleController < ApplicationController
       render :text => 'You are not authorized to import data.', :layout => true, :status => 401
     end
   end
+  
+  def schema
+    render :xml => Person.columns.map { |c| {:name => c.name, :type => c.type} }
+  end
 
 end

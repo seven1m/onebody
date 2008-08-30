@@ -97,6 +97,10 @@ class FamiliesController < ApplicationController
     end
   end
   
+  def schema
+    render :xml => Family.columns.map { |c| {:name => c.name, :type => c.type} }
+  end
+  
   private
 
   def can_edit?
