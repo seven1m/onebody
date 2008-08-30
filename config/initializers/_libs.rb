@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'open-uri'
 require 'rexml/document'
-require 'amazon/search'
 require 'net/http'
 require 'inherited_attribute'
 require 'add_condition'
