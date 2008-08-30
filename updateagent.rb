@@ -67,6 +67,8 @@ class Person < Base; end
 class Family < Base; end
 
 class Hash
+  # creates a uniq sha1 digest of the hash's values
+  # should mirror similar code in OneBody's lib/db_tools.rb
   def values_hash(*attrs)
     attrs = keys.sort unless attrs.any?
     attrs = attrs.first if attrs.first.is_a?(Array)
@@ -79,6 +81,8 @@ class Hash
 end
 
 class Array
+  # allow array#include? to match items beginning or ending with asterisk,
+  # e.g. "share_*" will match "share_email" and "share_mobile"
   def include_with_wildcards?(object)
     self.each do |item|
       if item =~ /\*$/
@@ -93,6 +97,7 @@ class Array
   end
 end
 
+# general class to handle comparing and pushing data to the remote end
 class UpdateAgent
   def initialize(data=nil)
     @attributes = []
@@ -117,6 +122,8 @@ class UpdateAgent
     end
   end
   
+  # load data from csv file and do some type conversion for bools and dates
+  # first row must be attribute names
   def read_from_file(filename)
     csv = CSV.open(filename, 'r')
     @attributes = csv.shift
@@ -186,6 +193,7 @@ class UpdateAgent
     agree('Do you want to continue, pushing these records to OneBody? ')
   end
   
+  # use ActiveResource to create/update records on remote end
   def push
     puts 'Updating remote end...'
     @create.each do |row|
@@ -212,6 +220,8 @@ class UpdateAgent
   
   protected
   
+  # ask remote end for value hashe for each record (50 at a time) 
+  # mark records to create or update based on response
   def compare_hashes(ids, legacy=false)
     ids.each_slice(50) do |some_ids|
       resource.get(:hashify, :attrs => @attributes, legacy ? :legacy_ids : :ids => ids).each do |record|
@@ -226,9 +236,11 @@ class UpdateAgent
   end
 end
 
+# handles people.csv and splits out family data for FamilyUpdater
 class PeopleUpdater < UpdateAgent
   self.resource = Person
   
+  # split out family data and create a new FamilyUpdater
   def initialize(filename)
     super(filename)
     person_data = []
@@ -269,6 +281,7 @@ class PeopleUpdater < UpdateAgent
   def push
     @family_agent.push
     @data.each do |row|
+      # if the family was created, make sure the person record gets the new id
       row['family_id'] = row['family']['id'] if row['family']['id']
       row.delete('family')
     end
@@ -277,6 +290,7 @@ class PeopleUpdater < UpdateAgent
   
   protected
   
+    # split hash of values into person and family values based on keys
     def split_change_hash(vals)
       person_vals = {}
       family_vals = {}
@@ -300,6 +314,7 @@ class FamilyUpdater < UpdateAgent
 end
 
 if __FILE__ == $0
+
   options = {:confirm => true}
   opt_parser = OptionParser.new do |opts|
     opts.banner = "Usage: ruby updateagent.rb [options] path/to/people.csv"
@@ -311,7 +326,8 @@ if __FILE__ == $0
     end
   end
   opt_parser.parse!
-  if ARGV[0]
+  
+  if ARGV[0] # path/to/people.csv
     puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}\n\n"
     agent = PeopleUpdater.new(ARGV[0])
     agent.compare
