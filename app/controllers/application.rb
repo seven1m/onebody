@@ -107,8 +107,12 @@ class ApplicationController < ActionController::Base
     end
     
     def decrypt_password(pass)
-      key = OpenSSL::PKey::RSA.new(session[:key])
-      key.private_decrypt(Base64.decode64(pass))
+      if session[:key]
+        key = OpenSSL::PKey::RSA.new(session[:key])
+        key.private_decrypt(Base64.decode64(pass))
+      else
+        render :text => "There was an error signing you in. Please <a href=\"#{new_session_path}\">try again</a>.", :layout => true, :status => 500
+      end
     end
     
     def check_scheduler
