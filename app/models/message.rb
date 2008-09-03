@@ -128,7 +128,7 @@ class Message < ActiveRecord::Base
     if group
       "#{Setting.get(:url, :site)}messages/view/#{self.id.to_s}"
     elsif wall
-      "#{Setting.get(:url, :site)}people/view/#{person_id}#wall"
+      "#{Setting.get(:url, :site)}people/#{person_id}#wall"
     else
       reply_subject = self.subject
       reply_subject = "RE: #{subject}" unless reply_subject =~ /^re:/i
@@ -151,7 +151,7 @@ class Message < ActiveRecord::Base
         end
       end
     elsif wall
-      msg << "Your wall: #{Setting.get(:url, :site)}people/view/#{wall_id}#wall\n\n"
+      msg << "Your wall: #{Setting.get(:url, :site)}people/#{wall_id}#wall\n\n"
       msg << "#{self.person.name_possessive} wall: #{reply_url}\n"
     end
     msg
