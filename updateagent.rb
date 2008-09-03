@@ -121,6 +121,7 @@ class UpdateAgent
   def read_from_file(filename)
     csv = CSV.open(filename, 'r')
     @attributes = csv.shift
+    record_count = 0
     @data = csv.map do |row|
       hash = {}
       row.each_with_index do |value, index|
@@ -148,8 +149,11 @@ class UpdateAgent
         end
         hash[key] = value
       end
+      record_count += 1
+      puts "reading record #{record_count}\r"
       hash
     end
+    puts
     @attributes.reject! { |a| IGNORE_ATTRIBUTES.include?(a) }
   end
   
@@ -217,8 +221,9 @@ class UpdateAgent
   # ask remote end for value hashe for each record (50 at a time) 
   # mark records to create or update based on response
   def compare_hashes(ids, legacy=false, force=false)
-    ids.each_slice(50) do |some_ids|
-      resource.get(:hashify, :attrs => @attributes, legacy ? :legacy_ids : :ids => ids).each do |record|
+    ids.each_slice(250) do |some_ids|
+      resource.get(:hashify, :attrs => @attributes, legacy ? :legacy_id : :id => some_ids.join(',')).each do |record|
+        print '.'
         row = @data.detect { |r| legacy ? (r['legacy_id'] == record['legacy_id']) : (r['id'] == record['id']) }
         if record['exists']
           @update << row if force or row.values_hash(@attributes) != record['hash']
@@ -238,21 +243,23 @@ class PeopleUpdater < UpdateAgent
   def initialize(filename)
     super(filename)
     person_data = []
-    family_data = []
-    @data.each do |row|
+    family_data = {}
+    @data.each_with_index do |row, index|
       person, family = split_change_hash(row)
-      if existing_family = family_data.detect { |r| r.values_hash == family.values_hash }
+      if existing_family = family_data[family['legacy_id']]
         person['family'] = existing_family
         person_data << person
       else
         person['family'] = family
         person_data << person
-        family_data << family
+        family_data[family['legacy_id']] = family
       end
+      puts "splitting family record #{index+1}\r"
     end
+    puts
     @data = person_data
     @attributes.reject! { |a| a =~ /^family_/ and a != 'family_id' }
-    @family_agent = FamilyUpdater.new(family_data)
+    @family_agent = FamilyUpdater.new(family_data.values)
   end
   
   def name_for(row)
@@ -328,6 +335,7 @@ if __FILE__ == $0
   if ARGV[0] # path/to/people.csv
     puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}\n\n"
     agent = PeopleUpdater.new(ARGV[0])
+    puts "comparing records..."
     agent.compare(options[:force])
     if agent.has_work?
       if options[:confirm]

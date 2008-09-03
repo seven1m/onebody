@@ -84,11 +84,11 @@ class FamiliesController < ApplicationController
   
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      params[:ids] ||= [params[:id]].compact
-      params[:legacy_ids] ||= [params[:legacy_id]].compact
-      hashes = params[:ids][0...50].map do |id|
+      params[:ids] ||= params[:id].to_s.split(',')
+      params[:legacy_ids] ||= params[:legacy_id].to_s.split(',')
+      hashes = params[:ids][0...250].map do |id|
         record_hash(Family.find_by_id(id), :id => id)
-      end + params[:legacy_ids][0...50].map do |legacy_id|
+      end + params[:legacy_ids][0...250].map do |legacy_id|
         record_hash(Family.find_by_legacy_id(legacy_id), :legacy_id => legacy_id)
       end
       render :xml => hashes
