@@ -3,11 +3,11 @@
 <h1><%= @group.name %> Membership Requests</h1>
 
 <% if @requests.any? %>
-  <% form_for Membership.new do |form| %>
+  <% form_for batch_group_memberships_path(@group) do |form| %>
     <table>
       <% @requests.each do |req| %>
         <tr>
-          <td><%= check_box_tag 'people[]', req.person.id, false, :class => 'checkbox' %></td>
+          <td><%= check_box_tag 'ids[]', req.person.id, false, :class => 'checkbox' %></td>
           <td><%= link_to req.person.name, person_url(:id => req.person) %></td>
         </tr>
       <% end %>

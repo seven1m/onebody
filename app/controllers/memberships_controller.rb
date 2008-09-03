@@ -13,7 +13,7 @@ class MembershipsController < ApplicationController
   end
   
   def index
-    @group = Group.find(params[:id])
+    @group = Group.find(params[:group_id])
     if @logged_in.can_edit?(@group)
       @requests = @group.membership_requests
     else
@@ -79,7 +79,11 @@ class MembershipsController < ApplicationController
         params[:ids].each do |id|
           if request.post?
             person = Person.find(id)
-            @group.memberships.create(:person => person) unless group_people.include?(person)
+            if params[:commit] == 'Ignore'
+              @group.membership_requests.find_all_by_person_id(id).each { |r| r.destroy }
+            else
+              @group.memberships.create(:person => person) unless group_people.include?(person)
+            end
           elsif request.delete?
             if @membership = @group.memberships.find_by_person_id(id)
               @membership.destroy unless @group.last_admin?(@membership.person)
