@@ -5,6 +5,11 @@ RAILS_GEM_VERSION = '2.1' unless defined? RAILS_GEM_VERSION
 # temporary until Rails bug fixed
 require 'fix_locator_bug'
 
+unless File.exist?(config_filename = Rails.root + '/config/database.yml')
+  require 'fileutils'
+  FileUtils.cp(config_filename + '.example', config_filename)
+end
+
 Rails::Initializer.run do |config|
   config.action_controller.session_store = :active_record_store
   config.action_controller.cache_store = :file_store, Rails.root + '/cache'

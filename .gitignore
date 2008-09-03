@@ -9,6 +9,7 @@ db/publications/*
 db/attachments/*
 setup-authorized-ip
 setup-secret
+config/database.yml
 config/database.yml.backup
 db/*.backup.*
 Scheduler.pid
