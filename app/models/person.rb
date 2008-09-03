@@ -282,9 +282,9 @@ class Person < ActiveRecord::Base
     when 'RemoteAccount'
       can_edit?(what.person)
     when 'Album'
-      admin?(:edit_pictures) or (what.person_id == self.id)
+      admin?(:manage_pictures) or (what.person_id == self.id)
     when 'Picture'
-      admin?(:edit_pictures) or (what.album and can_edit?(what.album)) or what.person_id == self.id
+      admin?(:manage_pictures) or (what.album and can_edit?(what.album)) or what.person_id == self.id
     when 'Recipe'
       self == what.person or self.admin?(:manage_recipes)
     when 'Note'
