@@ -84,7 +84,7 @@ class Family < ActiveRecord::Base
   end
   
   def update_lat_lon
-    return nil unless mapable?
+    return nil unless mapable? and Setting.get(:services, :yahoo).to_s.any?
     url = "http://api.local.yahoo.com/MapsService/V1/geocode?appid=#{Setting.get(:services, :yahoo)}&location=#{URI.escape(mapable_address)}"
     begin
       xml = URI(url).read
