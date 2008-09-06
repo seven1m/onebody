@@ -302,7 +302,7 @@ class PeopleUpdater < UpdateAgent
   
   def push
     @family_agent.push
-    @data.each do |row|
+    (@create + @update).each do |row|
       # if the family was created, make sure the person record gets the new id
       row['family_id'] = row['family']['id'] || Family.find(row['legacy_family_id'], :params => {:legacy_id => true}).id
       row.delete('family')
