@@ -78,7 +78,7 @@ BOOLEAN_ATTRIBUTES  = person_schema.type(:boolean)  + family_schema.type(:boolea
 INTEGER_ATTRIBUTES  = person_schema.type(:integer)  + family_schema.type(:integer).map  { |c| 'family_' + c }
 IGNORE_ATTRIBUTES   = %w(updated_at created_at family_updated_at family_latitude family_longitude)
 
-MAX_HASHES_AT_A_TIME = 250 # please don't get crazy with this value; 250 should be the max
+MAX_HASHES_AT_A_TIME = 1000 # 1000 is the max; anything greater will cause this script to do weird things
 
 DEBUG = false
 
@@ -243,7 +243,8 @@ class UpdateAgent
   def compare_hashes(ids, legacy=false, force=false)
     all_hashes = []
     ids.each_slice(MAX_HASHES_AT_A_TIME) do |some_ids|
-      hashes = resource.get(:hashify, :attrs => @attributes, legacy ? :legacy_id : :id => some_ids.join(','))
+      response = resource.post(:hashify, :attrs => @attributes, legacy ? :legacy_id : :id => some_ids.join(','))
+      hashes = Hash.from_xml(response.body)['records'].to_a
       hashes.each do |record|
         row = @data.detect { |r| legacy ? (r['legacy_id'] == record['legacy_id'].to_i) : (r['id'] == record['id'].to_i) }
         row['remote_hash'] = record['hash'] if DEBUG

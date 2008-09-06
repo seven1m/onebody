@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :account, :member => {:verify_code => :any, :select => :any}
   
   map.resources :people,
-    :collection => {:import => :any, :hashify => :get, :schema => :get} do |people|
+    :collection => {:import => :any, :hashify => :post, :schema => :get} do |people|
     people.resources :groups
     people.resources :pictures
     people.resources :friends, :collection => {:reorder => :post}
@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :families,
-    :collection => {:hashify => :get, :schema => :get},
+    :collection => {:hashify => :post, :schema => :get},
     :member => {:reorder => :post} do |families|
     families.resource :photo, :member => PHOTO_SIZE_METHODS
   end
