@@ -251,7 +251,7 @@ class UpdateAgent
       end
       all_hashes += hashes
     end
-    @create += ids.reject { |id| all_hashes.map { |h| h[legacy ? 'legacy_id' : 'id'] }.include?(id) }.map { |id| @data.detect { |r| id == (legacy ? r['legacy_id'] : r['id']) } }
+    @create += ids.reject { |id| all_hashes.map { |h| h[legacy ? 'legacy_id' : 'id'] }.include?(id.to_s) }.map { |id| @data.detect { |r| id == (legacy ? r['legacy_id'] : r['id']) } }
   end
 end
 
@@ -304,7 +304,7 @@ class PeopleUpdater < UpdateAgent
     @family_agent.push
     @data.each do |row|
       # if the family was created, make sure the person record gets the new id
-      row['family_id'] = row['family']['id'] if row['family']['id']
+      row['family_id'] = row['family']['id'] || Family.find(row['legacy_family_id'], :params => {:legacy_id => true}).id
       row.delete('family')
     end
     super
