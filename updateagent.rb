@@ -75,7 +75,12 @@ family_schema = Schema.new(Family)
 
 DATETIME_ATTRIBUTES = person_schema.type(:datetime) + family_schema.type(:datetime).map { |c| 'family_' + c }
 BOOLEAN_ATTRIBUTES  = person_schema.type(:boolean)  + family_schema.type(:boolean).map  { |c| 'family_' + c }
+INTEGER_ATTRIBUTES  = person_schema.type(:integer)  + family_schema.type(:integer).map  { |c| 'family_' + c }
 IGNORE_ATTRIBUTES   = %w(updated_at created_at family_updated_at family_latitude family_longitude)
+
+MAX_HASHES_AT_A_TIME = 250 # please don't get crazy with this value; 250 should be the max
+
+DEBUG = false
 
 class Hash
   # creates a uniq sha1 digest of the hash's values
@@ -85,9 +90,17 @@ class Hash
     attrs = attrs.first if attrs.first.is_a?(Array)
     values = attrs.map do |attr|
       value = self[attr.to_s]
-      value.respond_to?(:strftime) ? value.strftime('%Y/%m/%d %H:%M') : value
+      if value.respond_to?(:strftime)
+        value.strftime('%Y-%m-%d %H:%M:%S')
+      elsif value == true
+        1
+      elsif value == false
+        0
+      else
+        value
+      end
     end
-    Digest::SHA1.hexdigest(values.join)
+    DEBUG ? values.join : Digest::SHA1.hexdigest(values.join)
   end
 end
 
@@ -146,11 +159,13 @@ class UpdateAgent
           else
             value = true
           end
+        elsif INTEGER_ATTRIBUTES.include?(key)
+          value = value.to_s != '' ? value.scan(/\d/).join.to_i : nil
         end
         hash[key] = value
       end
       record_count += 1
-      puts "reading record #{record_count}\r"
+      print "reading record #{record_count}\r"
       hash
     end
     puts
@@ -184,7 +199,11 @@ class UpdateAgent
   end
   
   def present_record(row, new=false)
-    puts "#{row['legacy_id'].to_s.ljust(10)} #{name_for(row)} #{new ? '(new)' : ''}"
+    puts "#{row['legacy_id'].to_s.ljust(10)} #{name_for(row).to_s.ljust(40)} #{new ? '(new)' : '     '}"
+    if DEBUG
+      puts row.values_hash(@attributes)
+      puts row['remote_hash']
+    end
   end
   
   def confirm
@@ -194,20 +213,21 @@ class UpdateAgent
   # use ActiveResource to create/update records on remote end
   def push
     puts 'Updating remote end...'
-    @create.each do |row|
-      puts "Pushing #{resource.name.downcase} #{name_for(row)} (new)"
+    @create.each_with_index do |row, index|
+      print "#{resource.name.downcase} #{index+1}/#{@create.length + @update.length} - #{name_for(row).to_s.ljust(40)}\r"
       record = resource.new
-      record.attributes.merge! row.reject { |k, v| k == 'id' }
+      record.attributes.merge! row.reject { |k, v| %w(id remote_hash).include?(k) }
       record.save
       row['id'] = record.id
     end
-    @update.each do |row|
-      puts "Pushing #{resource.name.downcase} #{name_for(row)}"
+    @update.each_with_index do |row, index|
+      print "#{resource.name.downcase} #{@create.length+index+1}/#{@create.length + @update.length} - #{name_for(row).to_s.ljust(40)}\r"
       record = row['id'] ? resource.find(row['id']) : resource.find(row['legacy_id'], :params => {:legacy_id => true})
-      record.attributes.merge! row.reject { |k, v| k == 'id' }
+      record.attributes.merge! row.reject { |k, v| %w(id remote_hash).include?(k) }
       record.save
       row['id'] = record.id
     end
+    puts
   end
 
   attr_accessor :attributes, :data
@@ -221,17 +241,17 @@ class UpdateAgent
   # ask remote end for value hashe for each record (50 at a time) 
   # mark records to create or update based on response
   def compare_hashes(ids, legacy=false, force=false)
-    ids.each_slice(250) do |some_ids|
-      resource.get(:hashify, :attrs => @attributes, legacy ? :legacy_id : :id => some_ids.join(',')).each do |record|
-        print '.'
-        row = @data.detect { |r| legacy ? (r['legacy_id'] == record['legacy_id']) : (r['id'] == record['id']) }
-        if record['exists']
-          @update << row if force or row.values_hash(@attributes) != record['hash']
-        else
-          @create << row
-        end
+    all_hashes = []
+    ids.each_slice(MAX_HASHES_AT_A_TIME) do |some_ids|
+      hashes = resource.get(:hashify, :attrs => @attributes, legacy ? :legacy_id : :id => some_ids.join(','))
+      hashes.each do |record|
+        row = @data.detect { |r| legacy ? (r['legacy_id'] == record['legacy_id'].to_i) : (r['id'] == record['id'].to_i) }
+        row['remote_hash'] = record['hash'] if DEBUG
+        @update << row if force or row.values_hash(@attributes) != record['hash']
       end
+      all_hashes += hashes
     end
+    @create += ids.reject { |id| all_hashes.map { |h| h[legacy ? 'legacy_id' : 'id'] }.include?(id) }.map { |id| @data.detect { |r| id == (legacy ? r['legacy_id'] : r['id']) } }
   end
 end
 
@@ -254,7 +274,7 @@ class PeopleUpdater < UpdateAgent
         person_data << person
         family_data[family['legacy_id']] = family
       end
-      puts "splitting family record #{index+1}\r"
+      print "splitting family record #{index+1}\r"
     end
     puts
     @data = person_data
@@ -333,7 +353,7 @@ if __FILE__ == $0
   opt_parser.parse!
   
   if ARGV[0] # path/to/people.csv
-    puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}\n\n"
+    puts "Update Agent running at #{Time.now.strftime('%m/%d/%Y %I:%M %p')}"
     agent = PeopleUpdater.new(ARGV[0])
     puts "comparing records..."
     agent.compare(options[:force])

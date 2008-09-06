@@ -143,18 +143,16 @@ class PeopleController < ApplicationController
     end
   end
   
-  # TODO: For MySQL, use a query like:
-  #   select SHA1(CONCAT(first_name, last_name, IFNULL(birthday, ''), IFNULL(mobile_phone, ''))) as hash from people;
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      params[:ids] ||= params[:id].to_s.split(',')
-      params[:legacy_ids] ||= params[:legacy_id].to_s.split(',')
-      hashes = params[:ids][0...250].map do |id|
-        record_hash(Person.find_by_id(id), :id => id)
-      end + params[:legacy_ids][0...250].map do |legacy_id|
-        record_hash(Person.find_by_legacy_id(legacy_id), :legacy_id => legacy_id)
+      if Family.connection.adapter_name == 'MySQL'
+        params[:ids] ||= params[:id].to_s.split(',')
+        params[:legacy_ids] ||= params[:legacy_id].to_s.split(',')
+        hashes = Person.hashify(:ids => params[:ids], :legacy_ids => params[:legacy_ids], :attributes => params[:attrs])
+        render :xml => hashes
+      else
+        render :text => 'This method is only available in a MySQL environment.', :status => 500
       end
-      render :xml => hashes
     else
       render :text => 'You are not authorized to import data.', :layout => true, :status => 401
     end

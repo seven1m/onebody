@@ -27,13 +27,13 @@ def sql_random
 end
 
 class ActiveRecord::Base
-  def values_hash(*attrs)
-    attrs = attrs.first if attrs.first.is_a?(Array)
-    values = attrs.map do |attr|
-      value = read_attribute(attr)
-      value.respond_to?(:strftime) ? value.strftime('%Y/%m/%d %H:%M') : value
-    end
-    Digest::SHA1.hexdigest(values.join)
+  def self.hashify(options)
+    return [] unless connection.adapter_name == 'MySQL'
+    attributes = options[:attributes].select { |a| column_names.include?(a.to_s) }.map { |a| "IFNULL(#{a}, '')" }.join(',')
+    conditions = []
+    conditions << "id in (#{options[:ids].to_a.map { |id| id.to_i }.join(',')})" if options[:ids].to_a.any?
+    conditions << "legacy_id in (#{options[:legacy_ids].map { |id| id.to_i }.join(',')})" if options[:legacy_ids].to_a.any?
+    connection.select_all("select id, legacy_id, SHA1(CONCAT(#{attributes})) as hash from `#{table_name}` where #{conditions.join(' or ')}")
   end
 end
 

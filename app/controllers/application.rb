@@ -176,22 +176,5 @@ class ApplicationController < ActionController::Base
     def can_export?
       @logged_in and @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
     end
-    
-    def record_hash(record, options)
-      if record
-        {
-          :id        => options[:id] || record.id,
-          :legacy_id => options[:legacy_id] || record.legacy_id,
-          :hash      => record.values_hash(params[:attrs]),
-          :exists    => true
-        }
-      else
-        {
-          :id        => options[:id],
-          :legacy_id => options[:legacy_id],
-          :exists    => false
-        }
-      end
-    end
 
 end
