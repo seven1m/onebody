@@ -103,7 +103,7 @@ class Search
     search.show_hidden = params[:show_hidden]
     search.birthday = {:month => params[:birthday_month], :day => params[:birthday_day]}
     search.anniversary = {:month => params[:anniversary_month], :day => params[:anniversary_day]}
-    search.address = params.reject { |k, v| not [:city, :state, :zip].include? k }
+    search.address = params.reject { |k, v| not %w(city state zip).include? k }
     search.type = params[:type]
     search.favorites = params.reject { |k, v| not %w(activities interests music tv_shows movies books).include? k }
     search
