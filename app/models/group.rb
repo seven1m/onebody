@@ -190,6 +190,12 @@ class Group < ActiveRecord::Base
     attendance_records.find_by_sql("select distinct attended_at from attendance_records where group_id = #{id} order by attended_at desc").map { |r| r.attended_at }
   end
   
+  before_destroy :remove_parent_of_links
+  
+  def remove_parent_of_links
+    Group.find_all_by_parents_of(id).each { |g| g.update_attribute(:parents_of, nil) }
+  end
+  
   class << self
     def update_cached_parents
       find(:all).each { |group| group.save }
