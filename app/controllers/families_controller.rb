@@ -85,13 +85,32 @@ class FamiliesController < ApplicationController
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if Family.connection.adapter_name == 'MySQL'
-        params[:ids] ||= params[:id].to_s.split(',')
-        params[:legacy_ids] ||= params[:legacy_id].to_s.split(',')
-        hashes = Family.hashify(:ids => params[:ids], :legacy_ids => params[:legacy_ids], :attributes => params[:attrs])
+        hashes = Family.hashify(:legacy_ids => params[:legacy_id].to_s.split(','), :attributes => params[:attrs].split(','))
         render :xml => hashes
       else
         render :text => 'This method is only available in a MySQL environment.', :status => 500
       end
+    else
+      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+    end
+  end
+  
+  def batch
+    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
+      records = Hash.from_xml(request.body.read)['records']
+      statuses = records.map do |record|
+        family = Family.find_by_legacy_id(record['legacy_id']) || Family.new
+        record.each do |key, value|
+          value = nil if value == ''
+          family.write_attribute(key, value)
+        end
+        if family.save
+          {:status => 'saved', :legacy_id => family.legacy_id, :id => family.id}
+        else
+          {:status => 'error', :legacy_id => record['legacy_id'], :error => family.errors.full_messages.join('; ')}
+        end
+      end
+      render :xml => statuses
     else
       render :text => 'You are not authorized to import data.', :layout => true, :status => 401
     end

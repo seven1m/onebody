@@ -44,9 +44,9 @@ USER_EMAIL = 'admin@example.com'
 USER_KEY   = 'dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp'
 
 require 'date'
-require 'csv'
 require 'optparse'
 require 'rubygems'
+require 'fastercsv'
 require 'highline/import'
 require 'activeresource'
 require 'digest/sha1'
@@ -78,7 +78,8 @@ BOOLEAN_ATTRIBUTES  = person_schema.type(:boolean)  + family_schema.type(:boolea
 INTEGER_ATTRIBUTES  = person_schema.type(:integer)  + family_schema.type(:integer).map  { |c| 'family_' + c }
 IGNORE_ATTRIBUTES   = %w(updated_at created_at family_updated_at family_latitude family_longitude)
 
-MAX_HASHES_AT_A_TIME = 1000 # 1000 is the max; anything greater will cause this script to do weird things
+MAX_HASHES_AT_A_TIME = 1000
+MAX_TO_BATCH_AT_A_TIME = 25
 
 DEBUG = false
 
@@ -119,12 +120,11 @@ class UpdateAgent
         read_from_file(data)
       end
     end
-    if invalid = @data.detect { |row| row['id'].to_s.any? and row['legacy_id'].to_s.any? }
-      puts "Error: one or more records contain both 'id' and 'legacy_id' columns."
-      puts "Please remove one of the columns or blank the values."
-      puts "It is usually best to utilize 'legacy_id' rather than 'id' so that"
-      puts "identity and foreign keys are maintained from your existing membership"
-      puts "management database."
+    if invalid = @data.detect { |row| row['id'] }
+      puts "Error: one or more records contain an 'id' column."
+      puts "You must utilize 'legacy_id' rather than 'id' so that"
+      puts "identity and foreign keys are maintained from your"
+      puts "existing membership management database."
       exit
     end
   end
@@ -132,7 +132,7 @@ class UpdateAgent
   # load data from csv file and do some type conversion for bools and dates
   # first row must be attribute names
   def read_from_file(filename)
-    csv = CSV.open(filename, 'r')
+    csv = FasterCSV.open(filename, 'r')
     @attributes = csv.shift
     record_count = 0
     @data = csv.map do |row|
@@ -181,8 +181,7 @@ class UpdateAgent
   end
 
   def compare(force=false)
-    compare_hashes(ids, false, force)
-    compare_hashes(legacy_ids, true, force)
+    compare_hashes(legacy_ids, force)
   end
   
   def has_work?
@@ -213,21 +212,26 @@ class UpdateAgent
   # use ActiveResource to create/update records on remote end
   def push
     puts 'Updating remote end...'
-    @create.each_with_index do |row, index|
-      print "#{resource.name.downcase} #{index+1}/#{@create.length + @update.length} - #{name_for(row).to_s.ljust(40)}\r"
-      record = resource.new
-      record.attributes.merge! row.reject { |k, v| %w(id remote_hash).include?(k) }
-      record.save
-      row['id'] = record.id
-    end
-    @update.each_with_index do |row, index|
-      print "#{resource.name.downcase} #{@create.length+index+1}/#{@create.length + @update.length} - #{name_for(row).to_s.ljust(40)}\r"
-      record = row['id'] ? resource.find(row['id']) : resource.find(row['legacy_id'], :params => {:legacy_id => true})
-      record.attributes.merge! row.reject { |k, v| %w(id remote_hash).include?(k) }
-      record.save
-      row['id'] = record.id
+    index = 0
+    print "#{resource.name} 0/0\r"; STDOUT.flush
+    (@create + @update).each_slice(MAX_TO_BATCH_AT_A_TIME) do |records|
+      response = resource.post(:batch, {}, records.to_xml)
+      statuses = Hash.from_xml(response.body)['records']
+      statuses.select { |s| s['status'] == 'error' }.each do |status|
+        puts "#{status['legacy_id']}: #{status['error']}"
+      end
+      index += records.length
+      print "#{resource.name} #{index}/#{@create.length + @update.length}\r"; STDOUT.flush
     end
     puts
+  end
+  
+  def data_by_id
+    @data_by_id ||= begin
+      by_id = {}
+      @data.each { |r| by_id[r['legacy_id'].to_i] = r }
+      by_id
+    end
   end
 
   attr_accessor :attributes, :data
@@ -240,19 +244,18 @@ class UpdateAgent
   
   # ask remote end for value hashe for each record (50 at a time) 
   # mark records to create or update based on response
-  def compare_hashes(ids, legacy=false, force=false)
-    all_hashes = []
+  def compare_hashes(ids, force=false)
     ids.each_slice(MAX_HASHES_AT_A_TIME) do |some_ids|
-      response = resource.post(:hashify, :attrs => @attributes, legacy ? :legacy_id : :id => some_ids.join(','))
-      hashes = Hash.from_xml(response.body)['records'].to_a
+      print '.'; STDOUT.flush
+      hashes = resource.get(:hashify, :attrs => @attributes.join(','), :legacy_id => some_ids.join(','))
       hashes.each do |record|
-        row = @data.detect { |r| legacy ? (r['legacy_id'] == record['legacy_id'].to_i) : (r['id'] == record['id'].to_i) }
+        row = data_by_id[record['legacy_id'].to_i]
         row['remote_hash'] = record['hash'] if DEBUG
         @update << row if force or row.values_hash(@attributes) != record['hash']
       end
-      all_hashes += hashes
+      @create += some_ids.reject { |id| hashes.map { |h| h['legacy_id'].to_i }.include?(id.to_i) }.map { |id| data_by_id[id] }
     end
-    @create += ids.reject { |id| all_hashes.map { |h| h[legacy ? 'legacy_id' : 'id'] }.include?(id.to_s) }.map { |id| @data.detect { |r| id == (legacy ? r['legacy_id'] : r['id']) } }
+    puts
   end
 end
 
@@ -303,11 +306,6 @@ class PeopleUpdater < UpdateAgent
   
   def push
     @family_agent.push
-    (@create + @update).each do |row|
-      # if the family was created, make sure the person record gets the new id
-      row['family_id'] = row['family']['id'] || Family.find(row['legacy_family_id'], :params => {:legacy_id => true}).id
-      row.delete('family')
-    end
     super
   end
   
@@ -360,8 +358,14 @@ if __FILE__ == $0
     agent.compare(options[:force])
     if agent.has_work?
       if options[:confirm]
-        agent.present
-        unless agent.confirm
+        case ask("#{agent.create.length + agent.update.length} record(s) to push. Continue? (Yes, No, Review) ") { |q| q.in = %w(yes no review y n r) }
+        when 'review', 'r'
+          agent.present
+          unless agent.confirm
+            puts "Canceled by user\n"
+            exit
+          end
+        when 'no', 'n'
           puts "Canceled by user\n"
           exit
         end

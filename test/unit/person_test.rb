@@ -109,19 +109,6 @@ class PersonTest < Test::Unit::TestCase
     assert_match /PDF\-1\.3/, people(:tim).generate_directory_pdf.to_s[0..100]
   end
   
-  should "generate a unique hash of values based on specified attributes" do
-    was = people(:tim).values_hash(:first_name, :last_name)
-    assert_equal was, people(:tim).reload.values_hash(:first_name, :last_name) # hasn't changed
-    people(:tim).update_attributes!(:first_name => 'Timothy')
-    assert_not_equal was, people(:tim).reload.values_hash(:first_name, :last_name) # changed
-  end
-  
-  should "consistently hash datetime values" do
-    assert_equal \
-      Digest::SHA1.hexdigest(people(:tim).birthday.strftime('%Y/%m/%d %H:%M')),
-      people(:tim).values_hash(:birthday)
-  end
-  
   private
   
     def partial_fixture(table, name, valid_attributes)

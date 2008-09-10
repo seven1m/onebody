@@ -145,14 +145,34 @@ class PeopleController < ApplicationController
   
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      if Family.connection.adapter_name == 'MySQL'
-        params[:ids] ||= params[:id].to_s.split(',')
-        params[:legacy_ids] ||= params[:legacy_id].to_s.split(',')
-        hashes = Person.hashify(:ids => params[:ids], :legacy_ids => params[:legacy_ids], :attributes => params[:attrs])
+      if Person.connection.adapter_name == 'MySQL'
+        hashes = Person.hashify(:legacy_ids => params[:legacy_id].to_s.split(','), :attributes => params[:attrs].split(','))
         render :xml => hashes
       else
         render :text => 'This method is only available in a MySQL environment.', :status => 500
       end
+    else
+      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+    end
+  end
+  
+  def batch
+    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
+      records = Hash.from_xml(request.body.read)['records']
+      statuses = records.map do |record|
+        person = Person.find_by_legacy_id(record['legacy_id']) || Person.new
+        person.family_id = Family.connection.select_value("select id from families where legacy_id = #{person.legacy_family_id.to_i}")
+        record.each do |key, value|
+          value = nil if value == ''
+          person.write_attribute(key, value)
+        end
+        if person.save
+          {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id}
+        else
+          {:status => 'error', :legacy_id => record['legacy_id'], :error => person.errors.full_messages.join('; ')}
+        end
+      end
+      render :xml => statuses
     else
       render :text => 'You are not authorized to import data.', :layout => true, :status => 401
     end
