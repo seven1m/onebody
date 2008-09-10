@@ -17,9 +17,15 @@
     </td>
   </tr>
   <tr>
-    <td>Official version</td>
+    <td>Official stable version</td>
     <td>
-      <%= auto_link @info.development_version %>
+      <%=h @info.released_version %>
+    </td>
+  </tr>
+  <tr>
+    <td>Official development version</td>
+    <td>
+      <%=h @info.development_version %>
     </td>
   </tr>
 </table>
