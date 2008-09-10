@@ -123,11 +123,17 @@ class Person < ActiveRecord::Base
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :feed_code, :allow_nil => true
-  validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => :validate_website
+  validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => :validate_website  
+  validates_format_of :service_website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => :validate_service_website, :message => " has an incorrect format (are you missing 'http://' at the beginning?)"
+  validates_format_of :service_email, :allow_nil => true, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/, :message => ' has an incorrect format (something@example.com)'
   validates_presence_of :gender, :if => Proc.new { Person.logged_in }
 
   def validate_website
     Person.logged_in and website.to_s.strip.any?
+  end
+  
+  def validate_service_website
+    Person.logged_in and service_website.to_s.strip.any?
   end
   
   # validate that an email address is unique to one family (family members may share an email address)
