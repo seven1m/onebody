@@ -45,10 +45,16 @@ class SessionsController < ApplicationController
       else
         flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
         new; render :action => 'new'
+        flash.clear
       end
     else
-      flash[:warning] = "The password you entered doesn't match our records. Please try again."
+      if p = Person.find_by_email(params[:email]) and p.encrypted_password.nil?
+        flash[:warning] = "Your account hasn't been activated yet. <a href=\"/pages/help\">Click here</a> to get started."
+      else
+        flash[:warning] = "The password you entered doesn't match our records. Please try again."
+      end
       new; render :action => 'new'
+      flash.clear
     end
   end
   
