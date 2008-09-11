@@ -29,8 +29,8 @@ class Search
   
   def address=(addr)
     addr.symbolize_keys!.reject_blanks!
-    @conditions.add_condition ["#{sql_lcase('families.city')} = ?", addr[:city].downcase] if addr[:city]
-    @conditions.add_condition ["#{sql_lcase('families.state')} = ?", addr[:state].downcase] if addr[:state]
+    @conditions.add_condition ["#{sql_lcase('families.city')} LIKE ?", "#{addr[:city].downcase}%"] if addr[:city]
+    @conditions.add_condition ["#{sql_lcase('families.state')} LIKE ?", "#{addr[:state].downcase}%"] if addr[:state]
     @conditions.add_condition ["families.zip like ?", "#{addr[:zip]}%"] if addr[:zip]
     @search_address = addr.any?
   end
