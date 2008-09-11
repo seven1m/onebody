@@ -79,11 +79,10 @@ class MembershipsController < ApplicationController
         params[:ids].each do |id|
           if request.post?
             person = Person.find(id)
-            if params[:commit] == 'Ignore'
-              @group.membership_requests.find_all_by_person_id(id).each { |r| r.destroy }
-            else
+            unless params[:commit] == 'Ignore'
               @group.memberships.create(:person => person) unless group_people.include?(person)
             end
+            @group.membership_requests.find_all_by_person_id(id).each { |r| r.destroy }
           elsif request.delete?
             if @membership = @group.memberships.find_by_person_id(id)
               @membership.destroy unless @group.last_admin?(@membership.person)

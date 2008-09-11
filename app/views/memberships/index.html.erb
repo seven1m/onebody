@@ -3,7 +3,7 @@
 <h1><%= @group.name %> Membership Requests</h1>
 
 <% if @requests.any? %>
-  <% form_for batch_group_memberships_path(@group) do |form| %>
+  <% form_tag batch_group_memberships_path(@group) do |form| %>
     <table>
       <% @requests.each do |req| %>
         <tr>
