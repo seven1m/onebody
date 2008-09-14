@@ -11,9 +11,6 @@ options = {}
 parser = OptionParser.new do |opts|
   connectors = Dir[File.join(File.dirname(__FILE__), '../lib/connectors/*.rb')].to_a.map { |f| File.split(f).last.split('.').first }.select { |c| !%w(base test example).include? c }
   opts.banner = "Usage: script/inbox [options] host username password"
-  opts.on("-s", '--site "Site Name"', "specify site name (if multisite enabled)") do |val|
-    options[:site] = val
-  end
   opts.on("-e", '--environment production', "specify environment (development, production)") do |val|
     options[:environment] = val
   end
@@ -35,12 +32,6 @@ require File.dirname(__FILE__) + '/../config/environment'
 logger = RAILS_DEFAULT_LOGGER
 
 logger.info "Running Mail Importer..."
-
-if Setting.get(:features, :multisite)
-  Site.current = Site.find_by_name(options[:site])
-else
-  Site.current = Site.find(1)
-end
 
 Net::POP3.start(host, nil, username, password) do |pop|
   if pop.mails.empty?
