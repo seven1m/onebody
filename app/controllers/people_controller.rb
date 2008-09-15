@@ -51,7 +51,7 @@ class PeopleController < ApplicationController
   end
   
   def new
-    if Site.current.max_groups.nil? or Group.count < Site.current.max_groups
+    if Site.current.max_people.nil? or Person.count < Site.current.max_people
       if @logged_in.admin?(:edit_profiles)
         @family = Family.find(params[:family_id])
         defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
