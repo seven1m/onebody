@@ -22,8 +22,10 @@ class ApplicationController < ActionController::Base
       end
       if Site.current
         update_view_paths
-      elsif site = Site.find_by_alternate_host_and_active(request.host, true)
-        redirect_to site.host
+      elsif site = Site.find_by_secondary_host_and_active(request.host, true)
+        redirect_to 'http://' + site.host
+      elsif request.host =~ /^www\./
+        redirect_to 'http://' + request.host.sub(/^www\./, '')
       else
         render :text => 'There is no site configured at this address: ' + request.host
         return false

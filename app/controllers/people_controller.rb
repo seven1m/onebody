@@ -51,7 +51,7 @@ class PeopleController < ApplicationController
   end
   
   def new
-    if Site.current.max_groups.nil? or Group.count < Site.current.max_groups
+    if Site.current.max_people.nil? or Person.count < Site.current.max_people
       if @logged_in.admin?(:edit_profiles)
         @family = Family.find(params[:family_id])
         defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
@@ -161,7 +161,7 @@ class PeopleController < ApplicationController
       records = Hash.from_xml(request.body.read)['records']
       statuses = records.map do |record|
         person = Person.find_by_legacy_id(record['legacy_id']) || Person.new
-        person.family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i}")
+        person.family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
         record.each do |key, value|
           value = nil if value == ''
           person.write_attribute(key, value)
