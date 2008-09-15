@@ -161,7 +161,7 @@ class PeopleController < ApplicationController
       records = Hash.from_xml(request.body.read)['records']
       statuses = records.map do |record|
         person = Person.find_by_legacy_id(record['legacy_id']) || Person.new
-        person.family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i}")
+        person.family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
         record.each do |key, value|
           value = nil if value == ''
           person.write_attribute(key, value)
