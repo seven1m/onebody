@@ -32,7 +32,7 @@ module Foo
             end
             
             def photo_path
-              File.join('#{storage_path}', id.to_s + '#{photo_env}.jpg')
+              File.join('#{storage_path}', id.to_s + '#{photo_env}.full.jpg')
             end
             
             def photo_path_from_params(params)
@@ -44,12 +44,11 @@ module Foo
               if size.to_s.any? and self.respond_to?(m = 'photo_' + size + '_path')
                 send(m)
               else
-                photo_path
+                photo_full_path
               end
             end
             
             def photo=(photo)
-              File.delete photo_path if FileTest.exists? photo_path
               PHOTO_SIZES.each do |name, dimensions|
                 path = send('photo_' + name.to_s + '_path')
                 File.delete path if FileTest.exists? path
@@ -70,8 +69,6 @@ module Foo
                   return false
                 end
                 if img['format'] == 'JPEG'
-                  img.write photo_path
-                  File.chmod(0644, photo_path)
                   PHOTO_SIZES.each do |name, dimensions|
                     sized_img = MiniMagick::Image.from_blob(img.to_blob)
                     sized_img.thumbnail dimensions
