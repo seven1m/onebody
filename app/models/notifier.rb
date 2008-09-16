@@ -110,8 +110,8 @@ class Notifier < ActionMailer::Base
     sent_to = email.cc.to_a + email.to.to_a
     
     return unless email.from.to_s.any?
-    return if sent_to.detect { |a| a =~ /no\-?reply/i }
-    return if email.from.to_s =~ /no\-?reply/i
+    return if sent_to.detect { |a| a =~ /no\-?reply|postmaster/i }
+    return if email.from.to_s =~ /no\-?reply|postmaster/i
     return if email.subject =~ /undelivered mail returned to sender/i
     return unless get_site(email)
     
