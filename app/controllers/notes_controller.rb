@@ -14,7 +14,7 @@ class NotesController < ApplicationController
   end
   
   def create
-    @note = Note.create(params[:note].merge(:person_id => @logged_in))
+    @note = Note.create(params[:note].merge(:person_id => @logged_in.id))
     unless @note.errors.any?
       flash[:notice] = 'Note saved.'
       redirect_to @note

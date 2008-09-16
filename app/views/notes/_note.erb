@@ -3,7 +3,7 @@
     <div class="note-timestamp">
       posted <%= note.created_at.to_s %>
       <% if note.group %>
-        by <%= link_to note.person.name, note.person %>
+        by <%= link_to(note.person.name, note.person) rescue '?' %>
       <% end %>
     </div>
     <%= link_to h(note.title), note %>

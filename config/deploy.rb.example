@@ -30,3 +30,7 @@ set :repository_cache, 'git_cache'
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/apps/#{application}"
 set :use_sudo, false
+
+task :after_deploy do
+  find_and_execute_task('deploy:scheduler:restart')
+end
