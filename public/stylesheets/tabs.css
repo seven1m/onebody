@@ -11,7 +11,7 @@ h2.tab span {
 }
 
 h2.tab span.not-selected {
-  background-color: #eee;
+  background-color: #fff;
   border-bottom: 1px solid #ccc;
   color: #999;
 }
