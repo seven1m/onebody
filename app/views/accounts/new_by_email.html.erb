@@ -9,6 +9,6 @@
     <label for="email">Type your email address here:</label>
     <%= text_field_tag :email, params[:email] == 'true' ? '' : params[:email] %>
   </p>
-  <p><%= submit_tag 'Verify Email', :style => 'font-size:12pt;border-style:outset;border-width:2px;' %></p>
+  <p><%= submit_tag 'Verify Email' %></p>
 <% end %>
 

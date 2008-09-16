@@ -486,7 +486,7 @@ input {
 	padding:4px;
 /*	border:none;
 	border-bottom:1px dotted #aaa;*/
-	border:1px dotted #aaa;
+/*	border:1px dotted #aaa;*/
 	font:90% Verdana;
 	color:#777;
 	margin: 5px;
@@ -840,10 +840,6 @@ input[type=checkbox], input[type=radio] {
   border: none;
   padding-bottom: 0;
   vertical-align: middle;
-}
-
-input[type=submit] {
-  border: 1px solid #ccc;
 }
 
 .very-strong {
