@@ -75,6 +75,7 @@ ActionController::Routing::Routes.draw do |map|
   map.admin 'admin', :controller => 'administration/dashboards'
   map.namespace :administration, :path_prefix => 'admin' do |admin|
     admin.resource :api_key
+    admin.resource :logo
     admin.resources :updates
     admin.resources :admins
     admin.resources :membership_requests

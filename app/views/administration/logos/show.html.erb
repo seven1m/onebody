@@ -1,0 +1,17 @@
+<h1>Logo</h1>
+
+<% if @filename.to_s.any? %>
+  <p>
+    <%= image_tag @filename, :alt => 'logo' %><br/>
+    <%= link_to 'delete logo', administration_logo_path, :method => 'delete', :confirm => 'Are you sure?' %>
+  </p>
+<% end %>
+
+<% form_tag administration_logo_path, :method => 'post', :multipart => true do %>
+  <p>Upload an image file below. It will be resized to be no larger than 400x80.</p>
+  <p>A transparent gif or png will look the best.</p>
+  <p>
+    <%= file_field_tag :file %>
+    <%= submit_tag 'Upload Logo' %>
+  </p>
+<% end %>

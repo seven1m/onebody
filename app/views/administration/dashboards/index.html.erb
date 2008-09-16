@@ -14,8 +14,9 @@
 <% end %>
 
 <% if @logged_in.super_admin? %>
-  <h2>Settings</h2>
+  <h2>Settings and Logo</h2>
   <p><%= link_to 'Edit settings', administration_settings_path %> for this site.</p>
+  <p>Upload your community <%= link_to 'logo', administration_logo_path %>.</p>
   
   <% if Site.current.edit_tasks_enabled? %>
     <h2>Scheduled Tasks</h2>

@@ -32,21 +32,26 @@
 				<script type="text/javascript"> $('search_name').value = 'People Search' </script>
 				
 				<h1>
-				  <% if !@page or @page.for_members? %>
+				  <% if (logo = Setting.get(:appearance, :logo)).to_s.any? %>
+				    <a href="/"><%= image_tag logo, :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;' %></a>
+				  <% elsif !@page or @page.for_members? %>
 				    <a href="/people"><%= Setting.get(:name, :site) %></a>
 				  <% else %>
 				    <a href="/"><%= Setting.get(:name, :church) %></a>
 				  <% end %>
 				</h1>
-        <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;width:300px;white-space:nowrap;">
-          <% if !@page or @page.for_members? %>
-            <%= simple_url(Setting.get(:url, :site)) %>
-          <% else %>
-            <%= simple_url(Setting.get(:url, :visitor)) %>
-          <% end %> |
-          <span id="news_headlines" style="position:relative;background-color:#fff;"><%=h Setting.get(:name, :slogan, 'your slogan here') %></span>
-        </div>
 
+				<% if Setting.get(:appearance, :show_subheading) %>
+          <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;margin-bottom:5px;width:300px;white-space:nowrap;">
+            <% if !@page or @page.for_members? %>
+              <%= simple_url(Setting.get(:url, :site)) %>
+            <% else %>
+              <%= simple_url(Setting.get(:url, :visitor)) %>
+            <% end %> |
+            <span id="news_headlines" style="position:relative;background-color:#fff;"><%=h Setting.get(:name, :slogan, 'your slogan here') %></span>
+          </div>
+        <% end %>
+        
         <% if Setting.get(:features, :prayer) %>
           <div style="padding-top:5px;font-size:9pt;">
             <%= link_to image_tag('prayer_signup.png', :alt => 'Prayer Week', :class => 'no-border'), prayer_event_path %>

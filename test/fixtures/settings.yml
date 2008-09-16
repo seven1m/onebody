@@ -120,6 +120,21 @@ appearance_theme:
   description: Name of selected theme (from themes/ directory).
   value: aqueouslight
   section: Appearance
+appearance_logo:
+  name: Logo
+  site_id: 1
+  format: string
+  description: Filename of logo (in public/images/ directory).
+  value: 
+  hidden: true
+  section: Appearance
+appearance_showsubheading:
+  name: Show Subheading
+  site_id: 1
+  format: boolean
+  description: Under the site title/logo, display the site address and slogan.
+  value: true
+  section: Appearance
 contact_churchemail: 
   name: Church Email
   site_id: 1

@@ -703,7 +703,12 @@ class Person < ActiveRecord::Base
     y = pdf.margin_y_middle - pdf.margin_height/4 # below center
     pdf.add_text x, y, 'Directory', s
     
-    pdf.add_image File.read(File.join(RAILS_ROOT, 'public/images/logo.png')), pdf.margin_x_middle - 120, pdf.absolute_top_margin - 200
+    if Setting.get(:appearance, :logo).to_s.any?
+      logo_path = "#{Rails.root}/public/images/#{Setting.get(:appearance, :logo)}"
+      if File.exist?(logo_path) and img = MiniMagick::Image.from_blob(File.read(logo_path)) rescue nil
+        pdf.add_image img.to_blob, pdf.margin_x_middle - img['width']/2, pdf.absolute_top_margin - 200
+      end
+    end
     
     t = "Created especially for #{self.name} on #{Date.today.strftime '%B %e, %Y'}"
     s = 14
