@@ -76,7 +76,7 @@ class Site < ActiveRecord::Base
     end
   end
   
-  after_create :add_settings, :add_tasks, :add_pages
+  after_create :add_settings, :add_tasks, :add_pages, :add_publications_group
   
   def add_settings
     settings = YAML::load(File.open(SETTINGS_YAML_FILE))
@@ -132,6 +132,10 @@ class Site < ActiveRecord::Base
         self.pages.create!(:slug => 'home', :title => 'Home', :body => 'Congratulations! OneBody is up and running.', :system => true)
       end
     end
+  end
+  
+  def add_publications_group
+    Group.create! :name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true
   end
   
   def twitter_enabled?
