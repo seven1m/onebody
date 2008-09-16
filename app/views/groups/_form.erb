@@ -17,7 +17,7 @@
   <h2>Details</h2>
   <p>
     <%= form.label :name %> (required)     <%= form.text_field :name %><br/>
-    <%= form.label :category %> (required) <%= form.select :category, @categories << ['[new category]', '!'], {} ,{:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
+    <%= form.label :category %> (required) <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
     <%= form.label :description %>         <%= form.text_area :description, :rows => 3 %><br/>
     <%= form.label :other_notes %>         <%= form.text_area :other_notes, :rows => 3 %><br/>
     <%= form.label :creator %>             <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>

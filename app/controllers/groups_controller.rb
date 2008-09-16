@@ -90,7 +90,8 @@ class GroupsController < ApplicationController
       @group.photo = photo
       redirect_to @group
     else
-      new; render :action => 'new'
+      @categories = Group.categories.keys
+      render :action => 'new'
     end
   end
   
