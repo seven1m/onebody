@@ -22,5 +22,5 @@ class PrayerRequest < ActiveRecord::Base
   
   acts_as_logger LogItem
   
-  def name; "Prayer Request in #{group.name}"; end
+  def name; "Prayer Request in #{group.name rescue '?'}"; end
 end
