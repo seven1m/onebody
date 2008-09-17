@@ -135,7 +135,11 @@ class Site < ActiveRecord::Base
   end
   
   def add_publications_group
+    # TODO: fix this
+    was = Site.current
+    Site.current = self
     Group.create! :name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true
+    Site.current = was
   end
   
   def twitter_enabled?
