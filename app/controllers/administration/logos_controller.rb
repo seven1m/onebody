@@ -10,7 +10,9 @@ class Administration::LogosController < ApplicationController
       and ending = {'JPEG' => 'jpg', 'GIF' => 'gif', 'PNG' => 'png'}[img['format']]
         filename = "logo#{Site.current.id}.#{ending}"
         img.thumbnail('400x80') if img['width'] > 400 or img['height'] > 80
-        img.write("#{Rails.root}/public/images/#{filename}")
+        path = "#{Rails.root}/public/images/#{filename}"
+        img.write(path)
+        File.chmod(0664, path)
         Setting.set(Site.current.id, 'Appearance', 'Logo', filename)
       end
     end
