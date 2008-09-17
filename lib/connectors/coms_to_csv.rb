@@ -1,5 +1,5 @@
 # Coms to CSV
-# run with: ruby coms_to_csv path/to/comsdata
+# run with: ruby coms_to_csv.rb path/to/comsdata out.csv
 
 require 'csv'
 require 'rubygems'
@@ -201,7 +201,7 @@ class ComsToCsv
       
       index = 0
       @db[:service].each_record do |record|
-        print "loading services #{record+1}\r"
+        print "loading services #{index+1}\r"
         @classes[record.memberid] ||= []
         if @service_cats.include?(record.category)
           @classes[record.memberid] << ['S'+record.category, record.updates]
