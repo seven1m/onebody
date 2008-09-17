@@ -64,7 +64,8 @@ namespace :onebody do
     )
     family.people << person
     admins = site.settings.find_by_name('Super Admins')
-    admins.update_attributes! :value => [person.email]
+    value = admins.value
+    admins.update_attributes! :value => (value << person.email)
   end
 
 end
