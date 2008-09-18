@@ -65,7 +65,7 @@ namespace :onebody do
     family.people << person
     admins = site.settings.find_by_name('Super Admins')
     value = admins.value
-    admins.update_attributes! :value => (value << person.email)
+    admins.update_attributes! :value => (value << person.email).reject { |e| e == 'admin@example.com' }
   end
 
 end
