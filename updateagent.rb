@@ -247,7 +247,9 @@ class UpdateAgent
   def compare_hashes(ids, force=false)
     ids.each_slice(MAX_HASHES_AT_A_TIME) do |some_ids|
       print '.'; STDOUT.flush
-      hashes = resource.get(:hashify, :attrs => @attributes.join(','), :legacy_id => some_ids.join(','))
+      options = {:attrs => @attributes.join(','), :legacy_id => some_ids.join(',')}
+      options.merge!(:debug => true) if DEBUG
+      hashes = resource.get(:hashify, options)
       hashes.each do |record|
         row = data_by_id[record['legacy_id'].to_i]
         row['remote_hash'] = record['hash'] if DEBUG

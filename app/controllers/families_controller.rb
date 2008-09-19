@@ -85,7 +85,7 @@ class FamiliesController < ApplicationController
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if Family.connection.adapter_name == 'MySQL'
-        hashes = Family.hashify(:legacy_ids => params[:legacy_id].to_s.split(','), :attributes => params[:attrs].split(','))
+        hashes = Family.hashify(:legacy_ids => params[:legacy_id].to_s.split(','), :attributes => params[:attrs].split(','), :debug => params[:debug])
         render :xml => hashes
       else
         render :text => 'This method is only available in a MySQL environment.', :status => 500
