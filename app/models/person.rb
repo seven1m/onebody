@@ -514,8 +514,10 @@ class Person < ActiveRecord::Base
     elsif params[:photo]
       self.photo = params[:photo] == 'remove' ? nil : params[:photo]
       'photo'
-    elsif params[:person] and (person_basics.select { |a| params[:person][a] }.any? or params[:family])
+    elsif params[:person] and (person_basics.detect { |a| params[:person][a] } or params[:family])
       if Person.logged_in.admin?(:edit_profiles)
+        params[:family] ||= {}
+        params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]
         update_attributes(params[:person]) && family.update_attributes(params[:family])
       else
         params[:person].delete(:family_id)
