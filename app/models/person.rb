@@ -518,6 +518,7 @@ class Person < ActiveRecord::Base
       if Person.logged_in.admin?(:edit_profiles)
         params[:family] ||= {}
         params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]
+        params[:person].cleanse(:birthday, :anniversary)
         update_attributes(params[:person]) && family.update_attributes(params[:family])
       else
         params[:person].delete(:family_id)

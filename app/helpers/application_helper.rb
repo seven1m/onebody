@@ -53,11 +53,10 @@ module ActionView
         InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_input_field_tag("text", options)
       end
       def date_field(object_name, method, options = {})
-        options[:value] = options[:object][method].to_s(:date) rescue nil
+        options[:value] = options[:object][method].to_s(:date) rescue ''
         options[:size] ||= 12
         InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_input_field_tag("text", options)
       end  
-      # @person.birthday.to_s(:date)
     end
     class FormBuilder
       def phone_field(method, options = {})
