@@ -75,6 +75,7 @@
 class Person < ActiveRecord::Base
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
+  cattr_accessor :sync_in_progress
   
   belongs_to :family
   belongs_to :admin
@@ -123,18 +124,10 @@ class Person < ActiveRecord::Base
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :feed_code, :allow_nil => true
-  validates_format_of :website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => :validate_website  
-  validates_format_of :service_website, :allow_nil => true, :with => /^https?\:\/\/.+/, :if => :validate_service_website, :message => " has an incorrect format (are you missing 'http://' at the beginning?)"
-  validates_format_of :service_email, :allow_nil => true, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/, :message => ' has an incorrect format (something@example.com)'
+  validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
+  validates_format_of :service_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
+  validates_format_of :service_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS, :message => 'has an incorrect format (something@example.com)'
   validates_presence_of :gender, :if => Proc.new { Person.logged_in }
-
-  def validate_website
-    Person.logged_in and website.to_s.strip.any?
-  end
-  
-  def validate_service_website
-    Person.logged_in and service_website.to_s.strip.any?
-  end
   
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
@@ -550,9 +543,11 @@ class Person < ActiveRecord::Base
   
   before_update :mark_email_changed
   def mark_email_changed
-    if changed.include?('email') and Person.logged_in
+    if changed.include?('email') and not Person.sync_in_progress
       self.write_attribute(:email_changed, true)
-      Notifier.deliver_email_update(self)
+      if Person.logged_in and not Person.logged_in.admin?
+        Notifier.deliver_email_update(self)
+      end
     end
   end
   

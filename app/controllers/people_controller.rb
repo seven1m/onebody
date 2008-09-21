@@ -158,12 +158,20 @@ class PeopleController < ApplicationController
   
   def batch
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
+      Person.sync_in_progress = true
       records = Hash.from_xml(request.body.read)['records']
       statuses = records.map do |record|
         person = Person.find_by_legacy_id(record['legacy_id']) || Person.new
         person.family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
         record.each do |key, value|
           value = nil if value == ''
+          if key == 'email' and person.email_changed?
+            if value == person.email
+              person.write_attribute(:email_changed, false)
+            else
+              next
+            end
+          end
           person.write_attribute(key, value)
         end
         if person.save
