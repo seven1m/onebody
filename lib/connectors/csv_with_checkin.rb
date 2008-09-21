@@ -2,12 +2,12 @@
 # requires two CSV files -- one for people, one for families
 # each person must link to a family in families.csv
 # example families.csv and people.csv files in this directory
-
+ 
 # run with: script/sync csv -e production /path/to/people.csv /path/to/families.csv
-
+ 
 require File.dirname(__FILE__) + '/base'
 require 'csv'
-
+ 
 class CsvConnector < ExternalDataConnector
   def initialize(people_file, families_file)
     @people_file = people_file
@@ -29,19 +29,20 @@ class CsvConnector < ExternalDataConnector
     end
     return ids
   end
-
+ 
   def each_person(updated_since)
     CSV.open(@people_file, 'r') do |row|
       hash = {}
       %w(legacy_id legacy_family_id
-         sequence gender
-         first_name last_name suffix
-         mobile_phone work_phone fax
-         birthday anniversary
-         email
-         classes mail_group
-         member staff elder deacon
-         can_sign_in visible_to_everyone visible_on_printed_directory full_access
+      sequence gender
+      first_name last_name suffix
+      mobile_phone work_phone fax
+      birthday anniversary
+      email
+      classes mail_group
+      member staff elder deacon
+      can_sign_in visible_to_everyone visible_on_printed_directory full_access
+      can_pick_up cannot_pick_up medical_notes barcode_id
       ).each_with_index do |field, index|
         next if row[0] == 'legacy_id'
         hash[field.to_sym] = row[index]
@@ -54,10 +55,10 @@ class CsvConnector < ExternalDataConnector
     CSV.open(@families_file, 'r') do |row|
       hash = {}
       %w(legacy_id
-         name last_name suffix
-         address1 address2 city state zip
-         home_phone
-         email
+      name last_name suffix
+      address1 address2 city state zip
+      home_phone
+      email
       ).each_with_index do |field, index|
         next if row[0] == 'legacy_id'
         hash[field.to_sym] = row[index]
