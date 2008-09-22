@@ -10,6 +10,12 @@
 # multisite example:
 # script/sync -s "Site 1" csv /path/to/people.csv /path/to/families.csv
 
+puts '------------------------------------------'
+puts 'THIS HAS BEEN SUPERCEDED BY updateagent.rb'
+puts 'Maintenance and new development will not'
+puts 'be performed here. Use at your own risk.'
+puts '------------------------------------------'
+
 MAX_ERRORS = 10
 
 require 'optparse'
