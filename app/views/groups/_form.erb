@@ -16,7 +16,7 @@
 
   <h2>Details</h2>
   <p>
-    <%= form.label :name %> (required)     <%= form.text_field :name %><br/>
+    <%= form.label :name %> (required)     <%= form.text_field :name, :onkeyup => 'update_address(this.value)' %><br/>
     <%= form.label :category %> (required) <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
     <%= form.label :description %>         <%= form.text_area :description, :rows => 3 %><br/>
     <%= form.label :other_notes %>         <%= form.text_area :other_notes, :rows => 3 %><br/>
@@ -39,29 +39,41 @@
     <%= form.check_box :blog,       :class => 'checkbox' %> <%= form.label :blog,       'Enable Blog',                :class => 'inline' %><br/>
     <%= form.check_box :email,      :class => 'checkbox' %> <%= form.label :email,      'Enable Email',               :class => 'inline' %><br/>
     <%= form.check_box :prayer,     :class => 'checkbox' %> <%= form.label :prayer,     'Enable Prayer Requests',     :class => 'inline' %><br/>
-    <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, 'Enable Attendance Tracking', :class => 'inline' %>
+    <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, 'Enable Attendance Tracking', :class => 'inline' %><br/>
+    <%= form.label :address, 'Email Address:', :class => 'inline' %>
+    <%= form.text_field :address, :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h Site.current.host %>
   </p>
   
   <% if @logged_in.admin?(:manage_groups) %>
-    <h2>Advanced</h2>
-    <p>
-      The settings below are for advanced users.<br/>
-      Don't edit any of the settings below unless you know what you are doing.<br/>
-      <%= form.label :address, 'Email Address', :class => 'inline' %>
-      <%= form.text_field :address, :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h Site.current.host %><br/>
-      <%= form.label :link_code, 'Class Link Code(s):', :class => 'inline' %>
-      <%= form.text_field :link_code %><br/>
-      <%= form.label :parents_of, 'Parents of:', :class => 'inline' %>
-      <%= form.select :parents_of, [['(none)', '']] + Group.find(:all, :order => 'name').map { |g| [g.name, g.id] } %><br/>
-      <%= form.check_box :members_send, :class => 'checkbox' %>
-      <%= form.label :members_send, 'Group Members Can Post Messages', :class => 'inline' %><br/>
-      <%= form.check_box :private, :class => 'checkbox' %>
-      <%= form.label :private, 'Private Group', :class => 'inline' %><br/>
-      <em>If checked, message are only visible to members of the group.</em><br/>
-      <%= form.check_box :hidden, :class => 'checkbox' %>
-      <%= form.label :hidden, 'Hidden Group', :class => 'inline' %>
-    </p>
+    <p><%= link_to_function 'Advanced &raquo;', "Element.toggle('advanced')" %></p>
+    <div id="advanced" style="display:none;">
+      <h2>Advanced</h2>
+      <p>
+        The settings below are for advanced users.<br/>
+        <%= form.label :link_code, 'Class Link Code(s):', :class => 'inline' %>
+        <%= form.text_field :link_code %>
+        <em>Separate multiple codes with a space.</em><br/>
+        <%= form.label :parents_of, 'Parents of:', :class => 'inline' %>
+        <%= form.select :parents_of, [['(none)', '']] + (Group.all(:order => 'name')-[@group]).map { |g| [g.name, g.id] } %><br/>
+        <%= form.check_box :members_send, :class => 'checkbox' %>
+        <%= form.label :members_send, 'Group Members Can Post Messages', :class => 'inline' %><br/>
+        <%= form.check_box :private, :class => 'checkbox' %>
+        <%= form.label :private, 'Private Group', :class => 'inline' %>
+        <em>If checked, message are only visible to members of the group.</em><br/>
+        <%= form.check_box :hidden, :class => 'checkbox' %>
+        <%= form.label :hidden, 'Hidden Group', :class => 'inline' %>
+        <em>Group won't be visible on members' profiles or other group lists (unless your an admin).</em>
+      </p>
+    </div>
   <% end %>
   
   <p><%= form.submit 'Save Changes' %></p>
 <% end %>
+
+<script type="text/javascript">
+  function update_address(name) {
+    var address = '';
+    name.toLowerCase().scan(/[a-z0-9]/, function(s) {address += s});
+    $('group_address').value = address;
+  }
+</script>
