@@ -43,6 +43,10 @@ SITE       = 'http://localhost:3000'
 USER_EMAIL = 'admin@example.com'
 USER_KEY   = 'dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKp'
 
+# Uncomment (remove # sign) to convert data
+# Available converters: ACS
+#USE_CONVERTER = 'ACS'
+
 require 'date'
 require 'optparse'
 require 'rubygems'
@@ -255,7 +259,7 @@ class UpdateAgent
         row['remote_hash'] = record['hash'] if DEBUG
         @update << row if force or row.values_hash(@attributes) != record['hash']
       end
-      @create += some_ids.reject { |id| hashes.map { |h| h['legacy_id'].to_i }.include?(id.to_i) }.map { |id| data_by_id[id] }
+      @create += some_ids.reject { |id| hashes.map { |h| h['legacy_id'].to_i }.include?(id.to_i) }.map { |id| data_by_id[id.to_i] }
     end
     puts
   end
@@ -268,6 +272,11 @@ class PeopleUpdater < UpdateAgent
   # split out family data and create a new FamilyUpdater
   def initialize(filename)
     super(filename)
+    if defined?(USE_CONVERTER)
+      converter = Kernel.const_get(USE_CONVERTER + 'Converter').new
+      @data = converter.convert(@data.clone)
+      @attributes = @data.first.keys
+    end
     person_data = []
     family_data = {}
     @data.each_with_index do |row, index|
@@ -334,6 +343,91 @@ class FamilyUpdater < UpdateAgent
   def name_for(row)
     row['name']
   end
+end
+
+class ACSConverter
+
+  # based on MemberStatus
+  VISIBLE = ['Member', 'Visitor', 'Prospect', 'Attender', 'College', 'Other Child', 'Other Youth']
+  VISIBLE_ON_PRINTED_DIRECTORY = ['Member', 'Attender']
+  FULL_ACCESS = ['Member', 'Attender', 'College']
+
+  def straight
+    {
+      "FamilyNumber"     => "legacy_family_id",
+      "IndividualNumber" => "sequence",
+      "LastName"         => "last_name",
+      "Suffix"           => "suffix",
+      "Address1"         => "family_address1",
+      "Address2"         => "family_address2",
+      "City"             => "family_city",
+      "State"            => "family_state",
+      "ZIPCode"          => "family_zip",
+      "HomePhone"        => "family_home_phone",
+      "DateOfBirth"      => "birthday",
+      "HomeEmailAddr"    => "email",
+      "FamilyName"       => "family_name",
+    }
+  end
+  
+  def convert(records)
+    create_family_names(records)
+    records.map do |record|
+      convert_record(record)
+    end
+  end
+  
+  def convert_record(record)
+    returning({}) do |new_record|
+      record.each do |key, value|
+        if new_key = straight[key]
+          new_record[new_key] = value
+        end
+      end
+      new_record['legacy_id'] = new_record['legacy_family_id'] + new_record['sequence']
+      new_record['first_name'] = get_first_name(record)
+      new_record['gender'] = record['FamilyPosition'] == 'Child' ? {'Male' => 'Boy', 'Female' => 'Girl'}[record['Gender']] : record['Gender']
+      new_record['work_phone'] = get_phone(record, 'Business')
+      new_record['mobile_phone'] = get_phone(record, 'Cell')
+      new_record['fax'] = get_phone(record, 'FAX')
+      new_record['family_last_name'] = new_record['last_name']
+      new_record['family_name'] = @family_names[new_record['legacy_family_id']]
+      new_record['visible_to_everyone'] = VISIBLE.include?(record['MemberStatus'])
+      new_record['visible_on_printed_directory'] = VISIBLE_ON_PRINTED_DIRECTORY.include?(record['MemberStatus'])
+      new_record['full_access'] = FULL_ACCESS.include?(record['MemberStatus'])
+    end
+  end
+  
+  def create_family_names(records)
+    # this could probably be less messy
+    @families = {}
+    records.each do |record|
+      @families[record['FamilyNumber']] ||= {}
+      @families[record['FamilyNumber']][record['FamilyPosition']] = record
+    end
+    @family_names = {}
+    @families.each do |family_number, family|
+      family['Head'] ||= family.delete('Spouse') || family.delete('Child')
+      if family['Spouse']
+        @family_names[family_number] = "#{get_first_name(family['Head'])} & #{get_first_name(family['Spouse'])} #{family['Head']['LastName']}"
+      else
+        @family_names[family_number] = "#{get_first_name(family['Head'])} #{family['Head']['LastName']}"
+      end
+    end
+  end
+  
+  def get_first_name(record)
+    record['GoesByName'].to_s.any? ? record['GoesByName'] : record['FirstName']
+  end
+  
+  def get_phone(record, type)
+    unless record[type + 'Unlisted'].to_s.downcase == 'true'
+      phone = record[type + 'Phone']
+      phone << ' ' + record[type + 'Extension'] if record[type + 'Extension'].to_s.any?
+      phone
+    end
+  end
+
 end
 
 if __FILE__ == $0
