@@ -74,6 +74,9 @@
 
 class Person < ActiveRecord::Base
 
+  BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
+  EXTRAS = %w(website service_category service_name service_description service_phone service_email service_website service_address activities interests music tv_shows movies books quotes about testimony)
+
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
   cattr_accessor :sync_in_progress
   
@@ -124,7 +127,7 @@ class Person < ActiveRecord::Base
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :feed_code, :allow_nil => true
-  validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
+  validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
   validates_format_of :service_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
   validates_format_of :service_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS, :message => 'has an incorrect format (something@example.com)'
   validates_presence_of :gender, :if => Proc.new { Person.logged_in }
@@ -500,14 +503,13 @@ class Person < ActiveRecord::Base
   end
   
   def update_from_params(params)
-    person_basics = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
     if params[:photo_url] and params[:photo_url].length > 7 # not just "http://"
       self.photo = params[:photo_url]
       'photo'
     elsif params[:photo]
       self.photo = params[:photo] == 'remove' ? nil : params[:photo]
       'photo'
-    elsif params[:person] and (person_basics.detect { |a| params[:person][a] } or params[:family])
+    elsif params[:person] and (BASICS.detect { |a| params[:person][a] } or params[:family])
       if Person.logged_in.admin?(:edit_profiles)
         params[:family] ||= {}
         params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]
@@ -530,7 +532,7 @@ class Person < ActiveRecord::Base
       if params[:person][:twitter_account].to_s.strip.any? and params[:person][:twitter_account] != self.twitter_account
         TwitterBot.follow(params[:person][:twitter_account]) rescue nil
       end
-      update_attributes params[:person]
+      update_attributes params[:person].reject { |k, v| !EXTRAS.include?(k) }
     else
       self
     end
