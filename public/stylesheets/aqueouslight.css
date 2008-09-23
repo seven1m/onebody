@@ -506,7 +506,6 @@ textarea {
 	width:400px;
 	padding:4px;
 	font:90% Verdana;
-	border:1px dotted #ccc;
 	display:block;
 	color:#777;
 	margin: 5px;
@@ -949,4 +948,14 @@ code {
   width: 45%;
   float: left;
   margin-right: 20px;
+}
+
+.errorExplanation {
+  border: 1px solid #ccc;
+  background-color: #ffc;
+  padding: 10px;
+}
+
+.errorExplanation h2 {
+  color: red;
 }
