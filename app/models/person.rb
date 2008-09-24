@@ -672,7 +672,7 @@ class Person < ActiveRecord::Base
   
   include ActionView::Helpers::NumberHelper # number_to_phone used by pdf generation below
   
-  def generate_directory_pdf
+  def generate_directory_pdf(with_pictures=false)
     pdf = PDF::Writer.new
     pdf.margins_pt 70, 20, 20, 20
     pdf.open_object do |heading|
@@ -731,7 +731,11 @@ class Person < ActiveRecord::Base
       if family.mapable? or family.home_phone.to_i > 0
         pdf.move_pointer 120 if pdf.y < 120
         if family.last_name[0..0] != alpha
-          pdf.move_pointer 150 if pdf.y < 150
+          if with_pictures and family.has_photo?
+            pdf.move_pointer 450 if pdf.y < 450
+          else
+            pdf.move_pointer 150 if pdf.y < 150
+          end
           alpha = family.last_name[0..0]
           pdf.text alpha + "\n", :font_size => 25
           pdf.line(
@@ -741,6 +745,11 @@ class Person < ActiveRecord::Base
             pdf.y - 5
           ).stroke
           pdf.move_pointer 10
+        end
+        if with_pictures and family.has_photo?
+          pdf.move_pointer 300 if pdf.y < 300
+          pdf.add_image File.read(family.photo_large_path), pdf.absolute_left_margin, pdf.y-150, nil, 150
+          pdf.move_pointer 160
         end
         pdf.text family.name + "\n", :font_size => 18
         if family.people.length > 2
@@ -762,8 +771,8 @@ class Person < ActiveRecord::Base
     pdf
   end
   
-  def generate_directory_pdf_to_file(filename)
-    File.open(filename, 'wb') { |f| f.write(generate_directory_pdf) }
+  def generate_directory_pdf_to_file(filename, with_pictures=false)
+    File.open(filename, 'wb') { |f| f.write(generate_directory_pdf(with_pictures)) }
   end
 
 end

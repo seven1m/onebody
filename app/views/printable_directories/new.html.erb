@@ -12,12 +12,13 @@
 
 <p id="status" style="display:none;">
   We're building your custom PDF right now. It will take a little while, but probably
-  not more than a minute. <strong>Do not close your browser or go to another page.</strong><br/>
+  not more than a few minutes. <strong>Do not close your browser or go to another page.</strong><br/>
   <%= image_tag 'spinner.gif', :alt => 'loading', :class => 'no-border', :id => 'spinner' %>
 </p>
 
 <% form_remote_tag :url => printable_directory_path, :html => {:method => 'post', :id => 'generate_form'} do %>
   <p>Click the button below to generate your custom PDF file.</p>
+  <p><%= check_box_tag 'with_pictures', true, false %> <label for="with_pictures" class="inline">include family pictures</label> (will take longer to generate if checked)</p>
   <p><%= submit_tag 'Generate my Printable Directory' %></p>
 <% end %>
 

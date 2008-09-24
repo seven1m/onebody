@@ -10,7 +10,7 @@ class PrintableDirectoriesController < ApplicationController
     unless @task = session[:directory_pdf_job]
       @task = ScheduledTask.queue(
         "Printed Directory for #{@logged_in.name} (#{@logged_in.id})",
-        "Person.find(#{@logged_in.id}).generate_directory_pdf_to_file('TASK_BASE_FILE_PATH.pdf')"
+        "Person.find(#{@logged_in.id}).generate_directory_pdf_to_file('TASK_BASE_FILE_PATH.pdf', #{params[:with_pictures] ? 'true' : 'false'})"
       )
       session[:directory_pdf_job] = @task
     end
