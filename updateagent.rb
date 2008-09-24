@@ -363,7 +363,6 @@ class ACSConverter
       "City"             => "family_city",
       "State"            => "family_state",
       "ZIPCode"          => "family_zip",
-      "HomePhone"        => "family_home_phone",
       "DateOfBirth"      => "birthday",
       "HomeEmailAddr"    => "email",
       "FamilyName"       => "family_name",
@@ -387,6 +386,7 @@ class ACSConverter
       new_record['legacy_id'] = new_record['legacy_family_id'] + new_record['sequence']
       new_record['first_name'] = get_first_name(record)
       new_record['gender'] = record['FamilyPosition'] == 'Child' ? {'Male' => 'Boy', 'Female' => 'Girl'}[record['Gender']] : record['Gender']
+      new_record['family_home_phone'] = get_phone(record, 'Home')
       new_record['work_phone'] = get_phone(record, 'Business')
       new_record['mobile_phone'] = get_phone(record, 'Cell')
       new_record['fax'] = get_phone(record, 'FAX')
@@ -422,7 +422,7 @@ class ACSConverter
   
   def get_phone(record, type)
     unless record[type + 'Unlisted'].to_s.downcase == 'true'
-      phone = record[type + 'Phone']
+      phone = record[type + 'Phone'].to_s.scan(/\d/).join
       phone << ' ' + record[type + 'Extension'] if record[type + 'Extension'].to_s.any?
       phone
     end
