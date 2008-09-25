@@ -136,7 +136,7 @@ class Person < ActiveRecord::Base
   # validate that an email address is properly formatted
   validates_each :email, :allow_nil => true do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any?
-      if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ?", value.downcase, record.family_id]) > 0
+      if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ?", value.downcase, record.family_id, record.id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
       end
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
