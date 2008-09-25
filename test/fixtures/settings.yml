@@ -411,3 +411,17 @@ features_blog:
   description: Enable Personal blog.
   value: true
   section: Features
+features_signup:
+  name: Sign Up
+  site_id: 1
+  format: boolean
+  description: Enable the ability for people to sign up for the site. Configure aproval email address below.
+  value: false
+  section: Features
+features_signupapprovalemail:
+  name: Sign Up Approval Email
+  site_id: 1
+  format: string
+  description: Where to send pending sign up requests (must be admin; leave blank to auto-approve).
+  value: 
+  section: Features

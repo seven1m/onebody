@@ -21,11 +21,30 @@ class AccountsController < ApplicationController
       render :action => 'new_by_mobile'
     elsif params[:birthday]
       render :action => 'new_by_birthday'
+    elsif Setting.get(:features, :sign_up)
+      @person = Person.new
     end
   end
   
   def create
-    if params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
+    if params[:person] and Setting.get(:features, :sign_up)
+      attributes = {:can_sign_in => false, :full_access => false, :visible_to_everyone => false}
+      attributes.merge! params[:person].reject { |k, v| !%w(email first_name last_name gender).include?(k) }
+      @person = Person.create(attributes)
+      if @person.valid?
+        @person.family = Family.create(:name => @person.name, :last_name => @person.last_name)
+        if Setting.get(:features, :sign_up_approval_email).to_s.any?
+          Notifier.deliver_pending_sign_up(@person)
+          render :text => "Your account is pending approval. You will receive an email once it's approved.", :layout => true
+        else
+          @person.update_attributes!(:can_sign_in => true, :full_access => true, :visible_to_everyone => true, :visible_on_printed_directory => true)
+          params[:email] = @person.email
+          create_by_email
+        end
+      else
+        render :action => 'new'
+      end
+    elsif params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
       create_by_birthday
     elsif params[:mobile].to_s.any? and params[:carrier].to_s.any?
       create_by_mobile

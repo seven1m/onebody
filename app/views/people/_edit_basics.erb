@@ -1,3 +1,10 @@
+<% if flash[:send_verification_email] %>
+  <div id="notice" class="warning">
+    The user can now sign in.
+    <%= link_to 'Send verification email.', account_path(:email => @person.email), :method => 'post', :confirm => 'Are you sure?' %>
+  </div>
+<% end %>
+
 <% if @logged_in.admin?(:edit_profiles) %>
   <p>
     If your system is set up to synchronize its data with an external source
@@ -6,9 +13,9 @@
   </p>
 <% else %>
   <p>
-    Changes to the details below must be <strong>reviewed by church staff</strong>. To request changes,
-    enter the details below and click "Submit." Your record will be updated within
-    two working days. <span class="very-strong">If you wish to remove something below in order to keep others from
+    Changes to the details below must be <strong>reviewed by staff</strong>. To request changes,
+    enter the details below and click "Submit." Your record will be updated as soon as possible.
+    <span class="very-strong">If you wish to remove something below in order to keep others from
     seeing it, instead go to the <%= link_to 'Privacy', edit_person_privacy_path(@person) %> page
     and hide it.</span>
   </p>

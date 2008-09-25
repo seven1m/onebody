@@ -106,6 +106,13 @@ class Notifier < ActionMailer::Base
     body params
   end
   
+  def pending_sign_up(person)
+    recipients Setting.get(:features, :sign_up_approval_email)
+    from Site.current.noreply_email
+    subject "Pending Sign Up"
+    body :person => person
+  end
+  
   def receive(email)
     sent_to = email.cc.to_a + email.to.to_a
     

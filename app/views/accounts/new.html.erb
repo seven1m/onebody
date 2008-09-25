@@ -1,3 +1,20 @@
-<h1>Create Account</h1>
+<% if Setting.get(:features, :sign_up) %>
+  <h2>Create Account</h2>
+  <% form_for Person.new, :url => account_path, :method => 'post' do |form| %>
+    <%= form.error_messages %>
+    <p>
+      <%= form.label :email %>        <%= form.text_field :email %><br/>
+      <%= form.label :first_name %>   <%= form.text_field :first_name %><br/>
+      <%= form.label :last_name %>    <%= form.text_field :last_name %><br/>
+      <%= form.label :gender %>       <%= form.select :gender, [''] + %w(Male Female) %><br/>
+      <%= form.submit 'Create Account' %>
+    </p>
+  <% end %>
+<% else %>
+  <p>This site does not allow people to sign up. Instead, you must either verify your
+  already-existing account information or contact <%= Setting.get(:contact, :church_office_phone) %>.</p>
+<% end %>
+
+<h2>Verify Account</h2>
 
 <%= render :partial => 'how_to_verify' %>
