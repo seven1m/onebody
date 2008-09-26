@@ -65,7 +65,9 @@ class Notifier < ActionMailer::Base
     else
       subject msg.subject
     end
-    body :to => to, :msg => msg, :id_and_code => id_and_code
+    part :content_type => "multipart/alternative" do |p|
+      p.part :content_type => "text/plain", :body => render_message('message', :to => to, :msg => msg, :id_and_code => id_and_code)
+    end
     msg.attachments.each do |a|
       attachment :content_type => a.content_type, :filename => a.name, :body => File.read(a.file_path)
     end

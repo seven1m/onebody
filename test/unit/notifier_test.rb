@@ -114,7 +114,10 @@ class NotifierTest < Test::Unit::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.length
     assert message = Message.find(:first, :order => 'id desc')
     assert_equal 'multipart test', message.subject
+    assert_match /This is a test of complicated multipart message/, message.body
     assert_equal 1, message.attachments.count
+    delivery = ActionMailer::Base.deliveries.first
+    assert_match /This is a test of complicated multipart message/, delivery.to_s
   end
   
   def test_email_to_noreply_address_gets_discarded
@@ -155,6 +158,8 @@ class NotifierTest < Test::Unit::TestCase
     Notifier.receive(email.to_s)
     assert_deliveries 2 # 2 people in college group
     assert_emails_delivered(email, groups(:college).people)
+    delivery = ActionMailer::Base.deliveries.first
+    assert_match /Hello College Group from Jeremy/, delivery.to_s
   end
   
   def teardown
