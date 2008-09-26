@@ -4,22 +4,25 @@
     <% @person.groups.select { |g| @logged_in.can_see? g }.each do |group| %>
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <li <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
-          <%= link_to h(group.name), group %><br/>
-          <span>
-            email:
-            <% if group.get_options_for(@person).get_email %>
-              <strong title="email from this group is ON">on</strong> |
-              <%= link_to 'off', group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
-            <% else %>
-              <%= link_to 'on', group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
-              <strong title="email from this group is OFF">off</strong>
-            <% end %>
-          </span>
+          <%= link_to h(group.name), group %>
+          <% if me? or @logged_in.admin?(:manage_groups) %>
+            <br/>
+            <span>
+              email:
+              <% if group.get_options_for(@person).get_email %>
+                <strong title="email from this group is ON">on</strong> |
+                <%= link_to 'off', group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
+              <% else %>
+                <%= link_to 'on', group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
+                <strong title="email from this group is OFF">off</strong>
+              <% end %>
+            </span>
+          <% end %>
         </li>
       <% end %>
     <% end %>
   </ul>
-  <% if @logged_in.admin?(:manage_groups) %>
+  <% if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? } %>
     <p><%= link_to_function 'Show Hidden Groups', "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
   <% end %>
 <% elsif me? %>
