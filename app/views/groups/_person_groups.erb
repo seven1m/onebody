@@ -5,7 +5,7 @@
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <li <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
           <% if group.has_photo? %>
-            <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border', :style => 'float:leftmargin-right:5px;' %>
+            <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border', :style => 'float:left;margin:7px 5px 0 0' %>
           <% else %>
             <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border', :style => 'float:left;margin:7px 5px 0 0' %>
           <% end %>
