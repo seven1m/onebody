@@ -2,7 +2,6 @@
 
 <% if @groups.any? %>
 
-  <p><%= link_to_function image_tag('plus.gif', :alt => 'Show People', :class => 'icon') + ' Show All People', "document.getElementsByClassName('people').each(function(e){Element.toggle(e)})"%></p>
   <table class="iconed">
     <% @groups.each do |group| %>
       <tr>

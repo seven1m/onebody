@@ -1,12 +1,18 @@
 <% if @person.has_groups? %>
   <p><%=h @person.first_name %> is a member of the following groups:</p>
-  <ul>
+  <ul style="list-style:none;">
     <% @person.groups.select { |g| @logged_in.can_see? g }.each do |group| %>
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <li <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
-          <%= link_to h(group.name), group %>
+          <% if group.has_photo? %>
+            <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border', :style => 'float:leftmargin-right:5px;' %>
+          <% else %>
+            <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border', :style => 'float:left;margin:7px 5px 0 0' %>
+          <% end %>
+          <%= link_to h(group.name), group %><br/>
+          <%=h group.category %>
           <% if me? or @logged_in.admin?(:manage_groups) %>
-            <br/>
+            /
             <span>
               email:
               <% if group.get_options_for(@person).get_email %>
