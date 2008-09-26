@@ -20,5 +20,8 @@ config.action_mailer.delivery_method = :test
 
 config.gem 'faker'
 
+# these have to be loaded a bit earlier than usual
+# don't really know why
 require Rails.root + '/config/initializers/paths'
 require Rails.root + '/config/initializers/photos'
+require Rails.root + '/config/initializers/email'

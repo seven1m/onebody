@@ -50,7 +50,7 @@ class PersonTest < Test::Unit::TestCase
     p.website = "javascript://void(alert('do evil stuff'))"
     p.save
     assert !p.valid?
-    assert_equal 'is invalid', p.errors[:website]
+    assert_equal "has an incorrect format (are you missing 'http://' at the beginning?)", p.errors[:website]
   end
   
   should "inherit attribute sharing from family" do
