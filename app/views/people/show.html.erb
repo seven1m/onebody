@@ -8,7 +8,7 @@
   <% if @logged_in.can_edit? @person %>
     <%= render :partial => 'edit_person' %>
   <% end %>
-  <% unless @me %>
+  <% unless me? %>
     <%= render :partial => 'friendship' %>
     <% if @person.email.to_s.any? and @person.messages_enabled %>
       <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'icon') + ' Private Message', new_message_path(:to_person_id => @person) %></li>
@@ -41,7 +41,7 @@
   </p>
 <% end %>
 
-<% if @me and @logged_in.pending_friendship_requests.count > 0 %>
+<% if me? and @logged_in.pending_friendship_requests.count > 0 %>
   <p class="highlight">
     You have <%= link_to 'pending friend requests', person_friends_path(@person) %>.
   </p>
@@ -58,7 +58,7 @@
 
 <%= render :partial => 'person_type' %>
 
-<% if @person.pending_updates.count > 0 and @me %>
+<% if @person.pending_updates.count > 0 and me? %>
   <p>
     <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'icon' %>
     The update to your profile is pending approval.
@@ -75,7 +75,7 @@
 
 <br clear="right"/>
 
-<% if @me %>
+<% if me? %>
   <h2 class="tab" id="recently">Recently</h2>
   <div class="section" id="recently_content"></div>
 <% end %>
@@ -84,7 +84,7 @@
 <div class="section" id="about_content">
   <% if @person.about.to_s.any? %>
     <%= preserve_breaks @person.about %>
-  <% elsif @me %>
+  <% elsif me? %>
     <em>Write something <%= link_to 'about yourself', edit_person_path(@person, :anchor => 'about') %>.</em>
   <% end %>
 </div>
@@ -94,7 +94,7 @@
 <div class="section" id="testimony_content">
   <% if @person.testimony.to_s.any? %>
     <%= preserve_breaks @person.testimony %>
-  <% elsif @me %>
+  <% elsif me? %>
     <em>Share <%= link_to 'your story', edit_person_path(@person, :anchor => 'about') %>.</em>
   <% end %>
   <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
@@ -138,7 +138,7 @@
     <% end %>
   </table>
   
-  <% unless has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) or !@me %>
+  <% unless has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) or !me? %>
     <p><em>Tell about your favorite interests, music, movies, and more
       <%= link_to 'here', edit_person_path(@person, :anchor => 'favorites') %>.</em></p>
   <% end %>
@@ -154,14 +154,14 @@
   <div class="section" id="groups_content"></div>
 <% end %>
 
-<% unless @me %>
+<% unless me? %>
   <script type="text/javascript">
   //<![CDATA[
     function remove_section(name) {
       Element.remove(name);
       Element.remove(name + '_content');
     }
-    <% unless !@me or @person.friendships.count > 0 %>remove_section('recently');<% end %>
+    <% unless !me? or @person.friendships.count > 0 %>remove_section('recently');<% end %>
     <% unless @person.about.to_s.any? %>remove_section('about');<% end %>
     <% unless @person.testimony.to_s.any? %>remove_section('testimony');<% end %>
     <% unless @person.blog_items_count > 0 %>remove_section('blog');<% end %>

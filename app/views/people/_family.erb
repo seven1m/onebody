@@ -1,7 +1,7 @@
   <% if @family_people.length > 1 %>
     <h2>
       Family
-      <% if @me %>
+      <% if me? %>
         <%= link_to 'edit', edit_person_url(@logged_in), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
       <% end %>
     </h2>
