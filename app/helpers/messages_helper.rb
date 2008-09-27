@@ -11,4 +11,15 @@ module MessagesHelper
     end
     trimmed.reverse.join("\n").split(/\s*[\-_]+?.original.message.[\-_]+?/i).first.split(/[\-_]+\s*from:.*?\(via/i).first.strip
   end
+  
+  def get_email_body(msg)
+    if alternative = msg.parts.detect { |p| p.content_type.downcase == 'multipart/alternative' } and
+      plain = alternative.parts.detect { |p| p.content_type.downcase == 'text/plain' }
+      return plain.body
+    elsif plain = msg.parts.detect { |p| p.content_type.downcase == 'text/plain' }
+      return plain.body
+    else
+      msg.body
+    end
+  end
 end

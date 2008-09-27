@@ -3,6 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class MessageTest < Test::Unit::TestCase
   fixtures :messages
   
+  include MessagesHelper
+  
   def setup
     @person, @second_person, @third_person = Person.forge, Person.forge, Person.forge
     @admin_person = Person.forge(:admin_id => Admin.create(:manage_messages => true).id)
@@ -20,9 +22,10 @@ class MessageTest < Test::Unit::TestCase
     subject, body = Faker::Lorem.sentence, Faker::Lorem.paragraph
     @preview = Message.preview(:to => @person, :person => @second_person, :subject => subject, :body => body)
     assert_equal subject, @preview.subject
-    assert @preview.body.index(body)
-    assert @preview.body.index('Hit "Reply" to send a message')
-    assert @preview.body.index(/http:\/\/.+\/privacy/)
+    @body = get_email_body(@preview)
+    assert @body.index(body)
+    assert @body.index('Hit "Reply" to send a message')
+    assert @body.index(/http:\/\/.+\/privacy/)
   end
   
   should "know who can see the message" do
