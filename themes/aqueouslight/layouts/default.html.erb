@@ -47,8 +47,11 @@
               <%= simple_url(Setting.get(:url, :site)) %>
             <% else %>
               <%= simple_url(Setting.get(:url, :visitor)) %>
-            <% end %> |
-            <span id="news_headlines" style="position:relative;background-color:#fff;"><%=h Setting.get(:name, :slogan, 'your slogan here') %></span>
+            <% end %>
+            <% if Setting.get(:name, :slogan).to_s.any? %>
+              |
+              <span id="news_headlines" style="position:relative;background-color:#fff;"><%=h Setting.get(:name, :slogan) %></span>
+            <% end %>
           </div>
         <% end %>
         
