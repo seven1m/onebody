@@ -10,9 +10,7 @@
             <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border', :style => 'float:left;margin:7px 5px 0 0' %>
           <% end %>
           <%= link_to h(group.name), group %><br/>
-          <%=h group.category %>
           <% if me? or @logged_in.admin?(:manage_groups) %>
-            /
             <span>
               email:
               <% if group.get_options_for(@person).get_email %>
@@ -23,6 +21,8 @@
                 <strong title="email from this group is OFF">off</strong>
               <% end %>
             </span>
+          <% else %>
+            <%=h group.category %>
           <% end %>
         </li>
       <% end %>
