@@ -65,7 +65,7 @@ module Forgeable
           obj.forge_file(file)   if file
         end
       rescue ActiveRecord::RecordInvalid => e
-        retry if e.message =~ /already taken/
+        retry if e.message =~ /already (been )?taken/
       end
     end
     
