@@ -106,6 +106,7 @@ class Search
     search.address = params.reject { |k, v| not %w(city state zip).include? k }
     search.type = params[:type]
     search.favorites = params.reject { |k, v| not %w(activities interests music tv_shows movies books).include? k }
+    search.show_hidden = true if params[:select_person] and Person.logged_in.admin?(:view_hidden_profiles)
     search
   end
 end
