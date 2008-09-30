@@ -7,7 +7,10 @@
   <% end %>
 <% end %>
 
-<h1>Prayer Request</h1>
+<h1>
+  <span style="font-size:10pt"><%= link_to @req.group.name, @req.group %></span><br/>
+  Prayer Request
+</h1>
 
 <p>
   Submitted by <%= link_to @req.person.name, person_url(:id => @req.person) %>
