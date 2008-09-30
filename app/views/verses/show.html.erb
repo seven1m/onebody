@@ -6,7 +6,7 @@
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', @verse, :method => 'post' %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', verses_path(:id => @verse), :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>
