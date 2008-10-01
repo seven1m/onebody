@@ -555,11 +555,12 @@ class Person < ActiveRecord::Base
   
   class << self # Import data methods
   
-    def queue_import_from_csv_file(file, match_by_name=true)
+    def queue_import_from_csv_file(file, match_by_name=true, merge_attributes={})
       data = CSV.parse(file)
       attributes = data.shift
       data.map do |row|
         person, family = get_changes_for_import(attributes, row, match_by_name)
+        person.attributes = merge_attributes
         if person.changed? or family.changed?
           changes = person.changes.clone
           family.changes.each { |k, v| changes['family_' + k] = v }
@@ -603,11 +604,17 @@ class Person < ActiveRecord::Base
           person_vals, family_vals = split_change_hash(vals)
           name = "#{person_vals['first_name']} #{person_vals['last_name']}"
           last_name = person_vals['last_name']
-          family = Family.create!({:name => name, :last_name => last_name}.merge(family_vals))
-          person = Person.create!(person_vals.merge(:family_id => family.id))
+          if family_vals['id']
+            family = Family.find_by_id(family_vals['id'])
+          elsif family_vals['legacy_id']
+            family = Family.find_by_legacy_id(family_vals['legacy_id'])
+          end
+          family ||= Family.create!({'name' => name, 'last_name' => last_name})
+          family.update_attributes!(family_vals)
+          person = Person.create!(person_vals.merge('family_id' => family.id))
         end
         params[:changes].to_a.each do |id, vals|
-          vals.cleanse(:birthday, :anniversary)
+          vals.cleanse('birthday', 'anniversary')
           person_vals, family_vals = split_change_hash(vals)
           person = Person.find(id)
           person.update_attributes!(person_vals)
@@ -626,6 +633,7 @@ class Person < ActiveRecord::Base
           person_vals[key] = val
         end
       end
+      family_vals['legacy_id'] ||= person_vals['legacy_family_id']
       person_vals.reject! { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
       family_vals.reject! { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
       [person_vals, family_vals]

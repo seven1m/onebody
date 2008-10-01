@@ -133,7 +133,7 @@ class PeopleController < ApplicationController
         @column_names += Family.columns.map { |c| "family_#{c.name}" }
         @column_names.reject! { |c| c =~ /site_id/ }
       elsif request.post?
-        @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name])
+        @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name], params[:attributes])
         render :action => 'import_queue'
       elsif request.put?
         Person.import_data(params)

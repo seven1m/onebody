@@ -14,7 +14,21 @@
   <p>
     <%= file_field_tag :file %><br/>
     <%= check_box_tag 'match_by_name', true, true %>
-    <label for="match_by_name" class="inline">Attempt to match existing people by name if no IDs are included.</label><br/>
+    <label for="match_by_name" class="inline">Attempt to match existing people by name if no IDs are included.</label>
+  </p>
+  <fieldset>
+    <legend>Visibility/Access</legend>
+    Apply the following settings to all imports:<br/>
+    <%= check_box_tag 'attributes[can_sign_in]', true, true, :id => 'attributes_can_sign_in' %>
+    <label for="attributes_can_sign_in" class="inline">Can Sign In</label><br/>
+    <%= check_box_tag 'attributes[full_access]', true, true, :id => 'attributes_full_access' %>
+    <label for="attributes_full_access" class="inline">Full Access</label><br/>
+    <%= check_box_tag 'attributes[visible_to_everyone]', true, true, :id => 'attributes_visible_to_everyone' %>
+    <label for="attributes_visible_to_everyone" class="inline">Visible to Everyone</label><br/>
+    <%= check_box_tag 'attributes[visible_on_printed_directory]', true, true, :id => 'attributes_visible_on_printed_directory' %>
+    <label for="attributes_visible_on_printed_directory" class="inline">Visible on Printed Directory</label>
+  </fieldset>
+  <p>
     <%= submit_tag 'Import Data...' %>
   </p>
 <% end %>
