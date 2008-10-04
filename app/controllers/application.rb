@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
       end
       if Site.current
         update_view_paths
+        set_time_zone
       elsif site = Site.find_by_secondary_host_and_active(request.host, true)
         redirect_to 'http://' + site.host
       elsif request.host =~ /^www\./
@@ -41,6 +42,10 @@ class ApplicationController < ActionController::Base
       if defined? PLUGIN_VIEW_PATHS
         PLUGIN_VIEW_PATHS.each { |p| self.append_view_path(p) }
       end
+    end
+    
+    def set_time_zone
+      Time.zone = Setting.get(:system, :time_zone)
     end
     
     def get_theme_name

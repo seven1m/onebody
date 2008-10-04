@@ -425,3 +425,10 @@ features_signupapprovalemail:
   description: Where to send pending sign up requests (must be admin; leave blank to auto-approve).
   value: 
   section: Features
+system_time_zone: 
+  name: Time Zone
+  site_id: 1
+  format: string
+  description: Set to properly display dates and times on the site.
+  value: Central Time (US & Canada)
+  section: System
