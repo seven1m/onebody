@@ -432,3 +432,10 @@ system_time_zone:
   description: Set to properly display dates and times on the site.
   value: Central Time (US & Canada)
   section: System
+privacy_unencryptedlogins:
+  name: Allow Unencrypted Logins
+  site_id: 1
+  format: boolean
+  description: Logins are secured with public/private RSA encryption using JavaScript. Check this box to allow fallback for mobile phones and other browsers that are having trouble signing in.
+  value: false
+  section: Privacy

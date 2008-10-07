@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
   
   # sign in
   def create
-    if Rails.env == 'test' and params[:password]
+    if params[:password].to_s.any? and (Rails.env == 'test' or Setting.get(:privacy, :allow_unencrypted_logins))
       password = params[:password]
     else
       password = decrypt_password(params[:encrypted_password])
