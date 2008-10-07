@@ -44,7 +44,8 @@ class SessionsController < ApplicationController
         redirect_to new_account_path(:email => params[:email])
       else
         flash[:warning] = 'That email address cannot be found in our system. Please try another email.'
-        new; render :action => 'new'
+        generate_encryption_key
+        render :action => 'new'
         flash.clear
       end
     else
@@ -53,7 +54,8 @@ class SessionsController < ApplicationController
       else
         flash[:warning] = "The password you entered doesn't match our records. Please try again."
       end
-      new; render :action => 'new'
+      generate_encryption_key
+      render :action => 'new'
       flash.clear
     end
   end
