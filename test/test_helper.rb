@@ -1,3 +1,7 @@
+require 'fileutils'
+RAILS_ROOT = File.dirname(__FILE__) + '/..' unless defined?(RAILS_ROOT)
+FileUtils.copy(RAILS_ROOT + '/config/settings.yml', RAILS_ROOT + '/test/fixtures/settings.yml')
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'

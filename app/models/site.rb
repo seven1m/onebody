@@ -20,7 +20,7 @@
 #
 
 class Site < ActiveRecord::Base
-  SETTINGS_YAML_FILE = File.join(RAILS_ROOT, 'test/fixtures/settings.yml')
+  SETTINGS_YAML_FILE = File.join(Rails.root, 'config/settings.yml')
   
   class << self
     def sub_tables

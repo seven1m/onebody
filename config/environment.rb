@@ -25,3 +25,5 @@ Rails::Initializer.run do |config|
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
+
+Setting.update_all if Setting.table_exists?

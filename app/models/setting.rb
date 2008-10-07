@@ -117,7 +117,7 @@ class Setting < ActiveRecord::Base
     end
     
     def update_all
-      Setting.update_from_yaml(File.join(RAILS_ROOT, "test/fixtures/settings.yml"))
+      Setting.update_from_yaml(File.join(Rails.root, "config/settings.yml"))
     end
     
     def update_site_from_params(id, params)
