@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_filter :authenticate_user
   before_filter :check_ssl, :except => %w(destroy)
+  before_filter :check_too_many_signin_failures, :only => %w(create)
   
   def show
     redirect_to new_session_path
@@ -53,6 +54,7 @@ class SessionsController < ApplicationController
         flash[:warning] = "Your account hasn't been activated yet. <a href=\"/pages/help\">Click here</a> to get started."
       else
         flash[:warning] = "The password you entered doesn't match our records. Please try again."
+        SigninFailure.create(:email => params[:email].downcase, :ip => request.remote_ip)
       end
       generate_encryption_key
       render :action => 'new'
@@ -75,12 +77,13 @@ class SessionsController < ApplicationController
       end
     end
     
-    def session_salt
-      unless session[:salt] and session[:salt_generated] > 5.minutes.ago
-        session[:salt] = (0..25).inject('') { |r, i| r << rand(93) + 33 }
-        session[:salt_generated] = Time.now
+    def check_too_many_signin_failures
+      if SigninFailure.count('*',
+        :conditions => ['email = ? and ip = ? and created_at >= ?', params[:email].downcase, request.remote_ip, 15.minutes.ago]) >
+        Setting.get(:privacy, :max_sign_in_attempts).to_i
+        render :text => "We're sorry, but you have exceeded the maximum number of sign in attempts within a 15 minute period. You may try again in 15 minutes.", :layout => true
+        return false
       end
-      session[:salt]
     end
   
 end

@@ -439,3 +439,11 @@ privacy_unencryptedlogins:
   description: Logins are secured with public/private RSA encryption using JavaScript. Check this box to allow fallback for mobile phones and other browsers that are having trouble signing in.
   value: false
   section: Privacy
+privacy_maxsigninattempts:
+  name: Max Sign in Attempts
+  site_id: 1
+  format: string
+  description: Maximum number of signin failures in a 15-minute period before account is locked out. (Account is automatically unlocked after 15 minutes.)
+  value: 10
+  section: Privacy
+
