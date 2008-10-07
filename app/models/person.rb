@@ -172,6 +172,22 @@ class Person < ActiveRecord::Base
     "<#{name}>"
   end
   
+  def birthday
+    read_attribute(:birthday).utc rescue nil
+  end
+  
+  def birthday=(b)
+    write_attribute(:birthday, b)
+  end
+  
+  def anniversary
+    read_attribute(:anniversary).utc rescue nil
+  end
+  
+  def anniversary=(a)
+    write_attribute(:anniversary, a)
+  end
+  
   def birthday_soon?
     today = Date.today
     birthday and birthday >= today and birthday < (today + BIRTHDAY_SOON_DAYS)
