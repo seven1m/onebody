@@ -446,4 +446,10 @@ privacy_maxsigninattempts:
   description: Maximum number of signin failures in a 15-minute period before account is locked out. (Account is automatically unlocked after 15 minutes.)
   value: 10
   section: Privacy
-
+privacy_relayallemail:
+  name: Relay All Email
+  site_id: 1
+  format: string
+  description: If enabled, all email addresses are masked by relaying replies back through the site. If disabled, people who have their email address shared will have their address revealed in outgoing messages.
+  value: true
+  section: Privacy

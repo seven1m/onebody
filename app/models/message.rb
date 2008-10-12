@@ -190,11 +190,14 @@ class Message < ActiveRecord::Base
     end
   end
   
-  # special time-limited address that relays a private message directly back to the sender
   def relay_address(name)
-    email = person.name.downcase.scan(/[a-z]/).join('')
-    email = email + person.id.to_s if Group.find_by_address(email)
-    "\"#{name}\" <#{email + '@' + Site.current.host}>"
+    if person.email.to_s.any? and person.share_email? and !Setting.get(:privacy, :relay_all_email)
+      "\"#{name}\" <#{person.email}>"
+    else # special time-limited address that relays a private message directly back to the sender
+      email = person.name.downcase.scan(/[a-z]/).join('')
+      email = email + person.id.to_s if Group.find_by_address(email)
+      "\"#{name}\" <#{email + '@' + Site.current.host}>"
+    end
   end
   
   # generates security code

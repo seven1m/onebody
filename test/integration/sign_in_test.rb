@@ -8,7 +8,7 @@ class SignInTest < ActionController::IntegrationTest
     get '/people'
     assert_redirected_to new_session_path(:from => '/people')
     follow_redirect!
-    post '/session', :email => 'bad-email', :password => ''
+    post '/session', :email => 'bad-email', :password => 'bla'
     assert_response :success
     assert_select 'div#notice', /email address/
     post '/session', :email => people(:peter).email, :password => 'wrong-password'
