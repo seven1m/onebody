@@ -18,8 +18,8 @@
   added <%= link_to object.title, recipe_url(:id => object) %>.
 <% elsif object.is_a? Album %>
   added <%= link_to object.name, url_for(object) %>.
-<% elsif object.is_a? Comment %>
-  commented on <%=h object.on.name %>. <%# link_to object.on.name, url_for(object.on) %>
+<% elsif object.is_a? Comment and object.on %>
+  commented on <%=h object.on.name %>.
 <% elsif object.is_a? Note %>
   wrote a note titled <%= link_to object.title, url_for(object) %><% if !object.group %>.
   <% else %>
