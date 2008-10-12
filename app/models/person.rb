@@ -722,17 +722,25 @@ class Person < ActiveRecord::Base
     end
 
     s = 24
+    w = pdf.text_width(Setting.get(:name, :church), s)
+    x = pdf.margin_x_middle - w/2 # centered
+    y =  pdf.absolute_top_margin - 150
+    pdf.add_text x, y, Setting.get(:name, :church), s
+    s = 20
     w = pdf.text_width('Directory', s)
     x = pdf.margin_x_middle - w/2 # centered
-    y = pdf.margin_y_middle - pdf.margin_height/4 # below center
+    y =  pdf.absolute_top_margin - 200
     pdf.add_text x, y, 'Directory', s
     
-    if Setting.get(:appearance, :logo).to_s.any?
-      logo_path = "#{Rails.root}/public/images/#{Setting.get(:appearance, :logo)}"
-      if File.exist?(logo_path) and img = MiniMagick::Image.from_blob(File.read(logo_path)) rescue nil
-        pdf.add_image img.to_blob, pdf.margin_x_middle - img['width']/2, pdf.absolute_top_margin - 200
-      end
-    end
+    # disable for now, until we can ensure 16bit pngs don't blow up
+    # if Setting.get(:appearance, :logo).to_s.any?
+    #   logo_path = "#{Rails.root}/public/images/#{Setting.get(:appearance, :logo)}"
+    #   if File.exist?(logo_path) and img = MiniMagick::Image.from_blob(File.read(logo_path)) rescue nil
+    #     pdf.add_image img.to_blob, pdf.margin_x_middle - img['width']/2, pdf.absolute_top_margin - 200
+    #   end
+    # end
+    
+    
     
     t = "Created especially for #{self.name} on #{Date.today.strftime '%B %e, %Y'}"
     s = 14
