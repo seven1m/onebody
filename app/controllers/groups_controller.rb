@@ -96,7 +96,7 @@ class GroupsController < ApplicationController
   end
   
   def edit
-    @group = Group.find(params[:id])
+    @group ||= Group.find(params[:id])
     if @logged_in.can_edit?(@group)
       @unlinked_ids = @group.unlinked_members.map { |p| p.id }
       @categories = Group.categories.keys
