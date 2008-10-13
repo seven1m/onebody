@@ -8,7 +8,7 @@ class FriendsController < ApplicationController
     @person = Person.find(params[:person_id])
     if @logged_in.can_see?(@person)
       @pending = me? ? @person.pending_friendship_requests : []
-      @friendships = @person.friendships.all.select { |f| @logged_in.can_see? f.friend }
+      @friendships = @person.friendships.all.select { |f| f.friend and @logged_in.can_see?(f.friend) }
     else
       render :text => 'Person not found.', :layout => true, :status => 404
     end
