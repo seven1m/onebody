@@ -8,7 +8,9 @@
   <h1>Group Message to <%=h @message.group.name %></h1>
   <p>
     This will send an email to <%=h @message.group.name %>.
-    <strong>Please respect the privacy of others. Abusing this system will get you banned from the site.</strong>
+    <% unless @group.private? %>
+      <strong>This group is not private, so messages posted here will be visible by people who aren't members of this group.</strong>
+    <% end %>
   </p>
 <% end %>
 

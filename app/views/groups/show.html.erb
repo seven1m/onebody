@@ -33,8 +33,6 @@
   <%= render :partial => 'people' %>
 <% end %>
 
-<% if @group.private? %><%= render :partial => 'private' %><% end %>
-
 <% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
 
 <% if @group.admin?(@logged_in) and @group.membership_requests.count > 0 %>
@@ -49,7 +47,12 @@
   <%=h @group.name %>
 </h1>
 
-<p><%=h @group.description %></p>
+<p>
+  <%=h @group.description %>
+  <% if @group.private? %>
+    <%= image_tag('lock.gif', :alt => 'This group is private. Only people in this group can see its messages.', :class => 'icon') %>
+  <% end %>
+</p>
 
 <table>
   <% if @group.meets.to_s.any? %>
