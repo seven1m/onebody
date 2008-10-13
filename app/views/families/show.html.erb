@@ -30,6 +30,8 @@
   <% end %>
 </ol>
 
+<p class="discreet">Drag the green arrows to reorder family members.</p>
+
 <% if @people.empty? %>
   <p><em>No one in this family yet.</em></p>
 <% end %>
@@ -37,5 +39,6 @@
 <p><%= link_to image_tag('add_small.gif', :alt => 'add person', :class => 'icon') + ' Add a person to this family.',
   new_person_path(:family_id => @family) %></p>
   
+<%= javascript_include_tag 'dragdrop.js' %>
 <%= sortable_element('people', :url => reorder_family_path(@family)) %>
 
