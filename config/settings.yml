@@ -449,7 +449,7 @@ privacy_maxsigninattempts:
 privacy_relayallemail:
   name: Relay All Email
   site_id: 1
-  format: string
+  format: boolean
   description: If enabled, all email addresses are masked by relaying replies back through the site. If disabled, people who have their email address shared will have their address revealed in outgoing messages.
   value: true
   section: Privacy
