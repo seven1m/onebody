@@ -1,4 +1,4 @@
-<h1>Settings</h2>
+<h1>Settings</h1>
 
 <% form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
   <% if params[:site_id] %><%= hidden_field_tag :site_id, params[:site_id] %><% end %>
