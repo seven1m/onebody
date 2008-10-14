@@ -64,7 +64,7 @@ class PeopleController < ApplicationController
   end
   
   def create
-    raise 'no more groups can be created' unless Site.current.max_people.nil? or Person.count < Site.current.max_people
+    raise 'no more people can be created' unless Site.current.max_people.nil? or Person.count < Site.current.max_people
     if @logged_in.admin?(:edit_profiles)
       params[:person].cleanse(:birthday, :anniversary)
       @person = Person.new(params[:person])
