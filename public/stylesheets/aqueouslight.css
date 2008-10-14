@@ -1,5 +1,5 @@
 body {
-	font: 80%/1.6em "Lucida Grande", "Lucida Sans Unicode", verdana, geneva, sans-serif;
+	font: 10pt/1.6em "Lucida Grande", "Lucida Sans Unicode", verdana, geneva, sans-serif;
 	word-spacing:2px;
 	color:#444;
 	margin:20px;
@@ -43,7 +43,7 @@ td.tip {
 }
 
 #header input {
-	width:150px;
+	width:186px;
 	padding:5px;
 	background:#fff;
 	border:2px solid #999;
