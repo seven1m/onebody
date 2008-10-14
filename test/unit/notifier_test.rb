@@ -20,7 +20,25 @@ class NotifierTest < Test::Unit::TestCase
     #@receive_emails = read_fixtures('receive')
   end
   
-  def test_email_update
+  should "send group email" do
+    email = to_email(:from => 'user@example.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
+    Notifier.receive(email.to_s)
+    assert_deliveries 2 # 2 people in college group
+    assert_emails_delivered(email, groups(:college).people)
+    delivery = ActionMailer::Base.deliveries.first
+    assert_match /Hello College Group from Jeremy/, delivery.to_s
+  end
+  
+  should "not send group email to group members who received the message out of band" do
+    email = to_email(:from => 'user@example.com', :to => 'peter@example.com', :cc => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
+    Notifier.receive(email.to_s)
+    assert_deliveries 1 # 2 people in college group, but only 1 should receive it (Jeremy)
+    assert_emails_delivered(email, [people(:jeremy)])
+    delivery = ActionMailer::Base.deliveries.first
+    assert_match /Hello College Group from Jeremy/, delivery.to_s
+  end
+  
+  should "send email update" do
     Notifier.deliver_email_update(people(:tim))
     assert !ActionMailer::Base.deliveries.empty?
     sent = ActionMailer::Base.deliveries.first
@@ -30,7 +48,7 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("Email: #{people(:tim).email}")
   end
   
-  def test_private_email_and_reply
+  should "send private email and accept reply" do
     Message.create :person => people(:jeremy), :to => people(:jennie), :subject => 'test from jeremy', :body => 'hello jennie'
     assert_equal 1, ActionMailer::Base.deliveries.length
     sent = ActionMailer::Base.deliveries.first
@@ -55,7 +73,7 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("hello jeremy")
   end
   
-  def test_private_email_and_reply_from_outlook
+  should "send private email and accept reply from outlook" do
     Message.create :person => people(:jeremy), :to => people(:jennie), :subject => 'test from jeremy', :body => 'hello jennie'
     assert_equal 1, ActionMailer::Base.deliveries.length
     sent = ActionMailer::Base.deliveries.first
@@ -79,7 +97,7 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("hello jeremy")
   end 
   
-  def test_unsolicited_email
+  should "reject unsolicited email" do
     msg = TMail::Mail.new
     msg.from = "Jennie Morgan <#{people(:jennie).email}>"
     msg.to = 'jeremysmith@example.com'
@@ -94,7 +112,7 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("unsolicited")
   end
   
-  def test_email_from_unknown_sender
+  should "reject email from unknown sender" do
     msg = TMail::Mail.new
     msg.from = "Joe Spammer <joe@spammy.com>"
     msg.to = 'jeremysmith@example.com'
@@ -109,7 +127,7 @@ class NotifierTest < Test::Unit::TestCase
     assert sent.body.index("the system does not recognize your email address")
   end
   
-  def test_multipart_email_with_attachment
+  should "accept multipart email with attachment" do
     Notifier.receive(File.read(File.join(FIXTURES_PATH, 'multipart.email')))
     assert_equal 2, ActionMailer::Base.deliveries.length
     assert message = Message.find(:first, :order => 'id desc')
@@ -120,7 +138,7 @@ class NotifierTest < Test::Unit::TestCase
     assert_match /This is a test of complicated multipart message/, delivery.to_s
   end
   
-  def test_email_to_noreply_address_gets_discarded
+  should "discard email sent to the noreply address" do
     msg = TMail::Mail.new
     msg.from = "Jennie Morgan <#{people(:jennie).email}>" # even from known address
     msg.to = Site.current.noreply_email
@@ -130,7 +148,7 @@ class NotifierTest < Test::Unit::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.length
   end
   
-  def test_receive_for_different_sites
+  should "receive email for different sites" do
     email = to_email(:from => 'jim@example.com', :to => 'morgan@site1', :subject => 'test to morgan group in site 1', :body => 'Hello Site 1 from Jim!')
     Notifier.receive(email.to_s)
     assert_deliveries 1
@@ -142,7 +160,7 @@ class NotifierTest < Test::Unit::TestCase
     assert_emails_delivered(email, groups(:morgan_in_site_2).people)
   end
   
-  def test_receive_for_wrong_site
+  should "reject email for the wrong site" do
     email = to_email(:from => 'jim@example.com', :to => 'morgan@site2', :subject => 'test to morgan group in site 2 (should fail)', :body => 'Hello Site 2 from Tom! This should fail.')
     Notifier.receive(email.to_s)
     assert_deliveries 1
@@ -151,15 +169,6 @@ class NotifierTest < Test::Unit::TestCase
     assert_equal 'Message Rejected', sent.subject
     assert_equal [Site.current.noreply_email], sent.from
     assert sent.body.index("the system does not recognize your email address")
-  end
-  
-  def test_receive_from_user
-    email = to_email(:from => 'user@example.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
-    Notifier.receive(email.to_s)
-    assert_deliveries 2 # 2 people in college group
-    assert_emails_delivered(email, groups(:college).people)
-    delivery = ActionMailer::Base.deliveries.first
-    assert_match /Hello College Group from Jeremy/, delivery.to_s
   end
   
   def teardown
@@ -171,6 +180,7 @@ class NotifierTest < Test::Unit::TestCase
       values.symbolize_keys!
       email = TMail::Mail.new
       email.to = values[:to]
+      email.cc = values[:cc] if values[:cc]
       email.from = values[:from]
       email.subject = values[:subject]
       email.body = values[:body]

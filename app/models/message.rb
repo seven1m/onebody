@@ -105,9 +105,8 @@ class Message < ActiveRecord::Base
     end
   end
 
-  def send_to_group
+  def send_to_group(sent_to=[])
     return unless group
-    sent_to = []
     group.people.each do |person|
       if group.get_options_for(person).get_email and person.email.to_s.any? and person.email =~ VALID_EMAIL_ADDRESS and not sent_to.include?(person.email)
         send_to_person(person)
