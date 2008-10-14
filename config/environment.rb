@@ -26,4 +26,8 @@ end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
 
-Setting.update_all if Setting.table_exists?
+begin
+  Setting.update_all if Setting.table_exists?
+rescue ActiveRecord::ConnectionNotEstablished
+  # running in setup mode?
+end
