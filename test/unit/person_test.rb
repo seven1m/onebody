@@ -109,6 +109,13 @@ class PersonTest < Test::Unit::TestCase
     assert_match /PDF\-1\.3/, people(:tim).generate_directory_pdf.to_s[0..100]
   end
   
+  should "know when a birthday is coming up" do
+    people(:tim).update_attributes!(:birthday => Date.today + 5)
+    assert people(:tim).reload.birthday_soon?
+    people(:tim).update_attributes!(:birthday => Date.today + BIRTHDAY_SOON_DAYS + 1)
+    assert !people(:tim).reload.birthday_soon?
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)
