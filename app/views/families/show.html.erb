@@ -5,11 +5,19 @@
   <% end %>
 <% end %>
 
+<% if @family.has_photo? %>
+  <% content_for :sidebar do %>
+    <%= render :partial => 'families/photo' %>
+  <% end %>
+<% end %>
+
+<%= render :partial => 'map' %>
+
 <h1><%=h @family.name %></h1>
 
 <p><%= number_to_phone @family.home_phone, :area_code => true %></p>
 
-<p><%= @family.pretty_address %></p>
+<p><%= @family.pretty_address %> <%= render :partial => 'families/map_link' %></p>
 
 <h2>People</h2>
 
@@ -36,7 +44,7 @@
   <p><em>No one in this family yet.</em></p>
 <% end %>
 
-<p><%= link_to image_tag('add_small.gif', :alt => 'add person', :class => 'icon') + ' Add a person to this family.',
+<p><%= link_to image_tag('add_small.gif', :alt => 'add person', :class => 'icon') + ' Create a new person in this family.',
   new_person_path(:family_id => @family) %></p>
   
 <%= javascript_include_tag 'dragdrop.js' %>

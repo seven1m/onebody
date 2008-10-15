@@ -10,10 +10,10 @@
         </td>
         <td class="person">
           <%= link_to h(person.name), person %>
-          <% if person.birthday_soon? %>
+          <% if person.birthday_soon? %><span class="small">
             <br/>
             <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
-            birthday <%= person.birthday.to_time.to_s :date rescue nil %>
+            <%= person.birthday.strftime('%m/%d') %></span>
           <% end %>
         </td>
       </tr>

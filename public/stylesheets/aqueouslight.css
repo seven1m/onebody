@@ -372,13 +372,11 @@ p {
 
 h1 {
 	font-size: 250%;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 	line-height: 20pt;
 }
 
-.below-h1 {
-	margin-top: -10px;
-}
+
 
 h2 {
 	margin-top: 15px;
@@ -806,8 +804,8 @@ h2.headline {
 }
 
 .user-type {
-  margin-top: -22px;
-  font-weight: bold;
+    font-weight: bold;
+    margin-top: -1px;
 }
 
 #banner {
@@ -958,4 +956,13 @@ code {
 
 .errorExplanation h2 {
   color: red;
+}
+
+li.family-member{
+    margin-bottom: 1px;
+}
+
+
+.small{
+    font-size: 0.8em;
 }

@@ -1,12 +1,30 @@
-<ul>
-  <% @group.people_names_and_ids.each do |person| %>
-    <% if person and @logged_in.sees? person %>
-      <%= render :partial => 'people/link', :locals => {:person => person} %>
-      <% if @group.admin?(person, true) %>(admin)<% end %>
+<table>
+    <% @group.people_names_and_ids.each do |person| %>
+      <% if person and @logged_in.sees? person %>
+      <tr>
+        <td>
+          <a href="<%= url_for person %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          </a>
+        </td>
+        <td class="person">
+          <%= link_to h(person.name), person %> 
+            <% if @group.admin?(person, true) %><br />(admin)<% end %>
       <% if @logged_in.can_edit?(@group) and (person.email.to_s.empty? or !@group.get_options_for(person).get_email?) %>
-        <em>no mail</em>
+        <em><br />(no mail)</em>
       <% end %>
-      <br/>
+      
+          <% if person.birthday_soon? %><span class="small">
+            <br/>
+            <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
+            <%= person.birthday.strftime('%m/%d') %></span>
+          <% end %>
+
+
+        </span>
+        </td>
+      </tr>
+      <% end %>
     <% end %>
-  <% end %>
-</ul>
+</table>
+
