@@ -134,7 +134,7 @@ class Group < ActiveRecord::Base
   end
 
   def people_names_and_ids
-    select = %w(id family_id first_name last_name suffix birthday gender email visible_to_everyone full_access classes).map { |c| "people.#{c}" }.join(',')
+    select = %w(id family_id first_name last_name suffix birthday gender email visible_to_everyone full_access classes updated_at).map { |c| "people.#{c}" }.join(',')
     self.people(select)
   end
 
