@@ -54,6 +54,7 @@
         <% if @person.zip %>
           <%= link_to h(@person.zip.split('-').first), search_path(:zip => @person.zip.split('-').first), :title => 'search for people in this zip code' %><% if @person.zip =~ /\-/ %>-<%= link_to h(@person.zip.split('-').last), search_path(:zip => @person.zip), :title => 'search for people in this zip code' %><% end %>
         <% end %>
+        <%= render :partial => 'people/map_link' %>
       </td>
     </tr>
   <% end %>

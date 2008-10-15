@@ -6,6 +6,11 @@
 <% end %>
 
 <% content_for :subnav do %>
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <div style="float:right;">
+      <%= link_to 'New Family', new_family_path %>
+    </div>
+  <% end %>
   <%= render :partial => 'subnav' %>
 <% end %>
 
