@@ -445,7 +445,7 @@ class Person < ActiveRecord::Base
       :order => 'created_at desc',
       :conditions => "model_name in (#{classes.join(',')})",
       :limit => 25
-    ).map { |item| item.object }.select { |o| o and (o.respond_to?(:person_id) ? o.person_id == self.id : o.people.include?(self)) and not (o.respond_to?(:deleted?) and o.deleted?) }
+    ).map { |item| item.object }.uniq.select { |o| o and (o.respond_to?(:person_id) ? o.person_id == self.id : o.people.include?(self)) and not (o.respond_to?(:deleted?) and o.deleted?) }
   end
   
   alias_method :groups_without_linkage, :groups
