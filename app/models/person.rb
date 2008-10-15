@@ -190,9 +190,9 @@ class Person < ActiveRecord::Base
   
   def birthday_soon?
     today = Date.today
-    birthday and birthday >= today and birthday < (today + BIRTHDAY_SOON_DAYS)
+    birthday and ((birthday.yday()+365 - today.yday()).modulo(365) < BIRTHDAY_SOON_DAYS)
   end
-  
+    
   def mobile_phone=(phone)
     write_attribute :mobile_phone, phone.to_s.digits_only
   end

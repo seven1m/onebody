@@ -110,9 +110,9 @@ class PersonTest < Test::Unit::TestCase
   end
   
   should "know when a birthday is coming up" do
-    people(:tim).update_attributes!(:birthday => Date.today + 5)
+    people(:tim).update_attributes!(:birthday => Time.now + 5.days - 27.years)
     assert people(:tim).reload.birthday_soon?
-    people(:tim).update_attributes!(:birthday => Date.today + BIRTHDAY_SOON_DAYS + 1)
+    people(:tim).update_attributes!(:birthday => Time.now - 27.years + (BIRTHDAY_SOON_DAYS + 1).days)
     assert !people(:tim).reload.birthday_soon?
   end
   
