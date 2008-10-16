@@ -63,7 +63,7 @@ class ComsToCsv
         @classes[record.memberid].to_a.each do |class_cat, updates|
           classes << class_cat
         end
-        can_sign_in = %w(M A P Y O C V).include?(record.mailgroup) or record.info_5 =~ /allow/i
+        can_sign_in = (%w(M A P Y O C V).include?(record.mailgroup) || record.info_5 =~ /allow/i) ? true : false
         birthday = to_datetime(record.birthday)
         anniversary = to_datetime(record.weddate)
         yield({
@@ -89,7 +89,7 @@ class ComsToCsv
           'can_sign_in' => can_sign_in,
           'visible_to_everyone' => can_sign_in,
           'visible_on_printed_directory' => %w(M A).include?(record.mailgroup),
-          'full_access' => (%w(M A C).include?(record.mailgroup) or record.info_5 =~ /allow/i),
+          'full_access' => (%w(M A C).include?(record.mailgroup) || record.info_5 =~ /allow/i) ? true : false,
           'can_pick_up' => record.info_10,
           'cannot_pick_up' => record.info_11,
           'medical_notes' => record.info_12,
