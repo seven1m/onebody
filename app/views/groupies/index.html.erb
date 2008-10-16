@@ -1,0 +1,16 @@
+<h1><%= @person.name_possessive %> Groupies</h1>
+
+<% if @people.any? %>
+  <ul style="list-style-type:none;">
+    <% @people.each do |person| %>
+      <li>
+        <a href="<%= url_for person %>">
+          <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+        </a>
+        <%= link_to person.name, person %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="highlight">Nobody yet!</h2>
+<% end %>

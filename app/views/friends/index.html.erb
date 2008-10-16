@@ -41,15 +41,13 @@
         </a>
         <%= link_to friendship.friend.name, person_url(:id => friendship.friend) %>
         (added <%= friendship.created_at.to_time.to_s %>)
-        <% if @logged_in == @person %>
+        <% if me? %>
           <% if @friendships.length > 1 %><%= image_tag 'reorder.png', :alt => 'Reorder this list by dragging.', :class => 'handle icon' %><% end %>
           <%= link_to '[remove]', person_friend_path(@person, friendship.friend), :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
         <% end %>
       </li>
     <% end %>
   </ul>
-  
-  <p class="discreet">Drag the green arrows to reorder friends.</p>
   
   <%= javascript_include_tag 'dragdrop.js' %>
   <%= sortable_element 'friends', :url => reorder_person_friends_path(@person), :handle => 'handle' %>

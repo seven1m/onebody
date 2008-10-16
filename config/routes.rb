@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
     people.resources :pictures
     people.resources :friends, :collection => {:reorder => :post}
     people.resources :remote_accounts, :member => {:sync => :post}
+    people.resources :groupies
     people.resource :account, :member => {:verify_code => :any, :select => :any}
     people.resource :sync
     people.resource :privacy

@@ -116,6 +116,18 @@ class PersonTest < Test::Unit::TestCase
     assert !people(:tim).reload.birthday_soon?
   end
   
+  should "return a random selection of sidebar group people" do
+    @group = Group.forge(:category => 'Small Groups')
+    15.times { @group.memberships.create!(:person => Person.forge) }
+    @person = @group.people.last
+    assert_equal 14, @person.sidebar_group_people.length # does not include self
+    first_time  = @person.random_sidebar_group_people(10)
+    second_time = @person.random_sidebar_group_people(10)
+    assert_not_equal first_time, second_time
+    assert_equal 10, first_time.length
+    assert_equal 10, second_time.length
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)

@@ -474,6 +474,10 @@ class Person < ActiveRecord::Base
     end
   end
   
+  def random_sidebar_group_people(count=MAX_GROUPIES_ON_PROFILE)
+    sidebar_group_people.rand_count(count)
+  end
+  
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female
   def parents
     if family 

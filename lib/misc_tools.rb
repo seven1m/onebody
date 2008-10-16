@@ -64,6 +64,16 @@ class Array
       end
     end
   end
+  
+  def rand_count(count)
+    selected = []
+    cage = self.clone
+    count.times do
+      selected << (picked = cage.rand)
+      cage -= [picked]
+    end
+    return selected.compact
+  end
 end
 
 def random_chars(length)

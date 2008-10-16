@@ -9,7 +9,7 @@
     <p><%= MAX_FRIENDS_ON_PROFILE %> of <%= count %></p>
   <% end %>
   <table>
-    <% @person.friends.find(:all, :limit => MAX_FRIENDS_ON_PROFILE, :order => 'first_name, last_name').each do |friend| %>
+    <% @friends.each do |friend| %>
       <tr>
         <td>
           <a href="<%= url_for friend %>">
@@ -28,7 +28,7 @@
     <% end %>
   </table>
   <% if count > MAX_FRIENDS_ON_PROFILE %>
-    <p><%= link_to "All #{@person.name_possessive} Friends", person_friends_path(@person) %></p>
+    <p><%= link_to "more...", person_friends_path(@person) %></p>
   <% end %>
 <% elsif me? %>
   <p class="highlight"><%= link_to 'Add your friends', search_path(:search_friends => true) %> to your profile page!</p>

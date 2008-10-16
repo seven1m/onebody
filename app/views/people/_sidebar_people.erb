@@ -1,7 +1,10 @@
-<% if @person.sidebar_group_people.any? %>
+<% if (count = @person.sidebar_group_people.length) > 0 %>
   <h2><%= Setting.get(:features, :sidebar_group_heading) %></h2>
+  <% if count > MAX_GROUPIES_ON_PROFILE %>
+    <p><%= MAX_GROUPIES_ON_PROFILE %> of <%= count %></p>
+  <% end %>
   <table>
-    <% @person.sidebar_group_people.each do |person| %>
+    <% @sidebar_group_people.each do |person| %>
       <tr>
         <td>
           <a href="<%= url_for person %>">
@@ -19,4 +22,7 @@
       </tr>
     <% end %>
   </table>
+  <% if count > MAX_GROUPIES_ON_PROFILE %>
+    <p><%= link_to "more...", person_groupies_path(@person) %></p>
+  <% end %>
 <% end %>
