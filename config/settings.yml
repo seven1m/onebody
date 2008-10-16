@@ -474,3 +474,10 @@ formats_time:
   description: Format for displaying time.
   value: %I:%M %p
   section: Formats
+formats_datewithoutyear:
+  name: Date Without Year
+  site_id: 1
+  format: string
+  description: Format for displaying date without a year, e.g. birthdays.
+  value: %m/%d
+  section: Formats

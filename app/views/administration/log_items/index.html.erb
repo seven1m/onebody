@@ -12,8 +12,8 @@
   <select name="nonflagged"><%= options_for_select [['Flagged Only', 'hidden'], ['Flagged and Not Flagged', 'visible']], session[:admin_log] ? session[:admin_log][:nonflagged] : nil %></select><br/>
   <strong>Date Range</strong>
   (date format:
-  <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y' %></span> or
-  <span style="background-color:#ffc;"><%= DateTime.now.strftime '%m/%d/%Y %I:%M %p' %></span>)
+  <span style="background-color:#ffc;"><%= DateTime.now.to_s(:date) %></span> or
+  <span style="background-color:#ffc;"><%= DateTime.now.to_s %></span>)
   <label for="date_from">From:</label>
   <input name="date[from]" id="date_from" size="15" value="<%= session[:admin_log] && session[:admin_log][:date] ? session[:admin_log][:date][:from] : nil %>"/>
   <label for="date_to">To:</label>
@@ -43,7 +43,7 @@
           <td style="font-size:smaller;line-height:13px;">
             <% if item.reviewed_on %>
               reviewed by <%= link_to item.reviewed_by.name, person_path(:id => item.reviewed_by) %>
-              on <%= item.reviewed_on.strftime '%m/%d/%Y %I:%M %p' %>
+              on <%= item.reviewed_on.to_s %>
             <% else %>
               <%= check_box_tag 'log_items[]', item.id, nil, :class => 'checkbox log_item_checkbox' %>
             <% end %>
@@ -70,7 +70,7 @@
               <% if item.deleted? %>(deleted)<% end %>
             <% end %>
           </td>
-          <td><%= item.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
+          <td><%= item.created_at.to_s %></td>
           <td style="width:32px;">
             <% if item.person %>
               <a href="<%= person_path(item.person) %>">

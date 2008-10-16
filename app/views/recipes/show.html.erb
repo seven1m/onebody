@@ -20,7 +20,7 @@
   <% else %>
     ???
   <% end %>
-  <%=h @recipe.created_at.strftime('on %m/%d/%Y at %I:%M %p') %>
+  <%=h @recipe.created_at.to_s %>
 </p>
   
 <table>

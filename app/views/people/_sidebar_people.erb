@@ -16,7 +16,7 @@
           <% if person.birthday_soon? %><span class="small">
             <br/>
             <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
-            <%= person.birthday.strftime('%m/%d') %></span>
+            <%= person.birthday.to_s(:date_without_year) %></span>
           <% end %>
         </td>
       </tr>

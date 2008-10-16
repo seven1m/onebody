@@ -19,7 +19,7 @@
                 <br/>
                 <span class="small">
                   <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
-                  <%= person.birthday.strftime('%m/%d') %>
+                  <%= person.birthday.to_s(:date_without_year) %>
                 </span>
               <% end %>
           </td>

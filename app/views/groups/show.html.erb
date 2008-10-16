@@ -117,7 +117,7 @@
               <td>
                 <%=h message.person.name %>
               </td>
-              <td><%= message.created_at.strftime '%m/%d/%Y %I:%M %p' %></td>
+              <td><%= message.created_at.to_s %></td>
               <td>
                 <% if (r = message.reply_count.to_i) > 0 %>
                   <%= r %> <%= r == 1 ? 'reply' : 'replies' %>

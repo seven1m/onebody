@@ -30,7 +30,7 @@
           '(person deleted)'
         <% end %>
         updated
-        <%= update.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
+        <%= update.created_at.to_s %>
         <% if update.complete %>
           <%= link_to 'Mark Incomplete', administration_update_path(update, :complete => false), :method => 'put' %>
         <% else %>
@@ -56,7 +56,7 @@
               <td>Birthday:</td>
               <td>
                 <% unless update.birthday.year == 1800 %>
-                  <%= update.birthday.strftime '%m/%d/%Y' %>
+                  <%= update.birthday.to_s(:date) %>
                 <% end %>
               </td>
             </tr>
@@ -66,7 +66,7 @@
               <td>Anniversary:</td>
               <td>
                 <% unless update.anniversary.year == 1800 %>
-                  <%= update.anniversary.strftime '%m/%d/%Y' %>
+                  <%= update.anniversary.to_s(:date) %>
                 <% end %>
               </td>
             </tr>

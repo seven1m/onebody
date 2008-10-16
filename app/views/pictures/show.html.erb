@@ -6,7 +6,7 @@
     <p>
       Picture uploaded by:<br/>
       <%= link_to h(@picture.person.name), @picture.person %><br/>
-      <%= @picture.created_at.strftime '%m/%d/%Y %I:%M %p' %>
+      <%= @picture.created_at.to_s %>
     </p>
   <% end %>
   <% if @logged_in.can_edit?(@picture) %>
