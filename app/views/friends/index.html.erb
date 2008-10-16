@@ -50,12 +50,12 @@
   </ul>
   
   <%= sortable_element 'friends', :url => reorder_person_friends_path(@person), :handle => 'handle' %>
-<% else %>
+
+
+<% else %><p class="highlight">Nobody yet!</h2><% end %>
+<% if me? %>
   <p>
-    Nobody yet!
-    <% if @logged_in == @person %>
-      You can find your friends by browsing
-      <%= link_to 'the directory', new_search_path(:search_friends => true) %>.
-    <% end %>
+    <%= link_to image_tag('add_small.gif', :alt => 'add person', :class => 'icon') + ' Search for friends in the directory.', new_search_path(:search_friends => true) %></p>
   </p>
 <% end %>
+
