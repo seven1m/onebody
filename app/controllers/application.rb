@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
       if Site.current
         update_view_paths
         set_time_zone
+        set_local_formats
       elsif site = Site.find_by_secondary_host_and_active(request.host, true)
         redirect_to 'http://' + site.host
       elsif request.host =~ /^www\./
@@ -46,6 +47,14 @@ class ApplicationController < ActionController::Base
     
     def set_time_zone
       Time.zone = Setting.get(:system, :time_zone)
+    end
+    
+    def set_local_formats
+      ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+        :default => Setting.get(:formats, :full_date_and_time),
+        :date    => Setting.get(:formats, :date),
+        :time    => Setting.get(:formats, :time)
+      )
     end
     
     def get_theme_name
