@@ -7,7 +7,7 @@
 <% end %>
 
 <% if object.is_a? Picture %>
-  uploaded <%= items.length == 1 ? 'a picture' : 'pictures' %>:<br/>
+  uploaded/updated <%= items.length == 1 ? 'a picture' : 'pictures' %>:<br/>
   <% items.each do |item| %>
     <%= link_to image_tag(small_picture_url(item.object), :alt => 'click to enlarge'),
       picture_url(item.object), :title => 'click to enlarge' %>
