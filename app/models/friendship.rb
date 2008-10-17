@@ -25,10 +25,10 @@ class Friendship < ActiveRecord::Base
   
   attr_accessor :skip_mirror
   
-  before_save :mirror_friendship
+  before_create :mirror_friendship
   def mirror_friendship
     unless skip_mirror
-      mirror = Friendship.find_by_person_id(friend_id) || Friendship.new(:person_id => friend_id)
+      mirror = Friendship.new(:person_id => friend_id)
       mirror.friend_id = person_id
       mirror.skip_mirror = true
       mirror.save!
