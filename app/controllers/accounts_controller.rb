@@ -34,6 +34,7 @@ class AccountsController < ApplicationController
       if @person.valid?
         @person.family = Family.create(:name => @person.name, :last_name => @person.last_name)
         if Setting.get(:features, :sign_up_approval_email).to_s.any?
+          @person.save
           Notifier.deliver_pending_sign_up(@person)
           render :text => "Your account is pending approval. You will receive an email once it's approved.", :layout => true
         else
