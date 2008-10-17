@@ -59,7 +59,9 @@ class Family < ActiveRecord::Base
   end
   
   def mapable_address
-    "#{address1}, #{address2.to_s.any? ? address2+', ' : ''}#{city}, #{state} #{zip}".gsub(/'/, "\\'")
+    if mapable? 
+      "#{address1}, #{address2.to_s.any? ? address2+', ' : ''}#{city}, #{state} #{zip}".gsub(/'/, "\\'")
+    end
   end
   
   def pretty_address
