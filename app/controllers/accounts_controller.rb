@@ -28,22 +28,27 @@ class AccountsController < ApplicationController
   
   def create
     if params[:person] and Setting.get(:features, :sign_up)
-      attributes = {:can_sign_in => false, :full_access => false, :visible_to_everyone => false}
-      attributes.merge! params[:person].reject { |k, v| !%w(email first_name last_name gender).include?(k) }
-      @person = Person.create(attributes)
-      if @person.valid?
-        @person.family = Family.create(:name => @person.name, :last_name => @person.last_name)
-        if Setting.get(:features, :sign_up_approval_email).to_s.any?
-          @person.save
-          Notifier.deliver_pending_sign_up(@person)
-          render :text => "Your account is pending approval. You will receive an email once it's approved.", :layout => true
-        else
-          @person.update_attributes!(:can_sign_in => true, :full_access => true, :visible_to_everyone => true, :visible_on_printed_directory => true)
-          params[:email] = @person.email
-          create_by_email
-        end
+      if Person.find_by_email(params[:person][:email])
+        params[:email] = params[:person][:email]
+        create_by_email
       else
-        render :action => 'new'
+        attributes = {:can_sign_in => false, :full_access => false, :visible_to_everyone => false}
+        attributes.merge! params[:person].reject { |k, v| !%w(email first_name last_name gender).include?(k) }
+        @person = Person.create(attributes)
+        if @person.valid?
+          @person.family = Family.create(:name => @person.name, :last_name => @person.last_name)
+          if Setting.get(:features, :sign_up_approval_email).to_s.any?
+            @person.save
+            Notifier.deliver_pending_sign_up(@person)
+            render :text => "Your account is pending approval. You will receive an email once it's approved.", :layout => true
+          else
+            @person.update_attributes!(:can_sign_in => true, :full_access => true, :visible_to_everyone => true, :visible_on_printed_directory => true)
+            params[:email] = @person.email
+            create_by_email
+          end
+        else
+          render :action => 'new'
+        end
       end
     elsif params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
       create_by_birthday
