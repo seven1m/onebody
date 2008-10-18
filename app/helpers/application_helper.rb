@@ -3,6 +3,7 @@ module ApplicationHelper
   include TagsHelper
   include PicturesHelper
   include PhotosHelper
+  include ActionView::Helpers::ApplicationHelper
 
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe

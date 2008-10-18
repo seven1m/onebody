@@ -486,7 +486,7 @@ class Person < ActiveRecord::Base
   end
   
   def parent_mobile_phones(formatted=false)
-    parents.map { |p| number_to_phone(p.mobile_phone, :area_code => true) }.select { |p| p.any? }
+    parents.map { |p| format_phone(p.mobile_phone, mobile=true) }.select { |p| p.any? }
   end
 
   def active?
@@ -698,7 +698,7 @@ class Person < ActiveRecord::Base
     find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
   end
   
-  include ActionView::Helpers::NumberHelper # number_to_phone used by pdf generation below
+  include ActionView::Helpers::ApplicationHelper
   
   def generate_directory_pdf(with_pictures=false)
     pdf = PDF::Writer.new
@@ -799,7 +799,7 @@ class Person < ActiveRecord::Base
           pdf.text family.address2 + "\n" if family.address2.to_s.any?
           pdf.text family.city + ', ' + family.state + '  ' + family.zip + "\n"
         end
-        pdf.text number_to_phone(family.home_phone, :area_code => true), :font_size => 14 if family.home_phone.to_i > 0
+        pdf.text format_phone(family.home_phone), :font_size => 14 if family.home_phone.to_i > 0
         pdf.text "\n"
       end
     end

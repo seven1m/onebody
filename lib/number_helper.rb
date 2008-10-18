@@ -1,5 +1,18 @@
 module ActionView
   module Helpers
+    module ApplicationHelper
+      def format_phone(phone, mobile=false)
+        format = Setting.get(:formats, mobile ? :mobile_phone : :phone)
+        groupings = format.scan(/d+/).map { |g| g.length }
+        groupings = [3, 3, 4] unless groupings.length == 3
+        number_to_phone(
+          phone,
+          :area_code => format.index('(') ? true : false,
+          :groupings => groupings,
+          :delimiter => format.reverse.match(/[^d]/).to_s
+        )
+      end
+    end
     module NumberHelper
       def number_to_phone(number, options = {})
         number       = number.to_s.strip unless number.nil?

@@ -481,3 +481,17 @@ formats_datewithoutyear:
   description: Format for displaying date without a year, e.g. birthdays.
   value: %m/%d
   section: Formats
+formats_mobilephone:
+  name: Mobile Phone
+  site_id: 1
+  format: string
+  description: Format for displaying mobile phone numbers. Use 'd' for digits.
+  value: (ddd) ddd-dddd
+  section: Formats
+formats_phone:
+  name: Phone
+  site_id: 1
+  format: string
+  description: Format for displaying phone numbers (landlines). Use 'd' for digits.
+  value: (ddd) ddd-dddd
+  section: Formats
