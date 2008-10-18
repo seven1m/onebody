@@ -165,6 +165,13 @@
   </div>
 <% end %>
 
+<% if @group.gcal_url %>
+  <h2 class="tab" id="calendar">Calendar</h2>
+  <div class="section">
+    <iframe src="<%= @group.gcal_url %>" style=" border-width:0 " width="600" height="600" frameborder="0" scrolling="no"></iframe>
+  </div>
+<% end %>
+
 <% if @group.attendance? and @group.admin?(@logged_in) %>
   <h2 class="tab" id="attendance">Attendance</h2>
   <div class="section">
