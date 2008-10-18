@@ -161,7 +161,13 @@ class PeopleController < ApplicationController
   end
   
   def batch
-    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
+    if params[:family_id] and @logged_in.admin?(:edit_profiles) # post from families/show page
+      params[:ids].each { |id| Person.find(id).update_attribute(:family_id, params[:family_id]) }
+      respond_to do |format|
+        format.html { redirect_to family_path(params[:family_id]) }
+        format.js   { render(:update) { |p| p.redirect_to family_path(params[:family_id]) } }
+      end
+    elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       Person.sync_in_progress = true
       records = Hash.from_xml(request.body.read)['records']
       statuses = records.map do |record|
