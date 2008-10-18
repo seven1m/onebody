@@ -698,6 +698,7 @@ class Person < ActiveRecord::Base
     find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
   end
   
+  include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::ApplicationHelper
   
   def generate_directory_pdf(with_pictures=false)
