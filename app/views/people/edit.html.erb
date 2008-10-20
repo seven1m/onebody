@@ -26,7 +26,9 @@
   <li><%= link_to 'View Profile', person_path(@person) %></li>
   <li><%= link_to 'Change Email/Password', edit_person_account_path(@person) %></li>
   <li><%= link_to 'Privacy Settings', edit_person_privacy_path(@person, :anchor => "p#{@person.id}") %></li>
-  <li><%= link_to 'Remote Accounts', person_remote_accounts_path(@person) %></li>
+  <% if @person.can_sync_remotely? %>
+     <li><%= link_to 'Remote Accounts', person_remote_accounts_path(@person) %></li>
+  <% end %>
   <% if @logged_in.admin?(:edit_profiles) and !me? %>
     <li><%= link_to (@person.account_frozen? ? 'Unfreeze' : 'Freeze'), person_path(@person, :freeze => 'toggle'), :method => 'put', :confirm => 'Are you sure?' %></li>
   <% end %>
