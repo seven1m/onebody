@@ -15,7 +15,11 @@
 
 <%= render :partial => 'map' %>
 
-<h1><%=h @family.name %></h1>
+<h1><%=h @family.name %>
+  <% if @logged_in.can_edit? @family %>
+    <%= link_to 'edit', edit_family_path(@family), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+  <% end %>
+</h1>
 
 <p><%= number_to_phone @family.home_phone, :area_code => true %></p>
 
