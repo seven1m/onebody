@@ -61,6 +61,7 @@ class Search
   end
   
   def query(page=nil)
+    @conditions.add_condition ["people.deleted = ?", false]
     @conditions.add_condition ["people.service_name is not null and people.service_name != ''"] if show_services
     @conditions.add_condition ["people.testimony is not null and people.testimony != ''"] if testimony
     unless show_hidden and Person.logged_in.admin?(:view_hidden_profiles)

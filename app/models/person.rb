@@ -147,7 +147,9 @@ class Person < ActiveRecord::Base
   
   def name
     @name ||= begin
-      if suffix
+      if deleted?
+        "(removed person)"
+      elsif suffix
         "#{first_name} #{last_name}, #{suffix}" rescue '???'
       else
         "#{first_name} #{last_name}" rescue '???'
@@ -252,13 +254,20 @@ class Person < ActiveRecord::Base
     whats.select do |what|
       case what.class.name
       when 'Person'
-        what == self or
-        what.family_id == self.family_id or
-        admin?(:view_hidden_profiles) or
-        staff? or 
-        (what.visible_to_everyone? and (full_access? or what.adult?) and what.visible?)
+        !what.deleted? and (
+          what == self or
+          what.family_id == self.family_id or
+          admin?(:view_hidden_profiles) or
+          staff? or (
+            what.visible_to_everyone? and
+            what.visible? and (
+              full_access? or
+              what.adult?
+            )
+          )
+        )
       when 'Family'
-        what.visible? or admin?(:view_hidden_profiles)
+        !what.deleted? and (what.visible? or admin?(:view_hidden_profiles))
       when 'Group'
         not (what.hidden? or what.private?) or self.member_of?(what) or what.admin?(self)
       when 'Message'
@@ -290,9 +299,9 @@ class Person < ActiveRecord::Base
     when 'Ministry'
       admin?(:manage_ministries) or what.administrator == self
     when 'Person'
-      admin?(:edit_profiles) or (what.family == self.family and self.adult?) or what == self
+      !what.deleted? and (admin?(:edit_profiles) or (what.family == self.family and self.adult?) or what == self)
     when 'Family'
-      admin?(:edit_profiles) or (what == self.family and self.adult?)
+      !what.deleted? and (admin?(:edit_profiles) or (what == self.family and self.adult?))
     when 'Message'
       admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
     when 'PrayerRequest'
@@ -692,6 +701,11 @@ class Person < ActiveRecord::Base
         true
       end
     end
+  end
+  
+  alias_method :destroy_for_real, :destroy
+  def destroy
+    self.update_attributes!(:deleted => true)
   end
   
   def self.service_categories

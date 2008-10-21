@@ -118,16 +118,14 @@ class PeopleControllerTest < ActionController::TestCase
   should "delete a person" do
     @other_person.admin = Admin.create!(:edit_profiles => true)
     post :destroy, {:id => @person.id}, {:logged_in_id => @other_person.id}
-    assert_raises(ActiveRecord::RecordNotFound) do
-      puts @person.reload
-    end
+    assert @person.reload.deleted?
   end
   
   should "not delete self" do
     @person.admin = Admin.create!(:edit_profiles => true)
     post :destroy, {:id => @person.id}, {:logged_in_id => @person.id}
     assert_response :error
-    assert @person.reload
+    assert !@person.reload.deleted?
   end
   
   should "not delete a person unless admin" do

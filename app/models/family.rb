@@ -108,6 +108,17 @@ class Family < ActiveRecord::Base
   end
   
   def visible_people
-    people.find(:all).select { |p| Person.logged_in.admin?(:view_hidden_profiles) or p.visible? }
+    people.find(:all).select do |person|
+      !person.deleted? and (
+        Person.logged_in.admin?(:view_hidden_profiles) or
+        person.visible?
+      )
+    end
+  end
+  
+  alias_method :destroy_for_real, :destroy
+  def destroy
+    people.all.each { |p| p.destroy }
+    update_attributes!(:deleted => true)
   end
 end

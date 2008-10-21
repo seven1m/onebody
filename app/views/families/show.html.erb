@@ -1,7 +1,7 @@
 <% if @logged_in.admin?(:edit_profiles) %>
   <% content_for :subnav do %>
     <li><%= link_to 'Edit Family', edit_family_path(@family) %></li>
-    <li><%= link_to 'Delete Family', @family, :method => 'delete', :confirm => 'Are you sure?' %></li>
+    <li><%= link_to 'Delete Family', @family, :method => 'delete', :confirm => 'Are you sure? Clicking OK will delete this family and all the people in it.' %></li>
   <% end %>
 <% end %>
 

@@ -10,7 +10,7 @@
       <%=h @family.name %>
     <% end %>
     &middot; Edit:</strong>
-  <%= @family.people.map { |p| link_to(p == @person ? "<strong>#{h(p.first_name)}</strong>" : h(p.first_name), edit_person_path(p)) }.join(' | ') %>
+  <%= @family.visible_people.map { |p| link_to(p == @person ? "<strong>#{h(p.first_name)}</strong>" : h(p.first_name), edit_person_path(p)) }.join(' | ') %>
 </p>
 
 <p>
