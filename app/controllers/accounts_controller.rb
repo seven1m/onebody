@@ -86,7 +86,7 @@ class AccountsController < ApplicationController
     end
   
     def create_by_mobile
-      mobile = params[:mobile].scan(/\d/).join('').to_i
+      mobile = params[:mobile].scan(/\d/).join('')
       person = Person.find_by_mobile_phone(mobile)
       if person
         if person.can_sign_in?
