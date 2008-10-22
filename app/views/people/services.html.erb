@@ -18,7 +18,7 @@
 
 <table>
   <% if @person.service_phone.to_i > 0 %>
-    <tr><td>Business Phone:</td><td><%= number_to_phone @person.service_phone, :area_code => true %></td></tr>
+    <tr><td>Business Phone:</td><td><%= format_phone @person.service_phone %></td></tr>
   <% end %>
   <% if @person.service_email.to_s.any? %>
     <tr><td>Business Email:</td><td><%= mail_to @person.service_email %></td></tr>

@@ -453,3 +453,45 @@ privacy_relayallemail:
   description: If enabled, all email addresses are masked by relaying replies back through the site. If disabled, people who have their email address shared will have their address revealed in outgoing messages.
   value: true
   section: Privacy
+formats_fulldateandtime:
+  name: Full Date and Time
+  site_id: 1
+  format: string
+  description: Format for displaying date and time.
+  value: %m/%d/%Y %I:%M %p
+  section: Formats
+formats_date:
+  name: Date
+  site_id: 1
+  format: string
+  description: Format for displaying date.
+  value: %m/%d/%Y
+  section: Formats
+formats_time:
+  name: Time
+  site_id: 1
+  format: string
+  description: Format for displaying time.
+  value: %I:%M %p
+  section: Formats
+formats_datewithoutyear:
+  name: Date Without Year
+  site_id: 1
+  format: string
+  description: Format for displaying date without a year, e.g. birthdays.
+  value: %m/%d
+  section: Formats
+formats_mobilephone:
+  name: Mobile Phone
+  site_id: 1
+  format: string
+  description: Format for displaying mobile phone numbers. Use 'd' for digits.
+  value: (ddd) ddd-dddd
+  section: Formats
+formats_phone:
+  name: Phone
+  site_id: 1
+  format: string
+  description: Format for displaying phone numbers (landlines). Use 'd' for digits.
+  value: (ddd) ddd-dddd
+  section: Formats

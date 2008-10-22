@@ -10,7 +10,7 @@
     <tr>
       <td>Home:</td>
       <td>
-        <%= number_to_phone @person.home_phone, :area_code => true %>
+        <%= format_phone @person.home_phone %>
         <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'home_phone'} %>
       </td>
     </tr>
@@ -19,7 +19,7 @@
     <tr>
       <td>Mobile:</td>
       <td>
-        <%= number_to_phone @person.mobile_phone, :area_code => true %>
+        <%= format_phone @person.mobile_phone, mobile=true %>
         <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'mobile_phone'} %>
       </td>
     </tr>
@@ -28,7 +28,7 @@
     <tr>
       <td>Work:</td>
       <td>
-        <%= number_to_phone @person.work_phone, :area_code => true %>
+        <%= format_phone @person.work_phone %>
         <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'work_phone'} %>
       </td>
     </tr>
@@ -37,7 +37,7 @@
     <tr>
       <td>Fax:</td>
       <td>
-        <%= number_to_phone @person.fax, :area_code => true %>
+        <%= format_phone @person.fax %>
         <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'fax'} %>
       </td>
     </tr>

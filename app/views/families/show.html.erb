@@ -21,7 +21,7 @@
   <% end %>
 </h1>
 
-<p><%= number_to_phone @family.home_phone, :area_code => true %></p>
+<p><%= format_phone @family.home_phone %></p>
 
 <p><%= @family.pretty_address %> <%= render :partial => 'map_link' %></p>
 

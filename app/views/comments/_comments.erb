@@ -9,7 +9,7 @@
         </td>
         <td>
           <%= link_to h(comment.person.name), comment.person %>
-          <%= comment.created_at.strftime 'on %m/%d/%Y at %I:%M %p' %>
+          <%= comment.created_at.to_s %>
           <% if @logged_in.can_edit?(comment) %>
             <%= link_to '[delete]', comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
           <% end %>
