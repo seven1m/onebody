@@ -1,497 +1,295 @@
-# == Schema Information
-#
-# Table name: settings
-#
-#  id          :integer       not null, primary key
-#  section     :string(100)   
-#  name        :string(100)   
-#  format      :string(20)    
-#  value       :string(500)   
-#  description :string(500)   
-#  hidden      :boolean       
-#  created_at  :datetime      
-#  updated_at  :datetime      
-#  site_id     :integer       
-#  global      :boolean       
-#
-
 --- 
-features_sidebargroupheading: 
-  site_id: 1
-  section: Features
-  name: Sidebar Group Heading
-  description: Heading to show above people in mutual groups (see above setting)
-  value: Small Group
-  format: string
-email_host: 
-  global: true
-  section: Email
-  name: Host
-  value: localhost
-  description: Hostname of your SMTP server
-  format: string
-email_authenticationrequired:
-  global: true
-  section: Email
-  name: Authentication Required
-  value: false
-  description: Authentication Required for SMTP
-  format: boolean
-email_smtpusername:
-  global: true
-  section: Email
-  name: SMTP Username
-  value: 
-  description: SMTP Username to use if authentication is required
-  format: string
-email_smtppassword:
-  global: true
-  section: Email
-  name: SMTP Password
-  value: 
-  description: SMTP Password to use if authentication is required
-  format: password
-email_username:
-  section: Email
-  name: Username
-  site_id: 1
-  value: 
-  description: Username for POP email download
-  format: string
-email_password:
-  section: Email
-  name: Password
-  site_id: 1
-  value: 
-  description: Password for POP email download
-  format: password
-contact_sendupdatesto: 
-  section: Contact
-  name: Send Updates To
-  site_id: 1
-  format: string
-  description: Email sent when someone updates their profile (can be blank for no email)
-  value: admin@imaginarychurch.com
-contact_churchofficephone: 
-  name: Church Office Phone
-  site_id: 1
-  format: string
-  description: Phone number for the church office
-  value: (123) 456-7890
-  section: Contact
-features_friends: 
-  name: Friends
-  site_id: 1
-  format: boolean
-  description: Enable MySpace-style mutual friendships (confirmed via email)
-  value: true
-  section: Features
-features_multisite: 
-  name: Multisite
-  format: boolean
-  description: When enabled, this instance can handle multiple sites, based on domain name.
-  value: false
-  global: true
-  section: Features
-system_genders: 
-  name: Genders
-  site_id: 1
-  format: list
-  description: ""
-  value: |
-    --- 
-    - Male
-    - Female
-    - Boy
-    - Girl
-  section: System
-  hidden: true
-features_bannermessage: 
-  name: Banner Message
-  site_id: 1
-  format: string
-  description: Message to display across top of all pages on site (HTML), like an alert
-  value: 
-  section: Features
-appearance_theme: 
-  name: Theme
-  site_id: 1
-  format: string
-  description: Name of selected theme (from themes/ directory).
-  value: aqueouslight
-  section: Appearance
-appearance_logo:
-  name: Logo
-  site_id: 1
-  format: string
-  description: Filename of logo (in public/images/ directory).
-  value: 
-  hidden: true
-  section: Appearance
-appearance_showsubheading:
-  name: Show Subheading
-  site_id: 1
-  format: boolean
-  description: Under the site title/logo, display the site address and slogan.
-  value: true
-  section: Appearance
-contact_churchemail: 
-  name: Church Email
-  site_id: 1
-  format: string
-  description: Visible in some places on site
-  value: info@imaginarychurch.com
-  section: Contact
-contact_birthdayverificationemail: 
-  name: Birthday Verification Email
-  site_id: 1
-  format: string
-  description: Email sent when someone requests verification via birthday (shouldn't be blank)
-  value: admin@imaginarychurch.com
-  section: Contact
-url_site: 
-  name: Site
-  site_id: 1
-  format: string
-  description: URL for this site (including the trailing slash please)
-  value: http://imaginaryfamily.com/
-  section: URL
-  hidden: true
-services_analytics: 
-  name: Analytics
-  format: string
-  description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
-  value: 
-  global: true
-  section: Services
-services_amazon: 
-  name: Amazon
-  format: string
-  description: Your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
-  value: 
-  global: true
-  section: Services
-contact_techsupportemail: 
-  name: Tech Support Email
-  format: string
-  description: Email to contact for technical help with the site.
-  value: admin@example.com
-  global: true
-  section: Contact
-url_news: 
-  name: News
-  site_id: 1
-  format: string
-  description: URL for church news (people will be pointed here for news)
-  value: http://imaginarychurch.com/news
-  section: URL
-features_sidebargroupcategory: 
-  name: Sidebar Group Category
-  site_id: 1
-  format: string
-  description: People in mutual groups of this category will be displayed on the user's profile sidebar.
-  value: Small Groups
-  section: Features
-email_domain: 
-  name: Domain
-  format: string
-  description: Domain name for your SMTP email server
-  value: imaginaryfamily.com
-  global: true
-  section: Email
-contact_churchaddress: 
-  name: Church Address
-  site_id: 1
-  format: string
-  description: Visible on Terms of Use
-  value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
-  section: Contact
-system_suffixes: 
-  name: Suffixes
-  site_id: 1
-  format: list
-  description: ""
-  value: |
-    --- 
-    - Jr.
-    - Sr.
-    - II
-    - III
-  section: System
-url_visitor: 
-  name: Visitor
-  site_id: 1
-  format: string
-  description: URL for main website (visitors will be pointed here if they happen across the member site.)
-  value: http://imaginarychurch.com
-  section: URL
-access_superadmins: 
-  name: Super Admins
-  site_id: 1
-  format: list
-  description: Email addresses of people who are the super admins
-  value: |
-    --- 
-    - admin@example.com
-  section: Access
-url_newsrss: 
-  name: News RSS
-  site_id: 1
-  format: string
-  description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
-  value: 
-  section: URL
-contact_sendemailchangesto: 
-  name: Send Email Changes To
-  site_id: 1
-  format: string
-  description: Email sent when someone changes their email address (can be blank for no email)
-  value: admin@imaginarychurch.com
-  section: Contact
-features_prayer: 
-  name: Prayer
-  site_id: 1
-  format: string
-  description: ""
-  value: 
-  section: Features
-  hidden: true
-services_yahoo: 
-  name: Yahoo
-  format: string
-  value:
-  description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
-  global: true
-  section: Services
-name_site: 
-  name: Site
-  site_id: 1
-  format: string
-  description: The name of the member portion of this website
-  value: Imaginary Church Family
-  section: Name
-name_church:
-  name: Church
-  site_id: 1
-  format: string
-  description: The name of the church
-  value: Imaginary Church
-  section: Name
-name_slogan:
-  name: Slogan
-  site_id: 1
-  format: string
-  description: Slogan displayed at top of every page.
-  value: a pretend church for testing OneBody
-  section: Name
-contact_bugnotificationemail: 
-  name: Bug Notification Email
-  format: string
-  description: Email address to send bug reports to
-  value: 
-  global: true
-  section: Contact
-contact_sendemailchangesto: 
-  name: Send Email Changes To
-  site_id: 1
-  format: string
-  description: Email sent when someone changes their email address (can be blank for no email)
-  value: admin@imaginarychurch.com
-  section: Contact
-features_prayer: 
-  name: Prayer
-  site_id: 1
-  format: string
-  description: ""
-  value: 
-  section: Features
-  hidden: true
-contact_churchaddress: 
-  name: Church Address
-  site_id: 1
-  format: string
-  description: Visible on Terms of Use
-  value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
-  section: Contact
-features_ssl:
-  name: SSL
-  format: boolean
-  value: false
-  description: If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext.
-  global: true
-  section: Features
-features_twitteraccount:
-  name: Twitter Account
-  format: string
-  value:
-  description: Account name of church Twitter account.
-  section: Features
-  site_id: 1
-features_twitterpassword:
-  name: Twitter Password
-  format: password
-  value:
-  description: Password of church Twitter account.
-  section: Features
-  site_id: 1
-features_jabberaccount:
-  name: Jabber Account
-  format: string
-  value:
-  description: Account (email address) for connecting to Twitter through Jabber/XMPP.
-  section: Features
-  site_id: 1
-features_jabberpassword:
-  name: Jabber Password
-  format: password
-  value:
-  description: Password of Jabber account.
-  section: Features
-  site_id: 1
-appearance_publictheme: 
-  name: Public Theme
-  site_id: 1
-  format: string
-  description: Name of selected theme (from themes/ directory) for the public CMS site.
-  value: aqueouslight
-  section: Appearance
-features_pages: 
-  name: Content Management System
-  site_id: 1
-  format: boolean
-  description: Enable "Pages" - Use OneBody as a real website.
-  value: true
-  section: Features
-features_groups: 
-  name: Groups
-  site_id: 1
-  format: boolean
-  description: Enable Groups.
-  value: true
-  section: Features
-features_recipes: 
-  name: Recipes
-  site_id: 1
-  format: boolean
-  description: Enable Recipe sharing.
-  value: true
-  section: Features
-features_verses: 
-  name: Verses
-  site_id: 1
-  format: boolean
-  description: Enable Verse sharing.
-  value: true
-  section: Features
-features_notes: 
-  name: Notes
-  site_id: 1
-  format: boolean
-  description: Enable Notes sharing (blog).
-  value: true
-  section: Features
-features_publications: 
-  name: Publications
-  site_id: 1
-  format: boolean
-  description: Enable Publications.
-  value: true
-  section: Features
-features_pictures: 
-  name: Pictures
-  site_id: 1
-  format: boolean
-  description: Enable Picture sharing.
-  value: true
-  section: Features
-features_blog: 
-  name: Blog
-  site_id: 1
-  format: boolean
-  description: Enable Personal blog.
-  value: true
-  section: Features
-features_signup:
-  name: Sign Up
-  site_id: 1
-  format: boolean
-  description: Enable the ability for people to sign up for the site. Configure aproval email address below.
-  value: false
-  section: Features
-features_signupapprovalemail:
-  name: Sign Up Approval Email
-  site_id: 1
-  format: string
-  description: Where to send pending sign up requests (must be admin; leave blank to auto-approve).
-  value: 
-  section: Features
-system_time_zone: 
-  name: Time Zone
-  site_id: 1
-  format: string
-  description: Set to properly display dates and times on the site.
-  value: Central Time (US & Canada)
-  section: System
-privacy_unencryptedlogins:
-  name: Allow Unencrypted Logins
-  site_id: 1
-  format: boolean
-  description: Logins are secured with public/private RSA encryption using JavaScript. Check this box to allow fallback for mobile phones and other browsers that are having trouble signing in.
-  value: false
-  section: Privacy
-privacy_maxsigninattempts:
-  name: Max Sign in Attempts
-  site_id: 1
-  format: string
-  description: Maximum number of signin failures in a 15-minute period before account is locked out. (Account is automatically unlocked after 15 minutes.)
-  value: 10
-  section: Privacy
-privacy_relayallemail:
-  name: Relay All Email
-  site_id: 1
-  format: boolean
-  description: If enabled, all email addresses are masked by relaying replies back through the site. If disabled, people who have their email address shared will have their address revealed in outgoing messages.
-  value: true
-  section: Privacy
-formats_fulldateandtime:
-  name: Full Date and Time
-  site_id: 1
-  format: string
-  description: Format for displaying date and time.
-  value: %m/%d/%Y %I:%M %p
-  section: Formats
-formats_date:
-  name: Date
-  site_id: 1
-  format: string
-  description: Format for displaying date.
-  value: %m/%d/%Y
-  section: Formats
-formats_time:
-  name: Time
-  site_id: 1
-  format: string
-  description: Format for displaying time.
-  value: %I:%M %p
-  section: Formats
-formats_datewithoutyear:
-  name: Date Without Year
-  site_id: 1
-  format: string
-  description: Format for displaying date without a year, e.g. birthdays.
-  value: %m/%d
-  section: Formats
-formats_mobilephone:
-  name: Mobile Phone
-  site_id: 1
-  format: string
-  description: Format for displaying mobile phone numbers. Use 'd' for digits.
-  value: (ddd) ddd-dddd
-  section: Formats
-formats_phone:
-  name: Phone
-  site_id: 1
-  format: string
-  description: Format for displaying phone numbers (landlines). Use 'd' for digits.
-  value: (ddd) ddd-dddd
-  section: Formats
+Contact: 
+  Tech Support Email: 
+    format: string
+    value: admin@example.com
+    description: Email to contact for technical help with the site.
+    global: true
+  Church Email: 
+    format: string
+    value: info@imaginarychurch.com
+    description: Visible in some places on site
+  Church Office Phone: 
+    format: string
+    value: (123) 456-7890
+    description: Phone number for the church office
+  Bug Notification Email: 
+    format: string
+    value: 
+    description: Email address to send bug reports to
+    global: true
+  Birthday Verification Email: 
+    format: string
+    value: admin@imaginarychurch.com
+    description: Email sent when someone requests verification via birthday (shouldn't be blank)
+  Send Email Changes To: 
+    format: string
+    value: admin@imaginarychurch.com
+    description: Email sent when someone changes their email address (can be blank for no email)
+  Church Address: 
+    format: string
+    value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
+    description: Visible on Terms of Use
+  Send Updates To: 
+    format: string
+    value: admin@imaginarychurch.com
+    description: Email sent when someone updates their profile (can be blank for no email)
+Name: 
+  Church: 
+    format: string
+    value: Imaginary Church
+    description: The name of the church
+  Site: 
+    format: string
+    value: Imaginary Church Family
+    description: The name of the member portion of this website
+  Slogan: 
+    format: string
+    value: a pretend church for testing OneBody
+    description: Slogan displayed at top of every page.
+Features: 
+  Twitter Account: 
+    format: string
+    value: 
+    description: Account name of church Twitter account.
+  Multisite: 
+    format: boolean
+    value: false
+    description: When enabled, this instance can handle multiple sites, based on domain name.
+    global: true
+  SSL: 
+    format: boolean
+    value: false
+    description: If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext.
+    global: true
+  Notes: 
+    format: boolean
+    value: true
+    description: Enable Notes sharing (blog).
+  Sign Up: 
+    format: boolean
+    value: false
+    description: Enable the ability for people to sign up for the site. Configure aproval email address below.
+  Banner Message: 
+    format: string
+    value: 
+    description: Message to display across top of all pages on site (HTML), like an alert
+  Twitter Password: 
+    format: password
+    value: 
+    description: Password of church Twitter account.
+  Jabber Password: 
+    format: password
+    value: 
+    description: Password of Jabber account.
+  Blog: 
+    format: boolean
+    value: true
+    description: Enable Personal blog.
+  Groups: 
+    format: boolean
+    value: true
+    description: Enable Groups.
+  Pictures: 
+    format: boolean
+    value: true
+    description: Enable Picture sharing.
+  Friends: 
+    format: boolean
+    value: true
+    description: Enable MySpace-style mutual friendships (confirmed via email)
+  Content Management System: 
+    format: boolean
+    value: true
+    description: Enable "Pages" - Use OneBody as a real website.
+  Sign Up Approval Email: 
+    format: string
+    value: 
+    description: Where to send pending sign up requests (must be admin; leave blank to auto-approve).
+  Prayer: 
+    format: string
+    value: 
+    description: ""
+    hidden: true
+  Sidebar Group Category: 
+    format: string
+    value: Small Groups
+    description: People in mutual groups of this category will be displayed on the user's profile sidebar.
+  Publications: 
+    format: boolean
+    value: true
+    description: Enable Publications.
+  Sidebar Group Heading: 
+    format: string
+    value: Small Group
+    description: Heading to show above people in mutual groups (see above setting)
+  Verses: 
+    format: boolean
+    value: true
+    description: Enable Verse sharing.
+  Recipes: 
+    format: boolean
+    value: true
+    description: Enable Recipe sharing.
+  Jabber Account: 
+    format: string
+    value: 
+    description: Account (email address) for connecting to Twitter through Jabber/XMPP.
+Services: 
+  Yahoo: 
+    format: string
+    value: 
+    description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
+    global: true
+  Amazon: 
+    format: string
+    value: 
+    description: Your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
+    global: true
+  Analytics: 
+    format: string
+    value: 
+    description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
+    global: true
+Access: 
+  Super Admins: 
+    format: list
+    value: |
+      --- 
+      - admin@example.com
+
+    description: Email addresses of people who are the super admins
+URL: 
+  Visitor: 
+    format: string
+    value: http://imaginarychurch.com
+    description: URL for main website (visitors will be pointed here if they happen across the member site.)
+  Site: 
+    format: string
+    value: http://imaginaryfamily.com/
+    description: URL for this site (including the trailing slash please)
+    hidden: true
+  News: 
+    format: string
+    value: http://imaginarychurch.com/news
+    description: URL for church news (people will be pointed here for news)
+  News RSS: 
+    format: string
+    value: 
+    description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
+System: 
+  Genders: 
+    format: list
+    value: |
+      --- 
+      - Male
+      - Female
+      - Boy
+      - Girl
+
+    description: ""
+    hidden: true
+  Suffixes: 
+    format: list
+    value: |
+      --- 
+      - Jr.
+      - Sr.
+      - II
+      - III
+
+    description: ""
+  Time Zone: 
+    format: string
+    value: Central Time (US & Canada)
+    description: Set to properly display dates and times on the site.
+Formats: 
+  Full Date and Time: 
+    format: string
+    value: "%m/%d/%Y %I:%M %p"
+    description: Format for displaying date and time.
+  Time: 
+    format: string
+    value: "%I:%M %p"
+    description: Format for displaying time.
+  Phone: 
+    format: string
+    value: (ddd) ddd-dddd
+    description: Format for displaying phone numbers (landlines). Use 'd' for digits.
+  Mobile Phone: 
+    format: string
+    value: (ddd) ddd-dddd
+    description: Format for displaying mobile phone numbers. Use 'd' for digits.
+  Date: 
+    format: string
+    value: "%m/%d/%Y"
+    description: Format for displaying date.
+  Date Without Year: 
+    format: string
+    value: "%m/%d"
+    description: Format for displaying date without a year, e.g. birthdays.
+Email: 
+  SMTP Username: 
+    format: string
+    value: 
+    description: SMTP Username to use if authentication is required
+    global: true
+  Authentication Required: 
+    format: boolean
+    value: false
+    description: Authentication Required for SMTP
+    global: true
+  Domain: 
+    format: string
+    value: imaginaryfamily.com
+    description: Domain name for your SMTP email server
+    global: true
+  Username: 
+    format: string
+    value: 
+    description: Username for POP email download
+  Password: 
+    format: password
+    value: 
+    description: Password for POP email download
+  SMTP Password: 
+    format: password
+    value: 
+    description: SMTP Password to use if authentication is required
+    global: true
+  Host: 
+    format: string
+    value: localhost
+    description: Hostname of your SMTP server
+    global: true
+Appearance: 
+  Logo: 
+    format: string
+    value: 
+    description: Filename of logo (in public/images/ directory).
+    hidden: true
+  Public Theme: 
+    format: string
+    value: aqueouslight
+    description: Name of selected theme (from themes/ directory) for the public CMS site.
+  Show Subheading: 
+    format: boolean
+    value: true
+    description: Under the site title/logo, display the site address and slogan.
+  Theme: 
+    format: string
+    value: aqueouslight
+    description: Name of selected theme (from themes/ directory).
+Privacy: 
+  Allow Unencrypted Logins: 
+    format: boolean
+    value: false
+    description: Logins are secured with public/private RSA encryption using JavaScript. Check this box to allow fallback for mobile phones and other browsers that are having trouble signing in.
+  Relay All Email: 
+    format: boolean
+    value: true
+    description: If enabled, all email addresses are masked by relaying replies back through the site. If disabled, people who have their email address shared will have their address revealed in outgoing messages.
+  Max Sign in Attempts: 
+    format: string
+    value: 10
+    description: Maximum number of signin failures in a 15-minute period before account is locked out. (Account is automatically unlocked after 15 minutes.)

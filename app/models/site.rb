@@ -20,7 +20,6 @@
 #
 
 class Site < ActiveRecord::Base
-  SETTINGS_YAML_FILE = File.join(RAILS_ROOT, 'config/settings.yml')
   
   class << self
     def sub_tables
@@ -79,14 +78,7 @@ class Site < ActiveRecord::Base
   after_create :add_settings, :add_tasks, :add_pages, :add_publications_group
   
   def add_settings
-    settings = YAML::load(File.open(SETTINGS_YAML_FILE))
-    settings.each do |fixture, values|
-      next if values['global']
-      unless Setting.find_by_site_id_and_section_and_name(self.id, values['section'], values['name'])
-        values.update 'site_id' => self.id
-        Setting.create(values)
-      end
-    end
+    Setting.update_site(self)
     update_url
   end
   

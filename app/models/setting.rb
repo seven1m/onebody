@@ -23,6 +23,8 @@ class Setting < ActiveRecord::Base
     'Features.Multisite', 'Features.SSL'
   ]
   
+  SETTINGS_FILE = File.join(Rails.root, "config/settings.yml")
+  
   serialize :value
   belongs_to :site
   
@@ -102,22 +104,37 @@ class Setting < ActiveRecord::Base
       settings = YAML::load(File.open(filename))
       # per site settings
       Site.find(:all).each do |site|
-        settings.each do |fixture, values|
-          next if values['global']
-          unless Setting.find_by_site_id_and_section_and_name(site.id, values['section'], values['name'])
-            values.update 'site_id' => site.id
-            Setting.create!(values)
+        update_site_from_hash(site, settings)
+      end
+      # globals
+      settings.each do |section_name, section|
+        section.each do |setting_name, setting|
+          next unless setting['global']
+          unless Setting.find_by_site_id_and_section_and_name(nil, section_name, setting_name)
+            Setting.create!(setting.merge(:section => section_name, :name => setting_name))
           end
         end
       end
-      # globals
-      settings.select { |f, v| v['global'] }.each do |fixture, values|
-        Setting.create(values) unless Setting.find_by_site_id_and_section_and_name(nil, values['section'], values['name'])
+    end
+    
+    def update_site_from_hash(site, settings)
+      settings.each do |section_name, section|
+        section.each do |setting_name, setting|
+          next if setting['global']
+          unless Setting.find_by_site_id_and_section_and_name(site.id, section_name, setting_name)
+            setting['site_id'] = site.id
+            Setting.create!(setting.merge(:section => section_name, :name => setting_name))
+          end
+        end
       end
     end
     
+    def update_site(site)
+      update_site_from_hash(site, YAML::load(File.open(SETTINGS_FILE)))
+    end
+    
     def update_all
-      Setting.update_from_yaml(File.join(Rails.root, "config/settings.yml"))
+      Setting.update_from_yaml(SETTINGS_FILE)
     end
     
     def update_site_from_params(id, params)

@@ -27,8 +27,8 @@ class SiteTest < ActiveSupport::TestCase
   
   private
     def get_settings_from_yaml
-      YAML::load(File.open(File.join(Rails.root, 'config/settings.yml'))).select do |fixture, values|
-        values['site_id'].to_i == 1 and not values['global']
+      YAML::load(File.open(File.join(Rails.root, 'test/fixtures/settings.yml'))).select do |fixture, values|
+        values['site_id'].to_i == 1 if not values['global']
       end
     end
 end
