@@ -48,8 +48,7 @@ module ActionView
   module Helpers
     module FormHelper
       def phone_field(object_name, method, options = {})
-        options[:area_code] = true if options[:area_code].nil?
-        options[:value] = number_to_phone(options[:object][method], :area_code => options.delete(:area_code))
+        options[:value] = format_phone(options[:object][method], mobile=(method.to_s =~ /mobile/))
         options[:size] ||= 15
         InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_input_field_tag("text", options)
       end
