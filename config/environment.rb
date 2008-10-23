@@ -1,9 +1,5 @@
-require File.join(File.dirname(__FILE__), 'boot')
-
 RAILS_GEM_VERSION = '2.1.1' unless defined? RAILS_GEM_VERSION
-
-# temporary until Rails bug fixed
-require 'fix_locator_bug'
+require File.join(File.dirname(__FILE__), 'boot')
 
 unless File.exist?(config_filename = Rails.root + '/config/database.yml')
   require 'fileutils'
