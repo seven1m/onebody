@@ -1,9 +1,10 @@
 namespace :onebody do
   desc 'Load sample data into the database.'
   task :load_sample_data do
+    Rake::Task['onebody:build_settings_fixture_file'].invoke
     Rake::Task['db:fixtures:load'].invoke
-    # reload Help pages
-    require Rails.root + "/db/migrate/20080722143227_move_system_content_to_pages"
-    MoveSystemContentToPages.up
+    Site.each do |site|
+      site.add_pages # reload Help pages
+    end
   end
 end

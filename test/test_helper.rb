@@ -1,24 +1,16 @@
 RAILS_ROOT = File.dirname(__FILE__) + '/..' unless defined?(RAILS_ROOT)
 
-# flatten settings hash and write to fixture file
-require 'yaml'
-flat_settings = {}
-YAML::load_file(RAILS_ROOT + '/config/settings.yml').each do |section_name, section|
-  section.each do |setting_name, setting|
-    setting['section'] = section_name
-    setting['name'] = setting_name
-    setting['site_id'] = 1 unless setting['global']
-    flat_settings["#{section_name}_#{setting_name}".downcase.scan(/[a-z_]+/).join] = setting
-  end
-end
-File.open(RAILS_ROOT + '/test/fixtures/settings.yml', 'w') do |file|
-  YAML::dump(flat_settings, file)
-end
-
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require 'notifier'
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+require 'tasks/rails'
+
+# flatten settings hash and write to fixture file
+Rake::Task['onebody:build_settings_fixture_file'].invoke
 
 require File.dirname(__FILE__) + '/forgeries'
 require File.dirname(__FILE__) + '/test_extensions'
