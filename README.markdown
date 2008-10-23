@@ -26,6 +26,7 @@ More Information
 ----------------
 
 [Wiki](http://github.com/seven1m/onebody/wikis)
+[Google Group](http://groups.google.com/group/onebodyapp)
 
 Copyright
 ---------
