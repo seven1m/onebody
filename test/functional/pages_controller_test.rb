@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class PagesControllerTest < ActionController::TestCase
 
   def setup
+    Setting.set(1, 'Features', 'Content Management System', true)
     @admin = Person.forge(:admin => Admin.create(:edit_pages => true))
     @person = Person.forge
   end
