@@ -2,9 +2,11 @@
   <ul class="page-listing">
     <% @pages.each do |page| %>
       <li>
-        <%= link_to_remote   image_tag('plus.gif',  :alt => 'expand',   :class => 'icon'), :url => pages_path(:parent_id => page), :method => 'get', :html => {:id => "page#{page.id}_expand_link"}, :loading => "Element.show('loading#{page.id}')", :complete => "Element.hide('loading#{page.id}')" %>
-        <%= link_to_function image_tag('minus.gif', :alt => 'collapse', :class => 'icon'), "Element.show('page#{page.id}_expand_link');Element.hide('page#{page.id}_collapse_link');Element.update('page#{page.id}_children', '')", :id => "page#{page.id}_collapse_link", :style => 'display:none;' %>
-        <%= image_tag('spinner_small.gif', :alt => 'loading...', :id => "loading#{page.id}", :style => 'display:none;', :class => 'icon') %>
+        <span style="<%= page.children.count == 0 ? 'visibility:hidden' : nil %>">
+          <%= link_to_remote   image_tag('plus.gif',  :alt => 'expand',   :class => 'icon'), :url => pages_path(:parent_id => page), :method => 'get', :html => {:id => "page#{page.id}_expand_link"}, :loading => "Element.show('loading#{page.id}')", :complete => "Element.hide('loading#{page.id}')" %>
+          <%= link_to_function image_tag('minus.gif', :alt => 'collapse', :class => 'icon'), "Element.show('page#{page.id}_expand_link');Element.hide('page#{page.id}_collapse_link');Element.update('page#{page.id}_children', '')", :id => "page#{page.id}_collapse_link", :style => 'display:none;' %>
+          <%= image_tag('spinner_small.gif', :alt => 'loading...', :id => "loading#{page.id}", :style => 'display:none;', :class => 'icon') %>
+        </span>
         <%= link_to page.title, page %>
         <%= link_to 'edit', edit_page_path(page), :class => 'discreet' %>
         <% unless page.system? %>

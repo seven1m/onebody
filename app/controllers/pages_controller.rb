@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   skip_before_filter :feature_enabled?
   before_filter :get_path
   before_filter :get_page, :get_user, :only => %w(show_for_public)
-  before_filter :feature_enabled? # must follow get_page
+  before_filter :feature_enabled?, :only => %w(show_for_public) # must follow get_page
   
   #caches_action :show_for_public, :for => 1.day,
   #  :cache_path => Proc.new { |c| "pages/#{c.instance_eval('@page.path')}" rescue '' },
@@ -11,8 +11,11 @@ class PagesController < ApplicationController
   #cache_sweeper :page_sweeper, :only => %w(create update destroy)
   
   def index
-    @pages = Page.find_all_by_parent_id(params[:parent_id], :order => 'title')
-    @parent = Page.find_by_id(params[:parent_id])
+    if @parent = Page.find_by_id(params[:parent_id])
+      @pages = @parent.children.all(:order => 'title')
+    else
+      @pages = Page.find_all_by_parent_id(nil)
+    end
   end
   
   def show_for_public
