@@ -3,7 +3,6 @@ module ApplicationHelper
   include TagsHelper
   include PicturesHelper
   include PhotosHelper
-  include ActionView::Helpers::ApplicationHelper
 
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe
@@ -41,6 +40,22 @@ module ApplicationHelper
   
   def render_page_content(path)
     Page.find_by_path(path).body rescue ''
+  end
+  
+  def format_phone(phone, mobile=false)
+    format = Setting.get(:formats, mobile ? :mobile_phone : :phone)
+    groupings = format.scan(/d+/).map { |g| g.length }
+    groupings = [3, 3, 4] unless groupings.length == 3
+    ActionController::Base.helpers.number_to_phone(
+      phone,
+      :area_code => format.index('(') ? true : false,
+      :groupings => groupings,
+      :delimiter => format.reverse.match(/[^d]/).to_s
+    )
+  end
+  
+  class << self
+    include ApplicationHelper
   end
 end
 

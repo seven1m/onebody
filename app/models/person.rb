@@ -712,9 +712,6 @@ class Person < ActiveRecord::Base
     find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
   end
   
-  include ActionView::Helpers::NumberHelper
-  include ActionView::Helpers::ApplicationHelper
-  
   def generate_directory_pdf(with_pictures=false)
     pdf = PDF::Writer.new
     pdf.margins_pt 70, 20, 20, 20
@@ -814,7 +811,7 @@ class Person < ActiveRecord::Base
           pdf.text family.address2 + "\n" if family.address2.to_s.any?
           pdf.text family.city + ', ' + family.state + '  ' + family.zip + "\n"
         end
-        pdf.text format_phone(family.home_phone), :font_size => 14 if family.home_phone.to_i > 0
+        pdf.text ApplicationHelper.format_phone(family.home_phone), :font_size => 14 if family.home_phone.to_i > 0
         pdf.text "\n"
       end
     end
