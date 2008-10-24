@@ -1,6 +1,13 @@
-class CreateAll < ActiveRecord::Migration
+# Rollup Migration
+# ================
+# If you are upgrading from a previous (0.7.x) version of OneBody,
+# be sure to upgrade to the latest release within that series
+# (0.7.8 as of this writing) and run the migrations.
+# Then you can upgrade to the latest 0.8.x release.
+
+class Rollup < ActiveRecord::Migration
   def self.up
-    create_table "admins" do |t|
+    create_table "admins", :force => true do |t|
       t.column "manage_publications",    :boolean,  :default => false
       t.column "manage_log",             :boolean,  :default => false
       t.column "manage_music",           :boolean,  :default => false
@@ -13,7 +20,6 @@ class CreateAll < ActiveRecord::Migration
       t.column "view_hidden_profiles",   :boolean,  :default => false
       t.column "manage_prayer_signups",  :boolean,  :default => false
       t.column "manage_comments",        :boolean,  :default => false
-      t.column "manage_events",          :boolean,  :default => false
       t.column "manage_recipes",         :boolean,  :default => false
       t.column "manage_pictures",        :boolean,  :default => false
       t.column "manage_access",          :boolean,  :default => false
@@ -22,25 +28,45 @@ class CreateAll < ActiveRecord::Migration
       t.column "created_at",             :datetime
       t.column "updated_at",             :datetime
       t.column "site_id",                :integer
+      t.column "edit_pages",             :boolean,  :default => false
+      t.column "import_data",            :boolean,  :default => false
+      t.column "export_data",            :boolean,  :default => false
+      t.column "run_reports",            :boolean,  :default => false
     end
 
-    create_table "attachments" do |t|
+    create_table "albums", :force => true do |t|
+      t.column "name",        :string
+      t.column "description", :text
+      t.column "person_id",   :integer
+      t.column "site_id",     :integer
+      t.column "created_at",  :datetime
+      t.column "updated_at",  :datetime
+    end
+
+    create_table "attachments", :force => true do |t|
       t.column "message_id",   :integer
       t.column "name",         :string
-      t.column "file",         :binary,   :limit => 10485760
       t.column "content_type", :string,   :limit => 50
       t.column "created_at",   :datetime
-      t.column "song_id",      :integer
       t.column "site_id",      :integer
+      t.column "page_id",      :integer
     end
 
-    create_table "comments" do |t|
+    create_table "attendance_records", :force => true do |t|
+      t.column "site_id",     :integer
+      t.column "person_id",   :integer
+      t.column "group_id",    :integer
+      t.column "attended_at", :datetime
+      t.column "created_at",  :datetime
+      t.column "updated_at",  :datetime
+    end
+
+    create_table "comments", :force => true do |t|
       t.column "verse_id",     :integer
       t.column "person_id",    :integer
       t.column "text",         :text
       t.column "created_at",   :datetime
       t.column "updated_at",   :datetime
-      t.column "event_id",     :integer
       t.column "recipe_id",    :integer
       t.column "news_item_id", :integer
       t.column "song_id",      :integer
@@ -48,31 +74,7 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",      :integer
     end
 
-    create_table "contacts" do |t|
-      t.column "person_id",  :integer
-      t.column "owner_id",   :integer
-      t.column "updated_at", :datetime
-      t.column "site_id",    :integer
-    end
-
-    create_table "events" do |t|
-      t.column "person_id",   :integer
-      t.column "name",        :string
-      t.column "description", :text
-      t.column "when",        :datetime
-      t.column "created_at",  :datetime
-      t.column "open",        :boolean,  :default => false
-      t.column "admins",      :text
-      t.column "updated_at",  :datetime
-      t.column "site_id",     :integer
-    end
-
-    create_table "events_verses", :id => false do |t|
-      t.column "event_id", :integer
-      t.column "verse_id", :integer
-    end
-
-    create_table "families" do |t|
+    create_table "families", :force => true do |t|
       t.column "legacy_id",          :integer
       t.column "name",               :string
       t.column "last_name",          :string
@@ -82,12 +84,10 @@ class CreateAll < ActiveRecord::Migration
       t.column "city",               :string
       t.column "state",              :string,   :limit => 2
       t.column "zip",                :string,   :limit => 10
-      t.column "home_phone",         :integer
+      t.column "home_phone",         :string,   :limit => 25
       t.column "email",              :string
       t.column "latitude",           :float
       t.column "longitude",          :float
-      t.column "mail_group",         :string,   :limit => 1
-      t.column "security_token",     :string,   :limit => 25
       t.column "share_address",      :boolean,                :default => true
       t.column "share_mobile_phone", :boolean,                :default => false
       t.column "share_work_phone",   :boolean,                :default => false
@@ -100,21 +100,11 @@ class CreateAll < ActiveRecord::Migration
       t.column "visible",            :boolean,                :default => true
       t.column "share_activity",     :boolean,                :default => true
       t.column "site_id",            :integer
+      t.column "share_home_phone",   :boolean,                :default => true
+      t.column "deleted",            :boolean,                :default => false
     end
 
-    create_table "feeds" do |t|
-      t.column "person_id",  :integer
-      t.column "group_id",   :integer
-      t.column "name",       :string
-      t.column "url",        :string,   :limit => 500
-      t.column "spec",       :string,   :limit => 5
-      t.column "fetched_at", :datetime
-      t.column "created_at", :datetime
-      t.column "updated_at", :datetime
-      t.column "site_id",    :integer
-    end
-
-    create_table "friendship_requests" do |t|
+    create_table "friendship_requests", :force => true do |t|
       t.column "person_id",  :integer
       t.column "from_id",    :integer
       t.column "rejected",   :boolean,  :default => false
@@ -122,7 +112,7 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",    :integer
     end
 
-    create_table "friendships" do |t|
+    create_table "friendships", :force => true do |t|
       t.column "person_id",  :integer
       t.column "friend_id",  :integer
       t.column "created_at", :datetime
@@ -130,28 +120,35 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",    :integer
     end
 
-    create_table "groups" do |t|
-      t.column "name",         :string,   :limit => 100
-      t.column "description",  :text
-      t.column "meets",        :string,   :limit => 100
-      t.column "location",     :string,   :limit => 100
-      t.column "directions",   :text
-      t.column "other_notes",  :text
-      t.column "category",     :string,   :limit => 50
-      t.column "creator_id",   :integer
-      t.column "private",      :boolean,                 :default => false
-      t.column "address",      :string
-      t.column "members_send", :boolean,                 :default => true
-      t.column "leader_id",    :integer
-      t.column "updated_at",   :datetime
-      t.column "hidden",       :boolean,                 :default => false
-      t.column "approved",     :boolean,                 :default => false
-      t.column "link_code",    :string
-      t.column "parents_of",   :integer
-      t.column "site_id",      :integer
+    create_table "groups", :force => true do |t|
+      t.column "name",              :string,   :limit => 100
+      t.column "description",       :text
+      t.column "meets",             :string,   :limit => 100
+      t.column "location",          :string,   :limit => 100
+      t.column "directions",        :text
+      t.column "other_notes",       :text
+      t.column "category",          :string,   :limit => 50
+      t.column "creator_id",        :integer
+      t.column "private",           :boolean,                 :default => false
+      t.column "address",           :string
+      t.column "members_send",      :boolean,                 :default => true
+      t.column "leader_id",         :integer
+      t.column "updated_at",        :datetime
+      t.column "hidden",            :boolean,                 :default => false
+      t.column "approved",          :boolean,                 :default => false
+      t.column "link_code",         :string
+      t.column "parents_of",        :integer
+      t.column "site_id",           :integer
+      t.column "cached_parents",    :text
+      t.column "blog",              :boolean,                 :default => true
+      t.column "email",             :boolean,                 :default => true
+      t.column "prayer",            :boolean,                 :default => true
+      t.column "attendance",        :boolean,                 :default => true
+      t.column "legacy_id",         :integer
+      t.column "gcal_private_link", :string
     end
 
-    create_table "log_items" do |t|
+    create_table "log_items", :force => true do |t|
       t.column "name",           :string
       t.column "model_name",     :string,   :limit => 50
       t.column "instance_id",    :integer
@@ -167,14 +164,14 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",        :integer
     end
 
-    create_table "membership_requests" do |t|
+    create_table "membership_requests", :force => true do |t|
       t.column "person_id",  :integer
       t.column "group_id",   :integer
       t.column "created_at", :datetime
       t.column "site_id",    :integer
     end
 
-    create_table "memberships" do |t|
+    create_table "memberships", :force => true do |t|
       t.column "group_id",           :integer
       t.column "person_id",          :integer
       t.column "admin",              :boolean,  :default => false
@@ -189,9 +186,10 @@ class CreateAll < ActiveRecord::Migration
       t.column "updated_at",         :datetime
       t.column "code",               :integer
       t.column "site_id",            :integer
+      t.column "legacy_id",          :integer
     end
 
-    create_table "messages" do |t|
+    create_table "messages", :force => true do |t|
       t.column "group_id",     :integer
       t.column "person_id",    :integer
       t.column "to_person_id", :integer
@@ -206,15 +204,7 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",      :integer
     end
 
-    create_table "ministries" do |t|
-      t.column "admin_id",    :integer
-      t.column "name",        :string,   :limit => 100
-      t.column "description", :text
-      t.column "updated_at",  :datetime
-      t.column "site_id",     :integer
-    end
-
-    create_table "news_items" do |t|
+    create_table "news_items", :force => true do |t|
       t.column "title",     :string
       t.column "link",      :string
       t.column "body",      :text
@@ -223,7 +213,7 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",   :integer
     end
 
-    create_table "notes" do |t|
+    create_table "notes", :force => true do |t|
       t.column "person_id",    :integer
       t.column "title",        :string
       t.column "body",         :text
@@ -235,7 +225,24 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",      :integer
     end
 
-    create_table "people" do |t|
+    create_table "pages", :force => true do |t|
+      t.column "slug",       :string
+      t.column "title",      :string
+      t.column "body",       :text
+      t.column "parent_id",  :integer
+      t.column "path",       :string
+      t.column "published",  :boolean,  :default => true
+      t.column "site_id",    :integer
+      t.column "created_at", :datetime
+      t.column "updated_at", :datetime
+      t.column "navigation", :boolean,  :default => true
+      t.column "system",     :boolean,  :default => false
+    end
+
+    add_index "pages", ["path"], :name => "index_pages_on_path"
+    add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"
+
+    create_table "people", :force => true do |t|
       t.column "legacy_id",                    :integer
       t.column "family_id",                    :integer
       t.column "sequence",                     :integer
@@ -243,9 +250,9 @@ class CreateAll < ActiveRecord::Migration
       t.column "first_name",                   :string
       t.column "last_name",                    :string
       t.column "suffix",                       :string,   :limit => 25
-      t.column "mobile_phone",                 :integer
-      t.column "work_phone",                   :integer
-      t.column "fax",                          :integer
+      t.column "mobile_phone",                 :string,   :limit => 25
+      t.column "work_phone",                   :string,   :limit => 25
+      t.column "fax",                          :string,   :limit => 25
       t.column "birthday",                     :datetime
       t.column "email",                        :string
       t.column "email_changed",                :boolean,                 :default => false
@@ -256,7 +263,7 @@ class CreateAll < ActiveRecord::Migration
       t.column "encrypted_password",           :string,   :limit => 100
       t.column "service_name",                 :string,   :limit => 100
       t.column "service_description",          :text
-      t.column "service_phone",                :integer
+      t.column "service_phone",                :string,   :limit => 25
       t.column "service_email",                :string
       t.column "service_website",              :string
       t.column "activities",                   :text
@@ -284,7 +291,6 @@ class CreateAll < ActiveRecord::Migration
       t.column "messages_enabled",             :boolean,                 :default => true
       t.column "service_address",              :string
       t.column "flags",                        :string
-      t.column "music_access",                 :boolean,                 :default => false
       t.column "visible",                      :boolean,                 :default => true
       t.column "parental_consent",             :string
       t.column "admin_id",                     :integer
@@ -301,30 +307,29 @@ class CreateAll < ActiveRecord::Migration
       t.column "feed_code",                    :string,   :limit => 50
       t.column "share_activity",               :boolean
       t.column "site_id",                      :integer
+      t.column "twitter_account",              :string,   :limit => 100
+      t.column "api_key",                      :string,   :limit => 50
+      t.column "salt",                         :string,   :limit => 50
+      t.column "deleted",                      :boolean,                 :default => false
     end
 
-    create_table "people_verses", :id => false do |t|
+    add_index "people", ["classes"], :name => "index_people_on_classes"
+
+    create_table "people_verses", :id => false, :force => true do |t|
       t.column "person_id", :integer
       t.column "verse_id",  :integer
     end
 
-    create_table "performances" do |t|
-      t.column "setlist_id", :integer
-      t.column "song_id",    :integer
-      t.column "ordering",   :integer
-      t.column "site_id",    :integer
-    end
-
-    create_table "pictures" do |t|
-      t.column "event_id",   :integer
+    create_table "pictures", :force => true do |t|
       t.column "person_id",  :integer
       t.column "created_at", :datetime
       t.column "cover",      :boolean,  :default => false
       t.column "updated_at", :datetime
       t.column "site_id",    :integer
+      t.column "album_id",   :integer
     end
 
-    create_table "prayer_requests" do |t|
+    create_table "prayer_requests", :force => true do |t|
       t.column "group_id",    :integer
       t.column "person_id",   :integer
       t.column "request",     :text
@@ -335,16 +340,7 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",     :integer
     end
 
-    create_table "prayer_signups" do |t|
-      t.column "person_id",  :integer
-      t.column "start",      :datetime
-      t.column "created_at", :datetime
-      t.column "reminded",   :boolean,                 :default => false
-      t.column "other",      :string,   :limit => 100
-      t.column "site_id",    :integer
-    end
-
-    create_table "publications" do |t|
+    create_table "publications", :force => true do |t|
       t.column "name",        :string
       t.column "description", :text
       t.column "created_at",  :datetime
@@ -353,7 +349,7 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",     :integer
     end
 
-    create_table "recipes" do |t|
+    create_table "recipes", :force => true do |t|
       t.column "person_id",    :integer
       t.column "title",        :string
       t.column "notes",        :text
@@ -365,16 +361,29 @@ class CreateAll < ActiveRecord::Migration
       t.column "prep",         :string
       t.column "bake",         :string
       t.column "serving_size", :integer
-      t.column "event_id",     :integer
       t.column "site_id",      :integer
     end
 
-    create_table "recipes_tags", :id => false do |t|
-      t.column "tag_id",    :integer
-      t.column "recipe_id", :integer
+    create_table "remote_accounts", :force => true do |t|
+      t.column "site_id",      :integer
+      t.column "person_id",    :integer
+      t.column "account_type", :string,  :limit => 25
+      t.column "username",     :string
+      t.column "token",        :string,  :limit => 500
     end
 
-    create_table "sessions" do |t|
+    create_table "scheduled_tasks", :force => true do |t|
+      t.column "name",       :string,   :limit => 100
+      t.column "command",    :text
+      t.column "interval",   :string
+      t.column "active",     :boolean,                 :default => true
+      t.column "runner",     :boolean,                 :default => true
+      t.column "site_id",    :integer
+      t.column "created_at", :datetime
+      t.column "updated_at", :datetime
+    end
+
+    create_table "sessions", :force => true do |t|
       t.column "session_id", :string
       t.column "data",       :text
       t.column "updated_at", :datetime
@@ -383,18 +392,11 @@ class CreateAll < ActiveRecord::Migration
 
     add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
 
-    create_table "setlists" do |t|
-      t.column "start",      :datetime
-      t.column "person_id",  :integer
-      t.column "created_at", :datetime
-      t.column "site_id",    :integer
-    end
-
-    create_table "settings" do |t|
+    create_table "settings", :force => true do |t|
       t.column "section",     :string,   :limit => 100
       t.column "name",        :string,   :limit => 100
       t.column "format",      :string,   :limit => 20
-      t.column "value",       :string
+      t.column "value",       :string,   :limit => 500
       t.column "description", :string,   :limit => 500
       t.column "hidden",      :boolean,                 :default => false
       t.column "created_at",  :datetime
@@ -402,57 +404,75 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",     :integer
       t.column "global",      :boolean,                 :default => false
     end
-    
-    create_table "sites", :force => true do |t|
-      t.column "name",       :string
-      t.column "host",       :string
+
+    create_table "signin_failures", :force => true do |t|
+      t.column "email",      :string
+      t.column "ip",         :string
       t.column "created_at", :datetime
-      t.column "updated_at", :datetime
     end
 
-    create_table "songs" do |t|
-      t.column "title",            :string
-      t.column "notes",            :text
-      t.column "artists",          :string,   :limit => 500
-      t.column "album",            :string
-      t.column "image_small_url",  :string
-      t.column "image_medium_url", :string
-      t.column "image_large_url",  :string
-      t.column "amazon_asin",      :string,   :limit => 50
-      t.column "amazon_url",       :string
-      t.column "created_at",       :datetime
-      t.column "person_id",        :integer
-      t.column "site_id",          :integer
+    create_table "sites", :force => true do |t|
+      t.column "name",                  :string
+      t.column "host",                  :string
+      t.column "created_at",            :datetime
+      t.column "updated_at",            :datetime
+      t.column "secondary_host",        :string
+      t.column "max_admins",            :integer
+      t.column "max_people",            :integer
+      t.column "max_groups",            :integer
+      t.column "import_export_enabled", :boolean,  :default => true
+      t.column "pages_enabled",         :boolean,  :default => true
+      t.column "pictures_enabled",      :boolean,  :default => true
+      t.column "publications_enabled",  :boolean,  :default => true
+      t.column "active",                :boolean,  :default => true
+      t.column "edit_tasks_enabled",    :boolean,  :default => true
     end
 
-    create_table "songs_tags", :id => false do |t|
-      t.column "song_id", :integer
-      t.column "tag_id",  :integer
+    create_table "sync_instances", :force => true do |t|
+      t.column "site_id",           :integer
+      t.column "owner_id",          :integer
+      t.column "person_id",         :integer
+      t.column "remote_id",         :integer
+      t.column "remote_account_id", :integer
+      t.column "account_type",      :string,   :limit => 25
+      t.column "created_at",        :datetime
+      t.column "updated_at",        :datetime
     end
 
-    create_table "sync_info", :id => false do |t|
-      t.column "last_update", :datetime
+    create_table "taggings", :force => true do |t|
+      t.column "tag_id",        :integer
+      t.column "taggable_id",   :integer
+      t.column "taggable_type", :string
+      t.column "created_at",    :datetime
     end
 
-    create_table "tags" do |t|
+    add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+    add_index "taggings", ["taggable_id", "taggable_type"], :name => "index_taggings_on_taggable_id_and_taggable_type"
+
+    create_table "tags", :force => true do |t|
       t.column "name",       :string,   :limit => 50
       t.column "updated_at", :datetime
       t.column "site_id",    :integer
     end
 
-    create_table "tags_verses", :id => false do |t|
-      t.column "tag_id",   :integer
-      t.column "verse_id", :integer
+    create_table "twitter_messages", :force => true do |t|
+      t.column "twitter_screen_name", :integer
+      t.column "person_id",           :integer
+      t.column "message",             :string,   :limit => 140
+      t.column "reply",               :string,   :limit => 140
+      t.column "created_at",          :datetime
+      t.column "updated_at",          :datetime
+      t.column "site_id",             :integer
     end
 
-    create_table "updates" do |t|
+    create_table "updates", :force => true do |t|
       t.column "person_id",        :integer
       t.column "first_name",       :string
       t.column "last_name",        :string
-      t.column "home_phone",       :bigint
-      t.column "mobile_phone",     :bigint
-      t.column "work_phone",       :bigint
-      t.column "fax",              :bigint
+      t.column "home_phone",       :string,   :limit => 25
+      t.column "mobile_phone",     :string,   :limit => 25
+      t.column "work_phone",       :string,   :limit => 25
+      t.column "fax",              :string,   :limit => 25
       t.column "address1",         :string
       t.column "address2",         :string
       t.column "city",             :string
@@ -469,9 +489,9 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",          :integer
     end
 
-    create_table "verifications" do |t|
+    create_table "verifications", :force => true do |t|
       t.column "email",        :string
-      t.column "mobile_phone", :bigint
+      t.column "mobile_phone", :string,   :limit => 25
       t.column "code",         :integer
       t.column "verified",     :boolean
       t.column "created_at",   :datetime
@@ -479,7 +499,7 @@ class CreateAll < ActiveRecord::Migration
       t.column "site_id",      :integer
     end
 
-    create_table "verses" do |t|
+    create_table "verses", :force => true do |t|
       t.column "reference",   :string,   :limit => 50
       t.column "text",        :text
       t.column "translation", :string,   :limit => 10
@@ -490,17 +510,6 @@ class CreateAll < ActiveRecord::Migration
       t.column "verse",       :integer
       t.column "site_id",     :integer
     end
-
-    create_table "workers" do |t|
-      t.column "ministry_id", :integer
-      t.column "person_id",   :integer
-      t.column "start",       :datetime
-      t.column "end",         :datetime
-      t.column "remind_on",   :datetime
-      t.column "reminded",    :boolean,  :default => false
-      t.column "site_id",     :integer
-    end
-    
     
     Site.current = Site.create :name => 'Default', :host => 'example.com'
     Setting.update_all

@@ -1,4 +1,5 @@
-if RAILS_ENV == 'test'
+ActiveRecord::Base.connection rescue nil
+if RAILS_ENV == 'test' and ActiveRecord::Base.connected?
   %w(settings sites).each do |file|
     model = eval(file.singularize.classify)
     next unless model.table_exists?
