@@ -1,0 +1,106 @@
+/* 
+	template: internet management
+	author: luka cvrk (www.solucija.com)
+*/
+
+body { color: #303030; background: #fff; font: .85em Arial, Verdana, sans-serif; text-align: center; line-height: 1.6em; margin: 2em; }
+a { color: #214466; background: inherit; }
+a:hover { color: #000; background: inherit; }
+h2 {font-size: 1.4em;}
+ul { margin: .6em 0; padding: 0;}
+.clear {	clear: both; margin: 0 0 .5em 0; }
+
+.list-heading {
+    font-size: larger;
+}
+
+#wrapper {
+    margin: 0 auto; 
+    padding: 30px;
+    text-align: left;
+    background-color: #ebebeb;
+    max-width: 850px;
+}
+
+#logo h1 {
+	float: left;
+	color: #000;
+	background: inherit;
+	margin: 0 0 .8em .3em;
+	padding: 0;
+	font-size: 2.4em;
+}
+
+#logo h1 a { text-decoration: none; }
+
+h1 { margin: 0 0 40px 10px; }
+	
+#top {
+	float: right;
+	margin: 0 2em 0 0;
+}
+
+#search_form {
+    float: right;
+}
+			
+#menu { clear: both; margin: 0 2% 0 1%; padding: 7px 0 7px 0; border-bottom: 1px solid #DCDBD5; border-top: 1px solid #DCDBD5;}
+#menu li { display: inline; }
+#menu a { padding: 3px 15px; margin: 0 3px 0 0; text-decoration: none; color: #808080; background: inherit; }
+#menu a.active { color: #fff; background: #3D648A; }
+#menu a:hover { background: #fff; color: #444;}
+
+#subnav { clear: both; margin: 0; padding: 3px 0 3px 0; font-size: smaller; }
+#subnav li { display: inline; }
+#subnav a { padding: 1px 15px; margin: 0 3px 0 0; text-decoration: none; color: #808080; background: inherit; }
+#subnav a.active { color: #fff; background: #3D648A; }
+#subnav a:hover { background: #fff; color: #444;}
+
+img { border: none; }
+label { display: block; }
+label.inline { display: inline; }
+
+.column {
+	float: left;
+	width: 150px;
+	margin: 1em 15px 0 0;
+	background: #fff;
+	color: #303030;
+	padding: 15px;
+}	
+.column h1 {
+	margin: 1% 0;
+	padding: 0;
+	color: #214466;
+	background: inherit;
+	font-size: 1.5em;
+}
+		
+.number {
+	background: #ccc;
+	padding: .6% 3%;
+	color: #FFF;
+}
+		
+.main {
+	margin: 1em 0 0 190px;
+	color: #303030;
+	padding: 20px;
+	background-color: #fff;
+}
+
+.date { border-top: 1px dotted #ccc; padding: 5px 0;}
+			
+.news { background: #fff; color: #808080; padding: .7em 1em; margin: 0 1%; }
+
+#footer { margin: 2em 3%; text-align: right; }
+
+.icon {
+    border: none;
+    background-color: transparent;
+    vertical-align: middle;
+}
+
+#wrapper h2.tab { line-height: 15px; }
+
+.discreet { text-decoration: none; }

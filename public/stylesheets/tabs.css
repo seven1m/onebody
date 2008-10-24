@@ -1,6 +1,7 @@
 h2.tab span {
   margin-left: 9px;
   margin-right: 0px;
+  margin-bottom: 0px;
   padding: 1px 10px 0px 10px;
   border-left: 1px solid #ccc;
   border-top: 1px solid #ccc;
@@ -32,4 +33,5 @@ h2.tab {
 div.section {
   border: 1px solid #ccc;
   padding: 15px 5px 5px 5px;
+  margin-top: 0;
 }
