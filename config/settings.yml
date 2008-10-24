@@ -106,11 +106,6 @@ Features:
     format: string
     value: 
     description: Where to send pending sign up requests (must be admin; leave blank to auto-approve).
-  Prayer: 
-    format: string
-    value: 
-    description: ""
-    hidden: true
   Sidebar Group Category: 
     format: string
     value: Small Groups
