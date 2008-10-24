@@ -1,21 +1,19 @@
-<% content_for :wide do %>
-  <% form_tag account_path, :method => 'post' do %>
-    <p>
-      <label for="name">Your Full Name (required):</label>
-      <%= text_field_tag :name %><br/>
-      <label for="email">Email Address (required):</label>
-      <%= text_field_tag :email %><br/>
-      <label for="phone">Phone Number (required):</label>
-      <em>in case we need to give you a call about your account</em><br/>
-      <%= text_field_tag :phone %><br/>
-      <label for="birthday">Birthday with Year (required):</label>
-      <%= text_field_tag :birthday, 'MM/DD/YYYY', :onfocus => "if(this.value=='MM/DD/YYYY')this.value=''", :onblur => "if(this.value=='')this.value='MM/DD/YYYY'"%>
-      <em>Year required</em><br/>
-      <label for="notes">Your Situation (required):</label>
-      Please give us a bit of information about you and your family,
-      including how long you've been attending our church,
-      and any other information that may help us verify your identity.<br/>
-      <%= text_area_tag :notes, nil, :rows => 3 %><br/>
-      <%= submit_tag 'Submit' %>
-  <% end %>
+<% form_tag account_path, :method => 'post' do %>
+  <p>
+    <label for="name">Your Full Name (required):</label>
+    <%= text_field_tag :name %><br/>
+    <label for="email">Email Address (required):</label>
+    <%= text_field_tag :email %><br/>
+    <label for="phone">Phone Number (required):</label>
+    <em>in case we need to give you a call about your account</em><br/>
+    <%= text_field_tag :phone %><br/>
+    <label for="birthday">Birthday with Year (required):</label>
+    <%= text_field_tag :birthday, 'MM/DD/YYYY', :onfocus => "if(this.value=='MM/DD/YYYY')this.value=''", :onblur => "if(this.value=='')this.value='MM/DD/YYYY'"%>
+    <em>Year required</em><br/>
+    <label for="notes">Your Situation (required):</label>
+    Please give us a bit of information about you and your family,
+    including how long you've been attending our church,
+    and any other information that may help us verify your identity.<br/>
+    <%= text_area_tag :notes, nil, :rows => 3 %><br/>
+    <%= submit_tag 'Submit' %>
 <% end %>
