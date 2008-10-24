@@ -23,7 +23,7 @@ class Setting < ActiveRecord::Base
     'Features.Multisite', 'Features.SSL'
   ]
   
-  SETTINGS_FILE = File.join(Rails.root, "config/settings.yml")
+  SETTINGS_FILE = File.join(RAILS_ROOT, "config/settings.yml")
   
   serialize :value
   belongs_to :site
