@@ -104,3 +104,14 @@ label.inline { display: inline; }
 #wrapper h2.tab { line-height: 15px; }
 
 .discreet { text-decoration: none; }
+
+#notice {
+    margin-top: 10px;
+    text-align: center;
+    background-color: #ffc;
+    padding: 5px;
+}
+
+.warning {
+    background-color: #fcc;
+}
