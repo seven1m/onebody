@@ -7,7 +7,6 @@ body { color: #303030; background: #fff; font: .85em Arial, Verdana, sans-serif;
 a { color: #214466; background: inherit; }
 a:hover { color: #000; background: inherit; }
 h2 {font-size: 1.4em;}
-ul { margin: .6em 0; padding: 0;}
 .clear {	clear: both; margin: 0 0 .5em 0; }
 
 #wrapper {
