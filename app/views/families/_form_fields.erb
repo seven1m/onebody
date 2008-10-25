@@ -1,6 +1,13 @@
-<%= form.label :name,      'Family Name' %>      <%= form.text_field :name %> <em>John Doe</em> or <em>John &amp; Jane Doe</em><br/>
+<%= form.label :name,      'Family Name' %>      <%= form.text_field :name, :onkeyup => 'set_last_name(this.value)' %> <em>John Doe</em> or <em>John &amp; Jane Doe</em><br/>
 <%= form.label :last_name, 'Family Last Name' %> <%= form.text_field :last_name %> <em>Doe</em><br/>
 <%= form.label :home_phone %>                    <%= form.phone_field :home_phone %><br/>
 <%= form.label :address1,  'Address' %>          <%= form.text_field :address1 %><br/>
 <%= form.label :address2,  'Address Line 2' %>   <%= form.text_field :address2 %><br/>
 <%= form.label :city,      'City, ST, Zip' %>    <%= form.text_field :city %>, <%= form.text_field :state, :size => 4 %>, <%= form.text_field :zip, :size => 11 %><br/>
+
+<script type="text/javascript">
+  function set_last_name(name) {
+    var parts = name.split(' ');
+    $('family_last_name').value = parts[parts.length-1]
+  }
+</script>
