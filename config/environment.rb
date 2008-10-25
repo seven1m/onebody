@@ -13,7 +13,6 @@ Rails::Initializer.run do |config|
   config.database_configuration_file = File.expand_path(File.join(File.dirname(__FILE__), 'database.yml'))
   config.load_paths << Rails.root + '/app/sweepers'
   config.plugin_paths << Rails.root + '/plugins'
-  config.active_record.timestamped_migrations = false
   config.time_zone = 'UTC'
   # dependencies
   config.gem 'pdf-writer', :lib => 'pdf/writer'
