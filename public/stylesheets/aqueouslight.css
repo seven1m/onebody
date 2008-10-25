@@ -513,62 +513,6 @@ blockquote p {
 	cursor: default;
 }
 
-#trailimageid {
-	position: absolute;
-	display: none;
-	left: 0px;
-	top: 0px;
-	width: 300px;
-	z-index: 200;
-	background-color: #fff;
-	padding: 10px;
-	border: 1px solid #999;
-}
-
-.list-heading {
-	font-weight: bold;
-	font-size: larger;
-}
-
-.picture {
-	width: 160px;
-	height: 160px;
-	text-align: center;
-	vertical-align: middle;
-	position: relative;
-	float: left;
-}
-
-.delete-picture {
-	position: relative;
-	top: 1px;
-	right: 1px;
-	width: 5px;
-	text-align: right;
-}
-
-table.iconed td {
-	padding-bottom: 10px;
-}
-
-td.icon {
-	text-align: center;
-}
-
-.time-block {
-	background-color: #79B933;
-}
-
-.extended-time-block {
-	color: #79B933;
-	font-weight: bold;
-	font-size: 12pt;
-}
-
-tr.centered td {
-	text-align: center;
-}
-
 #wide ul {
 	margin: 5px 0 15px 20px;
 }
@@ -587,55 +531,11 @@ tr.odd td {
 	background-color: #eee;
 }
 
-#picture-upload {
-	width: 295px;
-	float: right;
-	background-color: #eee;
-	padding: 5px;
-}
-
-#picture-upload input {
-	border: 1px solid #ccc;
-}
-
-#picture-upload .submit {
-	border-style: outset;
-	background-color: #ddd;
-}
-
 h2 a,
 h2 a:link,
 h2 a:active,
 h2 a:visited {
 	text-decoration: underline;
-}
-
-.highlight {
-	background-color: #ddf3ff;
-	padding: 5px;
-	border: 2px solid #92d9ff;
-}
-
-.highlight em {
-  background-color: #ffc;
-  font-style: normal;
-}
-
-.highlight h1,
-.highlight h2,
-.highlight h3 {
-	color: #666;
-	border: none;
-}
-
-.alert {
-	background-color: #fc9;
-	padding: 5px;
-	border: 2px solid #c96;
-}
-
-li.grayed, li.grayed a {
-	color: #999;
 }
 
 tr.new td {
@@ -649,17 +549,6 @@ tr.new td {
 
 .gray {
 	color: #999;
-}
-
-a.no-underline,
-a.no-underline:link,
-a.no-underline:visited,
-a.no-underline:active {
-	text-decoration: none;
-}
-
-a.no-underline:hover {
-	text-decoration: underline;
 }
 
 #search {
@@ -679,8 +568,8 @@ border: 0px;
 	color:#999;
 }
 #searchresults {
-padding: 5px;
-margin-left: 5px;
+    padding: 5px;
+    margin-left: 5px;
 }
 
 .invisible {
@@ -701,55 +590,6 @@ img.icon {
 	background: transparent;
 	border: none;
 	vertical-align: middle;
-}
-
-.contact .remove-contact {
-	display: none;
-}
-
-.contact:hover .remove-contact {
-	display: inline;
-}
-
-.flagged {
-	background-color: #fc9;
-	font-weight: bold;
-}
-
-.calendar {
-	width: 95%;
-}
-
-.calendar .day {
-	background-color: #eee;
-	padding: 2px;
-	width: 14%;
-	height: 105px;
-	border: 1px solid #ccc;
-}
-
-.calendar .day a.event-pic {
-	text-decoration: none;
-	clear: left;
-	float: left;
-	margin-right: 3px;
-}
-
-.calendar .day {
-	line-height: 11pt;
-}
-
-.calendar .day:hover {
-	background-color: #9cf;
-}
-
-.calendar .monthName th {
-	font-size: 20pt;
-        padding-bottom: 10px;
-}
-
-.comment-summary {
-	font-style: italic;
 }
 
 h2.headline {

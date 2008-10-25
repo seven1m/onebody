@@ -9,19 +9,19 @@ var displayduration=0; //duration in seconds image should remain visible. 0 for 
 var currentimageheight = 100;	// maximum image size.
 
 if (document.getElementById || document.all){
-	document.write('<div id="trailimageid" onmouseover="try{clearTimeout(hider)}catch(e){}"></div>');
+	document.write('<div id="popup" onmouseover="try{clearTimeout(hider)}catch(e){}"></div>');
 }
 
 function gettrailobj(){
 if (document.getElementById)
-return document.getElementById("trailimageid").style
+return document.getElementById("popup").style
 else if (document.all)
 return document.all.trailimagid.style
 }
 
 function gettrailobjnostyle(){
 if (document.getElementById)
-return document.getElementById("trailimageid")
+return document.getElementById("popup")
 else if (document.all)
 return document.all.trailimagid
 }
@@ -35,9 +35,9 @@ function show_popup(id, show_photo){
 	hide_popup();
 	var obj = gettrailobj();
 	if(show_photo) {
-	  new Ajax.Updater('trailimageid', '/people/' + id + '?simple=true&photo=true', {onComplete:function(){$('trailimageid').style.display = 'block'}, onlyLatestOfClass:'person', method:'get'});
+	  new Ajax.Updater('popup', '/people/' + id + '?simple=true&photo=true', {onComplete:function(){$('popup').style.display = 'block'}, onlyLatestOfClass:'person', method:'get'});
 	} else {
-	  new Ajax.Updater('trailimageid', '/people/' + id + '?simple=true', {onComplete:function(){$('trailimageid').style.display = 'block'}, onlyLatestOfClass:'person', method:'get'});
+	  new Ajax.Updater('popup', '/people/' + id + '?simple=true', {onComplete:function(){$('popup').style.display = 'block'}, onlyLatestOfClass:'person', method:'get'});
   }
 	//document.onmousemove = followmouse;
 	obj.left = mouseX + 'px';
