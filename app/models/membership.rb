@@ -17,6 +17,7 @@
 #  updated_at         :datetime      
 #  code               :integer       
 #  site_id            :integer       
+#  legacy_id          :integer       
 #
 
 class Membership < ActiveRecord::Base

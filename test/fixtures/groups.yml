@@ -2,30 +2,33 @@
 #
 # Table name: groups
 #
-#  id             :integer       not null, primary key
-#  name           :string(100)   
-#  description    :text          
-#  meets          :string(100)   
-#  location       :string(100)   
-#  directions     :text          
-#  other_notes    :text          
-#  category       :string(50)    
-#  creator_id     :integer       
-#  private        :boolean       
-#  address        :string(255)   
-#  members_send   :boolean       default(TRUE)
-#  leader_id      :integer       
-#  updated_at     :datetime      
-#  hidden         :boolean       
-#  approved       :boolean       
-#  link_code      :string(255)   
-#  parents_of     :integer       
-#  site_id        :integer       
-#  cached_parents :text          
-#  blog           :boolean       default(TRUE)
-#  email          :boolean       default(TRUE)
-#  prayer         :boolean       default(TRUE)
-#  attendance     :boolean       default(TRUE)
+#  id                        :integer       not null, primary key
+#  name                      :string(100)   
+#  description               :text          
+#  meets                     :string(100)   
+#  location                  :string(100)   
+#  directions                :text          
+#  other_notes               :text          
+#  category                  :string(50)    
+#  creator_id                :integer       
+#  private                   :boolean       
+#  address                   :string(255)   
+#  members_send              :boolean       default(TRUE)
+#  leader_id                 :integer       
+#  updated_at                :datetime      
+#  hidden                    :boolean       
+#  approved                  :boolean       
+#  link_code                 :string(255)   
+#  parents_of                :integer       
+#  site_id                   :integer       
+#  cached_parents            :text          
+#  blog                      :boolean       default(TRUE)
+#  email                     :boolean       default(TRUE)
+#  prayer                    :boolean       default(TRUE)
+#  attendance                :boolean       default(TRUE)
+#  legacy_id                 :integer       
+#  gcal_private_link         :string(255)   
+#  approval_required_to_join :boolean       default(TRUE)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

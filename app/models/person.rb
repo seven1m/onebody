@@ -10,9 +10,9 @@
 #  first_name                   :string(255)   
 #  last_name                    :string(255)   
 #  suffix                       :string(25)    
-#  mobile_phone                 :integer       
-#  work_phone                   :integer       
-#  fax                          :integer       
+#  mobile_phone                 :string(25)    
+#  work_phone                   :string(25)    
+#  fax                          :string(25)    
 #  birthday                     :datetime      
 #  email                        :string(255)   
 #  email_changed                :boolean       
@@ -23,7 +23,7 @@
 #  encrypted_password           :string(100)   
 #  service_name                 :string(100)   
 #  service_description          :text          
-#  service_phone                :integer       
+#  service_phone                :string(25)    
 #  service_email                :string(255)   
 #  service_website              :string(255)   
 #  activities                   :text          
@@ -70,6 +70,7 @@
 #  twitter_account              :string(100)   
 #  api_key                      :string(50)    
 #  salt                         :string(50)    
+#  deleted                      :boolean       
 #
 
 class Person < ActiveRecord::Base

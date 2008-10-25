@@ -4,7 +4,7 @@
 #
 #  id           :integer       not null, primary key
 #  email        :string(255)   
-#  mobile_phone :integer       
+#  mobile_phone :string(25)    
 #  code         :integer       
 #  verified     :boolean       
 #  created_at   :datetime      

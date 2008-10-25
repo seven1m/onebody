@@ -17,6 +17,7 @@
 #  updated_at         :datetime      
 #  code               :integer       
 #  site_id            :integer       
+#  legacy_id          :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

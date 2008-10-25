@@ -12,7 +12,7 @@
 #  city               :string(255)   
 #  state              :string(2)     
 #  zip                :string(10)    
-#  home_phone         :integer       
+#  home_phone         :string(25)    
 #  email              :string(255)   
 #  latitude           :float         
 #  longitude          :float         
@@ -29,6 +29,7 @@
 #  share_activity     :boolean       default(TRUE)
 #  site_id            :integer       
 #  share_home_phone   :boolean       default(TRUE)
+#  deleted            :boolean       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

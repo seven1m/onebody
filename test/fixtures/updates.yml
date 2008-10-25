@@ -6,10 +6,10 @@
 #  person_id        :integer       
 #  first_name       :string(255)   
 #  last_name        :string(255)   
-#  home_phone       :integer       
-#  mobile_phone     :integer       
-#  work_phone       :integer       
-#  fax              :integer       
+#  home_phone       :string(25)    
+#  mobile_phone     :string(25)    
+#  work_phone       :string(25)    
+#  fax              :string(25)    
 #  address1         :string(255)   
 #  address2         :string(255)   
 #  city             :string(255)   
