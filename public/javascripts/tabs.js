@@ -27,9 +27,9 @@
     }
     for(var i=0; i<htags.length; i++) {
       if(htags[i].className == TAB_CLASS) {
-        var span = document.createElement("span");
-        span.innerHTML = htags[i].innerHTML;
-        tabs.push(span);
+        var div = document.createElement("div");
+        div.innerHTML = htags[i].innerHTML;
+        tabs.push(div);
         headings.push(htags[i]);
       }
     }
@@ -72,7 +72,7 @@
     var id = headings[index].getAttribute('origId') || sections[index].getAttribute('id');
     if(id && index != lastSection) {
       //var y = typeof window.pageYOffset != 'undefined' ? window.pageYOffset : document.documentElement.scrollTop;
-      if(!navigator.userAgent.match(/Safari/) && (location.hash == null || lastSection != -1)) location.hash = '#' + id;
+      if((location.hash == null || lastSection != -1)) location.hash = '#' + id;
       //window.scrollTo(0, y);
       if(typeof load_tab == 'function') load_tab(id);
     }
@@ -134,5 +134,5 @@
     var selected = get_selected();
     show_section(selected);
     set_handlers();
-    if(!navigator.userAgent.match(/Safari/)) setInterval(checkHash, 100);
+    setInterval(checkHash, 100);
   };
