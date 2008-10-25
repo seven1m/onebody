@@ -47,6 +47,17 @@
     <%= link_to_function 'help', "alert('In your Google Calendar, in Calendar Settings, copy your \"Private\" XML Link and paste in this box to display your calendar on the group page.')" %>
   </p>
   
+  <h2>Privacy &amp; Security</h2>
+  <p>
+    <%= form.check_box :approval_required_to_join, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
+    <%= form.label :approval_required_to_join, 'Approval required for people to join group', :class => 'inline' %><br/>
+    <%= form.check_box :private, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
+    <%= form.label :private, 'Private Group', :class => 'inline' %>
+    <em>If checked, message are only visible to members of the group.</em><br/>
+    <%= form.check_box :members_send, :class => 'checkbox' %>
+    <%= form.label :members_send, 'Group Members Can Post Messages', :class => 'inline' %>
+  </p>
+  
   <% if @logged_in.admin?(:manage_groups) %>
     <p><%= link_to_function 'Advanced &raquo;', "Element.toggle('advanced')" %></p>
     <div id="advanced" style="display:none;">
@@ -58,11 +69,6 @@
         <em>Separate multiple codes with a space.</em><br/>
         <%= form.label :parents_of, 'Parents of:', :class => 'inline' %>
         <%= form.select :parents_of, [['(none)', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %><br/>
-        <%= form.check_box :members_send, :class => 'checkbox' %>
-        <%= form.label :members_send, 'Group Members Can Post Messages', :class => 'inline' %><br/>
-        <%= form.check_box :private, :class => 'checkbox' %>
-        <%= form.label :private, 'Private Group', :class => 'inline' %>
-        <em>If checked, message are only visible to members of the group.</em><br/>
         <%= form.check_box :hidden, :class => 'checkbox' %>
         <%= form.label :hidden, 'Hidden Group', :class => 'inline' %>
         <em>Group won't be visible on members' profiles or other group lists (unless your an admin).</em>
@@ -78,5 +84,10 @@
     var address = '';
     name.toLowerCase().scan(/[a-z0-9]/, function(s) {address += s});
     $('group_address').value = address;
+  }
+  function check_mutual_exclusion() {
+    if(!$('group_approval_required_to_join').checked && $('group_private').checked) {
+      alert('By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.');
+    }
   }
 </script>

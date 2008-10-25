@@ -25,9 +25,9 @@ class MembershipsController < ApplicationController
   def create
     @group = Group.find(params[:group_id])
     @person = Person.find(params[:id])
-    if @logged_in.can_edit?(@group)
+    if @logged_in.can_edit?(@group) or not @group.approval_required_to_join?
       @group.memberships.create(:person => @person)
-    elsif @person == @logged_in
+    elsif me?
       @group.membership_requests.create(:person => @person)
       flash[:warning] = 'A request to join this group has been sent to the group administrator(s).'
     end

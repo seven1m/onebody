@@ -74,9 +74,6 @@ class GroupsController < ApplicationController
   def create
     raise 'no more groups can be created' unless Site.current.max_groups.nil? or Group.count < Site.current.max_groups
     photo = params[:group].delete(:photo)
-    if not @logged_in.admin?(:manage_groups) and (params[:group][:link_code] or params[:group][:members_send] or params[:group][:private])
-      raise 'You are not authorized to do that.'
-    end
     params[:group].cleanse 'address'
     @group = Group.create(params[:group])
     unless @group.errors.any?
@@ -110,9 +107,6 @@ class GroupsController < ApplicationController
     if @logged_in.can_edit?(@group)
       params[:group].delete(:approved) unless @logged_in.admin?(:manage_groups)
       photo = params[:group].delete(:photo)
-      if not @logged_in.admin?(:manage_groups) and (params[:group][:link_code] or params[:group][:members_send] or params[:group][:private])
-        raise 'You are not authorized to do that.'
-      end
       params[:group].cleanse 'address'
       if @group.update_attributes(params[:group])
         flash[:notice] = 'Group settings have been saved.'
