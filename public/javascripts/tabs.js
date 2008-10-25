@@ -39,10 +39,16 @@
     if(headings.length == 0)return;
     headings[0].innerHTML = '';
     for(var i=0; i<tabs.length; i++) {
-  //    headings[i].removeChild(tabs[i]);
       headings[0].appendChild(tabs[i]);
       if(i > 0) headings[i].parentNode.removeChild(headings[i]);
     }
+    // hack to fix tab alignment
+    var div = document.createElement('div');
+    div.style.fontSize = '1pt';
+    div.style.lineHeight = '1pt';
+    div.style.margin = '0';
+    div.innerHTML = '&nbsp;'
+    headings[0].parentNode.insertBefore(div, headings[0]);
   };
 
   function hide_all(){
