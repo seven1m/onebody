@@ -38,7 +38,7 @@ class FamiliesController < ApplicationController
   end
   
   def create
-    @family = Family.new(params[:family])
+    @family = Family.new_with_default_sharing(params[:family])
     respond_to do |format|
       if @family.save
         format.html { redirect_to @family }

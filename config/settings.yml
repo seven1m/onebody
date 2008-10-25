@@ -288,3 +288,36 @@ Privacy:
     format: string
     value: 10
     description: Maximum number of signin failures in a 15-minute period before account is locked out. (Account is automatically unlocked after 15 minutes.)
+  Share Address by Default:
+    format: boolean
+    value: true
+    description: If enabled, new users will have their home address shared with other site members.
+  Share Home Phone by Default:
+    format: boolean
+    value: true
+    description: If enabled, new users will have their home phone shared with other site members.
+  Share Mobile Phone by Default:
+    format: boolean
+    value: false
+    description: If enabled, new users will have their mobile phones shared with other site members.
+  Share Work Phone by Default:
+    format: boolean
+    value: false
+    description: If enabled, new users will have their work phones shared with other site members.;
+  Share Fax by Default:
+    format: boolean
+    value: false
+    description: If enabled, new users will have their fax shared with other site members.
+  Share Email by Default:
+    format: boolean
+    value: false
+    description: If enabled, new users will have their email address shared with other site members.
+  Share Birthday by Default:
+    format: boolean
+    value: true
+    description: If enabled, new users will have their birthday shared with other site members.
+  Share Anniversary by Default:
+    format: boolean
+    value: true
+    description: If enabled, new users will have their anniversary shared with other site members.
+

@@ -121,4 +121,19 @@ class Family < ActiveRecord::Base
     people.all.each { |p| p.destroy }
     update_attributes!(:deleted => true)
   end
+  
+  def self.new_with_default_sharing(attrs)
+    attrs.symbolize_keys!
+    attrs.merge!(
+      :share_address      => Setting.get(:privacy, :share_address_by_default),
+      :share_home_phone   => Setting.get(:privacy, :share_home_phone_by_default),
+      :share_mobile_phone => Setting.get(:privacy, :share_mobile_phone_by_default),
+      :share_work_phone   => Setting.get(:privacy, :share_work_phone_by_default),
+      :share_fax          => Setting.get(:privacy, :share_fax_by_default),
+      :share_email        => Setting.get(:privacy, :share_email_by_default),
+      :share_birthday     => Setting.get(:privacy, :share_birthday_by_default),
+      :share_anniversary  => Setting.get(:privacy, :share_anniversary_by_default)
+    )
+    new(attrs)
+  end
 end
