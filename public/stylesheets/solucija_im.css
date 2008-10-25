@@ -96,7 +96,7 @@ label.inline { display: inline; }
     vertical-align: middle;
 }
 
-#wrapper h2.tab { line-height: 15px; }
+#wrapper h2.tab div { margin-left: 5px; }
 
 #notice {
     margin-top: 10px;
