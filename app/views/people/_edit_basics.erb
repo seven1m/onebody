@@ -56,8 +56,8 @@
   <%= form.label :mobile_phone %> <%= form.phone_field :mobile_phone %><br/>
   <%= form.label :work_phone %>   <%= form.phone_field :work_phone %><br/>
   <%= form.label :fax %>          <%= form.phone_field :fax %><br/>
-  <%= form.label :birthday %>     <%= form.date_field :birthday %>    <em>MM/DD/YYYY (the year is never shown)</em><br/>
-  <%= form.label :anniversary %>  <%= form.date_field :anniversary %> <em>MM/DD/YYYY (the year is never shown)</em>
+  <%= form.label :birthday %>     <%= form.date_field :birthday %><br/>
+  <%= form.label :anniversary %>  <%= form.date_field :anniversary %>
   <% unless @logged_in.admin?(:edit_profiles) %>
     <% fields_for :family, @family do |family| %>
       <%= render :partial => 'families/form_fields', :locals => {:form => family} %>
@@ -67,3 +67,4 @@
 <% end %>
 
 <script type="text/javascript"> $('person_first_name').focus() </script>
+<%= calendar_date_select_includes 'silver' %>

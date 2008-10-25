@@ -265,3 +265,7 @@ a.no-underline:hover {
 	padding: 10px;
 	border: 1px solid #999;
 }
+
+td {
+    vertical-align: top;
+}

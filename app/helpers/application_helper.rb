@@ -78,7 +78,8 @@ module ActionView
         @template.phone_field(@object_name, method, options.merge(:object => @object))
       end
       def date_field(method, options = {})
-        @template.date_field(@object_name, method, options.merge(:object => @object))
+        options = {:time => false, :size => 15, :buttons => false}.merge(options)
+        calendar_date_select(method, options)
       end
     end
   end
