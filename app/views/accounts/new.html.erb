@@ -7,6 +7,7 @@
       <%= form.label :first_name %>   <%= form.text_field :first_name %><br/>
       <%= form.label :last_name %>    <%= form.text_field :last_name %><br/>
       <%= form.label :gender %>       <%= form.select :gender, [''] + %w(Male Female) %><br/>
+      <%= text_field_tag :phone, nil, :id => 'dummy_phone' %>
       <%= form.submit 'Create Account' %>
     </p>
   <% end %>
@@ -18,3 +19,7 @@
 <h2>Verify Account</h2>
 
 <%= render :partial => 'how_to_verify' %>
+
+<style type="text/css" media="screen">
+  #dummy_phone { display: none; }
+</style>

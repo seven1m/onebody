@@ -27,7 +27,7 @@ class AccountsController < ApplicationController
   end
   
   def create
-    if params[:person] and Setting.get(:features, :sign_up)
+    if params[:person] and Setting.get(:features, :sign_up) and params[:phone].blank? # phone is to catch bots (hidden field)
       if Person.find_by_email(params[:person][:email])
         params[:email] = params[:person][:email]
         create_by_email
