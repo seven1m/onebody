@@ -115,3 +115,6 @@ label.inline { display: inline; }
 .warning {
     background-color: #fcc;
 }
+.very-strong {
+  color: red;
+}
