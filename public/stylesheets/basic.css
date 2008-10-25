@@ -131,3 +131,10 @@ table.attendance tr th {
   background-color: #fee;
   border-color: #f00;
 }
+
+ul.page-listing {
+  list-style: none;
+  padding-bottom: 0;
+  margin-bottom: 5px;
+  margin:5px 0 15px 20px;
+}

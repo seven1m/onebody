@@ -1,5 +1,7 @@
 <h1>Settings</h1>
 
+<div style="font-size:1pt;line-height:1pt;margin:0;">&nbsp;</div><!-- fix tab alignment -->
+
 <% form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
   <% if params[:site_id] %><%= hidden_field_tag :site_id, params[:site_id] %><% end %>
   <% @settings.each do |section_name, section| %>
