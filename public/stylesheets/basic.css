@@ -1,0 +1,134 @@
+.list-heading {
+    font-size: larger;
+}
+img { border: none; }
+label { display: block; }
+label.inline { display: inline; }
+.icon {
+    border: none;
+    background-color: transparent;
+    vertical-align: middle;
+}
+#wrapper h2.tab { line-height: 15px; }
+.discreet { text-decoration: none; }
+.warning { background-color: #fcc; }
+.very-strong { color: red; font-weight: bold; }
+.handle {
+  cursor: move;
+}
+
+.share-box {
+  width: 45%;
+  float: left;
+  margin-right: 20px;
+}
+
+.errorExplanation {
+  border: 1px solid #ccc;
+  background-color: #ffc;
+  padding: 10px;
+}
+
+.errorExplanation h2 {
+  color: red;
+}
+
+li.family-member{
+    margin-bottom: 1px;
+}
+
+.small{
+    font-size: 0.8em;
+}
+
+#wysiwyg_div_page_body img {
+  padding: 0;
+  margin: 0;
+	background: transparent;
+	border: none;
+}
+
+#wysiwyg_div_page_body td {
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+}
+
+tr.void td,
+tr.void td a,
+tr.void td a:link,
+tr.void td a:visited,
+tr.void td a:hover,
+tr.void td a:active {
+  text-decoration: line-through;
+  color: #999;
+}
+
+tr.disabled td {
+  color: #999;
+}
+
+h2.status {
+  color: #000;
+}
+
+h2.status .stop {
+  color: #f00;
+}
+
+h2.status .go {
+	color: #79B933;
+}
+
+h2.status .slow {
+	color: #bb0;
+}
+
+div.setup-section {
+	border: 2px solid #ccc;
+	padding: 15px;
+	margin-bottom: 15px;
+}
+
+h2.setup-heading {
+	border: none;
+	margin: -15px -15px 0 -15px;
+	padding: 2px;
+	background-color: #ccc;
+	font-size: 12pt;
+	font-weight: bold;
+	color: #000;
+}
+
+code {
+	font-size: 10pt;
+	color: #000;
+	background-color: #eee;
+	border: 1px solid #ccc;
+	padding: 1px;
+}
+
+.verse {
+  margin-bottom: 15px;
+}
+
+.verse-body {
+  font-size: larger;
+}
+
+.very-strong {
+  color: red;
+}
+
+table.attendance {
+  width: 100%;
+}
+
+table.attendance tr th {
+  border-bottom: 1px solid #ccc;
+}
+
+#notice.warning {
+  background-color: #fee;
+  border-color: #f00;
+}

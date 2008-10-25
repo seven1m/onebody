@@ -10,10 +10,6 @@ h2 {font-size: 1.4em;}
 ul { margin: .6em 0; padding: 0;}
 .clear {	clear: both; margin: 0 0 .5em 0; }
 
-.list-heading {
-    font-size: larger;
-}
-
 #wrapper {
     margin: 0 auto; 
     padding: 30px;
@@ -103,18 +99,9 @@ label.inline { display: inline; }
 
 #wrapper h2.tab { line-height: 15px; }
 
-.discreet { text-decoration: none; }
-
 #notice {
     margin-top: 10px;
     text-align: center;
     background-color: #ffc;
     padding: 5px;
-}
-
-.warning {
-    background-color: #fcc;
-}
-.very-strong {
-  color: red;
 }

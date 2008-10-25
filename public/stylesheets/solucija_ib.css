@@ -157,19 +157,3 @@ img { border: 0; }
 	#footer .right { float: right; }
 	
 .clear { clear: both; }
-	
-.list-heading {
-    font-size: larger;
-}
-img { border: none; }
-label { display: block; }
-label.inline { display: inline; }
-.icon {
-    border: none;
-    background-color: transparent;
-    vertical-align: middle;
-}
-#wrapper h2.tab { line-height: 15px; }
-.discreet { text-decoration: none; }
-.warning { background-color: #fcc; }
-.very-strong { color: red; font-weight: bold; }
