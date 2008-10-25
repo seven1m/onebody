@@ -539,7 +539,7 @@ class Person < ActiveRecord::Base
       self.photo = params[:photo] == 'remove' ? nil : params[:photo]
       'photo'
     elsif params[:person] and (BASICS.detect { |a| params[:person][a] } or params[:family])
-      if Person.logged_in.admin?(:edit_profiles)
+      if Person.logged_in.admin?(:edit_profiles) or not Setting.get(:features, :updates_must_be_approved)
         params[:family] ||= {}
         params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]
         params[:person].cleanse(:birthday, :anniversary)

@@ -130,6 +130,10 @@ Features:
     format: string
     value: 
     description: Account (email address) for connecting to Twitter through Jabber/XMPP.
+  Updates Must Be Approved:
+    format: boolean
+    value: true
+    description: If enabled, all changes to a user's "basic" information (phone, address, etc.) will await approval from an admin before being applied.
 Services: 
   Yahoo: 
     format: string
