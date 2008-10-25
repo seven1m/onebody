@@ -9,7 +9,6 @@ label.inline { display: inline; }
     background-color: transparent;
     vertical-align: middle;
 }
-#wrapper h2.tab { line-height: 15px; }
 .discreet { text-decoration: none; }
 .warning { background-color: #fcc; }
 .very-strong { color: red; font-weight: bold; }

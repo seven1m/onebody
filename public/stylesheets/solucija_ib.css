@@ -157,3 +157,5 @@ img { border: 0; }
 	#footer .right { float: right; }
 	
 .clear { clear: both; }
+
+body h2.tab { line-height: 15px; }
