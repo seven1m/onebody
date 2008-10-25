@@ -41,6 +41,8 @@
     for(var i=0; i<tabs.length; i++) {
       headings[0].appendChild(tabs[i]);
       if(i > 0) headings[i].parentNode.removeChild(headings[i]);
+      headings[i].setAttribute('origId', headings[i].id)
+      headings[i].id = null;
     }
     // hack to fix tab alignment
     var div = document.createElement('div');
@@ -67,11 +69,11 @@
     if(!section) var section = sections[index=0];
     section.style.display = "block";
     tabs[index].className = TAB_SELECTED_CLASS;
-    var id = headings[index].getAttribute('id') || sections[index].getAttribute('id');
+    var id = headings[index].getAttribute('origId') || sections[index].getAttribute('id');
     if(id && index != lastSection) {
-      var y = typeof window.pageYOffset != 'undefined' ? window.pageYOffset : document.documentElement.scrollTop;
+      //var y = typeof window.pageYOffset != 'undefined' ? window.pageYOffset : document.documentElement.scrollTop;
       if(!navigator.userAgent.match(/Safari/) && (location.hash == null || lastSection != -1)) location.hash = '#' + id;
-      window.scrollTo(0, y);
+      //window.scrollTo(0, y);
       if(typeof load_tab == 'function') load_tab(id);
     }
     lastSection = index;
@@ -109,7 +111,7 @@
     }
     if(isNaN(selected)){
       for(var i=0; i<sections.length; i++){
-        if(sections[i].getAttribute('id') == selected || headings[i].getAttribute('id') == selected){
+        if(sections[i].getAttribute('id') == selected || headings[i].getAttribute('origId') == selected){
           selected = i;
           break;
         }
