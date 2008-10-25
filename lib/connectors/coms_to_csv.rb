@@ -63,6 +63,7 @@ class ComsToCsv
         @classes[record.memberid].to_a.each do |class_cat, updates|
           classes << class_cat
         end
+        classes << 'AG:' + record.agegroup.to_s.strip if record.agegroup.to_s.strip.any?
         can_sign_in = (%w(M A P Y O C V).include?(record.mailgroup) || record.info_5 =~ /allow/i) ? true : false
         birthday = to_datetime(record.birthday)
         anniversary = to_datetime(record.weddate)

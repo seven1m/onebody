@@ -1,7 +1,7 @@
 <p><%= link_to '&laquo; Report Options', checkin_admin_path %></p>
 
 <table class="attendance">
-  <tr><th>Barcode</th><th>Name</th><th>Age</th><th>In</th><th>Out</th></tr>
+  <tr><th>Barcode</th><th>Name</th><th>Age Group</th><th>In</th><th>Out</th></tr>
   <% @records.each do |record| %>
     <tr id="record<%= record.id %>" <% if record.void? %>class="void"<% end %>>
       <td><%=h record.barcode_id %>

@@ -35,7 +35,7 @@ class CheckinAttendanceRecord < ActiveRecord::Base
         prev_record.update_attribute :out, Time.now
         prev_record
       else
-        person.checkin_attendance_records.create(:barcode_id => person.barcode_id, :first_name => person.first_name, :last_name => person.last_name, :family_name => person.family.name, :age => (person.age ? person.age[:years] : '?'), :section => section, :in => Time.now, :can_pick_up => person.can_pick_up, :cannot_pick_up => person.cannot_pick_up, :medical_notes => person.medical_notes) rescue nil
+        person.checkin_attendance_records.create(:barcode_id => person.barcode_id, :first_name => person.first_name, :last_name => person.last_name, :family_name => person.family.name, :age => person.age_group, :section => section, :in => Time.now, :can_pick_up => person.can_pick_up, :cannot_pick_up => person.cannot_pick_up, :medical_notes => person.medical_notes) rescue nil
       end
     end
   end
@@ -43,4 +43,9 @@ end
 
 Person.class_eval do
   has_many :checkin_attendance_records
+  def age_group
+    if ag = classes.split(',').detect { |c| c =~ /^AG:/ }
+      ag.split(':').last
+    end
+  end
 end

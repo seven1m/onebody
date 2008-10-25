@@ -8,9 +8,13 @@
     <%= text_field_tag :date, @last_sunday_or_wednesday.strftime('%m/%d/%Y'), :size => 10 %> <em>MM/DD/YYYY</em>
   </p>
   <p>
-    <label for="time">Time (optional):</label>
-    <%= select_tag :time_relevance, options_for_select(%w(before after)) %>
-    <%= text_field_tag :time, nil, :size => 10 %>
+    <label for="time">Time In (optional):</label>
+    <%= select_tag :time_in_relevance, options_for_select(%w(before after)) %>
+    <%= text_field_tag :time_in, nil, :size => 10 %>
+    <em>HH:MM AM</em><br/>
+    <label for="time">Time Out (optional):</label>
+    <%= select_tag :time_out_relevance, options_for_select(%w(before after)) %>
+    <%= text_field_tag :time_out, nil, :size => 10 %>
     <em>HH:MM AM</em>
   </p>
   <p>

@@ -1,5 +1,5 @@
 class Checkin::AdminController < ApplicationController
-  ORDERS = {'Time In' => "`in`", 'Time Out' => "`out`", 'Age' => 'age', 'Name' => "first_name last_name"}
+  ORDERS = {'Time In' => "`in`", 'Time Out' => "`out`", 'Age Group' => 'age', 'Name' => "first_name last_name"}
   before_filter :only_admins
   
   def index
@@ -15,9 +15,13 @@ class Checkin::AdminController < ApplicationController
     @date = Date.parse(params[:date])
     @section = params[:section]
     conditions = ["`in` >= ? and `in` < ? and section = ?", @date, @date+1, @section]
-    if params[:time].to_s.any?
-      @time = DateTime.parse(@date.strftime('%m/%d/%Y ') + params[:time])
-      conditions.add_condition ["`in` #{params[:time_relevance] == 'before' ? '<' : '>='} ?", @time]
+    if params[:time_in].to_s.any?
+      @time = DateTime.parse(@date.strftime('%m/%d/%Y ') + params[:time_in])
+      conditions.add_condition ["`in` #{params[:time_in_relevance] == 'before' ? '<' : '>='} ?", @time]
+    end
+    if params[:time_out].to_s.any?
+      @time = DateTime.parse(@date.strftime('%m/%d/%Y ') + params[:time_out])
+      conditions.add_condition ["`out` #{params[:time_out_relevance] == 'before' ? '<' : '>='} ?", @time]
     end
     @order = params[:order]
     unless ORDERS.values.include? @order
