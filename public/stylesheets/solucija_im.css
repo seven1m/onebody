@@ -109,3 +109,13 @@ label.inline { display: inline; }
     font-weight: bold;
     margin-top: -20px;
 }
+
+.highlight {
+  background-color: #ccc;
+  border-color: #ddd;
+}
+
+.alert {
+  background-color: #ffc;
+  border-color: #ddd;
+}

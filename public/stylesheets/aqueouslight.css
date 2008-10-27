@@ -178,13 +178,13 @@ td.tip {
 }
 
 #notice {
-        margin-top: 10px;
-	font-weight: bold;
-	font-size: larger;
-        background-color: #ffc;
-        padding: 10px;
-        border: 2px solid yellow;
-        text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: larger;
+  background-color: #ffc;
+  padding: 10px;
+  border: 2px solid yellow;
+  text-align: center;
 }
 
 #notice a:link,

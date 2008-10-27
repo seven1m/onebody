@@ -127,6 +127,13 @@ table.attendance tr th {
   border-bottom: 1px solid #ccc;
 }
 
+#notice {
+    margin-top: 10px;
+    text-align: center;
+    background-color: #ffc;
+    padding: 5px;
+}
+
 #notice.warning {
   background-color: #fee;
   border-color: #f00;
