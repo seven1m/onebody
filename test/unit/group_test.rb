@@ -38,4 +38,20 @@ class GroupTest < ActiveSupport::TestCase
     assert_equal 2, records.length
     assert_equal 1, records.select { |r| r.last }.length
   end
+  
+  should "know its admins" do
+    assert_equal 0, @group.admins.count
+    @admin = Person.forge
+    @group.memberships.create!(:person_id => @admin.id, :admin => true)
+    assert_equal 1, @group.admins.count
+  end
+  
+  should "guess its leader" do
+    assert_nil @group.leader
+    @admin = Person.forge
+    @group.memberships.create!(:person_id => @admin.id, :admin => true)
+    assert_equal @admin, @group.leader
+    @group.update_attributes! :leader_id => @person.id
+    assert_equal @person, @group.leader
+  end
 end

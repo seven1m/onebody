@@ -35,6 +35,7 @@ class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
   has_many :people, :through => :memberships, :order => 'last_name, first_name'
+  has_many :admins, :through => :memberships, :source => :person, :order => 'last_name, first_name', :conditions => ['memberships.admin = ?', true]
   has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc', :dependent => :destroy
   has_many :notes, :order => 'created_at desc'
   has_many :prayer_requests, :order => 'created_at desc'
@@ -80,10 +81,6 @@ class Group < ActiveRecord::Base
     "<#{name}>"
   end
   
-  def admins
-    memberships.find_all_by_admin(true).map { |m| m.person }
-  end
-  
   def admin?(person, exclude_global_admins=false)
     if exclude_global_admins
       admins.include? person
@@ -99,6 +96,11 @@ class Group < ActiveRecord::Base
   def linked?
     link_code and link_code.any?
   end
+  
+  def leader_with_guessing
+    leader_without_guessing || admins.first
+  end
+  alias_method_chain :leader, :guessing
   
   def get_options_for(person, create_if_missing=false)
     if person.member_of?(self)
