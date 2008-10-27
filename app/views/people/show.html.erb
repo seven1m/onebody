@@ -58,12 +58,7 @@
 
 <%= render :partial => 'person_type' %>
 
-<% if @person.pending_updates.count > 0 and me? %>
-  <p>
-    <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'icon' %>
-    The update to your profile is pending approval.
-  </p>
-<% end %>
+<%= render :partial => 'pending_updates' %>
 
 <%= render :partial => 'details' %>
 

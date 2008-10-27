@@ -1,0 +1,11 @@
+<% if @person.pending_updates.count > 0 %>
+  <p class="highlight" style="width:400px;">
+    <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'icon' %>
+    An update to this profile is
+    <% if @logged_in.admin?(:update_profiles) %>
+      <%= link_to 'pending approval', administration_updates_path %>.
+    <% else %>
+      pending approval.
+    <% end %>
+  </p>
+<% end %>
