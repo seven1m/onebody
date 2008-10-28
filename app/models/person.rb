@@ -143,6 +143,9 @@ class Person < ActiveRecord::Base
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
         record.errors.add attribute, 'not a valid email address.'
       end
+      if record.email_changed? and not Setting.get(:access, :super_admins).include?(record.email_was) and record.super_admin?
+        record.errors.add attribute, 'is invalid.' # cannot make yourself a super admin
+      end
     end
   end
   
@@ -396,7 +399,7 @@ class Person < ActiveRecord::Base
   end
   
   def super_admin?
-    @super_admin ||= SUPER_ADMIN_CHECK.call(self)
+    Setting.get(:access, :super_admins).include?(email)
   end
   
   def mapable?
