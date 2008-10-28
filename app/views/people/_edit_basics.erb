@@ -59,6 +59,7 @@
   <%= form.label :last_name %>    <%= form.text_field :last_name %><br/>
   <%= form.label :suffix %>       <%= form.select :suffix, [nil]+Setting.get(:system, :suffixes) %><br/>
   <%= form.label :gender %>       <%= form.select :gender, Setting.get(:system, :genders) %><br/>
+  <%= form.label :email %>        <%= form.text_field :email %><br/>
   <%= form.label :mobile_phone %> <%= form.phone_field :mobile_phone %><br/>
   <%= form.label :work_phone %>   <%= form.phone_field :work_phone %><br/>
   <%= form.label :fax %>          <%= form.phone_field :fax %><br/>

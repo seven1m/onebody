@@ -76,7 +76,7 @@
 class Person < ActiveRecord::Base
 
   BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
-  EXTRAS = %w(website service_category service_name service_description service_phone service_email service_website service_address activities interests music tv_shows movies books quotes about testimony)
+  EXTRAS = %w(email website service_category service_name service_description service_phone service_email service_website service_address activities interests music tv_shows movies books quotes about testimony)
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
   cattr_accessor :sync_in_progress
@@ -540,6 +540,8 @@ class Person < ActiveRecord::Base
       self.photo = params[:photo] == 'remove' ? nil : params[:photo]
       'photo'
     elsif params[:person] and (BASICS.detect { |a| params[:person][a] } or params[:family])
+      self.email = params[:person].delete(:email) # no 'update' necessary
+      self.save if email_changed?
       if Person.logged_in.admin?(:edit_profiles) or not Setting.get(:features, :updates_must_be_approved)
         params[:family] ||= {}
         params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]
