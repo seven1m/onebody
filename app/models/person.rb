@@ -352,15 +352,7 @@ class Person < ActiveRecord::Base
   end
   
   def member_of?(group)
-    return true if self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
-    if group.parents_of
-      group.cached_parents.to_a.include?(self.id)
-    elsif group.linked?
-      codes = self.classes.to_s.downcase.split(',')
-      group.link_code.downcase.split.each do |code|
-        return true if codes.include? code
-      end
-    end
+    self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
   end
   
   def at_least?(age)
@@ -471,32 +463,21 @@ class Person < ActiveRecord::Base
   
   alias_method :groups_without_linkage, :groups
   
-  def groups
-    if @groups.nil?
-      g = groups_without_linkage
-      conditions = []
-      classes.to_s.split(',').each do |code|
-        conditions.add_condition ["#{sql_lcase('link_code')} = ? or link_code like ? or link_code like ? or link_code like ?", code.downcase, "#{code} %", "% #{code}", "% #{code} %"], 'or'
-      end
-      g = (g + Group.find(:all, :conditions => conditions)).uniq if conditions.any?
-      @groups = g
-    end
-    @groups
-  end
-  
   def sidebar_groups
     Setting.get(:features, :sidebar_group_category) && \
-      groups.select { |g| g.category.to_s.downcase == Setting.get(:features, :sidebar_group_category).downcase }
+      groups.find_all_by_category(Setting.get(:features, :sidebar_group_category))
   end
   
-  def sidebar_group_people
-    @sidebar_group_people ||= begin
-      sidebar_groups.map { |g| g.people }.flatten.uniq.delete_if { |p| p == self }.sort_by(&:name)
+  def sidebar_group_people(order='people.last_name, people.first_name', limit=nil)
+    if sidebar_groups.any?
+      Person.find(:all, :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})", :joins => :memberships, :order => order, :limit => limit).uniq
+    else
+      []
     end
   end
   
   def random_sidebar_group_people(count=MAX_GROUPIES_ON_PROFILE)
-    sidebar_group_people.rand_count(count)
+    sidebar_group_people(sql_random, count)
   end
   
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female
@@ -515,7 +496,7 @@ class Person < ActiveRecord::Base
   end
   
   def has_shares?
-    @has_shares ||= verses.any? or recipes.any? or pictures.any?
+    @has_shares ||= verses.count > 0 or recipes.count > 0 or pictures.count > 0
   end
   
   def has_notes?
@@ -523,7 +504,7 @@ class Person < ActiveRecord::Base
   end
   
   def has_groups?
-    @has_groups ||= groups.any?
+    @has_groups ||= groups.count > 0
   end
   
   def access_attributes

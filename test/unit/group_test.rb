@@ -7,6 +7,31 @@ class GroupTest < ActiveSupport::TestCase
     2.times { Group.forge(:category => 'foo') }
     Group.forge(:category => 'bar', :hidden => true)
   end
+  
+  should "update its membership based on a link_code" do
+    3.times { Person.forge(:classes => 'foo') }
+    2.times { Person.forge(:classes => 'fooz,bar,baz') }
+    assert_equal 0, @group.people.count
+    @group.link_code = 'foo'
+    @group.save
+    assert_equal 3, @group.people.count
+    # should delete 3 old people and add 2 new people
+    @group.link_code = 'bar'
+    @group.save
+    assert_equal 2, @group.reload.people.count
+    # should delete all people
+    @group.link_code = nil
+    @group.save
+    assert_equal 0, @group.reload.people.count
+  end
+  
+  should "update its membership based on a parents_of selection" do
+    @group.memberships.create!(:person => people(:mac))
+    @group2 = Group.forge(:parents_of => @group.id)
+    assert_equal 2, @group2.people.count
+    assert @group2.reload.people.include?(people(:tim))
+    assert @group2.people.include?(people(:jennie))
+  end
 
   should "list all group categories" do
     cats = Group.categories

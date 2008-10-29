@@ -2,9 +2,9 @@
 
   <ul>
     <% @group.people.each do |person| %>
-      <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or person.linked? or (@group.parents_of and !@unlinked_ids.to_a.include?(person.id))), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
+      <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or person.membership.auto?), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
       <%= link_to(h(person.name), person, :id => "person_label#{person.id}") rescue '?' %>
-      <% if person.linked? %><%= image_tag 'link.png', :alt => 'linked', :class => 'icon' %><% end %>
+      <% if person.membership.auto? %><%= image_tag 'link.png', :alt => 'linked', :class => 'icon' %><% end %>
       <br/>
     <% end %>
   </ul>

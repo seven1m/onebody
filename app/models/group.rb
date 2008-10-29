@@ -102,71 +102,38 @@ class Group < ActiveRecord::Base
   end
   alias_method_chain :leader, :guessing
   
-  def get_options_for(person, create_if_missing=false)
-    if person.member_of?(self)
-      unless options = Membership.find_by_group_id_and_person_id(id, person.id)
-        options = Membership.new(:group => self, :person => person)
-        options.save if create_if_missing and not person.new_record? and not new_record?
-      end
-      options
-    end
+  def get_options_for(person, create_if_missing=false) # TODO: remove create_if_missing option (not used)
+    memberships.find_by_person_id(person.id)
   end
   
   def set_options_for(person, options)
-    membership = get_options_for(person) || Membership.new(:group => self, :person => person)
-    membership.update_attributes options
+    memberships.find_by_person_id(person.id).update_attributes!(options)
   end
   
-  alias_method :unlinked_members, :people
+  after_save :update_memberships
   
-  def people(select='people.*')
-    unlinked = unlinked_members.find(:all, :select => select+',0 as linked')
+  def update_memberships
     if parents_of
-      update_cached_parents if cached_parents.to_a.empty?
-      cached_parent_ids = cached_parents.map { |id| id.to_i }.join(',')
-      cached_parent_objects = cached_parent_ids.any? ? Person.find(:all, :conditions => "id in (#{cached_parent_ids})", :select => select + ',1 as linked') : []
-      (cached_parent_objects + unlinked).uniq.sort_by { |p| [p.last_name, p.first_name] }
+      parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
+      update_membership_associations(parents)
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
         conditions.add_condition ["#{sql_lcase('classes')} = ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%"], 'or'
       end
-      linked = Person.find(:all, :conditions => conditions, :order => 'last_name, first_name', :select => select + ',1 as linked')
-      (linked + unlinked).uniq.sort_by { |p| [p.last_name, p.first_name] }
-    else
-      unlinked
-    end
-  end
-
-  def people_count
-    if parents_of
-      update_cached_parents if cached_parents.to_a.empty?
-      unlinked_members.count('*') + cached_parents.length
-    elsif linked?
-      conditions = []
-      link_code.downcase.split.each do |code|
-        conditions << "#{sql_lcase('classes')} = #{Person.connection.quote(code)}"
-        conditions << "classes like #{Person.connection.quote(code + ',%')}"
-        conditions << "classes like #{Person.connection.quote('%,' + code)}"
-        conditions << "classes like #{Person.connection.quote('%,' + code + ',%')}"
-      end
-      linked_ids = Person.connection.select_values("select id from people where #{conditions.join(' or ')}")
-      linked_ids.length + unlinked_members.count('*', :conditions => linked_ids.any? && "people.id not in (#{linked_ids.join(',')})")
-    else
-      unlinked_members.count('*')
+      update_membership_associations(Person.find(:all, :conditions => conditions))
+    elsif Membership.column_names.include?('auto')
+      memberships.find_all_by_auto(true).each { |m| m.destroy }
     end
   end
   
-  before_save :update_cached_parents
-  def update_cached_parents
-    return unless Group.columns.map { |c| c.name }.include? 'cached_parents'
-    if self.parents_of.nil?
-      self.cached_parents = []
-    elsif self.parents_of != self.id
-      ids = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq.map { |p| p.id }
-      self.cached_parents = ids
-    end
+  def update_membership_associations(new_people)
+    self.people.reload
+    (new_people - self.people).each { |p| memberships.create!(:person => p, :auto => true) }
+    (self.people - new_people).each { |p| m = memberships.find_by_person_id(p.id); m.destroy if m.auto? }
   end
+
+  def people_count; memberships.count; end # TODO: remove this later
   
   def can_send?(person)
     (members_send and person.member_of?(self) and person.messages_enabled?) or admin?(person)
@@ -205,6 +172,7 @@ class Group < ActiveRecord::Base
   end
   
   class << self
+    # TODO: make this more generic, e.g. update_memberships, and update scheduled task
     def update_cached_parents
       find(:all).each { |group| group.save }
     end

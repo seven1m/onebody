@@ -95,7 +95,6 @@ class GroupsController < ApplicationController
   def edit
     @group ||= Group.find(params[:id])
     if @logged_in.can_edit?(@group)
-      @unlinked_ids = @group.unlinked_members.map { |p| p.id }
       @categories = Group.categories.keys
     else
       render :text => 'You are not authorized to edit this group.', :layout => true, :status => 401
