@@ -99,12 +99,14 @@ class ApplicationController < ActionController::Base
     end
     
     def authenticate_user_with_code_or_session
+      Person.logged_in = @logged_in = nil
       unless params[:code] and Person.logged_in = @logged_in = Person.find_by_feed_code(params[:code])
         authenticate_user_with_session
       end
     end
     
     def authenticate_user_with_http_basic_or_session
+      Person.logged_in = @logged_in = nil
       authenticate_with_http_basic do |email, api_key|
         if email.to_s.any? and api_key.to_s.length == 50
           Person.logged_in = @logged_in = Person.find_by_email_and_api_key(email, api_key)
