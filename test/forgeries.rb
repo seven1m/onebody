@@ -59,13 +59,17 @@ module Forgeable
       attributes.symbolize_keys!
       photo = attributes.delete(:photo)
       file = attributes.delete(:file)
+      fail_count = 0
       begin
         returning create!(attributes) do |obj|
           obj.forge_photo(photo) if photo
           obj.forge_file(file)   if file
         end
       rescue ActiveRecord::RecordInvalid => e
-        retry if e.message =~ /already (been )?taken/
+        if e.message =~ /already (been )?taken/ and fail_count < 10
+          fail_count += 1
+          retry
+        end
       end
     end
     
