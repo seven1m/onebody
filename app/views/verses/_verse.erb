@@ -1,8 +1,8 @@
 <div class="verse">
   <div class="verse-heading">
     <strong><%= link_to h(verse.reference), verse %></strong>
-    <% unless @person or (people_count = verse.people.count) == 0 %>
-      saved by <%= people_count %> <%= people_count == 1 ? 'person' : 'people' %>
+    <% unless @person or verse.people.count == 0 %>
+      saved by <%= pluralize(verse.people.count, 'person', 'people') %>
     <% end %>
     ::
     <%= render :partial => 'tags/tags_with_delete', :locals => {:object => verse} %>

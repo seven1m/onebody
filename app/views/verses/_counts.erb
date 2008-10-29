@@ -2,7 +2,7 @@
   <% @verses.each do |verse| %>
     <tr>
       <td><%= link_to verse.reference, verse %></td>
-      <td><%= verse.people_count %> <%= verse.people_count == 1 ? 'person' : 'people' %></td>
+      <td><%= pluralize(verse.people_count, 'person', 'people') %></td>
     </tr>
   <% end %>
 </table>
