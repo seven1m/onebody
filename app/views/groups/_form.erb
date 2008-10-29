@@ -22,7 +22,7 @@
     <%= form.label :other_notes %>         <%= form.text_area :other_notes, :rows => 3 %><br/>
     <%= form.label :creator %>             <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>
     <%= form.label :leader_id, 'Leader' %> <%= form.select :leader_id, [['(none)', '']] + @group.people.map { |p| [p.name, p.id] } %><br/>
-    <% if @group.people_count == 0 %>
+    <% if @group.people.count == 0 %>
       <em>Save the group and add people before you set a leader.</em><br/>
     <% end %>
   </p>

@@ -85,9 +85,9 @@ class Site < ActiveRecord::Base
   def add_tasks
     return unless ScheduledTask.table_exists?
     [
-      {:name => 'Update News Feed',            :command => 'NewsItem.update_from_feed',                  :interval => 'hourly'},
-      {:name => 'Update Group Cached Parents', :command => 'Group.update_cached_parents',                :interval => 'hourly'},
-      {:name => 'Flag Suspicious Activity',    :command => 'LogItem.flag_suspicious_activity("1 hour")', :interval => 'hourly'},
+      {:name => 'Update News Feed',         :command => 'NewsItem.update_from_feed',                  :interval => 'hourly'},
+      {:name => 'Update Group Memberships', :command => 'Group.update_memberships',                   :interval => 'hourly'},
+      {:name => 'Flag Suspicious Activity', :command => 'LogItem.flag_suspicious_activity("1 hour")', :interval => 'hourly'},
       {:name     => 'Email Downloader',
        :runner   => false,
        :command  => 'RAILS_ROOT/script/inbox -e RAILS_ENV EMAIL_HOST EMAIL_USERNAME EMAIL_PASSWORD',

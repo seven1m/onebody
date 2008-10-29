@@ -38,7 +38,7 @@
             Email Address: <%= mail_to u(group.full_address), h(group.full_address) %>
           <% end %>
           <br/>
-          <%= count = group.people_count %> <%= count == 1 ? 'person' : 'people' %>
+          <%= pluralize(group.people.count, 'person', 'people') %>
         </td>
       </tr>
     <% end %>

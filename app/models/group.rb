@@ -133,8 +133,6 @@ class Group < ActiveRecord::Base
     (self.people - new_people).each { |p| m = memberships.find_by_person_id(p.id); m.destroy if m.auto? }
   end
 
-  def people_count; memberships.count; end # TODO: remove this later
-  
   def can_send?(person)
     (members_send and person.member_of?(self) and person.messages_enabled?) or admin?(person)
   end
@@ -172,9 +170,8 @@ class Group < ActiveRecord::Base
   end
   
   class << self
-    # TODO: make this more generic, e.g. update_memberships, and update scheduled task
-    def update_cached_parents
-      find(:all).each { |group| group.save }
+    def update_memberships
+      find(:all).each { |group| group.update_memberships }
     end
     
     def categories

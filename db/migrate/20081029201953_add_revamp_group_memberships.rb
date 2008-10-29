@@ -2,11 +2,15 @@ class AddRevampGroupMemberships < ActiveRecord::Migration
   def self.up
     remove_column :groups, :cached_parents
     add_column :memberships, :auto, :boolean, :default => false
-    Site.each do
+    Site.each do |site|
       Membership.all.each do |membership|
         if membership.group.linked? or membership.group.parents_of
           membership.update_attributes! :auto => true
         end
+      end
+      site.add_tasks # add new 'Update Group Memberships' task
+      if task = site.scheduled_tasks.find_by_name('Update Group Cached Parents')
+        task.destroy
       end
     end
   end
