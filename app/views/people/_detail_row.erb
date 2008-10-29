@@ -1,0 +1,19 @@
+<% if @person.send(attribute).to_s.strip.any? and
+  (not @person.respond_to?("share_#{attribute}_with?") or
+  @person.send("share_#{attribute}_with?", @logged_in)) %>
+  <tr>
+    <td><%=h label %>:</td>
+    <td>
+      <%= block_given? ? yield : value %>
+      <% if @person.respond_to?("share_#{attribute}?") and
+        not @person.send("share_#{attribute}?") and
+        @logged_in.can_edit?(@person) %>
+        <% if @person.memberships.count('*', :conditions => ["share_#{attribute} = ?", true]) > 0 %>
+          <%= link_to image_tag('lock_partial.gif', :alt => 'private but shared with some group members', :class => 'icon'), privacy_path(:find => 'memberships', :sharing => attribute) %>
+        <% else %>
+          <%= link_to image_tag('lock.gif', :alt => 'completely private', :class => 'icon'), edit_person_privacy_path(@person) %>
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

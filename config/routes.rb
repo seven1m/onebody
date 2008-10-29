@@ -28,7 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :groups do |groups|
-    groups.resources :memberships, :collection => {:batch => :any}
+    groups.resources :memberships, :collection => {:batch => :any}, :has_one => :privacy
     groups.resources :notes
     groups.resources :messages
     groups.resources :prayer_requests

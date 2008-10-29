@@ -1,0 +1,13 @@
+<h1>Group Privacy</h1>
+
+<% if @memberships.any? %>
+  <p>You are sharing your <%=h params[:sharing].humanize %> with the following groups:</p>
+  <ul>
+    <% @memberships.each do |membership| %>
+      <li><%= link_to membership.group.name,
+        edit_group_membership_privacy_path(membership.group, membership) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You are not sharing your <%=h params[:sharing].humanize %> with any groups specifically.</p>
+<% end %>

@@ -231,6 +231,9 @@ class Person < ActiveRecord::Base
   def share_home_phone ; family.share_home_phone ; end
   def share_address    ; family.share_address    ; end
   def share_anniversary; family.share_anniversary; end
+  alias_method :share_home_phone?,  :share_home_phone
+  alias_method :share_address?,     :share_address
+  alias_method :share_anniversary?, :share_anniversary
 
   share_with :home_phone  
   share_with :mobile_phone
@@ -253,6 +256,11 @@ class Person < ActiveRecord::Base
   def city; family.city; end
   def state; family.state; end
   def zip; family.zip; end
+  def short_zip; family.short_zip; end
+  
+  def pretty_website
+    website && website.sub(/^https?:\/\//, '')
+  end
   
   def can_see?(*whats)
     whats.select do |what|

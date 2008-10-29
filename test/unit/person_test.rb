@@ -74,6 +74,16 @@ class PersonTest < Test::Unit::TestCase
     assert !Person.find(people(:jennie).id).share_mobile_phone_with(people(:peter))
   end
   
+  should "share information with people and group members properly" do
+    people(:peter).update_attributes! :share_mobile_phone => false
+    assert !people(:peter).share_mobile_phone_with?(people(:jeremy))
+    people(:peter).update_attributes! :share_mobile_phone => true
+    assert people(:peter).share_mobile_phone_with?(people(:jeremy))
+    people(:peter).update_attributes! :share_mobile_phone => false
+    memberships(:peter_in_college_group).update_attributes! :share_mobile_phone => true
+    assert people(:peter).share_mobile_phone_with?(people(:jeremy))
+  end
+  
   should "create an update" do
     tim = {
       'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),

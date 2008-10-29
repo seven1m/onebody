@@ -1,0 +1,50 @@
+<h1>Sharing with <%= link_to h(@group.name), @group %></h1>
+
+<% form_for :membership, @membership, :url => group_membership_privacy_path(@group, @membership), :html => {:method => 'put'} do |form| %>
+  <%= form.error_messages %>
+  <table>
+    <tr><th>Detail</th><th>Visible</th><th>Hidden</th></tr>
+    <tr>
+      <td <% if @person.share_address %>style="text-decoration:line-through;"<% end %>>Address</td>
+      <td><%= form.radio_button :share_address, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_address, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td <% if @person.share_mobile_phone %>style="text-decoration:line-through;"<% end %>>Mobile Phone</td>
+      <td><%= form.radio_button :share_mobile_phone, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_mobile_phone, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td <% if @person.share_home_phone %>style="text-decoration:line-through;"<% end %>>Home Phone</td>
+      <td><%= form.radio_button :share_home_phone, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_home_phone, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td <% if @person.share_work_phone %>style="text-decoration:line-through;"<% end %>>Work Phone</td>
+      <td><%= form.radio_button :share_work_phone, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_work_phone, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td <% if @person.share_fax %>style="text-decoration:line-through;"<% end %>>Fax</td>
+      <td><%= form.radio_button :share_fax, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_fax, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td <% if @person.share_email %>style="text-decoration:line-through;"<% end %>>Email</td>
+      <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td <% if @person.share_birthday %>style="text-decoration:line-through;"<% end %>>Birthday</td>
+      <td><%= form.radio_button :share_birthday, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_birthday, false, :class => 'checkbox' %></td>
+    </tr>
+    <tr>
+      <td <% if @person.share_anniversary %>style="text-decoration:line-through;"<% end %>>Anniversary</td>
+      <td><%= form.radio_button :share_anniversary, true, :class => 'checkbox' %></td>
+      <td><%= form.radio_button :share_anniversary, false, :class => 'checkbox' %></td>
+    </tr>
+  </table>
+  <p>Items with a <span style="text-decoration:line-through;">line through</span> them will have no effect since you are <%= link_to 'sharing', privacy_path %> these with everyone anyway.</p>
+  <p><%= form.submit 'Save Changes' %></p>
+<% end %>

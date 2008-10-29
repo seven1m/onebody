@@ -6,89 +6,44 @@
 <% end %>
 
 <table>
-  <% if sharing = @person.share_home_phone_with(@logged_in) and @person.home_phone.to_i > 0 %>
-    <tr>
-      <td>Home:</td>
-      <td>
-        <%= format_phone @person.home_phone %>
-        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'home_phone'} %>
-      </td>
-    </tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :home_phone, :label => 'Home' } do %>
+    <%= format_phone(@person.home_phone) %>
   <% end %>
-  <% if sharing = @person.share_mobile_phone_with(@logged_in) and @person.mobile_phone.to_i > 0 %>
-    <tr>
-      <td>Mobile:</td>
-      <td>
-        <%= format_phone @person.mobile_phone, mobile=true %>
-        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'mobile_phone'} %>
-      </td>
-    </tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :mobile_phone, :label => 'Mobile' } do %>
+    <%= format_phone(@person.mobile_phone, :mobile) %>
   <% end %>
-  <% if sharing = @person.share_work_phone_with(@logged_in) and @person.work_phone.to_i > 0 %>
-    <tr>
-      <td>Work:</td>
-      <td>
-        <%= format_phone @person.work_phone %>
-        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'work_phone'} %>
-      </td>
-    </tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :work_phone, :label => 'Work' } do %>
+    <%= format_phone(@person.work_phone) %>
   <% end %>
-  <% if sharing = @person.share_fax_with(@logged_in) and @person.fax.to_s.any? %>
-    <tr>
-      <td>Fax:</td>
-      <td>
-        <%= format_phone @person.fax %>
-        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'fax'} %>
-      </td>
-    </tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :fax, :label => 'Fax' } do %>
+    <%= format_phone(@person.fax) %>
   <% end %>
-  <% if sharing = @person.share_address_with(@logged_in) and @person.address1.to_s.any? and @person.city.to_s.any? and @person.state.to_s.any? and @person.zip.to_s.any? %>
-    <tr>
-      <td>Address:</td>
-      <td>
-        <%=h @person.address1 %>
-        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'address'} %><br/>
-        <% if @person.address2.to_s.any? %><%=h @person.address2 %><br/><% end %>
-        <%= link_to h(@person.city), search_path(:city => @person.city), :title => 'search for people in this city' %>,
-        <%= link_to h(@person.state), search_path(:state => @person.state), :title => 'search for people in this state' %>
-        <% if @person.zip %>
-          <%= link_to h(@person.zip.split('-').first), search_path(:zip => @person.zip.split('-').first), :title => 'search for people in this zip code' %><% if @person.zip =~ /\-/ %>-<%= link_to h(@person.zip.split('-').last), search_path(:zip => @person.zip), :title => 'search for people in this zip code' %><% end %>
-        <% end %>
-        <%= render :partial => 'families/map_link' %>
-      </td>
-    </tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :address, :label => 'Address' } do %>
+    <%=h @person.address.sub(/\n/, '<br/>') %><br/>
+    <%= link_to h(@person.city), search_path(:city => @person.city), :title => 'search for people in this city' %>,
+    <%= link_to h(@person.state), search_path(:state => @person.state), :title => 'search for people in this state' %>
+    <% if @person.zip %>
+      <%= link_to h(@person.short_zip), search_path(:zip => @person.short_zip), :title => 'search for people in this zip code' %>
+    <% end %>
+    <%= render :partial => 'families/map_link' %>
   <% end %>
-  <% if sharing = @person.share_email_with(@logged_in) and @person.email.to_s.any? %>
-    <tr>
-      <td>Email:</td>
-      <td>
-        <%= mail_to @person.email, h(@person.email) %>
-        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'email'} %>
-      </td>
-    </tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :email, :label => 'Email' } do %>
+    <%= mail_to @person.email %>
   <% end %>
-  <% if @person.website.to_s.any? %>
-    <tr><td>Website:</td><td><%= link_to h(@person.website.gsub(/^https?:\/\//, '')), @person.website.gsub(/javascript\:/, '') %></td></tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :website, :label => 'Website' } do %>
+    <%= link_to h(@person.pretty_website), @person.website %>
   <% end %>
-  <% if sharing = @person.share_birthday_with(@logged_in) and @person.birthday %>
-    <tr>
-      <td>Birthday:</td>
-      <td>
-        <%= link_to @person.birthday.strftime('%B'), search_path(:birthday_month => @person.birthday.month), :title => "search for #{@person.birthday.strftime('%B')} birthdays" %>
-        <%= link_to @person.birthday.strftime('%d'), search_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => "search for #{@person.birthday.strftime('%B %d')} birthdays" %>
-        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'birthday'} %>
-      </td>
-    </tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :birthday, :label => 'Birthday' } do %>
+    <% if @person.birthday %>
+      <%= link_to @person.birthday.strftime('%B'), search_path(:birthday_month => @person.birthday.month), :title => "search for #{@person.birthday.strftime('%B')} birthdays" %>
+      <%= link_to @person.birthday.strftime('%d'), search_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => "search for #{@person.birthday.strftime('%B %d')} birthdays" %>
+    <% end %>
   <% end %>
-  <% if sharing = @person.share_anniversary_with(@logged_in) and @person.anniversary %>
-    <tr>
-      <td>Anniversary:</td>
-      <td>
-        <%= link_to @person.anniversary.strftime('%B'), search_path(:anniversary_month => @person.anniversary.month), :title => "search for #{@person.anniversary.strftime('%B')} anniversaries" %>
-        <%= link_to @person.anniversary.strftime('%d'), search_path(:anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day), :title => "search for #{@person.anniversary.strftime('%B %d')} anniversaries" %>
-        <%= render :partial => 'people/private_attribute', :locals => {:sharing => sharing, :attribute => 'anniversary'} %>
-      </td>
-    </tr>
+  <% render :layout => 'detail_row', :locals => { :attribute => :anniversary, :label => 'Anniversary' } do %>
+    <% if @person.anniversary %>
+      <%= link_to @person.anniversary.strftime('%B'), search_path(:anniversary_month => @person.anniversary.month), :title => "search for #{@person.anniversary.strftime('%B')} anniversaries" %>
+      <%= link_to @person.anniversary.strftime('%d'), search_path(:anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day), :title => "search for #{@person.anniversary.strftime('%B %d')} anniversaries" %>
+    <% end %>
   <% end %>
   <% if @person.service_name.to_s.any? %>
     <tr><td>Services:</td><td><%= link_to h(@person.service_name), person_path(@person, :services => true) %><br/><%=h truncate(@person.service_description, 200) %></td></tr>

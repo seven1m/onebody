@@ -74,6 +74,10 @@ class Family < ActiveRecord::Base
     a << "  #{zip}"      if zip.to_s.any?
   end
   
+  def short_zip
+    zip.to_s.split('-').first
+  end
+  
   def latitude
     return nil unless mapable?
     update_lat_lon unless read_attribute(:latitude) and read_attribute(:longitude)

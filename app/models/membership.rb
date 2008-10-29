@@ -18,6 +18,7 @@
 #  code               :integer       
 #  site_id            :integer       
 #  legacy_id          :integer       
+#  share_home_phone   :boolean       
 #
 
 class Membership < ActiveRecord::Base
@@ -33,19 +34,15 @@ class Membership < ActiveRecord::Base
   
   def family; person.family; end
   
-  inherited_attribute :share_address, :person
-  inherited_attribute :share_mobile_phone, :person
-  inherited_attribute :share_work_phone, :person
-  inherited_attribute :share_fax, :person
-  inherited_attribute :share_email, :person
-  inherited_attribute :share_birthday, :person
-  inherited_attribute :share_anniversary, :person
-  
   # generates security code
   def before_create
     begin
       code = rand(999999)
       write_attribute :code, code
     end until code > 0
+  end
+  
+  def self.sharing_columns
+    columns.map { |c| c.name }.select { |c| c =~ /^share_/ }
   end
 end

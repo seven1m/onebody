@@ -12,12 +12,20 @@ module ActiveRecord
         class_eval \
           "
           def share_#{attribute}_with(person)
-            return :admin if self.is_a?(Family) and not self.visible?
-            return :admin if self.is_a?(Person) and not (self.visible? and self.family.visible?)
-            return :admin if self == person or person.admin?(:view_hidden_properties)
-            return :admin if self.is_a?(Family) and self == person.family
-            return :admin if self.is_a?(Person) and self.family == person.family
-            return true if share_#{attribute}
+            visible? and (
+              share_#{attribute}?                    or
+              self == person                         or
+              self.family_id == person.family_id     or
+              person.admin?(:view_hidden_properties) or
+              share_#{attribute}_through_group_with(person)
+            )  
+          end
+          alias_method :share_#{attribute}_with?, :share_#{attribute}_with
+          
+          def share_#{attribute}_through_group_with(person)
+            self.memberships.find_all_by_share_#{attribute}(true).detect do |m|
+              person.member_of?(m.group)
+            end
           end
           "
       end

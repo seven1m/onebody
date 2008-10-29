@@ -18,6 +18,7 @@
 #  code               :integer       
 #  site_id            :integer       
 #  legacy_id          :integer       
+#  share_home_phone   :boolean       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
