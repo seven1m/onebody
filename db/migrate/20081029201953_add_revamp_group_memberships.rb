@@ -8,6 +8,7 @@ class AddRevampGroupMemberships < ActiveRecord::Migration
           membership.update_attributes! :auto => true
         end
       end
+      Group.all.each { |group| group.update_memberships }
       site.add_tasks # add new 'Update Group Memberships' task
       if task = site.scheduled_tasks.find_by_name('Update Group Cached Parents')
         task.destroy

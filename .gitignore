@@ -7,6 +7,7 @@ db/schema.rb
 db/photos/**/*.jpg
 db/publications/*
 db/attachments/*
+db/*.sql
 setup-authorized-ip
 setup-secret
 config/database.yml
