@@ -1,7 +1,8 @@
-class AddRevampGroupMemberships < ActiveRecord::Migration
+class RevampGroupMemberships < ActiveRecord::Migration
   def self.up
     remove_column :groups, :cached_parents
     add_column :memberships, :auto, :boolean, :default => false
+    Membership.reset_column_information
     Site.each do |site|
       Membership.all.each do |membership|
         if membership.group.linked? or membership.group.parents_of
