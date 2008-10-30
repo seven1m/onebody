@@ -41,8 +41,6 @@ class LogItem < ActiveRecord::Base
       object.path
     elsif object.respond_to?(:name)
       object.name
-    elsif object.is_a? Contact
-      object.person.name rescue '???'
     elsif object.is_a? Membership
       "#{object.person.name} in group #{object.group.name}" rescue '???'
     else
