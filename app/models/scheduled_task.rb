@@ -19,6 +19,18 @@ class ScheduledTask < ActiveRecord::Base
   
   acts_as_file DB_TASK_FILES_PATH
   
+  def system_command
+    c = command.dup
+    c.gsub!(/TASK_BASE_FILE_PATH/, base_file_path)
+    if self.site
+      c.gsub!(/SITE_NAME/,      site.name || '')
+      c.gsub!(/EMAIL_HOST/,     Setting.find_by_section_and_name_and_global('Email', 'Host', true).value || '')
+      c.gsub!(/EMAIL_USERNAME/, site.settings.find_by_section_and_name('Email', 'Username'  ).value || '')
+      c.gsub!(/EMAIL_PASSWORD/, site.settings.find_by_section_and_name('Email', 'Password'  ).value || '')
+    end
+    return c
+  end
+  
   def self.queue(name, command, runner=true)
     Site.current.scheduled_tasks.create!(
       :name     => name,
