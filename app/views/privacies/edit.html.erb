@@ -113,6 +113,9 @@
   </div>
   
   <p><%= submit_tag 'Save Family Settings' %></p>
+  
+  <%= render :partial => 'group_privacy_listing', :locals => {:person => @person} %>
+
 <% end %>
 
 </div>
@@ -256,6 +259,8 @@
       
     <% end %>
   <% end %>
+  
+  <%= render :partial => 'group_privacy_listing', :locals => {:person => person} %>
   
   </div>
 

@@ -20,6 +20,9 @@ class PrivaciesController < ApplicationController
       @membership ||= Membership.find(params[:membership_id])
       @person = @membership.person
       if @person.member_of?(@group) and @logged_in.can_edit?(@person)
+        all = %w(address home_phone mobile_phone work_phone fax email birthday anniversary)
+        @visible_to_everyone = all.select { |a| @person.send("share_#{a}?") }
+        @sharable_with_group = all - @visible_to_everyone
         render :action => 'edit_membership'
       else
         render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401

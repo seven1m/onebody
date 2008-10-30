@@ -1,0 +1,8 @@
+<% if person.groups.count > 0 %>
+  <p>You may share items with fellow members of the following groups:</p>
+  <ul>
+    <% person.groups.find_all_by_hidden(false).each do |group| %>
+      <li><%= link_to h(group.name), edit_group_membership_privacy_path(group, group.get_options_for(person)) %></li>
+    <% end %>
+  </ul>
+<% end %>

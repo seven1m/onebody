@@ -6,6 +6,9 @@
       <li><%= link_to 'Approve Group', group_path(@group, :group => {:approved => true}), :confirm => 'Are you sure?', :method => 'put', :class => 'very-strong' %></li>
     <% end %>
   <% end %>
+  <% if @membership = @logged_in.member_of?(@group) %>
+    <li><%= link_to 'Group Privacy', group_membership_privacy_path(@group, @membership) %></li>
+  <% end %>
 <% end %>
 
 <% content_for :sidebar do %>

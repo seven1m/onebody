@@ -352,7 +352,7 @@ class Person < ActiveRecord::Base
   end
   
   def member_of?(group)
-    self.memberships.count('*', :conditions => ['group_id = ?', group.id]) > 0
+    memberships.find_by_group_id(group.id)
   end
   
   def at_least?(age)
