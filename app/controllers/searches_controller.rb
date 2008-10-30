@@ -32,13 +32,18 @@ class SearchesController < ApplicationController
         end
       end
       wants.js do
-        render :update do |page|
-          if params[:select_person]
-            @people = @people[0..MAX_SELECT_PEOPLE]
-            page.replace_html 'results', :partial => 'select_person'
-            page.show 'add_member'
-          else
-            page.replace_html 'results', :partial => 'results'
+        if params[:auto_complete]
+          @people = @people[0..MAX_SELECT_PEOPLE]
+          render :partial => 'auto_complete'
+        else
+          render :update do |page|
+            if params[:select_person]
+              @people = @people[0..MAX_SELECT_PEOPLE]
+              page.replace_html 'results', :partial => 'select_person'
+              page.show 'add_member'
+            else
+              page.replace_html 'results', :partial => 'results'
+            end
           end
         end
       end
