@@ -54,6 +54,7 @@ class GroupsController < ApplicationController
     @prayer_requests = @group.prayer_requests.find(:all, :conditions => "answer = '' or answer is null", :order => 'created_at desc')
     @answered_prayer_count = @group.prayer_requests.count('*', :conditions => "answer != '' and answer is not null")
     @attendance_dates = @group.attendance_dates
+    @albums = @group.albums.all(:order => 'created_at desc')
     unless @group.approved? or @group.admin?(@logged_in)
       render :text => 'This group is pending approval', :layout => true
     end

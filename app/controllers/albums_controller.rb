@@ -10,12 +10,23 @@ class AlbumsController < ApplicationController
   end
   
   def new
-    @album = Album.new
+    if @group = Group.find_by_id(params[:group_id]) and can_add_pictures_to_group?(@group)
+      @album = @group.albums.build
+    else
+      @album = Album.new
+    end
+  end
+  
+  def can_add_pictures_to_group?(group)
+    group.pictures? and (@logged_in.member_of?(group) or group.admin?(@logged_in))
   end
   
   def create
-    @album = Album.create(params[:album])
-    unless @album.errors.any?
+    @album = Album.new(params[:album])
+    if @album.group and !can_add_pictures_to_group?(@album.group)
+      @album.errors.add_to_base('Cannot add pictures in this group.')
+    end
+    if @album.save
       flash[:notice] = 'Album saved.'
       redirect_to @album
     else

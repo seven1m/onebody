@@ -1,5 +1,6 @@
 <% form_for @album do |form| %>
   <%= form.error_messages %>
+  <%= form.hidden_field :group_id %>
   <p>
     <%= form.label :name %>         <%= form.text_field :name %>        <br/>
     <%= form.label :description %> <%= form.text_area :description, :rows => 3 %><br/>

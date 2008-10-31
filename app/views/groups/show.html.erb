@@ -168,6 +168,13 @@
   </div>
 <% end %>
 
+<% if @group.pictures? %>
+  <h2 class="tab" id="pictures">Pictures</h2>
+  <div class="section">
+    <%= render :partial => 'albums/albums' %>
+  </div>
+<% end %>
+
 <% if @group.gcal_url %>
   <h2 class="tab" id="calendar">Calendar</h2>
   <div class="section">

@@ -2,6 +2,9 @@
 
 <% content_for :sidebar do %>
   <h1><%= link_to h(@picture.album.name), @picture.album %></h1>
+  <% if @picture.album.group %>
+    <p>in <%= link_to h(@picture.album.group.name), @picture.album.group %></p>
+  <% end %>
   <% if @picture.person %>
     <p>
       Picture uploaded by:<br/>

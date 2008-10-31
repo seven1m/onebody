@@ -1,0 +1,9 @@
+<p><%= link_to image_tag('add_small.gif', :alt => 'add album', :class => 'icon') + ' New Album', @group ? new_group_album_path(@group) : new_album_path %></p>
+
+<% @albums.each do |album| %>
+  <div class="picture">
+    <%= link_to image_tag(album.cover ? medium_picture_path(album.cover) : 'camera.gif', :alt => 'click to view'), album, :title => 'click to view' %><br/>
+    <%=h album.name %>
+  </div>
+<% end %>
+<br clear="both"/>

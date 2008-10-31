@@ -6,7 +6,7 @@
   <% end %>
 <% end %>
 
-<h1><%=h @album.name %></h1>
+<h1><%=h @album.name %> <% if @album.group %>in <%= link_to h(@album.group.name), @album.group %><% end %></h1>
 
 <p><%=h @album.description %></p>
 
