@@ -64,7 +64,6 @@ class SessionsController < ApplicationController
   
   # sign out
   def destroy
-    #session[:logged_in_id] = nil
     reset_session
     redirect_to new_session_path
   end
@@ -73,7 +72,7 @@ class SessionsController < ApplicationController
     def check_ssl
       unless request.ssl? or RAILS_ENV != 'production' or !Setting.get(:features, :ssl)
         redirect_to :protocol => 'https://', :from => params[:from]
-        return
+        return false
       end
     end
     

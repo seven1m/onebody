@@ -26,8 +26,10 @@ class ApplicationController < ActionController::Base
         set_local_formats
       elsif site = Site.find_by_secondary_host_and_active(request.host, true)
         redirect_to 'http://' + site.host
+        return false
       elsif request.host =~ /^www\./
         redirect_to 'http://' + request.host.sub(/^www\./, '')
+        return false
       else
         render :text => 'There is no site configured at this address: ' + request.host
         return false
