@@ -119,3 +119,7 @@ label.inline { display: inline; }
   background-color: #ffc;
   border-color: #ddd;
 }
+
+.column input {
+  width: 150px;
+}
