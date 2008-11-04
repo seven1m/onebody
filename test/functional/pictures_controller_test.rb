@@ -56,7 +56,7 @@ class PicturesControllerTest < ActionController::TestCase
   end
   
   should "create one picture" do
-    post :create, {:album_id => @album.id, :picture1 => fixture_file_upload('files/family.jpg')}, {:logged_in_id => @person.id}
+    post :create, {:album_id => @album.id, :picture1 => fixture_file_upload('files/image.jpg')}, {:logged_in_id => @person.id}
     assert_redirected_to album_path(@album)
     assert_equal "1 picture(s) saved", flash[:notice]
   end
@@ -64,9 +64,9 @@ class PicturesControllerTest < ActionController::TestCase
   should "create more than one picture" do
     post :create, {
       :album_id => @album.id,
-      :picture1 => fixture_file_upload('files/family.jpg'),
-      :picture2 => fixture_file_upload('files/family.jpg'),
-      :picture3 => fixture_file_upload('files/family.jpg')
+      :picture1 => fixture_file_upload('files/image.jpg'),
+      :picture2 => fixture_file_upload('files/image.jpg'),
+      :picture3 => fixture_file_upload('files/image.jpg')
     }, {:logged_in_id => @person.id}
     assert_redirected_to album_path(@album)
     assert_equal "3 picture(s) saved", flash[:notice]

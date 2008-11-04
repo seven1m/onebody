@@ -3,17 +3,15 @@ require 'faker'
 module Forgeable
   def forge(association, attributes={}, foreign_key=nil)
     foreign_key ||= self.class.name.downcase + '_id'
-    returning eval(association.to_s.classify).forge(attributes) do |obj|
-      obj.send(foreign_key + '=', self.id) # to get around attr_protected
-      obj.save
-    end
+    attributes.merge!(foreign_key => self.id)
+    eval(association.to_s.classify).forge(attributes)
   end
   
   def forge_photo(photo=true)
     if photo.is_a?(String)
       self.photo = File.open(photo)
     else
-      self.photo = File.open(RAILS_ROOT + '/public/images/family.jpg')
+      self.photo = File.open(RAILS_ROOT + '/public/images/body.jpg') # fairly small jpeg
     end
   end
   
@@ -116,11 +114,11 @@ class Person
   def forge_blog
     # must be set for the logger to correctly mark these entries
     Person.logged_in = self
-    # 28 total - blog only shows 25
-    7.times { self.forge(:pictures) }
-    7.times { self.forge(:notes)    }
-    7.times { self.forge(:recipes)  }
-    7.times { self.verses << Verse.forge }
+    # 26 total - blog only shows 25
+    1.times { self.forge(:pictures) }
+    10.times { self.forge(:notes)    }
+    10.times { self.forge(:recipes)  }
+    5.times { self.verses << Verse.forge }
   end
 end
 

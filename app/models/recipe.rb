@@ -40,8 +40,6 @@ class Recipe < ActiveRecord::Base
     self.photo_without_logging = p
   end
   
-  attr_protected :site_id, :person_id
-  
   def name; title; end
   
   # not needed any more?

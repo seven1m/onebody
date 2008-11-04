@@ -33,8 +33,6 @@ class Update < ActiveRecord::Base
   belongs_to :person
   belongs_to :site
   
-  attr_protected :person_id, :site_id, :complete
-  
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   def do!

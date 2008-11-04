@@ -38,14 +38,11 @@ class AttachmentTest < Test::Unit::TestCase
   end
   
   should "recognize whether it is an image or not" do
-    assert  Attachment.create_from_file(:file => fixture_file_upload('files/family.jpg')    ).image?
+    img = Attachment.create_from_file(:file => fixture_file_upload('files/image.jpg'))
+    assert img.image?
+    assert_equal 2, img.width
+    assert_equal 2, img.height
     assert !Attachment.create_from_file(:file => fixture_file_upload('files/attachment.pdf')).image?
-  end
-  
-  should "report width and height if it is an image" do
-    @attachment = Attachment.create_from_file(:file => fixture_file_upload('files/family.jpg'))
-    assert_equal 150, @attachment.width
-    assert_equal 191, @attachment.height
   end
   
 end

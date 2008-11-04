@@ -4,10 +4,12 @@ class BlogsControllerTest < ActionController::TestCase
   
   def setup
     @person, @other_person = Person.forge, Person.forge
-    @person.forge_blog
   end
   
   should "show 25 blog items separated by pictures and non-pictures" do
+    @person.forge_blog
+    #require 'pp'
+    #pp @person.blog_items.map { |i| [i.class.name, i.id, i.name] }
     get :show, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_equal 25, assigns(:pictures).length + assigns(:non_pictures).length
   end
@@ -19,6 +21,7 @@ class BlogsControllerTest < ActionController::TestCase
   end
   
   should "not show any deleted blog items" do
+    @person.forge_blog
     @person.notes.destroy_all
     get :show, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_equal 0, assigns(:non_pictures).select { |o| o.is_a? Note }.length
