@@ -7,12 +7,16 @@ class FeedsControllerTest < ActionController::TestCase
     @group = Group.create! :name => Faker::Lorem.words(1).join, :category => Faker::Lorem.words(1).join
     @group.memberships.create! :person => @person
     @group.memberships.create! :person => @other_person
+  end
+  
+  def forge_feed_items
     @person.forge_blog
-    3.times  { Person.logged_in = @person;       @person.messages.create!       :group => @group, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph }
-    3.times  { Person.logged_in = @other_person; @other_person.messages.create! :group => @group, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph }
+    Person.logged_in = @person;       @person.messages.create!       :group => @group, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph
+    Person.logged_in = @other_person; @other_person.messages.create! :group => @group, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph
   end
 
   should "show 25 actions related to the person" do
+    forge_feed_items
     get :show, nil, {:logged_in_id => @person.id}
     assert_equal 25, assigns(:items).length
   end
@@ -30,6 +34,8 @@ class FeedsControllerTest < ActionController::TestCase
   end
   
   should "show the feed as RSS" do
+    Person.logged_in = @person;
+    @person.messages.create! :group => @group, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph
     get :show, {:format => 'xml', :code => @person.feed_code}, {:logged_in_id => nil}
     assert_response :success
     assert_tag :tag => 'feed'

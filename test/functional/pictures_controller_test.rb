@@ -6,11 +6,15 @@ class PicturesControllerTest < ActionController::TestCase
     @person = Person.forge
     @album = @person.forge(:album)
     @picture  = @album.forge(:picture, :person_id => @person.id)
+  end
+  
+  def add_pictures(how_many=2)
     @picture2 = @album.forge(:picture, :person_id => @person.id)
-    @picture3 = @album.forge(:picture, :person_id => @person.id)
+    @picture3 = @album.forge(:picture, :person_id => @person.id) unless how_many == 1
   end
   
   should "list all pictures in an album" do
+    add_pictures
     get :index, {:album_id => @album.id}, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal 3, assigns(:pictures).length
@@ -22,20 +26,18 @@ class PicturesControllerTest < ActionController::TestCase
     assert_equal @picture, assigns(:picture)
   end
   
-  should "redirect to the next picture" do
+  should "handle prev and next redirection" do
+    add_pictures
     # next in line
     get :next, {:album_id => @album.id, :id => @picture2.id}, {:logged_in_id => @person.id}
     assert_redirected_to album_picture_path(@album, @picture3)
-    # loop to beginning
+    # next in line, loop to beginning
     get :next, {:album_id => @album.id, :id => @picture3.id}, {:logged_in_id => @person.id}
     assert_redirected_to album_picture_path(@album, @picture)
-  end
-  
-  should "redirect to the previous picture" do
     # previous in line
     get :prev, {:album_id => @album.id, :id => @picture2.id}, {:logged_in_id => @person.id}
     assert_redirected_to album_picture_path(@album, @picture)
-    # loop to end
+    # previous in line, loop to end
     get :prev, {:album_id => @album.id, :id => @picture.id}, {:logged_in_id => @person.id}
     assert_redirected_to album_picture_path(@album, @picture3)
   end
@@ -46,6 +48,7 @@ class PicturesControllerTest < ActionController::TestCase
   end
   
   should "select a picture as an album cover" do
+    add_pictures(1)
     post :update, {:album_id => @album.id, :id => @picture.id, :cover => 'true'}, {:logged_in_id => @person.id}
     assert_redirected_to album_picture_path(@album, @picture)
     assert @picture.reload.cover

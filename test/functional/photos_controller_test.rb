@@ -3,31 +3,27 @@ require File.dirname(__FILE__) + '/../test_helper'
 class PhotosControllerTest < ActionController::TestCase
 
   def setup
-    @family = Family.forge(:photo => true)
-    @person = Person.forge(:photo => true)
+    @family = Family.forge
+    @person = Person.forge
   end
 
   should "show a family photo" do
+    @family.forge_photo
     get :show, {:family_id => @family.id}, {:logged_in_id => @person}
     assert_response :success
-  end
-  
-  should "show a family photo by size" do
+    # by size
     get :show, {:family_id => @family.id, :size => 'tn'}, {:logged_in_id => @person}
     assert_response :success
-  end
-   
-  should "show a family photo by size method" do
+    # by size method
     get :medium, {:family_id => @family.id}, {:logged_in_id => @person}
     assert_response :success
   end
   
   should "show a person photo" do
+    @person.forge_photo
     get :show, {:person_id => @person.id}, {:logged_in_id => @person}
     assert_response :success
-  end  
-  
-  should "show a person photo by size" do
+    # by size
     get :show, {:person_id => @person.id, :size => 'large'}, {:logged_in_id => @person}
     assert_response :success
   end
