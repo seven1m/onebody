@@ -1,0 +1,7 @@
+<p>
+  <% @families.each do |family| %>
+    <%= radio_button_tag 'id', family.id, @families.length == 1, :class => 'radiobutton' %>
+    <%= render :partial => 'families/link', :locals => {:family => family} %>
+    <br/>
+  <% end %>
+</p>

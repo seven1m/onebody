@@ -1,6 +1,7 @@
 class SearchesController < ApplicationController
 
   MAX_SELECT_PEOPLE = 5
+  MAX_SELECT_FAMILIES = 5
 
   def show
     # A search should be referencable by URI, thus "show" makes sense;
@@ -19,7 +20,11 @@ class SearchesController < ApplicationController
   def create
     params.reject_blanks!
     @search = Search.new_from_params(params)
-    @people = @search.query(params[:page])
+    if @search.family_name.blank?
+      @people = @search.query(params[:page])
+    else
+      @families = @search.query(params[:page], 'family')
+    end
     @count = @search.count
     @show_birthdays = params[:birthday_month] or params[:birthday_day]
     @service_categories = Person.service_categories if @search.show_services
@@ -41,8 +46,22 @@ class SearchesController < ApplicationController
               @people = @people[0..MAX_SELECT_PEOPLE]
               page.replace_html 'results', :partial => 'select_person'
               page.show 'add_member'
+            elsif params[:select_family]
+              @families = @families[0..MAX_SELECT_FAMILIES]
+              page.replace_html 'results', :partial => 'select_family'
+              if !@families.empty?
+                page.show 'select_family_form'
+                page.hide 'no_families_found'
+              else
+                page.hide 'select_family_form'
+                page.show 'no_families_found'
+              end
             else
-              page.replace_html 'results', :partial => 'results'
+              if @people
+                page.replace_html 'results', :partial => 'results'
+              elsif @families
+                page.replace_html 'results', :partial => 'families_results'
+              end
             end
           end
         end

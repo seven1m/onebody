@@ -1,0 +1,29 @@
+<h2>Search Results</h2>
+
+<% if @families and @families.any? %>
+
+  <p>
+    <%= @count %> <%= @count == 1 ? 'family' : 'families' %> found
+    <%= will_paginate @families %>
+  </p>
+
+  <table>
+    <tr>
+      <th>Family Name</th>
+    </tr>
+    <% @families.each do |family| %>
+      <tr>
+        <td>
+          <%= family.name %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= will_paginate @families %>
+
+<% else %>
+
+  <p><em>Your search didn't match any families.</em></p>
+
+<% end %>
