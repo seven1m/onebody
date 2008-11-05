@@ -3,9 +3,9 @@
 <h2>Enter Family Details</h2>
 
 <div style="padding:10px; border:1px solid #ccc; margin-bottom: 5px;">
-<%= radio_button_tag :family_option, 'new_family', @family_option == 'new_family', :onclick => "show_form('new_family');" %> Create a New Family
+<%= radio_button_tag :family_option, 'new_family', @family_option == 'new_family', :onclick => "toggle_forms();" %> Create a New Family
 <%# label_tag "family_option_new_family", "Create a New Family" %>
-<%= radio_button_tag :family_option, 'existing_family', @family_option == 'existing_family', :onclick => "show_form('existing_family_form');" %> Add New Person to an Existing Family
+<%= radio_button_tag :family_option, 'existing_family', @family_option == 'existing_family', :onclick => "toggle_forms();" %> Add New Person to an Existing Family
 <%# label_tag "family_option_existing_family", "Add New Person to an Existing Family" %>
 </div>
 
@@ -39,9 +39,8 @@
 
 
 <script type="text/javascript">
-  function show_form(form_id) {
-	  document.getElementById('new_family').hide();
-	  document.getElementById('existing_family_form').hide();
-	  document.getElementById(form_id).show();
+  function toggle_forms() {
+	  $('new_family').toggle();
+	  $('existing_family_form').toggle();
   }
 </script>
