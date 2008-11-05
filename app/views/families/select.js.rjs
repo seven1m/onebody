@@ -1,1 +1,5 @@
-page.redirect_to new_person_path(:family_id => @family)
+if @family
+  page.redirect_to new_person_path(:family_id => @family)
+else
+  page.alert "Please select a family before proceeding."
+end

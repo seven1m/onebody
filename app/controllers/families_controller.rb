@@ -118,7 +118,7 @@ class FamiliesController < ApplicationController
   end
   
   def select
-    @family = Family.find(params[:id])
+    @family = Family.find(params[:id]) unless params[:id].blank?
     respond_to do |format|
       format.html { redirect_to new_person_path(:family_id => @family) }
       format.js
