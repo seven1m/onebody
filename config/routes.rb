@@ -22,7 +22,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :families,
-    :collection => {:hashify => :get, :schema => :get, :batch => :post},
+    :collection => {:hashify => :get, :schema => :get, :batch => :post, :select => :post},
     :member => {:reorder => :post} do |families|
     families.resource :photo, :member => PHOTO_SIZE_METHODS
   end

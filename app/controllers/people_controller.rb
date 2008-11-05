@@ -54,14 +54,25 @@ class PeopleController < ApplicationController
   def new
     if Site.current.max_people.nil? or Person.count < Site.current.max_people
       if @logged_in.admin?(:edit_profiles)
-        @family = Family.find(params[:family_id])
         defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
-        @person = Person.new(defaults.merge(:family_id => @family.id).merge(:last_name => @family.last_name))
+        unless params[:family_id].nil?
+          @family = Family.find(params[:family_id])
+          @person = Person.new(defaults.merge(:family_id => @family.id).merge(:last_name => @family.last_name))
+        else
+          @family_option = "new_family"
+          @family = Family.new
+          @person = Person.new(defaults)
+        end
       else
         render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
       end
     else
       render :text => 'No people can be added at this time. Sorry.', :layout => true, :status => 500
+    end
+
+    respond_to do |format|
+      format.html if !@family.new_record?
+      format.html { render :partial => "new_family", :layout => true } if @family.new_record?
     end
   end
   

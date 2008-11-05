@@ -43,6 +43,7 @@ class FamiliesController < ApplicationController
       if @family.save
         format.html { redirect_to @family }
         format.xml  { render :xml => @family, :status => :created, :location => @family }
+        format.js
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @family.errors, :status => :unprocessable_entity }
@@ -116,6 +117,14 @@ class FamiliesController < ApplicationController
     end
   end
   
+  def select
+    @family = Family.find(params[:id])
+    respond_to do |format|
+      format.html { redirect_to new_person_path(:family_id => @family) }
+      format.js
+    end
+  end
+
   def schema
     render :xml => Family.columns.map { |c| {:name => c.name, :type => c.type} }
   end

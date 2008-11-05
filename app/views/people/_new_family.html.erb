@@ -1,0 +1,47 @@
+<h1>New Person</h1>
+
+<h2>Enter Family Details</h2>
+
+<div style="padding:10px; border:1px solid #ccc; margin-bottom: 5px;">
+<%= radio_button_tag :family_option, 'new_family', @family_option == 'new_family', :onclick => "show_form('new_family');" %> Create a New Family
+<%# label_tag "family_option_new_family", "Create a New Family" %>
+<%= radio_button_tag :family_option, 'existing_family', @family_option == 'existing_family', :onclick => "show_form('existing_family_form');" %> Add New Person to an Existing Family
+<%# label_tag "family_option_existing_family", "Add New Person to an Existing Family" %>
+</div>
+
+<p/>
+
+<% form_remote_for @family do |form| %>
+
+  <%= render :partial => "families/form_fields", :locals => {:form => form} %>
+  <p><%= submit_tag 'Next &raquo;' %></p>
+  
+<% end %>
+
+<div id="existing_family_form" style="display: none;">
+	<% form_remote_tag :url => search_path, :html => {:id => 'add_existing'} do %>
+    <%= hidden_field_tag :select_family, true %>
+	  <p>
+	    <label for="add_person_name">Search <em>existing</em> family:</label>
+	    <%= text_field_tag 'family_name', nil, :id => 'search_family_name' %>
+	    <%= submit_tag 'Search by Name' %>
+	  </p>
+	  <p id="no_families_found" style="display: none;" class="very-strong">No families found.</p>
+	<% end %>
+</div>
+
+<div id="select_family_form" style="display:none;">
+  <% form_remote_tag :url => "/families/select" do %>
+    <div id="results"></div>
+    <p><%= submit_tag 'Next &raquo;' %></p>
+  <% end %>
+</div>
+
+
+<script type="text/javascript">
+  function show_form(form_id) {
+	  document.getElementById('new_family').hide();
+	  document.getElementById('existing_family_form').hide();
+	  document.getElementById(form_id).show();
+  }
+</script>
