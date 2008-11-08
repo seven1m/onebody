@@ -44,6 +44,7 @@ module ApplicationHelper
   
   def format_phone(phone, mobile=false)
     format = Setting.get(:formats, mobile ? :mobile_phone : :phone)
+    return phone if format.blank?
     groupings = format.scan(/d+/).map { |g| g.length }
     groupings = [3, 3, 4] unless groupings.length == 3
     ActionController::Base.helpers.number_to_phone(
