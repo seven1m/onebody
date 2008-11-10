@@ -108,6 +108,21 @@ class Person < ActiveRecord::Base
   has_many :remote_accounts
   has_many :attendance_records
   belongs_to :site
+
+  has_many :participations, :dependent => :destroy do
+    def current
+      self.find(:all, :conditions => {:status => 'current'}, :include => :participation_category, :order => 'participation_categories.name')
+    end
+
+    def pending
+      self.find(:all, :conditions => {:status => 'pending'}, :include => :participation_category, :order => 'participation_categories.name')
+    end
+
+    def historical
+      self.find(:all, :conditions => {:status => 'completed'}, :include => :participation_category, :order => 'participation_categories.name')
+    end
+  end
+  has_many :participation_categories, :through => :participations
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
     
@@ -504,6 +519,10 @@ class Person < ActiveRecord::Base
   
   def has_groups?
     @has_groups ||= groups.count > 0
+  end
+
+  def has_participations?
+    @has_participations ||= participations.count > 0
   end
   
   def access_attributes
