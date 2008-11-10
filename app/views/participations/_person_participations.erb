@@ -1,0 +1,53 @@
+<% unless @person.participations.empty? %>
+
+	<table>
+	  <tr>
+	    <td style="padding-right:25px;" id="current_participations">
+	      <h3 style="border:none;">Current participations:</h3>
+	      <ul>
+	        <% @person.participations.current.each do |pp| %>
+	          <li>
+	            <%= h pp.participation_category.name %>
+	          </li>
+	        <% end %>
+	      </ul>
+	    </td>
+	    <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;" id="pending_participations">
+	      <h3 style="border:none;">Would like to participate in:</h3>
+	      <ul id="pending_participations">
+	        <% @person.participations.pending.each do |pp| %>
+	          <li>
+	            <%= h pp.participation_category.name %>
+	          </li>
+	        <% end %>
+	      </ul>
+	    </td>
+	    <td style="padding-left:25px;border-left:1px dotted #ccc;" id="historical_participations">
+	      <h3 style="border:none;">Previously participated in:</h3>
+	      <ul>
+	        <% @person.participations.historical.each do |pp| %>
+	          <li>
+		          <%= h pp.participation_category.name %>
+		        </li>
+	        <% end %>
+	      </ul>
+	    </td>
+	  </tr>
+	</table>
+
+  <% if @logged_in.admin? %>
+		<p><%= link_to image_tag('add_small.gif', :alt => 'edit participations', :class => 'icon') + ' Edit Participations',
+		  edit_person_path(@person) + "#participations" %></p>
+  <% end %>
+
+<% else %>
+
+  <p><%=h @person.first_name %> had not participated in the running of the Church.</p>
+
+  <% if @logged_in.admin? %>
+		<p><%= link_to image_tag('add_small.gif', :alt => 'add participations', :class => 'icon') + ' Add Participations',
+		  edit_person_path(@person) + "#participations" %></p>
+  <% end %>
+
+<% end %>
+

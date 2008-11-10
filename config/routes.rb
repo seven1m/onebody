@@ -19,6 +19,7 @@ ActionController::Routing::Routes.draw do |map|
     people.resource :blog
     people.resource :wall, :member => {:with => :get}
     people.resource :photo, :member => PHOTO_SIZE_METHODS
+    people.resources :participations
   end
   
   map.resources :families,
@@ -36,6 +37,8 @@ ActionController::Routing::Routes.draw do |map|
     groups.resources :albums
     groups.resource :photo, :member => PHOTO_SIZE_METHODS
   end
+  
+  map.resources :participation_categories
   
   map.resources :albums do |albums|
     albums.resources :pictures, :member => {:next => :get, :prev => :get} do |pictures|

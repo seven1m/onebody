@@ -149,6 +149,11 @@
   <div class="section" id="groups_content"></div>
 <% end %>
 
+<% if @logged_in.admin? %>
+	<h2 class="tab" id="participations">Participations</h2>
+	<div class="section" id="participations_content"></div>
+<% end %>
+
 <% unless me? %>
   <script type="text/javascript">
   //<![CDATA[
@@ -172,7 +177,7 @@
 </style>
 <script type="text/javascript">
 //<![CDATA[
-  blog_loaded = groups_loaded = wall_loaded = recently_loaded = false;
+  blog_loaded = groups_loaded = wall_loaded = recently_loaded = participations_loaded = false;
   function load_tab(id) {
     if(id == 'blog') {
       if(!blog_loaded) {
@@ -223,7 +228,16 @@
         );
         recently_loaded = true;
       }
-    }
+    }	else if(id == 'participations') {
+	      if(!participations_loaded) {
+	        new Ajax.Updater(
+	          'participations_content',
+	          '<%= person_participations_path(@person) %>',
+	          {method: 'get', onLoading:function(){$('participations_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
+	        );
+	        participations_loaded = true;
+	      }
+	  } 
   }
   set_up(); // tabs
 //]]>

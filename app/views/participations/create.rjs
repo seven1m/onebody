@@ -1,0 +1,1 @@
+page.replace_html 'edit_participations', :partial => '/people/edit_participations'
