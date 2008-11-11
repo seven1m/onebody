@@ -70,47 +70,52 @@ class Search
     @type = type.downcase if type and %w(member staff deacon elder).include? type.downcase
   end
   
-  def query(page=nil, search_model=nil)
-    if search_model.blank? or search_model=='person'
-
-      @conditions.add_condition ["people.deleted = ?", false]
-      @conditions.add_condition ["people.service_name is not null and people.service_name != ''"] if show_services
-      @conditions.add_condition ["people.testimony is not null and people.testimony != ''"] if testimony
-      unless show_hidden and Person.logged_in.admin?(:view_hidden_profiles)
-        @conditions.add_condition ["people.visible_to_everyone = ?", true]
-        @conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
-      end
-      unless Person.logged_in.full_access?
-        if SQLITE
-          @conditions.add_condition ["#{sql_now}-people.birthday >= 18"]
-        else
-          @conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"]
-        end
-      end
-      @conditions.add_condition ["people.#{@type} = ?", true] if @type
-      @count = Person.count :conditions => @conditions, :include => :family
-      @people = Person.paginate(
-        :all,
-        :page => page,
-        :conditions => @conditions,
-        :include => :family,
-        :order => (show_services ? 'people.service_name' : 'people.last_name, people.first_name')
-      ).select do |person| # additional checks that don't work well in raw sql
-        !person.nil? \
-          and Person.logged_in.sees?(person) \
-          and (not @search_birthday or person.share_birthday_with(Person.logged_in)) \
-          and (not @search_anniversary or person.share_anniversary_with(Person.logged_in)) \
-          and (not @search_address or person.share_address_with(Person.logged_in)) \
-          and (person.consent_or_13? or (Person.logged_in.admin?(:view_hidden_profiles) and @show_hidden))
-      end
-      @people = WillPaginate::Collection.new(page || 1, 30, @count).replace(@people)
-
-    elsif search_model=='family' and !self.family_name.blank?
-
-      @conditions.add_condition ["families.deleted = ?", false]
-      @families = Family.paginate(:all, :page => page, :conditions => @conditions, :order => "last_name")
-
+  def query(page=nil, search_by=:person)
+    case search_by.to_s
+      when 'person'
+        query_people(page)
+      when 'family'
+        query_families(page)
     end
+  end
+  
+  def query_people(page=nil)
+    @conditions.add_condition ["people.deleted = ?", false]
+    @conditions.add_condition ["people.service_name is not null and people.service_name != ''"] if show_services
+    @conditions.add_condition ["people.testimony is not null and people.testimony != ''"] if testimony
+    unless show_hidden and Person.logged_in.admin?(:view_hidden_profiles)
+      @conditions.add_condition ["people.visible_to_everyone = ?", true]
+      @conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
+    end
+    unless Person.logged_in.full_access?
+      if SQLITE
+        @conditions.add_condition ["#{sql_now}-people.birthday >= 18"]
+      else
+        @conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"]
+      end
+    end
+    @conditions.add_condition ["people.#{@type} = ?", true] if @type
+    @count = Person.count :conditions => @conditions, :include => :family
+    @people = Person.paginate(
+      :all,
+      :page => page,
+      :conditions => @conditions,
+      :include => :family,
+      :order => (show_services ? 'people.service_name' : 'people.last_name, people.first_name')
+    ).select do |person| # additional checks that don't work well in raw sql
+      !person.nil? \
+        and Person.logged_in.sees?(person) \
+        and (not @search_birthday or person.share_birthday_with(Person.logged_in)) \
+        and (not @search_anniversary or person.share_anniversary_with(Person.logged_in)) \
+        and (not @search_address or person.share_address_with(Person.logged_in)) \
+        and (person.consent_or_13? or (Person.logged_in.admin?(:view_hidden_profiles) and @show_hidden))
+    end
+    @people = WillPaginate::Collection.new(page || 1, 30, @count).replace(@people)
+  end
+  
+  def query_families(page=nil)
+    @conditions.add_condition ["families.deleted = ?", false]
+    @families = Family.paginate(:all, :page => page, :conditions => @conditions, :order => "last_name")
   end
   
   def self.new_from_params(params)

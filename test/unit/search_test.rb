@@ -51,5 +51,12 @@ class SearchTest < ActiveSupport::TestCase
     people(:peter).update_attributes!(:full_access => false)
     assert_equal 0, @search.query.length
   end
+  
+  should "search for families" do
+    Person.logged_in = people(:peter)
+    @search = Search.new
+    @search.family_name = 'jane'
+    assert_equal 1, @search.query_families.length
+  end
 
 end
