@@ -56,6 +56,7 @@ class VersesControllerTest < ActionController::TestCase
     assert @verse.people.include?(@person)
     post :destroy, {:id => @verse.id}, {:logged_in_id => @person.id}
     assert_redirected_to verse_path(@verse)
+    @verse.reload
     assert !@verse.people.include?(@person)
   end
   
