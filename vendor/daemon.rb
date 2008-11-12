@@ -22,7 +22,8 @@ require 'fileutils'
 module Daemon
   class Base
     def self.pid_fn
-      File.join(@@working_dir, "#{name}.pid")
+      FileUtils.mkdir_p(File.join(@@working_dir, "tmp/pids"))
+      File.join(@@working_dir, "tmp/pids/#{name}.pid")
     end
     
     def self.daemonize(working_dir, log_path)
@@ -65,13 +66,15 @@ module Daemon
         fork do
           Process.setsid
           exit if fork
+          if File.file?(daemon.pid_fn)
+            puts "Pid file found. Already running?"
+            exit
+          end
           PidFile.store(daemon, Process.pid)
           Dir.chdir @@working_dir
           File.umask 0000
           STDIN.reopen "/dev/null"
-          #STDOUT.reopen "/dev/null", "a"
-          STDOUT.reopen @@log_path, "a"
-          STDERR.reopen STDOUT
+          $stdout = $stderr = File.open(@@log_path, 'a')
           trap("TERM") {daemon.stop; exit}
           daemon.start
         end

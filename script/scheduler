@@ -28,7 +28,8 @@ class Scheduler < Daemon::Base
   NIGHT_HOURS = 0..3
   
   def self.start
-    puts "Scheduler started at #{timestamp}"
+    puts "Scheduler started in #{RAILS_ENV} mode at #{timestamp}"
+    STDOUT.puts "Scheduler started in #{RAILS_ENV} mode"
     puts
     @rails_root = File.expand_path(RAILS_ROOT)
     @rails_env = RAILS_ENV
@@ -99,6 +100,7 @@ class Scheduler < Daemon::Base
   
   def self.stop
     puts "Scheduler stopped at #{timestamp}"
+    STDOUT.puts "Scheduler stopped"
     puts
   end
 end
