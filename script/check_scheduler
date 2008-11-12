@@ -1,0 +1,11 @@
+#!/bin/sh
+
+env=${1-'production'}
+
+f=`readlink -f $0`
+rails_root=`dirname $f`/..
+
+if [ ! -e "$rails_root/tmp/pids/Scheduler.pid" ]; then
+  `$rails_root/script/scheduler start $env`
+  echo "Scheduler was not running so I started it."
+fi
