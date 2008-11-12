@@ -151,7 +151,7 @@ class OneBodyInfo
   end
   
   def scheduler_running?
-    File.exists?(File.join(RAILS_ROOT, 'Scheduler.pid'))
+    File.exists?(File.join(RAILS_ROOT, 'tmp/pids/Scheduler.pid'))
   end
 
   def connect_to_database(config)
