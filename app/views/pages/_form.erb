@@ -15,7 +15,7 @@
 
 <% form_for @page do |form| %>
   <%= form.error_messages %>
-  <p>
+  <div>
     <%= form.label :title %>               <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
     <%= form.label :parent_id, 'Path' %>   <%= form.select :parent_id, [['(root)', nil]] + @page_paths_and_ids, {}, :style => 'width:auto;' %> /
                                            <%= form.text_field :slug %><br/>
@@ -26,5 +26,5 @@
     <%= form.label :published, 'Published', :class => 'inline' %>
     <%= form.check_box :navigation, :class => 'checkbox' %>
     <%= form.label :navigation, 'Visibile in Navigation', :class => 'inline' %>
-  </p>
+  </div>
 <% end %>
