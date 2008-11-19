@@ -1,0 +1,67 @@
+  <tr>
+    <td style="padding-right:25px;" id="current_participations">
+      <h3 style="border:none;">Current participations:</h3>
+      <ul style="list-style: none;">
+        <% @person.participations.current.each do |pp| %>
+          <% domid = "participation_category_#{pp.participation_category.id}" %>
+          <li id="<%=domid%>" style="cursor:pointer; cursor:hand; background: url('/images/drag_handle.gif') no-repeat center left; padding-left: 17px;">
+            <%= h pp.participation_category.name %>
+          </li>
+					<%= draggable_element(domid) %>
+        <% end %>
+      </ul>
+    </td>
+    <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;" id="pending_participations">
+      <h3 style="border:none;">Would like to participate in:</h3>
+      <ul style="list-style: none;">
+        <% @person.participations.pending.each do |pp| %>
+	        <% domid = "participation_category_#{pp.participation_category.id}" %>
+          <li id="<%=domid%>" style="cursor:pointer; cursor:hand; background: url('/images/drag_handle.gif') no-repeat center left; padding-left: 17px;">
+            <%= h pp.participation_category.name %>
+          </li>
+					<%= draggable_element(domid) %>
+        <% end %>
+      </ul>
+    </td>
+    <td style="padding-left:25px;border-left:1px dotted #ccc;" id="historical_participations">
+      <h3 style="border:none;">Previously participated in:</h3>
+      <ul style="list-style: none;">
+        <% @person.participations.historical.each do |pp| %>
+	        <% domid = "participation_category_#{pp.participation_category.id}" %>
+          <li id="<%=domid%>" style="cursor:pointer; cursor:hand; background: url('/images/drag_handle.gif') no-repeat center left; padding-left: 17px;">
+	          <%= h pp.participation_category.name %>
+	        </li>
+					<%= draggable_element(domid) %>
+        <% end %>
+      </ul>
+    </td>
+    <td style="padding-left:25px;border-left:1px dotted #ccc;" id="participation_categories">
+		  <fieldset>
+		    <legend>Participation Categories</legend>
+				<ul>
+				<% @participation_categories.each do |p| %>
+	        <% domid = "participation_category_#{p.id}" %>
+				  <li id="<%=domid%>" style="cursor:pointer; cursor:hand;"><%= p.name %></li>
+					<%= draggable_element(domid) %>
+				<% end %>
+				</ul>
+		  </fieldset>
+    </td>
+  </tr>
+
+	<%= drop_receiving_element("current_participations", 
+	      :url => person_participations_path(@person),
+	      :with => "'receiving_element=current&participation_category_id='+encodeURIComponent(element.id.split('_').last())") %>
+
+	<%= drop_receiving_element("pending_participations", 
+	      :url => person_participations_path(@person),
+	      :with => "'receiving_element=pending&participation_category_id='+encodeURIComponent(element.id.split('_').last())") %>
+
+	<%= drop_receiving_element("historical_participations", 
+	      :url => person_participations_path(@person),
+	      :with => "'receiving_element=historical&participation_category_id='+encodeURIComponent(element.id.split('_').last())") %>
+
+	<%= drop_receiving_element("participation_categories", 
+	      :url => "/people/#{@person.id}/participations/0",
+	      :with => "'participation_category_id='+encodeURIComponent(element.id.split('_').last())",
+	      :method => "delete") %>
