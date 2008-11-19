@@ -163,4 +163,26 @@ class PeopleControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  should "not show participations unless admin" do
+    get :show, {:id => @person.id}, {:logged_in_id => @person.id} # myself
+    assert_response :success
+    assert_no_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'participations'}
+    get :show, {:id => @person.id}, {:logged_in_id => @other_person.id} # someone else
+    assert_response :success
+    assert_no_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'participations'}
+    get :edit, {:id => @person.id}, {:logged_in_id => @person.id}
+    assert_response :success
+    assert_no_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'participations'}
+    assert_no_tag :tag => 'tbody', :attributes => {:id => 'edit_participations_table_body'}
+  end
+
+  should "show participations in show and edit if admin" do
+    @other_person.admin = Admin.create!(:edit_profiles => true)
+    get :show, {:id => @person.id}, {:logged_in_id => @other_person.id}
+    assert_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'participations'}
+    get :edit, {:id => @person.id}, {:logged_in_id => @other_person.id}
+    assert_response :success
+    assert_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'participations'}
+    assert_tag :tag => 'tbody', :attributes => {:id => 'edit_participations_table_body'}
+  end
 end
