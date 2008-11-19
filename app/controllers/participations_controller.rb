@@ -1,23 +1,9 @@
 class ParticipationsController < ApplicationController
-  
+
+  # TODO to be implemented
   def index
-    # people/1/participations
-    if params[:person_id]
-      @person = Person.find(params[:person_id])
-      respond_to do |format|
-        format.js   { render :partial => 'person_participations' }
-        format.html { render :partial => 'person_participations', :layout => true }
-        if can_export?
-          format.xml { render :xml =>  @person.participations.to_xml(:except => %w(site_id)) }
-          format.csv { render :text => @person.participations.to_csv(:except => %w(site_id)) }
-        end
-      end
-    # regular index
-    else
-      # TODO: to be implemented
-    end
   end
-    
+
   # TODO to be implemented
   def show
   end
@@ -48,10 +34,10 @@ class ParticipationsController < ApplicationController
 
       @participation_categories = ParticipationCategory.find(:all, :order => :name)
       @participation_categories.delete_if{|pp| @person.participation_categories.include?(pp)}
+    end
 
-      respond_to do |format|
-        format.js
-      end
+    respond_to do |format|
+      format.js
     end
   end
   
@@ -64,7 +50,9 @@ class ParticipationsController < ApplicationController
   end
   
   def destroy
-    if params[:person_id] and params[:participation_category_id]
+    if params[:id].to_i != 0
+      @participation = Participation.find params[:id]
+    elsif params[:id].to_i == 0 and params[:person_id] and params[:participation_category_id]
       
       @person = Person.find(params[:person_id])
       @participation_category = ParticipationCategory.find(params[:participation_category_id])
@@ -72,14 +60,16 @@ class ParticipationsController < ApplicationController
       @participation = Participation.find_by_person_id_and_participation_category_id(
         @person.id, @participation_category.id
       )
-      @participation.destroy
+    end
 
+    unless @participation.nil?
+      @participation.destroy
       @participation_categories = ParticipationCategory.find(:all, :order => :name)
       @participation_categories.delete_if{|pp| @person.participation_categories.include?(pp)}
+    end
 
-      respond_to do |format|
-        format.js
-      end
+    respond_to do |format|
+      format.js
     end
   end  
   
