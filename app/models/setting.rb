@@ -20,7 +20,7 @@ class Setting < ActiveRecord::Base
     'Email.Host', 'Email.Domain', 'Email.Authentication Required',
     'Contact.Tech Support Email', 'Contact.Tech Support Contact', 'Contact.Bug Notification Email',
     'Services.Yahoo', 'Services.Amazon', 'Services.Analytics',
-    'Features.Multisite', 'Features.SSL'
+    'Features.Multisite', 'Features.SSL', 'Features.Edit Legacy Ids'
   ]
   
   SETTINGS_FILE = File.join(RAILS_ROOT, "config/settings.yml")
