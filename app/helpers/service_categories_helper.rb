@@ -1,0 +1,2 @@
+module ServiceCategoriesHelper
+end

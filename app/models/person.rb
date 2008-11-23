@@ -109,20 +109,20 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   belongs_to :site
 
-  has_many :participations, :dependent => :destroy do
+  has_many :services, :dependent => :destroy do
     def current
-      self.find(:all, :conditions => {:status => 'current'}, :include => :participation_category, :order => 'participation_categories.name')
+      self.find(:all, :conditions => {:status => 'current'}, :include => :service_category, :order => 'service_categories.name')
     end
 
     def pending
-      self.find(:all, :conditions => {:status => 'pending'}, :include => :participation_category, :order => 'participation_categories.name')
+      self.find(:all, :conditions => {:status => 'pending'}, :include => :service_category, :order => 'service_categories.name')
     end
 
     def historical
-      self.find(:all, :conditions => {:status => 'completed'}, :include => :participation_category, :order => 'participation_categories.name')
+      self.find(:all, :conditions => {:status => 'completed'}, :include => :service_category, :order => 'service_categories.name')
     end
   end
-  has_many :participation_categories, :through => :participations
+  has_many :service_categories, :through => :services
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
     
@@ -521,8 +521,8 @@ class Person < ActiveRecord::Base
     @has_groups ||= groups.count > 0
   end
 
-  def has_participations?
-    @has_participations ||= participations.count > 0
+  def has_services?
+    @has_services ||= services.count > 0
   end
   
   def access_attributes

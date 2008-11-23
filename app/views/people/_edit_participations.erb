@@ -1,9 +1,0 @@
-<%= javascript_include_tag 'dragdrop.js' %>
-
-<p class="discreet">Drag the items around to define <%= "#{@person.first_name}#{@person.first_name.last!='s' ? "\'s" : "\'"}" %> participations.</p>
-
-<table width="100%">
-  <tbody id="edit_participations_table_body">
-    <%= render :partial => "edit_participations_table_body" %>
-  </tbody>
-</table>

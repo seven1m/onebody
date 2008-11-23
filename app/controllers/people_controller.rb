@@ -100,8 +100,8 @@ class PeopleController < ApplicationController
     if @logged_in.can_edit?(@person)
       @family = @person.family
       @service_categories = Person.service_categories
-      @participation_categories = ParticipationCategory.find(:all, :order => :name)
-      @participation_categories.delete_if{|pp| @person.participation_categories.include?(pp)}
+      @services = ServiceCategory.find(:all, :order => :name)
+      @services.delete_if{|ps| @person.service_categories.include?(ps)}
     else
       render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
     end

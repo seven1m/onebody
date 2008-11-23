@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ParticipationCategoriesControllerTest < ActionController::TestCase
+class ServiceCategoriesControllerTest < ActionController::TestCase
   # Replace this with your real tests.
   def test_truth
     assert true

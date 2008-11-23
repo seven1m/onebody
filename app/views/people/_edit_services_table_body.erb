@@ -1,0 +1,67 @@
+  <tr>
+    <td style="padding-right:25px;" id="current_services">
+      <h3 style="border:none;">Current services:</h3>
+      <ul style="list-style: none;">
+        <% @person.services.current.each do |pp| %>
+          <% domid = "service_category_#{pp.service_category.id}" %>
+          <li id="<%=domid%>" style="cursor:pointer; cursor:hand; background: url('/images/drag_handle.gif') no-repeat center left; padding-left: 17px;">
+            <%= h pp.service_category.name %>
+          </li>
+					<%= draggable_element(domid) %>
+        <% end %>
+      </ul>
+    </td>
+    <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;" id="pending_services">
+      <h3 style="border:none;">Would like to serve in:</h3>
+      <ul style="list-style: none;">
+        <% @person.services.pending.each do |pp| %>
+	        <% domid = "service_category_#{pp.service_category.id}" %>
+          <li id="<%=domid%>" style="cursor:pointer; cursor:hand; background: url('/images/drag_handle.gif') no-repeat center left; padding-left: 17px;">
+            <%= h pp.service_category.name %>
+          </li>
+					<%= draggable_element(domid) %>
+        <% end %>
+      </ul>
+    </td>
+    <td style="padding-left:25px;border-left:1px dotted #ccc;" id="historical_services">
+      <h3 style="border:none;">Previously served in:</h3>
+      <ul style="list-style: none;">
+        <% @person.services.historical.each do |pp| %>
+	        <% domid = "service_category_#{pp.service_category.id}" %>
+          <li id="<%=domid%>" style="cursor:pointer; cursor:hand; background: url('/images/drag_handle.gif') no-repeat center left; padding-left: 17px;">
+	          <%= h pp.service_category.name %>
+	        </li>
+					<%= draggable_element(domid) %>
+        <% end %>
+      </ul>
+    </td>
+    <td style="padding-left:25px;border-left:1px dotted #ccc;" id="service_categories">
+		  <fieldset>
+		    <legend>Service Categories</legend>
+				<ul>
+				<% @services.each do |p| %>
+	        <% domid = "service_category_#{p.id}" %>
+				  <li id="<%=domid%>" style="cursor:pointer; cursor:hand;"><%= p.name %></li>
+					<%= draggable_element(domid) %>
+				<% end %>
+				</ul>
+		  </fieldset>
+    </td>
+  </tr>
+
+	<%= drop_receiving_element("current_services", 
+	      :url => person_services_path(@person),
+	      :with => "'receiving_element=current&service_category_id='+encodeURIComponent(element.id.split('_').last())") %>
+
+	<%= drop_receiving_element("pending_services", 
+	      :url => person_services_path(@person),
+	      :with => "'receiving_element=pending&service_category_id='+encodeURIComponent(element.id.split('_').last())") %>
+
+	<%= drop_receiving_element("historical_services", 
+	      :url => person_services_path(@person),
+	      :with => "'receiving_element=historical&service_category_id='+encodeURIComponent(element.id.split('_').last())") %>
+
+	<%= drop_receiving_element("service_categories", 
+	      :url => "/people/#{@person.id}/services/0",
+	      :with => "'service_category_id='+encodeURIComponent(element.id.split('_').last())",
+	      :method => "delete") %>

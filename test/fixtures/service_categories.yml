@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: participation_categories
+# Table name: service_categories
 #
 #  id                        :integer       not null, primary key
 #  name                      :string(255)   not null
