@@ -6,5 +6,6 @@ Date.first_day_of_week = 0
 _translations = {
   "OK": "OK",
   "Now": "Agora",
-  "Today": "Hoje"
+  "Today": "Hoje",
+  "Clear": "Limpar"
 }

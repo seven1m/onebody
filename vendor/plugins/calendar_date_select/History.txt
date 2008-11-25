@@ -1,3 +1,19 @@
+== Version 1.12 ==
+ * Updated for compatibility with Rails 2.2
+ 
+== Version 1.11.1 ==
+ * properly wrap buttons if they are too big for the line
+ * more translations: german (Jonas), Added russian translation (DEkart)
+ * locale fixes:
+   * Fix: time doesn't work (using 12 hour instead of 24 hour) in Italian format.
+   * updated Portuguese translation with the "Clear" action (Daniel Luz)
+   * Portuguese was missing month of October
+ * Added a clear button (Hendy Tanata)
+ * Reverted a change that attempted to fix position in a scrollable div, but caused probles elsewhere
+ * Added :minute_interval to calendar_date_select_process_options, fixing http://code.google.com/p/calendardateselect/issues/detail?id=81
+ * Add helpers to give the list of javascripts and stylesheets (calendar_date_select_javascripts and calendar_date_select_stylesheets)
+ * Converted over to use Hoe (echoe was giving too many problems).  Refactored the directory structure to make it more gem-ish.
+
 == Version 1.11 ==
 
  * Calendar Date Select now works as a ruby-gem (thanks, artmotion!)
@@ -198,3 +214,6 @@ June 2, 2007
 June 1, 2007
 
   * Initial release!
+	
+
+

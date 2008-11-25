@@ -66,12 +66,12 @@ module ActionView
       def phone_field(object_name, method, options = {})
         options[:value] = format_phone(options[:object][method], mobile=(method.to_s =~ /mobile/))
         options[:size] ||= 15
-        InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_input_field_tag("text", options)
+        InstanceTag.new(object_name, method, self, options.delete(:object)).to_input_field_tag("text", options)
       end
       def date_field(object_name, method, options = {})
         options[:value] = options[:object][method].to_s(:date) rescue ''
         options[:size] ||= 12
-        InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_input_field_tag("text", options)
+        InstanceTag.new(object_name, method, self, options.delete(:object)).to_input_field_tag("text", options)
       end  
     end
     class FormBuilder

@@ -139,7 +139,7 @@ class Note
 end
 
 class Picture
-  self.forgery_defaults = {:photo => true}
+  self.forgery_defaults = {:photo => true, :album_id => Proc.new { Album.forge.id }}
 end
 
 class Album

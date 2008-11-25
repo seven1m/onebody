@@ -22,5 +22,5 @@
 </div>
 
 <div class="recipe-body">
-  <%= truncate h(recipe.description), 50, '...' %>
+  <% truncate h(recipe.description), :length => 50, :omission => '...' %>
 </div>

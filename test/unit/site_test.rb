@@ -11,7 +11,7 @@ class SiteTest < ActiveSupport::TestCase
     settings.each do |fixture, values|
       next if values['section'] == 'URL' and values['name'] == 'Site' # set by Site model
       assert setting = Setting.find_by_site_id_and_section_and_name(new_site.id, values['section'], values['name'])
-      assert_equal Setting.new(:value => values['value']).value, setting.value
+      assert_equal Setting.new(:value => values['value']).value.to_s, setting.value.to_s
     end
   end
   

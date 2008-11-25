@@ -25,3 +25,8 @@ config.gem 'faker'
 require Rails.root + '/config/initializers/paths'
 require Rails.root + '/config/initializers/photos'
 require Rails.root + '/config/initializers/email'
+
+config.action_controller.session = {
+  :session_key => "_onebody_session",
+  :secret      => "not so secret - this is only here for the test environment"
+} 

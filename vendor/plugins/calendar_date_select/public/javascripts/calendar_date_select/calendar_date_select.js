@@ -1,4 +1,4 @@
-// CalendarDateSelect version 1.10.11 - a prototype based date picker
+// CalendarDateSelect version 1.12 - a prototype based date picker
 // Questions, comments, bugs? - see the project page: http://code.google.com/p/calendardateselect
 if (typeof Prototype == 'undefined') alert("CalendarDateSelect Error: Prototype could not be found. Please make sure that your application's layout includes prototype.js (.g. <%= javascript_include_tag :defaults %>) *before* it includes calendar_date_select.js (.g. <%= calendar_date_select_includes %>).");
 if (Prototype.Version < "1.6") alert("Prototype 1.6.0 is required.  If using earlier version of prototype, please use calendar_date_select version 1.8.3");
@@ -225,7 +225,7 @@ CalendarDateSelect.prototype = {
           onclick: function() {this.today(false); return false;}.bindAsEventListener(this)
         });
       
-      if (this.options.get("time")=="mixed") buttons_div.build("span", {innerHTML: " | ", className:"button_seperator"})
+      if (this.options.get("time")=="mixed") buttons_div.build("span", {innerHTML: "&#160;|&#160;", className:"button_seperator"})
       
       if (this.options.get("time")) b = buttons_div.build("a", {
         innerHTML: _translations["Now"],
@@ -233,13 +233,13 @@ CalendarDateSelect.prototype = {
         onclick: function() {this.today(true); return false}.bindAsEventListener(this)
       });
       
-      if (!this.options.get("embedded"))
+      if (!this.options.get("embedded") && !this.closeOnClick())
       {
-        buttons_div.build("span", {innerHTML: "&#160;"});
+        buttons_div.build("span", {innerHTML: "&#160;|&#160;", className:"button_seperator"})
         buttons_div.build("a", { innerHTML: _translations["OK"], href: "#", onclick: function() {this.close(); return false;}.bindAsEventListener(this) });
       }
       if (this.options.get('clear_button')) {
-        buttons_div.build("span", {innerHTML: "&#160;"});
+        buttons_div.build("span", {innerHTML: "&#160;|&#160;", className:"button_seperator"})
         buttons_div.build("a", { innerHTML: _translations["Clear"], href: "#", onclick: function() {this.clearDate(); if (!this.options.get("embedded")) this.close(); return false;}.bindAsEventListener(this) });
       }
     }

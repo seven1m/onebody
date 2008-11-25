@@ -28,7 +28,7 @@
           Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>
         <% end %>
         <br/>
-        <%= truncate h(recipe.description), 50, '...' %>
+        <%= truncate h(recipe.description), :length => 50, :omission => '...' %>
       </td>
     </tr>
   <% end %>

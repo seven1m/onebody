@@ -1,4 +1,4 @@
-RAILS_GEM_VERSION = '2.1.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 unless File.exist?(config_filename = Rails.root + '/config/database.yml')
@@ -18,6 +18,8 @@ Rails::Initializer.run do |config|
   config.gem 'pdf-writer', :lib => 'pdf/writer'
   config.gem 'highline'
   config.gem 'mini_magick'
+  config.gem 'twitter'
+  config.gem 'xmpp4r'
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
