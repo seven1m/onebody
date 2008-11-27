@@ -22,7 +22,7 @@
 <% end %>
 
 <p>
-  <%= link_to image_tag('feed_small.png', :alt => 'Activity Feed', :class => 'icon'), formatted_feed_path('rss', :code => @logged_in.feed_code) %>
+  <%= link_to image_tag('feed_small.png', :alt => 'Activity Feed', :class => 'icon'), feed_path(:format => 'rss', :code => @logged_in.feed_code) %>
   Subscribe to the
-  <%= link_to 'activity feed', formatted_feed_path('xml', :code => @logged_in.feed_code) %>.
+  <%= link_to 'activity feed', feed_path(:format => 'xml', :code => @logged_in.feed_code) %>.
 </p>

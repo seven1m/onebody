@@ -14,8 +14,8 @@
 <h2>Update Notifications</h2>
 
 <p>
-  <%= link_to image_tag('feed_small.png', :alt => 'Publications Feed', :class => 'icon'), formatted_publications_path('xml', :code => @logged_in.feed_code) %>
-  <%= link_to 'Subscribe', formatted_publications_path('xml', :code => @logged_in.feed_code) %> to Publications with your feed reader.
+  <%= link_to image_tag('feed_small.png', :alt => 'Publications Feed', :class => 'icon'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %>
+  <%= link_to 'Subscribe', publications_path(:format => 'xml', :code => @logged_in.feed_code) %> to Publications with your feed reader.
 </p>
 
 <% if @logged_in.member_of?(@group) %>
