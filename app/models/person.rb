@@ -193,6 +193,9 @@ class Person < ActiveRecord::Base
     "<#{name}>"
   end
   
+  # FIXME: This should work in place of the following four methods, but it doesn't.
+  #self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
+  
   def birthday
     read_attribute(:birthday).utc rescue nil
   end

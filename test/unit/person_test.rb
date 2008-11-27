@@ -138,6 +138,16 @@ class PersonTest < Test::Unit::TestCase
     assert_equal 10, second_time.length
   end
   
+  should "not tz convert a birthday or anniversary" do
+    Time.zone = 'Central Time (US & Canada)'
+    people(:tim).update_attributes!(:birthday => '4/28/1981')
+    assert_equal '04/28/1981 00:00:00 +0000', people(:tim).reload.read_attribute(:birthday).strftime('%m/%d/%Y %H:%M:%S %z')
+    assert_equal '04/28/1981 00:00:00 +0000', people(:tim).birthday.strftime('%m/%d/%Y %H:%M:%S %z')
+    people(:tim).update_attributes!(:anniversary => '8/11/2001')
+    assert_equal '08/11/2001 00:00:00 +0000', people(:tim).reload.read_attribute(:anniversary).strftime('%m/%d/%Y %H:%M:%S %z')
+    assert_equal '08/11/2001 00:00:00 +0000', people(:tim).anniversary.strftime('%m/%d/%Y %H:%M:%S %z')
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)
