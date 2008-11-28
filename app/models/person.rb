@@ -193,24 +193,7 @@ class Person < ActiveRecord::Base
     "<#{name}>"
   end
   
-  # FIXME: This should work in place of the following four methods, but it doesn't.
-  #self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
-  
-  def birthday
-    read_attribute(:birthday).utc rescue nil
-  end
-  
-  def birthday=(b)
-    write_attribute(:birthday, b)
-  end
-  
-  def anniversary
-    read_attribute(:anniversary).utc rescue nil
-  end
-  
-  def anniversary=(a)
-    write_attribute(:anniversary, a)
-  end
+  self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
   
   def birthday_soon?
     today = Date.today
