@@ -104,9 +104,7 @@ class Family < ActiveRecord::Base
     end
   end
   
-  def home_phone=(phone)
-    write_attribute :home_phone, phone.to_s.digits_only
-  end
+  self.digits_only_for_attributes = [:home_phone]
 
   def children_without_consent
     people.select { |p| !p.consent_or_13? }

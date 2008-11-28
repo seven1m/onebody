@@ -43,21 +43,7 @@ class Update < ActiveRecord::Base
     end
   end
   
-  def mobile_phone=(phone)
-    write_attribute :mobile_phone, phone.to_s.digits_only
-  end
-  
-  def work_phone=(phone)
-    write_attribute :work_phone, phone.to_s.digits_only
-  end
-  
-  def fax=(phone)
-    write_attribute :fax, phone.to_s.digits_only
-  end
-  
-  def home_phone=(phone)
-    write_attribute :home_phone, phone.to_s.digits_only
-  end
+  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :home_phone]
   
   def person_attributes
     self.attributes.reject do |key, val|

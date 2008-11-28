@@ -35,6 +35,16 @@ class ActiveRecord::Base
     conditions << "legacy_id in (#{options[:legacy_ids].map { |id| id.to_i }.join(',')})" if options[:legacy_ids].to_a.any?
     connection.select_all("select id, legacy_id, #{options[:debug] ? '' : 'SHA1'}(CONCAT(#{attributes})) as hash from `#{table_name}` where #{conditions.join(' or ')} and site_id=#{Site.current.id} limit #{MAX_RECORD_HASHES}")
   end
+  
+  def self.digits_only_for_attributes=(attributes)
+    attributes.each do |attribute|
+      class_eval "
+        def #{attribute}=(val)
+          write_attribute :#{attribute}, val.to_s.digits_only
+        end
+      "
+    end
+  end
 end
 
 # add option to to_xml to specify that read_attribute() should be used rather than send()

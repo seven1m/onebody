@@ -198,19 +198,9 @@ class Person < ActiveRecord::Base
     today = Date.today
     birthday and ((birthday.yday()+365 - today.yday()).modulo(365) < BIRTHDAY_SOON_DAYS)
   end
+  
+  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :service_phone]
     
-  def mobile_phone=(phone)
-    write_attribute :mobile_phone, phone.to_s.digits_only
-  end
-  
-  def work_phone=(phone)
-    write_attribute :work_phone, phone.to_s.digits_only
-  end
-  
-  def fax=(phone)
-    write_attribute :fax, phone.to_s.digits_only
-  end
-  
   before_create :generate_salt
   
   def generate_salt
@@ -555,7 +545,6 @@ class Person < ActiveRecord::Base
         toggle!(:account_frozen)
       end
     elsif params[:person] # testimony, about, favorites, etc.
-      params[:person][:service_phone] = params[:person][:service_phone].digits_only if params[:person][:service_phone]
       if params[:person][:twitter_account].to_s.strip.any? and params[:person][:twitter_account] != self.twitter_account
         TwitterBot.follow(params[:person][:twitter_account]) rescue nil
       end

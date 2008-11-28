@@ -151,6 +151,11 @@ class PersonTest < Test::Unit::TestCase
     assert_equal '01/01/1920', people(:tim).reload.birthday.strftime('%m/%d/%Y')
   end
   
+  should "only store digits for phone numbers" do
+    people(:tim).update_attributes!(:mobile_phone => '(123) 456-7890')
+    assert_equal '1234567890', people(:tim).reload.mobile_phone
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)
