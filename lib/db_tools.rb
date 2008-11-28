@@ -45,6 +45,15 @@ class ActiveRecord::Base
       "
     end
   end
+  
+  def self.fall_through(*attributes)
+    options = attributes.pop.symbolize_keys
+    attributes.each do |attribute|
+      class_eval "
+        def #{attribute}; #{options[:to]}.#{attribute}; end
+      "
+    end
+  end
 end
 
 # add option to to_xml to specify that read_attribute() should be used rather than send()

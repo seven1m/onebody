@@ -231,14 +231,7 @@ class Person < ActiveRecord::Base
     memberships.find(:all, :conditions => ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
   end
   
-  def home_phone; family.home_phone; end
-  def address; family.address; end
-  def address1; family.address1; end
-  def address2; family.address2; end
-  def city; family.city; end
-  def state; family.state; end
-  def zip; family.zip; end
-  def short_zip; family.short_zip; end
+  fall_through :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable? :to => :family
   
   def pretty_website
     website && website.sub(/^https?:\/\//, '')
@@ -382,10 +375,6 @@ class Person < ActiveRecord::Base
   
   def super_admin?
     Setting.get(:access, :super_admins).include?(email)
-  end
-  
-  def mapable?
-    family.mapable?
   end
   
   def request_friendship_with(person)
