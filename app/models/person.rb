@@ -175,14 +175,6 @@ class Person < ActiveRecord::Base
       end
     end
   end
-
-  def name_shortened(max)
-    if name and name.length > max
-      name[0..max-3] + '...'
-    else
-      name
-    end
-  end
   
   def name_possessive
     name =~ /s$/ ? "#{name}'" : "#{name}'s"
