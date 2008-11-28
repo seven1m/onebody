@@ -10,7 +10,7 @@ class Administration::SettingsController < ApplicationController
     info = OneBodyInfo.new
     @lists['Appearance']['Theme'] = info.themes
     @lists['Appearance']['Public Theme'] = info.themes + ['page:template']
-    @lists['System']['Time Zone'] = TimeZone.all.map { |z| [z.to_s, z.name] }
+    @lists['System']['Time Zone'] = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
   end
   
   def batch
