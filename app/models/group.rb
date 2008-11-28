@@ -21,7 +21,6 @@
 #  link_code                 :string(255)   
 #  parents_of                :integer       
 #  site_id                   :integer       
-#  cached_parents            :text          
 #  blog                      :boolean       default(TRUE)
 #  email                     :boolean       default(TRUE)
 #  prayer                    :boolean       default(TRUE)
@@ -29,6 +28,7 @@
 #  legacy_id                 :integer       
 #  gcal_private_link         :string(255)   
 #  approval_required_to_join :boolean       default(TRUE)
+#  pictures                  :boolean       default(TRUE)
 #
 
 class Group < ActiveRecord::Base

@@ -19,6 +19,7 @@
 #  site_id            :integer       
 #  legacy_id          :integer       
 #  share_home_phone   :boolean       
+#  auto               :boolean       
 #
 
 class Membership < ActiveRecord::Base

@@ -10,7 +10,7 @@
 #  address1           :string(255)   
 #  address2           :string(255)   
 #  city               :string(255)   
-#  state              :string(2)     
+#  state              :string(10)    
 #  zip                :string(10)    
 #  home_phone         :string(25)    
 #  email              :string(255)   

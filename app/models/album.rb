@@ -9,6 +9,7 @@
 #  site_id     :integer       
 #  created_at  :datetime      
 #  updated_at  :datetime      
+#  group_id    :integer       
 #
 
 class Album < ActiveRecord::Base

@@ -2,9 +2,10 @@
 #
 # Table name: service_categories
 #
-#  id                        :integer       not null, primary key
-#  name                      :string(255)   not null
-#  description               :text          
+#  id          :integer       not null, primary key
+#  name        :string(255)   not null
+#  description :text          
+#  site_id     :integer       
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
