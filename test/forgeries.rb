@@ -53,8 +53,8 @@ module Forgeable
   module ClassMethods
     
     def forge(attributes={})
-      attributes = forgery_defaults.merge(attributes)
       attributes.symbolize_keys!
+      attributes = forgery_defaults.merge(attributes)
       photo = attributes.delete(:photo)
       file = attributes.delete(:file)
       fail_count = 0
