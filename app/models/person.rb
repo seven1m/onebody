@@ -185,8 +185,7 @@ class Person < ActiveRecord::Base
   end
   
   def name_possessive
-    n = name
-    n =~ /s$/ ? "#{n}'" : "#{n}'s"
+    name =~ /s$/ ? "#{name}'" : "#{name}'s"
   end
   
   def inspect
