@@ -75,7 +75,3 @@ class Array
     return selected.compact
   end
 end
-
-def random_chars(length)
-  (1..length/40+1).map { Digest::SHA1.hexdigest([Time.now, (1..rand(10)).map{ rand.to_s }].join) }.join[0...length]
-end
