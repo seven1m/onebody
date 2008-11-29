@@ -6,32 +6,6 @@ end
 
 namespace :onebody do
   
-  desc 'Initialize database'
-  task :init => [:environment, 'db:create', 'db:migrate'] do
-    puts
-    new_user = agree('Do you want to create a new admin user? ')
-    Rake::Task['onebody:newuser'].invoke if new_user
-    puts
-    puts "Now, test your instance by running the following command:"
-    puts 'ruby script/server'
-    puts
-    puts 'Browse to http://localhost:3000'
-    puts 'Sign in with the email and password you just entered.' if new_user
-  end
-
-  desc 'Update database and settings.'
-  task :update => [:environment, 'db:migrate', 'onebody:settings:update'] do
-    puts
-    puts 'System updated.'
-  end
-  
-  namespace :settings do
-    desc 'Updates all settings'
-    task :update do
-      Setting.update_all
-    end
-  end
-  
   desc 'Create a new (admin) user. Use SITE="Site Name" for multisite.'
   task :newuser => :environment do
     puts 'Create new admin user...'
