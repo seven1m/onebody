@@ -41,5 +41,8 @@ namespace :onebody do
     value = admins.value
     admins.update_attributes! :value => (value << person.email).reject { |e| e == 'admin@example.com' }
   end
+  
+  task :newuser => :new_user do
+  end
 
 end
