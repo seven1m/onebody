@@ -38,7 +38,7 @@ ActionController::Routing::Routes.draw do |map|
     groups.resource :photo, :member => PHOTO_SIZE_METHODS
   end
   
-  map.resources :service_categories
+  map.resources :service_categories, :collection => {:batch_edit => :get, :close_batch_edit => :get}
   
   map.resources :albums do |albums|
     albums.resources :pictures, :member => {:next => :get, :prev => :get} do |pictures|

@@ -1,0 +1,4 @@
+if @updated
+  page.replace "edit_service_category_#{@service_category.id}", :partial => "edit_service_category", :locals => {:service_category => @service_category}
+  page.visual_effect :highlight, "edit_service_category_#{@service_category.id}"
+end
