@@ -1,5 +1,8 @@
 config.action_controller.session_store = :cookie_store
-config.action_controller.session = { :session_key => "_setup_session", :secret => ActiveSupport::SecureRandom.hex(50) }
+config.action_controller.session = {
+  :session_key => "_setup_session",
+  :secret      => 'not so secret since any user is supposed to be a sys admin anyway'
+}
 config.frameworks -= [:active_record]
 config.cache_classes = false
 config.whiny_nils = false
