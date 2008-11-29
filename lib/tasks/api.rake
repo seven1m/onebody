@@ -20,7 +20,7 @@ namespace :onebody do
         else
           puts 'Account not found.'
           if Person.count == 0
-            puts 'You have no users in the database. First run "rake onebody:newuser"'
+            puts 'You have no users in the database. First run "rake onebody:new_user"'
           end
         end
       else

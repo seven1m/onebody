@@ -5,6 +5,6 @@
 <% if @show_help %>
   <p>
     You may create the first user by running the command:
-    <code>rake onebody:newuser <% unless Site.current.default? %>SITE="<%=h Site.current.name %>"<% end %></code>
+    <code>rake onebody:new_user <% unless Site.current.default? %>SITE="<%=h Site.current.name %>"<% end %></code>
   </p>
 <% end %>

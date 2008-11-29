@@ -19,7 +19,7 @@ Up And Running
 
     [sudo] rake gems:install
     rake db:migrate
-    rake onebody:newuser # or rake onebody:load_sample_data
+    rake onebody:new_user # or rake onebody:load_sample_data
     script/server # browse to http://localhost:3000
 
 More Information

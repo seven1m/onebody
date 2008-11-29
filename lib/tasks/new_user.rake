@@ -7,7 +7,7 @@ end
 namespace :onebody do
   
   desc 'Create a new (admin) user. Use SITE="Site Name" for multisite.'
-  task :newuser => :environment do
+  task :new_user => :environment do
     puts 'Create new admin user...'
     Site.current = site = ENV['SITE'] ? Site.find_by_name(ENV['SITE']) : Site.find(1)
     unless password = ENV['PASSWORD'] or encrypted_password = ENV['ENCRYPTED_PASSWORD']
