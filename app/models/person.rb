@@ -377,42 +377,6 @@ class Person < ActiveRecord::Base
     Setting.get(:access, :super_admins).include?(email)
   end
   
-  def request_friendship_with(person)
-    if person.friendship_waiting_on?(self)
-      # already requested by other person
-      self.friendships.create! :friend => person
-      self.friendship_requests.find_by_from_id(person.id).destroy
-      "#{person.name} has been added as a friend."
-    elsif self.can_request_friendship_with?(person)
-      # clean up past rejections
-      FriendshipRequest.delete_all ['person_id = ? and from_id = ? and rejected = ?', self.id, person.id, true]
-      person.friendship_requests.create!(:from => self)
-      "A friend request has been sent to #{person.name}."
-    elsif self.friendship_waiting_on?(person)
-      "A friend request is already pending with #{person.name}."
-    elsif self.friendship_rejected_by?(person)
-      "You cannot request friendship with #{person.name}."
-    else
-      raise 'unknown state'
-    end
-  end
-  
-  def can_request_friendship_with?(person)
-    person != self and !friend?(person) and full_access? and person.full_access? and person.valid_email? and person.friends_enabled and !friendship_rejected_by?(person) and !friendship_waiting_on?(person)
-  end
-  
-  def friendship_rejected_by?(person)
-    person.friendship_requests.count('*', :conditions => ['from_id = ? and rejected = ?', self.id, true]) > 0
-  end
-  
-  def friendship_waiting_on?(person)
-    person.friendship_requests.count('*', :conditions => ['from_id = ? and rejected = ?', self.id, false]) > 0
-  end
-  
-  def friend?(person)
-    friends.count('*', :conditions => ['friend_id = ?', person.id]) > 0
-  end
-  
   def valid_email?
     email.to_s.strip =~ VALID_EMAIL_ADDRESS
   end
@@ -431,25 +395,6 @@ class Person < ActiveRecord::Base
     ).map { |item| item.object }.uniq.select { |o| o and (o.respond_to?(:person_id) ? o.person_id == self.id : o.people.include?(self)) and not (o.respond_to?(:deleted?) and o.deleted?) }
   end
   
-  alias_method :groups_without_linkage, :groups
-  
-  def sidebar_groups
-    Setting.get(:features, :sidebar_group_category) && \
-      groups.find_all_by_category(Setting.get(:features, :sidebar_group_category))
-  end
-  
-  def sidebar_group_people(order='people.last_name, people.first_name', limit=nil)
-    if sidebar_groups.any?
-      Person.find(:all, :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})", :joins => :memberships, :order => order, :limit => limit).uniq
-    else
-      []
-    end
-  end
-  
-  def random_sidebar_group_people(count=MAX_GROUPIES_ON_PROFILE)
-    sidebar_group_people(sql_random, count)
-  end
-  
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female
   def parents
     if family 
@@ -457,10 +402,6 @@ class Person < ActiveRecord::Base
     end
   end
   
-  def parent_mobile_phones(formatted=false)
-    parents.map { |p| format_phone(p.mobile_phone, mobile=true) }.select { |p| p.any? }
-  end
-
   def active?
     log_items.count(["created_at >= ?", 1.day.ago]) > 0
   end
@@ -550,8 +491,6 @@ class Person < ActiveRecord::Base
     end
   end
   
-  extend SyncMethods
-  
   def recently_tab_items
     friend_ids = [id]
     friend_ids += friends.find(:all, :select => 'people.id').map { |f| f.id } if Setting.get(:features, :friends)
@@ -592,118 +531,13 @@ class Person < ActiveRecord::Base
   
   def self.service_categories
     find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
-  end
-  
-  def generate_directory_pdf(with_pictures=false)
-    pdf = PDF::Writer.new
-    pdf.margins_pt 70, 20, 20, 20
-    pdf.open_object do |heading|
-      pdf.save_state
-      pdf.stroke_color! Color::RGB::Black
-      pdf.stroke_style! PDF::Writer::StrokeStyle::DEFAULT
-      
-      size = 24
+  end  
 
-      x = pdf.absolute_left_margin
-      y = pdf.absolute_top_margin + 30
-      pdf.add_text x, y, "#{Setting.get(:name, :church)} Directory\n\n", size
-
-      x = pdf.absolute_left_margin
-      w = pdf.absolute_right_margin
-      #y -= (pdf.font_height(size) * 1.01)
-      y -= 10
-      pdf.line(x, y, w, y).stroke
-
-      pdf.restore_state
-      pdf.close_object
-      pdf.add_object(heading, :all_following_pages)
-    end
-
-    s = 24
-    w = pdf.text_width(Setting.get(:name, :church), s)
-    x = pdf.margin_x_middle - w/2 # centered
-    y =  pdf.absolute_top_margin - 150
-    pdf.add_text x, y, Setting.get(:name, :church), s
-    s = 20
-    w = pdf.text_width('Directory', s)
-    x = pdf.margin_x_middle - w/2 # centered
-    y =  pdf.absolute_top_margin - 200
-    pdf.add_text x, y, 'Directory', s
-    
-    # disable for now, until we can ensure 16bit pngs don't blow up
-    # if Setting.get(:appearance, :logo).to_s.any?
-    #   logo_path = "#{Rails.root}/public/images/#{Setting.get(:appearance, :logo)}"
-    #   if File.exist?(logo_path) and img = MiniMagick::Image.from_blob(File.read(logo_path)) rescue nil
-    #     pdf.add_image img.to_blob, pdf.margin_x_middle - img['width']/2, pdf.absolute_top_margin - 200
-    #   end
-    # end
-    
-    
-    
-    t = "Created especially for #{self.name} on #{Date.today.strftime '%B %e, %Y'}"
-    s = 14
-    w = pdf.text_width(t, s)
-    x = pdf.margin_x_middle - w/2 # centered
-    y = pdf.margin_y_middle - pdf.margin_height/3 # below center
-    pdf.add_text x, y, t, s
-    
-    pdf.start_new_page
-    pdf.start_columns
-    
-    alpha = nil
-    
-    Family.find(
-      :all,
-      :conditions => ["(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0", true],
-      :order => 'families.last_name, families.name, people.sequence',
-      :include => 'people'
-    ).each do |family|
-      if family.mapable? or family.home_phone.to_i > 0
-        pdf.move_pointer 120 if pdf.y < 120
-        if family.last_name[0..0] != alpha
-          if with_pictures and family.has_photo?
-            pdf.move_pointer 450 if pdf.y < 450
-          else
-            pdf.move_pointer 150 if pdf.y < 150
-          end
-          alpha = family.last_name[0..0]
-          pdf.text alpha + "\n", :font_size => 25
-          pdf.line(
-            pdf.absolute_left_margin,
-            pdf.y - 5,
-            pdf.absolute_left_margin + pdf.column_width - 25,
-            pdf.y - 5
-          ).stroke
-          pdf.move_pointer 10
-        end
-        if with_pictures and family.has_photo?
-          pdf.move_pointer 300 if pdf.y < 300
-          pdf.add_image File.read(family.photo_large_path), pdf.absolute_left_margin, pdf.y-150, nil, 150
-          pdf.move_pointer 160
-        end
-        pdf.text family.name + "\n", :font_size => 18
-        if family.people.length > 2
-          p = family.people.map do |p|
-            p.last_name == family.last_name ? p.first_name : p.name
-          end.join(', ')
-          pdf.text p + "\n", :font_size => 11
-        end
-        if family.share_address_with(self) and family.mapable?
-          pdf.text family.address1 + "\n", :font_size => 14
-          pdf.text family.address2 + "\n" if family.address2.to_s.any?
-          pdf.text family.city + ', ' + family.state + '  ' + family.zip + "\n"
-        end
-        pdf.text ApplicationHelper.format_phone(family.home_phone), :font_size => 14 if family.home_phone.to_i > 0
-        pdf.text "\n"
-      end
-    end
-    
-    pdf
-  end
-  
-  def generate_directory_pdf_to_file(filename, with_pictures=false)
-    File.open(filename, 'wb') { |f| f.write(generate_directory_pdf(with_pictures)) }
+  # model extensions
+  Dir[Rails.root + '/app/models/person/*.rb'].each do |ext|
+    load(ext)
+    mod_name = ext.split('/').last.split('.').first.classify
+    class_eval "include Person::#{mod_name}"
   end
 
 end
-
