@@ -164,9 +164,6 @@ class Person < ActiveRecord::Base
     end
   end
   
-  skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
-  digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :service_phone]
-    
   def name
     @name ||= begin
       if deleted?
