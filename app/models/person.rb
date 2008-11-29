@@ -231,7 +231,7 @@ class Person < ActiveRecord::Base
     memberships.find(:all, :conditions => ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
   end
   
-  fall_through :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable? :to => :family
+  fall_through :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :to => :family
   
   def pretty_website
     website && website.sub(/^https?:\/\//, '')
