@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title>OneBody Setup</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="no-cache"/>
+  <meta http-equiv="Expires" content="-1"/>
+  <meta http-equiv="Cache-Control" content="no-cache"/> 
+  <link rel="stylesheet" href="/stylesheets/basic.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/aqueouslight.css" type="text/css" media="screen,projection" />
+  <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />
+  <%= javascript_include_tag :defaults %>
+  <%= yield :head %>
+</head>
+ 
+<body>
+
+<div id="banner">Currently in setup mode. Run <span style="color:#900;">script/server -e <%= session[:setup_environment] %></span> to switch.</div>
+
+<div id="wrapper">
+<div id="innerwrapper">
+
+    <div id="header">
+    
+        <% form_tag setup_change_environment_url do %>
+          Environment:
+          <%= select_tag :environment, options_for_select(%w(production development), session[:setup_environment]), :onchange => 'this.form.submit()', :style => 'width:120px;' %>
+        <% end %>
+    
+        <h1>
+          <a href="/">OneBody</a>
+        </h1>
+
+        <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;width:300px;white-space:nowrap;">
+          <%= link_to 'beonebody.org', 'http://beonebody.org', :style => 'text-decoration:none;' %>
+        </div>
+
+        <ul id="nav">
+            <li><%= link_to 'Dashboard', setup_path, :class => (params[:controller] == 'setup/dashboard' && params[:action] != 'environment' ? 'active' : nil) %></li>
+            <li><%= link_to 'Environment', setup_environment_path, :class => (params[:controller] == 'setup/dashboard' && params[:action] == 'environment' ? 'active' : nil) %></li>
+            <li><%= link_to 'Database', setup_database_path, :class => (params[:controller] == 'setup/database' ? 'active' : nil) %></li>
+            <li><%= link_to 'Sites', setup_sites_path, :class => (params[:controller] == 'setup/sites' ? 'active' : nil) %></li>
+            <li><%= link_to 'Global Settings', setup_settings_path, :class => (params[:controller] == 'setup/settings' && params[:site_id].nil? ? 'active' : nil) %></li>
+        </ul>
+
+        <% if subnav = yield(:subnav) %>
+          <div id="subnav">
+            <%= subnav %>
+          </div>
+        <% end %>
+    </div>
+
+    <% if flash[:warning] or flash[:notice] %>
+      <div id="notice" <% if flash[:warning] %>class="warning"<% end %>><%= flash[:warning] || flash[:notice] %></div>
+      <script type="text/javascript">
+       setTimeout("new Effect.Fade('notice');", 15000)
+     </script>
+    <% end %>
+    
+    <% if flash[:refresh] %>
+      <script type="text/javascript">
+        location.reload();
+      </script>
+      <noscript>
+        <p><strong>You may need to click the Refresh button on your browser.</strong></p>
+      </noscript>
+    <% end %>
+    
+    <% if wide = yield(:wide) %>
+      <div id="wide">
+        <%= wide %>
+      </div>
+    <% end %>
+    
+    <% if sidebar = yield(:sidebar) %>
+      <div id="sidebar">
+        <%= sidebar %>
+      </div>
+    <% end %>
+
+    <div id="contentnorightbar" <% if sidebar.to_s.empty? %>style="margin-left:0px;padding-left:0px;"<% end %>>
+      <%= yield %>
+    </div>
+    
+    <div id="footer">
+      Powered by <a href="http://beonebody.org">OneBody</a>
+    </div>
+    
+</div>
+</div>
+
+</body>
+</html>
