@@ -150,8 +150,8 @@
 <% end %>
 
 <% if @logged_in.admin? %>
-	<h2 class="tab" id="serving">Serving</h2>
-	<div class="section" id="serving_content"></div>
+	<h2 class="tab" id="service">Service</h2>
+	<div class="section" id="service_content"></div>
 <% end %>
 
 <% unless me? %>
@@ -177,7 +177,7 @@
 </style>
 <script type="text/javascript">
 //<![CDATA[
-  blog_loaded = groups_loaded = wall_loaded = recently_loaded = serving_loaded = false;
+  blog_loaded = groups_loaded = wall_loaded = recently_loaded = service_loaded = false;
   function load_tab(id) {
     if(id == 'blog') {
       if(!blog_loaded) {
@@ -228,12 +228,12 @@
         );
         recently_loaded = true;
       }
-    }	else if(id == 'serving') {
-	      if(!serving_loaded) {
+    }	else if(id == 'service') {
+	      if(!service_loaded) {
 	        new Ajax.Updater(
-	          'serving_content',
+	          'service_content',
 	          '<%= person_services_path(@person) %>',
-	          {method: 'get', onLoading:function(){$('serving_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
+	          {method: 'get', onLoading:function(){$('service_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
 	        );
 	        services_loaded = true;
 	      }
