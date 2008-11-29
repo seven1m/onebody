@@ -55,7 +55,7 @@ class RemoteAccount < ActiveRecord::Base
     remote_person = Highrise::Person.new unless remote_person
     remote_person.first_name = person.first_name
     remote_person.last_name = person.last_name
-    remote_person.company_name = person.service_name if person.service_name.to_s.any?
+    remote_person.company_name = person.business_name if person.business_name.to_s.any?
     remote_person.save unless remote_person.defined? :contact_data
     remote_person.add_contact_data(:email_addresses, 'Other', :address => person.email)
     remote_person.add_contact_data(:phone_numbers, 'Mobile', :number => person.mobile_phone.to_s)

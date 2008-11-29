@@ -76,7 +76,7 @@
 class Person < ActiveRecord::Base
 
   BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
-  EXTRAS = %w(email website service_category service_name service_description service_phone service_email service_website service_address activities interests music tv_shows movies books quotes about testimony)
+  EXTRAS = %w(email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony)
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
   cattr_accessor :sync_in_progress
@@ -144,8 +144,8 @@ class Person < ActiveRecord::Base
   validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :feed_code, :allow_nil => true
   validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
-  validates_format_of :service_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
-  validates_format_of :service_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS, :message => 'has an incorrect format (something@example.com)'
+  validates_format_of :business_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
+  validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS, :message => 'has an incorrect format (something@example.com)'
   validates_presence_of :gender, :if => Proc.new { Person.logged_in }
   
   # validate that an email address is unique to one family (family members may share an email address)
@@ -205,7 +205,7 @@ class Person < ActiveRecord::Base
   sharable_attributes     :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
   
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
-  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :service_phone]
+  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
     
   def groups_sharing(attribute)
     memberships.find(:all, :conditions => ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
@@ -507,8 +507,8 @@ class Person < ActiveRecord::Base
     self.update_attributes!(:deleted => true)
   end
   
-  def self.service_categories
-    find_by_sql("select distinct service_category from people where service_category is not null and service_category != '' order by service_category").map { |p| p.service_category }
+  def self.business_categories
+    find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' order by business_category").map { |p| p.business_category }
   end  
 
   # model extensions

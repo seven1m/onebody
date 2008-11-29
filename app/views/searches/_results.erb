@@ -14,12 +14,12 @@
     <%= will_paginate @people %>
   </p>
 
-  <% if @search.show_services %>
+  <% if @search.show_businesses %>
     <p>
-      <label for="category">Service Category:</label>
-      <select id="category" onchange="location.href='?service=true&category='+value">
+      <label for="category">Business Category:</label>
+      <select id="category" onchange="location.href='?business=true&category='+value">
         <option value="">(show all)</option>
-        <%= options_for_select @service_categories, params[:category] %>
+        <%= options_for_select @business_categories, params[:category] %>
       </select>
     </p>
   <% end %>
@@ -27,8 +27,8 @@
   <table>
     <tr>
       <th></th>
-      <% if @search.show_services %>
-        <th>Service</th>
+      <% if @search.show_businesses %>
+        <th>Business</th>
         <th>Category</th>
       <% else %>
         <th>Name</th>
@@ -52,11 +52,11 @@
             <% end %>
           </a>
         </td>
-        <% if @search.show_services %>
-          <td><%= link_to h(person.service_name), person_path(person, :services => true), :onmouseover => (@logged_in.full_access? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.full_access? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
+        <% if @search.show_businesses %>
+          <td><%= link_to h(person.business_name), person_path(person, :business => true), :onmouseover => (@logged_in.full_access? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.full_access? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %></td>
           <td>
-            <% if person.service_category.to_s.any? %>
-              <%= link_to h(person.service_category), search_path(:services => true, :category => person.service_category) %>
+            <% if person.business_category.to_s.any? %>
+              <%= link_to h(person.business_category), search_path(:business => true, :category => person.business_category) %>
             <% end %>
           </td>
         <% else %>

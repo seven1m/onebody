@@ -45,7 +45,7 @@
       <%= link_to @person.anniversary.strftime('%d'), search_path(:anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day), :title => "search for #{@person.anniversary.strftime('%B %d')} anniversaries" %>
     <% end %>
   <% end %>
-  <% if @person.service_name.to_s.any? %>
-    <tr><td>Services:</td><td><%= link_to h(@person.service_name), person_path(@person, :services => true) %><br/><%=h truncate(@person.service_description, 200) %></td></tr>
+  <% if @person.business_name.to_s.any? %>
+    <tr><td>Business:</td><td><%= link_to h(@person.business_name), person_path(@person, :business => true) %><br/><%=h truncate(@person.business_description, :length => 200) %></td></tr>
   <% end %>
 </table>

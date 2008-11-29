@@ -131,34 +131,34 @@
 </div>
 -->
 
-<h2 class="tab" id="services">Services</h2>
+<h2 class="tab" id="business">Business</h2>
 <div class="section">
   <p>
-    If you wish to be listed in the <%= link_to 'Service Directory', search_path(:service => true) %>,
+    If you wish to be listed in the <%= link_to 'Business Directory', search_path(:business => true) %>,
     Enter your business name, description, and other details below.
   </p>
 
   <% form_for @person do |form| %>
-    <%= hidden_field_tag :anchor, 'services' %>
+    <%= hidden_field_tag :anchor, 'business' %>
     <div>
-      <label for="person_service_category">Business Category:</label>
-      <select name="person[service_category]" id="person_service_category" onchange="if(this.value=='!') custom_select_val(this, 'Enter the new category.')">
+      <label for="person_business_category">Business Category:</label>
+      <select name="person[business_category]" id="person_business_category" onchange="if(this.value=='!') custom_select_val(this, 'Enter the new category.')">
         <option value=""></option>
-        <%= options_for_select @service_categories, @person.service_category %>
+        <%= options_for_select @business_categories, @person.business_category %>
         <option value="!">[new category]</option>
       </select><br/>
-      <label for="person_service_name">Business Name:</label>
-      <%= form.text_field :service_name %><br/>
-      <label for="person_service_description">Description of Services:</label>
-      <%= form.text_area :service_description, :rows => 3 %><br/>
-      <label for="person_service_phone">Business Phone:</label>
-      <%= form.text_field :service_phone %><br/>
-      <label for="person_service_email">Business Email:</label>
-      <%= form.text_field :service_email %><br/>
-      <label for="person_service_website">Business Website:</label>
-      <%= form.text_field :service_website %><br/>
-      <label for="person_service_address">Business Address:</label>
-      <%= form.text_area :service_address, :rows => 2 %>
+      <label for="person_business_name">Business Name:</label>
+      <%= form.text_field :business_name %><br/>
+      <label for="person_business_description">Description of Business:</label>
+      <%= form.text_area :business_description, :rows => 3 %><br/>
+      <label for="person_business_phone">Business Phone:</label>
+      <%= form.text_field :business_phone %><br/>
+      <label for="person_business_email">Business Email:</label>
+      <%= form.text_field :business_email %><br/>
+      <label for="person_business_website">Business Website:</label>
+      <%= form.text_field :business_website %><br/>
+      <label for="person_business_address">Business Address:</label>
+      <%= form.text_area :business_address, :rows => 2 %>
     </div>
   
     <p><%= submit_tag 'Save Changes' %></p>

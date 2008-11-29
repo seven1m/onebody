@@ -2,7 +2,7 @@ class Search
   
   ITEMS_PER_PAGE = 100
   
-  attr_accessor :show_services, :show_hidden, :testimony, :member
+  attr_accessor :show_businesses, :show_hidden, :testimony, :member
   attr_reader :count, :people, :family_name, :families
   
   def initialize
@@ -33,8 +33,8 @@ class Search
   
   def family=(fam); family_id = fam.id if fam; end
   
-  def service_category=(cat)
-    @conditions.add_condition ["people.service_category = ?", cat] if cat
+  def business_category=(cat)
+    @conditions.add_condition ["people.business_category = ?", cat] if cat
   end
   
   def address=(addr)
@@ -81,7 +81,7 @@ class Search
   
   def query_people(page=nil)
     @conditions.add_condition ["people.deleted = ?", false]
-    @conditions.add_condition ["people.service_name is not null and people.service_name != ''"] if show_services
+    @conditions.add_condition ["people.business_name is not null and people.business_name != ''"] if show_businesses
     @conditions.add_condition ["people.testimony is not null and people.testimony != ''"] if testimony
     unless show_hidden and Person.logged_in.admin?(:view_hidden_profiles)
       @conditions.add_condition ["people.visible_to_everyone = ?", true]
@@ -101,7 +101,7 @@ class Search
       :page => page,
       :conditions => @conditions,
       :include => :family,
-      :order => (show_services ? 'people.service_name' : 'people.last_name, people.first_name')
+      :order => (show_businesses ? 'people.business_name' : 'people.last_name, people.first_name')
     ).select do |person| # additional checks that don't work well in raw sql
       !person.nil? \
         and Person.logged_in.sees?(person) \
@@ -122,8 +122,8 @@ class Search
     search = new
     search.name = params[:name] || params[:quick_name]
     search.family_name = params[:family_name]
-    search.show_services = params[:service] || params[:services]
-    search.service_category= params[:category]
+    search.show_businesses = params[:business] || params[:businesses]
+    search.business_category= params[:category]
     search.testimony = params[:testimony]
     search.family_id = params[:family_id]
     search.show_hidden = params[:show_hidden]

@@ -185,4 +185,11 @@ class PeopleControllerTest < ActionController::TestCase
     assert_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'serving'}
     assert_tag :tag => 'tbody', :attributes => {:id => 'edit_services_table_body'}
   end
+  
+  should "show business listing" do
+    people(:tim).update_attributes!(:business_name => 'Tim Morgan Enterprises')
+    get :show, {:id => people(:tim).id}, {:logged_in_id => people(:tim).id}
+    assert_response :success
+    assert_select 'body', /Tim Morgan Enterprises/
+  end
 end

@@ -27,7 +27,7 @@ class SearchesController < ApplicationController
     end
     @count = @search.count
     @show_birthdays = params[:birthday_month] or params[:birthday_day]
-    @service_categories = Person.service_categories if @search.show_services
+    @business_categories = Person.business_categories if @search.show_businesses
     respond_to do |wants|
       wants.html do
         if @people.length == 1 and (params[:name] or params[:quick_name])

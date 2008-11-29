@@ -36,8 +36,8 @@ class PeopleController < ApplicationController
         else
           render :text => '', :status => 404
         end
-      elsif params[:services]
-        render :action => 'services'
+      elsif params[:business]
+        render :action => 'business'
       elsif not @logged_in.full_access? and not @me
         render :action => 'show_limited'
       else
@@ -99,7 +99,7 @@ class PeopleController < ApplicationController
     @person ||= Person.find(params[:id])
     if @logged_in.can_edit?(@person)
       @family = @person.family
-      @service_categories = Person.service_categories
+      @business_categories = Person.business_categories
       @services = ServiceCategory.find(:all, :order => :name)
       @services.delete_if{|ps| @person.service_categories.include?(ps)}
     else
