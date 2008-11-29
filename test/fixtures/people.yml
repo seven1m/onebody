@@ -21,11 +21,11 @@
 #  shepherd                     :string(255)   
 #  mail_group                   :string(1)     
 #  encrypted_password           :string(100)   
-#  service_name                 :string(100)   
-#  service_description          :text          
-#  service_phone                :string(25)    
-#  service_email                :string(255)   
-#  service_website              :string(255)   
+#  business_name                :string(100)   
+#  business_description         :text          
+#  business_phone               :string(25)    
+#  business_email               :string(255)   
+#  business_website             :string(255)   
 #  activities                   :text          
 #  interests                    :text          
 #  music                        :text          
@@ -44,12 +44,12 @@
 #  updated_at                   :datetime      
 #  alternate_email              :string(255)   
 #  email_bounces                :integer       default(0)
-#  service_category             :string(100)   
+#  business_category            :string(100)   
 #  get_wall_email               :boolean       default(TRUE)
 #  account_frozen               :boolean       
 #  wall_enabled                 :boolean       
 #  messages_enabled             :boolean       default(TRUE)
-#  service_address              :string(255)   
+#  business_address             :string(255)   
 #  flags                        :string(255)   
 #  visible                      :boolean       default(TRUE)
 #  parental_consent             :string(255)   
