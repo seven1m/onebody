@@ -47,9 +47,7 @@ class Family < ActiveRecord::Base
     self.photo_without_logging = p
   end
   
-  share_with :mobile_phone
-  share_with :address
-  share_with :anniversary
+  sharable_attributes :mobile_phone, :address, :anniversary
   
   def address
     address1.to_s + (address2.to_s.any? ? "\n#{address2}" : '')

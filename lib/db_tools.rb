@@ -46,7 +46,7 @@ class ActiveRecord::Base
     end
   end
   
-  def self.fall_through(*attributes)
+  def self.fall_through_attributes(*attributes)
     options = attributes.pop.symbolize_keys
     attributes.each do |attribute|
       class_eval "

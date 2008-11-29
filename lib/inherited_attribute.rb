@@ -7,8 +7,15 @@ module ActiveRecord
         class_eval "alias_method :#{name}?, :#{name}" 
       end
       
+      def inherited_attributes(*attributes)
+        options = attributes.pop.symbolize_keys
+        attributes.each do |attribute|
+          inherited_attribute(attribute, options[:parent])
+        end
+      end
+      
       # generates a method like "share_mobile_phone_with(person)"
-      def share_with(attribute)
+      def sharable_attribute(attribute)
         class_eval \
           "
           def share_#{attribute}_with(person)
@@ -28,6 +35,12 @@ module ActiveRecord
             end
           end
           "
+      end
+      
+      def sharable_attributes(*attributes)
+        attributes.each do |attribute|
+          sharable_attribute(attribute)
+        end
       end
     end
   end

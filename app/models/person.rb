@@ -164,6 +164,9 @@ class Person < ActiveRecord::Base
     end
   end
   
+  skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
+  digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :service_phone]
+    
   def name
     @name ||= begin
       if deleted?
@@ -184,15 +187,11 @@ class Person < ActiveRecord::Base
     "<#{name}>"
   end
   
-  self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
-  
   def birthday_soon?
     today = Date.today
     birthday and ((birthday.yday()+365 - today.yday()).modulo(365) < BIRTHDAY_SOON_DAYS)
   end
-  
-  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :service_phone]
-    
+      
   before_create :generate_salt
   
   def generate_salt
@@ -203,35 +202,17 @@ class Person < ActiveRecord::Base
     read_attribute(:salt) || generate_salt
   end
   
-  inherited_attribute :share_mobile_phone, :family
-  inherited_attribute :share_work_phone, :family
-  inherited_attribute :share_fax, :family
-  inherited_attribute :share_email, :family
-  inherited_attribute :share_birthday, :family
-  inherited_attribute :share_activity, :family
-  inherited_attribute :wall_enabled, :family
-  def share_home_phone ; family.share_home_phone ; end
-  def share_address    ; family.share_address    ; end
-  def share_anniversary; family.share_anniversary; end
-  alias_method :share_home_phone?,  :share_home_phone
-  alias_method :share_address?,     :share_address
-  alias_method :share_anniversary?, :share_anniversary
-
-  share_with :home_phone  
-  share_with :mobile_phone
-  share_with :work_phone
-  share_with :fax
-  share_with :email
-  share_with :birthday
-  share_with :address
-  share_with :anniversary
-  share_with :activity
+  inherited_attributes    :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_activity, :wall_enabled, :parent => :family
+  fall_through_attributes :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :to => :family
+  fall_through_attributes :share_home_phone, :share_home_phone?, :share_address, :share_address?, :share_anniversary, :share_anniversary?, :to => :family
+  sharable_attributes     :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
   
+  self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
+  self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :service_phone]
+    
   def groups_sharing(attribute)
     memberships.find(:all, :conditions => ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
   end
-  
-  fall_through :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :to => :family
   
   def pretty_website
     website && website.sub(/^https?:\/\//, '')
