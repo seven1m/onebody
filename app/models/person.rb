@@ -86,8 +86,6 @@ class Person < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
   has_many :groups, :through => :memberships, :order => 'groups.name'
-  has_many :contacts, :foreign_key => 'owner_id'
-  has_many :people, :through => :contacts, :order => 'people.last_name, people.first_name'
   has_many :pictures, :order => 'created_at desc'
   has_many :messages
   has_many :wall_messages, :class_name => 'Message', :foreign_key => 'wall_id', :order => 'created_at desc'
