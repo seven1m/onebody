@@ -7,4 +7,8 @@
     You may create the first user by running the command:
     <code>rake onebody:new_user <% unless Site.current.default? %>SITE="<%=h Site.current.name %>"<% end %></code>
   </p>
+  <p>
+    Alternatively, you can load up OneBody with some sample data by running the command:
+    <code>rake onebody:load_sample_data <% unless Site.current.default? %>SITE="<%=h Site.current.name %>"<% end %></code>
+  </p>
 <% end %>
