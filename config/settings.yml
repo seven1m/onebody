@@ -124,7 +124,7 @@ Features:
     description: Enable Verse sharing.
   Recipes: 
     format: boolean
-    value: true
+    value: false
     description: Enable Recipe sharing.
   Jabber Account: 
     format: string
