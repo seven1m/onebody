@@ -139,6 +139,10 @@ Features:
     value: false
     description: If enabled, will allow admin access to manually modify Family and Person legacy ids.
     global: true
+  Service:
+    format: boolean
+    value: false
+    description: If enabled, admin users can track indviduals' service in areas of the community.
 Services: 
   Yahoo: 
     format: string

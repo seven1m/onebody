@@ -165,11 +165,11 @@
   <% end %>
 </div>
 
-<% if @logged_in.admin? %>
-<h2 class="tab" id="serving">Serving</h2>
-<div class="section">
-	<%= render :partial => 'edit_services' %>
-</div>
+<% if Setting.get(:features, :service) and @logged_in.admin? %>
+  <h2 class="tab" id="service">Service</h2>
+  <div class="section">
+  	<%= render :partial => 'edit_services' %>
+  </div>
 <% end %>
 
 

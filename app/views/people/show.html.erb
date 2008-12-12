@@ -149,7 +149,7 @@
   <div class="section" id="groups_content"></div>
 <% end %>
 
-<% if @logged_in.admin? %>
+<% if Setting.get(:features, :service) and @logged_in.admin? %>
 	<h2 class="tab" id="service">Service</h2>
 	<div class="section" id="service_content"></div>
 <% end %>
