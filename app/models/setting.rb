@@ -32,7 +32,7 @@ class Setting < ActiveRecord::Base
   
   def value
     v = read_attribute(:value)
-    self.format == 'boolean' ? ![0, '0', 'f'].include?(v) : v
+    self['format'] == 'boolean' ? ![0, '0', 'f'].include?(v) : v # self.format causes a NoMethodError outside the Rails env
   end
   
   def value?; value; end
