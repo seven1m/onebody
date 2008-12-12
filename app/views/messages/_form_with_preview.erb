@@ -9,7 +9,9 @@
 
 <script type="text/javascript">
   function preview() {
-    new Ajax.Request('<%= messages_path %>', {method:'post', asynchronous:true, evalScripts:true, parameters:Form.serialize($('message')) + '&preview=true'});
+    if(!navigator.userAgent.match(/MSIE 5/)) { // IE 5.x fails to serialize this form properly
+      new Ajax.Request('<%= messages_path %>', {method:'post', asynchronous:true, evalScripts:true, parameters:Form.serialize($('message')) + '&preview=true'});
+    }
   }
 </script>
 
