@@ -1,7 +1,0 @@
-# Run your Connector from a cron job with a command like one of the following:
-
-# -e indicates mode (usually production)
-# -s indicates the site (usually "Default" will work, unless you have multiple sites or your renamed the default site)
-
-# /path/to/onebody/script/sync -e production -s "Default" csv /var/data/people.csv /var/data/families.csv
-# /path/to/onebody/script/sync -e production -s "Default" coms /var/data/coms_data
