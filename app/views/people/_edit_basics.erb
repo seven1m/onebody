@@ -47,7 +47,7 @@
         <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, nil, :class => 'inline' %><br/>
         <%= form.check_box :full_access %>                  <%= form.label :full_access,                  nil, :class => 'inline' %>
       </fieldset>
-     <% if Setting.get(:features, :edit_legacy_ids) %>
+     <% if Setting.get(:features, :edit_legacy_ids) %> 
       <fieldset>
         <legend>Advanced</legend>
         <%= form.label :legacy_id,        'Legacy/External ID' %>        <%= form.text_field :legacy_id, :size => 6 %>
