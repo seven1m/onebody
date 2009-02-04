@@ -6,6 +6,8 @@
     <% unless @message.parent %>
       <%= form.label :subject %>
       <%= form.text_field :subject %><br/>
+    <% else %>
+      <%= form.hidden_field :subject %>
     <% end %>
     <%= form.label :body, 'Message' %>
     <%= form.text_area :body, :rows => 15 %><br/>
