@@ -301,3 +301,12 @@ div.autocomplete ul li {
   cursor:pointer;
 }
 
+#recently-container {
+  width: 250px;
+  float: right;
+  clear: right;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 15px;
+}

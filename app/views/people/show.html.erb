@@ -21,7 +21,6 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
-  <%= render :partial => 'families/photo' %>
   <%= render :partial => 'family' %>
   <%= render :partial => 'hidden_children' %>
   <% if Setting.get(:features, :friends) %>
@@ -29,6 +28,9 @@
   <% end %>
   <% if Setting.get(:features, :sidebar_group_category) %>
     <%= render :partial => 'sidebar_people' %>
+  <% end %>
+  <% if Setting.get(:features, :groups) %>
+    <%= render :partial => 'groups/person_groups' %>
   <% end %>
 <% end %>
 
@@ -49,6 +51,12 @@
 
 <%= render :partial => 'map' %>
 
+<% if me? %>
+  <div id="recently-container">
+    <div id="recently_content"></div>
+  </div>
+<% end %>
+
 <h1>
   <%=h @person.name %>
   <% if @logged_in.can_edit? @person %>
@@ -68,15 +76,8 @@
   </p>
 <% end %>
 
-<br clear="right"/>
-
-<% if me? %>
-  <h2 class="tab" id="recently">Recently</h2>
-  <div class="section" id="recently_content"></div>
-<% end %>
-
-<h2 class="tab" id="about">About</h2>
-<div class="section" id="about_content">
+<h2 class="profile" id="about">About</h2>
+<div id="about_content">
   <% if @person.about.to_s.any? %>
     <%= preserve_breaks @person.about %>
   <% elsif me? %>
@@ -85,23 +86,23 @@
 </div>
 
 
-<h2 class="tab" id="testimony">Testimony</h2>
-<div class="section" id="testimony_content">
-  <% if @person.testimony.to_s.any? %>
+<% if @person.testimony.to_s.any? %>
+  <h2 class="profile" id="testimony">Testimony</h2>
+  <div id="testimony_content">
     <%= preserve_breaks @person.testimony %>
-  <% elsif me? %>
-    <em>Share <%= link_to 'your story', edit_person_path(@person, :anchor => 'about') %>.</em>
-  <% end %>
-  <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
-</div>
-
-<% if Setting.get(:features, :blog) %>
-  <h2 class="tab" id="blog">Blog</h2>
-  <div class="section" id="blog_content"></div>
+    <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
+  </div>
 <% end %>
 
-<h2 class="tab" id="favorites">Favorites</h2>
-<div class="section" id="favorites_content">
+<% if Setting.get(:features, :blog) %>
+  <h2 class="profile" id="blog">Blog</h2>
+  <div id="blog_content">
+    <%= render :partial => 'blogs/blog' %>
+  </div>
+<% end %>
+
+<h2 class="profile" id="favorites">Favorites</h2>
+<div id="favorites_content">
   <table>
     <% if @person.activities.to_s.any? %>
       <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
@@ -140,18 +141,10 @@
 </div>
 
 <% if @person.wall_enabled? %>
-  <h2 class="tab" id="wall">Wall</h2>
-  <div class="section" id="wall_content"></div>
-<% end %>
-
-<% if Setting.get(:features, :groups) %>
-  <h2 class="tab" id="groups">Groups</h2>
-  <div class="section" id="groups_content"></div>
-<% end %>
-
-<% if Setting.get(:features, :service) and @logged_in.admin? %>
-	<h2 class="tab" id="service">Service</h2>
-	<div class="section" id="service_content"></div>
+  <h2 class="profile" id="wall">Wall</h2>
+  <div id="wall_content">
+    <%= render :partial => 'walls/wall' %>
+  </div>
 <% end %>
 
 <% unless me? %>
@@ -177,69 +170,12 @@
 </style>
 <script type="text/javascript">
 //<![CDATA[
-  blog_loaded = groups_loaded = wall_loaded = recently_loaded = service_loaded = false;
-  function load_tab(id) {
-    if(id == 'blog') {
-      if(!blog_loaded) {
-        new Ajax.Updater(
-          'blog_content',
-          '<%= person_blog_path(@person) %>',
-          {
-            method: 'get',
-            onLoading:function(){$('blog_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
-            onComplete:function(){
-              Element.hide('add_note');
-              Element.show('add_note_link');
-              Element.hide('add_verse');
-              Element.show('add_verse_link');
-            }
-          }
-        );
-        blog_loaded = true;
-      }
-    } else if(id == 'groups') {
-      if(!groups_loaded) {
-        new Ajax.Updater(
-          'groups_content',
-          '<%= person_groups_path(@person) %>',
-          {method: 'get', onLoading:function(){$('groups_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
-        );
-        groups_loaded = true;
-      }
-    } else if(id == 'wall') {
-       if(!wall_loaded) {
-        new Ajax.Updater(
-          'wall_content',
-          '<%= person_wall_path(@person) %>',
-          {
-            method: 'get',
-            onLoading:function(){$('wall_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'},
-            onComplete:function(){Element.hide('wall_message')}
-          }
-        );
-        wall_loaded = true;
-      }
-    } else if(id == 'recently') {
-      if(!recently_loaded) {
-        new Ajax.Updater(
-          'recently_content',
-          '<%= feed_path %>',
-          {method: 'get', onLoading:function(){$('recently_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
-        );
-        recently_loaded = true;
-      }
-    }	else if(id == 'service') {
-	      if(!service_loaded) {
-	        new Ajax.Updater(
-	          'service_content',
-	          '<%= person_services_path(@person) %>',
-	          {method: 'get', onLoading:function(){$('service_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
-	        );
-	        services_loaded = true;
-	      }
-	  } 
-  }
-  set_up(); // tabs
+  // load recently TODO change this
+  new Ajax.Updater(
+    'recently_content',
+    '<%= feed_path %>',
+    {method: 'get', onLoading:function(){$('recently_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
+  );
 //]]>
 </script>
 

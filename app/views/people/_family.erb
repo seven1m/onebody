@@ -1,27 +1,27 @@
-  <% if @family_people.length > 1 %>
-    <h2>
-      Family
-	  <% if @logged_in.admin?  %>
-      <%= link_to 'edit', @family, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
-      <% elsif me? %>
-        <%= link_to 'edit', edit_person_path(@logged_in), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
-      <% end %>
-    </h2>
-    <table>
-      <% @family_people.each do |person| %>
-        <tr class="family-member">
-          <td>
-            <a href="<%= url_for person %>">
-              <%= render :partial => 'thumbnail', :locals => {:person => person} %>
-            </a>
-          </td>
-          <td>
-            <%= link_to h(person.name), person %>
-            <% unless person.visible? %>
-              <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  <% end %>
+<% if @family_people.length > 1 %>
+  <h2>
+    Family
+  <% if @logged_in.admin?  %>
+    <%= link_to 'edit', @family, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+    <% elsif me? %>
+      <%= link_to 'edit', edit_person_path(@logged_in), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+    <% end %>
+  </h2>
+  <table>
+    <% @family_people.each do |person| %>
+      <tr class="family-member">
+        <td>
+          <a href="<%= url_for person %>">
+            <%= render :partial => 'thumbnail', :locals => {:person => person} %>
+          </a>
+        </td>
+        <td>
+          <%= link_to h(person.name), person %>
+          <% unless person.visible? %>
+            <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

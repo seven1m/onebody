@@ -367,8 +367,8 @@ class Person < ActiveRecord::Base
       :all,
       :order => 'created_at desc',
       :conditions => ["model_name in (?)", classes],
-      :limit => 25
-    ).map { |item| item.object }.uniq.select { |o| o and (o.respond_to?(:person_id) ? o.person_id == self.id : o.people.include?(self)) and not (o.respond_to?(:deleted?) and o.deleted?) }
+      :limit => 100
+    ).map { |item| item.object }.uniq.select { |o| o and (o.respond_to?(:person_id) ? o.person_id == self.id : o.people.include?(self)) and not (o.respond_to?(:deleted?) and o.deleted?) and (not o.respond_to?(:group_id) or o.group_id.nil?) }
   end
   
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female

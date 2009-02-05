@@ -375,7 +375,7 @@ h1 {
 
 
 h2 {
-	margin-top: 15px;
+	margin-top: 20px;
 	font:190% Arial;
 	color:#79B933;
 	border-bottom:2px solid #f6f6f6;
@@ -388,6 +388,10 @@ h2 a {
 
 h2 a:hover {
 	color:#5F9128;
+}
+
+h2.profile {
+  border-bottom:none;
 }
 
 

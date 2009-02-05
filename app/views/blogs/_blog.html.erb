@@ -29,7 +29,7 @@
 <% end %>
 
 <% if @person == @logged_in %>
-  <p style="margin-top:-10px;">
+  <p>
     <em>Share stuff by clicking on an item blow.</em><br/>
     <% if Setting.get(:features, :notes   ) %><%= link_to image_tag('add_small.gif', :alt => 'Add a note.',    :class => 'icon') + ' Add a Note',    new_note_path                 %> &nbsp;&nbsp;<% end %>
     <% if Setting.get(:features, :verses  ) %><%= link_to image_tag('add_small.gif', :alt => 'Add a verse.',   :class => 'icon') + ' Add a Verse',   verses_path(:anchor => 'add') %> &nbsp;&nbsp;<% end %>

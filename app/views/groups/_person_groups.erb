@@ -1,33 +1,35 @@
+<h2>Groups</h2>
 <% if @person.has_groups? %>
-  <p><%=h @person.first_name %> is a member of the following groups:</p>
-  <ul style="list-style:none;">
+  <table>
     <% @person.groups.select { |g| @logged_in.can_see? g }.each do |group| %>
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
-        <li <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
-          <% if group.has_photo? %>
-            <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border', :style => 'float:left;margin:7px 5px 0 0' %>
-          <% else %>
-            <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border', :style => 'float:left;margin:7px 5px 0 0' %>
-          <% end %>
-          <%= link_to h(group.name), group %><br/>
-          <% if me? or @logged_in.admin?(:manage_groups) %>
-            <span>
-              email:
-              <% if group.get_options_for(@person).get_email %>
-                <strong title="email from this group is ON">on</strong> |
-                <%= link_to 'off', group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
-              <% else %>
-                <%= link_to 'on', group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
-                <strong title="email from this group is OFF">off</strong>
-              <% end %>
-            </span>
-          <% else %>
-            <%=h group.category %>
-          <% end %>
-        </li>
+        <tr <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
+          <td>
+            <% if group.has_photo? %>
+              <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border' %>
+            <% else %>
+              <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border' %>
+            <% end %>
+          </td>
+          <td class="group">
+            <%= link_to h(group.name), group %><br/>
+            <% if @show_on_off_links and (me? or @logged_in.admin?(:manage_groups)) %>
+              <span>
+                email:
+                <% if group.get_options_for(@person).get_email %>
+                  <strong title="email from this group is ON">on</strong> |
+                  <%= link_to 'off', group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
+                <% else %>
+                  <%= link_to 'on', group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
+                  <strong title="email from this group is OFF">off</strong>
+                <% end %>
+              </span>
+            <% end %>
+          </td>
+        </tr>
       <% end %>
     <% end %>
-  </ul>
+  </table>
   <% if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? } %>
     <p><%= link_to_function 'Show Hidden Groups', "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
   <% end %>
