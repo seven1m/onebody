@@ -108,7 +108,6 @@ class PeopleController < ApplicationController
       @business_categories = Person.business_categories
       @services = ServiceCategory.find(:all, :order => :name)
       @services.delete_if{|ps| @person.service_categories.include?(ps)}
-      @show_on_off_links = true
     else
       render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
     end

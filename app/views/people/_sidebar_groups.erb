@@ -1,3 +1,4 @@
+<h2>Groups</h2>
 <% if @person.has_groups? %>
   <table>
     <% @person.groups.select { |g| @logged_in.can_see? g }.each do |group| %>
@@ -12,18 +13,6 @@
           </td>
           <td class="group">
             <%= link_to h(group.name), group %><br/>
-            <% if me? or @logged_in.admin?(:manage_groups) %>
-              <span>
-                email:
-                <% if group.get_options_for(@person).get_email %>
-                  <strong title="email from this group is ON">on</strong> |
-                  <%= link_to 'off', group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
-                <% else %>
-                  <%= link_to 'on', group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => 'If you click OK, you will start receiving email from this group.', :title => 'turn on email from this group' %> |
-                  <strong title="email from this group is OFF">off</strong>
-                <% end %>
-              </span>
-            <% end %>
           </td>
         </tr>
       <% end %>
