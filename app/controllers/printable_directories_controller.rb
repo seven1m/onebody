@@ -17,6 +17,9 @@ class PrintableDirectoriesController < ApplicationController
   end
   
   def show
+  end
+  
+  def show_old
     if @task = session[:directory_pdf_job]
       session[:directory_pdf_job] = nil
       if @task.has_file?

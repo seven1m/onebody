@@ -15,11 +15,14 @@ Rails::Initializer.run do |config|
   config.plugin_paths << Rails.root + '/plugins'
   config.time_zone = 'UTC'
   # dependencies
-  config.gem 'pdf-writer', :lib => 'pdf/writer'
+  config.gem 'prawn'
   config.gem 'highline'
   config.gem 'mini_magick'
   config.gem 'twitter'
   config.gem 'xmpp4r'
+  config.gem 'seven1m-prawn_template_handler',  :source => 'http://gems.github.com', :lib => 'prawn_template_handler'
+  config.gem 'seven1m-acts_as_scoped_globally', :source => 'http://gems.github.com', :lib => 'acts_as_scoped_globally'
+  config.gem 'seven1m-acts_as_photo',           :source => 'http://gems.github.com', :lib => 'acts_as_photo'
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
