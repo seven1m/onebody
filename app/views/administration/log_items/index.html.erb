@@ -58,7 +58,7 @@
               <img src="<%= image_url %>" class="no-border"/>
             <% end %>
           </td>
-          <td><%=h item.model_name %></td>
+          <td><%=h item.loggable_type %></td>
           <td>
             <% if item.object_description %>
               <%= link_to item.object_description, item.object_url, :confirm => (item.object.is_a? Message and item.object.to ? 'This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.' : nil) %><br/>

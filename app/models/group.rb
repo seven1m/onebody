@@ -2,33 +2,33 @@
 #
 # Table name: groups
 #
-#  id                        :integer       not null, primary key
+#  id                        :integer(4)    not null, primary key
 #  name                      :string(100)   
-#  description               :text          
+#  description               :string(500)   
 #  meets                     :string(100)   
 #  location                  :string(100)   
-#  directions                :text          
-#  other_notes               :text          
-#  category                  :string(50)    
-#  creator_id                :integer       
-#  private                   :boolean       
+#  directions                :string(500)   
+#  other_notes               :string(500)   
+#  creator_id                :integer(4)    
 #  address                   :string(255)   
-#  members_send              :boolean       default(TRUE)
-#  leader_id                 :integer       
+#  members_send              :boolean(1)    default(TRUE)
+#  private                   :boolean(1)    
+#  category                  :string(50)    
+#  leader_id                 :integer(4)    
 #  updated_at                :datetime      
-#  hidden                    :boolean       
-#  approved                  :boolean       
+#  hidden                    :boolean(1)    
+#  approved                  :boolean(1)    
 #  link_code                 :string(255)   
-#  parents_of                :integer       
-#  site_id                   :integer       
-#  blog                      :boolean       default(TRUE)
-#  email                     :boolean       default(TRUE)
-#  prayer                    :boolean       default(TRUE)
-#  attendance                :boolean       default(TRUE)
-#  legacy_id                 :integer       
+#  parents_of                :integer(4)    
+#  site_id                   :integer(4)    
+#  blog                      :boolean(1)    default(TRUE)
+#  email                     :boolean(1)    default(TRUE)
+#  prayer                    :boolean(1)    default(TRUE)
+#  attendance                :boolean(1)    default(TRUE)
+#  legacy_id                 :integer(4)    
 #  gcal_private_link         :string(255)   
-#  approval_required_to_join :boolean       default(TRUE)
-#  pictures                  :boolean       default(TRUE)
+#  approval_required_to_join :boolean(1)    default(TRUE)
+#  pictures                  :boolean(1)    default(TRUE)
 #
 
 class Group < ActiveRecord::Base
@@ -70,7 +70,7 @@ class Group < ActiveRecord::Base
   
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
-    LogItem.create :model_name => 'Group', :instance_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
+    LogItem.create :loggable_type => 'Group', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
     self.photo_without_logging = p
   end
   

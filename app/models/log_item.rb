@@ -2,20 +2,20 @@
 #
 # Table name: log_items
 #
-#  id             :integer       not null, primary key
-#  name           :string(255)   
-#  model_name     :string(50)    
-#  instance_id    :integer       
+#  id             :integer(4)    not null, primary key
 #  object_changes :text          
-#  person_id      :integer       
-#  group_id       :integer       
+#  person_id      :integer(4)    
 #  created_at     :datetime      
 #  reviewed_on    :datetime      
-#  reviewed_by    :integer       
+#  reviewed_by    :integer(4)    
 #  flagged_on     :datetime      
 #  flagged_by     :string(255)   
-#  deleted        :boolean       
-#  site_id        :integer       
+#  deleted        :boolean(1)    
+#  name           :string(255)   
+#  group_id       :integer(4)    
+#  site_id        :integer(4)    
+#  loggable_id    :integer(4)    
+#  loggable_type  :string(255)   
 #
 
 class LogItem < ActiveRecord::Base
@@ -23,16 +23,14 @@ class LogItem < ActiveRecord::Base
   belongs_to :group
   belongs_to :reviewed_by, :class_name => 'Person', :foreign_key => 'reviewed_by'
   belongs_to :site
+  belongs_to :loggable, :polymorphic => true
   
   serialize :object_changes
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
   
   def object
-    return nil if deleted?
-    if model_name =~ /^([A-Z][a-z]{1,15})+$/
-      @object ||= eval(model_name).find(instance_id) rescue nil
-    end
+    self.loggable
   end
   
   def object_description
@@ -50,7 +48,7 @@ class LogItem < ActiveRecord::Base
   
   def object_excerpt
     return nil unless object
-    case model_name
+    case loggable_type
     when 'Message'
       if object.to
         '-private message-'
@@ -69,7 +67,7 @@ class LogItem < ActiveRecord::Base
   def object_url
     return nil if deleted?
     id = instance_id
-    case model_name
+    case loggable_type
     when 'Comment'
       object.on
     when 'Family'
@@ -84,7 +82,7 @@ class LogItem < ActiveRecord::Base
   def object_image_url
     return nil if deleted?
     return nil unless object.respond_to? 'has_photo?' and object.has_photo?
-    controller = model_name.pluralize.downcase
+    controller = loggable_type.pluralize.downcase
     action = 'photo'
     id = "#{instance_id}.tn.jpg"
     "/#{controller}/#{action}/#{id}"
@@ -113,7 +111,7 @@ class LogItem < ActiveRecord::Base
     
   class << self
     def flag_suspicious_activity(since=nil)
-      conditions = ["model_name in ('Message', 'Comment')"]
+      conditions = ["loggable_type in ('Message', 'Comment')"]
       if since
         since = Time.now - since.days       if since.is_a?(Fixnum)
         since = Time.now - since.to_i.hours if since.is_a?(String) and since =~ /\d+\shours?/

@@ -24,8 +24,8 @@ module Foo
               if @logger_changes.any? and @@log_class.table_exists?
                 @@log_class.create(
                   :name => self.respond_to?(:name) ? self.name : nil,
-                  :model_name => self.class.name,
-                  :instance_id => self.id,
+                  :loggable_type => self.class.name,
+                  :loggable_id => self.id,
                   :object_changes => @logger_changes,
                   :person => Person.logged_in,
                   :group_id => self.respond_to?(:group_id) ? self.group_id : nil
@@ -37,13 +37,13 @@ module Foo
               if @@log_class.table_exists?
                 @@log_class.create(
                   :name => self.respond_to?(:name) ? self.name : nil,
-                  :model_name => self.class.name,
-                  :instance_id => self.id,
+                  :loggable_type => self.class.name,
+                  :loggable_id => self.id,
                   :deleted => true,
                   :person => Person.logged_in,
                   :group_id => self.respond_to?(:group_id) ? self.group_id : nil
                 )
-                @@log_class.find_all_by_model_name_and_instance_id(
+                @@log_class.find_all_by_loggable_type_and_loggable_id(
                   self.class.name,
                   self.id
                 ).each { |l| l.update_attribute :deleted, true }

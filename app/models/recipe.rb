@@ -2,8 +2,8 @@
 #
 # Table name: recipes
 #
-#  id           :integer       not null, primary key
-#  person_id    :integer       
+#  id           :integer(4)    not null, primary key
+#  person_id    :integer(4)    
 #  title        :string(255)   
 #  notes        :text          
 #  description  :text          
@@ -13,8 +13,8 @@
 #  updated_at   :datetime      
 #  prep         :string(255)   
 #  bake         :string(255)   
-#  serving_size :integer       
-#  site_id      :integer       
+#  serving_size :integer(4)    
+#  site_id      :integer(4)    
 #
 
 class Recipe < ActiveRecord::Base
@@ -36,7 +36,7 @@ class Recipe < ActiveRecord::Base
   
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
-    LogItem.create :model_name => 'Recipe', :instance_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
+    LogItem.create :loggable_type => 'Recipe', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
     self.photo_without_logging = p
   end
   

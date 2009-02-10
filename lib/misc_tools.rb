@@ -36,27 +36,6 @@ class String
 end
 
 class Array
-  def group_by_model_name(options={})
-    except = options.delete(:except) || []
-    only = options.delete(:only)
-    grouped = []
-    last_model_name = nil
-    group = nil
-    each do |item|
-      if item.model_name != last_model_name or
-        (except.include? item.model_name) or
-        (only and not only.include? item.model_name)
-        #or item.model_name != 'Picture'
-        grouped << group if group
-        group = []
-      end
-      group << item
-      last_model_name = item.model_name
-    end
-    grouped << group if group
-    return grouped
-  end
-  
   def with_indexes
     returning([]) do |with|
       self.each_with_index do |item, index|

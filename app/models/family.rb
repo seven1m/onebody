@@ -2,11 +2,9 @@
 #
 # Table name: families
 #
-#  id                 :integer       not null, primary key
-#  legacy_id          :integer       
+#  id                 :integer(4)    not null, primary key
 #  name               :string(255)   
 #  last_name          :string(255)   
-#  suffix             :string(25)    
 #  address1           :string(255)   
 #  address2           :string(255)   
 #  city               :string(255)   
@@ -16,20 +14,21 @@
 #  email              :string(255)   
 #  latitude           :float         
 #  longitude          :float         
-#  share_address      :boolean       default(TRUE)
-#  share_mobile_phone :boolean       
-#  share_work_phone   :boolean       
-#  share_fax          :boolean       
-#  share_email        :boolean       
-#  share_birthday     :boolean       default(TRUE)
-#  share_anniversary  :boolean       default(TRUE)
+#  share_address      :boolean(1)    default(TRUE)
+#  share_mobile_phone :boolean(1)    
+#  share_work_phone   :boolean(1)    
+#  share_fax          :boolean(1)    
+#  share_email        :boolean(1)    
+#  share_birthday     :boolean(1)    default(TRUE)
+#  share_anniversary  :boolean(1)    default(TRUE)
+#  legacy_id          :integer(4)    
 #  updated_at         :datetime      
-#  wall_enabled       :boolean       default(TRUE)
-#  visible            :boolean       default(TRUE)
-#  share_activity     :boolean       default(TRUE)
-#  site_id            :integer       
-#  share_home_phone   :boolean       default(TRUE)
-#  deleted            :boolean       
+#  wall_enabled       :boolean(1)    default(TRUE)
+#  visible            :boolean(1)    default(TRUE)
+#  share_activity     :boolean(1)    default(TRUE)
+#  site_id            :integer(4)    
+#  share_home_phone   :boolean(1)    default(TRUE)
+#  deleted            :boolean(1)    
 #
 
 class Family < ActiveRecord::Base
@@ -43,7 +42,7 @@ class Family < ActiveRecord::Base
   
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
-    LogItem.create :model_name => 'Family', :instance_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
+    LogItem.create :loggable_type => 'Recipe', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
     self.photo_without_logging = p
   end
   
