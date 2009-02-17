@@ -2,6 +2,7 @@ class Setup::DashboardController < Setup::BaseController
   
   def index
     begin
+      @info.connect_to_database(@info.database_config)
       @sites = Site.find(:all, :order => 'name')
     rescue
       @sites = []
