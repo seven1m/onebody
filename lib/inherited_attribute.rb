@@ -20,9 +20,9 @@ module ActiveRecord
           "
           def share_#{attribute}_with(person)
             visible? and (
-              share_#{attribute}?                    or
-              self == person                         or
-              self.family_id == person.family_id     or
+              share_#{attribute}? or
+              self == person or
+              (self.respond_to?(:family_id) and self.family_id == person.family_id) or
               person.admin?(:view_hidden_properties) or
               share_#{attribute}_through_group_with(person)
             )  
