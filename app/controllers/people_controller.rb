@@ -159,8 +159,8 @@ class PeopleController < ApplicationController
         @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name], params[:attributes])
         render :action => 'import_queue'
       elsif request.put?
-        Person.import_data(params)
-        render :text => 'Import successful.', :layout => true
+        @completed, @errored = Person.import_data(params)
+        render :action => 'import_results'
       end
     else
       render :text => 'You are not authorized to import data.', :layout => true, :status => 401

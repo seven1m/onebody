@@ -1,0 +1,34 @@
+<h1>Import Results</h1>
+
+<p>The import is complete<% if @errored.any? %> with errors<% end %>.</p>
+
+<h2>Completed Records</h2>
+
+<table>
+  <tr><th>First</th><th>Last</th><th>Status</th></tr>
+  <% @completed.each do |record| %>
+    <tr>
+      <td><%=h record[:first_name] %></td>
+      <td><%=h record[:last_name] %></td>
+      <td><%=h record[:status] %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if @errored.any? %>
+  <h2>Errored Records</h2>
+
+  <table>
+    <tr><th>First</th><th>Last</th><th>Status</th></tr>
+    <% @errored.each do |record| %>
+      <tr>
+        <td><%=h record[:first_name] %></td>
+        <td><%=h record[:last_name] %></td>
+        <td><%=h record[:status] %></td>
+      </tr>
+      <tr>
+        <td colspan="3" style="padding-left:20px;font-size:smaller;"><%=h record[:message] %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

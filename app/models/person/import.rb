@@ -49,28 +49,47 @@ class Person
       end
   
       def import_data(params)
-        Person.transaction do
-          params[:new].to_a.each do |key, vals|
-            person_vals, family_vals = split_change_hash(vals)
-            name = "#{person_vals['first_name']} #{person_vals['last_name']}"
-            last_name = person_vals['last_name']
-            if family_vals['id']
-              family = Family.find_by_id(family_vals['id'])
-            elsif family_vals['legacy_id']
-              family = Family.find_by_legacy_id(family_vals['legacy_id'])
+        completed = []
+        errored = []
+        params[:new].to_a.each do |key, vals|
+          Person.transaction do
+            begin
+              person_vals, family_vals = split_change_hash(vals)
+              name = "#{person_vals['first_name']} #{person_vals['last_name']}"
+              last_name = person_vals['last_name']
+              if family_vals['id']
+                family = Family.find_by_id(family_vals['id'])
+              elsif family_vals['legacy_id']
+                family = Family.find_by_legacy_id(family_vals['legacy_id'])
+              end
+              family ||= Family.create!({'name' => name, 'last_name' => last_name})
+              family.update_attributes!(family_vals)
+              person = Person.create!(person_vals.merge('family_id' => family.id))
+            rescue => e
+              errored << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Error creating record.', :message => e.message}
+              raise ActiveRecord::Rollback
+            else
+              completed << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Record created.'}
             end
-            family ||= Family.create!({'name' => name, 'last_name' => last_name})
-            family.update_attributes!(family_vals)
-            person = Person.create!(person_vals.merge('family_id' => family.id))
-          end
-          params[:changes].to_a.each do |id, vals|
-            vals.cleanse('birthday', 'anniversary')
-            person_vals, family_vals = split_change_hash(vals)
-            person = Person.find(id)
-            person.update_attributes!(person_vals)
-            person.family.update_attributes!(family_vals)
           end
         end
+        params[:changes].to_a.each do |id, vals|
+          Person.transaction do
+            begin
+              vals.cleanse('birthday', 'anniversary')
+              person_vals, family_vals = split_change_hash(vals)
+              person = Person.find(id)
+              person.update_attributes!(person_vals)
+              person.family.update_attributes!(family_vals)
+            rescue => e
+              errored << {:first_name => person.first_name, :last_name => person.last_name, :status => 'Error updating record.', :message => e.message}
+              raise ActiveRecord::Rollback
+            else
+              completed << {:first_name => person.first_name, :last_name => person.last_name, :status => 'Record updated.'}
+            end
+          end
+        end
+        [completed, errored]
       end
 
       def split_change_hash(vals)
