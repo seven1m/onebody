@@ -21,7 +21,8 @@ module Foo
             end
             
             def log_changes
-              if @logger_changes.any? and @@log_class.table_exists?
+              if @logger_changes.any? and @@log_class.table_exists? \
+                and @@log_class.column_names.include?('loggable_id')
                 @@log_class.create(
                   :name => self.respond_to?(:name) ? self.name : nil,
                   :loggable_type => self.class.name,
@@ -34,7 +35,8 @@ module Foo
             end
             
             def log_destroy
-              if @@log_class.table_exists?
+              if @@log_class.table_exists? \
+                and @@log_class.column_names.include?('loggable_id')
                 @@log_class.create(
                   :name => self.respond_to?(:name) ? self.name : nil,
                   :loggable_type => self.class.name,
