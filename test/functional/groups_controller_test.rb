@@ -50,7 +50,7 @@ class GroupsControllerTest < ActionController::TestCase
     @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
     @group.update_attribute :hidden, true
     get :index, {:person_id => @person.id}, {:logged_in_id => @admin.id}
-    assert_tag :tag => 'li', :attributes => {:class => 'grayed hidden-group'}
+    assert_tag :tag => 'tr', :attributes => {:class => 'grayed hidden-group'}
   end
   
   should "search for groups by name" do
