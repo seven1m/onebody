@@ -31,6 +31,6 @@ More Information
 Copyright
 ---------
 
-Copyright (C) 2008, [Tim Morgan](http://timmorgan.org)
+Copyright (C) 2008-2009, [Tim Morgan](http://timmorgan.org)
 
 Please see the license file provided with this program.
