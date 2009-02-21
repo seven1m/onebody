@@ -13,4 +13,4 @@ config.action_mailer.raise_delivery_errors = false
 require RAILTIES_PATH + '/builtin/rails_info/rails/info'
 
 File.delete(File.join(RAILS_ROOT, 'setup-authorized-ip')) if File.exists? File.join(RAILS_ROOT, 'setup-authorized-ip')
-File.open(File.join(RAILS_ROOT, 'setup-secret'), 'w') { |f| f.write ActiveSupport::SecureRandom.hex(50) }
+File.open(File.join(RAILS_ROOT, 'setup-secret'), 'w') { |f| f.write ActiveSupport::SecureRandom.hex(50)[0...50] }

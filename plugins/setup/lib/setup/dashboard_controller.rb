@@ -30,7 +30,7 @@ class Setup::DashboardController < Setup::BaseController
       write_auth_file
       redirect_to setup_url
     else
-      File.open(File.join(RAILS_ROOT, 'setup-secret'), 'w') { |f| f.write ActiveSupport::SecureRandom.hex(50) } # regenerate
+      File.open(File.join(RAILS_ROOT, 'setup-secret'), 'w') { |f| f.write ActiveSupport::SecureRandom.hex(50)[0...50] } # regenerate
       flash[:notice] = 'That secret is incorrect. Please try again.'
       redirect_to not_local_or_secret_not_given_path
     end

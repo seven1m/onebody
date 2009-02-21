@@ -195,7 +195,7 @@ class Person < ActiveRecord::Base
   before_create :generate_salt
   
   def generate_salt
-    self.salt = ActiveSupport::SecureRandom.hex(50) unless read_attribute(:salt)
+    self.salt = ActiveSupport::SecureRandom.hex(50)[0...50] unless read_attribute(:salt)
   end
   
   def salt
@@ -411,13 +411,13 @@ class Person < ActiveRecord::Base
   before_create :update_feed_code
   def update_feed_code
     begin # ensure unique
-      code = ActiveSupport::SecureRandom.hex(50)
+      code = ActiveSupport::SecureRandom.hex(50)[0...50]
       write_attribute :feed_code, code
     end while Person.count('*', :conditions => ['feed_code = ?', code]) > 0
   end
   
   def generate_api_key
-    write_attribute :api_key, ActiveSupport::SecureRandom.hex(50)
+    write_attribute :api_key, ActiveSupport::SecureRandom.hex(50)[0...50]
   end
   
   def update_from_params(params)
