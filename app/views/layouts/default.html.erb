@@ -12,7 +12,7 @@
     Please check that your Theme setting points to a real directory inside the themes/ directory.
   </p>
   
-  <p>View path: <%=h ActionController::Base.view_paths.inspect %></p>
+  <p>View path: <%=h ApplicationController.view_paths.inspect %></p>
   <p>Host: <%=h request.host %></p>
   <p>Multisite: <%=h Setting.get(:features, :multisite) %></p>
   
