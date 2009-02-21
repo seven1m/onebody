@@ -1,9 +1,10 @@
-RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
-unless File.exist?(config_filename = Rails.root + '/config/database.yml')
+unless File.exist?(config_filename = Rails.root + 'config/database.yml')
+  puts config_filename
   require 'fileutils'
-  FileUtils.cp(config_filename + '.example', config_filename)
+  FileUtils.cp("#{config_filename}.example", config_filename)
 end
 
 Rails::Initializer.run do |config|
