@@ -28,7 +28,7 @@ class Message < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Message', :foreign_key => 'parent_id'
   has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :conditions => 'to_person_id is null', :dependent => :destroy
   has_many :attachments, :dependent => :destroy
-  has_many :log_items, :foreign_key => 'instance_id', :conditions => "loggable_type = 'Message'"
+  has_many :log_items, :foreign_key => 'loggable_id', :conditions => "loggable_type = 'Message'"
   belongs_to :site
   
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
