@@ -43,7 +43,7 @@ class GroupsControllerTest < ActionController::TestCase
   should "not list a person's hidden groups" do
     @group.update_attribute :hidden, true
     get :index, {:person_id => @person.id}, {:logged_in_id => @person.id}
-    assert_no_tag :tag => 'li', :attributes => {:class => 'grayed hidden-group'}
+    assert_no_tag :tag => 'tr', :attributes => {:class => 'grayed hidden-group'}
   end
   
   should "list a person's hidden groups if the user can manage groups" do
