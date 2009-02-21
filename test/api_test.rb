@@ -9,7 +9,7 @@ class PersonResource < ActiveResource::Base
   self.element_name = 'person'
 end
   
-class ApiTest < Test::Unit::TestCase
+class ApiTest < ActiveSupport::TestCase
 
   def setup
     PersonResource.user = 'admin@example.com'

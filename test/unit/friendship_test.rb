@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class FriendshipTest < Test::Unit::TestCase
+class FriendshipTest < ActiveSupport::TestCase
   fixtures :friendships, :people
   
   def setup

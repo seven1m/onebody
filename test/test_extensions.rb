@@ -9,4 +9,4 @@ module TestExtensions
 end
 
 require 'test/unit'
-Test::Unit::TestCase.extend(TestExtensions)
+ActiveSupport::TestCase.extend(TestExtensions)

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class VerseTest < Test::Unit::TestCase
+class VerseTest < ActiveSupport::TestCase
   fixtures :verses
   
   def setup

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class NoteTest < Test::Unit::TestCase
+class NoteTest < ActiveSupport::TestCase
   fixtures :notes
   
   def setup
