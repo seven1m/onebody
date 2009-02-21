@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
     end
     
     def check_scheduler
-      unless File.exist?(Rails.root + '/tmp/pids/Scheduler.pid')
+      unless File.exist?(Rails.root + 'tmp/pids/Scheduler.pid')
         if @logged_in.admin?
           render :text => "Scheduler is not running. Run <code>script/scheduler start #{Rails.env}</code>", :layout => true, :status => 500
         else

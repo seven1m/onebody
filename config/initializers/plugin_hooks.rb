@@ -7,9 +7,9 @@ PLUGIN_HOOKS = {
 #                             # partial path,            condition proc (optional)
 # PLUGIN_HOOKS[:more_page] << ['checkin/more_page_link', Proc.new { |c| c.instance_eval('@logged_in').checkin_access? }]
 
-Dir[Rails.root + '/plugins/*/hooks.rb'].each do |hooks_file|
+Dir[Rails.root + 'plugins/*/hooks.rb'].each do |hooks_file|
   plugin = hooks_file.match(/plugins\/(.+?)\/hooks\.rb$/)[1]
-  if File.exist?(Rails.root + '/plugins/' + plugin + '/enable')
+  if File.exist?(Rails.root + 'plugins/' + plugin + '/enable')
     load(hooks_file)
   end
 end

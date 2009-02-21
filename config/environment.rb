@@ -9,11 +9,11 @@ end
 
 Rails::Initializer.run do |config|
   config.action_controller.session_store = :active_record_store
-  config.action_controller.cache_store = :file_store, Rails.root + '/cache'
+  config.action_controller.cache_store = :file_store, Rails.root + 'cache'
   config.log_path = File.join(File.dirname(__FILE__), "../log/#{RAILS_ENV}.log")
   config.database_configuration_file = File.expand_path(File.join(File.dirname(__FILE__), 'database.yml'))
-  config.load_paths << Rails.root + '/app/sweepers'
-  config.plugin_paths << Rails.root + '/plugins'
+  config.load_paths << Rails.root + 'app/sweepers'
+  config.plugin_paths << Rails.root + 'plugins'
   config.time_zone = 'UTC'
   # dependencies 
   config.gem 'liquid'

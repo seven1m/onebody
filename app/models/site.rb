@@ -88,7 +88,7 @@ class Site < ActiveRecord::Base
   def add_pages
     return unless Page.table_exists?
     Page.without_global_scope do
-      Dir[Rails.root + '/db/pages/**/index.html'].each do |filename|
+      Dir[Rails.root + 'db/pages/**/index.html'].each do |filename|
         html = File.read(filename)
         path, filename = filename.split('pages/').last.split('/')
         pub = nav = path != 'system'
@@ -96,7 +96,7 @@ class Site < ActiveRecord::Base
           self.pages.create!(:slug => path, :title => path.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
         end
       end
-      Dir[Rails.root + '/db/pages/**/*.html'].each do |filename|
+      Dir[Rails.root + 'db/pages/**/*.html'].each do |filename|
         next if filename =~ /index\.html$/
         html = File.read(filename)
         path, filename = filename.split('pages/').last.split('/')
