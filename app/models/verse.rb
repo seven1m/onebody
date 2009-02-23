@@ -42,6 +42,8 @@ class Verse < ActiveRecord::Base
   
   def title; reference; end
   
+  def body; text; end
+  
   def book_name
     @book_name ||= reference.gsub(/[\d\:\s\-;,]+$/, '')
   end

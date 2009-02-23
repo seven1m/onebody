@@ -102,6 +102,7 @@ class Person < ActiveRecord::Base
   has_many :prayer_signups
   has_and_belongs_to_many :verses, :order => 'book, chapter, verse'
   has_many :log_items
+  has_many :blog_items
   has_many :friendships, :order => 'ordering, created_at'
   has_many :friends, :class_name => 'Person', :through => :friendships, :order => 'friendships.ordering, friendships.created_at'
   has_many :friendship_requests
@@ -362,18 +363,9 @@ class Person < ActiveRecord::Base
     email.to_s.strip =~ VALID_EMAIL_ADDRESS
   end
   
+  # legacy from old way of gathering blog_items TODO: remove this
   def blog_items_count
-    pictures.count + verses.count + recipes.count + notes.count
-  end
-  
-  def blog_items
-    classes = %w(Verse Recipe Note Picture).select { |c| Setting.get(:features, c.downcase.pluralize.to_sym) }
-    log_items.find(
-      :all,
-      :order => 'created_at desc',
-      :conditions => ["loggable_type in (?)", classes],
-      :limit => 100
-    ).map { |item| item.object }.uniq.select { |o| o and (o.respond_to?(:person_id) ? o.person_id == self.id : o.people.include?(self)) and not (o.respond_to?(:deleted?) and o.deleted?) and (not o.respond_to?(:group_id) or o.group_id.nil?) }
+    blog_items.count('*')
   end
   
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female

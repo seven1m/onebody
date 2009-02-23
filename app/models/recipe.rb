@@ -42,6 +42,8 @@ class Recipe < ActiveRecord::Base
   
   def name; title; end
   
+  def body; description; end
+  
   # not needed any more?
   def admin?(person)
     person.can_edit?(self)
