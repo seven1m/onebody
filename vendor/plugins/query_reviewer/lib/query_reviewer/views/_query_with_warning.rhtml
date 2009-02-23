@@ -1,0 +1,54 @@
+<li id="query_<%= query_with_warning.id %>">
+	<div>
+		<%= render :partial => "/spectrum", :locals => {:severity => query_with_warning.max_severity} %>
+    <% if QueryReviewer::CONFIGURATION["production_data"] %>
+      <div style="float: left; padding-right: 5px;">
+        <%= duration_with_color(query_with_warning) %>s
+      </div>
+    <% end %>
+    <p>
+      <% if query_with_warning.count > 1 %>
+        <b title="<%= query_with_warning.count %> queries were executed with the same stack trace and similar SQL structure">
+            <%= query_with_warning.count  %> identical queries
+        </b>
+      <% end %>
+      <i>Table <%= (query_with_warning.warnings.detect {|w| !w.table.blank? } || query_with_warning.warnings.last).table %>:</i>
+			<% query_with_warning.warnings.sort{|a,b| a.severity <=> b.severity}.reverse.each_with_index do |warn, index| %>
+				<span style="color: <%= severity_color warn.severity%>;" title="<%= warn.desc%>"><%= warn.problem %></span><%= ", " if index < query_with_warning.warnings.length - 1 %>
+			<% end %>
+			<a href="javascript: query_review_toggle('warning_<%= query_with_warning.id %>_desc')" title="show/hide warning message">MSG</a>
+			<a href="javascript: query_review_toggle('warning_<%= query_with_warning.id %>_sql')" title="show/hide sql">SQL</a>
+      <% if query_with_warning.select? %>
+      	<a href="javascript: query_review_toggle('warning_<%= query_with_warning.id %>_explain')" title="show/hide explain output">EXPLN</a>
+      <% end %>
+      <% if QueryReviewer::CONFIGURATION["profiling"] && query_with_warning.profile %>
+  			<a href="javascript: query_review_toggle('warning_<%= query_with_warning.id %>_profile')" title="show/hide profile output">PROF</a>
+      <% end %>
+      <a href="javascript: query_review_toggle('warning_<%= query_with_warning.id %>_trace')" title="show/hide stack trace">TRACE</a>
+			<% if ignore_hash?(query_with_warning.to_hash) %>
+				<a href="javascript: remove_ignore_hash('<%= query_with_warning.to_hash %>'); query_review_hide('query_<%= query_with_warning.id %>')" title="stop ignore this query from now on">UNIGNR</a>
+			<% else %>
+				<a href="javascript: add_ignore_hash('<%= query_with_warning.to_hash %>'); query_review_hide('query_<%= query_with_warning.id %>')" title="ignoring this query from now on">IGNR</a>
+			<% end %>
+		</p>
+	</div>
+	<p style="display: none" id="warning_<%= query_with_warning.id %>_desc" class="indent">
+		<% query_with_warning.warnings.each do |warn| %>
+			<span style="color: <%= severity_color warn.severity%>"><%= warn.desc %><br/>
+		<% end %>
+	</p>
+	<p style="display: none" id="warning_<%= query_with_warning.id %>_sql" class="indent small tbpadded">
+		<%= render :partial => "/query_sql", :object => query_with_warning %>
+	</p>
+	<div style="display: none" id="warning_<%= query_with_warning.id %>_explain" class="indent small tbpadded">
+		<%= render :partial => "/explain", :locals => {:query => query_with_warning} %>
+	</div>
+  <% if QueryReviewer::CONFIGURATION["profiling"] && query_with_warning.profile %>
+    <div style="display: none" id="warning_<%= query_with_warning.id %>_profile" class="indent small tbpadded">
+      <%= render :partial => "/profile", :locals => {:query => query_with_warning} %>
+    </div>
+  <% end %>
+  <div style="display: none" id="warning_<%= query_with_warning.id %>_trace" class="indent small">
+		<%= render :partial => "/trace", :object => query_with_warning.relevant_trace, :locals => {:query_id => query_with_warning.id, :full_trace => query_with_warning.full_trace} %>
+	</div>
+</li>

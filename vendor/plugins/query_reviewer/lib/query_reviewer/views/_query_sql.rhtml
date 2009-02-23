@@ -1,0 +1,8 @@
+<span id="query_plain_sql_<%= query_sql.id %>" style="display: none;">
+  <%= syntax_highlighted_sql(query_sql.sql) %> 
+  <% if query_sql.respond_to?(:subqueries) && query_sql.subqueries.length > 1 %>
+  <% end %>
+</span>
+<span id="query_sanitized_sql_<%= query_sql.id %>">
+  <%= syntax_highlighted_sql(query_sql.sanitized_sql) if query_sql.sanitized_sql %>
+</span>

@@ -1,0 +1,10 @@
+<div class="spectrum_container" title="Severity: <%= severity%> out of 10">
+	<% 0.upto(15) do |i| %>
+		<div class="spectrum_elem" style="background-color: <%= "##{i.to_s(16)}F0"%>"></div>
+	<% end %>
+	<% 0.upto(15) do |i| %>
+		<div class="spectrum_elem" style="background-color: <%= "#F#{((15-i)).to_s(16)}0"%>"></div>
+	<% end %>
+	<div class="spectrum_elem" style="background-color: #FF0000"></div>
+	<div class="spectrum_pointer" style="left: <%= severity * 3 + 2 %>px;"></div
+</div>

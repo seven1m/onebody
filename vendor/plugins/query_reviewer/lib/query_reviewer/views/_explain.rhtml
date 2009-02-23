@@ -1,0 +1,30 @@
+<table class="explain">
+	<thead>
+	<tr>
+		<th>table</th>
+		<th>select_type</th>
+		<th>type</th>
+		<th>extra</th>
+		<th>possible_keys</th>
+		<th>key</th>
+    <th>key length</th>
+    <th>ref</th>
+		<th>rows</th>
+	</tr>
+	</thead>
+	<tbody>
+	<% query.subqueries.each do |subquery| %>
+	<tr>
+		<td title="<%= h subquery.table %>"><%= h subquery.table %></td>
+		<td title="<%= h subquery.select_type %>"><%= h subquery.select_type %></td>
+		<td title="<%= h subquery.query_type %>"><%= h subquery.query_type %></td>
+		<td title="<%= h subquery.extra %>"><%= h subquery.extra %></td>
+		<td title="<%= h subquery.possible_keys %>"><%= h subquery.possible_keys %></td>
+		<td title="<%= h subquery.key %>"><%= h subquery.key %></td>
+    <td title="<%= h subquery.key_len %>"><%= h subquery.key_len %></td>  
+    <td title="<%= h subquery.ref %>"><%= h subquery.ref %></td>
+		<td title="<%= h subquery.rows %>"><%= h subquery.rows %></td>
+	<tr>
+	<% end %>
+	</tbody>
+</table>

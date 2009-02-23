@@ -1,0 +1,8 @@
+<li id="warning_<%= warning_no_query.id %>">
+	<div>
+		<%= render :partial => "/spectrum", :locals => {:severity => warning_no_query.severity} %>
+		<p>
+			<span style="color: <%= severity_color warning_no_query.severity%>" title="<%= warning_no_query.desc %>"><%= warning_no_query.problem %></span>
+		</p>
+	</div>
+</li>

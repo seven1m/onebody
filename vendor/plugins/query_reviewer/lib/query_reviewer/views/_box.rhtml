@@ -1,0 +1,11 @@
+<div id="query_review_parent" class="query_review_parent">
+  <div id="query_review_0" class="query_review_container">
+    <%= render :partial => "/box_includes"%>
+    <div class="query_review <%= parent_div_class %>" id = "query_review_header_0">
+      <%= render :partial => "/box_header" %>
+    </div>
+    <div class="query_review_details" id="query_review_details_0" style="display: none;">
+      <%= render :partial => enabled_by_cookie ? "/box_body" : "/box_disabled" %>
+    </div>
+  </div>
+</div>
