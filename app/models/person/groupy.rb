@@ -7,9 +7,26 @@ class Person
 
     def sidebar_group_people(order='people.last_name, people.first_name', limit=nil)
       if sidebar_groups.any?
-        Person.find(:all, :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})", :joins => :memberships, :order => order, :limit => limit).uniq
+        Person.all(
+          :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})",
+          :joins => :memberships,
+          :order => order,
+          :limit => limit
+        )
       else
         []
+      end
+    end
+    
+    def sidebar_group_people_count
+      if sidebar_groups.any?
+        Person.count(
+          '*',
+          :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})",
+          :joins => :memberships
+        )
+      else
+        0
       end
     end
 

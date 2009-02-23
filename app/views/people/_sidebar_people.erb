@@ -1,4 +1,4 @@
-<% if (count = @person.sidebar_group_people.length) > 0 %>
+<% if (count = @person.sidebar_group_people_count) > 0 %>
   <h2><%= Setting.get(:features, :sidebar_group_heading) %></h2>
   <% if count > MAX_GROUPIES_ON_PROFILE %>
     <p><%= MAX_GROUPIES_ON_PROFILE %> of <%= count %></p>
