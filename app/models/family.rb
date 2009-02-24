@@ -111,7 +111,7 @@ class Family < ActiveRecord::Base
     people.find(:all).select do |person|
       !person.deleted? and (
         Person.logged_in.admin?(:view_hidden_profiles) or
-        person.visible?
+        person.visible?(self)
       )
     end
   end

@@ -336,8 +336,9 @@ class Person < ActiveRecord::Base
   def parental_consent?; parental_consent.to_s.any?; end
   def consent_or_13?; at_least_13? or parental_consent?; end
   
-  def visible?
-    family and family.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?) and visible_to_everyone?
+  def visible?(fam=nil)
+    fam ||= self.family
+    fam and fam.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?) and visible_to_everyone?
   end
 
   def admin=(a)
