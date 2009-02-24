@@ -1,4 +1,4 @@
-<% if params[:action] == 'simple_view' and not @person.visible? %>
+<% if params[:action] == 'simple_view' and not @person.visible?(@family) %>
   <p>
     <%= image_tag 'lock.gif', :alt => 'Hidden Profile', :class => 'icon' %>
     This profile is hidden from most people.

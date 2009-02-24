@@ -1,7 +1,7 @@
 class Person
   module Groupy
     def sidebar_groups
-      Setting.get(:features, :sidebar_group_category) && \
+      @sidebar_groups ||= Setting.get(:features, :sidebar_group_category) && \
         groups.find_all_by_category(Setting.get(:features, :sidebar_group_category))
     end
 

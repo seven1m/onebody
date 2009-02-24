@@ -36,7 +36,7 @@
 
 <div id="extra" style="display:none;" class="highlight"></div>
 
-<% unless @person.visible? %>
+<% unless @person.visible?(@family) %>
   <p class="alert">
     <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
     This profile is hidden!
