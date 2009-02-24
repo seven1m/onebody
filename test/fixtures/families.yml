@@ -3,10 +3,8 @@
 # Table name: families
 #
 #  id                 :integer       not null, primary key
-#  legacy_id          :integer       
 #  name               :string(255)   
 #  last_name          :string(255)   
-#  suffix             :string(25)    
 #  address1           :string(255)   
 #  address2           :string(255)   
 #  city               :string(255)   
@@ -23,6 +21,7 @@
 #  share_email        :boolean       
 #  share_birthday     :boolean       default(TRUE)
 #  share_anniversary  :boolean       default(TRUE)
+#  legacy_id          :integer       
 #  updated_at         :datetime      
 #  wall_enabled       :boolean       default(TRUE)
 #  visible            :boolean       default(TRUE)

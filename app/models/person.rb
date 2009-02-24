@@ -2,9 +2,9 @@
 #
 # Table name: people
 #
-#  id                           :integer(4)    not null, primary key
-#  family_id                    :integer(4)    
-#  sequence                     :integer(4)    
+#  id                           :integer       not null, primary key
+#  family_id                    :integer       
+#  sequence                     :integer       
 #  gender                       :string(6)     
 #  first_name                   :string(255)   
 #  last_name                    :string(255)   
@@ -27,55 +27,55 @@
 #  quotes                       :text          
 #  about                        :text          
 #  testimony                    :text          
-#  share_mobile_phone           :boolean(1)    
-#  share_work_phone             :boolean(1)    
-#  share_fax                    :boolean(1)    
-#  share_email                  :boolean(1)    
-#  share_birthday               :boolean(1)    
+#  share_mobile_phone           :boolean       
+#  share_work_phone             :boolean       
+#  share_fax                    :boolean       
+#  share_email                  :boolean       
+#  share_birthday               :boolean       
 #  business_name                :string(100)   
 #  business_description         :text          
 #  business_phone               :string(25)    
 #  business_email               :string(255)   
 #  business_website             :string(255)   
-#  legacy_id                    :integer(4)    
-#  email_changed                :boolean(1)    
+#  legacy_id                    :integer       
+#  email_changed                :boolean       
 #  suffix                       :string(25)    
 #  anniversary                  :datetime      
 #  updated_at                   :datetime      
 #  alternate_email              :string(255)   
-#  email_bounces                :integer(4)    default(0)
+#  email_bounces                :integer       default(0)
 #  business_category            :string(100)   
-#  get_wall_email               :boolean(1)    default(TRUE)
-#  account_frozen               :boolean(1)    
-#  wall_enabled                 :boolean(1)    
-#  messages_enabled             :boolean(1)    default(TRUE)
+#  get_wall_email               :boolean       default(TRUE)
+#  account_frozen               :boolean       
+#  wall_enabled                 :boolean       
+#  messages_enabled             :boolean       default(TRUE)
 #  business_address             :string(255)   
 #  flags                        :string(255)   
-#  visible                      :boolean(1)    default(TRUE)
+#  visible                      :boolean       default(TRUE)
 #  parental_consent             :string(255)   
-#  admin_id                     :integer(4)    
-#  friends_enabled              :boolean(1)    default(TRUE)
-#  member                       :boolean(1)    
-#  staff                        :boolean(1)    
-#  elder                        :boolean(1)    
-#  deacon                       :boolean(1)    
-#  can_sign_in                  :boolean(1)    
-#  visible_to_everyone          :boolean(1)    
-#  visible_on_printed_directory :boolean(1)    
-#  full_access                  :boolean(1)    
-#  legacy_family_id             :integer(4)    
+#  admin_id                     :integer       
+#  friends_enabled              :boolean       default(TRUE)
+#  member                       :boolean       
+#  staff                        :boolean       
+#  elder                        :boolean       
+#  deacon                       :boolean       
+#  can_sign_in                  :boolean       
+#  visible_to_everyone          :boolean       
+#  visible_on_printed_directory :boolean       
+#  full_access                  :boolean       
+#  legacy_family_id             :integer       
 #  feed_code                    :string(50)    
-#  share_activity               :boolean(1)    
-#  site_id                      :integer(4)    
+#  share_activity               :boolean       
+#  site_id                      :integer       
 #  barcode_id                   :string(50)    
 #  can_pick_up                  :string(100)   
 #  cannot_pick_up               :string(100)   
 #  medical_notes                :string(200)   
-#  checkin_access               :boolean(1)    
+#  checkin_access               :boolean       
 #  twitter_account              :string(100)   
 #  api_key                      :string(50)    
 #  salt                         :string(50)    
-#  deleted                      :boolean(1)    
+#  deleted                      :boolean       
 #
 
 class Person < ActiveRecord::Base

@@ -2,33 +2,33 @@
 #
 # Table name: groups
 #
-#  id                        :integer(4)    not null, primary key
+#  id                        :integer       not null, primary key
 #  name                      :string(100)   
 #  description               :string(500)   
 #  meets                     :string(100)   
 #  location                  :string(100)   
 #  directions                :string(500)   
 #  other_notes               :string(500)   
-#  creator_id                :integer(4)    
+#  creator_id                :integer       
 #  address                   :string(255)   
-#  members_send              :boolean(1)    default(TRUE)
-#  private                   :boolean(1)    
+#  members_send              :boolean       default(TRUE)
+#  private                   :boolean       
 #  category                  :string(50)    
-#  leader_id                 :integer(4)    
+#  leader_id                 :integer       
 #  updated_at                :datetime      
-#  hidden                    :boolean(1)    
-#  approved                  :boolean(1)    
+#  hidden                    :boolean       
+#  approved                  :boolean       
 #  link_code                 :string(255)   
-#  parents_of                :integer(4)    
-#  site_id                   :integer(4)    
-#  blog                      :boolean(1)    default(TRUE)
-#  email                     :boolean(1)    default(TRUE)
-#  prayer                    :boolean(1)    default(TRUE)
-#  attendance                :boolean(1)    default(TRUE)
-#  legacy_id                 :integer(4)    
+#  parents_of                :integer       
+#  site_id                   :integer       
+#  blog                      :boolean       default(TRUE)
+#  email                     :boolean       default(TRUE)
+#  prayer                    :boolean       default(TRUE)
+#  attendance                :boolean       default(TRUE)
+#  legacy_id                 :integer       
 #  gcal_private_link         :string(255)   
-#  approval_required_to_join :boolean(1)    default(TRUE)
-#  pictures                  :boolean(1)    default(TRUE)
+#  approval_required_to_join :boolean       default(TRUE)
+#  pictures                  :boolean       default(TRUE)
 #
 
 class Group < ActiveRecord::Base

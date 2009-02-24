@@ -2,8 +2,8 @@
 #
 # Table name: recipes
 #
-#  id           :integer(4)    not null, primary key
-#  person_id    :integer(4)    
+#  id           :integer       not null, primary key
+#  person_id    :integer       
 #  title        :string(255)   
 #  notes        :text          
 #  description  :text          
@@ -13,8 +13,8 @@
 #  updated_at   :datetime      
 #  prep         :string(255)   
 #  bake         :string(255)   
-#  serving_size :integer(4)    
-#  site_id      :integer(4)    
+#  serving_size :integer       
+#  site_id      :integer       
 #
 
 class Recipe < ActiveRecord::Base

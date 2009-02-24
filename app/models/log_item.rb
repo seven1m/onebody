@@ -2,19 +2,19 @@
 #
 # Table name: log_items
 #
-#  id             :integer(4)    not null, primary key
+#  id             :integer       not null, primary key
 #  object_changes :text          
-#  person_id      :integer(4)    
+#  person_id      :integer       
 #  created_at     :datetime      
 #  reviewed_on    :datetime      
-#  reviewed_by    :integer(4)    
+#  reviewed_by    :integer       
 #  flagged_on     :datetime      
 #  flagged_by     :string(255)   
-#  deleted        :boolean(1)    
+#  deleted        :boolean       
 #  name           :string(255)   
-#  group_id       :integer(4)    
-#  site_id        :integer(4)    
-#  loggable_id    :integer(4)    
+#  group_id       :integer       
+#  site_id        :integer       
+#  loggable_id    :integer       
 #  loggable_type  :string(255)   
 #
 
