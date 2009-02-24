@@ -1,7 +1,7 @@
 <h2>Groups</h2>
 <% if @person.has_groups? %>
   <table>
-    <% @person.groups.select { |g| @logged_in.can_see? g }.each do |group| %>
+    <% @person.groups.each do |group| %>
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <tr <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
           <td>
