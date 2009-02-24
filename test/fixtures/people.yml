@@ -145,6 +145,7 @@ peter:
   feed_code: bla3
   api_key: abc # invalid key
   salt: T2GTTah9DsC9xZQapvWqysYoTc92qPs3HuWAYMLxnnUlFbFm56
+  child: false
 jennie:
   site_id: 1
   id: 4
@@ -173,7 +174,7 @@ mac:
   id: 5
   family_id: 1
   sequence: 3
-  gender: Girl
+  gender: Female
   first_name: Mac
   last_name: Morgan
   email: mac@example.com
@@ -188,6 +189,7 @@ mac:
   full_access: true
   feed_code: bla5
   salt: cbzcuNI41xtfHGVzWujVQJGya8W11GKY9YpX9WRQVuOVoaodWO
+  child: true
 jane:
   site_id: 1
   id: 6
@@ -209,12 +211,13 @@ jane:
   feed_code: bla6
   staff: true
   salt: Xoi0wtyeHDKb3bVO5eQPIO24iY6qFvwSAZhybOwQ78rO7UULhy
+  child: false
 megan:
   site_id: 1
   id: 7
   family_id: 2
   sequence: 3
-  gender: Girl
+  gender: Female
   first_name: Megan
   last_name: Smith
   mail_group: M

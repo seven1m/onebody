@@ -186,17 +186,6 @@ URL:
     value: 
     description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
 System: 
-  Genders: 
-    format: list
-    value: |
-      --- 
-      - Male
-      - Female
-      - Boy
-      - Girl
-
-    description: ""
-    hidden: true
   Suffixes: 
     format: list
     value: |

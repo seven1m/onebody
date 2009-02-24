@@ -86,6 +86,9 @@ class Search
     unless show_hidden and Person.logged_in.admin?(:view_hidden_profiles)
       @conditions.add_condition ["people.visible_to_everyone = ?", true]
       @conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
+      unless SQLITE
+        @conditions.add_condition ["(people.child = ? or (birthday is not null and adddate(birthday, interval 13 year) <= curdate()) or (people.parental_consent is not null and people.parental_consent != ''))", false]
+      end
     end
     unless Person.logged_in.full_access?
       if SQLITE

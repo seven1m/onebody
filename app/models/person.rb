@@ -150,7 +150,7 @@ class Person < ActiveRecord::Base
   validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
   validates_format_of :business_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
   validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS, :message => 'has an incorrect format (something@example.com)'
-  validates_presence_of :gender, :if => Proc.new { Person.logged_in }
+  validates_inclusion_of :gender, :in => %w(Male Female), :allow_nil => true
   
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
@@ -316,10 +316,8 @@ class Person < ActiveRecord::Base
     memberships.find_by_group_id(group.id)
   end
   
-  def at_least?(age)
-    today = Date.today
-    back = Date.new(today.year-age, today.month, today.day) rescue Date.new(today.year-age, today.month, today.day-1)
-    %w(male female man woman).include?(gender.downcase) or (birthday and birthday <= back)
+  def at_least?(age) # assumes you won't pass in anything over 18
+    y = years_of_age and y >= age or child == false
   end
   
   def age
@@ -342,7 +340,7 @@ class Person < ActiveRecord::Base
   
   def visible?(fam=nil)
     fam ||= self.family
-    fam and fam.visible? and read_attribute(:visible) and (at_least_13? or parental_consent?) and visible_to_everyone?
+    fam and fam.visible? and read_attribute(:visible) and consent_or_13? and visible_to_everyone?
   end
 
   def admin=(a)
@@ -368,12 +366,16 @@ class Person < ActiveRecord::Base
     email.to_s.strip =~ VALID_EMAIL_ADDRESS
   end
   
-  # legacy from old way of gathering blog_items TODO: remove this
-  def blog_items_count
-    blog_items.count('*')
+  def gender=(g)
+    if g.to_s.strip.blank?
+      g = nil
+    else
+      g = g.capitalize
+    end
+    write_attribute(:gender, g)
   end
   
-  # get the parents/guardians by grabbing people in family sequence 1 and 2 and with gender male or female
+  # get the parents/guardians by grabbing people in family sequence 1 and 2 and adult?
   def parents
     if family 
       family.people.select { |p| p.adult? and [1, 2].include? p.sequence }

@@ -1,5 +1,5 @@
-<% if ['male', 'boy', 'man'].include? @person.gender.to_s.downcase %>
+<% if @person.gender.to_s == 'Male' %>
   <%= image_tag 'man.gif', :alt => @person.name %>
-<% elsif ['female', 'girl', 'woman'].include? @person.gender.to_s.downcase %>
+<% elsif @person.gender.to_s == 'Female' %>
   <%= image_tag 'woman.gif', :alt => @person.name %>
 <% end %>
