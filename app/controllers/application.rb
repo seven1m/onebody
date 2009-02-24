@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
         update_view_paths
         set_time_zone
         set_local_formats
+        set_layout_variables
       elsif site = Site.find_by_secondary_host_and_active(request.host, true)
         redirect_to 'http://' + site.host
         return false
@@ -58,6 +59,14 @@ class ApplicationController < ActionController::Base
         :time              => Setting.get(:formats, :time),
         :date_without_year => Setting.get(:formats, :date_without_year)
       )
+    end
+    
+    def set_layout_variables
+      @site_name       = CGI.escapeHTML(Setting.get(:name, :site))
+      @banner_message  = CGI.escapeHTML(Setting.get(:features, :banner_message))
+      @show_subheading = Setting.get(:appearance, :show_subheading)
+      @copyright_year  = Date.today.year
+      @church_name     = CGI.escapeHTML(Setting.get(:name, :church))
     end
     
     def get_theme_name

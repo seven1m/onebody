@@ -3,6 +3,88 @@ module ApplicationHelper
   include TagsHelper
   include PicturesHelper
   include PhotosHelper
+  
+  def heading
+    if (logo = Setting.get(:appearance, :logo)).to_s.any?
+	    "<a href=\"/\">#{image_tag logo, :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;'}</a>"
+	  elsif !@page or @page.for_members?
+	    "<a href=\"/people\">#{h Setting.get(:name, :site)}</a>"
+	  else
+	    "<a href=\"/\">#{h Setting.get(:name, :church)}</a>"
+    end
+  end
+  
+  def subheading
+    if !@page or @page.for_members?
+      html = simple_url(Setting.get(:url, :site))
+    else
+      html = simple_url(Setting.get(:url, :visitor))
+    end
+    if Setting.get(:name, :slogan).to_s.any?
+      html << "| <span id=\"news_headlines\" style=\"position:relative;background-color:#fff;\">#{h Setting.get(:name, :slogan)}</span>"
+    end
+    html
+  end
+  
+  def tab_link(title, url, active=false)
+    link_to(title, url, :class => active ? 'active' : nil)
+  end
+  
+  def nav_links
+    html = ''
+    if Setting.get(:features, :content_management_system)
+      html << "<li>#{tab_link 'Home', '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
+    end
+    html << "<li>#{tab_link 'Profile', people_path, params[:controller] == 'people' && me?}</li>"
+    html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
+      html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
+    end
+    html << "<li>#{ tab_link 'More', shares_path, %w(shares events pictures verses recipes).include?(params[:controller])}</li>"
+    html
+  end
+  
+  def notice
+    if flash[:warning] or flash[:notice]
+      <<-HTML
+        <div id="notice" #{flash[:warning] ? 'class="warning"' : nil}>#{flash[:warning] || flash[:notice]}</div>
+        <script type="text/javascript">
+          setTimeout("new Effect.Fade('notice');", 15000)
+        </script>
+      HTML
+    end
+  end
+  
+  def personal_nav_links
+    html = ''
+    if @logged_in
+      html << "<li class=\"personal\">"
+      html << link_to('sign out', session_path, :method => 'delete')
+      html << "</li>"
+      if @logged_in.admin?
+        html << "<li class=\"personal\">"
+        html << link_to('admin', admin_path)
+        html << "</li>"
+      end
+    else
+      html << "<li class=\"personal\">"
+      html << link_to('sign in', new_session_path)
+      html << "</li>"
+    end
+    html
+  end
+  
+  def news_js
+    unless @logged_in.nil? or Rails.production?
+      "<script type=\"text/javascript\" src=\"/news.js\"></script>"
+    end
+  end
+  
+  def analytics_js
+    if Rails.production?
+      Setting.get(:services, :analytics)
+    end
+  end
 
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe

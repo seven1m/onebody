@@ -14,7 +14,8 @@ Rails::Initializer.run do |config|
   config.load_paths << Rails.root + '/app/sweepers'
   config.plugin_paths << Rails.root + '/plugins'
   config.time_zone = 'UTC'
-  # dependencies
+  # dependencies 
+  config.gem 'liquid'
   config.gem 'pdf-writer', :lib => 'pdf/writer'
   config.gem 'highline'
   config.gem 'mini_magick'

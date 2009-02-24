@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title>{{ site_name }}</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="no-cache"/>
+  <meta http-equiv="Expires" content="-1"/>
+  <meta http-equiv="Cache-Control" content="no-cache"/> 
+  <link rel="stylesheet" href="/stylesheets/basic.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/aqueouslight.css" type="text/css" media="screen,projection" />
+  <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />
+  <script type="text/javascript" src="/javascripts/all.pack.js"></script>
+  {{ content_for_head }}
+</head>
+ 
+<body>
+
+{% if banner_message %}
+  <div id="banner">{{ banner_message }}%></div>
+{% endif %}
+
+<div id="wrapper">
+<div id="innerwrapper">
+
+		<div id="header">
+		
+		  {% if logged_in %}
+		    <form action="/search" method="GET">
+			    Type a name and hit enter:<br/>
+				  <input name="name" id="search_name" value="People Search" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
+			  </form>
+		  {% endif %}
+				
+			<h1>{{ heading }}</h1>
+
+			{% if show_subheading %}
+        <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;margin-bottom:5px;width:300px;white-space:nowrap;">
+          {{ subheading }}
+        </div>
+      {% endif %}
+        
+			<ul id="nav">
+			  {{ personal_nav_links }}
+			  {{ nav_links }}  
+			</ul>
+			
+			{% if content_for_subnav %}
+			  <div id="subnav">
+          {{ content_for_subnav }}
+        </div>
+      {% endif %}
+		</div>
+		
+		{{ notice }}
+
+		{% if content_for_sidebar %}
+  		<div id="sidebar">
+    		{{ content_for_sidebar }}
+		  </div>
+		{% endif %}
+				
+		<div id="contentnorightbar" {% if !content_for_sidebar %}style="margin-left:0px;padding-left:0px;"{% endif %}>
+		  {{ content_for_layout }}
+		</div>
+		
+		<div id="footer">
+      &copy; {{ copyright_year }}, {{ church_name }} |
+      <a href="/pages/help/privacy_policy">Privacy Policy</a> |
+      <a href="/pages/system/credits">Credits</a> |
+      Powered by <a href="http://beonebody.org">OneBody</a>
+		</div>
+		
+</div>
+</div>
+
+{{ news_js }}
+{{ analytics_js }}
+
+</body>
+</html>

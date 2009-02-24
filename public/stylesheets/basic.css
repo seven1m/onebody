@@ -310,3 +310,15 @@ div.autocomplete ul li {
   padding: 10px;
   margin-top: 15px;
 }
+
+#nav .personal {
+	float: right;
+	font-size: smaller;
+	color: #fff;
+	text-align: right;
+}
+
+#nav .personal a {
+	padding-left: 5px;
+	padding-right: 5px;
+}
