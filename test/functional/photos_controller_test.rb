@@ -29,7 +29,7 @@ class PhotosControllerTest < ActionController::TestCase
   end
 
   should "not show a person photo if the logged in user cannot see the person" do
-    @child = Person.forge(:birthday => 1.year.ago, :gender => 'Female', :photo => true)
+    @child = Person.forge(:birthday => 1.year.ago, :gender => 'Female', :photo => true, :child => nil)
     get :show, {:person_id => @child.id}, {:logged_in_id => @person}
     assert_response :missing
   end

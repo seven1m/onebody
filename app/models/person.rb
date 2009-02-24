@@ -227,13 +227,7 @@ class Person < ActiveRecord::Base
           what == self or
           what.family_id == self.family_id or
           admin?(:view_hidden_profiles) or
-          staff? or (
-            what.visible_to_everyone? and
-            what.visible? and (
-              full_access? or
-              what.adult?
-            )
-          )
+          staff? or what.visible?
         )
       when 'Family'
         !what.deleted? and (what.visible? or admin?(:view_hidden_profiles))

@@ -115,10 +115,10 @@ class Person
     # must be set for the logger to correctly mark these entries
     Person.logged_in = self
     # 26 total - blog only shows 25
-    1.times { self.forge(:pictures) }
+    1.times  { self.forge(:pictures) }
     10.times { self.forge(:notes)    }
     10.times { self.forge(:recipes)  }
-    5.times { self.verses << Verse.forge }
+    5.times  { self.verses << Verse.forge; self.save }
   end
 end
 
@@ -157,12 +157,10 @@ end
 class Verse
   def self.forge(attributes={})
     returning Verse.find("#{Verse::BOOKS.rand} #{rand(25)+1}:#{rand(50)+1}") do |verse|
-      photo = attributes.delete(:photo)
       attributes.each do |attr, val|
         verse.send("#{attr}=", val) # will allow tag_list= to work
       end
       verse.save!
-      verse.forge_photo if photo
     end
   end
 end

@@ -3,9 +3,7 @@ class BlogsController < ApplicationController
   def show
     @person = Person.find(params[:person_id])
     if @logged_in.can_see? @person
-      @objects = @person.blog_items
-      @pictures = @objects.select { |o| o.is_a? Picture }
-      @non_pictures = @objects.select { |o| !o.is_a? Picture }
+      @blog_items = @person.blog_items.all(:limit => 25, :order => 'created_at desc')
       respond_to do |format|
         format.html
         format.js { render :partial => 'blog' }

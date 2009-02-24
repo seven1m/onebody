@@ -92,7 +92,7 @@ class LogItem < ActiveRecord::Base
     return false unless %w(Verse Recipe Note Picture).include?(loggable_type)
     # if an admin or another person does something on behalf of someone else, don't count it as a blog item entry
     return false if object.respond_to?(:person_id) and object.person_id != self.person_id
-    return false if object.respond_to?(:people)    and !object.person_ids.include?(self.person_id)
+    #return false if object.respond_to?(:people)    and !object.person_ids.include?(self.person_id)
     true
   end
   

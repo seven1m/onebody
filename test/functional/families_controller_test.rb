@@ -5,7 +5,7 @@ class FamiliesControllerTest < ActionController::TestCase
   def setup
     @person, @other_person = Person.forge, Person.forge
     @family = @person.family
-    @child = Person.forge(:family => @family, :birthday => 1.year.ago, :gender => 'Female')
+    @child = Person.forge(:family => @family, :birthday => 1.year.ago, :gender => 'Female', :child => nil)
     @admin = Person.forge(:admin => Admin.create(:edit_profiles => true))
   end
   
