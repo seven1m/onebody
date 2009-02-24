@@ -9,3 +9,5 @@ if RAILS_ENV == 'test' and ActiveRecord::Base.connected?
   end
   Site.current = Site.find(1) if Site.table_exists?
 end
+
+SETTINGS = {}

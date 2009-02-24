@@ -38,23 +38,21 @@ class Setting < ActiveRecord::Base
   def value?; value; end
   
   class << self
-    @@settings = nil
-    
     def get(section, name, default=nil)
-      precache_settings unless @@settings
-      return nil unless @@settings
+      precache_settings unless SETTINGS.any?
+      return nil unless SETTINGS.any?
       section, name = section.to_s, name.to_s
       if global?(section, name)
-        @@settings[0][section][name]
+        SETTINGS[0][section][name]
       else
         if Site.current
-          if @@settings[Site.current.id].nil?
+          if SETTINGS[Site.current.id].nil?
             Site.current.add_settings
             Setting.precache_settings(true)
           end
-          if @@settings[Site.current.id][section]
+          if SETTINGS[Site.current.id][section]
             return false if section == 'features' and Site.current.respond_to?("#{name}_enabled?") and not Site.current.send("#{name}_enabled?")
-            @@settings[Site.current.id][section][name] || default
+            SETTINGS[Site.current.id][section][name] || default
           else
             default
           end
@@ -86,18 +84,17 @@ class Setting < ActiveRecord::Base
     def set_global(section, name, value); set(nil, section, name, value); end
     
     def precache_settings(fresh=false)
-      return if @@settings and not fresh
+      return if SETTINGS.any? and not fresh
       return unless table_exists?
-      @@settings = {}
       find(:all).each do |setting|
         site_id = setting.global? ? 0 : setting.site_id
         section = setting.section.downcase.gsub(/\s/, '_')
         name = setting.name.downcase.gsub(/\s/, '_')
-        @@settings[site_id] ||= {}
-        @@settings[site_id][section] ||= {}
-        @@settings[site_id][section][name] = setting.value
+        SETTINGS[site_id] ||= {}
+        SETTINGS[site_id][section] ||= {}
+        SETTINGS[site_id][section][name] = setting.value
       end
-      @@settings
+      SETTINGS
     end
     
     def update_from_yaml(filename)
