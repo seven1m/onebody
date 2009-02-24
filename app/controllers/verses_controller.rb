@@ -16,6 +16,7 @@ class VersesController < ApplicationController
   def create
     if @verse = Verse.find(params[:id]) rescue nil
       @verse.people << @logged_in unless @verse.people.include? @logged_in
+      expire_fragment(%r{views/people/#{@logged_in.id}_})
       redirect_to @verse
     else
       render :text => 'That verse could not be found. Did you type the reference correctly?', :layout => true, :status => 404
@@ -33,6 +34,7 @@ class VersesController < ApplicationController
   def destroy
     @verse = Verse.find(params[:id])
     @verse.people.delete @logged_in
+    expire_fragment(%r{views/people/#{@logged_in.id}_})
     unless @verse.people.count == 0
       redirect_to @verse
     else
