@@ -1,4 +1,4 @@
-<% if @person.has_groups? %>
+<% if @person.groups.count > 0 %>
   <table>
     <% @person.groups.select { |g| @logged_in.can_see? g }.each do |group| %>
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>

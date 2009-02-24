@@ -380,22 +380,6 @@ class Person < ActiveRecord::Base
     log_items.count(["created_at >= ?", 1.day.ago]) > 0
   end
   
-  def has_shares?
-    @has_shares ||= verses.count > 0 or recipes.count > 0 or pictures.count > 0
-  end
-  
-  def has_notes?
-    @has_notes ||= notes.count > 0
-  end
-  
-  def has_groups?
-    @has_groups ||= groups.count > 0
-  end
-
-  def has_services?
-    @has_services ||= services.count > 0
-  end
-  
   def access_attributes
     self.attributes.keys.grep(/_access$/).reject { |a| a == 'full_access' }
   end
