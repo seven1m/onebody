@@ -10,7 +10,7 @@
   <% end %>
   <% unless me? %>
     <%= render :partial => 'friendship' %>
-    <% if @person.email.to_s.any? and @person.messages_enabled %>
+    <% if @person.messages_enabled? %>
       <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'icon') + ' Private Message', new_message_path(:to_person_id => @person) %></li>
     <% end %>
     <% if @logged_in.can_sync_remotely? %>
@@ -52,15 +52,13 @@
 <%= render :partial => 'map' %>
 
 <% if me? %>
-  <div id="recently-container">
-    <div id="recently_content"></div>
-  </div>
+  <div id="recently-container"><div id="recently_content"></div></div>
 <% end %>
 
 <h1>
   <%=h @person.name %>
   <% if @logged_in.can_edit? @person %>
-    <%= link_to 'edit', edit_person_path(@person), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+    <%= link_to 'edit', edit_person_path(@person), :class => 'discreet' %>
   <% end %>
 </h1>
 
@@ -70,21 +68,22 @@
 
 <%= render :partial => 'details' %>
 
-<% if not @person.messages_enabled? or @person.email.to_s.empty? %>
-  <p style="font-style:italic;">
-    Private messaging is not enabled for <%=h @person.first_name %>.
-  </p>
+<% unless @person.messages_enabled? %>
+  <p><em>Private messaging is not enabled for <%=h @person.first_name %>.</em></p>
 <% end %>
 
 <h2 class="profile" id="about">About</h2>
 <div id="about_content">
   <% if @person.about.to_s.any? %>
     <%= preserve_breaks @person.about %>
-  <% elsif me? %>
-    <em>Write something <%= link_to 'about yourself', edit_person_path(@person, :anchor => 'about') %>.</em>
+  <% else %>
+    <% if me? %>
+      <p><em>Write something <%= link_to 'about yourself', edit_person_path(@person, :anchor => 'about') %>.</em></p>
+    <% else %>
+      <p><em>Nothing here yet!</em></p>
+    <% end %>
   <% end %>
 </div>
-
 
 <% if @person.testimony.to_s.any? %>
   <h2 class="profile" id="testimony">Testimony</h2>
@@ -103,41 +102,7 @@
 
 <h2 class="profile" id="favorites">Favorites</h2>
 <div id="favorites_content">
-  <table>
-    <% if @person.activities.to_s.any? %>
-      <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
-    <% end %>
-    <% if @person.interests.to_s.any? %>
-      <tr><td>Interests:</td><td><%= linkify @person.interests, :interests %></td></tr>
-    <% end %>
-    <% if @person.music.to_s.any? %>
-      <tr><td>Music:</td><td><%= linkify @person.music, :music %></td></tr>
-    <% end %>
-    <% if @person.tv_shows.to_s.any? %>
-      <tr><td>TV Shows:</td><td><%= linkify @person.tv_shows, :tv_shows %></td></tr>
-    <% end %>
-    <% if @person.movies.to_s.any? %>
-      <tr><td>Movies:</td><td><%= linkify @person.movies, :movies %></td></tr>
-    <% end %>
-    <% if @person.books.to_s.any? %>
-      <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
-    <% end %>
-    <% if @person.quotes.to_s.any? %>
-      <tr>
-        <td>Quotes:</td>
-        <td>
-          <div style="<%= @person.quotes.to_s.length > 5000 ? 'height:300px;overflow:auto;' : '' %>">
-            <%= preserve_breaks @person.quotes %>
-          </div>
-        </td>
-      </tr>
-    <% end %>
-  </table>
-  
-  <% unless has_favs = (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) or !me? %>
-    <p><em>Tell about your favorite interests, music, movies, and more
-      <%= link_to 'here', edit_person_path(@person, :anchor => 'favorites') %>.</em></p>
-  <% end %>
+  <%= render :partial => 'favorites' %>
 </div>
 
 <% if @person.wall_enabled? %>
@@ -147,62 +112,17 @@
   </div>
 <% end %>
 
-<% unless me? %>
+<% if me? %>
   <script type="text/javascript">
-  //<![CDATA[
-    function remove_section(name) {
-      Element.remove(name);
-      Element.remove(name + '_content');
-    }
-    <% unless !me? or @person.friendships.count > 0 %>remove_section('recently');<% end %>
-    <% unless @person.about.to_s.any? %>remove_section('about');<% end %>
-    <% unless @person.testimony.to_s.any? %>remove_section('testimony');<% end %>
-    <% unless @person.blog_items_count > 0 %>remove_section('blog');<% end %>
-    <% unless has_favs %>remove_section('favorites');<% end %>
-  //]]>
+    // load activity box (recently)
+    new Ajax.Updater(
+      'recently_content',
+      '<%= feed_path %>',
+      {method: 'get', onLoading:function(){$('recently_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
+    );
   </script>
 <% end %>
 
-<%= javascript_include_tag 'tabs' %>
-<%= stylesheet_link_tag 'tabs' %>
-<style type="text/css">
-  div.section { border-style: solid none none none; }
-</style>
-<script type="text/javascript">
-//<![CDATA[
-  // load recently TODO change this
-  new Ajax.Updater(
-    'recently_content',
-    '<%= feed_path %>',
-    {method: 'get', onLoading:function(){$('recently_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
-  );
-//]]>
-</script>
-
 <% if @show_map %>
-  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= Setting.get(:services, :yahoo) %>"></script>
-  <script type="text/javascript">
-    var address = <%= @person.family.mapable_address.inspect %>;
-    map_loaded = false;
-    function load_map() {
-      if(map_loaded) return;
-      map_loaded = true;
-      var ba = new YGeoPoint(36.06,-95.830);
-      var crcc = new YGeoPoint(36.0175,-95.84025);
-      var map = new YMap($('map'));
-      map.drawZoomAndCenter(address, 6);
-      map.addZoomLong();
-      map.setMapType(YAHOO_MAP_REG);
-      var img = new YImage();
-      img.src = '/images/map_marker.gif';
-      img.size = new YSize(16, 28);
-      var marker = new YMarker(address, img);
-      map.addOverlay(marker);
-      map.addTypeControl();
-      //map.panToLatLon(address);
-      map.disableKeyControls();
-    }
-    Element.show('map-container')
-    onload = load_map;
-  </script>
+  <%= render :partial => 'map_scripts' %>
 <% end %>

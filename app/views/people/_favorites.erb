@@ -1,0 +1,40 @@
+<table>
+  <% if @person.activities.to_s.any? %>
+    <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>
+  <% end %>
+  <% if @person.interests.to_s.any? %>
+    <tr><td>Interests:</td><td><%= linkify @person.interests, :interests %></td></tr>
+  <% end %>
+  <% if @person.music.to_s.any? %>
+    <tr><td>Music:</td><td><%= linkify @person.music, :music %></td></tr>
+  <% end %>
+  <% if @person.tv_shows.to_s.any? %>
+    <tr><td>TV Shows:</td><td><%= linkify @person.tv_shows, :tv_shows %></td></tr>
+  <% end %>
+  <% if @person.movies.to_s.any? %>
+    <tr><td>Movies:</td><td><%= linkify @person.movies, :movies %></td></tr>
+  <% end %>
+  <% if @person.books.to_s.any? %>
+    <tr><td>Books:</td><td><%= linkify @person.books, :books %></td></tr>
+  <% end %>
+  <% if @person.quotes.to_s.any? %>
+    <tr>
+      <td>Quotes:</td>
+      <td>
+        <div style="<%= @person.quotes.to_s.length > 5000 ? 'height:300px;overflow:auto;' : '' %>">
+          <%= preserve_breaks @person.quotes %>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<% unless (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
+  <% if me? %>
+    <p><em>Tell about your favorite interests, music, movies, and more
+      <%= link_to 'here', edit_person_path(@person, :anchor => 'favorites') %>.</em></p>
+  <% else %>
+    <p><em>Nothing yet!</em></p>
+  <% end %>
+<% end %>
+

@@ -308,6 +308,10 @@ class Person < ActiveRecord::Base
     read_attribute(:full_access) or admin? or staff? or elder? or deacon?
   end
   
+  def messages_enabled?
+    read_attribute(:messages_enabled) and email.to_s.any?
+  end
+  
   def member_of?(group)
     memberships.find_by_group_id(group.id)
   end

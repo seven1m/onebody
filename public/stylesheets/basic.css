@@ -9,7 +9,7 @@ label.inline { display: inline; }
     background-color: transparent;
     vertical-align: middle;
 }
-.discreet { text-decoration: none; }
+.discreet { font-size: 10pt; color: #999; text-decoration: none; }
 .warning { background-color: #fcc; }
 .very-strong { color: red; font-weight: bold; }
 .handle {
