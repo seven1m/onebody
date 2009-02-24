@@ -3,6 +3,7 @@ class SimplifyPeopleGenders < ActiveRecord::Migration
     change_table :people do |t|
       t.boolean :child
     end
+    Person.reset_column_information
     Site.each do
       Person.all(:conditions => "gender in ('boy', 'Boy', 'girl', 'Girl')").each { |p| p.update_attribute(:child, true) }
       Person.update_all("gender = 'Male'",   "gender in ('m', 'male',   'man',   'Man',   'boy',  'Boy' )")

@@ -311,7 +311,8 @@ class Person < ActiveRecord::Base
   end
   
   def at_least?(age) # assumes you won't pass in anything over 18
-    y = years_of_age and y >= age or child == false
+    y = years_of_age and y >= age or (respond_to?(:child) ? child == false : %w(male female).include?(gender.to_s.downcase))
+                # 0.9.0 TODO: change ^ this to read simply "child == false"
   end
   
   def age
