@@ -103,7 +103,7 @@
 		</div>
 	</div>
 	
-	<% unless @logged_in.nil? or RAILS_ENV != 'production' %>
+  <% if @logged_in %>
     <script type="text/javascript" src="/news.js"></script>
   <% end %>
   
