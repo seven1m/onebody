@@ -17,6 +17,14 @@
   </div>
 <% end %>
 
+<% if Setting.get(:features, :publications) %>
+  <div class="share-box">
+    <h2><%= link_to 'Publications' + image_tag('next.gif', :alt => 'Publications', :class => 'icon'), publications_path %></h2>
+    <%= render :partial => 'publications/list' %>
+    <p><%= link_to 'Click here', publications_path %> for more details and to sign up for updates.</p>
+  </div>
+<% end %>
+
 <% if Setting.get(:features, :verses) %>
   <div class="share-box">
     <h2><%= link_to 'Verses' + image_tag('next.gif', :alt => 'Verses', :class => 'icon'), verses_path %></h2>
@@ -38,14 +46,6 @@
       <p><em>No recipes yet... Add some!</em></p>
     <% end %>
     <p><%= link_to 'Click here', recipes_path %> to see more and to share your own favorite recipes.</p>
-  </div>
-<% end %>
-  
-<% if Setting.get(:features, :publications) %>
-  <div class="share-box">
-    <h2><%= link_to 'Publications' + image_tag('next.gif', :alt => 'Publications', :class => 'icon'), publications_path %></h2>
-    <%= render :partial => 'publications/list' %>
-    <p><%= link_to 'Click here', publications_path %> for more details and to sign up for updates.</p>
   </div>
 <% end %>
 
