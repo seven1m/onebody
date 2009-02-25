@@ -4,6 +4,11 @@ OneBody Changelog
 0.8.0 / March, 2009
 -------------------
 
+**Upgrade Note:** Database migrations have been rolled up from previous releases; you must first upgrade
+to version 0.7.8 and run all database migrations before upgrading to this release.
+
+**Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
+
 * Upgrade to Rails 2.2.2
 * Improve performance of profile page by eliminating/consolidating sql queries and making use of MySQL indices.
 * Simplify person gender to only use Male/Female/nil.

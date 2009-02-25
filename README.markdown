@@ -22,10 +22,19 @@ Up And Running
     rake onebody:new_user # or rake onebody:load_sample_data
     script/server # browse to http://localhost:3000
 
+Installation/Upgrade
+--------------------
+
+See [InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody) instructions.
+
+If upgrading from a previous release, be sure to check the CHANGELOG for any release-specific notes/instructions.
+
+
 More Information
 ----------------
 
-* [Wiki](http://github.com/seven1m/onebody/wikis)
+* [Wiki](http://wiki.github.com/seven1m/onebody)
+* [Blog](http://onebodyapp.wordpress.com)
 * [Google Group](http://groups.google.com/group/onebodyapp)
 
 Copyright
@@ -33,4 +42,4 @@ Copyright
 
 Copyright (C) 2008-2009, [Tim Morgan](http://timmorgan.org)
 
-Please see the license file provided with this program.
+Please see the license file provided with this software.
