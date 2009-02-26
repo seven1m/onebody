@@ -107,6 +107,17 @@ code {
 	padding: 1px;
 }
 
+#subheading {
+  float: left;
+  clear: left;
+  font-size: 10pt;
+  margin-left: 5px;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  width: 300px;
+  white-space: nowrap;
+}
+
 .verse {
   margin-bottom: 15px;
 }

@@ -1,0 +1,33 @@
+<h1>Custom Theme</h1>
+
+<p>
+  If your handy with HTML and such, you can tweak your site's look by editing your custom theme below.
+  Upload assets, e.g. images, CSS, etc., by clicking the "Manage Assets" link.
+  <strong>Changes are not seen by your visitors until you enable the custom theme in
+  <%= link_to 'settings', administration_settings_path %>.
+</p>
+
+<h2>Preview</h2>
+
+<iframe src="<%= person_path(@logged_in, :theme => 'custom') %>" width="100%" height="500" style="border:5px solid black;"></iframe>
+
+<h2>Edit</h2>
+
+<p><%= link_to 'Manage Assets', administration_files_path %></p>
+
+<% form_tag(administration_theme_path, :method => :put) do %>
+  <p>
+    <%= text_area_tag :theme, @theme, :rows => 100, :cols => 100, :style => 'width:90%;height:500px;font-family:monospace;color:#333;' %>
+  </p>
+  <p>
+    <%= submit_tag 'Save Changes and Preview' %>
+    <span class="discreet">To reset your custom theme back to its default look, blank out the text
+    box above and save changes.</span>
+  </p>
+  <p>
+    Preview any page with your custom theme by appending
+    <code>?theme=custom</code> to the end of its URL, like <%= link_to 'this', person_path(@logged_in, :theme => 'custom') %>.
+    <strong>If you lock yourself out of your site by building a bad custom theme, use <code>?theme=aqueouslight</code>
+    to get back in and disable it.</strong>
+  </p>
+<% end %>

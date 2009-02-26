@@ -20,6 +20,9 @@ class Administration::SettingsController < ApplicationController
       value = value.split(/\n/) if value and setting.format == 'list'
       value = value == '' ? nil : value
       setting.update_attributes! :value => value
+      if setting.section == 'Appearance' and setting.name == 'Theme' and value == 'custom'
+        FileUtils.mkdir_p("#{Rails.root}/themes/custom/site#{Site.current.id}")
+      end
     end
     Setting.precache_settings(true)
     expire_fragment(%r{views/})

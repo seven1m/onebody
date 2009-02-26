@@ -23,54 +23,56 @@
 <div id="wrapper">
 <div id="innerwrapper">
 
-		<div id="header">
-		
-		  {% if logged_in %}
-		    <form action="/search" method="GET">
-			    Type a name and hit enter:<br/>
-				  <input name="name" id="search_name" value="People Search" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
-			  </form>
-		  {% endif %}
-				
-			<h1>{{ heading }}</h1>
+    <div id="header">
+    
+      {% if logged_in %}
+        <form action="/search" method="GET">
+          Type a name and hit enter:<br/>
+          <input name="name" id="search_name" value="People Search"
+            onfocus="if(this.value == 'People Search') this.value = ''"
+            onblur="if(this.value == '') this.value = 'People Search'"/>
+        </form>
+      {% endif %}
+        
+      <h1>{{ heading }}</h1>
 
-			{% if show_subheading %}
-        <div style="float:left;clear:left;font-size:10pt;margin-left:5px;margin-top:-10px;margin-bottom:5px;width:300px;white-space:nowrap;">
+      {% if show_subheading %}
+        <div id="subheading">
           {{ subheading }}
         </div>
       {% endif %}
         
-			<ul id="nav">
-			  {{ personal_nav_links }}
-			  {{ nav_links }}  
-			</ul>
-			
-			{% if content_for_subnav %}
-			  <div id="subnav">
+      <ul id="nav">
+        {{ personal_nav_links }}
+        {{ nav_links }}  
+      </ul>
+      
+      {% if content_for_subnav %}
+        <div id="subnav">
           {{ content_for_subnav }}
         </div>
       {% endif %}
-		</div>
-		
-		{{ notice }}
+    </div>
+    
+    {{ notice }}
 
-		{% if content_for_sidebar %}
-  		<div id="sidebar">
-    		{{ content_for_sidebar }}
-		  </div>
-		{% endif %}
-				
-		<div id="contentnorightbar" {% unless content_for_sidebar %}style="margin-left:0px;padding-left:0px;"{% endunless %}>
-		  {{ content_for_layout }}
-		</div>
-		
-		<div id="footer">
+    {% if content_for_sidebar %}
+      <div id="sidebar">
+        {{ content_for_sidebar }}
+      </div>
+    {% endif %}
+        
+    <div id="contentnorightbar" {% unless content_for_sidebar %}style="margin-left:0px;padding-left:0px;"{% endunless %}>
+      {{ content_for_layout }}
+    </div>
+    
+    <div id="footer">
       &copy; {{ copyright_year }}, {{ church_name }} |
       <a href="/pages/help/privacy_policy">Privacy Policy</a> |
       <a href="/pages/system/credits">Credits</a> |
       Powered by <a href="http://beonebody.org">OneBody</a>
-		</div>
-		
+    </div>
+    
 </div>
 </div>
 
