@@ -10,6 +10,7 @@ to version 0.7.8 and run all database migrations before upgrading to this releas
 **Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
 
 * Upgrade to Rails 2.2.2
+* New custom theme editing and asset management.
 * Improve performance of profile page by eliminating/consolidating sql queries and making use of MySQL indices.
 * Simplify person gender to only use Male/Female/nil.
 * Improve performance by storing settings in a global instead of class variable.
