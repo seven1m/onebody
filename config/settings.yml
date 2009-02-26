@@ -149,11 +149,6 @@ Services:
     value: 
     description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
     global: true
-  Amazon: 
-    format: string
-    value: 
-    description: Your Amazon AWS Access Identifier - http://www.amazon.com/gp/browse.html?node=3435361
-    global: true
   Analytics: 
     format: string
     value: 
