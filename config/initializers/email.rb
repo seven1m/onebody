@@ -1,22 +1,4 @@
-unless Rails.env == 'test'
-  begin
-    settings = {
-      :address        => Setting.get(:email, :host),
-      :port           => 25,
-      :domain         => Setting.get(:email, :domain)
-    }
-    if Setting.get(:email, :authentication_required)
-      settings.merge!({
-        :authentication => :login,
-        :user_name      => Setting.get(:email, :smtp_username),
-        :password       => Setting.get(:email, :smtp_password)
-      })
-    end
-    ActionMailer::Base.smtp_settings = settings
-  rescue
-    puts 'Error reading settings for smtp connection setup (OK if running setup).'
-  end
-end
+ActionMailer::Base.smtp_settings = YAML::load_file(File.dirname(__FILE__) + '/../email.yml')[Rails.env]['smtp'] rescue nil
 
 unless defined? VALID_EMAIL_ADDRESS
   VALID_EMAIL_ADDRESS = /^[a-z\-_0-9\.%]+\@[a-z\-0-9\.]+\.[a-z\-]{2,4}$/i

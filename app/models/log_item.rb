@@ -147,7 +147,7 @@ class LogItem < ActiveRecord::Base
     end
     
   class << self
-    def flag_suspicious_activity(since=nil)
+    def flag_suspicious_activity(since='1 hour')
       conditions = ["loggable_type in ('Message', 'Comment')"]
       if since
         since = Time.now - since.days       if since.is_a?(Fixnum)

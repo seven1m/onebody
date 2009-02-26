@@ -225,40 +225,6 @@ Formats:
     format: string
     value: "%m/%d"
     description: Format for displaying date without a year, e.g. birthdays.
-Email: 
-  SMTP Username: 
-    format: string
-    value: 
-    description: SMTP Username to use if authentication is required
-    global: true
-  Authentication Required: 
-    format: boolean
-    value: false
-    description: Authentication Required for SMTP
-    global: true
-  Domain: 
-    format: string
-    value: imaginaryfamily.com
-    description: Domain name for your SMTP email server
-    global: true
-  Username: 
-    format: string
-    value: 
-    description: Username for POP email download
-  Password: 
-    format: password
-    value: 
-    description: Password for POP email download
-  SMTP Password: 
-    format: password
-    value: 
-    description: SMTP Password to use if authentication is required
-    global: true
-  Host: 
-    format: string
-    value: localhost
-    description: Hostname of your SMTP server
-    global: true
 Appearance: 
   Logo: 
     format: string

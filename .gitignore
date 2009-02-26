@@ -9,6 +9,7 @@ setup-secret
 config/database.yml
 config/database.yml.backup
 config/deploy.rb
+config/email.yml
 plugins/checkin/enable
 public/images/cedarridge
 public/javascripts/cedarridge
