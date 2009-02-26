@@ -1,0 +1,33 @@
+<h1>Assets</h1>
+
+<p>
+  <%= link_to '&laquo; back to theme editor', administration_theme_path %>
+</p>
+
+<table>
+  <tr><th>Filename</th><th>Size</th></tr>
+  <% @files.each do |file| %>
+    <tr>
+      <td><%= link_to h(file[:filename]), file[:url] %></td>
+      <td><%= number_to_human_size file[:size] %></td>
+      <td><%= link_to 'delete', administration_file_path(file[:filename]), :method => :delete, :confirm => 'Are you sure?', :class => 'discreet' %></td>
+    </tr>
+  <% end %>
+  <% if @files.empty? %>
+    <tr><td colspan="2"><em>No files yet.</em></td></tr>
+  <% end %>
+</table>
+
+<% form_tag(administration_files_path, :method => :post, :multipart => true) do %>
+  <p>
+    Upload a new file:<br/>
+    <%= file_field_tag :file %>
+  </p>
+  <p>
+    Enter a filename (can only contain a-z, underscore, and period):<br/>
+    <%= text_field_tag :filename %>
+  </p>
+  <p>
+    <%= submit_tag 'Upload File' %>
+  </p>
+<% end %>

@@ -21,7 +21,7 @@ module ApplicationHelper
       html = simple_url(Setting.get(:url, :visitor))
     end
     if Setting.get(:name, :slogan).to_s.any?
-      html << "| <span id=\"news_headlines\" style=\"position:relative;background-color:#fff;\">#{h Setting.get(:name, :slogan)}</span>"
+      html << " | <span id=\"news_headlines\" style=\"position:relative;background-color:#fff;\">#{h Setting.get(:name, :slogan)}</span>"
     end
     html
   end
@@ -75,13 +75,13 @@ module ApplicationHelper
   end
   
   def news_js
-    unless @logged_in.nil? or Rails.production?
+    unless @logged_in.nil?
       "<script type=\"text/javascript\" src=\"/news.js\"></script>"
     end
   end
   
   def analytics_js
-    if Rails.production?
+    if Rails.env.production?
       Setting.get(:services, :analytics)
     end
   end

@@ -1,4 +1,5 @@
 class Administration::LogosController < ApplicationController
+  before_filter :only_admins
   
   def show
     @filename = Setting.get(:appearance, :logo)

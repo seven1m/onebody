@@ -1,14 +1,5 @@
-#require 'liquid'
 require 'extras/liquid_view'
 
-
-
-# LiquidView is a action view extension class. You can register it with rails
-# and use liquid as an template system for .liquid files
-#
-# Example
-# 
-#   ActionView::Base::register_template_handler :liquid, LiquidView
 class LiquidView            
 
   include ApplicationHelper
@@ -40,13 +31,13 @@ class LiquidView
     end
     assigns.merge!(local_assigns)
     
-    #include @action_view.controller.master_helper_module
-    
     @action_view.controller.master_helper_module.instance_methods.each do |method|
       assigns[method] = Proc.new { @action_view.send(method) }
     end
     
-    puts assigns.keys
+    @action_view.instance_variables.each do |name|
+      assigns[name.sub('@', '')] = @action_view.instance_eval(name)
+    end
     
     liquid = Liquid::Template.parse(source)
     liquid.render(assigns, :registers => {:action_view => @action_view, :controller => @action_view.controller})

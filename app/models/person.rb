@@ -483,6 +483,8 @@ class Person < ActiveRecord::Base
     end
   end
   
+  def to_liquid; inspect; end  
+  
   alias_method :destroy_for_real, :destroy
   def destroy
     self.update_attributes!(:deleted => true)
@@ -490,7 +492,7 @@ class Person < ActiveRecord::Base
   
   def self.business_categories
     find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' order by business_category").map { |p| p.business_category }
-  end  
+  end
 
   # model extensions
   Dir[Rails.root + '/app/models/person/*.rb'].each do |ext|

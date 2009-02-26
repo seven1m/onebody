@@ -60,7 +60,7 @@
 		  </div>
 		{% endif %}
 				
-		<div id="contentnorightbar" {% if !content_for_sidebar %}style="margin-left:0px;padding-left:0px;"{% endif %}>
+		<div id="contentnorightbar" {% unless content_for_sidebar %}style="margin-left:0px;padding-left:0px;"{% endunless %}>
 		  {{ content_for_layout }}
 		</div>
 		

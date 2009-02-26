@@ -87,6 +87,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :log_items, :collection => {:batch => :put}
     admin.resources :settings, :collection => {:batch => :put}
     admin.resources :scheduled_tasks
+    admin.resources :files, :requirements => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
+    admin.resource :theme
   end
   
   ActionController::Routing::Routes.draw_plugin_routes rescue nil
