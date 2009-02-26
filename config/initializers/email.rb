@@ -1,4 +1,12 @@
-ActionMailer::Base.smtp_settings = YAML::load_file(File.dirname(__FILE__) + '/../email.yml')[Rails.env]['smtp'] rescue nil
+begin
+  settings = YAML::load_file(File.dirname(__FILE__) + '/../email.yml')[Rails.env]['smtp']
+rescue
+  puts 'No email.yml config found for this environment.'
+else
+  settings.symbolize_keys!
+  settings[:authentication] = settings[:authentication].to_sym if settings[:authentication]
+  ActionMailer::Base.smtp_settings = settings rescue nil
+end
 
 unless defined? VALID_EMAIL_ADDRESS
   VALID_EMAIL_ADDRESS = /^[a-z\-_0-9\.%]+\@[a-z\-0-9\.]+\.[a-z\-]{2,4}$/i

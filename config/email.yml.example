@@ -11,9 +11,10 @@ production:
     username: onebody
     password: onebody
   smtp:
-    host: localhost
+    address: localhost
+    domain: example.com
     # probably not needed...
     #port: 25
-    #domain: example.com
-    #username: user_for_smtp_auth@example.com
+    #authentication: login
+    #user_name: user_for_smtp_auth@example.com
     #password: password_for_smtp_auth
