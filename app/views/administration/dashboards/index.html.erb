@@ -23,11 +23,6 @@
   
   <h2>System Pages</h2>
   <p>Some parts of the site are customizable by editing <%= link_to 'Pages', pages_path %>.</p>
-  
-  <% if Site.current.edit_tasks_enabled? %>
-    <h2>Scheduled Tasks</h2>
-    <p><%= link_to 'Edit scheduled tasks', administration_scheduled_tasks_path %> for this site.</p>
-  <% end %>
 <% end %>
 
 <% if @logged_in.admin?(:view_log) %>

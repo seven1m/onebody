@@ -83,17 +83,7 @@ class Site < ActiveRecord::Base
   end
   
   def add_tasks
-    return unless ScheduledTask.table_exists?
-    [
-      {:name => 'Update News Feed',         :command => 'NewsItem.update_from_feed',                  :interval => 'hourly'},
-      {:name => 'Update Group Memberships', :command => 'Group.update_memberships',                   :interval => 'hourly'},
-      {:name => 'Flag Suspicious Activity', :command => 'LogItem.flag_suspicious_activity("1 hour")', :interval => 'hourly'},
-      {:name     => 'Email Downloader',
-       :runner   => false,
-       :command  => 'RAILS_ROOT/script/inbox -e RAILS_ENV EMAIL_HOST EMAIL_USERNAME EMAIL_PASSWORD',
-       :interval => 'minutely',
-       :active   => false}
-    ].each { |t| self.scheduled_tasks.create!(t) unless self.scheduled_tasks.find_by_name(t[:name]) }
+    # TODO: no longer used - will be removed in 0.9.0
   end
   
   def add_pages

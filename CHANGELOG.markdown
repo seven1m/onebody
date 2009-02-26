@@ -9,7 +9,11 @@ to version 0.7.8 and run all database migrations before upgrading to this releas
 
 **Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
 
+**Upgrade Note:** Scheduler has been removed. For help setting up your crontab, visit
+[Crontab](http://wiki.github.com/seven1m/onebody/crontabsetup).
+
 * Upgrade to Rails 2.2.2
+* Remove Scheduler in favor of plain old crontab.
 * New custom theme editing and asset management.
 * Improve performance of profile page by eliminating/consolidating sql queries and making use of MySQL indices.
 * Simplify person gender to only use Male/Female/nil.
@@ -21,7 +25,6 @@ to version 0.7.8 and run all database migrations before upgrading to this releas
 * Simplify profile page look.
 * Improved search.
 * Groups now have pictures.
-* Speed up scheduler.
 * Speed up group memberships, especially linked groups and "parents-of" groups.
 * New group membership privacy controls.
 * Improve update submission process and interface.

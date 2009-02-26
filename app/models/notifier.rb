@@ -115,6 +115,14 @@ class Notifier < ActionMailer::Base
     body :person => person
   end
   
+  def printed_directory(person, file)
+    recipients "#{person.name} <#{person.email}>"
+    from Site.current.noreply_email
+    subject "#{Setting.get(:name, :site)} Directory"
+    body :person => person
+    attachment :content_type => 'application/pdf', :filename => 'directory.pdf', :body => file.read
+  end
+  
   def receive(email)
     sent_to = email.cc.to_a + email.to.to_a
     

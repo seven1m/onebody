@@ -108,5 +108,11 @@ class Person
     def generate_directory_pdf_to_file(filename, with_pictures=false)
       File.open(filename, 'wb') { |f| f.write(generate_directory_pdf(with_pictures)) }
     end
+    
+    def generate_and_email_directory_pdf(with_pictures=false)
+      filename = "#{Rails.root}/tmp/directory_for_user#{id}.pdf"
+      generate_directory_pdf_to_file(filename, with_pictures)
+      Notifier.deliver_printed_directory(self, File.open(filename))
+    end
   end
 end

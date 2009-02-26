@@ -1,34 +1,21 @@
 class PrintableDirectoriesController < ApplicationController
 
   before_filter :check_access
-  before_filter :check_scheduler, :only => 'new'
 
   def new
   end
   
   def create
-    unless @task = session[:directory_pdf_job]
-      @task = ScheduledTask.queue(
-        "Printed Directory for #{@logged_in.name} (#{@logged_in.id})",
-        "Person.find(#{@logged_in.id}).generate_directory_pdf_to_file('TASK_BASE_FILE_PATH.pdf', #{params[:with_pictures] ? 'true' : 'false'})"
-      )
-      session[:directory_pdf_job] = @task
+    if session[:directory_pdf_job].nil? or session[:directory_pdf_job] < 1.minute.ago
+      system("#{File.expand_path(Rails.root + '/script/runner')} -e #{Rails.env} \"Site.current = Site.find(#{Site.current.id}); Person.find(#{@logged_in.id}).generate_and_email_directory_pdf(#{params[:with_pictures] ? 'true' : 'false'})\" &")
+      session[:directory_pdf_job] = Time.now
+    else
+      render :text => "It seems a directory was already sent to you a little while ago. Please check your email (and your spam folder just in case).", :layout => true, :status => 401
     end
   end
   
   def show
-    if @task = session[:directory_pdf_job]
-      session[:directory_pdf_job] = nil
-      if @task.has_file?
-        send_data File.read(@task.file_path), :disposition => 'inline', :type => 'application/pdf', :filename => 'church_directory.pdf'
-        @task.destroy
-      else
-        flash[:warning] = 'There was an error locating your custom PDF.'
-        redirect_to new_printable_directory_path
-      end
-    else
-      redirect_to new_printable_directory_path
-    end
+    redirect_to new_printable_directory_path
   end
   
   private
