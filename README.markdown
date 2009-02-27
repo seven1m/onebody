@@ -23,7 +23,7 @@ and the sqlite3-ruby gem (`sudo gem install sqlite3-ruby`). Then:
 
     sudo rake gems:install
     rake db:migrate
-    rake onebody:new_user # or rake onebody:load_sample_data
+    rake onebody:load_sample_data # or rake onebody:new_user
     script/server
     # now browse to http://localhost:3000
 
