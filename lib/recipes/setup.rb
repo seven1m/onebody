@@ -44,5 +44,9 @@ namespace :deploy do
     pubkey = File.read(ENV['HOME'] + '/.ssh/id_rsa.pub')
     run "echo #{pubkey} >> ~/.ssh/authorized_keys"
   end
+  
+  task :crontab do
+    run "whenever -w"
+  end
 
 end
