@@ -9,8 +9,8 @@ to version 0.7.8 and run all database migrations before upgrading to this releas
 
 **Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
 
-**Upgrade Note:** Scheduler has been removed. For help setting up your crontab, visit
-[Crontab](http://wiki.github.com/seven1m/onebody/crontabsetup).
+**Upgrade Note:** Scheduler has been removed. Visit
+[CrontabSetup](http://wiki.github.com/seven1m/onebody/crontabsetup) for more information.
 
 * Upgrade to Rails 2.2.2
 * Remove Scheduler in favor of plain old crontab.
