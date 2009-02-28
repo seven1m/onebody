@@ -1,6 +1,6 @@
 # Learn more about this file: http://github.com/javan/whenever
 
-set :environment, 'production'
+set :environment, 'production_lite'
 
 every 1.hour, :at => 19 do
   runner 'Site.each { Group.update_memberships; NewsItem.update_from_feed; LogItem.flag_suspicious_activity }'
