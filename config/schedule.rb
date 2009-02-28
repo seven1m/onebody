@@ -3,7 +3,7 @@
 set :environment, 'production'
 
 every 1.hour, :at => 19 do
-  runner 'Group.update_memberships; NewsItem.update_from_feed; LogItem.flag_suspicious_activity'
+  runner 'Site.each { Group.update_memberships; NewsItem.update_from_feed; LogItem.flag_suspicious_activity }'
 end
 
 every 1.day, :at => '2:49 am' do
