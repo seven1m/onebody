@@ -34,7 +34,7 @@ class NewsItem < ActiveRecord::Base
           item.save
           active << item
         end
-        NewsItem.update_all("active = 0", "id not in (#{active.map { |n| n.id }.join(',')})")
+        NewsItem.update_all("active = 0", "id not in (#{active.map { |n| n.id }.join(',')})") if active.any?
       end
     end  
     
