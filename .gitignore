@@ -12,6 +12,7 @@ config/deploy.rb
 config/email.yml
 plugins/checkin/enable
 public/images/cedarridge
+public/images/logo*
 public/javascripts/cedarridge
 public/stylesheets/cedarridge
 test/fixtures/settings.yml
