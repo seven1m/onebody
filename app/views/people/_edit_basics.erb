@@ -42,10 +42,16 @@
       </fieldset>
       <fieldset>
         <legend>Visibility</legend>
-        <%= form.check_box :can_sign_in %>                  <%= form.label :can_sign_in,                  nil, :class => 'inline' %><br/>
-        <%= form.check_box :visible_to_everyone %>          <%= form.label :visible_to_everyone,          nil, :class => 'inline' %><br/>
-        <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, nil, :class => 'inline' %><br/>
-        <%= form.check_box :full_access %>                  <%= form.label :full_access,                  nil, :class => 'inline' %>
+        <% unless @person.consent_or_13? %>
+          <em>This person is believed to be less than 13 years of age, and does not have parental consent.</em>
+          <br/>
+        <% end %>
+        <% content_tag :span, :style => @person.consent_or_13? ? nil : 'text-decoration:line-through;' do %>
+          <%= form.check_box :can_sign_in %>                  <%= form.label :can_sign_in,                  nil, :class => 'inline' %><br/>
+          <%= form.check_box :visible_to_everyone %>          <%= form.label :visible_to_everyone,          nil, :class => 'inline' %><br/>
+          <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, nil, :class => 'inline' %><br/>
+          <%= form.check_box :full_access %>                  <%= form.label :full_access,                  nil, :class => 'inline' %>
+        <% end %>
       </fieldset>
      <% if Setting.get(:features, :edit_legacy_ids) %> 
       <fieldset>
