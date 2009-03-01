@@ -21,6 +21,7 @@ Rails::Initializer.run do |config|
   config.gem 'mini_magick'
   config.gem 'twitter'
   config.gem 'xmpp4r'
+  config.gem 'chronic' # needed for javan-whenever, which doesn't seem to declare it as a dependency
   config.gem 'javan-whenever',                  :source => 'http://gems.github.com', :lib => false
   config.gem 'seven1m-acts_as_scoped_globally', :source => 'http://gems.github.com', :lib => 'acts_as_scoped_globally'
   config.gem 'seven1m-acts_as_photo',           :source => 'http://gems.github.com', :lib => 'acts_as_photo'
