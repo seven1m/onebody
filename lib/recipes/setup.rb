@@ -36,17 +36,15 @@ namespace :deploy do
     put rb, "#{release_path}/config/initializers/links.rb"
     run "cp -r #{release_path}/public/* #{shared_path}/public/"
     run "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "if [ -e #{shared_path}/config/email.yml ]; then ln -sf #{shared_path}/config/email.yml #{release_path}/config/email.yml; fi"
     run "cd #{shared_path}/plugins && find -name enable -exec cp {} #{release_path}/plugins/{} \\;"
+    run "cd #{release_path} && whenever -w"
   end
   
   task :copy_ssh_key do
     run "mkdir -p ~/.ssh"
     pubkey = File.read(ENV['HOME'] + '/.ssh/id_rsa.pub')
     run "echo #{pubkey} >> ~/.ssh/authorized_keys"
-  end
-  
-  task :crontab do
-    run "whenever -w"
   end
 
 end
