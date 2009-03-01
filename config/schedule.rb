@@ -12,7 +12,7 @@ end
 
 if File.exist?('config/email.yml')
   every 1.minute do
-    settings = YAML::load_file('config/email.yml')[@environment.to_s]['pop']
+    settings = YAML::load_file('config/email.yml')['production']['pop']
     command "#{Rails.root}/script/inbox -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
   end
 end
