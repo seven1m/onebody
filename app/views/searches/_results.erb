@@ -7,7 +7,7 @@
     <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
       (not showing hidden people)
     <% end %>
-    <%= will_paginate @people %>
+    <%= will_paginate @people, :params => params %>
   </p>
 
   <% if @search.show_businesses %>
@@ -80,7 +80,7 @@
     <% end %>
   </table>
 
-  <%= will_paginate @people %>
+  <%= will_paginate @people, :params => params %>
 
 <% else %>
 
