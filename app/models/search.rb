@@ -37,6 +37,10 @@ class Search
     @conditions.add_condition ["people.business_category = ?", cat] if cat
   end
   
+  def gender=(g)
+    @conditions.add_condition ["people.gender = ?", g] if g
+  end
+  
   def address=(addr)
     addr.symbolize_keys!.reject_blanks!
     @conditions.add_condition ["#{sql_lcase('families.city')} LIKE ?", "#{addr[:city].downcase}%"] if addr[:city]
@@ -126,12 +130,13 @@ class Search
     search.name = params[:name] || params[:quick_name]
     search.family_name = params[:family_name]
     search.show_businesses = params[:business] || params[:businesses]
-    search.business_category= params[:category]
+    search.business_category = params[:category]
     search.testimony = params[:testimony]
     search.family_id = params[:family_id]
     search.show_hidden = params[:show_hidden]
     search.birthday = {:month => params[:birthday_month], :day => params[:birthday_day]}
     search.anniversary = {:month => params[:anniversary_month], :day => params[:anniversary_day]}
+    search.gender = params[:gender]
     search.address = params.reject { |k, v| not %w(city state zip).include? k }
     search.type = params[:type]
     search.favorites = params.reject { |k, v| not %w(activities interests music tv_shows movies books).include? k }
