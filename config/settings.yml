@@ -4,6 +4,7 @@ Contact:
     format: string
     value: admin@example.com
     description: Email to contact for technical help with the site.
+    global: true
   Church Email: 
     format: string
     value: info@imaginarychurch.com
