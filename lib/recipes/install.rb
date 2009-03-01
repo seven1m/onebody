@@ -104,6 +104,7 @@ namespace :deploy do
       sudo 'echo'
       run "cd #{release_path}; sudo rake gems:install"
     end
+    after 'deploy:update_code', 'deploy:install:dependencies'
 
   end
   
