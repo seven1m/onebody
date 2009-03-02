@@ -67,7 +67,9 @@
   <%= form.label :last_name %>    <%= form.text_field :last_name %><br/>
   <%= form.label :suffix %>       <%= form.select :suffix, [nil]+Setting.get(:system, :suffixes) %><br/>
   <%= form.label :gender %>       <%= form.select :gender, [nil, 'Male', 'Female'] %><br/>
-  <%= form.label :child %>        <%= form.check_box :child %><br/>
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <%= form.label :child %>      <%= form.check_box :child %><br/>  
+  <% end %>
   <%= form.label :email %>        <%= form.text_field :email %><br/>
   <%= form.label :mobile_phone %> <%= form.phone_field :mobile_phone %><br/>
   <%= form.label :work_phone %>   <%= form.phone_field :work_phone %><br/>
