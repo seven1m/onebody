@@ -17,9 +17,6 @@ label.inline { display: inline; }
 }
 
 .share-box {
-  width: 45%;
-  float: left;
-  margin-right: 20px;
 }
 
 .errorExplanation {
