@@ -6,11 +6,10 @@ namespace :deploy do
   end
   
   task(:start) do
-    puts "\nYou will need to manually start Apache."
+    run "touch #{current_path}/tmp/restart.txt"
   end
   
   task(:stop) do
-    puts "\nYou will need to manually stop Apache."
   end
   
 end

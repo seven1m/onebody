@@ -44,7 +44,6 @@ namespace :deploy do
         sudo "gem install -v=#{rails_version} rails --no-rdoc --no-ri"
       end
     end
-    after 'deploy:update_code', 'deploy:install:rails'
     
     desc 'Install Passenger'
     task :passenger, :roles => :web do
@@ -101,20 +100,19 @@ namespace :deploy do
     
     desc 'Install gem dependencies'
     task :dependencies, :roles => :web do
-      if run_and_return("cd #{release_path}; rake gems") =~ /^ \- \[ \]/
+      if run_and_return("cd #{release_path} && rake gems") =~ /^ \- \[ \]/
         sudo 'echo'
-        run "cd #{release_path}; sudo rake gems:install"
+        run "cd #{release_path} && sudo rake gems:install"
       end
     end
-    after 'deploy:update_code', 'deploy:install:dependencies'
 
   end
   
-  # reconfigure to install dependencies
   task :cold do
     update
+    find_and_execute_task('deploy:install:rails')
     find_and_execute_task('deploy:install:dependencies')
     migrate
-    start
+    restart
   end
 end
