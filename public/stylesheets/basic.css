@@ -333,3 +333,7 @@ div.autocomplete ul li {
 	padding-left: 5px;
 	padding-right: 5px;
 }
+
+#template-help code {
+	white-space: nowrap;
+}

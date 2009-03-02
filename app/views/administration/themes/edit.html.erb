@@ -1,10 +1,10 @@
 <h1>Custom Theme</h1>
 
 <p>
-  If your handy with HTML and such, you can tweak your site's look by editing your custom theme below.
-  Upload assets, e.g. images, CSS, etc., by clicking the "Manage Assets" link.
+  You can tweak your site's look by editing your custom theme below.
+  Upload assets, e.g. images, CSS, etc., by clicking "Manage Assets."
   <strong>Changes are not seen by your visitors until you enable the custom theme in
-  <%= link_to 'settings', administration_settings_path %>.
+  <%= link_to 'settings', administration_settings_path %>.</strong>
 </p>
 
 <h2>Preview</h2>
@@ -23,6 +23,15 @@
     <%= submit_tag 'Save Changes and Preview' %>
     <span class="discreet">To reset your custom theme back to its default look, blank out the text
     box above and save changes.</span>
+  </p>
+  <p id="template-help">
+    Template syntax is <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Special template parts to insert are:
+    <code>{{ site_name }}</code>, <code>{{ content_for_head }}</code>, <code>{{ banner_message }}</code>,
+    <code>{{ heading }}</code>, <code>{{ subheading }}</code>, <code>{{ personal_nav_links }}</code>,
+    <code>{{ nav_links }}</code>, <code>{{ content_for_subnav }}</code>, <code>{{ notice }}</code>,
+    <code>{{ content_for_sidebar }}</code>, <code>{{ content_for_layout }}</code>,
+    <code>{{ copyright_year }}</code>, <code>{{ church_name }}</code>, <code>{{ news_js }}</code>,
+    and <code>{{ analytics_js }}</code>.
   </p>
   <p>
     Preview any page with your custom theme by appending
