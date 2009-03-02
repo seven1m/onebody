@@ -187,7 +187,8 @@ ul.page-listing {
 
 .picture {
 	width: 160px;
-	height: 160px;
+	height: 190px;
+	margin-right: 15px;
 	text-align: center;
 	vertical-align: middle;
 	position: relative;
