@@ -404,6 +404,13 @@ class Person < ActiveRecord::Base
     write_attribute :api_key, ActiveSupport::SecureRandom.hex(50)[0...50]
   end
   
+  before_save :update_sequence
+  def update_sequence
+    if sequence.nil? or family.people.count('*', :conditions => ['id != ? and deleted = ? and sequence = ?', id, false, sequence]) > 0
+      self.sequence = family.people.maximum(:sequence, :conditions => ['deleted = ?', false]).to_i + 1
+    end
+  end
+  
   def update_from_params(params)
     if params[:photo_url] and params[:photo_url].length > 7 # not just "http://"
       self.photo = params[:photo_url]
@@ -414,7 +421,7 @@ class Person < ActiveRecord::Base
     elsif params[:person] and (BASICS.detect { |a| params[:person][a] } or params[:family])
       self.email = params[:person].delete(:email) # no 'update' necessary
       self.save if email_changed?
-      if Person.logged_in.admin?(:edit_profiles) or not Setting.get(:features, :updates_must_be_approved)
+      if Person.logged_in.can_edit_profile?
         params[:family] ||= {}
         params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]
         params[:person].cleanse(:birthday, :anniversary)
@@ -439,6 +446,10 @@ class Person < ActiveRecord::Base
     else
       self
     end
+  end
+  
+  def can_edit_profile?
+    admin?(:edit_profiles) or not Setting.get(:features, :updates_must_be_approved)
   end
   
   def suffix=(s)
