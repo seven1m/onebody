@@ -62,12 +62,15 @@ class PeopleController < ApplicationController
         defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
         unless params[:family_id].nil?
           @family = Family.find(params[:family_id])
+          number = @family.people.count('*', :conditions => ['deleted = ?', false])
           @person = Person.new(defaults.merge(:family_id => @family.id).merge(:last_name => @family.last_name))
         else
           @family_option = "new_family"
           @family = Family.new
+          number = 0
           @person = Person.new(defaults)
         end
+        @person.child = (number >= 2)
       else
         render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
       end
