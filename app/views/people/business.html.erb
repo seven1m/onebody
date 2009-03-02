@@ -9,7 +9,7 @@
 <div>
   <%= link_to 'Business Directory', search_path(:business => true) %> &raquo;
   <% if @person.business_category.to_s.any? %>
-    <%= link_to @person.business_category, search_path(:business => true, :category => @person.business_category) %> &raquo;
+    <%= link_to h(@person.business_category), search_path(:business => true, :category => @person.business_category) %> &raquo;
   <% end %>
 </div>
 <h1><%=h @person.business_name %></h1>
@@ -27,6 +27,6 @@
     <tr><td>Business Website:</td><td><%= link_to @person.business_website, @person.business_website %></td></tr>
   <% end %>
   <% if @person.business_address.to_s.any? %>
-    <tr><td>Business Address:</td><td><%= preserve_breaks @person.business_address %></td></tr>
+    <tr><td>Business Address:</td><td><%= @person.business_address.split(/\n/).map { |l| h(l) }.join('<br/>') %></td></tr>
   <% end %>
 </table>
