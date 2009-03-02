@@ -21,7 +21,7 @@ Rails::Initializer.run do |config|
   config.gem 'mini_magick'
   config.gem 'twitter'
   config.gem 'xmpp4r'
-  config.gem 'mislav-will_paginate',            :source => 'http://gems.github.com', :lib => 'will_paginate', :version => '2.3'
+  config.gem 'mislav-will_paginate',            :source => 'http://gems.github.com', :lib => 'will_paginate', :version => '~> 2.3.0'
   config.gem 'seven1m-acts_as_scoped_globally', :source => 'http://gems.github.com', :lib => 'acts_as_scoped_globally'
   config.gem 'seven1m-acts_as_photo',           :source => 'http://gems.github.com', :lib => 'acts_as_photo'
 end
