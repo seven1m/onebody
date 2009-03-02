@@ -100,10 +100,8 @@ namespace :deploy do
     
     desc 'Install gem dependencies'
     task :dependencies, :roles => :web do
-      if run_and_return("cd #{release_path} && rake gems") =~ /^ \- \[ \]/
-        sudo 'echo'
-        run "cd #{release_path} && sudo rake gems:install"
-      end
+      sudo 'echo'
+      run "cd #{release_path} && sudo rake gems:install"
     end
 
   end
