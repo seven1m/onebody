@@ -287,6 +287,7 @@ class Notifier < ActionMailer::Base
       (email.cc.to_a + email.to.to_a).each do |address|
         return Site.current if Site.current = Site.find_by_host(address.downcase.split('@').last)
       end
+      nil
     end
     
     def get_from_person(email)
