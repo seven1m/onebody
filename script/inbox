@@ -27,25 +27,21 @@ end
 RAILS_ENV = options[:environment]
 
 require 'net/pop'
-require File.dirname(__FILE__) + '/../config/environment'
-
-logger = RAILS_DEFAULT_LOGGER
-
-logger.info "Running Mail Importer..."
 
 Net::POP3.start(host, nil, username, password) do |pop|
-  if pop.mails.empty?
-    logger.info "NO MAIL" 
-  else
+  unless pop.mails.empty?
+    require File.dirname(__FILE__) + '/../config/environment'
+    logger = RAILS_DEFAULT_LOGGER
+    logger.info "Running Mail Importer..."
     pop.mails.each do |email|
       begin
         logger.info "receiving mail..." 
         Notifier.receive(email.pop)
         email.delete
       rescue Exception => e
-        logger.error "Error receiving email at " + Time.now.to_s + "::: " + e.message
+        logger.error "Error receiving email at " + Time.now.to_s + "::: " + e.message + "\n----\n" + e.backtrace.to_s
       end
     end
+    logger.info "Finished Mail Importer." 
   end
 end
-logger.info "Finished Mail Importer." 
