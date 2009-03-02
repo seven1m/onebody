@@ -1,10 +1,7 @@
 #!/usr/bin/env ruby
 
 # example:
-# script/inbox localhost username password
-
-# multisite example:
-# script/inbox -s "Site 1" localhost username password
+# script/inbox -e production localhost username password
 
 require 'optparse'
 options = {}
