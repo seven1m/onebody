@@ -1,38 +1,51 @@
 OneBody
 =======
 
-OneBody is web-based software that connects community members, especially churches, on the web.
+OneBody is web-based software that connects community members, especially churches, on the web. It runs on Ruby, Rails, and MySQL (or SQLite).
 
 Features
 --------
 
-* Membership Management | aka ChMS
-* Online Directory | search, print
-* Groups | email lists, attendance tracking
-* Social Networking | friends, favorites
-* Content Management System | page editing
+* Online Directory
+  * ajax live search
+  * save as pdf
+  * business directory
+* Groups
+  * full email lists (incoming and outgoing emai)
+  * pictures
+  * prayer requests, attendance tracking
+* Social Networking
+  * friends
+  * messaging
+  * favorites
+  * wall
+* Membership Management
+  * sync with external source
+  * import, export
+  * basic church management system with add, edit, delete
+* Content Management System
+  * visitor-facing website hosting
+  * custom theme
 
 ...and more.
 
-Up And Running
---------------
+Test Drive
+----------
+
+You can run OneBody on SQLite and load the sample data for testing...
 
 You'll first need [Ruby on Rails](http://rubyonrails.org/download),
 [ImageMagick](http://www.imagemagick.org/script/index.php),
 and the sqlite3-ruby gem (`sudo gem install sqlite3-ruby`). Then:
 
     sudo rake gems:install
-    rake db:migrate
-    rake onebody:load_sample_data # or rake onebody:new_user
+    rake db:migrate onebody:load_sample_data
     script/server
-    # now browse to http://localhost:3000
+    # visit http://localhost:3000
+    # admin user: admin@example.com and password "secret"
+    # normal user: user@example.com and password "secret"
 
-Installation/Upgrade
---------------------
-
-See [InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody) instructions.
-
-If upgrading from a previous release, be sure to check the CHANGELOG for any release-specific notes/instructions.
+See [InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody) for the full installation instructions.
 
 More Information
 ----------------
