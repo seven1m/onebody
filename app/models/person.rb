@@ -166,10 +166,10 @@ class Person < ActiveRecord::Base
         record.errors.add attribute, 'is invalid.' # cannot make yourself a super admin
       end
     elsif attribute.to_s == 'child' and y = record.years_of_age
-      if value == true and y >= 18
-        record.errors.add attribute, 'cannot be true because age is 18.'
-      elsif value == false and y < 18
-        record.errors.add attribute, 'cannot be false because age is less than 18.'
+      if value == true and y >= 13
+        record.errors.add attribute, 'cannot be true because age is 13.'
+      elsif value == false and y < 13
+        record.errors.add attribute, 'cannot be false because age is less than 13.'
       end
     end
   end
@@ -438,7 +438,7 @@ class Person < ActiveRecord::Base
   
   before_save :update_sequence
   def update_sequence
-    if sequence.nil? or family.people.count('*', :conditions => ['id != ? and deleted = ? and sequence = ?', id, false, sequence]) > 0
+    if family and (sequence.nil? or family.people.count('*', :conditions => ['id != ? and deleted = ? and sequence = ?', id, false, sequence]) > 0)
       self.sequence = family.people.maximum(:sequence, :conditions => ['deleted = ?', false]).to_i + 1
     end
   end

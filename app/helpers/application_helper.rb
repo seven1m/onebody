@@ -138,7 +138,8 @@ module ApplicationHelper
   end
   
   def custom_field_name(index)
-    Setting.get(:features, :custom_person_fields).to_a[index].sub(/\*/, '')
+    n = Setting.get(:features, :custom_person_fields).to_a[index]
+    n ? n.sub(/\*/, '') : nil
   end
   
   class << self
