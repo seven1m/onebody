@@ -57,16 +57,17 @@ module Forgeable
       attributes = forgery_defaults.merge(attributes)
       photo = attributes.delete(:photo)
       file = attributes.delete(:file)
-      fail_count = 0
       begin
         returning create!(attributes) do |obj|
           obj.forge_photo(photo) if photo
           obj.forge_file(file)   if file
         end
       rescue ActiveRecord::RecordInvalid => e
-        if e.message =~ /already (been )?taken/ and fail_count < 10
-          fail_count += 1
+        if e.message =~ /^Validation failed: (.+) has already been taken/
+          attributes[$1.downcase.to_sym] << 'a'
           retry
+        else
+          puts e.message
         end
       end
     end
