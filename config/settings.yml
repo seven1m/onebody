@@ -143,6 +143,10 @@ Features:
     format: boolean
     value: false
     description: If enabled, admin users can track indviduals' service in areas of the community.
+  Custom Person Type:
+    format: boolean
+    value: false
+    description: If enabled, admins can specify a custom type along the lines of Elder, Deacon, etc.
 Services: 
   Yahoo: 
     format: string

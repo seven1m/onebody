@@ -71,7 +71,13 @@ class Search
   end
   
   def type=(type)
-    @type = type.downcase if type and %w(member staff deacon elder).include? type.downcase
+    if type
+      if %w(member staff deacon elder).include?(type.downcase)
+        @type = type.downcase
+      else
+        @type = type if Person.custom_types.include?(type)
+      end
+    end
   end
   
   def query(page=nil, search_by=:person)
@@ -101,7 +107,13 @@ class Search
         @conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"]
       end
     end
-    @conditions.add_condition ["people.#{@type} = ?", true] if @type
+    if @type
+      if %w(member staff deacon elder).include?(@type)
+        @conditions.add_condition ["people.#{@type} = ?", true]
+      else
+        @conditions.add_condition ["people.custom_type = ?", @type]
+      end
+    end
     @count = Person.count :conditions => @conditions, :include => :family
     @people = Person.paginate(
       :all,

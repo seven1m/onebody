@@ -11,4 +11,7 @@
   <% if @person.member? %>
     <%= image_tag 'star.gif', :alt => 'Member', :class => 'icon' %> Member
   <% end %>
+  <% if Setting.get(:features, :custom_person_type) and @person.custom_type.to_s.any? %>
+    <%= image_tag 'staff.png', :alt => @person.custom_type, :class => 'icon' %> <%=h @person.custom_type %>
+  <% end %>
 </p>

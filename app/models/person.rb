@@ -510,6 +510,10 @@ class Person < ActiveRecord::Base
   def self.business_categories
     find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' order by business_category").map { |p| p.business_category }
   end
+  
+  def self.custom_types
+    find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' order by custom_type").map { |p| p.custom_type }
+  end
 
   # model extensions
   Dir[Rails.root + '/app/models/person/*.rb'].each do |ext|

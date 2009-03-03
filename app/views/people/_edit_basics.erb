@@ -39,6 +39,14 @@
         <%= form.check_box :staff %>  <%= form.label :staff,  nil, :class => 'inline' %><br/>
         <%= form.check_box :elder %>  <%= form.label :elder,  nil, :class => 'inline' %><br/>
         <%= form.check_box :deacon %> <%= form.label :deacon, nil, :class => 'inline' %>
+        <% if Setting.get(:features, :custom_person_type) %>
+          <br/>
+          <%= form.label :custom_type, 'Custom Type:', :class => 'inline' %>
+          <%= form.text_field :custom_type, :size => 10 %><div class="autocomplete" id="person_custom_type_auto_complete"></div>
+          <script type="text/javascript">
+            new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', 7, {});
+          </script>
+        <% end %>
       </fieldset>
       <fieldset>
         <legend>Visibility</legend>

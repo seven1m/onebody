@@ -34,7 +34,7 @@
   <label for="type">Type:</label>
   <select name="type" id="type">
     <option value="">All</option>
-    <%= options_for_select %w(Member Staff Deacon Elder), params[:type] %>
+    <%= options_for_select %w(Member Staff Deacon Elder) + (Setting.get(:features, :custom_person_type) ? Person.custom_types : []), params[:type] %>
   </select><br/>
   <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> Show Hidden
   <input type="submit" value="Search"/>
