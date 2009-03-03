@@ -39,7 +39,7 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.html
         if can_export?
-          @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || 50)
+          @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
           format.xml { render :xml =>  @groups.to_xml(:except => %w(site_id)) }
           format.csv { render :text => @groups.to_csv(:except => %w(site_id)) }
         end

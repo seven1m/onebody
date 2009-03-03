@@ -91,8 +91,12 @@
   <p><em>No updates!</em></p>
 <% end %>
 
-<% unless params[:complete] or @unapproved_groups.empty? %>
+<% if @logged_in.admin?(:manage_groups) %>
   <h2>Groups Pending Approval</h2>
-  <p>The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
-  pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, group_path(:id => g)) }.join(', ') %></p>
+  <% if not params[:complete] and @unapproved_groups.any? %>
+    <p>The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
+    pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, group_path(:id => g)) }.join(', ') %></p>
+  <% else %>
+    <p>None at this time.</p>
+  <% end %>
 <% end %>

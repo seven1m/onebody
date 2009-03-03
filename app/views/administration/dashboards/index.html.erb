@@ -1,39 +1,29 @@
-<% content_for :sidebar do %>
-  <% if @logged_in.admin?(:manage_access) %>
-    <%= render :partial => 'administrators' %>
+<% if @logged_in.super_admin? or @logged_in.admin?(:manage_access) %>
+  <% content_for :sidebar do %>
+    <% if @logged_in.admin?(:manage_access) %>
+      <%= render :partial => 'administrators' %>
+    <% end %>
+    <% if @logged_in.super_admin? %>
+      <h2>Customization</h2>
+      <ul style="list-style:none;">
+        <li><%= link_to 'Settings', administration_settings_path %></li>
+        <li><%= link_to 'Community Logo', administration_logo_path %></li>
+        <li><%= link_to 'Custom Theme', edit_administration_theme_path %></li>
+        <li><%= link_to 'Pages', pages_path %></li>
+      </ul>
+    <% end %>
   <% end %>
 <% end %>
 
-<h2>You</h2>
-
-<% if @logged_in.super_admin? %>
-  <p>You are a super administrator (configured in <%= link_to 'settings', administration_settings_path %>).</p>
-<% else %>
-  <p>You have been an administrator since <%= @logged_in.admin.created_at.to_time.to_s :date %>,
-    with the privileges: <%= @privileges.to_sentence %>.</p>
-<% end %>
-
-<% if @logged_in.super_admin? %>
-  <h2>Settings and Logo</h2>
-  <p><%= link_to 'Edit settings', administration_settings_path %> for this site.</p>
-  <p>Upload your community <%= link_to 'logo', administration_logo_path %>.</p>
-  
-  <h2>Custom Theme</h2>
-  <p>Edit/create your own <%= link_to 'custom theme', edit_administration_theme_path %> for this site.</p>
-  
-  <h2>System Pages</h2>
-  <p>Some parts of the site are customizable by editing <%= link_to 'Pages', pages_path %>.</p>
-<% end %>
-
-<% if @logged_in.admin?(:view_log) %>
-  <h2>Log</h2>
-  
-  <p <% if @flag_count > 0 %>class="very-strong"<% end %>>
-    <%= @flag_count %> flagged <%= @flag_count == 1 ? 'item' : 'items' %>
-  </p>
-  
-  <p><%= link_to 'Click here', administration_log_items_path %> to review the log.</p>
-<% end %>
+<p>
+  Welcome, <%=h @logged_in.name %>.
+  <% if @logged_in.super_admin? %>
+    You are a super administrator (configured in <%= link_to 'settings', administration_settings_path %>).
+  <% else %>
+    You have been an administrator since <%= @logged_in.admin.created_at.to_time.to_s :date %>.
+      You have the privileges: <%= @privileges.any? ? @privileges.to_sentence : 'none' %>.
+  <% end %>
+</p>
 
 <% if @logged_in.admin?(:manage_updates) %>
   <h2>Updates</h2>
@@ -63,6 +53,16 @@
   <p><%= link_to 'Click here', administration_membership_requests_path %> to review pending membership requests.</p>
 <% end %>
 
+<% if @logged_in.admin?(:view_log) %>
+  <h2>Log</h2>
+  
+  <p <% if @flag_count > 0 %>class="very-strong"<% end %>>
+    <%= @flag_count %> flagged <%= @flag_count == 1 ? 'item' : 'items' %>
+  </p>
+  
+  <p><%= link_to 'Click here', administration_log_items_path %> to review the log.</p>
+<% end %>
+
 <% if Site.current.import_export_enabled? %>
 
   <% if @logged_in.admin?(:import_data) %>
@@ -74,28 +74,28 @@
   <% if @logged_in.admin?(:export_data) %>
     <h2>Export Data</h2>
     
-    <% onclick = "page = prompt('Enter a page number. If there are 50 records or less, then all records will be retrieved with page 1.', '1'); if(page) this.href = this.href.replace(/page=\d+/, 'page='+page)" %>
     <table>
       <tr>
         <th>People</th>
-        <td><%= link_to 'XML', formatted_people_path('xml', :page => 1), :onclick => onclick %></td>
-        <td><%= link_to 'CSV', formatted_people_path('csv', :page => 1), :onclick => onclick %></td>
+        <td><%= link_to 'XML', formatted_people_path('xml', :page => 1) %></td>
+        <td><%= link_to 'CSV', formatted_people_path('csv', :page => 1) %></td>
       </tr>
       <tr>
         <th>Families</th>
-        <td><%= link_to 'XML', formatted_families_path('xml', :page => 1), :onclick => onclick %></td>
-        <td><%= link_to 'CSV', formatted_families_path('csv', :page => 1), :onclick => onclick %></td>
+        <td><%= link_to 'XML', formatted_families_path('xml', :page => 1) %></td>
+        <td><%= link_to 'CSV', formatted_families_path('csv', :page => 1) %></td>
       </tr>
       <% if Setting.get(:features, :groups) %>
         <tr>
           <th>Groups</th>
-          <td><%= link_to 'XML', formatted_groups_path('xml', :page => 1), :onclick => onclick %></td>
-          <td><%= link_to 'CSV', formatted_groups_path('csv', :page => 1), :onclick => onclick %></td>
+          <td><%= link_to 'XML', formatted_groups_path('xml', :page => 1) %></td>
+          <td><%= link_to 'CSV', formatted_groups_path('csv', :page => 1) %></td>
         </tr>
       <% end %>
     </table>
     <p>
-      Only 50 records will be exported at a time. If you have more than 50 records,
+      Only <%= MAX_EXPORT_AT_A_TIME %> records will be exported at a time.
+      If you have more than <%= MAX_EXPORT_AT_A_TIME %> records,
       you may append <code>?page=2</code> and so on to the export URL you click above.
     </p>
   <% end %>
