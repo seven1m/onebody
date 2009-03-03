@@ -134,7 +134,7 @@ class Person < ActiveRecord::Base
   acts_as_photo "#{DB_PHOTO_PATH}/people", PHOTO_SIZES
     
   acts_as_logger LogItem
-
+  
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
     LogItem.create :loggable_type => 'Person', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
@@ -192,6 +192,38 @@ class Person < ActiveRecord::Base
   
   def inspect
     "<#{name}>"
+  end
+  
+  serialize :custom_fields
+  
+  def custom_fields
+    (f = read_attribute(:custom_fields)).is_a?(Array) ? f : []
+  end
+  
+  def custom_fields=(values)
+    if values.nil?
+      write_attribute(:custom_fields, [])
+    else
+      existing_values = read_attribute(:custom_fields) || []
+      if values.is_a?(Hash)
+        values.each do |key, val|
+          existing_values[key.to_i] = typecast_custom_value(val, key.to_i)
+        end
+      else
+        values.each_with_index do |val, index|
+          existing_values[index] = typecast_custom_value(val, index)
+        end
+      end
+      write_attribute(:custom_fields, existing_values)
+    end
+  end
+  
+  def typecast_custom_value(val, index)
+    if Setting.get(:features, :custom_person_fields).to_a[index] =~ /[Dd]ate/
+      Date.parse(val.to_s) rescue nil
+    else
+      val
+    end
   end
   
   def birthday_soon?
@@ -412,6 +444,7 @@ class Person < ActiveRecord::Base
   end
   
   def update_from_params(params)
+    params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
     if params[:photo_url] and params[:photo_url].length > 7 # not just "http://"
       self.photo = params[:photo_url]
       'photo'

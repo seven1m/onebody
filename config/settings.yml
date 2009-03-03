@@ -147,6 +147,10 @@ Features:
     format: boolean
     value: false
     description: If enabled, admins can specify a custom type along the lines of Elder, Deacon, etc.
+  Custom Person Fields:
+    format: list
+    value:
+    description: Add custom field names, one per line. Including the word "date" (or "Date") makes a date field. Append an asterisk (*) to make the field visible and editable by users.
 Services: 
   Yahoo: 
     format: string

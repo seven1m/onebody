@@ -156,6 +156,41 @@ class PersonTest < Test::Unit::TestCase
     assert_equal '1234567890', people(:tim).reload.mobile_phone
   end
   
+  should "update custom_fields with a hash" do
+    people(:tim).custom_fields = {'0' => 'first', '2' => 'third'}
+    assert_equal ['first', nil, 'third'], people(:tim).custom_fields
+  end
+  
+  should "convert dates saved in custom_fields" do
+    Setting.set(1, 'Features', 'Custom Person Fields', ['Text', 'A Date'].join("\n"))
+    people(:tim).custom_fields = {'0' => 'first', '1' => 'March 1, 2012'}
+    assert_equal ['first', Date.new(2012, 3, 1)], people(:tim).custom_fields
+    Setting.set(1, 'Features', 'Custom Person Fields', '')
+  end
+  
+  should "update custom_fields with an array" do
+    people(:tim).custom_fields = ['first', nil, 'third']
+    assert_equal ['first', nil, 'third'], people(:tim).custom_fields
+  end
+  
+  should "not overwrite existing custom_fields accidentally" do
+    people(:tim).custom_fields = {'0' => 'first', '2' => 'third'}
+    people(:tim).custom_fields = {'1' => 'second'}
+    assert_equal ['first', 'second', 'third'], people(:tim).custom_fields
+  end
+  
+  should "create an update with custom_fields" do
+    Person.logged_in = people(:jeremy)
+    people(:jeremy).update_from_params(
+      :person => {
+        :first_name => 'Jeremy',
+        :custom_fields => {'0' => 'first', '2' => 'third'}
+      }
+    )
+    people(:jeremy).updates.reload
+    assert_equal ['first', nil, 'third'], people(:jeremy).updates.last.custom_fields
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)

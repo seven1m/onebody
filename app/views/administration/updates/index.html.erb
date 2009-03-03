@@ -71,6 +71,16 @@
               </td>
             </tr>
           <% end %>
+          <% update.custom_fields_as_hash.each do |key, val| %>
+            <% if val %>
+              <tr>
+                <td><%=h key %>:</td>
+                <td>
+                  <%=h val %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
         </table>
       </td>
     </tr>

@@ -84,6 +84,7 @@
   <%= form.label :fax %>          <%= form.phone_field :fax %><br/>
   <%= form.label :birthday %>     <%= form.date_field :birthday %><br/>
   <%= form.label :anniversary %>  <%= form.date_field :anniversary %>
+  <%= render :partial => 'edit_custom_fields' %>
   <% unless @person.new_record? %>
     <% fields_for :family, @family do |family| %>
       <%= render :partial => 'families/form_fields', :locals => {:form => family} %>
