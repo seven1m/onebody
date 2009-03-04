@@ -1,18 +1,50 @@
 namespace :deploy do
-  
-  task :copy_logos do
-    run "if [ -e #{previous_release}/public/images ]; then cp #{previous_release}/public/images/logo* #{current_release}/public/images/; fi"
-  end
-  after 'deploy:update_code', 'deploy:copy_logos'
-  
-  task :copy_assets do
-    run "if [ -e #{previous_release}/public/assets ]; then cp #{previous_release}/public/assets/* #{current_release}/public/assets/; fi"
-  end
-  after 'deploy:update_code', 'deploy:copy_assets'
 
-  task :copy_custom_themes do
-    run "if [ -e #{previous_release}/themes/custom ]; then cp #{previous_release}/themes/custom/* #{current_release}/themes/custom/; fi"
+  task :before_setup do
+    sudo "mkdir -p #{deploy_to}"
+    sudo "chown #{user}:#{user} #{deploy_to}"
   end
-  after 'deploy:update_code', 'deploy:copy_custom_themes'
+  
+  namespace :shared do
+  
+    desc 'Setup shared directories'
+    task :setup do
+      Dir[File.dirname(__FILE__) + '/../../db/**/*'].each do |path|
+        next if path =~ /migrate/
+        next unless File.directory?(path)
+        run "mkdir -p #{shared_path}/db/#{path.split('db/').last}"
+      end
+      run "mkdir -p #{shared_path}/config"
+      run "mkdir -p #{shared_path}/public"
+      run "mkdir -p #{shared_path}/themes"
+      run "mkdir -p #{shared_path}/plugins"
+    end
+    after 'deploy:setup', 'deploy:shared:setup'
+    
+  end
+  
+  task :create_database do
+    mysql_root_password = HighLine.new.ask('MySQL ROOT password: ') { |q| q.echo = false }
+    run "mysql -uroot -p#{mysql_root_password} -e \"create database onebody; grant all on onebody.* to onebody@localhost identified by '#{get_db_password}'\""
+    yml = render_erb_template(File.dirname(__FILE__) + '/templates/database.yml')
+    put yml, "#{shared_path}/config/database.yml"
+  end
+  after 'deploy:setup', 'deploy:create_database'
+  
+  task :after_update_code do
+    rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
+    put rb, "#{release_path}/config/initializers/links.rb"
+    run "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "if [ -e #{shared_path}/config/email.yml ]; then ln -sf #{shared_path}/config/email.yml #{release_path}/config/email.yml; fi"
+    run "rm -rf #{release_path}/public/assets && ln -s #{shared_path}/public/assets #{release_path}/public/assets"
+    run "cd #{shared_path}/plugins && find -name enable -exec cp {} #{release_path}/plugins/{} \\;"
+    run "cd #{release_path} && whenever -w"
+  end
+  
+  task :copy_ssh_key do
+    run "mkdir -p ~/.ssh"
+    pubkey = File.read(ENV['HOME'] + '/.ssh/id_rsa.pub')
+    run "echo #{pubkey} >> ~/.ssh/authorized_keys"
+  end
   
 end
