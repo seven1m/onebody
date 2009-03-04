@@ -13,6 +13,8 @@ to version 0.7.8 and run all database migrations before upgrading to this releas
 [CrontabSetup](http://wiki.github.com/seven1m/onebody/crontabsetup) for more information.
 
 * Upgrade to Rails 2.2.2
+* Add custom person fields.
+* Add custom person type.
 * Remove Scheduler in favor of plain old crontab.
 * New custom theme editing and asset management.
 * Improve performance of profile page by eliminating/consolidating sql queries and making use of MySQL indices.
