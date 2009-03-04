@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
       end
       theme_dirs = [File.join(RAILS_ROOT, 'themes', theme_name)]
       if defined?(DEPLOY_THEME_DIR)
-        theme_dirs = [DEPLOY_THEME_DIR] + theme_dirs
+        theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
       end
       self.view_paths = theme_dirs + ActionController::Base.view_paths
       if defined? PLUGIN_VIEW_PATHS
