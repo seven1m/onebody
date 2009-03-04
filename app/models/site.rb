@@ -74,7 +74,7 @@ class Site < ActiveRecord::Base
     end
   end
   
-  after_create :add_settings, :add_tasks, :add_pages, :add_publications_group
+  after_create :add_settings, :add_pages, :add_publications_group
   
   def add_settings
     Setting.update_site(self)
