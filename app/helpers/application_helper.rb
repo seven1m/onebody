@@ -6,11 +6,12 @@ module ApplicationHelper
   
   def heading
     if (logo = Setting.get(:appearance, :logo)).to_s.any?
-	    "<a href=\"/\">#{image_tag logo, :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;'}</a>"
+      img = image_tag("/assets/site#{Site.current.id}/#{logo}", :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;')
+	    link_to(img, '/')
 	  elsif !@page or @page.for_members?
-	    "<a href=\"/people\">#{h Setting.get(:name, :site)}</a>"
+	    link_to(h(Setting.get(:name, :site)), people_path)
 	  else
-	    "<a href=\"/\">#{h Setting.get(:name, :church)}</a>"
+	    link_to(h(Setting.get(:name, :church)), '/')
     end
   end
   

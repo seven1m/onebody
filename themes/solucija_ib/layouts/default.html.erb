@@ -25,15 +25,7 @@
 		</div>
 		
 		<div id="logo">
-			<h1>
-			  <% if (logo = Setting.get(:appearance, :logo)).to_s.any? %>
-			    <a href="/"><%= image_tag logo, :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;' %></a>
-			  <% elsif !@page or @page.for_members? %>
-			    <a href="/people"><%= Setting.get(:name, :site) %></a>
-			  <% else %>
-			    <a href="/"><%= Setting.get(:name, :church) %></a>
-			  <% end %>
-			</h1>
+			<h1><%= heading %></h1>
 			<% if Setting.get(:appearance, :show_subheading) %>
         <p id="slogan">
           <% if !@page or @page.for_members? %>

@@ -2,7 +2,7 @@
 
 <% if @filename.to_s.any? %>
   <p>
-    <%= image_tag @filename, :alt => 'logo' %><br/>
+    <%= image_tag "/assets/site#{Site.current.id}/#{@filename}", :alt => 'logo' %><br/>
     <%= link_to 'delete logo', administration_logo_path, :method => 'delete', :confirm => 'Are you sure?' %>
   </p>
 <% end %>
