@@ -29,13 +29,13 @@ class Administration::ThemesController < ApplicationController
   private
   
   def get_path
-    @themes_path = "#{Rails.root}/themes"
+    @themes_path = defined?(DEPLOY_THEME_DIR) ? DEPLOY_THEME_DIR : "#{Rails.root}/themes"
     @path = "#{@themes_path}/custom/site#{Site.current.id}/layouts"
     unless File.exist?(@path)
       FileUtils.mkdir_p(@path)
     end
     @theme_filename = @path + '/default.html.liquid'
-    @default_theme_filename = @themes_path + '/aqueouslight/layouts/default.html.liquid'
+    @default_theme_filename = "#{Rails.root}/themes/aqueouslight/layouts/default.html.liquid"
   end
 
 end

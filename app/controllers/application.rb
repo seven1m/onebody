@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
         theme_name = "custom/site#{Site.current.id}"
       end
       theme_dirs = [File.join(RAILS_ROOT, 'themes', theme_name)]
-      if defined? DEPLOY_THEME_DIR
+      if defined?(DEPLOY_THEME_DIR)
         theme_dirs = [DEPLOY_THEME_DIR] + theme_dirs
       end
       self.view_paths = theme_dirs + ActionController::Base.view_paths
