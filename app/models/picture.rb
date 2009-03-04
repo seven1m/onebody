@@ -5,7 +5,7 @@
 #  id         :integer       not null, primary key
 #  person_id  :integer       
 #  created_at :datetime      
-#  cover      :boolean       not null
+#  cover      :boolean       
 #  updated_at :datetime      
 #  site_id    :integer       
 #  album_id   :integer       

@@ -24,6 +24,7 @@
 #  family_name      :string(255)   
 #  family_last_name :string(255)   
 #  site_id          :integer       
+#  custom_fields    :text          
 #
 
 class Update < ActiveRecord::Base

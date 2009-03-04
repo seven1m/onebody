@@ -6,6 +6,7 @@
 #  group_id           :integer       
 #  person_id          :integer       
 #  admin              :boolean       
+#  get_email          :boolean       default(TRUE)
 #  share_address      :boolean       
 #  share_mobile_phone :boolean       
 #  share_work_phone   :boolean       
@@ -13,7 +14,6 @@
 #  share_email        :boolean       
 #  share_birthday     :boolean       
 #  share_anniversary  :boolean       
-#  get_email          :boolean       default(TRUE)
 #  updated_at         :datetime      
 #  code               :integer       
 #  site_id            :integer       
