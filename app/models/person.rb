@@ -536,7 +536,12 @@ class Person < ActiveRecord::Base
   
   alias_method :destroy_for_real, :destroy
   def destroy
-    self.update_attributes!(:deleted => true)
+    self.update_attributes!(
+      :deleted         => true,
+      :email           => nil,
+      :alternate_email => nil,
+      :twitter_account => nil
+    )
   end
   
   def self.business_categories
