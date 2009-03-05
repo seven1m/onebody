@@ -48,6 +48,10 @@ Name:
     value: a pretend church for testing OneBody
     description: Slogan displayed at top of every page.
 Features: 
+  Twitter Account:
+    format: string
+    value:
+    description: If Twitter Integration is enabled, tell your users the account name here.
   Multisite: 
     format: boolean
     value: false

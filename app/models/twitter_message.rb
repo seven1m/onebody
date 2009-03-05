@@ -10,6 +10,7 @@
 #  created_at          :datetime      
 #  updated_at          :datetime      
 #  site_id             :integer       
+#  twitter_message_id  :string(255)   
 #
 
 class TwitterMessage < ActiveRecord::Base
