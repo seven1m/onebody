@@ -123,11 +123,6 @@ class Site < ActiveRecord::Base
     Site.current = was
   end
   
-  def twitter_enabled?
-    @twitter_enabled ||= self.settings.find_by_name('Twitter Account').value.to_s.any? \
-      && self.settings.find_by_name('Twitter Password').value.to_s.any?
-  end
-  
   alias_method :rails_original_destroy, :destroy
   def destroy
     raise 'This is such a destructive method that it has been renamed to destroy_for_sure for your safety.'
