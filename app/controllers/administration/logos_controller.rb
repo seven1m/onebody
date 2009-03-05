@@ -14,6 +14,7 @@ class Administration::LogosController < ApplicationController
         filename = "logo.#{ending}"
         img.thumbnail('400x80') if img['width'] > 400 or img['height'] > 80
         img.write("#{@path}/#{filename}")
+        File.chmod(0664, "#{@path}/#{filename}")
         Setting.set(Site.current.id, 'Appearance', 'Logo', filename)
       end
     end

@@ -10,6 +10,7 @@ class Administration::ThemesController < ApplicationController
   def edit
     unless File.exist?(@theme_filename)
       File.open(@theme_filename, 'w') { |f| f.write(File.read(@default_theme_filename)) }
+      File.chmod(0664, @theme_filename)
     end
     @theme = File.read(@theme_filename)
   end
@@ -20,6 +21,7 @@ class Administration::ThemesController < ApplicationController
       redirect_to edit_administration_theme_path
     elsif params[:theme] =~ /<body>.*\{\{\s*content_for_layout\s*\}\}.*<\/body>/m
       File.open(@theme_filename, 'w') { |f| f.write(params[:theme]) }
+      File.chmod(0664, @theme_filename)
       redirect_to edit_administration_theme_path
     else
       render :text => 'The custom theme must contain {{ content_for_layout }} somewhere in its body.', :layout => true, :status => 500

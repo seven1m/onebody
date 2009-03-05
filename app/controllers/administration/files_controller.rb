@@ -14,6 +14,7 @@ class Administration::FilesController < ApplicationController
       File.open(@path + '/' + params[:filename], 'wb') do |file|
         file.write(params[:file].read)
       end
+      File.chmod(0664, @path + '/' + params[:filename])
       redirect_to administration_files_path
     else
       render :text => 'Filename contains invalid characters.', :layout => true, :status => 500

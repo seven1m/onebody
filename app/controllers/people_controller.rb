@@ -1,7 +1,7 @@
 class PeopleController < ApplicationController
 
-  caches_action :show, :for => 1.hour, :cache_path => Proc.new { |c| "people/#{c.params[:id]}#{c.params[:simple] ? '_simple' : ''}#{c.params[:business] ? '_business' : ''}_for_#{Person.logged_in.id}" }
-  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy import)
+  #caches_action :show, :for => 1.hour, :cache_path => Proc.new { |c| "people/#{c.params[:id]}#{c.params[:simple] ? '_simple' : ''}#{c.params[:business] ? '_business' : ''}_for_#{Person.logged_in.id}" }
+  #cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy import)
 
   def index
     respond_to do |format|
