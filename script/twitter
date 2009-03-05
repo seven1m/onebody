@@ -1,0 +1,93 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'twitter'
+require 'time'
+
+class TwitterBot
+
+  def initialize(username, password, site_id)
+    @twitter = Twitter::Base.new(username, password)
+    @site_id = site_id
+    @log_filename = File.dirname(__FILE__) + '/../log/twitter.log'
+    @log = []
+    load_message_log
+  end
+  
+  def load_message_log
+    # message log looks like this:
+    # 20090304223501 friending seven1m
+    # 20090304223601 sending seven1m bla bla bla
+    @log_messages = File.read(@log_filename).split(/\n/) rescue []
+    @friends = @log_messages.grep(/^\d{14} following/).map { |f| f.split(' ').last }
+    @messages = @log_messages.grep(/^\d{14} received/).map { |f| f.split(' ', 5)[2] }
+  end
+  
+  def load_env
+    unless @env_loaded
+      require File.join(File.dirname(__FILE__), '../config/environment')
+      Site.current = Site.find(@site_id)
+      @env_loaded = true
+    end
+  end
+  
+  def go!
+    follow_the_followers
+    respond_to_messages
+    write_log_file
+  end
+
+  def follow_the_followers
+    @twitter.followers.each do |follower|
+      unless @friends.include?(follower.screen_name)
+        # already following?
+        unless @twitter.friends.map { |f| f.screen_name }.include?(follower.screen_name)
+          @twitter.create_friendship(follower.screen_name)
+        end
+        @log << "#{timestamp} following #{follower.screen_name}"
+      end
+    end
+  end
+  
+  def timestamp
+    Time.now.strftime('%Y%m%d%H%M%S')
+  end
+    
+  def respond_to_messages
+    @twitter.direct_messages.each do |message|
+      unless @messages.include?(message.id)
+        @log << "#{timestamp} received #{message.id} #{message.sender_screen_name} #{message.text}"
+        load_env
+        msg = TwitterMessage.create(:twitter_message_id => message.id, :twitter_screen_name => message.sender_screen_name, :message => message.text)
+        if msg.errors.any?
+          @log << "#{timestamp} error #{msg.errors.full_messages.join('; ')} - #{message.inspect.gsub(/\n/, ' ')}"
+        else
+          msg.build_reply
+          msg.save
+          @twitter.d(message.sender_screen_name, msg.reply)
+          @log << "#{timestamp} sent #{message.sender_screen_name} #{msg.reply}"
+        end
+      end
+    end
+  end
+  
+  def write_log_file
+    if @log.any?
+      File.open(@log_filename, 'a') do |file|
+        file.write(@log.join("\n") + "\n")
+      end
+    end
+  end
+  
+end
+
+if $0 == __FILE__
+  if ARGV.length == 4
+    username, password, site_id, RAILS_ENV = ARGV
+    TwitterBot.new(username, password, site_id).go!
+  else
+    puts 'OneBody Twitter script: run once a minute from crontab'
+    puts 'Usage: script/twitter username password site_id environment'
+    exit
+  end
+end

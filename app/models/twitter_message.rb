@@ -21,13 +21,11 @@ class TwitterMessage < ActiveRecord::Base
   belongs_to :person
   
   validates_presence_of :twitter_screen_name
+  validates_uniqueness_of :twitter_message_id
   
   def validate
     if TwitterMessage.count('*', :conditions => ['created_at >= ?', 1.minutes.ago]) > MAX_MESSAGES_PER_MINUTE
       errors.add_to_base('Too many messages per minute.')
-    end
-    unless self.person
-      errors.add(:twitter_screen_name, 'Twitter screen name unknown.')
     end
   end
     
@@ -38,41 +36,45 @@ class TwitterMessage < ActiveRecord::Base
   
   def build_reply
     raise 'No message' unless self.message.to_s.strip.any?
-    if self.message =~ /^\s*(lookup|phone|mobile|home|work|address)\s*(.+)/
-      lookup_name = sql_lcase(sql_concat('first_name', "' '", 'last_name'))
-      if found = Person.find(:first, :conditions => ["#{lookup_name} like ?", $2.downcase + '%']) \
-        and self.person.can_see?(found)
-        case $1
-        when 'lookup', 'phone', 'mobile'
-          if found.share_mobile_phone_with(self.person) and found.mobile_phone.to_i > 0
-            self.reply = "#{found.mobile_phone} - #{found.name}"
-          else
-            self.reply = "Mobile number not available for #{found.name}"
+    if self.person
+      if self.message =~ /^\s*(lookup|phone|mobile|home|work|address)\s*(.+)/
+        lookup_name = sql_lcase(sql_concat('first_name', "' '", 'last_name'))
+        if found = Person.find(:first, :conditions => ["#{lookup_name} like ?", $2.downcase + '%']) \
+          and self.person.can_see?(found)
+          case $1
+          when 'lookup', 'phone', 'mobile'
+            if found.share_mobile_phone_with(self.person) and found.mobile_phone.to_i > 0
+              self.reply = "#{found.mobile_phone} - #{found.name}"
+            else
+              self.reply = "Mobile number not available for #{found.name}"
+            end
+          when 'home'
+            if found.home_phone.to_i > 0
+              self.reply = "#{found.home_phone} - #{found.name}"
+            else
+              self.reply = "Home number not available for #{found.name}"
+            end
+          when 'work'
+            if found.share_work_phone_with(self.person) and found.work_phone.to_i > 0
+              self.reply = "#{found.work_phone} - #{found.name}"
+            else
+              self.reply = "Work number not available for #{found.name}"
+            end
+          when 'address'
+            if found.share_address_with(self.person) and found.address1.to_s.any? and found.city.to_s.any? and found.state.to_s.any?
+              self.reply = "#{found.family.mapable_address} - #{found.name}"
+            else
+              self.reply = "Address not available for #{found.name}"
+            end
           end
-        when 'home'
-          if found.home_phone.to_i > 0
-            self.reply = "#{found.home_phone} - #{found.name}"
-          else
-            self.reply = "Home number not available for #{found.name}"
-          end
-        when 'work'
-          if found.share_work_phone_with(self.person) and found.work_phone.to_i > 0
-            self.reply = "#{found.work_phone} - #{found.name}"
-          else
-            self.reply = "Work number not available for #{found.name}"
-          end
-        when 'address'
-          if found.share_address_with(self.person) and found.address1.to_s.any? and found.city.to_s.any? and found.state.to_s.any?
-            self.reply = "#{found.family.mapable_address} - #{found.name}"
-          else
-            self.reply = "Address not available for #{found.name}"
-          end
+        else
+          self.reply = 'No one with that name could be found.'
         end
       else
-        self.reply = 'No one with that name could be found.'
+        self.reply = 'Send "mobile John Doe" or "address John Doe" or similar.'
       end
     else
-      self.reply = 'Send "mobile John Doe" or "address John Doe" or similar.'
+      self.reply = "I don't recognize your Twitter account. Update your account at #{Setting.get(:url, :site)}"
     end
   end
 end

@@ -48,10 +48,6 @@ Name:
     value: a pretend church for testing OneBody
     description: Slogan displayed at top of every page.
 Features: 
-  Twitter Account: 
-    format: string
-    value: 
-    description: Account name of church Twitter account.
   Multisite: 
     format: boolean
     value: false
@@ -74,14 +70,6 @@ Features:
     format: string
     value: 
     description: Message to display across top of all pages on site (HTML), like an alert
-  Twitter Password: 
-    format: password
-    value: 
-    description: Password of church Twitter account.
-  Jabber Password: 
-    format: password
-    value: 
-    description: Password of Jabber account.
   Blog: 
     format: boolean
     value: true
@@ -126,10 +114,6 @@ Features:
     format: boolean
     value: false
     description: Enable Recipe sharing.
-  Jabber Account: 
-    format: string
-    value: 
-    description: Account (email address) for connecting to Twitter through Jabber/XMPP.
   Updates Must Be Approved:
     format: boolean
     value: true
