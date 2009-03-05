@@ -22,7 +22,10 @@ class SessionsController < ApplicationController
     if params[:password].to_s.any? and (Rails.env == 'test' or Setting.get(:privacy, :allow_unencrypted_logins))
       password = params[:password]
     else
-      password = decrypt_password(params[:encrypted_password])
+      unless password = decrypt_password(params[:encrypted_password])
+        render :text => "There was an error signing you in. Please <a href=\"#{new_session_path}\">try again</a>.", :layout => true, :status => 500
+        return
+      end
     end
     if person = Person.authenticate(params[:email], password)
       reset_session

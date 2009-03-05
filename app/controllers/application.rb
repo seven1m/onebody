@@ -149,10 +149,10 @@ class ApplicationController < ActionController::Base
         begin
           key.private_decrypt(Base64.decode64(pass))
         rescue OpenSSL::PKey::RSAError
-          render :text => "There was an error signing you in. Please <a href=\"#{new_session_path}\">try again</a>.", :layout => true, :status => 500
+          false
         end
       else
-        render :text => "There was an error signing you in. Please <a href=\"#{new_session_path}\">try again</a>.", :layout => true, :status => 500
+        false
       end
     end
     
