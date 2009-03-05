@@ -471,9 +471,6 @@ class Person < ActiveRecord::Base
         toggle!(:account_frozen)
       end
     elsif params[:person] # testimony, about, favorites, etc.
-      if params[:person][:twitter_account].to_s.strip.any? and params[:person][:twitter_account] != self.twitter_account
-        TwitterBot.follow(params[:person][:twitter_account]) rescue nil
-      end
       update_attributes params[:person].reject { |k, v| !EXTRAS.include?(k) }
     else
       self
