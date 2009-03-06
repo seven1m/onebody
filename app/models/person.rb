@@ -79,7 +79,7 @@
 class Person < ActiveRecord::Base
 
   BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
-  EXTRAS = %w(email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony)
+  EXTRAS = %w(email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
   cattr_accessor :sync_in_progress

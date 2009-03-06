@@ -17,7 +17,7 @@
       </ul>
     </li>
   </ol>
-  <% form_for :person, @person, :url => edit_person_path(:id => @person) do |form| %>
+  <% form_for @person do |form| %>
     <p><%= form.label :twitter_account, 'Your Twitter username:' %>
     <%= form.text_field :twitter_account %><br/>
     <%= submit_tag 'Save Changes' %>
