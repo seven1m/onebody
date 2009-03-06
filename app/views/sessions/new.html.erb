@@ -19,7 +19,7 @@
 
 <h2>Please sign in.</h2>
 
-<form method="post" action="/session" method="post" onsubmit="return encrypt_password()">
+<form method="post" action="/session" onsubmit="return encrypt_password()">
   <%= hidden_field_tag :from, params[:from] %>
   <%= hidden_field_tag :encrypted_password %>
   <div style="width:150px;float:right;margin:10px;text-align:center;">
