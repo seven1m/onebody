@@ -26,7 +26,8 @@ namespace :onebody do
       :can_sign_in                  => true,
       :visible_to_everyone          => true,
       :visible_on_printed_directory => true,
-      :full_access                  => true
+      :full_access                  => true,
+      :child                        => false
     }
     attrs[:password] = password if password
     attrs[:encrypted_password] = encrypted_password if encrypted_password
