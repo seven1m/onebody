@@ -122,7 +122,7 @@ namespace :onebody do
       %w(secondary_host max_admins max_people max_groups).each do |arg|
         args[arg] = (ENV[arg.upcase] == '' ? nil : ENV[arg.upcase]) unless ENV[arg.upcase].nil?
       end
-      %w(import_export_enabled pages_enabled pictures_enabled publications_enabled edit_tasks_enabled).each do |arg|
+      %w(import_export_enabled pages_enabled pictures_enabled publications_enabled).each do |arg|
         args[arg] = %w(true yes on).include?(ENV[arg.upcase].downcase) unless ENV[arg.upcase].nil?
       end
       args
