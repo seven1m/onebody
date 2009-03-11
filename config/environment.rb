@@ -24,6 +24,8 @@ Rails::Initializer.run do |config|
   config.gem 'mislav-will_paginate',            :source => 'http://gems.github.com', :lib => 'will_paginate', :version => '~> 2.3.0'
   config.gem 'seven1m-acts_as_scoped_globally', :source => 'http://gems.github.com', :lib => 'acts_as_scoped_globally'
   config.gem 'seven1m-acts_as_photo',           :source => 'http://gems.github.com', :lib => 'acts_as_photo'
+  config.gem 'chronic'
+  config.gem 'javan-whenever',                  :source => 'http://gems.github.com', :lib => 'whenever'
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
