@@ -96,8 +96,6 @@ class Person < ActiveRecord::Base
   has_many :notes, :order => 'created_at desc', :conditions => ['deleted = ?', false]
   has_many :updates, :order => 'created_at'
   has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
-  has_many :songs
-  has_many :prayer_signups
   has_and_belongs_to_many :verses, :order => 'book, chapter, verse'
   has_many :log_items
   has_many :blog_items
@@ -537,8 +535,16 @@ class Person < ActiveRecord::Base
       :deleted         => true,
       :email           => nil,
       :alternate_email => nil,
-      :twitter_account => nil
+      :encrypted_password => nil,
+      :twitter_account => nil,
+      :api_key         => nil,
+      :feed_code       => nil
     )
+    self.updates.destroy_all
+    self.memberships.destroy_all
+    self.friendships.destroy_all
+    self.membership_requests.destroy_all
+    self.friendship_requests.destroy_all
   end
   
   def self.business_categories
