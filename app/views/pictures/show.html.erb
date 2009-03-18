@@ -32,3 +32,7 @@
 <p>
   <%= link_to image_tag(large_picture_path(@picture), :alt => 'click to see original'), full_picture_path(@picture) %>
 </p>
+<% if Setting.get(:privacy, :allow_picture_comments) %>
+<h2>Comments</h2>
+<%= render :partial => 'comments/comments', :locals => {:object => @picture, :intro => 'Comment on this picture'} %>
+<% end %>

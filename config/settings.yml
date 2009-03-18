@@ -279,4 +279,7 @@ Privacy:
     format: boolean
     value: true
     description: If enabled, new users will have their anniversary shared with other site members.
-
+  Allow Picture Comments:
+    format: boolean
+    value: true
+    description: If enabled, users will be allowed to post comments on pictures.

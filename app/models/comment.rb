@@ -13,19 +13,20 @@
 #  song_id      :integer       
 #  note_id      :integer       
 #  site_id      :integer       
-#
+#  picture_id   :integer
 
 class Comment < ActiveRecord::Base
   belongs_to :person
   belongs_to :verse
   belongs_to :recipe
   belongs_to :note
+  belongs_to :picture
   belongs_to :site
 
   acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
     
   def on
-    verse || recipe || note
+    verse || recipe || note || picture
   end
   
   def name
