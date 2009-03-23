@@ -15,14 +15,8 @@
 	<div id="wrapper">
 	  <%= form_tag(search_path, :id => 'search_form', :method => 'get', :style => @logged_in.nil? && 'visibility:hidden;') %>
 		  <input name="name" id="search_name" onfocus="if(this.value == 'People Search') this.value = ''" onblur="if(this.value == '') this.value = 'People Search'"/>
-		  <div id="search_name_auto_complete" class="autocomplete"></div>
 	  </form>
 	  
-		<script type="text/javascript">
-		  $('search_name').value = 'People Search';
-		  new Ajax.Autocompleter('search_name', 'search_name_auto_complete', '<%= url_for search_path(:auto_complete => true) %>', {paramName: 'name', minChars: 3, afterUpdateElement:function(li){$('search_name').form.submit()}});
-		</script>
-
 		<div id="logo">
 			<h1><%= heading %></h1>
 		</div>
