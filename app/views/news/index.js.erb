@@ -9,7 +9,9 @@ function update_headline() {
   if(current_headline >= headlines.length) current_headline = 0;
   setTimeout('update_headline()', 8000)
 }
-setTimeout('update_headline()', 3000);
+if($('news_headlines')) {
+  setTimeout('update_headline()', 3000);
+}
 
 function truncate(text, length) {
   var length = length || 25;
