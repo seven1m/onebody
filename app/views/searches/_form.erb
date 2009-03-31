@@ -1,7 +1,7 @@
 <% form_tag(search_path, :method => 'get', :id => 'search-form') do %>
   <h2>Advanced Search</h2>
-  <label for="name">Name:</label>
-  <%= text_field_tag 'name', params[:name] %><br/>
+  <label for="name_search">Name:</label>
+  <%= text_field_tag 'name', params[:name], :id => 'name_search' %><br/>
   <label for="birthday_month">Birthday:</label>
   <select name="birthday_month" id="birthday_month">
     <option value=""></option>
@@ -49,7 +49,7 @@
 //]]>
 </script>
 
-<%= observe_field :name,              :url => search_path, :function => 'search()', :frequency => 2 %>
+<%= observe_field :name_search,       :url => search_path, :function => 'search()', :frequency => 2 %>
 <%= observe_field :birthday_month,    :url => search_path, :function => 'search()' %>
 <%= observe_field :birthday_day,      :url => search_path, :function => 'search()' %>
 <%= observe_field :anniversary_month, :url => search_path, :function => 'search()' %>
