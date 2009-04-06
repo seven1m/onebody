@@ -29,7 +29,7 @@ class NewsItem < ActiveRecord::Base
           item.link = raw_item.elements['link'].text
           item.title = raw_item.elements['title'].text
           item.body = raw_item.elements['description'].text
-          item.published = raw_item.elements['dc:date'].text.gsub(/[TZ]/, ' ')
+          item.published = (raw_item.elements['dc:date'] || raw_item.elements['pubDate']).text.gsub(/[TZ]/, ' ') rescue nil
           item.active = true
           item.save
           active << item
@@ -40,9 +40,14 @@ class NewsItem < ActiveRecord::Base
     
     def get_feed_items
       if Setting.get(:url, :news_rss)
-        xml = Net::HTTP.get(URI.parse(Setting.get(:url, :news_rss)))
-        root = REXML::Document.new(xml).root
-        root.elements.to_a('item')
+        begin
+          xml = Net::HTTP.get(URI.parse(Setting.get(:url, :news_rss)))
+          root = REXML::Document.new(xml).root
+          items = root.elements.to_a('item')
+          items.any? ? items : root.elements['channel'].elements.to_a('item')
+        rescue
+          nil
+        end
       end
     end
   end
