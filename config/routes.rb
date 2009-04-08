@@ -91,7 +91,5 @@ unless defined?(DISABLE_ROUTES)
       admin.resource :theme
     end
   
-    ActionController::Routing::Routes.draw_plugin_routes rescue nil
-  
   end
 end
