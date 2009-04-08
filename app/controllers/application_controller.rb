@@ -3,7 +3,7 @@
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
 
-  layout 'default.html.erb'
+  layout 'default.html'
   
   before_filter :get_site
   before_filter :feature_enabled?
@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
         update_view_paths
         set_time_zone
         set_local_formats
+        set_layout_variables
       elsif site = Site.find_by_secondary_host_and_active(request.host, true)
         redirect_to 'http://' + site.host
         return false
@@ -37,14 +38,14 @@ class ApplicationController < ActionController::Base
     end
     
     def update_view_paths
-      theme_dirs = [File.join(RAILS_ROOT, 'themes', get_theme_name)]
-      if defined? DEPLOY_THEME_DIR
-        theme_dirs = [DEPLOY_THEME_DIR] + theme_dirs
+      if (theme_name = get_theme_name) == 'custom'
+        theme_name = "custom/site#{Site.current.id}"
       end
-      self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths)
-      if defined? PLUGIN_VIEW_PATHS
-        PLUGIN_VIEW_PATHS.each { |p| self.append_view_path(p) }
+      theme_dirs = [File.join(RAILS_ROOT, 'themes', theme_name)]
+      if defined?(DEPLOY_THEME_DIR)
+        theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
       end
+      self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths + PLUGIN_VIEW_PATHS)
     end
     
     def set_time_zone
@@ -60,8 +61,20 @@ class ApplicationController < ActionController::Base
       )
     end
     
+    def set_layout_variables
+      @site_name       = CGI.escapeHTML(Setting.get(:name, :site))
+      @banner_message  = CGI.escapeHTML(Setting.get(:features, :banner_message))
+      @show_subheading = Setting.get(:appearance, :show_subheading)
+      @copyright_year  = Date.today.year
+      @church_name     = CGI.escapeHTML(Setting.get(:name, :church))
+    end
+    
     def get_theme_name
-      Setting.get(:appearance, :theme)
+      if params[:theme] and params[:theme] =~ /^[a-z0-9_]+$/
+        params[:theme]
+      else
+        Setting.get(:appearance, :theme)
+      end
     end
     
     # used by some anonymous controller actions to see if someone is logged in
@@ -130,9 +143,13 @@ class ApplicationController < ActionController::Base
     def decrypt_password(pass)
       if session[:key]
         key = OpenSSL::PKey::RSA.new(session[:key])
-        key.private_decrypt(Base64.decode64(pass))
+        begin
+          key.private_decrypt(Base64.decode64(pass))
+        rescue OpenSSL::PKey::RSAError
+          false
+        end
       else
-        render :text => "There was an error signing you in. Please <a href=\"#{new_session_path}\">try again</a>.", :layout => true, :status => 500
+        false
       end
     end
     
