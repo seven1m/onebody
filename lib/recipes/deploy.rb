@@ -37,8 +37,8 @@ namespace :deploy do
     run "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "if [ -e #{shared_path}/config/email.yml ]; then ln -sf #{shared_path}/config/email.yml #{release_path}/config/email.yml; fi"
     run "rm -rf #{release_path}/public/assets && ln -s #{shared_path}/public/assets #{release_path}/public/assets"
-    run "cd #{shared_path}/plugins && find -name enable -exec cp {} #{release_path}/plugins/{} \\;"
-    run "cd #{release_path} && whenever -w"
+    run "cd #{shared_path}/plugins && rsync -a * #{release_path}/plugins/"
+    run "cd #{release_path} && whenever -w RAILS_ENV=production"
   end
   
   task :copy_ssh_key do
