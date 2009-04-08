@@ -1,5 +1,14 @@
+<h2><%= pluralize(group_people_count = @group.people.count, 'person', 'people') %></h2>
+
+<% if group_people_count > 25 and params[:action] == 'show' %>
+  <p>
+    (25 of <%= group_people_count %>)
+    <%= link_to 'Show all...', group_memberships_path(@group) %>
+  </p>
+<% end %>
+
 <table>
-    <% @group.people.each do |person| %>
+    <% @group.people.all(params[:action] == 'show' ? {:limit => 25, :order => sql_random} : {:order => 'last_name, first_name'}).each do |person| %>
       <% if person and @logged_in.can_see?(person) %>
         <tr>
           <td>
@@ -27,4 +36,3 @@
       <% end %>
     <% end %>
 </table>
-

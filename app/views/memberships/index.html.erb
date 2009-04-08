@@ -1,8 +1,9 @@
 <p><%= link_to '&laquo; back to the group', group_url(:id => @group) %></p>
 
-<h1><%= @group.name %> Membership Requests</h1>
+<h1><%= @group.name %></h1>
 
-<% if @requests.any? %>
+<% if @logged_in.can_edit?(@group) and @requests.any? %>
+  <h2>Requests</h2>
   <% form_tag batch_group_memberships_path(@group) do |form| %>
     <table>
       <% @requests.each do |req| %>
@@ -18,6 +19,6 @@
       <input type="submit" name="commit" value="Ignore">
     </p>
   <% end %>
-<% else %>
-  <p><em>No pending requests.</em></p>
 <% end %>
+
+<%= render :partial => 'groups/people' %>

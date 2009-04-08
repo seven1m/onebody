@@ -48,7 +48,7 @@ class GroupsController < ApplicationController
   end
     
   def show
-    @group = Group.find params[:id]
+    @group = Group.find(params[:id])
     @messages = @group.messages.find :all, :select => '*, (select count(*) from messages r where r.parent_id=messages.id and r.to_person_id is null) as reply_count, (select count(*) from attachments where message_id=messages.id or message_id in (select id from messages r where r.parent_id=messages.id)) as attachment_count'
     @notes = @group.notes.find_all_by_deleted(false, :order => 'created_at desc', :limit => 10)
     @prayer_requests = @group.prayer_requests.find(:all, :conditions => "answer = '' or answer is null", :order => 'created_at desc')

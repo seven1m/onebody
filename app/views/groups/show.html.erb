@@ -30,9 +30,7 @@
       <p><%= link_to 'Leave This Group', group_membership_path(@group, @logged_in), :method => 'delete', :confirm => 'Are you sure?' %></p>
     <% end %>
   <% end %>
-
-  <h2><%= pluralize(@group.people.count, 'person', 'people') %></h2>
-  
+ 
   <%= render :partial => 'people' %>
 <% end %>
 

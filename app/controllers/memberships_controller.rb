@@ -14,10 +14,10 @@ class MembershipsController < ApplicationController
   
   def index
     @group = Group.find(params[:group_id])
-    if @logged_in.can_edit?(@group)
+    if @logged_in.can_see?(@group)
       @requests = @group.membership_requests
     else
-      render :text => 'You are not authorized to view membership requests for this group.', :layout => true, :status => 401
+      render :text => 'You are not authorized to view this group.', :layout => true, :status => 401
     end
   end
   
