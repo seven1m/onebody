@@ -211,14 +211,6 @@ class Message < ActiveRecord::Base
     log_items.count(:id, :conditions => "flagged_on is not null") > 0
   end
   
-  def flagged_body
-    flagged = body.gsub(/&/, "&amp;").gsub(/\"/, "&quot;").gsub(/>/, "&gt;").gsub(/</, "&lt;")
-    FLAG_WORDS.each do |word|
-      flagged.gsub! word, '<span class="flagged">\&</span>'
-    end
-    flagged
-  end
-  
   def can_see?(p)
     if group and group.private?
       p.member_of?(group)

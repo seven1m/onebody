@@ -133,6 +133,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert message = Message.find(:first, :order => 'id desc')
     assert_equal 'multipart test', message.subject
     assert_match /This is a test of complicated multipart message/, message.body
+    assert_match /<p>This is a test of complicated multipart message.<\/p>/, message.html_body
     assert_equal 1, message.attachments.count
     delivery = ActionMailer::Base.deliveries.first
     assert_match /This is a test of complicated multipart message/, delivery.to_s

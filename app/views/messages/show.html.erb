@@ -31,8 +31,8 @@
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
 
-<% if @message.flagged? and @logged_in.admin?(:manage_messages) %>
-  <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.flagged_body)), false) %></p>
+<% if @message.html_body.to_s.any? %>
+  <p><%= white_list(hide_contact_details(@message.html_body)) %></p>
 <% else %>
   <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
 <% end %>
@@ -52,7 +52,9 @@
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>
     <p>
-      <% if params[:show_quoted] %>
+      <% if reply.html_body.to_s.any? %>
+        <%= white_list(hide_contact_details(reply.html_body)) %>
+      <% elsif params[:show_quoted] %>
         <%= preserve_breaks(remove_excess_breaks(hide_contact_details(reply.body))) %>
       <% else %>
         <% trimmed = remove_bulk_quoting(hide_contact_details(reply.body)) %>

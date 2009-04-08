@@ -1,0 +1,10 @@
+<% if intro = @msg.introduction(@to) %><p><%=h intro %></p><% end -%>
+<%= white_list(@msg.html_body) %>
+<p>
+  - - - - - - - - - - - - - - - - - - - - - - - -<br/>
+  <%= @msg.reply_instructions(@to).gsub(/\n/, "<br/>\n") %>
+  <%= @msg.disable_email_instructions(@to).gsub(/\n/, "<br/>\n") %>
+</p>
+<% if @id_and_code %>
+<p style="font-size:smaller;color:gray;">Message ID: <%= @id_and_code %></p>
+<% end -%>

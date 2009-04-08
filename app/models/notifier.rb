@@ -67,6 +67,9 @@ class Notifier < ActionMailer::Base
     end
     part :content_type => "multipart/alternative" do |p|
       p.part :content_type => "text/plain", :body => render_message('message', :to => to, :msg => msg, :id_and_code => id_and_code)
+      if msg.html_body.to_s.any?
+        p.part :content_type => "text/html", :body => render_message('html_message', :to => to, :msg => msg, :id_and_code => id_and_code)
+      end
     end
     msg.attachments.each do |a|
       attachment :content_type => a.content_type, :filename => a.name, :body => File.read(a.file_path)
@@ -145,14 +148,14 @@ class Notifier < ActionMailer::Base
       return
     end
     
-    unless body = get_body(email)
+    unless body = get_body(email) and (body[:text] or body[:html])
       Notifier.deliver_simple_message(
         email.from,
         'Message Unreadable',
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
         "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read " +
-        "the message because it is not formatted as plain text nor does it have a plain text part. " +
-        "Please set your email client to plain text (turn off Rich Text or HTML formatting), " +
+        "the message because it is not formatted as either plain text or HTML. " +
+        "Please set your email client to plain text (turn off Rich Text), " +
         "or you may send your message directly from the site after signing into " +
         "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
         "#{Setting.get(:contact, :tech_support_contact)}."
@@ -188,7 +191,8 @@ class Notifier < ActionMailer::Base
         :parent => parent,
         :person => @person,
         :subject => email.subject,
-        :body => clean_body(body),
+        :body => clean_body(body[:text]),
+        :html_body => clean_body(body[:html]),
         :dont_send => true
       )
       if message.errors.any?
@@ -234,6 +238,7 @@ class Notifier < ActionMailer::Base
             :person => @person,
             :subject => email.subject,
             :body => clean_body(body),
+            :html_body => clean_body(body[:html]),
             :parent => message
           )
           if message.errors.any? and message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
@@ -264,7 +269,7 @@ class Notifier < ActionMailer::Base
       end
       # fallback to using id and code hash inside email body
       # (Outlook does not use the psuedo-standard headers we rely on above)
-      message_id, code_hash = (m = get_body(email).match(/id:\s*(\d+)_([0-9abcdef]{6,6})/i)) && m[1..2]
+      message_id, code_hash = (m = get_body(email).to_s.match(/id:\s*(\d+)_([0-9abcdef]{6,6})/i)) && m[1..2]
       if message = Message.find_by_id(message_id)
         return [message, code_hash]
       end
@@ -306,23 +311,29 @@ class Notifier < ActionMailer::Base
     end
   
     def get_body(email)
-      # if the message is multipart, try to grab the plain text part
+      # if the message is multipart, try to grab the plain text and/or html parts
+      text = nil
+      html = nil
       if email.multipart?
         email.parts.each do |part|
-          return part.body if part.content_type.downcase == 'text/plain'
-          if part.content_type.downcase == 'multipart/alternative'
-            if sub_part = part.parts.select { |p| p.content_type.downcase == 'text/plain' }.first
-              return sub_part.body
-            end
+          case part.content_type.downcase
+            when 'text/plain'
+              text = part.body
+            when 'text/html'
+              html = part.body
+            when 'multipart/alternative'
+              text ||= part.parts.detect { |p| p.content_type.downcase == 'text/plain' }
+              html ||= part.parts.detect { |p| p.content_type.downcase == 'text/html'  }
           end
         end
+        return {:text => text, :html => html}
       else
-        return email.body
+        return {:text => email.body}
       end
     end
   
     def clean_body(body)
       # this has the potential for error, but we'll just go with it and see
-      body.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.strip
+      body.to_s.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.to_s.strip
     end
 end
