@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
       if defined? DEPLOY_THEME_DIR
         theme_dirs = [DEPLOY_THEME_DIR] + theme_dirs
       end
-      self.view_paths = theme_dirs + ActionController::Base.view_paths
+      self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths)
       if defined? PLUGIN_VIEW_PATHS
         PLUGIN_VIEW_PATHS.each { |p| self.append_view_path(p) }
       end
