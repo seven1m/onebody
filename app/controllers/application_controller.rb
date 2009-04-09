@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
       if defined?(DEPLOY_THEME_DIR)
         theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
       end
-      self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths + PLUGIN_VIEW_PATHS)
+      self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths)
     end
     
     def set_time_zone
