@@ -139,6 +139,11 @@ Features:
     format: list
     value:
     description: Add custom field names, one per line. Including the word "date" (or "Date") makes a date field. Append an asterisk (*) to make the field visible and editable by users.
+  Google Calendar Churchwide: 
+    format: string
+    value:
+    description: The URL for the churchwide Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual ("my calendar") feature.
+  
 Services: 
   Yahoo: 
     format: string

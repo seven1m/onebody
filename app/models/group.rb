@@ -158,12 +158,26 @@ class Group < ActiveRecord::Base
   
   def gcal_url
     if gcal_private_link.to_s.any?
-      account = gcal_private_link.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
-      if token = gcal_private_link.match(/private\-([a-z0-9]+)/)[1] rescue nil
+      account = gcal_account
+      if token = gcal_token
         "http://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{account}&amp;color=%23A32929&amp;ctz=UTC#{Time.zone.utc_offset}"
       end
     end
   end
+  
+  def gcal_account
+  	account = gcal_private_link.to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
+	if account[0,5] == "embed"
+		idx1 = (account =~ /src=/) + 4
+		idx2 = (account =~ /\&/) - idx1
+		account = account[idx1, idx2]
+	end
+	account
+  end
+  
+  def gcal_token
+  	gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1]
+  end 
   
   before_destroy :remove_parent_of_links
   

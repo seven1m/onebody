@@ -40,6 +40,9 @@ module ApplicationHelper
     html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
       html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
+		if @logged_in && @logged_in.my_calendar
+		  html << "<li>#{ link_to 'Calendar', person_calendar_path(@logged_in), :class => (params[:controller] == 'people') } </li>"
+		end
     end
     html << "<li>#{ tab_link 'More', shares_path, %w(shares events pictures verses recipes).include?(params[:controller])}</li>"
     html

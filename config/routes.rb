@@ -21,6 +21,7 @@ unless defined?(DISABLE_ROUTES)
       people.resource :blog
       people.resource :wall, :member => {:with => :get}
       people.resource :photo, :member => PHOTO_SIZE_METHODS
+	  people.resource :calendar
     end
   
     map.resources :families,

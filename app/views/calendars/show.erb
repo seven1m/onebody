@@ -1,0 +1,5 @@
+<% if @person.my_calendar %>
+  <div class="my_calendar" align="center">
+    <iframe src="<%= @person.my_calendar %>" style="border: 0" width="800" height="600" frameborder="0"></iframe>
+  </div> 
+<% end %>
