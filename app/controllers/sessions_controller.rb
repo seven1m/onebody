@@ -28,7 +28,6 @@ class SessionsController < ApplicationController
       end
     end
     if person = Person.authenticate(params[:email], password)
-      reset_session
       unless person.can_sign_in?
         redirect_to page_for_public_path('system/unauthorized')
         return
