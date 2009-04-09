@@ -1,8 +1,0 @@
-Features:
-  Checkin Sections:
-    format: list
-    description: Sections/Locations using the Checkin system, i.e. Elementary, Preschool
-    value: |
-      --- 
-      - Elementary
-      - Preschool

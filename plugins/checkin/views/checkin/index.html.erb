@@ -1,9 +1,0 @@
-<h1>Checkin</h1>
-
-<p>Choose your section:</p>
-
-<ul>
-  <% @sections.each do |id, name| %>
-    <li><%= link_to name, checkin_section_url(:section => id) %></li>
-  <% end %>
-</ul>
