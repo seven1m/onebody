@@ -7,7 +7,7 @@ every 1.hour, :at => 19 do
 end
 
 every 1.day, :at => '2:49 am' do
-  runner "CGI::Session::ActiveRecordStore::Session.delete_all(['updated_at < ?', 1.day.ago.utc])"
+  runner "ActionController::Session::ActiveRecordStore::Session.delete_all(['updated_at < ?', 1.day.ago.utc])"
 end
 
 if File.exist?('config/email.yml')
