@@ -1,8 +1,20 @@
-OneBody Changelog
-=================
+OneBody Change Log
+==================
 
-0.8.0 / March, 2009
+0.8.1 / April, 2009
 -------------------
+
+**Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
+
+* Upgrade to Rails 2.3.2
+* Ability to comment on pictures (via powerchurch)
+* Allow HTML content in emails
+* Speedups for viewing large groups
+* Improved News RSS feed grabbing
+* Bug fixes
+
+0.8.0 / March 7, 2009
+---------------------
 
 **Upgrade Note:** Database migrations have been rolled up from previous releases; you must first upgrade
 to version 0.7.8 and run all database migrations before upgrading to this release.
