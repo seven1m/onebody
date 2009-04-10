@@ -17,7 +17,6 @@
                 <%= text_area_tag setting.id, setting.value.to_a.join("\n"), :rows => 3, :style => 'width:300px;' %>
               <% elsif setting.format == 'boolean' %>
                 <%= check_box_tag setting.id, true, setting.value?, :class => 'checkbox' %>
-                <%= hidden_field_tag setting.id, '0' %>
               <% elsif setting.format == 'password' %>
                 <%= password_field_tag setting.id, setting.value %>
               <% else %>
