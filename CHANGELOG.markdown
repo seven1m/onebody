@@ -7,7 +7,8 @@ OneBody Change Log
 **Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
 
 * Upgrade to Rails 2.3.2
-* Ability to comment on pictures (via powerchurch)
+* New Calendar tab with merged church-wide and group calendar events (thanks to PowerChurch)
+* Ability to comment on pictures (thanks to PowerChurch)
 * Allow HTML content in emails
 * Speedups for viewing large groups
 * Improved News RSS feed grabbing
