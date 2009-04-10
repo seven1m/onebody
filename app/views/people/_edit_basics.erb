@@ -61,6 +61,10 @@
           <%= form.check_box :full_access %>                  <%= form.label :full_access,                  nil, :class => 'inline' %>
         <% end %>
       </fieldset>
+      <fieldset>
+      	<legend>Calendar</legend>
+        <%= form.check_box :include_family_on_calendar %> <%= form.label :include_family_on_calendar, "Include other family member events on Calendar", :class => 'inline' %> 
+      </fieldset>
      <% if Setting.get(:features, :edit_legacy_ids) %> 
       <fieldset>
         <legend>Advanced</legend>
