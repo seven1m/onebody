@@ -191,6 +191,11 @@ class PersonTest < ActiveSupport::TestCase
     assert_equal ['first', nil, 'third'], people(:jeremy).updates.last.custom_fields
   end
   
+  should "not allow child and birthday to both be unspecified" do
+    people(:mac).update_attributes(:child => nil, :birthday => nil)
+    assert people(:mac).errors.on(:child)
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)

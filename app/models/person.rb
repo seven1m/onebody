@@ -151,7 +151,7 @@ class Person < ActiveRecord::Base
   
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
-  validates_each [:email, :child], :allow_nil => true do |record, attribute, value|
+  validates_each [:email, :child] do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any?
       if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ?", value.downcase, record.family_id, record.id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
@@ -162,11 +162,14 @@ class Person < ActiveRecord::Base
       if record.email_changed? and not Setting.get(:access, :super_admins).include?(record.email_was) and record.super_admin?
         record.errors.add attribute, 'is invalid.' # cannot make yourself a super admin
       end
-    elsif attribute.to_s == 'child' and y = record.years_of_age
-      if value == true and y >= 13
+    elsif attribute.to_s == 'child'
+      y = record.years_of_age
+      if value == true and y and y >= 13
         record.errors.add attribute, 'cannot be true because age is 13.'
-      elsif value == false and y < 13
+      elsif value == false and y and y < 13
         record.errors.add attribute, 'cannot be false because age is less than 13.'
+      elsif value.nil? and y.nil?
+        record.errors.add attribute, 'must be either true or false because birthday is unspecified.'
       end
     end
   end
