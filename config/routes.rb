@@ -8,7 +8,7 @@ unless defined?(DISABLE_ROUTES)
     map.resource :account, :member => {:verify_code => :any, :select => :any}
   
     map.resources :people,
-      :collection => {:import => :any, :hashify => :get, :schema => :get, :batch => :post} do |people|
+      :collection => {:import => :any, :hashify => :post, :schema => :get, :batch => :post} do |people|
       people.resources :groups
       people.resources :pictures
       people.resources :friends, :collection => {:reorder => :post}
@@ -25,7 +25,7 @@ unless defined?(DISABLE_ROUTES)
     end
   
     map.resources :families,
-      :collection => {:hashify => :get, :schema => :get, :batch => :post, :select => :post},
+      :collection => {:hashify => :post, :schema => :get, :batch => :post, :select => :post},
       :member => {:reorder => :post} do |families|
       families.resource :photo, :member => PHOTO_SIZE_METHODS
     end
