@@ -19,6 +19,7 @@ class Administration::SettingsController < ApplicationController
       value = params[setting.id.to_s]
       value = value.split(/\n/) if value and setting.format == 'list'
       value = value == '' ? nil : value
+      value = value == 'true' if setting.format == 'boolean'
       setting.update_attributes! :value => value
     end
     Setting.precache_settings(true)
