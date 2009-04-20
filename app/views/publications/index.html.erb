@@ -18,26 +18,30 @@
   <%= link_to 'Subscribe', publications_path(:format => 'xml', :code => @logged_in.feed_code) %> to Publications with your feed reader.
 </p>
 
-<% if @logged_in.member_of?(@group) %>
-  <p>
-    <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
-    You are currently signed up to receive email notifications when new publications are made available here.
-    <%= link_to 'Click here', group_membership_path(@group, @logged_in), :method => 'delete' %>
-    to stop receiving these notifications.
-  </p>
-<% else %>
-  <p>
-    <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
-    If you wish to recieve email notifications when new publications are made available on this page,
-    <%= link_to 'click here', group_memberships_path(@group, :id => @logged_in), :method => 'post' %>.
-  </p>
-<% end %>
+<% @groups.each do |group| %>
+  <h3><%= group.name %></h3>
+  
+  <% if @logged_in.member_of?(group) %>
+    <p>
+      <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
+      You are currently signed up to receive email notifications when new publications are made available here.
+      <%= link_to 'Click here', group_membership_path(group, @logged_in), :method => 'delete' %>
+      to stop receiving these notifications.
+    </p>
+  <% else %>
+    <p>
+      <%= image_tag 'message.gif', :alt => 'Email Notifications', :class => 'icon' %>
+      If you wish to recieve email notifications when new publications are made available on this page,
+      <%= link_to 'click here', group_memberships_path(group, :id => @logged_in), :method => 'post' %>.
+    </p>
+  <% end %>
 
-<% if @logged_in.admin?(:manage_publications) %>
-  <p style="background-color:#ffc;">
-    <%= l = @group.people.length %> <%= l == 1 ? 'person is' : 'people are' %>
-    signed up to recieve notifications
-    |
-    <%= link_to 'View Group', @group %>
-  </p>
+  <% if @logged_in.admin?(:manage_publications) %>
+    <p style="background-color:#ffc;">
+      <%= l = group.people.length %> <%= l == 1 ? 'person is' : 'people are' %>
+      signed up to recieve notifications
+      |
+      <%= link_to 'View Group', group %>
+    </p>
+  <% end %>
 <% end %>

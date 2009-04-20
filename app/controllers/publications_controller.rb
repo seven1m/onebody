@@ -1,7 +1,7 @@
 class PublicationsController < ApplicationController
   def index
     @publications = Publication.all(:order => 'created_at desc')
-    @group = Group.find_by_name('Publications')
+    @groups = Group.all(:conditions => "name like 'Publications%'")
     respond_to do |format|
       format.html
       format.xml { render :layout => false }
@@ -20,6 +20,7 @@ class PublicationsController < ApplicationController
   def new
     if @logged_in.admin?(:manage_publications)
       @publication = Publication.new
+      @groups = Group.all(:conditions => "name like 'Publications%'")
     else
       render :text => 'You must be an administrator to access this feature.', :layout => true, :status => 401
     end
@@ -33,8 +34,8 @@ class PublicationsController < ApplicationController
         unless @publication.errors.any?
           @publication.file = file
           flash[:notice] = 'Publication saved.'
-          if params[:send_update]
-            @group = Group.find_by_name('Publications')
+          if params[:send_update_to_group_id].to_i > 0
+            @group = Group.find(params[:send_update_to_group_id])
             flash[:message] = Message.new(:subject => 'New Publication Available', :body => "This is to inform you that a new publication has been added to #{Setting.get(:name, :site)}.\n\n#{url_for :controller => 'publications'}", :person => @logged_in, :group => @group, :dont_send => true)
             redirect_to new_message_path(:group_id => @group.id)
           else

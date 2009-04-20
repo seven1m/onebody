@@ -6,8 +6,14 @@
     <%= form.label :name %>         <%= form.text_field :name %><br/>
     <%= form.label :description %> <%= form.text_area :description, :rows => 3 %><br/>
     <%= form.label :file %>         <%= form.file_field :file %><br/>
-    <%= check_box_tag :send_update, true, true, :class => 'checkbox' %>
-    <em>Start a new message to Publications subscribers.</em><br/>
+    <%= radio_button_tag :send_update_to_group_id, 0, true, :class => 'checkbox' %>
+    <%= label_tag :send_update_to_group_id_0, 'Notify no one', :class => 'inline' %>
+    <br/>
+    <% @groups.each do |group| %>
+      <%= radio_button_tag :send_update_to_group_id, group.id, false, :class => 'checkbox' %>
+      <%= label_tag "send_update_to_group_id_#{group.id}", "Notify the #{group.name} group", :class => 'inline' %>
+      <br/>
+    <% end %>
     <%= form.submit 'Save Publication' %>
   </p>
 <% end %>
