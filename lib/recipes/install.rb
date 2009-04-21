@@ -8,6 +8,7 @@ namespace :deploy do
       rubygems
       rails
       passenger
+      dependencies
       mysql
       postfix
     end
@@ -22,16 +23,6 @@ namespace :deploy do
     task :ruby, :roles => :web do
       sudo 'aptitude update'
       sudo 'aptitude install -y ruby1.8 ruby1.8-dev'
-    end
-    
-    # TODO: this is just a rought start -- probably shouldn't use this unless you know what you're doing
-    desc 'Install Ruby Enterprise Edition'
-    task :ruby_ee, :roles => :web do
-      sudo 'aptitude install -y libreadline5-dev libmysqlclient-dev'
-      run 'cd /tmp && wget -nv http://rubyforge.org/frs/download.php/51100/ruby-enterprise-1.8.6-20090201.tar.gz && tar xzf ruby-enterprise-1.8.6-20090201.tar.gz'
-      run 'cd /tmp/ruby-enterprise-1.8.6-20090201 && sudo ruby installer.rb -a /opt/ruby-enterprise'
-      sudo '/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri liquid pdf-writer highline mini_magick twitter xmpp4r chronic'
-      sudo '/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri mislav-will_paginate seven1m-acts_as_scoped_globally seven1m-acts_as_photo javan-whenever -s http://gems.github.com'
     end
     
     desc 'Install RubyGems'
@@ -110,8 +101,48 @@ namespace :deploy do
     
     desc 'Install gem dependencies'
     task :dependencies, :roles => :web do
-      sudo 'echo'
-      run "cd #{release_path} && sudo rake gems:install"
+      gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z_\-]+)["'](.*)/i)
+      github_gems = gems.select { |g| g[1] =~ /gems\.github\.com/ }
+      gems -= github_gems
+      sudo "gem install --no-rdoc --no-ri #{github_gems.map { |g| g[0] }.join(' ')} -s http://gems.github.com"
+      sudo "gem install --no-rdoc --no-ri #{gems.map { |g| g[0] }.join(' ')}"
+    end
+    
+    # Ruby Enterprise Edition Recipes
+    # # # # # # # # # # # # # # # # #
+    
+    desc 'Install all required server software on Ubuntu, but use Ruby Enterprise Edition instead'
+    task :all_with_ruby_ee do
+      prerequisites
+      ruby_ee
+      rails
+      dependencies_with_ruby_ee
+      mysql
+      postfix
+    end
+    
+    desc 'Install Ruby Enterprise Edition'
+    task :ruby_ee, :roles => :web do
+      sudo 'aptitude install -y libreadline5-dev libmysqlclient-dev'
+      run 'cd /tmp && wget -nv http://rubyforge.org/frs/download.php/51100/ruby-enterprise-1.8.6-20090201.tar.gz && tar xzf ruby-enterprise-1.8.6-20090201.tar.gz'
+      run 'cd /tmp/ruby-enterprise-1.8.6-20090201 && sudo ruby installer.rb -a /opt/ruby-enterprise'
+    end
+    
+    desc 'Install/Update Rails in Ruby Enterprise Edition'
+    task :rails do
+      rails_version = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').match(/RAILS_GEM_VERSION = '(.+?)'/)[1]
+      unless run_and_return('/opt/ruby-enterprise/bin/gem list rails') =~ Regexp.new(rails_version)
+        sudo "/opt/ruby-enterprise/bin/gem install -v=#{rails_version} rails --no-rdoc --no-ri"
+      end
+    end
+    
+    desc 'Install gem dependencies in Ruby Enterprise Edition'
+    task :dependencies_with_ruby_ee
+      gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z_\-]+)["'](.*)/i)
+      github_gems = gems.select { |g| g[1] =~ /gems\.github\.com/ }
+      gems -= github_gems
+      sudo "/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri #{github_gems.map { |g| g[0] }.join(' ')} -s http://gems.github.com"
+      sudo "/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri #{gems.map { |g| g[0] }.join(' ')}"
     end
 
   end
