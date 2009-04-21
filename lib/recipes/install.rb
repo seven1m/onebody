@@ -24,6 +24,16 @@ namespace :deploy do
       sudo 'aptitude install -y ruby1.8 ruby1.8-dev'
     end
     
+    # TODO: this is just a rought start -- probably shouldn't use this unless you know what you're doing
+    desc 'Install Ruby Enterprise Edition'
+    task :ruby_ee, :roles => :web do
+      sudo 'aptitude install -y libreadline5-dev libmysqlclient-dev'
+      run 'cd /tmp && wget -nv http://rubyforge.org/frs/download.php/51100/ruby-enterprise-1.8.6-20090201.tar.gz && tar xzf ruby-enterprise-1.8.6-20090201.tar.gz'
+      run 'cd /tmp/ruby-enterprise-1.8.6-20090201 && sudo ruby installer.rb -a /opt/ruby-enterprise'
+      sudo '/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri liquid pdf-writer highline mini_magick twitter xmpp4r chronic'
+      sudo '/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri mislav-will_paginate seven1m-acts_as_scoped_globally seven1m-acts_as_photo javan-whenever -s http://gems.github.com'
+    end
+    
     desc 'Install RubyGems'
     task :rubygems, :roles => :web do
       sudo 'aptitude update'
