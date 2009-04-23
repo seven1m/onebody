@@ -146,6 +146,10 @@ module ApplicationHelper
     n ? n.sub(/\*/, '') : nil
   end
   
+  def white_list_with_removal(html)
+    white_list(html) { |node, bad| node.to_s.gsub(/<script.+?<\/script>/mi, '').gsub(/<style.+?<\/style>/mi, '').gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }
+  end
+  
   class << self
     include ApplicationHelper
   end
