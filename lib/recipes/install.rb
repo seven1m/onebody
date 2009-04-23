@@ -137,7 +137,7 @@ namespace :deploy do
     end
     
     desc 'Install gem dependencies in Ruby Enterprise Edition'
-    task :dependencies_with_ruby_ee
+    task :dependencies_with_ruby_ee do
       gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z_\-]+)["'](.*)/i)
       github_gems = gems.select { |g| g[1] =~ /gems\.github\.com/ }
       gems -= github_gems
