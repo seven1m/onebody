@@ -48,7 +48,7 @@ namespace :deploy do
       end
     end
     
-    desc 'Install Passenger'
+    desc 'Install Passenger (set APACHE_CONFIG=true to enable module in Apache)'
     task :passenger, :roles => :web do
       gem_name = nil
       send(:sudo, 'gem install passenger --no-rdoc --no-ri') do |channel, stream, data|
@@ -71,10 +71,12 @@ namespace :deploy do
       end
       passenger_path = "#{gems_path}/#{gem_name}"
       run "cd #{passenger_path} && sudo rake clean apache2"
-      run "echo 'LoadModule passenger_module #{passenger_path}/ext/apache2/mod_passenger.so' | sudo tee /etc/apache2/mods-available/passenger.load"
-      run "echo '<IfModule passenger_module>\\n  PassengerRoot #{passenger_path}\\n  PassengerRuby /usr/bin/ruby\\n</IfModule>' | sudo tee /etc/apache2/mods-available/passenger.conf"
-      sudo "a2enmod passenger"
-      sudo "/etc/init.d/apache2 force-reload"
+      if ENV['APACHE_CONFIG']
+        run "echo 'LoadModule passenger_module #{passenger_path}/ext/apache2/mod_passenger.so' | sudo tee /etc/apache2/mods-available/passenger.load"
+        run "echo '<IfModule passenger_module>\\n  PassengerRoot #{passenger_path}\\n  PassengerRuby /usr/bin/ruby\\n</IfModule>' | sudo tee /etc/apache2/mods-available/passenger.conf"
+        sudo "a2enmod passenger"
+        sudo "/etc/init.d/apache2 force-reload"
+      end
     end
     
     desc 'Install MySQL'
@@ -134,7 +136,34 @@ namespace :deploy do
         directory = filename.sub(/\.tar\.gz/, '')
         run "cd /tmp/#{directory} && sudo ruby installer.rb -a /opt/ruby-enterprise"
       end
-      
+
+      desc 'Install Passenger (set APACHE_CONFIG=true to enable module in Apache)'
+      task :passenger, :roles => :web do
+        gem_name = nil
+        send(:sudo, '/opt/ruby-enterprise/bin/gem install passenger --no-rdoc --no-ri') do |channel, stream, data|
+          logger.info data, channel[:host]
+          if data =~ /select which gem to install/i
+            if selection = data.split(/\n/).select { |l| l =~ /\(ruby\)$/ }.first and
+              selection =~ /^\s*(\d+)\./
+              logger.info "Selecting #{$1}...", channel[:host]
+              channel.send_data "#{$1}\n"
+            end
+          end
+          if data =~ /successfully installed (passenger-[\d\.]+)/i
+            gem_name = $1
+          end
+        end
+        gems_path = '/opt/ruby-enterprise/lib/ruby/gems/1.8/gems'
+        passenger_path = "#{gems_path}/#{gem_name}"
+        run "cd #{passenger_path} && sudo rake clean apache2"
+        if ENV['APACHE_CONFIG']
+          run "echo 'LoadModule passenger_module #{passenger_path}/ext/apache2/mod_passenger.so' | sudo tee /etc/apache2/mods-available/passenger.load"
+          run "echo '<IfModule passenger_module>\\n  PassengerRoot #{passenger_path}\\n  PassengerRuby /opt/ruby-enterprise/bin/ruby\\n</IfModule>' | sudo tee /etc/apache2/mods-available/passenger.conf"
+          sudo "a2enmod passenger"
+          sudo "/etc/init.d/apache2 force-reload"
+        end
+      end
+ 
       desc 'Install/Update Rails in Ruby Enterprise Edition'
       task :rails do
         rails_version = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').match(/RAILS_GEM_VERSION = '(.+?)'/)[1]
@@ -144,7 +173,7 @@ namespace :deploy do
       end
       
       desc 'Install gem dependencies in Ruby Enterprise Edition'
-      task :dependencies
+      task :dependencies do
         gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z_\-]+)["'](.*)/i)
         github_gems = gems.select { |g| g[1] =~ /gems\.github\.com/ }
         gems -= github_gems
