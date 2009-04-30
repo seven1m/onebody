@@ -143,7 +143,14 @@ Features:
     format: string
     value:
     description: The URL for the churchwide Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual ("my calendar") feature.
-  
+  News Page:
+    format: boolean
+    value: false
+    description: Enable community news page. News items can be submitted by admins and/or pulled from an RSS feed (see URL, News RSS setting).
+  News by Users:
+    format: boolean
+    value: false
+    description: Allow user submitted news content (must also enable News Page below).
 Services: 
   Yahoo: 
     format: string

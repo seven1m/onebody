@@ -2,13 +2,15 @@
 #
 # Table name: news_items
 #
-#  id        :integer       not null, primary key
-#  title     :string(255)   
-#  link      :string(255)   
-#  body      :text          
-#  published :datetime      
-#  active    :boolean       default(TRUE)
-#  site_id   :integer       
+#  id         :integer       not null, primary key
+#  title      :string(255)   
+#  link       :string(255)   
+#  body       :text          
+#  created_at :datetime      
+#  active     :boolean       default(TRUE)
+#  site_id    :integer       
+#  source     :string(255)   
+#  person_id  :integer       
 #
 
 class NewsItem < ActiveRecord::Base
@@ -18,7 +20,6 @@ class NewsItem < ActiveRecord::Base
   scope_by_site_id
   
   def name; title; end
-  def created_at; published; end
   
   class << self
     def update_from_feed
@@ -31,10 +32,11 @@ class NewsItem < ActiveRecord::Base
           item.body = raw_item.elements['description'].text
           item.published = (raw_item.elements['dc:date'] || raw_item.elements['pubDate']).text.gsub(/[TZ]/, ' ') rescue nil
           item.active = true
+          item.source = 'feed'
           item.save
           active << item
         end
-        NewsItem.update_all("active = 0", "id not in (#{active.map { |n| n.id }.join(',')})") if active.any?
+        NewsItem.update_all("active = 0", "source = 'feed' and id not in (#{active.map { |n| n.id }.join(',')})") if active.any?
       end
     end  
     

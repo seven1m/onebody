@@ -3,29 +3,21 @@
 # Table name: people
 #
 #  id                           :integer       not null, primary key
-#  legacy_id                    :integer       
 #  family_id                    :integer       
 #  sequence                     :integer       
 #  gender                       :string(6)     
 #  first_name                   :string(255)   
 #  last_name                    :string(255)   
-#  suffix                       :string(25)    
 #  mobile_phone                 :string(25)    
 #  work_phone                   :string(25)    
 #  fax                          :string(25)    
 #  birthday                     :datetime      
 #  email                        :string(255)   
-#  email_changed                :boolean       
 #  website                      :string(255)   
 #  classes                      :string(255)   
 #  shepherd                     :string(255)   
 #  mail_group                   :string(1)     
 #  encrypted_password           :string(100)   
-#  business_name                :string(100)   
-#  business_description         :text          
-#  business_phone               :string(25)    
-#  business_email               :string(255)   
-#  business_website             :string(255)   
 #  activities                   :text          
 #  interests                    :text          
 #  music                        :text          
@@ -40,6 +32,14 @@
 #  share_fax                    :boolean       
 #  share_email                  :boolean       
 #  share_birthday               :boolean       
+#  business_name                :string(100)   
+#  business_description         :text          
+#  business_phone               :string(25)    
+#  business_email               :string(255)   
+#  business_website             :string(255)   
+#  legacy_id                    :integer       
+#  email_changed                :boolean       
+#  suffix                       :string(25)    
 #  anniversary                  :datetime      
 #  updated_at                   :datetime      
 #  alternate_email              :string(255)   
@@ -67,6 +67,11 @@
 #  feed_code                    :string(50)    
 #  share_activity               :boolean       
 #  site_id                      :integer       
+#  barcode_id                   :string(50)    
+#  can_pick_up                  :string(100)   
+#  cannot_pick_up               :string(100)   
+#  medical_notes                :string(200)   
+#  checkin_access               :boolean       
 #  twitter_account              :string(100)   
 #  api_key                      :string(50)    
 #  salt                         :string(50)    
@@ -74,6 +79,7 @@
 #  child                        :boolean       
 #  custom_type                  :string(100)   
 #  custom_fields                :text          
+#  include_family_on_calendar   :boolean       default(TRUE)
 #
 
 class Person < ActiveRecord::Base

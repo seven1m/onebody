@@ -4,16 +4,16 @@
 #
 #  id                        :integer       not null, primary key
 #  name                      :string(100)   
-#  description               :text          
+#  description               :string(500)   
 #  meets                     :string(100)   
 #  location                  :string(100)   
-#  directions                :text          
-#  other_notes               :text          
-#  category                  :string(50)    
+#  directions                :string(500)   
+#  other_notes               :string(500)   
 #  creator_id                :integer       
-#  private                   :boolean       
 #  address                   :string(255)   
 #  members_send              :boolean       default(TRUE)
+#  private                   :boolean       
+#  category                  :string(50)    
 #  leader_id                 :integer       
 #  updated_at                :datetime      
 #  hidden                    :boolean       
