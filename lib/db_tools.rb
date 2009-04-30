@@ -27,6 +27,11 @@ def sql_random
 end
 
 class ActiveRecord::Base
+
+  def self.scope_by_site_id
+    acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 0)"
+  end
+
   def self.hashify(options)
     return [] unless connection.adapter_name == 'MySQL'
     attributes = options[:attributes].select { |a| column_names.include?(a.to_s) }.map { |a| "IFNULL(#{a}, '')" }.join(',')

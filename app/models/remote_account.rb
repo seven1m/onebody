@@ -16,7 +16,7 @@ class RemoteAccount < ActiveRecord::Base
   belongs_to :site
   belongs_to :person
   has_many :sync_instances, :dependent => :destroy
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   
   validates_presence_of :username, :token, :account_type
   validates_inclusion_of :account_type, :in => ACCOUNT_TYPES

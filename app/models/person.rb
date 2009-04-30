@@ -124,7 +124,7 @@ class Person < ActiveRecord::Base
   end
   has_many :service_categories, :through => :services
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
     
   acts_as_password
   acts_as_photo "#{DB_PHOTO_PATH}/people", PHOTO_SIZES

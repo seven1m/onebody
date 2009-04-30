@@ -16,7 +16,7 @@ class MembershipRequest < ActiveRecord::Base
   
   validates_uniqueness_of :group_id, :scope => :person_id
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   
   def after_create
     Notifier.deliver_membership_request(group, person)

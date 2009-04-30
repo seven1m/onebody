@@ -36,7 +36,7 @@ class Family < ActiveRecord::Base
   has_many :people, :order => 'sequence', :dependent => :destroy
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   
   acts_as_photo "#{DB_PHOTO_PATH}/families", PHOTO_SIZES
   acts_as_logger LogItem

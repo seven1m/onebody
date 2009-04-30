@@ -24,7 +24,7 @@ class Recipe < ActiveRecord::Base
   has_and_belongs_to_many :tags
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   
   validates_presence_of :title
   validates_presence_of :ingredients

@@ -27,7 +27,7 @@ class LogItem < ActiveRecord::Base
   
   serialize :object_changes
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   
   def object
     self.loggable

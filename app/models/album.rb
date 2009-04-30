@@ -18,7 +18,7 @@ class Album < ActiveRecord::Base
   belongs_to :site
   has_many :pictures, :dependent => :destroy
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   
   acts_as_logger LogItem
   

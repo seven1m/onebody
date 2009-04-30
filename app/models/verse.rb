@@ -21,7 +21,7 @@ class Verse < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   acts_as_logger LogItem
   acts_as_taggable
     

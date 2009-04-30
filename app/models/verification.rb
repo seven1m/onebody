@@ -15,7 +15,7 @@
 class Verification < ActiveRecord::Base
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
 
   # generates security code
   def before_create

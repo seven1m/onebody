@@ -22,7 +22,7 @@ class Page < ActiveRecord::Base
   has_many :attachments
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   acts_as_logger LogItem
   
   validates_presence_of :slug, :title, :body

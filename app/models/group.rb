@@ -46,7 +46,7 @@ class Group < ActiveRecord::Base
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
   belongs_to :site
   
-  acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 'site-not-set')"
+  scope_by_site_id
   
   validates_presence_of :name
   validates_presence_of :category
