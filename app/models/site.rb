@@ -132,6 +132,8 @@ class Site < ActiveRecord::Base
     # TO DO: this is messy
     was = Site.current
     Site.current = self
+    Person.delete_all("site_id = #{id}") # do real deletes because destroy is overridden to soft-delete
+    Family.delete_all("site_id = #{id}")
     rails_original_destroy
     Site.current = was
   end
