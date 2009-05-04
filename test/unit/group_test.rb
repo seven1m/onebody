@@ -4,7 +4,7 @@ class GroupTest < ActiveSupport::TestCase
   def setup
     @person = Person.logged_in = Person.forge
     @group = Group.forge(:creator_id => @person.id, :category => 'Small Groups')
-    2.times { Group.forge(:category => 'foo') }
+    2.times { Group.forge(:category => 'foo', :hidden => false) }
     Group.forge(:category => 'bar', :hidden => true)
   end
   

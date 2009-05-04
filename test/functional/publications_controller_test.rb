@@ -16,7 +16,7 @@ class PublicationsControllerTest < ActionController::TestCase
   
   should "assign the Publications subscription group" do
     get :index, nil, {:logged_in_id => @person.id}
-    assert_equal Group.find_by_name('Publications'), assigns(:group)
+    assert_equal [Group.find_by_name('Publications')], assigns(:groups)
   end
   
   should "show (send data) for a publication" do
@@ -44,11 +44,12 @@ class PublicationsControllerTest < ActionController::TestCase
   end
   
   should "redirect to a new message upon publication upload" do
+    pub_group = Group.find_by_name('Publications')
     post :create, {
       :publication => {:name => 'test name', :description => 'test desc', :file => fixture_file_upload('files/attachment.pdf')},
-      :send_update => 'true'
+      :send_update_to_group_id => pub_group.id
     }, {:logged_in_id => @admin.id}
-    assert_redirected_to new_message_path(:group_id => Group.find_by_name('Publications'))
+    assert_redirected_to new_message_path(:group_id => pub_group)
   end
   
   should "delete a publication" do
