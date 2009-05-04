@@ -66,7 +66,7 @@ class LogItem < ActiveRecord::Base
   
   def object_url
     return nil if deleted?
-    id = instance_id
+    id = loggable_id
     case loggable_type
     when 'Comment'
       object.on
@@ -84,7 +84,7 @@ class LogItem < ActiveRecord::Base
     return nil unless object.respond_to? 'has_photo?' and object.has_photo?
     controller = loggable_type.pluralize.downcase
     action = 'photo'
-    id = "#{instance_id}.tn.jpg"
+    id = "#{loggable_id}.tn.jpg"
     "/#{controller}/#{action}/#{id}"
   end
   
