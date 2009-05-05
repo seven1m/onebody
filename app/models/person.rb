@@ -175,15 +175,16 @@ class Person < ActiveRecord::Base
   end
   
   def name
-    if deleted?
-      "(removed person)"
-    elsif suffix
-      "#{first_name} #{last_name}, #{suffix}" rescue '???'
-    else
-      "#{first_name} #{last_name}" rescue '???'
+    @name ||= begin
+      if deleted?
+        "(removed person)"
+      elsif suffix
+        "#{first_name} #{last_name}, #{suffix}" rescue '???'
+      else
+        "#{first_name} #{last_name}" rescue '???'
+      end
     end
   end
-  memoize :name
   
   def name_possessive
     name =~ /s$/ ? "#{name}'" : "#{name}'s"
