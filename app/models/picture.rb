@@ -19,7 +19,7 @@ class Picture < ActiveRecord::Base
   
   scope_by_site_id
   
-  acts_as_photo "#{DB_PHOTO_PATH}/pictures", PHOTO_SIZES
+  has_one_photo :path => "#{DB_PHOTO_PATH}/pictures", :sizes => PHOTO_SIZES
   acts_as_logger LogItem
   
   def name

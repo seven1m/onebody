@@ -38,7 +38,7 @@ class Family < ActiveRecord::Base
   
   scope_by_site_id
   
-  acts_as_photo "#{DB_PHOTO_PATH}/families", PHOTO_SIZES
+  has_one_photo :path => "#{DB_PHOTO_PATH}/families", :sizes => PHOTO_SIZES
   acts_as_logger LogItem
   
   alias_method 'photo_without_logging=', 'photo='

@@ -30,7 +30,7 @@ class Recipe < ActiveRecord::Base
   validates_presence_of :ingredients
   validates_presence_of :directions
     
-  acts_as_photo "#{DB_PHOTO_PATH}/recipes", PHOTO_SIZES
+  has_one_photo :path => "#{DB_PHOTO_PATH}/recipes", :sizes => PHOTO_SIZES
   acts_as_logger LogItem
   acts_as_taggable
   

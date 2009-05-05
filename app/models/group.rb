@@ -65,7 +65,7 @@ class Group < ActiveRecord::Base
     end
   end
 
-  acts_as_photo "#{DB_PHOTO_PATH}/groups", PHOTO_SIZES
+  has_one_photo :path => "#{DB_PHOTO_PATH}/groups", :sizes => PHOTO_SIZES
   acts_as_logger LogItem
   
   alias_method 'photo_without_logging=', 'photo='

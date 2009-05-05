@@ -127,7 +127,7 @@ class Person < ActiveRecord::Base
   scope_by_site_id
     
   acts_as_password
-  acts_as_photo "#{DB_PHOTO_PATH}/people", PHOTO_SIZES
+  has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES
     
   acts_as_logger LogItem
   
