@@ -19,6 +19,7 @@ config.action_controller.perform_caching             = false
 config.action_mailer.delivery_method = :test
 
 config.gem 'faker'
+config.gem 'thoughtbot-shoulda', :source => 'http://gems.github.com', :lib => 'shoulda'
 
 # these have to be loaded a bit earlier than usual
 # don't really know why

@@ -13,7 +13,6 @@ require 'tasks/rails'
 Rake::Task['onebody:build_settings_fixture_file'].invoke
 
 require File.dirname(__FILE__) + '/forgeries'
-require File.dirname(__FILE__) + '/test_extensions'
 
 class ActiveSupport::TestCase
   
