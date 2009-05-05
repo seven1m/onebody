@@ -30,6 +30,7 @@ Rails::Initializer.run do |config|
   config.gem 'mislav-will_paginate',            :source => 'http://gems.github.com', :lib => 'will_paginate', :version => '~> 2.3.0'
   config.gem 'seven1m-acts_as_scoped_globally', :source => 'http://gems.github.com', :lib => 'acts_as_scoped_globally'
   config.gem 'seven1m-acts_as_photo',           :source => 'http://gems.github.com', :lib => 'acts_as_photo'
+  config.gem 'seven1m-has_one_file',            :source => 'http://gems.github.com', :lib => 'has_one_file'
   config.gem 'chronic'
   config.gem 'javan-whenever',                  :source => 'http://gems.github.com', :lib => 'whenever'
 end
