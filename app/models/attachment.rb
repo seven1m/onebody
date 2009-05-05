@@ -16,7 +16,7 @@ class Attachment < ActiveRecord::Base
   belongs_to :page
   belongs_to :site
   scope_by_site_id
-  acts_as_file DB_ATTACHMENTS_PATH
+  has_one_file :path => DB_ATTACHMENTS_PATH
   
   def visible_to?(person)
     (message and person.can_see?(message)) or page

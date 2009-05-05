@@ -16,7 +16,7 @@ class Publication < ActiveRecord::Base
   
   scope_by_site_id
   
-  acts_as_file DB_PUBLICATIONS_PATH
+  has_one_file :path => DB_PUBLICATIONS_PATH
   acts_as_logger LogItem
   
   validates_presence_of :name
