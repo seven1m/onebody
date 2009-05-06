@@ -3,6 +3,32 @@ require File.dirname(__FILE__) + '/../test_helper'
 class PersonTest < ActiveSupport::TestCase
   fixtures :people, :families
   
+  context 'Formats' do
+    
+    BAD_EMAIL_ADDRESSES  = ['bad address@example.com', 'bad~address@example.com', 'baddaddress@example.123']
+    GOOD_EMAIL_ADDRESSES = ['bob@example.com', 'abcdefghijklmnopqrstuvwxyz0123456789._%-@abcdefghijklmnopqrstuvwxyz0123456789.-.com']
+    BAD_WEB_ADDRESSES    = ['www.badaddress.com', 'ftp://badaddress.org', "javascript://void(alert('do evil stuff'))"]
+    GOOD_WEB_ADDRESSES   = ['http://www.goodwebsite.org', 'http://goodwebsite.com/a/path?some=args']
+    
+    setup { @person = Person.forge }
+  
+    should_not_allow_values_for :email,            *(BAD_EMAIL_ADDRESSES + [:message => /not.*valid/])
+    should_allow_values_for     :email,            *GOOD_EMAIL_ADDRESSES
+  
+    should_not_allow_values_for :business_email,   *(BAD_EMAIL_ADDRESSES + [:message => /has an incorrect format/])
+    should_allow_values_for     :business_email,   *GOOD_EMAIL_ADDRESSES
+  
+    should_not_allow_values_for :alternate_email,  *(BAD_EMAIL_ADDRESSES + [:message => /has an incorrect format/])
+    should_allow_values_for     :alternate_email,  *GOOD_EMAIL_ADDRESSES
+  
+    should_not_allow_values_for :website,          *(BAD_WEB_ADDRESSES   + [:message => /has an incorrect format/])
+    should_allow_values_for     :website,          *GOOD_WEB_ADDRESSES
+  
+    should_not_allow_values_for :business_website, *(BAD_WEB_ADDRESSES   + [:message => /has an incorrect format/])
+    should_allow_values_for     :business_website, *GOOD_WEB_ADDRESSES
+  
+  end
+  
   should "know which groups the person belongs to" do
     Group.find(:all).each do |group|
       group.people.each do |person|
@@ -18,39 +44,6 @@ class PersonTest < ActiveSupport::TestCase
     p.save
     assert !p.valid?
     assert_equal 'already taken by someone else.', p.errors[:email]
-  end
-  
-  should "validate format of email address" do
-    # test every character allowed
-    p = people(:peter)
-    p.email = 'abcdefghijklmnopqrstuvwxyz0123456789._%-@abcdefghijklmnopqrstuvwxyz0123456789.-.com'
-    p.save
-    assert_nil p.errors[:email]
-    # test what we have in our fixtures
-    Person.find(:all).select { |p| p.email }.each do |p|
-      p.save
-      assert_nil p.errors[:email]
-    end
-    # test a bad one
-    p = people(:peter)
-    p.email = 'bad address@example.com'
-    p.save
-    assert !p.valid?
-    assert_equal 'not a valid email address.', p.errors[:email]
-  end
-  
-  should "validate format of website" do
-    Person.logged_in = people(:peter)
-    # good
-    p = people(:peter)
-    p.website = 'http://goodwebsite.com/a/path?some=args'
-    p.save
-    assert_nil p.errors[:website]
-    # bad
-    p.website = "javascript://void(alert('do evil stuff'))"
-    p.save
-    assert !p.valid?
-    assert_equal "has an incorrect format (are you missing 'http://' at the beginning?)", p.errors[:website]
   end
   
   should "inherit attribute sharing from family" do
