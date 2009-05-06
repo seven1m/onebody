@@ -29,54 +29,105 @@ class PersonTest < ActiveSupport::TestCase
   
   end
   
-  should "know which groups the person belongs to" do
-    Group.find(:all).each do |group|
-      group.people.each do |person|
-        assert person.member_of?(group)
-      end
+  context 'Email Address Sharing' do
+    
+    should 'allow people in the same family to have the same email address' do
+      @person = Person.forge
+      @person2 = Person.forge(:family => @person.family, :email => @person.email)
+      assert @person2.valid?
     end
+    
+    should 'not allow people in different families to have the same email address' do
+      @person = Person.forge
+      @person2 = Person.forge
+      @person2.email = @person.email
+      @person2.save
+      assert @person2.errors.on(:email)
+    end
+    
   end
   
-  should "not allow someone outside the family to share the same email address" do
-    # tim already has email address
-    p = people(:peter)
-    p.email = people(:tim).email
-    p.save
-    assert !p.valid?
-    assert_equal 'already taken by someone else.', p.errors[:email]
+  context 'Group Membership' do
+    
+    setup do
+      @group = Group.forge
+      @person = Person.forge
+      @person2 = Person.forge
+    end
+    
+    should 'know of basic group memberships' do
+      @group.memberships.create! :person => @person
+      assert @person.member_of?(@group)
+      assert !@person2.member_of?(@group)
+    end
+    
+    should 'know about linked group memberships' do
+      @group.update_attributes!(:link_code => 'B345')
+      @person.update_attributes!(:classes => 'A123,B345,C567')
+      @group.update_memberships
+      assert @person.member_of?(@group)
+      assert !@person2.member_of?(@group)
+    end
+    
+    should 'know about parent_of group memberships via basic group membership' do
+      @child = Person.forge(:family => @person.family, :child => true)
+      @group.memberships.create! :person => @child
+      @parent_group = Group.forge(:parents_of => @group.id)
+      @parent_group.update_memberships
+      assert @person.member_of?(@parent_group)
+      assert !@person2.member_of?(@parent_group)
+    end
+    
+    should 'know about parent_of group memberships via linked group membership' do
+      @child = Person.forge(:family => @person.family, :child => true)
+      @group.update_attributes!(:link_code => 'B345')
+      @child.update_attributes!(:classes => 'A123,B345,C567')
+      @group.update_memberships
+      @parent_group = Group.forge(:parents_of => @group.id)
+      @parent_group.update_memberships
+      assert @person.member_of?(@parent_group)
+      assert !@person2.member_of?(@parent_group)
+    end
+    
+  end
+
+  def assert_viewer_can_see(f, p, g, can_see=true)
+    @family.update_attributes!(:share_mobile_phone => f)
+    @person.update_attributes!(:share_mobile_phone => p)
+    @membership.update_attributes!(:share_mobile_phone => g)
+    assert_equal can_see, @person.share_mobile_phone_with(@viewer)
   end
   
-  should "inherit attribute sharing from family" do
-    # update_attribute to nil doesn't seem to work for booleans on fixture instantiated instances
-    f = families(:morgan); p = Person.find(people(:jennie).id)
-    # family = true, person = false, peter should not see
-    f.update_attribute :share_mobile_phone, true
-    p.update_attribute :share_mobile_phone, false
-    assert !p.share_mobile_phone_with(people(:peter))
-    # family = false, person = true, peter should see
-    f.update_attribute :share_mobile_phone, false
-    p.update_attribute :share_mobile_phone, true
-    assert p.share_mobile_phone_with(people(:peter))
-    # family = true, person = nil, peter should see
-    f.update_attribute :share_mobile_phone, true
-    p.update_attribute :share_mobile_phone, nil
-    assert Person.find(people(:jennie).id).share_mobile_phone_with(people(:peter))
-    # family = false, person = nil, peter should not see
-    f.update_attribute :share_mobile_phone, false
-    p.update_attribute :share_mobile_phone, nil
-    assert !Person.find(people(:jennie).id).share_mobile_phone_with(people(:peter))
+  def assert_viewer_cannot_see(f, p, g)
+    assert_viewer_can_see(f, p, g, false)
   end
   
-  should "share information with people and group members properly" do
-    people(:peter).update_attributes! :share_mobile_phone => false
-    assert !people(:peter).share_mobile_phone_with?(people(:jeremy))
-    people(:peter).update_attributes! :share_mobile_phone => true
-    assert people(:peter).share_mobile_phone_with?(people(:jeremy))
-    people(:peter).update_attributes! :share_mobile_phone => false
-    memberships(:peter_in_college_group).update_attributes! :share_mobile_phone => true
-    assert people(:peter).share_mobile_phone_with?(people(:jeremy))
+  context 'Information Sharing (Privacy)' do
+    
+    should 'inherit privacy settings from family' do
+      @person = Person.forge
+      @family = @person.family
+      @viewer = Person.forge
+      @group = Group.forge
+      @group.memberships.create!(:person => @viewer)
+      @membership = @group.memberships.create!(:person => @person)
+      # test all combinations on a single attribute (share_mobile_phone)
+      assert_viewer_cannot_see(true,  false, false)
+      assert_viewer_cannot_see(false, false, false)
+      assert_viewer_cannot_see(false, nil,   false)
+      assert_viewer_can_see(false, true,  false)
+      assert_viewer_can_see(true,  nil,   false)
+      assert_viewer_can_see(true,  true,  false)
+      assert_viewer_can_see(true,  false, true )
+      assert_viewer_can_see(false, false, true )
+      assert_viewer_can_see(false, nil,   true )
+      assert_viewer_can_see(false, true,  true )
+      assert_viewer_can_see(true,  nil,   true )
+      assert_viewer_can_see(true,  true,  true )
+    end
+    
   end
-  
+
   should "create an update" do
     tim = {
       'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
@@ -101,22 +152,23 @@ class PersonTest < ActiveSupport::TestCase
   end
   
   should "mark email_changed when email address changes" do
-    Person.logged_in = people(:tim)
-    people(:tim).email = 'change@example.com'
-    assert !people(:tim).email_changed?
-    people(:tim).save
-    assert people(:tim).email_changed?
+    @person = Person.forge
+    @person.email = 'newaddress@example.com'
+    assert !@person.email_changed?
+    @person.save
+    assert @person.email_changed?
   end
   
   should "generate a custom directory pdf" do
-    assert_match /PDF\-1\.3/, people(:tim).generate_directory_pdf.to_s[0..100]
+    assert_match /PDF\-1\.3/, Person.forge.generate_directory_pdf.to_s[0..100]
   end
   
   should "know when a birthday is coming up" do
-    people(:tim).update_attributes!(:birthday => Time.now + 5.days - 27.years)
-    assert people(:tim).reload.birthday_soon?
-    people(:tim).update_attributes!(:birthday => Time.now - 27.years + (BIRTHDAY_SOON_DAYS + 1).days)
-    assert !people(:tim).reload.birthday_soon?
+    @person = Person.forge
+    @person.update_attributes!(:birthday => Time.now + 5.days - 27.years)
+    assert @person.reload.birthday_soon?
+    @person.update_attributes!(:birthday => Time.now - 27.years + (BIRTHDAY_SOON_DAYS + 1).days)
+    assert !@person.reload.birthday_soon?
   end
   
   should "return a random selection of sidebar group people" do
@@ -132,61 +184,71 @@ class PersonTest < ActiveSupport::TestCase
   end
   
   should "not tz convert a birthday or anniversary" do
+    @person = Person.forge
     Time.zone = 'Central Time (US & Canada)'
-    people(:tim).update_attributes!(:birthday => '4/28/1981')
-    assert_equal '04/28/1981 00:00:00', people(:tim).reload.birthday.strftime('%m/%d/%Y %H:%M:%S')
-    people(:tim).update_attributes!(:anniversary => '8/11/2001')
-    assert_equal '08/11/2001 00:00:00', people(:tim).reload.anniversary.strftime('%m/%d/%Y %H:%M:%S')
+    @person.update_attributes!(:birthday => '4/28/1981')
+    assert_equal '04/28/1981 00:00:00', @person.reload.birthday.strftime('%m/%d/%Y %H:%M:%S')
+    @person.update_attributes!(:anniversary => '8/11/2001')
+    assert_equal '08/11/2001 00:00:00', @person.reload.anniversary.strftime('%m/%d/%Y %H:%M:%S')
   end
   
   should "handle birthdays before 1970" do
-    people(:tim).update_attributes!(:birthday => '1/1/1920')
-    assert_equal '01/01/1920', people(:tim).reload.birthday.strftime('%m/%d/%Y')
+    @person = Person.forge
+    @person.update_attributes!(:birthday => '1/1/1920')
+    assert_equal '01/01/1920', @person.reload.birthday.strftime('%m/%d/%Y')
   end
   
   should "only store digits for phone numbers" do
-    people(:tim).update_attributes!(:mobile_phone => '(123) 456-7890')
-    assert_equal '1234567890', people(:tim).reload.mobile_phone
+    @person = Person.forge
+    @person.update_attributes!(:mobile_phone => '(123) 456-7890')
+    assert_equal '1234567890', @person.reload.mobile_phone
   end
   
-  should "update custom_fields with a hash" do
-    people(:tim).custom_fields = {'0' => 'first', '2' => 'third'}
-    assert_equal ['first', nil, 'third'], people(:tim).custom_fields
-  end
+  context 'Custom Fields' do
+    
+    setup { @person = Person.forge }
   
-  should "convert dates saved in custom_fields" do
-    Setting.set(1, 'Features', 'Custom Person Fields', ['Text', 'A Date'].join("\n"))
-    people(:tim).custom_fields = {'0' => 'first', '1' => 'March 1, 2012'}
-    assert_equal ['first', Date.new(2012, 3, 1)], people(:tim).custom_fields
-    Setting.set(1, 'Features', 'Custom Person Fields', '')
-  end
+    should "update custom_fields with a hash" do
+      @person.custom_fields = {'0' => 'first', '2' => 'third'}
+      assert_equal ['first', nil, 'third'], @person.custom_fields
+    end
   
-  should "update custom_fields with an array" do
-    people(:tim).custom_fields = ['first', nil, 'third']
-    assert_equal ['first', nil, 'third'], people(:tim).custom_fields
-  end
+    should "convert dates saved in custom_fields" do
+      Setting.set(1, 'Features', 'Custom Person Fields', ['Text', 'A Date'].join("\n"))
+      @person.custom_fields = {'0' => 'first', '1' => 'March 1, 2012'}
+      assert_equal ['first', Date.new(2012, 3, 1)], @person.custom_fields
+      Setting.set(1, 'Features', 'Custom Person Fields', '')
+    end
   
-  should "not overwrite existing custom_fields accidentally" do
-    people(:tim).custom_fields = {'0' => 'first', '2' => 'third'}
-    people(:tim).custom_fields = {'1' => 'second'}
-    assert_equal ['first', 'second', 'third'], people(:tim).custom_fields
-  end
+    should "update custom_fields with an array" do
+      @person.custom_fields = ['first', nil, 'third']
+      assert_equal ['first', nil, 'third'], @person.custom_fields
+    end
   
-  should "create an update with custom_fields" do
-    Person.logged_in = people(:jeremy)
-    people(:jeremy).update_from_params(
-      :person => {
-        :first_name => 'Jeremy',
-        :custom_fields => {'0' => 'first', '2' => 'third'}
-      }
-    )
-    people(:jeremy).updates.reload
-    assert_equal ['first', nil, 'third'], people(:jeremy).updates.last.custom_fields
+    should "not overwrite existing custom_fields accidentally" do
+      @person.custom_fields = {'0' => 'first', '2' => 'third'}
+      @person.custom_fields = {'1' => 'second'}
+      assert_equal ['first', 'second', 'third'], @person.custom_fields
+    end
+  
+    should "create an update with custom_fields" do
+      Person.logged_in = @person
+      @person.update_from_params(
+        :person => {
+          :first_name => 'Jeremy',
+          :custom_fields => {'0' => 'first', '2' => 'third'}
+        }
+      )
+      @person.updates.reload
+      assert_equal ['first', nil, 'third'], @person.updates.last.custom_fields
+    end
+    
   end
   
   should "not allow child and birthday to both be unspecified" do
-    people(:mac).update_attributes(:child => nil, :birthday => nil)
-    assert people(:mac).errors.on(:child)
+    @person = Person.forge
+    @person.update_attributes(:child => nil, :birthday => nil)
+    assert @person.errors.on(:child)
   end
   
   private
