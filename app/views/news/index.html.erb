@@ -1,0 +1,14 @@
+<h2>News</h2>
+
+<% @news_items.each do |news_item| %>
+  <div class="news-item">
+    <h3><%=h news_item.title %></h3>
+    <p>
+      <%= white_list_with_removal news_item.body %>
+    </p>
+  </div>
+<% end %>
+
+<% unless @news_items.any? %>
+  <p><em>No news is available at this time.</em></p>
+<% end %>
