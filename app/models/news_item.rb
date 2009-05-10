@@ -21,6 +21,11 @@ class NewsItem < ActiveRecord::Base
   
   def name; title; end
   
+  before_save :update_published_date
+  def update_published_date
+   self.published = Time.now if published.nil?
+  end
+  
   class << self
     def update_from_feed
       if raw_items = get_feed_items

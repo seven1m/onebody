@@ -6,24 +6,25 @@ Feature: Users Submit News
   Background:
     Given I am signed in as a user
   
-  Scenario: User sees no news when there are no submissions
+  Scenario: User sees no news when there are no posts
     Given there are no news items
     When I go to news
     Then I should see "No news is available at this time."
   
-  Scenario: User sees news when there is a submission
+  Scenario: User sees news when there is a post
     Given there is a news item with title "A News Post" and body "This is the first news post."
     When I go to news
     Then I should see "A News Post"
     And I should see "This is the first news post."
   
-  Scenario: User submit news
+  Scenario: User submits news
     When I go to new news submission
-    Then I should see "Title"
-    And I should see "Body"
-    When I fill in "Title" with "My News Item"
-    And I fill in "Body" with "This is my first news post."
+    And I fill in "Give your post a concise title" with "My News Item"
+    And I fill in "Share your announcement, information, or news here" with "This is my first news post."
     And I press "Submit News"
-    Then I should see "Your news post has been submitted."
+    Then I should see "Your news has been submitted."
+    When I go to news
+    Then I should see "My News Item"
+    And I should see "This is my first news post."
   
   # Scenario: User edit items they have submitted

@@ -81,5 +81,14 @@ class NewsController < ApplicationController
       render :text => 'You cannot delete this news item.', :layout => true, :status => 401
     end
   end
-
+  
+  def create
+    @news_item = NewsItem.new(params[:news_item])
+    if @news_item.save
+      flash[:notice] = 'Your news has been submitted.'
+      redirect_to news_path
+    else
+      render :action => 'new'
+    end
+  end
 end
