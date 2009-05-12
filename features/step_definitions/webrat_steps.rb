@@ -19,6 +19,10 @@ When /^I follow "([^\"]*)"$/ do |link|
   click_link(link)
 end
 
+When /^I click "([^\"]*)"$/ do |link|
+  click_link(link)
+end
+
 When /^I fill in "([^\"]*)" with "([^\"]*)"$/ do |field, value|
   fill_in(field, :with => value) 
 end

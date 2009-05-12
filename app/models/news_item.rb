@@ -15,6 +15,7 @@
 
 class NewsItem < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
+  belongs_to :person
   belongs_to :site
   
   scope_by_site_id

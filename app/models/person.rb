@@ -330,6 +330,8 @@ class Person < ActiveRecord::Base
       self.admin?(:edit_pages)
     when 'Attachment'
       (what.page and self.can_edit?(what.page)) or (what.message and self.can_edit?(what.message))
+    when 'NewsItem'
+      self.admin?(:manage_news) or (what.person and what.person == self )
     else
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end

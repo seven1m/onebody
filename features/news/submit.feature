@@ -29,4 +29,19 @@ Feature: Users Submit News
     Then I should see "My News Item"
     And I should see "This is my first news post."
   
-  # Scenario: User edit items they have submitted
+  Scenario: User edits own news post
+    When I go to new news submission
+    And I fill in "Give your post a concise title" with "My News Item"
+    And I fill in "Share your announcement, information, or news here" with "This is my first news post."
+    And I press "Submit News"
+    Then I go to news
+    And I should see "edit"
+    When I click "edit"
+    Then I should see "Edit News Post"
+    And I fill in "Give your post a concise title" with "My Updated News Item"
+    And I fill in "Share your announcement, information, or news here" with "This is my first news post, and it has been edited."
+    And I press "Submit News"
+    Then I should see "Your news has been updated."
+    When I go to news
+    Then I should see "My Updated News Item"
+    And I should see "This is my first news post, and it has been edited."
