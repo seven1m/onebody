@@ -1,5 +1,3 @@
-puts 'loading forgeries------------------------------'
-
 require 'faker'
 
 module Forgeable
