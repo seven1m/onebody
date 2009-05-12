@@ -5,8 +5,8 @@ class NewsController < ApplicationController
     respond_to do |format|
       format.html do
         unless Setting.get(:features, :news_page)
-          if news_url = Setting.get(:url, :news)
-            redirect_to news_url
+          if the_url = Setting.get(:url, :news)
+            redirect_to the_url
           else
             render :text => 'This feature is currently unavailable.'
           end
@@ -20,6 +20,24 @@ class NewsController < ApplicationController
           render :layout => false
         else
           render :text => ''
+        end
+      end
+    end
+  end
+
+  def show
+    if Setting.get(:features, :news_page)
+      respond_to do |format|
+        format.html
+      end
+    else
+      respond_to do |format|
+        format.html do
+          if the_url = Setting.get(:url, :news)
+            redirect_to the_url
+          else
+            render :text => 'This feature is currently unavailable.'
+          end
         end
       end
     end

@@ -4,6 +4,6 @@
   <% if Setting.get(:features, :verses)       %><%= link_to 'Verses',       verses_path              %><% end %>
   <% if Setting.get(:features, :recipes)      %><%= link_to 'Recipes',      recipes_path             %><% end %>
   <% if Setting.get(:url, :news) or Setting.get(:features, :news_page) %>
-    <%= link_to 'News', Setting.get(:url, :news) %>
+    <%= link_to 'News', news_path %>
   <% end %>
 <% end %>

@@ -4,16 +4,16 @@
   <% end %>
 <% end %>
 
-<h2>News</h2>
+<h1>News</h1>
 
 <% @news_items.each do |news_item| %>
   <div class="news-item">
-    <h3>
+    <h2>
       <%=h news_item.title %>
       <% if @logged_in.can_edit?(news_item) %>
         <%= link_to 'edit', edit_news_item_path(news_item), :class => 'discreet' %>
       <% end %>
-    </h3>
+    </h2>
     <p>
       <%= white_list_with_removal news_item.body %>
     </p>
