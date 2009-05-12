@@ -4,7 +4,9 @@ Feature: Users Submit News
   I want to submit news
   
   Background:
-    Given I am signed in as a user
+    Given setting "News Page" in category "Features" is enabled
+    And setting "News by Users" in category "Features" is enabled
+    And I am signed in as a user
   
   Scenario: User sees no news when there are no posts
     Given there are no news items
