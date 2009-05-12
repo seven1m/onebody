@@ -23,10 +23,10 @@
     tabs = [];
     headings = []
     for(var i=0; i<divs.length; i++) {
-      if(divs[i].className == SECTION_CLASS) sections.push(divs[i]);
+      if(divs[i].className.indexOf(SECTION_CLASS) > -1) sections.push(divs[i]);
     }
     for(var i=0; i<htags.length; i++) {
-      if(htags[i].className == TAB_CLASS) {
+      if(htags[i].className.indexOf(TAB_CLASS) > -1) {
         var div = document.createElement("div");
         div.innerHTML = htags[i].innerHTML;
         tabs.push(div);

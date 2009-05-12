@@ -239,6 +239,10 @@ Appearance:
     format: string
     value: aqueouslight
     description: Name of selected theme (from themes/ directory).
+  Tabbed Profile:
+    format: boolean
+    value: false
+    description: Enable to group profile page sections under tabs.
 Privacy: 
   Allow Unencrypted Logins: 
     format: boolean

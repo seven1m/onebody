@@ -72,8 +72,8 @@
   <p><em>Private messaging is not enabled for <%=h @person.first_name %>.</em></p>
 <% end %>
 
-<h2 class="profile" id="about">About</h2>
-<div id="about_content">
+<h2 class="profile tab" id="about">About</h2>
+<div id="about_content" class="section">
   <% if @person.about.to_s.any? %>
     <%= preserve_breaks @person.about %>
   <% else %>
@@ -86,28 +86,28 @@
 </div>
 
 <% if @person.testimony.to_s.any? %>
-  <h2 class="profile" id="testimony">Testimony</h2>
-  <div id="testimony_content">
+  <h2 class="profile tab" id="testimony">Testimony</h2>
+  <div id="testimony_content" class="section">
     <%= preserve_breaks @person.testimony %>
     <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
   </div>
 <% end %>
 
 <% if Setting.get(:features, :blog) %>
-  <h2 class="profile" id="blog">Blog</h2>
-  <div id="blog_content">
+  <h2 class="profile tab" id="blog">Blog</h2>
+  <div id="blog_content" class="section">
     <%= render :partial => 'blogs/blog' %>
   </div>
 <% end %>
 
-<h2 class="profile" id="favorites">Favorites</h2>
-<div id="favorites_content">
+<h2 class="profile tab" id="favorites">Favorites</h2>
+<div id="favorites_content" class="section">
   <%= render :partial => 'favorites' %>
 </div>
 
 <% if @person.wall_enabled? %>
-  <h2 class="profile" id="wall">Wall</h2>
-  <div id="wall_content">
+  <h2 class="profile tab" id="wall">Wall</h2>
+  <div id="wall_content" class="section">
     <%= render :partial => 'walls/wall' %>
   </div>
 <% end %>
@@ -125,4 +125,10 @@
 
 <% if @show_map %>
   <%= render :partial => 'map_scripts' %>
+<% end %>
+
+<% if Setting.get(:appearance, :tabbed_profile) %>
+  <%= stylesheet_link_tag 'tabs.css' %>
+  <%= javascript_include_tag 'tabs.js' %>
+  <script type="text/javascript"> set_up() </script>
 <% end %>
