@@ -16,16 +16,3 @@ end
 
 require 'cucumber/rails/rspec'
 require 'webrat/core/matchers'
-
-# require 'spec/mocks/framework'
-# require 'spec/mocks/extensions'
-# 
-# World(Spec::Mocks::ExampleMethods)
-# 
-# Before do
-#   $rspec_stubs ||= Spec::Mocks::Space.new
-# end
-# 
-# After do
-#   $rspec_stubs.reset_all
-# end
