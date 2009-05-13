@@ -1,0 +1,5 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'All News', news_path %></li>
+<% end %>
+
+<%= render :partial => 'news_item', :object => @news_item %>

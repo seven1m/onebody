@@ -6,19 +6,7 @@
 
 <h1>News</h1>
 
-<% @news_items.each do |news_item| %>
-  <div class="news-item">
-    <h2>
-      <%=h news_item.title %>
-      <% if @logged_in.can_edit?(news_item) %>
-        <%= link_to 'edit', edit_news_item_path(news_item), :class => 'discreet' %>
-      <% end %>
-    </h2>
-    <p>
-      <%= white_list_with_removal news_item.body %>
-    </p>
-  </div>
-<% end %>
+<%= render :partial => 'news_item', :collection => @news_items %>
 
 <% unless @news_items.any? %>
   <p><em>No news is available at this time.</em></p>

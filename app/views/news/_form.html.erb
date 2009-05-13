@@ -5,9 +5,9 @@
   </p>
   <p>
     <%= form.label :body, 'Share your announcement, information, or news here:' %>
-    <%= form.text_area :body, :rows => 5, :cols => 80 %>
+    <%= form.text_area :body, :rows => 10, :cols => 100, :style => 'width:75%;' %>
   </p>
   <p>
-    <%= form.submit 'Submit News' %>
+    <%= form.submit @news_item.new_record? ? 'Submit News' : 'Save News' %>
   </p>
 <% end %>

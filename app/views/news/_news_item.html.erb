@@ -1,0 +1,17 @@
+<div class="news-item">
+  <h2>
+    <%= link_to h(news_item.title), news_item, :class => 'no-underline' %>
+    <% if @logged_in.can_edit?(news_item) %>
+      <%= link_to 'edit', edit_news_item_path(news_item), :class => 'discreet' %>
+    <% end %>
+  </h2>
+  <div class="news-item-meta">
+    posted <%= news_item.published.to_s(:date) %>
+    <% if news_item.person %>
+      by <%= link_to h(news_item.person.name), news_item.person %>
+    <% end %>
+  </div>
+  <p>
+    <%= white_list_with_removal news_item.body %>
+  </p>
+</div>

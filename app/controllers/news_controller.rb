@@ -1,7 +1,7 @@
 class NewsController < ApplicationController
 
   def index
-    @news_items = NewsItem.all(:order => 'published desc', :conditions => ['active = ?', true])
+    @news_items = NewsItem.find_all_by_active(true, :order => 'published desc', :include => :person)
     respond_to do |format|
       format.html do
         unless Setting.get(:features, :news_page)
@@ -28,7 +28,9 @@ class NewsController < ApplicationController
   def show
     if Setting.get(:features, :news_page)
       respond_to do |format|
-        format.html
+        format.html do
+          @news_item = NewsItem.find(params[:id])
+        end
       end
     else
       respond_to do |format|

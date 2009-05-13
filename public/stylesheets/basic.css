@@ -334,3 +334,7 @@ div.autocomplete ul li {
 #template-help code {
 	white-space: nowrap;
 }
+
+.news-item-meta {
+	font-size: smaller;
+}
