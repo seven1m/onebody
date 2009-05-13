@@ -36,7 +36,7 @@ Feature: Users Submit News
     And I press "Submit News"
     Then I go to news
     And I should see "edit"
-    When I click "edit"
+    When I click "edit" on the news item "My News Item" 
     Then I should see "Edit News Post"
     And I fill in "Give your post a concise title" with "My Updated News Item"
     And I fill in "Share your announcement, information, or news here" with "This is my first news post, and it has been edited."

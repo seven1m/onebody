@@ -7,3 +7,9 @@ Given /^there is a news item with title "([^\"]*)" and body "([^\"]*)"$/ do |tit
     :body  => body
   )
 end
+
+When /^I click "([^\"]*)" on the news item "([^\"]*)"$/ do |link, title|
+ response.should have_selector(".news-item a")
+ click_link_within(".news-item[:first]", "edit")
+end
+
