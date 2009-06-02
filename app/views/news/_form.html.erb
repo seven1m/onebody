@@ -1,0 +1,13 @@
+<% form_for @news_item, :url => @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
+  <p>
+    <%= form.label :title, 'Give your post a concise title:' %>
+    <%= form.text_field :title %>
+  </p>
+  <p>
+    <%= form.label :body, 'Share your announcement, information, or news here:' %>
+    <%= form.text_area :body, :rows => 10, :cols => 100, :style => 'width:75%;' %>
+  </p>
+  <p>
+    <%= form.submit @news_item.new_record? ? 'Submit News' : 'Save News' %>
+  </p>
+<% end %>

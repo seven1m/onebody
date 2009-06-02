@@ -61,7 +61,7 @@ unless defined?(DISABLE_ROUTES)
     map.resources :notes
     map.resources :shares
     map.resources :tags
-    map.resources :news
+    map.resources :news, :singular => 'news_item'
     map.resources :comments
     map.resources :attachments, :member => {:get => :get}
   

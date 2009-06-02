@@ -95,8 +95,10 @@ module Forgeable
 end
 
 %w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest).each do |model|
-  eval model
-  eval "class #{model}; include Forgeable; end"
+  # TODO: try this - eval "#{model}.class_eval { include Forgeable }"
+  eval "#{model}.class_eval { include Forgeable }"
+  #eval model
+  #eval "class #{model}; include Forgeable; end"
 end
 
 class Person
@@ -106,7 +108,7 @@ class Person
     last_name = Faker::Name.last_name
     photo = attributes.delete(:photo)
     attributes[:family] ||= Family.forge(:name => "#{first_name} #{last_name}", :last_name => last_name)
-    defaults = {:first_name => first_name, :last_name => last_name, :gender => 'Male', :visible_to_everyone => true, :visible => true, :can_sign_in => true, :full_access => true, :email => Faker::Internet.email, :encrypted_password => '5ebe2294ecd0e0f08eab7690d2a6ee69', :child => false}
+    defaults = {:first_name => first_name, :last_name => last_name, :gender => 'Male', :visible_to_everyone => true, :visible => true, :can_sign_in => true, :full_access => true, :email => Faker::Internet.email, :password => 'secret', :child => false}
     person = create!(defaults.merge(attributes))
     person.forge_photo if photo
     person

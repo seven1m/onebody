@@ -16,6 +16,7 @@
 #  pictures_enabled      :boolean       default(TRUE)
 #  publications_enabled  :boolean       default(TRUE)
 #  active                :boolean       default(TRUE)
+#  twitter_enabled       :boolean       
 #
 
 class Site < ActiveRecord::Base
