@@ -1,3 +1,16 @@
+<%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg.js' %>
+<%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg-settings.js' %>
+
+<script type="text/javascript">
+  page_full = new WYSIWYG.Settings();
+  page_full.ImagesDir = "/javascripts/openwysiwyg/images/";
+  page_full.PopupsDir = "/javascripts/openwysiwyg/popups/";
+  page_full.CSSFile   = "/javascripts/openwysiwyg/styles/wysiwyg.css";
+  page_full.Width     = "80%";
+  page_full.Height    = "350px";
+  WYSIWYG.attach('news_item_body', page_full);
+</script>
+
 <% form_for @news_item, :url => @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
   <p>
     <%= form.label :title, 'Give your post a concise title:' %>

@@ -50,6 +50,20 @@ li.family-member{
   vertical-align: top;
 }
 
+#wysiwyg_div_news_item_body img {
+  padding: 0;
+  margin: 0;
+	background: transparent;
+	border: none;
+}
+
+#wysiwyg_div_news_item_body td {
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+}
+
+
 tr.void td,
 tr.void td a,
 tr.void td a:link,

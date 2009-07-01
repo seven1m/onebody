@@ -49,33 +49,37 @@ class NewsController < ApplicationController
     if @logged_in.admin?(:manage_news) or Setting.get(:features, :news_by_users)
       @news_item = NewsItem.new
     else
-      render :text => 'You cannot add news here.', :layout => true, :status => 401
+      render :text => 'You are not authorized to submit news.', :layout => true, :status => 401
     end
   end
 
   def create
-    @news_item = NewsItem.new(params[:news_item])
-    if @news_item.save
-      respond_to do |format|
-        format.html { flash[:notice] = 'News saved.'; redirect_to @news_item }
+    if @logged_in.admin?(:manage_news) or Setting.get(:features, :news_by_users)
+      @news_item = NewsItem.new(params[:news_item].merge(:person_id => @logged_in.id))
+      if @news_item.save
+        respond_to do |format|
+          format.html { flash[:notice] = 'News saved.'; redirect_to @news_item }
+        end
+      else
+        respond_to do |format|
+          format.html { render :action => 'new' } 
+        end
       end
     else
-      respond_to do |format|
-        format.html { render :action => 'new' } 
-      end
+      render :text => 'You are not authorized to submit news.', :layout => true, :status => 401
     end
   end
 
   def edit
     @news_item = NewsItem.find(params[:id])
-    unless @logged_in.admin?(:manage_news) or (Setting.get(:features, :news_by_users) and @news_item.person == @logged_in)
+    unless @logged_in.can_edit?(@news_item)
       render :text => 'You cannot edit this news item.', :layout => true, :status => 401
     end
   end
 
   def update
     @news_item = NewsItem.find(params[:id])
-    if @logged_in.admin?(:manage_news) or (Setting.get(:features, :news_by_users) and @news_item.person == @logged_in)
+    if @logged_in.can_edit?(@news_item)
       if @news_item.update_attributes(params[:news_item])
         respond_to do |format|
           format.html { flash[:notice] = 'News saved.'; redirect_to @news_item }
@@ -92,23 +96,13 @@ class NewsController < ApplicationController
 
   def destroy
     @news_item = NewsItem.find(params[:id])
-    if @logged_in.admin?(:manage_news) or (Setting.get(:features, :news_by_users) and @news_item.person == @logged_in)
+    if @logged_in.can_edit?(@news_item)
       @news_item.destroy
       respond_to do |format|
-        format.html { flash[:notice] = 'News deleted.'; redirect_to news_items_path }
+        format.html { flash[:notice] = 'News deleted.'; redirect_to news_path }
       end
     else
       render :text => 'You cannot delete this news item.', :layout => true, :status => 401
-    end
-  end
-  
-  def create
-    @news_item = NewsItem.new(params[:news_item])
-    if @news_item.save
-      flash[:notice] = 'Your news has been submitted.'
-      redirect_to news_path
-    else
-      render :action => 'new'
     end
   end
 end
