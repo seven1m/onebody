@@ -1,6 +1,6 @@
 xml.instruct! :xml, :version=>"1.0" 
 xml.feed(:xmlns => "http://www.w3.org/2005/Atom") do |feed|
-  feed.title "#{@person.name_possessive} Recently Feed"
+  feed.title "#{@person.name_possessive} Activity Feed"
   feed.link  people_url, :href => people_url
   for item in @items do
     feed.entry do |entry|

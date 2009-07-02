@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <link rel="alternate" type="application/atom+xml" title="News Feed" href="<%= url_for news_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+<% end %>
+
 <% content_for :subnav do %>
   <% if Setting.get(:features, :news_by_users) %>
     <li><%= link_to 'Submit News', new_news_item_path %></li>

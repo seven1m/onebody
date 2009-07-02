@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <link rel="alternate" type="application/atom+xml" title="Activity Feed" href="<%= url_for feed_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+<% end %>
+
 <% content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">

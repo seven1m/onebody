@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <link rel="alternate" type="application/atom+xml" title="Publications Feed" href="<%= url_for publications_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+<% end %>
+
 <%= render :partial => 'shares/subnav' %>
 
 <h1>Publications</h1>
