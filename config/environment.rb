@@ -31,6 +31,7 @@ Rails::Initializer.run do |config|
   config.gem 'seven1m-acts_as_scoped_globally', :source => 'http://gems.github.com', :lib => 'acts_as_scoped_globally'
   config.gem 'seven1m-has_one_photo',           :source => 'http://gems.github.com', :lib => 'has_one_photo'
   config.gem 'seven1m-has_one_file',            :source => 'http://gems.github.com', :lib => 'has_one_file'
+  config.gem 'seven1m-campaign_monitor',        :source => 'http://gems.github.com', :lib => 'campaign_monitor'
   config.gem 'chronic'
   config.gem 'javan-whenever',                  :source => 'http://gems.github.com', :lib => 'whenever'
 end
