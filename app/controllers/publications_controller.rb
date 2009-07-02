@@ -1,4 +1,8 @@
 class PublicationsController < ApplicationController
+  
+  skip_before_filter :authenticate_user, :only => %w(index)
+  before_filter :authenticate_user_with_code_or_session, :only => %w(index)
+  
   def index
     @publications = Publication.all(:order => 'created_at desc')
     @groups = Group.all(:conditions => "name like 'Publications%'")
