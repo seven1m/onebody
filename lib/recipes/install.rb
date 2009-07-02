@@ -105,7 +105,7 @@ namespace :deploy do
     
     desc 'Install gem dependencies'
     task :dependencies, :roles => :web do
-      gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z_\-]+)["'](.*)/i)
+      gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z0-9_\-]+)["'](.*)/i)
       github_gems = gems.select { |g| g[1] =~ /gems\.github\.com/ }
       gems -= github_gems
       sudo "gem install --no-rdoc --no-ri #{github_gems.map { |g| g[0] }.join(' ')} -s http://gems.github.com"
@@ -174,7 +174,7 @@ namespace :deploy do
       
       desc 'Install gem dependencies in Ruby Enterprise Edition'
       task :dependencies do
-        gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z_\-]+)["'](.*)/i)
+        gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z0-9_\-]+)["'](.*)/i)
         github_gems = gems.select { |g| g[1] =~ /gems\.github\.com/ }
         gems -= github_gems
         sudo "/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri #{github_gems.map { |g| g[0] }.join(' ')} -s http://gems.github.com"
