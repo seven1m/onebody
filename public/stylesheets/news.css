@@ -1,0 +1,4 @@
+img { border: none; padding: 0; background-color: transparent; }
+.alignleft { float: left; margin: 0 10px 10px 0; }
+.alignright { float: right; margin: 0 0 10px 10px; }
+h2 { clear: both; }

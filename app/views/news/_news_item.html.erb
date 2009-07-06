@@ -11,7 +11,7 @@
     <% if news_item.person %>
       by <%= link_to h(news_item.person.name), news_item.person %>
     <% elsif news_item.link.to_s.any? %>
-      from <%= link_to h(news_item.link), news_item.link %>
+      from <%= link_to h(news_item.link.sub(/^http:\/\//, '')), news_item.link %>
     <% end %>
   </div>
   <p>
