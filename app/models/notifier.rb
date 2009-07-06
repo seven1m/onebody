@@ -237,7 +237,7 @@ class Notifier < ActionMailer::Base
             :to => to_person,
             :person => @person,
             :subject => email.subject,
-            :body => clean_body(body),
+            :body => clean_body(body[:text]),
             :html_body => clean_body(body[:html]),
             :parent => message
           )
