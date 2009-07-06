@@ -18,7 +18,7 @@ namespace :deploy do
     desc 'Install Ruby/OneBody prerequisites'
     task :prerequisites do
       sudo 'aptitude update'
-      sudo 'aptitude install -y build-essential imagemagick apache2 apache2-dev apache2-mpm-worker apache2-threaded-dev git-core rsync'
+      sudo 'aptitude install -y build-essential imagemagick apache2 apache2-dev apache2-mpm-worker apache2-threaded-dev git-core rsync libxml2-dev libxslt-dev libcurl4-gnutls-dev'
     end
     
     desc 'Install Ruby'
@@ -108,8 +108,8 @@ namespace :deploy do
       gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z0-9_\-]+)["'](.*)/i)
       github_gems = gems.select { |g| g[1] =~ /gems\.github\.com/ }
       gems -= github_gems
-      sudo "gem install --no-rdoc --no-ri #{github_gems.map { |g| g[0] }.join(' ')} -s http://gems.github.com"
       sudo "gem install --no-rdoc --no-ri #{gems.map { |g| g[0] }.join(' ')}"
+      sudo "gem install --no-rdoc --no-ri #{github_gems.map { |g| g[0] }.join(' ')} -s http://gems.github.com"
     end
     
     # Ruby Enterprise Edition Recipes
@@ -177,8 +177,8 @@ namespace :deploy do
         gems = File.read(File.dirname(__FILE__) + '/../../config/environment.rb').scan(/config\.gem ["']([a-z0-9_\-]+)["'](.*)/i)
         github_gems = gems.select { |g| g[1] =~ /gems\.github\.com/ }
         gems -= github_gems
-        sudo "/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri #{github_gems.map { |g| g[0] }.join(' ')} -s http://gems.github.com"
         sudo "/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri #{gems.map { |g| g[0] }.join(' ')}"
+        sudo "/opt/ruby-enterprise/bin/gem install --no-rdoc --no-ri #{github_gems.map { |g| g[0] }.join(' ')} -s http://gems.github.com"
       end
 
     end
