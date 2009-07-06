@@ -34,6 +34,7 @@ Rails::Initializer.run do |config|
   config.gem 'seven1m-campaign_monitor',        :source => 'http://gems.github.com', :lib => 'campaign_monitor'
   config.gem 'chronic'
   config.gem 'javan-whenever',                  :source => 'http://gems.github.com', :lib => 'whenever'
+  config.gem 'pauldix-feedzirra',               :source => 'http://gems.github.com', :lib => 'feedzirra'
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO

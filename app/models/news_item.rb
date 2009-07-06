@@ -32,11 +32,11 @@ class NewsItem < ActiveRecord::Base
       if raw_items = get_feed_items
         active = []
         raw_items.each do |raw_item|
-          item = NewsItem.find_by_link(raw_item.elements['link'].text) || NewsItem.new
-          item.link = raw_item.elements['link'].text
-          item.title = raw_item.elements['title'].text
-          item.body = raw_item.elements['description'].text
-          item.published = (raw_item.elements['dc:date'] || raw_item.elements['pubDate']).text.gsub(/[TZ]/, ' ') rescue nil
+          item = NewsItem.find_by_link(raw_item.url) || NewsItem.new
+          item.link = raw_item.url
+          item.title = raw_item.title
+          item.body = raw_item.content || raw_item.summary
+          item.published = raw_item.published
           item.active = true
           item.source = 'feed'
           item.save
@@ -47,12 +47,10 @@ class NewsItem < ActiveRecord::Base
     end  
     
     def get_feed_items
-      if Setting.get(:url, :news_rss)
+      if url = Setting.get(:url, :news_rss)
         begin
-          xml = Net::HTTP.get(URI.parse(Setting.get(:url, :news_rss)))
-          root = REXML::Document.new(xml).root
-          items = root.elements.to_a('item')
-          items.any? ? items : root.elements['channel'].elements.to_a('item')
+          feed = Feedzirra::Feed.fetch_and_parse(url)
+          feed.entries
         rescue
           nil
         end
