@@ -38,6 +38,9 @@ You'll first need [Ruby on Rails](http://rubyonrails.org/download),
 [ImageMagick](http://www.imagemagick.org/script/index.php),
 and the sqlite3-ruby gem (`sudo gem install sqlite3-ruby`). Then:
 
+    # if on Ubuntu:
+    sudo aptitude install -y build-essential imagemagick libxml2-dev libxslt-dev libcurl4-gnutls-dev
+    # then:
     sudo rake gems:install
     rake db:migrate onebody:load_sample_data
     script/server
