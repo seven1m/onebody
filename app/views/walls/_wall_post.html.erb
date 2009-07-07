@@ -2,7 +2,7 @@
 on <%=h @person.name_possessive %> wall.
 
 <div id="wall_message">
-  <% form_for Message.new(:wall => @person), :html => {:style => 'border:none;'} do |form| %>
+  <% remote_form_for Message.new(:wall => @person), :html => {:style => 'border:none;'}, :update => 'wall_content' do |form| %>
     <%= form.hidden_field :wall_id %>
     <em>All users will see your message; to send a private
     message, <%= link_to 'click here', new_message_path(:to_person_id => @person) %>.</em><br/>

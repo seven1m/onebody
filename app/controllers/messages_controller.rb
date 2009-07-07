@@ -33,10 +33,18 @@ class MessagesController < ApplicationController
   def create_wall_message
     @person = Person.find(params[:message][:wall_id])
     if @logged_in.can_see?(@person) and @person.wall_enabled?
-      @person.wall_messages.create! params[:message].merge(:subject => 'Wall Post', :person => @logged_in)
+      message = @person.wall_messages.create(params[:message].merge(:subject => 'Wall Post', :person => @logged_in))
       respond_to do |format|
-        format.html { redirect_to person_path(@person) + '#wall' }
+        format.html do
+          if message.errors.any?
+            flash[:wall_notice] = "There was an error posting the wall message: #{message.errors.full_messages.join('; ')}"
+          end
+          redirect_to person_path(@person) + '#wall'
+        end
         format.js do
+          if message.errors.any?
+            @wall_notice = "There was an error posting the wall message: #{message.errors.full_messages.join('; ')}"
+          end
           @messages = @person.wall_messages.find(:all, :limit => 10)
           render :partial => 'walls/wall'
         end

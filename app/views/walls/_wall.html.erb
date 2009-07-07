@@ -1,3 +1,4 @@
+<% if notice = @wall_notice || flash[:wall_notice] %><p class="very-strong"><%=h notice %></p><% end %>
 <p>
   <% if me? %>
     <em>The Wall is a place for people to post friendly messages for you and others to see.</em>
