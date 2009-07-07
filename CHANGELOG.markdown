@@ -1,17 +1,27 @@
 OneBody Change Log
 ==================
 
-0.8.1 / April, 2009
+0.8.1 / July 7, 2009
 -------------------
+
+**Upgrade Note:** Prerequisites have changed on Linux; be sure to read
+[InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody).
 
 **Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
 
 * Upgrade to Rails 2.3.2
 * New Calendar tab with merged church-wide and group calendar events (thanks to PowerChurch)
 * Ability to comment on pictures (thanks to PowerChurch)
+* New "Tabbed Profile" option
+* User generated News section
+* Low level support for syncing a group with a Campaign Monitor subscriber list
+* Feed auto-discovery for publications, friend activity, and news
 * Allow HTML content in emails
+* Ability to have multiple Publications groups.
 * Speedups for viewing large groups
 * Improved News RSS feed grabbing
+* OneBody plugins are now Rails engines
+* Cap recipes to install/deploy on Ruby Enterprise Edition
 * Bug fixes
 
 0.8.0 / March 7, 2009
