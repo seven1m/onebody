@@ -104,7 +104,7 @@ class Person < ActiveRecord::Base
   has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
   has_and_belongs_to_many :verses, :order => 'book, chapter, verse'
   has_many :log_items
-  has_many :blog_items
+  has_many :stream_items
   has_many :friendships, :order => 'ordering, created_at'
   has_many :friends, :class_name => 'Person', :through => :friendships, :order => 'friendships.ordering'
   has_many :friendship_requests

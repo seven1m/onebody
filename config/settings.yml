@@ -62,10 +62,6 @@ Features:
     value: false
     description: If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext.
     global: true
-  Notes: 
-    format: boolean
-    value: true
-    description: Enable Notes sharing (blog).
   Sign Up: 
     format: boolean
     value: false
@@ -74,10 +70,6 @@ Features:
     format: string
     value: 
     description: Message to display across top of all pages on site (HTML), like an alert
-  Blog: 
-    format: boolean
-    value: true
-    description: Enable Personal blog.
   Groups: 
     format: boolean
     value: true
@@ -162,6 +154,14 @@ Services:
     value: 
     description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
     global: true
+  Facebook API Key:
+    format: string
+    value:
+    description: If you have a Facebook application API key, put it here so that Lifestream activity can be pulled from Facebook user accounts. (Requires the API secret below.)
+  Facebook API Secret:
+    format: string
+    value:
+    description:
 Access: 
   Super Admins: 
     format: list

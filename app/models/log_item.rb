@@ -88,12 +88,8 @@ class LogItem < ActiveRecord::Base
     "/#{controller}/#{action}/#{id}"
   end
   
-  def is_blog_item?
-    return false unless %w(Verse Recipe Note Picture).include?(loggable_type)
-    # if an admin or another person does something on behalf of someone else, don't count it as a blog item entry
-    return false if object.respond_to?(:person_id) and object.person_id != self.person_id
-    #return false if object.respond_to?(:people)    and !object.person_ids.include?(self.person_id)
-    true
+  def is_stream_item?
+    %w(Verse Recipe Note Picture).include?(loggable_type)
   end
   
   # crude way of determining if this is the first log_item for this object
@@ -103,26 +99,25 @@ class LogItem < ActiveRecord::Base
     LogItem.count('*', :conditions => conditions) == 0
   end
   
-  after_create :create_as_blog_item
+  after_create :create_as_stream_item
   
-  def create_as_blog_item
-    return unless is_blog_item?
-    return unless created? and !deleted? # only on creation (one BlogItem per object please)
-    BlogItem.create!(
-      :name           => self.name,
-      :body           => object.respond_to?(:body) ? object.body : nil, # body is aliased to text in Verse and description in Recipe
-      :album_id       => object.respond_to?(:album_id) ? object.album_id : nil,
-      :person_id      => self.person_id,
-      :bloggable_type => self.loggable_type,
-      :bloggable_id   => self.loggable_id,
-      :created_at     => self.created_at
+  def create_as_stream_item
+    return unless is_stream_item? and created? and !deleted?
+    StreamItem.create!(
+      :title           => self.name,
+      :body            => object.respond_to?(:body) ? object.body : nil, # body is aliased to text in Verse and description in Recipe
+      :album_id        => object.respond_to?(:album_id) ? object.album_id : nil,
+      :person_id       => self.person_id,
+      :streamable_type => self.loggable_type,
+      :streamable_id   => self.loggable_id,
+      :created_at      => self.created_at
     )
   end
   
-  after_destroy :delete_blog_item
+  after_destroy :delete_stream_item
   
-  def delete_blog_item
-    BlogItem.destroy_all(:bloggable_type => self.loggable_type, :bloggable_id => self.loggable_id)
+  def delete_stream_item
+    StreamItem.destroy_all(:streamable_type => self.loggable_type, :streamable_id => self.loggable_id)
   end
   
   def showable_change_keys
