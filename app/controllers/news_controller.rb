@@ -69,7 +69,7 @@ class NewsController < ApplicationController
 
   def create
     if @logged_in.admin?(:manage_news) or Setting.get(:features, :news_by_users)
-      @news_item = NewsItem.new(params[:news_item].merge(:person_id => @logged_in.id))
+      @news_item = NewsItem.new(params[:news_item].merge(:person_id => @logged_in.id, :source => 'user'))
       if @news_item.save
         respond_to do |format|
           format.html { flash[:notice] = 'News saved.'; redirect_to @news_item }

@@ -2,7 +2,7 @@ class CreateStreamItems < ActiveRecord::Migration
   def self.up
     create_table :stream_items do |t|
       t.integer :site_id
-      t.string :intro, :limit => 500
+      t.string :title, :limit => 500
       t.text :body
       t.integer :person_id
       t.references :streamable, :polymorphic => true

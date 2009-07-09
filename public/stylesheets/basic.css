@@ -352,3 +352,12 @@ div.autocomplete ul li {
 .news-item-meta {
 	font-size: smaller;
 }
+
+.stream-item-body {
+  clear: left;
+}
+
+.stream-item-heading {
+	display: inline;
+	font-size: 12pt;
+}

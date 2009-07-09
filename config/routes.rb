@@ -4,6 +4,8 @@ unless defined?(DISABLE_ROUTES)
     PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
 
     map.home '', :controller => 'pages', :action => 'show_for_public'
+    
+    map.resource :stream
   
     map.resource :account, :member => {:verify_code => :any, :select => :any}
   

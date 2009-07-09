@@ -88,8 +88,10 @@ class LogItem < ActiveRecord::Base
     "/#{controller}/#{action}/#{id}"
   end
   
+  STREAMABLE_CLASSES = %w(Verse Recipe Note Picture NewsItem)
+  
   def is_stream_item?
-    %w(Verse Recipe Note Picture).include?(loggable_type)
+    STREAMABLE_CLASSES.include?(loggable_type)
   end
   
   # crude way of determining if this is the first log_item for this object
@@ -99,24 +101,11 @@ class LogItem < ActiveRecord::Base
     LogItem.count('*', :conditions => conditions) == 0
   end
   
-  def stream_intro
-    case loggable_type
-      when 'Verse'
-        "#{self.person.name} likes #{loggable.reference}"
-      when 'Recipe'
-        "#{self.person.name} shared a recipe for #{loggable.title}"
-      when 'Note'
-        "#{self.person.name} shared a note about \"#{loggable.title}\""
-      when 'Picture'
-        "#{self.person.name} uploaded pictures"
-    end
-  end
-  
   def stream_body
     if loggable.respond_to?(:body)
       loggable.body
     elsif loggable_type == 'Picture'
-      "#{link_to image_tag(medium_picture_path(loggable), :alt => 'click to enlarge')}\n"
+      "<a href=\"#{album_picture_path(loggable.album, loggable)}\"><img src=\"#{medium_picture_path(loggable)}\" alt=\"click to enlarge\"/></a>\n"
     end
   end
   
@@ -131,12 +120,12 @@ class LogItem < ActiveRecord::Base
       last_stream_item.save!
     else
       StreamItem.create!(
-        :intro           => stream_intro,
+        :title           => loggable.name,
         :body            => stream_body,
-        :person_id       => self.person_id,
-        :streamable_type => self.loggable_type,
-        :streamable_id   => self.loggable_id,
-        :created_at      => self.created_at
+        :person_id       => person_id,
+        :streamable_type => loggable_type,
+        :streamable_id   => loggable_id,
+        :created_at      => created_at
       )
     end
   end

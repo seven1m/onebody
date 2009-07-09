@@ -1,0 +1,14 @@
+<% content_for :subnav do %>
+  <li><%= image_tag 'checkmark.png', :alt => 'enabled', :class => 'icon' %><a href="#">News</a></li>
+  <li><%= image_tag 'checkmark.png', :alt => 'enabled', :class => 'icon' %><a href="#">Friends</a></li>
+  <li><%= image_tag 'checkmark.png', :alt => 'enabled', :class => 'icon' %><a href="#">Groups</a></li>
+  <li><%= image_tag 'checkmark.png', :alt => 'enabled', :class => 'icon' %><a href="#">You</a></li>
+  <li><%= image_tag 'remove.gif',    :alt => 'enabled', :class => 'icon' %><a href="#">Everyone</a></li>
+<% end %>
+
+<%= render :partial => 'stream_item', :collection => @stream_items %>
+
+<% if @stream_items.empty? %>
+
+  
+<% end %>

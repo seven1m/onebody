@@ -141,7 +141,7 @@ class PagesController < ApplicationController
     
     def feature_enabled?
       unless (@page and @page.system? and !@page.home?) or Setting.get(:features, :content_management_system)
-        redirect_to people_path
+        redirect_to stream_path
         false
       end
     end

@@ -1,0 +1,17 @@
+<div style="width:45%;">
+  <div class="stream-item">
+    <% if stream_item.person %>
+      <a href="<%= url_for stream_item.person %>">
+        <%= render :partial => 'people/thumbnail', :locals => {:person => stream_item.person} %>
+      </a>
+      <%= link_to h(stream_item.person.name), stream_item.person %> posted
+    <% end %>
+    <h2 class="stream-item-heading">
+      <%= stream_icon(stream_item) %>
+      <%=h stream_item.title %>
+    </h2>
+    <div class="stream-item-body">
+      <%= white_list_with_removal(stream_item.body) %>
+    </div>
+  </div>
+</div>

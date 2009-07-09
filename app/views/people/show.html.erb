@@ -55,10 +55,6 @@
 
 <%= render :partial => 'map' %>
 
-<% if me? %>
-  <div id="recently-container"><div id="recently_content"></div></div>
-<% end %>
-
 <h1>
   <%=h @person.name %>
   <% if @logged_in.can_edit? @person %>
@@ -97,13 +93,6 @@
   </div>
 <% end %>
 
-<% if Setting.get(:features, :blog) %>
-  <h2 class="profile tab" id="blog">Blog</h2>
-  <div id="blog_content" class="section">
-    <%= render :partial => 'blogs/blog' %>
-  </div>
-<% end %>
-
 <h2 class="profile tab" id="favorites">Favorites</h2>
 <div id="favorites_content" class="section">
   <%= render :partial => 'favorites' %>
@@ -114,17 +103,6 @@
   <div id="wall_content" class="section">
     <%= render :partial => 'walls/wall' %>
   </div>
-<% end %>
-
-<% if me? %>
-  <script type="text/javascript">
-    // load activity box (recently)
-    new Ajax.Updater(
-      'recently_content',
-      '<%= feed_path %>',
-      {method: 'get', onLoading:function(){$('recently_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
-    );
-  </script>
 <% end %>
 
 <% if @show_map %>
