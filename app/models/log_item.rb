@@ -99,19 +99,46 @@ class LogItem < ActiveRecord::Base
     LogItem.count('*', :conditions => conditions) == 0
   end
   
+  def stream_intro
+    case loggable_type
+      when 'Verse'
+        "#{self.person.name} likes #{loggable.reference}"
+      when 'Recipe'
+        "#{self.person.name} shared a recipe for #{loggable.title}"
+      when 'Note'
+        "#{self.person.name} shared a note about \"#{loggable.title}\""
+      when 'Picture'
+        "#{self.person.name} uploaded pictures"
+    end
+  end
+  
+  def stream_body
+    if loggable.respond_to?(:body)
+      loggable.body
+    elsif loggable_type == 'Picture'
+      "#{link_to image_tag(medium_picture_path(loggable), :alt => 'click to enlarge')}\n"
+    end
+  end
+  
   after_create :create_as_stream_item
   
   def create_as_stream_item
     return unless is_stream_item? and created? and !deleted?
-    StreamItem.create!(
-      :title           => self.name,
-      :body            => object.respond_to?(:body) ? object.body : nil, # body is aliased to text in Verse and description in Recipe
-      :album_id        => object.respond_to?(:album_id) ? object.album_id : nil,
-      :person_id       => self.person_id,
-      :streamable_type => self.loggable_type,
-      :streamable_id   => self.loggable_id,
-      :created_at      => self.created_at
-    )
+    if loggable_type == 'Picture' \
+      and last_stream_item = StreamItem.last(:conditions => {:person_id => self.person_id}, :order => 'created_at') \
+      and last_stream_item.streamable_type == 'Picture'
+      last_stream_item.body << stream_body
+      last_stream_item.save!
+    else
+      StreamItem.create!(
+        :intro           => stream_intro,
+        :body            => stream_body,
+        :person_id       => self.person_id,
+        :streamable_type => self.loggable_type,
+        :streamable_id   => self.loggable_id,
+        :created_at      => self.created_at
+      )
+    end
   end
   
   after_destroy :delete_stream_item
