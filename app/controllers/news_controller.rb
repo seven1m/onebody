@@ -29,7 +29,7 @@ class NewsController < ApplicationController
       format.js do
         if @news_items.any?
           @headlines = @news_items.map do |item|
-            [item.title, item.link]
+            [item.title, url_for(item)]
           end
           render :layout => false
         else
