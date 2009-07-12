@@ -505,39 +505,6 @@ class Person < ActiveRecord::Base
       end
     end
   end
-  
-  def recently_tab_items
-    friend_ids = [id]
-    friend_ids += friends.find(:all, :select => 'people.id').map { |f| f.id } if Setting.get(:features, :friends)
-    group_ids = groups.select { |g| !g.hidden? }.map { |g| g.id }
-    group_ids = [0] unless group_ids.any?
-    LogItem.find(
-      :all,
-      :conditions => ["((log_items.loggable_type in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and log_items.person_id in (#{friend_ids.join(',')})) or (log_items.loggable_type in ('Note', 'Message', 'PrayerRequest') and log_items.group_id in (#{group_ids.join(',')}))) and log_items.deleted = ? and (people.share_activity = ? or (people.share_activity is null and (select share_activity from families where id=people.family_id limit 1) = ?))", false, true, true],
-      :order => 'log_items.created_at desc',
-      :limit => 25,
-      :select => "log_items.*, people.family_id, people.share_activity",
-      :joins => :person
-    ).select do |item|
-      if !(obj = item.object)
-        false
-      elsif item.loggable_type == 'Verse' # habtm
-        true
-      elsif !(p_id = obj.is_a?(Person) ? obj.id : obj.person_id) or p_id != item.person_id # in case an admin does something
-        false
-      elsif obj.respond_to?(:deleted?) and obj.deleted?
-        false
-      elsif item.loggable_type == 'Person' # made some profile adjustments
-        obj == self and item.showable_change_keys.any?
-      elsif item.loggable_type == 'Friendship'
-        obj.person_id != item.person_id
-      elsif item.loggable_type == 'Message'
-        obj.can_see?(self) and not obj.to
-      else
-        true
-      end
-    end
-  end
     
   def my_calendar # get the google calendar link for all groups a person is in
   	cals = []
@@ -575,6 +542,19 @@ class Person < ActiveRecord::Base
 	else 
 	  nil
 	end
+  end
+  
+  def stream_items(count=30)
+    friend_ids = [id]
+    friend_ids += friends.all(:select => 'people.id').map { |f| f.id } if Setting.get(:features, :friends)
+    group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
+    group_ids = [0] unless group_ids.any?
+    StreamItem.all(
+      :conditions => "stream_items.person_id in (#{friend_ids.join(',')}) or stream_items.group_id in (#{group_ids.join(',')}) or stream_items.streamable_type = 'NewsItem'",
+      :order => 'stream_items.created_at desc',
+      :limit => count,
+      :joins => :person
+    )
   end
 
   def to_liquid; inspect; end  

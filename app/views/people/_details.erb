@@ -6,19 +6,19 @@
 <% end %>
 
 <table>
-  <% render :layout => 'detail_row', :locals => { :attribute => :home_phone, :label => 'Home' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :home_phone, :label => 'Home' } do %>
     <%= format_phone(@person.home_phone) %>
   <% end %>
-  <% render :layout => 'detail_row', :locals => { :attribute => :mobile_phone, :label => 'Mobile' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :mobile_phone, :label => 'Mobile' } do %>
     <%= format_phone(@person.mobile_phone, :mobile) %>
   <% end %>
-  <% render :layout => 'detail_row', :locals => { :attribute => :work_phone, :label => 'Work' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :work_phone, :label => 'Work' } do %>
     <%= format_phone(@person.work_phone) %>
   <% end %>
-  <% render :layout => 'detail_row', :locals => { :attribute => :fax, :label => 'Fax' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :fax, :label => 'Fax' } do %>
     <%= format_phone(@person.fax) %>
   <% end %>
-  <% render :layout => 'detail_row', :locals => { :attribute => :address, :label => 'Address' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :address, :label => 'Address' } do %>
     <%=h @person.address.sub(/\n/, '<br/>') %><br/>
     <%= link_to h(@person.city), search_path(:city => @person.city), :title => 'search for people in this city' %>,
     <%= link_to h(@person.state), search_path(:state => @person.state), :title => 'search for people in this state' %>
@@ -27,25 +27,25 @@
     <% end %>
     <%= render :partial => 'families/map_link' %>
   <% end %>
-  <% render :layout => 'detail_row', :locals => { :attribute => :email, :label => 'Email' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :email, :label => 'Email' } do %>
     <%= mail_to @person.email %>
   <% end %>
-  <% render :layout => 'detail_row', :locals => { :attribute => :website, :label => 'Website' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :website, :label => 'Website' } do %>
     <%= link_to h(@person.pretty_website), @person.website %>
   <% end %>
-  <% render :layout => 'detail_row', :locals => { :attribute => :birthday, :label => 'Birthday' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :birthday, :label => 'Birthday' } do %>
     <% if @person.birthday %>
       <%= link_to @person.birthday.strftime('%B'), search_path(:birthday_month => @person.birthday.month), :title => "search for #{@person.birthday.strftime('%B')} birthdays" %>
       <%= link_to @person.birthday.strftime('%d'), search_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => "search for #{@person.birthday.strftime('%B %d')} birthdays" %>
     <% end %>
   <% end %>
-  <% render :layout => 'detail_row', :locals => { :attribute => :anniversary, :label => 'Anniversary' } do %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :anniversary, :label => 'Anniversary' } do %>
     <% if @person.anniversary %>
       <%= link_to @person.anniversary.strftime('%B'), search_path(:anniversary_month => @person.anniversary.month), :title => "search for #{@person.anniversary.strftime('%B')} anniversaries" %>
       <%= link_to @person.anniversary.strftime('%d'), search_path(:anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day), :title => "search for #{@person.anniversary.strftime('%B %d')} anniversaries" %>
     <% end %>
   <% end %>
-  <%= render :partial => 'custom_fields' %>
+  <%= render :partial => 'people/custom_fields' %>
   <% if @person.business_name.to_s.any? %>
     <tr><td>Business:</td><td><%= link_to h(@person.business_name), person_path(@person, :business => true) %><br/><%=h truncate(@person.business_description, :length => 200) %></td></tr>
   <% end %>

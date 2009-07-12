@@ -234,5 +234,23 @@ class Verse < ActiveRecord::Base
       end
       text
     end
+  
+  end
+  
+  # note: this must be called from a controller since this is habtm with people
+  def create_as_stream_item(person)
+    return unless person.share_activity?
+    StreamItem.create!(
+      :title           => reference,
+      :body            => text,
+      :person_id       => person.id,
+      :streamable_type => 'Verse',
+      :streamable_id   => id,
+      :created_at      => created_at
+    )
+  end
+
+  def delete_stream_items(person)
+    StreamItem.destroy_all(:streamable_type => 'Verse', :streamable_id => id, :person_id => person.id)
   end
 end

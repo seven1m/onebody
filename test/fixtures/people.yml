@@ -125,7 +125,6 @@ jeremy:
   visible_on_printed_directory: true
   full_access: true
   feed_code: bla2
-  deacon: true
   api_key: dafH2KIiAcnLEr5JxjmX2oveuczq0R6u7Ijd329DtjatgdYcKq
   salt: GUeBW2wFQ1MzagtXLeSUE6NbxaJAc3Iz5Q9UDpLHCeEYdnnIyv
 peter:

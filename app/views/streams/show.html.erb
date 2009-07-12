@@ -1,14 +1,67 @@
 <% content_for :subnav do %>
-  <li><%= image_tag 'checkmark.png', :alt => 'enabled', :class => 'icon' %><a href="#">News</a></li>
-  <li><%= image_tag 'checkmark.png', :alt => 'enabled', :class => 'icon' %><a href="#">Friends</a></li>
-  <li><%= image_tag 'checkmark.png', :alt => 'enabled', :class => 'icon' %><a href="#">Groups</a></li>
-  <li><%= image_tag 'checkmark.png', :alt => 'enabled', :class => 'icon' %><a href="#">You</a></li>
-  <li><%= image_tag 'remove.gif',    :alt => 'enabled', :class => 'icon' %><a href="#">Everyone</a></li>
+  <li><%= stream_type_checkmark('News',     'news_item') %></li>
+  <li><%= stream_type_checkmark('Notes',    'note'     ) %></li>
+  <li><%= stream_type_checkmark('Verses',   'verse'    ) %></li>
+  <li><%= stream_type_checkmark('Pictures', 'picture'  ) %></li>
 <% end %>
 
-<%= render :partial => 'stream_item', :collection => @stream_items %>
+<div style="width:45%;float:left" id="stream-items">
+  <%= render :partial => 'stream_item', :collection => @stream_items %>
+  <% if @stream_items.empty? %>
+    <p>This is where activity from you, your friends, and your groups will appear.</p>
+    <p><em>Right now, there's nothing to show.</em></p>
+  <% end %>
+  &nbsp;
+</div>
 
-<% if @stream_items.empty? %>
+<div style="width:45%;margin-left:5%;float:left;" id="profile">
+  <%= render :partial => 'people/pending_updates' %>
+  <div style="float:left;margin-right:10px;">
+    <%= render :partial => 'people/photo' %>
+  </div>
+  <%= render :partial => 'people/heading' %>
+  <%= render :partial => 'people/person_type' %>
+  <% @family_people.each do |person| %>
+    <a href="<%= url_for person %>">
+      <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+    </a>
+    <%= link_to h(person.name), person %>
+  <% end %>
+  <br clear="left"/>
+  <div style="width:45%;margin-right:5%;float:left;">
+    <% if Setting.get(:features, :friends) %>
+      <%= render :partial => 'people/friends' %>
+    <% end %>
+    <% if Setting.get(:features, :sidebar_group_category) %>
+      <%= render :partial => 'people/sidebar_people' %>
+    <% end %>
+  </div>
+  <div style="width:45%;float:left;">
+    <% if Setting.get(:features, :groups) %>
+      <%= render :partial => 'people/sidebar_groups' %>
+    <% end %>
+  </div>
+</div>
 
-  
-<% end %>
+<script type="text/javascript">
+  function enable_stream_item_type(type, enable) {
+    document.cookie = 'stream_' + type + '=' + (enable ? 'true' : 'false');
+    update_stream_display();
+  }
+  function update_stream_display() {
+    $$('.stream-item').each(function(e){e.hide()})
+    document.cookie.split('; ').each(function(type){
+      if(type.match(/^stream_/)) {
+        var enabled = type.split('=')[1] == 'true';
+        var type = type.split('=')[0];
+        $$("#enable-" + type + " img")[0].writeAttribute('src', enabled ? '/images/checkmark.png' : '/images/remove.gif');
+        $$('.' + type).each(function(e){enabled ? Element.show(e) : Element.hide(e)});
+      }
+    })
+  }
+  update_stream_display();
+</script>
+
+<style type="text/css">
+  .stream-item { display: block; }
+</style>

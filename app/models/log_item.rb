@@ -87,55 +87,7 @@ class LogItem < ActiveRecord::Base
     id = "#{loggable_id}.tn.jpg"
     "/#{controller}/#{action}/#{id}"
   end
-  
-  STREAMABLE_CLASSES = %w(Verse Recipe Note Picture NewsItem)
-  
-  def is_stream_item?
-    STREAMABLE_CLASSES.include?(loggable_type)
-  end
-  
-  # crude way of determining if this is the first log_item for this object
-  def created?
-    conditions = ["loggable_type = ? and loggable_id = ?", self.loggable_type, self.loggable_id]
-    conditions.add_condition(["id < ?", self.id]) unless self.new_record?
-    LogItem.count('*', :conditions => conditions) == 0
-  end
-  
-  def stream_body
-    if loggable.respond_to?(:body)
-      loggable.body
-    elsif loggable_type == 'Picture'
-      "<a href=\"#{album_picture_path(loggable.album, loggable)}\"><img src=\"#{medium_picture_path(loggable)}\" alt=\"click to enlarge\"/></a>\n"
-    end
-  end
-  
-  after_create :create_as_stream_item
-  
-  def create_as_stream_item
-    return unless is_stream_item? and created? and !deleted?
-    if loggable_type == 'Picture' \
-      and last_stream_item = StreamItem.last(:conditions => {:person_id => self.person_id}, :order => 'created_at') \
-      and last_stream_item.streamable_type == 'Picture'
-      last_stream_item.body << stream_body
-      last_stream_item.save!
-    else
-      StreamItem.create!(
-        :title           => loggable.name,
-        :body            => stream_body,
-        :person_id       => person_id,
-        :streamable_type => loggable_type,
-        :streamable_id   => loggable_id,
-        :created_at      => created_at
-      )
-    end
-  end
-  
-  after_destroy :delete_stream_item
-  
-  def delete_stream_item
-    StreamItem.destroy_all(:streamable_type => self.loggable_type, :streamable_id => self.loggable_id)
-  end
-  
+
   def showable_change_keys
     return [] if deleted?
     begin

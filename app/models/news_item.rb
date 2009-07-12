@@ -24,8 +24,28 @@ class NewsItem < ActiveRecord::Base
   def name; title; end
   
   before_save :update_published_date
+  
   def update_published_date
    self.published = Time.now if published.nil?
+  end
+  
+  after_create :create_as_stream_item
+  
+  def create_as_stream_item
+    StreamItem.create!(
+      :title           => title,
+      :body            => body,
+      :person_id       => person_id,
+      :streamable_type => 'NewsItem',
+      :streamable_id   => id,
+      :created_at      => created_at
+    )
+  end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'NewsItem', :streamable_id => id)
   end
   
   class << self

@@ -1,17 +1,28 @@
-<div style="width:45%;">
-  <div class="stream-item">
-    <% if stream_item.person %>
-      <a href="<%= url_for stream_item.person %>">
-        <%= render :partial => 'people/thumbnail', :locals => {:person => stream_item.person} %>
-      </a>
-      <%= link_to h(stream_item.person.name), stream_item.person %> posted
-    <% end %>
-    <h2 class="stream-item-heading">
-      <%= stream_icon(stream_item) %>
-      <%=h stream_item.title %>
+<div class="stream-item stream_<%= stream_item.streamable_type.underscore %>">
+  <div class="stream-item-heading">
+    <h2>
+      <%= link_to stream_icon(stream_item), stream_item %>
+      <%= link_to h(stream_item.title), stream_item %>
     </h2>
-    <div class="stream-item-body">
-      <%= white_list_with_removal(stream_item.body) %>
-    </div>
+    by
+    <% if stream_item.person %>
+      <span style="white-space:nowrap;">
+        <a href="<%= url_for stream_item.person %>">
+          <%= render :partial => 'people/thumbnail', :locals => {:person => stream_item.person} %>
+        </a>
+        <%= link_to h(stream_item.person.name), stream_item.person %>
+      </span>
+    <% end %>
+    <% if stream_item.group %>
+      <span style="white-space:nowrap;">
+        in <%= link_to h(stream_item.group.name), stream_item.group %>
+      </span>
+    <% end %>
+  </div>
+  <div class="stream-item-body">
+    <%= white_list_with_removal(stream_item.body) %>
+  </div>
+  <div class="stream-item-timestamp">
+    <%= recent_time_ago_in_words stream_item.created_at %>
   </div>
 </div>

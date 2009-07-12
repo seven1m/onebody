@@ -15,7 +15,10 @@ class VersesController < ApplicationController
 
   def create
     if @verse = Verse.find(params[:id]) rescue nil
-      @verse.people << @logged_in unless @verse.people.include? @logged_in
+      unless @verse.people.include? @logged_in
+        @verse.people << @logged_in
+        @verse.create_as_stream_item(@logged_in)
+      end
       expire_fragment(%r{views/people/#{@logged_in.id}_})
       redirect_to @verse
     else
@@ -34,6 +37,7 @@ class VersesController < ApplicationController
   def destroy
     @verse = Verse.find(params[:id])
     @verse.people.delete @logged_in
+    @verse.delete_stream_items(@logged_in)
     expire_fragment(%r{views/people/#{@logged_in.id}_})
     unless @verse.people.count == 0
       redirect_to @verse

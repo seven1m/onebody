@@ -28,4 +28,10 @@ class Album < ActiveRecord::Base
   def cover
     pictures.find_by_cover(true) || pictures.first
   end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'Album', :streamable_id => id)
+  end
 end

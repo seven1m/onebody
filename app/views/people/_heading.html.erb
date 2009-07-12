@@ -1,0 +1,6 @@
+<h1>
+  <%=h @person.name %>
+  <% if @logged_in.can_edit? @person %>
+    <%= link_to 'edit', edit_person_path(@person), :class => 'discreet' %>
+  <% end %>
+</h1>

@@ -67,5 +67,9 @@ class VersesControllerTest < ActionController::TestCase
       @verse.reload
     end
   end
+  
+  should "create a stream item when a verse is added"
+  
+  should "delete all associated stream items when a verse is removed"
 
 end

@@ -25,4 +25,37 @@ class Picture < ActiveRecord::Base
   def name
     "Picture #{id}#{album ? ' in Album ' + album.name : nil}"
   end
+  
+  after_create :create_as_stream_item
+  
+  def create_as_stream_item
+    return unless album.group or person.share_activity?
+    if last_stream_item = StreamItem.last(:conditions => {:person_id => person_id}, :order => 'created_at') \
+      and last_stream_item.streamable == album
+      last_stream_item.context['picture_ids'] << id
+      last_stream_item.save!
+    else
+      StreamItem.create!(
+        :context         => {'picture_ids' => [id]},
+        :person_id       => person_id,
+        :group_id        => album.group_id,
+        :streamable_type => 'Album',
+        :streamable_id   => album_id,
+        :created_at      => created_at
+      )
+    end
+  end
+  
+  after_destroy :update_or_delete_stream_items
+  
+  def update_or_delete_stream_items
+    StreamItem.find_all_by_streamable_type_and_streamable_id('Album', album_id).each do |stream_item|
+      stream_item.context['picture_ids'].delete(id)
+      if stream_item.context['picture_ids'].any?
+        stream_item.save!
+      else
+        stream_item.destroy
+      end
+    end
+  end
 end

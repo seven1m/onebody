@@ -55,12 +55,7 @@
 
 <%= render :partial => 'map' %>
 
-<h1>
-  <%=h @person.name %>
-  <% if @logged_in.can_edit? @person %>
-    <%= link_to 'edit', edit_person_path(@person), :class => 'discreet' %>
-  <% end %>
-</h1>
+<%= render :partial => 'heading' %>
 
 <%= render :partial => 'person_type' %>
 

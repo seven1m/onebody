@@ -237,7 +237,7 @@ tr.centered td {
 }
 
 .highlight {
-	background-color: #ddf3ff;
+	background-color: #eee;
 	padding: 5px;
 	border: 2px solid #92d9ff;
 }
@@ -353,11 +353,25 @@ div.autocomplete ul li {
 	font-size: smaller;
 }
 
+.stream-item {
+	margin-bottom: 15px;
+	display: none;
+}
+
+.stream-item-timestamp {
+	font-size: smaller;
+	text-align: right;
+	margin-top: -10px;
+}
+
 .stream-item-body {
-  clear: left;
+}
+
+.stream-item-heading h2 {
+	display: inline;
+	font-size: 12pt;
 }
 
 .stream-item-heading {
-	display: inline;
-	font-size: 12pt;
+	line-height: 0.5em;
 }

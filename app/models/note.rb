@@ -37,7 +37,30 @@ class Note < ActiveRecord::Base
     end
   end
 
+  # TODO: is this mess used any more?
   def person_name
     Person.find_by_sql(["select people.family_id, people.first_name, people.last_name, people.suffix from people left outer join families on families.id = people.family_id where people.id = ? and people.visible = ? and families.visible = ?", self.person_id.to_i, true, true]).first.name rescue nil
   end
+  
+  after_create :create_as_stream_item
+  
+  def create_as_stream_item
+    return unless group_id or person.share_activity?
+    StreamItem.create!(
+      :title           => title,
+      :body            => body,
+      :person_id       => person_id,
+      :group_id        => group_id,
+      :streamable_type => 'Note',
+      :streamable_id   => id,
+      :created_at      => created_at
+    )
+  end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'Note', :streamable_id => id)
+  end
+  
 end

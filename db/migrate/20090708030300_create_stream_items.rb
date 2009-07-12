@@ -4,7 +4,9 @@ class CreateStreamItems < ActiveRecord::Migration
       t.integer :site_id
       t.string :title, :limit => 500
       t.text :body
+      t.text :context
       t.integer :person_id
+      t.integer :group_id
       t.references :streamable, :polymorphic => true
       t.timestamps
     end
