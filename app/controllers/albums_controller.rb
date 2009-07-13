@@ -22,7 +22,7 @@ class AlbumsController < ApplicationController
   end
   
   def create
-    @album = Album.new(params[:album])
+    @album = Album.new(params[:album].merge(:person_id => @logged_in.id))
     if @album.group and !can_add_pictures_to_group?(@album.group)
       @album.errors.add_to_base('Cannot add pictures in this group.')
     end

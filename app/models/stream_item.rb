@@ -6,6 +6,8 @@ class StreamItem < ActiveRecord::Base
   
   serialize :context
   
+  scope_by_site_id
+  
   def title
     read_attribute(:title) || case streamable_type
       when 'Note'
@@ -13,5 +15,11 @@ class StreamItem < ActiveRecord::Base
       else
         nil
     end
+  end
+  
+  before_save :ensure_context_is_hash
+  
+  def ensure_context_is_hash
+    self.context = {} if not context.is_a?(Hash)
   end
 end

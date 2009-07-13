@@ -1,5 +1,5 @@
 <% if @person.pending_updates.count > 0 %>
-  <p class="highlight" style="width:400px;">
+  <p class="highlight">
     <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'icon' %>
     An update to this profile is
     <% if @logged_in.admin?(:edit_profiles) %>

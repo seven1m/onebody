@@ -367,16 +367,14 @@ p {
 }
 
 h1 {
-	font-size: 250%;
+	font-size: 150%;
 	margin-bottom: 5px;
 	line-height: 20pt;
 }
 
-
-
 h2 {
 	margin-top: 20px;
-	font:190% Arial;
+	font:150% Arial;
 	color:#79B933;
 	border-bottom:2px solid #f6f6f6;
 }

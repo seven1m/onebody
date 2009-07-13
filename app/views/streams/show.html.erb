@@ -1,46 +1,66 @@
 <% content_for :subnav do %>
-  <li><%= stream_type_checkmark('News',     'news_item') %></li>
-  <li><%= stream_type_checkmark('Notes',    'note'     ) %></li>
-  <li><%= stream_type_checkmark('Verses',   'verse'    ) %></li>
-  <li><%= stream_type_checkmark('Pictures', 'picture'  ) %></li>
+  <li><%= link_to image_tag('newspaper.png', :alt => 'All News',         :class => 'icon') + ' All News',         news_path         %></li>
+  <li><%= link_to image_tag('page.png',      :alt => 'All Publications', :class => 'icon') + ' All Publications', publications_path %></li>
+  <li><%= link_to image_tag('verse.png',     :alt => 'All Verses',       :class => 'icon') + ' All Verses',       verses_path       %></li>
+  <li><%= link_to image_tag('picture.png',   :alt => 'All Pictures',     :class => 'icon') + ' All Pictures',     albums_path       %></li>
 <% end %>
 
-<div style="width:45%;float:left" id="stream-items">
+<div id="elsewhere">
+  <ul>
+    <li>Show:</li>
+    <li><%= stream_type_checkmark('News',         'news_item'  ) %></li>
+    <li><%= stream_type_checkmark('Publications', 'publication') %></li>
+    <li><%= stream_type_checkmark('Notes',        'note'       ) %></li>
+    <li><%= stream_type_checkmark('Verses',       'verse'      ) %></li>
+    <li><%= stream_type_checkmark('Pictures',     'album'      ) %></li>
+  </ul>
+</div>
+
+<div style="width:200px;float:right;">
+  <table class="cells-centered">
+    <tr>
+      <td class="graphic">
+        <%= link_to_function image_tag('add.gif', :alt => 'Share Something', :class => 'icon'),
+          "" %>
+      </td>
+      <td>
+        <%= link_to_function 'Share<br/>Something',
+          "" %>
+      </td>
+    </tr>
+    <tr>
+      <td class="graphic">
+        <%= link_to image_tag('feed.gif', :alt => 'Activity Feed', :class => 'icon'), stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
+      </td>
+      <td>
+        <%= link_to 'Subscribe', stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
+      </td>
+    </tr>
+  </table>
+  
+  <hr style="margin:25px 0;"/>
+  
+  <%= render :partial => 'people/photo', :locals => {:url => @person} %>
+  <h1><%= link_to h(@person.name), @person, :style => 'text-decoration:none;' %></h1>
+  <p><%= link_to 'view profile', @person %></p>
+  
+  <% if Setting.get(:features, :friends) %>
+    <%= render :partial => 'people/friends' %>
+  <% end %>
+  <% if Setting.get(:features, :sidebar_group_category) %>
+    <%= render :partial => 'people/sidebar_people' %>
+  <% end %>
+  <% if Setting.get(:features, :groups) %>
+    <%= render :partial => 'people/sidebar_groups' %>
+  <% end %>
+</div>
+
+<div style="margin-right:250px;">
   <%= render :partial => 'stream_item', :collection => @stream_items %>
   <% if @stream_items.empty? %>
     <p>This is where activity from you, your friends, and your groups will appear.</p>
     <p><em>Right now, there's nothing to show.</em></p>
   <% end %>
-  &nbsp;
-</div>
-
-<div style="width:45%;margin-left:5%;float:left;" id="profile">
-  <%= render :partial => 'people/pending_updates' %>
-  <div style="float:left;margin-right:10px;">
-    <%= render :partial => 'people/photo' %>
-  </div>
-  <%= render :partial => 'people/heading' %>
-  <%= render :partial => 'people/person_type' %>
-  <% @family_people.each do |person| %>
-    <a href="<%= url_for person %>">
-      <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
-    </a>
-    <%= link_to h(person.name), person %>
-  <% end %>
-  <br clear="left"/>
-  <div style="width:45%;margin-right:5%;float:left;">
-    <% if Setting.get(:features, :friends) %>
-      <%= render :partial => 'people/friends' %>
-    <% end %>
-    <% if Setting.get(:features, :sidebar_group_category) %>
-      <%= render :partial => 'people/sidebar_people' %>
-    <% end %>
-  </div>
-  <div style="width:45%;float:left;">
-    <% if Setting.get(:features, :groups) %>
-      <%= render :partial => 'people/sidebar_groups' %>
-    <% end %>
-  </div>
 </div>
 
 <script type="text/javascript">
@@ -54,8 +74,11 @@
       if(type.match(/^stream_/)) {
         var enabled = type.split('=')[1] == 'true';
         var type = type.split('=')[0];
-        $$("#enable-" + type + " img")[0].writeAttribute('src', enabled ? '/images/checkmark.png' : '/images/remove.gif');
-        $$('.' + type).each(function(e){enabled ? Element.show(e) : Element.hide(e)});
+        var imgs = $$("#enable-" + type + " img");
+        if(imgs.length > 0) {
+          imgs[0].writeAttribute('src', enabled ? '/images/checkmark.png' : '/images/remove.gif');
+          $$('.' + type).each(function(e){enabled ? Element.show(e) : Element.hide(e)});
+        }
       }
     })
   }
@@ -63,5 +86,13 @@
 </script>
 
 <style type="text/css">
+  /* show all in case browser has scripting disabled */
   .stream-item { display: block; }
+  /* remove padding from top of content */
+  #contentnorightbar {
+    padding-top: 0;
+  }
+  #header {
+    margin-bottom: 0;
+  }
 </style>

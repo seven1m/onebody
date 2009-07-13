@@ -8,6 +8,10 @@ module StreamsHelper
       'note.png'
     when 'Verse'
       'verse.png'
+    when 'Album'
+      'picture.png'
+    when 'Publication'
+      'page.png'
     else
       return nil
     end

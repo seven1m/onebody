@@ -34,11 +34,11 @@ module ApplicationHelper
   def nav_links
     html = ''
     if Setting.get(:features, :content_management_system)
-      html << "<li>#{tab_link 'Home', '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
+      html << "<li>#{tab_link 'Pages', '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
     end
     html << "<li>#{tab_link 'Home', stream_path, params[:controller] == 'streams'}</li>"
-    #html << "<li>#{tab_link 'Profile', @logged_in || people_path, params[:controller] == 'people' && me?}</li>"
-    html << "<li>#{tab_link 'People', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    html << "<li>#{tab_link 'Profile', @logged_in || people_path, params[:controller] == 'people' && me?}</li>"
+    html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
       html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
     end
@@ -50,7 +50,6 @@ module ApplicationHelper
     elsif url = Setting.get(:url, :news)
       html << "<li>#{tab_link 'News', url}</li>"
     end
-    html << "<li>#{ tab_link 'More', shares_path, %w(shares events pictures verses recipes).include?(params[:controller])}</li>"
     html
   end
   

@@ -22,6 +22,8 @@ class Picture < ActiveRecord::Base
   has_one_photo :path => "#{DB_PHOTO_PATH}/pictures", :sizes => PHOTO_SIZES
   acts_as_logger LogItem
   
+  validates_presence_of :album_id
+  
   def name
     "Picture #{id}#{album ? ' in Album ' + album.name : nil}"
   end
@@ -29,13 +31,15 @@ class Picture < ActiveRecord::Base
   after_create :create_as_stream_item
   
   def create_as_stream_item
-    return unless album.group or person.share_activity?
+    return unless person and (album.group or person.share_activity?)
     if last_stream_item = StreamItem.last(:conditions => {:person_id => person_id}, :order => 'created_at') \
       and last_stream_item.streamable == album
       last_stream_item.context['picture_ids'] << id
+      last_stream_item.created_at = Time.now
       last_stream_item.save!
     else
       StreamItem.create!(
+        :title           => album.name,
         :context         => {'picture_ids' => [id]},
         :person_id       => person_id,
         :group_id        => album.group_id,

@@ -354,24 +354,79 @@ div.autocomplete ul li {
 }
 
 .stream-item {
-	margin-bottom: 15px;
+	margin: 25px 0;
 	display: none;
+	clear: left;
 }
 
 .stream-item-timestamp {
 	font-size: smaller;
-	text-align: right;
-	margin-top: -10px;
 }
 
 .stream-item-body {
+  margin-left: 200px;
 }
 
-.stream-item-heading h2 {
-	display: inline;
+.stream-item-meta {
+  line-height: 1em;
+  float: left;
+  width: 180px;
+  text-align: right;
+  padding-top: 7px;
+}
+
+.stream-item h2 {
+	line-height: 2em;
 	font-size: 12pt;
 }
 
-.stream-item-heading {
-	line-height: 0.5em;
+.stream-pic {
+  padding: 2px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+.stream-item-comment {
+  margin-left: 15px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+table.cells-centered td {
+  vertical-align: middle;
+}
+
+table.cells-centered td.graphic {
+  vertical-align: middle;
+  text-align: center;
+}
+
+div#elsewhere {
+  background-color: #eee;
+  border-bottom: 1px solid #ccc;
+  padding: 3px;
+  text-align: center;
+  margin: 0;
+}
+
+div#elsewhere ul {
+  margin: 0;
+  padding: 0;
+}
+
+div#elsewhere li {
+	list-style: none;
+	display: inline;
+}
+
+div#elsewhere a {
+  text-decoration: none;
+  padding: 0 5px;
 }

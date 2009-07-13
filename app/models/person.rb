@@ -550,10 +550,11 @@ class Person < ActiveRecord::Base
     group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
     group_ids = [0] unless group_ids.any?
     StreamItem.all(
-      :conditions => "stream_items.person_id in (#{friend_ids.join(',')}) or stream_items.group_id in (#{group_ids.join(',')}) or stream_items.streamable_type = 'NewsItem'",
+      :conditions => "stream_items.person_id in (#{friend_ids.join(',')}) or stream_items.group_id in (#{group_ids.join(',')}) or stream_items.streamable_type in ('NewsItem', 'Publication')",
       :order => 'stream_items.created_at desc',
       :limit => count,
-      :joins => :person
+      :joins => 'left join people on stream_items.person_id = people.id',
+      :select => 'stream_items.*, people.first_name, people.last_name, people.suffix, people.id, people.family_id, people.updated_at'
     )
   end
 
