@@ -549,8 +549,19 @@ class Person < ActiveRecord::Base
     friend_ids += friends.all(:select => 'people.id').map { |f| f.id } if Setting.get(:features, :friends)
     group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
     group_ids = [0] unless group_ids.any?
+    enabled_types = []
+    enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
+    enabled_types << 'Publication' if Setting.get(:features, :publications)
+    enabled_types << 'Verse'       if Setting.get(:features, :verses      )
+    enabled_types << 'Album'       if Setting.get(:features, :pictures    )
+    enabled_types << 'Note'        if Setting.get(:features, :notes       )
     StreamItem.all(
-      :conditions => "stream_items.person_id in (#{friend_ids.join(',')}) or stream_items.group_id in (#{group_ids.join(',')}) or stream_items.streamable_type in ('NewsItem', 'Publication')",
+      :conditions => [
+        "(stream_items.person_id in (?) or stream_items.group_id in (?) or stream_items.streamable_type in ('NewsItem', 'Publication')) and stream_items.streamable_type in (?)",
+        friend_ids,
+        group_ids,
+        enabled_types
+      ],
       :order => 'stream_items.created_at desc',
       :limit => count,
       :joins => 'left join people on stream_items.person_id = people.id',

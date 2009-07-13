@@ -1,8 +1,8 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('newspaper.png', :alt => 'All News',         :class => 'icon') + ' All News',         news_path         %></li>
-  <li><%= link_to image_tag('page.png',      :alt => 'All Publications', :class => 'icon') + ' All Publications', publications_path %></li>
-  <li><%= link_to image_tag('verse.png',     :alt => 'All Verses',       :class => 'icon') + ' All Verses',       verses_path       %></li>
-  <li><%= link_to image_tag('picture.png',   :alt => 'All Pictures',     :class => 'icon') + ' All Pictures',     albums_path       %></li>
+  <% if Setting.get(:features, :news_page   ) %><li><%= link_to image_tag('newspaper.png', :alt => 'All News',         :class => 'icon') + ' All News',         news_path         %></li><% end %>
+  <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => 'All Publications', :class => 'icon') + ' All Publications', publications_path %></li><% end %>
+  <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => 'All Verses',       :class => 'icon') + ' All Verses',       verses_path       %></li><% end %>
+  <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => 'All Pictures',     :class => 'icon') + ' All Pictures',     albums_path       %></li><% end %>
 <% end %>
 
 <div style="width:200px;float:right;">
@@ -27,14 +27,16 @@
     </tr>
   </table>
   
-  <h2>Show:</h2>
-  <ul id="stream-display-options">
-    <li><%= stream_type_checkmark('News',         'news_item'  ) %></li>
-    <li><%= stream_type_checkmark('Publications', 'publication') %></li>
-    <li><%= stream_type_checkmark('Notes',        'note'       ) %></li>
-    <li><%= stream_type_checkmark('Verses',       'verse'      ) %></li>
-    <li><%= stream_type_checkmark('Pictures',     'album'      ) %></li>
-  </ul>
+  <div id="stream-display-options">
+    <h2>Show:</h2>
+    <ul>
+      <% if Setting.get(:features, :news_page   ) %><li><%= stream_type_checkmark('News',         'news_item'  ) %></li><% end %>
+      <% if Setting.get(:features, :publications) %><li><%= stream_type_checkmark('Publications', 'publication') %></li><% end %>
+      <% if Setting.get(:features, :notes       ) %><li><%= stream_type_checkmark('Notes',        'note'       ) %></li><% end %>
+      <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark('Verses',       'verse'      ) %></li><% end %>
+      <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark('Pictures',     'album'      ) %></li><% end %>
+    </ul>
+  </div>
 </div>
 
 <div style="margin-right:250px;">
@@ -46,6 +48,7 @@
 </div>
 
 <script type="text/javascript">
+  $('stream-display-options').style.display = 'block';
   function enable_stream_item_type(type, enable) {
     document.cookie = 'stream_' + type + '=' + (enable ? 'true' : 'false');
     update_stream_display();

@@ -78,6 +78,10 @@ Features:
     format: boolean
     value: true
     description: Enable Picture sharing.
+  Notes:
+    format: boolean
+    value: true
+    description: Enable Note sharing.
   Friends: 
     format: boolean
     value: true

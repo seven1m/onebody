@@ -408,16 +408,20 @@ table.cells-centered td.graphic {
   text-align: center;
 }
 
-body ul#stream-display-options {
+div#stream-display-options {
+  display: none;
+}
+
+div#stream-display-options ul {
   margin-left: 0;
   padding-left: 0;
 }
 
-body ul#stream-display-options li {
+div#stream-display-options li {
   list-style: none;
   padding-left: 0;
 }
 
-body ul#stream-display-options li a {
+div#stream-display-options li a {
   text-decoration: none;
 }
