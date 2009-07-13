@@ -41,7 +41,8 @@ class Comment < ActiveRecord::Base
   after_create :update_stream_items_on_create
   
   def update_stream_items_on_create
-    StreamItem.find_all_by_streamable_type_and_streamable_id(on.class.name, on.id).each do |stream_item|
+    find_all_associated_stream_items.each do |stream_item|
+      next if stream_item.streamable_type == 'Album' and not stream_item.context['picture_ids'].include?(on.id)
       stream_item.context['comments'] ||= []
       stream_item.context['comments'] << {
         'id'         => id,
@@ -56,10 +57,20 @@ class Comment < ActiveRecord::Base
   after_destroy :update_stream_items_on_destroy
   
   def update_stream_items_on_destroy
-    StreamItem.find_all_by_streamable_type_and_streamable_id(on.class.name, on.id).each do |stream_item|
+    find_all_associated_stream_items.each do |stream_item|
       stream_item.context['comments'] ||= []
       stream_item.context['comments'].reject! { |c| c['id'] == id }
       stream_item.save!
     end
+  end
+  
+  def find_all_associated_stream_items
+    streamable_type = on.class.name
+    streamable_id   = on.id
+    if streamable_type == 'Picture'
+      streamable_type = 'Album'
+      streamable_id   = on.album_id
+    end
+    StreamItem.find_all_by_streamable_type_and_streamable_id(streamable_type, streamable_id)
   end
 end
