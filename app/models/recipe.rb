@@ -91,5 +91,25 @@ class Recipe < ActiveRecord::Base
       text
     end
   end
+  
+  after_create :create_as_stream_item
+  
+  def create_as_stream_item
+    return unless person.share_activity?
+    StreamItem.create!(
+      :title           => title,
+      :body            => description,
+      :person_id       => person_id,
+      :streamable_type => 'Recipe',
+      :streamable_id   => id,
+      :created_at      => created_at
+    )
+  end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'Recipe', :streamable_id => id)
+  end
 
 end

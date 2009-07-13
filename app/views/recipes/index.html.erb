@@ -8,6 +8,9 @@
     <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
       <%= link_to tag.name, tag, :class => css_class %>
     <% end %>
+    <% if @tags.empty? %>
+      <em>no tags yet</em>
+    <% end %>
   </div>
 <% end %>
 

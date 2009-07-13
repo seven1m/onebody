@@ -3,6 +3,7 @@
   <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => 'All Publications', :class => 'icon') + ' All Publications', publications_path %></li><% end %>
   <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => 'All Verses',       :class => 'icon') + ' All Verses',       verses_path       %></li><% end %>
   <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => 'All Pictures',     :class => 'icon') + ' All Pictures',     albums_path       %></li><% end %>
+  <% if Setting.get(:features, :recipes     ) %><li><%= link_to image_tag('recipe.png',    :alt => 'All Recipes',      :class => 'icon') + ' All Recipes',      recipes_path      %></li><% end %>
 <% end %>
 
 <div style="width:200px;float:right;">
@@ -35,6 +36,7 @@
       <% if Setting.get(:features, :notes       ) %><li><%= stream_type_checkmark('Notes',        'note'       ) %></li><% end %>
       <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark('Verses',       'verse'      ) %></li><% end %>
       <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark('Pictures',     'album'      ) %></li><% end %>
+      <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark('Recipes',      'recipe'     ) %></li><% end %>
     </ul>
   </div>
 </div>

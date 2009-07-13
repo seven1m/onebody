@@ -555,6 +555,7 @@ class Person < ActiveRecord::Base
     enabled_types << 'Verse'       if Setting.get(:features, :verses      )
     enabled_types << 'Album'       if Setting.get(:features, :pictures    )
     enabled_types << 'Note'        if Setting.get(:features, :notes       )
+    enabled_types << 'Recipe'      if Setting.get(:features, :recipes     )
     StreamItem.all(
       :conditions => [
         "(stream_items.person_id in (?) or stream_items.group_id in (?) or stream_items.streamable_type in ('NewsItem', 'Publication')) and stream_items.streamable_type in (?)",

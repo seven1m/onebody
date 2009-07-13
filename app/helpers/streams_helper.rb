@@ -12,6 +12,8 @@ module StreamsHelper
       'picture.png'
     when 'Publication'
       'page.png'
+    when 'Recipe'
+      'recipe.png'
     else
       return nil
     end

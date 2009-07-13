@@ -10,6 +10,7 @@
 </script>
 
 <% form_for @recipe, :html => {:multipart => true} do |form| %>
+  <%= form.error_messages %>
   <p>
     <%= form.label :title %>                  <%= form.text_field :title %>                  <br/>
     <%= form.label :tag_list %>               <%= form.text_field :tag_list %>               <br/>
@@ -19,7 +20,7 @@
     <%= form.label :bake, 'Bake time' %>      <%= form.text_field :bake %>                   <br/>
     <%= form.label :ingredients %>            <%= form.text_area :ingredients, :rows => 10 %><br/>
     <%= form.label :directions %>             <%= form.text_area :directions, :rows => 10 %> <br/>
-    <%= form.label :notes, 'Other notes' %>   <%= form.text_area :notes, :rows => 3 %>       <br/>
+    <%= form.label :notes, 'Other notes' %>   <%= form.text_area :notes, :rows => 3 %>
     <%= form.submit 'Save Recipe' %>
   </p>
 <% end %>
