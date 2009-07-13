@@ -408,25 +408,16 @@ table.cells-centered td.graphic {
   text-align: center;
 }
 
-div#elsewhere {
-  background-color: #eee;
-  border-bottom: 1px solid #ccc;
-  padding: 3px;
-  text-align: center;
-  margin: 0;
+body ul#stream-display-options {
+  margin-left: 0;
+  padding-left: 0;
 }
 
-div#elsewhere ul {
-  margin: 0;
-  padding: 0;
+body ul#stream-display-options li {
+  list-style: none;
+  padding-left: 0;
 }
 
-div#elsewhere li {
-	list-style: none;
-	display: inline;
-}
-
-div#elsewhere a {
+body ul#stream-display-options li a {
   text-decoration: none;
-  padding: 0 5px;
 }

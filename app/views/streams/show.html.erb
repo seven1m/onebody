@@ -5,25 +5,14 @@
   <li><%= link_to image_tag('picture.png',   :alt => 'All Pictures',     :class => 'icon') + ' All Pictures',     albums_path       %></li>
 <% end %>
 
-<div id="elsewhere">
-  <ul>
-    <li>Show:</li>
-    <li><%= stream_type_checkmark('News',         'news_item'  ) %></li>
-    <li><%= stream_type_checkmark('Publications', 'publication') %></li>
-    <li><%= stream_type_checkmark('Notes',        'note'       ) %></li>
-    <li><%= stream_type_checkmark('Verses',       'verse'      ) %></li>
-    <li><%= stream_type_checkmark('Pictures',     'album'      ) %></li>
-  </ul>
-</div>
-
 <div style="width:200px;float:right;">
   <table class="cells-centered">
     <tr>
-      <td class="graphic">
-        <%= link_to_function image_tag('add.gif', :alt => 'Share Something', :class => 'icon'),
+      <td class="graphic" style="padding-bottom:20px;">
+        <%= link_to_function image_tag('add.png', :alt => 'Share Something', :class => 'icon'),
           "" %>
       </td>
-      <td>
+      <td style="padding-bottom:20px;">
         <%= link_to_function 'Share<br/>Something',
           "" %>
       </td>
@@ -38,21 +27,14 @@
     </tr>
   </table>
   
-  <hr style="margin:25px 0;"/>
-  
-  <%= render :partial => 'people/photo', :locals => {:url => @person} %>
-  <h1><%= link_to h(@person.name), @person, :style => 'text-decoration:none;' %></h1>
-  <p><%= link_to 'view profile', @person %></p>
-  
-  <% if Setting.get(:features, :friends) %>
-    <%= render :partial => 'people/friends' %>
-  <% end %>
-  <% if Setting.get(:features, :sidebar_group_category) %>
-    <%= render :partial => 'people/sidebar_people' %>
-  <% end %>
-  <% if Setting.get(:features, :groups) %>
-    <%= render :partial => 'people/sidebar_groups' %>
-  <% end %>
+  <h2>Show:</h2>
+  <ul id="stream-display-options">
+    <li><%= stream_type_checkmark('News',         'news_item'  ) %></li>
+    <li><%= stream_type_checkmark('Publications', 'publication') %></li>
+    <li><%= stream_type_checkmark('Notes',        'note'       ) %></li>
+    <li><%= stream_type_checkmark('Verses',       'verse'      ) %></li>
+    <li><%= stream_type_checkmark('Pictures',     'album'      ) %></li>
+  </ul>
 </div>
 
 <div style="margin-right:250px;">
@@ -88,11 +70,4 @@
 <style type="text/css">
   /* show all in case browser has scripting disabled */
   .stream-item { display: block; }
-  /* remove padding from top of content */
-  #contentnorightbar {
-    padding-top: 0;
-  }
-  #header {
-    margin-bottom: 0;
-  }
 </style>
