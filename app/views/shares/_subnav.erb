@@ -1,6 +1,0 @@
-<% content_for :subnav do %>
-  <% if Setting.get(:features, :publications) %><%= link_to 'Publications', publications_path        %><% end %>
-  <% if Setting.get(:features, :pictures)     %><%= link_to 'Pictures',     albums_path              %><% end %>
-  <% if Setting.get(:features, :verses)       %><%= link_to 'Verses',       verses_path              %><% end %>
-  <% if Setting.get(:features, :recipes)      %><%= link_to 'Recipes',      recipes_path             %><% end %>
-<% end %>
