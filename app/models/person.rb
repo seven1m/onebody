@@ -566,7 +566,7 @@ class Person < ActiveRecord::Base
       :order => 'stream_items.created_at desc',
       :limit => count,
       :joins => 'left join people on stream_items.person_id = people.id',
-      :select => 'stream_items.*, people.first_name, people.last_name, people.suffix, people.id, people.family_id, people.updated_at'
+      :select => 'stream_items.*, people.first_name, people.last_name, people.suffix, people.gender, people.id, people.family_id, people.updated_at'
     )
   end
 

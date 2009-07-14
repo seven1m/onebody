@@ -3,7 +3,8 @@
     <% if stream_item.person %>
       <span class="nowrap">
         <a href="<%= url_for stream_item.person %>">
-          <%= image_tag small_person_photo_path(stream_item.person), :alt => stream_item.person.name %>
+          <%= image_tag stream_item.person.has_photo? ? small_person_photo_path(stream_item.person) : (stream_item.person.gender == 'Female' ? 'woman.small.gif' : 'man.small.gif'),
+            :alt => stream_item.person.name %>
         </a>
       </span>
     <% end %>
@@ -34,7 +35,7 @@
     <% if stream_item.context['comments'].to_a.any? %>
       <table>
         <% stream_item.context['comments'].to_a.each do |comment| %>
-          <% if person = Person.find(comment['person_id'], :select => 'first_name, last_name, suffix, id, family_id, updated_at') %>
+          <% if person = Person.find(comment['person_id'], :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at') %>
             <tr class="stream-item-comment">
               <td style="text-align:right;">
                 <a href="<%= url_for person %>">
@@ -42,6 +43,7 @@
                 </a>
               </td>
               <td>
+                <%= link_to h(person.name), person %>:
                 <%=h comment['text'] %>
                 <span class="stream-item-timestamp">
                   <%= time_ago_in_words(comment['created_at']) %> ago
