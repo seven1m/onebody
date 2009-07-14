@@ -42,9 +42,10 @@ module ApplicationHelper
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
       html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
     end
-    if @logged_in && @logged_in.my_calendar
-      html << "<li>#{tab_link 'Calendar', person_calendar_path(@logged_in), params[:controller] == 'calendars'}</li>"
-    end
+    # TODO: this runs 3 queries just to determine if the tab should be displayed
+    #if @logged_in && @logged_in.my_calendar
+    #  html << "<li>#{tab_link 'Calendar', person_calendar_path(@logged_in), params[:controller] == 'calendars'}</li>"
+    #end
     if Setting.get(:features, :news_page)
       html << "<li>#{tab_link 'News', news_path, params[:controller] == 'news'}</li>"
     elsif url = Setting.get(:url, :news)
