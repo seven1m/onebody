@@ -20,7 +20,7 @@ class VersesController < ApplicationController
         @verse.create_as_stream_item(@logged_in)
       end
       expire_fragment(%r{views/people/#{@logged_in.id}_})
-      redirect_to @verse
+      redirect_to params[:redirect_to] || @verse
     else
       render :text => 'That verse could not be found. Did you type the reference correctly?', :layout => true, :status => 404
     end
