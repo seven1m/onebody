@@ -342,7 +342,8 @@ class Person < ActiveRecord::Base
   end
   
   def can_sync_remotely?
-    self.admin?(:view_hidden_properties)
+    false # disabled for now
+    #self.admin?(:view_hidden_properties)
   end
   
   def can_sign_in?
