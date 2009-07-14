@@ -66,9 +66,10 @@ class Family < ActiveRecord::Base
     a = ''
     a << address1.to_s   if address1.to_s.any?
     a << ", #{address2}" if address2.to_s.any?
-    a << ", #{city}"     if city.to_s.any?
-    a << ", #{state}"    if state.to_s.any?
-    a << "  #{zip}"      if zip.to_s.any?
+    if city.to_s.any? and state.to_s.any?
+      a << "<br/>#{city}, #{state}"
+      a << "  #{zip}" if zip.to_s.any?
+    end
   end
   
   def short_zip

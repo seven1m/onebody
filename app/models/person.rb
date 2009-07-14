@@ -105,8 +105,8 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :verses, :order => 'book, chapter, verse'
   has_many :log_items
   has_many :stream_items
-  has_many :friendships, :order => 'ordering, created_at'
-  has_many :friends, :class_name => 'Person', :through => :friendships, :order => 'friendships.ordering'
+  has_many :friendships
+  has_many :friends, :class_name => 'Person', :through => :friendships
   has_many :friendship_requests
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :prayer_requests, :order => 'created_at desc'

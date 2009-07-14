@@ -1,13 +1,23 @@
 <% content_for :subnav do %>
+  <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => 'All Pictures',     :class => 'icon') + ' All Pictures',     albums_path       %></li><% end %>
+  <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => 'All Verses',       :class => 'icon') + ' All Verses',       verses_path       %></li><% end %>
+  <% if Setting.get(:features, :recipes     ) %><li><%= link_to image_tag('recipe.png',    :alt => 'All Recipes',      :class => 'icon') + ' All Recipes',      recipes_path      %></li><% end %>
   <% if Setting.get(:features, :news_page   ) %><li><%= link_to image_tag('newspaper.png', :alt => 'All News',         :class => 'icon') + ' All News',         news_path         %></li><% end %>
   <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => 'All Publications', :class => 'icon') + ' All Publications', publications_path %></li><% end %>
-  <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => 'All Verses',       :class => 'icon') + ' All Verses',       verses_path       %></li><% end %>
-  <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => 'All Pictures',     :class => 'icon') + ' All Pictures',     albums_path       %></li><% end %>
-  <% if Setting.get(:features, :recipes     ) %><li><%= link_to image_tag('recipe.png',    :alt => 'All Recipes',      :class => 'icon') + ' All Recipes',      recipes_path      %></li><% end %>
 <% end %>
 
 <div style="width:200px;float:right;">
-  <table class="cells-centered">
+  <%= render :partial => 'people/photo', :locals => {:url => @person} %>
+  <h1><%=h @person.name %></h1>
+  <p>
+    <% if @person.share_home_phone?   and @person.home_phone.to_s.any?       %><%= format_phone @person.home_phone            %> home  <br/><% end %>
+    <% if @person.share_mobile_phone? and @person.mobile_phone.to_s.any?     %><%= format_phone @person.mobile_phone          %> mobile<br/><% end %>
+    <% if @person.share_work_phone?   and @person.work_phone.to_s.any?       %><%= format_phone @person.work_phone            %> work  <br/><% end %>
+    <% if @person.share_fax?          and @person.fax.to_s.any?              %><%= format_phone @person.fax                   %> fax   <br/><% end %>
+    <% if @person.share_address?      and @person.family.pretty_address.any? %><%= format_phone @person.family.pretty_address %>       <br/><% end %>
+  </p>
+
+  <table class="cells-centered" style="margin-top:20px;">
     <tr>
       <td class="graphic" style="padding-bottom:20px;">
         <%= link_to_function image_tag('add.png', :alt => 'Share Something', :class => 'icon'),
@@ -31,12 +41,12 @@
   <div id="stream-display-options">
     <h2>Show</h2>
     <ul>
+      <% if Setting.get(:features, :notes       ) %><li><%= stream_type_checkmark('Notes',        'note'       ) %></li><% end %>
+      <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark('Pictures',     'album'      ) %></li><% end %>
+      <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark('Verses',       'verse'      ) %></li><% end %>
+      <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark('Recipes',      'recipe'     ) %></li><% end %>
       <% if Setting.get(:features, :news_page   ) %><li><%= stream_type_checkmark('News',         'news_item'  ) %></li><% end %>
       <% if Setting.get(:features, :publications) %><li><%= stream_type_checkmark('Publications', 'publication') %></li><% end %>
-      <% if Setting.get(:features, :notes       ) %><li><%= stream_type_checkmark('Notes',        'note'       ) %></li><% end %>
-      <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark('Verses',       'verse'      ) %></li><% end %>
-      <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark('Pictures',     'album'      ) %></li><% end %>
-      <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark('Recipes',      'recipe'     ) %></li><% end %>
     </ul>
   </div>
 </div>

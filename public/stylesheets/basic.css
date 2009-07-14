@@ -354,7 +354,7 @@ div.autocomplete ul li {
 }
 
 .stream-item {
-	margin: 25px 0;
+	margin: 0 0 35px 0;
 	display: none;
 	clear: left;
 }
