@@ -70,7 +70,6 @@ unless defined?(DISABLE_ROUTES)
     map.resource :session
     map.resource :search, :member => {:opensearch => :get}
     map.resource :printable_directory
-    map.resource :feed
     map.resource :privacy
   
     map.resources :pages, :as => 'pages/admin' do |pages|
