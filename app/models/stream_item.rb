@@ -8,15 +8,6 @@ class StreamItem < ActiveRecord::Base
   
   scope_by_site_id
   
-  def title
-    read_attribute(:title) || case streamable_type
-      when 'Note'
-        'Note'
-      else
-        nil
-    end
-  end
-  
   before_save :ensure_context_is_hash
   
   def ensure_context_is_hash
