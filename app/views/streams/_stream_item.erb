@@ -16,7 +16,9 @@
     </h2>
     <div class="nowrap stream-item-timestamp">
       <%= time_ago_in_words stream_item.created_at %> ago
-      by <%= link_to h(stream_item.person.name), stream_item.person %>
+      <% if stream_item.person %>
+        by <%= link_to h(stream_item.person.name), stream_item.person %>
+      <% end %>
       <% if stream_item.group %>
         in <%= link_to h(stream_item.group.name), stream_item.group %>
       <% end %>
