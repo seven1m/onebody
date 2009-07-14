@@ -47,6 +47,7 @@
       <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark('Recipes',      'recipe'     ) %></li><% end %>
       <% if Setting.get(:features, :news_page   ) %><li><%= stream_type_checkmark('News',         'news_item'  ) %></li><% end %>
       <% if Setting.get(:features, :publications) %><li><%= stream_type_checkmark('Publications', 'publication') %></li><% end %>
+      <li><%= stream_type_checkmark('My Activity', 'mine') %></li>
     </ul>
   </div>
 </div>
@@ -66,7 +67,7 @@
     update_stream_display();
   }
   function update_stream_display() {
-    $$('.stream-item').each(function(e){e.hide()})
+    $$('.stream-item').each(function(e){e.show()})
     document.cookie.split('; ').each(function(type){
       if(type.match(/^stream_/)) {
         var enabled = type.split('=')[1] == 'true';
@@ -74,7 +75,7 @@
         var imgs = $$("#enable-" + type + " img");
         if(imgs.length > 0) {
           imgs[0].writeAttribute('src', enabled ? '/images/checkmark.png' : '/images/remove.gif');
-          $$('.' + type).each(function(e){enabled ? Element.show(e) : Element.hide(e)});
+          $$('.' + type).each(function(e){ if(!enabled) Element.hide(e) });
         }
       }
     })
