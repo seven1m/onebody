@@ -25,7 +25,11 @@ class PicturesController < ApplicationController
   end
 
   def create
-    @album = Album.find(params[:album_id])
+    if params[:album_id].to_s =~ /^\d+$/
+      @album = Album.find(params[:album_id])
+    else
+      @album = @logged_in.albums.create(:name => params[:album_id])
+    end
     success = fail = 0
     (1..10).each do |index|
       if ((pic = params["picture#{index}"]).read rescue '').length > 0
@@ -46,7 +50,7 @@ class PicturesController < ApplicationController
     end
     flash[:notice] = "#{success} picture(s) saved"
     flash[:notice] += " (#{fail} not saved due to errors)" if fail > 0
-    redirect_to @album
+    redirect_to params[:redirect_to] || @album
   end
   
   # rotate / cover selection
