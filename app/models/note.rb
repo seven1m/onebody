@@ -24,7 +24,7 @@ class Note < ActiveRecord::Base
   
   acts_as_logger LogItem
   
-  validates_presence_of :title
+  #validates_presence_of :title
   validates_presence_of :body
   
   def name; title; end
