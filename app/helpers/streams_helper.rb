@@ -24,6 +24,27 @@ module StreamsHelper
     send(stream_item.streamable_type.underscore + '_path', stream_item.streamable_id)
   end
   
+  def stream_item_content(stream_item, use_code=false)
+    if stream_item.body
+      content = white_list_with_removal(stream_item.body)
+    elsif stream_item.context.any?
+      content = ''
+      stream_item.context['picture_ids'].to_a.each do |picture_id|
+        content << link_to(
+          image_tag(small_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => 'click to enlarge', :class => 'stream-pic'),
+          album_picture_path(stream_item.streamable_id, picture_id), :title => 'click to enlarge'
+        ) + ' '
+      end
+    end
+    if use_code
+      content.gsub!(/<img([^>]+)src="(.+?)"/) do |match|
+        url = $2 + ($2.include?('?') ? '&' : '?') + 'code=' + @logged_in.feed_code
+        "<img#{$1}src=\"#{url}\""
+      end
+    end
+    content
+  end
+  
   def recent_time_ago_in_words(time)
     if time >= 1.day.ago
       time_ago_in_words(time) + ' ago'
