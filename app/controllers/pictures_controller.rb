@@ -34,6 +34,9 @@ class PicturesController < ApplicationController
         picture.photo = pic
         if picture.has_photo?
           success += 1
+          if @album.pictures.count == 1 # first pic should be default cover pic
+            picture.update_attribute(:cover, true)
+          end
         else
           fail += 1
           picture.log_item.destroy rescue nil
