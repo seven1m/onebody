@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('plus.png', :alt => 'New Album', :class => 'icon') + ' New Album', @group ? new_group_album_path(@group) : new_album_path %></li>
+<% end %>
+
 <h1>Picture Albums</h1>
 
 <%= render :partial => 'albums' %>

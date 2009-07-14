@@ -1,8 +1,8 @@
 <% content_for :subnav do %>
   <li><%= link_to image_tag('picture.png', :alt => 'All Pictures', :class => 'icon') + ' All Pictures', albums_path %></li>
   <% if @logged_in.can_edit? @album %>
-    <li><%= link_to 'Edit Album', edit_album_path(@album) %></li>
-    <li><%= link_to 'Delete Album', album_path(@album), :method => 'delete', :confirm => 'Are you sure? Deleting this album will also delete all its pictures!' %></li>
+    <li><%= link_to image_tag('pencil.png', :alt => 'Edit Album', :class => 'icon') + ' Edit Album', edit_album_path(@album) %></li>
+    <li><%= link_to image_tag('delete.png', :alt => 'Delete Album', :class => 'icon') + ' Delete Album', album_path(@album), :method => 'delete', :confirm => 'Are you sure? Deleting this album will also delete all its pictures!' %></li>
   <% end %>
 <% end %>
 
