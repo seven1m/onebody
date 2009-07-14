@@ -422,3 +422,12 @@ div#stream-display-options li {
 div#stream-display-options li a {
   text-decoration: none;
 }
+
+#share {
+  margin-bottom: 25px;
+  padding: 0 25px;
+}
+
+#share form {
+  border: none;
+}

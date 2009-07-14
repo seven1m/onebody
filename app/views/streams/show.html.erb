@@ -10,6 +10,52 @@
   <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => 'All Publications', :class => 'icon') + ' All Publications', publications_path %></li><% end %>
 <% end %>
 
+<div style="display:none;" id="share">
+  <% if Setting.get(:features, :notes) %>
+    <h2 class="tab" id="note"><%= image_tag('note.png', :alt => 'Note', :class => 'icon') %> Note</h2>
+    <div class="section">
+      <% form_for Note.new do |form| %>
+        <%= hidden_field_tag :redirect_to, stream_path %>
+        <p>
+          <%= form.text_area :body, :rows => 3, :cols => 80 %>
+          <%= form.submit 'Share Note' %>
+          Or, create a <%= link_to 'note with a title and formatting', new_note_path %>...
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+  <% if Setting.get(:features, :pictures) %>
+    <h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => 'Pictures', :class => 'icon') %> Pictures</h2>
+    <div class="section">
+      <p>share some pictures</p>
+    </div>
+  <% end %>
+  <% if Setting.get(:features, :verses) %>
+    <h2 class="tab" id="verse"><%= image_tag('verse.png', :alt => 'Verse', :class => 'icon') %> Verse</h2>
+    <div class="section">
+      <p>share a verse</p>
+    </div>
+  <% end %>
+  <% if Setting.get(:features, :recipes) %>
+    <h2 class="tab" id="recipe"><%= image_tag('recipe.png', :alt => 'Recipe', :class => 'icon') %> Recipe</h2>
+    <div class="section">
+      <p>share a recipe</p>
+    </div>
+  <% end %>
+  <% if Setting.get(:features, :news_by_users) or @logged_in.admin?(:manage_news) %>
+    <h2 class="tab" id="news"><%= image_tag('newspaper.png', :alt => 'News', :class => 'icon') %> News</h2>
+    <div class="section">
+      <p>share news</p>
+    </div>
+  <% end %>
+  <% if Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications) %>
+    <h2 class="tab" id="publication"><%= image_tag('page.png', :alt => 'Publication', :class => 'icon') %> Publication</h2>
+    <div class="section">
+      <p>share a publication</p>
+    </div>
+  <% end %>
+</div>
+
 <div style="width:200px;float:right;">
   <%= render :partial => 'people/photo', :locals => {:url => @person} %>
   <h1><%=h @person.name %></h1>
@@ -28,8 +74,7 @@
           "" %>
       </td>
       <td style="padding-bottom:20px;">
-        <%= link_to_function 'Share<br/>Something',
-          "" %>
+        <%= link_to_function 'Share<br/>Something', "new Effect.Appear('share'); location.hash = 'note';" %>
       </td>
     </tr>
     <tr>
@@ -85,9 +130,15 @@
     })
   }
   update_stream_display();
+  if(location.hash != '') Element.show('share');
 </script>
 
 <style type="text/css">
   /* show all in case browser has scripting disabled */
   .stream-item { display: block; }
+  #share div.section { border: 1px solid #ccc; padding-left: 20px; }
 </style>
+
+<%= stylesheet_link_tag 'tabs.css' %>
+<%= javascript_include_tag 'tabs.js' %>
+<script type="text/javascript"> set_up_tabs() </script>
