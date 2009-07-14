@@ -4,7 +4,7 @@
 <% end %>
 
 <% content_for :subnav do %>
-  <% if Setting.get(:features, :news_by_users) %>
+  <% if Setting.get(:features, :news_by_users) or @logged_in.admin?(:manage_news) %>
     <li><%= link_to 'Submit News', new_news_item_path %></li>
   <% end %>
 <% end %>
