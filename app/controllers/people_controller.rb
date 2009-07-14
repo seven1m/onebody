@@ -28,6 +28,7 @@ class PeopleController < ApplicationController
       @show_map = Setting.get(:services, :yahoo) and @person.family.mapable? and @person.share_address_with(@logged_in)
       @friends = @person.friends.all(:limit => MAX_FRIENDS_ON_PROFILE, :order => 'friendships.ordering').select { |p| @logged_in.can_see?(p) }
       @sidebar_group_people = @person.random_sidebar_group_people.select { |p| @logged_in.can_see?(p) }
+      @albums = Album.find_all_by_person_id(@person.id, :order => 'name')
       # wall messages
       @messages = @person.wall_messages.find(:all, :include => :person, :limit => 10)
       if params[:simple]

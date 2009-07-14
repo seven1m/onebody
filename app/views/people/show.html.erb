@@ -67,6 +67,19 @@
   <p><em>Private messaging is not enabled for <%=h @person.first_name %>.</em></p>
 <% end %>
 
+<% if Setting.get(:features, :pictures) %>
+  <h2 class="profile tab" id="pictures">Picture Albums</h2>
+  <div id="pictures_content" class="section" style="overflow:auto;">
+    <% @albums.each do |album| %>
+      <div style="float:left;text-align:center;">
+        <%= link_to image_tag(album.cover ? medium_picture_path(album.cover) : 'camera.gif', :alt => album.name), album, :title => 'click to view' %><br/>
+        <%= link_to h(album.name), album %>
+      </div>
+    <% end %>
+    <div style="clear:left;"></div>
+  </div>
+<% end %>
+
 <h2 class="profile tab" id="about">About</h2>
 <div id="about_content" class="section">
   <% if @person.about.to_s.any? %>
