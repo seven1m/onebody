@@ -12,6 +12,7 @@
 #
 
 class Publication < ActiveRecord::Base
+  belongs_to :person
   belongs_to :site
   
   scope_by_site_id
@@ -34,6 +35,7 @@ class Publication < ActiveRecord::Base
     StreamItem.create!(
       :title           => name,
       :body            => description,
+      :person_id       => person_id,
       :streamable_type => 'Publication',
       :streamable_id   => id,
       :created_at      => created_at
