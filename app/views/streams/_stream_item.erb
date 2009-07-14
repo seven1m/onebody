@@ -58,7 +58,7 @@
       <div class="new-comment">
         <%= link_to_function image_tag('comment.gif', :alt => 'Add a Comment', :class => 'icon') + ' Add a Comment',
           "new Effect.Appear('new-comment-for-#{stream_item.id}'); this.parentNode.style.visibility = 'visible';",
-          :class => 'discreet' %>
+          :class => 'discreet small' %>
         <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
           <% form_for Comment.new do |form| %>
             <% if stream_item.streamable_type == 'Album' %>
