@@ -474,13 +474,6 @@ input {
 	margin: 5px;
 }
 
-select {
-	padding:4px;
-	font:90% Verdana;
-	color:#777;
-	margin: 5px;
-}
-
 textarea {
 	width:400px;
 	padding:4px;
