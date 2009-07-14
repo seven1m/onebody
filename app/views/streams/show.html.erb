@@ -11,49 +11,104 @@
 <% end %>
 
 <div style="display:none;" id="share">
+  
   <% if Setting.get(:features, :notes) %>
     <h2 class="tab" id="note"><%= image_tag('note.png', :alt => 'Note', :class => 'icon') %> Note</h2>
     <div class="section">
       <% form_for Note.new do |form| %>
         <%= hidden_field_tag :redirect_to, stream_path %>
         <p>
+          What are you doing? &middot; What's on your mind?
           <%= form.text_area :body, :rows => 3, :cols => 80 %>
           <%= form.submit 'Share Note' %>
-          Or, create a <%= link_to 'note with a title and formatting', new_note_path %>...
+          Or, create a <%= link_to 'blog post with a title and formatting', new_note_path %>...
         </p>
       <% end %>
     </div>
   <% end %>
+  
   <% if Setting.get(:features, :pictures) %>
     <h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => 'Pictures', :class => 'icon') %> Pictures</h2>
     <div class="section">
-      <p>share some pictures</p>
+      <% form_for Picture.new, :url => pictures_path, :html => {:multipart => true} do |form| %>
+        <%= hidden_field_tag :redirect_to, stream_path %>
+        <%= label_tag :album_id, 'Album:' %>
+        <%= select_tag :album_id, '', {:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new album title.')"} %>
+        <span id="groups_loading" style="display:none;"><%= image_tag 'spinner_small.gif', :alt => 'Loading', :class => 'icon' %> Loading...</span><br/>
+        <label for="picture">Add a Picture:</label>
+        <%= file_field_tag 'picture1' %><br/>
+        <%= link_to_function 'upload more &raquo;', 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
+        <span id="more_upload" style="display:none;">
+          <%= file_field_tag 'picture2' %><br/>
+          <%= file_field_tag 'picture3' %><br/>
+          <%= file_field_tag 'picture4' %><br/>
+          <%= file_field_tag 'picture5' %><br/>
+          <%= file_field_tag 'picture6' %><br/>
+          <%= file_field_tag 'picture7' %><br/>
+          <%= file_field_tag 'picture8' %><br/>
+          <%= file_field_tag 'picture9' %><br/>
+          <%= file_field_tag 'picture10' %><br/>
+        </span>
+        <br/>
+        <% if @logged_in.admin?(:manage_pictures) %>
+          <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox' %>
+          <%= label_tag 'remove_owner', "These are general community pictures &mdash; don't show my name on them (admin-only option).", :class => 'inline' %>
+          <br/>
+        <% end %>
+        <%= submit_tag 'Upload!' %>
+      <% end %>
     </div>
   <% end %>
+  
   <% if Setting.get(:features, :verses) %>
     <h2 class="tab" id="verse"><%= image_tag('verse.png', :alt => 'Verse', :class => 'icon') %> Verse</h2>
     <div class="section">
-      <p>share a verse</p>
+      <% form_for Verse.new do |form| %>
+        <%= hidden_field_tag :redirect_to, stream_path %>
+        <p>
+          Type a reference (i.e. John 3:16, Matthew 5:3-11) below and hit enter:<br/>
+          <%= text_field_tag :id, nil, :style => 'border:1px solid #ccc;width:100px;' %>
+          <%= submit_tag 'Add Verse', :style => 'width:100px;' %>
+        </p>
+      <% end %>
     </div>
   <% end %>
-  <% if Setting.get(:features, :recipes) %>
-    <h2 class="tab" id="recipe"><%= image_tag('recipe.png', :alt => 'Recipe', :class => 'icon') %> Recipe</h2>
-    <div class="section">
-      <p>share a recipe</p>
-    </div>
-  <% end %>
+  
   <% if Setting.get(:features, :news_by_users) or @logged_in.admin?(:manage_news) %>
     <h2 class="tab" id="news"><%= image_tag('newspaper.png', :alt => 'News', :class => 'icon') %> News</h2>
     <div class="section">
-      <p>share news</p>
+      <% form_for NewsItem.new, :url => news_path do |form| %>
+        <p>
+          <%= form.label :title, 'Give your post a concise title:' %>
+          <%= form.text_field :title %>
+        </p>
+        <p>
+          <%= form.label :body, 'Share your announcement, information, or news here:' %>
+          <%= form.text_area :body, :rows => 5, :cols => 80 %>
+        </p>
+        <p>
+          <%= form.submit 'Submit News' %>
+          Or, create <%= link_to 'news with advanced formatting', new_news_item_path %>...
+        </p>
+      <% end %>
     </div>
   <% end %>
-  <% if Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications) %>
-    <h2 class="tab" id="publication"><%= image_tag('page.png', :alt => 'Publication', :class => 'icon') %> Publication</h2>
-    <div class="section">
-      <p>share a publication</p>
-    </div>
-  <% end %>
+  
+  <h2 class="tab" id="more"><%= image_tag('bricks.png', :alt => 'More', :class => 'icon') %> More</h2>
+  <div class="section">
+    <% if Setting.get(:features, :recipes) %>
+      <p>
+        <%= link_to image_tag('plus.png', :alt => 'Add Recipe', :class => 'icon'), new_recipe_path %>
+        <%= link_to 'New Recipe', new_recipe_path %>
+      </p>
+    <% end %>
+    <% if Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications) %>
+      <p>
+        <%= link_to image_tag('plus.png', :alt => 'Add Publication', :class => 'icon'), new_publication_path %>
+        <%= link_to 'New Publication', new_publication_path %>
+      </p>
+    <% end %>
+  </div>
 </div>
 
 <div style="width:200px;float:right;">
