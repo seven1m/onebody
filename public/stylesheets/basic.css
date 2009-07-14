@@ -367,6 +367,10 @@ div.autocomplete ul li {
   visibility: visible;
 }
 
+.stream-item table.comments {
+  background-color: #ffc;
+}
+
 .stream-item-timestamp {
 	font-size: smaller;
 }
@@ -377,13 +381,13 @@ div.autocomplete ul li {
 }
 
 .stream-item-body {
-  margin-left: 120px;
+  margin-left: 80px;
 }
 
 .stream-item-meta {
   line-height: 1em;
   float: left;
-  width: 100px;
+  width: 60px;
   text-align: right;
 }
 

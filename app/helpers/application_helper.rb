@@ -46,11 +46,6 @@ module ApplicationHelper
     #if @logged_in && @logged_in.my_calendar
     #  html << "<li>#{tab_link 'Calendar', person_calendar_path(@logged_in), params[:controller] == 'calendars'}</li>"
     #end
-    if Setting.get(:features, :news_page)
-      html << "<li>#{tab_link 'News', news_path, params[:controller] == 'news'}</li>"
-    elsif url = Setting.get(:url, :news)
-      html << "<li>#{tab_link 'News', url}</li>"
-    end
     html
   end
   
