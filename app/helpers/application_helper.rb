@@ -98,7 +98,7 @@ module ApplicationHelper
 
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe
-    simple_format(text.to_s)
+    text.sub(/\n/, '<br/>')
   end
   
   def remove_excess_breaks(text)

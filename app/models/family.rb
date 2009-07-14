@@ -62,12 +62,13 @@ class Family < ActiveRecord::Base
     end
   end
   
+  # not HTML-escaped!
   def pretty_address
     a = ''
     a << address1.to_s   if address1.to_s.any?
     a << ", #{address2}" if address2.to_s.any?
     if city.to_s.any? and state.to_s.any?
-      a << "<br/>#{city}, #{state}"
+      a << "\n#{city}, #{state}"
       a << "  #{zip}" if zip.to_s.any?
     end
   end

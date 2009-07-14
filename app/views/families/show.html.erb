@@ -23,7 +23,7 @@
 
 <p><%= format_phone @family.home_phone %></p>
 
-<p><%= @family.pretty_address %> <%= render :partial => 'map_link' %></p>
+<p><%= preserve_breaks @family.pretty_address %> <%= render(:partial => 'map_link') %></p>
 
 <h2>People</h2>
 
