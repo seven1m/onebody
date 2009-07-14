@@ -3,21 +3,10 @@
     <% if stream_item.person %>
       <span class="nowrap">
         <a href="<%= url_for stream_item.person %>">
-          <%= render :partial => 'people/thumbnail', :locals => {:person => stream_item.person} %>
+          <%= image_tag small_person_photo_path(stream_item.person), :alt => stream_item.person.name %>
         </a>
-        <%= link_to h(stream_item.person.name), stream_item.person %>
-        <br/>
       </span>
     <% end %>
-    <% if stream_item.group %>
-      <span class="nowrap">
-        in <%= link_to h(stream_item.group.name), stream_item.group %>
-      </span>
-      <br/>
-    <% end %>
-    <span class="nowrap stream-item-timestamp">
-      <%= time_ago_in_words stream_item.created_at %> ago
-    </span>
     <div style="clear:left;"></div>
   </div>
   <div class="stream-item-body">
@@ -25,6 +14,13 @@
       <%= link_to stream_icon(stream_item), stream_item %>
       <%= link_to h(stream_item.title), stream_item %>
     </h2>
+    <div class="nowrap stream-item-timestamp">
+      <%= time_ago_in_words stream_item.created_at %> ago
+      by <%= link_to h(stream_item.person.name), stream_item.person %>
+      <% if stream_item.group %>
+        in <%= link_to h(stream_item.group.name), stream_item.group %>
+      <% end %>
+    </div>
     <% if stream_item.body %>
       <%= white_list_with_removal(stream_item.body) %>
     <% elsif stream_item.context.any? %>

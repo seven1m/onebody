@@ -364,20 +364,20 @@ div.autocomplete ul li {
 }
 
 .stream-item-body {
-  margin-left: 200px;
+  margin-left: 120px;
 }
 
 .stream-item-meta {
   line-height: 1em;
   float: left;
-  width: 180px;
+  width: 100px;
   text-align: right;
   padding-top: 7px;
 }
 
 .stream-item h2 {
 	line-height: 2em;
-	font-size: 12pt;
+	font-size: 13pt;
 }
 
 .stream-pic {
@@ -386,8 +386,8 @@ div.autocomplete ul li {
   margin-top: 5px;
 }
 
-.stream-item-comment {
-  margin-left: 15px;
+.stream-item-comment td {
+  color: #999;
 }
 
 .nowrap {
