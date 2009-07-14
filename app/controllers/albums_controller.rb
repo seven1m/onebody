@@ -26,6 +26,9 @@ class AlbumsController < ApplicationController
     if @album.group and !can_add_pictures_to_group?(@album.group)
       @album.errors.add_to_base('Cannot add pictures in this group.')
     end
+    if params['remove_owner'] and @logged_in.admin?(:manage_pictures)
+      @album.person = nil
+    end
     if @album.save
       flash[:notice] = 'Album saved.'
       redirect_to @album
