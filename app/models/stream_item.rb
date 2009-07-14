@@ -13,4 +13,8 @@ class StreamItem < ActiveRecord::Base
   def ensure_context_is_hash
     self.context = {} if not context.is_a?(Hash)
   end
+  
+  def can_have_comments?
+    %w(Verse Note Recipe Album).include?(streamable_type)
+  end
 end

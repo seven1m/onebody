@@ -54,5 +54,33 @@
         <% end %>
       </table>
     <% end %>
+    <% if stream_item.can_have_comments? %>
+      <div class="new-comment">
+        <%= link_to_function image_tag('comment.gif', :alt => 'Add a Comment', :class => 'icon') + ' Add a Comment',
+          "new Effect.Appear('new-comment-for-#{stream_item.id}'); this.parentNode.style.visibility = 'visible';",
+          :class => 'discreet' %>
+        <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
+          <% form_for Comment.new do |form| %>
+            <% if stream_item.streamable_type == 'Album' %>
+              <% if stream_item.context['picture_ids'].to_a.length == 1 %>
+                <%= hidden_field_tag 'picture_id', stream_item.context['picture_ids'].first %>
+              <% else %>
+                Which picture are you commenting on?<br/>
+                <% stream_item.context['picture_ids'].to_a.each_with_index do |picture_id, index| %>
+                  <%= radio_button_tag :picture_id, picture_id, index == 0 %>
+                  <%= label_tag "picture_id_#{picture_id}", image_tag(tn_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => '', :class => 'icon'), :class => 'inline' %>
+                  &nbsp;
+                <% end %>
+              <% end %>
+            <% else %>
+              <%= hidden_field_tag stream_item.streamable_type.downcase + '_id', stream_item.streamable_id %>
+            <% end %>
+            <%= hidden_field_tag :return_to, stream_path %>
+            <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
+            <%= form.submit 'Save Comment' %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
