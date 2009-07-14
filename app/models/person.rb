@@ -546,7 +546,7 @@ class Person < ActiveRecord::Base
   
   def stream_items(count=30)
     friend_ids = [id]
-    friend_ids += friends.all(:select => 'people.id').map { |f| f.id } if Setting.get(:features, :friends)
+    friend_ids += friendships.all(:select => 'friend_id').map { |f| f.friend_id } if Setting.get(:features, :friends)
     group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
     group_ids = [0] unless group_ids.any?
     enabled_types = []
@@ -565,8 +565,7 @@ class Person < ActiveRecord::Base
       ],
       :order => 'stream_items.created_at desc',
       :limit => count,
-      :joins => 'left join people on stream_items.person_id = people.id',
-      :select => 'stream_items.*, people.first_name, people.last_name, people.suffix, people.gender, people.id, people.family_id, people.updated_at'
+      :include => :person
     )
   end
 

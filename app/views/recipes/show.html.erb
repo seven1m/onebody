@@ -1,9 +1,9 @@
 <% content_for :subnav do %>
-  <%= link_to "All Recipes", recipes_path %>
-  <% if @recipe.admin? @logged_in %>
-    <%= link_to 'Edit Recipe', edit_recipe_path(@recipe) %>
+  <li><%= link_to image_tag('recipe.png', :alt => 'All Recipes', :class => 'icon') + ' All Recipes', recipes_path %></li>
+  <% if @logged_in.can_edit?(@recipe) %>
+    <li><%= link_to 'Edit Recipe', edit_recipe_path(@recipe) %></li>
+    <li><%= link_to 'Delete Recipe', recipe_path(@recipe), :method => 'delete', :confirm => 'Are you sure?' %></li>
   <% end %>
-  <%= link_to 'New Recipe', new_recipe_path %>
 <% end %>
 
 <% if @recipe.has_photo? %>

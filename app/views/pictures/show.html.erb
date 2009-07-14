@@ -1,3 +1,8 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('picture.png', :alt => 'All Pictures', :class => 'icon') + ' All Pictures', albums_path %></li>
+  <li><%= link_to 'Delete Picture', album_picture_path(@album, @picture), :confirm => 'Are you sure?', :method => 'delete' %></li>
+<% end %>
+
 <% content_for :sidebar do %>
   <h1><%= link_to h(@picture.album.name), @picture.album %></h1>
   <% if @picture.album.group %>
@@ -16,7 +21,6 @@
       <%= link_to 'Left', album_picture_path(@album, @picture, :degrees => -90), :confirm => 'Are you sure?', :method => 'put' %> |
       <%= link_to 'Right', album_picture_path(@album, @picture, :degrees => 90), :confirm => 'Are you sure?', :method => 'put' %><br/>
       <%= link_to 'Make Cover for Album', album_picture_path(@album, @picture, :cover => true), :method => 'put', :confirm => 'Are you sure?' %><br/>
-      <%= link_to 'Delete Picture', album_picture_path(@album, @picture), :confirm => 'Are you sure?', :method => 'delete' %>
     </p>
   <% end %>
 <% end %>

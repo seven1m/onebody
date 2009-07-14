@@ -35,7 +35,7 @@
     <% if stream_item.context['comments'].to_a.any? %>
       <table>
         <% stream_item.context['comments'].to_a.each do |comment| %>
-          <% if person = Person.find(comment['person_id'], :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at') %>
+          <% if person = @comment_people[comment['person_id']] %>
             <tr class="stream-item-comment">
               <td style="text-align:right;">
                 <a href="<%= url_for person %>">
