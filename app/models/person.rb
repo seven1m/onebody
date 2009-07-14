@@ -95,6 +95,7 @@ class Person < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
   has_many :groups, :through => :memberships
+  has_many :albums
   has_many :pictures, :order => 'created_at desc'
   has_many :messages
   has_many :wall_messages, :class_name => 'Message', :foreign_key => 'wall_id', :order => 'created_at desc'
@@ -102,7 +103,7 @@ class Person < ActiveRecord::Base
   has_many :notes, :order => 'created_at desc', :conditions => ['deleted = ?', false]
   has_many :updates, :order => 'created_at'
   has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
-  has_and_belongs_to_many :verses, :order => 'book, chapter, verse'
+  has_and_belongs_to_many :verses
   has_many :log_items
   has_many :stream_items
   has_many :friendships

@@ -67,7 +67,7 @@
   <p><em>Private messaging is not enabled for <%=h @person.first_name %>.</em></p>
 <% end %>
 
-<% if Setting.get(:features, :pictures) %>
+<% if Setting.get(:features, :pictures) and @albums.any? %>
   <h2 class="profile tab" id="pictures">Picture Albums</h2>
   <div id="pictures_content" class="section" style="overflow:auto;">
     <% @albums.each do |album| %>
@@ -77,6 +77,13 @@
       </div>
     <% end %>
     <div style="clear:left;"></div>
+  </div>
+<% end %>
+
+<% if Setting.get(:features, :verses) and @verses.any? %>
+  <h2 class="profile tab" id="verses">Verses</h2>
+  <div id="verses_content" class="section">
+    <%= render :partial => @verses %>
   </div>
 <% end %>
 
