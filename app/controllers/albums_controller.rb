@@ -1,7 +1,7 @@
 class AlbumsController < ApplicationController
 
   def index
-    @albums = Album.find_all_by_group_id(nil, :order => 'created_at desc')
+    @albums = Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc')
   end
 
   def show

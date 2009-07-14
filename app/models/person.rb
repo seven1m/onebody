@@ -291,6 +291,10 @@ class Person < ActiveRecord::Base
         what.person and can_see?(what.person)
       when 'Recipe', 'Picture', 'Verse'
         true
+      when 'Album'
+        what.is_public? or can_see?(what.person)
+      when 'Picture'
+        what.album.is_public? or can_see?(what.person)
       else
         raise "Unrecognized argument to can_see? (#{what.inspect})"
       end

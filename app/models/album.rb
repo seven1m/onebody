@@ -26,7 +26,8 @@ class Album < ActiveRecord::Base
   validates_uniqueness_of :name
   
   def cover
-    pictures.find_by_cover(true) || pictures.first
+    @cover ||= pictures.find_by_cover(true)
+    @cover ||= pictures.first
   end
   
   after_destroy :delete_stream_items
