@@ -246,7 +246,7 @@ class Verse < ActiveRecord::Base
       :person_id       => person.id,
       :streamable_type => 'Verse',
       :streamable_id   => id,
-      :created_at      => created_at
+      :created_at      => Time.now
     )
   end
 
