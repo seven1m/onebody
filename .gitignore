@@ -12,3 +12,5 @@ config/deploy.rb
 config/email.yml
 public/images/logo*
 test/fixtures/settings.yml
+config/query_reviewer.yml
+vendor/plugins/query_reviewer
