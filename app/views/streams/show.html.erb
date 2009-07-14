@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <link rel="alternate" type="application/atom+xml" title="Activity Feed" href="<%= url_for stream_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+<% end %>
+
 <% content_for :subnav do %>
   <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => 'All Pictures',     :class => 'icon') + ' All Pictures',     albums_path       %></li><% end %>
   <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => 'All Verses',       :class => 'icon') + ' All Verses',       verses_path       %></li><% end %>
