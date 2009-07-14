@@ -1,7 +1,7 @@
 <% if @logged_in.can_edit?(@note) %>
   <% content_for :subnav do %>
-    <%= link_to 'Edit Note', edit_note_url(:id => @note), :class => 'discreet' %>
-    <%= link_to 'Delete Note', @note, :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
+    <%= link_to image_tag('pencil.png', :alt => 'Edit Note', :class => 'icon') + ' Edit Note', edit_note_url(:id => @note), :class => 'discreet' %>
+    <%= link_to image_tag('delete.png', :alt => 'Delete Note', :class => 'icon') + ' Delete Note', @note, :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
   <% end %>
 <% end %>
 

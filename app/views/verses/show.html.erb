@@ -5,12 +5,14 @@
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to image_tag('remove.gif', :alt => 'Remove this verse from my list.', :class => 'icon') + ' Remove this verse', @verse, :method => 'delete', :confirm => 'Are you sure?' %><br/>
+      <%= link_to image_tag('delete.png', :alt => 'Remove this verse from my list.', :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => 'Are you sure?' %>
+      <%= link_to 'Remove this verse', @verse, :method => 'delete', :confirm => 'Are you sure?' %><br/>
       from my list.
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', verses_path(:id => @verse), :method => 'post' %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'post' %>
+      <%= link_to 'Add this verse', verses_path(:id => @verse), :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>
