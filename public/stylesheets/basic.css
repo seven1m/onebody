@@ -372,11 +372,9 @@ div.autocomplete ul li {
   float: left;
   width: 100px;
   text-align: right;
-  padding-top: 7px;
 }
 
 .stream-item h2 {
-	line-height: 2em;
 	font-size: 13pt;
 }
 
