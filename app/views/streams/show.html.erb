@@ -126,7 +126,7 @@
     <tr>
       <td class="graphic" style="padding-bottom:20px;">
         <%= link_to_function image_tag('add.png', :alt => 'Share Something', :class => 'icon'),
-          "" %>
+          "new Effect.Appear('share'); location.hash = 'note';" %>
       </td>
       <td style="padding-bottom:20px;">
         <%= link_to_function 'Share<br/>Something', "new Effect.Appear('share'); location.hash = 'note';" %>
