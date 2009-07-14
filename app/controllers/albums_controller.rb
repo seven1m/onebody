@@ -1,7 +1,15 @@
 class AlbumsController < ApplicationController
 
   def index
-    @albums = Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc')
+    if params[:person_id]
+      @albums = Person.find(params[:person_id]).albums.all
+    else
+      @albums = Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc')
+    end
+    respond_to do |format|
+      format.html
+      format.js { render :text => @albums.to_json }
+    end
   end
 
   def show

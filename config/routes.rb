@@ -17,13 +17,14 @@ unless defined?(DISABLE_ROUTES)
       people.resources :remote_accounts, :member => {:sync => :post}
       people.resources :groupies
       people.resources :services
+      people.resources :albums
       people.resource :account, :member => {:verify_code => :any, :select => :any}
       people.resource :sync
       people.resource :privacy
       people.resource :blog
       people.resource :wall, :member => {:with => :get}
       people.resource :photo, :member => PHOTO_SIZE_METHODS
-	  people.resource :calendar
+      people.resource :calendar
     end
   
     map.resources :families,
@@ -49,6 +50,8 @@ unless defined?(DISABLE_ROUTES)
         pictures.resource :photo, :member => PHOTO_SIZE_METHODS
       end
     end
+    
+    map.resources :pictures
  
     map.resources :recipes do |recipes|
       recipes.resource :photo, :member => PHOTO_SIZE_METHODS
