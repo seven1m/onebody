@@ -274,7 +274,7 @@
       $('person' + e.id.substring(14)).style.display = e.checked ? '' : 'none';
     });
   }
-  set_up(); // tabs
+  set_up_tabs();
   check_visibility();
   changes = false;
   $$('.section input').concat($$('.section textarea')).each(function(e){
