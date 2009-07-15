@@ -25,7 +25,7 @@ update_stream_display();
 albums = null;
 function load_tab(id) {
   if(id == 'picture' && !albums) {
-    new Ajax.Request('<%= person_albums_path(@logged_in.id) %>', {
+    new Ajax.Request(GROUPS_JSON_PATH, {
       method: 'get',
       onLoading: function(){
         Element.show('groups_loading')
