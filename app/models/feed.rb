@@ -64,6 +64,9 @@ class Feed < ActiveRecord::Base
       )
       if entry.content =~ /<img src="([^"]+_m\.jpg)/
         picture.photo = $1.sub(/_m\.jpg$/, '_b.jpg')
+        unless picture.has_photo?
+          picture.destroy
+        end
       else
         picture.destroy
       end
