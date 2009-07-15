@@ -26,7 +26,7 @@ module StreamsHelper
   
   def stream_item_content(stream_item, use_code=false)
     if stream_item.body
-      content = white_list_with_removal(stream_item.body)
+      content = white_list_with_removal(auto_link(stream_item.body))
     elsif stream_item.context.any?
       content = ''
       stream_item.context['picture_ids'].to_a.each do |picture_id|

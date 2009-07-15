@@ -448,3 +448,8 @@ div#stream-display-options li a {
 #share form {
   border: none;
 }
+
+.note-content-big {
+  font-size: 150%;
+  line-height: 1.5em;
+}

@@ -16,7 +16,9 @@
 
 <h1><%=h @note.title %></h1>
 
-<div><%= white_list @note.body %></div>
+<div <% if @note.title.to_s.empty? and @note.body.length <= 200 %>class="note-content-big"<% end %>>
+  <%= white_list_with_removal auto_link(@note.body) %>
+</div>
 
 <% if @note.original_url %>
   <p class="small">Note imported from <%= link_to h(domain_name_from_url(@note.original_url)), @note.original_url %>.</p>

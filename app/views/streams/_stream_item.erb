@@ -18,7 +18,8 @@
       </h2>
     <% else %>
       <%= link_to stream_icon(stream_item), stream_item %>
-      <%= link_to stream_item_content(stream_item), stream_item, :style => 'text-decoration:none;' %>
+      <%= stream_item_content(stream_item) %>
+      <%= link_to 'View...', stream_item, :class => 'small' %>
     <% end %>
     <div class="nowrap stream-item-timestamp">
       <%= time_ago_in_words stream_item.created_at %> ago
