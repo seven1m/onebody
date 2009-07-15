@@ -28,7 +28,7 @@
   <% end %>
   
   <% if Setting.get(:features, :pictures) %>
-    <h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => 'Pictures', :class => 'icon') %> Pictures</h2>
+    <h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => 'Pictures', :class => 'icon') %> Picture</h2>
     <div class="section">
       <% form_for Picture.new, :url => pictures_path, :html => {:multipart => true} do |form| %>
         <%= hidden_field_tag :redirect_to, stream_path %>
@@ -94,21 +94,24 @@
     </div>
   <% end %>
   
-  <h2 class="tab" id="more"><%= image_tag('bricks.png', :alt => 'More', :class => 'icon') %> More</h2>
-  <div class="section">
-    <% if Setting.get(:features, :recipes) %>
-      <p>
-        <%= link_to image_tag('plus.png', :alt => 'Add Recipe', :class => 'icon'), new_recipe_path %>
-        <%= link_to 'New Recipe', new_recipe_path %>
-      </p>
-    <% end %>
-    <% if Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications) %>
-      <p>
-        <%= link_to image_tag('plus.png', :alt => 'Add Publication', :class => 'icon'), new_publication_path %>
-        <%= link_to 'New Publication', new_publication_path %>
-      </p>
-    <% end %>
-  </div>
+  <% if Setting.get(:features, :recipes) or
+    (Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications)) %>
+    <h2 class="tab" id="more"><%= image_tag('bricks.png', :alt => 'More', :class => 'icon') %> More</h2>
+    <div class="section">
+      <% if Setting.get(:features, :recipes) %>
+        <p>
+          <%= link_to image_tag('plus.png', :alt => 'Add Recipe', :class => 'icon'), new_recipe_path %>
+          <%= link_to 'New Recipe', new_recipe_path %>
+        </p>
+      <% end %>
+      <% if Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications) %>
+        <p>
+          <%= link_to image_tag('plus.png', :alt => 'Add Publication', :class => 'icon'), new_publication_path %>
+          <%= link_to 'New Publication', new_publication_path %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
 <div style="width:200px;float:right;">
