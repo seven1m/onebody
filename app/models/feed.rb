@@ -53,7 +53,10 @@ class Feed < ActiveRecord::Base
   
   def import_picture(entry)
     unless Picture.exists?(['original_url = ?', entry.url])
-      album = person.albums.find_or_create_by_name('Flickr', :description => 'Photos from my Flickr account.')
+      album = person.albums.find_or_create_by_name('Flickr') do |a|
+        a.description = 'Photos from my Flickr account.'
+        a.is_public = false
+      end
       picture = person.pictures.create(
         :album_id     => album.id,
         :original_url => entry.url,
