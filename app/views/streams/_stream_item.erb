@@ -27,6 +27,8 @@
       <% end %>
       <% if stream_item.group %>
         in <%= link_to h(stream_item.group.name), stream_item.group %>
+      <% elsif original_url = stream_item.context['original_url'] %>
+        from <%= link_to h(domain_name_from_url(original_url)), original_url %>
       <% end %>
     </div>
     <% if stream_item.title %>

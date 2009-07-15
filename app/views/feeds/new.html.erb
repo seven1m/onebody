@@ -1,0 +1,84 @@
+<% case params[:type]; when 'facebook' %>
+  
+  <h1>Link Your Account With Facebook</h1>
+
+  <% form_for [@person, @feed] do |form| %>
+    <%= form.error_messages %>
+    <%= form.hidden_field :name, :value => 'Facebook' %>
+    <%= hidden_field_tag :type, 'facebook' %>
+    <ol>
+      <li><a href="http://www.facebook.com/notifications.php" target="_new">Click here</a> and log into Facebook.</li>
+      <li>
+        <strong>Right-</strong>click on the link labeled "Your Notifications" (pictured below) and choose
+        <strong>Copy Shortcut</strong> or <strong>Copy Link Location</strong> or similar.<br/>
+        <%= image_tag('fb_notifications.png', :alt => 'Facebook Notifications', :style => 'border:1px solid #000;') %>
+      </li>
+      <li>
+        Paste the link here: <%= form.text_field :url %>
+      </li>
+      <li>
+        <%= form.submit 'Preview...' %>
+      </li>
+    </ol>
+  <% end %>
+  
+<% when 'twitter' %>
+
+  <h1>Link Your Account With Twitter</h1>
+
+  <% form_for [@person, @feed] do |form| %>  
+    <%= form.hidden_field :name, :value => 'Twitter' %>
+    <%= hidden_field_tag :type, 'twitter' %>
+    <ol>
+      <li>Enter your Twitter username here: <%= form.text_field :url %>
+      </li>
+      <li>
+        <%= form.submit 'Preview...' %>
+      </li>
+    </ol>
+  <% end %>
+
+<% when 'flickr' %>
+
+  <h1>Link Your Account With Flickr</h1>
+
+  <% form_for [@person, @feed] do |form| %>  
+    <%= form.hidden_field :name, :value => 'Flickr' %>
+    <%= hidden_field_tag :type, 'flickr' %>
+    <ol>
+      <li>
+        Log into <a href="http://flickr.com">Flickr.com</a> and go to your photo page (click the "You" link near the top).<br/>
+        <%= image_tag('flickr_url.png', :alt => 'Flickr URL', :style => 'border:1px solid #000;') %>
+      </li>
+      <li>
+        Copy the URL from the address bar and paste here:
+        <%= form.text_field :url %>
+      </li>
+      <li>
+        <%= form.submit 'Preview...' %>
+      </li>
+    </ol>
+  <% end %>
+
+<% when 'rss' %>
+
+  <h1>Link Your Account With a Generic RSS or Atom Feed</h1>
+
+  <% form_for [@person, @feed] do |form| %>  
+    <%= hidden_field_tag :type, 'flickr' %>
+    <ol>
+      <li>
+        Give your feed a unique name:
+        <%= form.text_field :name, :size => 10 %>
+      </li>
+      <li>
+        Paste the feed URL here:
+        <%= form.text_field :url %>
+      </li>
+      <li>
+        <%= form.submit 'Preview...' %>
+      </li>
+    </ol>
+  <% end %>
+
+<% end %>

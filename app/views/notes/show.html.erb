@@ -18,5 +18,9 @@
 
 <div><%= white_list @note.body %></div>
 
+<% if @note.original_url %>
+  <p class="small">Note imported from <%= link_to h(domain_name_from_url(@note.original_url)), @note.original_url %>.</p>
+<% end %>
+
 <h2>Comments</h2>
 <%= render :partial => 'comments/comments', :locals => {:object => @note, :intro => 'about this note.'} %>

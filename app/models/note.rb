@@ -49,6 +49,7 @@ class Note < ActiveRecord::Base
     StreamItem.create!(
       :title           => title,
       :body            => body,
+      :context         => original_url.to_s.any? ? {'original_url' => original_url} : {},
       :person_id       => person_id,
       :group_id        => group_id,
       :streamable_type => 'Note',

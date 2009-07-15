@@ -18,6 +18,7 @@ unless defined?(DISABLE_ROUTES)
       people.resources :groupies
       people.resources :services
       people.resources :albums
+      people.resources :feeds
       people.resource :account, :member => {:verify_code => :any, :select => :any}
       people.resource :sync
       people.resource :privacy
@@ -61,6 +62,7 @@ unless defined?(DISABLE_ROUTES)
       messages.resources :attachments
     end
   
+    map.resources :feeds
     map.resources :verses
     map.resources :publications
     map.resources :notes

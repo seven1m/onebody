@@ -1,0 +1,25 @@
+<h1>All Feeds</h1>
+
+<% if params[:order] == 'errors' %>
+  <p><%= link_to 'Sort by person', feeds_path %></p>
+<% else %>
+  <p><%= link_to 'Sort by error count (descending)', feeds_path(:order => 'errors') %></p>
+<% end %>
+
+<table>
+  <tr><th>Person</th><th>Feed</th><th>Errors</th><th>URL</th><th></th></tr>
+  <% @feeds.each do |feed| %>
+    <tr>
+      <td><%= link_to h(feed.person.name), feed.person %></td>
+      <td><%=h feed.name %></td>
+      <td><%=h pluralize(feed.error_count, 'error') %></td>
+      <td>
+        <%= link_to_function 'url', "Element.show('feed#{feed.id}');Element.hide(this);" %>
+        <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%=h feed.url %></span>
+      </td>
+      <td>
+        <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), feed, :method => 'delete', :confirm => 'Are you sure?' %>
+      </td>
+    </tr>
+  <% end %>
+</table>

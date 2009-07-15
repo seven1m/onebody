@@ -151,6 +151,11 @@ module ApplicationHelper
     white_list(html) { |node, bad| node.to_s.gsub(/<script.+?<\/script>/mi, '').gsub(/<style.+?<\/style>/mi, '').gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }
   end
   
+  def domain_name_from_url(url)
+    url =~ /^https?:\/\/([^\/]+)/
+    $1
+  end
+  
   class << self
     include ApplicationHelper
   end

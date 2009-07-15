@@ -114,6 +114,7 @@ class Person < ActiveRecord::Base
   has_many :sync_instances
   has_many :remote_accounts
   has_many :attendance_records
+  has_many :feeds
   belongs_to :site
 
   has_many :services, :dependent => :destroy do

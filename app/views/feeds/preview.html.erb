@@ -1,0 +1,24 @@
+<h1>Preview Feed</h1>
+
+<p>
+  Does this look right?
+  <% form_for [@person, @feed], :html => {:onsubmit => "$('finalize_feed').disabled=true;Element.show('please_wait');"} do |form| %>
+    <%= form.hidden_field :name %>
+    <%= form.hidden_field :url %>
+    <%= hidden_field_tag :type, params[:type] %>
+    <%= hidden_field_tag :final, true %>
+    <%= form.submit 'Yes, this looks right. Add the feed.', :id => 'finalize_feed' %>
+    <span id="please_wait" style="display:none;">
+      <%= image_tag('spinner_small.gif', :alt => 'Please wait...', :class => 'icon') %>
+      Please wait while we import your feed...
+    </span>
+  <% end %>
+</p>
+
+<% @entries.each do |entry| %>
+  <h2><%=h %w(twitter facebook).include?(params[:type]) ? nil : entry.title %></h2>
+  <p>Posted: <%=h entry.published.to_s %></p>
+  <p>
+    <%= white_list_with_removal entry.content || entry.summary %>
+  </p>
+<% end %>

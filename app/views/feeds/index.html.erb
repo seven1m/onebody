@@ -1,0 +1,13 @@
+<h1>Feeds for <%= link_to h(@person.name), @person %></h1>
+
+<ul>
+  <%= render :partial => @feeds %>
+</ul>
+
+<h2>Add a Feed</h2>
+<p style="padding-left:10px;">
+  <%= link_to image_tag('facebook.png', :alt => 'Link with your Facebook status updates...', :class => 'icon') + ' Facebook', new_person_feed_path(@logged_in, :type => 'facebook'), :style => 'text-decoration:none;' %><br/>
+  <%= link_to image_tag('twitter.png', :alt => 'Link with your Twitter updates...', :class => 'icon') + ' Twitter', new_person_feed_path(@logged_in, :type => 'twitter'), :style => 'text-decoration:none;' %><br/>
+  <%= link_to image_tag('flickr.png', :alt => 'Link with your Flickr photos...', :class => 'icon') + ' Flickr', new_person_feed_path(@logged_in, :type => 'flickr'), :style => 'text-decoration:none;' %><br/>
+  <%= link_to image_tag('rss.png', :alt => 'Link with your RSS feed...', :class => 'icon') + ' RSS', new_person_feed_path(@logged_in, :type => 'rss'), :style => 'text-decoration:none;' %><br/>
+</p>
