@@ -13,7 +13,7 @@
     <% end %>
   </div>
 
-  <div class="note-body"><%= white_list note.body %></div>
+  <div class="note-body"><%= white_list_with_removal auto_link(note.body) %></div>
 
   <div class="note-comments">
     <div class="comment-summary">
