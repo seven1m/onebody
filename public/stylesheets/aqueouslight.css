@@ -471,7 +471,7 @@ input {
 	padding:4px;
 	font:90% Verdana;
 	color:#777;
-	margin: 5px;
+	margin: 0 5px 0 0;
 }
 
 textarea {
@@ -480,7 +480,7 @@ textarea {
 	font:90% Verdana;
 	display:block;
 	color:#777;
-	margin: 5px;
+	margin: 0 5px 5px 0;
 }
 
 blockquote p {

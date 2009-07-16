@@ -381,14 +381,20 @@ div.autocomplete ul li {
 }
 
 .stream-item-body {
-  margin-left: 80px;
+  margin-left: 50px;
 }
 
 .stream-item-meta {
   line-height: 1em;
   float: left;
-  width: 60px;
+  width: 32px;
   text-align: right;
+}
+
+.stream-item img {
+  padding: 5px 0 0 0;
+  margin: 0;
+  border: none;
 }
 
 .stream-item h2 {
@@ -441,15 +447,27 @@ div#stream-display-options li a {
 }
 
 #share {
-  margin-bottom: 25px;
-  padding: 0 25px;
 }
 
 #share form {
   border: none;
 }
 
+#share div.section {
+  border: 1px solid #ccc;
+  padding-left: 20px; }
+
 .note-content-big {
   font-size: 150%;
   line-height: 1.5em;
+}
+
+#profile-body {
+  overflow: auto;
+}
+
+#profile-body form {
+  border: none;
+  padding: 0;
+  margin: 0;
 }

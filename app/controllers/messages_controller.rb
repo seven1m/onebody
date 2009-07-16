@@ -31,6 +31,10 @@ class MessagesController < ApplicationController
   private
   
   def create_wall_message
+    if params[:note_private] and not %w(0 false).include?(params[:note_private])
+      redirect_to new_message_path(:to_person_id => params[:message][:wall_id])
+      return
+    end
     @person = Person.find(params[:message][:wall_id])
     if @logged_in.can_see?(@person) and @person.wall_enabled?
       message = @person.wall_messages.create(params[:message].merge(:subject => 'Wall Post', :person => @logged_in))

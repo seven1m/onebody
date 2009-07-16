@@ -2,13 +2,16 @@
   <h2 class="tab" id="note"><%= image_tag('note.png', :alt => 'Note', :class => 'icon') %> Note</h2>
   <div class="section">
     <% form_for Note.new do |form| %>
-      <%= hidden_field_tag :redirect_to, stream_path %>
+      <%= hidden_field_tag :redirect_to, request.request_uri %>
       <p>
         What are you doing? &middot; What's on your mind?
-        <%= form.text_area :body, :rows => 3, :cols => 80 %>
+        <%= form.text_area :body, :rows => 2, :cols => 80 %>
         <%= form.submit 'Share Note' %>
         Or, create a <%= link_to 'blog post with a title and formatting', new_note_path %>...
       </p>
+    <% end %>
+    <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
+      <%= render :partial => 'people/not_sharing_activity' %>
     <% end %>
   </div>
 <% end %>
@@ -17,10 +20,10 @@
   <h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => 'Pictures', :class => 'icon') %> Picture</h2>
   <div class="section">
     <% form_for Picture.new, :url => pictures_path, :html => {:multipart => true} do |form| %>
-      <%= hidden_field_tag :redirect_to, stream_path %>
+      <%= hidden_field_tag :redirect_to, request.request_uri %>
       <%= label_tag :album_id, 'Album:' %>
       <%= select_tag :album_id, '', {:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new album title.')"} %>
-      <span id="groups_loading" style="display:none;"><%= image_tag 'spinner_small.gif', :alt => 'Loading', :class => 'icon' %> Loading...</span><br/>
+      <span id="albums_loading" style="display:none;"><%= image_tag 'spinner_small.gif', :alt => 'Loading', :class => 'icon' %> Loading...</span><br/>
       <label for="picture">Add a Picture:</label>
       <%= file_field_tag 'picture1' %><br/>
       <%= link_to_function 'upload more &raquo;', 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
@@ -43,6 +46,9 @@
       <% end %>
       <%= submit_tag 'Upload!' %>
     <% end %>
+    <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
+      <%= render :partial => 'people/not_sharing_activity' %>
+    <% end %>
   </div>
 <% end %>
 
@@ -50,12 +56,15 @@
   <h2 class="tab" id="verse"><%= image_tag('verse.png', :alt => 'Verse', :class => 'icon') %> Verse</h2>
   <div class="section">
     <% form_for Verse.new do |form| %>
-      <%= hidden_field_tag :redirect_to, stream_path %>
+      <%= hidden_field_tag :redirect_to, request.request_uri %>
       <p>
         Type a reference (i.e. John 3:16, Matthew 5:3-11) below and hit enter:<br/>
         <%= text_field_tag :id, nil, :style => 'border:1px solid #ccc;width:100px;' %>
         <%= submit_tag 'Add Verse', :style => 'width:100px;' %>
       </p>
+    <% end %>
+    <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
+      <%= render :partial => 'people/not_sharing_activity' %>
     <% end %>
   </div>
 <% end %>
@@ -77,6 +86,9 @@
         Or, create <%= link_to 'news with advanced formatting', new_news_item_path %>...
       </p>
     <% end %>
+    <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
+      <%= render :partial => 'people/not_sharing_activity' %>
+    <% end %>
   </div>
 <% end %>
 
@@ -95,6 +107,9 @@
         <%= link_to image_tag('plus.png', :alt => 'Add Publication', :class => 'icon'), new_publication_path %>
         <%= link_to 'New Publication', new_publication_path %>
       </p>
+    <% end %>
+    <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
+      <%= render :partial => 'people/not_sharing_activity' %>
     <% end %>
   </div>
 <% end %>

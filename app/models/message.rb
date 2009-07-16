@@ -232,6 +232,28 @@ class Message < ActiveRecord::Base
     Digest::MD5.hexdigest(code.to_s)[0..5]
   end
   
+  after_create :create_as_stream_item
+  
+  def create_as_stream_item
+    return unless wall_id and person_id
+    return if group_id or to_person_id
+    StreamItem.create!(
+      :body            => body,
+      :wall_id         => wall_id,
+      :person_id       => person_id,
+      :streamable_type => 'Message',
+      :streamable_id   => id,
+      :created_at      => created_at,
+      :shared          => wall.share_activity? && person.share_activity? ? true : false
+    )
+  end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'Message', :streamable_id => id)
+  end
+  
   def self.preview(attributes)
     msg = Message.new(attributes)
     Notifier.create_message(Person.new(:email => 'test@example.com'), msg)

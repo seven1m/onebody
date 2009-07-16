@@ -6,6 +6,8 @@ module StreamsHelper
       'newspaper.png'
     when 'Note'
       'note.png'
+    when 'Message'
+      'comments.png'
     when 'Verse'
       'verse.png'
     when 'Album'

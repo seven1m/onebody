@@ -23,6 +23,11 @@
   <%= render :partial => 'photo' %>
   <h1><%=h @person.name %></h1>
   <%= render :partial => 'person_type' %>
+  <!--
+  <% unless @person.website.blank? %>
+    <p><%= link_to 'Website', @person.website %></p>
+  <% end %>
+  -->
   <%= render :partial => 'family' %>
   <%= render :partial => 'hidden_children' %>
   <% if Setting.get(:features, :friends) %>
@@ -36,35 +41,10 @@
   <% end %>
 <% end %>
 
-<% if me? and @logged_in.pending_friendship_requests.count > 0 %>
-  <p class="highlight">
-    You have <%= link_to 'pending friend requests', person_friends_path(@person) %>.
-  </p>
-<% end %>
-
-<%# render :partial => 'map' %>
-
-<% unless @person.visible?(@family) %>
-  <p>
-    <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-    This profile is hidden
-  </p>
-<% end %>
-
-<%# render :partial => 'details' %>
-<!--
-<% unless @person.messages_enabled? %>
-  <p>
-    <%= image_tag('lock.gif', :alt => 'Email Disabled', :class => 'icon') %>
-    Sending email to <%=h @person.first_name %> is disabled.
-  </p>
-<% end %>
--->
-
-<% if Setting.get(:features, :pictures) and @albums.any? %>
-  <div style="overflow:auto;float:right;width:85px;">
+<% if nil and Setting.get(:features, :pictures) and @albums.any? %>
+  <div style="float:right;width:90px;">
     <% @albums.each do |album| %>
-      <div style="float:left;text-align:center;">
+      <div style="text-align:center;">
         <%= link_to image_tag(album.cover ? small_picture_path(album.cover) : 'camera.gif', :alt => album.name), album, :title => 'click to view' %><br/>
         <%= link_to h(album.name), album %>
       </div>
@@ -73,49 +53,131 @@
   </div>
 <% end %>
 
-<%= render :partial => 'pending_updates' %>
+<%# Main Content %>
+<div style="margin-right:120px;" id="profile-body">
 
-<% if nil and Setting.get(:features, :verses) and @verses.any? %>
-  <h2 class="profile tab" id="verses">Verses</h2>
-  <div id="verses_content" class="section">
-    <%= render :partial => @verses %>
-  </div>
-<% end %>
-
-<!--
-<h2 class="profile tab" id="about">About</h2>
-<div id="about_content" class="section">
-  <% if @person.about.to_s.any? %>
-    <%= preserve_breaks @person.about %>
-  <% else %>
-    <% if me? %>
-      <p><em>Write something <%= link_to 'about yourself', edit_person_path(@person, :anchor => 'about') %>.</em></p>
-    <% else %>
-      <p><em>Nothing here yet!</em></p>
-    <% end %>
+  <% if me? and @logged_in.pending_friendship_requests.count > 0 %>
+    <p class="highlight">
+      You have <%= link_to 'pending friend requests', person_friends_path(@person) %>.
+    </p>
   <% end %>
-</div>
 
-<% if @person.testimony.to_s.any? %>
-  <h2 class="profile tab" id="testimony">Testimony</h2>
-  <div id="testimony_content" class="section">
-    <%= preserve_breaks @person.testimony %>
-    <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
+  <%# render :partial => 'map' %>
+
+  <% unless @person.visible?(@family) %>
+    <p>
+      <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+      This profile is hidden.
+    </p>
+  <% end %>
+
+  <%# render :partial => 'details' %>
+  <!--
+  <% unless @person.messages_enabled? %>
+    <p>
+      <%= image_tag('lock.gif', :alt => 'Email Disabled', :class => 'icon') %>
+      Sending email to <%=h @person.first_name %> is disabled.
+    </p>
+  <% end %>
+  -->
+
+  <%= render :partial => 'pending_updates' %>
+
+  <!--
+  <div id="new-note">
+    <% form_for Note.new do |form| %>
+      <%= hidden_field_tag :redirect_to, stream_path %>
+      <p>
+        What are you doing? &middot; What's on your mind?
+        <%= form.text_area :body, :rows => 2, :cols => 80 %>
+        <%= form.submit 'Share Note' %>
+        Or, create a <%= link_to 'blog post with a title and formatting', new_note_path %>...
+      </p>
+    <% end %>
   </div>
-<% end %>
-
-<h2 class="profile tab" id="favorites">Favorites</h2>
-<div id="favorites_content" class="section">
-  <%= render :partial => 'favorites' %>
-</div>
-
-<% if @person.wall_enabled? %>
-  <h2 class="profile tab" id="wall">Wall</h2>
-  <div id="wall_content" class="section">
-    <%= render :partial => 'walls/wall' %>
+  -->
+  
+  <div id="share" style="margin-bottom:20px;">
+    <% if me? %>
+      <%= render :partial => 'streams/share' %>
+    <% elsif @person.wall_enabled? %>
+      <% form_for Message.new(:wall => @person) do |form| %>
+        <%= form.hidden_field :wall_id %>
+        <p>
+          <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
+          Leave a note for <%=h @person.first_name %>:<br/>
+          <%= radio_button_tag 'note_private', 0, true %><%= label_tag 'note_private_0', 'Public', :class => 'inline' %>
+          <%= radio_button_tag 'note_private', 1, false, :onchange => "if(this.checked)location.href='#{new_message_path(:to_person_id => @person.id)}'", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_1', 'Private', :class => 'inline' %>
+          <% unless @person.messages_enabled? %>(disabled for <%=h @person.first_name %>)<% end %>
+          <br/>
+          <%= form.text_area :body, :rows => 2, :cols => 80 %>
+          <%= form.submit 'Share Note' %>
+          <span class="small discreet">
+            This note will be visible to anyone who can see
+            <%=h @person.first_name_possessive %> profile.
+          </span>
+        </p>
+      <% end %>
+    <% end %>
   </div>
-<% end %>
--->
+  
+  <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
+
+  <% if nil and Setting.get(:features, :verses) and @verses.any? %>
+    <h2 class="profile tab" id="verses">Verses</h2>
+    <div id="verses_content" class="section">
+      <%= render :partial => @verses %>
+    </div>
+  <% end %>
+
+  <!--
+  <h2 class="profile tab" id="about">About</h2>
+  <div id="about_content" class="section">
+    <% if @person.about.to_s.any? %>
+      <%= preserve_breaks @person.about %>
+    <% else %>
+      <% if me? %>
+        <p><em>Write something <%= link_to 'about yourself', edit_person_path(@person, :anchor => 'about') %>.</em></p>
+      <% else %>
+        <p><em>Nothing here yet!</em></p>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @person.testimony.to_s.any? %>
+    <h2 class="profile tab" id="testimony">Testimony</h2>
+    <div id="testimony_content" class="section">
+      <%= preserve_breaks @person.testimony %>
+      <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
+    </div>
+  <% end %>
+
+  <h2 class="profile tab" id="favorites">Favorites</h2>
+  <div id="favorites_content" class="section">
+    <%= render :partial => 'favorites' %>
+  </div>
+
+  <% if nil and @person.wall_enabled? %>
+    <h2 class="profile tab" id="wall">Wall</h2>
+    <div id="wall_content" class="section">
+      <%= render :partial => 'walls/wall' %>
+    </div>
+  <% end %>
+  -->
+
+</div>
+  
 <% if @show_map %>
   <%= render :partial => 'map_scripts' %>
 <% end %>
+
+<style type="text/css">
+  .stream-item { display: block; }
+</style>
+
+<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@person.id) %>'; </script>
+<%= javascript_include_tag 'profile' %>
+
+<%= stylesheet_link_tag 'tabs.css' %>
+<%= javascript_include_tag 'tabs.js' %>
+<script type="text/javascript"> set_up_tabs(); </script>

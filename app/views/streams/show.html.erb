@@ -10,10 +10,6 @@
   <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => 'All Publications', :class => 'icon') + ' All Publications', publications_path %></li><% end %>
 <% end %>
 
-<div style="display:none;" id="share">
-  <%= render :partial => 'share' %>
-</div>
-
 <div style="width:200px;float:right;">
   <%= render :partial => 'people/photo', :locals => {:url => @person} %>
   <h1><%=h @person.name %></h1>
@@ -29,10 +25,10 @@
     <tr>
       <td class="graphic" style="padding-bottom:20px;">
         <%= link_to_function image_tag('add.png', :alt => 'Share Something', :class => 'icon'),
-          "new Effect.Appear('share'); location.hash = 'note';" %>
+          "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
       </td>
       <td style="padding-bottom:20px;">
-        <%= link_to_function 'Share<br/>Something', "new Effect.Appear('share'); location.hash = 'note';" %>
+        <%= link_to_function 'Share<br/>Something', "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
       </td>
     </tr>
     <tr>
@@ -67,7 +63,17 @@
   </div>
 </div>
 
-<div style="margin-right:250px;">
+<div style="display:none;margin:0 250px 25px 25px;" id="share">
+  <%= render :partial => 'share' %>
+</div>
+
+<div style="margin-right:250px;padding-left:25px;">
+  <p style="margin-bottom:20px;" id="share-something">
+    <%= link_to_function image_tag('add_small.gif', :alt => 'Share Something', :class => 'icon'),
+      "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
+    You should
+    <%= link_to_function 'share something here', "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>.
+  </p>
   <%= render :partial => 'stream_item', :collection => @stream_items %>
   <% if @stream_items.empty? %>
     <p>This is where activity from you, your friends, and your groups will appear.</p>
@@ -75,13 +81,12 @@
   <% end %>
 </div>
 
-<script type="text/javascript"> GROUPS_JSON_PATH = '<%= person_albums_path(@logged_in.id) %>'; </script>
+<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@logged_in.id) %>'; </script>
 <%= javascript_include_tag 'stream' %> <%# do not move this line below the style block below #%>
 
 <style type="text/css">
   /* show all in case browser has scripting disabled */
   .stream-item { display: block; }
-  #share div.section { border: 1px solid #ccc; padding-left: 20px; }
 </style>
 
 <%= stylesheet_link_tag 'tabs.css' %>

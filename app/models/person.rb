@@ -198,6 +198,10 @@ class Person < ActiveRecord::Base
   def name_possessive
     name =~ /s$/ ? "#{name}'" : "#{name}'s"
   end
+
+  def first_name_possessive
+    first_name =~ /s$/ ? "#{first_name}'" : "#{first_name}'s"
+  end
   
   def inspect
     "<#{name}>"
@@ -516,6 +520,7 @@ class Person < ActiveRecord::Base
     end
   end
     
+  # TODO: fix this
   def my_calendar # get the google calendar link for all groups a person is in
   	cals = []
 	src = String.new
@@ -554,29 +559,58 @@ class Person < ActiveRecord::Base
 	end
   end
   
-  def stream_items(count=30)
-    friend_ids = [id]
-    friend_ids += friendships.all(:select => 'friend_id').map { |f| f.friend_id } if Setting.get(:features, :friends)
-    group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
-    group_ids = [0] unless group_ids.any?
+  def shared_stream_items(count=30, mine=false)
     enabled_types = []
+    enabled_types << 'Message' # wall posts
     enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
     enabled_types << 'Publication' if Setting.get(:features, :publications)
     enabled_types << 'Verse'       if Setting.get(:features, :verses      )
     enabled_types << 'Album'       if Setting.get(:features, :pictures    )
     enabled_types << 'Note'        if Setting.get(:features, :notes       )
     enabled_types << 'Recipe'      if Setting.get(:features, :recipes     )
-    StreamItem.all(
-      :conditions => [
-        "(stream_items.person_id in (?) or stream_items.group_id in (?) or stream_items.streamable_type in ('NewsItem', 'Publication')) and stream_items.streamable_type in (?)",
-        friend_ids,
+    conditions = [
+      "stream_items.streamable_type in (?)",
+      enabled_types
+    ]
+    if mine
+      conditions.add_condition(["(stream_items.person_id = ? or stream_items.wall_id = ?)", id, id])
+    else
+      friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id } if Setting.get(:features, :friends)
+      group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
+      group_ids = [0] unless group_ids.any?
+      conditions.add_condition([
+        "stream_items.shared = ? and " +
+        "(stream_items.group_id in (?) or " +
+        " stream_items.wall_id is null and stream_items.person_id in (?) or " +
+        " stream_items.person_id = ? or " +
+        " stream_items.wall_id = ? or " +
+        " stream_items.streamable_type in ('NewsItem', 'Publication'))",
+        true,
         group_ids,
-        enabled_types
-      ],
+        friend_ids,
+        id,
+        id
+      ])
+    end
+    stream_items = StreamItem.all(
+      :conditions => conditions,
       :order => 'stream_items.created_at desc',
       :limit => count,
-      :include => :person
+      :include => [:person, :wall]
     )
+    # do our own eager loading here...
+    comment_people_ids = stream_items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
+    comment_people = Person.all(
+      :conditions => ["id in (?)", comment_people_ids],
+      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at' # only what's needed
+    ).inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
+    stream_items.each do |stream_item|
+      stream_item.context['comments'].to_a.each do |comment|
+        comment['person'] = comment_people[comment['person_id']]
+      end
+      stream_item.readonly!
+    end
+    stream_items
   end
 
   def to_liquid; inspect; end  
