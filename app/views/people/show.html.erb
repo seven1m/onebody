@@ -21,6 +21,8 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
+  <h1><%=h @person.name %></h1>
+  <%= render :partial => 'person_type' %>
   <%= render :partial => 'family' %>
   <%= render :partial => 'hidden_children' %>
   <% if Setting.get(:features, :friends) %>
@@ -34,41 +36,38 @@
   <% end %>
 <% end %>
 
-<div id="extra" style="display:none;" class="highlight"></div>
-
-<% unless @person.visible?(@family) %>
-  <p class="alert">
-    <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-    This profile is hidden!
-  </p>
-<% end %>
-
 <% if me? and @logged_in.pending_friendship_requests.count > 0 %>
   <p class="highlight">
     You have <%= link_to 'pending friend requests', person_friends_path(@person) %>.
   </p>
 <% end %>
 
-<%= render :partial => 'map' %>
+<%# render :partial => 'map' %>
 
-<%= render :partial => 'heading' %>
-
-<%= render :partial => 'person_type' %>
+<% unless @person.visible?(@family) %>
+  <p>
+    <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+    This profile is hidden
+  </p>
+<% end %>
 
 <%= render :partial => 'pending_updates' %>
 
-<%= render :partial => 'details' %>
-
+<%# render :partial => 'details' %>
+<!--
 <% unless @person.messages_enabled? %>
-  <p><em>Private messaging is not enabled for <%=h @person.first_name %>.</em></p>
+  <p>
+    <%= image_tag('lock.gif', :alt => 'Email Disabled', :class => 'icon') %>
+    Sending email to <%=h @person.first_name %> is disabled.
+  </p>
 <% end %>
+-->
 
 <% if Setting.get(:features, :pictures) and @albums.any? %>
-  <h2 class="profile tab" id="pictures">Picture Albums</h2>
-  <div id="pictures_content" class="section" style="overflow:auto;">
+  <div style="overflow:auto;float:right;width:85px;">
     <% @albums.each do |album| %>
       <div style="float:left;text-align:center;">
-        <%= link_to image_tag(album.cover ? medium_picture_path(album.cover) : 'camera.gif', :alt => album.name), album, :title => 'click to view' %><br/>
+        <%= link_to image_tag(album.cover ? small_picture_path(album.cover) : 'camera.gif', :alt => album.name), album, :title => 'click to view' %><br/>
         <%= link_to h(album.name), album %>
       </div>
     <% end %>
@@ -76,13 +75,14 @@
   </div>
 <% end %>
 
-<% if Setting.get(:features, :verses) and @verses.any? %>
+<% if nil and Setting.get(:features, :verses) and @verses.any? %>
   <h2 class="profile tab" id="verses">Verses</h2>
   <div id="verses_content" class="section">
     <%= render :partial => @verses %>
   </div>
 <% end %>
 
+<!--
 <h2 class="profile tab" id="about">About</h2>
 <div id="about_content" class="section">
   <% if @person.about.to_s.any? %>
@@ -115,13 +115,7 @@
     <%= render :partial => 'walls/wall' %>
   </div>
 <% end %>
-
+-->
 <% if @show_map %>
   <%= render :partial => 'map_scripts' %>
-<% end %>
-
-<% if Setting.get(:appearance, :tabbed_profile) %>
-  <%= stylesheet_link_tag 'tabs.css' %>
-  <%= javascript_include_tag 'tabs.js' %>
-  <script type="text/javascript"> set_up_tabs() </script>
 <% end %>
