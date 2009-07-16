@@ -95,14 +95,14 @@ class Recipe < ActiveRecord::Base
   after_create :create_as_stream_item
   
   def create_as_stream_item
-    return unless person.share_activity?
     StreamItem.create!(
       :title           => title,
       :body            => description,
       :person_id       => person_id,
       :streamable_type => 'Recipe',
       :streamable_id   => id,
-      :created_at      => created_at
+      :created_at      => created_at,
+      :shared          => person.share_activity?
     )
   end
   

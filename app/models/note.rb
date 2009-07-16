@@ -45,7 +45,6 @@ class Note < ActiveRecord::Base
   after_create :create_as_stream_item
   
   def create_as_stream_item
-    return unless group_id or person.share_activity?
     StreamItem.create!(
       :title           => title,
       :body            => body,
@@ -54,7 +53,8 @@ class Note < ActiveRecord::Base
       :group_id        => group_id,
       :streamable_type => 'Note',
       :streamable_id   => id,
-      :created_at      => created_at
+      :created_at      => created_at,
+      :shared          => group_id || person.share_activity? ? true : false
     )
   end
   

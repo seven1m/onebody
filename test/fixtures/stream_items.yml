@@ -13,6 +13,7 @@ news_by_jeremy:
   streamable_type: NewsItem
   streamable_id: 1
   context: {}
+  shared: true
 note_by_jennie:
   site_id: 1
   person_id: 4
@@ -22,6 +23,7 @@ note_by_jennie:
   streamable_type: Note
   streamable_id: 2
   context: {}
+  shared: true
 verse_by_tim:
   site_id: 1
   person_id: 1
@@ -31,6 +33,7 @@ verse_by_tim:
   streamable_type: Verse
   streamable_id: 1
   context: {}
+  shared: true
 group_note_by_peter:
   site_id: 1
   person_id: 3
@@ -46,3 +49,4 @@ group_note_by_peter:
   streamable_type: Note
   streamable_id: 3
   context: {}
+  shared: true

@@ -31,7 +31,7 @@ class Picture < ActiveRecord::Base
   after_create :create_as_stream_item
   
   def create_as_stream_item
-    return unless person and (album.group or person.share_activity?)
+    return unless person
     if last_stream_item = StreamItem.last(:conditions => ["person_id = ? and created_at <= ?", person_id, created_at], :order => 'created_at') \
       and last_stream_item.streamable == album
       last_stream_item.context['picture_ids'] << id
@@ -45,7 +45,8 @@ class Picture < ActiveRecord::Base
         :group_id        => album.group_id,
         :streamable_type => 'Album',
         :streamable_id   => album_id,
-        :created_at      => created_at
+        :created_at      => created_at,
+        :shared          => group_id || person.share_activity? ? true : false
       )
     end
   end
