@@ -1,11 +1,11 @@
 <% if @family_people.length > 1 %>
   <h2>
     Family
-  <% if @logged_in.admin?  %>
-    <%= link_to 'edit', @family, :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
-    <% elsif me? %>
-      <%= link_to 'edit', edit_person_path(@logged_in), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
-    <% end %>
+  <% if @logged_in.admin?(:edit_profiles)  %>
+    <%= link_to 'edit', @family, :class => 'discreet' %>
+  <% elsif me? %>
+    <%= link_to 'edit', edit_person_path(@logged_in), :class => 'discreet' %>
+  <% end %>
   </h2>
   <table>
     <% @family_people.each do |person| %>
