@@ -581,12 +581,15 @@ class Person < ActiveRecord::Base
       conditions.add_condition([
         "stream_items.shared = ? and " +
         "(stream_items.group_id in (?) or " +
-        " stream_items.wall_id is null and stream_items.person_id in (?) or " +
+        " (stream_items.wall_id is null and stream_items.person_id in (?)) or " +
+        " (stream_items.wall_id in (?) and stream_items.person_id in (?)) or " +
         " stream_items.person_id = ? or " +
         " stream_items.wall_id = ? or " +
         " stream_items.streamable_type in ('NewsItem', 'Publication'))",
         true,
         group_ids,
+        friend_ids,
+        friend_ids,
         friend_ids,
         id,
         id
