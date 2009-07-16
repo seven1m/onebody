@@ -16,6 +16,11 @@
       <%= @picture.created_at.to_s %>
     </p>
   <% end %>
+  <% if @picture.original_url %>
+    <p>
+      From <%= link_to h(domain_name_from_url(@picture.original_url)), @picture.original_url %>
+    </p>
+  <% end %>
   <% if @logged_in.can_edit?(@picture) %>
     <h2>Modify</h2>
     <p>
@@ -33,7 +38,7 @@
 </p>
 
 <p>
-  <%= link_to image_tag(large_picture_path(@picture), :alt => 'click to see original'), full_picture_path(@picture) %>
+  <%= link_to image_tag(large_picture_path(@picture), :alt => 'click to see original'), @picture.original_url || full_picture_path(@picture) %>
 </p>
 <% if Setting.get(:privacy, :allow_picture_comments) %>
 <h2>Comments</h2>
