@@ -51,8 +51,6 @@
   </p>
 <% end %>
 
-<%= render :partial => 'pending_updates' %>
-
 <%# render :partial => 'details' %>
 <!--
 <% unless @person.messages_enabled? %>
@@ -74,6 +72,8 @@
     <div style="clear:left;"></div>
   </div>
 <% end %>
+
+<%= render :partial => 'pending_updates' %>
 
 <% if nil and Setting.get(:features, :verses) and @verses.any? %>
   <h2 class="profile tab" id="verses">Verses</h2>
