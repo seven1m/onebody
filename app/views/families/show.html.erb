@@ -1,7 +1,7 @@
 <% if @logged_in.admin?(:edit_profiles) %>
   <% content_for :subnav do %>
-    <li><%= link_to 'Edit Family', edit_family_path(@family) %></li>
-    <li><%= link_to 'Delete Family', @family, :method => 'delete', :confirm => 'Are you sure? Clicking OK will delete this family and all the people in it.' %></li>
+    <li><%= link_to image_tag('pencil.png', :alt => 'Edit Family', :class => 'icon') + ' Edit Family', edit_family_path(@family) %></li>
+    <li><%= link_to image_tag('delete.png', :alt => 'Delete Family', :class => 'icon') + ' Delete Family', @family, :method => 'delete', :confirm => 'Are you sure? Clicking OK will delete this family and all the people in it.' %></li>
   <% end %>
 <% end %>
 
@@ -11,19 +11,12 @@
   <% else %>
     <%= image_tag 'family.jpg', :alt => 'no family photo' %>
   <% end %>
+  <h1><%=h @family.name %></h1>
+  <p><%= preserve_breaks @family.pretty_address %> <%= render(:partial => 'map_link') %></p>
+  <p><%= format_phone @family.home_phone %></p>
 <% end %>
 
 <%= render :partial => 'map' %>
-
-<h1><%=h @family.name %>
-  <% if @logged_in.can_edit? @family %>
-    <%= link_to 'edit', edit_family_path(@family), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
-  <% end %>
-</h1>
-
-<p><%= format_phone @family.home_phone %></p>
-
-<p><%= preserve_breaks @family.pretty_address %> <%= render(:partial => 'map_link') %></p>
 
 <h2>People</h2>
 
@@ -37,9 +30,9 @@
       <% unless person.visible? %>
         <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
       <% end %>
-      <%= image_tag('reorder.png', :alt => 'reorder family members', :class => 'handle icon') %>
-      <%= link_to '[edit]', edit_person_path(person), :class => 'discreet' %>
-      <%= link_to '[delete]', person, :confirm => 'Are you sure?', :method => :delete, :class => 'discreet' %>
+      <%= image_tag('reorder.png', :alt => 'Reorder Person (click and drag)', :class => 'handle icon') %>
+      <%= link_to image_tag('pencil.png', :alt => 'Edit Person', :class => 'icon'), edit_person_path(person), :class => 'discreet' %>
+      <%= link_to image_tag('delete.png', :alt => 'Delete Person', :class => 'icon'), person, :confirm => 'Are you sure?', :method => :delete, :class => 'discreet' %>
     </li>
   <% end %>
 </ol>
