@@ -13,7 +13,7 @@
 </script>
 
 <% content_for :subnav do %>
-  <li><%= link_to 'View Profile', person_path(@person) %></li>
+  <li><%= link_to image_tag('eye.png', :alt => 'View Profile', :class => 'icon') + ' View Profile', person_path(@person) %></li>
 <% end %>
 
 <h1><%=h @person.name %></h1>
