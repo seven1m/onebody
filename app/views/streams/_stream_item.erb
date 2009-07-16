@@ -98,6 +98,20 @@
           <% end %>
         </div>
       </div>
+    <% elsif stream_item.wall_id %>
+      <div class="new-comment discreet small">
+        <%= image_tag('comment.gif', :alt => 'Leave a Note', :class => 'icon') %>
+        <% if stream_item.wall == @logged_in %>
+          <%= link_to 'Leave a note for ' + h(stream_item.person.name), stream_item.person %>
+        <% elsif stream_item.person == @logged_in %>
+          <%= link_to 'Leave another note for ' + h(stream_item.wall.name), stream_item.wall %>
+        <% else %>
+          Leave a note for:
+          <%= link_to h(stream_item.person.name), stream_item.person %>
+          or
+          <%= link_to h(stream_item.wall.name), stream_item.wall %>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </div>
