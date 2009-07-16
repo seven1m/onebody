@@ -162,6 +162,19 @@ class Verse < ActiveRecord::Base
     'Revelation',
   ]
   
+  YOUVERSION_BOOKS = %w(
+    gen exod lev num deut josh judg ruth 1sam 2sam 1kgs 2kgs 1chr 2chr ezra neh esth job ps prov eccl song isa jer lam ezek dan hos joel amos obad jonah mic nah hab zeph hag zech mal
+    matt mark luke john acts rom 1cor 2cor gal eph phil col 1thess 2thess 1tim 2tim titus phlm heb jas 1pet 2pet 1john 2john 3john jude rev
+  )
+  
+  def youversion_url
+    "http://www.youversion.com/bible/web/#{YOUVERSION_BOOKS[book]}/#{chapter}/#{verse}"
+  end
+  
+  def ebible_url
+    "http://ebible.com/##{URI.encode(reference)}"
+  end
+  
   class << self
     
     def find(reference_or_id, options=nil)
