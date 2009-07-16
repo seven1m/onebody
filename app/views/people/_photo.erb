@@ -8,7 +8,7 @@
     <%= render :partial => 'people/silhouette' %>
     <% if me? and (params[:controller] == 'people' and params[:action] == 'show') %>
       <br/>
-      <%= link_to image_tag('person_picture.gif', :alt => 'Upload your picture.', :class => 'icon') + ' Upload Your Picture', edit_person_path %>
+      <%= link_to image_tag('person_picture.gif', :alt => 'Upload your picture.', :class => 'icon') + ' Upload Your Picture', edit_person_path + '#picture' %>
     <% end %>
   <% end %>
 </div>
