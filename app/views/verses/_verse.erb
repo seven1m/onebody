@@ -5,8 +5,6 @@
       <% if verse.people.count > 0 %>
         saved by <%= pluralize(verse.people.count, 'person', 'people') %>
       <% end %>
-      ::
-      <%= render :partial => 'tags/tags_with_delete', :locals => {:object => verse} %>
     <% end %>
   </div>
   <div class="verse-body">

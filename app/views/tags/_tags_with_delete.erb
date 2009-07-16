@@ -10,6 +10,7 @@
       <% end %>
       <%= link_to 'x', url, :title => 'Delete this tag.', :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => 'Are you sure you want to delete this tag?' %>
     <% end %>
+    <% if defined?(br) and br %><br/><% end %>
   <% end %>
 <% else %>
   <em>no tags</em>
