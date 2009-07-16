@@ -1,4 +1,4 @@
-<% if @person.pending_updates.count > 0 %>
+<% if @logged_in.can_edit?(@person) and @person.pending_updates.count > 0 %>
   <p>
     <%= image_tag 'clock.gif', :alt => 'Pending Updates', :class => 'icon' %>
     An update to this profile is
