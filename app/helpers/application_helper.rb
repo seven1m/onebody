@@ -22,7 +22,7 @@ module ApplicationHelper
       html = simple_url(Setting.get(:url, :visitor))
     end
     if Setting.get(:name, :slogan).to_s.any?
-      html << " | <span id=\"news_headlines\" style=\"position:relative;background-color:#fff;\">#{h Setting.get(:name, :slogan)}</span>"
+      html << " | #{h Setting.get(:name, :slogan)}"
     end
     html
   end
@@ -80,9 +80,7 @@ module ApplicationHelper
   end
   
   def news_js
-    unless @logged_in.nil?
-      "<script type=\"text/javascript\" src=\"/news.js\"></script>"
-    end
+    nil # not used any more
   end
   
   def analytics_js
