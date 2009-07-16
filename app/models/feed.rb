@@ -36,7 +36,7 @@ class Feed < ActiveRecord::Base
   end
   
   def import_note(entry)
-    unless Note.exists?(['original_url = ?', entry.url])
+    unless Note.exists?(['original_url = ? and person_id = ?', entry.url, person_id])
       body = entry.content || entry.summary
       if url.include?('twitter.com') and url =~ /screen_name=(.+)/
         username = $1
@@ -52,7 +52,7 @@ class Feed < ActiveRecord::Base
   end
   
   def import_picture(entry)
-    unless Picture.exists?(['original_url = ?', entry.url])
+    unless Picture.exists?(['original_url = ? and person_id = ?', entry.url, person_id])
       album = person.albums.find_or_create_by_name('Flickr') do |a|
         a.description = 'Photos from my Flickr account.'
         a.is_public = false
