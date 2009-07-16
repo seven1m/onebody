@@ -1,8 +1,14 @@
-<h1>Feeds for <%= link_to h(@person.name), @person %></h1>
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('eye.png', :alt => 'View Profile', :class => 'icon') + ' View Profile', person_path(@person) %></li>
+<% end %>
+
+<h1>Feeds for <%=h @person.name %></h1>
 
 <ul>
   <%= render :partial => @feeds %>
 </ul>
+
+<% if @feeds.empty? %><p><em>none yet</em></p><% end %>
 
 <h2>Add a Feed</h2>
 <p style="padding-left:10px;">

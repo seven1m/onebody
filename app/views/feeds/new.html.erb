@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('feed_small.png', :alt => 'My Feeds', :class => 'icon') + ' Feeds', person_feeds_path(@person) %></li>
+<% end %>
+
 <% case params[:type]; when 'facebook' %>
   
   <h1>Link Your Account With Facebook</h1>
@@ -14,7 +18,7 @@
         <%= image_tag('fb_notifications.png', :alt => 'Facebook Notifications', :style => 'border:1px solid #000;') %>
       </li>
       <li>
-        Paste the link here: <%= form.text_field :url %>
+        Paste the link here: <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
         <%= form.submit 'Preview...' %>
@@ -30,7 +34,7 @@
     <%= form.hidden_field :name, :value => 'Twitter' %>
     <%= hidden_field_tag :type, 'twitter' %>
     <ol>
-      <li>Enter your Twitter username here: <%= form.text_field :url %>
+      <li>Enter your Twitter username here: <%= form.text_field :url, :size => 15 %>
       </li>
       <li>
         <%= form.submit 'Preview...' %>
@@ -52,7 +56,7 @@
       </li>
       <li>
         Copy the URL from the address bar and paste here:
-        <%= form.text_field :url %>
+        <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
         <%= form.submit 'Preview...' %>
@@ -73,7 +77,7 @@
       </li>
       <li>
         Paste the feed URL here:
-        <%= form.text_field :url %>
+        <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
         <%= form.submit 'Preview...' %>
