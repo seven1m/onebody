@@ -453,6 +453,10 @@ div#stream-display-options li a {
   border: none;
 }
 
+#share h2 {
+  margin-top: 0;
+}
+
 #share div.section {
   border: 1px solid #ccc;
   padding-left: 20px; }
