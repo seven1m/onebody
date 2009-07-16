@@ -452,8 +452,11 @@ class Person < ActiveRecord::Base
     write_attribute :api_key, ActiveSupport::SecureRandom.hex(50)[0...50]
   end
   
+  attr_writer :no_auto_sequence
+  
   before_save :update_sequence
   def update_sequence
+    return if @no_auto_sequence
     if family and (sequence.nil? or family.people.count('*', :conditions => ['id != ? and deleted = ? and sequence = ?', id, false, sequence]) > 0)
       self.sequence = family.people.maximum(:sequence, :conditions => ['deleted = ?', false]).to_i + 1
     end
