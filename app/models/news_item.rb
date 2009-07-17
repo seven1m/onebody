@@ -38,7 +38,8 @@ class NewsItem < ActiveRecord::Base
       :person_id       => person_id,
       :streamable_type => 'NewsItem',
       :streamable_id   => id,
-      :created_at      => created_at
+      :created_at      => created_at,
+      :shared          => true
     )
   end
   
