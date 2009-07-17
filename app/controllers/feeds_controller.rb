@@ -57,7 +57,10 @@ class FeedsController < ApplicationController
         if feed and @entries.to_a.any?
           render :action => 'preview'
         else
-          render :text => 'No entries were found at the URL provided. Please go back and try again.', :layout => true, :status => 400
+          text = 'No entries were found at the URL provided. Please go back and try again.'
+          text << " If adding a Twitter account, check that your Twitter updates aren't protected." if params[:type] == 'twitter'
+          text << " If adding a Flickr account, check that your Photos are public." if params[:type] == 'flickr'
+          render :text => text, :layout => true, :status => 400
         end
       end
     else
