@@ -14,11 +14,11 @@
   <%= render :partial => 'people/photo', :locals => {:url => @person} %>
   <h1><%=h @person.name %></h1>
   <p>
-    <% if @person.share_home_phone?   and @person.home_phone.to_s.any?       %><%= format_phone @person.home_phone            %> home  <br/><% end %>
-    <% if @person.share_mobile_phone? and @person.mobile_phone.to_s.any?     %><%= format_phone @person.mobile_phone          %> mobile<br/><% end %>
-    <% if @person.share_work_phone?   and @person.work_phone.to_s.any?       %><%= format_phone @person.work_phone            %> work  <br/><% end %>
-    <% if @person.share_fax?          and @person.fax.to_s.any?              %><%= format_phone @person.fax                   %> fax   <br/><% end %>
-    <% if @person.share_address?      and @person.family.pretty_address.any? %><%= preserve_breaks @person.family.pretty_address %>    <br/><% end %>
+    <% if @person.share_home_phone?   and @person.home_phone.to_s.any?            %><%= format_phone @person.home_phone            %> home  <br/><% end %>
+    <% if @person.share_mobile_phone? and @person.mobile_phone.to_s.any?          %><%= format_phone @person.mobile_phone          %> mobile<br/><% end %>
+    <% if @person.share_work_phone?   and @person.work_phone.to_s.any?            %><%= format_phone @person.work_phone            %> work  <br/><% end %>
+    <% if @person.share_fax?          and @person.fax.to_s.any?                   %><%= format_phone @person.fax                   %> fax   <br/><% end %>
+    <% if @person.share_address?      and @person.family.pretty_address.to_s.any? %><%= preserve_breaks @person.family.pretty_address %>    <br/><% end %>
   </p>
 
   <table class="cells-centered" style="margin-top:20px;">
