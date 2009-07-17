@@ -46,7 +46,7 @@ class Picture < ActiveRecord::Base
         :streamable_type => 'Album',
         :streamable_id   => album_id,
         :created_at      => created_at,
-        :shared          => group_id || person.share_activity? ? true : false
+        :shared          => album.group_id || person.share_activity? ? true : false
       )
     end
   end

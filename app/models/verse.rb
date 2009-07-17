@@ -252,14 +252,14 @@ class Verse < ActiveRecord::Base
   
   # note: this must be called from a controller since this is habtm with people
   def create_as_stream_item(person)
-    return unless person.share_activity?
     StreamItem.create!(
       :title           => reference,
       :body            => text,
       :person_id       => person.id,
       :streamable_type => 'Verse',
       :streamable_id   => id,
-      :created_at      => Time.now
+      :created_at      => Time.now,
+      :shared          => person.share_activity?
     )
   end
 
