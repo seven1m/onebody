@@ -72,7 +72,10 @@ class NewsController < ApplicationController
       @news_item = NewsItem.new(params[:news_item].merge(:person_id => @logged_in.id, :source => 'user'))
       if @news_item.save
         respond_to do |format|
-          format.html { flash[:notice] = 'News saved.'; redirect_to @news_item }
+          format.html do
+            flash[:notice] = 'News saved.'
+            redirect_to params[:redirect_to] || @news_item
+          end
         end
       else
         respond_to do |format|
