@@ -1,4 +1,5 @@
 <% content_for :subnav do %>
+  <li><%= link_to image_tag('eye.png', :alt => 'View Profile', :class => 'icon') + ' View Profile', @person %></li>
   <li><%= link_to image_tag('feed_small.png', :alt => 'My Feeds', :class => 'icon') + ' Feeds', person_feeds_path(@person) %></li>
 <% end %>
 
@@ -86,3 +87,9 @@
   <% end %>
 
 <% end %>
+
+<p>
+  Note: content from your external feed is <strong>copied</strong> to this site
+  with a link pointing back to the original. Comments made on entries are not
+  posted back to the original source.
+</p>
