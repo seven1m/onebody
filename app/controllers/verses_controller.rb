@@ -14,7 +14,7 @@ class VersesController < ApplicationController
   end
 
   def create
-    if @verse = Verse.find(params[:id]) rescue nil
+    if @verse = Verse.find(params[:id]) rescue nil and @verse.valid?
       unless @verse.people.include? @logged_in
         @verse.people << @logged_in
         @verse.create_as_stream_item(@logged_in)
