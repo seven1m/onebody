@@ -41,6 +41,8 @@ class Feed < ActiveRecord::Base
       if url.include?('twitter.com') and url =~ /screen_name=(.+)/
         username = $1
         body.sub!(/^#{username}:\s/, '')
+      elsif url.include?('facebook.com')
+        body = entry.title
       end
       person.notes.create(
         :title        => url.include?('facebook.com') || url.include?('twitter.com') ? nil : entry.title,
