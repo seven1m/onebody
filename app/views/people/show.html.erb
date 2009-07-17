@@ -100,12 +100,12 @@
         <p>
           <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
           Leave a note for <%=h @person.first_name %>:<br/>
-          <%= radio_button_tag 'note_private', 0, true %><%= label_tag 'note_private_0', 'Public', :class => 'inline' %>
-          <%= radio_button_tag 'note_private', 1, false, :onchange => "if(this.checked)location.href='#{new_message_path(:to_person_id => @person.id)}'", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_1', 'Private', :class => 'inline' %>
+          <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', 'Public', :class => 'inline' %>
+          <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()" %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
           <% unless @person.messages_enabled? %>(disabled for <%=h @person.first_name %>)<% end %>
           <br/>
           <%= form.text_area :body, :rows => 2, :cols => 80 %>
-          <%= form.submit 'Share Note' %>
+          <%= form.submit 'Share Note', :id => 'note_submit' %>
           <span class="small discreet">
             This note will be visible to anyone who can see
             <%=h @person.first_name_possessive %> profile.

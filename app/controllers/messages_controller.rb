@@ -31,11 +31,16 @@ class MessagesController < ApplicationController
   private
   
   def create_wall_message
-    if params[:note_private] and not %w(0 false).include?(params[:note_private])
-      redirect_to new_message_path(:to_person_id => params[:message][:wall_id])
+    @person = Person.find(params[:message][:wall_id])
+    if params[:note_private] == 'true'
+      @message = Message.new(
+        :person_id => @logged_in.id,
+        :wall_id   => @person.id,
+        :body      => params[:message][:body]
+      )
+      render :action => 'new'
       return
     end
-    @person = Person.find(params[:message][:wall_id])
     if @logged_in.can_see?(@person) and @person.wall_enabled?
       message = @person.wall_messages.create(params[:message].merge(:subject => 'Wall Post', :person => @logged_in))
       respond_to do |format|
@@ -114,7 +119,7 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     if @logged_in.can_edit?(@message)
       @message.destroy
-      redirect_back
+      redirect_to @message.group ? @message.group : stream_path
     else
       render :text => 'You are not authorized to delete this message.', :layout => true, :status => 500
     end
