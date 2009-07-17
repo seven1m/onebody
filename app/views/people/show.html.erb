@@ -91,7 +91,7 @@
   </div>
   -->
   
-  <div id="share" style="margin-bottom:20px;">
+  <div id="share" style="margin-bottom:20px;display:none;">
     <% if me? %>
       <%= render :partial => 'streams/share' %>
     <% elsif @person.wall_enabled? %>
@@ -174,4 +174,7 @@
 
 <%= stylesheet_link_tag 'tabs.css' %>
 <%= javascript_include_tag 'tabs.js' %>
-<script type="text/javascript"> set_up_tabs(); </script>
+<script type="text/javascript">
+  set_up_tabs();
+  Element.show('share');
+</script>
