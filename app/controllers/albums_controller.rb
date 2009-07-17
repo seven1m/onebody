@@ -4,7 +4,10 @@ class AlbumsController < ApplicationController
     if params[:person_id]
       @albums = Person.find(params[:person_id]).albums.all
     else
-      @albums = Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc')
+      @albums = (
+        Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc') +
+        Album.all(:conditions => ["person_id in (?)", @logged_in.all_friend_and_groupy_ids])
+      ).uniq
     end
     respond_to do |format|
       format.html

@@ -575,7 +575,7 @@ class Person < ActiveRecord::Base
     if mine
       conditions.add_condition(["(stream_items.person_id = ? or stream_items.wall_id = ?)", id, id])
     else
-      friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id } if Setting.get(:features, :friends)
+      friend_ids = all_friend_and_groupy_ids
       group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
       group_ids = [0] unless group_ids.any?
       conditions.add_condition([
@@ -614,6 +614,11 @@ class Person < ActiveRecord::Base
       stream_item.readonly!
     end
     stream_items
+  end
+  
+  def all_friend_and_groupy_ids
+    friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id } if Setting.get(:features, :friends)
+    friend_ids + sidebar_group_people.map { |p| p.id }
   end
 
   def to_liquid; inspect; end  

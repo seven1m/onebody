@@ -2,6 +2,9 @@
   <div class="picture">
     <%= link_to image_tag(album.cover ? medium_picture_path(album.cover) : 'camera.gif', :alt => 'click to view'), album, :title => 'click to view' %><br/>
     <%=h album.name %>
+    <% if album.person %>
+      by <%= link_to h(album.person.name), album.person %>
+    <% end %>
   </div>
 <% end %>
 <br clear="both"/>
