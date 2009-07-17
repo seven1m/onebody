@@ -56,12 +56,6 @@
 <%# Main Content %>
 <div style="margin-right:120px;" id="profile-body">
 
-  <% if me? and @logged_in.pending_friendship_requests.count > 0 %>
-    <p class="highlight">
-      You have <%= link_to 'pending friend requests', person_friends_path(@person) %>.
-    </p>
-  <% end %>
-
   <%# render :partial => 'map' %>
 
   <% unless @person.visible?(@family) %>
