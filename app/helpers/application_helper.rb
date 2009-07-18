@@ -48,7 +48,8 @@ module ApplicationHelper
       html << "<li>#{tab_link 'Pages', '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
     end
     html << "<li>#{tab_link 'Home', stream_path, params[:controller] == 'streams'}</li>"
-    html << "<li>#{tab_link 'Profile', @logged_in || people_path, params[:controller] == 'people' && me?}</li>"
+    profile_link = @logged_in ? person_path(@logged_in, :tour => params[:tour]) : people_path
+    html << "<li>#{tab_link 'Profile', profile_link, params[:controller] == 'people' && me?}</li>"
     html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
       html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
@@ -76,6 +77,9 @@ module ApplicationHelper
     if @logged_in
       html << "<li class=\"personal\">"
       html << link_to('sign out', session_path, :method => 'delete')
+      html << "</li>"
+      html << "<li class=\"personal\">"
+      html << link_to('tour', stream_path(:tour => true))
       html << "</li>"
       if @logged_in.admin?
         html << "<li class=\"personal\">"

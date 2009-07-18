@@ -5,7 +5,7 @@ class PeopleController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { redirect_to @logged_in }
+      format.html { redirect_to person_path(@logged_in, :tour => params[:tour]) }
       if can_export?
         @people = Person.paginate(:order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
         format.xml { render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family]) }

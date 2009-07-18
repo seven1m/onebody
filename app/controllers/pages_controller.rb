@@ -27,7 +27,11 @@ class PagesController < ApplicationController
       end
     else
       if @page.published?
-        render :action => 'show'
+        if @page.path =~ /\/tour_/
+          render :action => 'tour_show', :layout => false
+        else
+          render :action => 'show'
+        end
       else
         render :text => 'Page not found.', :status => 404
       end

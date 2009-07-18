@@ -92,3 +92,11 @@
 <%= stylesheet_link_tag 'tabs.css' %>
 <%= javascript_include_tag 'tabs.js' %>
 <script type="text/javascript"> set_up_tabs(); </script>
+
+<% if params[:tour] %>
+  <%= stylesheet_link_tag 'modalbox.css' %>
+  <%= javascript_include_tag 'modalbox.js' %>
+  <script type="text/javascript">
+    Modalbox.show(<%= Page.find_by_title('Tour Home').body.inspect %>,  {title: 'Site Tour - Home Tab', width: 400, align: 'right'});
+  </script>
+<% end %>

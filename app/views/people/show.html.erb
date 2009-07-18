@@ -178,3 +178,11 @@
   set_up_tabs();
   Element.show('share');
 </script>
+
+<% if params[:tour] %>
+  <%= stylesheet_link_tag 'modalbox.css' %>
+  <%= javascript_include_tag 'modalbox.js' %>
+  <script type="text/javascript">
+    Modalbox.show(<%= Page.find_by_title('Tour Profile').body.inspect %>,  {title: 'Site Tour - Profile Tab', width: 500, align: 'right'});
+  </script>
+<% end %>
