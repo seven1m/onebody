@@ -3,6 +3,7 @@ module ApplicationHelper
   include TagsHelper
   include PicturesHelper
   include PhotosHelper
+  include ToursHelper
   
   def banner_message
     messages = []

@@ -41,3 +41,5 @@
 <p>
   <%= link_to image_tag('add_small.gif', :alt => 'Create a group.', :class => 'icon') + ' Create a Group', new_group_path %>
 </p>
+
+<% if session[:touring] %><%= tour_popup('Groups Tab', 'Tour Groups', 450, 'right') %><% end %>
