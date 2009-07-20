@@ -12,7 +12,7 @@ class Person
 
         x = pdf.absolute_left_margin
         y = pdf.absolute_top_margin + 30
-        pdf.add_text x, y, "#{Setting.get(:name, :church)} Directory\n\n", size
+        pdf.add_text x, y, "#{Setting.get(:name, :community)} Directory\n\n", size
 
         x = pdf.absolute_left_margin
         w = pdf.absolute_right_margin
@@ -26,10 +26,10 @@ class Person
       end
 
       s = 24
-      w = pdf.text_width(Setting.get(:name, :church), s)
+      w = pdf.text_width(Setting.get(:name, :community), s)
       x = pdf.margin_x_middle - w/2 # centered
       y =  pdf.absolute_top_margin - 150
-      pdf.add_text x, y, Setting.get(:name, :church), s
+      pdf.add_text x, y, Setting.get(:name, :community), s
       s = 20
       w = pdf.text_width('Directory', s)
       x = pdf.margin_x_middle - w/2 # centered

@@ -73,7 +73,7 @@ class NewsItem < ActiveRecord::Base
     end  
     
     def get_feed_items
-      if url = Setting.get(:url, :news_rss)
+      if url = Setting.get(:url, :news_feed)
         begin
           feed = Feedzirra::Feed.fetch_and_parse(url)
           feed.entries

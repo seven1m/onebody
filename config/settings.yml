@@ -1,18 +1,18 @@
 --- 
 Contact: 
-  Tech Support Email: 
+  Tech Support Email:
     format: string
     value: admin@example.com
     description: Email to contact for technical help with the site.
     global: true
-  Church Email: 
+  Community Email:
     format: string
-    value: info@imaginarychurch.com
+    value: info@beonebody.com
     description: Visible in some places on site
-  Church Office Phone: 
+  Community Office Phone:
     format: string
     value: (123) 456-7890
-    description: Phone number for the church office
+    description: Phone number for the office
   Bug Notification Email: 
     format: string
     value: 
@@ -20,32 +20,32 @@ Contact:
     global: true
   Birthday Verification Email: 
     format: string
-    value: admin@imaginarychurch.com
+    value: admin@beonebody.com
     description: Email sent when someone requests verification via birthday (shouldn't be blank)
   Send Email Changes To: 
     format: string
-    value: admin@imaginarychurch.com
+    value: admin@beonebody.com
     description: Email sent when someone changes their email address (can be blank for no email)
-  Church Address: 
+  Community Address: 
     format: string
     value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
     description: Visible on Terms of Use
-  Send Updates To: 
+  Send Updates To:
     format: string
-    value: admin@imaginarychurch.com
+    value: admin@beonebody.com
     description: Email sent when someone updates their profile (can be blank for no email)
 Name: 
-  Church: 
+  Community: 
     format: string
-    value: Imaginary Church
-    description: The name of the church
+    value: One Church
+    description: The name of the community
   Site: 
     format: string
-    value: Imaginary Church Family
+    value: One Church
     description: The name of the member portion of this website
   Slogan: 
     format: string
-    value: a pretend church for testing OneBody
+    value: Welcome home.
     description: Slogan displayed at top of every page.
 Features: 
   Twitter Account:
@@ -135,10 +135,10 @@ Features:
     format: list
     value:
     description: Add custom field names, one per line. Including the word "date" (or "Date") makes a date field. Append an asterisk (*) to make the field visible and editable by users.
-  Google Calendar Churchwide: 
+  Community Google Calendar: 
     format: string
     value:
-    description: The URL for the churchwide Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual ("my calendar") feature.
+    description: The URL for the community Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual ("my calendar") feature.
   News Page:
     format: boolean
     value: true
@@ -177,21 +177,17 @@ Access:
 URL: 
   Visitor: 
     format: string
-    value: http://imaginarychurch.com
+    value: http://beonebody.com
     description: URL for main website (visitors will be pointed here if they happen across the member site.)
   Site: 
     format: string
-    value: http://imaginaryfamily.com/
+    value: http://beonebody.com/
     description: URL for this site (including the trailing slash please)
     hidden: true
-  News: 
-    format: string
-    value: http://imaginarychurch.com/news
-    description: URL for church news (people will be pointed here for news)
-  News RSS: 
+  News Feed: 
     format: string
     value: 
-    description: URL for church news RSS feed (news feed will be polled periodically and headlines displayed across the top of the page)
+    description: URL for external community news feed (news will be imported periodically)
 System: 
   Suffixes: 
     format: list

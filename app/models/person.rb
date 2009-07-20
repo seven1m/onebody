@@ -533,8 +533,8 @@ class Person < ActiveRecord::Base
 			end
 		end
 	end
-	if Setting.get(:features, :google_calendar_churchwide)
-		account = Setting.get(:features, :google_calendar_churchwide).to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
+	if Setting.get(:features, :community_google_calendar)
+		account = Setting.get(:features, :community_google_calendar).to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
 		if account[0,5] == "embed"
 			idx1 = (account =~ /src=/) + 4
 			idx2 = (account =~ /\&/) - idx1

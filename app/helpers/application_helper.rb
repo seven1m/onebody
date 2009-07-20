@@ -23,7 +23,7 @@ module ApplicationHelper
 	  elsif !@page or @page.for_members?
 	    link_to(h(Setting.get(:name, :site)), people_path)
 	  else
-	    link_to(h(Setting.get(:name, :church)), '/')
+	    link_to(h(Setting.get(:name, :community)), '/')
     end
   end
   

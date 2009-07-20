@@ -244,7 +244,7 @@
   <div class="section">
     <% form_for @person, :html => {:method => 'delete'} do |form| %>
       <p>If your system is set up to synchronize its data with an external source
-      (a church managment system database perhaps), deleting this person may not
+      (e.g., a membership managment system), deleting this person may not
       be permanent and they may reappear following the next sync.</p>
       <p><%= form.submit "Delete #{@person.name}" %></p>
     <% end %>

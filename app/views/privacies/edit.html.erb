@@ -14,8 +14,7 @@
 <% unless @logged_in.adult? %>
   <p style="font-weight:bold;">
     Only an adult can edit these settings. According to our records,
-    you are not. Please contact the church office if you believe this
-    to be an error.
+    you are not. Please contact us if you believe this to be an error.
   </p>
 <% end %>
 
@@ -134,8 +133,8 @@
       <% if not person.at_least_13? %>
         <p class="highlight">
           This child's profile has parental consent from <%=h person.parental_consent %>.
-          If you have concerns regarding this, please contact the church office at
-          <%=h Setting.get(:contact, :church_office_phone) %> immediately.
+          If you have concerns regarding this, please contact us at
+          <%=h Setting.get(:contact, :community_office_phone) %> immediately.
         </p>
       <% end %>
     

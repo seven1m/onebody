@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
       @site_name       = CGI.escapeHTML(Setting.get(:name, :site))
       @show_subheading = Setting.get(:appearance, :show_subheading)
       @copyright_year  = Date.today.year
-      @church_name     = CGI.escapeHTML(Setting.get(:name, :church))
+      @community_name  = CGI.escapeHTML(Setting.get(:name, :community))
     end
     
     def get_theme_name

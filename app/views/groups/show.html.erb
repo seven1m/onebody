@@ -18,7 +18,7 @@
   <% end %>
   
   <% if @group.linked? or @group.parents_of %>
-    <p><em>This group is maintained by church office staff.</em></p>
+    <p><em>This group is maintained by office staff.</em></p>
   <% elsif not @group.approved %>
     <p class="very-strong">This group is pending approval.</p>
   <% else %>
