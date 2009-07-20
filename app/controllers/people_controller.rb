@@ -29,7 +29,7 @@ class PeopleController < ApplicationController
       @friends = @person.friends.all(:limit => MAX_FRIENDS_ON_PROFILE, :order => 'friendships.ordering').select { |p| @logged_in.can_see?(p) }
       @sidebar_group_people = @person.random_sidebar_group_people.select { |p| @logged_in.can_see?(p) }
       @stream_items = @person.shared_stream_items(20, :mine)
-      #@albums = @person.albums.all(:order => 'created_at desc')
+      @albums = @person.albums.all(:order => 'created_at desc')
       #@notes = @person.notes.all(:order => 'created_at desc')
       #@verses = @person.verses.all
       # wall messages

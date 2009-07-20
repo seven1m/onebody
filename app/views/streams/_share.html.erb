@@ -53,7 +53,7 @@
     <% form_for Verse.new do |form| %>
       <%= hidden_field_tag :redirect_to, request.request_uri %>
       <p>
-        Type a reference (i.e. John 3:16, Matthew 5:3-11) below and hit enter:<br/>
+        Type a reference (e.g. John 3:16, Matthew 5:3-11) below and hit enter:<br/>
         <%= text_field_tag :id, nil, :style => 'border:1px solid #ccc;width:100px;' %>
         <%= submit_tag 'Add Verse', :style => 'width:100px;' %>
       </p>

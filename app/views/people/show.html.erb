@@ -76,20 +76,6 @@
   -->
 
   <%= render :partial => 'pending_updates' %>
-
-  <!--
-  <div id="new-note">
-    <% form_for Note.new do |form| %>
-      <%= hidden_field_tag :redirect_to, stream_path %>
-      <p>
-        What are you doing? &middot; What's on your mind?
-        <%= form.text_area :body, :rows => 2, :cols => 80 %>
-        <%= form.submit 'Share Note' %>
-        Or, create a <%= link_to 'blog post with a title and formatting', new_note_path %>...
-      </p>
-    <% end %>
-  </div>
-  -->
   
   <div id="share" style="margin-bottom:20px;display:none;">
     <% if me? %>
@@ -99,12 +85,12 @@
         <%= form.hidden_field :wall_id %>
         <p>
           <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
-          Leave a note for <%=h @person.first_name %>:<br/>
+          Leave a note for <%=h @person.first_name %>:
           <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', 'Public', :class => 'inline' %>
-          <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()" %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
-          <% unless @person.messages_enabled? %>(disabled for <%=h @person.first_name %>)<% end %>
+          <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
+          <% unless @person.messages_enabled? %>(disabled)<% end %>
           <br/>
-          <%= form.text_area :body, :rows => 2, :cols => 80 %>
+          <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
           <%= form.submit 'Share Note', :id => 'note_submit' %>
           <span class="small discreet">
             This note will be visible to anyone who can see
