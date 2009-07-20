@@ -29,6 +29,10 @@ class Note < ActiveRecord::Base
   
   def name; title; end
   
+  def title=(t)
+    write_attribute(:title, t.to_s.any? ? t : nil)
+  end
+  
   def group_id=(id)
     if group = Group.find_by_id(id) and group.can_post?(Person.logged_in)
       write_attribute :group_id, id
@@ -57,6 +61,16 @@ class Note < ActiveRecord::Base
       :created_at      => created_at,
       :shared          => group_id || person.share_activity? ? true : false
     )
+  end
+  
+  after_update :update_stream_items
+  
+  def update_stream_items
+    StreamItem.find_all_by_streamable_type_and_streamable_id('Note', id).each do |stream_item|
+      stream_item.title = title
+      stream_item.body  = body
+      stream_item.save
+    end
   end
   
   after_destroy :delete_stream_items
