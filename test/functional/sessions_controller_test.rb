@@ -21,7 +21,7 @@ class SessionsControllerTest < ActionController::TestCase
   should "sign in a user" do
     post :create, {:email => @person.email, :password => 'secret'}
     assert_nil flash[:warning]
-    assert_redirected_to person_path(@person)
+    assert_redirected_to stream_path
     assert_equal @person.id, session[:logged_in_id]
   end
   

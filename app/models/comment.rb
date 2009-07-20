@@ -65,6 +65,7 @@ class Comment < ActiveRecord::Base
   end
   
   def find_all_associated_stream_items
+    return [] unless on
     streamable_type = on.class.name
     streamable_id   = on.id
     if streamable_type == 'Picture'
