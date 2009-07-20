@@ -27,8 +27,11 @@ class PicturesController < ApplicationController
   def create
     if params[:album_id].to_s =~ /^\d+$/
       @album = Album.find(params[:album_id])
-    else
+    elsif not ['', '!'].include?(params[:album_id].to_s)
       @album = @logged_in.albums.create(:name => params[:album_id])
+    else
+      render :text => 'There was an error finding the album. Please try again.', :layout => true, :status => 500
+      return
     end
     success = fail = 0
     (1..10).each do |index|
