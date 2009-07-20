@@ -77,19 +77,23 @@ module ApplicationHelper
     html = ''
     if @logged_in
       html << "<li class=\"personal\">"
-      html << link_to('sign out', session_path, :method => 'delete')
+      html << link_to(image_tag('door_in.png', :alt => 'Sign Out', :class => 'icon') + ' sign out', session_path, :method => 'delete')
       html << "</li>"
       html << "<li class=\"personal\">"
-      html << link_to('tour', tour_path(:start => true))
+      if session[:touring]
+        html << link_to(image_tag('car.png', :alt => 'Tour', :class => 'icon') + ' tour', tour_path(:stop => true), :class => 'active')
+      else
+        html << link_to(image_tag('car.png', :alt => 'Tour', :class => 'icon') + ' tour', tour_path(:start => true))
+      end
       html << "</li>"
       if @logged_in.admin?
         html << "<li class=\"personal\">"
-        html << link_to('admin', admin_path)
+        html << link_to(image_tag('cog.png', :alt => 'Admin', :class => 'icon') + ' admin', admin_path, :class => params[:controller] =~ /^admin/ ? 'active' : nil)
         html << "</li>"
       end
     else
       html << "<li class=\"personal\">"
-      html << link_to('sign in', new_session_path)
+      html << link_to(image_tag('door.png', :alt => 'Sign In', :class => 'icon') + ' sign in', new_session_path)
       html << "</li>"
     end
     html
