@@ -475,3 +475,30 @@ div#stream-display-options li a {
   padding: 0;
   margin: 0;
 }
+
+#profile-pic {
+  background-color: #fff
+  background-position: top left;
+  background-repeat: no-repeat;
+  width: 153px;
+  height: 106px;
+  text-align: center;
+  padding-top: 45px;
+  cursor: pointer;
+}
+
+#profile-pic a {
+  text-decoration: none;
+}
+
+#profile-pic:hover {
+  font-weight: bold;
+}
+
+.profile-pic-man {
+  background-image: url(/images/man.gif);
+}
+
+.profile-pic-woman {
+  background-image: url(/images/woman.gif);
+}
