@@ -83,7 +83,7 @@ module ApplicationHelper
       if session[:touring]
         html << link_to(image_tag('car.png', :alt => 'Tour', :class => 'icon') + ' tour', tour_path(:stop => true), :class => 'active')
       else
-        html << link_to(image_tag('car.png', :alt => 'Tour', :class => 'icon') + ' tour', tour_path(:start => true))
+        html << link_to(image_tag('car.png', :alt => 'Tour', :class => 'icon') + ' tour', tour_path(:start => true), :id => 'tour_link')
       end
       html << "</li>"
       if @logged_in.admin?
