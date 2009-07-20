@@ -30,7 +30,7 @@ class FriendTest < ActionController::IntegrationTest
     assert_select '#subnav', :html => /friend request pending/
     
     sign_in_as people(:jane)
-    assert_select '.highlight', :html => /pending friend requests/
+    assert_select 'body', :html => /pending friend requests/
     f = people(:jane).friendship_requests.find_by_from_id(people(:jeremy).id)
     
     put "/people/#{people(:jane).id}/friends/#{f.id}?accept=true"
