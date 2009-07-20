@@ -6,11 +6,15 @@
 #  title      :string(255)   
 #  link       :string(255)   
 #  body       :text          
-#  created_at :datetime      
+#  published  :datetime      
 #  active     :boolean       default(TRUE)
 #  site_id    :integer       
 #  source     :string(255)   
 #  person_id  :integer       
+#  sequence   :integer       
+#  expires_at :datetime      
+#  created_at :datetime      
+#  updated_at :datetime      
 #
 
 class NewsItem < ActiveRecord::Base

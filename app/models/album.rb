@@ -10,6 +10,7 @@
 #  created_at  :datetime      
 #  updated_at  :datetime      
 #  group_id    :integer       
+#  is_public   :boolean       default(TRUE)
 #
 
 class Album < ActiveRecord::Base

@@ -2,13 +2,14 @@
 #
 # Table name: pictures
 #
-#  id         :integer       not null, primary key
-#  person_id  :integer       
-#  created_at :datetime      
-#  cover      :boolean       not null
-#  updated_at :datetime      
-#  site_id    :integer       
-#  album_id   :integer       
+#  id           :integer       not null, primary key
+#  person_id    :integer       
+#  created_at   :datetime      
+#  cover        :boolean       
+#  updated_at   :datetime      
+#  site_id      :integer       
+#  album_id     :integer       
+#  original_url :string(1000)  
 #
 
 class Picture < ActiveRecord::Base

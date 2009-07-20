@@ -9,6 +9,7 @@
 #  file        :string(255)   
 #  updated_at  :datetime      
 #  site_id     :integer       
+#  person_id   :integer       
 #
 
 class Publication < ActiveRecord::Base

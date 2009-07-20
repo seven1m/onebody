@@ -3,16 +3,16 @@
 # Table name: log_items
 #
 #  id             :integer       not null, primary key
+#  name           :string(255)   
 #  object_changes :text          
 #  person_id      :integer       
+#  group_id       :integer       
 #  created_at     :datetime      
 #  reviewed_on    :datetime      
 #  reviewed_by    :integer       
 #  flagged_on     :datetime      
 #  flagged_by     :string(255)   
 #  deleted        :boolean       
-#  name           :string(255)   
-#  group_id       :integer       
 #  site_id        :integer       
 #  loggable_id    :integer       
 #  loggable_type  :string(255)   
