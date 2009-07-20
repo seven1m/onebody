@@ -45,6 +45,7 @@ class Note < ActiveRecord::Base
   after_create :create_as_stream_item
   
   def create_as_stream_item
+    return unless person_id
     StreamItem.create!(
       :title           => title,
       :body            => body,

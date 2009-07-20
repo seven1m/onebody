@@ -18,7 +18,6 @@ class SearchTest < ActiveSupport::TestCase
     [:address,     {:zip => '74111'},  2],
     [:type,        'member',           5],
     [:type,        'staff',            2],
-    [:type,        'deacon',           1],
     [:type,        'elder',            0]
   ].each do |attr, value, count|
     class_eval <<-END
