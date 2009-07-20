@@ -76,6 +76,7 @@ unless defined?(DISABLE_ROUTES)
     map.resource :search, :member => {:opensearch => :get}
     map.resource :printable_directory
     map.resource :privacy
+    map.resource :tour
   
     map.resources :pages, :as => 'pages/admin' do |pages|
       pages.resources :attachments

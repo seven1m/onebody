@@ -36,7 +36,7 @@
         <%= link_to image_tag('feed.gif', :alt => 'Activity Feed', :class => 'icon'), stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
       </td>
       <td>
-        <%= link_to 'Subscribe', stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
+        <%= link_to 'Feed', stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
       </td>
     </tr>
   </table>
@@ -93,7 +93,7 @@
 <%= javascript_include_tag 'tabs.js' %>
 <script type="text/javascript"> set_up_tabs(); </script>
 
-<% if params[:tour] %>
+<% if session[:touring] %>
   <%= stylesheet_link_tag 'modalbox.css' %>
   <%= javascript_include_tag 'modalbox.js' %>
   <script type="text/javascript">

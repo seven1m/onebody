@@ -179,7 +179,7 @@
   Element.show('share');
 </script>
 
-<% if params[:tour] %>
+<% if session[:touring] %>
   <%= stylesheet_link_tag 'modalbox.css' %>
   <%= javascript_include_tag 'modalbox.js' %>
   <script type="text/javascript">

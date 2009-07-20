@@ -79,7 +79,7 @@ module ApplicationHelper
       html << link_to('sign out', session_path, :method => 'delete')
       html << "</li>"
       html << "<li class=\"personal\">"
-      html << link_to('tour', stream_path(:tour => true))
+      html << link_to('tour', tour_path(:start => true))
       html << "</li>"
       if @logged_in.admin?
         html << "<li class=\"personal\">"
