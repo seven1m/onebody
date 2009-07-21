@@ -612,7 +612,11 @@ class Person < ActiveRecord::Base
   end
   
   def all_friend_and_groupy_ids
-    friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id } if Setting.get(:features, :friends)
+    if Setting.get(:features, :friends)
+      friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id }
+    else
+      friend_ids = []
+    end
     friend_ids + sidebar_group_people.map { |p| p.id }
   end
 
