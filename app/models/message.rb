@@ -232,20 +232,36 @@ class Message < ActiveRecord::Base
     Digest::MD5.hexdigest(code.to_s)[0..5]
   end
   
+  def streamable?
+    person_id and not to_person_id and (wall_id or group_id)
+  end
+  
   after_create :create_as_stream_item
   
   def create_as_stream_item
-    return unless wall_id and person_id
-    return if group_id or to_person_id
+    return unless streamable?
     StreamItem.create!(
+      :title           => wall_id ? nil : subject,
       :body            => body,
       :wall_id         => wall_id,
       :person_id       => person_id,
+      :group_id        => group_id,
       :streamable_type => 'Message',
       :streamable_id   => id,
       :created_at      => created_at,
       :shared          => wall.share_activity? && person.share_activity? ? true : false
     )
+  end
+  
+  after_update :update_stream_items
+  
+  def update_stream_items
+    return unless streamable?
+    StreamItem.find_all_by_streamable_type_and_streamable_id('Message', id).each do |stream_item|
+      stream_item.title = wall_id ? nil : subject
+      stream_item.body  = body
+      stream_item.save
+    end
   end
   
   after_destroy :delete_stream_items
