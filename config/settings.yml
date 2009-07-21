@@ -85,7 +85,7 @@ Features:
   Friends: 
     format: boolean
     value: true
-    description: Enable MySpace-style mutual friendships (confirmed via email)
+    description: Enable mutual friendships (confirmed via email)
   Content Management System: 
     format: boolean
     value: false
