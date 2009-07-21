@@ -502,3 +502,20 @@ div#stream-display-options li a {
 .profile-pic-woman {
   background-image: url(/images/woman.gif);
 }
+
+.news-item .alignleft {
+  float: left;
+  margin: 0 15px 15px 0;
+}
+
+.news-item .alignright {
+  float: right;
+  margin: 0 0 15px 15px;
+}
+
+.news-item img {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
