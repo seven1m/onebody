@@ -26,6 +26,10 @@ module StreamsHelper
     send(stream_item.streamable_type.underscore + '_path', stream_item.streamable_id)
   end
   
+  def stream_item_url(stream_item)
+    send(stream_item.streamable_type.underscore + '_url', stream_item.streamable_id)
+  end
+  
   def stream_item_content(stream_item, use_code=false)
     if stream_item.body
       content = white_list_with_removal(auto_link(stream_item.body))
