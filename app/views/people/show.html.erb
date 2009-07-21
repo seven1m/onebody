@@ -110,7 +110,8 @@
     </div>
   <% end %>
 
-  <!--
+  <% if nil %>
+
   <h2 class="profile tab" id="about">About</h2>
   <div id="about_content" class="section">
     <% if @person.about.to_s.any? %>
@@ -143,7 +144,8 @@
       <%= render :partial => 'walls/wall' %>
     </div>
   <% end %>
-  -->
+  
+  <% end %>
 
 </div>
   
