@@ -10,18 +10,6 @@ class CreateStreamItems < ActiveRecord::Migration
       t.references :streamable, :polymorphic => true
       t.timestamps
     end
-    Site.each do
-      LogItem.all(
-        :conditions => [
-          "deleted = ? and group_id is null and loggable_type in (?)",
-          false,
-          %w(Verse Recipe Note Picture)
-        ]
-      ).each do |log_item|
-        log_item.create_as_stream_item
-      end
-    end
-    
     add_index "stream_items", ["created_at"], :name => "index_stream_items_on_created_at"
     add_index "stream_items", ["person_id"], :name => "index_stream_items_on_person_id"
     add_index "stream_items", ["group_id"], :name => "index_stream_items_on_group_id"
