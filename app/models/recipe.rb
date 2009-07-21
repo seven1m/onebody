@@ -107,6 +107,16 @@ class Recipe < ActiveRecord::Base
     )
   end
   
+  after_update :update_stream_items
+  
+  def update_stream_items
+    StreamItem.find_all_by_streamable_type_and_streamable_id('Recipe', id).each do |stream_item|
+      stream_item.title = title
+      stream_item.body  = description
+      stream_item.save
+    end
+  end
+  
   after_destroy :delete_stream_items
   
   def delete_stream_items
