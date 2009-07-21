@@ -33,31 +33,23 @@ function load_tab(id) {
       onSuccess: function(transport){
         Element.hide('albums_loading')
         albums = transport.responseText.evalJSON();
-        if(albums.length > 0) {
-          albums.each(function(a){
-            var option = document.createElement('option');
-            option.value = a.id;
-            option.text = a.name;
-            try {
-              $('album_id').add(option, null);
-            } catch(ex) {
-              $('album_id').add(option);
-            }
-          })
+        albums.each(function(a){
           var option = document.createElement('option');
-          option.value = '!';
-          option.text = '[new]';
+          option.value = a.id;
+          option.text = a.name;
           try {
             $('album_id').add(option, null);
           } catch(ex) {
             $('album_id').add(option);
           }
-        } else {
-          $('album_id').parentNode.removeChild($('album_id'));
-          var input = document.createElement('input');
-          input.setAttribute('id', 'album_id');
-          input.setAttribute('type', 'text');
-          $('new_picture').insertAfter(input, $('album_id_label'));
+        })
+        var option = document.createElement('option');
+        option.value = '!';
+        option.text = '[new]';
+        try {
+          $('album_id').add(option, null);
+        } catch(ex) {
+          $('album_id').add(option);
         }
       }
     });
