@@ -249,7 +249,7 @@ class Message < ActiveRecord::Base
       :streamable_type => 'Message',
       :streamable_id   => id,
       :created_at      => created_at,
-      :shared          => wall.share_activity? && person.share_activity? ? true : false
+      :shared          => (!wall || wall.share_activity?) && person.share_activity? && !(group && group.hidden?)
     )
   end
   
