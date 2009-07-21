@@ -51,7 +51,7 @@
   
   <div id="stream-display-options">
     <h2>Show</h2>
-    <ul>
+    <ul style="padding-left:10px;">
       <% if Setting.get(:features, :notes       ) %><li><%= stream_type_checkmark('Notes',        'note'       ) %></li><% end %>
       <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark('Pictures',     'album'      ) %></li><% end %>
       <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark('Verses',       'verse'      ) %></li><% end %>
