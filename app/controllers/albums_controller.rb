@@ -3,6 +3,8 @@ class AlbumsController < ApplicationController
   def index
     if params[:person_id]
       @albums = Person.find(params[:person_id]).albums.all
+    elsif params[:group_id]
+      @albums = Group.find(params[:group_id]).albums.all
     else
       @albums = (
         Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc') +

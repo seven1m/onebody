@@ -84,7 +84,8 @@
 </div>
 
 <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@logged_in.id) %>'; </script>
-<%= javascript_include_tag 'stream' %> <%# do not move this line below the style block below #%>
+<%= javascript_include_tag 'load_albums.js' %> <%# do not move this line below the style block below #%>
+<%= javascript_include_tag 'stream.js' %> <%# do not move this line below the style block below #%>
 
 <style type="text/css">
   /* show all in case browser has scripting disabled */

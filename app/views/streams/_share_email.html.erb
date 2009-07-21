@@ -1,0 +1,8 @@
+<h2 class="tab" id="email"><%= image_tag('message.gif', :alt => 'Email', :class => 'icon') %> Email</h2>
+<div class="section">
+  <% @message = Message.new(:group => @group) %>
+  <%= render :partial => 'messages/form' %>
+  <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
+    <%= render :partial => 'people/not_sharing_activity' %>
+  <% end %>
+</div>

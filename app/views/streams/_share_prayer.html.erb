@@ -1,0 +1,15 @@
+<h2 class="tab" id="prayer"><%= image_tag('heart.png', :alt => 'Prayer', :class => 'icon') %> Prayer</h2>
+<div class="section">
+  <% form_for [@group, PrayerRequest.new(:group_id => @group.id, :person_id => @logged_in.id)] do |form| %>
+    <%= form.hidden_field :group_id %>
+    <p>
+      <%= form.label :person_id, 'By' %>
+      <%= form.select :person_id, @group.people.map { |p| [p.name, p.id] } %><br/>
+      <%= form.label :request %> <%= form.text_area :request, :rows => 5 %><br/>
+      <%= form.submit 'Save Prayer Request' %>
+    </p>
+  <% end %>
+  <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
+    <%= render :partial => 'people/not_sharing_activity' %>
+  <% end %>
+</div>
