@@ -19,7 +19,7 @@ class PrayerRequestsController < ApplicationController
   def new
     @group = Group.find(params[:group_id])
     if @logged_in.member_of?(@group)
-      @req = @group.prayer_requests.new(:person_id => @logged_in)
+      @req = @group.prayer_requests.new(:person_id => @logged_in.id)
     else
       render :text => 'You cannot post a prayer request in this group because you are not a member.', :layout => true, :status => 401
     end
