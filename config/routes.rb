@@ -71,6 +71,7 @@ unless defined?(DISABLE_ROUTES)
     map.resources :news, :singular => 'news_item'
     map.resources :comments
     map.resources :attachments, :member => {:get => :get}
+    map.resources :prayer_requests
   
     map.resource :session
     map.resource :search, :member => {:opensearch => :get}

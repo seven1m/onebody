@@ -556,13 +556,14 @@ class Person < ActiveRecord::Base
   
   def shared_stream_items(count=30, mine=false)
     enabled_types = []
-    enabled_types << 'Message' # wall posts
+    enabled_types << 'Message' # wall posts and group posts (not personal messages)
     enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
     enabled_types << 'Publication' if Setting.get(:features, :publications)
     enabled_types << 'Verse'       if Setting.get(:features, :verses      )
     enabled_types << 'Album'       if Setting.get(:features, :pictures    )
     enabled_types << 'Note'        if Setting.get(:features, :notes       )
     enabled_types << 'Recipe'      if Setting.get(:features, :recipes     )
+    enabled_types << 'PrayerRequest'
     conditions = [
       "stream_items.streamable_type in (?)",
       enabled_types
@@ -576,7 +577,7 @@ class Person < ActiveRecord::Base
       conditions.add_condition([
         "stream_items.shared = ? and " +
         "(stream_items.group_id in (?) or " +
-        " (stream_items.wall_id is null and stream_items.person_id in (?)) or " +
+        " (stream_items.wall_id is null and stream_items.person_id in (?) and stream_items.streamable_type != 'PrayerRequest') or " +
         " (stream_items.wall_id in (?) and stream_items.person_id in (?)) or " +
         " stream_items.person_id = ? or " +
         " stream_items.wall_id = ? or " +

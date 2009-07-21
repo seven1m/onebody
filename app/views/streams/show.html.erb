@@ -58,6 +58,7 @@
       <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark('Recipes',      'recipe'     ) %></li><% end %>
       <% if Setting.get(:features, :news_page   ) %><li><%= stream_type_checkmark('News',         'news_item'  ) %></li><% end %>
       <% if Setting.get(:features, :publications) %><li><%= stream_type_checkmark('Publications', 'publication') %></li><% end %>
+      <li><%= stream_type_checkmark('Prayer Requests', 'prayer_request') %></li>
       <li><%= stream_type_checkmark('My Activity', 'mine') %></li>
     </ul>
   </div>
