@@ -1,6 +1,10 @@
 <div>
   <% if @group.has_photo? %>
     <%= image_tag medium_group_photo_path(@group), :alt => @group.name %>
+  <% elsif @logged_in.can_edit?(@group) and params[:controller] == 'groups' and params[:action] == 'show' %>
+    <div id="group-pic" onclick="location.href = '<%= edit_group_path %>'">
+      <%= link_to image_tag('person_picture.gif', :alt => 'Change This Picture', :class => 'icon') + '<br/>Change<br/>This Picture', edit_group_path %>
+    </div>
   <% else %>
     <%= image_tag 'group.jpg', :alt => @group.name %>
   <% end %>

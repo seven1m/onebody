@@ -13,9 +13,6 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
-  <% if not @group.has_photo? and @group.admin?(@logged_in) %>
-    <p><%= link_to 'Upload a Picture', edit_group_path(@group) %></p>
-  <% end %>
   
   <% if @group.linked? or @group.parents_of %>
     <p><em>This group is maintained by office staff.</em></p>

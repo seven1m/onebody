@@ -461,11 +461,25 @@ div#stream-display-options li a {
   cursor: pointer;
 }
 
-#profile-pic a {
+#group-pic {
+  background-color: #fff
+  background-position: top left;
+  background-repeat: no-repeat;
+  width: 153px;
+  height: 80px;
+  text-align: center;
+  padding-top: 40px;
+  cursor: pointer;
+  background-image: url(/images/group.jpg);
+}
+
+#profile-pic a,
+#group-pic a {
   text-decoration: none;
 }
 
-#profile-pic:hover {
+#profile-pic:hover,
+#group-pic:hover {
   font-weight: bold;
 }
 
