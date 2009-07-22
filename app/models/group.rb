@@ -178,7 +178,28 @@ class Group < ActiveRecord::Base
   
   def gcal_token
   	gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1]
-  end 
+  end
+  
+  def shared_stream_items(count)
+    items = stream_items.all(
+      :order => 'stream_items.created_at desc',
+      :limit => count,
+      :include => :person
+    )
+    # do our own eager loading here...
+    comment_people_ids = items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
+    comment_people = Person.all(
+      :conditions => ["id in (?)", comment_people_ids],
+      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at' # only what's needed
+    ).inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
+    items.each do |stream_item|
+      stream_item.context['comments'].to_a.each do |comment|
+        comment['person'] = comment_people[comment['person_id']]
+      end
+      stream_item.readonly!
+    end
+    items
+  end
   
   before_destroy :remove_parent_of_links
   
