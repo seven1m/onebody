@@ -13,7 +13,7 @@
 
   <%= form.hidden_field :group_id %>
   <% if @note.group %>
-    <p><em>This note will be posted to the <%= @note.group.name %> blog.</em></p>
+    <p><em>This note will be posted to the <%=h @note.group.name %> blog.</em></p>
     <% if @note.group.private? %>
       <p class="very-strong">This note will <strong>not</strong> be private since it is a blog post. To send a private message, send an email to the group.</p>
     <% end %>

@@ -8,12 +8,12 @@
 <% end %>
 
 <h1>
-  <span style="font-size:10pt"><%= link_to @req.group.name, @req.group %></span><br/>
+  <span style="font-size:10pt"><%= link_to h(@req.group.name), @req.group %></span><br/>
   Prayer Request
 </h1>
 
 <p>
-  Submitted by <%= link_to @req.person.name, person_url(:id => @req.person) %>
+  Submitted by <%= link_to h(@req.person.name), person_url(:id => @req.person) %>
   on <%= @req.created_at.to_time.to_s :date %>
 </p>
 

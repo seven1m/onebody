@@ -26,7 +26,7 @@
       <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
       <% if @group.parents_of %>
         <strong>Remember, this is a group automatically containing
-          parents of people in <%= link_to @group.parents_of_group.name, @group.parents_of_group %>.
+          parents of people in <%= link_to h(@group.parents_of_group.name), @group.parents_of_group %>.
           Adding people manually should be done sparingly.
       <% end %>
       <%= submit_tag 'Search by Name' %>

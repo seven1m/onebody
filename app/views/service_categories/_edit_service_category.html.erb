@@ -1,6 +1,6 @@
-<tr style="padding: 0.5em 0; border-bottom: solid 1px #E3E3E3;" id="edit_service_category_<%=service_category.id%>">
+<tr style="padding: 0.5em 0; border-bottom: solid 1px #E3E3E3;" id="edit_service_category_<%= service_category.id %>">
 	<td>
-		<%= link_to_remote service_category.name, {:url => service_category_path(service_category), :method => :put, :with => "'service_category[name]=' + prompt('Enter service category name:', '#{service_category.name}')"}, {:title => "rename #{service_category.name}"} %>
+		<%= link_to_remote h(service_category.name), {:url => service_category_path(service_category), :method => :put, :with => "'service_category[name]=' + prompt('Enter service category name:', '#{service_category.name}')"}, {:title => "rename #{service_category.name}"} %>
 	</td>
 	<td style="text-align: right;">
 		<%= link_to_remote(image_tag('remove.gif', {:class => 'icon', :alt => 'delete'}), {:url => service_category_path(service_category), :method => :delete, :confirm => "Are you sure?"}, {:title => 'delete'}) if service_category.destroyable? %>

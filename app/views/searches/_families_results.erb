@@ -3,7 +3,7 @@
 <% if @families and @families.any? %>
 
   <p>
-    <%= @count %> <%= @count == 1 ? 'family' : 'families' %> found
+    <%= pluralize @count, 'family' %> found
     <%= will_paginate @families %>
   </p>
 
@@ -14,7 +14,7 @@
     <% @families.each do |family| %>
       <tr>
         <td>
-          <%= family.name %>
+          <%=h family.name %>
         </td>
       </tr>
     <% end %>

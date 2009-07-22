@@ -6,7 +6,7 @@
     <input type="submit" value="Upload <%= name %>" class="submit">
     <% if defined? delete and delete %>
       <br/>
-      <%= link_to "Remove #{name}", url, :method => 'delete', :confirm => 'Are you sure?' %>
+      <%= link_to h("Remove #{name}"), url, :method => 'delete', :confirm => 'Are you sure?' %>
     <% end %>
   <% end %>
 </p>

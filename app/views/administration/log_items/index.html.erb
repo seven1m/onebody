@@ -42,7 +42,7 @@
         <tr>
           <td style="font-size:smaller;line-height:13px;">
             <% if item.reviewed_on %>
-              reviewed by <%= link_to item.reviewed_by.name, person_path(:id => item.reviewed_by) %>
+              reviewed by <%= link_to h(item.reviewed_by.name), person_path(:id => item.reviewed_by) %>
               on <%= item.reviewed_on.to_s %>
             <% else %>
               <%= check_box_tag 'log_items[]', item.id, nil, :class => 'checkbox log_item_checkbox' %>
@@ -64,9 +64,9 @@
               <%= link_to item.object_description, item.object_url, :confirm => (item.object.is_a? Message and item.object.to ? 'This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.' : nil) %><br/>
               <%=h item.object_excerpt %>
             <% elsif item.object %>
-              <%= item.name %>
+              <%=h item.name %>
             <% else %>
-              <span style="text-decoration:line-through;"><%= item.name %></span>
+              <span style="text-decoration:line-through;"><%=h item.name %></span>
               <% if item.deleted? %>(deleted)<% end %>
             <% end %>
           </td>
@@ -80,7 +80,7 @@
           </td>
           <td>
             <% if item.person %>
-              <%= link_to item.person.name, person_path(:id => item.person) %>
+              <%= link_to h(item.person.name), person_path(:id => item.person) %>
               <% if item.person.admin? %>(admin)<% end %>
             <% end %>
           </td>

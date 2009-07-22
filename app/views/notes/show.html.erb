@@ -9,8 +9,8 @@
   <%= render :partial => 'people/photo' %>
   <p>
     posted <%= @note.created_at.to_time.to_s %>
-    <% if @note.group %>to <%= link_to @note.group.name, group_url(:id => @note.group) %><% end %>
-    by <%= link_to @note.person.name, person_url(:id => @note.person) %>
+    <% if @note.group %>to <%= link_to h(@note.group.name), group_url(:id => @note.group) %><% end %>
+    by <%= link_to h(@note.person.name), person_url(:id => @note.person) %>
   </p>
 <% end %>
 

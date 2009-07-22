@@ -517,40 +517,40 @@ class Person < ActiveRecord::Base
   # TODO: fix this
   def my_calendar # get the google calendar link for all groups a person is in
   	cals = []
-	src = String.new
-	groups.each do |g|
-	  if g.gcal_private_link.to_s.any?
-		cals.insert( 0, g.gcal_account )
-	  end				
-	end
-	if include_family_on_calendar
-		family.people.each do |f|
-			f.groups.each do |fg|
-				if fg.gcal_private_link.to_s.any?
-					cals.insert( 0, fg.gcal_account )
-				end
-			end
-		end
-	end
-	if Setting.get(:features, :community_google_calendar)
-		account = Setting.get(:features, :community_google_calendar).to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
-		if account[0,5] == "embed"
-			idx1 = (account =~ /src=/) + 4
-			idx2 = (account =~ /\&/) - idx1
-			account = account[idx1, idx2]
-		end
-		cals.insert( 0, account)
-	end
-	cals.uniq!
-	cals.compact!
-	if cals.size > 0
-	  cals.each do |c|
-		src = src + "src=#{c.to_s}&amp;"
+	  src = String.new
+	  groups.each do |g|
+	    if g.gcal_private_link.to_s.any?
+		  cals.insert( 0, g.gcal_account )
+	    end				
 	  end
-"http://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=0&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}ctz=UTC#{Time.zone.utc_offset}"
-	else 
-	  nil
-	end
+	  if include_family_on_calendar
+		  family.people.each do |f|
+			  f.groups.each do |fg|
+				  if fg.gcal_private_link.to_s.any?
+					  cals.insert( 0, fg.gcal_account )
+				  end
+			  end
+		  end
+	  end
+	  if Setting.get(:features, :community_google_calendar)
+		  account = Setting.get(:features, :community_google_calendar).to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
+		  if account[0,5] == "embed"
+			  idx1 = (account =~ /src=/) + 4
+			  idx2 = (account =~ /\&/) - idx1
+			  account = account[idx1, idx2]
+		  end
+		  cals.insert( 0, account)
+	  end
+	  cals.uniq!
+	  cals.compact!
+	  if cals.size > 0
+	    cals.each do |c|
+		    src = src + "src=#{c.to_s}&amp;"
+	    end
+      "http://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=0&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}ctz=UTC#{Time.zone.utc_offset}"
+	  else 
+	    nil
+	  end
   end
   
   def shared_stream_items(count=30, mine=false)

@@ -2,7 +2,7 @@
   <% if @message.group %>
     <li><%= link_to '&laquo; back to group', @message.group %></li>
   <% elsif person = (@message.to || @message.wall) and @logged_in.sees? person %>
-    <li><%= link_to "&laquo; back to #{person.name}", person %></li>
+    <li><%= link_to "&laquo; back to #{h person.name}", person %></li>
   <% end %>
   <% if @message.person == @logged_in or @logged_in.can_edit? @message %>
     <li><%= link_to image_tag('delete.png', :alt => 'Delete Message', :class => 'icon') + ' Delete Message', @message, :method => 'delete', :confirm => 'Are you sure?' %></li>

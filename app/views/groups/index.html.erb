@@ -5,7 +5,7 @@
 <% if @unapproved_groups.any? %>
   <p class="highlight">
     The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
-    pending approval: <%= @unapproved_groups.map { |g| link_to(g.name, group_path(g)) }.join(', ') %>
+    pending approval: <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(g)) }.join(', ') %>
   </p>
 <% end %>
 

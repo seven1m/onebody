@@ -26,7 +26,7 @@
     <%= form.text_field :email, :style => 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>
     <strong class="very-strong">After this change, all email from this site will be
     sent to this address. It will also be the address
-    <%= @person == @logged_in ? 'you use' : @person.name + ' uses' %> to
+    <%=h @person == @logged_in ? 'you use' : @person.name + ' uses' %> to
     sign into this site.</strong>
     <br/>
     <label for="password">Password:</label>

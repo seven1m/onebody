@@ -2,7 +2,7 @@
   <%= render :partial => 'photo' %>
   <p>
     Services provided by<br/>
-    <%= link_to @person.name, person_path(:id => @person) %>
+    <%= link_to h(@person.name), @person %>
   </p>
 <% end %>
 
@@ -24,9 +24,9 @@
     <tr><td>Business Email:</td><td><%= mail_to @person.business_email %></td></tr>
   <% end %>
   <% if @person.business_website.to_s.any? %>
-    <tr><td>Business Website:</td><td><%= link_to @person.business_website, @person.business_website %></td></tr>
+    <tr><td>Business Website:</td><td><%= link_to h(@person.business_website), @person.business_website %></td></tr>
   <% end %>
   <% if @person.business_address.to_s.any? %>
-    <tr><td>Business Address:</td><td><%= @person.business_address.split(/\n/).map { |l| h(l) }.join('<br/>') %></td></tr>
+    <tr><td>Business Address:</td><td><%= preserve_breaks @person.business_address %></td></tr>
   <% end %>
 </table>
