@@ -6,10 +6,6 @@ Profile
 
 * no family picture (if person profile pic is available)
 * no way to view basic info, such as:
-  * address,
-  * phones
-  * birthday
-  * anniversary
   * about me
   * testimony
   * website
@@ -22,18 +18,10 @@ Profile
     * movies
     * books
     * quotes
-* need link to view all:
-  * Verses
-  * Pictures (Albums)
-  * Recipes
-  * Notes
-  * Wall Messages
 
 Groups
 ------
 
-* fix appearance of notes
-* no way to look at old email/notes/pictures/prayer requests
 * display map for group when address is mapable
 
 Directory
