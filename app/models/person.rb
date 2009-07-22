@@ -568,7 +568,14 @@ class Person < ActiveRecord::Base
       enabled_types
     ]
     if mine
-      conditions.add_condition(["(stream_items.person_id = ? or stream_items.wall_id = ?)", id, id])
+      conditions.add_condition([
+        "(stream_items.person_id = ? or stream_items.wall_id = ?) and " +
+        "(stream_items.group_id is null or (groups.hidden = ? and groups.private = ?))",
+        id,
+        id,
+        false,
+        false
+      ])
     else
       friend_ids = all_friend_and_groupy_ids
       group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
@@ -580,21 +587,24 @@ class Person < ActiveRecord::Base
         " (stream_items.wall_id in (?) and stream_items.person_id in (?)) or " +
         " stream_items.person_id = ? or " +
         " stream_items.wall_id = ? or " +
-        " stream_items.streamable_type in ('NewsItem', 'Publication'))",
+        " stream_items.streamable_type in ('NewsItem', 'Publication')) and " +
+        "(stream_items.group_id is null or (groups.hidden = ? and groups.private = ?))",
         true,
         group_ids,
         friend_ids,
         friend_ids,
         friend_ids,
         id,
-        id
+        id,
+        false,
+        false
       ])
     end
     stream_items = StreamItem.all(
       :conditions => conditions,
       :order => 'stream_items.created_at desc',
       :limit => count,
-      :include => [:person, :wall]
+      :include => [:person, :wall, :group]
     )
     # do our own eager loading here...
     comment_people_ids = stream_items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten

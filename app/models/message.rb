@@ -233,7 +233,7 @@ class Message < ActiveRecord::Base
   end
   
   def streamable?
-    person_id and not to_person_id and (wall_id or group_id)
+    person_id and not to_person_id and (wall_id or group)
   end
   
   after_create :create_as_stream_item
