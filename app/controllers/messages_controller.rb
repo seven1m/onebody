@@ -66,7 +66,9 @@ class MessagesController < ApplicationController
   def create_private_message
     @person = Person.find(params[:message][:to_person_id])
     if @person.email and @logged_in.can_see?(@person)
-      send_message
+      if send_message
+        render :text => 'Your message has been sent.', :layout => true
+      end
     else
       render :text => "Sorry. We don't have an email address on file for #{@person.name}.", :layout => true, :status => 500
     end
@@ -75,7 +77,10 @@ class MessagesController < ApplicationController
   def create_group_message
     @group = Group.find(params[:message][:group_id])
     if @group.can_post? @logged_in
-      send_message
+      if send_message
+        flash[:notice] = 'Your message has been sent.'
+        redirect_to @group
+      end
     else
       render :text => 'You are not authorized to post to this group.', :layout => true, :status => 500
     end
@@ -90,8 +95,9 @@ class MessagesController < ApplicationController
       if @message.errors.any?
         add_errors_to_flash(@message)
         redirect_back
+        false
       else
-        render :text => 'Your message has been sent.', :layout => true
+        true
       end
     end
   end
