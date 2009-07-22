@@ -9,6 +9,8 @@
       <%= link_to image_tag('person_picture.gif', :alt => 'Change Your Picture', :class => 'icon') + '<br/>Change<br/>Your Picture', edit_person_path + '#picture' %>
     </div>
   <% else %>
+    <% if defined?(url) %><a href="<%= url_for(url) %>"><% end %>
     <%= render :partial => 'people/silhouette' %>
+    <% if defined?(url) %></a><% end %>
   <% end %>
 </div>
