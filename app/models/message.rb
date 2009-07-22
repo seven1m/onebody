@@ -242,7 +242,7 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.create!(
       :title           => wall_id ? nil : subject,
-      :body            => html_body || body.gsub(/\n/, '<br/>'),
+      :body            => html_body.to_s.any? ? html_body : body.gsub(/\n/, '<br/>'),
       :wall_id         => wall_id,
       :person_id       => person_id,
       :group_id        => group_id,
