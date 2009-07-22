@@ -510,3 +510,16 @@ div#stream-display-options li a {
   border: 1px solid #ccc;
   padding: 10px;
 }
+
+ul#my-stuff {
+  list-style: none;
+}
+
+ul#my-stuff a {
+  text-decoration: none;
+}
+
+.timestamp {
+  font-size: smaller;
+  margin-top: 0;
+}

@@ -1,7 +1,18 @@
 class RecipesController < ApplicationController
+
   def index
-    @recipes = Recipe.paginate(:order => 'title', :page => params[:page])
-    @tags = Recipe.tag_counts
+    if params[:person_id]
+      @person = Person.find(params[:person_id])
+      if @logged_in.can_see?(@person)
+        @recipes = @person.recipes.paginate(:order => 'created_at desc', :page => params[:page])
+      else
+        render :text => 'You are not authorized to view this person', :layout => true, :status => 401
+      end
+      @tags = Recipe.tag_counts(:conditions => ['recipes.id in (?)', @recipes.map { |v| v.id } || [0]])
+    else
+      @recipes = Recipe.paginate(:order => 'title', :page => params[:page])
+      @tags = Recipe.tag_counts
+    end
   end
 
   def show

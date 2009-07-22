@@ -2,9 +2,19 @@ class AlbumsController < ApplicationController
 
   def index
     if params[:person_id]
-      @albums = Person.find(params[:person_id]).albums.all
+      @person = Person.find(params[:person_id])
+      if @logged_in.can_see?(@person)
+        @albums = @person.albums.all
+      else
+        render :text => 'You are not authorized to view this person.', :layout => true, :status => 401
+      end
     elsif params[:group_id]
-      @albums = Group.find(params[:group_id]).albums.all
+      @group = Group.find(params[:group_id])
+      if @logged_in.can_see?(@group)
+        @albums = @group.albums.all
+      else
+        render :text => 'You are not authorized to view this group.', :layout => true, :status => 401
+      end
     else
       @albums = (
         Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc') +

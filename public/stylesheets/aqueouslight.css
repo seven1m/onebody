@@ -626,3 +626,18 @@ input[type=checkbox], input[type=radio] {
   padding-bottom: 0;
   vertical-align: middle;
 }
+
+#share .section {
+  background-color: #eee;
+}
+
+#share h2.tab div.not-selected {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  color: #999;
+}
+
+#share h2.tab div.selected {
+  background-color: #eee;
+  border-bottom: 1px solid #eee;
+}

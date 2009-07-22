@@ -112,16 +112,27 @@
   <% end %>
 </div>
 
-<p style="margin-bottom:20px;" id="share-something">
-  <%= link_to_function image_tag('add_small.gif', :alt => 'Share Something', :class => 'icon'),
-    "if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
-  You should
-  <%= link_to_function 'share something here', "if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>.
-</p>
+<div style="float:right;width:150px;">
+  <ul id="my-stuff">
+    <% if @group.email?                                           %><li><%= link_to image_tag('message.gif', :alt => 'Group Emails',   :class => 'icon') + ' Group Emails',   group_messages_path(@group)        %></li><% end %>
+    <% if Setting.get(:features, :notes    ) and @group.blog?     %><li><%= link_to image_tag('note.png',    :alt => 'Group Pictures', :class => 'icon') + ' Group Notes',    group_notes_path(@group)           %></li><% end %>
+    <% if Setting.get(:features, :pictures ) and @group.pictures? %><li><%= link_to image_tag('picture.png', :alt => 'Group Pictures', :class => 'icon') + ' Group Pictures', group_albums_path(@group)          %></li><% end %>
+    <% if @group.prayer?                                          %><li><%= link_to image_tag('heart.png',   :alt => 'Group Prayer',   :class => 'icon') + ' Group Prayer',   group_prayer_requests_path(@group) %></li><% end %>
+  </ul>
+</div>
 
+<%# Main Content %>
+<div style="margin-right:200px;" id="profile-body">
 
-<div style="margin-right:120px;" id="profile-body">
+  <p style="margin-bottom:20px;" id="share-something">
+    <%= link_to_function image_tag('add_small.gif', :alt => 'Share Something', :class => 'icon'),
+      "if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
+    You should
+    <%= link_to_function 'share something here', "if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>.
+  </p>
+
   <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
+
 </div>
 
 <style type="text/css">

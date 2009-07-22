@@ -1,4 +1,13 @@
 class MessagesController < ApplicationController
+
+  def index
+    @group = Group.find(params[:group_id])
+    if @logged_in.can_see?(@group) and @group.email?
+      @messages = @group.messages.paginate(:order => 'created_at desc', :page => params[:page])
+    else
+      render :text => 'You are not authorized to view this group', :layout => true, :status => 401
+    end
+  end
   
   def new
     if params[:to_person_id] and @person = Person.find(params[:to_person_id]) and @logged_in.can_see?(@person)

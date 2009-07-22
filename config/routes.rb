@@ -19,6 +19,9 @@ unless defined?(DISABLE_ROUTES)
       people.resources :services
       people.resources :albums
       people.resources :feeds
+      people.resources :notes
+      people.resources :verses
+      people.resources :recipes
       people.resource :account, :member => {:verify_code => :any, :select => :any}
       people.resource :sync
       people.resource :privacy

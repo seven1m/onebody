@@ -41,21 +41,6 @@
   <% end %>
 <% end %>
 
-<% if nil and Setting.get(:features, :pictures) and @albums.any? %>
-  <div style="float:right;width:90px;">
-    <% @albums.each do |album| %>
-      <div style="text-align:center;">
-        <%= link_to image_tag(album.cover ? small_picture_path(album.cover) : 'camera.gif', :alt => album.name), album, :title => 'click to view' %><br/>
-        <%= link_to h(album.name), album %>
-      </div>
-    <% end %>
-    <div style="clear:left;"></div>
-  </div>
-<% end %>
-
-<%# Main Content %>
-<div style="margin-right:120px;" id="profile-body">
-
   <%# render :partial => 'map' %>
 
   <% unless @person.visible?(@family) %>
@@ -65,41 +50,51 @@
     </p>
   <% end %>
 
-  <%# render :partial => 'details' %>
-  <!--
-  <% unless @person.messages_enabled? %>
-    <p>
-      <%= image_tag('lock.gif', :alt => 'Email Disabled', :class => 'icon') %>
-      Sending email to <%=h @person.first_name %> is disabled.
-    </p>
-  <% end %>
-  -->
-
   <%= render :partial => 'pending_updates' %>
   
   <div id="share" style="margin-bottom:20px;display:none;">
     <% if me? %>
       <%= render :partial => 'streams/share' %>
     <% elsif @person.wall_enabled? %>
-      <% form_for Message.new(:wall => @person) do |form| %>
-        <%= form.hidden_field :wall_id %>
-        <p>
-          <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
-          Leave a note for <%=h @person.first_name %>:
-          <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', 'Public', :class => 'inline' %>
-          <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
-          <% unless @person.messages_enabled? %>(disabled)<% end %>
-          <br/>
-          <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
-          <%= form.submit 'Share Note', :id => 'note_submit' %>
-          <span class="small discreet">
-            This note will be visible to anyone who can see
-            <%=h @person.first_name_possessive %> profile.
-          </span>
-        </p>
-      <% end %>
+      <h2 class="tab" id="message"><%= image_tag('message.gif', :alt => 'Message', :class => 'icon') %> Message</h2>
+      <div class="section">
+        <% form_for Message.new(:wall => @person) do |form| %>
+          <%= form.hidden_field :wall_id %>
+          <p>
+            <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
+            Leave a message for <%=h @person.first_name %>:
+            <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', 'Public', :class => 'inline' %>
+            <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
+            <% unless @person.messages_enabled? %>(disabled)<% end %>
+            <br/>
+            <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
+            <%= form.submit 'Save Message', :id => 'note_submit' %>
+            <span class="small discreet">
+              This message will be visible to anyone who can see
+              <%=h @person.first_name_possessive %> profile.
+            </span>
+          </p>
+        <% end %>
+      </div>
     <% end %>
+    <h2 class="tab" id="info"><%= image_tag('information.png', :alt => 'Info', :class => 'icon') %> Info</h2>
+    <div class="section">
+      <%= render :partial => 'details' %>
+    </div>
   </div>
+
+
+<div style="float:right;width:150px;">
+  <ul id="my-stuff">
+    <% if Setting.get(:features, :notes    ) %><li><%= link_to image_tag('note.png',    :alt => 'My Pictures', :class => 'icon') + ' My Notes',    person_notes_path(@person)   %></li><% end %>
+    <% if Setting.get(:features, :pictures ) %><li><%= link_to image_tag('picture.png', :alt => 'My Pictures', :class => 'icon') + ' My Pictures', person_albums_path(@person)  %></li><% end %>
+    <% if Setting.get(:features, :verses   ) %><li><%= link_to image_tag('verse.png',   :alt => 'My Verses',   :class => 'icon') + ' My Verses',   person_verses_path(@person)  %></li><% end %>
+    <% if Setting.get(:features, :recipes  ) %><li><%= link_to image_tag('recipe.png',  :alt => 'My Recipes',  :class => 'icon') + ' My Recipes',  person_recipes_path(@person) %></li><% end %>
+  </ul>
+</div>
+
+<%# Main Content %>
+<div style="margin-right:200px;" id="profile-body">
   
   <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
 
