@@ -51,10 +51,10 @@ module ApplicationHelper
     html << "<li>#{tab_link 'Home', stream_path, params[:controller] == 'streams'}</li>"
     profile_link = @logged_in ? person_path(@logged_in, :tour => params[:tour]) : people_path
     html << "<li>#{tab_link 'Profile', profile_link, params[:controller] == 'people' && me?}</li>"
-    html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
       html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
     end
+    html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
     # TODO: this runs 3 queries just to determine if the tab should be displayed
     #if @logged_in && @logged_in.my_calendar
     #  html << "<li>#{tab_link 'Calendar', person_calendar_path(@logged_in), params[:controller] == 'calendars'}</li>"
