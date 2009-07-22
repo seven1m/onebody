@@ -10,9 +10,11 @@
       <%= form.hidden_field :subject %>
     <% end %>
     <%= form.label :body, 'Message' %>
-    <%= form.text_area :body, :rows => @group ? 5 : 15, :cols => 80 %><br/>
+    <%= form.text_area :body, :rows => 15, :cols => 80 %><br/>
     <label for="file">Attachment (optional):</label>
-    <%= file_field_tag :file %><br/>
+    <%= file_field_tag :file %>
+  </p>
+  <p>
     <%= submit_tag 'Send Message' %>
   </p>
 <% end %>
