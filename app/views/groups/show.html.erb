@@ -45,29 +45,33 @@
   </p>
 <% end %>
 
-<p>
-  <%=h @group.description %>
-  <% if @group.private? %>
-    <%= image_tag('lock.gif', :alt => 'This group is private. Only people in this group can see its messages.', :class => 'icon') %>
-  <% end %>
-</p>
+<div id="details">
 
-<table>
-  <% if @group.meets.to_s.any? %>
-    <tr><td>Meets:</td><td><%=h @group.meets %></td></tr>
-  <% end %>
-  <% if @group.location.to_s.any? %>
-    <tr><td>Location:</td><td><%=h @group.location %></td></tr>
-  <% end %>
-  <% if @group.directions.to_s.any? %>
-    <tr><td>Directions:</td><td><%=h @group.directions %></td></tr>
-  <% end %>
-  <% if @group.other_notes.to_s.any? %>
-    <tr><td>Notes:</td><td><%=h @group.other_notes %></td></tr>
-  <% end %>
-</table>
+  <p>
+    <%=h @group.description %>
+    <% if @group.private? %>
+      <%= image_tag('lock.gif', :alt => 'This group is private. Only people in this group can see its messages.', :class => 'icon') %>
+    <% end %>
+  </p>
 
-<div id="share">
+  <table>
+    <% if @group.meets.to_s.any? %>
+      <tr><td>Meets:</td><td><%=h @group.meets %></td></tr>
+    <% end %>
+    <% if @group.location.to_s.any? %>
+      <tr><td>Location:</td><td><%=h @group.location %></td></tr>
+    <% end %>
+    <% if @group.directions.to_s.any? %>
+      <tr><td>Directions:</td><td><%=h @group.directions %></td></tr>
+    <% end %>
+    <% if @group.other_notes.to_s.any? %>
+      <tr><td>Notes:</td><td><%=h @group.other_notes %></td></tr>
+    <% end %>
+  </table>
+
+</div>
+
+<div id="share" style="display:none;margin-bottom:20px;">
   
   <% if @group.email? %>
     <%= render :partial => 'streams/share_email' %>
@@ -85,6 +89,14 @@
     <%= render :partial => 'streams/share_prayer' %>
   <% end %>
 </div>
+
+<p class="highlight" style="margin-bottom:20px;" id="share-something">
+  <%= link_to_function image_tag('add_small.gif', :alt => 'Share Something', :class => 'icon'),
+    "Element.hide('details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
+  You should
+  <%= link_to_function 'share something here', "Element.hide('details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>.
+</p>
+
 
 <div style="margin-right:120px;" id="profile-body">
   <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
@@ -239,4 +251,9 @@
 <script type="text/javascript">
   set_up_tabs();
   ALBUMS_PATH = '';
+  if(location.hash != '') {
+    Element.hide('details');
+    Element.hide('share-something');
+    Element.show('share');
+  }
 </script>

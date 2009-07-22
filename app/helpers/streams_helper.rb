@@ -7,7 +7,11 @@ module StreamsHelper
     when 'Note'
       'note.png'
     when 'Message'
-      'comments.png'
+      if stream_item.wall_id
+        'comments.png'
+      else
+        'message.gif'
+      end
     when 'Verse'
       'verse.png'
     when 'Album'

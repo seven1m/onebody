@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('plus.png', :alt => 'Add Group', :class => 'icon') + ' Add Group', new_group_path %></li>
+<% end %>
+
 <% if @unapproved_groups.any? %>
   <p class="highlight">
     The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
@@ -12,8 +16,7 @@
       <%= render :partial => 'person_groups' %>
     </td>
     <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;">
-      <h2 style="border:none;">Browse</h2>
-      <p><strong>Browse by category:</strong></p>
+      <h2 style="border:none;">Browse By Category</h2>
       <ul>
         <% @categories.each do |category, group_count| %>
           <li>
@@ -24,22 +27,22 @@
       </ul>
     </td>
     <td style="padding-left:25px;border-left:1px dotted #ccc;">
-      <h2 style="border:none;">Search</h2>
+      <h2 style="border:none;">Search By Name</h2>
       <%= form_tag(groups_path, :method => 'get', :style => 'border:none;') %>
-        <p><strong>Search by name:</strong></p>
         <p><%= text_field_tag :name, nil, :style => 'width:120px;' %>
           <input type="submit" value="Search" style="width:120px;"/></p>
       </form>
+
+      <h2 style="border-top:1px dotted #ccc;border-bottom:none;padding-top:20px;">Create a Group</h2>
+      <p>
+        If you can't find the group you're looking for, create it!
+      </p>
+      <p>
+        <%= link_to image_tag('add_small.gif', :alt => 'Create a group.', :class => 'icon'), new_group_path %>
+        <%= link_to 'Create a Group', new_group_path %>
+      </p>
     </td>
   </tr>
 </table>
-
-<h2 style="border-top:1px dotted #ccc;border-bottom:none;">Create a Group</h2>
-<p>
-  If you can't find the group you're looking for, create it!
-</p>
-<p>
-  <%= link_to image_tag('add_small.gif', :alt => 'Create a group.', :class => 'icon') + ' Create a Group', new_group_path %>
-</p>
 
 <% if session[:touring] %><%= tour_popup('Groups Tab', '/pages/help/tour_groups', 450, 'right') %><% end %>
