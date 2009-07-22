@@ -56,7 +56,7 @@
     <% if me? %>
       <%= render :partial => 'streams/share' %>
     <% elsif @person.wall_enabled? %>
-      <h2 class="tab" id="message"><%= image_tag('message.gif', :alt => 'Message', :class => 'icon') %> Message</h2>
+      <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => 'Message', :class => 'icon') %> Message</h2>
       <div class="section">
         <% form_for Message.new(:wall => @person) do |form| %>
           <%= form.hidden_field :wall_id %>
@@ -86,10 +86,11 @@
 
 <div style="float:right;width:150px;">
   <ul id="my-stuff">
-    <% if Setting.get(:features, :notes    ) %><li><%= link_to image_tag('note.png',    :alt => 'My Pictures', :class => 'icon') + ' My Notes',    person_notes_path(@person)   %></li><% end %>
-    <% if Setting.get(:features, :pictures ) %><li><%= link_to image_tag('picture.png', :alt => 'My Pictures', :class => 'icon') + ' My Pictures', person_albums_path(@person)  %></li><% end %>
-    <% if Setting.get(:features, :verses   ) %><li><%= link_to image_tag('verse.png',   :alt => 'My Verses',   :class => 'icon') + ' My Verses',   person_verses_path(@person)  %></li><% end %>
-    <% if Setting.get(:features, :recipes  ) %><li><%= link_to image_tag('recipe.png',  :alt => 'My Recipes',  :class => 'icon') + ' My Recipes',  person_recipes_path(@person) %></li><% end %>
+    <% if Setting.get(:features, :notes    ) %><li><%= link_to image_tag('note.png',     :alt => 'My Pictures', :class => 'icon') + ' My Notes',    person_notes_path(@person)   %></li><% end %>
+    <% if Setting.get(:features, :pictures ) %><li><%= link_to image_tag('picture.png',  :alt => 'My Pictures', :class => 'icon') + ' My Pictures', person_albums_path(@person)  %></li><% end %>
+    <% if Setting.get(:features, :verses   ) %><li><%= link_to image_tag('verse.png',    :alt => 'My Verses',   :class => 'icon') + ' My Verses',   person_verses_path(@person)  %></li><% end %>
+    <% if Setting.get(:features, :recipes  ) %><li><%= link_to image_tag('recipe.png',   :alt => 'My Recipes',  :class => 'icon') + ' My Recipes',  person_recipes_path(@person) %></li><% end %>
+    <% if @person.wall_enabled?              %><li><%= link_to image_tag('comments.png', :alt => 'My Messages', :class => 'icon') + ' My Messages', person_wall_path(@person)    %></li><% end %>
   </ul>
 </div>
 
@@ -132,13 +133,6 @@
   <div id="favorites_content" class="section">
     <%= render :partial => 'favorites' %>
   </div>
-
-  <% if nil and @person.wall_enabled? %>
-    <h2 class="profile tab" id="wall">Wall</h2>
-    <div id="wall_content" class="section">
-      <%= render :partial => 'walls/wall' %>
-    </div>
-  <% end %>
   
   <% end %>
 
