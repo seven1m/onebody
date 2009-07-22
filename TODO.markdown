@@ -33,10 +33,7 @@ Groups
 ------
 
 * fix appearance of notes
-* improve appearance of messages to be more consistent with new stream page look
-* make group page stream its own items
-* no way to add pictures to a group
-* no way to look at old notes/messages
+* no way to look at old email/notes/pictures/prayer requests
 * display map for group when address is mapable
 
 Directory
