@@ -37,10 +37,7 @@ Groups
 * make group page stream its own items
 * no way to add pictures to a group
 * no way to look at old notes/messages
-* icons in subnav
-* move "leave group" to subnav
 * display map for group when address is mapable
-* hover "change this picture" over silhouette in group
 
 Directory
 ---------

@@ -1,7 +1,0 @@
-<% content_for :subnav do %>
-  <li><%= link_to 'List of Groups', groups_path %></li>
-  <% unless @group.new_record? %>
-    <li><%= link_to 'View Group', @group %></li>
-    <li><%= link_to 'Delete Group', @group, :confirm => 'Are you sure? This cannot be undone!', :method => 'delete' %></li>
-  <% end %>
-<% end %>
