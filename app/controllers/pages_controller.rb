@@ -26,12 +26,18 @@ class PagesController < ApplicationController
         render_with_template('Page not found.', 404)
       end
     else
-      if @page.published?
-        if @page.path =~ /\/tour_/
-          render :action => 'tour_show', :layout => false
+      if @page
+        if @page.published?
+          if @page.path =~ /\/tour_/
+            render :action => 'tour_show', :layout => false
+          else
+            render :action => 'show'
+          end
         else
-          render :action => 'show'
+          render :text => 'Page not found.', :status => 404
         end
+      elsif is_tour_page?
+        render :file => RAILS_ROOT + "/public/#{@path}.html.liquid"
       else
         render :text => 'Page not found.', :status => 404
       end
@@ -128,7 +134,7 @@ class PagesController < ApplicationController
     end
     
     def get_page
-      @page = Page.find(@path)
+      @page = Page.find_by_id_or_path(@path)
     end
     
     def get_theme_name
@@ -143,8 +149,13 @@ class PagesController < ApplicationController
       end
     end
     
+    def is_tour_page?
+      @path =~ /^help\/tour_[a-z]+$/ and File.exist?(Rails.root + "public/#{@path}.html.liquid")
+    end
+    
     def feature_enabled?
-      unless (@page and @page.system? and !@page.home?) or Setting.get(:features, :content_management_system)
+      unless (@page and @page.system? and !@page.home?) or \
+        is_tour_page? or Setting.get(:features, :content_management_system)
         redirect_to stream_path
         false
       end
