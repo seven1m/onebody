@@ -31,7 +31,7 @@ class PrayerRequestsController < ApplicationController
       params[:prayer_request][:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
       @req = @group.prayer_requests.create(params[:prayer_request].merge(:person_id => @logged_in.id))
       unless @req.errors.any?
-        redirect_to group_path(@req.group, :anchor => 'prayerrequests')
+        redirect_to group_path(@req.group, :anchor => 'prayer')
       else
         new; render :action => 'new'
       end
@@ -54,7 +54,7 @@ class PrayerRequestsController < ApplicationController
     if @logged_in.member_of?(@group) and @logged_in.can_edit?(@req)
       params[:prayer_request][:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
       if @req.update_attributes(params[:prayer_request])
-        redirect_to group_path(@req.group, :anchor => 'prayerrequests')
+        redirect_to group_path(@req.group, :anchor => 'prayer')
       else
         edit; render :action => 'edit'
       end
@@ -68,7 +68,7 @@ class PrayerRequestsController < ApplicationController
     @req = PrayerRequest.find(params[:id])
     if @logged_in.member_of?(@group) and @logged_in.can_edit?(@req)
       @req.destroy
-      redirect_to group_path(@group, :anchor => 'prayerrequests')
+      redirect_to group_path(@group, :anchor => 'prayer')
     else
       render :text => 'You cannot delete this prayer request.', :layout => true, :status => 401
     end
