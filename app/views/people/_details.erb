@@ -6,6 +6,11 @@
 <% end %>
 
 <table>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :website, :label => 'Website' } do %>
+    <% if @person.website.to_s.any? %>
+      <%= link_to h(simple_url(@person.website)), @person.website %>
+    <% end %>
+  <% end %>
   <% render :layout => 'people/detail_row', :locals => { :attribute => :home_phone, :label => 'Home' } do %>
     <%= format_phone(@person.home_phone) %>
   <% end %>

@@ -8,8 +8,6 @@ Profile
 * no way to view basic info, such as:
   * about me
   * testimony
-  * website
-  * business
   * favs:
     * activities
     * interests

@@ -128,7 +128,7 @@ module ApplicationHelper
   end
   
   def simple_url(url)
-    url.gsub(/^https?:\/\//, '').gsub(/\/$/, '')
+    url.sub(/^https?:\/\//, '').sub(/\/$/, '')
   end
   
   def me?
