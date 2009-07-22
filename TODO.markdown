@@ -24,11 +24,6 @@ Groups
 
 * display map for group when address is mapable
 
-Directory
----------
-
-* icons in subnav
-
 Bible
 -----
 
