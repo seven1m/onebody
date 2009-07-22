@@ -506,3 +506,7 @@ div#stream-display-options li a {
   background-color: transparent;
 }
 
+#group-details {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
