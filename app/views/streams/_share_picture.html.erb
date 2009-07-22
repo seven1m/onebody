@@ -2,6 +2,7 @@
 <div class="section">
   <% form_for Picture.new, :url => pictures_path, :html => {:multipart => true, :onsubmit => "if($('album_id').value=='!') custom_select_val($('album_id'), 'Enter the new album title.')"} do |form| %>
     <%= hidden_field_tag :redirect_to, request.request_uri %>
+    <% if @group %><%= hidden_field_tag :group_id, @group.id %><% end %>
     <%= label_tag :album_id, 'Album:', :id => 'album_id_label' %>
     <%= select_tag :album_id, '', {:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new album title.')"} %>
     <span id="albums_loading" style="display:none;"><%= image_tag 'spinner_small.gif', :alt => 'Loading', :class => 'icon' %> Loading...</span><br/>

@@ -25,10 +25,17 @@ class PicturesController < ApplicationController
   end
 
   def create
+    if params[:group_id]
+      unless @group = Group.find(params[:group_id]) and @group.pictures? \
+        and (@logged_in.member_of?(@group) or @logged_in.can_edit?(@group))
+        render :text => 'There was an error.', :layout => true, :status => 500
+        return
+      end
+    end
     if params[:album_id].to_s =~ /^\d+$/
-      @album = Album.find(params[:album_id])
+      @album = (@group ? @group.albums : Album).find(params[:album_id])
     elsif not ['', '!'].include?(params[:album_id].to_s)
-      @album = @logged_in.albums.create(:name => params[:album_id])
+      @album = (@group ? @group.albums : @logged_in.albums).create(:name => params[:album_id])
     else
       render :text => 'There was an error finding the album. Please try again.', :layout => true, :status => 500
       return
