@@ -3,7 +3,7 @@ class CalendarsController < ApplicationController
   def show
     if params[:person_id]
       @person = Person.find(params[:person_id])
-      if @logged_in.can_see?(@person)
+      if @logged_in == @person
         @cal_url = @person.my_calendar(params[:family])
       else
         render :text => 'You are not authorized to view this person.', :layout => true, :status => 401
