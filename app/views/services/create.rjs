@@ -1,2 +1,0 @@
-page.replace_html 'edit_services_table_body', :partial => '/people/edit_services_table_body'
-page.visual_effect :highlight, "service_category_#{@service.service_category.id}"
