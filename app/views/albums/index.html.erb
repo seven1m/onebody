@@ -1,4 +1,9 @@
 <% content_for :subnav do %>
+  <% if @group %>
+    <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' Back to ' + h(@group.name), @group %></li>
+  <% elsif @person %>
+    <li><%= link_to image_tag('user.png', :alt => 'Person', :class => 'icon') + ' Back to ' + h(@person.name), @person %></li>
+  <% end %>
   <li><%= link_to image_tag('plus.png', :alt => 'New Album', :class => 'icon') + ' New Album', @group ? new_group_album_path(@group) : new_album_path %></li>
 <% end %>
 
