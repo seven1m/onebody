@@ -1,4 +1,7 @@
 <% content_for :subnav do %>
+  <% if @person %>
+    <li><%= link_to image_tag('user.png', :alt => 'Person', :class => 'icon') + ' Back to ' + h(@person.name), @person %></li>
+  <% end %>
   <li><%= link_to image_tag('plus.png', :alt => 'Add a recipe.', :class => 'icon') + ' Add a Recipe', new_recipe_path %></li>
 <% end %>
 

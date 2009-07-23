@@ -1,4 +1,7 @@
 <% content_for :subnav do %>
+  <% content_for :subnav do %>
+    <li><%= link_to image_tag('user.png', :alt => 'Person', :class => 'icon') + ' Back to ' + h(@person.name), @person %></li>
+  <% end %>
   <% if params[:family] %>
     <li><%= link_to image_tag('checkmark.png', :alt => 'enabled', :class => 'icon') + ' Family Members: Shown', '?', :style => 'text-decoration:none;' %></li>
   <% else %>

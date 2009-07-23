@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' Back to ' + h(@group.name), @group %></li>
+<% end %>
+
 <h1>Messages in <%= link_to h(@group.name), @group %></h1>
 
 <% @messages.each do |message| %>
