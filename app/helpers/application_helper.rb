@@ -55,6 +55,7 @@ module ApplicationHelper
       html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
     end
     html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    html << "<li>#{tab_link 'Bible', bible_path, params[:controller] == 'bibles'}</li>"
     html
   end
   

@@ -82,6 +82,10 @@ unless defined?(DISABLE_ROUTES)
     map.resource :printable_directory
     map.resource :privacy
     map.resource :tour
+
+    map.bible 'bible/:book/:chapter', :controller => 'bibles', :action => 'show',
+      :book => 'x', :chapter => 0,
+      :requirements => {:book => /[A-Za-z0-9 \+(%20)]+/, :chapter => /\d{1,3}/}
   
     map.resources :pages, :as => 'pages/admin' do |pages|
       pages.resources :attachments
