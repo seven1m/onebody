@@ -41,11 +41,6 @@ class Note < ActiveRecord::Base
     end
   end
 
-  # TODO: is this mess used any more?
-  def person_name
-    Person.find_by_sql(["select people.family_id, people.first_name, people.last_name, people.suffix from people left outer join families on families.id = people.family_id where people.id = ? and people.visible = ? and families.visible = ?", self.person_id.to_i, true, true]).first.name rescue nil
-  end
-  
   after_create :create_as_stream_item
   
   def create_as_stream_item

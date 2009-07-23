@@ -104,7 +104,7 @@ class Group < ActiveRecord::Base
   end
   alias_method_chain :leader, :guessing
   
-  def get_options_for(person, create_if_missing=false) # TODO: remove create_if_missing option (not used)
+  def get_options_for(person)
     memberships.find_by_person_id(person.id)
   end
   
