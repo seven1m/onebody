@@ -55,10 +55,6 @@ module ApplicationHelper
       html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
     end
     html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
-    # TODO: this runs 3 queries just to determine if the tab should be displayed
-    #if @logged_in && @logged_in.my_calendar
-    #  html << "<li>#{tab_link 'Calendar', person_calendar_path(@logged_in), params[:controller] == 'calendars'}</li>"
-    #end
     html
   end
   

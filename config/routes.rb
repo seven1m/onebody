@@ -45,6 +45,7 @@ unless defined?(DISABLE_ROUTES)
       groups.resources :attendance, :collection => {:batch => :post}
       groups.resources :albums
       groups.resource :photo, :member => PHOTO_SIZE_METHODS
+      groups.resource :calendar
     end
   
     map.resources :service_categories, :collection => {:batch_edit => :get, :close_batch_edit => :get}

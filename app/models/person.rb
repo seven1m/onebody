@@ -513,41 +513,30 @@ class Person < ActiveRecord::Base
       end
     end
   end
-    
-  # TODO: fix this
-  def my_calendar # get the google calendar link for all groups a person is in
-  	cals = []
-	  src = String.new
-	  groups.each do |g|
-	    if g.gcal_private_link.to_s.any?
-		  cals.insert( 0, g.gcal_account )
-	    end				
-	  end
-	  if include_family_on_calendar
-		  family.people.each do |f|
-			  f.groups.each do |fg|
-				  if fg.gcal_private_link.to_s.any?
-					  cals.insert( 0, fg.gcal_account )
-				  end
-			  end
-		  end
+  
+  def calendar_accounts(include_family=false)
+    cals = groups.all(
+  	  :conditions => "gcal_private_link != '' and gcal_private_link is not null",
+  	  :select     => "groups.id, groups.gcal_private_link"
+  	).map { |g| g.gcal_account }
+  	if include_family
+  	  Person.all(:conditions => ["family_id = ?", family_id]).each do |person|
+  	    cals += person.calendar_accounts
+	    end
 	  end
 	  if Setting.get(:features, :community_google_calendar)
-		  account = Setting.get(:features, :community_google_calendar).to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
-		  if account[0,5] == "embed"
-			  idx1 = (account =~ /src=/) + 4
-			  idx2 = (account =~ /\&/) - idx1
-			  account = account[idx1, idx2]
-		  end
-		  cals.insert( 0, account)
+		  account = Setting.get(:features, :community_google_calendar).to_s.match(/[a-z0-9]+(@|%40)[a-z\.]+/).to_s.sub(/@/, '%40')
+		  cals << account
 	  end
+	  cals
+  end
+    
+  def my_calendar(include_family=false)
+  	cals = calendar_accounts(include_family)
 	  cals.uniq!
-	  cals.compact!
-	  if cals.size > 0
-	    cals.each do |c|
-		    src = src + "src=#{c.to_s}&amp;"
-	    end
-      "http://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=0&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}ctz=UTC#{Time.zone.utc_offset}"
+	  if cals.any?
+	    src = cals.map { |c| "src=#{c}" }.join("&amp;")
+      "http://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=0&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}&amp;ctz=UTC#{Time.zone.utc_offset}"
 	  else 
 	    nil
 	  end

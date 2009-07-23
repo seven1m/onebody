@@ -159,25 +159,18 @@ class Group < ActiveRecord::Base
   
   def gcal_url
     if gcal_private_link.to_s.any?
-      account = gcal_account
       if token = gcal_token
-        "http://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{account}&amp;color=%23A32929&amp;ctz=UTC#{Time.zone.utc_offset}"
+        "http://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{gcal_account}&amp;color=%23A32929&amp;ctz=UTC#{Time.zone.utc_offset}"
       end
     end
   end
   
   def gcal_account
-  	account = gcal_private_link.to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
-	if account[0,5] == "embed"
-		idx1 = (account =~ /src=/) + 4
-		idx2 = (account =~ /\&/) - idx1
-		account = account[idx1, idx2]
-	end
-	account
+  	gcal_private_link.to_s.match(/[a-z0-9]+(@|%40)[a-z\.]+/).to_s.sub(/@/, '%40')
   end
   
   def gcal_token
-  	gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1]
+  	gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1] rescue ''
   end
   
   def shared_stream_items(count)
