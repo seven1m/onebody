@@ -29,3 +29,8 @@ Bible
 * able to read entire chapter at a time
 * select verse/passage to tag as a favorite verse
 * listen to audio of chapter (free WEB mp3s)
+
+Everywhere
+----------
+
+Any thumbnail should popup info box like in directory.
