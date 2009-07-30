@@ -9,6 +9,7 @@ class PeopleController < ApplicationController
       if can_export?
         if params[:family_id]
           @people = Person.find_all_by_family_id_and_deleted(params[:family_id], false)
+          @people.reject! { |p| p.at_least?(18) } if params[:child]
         else
           @people = Person.paginate(:conditions => ['deleted = ?', false], :order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
         end
