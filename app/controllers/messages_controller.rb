@@ -1,4 +1,13 @@
 class MessagesController < ApplicationController
+
+  def index
+    @group = Group.find(params[:group_id])
+    if @logged_in.can_see?(@group) and @group.email?
+      @messages = @group.messages.paginate(:order => 'created_at desc', :page => params[:page])
+    else
+      render :text => 'You are not authorized to view this group', :layout => true, :status => 401
+    end
+  end
   
   def new
     if params[:to_person_id] and @person = Person.find(params[:to_person_id]) and @logged_in.can_see?(@person)
@@ -32,6 +41,15 @@ class MessagesController < ApplicationController
   
   def create_wall_message
     @person = Person.find(params[:message][:wall_id])
+    if params[:note_private] == 'true'
+      @message = Message.new(
+        :person_id => @logged_in.id,
+        :wall_id   => @person.id,
+        :body      => params[:message][:body]
+      )
+      render :action => 'new'
+      return
+    end
     if @logged_in.can_see?(@person) and @person.wall_enabled?
       message = @person.wall_messages.create(params[:message].merge(:subject => 'Wall Post', :person => @logged_in))
       respond_to do |format|
@@ -57,7 +75,9 @@ class MessagesController < ApplicationController
   def create_private_message
     @person = Person.find(params[:message][:to_person_id])
     if @person.email and @logged_in.can_see?(@person)
-      send_message
+      if send_message
+        render :text => 'Your message has been sent.', :layout => true
+      end
     else
       render :text => "Sorry. We don't have an email address on file for #{@person.name}.", :layout => true, :status => 500
     end
@@ -66,7 +86,10 @@ class MessagesController < ApplicationController
   def create_group_message
     @group = Group.find(params[:message][:group_id])
     if @group.can_post? @logged_in
-      send_message
+      if send_message
+        flash[:notice] = 'Your message has been sent.'
+        redirect_to @group
+      end
     else
       render :text => 'You are not authorized to post to this group.', :layout => true, :status => 500
     end
@@ -81,8 +104,9 @@ class MessagesController < ApplicationController
       if @message.errors.any?
         add_errors_to_flash(@message)
         redirect_back
+        false
       else
-        render :text => 'Your message has been sent.', :layout => true
+        true
       end
     end
   end
@@ -110,7 +134,7 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     if @logged_in.can_edit?(@message)
       @message.destroy
-      redirect_back
+      redirect_to @message.group ? @message.group : stream_path
     else
       render :text => 'You are not authorized to delete this message.', :layout => true, :status => 500
     end

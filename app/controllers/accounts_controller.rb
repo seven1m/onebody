@@ -137,7 +137,7 @@ class AccountsController < ApplicationController
         end
         @people = Person.find :all, :conditions => conditions, :include => :family
         if @people.nil? or @people.empty?
-          render :text => "Sorry. There was an error. If you requested the church office make a change, it's possible it just hasn't been done yet. Please try again later.", :layout => true, :status => 500
+          render :text => "Sorry. There was an error. If you requested the office make a change, it's possible it just hasn't been done yet. Please try again later.", :layout => true, :status => 500
           return
         elsif @people.length == 1
           person = @people.first

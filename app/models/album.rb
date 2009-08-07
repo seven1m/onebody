@@ -10,6 +10,7 @@
 #  created_at  :datetime      
 #  updated_at  :datetime      
 #  group_id    :integer       
+#  is_public   :boolean       default(TRUE)
 #
 
 class Album < ActiveRecord::Base
@@ -23,9 +24,16 @@ class Album < ActiveRecord::Base
   acts_as_logger LogItem
   
   validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :person_id
   
   def cover
-    pictures.find_by_cover(true) || pictures.first
+    @cover ||= pictures.find_by_cover(true)
+    @cover ||= pictures.first
+  end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'Album', :streamable_id => id)
   end
 end

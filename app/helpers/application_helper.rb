@@ -3,6 +3,18 @@ module ApplicationHelper
   include TagsHelper
   include PicturesHelper
   include PhotosHelper
+  include ToursHelper
+  
+  def banner_message
+    messages = []
+    if Setting.get(:features, :banner_message).to_s.any?
+      messages << CGI.escapeHTML(Setting.get(:features, :banner_message))
+    end
+    if @logged_in and @logged_in.pending_friendship_requests.count > 0
+      messages << "#{image_tag('user_add.png', :alt => 'Friends', :class => 'icon')} You have #{link_to 'pending friend requests', person_friends_path(@person)}."
+    end
+    messages.any? && messages.join("<br/>")
+  end
   
   def heading
     if (logo = Setting.get(:appearance, :logo)).to_s.any?
@@ -11,7 +23,7 @@ module ApplicationHelper
 	  elsif !@page or @page.for_members?
 	    link_to(h(Setting.get(:name, :site)), people_path)
 	  else
-	    link_to(h(Setting.get(:name, :church)), '/')
+	    link_to(h(Setting.get(:name, :community)), '/')
     end
   end
   
@@ -22,7 +34,7 @@ module ApplicationHelper
       html = simple_url(Setting.get(:url, :visitor))
     end
     if Setting.get(:name, :slogan).to_s.any?
-      html << " | <span id=\"news_headlines\" style=\"position:relative;background-color:#fff;\">#{h Setting.get(:name, :slogan)}</span>"
+      html << " | #{h Setting.get(:name, :slogan)}"
     end
     html
   end
@@ -34,22 +46,16 @@ module ApplicationHelper
   def nav_links
     html = ''
     if Setting.get(:features, :content_management_system)
-      html << "<li>#{tab_link 'Home', '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
+      html << "<li>#{tab_link 'Pages', '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
     end
-    html << "<li>#{tab_link 'Profile', @logged_in || people_path, params[:controller] == 'people' && me?}</li>"
-    html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    html << "<li>#{tab_link 'Home', stream_path, params[:controller] == 'streams'}</li>"
+    profile_link = @logged_in ? person_path(@logged_in, :tour => params[:tour]) : people_path
+    html << "<li>#{tab_link 'Profile', profile_link, params[:controller] == 'people' && me?}</li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
       html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
     end
-    if @logged_in && @logged_in.my_calendar
-      html << "<li>#{tab_link 'Calendar', person_calendar_path(@logged_in), params[:controller] == 'calendars'}</li>"
-    end
-    if Setting.get(:features, :news_page)
-      html << "<li>#{tab_link 'News', news_path, params[:controller] == 'news'}</li>"
-    elsif url = Setting.get(:url, :news)
-      html << "<li>#{tab_link 'News', url}</li>"
-    end
-    html << "<li>#{ tab_link 'More', shares_path, %w(shares events pictures verses recipes).include?(params[:controller])}</li>"
+    html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    html << "<li>#{tab_link 'Bible', bible_path, params[:controller] == 'bibles'}</li>"
     html
   end
   
@@ -68,25 +74,30 @@ module ApplicationHelper
     html = ''
     if @logged_in
       html << "<li class=\"personal\">"
-      html << link_to('sign out', session_path, :method => 'delete')
+      html << link_to(image_tag('door_in.png', :alt => 'Sign Out', :class => 'icon') + ' sign out', session_path, :method => 'delete')
+      html << "</li>"
+      html << "<li class=\"personal\">"
+      if session[:touring]
+        html << link_to(image_tag('car.png', :alt => 'Tour', :class => 'icon') + ' tour', tour_path(:stop => true), :class => 'active')
+      else
+        html << link_to(image_tag('car.png', :alt => 'Tour', :class => 'icon') + ' tour', tour_path(:start => true), :id => 'tour_link')
+      end
       html << "</li>"
       if @logged_in.admin?
         html << "<li class=\"personal\">"
-        html << link_to('admin', admin_path)
+        html << link_to(image_tag('cog.png', :alt => 'Admin', :class => 'icon') + ' admin', admin_path, :class => params[:controller] =~ /^admin/ ? 'active' : nil)
         html << "</li>"
       end
     else
       html << "<li class=\"personal\">"
-      html << link_to('sign in', new_session_path)
+      html << link_to(image_tag('door.png', :alt => 'Sign In', :class => 'icon') + ' sign in', new_session_path)
       html << "</li>"
     end
     html
   end
   
   def news_js
-    unless @logged_in.nil?
-      "<script type=\"text/javascript\" src=\"/news.js\"></script>"
-    end
+    nil # not used any more
   end
   
   def analytics_js
@@ -97,7 +108,7 @@ module ApplicationHelper
 
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe
-    simple_format(text.to_s)
+    text.gsub(/\n/, '<br/>')
   end
   
   def remove_excess_breaks(text)
@@ -114,7 +125,7 @@ module ApplicationHelper
   end
   
   def simple_url(url)
-    url.gsub(/^https?:\/\//, '').gsub(/\/$/, '')
+    url.sub(/^https?:\/\//, '').sub(/\/$/, '')
   end
   
   def me?
@@ -153,6 +164,11 @@ module ApplicationHelper
   
   def white_list_with_removal(html)
     white_list(html) { |node, bad| node.to_s.gsub(/<script.+?<\/script>/mi, '').gsub(/<style.+?<\/style>/mi, '').gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }
+  end
+  
+  def domain_name_from_url(url)
+    url =~ /^https?:\/\/([^\/]+)/
+    $1
   end
   
   class << self

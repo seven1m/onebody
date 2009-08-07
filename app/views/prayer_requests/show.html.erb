@@ -1,19 +1,19 @@
 <% if @logged_in.can_edit?(@req) %>
   <% content_for :subnav do %>
-    <li><%= link_to 'Edit Request', edit_group_prayer_request_path(@req.group, @req) %></li>
+    <li><%= link_to image_tag('pencil.png', :alt => 'Edit Request', :class => 'icon') + ' Edit Request', edit_group_prayer_request_path(@req.group, @req) %></li>
     <% if @req.group and @req.group.admin?(@logged_in) %>
-      <li><%= link_to 'Delete Request', group_prayer_request_path(@req.group, @req), :confirm => 'Are you sure?', :method => 'delete' %></li>
+      <li><%= link_to image_tag('delete.png', :alt => 'Delete Request', :class => 'icon') + ' Delete Request', group_prayer_request_path(@req.group, @req), :confirm => 'Are you sure?', :method => 'delete' %></li>
     <% end %>
   <% end %>
 <% end %>
 
 <h1>
-  <span style="font-size:10pt"><%= link_to @req.group.name, @req.group %></span><br/>
+  <span style="font-size:10pt"><%= link_to h(@req.group.name), @req.group %></span><br/>
   Prayer Request
 </h1>
 
 <p>
-  Submitted by <%= link_to @req.person.name, person_url(:id => @req.person) %>
+  Submitted by <%= link_to h(@req.person.name), person_url(:id => @req.person) %>
   on <%= @req.created_at.to_time.to_s :date %>
 </p>
 
@@ -21,6 +21,8 @@
 
 <% if @req.answer.to_s.any? %>
   <h2>Answer</h2>
-  <p>Answered on <%= @req.answered_at.to_time.to_s :date %></p>
+  <% if @req.answered_at %>
+    <p>Answered on <%= @req.answered_at.to_time.to_s :date %></p>
+  <% end %>
   <p style="font-size:larger;"><%=h @req.answer %></p.>
 <% end %>

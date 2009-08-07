@@ -3,21 +3,29 @@
 # Table name: people
 #
 #  id                           :integer       not null, primary key
+#  legacy_id                    :integer       
 #  family_id                    :integer       
 #  sequence                     :integer       
 #  gender                       :string(6)     
 #  first_name                   :string(255)   
 #  last_name                    :string(255)   
+#  suffix                       :string(25)    
 #  mobile_phone                 :string(25)    
 #  work_phone                   :string(25)    
 #  fax                          :string(25)    
 #  birthday                     :datetime      
 #  email                        :string(255)   
+#  email_changed                :boolean       
 #  website                      :string(255)   
 #  classes                      :string(255)   
 #  shepherd                     :string(255)   
 #  mail_group                   :string(1)     
 #  encrypted_password           :string(100)   
+#  business_name                :string(100)   
+#  business_description         :text          
+#  business_phone               :string(25)    
+#  business_email               :string(255)   
+#  business_website             :string(255)   
 #  activities                   :text          
 #  interests                    :text          
 #  music                        :text          
@@ -32,14 +40,6 @@
 #  share_fax                    :boolean       
 #  share_email                  :boolean       
 #  share_birthday               :boolean       
-#  business_name                :string(100)   
-#  business_description         :text          
-#  business_phone               :string(25)    
-#  business_email               :string(255)   
-#  business_website             :string(255)   
-#  legacy_id                    :integer       
-#  email_changed                :boolean       
-#  suffix                       :string(25)    
 #  anniversary                  :datetime      
 #  updated_at                   :datetime      
 #  alternate_email              :string(255)   
@@ -67,11 +67,6 @@
 #  feed_code                    :string(50)    
 #  share_activity               :boolean       
 #  site_id                      :integer       
-#  barcode_id                   :string(50)    
-#  can_pick_up                  :string(100)   
-#  cannot_pick_up               :string(100)   
-#  medical_notes                :string(200)   
-#  checkin_access               :boolean       
 #  twitter_account              :string(100)   
 #  api_key                      :string(50)    
 #  salt                         :string(50)    
@@ -95,24 +90,26 @@ class Person < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
   has_many :groups, :through => :memberships
+  has_many :albums
   has_many :pictures, :order => 'created_at desc'
   has_many :messages
   has_many :wall_messages, :class_name => 'Message', :foreign_key => 'wall_id', :order => 'created_at desc'
   has_many :recipes, :order => 'title'
-  has_many :notes, :order => 'created_at desc', :conditions => ['deleted = ?', false]
+  has_many :notes, :order => 'created_at desc'
   has_many :updates, :order => 'created_at'
   has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
-  has_and_belongs_to_many :verses, :order => 'book, chapter, verse'
+  has_and_belongs_to_many :verses
   has_many :log_items
-  has_many :blog_items
-  has_many :friendships, :order => 'ordering, created_at'
-  has_many :friends, :class_name => 'Person', :through => :friendships, :order => 'friendships.ordering'
+  has_many :stream_items
+  has_many :friendships
+  has_many :friends, :class_name => 'Person', :through => :friendships
   has_many :friendship_requests
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :prayer_requests, :order => 'created_at desc'
   has_many :sync_instances
   has_many :remote_accounts
   has_many :attendance_records
+  has_many :feeds
   belongs_to :site
 
   has_many :services, :dependent => :destroy do
@@ -195,6 +192,10 @@ class Person < ActiveRecord::Base
   
   def name_possessive
     name =~ /s$/ ? "#{name}'" : "#{name}'s"
+  end
+
+  def first_name_possessive
+    first_name =~ /s$/ ? "#{first_name}'" : "#{first_name}'s"
   end
   
   def inspect
@@ -291,6 +292,10 @@ class Person < ActiveRecord::Base
         what.person and can_see?(what.person)
       when 'Recipe', 'Picture', 'Verse'
         true
+      when 'Album'
+        what.is_public? or can_see?(what.person)
+      when 'Picture'
+        what.album.is_public? or can_see?(what.person)
       else
         raise "Unrecognized argument to can_see? (#{what.inspect})"
       end
@@ -338,7 +343,8 @@ class Person < ActiveRecord::Base
   end
   
   def can_sync_remotely?
-    self.admin?(:view_hidden_properties)
+    false # disabled for now
+    #self.admin?(:view_hidden_properties)
   end
   
   def can_sign_in?
@@ -358,8 +364,7 @@ class Person < ActiveRecord::Base
   end
   
   def at_least?(age) # assumes you won't pass in anything over 18
-    y = years_of_age and y >= age or (respond_to?(:child) ? child == false : %w(male female).include?(gender.to_s.downcase))
-                # 0.9.0 TODO: change ^ this to read simply "child == false"
+    (y = years_of_age and y >= age) or child == false
   end
   
   def age
@@ -445,8 +450,11 @@ class Person < ActiveRecord::Base
     write_attribute :api_key, ActiveSupport::SecureRandom.hex(50)[0...50]
   end
   
+  attr_writer :no_auto_sequence
+  
   before_save :update_sequence
   def update_sequence
+    return if @no_auto_sequence
     if family and (sequence.nil? or family.people.count('*', :conditions => ['id != ? and deleted = ? and sequence = ?', id, false, sequence]) > 0)
       self.sequence = family.people.maximum(:sequence, :conditions => ['deleted = ?', false]).to_i + 1
     end
@@ -506,75 +514,109 @@ class Person < ActiveRecord::Base
     end
   end
   
-  def recently_tab_items
-    friend_ids = [id]
-    friend_ids += friends.find(:all, :select => 'people.id').map { |f| f.id } if Setting.get(:features, :friends)
-    group_ids = groups.select { |g| !g.hidden? }.map { |g| g.id }
-    group_ids = [0] unless group_ids.any?
-    LogItem.find(
-      :all,
-      :conditions => ["((log_items.loggable_type in ('Friendship', 'Picture', 'Verse', 'Recipe', 'Person', 'Message', 'Note', 'Comment') and log_items.person_id in (#{friend_ids.join(',')})) or (log_items.loggable_type in ('Note', 'Message', 'PrayerRequest') and log_items.group_id in (#{group_ids.join(',')}))) and log_items.deleted = ? and (people.share_activity = ? or (people.share_activity is null and (select share_activity from families where id=people.family_id limit 1) = ?))", false, true, true],
-      :order => 'log_items.created_at desc',
-      :limit => 25,
-      :select => "log_items.*, people.family_id, people.share_activity",
-      :joins => :person
-    ).select do |item|
-      if !(obj = item.object)
-        false
-      elsif item.loggable_type == 'Verse' # habtm
-        true
-      elsif !(p_id = obj.is_a?(Person) ? obj.id : obj.person_id) or p_id != item.person_id # in case an admin does something
-        false
-      elsif obj.respond_to?(:deleted?) and obj.deleted?
-        false
-      elsif item.loggable_type == 'Person' # made some profile adjustments
-        obj == self and item.showable_change_keys.any?
-      elsif item.loggable_type == 'Friendship'
-        obj.person_id != item.person_id
-      elsif item.loggable_type == 'Message'
-        obj.can_see?(self) and not obj.to
-      else
-        true
-      end
-    end
+  def calendar_accounts(include_family=false)
+    cals = groups.all(
+  	  :conditions => "gcal_private_link != '' and gcal_private_link is not null",
+  	  :select     => "groups.id, groups.gcal_private_link"
+  	).map { |g| g.gcal_account }
+  	if include_family
+  	  Person.all(:conditions => ["family_id = ?", family_id]).each do |person|
+  	    cals += person.calendar_accounts
+	    end
+	  end
+	  if Setting.get(:features, :community_google_calendar)
+		  account = Setting.get(:features, :community_google_calendar).to_s.match(/[a-z0-9]+(@|%40)[a-z\.]+/).to_s.sub(/@/, '%40')
+		  cals << account
+	  end
+	  cals
   end
     
-  def my_calendar # get the google calendar link for all groups a person is in
-  	cals = []
-	src = String.new
-	groups.each do |g|
-	  if g.gcal_private_link.to_s.any?
-		cals.insert( 0, g.gcal_account )
-	  end				
-	end
-	if include_family_on_calendar
-		family.people.each do |f|
-			f.groups.each do |fg|
-				if fg.gcal_private_link.to_s.any?
-					cals.insert( 0, fg.gcal_account )
-				end
-			end
-		end
-	end
-	if Setting.get(:features, :google_calendar_churchwide)
-		account = Setting.get(:features, :google_calendar_churchwide).to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
-		if account[0,5] == "embed"
-			idx1 = (account =~ /src=/) + 4
-			idx2 = (account =~ /\&/) - idx1
-			account = account[idx1, idx2]
-		end
-		cals.insert( 0, account)
-	end
-	cals.uniq!
-	cals.compact!
-	if cals.size > 0
-	  cals.each do |c|
-		src = src + "src=#{c.to_s}&amp;"
+  def my_calendar(include_family=false)
+  	cals = calendar_accounts(include_family)
+	  cals.uniq!
+	  if cals.any?
+	    src = cals.map { |c| "src=#{c}" }.join("&amp;")
+      "http://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=0&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}&amp;ctz=UTC#{Time.zone.utc_offset}"
+	  else 
+	    nil
 	  end
-"http://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=0&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}ctz=UTC#{Time.zone.utc_offset}"
-	else 
-	  nil
-	end
+  end
+  
+  def shared_stream_items(count=30, mine=false)
+    enabled_types = []
+    enabled_types << 'Message' # wall posts and group posts (not personal messages)
+    enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
+    enabled_types << 'Publication' if Setting.get(:features, :publications)
+    enabled_types << 'Verse'       if Setting.get(:features, :verses      )
+    enabled_types << 'Album'       if Setting.get(:features, :pictures    )
+    enabled_types << 'Note'        if Setting.get(:features, :notes       )
+    enabled_types << 'Recipe'      if Setting.get(:features, :recipes     )
+    enabled_types << 'PrayerRequest'
+    conditions = [
+      "stream_items.streamable_type in (?)",
+      enabled_types
+    ]
+    if mine
+      conditions.add_condition([
+        "(stream_items.person_id = ? or stream_items.wall_id = ?) and " +
+        "(stream_items.group_id is null or (groups.hidden = ? and groups.private = ?))",
+        id,
+        id,
+        false,
+        false
+      ])
+    else
+      friend_ids = all_friend_and_groupy_ids
+      group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
+      group_ids = [0] unless group_ids.any?
+      conditions.add_condition([
+        "stream_items.shared = ? and " +
+        "(stream_items.group_id in (?) or " +
+        " (stream_items.wall_id is null and stream_items.person_id in (?) and stream_items.streamable_type != 'PrayerRequest') or " +
+        " (stream_items.wall_id in (?) and stream_items.person_id in (?)) or " +
+        " stream_items.person_id = ? or " +
+        " stream_items.wall_id = ? or " +
+        " stream_items.streamable_type in ('NewsItem', 'Publication')) and " +
+        "(stream_items.group_id is null or (groups.hidden = ? and groups.private = ?))",
+        true,
+        group_ids,
+        friend_ids,
+        friend_ids,
+        friend_ids,
+        id,
+        id,
+        false,
+        false
+      ])
+    end
+    stream_items = StreamItem.all(
+      :conditions => conditions,
+      :order => 'stream_items.created_at desc',
+      :limit => count,
+      :include => [:person, :wall, :group]
+    )
+    # do our own eager loading here...
+    comment_people_ids = stream_items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
+    comment_people = Person.all(
+      :conditions => ["id in (?)", comment_people_ids],
+      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at' # only what's needed
+    ).inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
+    stream_items.each do |stream_item|
+      stream_item.context['comments'].to_a.each do |comment|
+        comment['person'] = comment_people[comment['person_id']]
+      end
+      stream_item.readonly!
+    end
+    stream_items
+  end
+  
+  def all_friend_and_groupy_ids
+    if Setting.get(:features, :friends)
+      friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id }
+    else
+      friend_ids = []
+    end
+    friend_ids + sidebar_group_people.map { |p| p.id }
   end
 
   def to_liquid; inspect; end  

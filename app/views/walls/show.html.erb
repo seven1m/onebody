@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('user.png', :alt => 'Person', :class => 'icon') + ' Back to ' + h(@person.name), @person %></li>
+<% end %>
+
 <h1><%= link_to h(@person.name_possessive), @person %> Wall</h1>
 
 <%= will_paginate @messages %>

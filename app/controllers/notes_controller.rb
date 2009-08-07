@@ -1,5 +1,25 @@
 class NotesController < ApplicationController
 
+  def index
+    if params[:person_id]
+      @person = Person.find(params[:person_id])
+      if @logged_in.can_see?(@person)
+        @notes = @person.notes.paginate(:order => 'created_at desc', :page => params[:page])
+      else
+        render :text => 'You are not authorized to view this person', :layout => true, :status => 401
+      end
+    elsif params[:group_id]
+      @group = Group.find(params[:group_id])
+      if @logged_in.can_see?(@group) and @group.blog?
+        @notes = @group.notes.paginate(:order => 'created_at desc', :page => params[:page])
+      else
+        render :text => 'You are not authorized to view this group', :layout => true, :status => 401
+      end
+    else
+      render :text => 'Error.', :status => 400
+    end
+  end
+
   def show
     @note = Note.find(params[:id])
     if @logged_in.can_see?(@note)
@@ -17,7 +37,7 @@ class NotesController < ApplicationController
     @note = Note.create(params[:note].merge(:person_id => @logged_in.id))
     unless @note.errors.any?
       flash[:notice] = 'Note saved.'
-      redirect_to @note
+      redirect_to params[:redirect_to] || @note
     else
       render :action => 'new'
     end

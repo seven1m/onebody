@@ -9,7 +9,7 @@
       <% @requests.each do |req| %>
         <tr>
           <td><%= check_box_tag 'ids[]', req.person.id, false, :class => 'checkbox' %></td>
-          <td><%= link_to req.person.name, person_url(:id => req.person) %></td>
+          <td><%= link_to h(req.person.name), person_url(:id => req.person) %></td>
         </tr>
       <% end %>
     </table>

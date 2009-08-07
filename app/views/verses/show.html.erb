@@ -1,56 +1,67 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('verse.png', :alt => 'All Verses', :class => 'icon') + ' All Verses', verses_path %></li>
+<% end %>
+
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to image_tag('remove.gif', :alt => 'Remove this verse from my list.', :class => 'icon') + ' Remove this verse', @verse, :method => 'delete', :confirm => 'Are you sure?' %><br/>
+      <%= link_to image_tag('delete.png', :alt => 'Remove this verse from my list.', :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => 'Are you sure?' %>
+      <%= link_to 'Remove this verse', @verse, :method => 'delete', :confirm => 'Are you sure?' %><br/>
       from my list.
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon') + ' Add this verse', verses_path(:id => @verse), :method => 'post' %><br/>
+      <%= link_to image_tag('add_small.gif', :alt => 'Add this verse to my list.', :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'post' %>
+      <%= link_to 'Add this verse', verses_path(:id => @verse), :method => 'post' %><br/>
       to my list.
     </p>
   <% end %>
-  
+
+  <% if @verse.people.count > 0 %>
+    <h2>People who like <span class="nowrap">this verse</span></h2>
+    <table>
+      <% @verse.people.each do |person| %>
+        <tr>
+          <td>
+            <a href="<%= person_url(person) %>">
+              <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+            </a>
+          </td>
+          <td><%= link_to h(person.name), person_path(person) %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+    
   <h2>Tags</h2>
 
   <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>
     <p>
-      <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse} %><br/>
-      Add tags: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+      <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse, :br => true} %><br/>
+      Add tags<br/>(space separated): <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
     </p>
   </form>
-  
-  <h2>People</h2>
 
-  <table>
-    <% @verse.people.each do |person| %>
-      <tr>
-        <td>
-          <a href="<%= person_url(person) %>">
-            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
-          </a>
-        </td>
-        <td><%= link_to h(person.name), person_path(person) %></td>
-      </tr>
-    <% end %>
-  </table>
-  
   <h2>Tools</h2>
-  <%= link_to 'Bible Gateway', "http://www.biblegateway.com/passage/?search=#{u(@verse.reference)}" %>
+  <p>
+    <%= link_to 'YouVersion', @verse.youversion_url %><br/>
+    <%= link_to 'eBible', @verse.ebible_url %><br/>
+    <%= link_to 'Bible Gateway', "http://www.biblegateway.com/passage/?search=#{u(@verse.reference)}" %>
+  </p>
 
 <% end %>
-
-<%= render :partial => 'shares/subnav' %>
 
 <h1><%=h @verse.reference %> <span style="font-size:60%;color:#999;">(<%=h @verse.translation %>)</span></h1>
 
 <p>
   <span style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;"><%=h @verse.text %></span>
-  <%= link_to 'Read more...', "http://www.biblegateway.com/passage/?search=#{u(@verse.reference.split(/:/).first)}", :class => 'discreet' %>
+</p>
+<p>
+  <%= link_to 'Read this passage at YouVersion...', @verse.youversion_url, :class => 'small' %>
 </p>
 
 <% if @verse.translation == 'WEB' %>
-  <p style="font-size:90%;color:#999;">
+  <p class="small discreet">
     Scripture quotations marked "WEB" are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.
   </p>
 <% end %>

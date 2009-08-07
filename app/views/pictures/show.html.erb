@@ -1,4 +1,7 @@
-<%= render :partial => 'shares/subnav' %>
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('picture.png', :alt => 'All Pictures', :class => 'icon') + ' All Pictures', albums_path %></li>
+  <li><%= link_to image_tag('delete.png', :alt => 'Delete Picture', :class => 'icon') + ' Delete Picture', album_picture_path(@album, @picture), :confirm => 'Are you sure?', :method => 'delete' %></li>
+<% end %>
 
 <% content_for :sidebar do %>
   <h1><%= link_to h(@picture.album.name), @picture.album %></h1>
@@ -8,17 +11,22 @@
   <% if @picture.person %>
     <p>
       Picture uploaded by:<br/>
+      <%= render :partial => 'people/thumbnail', :locals => {:person => @picture.person} %>
       <%= link_to h(@picture.person.name), @picture.person %><br/>
       <%= @picture.created_at.to_s %>
     </p>
   <% end %>
-  <% if @logged_in.can_edit?(@picture) %>
+  <% if @picture.original_url %>
     <p>
-      Rotate:
-      <%= link_to 'Left', album_picture_path(@album, @picture, :degrees => -90), :confirm => 'Are you sure?', :method => 'put' %> |
-      <%= link_to 'Right', album_picture_path(@album, @picture, :degrees => 90), :confirm => 'Are you sure?', :method => 'put' %><br/>
-      <%= link_to 'Make Cover for Album', album_picture_path(@album, @picture, :cover => true), :method => 'put', :confirm => 'Are you sure?' %><br/>
-      <%= link_to 'Delete Picture', album_picture_path(@album, @picture), :confirm => 'Are you sure?', :method => 'delete' %>
+      From <%= link_to h(domain_name_from_url(@picture.original_url)), @picture.original_url %>
+    </p>
+  <% end %>
+  <% if @logged_in.can_edit?(@picture) %>
+    <h2>Modify</h2>
+    <p>
+      <%= link_to image_tag('arrow_turn_left.png', :alt => 'Rotate Left', :class => 'icon') + ' Rotate Left', album_picture_path(@album, @picture, :degrees => -90), :confirm => 'Are you sure?', :method => 'put', :style => 'text-decoration:none;' %><br/>
+      <%= link_to image_tag('arrow_turn_right.png', :alt => 'Rotate Right', :class => 'icon') + ' Rotate Right', album_picture_path(@album, @picture, :degrees => 90), :confirm => 'Are you sure?', :method => 'put', :style => 'text-decoration:none;' %><br/>
+      <%= link_to image_tag('heart.png', :alt => 'Set as Cover', :class => 'icon') + ' Set as Cover', album_picture_path(@album, @picture, :cover => true), :method => 'put', :confirm => 'Are you sure?', :style => 'text-decoration:none;' %><br/>
     </p>
   <% end %>
 <% end %>
@@ -30,7 +38,7 @@
 </p>
 
 <p>
-  <%= link_to image_tag(large_picture_path(@picture), :alt => 'click to see original'), full_picture_path(@picture) %>
+  <%= link_to image_tag(large_picture_path(@picture), :alt => 'click to see original'), @picture.original_url || full_picture_path(@picture) %>
 </p>
 <% if Setting.get(:privacy, :allow_picture_comments) %>
 <h2>Comments</h2>

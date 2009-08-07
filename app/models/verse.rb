@@ -162,6 +162,88 @@ class Verse < ActiveRecord::Base
     'Revelation',
   ]
   
+  YOUVERSION_BOOKS = %w(
+    gen exod lev num deut josh judg ruth 1sam 2sam 1kgs 2kgs 1chr 2chr ezra neh esth job ps prov eccl song isa jer lam ezek dan hos joel amos obad jonah mic nah hab zeph hag zech mal
+    matt mark luke john acts rom 1cor 2cor gal eph phil col 1thess 2thess 1tim 2tim titus phlm heb jas 1pet 2pet 1john 2john 3john jude rev
+  )
+  
+  BOOKS_AND_CHAPTERS = {
+    'Genesis'         => 1..50,
+    'Exodus'          => 1..40,
+    'Leviticus'       => 1..27,
+    'Numbers'         => 1..36,
+    'Deuteronomy'     => 1..34,
+    'Joshua'          => 1..24,
+    'Judges'          => 1..21,
+    'Ruth'            => 1..4,
+    '1 Samuel'        => 1..31,
+    '2 Samuel'        => 1..24,
+    '1 Kings'         => 1..22,
+    '2 Kings'         => 1..25,
+    '1 Chronicles'    => 1..29,
+    '2 Chronicles'    => 1..36,
+    'Ezra'            => 1..10,
+    'Nehemiah'        => 1..13,
+    'Esther'          => 1..10,
+    'Job'             => 1..42,
+    'Psalms'          => 1..150,
+    'Proverbs'        => 1..31,
+    'Ecclesiastes'    => 1..12,
+    'Song of Solomon' => 1..8,
+    'Isaiah'          => 1..66,
+    'Jeremiah'        => 1..52,
+    'Lamentations'    => 1..5,
+    'Ezekiel'         => 1..48,
+    'Daniel'          => 1..12,
+    'Hosea'           => 1..14,
+    'Joel'            => 1..3,
+    'Amos'            => 1..9,
+    'Obadiah'         => 1..1,
+    'Jonah'           => 1..4,
+    'Micah'           => 1..7,
+    'Nahum'           => 1..3,
+    'Habakkuk'        => 1..3,
+    'Zephaniah'       => 1..3,
+    'Haggai'          => 1..2,
+    'Zechariah'       => 1..14,
+    'Malachi'         => 1..4,
+    'Matthew'         => 1..28,
+    'Mark'            => 1..16,
+    'Luke'            => 1..24,
+    'John'            => 1..21,
+    'Acts'            => 1..28,
+    'Romans'          => 1..16,
+    '1 Corinthians'   => 1..16,
+    '2 Corinthians'   => 1..13,
+    'Galatians'       => 1..6,
+    'Ephesians'       => 1..6,
+    'Philippians'     => 1..4,
+    'Colossians'      => 1..4,
+    '1 Thessalonians' => 1..5,
+    '2 Thessalonians' => 1.3,
+    '1 Timothy'       => 1..6,
+    '2 Timothy'       => 1..4,
+    'Titus'           => 1..3,
+    'Philemon'        => 1..1,
+    'Hebrews'         => 1..13,
+    'James'           => 1..5,
+    '1 Peter'         => 1..5,
+    '2 Peter'         => 1..3,
+    '1 John'          => 1..5,
+    '2 John'          => 1..1,
+    '3 John'          => 1..1,
+    'Jude'            => 1..1,
+    'Revelation'      => 1..22
+  }
+  
+  def youversion_url
+    "http://www.youversion.com/bible/web/#{YOUVERSION_BOOKS[book]}/#{chapter}/#{verse}"
+  end
+  
+  def ebible_url
+    "http://ebible.com/##{URI.encode(reference)}"
+  end
+  
   class << self
     
     def find(reference_or_id, options=nil)
@@ -234,5 +316,28 @@ class Verse < ActiveRecord::Base
       end
       text
     end
+    
+    def random_book_and_chapter
+      book = BOOKS_AND_CHAPTERS.keys.rand
+      [book, BOOKS_AND_CHAPTERS[book].to_a.rand]
+    end
+  
+  end
+  
+  # note: this must be called from a controller since this is habtm with people
+  def create_as_stream_item(person, created_at=nil)
+    StreamItem.create!(
+      :title           => reference,
+      :body            => text,
+      :person_id       => person.id,
+      :streamable_type => 'Verse',
+      :streamable_id   => id,
+      :created_at      => created_at || Time.now,
+      :shared          => person.share_activity?
+    )
+  end
+
+  def delete_stream_items(person)
+    StreamItem.destroy_all(:streamable_type => 'Verse', :streamable_id => id, :person_id => person.id)
   end
 end

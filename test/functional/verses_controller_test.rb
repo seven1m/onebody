@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class VersesControllerTest < ActionController::TestCase
 
   def setup
+    Verse.delete_all # no verses from fixtures
     @person, @other_person = Person.forge, Person.forge
     2.times { @person.verses       << Verse.forge(:tag_list => 'foo bar') }
     2.times { @other_person.verses << Verse.forge(:tag_list => 'baz foo') }
@@ -67,5 +68,9 @@ class VersesControllerTest < ActionController::TestCase
       @verse.reload
     end
   end
+  
+  should "create a stream item when a verse is added"
+  
+  should "delete all associated stream items when a verse is removed"
 
 end

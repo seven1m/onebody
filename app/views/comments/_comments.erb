@@ -11,7 +11,7 @@
           <%= link_to h(comment.person.name), comment.person %>
           <%= comment.created_at.to_s %>
           <% if @logged_in.can_edit?(comment) %>
-            <%= link_to '[delete]', comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
+            <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
           <% end %>
           <br/>
           <%= preserve_breaks comment.text %>

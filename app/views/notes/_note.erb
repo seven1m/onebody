@@ -3,7 +3,7 @@
     <div class="note-timestamp">
       posted <%= note.created_at.to_s %>
       <% if note.group %>
-        by <%= link_to(note.person.name, note.person) rescue '?' %>
+        by <%= link_to(h(note.person.name), note.person) rescue '?' %>
       <% end %>
     </div>
     <%= link_to h(note.title), note %>
@@ -13,7 +13,7 @@
     <% end %>
   </div>
 
-  <div class="note-body"><%= white_list note.body %></div>
+  <div class="note-body"><%= white_list_with_removal auto_link(note.body) %></div>
 
   <div class="note-comments">
     <div class="comment-summary">

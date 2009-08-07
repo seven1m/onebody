@@ -1,24 +1,15 @@
-<% content_for :sidebar do %>
+<% content_for :subnav do %>
   <% if @message.group %>
-    <p><%= link_to '&laquo; back to group', @message.group %></p>
+    <li><%= link_to '&laquo; back to group', @message.group %></li>
   <% elsif person = (@message.to || @message.wall) and @logged_in.sees? person %>
-    <p><%= link_to "&laquo; back to #{person.name}", person %></p>
+    <li><%= link_to "&laquo; back to #{h person.name}", person %></li>
   <% end %>
   <% if @message.person == @logged_in or @logged_in.can_edit? @message %>
-    <p>
-      <%= link_to 'Delete Message', @message, :method => 'delete', :confirm => 'Are you sure?' %>
-    </p>
+    <li><%= link_to image_tag('delete.png', :alt => 'Delete Message', :class => 'icon') + ' Delete Message', @message, :method => 'delete', :confirm => 'Are you sure?' %></li>
   <% end %>
 <% end %>
 
-<h1><%=h @message.subject %></h1>
-
-<% if @message.wall %>
-  <p>
-    <strong>Wall:</strong>
-    <%= link_to @message.wall.name, person_path(@message.wall_id) %>
-  </p>
-<% end %>
+<h1><%=h @message.subject %> <% if @message.wall %>for <%=h @message.wall.name %><% end %></h1>
 
 <div class="message-details">
   <div style="width:32px;float:left;margin:4px;">

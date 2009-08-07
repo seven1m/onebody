@@ -19,7 +19,7 @@
     <br/>
     <% if @logged_in.admin?(:manage_pictures) %>
       <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox' %>
-      Don't show this upload set on my profile.
+      <%= label_tag 'remove_owner', "These are general community pictures &mdash; don't show my name on them (admin-only option).", :class => 'inline' %>
       <br/>
     <% end %>
     <%= submit_tag 'Upload!' %>

@@ -3,7 +3,7 @@
 <% if @people and @people.any? %>
 
   <p>
-    <%= @count %> <%= @count == 1 ? 'person' : 'people' %> found
+    <%= pluralize @count, 'person' %> found
     <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
       (not showing hidden people)
     <% end %>

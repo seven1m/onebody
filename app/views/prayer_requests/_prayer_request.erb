@@ -1,5 +1,5 @@
 <p>
-  <%= link_to req.person.name, req.person %> |
+  <%= link_to h(req.person.name), req.person %> |
   <%= req.created_at.to_s :date %>
   <% if @logged_in.can_edit?(req) %>
     <%= link_to '[edit]', edit_group_prayer_request_path(req.group, req), :class => 'discreet' %>

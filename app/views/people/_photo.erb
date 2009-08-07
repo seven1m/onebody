@@ -1,14 +1,16 @@
 <div>
   <% if @person.has_photo? %>
     <%= link_to image_tag(medium_person_photo_path(@person, :m => @person.updated_at.to_s(:number)), :alt => h(@person.name)),
-      large_person_photo_path(@person) %>
+      defined?(url) ? url : large_person_photo_path(@person) %>
   <% elsif @family and @family.has_photo? and params[:action] != 'edit' %>
-    <%= render :partial => 'families/photo' %>
+    <%= render :partial => 'families/photo', :locals => defined?(url) ? {:url => url} : nil %>
+  <% elsif me? and params[:controller] == 'people' and params[:action] == 'show' %>
+    <div id="profile-pic" class="profile-pic-<%= @person.gender.to_s == 'Female' ? 'woman' : 'man' %>" onclick="location.href = '<%= edit_person_path %>#picture'">
+      <%= link_to image_tag('person_picture.gif', :alt => 'Change Your Picture', :class => 'icon') + '<br/>Change<br/>Your Picture', edit_person_path + '#picture' %>
+    </div>
   <% else %>
+    <% if defined?(url) %><a href="<%= url_for(url) %>"><% end %>
     <%= render :partial => 'people/silhouette' %>
-    <% if me? and (params[:controller] == 'people' and params[:action] == 'show') %>
-      <br/>
-      <%= link_to image_tag('person_picture.gif', :alt => 'Upload your picture.', :class => 'icon') + ' Upload Your Picture', edit_person_path %>
-    <% end %>
+    <% if defined?(url) %></a><% end %>
   <% end %>
 </div>

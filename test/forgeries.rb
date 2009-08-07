@@ -95,10 +95,7 @@ module Forgeable
 end
 
 %w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest).each do |model|
-  # TODO: try this - eval "#{model}.class_eval { include Forgeable }"
   eval "#{model}.class_eval { include Forgeable }"
-  #eval model
-  #eval "class #{model}; include Forgeable; end"
 end
 
 class Person

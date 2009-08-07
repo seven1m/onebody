@@ -1,3 +1,8 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('eye.png', :alt => 'View Group', :class => 'icon') + ' View Group', @group %></li>
+  <li><%= link_to image_tag('delete.png', :alt => 'Delete Group', :class => 'icon') + ' Delete Group', @group, :confirm => 'Are you sure? This cannot be undone!', :method => 'delete' %></li>
+<% end %>
+
 <script type="text/javascript">
 //<![CDATA[
   SAFE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -24,7 +29,5 @@
 <% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
 
 <h1>Edit Group</h1>
-
-<%= render :partial => 'subnav' %>
 
 <%= render :partial => 'form' %>

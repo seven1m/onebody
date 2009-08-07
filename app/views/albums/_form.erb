@@ -2,8 +2,20 @@
   <%= form.error_messages %>
   <%= form.hidden_field :group_id %>
   <p>
-    <%= form.label :name %>         <%= form.text_field :name %>        <br/>
-    <%= form.label :description %> <%= form.text_area :description, :rows => 3 %><br/>
+    <%= form.label :name %>         <%= form.text_field :name %><br/>
+    <%= form.label :description %>  <%= form.text_area :description, :rows => 3 %><br/>
+    <% if @album.new_record? %>
+      <% if @logged_in.admin?(:manage_pictures) %>
+        <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox', :onclick => "$('album_is_public_true').disabled = $('album_is_public_false').disabled = this.checked; if(this.checked) $('album_is_public_true').checked = true;" %>
+        <%= label_tag 'remove_owner', "This is a general community album &mdash; don't show my name on the pictures (admin-only option).", :class => 'inline' %>
+        <br/>
+      <% end %>
+      <%= form.radio_button :is_public, true %><%= form.label :is_public_true,  'Public  - show this album on the "All Pictures" page and on my profile.', :class => 'inline' %><br/>
+      <%= form.radio_button :is_public, false %><%= form.label :is_public_false, 'Profile - show this album on my profile only.*', :class => 'inline' %><br/>
+    <% end %>
     <%= form.submit 'Save Album' %>
+  </p>
+  <p class="discreet">
+    *Pictures may still show on the activity feed of your friends and fellow group members.
   </p>
 <% end %>

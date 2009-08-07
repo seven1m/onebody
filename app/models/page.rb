@@ -82,12 +82,20 @@ class Page < ActiveRecord::Base
   class << self
     
     def find(id, *args)
-      if id.is_a?(String) and id !~ /\d/
+      if id.is_a?(String) and id !~ /^\d+$/
         returning find_by_path(id) do |page|
           raise ActiveRecord::RecordNotFound unless page
         end
       else
         super
+      end
+    end
+    
+    def find_by_id_or_path(id_or_path)
+      if id.is_a?(String) and id !~ /^\d+$/
+        find_by_path(id_or_path)
+      else
+        find_by_id(id_or_path)
       end
     end
     

@@ -1,7 +1,7 @@
 <% if @logged_in.can_edit?(@note) %>
   <% content_for :subnav do %>
-    <%= link_to 'Edit Note', edit_note_url(:id => @note), :class => 'discreet' %>
-    <%= link_to 'Delete Note', @note, :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
+    <%= link_to image_tag('pencil.png', :alt => 'Edit Note', :class => 'icon') + ' Edit Note', edit_note_url(:id => @note), :class => 'discreet' %>
+    <%= link_to image_tag('delete.png', :alt => 'Delete Note', :class => 'icon') + ' Delete Note', @note, :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
   <% end %>
 <% end %>
 
@@ -9,14 +9,20 @@
   <%= render :partial => 'people/photo' %>
   <p>
     posted <%= @note.created_at.to_time.to_s %>
-    <% if @note.group %>to <%= link_to @note.group.name, group_url(:id => @note.group) %><% end %>
-    by <%= link_to @note.person.name, person_url(:id => @note.person) %>
+    <% if @note.group %>to <%= link_to h(@note.group.name), group_url(:id => @note.group) %><% end %>
+    by <%= link_to h(@note.person.name), person_url(:id => @note.person) %>
   </p>
 <% end %>
 
 <h1><%=h @note.title %></h1>
 
-<div><%= white_list @note.body %></div>
+<div <% if @note.title.to_s.empty? and @note.body.length <= 200 %>class="note-content-big"<% end %>>
+  <%= white_list_with_removal auto_link(@note.body) %>
+</div>
+
+<% if @note.original_url %>
+  <p class="small">Note imported from <%= link_to h(domain_name_from_url(@note.original_url)), @note.original_url %>.</p>
+<% end %>
 
 <h2>Comments</h2>
 <%= render :partial => 'comments/comments', :locals => {:object => @note, :intro => 'about this note.'} %>

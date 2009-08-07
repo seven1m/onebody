@@ -1,0 +1,20 @@
+<% if Setting.get(:features, :notes) %>
+  <%= render :partial => 'streams/share_note' %>
+<% end %>
+
+<% if Setting.get(:features, :pictures) %>
+  <%= render :partial => 'streams/share_picture' %>
+<% end %>
+
+<% if Setting.get(:features, :verses) %>
+  <%= render :partial => 'streams/share_verse' %>
+<% end %>
+
+<% if Setting.get(:features, :news_by_users) or @logged_in.admin?(:manage_news) %>
+  <%= render :partial => 'streams/share_news' %>
+<% end %>
+
+<% if Setting.get(:features, :recipes) or
+  (Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications)) %>
+  <%= render :partial => 'streams/share_other' %>
+<% end %>

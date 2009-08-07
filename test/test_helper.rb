@@ -30,7 +30,7 @@ class ActiveSupport::TestCase
     assert !flash.empty?
     assert_response :redirect
     follow_redirect!
-    assert_template 'people/show'
+    assert_template 'streams/show'
     assert_select 'h1', Regexp.new(name)
   end
   

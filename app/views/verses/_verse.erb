@@ -1,16 +1,18 @@
 <div class="verse">
   <div class="verse-heading">
     <strong><%= link_to h(verse.reference), verse %></strong>
-    <% unless @person or verse.people.count == 0 %>
-      saved by <%= pluralize(verse.people.count, 'person', 'people') %>
+    <% unless @person %>
+      <% if verse.people.count > 0 %>
+        saved by <%= pluralize(verse.people.count, 'person', 'people') %>
+      <% end %>
     <% end %>
-    ::
-    <%= render :partial => 'tags/tags_with_delete', :locals => {:object => verse} %>
   </div>
   <div class="verse-body">
     <%=h verse.text %>
   </div>
-  <div class="comment-summary">
-    <%= render :partial => 'comments/comment_summary', :locals => {:object => verse} %>
-  </div>
+  <% unless @person %>
+    <div class="comment-summary">
+      <%= render :partial => 'comments/comment_summary', :locals => {:object => verse} %>
+    </div>
+  <% end %>
 </div>

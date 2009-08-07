@@ -197,7 +197,7 @@ td.tip {
 #sidebar {
 	background:#fff;
 	width:160px;
-	padding:10px 20px 20px 5px;
+	padding:20px 20px 20px 5px;
 	float:left;
 	color:#666;
 }
@@ -367,16 +367,14 @@ p {
 }
 
 h1 {
-	font-size: 250%;
+	font-size: 150%;
 	margin-bottom: 5px;
 	line-height: 20pt;
 }
 
-
-
 h2 {
 	margin-top: 20px;
-	font:190% Arial;
+	font:150% Arial;
 	color:#79B933;
 	border-bottom:2px solid #f6f6f6;
 }
@@ -473,14 +471,7 @@ input {
 	padding:4px;
 	font:90% Verdana;
 	color:#777;
-	margin: 5px;
-}
-
-select {
-	padding:4px;
-	font:90% Verdana;
-	color:#777;
-	margin: 5px;
+	margin: 0 5px 0 0;
 }
 
 textarea {
@@ -489,7 +480,7 @@ textarea {
 	font:90% Verdana;
 	display:block;
 	color:#777;
-	margin: 5px;
+	margin: 0 5px 5px 0;
 }
 
 blockquote p {
@@ -634,4 +625,19 @@ input[type=checkbox], input[type=radio] {
   border: none;
   padding-bottom: 0;
   vertical-align: middle;
+}
+
+#share .section {
+  background-color: #eee;
+}
+
+#share h2.tab div.not-selected {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  color: #999;
+}
+
+#share h2.tab div.selected {
+  background-color: #eee;
+  border-bottom: 1px solid #eee;
 }

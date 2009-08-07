@@ -82,10 +82,6 @@ class Site < ActiveRecord::Base
     update_url
   end
   
-  def add_tasks
-    # TODO: no longer used - will be removed in 0.9.0
-  end
-  
   def add_pages
     return unless Page.table_exists?
     Page.without_global_scope do
@@ -117,7 +113,6 @@ class Site < ActiveRecord::Base
   end
   
   def add_publications_group
-    # TODO: fix this
     was = Site.current
     Site.current = self
     Group.create! :name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true

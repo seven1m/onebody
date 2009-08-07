@@ -5,6 +5,7 @@
 #  id           :integer       not null, primary key
 #  group_id     :integer       
 #  person_id    :integer       
+#  to_person_id :integer       
 #  created_at   :datetime      
 #  updated_at   :datetime      
 #  parent_id    :integer       
@@ -12,7 +13,6 @@
 #  body         :text          
 #  share_email  :boolean       
 #  wall_id      :integer       
-#  to_person_id :integer       
 #  code         :integer       
 #  site_id      :integer       
 #  html_body    :text          
@@ -230,6 +230,44 @@ class Message < ActiveRecord::Base
   
   def code_hash
     Digest::MD5.hexdigest(code.to_s)[0..5]
+  end
+  
+  def streamable?
+    person_id and not to_person_id and (wall_id or group)
+  end
+  
+  after_create :create_as_stream_item
+  
+  def create_as_stream_item
+    return unless streamable?
+    StreamItem.create!(
+      :title           => wall_id ? nil : subject,
+      :body            => html_body.to_s.any? ? html_body : body.gsub(/\n/, '<br/>'),
+      :wall_id         => wall_id,
+      :person_id       => person_id,
+      :group_id        => group_id,
+      :streamable_type => 'Message',
+      :streamable_id   => id,
+      :created_at      => created_at,
+      :shared          => (!wall || wall.share_activity?) && person.share_activity? && !(group && group.hidden?)
+    )
+  end
+  
+  after_update :update_stream_items
+  
+  def update_stream_items
+    return unless streamable?
+    StreamItem.find_all_by_streamable_type_and_streamable_id('Message', id).each do |stream_item|
+      stream_item.title = wall_id ? nil : subject
+      stream_item.body  = body
+      stream_item.save
+    end
+  end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'Message', :streamable_id => id)
   end
   
   def self.preview(attributes)

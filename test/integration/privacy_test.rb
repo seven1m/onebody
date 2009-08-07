@@ -5,6 +5,7 @@ class PrivacyTest < ActionController::IntegrationTest
   
   def test_help_for_parents_with_hidden_children
     sign_in_as people(:jeremy)
+    get "/people/#{people(:jeremy).id}"
     assert_select '#sidebar', /Where are my kids\?/
     assert_select '#sidebar a[href=?]', /\/pages\/help\/safeguarding_children/
     assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)

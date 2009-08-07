@@ -23,11 +23,11 @@
 #  created_at             :datetime      
 #  updated_at             :datetime      
 #  site_id                :integer       
-#  manage_checkin         :boolean       
 #  edit_pages             :boolean       
 #  import_data            :boolean       
 #  export_data            :boolean       
 #  run_reports            :boolean       
+#  manage_news            :boolean       
 #
 
 class Admin < ActiveRecord::Base

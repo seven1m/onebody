@@ -1,1 +1,0 @@
-page.replace_html "service_categories_column", :partial => "edit_service_categories"

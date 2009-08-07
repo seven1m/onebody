@@ -1,8 +1,7 @@
 <% if @message.to %>
-  <h1>Private Message to <%=h @message.to.name %></h1>
+  <h1>Email Message to <%=h @message.to.name %></h1>
   <p>
-    This will send an email to <%=h @person.name %>.
-    <strong>Please respect the privacy of others. Abusing this system will get you banned from the site.</strong>
+    This will send a <em>private</em> message.
   </p>
 <% elsif @message.group %>
   <h1>Group Message to <%=h @message.group.name %></h1>

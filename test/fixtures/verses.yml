@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: verses
+#
+#  id          :integer       not null, primary key
+#  reference   :string(50)    
+#  text        :text          
+#  translation :string(10)    
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#  book        :integer       
+#  chapter     :integer       
+#  verse       :integer       
+#  site_id     :integer       
+#
+
+john_316:
+  id: 1
+  reference: John 3:16
+  text: For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.
+  book: 42
+  chapter: 3
+  verse: 16
+  site_id: 1
+  translation: WEB

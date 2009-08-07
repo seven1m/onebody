@@ -1,11 +1,38 @@
-<p><%= link_to '&laquo; back to group', group_path(:id => @group, :anchor => 'prayerrequests') %></p>
-
-<h1><%= params[:answered] ? 'Answered ' : '' %>Prayer Requests</h1>
-
-<% if @reqs.any? %>
-  <% @reqs.each do |req| %>
-    <%= render :partial => 'prayer_request', :locals => {:req => req} %>
-  <% end %>
-<% else %>
-  <p><em>none yet</em></p>
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' Back to ' + h(@group.name), @group %></li>
 <% end %>
+
+<h1>
+  <% if params[:answered] %>Answered<% end %>
+  Prayer Requests in <%= link_to h(@group.name), @group %>
+</h1>
+
+<% @reqs.each do |req| %>
+
+  <div class="stream-item">
+    <div class="stream-item-meta">
+      <% if req.person %>
+        <span class="nowrap">
+          <a href="<%= url_for req.person %>">
+            <%= image_tag req.person.has_photo? ? tn_person_photo_path(req.person) : (req.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+              :alt => req.person.name %>
+          </a>
+        </span>
+      <% else %>
+        <%= image_tag 'man.tn.gif', :alt => '' %>
+      <% end %>
+      <div style="clear:left;"></div>
+    </div>
+    <div class="stream-item-body">
+      <div><%= white_list_with_removal auto_link(req.body) %></div>
+      <%= render :partial => 'meta', :locals => {:req => req} %>
+    </div>
+  </div>
+
+<% end %>
+
+<%= will_paginate @reqs %>
+
+<style type="text/css">
+  .stream-item { display: block; }
+</style>

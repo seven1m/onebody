@@ -1,0 +1,5 @@
+<p class="timestamp">
+  <% if req.person %>posted by <%= link_to h(req.person.name), req.person %><% end %>
+  <% if req.group %>in <%= link_to h(req.group.name), req.group %><% end %>
+  <%= time_ago_in_words req.created_at %> ago
+</p>

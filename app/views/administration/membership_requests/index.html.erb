@@ -3,8 +3,8 @@
 <table>
   <% @reqs_by_group.each do |group, reqs| %>
     <tr>
-      <td><%= group ? link_to(group.name, group_url(:id => group)) : '(group deleted)' %></td>
-      <td><%= link_to "#{reqs.length} #{reqs.length == 1 ? 'request' : 'requests'}", group_memberships_path(group) %></td>
+      <td><%= group ? link_to(h(group.name), group) : '(group deleted)' %></td>
+      <td><%= link_to pluralize(reqs.length, 'request'), group_memberships_path(group) %></td>
     </tr>
   <% end %>
 </table>

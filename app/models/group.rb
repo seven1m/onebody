@@ -4,16 +4,16 @@
 #
 #  id                        :integer       not null, primary key
 #  name                      :string(100)   
-#  description               :string(500)   
+#  description               :text          
 #  meets                     :string(100)   
 #  location                  :string(100)   
-#  directions                :string(500)   
-#  other_notes               :string(500)   
+#  directions                :text          
+#  other_notes               :text          
+#  category                  :string(50)    
 #  creator_id                :integer       
+#  private                   :boolean       
 #  address                   :string(255)   
 #  members_send              :boolean       default(TRUE)
-#  private                   :boolean       
-#  category                  :string(50)    
 #  leader_id                 :integer       
 #  updated_at                :datetime      
 #  hidden                    :boolean       
@@ -41,6 +41,7 @@ class Group < ActiveRecord::Base
   has_many :prayer_requests, :order => 'created_at desc'
   has_many :attendance_records
   has_many :albums
+  has_many :stream_items, :dependent => :destroy
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
@@ -103,7 +104,7 @@ class Group < ActiveRecord::Base
   end
   alias_method_chain :leader, :guessing
   
-  def get_options_for(person, create_if_missing=false) # TODO: remove create_if_missing option (not used)
+  def get_options_for(person)
     memberships.find_by_person_id(person.id)
   end
   
@@ -158,26 +159,40 @@ class Group < ActiveRecord::Base
   
   def gcal_url
     if gcal_private_link.to_s.any?
-      account = gcal_account
       if token = gcal_token
-        "http://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{account}&amp;color=%23A32929&amp;ctz=UTC#{Time.zone.utc_offset}"
+        "http://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{gcal_account}&amp;color=%23A32929&amp;ctz=UTC#{Time.zone.utc_offset}"
       end
     end
   end
   
   def gcal_account
-  	account = gcal_private_link.to_s.match(/[^\/]+[@(%40)][^\/]+/).to_s.sub(/@/, '%40')
-	if account[0,5] == "embed"
-		idx1 = (account =~ /src=/) + 4
-		idx2 = (account =~ /\&/) - idx1
-		account = account[idx1, idx2]
-	end
-	account
+  	gcal_private_link.to_s.match(/[a-z0-9]+(@|%40)[a-z\.]+/).to_s.sub(/@/, '%40')
   end
   
   def gcal_token
-  	gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1]
-  end 
+  	gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1] rescue ''
+  end
+  
+  def shared_stream_items(count)
+    items = stream_items.all(
+      :order => 'stream_items.created_at desc',
+      :limit => count,
+      :include => :person
+    )
+    # do our own eager loading here...
+    comment_people_ids = items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
+    comment_people = Person.all(
+      :conditions => ["id in (?)", comment_people_ids],
+      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at' # only what's needed
+    ).inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
+    items.each do |stream_item|
+      stream_item.context['comments'].to_a.each do |comment|
+        comment['person'] = comment_people[comment['person_id']]
+      end
+      stream_item.readonly!
+    end
+    items
+  end
   
   before_destroy :remove_parent_of_links
   

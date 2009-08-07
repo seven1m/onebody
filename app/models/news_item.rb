@@ -6,11 +6,15 @@
 #  title      :string(255)   
 #  link       :string(255)   
 #  body       :text          
-#  created_at :datetime      
+#  published  :datetime      
 #  active     :boolean       default(TRUE)
 #  site_id    :integer       
 #  source     :string(255)   
 #  person_id  :integer       
+#  sequence   :integer       
+#  expires_at :datetime      
+#  created_at :datetime      
+#  updated_at :datetime      
 #
 
 class NewsItem < ActiveRecord::Base
@@ -19,12 +23,44 @@ class NewsItem < ActiveRecord::Base
   belongs_to :site
   
   scope_by_site_id
+  acts_as_logger LogItem
   
   def name; title; end
   
   before_save :update_published_date
+  
   def update_published_date
    self.published = Time.now if published.nil?
+  end
+  
+  after_create :create_as_stream_item
+  
+  def create_as_stream_item
+    StreamItem.create!(
+      :title           => title,
+      :body            => body,
+      :person_id       => person_id,
+      :streamable_type => 'NewsItem',
+      :streamable_id   => id,
+      :created_at      => published,
+      :shared          => true
+    )
+  end
+  
+  after_update :update_stream_items
+  
+  def update_stream_items
+    StreamItem.find_all_by_streamable_type_and_streamable_id('NewsItem', id).each do |stream_item|
+      stream_item.title = title
+      stream_item.body  = body
+      stream_item.save
+    end
+  end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'NewsItem', :streamable_id => id)
   end
   
   class << self
@@ -47,7 +83,7 @@ class NewsItem < ActiveRecord::Base
     end  
     
     def get_feed_items
-      if url = Setting.get(:url, :news_rss)
+      if url = Setting.get(:url, :news_feed)
         begin
           feed = Feedzirra::Feed.fetch_and_parse(url)
           feed.entries

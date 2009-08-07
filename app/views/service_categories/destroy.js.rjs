@@ -1,1 +1,0 @@
-page.remove "edit_service_category_#{@service_category.id}"

@@ -25,7 +25,21 @@ class PicturesController < ApplicationController
   end
 
   def create
-    @album = Album.find(params[:album_id])
+    if params[:group_id]
+      unless @group = Group.find(params[:group_id]) and @group.pictures? \
+        and (@logged_in.member_of?(@group) or @logged_in.can_edit?(@group))
+        render :text => 'There was an error.', :layout => true, :status => 500
+        return
+      end
+    end
+    if params[:album_id].to_s =~ /^\d+$/
+      @album = (@group ? @group.albums : Album).find(params[:album_id])
+    elsif not ['', '!'].include?(params[:album_id].to_s)
+      @album = (@group ? @group.albums : @logged_in.albums).create(:name => params[:album_id])
+    else
+      render :text => 'There was an error finding the album. Please try again.', :layout => true, :status => 500
+      return
+    end
     success = fail = 0
     (1..10).each do |index|
       if ((pic = params["picture#{index}"]).read rescue '').length > 0
@@ -34,6 +48,9 @@ class PicturesController < ApplicationController
         picture.photo = pic
         if picture.has_photo?
           success += 1
+          if @album.pictures.count == 1 # first pic should be default cover pic
+            picture.update_attribute(:cover, true)
+          end
         else
           fail += 1
           picture.log_item.destroy rescue nil
@@ -43,7 +60,7 @@ class PicturesController < ApplicationController
     end
     flash[:notice] = "#{success} picture(s) saved"
     flash[:notice] += " (#{fail} not saved due to errors)" if fail > 0
-    redirect_to @album
+    redirect_to params[:redirect_to] || @album
   end
   
   # rotate / cover selection

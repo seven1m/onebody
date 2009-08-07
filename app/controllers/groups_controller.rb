@@ -49,8 +49,9 @@ class GroupsController < ApplicationController
     
   def show
     @group = Group.find(params[:id])
+    @stream_items = @group.shared_stream_items(20)
     @messages = @group.messages.find :all, :limit => 25, :select => '*, (select count(*) from messages r where r.parent_id=messages.id and r.to_person_id is null) as reply_count, (select count(*) from attachments where message_id=messages.id or message_id in (select id from messages r where r.parent_id=messages.id)) as attachment_count'
-    @notes = @group.notes.find_all_by_deleted(false, :order => 'created_at desc', :limit => 10)
+    @notes = @group.notes.all(:order => 'created_at desc', :limit => 10)
     @prayer_requests = @group.prayer_requests.find(:all, :conditions => "answer = '' or answer is null", :order => 'created_at desc')
     @answered_prayer_count = @group.prayer_requests.count('*', :conditions => "answer != '' and answer is not null")
     @attendance_dates = @group.attendance_dates

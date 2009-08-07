@@ -3,9 +3,9 @@ class PrayerRequestsController < ApplicationController
   def index
     @group = Group.find(params[:group_id])
     if params[:answered]
-      @reqs = @group.prayer_requests.find(:all, :conditions => "answer != '' and answer is not null", :order => 'created_at desc')
+      @reqs = @group.prayer_requests.paginate(:all, :conditions => "answer != '' and answer is not null", :order => 'created_at desc', :page => params[:page])
     else
-      @reqs = @group.prayer_requests.all(:order => 'created_at desc')
+      @reqs = @group.prayer_requests.paginate(:order => 'created_at desc', :page => params[:page])
     end
   end
 
@@ -19,7 +19,7 @@ class PrayerRequestsController < ApplicationController
   def new
     @group = Group.find(params[:group_id])
     if @logged_in.member_of?(@group)
-      @req = @group.prayer_requests.new(:person_id => @logged_in)
+      @req = @group.prayer_requests.new(:person_id => @logged_in.id)
     else
       render :text => 'You cannot post a prayer request in this group because you are not a member.', :layout => true, :status => 401
     end
@@ -31,7 +31,7 @@ class PrayerRequestsController < ApplicationController
       params[:prayer_request][:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
       @req = @group.prayer_requests.create(params[:prayer_request].merge(:person_id => @logged_in.id))
       unless @req.errors.any?
-        redirect_to group_path(@req.group, :anchor => 'prayerrequests')
+        redirect_to group_path(@req.group, :anchor => 'prayer')
       else
         new; render :action => 'new'
       end
@@ -54,7 +54,7 @@ class PrayerRequestsController < ApplicationController
     if @logged_in.member_of?(@group) and @logged_in.can_edit?(@req)
       params[:prayer_request][:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
       if @req.update_attributes(params[:prayer_request])
-        redirect_to group_path(@req.group, :anchor => 'prayerrequests')
+        redirect_to group_path(@req.group, :anchor => 'prayer')
       else
         edit; render :action => 'edit'
       end
@@ -68,7 +68,7 @@ class PrayerRequestsController < ApplicationController
     @req = PrayerRequest.find(params[:id])
     if @logged_in.member_of?(@group) and @logged_in.can_edit?(@req)
       @req.destroy
-      redirect_to group_path(@group, :anchor => 'prayerrequests')
+      redirect_to group_path(@group, :anchor => 'prayer')
     else
       render :text => 'You cannot delete this prayer request.', :layout => true, :status => 401
     end

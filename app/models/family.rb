@@ -3,8 +3,10 @@
 # Table name: families
 #
 #  id                 :integer       not null, primary key
+#  legacy_id          :integer       
 #  name               :string(255)   
 #  last_name          :string(255)   
+#  suffix             :string(25)    
 #  address1           :string(255)   
 #  address2           :string(255)   
 #  city               :string(255)   
@@ -21,7 +23,6 @@
 #  share_email        :boolean       
 #  share_birthday     :boolean       default(TRUE)
 #  share_anniversary  :boolean       default(TRUE)
-#  legacy_id          :integer       
 #  updated_at         :datetime      
 #  wall_enabled       :boolean       default(TRUE)
 #  visible            :boolean       default(TRUE)
@@ -48,6 +49,14 @@ class Family < ActiveRecord::Base
   
   sharable_attributes :mobile_phone, :address, :anniversary
   
+  validates_uniqueness_of :barcode_id, :allow_nil => true
+  validates_length_of :barcode_id, :in => 10..50, :allow_nil => true
+  validates_format_of :barcode_id, :with => /^\d+$/
+  
+  def barcode_id=(b)
+    write_attribute(:barcode_id, b.to_s.strip.any? ? b : nil)
+  end
+  
   def address
     address1.to_s + (address2.to_s.any? ? "\n#{address2}" : '')
   end
@@ -62,13 +71,15 @@ class Family < ActiveRecord::Base
     end
   end
   
+  # not HTML-escaped!
   def pretty_address
     a = ''
     a << address1.to_s   if address1.to_s.any?
     a << ", #{address2}" if address2.to_s.any?
-    a << ", #{city}"     if city.to_s.any?
-    a << ", #{state}"    if state.to_s.any?
-    a << "  #{zip}"      if zip.to_s.any?
+    if city.to_s.any? and state.to_s.any?
+      a << "\n#{city}, #{state}"
+      a << "  #{zip}" if zip.to_s.any?
+    end
   end
   
   def short_zip

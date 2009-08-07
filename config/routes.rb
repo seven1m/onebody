@@ -4,6 +4,8 @@ unless defined?(DISABLE_ROUTES)
     PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
 
     map.home '', :controller => 'pages', :action => 'show_for_public'
+    
+    map.resource :stream
   
     map.resource :account, :member => {:verify_code => :any, :select => :any}
   
@@ -15,13 +17,18 @@ unless defined?(DISABLE_ROUTES)
       people.resources :remote_accounts, :member => {:sync => :post}
       people.resources :groupies
       people.resources :services
+      people.resources :albums
+      people.resources :feeds
+      people.resources :notes
+      people.resources :verses
+      people.resources :recipes
       people.resource :account, :member => {:verify_code => :any, :select => :any}
       people.resource :sync
       people.resource :privacy
       people.resource :blog
       people.resource :wall, :member => {:with => :get}
       people.resource :photo, :member => PHOTO_SIZE_METHODS
-	  people.resource :calendar
+      people.resource :calendar
     end
   
     map.resources :families,
@@ -38,6 +45,7 @@ unless defined?(DISABLE_ROUTES)
       groups.resources :attendance, :collection => {:batch => :post}
       groups.resources :albums
       groups.resource :photo, :member => PHOTO_SIZE_METHODS
+      groups.resource :calendar
     end
   
     map.resources :service_categories, :collection => {:batch_edit => :get, :close_batch_edit => :get}
@@ -47,6 +55,8 @@ unless defined?(DISABLE_ROUTES)
         pictures.resource :photo, :member => PHOTO_SIZE_METHODS
       end
     end
+    
+    map.resources :pictures
  
     map.resources :recipes do |recipes|
       recipes.resource :photo, :member => PHOTO_SIZE_METHODS
@@ -56,6 +66,7 @@ unless defined?(DISABLE_ROUTES)
       messages.resources :attachments
     end
   
+    map.resources :feeds
     map.resources :verses
     map.resources :publications
     map.resources :notes
@@ -64,12 +75,18 @@ unless defined?(DISABLE_ROUTES)
     map.resources :news, :singular => 'news_item'
     map.resources :comments
     map.resources :attachments, :member => {:get => :get}
+    map.resources :prayer_requests
+    map.resources :external_groups
   
     map.resource :session
     map.resource :search, :member => {:opensearch => :get}
     map.resource :printable_directory
-    map.resource :feed
     map.resource :privacy
+    map.resource :tour
+
+    map.bible 'bible/:book/:chapter', :controller => 'bibles', :action => 'show',
+      :book => 'x', :chapter => 0,
+      :requirements => {:book => /[A-Za-z0-9 \+(%20)]+/, :chapter => /\d{1,3}/}
   
     map.resources :pages, :as => 'pages/admin' do |pages|
       pages.resources :attachments

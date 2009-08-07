@@ -1,4 +1,4 @@
-<h1><%= @person.name_possessive %> Groupies</h1>
+<h1><%=h @person.name_possessive %> Groupies</h1>
 
 <% if @people.any? %>
   <ul style="list-style-type:none;">
@@ -7,7 +7,7 @@
         <a href="<%= url_for person %>">
           <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
         </a>
-        <%= link_to person.name, person %>
+        <%= link_to h(person.name), person %>
       </li>
     <% end %>
   </ul>

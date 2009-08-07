@@ -1,7 +1,30 @@
 class AlbumsController < ApplicationController
 
   def index
-    @albums = Album.find_all_by_group_id(nil, :order => 'created_at desc')
+    if params[:person_id]
+      @person = Person.find(params[:person_id])
+      if @logged_in.can_see?(@person)
+        @albums = @person.albums.all
+      else
+        render :text => 'You are not authorized to view this person.', :layout => true, :status => 401
+      end
+    elsif params[:group_id]
+      @group = Group.find(params[:group_id])
+      if @logged_in.can_see?(@group)
+        @albums = @group.albums.all
+      else
+        render :text => 'You are not authorized to view this group.', :layout => true, :status => 401
+      end
+    else
+      @albums = (
+        Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc') +
+        Album.all(:conditions => ["person_id in (?)", @logged_in.all_friend_and_groupy_ids])
+      ).uniq
+    end
+    respond_to do |format|
+      format.html
+      format.js { render :text => @albums.to_json }
+    end
   end
 
   def show
@@ -22,9 +45,12 @@ class AlbumsController < ApplicationController
   end
   
   def create
-    @album = Album.new(params[:album])
+    @album = Album.new(params[:album].merge(:person_id => @logged_in.id))
     if @album.group and !can_add_pictures_to_group?(@album.group)
       @album.errors.add_to_base('Cannot add pictures in this group.')
+    end
+    if params['remove_owner'] and @logged_in.admin?(:manage_pictures)
+      @album.person = nil
     end
     if @album.save
       flash[:notice] = 'Album saved.'

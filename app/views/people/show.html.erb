@@ -1,7 +1,3 @@
-<% content_for :head do %>
-  <link rel="alternate" type="application/atom+xml" title="Activity Feed" href="<%= url_for feed_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
-<% end %>
-
 <% content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">
@@ -12,10 +8,12 @@
   <% if @logged_in.can_edit? @person %>
     <%= render :partial => 'edit_person' %>
   <% end %>
-  <% unless me? %>
+  <% if me? %>
+    <% if Setting.get(:features, :community_google_calendar).to_s.any? %><li><%= link_to image_tag('calendar.png', :alt => 'My Calendar', :class => 'icon') + ' My Calendar', person_calendar_path(@person) %></li><% end %>
+  <% else %>
     <%= render :partial => 'friendship' %>
     <% if @person.messages_enabled? %>
-      <li><%= link_to image_tag('message.gif', :alt => 'Send a Private Message', :class => 'icon') + ' Private Message', new_message_path(:to_person_id => @person) %></li>
+      <li><%= link_to image_tag('message.gif', :alt => 'Send Email', :class => 'icon') + ' Send Email', new_message_path(:to_person_id => @person) %></li>
     <% end %>
     <% if @logged_in.can_sync_remotely? %>
       <li><%= link_to_remote 'Sync &raquo;', :url => person_sync_path(@person, :where => 'extra'), :method => 'get' %></li>
@@ -25,6 +23,13 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
+  <h1><%=h @person.name %></h1>
+  <%= render :partial => 'person_type' %>
+  <!--
+  <% unless @person.website.blank? %>
+    <p><%= link_to 'Website', @person.website %></p>
+  <% end %>
+  -->
   <%= render :partial => 'family' %>
   <%= render :partial => 'hidden_children' %>
   <% if Setting.get(:features, :friends) %>
@@ -38,101 +43,119 @@
   <% end %>
 <% end %>
 
-<div id="extra" style="display:none;" class="highlight"></div>
+  <%# render :partial => 'map' %>
 
-<% unless @person.visible?(@family) %>
-  <p class="alert">
-    <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-    This profile is hidden!
-  </p>
-<% end %>
-
-<% if me? and @logged_in.pending_friendship_requests.count > 0 %>
-  <p class="highlight">
-    You have <%= link_to 'pending friend requests', person_friends_path(@person) %>.
-  </p>
-<% end %>
-
-<%= render :partial => 'map' %>
-
-<% if me? %>
-  <div id="recently-container"><div id="recently_content"></div></div>
-<% end %>
-
-<h1>
-  <%=h @person.name %>
-  <% if @logged_in.can_edit? @person %>
-    <%= link_to 'edit', edit_person_path(@person), :class => 'discreet' %>
+  <% unless @person.visible?(@family) %>
+    <p>
+      <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+      This profile is hidden.
+    </p>
   <% end %>
-</h1>
 
-<%= render :partial => 'person_type' %>
-
-<%= render :partial => 'pending_updates' %>
-
-<%= render :partial => 'details' %>
-
-<% unless @person.messages_enabled? %>
-  <p><em>Private messaging is not enabled for <%=h @person.first_name %>.</em></p>
-<% end %>
-
-<h2 class="profile tab" id="about">About</h2>
-<div id="about_content" class="section">
-  <% if @person.about.to_s.any? %>
-    <%= preserve_breaks @person.about %>
-  <% else %>
+  <%= render :partial => 'pending_updates' %>
+  
+  <div id="share" style="margin-bottom:20px;display:none;">
     <% if me? %>
-      <p><em>Write something <%= link_to 'about yourself', edit_person_path(@person, :anchor => 'about') %>.</em></p>
-    <% else %>
-      <p><em>Nothing here yet!</em></p>
+      <%= render :partial => 'streams/share' %>
+    <% elsif @person.wall_enabled? %>
+      <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => 'Message', :class => 'icon') %> Message</h2>
+      <div class="section">
+        <% form_for Message.new(:wall => @person) do |form| %>
+          <%= form.hidden_field :wall_id %>
+          <p>
+            <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
+            Leave a message for <%=h @person.first_name %>:
+            <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', 'Public', :class => 'inline' %>
+            <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
+            <% unless @person.messages_enabled? %>(disabled)<% end %>
+            <br/>
+            <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
+            <%= form.submit 'Save Message', :id => 'note_submit' %>
+            <span class="small discreet">
+              This message will be visible to anyone who can see
+              <%=h @person.first_name_possessive %> profile.
+            </span>
+          </p>
+        <% end %>
+      </div>
     <% end %>
+    <h2 class="tab" id="info"><%= image_tag('information.png', :alt => 'Info', :class => 'icon') %> Info</h2>
+    <div class="section">
+      <%= render :partial => 'details' %>
+    </div>
+  </div>
+
+
+<div style="float:right;width:150px;">
+  <ul id="my-stuff">
+    <% if Setting.get(:features, :notes    ) %><li><%= link_to image_tag('note.png',     :alt => 'My Pictures', :class => 'icon') + ' My Notes',    person_notes_path(@person)   %></li><% end %>
+    <% if Setting.get(:features, :pictures ) %><li><%= link_to image_tag('picture.png',  :alt => 'My Pictures', :class => 'icon') + ' My Pictures', person_albums_path(@person)  %></li><% end %>
+    <% if Setting.get(:features, :verses   ) %><li><%= link_to image_tag('verse.png',    :alt => 'My Verses',   :class => 'icon') + ' My Verses',   person_verses_path(@person)  %></li><% end %>
+    <% if Setting.get(:features, :recipes  ) %><li><%= link_to image_tag('recipe.png',   :alt => 'My Recipes',  :class => 'icon') + ' My Recipes',  person_recipes_path(@person) %></li><% end %>
+    <% if @person.wall_enabled?              %><li><%= link_to image_tag('comments.png', :alt => 'My Messages', :class => 'icon') + ' My Messages', person_wall_path(@person)    %></li><% end %>
+  </ul>
+</div>
+
+<%# Main Content %>
+<div style="margin-right:200px;" id="profile-body">
+  
+  <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
+
+  <% if nil and Setting.get(:features, :verses) and @verses.any? %>
+    <h2 class="profile tab" id="verses">Verses</h2>
+    <div id="verses_content" class="section">
+      <%= render :partial => @verses %>
+    </div>
   <% end %>
+
+  <% if nil %>
+
+  <h2 class="profile tab" id="about">About</h2>
+  <div id="about_content" class="section">
+    <% if @person.about.to_s.any? %>
+      <%= preserve_breaks @person.about %>
+    <% else %>
+      <% if me? %>
+        <p><em>Write something <%= link_to 'about yourself', edit_person_path(@person, :anchor => 'about') %>.</em></p>
+      <% else %>
+        <p><em>Nothing here yet!</em></p>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @person.testimony.to_s.any? %>
+    <h2 class="profile tab" id="testimony">Testimony</h2>
+    <div id="testimony_content" class="section">
+      <%= preserve_breaks @person.testimony %>
+      <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
+    </div>
+  <% end %>
+
+  <h2 class="profile tab" id="favorites">Favorites</h2>
+  <div id="favorites_content" class="section">
+    <%= render :partial => 'favorites' %>
+  </div>
+  
+  <% end %>
+
 </div>
-
-<% if @person.testimony.to_s.any? %>
-  <h2 class="profile tab" id="testimony">Testimony</h2>
-  <div id="testimony_content" class="section">
-    <%= preserve_breaks @person.testimony %>
-    <p><%= link_to 'Read more testimonies...', search_path(:testimony => true) %></p>
-  </div>
-<% end %>
-
-<% if Setting.get(:features, :blog) %>
-  <h2 class="profile tab" id="blog">Blog</h2>
-  <div id="blog_content" class="section">
-    <%= render :partial => 'blogs/blog' %>
-  </div>
-<% end %>
-
-<h2 class="profile tab" id="favorites">Favorites</h2>
-<div id="favorites_content" class="section">
-  <%= render :partial => 'favorites' %>
-</div>
-
-<% if @person.wall_enabled? %>
-  <h2 class="profile tab" id="wall">Wall</h2>
-  <div id="wall_content" class="section">
-    <%= render :partial => 'walls/wall' %>
-  </div>
-<% end %>
-
-<% if me? %>
-  <script type="text/javascript">
-    // load activity box (recently)
-    new Ajax.Updater(
-      'recently_content',
-      '<%= feed_path %>',
-      {method: 'get', onLoading:function(){$('recently_content').innerHTML='<img src="/images/spinner.gif" class="icon"/>'}}
-    );
-  </script>
-<% end %>
-
+  
 <% if @show_map %>
   <%= render :partial => 'map_scripts' %>
 <% end %>
 
-<% if Setting.get(:appearance, :tabbed_profile) %>
-  <%= stylesheet_link_tag 'tabs.css' %>
-  <%= javascript_include_tag 'tabs.js' %>
-  <script type="text/javascript"> set_up() </script>
-<% end %>
+<style type="text/css">
+  .stream-item { display: block; }
+</style>
+
+<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@person.id) %>'; </script>
+<%= javascript_include_tag 'load_albums.js' %>
+
+<%= stylesheet_link_tag 'tabs.css' %>
+<%= javascript_include_tag 'tabs.js' %>
+<script type="text/javascript">
+  set_up_tabs();
+  Element.show('share');
+</script>
+
+<% if session[:touring] %><%= tour_popup('Profile Tab', '/pages/help/tour_profile', 450, 'right') %><% end %>

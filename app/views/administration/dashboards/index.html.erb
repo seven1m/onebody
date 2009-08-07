@@ -21,7 +21,7 @@
     You are a super administrator (configured in <%= link_to 'settings', administration_settings_path %>).
   <% else %>
     You have been an administrator since <%= @logged_in.admin.created_at.to_time.to_s :date %>.
-      You have the privileges: <%= @privileges.any? ? @privileges.to_sentence : 'none' %>.
+      You have the privileges: <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
   <% end %>
 </p>
 
@@ -39,7 +39,7 @@
   <h2>Groups</h2>
   
   <p <% if @group_count > 0 %>class="very-strong"<% end %>>
-    <%= @group_count %> pending <%= @group_count == 1 ? 'group' : 'groups' %>
+    <%= @group_count %> pending <%= pluralize @group_count, 'group' %>
   </p>
   
   <p><%= link_to 'Click here', administration_updates_path %> to review pending groups.</p>
@@ -47,7 +47,7 @@
   <h2>Group Memberships</h2>
   
   <p <% if @membership_request_count > 0 %>class="very-strong"<% end %>>
-    <%= @membership_request_count %> pending <%= @membership_request_count == 1 ? 'membership request' : 'membership requests' %>
+    <%= @membership_request_count %> pending <%= pluralize @membership_request_count, 'membership request' %>
   </p>
   
   <p><%= link_to 'Click here', administration_membership_requests_path %> to review pending membership requests.</p>
@@ -57,7 +57,7 @@
   <h2>Log</h2>
   
   <p <% if @flag_count > 0 %>class="very-strong"<% end %>>
-    <%= @flag_count %> flagged <%= @flag_count == 1 ? 'item' : 'items' %>
+    <%= @flag_count %> flagged <%= pluralize @flag_count, 'item' %>
   </p>
   
   <p><%= link_to 'Click here', administration_log_items_path %> to review the log.</p>

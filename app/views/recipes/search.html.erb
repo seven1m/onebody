@@ -1,4 +1,3 @@
-<%= render :partial => 'shares/subnav' %>
 <div id="searchresults">
   <h1>Search Results</h1>
 
@@ -10,8 +9,8 @@
       <% for recipe in @items %>
         <li>
           <%= link_to h(recipe.title), recipe %> &nbsp; &nbsp; &mdash; &nbsp; &nbsp;
-          <small><%= @mark_term ? highlight(recipe.description, @mark_term) : h(recipe.description) %></small><br/>
-          <div class="smaller"><%= @mark_term ? highlight(recipe.ingredients, @mark_term) : h(recipe.ingredients) %></div>
+          <small><%= @mark_term ? highlight(h(recipe.description), @mark_term) : h(recipe.description) %></small><br/>
+          <div class="smaller"><%= @mark_term ? highlight(h(recipe.ingredients), @mark_term) : h(recipe.ingredients) %></div>
         </li>
       <% end %>
       </ul>

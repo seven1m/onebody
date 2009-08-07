@@ -24,10 +24,14 @@ class Note < ActiveRecord::Base
   
   acts_as_logger LogItem
   
-  validates_presence_of :title
+  #validates_presence_of :title
   validates_presence_of :body
   
   def name; title; end
+  
+  def title=(t)
+    write_attribute(:title, t.to_s.any? ? t : nil)
+  end
   
   def group_id=(id)
     if group = Group.find_by_id(id) and group.can_post?(Person.logged_in)
@@ -37,7 +41,37 @@ class Note < ActiveRecord::Base
     end
   end
 
-  def person_name
-    Person.find_by_sql(["select people.family_id, people.first_name, people.last_name, people.suffix from people left outer join families on families.id = people.family_id where people.id = ? and people.visible = ? and families.visible = ?", self.person_id.to_i, true, true]).first.name rescue nil
+  after_create :create_as_stream_item
+  
+  def create_as_stream_item
+    return unless person
+    StreamItem.create!(
+      :title           => title,
+      :body            => body,
+      :context         => original_url.to_s.any? ? {'original_url' => original_url} : {},
+      :person_id       => person_id,
+      :group_id        => group_id,
+      :streamable_type => 'Note',
+      :streamable_id   => id,
+      :created_at      => created_at,
+      :shared          => group_id || person.share_activity? ? true : false
+    )
   end
+  
+  after_update :update_stream_items
+  
+  def update_stream_items
+    StreamItem.find_all_by_streamable_type_and_streamable_id('Note', id).each do |stream_item|
+      stream_item.title = title
+      stream_item.body  = body
+      stream_item.save
+    end
+  end
+  
+  after_destroy :delete_stream_items
+  
+  def delete_stream_items
+    StreamItem.destroy_all(:streamable_type => 'Note', :streamable_id => id)
+  end
+  
 end

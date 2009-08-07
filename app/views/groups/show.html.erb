@@ -1,24 +1,26 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'List of Groups', groups_path %></li>
-  <% if @logged_in.admin?(:manage_groups) or @group.admin? @logged_in %>
-    <li><%= link_to 'Edit Group', edit_group_path(@group) %></li>
+  <li><%= link_to image_tag('group.png', :alt => 'All Groups', :class => 'icon') + ' All Groups', groups_path %></li>
+  <% if @logged_in.can_edit?(@group) %>
+    <li><%= link_to image_tag('pencil.png', :alt => 'Edit Group', :class => 'icon') + ' Edit Group', edit_group_path(@group) %></li>
     <% if not @group.approved? and @logged_in.admin?(:manage_groups) %>
-      <li><%= link_to 'Approve Group', group_path(@group, :group => {:approved => true}), :confirm => 'Are you sure?', :method => 'put', :class => 'very-strong' %></li>
+      <li><%= link_to image_tag('thumb_up.png', :alt => 'Approve Group', :class => 'icon') + ' Approve Group', group_path(@group, :group => {:approved => true}), :confirm => 'Are you sure?', :method => 'put', :class => 'very-strong' %></li>
     <% end %>
   <% end %>
   <% if @membership = @logged_in.member_of?(@group) %>
-    <li><%= link_to 'Group Privacy', group_membership_privacy_path(@group, @membership) %></li>
+    <li><%= link_to image_tag('lock.png', :alt => 'Group Privacy', :class => 'icon') + ' Group Privacy', group_membership_privacy_path(@group, @membership) %></li>
   <% end %>
 <% end %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
-  <% if not @group.has_photo? and @group.admin?(@logged_in) %>
-    <p><%= link_to 'Upload a Picture', edit_group_path(@group) %></p>
-  <% end %>
+  
+  <h1>
+    <%=h @group.name %>
+  </h1>
+  <p>Category: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
   
   <% if @group.linked? or @group.parents_of %>
-    <p><em>This group is maintained by church office staff.</em></p>
+    <p><em>This group is maintained by office staff.</em></p>
   <% elsif not @group.approved %>
     <p class="very-strong">This group is pending approval.</p>
   <% else %>
@@ -43,144 +45,103 @@
   </p>
 <% end %>
 
-<h1>
-  <span style="font-size:10pt"><%=h @group.category %></span><br/>
-  <%=h @group.name %>
-</h1>
+<% if @group.description.to_s.any? or @group.meets.to_s.any? or @group.location.to_s.any? or @group.directions.to_s.any? or @group.other_notes.to_s.any? %>
 
-<p>
-  <%=h @group.description %>
-  <% if @group.private? %>
-    <%= image_tag('lock.gif', :alt => 'This group is private. Only people in this group can see its messages.', :class => 'icon') %>
-  <% end %>
-</p>
+  <div id="group-details">
 
-<table>
-  <% if @group.meets.to_s.any? %>
-    <tr><td>Meets:</td><td><%=h @group.meets %></td></tr>
-  <% end %>
-  <% if @group.location.to_s.any? %>
-    <tr><td>Location:</td><td><%=h @group.location %></td></tr>
-  <% end %>
-  <% if @group.directions.to_s.any? %>
-    <tr><td>Directions:</td><td><%=h @group.directions %></td></tr>
-  <% end %>
-  <% if @group.other_notes.to_s.any? %>
-    <tr><td>Notes:</td><td><%=h @group.other_notes %></td></tr>
-  <% end %>
-</table>
+    <p>
+      <%=h @group.description %>
+      <% if @group.private? %>
+        <%= image_tag('lock.gif', :alt => 'This group is private. Only people in this group can see its messages.', :class => 'icon') %>
+      <% end %>
+    </p>
 
-<% if @group.blog? %>
-  <h2 class="tab" id="blog">Blog</h2>
-  <div class="section">
-    <% if @group.can_post? @logged_in %>
-      <p>
-        <%= link_to image_tag('add_small.gif', :alt => 'Add a note.', :class => 'icon') + ' Add a Note', new_group_note_path(@group) %>
-        &nbsp;
-        <% if @group.email? %><%= link_to image_tag('add_small.gif', :alt => 'Send an email.', :class => 'icon') + ' Send an Email', new_group_message_path(@group) %><% end %>
-        <br/>
-        <em>Posting a note here does <strong>not</strong> send any email to the group members.</em>
-      </p>
-    <% end %>
-    <% @notes.each do |note| %>
-      <%= render :partial => 'notes/note', :locals => {:note => note} %>
-    <% end %>
+    <table>
+      <% if @group.meets.to_s.any? %>
+        <tr><td>Meets:</td><td><%=h @group.meets %></td></tr>
+      <% end %>
+      <% if @group.location.to_s.any? %>
+        <tr><td>Location:</td><td><%=h @group.location %></td></tr>
+      <% end %>
+      <% if @group.directions.to_s.any? %>
+        <tr><td>Directions:</td><td><%=h @group.directions %></td></tr>
+      <% end %>
+      <% if @group.other_notes.to_s.any? %>
+        <tr><td>Notes:</td><td><%=h @group.other_notes %></td></tr>
+      <% end %>
+    </table>
+
   </div>
+  
 <% end %>
 
-<% if @group.email? %>
-  <h2 class="tab" id="messages">Emails</h2>
-  <div class="section">
-    <% if @group.private? and not @logged_in.member_of?(@group) %>
-      <p><strong>This is a private group. You may not see messages in this group.</strong></p>
-    <% else %>
-      <% if @group.can_post? @logged_in %>
+<div id="share" style="display:none;margin-bottom:20px;">
+  
+  <% if @group.email? and @group.can_post?(@logged_in) %>
+    <h2 class="tab" id="email"><%= image_tag('message.gif', :alt => 'Email', :class => 'icon') %> Email</h2>
+    <div class="section">
+      <% form_for Message.new(:group => @group), :html => {:enctype => 'multipart/form-data', :id => 'message'} do |form| %>
+        <%= form.hidden_field :group_id %>
         <p>
-          <%= link_to image_tag('add_small.gif', :alt => 'New Message', :class => 'icon'), new_message_path(:group_id => @group) %>
-          <%= link_to 'Send a Message', new_message_path(:group_id => @group) %><br/>
-          <em>
-            Send a message to everyone in the group at once.
-            <% if @group.address.to_s.any? %>
-              <br/>
-              You can also do this by sending email to <%= mail_to @group.full_address, @group.full_address %>.
-            <% end %>
-          </em>
+          <%= form.label :subject %>
+          <%= form.text_field :subject %><br/>
+          <%= form.label :body, 'Message' %>
+          <%= form.text_area :body, :rows => 5, :cols => 80 %>
         </p>
-      <% end %>
-      <% if @messages.any? %>
-        <table>
-          <% @messages.each do |message| %>
-            <tr>
-              <td>
-                <%= link_to image_tag('comment.gif', :alt => 'Message', :class => 'icon'), message %>
-                <%= link_to h(message.subject), message %>
-              </td>
-              <td>
-                <%=h message.person.name %>
-              </td>
-              <td><%= message.created_at.to_s %></td>
-              <td>
-                <% if (r = message.reply_count.to_i) > 0 %>
-                  <%= r %> <%= r == 1 ? 'reply' : 'replies' %>
-                <% end %>
-              </td>
-              <td>
-                <% if message.attachment_count.to_i > 0 %>
-                  <%= message.attachment_count %> <%= message.attachment_count.to_i == 1 ? 'attachment' : 'attachments' %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </table>
-      <% else %>
-        <p><em>No messages yet.</em></p>
-      <% end %>
-    <% end %>
-  </div>
-<% end %>
-
-<% if @group.prayer? %>
-  <h2 class="tab" id="prayerrequests">Prayer Requests</h2>
-  <div class="section">
-    <% if @logged_in.member_of?(@group) %>
-      <p>
-        <%= link_to image_tag('add_small.gif', :alt => 'Add a prayer request.', :class => 'icon') + ' Add a Prayer Request', new_group_prayer_request_path(@group) %><br/>
-        <em>Prayer requests are private to this group.</em>
-      </p>
-      <% if @prayer_requests.length > 0 %>
-        <% @prayer_requests.each do |req| %>
-          <%= render :partial => 'prayer_requests/prayer_request', :locals => {:req => req} %>
+        <p>
+          <%= submit_tag 'Send Message' %>
+          <%= link_to 'Advanced &raquo;', new_group_message_path(@group) %>
+        </p>
+        <% if @group.address.to_s.any? %>
+          <p class="discreet">Or, send to <%= mail_to @group.full_address %> from your email client.</p>
         <% end %>
-      <% else %>
-        <p><em>no prayer requests</em></p>
       <% end %>
-      <% if @answered_prayer_count > 0 %>
-        <p>
-          <%= @answered_prayer_count %> answered <%= @answered_prayer_count == 1 ? 'prayer' : 'prayers' %><br/>
-          <%= link_to 'View Answered Prayers &raquo;', group_prayer_requests_path(@group, :answered => true) %>
-        </p>
-      <% end %>
-    <% else %>
-      <p><em>Only members of this group can read and add prayer requests.</em></p>
-    <% end %>
-  </div>
-<% end %>
+    </div>
+  <% end %>
+  
+  <% if @group.blog? and @group.can_post?(@logged_in) and @note = Note.new(:group => @group) %>
+    <%= render :partial => 'streams/share_note' %>
+  <% end %>
 
-<% if @group.pictures? %>
-  <h2 class="tab" id="pictures">Pictures</h2>
-  <div class="section">
-    <%= render :partial => 'albums/albums' %>
-  </div>
-<% end %>
+  <% if @group.pictures? %>
+    <%= render :partial => 'streams/share_picture' %>
+  <% end %>
 
-<% if @group.gcal_url %>
-  <h2 class="tab" id="calendar">Calendar</h2>
-  <div class="section">
-    <iframe src="<%= @group.gcal_url %>" style=" border-width:0 " width="600" height="600" frameborder="0" scrolling="no"></iframe>
-  </div>
-<% end %>
+  <% if @group.prayer? %>
+    <%= render :partial => 'streams/share_prayer' %>
+  <% end %>
+</div>
 
-<% if @group.attendance? and @group.admin?(@logged_in) %>
+<div style="float:right;width:150px;">
+  <ul id="my-stuff">
+    <% if @group.gcal_url                                         %><li><%= link_to image_tag('calendar.png', :alt => 'Group Calendar', :class => 'icon') + ' Group Calendar', group_calendar_path(@group)        %></li><% end %>
+    <% if @group.email?                                           %><li><%= link_to image_tag('message.gif',  :alt => 'Group Emails',   :class => 'icon') + ' Group Emails',   group_messages_path(@group)        %></li><% end %>
+    <% if Setting.get(:features, :notes    ) and @group.blog?     %><li><%= link_to image_tag('note.png',     :alt => 'Group Pictures', :class => 'icon') + ' Group Notes',    group_notes_path(@group)           %></li><% end %>
+    <% if Setting.get(:features, :pictures ) and @group.pictures? %><li><%= link_to image_tag('picture.png',  :alt => 'Group Pictures', :class => 'icon') + ' Group Pictures', group_albums_path(@group)          %></li><% end %>
+    <% if @group.prayer?                                          %><li><%= link_to image_tag('heart.png',    :alt => 'Group Prayer',   :class => 'icon') + ' Group Prayer',   group_prayer_requests_path(@group) %></li><% end %>
+  </ul>
+</div>
+
+<%# Main Content %>
+<div style="margin-right:200px;" id="profile-body">
+
+  <p style="margin-bottom:20px;" id="share-something">
+    <%= link_to_function image_tag('add_small.gif', :alt => 'Share Something', :class => 'icon'),
+      "if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
+    You should
+    <%= link_to_function 'share something here', "if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>.
+  </p>
+
+  <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
+
+</div>
+
+<style type="text/css">
+  .stream-item { display: block; }
+</style>
+
+<%# TODO: put this somewhere on the page %>
+<% if nil and @group.attendance? and @group.admin?(@logged_in) %>
   <h2 class="tab" id="attendance">Attendance</h2>
   <div class="section">
     <% form_remote_tag :url => group_attendance_index_path(@group), :method => 'get',
@@ -202,13 +163,17 @@
   <p><em>This group does not offer any features and is for informational purposes only.</em></p>
 <% end %>
 
+<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= group_albums_path(@group.id) %>'; </script>
+<%= javascript_include_tag 'load_albums.js' %>
+
 <%= javascript_include_tag 'tabs' %>
 <%= stylesheet_link_tag 'tabs' %>
-<style type="text/css">
-  div.section { border-style: solid none none none; }
-</style>
 <script type="text/javascript">
-//<![CDATA[
-  set_up(); // tabs
-//]]>
+  set_up_tabs();
+  ALBUMS_PATH = '';
+  if(location.hash != '') {
+    if($('group-details'))Element.hide('group-details');
+    Element.hide('share-something');
+    Element.show('share');
+  }
 </script>

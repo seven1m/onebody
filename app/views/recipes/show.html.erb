@@ -1,9 +1,9 @@
 <% content_for :subnav do %>
-  <%= link_to "All Recipes", recipes_path %>
-  <% if @recipe.admin? @logged_in %>
-    <%= link_to 'Edit Recipe', edit_recipe_path(@recipe) %>
+  <li><%= link_to image_tag('recipe.png', :alt => 'All Recipes', :class => 'icon') + ' All Recipes', recipes_path %></li>
+  <% if @logged_in.can_edit?(@recipe) %>
+    <li><%= link_to image_tag('pencil.png', :alt => 'Edit Recipe', :class => 'icon') + ' Edit Recipe', edit_recipe_path(@recipe) %></li>
+    <li><%= link_to image_tag('delete.png', :alt => 'Delete Recipe', :class => 'icon') + ' Delete Recipe', recipe_path(@recipe), :method => 'delete', :confirm => 'Are you sure?' %></li>
   <% end %>
-  <%= link_to 'New Recipe', new_recipe_path %>
 <% end %>
 
 <% if @recipe.has_photo? %>
@@ -54,21 +54,21 @@
   <% if @recipe.description.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;">Description:</td>
-      <td><%= white_list @recipe.description %></td>
+      <td><%= white_list_with_removal @recipe.description %></td>
     </tr>
   <% end %>
   <tr>
     <td style="white-space:nowrap;">Ingredients:</td>
-    <td><%= white_list @recipe.ingredients %></td>
+    <td><%= white_list_with_removal @recipe.ingredients %></td>
   </tr>
   <tr>
     <td style="white-space:nowrap;">Directions:</td>
-    <td><%= white_list @recipe.directions %></td>
+    <td><%= white_list_with_removal @recipe.directions %></td>
   </tr>
   <% if @recipe.notes.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;">Other Notes:</td>
-      <td><%= white_list @recipe.notes %></td>
+      <td><%= white_list_with_removal @recipe.notes %></td>
     </tr>
   <% end %>
 </table>

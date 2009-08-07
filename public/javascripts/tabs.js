@@ -120,7 +120,7 @@
     return selected;
   };
 
-  function set_up() {
+  function set_up_tabs() {
     get_elements();
     combine_tabs();
     var loadingElm = document.getElementById(LOADING_ELM_ID);

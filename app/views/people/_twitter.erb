@@ -4,16 +4,16 @@
   <ol>
     <li>Sign up for an account at <a href="http://twitter.com">Twitter</a> and enter your
       account details below.</li>
-    <li>Add <%= link_to @act, 'http://twitter.com/' + @act %>
+    <li>Add <%= link_to h(@act), 'http://twitter.com/' + @act %>
       as a friend.</li>
-    <li>Send direct messages to <%= @act %> from the Web, from IM, or from your phone
+    <li>Send direct messages to <%=h @act %> from the Web, from IM, or from your phone
       and get contact info:
       <ul style="list-style-type:none;">
-        <li><code>d <%= @act %> lookup john doe</code></li>
-        <li><code>d <%= @act %> mobile john doe</code></li>
-        <li><code>d <%= @act %> home john doe</code></li>
-        <li><code>d <%= @act %> work john doe</code></li>
-        <li><code>d <%= @act %> address john doe</code></li>
+        <li><code>d <%=h @act %> lookup john doe</code></li>
+        <li><code>d <%=h @act %> mobile john doe</code></li>
+        <li><code>d <%=h @act %> home john doe</code></li>
+        <li><code>d <%=h @act %> work john doe</code></li>
+        <li><code>d <%=h @act %> address john doe</code></li>
       </ul>
     </li>
   </ol>

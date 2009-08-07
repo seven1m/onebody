@@ -3,11 +3,11 @@
 # Table name: verifications
 #
 #  id           :integer       not null, primary key
+#  email        :string(255)   
+#  mobile_phone :string(25)    
+#  code         :integer       
 #  verified     :boolean       
 #  created_at   :datetime      
-#  email        :string(255)   
-#  code         :integer       
-#  mobile_phone :string(25)    
 #  updated_at   :datetime      
 #  site_id      :integer       
 #

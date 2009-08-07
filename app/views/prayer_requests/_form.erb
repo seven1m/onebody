@@ -2,7 +2,13 @@
   <%= form.hidden_field :group_id %>
   <h2>Request</h2>
   <p>
-    <%= form.label :person_id, 'By' %> <%= form.select :person_id, @req.group.people.map { |p| [p.name, p.id] } %><br/>
+    <%= form.label :person_id, 'By' %>
+    <% if @req.new_record? %>
+      <%= form.select :person_id, @req.group.people.map { |p| [p.name, p.id] } %><br/>
+    <% else %>
+      <%= form.hidden_field :person_id %>
+      <%=h @req.person.name %>
+    <% end %>
     <%= form.label :request %>         <%= form.text_area :request, :rows => 5 %>
   </p>
   

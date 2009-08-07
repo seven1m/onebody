@@ -1,5 +1,8 @@
 class PhotosController < ApplicationController
 
+  skip_before_filter :authenticate_user, :only => %w(show tn small medium large)
+  before_filter :authenticate_user_with_code_or_session, :only => %w(show tn small medium large)
+
   cache_sweeper :person_sweeper, :family_sweeper, :only => %w(update destroy)
   
   PHOTO_TYPES = %w(Family Person Recipe Picture Group) # be sure to add tests to photos_controller_test

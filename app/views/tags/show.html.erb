@@ -1,7 +1,5 @@
 <h1>Tag: <%=h @tag.name %></h1>
 
-<%= render :partial => 'shares/subnav' %>
-
 <% if @tag.verses.any? %>
   <h2>Verses</h2>
   <% @tag.verses.each do |verse| %>

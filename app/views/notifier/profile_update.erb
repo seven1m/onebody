@@ -1,10 +1,10 @@
-<%= Setting.get(:url, :site) %>admin/updates
+<%=h Setting.get(:url, :site) %>admin/updates
 
-<%= @person.name %> (<%= @person.family.name %>) has submitted a profile update:
+<%=h @person.name %> (<%=h @person.family.name %>) has submitted a profile update:
 
 <%- (Update::PERSON_ATTRIBUTES + Update::FAMILY_ATTRIBUTES).each do |attribute| -%>
 <%- if change = @updates[attribute] -%>
-<%= attribute.humanize %>
+<%=h attribute.humanize %>
   Old: <%= format_changed_attribute(attribute, change.first) %>
   New: <%= format_changed_attribute(attribute, change.last) %>
 
