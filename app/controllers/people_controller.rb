@@ -7,9 +7,15 @@ class PeopleController < ApplicationController
     respond_to do |format|
       format.html { redirect_to person_path(@logged_in, :tour => params[:tour]) }
       if can_export?
-        @people = Person.paginate(:order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
-        format.xml { render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family]) }
-        format.csv { render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family]) }
+        if params[:family_id]
+          @people = Person.find_all_by_family_id_and_deleted(params[:family_id], false)
+          @people.reject! { |p| p.at_least?(18) } if params[:child]
+        else
+          @people = Person.paginate(:conditions => ['deleted = ?', false], :order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
+        end
+        format.xml  { render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family]) }
+        format.csv  { render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family]) }
+        format.json { render :text => @people.to_json(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family]) }
       end
     end
   end

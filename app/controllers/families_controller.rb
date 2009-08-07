@@ -7,8 +7,8 @@ class FamiliesController < ApplicationController
       format.html { redirect_to @logged_in }
       if can_export?
         @families = Family.paginate(:order => 'last_name, name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
-        format.xml { render :xml  => @families.to_xml(:include => [:people], :except => %w(site_id)) }
-        format.csv { render :text => @families.to_csv(:except => %w(site_id)) }
+        format.xml  { render :xml  => @families.to_xml(:include => [:people], :except => %w(site_id)) }
+        format.csv  { render :text => @families.to_csv(:except => %w(site_id)) }
       end
     end
   end
@@ -16,6 +16,8 @@ class FamiliesController < ApplicationController
   def show
     if params[:legacy_id]
       @family = Family.find_by_legacy_id(params[:id])
+    elsif params[:barcode_id]
+      @family = Family.find_by_barcode_id_and_deleted(params[:id], false)
     else
       @family = Family.find_by_id(params[:id])
     end
@@ -25,6 +27,7 @@ class FamiliesController < ApplicationController
       respond_to do |format|
         format.html
         format.xml { render :xml => @family.to_xml } if can_export?
+        format.json { render :text => @family.to_json(:except => %w(site_id)) } if can_export?
       end
     else
       render :text => 'Family not found.', :status => 404

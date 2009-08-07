@@ -49,6 +49,14 @@ class Family < ActiveRecord::Base
   
   sharable_attributes :mobile_phone, :address, :anniversary
   
+  validates_uniqueness_of :barcode_id, :allow_nil => true
+  validates_length_of :barcode_id, :in => 10..50, :allow_nil => true
+  validates_format_of :barcode_id, :with => /^\d+$/
+  
+  def barcode_id=(b)
+    write_attribute(:barcode_id, b.to_s.strip.any? ? b : nil)
+  end
+  
   def address
     address1.to_s + (address2.to_s.any? ? "\n#{address2}" : '')
   end

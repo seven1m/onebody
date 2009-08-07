@@ -76,6 +76,7 @@ unless defined?(DISABLE_ROUTES)
     map.resources :comments
     map.resources :attachments, :member => {:get => :get}
     map.resources :prayer_requests
+    map.resources :external_groups
   
     map.resource :session
     map.resource :search, :member => {:opensearch => :get}
