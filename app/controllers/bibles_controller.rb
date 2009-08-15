@@ -57,5 +57,9 @@ class BiblesController < ApplicationController
         end
       end
     end
+    
+    def feature_enabled?
+      false # for now
+    end
 
 end
