@@ -523,3 +523,11 @@ ul#my-stuff a {
   font-size: smaller;
   margin-top: 0;
 }
+
+table.memberships td {
+	vertical-align: top;
+}
+
+table.memberships td input {
+	margin-top: 5px !important;
+}

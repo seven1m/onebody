@@ -1,14 +1,19 @@
 <% form_tag batch_group_memberships_path(@group), :method => 'delete' do %>
 
-  <ul>
+  <table class="memberships">
     <% @group.memberships.all(:include => :person).each do |membership| %>
-      <% person = membership.person %>
-      <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or membership.auto?), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
-      <%= link_to(h(person.name), person, :id => "person_label#{person.id}") rescue '?' %>
-      <% if membership.auto? %><%= image_tag 'link.png', :alt => 'linked', :class => 'icon' %><% end %>
-      <br/>
+      <tr>
+        <% person = membership.person %>
+        <td>
+          <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or membership.auto?), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(\"You're about to remove yourself from this group! You won't be able to edit it anymore if you do that.\")" : nil) %>
+        </td>
+        <td>
+          <%= link_to(h(person.name), person, :id => "person_label#{person.id}") rescue '?' %>
+          <% if membership.auto? %><%= image_tag 'link.png', :alt => 'linked', :class => 'icon' %><% end %>
+        </td>
+      </tr>
     <% end %>
-  </ul>
+  </table>
 
   <% if @group.people.length > 1 %>
     <p><%= submit_tag 'Remove Selected' %></p>
