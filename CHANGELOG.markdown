@@ -1,8 +1,33 @@
 OneBody Change Log
 ==================
 
+1.0.0 / ??? 2009
+----------------
+
+**Upgrade Note:** Database migrations have been rolled up from previous releases; you must first upgrade
+to version 0.8.1 and run all database migrations before upgrading to this release.
+
+**Upgrade Note:** Prerequisites have changed on Linux; be sure to read
+[InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody).
+
+**Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
+
+* New "stream" metaphor on home, profile, and group pages.
+* Feed import: Facebook, Twitter, etc.
+* Improved visual cues for certain interface items.
+* Improved group editing interface.
+* New Site Tour feature; shown upon first login.
+* Link to YouVersion and eBible on verse page.
+* Limit messages displayed on group page to speed it up.
+* Allow admins to remove themselves from albums and pictures.
+* Add option to albums to be public or profile-only.
+* Set the first uploaded pic in an album to the cover pic.
+* Add feed for stream page.
+* Improved wall posting feedback.
+
+
 0.8.1 / July 7, 2009
--------------------
+--------------------
 
 **Upgrade Note:** Prerequisites have changed on Linux; be sure to read
 [InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody).
