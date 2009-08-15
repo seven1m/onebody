@@ -1,6 +1,6 @@
 <% if @family_people.length > 1 %>
   <h2>
-    Family
+    Family <%= render :partial => 'families/thumbnail', :locals => {:family => @family} %>
   <% if @logged_in.admin?(:edit_profiles)  %>
     <%= link_to 'edit', @family, :class => 'discreet' %>
   <% elsif me? %>
