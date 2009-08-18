@@ -18,7 +18,6 @@ Features
   * friends
   * messaging
   * favorites
-  * wall
 * Membership Management
   * sync with external source
   * import, export
