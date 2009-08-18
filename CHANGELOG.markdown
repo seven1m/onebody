@@ -7,11 +7,6 @@ OneBody Change Log
 **Upgrade Note:** Database migrations have been rolled up from previous releases; you must first upgrade
 to version 0.8.1 and run all database migrations before upgrading to this release.
 
-**Upgrade Note:** Prerequisites have changed on Linux; be sure to read
-[InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody).
-
-**Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
-
 * New "stream" metaphor on home, profile, and group pages.
 * Feed import: Facebook, Twitter, etc.
 * Improved visual cues for certain interface items.
