@@ -88,19 +88,6 @@ class LogItem < ActiveRecord::Base
     "/#{controller}/#{action}/#{id}"
   end
 
-  def showable_change_keys
-    return [] if deleted?
-    begin
-      object_changes.keys.select do |key|
-        PEOPLE_ATTRIBUTES_SHOWABLE_ON_HOMEPAGE.include? key
-      end.map do |key|
-        key == 'tv_shows' ? 'TV Shows' : key.split('_').map { |w| w.capitalize }.join(' ')
-      end
-    rescue NoMethodError # sometimes object_changes doesn't un-serialize. Weird.
-      []
-    end
-  end
-  
   private
     def truncate(text, length=30, truncate_string="...")
       return nil unless text
