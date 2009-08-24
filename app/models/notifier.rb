@@ -322,8 +322,12 @@ class Notifier < ActionMailer::Base
             when 'text/html'
               html = part.body
             when 'multipart/alternative'
-              text ||= part.parts.detect { |p| p.content_type.downcase == 'text/plain' }
-              html ||= part.parts.detect { |p| p.content_type.downcase == 'text/html'  }
+              if p = part.parts.detect { |p| p.content_type.downcase == 'text/plain' }
+                text ||= p.body
+              end
+              if p = part.parts.detect { |p| p.content_type.downcase == 'text/html'  }
+                html ||= p.body
+              end
           end
         end
         return {:text => text, :html => html}
