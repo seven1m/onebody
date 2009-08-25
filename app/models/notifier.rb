@@ -47,14 +47,11 @@ class Notifier < ActionMailer::Base
     if msg.group
       h.update(
         'List-ID' => "#{msg.group.name} group on #{Setting.get(:name, :site)} <#{msg.group.address}.#{URI.parse(Setting.get(:url, :site)).host}>",
-        'List-Help' => "<#{Setting.get(:url, :site)}groups/view/#{msg.group.id}>",
-        'List-Unsubscribe' => "<#{Setting.get(:url, :site)}groups/toggle_email/#{msg.group.id}?person_id=#{to.id}&code=#{msg.group.get_options_for(to).code}>",
-        'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/view/#{msg.group.id}>" : 'NO (you are not allowed to post to this list)'),
-        'List-Archive' => "<#{Setting.get(:url, :site)}groups/view/#{msg.group.id}>"
+        'List-Help' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>",
+        'List-Unsubscribe' => msg.disable_group_email_link(to),
+        'List-Post' => (msg.group.can_post?(to) ? "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>" : 'NO (you are not allowed to post to this list)'),
+        'List-Archive' => "<#{Setting.get(:url, :site)}groups/#{msg.group.id}>"
       ) unless to.new_record? # allows preview to work
-      if msg.group.leader
-        h.update 'List-Owner' => "<#{Setting.get(:url, :site)}>people/view/#{msg.person.id}> (#{msg.person.name})"
-      end
       if msg.group.address.to_s.any? and msg.group.can_post?(msg.person)
         h.update 'CC' => "\"#{msg.group.name}\" <#{msg.group.address + '@' + Site.current.host}>"
       end
