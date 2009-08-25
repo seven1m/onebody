@@ -4,10 +4,12 @@
 # script/inbox -e production localhost username password
 
 PID_PATH = File.dirname(__FILE__) + '/../tmp/pids/inbox.pid'
+MAX_PID_LIFE = 30 * 60 # 30 mins
 
 require 'time'
 if File.exist?(PID_PATH)
-  if Time.now - File.stat('inbox').mtime > 15 * 60 # 15 mins
+  if Time.now - File.stat('inbox').mtime > MAX_PID_LIFE
+    Process.kill('KILL', File.read(PID_PATH).strip.to_i) rescue nil
     File.delete(PID_PATH)
   else
     exit
