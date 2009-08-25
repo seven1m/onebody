@@ -73,7 +73,9 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  # used for auto-generated responses
   def simple_message(t, s, b, f=Site.current.noreply_email)
+    headers 'Auto-Submitted' => 'auto-replied'
     recipients t
     from f
     subject s
