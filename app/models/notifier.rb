@@ -138,8 +138,8 @@ class Notifier < ActionMailer::Base
     
     unless @person = get_from_person(email)
       Notifier.deliver_simple_message(
-        email.from,
-        'Message Rejected',
+        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+        "Message Rejected: #{email.subject}",
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
         "Sorry for the inconvenience, but the system does not recognize your email address " +
         "as a user of the system. If you want to send a message to someone, please send from " +
@@ -151,8 +151,8 @@ class Notifier < ActionMailer::Base
     
     unless body = get_body(email) and (body[:text] or body[:html])
       Notifier.deliver_simple_message(
-        email.from,
-        'Message Unreadable',
+        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+        "Message Unreadable: #{email.subject}",
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
         "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site cannot read " +
         "the message because it is not formatted as either plain text or HTML. " +
@@ -223,8 +223,8 @@ class Notifier < ActionMailer::Base
       if message and message.code_hash == code_hash
         if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)
           Notifier.deliver_simple_message(
-            email.from,
-            'Message Too Old',
+            email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+            "Message Too Old: #{email.subject}",
             "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
             "Sorry for the inconvenience, but the message to which you're replying is too old. " +
             "This is to prevent unsolicited email to our users. If you wish to send a message " +
@@ -249,8 +249,8 @@ class Notifier < ActionMailer::Base
       else
         # notify the sender that the message is unsolicited and was not delivered
         Notifier.deliver_simple_message(
-          email.from,
-          'Message Rejected',
+          email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+          "Message Rejected: #{email.subject}",
           "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
           "Sorry for the inconvenience, but it appears the message was unsolicited. " +
           "If you want to send a message to someone, please sign in at #{Setting.get(:url, :site)}, " +
@@ -278,8 +278,8 @@ class Notifier < ActionMailer::Base
     
     def message_error_notification(email, message)
       Notifier.deliver_simple_message(
-        email.from,
-        'Message Error',
+        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+        "Message Error: #{email.subject}",
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
         "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site had " +
         "trouble saving the message (#{message.errors.full_messages.join('; ')}). " + 
