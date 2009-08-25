@@ -12,7 +12,7 @@
     </p>
     <p>
       <%= form.submit 'Submit News' %>
-      Or, create <%= link_to 'news with advanced formatting', new_news_item_path %>...
+      <span class="small">Or, share <%= link_to 'news with advanced formatting', new_news_item_path %>...</span>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
