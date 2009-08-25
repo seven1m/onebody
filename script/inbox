@@ -3,6 +3,19 @@
 # example:
 # script/inbox -e production localhost username password
 
+PID_PATH = File.dirname(__FILE__) + '/../tmp/pids/inbox.pid'
+
+require 'time'
+if File.exist?(PID_PATH)
+  if Time.now - File.stat('inbox').mtime > 15 * 60 # 15 mins
+    File.delete(PID_PATH)
+  else
+    exit
+  end
+end
+
+File.open(PID_PATH, 'w') { |f| f.write(Process.pid.to_s) }
+
 require 'optparse'
 options = {}
 parser = OptionParser.new do |opts|
@@ -18,6 +31,7 @@ host, username, password = ARGV
 
 if not (host and username and password)
   puts parser.help
+  File.delete(PID_PATH)
   exit
 end
 
@@ -42,3 +56,6 @@ Net::POP3.start(host, nil, username, password) do |pop|
     logger.info "Finished Mail Importer." 
   end
 end
+
+File.delete(PID_PATH)
+
