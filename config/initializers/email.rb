@@ -1,7 +1,7 @@
 begin
   settings = YAML::load_file(File.dirname(__FILE__) + '/../email.yml')[Rails.env]['smtp']
 rescue
-  puts 'No email.yml config found for this environment.' unless Rails.env.test?
+  puts "\nWarning: no email.yml config found for this environment. SMTP and POP will not function properly.\n" unless Rails.env.test?
 else
   settings.symbolize_keys!
   settings[:authentication] = settings[:authentication].to_sym if settings[:authentication]
