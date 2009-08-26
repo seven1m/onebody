@@ -8,14 +8,6 @@ Profile
   * map of home address
   * about me
   * testimony
-  * favs:
-    * activities
-    * interests
-    * music
-    * tv shows
-    * movies
-    * books
-    * quotes
 
 Groups
 ------

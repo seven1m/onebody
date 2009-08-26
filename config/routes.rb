@@ -10,7 +10,8 @@ unless defined?(DISABLE_ROUTES)
     map.resource :account, :member => {:verify_code => :any, :select => :any}
   
     map.resources :people,
-      :collection => {:import => :any, :hashify => :post, :schema => :get, :batch => :post} do |people|
+      :collection => {:import => :any, :hashify => :post, :schema => :get, :batch => :post},
+      :member => {:favs => :get} do |people|
       people.resources :groups
       people.resources :pictures
       people.resources :friends, :collection => {:reorder => :post}

@@ -55,3 +55,10 @@
     <tr><td>Business:</td><td><%= link_to h(@person.business_name), person_path(@person, :business => true) %><br/><%=h truncate(@person.business_description, :length => 200) %></td></tr>
   <% end %>
 </table>
+
+<p>
+  <%= link_to_remote 'Favorites', {:url => favs_person_path(@person), :update => 'favs', :method => :get, :loading => "Element.show('favs_loading')", :success => "Element.hide('favs_loading');Element.hide('favs_link')"}, :id => 'favs_link' %>
+  <%= image_tag 'spinner_small.gif', :alt => 'Loading...', :id => 'favs_loading', :class => 'icon', :style => 'display:none;' %>
+</p>
+
+<div id="favs"></div>

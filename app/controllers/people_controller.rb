@@ -227,5 +227,14 @@ class PeopleController < ApplicationController
   def schema
     render :xml => Person.columns.map { |c| {:name => c.name, :type => c.type} }
   end
+  
+  def favs
+    @person = Person.find(params[:id])
+    if @logged_in.can_see?(@person)
+      render :partial => 'favorites'
+    else
+      render :text => 'Person not found.', :status => 404, :layout => true
+    end
+  end
 
 end
