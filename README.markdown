@@ -53,7 +53,7 @@ More Information
 ----------------
 
 * [Wiki](http://wiki.github.com/seven1m/onebody)
-* [Blog](http://onebodyapp.wordpress.com)
+* [Blog](http://blog.beonebody.com)
 * [Google Group](http://groups.google.com/group/onebodyapp)
 
 Copyright
