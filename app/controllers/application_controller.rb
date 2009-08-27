@@ -152,17 +152,6 @@ class ApplicationController < ActionController::Base
       end
     end
     
-    def check_scheduler
-      unless File.exist?(Rails.root + 'tmp/pids/Scheduler.pid')
-        if @logged_in.admin?
-          render :text => "Scheduler is not running. Run <code>script/scheduler start #{Rails.env}</code>", :layout => true, :status => 500
-        else
-          render :text => 'This feature is currently unavailable. We apologize for the inconvenience.', :layout => true, :status => 500
-        end
-        return false
-      end
-    end
-    
     def rescue_action_with_page_detection(exception)
       get_site
       path, args = request.request_uri.downcase.split('?')
