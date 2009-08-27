@@ -1,6 +1,7 @@
 <% if @person.groups.count > 0 %>
   <table>
-    <% @person.groups.all(:order => 'name').select { |g| @logged_in.can_see? g }.each do |group| %>
+    <% @person.memberships.all(:order => 'groups.name', :include => :group).each do |membership| %>
+      <% group = membership.group %>
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <tr <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
           <td>
@@ -15,7 +16,7 @@
             <% if me? or @logged_in.admin?(:manage_groups) %>
               <span>
                 email:
-                <% if group.get_options_for(@person).get_email %>
+                <% if membership.get_email %>
                   <strong title="email from this group is ON">on</strong> |
                   <%= link_to 'off', group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => 'If you click OK, you will no longer receive email from this group.', :title => 'turn off email from this group' %>
                 <% else %>
