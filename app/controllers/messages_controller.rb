@@ -43,9 +43,9 @@ class MessagesController < ApplicationController
     @person = Person.find(params[:message][:wall_id])
     if params[:note_private] == 'true'
       @message = Message.new(
-        :person_id => @logged_in.id,
-        :wall_id   => @person.id,
-        :body      => params[:message][:body]
+        :person_id    => @logged_in.id,
+        :to_person_id => @person.id,
+        :body         => params[:message][:body]
       )
       render :action => 'new'
       return

@@ -1,7 +1,7 @@
 <% if @message.to %>
   <h1>Email Message to <%=h @message.to.name %></h1>
   <p>
-    This will send a <em>private</em> message.
+    This will send a <em>private</em> email.
   </p>
 <% elsif @message.group %>
   <h1>Group Message to <%=h @message.group.name %></h1>
