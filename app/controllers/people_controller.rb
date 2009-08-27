@@ -83,13 +83,12 @@ class PeopleController < ApplicationController
       else
         render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
       end
+      respond_to do |format|
+        format.html if !@family.new_record?
+        format.html { render :partial => "new_family", :layout => true } if @family.new_record?
+      end
     else
       render :text => 'No people can be added at this time. Sorry.', :layout => true, :status => 500
-    end
-
-    respond_to do |format|
-      format.html if !@family.new_record?
-      format.html { render :partial => "new_family", :layout => true } if @family.new_record?
     end
   end
   
