@@ -5,14 +5,6 @@
   <h2 class="status">Data: <strong class="go">Imported</strong> <%= image_tag 'checkmark.png', :alt => 'Up-to-date', :class => 'icon' %></h2>
   <p>There are currently <%= count %> <%= count == 1 ? 'person' : 'people' %>
     in the database (across all sites).</p>
-  <% if sync_date = @info.date_of_last_sync %>
-    <p>It appears your <%= link_to 'Connector', 'http://github.com/seven1m/onebody/wikis/OneBodyConnector' %>
-      last synchronized the database <%= sync_date %>.</p>
-  <% else %>
-    <p>Note: There is no recorded "sync date" which could indicate that your
-      <%= link_to 'Connector', 'http://github.com/seven1m/onebody/wikis/OneBodyConnector' %> isn't
-      working properly (OK if you are synchronizing data by some other means).</p>
-  <% end %>
 <% else %>
   <h2 class="status">Data: <strong class="stop">None</strong></h2>
   <p>Your database is empty. Please visit

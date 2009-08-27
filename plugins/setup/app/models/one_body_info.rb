@@ -144,12 +144,6 @@ class OneBodyInfo
     end
   end
   
-  def date_of_last_sync
-    if connect_to_database(database_config)
-      ActiveRecord::Base.connection.select_value("SELECT last_update FROM sync_info") rescue nil
-    end
-  end
-  
   def connect_to_database(config)
     begin
       ActiveRecord::Base.establish_connection(config)
