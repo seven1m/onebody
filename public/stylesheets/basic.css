@@ -432,7 +432,12 @@ div#stream-display-options li a {
 
 #share div.section {
   border: 1px solid #ccc;
-  padding-left: 20px; }
+  padding-left: 20px;
+  -moz-border-radius-bottomleft: 7px;
+  -moz-border-radius-bottomright: 7px;
+  -webkit-border-bottom-left-radius: 7px;
+  -webkit-border-bottom-right-radius: 7px;
+}
 
 .note-content-big {
   font-size: 150%;
