@@ -13,9 +13,30 @@ class PeopleController < ApplicationController
         else
           @people = Person.paginate(:conditions => ['deleted = ?', false], :order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
         end
-        format.xml  { render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family]) }
-        format.csv  { render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family]) }
-        format.json { render :text => @people.to_json(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family]) }
+        format.xml do
+          if @people.any?
+            render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family])
+          else
+            flash[:warning] = 'No more records.'
+            redirect_to people_path
+          end
+        end
+        format.csv do
+          if @people.any?
+            render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family])
+          else
+            flash[:warning] = 'No more records.'
+            redirect_to people_path
+          end
+        end
+        format.json do
+          if @people.any?
+            render :text => @people.to_json(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family])
+          else
+            flash[:warning] = 'No more records.'
+            redirect_to people_path
+          end
+        end
       end
     end
   end

@@ -7,8 +7,22 @@ class FamiliesController < ApplicationController
       format.html { redirect_to @logged_in }
       if can_export?
         @families = Family.paginate(:order => 'last_name, name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
-        format.xml  { render :xml  => @families.to_xml(:include => [:people], :except => %w(site_id)) }
-        format.csv  { render :text => @families.to_csv(:except => %w(site_id)) }
+        format.xml do
+          if @families.any?
+            render :xml  => @families.to_xml(:include => [:people], :except => %w(site_id))
+          else
+            flash[:warning] = 'No more records.'
+            redirect_to people_path
+          end
+        end
+        format.csv do
+          if @families.any?
+            render :text => @families.to_csv(:except => %w(site_id))
+          else
+            flash[:warning] = 'No more records.'
+            redirect_to people_path
+          end
+        end
       end
     end
   end
