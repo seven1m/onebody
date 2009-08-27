@@ -56,10 +56,6 @@
 <% if @logged_in.admin?(:view_log) %>
   <h2>Log</h2>
   
-  <p <% if @flag_count > 0 %>class="very-strong"<% end %>>
-    <%= @flag_count %> flagged <%= pluralize @flag_count, 'item' %>
-  </p>
-  
   <p><%= link_to 'Click here', administration_log_items_path %> to review the log.</p>
 <% end %>
 
