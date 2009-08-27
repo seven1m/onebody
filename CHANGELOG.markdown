@@ -13,13 +13,14 @@ to version 0.8.1 and run all database migrations before upgrading to this releas
 * Improved group editing interface.
 * New Site Tour feature; shown upon first login.
 * Link to YouVersion and eBible on verse page.
-* Limit messages displayed on group page to speed it up.
 * Allow admins to remove themselves from albums and pictures.
 * Add option to albums to be public or profile-only.
 * Set the first uploaded pic in an album to the cover pic.
 * Add feed for stream page.
 * Improved wall posting feedback.
-
+* Improved site selection from console.
+* Improved email header reading/writing.
+* Safeguard to prevent script/inbox from running more than one process at the same time.
 
 0.8.1 / July 7, 2009
 --------------------
