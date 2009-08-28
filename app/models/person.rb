@@ -261,10 +261,6 @@ class Person < ActiveRecord::Base
     memberships.find(:all, :conditions => ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
   end
   
-  def pretty_website
-    website && website.sub(/^https?:\/\//, '')
-  end
-  
   def can_see?(*whats)
     whats.select do |what|
       case what.class.name

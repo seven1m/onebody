@@ -11,6 +11,9 @@
       <%= link_to h(simple_url(@person.website)), @person.website %>
     <% end %>
   <% end %>
+  <% render :layout => 'people/detail_row', :locals => { :attribute => :email, :label => 'Email' } do %>
+    <%= mail_to @person.email %>
+  <% end %>
   <% render :layout => 'people/detail_row', :locals => { :attribute => :home_phone, :label => 'Home' } do %>
     <%= format_phone(@person.home_phone) %>
   <% end %>
@@ -31,12 +34,6 @@
       <%= link_to h(@person.short_zip), search_path(:zip => @person.short_zip), :title => 'search for people in this zip code' %>
     <% end %>
     <%= render :partial => 'families/map_link' %>
-  <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :email, :label => 'Email' } do %>
-    <%= mail_to @person.email %>
-  <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :website, :label => 'Website' } do %>
-    <%= link_to h(@person.pretty_website), @person.website %>
   <% end %>
   <% render :layout => 'people/detail_row', :locals => { :attribute => :birthday, :label => 'Birthday' } do %>
     <% if @person.birthday %>
