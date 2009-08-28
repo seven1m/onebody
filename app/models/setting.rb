@@ -97,6 +97,10 @@ class Setting < ActiveRecord::Base
       SETTINGS
     end
     
+    def settings_in_db
+      @settings_in_db ||= Setting.all
+    end
+    
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
       # per site settings
@@ -107,7 +111,7 @@ class Setting < ActiveRecord::Base
       settings.each do |section_name, section|
         section.each do |setting_name, setting|
           next unless setting['global']
-          unless Setting.find_by_site_id_and_section_and_name(nil, section_name, setting_name)
+          unless settings_in_db.detect { |s| s.site_id == nil and s.section == section_name and s.name == setting_name }
             Setting.create!(setting.merge(:section => section_name, :name => setting_name))
           end
         end
@@ -118,7 +122,7 @@ class Setting < ActiveRecord::Base
       settings.each do |section_name, section|
         section.each do |setting_name, setting|
           next if setting['global']
-          unless Setting.find_by_site_id_and_section_and_name(site.id, section_name, setting_name)
+          unless settings_in_db.detect { |s| s.site_id == site.id and s.section == section_name and s.name == setting_name }
             setting['site_id'] = site.id
             Setting.create!(setting.merge(:section => section_name, :name => setting_name))
           end
