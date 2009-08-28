@@ -5,14 +5,7 @@ Profile
 -------
 
 * missing:
-  * map of home address
-  * about me
-  * testimony
-
-Groups
-------
-
-* display map for group when address is mapable
+  * map of home address (needed?)
 
 Everywhere
 ----------
