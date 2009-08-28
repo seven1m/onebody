@@ -8,31 +8,31 @@
 <% end %>
 
 <table>
-    <% @group.people.all(params[:action] == 'show' ? {:limit => 25, :order => sql_random} : {:order => 'last_name, first_name'}).each do |person| %>
-      <% if person and @logged_in.can_see?(person) %>
-        <tr>
-          <td>
-            <a href="<%= url_for person %>">
-              <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
-            </a>
-          </td>
-          <td class="person">
-            <%= link_to h(person.name), person %> 
-              <% if @group.admin?(person, true) %>
-                <br/>(admin)
-              <% end %>
-              <% if @logged_in.can_edit?(@group) and (person.email.to_s.empty? or !@group.get_options_for(person).get_email?) %>
-                <br/><em>(no mail)</em>
-              <% end %>
-              <% if person.birthday_soon? %>
-                <br/>
-                <span class="small">
-                  <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
-                  <%= person.birthday.to_s(:date_without_year) %>
-                </span>
-              <% end %>
-          </td>
-        </tr>
-      <% end %>
+  <% @group.people.all(params[:action] == 'show' ? {:limit => 25, :order => sql_random} : {:order => 'last_name, first_name'}).each do |person| %>
+    <% if person and @logged_in.can_see?(person) %>
+      <tr>
+        <td>
+          <a href="<%= url_for person %>">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          </a>
+        </td>
+        <td class="person">
+          <%= link_to h(person.name), person %> 
+          <% if @group.admin?(person, true) %>
+            <br/>(admin)
+          <% end %>
+          <% if @logged_in.can_edit?(@group) and (person.email.to_s.empty? or !@group.get_options_for(person).get_email?) %>
+            <br/><em>(no mail)</em>
+          <% end %>
+          <% if person.birthday_soon? %>
+            <br/>
+            <span class="small">
+              <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
+              <%= person.birthday.to_s(:date_without_year) %>
+            </span>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
+  <% end %>
 </table>

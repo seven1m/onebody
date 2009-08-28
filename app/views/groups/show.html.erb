@@ -32,7 +32,7 @@
       <p><%= link_to 'Leave This Group', group_membership_path(@group, @logged_in), :method => 'delete', :confirm => 'Are you sure?' %></p>
     <% end %>
   <% end %>
- 
+  
   <%= render :partial => 'people' %>
 <% end %>
 
@@ -46,6 +46,16 @@
 <% end %>
 
 <% if @group.description.to_s.any? or @group.meets.to_s.any? or @group.location.to_s.any? or @group.directions.to_s.any? or @group.other_notes.to_s.any? %>
+
+  <% if @show_map %>
+    <div id="map-container" style="display:none;">
+      <div id="map"></div>
+      <div id="map-link">
+        only an approximation |
+        <%= link_to 'show full screen', "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@group.location)}", :target => '_new' %>
+      </div>
+    </div>
+  <% end %>
 
   <div id="group-details">
 
@@ -112,7 +122,7 @@
   <% end %>
 </div>
 
-<div style="float:right;width:150px;">
+<div style="float:right;width:150px;clear:right;">
   <ul id="my-stuff">
     <% if @group.gcal_url                                         %><li><%= link_to image_tag('calendar.png', :alt => 'Group Calendar', :class => 'icon') + ' Group Calendar', group_calendar_path(@group)        %></li><% end %>
     <% if @group.email?                                           %><li><%= link_to image_tag('message.gif',  :alt => 'Group Emails',   :class => 'icon') + ' Group Emails',   group_messages_path(@group)        %></li><% end %>
@@ -125,14 +135,20 @@
 <%# Main Content %>
 <div style="margin-right:200px;" id="profile-body">
 
-  <p style="margin-bottom:20px;" id="share-something">
-    <%= link_to_function image_tag('add_small.gif', :alt => 'Share Something', :class => 'icon'),
-      "if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
-    You should
-    <%= link_to_function 'share something here', "if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>.
-  </p>
+  <% if @group.can_share?(@logged_in) %>
+    <p style="margin-bottom:20px;" id="share-something">
+      <%= link_to_function image_tag('add_small.gif', :alt => 'Share Something', :class => 'icon'),
+        "if($('map-container'))Element.hide('map-container'); if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
+      You should
+      <%= link_to_function 'share something here', "if($('map-container'))Element.hide('map-container'); if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>.
+    </p>
+  <% end %>
 
   <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
+  
+  <% unless @stream_items.any? %>
+    <p>No online group activity to display.</p>
+  <% end %>
 
 </div>
 
@@ -166,14 +182,21 @@
 <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= group_albums_path(@group.id) %>'; </script>
 <%= javascript_include_tag 'load_albums.js' %>
 
-<%= javascript_include_tag 'tabs' %>
-<%= stylesheet_link_tag 'tabs' %>
-<script type="text/javascript">
-  set_up_tabs();
-  ALBUMS_PATH = '';
-  if(location.hash != '') {
-    if($('group-details'))Element.hide('group-details');
-    Element.hide('share-something');
-    Element.show('share');
-  }
-</script>
+<% if @group.can_share?(@logged_in) %>
+  <%= javascript_include_tag 'tabs' %>
+  <%= stylesheet_link_tag 'tabs' %>
+  <script type="text/javascript">
+    set_up_tabs();
+    ALBUMS_PATH = '';
+    if(location.hash != '') {
+      if($('map-container')) hide_map = true;
+      if($('group-details')) Element.hide('group-details');
+      Element.hide('share-something');
+      Element.show('share');
+    }
+  </script>
+<% end %>
+
+<% if @show_map %>
+  <%= render :partial => 'map_scripts' %>
+<% end %>

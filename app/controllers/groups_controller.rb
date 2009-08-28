@@ -56,6 +56,7 @@ class GroupsController < ApplicationController
     @answered_prayer_count = @group.prayer_requests.count('*', :conditions => "answer != '' and answer is not null")
     @attendance_dates = @group.attendance_dates
     @albums = @group.albums.all(:order => 'created_at desc')
+    @show_map = Setting.get(:services, :yahoo) and @group.mapable?
     unless @group.approved? or @group.admin?(@logged_in)
       render :text => 'This group is pending approval', :layout => true
     end

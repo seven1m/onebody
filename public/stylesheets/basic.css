@@ -512,8 +512,8 @@ div#stream-display-options li a {
 }
 
 #group-details {
-  border: 1px solid #ccc;
-  padding: 10px;
+	margin-right: 275px;
+	border-bottom: 1px solid #ccc;
 }
 
 ul#my-stuff {
@@ -546,4 +546,22 @@ table.memberships td input {
 	overflow: auto;
 	border: 1px solid #ccc;
 	padding: 10px;
+}
+
+#map-container {
+	width: 250px;
+	float: right;
+	margin: 0 0 10px 10px;
+}
+
+#map {
+	width: 250px;
+	height: 200px;
+}
+
+#map-link {
+	font-size: smaller;
+	text-align: right;
+	color: #999;
+	text-decoration: none;
 }

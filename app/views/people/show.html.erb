@@ -43,8 +43,6 @@
   <% end %>
 <% end %>
 
-<%# render :partial => 'map' %>
-
 <% unless @person.visible?(@family) %>
   <p>
     <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
@@ -148,10 +146,6 @@
   <% end %>
 
 </div>
-  
-<% if @show_map %>
-  <%= render :partial => 'map_scripts' %>
-<% end %>
 
 <style type="text/css">
   .stream-item { display: block; }

@@ -99,6 +99,12 @@ class Group < ActiveRecord::Base
     link_code and link_code.any?
   end
   
+  def mapable?
+    # must look like ", OK 74137"
+    # TODO: this needs some work to be usable in other countries
+    location.to_s.any? && location =~ /,\s[A-Z]{2}\s+\d{5}/ ? true : false
+  end
+  
   def leader_with_guessing
     leader_without_guessing || admins.first
   end
@@ -139,6 +145,16 @@ class Group < ActiveRecord::Base
     (members_send and person.member_of?(self) and person.messages_enabled?) or admin?(person)
   end
   alias_method 'can_post?', 'can_send?'
+  
+  def can_share?(person)
+    person.member_of?(self) and \
+      (
+        (email? and can_post?(person)) or \
+        blog? or \
+        pictures? or \
+        prayer?
+      )
+  end
   
   def full_address
     address.to_s.any? ? (address + '@' + Site.current.host) : nil
