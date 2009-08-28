@@ -3,7 +3,7 @@
 # If you are upgrading from a previous (0.8.x) version of OneBody,
 # be sure to upgrade to the latest release within that series
 # (0.8.1 as of this writing) and run the migrations.
-# Then you can upgrade to the latest 1.0.x release.
+# Then you can upgrade to this release.
 
 class Rollup < ActiveRecord::Migration
   def self.up

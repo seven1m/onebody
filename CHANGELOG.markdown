@@ -1,8 +1,8 @@
 OneBody Change Log
 ==================
 
-1.0.0 / ??? 2009
-----------------
+0.9.0 / August 28, 2009
+-----------------------
 
 **Upgrade Note:** Database migrations have been rolled up from previous releases; you must first upgrade
 to version 0.8.1 and run all database migrations before upgrading to this release.
@@ -21,6 +21,7 @@ to version 0.8.1 and run all database migrations before upgrading to this releas
 * Improved site selection from console.
 * Improved email header reading/writing.
 * Safeguard to prevent script/inbox from running more than one process at the same time.
+* Added Yahoo map to group page.
 
 0.8.1 / July 7, 2009
 --------------------
