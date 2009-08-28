@@ -5,7 +5,7 @@
 
 <% case params[:type]; when 'facebook' %>
   
-  <h1>Link Your Account With Facebook</h1>
+  <h1>Import Your Facebook Status Updates</h1>
 
   <% form_for [@person, @feed] do |form| %>
     <%= form.error_messages %>
@@ -29,7 +29,7 @@
   
 <% when 'twitter' %>
 
-  <h1>Link Your Account With Twitter</h1>
+  <h1>Import Your Twitter Updates</h1>
 
   <% form_for [@person, @feed] do |form| %>  
     <%= form.hidden_field :name, :value => 'Twitter' %>
@@ -45,7 +45,7 @@
 
 <% when 'flickr' %>
 
-  <h1>Link Your Account With Flickr</h1>
+  <h1>Import Your Flickr Photos</h1>
 
   <% form_for [@person, @feed] do |form| %>  
     <%= form.hidden_field :name, :value => 'Flickr' %>
@@ -67,17 +67,17 @@
 
 <% when 'rss' %>
 
-  <h1>Link Your Account With a Generic RSS or Atom Feed</h1>
+  <h1>Import Posts From Your Blog</h1>
 
   <% form_for [@person, @feed] do |form| %>  
     <%= hidden_field_tag :type, 'flickr' %>
     <ol>
       <li>
-        Give your feed a unique name:
-        <%= form.text_field :name, :size => 10 %>
+        Name of your blog:
+        <%= form.text_field :name, :value => @feed.name || 'Blog', :size => 10 %>
       </li>
       <li>
-        Paste the feed URL here:
+        Find your blog's feed URL (usually by clicking the <%= image_tag 'feed_small.png', :alt => 'Feed Icon', :class => 'icon' %> icon) and paste it into the field below:
         <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
@@ -90,6 +90,7 @@
 
 <p>
   Note: content from your external feed is <strong>copied</strong> to this site
-  with a link pointing back to the original. Comments made on entries are not
-  posted back to the original source.
+  with a link pointing back to the original. Comments made on imported entries are not
+  posted back to the original. You may delete content on this site at any time and
+  disable feed posting if you change your mind later.
 </p>

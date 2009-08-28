@@ -4,11 +4,15 @@
 
 <h1>Feeds for <%=h @person.name %></h1>
 
+<p>
+  You can import content and updates from external services, social networks, and blogs by adding "feeds" below.
+</p>
+
 <ul>
   <%= render :partial => @feeds %>
 </ul>
 
-<% if @feeds.empty? %><p><em>none yet</em></p><% end %>
+<% if @feeds.empty? %><p><em>none added yet</em></p><% end %>
 
 <h2>Add a Feed</h2>
 <p style="padding-left:10px;">
