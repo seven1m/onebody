@@ -433,6 +433,12 @@ class Person < ActiveRecord::Base
     log_items.count(["created_at >= ?", 1.day.ago]) > 0
   end
   
+  def has_favs?
+    %w(activities interests music tv_shows movies books quotes).detect do |fav|
+      self.send(fav).to_s.any?
+    end ? true : false
+  end
+  
   def access_attributes
     self.attributes.keys.grep(/_access$/).reject { |a| a == 'full_access' }
   end

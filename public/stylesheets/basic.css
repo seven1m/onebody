@@ -536,3 +536,14 @@ table.memberships td {
 table.memberships td input {
 	margin-top: 5px !important;
 }
+
+#about {
+	margin-bottom: 20px;
+}
+
+.scrolling-about {
+	height: 150px;
+	overflow: auto;
+	border: 1px solid #ccc;
+	padding: 10px;
+}

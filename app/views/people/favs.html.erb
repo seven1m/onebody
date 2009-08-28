@@ -1,3 +1,12 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('eye.png', :alt => 'View Profile', :class => 'icon') + ' View Profile', person_path(@person) %></li>
+  <% if me? %>
+    <%= link_to image_tag('pencil.png', :alt => 'Edit Favorites', :class => 'icon') + ' Edit Favorites', edit_person_path(@person) + '#favorites' %>
+  <% end %>
+<% end %>
+
+<h1><%=h @person.name_possessive %> Favorites</h1>
+
 <table>
   <% if @person.activities.to_s.any? %>
     <tr><td>Activities:</td><td><%= linkify @person.activities, :activities %></td></tr>

@@ -43,57 +43,66 @@
   <% end %>
 <% end %>
 
-  <%# render :partial => 'map' %>
+<%# render :partial => 'map' %>
 
-  <% unless @person.visible?(@family) %>
-    <p>
-      <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-      This profile is hidden.
-    </p>
-  <% end %>
+<% unless @person.visible?(@family) %>
+  <p>
+    <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+    This profile is hidden.
+  </p>
+<% end %>
 
-  <%= render :partial => 'pending_updates' %>
-  
-  <div id="share" style="margin-bottom:20px;display:none;">
-    <% if me? %>
-      <%= render :partial => 'streams/share' %>
-    <% elsif @person.wall_enabled? %>
-      <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => 'Message', :class => 'icon') %> Message</h2>
-      <div class="section">
-        <% form_for Message.new(:wall => @person) do |form| %>
-          <%= form.hidden_field :wall_id %>
-          <p>
-            <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
-            Leave a message for <%=h @person.first_name %>:
-            <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', 'Public', :class => 'inline' %>
-            <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
-            <% unless @person.messages_enabled? %>(disabled)<% end %>
-            <br/>
-            <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
-            <%= form.submit 'Save Message', :id => 'note_submit' %>
-            <span class="small discreet">
-              This message will be visible to anyone who can see
-              <%=h @person.first_name_possessive %> profile.
-            </span>
-          </p>
-        <% end %>
-      </div>
-    <% end %>
-    <h2 class="tab" id="info"><%= image_tag('information.png', :alt => 'Info', :class => 'icon') %> Info</h2>
+<%= render :partial => 'pending_updates' %>
+
+<div id="share" style="margin-bottom:20px;display:none;">
+  <% if me? %>
+    <%= render :partial => 'streams/share' %>
+  <% elsif @person.wall_enabled? %>
+    <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => 'Message', :class => 'icon') %> Message</h2>
     <div class="section">
-      <%= render :partial => 'details' %>
+      <% form_for Message.new(:wall => @person) do |form| %>
+        <%= form.hidden_field :wall_id %>
+        <p>
+          <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
+          Leave a message for <%=h @person.first_name %>:
+          <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', 'Public', :class => 'inline' %>
+          <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
+          <% unless @person.messages_enabled? %>(disabled)<% end %>
+          <br/>
+          <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
+          <%= form.submit 'Save Message', :id => 'note_submit' %>
+          <span class="small discreet">
+            This message will be visible to anyone who can see
+            <%=h @person.first_name_possessive %> profile.
+          </span>
+        </p>
+      <% end %>
     </div>
+  <% end %>
+  <h2 class="tab" id="info"><%= image_tag('information.png', :alt => 'Info', :class => 'icon') %> Info</h2>
+  <div class="section">
+    <%= render :partial => 'details' %>
   </div>
-
+</div>
 
 <div style="float:right;width:150px;">
   <ul id="my-stuff">
+    <% if @person.testimony.to_s.any? %>
+      <li><%= link_to image_tag('lightbulb.png', :alt => 'My Testimony', :class => 'icon') + ' My Testimony', testimony_person_path(@person) %></li>
+    <% end %>
+    <% if @person.has_favs? %>
+      <li><%= link_to image_tag('emoticon_smile.png', :alt => 'My Favorites', :class => 'icon') + ' My Favorites', favs_person_path(@person) %></li>
+    <% end %>
     <% if Setting.get(:features, :notes    ) %><li><%= link_to image_tag('note.png',     :alt => 'My Pictures', :class => 'icon') + ' My Notes',    person_notes_path(@person)   %></li><% end %>
     <% if Setting.get(:features, :pictures ) %><li><%= link_to image_tag('picture.png',  :alt => 'My Pictures', :class => 'icon') + ' My Pictures', person_albums_path(@person)  %></li><% end %>
     <% if Setting.get(:features, :verses   ) %><li><%= link_to image_tag('verse.png',    :alt => 'My Verses',   :class => 'icon') + ' My Verses',   person_verses_path(@person)  %></li><% end %>
     <% if Setting.get(:features, :recipes  ) %><li><%= link_to image_tag('recipe.png',   :alt => 'My Recipes',  :class => 'icon') + ' My Recipes',  person_recipes_path(@person) %></li><% end %>
     <% if @person.wall_enabled?              %><li><%= link_to image_tag('comments.png', :alt => 'My Messages', :class => 'icon') + ' My Messages', person_wall_path(@person)    %></li><% end %>
   </ul>
+</div>
+
+<div id="about" <% if @person.about.to_s.length > 500 %>class="scrolling-about"<% end %>>
+  <%= white_list_with_removal @person.about %>
 </div>
 
 <%# Main Content %>

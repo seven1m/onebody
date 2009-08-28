@@ -250,9 +250,14 @@ class PeopleController < ApplicationController
   
   def favs
     @person = Person.find(params[:id])
-    if @logged_in.can_see?(@person)
-      render :partial => 'favorites'
-    else
+    unless @logged_in.can_see?(@person)
+      render :text => 'Person not found.', :status => 404, :layout => true
+    end
+  end
+  
+  def testimony
+    @person = Person.find(params[:id])
+    unless @logged_in.can_see?(@person)
       render :text => 'Person not found.', :status => 404, :layout => true
     end
   end

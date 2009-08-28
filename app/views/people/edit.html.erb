@@ -2,6 +2,17 @@
 <%= javascript_include_tag 'tabs' %>
 <style type="text/css"> form { border:none; }</style>
 
+<%= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
+<script type="text/javascript">
+  tinyMCE.init({
+    mode: "exact",
+    elements: "person_testimony,person_about",
+    theme: "advanced",
+    convert_newlines_to_brs : true,
+    invalid_elements: "pre,font"
+  });
+</script>
+
 <p>
   <strong>
     <% if @logged_in.admin?(:edit_profiles) %>
@@ -88,7 +99,7 @@
       <label for="person_about">About Me:</label>
       Tell us about yourself. What's your personality like?
       What would your best friend say about you?<br/>
-      <%= form.text_area :about, :rows => 6, :style => 'width:95%;' %><br/>
+      <%= form.text_area :about, :rows => 10, :style => 'width:95%;' %><br/>
       <label for="person_website">Website:</label>
       <%= form.text_field :website %>
     </div>
@@ -100,7 +111,7 @@
 <div class="section">
   <% form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'favorites' %>
-    <p style="font-style:italic;">Separate things with commas so the system can auto-link to other people with the same stuff.</p>
+    <p style="font-style:italic;">Separate items with commas so they can be linked to other people with the same interests.</p>
     <div>
     <label for="person_activities">Activities:</label>
     <%= form.text_area :activities, :rows => 4 %>

@@ -55,13 +55,3 @@
     <tr><td>Business:</td><td><%= link_to h(@person.business_name), person_path(@person, :business => true) %><br/><%=h truncate(@person.business_description, :length => 200) %></td></tr>
   <% end %>
 </table>
-
-<p>
-  <span id="favs_link">
-    <%= link_to_remote "#{h @person.first_name_possessive} Favorites", {:url => favs_person_path(@person), :update => 'favs', :method => :get, :loading => "Element.show('favs_loading')", :success => "Element.hide('favs_loading');Element.hide('favs_link')"} %>
-    <%= link_to_remote image_tag('arrow_right.png', :alt => 'Favorites', :class => 'icon'), {:url => favs_person_path(@person), :update => 'favs', :method => :get, :loading => "Element.show('favs_loading')", :success => "Element.hide('favs_loading');Element.hide('favs_link')"} %>
-  </span>
-  <%= image_tag 'spinner_small.gif', :alt => 'Loading...', :id => 'favs_loading', :class => 'icon', :style => 'display:none;' %>
-</p>
-
-<div id="favs"></div>
