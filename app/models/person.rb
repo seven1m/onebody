@@ -74,7 +74,7 @@
 #  child                        :boolean       
 #  custom_type                  :string(100)   
 #  custom_fields                :text          
-#  include_family_on_calendar   :boolean       default(TRUE)
+#  signin_count                 :integer       default(0)
 #
 
 class Person < ActiveRecord::Base

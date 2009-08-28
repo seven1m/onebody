@@ -9,7 +9,6 @@
 #  created_at   :datetime      
 #  updated_at   :datetime      
 #  original_url :string(255)   
-#  deleted      :boolean       
 #  group_id     :integer       
 #  site_id      :integer       
 #
