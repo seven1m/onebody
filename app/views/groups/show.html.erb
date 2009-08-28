@@ -57,7 +57,7 @@
     </div>
   <% end %>
 
-  <div id="group-details">
+  <div id="group-details" <% if @show_map %>style="margin-right:275px;"<% end %>>
 
     <p>
       <%=h @group.description %>
