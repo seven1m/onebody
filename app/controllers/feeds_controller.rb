@@ -37,31 +37,36 @@ class FeedsController < ApplicationController
         params[:feed][:url] = "http://twitter.com/statuses/user_timeline.atom?screen_name=#{params[:feed][:url]}"
       end
       @feed = @person.feeds.new(params[:feed])
-      if params[:final]
-        if @feed.save
-          if @feed.error_count.to_i > 0
-            @feed.destroy; @feed = @person.feeds.new
-            flash[:notice] = 'There was an error retrieving the feed. Please check the URL and try again.'
-            render :action => 'new', :type => params[:type]
+      @feed.transform_url
+      if @feed.valid?
+        if params[:final]
+          if @feed.save
+            if @feed.error_count.to_i > 0
+              @feed.destroy; @feed = @person.feeds.new
+              flash[:notice] = 'There was an error retrieving the feed. Please check the URL and try again.'
+              render :action => 'new', :type => params[:type]
+            else
+              flash[:notice] = "Done! Click the <a href=\"#{url_for stream_path}\">Home</a> tab to view your imported content."
+              redirect_to person_feeds_path(@person)
+            end
           else
-            flash[:notice] = 'Success'
-            redirect_to person_feeds_path(@person)
+            render :action => 'new'
           end
         else
-          render :action => 'new', :type => params[:type]
+          url = Feed.transform_url(@feed.url)
+          feed = Feedzirra::Feed.fetch_and_parse(url) rescue nil
+          @entries = feed.entries[0...Feed::IMPORT_LIMIT] rescue []
+          if feed and @entries.to_a.any?
+            render :action => 'preview'
+          else
+            text = 'No entries were found at the URL provided. Please go back and try again.'
+            text << " If adding a Twitter account, check that your Twitter updates aren't protected." if params[:type] == 'twitter'
+            text << " If adding a Flickr account, check that your Photos are public." if params[:type] == 'flickr'
+            render :text => text, :layout => true, :status => 400
+          end
         end
       else
-        url = Feed.transform_url(params[:feed][:url])
-        feed = Feedzirra::Feed.fetch_and_parse(url) rescue nil
-        @entries = feed.entries[0...Feed::IMPORT_LIMIT] rescue []
-        if feed and @entries.to_a.any?
-          render :action => 'preview'
-        else
-          text = 'No entries were found at the URL provided. Please go back and try again.'
-          text << " If adding a Twitter account, check that your Twitter updates aren't protected." if params[:type] == 'twitter'
-          text << " If adding a Flickr account, check that your Photos are public." if params[:type] == 'flickr'
-          render :text => text, :layout => true, :status => 400
-        end
+        render :action => 'new'
       end
     else
       render :text => 'You are unauthorized to edit the feeds of this person.', :layout => true, :status => 401

@@ -32,6 +32,7 @@
   <h1>Import Your Twitter Updates</h1>
 
   <% form_for [@person, @feed] do |form| %>  
+    <%= form.error_messages %>
     <%= form.hidden_field :name, :value => 'Twitter' %>
     <%= hidden_field_tag :type, 'twitter' %>
     <ol>
@@ -48,6 +49,7 @@
   <h1>Import Your Flickr Photos</h1>
 
   <% form_for [@person, @feed] do |form| %>  
+    <%= form.error_messages %>
     <%= form.hidden_field :name, :value => 'Flickr' %>
     <%= hidden_field_tag :type, 'flickr' %>
     <ol>
@@ -70,7 +72,8 @@
   <h1>Import Posts From Your Blog</h1>
 
   <% form_for [@person, @feed] do |form| %>  
-    <%= hidden_field_tag :type, 'flickr' %>
+    <%= form.error_messages %>
+    <%= hidden_field_tag :type, 'rss' %>
     <ol>
       <li>
         Name of your blog:

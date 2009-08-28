@@ -27,6 +27,7 @@ label.inline { display: inline; }
 
 .errorExplanation h2 {
   color: red;
+  border: none;
 }
 
 li.family-member{
@@ -563,4 +564,9 @@ table.memberships td input {
 	text-align: right;
 	color: #999;
 	text-decoration: none;
+}
+
+.fieldWithErrors {
+  background-color: #fcc;
+  padding: 5px;
 }

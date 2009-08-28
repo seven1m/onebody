@@ -16,8 +16,9 @@ class Feed < ActiveRecord::Base
   belongs_to :person
   scope_by_site_id
   validates_presence_of :person_id, :url, :name
-  validates_uniqueness_of :name, :scope => :person_id
-  validates_format_of :url, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
+  validates_uniqueness_of :name, :scope => :person_id, :message => "is already taken. Please choose another name for this feed."
+  validates_uniqueness_of :url, :scope => :person_id, :message => "is already connected. You're already importing this feed address."
+  validates_format_of :url, :with => /^https?\:\/\/.+/, :message => "does not appear to be properly formatted. Did you type this address correctly? Try pasting it in instead."
   
   before_save :transform_url
   
@@ -97,6 +98,7 @@ class Feed < ActiveRecord::Base
   
   def self.transform_url(url)
     url = url.to_s
+    url = 'http://' + url unless url =~ /^https?:\/\//
     if url.include?('facebook.com')
       url.sub(/notifications\.php/, 'status.php')
     elsif url.include?('flickr.com') and open(url).read =~ /<link\s+rel="alternate"\s+type="application\/atom\+xml".+?href="([^"]+)">/
