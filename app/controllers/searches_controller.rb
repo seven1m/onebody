@@ -49,12 +49,14 @@ class SearchesController < ApplicationController
             elsif params[:select_family]
               @families = @families[0..MAX_SELECT_FAMILIES]
               page.replace_html 'results', :partial => 'select_family'
-              if !@families.empty?
-                page.show 'select_family_form'
-                page.hide 'no_families_found'
-              else
-                page.hide 'select_family_form'
-                page.show 'no_families_found'
+              unless params[:results_only]
+                if !@families.empty?
+                  page.show 'select_family_form'
+                  page.hide 'no_families_found'
+                else
+                  page.hide 'select_family_form'
+                  page.show 'no_families_found'
+                end
               end
             else
               if @people

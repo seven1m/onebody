@@ -40,8 +40,17 @@ class FamiliesController < ApplicationController
     if @logged_in.can_see?(@family)
       respond_to do |format|
         format.html
-        format.xml { render :xml => @family.to_xml } if can_export?
+        format.xml  { render :xml => @family.to_xml } if can_export?
         format.json { render :text => @family.to_json(:except => %w(site_id)) } if can_export?
+        format.js do
+          if params[:barcode_entry]
+            render :update do |page|
+              page.replace_html 'family', :partial => 'details'
+              page.replace_html 'barcode', :partial => 'barcode_entry'
+              page << "$('family_barcode_id').focus(); $('family_barcode_id').select();"
+            end
+          end
+        end
       end
     else
       render :text => 'Family not found.', :status => 404
@@ -74,10 +83,16 @@ class FamiliesController < ApplicationController
 
   def update
     @family = Family.find(params[:id])
-    @family.update_attributes(params[:family])
-    respond_to do |format|
-      format.html { redirect_to @family }
-      format.xml  { render :xml => @family.to_xml } if can_export?
+    if @family.update_attributes(params[:family])
+      respond_to do |format|
+        format.html { flash[:notice] = 'Family saved.'; redirect_to params[:redirect_to] || @family }
+        format.xml  { render :xml => @family.to_xml } if can_export?
+      end
+    else
+      respond_to do |format|
+        format.html { flash[:warning] = 'There were errors.'; redirect_to params[:redirect_to] || @family }
+        format.xml  { render :xml => @family.errors, :status => :unprocessable_entity } if can_export?
+      end
     end
   end
   

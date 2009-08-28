@@ -1,0 +1,32 @@
+<% content_for :sidebar do %>
+  <h1>Family Check-In Card Maintenance</h1>
+  <% form_remote_tag :url => search_path,
+    :before  => "$('family').update('');$('barcode').update('')",
+    :success => "results_updated()" do |form| %>
+    <%= hidden_field_tag :select_family, true %>
+    <%= hidden_field_tag :results_only, true %>
+    <p>
+      <%= label_tag :family_name, 'Type all or part of the family name:' %>
+      <%= text_field_tag :family_name %>
+    </p>
+    <p>
+      <%= submit_tag 'Search' %>
+    </p>
+  <% end %>
+<% end %>
+
+<div style="width:200px;float:left;">
+  <div id="results"></div>
+  <div id="barcode"></div>
+</div>
+
+<div style="margin-left:250px;" id="family"></div>
+
+<script type="text/javascript">
+  function results_updated() {
+    setTimeout("var fams = $$('#results input'); if(fams.length == 1) select_family(fams[0].value)", 1);
+  }
+  function select_family(id) {
+    new Ajax.Request(<%= families_path.inspect %> + '/' + id + '?barcode_entry=true', {method: 'get'});
+  };
+</script>

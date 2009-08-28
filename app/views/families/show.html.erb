@@ -6,14 +6,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <% if @family.has_photo? %>
-    <%= render :partial => 'families/photo' %>
-  <% else %>
-    <%= image_tag 'family.jpg', :alt => 'no family photo' %>
-  <% end %>
-  <h1><%=h @family.name %></h1>
-  <p><%= preserve_breaks @family.pretty_address %> <%= render(:partial => 'map_link') %></p>
-  <p><%= format_phone @family.home_phone %></p>
+  <%= render :partial => 'families/details' %>
 <% end %>
 
 <%= render :partial => 'map' %>

@@ -1,0 +1,8 @@
+<% form_for @family do |form| %>
+  <%= hidden_field_tag :redirect_to, barcodes_path %>
+  <p>
+    Scan Card:
+    <%= form.password_field :barcode_id, :size => 20 %>
+    <%= form.submit 'Save' %>
+  </p>
+<% end %>

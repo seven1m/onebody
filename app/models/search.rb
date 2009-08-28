@@ -134,6 +134,7 @@ class Search
   
   def query_families(page=nil)
     @conditions.add_condition ["families.deleted = ?", false]
+    @count = Family.count :conditions => @conditions
     @families = Family.paginate(:all, :page => page, :conditions => @conditions, :order => "last_name")
   end
   
