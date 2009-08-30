@@ -23,7 +23,7 @@ class Search
     @family_name = family_name
     if family_name
       family_name.gsub! /\sand\s/, ' & '
-      @conditions.add_condition ["families.name like ? or families.last_name like ?", "%#{family_name}%", "%#{family_name}%"]
+      @conditions.add_condition ["(families.name like ? or families.last_name like ?)", "%#{family_name}%", "%#{family_name}%"]
     end
   end
   
