@@ -1,5 +1,4 @@
-<% form_for @family do |form| %>
-  <%= hidden_field_tag :redirect_to, barcodes_path %>
+<% form_remote_for @family do |form| %>
   <p>
     Scan Card:
     <%= form.password_field :barcode_id, :size => 20 %>

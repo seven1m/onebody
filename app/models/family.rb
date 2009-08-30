@@ -34,6 +34,7 @@
 
 class Family < ActiveRecord::Base
   has_many :people, :order => 'sequence', :dependent => :destroy
+  accepts_nested_attributes_for :people
   belongs_to :site
   
   scope_by_site_id

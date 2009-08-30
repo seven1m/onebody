@@ -1,7 +1,48 @@
 <% form_for @family do |form| %>
+  <% if params[:compact] %><%= hidden_field_tag :compact, true %><% end %>
+  <% if params[:people] %> <%= hidden_field_tag :people,  true %><% end %>
+  <% if params[:barcode] %><%= hidden_field_tag :barcode, true %><% end %>
+  
   <%= form.error_messages %>
+  
   <p>
     <%= render :partial => 'form_fields', :locals => {:form => form} %>
+    <% if params[:barcode] %>
+      <%= form.label :barcode_id, 'Scan Card' %> <%= form.password_field :barcode_id %><br/>
+    <% end %>
+  </p>
+  
+  <% if params[:people] %>
+    <table id="family_people">
+      <tr><th>First Name</th><th>Last Name</th><th>Birthday</th></tr>
+      <% form.fields_for :people do |people_form| %>
+        <%= render :partial => 'people_form_fields', :locals => {:people_form => people_form} %>
+      <% end %>
+    </table>
+    <script type="text/javascript">
+      var rows = $$('#family_people tr');
+      for(var i=6; i<rows.length; i++) {
+        rows[i].hide();
+      }
+      function add_person_row() {
+        var rows = $$('#family_people tr');
+        for(var i=0; i<rows.length; i++) {
+          if(rows[i].style.display == 'none') {
+            rows[i].show();
+            return i < rows.length-1;
+          }
+        }
+        return false;
+      }
+    </script>
+    <p id="add_row_link">
+      <%= link_to_function image_tag('plus.png', :alt => 'Add Person', :class => 'icon'), "if(!add_person_row()) Element.hide('add_row_link')" %>
+      <%= link_to_function 'Add Person', "if(!add_person_row()) Element.hide('add_row_link')" %>
+    </p>
+    <%= calendar_date_select_includes 'silver' %>
+  <% end %>
+  
+  <p>
     <%= submit_tag 'Save Family' %>
   </p>
 <% end %>

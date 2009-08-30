@@ -1,7 +1,7 @@
 <% content_for :sidebar do %>
   <h1>Family Check-In Card Maintenance</h1>
   <% form_remote_tag :url => search_path,
-    :before  => "$('family').update('');$('barcode').update('')",
+    :before  => "$('family').update('');$('barcode').update('');$('notice').hide();",
     :success => "results_updated()" do |form| %>
     <%= hidden_field_tag :select_family, true %>
     <%= hidden_field_tag :results_only, true %>
@@ -13,6 +13,10 @@
       <%= submit_tag 'Search' %>
     </p>
   <% end %>
+  <p>
+    <%= link_to image_tag('add_small.gif', :alt => 'Add Family', :class => 'icon'), new_family_path(:compact => true, :people => true, :barcode => true) %>
+    <%= link_to 'Add Family', new_family_path(:compact => true, :people => true, :barcode => true) %>
+  </p>
 <% end %>
 
 <div style="width:200px;float:left;">
@@ -20,7 +24,10 @@
   <div id="barcode"></div>
 </div>
 
-<div style="margin-left:250px;" id="family"></div>
+<div style="margin-left:250px;">
+  <div id="notice" style="display:none;"></div>
+  <div id="family"></div>
+</div>
 
 <script type="text/javascript">
   function results_updated() {

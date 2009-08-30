@@ -61,13 +61,23 @@ class FamiliesController < ApplicationController
   
   def new
     @family = Family.new
+    25.times { @family.people.build }
   end
   
   def create
+    params[:family][:people_attributes].reject! do |num, person|
+      person[:first_name].blank? || person[:birthday].blank?
+    end
     @family = Family.new_with_default_sharing(params[:family])
     respond_to do |format|
       if @family.save
-        format.html { redirect_to @family }
+        format.html do
+          if params[:barcode]
+            render :text => "Family saved. Assigned number: #{@family.barcode_id}<br/><a href=\"#{barcodes_path}\">Click here</a> to return...", :layout => true
+          else
+            redirect_to params[:redirect_to] || @family
+          end
+        end
         format.xml  { render :xml => @family, :status => :created, :location => @family }
         format.js
       else
@@ -87,11 +97,23 @@ class FamiliesController < ApplicationController
       respond_to do |format|
         format.html { flash[:notice] = 'Family saved.'; redirect_to params[:redirect_to] || @family }
         format.xml  { render :xml => @family.to_xml } if can_export?
+        format.js do # only used by barcode entry right now
+          render :update do |page|
+            page.replace_html :notice, "Family saved. Assigned number: #{@family.barcode_id}"
+            page[:notice].show
+          end
+        end
       end
     else
       respond_to do |format|
         format.html { flash[:warning] = 'There were errors.'; redirect_to params[:redirect_to] || @family }
         format.xml  { render :xml => @family.errors, :status => :unprocessable_entity } if can_export?
+        format.js do # only used by barcode entry right now
+          render :update do |page|
+            page.replace_html :notice, 'There were errors.'
+            page[:notice].show
+          end
+        end
       end
     end
   end

@@ -1,7 +1,7 @@
 <p>
   <% @families.each do |family| %>
-    <%= radio_button_tag 'id', family.id, @families.length == 1, :class => 'radiobutton', :onclick => "if(typeof(select_family) == 'function') select_family(this.value);" %>
-    <%= render :partial => 'families/link', :locals => {:family => family} %>
+    <%= radio_button_tag 'id', family.id, @families.length == 1, :id => "family#{family.id}", :class => 'radiobutton', :onclick => "if(typeof(select_family) == 'function') select_family(this.value);" %>
+    <%= label_tag "family#{family.id}", h(family.name), :class => 'inline' %>
     <br/>
   <% end %>
 </p>
