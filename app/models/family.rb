@@ -52,7 +52,7 @@ class Family < ActiveRecord::Base
   
   validates_uniqueness_of :barcode_id, :allow_nil => true
   validates_length_of :barcode_id, :in => 10..50, :allow_nil => true
-  validates_format_of :barcode_id, :with => /^\d+$/
+  validates_format_of :barcode_id, :with => /^\d+$/, :allow_nil => true
   
   def barcode_id=(b)
     write_attribute(:barcode_id, b.to_s.strip.any? ? b : nil)
