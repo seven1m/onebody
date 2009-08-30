@@ -561,7 +561,7 @@ class Person < ActiveRecord::Base
     if mine
       conditions.add_condition([
         "(stream_items.person_id = ? or stream_items.wall_id = ?) and " +
-        "(stream_items.group_id is null or (groups.hidden = ? and groups.private = ?))",
+        "(stream_items.group_id is null or (groups.hidden = ? and groups.private = ? and stream_items.streamable_type != 'Message'))",
         id,
         id,
         false,

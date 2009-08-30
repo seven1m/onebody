@@ -57,10 +57,6 @@ class PeopleController < ApplicationController
       @sidebar_group_people = @person.random_sidebar_group_people.select { |p| @logged_in.can_see?(p) }
       @stream_items = @person.shared_stream_items(20, :mine)
       @albums = @person.albums.all(:order => 'created_at desc')
-      #@notes = @person.notes.all(:order => 'created_at desc')
-      #@verses = @person.verses.all
-      # wall messages
-      #@messages = @person.wall_messages.find(:all, :include => :person, :limit => 10)
       if params[:simple]
         if @logged_in.full_access?
           if params[:photo]
