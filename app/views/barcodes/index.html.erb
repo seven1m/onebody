@@ -34,6 +34,6 @@
     setTimeout("var fams = $$('#results input'); if(fams.length == 1) select_family(fams[0].value)", 1);
   }
   function select_family(id) {
-    new Ajax.Request(<%= families_path.inspect %> + '/' + id + '?barcode_entry=true', {method: 'get'});
+    new Ajax.Request(<%= families_path.inspect %> + '/' + id + '?barcode_entry=true&include_people=true&include_alerts=true', {method: 'get'});
   };
 </script>

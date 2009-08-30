@@ -3,6 +3,13 @@
 <% else %>
   <%= image_tag 'family.jpg', :alt => 'no family photo' %>
 <% end %>
-<h1><%=h @family.name %></h1>
+<h1><%= link_to h(@family.name), @family %></h1>
 <p><%= preserve_breaks @family.pretty_address %> <%= render(:partial => 'map_link') %></p>
 <p><%= format_phone @family.home_phone %></p>
+
+<% if params[:include_people] %>
+  <%= @family_people = @family.people.all(:order => 'sequence')
+    @skip_heading = true
+    @include_alerts = params[:include_alerts]
+    render :partial => 'people/family' %>
+<% end %>
