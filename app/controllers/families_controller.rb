@@ -65,8 +65,10 @@ class FamiliesController < ApplicationController
   end
   
   def create
-    params[:family][:people_attributes].reject! do |num, person|
-      person[:first_name].blank? || person[:birthday].blank?
+    if params[:family][:people_attributes]
+      params[:family][:people_attributes].reject! do |num, person|
+        person[:first_name].blank? || person[:birthday].blank?
+      end
     end
     @family = Family.new_with_default_sharing(params[:family])
     respond_to do |format|
