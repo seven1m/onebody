@@ -1,8 +1,8 @@
 OneBody Change Log
 ==================
 
-0.9.0 / August 30, 2009
------------------------
+0.9.0 / September ?, 2009
+-------------------------
 
 **Upgrade Note:** Database migrations have been rolled up from previous releases; you must first upgrade
 to version 0.8.1 and run all database migrations before upgrading to this release.
