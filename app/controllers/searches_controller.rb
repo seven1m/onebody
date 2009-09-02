@@ -1,7 +1,7 @@
 class SearchesController < ApplicationController
 
-  MAX_SELECT_PEOPLE = 5
-  MAX_SELECT_FAMILIES = 5
+  MAX_SELECT_PEOPLE = 10
+  MAX_SELECT_FAMILIES = 10
 
   def show
     # A search should be referencable by URI, thus "show" makes sense;
@@ -49,14 +49,12 @@ class SearchesController < ApplicationController
             elsif params[:select_family]
               @families = @families[0..MAX_SELECT_FAMILIES]
               page.replace_html 'results', :partial => 'select_family'
-              unless params[:results_only]
-                if !@families.empty?
-                  page.show 'select_family_form'
-                  page.hide 'no_families_found'
-                else
-                  page.hide 'select_family_form'
-                  page.show 'no_families_found'
-                end
+              if !@families.empty?
+                page.show 'select_family_form'
+                page.hide 'no_families_found'
+              else
+                page.hide 'select_family_form'
+                page.show 'no_families_found'
               end
             else
               if @people

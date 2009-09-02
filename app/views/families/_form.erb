@@ -7,9 +7,6 @@
   
   <p>
     <%= render :partial => 'form_fields', :locals => {:form => form} %>
-    <% if params[:barcode] %>
-      <%= form.label :barcode_id, 'Scan Card' %> <%= form.password_field :barcode_id %><br/>
-    <% end %>
   </p>
   
   <% if params[:people] %>
@@ -41,6 +38,13 @@
     </p>
     <%= calendar_date_select_includes 'silver' %>
   <% end %>
+  
+  <% if params[:barcode] %>
+    <p>
+      <%= form.label :barcode_id, 'Scan Card' %> <%= form.text_field :barcode_id %>
+    </p>
+  <% end %>
+  
   
   <p>
     <%= submit_tag 'Save Family' %>

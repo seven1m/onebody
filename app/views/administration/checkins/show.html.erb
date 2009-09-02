@@ -18,15 +18,18 @@
   </p>
 <% end %>
 
-<div style="width:200px;float:left;">
+<div style="width:250px;float:left;">
   <div id="results"></div>
+  <div id="no_families_found" style="display:none;"><em>no families found</em></div>
   <div id="barcode"></div>
 </div>
 
-<div style="margin-left:250px;">
+<div style="margin-left:300px;">
   <div id="notice" style="display:none;"></div>
   <div id="family"></div>
 </div>
+
+<div id="select_family_form"></div> <%# not really used - just there so the rjs doesn't error #%>
 
 <script type="text/javascript">
   function results_updated() {

@@ -1,7 +1,7 @@
 <% form_remote_for @family do |form| %>
   <p>
     Scan Card:
-    <%= form.password_field :barcode_id, :size => 20 %>
+    <%= form.text_field :barcode_id, :size => 20 %>
     <%= form.submit 'Save' %>
   </p>
 <% end %>
