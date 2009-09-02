@@ -71,7 +71,6 @@ unless defined?(DISABLE_ROUTES)
     map.resources :verses
     map.resources :publications
     map.resources :notes
-    map.resources :shares
     map.resources :tags
     map.resources :news, :singular => 'news_item'
     map.resources :comments
