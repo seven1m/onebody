@@ -8,8 +8,8 @@
 <% end %>
 
 <table>
-  <% @group.people.all(params[:action] == 'show' ? {:limit => 25, :order => sql_random} : {:order => 'last_name, first_name'}).each do |person| %>
-    <% if person and @logged_in.can_see?(person) %>
+  <% @group.memberships.all(params[:action] == 'show' ? {:include => :person, :limit => 25, :order => sql_random} : {:include => :person, :order => 'people.last_name, people.first_name'}).each do |membership| %>
+    <% if person = membership.person %>
       <tr>
         <td>
           <a href="<%= url_for person %>">
@@ -18,12 +18,6 @@
         </td>
         <td class="person">
           <%= link_to h(person.name), person %> 
-          <% if @group.admin?(person, true) %>
-            <br/>(admin)
-          <% end %>
-          <% if @logged_in.can_edit?(@group) and (person.email.to_s.empty? or !@group.get_options_for(person).get_email?) %>
-            <br/><em>(no mail)</em>
-          <% end %>
           <% if person.birthday_soon? %>
             <br/>
             <span class="small">

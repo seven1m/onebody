@@ -9,8 +9,8 @@
       <li><%= link_to image_tag('thumb_up.png', :alt => 'Approve Group', :class => 'icon') + ' Approve Group', group_path(@group, :group => {:approved => true}), :confirm => 'Are you sure?', :method => 'put', :class => 'very-strong' %></li>
     <% end %>
   <% end %>
-  <% if @membership = @logged_in.member_of?(@group) %>
-    <li><%= link_to image_tag('lock.png', :alt => 'Group Privacy', :class => 'icon') + ' Group Privacy', group_membership_privacy_path(@group, @membership) %></li>
+  <% if @member_of %>
+    <li><%= link_to image_tag('lock.png', :alt => 'Group Privacy', :class => 'icon') + ' Group Privacy', group_membership_privacy_path(@group, @member_of) %></li>
   <% end %>
 <% end %>
 
@@ -29,7 +29,7 @@
   <% else %>
     <% if @group.membership_requests.count('*', :conditions => ['person_id = ?', @logged_in.id]) > 0 %>
       <p class="very-strong">You have requested to join this group.</p>
-    <% elsif not @logged_in.member_of?(@group) %>
+    <% elsif not @member_of %>
       <p><%= link_to 'Join This Group', group_memberships_path(@group, :id => @logged_in), :method => 'post', :confirm => @group.admin?(@logged_in) ? 'Are you sure?' : 'Are you sure? A request will be sent to the group administrator(s).' %></p>
     <% elsif not @group.last_admin?(@logged_in) %>
       <p><%= link_to 'Leave This Group', group_membership_path(@group, @logged_in), :method => 'delete', :confirm => 'Are you sure?' %></p>
@@ -90,7 +90,7 @@
 
 <div id="share" style="display:none;margin-bottom:20px;">
   
-  <% if @group.email? and @group.can_post?(@logged_in) %>
+  <% if @group.email? and @can_post %>
     <h2 class="tab" id="email"><%= image_tag('message.gif', :alt => 'Email', :class => 'icon') %> Email</h2>
     <div class="section">
       <% form_for Message.new(:group => @group), :html => {:enctype => 'multipart/form-data', :id => 'message'} do |form| %>
@@ -112,7 +112,7 @@
     </div>
   <% end %>
   
-  <% if @group.blog? and @group.can_post?(@logged_in) and @note = Note.new(:group => @group) %>
+  <% if @group.blog? and @can_post and @note = Note.new(:group => @group) %>
     <%= render :partial => 'streams/share_note' %>
   <% end %>
 
@@ -138,7 +138,7 @@
 <%# Main Content %>
 <div style="margin-right:200px;" id="profile-body">
 
-  <% if @group.can_share?(@logged_in) %>
+  <% if @can_share %>
     <p style="margin-bottom:20px;" id="share-something">
       <%= link_to_function image_tag('add_small.gif', :alt => 'Share Something', :class => 'icon'),
         "if($('map-container'))Element.hide('map-container'); if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
@@ -159,25 +159,6 @@
   .stream-item { display: block; }
 </style>
 
-<%# TODO: put this somewhere on the page %>
-<% if nil and @group.attendance? and @group.admin?(@logged_in) %>
-  <h2 class="tab" id="attendance">Attendance</h2>
-  <div class="section">
-    <% form_remote_tag :url => group_attendance_index_path(@group), :method => 'get',
-      :loading => "$('attendance_records').innerHTML = '#{image_tag('spinner.gif', :alt => 'loading')}'",
-      :html => {:id => 'attendance_date_form'} do %>
-      <p>
-        <%= text_field_tag :attended_at, Time.now.to_s(:date) %>
-        <%= submit_tag 'View/Update Attendance' %>
-        Dates with attendance data:
-        <%= select_tag 'existing_date', options_for_select([''] + @attendance_dates.map { |d| d.to_s(:date) }),
-          :onchange => "$('attended_at').value = this.value; $('attendance_date_form').onsubmit()" %>
-      </p>
-    <% end %>
-    <div id="attendance_records"></div>
-  </div>
-<% end %>
-
 <% unless @group.blog? or @group.email? or @group.prayer? %>
   <p><em>This group does not offer any features and is for informational purposes only.</em></p>
 <% end %>
@@ -185,7 +166,7 @@
 <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= group_albums_path(@group.id) %>'; </script>
 <%= javascript_include_tag 'load_albums.js' %>
 
-<% if @group.can_share?(@logged_in) %>
+<% if @can_share %>
   <%= javascript_include_tag 'tabs' %>
   <%= stylesheet_link_tag 'tabs' %>
   <script type="text/javascript">
