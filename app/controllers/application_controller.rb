@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
         redirect_to 'http://' + site.host
         return false
       elsif request.host =~ /^www\./
-        redirect_to 'http://' + request.host.sub(/^www\./, '')
+        redirect_to request.url.sub(/^(https?:\/\/)www\./, '\1')
         return false
       else
         render :text => 'There is no site configured at this address: ' + request.host
