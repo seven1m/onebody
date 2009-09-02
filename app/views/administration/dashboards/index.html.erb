@@ -53,6 +53,12 @@
   <p><%= link_to 'Click here', administration_membership_requests_path %> to review pending membership requests.</p>
 <% end %>
 
+<% if @logged_in.admin?(:manage_attendance) %>
+  <h2>Attendance</h2>
+  
+  <p><%= link_to 'Click here', administration_attendance_index_path %> to manage and export attendance.</p>
+<% end %>
+
 <% if @logged_in.admin?(:view_log) %>
   <h2>Log</h2>
   

@@ -2,6 +2,9 @@
   <li><%= link_to image_tag('group.png', :alt => 'All Groups', :class => 'icon') + ' All Groups', groups_path %></li>
   <% if @logged_in.can_edit?(@group) %>
     <li><%= link_to image_tag('pencil.png', :alt => 'Edit Group', :class => 'icon') + ' Edit Group', edit_group_path(@group) %></li>
+    <% if @group.attendance? %>
+      <li><%= link_to image_tag('checkmark.png', :alt => 'Attendance', :class => 'icon') + ' Attendance', group_attendance_index_path(@group) %></li>
+    <% end %>
     <% if not @group.approved? and @logged_in.admin?(:manage_groups) %>
       <li><%= link_to image_tag('thumb_up.png', :alt => 'Approve Group', :class => 'icon') + ' Approve Group', group_path(@group, :group => {:approved => true}), :confirm => 'Are you sure?', :method => 'put', :class => 'very-strong' %></li>
     <% end %>

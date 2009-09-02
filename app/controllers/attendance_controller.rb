@@ -3,8 +3,12 @@ class AttendanceController < ApplicationController
   def index
     @group = Group.find(params[:group_id])
     if @group.admin?(@logged_in)
-      @attended_at = Date.parse(params[:attended_at])
-      @records = @group.get_people_attendance_records_for_date(Time.zone.local_to_utc(@attended_at.to_time))
+      if @group.attendance?
+        @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
+        @records = @group.get_people_attendance_records_for_date(Time.zone.local_to_utc(@attended_at.to_time))
+      else
+        render :text => 'Attendance tracking is not enabled for this goup.', :layout => true, :status => 500
+      end
     else
       render :text => 'You are not authorized to view attendance for this group.', :layout => true, :status => 401
     end
@@ -19,7 +23,7 @@ class AttendanceController < ApplicationController
           @group.attendance_records.create!(:person_id => person.id, :attended_at => @attended_at.strftime('%Y-%m-%d'))
         end
       end
-      @records = @group.get_people_attendance_records_for_date(@attended_at)
+      redirect_to group_attendance_index_path(@group, :attended_at => @attended_at)
     else
       render :text => 'You are not authorized to record attendance for this group.', :layout => true, :status => 401
     end
@@ -35,6 +39,7 @@ class AttendanceController < ApplicationController
           @group.attendance_records.create!(:person_id => person.id, :attended_at => @attended_at.strftime('%Y-%m-%d'))
         end
       end
+      redirect_to group_attendance_index_path(@group, :attended_at => @attended_at)
     else
       render :text => 'You are not authorized to record attendance for this group.', :layout => true, :status => 401
     end

@@ -1,0 +1,37 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('eye.png', :alt => 'View Group', :class => 'icon') + ' View Group', @group %></li>
+<% end %>
+
+<% form_tag batch_group_attendance_path(@group) do %>
+  <%= label_tag :attended_at, 'Date:', :class => 'inline' %>
+  <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
+  <ul style="list-style:none;">
+    <% @records.each do |person, record| %>
+      <li>
+        <%= check_box_tag 'ids[]', person.id, record ? true : false, :id => "ids_#{person.id}" %>
+        <%= label_tag "ids_#{person.id}", h(person.name), :class => 'inline' %>
+      </li>
+    <% end %>
+  </ul>
+  <p><%= submit_tag 'Save Attendance' %></p>
+<% end %>
+
+<% form_remote_tag :url => search_path, :html => {:style => 'border:none;'} do %>
+  <%= hidden_field_tag :select_person, true %>
+  <p>
+    <label for="add_person_name">Add somebody not in the group:</label>
+    <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
+    <%= submit_tag 'Search by Name' %>
+  </p>
+<% end %>
+
+<div id="add_member" style="display:none;">
+  <% form_tag group_attendance_index_path(@group), :method => 'post',
+    :id => 'add_people_form', :style => 'border:none;' do %>
+    <%= hidden_field_tag :attended_at, @attended_at %>
+    <div id="results"></div>
+    <p><%= submit_tag 'Add Selected' %></p>
+  <% end %>
+</div>
+
+<%= calendar_date_select_includes 'silver' %>

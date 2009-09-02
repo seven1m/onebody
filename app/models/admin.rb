@@ -28,6 +28,7 @@
 #  export_data            :boolean       
 #  run_reports            :boolean       
 #  manage_news            :boolean       
+#  manage_attendance      :boolean       
 #
 
 class Admin < ActiveRecord::Base

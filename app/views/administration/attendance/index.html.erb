@@ -1,0 +1,42 @@
+<h1>Attendance</h1>
+
+<%= label_tag :attended_at, 'Date:', :class => 'inline' %>
+<%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
+
+<%= will_paginate @records %>
+
+<table>
+  <tr>
+    <th>Name</th><th>Group</th>
+  </tr>
+  <% @records.each do |record| %>
+    <tr>
+      <td>
+        <% if record.person %>
+          <%= link_to h(record.person.name), record.person %>
+        <% else %>
+          <em>person missing</em>
+        <% end %>
+      </td>
+      <td>
+        <% if record.group %>
+          <%= link_to h(record.group.name), record.group %>
+        <% else %>
+          <em>group missing</em>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @records %>
+
+<% if @records.any? %>
+  <p>
+    <%= link_to 'Export to File', administration_attendance_index_path(:format => 'csv', :attended_at => @attended_at) %>
+  </p>
+<% else %>
+  <p><em>no records to display</em></p>
+<% end %>
+
+<%= calendar_date_select_includes 'silver' %>

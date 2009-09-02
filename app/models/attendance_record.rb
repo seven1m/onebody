@@ -16,7 +16,6 @@ class AttendanceRecord < ActiveRecord::Base
   belongs_to :group
   belongs_to :site
   scope_by_site_id
-  acts_as_logger LogItem
   
   validates_presence_of :person_id
   validates_presence_of :group_id
