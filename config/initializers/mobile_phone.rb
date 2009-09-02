@@ -1,5 +1,5 @@
 MOBILE_GATEWAYS = {
-  'AT&T' => '%s@mobile.att.net',
+  'AT&T' => '%s@txt.att.net',
   'CellularOne' => '%s@mobile.celloneusa.com',
   'Cingular' => '%s@mobile.mycingular.com',
   'Nextel' => '%s@messaging.nextel.com',
