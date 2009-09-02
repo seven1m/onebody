@@ -1,10 +1,9 @@
 <% content_for :sidebar do %>
-  <h1>Family Check-In Card Maintenance</h1>
+  <h1>Check-In Admin</h1>
   <% form_remote_tag :url => search_path,
     :before  => "$('family').update('');$('barcode').update('');$('notice').hide();",
     :success => "results_updated()" do |form| %>
     <%= hidden_field_tag :select_family, true %>
-    <%= hidden_field_tag :results_only, true %>
     <p>
       <%= label_tag :family_name, 'Type all or part of the family name:' %>
       <%= text_field_tag :family_name %>

@@ -75,7 +75,7 @@ class FamiliesController < ApplicationController
       if @family.save
         format.html do
           if params[:barcode]
-            render :text => "Family saved. Assigned number: #{@family.barcode_id}<br/><a href=\"#{barcodes_path}\">Click here</a> to return...", :layout => true
+            render :text => "Family saved. Assigned number: #{@family.barcode_id}<br/><a href=\"#{administration_checkin_path}\">Click here</a> to return...", :layout => true
           else
             redirect_to params[:redirect_to] || @family
           end

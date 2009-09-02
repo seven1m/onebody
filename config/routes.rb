@@ -89,8 +89,6 @@ unless defined?(DISABLE_ROUTES)
       :book => 'x', :chapter => 0,
       :requirements => {:book => /[A-Za-z0-9 \+(%20)]+/, :chapter => /\d{1,3}/}
       
-    map.resources :barcodes
-  
     map.resources :pages, :as => 'pages/admin' do |pages|
       pages.resources :attachments
     end
@@ -110,6 +108,7 @@ unless defined?(DISABLE_ROUTES)
       admin.resources :settings, :collection => {:batch => :put}
       admin.resources :files, :requirements => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
       admin.resource :theme
+      admin.resource :checkin
     end
   
   end
