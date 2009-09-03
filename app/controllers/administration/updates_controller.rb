@@ -2,25 +2,36 @@ class Administration::UpdatesController < ApplicationController
   before_filter :only_admins
   
   def index
-    @updates = Update.find_all_by_complete(params[:complete] == 'true')
+    @updates = Update.paginate(
+      :page       => params[:page],
+      :conditions => ['complete = ?', params[:complete] == 'true'],
+      :order      => 'created_at desc'
+    )
     @unapproved_groups = Group.find_all_by_approved(false)
   end
   
   def update
     @update = Update.find(params[:id])
-    @update.toggle! :complete
-    if @update.complete and params[:update]
+    if params[:complete] == 'true' and params[:update]
+      if params[:update][:child]
+        @update.child = (params[:update][:child] == 'true')
+      elsif @update.birthday.nil?
+        flash[:warning] = 'You must specify whether the person is a Child (under 13) or not to complete this update.'
+        redirect_to administration_updates_path
+        return
+      end
       if @update.do!
+        @update.update_attribute(:complete, true)
         if params[:review]
           redirect_to edit_person_path(@update.person, :anchor => 'basics')
         else
           redirect_to administration_updates_path
         end
       else
-        add_errors_to_flash(@update)
-        index; render :action => 'index'
+        render :action => 'error', :status => 500
       end
     else
+      @update.update_attribute(:complete, false)
       redirect_to administration_updates_path
     end
   end

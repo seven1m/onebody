@@ -11,6 +11,8 @@
 
 <p><%= link_to "Show #{params[:complete] ? 'Pending' : 'Complete'}", :complete => params[:complete].nil? %></p>
 
+<%= will_paginate @updates, :params => {:complete => params[:complete]} %>
+
 <table>
   <% @updates.each do |update| %>
     <tr>
@@ -23,7 +25,7 @@
           <%= image_tag 'man.tn.gif', :alt => '(person deleted)', :class => 'icon thumbnail' %>
         <% end %>
       </td>
-      <td>
+      <td class="update">
         <% if update.person %>
           <%= link_to h(update.person.name), person_path(:id => update.person) %>
         <% else %>
@@ -34,58 +36,77 @@
         <% if update.complete %>
           <%= link_to 'Mark Incomplete', administration_update_path(update, :complete => false), :method => 'put' %>
         <% else %>
-          <%= link_to 'Update', administration_update_path(update, :complete => true, :update => true), :method => 'put' %> |
-          <%= link_to 'Update and Review', administration_update_path(update, :complete => true, :update => true, :review => true), :method => 'put' %> |
           <%= link_to 'Mark Complete', administration_update_path(update, :complete => true), :method => 'put' %> |
           <%= link_to 'Delete', administration_update_path(update), :method => 'delete', :confirm => 'Are you sure?' %>
         <% end %>
-        <table>
-          <% if update.first_name %><tr><td>First Name:</td><td><%=h update.first_name %></td></tr><% end %>
-          <% if update.last_name %><tr><td>Last Name:</td><td><%=h update.last_name %></td></tr><% end %>
-          <% if update.home_phone %><tr><td>Home Phone:</td><td><%= format_phone update.home_phone %></td></tr><% end %>
-          <% if update.mobile_phone %><tr><td>Mobile Phone:</td><td><%= format_phone update.mobile_phone, mobile=true %></td></tr><% end %>
-          <% if update.work_phone %><tr><td>Work Phone:</td><td><%= format_phone update.work_phone %></td></tr><% end %>
-          <% if update.fax %><tr><td>Fax:</td><td><%= format_phone update.fax %></td></tr><% end %>
-          <% if update.address1 %><tr><td>Address 1:</td><td><%=h update.address1 %></td></tr><% end %>
-          <% if update.address2 %><tr><td>Address 2:</td><td><%=h update.address2 %></td></tr><% end %>
-          <% if update.city %><tr><td>City:</td><td><%=h update.city %></td></tr><% end %>
-          <% if update.state %><tr><td>State:</td><td><%=h update.state %></td></tr><% end %>
-          <% if update.zip %><tr><td>Zip:</td><td><%=h update.zip %></td></tr><% end %>
-          <% if update.birthday %>
-            <tr>
-              <td>Birthday:</td>
-              <td>
-                <% unless update.birthday.year == 1800 %>
-                  <%= update.birthday.to_s(:date) %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-          <% if update.anniversary %>
-            <tr>
-              <td>Anniversary:</td>
-              <td>
-                <% unless update.anniversary.year == 1800 %>
-                  <%= update.anniversary.to_s(:date) %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-          <% update.custom_fields_as_hash.each do |key, val| %>
-            <% if val %>
+        <% form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
+          <%= hidden_field_tag :complete, true %>
+          <table>
+            <% if update.first_name %><tr><td>First Name:</td><td><%=h update.first_name %></td></tr><% end %>
+            <% if update.last_name %><tr><td>Last Name:</td><td><%=h update.last_name %></td></tr><% end %>
+            <% if update.home_phone %><tr><td>Home Phone:</td><td><%= format_phone update.home_phone %></td></tr><% end %>
+            <% if update.mobile_phone %><tr><td>Mobile Phone:</td><td><%= format_phone update.mobile_phone, mobile=true %></td></tr><% end %>
+            <% if update.work_phone %><tr><td>Work Phone:</td><td><%= format_phone update.work_phone %></td></tr><% end %>
+            <% if update.fax %><tr><td>Fax:</td><td><%= format_phone update.fax %></td></tr><% end %>
+            <% if update.address1 %><tr><td>Address 1:</td><td><%=h update.address1 %></td></tr><% end %>
+            <% if update.address2 %><tr><td>Address 2:</td><td><%=h update.address2 %></td></tr><% end %>
+            <% if update.city %><tr><td>City:</td><td><%=h update.city %></td></tr><% end %>
+            <% if update.state %><tr><td>State:</td><td><%=h update.state %></td></tr><% end %>
+            <% if update.zip %><tr><td>Zip:</td><td><%=h update.zip %></td></tr><% end %>
+            <% if update.birthday %>
               <tr>
-                <td><%=h key %>:</td>
+                <td>Birthday:</td>
                 <td>
-                  <%=h val %>
+                  <% unless update.birthday.year == 1800 %>
+                    <%= update.birthday.to_s(:date) %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
-          <% end %>
-        </table>
+            <% if !update.complete? and (update.birthday.nil? or update.person.years_of_age.nil?) %>
+              <tr>
+                <td>Child:</td>
+                <td>
+                  <%= form.select :child, ['', ['Yes', true], ['No', false]] %>
+                </td>
+              </tr>
+            <% end %>
+            <% if update.anniversary %>
+              <tr>
+                <td>Anniversary:</td>
+                <td>
+                  <% unless update.anniversary.year == 1800 %>
+                    <%= update.anniversary.to_s(:date) %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+            <% update.custom_fields_as_hash.each do |key, val| %>
+              <% if val %>
+                <tr>
+                  <td><%=h key %>:</td>
+                  <td>
+                    <%=h val %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+            <tr>
+              <td></td>
+              <td>
+                <%= check_box_tag 'review', true, false %>
+                <%= label_tag 'review', 'review changes following update', :class => 'inline' %><br/>
+                <%= form.submit 'Update' %>
+              </td>
+            </tr>
+          </table>
+        <% end %>
       </td>
     </tr>
   <% end %>
 </table>
+
+<%= will_paginate @updates, :params => {:complete => params[:complete]} %>
 
 <% if @updates.empty? %>
   <p><em>No updates!</em></p>

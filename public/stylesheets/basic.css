@@ -570,3 +570,7 @@ table.memberships td input {
   background-color: #fcc;
   padding: 5px;
 }
+
+.update form {
+  border: none;
+}

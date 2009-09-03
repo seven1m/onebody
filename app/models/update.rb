@@ -38,6 +38,8 @@ class Update < ActiveRecord::Base
   
   serialize :custom_fields
   
+  attr_accessor :child
+  
   def custom_fields
     (f = read_attribute(:custom_fields)).is_a?(Array) ? f : []
   end
@@ -74,10 +76,12 @@ class Update < ActiveRecord::Base
   
   def do!
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
-    returning (person.update_attributes(person_attributes) and person.family.update_attributes(family_attributes)) do |success|
-      person.errors.full_messages.each        { |m| self.errors.add_to_base "Person: #{m}" }
-      person.family.errors.full_messages.each { |m| self.errors.add_to_base "Family: #{m}" }
+    success = person.update_attributes(person_attributes) && person.family.update_attributes(family_attributes)
+    unless success
+      person.errors.full_messages.each        { |m| self.errors.add_to_base m }
+      person.family.errors.full_messages.each { |m| self.errors.add_to_base m }
     end
+    return success
   end
   
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :home_phone]
@@ -85,6 +89,7 @@ class Update < ActiveRecord::Base
   def person_attributes
     attrs = self.attributes.reject { |key, val| !PERSON_ATTRIBUTES.include?(key) }
     attrs['custom_fields'] = custom_fields_as_hash
+    attrs['child'] = child
     attrs
   end
   

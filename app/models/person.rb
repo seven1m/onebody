@@ -169,11 +169,11 @@ class Person < ActiveRecord::Base
     elsif attribute.to_s == 'child'
       y = record.years_of_age
       if value == true and y and y >= 13
-        record.errors.add attribute, 'cannot be true because age is 13.'
+        record.errors.add attribute, "cannot be 'Yes' because the birthday indicates the person is 13 or older."
       elsif value == false and y and y < 13
-        record.errors.add attribute, 'cannot be false because age is less than 13.'
+        record.errors.add attribute, "cannot be 'No' because the birthday indicates the person is is less than 13 years old."
       elsif value.nil? and y.nil?
-        record.errors.add attribute, 'must be either true or false because birthday is unspecified.'
+        record.errors.add attribute, "must be either 'Yes' or 'No' because the birthday is unspecified."
       end
     end
   end
@@ -359,6 +359,13 @@ class Person < ActiveRecord::Base
     memberships.find_by_group_id(group.id)
   end
   
+  def birthday=(b)
+    write_attribute(:birthday, b)
+    if y = years_of_age
+      self.child = nil
+    end
+  end
+  
   def at_least?(age) # assumes you won't pass in anything over 18
     (y = years_of_age and y >= age) or child == false
   end
@@ -369,6 +376,7 @@ class Person < ActiveRecord::Base
   
   def years_of_age(on=Date.today)
     return nil unless birthday
+    return nil if birthday.year == 1900
     years = on.year - birthday.year
     years -= 1 if on.month < birthday.month
     years -= 1 if on.month == birthday.month and on.day < birthday.day
