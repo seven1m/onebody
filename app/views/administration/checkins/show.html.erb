@@ -10,6 +10,7 @@
     </p>
     <p>
       <%= submit_tag 'Search' %>
+      <%= link_to 'clear', administration_checkin_path %>
     </p>
   <% end %>
   <p>
@@ -38,4 +39,6 @@
   function select_family(id) {
     new Ajax.Request(<%= families_path.inspect %> + '/' + id + '?barcode_entry=true&include_people=true&include_alerts=true', {method: 'get'});
   };
+  $('family_name').value = '';
+  $('family_name').focus();
 </script>
