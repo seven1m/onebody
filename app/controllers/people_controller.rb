@@ -141,12 +141,10 @@ class PeopleController < ApplicationController
   def update
     @person = Person.find(params[:id])
     if @logged_in.can_edit?(@person)
-      could_sign_in = @person.can_sign_in?
       if updated = @person.update_from_params(params)
         respond_to do |format|
           format.html do
             flash[:notice] = 'Changes submitted.'
-            flash[:send_verification_email] = !could_sign_in and @person.can_sign_in? and @logged_in.admin?
             redirect_to edit_person_path(@person, :anchor => params[:anchor])
           end
           format.xml { render :xml => @person.to_xml } if can_export?

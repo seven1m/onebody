@@ -1,10 +1,3 @@
-<% if flash[:send_verification_email] %>
-  <div id="notice" class="warning">
-    The user can now sign in.
-    <%= link_to 'Send verification email.', account_path(:email => @person.email), :method => 'post', :confirm => 'Are you sure?' %>
-  </div>
-<% end %>
-
 <% if @logged_in.admin?(:edit_profiles) %>
   <p>
     If your system is set up to synchronize its data with an external source
@@ -55,7 +48,11 @@
           <br/>
         <% end %>
         <% content_tag :span, :style => @person.consent_or_13? ? nil : 'text-decoration:line-through;' do %>
-          <%= form.check_box :can_sign_in %>                  <%= form.label :can_sign_in,                  nil, :class => 'inline' %><br/>
+          <%= form.check_box :can_sign_in %>                  <%= form.label :can_sign_in,                  nil, :class => 'inline' %>
+          <% if @person.can_sign_in? %>
+            (<%= link_to 'send email', account_path(:email => @person.email), :method => 'post', :confirm => 'Click OK to send a verification email to this user. Once the user clicks the link in the email, they will be able to set their password and sign in.' %>)
+          <% end %>
+          <br/>
           <%= form.check_box :visible_to_everyone %>          <%= form.label :visible_to_everyone,          nil, :class => 'inline' %><br/>
           <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, nil, :class => 'inline' %><br/>
           <%= form.check_box :full_access %>                  <%= form.label :full_access,                  nil, :class => 'inline' %>
