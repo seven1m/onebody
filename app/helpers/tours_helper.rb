@@ -6,7 +6,7 @@ module ToursHelper
     html << javascript_include_tag('modalbox.js')
     html << '<script type="text/javascript">'
     html << "Modalbox.show('#{url}', {title: 'Site Tour - #{name}', width: #{width}, align: '#{align}'});"
-    html << "setTimeout('Modalbox.resizeToContent()', 2000);" # hack to fit content
+    html << "setTimeout('Modalbox.resizeToContent()', 5000);" # hack to fit content
     html << '</script>'
   end
 
