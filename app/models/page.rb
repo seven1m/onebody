@@ -92,7 +92,7 @@ class Page < ActiveRecord::Base
     end
     
     def find_by_id_or_path(id_or_path)
-      if id.is_a?(String) and id !~ /^\d+$/
+      if id_or_path.is_a?(String) and id_or_path !~ /^\d+$/
         find_by_path(id_or_path)
       else
         find_by_id(id_or_path)
