@@ -24,7 +24,7 @@ class SignUpTest < ActionController::IntegrationTest
     get '/account/new?mobile=true'
     assert_response :success
     assert_template 'accounts/new_by_mobile'
-    post '/account', :mobile => people(:peter).mobile_phone, :carrier => 'Cingular'
+    post '/account', :mobile => people(:peter).mobile_phone, :carrier => 'Sprint'
     v = Verification.find(:first, :order => 'id desc')
     assert !v.code.nil?
     assert v.code > 0

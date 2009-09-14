@@ -83,8 +83,9 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     body = Faker::Lorem.sentence
     post :create, {:message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
-    assert_response :success
-    assert_select 'body', /message.+sent/
+    assert_response :redirect
+    assert_redirected_to group_path(@group)
+    assert_match /has been sent/, flash[:notice]
     assert ActionMailer::Base.deliveries.any?
   end
   
@@ -111,8 +112,9 @@ class MessagesControllerTest < ActionController::TestCase
     assert_response :success
     body = Faker::Lorem.sentence
     post :create, {:file => fixture_file_upload('files/attachment.pdf'), :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
-    assert_response :success
-    assert_select 'body', /message.+sent/
+    assert_response :redirect
+    assert_redirected_to group_path(@group)
+    assert_match /has been sent/, flash[:notice]
     assert ActionMailer::Base.deliveries.any?
   end
   

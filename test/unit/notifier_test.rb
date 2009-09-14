@@ -107,7 +107,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.length
     sent = ActionMailer::Base.deliveries.first
     assert_equal [people(:jennie).email], sent.to
-    assert_equal 'Message Rejected', sent.subject
+    assert_equal 'Message Rejected: hi jeremy', sent.subject
     assert_equal [Site.current.noreply_email], sent.from
     assert sent.body.index("unsolicited")
   end
@@ -122,7 +122,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.length
     sent = ActionMailer::Base.deliveries.first
     assert_equal ['joe@spammy.com'], sent.to
-    assert_equal 'Message Rejected', sent.subject
+    assert_equal 'Message Rejected: hi jeremy', sent.subject
     assert_equal [Site.current.noreply_email], sent.from
     assert sent.body.index("the system does not recognize your email address")
   end
@@ -167,7 +167,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_deliveries 1
     sent = ActionMailer::Base.deliveries.first
     assert_equal email.from, sent.to
-    assert_equal 'Message Rejected', sent.subject
+    assert_equal 'Message Rejected: test to morgan group in site 2 (should fail)', sent.subject
     assert_equal [Site.current.noreply_email], sent.from
     assert sent.body.index("the system does not recognize your email address")
   end

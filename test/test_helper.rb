@@ -27,7 +27,6 @@ class ActiveSupport::TestCase
 
   def sign_in_and_assert_name(email, name, password='secret')
     post_sign_in_form(email, password)
-    assert !flash.empty?
     assert_response :redirect
     follow_redirect!
     assert_template 'streams/show'

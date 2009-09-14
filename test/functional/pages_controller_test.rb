@@ -30,9 +30,8 @@ class PagesControllerTest < ActionController::TestCase
   end
   
   should "not show a page if it does not exist" do
-    assert_raise(ActiveRecord::RecordNotFound) do
-      get :show_for_public, {:path => 'foo/bar'}
-    end
+    get :show_for_public, {:path => 'foo/bar'}
+    assert_response :missing
   end
   
   should "show breadcrumb trail on non-root pages" do
