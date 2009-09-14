@@ -76,7 +76,9 @@ class MessagesController < ApplicationController
     @person = Person.find(params[:message][:to_person_id])
     if @person.email and @logged_in.can_see?(@person)
       if send_message
-        render :text => 'Your message has been sent.', :layout => true
+        unless @preview
+          render :text => 'Your message has been sent.', :layout => true
+        end
       end
     else
       render :text => "Sorry. We don't have an email address on file for #{@person.name}.", :layout => true, :status => 500
@@ -87,8 +89,10 @@ class MessagesController < ApplicationController
     @group = Group.find(params[:message][:group_id])
     if @group.can_post? @logged_in
       if send_message
-        flash[:notice] = 'Your message has been sent.'
-        redirect_to @group
+        unless @preview
+          flash[:notice] = 'Your message has been sent.'
+          redirect_to @group
+        end
       end
     else
       render :text => 'You are not authorized to post to this group.', :layout => true, :status => 500
