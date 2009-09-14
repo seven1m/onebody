@@ -117,16 +117,6 @@ class MessagesController < ApplicationController
   
   public
   
-  def destroy
-    @message = Message.find(params[:id])
-    if @logged_in.can_edit? @message
-      @message.destroy
-      render :text => 'Message deleted.', :layout => true
-    else
-      render :text => 'Not authorized.', :layout => true, :status => 500
-    end
-  end
-  
   def show
     @message = Message.find(params[:id])
     unless @logged_in.can_see?(@message)
