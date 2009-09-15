@@ -77,7 +77,7 @@
     <%= link_to_function 'share something here', "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>.
   </p>
   <% @stream_items.each do |stream_item| %>
-    <% cache("stream/stream_items/#{stream_item.id}") do %>
+    <% cache("stream/stream_items/#{stream_item.id}_for_#{@logged_in.id}") do %>
       <%= render :partial => 'stream_item', :object => stream_item %>
     <% end %>
   <% end %>
