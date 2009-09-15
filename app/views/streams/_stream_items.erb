@@ -9,7 +9,7 @@
   <% if grouped_items.any? and not (stream_item.person_id == last_stream_item.person_id and stream_item.streamable_type == last_stream_item.streamable_type) %>
     </div>
     <p class="stream-item-group-link">
-      <%= link_to_function "and #{grouped_items.length} more by #{stream_item.person.name}...", "Element.hide(this.parentNode); new Effect.Appear('stream-item-group#{grouped_items.first}')" %>
+      <%= link_to_function "and #{grouped_items.length} more by #{last_stream_item.person.name rescue ''}...", "Element.hide(this.parentNode); new Effect.Appear('stream-item-group#{grouped_items.first}')" %>
     </p>
     </div>
     <% grouped_items = [] %>
