@@ -1,0 +1,32 @@
+<% last_stream_item = nil; grouped_items = [] %>
+
+<% @stream_items.each do |stream_item| %>
+  <% if last_stream_item and stream_item.person_id == last_stream_item.person_id and stream_item.streamable_type == last_stream_item.streamable_type and stream_item.streamable_type != 'NewsItem' and grouped_items.empty? %>
+    <div class="stream-item stream_<%= stream_item.streamable_type.downcase %>">
+    <div id="stream-item-group<%= stream_item.id %>" style="display:none;">
+    <% grouped_items << stream_item.id %>
+  <% end %>
+  <% if grouped_items.any? and not (stream_item.person_id == last_stream_item.person_id and stream_item.streamable_type == last_stream_item.streamable_type) %>
+    </div>
+    <p class="stream-item-group-link">
+      <%= link_to_function "and #{grouped_items.length} more by #{stream_item.person.name}...", "Element.hide(this.parentNode); new Effect.Appear('stream-item-group#{grouped_items.first}')" %>
+    </p>
+    </div>
+    <% grouped_items = [] %>
+  <% end %>
+  <% if grouped_items.any? and not grouped_items.include?(stream_item.id); grouped_items << stream_item.id; end %>
+  
+  <% cache("stream/stream_items/#{stream_item.id}_for_#{@logged_in.id}") do %>
+    <%= render :partial => 'stream_item', :object => stream_item %>
+  <% end %>
+  
+  <% last_stream_item = stream_item %>
+<% end %>
+
+<% if grouped_items.any? %></div><% end %>
+
+<% if @stream_items.empty? %>
+  <p>This is where activity from you, your friends, and your groups will appear.</p>
+  <p><em>Right now, there's nothing to show.</em></p>
+<% end %>
+

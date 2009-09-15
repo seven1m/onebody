@@ -358,6 +358,11 @@ div.autocomplete ul li {
   margin-left: 50px;
 }
 
+.stream-item-group-link {
+  margin: 0 0 40px 50px;
+}
+
+
 .stream-item-meta {
   line-height: 1em;
   float: left;
