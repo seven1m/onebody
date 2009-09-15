@@ -7,6 +7,7 @@ OneBody Change Log
 **Upgrade Note:** Database migrations have been rolled up from previous releases; you must first upgrade
 to version 0.8.1 and run all database migrations before upgrading to this release.
 
+* Upgrade to Rails 2.3.4
 * New "stream" metaphor on home, profile, and group pages.
 * Feed import: Facebook, Twitter, etc.
 * Improved visual cues for certain interface items.
