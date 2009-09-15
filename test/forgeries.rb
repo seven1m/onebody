@@ -67,7 +67,7 @@ module Forgeable
           attributes[$1.downcase.to_sym] << 'a'
           retry
         else
-          puts e.message
+          raise
         end
       end
     end
