@@ -1,8 +1,11 @@
 OneBody Change Log
 ==================
 
-0.9.0 / September ?, 2009
--------------------------
+This document lists the more notable changes in each release. For detailed change
+history, view the Git log (http://github.com/seven1m/onebody/commits).
+
+0.9.0 / September 14, 2009
+--------------------------
 
 **Upgrade Note:** Database migrations have been rolled up from previous releases; you must first upgrade
 to version 0.8.1 and run all database migrations before upgrading to this release.
