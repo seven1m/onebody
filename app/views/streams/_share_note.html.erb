@@ -1,6 +1,6 @@
 <h2 class="tab" id="note"><%= image_tag('note.png', :alt => 'Note', :class => 'icon') %> Note</h2>
 <div class="section">
-  <% form_for(@note || :note, :url => @note ? note_path(@note) : notes_path, :method => @note ? 'post' : 'put') do |form| %>
+  <% form_for :note, :url => notes_path do |form| %>
     <%= hidden_field_tag :redirect_to, request.request_uri %>
     <%= form.hidden_field :group_id %>
     <p>
