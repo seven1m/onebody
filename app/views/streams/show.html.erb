@@ -76,7 +76,11 @@
     You should
     <%= link_to_function 'share something here', "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>.
   </p>
-  <%= render :partial => 'stream_item', :collection => @stream_items %>
+  <% @stream_items.each do |stream_item| %>
+    <% cache("stream/stream_items/#{stream_item.id}") do %>
+      <%= render :partial => 'stream_item', :object => stream_item %>
+    <% end %>
+  <% end %>
   <% if @stream_items.empty? %>
     <p>This is where activity from you, your friends, and your groups will appear.</p>
     <p><em>Right now, there's nothing to show.</em></p>

@@ -2,6 +2,8 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
+  
+  cache_sweeper :stream_item_sweeper, :only => %w(create update destroy)
 
   layout 'default.html'
   
