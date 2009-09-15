@@ -6,7 +6,7 @@ class PrayerRequestsControllerTest < ActionController::TestCase
     @person, @other_person = Person.forge, Person.forge
     @group = Group.forge
     @group.memberships.create(:person_id => @person.id)
-    @prayer_request = @group.prayer_requests.forge(:person_id => @person.id)
+    @prayer_request = @group.forge(:prayer_requests, :person_id => @person.id)
   end
   
   should "list all prayer requests" do
@@ -16,7 +16,7 @@ class PrayerRequestsControllerTest < ActionController::TestCase
   end
   
   should "list all answered prayer requests" do
-    @unanswered = @group.prayer_requests.forge(:answer => nil)
+    @unanswered = @group.forge(:prayer_requests, :answer => nil, :person_id => @person.id)
     get :index, {:answered => true, :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal 1, assigns(:reqs).length
