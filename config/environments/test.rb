@@ -23,9 +23,9 @@ config.gem 'thoughtbot-shoulda', :source => 'http://gems.github.com', :lib => 's
 
 # these have to be loaded a bit earlier than usual
 # don't really know why
-require Rails.root + 'config/initializers/paths'
-require Rails.root + 'config/initializers/photos'
-require Rails.root + 'config/initializers/email'
+require "#{Rails.root}/config/initializers/paths"
+require "#{Rails.root}/config/initializers/photos"
+require "#{Rails.root}/config/initializers/email"
 
 config.action_controller.session = {
   :session_key => "_onebody_session",

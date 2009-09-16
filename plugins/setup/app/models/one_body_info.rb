@@ -72,7 +72,7 @@ class OneBodyInfo
   end
   
   def themes
-    Dir[Rails.root + 'themes/*'].map { |t| File.split(t).last }.reject { |t| t == 'README' }
+    Dir["#{Rails.root}/themes/*"].map { |t| File.split(t).last }.reject { |t| t == 'README' }
   end
   
   def database_config

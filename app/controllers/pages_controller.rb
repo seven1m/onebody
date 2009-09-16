@@ -150,7 +150,7 @@ class PagesController < ApplicationController
     end
     
     def is_tour_page?
-      @path =~ /^help\/tour_[a-z]+$/ and File.exist?(Rails.root + "public/#{@path}.html.liquid")
+      @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.html.liquid")
     end
     
     def feature_enabled?
