@@ -1,5 +1,3 @@
-require 'extras/liquid_view'
-
 class LiquidView            
 
   include ApplicationHelper
@@ -40,7 +38,12 @@ class LiquidView
     end
     
     liquid = Liquid::Template.parse(source)
-    liquid.render(assigns, :registers => {:action_view => @action_view, :controller => @action_view.controller})
+    html = liquid.render(assigns, :registers => {:action_view => @action_view, :controller => @action_view.controller})
+    if html.respond_to?(:encode)
+      html.encode("iso-8859-1", :undef => :replace, :invalid => :replace)
+    else
+      html
+    end
   end
 
   def compilable?
