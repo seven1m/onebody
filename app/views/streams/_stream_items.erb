@@ -23,7 +23,13 @@
   <% last_stream_item = stream_item %>
 <% end %>
 
-<% if grouped_items.any? %></div><% end %>
+<% if grouped_items.any? %>
+  </div>
+  <p class="stream-item-group-link">
+    <%= link_to_function "and #{grouped_items.length} more by #{last_stream_item.person.name rescue ''}...", "Element.hide(this.parentNode); new Effect.Appear('stream-item-group#{grouped_items.first}')" %>
+  </p>
+  </div>
+<% end %>
 
 <% if @stream_items.empty? %>
   <p>This is where activity from you, your friends, and your groups will appear.</p>
