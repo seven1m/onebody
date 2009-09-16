@@ -32,11 +32,11 @@ class LiquidView
     assigns.merge!(local_assigns)
     
     @action_view.controller.master_helper_module.instance_methods.each do |method|
-      assigns[method] = Proc.new { @action_view.send(method) }
+      assigns[method.to_s] = Proc.new { @action_view.send(method) }
     end
     
     @action_view.instance_variables.each do |name|
-      assigns[name.sub('@', '')] = @action_view.instance_eval(name)
+      assigns[name.to_s.sub('@', '')] = @action_view.instance_eval(name)
     end
     
     liquid = Liquid::Template.parse(source)

@@ -21,8 +21,8 @@ Rails::Initializer.run do |config|
   config.plugin_paths << Rails.root + 'plugins'
   config.time_zone = 'UTC'
   # dependencies 
-  config.gem 'liquid'
-  config.gem 'pdf-writer', :lib => 'pdf/writer'
+  config.gem 'tobi-liquid',                     :source => 'http://gems.github.com', :lib => 'liquid'
+  config.gem 'metaskills-pdf-writer',           :source => 'http://gems.github.com', :lib => 'pdf/writer'
   config.gem 'highline'
   config.gem 'mini_magick'
   config.gem 'twitter'
