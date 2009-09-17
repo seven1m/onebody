@@ -20,4 +20,6 @@ class AttendanceRecord < ActiveRecord::Base
   validates_presence_of :person_id
   validates_presence_of :group_id
   validates_presence_of :attended_at
+  
+  self.skip_time_zone_conversion_for_attributes = [:attended_at]
 end
