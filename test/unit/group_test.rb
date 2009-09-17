@@ -52,33 +52,17 @@ class GroupTest < ActiveSupport::TestCase
   #   assert cats['Subscription'].nil?
   # end
   # 
-  # should "get attendance records by date per person" do
-  #   @group.memberships.create!(:person_id => @person.id)
-  #   @group.memberships.create!(:person_id => Person.forge.id)
-  #   records = @group.get_people_attendance_records_for_date('2008-07-22')
-  #   assert_equal 2, records.length
-  #   assert !records.any? { |r| r.last }
-  #   @group.attendance_records.create!(:person_id => @person.id, :attended_at => '2008-07-22')
-  #   records = @group.get_people_attendance_records_for_date(Date.parse('2008-07-22'))
-  #   assert_equal 2, records.length
-  #   assert_equal 1, records.select { |r| r.last }.length
-  # end
-  # 
-  # should "know its admins" do
-  #   assert_equal 0, @group.admins.count
-  #   @admin = Person.forge
-  #   @group.memberships.create!(:person_id => @admin.id, :admin => true)
-  #   assert_equal 1, @group.admins.count
-  # end
-  # 
-  # should "guess its leader" do
-  #   assert_nil @group.leader
-  #   @admin = Person.forge
-  #   @group.memberships.create!(:person_id => @admin.id, :admin => true)
-  #   assert_equal @admin, @group.leader
-  #   @group.update_attributes! :leader_id => @person.id
-  #   assert_equal @person, @group.leader
-  # end
+  should "get attendance records by date per person" do
+    @group.memberships.create!(:person_id => @person.id)
+    @group.memberships.create!(:person_id => Person.forge.id)
+    records = @group.get_people_attendance_records_for_date('2008-07-22')
+    assert_equal 2, records.length
+    assert !records.any? { |r| r.last }
+    @group.attendance_records.create!(:person_id => @person.id, :attended_at => '2008-07-22')
+    records = @group.get_people_attendance_records_for_date(Date.parse('2008-07-22'))
+    assert_equal 2, records.length
+    assert_equal 1, records.select { |r| r.last }.length
+  end
   
   should "be able to parse out the Google Calendar account info from an XML link" do
     @group.update_attributes!(:gcal_private_link => 'http://www.google.com/calendar/feeds/4azsf34hrgq1t3lkjh4sdewzxc%40group.calendar.google.com/private-2a2453bc8ef65dddf11a4f43a133df12/basic')

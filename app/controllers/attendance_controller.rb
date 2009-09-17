@@ -5,7 +5,7 @@ class AttendanceController < ApplicationController
     if @group.admin?(@logged_in)
       if @group.attendance?
         @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
-        @records = @group.get_people_attendance_records_for_date(Time.zone.local_to_utc(@attended_at.to_time))
+        @records = @group.get_people_attendance_records_for_date(@attended_at)
       else
         render :text => 'Attendance tracking is not enabled for this goup.', :layout => true, :status => 500
       end
@@ -33,10 +33,10 @@ class AttendanceController < ApplicationController
     @group = Group.find(params[:group_id])
     @attended_at = Date.parse(params[:attended_at])
     if @group.admin?(@logged_in)
-      @group.attendance_records.find_all_by_attended_at(Time.zone.local_to_utc(@attended_at.to_time)).each { |r| r.destroy }
+      @group.attendance_records.find_all_by_attended_at(@attended_at).each { |r| r.destroy }
       params[:ids].to_a.each do |id|
         if person = Person.find_by_id(id)
-          @group.attendance_records.create!(:person_id => person.id, :attended_at => @attended_at.strftime('%Y-%m-%d'))
+          @group.attendance_records.create!(:person_id => person.id, :attended_at => @attended_at)
         end
       end
       redirect_to group_attendance_index_path(@group, :attended_at => @attended_at)

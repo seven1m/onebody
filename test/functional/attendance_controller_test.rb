@@ -9,17 +9,17 @@ class AttendanceControllerTest < ActionController::TestCase
   end
   
   should "store and retrieve attendance records based on date" do
-    post :batch, {:attended_at => '2009-12-01', :group_id => @group.id, :ids => [@person.id], :format => 'js'}, {:logged_in_id => @person.id}
-    get  :index, {:attended_at => '2009-12-01', :group_id => @group.id, :format => 'js'}, {:logged_in_id => @person.id}
+    post :batch, {:attended_at => '2009-12-01', :group_id => @group.id, :ids => [@person.id]}, {:logged_in_id => @person.id}
+    get  :index, {:attended_at => '2009-12-01', :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_equal 1, assigns(:records).length
     person, attended = assigns(:records).first
     assert attended
   end
   
   should "overwrite existing records" do
-    post :batch, {:attended_at => '2009-12-01', :group_id => @group.id, :ids => [@person.id], :format => 'js'}, {:logged_in_id => @person.id}
-    post :batch, {:attended_at => '2009-12-01', :group_id => @group.id, :ids => [], :format => 'js'}, {:logged_in_id => @person.id}
-    get  :index, {:attended_at => '2009-12-01', :group_id => @group.id, :format => 'js'}, {:logged_in_id => @person.id}
+    post :batch, {:attended_at => '2009-12-01', :group_id => @group.id, :ids => [@person.id]}, {:logged_in_id => @person.id}
+    post :batch, {:attended_at => '2009-12-01', :group_id => @group.id, :ids => []}, {:logged_in_id => @person.id}
+    get  :index, {:attended_at => '2009-12-01', :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_equal 1, assigns(:records).length
     person, attended = assigns(:records).first
     assert !attended
