@@ -40,13 +40,15 @@ class Update < ActiveRecord::Base
   
   attr_accessor :child
   
+  self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
+  
   def custom_fields
     (f = read_attribute(:custom_fields)).is_a?(Array) ? f : []
   end
   
   def custom_fields_as_hash
     returning({}) do |hash|
-      Setting.get(:features, :custom_person_fields).to_a.each_with_index do |field, index|
+      Setting.get(:features, :custom_person_fields).to_s.lines.each_with_index do |field, index|
         hash[index] = custom_fields[index] if custom_fields[index]
       end
     end
@@ -67,7 +69,7 @@ class Update < ActiveRecord::Base
   end
   
   def typecast_custom_value(val, index)
-    if Setting.get(:features, :custom_person_fields).to_a[index] =~ /[Dd]ate/
+    if Setting.get(:features, :custom_person_fields).to_s.lines.to_a[index] =~ /[Dd]ate/
       Date.parse(val.to_s) rescue nil
     else
       val
