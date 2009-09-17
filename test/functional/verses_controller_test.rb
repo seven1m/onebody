@@ -69,8 +69,30 @@ class VersesControllerTest < ActionController::TestCase
     end
   end
   
-  should "create a stream item when a verse is added"
+  should "create a shared stream item when a verse is added and the owner is sharing their activity" do
+    assert_equal 0, StreamItem.find_all_by_streamable_type_and_streamable_id('Verse', @verse.id).length
+    post :create, {:id => @verse.id}, {:logged_in_id => @other_person.id}
+    items = StreamItem.find_all_by_streamable_type_and_streamable_id('Verse', @verse.id)
+    assert_equal 1, items.length
+    assert_equal @other_person, items.first.person
+    assert items.first.shared?, 'StreamItem is not shared.'
+  end
   
-  should "delete all associated stream items when a verse is removed"
+  should "create a non-shared stream item when a verse is added and the owner is not sharing their activity" do
+    @other_person.update_attributes! :share_activity => false
+    assert_equal 0, StreamItem.find_all_by_streamable_type_and_streamable_id('Verse', @verse.id).length
+    post :create, {:id => @verse.id}, {:logged_in_id => @other_person.id}
+    items = StreamItem.find_all_by_streamable_type_and_streamable_id('Verse', @verse.id)
+    assert_equal 1, items.length
+    assert_equal @other_person, items.first.person
+    assert !items.first.shared?, 'StreamItem is shared.'
+  end
+  
+  should "delete all associated stream items when a verse is removed" do
+    post :create, {:id => @verse.id}, {:logged_in_id => @other_person.id}
+    assert_equal 1, StreamItem.find_all_by_streamable_type_and_streamable_id('Verse', @verse.id).length
+    post :destroy, {:id => @verse.id}, {:logged_in_id => @other_person.id}
+    assert_equal 0, StreamItem.find_all_by_streamable_type_and_streamable_id('Verse', @verse.id).length
+  end
 
 end
