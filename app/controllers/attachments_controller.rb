@@ -5,7 +5,11 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.find(params[:id])
     if @logged_in.can_see?(@attachment)
       if @attachment.has_file?
-        send_data File.read(@attachment.file_path), :filename => @attachment.name, :type => @attachment.content_type || 'application/octet-stream', :disposition => 'inline'
+        data = File.read(@attachment.file_path)
+        if data.respond_to?(:encode)
+          data.encode!("iso-8859-1", :undef => :replace, :invalid => :replace)
+        end
+        send_data data, :filename => @attachment.name, :type => @attachment.content_type || 'application/octet-stream', :disposition => 'inline'
       else
         render :text => 'This file has been deleted.', :layout => true, :status => 404
       end
