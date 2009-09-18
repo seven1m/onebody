@@ -17,6 +17,7 @@
 #  publications_enabled  :boolean       default(TRUE)
 #  active                :boolean       default(TRUE)
 #  twitter_enabled       :boolean       
+#  external_guid         :string(255)   default("0")
 #
 
 class Site < ActiveRecord::Base

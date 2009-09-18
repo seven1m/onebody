@@ -2,13 +2,22 @@
 #
 # Table name: attendance_records
 #
-#  id          :integer       not null, primary key
-#  site_id     :integer       
-#  person_id   :integer       
-#  group_id    :integer       
-#  attended_at :datetime      
-#  created_at  :datetime      
-#  updated_at  :datetime      
+#  id                :integer       not null, primary key
+#  site_id           :integer       
+#  person_id         :integer       
+#  group_id          :integer       
+#  attended_at       :datetime      
+#  created_at        :datetime      
+#  updated_at        :datetime      
+#  external_group_id :integer       
+#  barcode_id        :string(50)    
+#  first_name        :string(255)   
+#  last_name         :string(255)   
+#  family_name       :string(255)   
+#  age               :string(255)   
+#  can_pick_up       :string(100)   
+#  cannot_pick_up    :string(100)   
+#  medical_notes     :string(200)   
 #
 
 class AttendanceRecord < ActiveRecord::Base
