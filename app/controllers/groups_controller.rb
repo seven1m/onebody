@@ -11,7 +11,8 @@ class GroupsController < ApplicationController
           format.csv { render :text => @person.groups.to_csv(:except => %w(site_id)) }
         end
       end
-    # search by name or category
+    # /groups?category=Small+Groups
+    # /groups?name=college
     elsif params[:category] or params[:name]
       conditions = []
       conditions.add_condition ['hidden = ? and approved = ?', false, true] unless @logged_in.admin?(:manage_groups)
@@ -27,7 +28,7 @@ class GroupsController < ApplicationController
           format.csv { render :text => @groups.to_csv(:except => %w(site_id)) }
         end
       end
-    # regular index
+    # /groups
     else
       @categories = Group.categories
       if @logged_in.admin?(:manage_groups)
@@ -39,9 +40,21 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.html
         if can_export?
-          @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
-          format.xml { render :xml =>  @groups.to_xml(:except => %w(site_id)) }
-          format.csv { render :text => @groups.to_csv(:except => %w(site_id)) }
+          format.xml do
+            @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
+            render :xml =>  @groups.to_xml(:except => %w(site_id))
+          end
+          format.csv do
+            @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
+            render :text => @groups.to_csv(:except => %w(site_id))
+          end
+          format.json do
+            @groups = {}
+            CheckinTime.today.each do |time|
+              @groups[time.time_to_s] = time.groups.all(:order => 'group_times.ordering', :select => '*, group_times.print_nametag').map { |g| [g.id, g.name, g.print_nametag?] }
+            end
+            render :text => @groups.to_json
+          end
         end
       end
     end
