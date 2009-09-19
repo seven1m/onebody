@@ -9,7 +9,7 @@
 
   <h1>All Groups</h1>
   
-  <p>Expand a group category below to see the groups under it. Drag a group up and drop in a box above to add the group to that time.</p>
+  <p>Expand a group category below to see the groups under it. Drag a group over and drop in a box to the left to add the group to that time.</p>
 
   <% index = 1 %>
   <% @groups.each do |category, groups| %>
@@ -31,10 +31,10 @@
 
   <% @times.each do |time| %>
   
-    <h2><%=h checkin_time(time) %></h2>
+    <h2><%=h time %></h2>
   
     <ol id="groups_for_time_<%= time.id %>" style="border:1px solid #ccc;min-height:50px;padding:10px 10px 10px 30px;">
-      <%= render :partial => 'group', :collection => time.groups, :locals => {:time => time} %>
+      <%= render :partial => 'group', :collection => time.groups.all(:select => 'group_times.id as group_time_id, group_times.print_nametag, groups.*'), :locals => {:time => time} %>
     </ol>
     <%= drop_receiving_element "groups_for_time_#{time.id}",
       :url  => administration_checkin_groups_path,

@@ -15,14 +15,18 @@ class Administration::CheckinGroupsController < ApplicationController
       render :nothing => true
     else
       @group.group_times.create(:checkin_time => @time)
-      @groups = @time.groups
+      @groups = @time.groups.all(:select => 'group_times.id as group_time_id, group_times.print_nametag, groups.*')
     end
+  end
+  
+  def update
+    GroupTime.find(params[:group_time_id]).update_attributes!(:print_nametag => params[:print_nametag] == 'true')
   end
   
   def destroy
     @time = CheckinTime.find(params[:time_id])
     GroupTime.find_by_group_id_and_checkin_time_id(params[:id], @time.id).destroy
-    @groups = @time.groups
+    @groups = @time.groups.all(:select => 'group_times.id as group_time_id, group_times.print_nametag, groups.*')
     render :action => 'create'
   end
   

@@ -16,6 +16,7 @@ class CheckinTime < ActiveRecord::Base
   
   named_scope :recurring,        :conditions => ["the_datetime is null"]
   named_scope :upcoming_singles, :conditions => ["the_datetime is not null and the_datetime >= #{sql_now}"]
+  named_scope :today, lambda { today = Date.today; {:conditions => ["(the_datetime >= ? and the_datetime < ?) or weekday = ?", today, today+1, today.wday]} }
   
   self.skip_time_zone_conversion_for_attributes = [:the_datetime]
   
@@ -40,6 +41,22 @@ class CheckinTime < ActiveRecord::Base
       write_attribute(:time, t.strftime('%H%M').to_i)
     else
       write_attribute(:time, nil)
+    end
+  end
+  
+  def to_s
+    if the_datetime
+      the_datetime.to_s
+    else
+      "#{Date::DAYNAMES[weekday]} #{time_to_s}"
+    end
+  end
+  
+  def time_to_s
+    if the_datetime
+      the_datetime.to_s(:time)
+    else
+      Time.parse(time.to_s.sub(/(\d+)(\d{2})$/, '\1:\2')).to_s(:time)
     end
   end
 end

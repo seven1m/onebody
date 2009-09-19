@@ -1,0 +1,1 @@
+page.visual_effect :highlight, "nametag_label_#{params[:group_time_id]}"

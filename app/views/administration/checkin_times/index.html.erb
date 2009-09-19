@@ -12,7 +12,7 @@ Add, edit, and remove available checkin times here.
 <ul>
   <% @recurring_times.each do |time| %>
     <li>
-      <%= checkin_time(time) %>
+      <%= time %>
       <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), administration_checkin_time_path(time), :method => 'delete', :confirm => 'Are you sure?' %>
     </li>
   <% end %>
@@ -34,7 +34,7 @@ Add, edit, and remove available checkin times here.
 <ul>
   <% @single_times.each do |time| %>
     <li>
-      <%= checkin_time(time) %>
+      <%= time %>
       <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), administration_checkin_time_path(time), :method => 'delete', :confirm => 'Are you sure?' %>
     </li>
   <% end %>
