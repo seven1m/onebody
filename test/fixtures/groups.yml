@@ -29,10 +29,6 @@
 #  gcal_private_link         :string(255)   
 #  approval_required_to_join :boolean       default(TRUE)
 #  pictures                  :boolean       default(TRUE)
-#  checkin_order             :integer       default(0)
-#  checkin_destination       :boolean       
-#  checkin_weekday           :integer       
-#  checkin_datetime          :datetime      
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

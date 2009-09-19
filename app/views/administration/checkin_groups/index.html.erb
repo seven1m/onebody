@@ -1,0 +1,47 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'Assign Cards', administration_checkin_path %></li>
+  <li><%= link_to 'Checkin Times', administration_checkin_times_path %></li>
+<% end %>
+
+<%= javascript_include_tag 'dragdrop.js' %>
+
+<div style="width:40%;float:right;margin-left:50px;">
+
+  <h1>All Groups</h1>
+  
+  <p>Expand a group category below to see the groups under it. Drag a group up and drop in a box above to add the group to that time.</p>
+
+  <% index = 1 %>
+  <% @groups.each do |category, groups| %>
+    <h3><%= link_to_function h(category), "Element.toggle('category_#{index}')" %></h3>
+    <p style="display:none;" id="category_<%= index %>">
+      <% groups.each do |group| %>
+        <span id="group_<%= group.id %>" class="draggable"><%=h group.name %></span><br/>
+        <%= draggable_element "group_#{group.id}", :revert => true %>
+      <% end %>
+    </p>
+    <% index += 1 %>
+  <% end %>
+  
+</div>
+
+<div style="margin-right:45%;">
+
+  <h1>Checkin Groups</h1>
+
+  <% @times.each do |time| %>
+  
+    <h2><%=h checkin_time(time) %></h2>
+  
+    <ol id="groups_for_time_<%= time.id %>" style="border:1px solid #ccc;min-height:50px;padding:10px 10px 10px 30px;">
+      <%= render :partial => 'group', :collection => time.groups, :locals => {:time => time} %>
+    </ol>
+    <%= drop_receiving_element "groups_for_time_#{time.id}",
+      :url  => administration_checkin_groups_path,
+      :with => "'time_id=#{time.id}&id=' + element.id" %>
+    <%= sortable_element "groups_for_time_#{time.id}",
+      :url => reorder_administration_checkin_groups_path(:time_id => time.id) %>
+  
+  <% end %>
+
+</div>

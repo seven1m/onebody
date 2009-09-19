@@ -29,10 +29,6 @@
 #  gcal_private_link         :string(255)   
 #  approval_required_to_join :boolean       default(TRUE)
 #  pictures                  :boolean       default(TRUE)
-#  checkin_order             :integer       default(0)
-#  checkin_destination       :boolean       
-#  checkin_weekday           :integer       
-#  checkin_datetime          :datetime      
 #
 
 class Group < ActiveRecord::Base
@@ -46,6 +42,8 @@ class Group < ActiveRecord::Base
   has_many :attendance_records
   has_many :albums
   has_many :stream_items, :dependent => :destroy
+  has_many :group_times, :dependent => :destroy
+  has_many :checkin_times, :through => :group_times
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
@@ -78,6 +76,8 @@ class Group < ActiveRecord::Base
     LogItem.create :loggable_type => 'Group', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
     self.photo_without_logging = p
   end
+  
+  named_scope :checkin_destinations, :include => :group_times, :conditions => ['group_times.checkin_time_id is not null'], :order => 'group_times.ordering'
   
   def name_group # returns something like "Morgan group"
     "#{name}#{name =~ /group$/i ? '' : ' group'}"

@@ -1,0 +1,5 @@
+<li id="group_<%= group.id %>">
+  <%=h group.name %>
+  <%= image_tag('reorder.png', :alt => 'Reorder Group (click and drag)', :class => 'handle icon') %>
+  <%= link_to_remote image_tag('delete.png',  :alt => 'Remove from this time.', :class => 'icon'), :url => administration_checkin_group_path(group, :time_id => time.id), :method => 'delete', :confirm => 'Are you sure?' %>
+</li>

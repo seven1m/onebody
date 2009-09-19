@@ -10,7 +10,6 @@
 #  created_at        :datetime      
 #  updated_at        :datetime      
 #  external_group_id :integer       
-#  barcode_id        :string(50)    
 #  first_name        :string(255)   
 #  last_name         :string(255)   
 #  family_name       :string(255)   

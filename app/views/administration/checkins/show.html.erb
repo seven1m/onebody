@@ -1,3 +1,10 @@
+<% if @logged_in.admin?(:manage_checkin) %>
+  <% content_for :subnav do %>
+    <li><%= link_to 'Checkin Times', administration_checkin_times_path %></li>
+    <li><%= link_to 'Checkin Groups', administration_checkin_groups_path %></li>
+  <% end %>
+<% end %>
+
 <% content_for :sidebar do %>
   <h1>Check-In Admin</h1>
   <% form_remote_tag :url => search_path,

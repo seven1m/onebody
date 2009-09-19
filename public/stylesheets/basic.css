@@ -579,3 +579,7 @@ table.memberships td input {
 .update form {
   border: none;
 }
+
+.draggable, .handle {
+  cursor: move;
+}

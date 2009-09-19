@@ -430,8 +430,8 @@ h3 {
 }
 #contentnorightbar ul,
 #contentnorightbar ol {
-	margin:5px 0 15px 20px;
-	padding:0;
+	margin:5px 0 15px 0px;
+	padding:0 0 0 20px;
 }
 #contentnorightbar ul span {
 	color:#444;

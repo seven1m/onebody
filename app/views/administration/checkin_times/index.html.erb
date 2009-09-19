@@ -1,0 +1,50 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'Assign Cards', administration_checkin_path %></li>
+  <li><%= link_to 'Checkin Groups', administration_checkin_groups_path %></li>
+<% end %>
+
+<h1>Checkin Times</h1>
+
+Add, edit, and remove available checkin times here.
+
+<h2>Recurring</h2>
+
+<ul>
+  <% @recurring_times.each do |time| %>
+    <li>
+      <%= checkin_time(time) %>
+      <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), administration_checkin_time_path(time), :method => 'delete', :confirm => 'Are you sure?' %>
+    </li>
+  <% end %>
+</ul>
+
+<p><%= link_to_function 'New &raquo;', "Element.hide(this.parentNode);Element.show('new_recurring_time')" %></p>
+<% form_for :checkin_time, :url => administration_checkin_times_path, :html => {:style => 'display:none;', :id => 'new_recurring_time'}, :method => 'post' do |form| %>
+  <p>
+    <%= form.label :weekday, 'Weekday:', :class => 'inline' %>
+    <%= form.select :weekday, Date::DAYNAMES.with_indexes %>
+    <%= form.label :time, 'Time:', :class => 'inline' %>
+    <%= form.text_field :time, :size => 5 %>
+    <%= form.submit 'Add' %>
+  </p>
+<% end %>
+
+<h2>Single Dates and Times</h2>
+
+<ul>
+  <% @single_times.each do |time| %>
+    <li>
+      <%= checkin_time(time) %>
+      <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), administration_checkin_time_path(time), :method => 'delete', :confirm => 'Are you sure?' %>
+    </li>
+  <% end %>
+</ul>
+
+<p><%= link_to_function 'New &raquo;', "Element.hide(this.parentNode);Element.show('new_single_time')" %></p>
+<% form_for :checkin_time, :url => administration_checkin_times_path, :html => {:style => 'display:none;', :id => 'new_single_time'}, :method => 'post' do |form| %>
+  <p>
+    <%= form.label :the_datetime, 'Date & Time:', :class => 'inline' %>
+    <%= form.text_field :the_datetime, :size => 15 %>
+    <%= form.submit 'Add' %>
+  </p>
+<% end %>

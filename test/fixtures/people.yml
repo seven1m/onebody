@@ -67,7 +67,6 @@
 #  feed_code                    :string(50)    
 #  share_activity               :boolean       
 #  site_id                      :integer       
-#  barcode_id                   :string(50)    
 #  can_pick_up                  :string(100)   
 #  cannot_pick_up               :string(100)   
 #  medical_notes                :string(200)   
