@@ -28,6 +28,9 @@
       <td>
         <%= record.attended_at.to_s %>
       </td>
+      <td>
+        <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), administration_attendance_path(record), :method => 'delete', :confirm => 'Are you sure you want to delete this record?' %>
+      </td>
     </tr>
   <% end %>
 </table>

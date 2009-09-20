@@ -38,6 +38,12 @@ class Administration::AttendanceController < ApplicationController
     end
   end
   
+  def destroy
+    @record = AttendanceRecord.find(params[:id])
+    @record.destroy
+    redirect_to administration_attendance_index_path(:attended_at => @record.attended_at.to_date)
+  end
+  
   private
   
     def only_admins
