@@ -35,8 +35,8 @@ class AttendanceController < ApplicationController
           )
         end
       end
-      # record attendance for people not in database
-      params[:people].to_a.each do |person|
+      # record attendance for a person not in database (one at a time)
+      if person = params[:person]
         @group.attendance_records.create!(
           :attended_at    => @attended_at,
           :first_name     => person['first_name'],
