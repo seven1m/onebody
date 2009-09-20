@@ -15,7 +15,7 @@
         <% if record.person %>
           <%= link_to h(record.person.name), record.person %>
         <% else %>
-          <em>person missing</em>
+          <%= record.first_name %> <%= record.last_name %>
         <% end %>
       </td>
       <td>
