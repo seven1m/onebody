@@ -7,7 +7,7 @@
 
 <table>
   <tr>
-    <th>Name</th><th>Group</th>
+    <th>Name</th><th>Group</th><th>Time</th>
   </tr>
   <% @records.each do |record| %>
     <tr>
@@ -24,6 +24,9 @@
         <% else %>
           <em>group missing</em>
         <% end %>
+      </td>
+      <td>
+        <%= record.attended_at.to_s %>
       </td>
     </tr>
   <% end %>

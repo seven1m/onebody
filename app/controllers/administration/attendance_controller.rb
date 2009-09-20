@@ -8,20 +8,20 @@ class Administration::AttendanceController < ApplicationController
       format.html do
         @records = AttendanceRecord.paginate(
           :page => params[:page],
-          :conditions => ["attended_at = ?", Time.zone.local_to_utc(@attended_at.to_time)],
+          :conditions => ["attended_at >= ? and attended_at <= ?", @attended_at.strftime('%Y-%m-%d 0:00'), @attended_at.strftime('%Y-%m-%d 23:59:59')],
           :order => 'group_id',
           :include => %w(person group)
         )
       end
       format.csv do
         @records = AttendanceRecord.all(
-          :conditions => ["attended_at = ?", Time.zone.local_to_utc(@attended_at.to_time)],
+          :conditions => ["attended_at >= ? and attended_at <= ?", @attended_at.strftime('%Y-%m-%d 0:00'), @attended_at.strftime('%Y-%m-%d 23:59:59')],
           :order => 'group_id',
           :select => 'attendance_records.*, people.first_name, people.last_name, groups.name as group_name',
           :joins => [:person, :group]
         )
         CSV::Writer.generate(csv_str = '') do |csv|
-          csv << %w(group_name group_id first_name last_name person_id date)
+          csv << %w(group_name group_id first_name last_name person_id time)
           @records.each do |record|
             csv << [
               record.group_name,
@@ -29,7 +29,7 @@ class Administration::AttendanceController < ApplicationController
               record.first_name,
               record.last_name,
               record.person_id,
-              record.attended_at.strftime('%Y-%m-%d')
+              record.attended_at.to_s
             ]
           end
         end
