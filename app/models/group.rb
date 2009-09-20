@@ -167,7 +167,8 @@ class Group < ActiveRecord::Base
   def get_people_attendance_records_for_date(date)
     records = {}
     people.each { |p| records[p.id] = [p, false] }
-    attendance_records.find_all_by_attended_at(date.to_time).each do |record|
+    date = Date.parse(date) if(date.is_a?(String))
+    attendance_records.all(:conditions => ['attended_at >= ? and attended_at <= ?', date.strftime('%Y-%m-%d 0:00'), date.strftime('%Y-%m-%d 23:59:59')]).each do |record|
       records[record.person.id] = [record.person, record]
     end
     records.values.sort_by { |r| r[0].name }

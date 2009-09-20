@@ -25,7 +25,6 @@ class AttendanceRecord < ActiveRecord::Base
   belongs_to :site
   scope_by_site_id
   
-  validates_presence_of :person_id
   validates_presence_of :group_id
   validates_presence_of :attended_at
   

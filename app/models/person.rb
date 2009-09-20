@@ -634,6 +634,13 @@ class Person < ActiveRecord::Base
 
   def to_liquid; inspect; end  
   
+  def age_group
+    the_classes = self.classes.to_s.split(',')
+    if the_class = the_classes.detect { |c| c =~ /^AG:$/ }
+      the_class.match(/^AG:(.+)$/)[1]
+    end
+  end
+  
   alias_method :destroy_for_real, :destroy
   def destroy
     self.update_attributes!(
