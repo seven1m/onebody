@@ -1,2 +1,4 @@
 #header, #sidebar { display: none; }
 .discreet a, a.discreet { display: none; }
+.no-print { display: none; }
+a { color: #000; }

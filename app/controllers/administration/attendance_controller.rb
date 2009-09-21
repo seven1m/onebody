@@ -9,14 +9,18 @@ class Administration::AttendanceController < ApplicationController
       params[:sort] = 'groups.name'
     end
     conditions = ["attended_at >= ? and attended_at <= ?", @attended_at.strftime('%Y-%m-%d 0:00'), @attended_at.strftime('%Y-%m-%d 23:59:59')]
-    conditions.add_condition(["group_id = ?", params[:group_id]]) if params[:group_id].to_i > 0
+    if params[:group_id].to_i > 0
+      @group = Group.find(params[:group_id])
+      conditions.add_condition(["group_id = ?", @group.id])
+    end
     respond_to do |format|
       format.html do
         @records = AttendanceRecord.paginate(
           :page       => params[:page],
           :conditions => conditions,
           :order      => params[:sort],
-          :include    => %w(person group)
+          :include    => %w(person group),
+          :per_page   => 100
         )
       end
       format.csv do
@@ -27,7 +31,7 @@ class Administration::AttendanceController < ApplicationController
           :joins      => [:person, :group]
         )
         CSV::Writer.generate(csv_str = '') do |csv|
-          csv << %w(group_name group_id first_name last_name person_id time)
+          csv << %w(group_name group_id first_name last_name person_id class_time recorded_time)
           @records.each do |record|
             csv << [
               record.group_name,
@@ -35,7 +39,8 @@ class Administration::AttendanceController < ApplicationController
               record.first_name,
               record.last_name,
               record.person_id,
-              record.attended_at.to_s
+              record.attended_at.to_s,
+              record.created_at.to_s
             ]
           end
         end
