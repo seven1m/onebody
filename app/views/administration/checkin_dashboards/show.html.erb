@@ -1,5 +1,6 @@
 <% if @logged_in.admin?(:manage_checkin) %>
   <% content_for :subnav do %>
+    <li><%= link_to 'Assigned Cards', administration_checkin_cards_path %></li>
     <li><%= link_to 'Checkin Times', administration_checkin_times_path %></li>
     <li><%= link_to 'Checkin Groups', administration_checkin_groups_path %></li>
   <% end %>

@@ -1,3 +1,9 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'Dashboard', administration_checkin_path %></li>
+  <li><%= link_to 'Checkin Times', administration_checkin_times_path %></li>
+  <li><%= link_to 'Checkin Groups', administration_checkin_groups_path %></li>
+<% end %>
+
 <h1>Assigned Checkin Cards</h1>
 
 <%= will_paginate @families %>
@@ -6,7 +12,7 @@
   <tr>
     <th><%= link_to 'Family', administration_checkin_cards_path(:sort => 'last_name,name') %></th>
     <th><%= link_to 'Barcode', administration_checkin_cards_path(:sort => 'barcode_id') %></th>
-    <th><%= link_to 'Assigned', administration_checkin_cards_path(:sort => 'barcode_assigned_at') %></th>
+    <th><%= link_to 'Assigned', administration_checkin_cards_path(:sort => 'barcode_assigned_at desc') %></th>
   </tr>
   <% @families.each do |family| %>
     <tr>

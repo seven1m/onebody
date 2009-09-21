@@ -2,10 +2,12 @@ class Administration::CheckinCardsController < ApplicationController
 
   before_filter :only_admins
   
+  VALID_SORT_COLS = ['last_name,name', 'barcode_id', 'barcode_assigned_at desc']
+  
   def index
     respond_to do |format|
       format.html do
-        params[:sort] = 'barcode_assigned_at' unless %w(last_name,name barcode_id barcode_assigned_at).include?(params[:sort])
+        params[:sort] = 'barcode_assigned_at desc' unless VALID_SORT_COLS.include?(params[:sort])
         @families = Family.paginate(
           :conditions => "barcode_id is not null and barcode_id != ''",
           :order      => params[:sort],
