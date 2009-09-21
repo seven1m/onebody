@@ -21,6 +21,7 @@
   <tr>
     <th>ID</th>
     <th><%= sortable_column_heading 'Name',          'attendance_records.last_name,attendance_records.first_name' %></th>
+    <th>Adult</th>
     <th><%= sortable_column_heading 'Group',         'groups.name'                                                %></th>
     <th><%= sortable_column_heading 'Class Time',    'attendance_records.attended_at'                             %></th>
     <th><%= sortable_column_heading 'Recorded Time', 'attendance_records.created_at'                              %></th>
@@ -36,6 +37,9 @@
         <% else %>
           <%= record.first_name %> <%= record.last_name %>
         <% end %>
+      </td>
+      <td>
+        <% if record.person && record.person.adult? %>adult<% end %>
       </td>
       <td>
         <% if record.group %>
