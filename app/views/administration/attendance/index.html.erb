@@ -4,6 +4,10 @@
   <% if @group %>for <%=h @group.name %><% end %>
 </h1>
 
+<p>
+  <%= pluralize @record_count, 'record' %>
+</p>
+
 <p class="no-print">
   <%= label_tag :attended_at, 'Date:', :class => 'inline' %>
   <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
@@ -15,13 +19,17 @@
 
 <table>
   <tr>
+    <th>ID</th>
     <th><%= sortable_column_heading 'Name',          'attendance_records.last_name,attendance_records.first_name' %></th>
     <th><%= sortable_column_heading 'Group',         'groups.name'                                                %></th>
     <th><%= sortable_column_heading 'Class Time',    'attendance_records.attended_at'                             %></th>
     <th><%= sortable_column_heading 'Recorded Time', 'attendance_records.created_at'                              %></th>
   </tr>
   <% @records.each do |record| %>
-    <tr>
+    <tr id="record<%= record.id %>">
+      <td>
+        <%=h record.person_id %>
+      </td>
       <td>
         <% if record.person %>
           <%= link_to h(record.person.name), record.person %>
@@ -43,13 +51,13 @@
         <%= record.created_at.to_s(:time) %>
       </td>
       <td>
-        <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon no-print'), administration_attendance_path(record), :method => 'delete', :confirm => 'Are you sure you want to delete this record?' %>
+        <%= link_to_remote image_tag('delete.png', :alt => 'Delete', :class => 'icon no-print'), :url => administration_attendance_path(record), :method => 'delete', :confirm => 'Are you sure you want to delete this record?' %>
       </td>
     </tr>
   <% end %>
 </table>
 
-<%= will_paginate @records, :params => %w(sort group_id) %>
+<%= will_paginate @records, :params => {:sort => params[:sort], :group_id => params[:group_id], :attended_at => params[:attended_at]} %>
 
 <% if @records.any? %>
   <p>

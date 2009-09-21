@@ -24,6 +24,10 @@ class Administration::AttendanceController < ApplicationController
     end
     respond_to do |format|
       format.html do
+        @record_count = AttendanceRecord.count('*',
+          :conditions => conditions,
+          :include    => %w(person group)
+        )
         @records = AttendanceRecord.paginate(
           :page       => params[:page],
           :conditions => conditions,
@@ -61,7 +65,6 @@ class Administration::AttendanceController < ApplicationController
   def destroy
     @record = AttendanceRecord.find(params[:id])
     @record.destroy
-    redirect_to administration_attendance_index_path(:attended_at => @record.attended_at.to_date)
   end
   
   private
