@@ -1,17 +1,26 @@
 class Administration::AttendanceController < ApplicationController
 
   before_filter :only_admins
+  
+  VALID_SORT_COLS = %w(
+    attendance_records.last_name
+    attendance_records.first_name
+    groups.name
+    attendance_records.attended_at
+    attendance_records.created_at
+  )
 
   def index
     @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
     @groups = AttendanceRecord.groups_for_date(@attended_at)
-    unless params[:sort].to_s.split(',').all? { |col| %w(attendance_records.last_name attendance_records.first_name groups.name attendance_records.attended_at attendance_records.created_at).include?(col) }
-      params[:sort] = 'groups.name'
-    end
     conditions = ["attended_at >= ? and attended_at <= ?", @attended_at.strftime('%Y-%m-%d 0:00'), @attended_at.strftime('%Y-%m-%d 23:59:59')]
     if params[:group_id].to_i > 0
       @group = Group.find(params[:group_id])
       conditions.add_condition(["group_id = ?", @group.id])
+      params[:sort] ||= 'attendance_records.last_name,attendance_records.first_name'
+    end
+    unless params[:sort].to_s.split(',').all? { |col| VALID_SORT_COLS.include?(col) }
+      params[:sort] = 'groups.name'
     end
     respond_to do |format|
       format.html do
