@@ -29,4 +29,11 @@ class AttendanceRecord < ActiveRecord::Base
   validates_presence_of :attended_at
   
   self.skip_time_zone_conversion_for_attributes = [:attended_at]
+  
+  def self.groups_for_date(attended_at)
+    Group.all(
+      :conditions => ["id in (select group_id from attendance_records where attended_at >= ? and attended_at <= ?)", attended_at.strftime('%Y-%m-%d 0:00'), attended_at.strftime('%Y-%m-%d 23:59:59')],
+      :order      => 'name'
+    )
+  end
 end
