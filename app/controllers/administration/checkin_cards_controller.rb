@@ -1,0 +1,36 @@
+class Administration::CheckinCardsController < ApplicationController
+
+  before_filter :only_admins
+  
+  def index
+    respond_to do |format|
+      format.html do
+        params[:sort] = 'barcode_assigned_at' unless %w(last_name,name barcode_id barcode_assigned_at).include?(params[:sort])
+        @families = Family.paginate(
+          :conditions => "barcode_id is not null and barcode_id != ''",
+          :order      => params[:sort],
+          :page       => params[:page],
+          :per_page   => 100
+        )
+      end
+      format.csv do
+        @families = Family.all(
+          :select     => 'id, legacy_id, name, last_name, barcode_id, barcode_assigned_at',
+          :conditions => "barcode_id is not null and barcode_id != ''",
+          :order      => 'name'
+        )
+        render :text => @families.to_csv
+      end
+    end
+  end
+  
+  private
+  
+    def only_admins
+      unless @logged_in.admin?(:manage_checkin)
+        render :text => 'You must be an administrator to use this section.', :layout => true, :status => 401
+        return false
+      end
+    end
+  
+end

@@ -108,10 +108,11 @@ unless defined?(DISABLE_ROUTES)
       admin.resources :files, :requirements => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
       admin.resources :attendance
       admin.resource :theme
-      admin.resource :checkin do |checkin|
+      admin.resource :checkin, :controller => :checkin_dashboards do |checkin|
         checkin.resources :groups, :controller => 'checkin_groups',
           :collection => {:batch => [:put], :reorder => :post}
         checkin.resources :times, :controller => 'checkin_times'
+        checkin.resources :cards, :controller => 'checkin_cards'
       end
     end
   

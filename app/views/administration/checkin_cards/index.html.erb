@@ -1,0 +1,28 @@
+<h1>Assigned Checkin Cards</h1>
+
+<%= will_paginate @families %>
+
+<table>
+  <tr>
+    <th><%= link_to 'Family', administration_checkin_cards_path(:sort => 'last_name,name') %></th>
+    <th><%= link_to 'Barcode', administration_checkin_cards_path(:sort => 'barcode_id') %></th>
+    <th><%= link_to 'Assigned', administration_checkin_cards_path(:sort => 'barcode_assigned_at') %></th>
+  </tr>
+  <% @families.each do |family| %>
+    <tr>
+      <td><%= link_to h(family.name), family %></td>
+      <td><%=h family.barcode_id %></td>
+      <td><%=h family.barcode_assigned_at.to_s %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @families %>
+
+<% if @families.any? %>
+  <p>
+    <%= link_to 'Export to File', administration_checkin_cards_path(:format => 'csv') %>
+  </p>
+<% else %>
+  <p><em>no records to display</em></p>
+<% end %>

@@ -56,6 +56,7 @@ class Family < ActiveRecord::Base
   
   def barcode_id=(b)
     write_attribute(:barcode_id, b.to_s.strip.any? ? b : nil)
+    write_attribute(:barcode_assigned_at, Time.now.utc)
   end
   
   def address
