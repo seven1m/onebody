@@ -22,6 +22,8 @@ Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
   # dependencies 
   config.gem 'tobi-liquid',                     :source => 'http://gems.github.com', :lib => 'liquid'
+  config.gem 'color'
+  config.gem 'transaction-simple',              :lib => 'transaction/simple'
   config.gem 'metaskills-pdf-writer',           :source => 'http://gems.github.com', :lib => 'pdf/writer'
   config.gem 'highline'
   config.gem 'mini_magick'
@@ -37,6 +39,9 @@ Rails::Initializer.run do |config|
   config.gem 'nokogiri'
   config.gem 'builder'
   config.gem 'pauldix-feedzirra',               :source => 'http://gems.github.com', :lib => 'feedzirra'
+  # to install with your gem command (rake gems:install uses just plain 'gem' by default -- you might need to use gem19 or something else):
+  # [gemcommand] install highline mini_magick twitter xmpp4r chronic nokogiri builder color transaction-simple
+  # [gemcommand] install -s http://gems.github.com tobi-liquid metaskills-pdf-writer mislav-will_paginate seven1m-acts_as_scoped_globally seven1m-has_one_photo seven1m-has_one_file seven1m-campaign_monitor javan-whenever pauldix-feedzirra
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
