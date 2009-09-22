@@ -37,6 +37,9 @@ Rails::Initializer.run do |config|
   config.gem 'nokogiri'
   config.gem 'builder'
   config.gem 'pauldix-feedzirra',               :source => 'http://gems.github.com', :lib => 'feedzirra'
+  # to install with your gem command (rake gems:install uses just plain 'gem' by default -- you might need to use gem19 or something else):
+  # [gemcommand] install liquid pdf-writer highline mini_magick twitter xmpp4r chronic nokogiri builder
+  # [gemcommand] install -s http://gems.github.com mislav-will_paginate seven1m-acts_as_scoped_globally seven1m-has_one_photo seven1m-has_one_file seven1m-campaign_monitor javan-whenever pauldix-feedzirra
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
