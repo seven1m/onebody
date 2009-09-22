@@ -230,7 +230,7 @@ class Person < ActiveRecord::Base
   end
   
   def typecast_custom_value(val, index)
-    if Setting.get(:features, :custom_person_fields).to_a[index] =~ /[Dd]ate/
+    if Setting.get(:features, :custom_person_fields).to_s.lines.to_a[index] =~ /[Dd]ate/
       Date.parse(val.to_s) rescue nil
     else
       val
@@ -668,7 +668,7 @@ class Person < ActiveRecord::Base
   end
 
   # model extensions
-  Dir[Rails.root + 'app/models/person/*.rb'].each do |ext|
+  Dir["#{Rails.root}/app/models/person/*.rb"].each do |ext|
     load(ext)
     mod_name = ext.split('/').last.split('.').first.classify
     class_eval "include Person::#{mod_name}"

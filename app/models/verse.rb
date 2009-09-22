@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # == Schema Information
 #
 # Table name: verses
@@ -65,9 +67,10 @@ class Verse < ActiveRecord::Base
       result = Net::HTTP.get(URI.parse(url)).gsub(/\s+/, ' ').gsub(/ì|î/, '"').gsub(/ë|í/, "'").gsub('*', '')
       begin
          self.text = result.scan(/<Text>(.+?)<\/Text>/).map { |p| p[0].gsub(/<.+?>/, '').strip }.join(' ')
-         self.text.gsub!(/\223|\224/, '"')
-         self.text.gsub!(/\221|\222/, "'")
-         self.text.gsub!(/\227/, "--")
+         # maybe not needed? - breaks in ruby 1.9
+         #self.text.gsub!(/\223|\224/, '"')
+         #self.text.gsub!(/\221|\222/, "'")
+         #self.text.gsub!(/\227/, "--")
          self.update_sortables
       rescue
         nil

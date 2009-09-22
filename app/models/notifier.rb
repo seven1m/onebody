@@ -297,7 +297,7 @@ class Notifier < ActionMailer::Base
     end
     
     def get_from_person(email)
-      people = Person.find :all, :conditions => ["#{sql_lcase('email')} = ?", email.from.to_s.downcase]
+      people = Person.find :all, :conditions => ["#{sql_lcase('email')} = ?", email.from.first.downcase]
       if people.length == 0
         # user is not found in the system, try alternate email
         Person.find :first, :conditions => ["#{sql_lcase('alternate_email')} = ?", email.from.to_s.downcase]
