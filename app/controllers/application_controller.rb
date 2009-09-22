@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
         redirect_to request.url.sub(/^(https?:\/\/)www\./, '\1')
         return false
       else
-        render :text => 'There is no site configured at this address: ' + request.host
+        render :text => 'There is no site configured at this address: ' + request.host, :status => 404
         return false
       end
     end
