@@ -114,22 +114,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :feeds
   belongs_to :site
-
-  has_many :services, :dependent => :destroy do
-    def current
-      self.find(:all, :conditions => {:status => 'current'}, :include => :service_category, :order => 'service_categories.name')
-    end
-
-    def pending
-      self.find(:all, :conditions => {:status => 'pending'}, :include => :service_category, :order => 'service_categories.name')
-    end
-
-    def historical
-      self.find(:all, :conditions => {:status => 'completed'}, :include => :service_category, :order => 'service_categories.name')
-    end
-  end
-  has_many :service_categories, :through => :services
-  
+    
   scope_by_site_id
     
   acts_as_password
