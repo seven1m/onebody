@@ -14,7 +14,7 @@ class AttendanceController < ApplicationController
     end
   end
   
-  # this method is similar to batch, but does not clear existing records first
+  # this method is similar to batch, but does not clear all the existing records for the group first
   # this method also allows you to record attendance for people not in the database (used for checkin 'add a friend' feature)
   def create
     @group = Group.find(params[:group_id])
@@ -22,6 +22,7 @@ class AttendanceController < ApplicationController
     if @group.admin?(@logged_in)
       params[:ids].to_a.each do |id|
         if person = Person.find_by_id(id)
+          AttendanceRecord.delete_all(["person_id = ? and attendance_records.attended_at = ?", id, @attended_at])
           @group.attendance_records.create!(
             :person_id      => person.id,
             :attended_at    => @attended_at,
