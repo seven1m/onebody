@@ -25,11 +25,6 @@
   <%= render :partial => 'photo' %>
   <h1><%=h @person.name %></h1>
   <%= render :partial => 'person_type' %>
-  <!--
-  <% unless @person.website.blank? %>
-    <p><%= link_to 'Website', @person.website %></p>
-  <% end %>
-  -->
   <%= render :partial => 'family' %>
   <%= render :partial => 'hidden_children' %>
   <% if Setting.get(:features, :friends) %>
