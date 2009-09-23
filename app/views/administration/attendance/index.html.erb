@@ -32,10 +32,16 @@
         <%=h record.person_id %>
       </td>
       <td>
-        <% if record.person %>
+        <% if record.first_name.to_s.any? %>
+          <% if record.person %>
+            <%= link_to h("#{record.first_name} #{record.last_name}"), record.person %>
+          <% else %>
+            <%=h record.first_name %> <%=h record.last_name %>
+          <% end %>
+        <% elsif record.person %>
           <%= link_to h(record.person.name), record.person %>
         <% else %>
-          <%= record.first_name %> <%= record.last_name %>
+          <%= '(name unknown)' %>
         <% end %>
       </td>
       <td>
