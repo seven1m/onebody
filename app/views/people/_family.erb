@@ -27,9 +27,15 @@
           <% end %>
           <% if @include_alerts %>
             <br/>
-            <% if person.can_pick_up.to_s.any? %><strong>Can pick up:</strong> <%= person.can_pick_up %><br/><% end %>
-            <% if person.cannot_pick_up.to_s.any? %><strong>Cannot pick up:</strong> <%= person.cannot_pick_up %><br/><% end %>
-            <% if person.medical_notes.to_s.any? %><strong>Medical notes:</strong> <%= person.medical_notes %><% end %>
+            <% if person.can_pick_up.to_s.any? %><strong class="very-strong">Can pick up:</strong> <%=h person.can_pick_up %><br/><% end %>
+            <% if person.cannot_pick_up.to_s.any? %><strong class="very-strong">Cannot pick up:</strong> <%=h person.cannot_pick_up %><br/><% end %>
+            <% if person.medical_notes.to_s.any? %><strong class="very-strong">Medical notes:</strong> <%=h person.medical_notes %><% end %>
+          <% end %>
+          <% if @include_location %>
+            <% person.attendance_today.each do |attendance_record| %>
+              <strong><%=h attendance_record.attended_at.to_s(:time) %>:</strong>
+              <%=h attendance_record.group.name rescue '?' %><br/>
+            <% end %>
           <% end %>
         </td>
       </tr>

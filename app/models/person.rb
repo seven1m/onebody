@@ -626,6 +626,15 @@ class Person < ActiveRecord::Base
     end
   end
   
+  def attendance_today
+    today = Date.today
+    self.attendance_records.all(
+      :conditions => ['attendance_records.attended_at >= ? and attendance_records.attended_at <= ?', today.strftime('%Y-%m-%d 0:00'), today.strftime('%Y-%m-%d 23:59:59')],
+      :include    => :group,
+      :order      => 'attended_at'
+    )
+  end
+  
   alias_method :destroy_for_real, :destroy
   def destroy
     self.update_attributes!(
