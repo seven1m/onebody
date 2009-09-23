@@ -19,7 +19,7 @@ class Administration::CheckinCardsController < ApplicationController
         @families = Family.all(
           :select     => 'id, legacy_id, name, last_name, barcode_id, barcode_assigned_at',
           :conditions => "barcode_id is not null and barcode_id != ''",
-          :order      => 'name'
+          :order      => 'barcode_assigned_at desc'
         )
         render :text => @families.to_csv
       end
