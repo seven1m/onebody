@@ -10,8 +10,6 @@ class PeopleController < ApplicationController
         if params[:family_id]
           @people = Person.find_all_by_family_id_and_deleted(params[:family_id], false)
           @people.reject! { |p| p.at_least?(18) } if params[:child]
-        elsif params[:family_barcode_id]
-          @people = Person.all(:joins => :family, :conditions => ["families.barcode_id = ? and people.deleted = ?", params[:family_barcode_id], false], :select => 'families.id, families.barcode_id, people.id, people.first_name, people.last_name, people.suffix, people.classes, people.medical_notes, people.can_pick_up, people.cannot_pick_up')
         else
           @people = Person.paginate(:conditions => ['deleted = ?', false], :order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
         end
@@ -256,6 +254,21 @@ class PeopleController < ApplicationController
     unless @logged_in.can_see?(@person)
       render :text => 'Person not found.', :status => 404, :layout => true
     end
+  end
+  
+  def checkin
+    @people = Person.all(:joins => :family, :conditions => ["families.barcode_id = ? and people.deleted = ?", params[:family_barcode_id], false], :select => 'families.id, families.barcode_id, people.family_id, people.id, people.first_name, people.last_name, people.suffix, people.classes, people.medical_notes, people.can_pick_up, people.cannot_pick_up')
+    json = @people.map do |person|
+      person.attributes.merge({
+        :family_id          => person.family_id,
+        :family_barcode_id  => person.family.barcode_id,
+        :attendance_records => person.attendance_today.inject({}) do |records, record|
+          records[record.attended_at.to_s(:time)] = [record.group_id, record.group.name]
+          records
+        end
+      })
+    end.to_json
+    render :text => json
   end
 
 end
