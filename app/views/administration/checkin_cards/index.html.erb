@@ -1,8 +1,4 @@
-<% content_for :subnav do %>
-  <li><%= link_to 'Dashboard', administration_checkin_path %></li>
-  <li><%= link_to 'Checkin Times', administration_checkin_times_path %></li>
-  <li><%= link_to 'Checkin Groups', administration_checkin_groups_path %></li>
-<% end %>
+<%= render :partial => 'administration/checkin_dashboards/subnav' %>
 
 <h1>Assigned Checkin Cards</h1>
 

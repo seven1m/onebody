@@ -1,8 +1,4 @@
-<% content_for :subnav do %>
-  <li><%= link_to 'Dashboard', administration_checkin_path %></li>
-  <li><%= link_to 'Assigned Cards', administration_checkin_cards_path %></li>
-  <li><%= link_to 'Checkin Times', administration_checkin_times_path %></li>
-<% end %>
+<%= render :partial => 'administration/checkin_dashboards/subnav' %>
 
 <%= javascript_include_tag 'dragdrop.js' %>
 
