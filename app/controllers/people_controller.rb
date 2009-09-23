@@ -11,7 +11,7 @@ class PeopleController < ApplicationController
           @people = Person.find_all_by_family_id_and_deleted(params[:family_id], false)
           @people.reject! { |p| p.at_least?(18) } if params[:child]
         elsif params[:family_barcode_id]
-          @people = Person.all(:include => :family, :conditions => ["families.barcode_id = ? and people.deleted = ?", params[:family_barcode_id], false])
+          @people = Person.all(:joins => :family, :conditions => ["families.barcode_id = ? and people.deleted = ?", params[:family_barcode_id], false], :select => 'families.id, families.barcode_id, people.id, people.first_name, people.last_name, people.suffix, people.classes, people.medical_notes, people.can_pick_up, people.cannot_pick_up')
         else
           @people = Person.paginate(:conditions => ['deleted = ?', false], :order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
         end
