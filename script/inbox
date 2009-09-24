@@ -8,7 +8,7 @@ MAX_PID_LIFE = 30 * 60 # 30 mins
 
 require 'time'
 if File.exist?(PID_PATH)
-  if Time.now - File.stat('inbox').mtime > MAX_PID_LIFE
+  if Time.now - File.stat(PID_PATH).mtime > MAX_PID_LIFE
     Process.kill('KILL', File.read(PID_PATH).strip.to_i) rescue nil
     File.delete(PID_PATH)
   else
