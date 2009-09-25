@@ -145,6 +145,24 @@ class GroupsController < ApplicationController
     end
   end
   
+  def batch
+    if @logged_in.admin?(:manage_groups)
+      if request.post?
+        @errors = []
+        params[:groups].each do |id, details|
+          group = Group.find(id)
+          unless group.update_attributes(details)
+            @errors << [id, group.errors.full_messages]
+          end
+        end
+      else
+        @groups = Group.all(:order => 'category, name')
+      end
+    else
+      render :text => 'You are not authorized.', :layout => true, :status => 401
+    end
+  end
+  
   private
   
     def feature_enabled?

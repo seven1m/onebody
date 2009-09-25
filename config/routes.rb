@@ -38,7 +38,8 @@ unless defined?(DISABLE_ROUTES)
       families.resource :photo, :member => PHOTO_SIZE_METHODS
     end
   
-    map.resources :groups do |groups|
+    map.resources :groups,
+      :collection => {:batch => :any} do |groups|
       groups.resources :memberships, :collection => {:batch => :any}, :has_one => :privacy
       groups.resources :notes
       groups.resources :messages

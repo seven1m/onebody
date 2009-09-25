@@ -1,0 +1,12 @@
+page << "$$('.group').each(function(e){e.className='group'})"
+page << "$$('.group .errors').each(function(e){e.innerHTML=''})"
+if @errors.any?
+  @errors.each do |id, errors|
+    page << "$$('#group#{id}')[0].className='group error'"
+    error_messages = errors.join('; ').gsub(/'|"/, '')
+    page << "$$('#group#{id} .errors')[0].innerHTML='#{error_messages}'"
+  end
+  page.alert('There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages.')
+else
+  page.alert('Changes saved successfully.')
+end

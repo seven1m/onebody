@@ -583,3 +583,7 @@ table.memberships td input {
 .draggable, .handle {
   cursor: move;
 }
+
+tr.error td {
+  background-color: #fcc;
+}

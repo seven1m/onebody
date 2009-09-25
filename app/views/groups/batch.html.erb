@@ -1,0 +1,55 @@
+<h1>Batch Edit Groups</h1>
+
+<p><em>Scroll left and right to see all columns.</em></p>
+
+<% form_remote_tag :url => batch_groups_path,
+  :loading  => "Element.show('loading')",
+  :complete => "Element.hide('loading')",
+  :html     => {:style => 'overflow:auto;width:90%;background-color:#fff;'} do %>
+  <table>
+    <tr>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Members Send</th>
+      <th>Private</th>
+      <th>Hidden</th>
+      <th>Approved</th>
+      <th>Link Code(s)</th>
+      <th>Blog</th>
+      <th>Email</th>
+      <th>Prayer</th>
+      <th>Attendance</th>
+      <th>Pictures</th>
+      <th>GCalendar Link</th>
+      <th>Approval Required to Join</th>
+    </tr>
+    <% @groups.each do |group| %>
+      <tr id="group<%= group.id %>" class="group">
+        <td><%= text_field_tag "groups[#{group.id}][category]",                  group.category,  :size => 10           %></td>
+        <td><%= text_field_tag "groups[#{group.id}][name]",                      group.name,      :size => 10           %></td>
+        <td><%= text_field_tag "groups[#{group.id}][address]",                   group.address,   :size => 10           %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][members_send]",              true, group.members_send?              %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][private]",                   true, group.private?                   %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][hidden]",                    true, group.hidden?                    %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][approved]",                  true, group.approved?                  %></td>
+        <td><%= text_field_tag "groups[#{group.id}][link_code]",                 group.link_code, :size => 5            %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][blog]",                      true, group.blog?                      %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][email]",                     true, group.email?                     %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][prayer]",                    true, group.prayer?                    %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][attendance]",                true, group.attendance?                %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][pictures]",                  true, group.pictures?                  %></td>
+        <td><%= text_field_tag "groups[#{group.id}][gcal_private_link]",         group.link_code, :size => 5            %></td>
+        <td><%= check_box_tag  "groups[#{group.id}][approval_required_to_join]", true, group.approval_required_to_join? %></td>
+        <td class="errors"></td>
+      </tr>
+    <% end %>
+  </table>
+  <p>
+    <%= submit_tag 'Save Changes' %>
+    <span id="loading" style="display:none;">
+      <%= image_tag 'spinner_small.gif', :alt => 'Saving...', :class => 'icon' %>
+      Saving...
+    </span>
+  </p>
+<% end %>

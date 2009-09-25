@@ -109,6 +109,10 @@ class Group < ActiveRecord::Base
     location.to_s.any? && location =~ /,\s[A-Z]{2}\s+\d{5}/ ? true : false
   end
   
+  def address=(a)
+    write_attribute(:address, a == '' ? nil : a)
+  end
+  
   def leader_with_guessing
     leader_without_guessing || admins.first
   end
