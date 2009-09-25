@@ -1,4 +1,4 @@
-<% Setting.get(:features, :custom_person_fields).to_a.each_with_index do |field, index| %>
+<% Setting.get(:features, :custom_person_fields).each_with_index do |field, index| %>
   <% if field.include?('*') or @logged_in.admin?(:edit_profiles) %>
     <% field = field.sub(/\*/, '') %>
     <br/>

@@ -48,7 +48,7 @@ class Update < ActiveRecord::Base
   
   def custom_fields_as_hash
     returning({}) do |hash|
-      Setting.get(:features, :custom_person_fields).to_s.split(/\n/).each_with_index do |field, index|
+      Setting.get(:features, :custom_person_fields).each_with_index do |field, index|
         hash[index] = custom_fields[index] if custom_fields[index]
       end
     end
@@ -69,7 +69,7 @@ class Update < ActiveRecord::Base
   end
   
   def typecast_custom_value(val, index)
-    if Setting.get(:features, :custom_person_fields).to_s.split(/\n/)[index] =~ /[Dd]ate/
+    if Setting.get(:features, :custom_person_fields)[index] =~ /[Dd]ate/
       Date.parse(val.to_s) rescue nil
     else
       val

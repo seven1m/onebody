@@ -32,7 +32,14 @@ class Setting < ActiveRecord::Base
   
   def value
     v = read_attribute(:value)
-    self['format'] == 'boolean' ? ![0, '0', 'f'].include?(v) : v # self.format causes a NoMethodError outside the Rails env
+    case self['format'] # self.format causes a NoMethodError outside the Rails env
+      when 'boolean'
+        ![0, '0', 'f'].include?(v)
+      when 'list'
+        v.to_s.split(/\n/)
+      else
+        v
+    end
   end
   
   def value?; value; end
@@ -142,8 +149,11 @@ class Setting < ActiveRecord::Base
       Setting.find_all_by_site_id(id).each do |setting|
         next if setting.hidden?
         value = params[setting.id.to_s]
-        value = value.split(/\n/) if value and setting.format == 'list'
-        value = value == '' ? nil : value
+        if setting.format == 'list'
+          value = value.to_s.split(/\n/)
+        elsif value == ''
+          value = nil
+        end
         setting.update_attributes! :value => value
       end
       Setting.precache_settings(true)
@@ -153,8 +163,11 @@ class Setting < ActiveRecord::Base
       Setting.find_all_by_site_id_and_global(nil, true).each do |setting|
         next if setting.hidden?
         value = params[setting.id.to_s]
-        value = value.split(/\n/) if value and setting.format == 'list'
-        value = value == '' ? nil : value
+        if setting.format == 'list'
+          value = value.to_s.split(/\n/)
+        elsif value == ''
+          value = nil
+        end
         setting.update_attributes! :value => value
       end
       Setting.precache_settings(true)
