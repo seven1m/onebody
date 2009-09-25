@@ -34,7 +34,7 @@ class AttendanceControllerTest < ActionController::TestCase
   end
   
   should "record attendance for people not in the database" do
-    post :create, {:attended_at => '2009-12-01 9:00', :group_id => @group.id, :people => ['first_name' => 'Jimmy', 'last_name' => 'Smith', 'age' => '2 yr']}, {:logged_in_id => @person.id}
+    post :create, {:attended_at => '2009-12-01 9:00', :group_id => @group.id, :person => {'first_name' => 'Jimmy', 'last_name' => 'Smith', 'age' => '2 yr'}}, {:logged_in_id => @person.id}
     assert_response :redirect
     @records = AttendanceRecord.all
     assert_equal 1, @records.length
@@ -42,7 +42,7 @@ class AttendanceControllerTest < ActionController::TestCase
   end
   
   should "respond to a json request with status='success'" do
-    post :create, {:attended_at => '2009-12-01 9:00', :group_id => @group.id, :ids => [@person.id], :people => ['first_name' => 'Jimmy', 'last_name' => 'Smith', 'age' => '2 yr'], :format => 'json'}, {:logged_in_id => @person.id}
+    post :create, {:attended_at => '2009-12-01 9:00', :group_id => @group.id, :ids => [@person.id], :person => {'first_name' => 'Jimmy', 'last_name' => 'Smith', 'age' => '2 yr'}, :format => 'json'}, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal 'success', JSON.parse(@response.body)['status']
   end
