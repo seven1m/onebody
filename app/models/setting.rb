@@ -36,7 +36,7 @@ class Setting < ActiveRecord::Base
       when 'boolean'
         ![0, '0', 'f'].include?(v)
       when 'list'
-        v.to_s.split(/\n/)
+        v.is_a?(Array) ? v : v.to_s.split(/\n/)
       else
         v
     end
