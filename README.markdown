@@ -1,7 +1,8 @@
 OneBody
 =======
 
-OneBody is web-based software that connects community members, especially churches, on the web. It runs on Ruby, Rails, and MySQL (or SQLite).
+OneBody is open-source, web-based social networking and online directory
+software for churches that runs on Rails and MySQL.
 
 Features
 --------
@@ -28,26 +29,12 @@ Features
 
 ...and more.
 
-Test Drive
-----------
+You can see screenshots at the commercial [website](http://beonebody.com).
 
-You can run OneBody on SQLite and load the sample data for testing...
+Installation
+------------
 
-You'll first need [Ruby on Rails](http://rubyonrails.org/download),
-[ImageMagick](http://www.imagemagick.org/script/index.php),
-and the sqlite3-ruby gem (`sudo gem install sqlite3-ruby`). Then:
-
-    # if on Ubuntu:
-    sudo aptitude install -y build-essential imagemagick libxml2-dev libxslt-dev libcurl4-gnutls-dev
-    # then:
-    sudo rake gems:install
-    rake db:migrate onebody:load_sample_data
-    script/server
-    # visit http://localhost:3000
-    # admin user: admin@example.com and password "secret"
-    # normal user: user@example.com and password "secret"
-
-See [InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody) for the full installation instructions.
+See [InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody) for instructions.
 
 More Information
 ----------------
@@ -55,10 +42,11 @@ More Information
 * [Wiki](http://wiki.github.com/seven1m/onebody)
 * [Blog](http://blog.beonebody.com)
 * [Google Group](http://groups.google.com/group/onebodyapp)
+* [Twitter](http://twitter.com/onebody)
 
 Copyright
 ---------
 
 Copyright (C) 2008-2009, [Tim Morgan](http://timmorgan.org)
 
-Please see the license file provided with this software.
+Please see the LICENSE file provided with this software.
