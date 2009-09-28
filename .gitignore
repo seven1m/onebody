@@ -14,3 +14,5 @@ public/images/logo*
 test/fixtures/settings.yml
 config/query_reviewer.yml
 vendor/plugins/query_reviewer
+pkg
+*.deb
