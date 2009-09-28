@@ -32,8 +32,8 @@ namespace :deploy do
       sudo 'aptitude update'
       sudo 'aptitude install -y libgems-ruby1.8'
       sudo 'ln -sf /usr/bin/ruby1.8 /usr/bin/ruby'
-      run 'cd /tmp && wget -nv http://rubyforge.org/frs/download.php/38646/rubygems-1.2.0.tgz && tar xzf rubygems-1.2.0.tgz'
-      run 'cd /tmp/rubygems-1.2.0 && sudo ruby setup.rb'
+      run 'cd /tmp && wget -nv http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz && tar xzf rubygems-1.3.5.tgz'
+      run 'cd /tmp/rubygems-1.3.5 && sudo ruby setup.rb'
       if run_and_return('gem1.8 --version') =~ /1\.2\.0/
         sudo 'ln -sf /usr/bin/gem1.8 /usr/bin/gem'
       end
