@@ -1,0 +1,86 @@
+#!/bin/bash
+
+echo "This will setup the necessary components for running OneBody, including:"
+echo " * create a user called 'onebody'"
+echo " * create a database called 'onebody'"
+echo " * configure a catchall email address in Postfix and a POP account"
+echo " * add scheduled tasks to the cron for user 'onebody'"
+echo " * install Phusion Passenger from source and add the module to Apache"
+echo
+echo "You will be asked at each step to confirm."
+echo
+echo "Let's get started..."
+
+echo
+read -p "Create a user 'onebody'? [y] " answer
+if [ "$answer" = "" ] || [ "$answer" = "y" ] || [ "$answer" = "yes" ] || [ "$answer" = "Y" ] || [ "$answer" = "YES" ]; then
+  echo "Creating user 'onebody'..."
+  onebodypass=`makepasswd --chars=15`
+  useradd --create-home -s /usr/sbin/nologin -p$onebodypass onebody
+  chown -R onebody:onebody /var/lib/onebody
+fi
+
+echo
+read -p "Create the 'onebody' database? [y] " answer
+if [ "$answer" = "" ] || [ "$answer" = "y" ] || [ "$answer" = "yes" ] || [ "$answer" = "Y" ] || [ "$answer" = "YES" ]; then
+  echo "Configuring the database..."
+  while true; do
+    echo "Enter the root password for your MySQL server instance below."
+    echo "This will be used to create a new database called 'onebody' and a new MySQL user called 'onebody'."
+    read -p "MySQL 'root' Password [none]: " rootpass
+    userpass=`makepasswd --chars=15`
+    echo -e "production:\n  adapter: mysql\n  database: onebody\n  username: onebody\n  password: $userpass\n  host: localhost" > /var/lib/onebody/config/database.yml
+    if [ "$rootpass" != "" ]; then
+      rootpass="-p$rootpass"
+    fi
+    mysql -uroot $rootpass -e "create database onebody; grant all on onebody.* to onebody@localhost identified by '$userpass';"
+    if [ "$?" = 0 ]; then break; fi
+  done
+  cd /var/lib/onebody && sudo -u onebody rake db:migrate RAILS_ENV=production
+fi
+
+echo
+read -p "Create a catchall address in Postfix? [y] " answer
+if [ "$answer" = "" ] || [ "$answer" = "y" ] || [ "$answer" = "yes" ] || [ "$answer" = "Y" ] || [ "$answer" = "YES" ]; then
+  echo "Configuring email..."
+  mkdir /home/onebody/Maildir && chown onebody:onebody /home/onebody/Maildir
+  echo -e "\n\n# config added by OneBody\nhome_mailbox = Maildir/\nluser_relay = onebody\nlocal_recipient_maps =\n# end config added by OneBody\n" >> /etc/postfix/main.cf
+  postfix reload
+  echo -e "production:\n  pop:\n    host: localhost\n    username: onebody\n    password: $onebodypass\n  smtp:\n    address: localhost\n    domain: example.com" > /var/lib/onebody/config/email.yml
+fi
+
+echo
+read -p "Configure scheduled tasks in cron? [y] " answer
+if [ "$answer" = "" ] || [ "$answer" = "y" ] || [ "$answer" = "yes" ] || [ "$answer" = "Y" ] || [ "$answer" = "YES" ]; then
+  echo "Configuring cron..."
+  cd /var/lib/onebody && sudo -u onebody whenever -w RAILS_ENV=production
+fi
+
+echo
+read -p "Install Passenger and setup Apache (requires Apache restart)? [y] " answer
+if [ "$answer" = "" ] || [ "$answer" = "y" ] || [ "$answer" = "yes" ] || [ "$answer" = "Y" ] || [ "$answer" = "YES" ]; then
+  echo "Installing Phusion Passenger and configuring Apache..."
+  gem install passenger --no-rdoc --no-ri
+  version=`gem list --local | grep passenger | ruby -e "print STDIN.read.match(/\\((.+)\\)/)[1]"`
+  passenger_path="/usr/lib/ruby/gems/1.8/gems/passenger-$version"
+  cd $passenger_path && rake clean apache2
+  echo "LoadModule passenger_module $passenger_path/ext/apache2/mod_passenger.so" > /etc/apache2/mods-available/passenger.load
+  echo -e "<IfModule passenger_module>\n  PassengerRoot $passenger_path\n  PassengerRuby /usr/bin/ruby\n</IfModule>" > /etc/apache2/mods-available/passenger.conf
+  a2enmod rewrite
+  a2enmod passenger
+  invoke-rc.d apache2 force-reload
+  echo
+  echo "You're almost done! To finish up, Apache just needs to be configured."
+  echo "Just create a new virtual host with your DocumentRoot pointing at:"
+  echo "  /var/lib/onebody/public"
+  echo
+  echo "Example:"
+  echo
+  echo "<VirtualHost *>"
+  echo "  ServerName www.myonebodysite.com"
+  echo "  DocumentRoot /var/lib/onebody/public"
+  echo "</VirtualHost>"
+  echo
+  echo "Enable your site, restart Apache, and you should be done!"
+fi
+
