@@ -86,7 +86,6 @@ class Person < ActiveRecord::Base
   EXTRAS = %w(email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
-  cattr_accessor :sync_in_progress
   
   belongs_to :family
   belongs_to :admin
@@ -504,7 +503,7 @@ class Person < ActiveRecord::Base
   
   before_update :mark_email_changed
   def mark_email_changed
-    if changed.include?('email') and not Person.sync_in_progress
+    if changed.include?('email')
       self.write_attribute(:email_changed, true)
       if Person.logged_in and not Person.logged_in.admin?
         Notifier.deliver_email_update(self)

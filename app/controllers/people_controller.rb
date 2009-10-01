@@ -210,7 +210,6 @@ class PeopleController < ApplicationController
         format.js   { render(:update) { |p| p.redirect_to family_path(params[:family_id]) } }
       end
     elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      Person.sync_in_progress = true
       records = Hash.from_xml(request.body.read)['records']
       statuses = records.map do |record|
         person = Person.find_by_legacy_id(record['legacy_id']) || Person.new
