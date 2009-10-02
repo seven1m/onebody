@@ -4,7 +4,12 @@ class AttendanceController < ApplicationController
     @group = Group.find(params[:group_id])
     if @group.admin?(@logged_in)
       if @group.attendance?
-        @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
+        begin
+          @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
+        rescue ArgumentError
+          flash[:warning] = "Please enter the date as YYYY/MM/DD."
+          @attended_at = Date.today
+        end
         @records = @group.get_people_attendance_records_for_date(@attended_at)
       else
         render :text => 'Attendance tracking is not enabled for this goup.', :layout => true, :status => 500

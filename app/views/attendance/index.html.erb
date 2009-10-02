@@ -2,9 +2,13 @@
   <li><%= link_to image_tag('eye.png', :alt => 'View Group', :class => 'icon') + ' View Group', @group %></li>
 <% end %>
 
-<% form_tag batch_group_attendance_path(@group) do %>
+<p>
   <%= label_tag :attended_at, 'Date:', :class => 'inline' %>
   <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
+</p>
+
+<% form_tag batch_group_attendance_path(@group) do %>
+  <%= hidden_field_tag :attended_at, @attended_at %>
   <ul style="list-style:none;">
     <% @records.each do |person, record| %>
       <li>

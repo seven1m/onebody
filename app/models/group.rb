@@ -175,7 +175,7 @@ class Group < ActiveRecord::Base
     attendance_records.all(:conditions => ['attended_at >= ? and attended_at <= ?', date.strftime('%Y-%m-%d 0:00'), date.strftime('%Y-%m-%d 23:59:59')]).each do |record|
       records[record.person.id] = [record.person, record]
     end
-    records.values.sort_by { |r| r[0].name }
+    records.values.sort_by { |r| [r[0].last_name, r[0].first_name] }
   end
   
   def attendance_dates
