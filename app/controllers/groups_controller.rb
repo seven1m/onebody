@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
           format.json do
             @groups = {}
             CheckinTime.today.each do |time|
-              @groups[time.time_to_s] = time.groups.all(:order => 'group_times.ordering', :select => 'group_times.print_nametag, groups.*').map { |g| [g.id, g.name, g.print_nametag?] }
+              @groups[time.time_to_s] = time.groups.all(:order => 'group_times.ordering', :select => 'group_times.print_nametag, groups.*').map { |g| [g.id, g.name, g.print_nametag?, g.link_code] }
             end
             render :text => @groups.to_json
           end
