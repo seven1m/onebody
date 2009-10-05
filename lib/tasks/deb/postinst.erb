@@ -2,23 +2,29 @@
 
 if [[ `which gem` = "" ]] || [[ `gem -v` < "1.3.5" ]]; then
   echo "Installing/Upgrading RubyGems..."
-  cd /tmp && wget -nv http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz && tar xzf rubygems-1.3.5.tgz && rm rubygems-1.3.5.tgz
-  cd /tmp/rubygems-1.3.5 && ruby setup.rb && cd /tmp
+  cd /tmp
+  wget -nv http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz || exit
+  tar xzf rubygems-1.3.5.tgz || exit
+  rm rubygems-1.3.5.tgz
+  cd /tmp/rubygems-1.3.5
+  ruby setup.rb || exit
+  cd /tmp
   rm -rf /tmp/rubygems-1.3.5
   echo "Symlinking /usr/bin/gem1.8 at /usr/bin/gem..."
   ln -sf /usr/bin/gem1.8 /usr/bin/gem
 fi
 
 echo "Installing required gems..."
-gem install rdoc
-gem install rack highline builder sqlite3-ruby chronic
-gem install javan-whenever -s http://gems.github.com
+gem install rdoc || exit
+gem install rack highline builder sqlite3-ruby chronic || exit
+gem install javan-whenever -s http://gems.github.com || exit
 
 echo "Symlinking /usr/bin/irb1.8 at /usr/bin/irb..."
 ln -sf /usr/bin/irb1.8 /usr/bin/irb
 
 echo "Building native extensions for unpacked gems..."
-cd /var/lib/onebody && rake gems:build
+cd /var/lib/onebody
+rake gems:build || exit
 
 if [[ ! -e "/home/onebody" ]]; then
   echo
