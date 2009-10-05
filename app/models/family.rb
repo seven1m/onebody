@@ -129,6 +129,13 @@ class Family < ActiveRecord::Base
     end
   end
   
+  before_update :mark_barcode_id_changed
+  def mark_barcode_id_changed
+    if changed.include?('barcode_id')
+      self.write_attribute(:barcode_id_changed, true)
+    end
+  end
+  
   alias_method :destroy_for_real, :destroy
   def destroy
     people.all.each { |p| p.destroy }

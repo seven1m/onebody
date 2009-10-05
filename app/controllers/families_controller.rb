@@ -161,6 +161,13 @@ class FamiliesController < ApplicationController
         family = Family.find_by_legacy_id(record['legacy_id']) || Family.new
         record.each do |key, value|
           value = nil if value == ''
+          if key == 'barcode_id' and family.barcode_id_changed?
+            if value == family.barcode_id
+              family.write_attribute(:barcode_id_changed, false)
+            else
+              next
+            end
+          end
           family.write_attribute(key, value)
         end
         if family.save
