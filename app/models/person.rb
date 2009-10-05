@@ -505,9 +505,7 @@ class Person < ActiveRecord::Base
   def mark_email_changed
     if changed.include?('email')
       self.write_attribute(:email_changed, true)
-      if Person.logged_in and not Person.logged_in.admin?
-        Notifier.deliver_email_update(self)
-      end
+      Notifier.deliver_email_update(self)
     end
   end
   
