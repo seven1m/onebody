@@ -36,4 +36,12 @@ class VerseTest < ActiveSupport::TestCase
     assert linked.index('http://bible.gospelcom.net/cgi-bin/bible?passage=Romans+12&version=NIV')
     assert linked.index('http://bible.gospelcom.net/cgi-bin/bible?passage=Romans+12&version=MSG')
   end
+  
+  should "normalize reference" do
+    assert_equal "3 John 1:1", Verse.normalize_reference("3 john 1:1")
+    assert_equal "2 Chronicles 10:1", Verse.normalize_reference("ii chronicles 10:1")
+    assert_equal "John 3:16", Verse.normalize_reference("john 3:16")
+    assert_equal "Song of Solomon 1:1", Verse.normalize_reference("Song of Solomon 1:1")
+  end
+
 end

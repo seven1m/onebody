@@ -85,7 +85,7 @@ class Verse < ActiveRecord::Base
   
   def update_sortables
     self.book = Verse::BOOKS.index(self.book_name)
-    self.chapter = self.reference.gsub(/^.\s*[a-zA-Z]*/, '').to_i
+    self.chapter = self.reference.gsub(/^.\s*[^\d]*/, '').to_i
     self.verse = self.reference.split(':').last.to_i
   end
   
@@ -267,8 +267,8 @@ class Verse < ActiveRecord::Base
     # we'll assume only one book per reference
     def normalize_reference(reference)
       return nil unless reference
-      book = normalize_book(reference.strip.downcase.match(/^.\s*[a-zA-Z]*/).to_s.strip)
-      numbers = normalize_numbers(reference.gsub(/^.\s*[a-zA-Z]*/, ''))
+      book = normalize_book(reference.strip.downcase.match(/^.\s*[^\d]*/).to_s.strip)
+      numbers = normalize_numbers(reference.gsub(/^.\s*[^\d]*/, ''))
       if book and numbers
         book + ' ' + numbers
       else
@@ -278,10 +278,9 @@ class Verse < ActiveRecord::Base
 
     def normalize_book(book)
       book.downcase!
-      book.gsub(/(\d)\s*/, '\1 ') if book =~ /^\d/
       book[0..0] = '1' if book =~ /^i\s/
-      book[0..0] = '2' if book =~ /^ii\s/
-      book[0..0] = '3' if book =~ /^iii\s/
+      book[0..1] = '2' if book =~ /^ii\s/
+      book[0..2] = '3' if book =~ /^iii\s/
       if (index = BOOKS.map { |b| b.downcase }.index(book))
         BOOKS[index]
       else
