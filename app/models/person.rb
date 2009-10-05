@@ -466,8 +466,8 @@ class Person < ActiveRecord::Base
       self.photo = params[:photo] == 'remove' ? nil : params[:photo]
       'photo'
     elsif params[:person] and (BASICS.detect { |a| params[:person][a] } or params[:family])
-      self.email = params[:person].delete(:email) # no 'update' necessary
-      self.save if email_changed?
+      self.email = params[:person].delete(:email) # no 'update' necessary for email
+      self.save if changed.include?('email')
       if Person.logged_in.can_edit_profile?
         params[:family] ||= {}
         params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]

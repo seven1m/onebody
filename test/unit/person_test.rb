@@ -128,27 +128,43 @@ class PersonTest < ActiveSupport::TestCase
     
   end
 
-  should "create an update" do
-    tim = {
-      'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
-      'family' => partial_fixture('families', 'morgan', %w(name last_name home_phone address1 address2 city state zip))
-    }
+  context 'Updates' do
 
-    (tim_change_first_name = tim.clone)['person']['first_name'] = 'Timothy'
-    update = Update.create_from_params(tim_change_first_name, people(:tim))
-    assert_equal 'Timothy', update.first_name
-    assert_equal '04/28/1981', update.birthday.strftime('%m/%d/%Y')
-    assert_equal '08/11/2001', update.anniversary.strftime('%m/%d/%Y')
+    should "create an update" do
+      tim = {
+        'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
+        'family' => partial_fixture('families', 'morgan', %w(name last_name home_phone address1 address2 city state zip))
+      }
 
-    (tim_change_birthday = tim.clone)['person']['birthday'] = '06/24/1980'
-    update = Update.create_from_params(tim_change_birthday, people(:tim))
-    assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
-    assert_equal '08/11/2001', update.anniversary.strftime('%m/%d/%Y')
+      (tim_change_first_name = tim.clone)['person']['first_name'] = 'Timothy'
+      update = Update.create_from_params(tim_change_first_name, people(:tim))
+      assert_equal 'Timothy', update.first_name
+      assert_equal '04/28/1981', update.birthday.strftime('%m/%d/%Y')
+      assert_equal '08/11/2001', update.anniversary.strftime('%m/%d/%Y')
+
+      (tim_change_birthday = tim.clone)['person']['birthday'] = '06/24/1980'
+      update = Update.create_from_params(tim_change_birthday, people(:tim))
+      assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
+      assert_equal '08/11/2001', update.anniversary.strftime('%m/%d/%Y')
+
+      (tim_remove_anniversary = tim.clone)['person']['anniversary'] = ''
+      update = Update.create_from_params(tim_remove_anniversary, people(:tim))
+      assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
+      assert_equal nil,          update.anniversary
+    end
+
+    should "update the email address without creating an update" do
+      @person = Person.forge
+      Person.logged_in = @person
+      @person.update_from_params(
+        :person => {
+          :email => 'somethingelse@example.com'
+        }
+      )
+      @person.updates.reload
+      assert_equal 0, @person.updates.count
+    end
     
-    (tim_remove_anniversary = tim.clone)['person']['anniversary'] = ''
-    update = Update.create_from_params(tim_remove_anniversary, people(:tim))
-    assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
-    assert_equal nil,          update.anniversary
   end
   
   should "mark email_changed when email address changes" do
