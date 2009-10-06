@@ -158,14 +158,6 @@ Services:
     value: 
     description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
     global: true
-  Facebook API Key:
-    format: string
-    value:
-    description: If you have a Facebook application API key, put it here so that Lifestream activity can be pulled from Facebook user accounts. (Requires the API secret below.)
-  Facebook API Secret:
-    format: string
-    value:
-    description:
 Access: 
   Super Admins: 
     format: list
