@@ -51,6 +51,7 @@ namespace :onebody do
     `cd #{RAILS_ROOT}/pkg/var/lib/onebody && rake rails:freeze:gems`
     `find #{RAILS_ROOT}/pkg/var -name .gitignore | xargs rm`
     `rm #{RAILS_ROOT}/pkg/var/lib/onebody/LICENSE`
+    `rm #{RAILS_ROOT}/pkg/var/lib/onebody/db/development.db`
 
     # build deb
     filename = "onebody_#{VERSION}-1_all.deb"
