@@ -4,6 +4,23 @@ OneBody Change Log
 This document lists the more notable changes in each release. For detailed change
 history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+0.9.1 / October 5, 2009
+-----------------------
+
+* Fix bug when normalizing bible verse reference.
+* New Debian package building task. Needs more testing.
+* Update install cap recipe to install latest Rubygems.
+* Add group batch editing feature at /groups/batch.
+* Fix bug getting/setting lines-based settings.
+* Fix bug deleting stale pid in script/inbox.
+* Expire cache when tour starts or stops.
+* New admin interfaces for checkin module (separate).
+* New admin interfaces for attendance.
+* Initial support for Ruby 1.9.
+* Hide repetitive stream items on stream page.
+* Dramatic speed ups to stream page.
+* Cache stream items.
+
 0.9.0 / September 14, 2009
 --------------------------
 
