@@ -17,9 +17,13 @@ namespace :onebody do
     VERSION = File.read(RAILS_ROOT + '/VERSION').strip
     
     FileUtils.rm_rf(RAILS_ROOT + '/pkg')
-    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/var/lib/onebody')
+    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/usr/lib/onebody')
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/usr/share/doc/onebody')
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/usr/bin')
+    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/etc/onebody')
+    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/var/cache/onebody')
+    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/var/log/onebody')
+    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/var/lib/onebody')
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/DEBIAN')
 
     cp_erb('copyright.erb',     'usr/share/doc/onebody/copyright')
@@ -46,12 +50,23 @@ namespace :onebody do
     `gzip --best #{RAILS_ROOT}/pkg/usr/share/doc/onebody/changelog.Debian`
 
     # clone repo, unpack rails + gems, clean up
-    `git checkout-index -a -f --prefix=/tmp/onebody/ && mv /tmp/onebody/* #{RAILS_ROOT}/pkg/var/lib/onebody/`
-    `cd #{RAILS_ROOT}/pkg/var/lib/onebody && rake gems:unpack:dependencies`
-    `cd #{RAILS_ROOT}/pkg/var/lib/onebody && rake rails:freeze:gems`
-    `find #{RAILS_ROOT}/pkg/var -name .gitignore | xargs rm`
-    `rm #{RAILS_ROOT}/pkg/var/lib/onebody/LICENSE`
-    `rm #{RAILS_ROOT}/pkg/var/lib/onebody/db/development.db`
+    `git checkout-index -a -f --prefix=/tmp/onebody/ && mv /tmp/onebody/* #{RAILS_ROOT}/pkg/usr/lib/onebody/`
+    `mv #{RAILS_ROOT}/pkg/usr/lib/onebody/db/pages #{RAILS_ROOT}/pkg/var/lib/onebody/`
+    `mv #{RAILS_ROOT}/pkg/usr/lib/onebody/db/photos #{RAILS_ROOT}/pkg/var/lib/onebody/`
+    `mv #{RAILS_ROOT}/pkg/usr/lib/onebody/db/attachments #{RAILS_ROOT}/pkg/var/lib/onebody/`
+    `mv #{RAILS_ROOT}/pkg/usr/lib/onebody/db/publications #{RAILS_ROOT}/pkg/var/lib/onebody/`
+    `cd #{RAILS_ROOT}/pkg/usr/lib/onebody && rake gems:unpack:dependencies`
+    `cd #{RAILS_ROOT}/pkg/usr/lib/onebody && rake rails:freeze:gems`
+    `find #{RAILS_ROOT}/pkg/usr -name .gitignore | xargs rm`
+    `rm #{RAILS_ROOT}/pkg/usr/lib/onebody/LICENSE`
+    
+    # tweak file locations to conform to Debian standards
+    cp_erb('links.erb', 'usr/lib/onebody/config/initializers/links.rb')
+    `sed -i -r -e 's/(config\\.action_controller\\.cache_store = :file_store, ).+$/\\1"\\/var\\/cache\\/onebody"/' #{RAILS_ROOT}/pkg/usr/lib/onebody/config/environment.rb`
+    `sed -i -r -e 's/(config\\.log_path = ).+$/\\1"\\/var\\/log\\/onebody\\/\\\#{RAILS_ENV}.log"/' #{RAILS_ROOT}/pkg/usr/lib/onebody/config/environment.rb`
+    `sed -i -r -e 's/(config\\.database_configuration_file = ).+$/\\1"\\/etc\\/onebody\\/database.yml"/' #{RAILS_ROOT}/pkg/usr/lib/onebody/config/environment.rb`
+    `sed -i -r -e 's/config\\/email\\.yml/\\/etc\\/onebody\\/email.yml"/' #{RAILS_ROOT}/pkg/usr/lib/onebody/config/schedule.rb`
+    `sed -i -r -e "s/File\\.dirname\\(__FILE__\\) \\+ '\\/\\.\\.\\/email\\.yml'/'\\/etc\\/onebody\\/email.yml'/" #{RAILS_ROOT}/pkg/usr/lib/onebody/config/initializers/email.rb`
 
     # build deb
     filename = "onebody_#{VERSION}-1_all.deb"

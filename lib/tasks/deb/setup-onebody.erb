@@ -29,7 +29,8 @@ if [[ "$answer" = "" ]] || [[ "$answer" =~ y|yes|Y|YES ]]; then
   echo "Creating user 'onebody'..."
   onebodypass=`makepasswd --chars=15` &&
   useradd --create-home -s /usr/sbin/nologin -p$onebodypass onebody &&
-  chown -R onebody:onebody /var/lib/onebody || die
+  chown -R onebody:onebody /usr/lib/onebody || die
+  chown -R onebody:onebody /var/log/onebody || die
 fi
 
 echo
@@ -49,7 +50,7 @@ if [[ "$answer" = "" ]] || [[ "$answer" =~ y|yes|Y|YES ]]; then
     echo -e "\n\n# config added by OneBody\nhome_mailbox = Maildir/\nluser_relay = onebody\nlocal_recipient_maps =\n# end config added by OneBody\n" >> /etc/postfix/main.cf || die
   fi
   postfix reload &&
-  echo -e "production:\n  pop:\n    host: localhost\n    username: onebody\n    password: $onebodypass\n  smtp:\n    address: localhost\n    domain: example.com" > /var/lib/onebody/config/email.yml || die
+  echo -e "production:\n  pop:\n    host: localhost\n    username: onebody\n    password: $onebodypass\n  smtp:\n    address: localhost\n    domain: example.com" > /etc/onebody/email.yml || die
   echo
   echo "In order for Postfix to accept email for your domain, you will also"
   echo "need to adjust the following in your /etc/postfix/main.cf file:"
@@ -66,14 +67,14 @@ if [[ "$answer" = "" ]] || [[ "$answer" =~ y|yes|Y|YES ]]; then
     echo "This will be used to create a new database called 'onebody' and a new MySQL user called 'onebody'."
     read -p "MySQL 'root' Password [none]: " rootpass
     userpass=`makepasswd --chars=15` &&
-    echo -e "production:\n  adapter: mysql\n  database: onebody\n  username: onebody\n  password: $userpass\n  host: localhost" > /var/lib/onebody/config/database.yml || die
+    echo -e "production:\n  adapter: mysql\n  database: onebody\n  username: onebody\n  password: $userpass\n  host: localhost" > /etc/onebody/database.yml || die
     if [ "$rootpass" != "" ]; then
       rootpass="-p$rootpass"
     fi
     mysql -uroot $rootpass -e "create database onebody; grant all on onebody.* to onebody@localhost identified by '$userpass';"
     if [ "$?" = 0 ]; then break; fi
   done
-  cd /var/lib/onebody
+  cd /usr/lib/onebody
   sudo -u onebody rake db:migrate RAILS_ENV=production || die
 fi
 
@@ -81,7 +82,7 @@ echo
 read -p "Configure scheduled tasks in cron? [y] " answer
 if [[ "$answer" = "" ]] || [[ "$answer" =~ y|yes|Y|YES ]]; then
   echo "Configuring cron..."
-  cd /var/lib/onebody
+  cd /usr/lib/onebody
   sudo -u onebody whenever -w RAILS_ENV=production || die
 fi
 
@@ -101,16 +102,44 @@ if [[ "$answer" = "" ]] || [[ "$answer" =~ y|yes|Y|YES ]]; then
   invoke-rc.d apache2 force-reload || die
   echo
   echo "You're almost done! To finish up, Apache just needs to be configured."
-  echo "Create a new virtual host with your DocumentRoot pointing at:"
-  echo "  /var/lib/onebody/public"
+  echo "Do you want me to change the DocumentRoot of your default virtual host?"
+  echo "This is the easiest way, but should NOT be chosen if you host other websites"
+  echo "on this server."
   echo
-  echo "Example:"
-  echo
-  echo "<VirtualHost *>"
-  echo "  ServerName www.myonebodysite.com"
-  echo "  DocumentRoot /var/lib/onebody/public"
-  echo "</VirtualHost>"
-  echo
-  echo "Enable your site, restart Apache, and you should be done!"
+  read -p "Change the default site's DocumentRoot? [n] " answer
+  if [[ "$answer" =~ y|yes|Y|YES ]]; then
+    sed -i -r -e 's/DocumentRoot .+$/DocumentRoot \/usr\/lib\/onebody\/public/' /etc/apache2/sites-available/default || die
+    invoke-rc.d apache2 reload || die
+    echo
+    echo "Your site should now be running!"
+  else
+    echo
+    echo "Create a new virtual host with your DocumentRoot pointing at:"
+    echo "  /usr/lib/onebody/public"
+    echo
+    echo "Example:"
+    echo
+    echo "<VirtualHost *>"
+    echo "  ServerName www.myonebodysite.com"
+    echo "  DocumentRoot /usr/lib/onebody/public"
+    echo "</VirtualHost>"
+    echo
+    echo "Enable your site, restart Apache, and you should be done!"
+  fi
+
 fi
 
+echo
+read -p "Create initial admin user? [y] " answer
+if [[ "$answer" = "" ]] || [[ "$answer" =~ y|yes|Y|YES ]]; then
+  cd /usr/lib/onebody
+  while true; do
+    sudo -u onebody rake onebody:new_user RAILS_ENV=production
+    if [ "$?" = 0 ]; then break; fi
+    echo
+    echo "There was an error. Please try again."
+  done
+fi
+
+echo
+echo "Setup is complete."

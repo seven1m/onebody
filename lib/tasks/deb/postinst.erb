@@ -23,7 +23,7 @@ echo "Symlinking /usr/bin/irb1.8 at /usr/bin/irb..."
 ln -sf /usr/bin/irb1.8 /usr/bin/irb
 
 echo "Building native extensions for unpacked gems..."
-cd /var/lib/onebody
+cd /usr/lib/onebody
 rake gems:build || exit
 
 if [[ ! -e "/home/onebody" ]]; then
