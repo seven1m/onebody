@@ -129,6 +129,7 @@ class Person < ActiveRecord::Base
   
   attr_protected :api_key, :feed_code
 
+  validates_presence_of :first_name, :last_name
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }

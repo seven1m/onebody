@@ -10,28 +10,23 @@ namespace :onebody do
   task :new_user => :environment do
     puts 'Create new admin user...'
     Site.current = site = ENV['SITE'] ? Site.find_by_name(ENV['SITE']) : Site.find(1)
-    unless password = ENV['PASSWORD'] or encrypted_password = ENV['ENCRYPTED_PASSWORD']
-      password = ask('Password: ')         { |q| q.echo = false }
-      confirm  = ask('Password (again): ') { |q| q.echo = false }
-      raise 'Passwords do not match.' unless password == confirm
-    end
-    unless gender = ENV['GENDER']
-      gender = ask('Gender ("m" or "f"): ').downcase == 'm' ? 'Male' : 'Female'
-    end
     attrs = {
-      :email                        => ENV['EMAIL'] || ask('Email Address: '),
-      :first_name                   => ENV['FIRST'] || ask('First Name: '),
-      :last_name                    => ENV['LAST']  || ask('Last Name: '),
-      :gender                       => gender,
+      :email                        => ENV['EMAIL']  ||  ask('Email Address: ') { |q| q.validate = VALID_EMAIL_ADDRESS },
+      :first_name                   => ENV['FIRST']  ||  ask('First Name: ')    { |q| q.validate = /.+/ },
+      :last_name                    => ENV['LAST']   ||  ask('Last Name: ')     { |q| q.validate = /.+/ },
+      :gender                       => ENV['GENDER'] || (ask('Gender ("m" or "f"): ', %w(m f)) { |q| q.case = :down } =~ /^m/ ? 'Male' : 'Female'),
       :can_sign_in                  => true,
       :visible_to_everyone          => true,
       :visible_on_printed_directory => true,
       :full_access                  => true,
-      :child                        => false
+      :child                        => false,
+      :salt                         => ENV['SALT']
     }
-    attrs[:password] = password if password
-    attrs[:encrypted_password] = encrypted_password if encrypted_password
-    attrs[:salt] = ENV['SALT'] if ENV['SALT']
+    unless attrs[:encrypted_password] = ENV['ENCRYPTED_PASSWORD'] or attrs[:password] = ENV['PASSWORD']
+      attrs[:password] = ask('Password: ') { |q| q.echo = false; q.validate = /.{5,}/ }
+      confirm =  ask('Password (again): ') { |q| q.echo = false }
+      raise 'Passwords do not match.' unless attrs[:password] == confirm
+    end
     person = site.people.create!(attrs)
     family = site.families.create!(
       :name => person.name,
