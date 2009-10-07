@@ -22,14 +22,10 @@ namespace :onebody do
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/usr/lib/onebody')
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/usr/share/doc/onebody')
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/usr/bin')
-    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/etc/onebody')
-    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/var/cache/onebody')
-    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/var/log/onebody')
-    FileUtils.mkdir_p(RAILS_ROOT + '/pkg/var/lib/onebody')
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/DEBIAN')
 
     cp_erb('copyright.erb',     'usr/share/doc/onebody/copyright')
-    cp_erb('control.erb',       'DEBIAN/control',        0755)
+    cp_erb('control.erb',       'DEBIAN/control'             )
     cp_erb('postinst.erb',      'DEBIAN/postinst',       0755)
     cp_erb('prerm.erb',         'DEBIAN/prerm',          0755)
     cp_erb('setup-onebody.erb', 'usr/bin/setup-onebody', 0755)
@@ -53,13 +49,13 @@ namespace :onebody do
 
     # clone repo, unpack rails + gems, clean up
     `git checkout-index -a -f --prefix=/tmp/onebody/ && mv /tmp/onebody/* #{RAILS_ROOT}/pkg/usr/lib/onebody/`
-    `mv #{RAILS_ROOT}/pkg/usr/lib/onebody/db/pages #{RAILS_ROOT}/pkg/var/lib/onebody/`
-    `mv #{RAILS_ROOT}/pkg/usr/lib/onebody/db/photos #{RAILS_ROOT}/pkg/var/lib/onebody/`
-    `mv #{RAILS_ROOT}/pkg/usr/lib/onebody/db/attachments #{RAILS_ROOT}/pkg/var/lib/onebody/`
-    `mv #{RAILS_ROOT}/pkg/usr/lib/onebody/db/publications #{RAILS_ROOT}/pkg/var/lib/onebody/`
+    `rm -rf #{RAILS_ROOT}/pkg/usr/lib/onebody/db/pages`
+    `rm -rf #{RAILS_ROOT}/pkg/usr/lib/onebody/db/photos`
+    `rm -rf #{RAILS_ROOT}/pkg/usr/lib/onebody/db/attachments`
+    `rm -rf #{RAILS_ROOT}/pkg/usr/lib/onebody/db/publications`
     `cd #{RAILS_ROOT}/pkg/usr/lib/onebody && rake gems:unpack:dependencies`
     `cd #{RAILS_ROOT}/pkg/usr/lib/onebody && rake rails:freeze:gems`
-    `find #{RAILS_ROOT}/pkg/usr -name .gitignore | xargs rm`
+    `find #{RAILS_ROOT}/pkg -name .gitignore | xargs rm`
     `rm #{RAILS_ROOT}/pkg/usr/lib/onebody/LICENSE`
     
     # tweak file locations to conform to Debian standards
