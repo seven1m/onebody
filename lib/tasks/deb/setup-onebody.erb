@@ -29,8 +29,10 @@ if [[ "$answer" = "" ]] || [[ "$answer" =~ y|yes|Y|YES ]]; then
   echo "Creating user 'onebody'..."
   onebodypass=`makepasswd --chars=15` &&
   useradd --create-home -s /usr/sbin/nologin -p$onebodypass onebody &&
-  chown -R onebody:onebody /usr/lib/onebody || die
-  chown -R onebody:onebody /var/log/onebody || die
+  chown -R onebody:onebody /usr/lib/onebody &&
+  chown -R onebody:onebody /var/log/onebody &&
+  chown -R onebody:onebody /var/lib/onebody &&
+  chown -R onebody:onebody /var/cache/onebody || die
 fi
 
 echo

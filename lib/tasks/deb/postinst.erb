@@ -1,5 +1,8 @@
 #!/bin/bash
 
+mkdir /var/lib/onebody/tmp || exit
+ln -sf /var/lib/onebody/tmp /usr/lib/onebody/tmp || exit
+
 if [[ `which gem` = "" ]] || [[ `gem -v` < "1.3.5" ]]; then
   echo "Installing/Upgrading RubyGems..."
   cd /tmp
@@ -19,14 +22,42 @@ gem install rdoc || exit
 gem install rack highline builder sqlite3-ruby chronic || exit
 gem install javan-whenever -s http://gems.github.com || exit
 
-echo "Symlinking /usr/bin/irb1.8 at /usr/bin/irb..."
-ln -sf /usr/bin/irb1.8 /usr/bin/irb
+if [[ `which irb` = "" ]]; then
+  echo "Symlinking /usr/bin/irb1.8 at /usr/bin/irb..."
+  ln -sf /usr/bin/irb1.8 /usr/bin/irb || exit
+fi
 
 echo "Building native extensions for unpacked gems..."
 cd /usr/lib/onebody
 rake gems:build || exit
 
-if [[ ! -e "/home/onebody" ]]; then
+if [[ -e "/etc/onebody/database.yml" ]]; then
+  echo
+  echo "Backing up your database before migration..."
+  host=`ruby -ryaml -e "print YAML::load(File.read('/etc/onebody/database.yml'))['production']['host']"`
+  if [[ $host = "localhost" ]] || [[ $host = "nil" ]]; then
+    username=`ruby -ryaml -e "print YAML::load(File.read('/etc/onebody/database.yml'))['production']['username']"`
+    password=`ruby -ryaml -e "print YAML::load(File.read('/etc/onebody/database.yml'))['production']['password']"`
+    database=`ruby -ryaml -e "print YAML::load(File.read('/etc/onebody/database.yml'))['production']['database']"`
+    backup_path="/var/lib/onebody/database_backup_`date +%Y-%m-%d-%H%M%S`.sql"
+    mysqldump --single-transaction -u$username -p$password $database > $backup_path
+    cd /usr/lib/onebody &&
+    sudo -u onebody rake db:migrate RAILS_ENV=production || exit
+    touch /var/lib/onebody/tmp/restart.txt
+    echo "============================================================================="
+    echo "    OneBody files have been upgraded and the database has been migrated.     "
+    echo "                 A backup of your database has been saved to:                "
+    echo "            $backup_path"
+    echo "============================================================================="
+  else
+    echo "============================================================================="
+    echo "                      OneBody files have been upgraded.                      "
+    echo "     You must run migrations on your database. Be sure to BACK UP first.     "
+    echo "                                  Then run:                                  "
+    echo " cd /usr/lib/onebody && sudo -u onebody rake db:migrate RAILS_ENV=production "
+    echo "============================================================================="
+  fi
+else
   echo
   echo "============================================================================="
   echo " OneBody files are installed. Now run the following command to finish setup: "

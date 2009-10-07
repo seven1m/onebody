@@ -16,6 +16,8 @@ namespace :onebody do
   
     VERSION = File.read(RAILS_ROOT + '/VERSION').strip
     
+    DEB_VERSION = "#{VERSION}-1"
+    
     FileUtils.rm_rf(RAILS_ROOT + '/pkg')
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/usr/lib/onebody')
     FileUtils.mkdir_p(RAILS_ROOT + '/pkg/usr/share/doc/onebody')
@@ -69,7 +71,7 @@ namespace :onebody do
     `sed -i -r -e "s/File\\.dirname\\(__FILE__\\) \\+ '\\/\\.\\.\\/email\\.yml'/'\\/etc\\/onebody\\/email.yml'/" #{RAILS_ROOT}/pkg/usr/lib/onebody/config/initializers/email.rb`
 
     # build deb
-    filename = "onebody_#{VERSION}-1_all.deb"
+    filename = "onebody_#{DEB_VERSION}_all.deb"
     `fakeroot dpkg-deb --build pkg && mv pkg.deb #{filename}`
     
     # look for errors
