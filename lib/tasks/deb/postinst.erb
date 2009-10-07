@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir /var/lib/onebody/tmp || exit
+if [[ ! -e /var/lib/onebody/tmp ]]; then mkdir /var/lib/onebody/tmp || exit; fi
 ln -sf /var/lib/onebody/tmp /usr/lib/onebody/tmp || exit
 
 if [[ `which gem` = "" ]] || [[ `gem -v` < "1.3.5" ]]; then
