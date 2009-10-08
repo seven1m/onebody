@@ -16,3 +16,4 @@ config/query_reviewer.yml
 vendor/plugins/query_reviewer
 pkg
 *.deb
+script/package
