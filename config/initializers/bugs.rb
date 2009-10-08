@@ -3,5 +3,5 @@ begin
     ExceptionNotifier.exception_recipients = [recipient]
   end
 rescue
-  puts 'Error reading settings for bug notification (OK if running setup).'
+  # no biggie
 end
