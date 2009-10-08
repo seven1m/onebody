@@ -112,6 +112,7 @@ class Person < ActiveRecord::Base
   has_many :remote_accounts
   has_many :attendance_records
   has_many :feeds
+  has_many :stream_items
   belongs_to :site
     
   scope_by_site_id
