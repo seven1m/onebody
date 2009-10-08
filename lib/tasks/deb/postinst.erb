@@ -66,21 +66,23 @@ fi
 
 if [[ -e "/etc/onebody/database.yml" ]]; then
   echo
-  echo "Backing up your database before migration..."
   host=`ruby -ryaml -e "print YAML::load(File.read('/etc/onebody/database.yml'))['production']['host']"`
   if [[ $host = "localhost" ]] || [[ $host = "nil" ]]; then
+    echo "Backing up your database before migration..."
     username=`ruby -ryaml -e "print YAML::load(File.read('/etc/onebody/database.yml'))['production']['username']"`
     password=`ruby -ryaml -e "print YAML::load(File.read('/etc/onebody/database.yml'))['production']['password']"`
     database=`ruby -ryaml -e "print YAML::load(File.read('/etc/onebody/database.yml'))['production']['database']"`
     backup_path="/var/lib/onebody/database_backup_`date +%Y-%m-%d-%H%M%S`.sql"
     mysqldump --single-transaction -u$username -p$password $database > $backup_path
+    echo "A backup of your database was saved to:"
+    echo $backup_path
+    echo "Now migrating your database..."
     cd /usr/lib/onebody &&
     sudo -u onebody rake db:migrate RAILS_ENV=production || exit
     touch /var/lib/onebody/tmp/restart.txt
+    echo
     echo "============================================================================="
     echo "    OneBody files have been upgraded and the database has been migrated.     "
-    echo "                 A backup of your database has been saved to:                "
-    echo "            $backup_path"
     echo "============================================================================="
   else
     echo "============================================================================="
