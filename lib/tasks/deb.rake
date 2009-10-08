@@ -1,7 +1,7 @@
 namespace :onebody do
 
   # prereqs:
-  # sudo aptitude install ruby irb1.8 rake rdoc1.8 ruby1.8-dev mysql-server postfix courier-pop libmysql-ruby1.8 build-essential imagemagick apache2 apache2-threaded-dev apache2-mpm-worker apache2-threaded-dev libxml2-dev libxslt1-dev libcurl4-gnutls-dev libhttp-access2-ruby1.8 makepasswd rsync
+  # sudo aptitude install ruby irb1.8 rake rdoc1.8 ruby1.8-dev mysql-server postfix courier-pop libmysql-ruby1.8 build-essential imagemagick apache2 apache2-threaded-dev apache2-mpm-worker apache2-threaded-dev libxml2-dev libxslt1-dev libcurl4-gnutls-dev libhttp-access2-ruby1.8 makepasswd rsync cron
 
   desc 'Build a Debian package for installation.'
   task :deb do
@@ -43,6 +43,7 @@ namespace :onebody do
       end
     end
     cp_erb('changelog.erb',        'usr/share/doc/onebody/changelog')
+    cp_erb('changelog.erb',        'DEBIAN/changelog')
     cp_erb('changelog.Debian.erb', 'usr/share/doc/onebody/changelog.Debian')
     `gzip --best #{RAILS_ROOT}/pkg/usr/share/doc/onebody/changelog`
     `gzip --best #{RAILS_ROOT}/pkg/usr/share/doc/onebody/changelog.Debian`
