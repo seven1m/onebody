@@ -39,7 +39,7 @@
   <h2>Groups</h2>
   
   <p <% if @group_count > 0 %>class="very-strong"<% end %>>
-    <%= @group_count %> pending <%= pluralize @group_count, 'group' %>
+    <%= pluralize @group_count, 'group' %> pending approval
   </p>
   
   <p><%= link_to 'Click here', administration_updates_path %> to review pending groups.</p>
@@ -47,7 +47,7 @@
   <h2>Group Memberships</h2>
   
   <p <% if @membership_request_count > 0 %>class="very-strong"<% end %>>
-    <%= @membership_request_count %> pending <%= pluralize @membership_request_count, 'membership request' %>
+    <%= pluralize @membership_request_count, 'pending membership request' %>
   </p>
   
   <p><%= link_to 'Click here', administration_membership_requests_path %> to review pending membership requests.</p>
