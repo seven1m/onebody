@@ -28,5 +28,11 @@ class Administration::CheckinTimesController < ApplicationController
       end
     end
   
+    def feature_enabled?
+      unless Setting.get(:features, :checkin_modules)
+        render :text => 'This feature is unavailable.', :layout => true
+        false
+      end
+    end
   
 end

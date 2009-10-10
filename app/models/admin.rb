@@ -30,6 +30,7 @@
 #  run_reports            :boolean       
 #  manage_news            :boolean       
 #  manage_attendance      :boolean       
+#  assign_checkin_cards   :boolean
 #
 
 class Admin < ActiveRecord::Base

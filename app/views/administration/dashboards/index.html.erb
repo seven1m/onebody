@@ -59,6 +59,12 @@
   <p><%= link_to 'Click here', administration_attendance_index_path %> to manage and export attendance.</p>
 <% end %>
 
+<% if Setting.get(:features, :checkin_modules) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assign_checkin_cards)) %>
+  <h2>Checkin</h2>
+  
+  <p><%= link_to 'Click here', administration_checkin_path %> to assign cards and manage checkin.</p>
+<% end %>
+
 <% if @logged_in.admin?(:view_log) %>
   <h2>Log</h2>
   

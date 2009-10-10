@@ -147,6 +147,10 @@ Features:
     format: boolean
     value: true
     description: Allow user submitted news content (must also enable News Page below).
+  Checkin Modules:
+    format: boolean
+    value: false
+    hidden: true
 Services: 
   Yahoo: 
     format: string
