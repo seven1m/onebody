@@ -182,7 +182,7 @@ if $0 == __FILE__
       verses.each do |verse|
         verse_num = verse[2]
         html = verse[-1]
-        file.write("  <span class=\"verse\" title=\"#{book_name} #{chapter_num}:#{verse_num}\" id=\"#{book_name.sub(/\s/, '_')}-#{chapter_num}-#{verse_num}\">#{html}</span>\n")
+        file.write("  <span class=\"verse\" title=\"#{book_name} #{chapter_num}:#{verse_num}\" id=\"#{book_name.gsub(/\s/, '_')}-#{chapter_num}-#{verse_num}\">#{html}</span>\n")
       end
       file.write "</div>"
     end
