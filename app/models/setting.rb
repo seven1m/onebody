@@ -17,9 +17,8 @@
 
 class Setting < ActiveRecord::Base
   GLOBAL_SETTINGS = [
-    'Email.Host', 'Email.Domain', 'Email.Authentication Required',
-    'Contact.Tech Support Email', 'Contact.Tech Support Contact', 'Contact.Bug Notification Email',
-    'Services.Yahoo', 'Services.Amazon', 'Services.Analytics',
+    'Contact.Tech Support Email', 'Contact.Bug Notification Email',
+    'Services.Yahoo',
     'Features.Multisite', 'Features.SSL', 'Features.Edit Legacy Ids'
   ]
   
