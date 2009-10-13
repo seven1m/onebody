@@ -149,7 +149,7 @@ class BibleWebVersionXmlListener
   def tag_end(name)
     if name == 'note'
       @skip_text = false
-    elsif name == 'l' and @stream.verses.any?
+    elsif name == 'l' and @stream.verses.any? and @book and @verse
       @stream.verses.last[-1] += LINE_BREAK
     end
   end
