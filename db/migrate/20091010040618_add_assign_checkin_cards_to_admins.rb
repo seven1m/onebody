@@ -1,7 +1,7 @@
 class AddAssignCheckinCardsToAdmins < ActiveRecord::Migration
   def self.up
     change_table :admins do |t|
-      t.boolean :assign_checkin_cards, :default => true
+      t.boolean :assign_checkin_cards, :default => false
     end
   end
 
