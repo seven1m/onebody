@@ -37,7 +37,7 @@
           <%= form.label :custom_type, 'Custom Type:', :class => 'inline' %>
           <%= form.text_field :custom_type, :size => 10 %><div class="autocomplete" id="person_custom_type_auto_complete"></div>
           <script type="text/javascript">
-            new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', 7, {});
+            new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', <%= @custom_types.inspect %>, {});
           </script>
         <% end %>
       </fieldset>

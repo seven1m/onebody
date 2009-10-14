@@ -282,9 +282,10 @@ div.autocomplete {
   margin:0;
   padding:0;
 }
+#contentnorightbar div.autocomplete ul,
 div.autocomplete ul {
   list-style-type:none;
-  margin:0 !important;
+  margin:0;
   padding:0;
 }
 div.autocomplete ul li.selected { background-color: #ffb;}

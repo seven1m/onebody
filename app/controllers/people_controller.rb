@@ -133,6 +133,7 @@ class PeopleController < ApplicationController
     if @logged_in.can_edit?(@person)
       @family = @person.family
       @business_categories = Person.business_categories
+      @custom_types = Person.custom_types
     else
       render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
     end
