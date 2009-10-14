@@ -1,0 +1,19 @@
+<% form_remote_tag :url => batch_memberships_path do %>
+  <%= hidden_field_tag 'person_id', @person.id %>
+  <% @person.groups.each do |group| %>
+    <%= check_box_tag 'ids[]', group.id, true, :class => 'checkbox' %><%= link_to h(group.name), group %><br/>
+  <% end %>
+  <% if @person.groups.empty? %>
+    <em>no groups yet</em><br/>
+  <% end %>
+  <div id="group_results"></div>
+  <%= submit_tag 'Save' %> <span id="group_list_status"></span>
+<% end %>
+
+<% form_remote_tag :url => groups_path, :method => 'get' do %>
+  <p>
+    <label for="name">Add group:</label> <%= text_field_tag 'name' %>
+    <br/>
+    <%= submit_tag 'Search by Name' %>
+  </p>
+<% end %>

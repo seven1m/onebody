@@ -224,6 +224,15 @@
   </div>
 <% end %>
 
+<% if @logged_in.admin?(:manage_groups) %>
+  <h2 class="tab" id="groups">Groups</h2>
+  <div class="section">
+    <div id="groups_list">
+      <%= render :partial => 'group_selection' %>
+    </div>
+  </div>
+<% end %>
+
 <% if @logged_in.admin?(:manage_access) %>
   <h2 class="tab" id="access">Access</h2>
   <div class="section">

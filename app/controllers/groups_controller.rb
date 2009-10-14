@@ -23,6 +23,7 @@ class GroupsController < ApplicationController
       @hidden_groups = Group.find(:all, :conditions => conditions, :order => 'name')
       respond_to do |format|
         format.html { render :action => 'search' }
+        format.js
         if can_export?
           format.xml { render :xml =>  @groups.to_xml(:except => %w(site_id)) }
           format.csv { render :text => @groups.to_csv(:except => %w(site_id)) }
