@@ -279,6 +279,10 @@ td.tip {
 	width:110px;
 }
 
+#sidebar input[type=submit] {
+  width: inherit;
+}
+
 #sidebar .tag-cloud {
   background-color: #f6f6f6 ;
   padding: 10px;

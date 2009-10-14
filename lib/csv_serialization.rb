@@ -13,6 +13,9 @@ module ActiveRecord
       values = serializable_attribute_names.map do |a|
         options[:read_attribute] ? @record.read_attribute(a).to_s : @record.send(a).to_s
       end
+      values += serializable_method_names.map do |a|
+        @record.send(a).to_s
+      end
       add_includes do |association, records, opts|
         # only handles belongs_to
         if records.is_a?(ActiveRecord::Base)
@@ -32,7 +35,8 @@ module ActiveSupport
       
         def to_csv(options = {})
           raise "Not all elements respond to to_csv" unless all? { |e| e.respond_to? :to_csv }
-          names  = ActiveRecord::CsvSerializer.new(first, options).serializable_attribute_names
+          serializer = ActiveRecord::CsvSerializer.new(first, options)
+          names = serializer.serializable_attribute_names + serializer.serializable_method_names
           options[:include].to_a.each do |association|
             names += Kernel.const_get(association.to_s.classify).column_names.map { |c| "#{association}_#{c}" }
           end

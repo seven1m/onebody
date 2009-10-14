@@ -72,6 +72,35 @@ class MembershipsController < ApplicationController
   end
   
   def batch
+    if params[:person_id]
+      batch_on_person
+    else
+      batch_on_group
+    end
+  end
+  
+  def batch_on_person
+    @person = Person.find(params[:person_id])
+    if @logged_in.can_edit?(@person) and @logged_in.admin?(:manage_groups)
+      groups = (params[:ids] || []).map { |id| Group.find(id) }
+      # add groups
+      (groups - @person.groups).each do |group|
+        group.memberships.create(:person => @person)
+      end
+      # remove groups
+      (@person.groups - groups).each do |group|
+        group.memberships.find_by_person_id(@person).destroy unless group.last_admin?(@person)
+      end
+      @person.groups.reload
+      respond_to do |format|
+        format.js
+      end
+    else
+      render :text => 'You are not authorized.', :layout => true, :status => 401
+    end
+  end
+  
+  def batch_on_group
     @group = Group.find(params[:group_id])
     group_people = @group.people
     if @logged_in.can_edit?(@group)
