@@ -1,8 +1,15 @@
 <% form_remote_for @family do |form| %>
   <p>
     Scan Card:
-    <%= form.text_field :barcode_id, :size => 20 %>
+    <%= form.text_field :barcode_id, :size => 15 %>
     <%= form.submit 'Save' %>
+    <% if @family.barcode_assigned_at %>
+      <br/>
+      Last change:<br/>
+      <span title="<%= @family.barcode_assigned_at.to_s %>">
+        <%= time_ago_in_words @family.barcode_assigned_at %> ago
+      </span>
+    <% end %>
   </p>
   <p><em>Remember, this card number is not to be written down or given to any
     unauthorized persons.</em></p>
