@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
 class Administration::CheckinTimesControllerTest < ActionController::TestCase
+
+  setup { Setting.set(1, 'Features', 'Checkin Modules', true) }
   
   should "create a new recurring checkin time" do
     post :create, {:checkin_time => {:weekday => 0, :time => '9:00'}}, {:logged_in_id => people(:tim)}
