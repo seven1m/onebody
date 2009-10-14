@@ -168,19 +168,21 @@ class AccountsController < ApplicationController
   def update
     @person = Person.find(params[:person_id])
     if @logged_in.can_edit?(@person)
-      if Rails.env == 'test' and params[:password]
+      if Rails.env == 'test'
         password = params[:password]
         password_confirmation = params[:password_confirmation]
       else
-        password = decrypt_password(params[:encrypted_password])
-        password_confirmation = decrypt_password(params[:encrypted_password_confirmation])
+        password = params[:encrypted_password].to_s.any? ? decrypt_password(params[:encrypted_password]) : nil
+        password_confirmation = params[:encrypted_password_confirmation].to_s.any? ? decrypt_password(params[:encrypted_password_confirmation]) : nil
       end
       @person.attributes = params[:person]
-      @person.email_changed = @person.changed.include?('email')
       @person.save
       if @person.errors.any?
         edit; render :action => 'edit'
-      elsif password.to_s.any? or password_confirmation.to_s.any?
+      elsif password == false or password_confirmation == false # error decrypting the password
+        flash[:warning] = 'There was an error setting the password. Please try again.'
+        edit; render :action => 'edit'
+      elsif password.to_s.any?
         @person.change_password(password, password_confirmation)
         if @person.errors.any?
           edit; render :action => 'edit'
