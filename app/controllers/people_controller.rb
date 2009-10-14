@@ -23,7 +23,7 @@ class PeopleController < ApplicationController
         end
         format.csv do
           if @people.any?
-            render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family])
+            render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family], :methods => %w(group_names))
           else
             flash[:warning] = 'No more records.'
             redirect_to people_path

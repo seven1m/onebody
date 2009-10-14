@@ -634,6 +634,10 @@ class Person < ActiveRecord::Base
     )
   end
   
+  def group_names
+    groups.map { |g| g.name }.join(', ')
+  end
+  
   alias_method :destroy_for_real, :destroy
   def destroy
     self.update_attributes!(
