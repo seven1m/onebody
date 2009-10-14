@@ -10,6 +10,7 @@
 <% if params[:include_people] %>
   <%= @family_people = @family.people.all(:order => 'sequence')
     @skip_heading = true
+    @include_contact_details = params[:include_contact_details]
     @include_alerts = params[:include_alerts]
     @include_location = params[:include_location]
     render :partial => 'people/family' %>

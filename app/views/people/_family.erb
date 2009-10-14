@@ -25,6 +25,9 @@
           <% unless person.visible?(@family) %>
             <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
           <% end %>
+          <% if @include_contact_details and person.mobile_phone.to_s.any? %>
+            <%= format_phone(person.mobile_phone, :mobile) %>
+          <% end %>
           <% if @include_alerts %>
             <br/>
             <% if person.can_pick_up.to_s.any? %><strong class="very-strong">Can pick up:</strong> <%=h person.can_pick_up %><br/><% end %>
