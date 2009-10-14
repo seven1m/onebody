@@ -152,7 +152,7 @@ class Person < ActiveRecord::Base
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
         record.errors.add attribute, 'not a valid email address.'
       end
-      if record.changed.include?('email') and not Setting.get(:access, :super_admins).include?(record.email_was) and record.super_admin?
+      if record.changed.include?('email') and not Setting.get(:access, :super_admins).include?(record.email_was) and record.super_admin? and not Person.logged_in.super_admin?
         record.errors.add attribute, 'is invalid.' # cannot make yourself a super admin
       end
     elsif attribute.to_s == 'child'
