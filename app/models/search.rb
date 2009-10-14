@@ -3,7 +3,7 @@ class Search
   ITEMS_PER_PAGE = 100
   
   attr_accessor :show_businesses, :show_hidden, :testimony, :member
-  attr_reader :count, :people, :family_name, :families
+  attr_reader :count, :people, :family_name, :family_barcode_id, :families
   
   def initialize
     @people = []
@@ -25,6 +25,11 @@ class Search
       family_name.gsub! /\sand\s/, ' & '
       @conditions.add_condition ["(families.name like ? or families.last_name like ? or (select count(*) from people where family_id=families.id and #{sql_concat('people.first_name', %q(' '), 'people.last_name')} like ?) > 0)", "%#{family_name}%", "%#{family_name}%", "#{family_name}%"]
     end
+  end
+  
+  def family_barcode_id=(id)
+    @family_barcode_id = id
+    @conditions.add_condition ["families.barcode_id = ?", id] if id
   end
   
   def family_id=(id)
@@ -141,7 +146,12 @@ class Search
   def self.new_from_params(params)
     search = new
     search.name = params[:name] || params[:quick_name]
-    search.family_name = params[:family_name]
+    if params[:family_name] =~ /^\d{10,}$/ # used by checkin dashboard (single text field for both name and barcode)
+      search.family_barcode_id = params[:family_name]
+    else
+      search.family_name = params[:family_name]
+      search.family_barcode_id = params[:family_barcode_id]
+    end
     search.show_businesses = params[:business] || params[:businesses]
     search.business_category = params[:category]
     search.testimony = params[:testimony]

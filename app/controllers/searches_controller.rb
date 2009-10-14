@@ -20,7 +20,7 @@ class SearchesController < ApplicationController
   def create
     params.reject_blanks!
     @search = Search.new_from_params(params)
-    if @search.family_name.blank?
+    if @search.family_name.blank? and @search.family_barcode_id.nil?
       @people = @search.query(params[:page])
     else
       @families = @search.query(params[:page], 'family')
