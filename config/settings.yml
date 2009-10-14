@@ -48,10 +48,6 @@ Name:
     value: Welcome home.
     description: Slogan displayed at top of every page.
 Features: 
-  Twitter Account:
-    format: string
-    value:
-    description: If Twitter Integration is enabled, tell your users the account name here.
   Multisite: 
     format: boolean
     value: false
@@ -161,7 +157,6 @@ Services:
     format: string
     value: 
     description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
-    global: true
 Access: 
   Super Admins: 
     format: list
