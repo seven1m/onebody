@@ -1,6 +1,10 @@
 class Administration::AdminsController < ApplicationController
   before_filter :only_admins
   
+  def index
+    @admins = Admin.all(:order => 'people.last_name, people.first_name', :include => :person)
+  end
+  
   def update
     @admin = Admin.find(params[:id])
     @admin.update_attribute(params[:name], params[:value])

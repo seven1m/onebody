@@ -1,0 +1,56 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'Admin Home', admin_path %></li>
+<% end %>
+
+<% content_for :sidebar do %>
+  <p>
+    There are currently <%= pluralize @admins.length, 'administrator' %>.
+  </p>
+  
+  <% if Site.current.max_admins.nil? or Admin.count < Site.current.max_admins %>
+  
+    <p>Add more below:</p>
+
+    <%= form_remote_tag :url => search_path %>
+      <%= hidden_field_tag :select_person, true %>
+      <p>
+        <label for="name">Add administrator:</label> <%= text_field_tag 'name' %>
+        <br/>
+        <%= submit_tag 'Search by Name' %>
+      </p>
+    </form>
+    
+  <% end %>
+
+  <div id="add_member" style="display:none;">
+    <% form_tag(administration_admins_path) do %>
+      <div id="results"></div>
+      <p><%= submit_tag 'Add Selected' %></p>
+    <% end %>
+  </div>
+<% end %>
+
+<h2>Administrators</h2>
+
+<% @admins.each do |admin| %>
+  <div style="margin-bottom:3px;">
+    <%= link_to_function image_tag('plus.gif', :alt => 'show privileges', :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
+    <%= link_to h(admin.person.name), admin.person %>
+    <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+    <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;">
+      <%= check_box_tag 'select_all', true, false, :onclick => "$$('.privilege#{admin.id}').each(function(e){e.checked=$('select_all_#{admin.id}').checked;new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+e.name+'&value='+e.checked});})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
+      <em>select all</em><br/>
+      <% all_selected = true %>
+      <% Admin.privilege_columns.map { |c| c.name }.sort.each do |privilege| %>
+        <% next if %w(assign_checkin_cards manage_checkin).include?(privilege) and not Setting.get(:features, :checkin_modules) %>
+        <% unless admin.person == @logged_in and privilege == 'manage_access' %>
+          <span class="nowrap">
+            <%= check_box_tag privilege, true, admin.send(privilege + '?'), :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %><span id="admin_<%= admin.id %>_<%= privilege %>"><%=h privilege.gsub('_', ' ') %></span>
+          </span>
+          <% all_selected = false unless admin.send(privilege + '?') %>
+        <% end %>
+      <% end %>
+      <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,29 +1,33 @@
-<% if @logged_in.super_admin? or @logged_in.admin?(:manage_access) %>
-  <% content_for :sidebar do %>
-    <% if @logged_in.admin?(:manage_access) %>
-      <%= render :partial => 'administrators' %>
-    <% end %>
+<% content_for :sidebar do %>
+  <h2>You</h2>
+  <p>
+    Welcome, <%=h @logged_in.name %>.
     <% if @logged_in.super_admin? %>
-      <h2>Customization</h2>
-      <ul style="list-style:none;">
-        <li><%= link_to 'Settings', administration_settings_path %></li>
-        <li><%= link_to 'Community Logo', administration_logo_path %></li>
-        <li><%= link_to 'Custom Theme', edit_administration_theme_path %></li>
-        <li><%= link_to 'Pages', pages_path %></li>
-      </ul>
+      You are a super administrator (configured in <%= link_to 'settings', administration_settings_path %>).
+    <% else %>
+      You have been an administrator since <%= @logged_in.admin.created_at.to_time.to_s :date %>.
+        You have the privileges: <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
     <% end %>
+  </p>
+  
+  <% if @logged_in.admin?(:manage_access) %>
+    <h2>Administrators</h2>
+    <p>
+      There are currently <%= link_to pluralize(@admin_count, 'administrator'), administration_admins_path, :class => 'nowrap' %>
+      and <span class="nowrap"><%= pluralize Setting.get(:access, :super_admins).length, 'super admin' %></span>.
+    </p>
+  <% end %>
+
+  <% if @logged_in.super_admin? %>
+    <h2>Customization</h2>
+    <ul style="list-style:none;">
+      <li><%= link_to 'Settings', administration_settings_path %></li>
+      <li><%= link_to 'Community Logo', administration_logo_path %></li>
+      <li><%= link_to 'Custom Theme', edit_administration_theme_path %></li>
+      <li><%= link_to 'Pages', pages_path %></li>
+    </ul>
   <% end %>
 <% end %>
-
-<p>
-  Welcome, <%=h @logged_in.name %>.
-  <% if @logged_in.super_admin? %>
-    You are a super administrator (configured in <%= link_to 'settings', administration_settings_path %>).
-  <% else %>
-    You have been an administrator since <%= @logged_in.admin.created_at.to_time.to_s :date %>.
-      You have the privileges: <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
-  <% end %>
-</p>
 
 <% if @logged_in.admin?(:manage_updates) %>
   <h2>Updates</h2>
