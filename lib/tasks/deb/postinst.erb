@@ -20,8 +20,9 @@ fi
 
 if [[ ! -e /var/lib/onebody/tmp ]]; then
   mkdir /var/lib/onebody/tmp || exit
-  ln -sf /var/lib/onebody/tmp /usr/lib/onebody/tmp || exit
 fi
+
+ln -sf /var/lib/onebody/tmp /usr/lib/onebody/tmp || exit
 
 if [[ ! -e /etc/onebody ]]; then
   mkdir /etc/onebody
