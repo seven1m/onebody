@@ -50,7 +50,6 @@ namespace :onebody do
 
     # clone repo, unpack rails + gems, clean up
     `git checkout-index -a -f --prefix=/tmp/onebody/ && mv /tmp/onebody/* #{RAILS_ROOT}/pkg/usr/lib/onebody/`
-    `rm -rf #{RAILS_ROOT}/pkg/usr/lib/onebody/db/pages`
     `rm -rf #{RAILS_ROOT}/pkg/usr/lib/onebody/db/photos`
     `rm -rf #{RAILS_ROOT}/pkg/usr/lib/onebody/db/attachments`
     `rm -rf #{RAILS_ROOT}/pkg/usr/lib/onebody/db/publications`
