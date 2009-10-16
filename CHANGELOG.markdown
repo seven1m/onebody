@@ -4,6 +4,15 @@ OneBody Change Log
 This document lists the more notable changes in each release. For detailed change
 history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+1.0.0 / October 15, 2009
+------------------------
+
+* New Debian package release.
+* New virtual appliance (OVF) release.
+* Ability to add/remove group memberships from profile edit page.
+* Improvements to the layout of the administration section.
+* New rake task for modifying settings (even hidden and global ones) from the command line.
+
 0.9.1 / October 5, 2009
 -----------------------
 
