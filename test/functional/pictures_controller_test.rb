@@ -82,5 +82,23 @@ class PicturesControllerTest < ActionController::TestCase
     end
     assert_redirected_to album_path(@album)
   end
+  
+  should "create a new album if specified" do
+    post :create, {:album_id => 'My Stuff', :picture1 => fixture_file_upload('files/image.jpg')}, {:logged_in_id => @person.id}
+    album = Album.last
+    assert_equal 'My Stuff', album.name
+    assert_redirected_to album_path(album)
+    assert_equal "1 picture(s) saved", flash[:notice]
+  end
+  
+  should "use an existing album if specified" do
+    @album = @person.albums.create(:name => 'Existing Album')
+    album_count = Album.count
+    post :create, {:album_id => 'Existing Album', :picture1 => fixture_file_upload('files/image.jpg')}, {:logged_in_id => @person.id}
+    assert_equal album_count, Album.count
+    assert_equal @album, Picture.last.album
+    assert_redirected_to album_path(@album)
+    assert_equal "1 picture(s) saved", flash[:notice]
+  end
 
 end

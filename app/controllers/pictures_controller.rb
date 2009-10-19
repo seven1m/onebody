@@ -35,7 +35,7 @@ class PicturesController < ApplicationController
     if params[:album_id].to_s =~ /^\d+$/
       @album = (@group ? @group.albums : Album).find(params[:album_id])
     elsif not ['', '!'].include?(params[:album_id].to_s)
-      @album = (@group ? @group.albums : @logged_in.albums).create(:name => params[:album_id])
+      @album = (@group ? @group.albums : @logged_in.albums).find_or_create_by_name(params[:album_id])
     else
       render :text => 'There was an error finding the album. Please try again.', :layout => true, :status => 500
       return
