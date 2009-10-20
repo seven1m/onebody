@@ -23,7 +23,9 @@ class Search
     @family_name = family_name
     if family_name
       family_name.gsub! /\sand\s/, ' & '
-      @conditions.add_condition ["(families.name like ? or families.last_name like ? or (select count(*) from people where family_id=families.id and #{sql_concat('people.first_name', %q(' '), 'people.last_name')} like ?) > 0)", "%#{family_name}%", "%#{family_name}%", "#{family_name}%"]
+      family_ids = Person.connection.select_values("select distinct family_id from people where #{sql_concat('people.first_name', %q(' '), 'people.last_name')} like #{Person.connection.quote(family_name + '%')} and site_id = #{Site.current.id}").map { |id| id.to_i }
+      family_ids = [0] unless family_ids.any?
+      @conditions.add_condition ["(families.name like ? or families.last_name like ? or families.id in (?))", "%#{family_name}%", "%#{family_name}%", family_ids]
     end
   end
   
