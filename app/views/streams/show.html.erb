@@ -65,6 +65,13 @@
   </div>
 </div>
 
+<% if @has_friendship_requests %>
+  <div class="highlight">
+    <%= image_tag('user_add.png', :alt => 'Friends', :class => 'icon') %>
+    You have <%= link_to 'pending friend requests', person_friends_path(@person) %>.
+  </div>
+<% end %>
+
 <div style="display:none;margin:0 250px 25px 25px;" id="share">
   <%= render :partial => 'share' %>
 </div>

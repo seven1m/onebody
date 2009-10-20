@@ -6,14 +6,9 @@ module ApplicationHelper
   include ToursHelper
   
   def banner_message
-    messages = []
     if Setting.get(:features, :banner_message).to_s.any?
-      messages << CGI.escapeHTML(Setting.get(:features, :banner_message))
+      CGI.escapeHTML(Setting.get(:features, :banner_message))
     end
-    if @logged_in and @logged_in.pending_friendship_requests.count > 0
-      messages << "#{image_tag('user_add.png', :alt => 'Friends', :class => 'icon')} You have #{link_to 'pending friend requests', person_friends_path(@person)}."
-    end
-    messages.any? && messages.join("<br/>")
   end
   
   def heading
