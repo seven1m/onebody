@@ -22,27 +22,29 @@ class AttendanceController < ApplicationController
   # this method is similar to batch, but does not clear all the existing records for the group first
   # this method also allows you to record attendance for people not in the database (used for checkin 'add a friend' feature)
   def create
-    @group = Group.find(params[:group_id])
+    @group = params[:group_id].to_i > 0 ? Group.find(params[:group_id]) : nil
     @attended_at = Time.parse(params[:attended_at])
     if @group.admin?(@logged_in)
       params[:ids].to_a.each do |id|
         if person = Person.find_by_id(id)
           AttendanceRecord.delete_all(["person_id = ? and attendance_records.attended_at = ?", id, @attended_at])
-          @group.attendance_records.create!(
-            :person_id      => person.id,
-            :attended_at    => @attended_at,
-            :first_name     => person.first_name,
-            :last_name      => person.last_name,
-            :family_name    => person.family.name,
-            :age            => person.age_group,
-            :can_pick_up    => person.can_pick_up,
-            :cannot_pick_up => person.cannot_pick_up,
-            :medical_notes  => person.medical_notes
-          )
+          if @group
+            @group.attendance_records.create!(
+              :person_id      => person.id,
+              :attended_at    => @attended_at,
+              :first_name     => person.first_name,
+              :last_name      => person.last_name,
+              :family_name    => person.family.name,
+              :age            => person.age_group,
+              :can_pick_up    => person.can_pick_up,
+              :cannot_pick_up => person.cannot_pick_up,
+              :medical_notes  => person.medical_notes
+            )
+          end
         end
       end
       # record attendance for a person not in database (one at a time)
-      if person = params[:person]
+      if person = params[:person] and @group
         @group.attendance_records.create!(
           :attended_at    => @attended_at,
           :first_name     => person['first_name'],
@@ -51,7 +53,13 @@ class AttendanceController < ApplicationController
         )
       end
       respond_to do |format|
-        format.html { redirect_to group_attendance_index_path(@group, :attended_at => @attended_at) }
+        format.html do
+          if @group
+            redirect_to group_attendance_index_path(@group, :attended_at => @attended_at)
+          else
+            render :text => 'Attendance saved.', :layout => true
+          end
+        end
         format.json { render :text => {'status' => 'success'}.to_json }
       end
     else
