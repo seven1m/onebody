@@ -24,7 +24,7 @@ class AttendanceController < ApplicationController
   def create
     @group = params[:group_id].to_i > 0 ? Group.find(params[:group_id]) : nil
     @attended_at = Time.parse(params[:attended_at])
-    if @group.admin?(@logged_in)
+    if @logged_in.super_admin? or @group.admin?(@logged_in)
       params[:ids].to_a.each do |id|
         if person = Person.find_by_id(id)
           AttendanceRecord.delete_all(["person_id = ? and attendance_records.attended_at = ?", id, @attended_at])
