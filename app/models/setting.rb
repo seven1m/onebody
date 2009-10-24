@@ -103,12 +103,9 @@ class Setting < ActiveRecord::Base
       SETTINGS
     end
     
-    def settings_in_db
-      @settings_in_db ||= Setting.all
-    end
-    
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
+      settings_in_db = Setting.all
       # per site settings
       Site.find(:all).each do |site|
         update_site_from_hash(site, settings)
@@ -125,6 +122,7 @@ class Setting < ActiveRecord::Base
     end
     
     def update_site_from_hash(site, settings)
+      settings_in_db = Setting.all
       settings.each do |section_name, section|
         section.each do |setting_name, setting|
           next if setting['global']
