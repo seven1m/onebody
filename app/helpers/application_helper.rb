@@ -158,6 +158,7 @@ module ApplicationHelper
   end
   
   def white_list_with_removal(html)
+    return nil unless html
     html.gsub!(/<script.+?<\/script>/mi, '')
     html.gsub!(/<style.+?<\/style>/mi, '')
     white_list(html) { |node, bad| node.to_s.gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }
