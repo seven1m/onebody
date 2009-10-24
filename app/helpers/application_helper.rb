@@ -158,7 +158,9 @@ module ApplicationHelper
   end
   
   def white_list_with_removal(html)
-    white_list(html) { |node, bad| node.to_s.gsub(/<script.+?<\/script>/mi, '').gsub(/<style.+?<\/style>/mi, '').gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }
+    html.gsub!(/<script.+?<\/script>/mi, '')
+    html.gsub!(/<style.+?<\/style>/mi, '')
+    white_list(html) { |node, bad| node.to_s.gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }
   end
   
   def domain_name_from_url(url)
