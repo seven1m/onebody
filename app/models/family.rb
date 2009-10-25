@@ -51,11 +51,37 @@ class Family < ActiveRecord::Base
   sharable_attributes :mobile_phone, :address, :anniversary
   
   validates_uniqueness_of :barcode_id, :allow_nil => true
-  validates_length_of :barcode_id, :in => 10..50, :allow_nil => true
-  validates_format_of :barcode_id, :with => /^\d+$/, :allow_nil => true
+  validates_uniqueness_of :alternate_barcode_id, :allow_nil => true
+  validates_length_of :barcode_id, :alternate_barcode_id, :in => 10..50, :allow_nil => true
+  validates_format_of :barcode_id, :alternate_barcode_id, :with => /^\d+$/, :allow_nil => true
+  
+  validates_each [:barcode_id, :alternate_barcode_id] do |record, attribute, value|
+    if attribute.to_s == 'barcode_id' and record.barcode_id
+      if record.barcode_id == record.alternate_barcode_id
+        record.errors.add(attribute, 'cannot be same as alternate barcode id')
+      elsif Family.count('*', :conditions => ['alternate_barcode_id = ?', record.barcode_id]) > 0
+        record.errors.add(attribute, 'is already taken')
+      end
+    elsif attribute.to_s == 'alternate_barcode_id' and record.alternate_barcode_id
+      if Family.count('*', :conditions => ['barcode_id = ?', record.alternate_barcode_id]) > 0
+        record.errors.add(attribute, 'is already taken')
+      end
+    end
+    # if barcode_id and (barcode_id == alternate_barcode_id or Family.count('*', :conditions => ['alternate_barcode_id = ?', barcode_id]) > 0)
+    #       errors.add(:barcode_id, 'cannot be same as alternate barcode id')
+    #     end
+    #     if alternate_barcode_id and (alternate_barcode_id == barcode_id or Family.count('*', :conditions => ['barcode_id = ?', alternate_barcode_id]) > 0)
+    #       errors.add(:alternate_barcode_id, 'cannot be same as barcode id')
+    #     end
+  end
   
   def barcode_id=(b)
     write_attribute(:barcode_id, b.to_s.strip.any? ? b : nil)
+    write_attribute(:barcode_assigned_at, Time.now.utc)
+  end
+  
+  def alternate_barcode_id=(b)
+    write_attribute(:alternate_barcode_id, b.to_s.strip.any? ? b : nil)
     write_attribute(:barcode_assigned_at, Time.now.utc)
   end
   

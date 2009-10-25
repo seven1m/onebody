@@ -9,7 +9,10 @@
       <span title="<%= @family.barcode_assigned_at.to_s %>">
         <%= time_ago_in_words @family.barcode_assigned_at %> ago
       </span>
+      <br/>
     <% end %>
+    <%= link_to_function 'alternate card &raquo;', "Element.show('family_alternate_barcode_id');Element.hide(this);", :class => 'discreet' %>
+    <%= form.text_field :alternate_barcode_id, :size => 15, :style => 'display:none;' %>
   </p>
   <p><em>Remember, this card number is not to be written down or given to any
     unauthorized persons.</em></p>

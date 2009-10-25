@@ -31,7 +31,8 @@ class FamiliesController < ApplicationController
     if params[:legacy_id]
       @family = Family.find_by_legacy_id(params[:id])
     elsif params[:barcode_id]
-      @family = Family.find_by_barcode_id_and_deleted(params[:id], false)
+      @family = Family.find_by_barcode_id_and_deleted(params[:id], false) ||
+        Family.find_by_alternate_barcode_id_and_deleted(params[:id], false)
     else
       @family = Family.find_by_id(params[:id])
     end
@@ -101,7 +102,7 @@ class FamiliesController < ApplicationController
         format.xml  { render :xml => @family.to_xml } if can_export?
         format.js do # only used by barcode entry right now
           render :update do |page|
-            page.replace_html :notice, "Family saved. Assigned number: #{@family.barcode_id}"
+            page.replace_html :notice, "Family saved."
             page[:notice].show
           end
         end
