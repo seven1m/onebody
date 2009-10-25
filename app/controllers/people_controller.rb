@@ -257,11 +257,11 @@ class PeopleController < ApplicationController
   end
   
   def checkin
-    @people = Person.all(:joins => :family, :conditions => ["families.barcode_id = ? and people.deleted = ?", params[:family_barcode_id], false], :select => 'families.id, families.barcode_id, people.family_id, people.id, people.first_name, people.last_name, people.suffix, people.classes, people.medical_notes, people.can_pick_up, people.cannot_pick_up')
+    @people = Person.all(:joins => :family, :conditions => ["(families.barcode_id = ? or families.alternate_barcode_id = ?) and people.deleted = ?", params[:family_barcode_id], params[:family_barcode_id], false], :select => 'families.id, families.barcode_id, people.family_id, people.id, people.first_name, people.last_name, people.suffix, people.classes, people.medical_notes, people.can_pick_up, people.cannot_pick_up')
     json = @people.map do |person|
       person.attributes.merge({
         :family_id          => person.family_id,
-        :family_barcode_id  => person.family.barcode_id,
+        :family_barcode_id  => params[:family_barcode_id] == person.family.barcode_id ? person.family.barcode_id : person.family.alternate_barcode_id,
         :attendance_records => person.attendance_today.inject({}) do |records, record|
           records[record.attended_at.to_s(:time)] = [record.group_id, record.group.name]
           records
