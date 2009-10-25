@@ -107,7 +107,7 @@ unless defined?(DISABLE_ROUTES)
       admin.resources :admins
       admin.resources :membership_requests
       admin.resources :log_items, :collection => {:batch => :put}
-      admin.resources :settings, :collection => {:batch => :put}
+      admin.resources :settings, :collection => {:batch => :put, :reload => :put}
       admin.resources :files, :requirements => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
       admin.resources :attendance
       admin.resource :theme

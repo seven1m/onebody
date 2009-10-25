@@ -1,5 +1,7 @@
 class Administration::SettingsController < ApplicationController
   
+  before_filter :only_admins
+  
   def index
     @settings = Setting.find_all_by_site_id_and_hidden(
       Site.current.id,
@@ -22,9 +24,28 @@ class Administration::SettingsController < ApplicationController
       value = value == 'true' if setting.format == 'boolean'
       setting.update_attributes! :value => value
     end
-    Setting.precache_settings(true)
-    expire_fragment(%r{views/})
+    reload_settings
     flash[:notice] = 'Settings saved.'
     redirect_to administration_settings_path
   end
+  
+  def reload
+    reload_settings
+    flash[:notice] = 'Settings reloaded.'
+    redirect_to admin_path
+  end
+  
+  private
+  
+    def only_admins
+      unless @logged_in.super_admin?
+        render :text => 'You must be a super administrator to modify settings.', :layout => true, :status => 401
+        return false
+      end
+    end
+  
+    def reload_settings
+      Setting.precache_settings(true)
+      expire_fragment(%r{views/})
+    end
 end

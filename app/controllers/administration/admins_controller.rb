@@ -18,19 +18,24 @@ class Administration::AdminsController < ApplicationController
           flash[:notice] = "#{person.name} is a Super Administrator."
         else
           person.admin = Admin.create!
-          add_errors_to_flash(person) unless person.save
+          if person.save
+            flash[:notice] = 'Admin created.'
+          else
+            add_errors_to_flash(person)
+          end
         end
       else
         flash[:notice] = 'No more admins are allowed.'
       end
     end
-    redirect_to admin_path
+    redirect_to administration_admins_path
   end
   
   def destroy
     @admin = Admin.find(params[:id])
     @admin.destroy
-    redirect_to admin_path
+    flash[:notice] = 'Admin removed.'
+    redirect_to administration_admins_path
   end
   
   private
