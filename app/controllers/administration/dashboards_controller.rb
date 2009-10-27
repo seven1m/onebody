@@ -1,7 +1,7 @@
 class Administration::DashboardsController < ApplicationController
   before_filter :only_admins
   
-  def index
+  def show
     Admin.destroy_all '(select count(*) from people where people.admin_id = admins.id) = 0'
     @admin_count = Admin.count('*')
     @update_count = Update.count '*', :conditions => ['complete = ?', false]

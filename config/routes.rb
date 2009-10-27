@@ -99,7 +99,7 @@ unless defined?(DISABLE_ROUTES)
       pages.page_for_public 'pages/*path', :action => 'show_for_public', :conditions => {:method => :get}
     end
 
-    map.admin 'admin', :controller => 'administration/dashboards'
+    map.resource :admin, :controller => 'administration/dashboards'
     map.namespace :administration, :path_prefix => 'admin' do |admin|
       admin.resource :api_key
       admin.resource :logo
