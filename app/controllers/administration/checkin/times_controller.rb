@@ -1,4 +1,4 @@
-class Administration::CheckinTimesController < ApplicationController
+class Administration::Checkin::TimesController < ApplicationController
   
   before_filter :only_admins
   

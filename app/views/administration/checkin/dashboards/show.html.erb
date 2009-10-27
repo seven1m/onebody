@@ -1,4 +1,4 @@
-<%= render :partial => 'administration/checkin_dashboards/subnav' %>
+<%= render :partial => 'administration/checkin/dashboards/subnav' %>
 
 <% content_for :sidebar do %>
   <h1>Check-In Admin</h1>
@@ -12,7 +12,7 @@
     </p>
     <p>
       <%= submit_tag 'Search' %>
-      <%= link_to 'clear', administration_checkin_path %>
+      <%= link_to 'clear', administration_checkin_dashboard_path %>
     </p>
   <% end %>
   <p>

@@ -1,4 +1,4 @@
-class Administration::CheckinDashboardsController < ApplicationController
+class Administration::Checkin::DashboardsController < ApplicationController
 
   before_filter :only_admins
   

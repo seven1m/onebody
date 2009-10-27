@@ -1,4 +1,4 @@
-class Administration::CheckinGroupsController < ApplicationController
+class Administration::Checkin::GroupsController < ApplicationController
   
   before_filter :only_admins
   

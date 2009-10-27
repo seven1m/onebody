@@ -1,4 +1,4 @@
-class Administration::CheckinCardsController < ApplicationController
+class Administration::Checkin::CardsController < ApplicationController
 
   before_filter :only_admins
   
