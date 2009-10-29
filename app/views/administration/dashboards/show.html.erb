@@ -27,9 +27,14 @@
       <li><%= link_to 'Pages', pages_path %></li>
     </ul>
   <% end %>
+  
+  <%= render_plugin_hook :admin_dashboard_sidebar_bottom %>
+  
   <br/><hr/>
   <p class="small"><%= link_to 'Reload Settings', reload_administration_settings_path, :method => 'put', :title => 'If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.' %></p>
 <% end %>
+
+<%= render_plugin_hook :admin_dashboard_top %>
 
 <% if @logged_in.admin?(:manage_updates) %>
   <h2>Updates</h2>
@@ -65,11 +70,7 @@
   <p><%= link_to 'Click here', administration_attendance_index_path %> to manage and export attendance.</p>
 <% end %>
 
-<% if Setting.get(:features, :checkin_modules) and (@logged_in.admin?(:manage_checkin) or @logged_in.admin?(:assign_checkin_cards)) %>
-  <h2>Checkin</h2>
-  
-  <p><%= link_to 'Click here', administration_checkin_dashboard_path %> to assign cards and manage checkin.</p>
-<% end %>
+<%= render_plugin_hook :admin_dashboard_middle %>
 
 <% if @logged_in.admin?(:view_log) %>
   <h2>Log</h2>
@@ -115,3 +116,5 @@
   <% end %>
   
 <% end %>
+
+<%= render_plugin_hook :admin_dashboard_bottom %>

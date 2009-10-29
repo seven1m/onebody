@@ -169,6 +169,14 @@ module ApplicationHelper
     $1
   end
   
+  def render_plugin_hook(name)
+    if PLUGIN_HOOKS[template.path] and hooks = PLUGIN_HOOKS[template.path][name]
+      hooks.map do |hook|
+        render :partial => hook
+      end.join("\n")
+    end
+  end
+  
   class << self
     include ApplicationHelper
   end

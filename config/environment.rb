@@ -7,11 +7,6 @@ unless File.exist?(config_filename = "#{Rails.root}/config/database.yml")
   FileUtils.cp("#{config_filename}.example", config_filename)
 end
 
-
-PLUGIN_HOOKS = {
-  :more_page => []
-}
-
 Rails::Initializer.run do |config|
   config.action_controller.session_store = :active_record_store
   config.action_controller.cache_store = :file_store, "#{Rails.root}/cache"
