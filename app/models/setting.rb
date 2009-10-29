@@ -23,6 +23,7 @@ class Setting < ActiveRecord::Base
   ]
   
   SETTINGS_FILE = File.join(RAILS_ROOT, "config/settings.yml")
+  PLUGIN_SETTINGS_FILES = File.join(RAILS_ROOT, "plugins/**/config/settings.yml")
   
   serialize :value
   belongs_to :site
@@ -136,10 +137,16 @@ class Setting < ActiveRecord::Base
     
     def update_site(site)
       update_site_from_hash(site, YAML::load(File.open(SETTINGS_FILE)))
+      Dir[PLUGIN_SETTINGS_FILES].each do |path|
+        update_site_from_hash(site, YAML::load(File.open(path)))
+      end
     end
     
     def update_all
       Setting.update_from_yaml(SETTINGS_FILE)
+      Dir[PLUGIN_SETTINGS_FILES].each do |path|
+        Setting.update_from_yaml(path)
+      end
     end
     
     def update_site_from_params(id, params)
