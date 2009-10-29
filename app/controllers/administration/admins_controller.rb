@@ -2,12 +2,18 @@ class Administration::AdminsController < ApplicationController
   before_filter :only_admins
   
   def index
-    @admins = Admin.all(:order => 'people.last_name, people.first_name', :include => :person)
+    Admin.destroy_all(["(select count(*) from people where admin_id=admins.id and deleted=?) = 0", false])
+    @admin_groups = Admin.all(:conditions => "template_name is not null")
+    @admins = Admin.all(:order => 'people.last_name, people.first_name', :include => :people)
   end
   
   def update
     @admin = Admin.find(params[:id])
-    @admin.update_attribute(params[:name], params[:value])
+    @privs = params[:name] == '*' ? Admin.privileges : [params[:name]]
+    @privs.each do |priv|
+      @admin.flags[priv] = params[:value] == 'true'
+    end
+    @success = @admin.save
   end
   
   def create

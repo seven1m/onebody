@@ -382,20 +382,15 @@ class Person < ActiveRecord::Base
     fam ||= self.family
     fam and fam.visible? and read_attribute(:visible) and consent_or_13? and visible_to_everyone?
   end
-
-  def admin=(a)
-    if a == true
-      Admin.create(:person => self)
-    elsif a == false
-      self.admin.destroy rescue nil
-    elsif a.is_a? Admin
-      a.person = self
-      a.save
-    end
-  end
   
   def admin?(perm=nil)
-    (admin and (perm.nil? or admin.send(perm))) or super_admin?
+    if super_admin?
+      true
+    elsif perm
+      admin and admin.flags[perm.to_s]
+    else
+      admin ? true : false 
+    end
   end
   
   def super_admin?

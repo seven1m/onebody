@@ -38,16 +38,16 @@
     <%= link_to h(admin.person.name), admin.person %>
     <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
     <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;">
-      <%= check_box_tag 'select_all', true, false, :onclick => "$$('.privilege#{admin.id}').each(function(e){e.checked=$('select_all_#{admin.id}').checked;new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+e.name+'&value='+e.checked});})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
+      <%= check_box_tag 'select_all', true, false, :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name=*&value='+this.checked})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
       <em>select all</em><br/>
       <% all_selected = true %>
-      <% Admin.privilege_columns.map { |c| c.name }.sort.each do |privilege| %>
+      <% Admin.privileges.sort.each do |privilege| %>
         <% next if %w(assign_checkin_cards manage_checkin).include?(privilege) and not Setting.get(:features, :checkin_modules) %>
         <% unless admin.person == @logged_in and privilege == 'manage_access' %>
           <span class="nowrap">
-            <%= check_box_tag privilege, true, admin.send(privilege + '?'), :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %><span id="admin_<%= admin.id %>_<%= privilege %>"><%=h privilege.gsub('_', ' ') %></span>
+            <%= check_box_tag privilege, true, admin.flags[privilege], :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %><span id="admin_<%= admin.id %>_<%= privilege %>"><%=h privilege.gsub('_', ' ') %></span>
           </span>
-          <% all_selected = false unless admin.send(privilege + '?') %>
+          <% all_selected = false unless admin.flags[privilege] %>
         <% end %>
       <% end %>
       <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>

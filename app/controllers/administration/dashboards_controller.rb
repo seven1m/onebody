@@ -10,7 +10,7 @@ class Administration::DashboardsController < ApplicationController
     if @logged_in.super_admin?
       @privileges = nil
     else
-      @privileges = Admin.privilege_columns.select { |c| @logged_in.admin.send(c.name+'?') }.map { |c| c.name.gsub('_', ' ') }
+      @privileges = Admin.privileges.select { |p| @logged_in.admin.flags[p] }.map { |c| c.name.humanize }
     end
   end
 

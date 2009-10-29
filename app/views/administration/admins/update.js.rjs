@@ -1,1 +1,9 @@
-page.visual_effect :highlight, "admin_#{params[:id]}_#{params[:name]}"
+if @success
+  @privs.each do |priv|
+    page.visual_effect :highlight, "admin_#{params[:id]}_#{priv}"
+    page << "$('#{priv}_#{params[:id]}').checked = #{params[:value]};"
+  end
+else
+  page.alert('There was an error saving the change.')
+end
+
