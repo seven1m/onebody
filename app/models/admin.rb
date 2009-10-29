@@ -93,9 +93,7 @@ class Admin < ActiveRecord::Base
     manage_pictures
     manage_access
     manage_updates
-    manage_checkin
     manage_news
     manage_attendance
-    assign_checkin_cards
   )
 end

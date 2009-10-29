@@ -67,12 +67,6 @@ class Family < ActiveRecord::Base
         record.errors.add(attribute, 'is already taken')
       end
     end
-    # if barcode_id and (barcode_id == alternate_barcode_id or Family.count('*', :conditions => ['alternate_barcode_id = ?', barcode_id]) > 0)
-    #       errors.add(:barcode_id, 'cannot be same as alternate barcode id')
-    #     end
-    #     if alternate_barcode_id and (alternate_barcode_id == barcode_id or Family.count('*', :conditions => ['barcode_id = ?', alternate_barcode_id]) > 0)
-    #       errors.add(:alternate_barcode_id, 'cannot be same as barcode id')
-    #     end
   end
   
   def barcode_id=(b)

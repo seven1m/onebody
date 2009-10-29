@@ -1,17 +1,15 @@
 <% if @family_people.length > 1 %>
-  <% unless @skip_heading %>
-    <h2>
-      Family
-      <a href="<%= url_for @family %>">
-        <%= render :partial => 'families/thumbnail', :locals => {:family => @family} %>
-      </a>
-    <% if @logged_in.admin?(:edit_profiles)  %>
-      <%= link_to 'edit', @family, :class => 'discreet' %>
-    <% elsif me? %>
-      <%= link_to 'edit', edit_person_path(@logged_in), :class => 'discreet' %>
-    <% end %>
-    </h2>
+  <h2>
+    Family
+    <a href="<%= url_for @family %>">
+      <%= render :partial => 'families/thumbnail', :locals => {:family => @family} %>
+    </a>
+  <% if @logged_in.admin?(:edit_profiles)  %>
+    <%= link_to 'edit', @family, :class => 'discreet' %>
+  <% elsif me? %>
+    <%= link_to 'edit', edit_person_path(@logged_in), :class => 'discreet' %>
   <% end %>
+  </h2>
   <table>
     <% @family_people.each do |person| %>
       <tr class="family-member">
@@ -24,21 +22,6 @@
           <%= link_to h(person.name), person %>
           <% unless person.visible?(@family) %>
             <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-          <% end %>
-          <% if @include_contact_details and person.mobile_phone.to_s.any? %>
-            <%= format_phone(person.mobile_phone, :mobile) %>
-          <% end %>
-          <% if @include_alerts %>
-            <br/>
-            <% if person.can_pick_up.to_s.any? %><strong class="very-strong">Can pick up:</strong> <%=h person.can_pick_up %><br/><% end %>
-            <% if person.cannot_pick_up.to_s.any? %><strong class="very-strong">Cannot pick up:</strong> <%=h person.cannot_pick_up %><br/><% end %>
-            <% if person.medical_notes.to_s.any? %><strong class="very-strong">Medical notes:</strong> <%=h person.medical_notes %><br/><% end %>
-          <% end %>
-          <% if @include_location %>
-            <% person.attendance_today.each do |attendance_record| %>
-              <strong><%=h attendance_record.attended_at.to_s(:time) %>:</strong>
-              <%=h attendance_record.group.name rescue '?' %><br/>
-            <% end %>
           <% end %>
         </td>
       </tr>

@@ -34,7 +34,7 @@ class FamiliesController < ApplicationController
       @family = Family.find_by_barcode_id_and_deleted(params[:id], false) ||
         Family.find_by_alternate_barcode_id_and_deleted(params[:id], false)
     else
-      @family = Family.find_by_id(params[:id])
+      @family = Family.find_by_id_and_deleted(params[:id], false)
     end
     raise ActiveRecord::RecordNotFound unless @family
     @people = @family.people.all.select { |p| @logged_in.can_see? p }
@@ -62,24 +62,14 @@ class FamiliesController < ApplicationController
   
   def new
     @family = Family.new
-    25.times { @family.people.build }
   end
   
   def create
-    if params[:family][:people_attributes]
-      params[:family][:people_attributes].reject! do |num, person|
-        person[:first_name].blank? || person[:birthday].blank?
-      end
-    end
     @family = Family.new_with_default_sharing(params[:family])
     respond_to do |format|
       if @family.save
         format.html do
-          if params[:barcode]
-            render :text => "Family saved. Assigned number: #{@family.barcode_id}<br/><a href=\"#{administration_checkin_dashboard_path}\">Click here</a> to return...", :layout => true
-          else
-            redirect_to params[:redirect_to] || @family
-          end
+          redirect_to params[:redirect_to] || @family
         end
         format.xml  { render :xml => @family, :status => :created, :location => @family }
         format.js
