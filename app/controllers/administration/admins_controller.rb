@@ -24,6 +24,7 @@ class Administration::AdminsController < ApplicationController
           flash[:notice] = "#{person.name} is a Super Administrator."
         else
           person.admin = Admin.create!
+          person.save!
           if person.save
             flash[:notice] = 'Admin created.'
           else

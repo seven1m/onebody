@@ -4,7 +4,8 @@ class PublicationsControllerTest < ActionController::TestCase
   
   def setup
     @person, @admin = Person.forge, Person.forge
-    @admin.admin = Admin.create(:manage_publications => true)
+    @admin.admin = Admin.create!(:manage_publications => true)
+    @admin.save!
     @publication = Publication.forge
   end
   

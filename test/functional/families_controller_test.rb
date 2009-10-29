@@ -71,6 +71,7 @@ class FamiliesControllerTest < ActionController::TestCase
   
   should "show xml for admin who can export data" do
     @other_person.admin = Admin.create!(:export_data => true)
+    @other_person.save!
     get :show, {:id => @family.id, :format => 'xml'}, {:logged_in_id => @other_person.id}
     assert_response :success
   end

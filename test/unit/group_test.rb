@@ -8,6 +8,7 @@ class GroupTest < ActiveSupport::TestCase
     Group.forge(:category => 'bar', :hidden => true)
   end
   
+  # FIXME: why is this commented out?????
   # should "update its membership based on a link_code" do
   #   3.times { Person.forge(:classes => 'foo') }
   #   2.times { Person.forge(:classes => 'fooz,bar,baz') }

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class Administration::CheckinTimesControllerTest < ActionController::TestCase
+class Administration::Checkin::TimesControllerTest < ActionController::TestCase
 
   setup { Setting.set(1, 'Features', 'Checkin Modules', true) }
   

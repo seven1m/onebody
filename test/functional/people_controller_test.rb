@@ -97,6 +97,7 @@ class PeopleControllerTest < ActionController::TestCase
   
   should "edit a person basics when user is admin" do
     @other_person.admin = Admin.create!(:edit_profiles => true)
+    @other_person.save!
     post :update,
       {
         :id => @person.id,
@@ -117,12 +118,14 @@ class PeopleControllerTest < ActionController::TestCase
   
   should "delete a person" do
     @other_person.admin = Admin.create!(:edit_profiles => true)
+    @other_person.save!
     post :destroy, {:id => @person.id}, {:logged_in_id => @other_person.id}
     assert @person.reload.deleted?
   end
   
   should "not delete self" do
     @person.admin = Admin.create!(:edit_profiles => true)
+    @person.save!
     post :destroy, {:id => @person.id}, {:logged_in_id => @person.id}
     assert_response :error
     assert !@person.reload.deleted?
@@ -137,6 +140,7 @@ class PeopleControllerTest < ActionController::TestCase
   
   should "freeze an account" do
     @other_person.admin = Admin.create!(:edit_profiles => true)
+    @other_person.save!
     post :update, {:id => @person.id, :freeze => 'toggle'}, {:logged_in_id => @other_person.id}
     assert_response :redirect
     assert @person.reload.account_frozen?
@@ -147,6 +151,7 @@ class PeopleControllerTest < ActionController::TestCase
   
   should "not freeze self" do
     @person.admin = Admin.create!(:edit_profiles => true)
+    @person.save!
     post :update, {:id => @person.id, :freeze => 'toggle'}, {:logged_in_id => @person.id}
     assert_select 'body', /cannot freeze your own account/i
     assert !@person.reload.account_frozen?
@@ -159,6 +164,7 @@ class PeopleControllerTest < ActionController::TestCase
   
   should "show xml for admin who can export data" do
     @other_person.admin = Admin.create!(:export_data => true)
+    @other_person.save!
     get :show, {:id => @person.id, :format => 'xml'}, {:logged_in_id => @other_person.id}
     assert_response :success
   end
