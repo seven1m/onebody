@@ -1,0 +1,92 @@
+pt: 
+
+  #common
+  pictures: Fotos
+  verses: Versículos
+  recipes: Receitas
+  notes: Notas
+  news: Notícias
+  publications: Publicações
+  prayer_requests: Pedidos de Oração
+  messages: Mensagens
+  my_activity: Minha Atividade
+
+  #streams
+
+  #_share_news.html.erb
+  news: Notícias
+  give_your_post_a_concise_title: "Dê um título conciso para a sua postagem:"
+  share_your_announcement_information_or_news_here: "Compartilhe os seus anúncios, informações ou notícias aqui:"
+  submit_news: Enviar Notícias
+  or_share: Ou, compartilhe
+  news_with_advanced_formatting: "notícias com formatação avancada..."
+
+  #_share_note.html.erb
+  note: Nota
+  what_are_you_doing: "O que você está fazendo?"
+  whats_on_your_mind: "O que passa na sua mente?"
+  share_note: Compartilhar nota
+  or_create_a: Ou, criar uma
+  blog_post: postatem no blog
+  with_a_title_and_formatting: "com um título e formatação..."
+  
+  #share_other.html.erb
+  more: Mais
+  add_recipe: Adicionar Receita
+  new_recipe: Nova Receita
+  add_publication: Adicionar Publicação
+  new_publication: Nova Publicação
+
+  #share_picture.html.erb
+  pictures: Fotos
+  picture: Foto
+  enter_the_new_album_title: "Digite o título do novo álbum."
+  loading: Carregando
+  add_a_picture: Adicione uma Foto
+  upload: "Carregar!"
+  upload_more: Carregar Mais
+  album: Álbum
+
+  #share_prayer.html.erb
+  prayer: Oração
+  save_prayer_request: Salvar Pedido de Oração
+  by: De
+  request: Pedido
+
+  #share_verse.html.erb
+  verse: Versículo
+  type_a_reference_below_and_hit_enter: "Digite uma referência (ex. João 3:16, Mateus 5:3-11) abaixo e pressione enter:"
+  add_verse: Adicionar Versículo
+
+  #show.html.erb
+  activity_feed: Feed de Atividade
+  all_pictures: " Todas as Fotos"
+  all_verses: " Todos os Versículos"
+  all_recipes: " Todas as Receitas"
+  all_news: " Todas as Notícias"
+  all_publications: " Todas as Publicações"
+  home: casa
+  mobile: celular
+  work: trabalho
+  fax: fax
+  share: Compartilhe
+  share_something: Compartilhe algo
+  share_something_here: compartilhar algo aqui
+  something: Algo
+  feed: Feed
+  import_from: "Importar de..."
+  import_facebook_updates: "Importar as suas atualizações do Facebook..."
+  import_twitter_updates: "Importar as suas atualizações do Twitter..."
+  import_flickr_photos: "Importar as suas fotos do Flickr..."
+  import_blog_feed: "Importar os feeds RSS ou Atom do seu Blog..."
+  facebook: " Facebook"
+  twitter: " Twitter"
+  flickr: " Flickr"
+  blog: " Blog"
+  show: Mostrar
+  you_have: Você tem
+  pending_friend_requests: pedidos de amizade
+  friends: Amigos
+  you_should: Você deveria
+  
+  

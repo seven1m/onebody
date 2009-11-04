@@ -1,13 +1,13 @@
-<h2 class="tab" id="note"><%= image_tag('note.png', :alt => 'Note', :class => 'icon') %> Note</h2>
+<h2 class="tab" id="note"><%= image_tag('note.png', :alt => I18n.t("note"), :class => 'icon')%> <%=I18n.t("note")%> </h2>
 <div class="section">
   <% form_for :note, :url => notes_path do |form| %>
     <%= hidden_field_tag :redirect_to, request.request_uri %>
     <%= form.hidden_field :group_id %>
     <p>
-      What are you doing? &middot; What's on your mind?
+      <%=I18n.t("what_are_you_doing")%> &middot; <%=I18n.t("whats_on_your_mind")%>
       <%= form.text_area :body, :rows => 2, :cols => 80 %>
-      <%= form.submit 'Share Note' %>
-      <span class="small">Or, create a <%= link_to 'blog post', new_note_path %> with a title and formatting...</span>
+      <%= form.submit I18n.t("share_note") %>
+      <span class="small"><%=I18n.t("or_create_a")%> <%= link_to I18n.t("blog_post"), new_note_path%> <%=I18n.t("with_a_title_and_formatting")%></span>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>

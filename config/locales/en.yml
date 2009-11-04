@@ -1,0 +1,94 @@
+en: 
+  
+  #common
+  pictures: Pictures
+  verses: Verses
+  recipes: Recipes
+  notes: Notes
+  news: News
+  publications: Publications
+  prayer_requests: Prayer Requests
+  messages: Messages
+  my_activity: My Activity
+
+  #streams
+
+  #_share_news.html.erb
+  news: News
+  give_your_post_a_concise_title: "Give your post a concise title:"
+  share_your_announcement_information_or_news_here: "Share your announcement, information, or news here:"
+  submit_news: Submit News
+  or_share: Or, share
+  news_with_advanced_formatting: "news with advanced formatting..."
+
+  #_share_note.html.erb
+  note: Note
+  what_are_you_doing: "What are you doing?"
+  whats_on_your_mind: "What's on your mind?"
+  share_note: Share Note
+  or_create_a: Or, create a
+  blog_post: blog post
+  with_a_title_and_formatting: "with a title and formatting..."
+  
+  #share_other.html.erb
+  more: More
+  add_recipe: Add Recipe
+  new_recipe: New Recipe
+  add_publication: Add Publication
+  new_publication: New Publication
+
+  #share_picture.html.erb
+  picture: Picture
+  enter_the_new_album_title: "Enter the new album title."
+  loading: Loading
+  add_a_picture: Add a Picture
+  upload: "Upload!"
+  upload_more: Upload more
+  album: Album
+
+  #share_prayer.html.erb
+  prayer: Prayer
+  save_prayer_request: Save Prayer Request
+  by: By
+  request: Request
+
+  #share_verse.html.erb
+  verse: Verse
+  type_a_reference_below_and_hit_enter: "Type a reference (e.g. John 3:16, Matthew 5:3-11) below and hit enter:"
+  add_verse: Add Verse
+
+  #show.html.erb
+  activity_feed: Activity Feed
+  all_pictures: " All Pictures"
+  all_verses: " All Verses"
+  all_recipes: " All Recipes"
+  all_news: " All News"
+  all_publications: " All Publications"
+  home: home
+  mobile: mobile
+  work: work
+  fax: fax
+  share: Share
+  something: Something
+  share_something: Share Something
+  share_something_here: share something here
+  feed: Feed
+  import_from: "Import from..."
+  import_facebook_updates: "Import your Facebook status updates..."
+  import_twitter_updates: "Import your Twitter updates..."
+  import_flickr_photos: "Import your Flickr photos..."
+  import_blog_feed: "Import your Blog's RSS or Atom feed..."
+  facebook: " Facebook"
+  twitter: " Twitter"
+  flickr: " Flickr"
+  blog: " Blog"
+  show: Show
+  you_have: You have
+  pending_friend_requests: pending friend requests
+  friends: Friends
+  you_should: You should
+
+  
+  
+  
+
