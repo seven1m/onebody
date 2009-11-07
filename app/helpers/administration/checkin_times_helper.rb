@@ -1,2 +1,0 @@
-module Administration::CheckinTimesHelper
-end
