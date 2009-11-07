@@ -170,7 +170,7 @@ module ApplicationHelper
   end
   
   def render_plugin_hook(name)
-    if PLUGIN_HOOKS[template.path] and hooks = PLUGIN_HOOKS[template.path][name]
+    if hooks = PLUGIN_HOOKS[name]
       hooks.map do |hook|
         render :partial => hook
       end.join("\n")
