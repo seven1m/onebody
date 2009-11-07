@@ -36,4 +36,13 @@ class AttendanceRecord < ActiveRecord::Base
       :order      => 'name'
     )
   end
+  
+  def self.find_for_people_and_date(people_ids, date)
+    all(:conditions => [
+      "person_id in (?) and attended_at >= ? and attended_at <= ?",
+      people_ids,
+      date.strftime('%Y-%m-%d 0:00'),
+      date.strftime('%Y-%m-%d 23:59:59')
+    ])
+  end
 end
