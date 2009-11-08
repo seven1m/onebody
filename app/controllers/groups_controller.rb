@@ -49,13 +49,6 @@ class GroupsController < ApplicationController
             @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
             render :text => @groups.to_csv(:except => %w(site_id))
           end
-          format.json do
-            @groups = {}
-            CheckinTime.today.each do |time|
-              @groups[time.time_to_s] = time.groups.all(:order => 'group_times.ordering', :select => 'group_times.print_nametag, groups.*').map { |g| [g.id, g.name, g.print_nametag?, g.link_code] }
-            end
-            render :text => @groups.to_json
-          end
         end
       end
     end

@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :account, :member => {:verify_code => :any, :select => :any}
 
   map.resources :people,
-    :collection => {:import => :any, :hashify => :post, :schema => :get, :batch => :post, :checkin => :get},
+    :collection => {:import => :any, :hashify => :post, :schema => :get, :batch => :post},
     :member => {:favs => :get, :testimony => :get} do |people|
     people.resources :groups
     people.resources :pictures
