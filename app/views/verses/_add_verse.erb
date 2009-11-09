@@ -1,10 +1,10 @@
-<p id="add_verse_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => 'Add a verse.', :class => 'icon') + (@verse ? ' Add Another Verse' : ' Add a Verse'), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></p>
+<p id="add_verse_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => I18n.t("add_verse"), :class => 'icon') + (@verse ? I18n.t("add_another_verse_with_space") : I18n.t("add_verse_with_space")), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></p>
 <div id="add_verse">
   <% form_for Verse.new do |form| %>
     <p>
-      Type a reference (i.e. John 3:16, Matthew 5:3-11) below and hit enter:<br/>
+      <%=I18n.t("type_a_reference_below_and_hit_enter")%><br/>
       <%= text_field_tag :id, nil, :style => 'border:1px solid #ccc;width:100px;' %>
-      <%= submit_tag 'Add Verse', :style => 'width:100px;' %>
+      <%= submit_tag I18n.t("add_verse"), :style => 'width:100px;' %>
     </p>
   <% end %>
 </div>

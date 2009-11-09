@@ -1,7 +1,7 @@
 <% if notice = @wall_notice || flash[:wall_notice] %><p class="very-strong"><%=h notice %></p><% end %>
 <p>
   <% if me? %>
-    <em>The Wall is a place for people to post friendly messages for you and others to see.</em>
+    <em><%=I18n.t("the_wall_is_place_for_people_post_messages")%></em>
   <% else %>
     <%= render :partial => 'walls/wall_post' %>
   <% end %>
@@ -9,8 +9,8 @@
 <% if @messages.any? %>
   <%= render :partial => 'walls/messages' %>
   <p>
-    <%= link_to 'View all wall messages...', person_wall_path(@person) %>
+    <%= link_to I18n.t("view_all_wall_messages"), person_wall_path(@person) %>
   </p>
 <% else %>
-  <p><em>No messages yet!</em></p>
+  <p><em><%=I18n.t("no_messages_yet")%></em></p>
 <% end %>

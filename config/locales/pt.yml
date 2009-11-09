@@ -10,18 +10,18 @@ pt:
   prayer_requests: Pedidos de Oração
   messages: Mensagens
   my_activity: Minha Atividade
+  are_you_sure: Você tem certeza?
+  none: nenhum
+
 
   #streams
 
-  #_share_news.html.erb
   news: Notícias
   give_your_post_a_concise_title: "Dê um título conciso para a sua postagem:"
   share_your_announcement_information_or_news_here: "Compartilhe os seus anúncios, informações ou notícias aqui:"
   submit_news: Enviar Notícias
   or_share: Ou, compartilhe
   news_with_advanced_formatting: "notícias com formatação avancada..."
-
-  #_share_note.html.erb
   note: Nota
   what_are_you_doing: "O que você está fazendo?"
   whats_on_your_mind: "O que passa na sua mente?"
@@ -29,15 +29,11 @@ pt:
   or_create_a: Ou, criar uma
   blog_post: postatem no blog
   with_a_title_and_formatting: "com um título e formatação..."
-  
-  #share_other.html.erb
   more: Mais
   add_recipe: Adicionar Receita
   new_recipe: Nova Receita
   add_publication: Adicionar Publicação
   new_publication: Nova Publicação
-
-  #share_picture.html.erb
   pictures: Fotos
   picture: Foto
   enter_the_new_album_title: "Digite o título do novo álbum."
@@ -46,19 +42,13 @@ pt:
   upload: "Carregar!"
   upload_more: Carregar Mais
   album: Álbum
-
-  #share_prayer.html.erb
   prayer: Oração
   save_prayer_request: Salvar Pedido de Oração
   by: De
   request: Pedido
-
-  #share_verse.html.erb
   verse: Versículo
   type_a_reference_below_and_hit_enter: "Digite uma referência (ex. João 3:16, Mateus 5:3-11) abaixo e pressione enter:"
   add_verse: Adicionar Versículo
-
-  #show.html.erb
   activity_feed: Feed de Atividade
   all_pictures: " Todas as Fotos"
   all_verses: " Todos os Versículos"
@@ -89,4 +79,68 @@ pt:
   friends: Amigos
   you_should: Você deveria
   
+  #Verses
+
+  add_verse_with_space: " Adicionar Versículo"
+  add_another_verse_with_space: " Adicionar outro Versículo"
+  person: Pessoa
+  people: Pessoas
+  back_to_with_spaces: " Voltar para "
+  add_a_verse: " Adicionar um Versículo"
+  verses: Versículos
+  share_your_fav_bible_verses_with: Compartilhe os seus versículos bíblicos favoritos com a
+  family: família
+  remove_this_verse_from_my_list: "Remover esse versículo da minha lista."
+  add_this_verse_to_my_list: "Adicionar esse versículo à minha lista."
+  add_this_verse: Adicionar esse versículo
+  to_my_list: "à minha lista."
+  people_who_like: Pessoas que gostam
+  this_verse: desse versículo
+  tags: Tags
+  add_tags: Adicionar Tags
+  space_separated: "(separadas por espaços)"
+  tools: Ferramentas
+  read_this_passage_at_youversion: "Leia essa passagem no YouVersion..."
+  verse_disclaimer: "Trechos das escrituras marcados como 'WEB' são obtidos da World English Bible, uma tradução moderna em inglês da American Standard Version da Bíblia Sagrada. WEB está sob domínio público. Cópias e publicações são livres."
+  comments: Comments
+  about_this_verse: "sobre esse versículo. Compartilhe o que ele significa para você, como te ajudou ou simplesmente porque você gosta."
+  remove_this_verse: Remover esse versículo
+  from_my_list: da minha lista
+  no_verses_yet: "Nenhum versículo ainda!"
+
+
+  #Walls
+
+  wall_to_wall: parede de recados
+  wall_to_wall_camel_case: Parede de Recados
+  delete_with_brakets: "[deletar]"
+  person: Pessoa
+  wall: Parede
+  the_wall_is_place_for_people_post_messages: "A parede de recados é um lugar para pessoas postarem mensagens amigáveis para você e outros visualizarem."
+  view_all_wall_messages: "Visualizar todas as mensagensView all wall messages..."
+  no_messages_yet: "Ainda não existe nenhuma mensagem!"
+  post_a_message: Envie uma mensagem
+  all_users_will_see_your_message: "Todos os usuários irão ver a sua mensagem; para enviar uma mensagem"
+  message: "privada"
+  click_here: clique aqui
+  please_respect_the_privacy_of_others: "Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poderá causar o banimento do site."
+  save_message: Salvar Mensagem
+  newest_messages_appear_first: mensagens mais novas aparecem primeiro
   
+  
+  #Tags
+
+  tag: Tag
+  no_tags: nenhuma tag
+  delete_this_tag: Deletar essa tag
+  are_you_sure_you_want_delete_this_tag: "Você tem certeza que deseja deletar essa tag?"
+  no_tags_yet: nenhuma tag ainda
+
+
+  #Sync
+  sync: Sincronizar
+  sync_with: Sincronizar com
+  you_do_not_have_any: Você não tem nenhuma
+  remote_accounts: Contas Remotas
+  set_up: configuradas
+

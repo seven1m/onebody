@@ -3,7 +3,7 @@
     <strong><%= link_to h(verse.reference), verse %></strong>
     <% unless @person %>
       <% if verse.people.count > 0 %>
-        saved by <%= pluralize(verse.people.count, 'person', 'people') %>
+        saved by <%= pluralize(verse.people.count, I18n.t("person"), I18n.t("people")) %>
       <% end %>
     <% end %>
   </div>

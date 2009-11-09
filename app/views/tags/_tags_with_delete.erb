@@ -8,10 +8,10 @@
       <% elsif controller == 'recipes' %>
         <% url = recipe_path(:id => object, :remove_tag => tag.name) %>
       <% end %>
-      <%= link_to 'x', url, :title => 'Delete this tag.', :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => 'Are you sure you want to delete this tag?' %>
+      <%= link_to 'x', url, :title => I18n.t("delete_this_tag"), :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => I18n.t("are_you_sure_you_want_delete_this_tag")%>
     <% end %>
     <% if defined?(br) and br %><br/><% end %>
   <% end %>
 <% else %>
-  <em>no tags</em>
+  <em><%=I18n.t("no_tags")%></em>
 <% end %>

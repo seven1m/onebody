@@ -1,24 +1,24 @@
 <% content_for :subnav do %>
   <% if @person %>
-    <li><%= link_to image_tag('user.png', :alt => 'Person', :class => 'icon') + ' Back to ' + h(@person.name), @person %></li>
+    <li><%= link_to image_tag('user.png', :alt => I18n.t("person"), :class => 'icon') + I18n.t("back_to_with_spaces") + h(@person.name), @person %></li>
   <% end %>
-  <li><%= link_to_function image_tag('plus.png', :alt => 'Add a verse.', :class => 'icon') + ' Add a Verse', "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></li>
+  <li><%= link_to_function image_tag('plus.png', :alt => I18n.t("add_a_verse"), :class => 'icon') + I18n.t("add_a_verse"), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></li>
 <% end %>
 
-<h1>Verses</h1>
+<h1><%I18n.t("verses")%></h1>
 
-<p>Share your favorite Bible verses with the <%=h Setting.get(:name, :community) %> family.</p>
+<p><%I18n.t("share_your_fav_bible_verses_with")%> <%=h Setting.get(:name, :community) %> <%I18n.t("family")%>.</p>
 
 <%= render :partial => 'add_verse' %>
 
 <% content_for :sidebar do %>
-  <h2>Tags</h2>
+  <h2><%=I18n.t("tags")%></h2>
   <div class="tag-cloud">
     <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
       <%= link_to h(tag.name), tag, :class => css_class %>
     <% end %>
     <% if @tags.empty? %>
-      <em>no tags yet</em>
+      <em><%=I18n.t("no_tags_yet")%></em>
     <% end %>
   </div>
 <% end %>
@@ -28,7 +28,7 @@
 <% if @verses.any? %>
   <%= render :partial => @verses %>
 <% else %>
-  <p><em>No verses yet!</em></p>
+  <p><em><%=I18n.t("no_verses_yet")%></em></p>
 <% end %>
 
 <%= will_paginate @verses %>
