@@ -1,3 +1,3 @@
-<li><%= link_to image_tag('book_addresses.png', :alt => 'Browse Directory', :class => 'icon') + ' Browse',     search_path(:browse => true) %></li>
-<li><%= link_to image_tag('lorry.png', :alt => 'Businesses', :class => 'icon') + ' Businesses', search_path(:business => true) %></li>
-<li><%= link_to image_tag('printer.png', :alt => 'Print Directory', :class => 'icon') + ' Print',      printable_directory_path %></li>
+<li><%= link_to image_tag('book_addresses.png', :alt => I18n.t("browse_directory"), :class => 'icon') + I18n.t("browse_with_space"),     search_path(:browse => true) %></li>
+<li><%= link_to image_tag('lorry.png', :alt => I18n.t("businesses"), :class => 'icon') + I18n.t("businesses_with_space"), search_path(:business => true) %></li>
+<li><%= link_to image_tag('printer.png', :alt => I18n.t("print_directory"), :class => 'icon') + I18n.t("print_with_space"),      printable_directory_path %></li>

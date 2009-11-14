@@ -1,20 +1,20 @@
-<h2>Search Results</h2>
+<h2><%=I18n.t("search_results")%></h2>
 
 <% if @people and @people.any? %>
 
   <p>
-    <%= pluralize @count, 'person' %> found
+    <%= pluralize @count, I18n.t("person") %> <%=I18n.t("found")%>
     <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
-      (not showing hidden people)
+      <%=I18n.t("not_showing_hidden_people")%>
     <% end %>
     <%= will_paginate @people, :params => params %>
   </p>
 
   <% if @search.show_businesses %>
     <p>
-      <label for="category">Business Category:</label>
+      <label for="category"><%=I18n.t("business_category")%></label>
       <select id="category" onchange="location.href='?business=true&category='+value">
-        <option value="">(show all)</option>
+        <option value=""><%=I18n.t("show_all")%></option>
         <%= options_for_select @business_categories, params[:category] %>
       </select>
     </p>
@@ -24,17 +24,17 @@
     <tr>
       <th></th>
       <% if @search.show_businesses %>
-        <th>Business</th>
-        <th>Category</th>
+        <th><%=I18n.t("business")%></th>
+        <th><%=I18n.t("category")%></th>
       <% else %>
-        <th>Name</th>
-        <th>Family Name</th>
+        <th><%=I18n.t("name")%></th>
+        <th><%=I18n.t("family_name")%></th>
       <% end %>
       <% if @show_birthdays %>
-        <th>Birthday</th>
+        <th><%=I18n.t("birthday")%></th>
       <% end %>
       <% if Setting.get(:features, :show_mail_group) and @logged_in.admin? %>
-        <th>Mail Group</th>
+        <th><%=I18n.t("mail_group")%></th>
       <% end %>
     </tr>
     <% @people.each do |person| %>
@@ -60,10 +60,10 @@
             <%= link_to h(person.name), person_path(:id => person), :onmouseover => (@logged_in.full_access? ? "try{clearTimeout(hider)}catch(e){};show_popup(#{person.id})" : nil), :onmouseout => (@logged_in.full_access? ? "hider=setTimeout('hide_popup()', 1000)" : nil) %>
             <%= render :partial => 'person_type', :locals => {:person => person} %>
             <% unless person.visible? %>
-              <%= image_tag 'lock.gif', :alt => 'Hidden Profile', :class => 'icon' %>
+              <%= image_tag 'lock.gif', :alt => I18n.t("hidden_profile"), :class => 'icon' %>
             <% end %>
           </td>
-          <td><%=h person.family ? person.family.name : '(no family)' %></td>
+          <td><%=h person.family ? person.family.name : I18n.t("no_family") %></td>
         <% end %>
         <% if @show_birthdays %>
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
@@ -73,7 +73,7 @@
         <% end %>
         <td>
           <% if Setting.get(:features, :friends) and @logged_in.can_request_friendship_with?(person) and @logged_in != person %>
-            <%= link_to_remote image_tag('contact_add.gif', :alt => 'Add to Friends', :class => 'icon'), {:url => person_friends_path(@logged_in, :friend_id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => 'Are you sure? An email will be sent to this person requesting friendship.'}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
+            <%= link_to_remote image_tag('contact_add.gif', :alt => I18n.t("add_to_friends"), :class => 'icon'), {:url => person_friends_path(@logged_in, :friend_id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => I18n.t("are_you_sure_an_email_will_be_sent")}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
           <% end %>
         </td>
       </tr>
@@ -84,6 +84,6 @@
 
 <% else %>
 
-  <p><em>Your search didn't match any people.</em></p>
+  <p><em><%=I18n.t("your_search_didnt_match_any_people")%></em></p>
 
 <% end %>

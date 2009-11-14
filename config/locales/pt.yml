@@ -12,7 +12,8 @@ pt:
   my_activity: Minha Atividade
   are_you_sure: Você tem certeza?
   none: nenhum
-
+  family: família
+  person: pessoa
 
   #streams
 
@@ -144,3 +145,93 @@ pt:
   remote_accounts: Contas Remotas
   set_up: configuradas
 
+  #Sessions
+  please_sign_in: "Por favor acesse o sistema."
+  help_signing_in: Ajuda para acessar
+  sign_in: Acessar
+  i_need_help: "Eu preciso de ajuda."
+  sign_up: Registrar
+  for_an_account_or_sign_in: "para uma conta, ou acesse com uma existente:"
+  email_address: "Endereço de Email:"
+  password: "Senha:"
+  never_share_your_password_with_anyone: "Nunca compartilhe a sua senha com ninguém!"
+  you_may_read_our_privacy_policy: Você pode ler a nossa Política de Privacidade
+  here: aqui
+  no_users: Não há usuários
+  there_are_no_users_in_the_system: "Não há usuários no sistema."
+  you_may_create_the_first_user: "Você pode criar o primeiro usuário executando o comando:"
+  alternatively_you_can_load_sample_data: "Como uma alternativa, você pode carregar o OneBody com alguns dados de exemplo executando o coamndo:"
+  
+  #Searches
+  search_results: Resultados da busca
+  found: encontrado
+  family_name: Nome da Família
+  your_search_didnt_match_any_families: "Sua pesquisa não restornou nenhuma família."
+  browse_directory: Procurar no Diretório
+  browse_with_space: " Procurar"
+  businesses: Negícios
+  businesses_with_space: " Negócios"
+  print_directory: Imprimir Diretório
+  print_with_space: " Imprimir"
+  not_showing_hidden_people: "(não está mostrando pessoas ocultas)"
+  business_category: "Categoria de Negócios:"
+  show_all: "(mostrar todos)"
+  business: Negócios
+  category: Categoria
+  name: Nome
+  birthday: Data de Nascimento
+  mail_group: Grupo de Emails
+  hidden_profile: Perfil Oculto
+  no_family: "(não possui família)"
+  add_to_friends: Adicionar aos Amigos
+  are_you_sure_an_email_will_be_sent: "Você tem certeza? Um email será enviado a essa pessoa com o convite de amizade."
+  your_search_didnt_match_any_people: "Sua busca não retornou nenhuma pessoa."
+  elder: Elder
+  deacon: Diácono
+  staff: Staff
+  member: Membro
+  search: Busca
+  search_for_people_on: Buscar pessoas no
+  new_family: Nova Família
+  searching: "Procurando..."
+  find_your_friends: Encontre seus amigos
+  use_the: Use os
+  fields_on_the_left: campos à esquerda
+  to_search_for_your_friends: "para procurar os seus amigos."
+  click_the: Clique no
+  add_friend: Adicionar Amigo
+  icon_to_add_them: "ícone para adicioná-los."
+  you_can_add_as_many_friends_you_like: "Você pode adicionar quantos amigos você preferir!"
+  when_youre_finished_you_can_edit_your: "Quando você tiver terminado, você pode editar a sua"
+  friends_list: lista de amigos
+  to_remove_and_put_them_in_order: "para remover e colocá-los na ordem que você quiser."
+  search_the_directory: Procure no Diretório
+  you_can_always_find_someone_quickly: Você sempre pode encontrar alguém rapidamente digitando parte ou o nome completo da pessoa no
+  top_right: canto superior direito
+  of_the_screen: da tela.
+  or_use_the: "Ou, use a"
+  advanced_search: busca avançada
+  advanced_search_camel_case: Busca Avançada
+  feature_to_change_the_results: "característica para mudar os resultados interativamente."
+  browse_the_directory: Pesquisar no Diretório
+  of_course_you_can_also: "Claro, você também pode"
+  by_name: "por nome."
+  business_directory: Diretório de Negócios
+  some_of_our_members_have_businesses: "Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito."
+  next_time_you_go_to_grab_yellow_pages: "A próxima vez que você precisar das páginas amarelas, tente o"
+  first: "primeiro."
+  printed_directory: "Diretório Impresso"
+  the_directory_is_constantly_changing: "O diretório está sendo alterado constantemente. Enquanto encontrar alguém online é geralmente o melhor, você também pode"
+  print_the_directory: imprimir o diretório
+  for_those_offline_moments: "para aqueles momentos 'offline'."
+  anniversary: Aniversário de Casamento
+  gender: Gênero
+  male: Masculino
+  female: Feminino
+  city: Cidade
+  state: Estado
+  zip: CEP
+  type: Tipo
+  all: Todos
+  show_hidden: Mostrar ocultos
+  

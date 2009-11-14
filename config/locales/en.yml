@@ -12,7 +12,8 @@ en:
   my_activity: My Activity
   are_you_sure: Are you sure?
   none: none
-
+  family: family
+  person: person
 
   #streams
 
@@ -139,3 +140,93 @@ en:
   remote_accoutns: Remote Accounts
   set_up: set up
 
+  #Sessions
+  please_sign_in: "Please sign in."
+  help_signing_in: Help Signing In
+  sign_in: Sign In
+  i_need_help: "I need help."
+  sign_up: Sign Up
+  for_an_account_or_sign_in: "for an account, or sign in:"
+  email_address: "Email Address:"
+  password: "Password:"
+  never_share_your_password_with_anyone: "Never share your password with anyone!"
+  you_may_read_our_privacy_policy: You may read our Privacy Policy
+  here: here
+  no_users: No Users
+  there_are_no_users_in_the_system: "There are no users in the system."
+  you_may_create_the_first_user: "You may create the first user by running the command:"
+  alternatively_you_can_load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
+
+  #Searches
+  search_results: Search Results
+  found: found
+  family_name: Family Name
+  your_search_didnt_match_any_families: "Your search didn't match any families."
+  browse_directory: Browse Directory
+  browse_with_space: " Browse"
+  businesses: Businesses
+  businesses_with_space: " Businesses"
+  print_directory: Print Directory
+  print_with_space: " Print"
+  not_showing_hidden_people: "(not showing hidden people)"
+  business_category: "Business Category:"
+  show_all: "(show all)"
+  business: Business
+  category: Category
+  name: Name
+  birthday: Birthday
+  mail_group: Mail Group
+  hidden_profile: Hidden Profile
+  no_family: "(no family)"
+  add_to_friends: Add to Friends
+  are_you_sure_an_email_will_be_sent: "Are you sure? An email will be sent to this person requesting friendship."
+  your_search_didnt_match_any_people: "Your search didn't match any people."
+  elder: Elder
+  deacon: Deacon
+  staff: Staff
+  member: Member
+  search: Search
+  search_for_people_on: Search for people on
+  new_family: New Family
+  searching: "Searching..."
+  find_your_friends: Find Your Friends
+  use_the: Use the 
+  fields_on_the_left: fields on the left
+  to_search_for_your_friends: "to search for your friends."
+  click_the: Click the
+  add_friend: Add Friend
+  icon_to_add_them: "icon to add them."
+  you_can_add_as_many_friends_you_like: "You can add as many friends as you like!"
+  when_youre_finished_you_can_edit_your: "When you're finished, you can edit your"
+  friends_list: friends list
+  to_remove_and_put_them_in_order: "to remove and put them in the order you want."
+  search_the_directory: Search the Directory
+  you_can_always_find_someone_quickly: You can always find someone quickly by typing all or part of their name in the
+  top_right: top-right
+  of_the_screen: of the screen.
+  or_use_the: "Or, use the"
+  advanced_search: advanced search
+  advanced_search_camel_case: Advanced Search
+  feature_to_change_the_results: "feature to change the results interactively."
+  browse_the_directory: Browse the Directory
+  of_course_you_can_also: "Of course, you can also"
+  by_name: "by name."
+  business_directory: Business Directory
+  some_of_our_members_have_businesses: "Some of our members have businesses they'd like you to know about."
+  next_time_you_go_to_grab_yellow_pages: "Next time you go to grab the yellow pages, try the"
+  first: "first."
+  printed_directory: "Printed Directory"
+  the_directory_is_constantly_changing: "The directory is constantly changing. While finding someone online is usually your best bet, you may desire to"
+  print_the_directory: print the directory
+  for_those_offline_moments: "for those 'offline' moments."
+  anniversary: Anniversary
+  gender: Gender
+  male: Male
+  female: Female
+  city: City
+  state: State
+  zip: Zip
+  type: Type
+  all: All
+  show_hidden: Show Hidden
+  

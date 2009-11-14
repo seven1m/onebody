@@ -8,7 +8,7 @@
 <% content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">
-      <%= link_to 'New Family', new_family_path %>
+      <%= link_to I18n.t("new_family"), new_family_path %>
     </div>
   <% end %>
   <%= render :partial => 'subnav' %>
@@ -16,70 +16,68 @@
 
 <p id="searching" style="font-size:14pt;display:none;">
   <%= image_tag 'spinner.gif', :alt => 'searching', :class => 'no-border' %>
-  Searching...
+  <%=I18n.t("searching")%>
 </p>
 
 <div id="results">
   <% if @people %>
     <%= render :partial => 'results' %>
   <% elsif params[:search_friends] %>
-    <h2>Find Your Friends</h2>
+    <h2><%=I18n.t("find_your_friends")%></h2>
     <ol>
-      <li>Use the <strong>fields on the left</strong> to search for your friends.</li>
-      <li>Click the <%= image_tag('contact_add.gif', :alt => 'Add Friend', :class => 'icon') %> icon to add them.</li>
+      <li><%=I18n.t("use_the")%> <strong><%=I18n.t("fields_on_the_left")%></strong> <%=I18n.t("to_search_for_your_friends")%></li>
+      <li><%=I18n.t("click_the")%> <%= image_tag('contact_add.gif', :alt => I18n.t("add_friend"), :class => 'icon') %> <%=I18n.t("icon_to_add_them")%></li>
     </ol>
     <p>
-      You can add as many friends as you like!
-      When you're finished, you can edit your
-      <%= link_to 'friends list', person_friends_path(@logged_in) %> to
-      remove and put them in the order you want.
+      <%=I18n.t("you_can_add_as_many_friends_you_like")%>
+      <%=I18n.t("when_youre_finished_you_can_edit_your")%>
+      <%= link_to I18n.t("friends_list"), person_friends_path(@logged_in) %>
+      <%=I18n.t("to_remove_and_put_them_in_order")%>
     </p>
   <% else %>
     <table>
       <tr>
         <td>
-          <%= link_to_function image_tag('search.gif', :alt => 'Search the Directory'),
+          <%= link_to_function image_tag('search.gif', :alt => I18n.t("search_the_directory")),
             "$('name').focus();new Effect.Highlight('name', {})" %>
         </td>
         <td>
-          <strong>You can always find someone quickly by typing all or part
-          of their name in the
-          <%= link_to_function 'top-right', "$('search_name').focus();new Effect.Highlight('search_name', {})" %>
-          of the screen.</strong>
-          Or, use the
-          <%= link_to_function 'advanced search', "$('name').focus();new Effect.Highlight('name', {})" %>
-          feature to change the results interactively.
+          <strong><%=I18n.t("you_can_always_find_someone_quickly")%>
+          <%= link_to_function I18n.t("top_right"), "$('search_name').focus();new Effect.Highlight('search_name', {})" %>
+          <%=I18n.t("of_the_screen")%></strong>
+          <%=I18n.t("or_use_the")%>
+          <%= link_to_function I18n.t("advanced_search"), "$('name').focus();new Effect.Highlight('name', {})" %>
+          <%=I18n.t("feature_to_change_the_results")%>
         </td>
       </tr>
       <tr>
         <td>
-          <%= link_to image_tag('directory.gif', :alt => 'Browse the Directory'), search_path(:browse => true) %>
+          <%= link_to image_tag('directory.gif', :alt => I18n.t("browse_the_directory")), search_path(:browse => true) %>
         </td>
         <td>
-          Of course, you can also
-          <%= link_to 'browse the directory', search_path(:browse => true) %>
-          by name.
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <%= link_to image_tag('business.gif', :alt => 'Business Directory'), search_path(:business => true) %>
-        </td>
-        <td>
-          Some of our members have businesses they'd like you to know about.
-          Next time you go to grab the yellow pages, try the
-          <%= link_to 'Business Directory', search_path(:business => true) %> first.
+          <%=I18n.t("of_course_you_can_also")%>
+          <%= link_to I18n.t("browse_the_directory"), search_path(:browse => true) %>
+          <%=I18n.t("by_name")%>
         </td>
       </tr>
       <tr>
         <td>
-          <%= link_to image_tag('print.gif', :alt => 'Printed Directory'), printable_directory_path %>
+          <%= link_to image_tag('business.gif', :alt => I18n.t("business_directory")), search_path(:business => true) %>
         </td>
         <td>
-          The directory is constantly changing. While finding someone online is
-          usually your best bet, you may desire to
-          <%= link_to 'print the directory', printable_directory_path %>
-          for those "offline" moments.
+          <%=I18n.t("some_of_our_members_have_businesses")%>
+          <%=I18n.t("next_time_you_go_to_grab_yellow_pages")%>
+          <%= link_to I18n.t("business_directory"), search_path(:business => true) %> <%=I18n.t("first")%>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to image_tag('print.gif', :alt => I18n.t("printed_directory")), printable_directory_path %>
+        </td>
+        <td>
+          <%=I18n.t("the_directory_is_constantly_changing")%>
+          <%= link_to I18n.t("print_the_directory"), printable_directory_path %>
+          <%=I18n.t("for_those_offline_moments")%>
         </td>
       </tr>
     </table>

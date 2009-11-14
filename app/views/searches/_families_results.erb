@@ -1,15 +1,15 @@
-<h2>Search Results</h2>
+<h2><%=I18n.t("search_results")%></h2>
 
 <% if @families and @families.any? %>
 
   <p>
-    <%= pluralize @count, 'family' %> found
+    <%= pluralize @count, I18n.t("family")%> <%=I18n.t("found")%>
     <%= will_paginate @families %>
   </p>
 
   <table>
     <tr>
-      <th>Family Name</th>
+      <th><%=I18n.t("family_name")%></th>
     </tr>
     <% @families.each do |family| %>
       <tr>
@@ -24,6 +24,6 @@
 
 <% else %>
 
-  <p><em>Your search didn't match any families.</em></p>
+  <p><em><%=I18n.t("your_search_didnt_match_any_families")%></em></p>
 
 <% end %>

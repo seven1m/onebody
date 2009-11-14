@@ -1,4 +1,4 @@
-<% if person.elder? %><%= image_tag 'elder.png', :alt => 'Elder', :class => 'icon' %><% end %>
-<% if person.deacon? %><%= image_tag 'deacon.png', :alt => 'Deacon', :class => 'icon' %><% end %>
-<% if person.staff? %><%= image_tag 'staff.png', :alt => 'Staff', :class => 'icon' %><% end %>
-<% if person.member? %><%= image_tag 'star.gif', :alt => 'Member', :class => 'icon' %><% end %>
+<% if person.elder? %><%= image_tag 'elder.png', :alt => I18n.t("elder"), :class => 'icon' %><% end %>
+<% if person.deacon? %><%= image_tag 'deacon.png', :alt => I18n.t("deacon"), :class => 'icon' %><% end %>
+<% if person.staff? %><%= image_tag 'staff.png', :alt => I18n.t("staff"), :class => 'icon' %><% end %>
+<% if person.member? %><%= image_tag 'star.gif', :alt => I18n.t("member"), :class => 'icon' %><% end %>
