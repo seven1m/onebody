@@ -4,6 +4,6 @@ class AddIndexBusinessCategoryOnPeople < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index :name => "index_business_category_on_people"
+    remove_index "people", :name => "index_business_category_on_people"
   end
 end

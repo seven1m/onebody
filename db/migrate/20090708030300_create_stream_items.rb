@@ -18,9 +18,9 @@ class CreateStreamItems < ActiveRecord::Migration
 
   def self.down
     drop_table :stream_items
-    remove_index :name => "index_stream_items_on_created_at"
-    remove_index :name => "index_stream_items_on_person_id"
-    remove_index :name => "index_stream_items_on_group_id"
-    remove_index :name => "index_stream_items_on_streamable_type_and_streamable_id"
+    remove_index "stream_items", :name => "index_stream_items_on_created_at"
+    remove_index "stream_items", :name => "index_stream_items_on_person_id"
+    remove_index "stream_items", :name => "index_stream_items_on_group_id"
+    remove_index "stream_items", :name => "index_stream_items_on_streamable_type_and_streamable_id"
   end
 end

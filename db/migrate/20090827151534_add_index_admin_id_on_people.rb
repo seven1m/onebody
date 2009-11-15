@@ -4,6 +4,6 @@ class AddIndexAdminIdOnPeople < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index :name => "index_admin_id_on_people"
+    remove_index "people", :name => "index_admin_id_on_people"
   end
 end

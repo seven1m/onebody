@@ -4,6 +4,6 @@ class MoreIndexes < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index :name => "index_pictures_on_album_id"
+    remove_index "pictures", :name => "index_pictures_on_album_id"
   end
 end

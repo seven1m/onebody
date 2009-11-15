@@ -6,8 +6,8 @@ class AddIndexesOnSiteId < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index :name => "index_site_id_on_people"
-    remove_index :name => "index_site_id_on_groups"
-    remove_index :name => "index_site_id_on_admins"
+    remove_index "people", :name => "index_site_id_on_people"
+    remove_index "groups", :name => "index_site_id_on_groups"
+    remove_index "admins", :name => "index_site_id_on_admins"
   end
 end

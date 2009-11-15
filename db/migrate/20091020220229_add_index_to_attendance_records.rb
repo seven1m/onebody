@@ -7,9 +7,9 @@ class AddIndexToAttendanceRecords < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index :name => "index_site_id_on_attendance_records"
-    remove_index :name => "index_admin_id_on_attendance_records"
-    remove_index :name => "index_group_id_on_attendance_records"
-    remove_index :name => "index_person_id_on_attendance_records"
+    remove_index "attendance_records", :name => "index_site_id_on_attendance_records"
+    remove_index "attendance_records", :name => "index_admin_id_on_attendance_records"
+    remove_index "attendance_records", :name => "index_group_id_on_attendance_records"
+    remove_index "attendance_records", :name => "index_person_id_on_attendance_records"
   end
 end
