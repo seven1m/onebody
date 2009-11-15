@@ -14,7 +14,7 @@
 #  birthday                     :datetime      
 #  email                        :string(255)   
 #  website                      :string(255)   
-#  classes                      :string(255)   
+#  classes                      :text          
 #  shepherd                     :string(255)   
 #  mail_group                   :string(1)     
 #  encrypted_password           :string(100)   
