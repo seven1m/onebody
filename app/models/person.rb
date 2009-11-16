@@ -120,7 +120,7 @@ class Person < ActiveRecord::Base
   acts_as_password
   has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES
     
-  acts_as_logger LogItem
+  acts_as_logger LogItem, :ignore => %w(signin_count)
   
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)

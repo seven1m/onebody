@@ -9,15 +9,16 @@ module Foo
       end
 
       module ClassMethods
-        def acts_as_logger(log_class)
+        def acts_as_logger(log_class, options={})
           class_eval <<-END
             @@log_class = #{log_class.name}
+            @@log_ignore_attributes = #{options[:ignore].to_a.inspect} + %w(updated_at created_at)
             before_save :get_changes
             after_save :log_changes
             after_destroy :log_destroy
             
             def get_changes
-              @logger_changes = self.changes.reject { |k, v| %w(updated_at created_at).include? k }
+              @logger_changes = self.changes.reject { |k, v| @@log_ignore_attributes.include?(k) }
             end
             
             def log_changes
