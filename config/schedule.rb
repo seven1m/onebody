@@ -14,8 +14,5 @@ every 1.hour, :at => 19 do
 end
 
 every 1.day, :at => '3:49 am' do
-  runner <<-END
-    ActionController::Session::ActiveRecordStore::Session.delete_all(['updated_at < ?', 1.day.ago.utc])"
-    Site.each { Group.update_memberships; LogItem.flag_suspicious_activity }
-  END
+  runner "ActionController::Session::ActiveRecordStore::Session.delete_all(['updated_at < ?', 1.day.ago.utc]); Site.each { Group.update_memberships; LogItem.flag_suspicious_activity }"
 end
