@@ -10,7 +10,7 @@ class RevampAdmins < ActiveRecord::Migration
       Admin.all.each do |admin|
         admin.ensure_flags_is_hash
         privilege_columns.each do |col|
-          admin.flags[col] = true if admin.send("#{col}?")
+          admin.flags[col] = true if [true, 'true', 't', 1].include?(admin.read_attribute(col))
         end
         admin.save!
       end
