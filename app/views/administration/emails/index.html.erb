@@ -1,0 +1,43 @@
+<h1>Changed Email Addresses</h1>
+
+<p>
+  <em>This administration section is useful if you sync your data from an external source using UpdateAgent.
+  If you do not, you may safely ignore this list.</em>
+</p>
+
+<p>
+  When a user changes their email address online, a flag is set, and subsequent syncs
+  cannot change the email address back until the flag is cleared. To clear the flag, simply
+  set the user's email address in your external database to be the same as below, and
+  then run your sync process (or wait for it to run at its next scheduled time).
+  Alternatively, you can clear the flag manually below to allow your sync process to update
+  the value as usual.
+</p>
+
+<% if @people.any? %>
+  <% form_tag batch_administration_emails_path, :method => :put do %>
+    <table>
+      <tr>
+        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.person_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th>ID</th>
+        <th>Legacy ID</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Email</th>
+      </tr>
+      <% @people.each do |person| %>
+        <tr>
+          <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
+          <td><%= link_to person.id, person %></td>
+          <td><%= person.legacy_id %></td>
+          <td><%=h person.last_name %></td>
+          <td><%=h person.first_name %></td>
+          <td><%=h person.email %></td>
+        </tr>
+      <% end %>
+    </table>
+    <p><%= submit_tag 'Clear Flags' %></p>
+  <% end %>
+<% else %>
+  <p><strong>There are currently no records with the changed email address flag set.</strong></p>
+<% end %>

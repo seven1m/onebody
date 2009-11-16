@@ -41,11 +41,15 @@
 <% if @logged_in.admin?(:manage_updates) %>
   <h2>Updates</h2>
   
-  <p <% if @update_count > 0 %>class="very-strong"<% end %>>
-    <%= @update_count %> <%= @update_count == 1 ? 'update' : 'updates' %>
+  <p>
+    <span <% if @update_count > 0 %>class="very-strong"<% end %>><%= pluralize @update_count, 'update' %>.</span>
+    <%= link_to 'Click here', administration_updates_path %> to review updates.
   </p>
   
-  <p><%= link_to 'Click here', administration_updates_path %> to review updates.</p>
+  <p>
+    <span <% if @email_changed_count > 0 %>class="very-strong"<% end %>><%= pluralize @email_changed_count, 'changed email address' %>.</span>
+    <%= link_to 'Click here', administration_emails_path %> to review changed email addresses.
+  </p>
 <% end %>
 
 <% if @logged_in.admin?(:manage_groups) %>

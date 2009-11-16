@@ -103,6 +103,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resource :api_key
     admin.resource :logo
     admin.resources :updates
+    admin.resources :emails, :collection => {:batch => :put}
     admin.resources :admins
     admin.resources :membership_requests
     admin.resources :log_items, :collection => {:batch => :put}
