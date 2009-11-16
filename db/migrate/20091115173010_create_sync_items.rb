@@ -4,6 +4,9 @@ class CreateSyncItems < ActiveRecord::Migration
       t.integer :site_id
       t.integer :sync_id
       t.references :syncable, :polymorphic => true
+      t.integer :legacy_id
+      t.string :name, :limit => 255
+      t.string :operation, :limit => 50
       t.string :status, :limit => 50
       t.text :error_messages
     end

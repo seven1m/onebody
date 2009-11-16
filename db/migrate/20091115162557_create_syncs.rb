@@ -4,7 +4,7 @@ class CreateSyncs < ActiveRecord::Migration
       t.integer :site_id
       t.integer :person_id
       t.boolean :complete, :default => false
-      t.string :status, :limit => 50
+      t.integer :success_count, :error_count
       t.timestamps
     end
   end

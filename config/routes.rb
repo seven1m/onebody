@@ -109,6 +109,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :settings, :collection => {:batch => :put, :reload => :put}
     admin.resources :files, :requirements => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
     admin.resources :attendance
+    admin.resources :syncs, :member => {:create_items => :post}
     admin.resource :theme
   end
 

@@ -229,7 +229,7 @@ class PeopleController < ApplicationController
         if person.save
           {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id}
         else
-          {:status => 'error', :legacy_id => record['legacy_id'], :error => person.errors.full_messages.join('; ')}
+          {:status => 'error', :legacy_id => record['legacy_id'], :id => person.id, :error => person.errors.full_messages.join('; ')}
         end
       end
       render :xml => statuses

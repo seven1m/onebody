@@ -72,5 +72,6 @@ class Admin < ActiveRecord::Base
     manage_updates
     manage_news
     manage_attendance
+    manage_sync
   )
 end

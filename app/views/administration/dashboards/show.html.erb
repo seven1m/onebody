@@ -73,6 +73,12 @@
 <%= render_plugin_hook :admin_dashboard_middle %>
 
 <% if @logged_in.admin?(:view_log) %>
+  <h2>Sync</h2>
+  
+  <p><%= link_to 'Click here', administration_syncs_path %> to view synchronization results.</p>
+<% end %>
+
+<% if @logged_in.admin?(:view_log) %>
   <h2>Log</h2>
   
   <p><%= link_to 'Click here', administration_log_items_path %> to review the log.</p>

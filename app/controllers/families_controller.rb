@@ -164,7 +164,7 @@ class FamiliesController < ApplicationController
         if family.save
           {:status => 'saved', :legacy_id => family.legacy_id, :id => family.id}
         else
-          {:status => 'error', :legacy_id => record['legacy_id'], :error => family.errors.full_messages.join('; ')}
+          {:status => 'error', :legacy_id => record['legacy_id'], :id => family.id, :error => family.errors.full_messages.join('; ')}
         end
       end
       render :xml => statuses

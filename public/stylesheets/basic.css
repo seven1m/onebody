@@ -584,3 +584,11 @@ table.memberships td input {
 tr.error td {
   background-color: #fcc;
 }
+
+.good {
+  color: green;
+}
+
+.bad {
+  color: red;
+}

@@ -1,0 +1,30 @@
+<h1>Syncs</h1>
+
+<%= will_paginate @syncs %>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>By</th>
+    <th>Complete</th>
+    <th>Success</th>
+    <th>Error</th>
+    <th>Rate</th>
+  </tr>
+  <% @syncs.each do |sync| %>
+    <tr>
+      <td><%= link_to sync.created_at.to_s, administration_sync_path(sync) %></td>
+      <td><%= link_to h(sync.person.name), sync.person %></td>
+      <td><%= sync.complete? ? 'complete' : nil %></td>
+      <td class="good"><%= sync.success_count %></td>
+      <td class="bad"><%= sync.error_count %></td>
+      <td><%= sync.success_rate ? '%.1f%%' % sync.success_rate : nil %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% unless @syncs.any? %>
+  <p><em>None yet.</em></p>
+<% end %>
+
+<%= will_paginate @syncs %>

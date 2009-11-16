@@ -7,4 +7,18 @@ class Sync < ActiveRecord::Base
   has_many :people,   :through => :sync_items, :source => :syncable, :source_type => 'Person'
   has_many :families, :through => :sync_items, :source => :syncable, :source_type => 'Family'
   has_many :groups,   :through => :sync_items, :source => :syncable, :source_type => 'Group'
+  
+  def total_count
+    success_count.to_i + error_count.to_i
+  end
+  
+  def success_rate
+    if !complete?
+      nil
+    elsif total_count > 0
+      success_count.to_i / total_count.to_f * 100.0
+    else
+      100.0
+    end
+  end
 end
