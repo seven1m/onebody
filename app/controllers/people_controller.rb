@@ -223,15 +223,21 @@ class PeopleController < ApplicationController
             else
               next
             end
-          elsif key == 'family'
+          elsif %w(family email_changed).include?(key)
             next
           end
           person.write_attribute(key, value)
         end
+        person.dont_mark_email_changed = true
         if person.save
-          {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id}
+          s = {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id, :name => person.name}
+          if person.email_changed?
+            s[:status] = 'saved with error'
+            s[:error] = "Newer email not overwritten: #{person.email.inspect}"
+          end
+          s
         else
-          {:status => 'error', :legacy_id => record['legacy_id'], :id => person.id, :error => person.errors.full_messages.join('; ')}
+          {:status => 'not saved', :legacy_id => record['legacy_id'], :id => person.id, :name => person.name, :error => person.errors.full_messages.join('; ')}
         end
       end
       render :xml => statuses

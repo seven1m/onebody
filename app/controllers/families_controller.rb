@@ -158,13 +158,21 @@ class FamiliesController < ApplicationController
             else
               next
             end
+          elsif key == 'barcode_id_changed'
+            next
           end
           family.write_attribute(key, value)
         end
+        family.dont_mark_barcode_id_changed = true
         if family.save
-          {:status => 'saved', :legacy_id => family.legacy_id, :id => family.id}
+          s = {:status => 'saved', :legacy_id => family.legacy_id, :id => family.id, :name => family.name}
+          if family.barcode_id_changed?
+            s[:status] = 'saved with error'
+            s[:error] = "Newer barcode not overwritten: #{family.barcode_id.inspect}"
+          end
+          s
         else
-          {:status => 'error', :legacy_id => record['legacy_id'], :id => family.id, :error => family.errors.full_messages.join('; ')}
+          {:status => 'not saved', :legacy_id => record['legacy_id'], :id => family.id, :name => family.name, :error => family.errors.full_messages.join('; ')}
         end
       end
       render :xml => statuses

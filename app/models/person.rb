@@ -498,8 +498,11 @@ class Person < ActiveRecord::Base
     write_attribute(:suffix, s)
   end
   
+  attr_accessor :dont_mark_email_changed
+  
   before_update :mark_email_changed
   def mark_email_changed
+    return if dont_mark_email_changed
     if changed.include?('email')
       self.write_attribute(:email_changed, true)
       Notifier.deliver_email_update(self)
