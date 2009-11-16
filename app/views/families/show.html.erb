@@ -7,6 +7,11 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'families/details' %>
+  <% if @logged_in.admin? %>
+    <p class="discreet">
+      Legacy ID: <%=h @family.legacy_id %>
+    </p>
+  <% end %>
 <% end %>
 
 <%= render :partial => 'map' %>
