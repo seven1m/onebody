@@ -52,7 +52,7 @@ class Administration::SyncsController < ApplicationController
   def create_items
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       @sync = Sync.find(params[:id])
-      Hash.from_xml(params[:items])['records'].to_a.each do |item|
+      Hash.from_xml(request.body.read)['records'].to_a.each do |item|
         @sync.sync_items.create!(item)
       end
       respond_to do |format|
