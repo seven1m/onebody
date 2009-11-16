@@ -22,7 +22,14 @@ class Administration::LogItemsController < ApplicationController
     conditions.add_condition ['reviewed_on is null'] unless session[:admin_log][:reviewed] == 'visible'
     conditions.add_condition ['flagged_on is not null'] unless session[:admin_log][:nonflagged] == 'visible'
     conditions = nil if conditions.empty?
-    @items = LogItem.paginate(:all, :order => 'created_at desc', :conditions => conditions, :page => params[:page])
+    @items = LogItem.paginate(:order => 'created_at desc', :conditions => conditions, :page => params[:page])
+  end
+  
+  def show
+    @item = LogItem.find(params[:id])
+    respond_to do |format|
+      format.js
+    end
   end
   
   def batch

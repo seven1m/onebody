@@ -217,7 +217,9 @@ class Message < ActiveRecord::Base
   end
   
   def can_see?(p)
-    if group and group.private?
+    if p.admin?(:manage_messages)
+      true
+    elsif group and group.private?
       p.member_of?(group)
     elsif group
       p.member_of?(group) or p.admin?(:manage_messages)

@@ -30,19 +30,16 @@
       <tr>
         <th><input type="checkbox" onclick="var checked=$('check_all').checked;$$('.log_item_checkbox').each(function(e){e.checked=checked});" class="checkbox" id="check_all"/></th>
         <th></th>
-        <th></th>
         <th>Type</th>
         <th>What</th>
         <th>When</th>
-        <th>Who</th>
-        <th></th>
-        <th><%= link_to_function 'Changes', "$$('.changes').each(function(e){Element.toggle(e)})"%>
+        <th>Changes</th>
       </tr>
       <% @items.each do |item| %>
         <tr>
           <td style="font-size:smaller;line-height:13px;">
             <% if item.reviewed_on %>
-              reviewed by <%= link_to h(item.reviewed_by.name), person_path(:id => item.reviewed_by) %>
+              <%= link_to 'reviewed', person_path(item.reviewed_by_id) %>
               on <%= item.reviewed_on.to_s %>
             <% else %>
               <%= check_box_tag 'log_items[]', item.id, nil, :class => 'checkbox log_item_checkbox' %>
@@ -53,49 +50,20 @@
               <%= image_tag('flag_red.gif', :alt => 'Flagged', :class => 'icon') %>
             <% end %>
           </td>
-          <td>
-            <% if image_url = item.object_image_url %>
-              <img src="<%= image_url %>" class="no-border"/>
-            <% end %>
-          </td>
           <td><%=h item.loggable_type %></td>
           <td>
-            <% if item.object_description %>
-              <%= link_to item.object_description, item.object_url, :confirm => (item.object.is_a? Message and item.object.to ? 'This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.' : nil) %><br/>
-              <%=h item.object_excerpt %>
-            <% elsif item.object %>
-              <%=h item.name %>
-            <% else %>
+            <% if item.deleted? %>
               <span style="text-decoration:line-through;"><%=h item.name %></span>
-              <% if item.deleted? %>(deleted)<% end %>
+              (deleted)
+            <% else %>
+              <%= link_to h(item.name), log_item_path(item), :confirm => item.loggable_type == 'Message' ? 'This message may be private. Are you sure you want to view it?' : nil %>
             <% end %>
           </td>
           <td><%= item.created_at.to_s %></td>
-          <td style="width:32px;">
-            <% if item.person %>
-              <a href="<%= person_path(item.person) %>">
-                <%= render :partial => 'people/thumbnail', :locals => {:person => item.person} %>
-              </a>
-            <% end %>
-          </td>
-          <td>
-            <% if item.person %>
-              <%= link_to h(item.person.name), person_path(:id => item.person) %>
-              <% if item.person.admin? %>(admin)<% end %>
-            <% end %>
-          </td>
-          <td><%= link_to_function '[changes]', ((item.object.is_a? Message and item.object.to) ? "if(confirm('This is a private message. Do not invade the privacy of others unless you believe this message to be inappropriate.'))Element.toggle('changes#{item.id}')" : "Element.toggle('changes#{item.id}')") %></td>
+          <td><%= link_to_remote 'changes', :url => administration_log_item_path(item), :method => :get %></td>
         </tr>
-        <tr id="changes<%= item.id %>" style="display:none;background-color:#eee;" class="changes">
-          <td colspan="7">
-            <table>
-              <% item.object_changes.to_a.each do |key, value| %>
-                <% unless key =~ /_id$/ %>
-                  <tr><td><%=h key %>:</td><td><%=h value %></td></tr>
-                <% end %>
-              <% end %>
-            </table>
-          </td>
+        <tr id="changes<%= item.id %>" style="display:none;" class="changes">
+          <td colspan="5" id="changes<%= item.id %>_content"></td>
         </tr>
       <% end %>
     </table>
