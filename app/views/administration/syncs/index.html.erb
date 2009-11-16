@@ -4,7 +4,9 @@
 
 <table>
   <tr>
-    <th>Date</th>
+    <th>ID</th>
+    <th>Start</th>
+    <th>Duration</th>
     <th>By</th>
     <th>Complete</th>
     <th>Success</th>
@@ -13,7 +15,9 @@
   </tr>
   <% @syncs.each do |sync| %>
     <tr>
-      <td><%= link_to sync.created_at.to_s, administration_sync_path(sync) %></td>
+      <td><%= link_to sync.id, administration_sync_path(sync) %></td>
+      <td><%= sync.created_at.to_s %></td>
+      <td><%= sync.complete? ? distance_of_time_in_words(sync.updated_at, sync.created_at) : nil %></td>
       <td><%= link_to h(sync.person.name), sync.person %></td>
       <td><%= sync.complete? ? 'complete' : nil %></td>
       <td class="good"><%= sync.success_count %></td>

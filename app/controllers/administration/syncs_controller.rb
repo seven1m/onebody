@@ -2,6 +2,7 @@ class Administration::SyncsController < ApplicationController
   before_filter :only_admins
   
   VALID_SORT_COLS = %w(
+    sync_items.syncable_type
     sync_items.name
     sync_items.legacy_id
     sync_items.operation

@@ -7,6 +7,7 @@ class Administration::DashboardsController < ApplicationController
     @update_count = Update.count '*', :conditions => ['complete = ?', false]
     @group_count = Group.count '*', :conditions => ['approved = ?', false]
     @membership_request_count = MembershipRequest.count
+    @last_sync = Sync.last(:order => 'created_at')
     if @logged_in.super_admin?
       @privileges = nil
     else

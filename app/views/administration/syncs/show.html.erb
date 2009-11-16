@@ -4,15 +4,17 @@
 
 <table>
   <tr>
-    <th><%= sortable_column_heading 'Name',      'sync_items.name'      %></th>
-    <th><%= sortable_column_heading 'Legacy ID', 'sync_items.legacy_id' %></th>
-    <th><%= sortable_column_heading 'Operation', 'sync_items.operation' %></th>
-    <th><%= sortable_column_heading 'Status',    'sync_items.status'    %></th>
+    <th><%= sortable_column_heading 'Type',      'sync_items.syncable_type' %></th>
+    <th><%= sortable_column_heading 'Name',      'sync_items.name'          %></th>
+    <th><%= sortable_column_heading 'Legacy ID', 'sync_items.legacy_id'     %></th>
+    <th><%= sortable_column_heading 'Operation', 'sync_items.operation'     %></th>
+    <th><%= sortable_column_heading 'Status',    'sync_items.status'        %></th>
     <th>Errors</th>
   </tr>
   <% @items.each do |item| %>
     <tr>
-      <td><%= item.syncable_id ? link_to(h(item.name), syncable_path(item)) : h(item.name) %></td>
+      <td><%=h item.syncable_type %></td>
+      <td><%= item.syncable_id ? link_to(h(item.name || '(blank)'), syncable_path(item)) : h(item.name || '(blank)') %></td>
       <td><%=h item.legacy_id %></td>
       <td><%=h item.operation %></td>
       <td><%=h item.status %></td>

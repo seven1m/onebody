@@ -74,10 +74,25 @@
 
 <%= render_plugin_hook :admin_dashboard_middle %>
 
-<% if @logged_in.admin?(:view_log) %>
+<% if @logged_in.admin?(:manage_sync) %>
   <h2>Sync</h2>
   
-  <p><%= link_to 'Click here', administration_syncs_path %> to view synchronization results.</p>
+  <p>
+    Last sync:
+    <% if @last_sync %>
+      <%= link_to @last_sync.created_at.to_s, administration_sync_path(@last_sync) %>
+      <% if @last_sync.complete? %>
+        (complete,
+        <% content_tag :span, :class => @last_sync.error_count > 0 ? 'very-strong' : nil do %><%= pluralize @last_sync.error_count, 'error' %><% end %>)
+      <% else %>
+        (incomplete)
+      <% end %>
+    <% else %>
+      <em>none</em>
+    <% end %>
+  </p>
+  
+  <p><%= link_to 'Click here', administration_syncs_path %> to review previous synchronization results.</p>
 <% end %>
 
 <% if @logged_in.admin?(:view_log) %>
