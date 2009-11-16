@@ -223,6 +223,8 @@ class PeopleController < ApplicationController
             else
               next
             end
+          elsif key == 'family'
+            next
           end
           person.write_attribute(key, value)
         end
