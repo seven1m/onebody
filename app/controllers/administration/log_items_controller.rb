@@ -6,12 +6,12 @@ class Administration::LogItemsController < ApplicationController
     session[:admin_log] ||= {}
     session[:admin_log][:date] = params[:date] if params[:date]
     if session[:admin_log][:date]
-      if session[:admin_log][:date][:from] and date_from = format_date(session[:admin_log][:date][:from])
+      if session[:admin_log][:date][:from].to_s.any? and date_from = format_date(session[:admin_log][:date][:from])
         conditions.add_condition ['created_at >= ?', date_from]
       else
         session[:admin_log][:date][:from] = ''
       end
-      if session[:admin_log][:date] and session[:admin_log][:date][:to] and date_to = format_date(session[:admin_log][:date][:to], '11:59 pm')
+      if session[:admin_log][:date] and session[:admin_log][:date][:to].to_s.any? and date_to = format_date(session[:admin_log][:date][:to], '11:59 pm')
         conditions.add_condition ['created_at <= ?', date_to]
       else
         session[:admin_log][:date][:to] = ''
@@ -22,7 +22,7 @@ class Administration::LogItemsController < ApplicationController
     conditions.add_condition ['reviewed_on is null'] unless session[:admin_log][:reviewed] == 'visible'
     conditions.add_condition ['flagged_on is not null'] unless session[:admin_log][:nonflagged] == 'visible'
     conditions = nil if conditions.empty?
-    @items = LogItem.paginate(:order => 'created_at desc', :conditions => conditions, :page => params[:page])
+    @items = LogItem.paginate(:order => 'id desc', :conditions => conditions, :page => params[:page])
   end
   
   def show
