@@ -77,4 +77,9 @@
   <p><em>no records to display</em></p>
 <% end %>
 
+<p>
+  <%= link_to '&laquo; prev', prev_administration_attendance_path(:attended_at => @attended_at) %> |
+  <%= link_to 'next &raquo;', next_administration_attendance_path(:attended_at => @attended_at) %>
+</p>
+
 <%= calendar_date_select_includes 'silver' %>

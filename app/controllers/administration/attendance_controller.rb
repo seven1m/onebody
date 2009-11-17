@@ -62,6 +62,18 @@ class Administration::AttendanceController < ApplicationController
     end
   end
   
+  def prev
+    @attended_at = Date.parse(params[:attended_at])
+    date = AttendanceRecord.maximum(:attended_at, :conditions => ["attended_at < ?", @attended_at.strftime('%Y/%m/%d 0:00')])
+    redirect_to administration_attendance_index_path(:attended_at => date)
+  end
+  
+  def next
+    @attended_at = Date.parse(params[:attended_at])
+    date = AttendanceRecord.minimum(:attended_at, :conditions => ["attended_at > ?", @attended_at.strftime('%Y/%m/%d 23:59:59')])
+    redirect_to administration_attendance_index_path(:attended_at => date)
+  end
+  
   def destroy
     @record = AttendanceRecord.find(params[:id])
     @record.destroy
