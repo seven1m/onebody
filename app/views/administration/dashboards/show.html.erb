@@ -41,39 +41,35 @@
 <% if @logged_in.admin?(:manage_updates) %>
   <h2>Updates</h2>
   
-  <p>
-    <span <% if @update_count > 0 %>class="very-strong"<% end %>><%= pluralize @update_count, 'update' %>.</span>
-    <%= link_to 'Click here', administration_updates_path %> to review updates.
-  </p>
+  <% content_tag :p, :class => @update_count > 0 ? 'very-strong' : nil do %>
+    <%= link_to pluralize(@update_count, 'update'), administration_updates_path %>
+  <% end %>
   
-  <p>
-    <span <% if @email_changed_count > 0 %>class="very-strong"<% end %>><%= pluralize @email_changed_count, 'changed email address' %>.</span>
-    <%= link_to 'Click here', administration_emails_path %> to review changed email addresses.
-  </p>
+  <% content_tag :p, :class => @email_changed_count > 0 ? 'very-strong' : nil do %>
+    <%= link_to pluralize(@email_changed_count, 'changed email address'), administration_emails_path %>
+  <% end %>
 <% end %>
 
 <% if @logged_in.admin?(:manage_groups) %>
   <h2>Groups</h2>
   
-  <p <% if @group_count > 0 %>class="very-strong"<% end %>>
-    <%= pluralize @group_count, 'group' %> pending approval
-  </p>
+  <% content_tag :p, :class => @group_count > 0 ? 'very-strong' : nil do %>
+    <%= link_to "#{pluralize @group_count, 'group'} pending approval", administration_updates_path %>
+  <% end %>
   
-  <p><%= link_to 'Click here', administration_updates_path %> to review pending groups.</p>
-  
-  <h2>Group Memberships</h2>
-  
-  <p <% if @membership_request_count > 0 %>class="very-strong"<% end %>>
-    <%= pluralize @membership_request_count, 'pending membership request' %>
-  </p>
-  
-  <p><%= link_to 'Click here', administration_membership_requests_path %> to review pending membership requests.</p>
+  <% content_tag :p, :class => @membership_request_count > 0 ? 'very-strong' : nil do %>
+    <%= link_to pluralize(@membership_request_count, 'pending membership request'), administration_membership_requests_path %>
+  <% end %>
 <% end %>
 
 <% if @logged_in.admin?(:manage_attendance) %>
   <h2>Attendance</h2>
   
-  <p><%= link_to 'Click here', administration_attendance_index_path %> to manage and export attendance.</p>
+  <% if @attendance_records_count %>
+    <p><%= pluralize @attendance_records_count, 'attendance record' %> from <%= day_word @attendance_last_date %>.</p>
+  <% end %>
+  
+  <p><%= link_to 'Manage and export attendance.', administration_attendance_index_path %></p>
 <% end %>
 
 <%= render_plugin_hook :admin_dashboard_middle %>

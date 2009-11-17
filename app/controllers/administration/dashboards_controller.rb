@@ -8,6 +8,9 @@ class Administration::DashboardsController < ApplicationController
     @email_changed_count = Person.count '*', :conditions => {:email_changed => true, :deleted => false}
     @group_count = Group.count '*', :conditions => {:approved => false}
     @membership_request_count = MembershipRequest.count
+    if @attendance_last_date = AttendanceRecord.maximum(:attended_at)
+      @attendance_records_count = AttendanceRecord.count('*', :conditions => {:attended_at => @attendance_last_date})
+    end
     @last_sync = Sync.last(:order => 'created_at')
     if @logged_in.super_admin?
       @privileges = nil

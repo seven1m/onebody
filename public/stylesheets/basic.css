@@ -12,6 +12,7 @@ label.inline { display: inline; }
 .discreet { font-size: 10pt; color: #999; text-decoration: none; }
 .warning { background-color: #fcc; }
 .very-strong { color: red; font-weight: bold; }
+.very-strong a { color: red; }
 .handle {
   cursor: move;
 }
