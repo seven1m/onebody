@@ -10,6 +10,7 @@ config/database.yml
 config/database.yml.backup
 config/deploy.rb
 config/email.yml
+config/locale
 public/images/logo*
 test/fixtures/settings.yml
 config/query_reviewer.yml
