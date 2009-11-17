@@ -4,30 +4,40 @@
 
 <% content_for :sidebar do %>
   <p>
-    There are currently <%= pluralize @admins.length, 'administrator' %>.
+    There are currently <%= pluralize @admin_count, 'administrator' %>.
   </p>
   
   <% if Site.current.max_admins.nil? or Admin.count < Site.current.max_admins %>
   
-    <p>Add more below:</p>
-
+    <% form_tag(administration_admins_path) do %>
+      <p>
+        Create a new admin template.<br/>
+        <label for="template_name">Name:</label> <%= text_field_tag 'template_name' %>
+        <br/>
+        <%= submit_tag 'Add Template' %>
+      </p>
+    <% end %>
+  
     <%= form_remote_tag :url => search_path %>
       <%= hidden_field_tag :select_person, true %>
       <p>
-        <label for="name">Add administrator:</label> <%= text_field_tag 'name' %>
+        Add an individual.<br/>
+        <label for="name">Name:</label> <%= text_field_tag 'name' %>
         <br/>
-        <%= submit_tag 'Search by Name' %>
+        <%= submit_tag 'Add Person' %>
       </p>
     </form>
     
+    <div id="add_member" style="display:none;">
+      <% form_tag(administration_admins_path) do %>
+        <%= select_tag :template_id, options_for_select([['Individual', 0]] + @templates.map { |t| [t.template_name, t.id] }) %>
+        <div id="results"></div>
+        <p><%= submit_tag 'Add Selected' %></p>
+      <% end %>
+    </div>
+    
   <% end %>
-
-  <div id="add_member" style="display:none;">
-    <% form_tag(administration_admins_path) do %>
-      <div id="results"></div>
-      <p><%= submit_tag 'Add Selected' %></p>
-    <% end %>
-  </div>
+  
 <% end %>
 
 <h2>Administrators</h2>
@@ -35,9 +45,13 @@
 <% @admins.each do |admin| %>
   <div style="margin-bottom:3px;">
     <%= link_to_function image_tag('plus.gif', :alt => 'show privileges', :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
-    <%= link_to h(admin.person.name), admin.person %>
+    <% if admin.template_name %>
+      <strong><%=h admin.template_name %></strong>
+    <% else %>
+      <%= link_to h(admin.person.name), admin.person %>
+    <% end %>
     <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
-    <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;">
+    <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;margin-left:15px;">
       <%= check_box_tag 'select_all', true, false, :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name=*&value='+this.checked})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
       <em>select all</em><br/>
       <% all_selected = true %>
@@ -51,6 +65,13 @@
         <% end %>
       <% end %>
       <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
+      <% if admin.template_name %>
+        <% admin.people.each do |person| %>
+          <br/>
+          <%= link_to h(person.name), person %>
+          <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 <% end %>

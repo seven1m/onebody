@@ -5,8 +5,8 @@
     <% if @logged_in.super_admin? %>
       You are a super administrator (configured in <%= link_to 'settings', administration_settings_path %>).
     <% else %>
-      You have been an administrator since <%= @logged_in.admin.created_at.to_time.to_s :date %>.
-        You have the privileges: <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
+      You are an administrator with the privileges:
+      <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
     <% end %>
   </p>
   
