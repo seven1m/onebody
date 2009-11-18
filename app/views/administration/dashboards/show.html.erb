@@ -68,7 +68,7 @@
   <% if @attendance_records_count %>
     <p>
       Last date:
-      <%= pluralize @attendance_records_count, 'attendance record' %> from <%= day_word @attendance_last_date %>.
+      <%= pluralize @attendance_records_count, 'attendance record' %> from <%= link_to day_word(@attendance_last_date), administration_attendance_index_path(:attended_at => @attendance_last_date) %>.
     </p>
   <% end %>
   
