@@ -40,11 +40,11 @@ class Administration::AttendanceController < ApplicationController
         @records = AttendanceRecord.all(
           :conditions => conditions,
           :order      => 'group_id',
-          :select     => 'attendance_records.*, people.first_name, people.last_name, groups.name as group_name, groups.link_code as group_link_code',
+          :select     => 'attendance_records.*, people.first_name, people.last_name, people.legacy_id, groups.name as group_name, groups.link_code as group_link_code',
           :joins      => [:person, :group]
         )
         CSV::Writer.generate(csv_str = '') do |csv|
-          csv << %w(group_name group_id group_link_code first_name last_name person_id class_time recorded_time)
+          csv << %w(group_name group_id group_link_code first_name last_name person_id person_legacy_id class_time recorded_time)
           @records.each do |record|
             csv << [
               record.group_name,
@@ -53,6 +53,7 @@ class Administration::AttendanceController < ApplicationController
               record.first_name,
               record.last_name,
               record.person_id,
+              record.legacy_id,
               record.attended_at.to_s,
               record.created_at.to_s
             ]
