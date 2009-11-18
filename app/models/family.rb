@@ -182,4 +182,18 @@ class Family < ActiveRecord::Base
     )
     new(attrs)
   end
+  
+  def self.daily_barcode_assignment_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
+    unless SQLITE
+      returning([]) do |data|
+        counts = connection.select_all("select count(date(barcode_assigned_at)) as count, date(barcode_assigned_at) as date from families where site_id=#{Site.current.id} and barcode_assigned_at is not null group by date(barcode_assigned_at) order by barcode_assigned_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
+        ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
+          d = date.strftime(date_strftime)
+          d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
+          count = counts[date] ? counts[date][0]['count'].to_i : 0
+          data << [d, count]
+        end
+      end
+    end
+  end
 end

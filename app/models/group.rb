@@ -270,5 +270,22 @@ class Group < ActiveRecord::Base
         end
       end
     end
+    
+    def count_by_type
+      {
+        :normal             => Group.count('id', :conditions => {:hidden  => false, :private => false}),
+        :hidden             => Group.count('id', :conditions => {:hidden  => true,  :private => false}),
+        :private            => Group.count('id', :conditions => {:private => true,  :hidden  => false}),
+        :private_and_hidden => Group.count('id', :conditions => {:private => true,  :hidden  => true })
+      }.reject { |k, v| v == 0 }
+    end
+    
+    def count_by_linked
+      {
+        :unlinked           => Group.count('id', :conditions => "parents_of is null and (link_code is null or link_code = '')"),
+        :linked             => Group.count('id', :conditions => "link_code is not null and link_code != ''"),
+        :parents            => Group.count('id', :conditions => "parents_of is not null")
+      }.reject { |k, v| v == 0 }
+    end
   end
 end

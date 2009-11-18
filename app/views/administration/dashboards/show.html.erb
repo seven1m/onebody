@@ -36,109 +36,134 @@
   <% end %>
 <% end %>
 
-<%= render_plugin_hook :admin_dashboard_top %>
+<div class="dashboard">
 
-<% if @logged_in.admin?(:manage_updates) %>
-  <h2>Updates</h2>
-  
-  <% content_tag :p, :class => @update_count > 0 ? 'very-strong' : nil do %>
-    <%= link_to pluralize(@update_count, 'update'), administration_updates_path %>
-  <% end %>
-  
-  <% content_tag :p, :class => @email_changed_count > 0 ? 'very-strong' : nil do %>
-    <%= link_to pluralize(@email_changed_count, 'changed email address'), administration_emails_path %>
-  <% end %>
-<% end %>
+  <%= render_plugin_hook :admin_dashboard_top %>
 
-<% if @logged_in.admin?(:manage_groups) %>
-  <h2>Groups</h2>
-  
-  <% content_tag :p, :class => @group_count > 0 ? 'very-strong' : nil do %>
-    <%= link_to "#{pluralize @group_count, 'group'} pending approval", administration_updates_path %>
-  <% end %>
-  
-  <% content_tag :p, :class => @membership_request_count > 0 ? 'very-strong' : nil do %>
-    <%= link_to pluralize(@membership_request_count, 'pending membership request'), administration_membership_requests_path %>
-  <% end %>
-<% end %>
-
-<% if @logged_in.admin?(:manage_attendance) %>
-  <h2>Attendance</h2>
-  
-  <% if @attendance_records_count %>
-    <p>
-      Last date:
-      <%= pluralize @attendance_records_count, 'attendance record' %> from <%= link_to day_word(@attendance_last_date), administration_attendance_index_path(:attended_at => @attendance_last_date) %>.
-    </p>
-  <% end %>
-  
-  <p><%= link_to 'Manage and export attendance.', administration_attendance_index_path %></p>
-<% end %>
-
-<%= render_plugin_hook :admin_dashboard_middle %>
-
-<% if @logged_in.admin?(:manage_sync) %>
-  <h2>Sync</h2>
-  
-  <p>
-    Last sync:
-    <% if @last_sync %>
-      <%= link_to @last_sync.created_at.to_s, administration_sync_path(@last_sync) %>
-      <% if @last_sync.complete? %>
-        (complete,
-        <% content_tag :span, :class => @last_sync.error_count > 0 ? 'very-strong' : nil do %><%= pluralize @last_sync.error_count, 'error' %><% end %>)
-      <% else %>
-        (incomplete)
-      <% end %>
-    <% else %>
-      <em>none</em>
+  <% if @logged_in.admin?(:manage_updates) %>
+    <h2>Updates</h2>
+    
+    <% if @daily_update_counts %>
+      <%= image_tag bar_chart_url(@daily_update_counts, :width => 450, :height => 150, :title => 'Updates Per Day', :interval => 1), :alt => 'Updates Per Day' %>
     <% end %>
-  </p>
-  
-  <p><%= link_to 'Review previous synchronization results.', administration_syncs_path %></p>
-<% end %>
-
-<% if @logged_in.admin?(:view_log) %>
-  <h2>Log</h2>
-  
-  <p><%= link_to 'Review the log.', administration_log_items_path %></p>
-<% end %>
-
-<% if Site.current.import_export_enabled? %>
-
-  <% if @logged_in.admin?(:import_data) %>
-    <h2>Import Data</h2>
     
-    <p><%= link_to 'Import people data from a Comma Separated Values (CSV) file.', import_people_path %></p>
+    <% content_tag :p, :class => @update_count > 0 ? 'very-strong' : nil do %>
+      <%= link_to pluralize(@update_count, 'update'), administration_updates_path %>
+    <% end %>
+    
+    <% content_tag :p, :class => @email_changed_count > 0 ? 'very-strong' : nil do %>
+      <%= link_to pluralize(@email_changed_count, 'changed email address'), administration_emails_path %>
+    <% end %>
   <% end %>
 
-  <% if @logged_in.admin?(:export_data) %>
-    <h2>Export Data</h2>
+  <% if @logged_in.admin?(:manage_groups) %>
+    <h2>Groups</h2>
     
-    <table>
-      <tr>
-        <th>People</th>
-        <td><%= link_to_with_page_prompt 'XML', people_path(:format => 'xml') %></td>
-        <td><%= link_to_with_page_prompt 'CSV', people_path(:format => 'csv') %></td>
-      </tr>
-      <tr>
-        <th>Families</th>
-        <td><%= link_to_with_page_prompt 'XML', families_path(:format => 'xml') %></td>
-        <td><%= link_to_with_page_prompt 'CSV', families_path(:format => 'csv') %></td>
-      </tr>
-      <% if Setting.get(:features, :groups) %>
-        <tr>
-          <th>Groups</th>
-          <td><%= link_to_with_page_prompt 'XML', groups_path(:format => 'xml') %></td>
-          <td><%= link_to_with_page_prompt 'CSV', groups_path(:format => 'csv') %></td>
-        </tr>
-      <% end %>
-    </table>
+    <% if @group_type_counts %>
+      <%= image_tag pie_chart_url(@group_type_counts, :width => 400, :height => 200, :title =>'Types of Groups'), :alt => 'Types of Groups' %>
+    <% end %>
+
+    <% if @linked_group_counts %>
+      <%= image_tag pie_chart_url(@linked_group_counts, :width => 400, :height => 200, :title => 'Linked Groups'), :alt => 'Linked Groups' %>
+    <% end %>
+    
+    <% content_tag :p, :class => @groups_pending_approval_count > 0 ? 'very-strong' : nil do %>
+      <%= link_to "#{pluralize @groups_pending_approval_count, 'group'} pending approval", administration_updates_path %>
+    <% end %>
+    
+    <% content_tag :p, :class => @membership_request_count > 0 ? 'very-strong' : nil do %>
+      <%= link_to pluralize(@membership_request_count, 'pending membership request'), administration_membership_requests_path %>
+    <% end %>
+  <% end %>
+
+  <% if @logged_in.admin?(:manage_attendance) %>
+    <h2>Attendance</h2>
+    
+    <% if @daily_attendance_counts %>
+      <%= image_tag bar_chart_url(@daily_attendance_counts, :width => 550, :height => 250, :title => 'Attendance Records Per Day'), :alt => 'Attendance Records Per Day' %>
+    <% end %>
+    
+    <% if @attendance_records_count %>
+      <p>
+        Last date:
+        <%= pluralize @attendance_records_count, 'attendance record' %> from <%= link_to day_word(@attendance_last_date), administration_attendance_index_path(:attended_at => @attendance_last_date) %>.
+      </p>
+    <% end %>
+    
+    <p><%= link_to 'Manage and export attendance.', administration_attendance_index_path %></p>
+  <% end %>
+  
+  <% if @logged_in.admin?(:manage_messages) and @daily_message_counts %>
+    <h2>Messages</h2>
+    <%= image_tag bar_chart_url(@daily_message_counts, :set_count => 3, :set_labels => ['Private', 'Group', 'Wall'], :width => 550, :height => 250, :title => 'Messages Sent Per Day'), :alt => 'Messages Sent Per Day' %>
+  <% end %>
+
+  <%= render_plugin_hook :admin_dashboard_middle %>
+
+  <% if @logged_in.admin?(:manage_sync) %>
+    <h2>Sync</h2>
+    
     <p>
-      Enter the page number when prompted (<%= pluralize MAX_EXPORT_AT_A_TIME, 'record' %> per page).
+      Last sync:
+      <% if @last_sync %>
+        <%= link_to @last_sync.created_at.to_s, administration_sync_path(@last_sync) %>
+        <% if @last_sync.complete? %>
+          (complete,
+          <% content_tag :span, :class => @last_sync.error_count > 0 ? 'very-strong' : nil do %><%= pluralize @last_sync.error_count, 'error' %><% end %>)
+        <% else %>
+          (incomplete)
+        <% end %>
+      <% else %>
+        <em>none</em>
+      <% end %>
     </p>
+    
+    <p><%= link_to 'Review previous synchronization results.', administration_syncs_path %></p>
   <% end %>
-  
-<% end %>
 
-<%= render_plugin_hook :admin_dashboard_bottom %>
+  <% if @logged_in.admin?(:view_log) %>
+    <h2>Log</h2>
+    
+    <p><%= link_to 'Review the log.', administration_log_items_path %></p>
+  <% end %>
+
+  <% if Site.current.import_export_enabled? %>
+
+    <% if @logged_in.admin?(:import_data) %>
+      <h2>Import Data</h2>
+      
+      <p><%= link_to 'Import people data from a Comma Separated Values (CSV) file.', import_people_path %></p>
+    <% end %>
+
+    <% if @logged_in.admin?(:export_data) %>
+      <h2>Export Data</h2>
+      
+      <table>
+        <tr>
+          <th>People (<%= @person_count %>)</th>
+          <td><%= link_to_with_page_prompt 'XML', people_path(:format => 'xml') %></td>
+          <td><%= link_to_with_page_prompt 'CSV', people_path(:format => 'csv') %></td>
+        </tr>
+        <tr>
+          <th>Families (<%= @family_count %>)</th>
+          <td><%= link_to_with_page_prompt 'XML', families_path(:format => 'xml') %></td>
+          <td><%= link_to_with_page_prompt 'CSV', families_path(:format => 'csv') %></td>
+        </tr>
+        <% if Setting.get(:features, :groups) %>
+          <tr>
+            <th>Groups (<%= @group_count %>)</th>
+            <td><%= link_to_with_page_prompt 'XML', groups_path(:format => 'xml') %></td>
+            <td><%= link_to_with_page_prompt 'CSV', groups_path(:format => 'csv') %></td>
+          </tr>
+        <% end %>
+      </table>
+      <p>
+        Enter the page number when prompted (<%= pluralize MAX_EXPORT_AT_A_TIME, 'record' %> per page).
+      </p>
+    <% end %>
+    
+  <% end %>
+
+  <%= render_plugin_hook :admin_dashboard_bottom %>
+  
+</div>

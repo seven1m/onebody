@@ -645,3 +645,9 @@ input[type=checkbox], input[type=radio] {
   background-color: #eee;
   border-bottom: 1px solid #eee;
 }
+
+div.dashboard h2 {
+  color: #333;
+  background-color: #ddd;
+  padding: 2px;
+}
