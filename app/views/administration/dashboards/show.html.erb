@@ -66,7 +66,10 @@
   <h2>Attendance</h2>
   
   <% if @attendance_records_count %>
-    <p><%= pluralize @attendance_records_count, 'attendance record' %> from <%= day_word @attendance_last_date %>.</p>
+    <p>
+      Last date:
+      <%= pluralize @attendance_records_count, 'attendance record' %> from <%= day_word @attendance_last_date %>.
+    </p>
   <% end %>
   
   <p><%= link_to 'Manage and export attendance.', administration_attendance_index_path %></p>
@@ -92,13 +95,13 @@
     <% end %>
   </p>
   
-  <p><%= link_to 'Click here', administration_syncs_path %> to review previous synchronization results.</p>
+  <p><%= link_to 'Review previous synchronization results.', administration_syncs_path %></p>
 <% end %>
 
 <% if @logged_in.admin?(:view_log) %>
   <h2>Log</h2>
   
-  <p><%= link_to 'Click here', administration_log_items_path %> to review the log.</p>
+  <p><%= link_to 'Review the log.', administration_log_items_path %></p>
 <% end %>
 
 <% if Site.current.import_export_enabled? %>
@@ -106,7 +109,7 @@
   <% if @logged_in.admin?(:import_data) %>
     <h2>Import Data</h2>
     
-    <p><%= link_to 'Click here', import_people_path %> to import people data from a Comma Separated Values (CSV) file.</p>
+    <p><%= link_to 'Import people data from a Comma Separated Values (CSV) file.', import_people_path %></p>
   <% end %>
 
   <% if @logged_in.admin?(:export_data) %>
@@ -115,26 +118,24 @@
     <table>
       <tr>
         <th>People</th>
-        <td><%= link_to 'XML', people_path(:format => 'xml', :page => 1) %></td>
-        <td><%= link_to 'CSV', people_path(:format => 'csv', :page => 1) %></td>
+        <td><%= link_to_with_page_prompt 'XML', people_path(:format => 'xml') %></td>
+        <td><%= link_to_with_page_prompt 'CSV', people_path(:format => 'csv') %></td>
       </tr>
       <tr>
         <th>Families</th>
-        <td><%= link_to 'XML', families_path(:format => 'xml', :page => 1) %></td>
-        <td><%= link_to 'CSV', families_path(:format => 'csv', :page => 1) %></td>
+        <td><%= link_to_with_page_prompt 'XML', families_path(:format => 'xml') %></td>
+        <td><%= link_to_with_page_prompt 'CSV', families_path(:format => 'csv') %></td>
       </tr>
       <% if Setting.get(:features, :groups) %>
         <tr>
           <th>Groups</th>
-          <td><%= link_to 'XML', groups_path(:format => 'xml', :page => 1) %></td>
-          <td><%= link_to 'CSV', groups_path(:format => 'csv', :page => 1) %></td>
+          <td><%= link_to_with_page_prompt 'XML', groups_path(:format => 'xml') %></td>
+          <td><%= link_to_with_page_prompt 'CSV', groups_path(:format => 'csv') %></td>
         </tr>
       <% end %>
     </table>
     <p>
-      Only <%= MAX_EXPORT_AT_A_TIME %> records will be exported at a time.
-      If you have more than <%= MAX_EXPORT_AT_A_TIME %> records,
-      you may append <code>?page=2</code> and so on to the export URL you click above.
+      Enter the page number when prompted (<%= pluralize MAX_EXPORT_AT_A_TIME, 'record' %> per page).
     </p>
   <% end %>
   

@@ -15,5 +15,9 @@ module Administration::DashboardsHelper
       date.to_s(:date)
     end
   end
-
+  
+  def link_to_with_page_prompt(label, url)
+    link_to(label, url, :onclick => "if(page=prompt('Page number:', 1))location.href = '#{url}?page=' + page; return false;")
+  end
+  
 end
