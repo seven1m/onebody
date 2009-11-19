@@ -211,10 +211,21 @@ class PeopleController < ApplicationController
         format.js   { render(:update) { |p| p.redirect_to family_path(params[:family_id]) } }
       end
     elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      records = Hash.from_xml(request.body.read)['records']
+      xml_params = Hash.from_xml(request.body.read)['hash']
+      options = xml_params['options'] || {}
+      records = xml_params['records']
       statuses = records.map do |record|
-        person = Person.find_by_legacy_id(record['legacy_id']) || Person.new
-        person.family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
+        person = Person.find_by_legacy_id(record['legacy_id'])
+        # legacy_id is preferred
+        family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
+        if person.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and family_id
+          # family should have already been claimed by barcode -- we're just going to try to match up people
+          Person.destroy_all ["family_id = ? and legacy_id is null and deleted = ?", family_id, false]
+          family_people = Person.find_all_by_family_id_and_legacy_id(family_id, nil)
+          person = family_people.detect { |p| p.first_name.soundex == record['first_name'].soundex and p.last_name.soundex == record['last_name'].soundex }
+        end
+        person ||= Person.new # last resort, create a new record
+        person.family_id = family_id
         record.each do |key, value|
           value = nil if value == ''
           if key == 'email' and person.email_changed?
@@ -223,7 +234,7 @@ class PeopleController < ApplicationController
             else
               next
             end
-          elsif %w(family email_changed).include?(key)
+          elsif %w(family email_changed remote_hash).include?(key)
             next
           end
           person.write_attribute(key, value)

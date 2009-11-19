@@ -152,11 +152,18 @@ class FamiliesController < ApplicationController
       end
       redirect_back
     elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      records = Hash.from_xml(request.body.read)['records']
+      xml_params = Hash.from_xml(request.body.read)['hash']
+      options = xml_params['options'] || {}
+      records = xml_params['records']
       statuses = records.map do |record|
-        family = Family.find_by_legacy_id(record['legacy_id']) || \
-          (record['barcode_id'].to_s.any? && Family.find_by_legacy_id_and_barcode_id(nil, record['barcode_id'])) || \
-          Family.new
+        family = Family.find_by_legacy_id(record['legacy_id'])
+        if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].to_s.any?
+          family = Family.find_by_legacy_id_and_barcode_id(nil, record['barcode_id'])
+        end
+        family ||= Family.new
+        if options['delete_families_with_conflicting_barcodes_if_no_legacy_id'] and !family.new_record?
+          Family.destroy_all ["legacy_id is null and barcode_id = ? and id != ?", record['barcode_id'], family.id]
+        end
         record.each do |key, value|
           value = nil if value == ''
           if key == 'barcode_id' and family.barcode_id_changed?
@@ -165,7 +172,7 @@ class FamiliesController < ApplicationController
             else
               next
             end
-          elsif key == 'barcode_id_changed'
+          elsif %w(barcode_id_changed remote_hash).include?(key)
             next
           end
           family.write_attribute(key, value)
