@@ -146,10 +146,17 @@ class FamiliesController < ApplicationController
   end
   
   def batch
-    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
+    if @logged_in.admin?(:edit_profiles) and params[:delete]
+      params[:ids].to_a.each do |id|
+        Family.find(id).destroy
+      end
+      redirect_back
+    elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       records = Hash.from_xml(request.body.read)['records']
       statuses = records.map do |record|
-        family = Family.find_by_legacy_id(record['legacy_id']) || Family.new
+        family = Family.find_by_legacy_id(record['legacy_id']) || \
+          (record['barcode_id'].to_s.any? && Family.find_by_legacy_id_and_barcode_id(nil, record['barcode_id'])) || \
+          Family.new
         record.each do |key, value|
           value = nil if value == ''
           if key == 'barcode_id' and family.barcode_id_changed?
