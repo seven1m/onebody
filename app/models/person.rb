@@ -133,9 +133,8 @@ class Person < ActiveRecord::Base
   validates_presence_of :first_name, :last_name
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
-  validates_uniqueness_of :alternate_email, :allow_nil => true, :if => Proc.new { Person.logged_in }
+  validates_uniqueness_of :alternate_email, :allow_nil => true, :scope => :deleted, :unless => Proc.new { |p| p.deleted? }
   validates_uniqueness_of :feed_code, :allow_nil => true
-  validates_uniqueness_of :twitter_account, :allow_nil => true, :allow_blank => true
   validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
   validates_format_of :business_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
   validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS, :message => 'has an incorrect format (something@example.com)'
@@ -145,7 +144,7 @@ class Person < ActiveRecord::Base
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
   validates_each [:email, :child] do |record, attribute, value|
-    if attribute.to_s == 'email' and value.to_s.any?
+    if attribute.to_s == 'email' and value.to_s.any? and not record.deleted?
       if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ?", value.downcase, record.family_id, record.id]) > 0
         record.errors.add attribute, 'already taken by someone else.'
       end
@@ -155,7 +154,7 @@ class Person < ActiveRecord::Base
       if record.changed.include?('email') and not Setting.get(:access, :super_admins).include?(record.email_was) and record.super_admin? and not Person.logged_in.super_admin?
         record.errors.add attribute, 'is invalid.' # cannot make yourself a super admin
       end
-    elsif attribute.to_s == 'child'
+    elsif attribute.to_s == 'child' and not record.deleted?
       y = record.years_of_age
       if value == true and y and y >= 13
         record.errors.add attribute, "cannot be 'Yes' because the birthday indicates the person is 13 or older."
@@ -638,15 +637,7 @@ class Person < ActiveRecord::Base
   
   alias_method :destroy_for_real, :destroy
   def destroy
-    self.update_attributes!(
-      :deleted         => true,
-      :email           => nil,
-      :alternate_email => nil,
-      :encrypted_password => nil,
-      :twitter_account => nil,
-      :api_key         => nil,
-      :feed_code       => nil
-    )
+    self.update_attribute(:deleted, true)
     self.updates.destroy_all
     self.memberships.destroy_all
     self.friendships.destroy_all

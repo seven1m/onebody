@@ -111,6 +111,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :files, :requirements => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
     admin.resources :attendance, :collection => {:prev => :get, :next => :get}
     admin.resources :syncs, :member => {:create_items => :post}
+    admin.resources :deleted_people, :collection => {:batch => :put}
     admin.resource :theme
   end
 

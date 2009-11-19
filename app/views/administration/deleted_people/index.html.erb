@@ -1,0 +1,79 @@
+<% if @families.any? %>
+  <h1>Empty Families</h1>
+  <p class="very-strong">The following families have no people in them and probably should be deleted:</p>
+  <% form_tag batch_families_path do %>
+    <table>
+      <tr>
+        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.family_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th>ID</th>
+        <th>Legacy ID</th>
+        <th>Family</th>
+      </tr>
+      <% @families.each do |family| %>
+        <tr>
+          <td><%= check_box_tag 'ids[]', family.id, false, :class => 'family_checkbox' %></td>
+          <td><%=h family.id %></td>
+          <td><%=h family.legacy_id %></td>
+          <td><%= link_to h(family.name), family %></li>
+        </tr>
+      <% end %>
+    </table>
+    <p>
+      <%= submit_tag 'Delete', :name => 'delete' %>
+    </p>
+  <% end %>
+<% end %>
+
+<h1>Deleted People</h1>
+
+<%= will_paginate @people %>
+
+<% if @people.any? %>
+  <% form_tag batch_administration_deleted_people_path, :method => :put do %>
+    <table>
+      <tr>
+        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.person_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th><%= sortable_column_heading('ID', 'people.id') %></th>
+        <th><%= sortable_column_heading('Legacy ID',        'people.legacy_id'       ) %></th>
+        <th><%= sortable_column_heading('Last Name',        'people.last_name'       ) %></th>
+        <th><%= sortable_column_heading('First Name',       'people.first_name'      ) %></th>
+        <th><%= sortable_column_heading('Family ID',        'people.family_id'       ) %></th>
+        <th><%= sortable_column_heading('Legacy Family ID', 'people.legacy_family_id') %></th>
+        <th><%= sortable_column_heading('Family Name',      'families.name'          ) %></th>
+        <th><%= sortable_column_heading('Family Deleted?',  'families.deleted'       ) %></th>
+        <th><%= sortable_column_heading('Last Updated',     'people.updated_at desc' ) %></th>
+      </tr>
+      <% @people.each do |person| %>
+        <tr>
+          <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
+          <td><%=h person.id %></td>
+          <td><%=h person.legacy_id %></td>
+          <td><%=h person.last_name %></td>
+          <td><%=h person.first_name %></td>
+          <% if person.family %>
+            <td><%=h person.family.id %></td>
+            <td><%=h person.family.legacy_id %></td>
+            <td><%=h person.family.name %></td>
+            <td><%= person.family.deleted? ? 'deleted' : link_to('active', person.family) %></td>
+          <% else %>
+            <td colspan="4"><em>family not found</em></td>
+          <% end %>
+          <td><%=h person.updated_at.to_s %></td>
+        </tr>
+      <% end %>
+    </table>
+    <p>
+      <%= submit_tag 'Undelete', :name => 'undelete' %>
+      <%= link_to_function 'purge &raquo;', "Element.show('purge');this.parentNode.removeChild(this);", :class => 'discreet' %>
+      <div id="purge" style="display:none;">
+        <%= submit_tag 'Purge', :name => 'purge' %>
+        <%= check_box_tag :purge_empty_families, true, false %>
+        <%= label_tag :purge_empty_families, 'And purge family when empty.', :class => 'inline' %>
+      </div>
+    </p>
+  <% end %>
+<% else %>
+  <p><em>no deleted people</em></p>
+<% end %>
+
+<%= will_paginate @people %>

@@ -169,6 +169,12 @@
     <% end %>
     
   <% end %>
+  
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <h2>Deleted Records</h2>
+  
+    <p><%= link_to 'Manage deleted people and families.', administration_deleted_people_path %>
+  <% end %>
 
   <%= render_plugin_hook :admin_dashboard_bottom %>
   

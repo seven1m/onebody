@@ -53,8 +53,8 @@ class Family < ActiveRecord::Base
   
   sharable_attributes :mobile_phone, :address, :anniversary
   
-  validates_uniqueness_of :barcode_id, :allow_nil => true
-  validates_uniqueness_of :alternate_barcode_id, :allow_nil => true
+  validates_uniqueness_of :barcode_id, :allow_nil => true, :scope => :deleted, :unless => Proc.new { |f| f.deleted? }
+  validates_uniqueness_of :alternate_barcode_id, :allow_nil => true, :scope => :deleted, :unless => Proc.new { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, :in => 10..50, :allow_nil => true
   validates_format_of :barcode_id, :alternate_barcode_id, :with => /^\d+$/, :allow_nil => true
   
@@ -165,7 +165,7 @@ class Family < ActiveRecord::Base
   alias_method :destroy_for_real, :destroy
   def destroy
     people.all.each { |p| p.destroy }
-    update_attributes!(:deleted => true)
+    update_attribute(:deleted, true)
   end
   
   def self.new_with_default_sharing(attrs)

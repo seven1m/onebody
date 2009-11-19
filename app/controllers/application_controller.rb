@@ -116,7 +116,7 @@ class ApplicationController < ActionController::Base
     
     def authenticate_user_with_code_or_session
       Person.logged_in = @logged_in = nil
-      unless params[:code] and Person.logged_in = @logged_in = Person.find_by_feed_code(params[:code])
+      unless params[:code] and Person.logged_in = @logged_in = Person.find_by_feed_code_and_deleted(params[:code], false)
         authenticate_user_with_session
       end
     end
