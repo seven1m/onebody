@@ -1,18 +1,16 @@
 <% if @item.person %><p>Who: <%= link_to h(@item.person.name), @item.person %></p><% end %>
 <table>
   <% @item.object_changes.to_a.each do |key, value| %>
-    <% unless key =~ /_id$/ %>
-      <tr>
-        <td><%=h key %>:</td>
-        <td>
-          <% if value.is_a?(Array) %>
-            Was: <%=h log_item_change_value(value.first) %><br/>
-            Now: <%=h log_item_change_value(value.last) %>
-          <% else %>
-            <%=h value %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
+  <tr>
+      <td><%=h key %>:</td>
+      <td>
+        <% if value.is_a?(Array) %>
+          Was: <%=h log_item_change_value(@item, key, value.first) %><br/>
+          Now: <%=h log_item_change_value(@item, key, value.last) %>
+        <% else %>
+          <%=h value %>
+        <% end %>
+      </td>
+    </tr>
   <% end %>
 </table>
