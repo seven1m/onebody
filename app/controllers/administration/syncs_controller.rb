@@ -22,6 +22,7 @@ class Administration::SyncsController < ApplicationController
     end
     @sync = Sync.find(params[:id])
     @items = @sync.sync_items.paginate(:order => params[:sort], :page => params[:page])
+    @counts = @sync.count_items
   end
   
   # for api only

@@ -1,5 +1,9 @@
 <h1>Sync <%=h @sync.created_at.to_s %></h1>
 
+<% if @counts %>
+  <%= image_tag pie_chart_url(@counts, :width => 400, :height => 200, :title =>'Sync Results'), :alt => 'Sync Results' %>
+<% end %>
+
 <%= will_paginate @items %>
 
 <table>

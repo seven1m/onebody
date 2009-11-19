@@ -21,4 +21,12 @@ class Sync < ActiveRecord::Base
       100.0
     end
   end
+  
+  def count_items
+    {
+      :create => sync_items.count('id', :conditions => {:operation => 'create'}),
+      :update => sync_items.count('id', :conditions => {:operation => 'update'}),
+      :error  => sync_items.count('id', :conditions => "status in ('error', 'saved with error')"),
+    }.reject { |k, v| v == 0 }
+  end
 end

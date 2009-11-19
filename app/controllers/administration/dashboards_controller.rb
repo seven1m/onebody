@@ -12,6 +12,7 @@ class Administration::DashboardsController < ApplicationController
       @attendance_records_count = AttendanceRecord.count('*', :conditions => ["date(attended_at) = date(?)", @attendance_last_date])
     end
     @last_sync = Sync.last(:order => 'created_at')
+    @sync_counts = @last_sync.count_items if @last_sync
     if @logged_in.super_admin?
       @privileges = nil
     else
@@ -25,6 +26,7 @@ class Administration::DashboardsController < ApplicationController
     @person_count = Person.count('id', :conditions => {:deleted => false})
     @family_count = Family.count('id', :conditions => {:deleted => false})
     @group_count  = Group.count('id')
+    @alerts = []
   end
 
 end
