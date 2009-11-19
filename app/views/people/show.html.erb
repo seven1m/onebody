@@ -36,6 +36,11 @@
   <% if Setting.get(:features, :groups) %>
     <%= render :partial => 'sidebar_groups' %>
   <% end %>
+  <% if @logged_in.admin? %>
+    <p class="discreet">
+      Legacy ID: <%=h @person.legacy_id %>
+    </p>
+  <% end %>
 <% end %>
 
 <% unless @person.visible?(@family) %>
