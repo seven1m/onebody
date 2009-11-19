@@ -26,6 +26,10 @@
 
 <h1>Deleted People</h1>
 
+<% if params[:search] %>
+  <p>The results of your search are displayed below. <%= link_to 'Show all.', administration_deleted_people_path %></p>
+<% end %>
+
 <%= will_paginate @people %>
 
 <% if @people.any? %>
@@ -73,7 +77,7 @@
     </p>
   <% end %>
 <% else %>
-  <p><em>no deleted people</em></p>
+  <p><em>no people found</em></p>
 <% end %>
 
 <%= will_paginate @people %>

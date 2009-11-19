@@ -78,7 +78,7 @@ class PeopleController < ApplicationController
         end
       end
     else
-      render :text => 'Person not found.', :status => 404, :layout => true
+      render :text => @logged_in.admin?(:edit_profiles) ? "This person has been deleted. You can restore the record <a href=\"#{administration_deleted_people_path('search[id]' => @person.id)}\">here</a>." : 'Person not found.', :status => 404, :layout => true
     end
   end
   

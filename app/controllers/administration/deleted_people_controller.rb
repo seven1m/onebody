@@ -17,7 +17,12 @@ class Administration::DeletedPeopleController < ApplicationController
     unless params[:sort].to_s.split(',').all? { |col| VALID_SORT_COLS.include?(col) }
       params[:sort] = 'people.updated_at desc'
     end
-    @people = Person.paginate(:include => :family, :conditions => {:deleted => true}, :order => params[:sort], :page => params[:page])
+    conditions = {:deleted => true}
+    if params[:search].is_a?(Hash)
+      params[:search].reject! { |k, v| !%w(id legacy_id last_name first_name).include?(k) }
+      conditions.reverse_merge!(params[:search])
+    end
+    @people = Person.paginate(:include => :family, :conditions => conditions, :order => params[:sort], :page => params[:page])
     @families = Family.all(:conditions => ["deleted = ? and (select count(id) from people where deleted = ? and family_id=families.id) = 0", false, false], :order => 'name')
   end
   
