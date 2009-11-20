@@ -115,7 +115,7 @@
         <%= link_to @last_sync.created_at.to_s, administration_sync_path(@last_sync) %>
         <% if @last_sync.complete? %>
           (complete,
-          <% display_metric @last_sync.error_count > 0, :content_tag => :span do %><%= pluralize @last_sync.error_count, 'sync error' %><% end %>)
+          <% display_metric @last_sync.error_count > 0, :content_tag => :span do %><%= link_to pluralize(@last_sync.error_count, 'sync error'), administration_sync_path(@last_sync) %><% end %>)
         <% else %>
           (incomplete)
         <% end %>
