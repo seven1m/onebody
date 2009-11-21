@@ -21,15 +21,14 @@
             <%= link_to_function 'changes &raquo;', "Element.toggle('details#{index}')", :class => 'discreet' %>
             <ul id="details<%= index %>" style="list-style:none;padding-left:25px;display:none;">
               <% changes.each do |key, val| %>
-                <% val = val.last %>
                 <li>
                   <label class="inline">
                     <% if person.new_record? %>
-                      <%= check_box_tag "new[#{index}][#{key}]", val.to_s, true, :class => "new_#{index}" %>
+                      <%= check_box_tag "new[#{index}][#{key}]", val.last.to_s, true, :class => "new_#{index}" %>
                     <% else %>
-                      <%= check_box_tag "changes[#{person.id}][#{key}]", val.to_s, true, :class => "changes_#{person.id}" %>
+                      <%= check_box_tag "changes[#{person.id}][#{key}]", val.last.to_s, true, :class => "changes_#{person.id}" %>
                     <% end %>
-                    <%=h key %>: <%=h val.inspect %>
+                    <%=h key %>: <%=h val.first.inspect %> =&gt; <%=h val.last.inspect %>
                   </label>
                 </li>
               <% end %>

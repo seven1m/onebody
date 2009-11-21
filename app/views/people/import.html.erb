@@ -2,9 +2,15 @@
 
 <% form_tag({}, :method => 'post', :multipart => true) do %>
   <p>
-    Select a Comma Separated File (CSV) file to import with attribute names as the header row.
+    Select a Comma Separated Values (CSV) file to import with attribute names as the header row.
     <%= link_to_function 'Click here', "Element.toggle('attributes')" %> for a list of available attributes
     (not all attributes are required).
+  </p>
+  <p>
+    <strong>Only the first <%= pluralize Person::MAX_RECORDS_TO_IMPORT, 'record' %> will be imported.
+    For larger files, you must divide records into multiple files, or use the
+    <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> to
+    import a large batch at once.</strong>
   </p>
   <ul id="attributes" style="display:none;">
     <% @column_names.each do |name| %>

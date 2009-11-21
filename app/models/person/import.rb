@@ -1,4 +1,7 @@
 class Person
+  
+  MAX_RECORDS_TO_IMPORT = 500
+  
   module Import
     def self.included(mod)
       mod.extend(ClassMethods)
@@ -8,7 +11,7 @@ class Person
       def queue_import_from_csv_file(file, match_by_name=true, merge_attributes={})
         data = CSV.parse(file)
         attributes = data.shift
-        data.map do |row|
+        data[0...MAX_RECORDS_TO_IMPORT].map do |row|
           person, family = get_changes_for_import(attributes, row, match_by_name)
           person.attributes = merge_attributes
           if person.changed? or family.changed?
