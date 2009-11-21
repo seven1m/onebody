@@ -90,12 +90,6 @@ class FamiliesController < ApplicationController
       respond_to do |format|
         format.html { flash[:notice] = 'Family saved.'; redirect_to params[:redirect_to] || @family }
         format.xml  { render :xml => @family.to_xml } if can_export?
-        format.js do # only used by barcode entry right now
-          render :update do |page|
-            page.replace_html :notice, "Family saved."
-            page[:notice].show
-          end
-        end
       end
     else
       respond_to do |format|
