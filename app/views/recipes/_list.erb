@@ -11,7 +11,7 @@
       </td>
       <td>
         <strong><%= link_to h(recipe.title), recipe %></strong>
-        <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
+        <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => I18n.t("new")+'!', :class => 'no-border' %><% end %>
         <% unless @person %>
           by
           <% if recipe.person %>
@@ -21,8 +21,8 @@
           <% end %>
         <% end %>
         <% if @person or recipe.admin? @logged_in %>
-          <%= link_to "[edit]", edit_recipe_path(recipe), :class => 'discreet' %>
-          <%= link_to '[delete]', recipe, :method => 'delete', :confirm => 'Are you sure you want to delete this recipe?', :class => 'discreet' %>
+          <%= link_to I18n.t("edit_with_brakets"), edit_recipe_path(recipe), :class => 'discreet' %>
+          <%= link_to I18n.t("delete_with_brakets"), recipe, :method => 'delete', :confirm => I18n.t("are_you_sure_delete_recipe"), :class => 'discreet' %>
         <% end %>
         <% unless @person %>
           Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>

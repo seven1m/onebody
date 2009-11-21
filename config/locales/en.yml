@@ -1,6 +1,7 @@
 en:
-  
+
   #common
+
   pictures: Pictures
   verses: Verses
   recipes: Recipes
@@ -13,11 +14,27 @@ en:
   are_you_sure: Are you sure?
   none: none
   family: family
-  person: person
+  person: Person
+  type: Type
+  delete: delete
+  sync: Sync
+  back_to: Back To
+  back: Back
+  new: New
+  delete_with_brakets: "[delete]"
+  edit_with_brakets: "[edit]"
+
+  #nav_links
+
+  navlink_pages: Pages
+  navlink_home: Home
+  navlink_profile: Profile
+  navlink_groups: Groups
+  navlink_directory: Directory
+  navlink_bible: Bible
 
   #streams
 
-  news: News
   give_your_post_a_concise_title: "Give your post a concise title:"
   share_your_announcement_information_or_news_here: "Share your announcement, information, or news here:"
   submit_news: Submit News
@@ -83,9 +100,7 @@ en:
 
   add_verse_with_space: " Add Verse"
   add_another_verse_with_space: " Add Another Verse"
-  person: Person
   people: People
-  back_to_with_spaces: " Back To "
   add_a_verse: " Add a Verse"
   verses: Verses
   share_your_fav_bible_verses_with: Share your favorite Bible verses with the
@@ -112,8 +127,6 @@ en:
 
   wall_to_wall: wall to wall
   wall_to_wall_camel_case: Wall to Wall
-  delete_with_brakets: "[delete]"
-  person: Person
   wall: Wall
   the_wall_is_place_for_people_post_messages: "The Wall is a place for people to post friendly messages for you and others to see."
   view_all_wall_messages: "View all wall messages..."
@@ -127,6 +140,7 @@ en:
   newest_messages_appear_first: newest messages appear first
   
   #Tags
+
   tag: Tag
   no_tags: no tags
   delete_this_tag: Delete this tag
@@ -134,13 +148,15 @@ en:
   no_tags_yet: no tags yet
 
   #Sync
-  sync: Sync
+
+
   sync_with: Sync with
   you_do_not_have_any: You do not have any
   remote_accoutns: Remote Accounts
   set_up: set up
 
   #Sessions
+
   please_sign_in: "Please sign in."
   help_signing_in: Help Signing In
   sign_in: Sign In
@@ -158,6 +174,7 @@ en:
   alternatively_you_can_load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
 
   #Searches
+
   search_results: Search Results
   found: found
   family_name: Family Name
@@ -226,7 +243,50 @@ en:
   city: City
   state: State
   zip: Zip
-  type: Type
   all: All
   show_hidden: Show Hidden
-  
+
+  #Remote Accounts
+
+  edit_account: Edit Account
+  save_account: Save Account
+  highrise: Highrise
+  to_get_the_token_for_your: "To get the 'token' for your"
+  account_sign_in_click_top_right: "account, sign in and click the 'My Info' link in the top-right of the screen:"
+  on_the_following_click_reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
+  my_info: My Info
+  reveal_token: Reveal Token
+  remote_accounts: Remote Accounts
+  username: Username
+  token_key: Token/Key
+  synced_contacts: Synced Contacts
+  new_account: New Account
+  this_operation_will_make_changes: "This operation *will* make changes to this "
+  account: account
+  new_account: New Account
+  view_profile: View Profile
+
+  #Recipes
+
+  edit_recipe: Edit Recipe
+  new_recipe: New Recipe
+  save_recipe: Save Recipe
+  delete_recipe: Delete Recipe
+  title: Title
+  tag_list: Tag List
+  serving_size: Serving size 
+  description: Description
+  prep_cook_time: "Prep/Cook time"
+  bake_time: Bake time
+  ingredients: Ingredients
+  directions: Directions
+  other_notes: Other notes
+  add_a_recipe: Adicionar uma receita
+  recipes: Recipes
+  share_your_favorite_recipes_with: Share your favorite recipes with the
+  no_recipes_yet: No recipes yet!
+  no_results: No results
+  are_you_sure_delete_recipe: "Are you sure you want to delete this recipe?"
+  all_recipes: All Recipes
+  add_a_recipe: Add a recipe
+  about_this_recipe: "about this recipe." 

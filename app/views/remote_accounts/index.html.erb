@@ -1,11 +1,11 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'View Profile', @person %></li>
+  <li><%= link_to I18n.t("view_profile"), @person %></li>
 <% end %>
 
-<h1>Remote Accounts</h1>
+<h1><%=I18n.t("remote_accounts")%></h1>
 
 <table>
-  <tr><th>Type</th><th>Username</th><th>Token/Key</th><th>Synced Contacts</th></tr>
+  <tr><th><%=I18n.t("type")%></th><th><%=I18n.t("username")%></th><th><%=I18n.t("token_key")%></th><th><%=I18n.t("synced_contacts")%></th></tr>
   <% @remote_accounts.each do |remote_account| %>
     <tr>
       <td><%=h remote_account.account_type %></td>
@@ -15,11 +15,11 @@
         <% content_tag_for(:span, remote_account, :style => 'display:none;') do %><%=h remote_account.token %><% end %>
       </td>
       <td><%= remote_account.sync_instances.count %></td>
-      <td><%= link_to 'sync', sync_person_remote_account_path(@person, remote_account), :method => :post, :confirm => "Are you sure? This operation *will* make changes to this #{remote_account.account_type} account." %></td>
-      <td><%= link_to 'edit', edit_person_remote_account_path(@person, remote_account) %></td>
-      <td><%= link_to 'delete', person_remote_account_path(@person, remote_account), :method => 'delete', :confirm => 'Are you sure?' %></td>
+      <td><%= link_to I18n.t("sync"), sync_person_remote_account_path(@person, remote_account), :method => :post, :confirm => I18n.t("are_you_sure") + I18n.t("this_operation_will_make_changes") + #{remote_account.account_type} + I18n.t("account") + "." %></td>
+      <td><%= link_to I18n.t("edit"), edit_person_remote_account_path(@person, remote_account) %></td>
+      <td><%= link_to I18n.t("delete"), person_remote_account_path(@person, remote_account), :method => 'delete', :confirm => I18n.t("are_you_sure") %></td>
     </tr>
   <% end %>
 </table>
 
-<p><%= link_to 'New Account', new_person_remote_account_path(@person) %></p>
+<p><%= link_to <%=I18n.t("mudar")%>'New Account', new_person_remote_account_path(@person) %></p>

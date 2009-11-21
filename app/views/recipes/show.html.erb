@@ -1,8 +1,8 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('recipe.png', :alt => 'All Recipes', :class => 'icon') + ' All Recipes', recipes_path %></li>
+  <li><%= link_to image_tag('recipe.png', :alt => I18n.t("all_recipes"), :class => 'icon') + ' ' + I18n.t("all_recipes"), recipes_path %></li>
   <% if @logged_in.can_edit?(@recipe) %>
-    <li><%= link_to image_tag('pencil.png', :alt => 'Edit Recipe', :class => 'icon') + ' Edit Recipe', edit_recipe_path(@recipe) %></li>
-    <li><%= link_to image_tag('delete.png', :alt => 'Delete Recipe', :class => 'icon') + ' Delete Recipe', recipe_path(@recipe), :method => 'delete', :confirm => 'Are you sure?' %></li>
+    <li><%= link_to image_tag('pencil.png', :alt => I18n.t("edit_recipe"), :class => 'icon') + ' ' + I18n.t("edit_recipe"), edit_recipe_path(@recipe) %></li>
+    <li><%= link_to image_tag('delete.png', :alt => I18n.t("delete_recipe"), :class => 'icon') + ' ' + I18n.t("delete_recipe"), recipe_path(@recipe), :method => 'delete', :confirm => I18n.t("are_you_sure") %></li>
   <% end %>
 <% end %>
 
@@ -25,53 +25,53 @@
   
 <table>
   <tr>
-    <td style="white-space:nowrap;">Tags:</td>
+    <td style="white-space:nowrap;"><%=I18n.t("tags")%>:</td>
     <td>
       <%= form_tag(@recipe, :method => 'put', :style => 'border:none;padding:0;') %>
         <p>
           <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @recipe} %><br/>
-          Add tags: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+          <%=I18n.t("add_tags")%>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
         </p>
       </form>
     </td>
   </tr>
   <tr>
-    <td style="white-space:nowrap;">Serving Size:</td>
+    <td style="white-space:nowrap;"><%=I18n.t("serving_size")%>:</td>
     <td><%=h @recipe.serving_size %></td>
   </tr>
   <% if @recipe.prep.to_s.any? %>
     <tr>
-      <td style="white-space:nowrap;">Prep/Cook Time:</td>
+      <td style="white-space:nowrap;"><%=I18n.t("prep_cook_time")%>:</td>
       <td><%=h @recipe.prep %></td>
     </tr>
   <% end %>
   <% if @recipe.bake.to_s.any? %>
     <tr>
-      <td style="white-space:nowrap;">Bake Time:</td>
+      <td style="white-space:nowrap;"><%=I18n.t("bake_time")%>:</td>
       <td><%=h @recipe.bake %></td>
     </tr>
   <% end %>
   <% if @recipe.description.to_s.any? %>
     <tr>
-      <td style="white-space:nowrap;">Description:</td>
+      <td style="white-space:nowrap;"><%=I18n.t("description")%>:</td>
       <td><%= white_list_with_removal @recipe.description %></td>
     </tr>
   <% end %>
   <tr>
-    <td style="white-space:nowrap;">Ingredients:</td>
+    <td style="white-space:nowrap;"><%=I18n.t("ingredients")%>:</td>
     <td><%= white_list_with_removal @recipe.ingredients %></td>
   </tr>
   <tr>
-    <td style="white-space:nowrap;">Directions:</td>
+    <td style="white-space:nowrap;"><%=I18n.t("directions")%>:</td>
     <td><%= white_list_with_removal @recipe.directions %></td>
   </tr>
   <% if @recipe.notes.to_s.any? %>
     <tr>
-      <td style="white-space:nowrap;">Other Notes:</td>
+      <td style="white-space:nowrap;"><%=I18n.t("other_notes")%>:</td>
       <td><%= white_list_with_removal @recipe.notes %></td>
     </tr>
   <% end %>
 </table>
 
-<h2>Comments</h2>
-<%= render :partial => 'comments/comments', :locals => {:object => @recipe, :intro => 'about this recipe.'} %>
+<h2><%=I18n.t("comments")%></h2>
+<%= render :partial => 'comments/comments', :locals => {:object => @recipe, :intro => I18n.t("about_this_recipe")} %>

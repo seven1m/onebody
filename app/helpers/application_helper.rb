@@ -41,16 +41,16 @@ module ApplicationHelper
   def nav_links
     html = ''
     if Setting.get(:features, :content_management_system)
-      html << "<li>#{tab_link 'Pages', '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
+      html << "<li>#{tab_link I18n.t("navlink_pages"), '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
     end
-    html << "<li>#{tab_link 'Home', stream_path, params[:controller] == 'streams'}</li>"
+    html << "<li>#{tab_link I18n.t("navlink_home"), stream_path, params[:controller] == 'streams'}</li>"
     profile_link = @logged_in ? person_path(@logged_in, :tour => params[:tour]) : people_path
-    html << "<li>#{tab_link 'Profile', profile_link, params[:controller] == 'people' && me?}</li>"
+    html << "<li>#{tab_link I18n.t("navlink_profile"), profile_link, params[:controller] == 'people' && me?}</li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
-      html << "<li>#{ tab_link 'Groups', groups_path, params[:controller] == 'groups'}</li>"
+      html << "<li>#{ tab_link I18n.t("navlink_groups"), groups_path, params[:controller] == 'groups'}</li>"
     end
-    html << "<li>#{tab_link 'Directory', new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
-    #html << "<li>#{tab_link 'Bible', bible_path, params[:controller] == 'bibles'}</li>"
+    html << "<li>#{tab_link I18n.t("navlink_directory"), new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    #html << "<li>#{tab_link I18n.t("navlink_bible"), bible_path, params[:controller] == 'bibles'}</li>"
     html
   end
   

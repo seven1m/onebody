@@ -1,6 +1,7 @@
 pt: 
 
   #common
+
   pictures: Fotos
   verses: Versículos
   recipes: Receitas
@@ -13,11 +14,27 @@ pt:
   are_you_sure: Você tem certeza?
   none: nenhum
   family: família
-  person: pessoa
+  person: Pessoa
+  type: Tipo
+  delete: delete
+  sync: Sincronizar
+  back_to: Voltar para
+  back: Back
+  new: New
+  delete_with_brakets: "[deletar]"
+  edit_with_brakets: "[editar]"
+
+  #nav_links
+
+  navlink_pages: Páginas
+  navlink_home: Início
+  navlink_profile: Perfil
+  navlink_groups: Grupos
+  navlink_directory: Diretório
+  navlink_bible: Bíblia
 
   #streams
 
-  news: Notícias
   give_your_post_a_concise_title: "Dê um título conciso para a sua postagem:"
   share_your_announcement_information_or_news_here: "Compartilhe os seus anúncios, informações ou notícias aqui:"
   submit_news: Enviar Notícias
@@ -84,9 +101,7 @@ pt:
 
   add_verse_with_space: " Adicionar Versículo"
   add_another_verse_with_space: " Adicionar outro Versículo"
-  person: Pessoa
   people: Pessoas
-  back_to_with_spaces: " Voltar para "
   add_a_verse: " Adicionar um Versículo"
   verses: Versículos
   share_your_fav_bible_verses_with: Compartilhe os seus versículos bíblicos favoritos com a
@@ -114,8 +129,6 @@ pt:
 
   wall_to_wall: parede de recados
   wall_to_wall_camel_case: Parede de Recados
-  delete_with_brakets: "[deletar]"
-  person: Pessoa
   wall: Parede
   the_wall_is_place_for_people_post_messages: "A parede de recados é um lugar para pessoas postarem mensagens amigáveis para você e outros visualizarem."
   view_all_wall_messages: "Visualizar todas as mensagensView all wall messages..."
@@ -139,7 +152,6 @@ pt:
 
 
   #Sync
-  sync: Sincronizar
   sync_with: Sincronizar com
   you_do_not_have_any: Você não tem nenhuma
   remote_accounts: Contas Remotas
@@ -231,7 +243,50 @@ pt:
   city: Cidade
   state: Estado
   zip: CEP
-  type: Tipo
   all: Todos
   show_hidden: Mostrar ocultos
   
+  #Remote Accounts
+
+  edit_account: Edit Account
+  save_account: Save Account
+  highrise: Highrise
+  to_get_the_token_for_your: "To get the 'token' for your"
+  account_sign_in_click_top_right: "account, sign in and click the 'My Info' link in the top-right of the screen:"
+  on_the_following_click_reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
+  my_info: My Info
+  reveal_token: Reveal Token
+  remote_accounts: Remote Accounts
+  username: Username
+  token_key: Token/Key
+  synced_contacts: Synced Contacts
+  new_account: New Account
+  this_operation_will_make_changes: "This operation *will* make changes to this "
+  account: account
+  new_account: New Account
+  view_profile: View Profile
+
+  #Recipes
+
+  edit_recipe: Editar Receita
+  new_recipe: Nova Receita
+  save_recipe: Salvar Receita
+  delete_recipe: Deletar Receita
+  title: Título
+  tag_list: Lista de Tags
+  serving_size: Tamanaho da porção
+  description: Descrição
+  prep_cook_time: "Preparo/Tempo de cozimento"
+  bake_time: Tempo para assar
+  ingredients: Ingredientes
+  directions: Direções
+  other_notes: Outras notas
+  add_a_recipe: Adicionar uma receita
+  recipes: Receitas
+  share_your_favorite_recipes_with: Compartilhe as suas receitas favoritas com a
+  no_recipes_yet: Ainda não existe nenhuma receita!
+  no_results: Nenhum resultado
+  are_you_sure_delete_recipe: "Você tem certeza que deseja deletar essa receita?"
+  all_recipes: Todas as Receitas
+  add_a_recipe: Adicionar uma receita
+  about_this_recipe: "sobre essa receita."
