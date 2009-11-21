@@ -4,7 +4,8 @@ class Administration::LogItemsController < ApplicationController
   def index
     conditions = []
     session[:admin_log] ||= {}
-    session[:admin_log][:date] = params[:date] if params[:date]
+    session[:admin_log][:date] = params[:date] || {}
+    session[:admin_log][:date][:from] = (Date.today - 7).to_s unless session[:admin_log][:date][:from].to_s.any?
     if session[:admin_log][:date]
       if session[:admin_log][:date][:from].to_s.any? and date_from = format_date(session[:admin_log][:date][:from])
         conditions.add_condition ['created_at >= ?', date_from]
