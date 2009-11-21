@@ -81,6 +81,8 @@
 #
 
 class Person < ActiveRecord::Base
+  
+  MAX_TO_BATCH_AT_A_TIME = 50
 
   BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
   EXTRAS = %w(email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
@@ -645,12 +647,64 @@ class Person < ActiveRecord::Base
     self.friendship_requests.destroy_all
   end
   
-  def self.business_categories
-    find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' order by business_category").map { |p| p.business_category }
-  end
+  class << self
+    
+    # used to update a batch of records at one time, for UpdateAgent API
+    def update_batch(records, options={})
+      raise "Too many records to batch at once (#{records.length})" if records.length > MAX_TO_BATCH_AT_A_TIME
+      records.map do |record|
+        person = find_by_legacy_id(record['legacy_id'])
+        # find the family (by legacy_id, preferably) 
+        family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
+        if person.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and family_id
+          # family should have already been claimed by barcode -- we're just going to try to match up people by name
+          # mark all people in this family as deleted, in case we don't get them all matched up
+          destroy_all ["family_id = ? and legacy_id is null and deleted = ?", family_id, false]
+          family_people = find_all_by_family_id_and_legacy_id(family_id, nil)
+          # try to match by name
+          person = family_people.detect { |p| p.first_name.soundex == record['first_name'].soundex and p.last_name.soundex == record['last_name'].soundex }
+          # it's not a huge deal if someone doesn't get matched up by name (a good percentage won't),
+          # because we'll just go ahead and create a new record below anyway (and non-matched ones are marked as deleted)
+        end
+        # last resort, create a new record
+        person ||= new
+        person.family_id = family_id
+        record.each do |key, value|
+          value = nil if value == ''
+          # avoid overwriting a newer email address
+          if key == 'email' and person.email_changed?
+            if value == person.email # email now matches (presumably, the external db has been updated to match the OneBody db)
+              person.write_attribute(:email_changed, false) # clear the flag
+            else
+              next # don't overwrite the newer email address with an older one
+            end
+          elsif %w(family email_changed remote_hash).include?(key) # skip these
+            next
+          end
+          person.send("#{key}=", value) # be sure to call the actual method (don't use write_attribute)
+        end
+        person.dont_mark_email_changed = true # set flag to indicate we're the api
+        if person.save
+          s = {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id, :name => person.name}
+          if person.email_changed? # email_changed flag still set
+            s[:status] = 'saved with error'
+            s[:error] = "Newer email not overwritten: #{person.email.inspect}"
+          end
+          s
+        else
+          {:status => 'not saved', :legacy_id => record['legacy_id'], :id => person.id, :name => person.name, :error => person.errors.full_messages.join('; ')}
+        end
+      end
+    end
   
-  def self.custom_types
-    find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' order by custom_type").map { |p| p.custom_type }
+    def business_categories
+      find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' order by business_category").map { |p| p.business_category }
+    end
+  
+    def custom_types
+      find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' order by custom_type").map { |p| p.custom_type }
+    end
+  
   end
 
   # model extensions

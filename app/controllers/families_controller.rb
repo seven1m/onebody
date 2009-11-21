@@ -140,52 +140,21 @@ class FamiliesController < ApplicationController
   end
   
   def batch
+    # delete family (used by Administration::DeletedPeopleController)
     if @logged_in.admin?(:edit_profiles) and params[:delete]
       params[:ids].to_a.each do |id|
         Family.find(id).destroy
       end
       redirect_back
+    # API for use by UpdateAgent
     elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       xml_params = Hash.from_xml(request.body.read)['hash']
-      options = xml_params['options'] || {}
-      records = xml_params['records']
-      statuses = records.map do |record|
-        family = Family.find_by_legacy_id(record['legacy_id'])
-        if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].to_s.any?
-          family = Family.find_by_legacy_id_and_barcode_id(nil, record['barcode_id'])
-        end
-        family ||= Family.new
-        if options['delete_families_with_conflicting_barcodes_if_no_legacy_id'] and !family.new_record?
-          Family.destroy_all ["legacy_id is null and barcode_id = ? and id != ?", record['barcode_id'], family.id]
-        end
-        record.each do |key, value|
-          value = nil if value == ''
-          if key == 'barcode_id' and family.barcode_id_changed?
-            if value == family.barcode_id
-              family.write_attribute(:barcode_id_changed, false)
-            else
-              next
-            end
-          elsif %w(barcode_id_changed remote_hash).include?(key)
-            next
-          end
-          family.write_attribute(key, value)
-        end
-        family.dont_mark_barcode_id_changed = true
-        if family.save
-          s = {:status => 'saved', :legacy_id => family.legacy_id, :id => family.id, :name => family.name}
-          if family.barcode_id_changed?
-            s[:status] = 'saved with error'
-            s[:error] = "Newer barcode not overwritten: #{family.barcode_id.inspect}"
-          end
-          s
-        else
-          {:status => 'not saved', :legacy_id => record['legacy_id'], :id => family.id, :name => family.name, :error => family.errors.full_messages.join('; ')}
-        end
+      statuses = Family.update_batch(xml_params['records'], xml_params['options'] || {})
+      respond_to do |format|
+        format.xml { render :xml => statuses }
       end
-      render :xml => statuses
     else
-      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+      render :text => 'You are not authorized.', :layout => true, :status => 401
     end
   end
   

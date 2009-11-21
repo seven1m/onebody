@@ -204,56 +204,22 @@ class PeopleController < ApplicationController
   end
   
   def batch
-    if params[:family_id] and @logged_in.admin?(:edit_profiles) # post from families/show page
+    # post from families/show page
+    if params[:family_id] and @logged_in.admin?(:edit_profiles)
       params[:ids].each { |id| Person.find(id).update_attribute(:family_id, params[:family_id]) }
       respond_to do |format|
         format.html { redirect_to family_path(params[:family_id]) }
         format.js   { render(:update) { |p| p.redirect_to family_path(params[:family_id]) } }
       end
+    # API for use by UpdateAgent
     elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       xml_params = Hash.from_xml(request.body.read)['hash']
-      options = xml_params['options'] || {}
-      records = xml_params['records']
-      statuses = records.map do |record|
-        person = Person.find_by_legacy_id(record['legacy_id'])
-        # legacy_id is preferred
-        family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
-        if person.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and family_id
-          # family should have already been claimed by barcode -- we're just going to try to match up people
-          Person.destroy_all ["family_id = ? and legacy_id is null and deleted = ?", family_id, false]
-          family_people = Person.find_all_by_family_id_and_legacy_id(family_id, nil)
-          person = family_people.detect { |p| p.first_name.soundex == record['first_name'].soundex and p.last_name.soundex == record['last_name'].soundex }
-        end
-        person ||= Person.new # last resort, create a new record
-        person.family_id = family_id
-        record.each do |key, value|
-          value = nil if value == ''
-          if key == 'email' and person.email_changed?
-            if value == person.email
-              person.write_attribute(:email_changed, false)
-            else
-              next
-            end
-          elsif %w(family email_changed remote_hash).include?(key)
-            next
-          end
-          person.write_attribute(key, value)
-        end
-        person.dont_mark_email_changed = true
-        if person.save
-          s = {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id, :name => person.name}
-          if person.email_changed?
-            s[:status] = 'saved with error'
-            s[:error] = "Newer email not overwritten: #{person.email.inspect}"
-          end
-          s
-        else
-          {:status => 'not saved', :legacy_id => record['legacy_id'], :id => person.id, :name => person.name, :error => person.errors.full_messages.join('; ')}
-        end
+      statuses = Person.update_batch(xml_params['records'], xml_params['options'] || {})
+      respond_to do |format|
+        format.xml { render :xml => statuses }
       end
-      render :xml => statuses
     else
-      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+      render :text => 'You are not authorized.', :layout => true, :status => 401
     end
   end
   

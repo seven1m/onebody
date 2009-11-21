@@ -36,6 +36,9 @@
 #
 
 class Family < ActiveRecord::Base
+  
+  MAX_TO_BATCH_AT_A_TIME = 50
+  
   has_many :people, :order => 'sequence', :dependent => :destroy
   accepts_nested_attributes_for :people
   belongs_to :site
@@ -168,30 +171,81 @@ class Family < ActiveRecord::Base
     update_attribute(:deleted, true)
   end
   
-  def self.new_with_default_sharing(attrs)
-    attrs.symbolize_keys!
-    attrs.merge!(
-      :share_address      => Setting.get(:privacy, :share_address_by_default),
-      :share_home_phone   => Setting.get(:privacy, :share_home_phone_by_default),
-      :share_mobile_phone => Setting.get(:privacy, :share_mobile_phone_by_default),
-      :share_work_phone   => Setting.get(:privacy, :share_work_phone_by_default),
-      :share_fax          => Setting.get(:privacy, :share_fax_by_default),
-      :share_email        => Setting.get(:privacy, :share_email_by_default),
-      :share_birthday     => Setting.get(:privacy, :share_birthday_by_default),
-      :share_anniversary  => Setting.get(:privacy, :share_anniversary_by_default)
-    )
-    new(attrs)
-  end
-  
-  def self.daily_barcode_assignment_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-    returning([]) do |data|
-      counts = connection.select_all("select count(date(barcode_assigned_at)) as count, date(barcode_assigned_at) as date from families where site_id=#{Site.current.id} and barcode_assigned_at is not null group by date(barcode_assigned_at) order by barcode_assigned_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
-      ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
-        d = date.strftime(date_strftime)
-        d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
-        count = counts[date] ? counts[date][0]['count'].to_i : 0
-        data << [d, count]
+  class << self
+    
+    # used to update a batch of records at one time, for UpdateAgent API
+    def update_batch(records, options={})
+      raise "Too many records to batch at once (#{records.length})" if records.length > MAX_TO_BATCH_AT_A_TIME
+      records.map do |record|
+        # find the family (by legacy_id, preferably) 
+        family = find_by_legacy_id(record['legacy_id'])
+        if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].to_s.any?
+          # if no family was found by legacy id, let's try by barcode id
+          # but only if the matched family has no legacy id!
+          # (because two separate families could potentially have accidentally been assigned the same barcode)
+          family = find_by_legacy_id_and_barcode_id(nil, record['barcode_id'])
+        end
+        # last resort, create a new record
+        family ||= new
+        if options['delete_families_with_conflicting_barcodes_if_no_legacy_id'] and !family.new_record?
+          # closely related to the other option, but this one deletes conflicting families
+          # (only if they have no legacy id)
+          destroy_all ["legacy_id is null and barcode_id = ? and id != ?", record['barcode_id'], family.id]
+        end
+        record.each do |key, value|
+          value = nil if value == ''
+          # avoid overwriting a newer barcode
+          if key == 'barcode_id' and family.barcode_id_changed?
+            if value == family.barcode_id # barcode now matches (presumably, the external db has been updated to match the OneBody db)
+              family.write_attribute(:barcode_id_changed, false) # clear the flag
+            else
+              next # don't overwrite the newer barcode with an older one
+            end
+          elsif %w(barcode_id_changed remote_hash).include?(key) # skip these
+            next
+          end
+          family.write_attribute(key, value) # be sure to call the actual method (don't use write_attribute)
+        end
+        family.dont_mark_barcode_id_changed = true # set flag to indicate we're the api
+        if family.save
+          s = {:status => 'saved', :legacy_id => family.legacy_id, :id => family.id, :name => family.name}
+          if family.barcode_id_changed? # barcode_id_changed flag still set
+            s[:status] = 'saved with error'
+            s[:error] = "Newer barcode not overwritten: #{family.barcode_id.inspect}"
+          end
+          s
+        else
+          {:status => 'not saved', :legacy_id => record['legacy_id'], :id => family.id, :name => family.name, :error => family.errors.full_messages.join('; ')}
+        end
       end
     end
+  
+    def new_with_default_sharing(attrs)
+      attrs.symbolize_keys!
+      attrs.merge!(
+        :share_address      => Setting.get(:privacy, :share_address_by_default),
+        :share_home_phone   => Setting.get(:privacy, :share_home_phone_by_default),
+        :share_mobile_phone => Setting.get(:privacy, :share_mobile_phone_by_default),
+        :share_work_phone   => Setting.get(:privacy, :share_work_phone_by_default),
+        :share_fax          => Setting.get(:privacy, :share_fax_by_default),
+        :share_email        => Setting.get(:privacy, :share_email_by_default),
+        :share_birthday     => Setting.get(:privacy, :share_birthday_by_default),
+        :share_anniversary  => Setting.get(:privacy, :share_anniversary_by_default)
+      )
+      new(attrs)
+    end
+  
+    def daily_barcode_assignment_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
+      returning([]) do |data|
+        counts = connection.select_all("select count(date(barcode_assigned_at)) as count, date(barcode_assigned_at) as date from families where site_id=#{Site.current.id} and barcode_assigned_at is not null group by date(barcode_assigned_at) order by barcode_assigned_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
+        ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
+          d = date.strftime(date_strftime)
+          d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
+          count = counts[date] ? counts[date][0]['count'].to_i : 0
+          data << [d, count]
+        end
+      end
+    end
+    
   end
 end
