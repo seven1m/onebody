@@ -593,3 +593,8 @@ tr.error td {
 .bad {
   color: red;
 }
+
+tr.subsection td,
+tr.subsection th {
+  background-color: #eee;
+}
