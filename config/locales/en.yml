@@ -290,3 +290,37 @@ en:
   all_recipes: All Recipes
   add_a_recipe: Add a recipe
   about_this_recipe: "about this recipe." 
+
+  #Relationships
+  
+  relationships:
+    husband: Husband
+    wife: Wife
+    father: Father
+    father_in_law: Father-in-law
+    stepfather: Stepfather
+    mother: Mother
+    mother_in_law: Mother-in-law
+    stepmother: Stepmother
+    son: Son
+    son_in_law: Son-in-law
+    stepson: Stepson
+    daughter: Daughter
+    daughter_in_law: Daughter-in-law
+    stepdaughter: Stepdaughter
+    brother: Brother
+    brother_in_law: Brother-in-law
+    stepbrother: Stepbrother
+    sister: Sister
+    sister_in_law: Sister-in-law
+    stepsister: Stepsister
+    grandfather: Grandfather
+    grandmother: Grandmother
+    grandson: Grandson
+    grandaughter: Granddaughter
+    uncle: Uncle
+    aunt: Aunt
+    nephew: Nephew
+    niece: Niece
+    cousin: Cousin
+    other: Other

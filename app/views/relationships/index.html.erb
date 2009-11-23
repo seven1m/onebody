@@ -1,0 +1,37 @@
+<% content_for :sidebar do %>
+  <%= form_remote_tag :url => search_path %>
+    <%= hidden_field_tag :select_person, true %>
+    <p>
+      Add a relationship:<br/>
+      <label for="name">Search by name:</label> <%= text_field_tag 'name' %>
+      <br/>
+      <%= submit_tag 'Add Relationship' %>
+    </p>
+  </form>
+  
+  <div id="add_member" style="display:none;">
+    <% form_tag person_relationships_path(@person) do %>
+      <label for="name">Relationship Type:</label>
+      <%= select_tag :name, options_for_select(['']+I18n.t(:relationships).invert.sort) %>
+      <div id="results"></div>
+      <p><%= submit_tag 'Add Selected' %></p>
+    <% end %>
+  </div>
+<% end %>
+
+<h1><%= link_to h(@person.name_possessive), @person %> Relationships</h1>
+
+<% if @relationships.any? %>
+  <table>
+    <% @relationships.each do |relationship| %>
+      <tr>
+        <td><%= link_to h(relationship.related.name), relationship.related %></td>
+        <td><%=h relationship.name_or_other %></td>
+        <td><%= link_to image_tag('remove.gif', :alt => 'Remove relationship.', :class => 'icon'), [@person, relationship], :method => :delete, :confirm => 'Are you sure?' %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p><em>none specified</em></p>
+<% end %>
+
