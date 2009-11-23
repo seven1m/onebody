@@ -47,7 +47,7 @@ class SearchesController < ApplicationController
               page.replace_html 'results', :partial => 'select_person'
               page.show 'add_member'
             elsif params[:select_family]
-              @families = @families[0..MAX_SELECT_FAMILIES]
+              @families = @families.to_a[0..MAX_SELECT_FAMILIES]
               page.replace_html 'results', :partial => 'select_family'
               if !@families.empty?
                 page.show 'select_family_form'
