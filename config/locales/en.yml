@@ -1,326 +1,285 @@
-en:
-
-  #common
-
-  pictures: Pictures
-  verses: Verses
-  recipes: Recipes
-  notes: Notes
-  news: News
-  publications: Publications
-  prayer_requests: Prayer Requests
-  messages: Messages
-  my_activity: My Activity
-  are_you_sure: Are you sure?
-  none: none
-  family: family
-  person: Person
-  type: Type
-  delete: delete
-  sync: Sync
-  back_to: Back To
-  back: Back
-  new: New
-  delete_with_brakets: "[delete]"
-  edit_with_brakets: "[edit]"
-
-  #nav_links
-
-  navlink_pages: Pages
-  navlink_home: Home
-  navlink_profile: Profile
-  navlink_groups: Groups
-  navlink_directory: Directory
-  navlink_bible: Bible
-
-  #streams
-
-  give_your_post_a_concise_title: "Give your post a concise title:"
-  share_your_announcement_information_or_news_here: "Share your announcement, information, or news here:"
-  submit_news: Submit News
-  or_share: Or, share
-  news_with_advanced_formatting: "news with advanced formatting..."
-  note: Note
-  what_are_you_doing: "What are you doing?"
-  whats_on_your_mind: "What's on your mind?"
-  share_note: Share Note
-  or_create_a: Or, create a
-  blog_post: blog post
-  with_a_title_and_formatting: "with a title and formatting..."
-  more: More
-  add_recipe: Add Recipe
-  new_recipe: New Recipe
-  add_publication: Add Publication
-  new_publication: New Publication
-  picture: Picture
-  enter_the_new_album_title: "Enter the new album title."
-  loading: Loading
-  add_a_picture: Add a Picture
-  upload: "Upload!"
-  upload_more: Upload more
-  album: Album
-  prayer: Prayer
-  save_prayer_request: Save Prayer Request
-  by: By
-  request: Request
-  verse: Verse
-  type_a_reference_below_and_hit_enter: "Type a reference (e.g. John 3:16, Matthew 5:3-11) below and hit enter:"
-  add_verse: Add Verse
-  activity_feed: Activity Feed
-  all_pictures: " All Pictures"
-  all_verses: " All Verses"
-  all_recipes: " All Recipes"
-  all_news: " All News"
-  all_publications: " All Publications"
-  home: home
-  mobile: mobile
-  work: work
-  fax: fax
-  share: Share
-  something: Something
-  share_something: Share Something
-  share_something_here: share something here
-  feed: Feed
-  import_from: "Import from..."
-  import_facebook_updates: "Import your Facebook status updates..."
-  import_twitter_updates: "Import your Twitter updates..."
-  import_flickr_photos: "Import your Flickr photos..."
-  import_blog_feed: "Import your Blog's RSS or Atom feed..."
-  facebook: " Facebook"
-  twitter: " Twitter"
-  flickr: " Flickr"
-  blog: " Blog"
-  show: Show
-  you_have: You have
-  pending_friend_requests: pending friend requests
-  friends: Friends
-  you_should: You should
-
-  #Verses
-
-  add_verse_with_space: " Add Verse"
-  add_another_verse_with_space: " Add Another Verse"
-  people: People
-  add_a_verse: " Add a Verse"
-  verses: Verses
-  share_your_fav_bible_verses_with: Share your favorite Bible verses with the
-  family: family
-  remove_this_verse_from_my_list: "Remove this verse from my list."
-  add_this_verse_to_my_list: "Add this verse to my list."
-  add_this_verse: Add this verse
-  to_my_list: "to my list."
-  people_who_like: People who like
-  this_verse: this verse
-  tags: Tags
-  add_tags: Add Tags
-  space_separated: "(space separated)"
-  tools: Tools
-  read_this_passage_at_youversion: "Read this passage at YouVersion..."
-  verse_disclaimer: "Scripture quotations marked 'WEB' are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely."
-  comments: Comments
-  about_this_verse: "about this verse. Share what it means to you, how it has helped you, or simply why you like it."
-  remove_this_verse: Remove this Verse
-  from_my_list: from my list
-  no_verses_yet: "No verses yet!"
-
-  #Walls
-
-  wall_to_wall: wall to wall
-  wall_to_wall_camel_case: Wall to Wall
-  wall: Wall
-  the_wall_is_place_for_people_post_messages: "The Wall is a place for people to post friendly messages for you and others to see."
-  view_all_wall_messages: "View all wall messages..."
-  no_messages_yet: "No messages yet!"
-  post_a_message: Post a message
-  all_users_will_see_your_message: "All users will see your message; to send a private"
-  message: "message"
-  click_here: click here
-  please_respect_the_privacy_of_others: "Please respect the privacy of others. Abusing the wall will get you banned from the site."
-  save_message: Save Message
-  newest_messages_appear_first: newest messages appear first
-  
-  #Tags
-
-  tag: Tag
-  no_tags: no tags
-  delete_this_tag: Delete this tag
-  are_you_sure_you_want_delete_this_tag: "Are you sure you want to delete this tag?"
-  no_tags_yet: no tags yet
-
-  #Sync
-
-
-  sync_with: Sync with
-  you_do_not_have_any: You do not have any
-  remote_accoutns: Remote Accounts
-  set_up: set up
-
-  #Sessions
-
-  please_sign_in: "Please sign in."
-  help_signing_in: Help Signing In
-  sign_in: Sign In
-  i_need_help: "I need help."
-  sign_up: Sign Up
-  for_an_account_or_sign_in: "for an account, or sign in:"
-  email_address: "Email Address:"
-  password: "Password:"
-  never_share_your_password_with_anyone: "Never share your password with anyone!"
-  you_may_read_our_privacy_policy: You may read our Privacy Policy
-  here: here
-  no_users: No Users
-  there_are_no_users_in_the_system: "There are no users in the system."
-  you_may_create_the_first_user: "You may create the first user by running the command:"
-  alternatively_you_can_load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
-
-  #Searches
-
-  search_results: Search Results
-  found: found
-  family_name: Family Name
-  your_search_didnt_match_any_families: "Your search didn't match any families."
-  browse_directory: Browse Directory
-  browse_with_space: " Browse"
-  businesses: Businesses
-  businesses_with_space: " Businesses"
-  print_directory: Print Directory
-  print_with_space: " Print"
-  not_showing_hidden_people: "(not showing hidden people)"
-  business_category: "Business Category:"
-  show_all: "(show all)"
-  business: Business
-  category: Category
-  name: Name
-  birthday: Birthday
-  mail_group: Mail Group
-  hidden_profile: Hidden Profile
-  no_family: "(no family)"
-  add_to_friends: Add to Friends
-  are_you_sure_an_email_will_be_sent: "Are you sure? An email will be sent to this person requesting friendship."
-  your_search_didnt_match_any_people: "Your search didn't match any people."
-  elder: Elder
-  deacon: Deacon
-  staff: Staff
-  member: Member
-  search: Search
-  search_for_people_on: Search for people on
-  new_family: New Family
-  searching: "Searching..."
-  find_your_friends: Find Your Friends
-  use_the: Use the 
-  fields_on_the_left: fields on the left
-  to_search_for_your_friends: "to search for your friends."
-  click_the: Click the
-  add_friend: Add Friend
-  icon_to_add_them: "icon to add them."
-  you_can_add_as_many_friends_you_like: "You can add as many friends as you like!"
-  when_youre_finished_you_can_edit_your: "When you're finished, you can edit your"
-  friends_list: friends list
-  to_remove_and_put_them_in_order: "to remove and put them in the order you want."
-  search_the_directory: Search the Directory
-  you_can_always_find_someone_quickly: You can always find someone quickly by typing all or part of their name in the
-  top_right: top-right
-  of_the_screen: of the screen.
-  or_use_the: "Or, use the"
-  advanced_search: advanced search
-  advanced_search_camel_case: Advanced Search
-  feature_to_change_the_results: "feature to change the results interactively."
-  browse_the_directory: Browse the Directory
-  of_course_you_can_also: "Of course, you can also"
-  by_name: "by name."
-  business_directory: Business Directory
-  some_of_our_members_have_businesses: "Some of our members have businesses they'd like you to know about."
-  next_time_you_go_to_grab_yellow_pages: "Next time you go to grab the yellow pages, try the"
-  first: "first."
-  printed_directory: "Printed Directory"
-  the_directory_is_constantly_changing: "The directory is constantly changing. While finding someone online is usually your best bet, you may desire to"
-  print_the_directory: print the directory
-  for_those_offline_moments: "for those 'offline' moments."
-  anniversary: Anniversary
-  gender: Gender
-  male: Male
-  female: Female
+--- 
+en: 
   city: City
-  state: State
-  zip: Zip
-  all: All
-  show_hidden: Show Hidden
-
-  #Remote Accounts
-
-  edit_account: Edit Account
-  save_account: Save Account
-  highrise: Highrise
-  to_get_the_token_for_your: "To get the 'token' for your"
-  account_sign_in_click_top_right: "account, sign in and click the 'My Info' link in the top-right of the screen:"
-  on_the_following_click_reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
-  my_info: My Info
-  reveal_token: Reveal Token
-  remote_accounts: Remote Accounts
-  username: Username
-  token_key: Token/Key
-  synced_contacts: Synced Contacts
-  new_account: New Account
-  this_operation_will_make_changes: "This operation *will* make changes to this "
-  account: account
-  new_account: New Account
-  view_profile: View Profile
-
-  #Recipes
-
-  edit_recipe: Edit Recipe
-  new_recipe: New Recipe
-  save_recipe: Save Recipe
-  delete_recipe: Delete Recipe
-  title: Title
-  tag_list: Tag List
-  serving_size: Serving size 
-  description: Description
-  prep_cook_time: "Prep/Cook time"
-  bake_time: Bake time
-  ingredients: Ingredients
-  directions: Directions
-  other_notes: Other notes
-  add_a_recipe: Adicionar uma receita
-  recipes: Recipes
-  share_your_favorite_recipes_with: Share your favorite recipes with the
+  icon_to_add_them: icon to add them.
+  click_the: Click the
+  here: here
+  not_showing_hidden_people: (not showing hidden people)
+  for_an_account_or_sign_in: "for an account, or sign in:"
+  give_your_post_a_concise_title: "Give your post a concise title:"
+  help_signing_in: Help Signing In
+  you_may_read_our_privacy_policy: You may read our Privacy Policy
+  all_news: " All News"
+  none: none
+  pending_friend_requests: pending friend requests
+  deacon: Deacon
+  remove_this_verse: Remove this Verse
+  by_name: by name.
+  printed_directory: Printed Directory
+  save_message: Save Message
+  by: By
+  enter_the_new_album_title: Enter the new album title.
+  pictures: Pictures
   no_recipes_yet: No recipes yet!
-  no_results: No results
-  are_you_sure_delete_recipe: "Are you sure you want to delete this recipe?"
-  all_recipes: All Recipes
-  add_a_recipe: Add a recipe
-  about_this_recipe: "about this recipe." 
-
-  #Relationships
-  
-  relationships:
-    husband: Husband
-    wife: Wife
-    father: Father
+  feature_to_change_the_results: feature to change the results interactively.
+  business: Business
+  male: Male
+  new_account: New Account
+  share_your_announcement_information_or_news_here: "Share your announcement, information, or news here:"
+  for_those_offline_moments: for those 'offline' moments.
+  post_a_message: Post a message
+  relationships: 
     father_in_law: Father-in-law
-    stepfather: Stepfather
+    stepbrother: Stepbrother
+    grandfather: Grandfather
+    daughter_in_law: Daughter-in-law
+    brother: Brother
+    grandaughter: Granddaughter
     mother: Mother
+    uncle: Uncle
+    niece: Niece
+    grandmother: Grandmother
+    nephew: Nephew
     mother_in_law: Mother-in-law
     stepmother: Stepmother
+    husband: Husband
     son: Son
-    son_in_law: Son-in-law
-    stepson: Stepson
-    daughter: Daughter
-    daughter_in_law: Daughter-in-law
-    stepdaughter: Stepdaughter
-    brother: Brother
-    brother_in_law: Brother-in-law
-    stepbrother: Stepbrother
-    sister: Sister
     sister_in_law: Sister-in-law
     stepsister: Stepsister
-    grandfather: Grandfather
-    grandmother: Grandmother
-    grandson: Grandson
-    grandaughter: Granddaughter
-    uncle: Uncle
-    aunt: Aunt
-    nephew: Nephew
-    niece: Niece
-    cousin: Cousin
     other: Other
+    stepfather: Stepfather
+    son_in_law: Son-in-law
+    stepson: Stepson
+    sister: Sister
+    aunt: Aunt
+    stepdaughter: Stepdaughter
+    brother_in_law: Brother-in-law
+    wife: Wife
+    father: Father
+    daughter: Daughter
+    grandson: Grandson
+    cousin: Cousin
+  my_info: My Info
+  verses: Verses
+  all_verses: " All Verses"
+  browse_directory: Browse Directory
+  publications: Publications
+  edit_recipe: Edit Recipe
+  add_friend: Add Friend
+  home: home
+  family: family
+  news_with_advanced_formatting: news with advanced formatting...
+  note: Note
+  newest_messages_appear_first: newest messages appear first
+  recipes: Recipes
+  add_verse: Add Verse
+  my_activity: My Activity
+  view_profile: View Profile
+  all_pictures: " All Pictures"
+  add_this_verse_to_my_list: Add this verse to my list.
+  add_recipe: Add Recipe
+  found: found
+  username: Username
+  people: People
+  of_course_you_can_also: Of course, you can also
+  you_do_not_have_any: You do not have any
+  album: Album
+  your_search_didnt_match_any_families: Your search didn't match any families.
+  upload_more: Upload more
+  add_a_recipe: Add a recipe
+  about_this_recipe: about this recipe.
+  of_the_screen: of the screen.
+  share_your_fav_bible_verses_with: Share your favorite Bible verses with the
+  business_directory: Business Directory
+  all_users_will_see_your_message: All users will see your message; to send a private
+  advanced_search_camel_case: Advanced Search
+  i_need_help: I need help.
+  from_my_list: from my list
+  staff: Staff
+  search: Search
+  some_of_our_members_have_businesses: Some of our members have businesses they'd like you to know about.
+  business_category: "Business Category:"
+  prayer: Prayer
+  ingredients: Ingredients
+  with_a_title_and_formatting: with a title and formatting...
+  remove_this_verse_from_my_list: Remove this verse from my list.
+  activity_feed: Activity Feed
+  type_a_reference_below_and_hit_enter: "Type a reference (e.g. John 3:16, Matthew 5:3-11) below and hit enter:"
+  save_recipe: Save Recipe
+  share: Share
+  sign_in: Sign In
+  upload: Upload!
+  name: Name
+  gender: Gender
+  top_right: top-right
+  delete_recipe: Delete Recipe
+  whats_on_your_mind: What's on your mind?
+  all_recipes: All Recipes
+  picture: Picture
+  or_use_the: Or, use the
+  tags: Tags
+  account_sign_in_click_top_right: "account, sign in and click the 'My Info' link in the top-right of the screen:"
+  friends_list: friends list
+  email_address: "Email Address:"
+  category: Category
+  delete: delete
+  message: message
+  mail_group: Mail Group
+  find_your_friends: Find Your Friends
+  tools: Tools
+  alternatively_you_can_load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
+  are_you_sure_an_email_will_be_sent: Are you sure? An email will be sent to this person requesting friendship.
+  no_tags_yet: no tags yet
+  print_with_space: " Print"
+  directions: Directions
+  request: Request
+  wall_to_wall: wall to wall
+  are_you_sure_you_want_delete_this_tag: Are you sure you want to delete this tag?
+  mobile: mobile
+  birthday: Birthday
+  other_notes: Other notes
+  member: Member
+  share_something_here: share something here
+  no_verses_yet: No verses yet!
+  friends: Friends
+  wall: Wall
+  stream: 
+    import_flickr_photos: Import your Flickr photos...
+    flickr: Flickr
+    blog: " Blog"
+    import_facebook_updates: Import your Facebook status updates...
+    import_blog_feed: Import your Blog's RSS or Atom feed...
+    new_recipe: New Recipe
+    import_from: Import from...
+    import_twitter_updates: Import your Twitter updates...
+    facebook: " Facebook"
+    twitter: " Twitter"
+  highrise: Highrise
+  submit_news: Submit News
+  prayer_requests: Prayer Requests
+  prep_cook_time: Prep/Cook time
+  the_wall_is_place_for_people_post_messages: The Wall is a place for people to post friendly messages for you and others to see.
+  female: Female
+  space_separated: (space separated)
+  zip: Zip
+  search_for_people_on: Search for people on
+  share_something: Share Something
+  add_a_verse: " Add a Verse"
+  businesses: Businesses
+  edit_with_brakets: "[edit]"
+  this_operation_will_make_changes: "This operation *will* make changes to this "
+  all: All
+  this_verse: this verse
+  family_name: Family Name
+  you_should: You should
+  no_family: (no family)
+  you_can_always_find_someone_quickly: You can always find someone quickly by typing all or part of their name in the
+  add_this_verse: Add this verse
+  print_directory: Print Directory
+  new: New
+  elder: Elder
+  work: work
+  add_verse_with_space: " Add Verse"
+  when_youre_finished_you_can_edit_your: When you're finished, you can edit your
+  reveal_token: Reveal Token
+  hidden_profile: Hidden Profile
+  delete_with_brakets: "[delete]"
+  are_you_sure: Are you sure?
+  sign_up: Sign Up
+  add_a_picture: Add a Picture
+  what_are_you_doing: What are you doing?
+  advanced_search: advanced search
+  the_directory_is_constantly_changing: The directory is constantly changing. While finding someone online is usually your best bet, you may desire to
+  about_this_verse: about this verse. Share what it means to you, how it has helped you, or simply why you like it.
+  there_are_no_users_in_the_system: There are no users in the system.
+  businesses_with_space: " Businesses"
+  show: Show
+  search_the_directory: Search the Directory
+  first: first.
+  next_time_you_go_to_grab_yellow_pages: Next time you go to grab the yellow pages, try the
+  view_all_wall_messages: View all wall messages...
+  are_you_sure_delete_recipe: Are you sure you want to delete this recipe?
+  save_account: Save Account
+  fields_on_the_left: fields on the left
+  no_messages_yet: No messages yet!
+  you_can_add_as_many_friends_you_like: You can add as many friends as you like!
+  never_share_your_password_with_anyone: Never share your password with anyone!
+  to_remove_and_put_them_in_order: to remove and put them in the order you want.
+  back: Back
+  search_results: Search Results
+  searching: Searching...
+  show_all: (show all)
+  to_search_for_your_friends: to search for your friends.
+  no_results: No results
+  feed: Feed
+  please_sign_in: Please sign in.
+  tag: Tag
+  please_respect_the_privacy_of_others: Please respect the privacy of others. Abusing the wall will get you banned from the site.
+  more: More
+  sync: Sync
+  all_publications: " All Publications"
+  people_who_like: People who like
+  remote_accounts: 
+    remote_accounts: Remote Accounts
+    synced_contacts: Synced Contacts
+  sync_with: Sync with
+  read_this_passage_at_youversion: Read this passage at YouVersion...
+  share_note: Share Note
+  click_here: click here
+  or_create_a: Or, create a
+  add_another_verse_with_space: " Add Another Verse"
+  title: Title
+  wall_to_wall_camel_case: Wall to Wall
+  back_to: Back To
+  add_publication: Add Publication
+  description: Description
+  notes: Notes
+  messages: Messages
+  you_may_create_the_first_user: "You may create the first user by running the command:"
+  loading: Loading
+  or_share: Or, share
+  no_users: No Users
+  nav: 
+    groups: Groups
+    bible: Bible
+    profile: Profile
+    directory: Directory
+    pages: Pages
+    home: Home
+  token_key: Token/Key
+  add_to_friends: Add to Friends
+  share_your_favorite_recipes_with: Share your favorite recipes with the
+  set_up: set up
+  on_the_following_click_reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
+  bake_time: Bake time
+  browse_with_space: " Browse"
+  serving_size: Serving size
+  state: State
+  tag_list: Tag List
+  news: News
+  add_tags: Add Tags
+  anniversary: Anniversary
+  blog_post: blog post
+  new_family: New Family
+  verse_disclaimer: Scripture quotations marked 'WEB' are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.
+  print_the_directory: print the directory
+  browse_the_directory: Browse the Directory
+  save_prayer_request: Save Prayer Request
+  use_the: Use the
+  edit_account: Edit Account
+  delete_this_tag: Delete this tag
+  new_publication: New Publication
+  your_search_didnt_match_any_people: Your search didn't match any people.
+  account: account
+  comments: Comments
+  to_my_list: to my list.
+  password: "Password:"
+  person: Person
+  type: Type
+  fax: fax
+  verse: Verse
+  to_get_the_token_for_your: To get the 'token' for your
+  show_hidden: Show Hidden
+  you_have: You have
+  something: Something
+  no_tags: no tags

@@ -3,5 +3,5 @@
 <% end %>
 
 <% if @remote_accounts.empty? %>
-  <p><em><%= I18n.t("you_do_not_have_any") %> <%= link_to I18n.t("remote_accounts"), person_remote_accounts_path(@logged_in.id) %> <%= I18n.t("set_up") %>.</em></p>
+  <p><em><%= I18n.t("you_do_not_have_any") %> <%= link_to I18n.t("remote_accounts.remote_accounts"), person_remote_accounts_path(@logged_in.id) %> <%= I18n.t("set_up") %>.</em></p>
 <% end %>
