@@ -1,5 +1,5 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('recipe.png', :alt => I18n.t("all_recipes"), :class => 'icon') + ' ' + I18n.t("all_recipes"), recipes_path %></li>
+  <li><%= link_to image_tag('recipe.png', :alt => I18n.t('stream.all_recipes'), :class => 'icon') + ' ' + I18n.t('stream.all_recipes'), recipes_path %></li>
   <% if @logged_in.can_edit?(@recipe) %>
     <li><%= link_to image_tag('pencil.png', :alt => I18n.t("edit_recipe"), :class => 'icon') + ' ' + I18n.t("edit_recipe"), edit_recipe_path(@recipe) %></li>
     <li><%= link_to image_tag('delete.png', :alt => I18n.t("delete_recipe"), :class => 'icon') + ' ' + I18n.t("delete_recipe"), recipe_path(@recipe), :method => 'delete', :confirm => I18n.t("are_you_sure") %></li>
@@ -25,12 +25,12 @@
   
 <table>
   <tr>
-    <td style="white-space:nowrap;"><%= I18n.t("tags") %>:</td>
+    <td><%= I18n.t('global.tags') %>:</td>
     <td>
       <%= form_tag(@recipe, :method => 'put', :style => 'border:none;padding:0;') %>
         <p>
           <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @recipe} %><br/>
-          <%= I18n.t("add_tags") %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+          <%= I18n.t('global.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
         </p>
       </form>
     </td>
@@ -41,13 +41,13 @@
   </tr>
   <% if @recipe.prep.to_s.any? %>
     <tr>
-      <td style="white-space:nowrap;"><%= I18n.t("prep_cook_time") %>:</td>
+      <td style="white-space:nowrap;"><%= I18n.t('recipes.prep_cook_time') %>:</td>
       <td><%=h @recipe.prep %></td>
     </tr>
   <% end %>
   <% if @recipe.bake.to_s.any? %>
     <tr>
-      <td style="white-space:nowrap;"><%= I18n.t("bake_time") %>:</td>
+      <td style="white-space:nowrap;"><%= I18n.t('recipes.bake_time') %>:</td>
       <td><%=h @recipe.bake %></td>
     </tr>
   <% end %>
@@ -73,5 +73,5 @@
   <% end %>
 </table>
 
-<h2><%= I18n.t("comments") %></h2>
-<%= render :partial => 'comments/comments', :locals => {:object => @recipe, :intro => I18n.t("about_this_recipe")} %>
+<h2><%= I18n.t('global.comments') %></h2>
+<%= render :partial => 'comments/comments', :locals => {:object => @recipe, :intro => I18n.t('recipes.about_this_recipe')} %>

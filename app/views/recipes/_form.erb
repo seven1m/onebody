@@ -16,8 +16,8 @@
     <%= form.label :tag_list, I18n.t("tag_list") %>               <%= form.text_field :tag_list %>               <br/>
     <%= form.label :serving_size, I18n.t("serving_size") %>       <%= form.select :serving_size, 1..100 %>       <br/>
     <%= form.label :description, I18n.t("description") %>         <%= form.text_area :description, :rows => 3 %><br/>
-    <%= form.label :prep, I18n.t("prep_cook_time") %>             <%= form.text_field :prep %>                   <br/>
-    <%= form.label :bake, I18n.t("bake_time") %>                  <%= form.text_field :bake %>                   <br/>
+    <%= form.label :prep, I18n.t('recipes.prep_cook_time') %>             <%= form.text_field :prep %>                   <br/>
+    <%= form.label :bake, I18n.t('recipes.bake_time') %>                  <%= form.text_field :bake %>                   <br/>
     <%= form.label :ingredients, I18n.t("ingredients") %>         <%= form.text_area :ingredients, :rows => 10 %><br/>
     <%= form.label :directions, I18n.t("directions") %>           <%= form.text_area :directions, :rows => 10 %> <br/>
     <%= form.label :notes, I18n.t("other_notes") %>               <%= form.text_area :notes, :rows => 3 %>

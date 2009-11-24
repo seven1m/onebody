@@ -1,15 +1,13 @@
-<h2><%= I18n.t("search_results") %></h2>
+<h2><%= I18n.t('global.search_results') %></h2>
+
+<p><%= I18n.t("search.families_found", :count => @count) %></p>
+
+<%= will_paginate @families %>
 
 <% if @families and @families.any? %>
-
-  <p>
-    <%= pluralize @count, I18n.t("family")%> <%= I18n.t("found") %>
-    <%= will_paginate @families %>
-  </p>
-
   <table>
     <tr>
-      <th><%= I18n.t("family_name") %></th>
+      <th><%= I18n.t('search.family_name') %></th>
     </tr>
     <% @families.each do |family| %>
       <tr>
@@ -19,11 +17,6 @@
       </tr>
     <% end %>
   </table>
-
-  <%= will_paginate @families %>
-
-<% else %>
-
-  <p><em><%= I18n.t("your_search_didnt_match_any_families") %></em></p>
-
 <% end %>
+
+<%= will_paginate @families %>

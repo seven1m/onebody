@@ -5,7 +5,7 @@
     <p>
       <%= I18n.t("type_a_reference_below_and_hit_enter") %><br/>
       <%= text_field_tag :id, nil, :style => 'border:1px solid #ccc;width:100px;' %>
-      <%= submit_tag I18n.t("add_verse"), :style => 'width:100px;' %>
+      <%= submit_tag I18n.t('verses.add_verse'), :style => 'width:100px;' %>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>

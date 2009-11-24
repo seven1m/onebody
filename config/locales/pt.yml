@@ -1,225 +1,45 @@
 --- 
 pt: 
-  city: Cidade
-  icon_to_add_them: "\xC3\xADcone para adicion\xC3\xA1-los."
-  click_the: Clique no
-  here: aqui
-  not_showing_hidden_people: "(n\xC3\xA3o est\xC3\xA1 mostrando pessoas ocultas)"
-  for_an_account_or_sign_in: "para uma conta, ou acesse com uma existente:"
-  give_your_post_a_concise_title: "D\xC3\xAA um t\xC3\xADtulo conciso para a sua postagem:"
-  help_signing_in: Ajuda para acessar
-  you_may_read_our_privacy_policy: "Voc\xC3\xAA pode ler a nossa Pol\xC3\xADtica de Privacidade"
-  all_news: " Todas as Not\xC3\xADcias"
-  none: nenhum
-  pending_friend_requests: pedidos de amizade
-  deacon: "Di\xC3\xA1cono"
-  remove_this_verse: "Remover esse vers\xC3\xADculo"
-  by_name: por nome.
-  printed_directory: "Diret\xC3\xB3rio Impresso"
-  save_message: Salvar Mensagem
-  by: De
-  enter_the_new_album_title: "Digite o t\xC3\xADtulo do novo \xC3\xA1lbum."
-  pictures: Fotos
-  no_recipes_yet: "Ainda n\xC3\xA3o existe nenhuma receita!"
-  feature_to_change_the_results: "caracter\xC3\xADstica para mudar os resultados interativamente."
-  business: "Neg\xC3\xB3cios"
-  male: Masculino
-  new_account: New Account
-  share_your_announcement_information_or_news_here: "Compartilhe os seus an\xC3\xBAncios, informa\xC3\xA7\xC3\xB5es ou not\xC3\xADcias aqui:"
-  for_those_offline_moments: para aqueles momentos 'offline'.
-  post_a_message: Envie uma mensagem
-  my_info: My Info
-  verses: "Vers\xC3\xADculos"
-  all_verses: " Todos os Vers\xC3\xADculos"
-  browse_directory: "Procurar no Diret\xC3\xB3rio"
-  publications: !binary |
-    UHVibGljYcOnw7Vlcw==
-
-  edit_recipe: Editar Receita
-  add_friend: Adicionar Amigo
-  home: casa
-  family: "fam\xC3\xADlia"
-  news_with_advanced_formatting: "not\xC3\xADcias com formata\xC3\xA7\xC3\xA3o avancada..."
-  note: Nota
-  newest_messages_appear_first: mensagens mais novas aparecem primeiro
-  recipes: Receitas
-  add_verse: "Adicionar Vers\xC3\xADculo"
-  my_activity: Minha Atividade
-  view_profile: View Profile
-  all_pictures: " Todas as Fotos"
-  add_this_verse_to_my_list: "Adicionar esse vers\xC3\xADculo \xC3\xA0 minha lista."
-  add_recipe: Adicionar Receita
-  found: encontrado
-  username: Username
+  no_messages_yet: "Ainda n\xC3\xA3o existe nenhuma mensagem!"
+  wall: 
+    view_all_wall_messages: Visualizar todas as mensagensView all wall messages...
+    wall: Parede
+    wall_to_wall: parede de recados
+    newest_messages_appear_first: mensagens mais novas aparecem primeiro
+    to_send_a_private_message: "Todos os usu\xC3\xA1rios ir\xC3\xA3o ver a sua mensagem; para enviar uma mensagem privada, <a href=\"{{url}}\">clique aqui</a>."
+    description: "A parede de recados \xC3\xA9 um lugar para pessoas postarem mensagens amig\xC3\xA1veis para voc\xC3\xAA e outros visualizarem."
+    save_message: Salvar Mensagem
+  verses: 
+    people_who_like_this_verse: "Pessoas que gostam desse vers\xC3\xADculo"
+    verses: "Vers\xC3\xADculos"
+    add_verse: "Adicionar Vers\xC3\xADculo"
+    add_this_verse_to_my_list: "Adicionar esse vers\xC3\xADculo \xC3\xA0 minha lista."
+    remove_this_verse: "Remover esse vers\xC3\xADculo da minha lista."
+    add_a_verse: "Adicionar um Vers\xC3\xADculo"
+    about_this_verse: "sobre esse vers\xC3\xADculo. Compartilhe o que ele significa para voc\xC3\xAA, como te ajudou ou simplesmente porque voc\xC3\xAA gosta."
+    no_verses_yet: "Nenhum vers\xC3\xADculo ainda!"
+    read_this_passage_at_youversion: Leia essa passagem no YouVersion...
   people: Pessoas
-  of_course_you_can_also: "Claro, voc\xC3\xAA tamb\xC3\xA9m pode"
-  you_do_not_have_any: "Voc\xC3\xAA n\xC3\xA3o tem nenhuma"
-  album: !binary |
-    w4FsYnVt
-
-  your_search_didnt_match_any_families: "Sua pesquisa n\xC3\xA3o restornou nenhuma fam\xC3\xADlia."
-  upload_more: Carregar Mais
-  add_a_recipe: Adicionar uma receita
-  about_this_recipe: sobre essa receita.
-  of_the_screen: da tela.
-  share_your_fav_bible_verses_with: "Compartilhe os seus vers\xC3\xADculos b\xC3\xADblicos favoritos com a"
-  business_directory: "Diret\xC3\xB3rio de Neg\xC3\xB3cios"
-  all_users_will_see_your_message: "Todos os usu\xC3\xA1rios ir\xC3\xA3o ver a sua mensagem; para enviar uma mensagem"
-  advanced_search_camel_case: "Busca Avan\xC3\xA7ada"
-  i_need_help: Eu preciso de ajuda.
-  from_my_list: da minha lista
-  staff: Staff
-  search: Busca
-  some_of_our_members_have_businesses: "Alguns dos nossos membros possuem neg\xC3\xB3cios que eles gostariam que voc\xC3\xAA soubesse a respeito."
-  business_category: "Categoria de Neg\xC3\xB3cios:"
+  verse_disclaimer: "Trechos das escrituras marcados como 'WEB' s\xC3\xA3o obtidos da World English Bible, uma tradu\xC3\xA7\xC3\xA3o moderna em ingl\xC3\xAAs da American Standard Version da B\xC3\xADblia Sagrada. WEB est\xC3\xA1 sob dom\xC3\xADnio p\xC3\xBAblico. C\xC3\xB3pias e publica\xC3\xA7\xC3\xB5es s\xC3\xA3o livres."
+  show_hidden: Mostrar ocultos
   prayer: !binary |
     T3Jhw6fDo28=
 
-  ingredients: Ingredientes
-  with_a_title_and_formatting: "com um t\xC3\xADtulo e formata\xC3\xA7\xC3\xA3o..."
-  remove_this_verse_from_my_list: "Remover esse vers\xC3\xADculo da minha lista."
-  activity_feed: Feed de Atividade
-  type_a_reference_below_and_hit_enter: "Digite uma refer\xC3\xAAncia (ex. Jo\xC3\xA3o 3:16, Mateus 5:3-11) abaixo e pressione enter:"
-  save_recipe: Salvar Receita
-  share: Compartilhe
-  sign_in: Acessar
-  upload: Carregar!
-  name: Nome
-  gender: "G\xC3\xAAnero"
-  top_right: canto superior direito
-  delete_recipe: Deletar Receita
-  whats_on_your_mind: O que passa na sua mente?
-  all_recipes: Todas as Receitas
-  picture: Foto
-  or_use_the: Ou, use a
-  tags: Tags
-  account_sign_in_click_top_right: "account, sign in and click the 'My Info' link in the top-right of the screen:"
-  friends_list: lista de amigos
-  email_address: "Endere\xC3\xA7o de Email:"
-  category: Categoria
-  delete: delete
-  message: privada
-  mail_group: Grupo de Emails
-  find_your_friends: Encontre seus amigos
-  tools: Ferramentas
-  alternatively_you_can_load_sample_data: "Como uma alternativa, voc\xC3\xAA pode carregar o OneBody com alguns dados de exemplo executando o coamndo:"
-  are_you_sure_an_email_will_be_sent: "Voc\xC3\xAA tem certeza? Um email ser\xC3\xA1 enviado a essa pessoa com o convite de amizade."
-  no_tags_yet: nenhuma tag ainda
-  print_with_space: " Imprimir"
-  directions: !binary |
-    RGlyZcOnw7Vlcw==
-
-  request: Pedido
-  wall_to_wall: parede de recados
-  are_you_sure_you_want_delete_this_tag: "Voc\xC3\xAA tem certeza que deseja deletar essa tag?"
-  mobile: celular
-  birthday: Data de Nascimento
-  other_notes: Outras notas
-  member: Membro
-  share_something_here: compartilhar algo aqui
-  no_verses_yet: "Nenhum vers\xC3\xADculo ainda!"
-  friends: Amigos
-  wall: Parede
-  stream: 
-    import_flickr_photos: Importar as suas fotos do Flickr...
-    flickr: Flickr
-    blog: " Blog"
-    import_facebook_updates: "Importar as suas atualiza\xC3\xA7\xC3\xB5es do Facebook..."
-    import_blog_feed: Importar os feeds RSS ou Atom do seu Blog...
-    new_recipe: Nova Receita
-    import_from: Importar de...
-    import_twitter_updates: "Importar as suas atualiza\xC3\xA7\xC3\xB5es do Twitter..."
-    facebook: " Facebook"
-    twitter: " Twitter"
-  highrise: Highrise
-  submit_news: "Enviar Not\xC3\xADcias"
-  prayer_requests: "Pedidos de Ora\xC3\xA7\xC3\xA3o"
-  prep_cook_time: Preparo/Tempo de cozimento
-  the_wall_is_place_for_people_post_messages: "A parede de recados \xC3\xA9 um lugar para pessoas postarem mensagens amig\xC3\xA1veis para voc\xC3\xAA e outros visualizarem."
-  female: Feminino
-  space_separated: "(separadas por espa\xC3\xA7os)"
-  zip: CEP
-  search_for_people_on: Buscar pessoas no
-  share_something: Compartilhe algo
-  add_a_verse: " Adicionar um Vers\xC3\xADculo"
-  businesses: "Neg\xC3\xADcios"
-  edit_with_brakets: "[editar]"
-  this_operation_will_make_changes: "This operation *will* make changes to this "
-  all: Todos
-  this_verse: "desse vers\xC3\xADculo"
-  family_name: "Nome da Fam\xC3\xADlia"
-  you_should: "Voc\xC3\xAA deveria"
-  no_family: "(n\xC3\xA3o possui fam\xC3\xADlia)"
-  you_can_always_find_someone_quickly: "Voc\xC3\xAA sempre pode encontrar algu\xC3\xA9m rapidamente digitando parte ou o nome completo da pessoa no"
-  add_this_verse: "Adicionar esse vers\xC3\xADculo"
-  print_directory: "Imprimir Diret\xC3\xB3rio"
-  new: New
-  elder: Elder
-  work: trabalho
-  add_verse_with_space: " Adicionar Vers\xC3\xADculo"
-  when_youre_finished_you_can_edit_your: "Quando voc\xC3\xAA tiver terminado, voc\xC3\xAA pode editar a sua"
   reveal_token: Reveal Token
-  hidden_profile: Perfil Oculto
-  delete_with_brakets: "[deletar]"
-  are_you_sure: "Voc\xC3\xAA tem certeza?"
-  sign_up: Registrar
-  add_a_picture: Adicione uma Foto
-  what_are_you_doing: "O que voc\xC3\xAA est\xC3\xA1 fazendo?"
-  advanced_search: "busca avan\xC3\xA7ada"
-  the_directory_is_constantly_changing: "O diret\xC3\xB3rio est\xC3\xA1 sendo alterado constantemente. Enquanto encontrar algu\xC3\xA9m online \xC3\xA9 geralmente o melhor, voc\xC3\xAA tamb\xC3\xA9m pode"
-  about_this_verse: "sobre esse vers\xC3\xADculo. Compartilhe o que ele significa para voc\xC3\xAA, como te ajudou ou simplesmente porque voc\xC3\xAA gosta."
-  there_are_no_users_in_the_system: "N\xC3\xA3o h\xC3\xA1 usu\xC3\xA1rios no sistema."
-  businesses_with_space: " Neg\xC3\xB3cios"
-  show: Mostrar
-  search_the_directory: "Procure no Diret\xC3\xB3rio"
-  first: primeiro.
-  next_time_you_go_to_grab_yellow_pages: "A pr\xC3\xB3xima vez que voc\xC3\xAA precisar das p\xC3\xA1ginas amarelas, tente o"
-  view_all_wall_messages: Visualizar todas as mensagensView all wall messages...
-  are_you_sure_delete_recipe: "Voc\xC3\xAA tem certeza que deseja deletar essa receita?"
-  save_account: Save Account
-  fields_on_the_left: "campos \xC3\xA0 esquerda"
-  no_messages_yet: "Ainda n\xC3\xA3o existe nenhuma mensagem!"
-  you_can_add_as_many_friends_you_like: "Voc\xC3\xAA pode adicionar quantos amigos voc\xC3\xAA preferir!"
-  never_share_your_password_with_anyone: "Nunca compartilhe a sua senha com ningu\xC3\xA9m!"
-  to_remove_and_put_them_in_order: "para remover e coloc\xC3\xA1-los na ordem que voc\xC3\xAA quiser."
-  back: Back
-  search_results: Resultados da busca
-  searching: Procurando...
-  show_all: (mostrar todos)
-  to_search_for_your_friends: para procurar os seus amigos.
-  no_results: Nenhum resultado
-  feed: Feed
-  please_sign_in: Por favor acesse o sistema.
-  tag: Tag
-  please_respect_the_privacy_of_others: "Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poder\xC3\xA1 causar o banimento do site."
-  more: Mais
-  sync: Sincronizar
-  all_publications: " Todas as Publica\xC3\xA7\xC3\xB5es"
-  people_who_like: Pessoas que gostam
-  remote_accounts: 
-    remote_accounts: Remote Accounts
-    synced_contacts: Synced Contacts
-  sync_with: Sincronizar com
-  read_this_passage_at_youversion: Leia essa passagem no YouVersion...
-  share_note: Compartilhar nota
-  click_here: clique aqui
-  or_create_a: Ou, criar uma
-  add_another_verse_with_space: " Adicionar outro Vers\xC3\xADculo"
-  title: "T\xC3\xADtulo"
-  wall_to_wall_camel_case: Parede de Recados
-  back_to: Voltar para
-  add_publication: "Adicionar Publica\xC3\xA7\xC3\xA3o"
+  message: privada
+  new_publication: "Nova Publica\xC3\xA7\xC3\xA3o"
+  new: New
+  picture: Foto
   description: !binary |
     RGVzY3Jpw6fDo28=
 
-  notes: Notas
-  messages: Mensagens
-  you_may_create_the_first_user: "Voc\xC3\xAA pode criar o primeiro usu\xC3\xA1rio executando o comando:"
-  loading: Carregando
-  or_share: Ou, compartilhe
-  no_users: !binary |
-    TsOjbyBow6EgdXN1w6FyaW9z
-
+  news: 
+    body_description: "Compartilhe os seus an\xC3\xBAncios, informa\xC3\xA7\xC3\xB5es ou not\xC3\xADcias aqui:"
+    title_description: "D\xC3\xAA um t\xC3\xADtulo conciso para a sua postagem:"
+    news: "Not\xC3\xADcias"
+  new_family: "Nova Fam\xC3\xADlia"
+  tags: 
+    confirm_delete: "Voc\xC3\xAA tem certeza que deseja deletar essa tag?"
   nav: 
     groups: Grupos
     bible: "B\xC3\xADblia"
@@ -227,40 +47,195 @@ pt:
     directory: "Diret\xC3\xB3rio"
     pages: "P\xC3\xA1ginas"
     home: "In\xC3\xADcio"
-  token_key: Token/Key
-  add_to_friends: Adicionar aos Amigos
-  share_your_favorite_recipes_with: Compartilhe as suas receitas favoritas com a
-  set_up: configuradas
-  on_the_following_click_reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
-  bake_time: Tempo para assar
-  browse_with_space: " Procurar"
-  serving_size: "Tamanaho da por\xC3\xA7\xC3\xA3o"
-  state: Estado
-  tag_list: Lista de Tags
-  news: "Not\xC3\xADcias"
-  add_tags: Adicionar Tags
-  anniversary: "Anivers\xC3\xA1rio de Casamento"
-  blog_post: postatem no blog
-  new_family: "Nova Fam\xC3\xADlia"
-  verse_disclaimer: "Trechos das escrituras marcados como 'WEB' s\xC3\xA3o obtidos da World English Bible, uma tradu\xC3\xA7\xC3\xA3o moderna em ingl\xC3\xAAs da American Standard Version da B\xC3\xADblia Sagrada. WEB est\xC3\xA1 sob dom\xC3\xADnio p\xC3\xBAblico. C\xC3\xB3pias e publica\xC3\xA7\xC3\xB5es s\xC3\xA3o livres."
-  print_the_directory: "imprimir o diret\xC3\xB3rio"
-  browse_the_directory: "Pesquisar no Diret\xC3\xB3rio"
-  save_prayer_request: "Salvar Pedido de Ora\xC3\xA7\xC3\xA3o"
-  use_the: Use os
-  edit_account: Edit Account
-  delete_this_tag: Deletar essa tag
-  new_publication: "Nova Publica\xC3\xA7\xC3\xA3o"
-  your_search_didnt_match_any_people: "Sua busca n\xC3\xA3o retornou nenhuma pessoa."
-  account: account
-  comments: Comments
+  title: "T\xC3\xADtulo"
+  edit: editar
+  sign_in: Acessar
+  other_notes: Outras notas
+  global: 
+    search_results: Resultados da busca
+    comments: Comments
+    no_tags_yet: nenhuma tag ainda
+    add_tags: "Adicionar Tags (separadas por espa\xC3\xA7os)"
+    tags: Tags
+  family: "fam\xC3\xADlia"
+  edit_recipe: Editar Receita
+  ingredients: Ingredientes
+  remote_accounts: 
+    reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
+    remote_accounts: Remote Accounts
+    get_token_sign_in: "To get the 'token' for your <a href=\"http://highrisehq.com\">Highrise</a> account, sign in and click the 'My Info' link in the top-right of the screen:"
+    no_remote_accounts: "Voc\xC3\xAA n\xC3\xA3o tem nenhuma <a href=\"{{url}}\">Remote Accounts</a>."
+    sync: Sincronizar
+    confirm_sync: "Voc\xC3\xAA tem certeza? This operation *will* make changes to the account."
+    synced_contacts: Synced Contacts
+  stream: 
+    all_recipes: Todas as Receitas
+    import_flickr_photos: Importar as suas fotos do Flickr...
+    flickr: Flickr
+    friends: Amigos
+    my_activity: Minha Atividade
+    blog: " Blog"
+    import_facebook_updates: "Importar as suas atualiza\xC3\xA7\xC3\xB5es do Facebook..."
+    import_blog_feed: Importar os feeds RSS ou Atom do seu Blog...
+    new_recipe: Nova Receita
+    import_from: Importar de...
+    save_prayer_request: "Salvar Pedido de Ora\xC3\xA7\xC3\xA3o"
+    share_note_description: "O que voc\xC3\xAA est\xC3\xA1 fazendo? &middot; O que passa na sua mente?"
+    show: Mostrar
+    all_publications: "Todas as Publica\xC3\xA7\xC3\xB5es"
+    create_blog_post: "Ou, criar uma <a href=\"{{url}}\">postatem no blog</a> com um t\xC3\xADtulo e formata\xC3\xA7\xC3\xA3o..."
+    import_twitter_updates: "Importar as suas atualiza\xC3\xA7\xC3\xB5es do Twitter..."
+    facebook: " Facebook"
+    share_something: Compartilhe Algo
+    all_verses: "Todos os Vers\xC3\xADculos"
+    enter_the_new_album_title: "Digite o t\xC3\xADtulo do novo \xC3\xA1lbum."
+    pending_friend_requests: "Voc\xC3\xAA tem <a href=\"{{url}}\">pedidos de amizade</a>."
+    all_pictures: Todas as Fotos
+    twitter: " Twitter"
+    feed: Feed
+    all_news: "Todas as Not\xC3\xADcias"
   to_my_list: "\xC3\xA0 minha lista."
-  password: "Senha:"
-  person: Pessoa
-  type: Tipo
+  view_profile: View Profile
+  click_here: clique aqui
+  more: Mais
+  help_signing_in: Ajuda para acessar
+  loading: Carregando
+  tools: Ferramentas
+  username: Username
+  messages: Mensagens
+  your_search_didnt_match_any_families: "Sua pesquisa n\xC3\xA3o restornou nenhuma fam\xC3\xADlia."
+  share_note: Compartilhar nota
+  or_share: Ou, compartilhe
+  delete: "deletar "
+  serving_size: "Tamanaho da por\xC3\xA7\xC3\xA3o"
+  i_need_help: Eu preciso de ajuda.
+  recipes: 
+    about_this_recipe: sobre essa receita.
+    confirm_delete: "Voc\xC3\xAA tem certeza que deseja deletar essa receita?"
+    add_a_recipe: Adicionar uma receita
+    no_results: Nenhum resultado
+    share_your_recipes: Compartilhe as suas receitas favoritas com {{community}}.
+    recipes: Receitas
+    prep_cook_time: Preparo/Tempo de cozimento
+    bake_time: Tempo para assar
+  your_search_didnt_match_any_people: "Sua busca n\xC3\xA3o retornou nenhuma pessoa."
+  show_all: (mostrar todos)
+  city: Cidade
+  upload_more: Carregar Mais
+  type_a_reference_below_and_hit_enter: "Digite uma refer\xC3\xAAncia (ex. Jo\xC3\xA3o 3:16, Mateus 5:3-11) abaixo e pressione enter:"
+  email_address: "Endere\xC3\xA7o de Email:"
+  notes: Notas
+  publications: 
+    add_publication: "Adicionar Publica\xC3\xA7\xC3\xA3o"
+    publications: !binary |
+      UHVibGljYcOnw7Vlcw==
+
+  or_use_the: Ou, use a
+  no_recipes_yet: "Ainda n\xC3\xA3o existe nenhuma receita!"
+  news_with_advanced_formatting: "not\xC3\xADcias com formata\xC3\xA7\xC3\xA3o avancada..."
+  sync_with: Sincronizar com
+  work: trabalho
+  note: Nota
+  searching: Procurando...
+  new_account: New Account
+  save_account: Save Account
+  feature_to_change_the_results: "caracter\xC3\xADstica para mudar os resultados interativamente."
+  are_you_sure: "Voc\xC3\xAA tem certeza?"
+  request: Pedido
+  home: casa
+  find_your_friends: Encontre seus amigos
+  edit_account: Edit Account
+  share: Compartilhe
+  submit_news: "Enviar Not\xC3\xADcias"
+  tag: Tag
+  token_key: Token/Key
+  session: 
+    never_share_your_password: "Nunca compartilhe a sua senha com ningu\xC3\xA9m!"
+    no_users: !binary |
+      TsOjbyBow6EgdXN1w6FyaW9z
+
+    create_the_first_user: "Voc\xC3\xAA pode criar o primeiro usu\xC3\xA1rio executando o comando:"
+    you_may_read_our_privacy_policy_here: "Voc\xC3\xAA pode ler a nossa Pol\xC3\xADtica de Privacidade <a href=\"{{url}}\">aqui</a>."
+    sign_up_or_sign_in: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"
+    load_sample_data: "Como uma alternativa, voc\xC3\xAA pode carregar o OneBody com alguns dados de exemplo executando o coamndo:"
+    there_are_no_users_in_the_system: "N\xC3\xA3o h\xC3\xA1 usu\xC3\xA1rios no sistema."
+    password: "Senha:"
+    please_sign_in: Por favor acesse o sistema.
+  post_a_message: Envie uma mensagem
+  search_the_directory: "Procure no Diret\xC3\xB3rio"
+  none: nenhum
+  search_for_people_on: Buscar pessoas no
+  pictures: 
+    add_a_picture: Adicione uma Foto
+    album: !binary |
+      w4FsYnVt
+
+    pictures: Fotos
+  wall_to_wall_camel_case: Parede de Recados
+  mail_group: Grupo de Emails
+  directions: !binary |
+    RGlyZcOnw7Vlcw==
+
+  tag_list: Lista de Tags
+  by: De
+  set_up: configuradas
   fax: fax
+  prayer_requests: "Pedidos de Ora\xC3\xA7\xC3\xA3o"
+  of_the_screen: da tela.
+  you_should: "Voc\xC3\xAA deveria"
+  share_your_fav_bible_verses_with: "Compartilhe os seus vers\xC3\xADculos b\xC3\xADblicos favoritos com a"
   verse: "Vers\xC3\xADculo"
-  to_get_the_token_for_your: To get the 'token' for your
-  show_hidden: Mostrar ocultos
-  you_have: "Voc\xC3\xAA tem"
-  something: Algo
-  no_tags: nenhuma tag
+  friends: 
+    confirm_email_will_be_sent: "Voc\xC3\xAA tem certeza? Um email ser\xC3\xA1 enviado a essa pessoa com o convite de amizade."
+    add_friend: Adicionar Amigo
+  delete_recipe: Deletar Receita
+  person: Pessoa
+  save_recipe: Salvar Receita
+  search: 
+    hidden_profile: Perfil Oculto
+    business_directory_description: "Alguns dos nossos membros possuem neg\xC3\xB3cios que eles gostariam que voc\xC3\xAA soubesse a respeito. A pr\xC3\xB3xima vez que voc\xC3\xAA precisar das p\xC3\xA1ginas amarelas, tente o <a href=\"{{url}}\">diret\xC3\xB3rio de neg\xC3\xB3cios</a> primeiro."
+    name: Nome
+    all: Todos
+    zip: CEP
+    browse_directory_description: "Claro, voc\xC3\xAA tamb\xC3\xA9m pode <a href=\"{{url}}\">pesquisar no diret\xC3\xB3rio</a> por nome."
+    elder: Elder
+    browse_the_directory: "pesquisar no diret\xC3\xB3rio"
+    category: Categoria
+    business: "Neg\xC3\xB3cios"
+    female: Feminino
+    printed_directory_description: "O diret\xC3\xB3rio est\xC3\xA1 sendo alterado constantemente. Enquanto encontrar algu\xC3\xA9m online \xC3\xA9 geralmente o melhor, voc\xC3\xAA tamb\xC3\xA9m pode <a href=\"{{url}}\">imprimir o diret\xC3\xB3rio</a> para aqueles momentos 'offline'."
+    no_family: "(n\xC3\xA3o possui fam\xC3\xADlia)"
+    member: Membro
+    print: Imprimir
+    use_advanced_search: "Ou, use a <a href=\"#\" onclick=\"{{js}};return false;\">busca avan\xC3\xA7ada</a> caracter\xC3\xADstica para mudar os resultados interativamente."
+    staff: Staff
+    deacon: "Di\xC3\xA1cono"
+    business_directory: "Diret\xC3\xB3rio de Neg\xC3\xB3cios"
+    gender: "G\xC3\xAAnero"
+    family_name: "Nome da Fam\xC3\xADlia"
+    male: Masculino
+    families_found: 
+      one: "1 fam\xC3\xADlia encontrado"
+      other: "{{count}} fam\xC3\xADlias encontrado"
+    birthday: Data de Nascimento
+    anniversary: "Anivers\xC3\xA1rio de Casamento"
+    businesses: "Neg\xC3\xADcios"
+    click_the_icon_to_add_them: "Clique no {{img}} \xC3\xADcone para adicion\xC3\xA1-los."
+    add_as_many_friends_you_like: "Voc\xC3\xAA pode adicionar quantos amigos voc\xC3\xAA preferir! Quando voc\xC3\xAA tiver terminado, voc\xC3\xAA pode editar a sua <a href=\"{{url}}\">lista de amigos</a> para remover e coloc\xC3\xA1-los na ordem que voc\xC3\xAA quiser."
+    advanced_search: "Busca Avan\xC3\xA7ada"
+    printed_directory: "Diret\xC3\xB3rio Impresso"
+    not_showing_hidden_people: "(n\xC3\xA3o est\xC3\xA1 mostrando pessoas ocultas)"
+    business_category: "Categoria de Neg\xC3\xB3cios:"
+    friends_search: "Use os <strong>campos \xC3\xA0 esquerda</strong> para procurar os seus amigos."
+    find_someone_quickly: "Voc\xC3\xAA sempre pode encontrar algu\xC3\xA9m rapidamente digitando parte ou o nome completo da pessoa no <a href=\"#\" onclick=\"{{js}};return false;\">canto superior direito</a> da tela."
+    people_found: 
+      one: 1 pessoa encontrado
+      other: "{{count}} pessoas encontrado"
+    search: Busca
+    browse: Procurar
+  mobile: celular
+  type: Tipo
+  state: Estado
+  please_respect_the_privacy_of_others: "Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poder\xC3\xA1 causar o banimento do site."
+  share_something_here: compartilhar algo aqui
+  upload: Carregar!

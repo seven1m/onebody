@@ -1,6 +1,6 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
                        xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-<ShortName><%=h Setting.get(:name, :site) %> <%= I18n.t("search") %></ShortName>
+<ShortName><%=h Setting.get(:name, :site) %> <%= I18n.t("search.search") %></ShortName>
 <Description><%= I18n.t("search_for_people_on") %> <%=h Setting.get(:url, :site) %></Description>
 <InputEncoding>utf-8</InputEncoding>
 <% if nil # no onebody icon yet %>

@@ -1,13 +1,13 @@
 <% content_for :head do %>
-  <link rel="alternate" type="application/atom+xml" title=<%= I18n.t("activity_feed") %> href="<%= url_for stream_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+  <link rel="alternate" type="application/atom+xml" title='<%= I18n.t("stream.feed") %>' href="<%= url_for stream_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
 <% end %>
 
 <% content_for :subnav do %>
-  <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => I18n.t("all_pictures"),     :class => 'icon') + I18n.t("all_pictures"),     albums_path       %></li><% end %>
-  <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => I18n.t("all_verses"),       :class => 'icon') + I18n.t("all_verses"),       verses_path       %></li><% end %>
-  <% if Setting.get(:features, :recipes     ) %><li><%= link_to image_tag('recipe.png',    :alt => I18n.t("all_recipes"),      :class => 'icon') + I18n.t("all_recipes"),      recipes_path      %></li><% end %>
-  <% if Setting.get(:features, :news_page   ) %><li><%= link_to image_tag('newspaper.png', :alt => I18n.t("all_news"),         :class => 'icon') + I18n.t("all_news"),         news_path         %></li><% end %>
-  <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => I18n.t("all_publications"), :class => 'icon') + I18n.t("all_publications"), publications_path %></li><% end %>
+  <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => I18n.t('stream.all_pictures'),     :class => 'icon') + ' ' + I18n.t('stream.all_pictures'),     albums_path       %></li><% end %>
+  <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => I18n.t('stream.all_verses'),       :class => 'icon') + ' ' + I18n.t('stream.all_verses'),       verses_path       %></li><% end %>
+  <% if Setting.get(:features, :recipes     ) %><li><%= link_to image_tag('recipe.png',    :alt => I18n.t('stream.all_recipes'),      :class => 'icon') + ' ' + I18n.t('stream.all_recipes'),      recipes_path      %></li><% end %>
+  <% if Setting.get(:features, :news_page   ) %><li><%= link_to image_tag('newspaper.png', :alt => I18n.t('stream.all_news'),  :class => 'icon') + ' ' + I18n.t('stream.all_news'),  news_path         %></li><% end %>
+  <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => I18n.t('stream.all_publications'), :class => 'icon') + ' ' + I18n.t('stream.all_publications'), publications_path %></li><% end %>
 <% end %>
 
 <div style="width:200px;float:right;">
@@ -24,19 +24,19 @@
   <table class="cells-centered" style="margin-top:20px;">
     <tr>
       <td class="graphic" style="padding-bottom:20px;">
-        <%= link_to_function image_tag('add.png', :alt => I18n.t("share") + I18n.t("something"), :class => 'icon'),
+        <%= link_to_function image_tag('add.png', :alt => I18n.t("stream.share_something"), :class => 'icon'),
           "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
       </td>
       <td style="padding-bottom:20px;">
-        <%= link_to_function I18n.t("share") + '<br/>' + I18n.t("something"), "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
+        <%= link_to_function I18n.t("stream.share_something").sub(/\s/, '<br/>'), "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
       </td>
     </tr>
     <tr>
       <td class="graphic">
-        <%= link_to image_tag('feed.gif', :alt => I18n.t("activity_feed"), :class => 'icon'), stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
+        <%= link_to image_tag('feed.gif', :alt => I18n.t('stream.feed'), :class => 'icon'), stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
       </td>
       <td>
-        <%= link_to I18n.t("feed"), stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
+        <%= link_to I18n.t('stream.feed'), stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
       </td>
     </tr>
   </table>
@@ -50,25 +50,25 @@
   </p>
   
   <div id="stream-display-options">
-    <h2><%= I18n.t("show") %></h2>
+    <h2><%= I18n.t('stream.show') %></h2>
     <ul style="padding-left:10px;">
       <% if Setting.get(:features, :notes       ) %><li><%= stream_type_checkmark(I18n.t("notes"),        'note'       ) %></li><% end %>
-      <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark(I18n.t("pictures"),     'album'      ) %></li><% end %>
-      <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark(I18n.t("verses"),       'verse'      ) %></li><% end %>
-      <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark(I18n.t("recipes"),      'recipe'     ) %></li><% end %>
-      <% if Setting.get(:features, :news_page   ) %><li><%= stream_type_checkmark(I18n.t("news"),         'news_item'  ) %></li><% end %>
-      <% if Setting.get(:features, :publications) %><li><%= stream_type_checkmark(I18n.t("publications"), 'publication') %></li><% end %>
+      <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark(I18n.t('pictures.pictures'),     'album'      ) %></li><% end %>
+      <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark(I18n.t('verses.verses'),       'verse'      ) %></li><% end %>
+      <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark(I18n.t('recipes.recipes'),      'recipe'     ) %></li><% end %>
+      <% if Setting.get(:features, :news_page   ) %><li><%= stream_type_checkmark(I18n.t('news.news'),         'news_item'  ) %></li><% end %>
+      <% if Setting.get(:features, :publications) %><li><%= stream_type_checkmark(I18n.t('publications.publications'), 'publication') %></li><% end %>
       <li><%= stream_type_checkmark(I18n.t("prayer_requests"), 'prayer_request') %></li>
       <li><%= stream_type_checkmark(I18n.t("messages"), 'message') %></li>
-      <li><%= stream_type_checkmark(I18n.t("my_activity"), 'mine') %></li>
+      <li><%= stream_type_checkmark(I18n.t("stream.my_activity"), 'mine') %></li>
     </ul>
   </div>
 </div>
 
 <% if @has_friendship_requests %>
   <div class="highlight">
-    <%= image_tag('user_add.png', :alt => I18n.t("friends"), :class => 'icon') %>
-    <%= I18n.t("you_have") %> <%= link_to I18n.t("pending_friend_requests"), person_friends_path(@person) %>.
+    <%= image_tag('user_add.png', :alt => I18n.t('stream.friends'), :class => 'icon') %>
+    <%= link_to I18n.t('stream.pending_friend_requests', :url => person_friends_path(@person)) %>
   </div>
 <% end %>
 
@@ -78,7 +78,7 @@
 
 <div style="margin-right:250px;padding-left:25px;">
   <p style="margin-bottom:20px;" id="share-something">
-    <%= link_to_function image_tag('add_small.gif', :alt => I18n.t("share_something"), :class => 'icon'),
+    <%= link_to_function image_tag('add_small.gif', :alt => I18n.t('stream.share_something'), :class => 'icon'),
       "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
     <%= I18n.t("you_should") %>
     <%= link_to_function I18n.t("share_something_here"), "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>.

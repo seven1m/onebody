@@ -1,24 +1,22 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('verse.png', :alt => I18n.t("all_verses"), :class => 'icon') + I18n.t("all_verses"), verses_path %></li>
+  <li><%= link_to image_tag('verse.png', :alt => I18n.t('stream.all_verses'), :class => 'icon') + ' ' + I18n.t('stream.all_verses'), verses_path %></li>
 <% end %>
 
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to image_tag('delete.png', :alt => I18n.t("remove_this_verse_from_my_list"), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => I18n.t("are_you_sure") %>
-      <%= link_to I18n.t("remove_this_verse"), @verse, :method => 'delete', :confirm => I18n.t("are_you_sure") %><br/>
-      <%= I18n.t("from_my_list") %>.
+      <%= link_to image_tag('delete.png', :alt => I18n.t('verses.remove_this_verse'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => I18n.t("are_you_sure") %>
+      <%= link_to I18n.t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => I18n.t("are_you_sure") %>
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => I18n.t("add_this_verse_to_my_list"), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'post' %>
-      <%= link_to I18n.t("add_this_verse"), verses_path(:id => @verse), :method => 'post' %><br/>
-      <%= I18n.t("to_my_list") %>
+      <%= link_to image_tag('add_small.gif', :alt => I18n.t('verses.add_this_verse_to_my_list'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'post' %>
+      <%= link_to I18n.t('verses.add_this_verse_to_my_list'), verses_path(:id => @verse), :method => 'post' %>
     </p>
   <% end %>
 
   <% if @verse.people.count > 0 %>
-    <h2><%= I18n.t("people_who_like") %> <span class="nowrap"><%= I18n.t("this_verse") %></span></h2>
+    <h2><%= I18n.t('verses.people_who_like_this_verse') %></h2>
     <table>
       <% @verse.people.each do |person| %>
         <tr>
@@ -33,12 +31,12 @@
     </table>
   <% end %>
     
-  <h2><%= I18n.t("tags") %></h2>
+  <h2><%= I18n.t('global.tags') %></h2>
 
   <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>
     <p>
       <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse, :br => true} %><br/>
-      <%= I18n.t("add_tags") %><br/><%= I18n.t("space_separated") %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+      <%= I18n.t('global.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
     </p>
   </form>
 
@@ -57,7 +55,7 @@
   <span style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;"><%=h @verse.text %></span>
 </p>
 <p>
-  <%= link_to I18n.t("read_this_passage_at_youversion"), @verse.youversion_url, :class => 'small' %>
+  <%= link_to I18n.t('verses.read_this_passage_at_youversion'), @verse.youversion_url, :class => 'small' %>
 </p>
 
 <% if @verse.translation == 'WEB' %>
@@ -66,5 +64,5 @@
   </p>
 <% end %>
 
-<h2><%= I18n.t("comments") %></h2>
-<%= render :partial => 'comments/comments', :locals => {:object => @verse, :intro => I18n.t("about_this_verse")} %>
+<h2><%= I18n.t('global.comments') %></h2>
+<%= render :partial => 'comments/comments', :locals => {:object => @verse, :intro => I18n.t('verses.about_this_verse')} %>

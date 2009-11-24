@@ -21,8 +21,8 @@
           <% end %>
         <% end %>
         <% if @person or recipe.admin? @logged_in %>
-          <%= link_to I18n.t("edit_with_brakets"), edit_recipe_path(recipe), :class => 'discreet' %>
-          <%= link_to I18n.t("delete_with_brakets"), recipe, :method => 'delete', :confirm => I18n.t("are_you_sure_delete_recipe"), :class => 'discreet' %>
+          <%= link_to '[' + I18n.t("edit") + ']', edit_recipe_path(recipe), :class => 'discreet' %>
+          <%= link_to '[' + I18n.t("delete") + ']', recipe, :method => 'delete', :confirm => I18n.t("recipes.confirm_delete"), :class => 'discreet' %>
         <% end %>
         <% unless @person %>
           Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>

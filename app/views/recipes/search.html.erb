@@ -1,5 +1,5 @@
 <div id="searchresults">
-  <h1><%= I18n.t("search_results") %></h1>
+  <h1><%= I18n.t('global.search_results') %></h1>
 
   <%= will_paginate recipes %>
 
@@ -15,13 +15,11 @@
       <% end %>
       </ul>
     <% elsif @mark_term && @mark_term.length > 0 %>
-      <%= I18n.t("no_results") %>
+      <%= I18n.t('recipes.no_results') %>
     <% else %>
       &nbsp;
     <% end %>
   </p>
 
   <%= will_paginate recipes %>
-
-  <%= link_to I18n.t("back"), recipes_path %>
 </div>

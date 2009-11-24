@@ -2,13 +2,13 @@
 <div class="section">
   <% if Setting.get(:features, :recipes) %>
     <p>
-      <%= link_to image_tag('plus.png', :alt => I18n.t("add_recipe"), :class => 'icon'), new_recipe_path %>
+      <%= link_to image_tag('plus.png', :alt => I18n.t("stream.new_recipe"), :class => 'icon'), new_recipe_path %>
       <%= link_to I18n.t("stream.new_recipe"), new_recipe_path %>
     </p>
   <% end %>
   <% if Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications) %>
     <p>
-      <%= link_to image_tag('plus.png', :alt => I18n.t("add_publication"), :class => 'icon'), new_publication_path %>
+      <%= link_to image_tag('plus.png', :alt => I18n.t('publications.add_publication'), :class => 'icon'), new_publication_path %>
       <%= link_to I18n.t("new_publication"), new_publication_path %>
     </p>
   <% end %>

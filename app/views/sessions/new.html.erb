@@ -17,7 +17,7 @@
 
 <%= render_page_content 'system/sign_in_header' %>
 
-<h2><%= I18n.t("please_sign_in") %></h2>
+<h2><%= I18n.t('session.please_sign_in') %></h2>
 
 <form method="post" action="/session" onsubmit="return encrypt_password()">
   <%= hidden_field_tag :from, params[:from] %>
@@ -27,7 +27,7 @@
     <%= link_to I18n.t("i_need_help"), help_path %>
   </div>
   
-  <p><%= link_to I18n.t("sign_up"), new_account_path %> <%= I18n.t("for_an_account_or_sign_in") %></p>
+  <p><%= I18n.t('session.sign_up_or_sign_in', :url => new_account_path) %></p>
   
   <table>
     <tr>
@@ -35,16 +35,16 @@
       <td><%= text_field_tag :email, params[:email], :size => 30 %></td>
     </tr>
     <tr>
-      <td><label for="password"><%= I18n.t("password") %></label></td>
+      <td><label for="password"><%= I18n.t('session.password') %></label></td>
       <td><input type="password" id="password" <% if Setting.get(:privacy, :allow_unencrypted_logins) %>name="password"<% end %>/></td>
     </tr>
     <tr>
       <td></td>
       <td>
-        <span style="color:#f00;"><%= I18n.t("never_share_your_password_with_anyone") %></span><br/>
+        <strong class="very-strong"><%= I18n.t('session.never_share_your_password') %></strong><br/>
         <input type="submit" value="<%= I18n.t("sign_in") %>"/><br/>
         <br/>
-        <strong><%= I18n.t("you_may_read_our_privacy_policy") %> <%= link_to I18n.t("here"), help_path('privacy_policy') %>.</strong>
+        <strong><%= I18n.t("session.you_may_read_our_privacy_policy_here", :url => help_path('privacy_policy')) %></strong>
       </td>
     </tr>
   </table>

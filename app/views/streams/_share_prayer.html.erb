@@ -6,7 +6,7 @@
       <%= form.label :person_id, I18n.t("by") %>
       <%= form.select :person_id, @group.people.map { |p| [p.name, p.id] } %><br/>
       <%= form.label I18n.t("request") %> <%= form.text_area :request, :rows => 5 %><br/>
-      <%= form.submit I18n.t("save_prayer_request") %>
+      <%= form.submit I18n.t('stream.save_prayer_request') %>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
