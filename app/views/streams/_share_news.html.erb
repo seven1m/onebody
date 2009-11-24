@@ -1,4 +1,4 @@
-<h2 class="tab" id="news"><%= image_tag('newspaper.png', :alt => I18n.t("news"), :class => 'icon')%> <%=I18n.t("news") %></h2>
+<h2 class="tab" id="news"><%= image_tag('newspaper.png', :alt => I18n.t("news"), :class => 'icon')%> <%= I18n.t("news") %></h2>
 <div class="section">
   <% form_for :news_item, :url => news_path do |form| %>
     <%= hidden_field_tag :redirect_to, request.request_uri %>
@@ -12,7 +12,7 @@
     </p>
     <p>
       <%= form.submit I18n.t("submit_news") %>
-      <span class="small"><%=I18n.t("or_share")%> <%= link_to I18n.t("news_with_advanced_formatting"), new_news_item_path %></span>
+      <span class="small"><%= I18n.t("or_share") %> <%= link_to I18n.t("news_with_advanced_formatting"), new_news_item_path %></span>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>

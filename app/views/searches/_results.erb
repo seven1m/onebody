@@ -1,20 +1,20 @@
-<h2><%=I18n.t("search_results")%></h2>
+<h2><%= I18n.t("search_results") %></h2>
 
 <% if @people and @people.any? %>
 
   <p>
-    <%= pluralize @count, I18n.t("person") %> <%=I18n.t("found")%>
+    <%= pluralize @count, I18n.t("person") %> <%= I18n.t("found") %>
     <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
-      <%=I18n.t("not_showing_hidden_people")%>
+      <%= I18n.t("not_showing_hidden_people") %>
     <% end %>
     <%= will_paginate @people, :params => params %>
   </p>
 
   <% if @search.show_businesses %>
     <p>
-      <label for="category"><%=I18n.t("business_category")%></label>
+      <label for="category"><%= I18n.t("business_category") %></label>
       <select id="category" onchange="location.href='?business=true&category='+value">
-        <option value=""><%=I18n.t("show_all")%></option>
+        <option value=""><%= I18n.t("show_all") %></option>
         <%= options_for_select @business_categories, params[:category] %>
       </select>
     </p>
@@ -24,17 +24,17 @@
     <tr>
       <th></th>
       <% if @search.show_businesses %>
-        <th><%=I18n.t("business")%></th>
-        <th><%=I18n.t("category")%></th>
+        <th><%= I18n.t("business") %></th>
+        <th><%= I18n.t("category") %></th>
       <% else %>
-        <th><%=I18n.t("name")%></th>
-        <th><%=I18n.t("family_name")%></th>
+        <th><%= I18n.t("name") %></th>
+        <th><%= I18n.t("family_name") %></th>
       <% end %>
       <% if @show_birthdays %>
-        <th><%=I18n.t("birthday")%></th>
+        <th><%= I18n.t("birthday") %></th>
       <% end %>
       <% if Setting.get(:features, :show_mail_group) and @logged_in.admin? %>
-        <th><%=I18n.t("mail_group")%></th>
+        <th><%= I18n.t("mail_group") %></th>
       <% end %>
     </tr>
     <% @people.each do |person| %>
@@ -84,6 +84,6 @@
 
 <% else %>
 
-  <p><em><%=I18n.t("your_search_didnt_match_any_people")%></em></p>
+  <p><em><%= I18n.t("your_search_didnt_match_any_people") %></em></p>
 
 <% end %>

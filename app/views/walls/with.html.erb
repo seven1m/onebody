@@ -1,10 +1,10 @@
-<h1><%=I18n.t("wall_to_wall_camel_case")%></h1>
+<h1><%= I18n.t("wall_to_wall_camel_case") %></h1>
 
 <p style="font-size:150%;">
   <strong><%= link_to h(@person1.name), person_path(@person1) %></strong> +
   <strong><%= link_to h(@person2.name), person_path(@person2) %></strong>
 </p>
 
-<p><em><%=I18n.t("newest_messages_appear_first")%></em></p>
+<p><em><%= I18n.t("newest_messages_appear_first") %></em></p>
 
 <%= render :partial => 'messages', :locals => {:messages => @messages} %>

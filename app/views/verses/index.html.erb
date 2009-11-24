@@ -12,13 +12,13 @@
 <%= render :partial => 'add_verse' %>
 
 <% content_for :sidebar do %>
-  <h2><%=I18n.t("tags")%></h2>
+  <h2><%= I18n.t("tags") %></h2>
   <div class="tag-cloud">
     <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
       <%= link_to h(tag.name), tag, :class => css_class %>
     <% end %>
     <% if @tags.empty? %>
-      <em><%=I18n.t("no_tags_yet")%></em>
+      <em><%= I18n.t("no_tags_yet") %></em>
     <% end %>
   </div>
 <% end %>
@@ -28,7 +28,7 @@
 <% if @verses.any? %>
   <%= render :partial => @verses %>
 <% else %>
-  <p><em><%=I18n.t("no_verses_yet")%></em></p>
+  <p><em><%= I18n.t("no_verses_yet") %></em></p>
 <% end %>
 
 <%= will_paginate @verses %>

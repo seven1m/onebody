@@ -4,10 +4,10 @@ on <%=h @person.name_possessive %> wall.
 <div id="wall_message">
   <% remote_form_for Message.new(:wall => @person), :html => {:style => 'border:none;'}, :update => 'wall_content' do |form| %>
     <%= form.hidden_field :wall_id %>
-    <em><%=I18n.t("all_users_will_see_your_message")%>
-    <%=I18n.t("message")%>, <%= link_to I18n.t("click_here"), new_message_path(:to_person_id => @person) %>.</em><br/>
+    <em><%= I18n.t("all_users_will_see_your_message") %>
+    <%= I18n.t("message") %>, <%= link_to I18n.t("click_here"), new_message_path(:to_person_id => @person) %>.</em><br/>
     <%= form.text_area :body, :rows => 3, :cols => 40 %>
-    <strong><%=I18n.t("please_respect_the_privacy_of_others")%></strong><br/>
+    <strong><%= I18n.t("please_respect_the_privacy_of_others") %></strong><br/>
     <%= submit_tag I18n.t("save_message")%>
   <% end %>
 </div>

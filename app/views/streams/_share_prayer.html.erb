@@ -1,4 +1,4 @@
-<h2 class="tab" id="prayer"><%= image_tag('heart.png', :alt => I18n.t("prayer"), :class => 'icon') %> <%=I18n.t("prayer")%> </h2>
+<h2 class="tab" id="prayer"><%= image_tag('heart.png', :alt => I18n.t("prayer"), :class => 'icon') %> <%= I18n.t("prayer") %> </h2>
 <div class="section">
   <% form_for [@group, PrayerRequest.new(:group_id => @group.id, :person_id => @logged_in.id)] do |form| %>
     <%= form.hidden_field :group_id %>

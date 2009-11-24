@@ -2,10 +2,10 @@
   <li><%= link_to I18n.t("view_profile"), @person %></li>
 <% end %>
 
-<h1><%=I18n.t("remote_accounts")%></h1>
+<h1><%= I18n.t("remote_accounts") %></h1>
 
 <table>
-  <tr><th><%=I18n.t("type")%></th><th><%=I18n.t("username")%></th><th><%=I18n.t("token_key")%></th><th><%=I18n.t("synced_contacts")%></th></tr>
+  <tr><th><%= I18n.t("type") %></th><th><%= I18n.t("username") %></th><th><%= I18n.t("token_key") %></th><th><%= I18n.t("synced_contacts") %></th></tr>
   <% @remote_accounts.each do |remote_account| %>
     <tr>
       <td><%=h remote_account.account_type %></td>
@@ -22,4 +22,4 @@
   <% end %>
 </table>
 
-<p><%= link_to <%=I18n.t("mudar")%>'New Account', new_person_remote_account_path(@person) %></p>
+<p><%= link_to <%= I18n.t("mudar") %>'New Account', new_person_remote_account_path(@person) %></p>
