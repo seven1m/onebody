@@ -452,8 +452,10 @@ class Person < ActiveRecord::Base
   before_save :update_sequence
   def update_sequence
     return if @no_auto_sequence
-    if family and (sequence.nil? or family.people.count('*', :conditions => ['id != ? and deleted = ? and sequence = ?', id, false, sequence]) > 0)
-      self.sequence = family.people.maximum(:sequence, :conditions => ['deleted = ?', false]).to_i + 1
+    if family and sequence.nil?
+      conditions = ['deleted = ?', false]
+      conditions.add_condition ['id != ?', id] unless new_record?
+      self.sequence = family.people.maximum(:sequence, :conditions => conditions).to_i + 1
     end
   end
   

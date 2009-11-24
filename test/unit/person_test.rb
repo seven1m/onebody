@@ -267,6 +267,17 @@ class PersonTest < ActiveSupport::TestCase
     assert @person.errors.on(:child)
   end
   
+  should "select a proper sequence within the family if none is specified" do
+    @person = Person.forge
+    @person2 = Person.forge(:family => @person.family)
+    assert_equal @person.family_id, @person2.family_id
+    assert_equal 1, @person.sequence
+    assert_equal 2, @person2.sequence
+    @person2.sequence = nil
+    @person2.save
+    assert_equal 2, @person2.sequence
+  end
+  
   private
   
     def partial_fixture(table, name, valid_attributes)
