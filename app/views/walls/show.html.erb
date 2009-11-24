@@ -1,5 +1,5 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('user.png', :alt => I18n.t("person"), :class => 'icon') + <%=I18n.t("back_to_with_spaces") %> + h(@person.name), @person %></li>
+  <li><%= link_to image_tag('user.png', :alt => I18n.t("person"), :class => 'icon') + I18n.t("back_to_with_spaces") + h(@person.name), @person %></li>
 <% end %>
 
 <h1><%= link_to h(@person.name_possessive), @person %> <%=I18n.t("wall") %></h1>
