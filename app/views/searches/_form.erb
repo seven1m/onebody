@@ -42,7 +42,7 @@
 
 <script type="text/javascript">
 //<![CDATA[
-  $('name').focus();
+  $('name_search').focus();
   function search() {
     new Ajax.Request('<%= search_path %>', {asynchronous:true, evalScripts:true, parameters:Form.serialize($('search-form')), onLoading:function(){$('results').innerHTML='';Element.show('searching')}, onComplete:function(){Element.hide('searching')}});
   }
