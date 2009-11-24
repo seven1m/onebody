@@ -7,7 +7,7 @@ class SyncTest < ActiveSupport::TestCase
     should 'have many sync items via polymorphic association' do
       @person = Person.forge
       @person2 = Person.forge
-      @sync = Sync.create(:person => @person, :complete => true, :status => 'success')
+      @sync = Sync.create(:person => @person, :complete => true, :success_count => 2, :error_count => 0)
       @sync.sync_items.create(:syncable_type => 'Person', :syncable_id => @person2.id)
       @sync.sync_items.create(:syncable_type => 'Family', :syncable_id => @person2.family_id)
       assert_equal [@person2], @sync.people.all
