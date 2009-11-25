@@ -536,7 +536,8 @@ table.memberships td {
 	vertical-align: top;
 }
 
-table.memberships td input {
+table th input,
+table td input {
 	margin-top: 5px !important;
 }
 

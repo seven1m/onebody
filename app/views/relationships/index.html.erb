@@ -1,37 +1,86 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + h(@person.name), @person %></li>
+<% end %>
+
 <% content_for :sidebar do %>
   <%= form_remote_tag :url => search_path %>
     <%= hidden_field_tag :select_person, true %>
     <p>
-      Add a relationship:<br/>
-      <label for="name">Search by name:</label> <%= text_field_tag 'name' %>
+      <%= I18n.t('relationships.add_a_relationship') %><br/>
+      <label for="name"><%= I18n.t('search.search_by_name') %></label> <%= text_field_tag 'name' %>
       <br/>
-      <%= submit_tag 'Add Relationship' %>
+      <%= submit_tag I18n.t('relationships.add_relationship_button') %>
     </p>
   </form>
   
   <div id="add_member" style="display:none;">
     <% form_tag person_relationships_path(@person) do %>
-      <label for="name">Relationship Type:</label>
-      <%= select_tag :name, options_for_select(['']+I18n.t(:relationships).invert.sort) %>
+      <label for="name"><%= I18n.t('relationships.relationship_type') %></label>
+      <%= select_tag :name, options_for_select(['']+I18n.t('relationships.names').invert.sort), :onchange => "if(this.value=='other') { Element.show('other_name'); $('other_name').focus() } else Element.hide('other_name');" %>
+      <%= text_field_tag :other_name, nil, :style => 'display:none;' %><div class="autocomplete" id="other_name_auto_complete"></div>
+      <script type="text/javascript">
+        new Autocompleter.Local('other_name', 'other_name_auto_complete', <%= @other_names.inspect %>, {});
+      </script>
       <div id="results"></div>
-      <p><%= submit_tag 'Add Selected' %></p>
+      <p><%= submit_tag I18n.t('search.add_selected') %></p>
     <% end %>
   </div>
 <% end %>
 
-<h1><%= link_to h(@person.name_possessive), @person %> Relationships</h1>
+<h1><%= @person.name %></h1>
+
+<h2><%= I18n.t('relationships.outward') %></h2>
 
 <% if @relationships.any? %>
-  <table>
-    <% @relationships.each do |relationship| %>
+  <% form_tag batch_person_relationships_path(@person) do %>
+    <table>
       <tr>
-        <td><%= link_to h(relationship.related.name), relationship.related %></td>
-        <td><%=h relationship.name_or_other %></td>
-        <td><%= link_to image_tag('remove.gif', :alt => 'Remove relationship.', :class => 'icon'), [@person, relationship], :method => :delete, :confirm => 'Are you sure?' %></td>
-      </tr>
-    <% end %>
-  </table>
+        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th><%= I18n.t('name') %></th>
+        <th><%= I18n.t('relationships.relationship') %>
+      <th>
+      <% @relationships.each do |relationship| %>
+        <tr>
+          <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'relationship_checkbox' %></td>
+          <td><%= link_to h(relationship.related.name), relationship.related %></td>
+          <td><%=h relationship.name_or_other %></td>
+          <td><%= link_to image_tag('arrow_right.png', :class => 'icon'), person_relationships_path(relationship.related), :class => 'discreet' %></td>
+        </tr>
+      <% end %>
+    </table>
+    <p>
+      <%= submit_tag I18n.t('Delete'), :name => 'delete', :confirm => I18n.t('are_you_sure') %>
+      <%= submit_tag I18n.t('relationships.Reciprocate'), :name => 'reciprocate' %>
+    </p>
+  <% end %>
 <% else %>
-  <p><em>none specified</em></p>
+  <p><em><%= I18n.t('none') %></em></p>
 <% end %>
 
+<h2><%= I18n.t('relationships.inward') %></h2>
+
+<% if @inward_relationships.any? %>
+  <% form_tag batch_person_relationships_path(@person) do %>
+    <table>
+      <tr>
+        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th><%= I18n.t('name') %></th>
+        <th><%= I18n.t('relationships.relationship') %>
+      <th>
+      <% @inward_relationships.each do |relationship| %>
+        <tr>
+          <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'relationship_checkbox' %></td>
+          <td><%= link_to h(relationship.person.name), relationship.person %></td>
+          <td><%=h relationship.name_or_other %></td>
+          <td><%= link_to image_tag('arrow_right.png', :class => 'icon'), person_relationships_path(relationship.person), :class => 'discreet' %></td>
+        </tr>
+      <% end %>
+    </table>
+    <p>
+      <%= submit_tag I18n.t('Delete'), :name => 'delete', :confirm => I18n.t('are_you_sure') %>
+      <%= submit_tag I18n.t('relationships.Reciprocate'), :name => 'reciprocate' %>
+    </p>
+  <% end %>
+<% else %>
+  <p><em><%= I18n.t('none') %></em></p>
+<% end %>

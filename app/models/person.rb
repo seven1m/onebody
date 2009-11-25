@@ -111,6 +111,8 @@ class Person < ActiveRecord::Base
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :relationships, :dependent => :destroy
   has_many :related_people, :class_name => 'Person', :through => :relationships
+  has_many :inward_relationships, :dependent => :destroy, :class_name => 'Relationship', :foreign_key => 'related_id'
+  has_many :inward_related_people, :class_name => 'Person', :through => :inward_relationships
   has_many :prayer_requests, :order => 'created_at desc'
   has_many :sync_instances
   has_many :remote_accounts

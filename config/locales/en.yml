@@ -3,9 +3,12 @@ en:
   are_you_sure: Are you sure?
   by: By
   comments: Comments
+  Delete: Delete
   delete: delete
+  Edit: Edit
   edit: edit
   loading: Loading
+  name: Name
   new: New
   none: none
   search_results: Search Results
@@ -96,37 +99,47 @@ en:
     share_your_recipes: Share your favorite recipes with {{community}}.
     title: Title
 
-  relationships: 
-    aunt: Aunt
-    brother: Brother
-    brother_in_law: Brother-in-law
-    cousin: Cousin
-    daughter: Daughter
-    daughter_in_law: Daughter-in-law
-    father: Father
-    father_in_law: Father-in-law
-    grandaughter: Granddaughter
-    grandfather: Grandfather
-    grandmother: Grandmother
-    grandson: Grandson
-    husband: Husband
-    mother: Mother
-    mother_in_law: Mother-in-law
-    nephew: Nephew
-    niece: Niece
-    other: Other
-    sister: Sister
-    sister_in_law: Sister-in-law
-    son: Son
-    son_in_law: Son-in-law
-    stepbrother: Stepbrother
-    stepdaughter: Stepdaughter
-    stepfather: Stepfather
-    stepmother: Stepmother
-    stepsister: Stepsister
-    stepson: Stepson
-    uncle: Uncle
-    wife: Wife
+  relationships:
+    add_a_relationship: "Add a relationship:"
+    add_relationship_button: Add Relationship
+    cannot_be_reciprocated: A reciprocal relationship to {{name}} cannot be automatically created.
+    names:
+      aunt: Aunt
+      brother: Brother
+      brother_in_law: Brother-in-law
+      cousin: Cousin
+      daughter: Daughter
+      daughter_in_law: Daughter-in-law
+      father: Father
+      father_in_law: Father-in-law
+      granddaughter: Granddaughter
+      grandfather: Grandfather
+      grandmother: Grandmother
+      grandson: Grandson
+      husband: Husband
+      mother: Mother
+      mother_in_law: Mother-in-law
+      nephew: Nephew
+      niece: Niece
+      other: Other
+      sister: Sister
+      sister_in_law: Sister-in-law
+      son: Son
+      son_in_law: Son-in-law
+      stepbrother: Stepbrother
+      stepdaughter: Stepdaughter
+      stepfather: Stepfather
+      stepmother: Stepmother
+      stepsister: Stepsister
+      stepson: Stepson
+      uncle: Uncle
+      wife: Wife
+    inward: Inward Relationships
+    outward: Outward Relationships
+    Reciprocate: Reciprocate
+    relationship: Relationship
+    relationship_type: "Type:"
+    relationships: Relationships
 
   remote_accounts: 
     confirm_sync: Are you sure? This operation *will* make changes to the account.
@@ -145,6 +158,7 @@ en:
 
   search: 
     add_as_many_friends_you_like: You can add as many friends as you like! When you're finished, you can edit your <a href="{{url}}">friends list</a> to remove and put them in the order you want.
+    add_selected: Add Selected
     advanced_search: Advanced Search
     all: All
     anniversary: Anniversary
@@ -185,6 +199,7 @@ en:
     printed_directory: Printed Directory
     printed_directory_description: The directory is constantly changing. While finding someone online is usually your best bet, you may desire to <a href="{{url}}">print the directory</a> for those 'offline' moments.
     search: Search
+    search_by_name: "Search by name:"
     search_the_directory: Search the Directory
     searching: Searching...
     show_all: (show all)
