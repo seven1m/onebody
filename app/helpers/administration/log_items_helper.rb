@@ -1,7 +1,11 @@
 module Administration::LogItemsHelper
   
   def log_item_path(log_item)
-    send(log_item.loggable_type.underscore + '_path', log_item.loggable_id)
+    if log_item.loggable_type == 'Picture'
+      picture_path(log_item.loggable)
+    else
+      send(log_item.loggable_type.underscore + '_path', log_item.loggable_id)
+    end
   end
   
   def log_item_change_value(log_item, attribute, value)
