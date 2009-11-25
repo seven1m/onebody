@@ -35,6 +35,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :families,
     :collection => {:hashify => :post, :schema => :get, :batch => :post, :select => :post},
     :member => {:reorder => :post} do |families|
+    families.resources :relationships
     families.resource :photo, :member => PHOTO_SIZE_METHODS
   end
 

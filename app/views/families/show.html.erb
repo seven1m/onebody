@@ -2,6 +2,7 @@
   <% content_for :subnav do %>
     <li><%= link_to image_tag('pencil.png', :alt => 'Edit Family', :class => 'icon') + ' Edit Family', edit_family_path(@family) %></li>
     <li><%= link_to image_tag('delete.png', :alt => 'Delete Family', :class => 'icon') + ' Delete Family', @family, :method => 'delete', :confirm => 'Are you sure? Clicking OK will delete this family and all the people in it.' %></li>
+    <li><%= link_to image_tag('link.png', :alt => I18n.t('relationships.family'), :class => 'icon') + ' ' + I18n.t('relationships.family'), family_relationships_path(@family) %></li>
   <% end %>
 <% end %>
 

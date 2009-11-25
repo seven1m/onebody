@@ -7,11 +7,13 @@ en:
   delete: delete
   Edit: Edit
   edit: edit
+  From: From
   loading: Loading
   name: Name
   new: New
   none: none
   search_results: Search Results
+  To: To
   type: Type
 
   friends: 
@@ -103,6 +105,9 @@ en:
     add_a_relationship: "Add a relationship:"
     add_relationship_button: Add Relationship
     cannot_be_reciprocated: A reciprocal relationship to {{name}} cannot be automatically created.
+    create_family_relationships_description: You may generate relationships for this immediate family below.
+    create_family_relationships: Create Family Relationships
+    family: Family Relationships
     names:
       aunt: Aunt
       brother: Brother
@@ -140,6 +145,7 @@ en:
     relationship: Relationship
     relationship_type: "Type:"
     relationships: Relationships
+    toggle_individual: Toggle Individual Relationship View
 
   remote_accounts: 
     confirm_sync: Are you sure? This operation *will* make changes to the account.

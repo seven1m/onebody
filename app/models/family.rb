@@ -155,6 +155,57 @@ class Family < ActiveRecord::Base
     end
   end
   
+  def suggested_relationships
+    all_people = people.all(:order => 'sequence')
+    relations = {
+      :adult => {
+        :male => {
+          :adult => {
+            :female => 'wife'
+          },
+          :child => {
+            :male   => 'son',
+            :female => 'daughter'
+          }
+        },
+        :female => {
+          :adult => {
+            :male => 'husband'
+          },
+          :child => {
+            :male   => 'son',
+            :female => 'daughter'
+          }
+        }
+      },
+      :child => {
+        :male => {
+          :adult => {
+            :male   => 'father',
+            :female => 'mother'
+          }
+        },
+        :female => {
+          :adult => {
+            :male   => 'father',
+            :female => 'mother'
+          }
+        }
+      }
+    }
+    relationships = {}
+    all_people.each_with_index do |person, person_index|
+      relationships[person] ||= []
+      person_adult = person_index <= 1 && person.adult?
+      all_people.each_with_index do |related, related_index|
+        related_adult = related_index <= 1 && related.adult?
+        r = relations[person_adult ? :adult : :child][person.gender.to_s.downcase.to_sym][related_adult ? :adult : :child][related.gender.to_s.downcase.to_sym] rescue nil
+        relationships[person] << [related, r] if r
+      end
+    end
+    relationships
+  end
+  
   attr_accessor :dont_mark_barcode_id_changed
   
   before_update :mark_barcode_id_changed
