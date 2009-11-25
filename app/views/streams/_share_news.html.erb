@@ -11,8 +11,8 @@
       <%= form.text_area :body, :rows => 5, :cols => 80 %>
     </p>
     <p>
-      <%= form.submit I18n.t("submit_news") %>
-      <span class="small"><%= I18n.t("or_share") %> <%= link_to I18n.t("news_with_advanced_formatting"), new_news_item_path %></span>
+      <%= form.submit I18n.t('news.submit_news') %>
+      <span class="small"><%= I18n.t('news.news_with_advanced_formatting', :url => new_news_item_path) %></span>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>

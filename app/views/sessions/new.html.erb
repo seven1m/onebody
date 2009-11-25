@@ -23,15 +23,15 @@
   <%= hidden_field_tag :from, params[:from] %>
   <%= hidden_field_tag :encrypted_password %>
   <div style="width:150px;float:right;margin:10px;text-align:center;">
-    <%= link_to image_tag('help.gif', :alt => I18n.t("help_signing_in"), :class => 'no-border'), help_path %><br/>
-    <%= link_to I18n.t("i_need_help"), help_path %>
+    <%= link_to image_tag('help.gif', :alt => I18n.t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
+    <%= link_to I18n.t('session.i_need_help'), help_path %>
   </div>
   
   <p><%= I18n.t('session.sign_up_or_sign_in', :url => new_account_path) %></p>
   
   <table>
     <tr>
-      <td><label for="email"><%= I18n.t("email_address") %></label></td>
+      <td><label for="email"><%= I18n.t('session.email_address') %></label></td>
       <td><%= text_field_tag :email, params[:email], :size => 30 %></td>
     </tr>
     <tr>
@@ -42,7 +42,7 @@
       <td></td>
       <td>
         <strong class="very-strong"><%= I18n.t('session.never_share_your_password') %></strong><br/>
-        <input type="submit" value="<%= I18n.t("sign_in") %>"/><br/>
+        <input type="submit" value="<%= I18n.t('session.sign_in') %>"/><br/>
         <br/>
         <strong><%= I18n.t("session.you_may_read_our_privacy_policy_here", :url => help_path('privacy_policy')) %></strong>
       </td>

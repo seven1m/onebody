@@ -29,7 +29,7 @@ class PrivacyTest < ActionController::IntegrationTest
     sign_in_as people(:peter)
     get "/search", :name => 'Mac'
     assert_template 'searches/new'
-    assert_select 'body', /Your search didn't match any people\./
+    assert_select 'body', /0 people found/
   end
   
   def test_children_cannot_sign_in_without_consent

@@ -2,8 +2,8 @@
   <div class="verse-heading">
     <strong><%= link_to h(verse.reference), verse %></strong>
     <% unless @person %>
-      <% if verse.people.count > 0 %>
-        saved by <%= pluralize(verse.people.count, I18n.t("person"), I18n.t("people")) %>
+      <% if (count = verse.people.count) > 0 %>
+        saved by <%= I18n.t('people_count', :count => count) %>
       <% end %>
     <% end %>
   </div>

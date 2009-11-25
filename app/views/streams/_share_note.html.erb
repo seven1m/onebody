@@ -1,12 +1,12 @@
-<h2 class="tab" id="note"><%= image_tag('note.png', :alt => I18n.t("note"), :class => 'icon')%> <%= I18n.t("note") %> </h2>
+<h2 class="tab" id="note"><%= image_tag('note.png', :alt => I18n.t('notes.note'), :class => 'icon')%> <%= I18n.t('notes.note') %> </h2>
 <div class="section">
   <% form_for :note, :url => notes_path do |form| %>
     <%= hidden_field_tag :redirect_to, request.request_uri %>
     <%= form.hidden_field :group_id %>
     <p>
-      <%= I18n.t('stream.share_note_description') %>
+      <%= I18n.t('notes.share_note_description') %>
       <%= form.text_area :body, :rows => 2, :cols => 80 %>
-      <%= form.submit I18n.t("share_note") %>
+      <%= form.submit I18n.t('notes.share_note') %>
       <span class="small"><%= I18n.t('stream.create_blog_post', :url => new_note_path) %></span>
     </p>
   <% end %>

@@ -3,5 +3,5 @@
   <p><%= form.label :account_type %> <%= form.select :account_type, RemoteAccount::ACCOUNT_TYPES %></p>
   <p><%= form.label :username %>     <%= form.text_field :username %></p>
   <p><%= form.label :token %>        <%= form.text_field :token %></p>
-  <p><%= form.submit I18n.t("save_account") %></p>
+  <p><%= form.submit I18n.t('remote_accounts.save_account') %></p>
 <% end %>

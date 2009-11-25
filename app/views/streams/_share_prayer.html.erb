@@ -1,12 +1,12 @@
-<h2 class="tab" id="prayer"><%= image_tag('heart.png', :alt => I18n.t("prayer"), :class => 'icon') %> <%= I18n.t("prayer") %> </h2>
+<h2 class="tab" id="prayer"><%= image_tag('heart.png', :alt => I18n.t('prayer.prayer'), :class => 'icon') %> <%= I18n.t('prayer.prayer') %> </h2>
 <div class="section">
   <% form_for [@group, PrayerRequest.new(:group_id => @group.id, :person_id => @logged_in.id)] do |form| %>
     <%= form.hidden_field :group_id %>
     <p>
-      <%= form.label :person_id, I18n.t("by") %>
+      <%= form.label :person_id, I18n.t('by') %>
       <%= form.select :person_id, @group.people.map { |p| [p.name, p.id] } %><br/>
-      <%= form.label I18n.t("request") %> <%= form.text_area :request, :rows => 5 %><br/>
-      <%= form.submit I18n.t('stream.save_prayer_request') %>
+      <%= form.label I18n.t('prayer.request') %> <%= form.text_area :request, :rows => 5 %><br/>
+      <%= form.submit I18n.t('prayer.save_prayer_request') %>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>

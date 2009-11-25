@@ -1,12 +1,12 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('verse.png', :alt => I18n.t('stream.all_verses'), :class => 'icon') + ' ' + I18n.t('stream.all_verses'), verses_path %></li>
+  <li><%= link_to image_tag('verse.png', :alt => I18n.t('verses.all_verses'), :class => 'icon') + ' ' + I18n.t('verses.all_verses'), verses_path %></li>
 <% end %>
 
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to image_tag('delete.png', :alt => I18n.t('verses.remove_this_verse'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => I18n.t("are_you_sure") %>
-      <%= link_to I18n.t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => I18n.t("are_you_sure") %>
+      <%= link_to image_tag('delete.png', :alt => I18n.t('verses.remove_this_verse'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => I18n.t('are_you_sure') %>
+      <%= link_to I18n.t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => I18n.t('are_you_sure') %>
     </p>
   <% else %>
     <p>
@@ -31,16 +31,16 @@
     </table>
   <% end %>
     
-  <h2><%= I18n.t('global.tags') %></h2>
+  <h2><%= I18n.t('tags.tags') %></h2>
 
   <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>
     <p>
       <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse, :br => true} %><br/>
-      <%= I18n.t('global.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+      <%= I18n.t('tags.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
     </p>
   </form>
 
-  <h2><%= I18n.t("tools") %></h2>
+  <h2><%= I18n.t('verses.tools') %></h2>
   <p>
     <%= link_to 'YouVersion', @verse.youversion_url %><br/>
     <%= link_to 'eBible', @verse.ebible_url %><br/>
@@ -60,9 +60,9 @@
 
 <% if @verse.translation == 'WEB' %>
   <p class="small discreet">
-   <%= I18n.t("verse_disclaimer") %>
+   <%= I18n.t('verses.disclaimer') %>
   </p>
 <% end %>
 
-<h2><%= I18n.t('global.comments') %></h2>
+<h2><%= I18n.t('comments') %></h2>
 <%= render :partial => 'comments/comments', :locals => {:object => @verse, :intro => I18n.t('verses.about_this_verse')} %>

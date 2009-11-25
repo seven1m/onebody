@@ -82,7 +82,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :external_groups
 
   map.resource :session
-  map.resource :search, :member => {:opensearch => :get}
+  map.resource :search
   map.resource :printable_directory
   map.resource :privacy
   map.resource :tour

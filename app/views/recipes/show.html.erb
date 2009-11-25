@@ -1,8 +1,8 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('recipe.png', :alt => I18n.t('stream.all_recipes'), :class => 'icon') + ' ' + I18n.t('stream.all_recipes'), recipes_path %></li>
+  <li><%= link_to image_tag('recipe.png', :alt => I18n.t('recipes.all_recipes'), :class => 'icon') + ' ' + I18n.t('recipes.all_recipes'), recipes_path %></li>
   <% if @logged_in.can_edit?(@recipe) %>
-    <li><%= link_to image_tag('pencil.png', :alt => I18n.t("edit_recipe"), :class => 'icon') + ' ' + I18n.t("edit_recipe"), edit_recipe_path(@recipe) %></li>
-    <li><%= link_to image_tag('delete.png', :alt => I18n.t("delete_recipe"), :class => 'icon') + ' ' + I18n.t("delete_recipe"), recipe_path(@recipe), :method => 'delete', :confirm => I18n.t("are_you_sure") %></li>
+    <li><%= link_to image_tag('pencil.png', :alt => I18n.t('recipes.edit_recipe'), :class => 'icon') + ' ' + I18n.t('recipes.edit_recipe'), edit_recipe_path(@recipe) %></li>
+    <li><%= link_to image_tag('delete.png', :alt => I18n.t('recipes.delete_recipe'), :class => 'icon') + ' ' + I18n.t('recipes.delete_recipe'), recipe_path(@recipe), :method => 'delete', :confirm => I18n.t('are_you_sure') %></li>
   <% end %>
 <% end %>
 
@@ -25,18 +25,18 @@
   
 <table>
   <tr>
-    <td><%= I18n.t('global.tags') %>:</td>
+    <td><%= I18n.t('tags.tags') %>:</td>
     <td>
       <%= form_tag(@recipe, :method => 'put', :style => 'border:none;padding:0;') %>
         <p>
           <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @recipe} %><br/>
-          <%= I18n.t('global.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+          <%= I18n.t('tags.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
         </p>
       </form>
     </td>
   </tr>
   <tr>
-    <td style="white-space:nowrap;"><%= I18n.t("serving_size") %>:</td>
+    <td style="white-space:nowrap;"><%= I18n.t('recipes.serving_size') %>:</td>
     <td><%=h @recipe.serving_size %></td>
   </tr>
   <% if @recipe.prep.to_s.any? %>
@@ -53,25 +53,25 @@
   <% end %>
   <% if @recipe.description.to_s.any? %>
     <tr>
-      <td style="white-space:nowrap;"><%= I18n.t("description") %>:</td>
+      <td style="white-space:nowrap;"><%= I18n.t('recipes.description') %>:</td>
       <td><%= white_list_with_removal @recipe.description %></td>
     </tr>
   <% end %>
   <tr>
-    <td style="white-space:nowrap;"><%= I18n.t("ingredients") %>:</td>
+    <td style="white-space:nowrap;"><%= I18n.t('recipes.ingredients') %>:</td>
     <td><%= white_list_with_removal @recipe.ingredients %></td>
   </tr>
   <tr>
-    <td style="white-space:nowrap;"><%= I18n.t("directions") %>:</td>
+    <td style="white-space:nowrap;"><%= I18n.t('recipes.directions') %>:</td>
     <td><%= white_list_with_removal @recipe.directions %></td>
   </tr>
   <% if @recipe.notes.to_s.any? %>
     <tr>
-      <td style="white-space:nowrap;"><%= I18n.t("other_notes") %>:</td>
+      <td style="white-space:nowrap;"><%= I18n.t('recipes.other_notes') %>:</td>
       <td><%= white_list_with_removal @recipe.notes %></td>
     </tr>
   <% end %>
 </table>
 
-<h2><%= I18n.t('global.comments') %></h2>
+<h2><%= I18n.t('comments') %></h2>
 <%= render :partial => 'comments/comments', :locals => {:object => @recipe, :intro => I18n.t('recipes.about_this_recipe')} %>

@@ -1,5 +1,5 @@
 <% @remote_accounts.each do |remote_account| %>
-  <%= link_to image_tag('contact_add.gif', :alt => I18n.t('remote_accounts.sync'), :class => 'icon') + I18n.t("sync_with") + " #{h remote_account.account_type.capitalize}", person_sync_path(@person, :remote_account_id => remote_account), :method => 'put', :confirm => I18n.t("are_you_sure") %>
+  <%= link_to image_tag('contact_add.gif', :alt => I18n.t('remote_accounts.sync'), :class => 'icon') + I18n.t("remote_accounts.sync"), person_sync_path(@person, :remote_account_id => remote_account), :method => 'put', :confirm => I18n.t('are_you_sure') %>
 <% end %>
 
 <% if @remote_accounts.empty? %>

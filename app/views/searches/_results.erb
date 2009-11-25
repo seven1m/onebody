@@ -1,4 +1,4 @@
-<h2><%= I18n.t('global.search_results') %></h2>
+<h2><%= I18n.t('search_results') %></h2>
 
 <p>
   <%= I18n.t("search.people_found", :count => @count) %>
@@ -15,7 +15,7 @@
     <p>
       <label for="category"><%= I18n.t('search.business_category') %></label>
       <select id="category" onchange="location.href='?business=true&category='+value">
-        <option value=""><%= I18n.t("show_all") %></option>
+        <option value=""><%= I18n.t('search.show_all') %></option>
         <%= options_for_select @business_categories, params[:category] %>
       </select>
     </p>
@@ -33,9 +33,6 @@
       <% end %>
       <% if @show_birthdays %>
         <th><%= I18n.t('search.birthday') %></th>
-      <% end %>
-      <% if Setting.get(:features, :show_mail_group) and @logged_in.admin? %>
-        <th><%= I18n.t("mail_group") %></th>
       <% end %>
     </tr>
     <% @people.each do |person| %>
@@ -68,9 +65,6 @@
         <% end %>
         <% if @show_birthdays %>
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
-        <% end %>
-        <% if Setting.get(:features, :show_mail_group) and @logged_in.admin? %>
-          <td><%= h(person.mail_group) %></td>
         <% end %>
         <td>
           <% if Setting.get(:features, :friends) and @logged_in.can_request_friendship_with?(person) and @logged_in != person %>

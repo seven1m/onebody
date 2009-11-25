@@ -1,260 +1,264 @@
---- 
 en: 
-  no_messages_yet: No messages yet!
-  wall: 
-    view_all_wall_messages: View all wall messages...
-    wall: Wall
-    wall_to_wall: wall to wall
-    newest_messages_appear_first: newest messages appear first
-    to_send_a_private_message: All users will see your message; to send a private message, <a href="{{url}}">click here</a>.
-    description: The Wall is a place for people to post friendly messages for you and others to see.
-    save_message: Save Message
-  verses: 
-    people_who_like_this_verse: People who like this verse
-    verses: Verses
-    add_verse: Add Verse
-    add_this_verse_to_my_list: Add this verse to my list.
-    remove_this_verse: Remove this verse from my list.
-    add_a_verse: Add a Verse
-    about_this_verse: about this verse. Share what it means to you, how it has helped you, or simply why you like it.
-    no_verses_yet: No verses yet!
-    read_this_passage_at_youversion: Read this passage at YouVersion...
-  people: People
-  verse_disclaimer: Scripture quotations marked 'WEB' are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.
-  show_hidden: Show Hidden
-  prayer: Prayer
-  reveal_token: Reveal Token
-  message: message
-  new_publication: New Publication
-  new: New
-  picture: Picture
-  description: Description
-  news: 
-    body_description: "Share your announcement, information, or news here:"
-    title_description: "Give your post a concise title:"
-    news: News
-  new_family: New Family
-  tags: 
-    confirm_delete: Are you sure you want to delete this tag?
-  nav: 
-    groups: Groups
-    bible: Bible
-    profile: Profile
-    directory: Directory
-    pages: Pages
-    home: Home
-  title: Title
-  edit: edit
-  sign_in: Sign In
-  other_notes: Other notes
-  global: 
-    search_results: Search Results
-    comments: Comments
-    no_tags_yet: no tags yet
-    add_tags: Add Tags (space separated)
-    tags: Tags
-  family: family
-  edit_recipe: Edit Recipe
-  ingredients: Ingredients
-  remote_accounts: 
-    reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
-    remote_accounts: Remote Accounts
-    get_token_sign_in: "To get the 'token' for your <a href=\"http://highrisehq.com\">Highrise</a> account, sign in and click the 'My Info' link in the top-right of the screen:"
-    no_remote_accounts: You do not have any <a href="{{url}}">Remote Accounts</a>.
-    sync: Sync
-    confirm_sync: Are you sure? This operation *will* make changes to the account.
-    synced_contacts: Synced Contacts
-  stream: 
-    all_recipes: All Recipes
-    import_flickr_photos: Import your Flickr photos...
-    flickr: Flickr
-    friends: Friends
-    my_activity: My Activity
-    blog: " Blog"
-    import_facebook_updates: Import your Facebook status updates...
-    import_blog_feed: Import your Blog's RSS or Atom feed...
-    new_recipe: New Recipe
-    import_from: Import from...
-    save_prayer_request: Save Prayer Request
-    share_note_description: What are you doing? &middot; What's on your mind?
-    show: Show
-    all_publications: All Publications
-    create_blog_post: Or, create a <a href="{{url}}">blog post</a> with a title and formatting...
-    import_twitter_updates: Import your Twitter updates...
-    facebook: " Facebook"
-    share_something: Share Something
-    all_verses: All Verses
-    enter_the_new_album_title: Enter the new album title.
-    pending_friend_requests: You have <a href="{{url}}">pending friend requests</a>.
-    all_pictures: All Pictures
-    twitter: " Twitter"
-    feed: Feed
-    all_news: All News
-  to_my_list: to my list.
-  view_profile: View Profile
-  click_here: click here
-  more: More
-  help_signing_in: Help Signing In
-  loading: Loading
-  tools: Tools
-  username: Username
-  messages: Messages
-  your_search_didnt_match_any_families: Your search didn't match any families.
-  share_note: Share Note
-  or_share: Or, share
-  delete: delete
-  serving_size: Serving size
-  i_need_help: I need help.
-  recipes: 
-    about_this_recipe: about this recipe.
-    confirm_delete: Are you sure you want to delete this recipe?
-    add_a_recipe: Add a recipe
-    no_results: No results
-    share_your_recipes: Share your favorite recipes with {{community}}.
-    recipes: Recipes
-    prep_cook_time: Prep/Cook time
-    bake_time: Bake time
-  your_search_didnt_match_any_people: Your search didn't match any people.
-  show_all: (show all)
-  city: City
-  upload_more: Upload more
-  type_a_reference_below_and_hit_enter: "Type a reference (e.g. John 3:16, Matthew 5:3-11) below and hit enter:"
-  email_address: "Email Address:"
-  relationships: 
-    father_in_law: Father-in-law
-    stepbrother: Stepbrother
-    grandfather: Grandfather
-    daughter_in_law: Daughter-in-law
-    brother: Brother
-    grandaughter: Granddaughter
-    mother: Mother
-    uncle: Uncle
-    niece: Niece
-    grandmother: Grandmother
-    nephew: Nephew
-    mother_in_law: Mother-in-law
-    stepmother: Stepmother
-    husband: Husband
-    son: Son
-    sister_in_law: Sister-in-law
-    stepsister: Stepsister
-    other: Other
-    stepfather: Stepfather
-    son_in_law: Son-in-law
-    stepson: Stepson
-    sister: Sister
-    aunt: Aunt
-    stepdaughter: Stepdaughter
-    brother_in_law: Brother-in-law
-    wife: Wife
-    father: Father
-    daughter: Daughter
-    grandson: Grandson
-    cousin: Cousin
-  notes: Notes
-  publications: 
-    add_publication: Add Publication
-    publications: Publications
-  or_use_the: Or, use the
-  no_recipes_yet: No recipes yet!
-  news_with_advanced_formatting: news with advanced formatting...
-  sync_with: Sync with
-  work: work
-  note: Note
-  searching: Searching...
-  new_account: New Account
-  save_account: Save Account
-  feature_to_change_the_results: feature to change the results interactively.
-  share: Share
-  find_your_friends: Find Your Friends
-  edit_account: Edit Account
-  home: home
-  request: Request
+
   are_you_sure: Are you sure?
-  session: 
-    never_share_your_password: Never share your password with anyone!
-    no_users: No Users
-    create_the_first_user: "You may create the first user by running the command:"
-    you_may_read_our_privacy_policy_here: You may read our Privacy Policy <a href="{{url}}">here</a>.
-    sign_up_or_sign_in: "<a href=\"{{url}}\">Sign Up</a> for an account, or sign in:"
-    load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
-    there_are_no_users_in_the_system: There are no users in the system.
-    password: "Password:"
-    please_sign_in: Please sign in.
-  token_key: Token/Key
-  tag: Tag
-  submit_news: Submit News
-  search_for_people_on: Search for people on
+  by: By
+  comments: Comments
+  delete: delete
+  edit: edit
+  loading: Loading
+  new: New
   none: none
-  search_the_directory: Search the Directory
-  post_a_message: Post a message
-  mail_group: Mail Group
-  wall_to_wall_camel_case: Wall to Wall
+  search_results: Search Results
+  type: Type
+
+  friends: 
+    add_friend: Add Friend
+    confirm_email_will_be_sent: Are you sure? An email will be sent to this person requesting friendship.
+    friends: Friends
+    pending_friend_requests: You have <a href="{{url}}">pending friend requests</a>.
+
+  messages: 
+    messages: Messages
+
+  nav: 
+    bible: Bible
+    directory: Directory
+    groups: Groups
+    home: Home
+    pages: Pages
+    profile: Profile
+
+  news: 
+    all_news: All News
+    body_description: "Share your announcement, information, or news here:"
+    news: News
+    news_with_advanced_formatting: Or, share <a href="{{url}}">news with advanced formatting...</a>
+    submit_news: Submit News
+    title_description: "Give your post a concise title:"
+
+  notes: 
+    note: Note
+    notes: Notes
+    share_note: Share Note
+    share_note_description: "What are you doing? \xC2\xB7 What's on your mind?"
+
+  people_count: 
+    one: 1 person
+    other: "{{count}} people"
+
   pictures: 
     add_a_picture: Add a Picture
     album: Album
+    all_pictures: All Pictures
+    enter_the_new_album_title: Enter the new album title.
+    picture: Picture
     pictures: Pictures
-  fax: fax
-  by: By
-  set_up: set up
-  tag_list: Tag List
-  directions: Directions
-  friends: 
-    confirm_email_will_be_sent: Are you sure? An email will be sent to this person requesting friendship.
-    add_friend: Add Friend
-  of_the_screen: of the screen.
-  share_your_fav_bible_verses_with: Share your favorite Bible verses with the
-  prayer_requests: Prayer Requests
-  you_should: You should
-  verse: Verse
-  mobile: mobile
+    upload: Upload!
+    upload_more: Upload more
+
+  prayer: 
+    prayer: Prayer
+    prayer_requests: Prayer Requests
+    request: Request
+    save_prayer_request: Save Prayer Request
+
+  profile: 
+    fax: fax
+    home: home
+    mobile: mobile
+    work: work
+
+  publications: 
+    add_publication: Add Publication
+    all_publications: All Publications
+    new_publication: New Publication
+    publications: Publications
+
+  recipes: 
+    about_this_recipe: about this recipe.
+    add_a_recipe: Add a recipe
+    all_recipes: All Recipes
+    bake_time: Bake time
+    confirm_delete: Are you sure you want to delete this recipe?
+    delete_recipe: Delete Recipe
+    description: Description
+    directions: Directions
+    edit_recipe: Edit Recipe
+    ingredients: Ingredients
+    new_recipe: New Recipe
+    no_recipes_yet: No recipes yet!
+    no_results: No results
+    other_notes: Other notes
+    prep_cook_time: Prep/Cook time
+    recipes: Recipes
+    save_recipe: Save Recipe
+    serving_size: Serving size
+    share_your_recipes: Share your favorite recipes with {{community}}.
+    title: Title
+
+  relationships: 
+    aunt: Aunt
+    brother: Brother
+    brother_in_law: Brother-in-law
+    cousin: Cousin
+    daughter: Daughter
+    daughter_in_law: Daughter-in-law
+    father: Father
+    father_in_law: Father-in-law
+    grandaughter: Granddaughter
+    grandfather: Grandfather
+    grandmother: Grandmother
+    grandson: Grandson
+    husband: Husband
+    mother: Mother
+    mother_in_law: Mother-in-law
+    nephew: Nephew
+    niece: Niece
+    other: Other
+    sister: Sister
+    sister_in_law: Sister-in-law
+    son: Son
+    son_in_law: Son-in-law
+    stepbrother: Stepbrother
+    stepdaughter: Stepdaughter
+    stepfather: Stepfather
+    stepmother: Stepmother
+    stepsister: Stepsister
+    stepson: Stepson
+    uncle: Uncle
+    wife: Wife
+
+  remote_accounts: 
+    confirm_sync: Are you sure? This operation *will* make changes to the account.
+    edit_account: Edit Account
+    get_token_sign_in: "To get the 'token' for your <a href=\"http://highrisehq.com\">Highrise</a> account, sign in and click the 'My Info' link in the top-right of the screen:"
+    new_account: New Account
+    no_remote_accounts: You do not have any <a href="{{url}}">Remote Accounts</a>.
+    remote_accounts: Remote Accounts
+    reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
+    save_account: Save Account
+    sync: Sync
+    synced_contacts: Synced Contacts
+    token_key: Token/Key
+    username: Username
+    view_profile: View Profile
+
   search: 
-    hidden_profile: Hidden Profile
-    business_directory_description: Some of our members have businesses they'd like you to know about. Next time you go to grab the yellow pages, try the <a href="{{url}}">business directory</a> first.
-    name: Name
+    add_as_many_friends_you_like: You can add as many friends as you like! When you're finished, you can edit your <a href="{{url}}">friends list</a> to remove and put them in the order you want.
+    advanced_search: Advanced Search
     all: All
-    zip: Zip
+    anniversary: Anniversary
+    birthday: Birthday
+    browse: Browse
     browse_directory_description: Of course, you can also <a href="{{url}}">browse the directory</a> by name.
-    elder: Elder
     browse_the_directory: browse the directory
-    category: Category
     business: Business
-    female: Female
-    printed_directory_description: The directory is constantly changing. While finding someone online is usually your best bet, you may desire to <a href="{{url}}">print the directory</a> for those 'offline' moments.
-    no_family: (no family)
-    member: Member
-    print: Print
-    use_advanced_search: Or, use the <a href="#" onclick="{{js}};return false;">advanced search</a> feature to change the results interactively.
-    staff: Staff
-    deacon: Deacon
+    business_category: "Business Category:"
     business_directory: Business Directory
-    gender: Gender
-    family_name: Family Name
-    male: Male
+    business_directory_description: Some of our members have businesses they'd like you to know about. Next time you go to grab the yellow pages, try the <a href="{{url}}">business directory</a> first.
+    businesses: Businesses
+    category: Category
+    city: City
+    click_the_icon_to_add_them: Click the {{img}} icon to add them.
+    deacon: Deacon
+    elder: Elder
     families_found: 
       one: 1 family found
       other: "{{count}} families found"
-    birthday: Birthday
-    anniversary: Anniversary
-    businesses: Businesses
-    click_the_icon_to_add_them: Click the {{img}} icon to add them.
-    add_as_many_friends_you_like: You can add as many friends as you like! When you're finished, you can edit your <a href="{{url}}">friends list</a> to remove and put them in the order you want.
-    advanced_search: Advanced Search
-    printed_directory: Printed Directory
-    not_showing_hidden_people: (not showing hidden people)
-    business_category: "Business Category:"
-    friends_search: Use the <strong>fields on the left</strong> to search for your friends.
+    family_name: Family Name
+    female: Female
     find_someone_quickly: You can always find someone quickly by typing all or part of their name in the <a href="#" onclick="{{js}};return false;">top-right</a> of the screen.
+    find_your_friends: Find Your Friends
+    friends_search: Use the <strong>fields on the left</strong> to search for your friends.
+    gender: Gender
+    hidden_profile: Hidden Profile
+    male: Male
+    member: Member
+    name: Name
+    new_family: New Family
+    no_family: (no family)
+    not_showing_hidden_people: (not showing hidden people)
     people_found: 
       one: 1 person found
       other: "{{count}} people found"
+    print: Print
+    printed_directory: Printed Directory
+    printed_directory_description: The directory is constantly changing. While finding someone online is usually your best bet, you may desire to <a href="{{url}}">print the directory</a> for those 'offline' moments.
     search: Search
-    browse: Browse
-  save_recipe: Save Recipe
-  person: Person
-  delete_recipe: Delete Recipe
-  upload: Upload!
-  share_something_here: share something here
-  please_respect_the_privacy_of_others: Please respect the privacy of others. Abusing the wall will get you banned from the site.
-  state: State
-  type: Type
+    search_the_directory: Search the Directory
+    searching: Searching...
+    show_all: (show all)
+    show_hidden: Show Hidden
+    staff: Staff
+    state: State
+    use_advanced_search: Or, use the <a href="#" onclick="{{js}};return false;">advanced search</a> feature to change the results interactively.
+    zip: Zip
+
+  session: 
+    create_the_first_user: "You may create the first user by running the command:"
+    email_address: "Email Address:"
+    help_signing_in: Help Signing In
+    i_need_help: I need help.
+    load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
+    never_share_your_password: Never share your password with anyone!
+    no_users: No Users
+    password: "Password:"
+    please_sign_in: Please sign in.
+    sign_in: Sign In
+    sign_up_or_sign_in: "<a href=\"{{url}}\">Sign Up</a> for an account, or sign in:"
+    there_are_no_users_in_the_system: There are no users in the system.
+    you_may_read_our_privacy_policy_here: You may read our Privacy Policy <a href="{{url}}">here</a>.
+
+  stream: 
+    blog: " Blog"
+    create_blog_post: Or, create a <a href="{{url}}">blog post</a> with a title and formatting...
+    facebook: " Facebook"
+    feed: Feed
+    flickr: Flickr
+    import_blog_feed: Import your Blog's RSS or Atom feed...
+    import_facebook_updates: Import your Facebook status updates...
+    import_flickr_photos: Import your Flickr photos...
+    import_from: Import from...
+    import_twitter_updates: Import your Twitter updates...
+    more: More
+    my_activity: My Activity
+    share_something: Share Something
+    share_something_here: share <a href="#" onclick="{{js}};return false;">something here</a>.
+    show: Show
+    twitter: " Twitter"
+
+  tags: 
+    add_tags: Add Tags (space separated)
+    confirm_delete: Are you sure you want to delete this tag?
+    no_tags_yet: no tags yet
+    tag: Tag
+    tags: Tags
+
+  verses: 
+    about_this_verse: about this verse. Share what it means to you, how it has helped you, or simply why you like it.
+    add_a_verse: Add a Verse
+    add_this_verse_to_my_list: Add this verse to my list.
+    add_verse: Add Verse
+    all_verses: All Verses
+    disclaimer: Scripture quotations marked 'WEB' are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.
+    intro: Share your favorite Bible verses with {{community}}.
+    no_verses_yet: No verses yet!
+    people_who_like_this_verse: People who like this verse
+    read_this_passage_at_youversion: Read this passage at YouVersion...
+    remove_this_verse: Remove this verse from my list.
+    tools: Tools
+    type_a_reference_below_and_hit_enter: "Type a reference (e.g. John 3:16, Matthew 5:3-11) below and hit enter:"
+    verse: Verse
+    verses: Verses
+
+  wall: 
+    description: The Wall is a place for people to post friendly messages for you and others to see.
+    newest_messages_appear_first: newest messages appear first
+    no_messages_yet: No messages yet!
+    post_a_message: Post a message.
+    respect_privacy: Please respect the privacy of others. Abusing the wall will get you banned from the site.
+    save_message: Save Message
+    to_send_a_private_message: All users will see your message; to send a private message, <a href="{{url}}">click here</a>.
+    view_all_wall_messages: View all wall messages...
+    wall: Wall
+    wall_to_wall: Wall to Wall

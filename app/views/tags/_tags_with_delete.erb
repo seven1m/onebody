@@ -8,10 +8,10 @@
       <% elsif controller == 'recipes' %>
         <% url = recipe_path(:id => object, :remove_tag => tag.name) %>
       <% end %>
-      <%= link_to 'x', url, :title => I18n.t("delete"), :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => I18n.t('tags.confirm_delete') %>
+      <%= link_to 'x', url, :title => I18n.t('delete'), :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => I18n.t('tags.confirm_delete') %>
     <% end %>
     <% if defined?(br) and br %><br/><% end %>
   <% end %>
 <% else %>
-  <em><%= I18n.t('global.no_tags_yet') %></em>
+  <em><%= I18n.t('tags.no_tags_yet') %></em>
 <% end %>

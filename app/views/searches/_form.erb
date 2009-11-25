@@ -25,18 +25,18 @@
     <option value=""></option>
     <%= options_for_select ([[I18n.t('search.male'), 'Male'], [I18n.t('search.female'), 'Female']]), params[:gender] %>
   </select>
-  <label for="city"><%= I18n.t("city") %>:</label>
+  <label for="city"><%= I18n.t('search.city') %>:</label>
   <%= text_field_tag :city, params[:city] %><br/>
-  <label for="state"><%= I18n.t("state") %>:</label>
+  <label for="state"><%= I18n.t('search.state') %>:</label>
   <%= text_field_tag :state, params[:state] %><br/>
   <label for="zip"><%= I18n.t('search.zip') %>:</label>
   <%= text_field_tag :zip, params[:zip] %><br/>
-  <label for="type"><%= I18n.t("type") %>:</label>
+  <label for="type"><%= I18n.t('type') %>:</label>
   <select name="type" id="type">
     <option value=""><%= I18n.t('search.all') %></option>
     <%= options_for_select ([[I18n.t('search.member'), 'member'], [I18n.t('search.staff'), 'staff'], [I18n.t('search.deacon'), 'deacon'], [I18n.t('search.elder'), 'elder']]) + (Setting.get(:features, :custom_person_type) ? Person.custom_types : []), params[:type] %>
   </select><br/>
-  <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> <%= I18n.t("show_hidden") %>
+  <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> <%= I18n.t('search.show_hidden') %>
   <input type="submit" value="<%= I18n.t("search.search") %>"/>
 <% end %>
 

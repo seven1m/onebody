@@ -11,7 +11,7 @@
         <% if @person %>(<%= link_to I18n.t('wall.wall_to_wall'), with_person_wall_path(@person, :id => message.person) %>)<% end %>
         <%= message.created_at.to_s %>
         <% if @logged_in.can_edit?(message) %>
-          <%= link_to '[' + I18n.t("delete") + ']', message_path(message), :method => 'delete', :class => 'discreet', :confirm => I18n.t("are_you_sure") %>
+          <%= link_to '[' + I18n.t('delete') + ']', message_path(message), :method => 'delete', :class => 'discreet', :confirm => I18n.t('are_you_sure') %>
         <% end %>
         <br/>
         <%= preserve_breaks message.body %>

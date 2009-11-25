@@ -12,15 +12,15 @@
 <% form_for @recipe, :html => {:multipart => true} do |form| %>
   <%= form.error_messages %>
   <p>
-    <%= form.label :title, I18n.t("title") %>                     <%= form.text_field :title %>                  <br/>
-    <%= form.label :tag_list, I18n.t("tag_list") %>               <%= form.text_field :tag_list %>               <br/>
-    <%= form.label :serving_size, I18n.t("serving_size") %>       <%= form.select :serving_size, 1..100 %>       <br/>
-    <%= form.label :description, I18n.t("description") %>         <%= form.text_area :description, :rows => 3 %><br/>
-    <%= form.label :prep, I18n.t('recipes.prep_cook_time') %>             <%= form.text_field :prep %>                   <br/>
-    <%= form.label :bake, I18n.t('recipes.bake_time') %>                  <%= form.text_field :bake %>                   <br/>
-    <%= form.label :ingredients, I18n.t("ingredients") %>         <%= form.text_area :ingredients, :rows => 10 %><br/>
-    <%= form.label :directions, I18n.t("directions") %>           <%= form.text_area :directions, :rows => 10 %> <br/>
-    <%= form.label :notes, I18n.t("other_notes") %>               <%= form.text_area :notes, :rows => 3 %>
-    <%= form.submit I18n.t("save_recipe") %>
+    <%= form.label :title, I18n.t('recipes.title') %>               <%= form.text_field :title %>                  <br/>
+    <%= form.label :tag_list, I18n.t("tags.tags") %>                <%= form.text_field :tag_list %>               <br/>
+    <%= form.label :serving_size, I18n.t('recipes.serving_size') %> <%= form.select :serving_size, 1..100 %>       <br/>
+    <%= form.label :description, I18n.t('recipes.description') %>   <%= form.text_area :description, :rows => 3 %> <br/>
+    <%= form.label :prep, I18n.t('recipes.prep_cook_time') %>       <%= form.text_field :prep %>                   <br/>
+    <%= form.label :bake, I18n.t('recipes.bake_time') %>            <%= form.text_field :bake %>                   <br/>
+    <%= form.label :ingredients, I18n.t('recipes.ingredients') %>   <%= form.text_area :ingredients, :rows => 10 %><br/>
+    <%= form.label :directions, I18n.t('recipes.directions') %>     <%= form.text_area :directions, :rows => 10 %> <br/>
+    <%= form.label :notes, I18n.t('recipes.other_notes') %>         <%= form.text_area :notes, :rows => 3 %>
+    <%= form.submit I18n.t('recipes.save_recipe') %>
   </p>
 <% end %>

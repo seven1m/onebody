@@ -8,7 +8,7 @@
 <% content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">
-      <%= link_to I18n.t("new_family"), new_family_path %>
+      <%= link_to I18n.t('search.new_family'), new_family_path %>
     </div>
   <% end %>
   <%= render :partial => 'subnav' %>
@@ -16,14 +16,14 @@
 
 <p id="searching" style="font-size:14pt;display:none;">
   <%= image_tag 'spinner.gif', :alt => 'searching', :class => 'no-border' %>
-  <%= I18n.t("searching") %>
+  <%= I18n.t('search.searching') %>
 </p>
 
 <div id="results">
   <% if @people %>
     <%= render :partial => 'results' %>
   <% elsif params[:search_friends] %>
-    <h2><%= I18n.t("find_your_friends") %></h2>
+    <h2><%= I18n.t('search.find_your_friends') %></h2>
     <ol>
       <li><%= I18n.t('search.friends_search') %></li>
       <li><%= I18n.t("search.click_the_icon_to_add_them", :img => image_tag('contact_add.gif', :alt => I18n.t('friends.add_friend'), :class => 'icon')) %></li>
@@ -35,7 +35,7 @@
     <table>
       <tr>
         <td>
-          <%= link_to_function image_tag('search.gif', :alt => I18n.t("search_the_directory")),
+          <%= link_to_function image_tag('search.gif', :alt => I18n.t('search.search_the_directory')),
             "$('name').focus();new Effect.Highlight('name', {})" %>
         </td>
         <td>

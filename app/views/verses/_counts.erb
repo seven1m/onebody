@@ -2,7 +2,7 @@
   <% @verses.each do |verse| %>
     <tr>
       <td><%= link_to h(verse.reference), verse %></td>
-      <td><%= pluralize(verse.people_count, I18n.t("person"), I18n.t("people")) %></td>
+      <td><%= I18n.t('people_count', :count => verse.people_count) %></td>
     </tr>
   <% end %>
 </table>

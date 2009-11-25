@@ -1,9 +1,9 @@
-<h2 class="tab" id="verse"><%= image_tag('verse.png', :alt => I18n.t("verse"), :class => 'icon') %> <%= I18n.t("verse") %></h2>
+<h2 class="tab" id="verse"><%= image_tag('verse.png', :alt => I18n.t('verses.verse'), :class => 'icon') %> <%= I18n.t('verses.verse') %></h2>
 <div class="section">
   <% form_for :verse, :url => verses_path do |form| %>
     <%= hidden_field_tag :redirect_to, request.request_uri %>
     <p>
-      <%= I18n.t("type_a_reference_below_and_hit_enter") %><br/>
+      <%= I18n.t('verses.type_a_reference_below_and_hit_enter') %><br/>
       <%= text_field_tag :id, nil, :style => 'border:1px solid #ccc;width:100px;' %>
       <%= submit_tag I18n.t('verses.add_verse'), :style => 'width:100px;' %>
     </p>

@@ -1,11 +1,11 @@
 <% content_for :subnav do %>
-  <li><%= link_to I18n.t("view_profile"), @person %></li>
+  <li><%= link_to I18n.t('remote_accounts.view_profile'), @person %></li>
 <% end %>
 
 <h1><%= I18n.t("remote_accounts.remote_accounts") %></h1>
 
 <table>
-  <tr><th><%= I18n.t("type") %></th><th><%= I18n.t("username") %></th><th><%= I18n.t("token_key") %></th><th><%= I18n.t("remote_accounts.synced_contacts") %></th></tr>
+  <tr><th><%= I18n.t('type') %></th><th><%= I18n.t('remote_accounts.username') %></th><th><%= I18n.t('remote_accounts.token_key') %></th><th><%= I18n.t("remote_accounts.synced_contacts") %></th></tr>
   <% @remote_accounts.each do |remote_account| %>
     <tr>
       <td><%=h remote_account.account_type %></td>
@@ -16,8 +16,8 @@
       </td>
       <td><%= remote_account.sync_instances.count %></td>
       <td><%= link_to I18n.t('remote_accounts.sync'), sync_person_remote_account_path(@person, remote_account), :method => :post, :confirm => I18n.t('remote_accounts.confirm_sync') %></td>
-      <td><%= link_to I18n.t("edit"), edit_person_remote_account_path(@person, remote_account) %></td>
-      <td><%= link_to I18n.t('delete'), person_remote_account_path(@person, remote_account), :method => 'delete', :confirm => I18n.t("are_you_sure") %></td>
+      <td><%= link_to I18n.t('edit'), edit_person_remote_account_path(@person, remote_account) %></td>
+      <td><%= link_to I18n.t('delete'), person_remote_account_path(@person, remote_account), :method => 'delete', :confirm => I18n.t('are_you_sure') %></td>
     </tr>
   <% end %>
 </table>

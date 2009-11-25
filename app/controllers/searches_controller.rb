@@ -69,10 +69,4 @@ class SearchesController < ApplicationController
     end
   end
   
-  def opensearch
-    respond_to do |format|
-      format.xml { render :layout => false }
-    end
-  end
-
 end
