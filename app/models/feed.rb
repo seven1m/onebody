@@ -46,6 +46,8 @@ class Feed < ActiveRecord::Base
             end
           end
           update_attribute :last_url, feed.entries[0].url
+          # this is called from daemon/cron, so the view has no idea to clear the cache
+          ActionController::Base.cache_store.delete_matched(%r{views/people/#{person_id}_})
         end
       else
         increment!(:error_count)
