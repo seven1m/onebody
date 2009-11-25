@@ -37,12 +37,15 @@ class Feed < ActiveRecord::Base
       increment!(:error_count)
     else
       if feed
-        feed.entries[0...IMPORT_LIMIT].reverse.each do |entry|
-          if url.include?('flickr.com')
-            import_picture(entry)
-          else
-            import_note(entry)
+        if feed.entries[0].url != last_url # otherwise, feed is up to date
+          feed.entries[0...IMPORT_LIMIT].reverse.each do |entry|
+            if url.include?('flickr.com')
+              import_picture(entry)
+            else
+              import_note(entry)
+            end
           end
+          update_attribute :last_url, feed.entries[0].url
         end
       else
         increment!(:error_count)
