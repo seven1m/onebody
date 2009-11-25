@@ -83,8 +83,18 @@ class Feed < ActiveRecord::Base
         :created_at   => entry.published
       )
       if entry.content =~ /<img src="([^"]+_m\.jpg)/
-        picture.photo = $1.sub(/_m\.jpg$/, '_b.jpg')
-        unless picture.has_photo?
+        url = $1.sub(/_m\.jpg$/, '_b.jpg') # "big" size
+        res = Net::HTTP.get_response(URI.parse(url))
+        if !res.is_a?(Net::HTTPOK)
+          url = url.sub(/_b\.jpg$/, '.jpg') # try the original size
+          res = Net::HTTP.get_response(URI.parse(url))
+        end
+        if res.is_a?(Net::HTTPOK)
+          picture.photo = StringIO.new(res.body)
+          unless picture.has_photo?
+            picture.destroy
+          end
+        else
           picture.destroy
         end
       else
