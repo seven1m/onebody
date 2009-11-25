@@ -72,7 +72,6 @@
           <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'relationship_checkbox' %></td>
           <td><%= link_to h(relationship.person.name), relationship.person %></td>
           <td><%=h relationship.name_or_other %></td>
-          <td><%= link_to image_tag('arrow_right.png', :class => 'icon'), person_relationships_path(relationship.person), :class => 'discreet' %></td>
         </tr>
       <% end %>
     </table>
