@@ -19,6 +19,9 @@
       <li><%= link_to_remote 'Sync &raquo;', :url => person_sync_path(@person, :where => 'extra'), :method => 'get' %></li>
     <% end %>
   <% end %>
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <li><%= link_to image_tag('link.png', :class => 'icon', :alt => I18n.t('relationships.relationships')) + ' ' + I18n.t('relationships.relationships'), person_relationships_path(@person) %></li>
+  <% end %>
 <% end %>
 
 <% content_for :sidebar do %>

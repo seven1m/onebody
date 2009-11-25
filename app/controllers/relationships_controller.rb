@@ -52,4 +52,13 @@ class RelationshipsController < ApplicationController
     end
   end
   
+  private
+  
+    def only_admins
+      unless @logged_in.admin?(:edit_profiles)
+        render :text => 'You must be an administrator to use this section.', :layout => true, :status => 401
+        return false
+      end
+    end
+  
 end
