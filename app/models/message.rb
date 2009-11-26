@@ -42,7 +42,7 @@ class Message < ActiveRecord::Base
   
   validates_each :to_person_id, :allow_nil => true do |record, attribute, value|
     if attribute.to_s == 'to_person_id' and value and record.to and record.to.email.nil?
-      record.errors.add attribute, 'has no email address'
+      record.errors.add attribute, :invalid
     end
   end
   

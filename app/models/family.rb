@@ -64,13 +64,13 @@ class Family < ActiveRecord::Base
   validates_each [:barcode_id, :alternate_barcode_id] do |record, attribute, value|
     if attribute.to_s == 'barcode_id' and record.barcode_id
       if record.barcode_id == record.alternate_barcode_id
-        record.errors.add(attribute, 'cannot be same as alternate barcode id')
+        record.errors.add(attribute, :taken)
       elsif Family.count('*', :conditions => ['alternate_barcode_id = ?', record.barcode_id]) > 0
-        record.errors.add(attribute, 'is already taken')
+        record.errors.add(attribute, :taken)
       end
     elsif attribute.to_s == 'alternate_barcode_id' and record.alternate_barcode_id
       if Family.count('*', :conditions => ['barcode_id = ?', record.alternate_barcode_id]) > 0
-        record.errors.add(attribute, 'is already taken')
+        record.errors.add(attribute, :taken)
       end
     end
   end

@@ -22,8 +22,8 @@ class FriendshipRequest < ActiveRecord::Base
   validates_uniqueness_of :person_id, :scope => :from_id
   
   def validate
-    errors.add(:person, 'must have a valid email address') unless person.valid_email?
-    errors.add(:person, 'does not accept friend requests') unless person.friends_enabled
+    errors.add(:person, :invalid_address) unless person.valid_email?
+    errors.add(:person, :refused) unless person.friends_enabled
   end
 
   after_create :send_request

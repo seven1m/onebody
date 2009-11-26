@@ -141,10 +141,10 @@ class Person < ActiveRecord::Base
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, :allow_nil => true, :scope => :deleted, :unless => Proc.new { |p| p.deleted? }
   validates_uniqueness_of :feed_code, :allow_nil => true
-  validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
-  validates_format_of :business_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/, :message => "has an incorrect format (are you missing 'http://' at the beginning?)"
-  validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS, :message => 'has an incorrect format (something@example.com)'
-  validates_format_of :alternate_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS, :message => 'has an incorrect format (something@example.com)'
+  validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
+  validates_format_of :business_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
+  validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
+  validates_format_of :alternate_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
   validates_inclusion_of :gender, :in => %w(Male Female), :allow_nil => true
   
   # validate that an email address is unique to one family (family members may share an email address)
@@ -152,22 +152,22 @@ class Person < ActiveRecord::Base
   validates_each [:email, :child] do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any? and not record.deleted?
       if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ?", value.downcase, record.family_id, record.id]) > 0
-        record.errors.add attribute, 'already taken by someone else.'
+        record.errors.add attribute, :taken
       end
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
-        record.errors.add attribute, 'not a valid email address.'
+        record.errors.add attribute, :invalid
       end
       if record.changed.include?('email') and not Setting.get(:access, :super_admins).include?(record.email_was) and record.super_admin? and not Person.logged_in.super_admin?
-        record.errors.add attribute, 'is invalid.' # cannot make yourself a super admin
+        record.errors.add attribute, :invalid # cannot make yourself a super admin
       end
     elsif attribute.to_s == 'child' and not record.deleted?
       y = record.years_of_age
       if value == true and y and y >= 13
-        record.errors.add attribute, "cannot be 'Yes' because the birthday indicates the person is 13 or older."
+        record.errors.add attribute, :cannot_be_yes
       elsif value == false and y and y < 13
-        record.errors.add attribute, "cannot be 'No' because the birthday indicates the person is is less than 13 years old."
+        record.errors.add attribute, :cannot_be_no
       elsif value.nil? and y.nil?
-        record.errors.add attribute, "must be either 'Yes' or 'No' because the birthday is unspecified."
+        record.errors.add attribute, :blank
       end
     end
   end

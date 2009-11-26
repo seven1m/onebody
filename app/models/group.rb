@@ -60,7 +60,7 @@ class Group < ActiveRecord::Base
   
   def validate
     begin
-      errors.add('parents_of', 'cannot point to self') if not new_record? and parents_of == id
+      errors.add('parents_of', :points_to_self) if not new_record? and parents_of == id
     rescue
       puts 'error checking for self-referencing parents_of (OK if you are migrating)'
     end

@@ -16,9 +16,9 @@ class Feed < ActiveRecord::Base
   belongs_to :person
   scope_by_site_id
   validates_presence_of :person_id, :url, :name
-  validates_uniqueness_of :name, :scope => :person_id, :message => "is already taken. Please choose another name for this feed."
-  validates_uniqueness_of :url, :scope => :person_id, :message => "is already connected. You're already importing this feed address."
-  validates_format_of :url, :with => /^https?\:\/\/.+/, :message => "does not appear to be properly formatted. Did you type this address correctly? Try pasting it in instead."
+  validates_uniqueness_of :name, :scope => :person_id
+  validates_uniqueness_of :url, :scope => :person_id
+  validates_format_of :url, :with => /^https?\:\/\/.+/
   
   before_save :transform_url
   
