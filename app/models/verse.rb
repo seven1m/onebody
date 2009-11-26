@@ -223,7 +223,7 @@ class Verse < ActiveRecord::Base
     'Philippians'     => 1..4,
     'Colossians'      => 1..4,
     '1 Thessalonians' => 1..5,
-    '2 Thessalonians' => 1.3,
+    '2 Thessalonians' => 1..3,
     '1 Timothy'       => 1..6,
     '2 Timothy'       => 1..4,
     'Titus'           => 1..3,
