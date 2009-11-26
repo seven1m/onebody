@@ -446,9 +446,9 @@ en:
     you_may_read_our_privacy_policy_here: You may read our Privacy Policy <a href="{{url}}">here</a>.
 
   stream: 
-    blog: " Blog"
+    blog: Blog
     create_blog_post: Or, create a <a href="{{url}}">blog post</a> with a title and formatting...
-    facebook: " Facebook"
+    facebook: Facebook
     feed: Feed
     flickr: Flickr
     import_blog_feed: Import your Blog's RSS or Atom feed...
@@ -461,7 +461,7 @@ en:
     share_something: Share Something
     share_something_here: share <a href="#" onclick="{{js}};return false;">something here</a>.
     show: Show
-    twitter: " Twitter"
+    twitter: Twitter
 
   tags: 
     add_tags: Add Tags (space separated)

@@ -178,9 +178,9 @@ pt:
     you_may_read_our_privacy_policy_here: "Voc\xC3\xAA pode ler a nossa Pol\xC3\xADtica de Privacidade <a href=\"{{url}}\">aqui</a>."
 
   stream: 
-    blog: " Blog"
+    blog: Blog
     create_blog_post: "Ou, criar uma <a href=\"{{url}}\">postatem no blog</a> com um t\xC3\xADtulo e formata\xC3\xA7\xC3\xA3o..."
-    facebook: " Facebook"
+    facebook: Facebook
     feed: Feed
     flickr: Flickr
     import_blog_feed: Importar os feeds RSS ou Atom do seu Blog...
@@ -193,7 +193,7 @@ pt:
     share_something: Compartilhe Algo
     share_something_here: "Voc\xC3\xAA deveria <a href=\"#\" onclick=\"{{js}};return false;\">compartilhar algo aqui</a>."
     show: Mostrar
-    twitter: " Twitter"
+    twitter: Twitter
 
   tags: 
     add_tags: "Adicionar Tags (separadas por espa\xC3\xA7os)"
