@@ -22,7 +22,11 @@
   <%= link_to 'Subscribe', news_path(:format => 'xml', :code => @logged_in.feed_code) %> to Community News with your feed reader.
 </p>
 
+<%= will_paginate @news_items %>
+
 <%= render :partial => 'news_item', :collection => @news_items %>
+
+<%= will_paginate @news_items %>
 
 <% unless @news_items.any? %>
   <p><em>No news is available at this time.</em></p>

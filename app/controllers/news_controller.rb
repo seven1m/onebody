@@ -4,10 +4,11 @@ class NewsController < ApplicationController
   before_filter :authenticate_user_with_code_or_session, :only => %w(index)
 
   def index
-    @news_items = NewsItem.find_all_by_active(true, :order => 'published desc', :include => :person)
     respond_to do |format|
       format.html do
-        unless Setting.get(:features, :news_page)
+        if Setting.get(:features, :news_page)
+          @news_items = NewsItem.paginate(:conditions => {:active => true}, :order => 'published desc', :include => :person, :page => params[:page])
+        else
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
@@ -17,6 +18,7 @@ class NewsController < ApplicationController
       end
       format.xml do
         if Setting.get(:features, :news_page)
+          @news_items = NewsItem.find_all_by_active(true, :order => 'published desc', :include => :person, :limit => 30)
           render :layout => false
         else
           if the_url = Setting.get(:url, :news)
@@ -24,16 +26,6 @@ class NewsController < ApplicationController
           else
             render :text => 'This feature is currently unavailable.'
           end
-        end
-      end
-      format.js do
-        if @news_items.any?
-          @headlines = @news_items.map do |item|
-            [item.title, url_for(item)]
-          end
-          render :layout => false
-        else
-          render :text => ''
         end
       end
     end
