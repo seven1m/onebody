@@ -57,19 +57,21 @@ module Forgeable
       attributes = forgery_defaults.merge(attributes)
       photo = attributes.delete(:photo)
       file = attributes.delete(:file)
-      begin
-        returning create!(attributes) do |obj|
-          obj.forge_photo(photo) if photo
-          obj.forge_file(file)   if file
+      obj = new(attributes)
+      unless obj.save
+        unless obj.errors.all? { |e| e.type == :taken }
+          raise ActiveRecord::RecordInvalid, obj
         end
-      rescue ActiveRecord::RecordInvalid => e
-        if e.message =~ /^Validation failed: (.+) has already been taken/
-          attributes[$1.downcase.to_sym] << 'a'
-          retry
-        else
-          raise
+        obj.errors.each do |error|
+          if error.type == :taken
+            obj.attributes[attribute.to_s.downcase] << 'a'
+          end
         end
+        obj.save!
       end
+      obj.forge_photo(photo) if photo
+      obj.forge_file(file)   if file
+      obj
     end
     
     def fake(symbol)

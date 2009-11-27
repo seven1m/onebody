@@ -12,19 +12,19 @@ class PersonTest < ActiveSupport::TestCase
     
     setup { @person = Person.forge }
   
-    should_not_allow_values_for :email,            *(BAD_EMAIL_ADDRESSES + [:message => /not.*valid/])
+    should_not_allow_values_for :email,            *(BAD_EMAIL_ADDRESSES + [:message => /not formatted correctly/])
     should_allow_values_for     :email,            *GOOD_EMAIL_ADDRESSES
   
-    should_not_allow_values_for :business_email,   *(BAD_EMAIL_ADDRESSES + [:message => /has an incorrect format/])
+    should_not_allow_values_for :business_email,   *(BAD_EMAIL_ADDRESSES + [:message => /not formatted correctly/])
     should_allow_values_for     :business_email,   *GOOD_EMAIL_ADDRESSES
   
-    should_not_allow_values_for :alternate_email,  *(BAD_EMAIL_ADDRESSES + [:message => /has an incorrect format/])
+    should_not_allow_values_for :alternate_email,  *(BAD_EMAIL_ADDRESSES + [:message => /not formatted correctly/])
     should_allow_values_for     :alternate_email,  *GOOD_EMAIL_ADDRESSES
   
-    should_not_allow_values_for :website,          *(BAD_WEB_ADDRESSES   + [:message => /has an incorrect format/])
+    should_not_allow_values_for :website,          *(BAD_WEB_ADDRESSES   + [:message => /not formatted correctly/])
     should_allow_values_for     :website,          *GOOD_WEB_ADDRESSES
   
-    should_not_allow_values_for :business_website, *(BAD_WEB_ADDRESSES   + [:message => /has an incorrect format/])
+    should_not_allow_values_for :business_website, *(BAD_WEB_ADDRESSES   + [:message => /not formatted correctly/])
     should_allow_values_for     :business_website, *GOOD_WEB_ADDRESSES
   
   end

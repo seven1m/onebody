@@ -16,7 +16,7 @@
     <%= render :partial => 'photo' %>
     <%= form.file_field :photo %><br/>
     <strong>Only JPEG photos are accepted at this time. Please make sure the picture is appropriate and not offensive to others.</strong><br/>
-    <% if @group.has_photo? %>
+    <% if !@group.new_record? and @group.has_photo? %>
       <%= link_to 'Remove Group Photo', group_path(@group, :group => {:photo => 'remove'}), :method => 'put', :confirm => 'Are you sure?' %>
       <br/>
     <% end %>
