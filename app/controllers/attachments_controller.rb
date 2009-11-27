@@ -35,7 +35,7 @@ class AttachmentsController < ApplicationController
       if @logged_in.can_edit?(@page)
         @attachment = Attachment.new(:page_id => @page.id)
       else
-        render :text => 'You are not authorized to edit this page.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
       render :text => 'Unknown attachment type.', :layout => true, :status => 500
@@ -50,7 +50,7 @@ class AttachmentsController < ApplicationController
         flash[:notice] = 'Attachment saved.'
         redirect_back
       else
-        render :text => 'You are not authorized to edit this page.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
       render :text => 'Unknown attachment type.', :layout => true, :status => 500
@@ -64,7 +64,7 @@ class AttachmentsController < ApplicationController
       flash[:notice] = 'Attachment deleted.'
       redirect_back
     else
-      render :text => 'You are not authorized to edit this page.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   

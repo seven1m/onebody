@@ -106,7 +106,7 @@ class GroupsController < ApplicationController
     if @logged_in.can_edit?(@group)
       @categories = Group.categories.keys
     else
-      render :text => 'You are not authorized to edit this group.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -124,7 +124,7 @@ class GroupsController < ApplicationController
         edit; render :action => 'edit'
       end
     else
-      render :text => 'You are not authorized to edit this group.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -135,7 +135,7 @@ class GroupsController < ApplicationController
       flash[:notice] = 'Group deleted.'
       redirect_to groups_path
     else
-      render :text => 'You are not authorized to delete this group.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -153,7 +153,7 @@ class GroupsController < ApplicationController
         @groups = Group.all(:order => 'category, name')
       end
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   

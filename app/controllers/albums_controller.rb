@@ -6,14 +6,14 @@ class AlbumsController < ApplicationController
       if @logged_in.can_see?(@person)
         @albums = @person.albums.all
       else
-        render :text => 'You are not authorized to view this person.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     elsif params[:group_id]
       @group = Group.find(params[:group_id])
       if @logged_in.can_see?(@group)
         @albums = @group.albums.all
       else
-        render :text => 'You are not authorized to view this group.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
       @albums = (
@@ -63,7 +63,7 @@ class AlbumsController < ApplicationController
   def edit
     @album = Album.find(params[:id])
     unless @logged_in.can_edit?(@album)
-      render :text => 'You cannot edit this album.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -77,7 +77,7 @@ class AlbumsController < ApplicationController
         render :action => 'edit'
       end
     else
-      render :text => 'You cannot edit this album.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -87,7 +87,7 @@ class AlbumsController < ApplicationController
       @album.destroy
       redirect_to albums_path
     else
-      render :text => 'You cannot delete this album.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   

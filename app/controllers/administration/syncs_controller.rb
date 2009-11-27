@@ -33,7 +33,7 @@ class Administration::SyncsController < ApplicationController
         format.xml { render :xml => @sync.to_xml }
       end
     else
-      render :text => 'You are not authorized to perform this action.', :status => 401
+      render :text => I18n.t('not_authorized'), :status => 401
     end
   end
   
@@ -46,7 +46,7 @@ class Administration::SyncsController < ApplicationController
         format.xml { render :xml => @sync.to_xml }
       end
     else
-      render :text => 'You are not authorized to perform this action.', :status => 401
+      render :text => I18n.t('not_authorized'), :status => 401
     end
   end
   
@@ -61,7 +61,7 @@ class Administration::SyncsController < ApplicationController
         format.xml { render :xml => @sync.to_xml }
       end
     else
-      render :text => 'You are not authorized to perform this action.', :status => 401
+      render :text => I18n.t('not_authorized'), :status => 401
     end
   end
   
@@ -69,7 +69,7 @@ class Administration::SyncsController < ApplicationController
   
     def only_admins
       unless @logged_in.admin?(:manage_sync)
-        render :text => 'You must be an administrator to use this section.', :layout => true, :status => 401
+        render :text => I18n.t('only_admins'), :layout => true, :status => 401
         return false
       end
     end

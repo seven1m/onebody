@@ -15,7 +15,7 @@ class RemoteAccountsController < ApplicationController
     if @logged_in.can_edit?(@person)
       @remote_account = @person.remote_accounts.new
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -29,7 +29,7 @@ class RemoteAccountsController < ApplicationController
         new; render :action => 'new'
       end
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -38,7 +38,7 @@ class RemoteAccountsController < ApplicationController
     if @logged_in.can_edit?(@person)
       @remote_account = @person.remote_accounts.find(params[:id])
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -52,7 +52,7 @@ class RemoteAccountsController < ApplicationController
         edit; render :action => 'edit'
       end
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -63,7 +63,7 @@ class RemoteAccountsController < ApplicationController
       @remote_account.destroy
       redirect_to person_remote_accounts_path(@person)
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -75,7 +75,7 @@ class RemoteAccountsController < ApplicationController
       flash[:notice] = 'Account synchronized.'
       redirect_to person_remote_accounts_path(@person)
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -83,7 +83,7 @@ class RemoteAccountsController < ApplicationController
   
   def only_admins
     unless @logged_in.can_sync_remotely?
-      render :text => 'You must be an administrator to use this section.', :layout => true, :status => 401
+      render :text => I18n.t('only_admins'), :layout => true, :status => 401
       return false
     end
   end

@@ -6,14 +6,14 @@ class NotesController < ApplicationController
       if @logged_in.can_see?(@person)
         @notes = @person.notes.paginate(:order => 'created_at desc', :page => params[:page])
       else
-        render :text => 'You are not authorized to view this person', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     elsif params[:group_id]
       @group = Group.find(params[:group_id])
       if @logged_in.can_see?(@group) and @group.blog?
         @notes = @group.notes.paginate(:order => 'created_at desc', :page => params[:page])
       else
-        render :text => 'You are not authorized to view this group', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
       render :text => 'Error.', :status => 400
@@ -25,7 +25,7 @@ class NotesController < ApplicationController
     if @logged_in.can_see?(@note)
       @person = @note.person
     else
-      render :text => 'You are not authorized to view this note', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -46,7 +46,7 @@ class NotesController < ApplicationController
   def edit
     @note = Note.find(params[:id])
     unless @logged_in.can_edit?(@note)
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -59,7 +59,7 @@ class NotesController < ApplicationController
         render :action => 'edit'
       end
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -73,7 +73,7 @@ class NotesController < ApplicationController
         redirect_to person_path(@note.person, :anchor => 'blog')
       end
     else
-      render :text => 'You are not authorized to delete this note.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   

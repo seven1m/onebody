@@ -6,7 +6,7 @@ class RecipesController < ApplicationController
       if @logged_in.can_see?(@person)
         @recipes = @person.recipes.paginate(:order => 'created_at desc', :page => params[:page])
       else
-        render :text => 'You are not authorized to view this person', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
       @tags = Recipe.tag_counts(:conditions => ['recipes.id in (?)', @recipes.map { |v| v.id } || [0]])
     else
@@ -36,7 +36,7 @@ class RecipesController < ApplicationController
   def edit
     @recipe = Recipe.find(params[:id])
     unless @logged_in.can_edit?(@recipe)
-      render :text => 'You are not authorized to edit this recipe.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -53,7 +53,7 @@ class RecipesController < ApplicationController
         render :action => 'edit'
       end
     else
-      render :text => 'You are not authorized to edit this recipe.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -64,7 +64,7 @@ class RecipesController < ApplicationController
       flash[:notice] = 'Recipe deleted.'
       redirect_to recipes_path
     else
-      render :text => 'You are not authorized to delete this recipe.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
 

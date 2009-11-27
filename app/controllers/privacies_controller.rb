@@ -25,7 +25,7 @@ class PrivaciesController < ApplicationController
         @sharable_with_group = all - @visible_to_everyone
         render :action => 'edit_membership'
       else
-        render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     elsif @person = Person.find(params[:person_id])
       if @logged_in.can_edit?(@person)
@@ -34,7 +34,7 @@ class PrivaciesController < ApplicationController
           flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family is currently hidden from all pages on this site!"
         end
       else
-        render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     end
   end
@@ -84,7 +84,7 @@ class PrivaciesController < ApplicationController
       end
       redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
     else
-      render :text => "You may not edit these settings. Sorry.", :status => 401
+      render :text => I18n.t('not_authorized'), :status => 401
     end
   end
     

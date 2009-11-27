@@ -56,7 +56,7 @@ class PagesController < ApplicationController
       @page = Page.new(:parent_id => params[:parent_id])
       @page_paths_and_ids = Page.paths_and_ids
     else
-      render :text => 'You are not authorized to create a page.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -71,7 +71,7 @@ class PagesController < ApplicationController
         render :action => 'new'
       end
     else
-      render :text => 'You are not authorized to create a page.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -80,7 +80,7 @@ class PagesController < ApplicationController
     if @logged_in.can_edit?(@page)
       @page_paths_and_ids = Page.paths_and_ids
     else
-      render :text => 'You are not authorized to edit this page.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -95,7 +95,7 @@ class PagesController < ApplicationController
         render :action => 'edit'
       end
     else
-      render :text => 'You are not authorized to edit this page.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -110,7 +110,7 @@ class PagesController < ApplicationController
       end
       redirect_to pages_path
     else
-      render :text => 'You are not authorized to delete this page.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   

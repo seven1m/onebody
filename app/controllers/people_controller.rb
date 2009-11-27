@@ -98,7 +98,7 @@ class PeopleController < ApplicationController
         end
         @person.child = (number >= 2)
       else
-        render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
       respond_to do |format|
         format.html if !@family.new_record?
@@ -124,7 +124,7 @@ class PeopleController < ApplicationController
         end
       end
     else
-      render :text => 'You are not authorized to create a person.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -135,7 +135,7 @@ class PeopleController < ApplicationController
       @business_categories = Person.business_categories
       @custom_types = Person.custom_types
     else
-      render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -154,7 +154,7 @@ class PeopleController < ApplicationController
         edit; render :action => 'edit'
       end
     else
-      render :text => 'You are not authorized to edit this person.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -168,7 +168,7 @@ class PeopleController < ApplicationController
         render :text => 'You cannot delete yourself.', :status => 500
       end
     else
-     render :text => 'You are not authorized to delete this person.', :status => 401
+     render :text => I18n.t('not_authorized'), :status => 401
     end
   end
   
@@ -186,7 +186,7 @@ class PeopleController < ApplicationController
         render :action => 'import_results'
       end
     else
-      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -201,7 +201,7 @@ class PeopleController < ApplicationController
         render :text => 'This method is only available in a MySQL environment.', :status => 500
       end
     else
-      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -221,7 +221,7 @@ class PeopleController < ApplicationController
         format.xml { render :xml => statuses }
       end
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   

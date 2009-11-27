@@ -7,11 +7,14 @@ en:
   delete: delete
   Edit: Edit
   edit: edit
+  feature_unavailable: This feature is unavailable.
   From: From
   loading: Loading
   name: Name
   new: New
   none: none
+  not_authorized: You are not authorized.
+  only_admins: You must be an administrator to use this section.
   search_results: Search Results
   To: To
   type: Type

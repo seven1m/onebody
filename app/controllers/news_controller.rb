@@ -12,7 +12,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render :text => 'This feature is currently unavailable.'
+            render :text => I18n.t('feature_unavailable')
           end
         end
       end
@@ -24,7 +24,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render :text => 'This feature is currently unavailable.'
+            render :text => I18n.t('feature_unavailable')
           end
         end
       end
@@ -44,7 +44,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render :text => 'This feature is currently unavailable.'
+            render :text => I18n.t('feature_unavailable')
           end
         end
       end
@@ -55,7 +55,7 @@ class NewsController < ApplicationController
     if @logged_in.admin?(:manage_news) or Setting.get(:features, :news_by_users)
       @news_item = NewsItem.new
     else
-      render :text => 'You are not authorized to submit news.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -75,14 +75,14 @@ class NewsController < ApplicationController
         end
       end
     else
-      render :text => 'You are not authorized to submit news.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
 
   def edit
     @news_item = NewsItem.find(params[:id])
     unless @logged_in.can_edit?(@news_item)
-      render :text => 'You cannot edit this news item.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -99,7 +99,7 @@ class NewsController < ApplicationController
         end
       end
     else
-      render :text => 'You cannot edit this news item.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -111,7 +111,7 @@ class NewsController < ApplicationController
         format.html { flash[:notice] = 'News deleted.'; redirect_to news_path }
       end
     else
-      render :text => 'You cannot delete this news item.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
 end

@@ -15,7 +15,7 @@ class AttendanceController < ApplicationController
         render :text => 'Attendance tracking is not enabled for this goup.', :layout => true, :status => 500
       end
     else
-      render :text => 'You are not authorized to view attendance for this group.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -63,7 +63,7 @@ class AttendanceController < ApplicationController
         format.json { render :text => {'status' => 'success'}.to_json }
       end
     else
-      render :text => 'You are not authorized to record attendance for this group.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -90,7 +90,7 @@ class AttendanceController < ApplicationController
       end
       redirect_to group_attendance_index_path(@group, :attended_at => @attended_at)
     else
-      render :text => 'You are not authorized to record attendance for this group.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   

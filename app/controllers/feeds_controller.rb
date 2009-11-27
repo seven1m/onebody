@@ -6,7 +6,7 @@ class FeedsController < ApplicationController
       if @logged_in.can_edit?(@person)
         @feeds = @person.feeds.all
       else
-        render :text => 'You are unauthorized to edit the feeds of this person.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     elsif @logged_in.admin?(:edit_profiles)
       @feeds = Feed.all(
@@ -26,7 +26,7 @@ class FeedsController < ApplicationController
     if @logged_in.can_edit?(@person)
       @feed = @person.feeds.new
     else
-      render :text => 'You are unauthorized to edit the feeds of this person.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -69,7 +69,7 @@ class FeedsController < ApplicationController
         render :action => 'new'
       end
     else
-      render :text => 'You are unauthorized to edit the feeds of this person.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -81,7 +81,7 @@ class FeedsController < ApplicationController
         flash[:notice] = 'Feed deleted.'
         redirect_to person_feeds_path(@person)
       else
-        render :text => 'You are unauthorized to edit the feeds of this person.', :layout => true, :status => 401
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     elsif @logged_in.admin?(:edit_profiles)
       Feed.find(params[:id]).destroy

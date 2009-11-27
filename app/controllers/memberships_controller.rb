@@ -17,7 +17,7 @@ class MembershipsController < ApplicationController
     if @logged_in.can_see?(@group)
       @requests = @group.membership_requests
     else
-      render :text => 'You are not authorized to view this group.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -53,7 +53,7 @@ class MembershipsController < ApplicationController
       flash[:notice] = 'User settings saved.'
       redirect_back
     else
-      render :text => 'You are not authorized to perform this operation.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -96,7 +96,7 @@ class MembershipsController < ApplicationController
         format.js
       end
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -126,7 +126,7 @@ class MembershipsController < ApplicationController
         render :text => 'You must specify a list of ids.'
       end
     else
-      render :text => 'You are not authorized to perform batch operations on this group.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   

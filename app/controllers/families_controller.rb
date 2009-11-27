@@ -137,7 +137,7 @@ class FamiliesController < ApplicationController
         render :text => 'This method is only available in a MySQL environment.', :status => 500
       end
     else
-      render :text => 'You are not authorized to import data.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -156,7 +156,7 @@ class FamiliesController < ApplicationController
         format.xml { render :xml => statuses }
       end
     else
-      render :text => 'You are not authorized.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -176,7 +176,7 @@ class FamiliesController < ApplicationController
 
   def can_edit?
     unless @logged_in.admin?(:edit_profiles)
-      render :text => 'Not authorized or feature unavailable.', :layout => true, :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       return false
     end
   end
