@@ -16,6 +16,7 @@ Rails::Initializer.run do |config|
   config.plugin_paths << "#{Rails.root}/plugins"
   config.time_zone = 'UTC'
   config.i18n.default_locale = File.exist?("#{RAILS_ROOT}/config/locale") ? File.read("#{RAILS_ROOT}/config/locale").strip.to_sym : :en
+  config.i18n.load_path << Dir["#{RAILS_ROOT}/plugins/**/config/locales/*.{rb,yml}"]
   # dependencies 
   config.gem 'tobi-liquid',                     :source => 'http://gems.github.com', :lib => 'liquid'
   config.gem 'color'
