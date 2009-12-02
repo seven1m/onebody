@@ -32,6 +32,4 @@ Rails::Initializer.run do |config|
   config.gem 'feedzirra',              :version => '>= 0.0.20'
 end
 
-PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO
-
 (Setting.update_all if Setting.table_exists?) rescue nil

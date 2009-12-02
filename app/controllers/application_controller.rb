@@ -13,10 +13,6 @@ class ApplicationController < ActionController::Base
   
   private
     def get_site
-      if RAILS_ENV == 'setup'
-        redirect_to setup_url
-        return false
-      end
       if Setting.get(:features, :multisite)
         Site.current = Site.find_by_host_and_active(request.host, true)
       else
