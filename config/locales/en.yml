@@ -463,7 +463,7 @@ en:
     more: More
     my_activity: My Activity
     share_something: Share Something
-    share_something_here: share <a href="#" onclick="{{js}};return false;">something here</a>.
+    share_something_here: You should share <a href="#" onclick="{{js}};return false;">something here</a>.
     show: Show
     twitter: Twitter
 
