@@ -1,3 +1,7 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'Syncs', administration_syncs_path %></li>
+<% end %>
+
 <h1>Sync <%=h @sync.created_at.to_s %></h1>
 
 <% if @counts %>
