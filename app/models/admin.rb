@@ -53,6 +53,10 @@ class Admin < ActiveRecord::Base
       end
     end
     alias_method :add_privilege, :add_privileges
+    
+    def all_for_presentation
+      all.sort_by { |a| [a.template_name || '~', a.person.name] }
+    end
   end
   
   add_privileges *%w(
