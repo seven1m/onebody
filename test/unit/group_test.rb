@@ -8,51 +8,50 @@ class GroupTest < ActiveSupport::TestCase
     Group.forge(:category => 'bar', :hidden => true)
   end
   
-  # FIXME: why is this commented out?????
-  # should "update its membership based on a link_code" do
-  #   3.times { Person.forge(:classes => 'foo') }
-  #   2.times { Person.forge(:classes => 'fooz,bar,baz') }
-  #   assert_equal 0, @group.people.count
-  #   @group.link_code = 'foo'
-  #   @group.save
-  #   assert_equal 3, @group.people.count
-  #   # should delete 3 old people and add 2 new people
-  #   @group.link_code = 'bar'
-  #   @group.save
-  #   assert_equal 2, @group.reload.people.count
-  #   # should delete all people
-  #   @group.link_code = nil
-  #   @group.save
-  #   assert_equal 0, @group.reload.people.count
-  # end
-  # 
-  # should "update its membership based on a parents_of selection" do
-  #   @group.memberships.create!(:person => people(:mac))
-  #   @group2 = Group.forge(:parents_of => @group.id)
-  #   assert_equal 2, @group2.people.count
-  #   assert @group2.reload.people.include?(people(:tim))
-  #   assert @group2.people.include?(people(:jennie))
-  # end
-  # 
-  # should "list all group categories" do
-  #   cats = Group.categories
-  #   assert_equal 2, cats.keys.length
-  #   assert_equal 2, cats['Small Groups']
-  #   assert_equal 2, cats['foo']
-  #   assert cats['bar'].nil?
-  #   assert cats['Subscription'].nil?
-  # end
-  # 
-  # should "list all group categories including hidden and pending approval if user can manage groups" do
-  #   @person.admin = Admin.create(:manage_groups => true); @person.save
-  #   cats = Group.categories
-  #   assert_equal 3, cats.keys.length
-  #   assert_equal 3, cats['Small Groups']
-  #   assert_equal 2, cats['foo']
-  #   assert_equal 1, cats['bar']
-  #   assert cats['Subscription'].nil?
-  # end
-  # 
+  should "update its membership based on a link_code" do
+    3.times { Person.forge(:classes => 'foo') }
+    2.times { Person.forge(:classes => 'fooz,bar,baz') }
+    assert_equal 0, @group.people.count
+    @group.link_code = 'foo'
+    @group.save
+    assert_equal 3, @group.people.count
+    # should delete 3 old people and add 2 new people
+    @group.link_code = 'bar'
+    @group.save
+    assert_equal 2, @group.reload.people.count
+    # should delete all people
+    @group.link_code = nil
+    @group.save
+    assert_equal 0, @group.reload.people.count
+  end
+  
+  should "update its membership based on a parents_of selection" do
+    @group.memberships.create!(:person => people(:mac))
+    @group2 = Group.forge(:parents_of => @group.id)
+    assert_equal 2, @group2.people.count
+    assert @group2.reload.people.include?(people(:tim))
+    assert @group2.people.include?(people(:jennie))
+  end
+  
+  should "list all group categories" do
+    cats = Group.categories
+    assert_equal 2, cats.keys.length
+    assert_equal 2, cats['Small Groups']
+    assert_equal 2, cats['foo']
+    assert cats['bar'].nil?
+    assert cats['Subscription'].nil?
+  end
+  
+  should "list all group categories including hidden and pending approval if user can manage groups" do
+    @person.admin = Admin.create(:manage_groups => true); @person.save
+    cats = Group.categories
+    assert_equal 3, cats.keys.length
+    assert_equal 3, cats['Small Groups']
+    assert_equal 2, cats['foo']
+    assert_equal 1, cats['bar']
+    assert cats['Subscription'].nil?
+  end
+  
   should "get attendance records by date per person" do
     @group.memberships.create!(:person_id => @person.id)
     @group.memberships.create!(:person_id => Person.forge.id)
