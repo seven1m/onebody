@@ -17,27 +17,18 @@ Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
   config.i18n.default_locale = File.exist?("#{RAILS_ROOT}/config/locale") ? File.read("#{RAILS_ROOT}/config/locale").strip.to_sym : :en
   # dependencies 
-  config.gem 'tobi-liquid',                     :source => 'http://gems.github.com', :lib => 'liquid'
-  config.gem 'color'
-  config.gem 'transaction-simple',              :lib => 'transaction/simple'
-  config.gem 'metaskills-pdf-writer',           :source => 'http://gems.github.com', :lib => 'pdf/writer'
-  config.gem 'highline'
-  config.gem 'mini_magick'
-  config.gem 'twitter'
-  config.gem 'xmpp4r'
-  config.gem 'mislav-will_paginate',            :source => 'http://gems.github.com', :lib => 'will_paginate', :version => '~> 2.3.0'
-  config.gem 'seven1m-acts_as_scoped_globally', :source => 'http://gems.github.com', :lib => 'acts_as_scoped_globally'
-  config.gem 'seven1m-has_one_photo',           :source => 'http://gems.github.com', :lib => 'has_one_photo'
-  config.gem 'seven1m-has_one_file',            :source => 'http://gems.github.com', :lib => 'has_one_file'
-  config.gem 'seven1m-campaign_monitor',        :source => 'http://gems.github.com', :lib => 'campaign_monitor'
-  config.gem 'chronic'
-  config.gem 'javan-whenever',                  :source => 'http://gems.github.com', :lib => 'whenever'
-  config.gem 'nokogiri'
-  config.gem 'builder'
-  config.gem 'pauldix-feedzirra',               :source => 'http://gems.github.com', :lib => 'feedzirra'
-  # to install with your gem command (rake gems:install uses just plain 'gem' by default -- you might need to use gem19 or something else):
-  # [gemcommand] install highline mini_magick twitter xmpp4r chronic nokogiri builder color transaction-simple
-  # [gemcommand] install -s http://gems.github.com tobi-liquid metaskills-pdf-writer mislav-will_paginate seven1m-acts_as_scoped_globally seven1m-has_one_photo seven1m-has_one_file seven1m-campaign_monitor javan-whenever pauldix-feedzirra
+  config.gem 'transaction-simple',     :version => '~> 1.4.0', :lib => 'transaction/simple'
+  config.gem 'color',                  :version => '~> 1.4.0'
+  config.gem 'metaskills-pdf-writer',  :source => 'http://gems.github.com', :lib => 'pdf/writer'
+  config.gem 'liquid',                 :version => '~> 2.0.0'
+  config.gem 'highline',               :version => '~> 1.5.0'
+  config.gem 'mini_magick',            :version => '>= 1.2.5'
+  config.gem 'will_paginate',          :version => '~> 2.3.0'
+  config.gem 'campaign_monitor_party', :version => '>= 0.2.1'
+  config.gem 'whenever',               :version => '~> 0.4.0'
+  config.gem 'nokogiri',               :version => '~> 1.4.0'
+  config.gem 'builder',                :version => '>= 2.1.2'
+  config.gem 'feedzirra',              :version => '>= 0.0.20'
 end
 
 PHONE_HOME_FOR_VERSION_INFO = true unless defined? PHONE_HOME_FOR_VERSION_INFO

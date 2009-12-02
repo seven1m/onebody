@@ -18,8 +18,8 @@ config.action_controller.perform_caching             = false
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
 
-config.gem 'faker'
-config.gem 'thoughtbot-shoulda', :source => 'http://gems.github.com', :lib => 'shoulda'
+config.gem 'faker',   :version => '>= 0.3.1'
+config.gem 'shoulda', :version => '>= 2.10.2'
 
 # these have to be loaded a bit earlier than usual
 # don't really know why
