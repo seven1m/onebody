@@ -59,13 +59,11 @@ module Forgeable
       file = attributes.delete(:file)
       obj = new(attributes)
       unless obj.save
-        unless obj.errors.all? { |e| e.type == :taken }
+        unless obj.errors.all? { |a, e| e =~ /(another|already).+with this/ }
           raise ActiveRecord::RecordInvalid, obj
         end
-        obj.errors.each do |error|
-          if error.type == :taken
-            obj.attributes[attribute.to_s.downcase] << 'a'
-          end
+        obj.errors.each do |a, e|
+          obj.attributes[a.to_s] << rand(1000).to_s
         end
         obj.save!
       end
