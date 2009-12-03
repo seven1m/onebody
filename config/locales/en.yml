@@ -212,6 +212,13 @@ en:
               blank: The account type must be specified.
               inclusion: The account type is invalid.
               taken: This remote account already exists.
+        report:
+          attributes:
+            name:
+              blank: The report must have a name.
+              taken: There is another report with this name. Please choose another name.
+            definition:
+              invalid: The report definition is invalid.
         site:
           attributes:
             name:
@@ -380,6 +387,37 @@ en:
     token_key: Token/Key
     username: Username
     view_profile: View Profile
+
+  reporting:
+    Admins: Admins
+    Creator: Creator
+    Criteria: Criteria
+    Last_Run: Last Run
+    Name: Name
+    Reports: Reports
+    Source: Source
+    Total_Runs: Total Runs
+    add_criteria: Add Criteria
+    edit_report: Edit Report
+    edit_report: Edit Report
+    error_running_report: There was an error running this report.
+    greater_than: greater than
+    greater_than_or_equal: greater than or equal
+    is_exactly: is exactly
+    is_nil: is nil
+    is_not: is not
+    is_not_nil: is not nil
+    less_than: less than
+    less_than_or_equal: less than or equal
+    matches_case_insensitive: matches (case insensitive)
+    matches_case_sensitive: matches
+    new_report: New Report
+    not_one_of: not one of
+    one_of: one of
+    remove_criteria: Remove Criteria
+    restricted: Restricted
+    restricted_note: "All admins with the 'run reports' privilege will be able to run this report."
+    save_and_continue_editing: Save and Continue Editing
 
   search: 
     add_as_many_friends_you_like: You can add as many friends as you like! When you're finished, you can edit your <a href="{{url}}">friends list</a> to remove and put them in the order you want.
