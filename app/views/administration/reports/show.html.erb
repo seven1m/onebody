@@ -1,0 +1,19 @@
+<% content_for :subnav do %>
+  <li><%= link_to 'Reports', administration_reports_path %></li>
+  <li><%= link_to image_tag('pencil.png', :class => 'icon') + ' ' + I18n.t('reporting.edit_report'), edit_administration_report_path(@report) %></li>
+<% end %>
+
+<h1><%=h @report.name %></h1>
+
+<p><%= pluralize @results.count, 'result' %></p>
+
+<table>
+  <tr><th>id</th><th>first_name</th><th>last_name</th></tr>
+  <% @results.each do |result| %>
+    <tr>
+      <td><%=h result['id'] %></td>
+      <td><%=h result['first_name'] %></td>
+      <td><%=h result['last_name'] %></td>
+    </tr>
+  <% end %>
+</table>

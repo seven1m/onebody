@@ -1,0 +1,26 @@
+<tr>
+  <td class="field">
+    <%= select_tag 'report[selector][field][]',
+      options_for_select(['']+Report.people_fields.map { |f| f.first }, object[0]),
+      :onchange => "adjust_operator_and_value(this.parentNode.parentNode)" %>
+  </td>
+  <td class="operator">
+    <%= select_tag 'report[selector][operator][]',
+      options_for_select(Report.operators_for_field('people', object[0]), object[1]),
+      :onchange => "adjust_value(this.parentNode.parentNode)" %>
+  </td>
+  <td class="value">
+    <% if Report.field_type(object[0]) == 'boolean' %>
+      <%= select_tag 'report[selector][value][]', options_for_select([true, false], object[2]) %>
+    <% elsif ['$in', '$nin'].include?(object[1]) %>
+      <%= text_field_tag 'report[selector][value][]', object[2] %> <em>separate values with vertical pipe |</em>
+    <% elsif ['$nil', '$nnil'].include?(object[1]) %>
+      <%= hidden_field_tag 'report[selector][value][]', '' %>
+    <% else %>
+      <%= text_field_tag 'report[selector][value][]', object[2] %>
+    <% end %>  
+  </td>
+  <td>
+    <%= link_to_function image_tag('delete.png', :class => 'icon', :alt => I18n.t('reporting.remove_criteria')), "var tr=this.parentNode.parentNode;tr.parentNode.removeChild(tr);" %>
+  </td>
+</tr>

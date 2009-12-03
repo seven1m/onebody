@@ -653,6 +653,7 @@ class Person < ActiveRecord::Base
     self.friendship_requests.destroy_all
   end
   
+ 
   class << self
     
     # used to update a batch of records at one time, for UpdateAgent API
@@ -709,6 +710,26 @@ class Person < ActiveRecord::Base
   
     def custom_types
       find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' order by custom_type").map { |p| p.custom_type }
+    end
+    
+    def send_to_mongo
+      db = Mongo::Connection.new.db("#{MONGO_DB}_for_site#{Site.current.id}")
+      people = db['people_new']
+      find_each do |person|
+        h = person.to_mongo_hash
+        h['admin'] = person.admin ? person.admin.to_mongo_hash : nil
+        h['family'] = person.family.to_mongo_hash
+        h['groups'] = []
+        person.memberships.all(:include => :group).each do |membership|
+          gh = membership.group.to_mongo_hash
+          gh['membership'] = membership.to_mongo_hash
+          h['groups'] << gh
+        end
+        people.insert(h)
+      end
+      db['people'].drop
+      db['people_new'].rename('people')
+      db['people'].count
     end
   
   end

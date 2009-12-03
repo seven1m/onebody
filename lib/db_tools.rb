@@ -59,6 +59,17 @@ class ActiveRecord::Base
       "
     end
   end
+  
+  
+  def to_mongo_hash
+    attributes.inject({}) do |hash, item|
+      key, value = item
+      if value.is_a?(Time) or value.is_a?(DateTime)
+        value = value.utc.strftime('%Y-%m-%dT%H:%M:%S%z')
+      end
+      hash.update(key => value)
+    end
+  end
 end
 
 # add option to to_xml to specify that read_attribute() should be used rather than send()
