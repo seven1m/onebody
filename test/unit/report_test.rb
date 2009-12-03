@@ -255,6 +255,15 @@ class ReportTest < ActiveSupport::TestCase
       @report.definition['selector'] = {'groups.membership.get_email' => true}
       assert_equal 'return select(this.groups, function(i){ return i.membership.get_email == true }).length > 0;', @report.convert_selector
     end
+    
+    should "convert $or selectors to $where code" do
+      @report.definition['selector'] = {'$or' => {'gender' => 'Female', 'child' => true}}
+      assert_equal 'return (this.child == true || this.gender == "Female");', @report.convert_selector
+      @report.definition['selector'] = {'$or' => {'gender' => 'Female', '$and' => {'gender' => 'Male', 'child' => true}}}
+      assert_equal 'return ((this.child == true && this.gender == "Male") || this.gender == "Female");', @report.convert_selector
+      @report.definition['selector'] = {'gender' => 'Female', '$or' => {'gender' => 'Male', 'child' => true}}
+      assert_equal 'return (this.child == true || this.gender == "Male") && this.gender == "Female";', @report.convert_selector
+    end
   
   end
   

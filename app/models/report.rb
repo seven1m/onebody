@@ -143,29 +143,36 @@ class Report < ActiveRecord::Base
   
   def build_conditional(context, field, value)
     if value.is_a?(Hash)
-        value.sort.map do |op, v|
-          if v.is_a?(Array)
-            op = {
-              '$in'  => '>',
-              '$nin' => '=='
-            }[op]
-            "#{v.inspect}.indexOf(#{context}.#{field}) #{op} -1"
-          else
-            op = {
-              '$lt'  => '<',
-              '$lte' => '<=',
-              '$gt'  => '>',
-              '$gte' => '>=',
-              '$ne'  => '!='
-            }[op]
-            "#{context}.#{field} #{op} #{v.nil? ? 'null' : v.inspect}"
-          end
-        end.join(' && ')
-      elsif value.is_a?(Regexp)
-        "#{context}.#{field}.match(#{value.inspect})"
-      else
-        "#{context}.#{field} == #{value.nil? ? 'null' : value.inspect}"
+      if field == '$or'
+        value = value.sort.map { |f, v| build_conditional(context, f, v) }.join(' || ')
+        return "(#{value})"
+      elsif field == '$and'
+        value = value.sort.map { |f, v| build_conditional(context, f, v) }.join(' && ')
+        return "(#{value})"
       end
+      value.sort.map do |op, v|
+        if v.is_a?(Array)
+          op = {
+            '$in'  => '>',
+            '$nin' => '=='
+          }[op]
+          "#{v.inspect}.indexOf(#{context}.#{field}) #{op} -1"
+        else
+          op = {
+            '$lt'  => '<',
+            '$lte' => '<=',
+            '$gt'  => '>',
+            '$gte' => '>=',
+            '$ne'  => '!='
+          }[op]
+          "#{context}.#{field} #{op} #{v.nil? ? 'null' : v.inspect}"
+        end
+      end.join(' && ')
+    elsif value.is_a?(Regexp)
+      "#{context}.#{field}.match(#{value.inspect})"
+    else
+      "#{context}.#{field} == #{value.nil? ? 'null' : value.inspect}"
+    end
   end
   
   def convert_selector!
