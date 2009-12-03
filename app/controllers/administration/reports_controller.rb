@@ -9,18 +9,25 @@ class Administration::ReportsController < ApplicationController
     else
       @reports = @logged_in.admin.all_reports
     end
+    @offline = true unless Report.db
   end
   
   def show
-    @report = Report.find(params[:id])
-    if @report.runnable_by?(@logged_in)
-      begin
-        @results = @report.run
-      rescue Mongo::OperationFailure => e
-        render :text => "#{I18n.t('reporting.error_running_report')}<br/><br/><pre>#{e.message rescue 'none given'}</pre>", :layout => true
+    if Report.db
+      @report = Report.find(params[:id])
+      if @report.runnable_by?(@logged_in)
+        begin
+          @results = @report.run
+        rescue Mongo::OperationFailure => e
+          render :text => "#{I18n.t('reporting.error_running_report')}<br/><br/><pre>#{e.message rescue 'none given'}</pre>", :layout => true
+        rescue Mongo::ConnectionFailure => e
+          render :text => "#{I18n.t('reporting.report_database_offline')}<br/><br/><pre>#{e.message rescue 'none given'}</pre>", :layout => true
+        end
+      else
+        render :text => I18n.t(:only_admins), :layout => true, :status => 401
       end
     else
-      render :text => I18n.t(:only_admins), :layout => true, :status => 401
+      render :text => I18n.t('reporting.report_database_offline'), :layout => true, :status => 500
     end
   end
   

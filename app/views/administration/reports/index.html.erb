@@ -2,6 +2,10 @@
   <li><%= link_to image_tag('plus.png', :alt => 'New Report', :class => 'icon') + ' New Report', new_administration_report_path %></li>
 <% end %>
 
+<% if @offline %>
+  <div class="highlight"><%= I18n.t('reporting.report_database_offline') %></div>
+<% end %>
+
 <h1><%= I18n.t('reporting.Reports') %></h1>
 
 <% if @reports.any? %>
@@ -17,7 +21,11 @@
         <td><strong>
           <%= link_to h(report.name), administration_report_path(report) %>
         </strong></td>
-        <td><%= link_to h(report.created_by.name), report.created_by %></td>
+        <td>
+          <% if report.created_by %>
+            <%= link_to h(report.created_by.name), report.created_by %>
+          <% end %>
+        </td>
         <td>
           <% if report.last_run_at %>
             <%=h time_ago_in_words report.last_run_at %> ago

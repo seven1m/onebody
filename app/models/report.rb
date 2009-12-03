@@ -11,8 +11,6 @@ class Report < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   
-  MONGO_DB = "onebody_#{RAILS_ENV}"
-  
   VALID_COLLECTIONS = %w(people groups)
   
   validates_each :definition do |record, attribute, value|
@@ -49,13 +47,31 @@ class Report < ActiveRecord::Base
     end
   end
   
-  def db
-    @db ||= Mongo::Connection.new.db("#{MONGO_DB}_for_site#{Site.current.id}")
+  def self.connect_mongo!
+    config = YAML::load_file(RAILS_ROOT + '/config/database.yml')['mongo'] rescue nil
+    if config
+      begin
+        MONGO_CONNECTIONS[Site.current.id] = Mongo::Connection.new(config['host']).db("#{config['database']}_for_site#{Site.current.id}")
+      rescue Mongo::ConnectionFailure
+        RAILS_DEFAULT_LOGGER.error('Could not connect to Mongodb server.')
+        nil
+      end
+    else
+      RAILS_DEFAULT_LOGGER.error('No configuration found in database.yml for Mongodb.')
+      nil
+    end
+  end
+  
+  def self.db
+    MONGO_CONNECTIONS[Site.current.id] || begin
+      connect_mongo!
+      MONGO_CONNECTIONS[Site.current.id]
+    end
   end
   
   def collection
     if definition.is_a?(Hash) and definition['collection']
-      @collection ||= db[definition['collection']]
+      @collection ||= self.class.db[definition['collection']]
     end
   end
   

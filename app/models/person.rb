@@ -713,7 +713,7 @@ class Person < ActiveRecord::Base
     end
     
     def send_to_mongo
-      db = Mongo::Connection.new.db("#{MONGO_DB}_for_site#{Site.current.id}")
+      db = Report.db
       people = db['people_new']
       find_each do |person|
         h = person.to_mongo_hash
