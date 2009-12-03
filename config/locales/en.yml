@@ -39,7 +39,7 @@ en:
             name:
               blank: The album must have a name.
               taken: There is another album with this name. Please choose another name.
-        attendance_record
+        attendance_record:
           attributes:
             group_id:
               blank: The attendance record must be associated with a group.
