@@ -1,6 +1,6 @@
 pt: 
 
-  are_you_sure: "Voc\xC3\xAA tem certeza?"
+  are_you_sure: Você tem certeza?
   by: De
   comments: Comments
   delete: deletar
@@ -13,34 +13,34 @@ pt:
 
   friends: 
     add_friend: Adicionar Amigo
-    confirm_email_will_be_sent: "Voc\xC3\xAA tem certeza? Um email ser\xC3\xA1 enviado a essa pessoa com o convite de amizade."
+    confirm_email_will_be_sent: Você tem certeza? Um email será enviado a essa pessoa com o convite de amizade.
     friends: Amigos
-    pending_friend_requests: "Voc\xC3\xAA tem <a href=\"{{url}}\">pedidos de amizade</a>."
+    pending_friend_requests: "Você tem <a href=\"{{url}}\">pedidos de amizade</a>."
 
   messages: 
     messages: Mensagens
 
   nav: 
-    bible: "B\xC3\xADblia"
-    directory: "Diret\xC3\xB3rio"
+    bible: Bíblia
+    directory: Diretório
     groups: Grupos
-    home: "In\xC3\xADcio"
-    pages: "P\xC3\xA1ginas"
+    home: Início
+    pages: Páginas
     profile: Perfil
 
   news: 
-    all_news: "Todas as Not\xC3\xADcias"
-    body_description: "Compartilhe os seus an\xC3\xBAncios, informa\xC3\xA7\xC3\xB5es ou not\xC3\xADcias aqui:"
-    news: "Not\xC3\xADcias"
-    news_with_advanced_formatting: "Ou, compartilhe <a href=\"{{url}}\">not\xC3\xADcias com formata\xC3\xA7\xC3\xA3o avancada...</a>"
-    submit_news: "Enviar Not\xC3\xADcias"
-    title_description: "D\xC3\xAA um t\xC3\xADtulo conciso para a sua postagem:"
+    all_news: Todas as Notícias
+    body_description: "Compartilhe os seus anúncios, informações ou notícias aqui:"
+    news: Notícias
+    news_with_advanced_formatting: "Ou, compartilhe <a href=\"{{url}}\">notícias com formatação avancada...</a>"
+    submit_news: Enviar Notícias
+    title_description: "Dê um título conciso para a sua postagem:"
 
   notes: 
     note: Nota
     notes: Notas
     share_note: Compartilhar nota
-    share_note_description: "O que voc\xC3\xAA est\xC3\xA1 fazendo? \xC2\xB7 O que passa na sua mente?"
+    share_note_description: O que você está fazendo? · O que passa na sua mente?
 
   people_count: 
     one: 1 pessoa
@@ -48,19 +48,19 @@ pt:
 
   pictures: 
     add_a_picture: Adicione uma Foto
-    album: "\xC3\x81lbum"
+    album: Álbum
     all_pictures: Todas as Fotos
-    enter_the_new_album_title: "Digite o t\xC3\xADtulo do novo \xC3\xA1lbum."
+    enter_the_new_album_title: Digite o título do novo álbum.
     picture: Foto
     pictures: Fotos
     upload: Carregar!
     upload_more: Carregar Mais
 
   prayer: 
-    prayer: "Ora\xC3\xA7\xC3\xA3o"
-    prayer_requests: "Pedidos de Ora\xC3\xA7\xC3\xA3o"
+    prayer: Oração
+    prayer_requests: Pedidos de Oração
     request: Pedido
-    save_prayer_request: "Salvar Pedido de Ora\xC3\xA7\xC3\xA3o"
+    save_prayer_request: Salvar Pedido de Oração
 
   profile: 
     fax: fax
@@ -69,39 +69,39 @@ pt:
     work: trabalho
 
   publications: 
-    add_publication: "Adicionar Publica\xC3\xA7\xC3\xA3o"
-    all_publications: "Todas as Publica\xC3\xA7\xC3\xB5es"
-    new_publication: "Nova Publica\xC3\xA7\xC3\xA3o"
-    publications: "Publica\xC3\xA7\xC3\xB5es"
+    add_publication: Adicionar Publicação
+    all_publications: Todas as Publicações
+    new_publication: Nova Publicação
+    publications: Publicações
 
   recipes: 
     about_this_recipe: sobre essa receita.
     add_a_recipe: Adicionar uma receita
     all_recipes: Todas as Receitas
     bake_time: Tempo para assar
-    confirm_delete: "Voc\xC3\xAA tem certeza que deseja deletar essa receita?"
+    confirm_delete: Você tem certeza que deseja deletar essa receita?
     delete_recipe: Deletar Receita
-    description: "Descri\xC3\xA7\xC3\xA3o"
-    directions: "Dire\xC3\xA7\xC3\xB5es"
+    description: Descrição
+    directions: Direções
     edit_recipe: Editar Receita
     ingredients: Ingredientes
     new_recipe: Nova Receita
-    no_recipes_yet: "Ainda n\xC3\xA3o existe nenhuma receita!"
+    no_recipes_yet: Ainda não existe nenhuma receita!
     no_results: Nenhum resultado
     other_notes: Outras notas
     prep_cook_time: Preparo/Tempo de cozimento
     recipes: Receitas
     save_recipe: Salvar Receita
-    serving_size: "Tamanaho da por\xC3\xA7\xC3\xA3o"
-    share_your_recipes: Compartilhe as suas receitas favoritas com {{community}}.
-    title: "T\xC3\xADtulo"
+    serving_size: Tamanaho da porção
+    share_your_recipes: "Compartilhe as suas receitas favoritas com {{community}}."
+    title: Título
 
   remote_accounts: 
-    confirm_sync: "Voc\xC3\xAA tem certeza? This operation *will* make changes to the account."
+    confirm_sync: Você tem certeza? This operation *will* make changes to the account.
     edit_account: Edit Account
     get_token_sign_in: "To get the 'token' for your <a href=\"http://highrisehq.com\">Highrise</a> account, sign in and click the 'My Info' link in the top-right of the screen:"
     new_account: New Account
-    no_remote_accounts: "Voc\xC3\xAA n\xC3\xA3o tem nenhuma <a href=\"{{url}}\">Remote Accounts</a>."
+    no_remote_accounts: "Você não tem nenhuma <a href=\"{{url}}\">Remote Accounts</a>."
     remote_accounts: Remote Accounts
     reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
     save_account: Save Account
@@ -112,121 +112,121 @@ pt:
     view_profile: View Profile
 
   search: 
-    add_as_many_friends_you_like: "Voc\xC3\xAA pode adicionar quantos amigos voc\xC3\xAA preferir! Quando voc\xC3\xAA tiver terminado, voc\xC3\xAA pode editar a sua <a href=\"{{url}}\">lista de amigos</a> para remover e coloc\xC3\xA1-los na ordem que voc\xC3\xAA quiser."
-    advanced_search: "Busca Avan\xC3\xA7ada"
+    add_as_many_friends_you_like: "Você pode adicionar quantos amigos você preferir! Quando você tiver terminado, você pode editar a sua <a href=\"{{url}}\">lista de amigos</a> para remover e colocá-los na ordem que você quiser."
+    advanced_search: Busca Avançada
     all: Todos
-    anniversary: "Anivers\xC3\xA1rio de Casamento"
+    anniversary: Aniversário de Casamento
     birthday: Data de Nascimento
     browse: Procurar
-    browse_directory_description: "Claro, voc\xC3\xAA tamb\xC3\xA9m pode <a href=\"{{url}}\">pesquisar no diret\xC3\xB3rio</a> por nome."
-    browse_the_directory: "pesquisar no diret\xC3\xB3rio"
-    business: "Neg\xC3\xB3cios"
-    business_category: "Categoria de Neg\xC3\xB3cios:"
-    business_directory: "Diret\xC3\xB3rio de Neg\xC3\xB3cios"
-    business_directory_description: "Alguns dos nossos membros possuem neg\xC3\xB3cios que eles gostariam que voc\xC3\xAA soubesse a respeito. A pr\xC3\xB3xima vez que voc\xC3\xAA precisar das p\xC3\xA1ginas amarelas, tente o <a href=\"{{url}}\">diret\xC3\xB3rio de neg\xC3\xB3cios</a> primeiro."
-    businesses: "Neg\xC3\xADcios"
+    browse_directory_description: "Claro, você também pode <a href=\"{{url}}\">pesquisar no diretório</a> por nome."
+    browse_the_directory: pesquisar no diretório
+    business: Negócios
+    business_category: "Categoria de Negócios:"
+    business_directory: Diretório de Negócios
+    business_directory_description: "Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito. A próxima vez que você precisar das páginas amarelas, tente o <a href=\"{{url}}\">diretório de negócios</a> primeiro."
+    businesses: Negícios
     category: Categoria
     city: Cidade
-    click_the_icon_to_add_them: "Clique no {{img}} \xC3\xADcone para adicion\xC3\xA1-los."
-    deacon: "Di\xC3\xA1cono"
+    click_the_icon_to_add_them: "Clique no {{img}} ícone para adicioná-los."
+    deacon: Diácono
     elder: Elder
     families_found: 
-      one: "1 fam\xC3\xADlia encontrado"
-      other: "{{count}} fam\xC3\xADlias encontrado"
-    family_name: "Nome da Fam\xC3\xADlia"
+      one: 1 família encontrado
+      other: "{{count}} famílias encontrado"
+    family_name: Nome da Família
     female: Feminino
-    find_someone_quickly: "Voc\xC3\xAA sempre pode encontrar algu\xC3\xA9m rapidamente digitando parte ou o nome completo da pessoa no <a href=\"#\" onclick=\"{{js}};return false;\">canto superior direito</a> da tela."
+    find_someone_quickly: "Você sempre pode encontrar alguém rapidamente digitando parte ou o nome completo da pessoa no <a href=\"#\" onclick=\"{{js}};return false;\">canto superior direito</a> da tela."
     find_your_friends: Encontre seus amigos
-    friends_search: "Use os <strong>campos \xC3\xA0 esquerda</strong> para procurar os seus amigos."
-    gender: "G\xC3\xAAnero"
+    friends_search: Use os <strong>campos à esquerda</strong> para procurar os seus amigos.
+    gender: Gênero
     hidden_profile: Perfil Oculto
     male: Masculino
     member: Membro
     name: Nome
-    new_family: "Nova Fam\xC3\xADlia"
-    no_family: "(n\xC3\xA3o possui fam\xC3\xADlia)"
-    not_showing_hidden_people: "(n\xC3\xA3o est\xC3\xA1 mostrando pessoas ocultas)"
+    new_family: Nova Família
+    no_family: (não possui família)
+    not_showing_hidden_people: (não está mostrando pessoas ocultas)
     people_found: 
       one: 1 pessoa encontrado
       other: "{{count}} pessoas encontrado"
     print: Imprimir
-    printed_directory: "Diret\xC3\xB3rio Impresso"
-    printed_directory_description: "O diret\xC3\xB3rio est\xC3\xA1 sendo alterado constantemente. Enquanto encontrar algu\xC3\xA9m online \xC3\xA9 geralmente o melhor, voc\xC3\xAA tamb\xC3\xA9m pode <a href=\"{{url}}\">imprimir o diret\xC3\xB3rio</a> para aqueles momentos 'offline'."
+    printed_directory: Diretório Impresso
+    printed_directory_description: "O diretório está sendo alterado constantemente. Enquanto encontrar alguém online é geralmente o melhor, você também pode <a href=\"{{url}}\">imprimir o diretório</a> para aqueles momentos 'offline'."
     search: Busca
-    search_the_directory: "Procure no Diret\xC3\xB3rio"
+    search_the_directory: Procure no Diretório
     searching: Procurando...
     show_all: (mostrar todos)
     show_hidden: Mostrar ocultos
     staff: Staff
     state: Estado
-    use_advanced_search: "Ou, use a <a href=\"#\" onclick=\"{{js}};return false;\">busca avan\xC3\xA7ada</a> caracter\xC3\xADstica para mudar os resultados interativamente."
+    use_advanced_search: "Ou, use a <a href=\"#\" onclick=\"{{js}};return false;\">busca avançada</a> característica para mudar os resultados interativamente."
     zip: CEP
 
   session: 
-    create_the_first_user: "Voc\xC3\xAA pode criar o primeiro usu\xC3\xA1rio executando o comando:"
-    email_address: "Endere\xC3\xA7o de Email:"
+    create_the_first_user: "Você pode criar o primeiro usuário executando o comando:"
+    email_address: "Endereço de Email:"
     help_signing_in: Ajuda para acessar
     i_need_help: Eu preciso de ajuda.
-    load_sample_data: "Como uma alternativa, voc\xC3\xAA pode carregar o OneBody com alguns dados de exemplo executando o coamndo:"
-    never_share_your_password: "Nunca compartilhe a sua senha com ningu\xC3\xA9m!"
-    no_users: "N\xC3\xA3o h\xC3\xA1 usu\xC3\xA1rios"
+    load_sample_data: "Como uma alternativa, você pode carregar o OneBody com alguns dados de exemplo executando o coamndo:"
+    never_share_your_password: Nunca compartilhe a sua senha com ninguém!
+    no_users: Não há usuários
     password: "Senha:"
     please_sign_in: Por favor acesse o sistema.
     sign_in: Acessar
     sign_up_or_sign_in: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"
-    there_are_no_users_in_the_system: "N\xC3\xA3o h\xC3\xA1 usu\xC3\xA1rios no sistema."
-    you_may_read_our_privacy_policy_here: "Voc\xC3\xAA pode ler a nossa Pol\xC3\xADtica de Privacidade <a href=\"{{url}}\">aqui</a>."
+    there_are_no_users_in_the_system: Não há usuários no sistema.
+    you_may_read_our_privacy_policy_here: "Você pode ler a nossa Política de Privacidade <a href=\"{{url}}\">aqui</a>."
 
   stream: 
     blog: Blog
-    create_blog_post: "Ou, criar uma <a href=\"{{url}}\">postatem no blog</a> com um t\xC3\xADtulo e formata\xC3\xA7\xC3\xA3o..."
+    create_blog_post: "Ou, criar uma <a href=\"{{url}}\">postatem no blog</a> com um título e formatação..."
     facebook: Facebook
     feed: Feed
     flickr: Flickr
     import_blog_feed: Importar os feeds RSS ou Atom do seu Blog...
-    import_facebook_updates: "Importar as suas atualiza\xC3\xA7\xC3\xB5es do Facebook..."
+    import_facebook_updates: Importar as suas atualizações do Facebook...
     import_flickr_photos: Importar as suas fotos do Flickr...
     import_from: Importar de...
-    import_twitter_updates: "Importar as suas atualiza\xC3\xA7\xC3\xB5es do Twitter..."
+    import_twitter_updates: Importar as suas atualizações do Twitter...
     more: Mais
     my_activity: Minha Atividade
     share_something: Compartilhe Algo
-    share_something_here: "Voc\xC3\xAA deveria <a href=\"#\" onclick=\"{{js}};return false;\">compartilhar algo aqui</a>."
+    share_something_here: "Você deveria <a href=\"#\" onclick=\"{{js}};return false;\">compartilhar algo aqui</a>."
     show: Mostrar
     twitter: Twitter
 
   tags: 
-    add_tags: "Adicionar Tags (separadas por espa\xC3\xA7os)"
-    confirm_delete: "Voc\xC3\xAA tem certeza que deseja deletar essa tag?"
+    add_tags: Adicionar Tags (separadas por espaços)
+    confirm_delete: Você tem certeza que deseja deletar essa tag?
     no_tags_yet: nenhuma tag ainda
     tag: Tag
     tags: Tags
 
   verses: 
-    about_this_verse: "sobre esse vers\xC3\xADculo. Compartilhe o que ele significa para voc\xC3\xAA, como te ajudou ou simplesmente porque voc\xC3\xAA gosta."
-    add_a_verse: "Adicionar um Vers\xC3\xADculo"
-    add_this_verse_to_my_list: "Adicionar esse vers\xC3\xADculo \xC3\xA0 minha lista."
-    add_verse: "Adicionar Vers\xC3\xADculo"
-    all_verses: "Todos os Vers\xC3\xADculos"
-    disclaimer: "Trechos das escrituras marcados como 'WEB' s\xC3\xA3o obtidos da World English Bible, uma tradu\xC3\xA7\xC3\xA3o moderna em ingl\xC3\xAAs da American Standard Version da B\xC3\xADblia Sagrada. WEB est\xC3\xA1 sob dom\xC3\xADnio p\xC3\xBAblico. C\xC3\xB3pias e publica\xC3\xA7\xC3\xB5es s\xC3\xA3o livres."
-    intro: "Compartilhe os seus vers\xC3\xADculos b\xC3\xADblicos favoritos com {{community}}."
-    no_verses_yet: "Nenhum vers\xC3\xADculo ainda!"
-    people_who_like_this_verse: "Pessoas que gostam desse vers\xC3\xADculo"
+    about_this_verse: sobre esse versículo. Compartilhe o que ele significa para você, como te ajudou ou simplesmente porque você gosta.
+    add_a_verse: Adicionar um Versículo
+    add_this_verse_to_my_list: Adicionar esse versículo à minha lista.
+    add_verse: Adicionar Versículo
+    all_verses: Todos os Versículos
+    disclaimer: Trechos das escrituras marcados como 'WEB' são obtidos da World English Bible, uma tradução moderna em inglês da American Standard Version da Bíblia Sagrada. WEB está sob domínio público. Cópias e publicações são livres.
+    intro: "Compartilhe os seus versículos bíblicos favoritos com {{community}}."
+    no_verses_yet: Nenhum versículo ainda!
+    people_who_like_this_verse: Pessoas que gostam desse versículo
     read_this_passage_at_youversion: Leia essa passagem no YouVersion...
-    remove_this_verse: "Remover esse vers\xC3\xADculo da minha lista."
+    remove_this_verse: Remover esse versículo da minha lista.
     tools: Ferramentas
-    type_a_reference_below_and_hit_enter: "Digite uma refer\xC3\xAAncia (ex. Jo\xC3\xA3o 3:16, Mateus 5:3-11) abaixo e pressione enter:"
-    verse: "Vers\xC3\xADculo"
-    verses: "Vers\xC3\xADculos"
+    type_a_reference_below_and_hit_enter: "Digite uma referência (ex. João 3:16, Mateus 5:3-11) abaixo e pressione enter:"
+    verse: Versículo
+    verses: Versículos
 
   wall: 
-    description: "A parede de recados \xC3\xA9 um lugar para pessoas postarem mensagens amig\xC3\xA1veis para voc\xC3\xAA e outros visualizarem."
+    description: A parede de recados é um lugar para pessoas postarem mensagens amigáveis para você e outros visualizarem.
     newest_messages_appear_first: mensagens mais novas aparecem primeiro
-    no_messages_yet: "Ainda n\xC3\xA3o existe nenhuma mensagem!"
+    no_messages_yet: Ainda não existe nenhuma mensagem!
     post_a_message: Envie uma mensagem.
-    respect_privacy: "Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poder\xC3\xA1 causar o banimento do site."
+    respect_privacy: Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poderá causar o banimento do site.
     save_message: Salvar Mensagem
-    to_send_a_private_message: "Todos os usu\xC3\xA1rios ir\xC3\xA3o ver a sua mensagem; para enviar uma mensagem privada, <a href=\"{{url}}\">clique aqui</a>."
+    to_send_a_private_message: "Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href=\"{{url}}\">clique aqui</a>."
     view_all_wall_messages: Visualizar todas as mensagensView all wall messages...
     wall: Parede
     wall_to_wall: Parede de Recados
