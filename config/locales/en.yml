@@ -415,6 +415,7 @@ en:
     not_one_of: not one of
     one_of: one of
     remove_criteria: Remove Criteria
+    report_database_offline: The reporting database is offline, so no reports can be run. Please contact your administrator.
     restricted: Restricted
     restricted_note: "All admins with the 'run reports' privilege will be able to run this report."
     save_and_continue_editing: Save and Continue Editing
