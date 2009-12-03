@@ -1,5 +1,4 @@
-RAILS_ROOT = File.expand_path(__FILE__).match(/(.+)\/plugins/)[1] unless defined?(RAILS_ROOT)
-require RAILS_ROOT + '/test/test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class ReportTest < ActiveSupport::TestCase
   
