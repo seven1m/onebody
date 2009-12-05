@@ -126,7 +126,7 @@ pt:
               taken: "Já existe uma outra página nesse mesmo caminho."
             slug: 
               blank: "A página deve conter um marcador."
-              exclusion: "O marcador da página não pode ser "admin", "edit" ou "new"
+              exclusion: O marcador da página não pode ser "admin", "edit" ou "new"
               invalid: "O marcador da página somente pode conter letras minúsculas e sublinhado."
             title: 
               blank: "A página deve conter um título."
@@ -246,7 +246,7 @@ pt:
     add_friend: Adicionar Amigo
     confirm_email_will_be_sent: "Você tem certeza? Um email será enviado a essa pessoa com o convite de amizade."
     friends: Amigos
-    pending_friend_requests: "Você tem <a href="{{url}}">pedidos de amizade</a>."
+    pending_friend_requests: Você tem <a href="{{url}}">pedidos de amizade</a>.
 
   messages: 
     messages: Mensagens
@@ -263,7 +263,7 @@ pt:
     all_news: "Todas as Notícias"
     body_description: "Compartilhe os seus anúncios, informações ou notícias aqui:"
     news: "Notícias"
-    news_with_advanced_formatting: "Ou, compartilhe <a href="{{url}}">notícias com formatação avancada...</a>"
+    news_with_advanced_formatting: Ou, compartilhe <a href="{{url}}">notícias com formatação avancada...</a>
     submit_news: "Enviar Notícias"
     title_description: "Dê um título conciso para a sua postagem:"
 
@@ -330,7 +330,7 @@ pt:
   relationships: 
     Reciprocate: Reciprocidade
     add_a_relationship: "Adicionar um relacionamento:"
-    add_relationship_button: Adicionar Relacionamento
+    add_relationship_button: Ad. Relacionamento
     cannot_be_reciprocated: "Um relacionamento recíproco com {{name}} não pode ser criado automaticamente."
     create_family_relationships: Criar Relacionamentos Familiares
     create_family_relationships_description: "Você pode gerar relacionamentos para a família abaixo."
@@ -359,11 +359,11 @@ pt:
       sister_in_law: Cunhada
       son: Filho
       son_in_law: Genro
-      stepbrother: Irmão por parte de pai ou mãe
+      stepbrother: Meio Irmão
       stepdaughter: Meia irmã
       stepfather: Padrasto
       stepmother: Madrasta
-      stepsister: Irmã por parte de pai ou mãe
+      stepsister: Meia Irmã
       stepson: Enteado
       uncle: Tio
       wife: Esposa
@@ -378,7 +378,7 @@ pt:
     edit_account: Editar Conta
     get_token_sign_in: "Para obter o 'token' para a sua conta no <a href=\"http://highrisehq.com\">Highrise</a>, faça o login e clique no link 'My Info' no canto superior direito da tela:"
     new_account: Nova Conta
-    no_remote_accounts: "Você não tem nenhuma <a href="{{url}}">Conta Remota</a>."
+    no_remote_accounts: Você não tem nenhuma <a href="{{url}}">Conta Remota</a>.
     remote_accounts: Contas Remotas
     reveal_token: "Na seguinte tela, clique no link  'Reveal authentication token':"
     save_account: Salvar Contas
@@ -420,19 +420,19 @@ pt:
     save_and_continue_editing: Salvar e Continuar Editando
 
   search: 
-    add_as_many_friends_you_like: "Você pode adicionar quantos amigos você preferir! Quando você tiver terminado, você pode editar a sua <a href="{{url}}">lista de amigos</a> para remover e colocá-los na ordem que você quiser."
+    add_as_many_friends_you_like: Você pode adicionar quantos amigos você preferir! Quando você tiver terminado, você pode editar a sua <a href="{{url}}">lista de amigos</a> para remover e colocá-los na ordem que você quiser.
     add_selected: Adicionar Selecionado
     advanced_search: "Busca Avançada"
     all: Todos
     anniversary: "Aniversário de Casamento"
     birthday: Data de Nascimento
     browse: Procurar
-    browse_directory_description: "Claro, você também pode <a href="{{url}}">pesquisar no diretório</a> por nome."
+    browse_directory_description: Claro, você também pode <a href="{{url}}">pesquisar no diretório</a> por nome.
     browse_the_directory: "pesquisar no diretório"
     business: "Negócios"
     business_category: "Categoria de Negócios:"
     business_directory: "Diretório de Negócios"
-    business_directory_description: "Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito. A próxima vez que você precisar das páginas amarelas, tente o <a href="{{url}}">diretório de negócios</a> primeiro."
+    business_directory_description: Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito. A próxima vez que você precisar das páginas amarelas, tente o <a href="{{url}}">diretório de negócios</a> primeiro.
     businesses: "Negícios"
     category: Categoria
     city: Cidade
@@ -460,7 +460,7 @@ pt:
       other: "{{count}} pessoas encontradas"
     print: Imprimir
     printed_directory: "Diretório Impresso"
-    printed_directory_description: "O diretório está sendo alterado constantemente. Enquanto encontrar alguém online é geralmente o melhor, você também pode <a href="{{url}}">imprimir o diretório</a> para aqueles momentos 'offline'."
+    printed_directory_description: O diretório está sendo alterado constantemente. Enquanto encontrar alguém online é geralmente o melhor, você também pode <a href="{{url}}">imprimir o diretório</a> para aqueles momentos 'offline'.
     search: Busca
     search_by_name: "Busca por nome:"
     search_the_directory: "Procure no Diretório"
@@ -485,11 +485,11 @@ pt:
     sign_in: Acessar
     sign_up_or_sign_in: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"
     there_are_no_users_in_the_system: "Não há usuários no sistema."
-    you_may_read_our_privacy_policy_here: "Você pode ler a nossa Política de Privacidade <a href="{{url}}">aqui</a>."
+    you_may_read_our_privacy_policy_here: Você pode ler a nossa Política de Privacidade <a href="{{url}}">aqui</a>.
 
   stream: 
     blog: Blog
-    create_blog_post: "Ou, criar uma <a href="{{url}}">postatem no blog</a> com um título e formatação..."
+    create_blog_post: Ou, criar uma <a href="{{url}}">postatem no blog</a> com um título e formatação...
     facebook: Facebook
     feed: Feed
     flickr: Flickr
@@ -536,7 +536,7 @@ pt:
     post_a_message: Envie uma mensagem.
     respect_privacy: "Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poderá causar o banimento do site."
     save_message: Salvar Mensagem
-    to_send_a_private_message: "Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href="{{url}}">clique aqui</a>."
+    to_send_a_private_message: Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href="{{url}}">clique aqui</a>.
     view_all_wall_messages: Visualizar todas as mensagens...
     wall: Parede de Recados
     wall_to_wall: Parede de Recados
