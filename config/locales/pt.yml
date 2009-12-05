@@ -376,7 +376,7 @@ pt:
   remote_accounts: 
     confirm_sync: "Você tem certeza? Esta operação *irá* fazer mudanças na sua conta."
     edit_account: Editar Conta
-    get_token_sign_in: "Para obter o 'token' para a sua conta no <a href="http://highrisehq.com">Highrise</a>, faça o login e clique no link 'My Info' no canto superior direito da tela:"
+    get_token_sign_in: "Para obter o 'token' para a sua conta no <a href=\"http://highrisehq.com\">Highrise</a>, faça o login e clique no link 'My Info' no canto superior direito da tela:"
     new_account: Nova Conta
     no_remote_accounts: "Você não tem nenhuma <a href="{{url}}">Conta Remota</a>."
     remote_accounts: Contas Remotas
@@ -483,7 +483,7 @@ pt:
     password: "Senha:"
     please_sign_in: Por favor acesse o sistema.
     sign_in: Acessar
-    sign_up_or_sign_in: "<a href="{{url}}">Registrar</a> para uma conta, ou acesse com uma existente:"
+    sign_up_or_sign_in: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"
     there_are_no_users_in_the_system: "Não há usuários no sistema."
     you_may_read_our_privacy_policy_here: "Você pode ler a nossa Política de Privacidade <a href="{{url}}">aqui</a>."
 

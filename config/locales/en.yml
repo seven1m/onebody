@@ -376,7 +376,7 @@ en:
   remote_accounts: 
     confirm_sync: Are you sure? This operation *will* make changes to the account.
     edit_account: Edit Account
-    get_token_sign_in: "To get the 'token' for your <a href="http://highrisehq.com">Highrise</a> account, sign in and click the 'My Info' link in the top-right of the screen:"
+    get_token_sign_in: "To get the 'token' for your <a href=\"http://highrisehq.com\">Highrise</a> account, sign in and click the 'My Info' link in the top-right of the screen:"
     new_account: New Account
     no_remote_accounts: You do not have any <a href="{{url}}">Remote Accounts</a>.
     remote_accounts: Remote Accounts
@@ -483,7 +483,7 @@ en:
     password: "Password:"
     please_sign_in: Please sign in.
     sign_in: Sign In
-    sign_up_or_sign_in: "<a href="{{url}}">Sign Up</a> for an account, or sign in:"
+    sign_up_or_sign_in: "<a href=\"{{url}}\">Sign Up</a> for an account, or sign in:"
     there_are_no_users_in_the_system: There are no users in the system.
     you_may_read_our_privacy_policy_here: You may read our Privacy Policy <a href="{{url}}">here</a>.
 
