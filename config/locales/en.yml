@@ -19,6 +19,8 @@ en:
   only_admins: You must be an administrator to use this section.
   search_results: Search Results
   type: Type
+  click_here: Click here
+  file_not_found: File not Found
 
   activerecord: 
     errors: 
@@ -248,6 +250,9 @@ en:
     friends: Friends
     pending_friend_requests: You have <a href="{{url}}">pending friend requests</a>.
 
+  groups:
+    view_group: View Group
+
   messages: 
     messages: Messages
 
@@ -276,6 +281,8 @@ en:
   people_count: 
     one: 1 person
     other: "{{count}} people"
+    is: person is
+    are: people are
 
   pictures: 
     add_a_picture: Add a Picture
@@ -303,8 +310,31 @@ en:
     add_publication: Add Publication
     all_publications: All Publications
     new_publication: New Publication
+    save_publication: Save Publication
     publications: Publications
-
+    feed: Publications Feed
+    add_publication: Add Publication
+    subscribe: Subscribe
+    subscribe_feed: <a href="{{url}}">Subscribe</a> to Publications with your feed reader.
+    update_notifications: Update Notifications
+    email_notifications: Email Notifications
+    currently_signed_up: You are currently signed up to receive email notifications when new publications are made available here.
+    to_stop_receiving_notifications: to stop receiving these notifications.
+    start_receiving_notifications: If you wish to recieve email notifications when new publications are made available on this page,
+    signed_to_recieve: signed up to recieve notifications
+    no_publications_available: There are currently no publications available.
+    notify_no_one: Notify no one
+    notify_the_group: Notify the {{group}} group
+    name: Name
+    description: Description
+    file: File
+    files_with_acrobat_icon: For files with the Acrobat icon {{img}}, you will need {{url}} (aka "Acrobat Reader") or another program capable of viewing PDF files.
+    saved: Publication saved.
+    deleted: Publication deleted.
+    new_publication_available: New Publication Available
+    inform_publication_available: This is to inform you that a new publication has been added to {{site}}.
+    you_must_select_file: You must select a file.
+    
   recipes: 
     about_this_recipe: about this recipe.
     add_a_recipe: Add a recipe
@@ -326,6 +356,8 @@ en:
     serving_size: Serving size
     share_your_recipes: Share your favorite recipes with {{community}}.
     title: Title
+    saved: Recipe saved.
+    deleted: Recipe deleted.
 
   relationships: 
     Reciprocate: Reciprocate

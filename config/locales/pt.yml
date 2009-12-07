@@ -19,6 +19,8 @@ pt:
   only_admins: "Você precisa ser um administrador para usar essa seção."
   search_results: Resultados da Busca
   type: Tipo
+  click_here: Clique aqui
+  file_not_found: Arquivo não encontrado
 
   activerecord: 
     errors: 
@@ -248,6 +250,9 @@ pt:
     friends: Amigos
     pending_friend_requests: Você tem <a href="{{url}}">pedidos de amizade</a>.
 
+  groups:
+    view_group: Visualizar Grupo
+
   messages: 
     messages: Mensagens
 
@@ -276,6 +281,8 @@ pt:
   people_count: 
     one: 1 pessoa
     other: "{{count}} pessoas"
+    is: pessoa está
+    are: pessoas estão
 
   pictures: 
     add_a_picture: Adicione uma Foto
@@ -300,10 +307,33 @@ pt:
     work: trabalho
 
   publications: 
-    add_publication: "Adicionar Publicação"
-    all_publications: "Todas as Publicações"
-    new_publication: "Nova Publicação"
+    add_publication: Adicionar Publicação
+    all_publications: Todas as Publicações
+    new_publication: Nova Publicação
+    save_publication: Salvar Publicação
     publications: Publicações
+    feed: Feed de Publicações
+    add_publication: Adicionar Publicação
+    subscribe: Subscrever
+    subscribe_feed: <a href="{{url}}">Subscrever</a> à essa Publicação com o seu leitor de feeds.
+    update_notifications: Atualizar Notificações
+    email_notifications: Notificações por Email
+    currently_signed_up: Você está registrado para receber notificações por email quando novas publicações forem disponibilizadas aqui.
+    to_stop_receiving_notifications: para parar de receber estas notificações.
+    start_receiving_notifications: Se você deseja receber notificações por email quando novas publicações forem disponibilizadas aqui nesta página,
+    signed_to_recieve: registrada para receber notificações
+    no_publications_available: Não existem publicações disponíveis.
+    notify_no_one: Não notificar ninguém
+    notify_the_group: Notificar o grupo {{group}}
+    name: Nome
+    description: Descrições
+    file: Arquivo
+    files_with_acrobat_icon: Para arquivos com o ícone Acrobat {{img}}, você irá precisar {{url}} (conhecido como "Acrobat Reader") ou outro programa compatível com a visualização de arquivos PDF.
+    saved: Publicação foi gravada.
+    deleted: Publicação foi deletada.
+    new_publication_available: Nova Publicação Disponível
+    inform_publication_available: Este é para informar você que uma nova publicação foi adicionada ao {{site}}.
+    you_must_select_file: Você deve selecionar um arquivo.
 
   recipes: 
     about_this_recipe: sobre essa receita.
@@ -326,6 +356,8 @@ pt:
     serving_size: "Tamanaho da porção"
     share_your_recipes: Compartilhe as suas receitas favoritas com {{community}}.
     title: "Título"
+    saved: Receita gravada.
+    deleted: Receita deletada.
 
   relationships: 
     Reciprocate: Reciprocidade

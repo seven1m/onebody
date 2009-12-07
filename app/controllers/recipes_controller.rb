@@ -26,7 +26,7 @@ class RecipesController < ApplicationController
   def create
     @recipe = Recipe.new(:person => @logged_in)
     if @recipe.update_attributes(params[:recipe])
-      flash[:notice] = 'Recipe saved.'
+      flash[:notice] = I18n.t('recipes.saved')
       redirect_to @recipe
     else
       render :action => 'new'
@@ -47,7 +47,7 @@ class RecipesController < ApplicationController
     @recipe.save if params[:remove_tag] or params[:add_tags]
     if @logged_in.can_edit?(@recipe)
       if @recipe.update_attributes(params[:recipe])
-        flash[:notice] = 'Recipe saved.'
+        flash[:notice] = I18n.t('recipes.saved')
         redirect_to @recipe
       else
         render :action => 'edit'
@@ -61,7 +61,7 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
     if @logged_in.can_edit?(@recipe)
       @recipe.destroy
-      flash[:notice] = 'Recipe deleted.'
+      flash[:notice] = I18n.t('recipes.deleted')
       redirect_to recipes_path
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
