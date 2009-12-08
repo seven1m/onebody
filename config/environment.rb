@@ -31,6 +31,8 @@ Rails::Initializer.run do |config|
   config.gem 'builder',                :version => '>= 2.1.2'
   config.gem 'feedzirra',              :version => '>= 0.0.20'
   config.gem 'mongo',                  :version => '>= 0.18'
+  config.gem 'prawn',                  :version => '>= 0.6.3'
+  config.gem 'prawn-layout',           :version => '>= 0.3.2', :lib => 'prawn/layout'
 end
 
 (Setting.update_all if Setting.table_exists?) rescue nil

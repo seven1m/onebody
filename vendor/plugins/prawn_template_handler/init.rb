@@ -1,0 +1,1 @@
+require 'prawn_template_handler'

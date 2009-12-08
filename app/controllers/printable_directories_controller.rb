@@ -14,8 +14,18 @@ class PrintableDirectoriesController < ApplicationController
     end
   end
   
+  #def show
+  #  redirect_to new_printable_directory_path
+  #end
+  
   def show
-    redirect_to new_printable_directory_path
+    @families = Family.all(
+      :conditions => ["families.deleted = ? and (select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0", false, true],
+      :order => 'families.last_name, families.name',
+      :include => 'people',
+      :select => 'families.name, families.last_name, families.home_phone, families.address1, families.address2, families.city, families.state, families.zip, people.first_name, people.last_name',
+      :limit => 100
+    )
   end
   
   private
