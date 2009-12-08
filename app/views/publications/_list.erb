@@ -8,9 +8,9 @@
         </td>
         <td>
           <%= link_to h(publication.name), publication, :target => '_new' %>
-          <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => 'New!', :class => 'no-border' %><% end %>
+          <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => I18n.t('new') + '!', :class => 'no-border' %><% end %>
           <% if @logged_in.admin?(:manage_publications) %>
-            <%= link_to '[delete]', publication, :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+            <%= link_to '[' + I18n.t('delete') + ']', publication, :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet' %>
           <% end %>
           <br/>
           <%=h publication.description %>
@@ -20,10 +20,8 @@
   </table>
   
   <p>
-    For files with the Acrobat icon <%= image_tag('acrobat.gif', :alt => 'Adobe Acrobat', :class => 'icon') %>,
-    you will need <%= link_to 'Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html' %>
-    (aka "Acrobat Reader") or another program capable of viewing PDF files.
+    <%= I18n.t('publications.files_with_acrobat_icon', {:img => image_tag('acrobat.gif', :alt => 'Adobe Acrobat', :class => 'icon'), :url => link_to('Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html')}) %>
   </p>
 <% else %>
-  <p><em>There are currently no publications available.</em></p>
+  <p><em><%= I18n.t('publications.no_publications_available') %></em></p>
 <% end %>

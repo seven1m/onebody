@@ -1,14 +1,16 @@
 en: 
 
+  Delete: Delete
+  Edit: Edit
+  From: From
+  Save: Save
+  To: To
   are_you_sure: Are you sure?
   by: By
   comments: Comments
-  Delete: Delete
   delete: delete
-  Edit: Edit
   edit: edit
   feature_unavailable: This feature is unavailable.
-  From: From
   loading: Loading
   name: Name
   new: New
@@ -16,237 +18,240 @@ en:
   not_authorized: You are not authorized.
   only_admins: You must be an administrator to use this section.
   search_results: Search Results
-  Save: Save
-  To: To
   type: Type
-  
-  activerecord:
-    errors:
-      full_messages:
+  click_here: Click here
+  file_not_found: File not Found
+
+  activerecord: 
+    errors: 
+      full_messages: 
         format: "{{message}}"
-      template:
-        header:
-          one: "There was an error saving the changes."
-          other: "There were {{count}} errors saving the changes."
-        body: "Please correct the following problems:"
-      models:
-        admin:
-          attributes:
-            template_name:
+      models: 
+        admin: 
+          attributes: 
+            template_name: 
               taken: There is another template with this name. Please choose another name.
-        album:
-          attributes:
-            name:
+        album: 
+          attributes: 
+            name: 
               blank: The album must have a name.
               taken: There is another album with this name. Please choose another name.
-        attendance_record:
-          attributes:
-            group_id:
-              blank: The attendance record must be associated with a group.
-            attended_at:
+        attendance_record: 
+          attributes: 
+            attended_at: 
               blank: The attendance record must specify a date and time.
-        family:
-          attributes:
-            barcode_id:
-              taken: This family card (barcode id) is already taken by another family.
-              too_short: This family card (barcode id) is too short (must be 10 digits).
-              too_long: This family card (barcode id) is too long (cannot be more than 50 digits).
-              invalid: This family card (barcode id) contains letters or symbols (only numbers are allowed).
-            alternate_barcode_id:
-              taken: This family card (alternate barcode id) is already taken by another family.
-              too_short: This family card (alternate barcode id) is too short (must be 10 digits).
-              too_long: This family card (alternate barcode id) is too long (cannot be more than 50 digits).
+            group_id: 
+              blank: The attendance record must be associated with a group.
+        family: 
+          attributes: 
+            alternate_barcode_id: 
               invalid: This family card (alternate barcode id) contains letters or symbols (only numbers are allowed).
-        feed:
-          attributes:
-            person_id:
-              blank: The feed must be associated with a person.
-            url:
-              blank: The feed must specify a URL.
-              taken: This feed already exists. You cannot add it again.
-              invalid: This feed URL does not appear to be properly formatted. Did you type the address correctly? Try pasting it in instead.
-            name:
+              taken: This family card (alternate barcode id) is already taken by another family.
+              too_long: This family card (alternate barcode id) is too long (cannot be more than 50 digits).
+              too_short: This family card (alternate barcode id) is too short (must be 10 digits).
+            barcode_id: 
+              invalid: This family card (barcode id) contains letters or symbols (only numbers are allowed).
+              taken: This family card (barcode id) is already taken by another family.
+              too_long: This family card (barcode id) is too long (cannot be more than 50 digits).
+              too_short: This family card (barcode id) is too short (must be 10 digits).
+        feed: 
+          attributes: 
+            name: 
               blank: The feed must have a name.
               taken: There is another feed with this name. Please choose another name.
-        friendship:
-          attributes:
-            person_id:
-              blank: This friendship must be associated with a person.
-            friend_id:
+            person_id: 
+              blank: The feed must be associated with a person.
+            url: 
+              blank: The feed must specify a URL.
+              invalid: This feed URL does not appear to be properly formatted. Did you type the address correctly? Try pasting it in instead.
+              taken: This feed already exists. You cannot add it again.
+        friendship: 
+          attributes: 
+            friend_id: 
               blank: This friendship must be associated with a person.
               taken: This friendship already exists.
-        friendship_request:
-          attributes:
-            person_id:
+            person_id: 
+              blank: This friendship must be associated with a person.
+        friendship_request: 
+          attributes: 
+            from_id: 
               blank: This friendship request must be associated with a person.
-              taken: This friendship request already exits.
-            from_id:
-              blank: This friendship request must be associated with a person.
-            person:
+            person: 
               invalid_address: The person must have a valid email address.
               refused: The person does not accept friend requests.
-        group:
-          attributes:
-            name:
-              blank: The group must have a name.
-              taken: There is another group with this name. Please choose another name.
-            category:
-              blank: The group must specify a category.
-            address:
+            person_id: 
+              blank: This friendship request must be associated with a person.
+              taken: This friendship request already exits.
+        group: 
+          attributes: 
+            address: 
               invalid: The group address is not a valid email address.
               taken: There is another group with this email address. Please choose another address.
-              too_short: The group email address is too short.
               too_long: The group email address is too long.
-            parents_of:
+              too_short: The group email address is too short.
+            category: 
+              blank: The group must specify a category.
+            name: 
+              blank: The group must have a name.
+              taken: There is another group with this name. Please choose another name.
+            parents_of: 
               points_to_self: This group cannot link to itself.
-        membership:
-          attributes:
-            group_id:
+        membership: 
+          attributes: 
+            group_id: 
               taken: This person is already a member of this group.
-        membership_request:
-          attributes:
-            group_id:
-              taken: This person has already reqeusted membership in this group.
-        message:
-          attributes:
-            person_id:
-              blank: This message must be associated with a person.
-            subject:
-              blank: The message must have a subject.
-              too_short: The message subject is too short.
-            body:
+        membership_request: 
+          attributes: 
+            group_id: 
+              taken: This person has already requested membership in this group.
+        message: 
+          attributes: 
+            body: 
               blank: The message must have a body.
               too_short: The message body is too short.
-            to_person_id:
+            person_id: 
+              blank: This message must be associated with a person.
+            subject: 
+              blank: The message must have a subject.
+              too_short: The message subject is too short.
+            to_person_id: 
               invalid: The recipient of this message does not have an email address. The message cannot be sent.
-        note:
-          attributes:
-            body:
+        note: 
+          attributes: 
+            body: 
               blank: The note is blank.
-        page:
-          attributes:
-            slug:
+        page: 
+          attributes: 
+            body: 
+              blank: The page must have a body.
+            path: 
+              taken: There is another page with this path.
+            slug: 
               blank: The page must have a slug.
               exclusion: The page slug cannot be "admin", "edit", or "new"
               invalid: The page slug can only contain lowercase letters and underscore.
-            title:
+            title: 
               blank: The page must have a title.
-            body:
-              blank: The page must have a body.
-            path:
-              taken: There is another page with this path.
-        person:
-          attributes:
-            first_name:
-              blank: The person must have a first name.
-            last_name:
-              blank: The person must have a last name.
-            password:
-              too_short: The password is too short.
-              confirmation: The passwords do not match.
-            alternate_email:
-              taken: There is another person with the same alternate email.
+        person: 
+          attributes: 
+            alternate_email: 
               invalid: The alternate email address is not formatted correctly (something@example.com).
-            feed_code:
-              taken: The same feed code exists on another person record.
-            website:
-              invalid: The website URL is not formatted correctly (are you missing 'http://' at the beginning?)
-            business_website:
-              invalid: The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)
-            business_email:
+              taken: There is another person with the same alternate email.
+            business_email: 
               invalid: The business email address is not formatted correctly (something@example.com).
-            gender:
-              inclusion: Gender must be either 'Male' or 'Female'.
-            email:
-              taken: There is another person with the same email address.
-              invalid: The email address is not formatted correctly (something@example.com).
-            child:
-              cannot_be_yes: The 'child' property cannot be 'Yes' because the birthday indicates the person is 13 or older.
-              cannot_be_no: The 'child' property cannot be 'No' because the birthday indicates the person is less than 13 years old.
+            business_website: 
+              invalid: The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)
+            child: 
               blank: The 'child' property must be either 'Yes' or 'No' because the birthday is unspecified.
-        picture:
-          attributes:
-            album_id:
+              cannot_be_no: The 'child' property cannot be 'No' because the birthday indicates the person is less than 13 years old.
+              cannot_be_yes: The 'child' property cannot be 'Yes' because the birthday indicates the person is 13 or older.
+            email: 
+              invalid: The email address is not formatted correctly (something@example.com).
+              taken: There is another person with the same email address.
+            feed_code: 
+              taken: The same feed code exists on another person record.
+            first_name: 
+              blank: The person must have a first name.
+            gender: 
+              inclusion: Gender must be either 'Male' or 'Female'.
+            last_name: 
+              blank: The person must have a last name.
+            password: 
+              confirmation: The passwords do not match.
+              too_short: The password is too short.
+            website: 
+              invalid: The website URL is not formatted correctly (are you missing 'http://' at the beginning?)
+        picture: 
+          attributes: 
+            album_id: 
               blank: This picture must be associated with an album.
-        prayer_request:
-          attributes:
-            request:
-              blank: The prayer request cannot be blank.
-            group_id:
+        prayer_request: 
+          attributes: 
+            group_id: 
               blank: The prayer request must be associated with a group.
-            person_id:
+            person_id: 
               blank: The prayer request must be associated with a person.
-        publication:
-          attributes:
-            name:
+            request: 
+              blank: The prayer request cannot be blank.
+        publication: 
+          attributes: 
+            name: 
               blank: The publication must have a name.
               taken: There is another publication with this name. Please choose another name.
-        recipe:
-          attributes:
-            title:
-              blank: The recipe must have a title.
-            ingredients:
-              blank: The recipe must have ingredients.
-            directions:
+        recipe: 
+          attributes: 
+            directions: 
               blank: The recipe must have directions.
-        relationship:
-          attributes:
-            name:
+            ingredients: 
+              blank: The recipe must have ingredients.
+            title: 
+              blank: The recipe must have a title.
+        relationship: 
+          attributes: 
+            name: 
               blank: You must specify the relationship type.
-              taken: This relationship already exists.
               inclusion: This relationship is not valid.
-            other_name:
+              taken: This relationship already exists.
+            other_name: 
               blank: You must specify the relationship type.
               taken: This relationship already exists.
-            person_id:
+            person_id: 
               blank: The relationship must be associated with a person.
-            related_id:
+            related_id: 
               blank: The relationship must be associated with a person.
-        remote_account:
-          attributes:
-            username:
-              blank: The remote account must have a username.
-            token:
-              blank: The remote account must have a token.
-            account_type:
+        remote_account: 
+          attributes: 
+            account_type: 
               blank: The account type must be specified.
               inclusion: The account type is invalid.
               taken: This remote account already exists.
-        report:
-          attributes:
-            name:
+            token: 
+              blank: The remote account must have a token.
+            username: 
+              blank: The remote account must have a username.
+        report: 
+          attributes: 
+            definition: 
+              invalid: The report definition is invalid.
+            name: 
               blank: The report must have a name.
               taken: There is another report with this name. Please choose another name.
-            definition:
-              invalid: The report definition is invalid.
-        site:
-          attributes:
-            name:
+        site: 
+          attributes: 
+            host: 
+              blank: The host must be specified.
+              exclusion: The host is invalid.
+              taken: There is another site with the same host.
+            name: 
               blank: The site must have a name.
               taken: There is another site with the same name.
-            host:
-              blank: The host must be specified.
-              taken: There is another site with the same host.
-              exclusion: The host is invalid.
-        tag:
-          attributes:
-            name:
+        tag: 
+          attributes: 
+            name: 
               blank: The tag must have a name.
-              taken: There is another tag with the same name.
               exclusion: The tag name is invalid.
-        verse:
-          attributes:
-            text:
+              taken: There is another tag with the same name.
+        verse: 
+          attributes: 
+            reference: 
+              blank: The verse must have a reference.
+            text: 
               blank: The passage is blank. Did you type the reference correctly?
               too_long: The passage is too long. Try to specify a shorter passage.
-            reference:
-              blank: The verse must have a reference.
+      template: 
+        body: "Please correct the following problems:"
+        header: 
+          one: There was an error saving the changes.
+          other: There were {{count}} errors saving the changes.
 
   friends: 
     add_friend: Add Friend
     confirm_email_will_be_sent: Are you sure? An email will be sent to this person requesting friendship.
     friends: Friends
     pending_friend_requests: You have <a href="{{url}}">pending friend requests</a>.
+
+  groups:
+    view_group: View Group
 
   messages: 
     messages: Messages
@@ -271,11 +276,13 @@ en:
     note: Note
     notes: Notes
     share_note: Share Note
-    share_note_description: "What are you doing? \xC2\xB7 What's on your mind?"
+    share_note_description: "What are you doing? What's on your mind?"
 
   people_count: 
     one: 1 person
     other: "{{count}} people"
+    is: person is
+    are: people are
 
   pictures: 
     add_a_picture: Add a Picture
@@ -303,8 +310,31 @@ en:
     add_publication: Add Publication
     all_publications: All Publications
     new_publication: New Publication
+    save_publication: Save Publication
     publications: Publications
-
+    feed: Publications Feed
+    add_publication: Add Publication
+    subscribe: Subscribe
+    subscribe_feed: <a href="{{url}}">Subscribe</a> to Publications with your feed reader.
+    update_notifications: Update Notifications
+    email_notifications: Email Notifications
+    currently_signed_up: You are currently signed up to receive email notifications when new publications are made available here.
+    to_stop_receiving_notifications: to stop receiving these notifications.
+    start_receiving_notifications: If you wish to recieve email notifications when new publications are made available on this page,
+    signed_to_recieve: signed up to recieve notifications
+    no_publications_available: There are currently no publications available.
+    notify_no_one: Notify no one
+    notify_the_group: Notify the {{group}} group
+    name: Name
+    description: Description
+    file: File
+    files_with_acrobat_icon: For files with the Acrobat icon {{img}}, you will need {{url}} (aka "Acrobat Reader") or another program capable of viewing PDF files.
+    saved: Publication saved.
+    deleted: Publication deleted.
+    new_publication_available: New Publication Available
+    inform_publication_available: This is to inform you that a new publication has been added to {{site}}.
+    you_must_select_file: You must select a file.
+    
   recipes: 
     about_this_recipe: about this recipe.
     add_a_recipe: Add a recipe
@@ -326,15 +356,19 @@ en:
     serving_size: Serving size
     share_your_recipes: Share your favorite recipes with {{community}}.
     title: Title
+    saved: Recipe saved.
+    deleted: Recipe deleted.
 
-  relationships:
+  relationships: 
+    Reciprocate: Reciprocate
     add_a_relationship: "Add a relationship:"
     add_relationship_button: Add Relationship
     cannot_be_reciprocated: A reciprocal relationship to {{name}} cannot be automatically created.
-    create_family_relationships_description: You may generate relationships for this immediate family below.
     create_family_relationships: Create Family Relationships
+    create_family_relationships_description: You may generate relationships for this immediate family below.
     family: Family Relationships
-    names:
+    inward: Inward Relationships
+    names: 
       aunt: Aunt
       brother: Brother
       brother_in_law: Brother-in-law
@@ -365,9 +399,7 @@ en:
       stepson: Stepson
       uncle: Uncle
       wife: Wife
-    inward: Inward Relationships
     outward: Outward Relationships
-    Reciprocate: Reciprocate
     relationship: Relationship
     relationship_type: "Type:"
     relationships: Relationships
@@ -388,7 +420,7 @@ en:
     username: Username
     view_profile: View Profile
 
-  reporting:
+  reporting: 
     Admins: Admins
     Creator: Creator
     Criteria: Criteria
@@ -398,7 +430,6 @@ en:
     Source: Source
     Total_Runs: Total Runs
     add_criteria: Add Criteria
-    edit_report: Edit Report
     edit_report: Edit Report
     error_running_report: There was an error running this report.
     greater_than: greater than
@@ -417,7 +448,7 @@ en:
     remove_criteria: Remove Criteria
     report_database_offline: The reporting database is offline, so no reports can be run. Please contact your administrator.
     restricted: Restricted
-    restricted_note: "All admins with the 'run reports' privilege will be able to run this report."
+    restricted_note: All admins with the 'run reports' privilege will be able to run this report.
     save_and_continue_editing: Save and Continue Editing
 
   search: 

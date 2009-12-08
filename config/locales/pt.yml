@@ -1,56 +1,294 @@
 pt: 
 
-  are_you_sure: Você tem certeza?
+  Delete: Deletar
+  Edit: Editar
+  From: De
+  Save: Salvar
+  To: Para
+  are_you_sure: "Você tem certeza?"
   by: De
-  comments: Comments
+  comments: "Comentários"
   delete: deletar
   edit: editar
+  feature_unavailable: "Esta função ainda não está disponível."
   loading: Carregando
-  new: New
+  name: Nome
+  new: Novo
   none: nenhum
-  search_results: Resultados da busca
+  not_authorized: "Você não está autorizado"
+  only_admins: "Você precisa ser um administrador para usar essa seção."
+  search_results: Resultados da Busca
   type: Tipo
+  click_here: Clique aqui
+  file_not_found: Arquivo não encontrado
+
+  activerecord: 
+    errors: 
+      full_messages: 
+        format: "{{message}}"
+      models: 
+        admin: 
+          attributes: 
+            template_name: 
+              taken: Existe um outro modelo com esse nome. Por favor escolha um outro nome.
+        album: 
+          attributes: 
+            name: 
+              blank: "O álbum precisa ter um nome."
+              taken: "Existe um outro álbum com este nome. Por favor escolha outro nome."
+        attendance_record 
+          attributes: 
+            attended_at: 
+              blank: "O registro de presença deve conter uma data e horário especificados."
+            group_id: 
+              blank: "O registro de presença deve estar associado com um grupo."
+        family: 
+          attributes: 
+            alternate_barcode_id: 
+              invalid: "Este cartão de família (código de barras alternativo) contém letras ou símbolos (somente números são permitidos)."
+              taken: "Este cartão de família (código de barras alternativo) já está em uso por outra família."
+              too_long: "Este cartão de família (código de barras alternativo) é grande demais (não pode conter mais do que 50 dígitos)."
+              too_short: "Este cartão de família (código de barras alternativo) é pequeno demais (deve conter pelo menos 10 dígitos)."
+            barcode_id: 
+              invalid: "Este cartão de família (código de barras) contém letras ou símbolos (somente números são permitidos)."
+              taken: "Este cartão de família (código de barras) já está em uso por outra família."
+              too_long: "Este cartão de família (código de barras) é grande demais (não pode conter mais do que 50 dígitos)."
+              too_short: "Este cartão de família (código de barras) é pequeno demais (deve conter pelo menos 10 dígitos)."
+        feed: 
+          attributes: 
+            name: 
+              blank: O feed deve conter um nome.
+              taken: "Já existe um outro feed com esse nome. Por favor escolha outro nome."
+            person_id: 
+              blank: O feed deve estar associado a uma pessoa.
+            url: 
+              blank: Uma URL deve ser especificada para o feed.
+              invalid: "Esta URL não parece estar no formato correto. Você digitou o endereço corretamente? Tente colar o endereço ao invés de digitar."
+              taken: "Este feed já existe. Você não pode adicioná-lo novamente."
+        friendship: 
+          attributes: 
+            friend_id: 
+              blank: Este registro de amizade deve estar associado com uma pessoa.
+              taken: "Este registro de amizade já existe."
+            person_id: 
+              blank: Este registro de amizade deve estar associado com uma pessoa.
+        friendship_request: 
+          attributes: 
+            from_id: 
+              blank: Este registro de amizade deve estar associado com uma pessoa.
+            person: 
+              invalid_address: "A pessoa deve conter um endereço de email válido."
+              refused: "Esta pessoa não está   The person does not accept friend requests."
+            person_id: 
+              blank: Este registro de amizade deve estar associado com uma pessoa.
+              taken: "Este registro de amizade já existe."
+        group: 
+          attributes: 
+            address: 
+              invalid: "O endereço do grupo não é um email válido."
+              taken: "Já existe um outro grupo com esse email. Por favor escolha outro endereço."
+              too_long: "O email do grupo é muito grande."
+              too_short: "O email do grupo é muito pequeno."
+            category: 
+              blank: O grupo deve conter uma categoria.
+            name: 
+              blank: O grupo deve ter um nome.
+              taken: "Já existe um grupo com este nome. Por favor escolha outro nome."
+            parents_of: 
+              points_to_self: "Este grupo não pode apontar para ele mesmo."
+        membership: 
+          attributes: 
+            group_id: 
+              taken: "Esta pessoa já é um membro deste grupo."
+        membership_request: 
+          attributes: 
+            group_id: 
+              taken: "Esta pessoa já fez a solicitação para ser membro deste grupo."
+        message: 
+          attributes: 
+            body: 
+              blank: A mensagem deve conter um corpo.
+              too_short: "O corpo da mensagem é curto demais."
+            person_id: 
+              blank: Esta mensagem deve ser associada com uma pessoa.
+            subject: 
+              blank: A mensagem deve conter um assunto.
+              too_short: "O assunto da mensagem é curto demais."
+            to_person_id: 
+              invalid: "O destinatário desta mensagem não possui um endereço de email. A mensagem não pode ser enviada."
+        note: 
+          attributes: 
+            body: 
+              blank: "A nota está em branco."
+        page: 
+          attributes: 
+            body: 
+              blank: "A página deve conter um corpo."
+            path: 
+              taken: "Já existe uma outra página nesse mesmo caminho."
+            slug: 
+              blank: "A página deve conter um marcador."
+              exclusion: O marcador da página não pode ser "admin", "edit" ou "new"
+              invalid: "O marcador da página somente pode conter letras minúsculas e sublinhado."
+            title: 
+              blank: "A página deve conter um título."
+        person: 
+          attributes: 
+            alternate_email: 
+              invalid: "O endereço de email alternativo não está no formato correto (algumacoisa@exemplo.com.br)."
+              taken: "Já existe outra pessoa com o mesmo endereço de email alternativo."
+            business_email: 
+              invalid: "O endereço de email comercial não está no formato correto (algumacoisa@exemplo.com.br)."
+            business_website: 
+              invalid: "O endereço do website comercial não está no formato correto (talvez esteja faltando 'http://' no começo?)"
+            child: 
+              blank: "O campo 'criança' deve conter 'Sim' ou 'Não' porque a data de nascimento não está especificada."
+              cannot_be_no: "O campo 'criança' não pode ser 'Não' porque pela data de nascimento indicada a pessoa é menor de 13 anos."
+              cannot_be_yes: "O campo 'criança' não pode ser 'Sim' porque pela data de nascimento indicada a pessoa contém 13 anos ou mais."
+            email: 
+              invalid: "O endereço de email não está formatado corretamente (algumacoisa@exemplo.com.br)."
+              taken: "Existe outra pessoa com o mesmo endereço de email."
+            feed_code: 
+              taken: "O mesmo código de feed já existe para outra pessoa."
+            first_name: 
+              blank: A pessoa deve conter um primeiro nome.
+            gender: 
+              inclusion: "Gênero deve ser 'Masculino' ou 'Feminino'."
+            last_name: 
+              blank: A pessoa deve conter um sobrenome.
+            password: 
+              confirmation: "As senhas digitadas não são iguais."
+              too_short: "A senha é curta demais."
+            website: 
+              invalid: "O endereço do site não está formatado corretamente (talvez esteja faltando 'http://' no começo?)"
+        picture: 
+          attributes: 
+            album_id: 
+              blank: "Esta foto deve estar associada com um álbum."
+        prayer_request: 
+          attributes: 
+            group_id: 
+              blank: "O pedido de oração deve estar associado com um grupo."
+            person_id: 
+              blank: "O pedido de oração deve estar associado com uma pessoa."
+            request: 
+              blank: "O pedido de oração não pode estar em branco."
+        publication: 
+          attributes: 
+            name: 
+              blank: "A publicação precisa ter um nome."
+              taken: "Já existe uma outra publicação com este nome. Por favor escolha outro."
+        recipe: 
+          attributes: 
+            directions: 
+              blank: "A receita deve conter as instruções de preparo."
+            ingredients: 
+              blank: A receita deve conter os ingredientes.
+            title: 
+              blank: "A receita deve conter um título."
+        relationship: 
+          attributes: 
+            name: 
+              blank: "Você deve especificar um tipo de relacionamento."
+              inclusion: "Este relacionamento não é válido."
+              taken: "Este relacionamento já existe."
+            other_name: 
+              blank: "Você deve especificar um tipo de relacionamento."
+              taken: "Este relacionamento já existe."
+            person_id: 
+              blank: Este relacionamento deve estar associado com uma pessoa.
+            related_id: 
+              blank: Este relacionamento deve estar associado com uma pessoa.
+        remote_account: 
+          attributes: 
+            account_type: 
+              blank: O tipo de conta deve ser especificado.
+              inclusion: "O tipo de conta é inválido."
+              taken: "Esta conta remota já existe."
+            token: 
+              blank: A conta remota deve conter um token.
+            username: 
+              blank: "A conta remota deve conter um nome de usuário."
+        report: 
+          attributes: 
+            definition: 
+              invalid: A definição do relatório é inválida.
+            name: 
+              blank: O relatório deve ter um nome.
+              taken: Já existe um outro relatório com este nome. Por favor escolha outro nome.
+        site: 
+          attributes: 
+            host: 
+              blank: O nome do servidor deve ser especificado.
+              exclusion: "O nome do servidor é inválido."
+              taken: "Já existe um outro site com o mesmo nome de servidor."
+            name: 
+              blank: O site deve conter um nome.
+              taken: "Já existe um outro site com o mesmo nome."
+        tag: 
+          attributes: 
+            name: 
+              blank: A tag deve conter um nome.
+              exclusion: "O nome da tag é inválido."
+              taken: "Já existe outra tag com o mesmo nome."
+        verse: 
+          attributes: 
+            reference: 
+              blank: "O versículo deve conter uma referência."
+            text: 
+              blank: "A passagem está em branco. Você digitou a referência corretamente?"
+              too_long: "A passagen é grande demais. Tente especificar uma passagem mais curta."
+      template: 
+        body: "Por favor corriga os seguintes problemas:"
+        header: 
+          one: "Houve um erro ao salvar as mudanças."
+          other: "Existem {{count}} erros ao salvar as mudanças."
 
   friends: 
     add_friend: Adicionar Amigo
-    confirm_email_will_be_sent: Você tem certeza? Um email será enviado a essa pessoa com o convite de amizade.
+    confirm_email_will_be_sent: "Você tem certeza? Um email será enviado a essa pessoa com o convite de amizade."
     friends: Amigos
-    pending_friend_requests: "Você tem <a href=\"{{url}}\">pedidos de amizade</a>."
+    pending_friend_requests: Você tem <a href="{{url}}">pedidos de amizade</a>.
+
+  groups:
+    view_group: Visualizar Grupo
 
   messages: 
     messages: Mensagens
 
   nav: 
-    bible: Bíblia
-    directory: Diretório
+    bible: "Bíblia"
+    directory: "Diretório"
     groups: Grupos
-    home: Início
-    pages: Páginas
+    home: "Início"
+    pages: "Páginas"
     profile: Perfil
 
   news: 
-    all_news: Todas as Notícias
+    all_news: "Todas as Notícias"
     body_description: "Compartilhe os seus anúncios, informações ou notícias aqui:"
-    news: Notícias
-    news_with_advanced_formatting: "Ou, compartilhe <a href=\"{{url}}\">notícias com formatação avancada...</a>"
-    submit_news: Enviar Notícias
+    news: "Notícias"
+    news_with_advanced_formatting: Ou, compartilhe <a href="{{url}}">notícias com formatação avancada...</a>
+    submit_news: "Enviar Notícias"
     title_description: "Dê um título conciso para a sua postagem:"
 
   notes: 
     note: Nota
     notes: Notas
     share_note: Compartilhar nota
-    share_note_description: O que você está fazendo? · O que passa na sua mente?
+    share_note_description: "O que você está fazendo? O que passa na sua mente?"
 
   people_count: 
     one: 1 pessoa
     other: "{{count}} pessoas"
+    is: pessoa está
+    are: pessoas estão
 
   pictures: 
     add_a_picture: Adicione uma Foto
     album: Álbum
     all_pictures: Todas as Fotos
-    enter_the_new_album_title: Digite o título do novo álbum.
+    enter_the_new_album_title: "Digite o título do novo álbum."
     picture: Foto
     pictures: Fotos
     upload: Carregar!
@@ -58,9 +296,9 @@ pt:
 
   prayer: 
     prayer: Oração
-    prayer_requests: Pedidos de Oração
+    prayer_requests: "Pedidos de Oração"
     request: Pedido
-    save_prayer_request: Salvar Pedido de Oração
+    save_prayer_request: "Salvar Pedido de Oração"
 
   profile: 
     fax: fax
@@ -72,94 +310,198 @@ pt:
     add_publication: Adicionar Publicação
     all_publications: Todas as Publicações
     new_publication: Nova Publicação
+    save_publication: Salvar Publicação
     publications: Publicações
+    feed: Feed de Publicações
+    add_publication: Adicionar Publicação
+    subscribe: Subscrever
+    subscribe_feed: <a href="{{url}}">Subscrever</a> à essa Publicação com o seu leitor de feeds.
+    update_notifications: Atualizar Notificações
+    email_notifications: Notificações por Email
+    currently_signed_up: Você está registrado para receber notificações por email quando novas publicações forem disponibilizadas aqui.
+    to_stop_receiving_notifications: para parar de receber estas notificações.
+    start_receiving_notifications: Se você deseja receber notificações por email quando novas publicações forem disponibilizadas aqui nesta página,
+    signed_to_recieve: registrada para receber notificações
+    no_publications_available: Não existem publicações disponíveis.
+    notify_no_one: Não notificar ninguém
+    notify_the_group: Notificar o grupo {{group}}
+    name: Nome
+    description: Descrições
+    file: Arquivo
+    files_with_acrobat_icon: Para arquivos com o ícone Acrobat {{img}}, você irá precisar {{url}} (conhecido como "Acrobat Reader") ou outro programa compatível com a visualização de arquivos PDF.
+    saved: Publicação foi gravada.
+    deleted: Publicação foi deletada.
+    new_publication_available: Nova Publicação Disponível
+    inform_publication_available: Este é para informar você que uma nova publicação foi adicionada ao {{site}}.
+    you_must_select_file: Você deve selecionar um arquivo.
 
   recipes: 
     about_this_recipe: sobre essa receita.
     add_a_recipe: Adicionar uma receita
     all_recipes: Todas as Receitas
     bake_time: Tempo para assar
-    confirm_delete: Você tem certeza que deseja deletar essa receita?
+    confirm_delete: "Você tem certeza que deseja deletar essa receita?"
     delete_recipe: Deletar Receita
     description: Descrição
-    directions: Direções
+    directions: Instruções
     edit_recipe: Editar Receita
     ingredients: Ingredientes
     new_recipe: Nova Receita
-    no_recipes_yet: Ainda não existe nenhuma receita!
+    no_recipes_yet: "Ainda não existe nenhuma receita!"
     no_results: Nenhum resultado
     other_notes: Outras notas
     prep_cook_time: Preparo/Tempo de cozimento
     recipes: Receitas
     save_recipe: Salvar Receita
-    serving_size: Tamanaho da porção
-    share_your_recipes: "Compartilhe as suas receitas favoritas com {{community}}."
-    title: Título
+    serving_size: "Tamanaho da porção"
+    share_your_recipes: Compartilhe as suas receitas favoritas com {{community}}.
+    title: "Título"
+    saved: Receita gravada.
+    deleted: Receita deletada.
+
+  relationships: 
+    Reciprocate: Reciprocidade
+    add_a_relationship: "Adicionar um relacionamento:"
+    add_relationship_button: Ad. Relacionamento
+    cannot_be_reciprocated: "Um relacionamento recíproco com {{name}} não pode ser criado automaticamente."
+    create_family_relationships: Criar Relacionamentos Familiares
+    create_family_relationships_description: "Você pode gerar relacionamentos para a família abaixo."
+    family: Relacionamentos Familiares
+    inward: "Relacionamentos Domésticos"
+    names: 
+      aunt: Tia
+      brother: Irmão
+      brother_in_law: Cunhado
+      cousin: Primo(a)
+      daughter: Irmã
+      daughter_in_law: Nora
+      father: Pai
+      father_in_law: Sogro
+      granddaughter: Neta
+      grandfather: Avô
+      grandmother: Avó
+      grandson: Neto
+      husband: Marido
+      mother: Mãe
+      mother_in_law: Sogra
+      nephew: Sobrinho
+      niece: Sobrinha
+      other: Outro
+      sister: Irmã
+      sister_in_law: Cunhada
+      son: Filho
+      son_in_law: Genro
+      stepbrother: Meio Irmão
+      stepdaughter: Meia irmã
+      stepfather: Padrasto
+      stepmother: Madrasta
+      stepsister: Meia Irmã
+      stepson: Enteado
+      uncle: Tio
+      wife: Esposa
+    outward: Relacionamentos Externos
+    relationship: Relacionamento
+    relationship_type: "Tipo:"
+    relationships: Relacionamentos
+    toggle_individual: "Alternar para a Visualização Individual de Relacionamento"
 
   remote_accounts: 
-    confirm_sync: Você tem certeza? This operation *will* make changes to the account.
-    edit_account: Edit Account
-    get_token_sign_in: "To get the 'token' for your <a href=\"http://highrisehq.com\">Highrise</a> account, sign in and click the 'My Info' link in the top-right of the screen:"
-    new_account: New Account
-    no_remote_accounts: "Você não tem nenhuma <a href=\"{{url}}\">Remote Accounts</a>."
-    remote_accounts: Remote Accounts
-    reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
-    save_account: Save Account
+    confirm_sync: "Você tem certeza? Esta operação *irá* fazer mudanças na sua conta."
+    edit_account: Editar Conta
+    get_token_sign_in: "Para obter o 'token' para a sua conta no <a href=\"http://highrisehq.com\">Highrise</a>, faça o login e clique no link 'My Info' no canto superior direito da tela:"
+    new_account: Nova Conta
+    no_remote_accounts: Você não tem nenhuma <a href="{{url}}">Conta Remota</a>.
+    remote_accounts: Contas Remotas
+    reveal_token: "Na seguinte tela, clique no link  'Reveal authentication token':"
+    save_account: Salvar Contas
     sync: Sincronizar
-    synced_contacts: Synced Contacts
-    token_key: Token/Key
-    username: Username
-    view_profile: View Profile
+    synced_contacts: Contatos Sincronizados
+    token_key: Token/Chave
+    username: "Nome de Usuário"
+    view_profile: Visualizar Perfil
+
+  reporting: 
+    Admins: Admins
+    Creator: Autor
+    Criteria: Critério
+    Last_Run: Última execução
+    Name: Nome
+    Reports: Relatórios
+    Source: Origem
+    Total_Runs: Execuções totais
+    add_criteria: Adicionar critério
+    edit_report: Editar Relatório
+    error_running_report: Houve um erro ao executar este relatório.
+    greater_than: maior que
+    greater_than_or_equal: maior ou igual que
+    is_exactly: é exatamente
+    is_nil: é nulo
+    is_not: não é
+    is_not_nil: não é nulo
+    less_than: menor que
+    less_than_or_equal: menor ou igual que
+    matches_case_insensitive: igual (maiúsculas e minúsculas)
+    matches_case_sensitive: igual
+    new_report: Novo Relatório
+    not_one_of: não é um dos
+    one_of: um dos
+    remove_criteria: Remover Critério
+    report_database_offline: A base de relatórios está offline, então nenhum relatório pode ser executado. Por favor contate o seu administrator.
+    restricted: Restrito
+    restricted_note: Todos os admins com o privilégio de 'executar relatórios' poderão executar este relatório.
+    save_and_continue_editing: Salvar e Continuar Editando
 
   search: 
-    add_as_many_friends_you_like: "Você pode adicionar quantos amigos você preferir! Quando você tiver terminado, você pode editar a sua <a href=\"{{url}}\">lista de amigos</a> para remover e colocá-los na ordem que você quiser."
-    advanced_search: Busca Avançada
+    add_as_many_friends_you_like: Você pode adicionar quantos amigos você preferir! Quando você tiver terminado, você pode editar a sua <a href="{{url}}">lista de amigos</a> para remover e colocá-los na ordem que você quiser.
+    add_selected: Adicionar Selecionado
+    advanced_search: "Busca Avançada"
     all: Todos
-    anniversary: Aniversário de Casamento
+    anniversary: "Aniversário de Casamento"
     birthday: Data de Nascimento
     browse: Procurar
-    browse_directory_description: "Claro, você também pode <a href=\"{{url}}\">pesquisar no diretório</a> por nome."
-    browse_the_directory: pesquisar no diretório
-    business: Negócios
+    browse_directory_description: Claro, você também pode <a href="{{url}}">pesquisar no diretório</a> por nome.
+    browse_the_directory: "pesquisar no diretório"
+    business: "Negócios"
     business_category: "Categoria de Negócios:"
-    business_directory: Diretório de Negócios
-    business_directory_description: "Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito. A próxima vez que você precisar das páginas amarelas, tente o <a href=\"{{url}}\">diretório de negócios</a> primeiro."
-    businesses: Negícios
+    business_directory: "Diretório de Negócios"
+    business_directory_description: Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito. A próxima vez que você precisar das páginas amarelas, tente o <a href="{{url}}">diretório de negócios</a> primeiro.
+    businesses: "Negícios"
     category: Categoria
     city: Cidade
     click_the_icon_to_add_them: "Clique no {{img}} ícone para adicioná-los."
-    deacon: Diácono
+    deacon: "Diácono"
     elder: Elder
     families_found: 
-      one: 1 família encontrado
-      other: "{{count}} famílias encontrado"
-    family_name: Nome da Família
+      one: "1 família encontrada"
+      other: "{{count}} famílias encontradas"
+    family_name: "Nome da Família"
     female: Feminino
-    find_someone_quickly: "Você sempre pode encontrar alguém rapidamente digitando parte ou o nome completo da pessoa no <a href=\"#\" onclick=\"{{js}};return false;\">canto superior direito</a> da tela."
+    find_someone_quickly: "Você sempre pode encontrar alguém rapidamente digitando parte ou o nome completo da pessoa no <a href="#" onclick="{{js}};return false;">canto superior direito</a> da tela."
     find_your_friends: Encontre seus amigos
-    friends_search: Use os <strong>campos à esquerda</strong> para procurar os seus amigos.
-    gender: Gênero
+    friends_search: "Use os <strong>campos à esquerda</strong> para procurar os seus amigos."
+    gender: "Gênero"
     hidden_profile: Perfil Oculto
     male: Masculino
     member: Membro
     name: Nome
-    new_family: Nova Família
-    no_family: (não possui família)
-    not_showing_hidden_people: (não está mostrando pessoas ocultas)
+    new_family: "Nova Família"
+    no_family: "(não possui família)"
+    not_showing_hidden_people: "(não está mostrando pessoas ocultas)"
     people_found: 
-      one: 1 pessoa encontrado
-      other: "{{count}} pessoas encontrado"
+      one: 1 pessoa encontrada
+      other: "{{count}} pessoas encontradas"
     print: Imprimir
-    printed_directory: Diretório Impresso
-    printed_directory_description: "O diretório está sendo alterado constantemente. Enquanto encontrar alguém online é geralmente o melhor, você também pode <a href=\"{{url}}\">imprimir o diretório</a> para aqueles momentos 'offline'."
+    printed_directory: "Diretório Impresso"
+    printed_directory_description: O diretório está sendo alterado constantemente. Enquanto encontrar alguém online é geralmente o melhor, você também pode <a href="{{url}}">imprimir o diretório</a> para aqueles momentos 'offline'.
     search: Busca
-    search_the_directory: Procure no Diretório
+    search_by_name: "Busca por nome:"
+    search_the_directory: "Procure no Diretório"
     searching: Procurando...
     show_all: (mostrar todos)
     show_hidden: Mostrar ocultos
-    staff: Staff
+    staff: Equipe
     state: Estado
-    use_advanced_search: "Ou, use a <a href=\"#\" onclick=\"{{js}};return false;\">busca avançada</a> característica para mudar os resultados interativamente."
+    use_advanced_search: "Ou, use a <a href="#" onclick="{{js}};return false;">busca avançada</a> para mudar os resultados interativamente."
     zip: CEP
 
   session: 
@@ -167,66 +509,66 @@ pt:
     email_address: "Endereço de Email:"
     help_signing_in: Ajuda para acessar
     i_need_help: Eu preciso de ajuda.
-    load_sample_data: "Como uma alternativa, você pode carregar o OneBody com alguns dados de exemplo executando o coamndo:"
-    never_share_your_password: Nunca compartilhe a sua senha com ninguém!
+    load_sample_data: "Como uma alternativa, você pode carregar o OneBody com alguns dados de exemplo executando o comando:"
+    never_share_your_password: "Nunca compartilhe a sua senha com ninguém!"
     no_users: Não há usuários
     password: "Senha:"
     please_sign_in: Por favor acesse o sistema.
     sign_in: Acessar
     sign_up_or_sign_in: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"
-    there_are_no_users_in_the_system: Não há usuários no sistema.
-    you_may_read_our_privacy_policy_here: "Você pode ler a nossa Política de Privacidade <a href=\"{{url}}\">aqui</a>."
+    there_are_no_users_in_the_system: "Não há usuários no sistema."
+    you_may_read_our_privacy_policy_here: Você pode ler a nossa Política de Privacidade <a href="{{url}}">aqui</a>.
 
   stream: 
     blog: Blog
-    create_blog_post: "Ou, criar uma <a href=\"{{url}}\">postatem no blog</a> com um título e formatação..."
+    create_blog_post: Ou, criar uma <a href="{{url}}">postatem no blog</a> com um título e formatação...
     facebook: Facebook
     feed: Feed
     flickr: Flickr
     import_blog_feed: Importar os feeds RSS ou Atom do seu Blog...
-    import_facebook_updates: Importar as suas atualizações do Facebook...
+    import_facebook_updates: "Importar as suas atualizações do Facebook..."
     import_flickr_photos: Importar as suas fotos do Flickr...
     import_from: Importar de...
-    import_twitter_updates: Importar as suas atualizações do Twitter...
+    import_twitter_updates: "Importar as suas atualizações do Twitter..."
     more: Mais
     my_activity: Minha Atividade
     share_something: Compartilhe Algo
-    share_something_here: "Você deveria <a href=\"#\" onclick=\"{{js}};return false;\">compartilhar algo aqui</a>."
+    share_something_here: "Você deveria <a href="#" onclick="{{js}};return false;">compartilhar algo aqui</a>."
     show: Mostrar
     twitter: Twitter
 
   tags: 
-    add_tags: Adicionar Tags (separadas por espaços)
-    confirm_delete: Você tem certeza que deseja deletar essa tag?
+    add_tags: "Adicionar Tags (separadas por espaços)"
+    confirm_delete: "Você tem certeza que deseja deletar essa tag?"
     no_tags_yet: nenhuma tag ainda
     tag: Tag
     tags: Tags
 
   verses: 
-    about_this_verse: sobre esse versículo. Compartilhe o que ele significa para você, como te ajudou ou simplesmente porque você gosta.
-    add_a_verse: Adicionar um Versículo
-    add_this_verse_to_my_list: Adicionar esse versículo à minha lista.
-    add_verse: Adicionar Versículo
-    all_verses: Todos os Versículos
-    disclaimer: Trechos das escrituras marcados como 'WEB' são obtidos da World English Bible, uma tradução moderna em inglês da American Standard Version da Bíblia Sagrada. WEB está sob domínio público. Cópias e publicações são livres.
+    about_this_verse: "sobre esse versículo. Compartilhe o que ele significa para você, como te ajudou ou simplesmente porque você gosta."
+    add_a_verse: "Adicionar um Versículo"
+    add_this_verse_to_my_list: "Adicionar esse versículo à minha lista."
+    add_verse: "Adicionar Versículo"
+    all_verses: "Todos os Versículos"
+    disclaimer: "Trechos das escrituras marcados como 'WEB' são obtidos da World English Bible, uma tradução moderna em inglês da American Standard Version da Bíblia Sagrada. WEB está sob domínio público. Cópias e publicações são livres."
     intro: "Compartilhe os seus versículos bíblicos favoritos com {{community}}."
-    no_verses_yet: Nenhum versículo ainda!
-    people_who_like_this_verse: Pessoas que gostam desse versículo
-    read_this_passage_at_youversion: Leia essa passagem no YouVersion...
-    remove_this_verse: Remover esse versículo da minha lista.
+    no_verses_yet: "Nenhum versículo ainda!"
+    people_who_like_this_verse: "Pessoas que gostam desse versículo"
+    read_this_passage_at_youversion: Leia essa passagem no site YouVersion...
+    remove_this_verse: "Remover esse versículo da minha lista."
     tools: Ferramentas
     type_a_reference_below_and_hit_enter: "Digite uma referência (ex. João 3:16, Mateus 5:3-11) abaixo e pressione enter:"
-    verse: Versículo
-    verses: Versículos
+    verse: "Versículo"
+    verses: "Versículos"
 
   wall: 
-    description: A parede de recados é um lugar para pessoas postarem mensagens amigáveis para você e outros visualizarem.
+    description: "A parede de recados é um lugar para pessoas postarem mensagens amigáveis para você e outros visualizarem."
     newest_messages_appear_first: mensagens mais novas aparecem primeiro
-    no_messages_yet: Ainda não existe nenhuma mensagem!
+    no_messages_yet: "Ainda não existe nenhuma mensagem!"
     post_a_message: Envie uma mensagem.
-    respect_privacy: Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poderá causar o banimento do site.
+    respect_privacy: "Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poderá causar o banimento do site."
     save_message: Salvar Mensagem
-    to_send_a_private_message: "Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href=\"{{url}}\">clique aqui</a>."
-    view_all_wall_messages: Visualizar todas as mensagensView all wall messages...
-    wall: Parede
+    to_send_a_private_message: Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href="{{url}}">clique aqui</a>.
+    view_all_wall_messages: Visualizar todas as mensagens...
+    wall: Parede de Recados
     wall_to_wall: Parede de Recados
