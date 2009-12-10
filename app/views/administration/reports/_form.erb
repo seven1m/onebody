@@ -26,7 +26,8 @@
   <fieldset>
     <legend><%= I18n.t('reporting.Criteria') %></legend>
     <table id="criteria">
-      <%= render :partial => "#{@report.definition['collection']}_selector", :collection => @report.selector_for_form %>
+      <tr><td rowspan="<%= @conditions.length + 1 %>" class="criteria-joiner"><span>AND&nbsp;</span></td></tr>
+      <%= render :partial => "#{@report.definition['collection']}_selector", :collection => @conditions %>
     </table>
     <p><%= link_to_function image_tag('plus.png', :class => 'icon') + ' ' + I18n.t('reporting.add_criteria'), "add_criteria()" %></p>
   </fieldset>

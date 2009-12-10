@@ -33,6 +33,7 @@ class Administration::ReportsController < ApplicationController
   
   def new
     @report = Report.new(Report::DEFAULT_DEFINITION)
+    @conditions = @report.selector_for_form
     @admins = Admin.all_for_presentation
   end
   
@@ -43,6 +44,7 @@ class Administration::ReportsController < ApplicationController
     if @report.save
       redirect_to params[:continue_editing] ? edit_administration_report_path(@report) : administration_report_path(@report)
     else
+      @conditions = @report.selector_for_form
       @admins = Admin.all_for_presentation
       render :action => 'new'
     end
@@ -50,6 +52,7 @@ class Administration::ReportsController < ApplicationController
   
   def edit
     @report = Report.find(params[:id])
+    @conditions = @report.selector_for_form
     @admins = Admin.all_for_presentation
   end
   
@@ -58,6 +61,7 @@ class Administration::ReportsController < ApplicationController
     if @report.update_attributes(params[:report])
       redirect_to params[:continue_editing] ? edit_administration_report_path(@report) : administration_report_path(@report)
     else
+      @conditions = @report.selector_for_form
       @admins = Admin.all_for_presentation
       render :action => 'edit'
     end

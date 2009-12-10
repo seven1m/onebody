@@ -599,3 +599,14 @@ tr.subsection td,
 tr.subsection th {
   background-color: #eee;
 }
+
+.criteria-joiner {
+  background-color: #ccc;
+  vertical-align: middle;
+  padding: 5px;
+}
+
+.criteria-joiner span {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+}
