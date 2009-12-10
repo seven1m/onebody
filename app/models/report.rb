@@ -77,31 +77,39 @@ class Report < ActiveRecord::Base
   
   def selector_for_form
     definition['selector'].sort.inject([]) do |array, item|
-      field, value = item
-      if value.is_a?(Hash)
-        array += value.sort.map do |v|
-          if v[1].is_a?(Array)
-            [field, v[0], v[1].join('|')]
-          elsif v[0] == '$ne' and v[1] == nil
-            [field, '$nnil']
-          else
-            [field, v[0], v[1]]
-          end
-        end
-      else
-        if value.is_a?(Regexp)
-          if value.options & Regexp::IGNORECASE > 0
-            array << [field, '=~i', value.source]
-          else
-            array << [field, '=~', value.source]
-          end
-        elsif value == nil
-          array << [field, '$nil']
-        else
-          array << [field, '=', value]
-        end
-      end
+      array += condition_for_form(*item)
       array
+    end
+  end
+  
+  def condition_for_form(field, value)
+    if ['$or', '$and'].include?(field)
+      value = value.sort.inject([]) do |array, item|
+        array += condition_for_form(*item)
+      end
+      [[field, value]]
+    elsif value.is_a?(Hash)
+      value.sort.map { |v| complex_condition_for_form(field, *v) }
+    elsif value.is_a?(Regexp)
+      if value.options & Regexp::IGNORECASE > 0
+        [[field, '=~i', value.source]]
+      else
+        [[field, '=~', value.source]]
+      end
+    elsif value == nil
+      [[field, '$nil']]
+    else
+      [[field, '=', value]]
+    end
+  end
+  
+  def complex_condition_for_form(field, operator, value)
+    if value.is_a?(Array)
+      [field, operator, value.join('|')]
+    elsif operator == '$ne' and value == nil
+      [field, '$nnil']
+    else
+      [field, operator, value]
     end
   end
   

@@ -88,6 +88,15 @@ class ReportTest < ActiveSupport::TestCase
       @report.definition['selector'] = {'gender' => /male/i}
       assert_equal [['gender', '=~i', 'male']], @report.selector_for_form
     end
+    
+    should "convert $or and $and" do
+      @report.definition['selector'] = {'$or' => {'gender' => 'Female', 'child' => true}}
+      assert_equal [['$or', [['child', '=', true], ['gender', '=', 'Female']]]], @report.selector_for_form
+      @report.definition['selector'] = {'$or' => {'gender' => 'Female', '$and' => {'gender' => 'Male', 'child' => true}}}
+      assert_equal [['$or', [['$and', [['child', '=', true], ['gender', '=', 'Male']]], ['gender', '=', 'Female']]]], @report.selector_for_form
+      @report.definition['selector'] = {'gender' => 'Female', '$or' => {'gender' => 'Male', 'child' => true}}
+      assert_equal [['$or', [['child', '=', true], ['gender', '=', 'Male']]], ['gender', '=', 'Female']], @report.selector_for_form, @report.selector_for_form
+    end
   
   end
   
