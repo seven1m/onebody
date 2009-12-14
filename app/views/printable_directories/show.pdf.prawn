@@ -14,12 +14,12 @@ pdf.text "Created especially for #{@logged_in.name} on #{Date.today.strftime '%B
 # directory pages
 pdf.start_new_page
 
-pdf.header([pdf.bounds.left, pdf.bounds.top], :height => 200) do
-  pdf.text "#{Setting.get(:name, :community)} Directory\n", :size => 24
-  pdf.move_down 5
-  pdf.horizontal_rule
-  pdf.stroke_line(0, 0, 0, 0) # FIXME: this is needed in order for horizontal_rule to work -- don't know why
-end
+# pdf.header(pdf.bounds.top_left, :height => 200) do
+#   pdf.text "#{Setting.get(:name, :community)} Directory\n", :size => 24
+#   pdf.move_down 5
+#   pdf.horizontal_rule
+#   pdf.stroke_line(0, 0, 0, 0) # FIXME: this is needed in order for horizontal_rule to work -- don't know why
+# end
 
 alpha = nil
 
@@ -28,10 +28,12 @@ pdf.column_box [pdf.bounds.left, 670], :width => pdf.bounds.width, :columns => 2
     next unless family.mapable? or family.home_phone.to_i > 0
     pdf.bounds.move_past_bottom if pdf.y < 130
     if family.last_name[0..0] != alpha
-  pdf.move_down 150 if pdf.y < 150
+      pdf.move_down 150 if pdf.y < 150
       alpha = family.last_name[0..0]
       pdf.text alpha + "\n", :size => 25
-      pdf.horizontal_line pdf.bounds.left, pdf.bounds.left+pdf.bounds.width
+      pdf.stroke do
+        pdf.horizontal_line pdf.left_side, pdf.bounds.left_side+pdf.bounds.width
+      end
       pdf.move_down 20
     end
     if family.has_photo?
