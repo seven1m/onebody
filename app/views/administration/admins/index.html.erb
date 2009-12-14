@@ -67,7 +67,7 @@
       <% end %>
       <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
       <% if admin.template_name %>
-        <% admin.people.each do |person| %>
+        <% admin.people.all(:order => 'last_name, first_name').each do |person| %>
           <br/>
           <%= link_to h(person.name), person %>
           <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
