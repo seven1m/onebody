@@ -9,6 +9,7 @@ class StreamsController < ApplicationController
     @has_friendship_requests = @logged_in.pending_friendship_requests.count > 0
     respond_to do |format|
       format.html
+      format.iphone
       format.xml { render :layout => false }
     end
   end

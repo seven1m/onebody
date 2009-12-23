@@ -1,31 +1,32 @@
 <%= javascript_include_tag 'rsa.min.js' %>
 
+<%= render_page_content 'system/sign_in_header' %>
+
+<h2><%= I18n.t('session.please_sign_in') %></h2>
+
+<div style="width:150px;float:right;margin:10px;text-align:center;">
+  <%= link_to image_tag('help.gif', :alt => I18n.t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
+  <%= link_to I18n.t('session.i_need_help'), help_path %>
+</div>
+
 <script type="text/javascript">
   function encrypt_password() {
     var rsa = new RSAKey();
     rsa.setPublic('<%= @public_modulus %>', '<%= @public_exponent %>');
-    var res = rsa.encrypt($('password').value);
+    var res = rsa.encrypt(document.getElementById('password').value);
     if (res) {
       encrypted = linebrk(hex2b64(res), 64);
-      $('encrypted_password').setAttribute('value', encrypted);
-      $('password').setAttribute('value', '');
+      document.getElementById('encrypted_password').setAttribute('value', encrypted);
+      document.getElementById('password').setAttribute('value', '');
       return true;
     }
     return false;
   }
 </script>
 
-<%= render_page_content 'system/sign_in_header' %>
-
-<h2><%= I18n.t('session.please_sign_in') %></h2>
-
 <form method="post" action="/session" onsubmit="return encrypt_password()">
   <%= hidden_field_tag :from, params[:from] %>
   <%= hidden_field_tag :encrypted_password %>
-  <div style="width:150px;float:right;margin:10px;text-align:center;">
-    <%= link_to image_tag('help.gif', :alt => I18n.t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
-    <%= link_to I18n.t('session.i_need_help'), help_path %>
-  </div>
   
   <p><%= I18n.t('session.sign_up_or_sign_in', :url => new_account_path) %></p>
   
@@ -41,13 +42,10 @@
     <tr>
       <td></td>
       <td>
-        <strong class="very-strong"><%= I18n.t('session.never_share_your_password') %></strong><br/>
         <input type="submit" value="<%= I18n.t('session.sign_in') %>"/><br/>
-        <br/>
-        <strong><%= I18n.t("session.you_may_read_our_privacy_policy_here", :url => help_path('privacy_policy')) %></strong>
       </td>
     </tr>
   </table>
 </form>
 
-<script type="text/javascript"> $('<%= params[:email].to_s.any? ? 'password' : 'email' %>').focus(); </script>
+<script type="text/javascript"> document.getElementById('<%= params[:email].to_s.any? ? 'password' : 'email' %>').focus(); </script>

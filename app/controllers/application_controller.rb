@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :get_site
   before_filter :feature_enabled?
   before_filter :authenticate_user
+  before_filter :detect_mobile
   
   private
     def get_site
@@ -147,6 +148,18 @@ class ApplicationController < ActionController::Base
         end
       else
         false
+      end
+    end
+    
+    def iphone?
+      session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/)
+    end
+    
+    def detect_mobile
+      session[:iphone] = params[:iphone] == 'true' if params[:iphone]
+      if iphone?
+        request.format = :iphone
+        self.class.layout 'iphone.html'
       end
     end
     
