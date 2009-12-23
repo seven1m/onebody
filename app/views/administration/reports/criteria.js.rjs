@@ -1,1 +1,1 @@
-page.insert_html :bottom, 'criteria', :partial => "#{params[:collection]}_selector", :object => @object
+page.insert_html :bottom, @parent_id, :partial => "#{params[:collection]}_selector", :object => @object

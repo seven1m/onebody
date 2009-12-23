@@ -75,6 +75,7 @@ class Administration::ReportsController < ApplicationController
   
   def criteria
     @object = ['', '=', '']
+    @parent_id = params[:parent_id] || 'criteria'
   end
   
   private
