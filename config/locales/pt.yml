@@ -528,7 +528,7 @@ pt:
     business_category: "Categoria de Negócios:"
     business_directory: "Diretório de Negócios"
     business_directory_description: Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito. A próxima vez que você precisar das páginas amarelas, tente o <a href="{{url}}">diretório de negócios</a> primeiro.
-    businesses: "Negóprcios"
+    businesses: "Negócios"
     category: Categoria
     city: Cidade
     click_the_icon_to_add_them: "Clique no {{img}} ícone para adicioná-los."
@@ -634,4 +634,4 @@ pt:
     to_send_a_private_message: Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href="{{url}}">clique aqui</a>.
     view_all_wall_messages: Visualizar todas as mensagens...
     wall: Parede de Recados
-    wall_to_wall: Parede de Recadosp
+    wall_to_wall: Parede de Recados
