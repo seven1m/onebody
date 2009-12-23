@@ -1,17 +1,17 @@
-<h1>Sharing with <%= link_to h(@group.name), @group %></h1>
+<h1><%= I18n.t('privacies.sharing_with', { :url => @group, :name => h(@group.name) }) %></h1>
 
 <% form_for :membership, @membership, :url => group_membership_privacy_path(@group, @membership), :html => {:method => 'put'} do |form| %>
   <%= form.error_messages %>
-  <p>The following items are visible to everyone (<%= link_to 'change here', privacy_path %>):</p>
+  <p><%= I18n.t('privacies.the_items_are_visible', :url => privacy_path) %></p>
   <ul>
     <% @visible_to_everyone.each do |attribute| %>
       <li><%= attribute.humanize %></li>
     <% end %>
   </ul>
   
-  <p>The following items may be shared with other members of <%=h @group.name %>:</p>
+  <p><%= I18n.t('privacies.the_items_may_be_shared', :name => h(@group.name)) %></p>
   <table>
-    <tr><th>Detail</th><th>Visible</th><th>Hidden</th></tr>
+    <tr><th><%= I18n.t('privacies.detail') %></th><th><%= I18n.t('privacies.visible') %></th><th><%= I18n.t('privacies.hidden') %></th></tr>
     <% @sharable_with_group.each do |attribute| %>
       <tr>
         <td><%= attribute.humanize %></td>
@@ -20,5 +20,5 @@
       </tr>
     <% end %>
   </table>
-  <p><%= form.submit 'Save Changes' %></p>
+  <p><%= form.submit I18n.t('privacies.save_changes') %></p>
 <% end %>

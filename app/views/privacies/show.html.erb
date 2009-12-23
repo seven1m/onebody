@@ -1,7 +1,7 @@
-<h1>Group Privacy</h1>
+<h1><%= I18n.t('privacies.group_privacy') %></h1>
 
 <% if @memberships.any? %>
-  <p>You are sharing your <%=h params[:sharing].humanize %> with the following groups:</p>
+  <p><%= I18n.t('privacies.you_are_sharing_with_groups', :sharing => h(params[:sharing].humanize)) %></p>
   <ul>
     <% @memberships.each do |membership| %>
       <li><%= link_to membership.group.name,
@@ -9,5 +9,5 @@
     <% end %>
   </ul>
 <% else %>
-  <p>You are not sharing your <%=h params[:sharing].humanize %> with any groups specifically.</p>
+  <p><%= I18n.t('privacies.you_are_not_sharing_with_groups', :sharing => h(params[:sharing].humanize)) %></p>
 <% end %>

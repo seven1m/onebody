@@ -21,6 +21,7 @@ pt:
   type: Tipo
   click_here: Clique aqui
   file_not_found: Arquivo não encontrado
+  save_changes: Salvar Mudanças
 
   activerecord: 
     errors: 
@@ -306,6 +307,68 @@ pt:
     mobile: celular
     work: trabalho
 
+  privacies:
+    privacy: Privacidade
+    view_profile: Visualizar Perfil
+    edit_profile: Editar Perfil
+    change_email_password: Alterar Email/Senha
+    only_adult_can_edit: Somente um adulto pode editar essas configurações e de acordo com nossos registros você não é. Por favor nos contate se você acredita que isso é um erro.
+    modify_the_privacy_settings: Modifique as configurações de privacidade para você e a sua família abaixo. Para entender como nós usamos as suas informações pessoais e da sua família, por favor leia a nossa <a href="{{url}}">Política de Privacidade</a>.
+    family_privacy: Privacidade da Família
+    invisible: Invisível
+    these_settings_affect_your_family: Essas configurações afetam a sua família inteira. Configurações de Privacidade Pessoal (a outra aba) podem sobescrever essas configurações.
+    visible_on_site: visível no site
+    by_turning_off_site_visibility: Ao desligar a visibilidade no site
+    this: esta
+    your: sua
+    entire_family_will_not_appear: família inteira não aparecerá em nenhuma das buscas. Porém, é ainda possível entrar em grupos e receber emails dos administradores do site.
+    detail: Detalhe
+    visible: Visível
+    hidden: Oculto
+    default: Padrão
+    address: Endereço
+    mobile_phone: Celular
+    home_phone: Telefone Residencial
+    work_phone: Telefone Comercial
+    fax: Fax
+    email: Email
+    people_can_still_send: As pessoas ainda podem enviar um email para a sua família <a href="{{url}}">através do site</a> se as Mensagens Privadas estiverem habilitadas.
+    birthday: Data de Nascimento
+    the_year_is_never_shown: O ano nunca será mostrado.
+    anniversary: Aniversário de Casamento
+    activity: Atividade
+    hide_your_activity: "Oculte a sua atividade se você não deseja que seus amigos e/ou membros de grupos visualizem as suas mensagens públicas, notas, versículos, etc. na página inicial deles. Nota: Mensagens privadas nunca são exibidas, independente desta configuração."
+    wall: Parede de Recados
+    space_to_post_messages: Um espaço para pessoas postarem mensagens para {{name}} e outros visualizarem.
+    save_family_settings: Salvar configurações de Família
+    save_personal_settings: Salvar configurações Pessoais
+    private_message: Mensagem Privada
+    you_may_override: Você pode sobrescrever as configurações da família para {{name}} ao fazer as mudanças abaixo.
+    by_turning_off: Ao desligar a visibilidade no site, {{name}} não aparecerá em lugar nenhum neste web site.
+    child_under_age_no_parents_consent: "Esta criança tem menos de 13 anos e seus pais não derão permissão para permitir que a sua informação seja exibida."
+    i_agree: Eu concordo
+    child_under_age_you_have_not_consent: "Esta criança tem menos de 13 anos e você não deu a permissão para 1) permitir que a informação dela seja exibida, e 2) permitir que ela entre e use este web site."
+    to_show_on_this_site: "Para mostrar o {{name}} neste site, por favor:"
+    read_safeguarding_children: Leia a nossa página sobre <a href="{{url}}">guardando nossas crianças</a>.
+    read_privacy_policy: Leia a nossa <a href="{{url}}">Política de Privacidade</a>.
+    read_statement_below: Leia o texto abaixo e concorde selecionando o checkbox correspondente.
+    click_the_agree: "Clique no botão 'Eu concordo'."
+    child_profile_has_parental_consent: Esse perfil de criança possui um consentimento dos pais de {{name}}.
+    have_concerns_regarding_this: Se você possui restrições ligadas a isso, por favor entre em contato no {{phone}} imediatamente.
+    private_messages_enabled: "Mensagens Privadas habilitadas:"
+    disabling_private_messages: Desabilitando mensagens privadas irá prevenir {{name}} de receber emails através deste web site. Também, {{name}} não poderá enviar mensagens a grupos ou outras pessoas diretamente, porque não existirá como as pessoas responderem. Você tem certeza que deseja desabilitar as mensagens privadas?
+    you_may_share_items: "Você pode compartilhar itens com os membros dos seguintes grupos:"
+    group_privacy: Privacidade do Grupo
+    you_are_sharing_with_groups: "Você está compartilhando o seu {{sharing}} com os seguintes grupos:"
+    you_are_not_sharing_with_groups: Você não está compartilhando o seu {{sharing}} com nenhum grupo específico.
+    the_items_may_be_shared: "Os seguintes itens podem estar compartilhados com outros membros do {{name}}:"
+    the_items_are_visible: "Os seguintes itens estão visíveis a todos <a href=\"{{url}}\">mude aqui</a>:"
+    you_made_a_change_tab: Parece que você fez alguma mudança nessa aba. Tenha certeza que você salvou suas alterações antes de ir para outra aba. Click OK para salvar suas alterações primeiro.
+    you_made_a_change_page: Parece que você fez alguma mudança nesta página. Tenha certeza que você salvou suas alterações antes de deixá-la.
+    as_a_parent_agree: Eu, como o pai/mãe ou guardião legal de {{name}}, concorco que eu li a <a href="{{url}}">Política de Privacidade</a> deste site, e as informações pessoais de {{name}} podem ser mostradas para outros usuários deste web site (como determindado pelas configurações de privacidade desta página), e que {{name}} pode, se habilitado, utilizar este website como um usuário normal (incluindo customização de perfil, comunicação via mensagens privadas, parede de recados, grupos, etc.).
+    sharing_with: Compartilhando com <a href="{{url}}">{{name}}</a>
+    if_this_is_unchecked: Se isto estiver selecionado e {{name_possessive}} email for oculto, outros não terão como enviar uma mensagem privada diretamente para {{first_name}} através deste site.
+
   publications: 
     add_publication: Adicionar Publicação
     all_publications: Todas as Publicações
@@ -465,7 +528,7 @@ pt:
     business_category: "Categoria de Negócios:"
     business_directory: "Diretório de Negócios"
     business_directory_description: Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito. A próxima vez que você precisar das páginas amarelas, tente o <a href="{{url}}">diretório de negócios</a> primeiro.
-    businesses: "Negícios"
+    businesses: "Negóprcios"
     category: Categoria
     city: Cidade
     click_the_icon_to_add_them: "Clique no {{img}} ícone para adicioná-los."
@@ -571,4 +634,4 @@ pt:
     to_send_a_private_message: Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href="{{url}}">clique aqui</a>.
     view_all_wall_messages: Visualizar todas as mensagens...
     wall: Parede de Recados
-    wall_to_wall: Parede de Recados
+    wall_to_wall: Parede de Recadosp

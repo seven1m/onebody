@@ -1,114 +1,107 @@
 <%= stylesheet_link_tag 'tabs' %>
 <%= javascript_include_tag 'tabs' %>
 
-<h1>Privacy</h1>
+<h1><%= I18n.t('privacies.privacy') %></h1>
 
 <% if @person %>
   <% content_for :subnav do %>
-    <li><%= link_to image_tag('eye.png', :alt => 'View Profile', :class => 'icon') + ' View Profile', person_path(@person) %></li>
-    <li><%= link_to image_tag('pencil.png', :alt => 'Edit Profile', :class => 'icon') + ' Edit Profile', edit_person_path(@person) %></li>
-    <li><%= link_to image_tag('email_edit.png', :alt => 'Change Email/Password', :class => 'icon') + ' Change Email/Password', edit_person_account_path(@person) %></li>
+    <li><%= link_to image_tag('eye.png', :alt => I18n.t('privacies.view_profile'), :class => 'icon') + ' ' + I18n.t('privacies.view_profile'), person_path(@person) %></li>
+    <li><%= link_to image_tag('pencil.png', :alt => I18n.t('privacies.edit_profile'), :class => 'icon') + ' ' + I18n.t('privacies.edit_profile'), edit_person_path(@person) %></li>
+    <li><%= link_to image_tag('email_edit.png', :alt => I18n.t('privacies.change_email_password'), :class => 'icon') + ' ' + I18n.t('privacies.change_email_password'), edit_person_account_path(@person) %></li>
   <% end %>
 <% end %>
 
 <% unless @logged_in.adult? %>
   <p style="font-weight:bold;">
-    Only an adult can edit these settings. According to our records,
-    you are not. Please contact us if you believe this to be an error.
+    <%= I18n.t('privacies.only_adult_can_edit') %>
   </p>
 <% end %>
 
 <p>
-  Modify the privacy settings for you and your family below. To understand how we use the personal information
-  of you and your family, please read our <%= link_to 'Privacy Policy', help_path('privacy_policy') %>.
+  <%= I18n.t('privacies.modify_the_privacy_settings', :url => help_path('privacy_policy')) %>
 </p>
 
-<h2 class="tab" id="f">Family Privacy<% unless @family.visible? %> <%= image_tag('lock.gif', :alt => 'Invisible', :class => 'icon', :style => 'height:12px;') %><% end %></h2>
+<h2 class="tab" id="f"><%= I18n.t('privacies.family_privacy') %> <% unless @family.visible? %> <%= image_tag('lock.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
 
 <div class="section">
 <p>
-  These settings affect your whole family. Person Privacy settings (the other tabs)
-  may override these settings.
+  <%= I18n.t('privacies.these_settings_affect_your_family') %>
 </p>
 
 <% form_for :family, @family, :url => person_privacy_path(@family.people.first), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
 
   <p>
     <%= form.check_box 'visible', :class => 'checkbox', :onclick => "check_visibility();if($('notice')) new Effect.Fade('notice');if(!changed_sections.include('family'))changed_sections.push('family')" %>
-    <strong>visible on site</strong><br/>
-    <em>By turning off site visibility, <%= @family == @logged_in.family ? 'your' : 'this' %> entire
-      family will not appear in any searches. It is still possible to join groups and receive email
-      from site administrators, though.</em>
+    <strong><%= I18n.t('privacies.visible_on_site') %></strong><br/>
+    <em><%= I18n.t('privacies.by_turning_off_site_visibility') %>, <%= @family == @logged_in.family ? I18n.t('privacies.your') : I18n.t('privacies.this') %> <%= I18n.t('privacies.entire_family_will_not_appear') %></em>
   </p>
 
   <div id="family">
 
     <table>
-      <tr><th>Detail</th><th>Visible</th><th>Hidden</th></tr>
+      <tr><th><%= I18n.t('privacies.detail') %></th><th><%= I18n.t('privacies.visible') %></th><th><%= I18n.t('privacies.hidden') %></th></tr>
       <tr>
-        <td>Address</td>
+        <td><%= I18n.t('privacies.address') %></td>
         <td><%= form.radio_button :share_address, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_address, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td>Mobile Phone</td>
+        <td><%= I18n.t('privacies.mobile_phone') %></td>
         <td><%= form.radio_button :share_mobile_phone, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_mobile_phone, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td>Home Phone</td>
+        <td><%= I18n.t('privacies.home_phone') %></td>
         <td><%= form.radio_button :share_home_phone, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_home_phone, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td>Work Phone</td>
+        <td><%= I18n.t('privacies.work_phone') %></td>
         <td><%= form.radio_button :share_work_phone, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_work_phone, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td>Fax</td>
+        <td><%= I18n.t('privacies.fax') %></td>
         <td><%= form.radio_button :share_fax, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_fax, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td>Email</td>
+        <td><%= I18n.t('privacies.email') %></td>
         <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
-        <td><em>People can still send your family email <%= link_to_function 'through the site', "alert('#{SITE_MAIL_DESCRIPTION}')" %> if Private Messages are enabled.</em></td>
+        <td><em><%= I18n.t('privacies.people_can_still_send', :url => "alert('#{SITE_MAIL_DESCRIPTION}')") %></em></td>
       </tr>
       <tr>
-        <td>Birthday</td>
+        <td><%= I18n.t('privacies.birthday') %></td>
         <td><%= form.radio_button :share_birthday, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_birthday, false, :class => 'checkbox' %></td>
-        <td><em>The year is never shown.</em></td>
+        <td><em><%= I18n.t('privacies.the_year_is_never_shown') %></em></td>
       </tr>
       <tr>
-        <td>Anniversary</td>
+        <td><%= I18n.t('privacies.anniversary') %></td>
         <td><%= form.radio_button :share_anniversary, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_anniversary, false, :class => 'checkbox' %></td>
-        <td><em>The year is never shown.</em></td>
+        <td><em><%= I18n.t('privacies.the_year_is_never_shown') %></em></td>
       </tr>
       <tr>
-        <td>Activity</td>
+        <td><%= I18n.t('privacies.activity') %></td>
         <td><%= form.radio_button :share_activity, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_activity, false, :class => 'checkbox' %></td>
         <td>
-          Hide your activity if you do not want friends and/or fellow group members
-          to see your public messages, notes, verses, etc. on their home page. Note:
-          private messages are never displayed, regardless of this setting.
+          <%= I18n.t('privacies.hide_your_activity') %>
         </td>
       </tr>
       <tr>
-        <td>Wall</td>
+        <td><%= I18n.t('privacies.wall') %></td>
         <td><%= form.radio_button :wall_enabled, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :wall_enabled, false, :class => 'checkbox' %></td>
-        <td><em>A space for people to post messages for you and others to see.</em></td>
+        <td><em><%= I18n.t('privacies.space_to_post_messages', :name => 'you') %></em></td>
       </tr>
     </table>
  
   </div>
   
-  <p><%= submit_tag 'Save Family Settings' %></p>
+  <p><%= submit_tag I18n.t('privacies.save_family_settings') %></p>
   
   <%= render :partial => 'group_privacy_listing', :locals => {:person => @person} %>
 
@@ -120,7 +113,7 @@
 
 <% @family.people.each do |person| %>
 
-  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %><% if not person.consent_or_13? %> <%= image_tag('lock_red.gif', :alt => 'Invisible', :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => 'Invisible', :class => 'icon', :style => 'height:12px;') %><% end %></h2>
+  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %><% if not person.consent_or_13? %> <%= image_tag('lock_red.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
   
   <div class="section">
   
@@ -132,122 +125,110 @@
     
       <% if not person.at_least_13? %>
         <p class="highlight">
-          This child's profile has parental consent from <%=h person.parental_consent %>.
-          If you have concerns regarding this, please contact us at
-          <%=h Setting.get(:contact, :community_office_phone) %> immediately.
+          <%= I18n.t('privacies.child_profile_has_parental_consent', :name => h(person.parental_consent)) %>
+          <%= I18n.t('privacies.have_concerns_regarding_this', :phone => h(Setting.get(:contact, :community_office_phone))) %>
         </p>
       <% end %>
     
-      <p>You may override the family settings for <%=h person.name %> by making changes below.</p>
+      <p><%= I18n.t('privacies.you_may_override', :name => h(person.name)) %></p>
       
       <p>
         <%= form.check_box 'visible', :class => 'checkbox person-visible-checkbox', :id => "person-visible#{person.id}", :onclick => "check_visibility();" %>
-        <strong>visible on site</strong><br/>
-        <em>By turning off site visibility, <%=h person.first_name %> will not appear
-          anywhere on the site.</em>
+        <strong><%= I18n.t('privacies.visible_on_site') %></strong><br/>
+        <em><%= I18n.t('privacies.by_turning_off', :name => h(person.first_name)) %></em>
       </p>
       
       <div id="person<%= person.id %>" class="person">
       
         <table>
-          <tr><th>Detail</th><th>Visible</th><th>Hidden</th><th>Default</th></tr>
+          <tr><th><%= I18n.t('privacies.detail') %></th><th><%= I18n.t('privacies.visible') %></th><th><%= I18n.t('privacies.hidden') %></th><th><%= I18n.t('privacies.default') %></th></tr>
           <tr>
-            <td>Mobile Phone</td>
+            <td><%= I18n.t('privacies.mobile_phone') %></td>
             <td><%= radio_button_tag 'person[share_mobile_phone]', true, person.attributes['share_mobile_phone'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_mobile_phone]', false, person.attributes['share_mobile_phone'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_mobile_phone]', 'nil', person.attributes['share_mobile_phone'] == nil, :class => 'checkbox' %></td>
           </tr>
           <tr>
-            <td>Work Phone</td>
+            <td><%= I18n.t('privacies.work_phone') %></td>
             <td><%= radio_button_tag 'person[share_work_phone]', true, person.attributes['share_work_phone'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_work_phone]', false, person.attributes['share_work_phone'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_work_phone]', 'nil', person.attributes['share_work_phone'] == nil, :class => 'checkbox' %></td>
           </tr>
           <tr>
-            <td>Fax</td>
+            <td><%= I18n.t('privacies.fax') %></td>
             <td><%= radio_button_tag 'person[share_fax]', true, person.attributes['share_fax'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_fax]', false, person.attributes['share_fax'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_fax]', 'nil', person.attributes['share_fax'] == nil, :class => 'checkbox' %></td>
           </tr>
           <tr>
-            <td>Email</td>
+            <td><%= I18n.t('privacies.email') %></td>
             <td><%= radio_button_tag 'person[share_email]', true, person.attributes['share_email'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_email]', false, person.attributes['share_email'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_email]', 'nil', person.attributes['share_email'] == nil, :class => 'checkbox' %></td>
           </tr>
           <tr>
-            <td>Birthday</td>
+            <td><%= I18n.t('privacies.birthday') %></td>
             <td><%= radio_button_tag 'person[share_birthday]', true, person.attributes['share_birthday'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_birthday]', false, person.attributes['share_birthday'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_birthday]', 'nil', person.attributes['share_birthday'] == nil, :class => 'checkbox' %></td>
-            <td><em>The year is never shown.</em></td>
+            <td><em><%= I18n.t('privacies.the_year_is_never_shown') %></em></td>
           </tr>
           <tr>
-            <td>Activity</td>
+            <td><%= I18n.t('privacies.activity') %></td>
             <td><%= radio_button_tag 'person[share_activity]', true, person.attributes['share_activity'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_activity]', false, person.attributes['share_activity'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_activity]', 'nil', person.attributes['share_activity'] == nil, :class => 'checkbox' %></td>
             <td>
-              Hide your activity if you do not want friends and/or fellow group members
-              to see your public messages, notes, verses, etc. on their home page. Note:
-              private messages are never displayed, regardless of this setting.
+              <%= I18n.t('privacies.hide_your_activity') %>
             </td>
           </tr>
           <tr>
-            <td>Wall</td>
+            <td><%= I18n.t('privacies.wall') %></td>
             <td><%= radio_button_tag 'person[wall_enabled]', true, person.attributes['wall_enabled'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[wall_enabled]', false, person.attributes['wall_enabled'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[wall_enabled]', 'nil', person.attributes['wall_enabled'] == nil, :class => 'checkbox' %></td>
-            <td><em>A space for people to post messages for <%=h @logged_in == person ? 'you' : person.first_name %> and others to see.</em></td>
+            <td><em><%= I18n.t('privacies.space_to_post_messages', :name => h(@logged_in == person ? 'you' : person.first_name)) %></em></td>
           </tr>
         </table>
       
         <p>
-          <%= image_tag 'message.gif', :alt => 'Private Message', :class => 'icon' %>
-          Private Messages Enabled:<br/>
+          <%= image_tag 'message.gif', :alt => I18n.t('privacies.private_message'), :class => 'icon' %>
+          <%= I18n.t('privacies.private_messages_enabled') %><br/>
           <input name="person[messages_enabled]" type="hidden" value="0" />
-          <%= check_box_tag 'person[messages_enabled]', 1, person.attributes['messages_enabled'], :class => 'checkbox', :onclick => "if(!this.checked) return confirm('Disabling private messages will prevent #{person.name} from receiving email through the web site. Also, #{person.name} will not be able to send messages to groups or to other people directly because there will be no way for people to reply. Are you sure you want to disable private messages?')" %>
-          If this is unchecked and <%=h @logged_in == person ? 'your' : person.name_possessive %> email address is hidden, others will have no way to send a private email directly to <%=h @logged_in == person ? 'you' : person.first_name %> through this site.
+          <%= check_box_tag 'person[messages_enabled]', 1, person.attributes['messages_enabled'], :class => 'checkbox', :onclick => "if(!this.checked) return confirm('" + I18n.t('privacies.disabling_private_messages', :name => person.name) + "')" %>
+          <%= I18n.t('privacies.if_this_is_unchecked', { :name_possessive => h(@logged_in == person ? 'your' : person.name_possessive), :first_name => h(@logged_in == person ? 'you' : person.first_name) }) %>
         </p>
       
       </div>
       
-      <p><%= submit_tag 'Save Personal Settings' %></p>
+      <p><%= submit_tag I18n.t('privacies.save_personal_settings') %></p>
       
     <% elsif @logged_in.family == @family and @logged_in.adult? %>
     
       <p class="alert">
-        This child is under the age of 13, and you have not given consent to 1) allow
-        their information to be displayed, and 2) allow them to sign into and use this
-        web site.
+        <%= I18n.t('privacies.child_under_age_you_have_not_consent') %>
       </p>
       
       <p>
-        To show <%=h person.name %> on this site, please:
+        <%= I18n.t('privacies.to_show_on_this_site', :name => h(person.name)) %>
       </p>
       <ol>
-        <li>Read our page about <%= link_to 'Safeguarding Children', help_path('safeguarding_children') %>.</li>
-        <li>Read our <%= link_to 'Privacy Policy', help_path('privacy_policy') %>.</li>
-        <li>Read the statement below and agree to it by checking the corresponding checkbox.</li>
-        <li>Click the "I Agree" button.</li>
+        <li><%= I18n.t('privacies.read_safeguarding_children', :url => help_path('safeguarding_children')) %></li>
+        <li><%= I18n.t('privacies.read_privacy_policy', :url => help_path('privacy_policy')) %></li>
+        <li><%= I18n.t('privacies.read_statement_below') %></li>
+        <li><%= I18n.t('privacies.click_the_agree') %></li>
       </ol>
       
       <p>
-        <%= check_box_tag 'agree', 'I Agree.', false, :class => 'checkbox' %>
-        I, as a parent or legal gaurdian of <%=h person.name %>, hereby agree that I have read
-        this site's <%= link_to 'Privacy Policy', help_path('privacy_policy') %>,
-        that the personal information of <%=h person.name %> may be displayed for other users of the
-        web site (as determined by the privacy settings on this page), and that <%=h person.name %> may, if able, utilize this
-        website as a normal user (including profile customization, and communication via private message,
-        the wall, groups, etc.).<br/>
-        <%= submit_tag 'I Agree' %>
+        <%= check_box_tag 'agree', I18n.t('privacies.i_agree') + ".", false, :class => 'checkbox' %>
+        <%= I18n.t('privacies.as_a_parent_agree', { :name => h(person.name), :url => help_path('privacy_policy') } ) %><br/>
+        <%= submit_tag I18n.t('privacies.i_agree') %>
       </p>
       
     <% else %>
     
       <p class="alert">
-        This child is under the age of 13, and his/her parents have not given consent
-        to allow their information to be displayed.
+        <%= I18n.t('privacies.child_under_age_no_parents_consent') %>
       </p>
       
     <% end %>
@@ -284,7 +265,7 @@
   tab_click = function(e) {
     if(changes) {
       changes = false;
-      if(confirm('Looks like you made a change to something on this tab. Be sure to save your changes before going to another tab. Click OK to save your changes first.')) {
+      if(confirm('<%= I18n.t('privacies.you_made_a_change_tab') %>')) {
         sections[lastSection].getElementsByTagName('form')[0].submit();
       } else {
         original_tab_click(e);
@@ -295,7 +276,7 @@
   };
   set_handlers();
   onbeforeunload = function() {
-    if(changes) return 'Looks like you made a change to something on this page. Be sure to save your changes before leaving.';
+    if(changes) return '<%= I18n.t('privacies.you_made_a_change_page') %>';
   };
 //]]>
 </script>
