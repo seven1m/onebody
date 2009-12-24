@@ -435,8 +435,10 @@
 
             if (href != '#')
             {
+                var h = href;
+                h += (h.indexOf('?') > -1 ? '&' : '?') + 'iphoneAjax=true';
                 $.ajax({
-                    url: href,
+                    url: h,
                     data: settings.data,
                     type: settings.method,
                     success: function (data, textStatus) {

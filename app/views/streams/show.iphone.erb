@@ -9,7 +9,7 @@
   <% @stream_items.each do |stream_item| %>
     <li class="arrow">
       <a href="<%= stream_item_path(stream_item) %>">
-        <div style="float:left;margin:0 5px 5px 0;">
+        <div class="thumbnail">
           <% if stream_item.person %>
             <%= image_tag stream_item.person.has_photo? ? tn_person_photo_path(stream_item.person) : (stream_item.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'), :alt => stream_item.person.name %>
           <% else %>
@@ -36,7 +36,7 @@
           <% end %>
         <% end %>
         <br/>
-        <span style="font-size:.75em;font-weight:normal;">
+        <span class="byline">
           <% if stream_item.person %><%=h stream_item.person.name %> &middot;<% end %>
           <%= time_ago_in_words stream_item.created_at %> ago<br/>
         </span>

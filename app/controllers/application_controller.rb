@@ -159,7 +159,11 @@ class ApplicationController < ActionController::Base
       session[:iphone] = params[:iphone] == 'true' if params[:iphone]
       if iphone?
         request.format = :iphone
-        self.class.layout 'iphone.html'
+        if params[:iphoneAjax]
+          self.class.layout 'iphone_bare.html'
+        else
+          self.class.layout 'iphone.html'
+        end
       end
     end
     

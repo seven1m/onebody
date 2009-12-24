@@ -198,6 +198,10 @@ module ApplicationHelper
     "http://chart.apis.google.com/chart?chtt=#{options[:title]}&cht=p&chd=t:#{counts.join(',')}&chs=#{options[:width]}x#{options[:height]}&chl=#{labels.join('|')}&chco=#{options[:colors].join(',')}"
   end
   
+  def iphone_home_button(label='Home')
+    "<a class=\"#{params[:iphoneAjax] ? 'back' : 'button backButton'}\" href=\"#{params[:iphoneAjax] ? '#home' : '/stream'}\">#{label}</a>"
+  end
+  
   class << self
     include ApplicationHelper
   end

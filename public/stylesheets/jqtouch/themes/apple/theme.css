@@ -83,7 +83,7 @@ body.landscape .toolbar > h1 {
     border-width: 0 5px;
 }
 
-.back {
+.back, .backButton {
     left: 6px;
     right: auto;
     padding: 0;
