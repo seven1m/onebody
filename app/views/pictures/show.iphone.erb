@@ -1,0 +1,23 @@
+<% content_for :toolbar do %>
+  <%= iphone_back_button  %>
+  <h1>Picture</h1>
+<% end %>
+
+<%= image_tag(large_picture_path(@picture), :alt => '') %>
+
+<div class="info">
+  <% if @picture.person %>
+    <%= render :partial => 'people/thumbnail', :locals => {:person => @picture.person} %>
+    <%= link_to h(@picture.person.name), @picture.person %><br/>
+  <% end %>
+  <%= @picture.created_at.to_s %><br/>
+  in album <%= link_to h(@picture.album.name), @picture.album %>
+  <% if @picture.album.group %>
+    <p>in <%= link_to h(@picture.album.group.name), @picture.album.group %></p>
+  <% end %>
+  <% if @picture.original_url %>
+    <p>
+      From <%= link_to h(domain_name_from_url(@picture.original_url)), @picture.original_url %>
+    </p>
+  <% end %>
+</div>

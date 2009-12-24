@@ -152,7 +152,7 @@ class ApplicationController < ActionController::Base
     end
     
     def iphone?
-      session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/)
+      session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
     end
     
     def detect_mobile
