@@ -10,7 +10,7 @@
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => I18n.t('verses.add_this_verse_to_my_list'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'post' %>
+      <%= link_to image_tag('add_small.gif', :alt => I18n.t('verses.add_this_verse_to_my_list'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), verses_path(:id => @verse), :method => 'post' %>
       <%= link_to I18n.t('verses.add_this_verse_to_my_list'), verses_path(:id => @verse), :method => 'post' %>
     </p>
   <% end %>
