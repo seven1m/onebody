@@ -27,7 +27,7 @@
     <legend><%= I18n.t('reporting.Criteria') %></legend>
     <table>
       <tr>
-        <td class="criteria-joiner"><span>AND&nbsp;</span></td>
+        <td class="criteria-joiner"><span><%= I18n.t('reporting.and') %></span></td>
         <td id="criteria"><%= render :partial => "#{@report.definition['collection']}_selector", :collection => @conditions %></td>
       </tr>
     </table>

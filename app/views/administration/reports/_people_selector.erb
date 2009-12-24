@@ -2,7 +2,7 @@
   <% if ['$or', '$and'].include?(object[0]) %>
     <table style="margin-left:5px;">
       <tr>
-        <td class="criteria-joiner"><span>OR&nbsp;</span></td>
+        <td class="criteria-joiner"><span><%= I18n.t('reporting.or') %></span></td>
         <td><%= render :partial => "#{@report.definition['collection']}_selector", :collection => object[1] %></td>
       </tr>
     </table>

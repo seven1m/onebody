@@ -422,6 +422,7 @@ en:
 
   reporting: 
     Admins: Admins
+    and: AND
     Creator: Creator
     Criteria: Criteria
     Last_Run: Last Run
@@ -445,6 +446,7 @@ en:
     new_report: New Report
     not_one_of: not one of
     one_of: one of
+    or: OR
     remove_criteria: Remove Criteria
     report_database_offline: The reporting database is offline, so no reports can be run. Please contact your administrator.
     restricted: Restricted
