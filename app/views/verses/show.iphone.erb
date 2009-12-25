@@ -51,6 +51,8 @@
     <% @verse.tags.each do |tag| %>
       <li class="arrow"><%= link_to h(tag.name), tag %></li>
     <% end %>
+  </ul>
+  <ul>
     <li><%= text_field_tag :add_tags, nil, :placeholder => I18n.t('tags.add_tags') %></li>
     <li class="arrow"><a href="#" onclick="document.getElementById('add_tags_form').submit();return false;"><%= I18n.t('Save') %></a></li>
   </ul>
