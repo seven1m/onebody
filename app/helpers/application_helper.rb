@@ -202,6 +202,10 @@ module ApplicationHelper
     "<a class=\"#{params[:iphoneAjax] ? 'back' : 'button backButton'}\" href=\"#{params[:iphoneAjax] ? '#home' : '/stream'}\">#{label}</a>"
   end
   
+  def iphone?
+    controller.iphone?
+  end
+  
   class << self
     include ApplicationHelper
   end

@@ -3,38 +3,122 @@
   <h1><%=h @person.name %></h1>
 <% end %>
 
-<!--
-<% content_for :sidebar do %>
-  <%= render :partial => 'photo' %>
-  <h1><%=h @person.name %></h1>
-  <%= render :partial => 'person_type' %>
-  <%= render :partial => 'family' %>
-  <%= render :partial => 'hidden_children' %>
-  <% if Setting.get(:features, :friends) %>
-    <%= render :partial => 'friends' %>
-  <% end %>
-  <% if Setting.get(:features, :sidebar_group_category) %>
-    <%= render :partial => 'sidebar_people' %>
-  <% end %>
-  <% if Setting.get(:features, :groups) %>
-    <%= render :partial => 'sidebar_groups' %>
-  <% end %>
-  <% if @logged_in.admin? %>
-    <p class="discreet">
-      Legacy ID: <%=h @person.legacy_id %>
+<div class="info">
+  <% unless @person.visible?(@family) %>
+    <p>
+      <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+      This profile is hidden.
     </p>
   <% end %>
+  <%= render :partial => 'photo' %>
+  <%= render :partial => 'details' %>
+</div>
+
+<% if @family_people.length > 1 %>
+  <h2>Family</h2>
+  <ul>
+    <% @family_people.each do |person| %>
+      <li class="arrow">
+        <a href="<%= url_for person %>">
+          <div class="thumbnail">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          </div>
+          <%=h person.name %>
+          <% unless person.visible?(@family) %>
+            <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+          <% end %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
 
-<% unless @person.visible?(@family) %>
-  <p>
-    <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
-    This profile is hidden.
-  </p>
+<% if Setting.get(:features, :friends) and (count = @person.friendships.count) > 0 %>
+  <h2>
+    Friends
+    <% if count > MAX_FRIENDS_ON_PROFILE %>
+      (<%= MAX_FRIENDS_ON_PROFILE %> of <%= count %>)
+    <% end %>
+  </h2>
+  <ul>
+    <% @friends.each do |friend| %>
+      <li class="arrow">
+        <a href="<%= url_for friend %>">
+          <div class="thumbnail">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => friend} %>
+          </div>
+          <%=h friend.name %>
+          <% if friend.birthday_soon? %>
+            <br/>
+            <span class="detail">
+              <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
+              birthday <%= friend.birthday.to_time.to_s :date rescue nil %>
+            </span>
+          <% end %>
+        </a>
+      </li>
+    <% end %>
+    <% if count > MAX_FRIENDS_ON_PROFILE %>
+      <li class="arrow"><%= link_to "more...", person_friends_path(@person) %></li>
+    <% end %>
+  </ul>
 <% end %>
 
-<%= render :partial => 'pending_updates' %>
+<% if Setting.get(:features, :sidebar_group_category) and (count = @person.sidebar_group_people_count) > 0 %>
+  <h2>
+    <%= Setting.get(:features, :sidebar_group_heading) %>
+    <% if count > MAX_GROUPIES_ON_PROFILE %>
+      (<%= MAX_GROUPIES_ON_PROFILE %> of <%= count %>)
+    <% end %>
+  </h2>
+  <ul>
+    <% @sidebar_group_people.each do |person| %>
+      <li class="arrow">
+        <a href="<%= url_for person %>">
+          <div class="thumbnail">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          </div>
+          <%=h person.name %>
+          <% if person.birthday_soon? %>
+            <br/>
+            <span class="detail">
+              <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
+              birthday <%= person.birthday.to_time.to_s :date rescue nil %>
+            </span>
+          <% end %>
+        </a>
+      </li>
+    <% end %>
+    <% if count > MAX_GROUPIES_ON_PROFILE %>
+      <li class="arrow"><%= link_to "more...", person_groupies_path(@person) %></li>
+    <% end %>
+  </ul>
+<% end %>
 
+<% if Setting.get(:features, :groups) and (groups = @person.groups.all).any? %>
+  <h2>Groups</h2>
+  <ul>
+    <% groups.sort_by(&:name).each do |group| %>
+      <% if not group.hidden? %>
+        <li class="arrow">
+          <a href="<%= url_for group %>">
+            <div class="thumbnail">
+              <% if group.has_photo? %>
+                <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border' %>
+              <% else %>
+                <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border' %>
+              <% end %>
+            </div>
+            <%=h group.name %>
+          </a>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
+
+<!--
 <div id="share" style="margin-bottom:20px;display:none;">
   <% if me? %>
     <%# render :partial => 'streams/share' %>

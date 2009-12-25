@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user
   before_filter :detect_mobile
   
+  def iphone?
+    session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
+  end
+  
   private
     def get_site
       if Setting.get(:features, :multisite)
@@ -149,10 +153,6 @@ class ApplicationController < ActionController::Base
       else
         false
       end
-    end
-    
-    def iphone?
-      session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
     end
     
     def detect_mobile
