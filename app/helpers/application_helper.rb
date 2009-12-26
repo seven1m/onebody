@@ -199,7 +199,11 @@ module ApplicationHelper
   end
   
   def iphone_back_button(label='Back')
-    "<a class=\"#{params[:iphoneAjax] ? 'back' : 'button backButton'}\" href=\"#{params[:iphoneAjax] ? '#home' : '/stream'}\">#{label}</a>"
+    if params[:iphoneAjax]
+      "<a class=\"back\" href=\"#home\">#{label}</a>"
+    else
+      "<a class=\"button backButton\" rel=\"external\" href=\"/stream\">#{label}</a>"
+    end
   end
   
   def iphone?

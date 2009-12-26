@@ -2,9 +2,9 @@
   <%= iphone_back_button %>
   <h1>Verse</h1>
   <% if @logged_in.verses.include? @verse %>
-    <%= link_to image_tag('delete.png', :alt => I18n.t('verses.remove_this_verse'), :class => 'icon', :style => 'margin-top:8px;'), @verse, :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'button' %>
+    <%= link_to '-', @verse, :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'add' %>
   <% else %>
-    <%= link_to image_tag('plus.png', :alt => I18n.t('verses.add_this_verse_to_my_list'), :class => 'icon', :style => 'margin-top:8px;'), verses_path(:id => @verse), :method => 'post', :class => 'button' %>
+    <%= link_to '+', verses_path(:id => @verse), :method => 'post', :class => 'add' %>
   <% end %>
 <% end %>
 
