@@ -6,16 +6,7 @@
   <%= stylesheet_link_tag 'jqtouch/jqtouch.min.css', 'jqtouch/themes/apple/theme.min.css', 'iphone' %>
   <%= yield :head %>
   <script type="application/x-javascript" charset="utf-8">
-    $.jQTouch({
-      icon: 'jqtouch.png',
-      statusBar: 'black-translucent'//,
-      //preloadImages: [
-      //  '/stylesheets/jqtouch/themes/apple/img/chevron_white.png',
-      //  '/stylesheets/jqtouch/themes/apple/img/bg_row_select.gif',
-      //  '/stylesheets/jqtouch/themes/apple/img/back_button_clicked.png',
-      //  '/stylesheets/jqtouch/themes/apple/img/button_clicked.png'
-      //]
-    });
+    $.jQTouch();
   </script>
 </head>
 <body>
