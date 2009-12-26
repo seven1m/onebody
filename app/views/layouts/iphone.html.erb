@@ -16,10 +16,10 @@
     <%= yield %>
     <div class="info">
       &copy; <%= Date.today.year %>, <%= Setting.get(:name, :community) %><br/>
-      <a href="/pages/help/privacy_policy">Privacy Policy</a> |
-      <a href="/pages/system/credits">Credits</a><br/>
-      Powered by <a href="http://beonebody.org">OneBody</a> |
-      <a href="?iphone=false">Full Site</a>
+      <a href="/pages/help/privacy_policy" rel="external">Privacy Policy</a> |
+      <a href="/pages/system/credits" rel="external">Credits</a><br/>
+      Powered by <a href="http://beonebody.org" rel="external">OneBody</a> |
+      <a href="?iphone=false" rel="external">Full Site</a>
     </div>
   </div>
   <%= analytics_js %>
