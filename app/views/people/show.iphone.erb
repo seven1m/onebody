@@ -11,7 +11,35 @@
     </p>
   <% end %>
   <%= render :partial => 'photo' %>
-  <%= render :partial => 'details' %>
+  <ul>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :website, :label => 'Website' } do %>
+      <%= link_to h(simple_url(@person.website)), @person.website, :rel => 'external' %>
+    <% end %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :email, :label => 'Email' } do %>
+      <%= mail_to @person.email, @person.email, :rel => 'external' %>
+    <% end %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :home_phone, :label => 'Home' } do %>
+      <%= link_to format_phone(@person.home_phone) + ' (home)', "tel:#{@person.home_phone}", :rel => 'external' %>
+    <% end %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :mobile_phone, :label => 'Mobile' } do %>
+      <%= link_to format_phone(@person.mobile_phone) + ' (mobile)', "tel:#{@person.mobile_phone}", :rel => 'external' %>
+    <% end %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :work_phone, :label => 'Work' } do %>
+      <%= link_to format_phone(@person.work_phone) + ' (work)', "tel:#{@person.work_phone}", :rel => 'external' %>
+    <% end %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :fax, :label => 'Fax' } do %>
+      <%= link_to format_phone(@person.fax) + ' (fax)', "tel:#{@person.fax}", :rel => 'external' %>
+    <% end %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :address, :label => 'Address' } do %>
+      <%= link_to preserve_breaks(@person.family.pretty_address), "http://maps.google.com/maps?q=#{url_encode(@person.family.mapable_address)}", :rel => 'external' %>
+    <% end %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :birthday, :label => 'Birthday' } do %>
+      birthday: <%=h @person.birthday.to_s(:date) %>
+    <% end %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :anniversary, :label => 'Anniversary' } do %>
+      anniversary: <%=h @person.anniversary.to_s(:date) %>
+    <% end %>
+  </ul>
 </div>
 
 <% if @family_people.length > 1 %>

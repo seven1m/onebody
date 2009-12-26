@@ -612,6 +612,12 @@ class Person < ActiveRecord::Base
     stream_items
   end
   
+  def show_attribute_to?(attribute, who)
+    send(attribute).to_s.strip.any? and
+    (not respond_to?("share_#{attribute}_with?") or
+    send("share_#{attribute}_with?", who))
+  end
+  
   def all_friend_and_groupy_ids
     if Setting.get(:features, :friends)
       friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id }

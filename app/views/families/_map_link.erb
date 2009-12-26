@@ -1,7 +1,3 @@
 <% if @family.mapable? %>
-  <% if iphone? %>
-    <%= link_to image_tag('map_go.gif', :alt => 'Find address on map', :class => 'icon'), "http://maps.google.com/maps?oi=map&q=#{url_encode(@family.mapable_address)}" %>
-  <% else %>
-    <%= link_to image_tag('map_go.gif', :alt => 'Find address on map', :class => 'icon'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@family.mapable_address)}", :target => '_new' %>
-  <% end %>
+  <%= link_to image_tag('map_go.gif', :alt => 'Find address on map', :class => 'icon'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@family.mapable_address)}", :target => '_new' %>
 <% end %>
