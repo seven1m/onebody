@@ -1,0 +1,21 @@
+<% content_for :toolbar do %>
+  <h1>News</h1>
+  <%= iphone_back_button %>
+<% end %>
+
+<div class="info">
+  Posted <%= @news_item.published.to_s(:date) rescue '?' %>
+  <% if @news_item.person %>
+    by <%= link_to h(@news_item.person.name), @news_item.person %>
+  <% elsif @news_item.link.to_s.any? %>
+    from <%= link_to h(@news_item.link.sub(/^http:\/\//, '')), @news_item.link %>
+  <% end %>
+</div>
+
+<h2><%=h @news_item.title %></h2>
+
+<ul>
+  <li>
+    <p><%= white_list_with_removal @news_item.body %></p>
+  </li>
+</ul>

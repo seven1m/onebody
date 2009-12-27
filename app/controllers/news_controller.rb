@@ -33,10 +33,10 @@ class NewsController < ApplicationController
 
   def show
     if Setting.get(:features, :news_page)
+      @news_item = NewsItem.find(params[:id])
       respond_to do |format|
-        format.html do
-          @news_item = NewsItem.find(params[:id])
-        end
+        format.html
+        format.iphone
       end
     else
       respond_to do |format|
