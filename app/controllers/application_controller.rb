@@ -16,6 +16,10 @@ class ApplicationController < ActionController::Base
     session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
   end
   
+  def params_without_action
+    params.clone.delete_if { |k, v| %w(controller action).include? k }
+  end
+  
   private
     def get_site
       if Setting.get(:features, :multisite)
@@ -194,11 +198,7 @@ class ApplicationController < ActionController::Base
       end
       return false # in case you want to halt action
     end
-    
-    def params_without_action
-      params.clone.delete_if { |k, v| %w(controller action).include? k }
-    end
-    
+        
     def add_errors_to_flash(record)
       flash[:warning] = record.errors.full_messages.join('; ')
     end

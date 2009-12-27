@@ -198,8 +198,10 @@ module ApplicationHelper
     "http://chart.apis.google.com/chart?chtt=#{options[:title]}&cht=p&chd=t:#{counts.join(',')}&chs=#{options[:width]}x#{options[:height]}&chl=#{labels.join('|')}&chco=#{options[:colors].join(',')}"
   end
   
-  def iphone_back_button(label='Back')
-    if params[:iphoneAjax]
+  def iphone_back_button(url=nil, label='Back')
+    if url
+      "<a class=\"button backButton\" rel=\"external\" href=\"#{url}\">#{label}</a>"
+    elsif params[:iphoneAjax]
       "<a class=\"back\" href=\"#home\">#{label}</a>"
     else
       "<a class=\"button backButton\" rel=\"external\" href=\"/stream\">#{label}</a>"
@@ -208,6 +210,10 @@ module ApplicationHelper
   
   def iphone?
     controller.iphone?
+  end
+  
+  def params_without_action
+    controller.params_without_action
   end
   
   class << self

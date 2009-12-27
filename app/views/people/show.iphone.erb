@@ -1,6 +1,10 @@
 <% content_for :toolbar do %>
-  <%= iphone_back_button %>
   <h1><%=h @person.name %></h1>
+  <%= iphone_back_button %>
+  <% unless me? %>
+    <%= link_to image_tag('user.png', :alt => 'Profile', :style => 'margin-top:8px;'), @logged_in, :class => 'button', :rel => 'external', :style => 'right:45px;' %>
+  <% end %>
+  <%= link_to image_tag('magnifier.png', :alt => 'Search', :style => 'margin-top:8px;'), new_search_path, :class => 'button', :rel => 'external' %>
 <% end %>
 
 <div class="info">
