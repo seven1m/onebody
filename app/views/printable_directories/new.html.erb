@@ -5,13 +5,12 @@
 <% content_for :sidebar do %>
   <p>
     <%= link_to image_tag('acrobat.gif', :alt => 'Adobe Reader', :class => 'no-border'), 'http://www.adobe.com/products/acrobat/readstep2.html' %>
-    Make sure you have <%= link_to 'Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html' %>
-    or another program that can view PDF files.
+    <%= I18n.t('printable_directories.make_sure_you_have_adobe', :url => "http://www.adobe.com/products/acrobat/readstep2.html" ) %>
   </p>
 <% end %>
 
 <% form_tag printable_directory_path, :method => 'post' do %>
-  <p>Click the button below to have a custom directory PDF file sent to your email.</p>
-  <p><%= check_box_tag 'with_pictures', true, false %> <label for="with_pictures" class="inline">include family pictures</label> (will take a little longer)</p>
-  <p><%= submit_tag 'Email my Custom Directory' %></p>
+  <p><%= I18n.t('printable_directories.click_to_have_custom_pdf_via_email') %></p>
+  <p><%= check_box_tag 'with_pictures', true, false %> <label for="with_pictures" class="inline"><%= I18n.t('printable_directories.include_family_pictures') %></label> <%= I18n.t('printable_directories.will_take_longer') %></p>
+  <p><%= submit_tag I18n.t('printable_directories.email_custom_directory') %></p>
 <% end %>

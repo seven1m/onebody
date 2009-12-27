@@ -5,13 +5,10 @@
 <% content_for :sidebar do %>
   <p>
     <%= link_to image_tag('acrobat.gif', :alt => 'Adobe Reader', :class => 'no-border'), 'http://www.adobe.com/products/acrobat/readstep2.html' %>
-    Make sure you have <%= link_to 'Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html' %>
-    or another program that can view PDF files.
+    <%= I18n.t('printable_directories.make_sure_you_have_adobe', :url => "http://www.adobe.com/products/acrobat/readstep2.html" ) %>
   </p>
 <% end %>
 
 <p>
-  We're building your custom PDF right now. It will take a little while, but probably
-  not more than a few minutes. Once it is ready, we will email it to you.
-  Feel free to continue your visit to this site (you can leave this page if you want).
+  <%= I18n.t('printable_directories.were_are_building_custom_pdf') %>
 </p>
