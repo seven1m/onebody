@@ -6,6 +6,7 @@ pt:
   Save: Salvar
   To: Para
   are_you_sure: "Você tem certeza?"
+  back_to: Voltar para
   by: De
   comments: "Comentários"
   delete: deletar
@@ -297,9 +298,25 @@ pt:
 
   prayer: 
     prayer: Oração
-    prayer_requests: "Pedidos de Oração"
+    prayer_requests: Pedidos de Oração
+    prayer_requests_in: Pedidos de Oração no
+    prayer_request: Pedido de Oração
     request: Pedido
-    save_prayer_request: "Salvar Pedido de Oração"
+    save_prayer_request: Salvar Pedido de Oração
+    add_a_prayer_request: Adicionar um pedido de oração
+    add_prayer_request: Adicionar pedido de oração
+    edit_prayer_request: Editar pedido de oração
+    new_prayer_request: Novo pedido de oração
+    by: Por
+    remember_to_come_back: Lembre-se de voltar e preencher esse espaço, para o seu grupo ter um registro de orações respondidas.
+    answer_date: Data da Resposta
+    answer: Resposta
+    answered: Respondido
+    posted_by: enviado por
+    answered_on: Respondido em
+    edit_request: Editar Pedido
+    delete_request: Deletar Pedido
+    submitted_by: Submetido por
 
   profile: 
     fax: fax

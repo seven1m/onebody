@@ -6,6 +6,7 @@ en:
   Save: Save
   To: To
   are_you_sure: Are you sure?
+  back_to: Back to
   by: By
   comments: Comments
   delete: delete
@@ -298,8 +299,24 @@ en:
   prayer: 
     prayer: Prayer
     prayer_requests: Prayer Requests
+    prayer_requests_in: Prayer Requests in
+    prayer_request: Prayer Request
     request: Request
     save_prayer_request: Save Prayer Request
+    add_a_prayer_request: Add a prayer request
+    add_prayer_request: Add Prayer Request
+    edit_prayer_request: Edit Prayer Request
+    new_prayer_request: New Prayer Request
+    by: By
+    remember_to_come_back: Remember to come back and fill this section so your group can have a record of answered prayers.
+    answer_date: Answer Date
+    answer: Answer
+    answered: Answered
+    posted_by: posted by
+    answered_on: Answered on
+    edit_request: Edit Request
+    delete_request: Delete Request
+    submitted_by: Submitted by
 
   profile: 
     fax: fax
