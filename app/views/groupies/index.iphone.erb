@@ -1,0 +1,21 @@
+<% content_for :toolbar do %>
+  <h1>Groupies</h1>
+  <%= iphone_back_button %>
+<% end %>
+
+<% if @people.any? %>
+  <ul>
+    <% @people.each do |person| %>
+      <li class="arrow">
+        <a href="<%= url_for person %>">
+          <div class="thumbnail">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          </div>
+          <%=h person.name %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="info">Nobody yet!</div>
+<% end %>
