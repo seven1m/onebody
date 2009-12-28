@@ -78,11 +78,11 @@
       var type = get_field_type(field);
       var operator = $(row).select('.operator select')[0].value;
       var value_td = $(row).select('.value')[0];
-      if(['$nil', '$nnil'].indexOf(operator) > -1) {
+      if(['nil', '!nil'].indexOf(operator) > -1) {
         value_td.innerHTML = '<input type="hidden" name="report[selector][value][]"/>';
       } else if(type == 'boolean') {
         value_td.innerHTML = '<select name="report[selector][value][]"><option>true</option><option>false</option></select>';
-      } else if(['$in', '$nin'].indexOf(operator) > -1) {
+      } else if(['in', '!in'].indexOf(operator) > -1) {
         value_td.innerHTML = '<input name="report[selector][value][]"/> <em>separate values with vertical pipe |</em>';
       } else {
         value_td.innerHTML = '<input name="report[selector][value][]"/>';
