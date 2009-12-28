@@ -156,7 +156,7 @@ class Report < ActiveRecord::Base
             value = Regexp.new(param['value'])
           when '=~i'
             value = Regexp.new(param['value'], Regexp::IGNORECASE)
-          when '$nil', '$nnil'
+          when 'nil', '!nil'
             value = nil
           else
             value = typecast_selector_value(param['field'], param['operator'], param['value'])
@@ -191,23 +191,14 @@ class Report < ActiveRecord::Base
         c = conditional_to_javascript('i', [$2, operator, value])
         "select(this.#{$1}, function(i){ return #{c} }).length > 0"
       else
-        if op = {
-          '$in'  => '>',
-          '$nin' => '=='}[operator]
-          "#{value.inspect}.indexOf(#{context}.#{field}) #{op} -1"
-        elsif op = {
-          '$lt'  => '<',
-          '$lte' => '<=',
-          '$gt'  => '>',
-          '$gte' => '>=',
-          '$ne'  => '!='}[operator]
-          "#{context}.#{field} #{op} #{value.inspect}"
-        elsif op = {
-          '$nil'  => '==',
-          '$nnil' => '!='}[operator]
-          "#{context}.#{field} #{op} null"
-        elsif ['=~', '=~i'].include?(operator)
+        if %w(< <= > >= !=).include?(operator)
+          "#{context}.#{field} #{operator} #{value.inspect}"
+        elsif %w(=~ =~i).include?(operator)
           "(#{context}.#{field} && #{context}.#{field}.match(#{value.inspect}))"
+        elsif op = {'in' => '>', '!in' => '=='}[operator]
+          "#{value.inspect}.indexOf(#{context}.#{field}) #{op} -1"
+        elsif op = {'nil' => '==', '!nil' => '!='}[operator]
+          "#{context}.#{field} #{op} null"
         else
           "#{context}.#{field} == #{value.nil? ? 'null' : value.inspect}"
         end
@@ -216,9 +207,9 @@ class Report < ActiveRecord::Base
   end
   
   def typecast_selector_value(field, operator, value)
-    if %w($nil $nnil).include?(operator)
+    if %w(nil !nil).include?(operator)
       nil
-    elsif %w($in $nin).include?(operator)
+    elsif %w(in !in).include?(operator)
       value.split('|').map { |v| typecast_selector_value(field, '=', v) }
     elsif definition['collection'] == 'people' and field_def = PEOPLE_FIELDS.detect { |f| f[0] == field }
       case field_def[1]
@@ -245,18 +236,18 @@ class Report < ActiveRecord::Base
   end
   
   OPERATORS_AND_TYPES = [
-    [I18n.t('reporting.is_exactly'),               '='                                                       ],
-    [I18n.t('reporting.matches_case_sensitive'),   '=~',    ['string', 'text', 'time', 'datetime']           ],
-    [I18n.t('reporting.matches_case_insensitive'), '=~i',   ['string', 'text', 'time', 'datetime']           ],
-    [I18n.t('reporting.less_than'),                '$lt',   ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.less_than_or_equal'),       '$lte',  ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.greater_than'),             '$gt',   ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.greater_than_or_equal'),    '$gte',  ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.is_not'),                   '$ne',   ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.one_of'),                   '$in',   ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.not_one_of'),               '$nin',  ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.is_nil'),                   '$nil'                                                    ],
-    [I18n.t('reporting.is_not_nil'),               '$nnil'                                                   ]
+    [I18n.t('reporting.is_exactly'),               '='                                                     ],
+    [I18n.t('reporting.matches_case_sensitive'),   '=~',  ['string', 'text', 'time', 'datetime']           ],
+    [I18n.t('reporting.matches_case_insensitive'), '=~i', ['string', 'text', 'time', 'datetime']           ],
+    [I18n.t('reporting.less_than'),                '<',   ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.less_than_or_equal'),       '<=',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.greater_than'),             '>',   ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.greater_than_or_equal'),    '>=',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.is_not'),                   '!=',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.one_of'),                   'in',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.not_one_of'),               '!in', ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.is_nil'),                   'nil'                                                   ],
+    [I18n.t('reporting.is_not_nil'),               '!nil'                                                  ]
   ]
   
   def self.operators_for_field(collection, field)
