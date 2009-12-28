@@ -109,70 +109,79 @@ class ReportTest < ActiveSupport::TestCase
     end
     
     should "convert =" do
-      @report.selector = {:field => ['gender'], :operator => ['='], :value => ['Male']}
-      assert_equal({'gender' => 'Male'}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Male'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['gender', '=', 'Male']]]], @report.definition['selector']
     end
     
     should "convert true/false" do
-      @report.selector = {:field => ['child'], :operator => ['='], :value => ['true']}
-      assert_equal({'child' => true}, @report.definition['selector'])
-      @report.selector = {:field => ['child'], :operator => ['='], :value => ['false']}
-      assert_equal({'child' => false}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'child', 'operator' => '=', 'value' => 'true'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['child', '=', true]]]], @report.definition['selector']
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'child', 'operator' => '=', 'value' => 'false'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['child', '=', false]]]], @report.definition['selector']
     end
     
     should "convert $lt" do
-      @report.selector = {:field => ['birthday'], :operator => ['$lt'], :value => ['1981-04-28']}
-      assert_equal({'birthday' => {'$lt' => '1981-04-28'}}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'birthday', 'operator' => '$lt', 'value' => '1981-04-28'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['birthday', '$lt', '1981-04-28']]]], @report.definition['selector']
     end
     
     should "convert $lte" do
-      @report.selector = {:field => ['birthday'], :operator => ['$lte'], :value => ['1981-04-28']}
-      assert_equal({'birthday' => {'$lte' => '1981-04-28'}}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'birthday', 'operator' => '$lte', 'value' => '1981-04-28'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['birthday', '$lte', '1981-04-28']]]], @report.definition['selector']
     end
     
     should "convert $gt" do
-      @report.selector = {:field => ['birthday'], :operator => ['$gt'], :value => ['1981-04-28']}
-      assert_equal({'birthday' => {'$gt' => '1981-04-28'}}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'birthday', 'operator' => '$gt', 'value' => '1981-04-28'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['birthday', '$gt', '1981-04-28']]]], @report.definition['selector']
     end
     
     should "convert $gte" do
-      @report.selector = {:field => ['birthday'], :operator => ['$gte'], :value => ['1981-04-28']}
-      assert_equal({'birthday' => {'$gte' => '1981-04-28'}}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'birthday', 'operator' => '$gte', 'value' => '1981-04-28'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['birthday', '$gte', '1981-04-28']]]], @report.definition['selector']
     end
     
     should "convert $ne" do
-      @report.selector = {:field => ['admin_id'], :operator => ['$ne'], :value => ['1']}
-      assert_equal({'admin_id' => {'$ne' => 1}}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'admin_id', 'operator' => '$ne', 'value' => '1'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['admin_id', '$ne', 1]]]], @report.definition['selector']
     end
     
     should "convert $in" do
-      @report.selector = {:field => ['admin_id'], :operator => ['$in'], :value => ['1|7']}
-      assert_equal({'admin_id' => {'$in' => [1,7]}}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'admin_id', 'operator' => '$in', 'value' => '1|7'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['admin_id', '$in', [1, 7]]]]], @report.definition['selector']
     end
     
     should "convert $nin" do
-      @report.selector = {:field => ['admin_id'], :operator => ['$nin'], :value => ['1|7']}
-      assert_equal({'admin_id' => {'$nin' => [1,7]}}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'admin_id', 'operator' => '$nin', 'value' => '1|7'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['admin_id', '$nin', [1, 7]]]]], @report.definition['selector']
     end
     
     should "convert $nil" do
-      @report.selector = {:field => ['gender'], :operator => ['$nil'], :value => ['']}
-      assert_equal({'gender' => nil}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '$nil'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['gender', '$nil', nil]]]], @report.definition['selector']
     end
     
     should "convert $nnil" do
-      @report.selector = {:field => ['gender'], :operator => ['$nnil'], :value => ['']}
-      assert_equal({'gender' => {'$ne' => nil}}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '$nnil'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['gender', '$nnil', nil]]]], @report.definition['selector']
     end
     
     should "convert =~" do
-      @report.selector = {:field => ['gender'], :operator => ['=~'], :value => ['Male']}
-      assert_equal({'gender' => /Male/}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=~', 'value' => 'Male'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['gender', '=~', /Male/]]]], @report.definition['selector']
     end
     
     should "convert =~i" do
-      @report.selector = {:field => ['gender'], :operator => ['=~i'], :value => ['male']}
-      assert_equal({'gender' => /male/i}, @report.definition['selector'])
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=~i', 'value' => 'male'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['gender', '=~i', /male/i]]]], @report.definition['selector']
+    end
+    
+    should "convert nested conditions" do
+      @report.selector = [{'field' => '(', 'operator' => '$or'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Female'}, {'field' => 'child', 'operator' => '=', 'value' => 'true'}, {'field' => ')', 'operator' => '$or'}]
+      assert_equal [['$or', [['gender', '=', 'Female'], ['child', '=', true]]]], @report.definition['selector']
+      @report.selector = [{'field' => '(', 'operator' => '$or'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Female'}, {'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Male'}, {'field' => 'child', 'operator' => '=', 'value' => 'true'}, {'field' => ')', 'operator' => '$and'}, {'field' => ')', 'operator' => '$or'}]
+      assert_equal [['$or', [['gender', '=', 'Female'], ['$and', [['gender', '=', 'Male'], ['child', '=', true]]]]]], @report.definition['selector']
+      @report.selector = [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Female'}, {'field' => '(', 'operator' => '$or'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Male'}, {'field' => 'child', 'operator' => '=', 'value' => 'true'}, {'field' => ')', 'operator' => '$or'}, {'field' => ')', 'operator' => '$and'}]
+      assert_equal [['$and', [['gender', '=', 'Female'], ['$or', [['gender', '=', 'Male'], ['child', '=', true]]]]]], @report.definition['selector']
     end
   
   end

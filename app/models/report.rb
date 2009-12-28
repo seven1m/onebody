@@ -75,6 +75,43 @@ class Report < ActiveRecord::Base
     end
   end
   
+  # Nested Selector Definition
+  # * A simple conditional takes the form: [field, operator, value]
+  #   * Fields are those avaialable from Report::PEOPLE_FIELDS
+  #   * Operators are those listed in Report::OPERATORS_AND_TYPES
+  #   * Values are of proper type, i.e. integer, boolean -- only strings should be in string form.
+  # * A set of joined conditionals takes the form (using $and/$or): ['$and', ARRAY_OF_CONDITIONALS]
+  # * definition['selector'] will always be an array of one element, e.g.
+  #   * [['$and', ARRAY_OF_CONDITIONALS]]
+  #   * [['$or',  ARRAY_OF_CONDITIONALS]]
+  # * A complete sample:
+  #   definition['selector'] = [
+  #     ['$and', [
+  #       ['gender', '=', 'Male'],
+  #       ['child',  '=',  true ]
+  #     ]
+  #   ]
+  #
+  # Flattened Selector Definition
+  # * A simple conditional takes the form: {'field' => field, 'operator' => operator, 'value' => value}
+  #   * Some values are converted to string representations:
+  #     * A Regexp is converted to a string of its source representation
+  #     * An Array is converted to a string, with its members joined with by a pipe (|)
+  # * A set of joined conditionals is preceded with:
+  #   * {'field' => '(', 'operator' => '$and'}
+  #   ... and followed by:
+  #   * {'field' => ')', 'operator' => '$and'}
+  # * A complete sample:
+  #   [
+  #     {'field' => '(',      'operator' => '$and'                  },
+  #     {'field' => 'gender', 'operator' => '=',   'value' => 'Male'},
+  #     {'field' => 'child',  'operator' => '=',   'value' => true  },
+  #     {'field' => ')',      'operator' => '$and'                  }
+  #   ]
+  
+  
+  # Selector Definition Conversion - TO
+  
   def selector_for_form
     definition['selector'].map { |c| condition_for_form(c) }.flatten
   end
@@ -97,71 +134,40 @@ class Report < ActiveRecord::Base
     end
   end
   
-  def complex_condition_for_form(field, operator, value)
-    if value.is_a?(Array)
-      [field, operator, value.join('|')]
-    elsif operator == '$ne' and value == nil
-      [field, '$nnil']
-    else
-      [field, operator, value]
-    end
-  end
+  # Selector Definition Conversion - FROM
   
   def selector=(params)
-    definition['selector'] = convert_selector_params(combine_selector_params(params))
-  end
-  
-  def combine_selector_params(params)
-    sel = []
-    params[:field].each_with_index do |field, index|
-      sel << [field, params[:operator][index], params[:value][index]]
-    end
-    return sel
+    definition['selector'] = convert_selector_params(params)
   end
   
   def convert_selector_params(params)
-    sel = {}
-    params.each do |field, operator, value|
-      if field =~ /^(and|or)(\d+)/
-        
+    sel = []
+    stack = [sel]
+    params.each do |param|
+      if param['field'] == '('
+        joined = [param['operator'], []]
+        stack.last << joined
+        stack.push(joined[1])
+      elsif param['field'] == ')'
+        stack.pop
       else
-        case operator
+        case param['operator']
           when '=~'
-            sel[field] = Regexp.new(value)
+            value = Regexp.new(param['value'])
           when '=~i'
-            sel[field] = Regexp.new(value, Regexp::IGNORECASE)
-          when '='
-            sel[field] = typecast_selector_value(field, operator, value)
-          when '$nil'
-            sel[field] = nil
-          when '$nnil'
-            sel[field] ||= {}
-            sel[field]['$ne'] = nil
+            value = Regexp.new(param['value'], Regexp::IGNORECASE)
+          when '$nil', '$nnil'
+            value = nil
           else
-            sel[field] ||= {}
-            sel[field][operator] = typecast_selector_value(field, operator, value)
+            value = typecast_selector_value(param['field'], param['operator'], param['value'])
         end
+        stack.last << [param['field'], param['operator'], value]
       end
     end
-    return sel
+    sel
   end
   
-  # Selector should be that which is consumable by the report html form.
-  # * A simple conditional takes the form: [field, operator, value]
-  #   * Fields are those avaialable from Report::PEOPLE_FIELDS
-  #   * Operators are those listed in Report::OPERATORS_AND_TYPES
-  #   * Values are of proper type, i.e. integer, boolean -- only strings should be in string form.
-  # * A set of joined conditionals takes the form (using $and/$or): ['$and', ARRAY_OF_CONDITIONALS]
-  # * definition['selector'] will always be an array of one element, e.g.
-  #   * [['$and', ARRAY_OF_CONDITIONALS]]
-  #   * [['$or',  ARRAY_OF_CONDITIONALS]]
-  # * A complete sample:
-  #   definition['selector'] = [
-  #     ['$and', [
-  #       ['gender', '=', 'Male'],
-  #       ['child',  '=',  true ]
-  #     ]
-  #   ]
+  # Selector Definition Conversion - JAVASCRIPT
   
   def selector_to_javascript
     'return ' + conditional_to_javascript('this', definition['selector'].first) + ';'
