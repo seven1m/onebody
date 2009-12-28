@@ -74,7 +74,7 @@ class Administration::ReportsController < ApplicationController
   end
   
   def criteria
-    @object = ['', '=', '']
+    @object = {'field' => '', 'operator' => '=', 'value' => ''}
     render :partial => "#{params[:collection]}_selector", :object => @object
   end
   

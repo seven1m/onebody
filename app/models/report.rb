@@ -76,30 +76,24 @@ class Report < ActiveRecord::Base
   end
   
   def selector_for_form
-    definition['selector'].sort.inject([]) do |array, item|
-      array += condition_for_form(*item)
-      array
-    end
+    definition['selector'].map { |c| condition_for_form(c) }.flatten
   end
   
-  def condition_for_form(field, value)
-    if ['$or', '$and'].include?(field)
-      value = value.sort.inject([]) do |array, item|
-        array += condition_for_form(*item)
-      end
-      [[field, value]]
-    elsif value.is_a?(Hash)
-      value.sort.map { |v| complex_condition_for_form(field, *v) }
-    elsif value.is_a?(Regexp)
-      if value.options & Regexp::IGNORECASE > 0
-        [[field, '=~i', value.source]]
-      else
-        [[field, '=~', value.source]]
-      end
-    elsif value == nil
-      [[field, '$nil']]
+  def condition_for_form(cond)
+    if ['$or', '$and'].include?(cond.first)
+      [
+        {'field' => '(', 'operator' => cond.first},
+        cond.last.map { |c| condition_for_form(c) },
+        {'field' => ')', 'operator' => cond.first}
+      ].flatten
     else
-      [[field, '=', value]]
+      field, operator, value = cond
+      if value.is_a?(Regexp)
+        value = value.source
+      elsif value.is_a?(Array)
+        value = value.join('|')
+      end
+      {'field' => field, 'operator' => operator, 'value' => value}
     end
   end
   

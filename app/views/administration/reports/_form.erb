@@ -48,12 +48,12 @@
     );
   }
   
-  people_fields = <%= Report.people_fields.inspect %>;
+  people_fields = <%= Report::PEOPLE_FIELDS.inspect %>;
   function get_field_type(field) {
     return people_fields.detect(function(f){ return f[0] == field })[1];
   }
   
-  operators_and_types = <%= Report.operators_and_types.inspect %>;
+  operators_and_types = <%= Report::OPERATORS_AND_TYPES.inspect %>;
   function adjust_operator_and_value(row) {
     var field = $(row).select('.field select')[0].value;
     if(field) {

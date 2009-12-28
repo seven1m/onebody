@@ -23,79 +23,79 @@ class ReportTest < ActiveSupport::TestCase
     end
     
     should "convert =" do
-      @report.definition['selector'] = {'gender' => 'Male'}
-      assert_equal [['gender', '=', 'Male']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['gender', '=', 'Male']]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Male'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert true/false" do
-      @report.definition['selector'] = {'child' => true}
-      assert_equal [['child', '=', true]], @report.selector_for_form
-      @report.definition['selector'] = {'child' => false}
-      assert_equal [['child', '=', false]], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['child', '=', true]]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'child', 'operator' => '=', 'value' => true}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['child', '=', false]]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'child', 'operator' => '=', 'value' => false}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $lt" do
-      @report.definition['selector'] = {'birthday' => {'$lt' => '1981-04-28'}}
-      assert_equal [['birthday', '$lt', '1981-04-28']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['birthday', '$lt', '1981-04-28']]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'birthday', 'operator' => '$lt', 'value' => '1981-04-28'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $lte" do
-      @report.definition['selector'] = {'birthday' => {'$lte' => '1981-04-28'}}
-      assert_equal [['birthday', '$lte', '1981-04-28']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['birthday', '$lte', '1981-04-28']]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'birthday', 'operator' => '$lte', 'value' => '1981-04-28'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $gt" do
-      @report.definition['selector'] = {'birthday' => {'$gt' => '1981-04-28'}}
-      assert_equal [['birthday', '$gt', '1981-04-28']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['birthday', '$gt', '1981-04-28']]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'birthday', 'operator' => '$gt', 'value' => '1981-04-28'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $gte" do
-      @report.definition['selector'] = {'birthday' => {'$gte' => '1981-04-28'}}
-      assert_equal [['birthday', '$gte', '1981-04-28']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['birthday', '$gte', '1981-04-28']]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'birthday', 'operator' => '$gte', 'value' => '1981-04-28'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $ne" do
-      @report.definition['selector'] = {'admin_id' => {'$ne' => 1}}
-      assert_equal [['admin_id', '$ne', 1]], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['admin_id', '$ne', 1]]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'admin_id', 'operator' => '$ne', 'value' => 1}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $in" do
-      @report.definition['selector'] = {'admin_id' => {'$in' => [1,7]}}
-      assert_equal [['admin_id', '$in', '1|7']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['admin_id', '$in', [1, 7]]]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'admin_id', 'operator' => '$in', 'value' => '1|7'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $nin" do
-      @report.definition['selector'] = {'admin_id' => {'$nin' => [1,7]}}
-      assert_equal [['admin_id', '$nin', '1|7']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['admin_id', '$nin', [1, 7]]]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'admin_id', 'operator' => '$nin', 'value' => '1|7'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $nil" do
-      @report.definition['selector'] = {'gender' => nil}
-      assert_equal [['gender', '$nil']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['gender', '$nil']]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '$nil', 'value' => nil}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert $nnil" do
-      @report.definition['selector'] = {'gender' => {'$ne' => nil}}
-      assert_equal [['gender', '$nnil']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['gender', '$nnil']]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '$nnil', 'value' => nil}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert =~" do
-      @report.definition['selector'] = {'gender' => /Male/}
-      assert_equal [['gender', '=~', 'Male']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['gender', '=~', /Male/]]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=~', 'value' => 'Male'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
     should "convert =~i" do
-      @report.definition['selector'] = {'gender' => /male/i}
-      assert_equal [['gender', '=~i', 'male']], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['gender', '=~i', /male/i]]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=~i', 'value' => 'male'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
     
-    should "convert $or and $and" do
-      @report.definition['selector'] = {'$or' => {'gender' => 'Female', 'child' => true}}
-      assert_equal [['$or', [['child', '=', true], ['gender', '=', 'Female']]]], @report.selector_for_form
-      @report.definition['selector'] = {'$or' => {'gender' => 'Female', '$and' => {'gender' => 'Male', 'child' => true}}}
-      assert_equal [['$or', [['$and', [['child', '=', true], ['gender', '=', 'Male']]], ['gender', '=', 'Female']]]], @report.selector_for_form
-      @report.definition['selector'] = {'gender' => 'Female', '$or' => {'gender' => 'Male', 'child' => true}}
-      assert_equal [['$or', [['child', '=', true], ['gender', '=', 'Male']]], ['gender', '=', 'Female']], @report.selector_for_form, @report.selector_for_form
+    should "convert nested conditions" do
+      @report.definition['selector'] = [['$or', [['gender', '=', 'Female'], ['child', '=', true]]]]
+      assert_equal [{'field' => '(', 'operator' => '$or'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Female'}, {'field' => 'child', 'operator' => '=', 'value' => true}, {'field' => ')', 'operator' => '$or'}], @report.selector_for_form
+      @report.definition['selector'] = [['$or', [['gender', '=', 'Female'], ['$and', [['gender', '=', 'Male'], ['child', '=', true]]]]]]
+      assert_equal [{'field' => '(', 'operator' => '$or'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Female'}, {'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Male'}, {'field' => 'child', 'operator' => '=', 'value' => true}, {'field' => ')', 'operator' => '$and'}, {'field' => ')', 'operator' => '$or'}], @report.selector_for_form
+      @report.definition['selector'] = [['$and', [['gender', '=', 'Female'], ['$or', [['gender', '=', 'Male'], ['child', '=', true]]]]]]
+      assert_equal [{'field' => '(', 'operator' => '$and'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Female'}, {'field' => '(', 'operator' => '$or'}, {'field' => 'gender', 'operator' => '=', 'value' => 'Male'}, {'field' => 'child', 'operator' => '=', 'value' => true}, {'field' => ')', 'operator' => '$or'}, {'field' => ')', 'operator' => '$and'}], @report.selector_for_form
     end
   
   end

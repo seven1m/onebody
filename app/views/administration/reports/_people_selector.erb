@@ -1,36 +1,38 @@
-<div>
-  <% if ['$or', '$and'].include?(object[0]) %>
-    <table style="margin-left:5px;">
-      <tr>
-        <td class="criteria-joiner"><span><%=h object[0].sub(/^\$/, '') %></span></td>
-        <td><%= render :partial => "#{@report.definition['collection']}_selector", :collection => object[1] %></td>
-      </tr>
-    </table>
-  <% else %>
+<% if object['field'] == '(' %>
+  <!-- start <%= object['operator'] %> -->
+  <table style="margin-left:5px;"><tr><td class="criteria-joiner"><span><%=h object['operator'].sub(/^\$/, '') %></span></td><td>
+  <%= hidden_field_tag 'report[selector][][field]', '(' %>
+  <%= hidden_field_tag 'report[selector][][operator]', object['operator'] %>
+<% elsif object['field'] == ')' %>
+  <%= hidden_field_tag 'report[selector][][field]', ')' %>
+  <%= hidden_field_tag 'report[selector][][operator]', object['operator'] %>
+  </td></tr></table><!-- end <%= object['operator'] %> -->
+<% else %>
+  <div>
     <span class="field">
-      <%= select_tag 'report[selector][field][]',
-        options_for_select(['']+Report.people_fields.map { |f| f.first }, object[0]),
+      <%= select_tag 'report[selector][][field]',
+        options_for_select(['']+Report::PEOPLE_FIELDS.map { |f| f.first }, object['field']),
         :onchange => "adjust_operator_and_value(this.parentNode.parentNode)" %>
     </span>
     <span class="operator">
-      <%= select_tag 'report[selector][operator][]',
-        options_for_select(Report.operators_for_field('people', object[0]), object[1]),
+      <%= select_tag 'report[selector][][operator]',
+        options_for_select(Report.operators_for_field('people', object['field']), object['operator']),
         :onchange => "adjust_value(this.parentNode.parentNode)" %>
     </span>
     <span class="value">
-      <% if Report.field_type(object[0]) == 'boolean' %>
-        <%= select_tag 'report[selector][value][]', options_for_select([true, false], object[2]) %>
-      <% elsif ['$in', '$nin'].include?(object[1]) %>
-        <%= text_field_tag 'report[selector][value][]', object[2] %> <em>separate values with vertical pipe |</em>
-      <% elsif ['$nil', '$nnil'].include?(object[1]) %>
-        <%= hidden_field_tag 'report[selector][value][]', '' %>
+      <% if Report.field_type(object['field']) == 'boolean' %>
+        <%= select_tag 'report[selector][][value]', options_for_select([true, false], object['value']) %>
+      <% elsif ['$in', '$nin'].include?(object['operator']) %>
+        <%= text_field_tag 'report[selector][][value]', object['value'] %> <em>separate values with vertical pipe |</em>
+      <% elsif ['$nil', '$nnil'].include?(object['operator']) %>
+        <!-- no value -->
       <% else %>
-        <%= text_field_tag 'report[selector][value][]', object[2] %>
-      <% end %>  
+        <%= text_field_tag 'report[selector][][value]', object['value'] %>
+      <% end %>
     </span>
     <span>
       <%= link_to_function image_tag('delete.png', :class => 'icon', :alt => I18n.t('reporting.remove_criteria')), "var row=this.parentNode.parentNode;row.parentNode.removeChild(row);" %>
       <%= link_to_function image_tag('plus.png', :class => 'icon', :alt => I18n.t('reporting.add_criteria')), "add_criteria(this.parentNode.parentNode.parentNode)" %>
     </span>
-  <% end %>
-</div>
+  </div>
+<% end %>
