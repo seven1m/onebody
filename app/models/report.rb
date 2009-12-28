@@ -15,7 +15,7 @@ class Report < ActiveRecord::Base
   
   validates_each :definition do |record, attribute, value|
     unless VALID_COLLECTIONS.include?(value['collection']) \
-      and value['selector'].is_a?(Hash)
+      and value['selector'].is_a?(Array)
       record.errors.add(attribute, :invalid)
     end
   end
@@ -35,7 +35,7 @@ class Report < ActiveRecord::Base
   
   def run
     if collection and definition['selector']
-      f = collection.find(definition['selector'], definition['options'] || {})
+      f = collection.find(selector_to_javascript, definition['options'] || {})
       f.count # get Mongo to thrown an error if there's a problem
       increment(:run_count)
       self.last_run_at = Time.now
@@ -152,55 +152,67 @@ class Report < ActiveRecord::Base
     return sel
   end
   
-  def convert_selector_to_javascript
-    return unless definition['selector'].is_a?(Hash)
-    'return ' +
-    definition['selector'].sort.map do |field, value|
-      if field =~ /^groups\.(.+)/
-        cond = build_conditional('i', $1, value)
-        "select(this.groups, function(i){ return #{cond} }).length > 0"
-      else
-        build_conditional('this', field, value)
-      end
-    end.join(' && ') + ';'
+  # Selector should be that which is consumable by the report html form.
+  # * A simple conditional takes the form: [field, operator, value]
+  #   * Fields are those avaialable from Report::PEOPLE_FIELDS
+  #   * Operators are those listed in Report::OPERATORS_AND_TYPES
+  #   * Values are of proper type, i.e. integer, boolean -- only strings should be in string form.
+  # * A set of joined conditionals takes the form (using $and/$or): ['$and', ARRAY_OF_CONDITIONALS]
+  # * definition['selector'] will always be an array of one element, e.g.
+  #   * [['$and', ARRAY_OF_CONDITIONALS]]
+  #   * [['$or',  ARRAY_OF_CONDITIONALS]]
+  # * A complete sample:
+  #   definition['selector'] = [
+  #     ['$and', [
+  #       ['gender', '=', 'Male'],
+  #       ['child',  '=',  true ]
+  #     ]
+  #   ]
+  
+  def selector_to_javascript
+    'return ' + conditional_to_javascript('this', definition['selector'].first) + ';'
   end
   
-  def build_conditional(context, field, value)
-    if value.is_a?(Hash)
-      if field == '$or'
-        value = value.sort.map { |f, v| build_conditional(context, f, v) }.join(' || ')
-        return "(#{value})"
-      elsif field == '$and'
-        value = value.sort.map { |f, v| build_conditional(context, f, v) }.join(' && ')
-        return "(#{value})"
-      end
-      value.sort.map do |op, v|
-        if v.is_a?(Array)
-          op = {
-            '$in'  => '>',
-            '$nin' => '=='
-          }[op]
-          "#{v.inspect}.indexOf(#{context}.#{field}) #{op} -1"
-        else
-          op = {
-            '$lt'  => '<',
-            '$lte' => '<=',
-            '$gt'  => '>',
-            '$gte' => '>=',
-            '$ne'  => '!='
-          }[op]
-          "#{context}.#{field} #{op} #{v.nil? ? 'null' : v.inspect}"
-        end
-      end.join(' && ')
-    elsif value.is_a?(Regexp)
-      "#{context}.#{field}.match(#{value.inspect})"
+  JOINERS = {
+    '$and' => ' && ',
+    '$or'  => ' || '
+  }
+  
+  # select function required to be in MongoDB
+  # TODO: figure out how to auto-insert this into Mongo when first starting up
+  # db.system.js.save({_id: "select", value: function(arr, fun){ var matched=[]; for(var i=0; i<arr.length; i++) { if(fun(arr[i])) matched.push(arr[i]) }; return matched; } });
+  
+  def conditional_to_javascript(context, cond)
+    if joiner = JOINERS[cond.first]
+      '(' + cond.last.map { |c| conditional_to_javascript(context, c) }.join(joiner) + ')'
     else
-      "#{context}.#{field} == #{value.nil? ? 'null' : value.inspect}"
+      field, operator, value = cond
+      if field =~ /^(#{ONE_TO_MANY_ASSOCIATIONS.join('|')})\.(.+)/
+        c = conditional_to_javascript('i', [$2, operator, value])
+        "select(this.#{$1}, function(i){ return #{c} }).length > 0"
+      else
+        if op = {
+          '$in'  => '>',
+          '$nin' => '=='}[operator]
+          "#{value.inspect}.indexOf(#{context}.#{field}) #{op} -1"
+        elsif op = {
+          '$lt'  => '<',
+          '$lte' => '<=',
+          '$gt'  => '>',
+          '$gte' => '>=',
+          '$ne'  => '!='}[operator]
+          "#{context}.#{field} #{op} #{value.inspect}"
+        elsif op = {
+          '$nil'  => '==',
+          '$nnil' => '!='}[operator]
+          "#{context}.#{field} #{op} null"
+        elsif ['=~', '=~i'].include?(operator)
+          "(#{context}.#{field} && #{context}.#{field}.match(#{value.inspect}))"
+        else
+          "#{context}.#{field} == #{value.nil? ? 'null' : value.inspect}"
+        end
+      end
     end
-  end
-  
-  def convert_selector_to_javascript!
-    self.definition['selector'] = convert_selector_to_javascript
   end
   
   def typecast_selector_value(field, operator, value)
@@ -208,7 +220,7 @@ class Report < ActiveRecord::Base
       nil
     elsif %w($in $nin).include?(operator)
       value.split('|').map { |v| typecast_selector_value(field, '=', v) }
-    elsif definition['collection'] == 'people' and field_def = self.class.people_fields.detect { |f| f[0] == field }
+    elsif definition['collection'] == 'people' and field_def = PEOPLE_FIELDS.detect { |f| f[0] == field }
       case field_def[1]
         when 'integer' then value.to_i
         when 'boolean' then value == 'true'
@@ -219,40 +231,38 @@ class Report < ActiveRecord::Base
     end
   end
   
-  def self.people_fields
-    (
-      Person.columns.map     { |c| [c.name,                        c.type.to_s] }.sort +
-      Admin.columns.map      { |c| ["admin.#{c.name}",             c.type.to_s] }.sort +
-      Group.columns.map      { |c| ["groups.#{c.name}",            c.type.to_s] }.sort +
-      Membership.columns.map { |c| ["groups.membership.#{c.name}", c.type.to_s] }.sort
-    ).reject { |col, type| col =~ /site_id$/ }
-  end
+  PEOPLE_FIELDS = (
+    Person.columns.map     { |c| [c.name,                        c.type.to_s] }.sort +
+    Admin.columns.map      { |c| ["admin.#{c.name}",             c.type.to_s] }.sort +
+    Group.columns.map      { |c| ["groups.#{c.name}",            c.type.to_s] }.sort +
+    Membership.columns.map { |c| ["groups.membership.#{c.name}", c.type.to_s] }.sort
+  ).reject { |col, type| col =~ /site_id$/ }
+  
+  ONE_TO_MANY_ASSOCIATIONS = ['groups']
   
   def self.field_type(field)
-    people_fields.detect { |f, t| f == field }[1] rescue nil
+    PEOPLE_FIELDS.detect { |f, t| f == field }[1] rescue nil
   end
   
-  def self.operators_and_types
-    [
-      [I18n.t('reporting.is_exactly'),               '='                                                      ],
-      [I18n.t('reporting.matches_case_sensitive'),   '=~',    ['string', 'text', 'time', 'datetime']           ],
-      [I18n.t('reporting.matches_case_insensitive'), '=~i',   ['string', 'text', 'time', 'datetime']           ],
-      [I18n.t('reporting.less_than'),                '$lt',   ['string', 'text', 'integer', 'time', 'datetime']],
-      [I18n.t('reporting.less_than_or_equal'),       '$lte',  ['string', 'text', 'integer', 'time', 'datetime']],
-      [I18n.t('reporting.greater_than'),             '$gt',   ['string', 'text', 'integer', 'time', 'datetime']],
-      [I18n.t('reporting.greater_than_or_equal'),    '$gte',  ['string', 'text', 'integer', 'time', 'datetime']],
-      [I18n.t('reporting.is_not'),                   '$ne',   ['string', 'text', 'integer', 'time', 'datetime']],
-      [I18n.t('reporting.one_of'),                   '$in',   ['string', 'text', 'integer', 'time', 'datetime']],
-      [I18n.t('reporting.not_one_of'),               '$nin',  ['string', 'text', 'integer', 'time', 'datetime']],
-      [I18n.t('reporting.is_nil'),                   '$nil'                                                    ],
-      [I18n.t('reporting.is_not_nil'),               '$nnil'                                                   ]
-    ]
-  end
+  OPERATORS_AND_TYPES = [
+    [I18n.t('reporting.is_exactly'),               '='                                                       ],
+    [I18n.t('reporting.matches_case_sensitive'),   '=~',    ['string', 'text', 'time', 'datetime']           ],
+    [I18n.t('reporting.matches_case_insensitive'), '=~i',   ['string', 'text', 'time', 'datetime']           ],
+    [I18n.t('reporting.less_than'),                '$lt',   ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.less_than_or_equal'),       '$lte',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.greater_than'),             '$gt',   ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.greater_than_or_equal'),    '$gte',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.is_not'),                   '$ne',   ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.one_of'),                   '$in',   ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.not_one_of'),               '$nin',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.is_nil'),                   '$nil'                                                    ],
+    [I18n.t('reporting.is_not_nil'),               '$nnil'                                                   ]
+  ]
   
   def self.operators_for_field(collection, field)
-    ops = operators_and_types.dup
+    ops = OPERATORS_AND_TYPES.dup
     unless field == ''
-      type = people_fields.detect { |f, t| f == field }[1]
+      type = PEOPLE_FIELDS.detect { |f, t| f == field }[1]
       ops.reject! { |o| o[2] and !o[2].include?(type) }
     end
     ops.map { |o| o[0..1] }
