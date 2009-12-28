@@ -187,91 +187,91 @@ class ReportTest < ActiveSupport::TestCase
     
     should "generate $where function from = selector" do
       @report.definition['selector'] = {'gender' => 'Male'}
-      assert_equal 'return this.gender == "Male";', @report.convert_selector
+      assert_equal 'return this.gender == "Male";', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from boolean selector" do
       @report.definition['selector'] = {'elder' => true}
-      assert_equal 'return this.elder == true;', @report.convert_selector
+      assert_equal 'return this.elder == true;', @report.convert_selector_to_javascript
       @report.definition['selector'] = {'elder' => false}
-      assert_equal 'return this.elder == false;', @report.convert_selector
+      assert_equal 'return this.elder == false;', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from $lt selector" do
       @report.definition['selector'] = {'birthday' => {'$lt' => '1981-04-28'}}
-      assert_equal 'return this.birthday < "1981-04-28";', @report.convert_selector
+      assert_equal 'return this.birthday < "1981-04-28";', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from $lte selector" do
       @report.definition['selector'] = {'birthday' => {'$lte' => '1981-04-28'}}
-      assert_equal 'return this.birthday <= "1981-04-28";', @report.convert_selector
+      assert_equal 'return this.birthday <= "1981-04-28";', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from $gt selector" do
       @report.definition['selector'] = {'birthday' => {'$gt' => '1981-04-28'}}
-      assert_equal 'return this.birthday > "1981-04-28";', @report.convert_selector
+      assert_equal 'return this.birthday > "1981-04-28";', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from $gte selector" do
       @report.definition['selector'] = {'birthday' => {'$gte' => '1981-04-28'}}
-      assert_equal 'return this.birthday >= "1981-04-28";', @report.convert_selector
+      assert_equal 'return this.birthday >= "1981-04-28";', @report.convert_selector_to_javascript
     end
     
     should "geneate $where function from $ne selector" do
       @report.definition['selector'] = {'admin_id' => {'$ne' => 1}}
-      assert_equal 'return this.admin_id != 1;', @report.convert_selector
+      assert_equal 'return this.admin_id != 1;', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from $in selector" do
       @report.definition['selector'] = {'admin_id' => {'$in' => [1,7]}}
-      assert_equal 'return [1, 7].indexOf(this.admin_id) > -1;', @report.convert_selector
+      assert_equal 'return [1, 7].indexOf(this.admin_id) > -1;', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from $nil selector" do
       @report.definition['selector'] = {'gender' => nil}
-      assert_equal 'return this.gender == null;', @report.convert_selector
+      assert_equal 'return this.gender == null;', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from $nnil selector" do
       @report.definition['selector'] = {'gender' => {'$ne' => nil}}
-      assert_equal 'return this.gender != null;', @report.convert_selector
+      assert_equal 'return this.gender != null;', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from =~ selector" do
       @report.definition['selector'] = {'gender' => /Male/}
-      assert_equal 'return this.gender.match(/Male/);', @report.convert_selector
+      assert_equal 'return this.gender.match(/Male/);', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from =~i selector" do
       @report.definition['selector'] = {'gender' => /male/i}
-      assert_equal 'return this.gender.match(/male/i);', @report.convert_selector
+      assert_equal 'return this.gender.match(/male/i);', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from multiple selectors" do
       @report.definition['selector'] = {'admin_id' => {'$in' => [1,7]}, 'gender' => 'Male', 'name' => /a/i, 'suffix' => nil}
       assert_equal 'return [1, 7].indexOf(this.admin_id) > -1 && this.gender == "Male" && this.name.match(/a/i) && this.suffix == null;',
-        @report.convert_selector
+        @report.convert_selector_to_javascript
     end
     
     should "generate $where function from embedded-document selectors" do
       # singular embedded document (not really different from normal selectors)
       @report.definition['selector'] = {'admin.flags' => /view_hidden_profiles/}
-      assert_equal 'return this.admin.flags.match(/view_hidden_profiles/);', @report.convert_selector
+      assert_equal 'return this.admin.flags.match(/view_hidden_profiles/);', @report.convert_selector_to_javascript
       # embedded document inside an array (requires our 'select' function)
       @report.definition['selector'] = {'groups.name' => 'Van Drivers'}
-      assert_equal 'return select(this.groups, function(i){ return i.name == "Van Drivers" }).length > 0;', @report.convert_selector
+      assert_equal 'return select(this.groups, function(i){ return i.name == "Van Drivers" }).length > 0;', @report.convert_selector_to_javascript
       # a singular embedded document on a document inside an array (whew!)
       @report.definition['selector'] = {'groups.membership.get_email' => true}
-      assert_equal 'return select(this.groups, function(i){ return i.membership.get_email == true }).length > 0;', @report.convert_selector
+      assert_equal 'return select(this.groups, function(i){ return i.membership.get_email == true }).length > 0;', @report.convert_selector_to_javascript
     end
     
     should "generate $where function from $or and $and selectors" do
       @report.definition['selector'] = {'$or' => {'gender' => 'Female', 'child' => true}}
-      assert_equal 'return (this.child == true || this.gender == "Female");', @report.convert_selector
+      assert_equal 'return (this.child == true || this.gender == "Female");', @report.convert_selector_to_javascript
       @report.definition['selector'] = {'$or' => {'gender' => 'Female', '$and' => {'gender' => 'Male', 'child' => true}}}
-      assert_equal 'return ((this.child == true && this.gender == "Male") || this.gender == "Female");', @report.convert_selector
+      assert_equal 'return ((this.child == true && this.gender == "Male") || this.gender == "Female");', @report.convert_selector_to_javascript
       @report.definition['selector'] = {'gender' => 'Female', '$or' => {'gender' => 'Male', 'child' => true}}
-      assert_equal 'return (this.child == true || this.gender == "Male") && this.gender == "Female";', @report.convert_selector
+      assert_equal 'return (this.child == true || this.gender == "Male") && this.gender == "Female";', @report.convert_selector_to_javascript
     end
   
   end

@@ -136,7 +136,7 @@ class Report < ActiveRecord::Base
     definition['selector'] = sel
   end
   
-  def convert_selector
+  def convert_selector_to_javascript
     return unless definition['selector'].is_a?(Hash)
     'return ' +
     definition['selector'].sort.map do |field, value|
@@ -183,8 +183,8 @@ class Report < ActiveRecord::Base
     end
   end
   
-  def convert_selector!
-    self.definition['selector'] = convert_selector
+  def convert_selector_to_javascript!
+    self.definition['selector'] = convert_selector_to_javascript
   end
   
   def typecast_selector_value(field, operator, value)
