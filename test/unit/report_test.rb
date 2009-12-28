@@ -236,6 +236,11 @@ class ReportTest < ActiveSupport::TestCase
       assert_equal 'return ([1, 7].indexOf(this.admin_id) > -1);', @report.selector_to_javascript
     end
     
+    should "generate from !in operator" do
+      @report.definition['selector'] = [['$and', [['admin_id', '!in', [1, 7]]]]]
+      assert_equal 'return ([1, 7].indexOf(this.admin_id) == -1);', @report.selector_to_javascript
+    end
+    
     should "generate from nil operator" do
       @report.definition['selector'] = [['$and', [['gender', 'nil']]]]
       assert_equal 'return (this.gender == null);', @report.selector_to_javascript
