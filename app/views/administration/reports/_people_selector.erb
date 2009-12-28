@@ -2,7 +2,7 @@
   <% if ['$or', '$and'].include?(object[0]) %>
     <table style="margin-left:5px;">
       <tr>
-        <td class="criteria-joiner"><span><%= I18n.t('reporting.or') %></span></td>
+        <td class="criteria-joiner"><span><%=h object[0].sub(/^\$/, '') %></span></td>
         <td><%= render :partial => "#{@report.definition['collection']}_selector", :collection => object[1] %></td>
       </tr>
     </table>
@@ -30,7 +30,7 @@
     </span>
     <span>
       <%= link_to_function image_tag('delete.png', :class => 'icon', :alt => I18n.t('reporting.remove_criteria')), "var row=this.parentNode.parentNode;row.parentNode.removeChild(row);" %>
-      <%= link_to_function image_tag('plus.png', :class => 'icon', :alt => I18n.t('reporting.add_criteria')), "add_criteria()" %>
+      <%= link_to_function image_tag('plus.png', :class => 'icon', :alt => I18n.t('reporting.add_criteria')), "add_criteria(this.parentNode.parentNode.parentNode)" %>
     </span>
   <% end %>
 </div>

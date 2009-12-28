@@ -25,14 +25,12 @@
   
   <fieldset>
     <legend><%= I18n.t('reporting.Criteria') %></legend>
-    <table>
-      <tr>
-        <td class="criteria-joiner"><span><%= I18n.t('reporting.and') %></span></td>
-        <td id="criteria"><%= render :partial => "#{@report.definition['collection']}_selector", :collection => @conditions %></td>
-      </tr>
-    </table>
-    <p><%= link_to_function image_tag('plus.png', :class => 'icon') + ' ' + I18n.t('reporting.add_criteria'), "add_criteria()" %></p>
+    <div id="criteria_root">
+      <%= render :partial => "#{@report.definition['collection']}_selector", :collection => @conditions %>
+    </div>
   </fieldset>
+  
+  <p><%= link_to_function image_tag('plus.png', :class => 'icon') + ' ' + I18n.t('reporting.add_criteria'), "add_criteria('criteria_root')" %></p>
   
   <p>
     <%= form.submit I18n.t('Save') %>
@@ -42,10 +40,11 @@
 <% end %>
 
 <script type="text/javascript">
-  function add_criteria() {
-    new Ajax.Request(
+  function add_criteria(container) {
+    new Ajax.Updater(
+      container,
       '<%= criteria_administration_reports_path %>?collection=<%= @report.definition['collection'] %>',
-      {asynchronous:true, evalScripts:true, method:'GET'}
+      {asynchronous:true, method:'GET', insertion:'bottom'}
     );
   }
   

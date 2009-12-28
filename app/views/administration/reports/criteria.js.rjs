@@ -1,1 +1,0 @@
-page.insert_html :bottom, @parent_id, :partial => "#{params[:collection]}_selector", :object => @object

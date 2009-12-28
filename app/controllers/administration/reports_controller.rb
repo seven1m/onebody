@@ -75,7 +75,7 @@ class Administration::ReportsController < ApplicationController
   
   def criteria
     @object = ['', '=', '']
-    @parent_id = params[:parent_id] || 'criteria'
+    render :partial => "#{params[:collection]}_selector", :object => @object
   end
   
   private
