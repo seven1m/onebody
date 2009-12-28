@@ -114,26 +114,42 @@ class Report < ActiveRecord::Base
   end
   
   def selector=(params)
-    sel = {}
+    definition['selector'] = convert_selector_params(combine_selector_params(params))
+  end
+  
+  def combine_selector_params(params)
+    sel = []
     params[:field].each_with_index do |field, index|
-      case operator = params[:operator][index]
-        when '=~'
-          sel[field] = Regexp.new(params[:value][index])
-        when '=~i'
-          sel[field] = Regexp.new(params[:value][index], Regexp::IGNORECASE)
-        when '='
-          sel[field] = typecast_selector_value(field, operator, params[:value][index])
-        when '$nil'
-          sel[field] = nil
-        when '$nnil'
-          sel[field] ||= {}
-          sel[field]['$ne'] = nil
-        else
-          sel[field] ||= {}
-          sel[field][operator] = typecast_selector_value(field, operator, params[:value][index])
+      sel << [field, params[:operator][index], params[:value][index]]
+    end
+    return sel
+  end
+  
+  def convert_selector_params(params)
+    sel = {}
+    params.each do |field, operator, value|
+      if field =~ /^(and|or)(\d+)/
+        
+      else
+        case operator
+          when '=~'
+            sel[field] = Regexp.new(value)
+          when '=~i'
+            sel[field] = Regexp.new(value, Regexp::IGNORECASE)
+          when '='
+            sel[field] = typecast_selector_value(field, operator, value)
+          when '$nil'
+            sel[field] = nil
+          when '$nnil'
+            sel[field] ||= {}
+            sel[field]['$ne'] = nil
+          else
+            sel[field] ||= {}
+            sel[field][operator] = typecast_selector_value(field, operator, value)
+        end
       end
     end
-    definition['selector'] = sel
+    return sel
   end
   
   def convert_selector_to_javascript
