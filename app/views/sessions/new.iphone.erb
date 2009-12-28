@@ -28,7 +28,7 @@
   <%= hidden_field_tag :encrypted_password %>
   <div class="info"><%= I18n.t('session.sign_up_or_sign_in', :url => new_account_path) %></div>
   <ul class="edit rounded">
-    <li><%= text_field_tag :email, params[:email], :placeholder => I18n.t('session.email_address'), :type => 'email' %></li>
+    <li><%= text_field_tag :email, params[:email], :placeholder => I18n.t('session.email_address'), :type => 'email', :autocapitalize => 'off' %></li>
     <li><input type="password" id="password" placeholder="<%= I18n.t('session.password') %>" <% if Setting.get(:privacy, :allow_unencrypted_logins) %>name="password"<% end %>/></li>
     <li class="arrow"><a href="#" onclick="document.getElementById('signin_form').submit();return false;"><%= I18n.t('session.sign_in') %></a></li>
   </ul>

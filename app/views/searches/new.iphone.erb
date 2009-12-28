@@ -5,33 +5,25 @@
 
 <% form_tag(search_path, :method => 'get', :id => 'search-form') do %>
   <ul>
-    <li><%= text_field_tag 'name', params[:name], :id => 'name_search', :placeholder => 'Name' %></li>
+    <li><%= text_field_tag 'name', params[:name], :id => 'name_search', :placeholder => 'Name', :autocapitalize => 'off' %></li>
     <li><%= select_tag 'gender', options_for_select([['Gender', ''], [I18n.t('search.male'), 'Male'], [I18n.t('search.female'), 'Female']], params[:gender]) %></li>
-    <li><%= text_field_tag 'city', params[:city], :placeholder => 'City' %></li>
-    <li><%= text_field_tag 'state', params[:state], :placeholder => 'State' %></li>
-    <li><%= text_field_tag 'zip', params[:zip], :placeholder => 'Zip' %></li>
+    <li><%= text_field_tag 'city', params[:city], :placeholder => 'City', :autocapitalize => 'off' %></li>
+    <li><%= text_field_tag 'state', params[:state], :placeholder => 'State', :autocapitalize => 'off' %></li>
+    <li><%= text_field_tag 'zip', params[:zip], :placeholder => 'Zip', :type => 'number', :autocapitalize => 'off' %></li>
     <li><%= select_tag 'type', options_for_select([['Type', ''], [I18n.t('search.member'), 'member'], [I18n.t('search.staff'), 'staff'], [I18n.t('search.deacon'), 'deacon'], [I18n.t('search.elder'), 'elder']] + (Setting.get(:features, :custom_person_type) ? Person.custom_types : []), params[:type]) %></li>
     <li>Show Hidden <span class="toggle"><%= check_box_tag :show_hidden, true, params[:show_hidden] %></span></li>
   </ul>
   
   <h2>Birthday</h2>
   <ul>
-    <li>
-      <%= select_tag 'birthday_month', options_for_select([['Month','']]+MONTHS_FOR_SELECT, params[:birthday_month].to_i) %>
-    </li>
-    <li>
-      <%= select_tag 'birthday_day', options_for_select([['Day','']]+(1..31).to_a, params[:birthday_day].to_i) %>
-    </li>
+    <li><%= select_tag 'birthday_month', options_for_select([['Month','']]+MONTHS_FOR_SELECT, params[:birthday_month].to_i) %></li>
+    <li><%= select_tag 'birthday_day', options_for_select([['Day','']]+(1..31).to_a, params[:birthday_day].to_i) %></li>
   </ul>
   
   <h2>Anniversary</h2>
   <ul>
-    <li>
-      <%= select_tag 'anniversary_month', options_for_select([['Month','']]+MONTHS_FOR_SELECT, params[:anniversary_month].to_i) %>
-    </li>
-    <li>
-      <%= select_tag 'anniversary_day', options_for_select([['Day','']]+(1..31).to_a, params[:anniversary_day].to_i) %>
-    </li>
+    <li><%= select_tag 'anniversary_month', options_for_select([['Month','']]+MONTHS_FOR_SELECT, params[:anniversary_month].to_i) %></li>
+    <li><%= select_tag 'anniversary_day', options_for_select([['Day','']]+(1..31).to_a, params[:anniversary_day].to_i) %></li>
   </ul>
   
   <ul>
