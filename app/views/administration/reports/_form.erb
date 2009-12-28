@@ -56,33 +56,37 @@
   operators_and_types = <%= Report.operators_and_types.inspect %>;
   function adjust_operator_and_value(row) {
     var field = $(row).select('.field select')[0].value;
-    var type = get_field_type(field);
-    // operator field
-    var elm = $(row).select('.operator select')[0];
-    var value = elm.value;
-    elm.options.length = 0;
-    for(var i=0; i<operators_and_types.length; i++) {
-      var op = operators_and_types[i];
-      if(op.length < 3 || op[2].indexOf(type) > -1) {
-        elm.options[elm.options.length] = new Option(op[0], op[1], false, value==op[1]);
+    if(field) {
+      var type = get_field_type(field);
+      // operator field
+      var elm = $(row).select('.operator select')[0];
+      var value = elm.value;
+      elm.options.length = 0;
+      for(var i=0; i<operators_and_types.length; i++) {
+        var op = operators_and_types[i];
+        if(op.length < 3 || op[2].indexOf(type) > -1) {
+          elm.options[elm.options.length] = new Option(op[0], op[1], false, value==op[1]);
+        }
       }
+      // value field
+      adjust_value(row);
     }
-    // value field
-    adjust_value(row);
   }
   function adjust_value(row) {
     var field = $(row).select('.field select')[0].value;
-    var type = get_field_type(field);
-    var operator = $(row).select('.operator select')[0].value;
-    var value_td = $(row).select('.value')[0];
-    if(['$nil', '$nnil'].indexOf(operator) > -1) {
-      value_td.innerHTML = '<input type="hidden" name="report[selector][value][]"/>';
-    } else if(type == 'boolean') {
-      value_td.innerHTML = '<select name="report[selector][value][]"><option>true</option><option>false</option></select>';
-    } else if(['$in', '$nin'].indexOf(operator) > -1) {
-      value_td.innerHTML = '<input name="report[selector][value][]"/> <em>separate values with vertical pipe |</em>';
-    } else {
-      value_td.innerHTML = '<input name="report[selector][value][]"/>';
+    if(field) {
+      var type = get_field_type(field);
+      var operator = $(row).select('.operator select')[0].value;
+      var value_td = $(row).select('.value')[0];
+      if(['$nil', '$nnil'].indexOf(operator) > -1) {
+        value_td.innerHTML = '<input type="hidden" name="report[selector][value][]"/>';
+      } else if(type == 'boolean') {
+        value_td.innerHTML = '<select name="report[selector][value][]"><option>true</option><option>false</option></select>';
+      } else if(['$in', '$nin'].indexOf(operator) > -1) {
+        value_td.innerHTML = '<input name="report[selector][value][]"/> <em>separate values with vertical pipe |</em>';
+      } else {
+        value_td.innerHTML = '<input name="report[selector][value][]"/>';
+      }
     }
   }
   
