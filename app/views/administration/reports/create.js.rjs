@@ -1,0 +1,1 @@
+page.replace_html 'criteria_root', :partial => "#{@report.definition['collection']}_selector", :collection => @conditions

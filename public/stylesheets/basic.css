@@ -610,3 +610,11 @@ tr.subsection th {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
 }
+
+#report_form .criteria .controls {
+  visibility: hidden;
+}
+
+#report_form .criteria:hover .controls {
+  visibility: visible;
+}

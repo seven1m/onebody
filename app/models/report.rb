@@ -20,7 +20,9 @@ class Report < ActiveRecord::Base
     end
   end
   
-  DEFAULT_DEFINITION = {'definition' => {'collection' => 'people', 'selector' => []}}
+  BLANK_CONDITION = ['', '=', '']
+  
+  DEFAULT_DEFINITION = {'definition' => {'collection' => 'people', 'selector' => [['$and', [BLANK_CONDITION]]]}}
   
   after_save :delete_associations_if_unrestricted
   
@@ -113,10 +115,10 @@ class Report < ActiveRecord::Base
   # Selector Definition Conversion - TO
   
   def selector_for_form
-    definition['selector'].map { |c| condition_for_form(c) }.flatten
+    definition['selector'].map { |c| Report.condition_for_form(c) }.flatten
   end
   
-  def condition_for_form(cond)
+  def self.condition_for_form(cond)
     if ['$or', '$and'].include?(cond.first)
       [
         {'field' => '(', 'operator' => cond.first},
@@ -131,6 +133,70 @@ class Report < ActiveRecord::Base
         value = value.join('|')
       end
       {'field' => field, 'operator' => operator, 'value' => value}
+    end
+  end
+  
+  def self.add_condition_to_params!(params, index)
+    params.insert(index+1, condition_for_form(BLANK_CONDITION))
+  end
+  
+  def self.remove_condition_from_params!(params, index)
+    params.delete_at(index)
+    remove_empty_groups_from_params!(params)
+    if params.empty?
+      condition_for_form(['$and', [BLANK_CONDITION]]).reverse.each do |part|
+        params.insert(0, part)
+      end
+    end
+  end
+  
+  def self.remove_empty_groups_from_params!(params)
+    begin
+      complete = true
+      params.each_with_index do |param, index|
+        if index > 0 and ['(', ')'] == [params[index-1]['field'], params[index]['field']]
+          params.delete_at(index-1)
+          params.delete_at(index-1)
+          complete = false # now that we've collapsed this one, there could be more...
+        end
+      end
+    end while !complete
+  end
+  
+  def self.add_group_to_params!(params, index)
+    stack = []
+    params.each_with_index do |param, i|
+      break if i == index
+      if param['field'] == '('
+        stack.push(param['operator'])
+      elsif param['field'] == ')'
+        stack.pop
+      end
+    end
+    conjunction = stack.any? && stack.last == '$and' ? '$or' : '$and'
+    condition_for_form([conjunction, [BLANK_CONDITION]]).each_with_index do |part, i|
+      params.insert(index+i+1, part)
+    end
+  end
+  
+  def self.move_condition_in_params!(params, index, direction)
+    # cannot go above or below top level parens ( and )
+    return if index == 1 and direction == 'up'
+    return if index == params.length-2 and direction == 'down'
+    param = params.delete_at(index)
+    if direction == 'up'
+      params.insert(index-1, param)
+    else
+      params.insert(index+1, param)
+    end
+    remove_empty_groups_from_params!(params)
+  end
+  
+  def self.flip_conjunctions_in_params!(params)
+    params.each do |param|
+      if ['(', ')'].include?(param['field'])
+        param['operator'] = param['operator'] == '$and' ? '$or' : '$and'
+      end
     end
   end
   

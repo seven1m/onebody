@@ -519,6 +519,8 @@ en:
     Source: Source
     Total_Runs: Total Runs
     add_criteria: Add Criteria
+    add_group: Add Group
+    flip_conjunctions: Flip Logical Conjunctions
     edit_report: Edit Report
     error_running_report: There was an error running this report.
     greater_than: greater than

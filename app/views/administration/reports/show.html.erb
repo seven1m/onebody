@@ -17,3 +17,8 @@
     </tr>
   <% end %>
 </table>
+
+<% if params[:debug] and @logged_in.super_admin? %>
+  <h2>Report Information</h2>
+  <pre><%=h @report.selector_to_javascript %></pre>
+<% end %>

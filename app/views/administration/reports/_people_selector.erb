@@ -8,7 +8,7 @@
   <%= hidden_field_tag 'report[selector][][operator]', object['operator'] %>
   </td></tr></table><!-- end <%= object['operator'] %> -->
 <% else %>
-  <div>
+  <div id="criteria<%= people_selector_counter %>" class="criteria">
     <span class="field">
       <%= select_tag 'report[selector][][field]',
         options_for_select(['']+Report::PEOPLE_FIELDS.map { |f| f.first }, object['field']),
@@ -30,9 +30,12 @@
         <%= text_field_tag 'report[selector][][value]', object['value'] %>
       <% end %>
     </span>
-    <span>
-      <%= link_to_function image_tag('delete.png', :class => 'icon', :alt => I18n.t('reporting.remove_criteria')), "var row=this.parentNode.parentNode;row.parentNode.removeChild(row);" %>
-      <%= link_to_function image_tag('plus.png', :class => 'icon', :alt => I18n.t('reporting.add_criteria')), "add_criteria(this.parentNode.parentNode.parentNode)" %>
+    <span class="controls">
+      <%= link_to_function image_tag('plus.png',       :class => 'icon', :alt => I18n.t('reporting.add_criteria')),    "add_criteria(#{people_selector_counter})"          %>
+      <%= link_to_function image_tag('group_add.png',  :class => 'icon', :alt => I18n.t('reporting.add_group')),       "add_group(#{people_selector_counter})"             %>
+      <%= link_to_function image_tag('arrow_down.png', :class => 'icon', :alt => I18n.t('reporting.move_down')),       "move_criteria(#{people_selector_counter}, 'down')" %>
+      <%= link_to_function image_tag('arrow_up.png',   :class => 'icon', :alt => I18n.t('reporting.move_up')),         "move_criteria(#{people_selector_counter}, 'up')"   %>
+      <%= link_to_function image_tag('delete.png',     :class => 'icon', :alt => I18n.t('reporting.remove_criteria')), "remove_criteria(#{people_selector_counter});"      %>
     </span>
   </div>
 <% end %>

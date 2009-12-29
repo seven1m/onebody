@@ -114,7 +114,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :attendance, :collection => {:prev => :get, :next => :get}
     admin.resources :syncs, :member => {:create_items => :post}
     admin.resources :deleted_people, :collection => {:batch => :put}
-    admin.resources :reports, :collection => {:criteria => :get}
+    admin.resources :reports
     admin.resource :theme
   end
 

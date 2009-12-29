@@ -38,10 +38,23 @@ class Administration::ReportsController < ApplicationController
   end
   
   def create
-    params[:report].merge!(Report::DEFAULT_DEFINITION)
+    params[:report].reverse_merge!(Report::DEFAULT_DEFINITION)
+    if params[:add]
+      Report.add_condition_to_params!(params[:report][:selector], params[:add].to_i)
+    elsif params[:remove]
+      Report.remove_condition_from_params!(params[:report][:selector], params[:remove].to_i)
+    elsif params[:addgroup]
+      Report.add_group_to_params!(params[:report][:selector], params[:addgroup].to_i)
+    elsif params[:move]
+      Report.move_condition_in_params!(params[:report][:selector], params[:move].to_i, params[:direction])
+    elsif params[:flip]
+      Report.flip_conjunctions_in_params!(params[:report][:selector])
+    end
     @report = Report.new(params[:report])
     @report.created_by = @logged_in
-    if @report.save
+    if params[:preview]
+      @conditions = @report.selector_for_form
+    elsif @report.save
       redirect_to params[:continue_editing] ? edit_administration_report_path(@report) : administration_report_path(@report)
     else
       @conditions = @report.selector_for_form
@@ -58,10 +71,11 @@ class Administration::ReportsController < ApplicationController
   
   def update
     @report = Report.find(params[:id])
-    if @report.update_attributes(params[:report])
+    @report.attributes = params[:report]
+    @conditions = @report.selector_for_form
+    if @report.save
       redirect_to params[:continue_editing] ? edit_administration_report_path(@report) : administration_report_path(@report)
     else
-      @conditions = @report.selector_for_form
       @admins = Admin.all_for_presentation
       render :action => 'edit'
     end
@@ -71,11 +85,6 @@ class Administration::ReportsController < ApplicationController
     @report = Report.find(params[:id])
     @report.destroy
     redirect_to administration_reports_path
-  end
-  
-  def criteria
-    @object = {'field' => '', 'operator' => '=', 'value' => ''}
-    render :partial => "#{params[:collection]}_selector", :object => @object
   end
   
   private
