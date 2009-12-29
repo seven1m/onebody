@@ -8,3 +8,6 @@ test:
 production: 
   adapter: sqlite3
   database: db/production.db
+mongo:
+  host: localhost
+  database: onebody
