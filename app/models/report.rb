@@ -20,7 +20,7 @@ class Report < ActiveRecord::Base
     end
   end
   
-  DEFAULT_DEFINITION = {'definition' => {'collection' => 'people', 'selector' => {}}}
+  DEFAULT_DEFINITION = {'definition' => {'collection' => 'people', 'selector' => []}}
   
   after_save :delete_associations_if_unrestricted
   
