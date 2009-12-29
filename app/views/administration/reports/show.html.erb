@@ -11,7 +11,7 @@
   <tr><th>id</th><th>first_name</th><th>last_name</th></tr>
   <% @results.each do |result| %>
     <tr>
-      <td><%=h result['id'] %></td>
+      <td><%= link_to result['id'], person_path(result['id']) %></td>
       <td><%=h result['first_name'] %></td>
       <td><%=h result['last_name'] %></td>
     </tr>
