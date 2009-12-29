@@ -189,11 +189,11 @@ class Group < ActiveRecord::Base
   end
   
   def gcal_account
-  	gcal_private_link.to_s.match(/[a-z0-9]+(@|%40)[a-z\.]+/).to_s.sub(/@/, '%40')
+    gcal_private_link.to_s.match(/[a-z0-9\._]+(@|%40)[a-z\.]+/).to_s.sub(/@/, '%40')
   end
   
   def gcal_token
-  	gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1] rescue ''
+    gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1] rescue ''
   end
   
   def shared_stream_items(count)
