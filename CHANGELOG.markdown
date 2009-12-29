@@ -1,8 +1,69 @@
 OneBody Change Log
 ==================
 
-This document lists the more notable changes in each release. For detailed change
-history, view the Git log (http://github.com/seven1m/onebody/commits).
+This document lists notable changes in each release, in no particular order
+(though more important/sweeping changes tend to be at the top).
+
+For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
+
+Edge
+----
+
+* Upgrade to Rails 2.3.5.
+* I18n to English, Portuguese [gustavobim]
+* Interface for iPhone and other mobile browsers.
+* New reporting engine and interface.
+* Interface for managing relationships between people.
+* Improvements to the admin dashboard, including graphs.
+* Sync api and interface for viewing synchronization results (UpdateAgent).
+* Add changed emails interface in admin section.
+* New Admin "Templates" feature.
+* Ability to reload settings from admin dashboard.
+* Simplified log view; much more efficient.
+* Way better handling of deleted records, and an interface to manage them.
+* New plugin hook api.
+* Improve performance of search by family name.
+* Fix Group calendars for Google Apps accounts.
+* Fix session deletion scheduled job.
+* Sort groupies by name.
+* Fix icon link to add verse to favorites.
+* Fix bug sending group membership requests to admins.
+* Fix "stack level too deep" errors when reloading in console.
+* Move setup plugin to separate project.
+* Update gem dependencies for gemcutter, moved/removed gems; include minimum versions.
+* Include plugin locales in I18n load path.
+* Paginate all news page.
+* Add rake task for finding missing keys in i18n translations.
+* Clear cache when feed content is imported.
+* When importing flickr photos, fallback to original size if "big" size is not found.
+* Cache the last item in a feed to prevent an attempt to re-import something.
+* Fix bug in log when showing pictures.
+* Fix bug giving focus to search name field.
+* Fix bug in album selection.
+* Fix bug selecting sequence for new family members.
+* Admins should not see messages in a private group.
+* Don't fail on empty family search string.
+* Improve nav links on attendance screen.
+* Only import max 500 records with online import feature.
+* Default log view to last 7 days.
+* Added fast_remote_cache plugin for capistrano.
+* Display the person legacy id on their profile for admins.
+* Improved display of changed values in log.
+* Ensure all people have a feed_code.
+* Include person legacy id in exported attendance.
+* Include group link code (if any) in exported attendance.
+* Add prev and next links to attendance admin.
+* Delete zombie admins.
+* Display the family legacy id for admins.
+* Properly handle changes to Person#email and Family#barcode_id and set/clear flags accordingly.
+* Remove duplicate pages.
+* Do not log changes to Person#signin_count.
+* Redefine migration rake tasks to include migrations inside plugins.
+* Load settings from plugins automatically.
+* Use a serialized text col to store admin privileges instead of table columns.
+* Ensure removal of content within script and style tags in email.
+* Don't cache settings -- causes duplicates in some cases.
+* Allow to set active from new site rake task.
 
 1.0.0 / October 15, 2009
 ------------------------
