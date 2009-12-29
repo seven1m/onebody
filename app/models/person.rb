@@ -716,6 +716,7 @@ class Person < ActiveRecord::Base
       db = Report.db
       people = db['people_new']
       find_each do |person|
+        next if person.deleted?
         h = person.to_mongo_hash
         h['admin'] = person.admin ? person.admin.to_mongo_hash : nil
         h['family'] = person.family.to_mongo_hash
