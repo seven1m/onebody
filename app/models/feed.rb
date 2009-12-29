@@ -33,6 +33,7 @@ class Feed < ActiveRecord::Base
   def import_content
     begin
       feed = Feedzirra::Feed.fetch_and_parse(url)
+      feed.entries
     rescue
       increment!(:error_count)
     else
