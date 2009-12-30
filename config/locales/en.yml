@@ -522,12 +522,12 @@ en:
     Total_Runs: Total Runs
     add_criteria: Add Criteria
     add_group: Add Group
-    flip_conjunctions: Flip Logical Conjunctions
     cancel_changes: Cancel Changes
     contains_case_insensitive: contains (case insensitive)
     contains_case_sensitive: contains
     edit_report: Edit Report
     error_running_report: There was an error running this report.
+    flip_conjunctions: Flip Logical Conjunctions
     greater_than: greater than
     greater_than_or_equal: greater than or equal
     is_exactly: is exactly
