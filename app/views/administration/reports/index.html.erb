@@ -14,6 +14,7 @@
     <tr>
       <th><%= I18n.t('reporting.Name') %></th>
       <th><%= I18n.t('reporting.Creator') %></th>
+      <th><%= I18n.t('reporting.Last_Modified') %></th>
       <th><%= I18n.t('reporting.Last_Run') %></th>
       <th><%= I18n.t('reporting.Total_Runs') %></th></tr>
     <% @reports.each do |report| %>
@@ -27,8 +28,15 @@
           <% end %>
         </td>
         <td>
+          <% content_tag :span, :title => report.updated_at.to_s do %>
+            <%=h time_ago_in_words report.updated_at %> ago
+          <% end %>
+        </td>
+        <td>
           <% if report.last_run_at %>
-            <%=h time_ago_in_words report.last_run_at %> ago
+            <% content_tag :span, :title => report.last_run_at.to_s do %>
+              <%=h time_ago_in_words report.last_run_at %> ago
+            <% end %>
             <% if report.last_run_by %>
               by <%= link_to h(report.last_run_by.name), report.last_run_by %>
             <% end %>
@@ -36,9 +44,10 @@
         </td>
         <td><%= report.run_count %></td>
         <td>
+          <%= link_to image_tag('eye.png', :alt => I18n.t('reporting.run'), :class => 'icon'), administration_report_path(report) %>
           <% if @logged_in.admin?(:manage_reports) %>
-            <%= link_to I18n.t('edit'), edit_administration_report_path(report) %>
-            <%= link_to I18n.t('delete'), administration_report_path(report), :method => :delete, :confirm => I18n.t('are_you_sure') %>
+            <%= link_to image_tag('pencil.png', :alt => I18n.t('edit'), :class => 'icon'), edit_administration_report_path(report) %>
+            <%= link_to image_tag('delete.png', :alt => I18n.t('delete'), :class => 'icon'), administration_report_path(report), :method => :delete, :confirm => I18n.t('are_you_sure') %>
           <% end %>
         </td>
       </tr>

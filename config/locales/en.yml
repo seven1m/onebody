@@ -514,6 +514,7 @@ en:
     and: AND
     Creator: Creator
     Criteria: Criteria
+    Last_Modified: Last Modified
     Last_Run: Last Run
     Name: Name
     Reports: Reports
@@ -545,6 +546,7 @@ en:
     report_database_offline: The reporting database is offline, so no reports can be run. Please contact your administrator.
     restricted: Restricted
     restricted_note: All admins with the 'run reports' privilege will be able to run this report.
+    run: run
     save_and_continue_editing: Save and Continue Editing
     save_and_run_report: Save and Run Report
     show_tips: "Show Reporting Tips &raquo;"
