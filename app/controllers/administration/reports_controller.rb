@@ -39,17 +39,7 @@ class Administration::ReportsController < ApplicationController
   
   def create
     params[:report].reverse_merge!(Report::DEFAULT_DEFINITION)
-    if params[:add]
-      Report.add_condition_to_params!(params[:report][:selector], params[:add].to_i)
-    elsif params[:remove]
-      Report.remove_condition_from_params!(params[:report][:selector], params[:remove].to_i)
-    elsif params[:addgroup]
-      Report.add_group_to_params!(params[:report][:selector], params[:addgroup].to_i)
-    elsif params[:move]
-      Report.move_condition_in_params!(params[:report][:selector], params[:move].to_i, params[:direction])
-    elsif params[:flip]
-      Report.flip_conjunctions_in_params!(params[:report][:selector])
-    end
+    Report.process_params!(params)
     @report = Report.new(params[:report])
     @report.created_by = @logged_in
     if params[:preview]

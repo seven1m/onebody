@@ -34,6 +34,13 @@
     </p>
   </fieldset>
   
+  <fieldset>
+    <legend><%= I18n.t('reporting.Sort_Order') %></legend>
+    <div id="sort_root">
+      <%= render :partial => "sort_attribute", :collection => @report.definition['sort'].to_a %>
+    </div>
+  </fieldset>
+  
   <p>
     <%= form.submit I18n.t('reporting.save_and_run_report') %>
     <%= form.submit I18n.t('reporting.save_and_continue_editing'), :name => 'continue_editing' %>
@@ -56,31 +63,31 @@
   function add_criteria(index) {
     new Ajax.Request(
       '<%= administration_reports_path %>',
-      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[selector\]/)+'&add='+(index||'root')+'&preview=true'}
+      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[selector\]/)+'&add='+(index||'root')+'&preview=selector'}
     );
   }
   
   function add_group(index) {
     new Ajax.Request(
       '<%= administration_reports_path %>',
-      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[selector\]/)+'&addgroup='+(index||'root')+'&preview=true'}
+      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[selector\]/)+'&addgroup='+index+'&preview=selector'}
     );
   }
   
   function move_criteria(index, direction) {
     new Ajax.Request(
       '<%= administration_reports_path %>',
-      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[selector\]/)+'&move='+index+'&direction='+direction+'&preview=true'}
+      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[selector\]/)+'&move='+index+'&direction='+direction+'&preview=selector'}
     );
   }
   
   function remove_criteria(index) {
     new Ajax.Request(
       '<%= administration_reports_path %>',
-      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[selector\]/)+'&remove='+index+'&preview=true'}
+      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[selector\]/)+'&remove='+index+'&preview=selector'}
     );
   }
-  
+
   function flip_conjunctions() {
     new Ajax.Request(
       '<%= administration_reports_path %>',
@@ -88,6 +95,27 @@
     );
   }
   
+  function add_sort(index) {
+    new Ajax.Request(
+      '<%= administration_reports_path %>',
+      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[sort\]/)+'&addsort='+index+'&preview=sort'}
+    );
+  }
+  
+  function move_sort(index, direction) {
+    new Ajax.Request(
+      '<%= administration_reports_path %>',
+      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[sort\]/)+'&movesort='+index+'&direction='+direction+'&preview=sort'}
+    );
+  }
+  
+  function remove_sort(index) {
+    new Ajax.Request(
+      '<%= administration_reports_path %>',
+      {evalJS:true, asynchronous:true, method:'POST', postBody:serialize_form('report_form', /^report\[sort\]/)+'&removesort='+index+'&preview=sort'}
+    );
+  }
+
   // Prototype's Form.serialize loses the order of fields, so here's our own (simple) implementation.
   function serialize_form(id, name_match) {
     return $$('#'+id+' *').select(function(e){

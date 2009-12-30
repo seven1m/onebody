@@ -21,8 +21,20 @@ class Report < ActiveRecord::Base
   end
   
   BLANK_CONDITION = ['', '=', '']
+  BLANK_SORT = ['', '']
   
-  DEFAULT_DEFINITION = {'definition' => {'collection' => 'people', 'selector' => [['$and', [BLANK_CONDITION]]]}}
+  DEFAULT_DEFINITION = {
+    'definition' => {
+      'collection' => 'people',
+      'selector'   => [
+        ['$and', [BLANK_CONDITION]]
+      ],
+      'sort'       => [
+        ['last_name', :asc],
+        ['first_name', :asc]
+      ]
+    }
+  }
   
   after_save :delete_associations_if_unrestricted
   
@@ -37,7 +49,8 @@ class Report < ActiveRecord::Base
   
   def run
     if collection and definition['selector']
-      f = collection.find(selector_to_javascript, definition['options'] || {})
+      options = (definition['options'] || {}).dup.merge(:sort => definition['sort'])
+      f = collection.find(selector_to_javascript, options)
       f.count # get Mongo to thrown an error if there's a problem
       increment(:run_count)
       self.last_run_at = Time.now
@@ -136,6 +149,26 @@ class Report < ActiveRecord::Base
     end
   end
   
+  def self.process_params!(params)
+    if params[:add]
+      add_condition_to_params!(params[:report][:selector], params[:add].to_i)
+    elsif params[:remove]
+      remove_condition_from_params!(params[:report][:selector], params[:remove].to_i)
+    elsif params[:addgroup]
+      add_group_to_params!(params[:report][:selector], params[:addgroup].to_i)
+    elsif params[:move]
+      move_condition_in_params!(params[:report][:selector], params[:move].to_i, params[:direction])
+    elsif params[:flip]
+      flip_conjunctions_in_params!(params[:report][:selector])
+    elsif params[:addsort]
+      add_sort_to_params!(params[:report][:sort], params[:addsort].to_i)
+    elsif params[:removesort]
+      remove_sort_from_params!(params[:report][:sort], params[:removesort].to_i)
+    elsif params[:movesort]
+      move_sort_in_params!(params[:report][:sort], params[:movesort].to_i, params[:direction])
+    end
+  end
+  
   def self.add_condition_to_params!(params, index)
     params.insert(index+1, condition_for_form(BLANK_CONDITION))
   end
@@ -200,6 +233,30 @@ class Report < ActiveRecord::Base
     end
   end
   
+  def self.sort_for_form(sort)
+    {'field' => sort[0], 'direction' => sort[1]}
+  end
+  
+  def self.add_sort_to_params!(params, index)
+    params.insert(index+1, sort_for_form(BLANK_SORT))
+  end
+  
+  def self.remove_sort_from_params!(params, index)
+    params.delete_at(index)
+    params.insert(0, sort_for_form(BLANK_SORT)) if params.empty?
+  end
+  
+  def self.move_sort_in_params!(params, index, direction)
+    return if index == 0 and direction == 'up'
+    return if index == params.length-1 and direction == 'down'
+    param = params.delete_at(index)
+    if direction == 'up'
+      params.insert(index-1, param)
+    else
+      params.insert(index+1, param)
+    end
+  end
+  
   # Selector Definition Conversion - FROM
   
   def selector=(params)
@@ -231,6 +288,16 @@ class Report < ActiveRecord::Base
       end
     end
     sel
+  end
+  
+  def sort=(params)
+    definition['sort'] = convert_sort_params(params)
+  end
+  
+  def convert_sort_params(params)
+    params.map do |param|
+      [param['field'], param['direction'].to_sym]
+    end
   end
   
   # Selector Definition Conversion - JAVASCRIPT

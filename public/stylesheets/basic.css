@@ -611,10 +611,12 @@ tr.subsection th {
   -moz-transform: rotate(-90deg);
 }
 
-#report_form .criteria .controls {
+#report_form .criteria .controls,
+#report_form .sort_attribute .controls {
   visibility: hidden;
 }
 
-#report_form .criteria:hover .controls {
+#report_form .criteria:hover .controls,
+#report_form .sort_attribute:hover .controls {
   visibility: visible;
 }
