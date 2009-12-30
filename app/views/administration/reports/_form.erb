@@ -35,8 +35,9 @@
   </fieldset>
   
   <p>
-    <%= form.submit I18n.t('Save') %>
+    <%= form.submit I18n.t('reporting.save_and_run_report') %>
     <%= form.submit I18n.t('reporting.save_and_continue_editing'), :name => 'continue_editing' %>
+    <%= link_to I18n.t('reporting.cancel_changes'), administration_reports_path, :class => 'small' %>
   </p>
 
 <% end %>

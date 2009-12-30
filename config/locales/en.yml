@@ -522,6 +522,7 @@ en:
     add_criteria: Add Criteria
     add_group: Add Group
     flip_conjunctions: Flip Logical Conjunctions
+    cancel_changes: Cancel Changes
     contains_case_insensitive: contains (case insensitive)
     contains_case_sensitive: contains
     edit_report: Edit Report
@@ -545,6 +546,7 @@ en:
     restricted: Restricted
     restricted_note: All admins with the 'run reports' privilege will be able to run this report.
     save_and_continue_editing: Save and Continue Editing
+    save_and_run_report: Save and Run Report
 
   search: 
     add_as_many_friends_you_like: You can add as many friends as you like! When you're finished, you can edit your <a href="{{url}}">friends list</a> to remove and put them in the order you want.
