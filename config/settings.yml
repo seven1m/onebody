@@ -58,6 +58,11 @@ Features:
     value: false
     description: If you have SSL setup, you may turn on this feature, which will make the login page encrypted. If not, some advanced JavaScript hashing is enabled to make sure the users' passwords aren't being sent in plaintext.
     global: true
+  Reporting:
+    format: boolean
+    value: false
+    description: Requires MongoDB to be setup and running.
+    global: true
   Sign Up: 
     format: boolean
     value: false
