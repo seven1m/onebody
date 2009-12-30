@@ -140,129 +140,131 @@ class Report < ActiveRecord::Base
     definition['selector'].map { |c| Report.condition_for_form(c) }.flatten
   end
   
-  def self.condition_for_form(cond)
-    if ['$or', '$and'].include?(cond.first)
-      [
-        {'field' => '(', 'operator' => cond.first},
-        cond.last.map { |c| condition_for_form(c) },
-        {'field' => ')', 'operator' => cond.first}
-      ].flatten
-    else
-      field, operator, value = cond
-      if value.is_a?(Regexp)
-        value = value.source
-      elsif value.is_a?(Array)
-        value = value.join('|')
-      end
-      {'field' => field, 'operator' => operator, 'value' => value}
-    end
-  end
-  
-  def self.process_params!(params)
-    if params[:add]
-      add_condition_to_params!(params[:report][:selector], params[:add].to_i)
-    elsif params[:remove]
-      remove_condition_from_params!(params[:report][:selector], params[:remove].to_i)
-    elsif params[:addgroup]
-      add_group_to_params!(params[:report][:selector], params[:addgroup].to_i)
-    elsif params[:move]
-      move_condition_in_params!(params[:report][:selector], params[:move].to_i, params[:direction])
-    elsif params[:flip]
-      flip_conjunctions_in_params!(params[:report][:selector])
-    elsif params[:addsort]
-      add_sort_to_params!(params[:report][:sort], params[:addsort].to_i)
-    elsif params[:removesort]
-      remove_sort_from_params!(params[:report][:sort], params[:removesort].to_i)
-    elsif params[:movesort]
-      move_sort_in_params!(params[:report][:sort], params[:movesort].to_i, params[:direction])
-    end
-  end
-  
-  def self.add_condition_to_params!(params, index)
-    params.insert(index+1, condition_for_form(BLANK_CONDITION))
-  end
-  
-  def self.remove_condition_from_params!(params, index)
-    params.delete_at(index)
-    remove_empty_groups_from_params!(params)
-    if params.empty?
-      condition_for_form(['$and', [BLANK_CONDITION]]).reverse.each do |part|
-        params.insert(0, part)
+  class << self
+    def condition_for_form(cond)
+      if ['$or', '$and'].include?(cond.first)
+        [
+          {'field' => '(', 'operator' => cond.first},
+          cond.last.map { |c| condition_for_form(c) },
+          {'field' => ')', 'operator' => cond.first}
+        ].flatten
+      else
+        field, operator, value = cond
+        if value.is_a?(Regexp)
+          value = value.source
+        elsif value.is_a?(Array)
+          value = value.join('|')
+        end
+        {'field' => field, 'operator' => operator, 'value' => value}
       end
     end
-  end
-  
-  def self.remove_empty_groups_from_params!(params)
-    begin
-      complete = true
-      params.each_with_index do |param, index|
-        if index > 0 and ['(', ')'] == [params[index-1]['field'], params[index]['field']]
-          params.delete_at(index-1)
-          params.delete_at(index-1)
-          complete = false # now that we've collapsed this one, there could be more...
+    
+    def process_params!(params)
+      if params[:add]
+        add_condition_to_params!(params[:report][:selector], params[:add].to_i)
+      elsif params[:remove]
+        remove_condition_from_params!(params[:report][:selector], params[:remove].to_i)
+      elsif params[:addgroup]
+        add_group_to_params!(params[:report][:selector], params[:addgroup].to_i)
+      elsif params[:move]
+        move_condition_in_params!(params[:report][:selector], params[:move].to_i, params[:direction])
+      elsif params[:flip]
+        flip_conjunctions_in_params!(params[:report][:selector])
+      elsif params[:addsort]
+        add_sort_to_params!(params[:report][:sort], params[:addsort].to_i)
+      elsif params[:removesort]
+        remove_sort_from_params!(params[:report][:sort], params[:removesort].to_i)
+      elsif params[:movesort]
+        move_sort_in_params!(params[:report][:sort], params[:movesort].to_i, params[:direction])
+      end
+    end
+    
+    def add_condition_to_params!(params, index)
+      params.insert(index+1, condition_for_form(BLANK_CONDITION))
+    end
+    
+    def remove_condition_from_params!(params, index)
+      params.delete_at(index)
+      remove_empty_groups_from_params!(params)
+      if params.empty?
+        condition_for_form(['$and', [BLANK_CONDITION]]).reverse.each do |part|
+          params.insert(0, part)
         end
       end
-    end while !complete
-  end
-  
-  def self.add_group_to_params!(params, index)
-    stack = []
-    params.each_with_index do |param, i|
-      break if i == index
-      if param['field'] == '('
-        stack.push(param['operator'])
-      elsif param['field'] == ')'
-        stack.pop
+    end
+    
+    def remove_empty_groups_from_params!(params)
+      begin
+        complete = true
+        params.each_with_index do |param, index|
+          if index > 0 and ['(', ')'] == [params[index-1]['field'], params[index]['field']]
+            params.delete_at(index-1)
+            params.delete_at(index-1)
+            complete = false # now that we've collapsed this one, there could be more...
+          end
+        end
+      end while !complete
+    end
+    
+    def add_group_to_params!(params, index)
+      stack = []
+      params.each_with_index do |param, i|
+        break if i == index
+        if param['field'] == '('
+          stack.push(param['operator'])
+        elsif param['field'] == ')'
+          stack.pop
+        end
+      end
+      conjunction = stack.any? && stack.last == '$and' ? '$or' : '$and'
+      condition_for_form([conjunction, [BLANK_CONDITION, BLANK_CONDITION]]).each_with_index do |part, i|
+        params.insert(index+i+1, part)
       end
     end
-    conjunction = stack.any? && stack.last == '$and' ? '$or' : '$and'
-    condition_for_form([conjunction, [BLANK_CONDITION, BLANK_CONDITION]]).each_with_index do |part, i|
-      params.insert(index+i+1, part)
+    
+    def move_condition_in_params!(params, index, direction)
+      # cannot go above or below top level parens ( and )
+      return if index == 1 and direction == 'up'
+      return if index == params.length-2 and direction == 'down'
+      param = params.delete_at(index)
+      if direction == 'up'
+        params.insert(index-1, param)
+      else
+        params.insert(index+1, param)
+      end
+      remove_empty_groups_from_params!(params)
     end
-  end
-  
-  def self.move_condition_in_params!(params, index, direction)
-    # cannot go above or below top level parens ( and )
-    return if index == 1 and direction == 'up'
-    return if index == params.length-2 and direction == 'down'
-    param = params.delete_at(index)
-    if direction == 'up'
-      params.insert(index-1, param)
-    else
-      params.insert(index+1, param)
-    end
-    remove_empty_groups_from_params!(params)
-  end
-  
-  def self.flip_conjunctions_in_params!(params)
-    params.each do |param|
-      if ['(', ')'].include?(param['field'])
-        param['operator'] = param['operator'] == '$and' ? '$or' : '$and'
+    
+    def flip_conjunctions_in_params!(params)
+      params.each do |param|
+        if ['(', ')'].include?(param['field'])
+          param['operator'] = param['operator'] == '$and' ? '$or' : '$and'
+        end
       end
     end
-  end
-  
-  def self.sort_for_form(sort)
-    {'field' => sort[0], 'direction' => sort[1]}
-  end
-  
-  def self.add_sort_to_params!(params, index)
-    params.insert(index+1, sort_for_form(BLANK_SORT))
-  end
-  
-  def self.remove_sort_from_params!(params, index)
-    params.delete_at(index)
-    params.insert(0, sort_for_form(BLANK_SORT)) if params.empty?
-  end
-  
-  def self.move_sort_in_params!(params, index, direction)
-    return if index == 0 and direction == 'up'
-    return if index == params.length-1 and direction == 'down'
-    param = params.delete_at(index)
-    if direction == 'up'
-      params.insert(index-1, param)
-    else
-      params.insert(index+1, param)
+    
+    def sort_for_form(sort)
+      {'field' => sort[0], 'direction' => sort[1]}
+    end
+    
+    def add_sort_to_params!(params, index)
+      params.insert(index+1, sort_for_form(BLANK_SORT))
+    end
+    
+    def remove_sort_from_params!(params, index)
+      params.delete_at(index)
+      params.insert(0, sort_for_form(BLANK_SORT)) if params.empty?
+    end
+    
+    def move_sort_in_params!(params, index, direction)
+      return if index == 0 and direction == 'up'
+      return if index == params.length-1 and direction == 'down'
+      param = params.delete_at(index)
+      if direction == 'up'
+        params.insert(index-1, param)
+      else
+        params.insert(index+1, param)
+      end
     end
   end
   
@@ -371,10 +373,6 @@ class Report < ActiveRecord::Base
   
   ONE_TO_MANY_ASSOCIATIONS = ['groups']
   
-  def self.field_type(field)
-    PEOPLE_FIELDS.detect { |f, t| f == field }[1] rescue nil
-  end
-  
   OPERATORS_AND_TYPES = [
     [I18n.t('reporting.is_exactly'),                '='                                                     ],
     [I18n.t('reporting.contains_case_sensitive'),   'c',   ['string', 'text', 'time', 'datetime']           ],
@@ -392,13 +390,19 @@ class Report < ActiveRecord::Base
     [I18n.t('reporting.is_not_nil'),                '!nil'                                                  ]
   ]
   
-  def self.operators_for_field(collection, field)
-    ops = OPERATORS_AND_TYPES.dup
-    unless field == ''
-      type = PEOPLE_FIELDS.detect { |f, t| f == field }[1]
-      ops.reject! { |o| o[2] and !o[2].include?(type) }
+  class << self
+    def field_type(field)
+      PEOPLE_FIELDS.detect { |f, t| f == field }[1] rescue nil
     end
-    ops.map { |o| o[0..1] }
+    
+    def operators_for_field(collection, field)
+      ops = OPERATORS_AND_TYPES.dup
+      unless field == ''
+        type = PEOPLE_FIELDS.detect { |f, t| f == field }[1]
+        ops.reject! { |o| o[2] and !o[2].include?(type) }
+      end
+      ops.map { |o| o[0..1] }
+    end
   end
   
 end
