@@ -174,7 +174,7 @@ class Report < ActiveRecord::Base
       end
     end
     conjunction = stack.any? && stack.last == '$and' ? '$or' : '$and'
-    condition_for_form([conjunction, [BLANK_CONDITION]]).each_with_index do |part, i|
+    condition_for_form([conjunction, [BLANK_CONDITION, BLANK_CONDITION]]).each_with_index do |part, i|
       params.insert(index+i+1, part)
     end
   end
