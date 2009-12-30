@@ -1,0 +1,21 @@
+<% content_for :toolbar do %>
+  <h1>Friends</h1>
+  <%= iphone_back_button %>
+<% end %>
+
+<% if @friendships.any? %>
+  <ul>
+    <% @friendships.each do |friendship| %>
+      <li class="arrow">
+        <a href="<%= url_for person_url(:id => friendship.friend) %>">
+          <div class="thumbnail">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => friendship.friend} %>
+          </div>
+          <%=h friendship.friend.name %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="info">Nobody yet!</div>
+<% end %>

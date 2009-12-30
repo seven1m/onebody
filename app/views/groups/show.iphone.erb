@@ -1,0 +1,39 @@
+<% content_for :toolbar do %>
+  <h1><%=h @group.name %></h1>
+  <%= iphone_back_button %>
+<% end %>
+
+<div class="info">
+  <% if @group.has_photo? %>
+    <%= image_tag medium_group_photo_path(@group), :alt => @group.name %>
+  <% else %>
+    <%= image_tag 'group.jpg', :alt => @group.name %>
+  <% end %>
+  <p>Category: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
+</div>
+
+<h2>Recent Activity</h2>
+
+<%= render :partial => 'streams/stream_items_iphone' %>
+
+<h2>People</h2>
+
+<ul>
+  <% @group.people.all(:order => 'last_name, first_name').each do |person| %>
+    <li class="arrow">
+      <a href="<%= url_for person %>">
+        <div class="thumbnail">
+          <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+        </div>
+        <%=h person.name %>
+        <% if person.birthday_soon? %>
+          <br/>
+          <span class="detail">
+            <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
+            birthday <%= person.birthday.to_time.to_s :date rescue nil %>
+          </span>
+        <% end %>
+      </a>
+    </li>
+  <% end %>
+</ul>

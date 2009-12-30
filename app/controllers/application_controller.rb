@@ -10,6 +10,15 @@ class ApplicationController < ActionController::Base
   before_filter :get_site
   before_filter :feature_enabled?
   before_filter :authenticate_user
+  before_filter :detect_mobile
+  
+  def iphone?
+    session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
+  end
+  
+  def params_without_action
+    params.clone.delete_if { |k, v| %w(controller action).include? k }
+  end
   
   private
     def get_site
@@ -150,6 +159,18 @@ class ApplicationController < ActionController::Base
       end
     end
     
+    def detect_mobile
+      session[:iphone] = params[:iphone] == 'true' if params[:iphone]
+      if iphone?
+        request.format = :iphone
+        if params[:iphoneAjax]
+          self.class.layout 'iphone_bare.html'
+        else
+          self.class.layout 'iphone.html'
+        end
+      end
+    end
+    
     def rescue_action_with_page_detection(exception)
       get_site
       path, args = request.request_uri.downcase.split('?')
@@ -177,11 +198,7 @@ class ApplicationController < ActionController::Base
       end
       return false # in case you want to halt action
     end
-    
-    def params_without_action
-      params.clone.delete_if { |k, v| %w(controller action).include? k }
-    end
-    
+        
     def add_errors_to_flash(record)
       flash[:warning] = record.errors.full_messages.join('; ')
     end

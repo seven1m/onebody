@@ -1,0 +1,17 @@
+.icon {
+  vertical-align: middle;
+}
+
+li .thumbnail {
+  float: left;
+  margin: 0 5px 0 0;
+}
+
+li .byline, li .detail {
+  font-size: .75em;
+  font-weight: normal;
+}
+
+.info table td {
+  text-align: left;
+}

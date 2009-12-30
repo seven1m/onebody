@@ -1,0 +1,93 @@
+<% content_for :toolbar do %>
+  <h1>Message View</h1>
+  <%= iphone_back_button %>
+<% end %>
+
+<div class="info">
+  <table><tr><td style="padding-right:5px;">
+    <a href="<%= url_for @message.person %>">
+      <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
+    </a>
+  </td><td>
+  <%= image_tag 'comment.gif', :alt => 'Message', :class => 'icon' %>
+  Message by <%= link_to h(@message.person.name), @message.person %><br/>
+  <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
+  </td></tr></table>
+</div>
+
+<h2>
+  <%=h @message.subject %>
+  <% if @message.wall %>
+    on <%=h @message.wall.name %>
+  <% end %>
+</h2>
+
+<ul>
+  <li>
+  <% if @message.html_body.to_s.any? %>
+    <p><%= white_list_with_removal(hide_contact_details(@message.html_body)) %></p>
+  <% else %>
+    <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
+  <% end %>
+  </li>
+</ul>
+
+<% if @message.attachments.any? %>
+  <h2>Attachments:</h2>
+  <ul>
+    <% message.attachments.each do |attachment| %>
+      <li>
+        <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), [message, attachment] %>
+        <%= link_to h(attachment.name), [message, attachment] %>
+        (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<ul>
+  <% @message.children.each do |reply| %>
+    <li>
+      <div>
+        <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
+        <%= image_tag 'comment.gif', :alt => 'Reply', :class => 'icon' %>
+        Reply by <%= link_to h(reply.person.name), reply.person %><br/>
+        <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
+      </div>
+      <p>
+        <% if reply.html_body.to_s.any? %>
+          <%= white_list(hide_contact_details(reply.html_body)) %>
+        <% elsif params[:show_quoted] %>
+          <%= preserve_breaks(remove_excess_breaks(hide_contact_details(reply.body))) %>
+        <% else %>
+          <% trimmed = remove_bulk_quoting(hide_contact_details(reply.body)) %>
+          <%= preserve_breaks(remove_excess_breaks(trimmed)) %>
+          <% if reply.body.split(/\n/).length != trimmed.split(/\n/).length %>
+            <br/>
+            <em style="color:#009;">
+              Some quoted text in this message is hidden;
+              <%= link_to 'Click here', :show_quoted => true %>
+              to show the entire message.
+            </em>
+          <% end %>
+        <% end %>
+      </p>
+      <% if @message.attachments.any? %>
+        <h2>Attachments:</h2>
+        <ul>
+          <% message.attachments.each do |attachment| %>
+            <li>
+              <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), [message, attachment] %>
+              <%= link_to h(attachment.name), [message, attachment] %>
+              (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @message.group and @message.group.can_post? @logged_in %>
+    <li class="arrow"><%= link_to 'Reply to this message', new_message_path(:parent_id => @message.id) %></li>
+  <% end %>
+</ul>

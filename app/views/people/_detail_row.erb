@@ -1,6 +1,4 @@
-<% if @person.send(attribute).to_s.strip.any? and
-  (not @person.respond_to?("share_#{attribute}_with?") or
-  @person.send("share_#{attribute}_with?", @logged_in)) %>
+<% if @person.show_attribute_to?(attribute, @logged_in) %>
   <tr>
     <td><%=h label %>:</td>
     <td>

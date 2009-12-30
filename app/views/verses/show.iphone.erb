@@ -1,0 +1,60 @@
+<% content_for :toolbar do %>
+  <%= iphone_back_button %>
+  <h1>Verse</h1>
+  <% if @logged_in.verses.include? @verse %>
+    <%= link_to '-', @verse, :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'add' %>
+  <% else %>
+    <%= link_to '+', verses_path(:id => @verse), :method => 'post', :class => 'add' %>
+  <% end %>
+<% end %>
+
+<h2><%=h @verse.reference %> (<%=h @verse.translation %>)</h2>
+
+<ul>
+  <li style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;">
+    <%=h @verse.text %>
+  </li>
+  <li class="arrow"><%= link_to 'YouVersion', @verse.youversion_url %></li>
+  <li class="arrow"><%= link_to 'eBible', @verse.ebible_url %></li>
+  <li class="arrow"><%= link_to 'Bible Gateway', "http://www.biblegateway.com/passage/?search=#{u(@verse.reference)}" %></li>
+</ul>
+
+<% if @verse.translation == 'WEB' %>
+  <div class="info">
+   <%= I18n.t('verses.disclaimer') %>
+  </div>
+<% end %>
+
+<h2><%= I18n.t('comments') %></h2>
+<%= render :partial => 'comments/comments_iphone', :locals => {:object => @verse, :intro => I18n.t('verses.about_this_verse')} %>
+
+<% if @verse.people.count > 0 %>
+  <h2><%= I18n.t('verses.people_who_like_this_verse') %></h2>
+  <ul>
+    <% @verse.people.each do |person| %>
+      <li class="arrow">
+        <a href="<%= person_url(person) %>">
+          <div class="thumbnail">
+            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          </div>
+          <%=h person.name %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+  
+<h2><%= I18n.t('tags.tags') %></h2>
+
+<%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;', :id => 'add_tags_form') %>
+  <ul>
+    <% @verse.tags.each do |tag| %>
+      <li class="arrow"><%= link_to h(tag.name), tag %></li>
+    <% end %>
+  </ul>
+  <ul>
+    <li><%= text_field_tag :add_tags, nil, :placeholder => I18n.t('tags.add_tags') %></li>
+    <li class="arrow"><a href="#" onclick="document.getElementById('add_tags_form').submit();return false;"><%= I18n.t('Save') %></a></li>
+  </ul>
+</form>
+

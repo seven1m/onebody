@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
 
-  caches_action :show, :for => 15.minutes, :cache_path => Proc.new { |c| "people/#{c.params[:id]}#{c.params[:simple] ? '_simple' : ''}#{c.params[:business] ? '_business' : ''}_for_#{Person.logged_in.id}" }
+  caches_action :show, :for => 15.minutes, :cache_path => Proc.new { |c| "people/#{c.params[:id]}#{c.params[:simple] ? '_simple' : ''}#{c.params[:business] ? '_business' : ''}_for_#{Person.logged_in.id}" }, :if => Proc.new { |c| c.params[:format] != 'iphone' }
   cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy import batch)
   
   def index
@@ -74,6 +74,7 @@ class PeopleController < ApplicationController
       else
         respond_to do |format|
           format.html
+          format.iphone
           format.xml { render :xml => @person.to_xml(:read_attribute => true) } if can_export?
         end
       end
