@@ -261,6 +261,8 @@ class Report < ActiveRecord::Base
           "#{context}.#{field} #{operator} #{value.inspect}"
         elsif %w(=~ =~i).include?(operator)
           "(#{context}.#{field} && #{context}.#{field}.match(#{value.inspect}))"
+        elsif %w(c ci).include?(operator)
+          "(#{context}.#{field} && #{context}.#{field}#{operator == 'ci' ? '.toLowerCase()' : ''}.indexOf(#{value.inspect}#{operator == 'ci' ? '.toLowerCase()' : ''}) > -1)"
         elsif op = {'in' => '>', '!in' => '=='}[operator]
           "#{value.inspect}.indexOf(#{context}.#{field}) #{op} -1"
         elsif op = {'nil' => '==', '!nil' => '!='}[operator]
@@ -302,18 +304,20 @@ class Report < ActiveRecord::Base
   end
   
   OPERATORS_AND_TYPES = [
-    [I18n.t('reporting.is_exactly'),               '='                                                     ],
-    [I18n.t('reporting.matches_case_sensitive'),   '=~',  ['string', 'text', 'time', 'datetime']           ],
-    [I18n.t('reporting.matches_case_insensitive'), '=~i', ['string', 'text', 'time', 'datetime']           ],
-    [I18n.t('reporting.less_than'),                '<',   ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.less_than_or_equal'),       '<=',  ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.greater_than'),             '>',   ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.greater_than_or_equal'),    '>=',  ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.is_not'),                   '!=',  ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.one_of'),                   'in',  ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.not_one_of'),               '!in', ['string', 'text', 'integer', 'time', 'datetime']],
-    [I18n.t('reporting.is_nil'),                   'nil'                                                   ],
-    [I18n.t('reporting.is_not_nil'),               '!nil'                                                  ]
+    [I18n.t('reporting.is_exactly'),                '='                                                     ],
+    [I18n.t('reporting.contains_case_sensitive'),   'c',   ['string', 'text', 'time', 'datetime']           ],
+    [I18n.t('reporting.contains_case_insensitive'), 'ci',  ['string', 'text', 'time', 'datetime']           ],
+    [I18n.t('reporting.matches_case_sensitive'),    '=~',  ['string', 'text', 'time', 'datetime']           ],
+    [I18n.t('reporting.matches_case_insensitive'),  '=~i', ['string', 'text', 'time', 'datetime']           ],
+    [I18n.t('reporting.less_than'),                 '<',   ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.less_than_or_equal'),        '<=',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.greater_than'),              '>',   ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.greater_than_or_equal'),     '>=',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.is_not'),                    '!=',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.one_of'),                    'in',  ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.not_one_of'),                '!in', ['string', 'text', 'integer', 'time', 'datetime']],
+    [I18n.t('reporting.is_nil'),                    'nil'                                                   ],
+    [I18n.t('reporting.is_not_nil'),                '!nil'                                                  ]
   ]
   
   def self.operators_for_field(collection, field)

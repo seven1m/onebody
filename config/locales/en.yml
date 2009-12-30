@@ -522,6 +522,8 @@ en:
     add_criteria: Add Criteria
     add_group: Add Group
     flip_conjunctions: Flip Logical Conjunctions
+    contains_case_insensitive: contains (case insensitive)
+    contains_case_sensitive: contains
     edit_report: Edit Report
     error_running_report: There was an error running this report.
     greater_than: greater than
