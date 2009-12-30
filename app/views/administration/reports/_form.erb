@@ -42,6 +42,16 @@
 
 <% end %>
 
+<p><%= link_to_function I18n.t('reporting.show_tips'), "Element.toggle('tips')" %></p>
+
+<div id="tips" style="display:none;">
+  <ul>
+    <% I18n.t('reporting.tips').each do |tip| %>
+      <li><%= tip %></li>
+    <% end %>
+  </ul>
+</div>
+
 <script type="text/javascript">
   function add_criteria(index) {
     new Ajax.Request(

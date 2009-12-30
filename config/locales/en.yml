@@ -547,6 +547,13 @@ en:
     restricted_note: All admins with the 'run reports' privilege will be able to run this report.
     save_and_continue_editing: Save and Continue Editing
     save_and_run_report: Save and Run Report
+    show_tips: "Show Reporting Tips &raquo;"
+    tips:
+      - <em>nil</em> is not the same as an empty string. You may have to test for both, using an [or] group.
+      - The 'child' attribute is only <em>true/false</em> in cases where the birthday is unknown; otherwise, it is <em>nil</em>.
+      - For the best results in searching for adults, specify 'birthday' is <em>less than</em> "YYYY-MM-DD" (replace with the appropriate date) [or] 'child' is <em>false</em>
+      - The 'gender' attribute can only be "Male", "Female", or nil.
+      - The <em>matches</em> operator (and the case-insensitive version) require knowledge of <a href="http://en.wikipedia.org/wiki/Regular_expression">Regular Expressions</a>. Use the <em>contains</em> operator for simple searches.
 
   search: 
     add_as_many_friends_you_like: You can add as many friends as you like! When you're finished, you can edit your <a href="{{url}}">friends list</a> to remove and put them in the order you want.
