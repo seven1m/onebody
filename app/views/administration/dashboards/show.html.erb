@@ -42,6 +42,15 @@
 
   <%= render_plugin_hook :admin_dashboard_top %>
   
+  <% if Setting.get(:features, :reporting) and (@logged_in.admin?(:manage_reports) or @logged_in.admin?(:run_reports)) %>
+    <h2>Reports</h2>
+    <% if @logged_in.admin?(:manage_reports) %>
+      <p><%= link_to 'Manage and run reports.', administration_reports_path %></p>
+    <% else %>
+      <p><%= link_to 'Run reports.', administration_reports_path %></p>
+    <% end %>
+  <% end %>
+  
   <% if @logged_in.admin?(:manage_messages) and @daily_message_counts %>
     <h2>Messages</h2>
     <%= image_tag bar_chart_url(@daily_message_counts, :set_count => 3, :set_labels => ['Private', 'Group', 'Wall'], :width => 550, :height => 250, :title => 'Messages Sent Per Day'), :alt => 'Messages Sent Per Day' %>
