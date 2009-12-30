@@ -523,6 +523,7 @@ en:
     Total_Runs: Total Runs
     add_criteria: Add Criteria
     add_group: Add Group
+    add_sort_attribute: Add Sort Attribute
     cancel_changes: Cancel Changes
     contains_case_insensitive: contains (case insensitive)
     contains_case_sensitive: contains
@@ -539,11 +540,14 @@ en:
     less_than_or_equal: less than or equal
     matches_case_insensitive: matches (case insensitive)
     matches_case_sensitive: matches
+    move_down: Move Down
+    move_up: Move Up
     new_report: New Report
     not_one_of: not one of
     one_of: one of
     or: OR
     remove_criteria: Remove Criteria
+    remove_sort_attribute: Remove Sort Attribute
     report_database_offline: The reporting database is offline, so no reports can be run. Please contact your administrator.
     restricted: Restricted
     restricted_note: All admins with the 'run reports' privilege will be able to run this report.
