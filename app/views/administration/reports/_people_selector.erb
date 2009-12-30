@@ -22,9 +22,9 @@
     <span class="value">
       <% if Report.field_type(object['field']) == 'boolean' %>
         <%= select_tag 'report[selector][][value]', options_for_select([true, false], object['value']) %>
-      <% elsif ['$in', '$nin'].include?(object['operator']) %>
+      <% elsif ['in', '!in'].include?(object['operator']) %>
         <%= text_field_tag 'report[selector][][value]', object['value'] %> <em>separate values with vertical pipe |</em>
-      <% elsif ['$nil', '$nnil'].include?(object['operator']) %>
+      <% elsif ['nil', '!nil'].include?(object['operator']) %>
         <!-- no value -->
       <% else %>
         <%= text_field_tag 'report[selector][][value]', object['value'] %>
