@@ -62,25 +62,34 @@ class Report < ActiveRecord::Base
     end
   end
   
-  def self.connect_mongo!
-    config = YAML::load_file(RAILS_ROOT + '/config/database.yml')['mongo'] rescue nil
-    if config
-      begin
-        MONGO_CONNECTIONS[Site.current.id] = Mongo::Connection.new(config['host']).db("#{config['database']}_for_site#{Site.current.id}")
-      rescue Mongo::ConnectionFailure
-        RAILS_DEFAULT_LOGGER.error('Could not connect to Mongodb server.')
+  # Mongo Database Connection
+  
+  class << self
+    def connect_mongo!
+      config = YAML::load_file(RAILS_ROOT + '/config/database.yml')['mongo'] rescue nil
+      if config
+        begin
+          MONGO_CONNECTIONS[Site.current.id] = Mongo::Connection.new(config['host']).db("#{config['database']}_for_site#{Site.current.id}")
+          update_mongo_js!
+        rescue Mongo::ConnectionFailure
+          RAILS_DEFAULT_LOGGER.error('Could not connect to Mongodb server.')
+          nil
+        end
+      else
+        RAILS_DEFAULT_LOGGER.error('No configuration found in database.yml for Mongodb.')
         nil
       end
-    else
-      RAILS_DEFAULT_LOGGER.error('No configuration found in database.yml for Mongodb.')
-      nil
     end
-  end
-  
-  def self.db
-    MONGO_CONNECTIONS[Site.current.id] || begin
-      connect_mongo!
-      MONGO_CONNECTIONS[Site.current.id]
+
+    def update_mongo_js!
+      MONGO_CONNECTIONS[Site.current.id].eval('db.system.js.save({_id: "select", value: function(arr, fun){ var matched=[]; for(var i=0; i<arr.length; i++) { if(fun(arr[i])) matched.push(arr[i]) }; return matched; } });')
+    end
+    
+    def db
+      MONGO_CONNECTIONS[Site.current.id] || begin
+        connect_mongo!
+        MONGO_CONNECTIONS[Site.current.id]
+      end
     end
   end
   
@@ -310,10 +319,6 @@ class Report < ActiveRecord::Base
     '$and' => ' && ',
     '$or'  => ' || '
   }
-  
-  # select function required to be in MongoDB
-  # TODO: figure out how to auto-insert this into Mongo when first starting up
-  # db.system.js.save({_id: "select", value: function(arr, fun){ var matched=[]; for(var i=0; i<arr.length; i++) { if(fun(arr[i])) matched.push(arr[i]) }; return matched; } });
   
   def conditional_to_javascript(context, cond)
     if joiner = JOINERS[cond.first]
