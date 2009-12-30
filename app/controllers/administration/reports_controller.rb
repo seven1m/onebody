@@ -74,6 +74,7 @@ class Administration::ReportsController < ApplicationController
     @report.attributes = params[:report]
     @conditions = @report.selector_for_form
     if @report.save
+      flash[:notice] = I18n.t('changes_saved')
       redirect_to params[:continue_editing] ? edit_administration_report_path(@report) : administration_report_path(@report)
     else
       @admins = Admin.all_for_presentation
