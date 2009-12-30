@@ -64,6 +64,7 @@ Edge
 * Ensure removal of content within script and style tags in email.
 * Don't cache settings -- causes duplicates in some cases.
 * Allow to set active from new site rake task.
+* Fix bug selecting all in relationships interface.
 
 1.0.0 / October 15, 2009
 ------------------------

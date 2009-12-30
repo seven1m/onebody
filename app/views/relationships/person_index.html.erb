@@ -38,13 +38,13 @@
   <% form_tag batch_person_relationships_path(@person) do %>
     <table>
       <tr>
-        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.outward_relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
         <th><%= I18n.t('name') %></th>
         <th><%= I18n.t('relationships.relationship') %>
       <th>
       <% @relationships.each do |relationship| %>
         <tr>
-          <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'relationship_checkbox' %></td>
+          <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'outward_relationship_checkbox' %></td>
           <td><%= link_to h(relationship.related.name), person_relationships_path(relationship.related) %></td>
           <td><%=h relationship.name_or_other %></td>
         </tr>
@@ -65,7 +65,7 @@
   <% form_tag batch_person_relationships_path(@person) do %>
     <table>
       <tr>
-        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.inward_relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
         <th><%= I18n.t('From') %></th>
         <th></th>
         <th><%= I18n.t('To') %></th>
@@ -73,7 +73,7 @@
       <th>
       <% @inward_relationships.each do |relationship| %>
         <tr>
-          <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'relationship_checkbox' %></td>
+          <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'inward_relationship_checkbox' %></td>
           <td><%= link_to h(relationship.person.name), person_relationships_path(relationship.person) %></td>
           <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
           <td><%=h @person.name %></td>
