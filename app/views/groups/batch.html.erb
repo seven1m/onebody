@@ -39,7 +39,7 @@
         <td><%= check_box_tag  "groups[#{group.id}][prayer]",                    true, group.prayer?                    %></td>
         <td><%= check_box_tag  "groups[#{group.id}][attendance]",                true, group.attendance?                %></td>
         <td><%= check_box_tag  "groups[#{group.id}][pictures]",                  true, group.pictures?                  %></td>
-        <td><%= text_field_tag "groups[#{group.id}][gcal_private_link]",         group.link_code, :size => 5            %></td>
+        <td><%= text_field_tag "groups[#{group.id}][gcal_private_link]",         group.gcal_private_link, :size => 5    %></td>
         <td><%= check_box_tag  "groups[#{group.id}][approval_required_to_join]", true, group.approval_required_to_join? %></td>
         <td class="errors"></td>
       </tr>
