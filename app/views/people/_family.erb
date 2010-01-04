@@ -1,6 +1,6 @@
 <% if @family_people.length > 1 %>
   <h2>
-    Family
+    <%= I18n.t('people.family') %>
     <a href="<%= url_for @family %>">
       <%= render :partial => 'families/thumbnail', :locals => {:family => @family} %>
     </a>
@@ -21,7 +21,7 @@
         <td>
           <%= link_to h(person.name), person %>
           <% unless person.visible?(@family) %>
-            <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+            <%= image_tag('lock.gif', :alt => I18n.t('people.hidden_profile'), :class => 'icon') %>
           <% end %>
         </td>
       </tr>

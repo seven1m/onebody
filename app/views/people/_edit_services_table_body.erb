@@ -1,6 +1,6 @@
   <tr>
     <td style="padding-right:25px;" id="current_services">
-      <h3 style="border:none;">Current services:</h3>
+      <h3 style="border:none;"><%= I18n.t('people.current_services') %></h3>
       <ul style="list-style: none;">
         <% @person.services.current.each do |pp| %>
           <% domid = "service_category_#{pp.service_category.id}" %>
@@ -12,7 +12,7 @@
       </ul>
     </td>
     <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;" id="pending_services">
-      <h3 style="border:none;">Would like to serve in:</h3>
+      <h3 style="border:none;"><%= I18n.t('people.would_like_to_serve') %></h3>
       <ul style="list-style: none;">
         <% @person.services.pending.each do |pp| %>
 	        <% domid = "service_category_#{pp.service_category.id}" %>
@@ -24,7 +24,7 @@
       </ul>
     </td>
     <td style="padding-left:25px;border-left:1px dotted #ccc;" id="historical_services">
-      <h3 style="border:none;">Previously served in:</h3>
+      <h3 style="border:none;"><%= I18n.t('people.previously_served') %></h3>
       <ul style="list-style: none;">
         <% @person.services.historical.each do |pp| %>
 	        <% domid = "service_category_#{pp.service_category.id}" %>

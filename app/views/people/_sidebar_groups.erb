@@ -1,4 +1,4 @@
-<h2>Groups</h2>
+<h2><%= I18n.t('people.groups') %></h2>
 <% if (groups = @person.groups.all).any? %>
   <table>
     <% groups.sort_by(&:name).each do |group| %>
@@ -19,15 +19,15 @@
     <% end %>
   </table>
   <% if @logged_in.admin?(:manage_groups) and groups.detect { |g| g.hidden? } %>
-    <p><%= link_to_function 'Show Hidden Groups', "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
+    <p><%= link_to_function I18n.t('people.show_hidden_groups'), "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
   <% end %>
 <% elsif me? %>
   <p>
-    You aren't in any groups yet.
+    <%= I18n.t('people.you_arent_in_any_groups') %>
     <% if params[:person_id] %>
-      Find a group <%= link_to 'here', groups_url %>.
+      <%= I18n.t('people.find_a_group', :group => groups_url) %>
     <% end %>
   </p>
 <% else %>
-  <p><%=h @person.first_name %> isn't in any groups right now.</p>
+  <p><%=h I18n.t('people.person_isnt_any_groups', :person => @person.first_name) %></p>
 <% end %>

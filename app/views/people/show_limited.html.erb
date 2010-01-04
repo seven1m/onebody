@@ -2,9 +2,9 @@
 
 <table>
   <% if @person.home_phone.to_s.any? %>
-    <tr><td>Home Phone:</td><td><%= format_phone @person.home_phone %></td></tr>
+    <tr><td><%= I18n.t('privacies.home_phone') %>:</td><td><%= format_phone @person.home_phone %></td></tr>
   <% end %>
 </table>
 
-<h2>Groups</h2>
+<h2><%= I18n.t('people.groups') %></h2>
 <%= render :partial => 'groups/person_groups' %>

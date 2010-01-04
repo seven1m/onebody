@@ -7,5 +7,5 @@
     <%= render :partial => 'notes/note', :locals => {:note => note} %>
   <% end %>
 <% elsif @person == @logged_in %>
-  <p><em>You don't have any notes yet.</em></p>
+  <p><em><%= I18n.t('notes.dont_have_notes') %></em></p>
 <% end %>
