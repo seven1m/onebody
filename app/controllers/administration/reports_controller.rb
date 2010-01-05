@@ -32,16 +32,18 @@ class Administration::ReportsController < ApplicationController
   end
   
   def new
-    @report = Report.new(Report::DEFAULT_DEFINITION)
+    @report = Report.new
+    @report.definition = Report::DEFAULT_DEFINITION['definition']
     @conditions = @report.selector_for_form
     @admins = Admin.all_for_presentation
   end
   
   def create
-    params[:report].reverse_merge!(Report::DEFAULT_DEFINITION)
     Report.process_params!(params)
-    @report = Report.new(params[:report])
+    @report = Report.new
+    @report.definition = Report::DEFAULT_DEFINITION['definition']
     @report.created_by = @logged_in
+    @report.attributes = params[:report]
     if params[:preview]
       @conditions = @report.selector_for_form
     elsif @report.save
