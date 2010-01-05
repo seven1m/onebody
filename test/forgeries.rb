@@ -109,7 +109,11 @@ class Person
     photo = attributes.delete(:photo)
     attributes[:family] ||= Family.forge(:name => "#{first_name} #{last_name}", :last_name => last_name)
     defaults = {:first_name => first_name, :last_name => last_name, :gender => 'Male', :visible_to_everyone => true, :visible => true, :can_sign_in => true, :full_access => true, :email => Faker::Internet.email, :password => 'secret', :child => false}
-    person = create!(defaults.merge(attributes))
+    person = new
+    defaults.merge(attributes).each do |attribute, value|
+      person.send("#{attribute}=", value)
+    end
+    person.save!
     person.forge_photo if photo
     person
   end

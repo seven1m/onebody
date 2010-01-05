@@ -267,7 +267,9 @@ class PersonTest < ActiveSupport::TestCase
   
   should "not allow child and birthday to both be unspecified" do
     @person = Person.forge
-    @person.update_attributes(:child => nil, :birthday => nil)
+    @person.birthday = nil
+    @person.child = nil
+    @person.save
     assert @person.errors.on(:child)
   end
   
