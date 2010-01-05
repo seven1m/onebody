@@ -21,6 +21,9 @@ class Note < ActiveRecord::Base
   
   scope_by_site_id
   
+  attr_accessible :title, :body
+  attr_protected nil
+  
   acts_as_logger LogItem
   
   validates_presence_of :body
