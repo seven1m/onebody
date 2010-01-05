@@ -58,12 +58,17 @@ class PrivaciesController < ApplicationController
   def update_membership
     @group = Group.find(params[:group_id])
     @membership = Membership.find(params[:membership_id])
-    if @membership.update_attributes(params[:membership])
-      flash[:notice] = 'Settings saved.'
+    if @logged_in.can_edit?(@membership)
+      sharing = params[:membership].reject { |k, v| k.to_s !~ /^share_/ }
+      if @membership.update_attributes(sharing)
+        flash[:notice] = 'Settings saved.'
+        redirect_to edit_group_membership_privacy_path(@group, @membership)
+      else
+        edit; render :action => 'edit'
+      end
     else
-      edit; render :action => 'edit'
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
-    redirect_to edit_group_membership_privacy_path(@group, @membership)
   end
   
   def update_person
@@ -71,8 +76,9 @@ class PrivaciesController < ApplicationController
     @family = @person.family
     if @logged_in.can_edit?(@family)
       if person = @family.people.find(params[:person_id])
-        params[:person].each { |k, v| params[:person][k] = (v == 'nil') ? nil : v } 
-        if person.update_attributes(params[:person])
+        sharing = params[:person].reject { |k, v| k.to_s !~ /^wall_enabled$|^messages_enabled$|^visible$|^share_/ }
+        sharing.each { |k, v| sharing[k] = (v == 'nil') ? nil : v } 
+        if person.update_attributes(sharing)
           if person.visible?
             flash[:notice] = "Personal settings saved for #{person.name}."
           else
@@ -84,41 +90,45 @@ class PrivaciesController < ApplicationController
       end
       redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
     else
-      render :text => I18n.t('not_authorized'), :status => 401
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
     
   def update_family
     @person = Person.find(params[:person_id])
     @family = @person.family
-    if not @logged_in.can_edit? @family
-      render :text => "You may not edit these settings. Sorry.", :status => 401
-      return
-    else
-      @family.update_attributes params[:family]
+    if @logged_in.can_edit?(@family)
+      sharing = params[:family].reject { |k, v| k.to_s !~ /^wall_enabled$|^visible$|^share_/ }
+      @family.update_attributes(sharing)
       if @family.visible?
         flash[:notice] = "Family settings saved."
         flash[:warning] = nil
       else
         flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family has been hidden from all pages on this site!"
       end
+      redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
+    else
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
-    redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
   end
   
   def update_consent
     @person = Person.find(params[:person_id])
     @family = @person.family
-    if params[:agree] == 'I Agree.'
-      if person = @family.people.find(params[:person_id])
-        @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) at #{Time.now.to_s}"
-        @person.save
-        flash[:notice] = 'Agreement saved.'
+    if @logged_in.can_edit?(@family) and @family == @logged_in.family
+      if params[:agree] == 'I Agree.'
+        if person = @family.people.find(params[:person_id])
+          @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) at #{Time.now.to_s}"
+          @person.save
+          flash[:notice] = 'Agreement saved.'
+        end
+      elsif params[:commit] == 'I Agree'
+        flash[:warning] = 'You must check the box indicating you agree to the statement below.'
       end
-    elsif params[:commit] == 'I Agree'
-      flash[:warning] = 'You must check the box indicating you agree to the statement below.'
+      redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
+    else
+      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
-    redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
   end
 
 end
