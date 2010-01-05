@@ -1,6 +1,4 @@
 <p>
-  <%= image_tag('lock.png', :alt => 'Not Sharing', :class => 'icon') %>
-  You have activity sharing disabled in your
-  <%= link_to 'privacy settings', person_privacy_path(@logged_in) + "#p#{@logged_in.id}" %>,
-  so things you share here will only display on your profile.
+  <%= image_tag('lock.png', :alt => I18n.t('privacies.not_sharing'), :class => 'icon') %>
+  <%= I18n.t('privacies.you_have_activity_sharing_disabled', :url => person_privacy_path(@logged_in) + "#p#{@logged_in.id}") %>
 </p>

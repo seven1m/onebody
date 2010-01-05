@@ -1,11 +1,11 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => 'View Profile', :class => 'icon') + ' View Profile', person_path(@person) %></li>
+  <li><%= link_to image_tag('eye.png', :alt => I18n.t('privacies.view_profile'), :class => 'icon') + ' ' + I18n.t('privacies.view_profile'), person_path(@person) %></li>
   <% if me? %>
-    <%= link_to image_tag('pencil.png', :alt => 'Edit Favorites', :class => 'icon') + ' Edit Favorites', edit_person_path(@person) + '#favorites' %>
+    <%= link_to image_tag('pencil.png', :alt => I18n.t('people.edit_favorites'), :class => 'icon') + ' ' + I18n.t('people.edit_favorites'), edit_person_path(@person) + '#favorites' %>
   <% end %>
 <% end %>
 
-<h1><%=h @person.name_possessive %> Favorites</h1>
+<h1><%=h @person.name_possessive %> <%= I18n.t('people.favorites') %></h1>
 
 <table>
   <% if @person.activities.to_s.any? %>
@@ -28,7 +28,7 @@
   <% end %>
   <% if @person.quotes.to_s.any? %>
     <tr>
-      <td>Quotes:</td>
+      <td><%= I18n.t('people.quotes') %>:</td>
       <td>
         <div style="<%= @person.quotes.to_s.length > 5000 ? 'height:300px;overflow:auto;' : '' %>">
           <%= preserve_breaks @person.quotes %>
@@ -40,10 +40,9 @@
 
 <% unless (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
   <% if me? %>
-    <p><em>Tell about your favorite interests, music, movies, and more
-      <%= link_to 'here', edit_person_path(@person, :anchor => 'favorites') %>.</em></p>
+    <p><em><%= I18n.t('people.tell_about_your_favorite', :url => edit_person_path(@person, :anchor => 'favorites')) %></em></p>
   <% else %>
-    <p><em>Nothing yet!</em></p>
+    <p><em><%= I18n.t('people.nothing_yet') %></em></p>
   <% end %>
 <% end %>
 

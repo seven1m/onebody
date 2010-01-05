@@ -1,5 +1,5 @@
 <div style="width:75px;float:right;text-align:right;">
-  <%= link_to_function '[close]', 'Element.hide("popup")', :class => 'discreet' %>
+  <%= link_to_function '[' + I18n.t('close') + ']', 'Element.hide("popup")', :class => 'discreet' %>
 </div>
 
 <h2><%=h @person.name %></h2>

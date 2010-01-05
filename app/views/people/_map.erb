@@ -2,13 +2,12 @@
   <div id="map-container" style="width:250px;float:right;display:none;">
     <div id="map" style="width:250px;height:200px;"></div>
     <div class="discreet" style="font-size:smaller;text-align:right;">
-      only an approximation |
-      <%= link_to 'show full screen', "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@person.family.mapable_address)}", :target => '_new' %>
+      <%= I18n.t('people.only_an_approximation') %> |
+      <%= link_to I18n.t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@person.family.mapable_address)}", :target => '_new' %>
     </div>
   </div>
 <% elsif Setting.get(:services, :yahoo).blank? and @logged_in.super_admin? %>
   <div style="width:230px;float:right;height:200px;vertical-align:middle;border:1px solid #ccc;padding:10px;">
-    <em>Show a map here by providing OneBody with your Yahoo Maps API key.
-    <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Click here</a> for help.</em>
+    <em><%= I18n.t('people.show_a_map_here') %></em>
   </div>
 <% end %>

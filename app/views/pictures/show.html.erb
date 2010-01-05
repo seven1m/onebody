@@ -1,6 +1,6 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('picture.png', :alt => 'All Pictures', :class => 'icon') + ' All Pictures', albums_path %></li>
-  <li><%= link_to image_tag('delete.png', :alt => 'Delete Picture', :class => 'icon') + ' Delete Picture', album_picture_path(@album, @picture), :confirm => 'Are you sure?', :method => 'delete' %></li>
+  <li><%= link_to image_tag('picture.png', :alt => I18n.t('pictures.all_pictures'), :class => 'icon') + ' ' + I18n.t('pictures.all_pictures'), albums_path %></li>
+  <li><%= link_to image_tag('delete.png', :alt => I18n.t('pictures.delete_picture'), :class => 'icon') + ' ' + I18n.t('pictures.delete_picture'), album_picture_path(@album, @picture), :confirm => I18n.t('are_you_sure'), :method => 'delete' %></li>
 <% end %>
 
 <% content_for :sidebar do %>
@@ -10,7 +10,7 @@
   <% end %>
   <% if @picture.person %>
     <p>
-      Picture uploaded by:<br/>
+      <%= I18n.t('pictures.picture_uploaded_by') %><br/>
       <%= render :partial => 'people/thumbnail', :locals => {:person => @picture.person} %>
       <%= link_to h(@picture.person.name), @picture.person %><br/>
       <%= @picture.created_at.to_s %>
@@ -18,29 +18,29 @@
   <% end %>
   <% if @picture.original_url %>
     <p>
-      From <%= link_to h(domain_name_from_url(@picture.original_url)), @picture.original_url %>
+      <%= I18n.t('From') %> <%= link_to h(domain_name_from_url(@picture.original_url)), @picture.original_url %>
     </p>
   <% end %>
   <% if @logged_in.can_edit?(@picture) %>
-    <h2>Modify</h2>
+    <h2><%= I18n.t('Modify') %></h2>
     <p>
-      <%= link_to image_tag('arrow_turn_left.png', :alt => 'Rotate Left', :class => 'icon') + ' Rotate Left', album_picture_path(@album, @picture, :degrees => -90), :confirm => 'Are you sure?', :method => 'put', :style => 'text-decoration:none;' %><br/>
-      <%= link_to image_tag('arrow_turn_right.png', :alt => 'Rotate Right', :class => 'icon') + ' Rotate Right', album_picture_path(@album, @picture, :degrees => 90), :confirm => 'Are you sure?', :method => 'put', :style => 'text-decoration:none;' %><br/>
-      <%= link_to image_tag('heart.png', :alt => 'Set as Cover', :class => 'icon') + ' Set as Cover', album_picture_path(@album, @picture, :cover => true), :method => 'put', :confirm => 'Are you sure?', :style => 'text-decoration:none;' %><br/>
+      <%= link_to image_tag('arrow_turn_left.png', :alt => I18n.t('pictures.rotate_left'), :class => 'icon') + ' ' + I18n.t('pictures.rotate_left'), album_picture_path(@album, @picture, :degrees => -90), :confirm => I18n.t('are_you_sure'), :method => 'put', :style => 'text-decoration:none;' %><br/>
+      <%= link_to image_tag('arrow_turn_right.png', :alt => I18n.t('pictures.rotate_right'), :class => 'icon') + ' ' + I18n.t('pictures.rotate_right'), album_picture_path(@album, @picture, :degrees => 90), :confirm => I18n.t('are_you_sure'), :method => 'put', :style => 'text-decoration:none;' %><br/>
+      <%= link_to image_tag('heart.png', :alt => I18n.t('pictures.set_as_cover'), :class => 'icon') + ' ' + I18n.t('pictures.set_as_cover'), album_picture_path(@album, @picture, :cover => true), :method => 'put', :confirm => I18n.t('are_you_sure'), :style => 'text-decoration:none;' %><br/>
     </p>
   <% end %>
 <% end %>
 
 <p>
-  <%= link_to '&laquo; prev', prev_album_picture_path(@album, @picture) %>
+  <%= link_to '&laquo; ' + I18n.t('pictures.prev'), prev_album_picture_path(@album, @picture) %>
   |
-  <%= link_to 'next &raquo;', next_album_picture_path(@album, @picture) %>
+  <%= link_to I18n.t('pictures.next') + ' &raquo;', next_album_picture_path(@album, @picture) %>
 </p>
 
 <p>
-  <%= link_to image_tag(large_picture_path(@picture), :alt => 'click to see original'), @picture.original_url || full_picture_path(@picture) %>
+  <%= link_to image_tag(large_picture_path(@picture), :alt => I18n.t('pictures.click_to_see_original')), @picture.original_url || full_picture_path(@picture) %>
 </p>
 <% if Setting.get(:privacy, :allow_picture_comments) %>
-<h2>Comments</h2>
-<%= render :partial => 'comments/comments', :locals => {:object => @picture, :intro => 'Comment on this picture'} %>
+<h2><%= I18n.t('comments') %></h2>
+<%= render :partial => 'comments/comments', :locals => {:object => @picture, :intro => I18n.t('pictures.comment_on_this_picture')} %>
 <% end %>

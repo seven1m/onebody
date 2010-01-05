@@ -1,20 +1,15 @@
 <% if @logged_in.admin?(:edit_profiles) %>
   <p>
-    If your system is set up to synchronize its data with an external source
-    (e.g., a membership managment system), changes you make here may
-    be overwritten on the next sync.
+    <%= I18n.t('people.if_your_system_is_setup_to_sync_change') %>
   </p>
 <% else %>
   <% if Setting.get(:features, :updates_must_be_approved) %>
     <p>
-      Changes to the details below must be <strong>reviewed by staff</strong>. To request changes,
-      enter the details below and click "Submit."
+      <%= I18n.t('people.changes_must_be_reviewed') %>
     </p>
   <% end %>
   <p style="font-weight:bold;">
-    If you wish to remove something below in order to keep others from
-    seeing it, instead go to the <%= link_to 'Privacy', edit_person_privacy_path(@person) %> page
-    and hide it.
+    <%= I18n.t('people.if_you_wish_to_remove_something', :url => edit_person_privacy_path(@person)) %>
   </p>
 <% end %>
 
@@ -26,12 +21,12 @@
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="width:250px;float:right;">
       <fieldset>
-        <legend>Person Type</legend>
-        <em>These do not control access &mdash; only appearance.</em><br/>
-        <%= form.check_box :member %> <%= form.label :member, nil, :class => 'inline' %><br/>
-        <%= form.check_box :staff %>  <%= form.label :staff,  nil, :class => 'inline' %><br/>
-        <%= form.check_box :elder %>  <%= form.label :elder,  nil, :class => 'inline' %><br/>
-        <%= form.check_box :deacon %> <%= form.label :deacon, nil, :class => 'inline' %>
+        <legend><%= I18n.t('people.person_type') %></legend>
+        <em><%= I18n.t('people.these_do_not_control_access') %></em><br/>
+        <%= form.check_box :member %> <%= form.label I18n.t('search.member'), nil, :class => 'inline' %><br/>
+        <%= form.check_box :staff %>  <%= form.label I18n.t('search.staff'),  nil, :class => 'inline' %><br/>
+        <%= form.check_box :elder %>  <%= form.label I18n.t('search.elder'),  nil, :class => 'inline' %><br/>
+        <%= form.check_box :deacon %> <%= form.label I18n.t('search.deacon'), nil, :class => 'inline' %>
         <% if Setting.get(:features, :custom_person_type) %>
           <br/>
           <%= form.label :custom_type, 'Custom Type:', :class => 'inline' %>
@@ -42,27 +37,27 @@
         <% end %>
       </fieldset>
       <fieldset>
-        <legend>Visibility</legend>
+        <legend><%= I18n.t('people.visibility') %></legend>
         <% unless @person.consent_or_13? %>
-          <em>This person is believed to be less than 13 years of age, and does not have parental consent.</em>
+          <em><%= I18n.t('people.this_person_is_less_13_years') %></em>
           <br/>
         <% end %>
         <% content_tag :span, :style => @person.consent_or_13? ? nil : 'text-decoration:line-through;' do %>
-          <%= form.check_box :can_sign_in %>                  <%= form.label :can_sign_in,                  nil, :class => 'inline' %>
+          <%= form.check_box :can_sign_in %>                  <%= form.label I18n.t('people.can_sign_in'),                  nil, :class => 'inline' %>
           <% if @person.can_sign_in? %>
-            (<%= link_to 'send email', account_path(:email => @person.email), :method => 'post', :confirm => 'Click OK to send a verification email to this user. Once the user clicks the link in the email, they will be able to set their password and sign in.' %>)
+            (<%= link_to I18n.t('people.send_email'), account_path(:email => @person.email), :method => 'post', :confirm => I18n.t('people.click_to_send_verification_email') %>)
           <% end %>
           <br/>
-          <%= form.check_box :visible_to_everyone %>          <%= form.label :visible_to_everyone,          nil, :class => 'inline' %><br/>
-          <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, nil, :class => 'inline' %><br/>
-          <%= form.check_box :full_access %>                  <%= form.label :full_access,                  nil, :class => 'inline' %>
+          <%= form.check_box :visible_to_everyone %>          <%= form.label I18n.t('people.visible_to_everyone'),          nil, :class => 'inline' %><br/>
+          <%= form.check_box :visible_on_printed_directory %> <%= form.label I18n.t('people.visible_on_printed_directory'), nil, :class => 'inline' %><br/>
+          <%= form.check_box :full_access %>                  <%= form.label I18n.t('people.full_access'),                  nil, :class => 'inline' %>
         <% end %>
       </fieldset>
      <% if Setting.get(:features, :edit_legacy_ids) %> 
       <fieldset>
-        <legend>Advanced</legend>
-        <%= form.label :legacy_id,        'Legacy/External ID' %>        <%= form.text_field :legacy_id, :size => 6 %>
-        <%= form.label :legacy_family_id, 'Family Legacy/External ID' %> <%= form.text_field :legacy_family_id, :size => 6 %>
+        <legend><%= I18n.t('people.advanced') %></legend>
+        <%= form.label :legacy_id,        I18n.t('people.legacy_external_id') %>        <%= form.text_field :legacy_id, :size => 6 %>
+        <%= form.label :legacy_family_id, I18n.t('people.family_legacy_external_id') %> <%= form.text_field :legacy_family_id, :size => 6 %>
       </fieldset>
      <% end %>
     </div>
@@ -87,7 +82,7 @@
       <%= render :partial => 'families/form_fields', :locals => {:form => family} %>
     <% end %>
   <% end %>
-  <p><%= submit_tag 'Submit' %></p>
+  <p><%= submit_tag I18n.t('submit') %></p>
 <% end %>
 
 <script type="text/javascript"> $('person_first_name').focus() </script>
