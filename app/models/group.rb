@@ -224,7 +224,7 @@ class Group < ActiveRecord::Base
   end
   
   def sync_with_campaign_monitor(api_key, list_id)
-    cm = CampaignMonitor.new(api_key)
+    cm = CampaignMonitorParty.new(api_key)
     in_group = self.people.all(:conditions => ['memberships.get_email = ?', true]).select { |p| p.email.to_s.any? }
     unsubscribed = cm.Subscribers.GetUnsubscribed('ListID' => list_id, 'Date' => '2000-01-01 00:00:00')['anyType']['Subscriber'].to_a.map { |s| [s['Name'], s['EmailAddress']] }
     # ensure we don't resubscribe someone who has already unsubscribed
