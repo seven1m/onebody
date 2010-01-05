@@ -57,7 +57,10 @@ module Forgeable
       attributes = forgery_defaults.merge(attributes)
       photo = attributes.delete(:photo)
       file = attributes.delete(:file)
-      obj = new(attributes)
+      obj = new
+      attributes.each do |attribute, value|
+        obj.send("#{attribute}=", value)
+      end
       unless obj.save
         unless obj.errors.all? { |a, e| e =~ /(another|already).+with this/ }
           raise ActiveRecord::RecordInvalid, obj
