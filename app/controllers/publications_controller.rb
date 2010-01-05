@@ -34,8 +34,9 @@ class PublicationsController < ApplicationController
     if @logged_in.admin?(:manage_publications)
       @publication = Publication.new
       if (file = params[:publication].delete(:file)) and not file.is_a? String
-        @publication.update_attributes(params[:publication].merge(:person_id => @logged_in.id))
-        unless @publication.errors.any?
+        @publication.attributes = params[:publication]
+        @publication.person = @logged_in
+        if @publication.save
           @publication.file = file
           flash[:notice] = I18n.t('publications.saved')
           if params[:send_update_to_group_id].to_i > 0
