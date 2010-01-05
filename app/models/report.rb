@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: reports
+#
+#  id             :integer       not null, primary key
+#  site_id        :integer       
+#  name           :string(255)   
+#  definition     :text          
+#  restricted     :boolean       default(TRUE)
+#  created_by_id  :integer       
+#  run_count      :integer       default(0)
+#  last_run_at    :datetime      
+#  last_run_by_id :integer       
+#  created_at     :datetime      
+#  updated_at     :datetime      
+#
+
 class Report < ActiveRecord::Base
   unloadable
   

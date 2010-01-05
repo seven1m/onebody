@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: relationships
+#
+#  id         :integer       not null, primary key
+#  person_id  :integer       
+#  related_id :integer       
+#  name       :string(255)   
+#  other_name :string(255)   
+#  site_id    :integer       
+#  created_at :datetime      
+#  updated_at :datetime      
+#
+
 class Relationship < ActiveRecord::Base
   
   belongs_to :person

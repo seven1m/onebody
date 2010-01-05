@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: syncs
+#
+#  id            :integer       not null, primary key
+#  site_id       :integer       
+#  person_id     :integer       
+#  complete      :boolean       
+#  success_count :integer       
+#  error_count   :integer       
+#  created_at    :datetime      
+#  updated_at    :datetime      
+#  started_at    :datetime      
+#  finished_at   :datetime      
+#
+
 class Sync < ActiveRecord::Base
   belongs_to :site
   scope_by_site_id

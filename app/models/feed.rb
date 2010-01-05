@@ -10,6 +10,7 @@
 #  error_count :integer       default(0)
 #  created_at  :datetime      
 #  updated_at  :datetime      
+#  last_url    :string(1000)  
 #
 
 class Feed < ActiveRecord::Base
