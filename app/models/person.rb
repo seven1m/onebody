@@ -326,7 +326,7 @@ class Person < ActiveRecord::Base
     when 'NewsItem'
       self.admin?(:manage_news) or (what.person and what.person == self )
     when 'Membership'
-      self.admin?(:manage_groups) or what.admin?(self) or self.can_edit?(what.person)
+      self.admin?(:manage_groups) or (what.group and what.group.admin?(self)) or self.can_edit?(what.person)
     else
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end
