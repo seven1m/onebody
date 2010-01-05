@@ -28,7 +28,9 @@ class Administration::SyncsController < ApplicationController
   # for api only
   def create
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
-      @sync = Sync.create!(params[:sync].merge(:person_id => @logged_in.id))
+      @sync = Sync.new(params[:sync])
+      @sync.person = @logged_in
+      @sync.save!
       respond_to do |format|
         format.xml { render :xml => @sync.to_xml }
       end
@@ -41,7 +43,7 @@ class Administration::SyncsController < ApplicationController
   def update
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       @sync = Sync.find(params[:id])
-      @sync.update_attributes!(params[:sync].merge(:person_id => @logged_in.id))
+      @sync.update_attributes!(params[:sync])
       respond_to do |format|
         format.xml { render :xml => @sync.to_xml }
       end
