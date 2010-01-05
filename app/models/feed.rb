@@ -15,7 +15,12 @@
 
 class Feed < ActiveRecord::Base
   belongs_to :person
+  
   scope_by_site_id
+  
+  attr_accessible :name, :url
+  attr_protected nil
+  
   validates_presence_of :person_id, :url, :name
   validates_uniqueness_of :name, :scope => :person_id
   validates_uniqueness_of :url, :scope => :person_id
