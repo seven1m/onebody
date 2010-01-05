@@ -25,6 +25,9 @@ class NewsItem < ActiveRecord::Base
   scope_by_site_id
   acts_as_logger LogItem
   
+  attr_accessible :title, :body
+  attr_protected nil
+  
   def name; title; end
   
   before_save :update_published_date
