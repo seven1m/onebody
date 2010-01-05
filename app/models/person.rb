@@ -114,8 +114,6 @@ class Person < ActiveRecord::Base
   has_many :inward_relationships, :class_name => 'Relationship', :foreign_key => 'related_id', :dependent => :delete_all
   has_many :inward_related_people, :class_name => 'Person', :through => :inward_relationships
   has_many :prayer_requests, :order => 'created_at desc'
-  has_many :sync_instances
-  has_many :remote_accounts
   has_many :attendance_records
   has_many :feeds
   has_many :stream_items
@@ -330,11 +328,6 @@ class Person < ActiveRecord::Base
     else
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end
-  end
-  
-  def can_sync_remotely?
-    false # disabled for now
-    #self.admin?(:view_hidden_properties)
   end
   
   def can_sign_in?

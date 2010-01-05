@@ -1,2 +1,0 @@
-page.replace_html params[:where], :partial => 'sync'
-page.visual_effect :appear, params[:where]

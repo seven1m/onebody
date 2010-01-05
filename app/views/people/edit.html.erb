@@ -37,9 +37,6 @@
   <li><%= link_to image_tag('eye.png', :alt => 'View Profile', :class => 'icon') + ' View Profile', person_path(@person) %></li>
   <li><%= link_to image_tag('email_edit.png', :alt => 'Change Email/Password', :class => 'icon') + ' Change Email/Password', edit_person_account_path(@person) %></li>
   <li><%= link_to image_tag('lock.png', :alt => 'Privacy Settings', :class => 'icon') + ' Privacy Settings', edit_person_privacy_path(@person, :anchor => "p#{@person.id}") %></li>
-  <% if @person.can_sync_remotely? %>
-     <li><%= link_to 'Remote Accounts', person_remote_accounts_path(@person) %></li>
-  <% end %>
   <li><%= link_to image_tag('feed_small.png', :alt => 'Feeds', :class => 'icon') + ' Feeds', person_feeds_path(@person) %></li>
   <% if @logged_in.admin?(:edit_profiles) and !me? %>
     <li><%= link_to (@person.account_frozen? ? 'Unfreeze' : 'Freeze'), person_path(@person, :freeze => 'toggle'), :method => 'put', :confirm => 'Are you sure?' %></li>

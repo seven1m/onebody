@@ -15,9 +15,6 @@
     <% if @person.messages_enabled? %>
       <li><%= link_to image_tag('message.gif', :alt => 'Send Email', :class => 'icon') + ' Send Email', new_message_path(:to_person_id => @person) %></li>
     <% end %>
-    <% if @logged_in.can_sync_remotely? %>
-      <li><%= link_to_remote 'Sync &raquo;', :url => person_sync_path(@person, :where => 'extra'), :method => 'get' %></li>
-    <% end %>
   <% end %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <li><%= link_to image_tag('link.png', :class => 'icon', :alt => I18n.t('relationships.relationships')) + ' ' + I18n.t('relationships.relationships'), person_relationships_path(@person) %></li>

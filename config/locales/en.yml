@@ -202,16 +202,6 @@ en:
               blank: The relationship must be associated with a person.
             related_id: 
               blank: The relationship must be associated with a person.
-        remote_account: 
-          attributes: 
-            account_type: 
-              blank: The account type must be specified.
-              inclusion: The account type is invalid.
-              taken: This remote account already exists.
-            token: 
-              blank: The remote account must have a token.
-            username: 
-              blank: The remote account must have a username.
         report: 
           attributes: 
             definition: 
@@ -493,21 +483,6 @@ en:
     relationship_type: "Type:"
     relationships: Relationships
     toggle_individual: Toggle Individual Relationship View
-
-  remote_accounts: 
-    confirm_sync: Are you sure? This operation *will* make changes to the account.
-    edit_account: Edit Account
-    get_token_sign_in: "To get the 'token' for your <a href=\"http://highrisehq.com\">Highrise</a> account, sign in and click the 'My Info' link in the top-right of the screen:"
-    new_account: New Account
-    no_remote_accounts: You do not have any <a href="{{url}}">Remote Accounts</a>.
-    remote_accounts: Remote Accounts
-    reveal_token: "On the following screen, click the 'Reveal authentication token' link:"
-    save_account: Save Account
-    sync: Sync
-    synced_contacts: Synced Contacts
-    token_key: Token/Key
-    username: Username
-    view_profile: View Profile
 
   reporting: 
     Admins: Admins

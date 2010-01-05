@@ -201,16 +201,6 @@ pt:
               blank: Este relacionamento deve estar associado com uma pessoa.
             related_id: 
               blank: Este relacionamento deve estar associado com uma pessoa.
-        remote_account: 
-          attributes: 
-            account_type: 
-              blank: O tipo de conta deve ser especificado.
-              inclusion: "O tipo de conta é inválido."
-              taken: "Esta conta remota já existe."
-            token: 
-              blank: A conta remota deve conter um token.
-            username: 
-              blank: "A conta remota deve conter um nome de usuário."
         report: 
           attributes: 
             definition: 
@@ -492,21 +482,6 @@ pt:
     relationship_type: "Tipo:"
     relationships: Relacionamentos
     toggle_individual: "Alternar para a Visualização Individual de Relacionamento"
-
-  remote_accounts: 
-    confirm_sync: "Você tem certeza? Esta operação *irá* fazer mudanças na sua conta."
-    edit_account: Editar Conta
-    get_token_sign_in: "Para obter o 'token' para a sua conta no <a href=\"http://highrisehq.com\">Highrise</a>, faça o login e clique no link 'My Info' no canto superior direito da tela:"
-    new_account: Nova Conta
-    no_remote_accounts: Você não tem nenhuma <a href="{{url}}">Conta Remota</a>.
-    remote_accounts: Contas Remotas
-    reveal_token: "Na seguinte tela, clique no link  'Reveal authentication token':"
-    save_account: Salvar Contas
-    sync: Sincronizar
-    synced_contacts: Contatos Sincronizados
-    token_key: Token/Chave
-    username: "Nome de Usuário"
-    view_profile: Visualizar Perfil
 
   reporting: 
     Admins: Admins
