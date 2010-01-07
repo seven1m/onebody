@@ -168,6 +168,8 @@ class ApplicationController < ActionController::Base
         else
           self.class.layout 'iphone.html'
         end
+      else
+        self.class.layout 'default.html'
       end
     end
     
