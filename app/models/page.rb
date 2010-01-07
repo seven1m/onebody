@@ -52,7 +52,7 @@ class Page < ActiveRecord::Base
     cooked.gsub!(/\{\{([a-z\s'&,.]+)\}\}/i) do
       "<a href=\"/search?name=#{CGI.escape($1)}\">#{$1}</a>"
     end
-    cooked.gsub!(/%5B%5B([a-z_]+)%7C([a-z_]+)%5D%5D/, "[[\\1|\\2]]")
+    cooked.gsub!(/(%5B%5B|\[\[)([a-z_]+)%7C([a-z_]+)(%5D%5D|\]\])/, "[[\\2|\\3]]")
     cooked.gsub(/\[\[([a-z_]+)\|([a-z_]+)\]\]/) do
       Setting.get($1.to_sym, $2.to_sym).to_s rescue '???'
     end
