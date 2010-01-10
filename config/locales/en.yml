@@ -12,6 +12,7 @@ en:
   are_you_sure: Are you sure?
   back_to: Back to
   by: By
+  changes: changes
   changes_saved: Changes saved.
   click_here: Click here
   close: close
@@ -266,6 +267,29 @@ en:
   groups:
     view_group: View Group
     group_emails: Group Emails
+
+  import:
+    apply_settings_to_imports: "Apply the following settings to all imports:"
+    attempt_match_existing_people: Attempt to match existing people by name if no IDs are included.
+    completed_records: Completed Records
+    errored_records: Errored Records
+    first: First
+    for_list_of_available_attributes: for a list of available attributes (not all attributes are required).
+    hint_excel_docs: "Hint: Excel documents can be exported as CSV from the File &mdash;&gt; Save As menu."
+    import_data: "Import Data..."
+    import_people: Import People
+    import_results: Import Results
+    import_selected_people: Import Selected People
+    last: Last
+    no_records_were_found: No records were found to import.
+    only_first_records__will_be_imported: Only the first {{records}} will be imported. For larger files, you must divide records into multiple files, or use the <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> to import a large batch at once.
+    record: record
+    select_csv_file: Select a Comma Separated Values (CSV) file to import with attribute names as the header row.
+    status: Status
+    the_changes_will_be_made: The following changes will be made. Only selected records will be created/updated.
+    the_import_is_complete: The import is complete
+    visibility_access: Visibility/Access
+    with_errors: with errors
 
   messages: 
     message: Message

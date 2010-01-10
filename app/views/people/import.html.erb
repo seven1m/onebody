@@ -1,16 +1,12 @@
-<h1>Import People</h1>
+<h1><%= I18n.t('import.import_people') %></h1>
 
 <% form_tag({}, :method => 'post', :multipart => true) do %>
   <p>
-    Select a Comma Separated Values (CSV) file to import with attribute names as the header row.
-    <%= link_to_function 'Click here', "Element.toggle('attributes')" %> for a list of available attributes
-    (not all attributes are required).
+    <%= I18n.t('import.select_csv_file') %>
+    <%= link_to_function I18n.t('click_here'), "Element.toggle('attributes')" %> <%= I18n.t('import.for_list_of_available_attributes') %>
   </p>
   <p>
-    <strong>Only the first <%= pluralize Person::MAX_RECORDS_TO_IMPORT, 'record' %> will be imported.
-    For larger files, you must divide records into multiple files, or use the
-    <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> to
-    import a large batch at once.</strong>
+    <strong><%= I18n.t('import.only_first_records__will_be_imported', :records => pluralize(Person::MAX_RECORDS_TO_IMPORT, I18n.t('import.record'))) %></strong>
   </p>
   <ul id="attributes" style="display:none;">
     <% @column_names.each do |name| %>
@@ -20,24 +16,24 @@
   <p>
     <%= file_field_tag :file %><br/>
     <%= check_box_tag 'match_by_name', true, true %>
-    <label for="match_by_name" class="inline">Attempt to match existing people by name if no IDs are included.</label>
+    <label for="match_by_name" class="inline"><%= I18n.t('import.attempt_match_existing_people') %></label>
   </p>
   <fieldset>
-    <legend>Visibility/Access</legend>
-    Apply the following settings to all imports:<br/>
+    <legend><%= I18n.t('import.visibility_access') %></legend>
+    <%= I18n.t('import.apply_settings_to_imports') %><br/>
     <%= check_box_tag 'attributes[can_sign_in]', true, true, :id => 'attributes_can_sign_in' %>
-    <label for="attributes_can_sign_in" class="inline">Can Sign In</label><br/>
+    <label for="attributes_can_sign_in" class="inline"><%= I18n.t('people.can_sign_in') %></label><br/>
     <%= check_box_tag 'attributes[full_access]', true, true, :id => 'attributes_full_access' %>
-    <label for="attributes_full_access" class="inline">Full Access</label><br/>
+    <label for="attributes_full_access" class="inline"><%= I18n.t('people.full_access') %></label><br/>
     <%= check_box_tag 'attributes[visible_to_everyone]', true, true, :id => 'attributes_visible_to_everyone' %>
-    <label for="attributes_visible_to_everyone" class="inline">Visible to Everyone</label><br/>
+    <label for="attributes_visible_to_everyone" class="inline"><%= I18n.t('people.visible_to_everyone') %></label><br/>
     <%= check_box_tag 'attributes[visible_on_printed_directory]', true, true, :id => 'attributes_visible_on_printed_directory' %>
-    <label for="attributes_visible_on_printed_directory" class="inline">Visible on Printed Directory</label>
+    <label for="attributes_visible_on_printed_directory" class="inline"><%= I18n.t('people.visible_on_printed_directory') %></label>
   </fieldset>
   <p>
-    <%= submit_tag 'Import Data...' %>
+    <%= submit_tag I18n.t('import.import_data') %>
   </p>
 <% end %>
 <p>
-  Hint: Excel documents can be exported as CSV from the File &mdash;&gt; Save As menu.
+  <%= I18n.t('import.hint_excel_docs') %>
 </p>

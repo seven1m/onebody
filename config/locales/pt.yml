@@ -12,6 +12,7 @@ pt:
   are_you_sure: "Você tem certeza?"
   back_to: Voltar para
   by: De
+  changes: mudanças
   click_here: Clique aqui
   close: fechar
   comments: "Comentários"
@@ -265,6 +266,29 @@ pt:
   groups:
     view_group: Visualizar Grupo
     group_emails: Emails do Grupo
+
+  import:
+    apply_settings_to_imports: "Aplicar as seguintes configurações para toda a importação:"
+    attempt_match_existing_people: Tente encontrar pessoas existentes pelo nome se nenhum ID for incluído.
+    completed_records: Registros Completados
+    errored_records: Registros com Erro
+    first: Primeiro
+    for_list_of_available_attributes: para uma lista de atributos disponíveis (nem todos os atributos são requeridos).
+    hint_excel_docs: "Dica: Documentos Excel podem ser exportados como um CSV no menu Arquivo &mdash;&gt; Salvar como."
+    import_data: "Importar Dados..."
+    import_people: Importar Pessoas
+    import_results: Resultados da Importação
+    import_selected_people: Importar Pessoas Selecionadas
+    last: Último
+    no_records_were_found: Nenhum registro foi encontrado para importação.
+    only_first_records__will_be_imported: Somente os primeiros {{records}} serão importados. Para arquivos grandes, você deve dividir os registros em múltiplos arquivos, ou usar o <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> para importar uma grande quantidade de uma vez.
+    record: registro
+    select_csv_file: Selecione um Arquivo Separado por Vírgulas (CSV) para importação com os nomes de atributos como a linha inicial.
+    status: Status
+    the_changes_will_be_made: As seguintes mudanças serão feitas. Somente os registros selecionados serão criados/atualizados.
+    the_import_is_complete: A importação está terminada.
+    visibility_access: Visibilidade/Acesso
+    with_errors: com erros
 
   messages: 
     message: Mensagem
