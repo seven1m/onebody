@@ -17,7 +17,7 @@ class FamiliesController < ApplicationController
         end
         format.csv do
           if @families.any?
-            render :text => @families.to_csv(:except => %w(site_id))
+            render :text => @families.to_csv_mine(:except => %w(site_id))
           else
             flash[:warning] = 'No more records.'
             redirect_to people_path
