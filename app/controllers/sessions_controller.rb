@@ -33,9 +33,6 @@ class SessionsController < ApplicationController
         return
       end
       person.increment!(:signin_count)
-      if person.signin_count == 1 and not Rails.env.test?
-        session[:touring] = true
-      end
       session[:logged_in_id] = person.id
       session[:logged_in_name] = person.first_name + ' ' + person.last_name
       session[:ip_address] = request.remote_ip

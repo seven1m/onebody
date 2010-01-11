@@ -23,6 +23,7 @@ Edge
 * Way better handling of deleted records, and an interface to manage them.
 * New plugin hook api.
 * Improve performance of search by family name.
+* Don't start tour upon first login.
 * Fix Group calendars for Google Apps accounts.
 * Fix session deletion scheduled job.
 * Sort groupies by name.
