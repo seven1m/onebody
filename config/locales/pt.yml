@@ -7,6 +7,7 @@ pt:
   Edit: Editar
   From: De
   Modify: Modificar
+  New: Novo
   Save: Salvar
   To: Para
   are_you_sure: "Você tem certeza?"
@@ -17,15 +18,16 @@ pt:
   close: fechar
   comments: "Comentários"
   delete: deletar
-  doesnt: doesn't
+  doesnt: não
   edit: editar
   feature_unavailable: "Esta função ainda não está disponível."
   file_not_found: Arquivo não encontrado
   in: em
+  insert: inserir
   loading: Carregando
   more: mais
   name: Nome
-  new: Novo
+  new: novo
   new_category: nova categoria
   next: Próximo
   none: nenhum
@@ -33,6 +35,7 @@ pt:
   of: de
   only_admins: "Você precisa ser um administrador para usar essa seção."
   please_note: Por favor note
+  save: Salvar
   save_changes: Salvar Mudanças
   search_results: Resultados da Busca
   submit: Submeter
@@ -318,6 +321,24 @@ pt:
     share_note: Compartilhar nota
     share_note_description: "O que você está fazendo? O que passa na sua mente?"
 
+  pages:
+    are_you_sure: Você tem certeza? Isto irá deletar todas as páginas filhas desta permanentemente!    
+    collapse: recolher
+    edit_page: Editar Página
+    edit_pages: Editar Páginas
+    expand: expandir
+    help_and_system_pages: "As páginas de 'Ajuda' e 'Sistema' são usadas pelo OneBody e podem ser adaptadas para as necessidades de sua comunidade. Outras páginas são somente visíveis se a característica de Sistema de Gerenciamento de Conteúdo estiver habilitada."
+    loading: carregando...
+    new_page: Nova Página
+    new_root_page: nova página raiz
+    pages: Páginas
+    published: Publicada
+    save_and_continue_editing: Salvar e Continuar Editando
+    to_add_attachment_first_save_it: Para adicionar um anexo à esta página, primeivo é necessário salvá-la.
+    unpublished: não publicada
+    upload_attachment: Carregar Anexo
+    visible_in_navigation: Visível na Navegação
+
   people:
     about: Sobre
     about_me: Sobre Mim
@@ -543,10 +564,12 @@ pt:
     have_concerns_regarding_this: Se você possui restrições ligadas a isso, por favor entre em contato no {{phone}} imediatamente.
     hidden: Oculto
     hide_your_activity: "Oculte a sua atividade se você não deseja que seus amigos e/ou membros de grupos visualizem as suas mensagens públicas, notas, versículos, etc. na página inicial deles. Nota: Mensagens privadas nunca são exibidas, independente desta configuração."
+    home: Casa
     home_phone: Telefone Residencial
     i_agree: Eu concordo
     if_this_is_unchecked: Se isto estiver selecionado e {{name_possessive}} email for oculto, outros não terão como enviar uma mensagem privada diretamente para {{first_name}} através deste site.
     invisible: Invisível
+    mobile: Celular
     mobile_phone: Celular
     modify_the_privacy_settings: Modifique as configurações de privacidade para você e a sua família abaixo. Para entender como nós usamos as suas informações pessoais e da sua família, por favor leia a nossa <a href="{{url}}">Política de Privacidade</a>.
     not_sharing: Não Compartilhando
@@ -576,6 +599,7 @@ pt:
     visible: Visível
     visible_on_site: visível no site
     wall: Parede de Recados
+    work: Trabalho
     work_phone: Telefone Comercial
     you_are_not_sharing_with_groups: Você não está compartilhando o seu {{sharing}} com nenhum grupo específico.
     you_are_sharing_with_groups: "Você está compartilhando o seu {{sharing}} com os seguintes grupos:"

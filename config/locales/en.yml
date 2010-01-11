@@ -7,6 +7,7 @@ en:
   Edit: Edit
   From: From
   Modify: Modify
+  New: New
   Save: Save
   To: To
   are_you_sure: Are you sure?
@@ -23,10 +24,11 @@ en:
   feature_unavailable: This feature is unavailable.
   file_not_found: File not Found
   in: in
+  insert: insert
   loading: Loading
   more: more
   name: Name
-  new: New
+  new: new
   new_category: new category
   next: Next
   none: none
@@ -34,6 +36,7 @@ en:
   of: of
   only_admins: You must be an administrator to use this section.
   please_note: Please Note
+  save: Save
   save_changes: Save Changes
   search_results: Search Results
   submit: Submit
@@ -319,6 +322,24 @@ en:
     share_note: Share Note
     share_note_description: "What are you doing? What's on your mind?"
 
+  pages:
+    are_you_sure: Are you sure? This will be permanent and will delete all children of this page!    
+    collapse: collapse
+    edit_page: Edit Page
+    edit_pages: Edit Pages
+    expand: expand
+    help_and_system_pages: "'Help' and 'System' pages are used by OneBody and may be adapted to your community if needed. Other pages are only visible if the Content Management System feature is enabled."
+    loading: loading...
+    new_page: New Page
+    new_root_page: new root page
+    pages: Pages
+    published: Published
+    save_and_continue_editing: Save and Continue Editing
+    to_add_attachment_first_save_it: To add an attachment to this page, first save it.
+    unpublished: unpublished
+    upload_attachment: Upload Attachment
+    visible_in_navigation: Visibile in Navigation
+
   people:
     about: About
     about_me: About Me
@@ -544,10 +565,12 @@ en:
     have_concerns_regarding_this: If you have concerns regarding this, please contact us at {{phone}} immediately.
     hidden: Hidden
     hide_your_activity: "Hide your activity if you do not want friends and/or fellow group members to see your public messages, notes, verses, etc. on their home page. Note: private messages are never displayed, regardless of this setting."
+    home: Home
     home_phone: Home Phone
     i_agree: I Agree
     if_this_is_unchecked: If this is unchecked and {{name_possessive}} email address is hidden, others will have no way to send a private email directly to {{first_name}} through this site.
     invisible: Invisible
+    mobile: Mobile
     mobile_phone: Mobile Phone
     modify_the_privacy_settings: Modify the privacy settings for you and your family below. To understand how we use the personal information of you and your family, please read our <a href="{{url}}">Privacy Policy</a>.
     not_sharing: Not Sharing    
@@ -577,6 +600,7 @@ en:
     visible: Visible
     visible_on_site: visible on site
     wall: Wall
+    work: Work
     work_phone: Work Phone
     you_are_not_sharing_with_groups: You are not sharing your {{sharing}} with any groups specifically.
     you_are_sharing_with_groups: "You are sharing your {{sharing}} with the following groups:"

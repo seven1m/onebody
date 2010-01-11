@@ -7,18 +7,18 @@
         (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
         <% unless @page.path == 'template' %>
           <% if attachment.image? %>
-            <%= link_to_function 'insert', "insertImage('#{get_attachment_path(attachment)}', '#{attachment.human_name}', '#{attachment.width}px', '#{attachment.height}px')" %>
+            <%= link_to_function I18n.t('insert'), "insertImage('#{get_attachment_path(attachment)}', '#{attachment.human_name}', '#{attachment.width}px', '#{attachment.height}px')" %>
           <% else %>
-            <%= link_to_function 'insert', "insertLink('#{get_attachment_path(attachment)}')" %>
+            <%= link_to_function I18n.t('insert'), "insertLink('#{get_attachment_path(attachment)}')" %>
           <% end %>
         <% end %>
-        <%= link_to 'delete', attachment, :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+        <%= link_to I18n.t('delete'), attachment, :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet' %>
       </li>
     <% end %>
   </ul>
 
   <p>
-    <%= link_to_remote 'Upload Attachment', :url => new_attachment_path(:page_id => @page), :method => 'get', :html => {:id => 'new_attachment_link'} %>
+    <%= link_to_remote I18n.t('pages.upload_attachment'), :url => new_attachment_path(:page_id => @page), :method => 'get', :html => {:id => 'new_attachment_link'} %>
   </p>
 
 </div>

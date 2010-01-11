@@ -20,11 +20,11 @@
     <%= form.label :parent_id, 'Path' %>   <%= form.select :parent_id, [['(root)', nil]] + @page_paths_and_ids, {}, :style => 'width:auto;' %> /
                                            <%= form.text_field :slug %><br/>
     <%= form.label :body %>                <%= form.text_area :body, :rows => 20, :cols => 80, :style => 'width:80%;font-family:monaco,monospace;' %><br/>
-    <%= form.submit 'Save' %>
-    <%= form.submit 'Save and Continue Editing' %>
+    <%= form.submit I18n.t('save') %>
+    <%= form.submit I18n.t('pages.save_and_continue_editing') %>
     <%= form.check_box :published, :class => 'checkbox', :onclick => "$('page_navigation').checked=this.checked" %>
-    <%= form.label :published, 'Published', :class => 'inline' %>
+    <%= form.label :published, I18n.t('pages.published'), :class => 'inline' %>
     <%= form.check_box :navigation, :class => 'checkbox' %>
-    <%= form.label :navigation, 'Visibile in Navigation', :class => 'inline' %>
+    <%= form.label :navigation, I18n.t('pages.visible_in_navigation'), :class => 'inline' %>
   </div>
 <% end %>
