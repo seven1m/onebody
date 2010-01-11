@@ -46,7 +46,7 @@
 <% unless @person.visible?(@family) %>
   <p>
     <%= image_tag('lock.gif', :alt => I18n.t('search.hidden_profile'), :class => 'icon') %>
-    <%= I18n.t('people.this profile is hidden') %>
+    <%= I18n.t('people.this_profile_is_hidden') %>
   </p>
 <% end %>
 
