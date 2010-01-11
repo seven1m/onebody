@@ -29,11 +29,11 @@ class Person
 
     module ClassMethods
       def importable_column_names
-        (columns.map { |c| c.name } + Family.columns.map { |c| "family_#{c.name}" }).reject { |c| c =~ /site_id/ }
+        (columns.map { |c| c.name } + Family.columns.map { |c| "family_#{c.name}" }).reject { |c| %w(site_id family_site_id encrypted_password salt email_changed email_bounces flags parental_consent admin_id feed_code twitter_account api_key deleted signin_count latitude longitude family_deleted).include?(c) or c =~ /_at$/ }
       end
       
       def translate_column_name(col)
-        COLUMN_ALIASES[col] || col
+        importable_column_names.include?(col) ? col : COLUMN_ALIASES[col]
       end
       
       def queue_import_from_csv_file(file, match_by_name=true, merge_attributes={})
@@ -55,7 +55,9 @@ class Person
       def get_changes_for_import(attributes, row, match_by_name=true)
         row_as_hash = {}
         row.each_with_index do |col, index|
-          row_as_hash[attributes[index]] = col
+          if a = attributes[index]
+            row_as_hash[a] = col
+          end
         end
         person_hash, family_hash = split_change_hash(row_as_hash)
         if record = tiered_find(person_hash, match_by_name)
