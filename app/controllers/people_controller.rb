@@ -176,9 +176,7 @@ class PeopleController < ApplicationController
   def import
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if request.get?
-        @column_names  = Person.columns.map { |c| c.name }
-        @column_names += Family.columns.map { |c| "family_#{c.name}" }
-        @column_names.reject! { |c| c =~ /site_id/ }
+        @column_names = Person.importable_column_names
       elsif request.post?
         @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name], params[:attributes])
         render :action => 'import_queue'

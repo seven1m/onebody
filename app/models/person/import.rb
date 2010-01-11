@@ -2,15 +2,43 @@ class Person
   
   MAX_RECORDS_TO_IMPORT = 500
   
+  COLUMN_ALIASES = {
+    'First Name'             => 'first_name',
+    'Last Name'              => 'last_name',
+    'Household Name Format'  => 'family_name',
+    'Gender'                 => 'gender',
+    'DOB'                    => 'birthday',
+    'Address1'               => 'family_address1',
+    'Address 1'              => 'family_address1',
+    'Address2'               => 'family_address2',
+    'Address 2'              => 'family_address2',
+    'City'                   => 'family_city',
+    'State Province'         => 'family_state',
+    'Postal Code'            => 'family_zip',
+    'Home Phone'             => 'family_home_phone',
+    'Work Phone'             => 'work_phone',
+    'Cell Phone'             => 'mobile_phone',
+    'Individual Email'       => 'email',
+    'Household Email'        => 'family_email'
+  }
+  
   module Import
     def self.included(mod)
       mod.extend(ClassMethods)
     end
 
     module ClassMethods
+      def importable_column_names
+        (columns.map { |c| c.name } + Family.columns.map { |c| "family_#{c.name}" }).reject { |c| c =~ /site_id/ }
+      end
+      
+      def translate_column_name(col)
+        COLUMN_ALIASES[col] || col
+      end
+      
       def queue_import_from_csv_file(file, match_by_name=true, merge_attributes={})
         data = FasterCSV.parse(file)
-        attributes = data.shift
+        attributes = data.shift.map { |a| translate_column_name(a) }
         data[0...MAX_RECORDS_TO_IMPORT].map do |row|
           person, family = get_changes_for_import(attributes, row, match_by_name)
           person.attributes = merge_attributes
