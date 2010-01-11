@@ -44,29 +44,31 @@
   
 <% end %>
 
-<p><%= link_to_function I18n.t('relationships.create_family_relationships'), "Element.show('auto_generate');Element.hide(this)" %></p>
+<% if @family.people.count > 0 %>
+  <p><%= link_to_function I18n.t('relationships.create_family_relationships'), "Element.show('auto_generate');Element.hide(this)" %></p>
 
-<div id="auto_generate" style="display:none;">
-  <% form_tag family_relationships_path(@family) do %>
-    <p><%= I18n.t('relationships.create_family_relationships_description') %></p>
-    <table>
-      <tr>
-        <th><%= I18n.t('From') %></th>
-        <th></th>
-        <th><%= I18n.t('To') %></th>
-        <th><%= I18n.t('relationships.relationship') %>
-      <th>
-      <% @suggested_relationships.each do |person, relationships| %>
-        <% relationships.each do |related, relationship| %>
-          <tr>
-            <td><%= link_to h(person.name), person %></td>
-            <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
-            <td><%= link_to h(related.name), related %></td>
-            <td><%= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{I18n.t('none')})", '']]+I18n.t('relationships.names').invert.sort, relationship.to_sym) %></td>
-          </tr>
+  <div id="auto_generate" style="display:none;">
+    <% form_tag family_relationships_path(@family) do %>
+      <p><%= I18n.t('relationships.create_family_relationships_description') %></p>
+      <table>
+        <tr>
+          <th><%= I18n.t('From') %></th>
+          <th></th>
+          <th><%= I18n.t('To') %></th>
+          <th><%= I18n.t('relationships.relationship') %>
+        <th>
+        <% @suggested_relationships.each do |person, relationships| %>
+          <% relationships.each do |related, relationship| %>
+            <tr>
+              <td><%= link_to h(person.name), person %></td>
+              <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
+              <td><%= link_to h(related.name), related %></td>
+              <td><%= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{I18n.t('none')})", '']]+I18n.t('relationships.names').invert.sort, relationship.to_sym) %></td>
+            </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </table>
-    <%= submit_tag I18n.t('relationships.create_family_relationships') %>
-  <% end %>
-</div>
+      </table>
+      <%= submit_tag I18n.t('relationships.create_family_relationships') %>
+    <% end %>
+  </div>
+<% end %>
