@@ -9,7 +9,7 @@ class Person
 
     module ClassMethods
       def queue_import_from_csv_file(file, match_by_name=true, merge_attributes={})
-        data = CSV.parse(file)
+        data = FasterCSV.parse(file)
         attributes = data.shift
         data[0...MAX_RECORDS_TO_IMPORT].map do |row|
           person, family = get_changes_for_import(attributes, row, match_by_name)
