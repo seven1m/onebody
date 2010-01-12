@@ -1,4 +1,4 @@
-<%= @person.name %> has requested to join the group <%= @group.name %>.
+<%= I18n.t('notifier.name_has_requested_join_group', { :name => @person.name, :group => @group.name } ) %>
 
-To approve or ignore, sign in and visit the following address:
+<%= I18n.t('notifier.to_approve_or_ignore') %>:
 <%= Setting.get(:url, :site) %>groups/<%= @group.id %>/memberships

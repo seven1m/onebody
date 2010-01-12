@@ -1,5 +1,5 @@
-<%= @person.name %> has had their email changed.
+<%= I18n.t('notifier.person_had_their_email_changed', :name => @person.name) %>
 
-Email: <%= @person.email %>
+<%= I18n.t('people.email') %>: <%= @person.email %>
 
-Please make the appropriate updates to the membership database.
+<%= I18n.t('notifier.please_make_updates') %>

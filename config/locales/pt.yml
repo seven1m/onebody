@@ -34,6 +34,7 @@ pt:
   not_authorized: "Você não está autorizado"
   of: de
   only_admins: "Você precisa ser um administrador para usar essa seção."
+  phone: Telefone
   please_note: Por favor note
   save: Salvar
   save_changes: Salvar Mudanças
@@ -320,6 +321,33 @@ pt:
     notes: Notas
     share_note: Compartilhar nota
     share_note_description: "O que você está fazendo? O que passa na sua mente?"
+
+  notifier:
+    attached_your_custom_directory: Olá, {{name}}. Segue em anexo o seu diretório para impressão customizado do {{site}}.
+    be_sure_to_send_verification_email: Tenha certeza de também clicar no "enviar email de verificação" para o usuário.
+    check_boxes_in_visibility_sidebar: Verifique todas as opções apropriadas na barra lateral de "Visibilidade" e salve.
+    click_link_to_complete_process: "Clique no seguinte link para completar o processo: {{url}}"
+    has_submited_profile_update: submeteu uma atualização de perfil
+    if_you_cannot_click_link: Se não for possível clicar no link a seguir, você irá precisar copiar e colar o mesmo na sua barra de endereços do seu navegador de internet.
+    if_you_approve_this_account_creation: Se você aprova esta criação de conta, ative a conta neste endereço
+    if_you_dont_know_why_get_this_email: Se você não sabe o porquê você está recebendo este email, você pode entrar em contato com {{name}} no telefone {{phone}}.
+    message_id: ID da Mensagem
+    name_has_requested_join_group: "{{name}} requisitou para fazer parte do grupo {{group}}."
+    name_submitted_birthday_request: "{{name}} submeteu um pedido de verificação de aniversário"
+    new: Novo
+    old: Velho
+    person_had_their_email_changed: "{{name}} teve o seu email alterado."
+    person_has_signed_for_account: "{{name}} se inscreveu para uma conta."
+    person_wants_to_be_your_friend: "{{name}} quer ser seu amigo no {{site}}."
+    please_make_updates: Por favor faça as atualizações apropriadas para a base de membros.
+    this_email_to_verify_email: Este email é para verificar o seu endereço de email para acesso ao site {{site}}. Para verificar o seu endereço de email, por favor clique no link abaixo
+    this_notify_someone_reported: Isto é para notificar que alguém reportou que a data e hora estão incorretas no site {{site}}.
+    to_accept_or_decline: Para aceitar ou declinar, por favor acesso o sistem aqui
+    to_approve_or_ignore: Para aprovar ou ignorar, acesse o sistema e visite o seguinte endereço
+    update_record_membership: Atualize os registros na base de membros.
+    verification_code: Código de Verificação
+    verify_person_identity: "Verifique a identidade desta pessoa. Tenha cuidado; se você tiver dúvidas, utilize o telefone fornecido para validar se esta pessoa é quem ela diz que é."
+    wait_one_day_and_wait: AGUARDE UM DIA ou dispare manualmente o script de atualização da base de dados no servidor e espere até que seja finalizado.
 
   pages:
     are_you_sure: Você tem certeza? Isto irá deletar todas as páginas filhas desta permanentemente!    

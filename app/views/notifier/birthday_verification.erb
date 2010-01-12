@@ -1,14 +1,14 @@
-<%= @name %> has submitted a birthday verification request:
+<%= I18n.t('notifier.name_submitted_birthday_request', :name => @name) %>:
 
-Name: <%= @name %>
-Email: <%= @email %>
-Phone: <%= @phone %>
-Birthday: <%= @birthday %>
-Notes: <%= @notes %>
+<%= I18n.t('name') %>: <%= @name %>
+<%= I18n.t('people.email') %>: <%= @email %>
+<%= I18n.t('phone') %>: <%= @phone %>
+<%= I18n.t('privacies.birthday') %>: <%= @birthday %>
+<%= I18n.t('notes.notes') %>: <%= @notes %>
 
 ----
 
-1. Verify this person's identity. Be cautious; if in doubt, use the phone number provided to validate this person is who they say they are.
-2. Update their record in the membership database.
-3. WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished.
-4. Click the following link to complete the process: <%= Setting.get(:url, :site) %>account/new?email<%= @email %>
+1. <%= I18n.t('notifier.verify_person_identity') %>
+2. <%= I18n.t('notifier.update_record_membership') %>
+3. <%= I18n.t('notifier.wait_one_day_and_wait') %>
+4. <%= I18n.t('notifier.click_link_to_complete_process', :url => Setting.get(:url, :site) + 'account/new?email=' + @email) %>

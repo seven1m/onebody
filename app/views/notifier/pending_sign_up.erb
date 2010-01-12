@@ -1,11 +1,10 @@
-<%= @person.name %> has signed up for an account.
+<%= I18n.t('notifier.person_has_signed_for_account', :name => @person.name) %>
 
-Name: <%= @person.name %>
-Email: <%= @person.email %>
+<%= I18n.t('name') %>: <%= @person.name %>
+<%= I18n.t('people.email') %>: <%= @person.email %>
 
-If you approve of this account creation, activate the account
-at this address: <%= Setting.get(:url, :site) %>people/<%= @person.id %>/edit
+<%= I18n.t('notifier.if_you_approve_this_account_creation') %>: <%= Setting.get(:url, :site) %>people/<%= @person.id %>/edit
 
-Check all the appropriate boxes in the "Visibility" sidebar and save.
+<%= I18n.t('notifier.check_boxes_in_visibility_sidebar') %>
 
-Be sure to also click to "send verification email" to the user.
+<%= I18n.t('notifier.be_sure_to_send_verification_email') %>
