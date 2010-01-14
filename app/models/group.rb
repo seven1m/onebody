@@ -111,11 +111,6 @@ class Group < ActiveRecord::Base
     write_attribute(:address, a == '' ? nil : a)
   end
   
-  def leader_with_guessing
-    leader_without_guessing || admins.first
-  end
-  alias_method_chain :leader, :guessing
-  
   def get_options_for(person)
     memberships.find_by_person_id(person.id)
   end
