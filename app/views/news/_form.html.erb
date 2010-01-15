@@ -13,14 +13,14 @@
 
 <% form_for @news_item, :url => @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
   <p>
-    <%= form.label :title, 'Give your post a concise title:' %>
+    <%= form.label :title, I18n.t('news.title_description') %>
     <%= form.text_field :title %>
   </p>
   <p>
-    <%= form.label :body, 'Share your announcement, information, or news here:' %>
+    <%= form.label :body, I18n.t('news.body_description') %>
     <%= form.text_area :body, :rows => 10, :cols => 100, :style => 'width:75%;' %>
   </p>
   <p>
-    <%= form.submit @news_item.new_record? ? 'Submit News' : 'Save News' %>
+    <%= form.submit @news_item.new_record? ? I18n.t('news.submit_news') : I18n.t('news.save_news') %>
   </p>
 <% end %>

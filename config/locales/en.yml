@@ -17,12 +17,15 @@ en:
   changes_saved: Changes saved.
   click_here: Click here
   close: close
-  comments: Comments
+  comment: comment
+  Comments: Comments
   delete: delete
   doesnt: doesn't
   edit: edit
   feature_unavailable: This feature is unavailable.
   file_not_found: File not Found
+  from: from
+  group: Group
   in: in
   insert: insert
   loading: Loading
@@ -35,12 +38,14 @@ en:
   not_authorized: You are not authorized.
   of: of
   only_admins: You must be an administrator to use this section.
+  person: Person
   phone: Phone
   please_note: Please Note
   save: Save
   save_changes: Save Changes
   search_results: Search Results
   submit: Submit
+  to: to
   type: Type
   you_dont: You don't
   your: Your
@@ -257,6 +262,9 @@ en:
           one: There was an error saving the changes.
           other: There were {{count}} errors saving the changes.
 
+  comments:
+    add_read_comments: "Add/Read Comments"
+  
   friends: 
     add_friend: Add Friend
     add_friend_are_you_sure: Are you sure? An email will be sent to this person requesting friendship.
@@ -310,18 +318,43 @@ en:
 
   news: 
     all_news: All News
+    by: by
     body_description: "Share your announcement, information, or news here:"
+    edit_news_post: Edit News Post
+    if_you_have_something_to_share: If you have something newsworthy to share, <a href="{{url}}">submit it here</a>.
     news: News
+    news_feed: News Feed
     news_with_advanced_formatting: Or, share <a href="{{url}}">news with advanced formatting...</a>
+    no_news_is_available: No news is available at this time.
+    posted: Posted
+    return_to_news: return to News
+    save_news: Save News
     submit_news: Submit News
+    subscribe_to_community_news: <a href="{{url}}">Subscribe</a> to Community News with your feed reader.
     title_description: "Give your post a concise title:"
+    welcome_to_the_place: Welcome to the place for community news.
 
-  notes: 
+  notes:
+    about_this_note: about this note
+    add_a_note: Add a Note
+    add_note: Add Note
+    by: by
+    creating_note_doesnt_send_email: "Creating a note does <em>not</em> send an email to the group."
+    delete_note: Delete Note
     dont_have_notes: "You don't have any notes yet"
+    edit_note: Edit Note
+    new_note: New Note
     note: Note
+    note_imported_from: Note imported from
     notes: Notes
+    posted: posted
+    posted_by: posted by
+    save_note: Save Note
     share_note: Share Note
     share_note_description: "What are you doing? What's on your mind?"
+    this_note_will_be_posted: This note will be posted to the {{group}} blog.
+    this_note_will_not_be_private: "This note will <strong>not</strong> be private since it is a blog post. To send a private message, send an email to the group."
+    title: Title
 
   notifier:
     attached_your_custom_directory: Hello, {{name}}. Attached is your custom printed directory from {{site}}.

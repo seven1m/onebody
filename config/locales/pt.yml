@@ -16,12 +16,15 @@ pt:
   changes: mudanças
   click_here: Clique aqui
   close: fechar
-  comments: "Comentários"
+  comment: comentário
+  Comments: "Comentários"
   delete: deletar
   doesnt: não
   edit: editar
   feature_unavailable: "Esta função ainda não está disponível."
   file_not_found: Arquivo não encontrado
+  from: de
+  group: Grupo
   in: em
   insert: inserir
   loading: Carregando
@@ -34,12 +37,14 @@ pt:
   not_authorized: "Você não está autorizado"
   of: de
   only_admins: "Você precisa ser um administrador para usar essa seção."
+  person: Pessoa
   phone: Telefone
   please_note: Por favor note
   save: Salvar
   save_changes: Salvar Mudanças
   search_results: Resultados da Busca
   submit: Submeter
+  to: to
   type: Tipo
   you_dont: Você não
   your: Seu
@@ -256,6 +261,9 @@ pt:
           one: "Houve um erro ao salvar as mudanças."
           other: "Existem {{count}} erros ao salvar as mudanças."
 
+  comments:
+    add_read_comments: "Add/Read Comments"
+
   friends: 
     add_friend: Adicionar Amigo
     add_friend_are_you_sure: Você tem certeza? Um email será enviado para esta pessoa requisitando amizade.
@@ -309,18 +317,43 @@ pt:
 
   news: 
     all_news: "Todas as Notícias"
+    by: por
     body_description: "Compartilhe os seus anúncios, informações ou notícias aqui:"
+    edit_news_post: Editar Postagem de Notícias
+    if_you_have_something_to_share: Se você têm alguma notícia para compartilhar, <a href="{{url}}">submeta-a aqui</a>.
     news: "Notícias"
+    news_feed: Feed de Notícias
     news_with_advanced_formatting: Ou, compartilhe <a href="{{url}}">notícias com formatação avancada...</a>
+    no_news_is_available: Nenhuma notícia está disponível neste momento.
+    posted: Postado
+    return_to_news: retorna às Notícias
+    save_news: Salvar Notícias
     submit_news: "Enviar Notícias"
+    subscribe_to_community_news: <a href="{{url}}">Subscreva</a> às notícias da Comunidade com o seu leitor de feeds.
     title_description: "Dê um título conciso para a sua postagem:"
+    welcome_to_the_place: Bem vindo ao lugar para as notícias da comunidade.
 
-  notes: 
+  notes:
+    about_this_note: sobre esta nota
+    add_a_note: Adicionar uma Nota
+    add_note: Adicionar Nota
+    by: por
+    creating_note_doesnt_send_email: "A criação de notas <em>não</em> envia um email ao grupo."
+    delete_note: Deletar Nota
     dont_have_notes: "Você ainda não têm nenhuma nota"
+    edit_note: Editar Nota
+    new_note: Nova Nota
     note: Nota
+    note_imported_from: Nota importada de
     notes: Notas
-    share_note: Compartilhar nota
-    share_note_description: "O que você está fazendo? O que passa na sua mente?"
+    posted: postada
+    posted_by: postada por
+    save_note: Salvar Nota
+    share_note: Compartilhar Nota
+    share_note_description: "O que você está fazendo? O que você têm em mente?"
+    this_note_will_be_posted: Esta nota será postada no blog do grupo {{group}}.
+    this_note_will_not_be_private: "Esta nota <strong>não</strong> será particular porque é um post de blog. Para enviar uma mensagem particular, envie um email para o grupo."
+    title: Título
 
   notifier:
     attached_your_custom_directory: Olá, {{name}}. Segue em anexo o seu diretório para impressão customizado do {{site}}.
