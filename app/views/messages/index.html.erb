@@ -24,12 +24,7 @@
       <h2><%= link_to h(message.subject), message %></h2>
       <%= render :partial => 'meta', :locals => {:message => message} %>
       <div>
-        <% if message.html_body %>
-          HTML
-          <%= white_list_with_removal auto_link(message.html_body) %>
-        <% else %>
-          <%= preserve_breaks auto_link(message.body) %>
-        <% end %>
+        <%= render_message_body(message) %>
       </div>
 
       <% if (count = message.children.count) > 0 %><p><%= pluralize count, 'reply' %></p><% end %>

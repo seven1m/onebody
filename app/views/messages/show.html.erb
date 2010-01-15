@@ -22,11 +22,7 @@
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
 </div>
 
-<% if @message.html_body.to_s.any? %>
-  <p><%= white_list_with_removal(hide_contact_details(@message.html_body)) %></p>
-<% else %>
-  <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
-<% end %>
+<%= render_message_body(@message) %>
 
 <%= render :partial => 'attachments', :locals => {:message => @message} %>
 
@@ -44,13 +40,12 @@
     </div>
     <p>
       <% if reply.html_body.to_s.any? %>
-        <%= white_list(hide_contact_details(reply.html_body)) %>
+        <%= render_message_html_body(reply) %>
       <% elsif params[:show_quoted] %>
-        <%= preserve_breaks(remove_excess_breaks(hide_contact_details(reply.body))) %>
+        <%= render_message_text_body(reply) %>
       <% else %>
-        <% trimmed = remove_bulk_quoting(hide_contact_details(reply.body)) %>
-        <%= preserve_breaks(remove_excess_breaks(trimmed)) %>
-        <% if reply.body.split(/\n/).length != trimmed.split(/\n/).length %>
+        <%= html = render_message_text_body(reply, :hide_bulk_quoting) %>
+        <% if html != render_message_text_body(reply) %>
           <br/>
           <em style="color:#009;">
             Some quoted text in this message is hidden;
