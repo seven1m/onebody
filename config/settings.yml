@@ -287,3 +287,7 @@ Privacy:
     format: boolean
     value: true
     description: If enabled, users will be allowed to post comments on pictures.
+  Hide Contact Details in Messages:
+    format: boolean
+    value: true
+    description: If enabled, attempts are made to hide phone numbers and email addresses inside messages when viewed online.
