@@ -12,6 +12,7 @@ en:
   are_you_sure: Are you sure?
   back_to: Back to
   by: By
+  changes_saved: Changes saved.
   click_here: Click here
   close: close
   comments: Comments
@@ -666,16 +667,23 @@ en:
     and: AND
     Creator: Creator
     Criteria: Criteria
+    Last_Modified: Last Modified
     Last_Run: Last Run
     Name: Name
     Reports: Reports
+    Sort_Order: Sort Order
     Source: Source
     Total_Runs: Total Runs
     add_criteria: Add Criteria
     add_group: Add Group
     flip_conjunctions: Flip Logical Conjunctions
+    add_sort_attribute: Add Sort Attribute
+    cancel_changes: Cancel Changes
+    contains_case_insensitive: contains (case insensitive)
+    contains_case_sensitive: contains
     edit_report: Edit Report
     error_running_report: There was an error running this report.
+    flip_conjunctions: Flip Logical Conjunctions
     greater_than: greater than
     greater_than_or_equal: greater than or equal
     is_exactly: is exactly
@@ -686,15 +694,27 @@ en:
     less_than_or_equal: less than or equal
     matches_case_insensitive: matches (case insensitive)
     matches_case_sensitive: matches
+    move_down: Move Down
+    move_up: Move Up
     new_report: New Report
     not_one_of: not one of
     one_of: one of
     or: OR
     remove_criteria: Remove Criteria
+    remove_sort_attribute: Remove Sort Attribute
     report_database_offline: The reporting database is offline, so no reports can be run. Please contact your administrator.
     restricted: Restricted
     restricted_note: All admins with the 'run reports' privilege will be able to run this report.
+    run: run
     save_and_continue_editing: Save and Continue Editing
+    save_and_run_report: Save and Run Report
+    show_tips: "Show Reporting Tips &raquo;"
+    tips:
+      - <em>nil</em> is not the same as an empty string. You may have to test for both, using an [or] group.
+      - The 'child' attribute is only <em>true/false</em> in cases where the birthday is unknown; otherwise, it is <em>nil</em>.
+      - For the best results in searching for adults, specify 'birthday' is <em>less than</em> "YYYY-MM-DD" (replace with the appropriate date) [or] 'child' is <em>false</em>
+      - The 'gender' attribute can only be "Male", "Female", or nil.
+      - The <em>matches</em> operator (and the case-insensitive version) require knowledge of <a href="http://en.wikipedia.org/wiki/Regular_expression">Regular Expressions</a>. Use the <em>contains</em> operator for simple searches.
 
   search: 
     add_as_many_friends_you_like: You can add as many friends as you like! When you're finished, you can edit your <a href="{{url}}">friends list</a> to remove and put them in the order you want.
