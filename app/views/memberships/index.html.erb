@@ -1,9 +1,9 @@
-<p><%= link_to '&laquo; back to the group', group_url(:id => @group) %></p>
+<p><%= link_to '&laquo; ' + I18n.t('groups.back_to'), group_url(:id => @group) %></p>
 
 <h1><%= @group.name %></h1>
 
 <% if @logged_in.can_edit?(@group) and @requests.any? %>
-  <h2>Requests</h2>
+  <h2><%= I18n.t('groups.requests') %></h2>
   <% form_tag batch_group_memberships_path(@group) do |form| %>
     <table>
       <% @requests.each do |req| %>
@@ -14,9 +14,9 @@
       <% end %>
     </table>
     <p>
-      Select one or more above and choose an action:<br/>
-      <input type="submit" name="commit" value="Accept" style="font-weight:bold;"><br/>
-      <input type="submit" name="commit" value="Ignore">
+      <%= I18n.t('groups.select_one_or_more') %>:<br/>
+      <input type="submit" name="commit" value="<%= I18n.t('groups.accept') %>" style="font-weight:bold;"><br/>
+      <input type="submit" name="commit" value="<%= I18n.t('groups.ignore') %>">
     </p>
   <% end %>
 <% end %>

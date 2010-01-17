@@ -277,8 +277,13 @@ en:
     remove_from_friends: Remove from Friends
 
   groups:
+    accept: Accept
+    back_to: back to the group
     view_group: View Group
     group_emails: Group Emails
+    ignore: Ignore
+    requests: Requests
+    select_one_or_more: Select one or more above and choose an action
 
   import:
     apply_settings_to_imports: "Apply the following settings to all imports:"
@@ -303,10 +308,43 @@ en:
     visibility_access: Visibility/Access
     with_errors: with errors
 
+  layouts:
+    credits: Credits
+    full_site: Full Site
+    this_is_the_fallback_template: This is the fallback template used in case your selected theme cannot be found. Please check that your Theme setting points to a real directory inside the themes/ directory.
+    powered_by: Powered by <a href="http://beonebody.org" rel="external">OneBody</a>
+    privacy_policy: Privacy Policy
+
   messages: 
+    ago: ago
+    attachment: Attachment
+    attachment_optional: Attachment (optional)
+    attachments: Attachments
+    delete_message: Delete Message
+    email_message_to: Email Message to {{name}}
+    file_missing: file missing
+    from: From
+    group_message_to: Group Message to {{group}}
+    in: in
     message: Message
+    message_by: Message by
+    message_view: Message View
     messages: Messages
+    message_in: Messages in <a href="{{group}}">{{name}}</a>
+    on: on
+    posted_by: posted by
+    preview: Preview
+    reply: Reply
+    reply_by: Reply by
+    reply_to_this_message: Reply to this message
+    send_message: Send Message
+    some_quoted_text_is_hidden: Some quoted text in this message is hidden;
+    subject: Subject
+    this_group_is_not_private: This group is not private, so messages posted here will be visible by people who aren't members of this group.
     this_message_will_be_visible: This message will be visible to anyone who can see {{name}} profile.
+    this_will_send_an_email_to: This will send an email to {{group}}.
+    this_will_send_a_private_email: This will send a <em>private</em> email.
+    to_show_the_entire_message: to show the entire message.
 
   nav: 
     bible: Bible
@@ -410,6 +448,7 @@ en:
     advanced: Advanced
     activities: Activities
     alternate_email: Alternate Email
+    back_to: back to {{name}}
     basics: Basics
     books: Books
     business: Business

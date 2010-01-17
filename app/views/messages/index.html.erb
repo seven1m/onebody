@@ -1,8 +1,8 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' Back to ' + h(@group.name), @group %></li>
+  <li><%= link_to image_tag('group.png', :alt => I18n.t('group'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@group.name), @group %></li>
 <% end %>
 
-<h1>Messages in <%= link_to h(@group.name), @group %></h1>
+<h1><%= I18n.t('messages.message_in', { :group => @group, :name => h(@group.name) } ) %></h1>
 
 <% @messages.each do |message| %>
 
@@ -27,7 +27,7 @@
         <%= render_message_body(message) %>
       </div>
 
-      <% if (count = message.children.count) > 0 %><p><%= pluralize count, 'reply' %></p><% end %>
+      <% if (count = message.children.count) > 0 %><p><%= pluralize count, I18n.t('messages.reply') %></p><% end %>
     </div>
 </div>
 
