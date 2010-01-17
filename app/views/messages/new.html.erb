@@ -1,14 +1,14 @@
 <% if @message.to %>
-  <h1>Email Message to <%=h @message.to.name %></h1>
+  <h1><%= I18n.t('messages.email_message_to', :name => h(@message.to.name)) %></h1>
   <p>
-    This will send a <em>private</em> email.
+    <%= I18n.t('messages.this_will_send_a_private_email') %>
   </p>
 <% elsif @message.group %>
-  <h1>Group Message to <%=h @message.group.name %></h1>
+  <h1><%= I18n.t('messages.group_message_to', :group => h(@message.group.name)) %></h1>
   <p>
-    This will send an email to <%=h @message.group.name %>.
+    <%= I18n.t('messages.this_will_send_an_email_to', :group => h(@message.group.name)) %>
     <% unless @group.private? %>
-      <strong>This group is not private, so messages posted here will be visible by people who aren't members of this group.</strong>
+      <strong><%= I18n.t('messages.this_group_is_not_private') %></strong>
     <% end %>
   </p>
 <% end %>

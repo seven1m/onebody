@@ -1,6 +1,6 @@
 if @preview
-  page.replace_html 'preview-from', 'From: ' + h(@preview.from)
-  page.replace_html 'preview-subject', 'Subject: ' + h(@preview.subject)
+  page.replace_html 'preview-from', I18n.t('messages.from') + ': ' + h(@preview.from)
+  page.replace_html 'preview-subject', I18n.t('messages.subject') + ': ' + h(@preview.subject)
   page.replace_html 'preview-email', simple_format(auto_link(h(get_email_body(@preview))))
   page.show 'preview'
 end

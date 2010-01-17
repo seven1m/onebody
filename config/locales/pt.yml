@@ -263,7 +263,7 @@ pt:
           other: "Existem {{count}} erros ao salvar as mudanças."
 
   comments:
-    add_read_comments: "Add/Read Comments"
+    add_read_comments: "Adicionar/Ler Comentários"
 
   friends: 
     add_friend: Adicionar Amigo
@@ -277,8 +277,13 @@ pt:
     remove_from_friends: Remover dos Amigos
 
   groups:
+    accept: Aceitar
+    back_to: voltar ao grupo
     view_group: Visualizar Grupo
     group_emails: Emails do Grupo
+    ignore: Ignorar
+    requests: Requisições
+    select_one_or_more: Seleciona uma ou mais opções abaixo e escolha uma ação
 
   import:
     apply_settings_to_imports: "Aplicar as seguintes configurações para toda a importação:"
@@ -303,10 +308,43 @@ pt:
     visibility_access: Visibilidade/Acesso
     with_errors: com erros
 
+  layouts:
+    credits: Créditos
+    full_site: Visualização Normal
+    this_is_the_fallback_template: Este é um template usado no caso do seu selecionado não puder ser encontrado. Por favor verifique que as suas configurações de Tema aponte a um diretório real dentro do diretório themes/.
+    powered_by: Powered by <a href="http://beonebody.org" rel="external">OneBody</a>
+    privacy_policy: Política de Privacidade
+
   messages: 
+    ago: atrás
+    attachment: Anexo
+    attachment_optional: Anexo (opcional)
+    attachments: Anexos
+    delete_message: Deletar Mensagem
+    email_message_to: Email para {{name}}
+    file_missing: arquivo faltando
+    from: De
+    group_message_to: Mensagem de Grupo para {{group}}
+    in: em
     message: Mensagem
+    message_by: Mensagem de
+    message_view: Visualização de Mensagem
     messages: Mensagens
+    message_in: Mensagens em <a href="{{group}}">{{name}}</a>
+    on: no
+    posted_by: postado por
+    preview: Pré-visualização
+    reply: Responder
+    reply_by: Resposta por
+    reply_to_this_message: Responder à esta mensagem
+    send_message: Enviar Mensagem
+    some_quoted_text_is_hidden: Algumas citações nesta mensagem estão ocultas;
+    subject: Assunto
+    this_group_is_not_private: Este grupo não é particular, então as mensagens enviadas aqui serão visíveis por pessoas que não são membros deste grupo.
     this_message_will_be_visible: Esta mensagem será visível para qualquer um que puder visualizar o  perfil de {{name}}.
+    this_will_send_an_email_to: Isto irá enviar um email para {{group}}.
+    this_will_send_a_private_email: Isto irá enviar um email <em>particular</em>.
+    to_show_the_entire_message: para mostrar a mensagem inteira.
 
   nav: 
     bible: "Bíblia"
@@ -410,6 +448,7 @@ pt:
     advanced: Avançado
     activities: Atividades
     alternate_email: Email Alternativo
+    back_to: voltar para {{name}}
     basics: Básico
     books: Livros
     business: Negócios
