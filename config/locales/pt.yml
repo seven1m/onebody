@@ -12,6 +12,7 @@ pt:
   To: Para
   are_you_sure: "Você tem certeza?"
   back_to: Voltar para
+  changes_saved: Alterações salvas.
   by: De
   changes: mudanças
   click_here: Clique aqui
@@ -772,38 +773,56 @@ pt:
 
   reporting: 
     Admins: Admins
+    and: E
     Creator: Autor
     Criteria: Critério
+    Last_Modified: Última modificação
     Last_Run: Última execução
     Name: Nome
     Reports: Relatórios
+    Sort_Order: Ordem de Classificação
     Source: Origem
     Total_Runs: Execuções totais
     add_criteria: Adicionar critério
     add_group: Adicionar agrupamento
-    and: E    
+    add_sort_attribute: Adicionar Atributo de Ordenação
+    cancel_changes: Cancelar Alterações
+    contains_case_insensitive: contém (considerando maiúsculas e minúsculas)
+    contains_case_sensitive: contém
     edit_report: Editar Relatório
     error_running_report: Houve um erro ao executar este relatório.
-    flip_conjunctions: Flip Logical Conjunctions    
+    flip_conjunctions: Alterar Conjunção Lógica
     greater_than: maior que
-    greater_than_or_equal: maior ou igual que
+    greater_than_or_equal: maior ou igual a
     is_exactly: é exatamente
     is_nil: é nulo
     is_not: não é
     is_not_nil: não é nulo
     less_than: menor que
     less_than_or_equal: menor ou igual que
-    matches_case_insensitive: igual (maiúsculas e minúsculas)
+    matches_case_insensitive: igual (considerando maiúsculas e minúsculas)
     matches_case_sensitive: igual
+    move_down: Mover para baixo
+    move_up: Mover para cima
     new_report: Novo Relatório
     not_one_of: não é um dos
     one_of: um dos
-    or: OU    
+    or: OU
     remove_criteria: Remover Critério
-    report_database_offline: A base de relatórios está offline, então nenhum relatório pode ser executado. Por favor contate o seu administrator.
+    remove_sort_attribute: Remover Atributo de Ordenação
+    report_database_offline: A base de relatórios estão offline, então nenhum relatório pode ser executado. Contate o seu Administrador.
     restricted: Restrito
     restricted_note: Todos os admins com o privilégio de 'executar relatórios' poderão executar este relatório.
-    save_and_continue_editing: Salvar e Continuar Editando
+    run: executar
+    save_and_continue_editing: Salvar e Continuar Executando
+    save_and_run_report: Salvar e Executar o Relatório
+    show_tips: "Exibir dicas para os Relatórios &raquo;"
+    tips:
+      - <em>nulo</em> não é o mesmo que um texto vazio. Você pode ter que testar ambos, usando um grupo [ou].
+      - O atributo 'filho' é somente <em>verdadeiro/falso</em> em casos que a data de nascimento é desconhecida; de outra maneira, é <em>nulo</em>.
+      - Para um melhor resultado quando pesquisando por adultos, especifique a 'data de nascimento' sendo <em>menor que</em> "YYYY-MM-DD" (substitua pela data apropriada) [ou] 'criança' é <em>falso</em>
+      - O atributo 'gênero' pode ser somente "Masculino", "Feminino" ou nulo.
+      - O operador <em>igual</em> (e a versão considerando maiúsculas e minúsculas) requer conhecimento de <a href="http://pt.wikipedia.org/wiki/Expressão_regular">Expressões Regulares</a>. Use o operador <em>contém</em> para pesquisas simples.
 
   search: 
     add_as_many_friends_you_like: Você pode adicionar quantos amigos você preferir! Quando você tiver terminado, você pode editar a sua <a href="{{url}}">lista de amigos</a> para remover e colocá-los na ordem que você quiser.
