@@ -69,6 +69,7 @@ ActionController::Routing::Routes.draw do |map|
     messages.resources :attachments
   end
 
+  map.resources :authentications
   map.resources :feeds
   map.resources :verses
   map.resources :publications
