@@ -1,7 +1,7 @@
 class AddRelationshipsHashToPeople < ActiveRecord::Migration
   def self.up
     change_table :people do |t|
-      t.string :relationships_hash, :limit => 40, :null => false
+      t.string :relationships_hash, :limit => 40
     end
     Person.reset_column_information
     Site.each do
