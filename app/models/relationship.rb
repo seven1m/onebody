@@ -51,6 +51,12 @@ class Relationship < ActiveRecord::Base
     connection.select_values("select distinct other_name from relationships where other_name is not null and other_name != '' and site_id=#{Site.current.id} order by other_name")
   end
   
+  after_save :update_relationships_hash
+  after_destroy :update_relationships_hash
+  def update_relationships_hash
+    person.update_relationships_hash!
+  end
+  
   RECIPROCAL_RELATIONSHIP_NAMES = {
     'aunt'            => {'Male' => 'nephew',         'Female' => 'niece'          },
     'brother'         => {'Male' => 'brother',        'Female' => 'sister'         },
