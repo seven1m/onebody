@@ -642,6 +642,18 @@ class Person < ActiveRecord::Base
     groups.map { |g| g.name }.join(', ')
   end
   
+  def update_relationships_hash
+    rels = relationships.all(:include => :related).map do |relationship|
+      "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
+    end.sort
+    self.relationships_hash = Digest::SHA1.hexdigest(rels.join(','))
+  end
+  
+  def update_relationships_hash!
+    update_relationships_hash
+    save(false)
+  end
+  
   alias_method :destroy_for_real, :destroy
   def destroy
     self.update_attribute(:deleted, true)
@@ -684,13 +696,25 @@ class Person < ActiveRecord::Base
             else
               next # don't overwrite the newer email address with an older one
             end
-          elsif %w(family email_changed remote_hash).include?(key) # skip these
+          elsif %w(family email_changed remote_hash relationships relationships_hash).include?(key) # skip these
             next
           end
           person.send("#{key}=", value) # be sure to call the actual method (don't use write_attribute)
         end
         person.dont_mark_email_changed = true # set flag to indicate we're the api
         if person.save
+          if record['relationships'] and record['relationships_hash'] != person.relationships_hash
+            person.relationships.destroy_all
+            record['relationships'].split(',').each do |relationship|
+              if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.find_by_legacy_id($1)
+                person.relationships.create(
+                  :related    => related,
+                  :name       => 'other',
+                  :other_name => $2
+                )
+              end
+            end
+          end
           s = {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id, :name => person.name}
           if person.email_changed? # email_changed flag still set
             s[:status] = 'saved with error'
