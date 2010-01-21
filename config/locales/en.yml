@@ -331,7 +331,7 @@ en:
     message_view: Message View
     messages: Messages
     message_in: Messages in <a href="{{group}}">{{name}}</a>
-    on: on
+    messages_on: on
     posted_by: posted by
     preview: Preview
     reply: Reply
