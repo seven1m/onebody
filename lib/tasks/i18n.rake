@@ -56,15 +56,6 @@ namespace :i18n do
 
   desc "Find and list translation keys found in the app but not in all of the locales"
   task :missing_keys2 => :environment do
-    # Get all keys used in app
-    used_keys = Dir[RAILS_ROOT + '/app/**/*'].map do |path|
-      if File.directory?(path)
-        []
-      else
-        File.read(path).scan(/I18n\.t\(['"](.+?)['"]/).map { |s| s.first }
-      end
-    end.flatten.uniq.sort
-    
     # Make sure we’ve loaded the translations
     I18n.backend.send(:init_translations)
     puts "#{I18n.available_locales.size} #{I18n.available_locales.size == 1 ? 'locale' : 'locales'} available: #{I18n.available_locales.to_sentence}"
@@ -74,8 +65,26 @@ namespace :i18n do
       collect_keys([], translations).sort
     end.flatten.uniq
     
-    # not perfect, but better than nothing...
-    puts used_keys - available_keys
+    # Get all keys used in app
+    Dir[RAILS_ROOT + '/app/**/*'].each do |path|
+      missing = []
+      unless File.directory?(path)
+        File.read(path).scan(/I18n\.t\(['"](.+?)['"]/).map { |s| s.first }.each do |key|
+          unless available_keys.include?(key)
+            if possible_match = available_keys.detect { |k| k[0...key.length] == key } and possible_match =~ /\.one$|\.other$|\.are$|\.is$|^relationships\.names\./
+              # pass
+            else
+              missing << key
+            end
+          end
+        end
+        if missing.any?
+          puts path
+          puts missing
+          puts
+        end
+      end
+    end
   end
   
   desc "Find and list translation keys that aren't properly inserted (possibly) in the ERB views"
