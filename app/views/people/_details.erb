@@ -37,8 +37,8 @@
   <% end %>
   <% render :layout => 'people/detail_row', :locals => { :attribute => :birthday, :label => I18n.t('privacies.birthday') } do %>
     <% if @person.birthday %>
-      <%= link_to @person.birthday.strftime('%B'), search_path(:birthday_month => @person.birthday.month), :title => I18n.t('search_for_birthdays', :birthday => @person.birthday.strftime('%B')) %>
-      <%= link_to @person.birthday.strftime('%d'), search_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => I18n.t('search_for_birthdays', :birthday => @person.birthday.strftime('%B %d')) %>
+      <%= link_to @person.birthday.strftime('%B'), search_path(:birthday_month => @person.birthday.month), :title => I18n.t('people.search_for_birthdays', :birthday => @person.birthday.strftime('%B')) %>
+      <%= link_to @person.birthday.strftime('%d'), search_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => I18n.t('people.search_for_birthdays', :birthday => @person.birthday.strftime('%B %d')) %>
     <% end %>
   <% end %>
   <% render :layout => 'people/detail_row', :locals => { :attribute => :anniversary, :label => I18n.t('privacies.anniversary') } do %>

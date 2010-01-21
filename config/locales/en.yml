@@ -300,6 +300,7 @@ en:
     last: Last
     no_records_were_found: No records were found to import.
     only_first_records__will_be_imported: Only the first {{records}} will be imported. For larger files, you must divide records into multiple files, or use the <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> to import a large batch at once.
+    people: Import People
     record: record
     select_csv_file: Select a Comma Separated Values (CSV) file to import with attribute names as the header row.
     status: Status

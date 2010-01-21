@@ -12,7 +12,7 @@
         <% unless page.system? %>
           <%= link_to I18n.t('delete'), page, :method => 'delete', :confirm => I18n.t('pages.are_you_sure'), :class => 'discreet' %>
         <% end %>
-        <%= link_to I18n.t('pages.new'), new_page_path(:parent_id => page), :class => 'discreet' %>
+        <%= link_to I18n.t('pages.new_page'), new_page_path(:parent_id => page), :class => 'discreet' %>
         <div id="page<%= page.id %>_children"></div>
       </li>
     <% end %>

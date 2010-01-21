@@ -2,7 +2,7 @@
   <% if @message.group %>
     <li><%= link_to '&laquo; ' + I18n.t('groups.back_to'), @message.group %></li>
   <% elsif person = (@message.to || @message.wall) and @logged_in.sees? person %>
-    <li><%= link_to I18n.t('messages.string', :name =>h(person.name)), person %></li>
+    <li><%= link_to I18n.t('people.back_to', :name =>h(person.name)), person %></li>
   <% end %>
   <% if @message.person == @logged_in or @logged_in.can_edit? @message %>
     <li><%= link_to image_tag('delete.png', :alt => I18n.t('messages.delete_message'), :class => 'icon') + ' ' + I18n.t('messages.delete_message'), @message, :method => 'delete', :confirm => I18n.t('are_you_sure') %></li>

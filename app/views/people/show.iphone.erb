@@ -22,13 +22,13 @@
     <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :email, :label => I18n.t('people.email') } do %>
       <%= mail_to @person.email, @person.email, :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :home_phone, :label => I18n.t('people.home') } do %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :home_phone, :label => I18n.t('profile.home') } do %>
       <%= link_to format_phone(@person.home_phone) + ' (home)', "tel:#{@person.home_phone}", :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :mobile_phone, :label => I18n.t('people.mobile') } do %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :mobile_phone, :label => I18n.t('profile.mobile') } do %>
       <%= link_to format_phone(@person.mobile_phone) + ' (mobile)', "tel:#{@person.mobile_phone}", :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :work_phone, :label => I18n.t('people.work') } do %>
+    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :work_phone, :label => I18n.t('profile.work') } do %>
       <%= link_to format_phone(@person.work_phone) + ' (work)', "tel:#{@person.work_phone}", :rel => 'external' %>
     <% end %>
     <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :fax, :label => I18n.t('privacies.fax') } do %>
