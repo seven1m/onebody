@@ -1,14 +1,14 @@
 <% content_for :toolbar do %>
-  <h1>I18n.t('news.news')</h1>
+  <h1><%= I18n.t('news.news') %></h1>
   <%= iphone_back_button %>
 <% end %>
 
 <div class="info">
-  I18n.t('news.posted') <%= @news_item.published.to_s(:date) rescue '?' %>
+  <%= I18n.t('news.posted') %> <%= @news_item.published.to_s(:date) rescue '?' %>
   <% if @news_item.person %>
-    I18n.t('news.by') <%= link_to h(@news_item.person.name), @news_item.person %>
+    <%= I18n.t('news.by') %> <%= link_to h(@news_item.person.name), @news_item.person %>
   <% elsif @news_item.link.to_s.any? %>
-    I18n.t('from') <%= link_to h(@news_item.link.sub(/^http:\/\//, '')), @news_item.link %>
+    <%= I18n.t('from') %> <%= link_to h(@news_item.link.sub(/^http:\/\//, '')), @news_item.link %>
   <% end %>
 </div>
 
