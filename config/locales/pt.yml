@@ -434,7 +434,7 @@ pt:
     message_view: Visualização de Mensagem
     messages: Mensagens
     message_in: Mensagens em <a href="{{group}}">{{name}}</a>
-    on: no
+    messages_on: no
     posted_by: postado por
     preview: Pré-visualização
     reply: Responder
