@@ -11,6 +11,7 @@ en:
   Save: Save
   To: To
   are_you_sure: Are you sure?
+  are_you_sure_cannot_be_undone: Are you sure? This cannot be undone!
   back_to: Back to
   by: By
   changes: changes
@@ -26,6 +27,7 @@ en:
   file_not_found: File not Found
   from: from
   group: Group
+  help: help
   in: in
   insert: insert
   loading: Loading
@@ -38,10 +40,12 @@ en:
   not_authorized: You are not authorized.
   of: of
   only_admins: You must be an administrator to use this section.
+  people: People
   person: Person
   phone: Phone
   please_note: Please Note
   save: Save
+  saving: Saving
   save_changes: Save Changes
   search_results: Search Results
   submit: Submit
@@ -277,13 +281,112 @@ en:
     remove_from_friends: Remove from Friends
 
   groups:
+    25_of: 25 of
     accept: Accept
+    add_group: Add Group
+    add_somebody: Add somebody
+    all_groups: All Groups
+    approval: approval
+    approval_required_to_join: Approval required for people to join group
+    approve_group: Approve Group
+    approved: Approved
+    are_you_sure_option: Are you sure you want to {{option}} email from the group {{group}}?
+    attendance: Attendance
     back_to: back to the group
-    view_group: View Group
+    back_to_homepage: Back to Groups Homepage
+    batch_edit_groups: Batch Edit Groups
+    by_allow_anyone_to_join: By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.
+    calendar_help: In your Google Calendar, in Calendar Settings, copy your "Private" XML Link and paste in this box to display your calendar on the group page.
+    calendar_private_link: Google Calendar Private Link
+    category: Category
+    category_required: Category (required)
+    cannot_remove_last_admin: You cannot remove the last group admin. You may delete the group, however.
+    change: Change
+    change_email_settings: Change Email Settings
+    change_this_picture: Change This Picture
+    class_link_code: "Class Link Code(s):"
+    click_save_changes_to_upload: Click "Save Changes" at the bottom of this form to upload a new picture.
+    configure_email_from_group: configure email from this group
+    create_a_group: Create a Group
+    creator: Creator
+    details: Details
+    delete_group: Delete Group
+    description: Description
+    directions: Directions
+    edit_group: Edit Group
+    email_from_group_is_on: email from this group is ON
+    email_from_group_is_off: email from this group is OFF
+    email_off: off
+    email_on: on
+    enable_attendance_tracking: Enable Attendance Tracking
+    enable_blog: Enable Blog
+    enable_email: Enable Email
+    enable_prayer_requests: Enable Prayer Requests
+    features: Features
+    group_calendar: Group Calendar
     group_emails: Group Emails
+    group_members_can_post: Group Members Can Post Messages
+    group_notes: Group Notes
+    group_pictures: Group Pictures
+    group_prayer: Group Prayer
+    group_wont_be_visible: Group won't be visible on members' profiles or other group lists (unless your an admin).
+    groupies: Groupies
+    hidden_group: Hidden Group
+    hidden_groups: Hidden Groups
+    if_cant_find_create_it: If you can't find the group you're looking for, create it!
+    if_checked_message_only_to_members: If checked, message are only visible to members of the group.
+    if_ok_you_will_stop_receiving: If you click OK, you will no longer receive email from this group.
+    if_ok_you_will_start_receiving: If you click OK, you will start receiving email from this group.
     ignore: Ignore
+    join_this_group: Join This Group
+    leader: Leader
+    leader_id: Leader Id
+    leave_this_group: Leave This Group
+    location: Location
+    location_address: Location and Address
+    meets: Meets
+    meets_when: Meets When
+    members_send: Members Send
+    name_required: Name (required)
+    new_group: New Group
+    nobody_yet: Nobody yet
+    notes: Notes
+    no_groups_found: no groups found
+    no_online_group_activity: No online group activity to display.
+    only_admins_see_this_list: Only administrators (such as yourself) see this list
+    or_send_from_your_email: "Or, send to <a href='mailto:{{email}}'>{{email}}</a> from your email client."
+    other_notes: Other Notes
+    parents_of: "Parents of:"
+    pending_approval: "{{following}} approval"
+    privacy_security: Privacy and Security
+    private_group: Private Group
+    promote: Promote
+    recent_activity: Recent Activity
+    remove_group_photo: Remove Group Photo
+    remove_selected: Remove Selected
     requests: Requests
+    request_will_be_sent_to_admins: Are you sure? A request will be sent to the group administrator(s).
+    scroll_left_and_right: Scroll left and right to see all columns.
     select_one_or_more: Select one or more above and choose an action
+    separate_codes_with_space: Separate multiple codes with a space.
+    show_all: Show all...
+    the_groups_are_pending: The following groups are pending
+    the_group_is_pending: The following group is pending
+    the_settings_are_for_advanced_users: The settings below are for advanced users.
+    there_was_errors_saving: There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages.
+    this_group_doesnot_offer: This group does not offer any features and is for informational purposes only.
+    this_group_has_pending: This group has pending <a href="{{url}}">group membership requests</a>.
+    this_group_is_hidden: This group is hidden.
+    this_group_is_pending_approval: This group is pending approval.
+    this_group_is_pending_you_may_not_add_people: This group is pending approval. You may not add people to it yet.
+    this_group_is_private: This group is private. Only people in this group can see its messages.
+    this_group_maintained_by_staff: This group is maintained by office staff.
+    this_picture: This Picture
+    view_group: View Group
+    yes_do_it: Yes, do it.
+    you_are_to_remove_yourself: You're about to remove yourself from this group! You won't be able to edit it anymore if you do that
+    you_requested_join_this_group: You have requested to join this group.
+    your_groups: Your Groups
 
   import:
     apply_settings_to_imports: "Apply the following settings to all imports:"
@@ -578,6 +681,12 @@ en:
     one: 1 person
     other: "{{count}} people"
 
+  photos:
+    only_jpeg_photos_are_accepted: Only JPEG photos are accepted at this time. Please make sure the picture is appropriate and not offensive to others.
+    please_choose_photo: Please choose a photo that won't offend others.
+    remove: Remove {{name}}
+    upload: Upload {{name}}
+
   pictures: 
     add_a_picture: Add a Picture
     album: Album
@@ -871,6 +980,7 @@ en:
     anniversary: Anniversary
     birthday: Birthday
     browse: Browse
+    browse_by_category: Browse By Category
     browse_directory_description: Of course, you can also <a href="{{url}}">browse the directory</a> by name.
     browse_the_directory: browse the directory
     business: Business

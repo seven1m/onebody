@@ -9,14 +9,14 @@
   <% else %>
     <%= image_tag 'group.jpg', :alt => @group.name %>
   <% end %>
-  <p>Category: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
+  <p><%= I18n.t('groups.category') %>: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
 </div>
 
-<h2>Recent Activity</h2>
+<h2><%= I18n.t('groups.recent_activity') %></h2>
 
 <%= render :partial => 'streams/stream_items_iphone' %>
 
-<h2>People</h2>
+<h2><%= I18n.t('people') %></h2>
 
 <ul>
   <% @group.people.all(:order => 'last_name, first_name').each do |person| %>
@@ -29,8 +29,8 @@
         <% if person.birthday_soon? %>
           <br/>
           <span class="detail">
-            <%= image_tag('birthday.png', :alt => 'Birthday', :class => 'icon') %>
-            birthday <%= person.birthday.to_time.to_s :date rescue nil %>
+            <%= image_tag('birthday.png', :alt => I18n.t('privacies.birthday'), :class => 'icon') %>
+            <%= I18n.t('privacies.birthday') %> <%= person.birthday.to_time.to_s :date rescue nil %>
           </span>
         <% end %>
       </a>
