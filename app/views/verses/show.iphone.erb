@@ -25,7 +25,7 @@
   </div>
 <% end %>
 
-<h2><%= I18n.t('comments') %></h2>
+<h2><%= I18n.t('Comments') %></h2>
 <%= render :partial => 'comments/comments_iphone', :locals => {:object => @verse, :intro => I18n.t('verses.about_this_verse')} %>
 
 <% if @verse.people.count > 0 %>
