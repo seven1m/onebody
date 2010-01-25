@@ -90,6 +90,8 @@
     <% display_metric @membership_request_count > 0 do %>
       <%= link_to pluralize(@membership_request_count, 'pending membership request'), administration_membership_requests_path %>
     <% end %>
+    
+    <p><%= link_to 'Batch edit groups.', batch_groups_path %></p>
   <% end %>
 
   <% if @logged_in.admin?(:manage_attendance) %>
