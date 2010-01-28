@@ -267,8 +267,43 @@ pt:
           one: "Houve um erro ao salvar as mudanças."
           other: "Existem {{count}} erros ao salvar as mudanças."
 
+  albums:
+    click_to_view: clique para visualizar
+    description: Descrição
+    dont_show_my_name: Este é um álbum geral da comunidade &mdash; não mostre meu nome nas fotos (opção somente para administradores).
+    edit_picture: Editar Foto do Álbum
+    name: Nome
+    new: Novo Álbum
+    new_picture: Nova Foto do Álbum
+    picture_albums: Álbuns de Foto
+    pictures_may_show_on_feed: "*As fotos podem ser mostradas no feed de atividade dos seus amigos e membros do grupo."
+    profile: "Perfil - mostrar este álbum somente no meu perfil.*"
+    public: Público  - mostrar este álbum na página "Todas as Fotos" do meu perfil.
+    save: Salvar Álbum
+
+  attachments:
+    file: Arquivo
+    upload_attachment: Carregar Anexo
+    upload_file: Carregar Arquivo
+
+  attendance:
+    add_somebody_not_in_group: Adicionar alguém que não faz parte do grupo
+    date: Data
+    save: Salvar Frequência
+
+  calendars:
+    family_members_enabled: "Mostrar: Membros da Família"
+    family_members_disabled: "Não Mostrar: Membros da Família"
+
   comments:
+    add_a_comment: Adicionar um comentário
     add_read_comments: "Adicionar/Ler Comentários"
+    ago: atrás
+    and_others: e outros
+    comment: comentário
+    commented_on: comentado em
+    none_yet: nada ainda
+    save: Salvar Comentário
 
   feeds:
     add_a_feed: Adicionar um Feed

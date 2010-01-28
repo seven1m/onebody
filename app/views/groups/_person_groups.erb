@@ -36,7 +36,7 @@
   <% end %>
 <% elsif me? %>
   <p>
-    <%= I18n.t('groups.you_arent_in_any_groups') %>
+    <%= I18n.t('people.you_arent_in_any_groups') %>
     <% if params[:person_id] %>
       <%= I18n.t('people.find_a_group', :group => groups_url) %>
     <% end %>

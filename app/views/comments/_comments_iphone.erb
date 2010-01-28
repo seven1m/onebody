@@ -7,7 +7,7 @@
             <%= render :partial => 'people/thumbnail', :locals => {:person => comment.person} %>
           </div>
           <%=h comment.person.name %><br/>
-          <span class="byline"><%= time_ago_in_words comment.created_at %> ago</span>
+          <span class="byline"><%= time_ago_in_words comment.created_at %> <%= I18n.t('comments.ago') %></span>
         </a>
         <br/>
         <%= preserve_breaks comment.text %>
@@ -15,7 +15,7 @@
     <% end %>
   </ul>
 <% else %>
-  <div class="info"><em>none yet</em></div>
+  <div class="info"><em><%= I18n.t('comments.none_yet') %></em></div>
 <% end %>
 
 <% form_for Comment.new, :html => {:style => 'border:none;', :id => 'comment_form'} do |form| %>
@@ -23,6 +23,6 @@
   <%= hidden_field_tag :return_to, request.request_uri %>
   <ul class="edit">
     <li><%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea', :placeholder => 'Comment' %></li>
-    <li class="arrow"><a href="#" onclick="document.getElementById('comment_form').submit();return false;">Save Comment</a></li>
+    <li class="arrow"><a href="#" onclick="document.getElementById('comment_form').submit();return false;"><%= I18n.t('comments.save') %></a></li>
   </ul>
 <% end %>

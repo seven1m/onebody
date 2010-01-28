@@ -11,7 +11,7 @@
           <%= link_to h(comment.person.name), comment.person %>
           <%= comment.created_at.to_s %>
           <% if @logged_in.can_edit?(comment) %>
-            <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
+            <%= link_to image_tag('delete.png', :alt => I18n.t('Delete'), :class => 'icon'), comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => I18n.t('are_you_sure') %>
           <% end %>
           <br/>
           <%= preserve_breaks comment.text %>
@@ -21,18 +21,18 @@
     <% end %>
   </table>
 <% else %>
-  <p><em>none yet</em></p>
+  <p><em><%= I18n.t('comments.none_yet') %></em></p>
 <% end %>
 
 <p>
-  <%= link_to_function image_tag('add_small.gif', :alt => 'Add a comment', :class => 'icon') + ' Add a Comment', "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
+  <%= link_to_function image_tag('add_small.gif', :alt => I18n.t('comments.add_a_comment'), :class => 'icon') + ' ' + I18n.t('comments.add_a_comment'), "Element.show('new_comment'); $('new_comment_textarea').focus();", :id => 'new_comment_link', :style => 'display:none;' %>
   <%= intro %>
   <div id="new_comment">
     <% form_for Comment.new, :html => {:style => 'border:none;'} do |form| %>
       <%= hidden_field_tag object.class.name.downcase + '_id', object.id %>
       <%= hidden_field_tag :return_to, request.request_uri %>
       <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
-      <%= form.submit 'Save Comment' %>
+      <%= form.submit I18n.t('comments.save') %>
     <% end %>
   </div>
   <script type="text/javascript">Element.hide('new_comment'); Element.show('new_comment_link');</script>
