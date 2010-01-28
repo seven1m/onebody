@@ -5,6 +5,7 @@ en:
   Delete: Delete
   Done: Done
   Edit: Edit
+  Errors: Errors
   From: From
   Modify: Modify
   New: New
@@ -269,19 +270,59 @@ en:
   comments:
     add_read_comments: "Add/Read Comments"
   
+  feeds:
+    add_a_feed: Add a Feed
+    add_the_feed: Yes, this looks right. Add the feed.
+    all: All Feeds
+    are_you_sure: Are you sure you want to remove this feed? Deleting this feed will NOT delete content (notes, pictures, etc.) that has already been imported into your account.
+    blog_name: Name of your blog
+    copy_the_url_from_bar: Copy the URL from the address bar and paste here
+    copy_your_notifications_link: <strong>Right-</strong>click on the link labeled "Your Notifications" (pictured below) and choose <strong>Copy Shortcut</strong> or <strong>Copy Link Location</strong> or similar.<br/>
+    description: You can import content and updates from external services, social networks, and blogs by adding "feeds" below.
+    enter_twitter_username: Enter your Twitter username here
+    facebook_notifications: Facebook Notifications
+    feeds_for: Feeds for {{name}}
+    flickr_url: Flickr URL
+    link_with_facebook: Link with your Facebook status updates...
+    link_with_flickr: Link with your Flickr photos...
+    link_with_twitter: Link with your Twitter updates...
+    link_with_rss: Link with your RSS feed...
+    log_into_blog: Find your blog's feed URL (usually by clicking the {{img}} icon) and paste it into the field below
+    log_into_facebook: <a href="http://www.facebook.com/notifications.php" target="_new">Click here</a> and log into Facebook.
+    log_into_flickr: Log into <a href="http://flickr.com">Flickr.com</a> and go to your photo page (click the "You" link near the top).
+    none_added: none added yet
+    note: "Note: content from your external feed is <strong>copied</strong> to this site with a link pointing back to the original. Comments made on imported entries are not posted back to the original. You may delete content on this site at any time and disable feed posting if you change your mind later."
+    looks_right: Does this look right?
+    paste_link_here: Paste the link here
+    please_wait: Please wait while we import your feed...
+    posted: Posted
+    preview: Preview Feed
+    sort_by_error: Sort by error count (descending)
+    sort_by_person: Sort by person
+    url: URL
+
   friends: 
+    accept: Accept Friend
     add_friend: Add Friend
     add_friend_are_you_sure: Are you sure? An email will be sent to this person requesting friendship.
     add_to_friends: Add to Friends
     add_your_friends_to_profile: <a href="{{url}}">Add your friends</a> to your profile page!
+    can_rearrange_list: You can rearrange your friends list by clicking on the {{img}} icon and dragging it up/down with your mouse.
     confirm_email_will_be_sent: Are you sure? An email will be sent to this person requesting friendship.
+    decline: Decline Friend
     friend_request_pending: friend request pending
     friends: Friends
-    pending_friend_requests: You have <a href="{{url}}">pending friend requests</a>.
+    pending_requests: Pending Friend Requests
+    people_requested: The following people have requested to be your friend.
+    personal_friends: "{{name}} Friends"
+    reorder_list: Reorder this list by dragging.
     remove_from_friends: Remove from Friends
+    top_on_profile: The top {{max_number}} friends show on your profile page.
+    search_in_the_directory: Search for friends in the directory
+    you_have_pending_requests: You have <a href="{{url}}">pending friend requests</a>.
 
   groups:
-    25_of: 25 of
+    25_of: "25 of"
     accept: Accept
     add_group: Add Group
     add_somebody: Add somebody
@@ -934,7 +975,6 @@ en:
     Total_Runs: Total Runs
     add_criteria: Add Criteria
     add_group: Add Group
-    flip_conjunctions: Flip Logical Conjunctions
     add_sort_attribute: Add Sort Attribute
     cancel_changes: Cancel Changes
     contains_case_insensitive: contains (case insensitive)
@@ -1049,13 +1089,14 @@ en:
     facebook: Facebook
     feed: Feed
     flickr: Flickr
-    import_blog_feed: Import your Blog's RSS or Atom feed...
+    import_blog_feed: Import Posts From Your Blog...
     import_facebook_updates: Import your Facebook status updates...
     import_flickr_photos: Import your Flickr photos...
     import_from: Import from...
     import_twitter_updates: Import your Twitter updates...
     more: More
     my_activity: My Activity
+    rss: RSS
     share_something: Share Something
     share_something_here: You should share <a href="#" onclick="{{js}};return false;">something here</a>.
     show: Show

@@ -5,6 +5,7 @@ pt:
   Delete: Deletar
   Done: Pronto
   Edit: Editar
+  Errors: Errors
   From: De
   Modify: Modificar
   New: Novo
@@ -269,19 +270,59 @@ pt:
   comments:
     add_read_comments: "Adicionar/Ler Comentários"
 
+  feeds:
+    add_a_feed: Adicionar um Feed
+    add_the_feed: Sim, isto parece correto. Adicione o feed.
+    all: Todos os Feeds
+    are_you_sure: Você tem certeza que deseja remover este feed? Deletando este feed NÃO deletará o conteúdo (notas, fotos, etc.) que já foram importados à sua conta.
+    blog_name: Nome do seu blog
+    copy_the_url_from_bar: Copie a URL da barra de endereços e cole-a aqui
+    copy_your_notifications_link: <strong>Clique com o botão direiro</strong> no link chamado "Suas Notificações" (de acordo com a figura abaixo) e escolha <strong>Copiar Atalho</strong> ou <strong>Copiar Localização do Link</strong> ou similar.<br/>
+    description: Você pode importar conteúdo e atualizações de serviços externos, redes sociais e blog adicionando os feeds abaixo.
+    enter_twitter_username: Insira o seu usuário do Twitter aqui
+    facebook_notifications: Notificaçoes do Facebook
+    feeds_for: Feeds para {{name}}
+    flickr_url: URL do Flickr 
+    link_with_facebook: Link com as suas atualizações de status do Facebook...
+    link_with_flickr: Link com as suas atualizações de fotos do Flickr...
+    link_with_twitter: Link com as suas atualizações no Twitter...
+    link_with_rss: Link com o seu RSS feed...
+    log_into_blog: Encontre a URL feed do seu blog (geralmente clicando no ícone {{img}}) e cole-a no campo abaixo
+    log_into_facebook: <a href="http://www.facebook.com/notifications.php" target="_new">Clique aqui</a> e entre no Facebook.
+    log_into_flickr: Entre no <a href="http://flickr.com">Flickr.com</a> e vá até a página com sua foto (clique no link "Você" próximo ao topo).
+    none_added: ainda não foi adicionado nada
+    note: "Nota: O conteúdo do seu feed externo é <strong>copiado</strong> para este site com um link apontando de volta ao original. Comentários feitos nos itens importados não são postados de volta ao original. Você pode deletar conteúdo neste site a qualquer momento e desabilitar o feed se mudar de idéia mais tarde."
+    looks_right: Isto parece correto?
+    paste_link_here: Cole o link aqui
+    please_wait: Por favor aguarde enquanto nós importamos o seu feed...
+    posted: Postado
+    preview: Visualização do Feed
+    sort_by_error: Ordenar por números de erros (decrescente)
+    sort_by_person: Ordenar por pessoa
+    url: URL
+
   friends: 
+    accept: Aceitar Amigo
     add_friend: Adicionar Amigo
     add_friend_are_you_sure: Você tem certeza? Um email será enviado para esta pessoa requisitando amizade.
     add_to_friends: Adicionar aos Amigos
     add_your_friends_to_profile: <a href="{{url}}">Adicionar seus amigos</a> à sua página de perfil!    
+    can_rearrange_list: Você pode organizar os seus amigos clicando no ícone {{img}} e arrastando-os para cima/baixo com o seu mouse.
     confirm_email_will_be_sent: "Você tem certeza? Um email será enviado a essa pessoa com o convite de amizade."
+    decline: Recusar Amigo
     friend_request_pending: pedido de amizade pendente
     friends: Amigos
-    pending_friend_requests: Você tem <a href="{{url}}">pedidos de amizade</a>.
+    pending_requests: Pedidos de Amizade Pendentes
+    people_requested: As seguintes pessoas pediram para ser seu amigo.
+    personal_friends: "Amigos do(a) {{name}}"
+    reorder_list: Reordenar esta lista arrastando.
     remove_from_friends: Remover dos Amigos
+    top_on_profile: O máximo de {{max_number}} amigos é mostrado na página de perfil.
+    search_in_the_directory: Procurar por amigos no diretório
+    you_have_pending_requests: Você tem <a href="{{url}}">pedidos de amizade</a>.
 
   groups:
-    25_of: 25 de
+    25_of: "25 de"
     accept: Aceitar
     add_group: Adicionar Grupo
     add_somebody: Adicionar alguém
@@ -403,6 +444,7 @@ pt:
     last: Último
     no_records_were_found: Nenhum registro foi encontrado para importação.
     only_first_records__will_be_imported: Somente os primeiros {{records}} serão importados. Para arquivos grandes, você deve dividir os registros em múltiplos arquivos, ou usar o <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> para importar uma grande quantidade de uma vez.
+    people: Importar Pessoas
     record: registro
     select_csv_file: Selecione um Arquivo Separado por Vírgulas (CSV) para importação com os nomes de atributos como a linha inicial.
     status: Status
@@ -1054,6 +1096,7 @@ pt:
     import_twitter_updates: "Importar as suas atualizações do Twitter..."
     more: Mais
     my_activity: Minha Atividade
+    rss: RSS
     share_something: Compartilhe Algo
     share_something_here: "Você deveria <a href="#" onclick="{{js}};return false;">compartilhar algo aqui</a>."
     show: Mostrar
