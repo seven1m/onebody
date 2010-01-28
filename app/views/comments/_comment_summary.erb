@@ -1,9 +1,9 @@
 <% if (count = object.comments.count) > 0 %>
-  <%= pluralize count, 'comment' %>
+  <%= pluralize count, I18n.t('comments.comment') %>
   <% if count > 3 %>
-    by <%= object.comments.map { |c| h(c.person.name) }.uniq[0..2].join(', ') %>
-    and others
+    <%= I18n.t('by') %> <%= object.comments.map { |c| h(c.person.name) }.uniq[0..2].join(', ') %>
+    <%= I18n.t('comments.and_others') %>
   <% elsif count > 0 %>
-    by <%= object.comments.map { |c| h(c.person.name) }.uniq.to_sentence %>
+    <%= I18n.t('by') %> <%= object.comments.map { |c| h(c.person.name) }.uniq.to_sentence %>
   <% end %>
 <% end %>
