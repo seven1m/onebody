@@ -1,52 +1,51 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => 'View Profile', :class => 'icon') + ' View Profile', @person %></li>
-  <li><%= link_to image_tag('feed_small.png', :alt => 'My Feeds', :class => 'icon') + ' Feeds', person_feeds_path(@person) %></li>
+  <li><%= link_to image_tag('eye.png', :alt => I18n.t('privacies.view_profile'), :class => 'icon') + ' ' + I18n.t('privacies.view_profile'), @person %></li>
+  <li><%= link_to image_tag('feed_small.png', :alt => I18n.t('people.feeds'), :class => 'icon') + ' ' + I18n.t('people.feeds'), person_feeds_path(@person) %></li>
 <% end %>
 
 <% case params[:type]; when 'facebook' %>
   
-  <h1>Import Your Facebook Status Updates</h1>
+  <h1><%= I18n.t('stream.import_facebook_updates') %></h1>
 
   <% form_for [@person, @feed] do |form| %>
     <%= form.error_messages %>
     <%= form.hidden_field :name, :value => 'Facebook' %>
     <%= hidden_field_tag :type, 'facebook' %>
     <ol>
-      <li><a href="http://www.facebook.com/notifications.php" target="_new">Click here</a> and log into Facebook.</li>
+      <li><%= I18n.t('feeds.log_into_facebook') %></li>
       <li>
-        <strong>Right-</strong>click on the link labeled "Via RSS" on the right side of the page (pictured below) and choose
-        <strong>Copy Shortcut</strong> or <strong>Copy Link Location</strong> or similar.<br/>
-        <%= image_tag('fb_notifications.png', :alt => 'Facebook Notifications', :style => 'border:1px solid #000;') %>
+        <%= I18n.t('feeds.copy_your_notifications_link') %>
+        <%= image_tag('fb_notifications.png', :alt => I18n.t('feeds.facebook_notifications'), :style => 'border:1px solid #000;') %>
       </li>
       <li>
-        Paste the link here: <%= form.text_field :url, :size => 60 %>
+        <%= I18n.t('feeds.paste_link_here') %>: <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
-        <%= form.submit 'Preview...' %>
+        <%= form.submit I18n.t('messages.preview') + '...' %>
       </li>
     </ol>
   <% end %>
   
 <% when 'twitter' %>
 
-  <h1>Import Your Twitter Updates</h1>
+  <h1><%= I18n.t('stream.import_twitter_updates') %></h1>
 
   <% form_for [@person, @feed] do |form| %>  
     <%= form.error_messages %>
     <%= form.hidden_field :name, :value => 'Twitter' %>
     <%= hidden_field_tag :type, 'twitter' %>
     <ol>
-      <li>Enter your Twitter username here: <%= form.text_field :url, :size => 15 %>
+      <li><%= I18n.t('feeds.enter_twitter_username') %>: <%= form.text_field :url, :size => 15 %>
       </li>
       <li>
-        <%= form.submit 'Preview...' %>
+        <%= form.submit I18n.t('messages.preview') + '...' %>
       </li>
     </ol>
   <% end %>
 
 <% when 'flickr' %>
 
-  <h1>Import Your Flickr Photos</h1>
+  <h1><%= I18n.t('stream.import_flickr_photos') %></h1>
 
   <% form_for [@person, @feed] do |form| %>  
     <%= form.error_messages %>
@@ -54,37 +53,37 @@
     <%= hidden_field_tag :type, 'flickr' %>
     <ol>
       <li>
-        Log into <a href="http://flickr.com">Flickr.com</a> and go to your photo page (click the "You" link near the top).<br/>
-        <%= image_tag('flickr_url.png', :alt => 'Flickr URL', :style => 'border:1px solid #000;margin:20px 0;') %>
+        <%= I18n.t('feeds.log_into_flickr') %><br/>
+        <%= image_tag('flickr_url.png', :alt => I18n.t('feeds.flickr_url'), :style => 'border:1px solid #000;margin:20px 0;') %>
       </li>
       <li>
-        Copy the URL from the address bar and paste here:
+        <%= I18n.t('feeds.copy_the_url_from_bar') %>:
         <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
-        <%= form.submit 'Preview...' %>
+        <%= form.submit I18n.t('messages.preview') + '...' %>
       </li>
     </ol>
   <% end %>
 
 <% when 'rss' %>
 
-  <h1>Import Posts From Your Blog</h1>
+  <h1><%= I18n.t('stream.import_blog_feed') %></h1>
 
   <% form_for [@person, @feed] do |form| %>  
     <%= form.error_messages %>
     <%= hidden_field_tag :type, 'rss' %>
     <ol>
       <li>
-        Name of your blog:
+        <%= I18n.t('feeds.blog_name') %>:
         <%= form.text_field :name, :value => @feed.name || 'Blog', :size => 10 %>
       </li>
       <li>
-        Find your blog's feed URL (usually by clicking the <%= image_tag 'feed_small.png', :alt => 'Feed Icon', :class => 'icon' %> icon) and paste it into the field below:
+        <%= I18n.t('feeds.log_into_blog', :img => image_tag('feed_small.png', :alt => 'Feed Icon', :class => 'icon')) %>:
         <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
-        <%= form.submit 'Preview...' %>
+        <%= form.submit I18n.t('messages.preview') + '...' %>
       </li>
     </ol>
   <% end %>
@@ -92,8 +91,5 @@
 <% end %>
 
 <p>
-  Note: content from your external feed is <strong>copied</strong> to this site
-  with a link pointing back to the original. Comments made on imported entries are not
-  posted back to the original. You may delete content on this site at any time and
-  disable feed posting if you change your mind later.
+  <%= I18n.t('feeds.note') %>
 </p>
