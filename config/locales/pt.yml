@@ -266,6 +266,49 @@ pt:
           one: "Houve um erro ao salvar as mudanças."
           other: "Existem {{count}} erros ao salvar as mudanças."
 
+  accounts:
+    call_office: Ligue para {{office_phone}} durante o horário comercial.
+    change_email_warning: Após esta mudança, todos os emails deste site serão enviados a este endereço. Ele também será o endereço que {{person}} ususará para entrar no site.
+    check_code: Verificar Código
+    code_be_careful: Por favor seja cuidadoso(a) para entrar com o código correto. Se você cometer um erro, você deverá comecar do início.
+    create: Criar Conta
+    date_format: MM/DD/AAAA
+    enter_code: Insira o código
+    enter_your_email: Digite o seu email e então clique no botão abaixo. Se nós tivermos o email no nosso arquivo, um email será enviado para confirmação e você terá acesso ao site.
+    gender: Gênero
+    I_am_this_person: Eu sou esta pessoa.
+    first_name: Primeiro Nome
+    last_name: Último Nome
+    leave_blank: Deixe estes campos em branco se você não deseja mudar a sua senha.
+    please_select_your_name: Por favor selecione o seu nome da lista abaixo
+    select_your_carrier: Selecione a sua operadora de celular
+    text_messaging_fees: Taxas para a mensagem de texto podem ser cobradas.
+    this_site_doesnt_allow_signup: Este site não permite que pessoas se inscrevam. Ao contrário, você precisa verificar o seu cadastro já existente ou contatar {{office_phone}}.
+    type_your_email: Digite o seu endereço de email aqui
+    type_your_mobile: Digite o seu telefone celular aqui
+    uses: usa
+    verify: Verificar Conta
+    verify_email: Verificar Email
+    verify_by_email: Verificar por email.
+    verify_by_email_message: Nós enviamos um email, você clica no link contido nele e pronto.
+    verify_by_phone: Verificar por telefone celular.
+    verify_by_phone_description: Digite o seu telefone celular, selecione a sua operadora e então clique no botão abaixo. Se nós tivermos o número nos nossos arquivo, uma mensagem de texto será enviada permitindo a você fazer a verificação e obter acesso a este site. <strong>Taxas de envio de mensagens de texto podem ser cobradas pela sua operadora. <span class="very-strong">Não inicie este processo de verificação até que você saiba o que será cobrado pelo envio da mensagem de texto!</span></strong>
+    verify_by_phone_message: Nós enviamos uma mensagem de texto para você, você digita o código recebido e pronto.
+    verify_by_birthday: Verificar por data de nascimento.
+    verify_by_birthday_message: Estes dados são revisados por uma pessoa real e pode demorar alguns dias até que seja aprovados.
+    verify_mobile: Verificar por Número de Celular
+    verify_who_you_are: Primeiro, nós precisamos verificar quem você é. Por favor escolha uma das seguintes opções de verificação de identidade. Você só precisa fazer isto uma vez e levará apenas alguns minutos.
+    year_required: Ano é requerido
+    you_use: você usa
+    yout_birthday: Data de Aniversário com o Ano (requirido)
+    your_carrier_will_charge: A sua operadora de celular pode e provavalmente cobrará para você receber esta mensagem de texto. Clique OK para continuar.
+    your_email: Endereço de Email (requerido)
+    your_full_name: Seu Nome Completo (requerido)
+    your_phone: Telefone (requerido)
+    your_phone_description: no caso de precisarmos ligar para você sobre sua conta
+    your_situation: Sua Situação (requerido)
+    your_situation_description: Por favor nos descreva sobre você e a sua família, incluindo a quanto tempo você frequênta a igreja e qualquer outra informação que nos ajude a confirmar a sua identidade.
+
   albums:
     click_to_view: clique para visualizar
     description: Descrição
@@ -1138,6 +1181,7 @@ pt:
     never_share_your_password: "Nunca compartilhe a sua senha com ninguém!"
     no_users: Não há usuários
     password: "Senha:"
+    password_confirm: "Senha (confirmação):"
     please_sign_in: Por favor acesse o sistema.
     sign_in: Acessar
     sign_up_or_sign_in: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"

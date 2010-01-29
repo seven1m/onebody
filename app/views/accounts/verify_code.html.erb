@@ -1,11 +1,10 @@
 <p>
-  Please be careful to enter the correct code. If you make a
-  mistake, you will have to start over.
+  <%= I18n.t('accounts.code_be_careful') %>
 </p>
 
 <form method="post">
   <%= hidden_field_tag :id, params[:id] %>
-  <p><label for="code">Enter the code:</label>
+  <p><label for="code"><%= I18n.t('accounts.enter_code') %>:</label>
   <%= text_field_tag :code, params[:code] %></p>
-  <p><%= submit_tag 'Check Code' %></p>
+  <p><%= submit_tag I18n.t('accounts.check_code') %></p>
 </form>
