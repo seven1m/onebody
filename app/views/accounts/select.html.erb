@@ -1,12 +1,12 @@
-<p>Please select your name from the list below.</p>
+<p><%= I18n.t('accounts.please_select_your_name') %>.</p>
 <form method="post">
   <p>
-    Please select your name from the list below:
+    <%= I18n.t('accounts.please_select_your_name') %>:
     <% @people.each do |person| %>
       <br/>
       <%= radio_button_tag :id, person.id, false, :class => "checkbox", :id => "person_#{person.id}" %>
       <label for="person_<%= person.id %>" style="display:inline;"><%=h person.name %></label>
     <% end %>
   </p>
-  <p><%= submit_tag 'I am this person.' %></p>
+  <p><%= submit_tag I18n.t('accounts.I_am_this_person') %></p>
 </form>

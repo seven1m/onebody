@@ -266,6 +266,49 @@ en:
           one: There was an error saving the changes.
           other: There were {{count}} errors saving the changes.
 
+  accounts:
+    call_office: Call {{office_phone}} during business hours.
+    change_email_warning: After this change, all email from this site will be sent to this address. It will also be the address {{person}} to sign into this site.
+    check_code: Check Code
+    code_be_careful: Please be careful to enter the correct code. If you make a mistake, you will have to start over.
+    create: Create Account
+    date_format: MM/DD/YYYY
+    enter_code: Enter the code
+    enter_your_email: Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site.
+    gender: Gender
+    I_am_this_person: I am this person.
+    first_name: First Name
+    last_name: Last Name
+    leave_blank: Leave these fields blank if you don't want to change your password.
+    please_select_your_name: Please select your name from the list below
+    select_your_carrier: Select your mobile carrier
+    text_messaging_fees: Text messaging fees may apply.
+    this_site_doesnt_allow_signup: This site does not allow people to sign up. Instead, you must either verify your already-existing account information or contact {{office_phone}}.
+    type_your_email: Type your email address here
+    type_your_mobile: Type your mobile phone number here
+    uses: uses
+    verify: Verify Account
+    verify_email: Verify Email
+    verify_by_email: Verify by email.
+    verify_by_email_message: We send you an email, you click the link inside, and you're done.
+    verify_by_phone: Verify by mobile phone.
+    verify_by_phone_description: Enter your mobile phone number, select your carrier, then click the button below. If we have the number on file, a text message will be sent to it allowing you to verify yourself and gain access to this site. <strong>Text messaging rates may be charged by your carrier. <span class="very-strong">Do not start this verification process until you know what you will be charged to receive a text message!</span></strong>
+    verify_by_phone_message: We send you a text message, you type the code it contains, and you're done.
+    verify_by_birthday: Verify by birthday.
+    verify_by_birthday_message: These submissions are reviewed by a real person and may take a few days to be approved.
+    verify_mobile: Verify Mobile
+    verify_who_you_are: First, we need to verify you are who you say you are. Please choose one of the following options to verify your identity. You only have to do this once, and it only takes a few minutes.
+    year_required: Year required
+    you_use: you use
+    yout_birthday: Birthday with Year (required)
+    your_carrier_will_charge: Your mobile carrier may and probably will charge you to receive this text message. Click OK to continue.
+    your_email: Email Address (required)
+    your_full_name: Your Full Name (required)
+    your_phone: Phone Number (required)
+    your_phone_description: in case we need to give you a call about your account
+    your_situation: Your Situation (required)
+    your_situation_description: Please give us a bit of information about you and your family, including how long you've been attending, and any other information that may help us verify your identity.
+
   albums:
     click_to_view: click to view
     description: Description
@@ -1138,6 +1181,7 @@ en:
     never_share_your_password: Never share your password with anyone!
     no_users: No Users
     password: "Password:"
+    password_confirm: "Password (confirm):"
     please_sign_in: Please sign in.
     sign_in: Sign In
     sign_up_or_sign_in: "<a href=\"{{url}}\">Sign Up</a> for an account, or sign in:"
