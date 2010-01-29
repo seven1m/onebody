@@ -1,7 +1,7 @@
 <% if @logged_in.admin?(:edit_profiles) %>
   <% content_for :subnav do %>
-    <li><%= link_to image_tag('pencil.png', :alt => 'Edit Family', :class => 'icon') + ' Edit Family', edit_family_path(@family) %></li>
-    <li><%= link_to image_tag('delete.png', :alt => 'Delete Family', :class => 'icon') + ' Delete Family', @family, :method => 'delete', :confirm => 'Are you sure? Clicking OK will delete this family and all the people in it.' %></li>
+    <li><%= link_to image_tag('pencil.png', :alt => I18n.t('families.edit'), :class => 'icon') + ' ' + I18n.t('families.edit') + ' ', edit_family_path(@family) %></li>
+    <li><%= link_to image_tag('delete.png', :alt => I18n.t('families.delete'), :class => 'icon') + ' ' + I18n.t('families.delete') + ' ', @family, :method => 'delete', :confirm => I18n.t('families.are_you_sure') %></li>
     <li><%= link_to image_tag('link.png', :alt => I18n.t('relationships.family'), :class => 'icon') + ' ' + I18n.t('relationships.family'), family_relationships_path(@family) %></li>
   <% end %>
 <% end %>
@@ -10,14 +10,14 @@
   <%= render :partial => 'families/details' %>
   <% if @logged_in.admin? %>
     <p class="discreet">
-      Legacy ID: <%=h @family.legacy_id %>
+      <%= I18n.t('families.legacy_id') %>: <%=h @family.legacy_id %>
     </p>
   <% end %>
 <% end %>
 
 <%= render :partial => 'map' %>
 
-<h2>People</h2>
+<h2><%= I18n.t('people.people') %></h2>
 
 <ol id="people">
   <% @people.each do |person| %>
@@ -27,35 +27,35 @@
       </a>
       <%= link_to h(person.name), person %>
       <% unless person.visible? %>
-        <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
+        <%= image_tag('lock.gif', :alt => I18n.t('search.hidden_profile'), :class => 'icon') %>
       <% end %>
-      <%= image_tag('reorder.png', :alt => 'Reorder Person (click and drag)', :class => 'handle icon') %>
-      <%= link_to image_tag('pencil.png', :alt => 'Edit Person', :class => 'icon'), edit_person_path(person), :class => 'discreet' %>
-      <%= link_to image_tag('delete.png', :alt => 'Delete Person', :class => 'icon'), person, :confirm => 'Are you sure?', :method => :delete, :class => 'discreet' %>
+      <%= image_tag('reorder.png', :alt => I18n.t('families.reorder'), :class => 'handle icon') %>
+      <%= link_to image_tag('pencil.png', :alt => I18n.t('families.edit_person'), :class => 'icon'), edit_person_path(person), :class => 'discreet' %>
+      <%= link_to image_tag('delete.png', :alt => I18n.t('families.delete_person'), :class => 'icon'), person, :confirm => I18n.t('are_you_sure'), :method => :delete, :class => 'discreet' %>
     </li>
   <% end %>
 </ol>
 
-<p class="discreet">Drag the green arrows to reorder family members.</p>
+<p class="discreet"><%= I18n.t('families.drag_to_reorder_members') %></p>
 
 <% if @people.empty? %>
-  <p><em>No one in this family yet.</em></p>
+  <p><em><%= I18n.t('families.no_one_yet') %></em></p>
 <% end %>
 
 <p>
-  <strong>Add Family Members:</strong><br/>
-  <%= link_to image_tag('add_small.gif', :alt => 'add new person', :class => 'icon') + ' New Person',
+  <strong><%= I18n.t('families.add_members') %>:</strong><br/>
+  <%= link_to image_tag('add_small.gif', :alt => I18n.t('people.new_person'), :class => 'icon') + ' ' + I18n.t('people.new_person'),
     new_person_path(:family_id => @family) %>
-  <%= link_to_function image_tag('add_small.gif', :alt => 'add existing person', :class => 'icon') + ' Existing Person',
+  <%= link_to_function image_tag('add_small.gif', :alt => I18n.t('families.existing_person'), :class => 'icon') + ' ' + I18n.t('families.existing_person'),
     "Element.toggle('add_existing')" %>
 </p>
   
 <% form_remote_tag :url => search_path, :html => {:id => 'add_existing', :style => 'display:none;'} do %>
   <%= hidden_field_tag :select_person, true %>
   <p>
-    <label for="add_person_name">Add an <em>existing</em> person to this family:</label>
+    <label for="add_person_name"><%= I18n.t('families.add_existing_person') %>:</label>
     <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
-    <%= submit_tag 'Search by Name' %>
+    <%= submit_tag I18n.t('search.search_by_name') %>
   </p>
 <% end %>
 
@@ -63,8 +63,8 @@
   <% form_remote_tag :url => batch_people_path do %>
     <%= hidden_field_tag :family_id, @family.id %>
     <div id="results"></div>
-    <p class="very-strong">Adding a person to this family will <em>remove</em> them from their current family.</p>
-    <p><%= submit_tag 'Add Selected' %></p>
+    <p class="very-strong"><%= I18n.t('families.adding_will_remove_from_their_family') %></p>
+    <p><%= submit_tag I18n.t('search.add_selected') %></p>
   <% end %>
 </div>
   

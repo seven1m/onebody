@@ -41,7 +41,6 @@ pt:
   not_authorized: "Você não está autorizado"
   of: de
   only_admins: "Você precisa ser um administrador para usar essa seção."
-  people: Pessoas
   person: Pessoa
   phone: Telefone
   please_note: Por favor note
@@ -304,6 +303,31 @@ pt:
     commented_on: comentado em
     none_yet: nada ainda
     save: Salvar Comentário
+
+  families:
+    add_members: Adicionar Membros para a Família
+    add_existing_person: "Adicionar uma pessoa <em>existente</em> a esta família"
+    adding_will_remove_from_their_family: "Adicionando uma pessoa a esta família, automaticamente <em>a removerá</em> da família atual."
+    are_you_sure: Você tem certeza? Ao clicar OK você deleterá esta família e todas as pessoas contidas nela.
+    city_st_zip: Cidade, Estado, CEP
+    delete: Deletar Família
+    delete_person: Deletar Pessoa
+    drag_to_reorder_members: Arraste as setas verdes para reordenar os membros da família.
+    edit: Editar Família
+    edit_person: Editar Pessoa
+    existing_person: Pessoa Existente
+    find_on_map: Encontrar endereço no mapa
+    last_name: Último Nome da Família
+    last_name_example: Silva
+    legacy_id: Código Legado
+    name: Nome da Família
+    name_example: "<em>João Silva</em> ou <em>João &amp; Maria Silva</em>"
+    new: Nova Família
+    no_one_yet: Ainda não há ninguém nesta família.
+    no_photo: não existe uma foto da família
+    reorder: Reordenar Pessoa (clique e arraste)
+    save: Salvar Família
+    select_before_proceeding: Por favor selecione a família antes de proceder.
 
   feeds:
     add_a_feed: Adicionar um Feed
@@ -697,6 +721,7 @@ pt:
     only_jpeg_accepted: "Somente JPEGs (aquivos com a extensão .jpg) são aceitas nesse momento."
     pending_approval: aprovações pendentes
     pending_updates: Atualizações Pendentes
+    people: Pessoas
     person_isnt_any_groups: "{{person}} não está em nenhum grupo agora."
     person_type: Tipo de Pessoa
     pic: Foto
@@ -829,6 +854,7 @@ pt:
   privacies:
     activity: Atividade
     address: Endereço
+    address2: Endereço Linha 2
     anniversary: Aniversário de Casamento
     as_a_parent_agree: Eu, como o pai/mãe ou guardião legal de {{name}}, concorco que eu li a <a href="{{url}}">Política de Privacidade</a> deste site, e as informações pessoais de {{name}} podem ser mostradas para outros usuários deste web site (como determindado pelas configurações de privacidade desta página), e que {{name}} pode, se habilitado, utilizar este website como um usuário normal (incluindo customização de perfil, comunicação via mensagens privadas, parede de recados, grupos, etc.).
     birthday: Data de Nascimento

@@ -16,7 +16,7 @@
 
 <%= render :partial => 'streams/stream_items_iphone' %>
 
-<h2><%= I18n.t('people') %></h2>
+<h2><%= I18n.t('people.people') %></h2>
 
 <ul>
   <% @group.people.all(:order => 'last_name, first_name').each do |person| %>
