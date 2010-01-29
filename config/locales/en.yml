@@ -355,6 +355,31 @@ en:
     update_donor_tools_now: update now
     view_in_donor_tools: View this individual in Donor Tools.
     
+  families:
+    add_members: Add Family Members
+    add_existing_person: "Add an <em>existing</em> person to this family"
+    adding_will_remove_from_their_family: "Adding a person to this family will <em>remove</em> them from their current family."
+    are_you_sure: Are you sure? Clicking OK will delete this family and all the people in it.
+    city_st_zip: City, ST, Zip
+    delete: Delete Family
+    delete_person: Delete Person
+    drag_to_reorder_members: Drag the green arrows to reorder family members.
+    edit: Edit Family
+    edit_person: Edit Person
+    existing_person: Existing Person
+    find_on_map: Find address on map
+    last_name: Family Last Name
+    last_name_example: Doe
+    legacy_id: Legacy ID
+    name: Family Name
+    name_example: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
+    new: New Family
+    no_one_yet: No one in this family yet.
+    no_photo: no family photo
+    reorder: Reorder Person (click and drag)
+    save: Save Family
+    select_before_proceeding: Please select a family before proceeding.
+
   feeds:
     add_a_feed: Add a Feed
     add_the_feed: Yes, this looks right. Add the feed.
@@ -748,6 +773,7 @@ en:
     only_jpeg_accepted: "Only JPEGs (files ending with .jpg) are accepted at this time."
     pending_approval: pending approval
     pending_updates: Pending Updates
+    people: People
     person_isnt_any_groups: "{{person}} isn't in any groups right now."
     person_type: Person Type
     pic: Pic
@@ -883,6 +909,7 @@ en:
   privacies:
     activity: Activity
     address: Address
+    address2: Address Line 2
     anniversary: Anniversary
     as_a_parent_agree: I, as a parent or legal gaurdian of {{name}}, hereby agree that I have read this site's <a href="{{url}}">Privacy Policy</a>, that the personal information of {{name}} may be displayed for other users of the web site (as determined by the privacy settings on this page), and that {{name}} may, if able, utilize this website as a normal user (including profile customization, and communication via private message, the wall, groups, etc.).
     birthday: Birthday
