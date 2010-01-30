@@ -276,6 +276,7 @@ en:
     add_read_comments: "Add/Read Comments"
   
   contributions:
+    add_to_donor_tools_now: "Add to Donor Tools now."
     api_not_configured: The Donor Tools API is not configured. Please enter the API connection details in Admin <a href="{{url}}">settings</a>.
     Contributions: Contributions
     donation_types:
@@ -296,6 +297,7 @@ en:
       d18: Check (Personal)
       d19: Check (Business)
     go_to_donor_tools: Go to Donor Tools.
+    not_in_donor_tools: Not in Donor Tools.
     people_not_synced:
       one: "The following individual is not synced to Donor Tools:"
       other: "The following individuals are not synced to Donor Tools ({{count}} people):"
