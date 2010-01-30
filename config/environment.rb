@@ -24,7 +24,6 @@ Rails::Initializer.run do |config|
   config.gem 'liquid',                 :version => '~> 2.0.0'
   config.gem 'highline',               :version => '~> 1.5.0'
   config.gem 'mini_magick',            :version => '>= 1.2.5'
-  config.gem 'will_paginate',          :version => '~> 2.3.0'
   config.gem 'campaign_monitor_party', :version => '>= 0.2.1'
   config.gem 'whenever',               :version => '~> 0.4.0'
   config.gem 'nokogiri',               :version => '~> 1.4.0'
