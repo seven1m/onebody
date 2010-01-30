@@ -69,6 +69,10 @@
       <%= form.select :parents_of, [['(none)', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %>
       <em>Membership will be auto-generated from parents of selected group's members.</em>
         
+      <%= form.label :cm_api_list_id, 'Campaign Monitor API List ID:' %>
+      <%= form.text_field :cm_api_list_id %>
+      <em>To sync with a Campaign Monitor subscriber list, paste the API List ID here.</em>
+      
       <%= form.label :hidden, 'Hidden Group:' %>
       <%= form.check_box :hidden, :class => 'checkbox' %>
       <%= form.label :hidden, 'Hide this group from non-admins.', :class => 'inline' %>

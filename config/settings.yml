@@ -158,6 +158,10 @@ Services:
     format: string
     value: 
     description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
+  Campaign Monitor API Key:
+    format: string
+    value:
+    description: To sync one or more groups with Campaign Monitor subscriber lists, paste your Campaign Monitor API Key here.
   Donor Tools URL:
     format: string
     value:
