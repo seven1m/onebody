@@ -660,17 +660,30 @@ class Person < ActiveRecord::Base
       donor.names[0].first_name         = first_name
       donor.names[0].last_name          = last_name
       donor.names[0].suffix             = suffix
-      donor.addresses[0].street_address = family.address
-      donor.addresses[0].city           = family.city
-      donor.addresses[0].state          = family.state
-      donor.addresses[0].postal_code    = family.zip
+      if donor.addresses[0]
+        donor.addresses[0].street_address = family.address
+        donor.addresses[0].city           = family.city
+        donor.addresses[0].state          = family.state
+        donor.addresses[0].postal_code    = family.zip
+      else
+        donor.addresses << {
+          :street_address => family.address,
+          :city           => family.city,
+          :state          => family.state,
+          :postal_code    => family.zip
+        }
+      end
       phone_numbers = [
         {:phone_number => family.home_phone, :address_type_id => 1},
         {:phone_number => work_phone,        :address_type_id => 2},
         {:phone_number => mobile_phone,      :address_type_id => 4}
       ].select { |ph| ph[:phone_number].to_s.any? }
       donor.update_phone_numbers(phone_numbers)
-      donor.email_addresses[0].email_address = email
+      if donor.email_addresses[0]
+        donor.email_addresses[0].email_address = email
+      else
+        donor.email_addresses << {:email_address => email}
+      end
     else
       donor = Donortools::Persona.new
       donor.names_attributes = [
