@@ -22,6 +22,7 @@ ActionController::Routing::Routes.draw do |map|
     people.resources :notes
     people.resources :verses
     people.resources :recipes
+    people.resources :contributions, :collection => {:sync => [:get, :post]}
     people.resource :account, :member => {:verify_code => :any, :select => :any}
     people.resource :privacy
     people.resource :blog
@@ -50,6 +51,8 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :memberships, :collection => {:batch => :any}
+  
+  map.resources :contributions, :collection => {:sync => [:get, :post]}
 
   map.resources :service_categories, :collection => {:batch_edit => :get, :close_batch_edit => :get}
 

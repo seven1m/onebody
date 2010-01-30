@@ -86,5 +86,6 @@ class Admin < ActiveRecord::Base
     manage_sync
     run_reports
     manage_reports
+    manage_contributions
   )
 end

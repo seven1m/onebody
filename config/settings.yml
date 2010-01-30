@@ -158,6 +158,18 @@ Services:
     format: string
     value: 
     description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
+  Donor Tools URL:
+    format: string
+    value:
+    description: Full URL for your Donor Tools site, e.g. https://mysite.donortools.com/
+  Donor Tools API Email:
+    format: string
+    value:
+    description: Email address of admin user for accessing the Donor Tools API. It is recommended you create a special "api" user for this purpose.
+  Donor Tools API Password:
+    format: password
+    value:
+    description: Password of API user.
 Access: 
   Super Admins: 
     format: list

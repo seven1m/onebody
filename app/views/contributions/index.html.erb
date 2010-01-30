@@ -1,0 +1,11 @@
+<h1>Contributions</h1>
+
+<p>
+  <%= link_to image_tag('donortools_logo_small.png', :alt => I18n.t('contributions.go_to_donor_tools'), :class => 'icon'), Donortools::Persona.admin_url, :target => '_blank' %>
+  <%= link_to I18n.t('contributions.go_to_donor_tools'), Donortools::Persona.admin_url, :target => '_blank' %>
+  (<%= I18n.t('contributions.people_not_synced_count', :count => @count_unsynced) %>
+  &middot;
+  <%= link_to I18n.t('contributions.update_donor_tools_now'), sync_contributions_path %>)
+</p>
+
+<%= render :partial => 'donations' %>

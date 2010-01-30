@@ -1,6 +1,8 @@
 en:
 
   About: About
+  answer_yes: "yes"
+  answer_no: "no"
   Change: Change
   Delete: Delete
   Done: Done
@@ -261,10 +263,54 @@ en:
         header: 
           one: There was an error saving the changes.
           other: There were {{count}} errors saving the changes.
+  
+  admin:
+    people_not_synced_to_donortools_count:
+      one: "1 person is out of sync with Donor Tools."
+      other: "{{count}} people are out of sync with Donor Tools."
+    view_contributions: "View and manage contributions."
 
   comments:
     add_read_comments: "Add/Read Comments"
   
+  contributions:
+    api_not_configured: The Donor Tools API is not configured. Please enter the API connection details in Admin <a href="{{url}}">settings</a>.
+    Contributions: Contributions
+    donation_types:
+      d1: Cash
+      d2: Check
+      d3: Credit Card
+      d4: In Kind
+      d5: PayPal
+      d6: Other
+      d7:  eCheck
+      d8: Cashier's Check
+      d9: Money Order
+      d11: ACH
+      d13: Direct Deposit
+      d14: Online Donation
+      d16: Amazon Simple Pay
+      d17: Wire Transfer
+      d18: Check (Personal)
+      d19: Check (Business)
+    go_to_donor_tools: Go to Donor Tools.
+    people_not_synced:
+      one: "The following individual is not synced to Donor Tools:"
+      other: "The following individuals are not synced to Donor Tools ({{count}} people):"
+    people_not_synced_count:
+      one: "1 person is not synced"
+      other: "{{count}} people are not synced"
+    record_synced: This record has been synced in Donor Tools.
+    remaining:
+      one: "1 record remaining..."
+      other: "{{count}} records remaining..."
+    Sync_Selected: Sync Selected
+    Sync_All: Sync All
+    Sync_to_Donor_Tools: Sync to Donor Tools
+    synced: "synced:"
+    update_donor_tools_now: update now
+    view_in_donor_tools: View this individual in Donor Tools.
+    
   friends: 
     add_friend: Add Friend
     add_friend_are_you_sure: Are you sure? An email will be sent to this person requesting friendship.

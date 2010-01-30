@@ -26,6 +26,7 @@ class Administration::DashboardsController < ApplicationController
     @person_count = Person.count('id', :conditions => {:deleted => false})
     @family_count = Family.count('id', :conditions => {:deleted => false})
     @group_count  = Group.count('id')
+    @unsynced_to_donortools = Person.unsynced_to_donortools.count
     @alerts = []
   end
 

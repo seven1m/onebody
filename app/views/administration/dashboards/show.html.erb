@@ -110,6 +110,12 @@
     
     <p><%= link_to 'Manage and export attendance.', administration_attendance_index_path %></p>
   <% end %>
+
+  <% if @logged_in.admin?(:manage_contributions) %>
+    <h2>Contributions</h2>
+    <p><%= link_to I18n.t('admin.view_contributions'), contributions_path %></p>
+    <p><%= link_to I18n.t('admin.people_not_synced_to_donortools_count', :count => @unsynced_to_donortools), sync_contributions_path %></p>
+  <% end %>
   
   <%= render_plugin_hook :admin_dashboard_middle %>
 
