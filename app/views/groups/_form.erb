@@ -61,14 +61,17 @@
     <h2 class="tab" id="advanced">Advanced</h2>
     <div class="section">
       The settings below are for advanced users.<br/>
-      <%= form.label :link_code, 'Class Link Code(s):', :class => 'inline' %>
+      <%= form.label :link_code, 'Class Link Code(s):' %>
       <%= form.text_field :link_code %>
-      <em>Separate multiple codes with a space.</em><br/>
-      <%= form.label :parents_of, 'Parents of:', :class => 'inline' %>
-      <%= form.select :parents_of, [['(none)', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %><br/>
+      <em>Separate multiple codes with a space.</em>
+      
+      <%= form.label :parents_of, 'Parents of:' %>
+      <%= form.select :parents_of, [['(none)', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %>
+      <em>Membership will be auto-generated from parents of selected group's members.</em>
+        
+      <%= form.label :hidden, 'Hidden Group:' %>
       <%= form.check_box :hidden, :class => 'checkbox' %>
-      <%= form.label :hidden, 'Hidden Group', :class => 'inline' %>
-      <em>Group won't be visible on members' profiles or other group lists (unless your an admin).</em>
+      <%= form.label :hidden, 'Hide this group from non-admins.', :class => 'inline' %>
     </div>
   <% end %>
   
