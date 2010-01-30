@@ -158,9 +158,6 @@ class Person < ActiveRecord::Base
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
         record.errors.add attribute, :invalid
       end
-      if record.changed.include?('email') and not Setting.get(:access, :super_admins).include?(record.email_was) and record.super_admin? and not Person.logged_in.super_admin?
-        record.errors.add attribute, :invalid # cannot make yourself a super admin
-      end
     elsif attribute.to_s == 'child' and not record.deleted?
       y = record.years_of_age
       if value == true and y and y >= 13
@@ -395,7 +392,7 @@ class Person < ActiveRecord::Base
   end
   
   def super_admin?
-    Setting.get(:access, :super_admins).include?(email)
+    admin and admin.super_admin?
   end
   
   def valid_email?

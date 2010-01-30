@@ -33,9 +33,8 @@ namespace :onebody do
       :last_name => person.last_name
     )
     family.people << person
-    admins = site.settings.find_by_name('Super Admins')
-    value = admins.value
-    admins.update_attributes! :value => (value << person.email).reject { |e| e == 'admin@example.com' }
+    person.admin = Admin.create!(:super_admin => true)
+    person.save
   end
   
   task :newuser => :new_user do

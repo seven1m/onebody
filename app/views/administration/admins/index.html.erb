@@ -50,27 +50,38 @@
       <strong><%=h admin.template_name %></strong>
     <% else %>
       <%= link_to h(admin.person.name), admin.person %>
+      <% if admin.super_admin? %>(super admin)<% end %>
     <% end %>
     <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
     <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;margin-left:15px;">
-      <%= check_box_tag 'select_all', true, false, :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name=*&value='+this.checked})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
-      <em>select all</em><br/>
-      <% all_selected = true %>
-      <% Admin.privileges.sort.each do |privilege| %>
-        <% next if %w(assign_checkin_cards manage_checkin).include?(privilege) and not Setting.get(:features, :checkin_modules) %>
-        <% unless admin.person == @logged_in and privilege == 'manage_access' %>
-          <span class="nowrap">
-            <%= check_box_tag privilege, true, admin.flags[privilege], :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %><span id="admin_<%= admin.id %>_<%= privilege %>"><%=h privilege.gsub('_', ' ') %></span>
-          </span>
-          <% all_selected = false unless admin.flags[privilege] %>
+      <% if admin.super_admin? %>
+        <% if @logged_in.super_admin? %>
+          <%= link_to_remote I18n.t('admin.demote_to_standard_admin'), :url => administration_admin_path(admin, :super_admin => 'false'), :method => :put %>
         <% end %>
-      <% end %>
-      <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
-      <% if admin.template_name %>
-        <% admin.people.all(:order => 'last_name, first_name').each do |person| %>
+      <% else %>
+        <%= check_box_tag 'select_all', true, false, :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name=*&value='+this.checked})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
+        <em>select all</em><br/>
+        <% all_selected = true %>
+        <% Admin.privileges.sort.each do |privilege| %>
+          <% next if %w(assign_checkin_cards manage_checkin).include?(privilege) and not Setting.get(:features, :checkin_modules) %>
+          <% unless admin.person == @logged_in and privilege == 'manage_access' %>
+            <span class="nowrap">
+              <%= check_box_tag privilege, true, admin.flags[privilege], :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %><span id="admin_<%= admin.id %>_<%= privilege %>"><%=h privilege.gsub('_', ' ') %></span>
+            </span>
+            <% all_selected = false unless admin.flags[privilege] %>
+          <% end %>
+        <% end %>
+        <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
+        <% if admin.template_name %>
+          <% admin.people.all(:order => 'last_name, first_name').each do |person| %>
+            <br/>
+            <%= link_to h(person.name), person %>
+            <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+          <% end %>
+        <% end %>
+        <% if @logged_in.super_admin? %>
           <br/>
-          <%= link_to h(person.name), person %>
-          <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+          <%= link_to_remote I18n.t('admin.promote_to_super_admin'), :url => administration_admin_path(admin, :super_admin => 'true'), :method => :put %>
         <% end %>
       <% end %>
     </div>

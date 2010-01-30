@@ -265,9 +265,11 @@ en:
           other: There were {{count}} errors saving the changes.
   
   admin:
+    demote_to_standard_admin: "Demote to standard admin."
     people_not_synced_to_donortools_count:
       one: "1 person is out of sync with Donor Tools."
       other: "{{count}} people are out of sync with Donor Tools."
+    promote_to_super_admin: "Promote to super admin."
     view_contributions: "View and manage contributions."
 
   comments:

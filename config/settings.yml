@@ -170,14 +170,6 @@ Services:
     format: password
     value:
     description: Password of API user.
-Access: 
-  Super Admins: 
-    format: list
-    value: |
-      --- 
-      - admin@example.com
-
-    description: Email addresses of people who are the super admins
 URL: 
   Visitor: 
     format: string

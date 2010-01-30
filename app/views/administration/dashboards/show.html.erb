@@ -3,7 +3,7 @@
   <p>
     Welcome, <%=h @logged_in.name %>.
     <% if @logged_in.super_admin? %>
-      You are a super administrator (configured in <%= link_to 'settings', administration_settings_path %>).
+      You are a super administrator.
     <% else %>
       You are an administrator with the privileges:
       <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
@@ -13,8 +13,7 @@
   <% if @logged_in.admin?(:manage_access) %>
     <h2>Administrators</h2>
     <p>
-      There are currently <%= link_to pluralize(@admin_count, 'administrator'), administration_admins_path, :class => 'nowrap' %>
-      and <span class="nowrap"><%= pluralize Setting.get(:access, :super_admins).length, 'super admin' %></span>.
+      There are currently <%= link_to pluralize(@admin_count, 'administrator'), administration_admins_path, :class => 'nowrap' %>.
     </p>
   <% end %>
 
