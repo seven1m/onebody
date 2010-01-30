@@ -58,7 +58,7 @@ class ContributionsController < ApplicationController
     
     def ensure_api_connection
       unless Donortools::Persona.can_sync?
-        render :text => I18n.t('contributions.api_not_configured', :url => administration_settings_path(:anchor => 'Services')), :layout => true, :status => 401
+        render :text => I18n.t('contributions.api_not_configured', :url => administration_settings_path(:anchor => 'Services')), :layout => true
         return false
       end
     end
