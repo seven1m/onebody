@@ -56,6 +56,7 @@ class Group < ActiveRecord::Base
   validates_format_of :address, :with => /^[a-zA-Z0-9]+$/, :allow_nil => true
   validates_uniqueness_of :address, :allow_nil => true
   validates_length_of :address, :in => 2..30, :allow_nil => true
+  validates_uniqueness_of :cm_api_list_id, :allow_nil => true, :allow_blank => true
   
   serialize :cached_parents
   
