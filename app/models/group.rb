@@ -29,6 +29,7 @@
 #  gcal_private_link         :string(255)   
 #  approval_required_to_join :boolean       default(TRUE)
 #  pictures                  :boolean       default(TRUE)
+#  cm_api_list_id            :string(50)    
 #
 
 class Group < ActiveRecord::Base

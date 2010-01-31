@@ -8,6 +8,7 @@
 #  site_id       :integer       
 #  template_name :string(100)   
 #  flags         :text          
+#  super_admin   :boolean       
 #
 
 class Admin < ActiveRecord::Base

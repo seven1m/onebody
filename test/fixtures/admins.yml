@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: admins
+#
+#  id            :integer       not null, primary key
+#  created_at    :datetime      
+#  updated_at    :datetime      
+#  site_id       :integer       
+#  template_name :string(100)   
+#  flags         :text          
+#  super_admin   :boolean       
+#
+
 tim_admin:
   site_id: 1
   id: 1

@@ -79,6 +79,9 @@
 #  custom_type                  :string(100)   
 #  custom_fields                :text          
 #  signin_count                 :integer       default(0)
+#  relationships_hash           :string(40)    
+#  donortools_id                :integer       
+#  synced_to_donortools         :boolean       
 #
 
 tim:
