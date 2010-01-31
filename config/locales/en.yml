@@ -403,6 +403,7 @@ en:
     groups: Groups
     home: Home
     pages: Pages
+    podcasts: Podcasts
     profile: Profile
 
   news: 
@@ -654,6 +655,9 @@ en:
     there_are_gerenal_comm_pictures: "These are general community pictures &mdash; don't show my name on them (admin-only option)."
     upload: Upload!
     upload_more: Upload more
+  
+  podcasts:
+    not_configured: Sermondrop is not configured.
 
   prayer: 
     add_a_prayer_request: Add a prayer request

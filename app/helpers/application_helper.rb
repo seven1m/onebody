@@ -50,6 +50,9 @@ module ApplicationHelper
       html << "<li>#{ tab_link I18n.t("nav.groups"), groups_path, params[:controller] == 'groups'}</li>"
     end
     html << "<li>#{tab_link I18n.t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    if Setting.get(:services, :sermondrop_url).to_s.any?
+      html << "<li>#{tab_link I18n.t("nav.podcasts"), podcasts_path, params[:controller] == 'podcasts'}</li>"
+    end
     #html << "<li>#{tab_link I18n.t("nav.bible"), bible_path, params[:controller] == 'bibles'}</li>"
     html
   end

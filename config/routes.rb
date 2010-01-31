@@ -82,6 +82,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :comments
   map.resources :attachments, :member => {:get => :get}
   map.resources :prayer_requests
+  map.resources :podcasts
 
   map.resource :session
   map.resource :search
