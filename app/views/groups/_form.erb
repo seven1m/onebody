@@ -70,8 +70,13 @@
       <em>Membership will be auto-generated from parents of selected group's members.</em>
         
       <%= form.label :cm_api_list_id, 'Campaign Monitor API List ID:' %>
-      <%= form.text_field :cm_api_list_id %>
-      <em>To sync with a Campaign Monitor subscriber list, paste the API List ID here.</em>
+      You must follow all policies of Campaign Monitor, including
+      <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.<br/>
+      <%= link_to_function 'I agree. &raquo;', "Element.show('cm_section');Element.hide(this);" %>
+      <div id="cm_section" style="display:none;">
+        <%= form.text_field :cm_api_list_id %>
+        <em>To sync with a Campaign Monitor subscriber list, paste the API List ID here.</em>
+      </div>
       
       <%= form.label :hidden, 'Hidden Group:' %>
       <%= form.check_box :hidden, :class => 'checkbox' %>
