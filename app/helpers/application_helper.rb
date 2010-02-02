@@ -247,13 +247,13 @@ module ActionView
         @template.phone_field(@object_name, method, options.merge(:object => @object))
       end
       def date_field(method, options = {})
-        options = {:time => false, :size => 15, :buttons => false}.merge(options)
+        options = {:time => false, :size => 15, :buttons => false, :year_range => 100}.merge(options)
         calendar_date_select(method, options)
       end
     end
     module FormTagHelper
       def date_field_tag(name, value = nil, options = {})
-        options = {:time => false, :size => 15, :buttons => false}.merge(options)
+        options = {:time => false, :size => 15, :buttons => false, :year_range => 100}.merge(options)
         calendar_date_select_tag(name, value, options)
       end
     end
