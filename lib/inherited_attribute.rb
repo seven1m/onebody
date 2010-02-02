@@ -20,7 +20,9 @@ module ActiveRecord
           "
           def share_#{attribute}_with(person)
             read_attribute(:visible) and
-            family and family.visible? and (
+            (!respond_to?(:family_id) or
+              (family and family.visible?)
+            ) and (
               share_#{attribute}? or
               self == person or
               (self.respond_to?(:family_id) and self.family_id == person.family_id) or
