@@ -33,20 +33,25 @@ class AccountsController < ApplicationController
         create_by_email
       else
         attributes = {:can_sign_in => false, :full_access => false, :visible_to_everyone => false}
-        attributes.merge! params[:person].reject { |k, v| !%w(email first_name last_name gender).include?(k) }
-        @person = Person.create(attributes)
-        if @person.valid?
-          @person.family = Family.create(:name => @person.name, :last_name => @person.last_name)
-          if Setting.get(:features, :sign_up_approval_email).to_s.any?
-            @person.save
-            Notifier.deliver_pending_sign_up(@person)
-            render :text => "Your account is pending approval. You will receive an email once it's approved.", :layout => true
+        attributes.merge! params[:person].reject { |k, v| !%w(email first_name last_name gender birthday).include?(k) }
+        @person = Person.new(attributes)
+        if @person.at_least_13?
+          if @person.save
+            @person.family = Family.create(:name => @person.name, :last_name => @person.last_name)
+            if Setting.get(:features, :sign_up_approval_email).to_s.any?
+              @person.save
+              Notifier.deliver_pending_sign_up(@person)
+              render :text => "Your account is pending approval. You will receive an email once it's approved.", :layout => true
+            else
+              @person.update_attributes!(:can_sign_in => true, :full_access => true, :visible_to_everyone => true, :visible_on_printed_directory => true)
+              params[:email] = @person.email
+              create_by_email
+            end
           else
-            @person.update_attributes!(:can_sign_in => true, :full_access => true, :visible_to_everyone => true, :visible_on_printed_directory => true)
-            params[:email] = @person.email
-            create_by_email
+            render :action => 'new'
           end
         else
+          @person.errors.add_to_base("Must be at least 13 years of age.")
           render :action => 'new'
         end
       end

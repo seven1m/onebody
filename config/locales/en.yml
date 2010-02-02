@@ -278,6 +278,7 @@ en:
     view_contributions: "View and manage contributions."
 
   accounts:
+    birthday: Birthday
     call_office: Call {{office_phone}} during business hours.
     change_email_warning: After this change, all email from this site will be sent to this address. It will also be the address {{person}} to sign into this site.
     check_code: Check Code

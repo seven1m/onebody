@@ -1,12 +1,13 @@
 <% if Setting.get(:features, :sign_up) %>
   <h2><%= I18n.t('accounts.create') %></h2>
-  <% form_for Person.new, :url => account_path, :method => 'post' do |form| %>
+  <% form_for @person, :url => account_path, :method => 'post' do |form| %>
     <%= form.error_messages %>
     <p>
-      <%= form.label :email, I18n.t('people.email') %>        <%= form.text_field :email %><br/>
-      <%= form.label :first_name, I18n.t('accounts.first_name') %>   <%= form.text_field :first_name %><br/>
-      <%= form.label :last_name, I18n.t('accounts.last_name') %>    <%= form.text_field :last_name %><br/>
-      <%= form.label :gender, I18n.t('accounts.gender') %>       <%= form.select :gender, [[I18n.t('search.male'), 'Male'], [I18n.t('search.female'), 'Female']] %><br/>
+      <%= form.label :email, I18n.t('people.email') %>             <%= form.text_field :email %><br/>
+      <%= form.label :first_name, I18n.t('accounts.first_name') %> <%= form.text_field :first_name %><br/>
+      <%= form.label :last_name, I18n.t('accounts.last_name') %>   <%= form.text_field :last_name %><br/>
+      <%= form.label :gender, I18n.t('accounts.gender') %>         <%= form.select :gender, [[I18n.t('search.male'), 'Male'], [I18n.t('search.female'), 'Female']] %><br/>
+      <%= form.label :birthday, I18n.t('accounts.birthday') %>     <%= form.date_field :birthday %><br/>
       <%= text_field_tag :phone, nil, :id => 'dummy_phone' %>
       <%= form.submit I18n.t('accounts.create') %>
     </p>
@@ -22,3 +23,5 @@
 <style type="text/css" media="screen">
   #dummy_phone { display: none; }
 </style>
+
+<%= calendar_date_select_includes 'silver' %>
