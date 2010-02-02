@@ -78,8 +78,10 @@ class PeopleController < ApplicationController
           format.xml { render :xml => @person.to_xml(:read_attribute => true) } if can_export?
         end
       end
+    elsif @person and @person.deleted? and @logged_in.admin?(:edit_profiles)
+      render :text => "This person has been deleted. You can restore the record <a href=\"#{administration_deleted_people_path('search[id]' => @person.id)}\">here</a>.", :status => 404, :layout => true
     else
-      render :text => @logged_in.admin?(:edit_profiles) ? "This person has been deleted. You can restore the record <a href=\"#{administration_deleted_people_path('search[id]' => @person.id)}\">here</a>." : 'Person not found.', :status => 404, :layout => true
+      render :text => 'Person not found.', :status => 404, :layout => true
     end
   end
   
