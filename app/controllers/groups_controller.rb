@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
         format.html { render :partial => 'person_groups', :layout => true }
         if can_export?
           format.xml { render :xml =>  @person.groups.to_xml(:except => %w(site_id)) }
-          format.csv { render :text => @person.groups.to_csv(:except => %w(site_id)) }
+          format.csv { render :text => @person.groups.to_csv_mine(:except => %w(site_id)) }
         end
       end
     # /groups?category=Small+Groups
@@ -26,7 +26,7 @@ class GroupsController < ApplicationController
         format.js
         if can_export?
           format.xml { render :xml =>  @groups.to_xml(:except => %w(site_id)) }
-          format.csv { render :text => @groups.to_csv(:except => %w(site_id)) }
+          format.csv { render :text => @groups.to_csv_mine(:except => %w(site_id)) }
         end
       end
     # /groups
@@ -47,7 +47,7 @@ class GroupsController < ApplicationController
           end
           format.csv do
             @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
-            render :text => @groups.to_csv(:except => %w(site_id))
+            render :text => @groups.to_csv_mine(:except => %w(site_id))
           end
         end
       end
@@ -106,6 +106,7 @@ class GroupsController < ApplicationController
     @group ||= Group.find(params[:id])
     if @logged_in.can_edit?(@group)
       @categories = Group.categories.keys
+      @members = @group.people.all(:order => 'last_name, first_name', :select => 'people.id, people.first_name, people.last_name, people.suffix')
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end

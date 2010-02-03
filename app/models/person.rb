@@ -78,6 +78,9 @@
 #  custom_type                  :string(100)   
 #  custom_fields                :text          
 #  signin_count                 :integer       default(0)
+#  relationships_hash           :string(40)    
+#  donortools_id                :integer       
+#  synced_to_donortools         :boolean       
 #
 
 class Person < ActiveRecord::Base
@@ -85,12 +88,13 @@ class Person < ActiveRecord::Base
   MAX_TO_BATCH_AT_A_TIME = 50
 
   BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
-  EXTRAS = %w(email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
+  EXTRAS = %w(email alternate_email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
   
   belongs_to :family
   belongs_to :admin
+  belongs_to :donor, :class_name => 'Donortools::Persona', :foreign_key => 'donortools_id'
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
   has_many :groups, :through => :memberships
@@ -125,6 +129,8 @@ class Person < ActiveRecord::Base
   attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
   attr_protected nil
   
+  named_scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
+    
   acts_as_password
   has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES
     
@@ -156,9 +162,6 @@ class Person < ActiveRecord::Base
       end
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
         record.errors.add attribute, :invalid
-      end
-      if record.changed.include?('email') and not Setting.get(:access, :super_admins).include?(record.email_was) and record.super_admin? and not Person.logged_in.super_admin?
-        record.errors.add attribute, :invalid # cannot make yourself a super admin
       end
     elsif attribute.to_s == 'child' and not record.deleted?
       y = record.years_of_age
@@ -396,7 +399,7 @@ class Person < ActiveRecord::Base
   end
   
   def super_admin?
-    Setting.get(:access, :super_admins).include?(email)
+    admin and admin.super_admin?
   end
   
   def valid_email?
@@ -646,6 +649,88 @@ class Person < ActiveRecord::Base
     groups.map { |g| g.name }.join(', ')
   end
   
+  def update_relationships_hash
+    rels = relationships.all(:include => :related).map do |relationship|
+      "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
+    end.sort
+    self.relationships_hash = Digest::SHA1.hexdigest(rels.join(','))
+  end
+  
+  def update_relationships_hash!
+    update_relationships_hash
+    save(false)
+  end
+  
+  def update_donor
+    Donortools::Persona.setup_connection
+    if donor = donortools_id && (Donortools::Persona.find(donortools_id) rescue nil)
+      donor.names[0].first_name         = first_name
+      donor.names[0].last_name          = last_name
+      donor.names[0].suffix             = suffix
+      if donor.addresses[0]
+        donor.addresses[0].street_address = family.address
+        donor.addresses[0].city           = family.city
+        donor.addresses[0].state          = family.state
+        donor.addresses[0].postal_code    = family.zip
+      else
+        donor.addresses << {
+          :street_address => family.address,
+          :city           => family.city,
+          :state          => family.state,
+          :postal_code    => family.zip
+        }
+      end
+      phone_numbers = [
+        {:phone_number => family.home_phone, :address_type_id => 1},
+        {:phone_number => work_phone,        :address_type_id => 2},
+        {:phone_number => mobile_phone,      :address_type_id => 4}
+      ].select { |ph| ph[:phone_number].to_s.any? }
+      donor.update_phone_numbers(phone_numbers)
+      if donor.email_addresses[0]
+        donor.email_addresses[0].email_address = email
+      else
+        donor.email_addresses << {:email_address => email}
+      end
+    else
+      donor = Donortools::Persona.new
+      donor.names_attributes = [
+        {
+          :first_name => first_name,
+          :last_name  => last_name,
+          :suffix     => suffix
+        }
+      ]
+      donor.addresses_attributes = [
+        {
+          :street_address => family.address,
+          :city           => family.city,
+          :state          => family.state,
+          :postal_code    => family.zip
+        }
+      ]
+      donor.phone_numbers_attributes = [
+        {:phone_number => family.home_phone, :address_type_id => 1},
+        {:phone_number => work_phone,        :address_type_id => 2},
+        {:phone_number => mobile_phone,      :address_type_id => 4}
+      ].select { |p| p[:phone_number].to_s.any? }
+      donor.email_addresses_attributes = [
+        {:email_address => email}
+      ]
+    end
+    donor.save
+    self.donortools_id = donor.id
+    self.synced_to_donortools = true
+    save(false)
+  end
+  
+  before_save :set_synced_to_donortools
+  def set_synced_to_donortools
+   if (changed & %w(first_name last_name suffix work_phone mobile_phone email)).any?
+     self.synced_to_donortools = false
+   end
+   true
+  end
+  
   alias_method :destroy_for_real, :destroy
   def destroy
     self.update_attribute(:deleted, true)
@@ -688,13 +773,25 @@ class Person < ActiveRecord::Base
             else
               next # don't overwrite the newer email address with an older one
             end
-          elsif %w(family email_changed remote_hash).include?(key) # skip these
+          elsif %w(family email_changed remote_hash relationships relationships_hash).include?(key) # skip these
             next
           end
           person.send("#{key}=", value) # be sure to call the actual method (don't use write_attribute)
         end
         person.dont_mark_email_changed = true # set flag to indicate we're the api
         if person.save
+          if record['relationships'] and record['relationships_hash'] != person.relationships_hash
+            person.relationships.destroy_all
+            record['relationships'].split(',').each do |relationship|
+              if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.find_by_legacy_id($1)
+                person.relationships.create(
+                  :related    => related,
+                  :name       => 'other',
+                  :other_name => $2
+                )
+              end
+            end
+          end
           s = {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id, :name => person.name}
           if person.email_changed? # email_changed flag still set
             s[:status] = 'saved with error'

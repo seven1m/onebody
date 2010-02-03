@@ -1,13 +1,13 @@
-<h1>All Feeds</h1>
+<h1><%= I18n.t('feeds.all') %></h1>
 
 <% if params[:order] == 'errors' %>
-  <p><%= link_to 'Sort by person', feeds_path %></p>
+  <p><%= link_to I18n.t('feeds.sort_by_person'), feeds_path %></p>
 <% else %>
-  <p><%= link_to 'Sort by error count (descending)', feeds_path(:order => 'errors') %></p>
+  <p><%= link_to I18n.t('feeds.sort_by_error'), feeds_path(:order => 'errors') %></p>
 <% end %>
 
 <table>
-  <tr><th>Person</th><th>Feed</th><th>Errors</th><th>URL</th><th></th></tr>
+  <tr><th><%= I18n.t('person') %></th><th><%= I18n.t('stream.feed') %></th><th><%= I18n.t('Errors') %></th><th><%= I18n.t('feeds.url') %></th><th></th></tr>
   <% @feeds.each do |feed| %>
     <tr>
       <td><%= link_to h(feed.person.name), feed.person %></td>
@@ -18,7 +18,7 @@
         <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%=h feed.url %></span>
       </td>
       <td>
-        <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), feed, :method => 'delete', :confirm => 'Are you sure?' %>
+        <%= link_to image_tag('delete.png', :alt => I18n.t('Delete'), :class => 'icon'), feed, :method => 'delete', :confirm => I18n.t('are_you_sure') %>
       </td>
     </tr>
   <% end %>

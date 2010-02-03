@@ -36,7 +36,7 @@
   <% end %>
 <% elsif me? %>
   <p>
-    You aren't in any groups yet.
+    <%= I18n.t('people.you_arent_in_any_groups') %>
     <% if params[:person_id] %>
       Find a group <%= link_to 'here', groups_url %>.
     <% end %>

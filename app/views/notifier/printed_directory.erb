@@ -1,2 +1,1 @@
-Hello, <%= @person.name %>. Attached is your custom printed directory
-from <%= Setting.get(:name, :site) %>.
+<%= I18n.t('notifier.attached_your_custom_directory', { :name => @person.name, :site => Setting.get(:name, :site) } ) %>

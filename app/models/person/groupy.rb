@@ -6,7 +6,7 @@ class Person
     end
 
     def sidebar_group_people(limit=nil)
-      if sidebar_groups.any?
+      if sidebar_groups.to_a.any?
         Person.all(
           :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})",
           :joins => :memberships,

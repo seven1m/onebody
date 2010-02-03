@@ -2,7 +2,7 @@ require 'csv'
 module ActiveRecord
 
   module Serialization
-    def to_csv(options = {}, &block)
+    def to_csv_mine(options = {}, &block)
       CsvSerializer.new(self, options).to_s
     end
   end
@@ -33,15 +33,15 @@ module ActiveSupport
     module Array
       module Conversions
       
-        def to_csv(options = {})
-          raise "Not all elements respond to to_csv" unless all? { |e| e.respond_to? :to_csv }
+        def to_csv_mine(options = {})
+          raise "Not all elements respond to to_csv_mine" unless all? { |e| e.respond_to? :to_csv_mine }
           serializer = ActiveRecord::CsvSerializer.new(first, options)
           names = serializer.serializable_attribute_names + serializer.serializable_method_names
           options[:include].to_a.each do |association|
             names += Kernel.const_get(association.to_s.classify).column_names.map { |c| "#{association}_#{c}" }
           end
           CSV.generate_line(names) + "\n" +
-          map { |e| e.to_csv(options) }.join("\n")
+          map { |e| e.to_csv_mine(options) }.join("\n")
         end
         
       end

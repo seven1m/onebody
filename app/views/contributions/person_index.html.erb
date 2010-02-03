@@ -1,0 +1,26 @@
+<% content_for :subnav do %>
+  <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + h(@person.name), @person %></li>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'people/photo' %>
+  <h1><%=h @person.name %></h1>
+<% end %>
+
+<p>
+  <% if @person.donortools_id %>
+    <%= link_to image_tag('donortools_logo_small.png', :alt => I18n.t('contributions.view_in_donor_tools'), :class => 'icon'), @donor.admin_url, :target => '_blank' %>
+    <%= link_to I18n.t('contributions.view_in_donor_tools'), @donor.admin_url, :target => '_blank' %>
+    (<%= I18n.t('contributions.synced') %>
+    <%= @person.synced_to_donortools? ? I18n.t('answer_yes') : I18n.t('answer_no') %>
+    &middot;
+    <%= link_to I18n.t('contributions.update_donor_tools_now'), sync_person_contributions_path(@person), :method => :post %>)
+  <% else %>
+    <em><%= I18n.t('contributions.not_in_donor_tools') %></em>
+    <%= link_to I18n.t('contributions.add_to_donor_tools_now'), sync_person_contributions_path(@person), :method => :post %>
+  <% end %>
+</p>
+
+<h2><%= I18n.t('contributions.Contributions') %></h2>
+
+<%= render :partial => 'donations' %>

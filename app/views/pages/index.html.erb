@@ -1,11 +1,10 @@
 <h1>
   <% if @parent %><%=h @parent.title %><% end %>
-  Pages
+  <%= I18n.t('pages.pages') %>
 </h1>
 
 <%= render :partial => 'list' %>
 
-<p style="margin-left:35px;"><%= link_to 'new root page', new_page_path, :class => 'discreet' %></p>
+<p style="margin-left:35px;"><%= link_to I18n.t('pages.new_root_page'), new_page_path, :class => 'discreet' %></p>
 
-<p>"Help" and "System" pages are used by OneBody and may be adapted to your community if needed.
-  Other pages are only visible if the Content Management System feature is enabled.</p>
+<p><%= I18n.t('pages.help_and_system_pages') %></p>

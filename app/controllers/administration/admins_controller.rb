@@ -10,6 +10,11 @@ class Administration::AdminsController < ApplicationController
   
   def update
     @admin = Admin.find(params[:id])
+    if params[:super_admin] and @logged_in.super_admin?
+      @admin.super_admin = params[:super_admin] == 'true'
+      params[:name] = '*'
+      params[:value] = 'false'
+    end
     @privs = params[:name] == '*' ? Admin.privileges : [params[:name]]
     @privs.each do |priv|
       @admin.flags[priv] = params[:value] == 'true'
@@ -22,9 +27,7 @@ class Administration::AdminsController < ApplicationController
     params[:ids].to_a.each do |id|
       if Site.current.max_admins.nil? or Admin.count < Site.current.max_admins
         person = Person.find(id)
-        if person.super_admin?
-          flash[:notice] += "#{person.name} is a Super Administrator. "
-        elsif person.admin?
+        if person.admin?
           flash[:notice] += "#{person.name} is already an admin. "
         else
           person.admin = params[:template_id].to_i > 0 ? Admin.find(params[:template_id]) : Admin.create!

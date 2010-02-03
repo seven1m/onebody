@@ -3,7 +3,7 @@
   <p>
     Welcome, <%=h @logged_in.name %>.
     <% if @logged_in.super_admin? %>
-      You are a super administrator (configured in <%= link_to 'settings', administration_settings_path %>).
+      You are a super administrator.
     <% else %>
       You are an administrator with the privileges:
       <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
@@ -13,8 +13,7 @@
   <% if @logged_in.admin?(:manage_access) %>
     <h2>Administrators</h2>
     <p>
-      There are currently <%= link_to pluralize(@admin_count, 'administrator'), administration_admins_path, :class => 'nowrap' %>
-      and <span class="nowrap"><%= pluralize Setting.get(:access, :super_admins).length, 'super admin' %></span>.
+      There are currently <%= link_to pluralize(@admin_count, 'administrator'), administration_admins_path, :class => 'nowrap' %>.
     </p>
   <% end %>
 
@@ -90,6 +89,8 @@
     <% display_metric @membership_request_count > 0 do %>
       <%= link_to pluralize(@membership_request_count, 'pending membership request'), administration_membership_requests_path %>
     <% end %>
+    
+    <p><%= link_to 'Batch edit groups.', batch_groups_path %></p>
   <% end %>
 
   <% if @logged_in.admin?(:manage_attendance) %>
@@ -107,6 +108,12 @@
     <% end %>
     
     <p><%= link_to 'Manage and export attendance.', administration_attendance_index_path %></p>
+  <% end %>
+
+  <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) %>
+    <h2>Contributions</h2>
+    <p><%= link_to I18n.t('admin.view_contributions'), contributions_path %></p>
+    <p><%= link_to I18n.t('admin.people_not_synced_to_donortools_count', :count => @unsynced_to_donortools), sync_contributions_path %></p>
   <% end %>
   
   <%= render_plugin_hook :admin_dashboard_middle %>

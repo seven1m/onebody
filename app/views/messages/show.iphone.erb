@@ -1,5 +1,5 @@
 <% content_for :toolbar do %>
-  <h1>Message View</h1>
+  <h1><%= I18n.t('messages.message_view') %></h1>
   <%= iphone_back_button %>
 <% end %>
 
@@ -9,8 +9,8 @@
       <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
     </a>
   </td><td>
-  <%= image_tag 'comment.gif', :alt => 'Message', :class => 'icon' %>
-  Message by <%= link_to h(@message.person.name), @message.person %><br/>
+  <%= image_tag 'comment.gif', :alt => I18n.t('messages.message'), :class => 'icon' %>
+  <%= I18n.t('messages.message_by') %> <%= link_to h(@message.person.name), @message.person %><br/>
   <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
   </td></tr></table>
 </div>
@@ -18,7 +18,7 @@
 <h2>
   <%=h @message.subject %>
   <% if @message.wall %>
-    on <%=h @message.wall.name %>
+    <%= I18n.t('messages.messages_on') %> <%=h @message.wall.name %>
   <% end %>
 </h2>
 
@@ -33,13 +33,13 @@
 </ul>
 
 <% if @message.attachments.any? %>
-  <h2>Attachments:</h2>
+  <h2><%= I18n.t('messages.attachments') %>:</h2>
   <ul>
     <% message.attachments.each do |attachment| %>
       <li>
-        <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), [message, attachment] %>
+        <%= link_to image_tag('attachment.gif', :alt => I18n.t('messages.attachment'), :class => 'icon'), [message, attachment] %>
         <%= link_to h(attachment.name), [message, attachment] %>
-        (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
+        (<%= number_to_human_size(attachment.file_size) rescue I18n.t('messages.file_missing') %>)
       </li>
     <% end %>
   </ul>
@@ -50,8 +50,8 @@
     <li>
       <div>
         <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
-        <%= image_tag 'comment.gif', :alt => 'Reply', :class => 'icon' %>
-        Reply by <%= link_to h(reply.person.name), reply.person %><br/>
+        <%= image_tag 'comment.gif', :alt => I18n.t('messages.reply'), :class => 'icon' %>
+        <%= I18n.t('messages.reply_by') %> <%= link_to h(reply.person.name), reply.person %><br/>
         <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
       </div>
       <p>
@@ -65,21 +65,21 @@
           <% if reply.body.split(/\n/).length != trimmed.split(/\n/).length %>
             <br/>
             <em style="color:#009;">
-              Some quoted text in this message is hidden;
-              <%= link_to 'Click here', :show_quoted => true %>
-              to show the entire message.
+              <%= I18n.t('messages.some_quoted_text_is_hidden') %>
+              <%= link_to I18n.t('click_here'), :show_quoted => true %>
+              <%= I18n.t('messages.to_show_the_entire_message') %>
             </em>
           <% end %>
         <% end %>
       </p>
       <% if @message.attachments.any? %>
-        <h2>Attachments:</h2>
+        <h2><%= I18n.t('messages.attachments') %>:</h2>
         <ul>
           <% message.attachments.each do |attachment| %>
             <li>
-              <%= link_to image_tag('attachment.gif', :alt => 'Attachment', :class => 'icon'), [message, attachment] %>
+              <%= link_to image_tag('attachment.gif', :alt => I18n.t('messages.attachment'), :class => 'icon'), [message, attachment] %>
               <%= link_to h(attachment.name), [message, attachment] %>
-              (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
+              (<%= number_to_human_size(attachment.file_size) rescue I18n.t('messages.file_missing') %>)
             </li>
           <% end %>
         </ul>
@@ -88,6 +88,6 @@
   <% end %>
 
   <% if @message.group and @message.group.can_post? @logged_in %>
-    <li class="arrow"><%= link_to 'Reply to this message', new_message_path(:parent_id => @message.id) %></li>
+    <li class="arrow"><%= link_to I18n.t('messages.reply_to_this_message'), new_message_path(:parent_id => @message.id) %></li>
   <% end %>
 </ul>

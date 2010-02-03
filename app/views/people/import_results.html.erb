@@ -1,11 +1,11 @@
-<h1>Import Results</h1>
+<h1><%= I18n.t('import.import_results') %></h1>
 
-<p>The import is complete<% if @errored.any? %> with errors<% end %>.</p>
+<p><%= I18n.t('import.the_import_is_complete') %><% if @errored.any? %> <%= I18n.t('import.with_errors') %><% end %>.</p>
 
-<h2>Completed Records</h2>
+<h2><%= I18n.t('import.completed_records') %></h2>
 
 <table>
-  <tr><th>First</th><th>Last</th><th>Status</th></tr>
+  <tr><th><%= I18n.t('import.first') %></th><th><%= I18n.t('import.last') %></th><th><%= I18n.t('import.status') %></th></tr>
   <% @completed.each do |record| %>
     <tr>
       <td><%=h record[:first_name] %></td>
@@ -16,10 +16,10 @@
 </table>
 
 <% if @errored.any? %>
-  <h2>Errored Records</h2>
+  <h2><%= I18n.t('import.errored_records') %></h2>
 
   <table>
-    <tr><th>First</th><th>Last</th><th>Status</th></tr>
+    <tr><th><%= I18n.t('import.first') %></th><th><%= I18n.t('import.last') %></th><th><%= I18n.t('import.status') %></th></tr>
     <% @errored.each do |record| %>
       <tr>
         <td><%=h record[:first_name] %></td>

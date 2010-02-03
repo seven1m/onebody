@@ -1,17 +1,17 @@
 <% content_for :subnav do %>
   <% if @person %>
-    <li><%= link_to image_tag('user.png', :alt => 'Person', :class => 'icon') + ' Back to ' + h(@person.name), @person %></li>
+    <li><%= link_to image_tag('user.png', :alt => I18n.t('person'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@person.name), @person %></li>
   <% else %>
-    <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' Back to ' + h(@group.name), @group %></li>
+    <li><%= link_to image_tag('group.png', :alt => I18n.t('group'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@group.name), @group %></li>
   <% end %>
 <% end %>
 
 <h1>
-  Notes
+  <%= I18n.t('notes.notes') %>
   <% if @person %>
-    by <%= link_to h(@person.name), @person %>
+    <%= I18n.t('by') %> <%= link_to h(@person.name), @person %>
   <% elsif @group %>
-    in <%= link_to h(@group.name), @group %>
+    <%= I18n.t('in') %> <%= link_to h(@group.name), @group %>
   <% end %>
 </h1>
 
@@ -40,16 +40,16 @@
         </div>
       <% else %>
         <h2></h2>
-        <%= image_tag('note.png', :alt => 'Note', :class => 'icon') %>
+        <%= image_tag('note.png', :alt => I18n.t('notes.note'), :class => 'icon') %>
         <%= white_list_with_removal auto_link(note.body) %>
         <%= render :partial => 'meta', :locals => {:note => note} %>
       <% end %>
 
       <% if note.original_url %>
-        <p class="small">Note imported from <%= link_to h(domain_name_from_url(note.original_url)), note.original_url %>.</p>
+        <p class="small"><%= I18n.t('notes.note_imported_from') %> <%= link_to h(domain_name_from_url(note.original_url)), note.original_url %>.</p>
       <% end %>
 
-      <% if (count = note.comments.count) > 0 %><p><%= pluralize count, 'comment' %></p><% end %>
+      <% if (count = note.comments.count) > 0 %><p><%= pluralize count, I18n.t('comment') %></p><% end %>
     </div>
 </div>
 

@@ -1,2 +1,1 @@
-This is to notify you that someone has reported that the date and time
-are incorrect at <%= Setting.get(:url, :site) %>.
+<%= I18n.t('notifier.this_notify_someone_reported', :site => Setting.get(:url, :site)) %>

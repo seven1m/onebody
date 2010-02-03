@@ -1,0 +1,9 @@
+if @ids.any?
+  page.replace_html :sync_status, I18n.t('contributions.remaining', :count => @ids.length)
+  args = @ids.map { |id| "ids[]=#{id}" }.join('&')
+  page << <<-JS
+    setTimeout("new Ajax.Request('#{sync_contributions_path}', {parameters:'#{args}'})", 250);
+  JS
+else
+  page << "location.href = '#{sync_contributions_path}'"
+end

@@ -1,0 +1,34 @@
+<h1><%= I18n.t('contributions.Sync_to_Donor_Tools') %></h1>
+
+<p><%= I18n.t('contributions.people_not_synced', :count => @unsynced_people.total_entries) %></p>
+
+<% form_remote_tag :url => sync_contributions_path, :loading => "Element.show('updating')" do %>
+
+  <%= will_paginate @unsynced_people %>
+
+  <table>
+    <tr>
+      <th><input type="checkbox" onclick="var check_all=this.checked; $$('.person_checkbox').each(function(e){e.checked=check_all})"/></th>
+      <th>Name</th>
+      <th>Family Name</th>
+    </tr>
+    <% @unsynced_people.each do |person| %>
+      <tr>
+        <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
+        <td><%= link_to h(person.name), person %></td>
+        <td><%= link_to h(person.family.name), person.family %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= will_paginate @unsynced_people %>
+  
+  <p>
+    <%= hidden_field_tag 'all_ids' %>
+    <%= submit_tag I18n.t('contributions.Sync_Selected') %>
+    <%= submit_tag I18n.t('contributions.Sync_All'), :onclick => "$('all_ids').value = 'true'" %>
+    <%= image_tag 'spinner_small.gif', :alt => 'Updating...', :id => 'updating', :style => 'display:none;', :class => 'icon' %>
+    <span id="sync_status"></span>
+  </p>
+
+<% end %>

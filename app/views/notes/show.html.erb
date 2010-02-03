@@ -1,16 +1,16 @@
 <% if @logged_in.can_edit?(@note) %>
   <% content_for :subnav do %>
-    <%= link_to image_tag('pencil.png', :alt => 'Edit Note', :class => 'icon') + ' Edit Note', edit_note_url(:id => @note), :class => 'discreet' %>
-    <%= link_to image_tag('delete.png', :alt => 'Delete Note', :class => 'icon') + ' Delete Note', @note, :class => 'discreet', :method => 'delete', :confirm => 'Are you sure?' %>
+    <%= link_to image_tag('pencil.png', :alt => I18n.t('notes.edit_note'), :class => 'icon') + ' ' + I18n.t('notes.edit_note'), edit_note_url(:id => @note), :class => 'discreet' %>
+    <%= link_to image_tag('delete.png', :alt => I18n.t('notes.delete_note'), :class => 'icon') + ' ' + I18n.t('notes.delete_note'), @note, :class => 'discreet', :method => 'delete', :confirm => I18n.t('are_you_sure') %>
   <% end %>
 <% end %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'people/photo' %>
   <p>
-    posted <%= @note.created_at.to_time.to_s %>
-    <% if @note.group %>to <%= link_to h(@note.group.name), group_url(:id => @note.group) %><% end %>
-    by <%= link_to h(@note.person.name), person_url(:id => @note.person) %>
+    <%= I18n.t('notes.posted') %> <%= @note.created_at.to_time.to_s %>
+    <% if @note.group %><%= I18n.t('to') %> <%= link_to h(@note.group.name), group_url(:id => @note.group) %><% end %>
+    <%= I18n.t('notes.by') %> <%= link_to h(@note.person.name), person_url(:id => @note.person) %>
   </p>
 <% end %>
 
@@ -21,8 +21,8 @@
 </div>
 
 <% if @note.original_url %>
-  <p class="small">Note imported from <%= link_to h(domain_name_from_url(@note.original_url)), @note.original_url %>.</p>
+  <p class="small"><%= I18n.t('notes.note_imported_from') %> <%= link_to h(domain_name_from_url(@note.original_url)), @note.original_url %>.</p>
 <% end %>
 
-<h2>Comments</h2>
-<%= render :partial => 'comments/comments', :locals => {:object => @note, :intro => 'about this note.'} %>
+<h2><%= I18n.t('Comments') %></h2>
+<%= render :partial => 'comments/comments', :locals => {:object => @note, :intro => I18n.t('notes.about_this_note') + '.'} %>

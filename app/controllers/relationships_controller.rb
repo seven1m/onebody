@@ -64,7 +64,7 @@ class RelationshipsController < ApplicationController
   
   def create_for_family
     @family = Family.find(params[:family_id], :conditions => {:deleted => false})
-    params[:people].each do |person_id, relationships|
+    params[:people].to_a.each do |person_id, relationships|
       relationships.each do |related_id, relationship|
         Relationship.create(
           :person  => @family.people.find(person_id),

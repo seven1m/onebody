@@ -22,7 +22,9 @@ class ApplicationController < ActionController::Base
   
   private
     def get_site
-      if Setting.get(:features, :multisite)
+      if ENV['ONEBODY_SITE']
+        Site.current = Site.find_by_name_and_active(ENV['ONEBODY_SITE'], true)
+      elsif Setting.get(:features, :multisite)
         Site.current = Site.find_by_host_and_active(request.host, true)
       else
         Site.current = Site.find(1) or raise 'No Default site found.'
@@ -168,6 +170,8 @@ class ApplicationController < ActionController::Base
         else
           self.class.layout 'iphone.html'
         end
+      else
+        self.class.layout 'default.html'
       end
     end
     

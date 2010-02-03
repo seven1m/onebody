@@ -1,4 +1,4 @@
-<%= @person.name %> wants to be your friend on <%= Setting.get(:name, :site) %>.
+<%= I18n.t('notifier.person_wants_to_be_your_friend', { :name => @person.name, :site => Setting.get(:name, :site) } ) %>
 
-To either accept or decline, please sign in here:
+<%= I18n.t('notifier.to_accept_or_decline') %>:
 <%= Setting.get(:url, :site) %>people/<%= @friend.id %>/friends

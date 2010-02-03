@@ -23,7 +23,7 @@ class PeopleController < ApplicationController
         end
         format.csv do
           if @people.any?
-            render :text => @people.to_csv(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family], :methods => %w(group_names))
+            render :text => @people.to_csv_mine(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family], :methods => %w(group_names))
           else
             flash[:warning] = 'No more records.'
             redirect_to people_path
@@ -78,8 +78,10 @@ class PeopleController < ApplicationController
           format.xml { render :xml => @person.to_xml(:read_attribute => true) } if can_export?
         end
       end
+    elsif @person and @person.deleted? and @logged_in.admin?(:edit_profiles)
+      render :text => "This person has been deleted. You can restore the record <a href=\"#{administration_deleted_people_path('search[id]' => @person.id)}\">here</a>.", :status => 404, :layout => true
     else
-      render :text => @logged_in.admin?(:edit_profiles) ? "This person has been deleted. You can restore the record <a href=\"#{administration_deleted_people_path('search[id]' => @person.id)}\">here</a>." : 'Person not found.', :status => 404, :layout => true
+      render :text => 'Person not found.', :status => 404, :layout => true
     end
   end
   
@@ -176,9 +178,7 @@ class PeopleController < ApplicationController
   def import
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if request.get?
-        @column_names  = Person.columns.map { |c| c.name }
-        @column_names += Family.columns.map { |c| "family_#{c.name}" }
-        @column_names.reject! { |c| c =~ /site_id/ }
+        @column_names = Person.importable_column_names
       elsif request.post?
         @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name], params[:attributes])
         render :action => 'import_queue'

@@ -21,6 +21,9 @@
     <%=h @group.name %>
   </h1>
   <p>Category: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
+  <% if @group.leader %>
+    <p>Leader: <%= link_to h(@group.leader.name), @group.leader %></p>
+  <% end %>
   
   <% if @group.linked? or @group.parents_of %>
     <p><em>This group is maintained by office staff.</em></p>

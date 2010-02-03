@@ -50,6 +50,9 @@ module ApplicationHelper
       html << "<li>#{ tab_link I18n.t("nav.groups"), groups_path, params[:controller] == 'groups'}</li>"
     end
     html << "<li>#{tab_link I18n.t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    if Setting.get(:services, :sermondrop_url).to_s.any?
+      html << "<li>#{tab_link I18n.t("nav.podcasts"), podcasts_path, params[:controller] == 'podcasts'}</li>"
+    end
     #html << "<li>#{tab_link I18n.t("nav.bible"), bible_path, params[:controller] == 'bibles'}</li>"
     html
   end
@@ -111,7 +114,11 @@ module ApplicationHelper
   end
   
   def hide_contact_details(text)
-    text.gsub(/\(?\d\d\d\)?[\s\-\.]?\d\d\d[\s\-\.]\d\d\d\d/, '[phone number protected]').gsub(/[a-z\-_\.0-9]+@[a-z\-0-9\.]+\.[a-z]{2,4}/, '[email address protected]')
+    if Setting.get(:privacy, :hide_contact_details_in_messages)
+      text.gsub(/\(?\d\d\d\)?[\s\-\.]?\d\d\d[\s\-\.]\d\d\d\d/, '[phone number protected]').gsub(/[a-z\-_\.0-9]+@[a-z\-0-9\.]+\.[a-z]{2,4}/, '[email address protected]')
+    else
+      text
+    end
   end
   
   def image_tag(location, options)
@@ -240,13 +247,13 @@ module ActionView
         @template.phone_field(@object_name, method, options.merge(:object => @object))
       end
       def date_field(method, options = {})
-        options = {:time => false, :size => 15, :buttons => false}.merge(options)
+        options = {:time => false, :size => 15, :buttons => false, :year_range => 100}.merge(options)
         calendar_date_select(method, options)
       end
     end
     module FormTagHelper
       def date_field_tag(name, value = nil, options = {})
-        options = {:time => false, :size => 15, :buttons => false}.merge(options)
+        options = {:time => false, :size => 15, :buttons => false, :year_range => 100}.merge(options)
         calendar_date_select_tag(name, value, options)
       end
     end

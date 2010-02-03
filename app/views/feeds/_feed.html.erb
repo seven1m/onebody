@@ -3,5 +3,5 @@
   <%= link_to_function 'url', "Element.show('feed#{feed.id}');Element.hide(this);" %>
   <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%=h feed.url %></span>
   <% if @logged_in.admin? %><span class="small discreet">(<%=h pluralize(feed.error_count, ' error') %>)</small><% end %>
-  <%= link_to image_tag('delete.png', :alt => 'Delete', :class => 'icon'), [@person, feed], :method => 'delete', :confirm => 'Are you sure you want to remove this feed? Deleting this feed will NOT delete content (notes, pictures, etc.) that has already been imported into your account.' %>
+  <%= link_to image_tag('delete.png', :alt => I18n.t('Delete'), :class => 'icon'), [@person, feed], :method => 'delete', :confirm => I18n.t('feeds.are_you_sure') %>
 </li>

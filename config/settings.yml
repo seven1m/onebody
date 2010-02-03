@@ -158,14 +158,26 @@ Services:
     format: string
     value: 
     description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
-Access: 
-  Super Admins: 
-    format: list
-    value: |
-      --- 
-      - admin@example.com
-
-    description: Email addresses of people who are the super admins
+  Campaign Monitor API Key:
+    format: string
+    value:
+    description: To sync one or more groups with Campaign Monitor subscriber lists, paste your Campaign Monitor API Key here.
+  Donor Tools URL:
+    format: string
+    value:
+    description: Full URL for your Donor Tools site, e.g. https://mysite.donortools.com/
+  Donor Tools API Email:
+    format: string
+    value:
+    description: Email address of admin user for accessing the Donor Tools API. It is recommended you create a special "api" user for this purpose.
+  Donor Tools API Password:
+    format: password
+    value:
+    description: Password of API user.
+  Sermondrop URL:
+    format: string
+    value:
+    description: Full URL for your Sermondrop site, e.g. http://mysite.sermondrop.com/
 URL: 
   Visitor: 
     format: string
@@ -287,3 +299,7 @@ Privacy:
     format: boolean
     value: true
     description: If enabled, users will be allowed to post comments on pictures.
+  Hide Contact Details in Messages:
+    format: boolean
+    value: true
+    description: If enabled, attempts are made to hide phone numbers and email addresses inside messages when viewed online.

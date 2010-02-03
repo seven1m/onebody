@@ -1,7 +1,7 @@
-<h1>New Note</h1>
+<h1><%= I18n.t('notes.new_note') %></h1>
 
 <% if @note.group %>
-  <p><strong>Creating a note does <em>not</em> send an email to the group.</strong></p>
+  <p><strong><%= I18n.t('notes.creating_note_doesnt_send_email') %></strong></p>
 <% end %>
 
 <%= render :partial => 'form' %>

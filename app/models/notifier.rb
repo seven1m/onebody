@@ -31,7 +31,7 @@ class Notifier < ActionMailer::Base
   def membership_request(group, person)
     unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
       unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
-        to = Setting.get(:access, :super_admins)
+        to = Admin.find_all_by_super_admin(true).map { |a| a.person.email }
       end
     end
     recipients to

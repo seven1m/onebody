@@ -23,6 +23,7 @@ Edge
 * Way better handling of deleted records, and an interface to manage them.
 * New plugin hook api.
 * Improve performance of search by family name.
+* Don't start tour upon first login.
 * Fix Group calendars for Google Apps accounts.
 * Fix session deletion scheduled job.
 * Sort groupies by name.
@@ -44,6 +45,7 @@ Edge
 * Admins should not see messages in a private group.
 * Don't fail on empty family search string.
 * Improve nav links on attendance screen.
+* Improve online import -- attempt to translate incorrect column names.
 * Only import max 500 records with online import feature.
 * Default log view to last 7 days.
 * Added fast_remote_cache plugin for capistrano.
