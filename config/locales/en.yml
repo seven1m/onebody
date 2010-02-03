@@ -589,6 +589,9 @@ en:
     enable_email: Enable Email
     enable_prayer_requests: Enable Prayer Requests
     features: Features
+    following_are_pending_approval:
+      one: "The following group is pending approval:"
+      other: "The following groups are pending approval:"
     group_calendar: Group Calendar
     group_emails: Group Emails
     group_members_can_post: Group Members Can Post Messages
@@ -636,8 +639,6 @@ en:
     select_one_or_more: Select one or more above and choose an action
     separate_codes_with_space: Separate multiple codes with a space.
     show_all: Show all...
-    the_groups_are_pending: The following groups are pending
-    the_group_is_pending: The following group is pending
     the_settings_are_for_advanced_users: The settings below are for advanced users.
     there_was_errors_saving: There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages.
     this_group_doesnot_offer: This group does not offer any features and is for informational purposes only.

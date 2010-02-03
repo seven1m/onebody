@@ -4,7 +4,7 @@ class GroupsTest < ActionController::IntegrationTest
   def test_search
     sign_in_as people(:tim)
     get '/groups'
-    assert_select 'body', :html => /pending approval.*Morgan\sGroup/
+    assert_select 'body', :html => /pending approval.*Morgan\sGroup/m
     sign_in_as people(:jeremy)
     get '/groups?category=Small+Groups'
     assert_response :success

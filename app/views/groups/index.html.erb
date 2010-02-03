@@ -4,8 +4,8 @@
 
 <% if @unapproved_groups.any? %>
   <p class="highlight">
-    <%= @unapproved_groups.length == 1 ? I18n.t('groups.the_group_is_pending') : I18n.t('groups.the_groups_are_pending') %>
-    <%= I18n.t('groups.approval') %>: <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(g)) }.join(', ') %>
+    <%= I18n.t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %>
+    <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(g)) }.join(', ') %>
   </p>
 <% end %>
 
