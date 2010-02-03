@@ -1,4 +1,4 @@
-<p><%= link_to image_tag('back.gif', :alt => 'Back to Groups Homepage', :class => 'icon') + ' Back to Groups Homepage', groups_path %></p>
+<p><%= link_to image_tag('back.gif', :alt => I18n.t('groups.back_to_homepage'), :class => 'icon') + ' ' + I18n.t('groups.back_to_homepage'), groups_path %></p>
 
 <% if @groups.any? %>
 
@@ -17,7 +17,7 @@
         <td>
           <span class="list-heading">
             <%= link_to h(group.name), group %>
-            <% if group.private? %><%= image_tag('lock.gif', :alt => 'Private Group', :class => 'icon') %><% end %>
+            <% if group.private? %><%= image_tag('lock.gif', :alt => I18n.t('groups.private_group'), :class => 'icon') %><% end %>
           </span>
           <% if group.admin?(@logged_in) %>
             <%= link_to 'edit', edit_group_path(group), :class => 'discreet' %>
@@ -31,11 +31,11 @@
           <% end %>
           <% if group.leader %>
             <br/>
-            Leader: <%= link_to h(group.leader.name), person_path(group.leader) %>
+            <%= I18n.t('groups.leader') %>: <%= link_to h(group.leader.name), person_path(group.leader) %>
           <% end %>
           <% if group.address.to_s.any? and group.can_send? @logged_in %>
             <br/>
-            Email Address: <%= mail_to u(group.full_address), h(group.full_address) %>
+            <%= I18n.t('people.email') %>: <%= mail_to u(group.full_address), h(group.full_address) %>
           <% end %>
           <br/>
           <%= pluralize(group.people.count, 'person', 'people') %>
@@ -46,14 +46,14 @@
 
 <% else %>
 
-  <p><em>no groups found</em></p>
+  <p><em><%= I18n.t('groups.no_groups_found') %></em></p>
 
 <% end %>
 
 <% if @logged_in.admin?(:manage_groups) and @hidden_groups.any? %>
-  <h2>Hidden Groups</h2>
+  <h2><%= I18n.t('groups.hidden_groups') %></h2>
   <p>
-    Only administrators (such as yourself) see this list:<br/>
+    <%= I18n.t('groups.only_admins_see_this_list') %>:<br/>
     <%= @hidden_groups.map { |g| link_to(h(g.name), g) }.join(', ') %>
   </p>
 <% end %>

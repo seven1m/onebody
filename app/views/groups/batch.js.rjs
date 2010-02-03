@@ -6,7 +6,7 @@ if @errors.any?
     error_messages = errors.join('; ').gsub(/'|"/, '')
     page << "$$('#group#{id} .errors')[0].innerHTML='#{error_messages}'"
   end
-  page.alert('There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages.')
+  page.alert('<%= I18n.t('groups.there_was_errors_saving') %>')
 else
-  page.alert('Changes saved successfully.')
+  page.alert('<%= I18n.t('changes_saved') %>')
 end

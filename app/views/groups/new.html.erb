@@ -1,5 +1,5 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => 'All Groups', :class => 'icon') + ' All Groups', groups_path %></li>
+  <li><%= link_to image_tag('group.png', :alt => I18n.t('groups.all_groups'), :class => 'icon') + ' ' + I18n.t('groups.all_groups'), groups_path %></li>
 <% end %>
 
 <script type="text/javascript">
@@ -16,6 +16,6 @@
 //]]>
 </script>
 
-<h1>New Group</h1>
+<h1><%= I18n.t('groups.new_group') %></h1>
 
 <%= render :partial => 'form' %>
