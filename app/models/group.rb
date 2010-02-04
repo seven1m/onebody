@@ -48,6 +48,8 @@ class Group < ActiveRecord::Base
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
   belongs_to :site
   
+  named_scope :active, :conditions => {:hidden => false}
+  
   scope_by_site_id
   
   validates_presence_of :name
@@ -85,6 +87,10 @@ class Group < ActiveRecord::Base
   
   def inspect
     "<#{name}>"
+  end
+  
+  def self.can_create?
+    Site.current.max_groups.nil? or Group.active.count < Site.current.max_groups
   end
   
   def admin?(person, exclude_global_admins=false)

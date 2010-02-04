@@ -126,6 +126,7 @@ class Person < ActiveRecord::Base
   scope_by_site_id
   
   named_scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
+  named_scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
     
   acts_as_password
   has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES
@@ -227,6 +228,10 @@ class Person < ActiveRecord::Base
     else
       val
     end
+  end
+  
+  def self.can_create?
+    Site.current.max_people.nil? or Person.can_sign_in.count < Site.current.max_people
   end
   
   def birthday_soon?

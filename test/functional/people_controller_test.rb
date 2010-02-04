@@ -175,4 +175,18 @@ class PeopleControllerTest < ActionController::TestCase
     assert_response :success
     assert_select 'body', /Tim Morgan Enterprises/
   end
+
+  should "not allow creation of people if the site has reached limit" do
+    @family = Family.forge
+    @admin = Person.forge(:admin => Admin.create(:edit_profiles => true))
+    Site.current.update_attribute(:max_people, 1000)
+    post :create, {:person => {:first_name => 'John', :last_name => 'Smith', :family_id => @family.id, :child => false}}, {:logged_in_id => @admin.id}
+    assert_response :redirect
+    Site.current.update_attribute(:max_people, 1)
+    post :create, {:person => {:first_name => 'John', :last_name => 'Doe',   :family_id => @family.id, :child => false}}, {:logged_in_id => @admin.id}
+    assert_response :unauthorized
+    Site.current.update_attribute(:max_people, nil)
+    post :create, {:person => {:first_name => 'Jane', :last_name => 'Smith', :family_id => @family.id, :child => false}}, {:logged_in_id => @admin.id}
+    assert_response :redirect
+  end
 end

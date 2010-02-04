@@ -86,7 +86,7 @@ class PeopleController < ApplicationController
   end
   
   def new
-    if Site.current.max_people.nil? or Person.count < Site.current.max_people
+    if Person.can_create?
       if @logged_in.admin?(:edit_profiles)
         defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
         unless params[:family_id].nil?
@@ -108,26 +108,29 @@ class PeopleController < ApplicationController
         format.html { render :partial => "new_family", :layout => true } if @family.new_record?
       end
     else
-      render :text => 'No people can be added at this time. Sorry.', :layout => true, :status => 500
+      render :text => 'No people can be added at this time.', :layout => true, :status => 401
     end
   end
   
   def create
-    raise 'no more people can be created' unless Site.current.max_people.nil? or Person.count < Site.current.max_people
-    if @logged_in.admin?(:edit_profiles)
-      params[:person].cleanse(:birthday, :anniversary)
-      @person = Person.new(params[:person])
-      respond_to do |format|
-        if @person.save
-          format.html { redirect_to @person.family }
-          format.xml  { render :xml => @person, :status => :created, :location => @person }
-        else
-          format.html { render :action => "new" }
-          format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
+    if Person.can_create?
+      if @logged_in.admin?(:edit_profiles)
+        params[:person].cleanse(:birthday, :anniversary)
+        @person = Person.new(params[:person])
+        respond_to do |format|
+          if @person.save
+            format.html { redirect_to @person.family }
+            format.xml  { render :xml => @person, :status => :created, :location => @person }
+          else
+            format.html { render :action => "new" }
+            format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
+          end
         end
+      else
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => 'No people can be added at this time.', :layout => true, :status => 401
     end
   end
 

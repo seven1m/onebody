@@ -618,6 +618,7 @@ en:
     members_send: Members Send
     name_required: Name (required)
     new_group: New Group
+    no_more: No groups can be added at this time.
     nobody_yet: Nobody yet
     notes: Notes
     no_groups_found: no groups found

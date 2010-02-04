@@ -72,32 +72,35 @@ class GroupsController < ApplicationController
   end
   
   def new
-    if Site.current.max_groups.nil? or Group.count < Site.current.max_groups
+    if Group.can_create?
       @group = Group.new(:creator_id => @logged_in.id)
       @categories = Group.categories.keys
     else
-      render :text => 'No groups can be created at this time. Sorry.', :layout => true, :status => 500
+      render :text => I18n.t('groups.no_more'), :layout => true, :status => 401
     end
   end
   
   def create
-    raise 'no more groups can be created' unless Site.current.max_groups.nil? or Group.count < Site.current.max_groups
-    photo = params[:group].delete(:photo)
-    params[:group].cleanse 'address'
-    @group = Group.create(params[:group])
-    unless @group.errors.any?
-      if @logged_in.admin?(:manage_groups)
-        @group.update_attribute(:approved, true)
-        flash[:notice] = 'The group has been created.'
+    if Group.can_create?
+      photo = params[:group].delete(:photo)
+      params[:group].cleanse 'address'
+      @group = Group.create(params[:group])
+      unless @group.errors.any?
+        if @logged_in.admin?(:manage_groups)
+          @group.update_attribute(:approved, true)
+          flash[:notice] = 'The group has been created.'
+        else
+          @group.memberships.create(:person => @logged_in, :admin => true)
+          flash[:notice] = 'Your group has been created and is pending approval.'
+        end
+        @group.photo = photo
+        redirect_to @group
       else
-        @group.memberships.create(:person => @logged_in, :admin => true)
-        flash[:notice] = 'Your group has been created and is pending approval.'
+        @categories = Group.categories.keys
+        render :action => 'new'
       end
-      @group.photo = photo
-      redirect_to @group
     else
-      @categories = Group.categories.keys
-      render :action => 'new'
+      render :text => I18n.t('groups.no_more'), :layout => true, :status => 401
     end
   end
   
