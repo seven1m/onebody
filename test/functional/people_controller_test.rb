@@ -1,5 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
+GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL)
+
 class PeopleControllerTest < ActionController::TestCase
 
   def setup
@@ -127,7 +129,7 @@ class PeopleControllerTest < ActionController::TestCase
     @person.admin = Admin.create!(:edit_profiles => true)
     @person.save!
     post :destroy, {:id => @person.id}, {:logged_in_id => @person.id}
-    assert_response :error
+    assert_response :unauthorized
     assert !@person.reload.deleted?
   end
   
@@ -188,5 +190,12 @@ class PeopleControllerTest < ActionController::TestCase
     Site.current.update_attribute(:max_people, nil)
     post :create, {:person => {:first_name => 'Jane', :last_name => 'Smith', :family_id => @family.id, :child => false}}, {:logged_in_id => @admin.id}
     assert_response :redirect
+  end
+  
+  should "not allow deletion of a global super admin" do
+     @super_admin = Person.forge(:admin => Admin.create(:super_admin => true))
+     @global_super_admin = Person.forge(:email => 'support@example.com')
+     post :destroy, {:id => @global_super_admin.id}, {:logged_in_id => @super_admin.id}
+     assert_response :unauthorized
   end
 end

@@ -167,14 +167,16 @@ class PeopleController < ApplicationController
   def destroy
     if @logged_in.admin?(:edit_profiles)
       @person = Person.find(params[:id])
-      unless me?
+      if me?
+        render :text => 'You cannot delete yourself.', :layout => true, :status => 401
+      elsif @person.global_super_admin?
+        render :text => 'You cannot delete this person.', :layout => true, :status => 401
+      else
         @person.destroy
         redirect_to @person.family
-      else
-        render :text => 'You cannot delete yourself.', :status => 500
       end
     else
-     render :text => I18n.t('not_authorized'), :status => 401
+     render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
