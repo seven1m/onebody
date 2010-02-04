@@ -7,7 +7,7 @@
     <label for="phone"><%= I18n.t('accounts.your_phone') %>:</label>
     <em><%= I18n.t('accounts.your_phone_description') %></em><br/>
     <%= text_field_tag :phone %><br/>
-    <label for="birthday">Birthday with Year (required):</label>
+    <label for="birthday"><%= I18n.t('accounts.your_birthday') %>:</label>
     <%= text_field_tag :birthday, I18n.t('accounts.date_format'), :onfocus => "if(this.value=='" + I18n.t('accounts.date_format') + "')this.value=''", :onblur => "if(this.value=='')this.value='" + I18n.t('accounts.date_format') + "'"%>
     <em>Year required</em><br/>
     <label for="notes"><%= I18n.t('accounts.your_situation') %>:</label>
