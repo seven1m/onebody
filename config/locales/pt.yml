@@ -1,11 +1,13 @@
 pt:
 
   About: Sobre
+  answer_yes: "sim"
+  answer_no: "não"
   Change: Mude
   Delete: Deletar
   Done: Pronto
   Edit: Editar
-  Errors: Errors
+  Errors: Erros
   From: De
   Modify: Modificar
   New: Novo
@@ -14,9 +16,9 @@ pt:
   are_you_sure: "Você tem certeza?"
   are_you_sure_cannot_be_undone: Você tem certeza? Isto não pode ser desfeito!
   back_to: Voltar para
-  changes_saved: Alterações salvas.
   by: De
   changes: mudanças
+  changes_saved: Alterações salvas.
   click_here: Clique aqui
   close: fechar
   comment: comentário
@@ -41,6 +43,7 @@ pt:
   not_authorized: "Você não está autorizado"
   of: de
   only_admins: "Você precisa ser um administrador para usar essa seção."
+  people: People
   person: Pessoa
   phone: Telefone
   please_note: Por favor note
@@ -266,7 +269,16 @@ pt:
           one: "Houve um erro ao salvar as mudanças."
           other: "Existem {{count}} erros ao salvar as mudanças."
 
+  admin:
+    demote_to_standard_admin: "Rebaixar para admin padrão."
+    people_not_synced_to_donortools_count:
+      one: "1 pessoas está fora de sincronia com o Donor Tools."
+      other: "{{count}} pessoas estão fora de sincronia com o Donor Tools."
+    promote_to_super_admin: "Promover para super admin."
+    view_contributions: "Visualizar e gerenciar contribuições."
+
   accounts:
+    birthday: Aniversário
     call_office: Ligue para {{office_phone}} durante o horário comercial.
     change_email_warning: Após esta mudança, todos os emails deste site serão enviados a este endereço. Ele também será o endereço que {{person}} ususará para entrar no site.
     check_code: Verificar Código
@@ -346,6 +358,46 @@ pt:
     commented_on: comentado em
     none_yet: nada ainda
     save: Salvar Comentário
+
+  contributions:
+    add_to_donor_tools_now: "Adicionar ao Donor Tools agora."
+    api_not_configured: A API do Donor Tools não está configurada. Por favor, insira os detalhes de conexão da API nas <a href="{{url}}">configurações</a> Admin.
+    Contributions: Contribuições
+    donation_types:
+      d1: Dinhheiro
+      d2: Cheque
+      d3: Cartão de Crédito
+      d4: Em espécie
+      d5: PayPal
+      d6: Outros
+      d7: eCheck
+      d8: Cashier's Check
+      d9: Money Order
+      d11: ACH
+      d13: Depósito Direto
+      d14: Doação Online
+      d16: Amazon Simple Pay
+      d17: Wire Transfer
+      d18: Cheque (Pessoas)
+      d19: Cheque (Empresa)
+    go_to_donor_tools: Ir ao Donor Tools.
+    not_in_donor_tools: Não está no Donor Tools.
+    people_not_synced:
+      one: "Os seguintes indivíduos não estão em sincronia com o Donor Tools:"
+      other: "Os seguintes indivíduos não estão em sincronia com o Donor Tools ({{count}} pessoas):"
+    people_not_synced_count:
+      one: "1 pessoas não está em sincronia"
+      other: "{{count}} pessoas não estão em sincronia"
+    record_synced: Este registro foi sincronizado com o Donor Tools.
+    remaining:
+      one: "1 registro faltando..."
+      other: "{{count}} registros faltando..."
+    Sync_Selected: Sincronia Selecionada
+    Sync_All: Sincronizar Todos
+    Sync_to_Donor_Tools: Sincronizar com o Donor Tools
+    synced: "sincronizado:"
+    update_donor_tools_now: atualizar agora
+    view_in_donor_tools: Visualizar este indivíduo no Donor Tools.
 
   families:
     add_members: Adicionar Membros para a Família
@@ -466,6 +518,9 @@ pt:
     enable_email: Habilitar Email
     enable_prayer_requests: Habilitar Pedidos de Oração
     features: Características
+    following_are_pending_approval:
+      one: "O seguinte grupo está pendente:"
+      other: "Os seguintes grupos estão pendentes:"
     group_calendar: Calendário do Grupo
     group_emails: Emails do Grupo
     group_members_can_post: Membros do Grupo podem Postar Mensagens
@@ -492,6 +547,7 @@ pt:
     members_send: Membros Enviam
     name_required: Nome (requerido)
     new_group: Novo Grupo
+    no_more: No groups can be added at this time.
     nobody_yet: Ninguém ainda
     notes: Notas
     no_groups_found: nenhum grupo encontrado
@@ -513,8 +569,6 @@ pt:
     select_one_or_more: Selecione uma ou mais opções abaixo e escolha uma ação
     separate_codes_with_space: Separe múltiplos códigos com um espaço.
     show_all: Mostrar todos...
-    the_groups_are_pending: Os seguintes grupos estão pendentes
-    the_group_is_pending: O seguinte grupo está pendente
     the_settings_are_for_advanced_users: As configurações abaixo são para usuário avançados.
     there_was_errors_saving: Existe um ou mais erros ao salvar as mudanças. Os registros com erro estão destacados em vermelho. Arraste para visualizar todas as mensagens de erro.
     this_group_doesnot_offer: Este grupo não oferece nenhuma característica e existe somente a fins de informação.
@@ -599,6 +653,7 @@ pt:
     groups: Grupos
     home: "Início"
     pages: "Páginas"
+    podcasts: Podcasts
     profile: Perfil
 
   news: 
@@ -857,6 +912,9 @@ pt:
     there_are_gerenal_comm_pictures: "Essas são fotos gerais da comunidade &mdash; não mostre meu nome nelas (opção somente para administradores)."
     upload: Carregar!
     upload_more: Carregar mais
+
+  podcasts:
+    not_configured: Sermondrop não está configurado.
 
   prayer: 
     add_a_prayer_request: Adicionar um pedido de oração

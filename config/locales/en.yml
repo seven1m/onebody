@@ -349,34 +349,6 @@ en:
     family_members_enabled: "Family Members: Shown"
     family_members_disabled: "Family Members: Not Shown"
 
-  albums:
-    click_to_view: click to view
-    description: Description
-    dont_show_my_name: This is a general community album &mdash; don't show my name on the pictures (admin-only option).
-    edit_picture: Edit Picture Album
-    name: Name
-    new: New Album
-    new_picture: New Picture Album
-    picture_albums: Picture Albums
-    pictures_may_show_on_feed: "*Pictures may still show on the activity feed of your friends and fellow group members."
-    profile: "Profile - show this album on my profile only.*"
-    public: Public  - show this album on the "All Pictures" page and on my profile.
-    save: Save Album
-
-  attachments:
-    file: File
-    upload_attachment: Upload Attachment
-    upload_file: Upload File
-
-  attendance:
-    add_somebody_not_in_group: Add somebody not in the group
-    date: Date
-    save: Save Attendance
-
-  calendars:
-    family_members_enabled: "Family Members: Shown"
-    family_members_disabled: "Family Members: Not Shown"
-
   comments:
     add_a_comment: Add a comment
     add_read_comments: "Add/Read Comments"
