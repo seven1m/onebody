@@ -85,7 +85,7 @@
   </div>
 </div>
 
-<div style="float:right;width:150px;">
+<div style="float:right;width:200px;">
   <ul id="my-stuff">
     <% if @person.testimony.to_s.any? %>
       <li><%= link_to image_tag('lightbulb.png', :alt => I18n.t('people.my_testimony'), :class => 'icon') + ' ' + I18n.t('people.my_testimony'), testimony_person_path(@person) %></li>
