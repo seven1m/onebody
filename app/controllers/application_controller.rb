@@ -31,6 +31,7 @@ class ApplicationController < ActionController::Base
       end
       if Site.current
         update_view_paths
+        set_locale
         set_time_zone
         set_local_formats
         set_layout_variables
@@ -55,6 +56,10 @@ class ApplicationController < ActionController::Base
         theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
       end
       self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths)
+    end
+    
+    def set_locale
+      I18n.locale = Setting.get(:system, :language)
     end
     
     def set_time_zone

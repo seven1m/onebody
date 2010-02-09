@@ -13,6 +13,7 @@ class Administration::SettingsController < ApplicationController
     @lists['Appearance']['Theme'] = info.themes
     @lists['Appearance']['Public Theme'] = info.themes + ['page:template']
     @lists['System']['Time Zone'] = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
+    @lists['System']['Language'] = info.available_locales.invert
   end
   
   def batch
