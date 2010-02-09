@@ -192,7 +192,11 @@ URL:
     format: string
     value: 
     description: URL for external community news feed (news will be imported periodically)
-System: 
+System:
+  Language:
+    format: string
+    value: en
+    description: Language for interface elements.
   Suffixes: 
     format: list
     value: |
