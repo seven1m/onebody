@@ -46,7 +46,7 @@ class Administration::SettingsController < ApplicationController
     end
   
     def reload_settings
-      Setting.precache_settings(true)
+      Site.current.update_attribute(:settings_changed_at, Time.now)
       expire_fragment(%r{views/})
     end
 end

@@ -101,6 +101,7 @@ class Setting < ActiveRecord::Base
         SETTINGS[site_id][section] ||= {}
         SETTINGS[site_id][section][name] = setting.value
       end
+      SETTINGS['timestamp'] = Time.now
       SETTINGS
     end
     
