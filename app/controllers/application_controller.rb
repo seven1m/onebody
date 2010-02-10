@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
         Site.current = Site.find(1) or raise 'No Default site found.'
       end
       if Site.current
-        if !Site.current.settings_changed_at or SETTINGS['timestamp'] < Site.current.settings_changed_at
+        if Site.current.settings_changed_at and SETTINGS['timestamp'] < Site.current.settings_changed_at
           RAILS_DEFAULT_LOGGER.info('Reloading Settings Cache...')
           Setting.precache_settings(true)
         end
