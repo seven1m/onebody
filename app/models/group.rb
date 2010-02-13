@@ -142,7 +142,7 @@ class Group < ActiveRecord::Base
     elsif Membership.column_names.include?('auto')
       memberships.find_all_by_auto(true).each { |m| m.destroy }
     end
-    if cm_api_list_id.to_s.any? and Setting.get(:services, :campaign_monitor_api_key).to_s.any?
+    if respond_to?(:cm_api_list_id) and cm_api_list_id.to_s.any? and Setting.get(:services, :campaign_monitor_api_key).to_s.any?
       sync_with_campaign_monitor
     end
   end
