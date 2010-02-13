@@ -116,7 +116,8 @@ class Site < ActiveRecord::Base
   def add_publications_group
     was = Site.current
     Site.current = self
-    Group.create! :name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true
+    group = Group.new(:name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true)
+    group.save(false)
     Site.current = was
   end
   
