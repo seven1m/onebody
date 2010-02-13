@@ -148,6 +148,7 @@ class Setting < ActiveRecord::Base
       Dir[PLUGIN_SETTINGS_FILES].each do |path|
         Setting.update_from_yaml(path)
       end
+      Setting.precache_settings(true)
     end
     
     def update_site_from_params(id, params)
