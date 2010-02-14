@@ -26,15 +26,19 @@ Features
 * Content Management System
   * visitor-facing website hosting
   * custom theme
+* Third-Party Services
+  * sync contribution information with Donor Tools
+  * sync mailing list information with Campaign Monitor
+  * connect with Sermondrop for podcast hosting
 
 ...and more.
 
 You can see screenshots at the commercial [website](http://beonebody.com).
 
-Installation
-------------
+Download
+--------
 
-See [InstallOneBody](http://wiki.github.com/seven1m/onebody/installonebody) for instructions.
+[Download Instructions](http://wiki.github.com/seven1m/onebody/download)
 
 More Information
 ----------------
@@ -47,6 +51,6 @@ More Information
 Copyright
 ---------
 
-Copyright (C) 2008-2009, [Tim Morgan](http://timmorgan.org)
+Copyright (C) 2008-2010, [Tim Morgan](http://timmorgan.org)
 
 Please see the LICENSE file provided with this software.
