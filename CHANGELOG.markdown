@@ -9,6 +9,8 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 Edge
 ----
 
+**Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
+
 * Upgrade to Rails 2.3.5.
 * I18n to English, Portuguese [gustavobim]
 * Interface for iPhone and other mobile browsers.
