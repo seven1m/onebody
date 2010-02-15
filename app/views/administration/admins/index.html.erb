@@ -7,13 +7,10 @@
     There are currently <%= pluralize @admin_count, 'administrator' %>.
   </p>
   
-  <% if Admin.people_count >= Site.current.max_admins %>
+  <% if Site.current.max_admins and Admin.people_count >= Site.current.max_admins %>
     <p>You are currently at the limit for administrators for your selected plan.
       Please <a href="http://beonebody.com">upgrade</a> in order to add more administrators.</p>
-  <% end %>
-  
-  <% if Site.current.max_admins.nil? or Admin.count < Site.current.max_admins %>
-  
+  <% else %>
     <%= form_remote_tag :url => search_path %>
       <%= hidden_field_tag :select_person, true %>
       <p>
@@ -41,7 +38,6 @@
         Templates allow you to group admins with identical privileges together.
       </p>
     <% end %>
-    
   <% end %>
   
 <% end %>
