@@ -25,7 +25,7 @@ class Administration::AdminsController < ApplicationController
   def create
     flash[:notice] = ''
     params[:ids].to_a.each do |id|
-      if Site.current.max_admins.nil? or Admin.count < Site.current.max_admins
+      if Site.current.max_admins.nil? or Admin.people_count < Site.current.max_admins
         person = Person.find(id)
         if person.admin?
           flash[:notice] += "#{person.name} is already an admin. "
