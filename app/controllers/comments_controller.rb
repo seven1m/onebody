@@ -14,10 +14,10 @@ class CommentsController < ApplicationController
     end
     if @logged_in.can_see?(object)
       object.comments.create(:person => @logged_in, :text => params[:text])
-      flash[:notice] = 'Comment saved.'
+      flash[:notice] = I18n.t('comments.saved')
       redirect_back
     else
-      render :text => "That #{object.class.name} was not found.", :layout => true, :status => 404
+      render :text => I18n.t('comments.object_not_found', :name => object.class.name), :layout => true, :status => 404
     end
   end
   
@@ -25,10 +25,10 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     if @logged_in.can_edit?(@comment)
       @comment.destroy
-      flash[:notice] = 'Comment deleted.'
+      flash[:notice] = I18n.t('comments.deleted')
       redirect_back
     else
-      render :text => 'You are not authorized to delete this comment.', :layout => true, :status => 401
+      render :text => I18n.t('comments.not_authorized'), :layout => true, :status => 401
     end
   end
    

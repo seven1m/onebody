@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
       elsif Setting.get(:features, :multisite)
         Site.current = Site.find_by_host_and_active(request.host, true)
       else
-        Site.current = Site.find(1) or raise 'No Default site found.'
+        Site.current = Site.find(1) or raise I18n.t('application.no_default_site')
       end
       if Site.current
         if Site.current.settings_changed_at and SETTINGS['timestamp'] < Site.current.settings_changed_at
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
         redirect_to request.url.sub(/^(https?:\/\/)www\./, '\1')
         return false
       else
-        render :text => 'There is no site configured at this address: ' + request.host, :status => 404
+        render :text => I18n.t('application.no_site_configured', :host => request.host), :status => 404
         return false
       end
     end

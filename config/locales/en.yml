@@ -4,6 +4,7 @@ en:
   answer_yes: "yes"
   answer_no: "no"
   Change: Change
+  Changes_saved: Changes saved.
   Delete: Delete
   Done: Done
   Edit: Edit
@@ -11,7 +12,12 @@ en:
   From: From
   Modify: Modify
   New: New
+  No_action_to_show: No action responded to show
+  No_more_records: No more records.
+  Page_no_longer_valid: This page is no longer valid.
   Save: Save
+  There_was_an_error: There was an error.
+  There_were_errors: There were errors.
   To: To
   are_you_sure: Are you sure?
   are_you_sure_cannot_be_undone: Are you sure? This cannot be undone!
@@ -270,35 +276,53 @@ en:
           other: There were {{count}} errors saving the changes.
   
   admin:
-    demote_to_standard_admin: "Demote to standard admin."
+    admin: admin
+    admin_added: "{{name}} added."
+    admin_removed: Admin removed.
+    already_admin: "{{name}} is already an admin."  
+    demote_to_standard_admin: "Rebaixar para admin padrão."
+    must_be_superadmin: You must be a super administrator to modify settings.
+    no_more_admins: No more admins are allowed.
     people_not_synced_to_donortools_count:
-      one: "1 person is out of sync with Donor Tools."
-      other: "{{count}} people are out of sync with Donor Tools."
-    promote_to_super_admin: "Promote to super admin."
-    view_contributions: "View and manage contributions."
+      one: "1 pessoas está fora de sincronia com o Donor Tools."
+      other: "{{count}} pessoas estão fora de sincronia com o Donor Tools."
+    promote_to_super_admin: "Promover para super admin."
+    view_contributions: "Visualizar e gerenciar contribuições."
 
   accounts:
     birthday: Birthday
     call_office: Call {{office_phone}} during business hours.
+    cannot_edit: You cannot edit this account.
     change_email_warning: After this change, all email from this site will be sent to this address. It will also be the address {{person}} to sign into this site.
     check_code: Check Code
     code_be_careful: Please be careful to enter the correct code. If you make a mistake, you will have to start over.
     create: Create Account
     date_format: MM/DD/YYYY
+    email_not_found: That email address could not be found in our system. If you have another address, try again.
     enter_code: Enter the code
     enter_your_email: Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site.
+    fill_required_fields: Please fill in all required fields.
     gender: Gender
     I_am_this_person: I am this person.
     first_name: First Name
     last_name: Last Name
     leave_blank: Leave these fields blank if you don't want to change your password.
+    mobile_number_not_found: That mobile number could not be found in our system. You may try again.
+    must_be_13_of_age: Must be at least 13 years of age.
+    must_set_email_pass: You must set your personal email address and password to continue.
+    pending_approval: Your account is pending approval. You will receive an email once it's approved.
     please_select_your_name: Please select your name from the list below
     select_your_carrier: Select your mobile carrier
+    set_password_error: There was an error setting the password. Please try again.
+    submission_will_be_reviewed: Your submission will be reviewed as soon as possible. You will receive an email once you have been approved.
     text_messaging_fees: Text messaging fees may apply.
+    there_was_an_error: Sorry. There was an error. If you requested the office make a change, it's possible it just hasn't been done yet. Please try again later.
     this_site_doesnt_allow_signup: This site does not allow people to sign up. Instead, you must either verify your already-existing account information or contact {{office_phone}}.
     type_your_email: Type your email address here
     type_your_mobile: Type your mobile phone number here
     uses: uses
+    verification_email_sent: The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)
+    verification_message_sent: The verification message has been sent. Please check your phone and enter the code you receive.
     verify: Verify Account
     verify_email: Verify Email
     verify_by_email: Verify by email.
@@ -310,6 +334,7 @@ en:
     verify_by_birthday_message: These submissions are reviewed by a real person and may take a few days to be approved.
     verify_mobile: Verify Mobile
     verify_who_you_are: First, we need to verify you are who you say you are. Please choose one of the following options to verify your identity. You only have to do this once, and it only takes a few minutes.
+    wrong_code: You entered the wrong code.
     year_required: Year required
     you_use: you use
     your_birthday: Birthday with Year (required)
@@ -322,6 +347,7 @@ en:
     your_situation_description: Please give us a bit of information about you and your family, including how long you've been attending, and any other information that may help us verify your identity.
 
   albums:
+    cannot_add_pictures_to_group: Cannot add pictures in this group.
     click_to_view: click to view
     description: Description
     dont_show_my_name: This is a general community album &mdash; don't show my name on the pictures (admin-only option).
@@ -334,16 +360,36 @@ en:
     profile: "Profile - show this album on my profile only.*"
     public: Public  - show this album on the "All Pictures" page and on my profile.
     save: Save Album
+    saved: Album saved.
+
+  application:
+    api_access: You must be a super administrator to use the API.
+    custom_theme_message: The custom theme must contain {{content}} somewhere in its body.
+    no_default_site: No Default site found.
+    no_site_configured: "There is no site configured at this address: {{host}}"
+    settings_reloaded: Settings reloaded.
+    settings_saved: Settings saved.
+    template_created: Template created.
 
   attachments:
+    deleted: Attachment deleted.
     file: File
+    file_deleted: This file has been deleted.
+    file_not_found: This file cannot be found.
+    invalid_name: Filename contains invalid characters.
+    not_found: Attachment not found.
+    saved: Attachment saved.
+    unknown_type: Unknown attachment type.
     upload_attachment: Upload Attachment
     upload_file: Upload File
 
   attendance:
     add_somebody_not_in_group: Add somebody not in the group
     date: Date
+    not_enabled: Attendance tracking is not enabled for this goup.
     save: Save Attendance
+    saved: Attendance saved.
+    wrong_date_format: Please enter the date as YYYY/MM/DD.
 
   calendars:
     family_members_enabled: "Family Members: Shown"
@@ -356,8 +402,12 @@ en:
     and_others: and others
     comment: comment
     commented_on: commented on
+    deleted: Comment deleted.
     none_yet: none yet
+    not_authorized: You are not authorized to delete this comment.
+    object_not_found: That {{name}} was not found.
     save: Save Comment
+    saved: Comment saved.
   
   contributions:
     add_to_donor_tools_now: "Add to Donor Tools now."
@@ -404,6 +454,7 @@ en:
     add_existing_person: "Add an <em>existing</em> person to this family"
     adding_will_remove_from_their_family: "Adding a person to this family will <em>remove</em> them from their current family."
     are_you_sure: Are you sure? Clicking OK will delete this family and all the people in it.
+    cannot_delete_your_own: You cannot delete your own family.
     city_st_zip: City, ST, Zip
     delete: Delete Family
     delete_person: Delete Person
@@ -420,9 +471,13 @@ en:
     new: New Family
     no_one_yet: No one in this family yet.
     no_photo: no family photo
+    not_found: Family not found.
+    only_in_mysql: This method is only available in a MySQL environment.
     reorder: Reorder Person (click and drag)
     save: Save Family
+    saved: Family saved.
     select_before_proceeding: Please select a family before proceeding.
+    too_many: Too many at once
 
   feeds:
     add_a_feed: Add a Feed
@@ -432,8 +487,11 @@ en:
     blog_name: Name of your blog
     copy_the_url_from_bar: Copy the URL from the address bar and paste here
     copy_your_notifications_link: <strong>Right-</strong>click on the link labeled "Via RSS" on the right side of the page (pictured below) and choose <strong>Copy Shortcut</strong> or <strong>Copy Link Location</strong> or similar.
+    deleted: Feed deleted.
     description: You can import content and updates from external services, social networks, and blogs by adding "feeds" below.
+    done: Done! Click the <a href="{{url}}">Home</a> tab to view your imported content.
     enter_twitter_username: Enter your Twitter username here
+    error_retrieving: There was an error retrieving the feed. Please check the URL and try again.
     facebook_notifications: Facebook Notifications
     feeds_for: Feeds for {{name}}
     flickr_url: Flickr URL
@@ -444,6 +502,9 @@ en:
     log_into_blog: Find your blog's feed URL (usually by clicking the {{img}} icon) and paste it into the field below
     log_into_facebook: <a href="http://www.facebook.com/notifications.php" target="_new">Click here</a> and log into Facebook.
     log_into_flickr: Log into <a href="http://flickr.com">Flickr.com</a> and go to your photo page (click the "You" link near the top).
+    no_entries_found: No entries were found at the URL provided. Please go back and try again.
+    no_entries_found_flickr_alert: If adding a Flickr account, check that your Photos are public.
+    no_entries_found_twitter_alert: If adding a Twitter account, check that your Twitter updates aren't protected.
     none_added: none added yet
     note: "Note: content from your external feed is <strong>copied</strong> to this site with a link pointing back to the original. Comments made on imported entries are not posted back to the original. You may delete content on this site at any time and disable feed posting if you change your mind later."
     looks_right: Does this look right?
@@ -503,9 +564,12 @@ en:
     click_save_changes_to_upload: Click "Save Changes" at the bottom of this form to upload a new picture.
     configure_email_from_group: configure email from this group
     create_a_group: Create a Group
+    created: The group has been created.
+    created_pending_approval: Your group has been created and is pending approval.
     creator: Creator
     details: Details
     delete_group: Delete Group
+    deleted: Group deleted.
     description: Description
     directions: Directions
     edit_group: Edit Group
@@ -513,6 +577,7 @@ en:
     email_from_group_is_off: email from this group is OFF
     email_off: "off"
     email_on: "on"
+    email_settings_changed: Your email settings for the group have been changed.
     enable_attendance_tracking: Enable Attendance Tracking
     enable_blog: Enable Blog
     enable_email: Enable Email
@@ -537,6 +602,7 @@ en:
     if_ok_you_will_start_receiving: If you click OK, you will start receiving email from this group.
     ignore: Ignore
     join_this_group: Join This Group
+    last_admin_remove: "{{name}} is the last admin and cannot be removed."
     leader: Leader
     leader_id: Leader Id
     leave_this_group: Leave This Group
@@ -545,10 +611,14 @@ en:
     meets: Meets
     meets_when: Meets When
     members_send: Members Send
+    must_specify_ids_list: You must specify a list of ids.
     name_required: Name (required)
     new_group: New Group
     no_more: No groups can be added at this time.
     nobody_yet: Nobody yet
+    not_authorized_view: You are not authorized to view this group
+    not_authorized_post: You are not authorized to post to this group.
+    not_found: Group not found.
     notes: Notes
     no_groups_found: no groups found
     no_online_group_activity: No online group activity to display.
@@ -564,7 +634,9 @@ en:
     remove_group_photo: Remove Group Photo
     remove_selected: Remove Selected
     requests: Requests
+    request_sent: A request to join this group has been sent to the group administrator(s).
     request_will_be_sent_to_admins: Are you sure? A request will be sent to the group administrator(s).
+    settings_saved: Group settings have been saved.
     scroll_left_and_right: Scroll left and right to see all columns.
     select_one_or_more: Select one or more above and choose an action
     separate_codes_with_space: Separate multiple codes with a space.
@@ -579,6 +651,7 @@ en:
     this_group_is_private: This group is private. Only people in this group can see its messages.
     this_group_maintained_by_staff: This group is maintained by office staff.
     this_picture: This Picture
+    user_settings_saved: User settings saved.
     view_group: View Group
     yes_do_it: Yes, do it.
     you_are_to_remove_yourself: You're about to remove yourself from this group! You won't be able to edit it anymore if you do that
@@ -624,6 +697,7 @@ en:
     delete_message: Delete Message
     email_message_to: Email Message to {{name}}
     file_missing: file missing
+    flag_cleared: Flag(s) cleared.
     from: From
     group_message_to: Group Message to {{group}}
     in: in
@@ -633,12 +707,17 @@ en:
     messages: Messages
     message_in: Messages in <a href="{{group}}">{{name}}</a>
     messages_on: on
+    missing_param: Missing the message param.
+    no_email_for_person: Sorry. We don't have an email address on file for {{name}}.
+    not_authorized_delete: You are not authorized to delete this message.
+    not_found: Message not found.
     posted_by: posted by
     preview: Preview
     reply: Reply
     reply_by: Reply by
     reply_to_this_message: Reply to this message
     send_message: Send Message
+    sent: Your message has been sent.
     some_quoted_text_is_hidden: Some quoted text in this message is hidden;
     subject: Subject
     this_group_is_not_private: This group is not private, so messages posted here will be visible by people who aren't members of this group.
@@ -646,6 +725,9 @@ en:
     this_will_send_an_email_to: This will send an email to {{group}}.
     this_will_send_a_private_email: This will send a <em>private</em> email.
     to_show_the_entire_message: to show the entire message.
+    unknown_type: Unknown message type.
+    wall_not_found: Wall not found
+    wall_post: Wall Post
 
   nav: 
     bible: Bible
@@ -660,6 +742,7 @@ en:
     all_news: All News
     by: by
     body_description: "Share your announcement, information, or news here:"
+    deleted: News deleted.
     edit_news_post: Edit News Post
     if_you_have_something_to_share: If you have something newsworthy to share, <a href="{{url}}">submit it here</a>.
     news: News
@@ -669,6 +752,7 @@ en:
     posted: Posted
     return_to_news: return to News
     save_news: Save News
+    saved: News saved.
     submit_news: Submit News
     subscribe_to_community_news: <a href="{{url}}">Subscribe</a> to Community News with your feed reader.
     title_description: "Give your post a concise title:"
@@ -690,6 +774,7 @@ en:
     posted: posted
     posted_by: posted by
     save_note: Save Note
+    saved: Note saved.
     share_note: Share Note
     share_note_description: "What are you doing? What's on your mind?"
     this_note_will_be_posted: This note will be posted to the {{group}} blog.
@@ -726,6 +811,7 @@ en:
   pages:
     are_you_sure: Are you sure? This will be permanent and will delete all children of this page!    
     collapse: collapse
+    deleted: Page deleted.
     edit_page: Edit Page
     edit_pages: Edit Pages
     expand: expand
@@ -733,9 +819,12 @@ en:
     loading: loading...
     new_page: New Page
     new_root_page: new root page
+    not_found: Page not found.
     pages: Pages
     published: Published
     save_and_continue_editing: Save and Continue Editing
+    saved: Page saved.
+    template_not_found: Template not found.
     to_add_attachment_first_save_it: To add an attachment to this page, first save it.
     unpublished: unpublished
     upload_attachment: Upload Attachment
@@ -761,13 +850,19 @@ en:
     business_phone: Business Phone
     business_website: Business Website
     can_sign_in: Can Sign In
+    cant_be_added: No people can be added at this time.
+    cant_delete_yourself: You cannot delete yourself.
+    cant_delete: You cannot delete this person.
     change_your_picture: Change Your Picture
     changes_must_be_reviewed: Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit.'
+    changes_submitted: Changes submitted.
+    child_alert: You must specify whether the person is a Child (under 13) or not to complete this update.
     click_to_send_verification_email: Click OK to send a verification email to this user. Once the user clicks the link in the email, they will be able to set their password and sign in.
     click_to_change_email: <a href="{{url}}">Click here</a> to change this email address.
     completely_private: completely private
     create_new_family: Create a New Family
     current_services: "Current services:"
+    deleted: This person has been deleted. You can restore the record <a href="{{url}}">here</a>.
     description_of_business: Description of Business
     email: Email
     email_address: email address (account login) is
@@ -784,6 +879,11 @@ en:
     feeds: Feeds
     find_a_group: Find a group <a href="{{group}}">here</a>.
     freeze: Freeze
+    friend_not_found: Friend not found.
+    friendship_accepted: Friendship accepted.
+    friendship_manage: You may not manage friendships for anyone but yourself.
+    friendship_must_specify: Must specify accept=true or reject=true
+    friendship_rejected: Friendship rejected.
     full_access: Full Access
     groups: Groups
     have_an_email_in_the_system: have an email address in the system
@@ -812,6 +912,8 @@ en:
     no_additional_access_avaiable: No additional access options available at this time.
     no_families_found: No families found.
     no_groups_yet: no groups yet
+    not_deleted: Person not deleted.
+    not_found: Person not found.
     note_for: Note for {{name}}
     nothing_here_yet: Nothing here yet!
     nothing_yet: Nothing yet!
@@ -882,9 +984,11 @@ en:
     other: "{{count}} people"
 
   photos:
+    object_not_found: Object not found.
     only_jpeg_photos_are_accepted: Only JPEG photos are accepted at this time. Please make sure the picture is appropriate and not offensive to others.
     please_choose_photo: Please choose a photo that won't offend others.
     remove: Remove {{name}}
+    unavailable: Photo unavailable.
     upload: Upload {{name}}
 
   pictures: 
@@ -892,6 +996,8 @@ en:
     album: Album
     all_pictures: All Pictures
     are_you_sure: "Are you sure? Deleting this album will also delete all its pictures!"
+    cant_delete: You cannot delete this picture.
+    cant_edit: You cannot edit this picture.
     click_to_enlarge: click to enlarge
     click_to_see_original: click to see original
     comment_on_this_picture: Comment on this picture
@@ -899,6 +1005,8 @@ en:
     delete_picture: Delete Picture
     edit_album: Edit Album
     enter_the_new_album_title: Enter the new album title.
+    error_finding: There was an error finding the album. Please try again.
+    failed: "{{fail}} not saved due to errors"
     in_album: in album
     next: next
     picture: Picture
@@ -908,6 +1016,7 @@ en:
     prev: prev
     rotate_left: Rotate Left
     rotate_right: Rotate Right
+    saved: "{{success}} picture(s) saved"
     set_as_cover: Set as Cover
     there_are_gerenal_comm_pictures: "These are general community pictures &mdash; don't show my name on them (admin-only option)."
     upload: Upload!
@@ -924,10 +1033,14 @@ en:
     answered: Answered
     answered_on: Answered on
     by: By
+    cant_edit: You cannot edit this prayer request.
+    cant_delete: You cannot delete this prayer request.
+    cant_post: You cannot post a prayer request in this group because you are not a member.
     delete_request: Delete Request
     edit_prayer_request: Edit Prayer Request
     edit_request: Edit Request
     new_prayer_request: New Prayer Request
+    not_found: Prayer Request not found.
     posted_by: posted by
     prayer: Prayer
     prayer_request: Prayer Request
@@ -945,10 +1058,12 @@ en:
     work: work
 
   printable_directories:
+    already_sent: It seems a directory was already sent to you a little while ago. Please check your email (and your spam folder just in case).
     click_to_have_custom_pdf_via_email: Click the button below to have a custom directory PDF file sent to your email.
     email_custom_directory: Email my Custom Directory
     include_family_pictures: include family pictures
     make_sure_you_have_adobe: Make sure you have <a href="{{url}}">Adobe Reader</a> or another program that can view PDF files.
+    not_allowed: You are not allowed to print the directory. Sorry.
     were_are_building_custom_pdf: "We're building your custom PDF right now. It will take a little while, but probably not more than a few minutes. Once it is ready, we will email it to you. Feel free to continue your visit to this site (you can leave this page if you want)."
     will_take_longer: "(will take a little longer)"
 
@@ -956,11 +1071,13 @@ en:
     activity: Activity
     address: Address
     address2: Address Line 2
+    agreement_saved: Agreement saved.
     anniversary: Anniversary
     as_a_parent_agree: I, as a parent or legal gaurdian of {{name}}, hereby agree that I have read this site's <a href="{{url}}">Privacy Policy</a>, that the personal information of {{name}} may be displayed for other users of the web site (as determined by the privacy settings on this page), and that {{name}} may, if able, utilize this website as a normal user (including profile customization, and communication via private message, the wall, groups, etc.).
     birthday: Birthday
     by_turning_off: By turning off site visibility, {{name}} will not appear anywhere on the site.
     by_turning_off_site_visibility: By turning off site visibility
+    cant_edit: You may not edit these settings. Sorry.
     change_email_password: Change Email/Password
     child_profile_has_parental_consent: This child's profile has parental consent from {{name}}.
     child_under_age_no_parents_consent: "This child is under the age of 13, and his/her parents have not given consent to allow their information to be displayed."
@@ -972,6 +1089,7 @@ en:
     edit_profile: Edit Profile
     email: Email
     entire_family_will_not_appear: entire family will not appear in any searches. It is still possible to join groups and receive email from site administrators, though.
+    family_hidden: "{{your}} family is currently hidden from all pages on this site!"
     family_privacy: Family Privacy
     fax: Fax
     group_privacy: Group Privacy
@@ -983,11 +1101,13 @@ en:
     i_agree: I Agree
     if_this_is_unchecked: If this is unchecked and {{name_possessive}} email address is hidden, others will have no way to send a private email directly to {{first_name}} through this site.
     invisible: Invisible
+    missing_params: missing params
     mobile: Mobile
     mobile_phone: Mobile Phone
     modify_the_privacy_settings: Modify the privacy settings for you and your family below. To understand how we use the personal information of you and your family, please read our <a href="{{url}}">Privacy Policy</a>.
     not_sharing: Not Sharing    
     only_adult_can_edit: Only an adult can edit these settings. According to our records, you are not. Please contact us if you believe this to be an error.
+    person_is_hidden: "{{name}} has been hidden from all pages on this site!"
     please_read_our_privacy_policy: Please read our <a href="{{url}}">Privacy Policy</a> for details regarding the use of your personal information.
     people_can_still_send: People can still send your family email <a href="{{url}}">through the site</a> if Private Messages are enabled.
     privacy_settings: Privacy Settings
@@ -1001,6 +1121,9 @@ en:
     read_statement_below: Read the statement below and agree to it by checking the corresponding checkbox.
     save_family_settings: Save Family Settings
     save_personal_settings: Save Personal Settings
+    saved: Settings saved.
+    saved_family: Family settings saved.
+    saved_personal: Personal settings saved for {{name}}.
     sharing_with: Sharing with <a href="{{url}}">{{name}}</a>
     space_to_post_messages: A space for people to post messages for {{name}} and others to see.
     the_items_are_visible: "The following items are visible to everyone <a href=\"{{url}}\">change here</a>:"
@@ -1022,6 +1145,7 @@ en:
     you_made_a_change_tab: Looks like you made a change to something on this tab. Be sure to save your changes before going to another tab. Click OK to save your changes first.
     you_may_override: You may override the family settings for {{name}} by making changes below.
     you_may_share_items: "You may share items with fellow members of the following groups:"
+    you_must_check_agreement_statement: You must check the box indicating you agree to the statement below.
     your: your
 
   publications: 
@@ -1117,6 +1241,7 @@ en:
       stepson: Stepson
       uncle: Uncle
       wife: Wife
+    no_person_selected: No person selected.
     outward: Outward Relationships
     relationship: Relationship
     relationship_type: "Type:"
@@ -1230,25 +1355,37 @@ en:
     use_advanced_search: Or, use the <a href="#" onclick="{{js}};return false;">advanced search</a> feature to change the results interactively.
     zip: Zip
 
-  session: 
+  session:
+    account_not_activated: Your account hasn't been activated yet. <a href=\"/pages/help\">Click here</a> to get started.
     create_the_first_user: "You may create the first user by running the command:"
     email_address: "Email Address:"
+    email_found: That email address was found, but you must verify it before you can sign in.
+    email_not_found: email not found
+    email_not_found_try_another: That email address cannot be found in our system. Please try another email.
     help_signing_in: Help Signing In
     i_need_help: I need help.
     load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
+    max_sign_in_attempts: We're sorry, but you have exceeded the maximum number of sign in attempts within a 15 minute period. You may try again in 15 minutes.
     never_share_your_password: Never share your password with anyone!
     no_users: No Users
     password: "Password:"
     password_confirm: "Password (confirm):"
+    password_doesnt_match: The password you entered doesn't match our records. Please try again.
+    password_incorrect: password incorrect
     please_sign_in: Please sign in.
-    sign_in: Sign In
+    sign_in: sign In
+    sign_in_error: There was an error signing you in. Please <a href="{{url}}">try again</a>.
+    sign_out: sign Out
     sign_up_or_sign_in: "<a href=\"{{url}}\">Sign Up</a> for an account, or sign in:"
     there_are_no_users_in_the_system: There are no users in the system.
+    tour: tour
     you_may_read_our_privacy_policy_here: You may read our Privacy Policy <a href="{{url}}">here</a>.
 
   stream: 
+    ago: ago
     blog: Blog
     create_blog_post: Or, create a <a href="{{url}}">blog post</a> with a title and formatting...
+    enable_disable: Enable/Disable
     facebook: Facebook
     feed: Feed
     flickr: Flickr
@@ -1281,6 +1418,7 @@ en:
     disclaimer: Scripture quotations marked 'WEB' are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.
     intro: Share your favorite Bible verses with {{community}}.
     no_verses_yet: No verses yet!
+    not_found: That verse could not be found. Did you type the reference correctly?
     people_who_like_this_verse: People who like this verse
     read_this_passage_at_youversion: Read this passage at YouVersion...
     remove_this_verse: Remove this verse from my list.
@@ -1289,11 +1427,14 @@ en:
     verse: Verse
     verses: Verses
 
-  wall: 
+  wall:
     description: The Wall is a place for people to post friendly messages for you and others to see.
+    must_specify_two_people: Must specify exactly two people
     newest_messages_appear_first: newest messages appear first
     no_messages_yet: No messages yet!
+    not_found: Wall not found.
     post_a_message: Post a message.
+    one_or_more_not_found: One or more walls not found.
     respect_privacy: Please respect the privacy of others. Abusing the wall will get you banned from the site.
     save_message: Save Message
     to_send_a_private_message: All users will see your message; to send a private message, <a href="{{url}}">click here</a>.

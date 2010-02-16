@@ -16,7 +16,7 @@ class NotesController < ApplicationController
         render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
-      render :text => 'Error.', :status => 400
+      render :text => I18n.t('There_was_an_error'), :status => 400
     end
   end
 
@@ -36,7 +36,7 @@ class NotesController < ApplicationController
   def create
     @note = Note.create(params[:note].merge(:person_id => @logged_in.id))
     unless @note.errors.any?
-      flash[:notice] = 'Note saved.'
+      flash[:notice] = I18n.t('notes.saved')
       redirect_to params[:redirect_to] || @note
     else
       render :action => 'new'

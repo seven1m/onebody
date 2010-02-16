@@ -17,7 +17,7 @@ class Administration::UpdatesController < ApplicationController
         if params[:update] and params[:update][:child]
           @update.child = (params[:update][:child] == 'true')
         elsif @update.birthday.nil?
-          flash[:warning] = 'You must specify whether the person is a Child (under 13) or not to complete this update.'
+          flash[:warning] = I18n.t('people.child_alert')
           redirect_to administration_updates_path
           return
         end

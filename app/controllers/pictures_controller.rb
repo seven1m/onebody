@@ -28,7 +28,7 @@ class PicturesController < ApplicationController
     if params[:group_id]
       unless @group = Group.find(params[:group_id]) and @group.pictures? \
         and (@logged_in.member_of?(@group) or @logged_in.can_edit?(@group))
-        render :text => 'There was an error.', :layout => true, :status => 500
+        render :text => I18n.t('There_was_an_error'), :layout => true, :status => 500
         return
       end
     end
@@ -37,7 +37,7 @@ class PicturesController < ApplicationController
     elsif not ['', '!'].include?(params[:album_id].to_s)
       @album = (@group ? @group.albums : @logged_in.albums).find_or_create_by_name(params[:album_id])
     else
-      render :text => 'There was an error finding the album. Please try again.', :layout => true, :status => 500
+      render :text => I18n.t('pictures.error_finding'), :layout => true, :status => 500
       return
     end
     success = fail = 0
@@ -58,8 +58,8 @@ class PicturesController < ApplicationController
         end
       end
     end
-    flash[:notice] = "#{success} picture(s) saved"
-    flash[:notice] += " (#{fail} not saved due to errors)" if fail > 0
+    flash[:notice] = I18n.t('pictures.saved', :success => success)
+    flash[:notice] += " " + I18n.t('pictures.failed', :fail => fail) if fail > 0
     redirect_to params[:redirect_to] || @album
   end
   
@@ -76,7 +76,7 @@ class PicturesController < ApplicationController
       end
       redirect_to [@album, @picture]
     else
-      render :text => 'You cannot edit this picture.', :layout => true, :status => 401
+      render :text => I18n.t('pictures.cant_edit'), :layout => true, :status => 401
     end
   end
   
@@ -87,7 +87,7 @@ class PicturesController < ApplicationController
       @picture.destroy
       redirect_to @album
     else
-      render :text => 'You cannot delete this picture.', :layout => true, :status => 401
+      render :text => I18n.t('pictures.cant_delete'), :layout => true, :status => 401
     end
   end
   

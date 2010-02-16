@@ -24,7 +24,7 @@ class Administration::ThemesController < ApplicationController
       File.chmod(0664, @theme_filename)
       redirect_to edit_administration_theme_path
     else
-      render :text => 'The custom theme must contain {{ content_for_layout }} somewhere in its body.', :layout => true, :status => 500
+      render :text => I18n.t('application.custom_theme_message', :content => content_for_layout), :layout => true, :status => 500
     end
   end
   
