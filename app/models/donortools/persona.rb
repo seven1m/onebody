@@ -47,11 +47,12 @@ class Donortools::Persona < ActiveResource::Base
     end
     
     def update_all
+      return unless can_sync?
       setup_connection
-      Person.find_each(:conditions => {:synced_to_donortools => false, :deleted => false}) do |person|
+      Person.unsynced_to_donortools(:all, :include => :family).each do |person|
         next unless person.family and person.adult?
         person.update_donor
-        sleep 0.5
+        sleep 0.2
       end
     end
     
