@@ -18,8 +18,6 @@ class ContributionsController < ApplicationController
     end
   end
   
-  SYNC_COUNT_PER_REQUEST = 3
-  
   def sync
     if params[:person_id]
       if request.post?
@@ -37,7 +35,7 @@ class ContributionsController < ApplicationController
         else
           @ids = params[:ids].to_a
         end
-        Person.all(:conditions => ["id in (?)", @ids.shift(SYNC_COUNT_PER_REQUEST)]).each do |person|
+        Person.all(:conditions => ["id in (?)", @ids.shift(Donortools::Persona::SYNC_AT_A_TIME)]).each do |person|
           person.update_donor
         end
         respond_to do |format|
