@@ -668,6 +668,7 @@ class Person < ActiveRecord::Base
   
   def update_donor
     Donortools::Persona.setup_connection
+    return unless adult?
     if donor = donortools_id && (Donortools::Persona.find(donortools_id) rescue nil)
       donor.names[0].first_name         = first_name
       donor.names[0].last_name          = last_name
