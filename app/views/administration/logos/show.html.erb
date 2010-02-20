@@ -1,17 +1,17 @@
-<h1>Logo</h1>
+<h1><%= I18n.t('admin.logo.name') %></h1>
 
 <% if @filename.to_s.any? %>
   <p>
-    <%= image_tag "/assets/site#{Site.current.id}/#{@filename}", :alt => 'logo' %><br/>
-    <%= link_to 'delete logo', administration_logo_path, :method => 'delete', :confirm => 'Are you sure?' %>
+    <%= image_tag "/assets/site#{Site.current.id}/#{@filename}", :alt => I18n.t('admin.logo.name') %><br/>
+    <%= link_to I18n.t('admin.logo.delete'), administration_logo_path, :method => 'delete', :confirm => I18n.t('are_you_sure') %>
   </p>
 <% end %>
 
 <% form_tag administration_logo_path, :method => 'post', :multipart => true do %>
-  <p>Upload an image file below. It will be resized to be no larger than 400x80.</p>
-  <p>A transparent gif or png will look the best.</p>
+  <p><%= I18n.t('admin.logo.size_information') %></p>
+  <p><%= I18n.t('admin.logo.format_information') %></p>
   <p>
     <%= file_field_tag :file %>
-    <%= submit_tag 'Upload Logo' %>
+    <%= submit_tag I18n.t('admin.logo.upload') %>
   </p>
 <% end %>

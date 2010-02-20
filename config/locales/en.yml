@@ -10,6 +10,7 @@ en:
   Edit: Edit
   Errors: Errors
   From: From
+  Help: Help
   Modify: Modify
   New: New
   No_action_to_show: No action responded to show
@@ -34,6 +35,7 @@ en:
   edit: edit
   feature_unavailable: This feature is unavailable.
   file_not_found: File not Found
+  for: for
   from: from
   group: Group
   help: help
@@ -278,16 +280,101 @@ en:
   admin:
     admin: admin
     admin_added: "{{name}} added."
+    admin_count:
+      one: There is currently {{count}} administrator.
+      other: There are currently {{count}} administrators.
     admin_removed: Admin removed.
-    already_admin: "{{name}} is already an admin."  
-    demote_to_standard_admin: "Rebaixar para admin padrão."
+    admin_template_description: Templates allow you to group admins with identical privileges together.
+    administrators: Administrators
+    add_individual: Add an individual.
+    add_person: Add Person
+    add_selected: Add Selected
+    add_template: Add Template
+    already_admin: "{{name}} is already an admin."
+    api: API
+    api_login_details: Your API login details
+    demote_to_standard_admin: "Demote to standard admin."
+    display: display
+    enable: Enable
+    enable_api_confirmation: Are you sure you want to enable your API key?
+    emails:
+      alert: This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely ignore this list.
+      changed_adresses: Changed Email Addresses
+      clear_flags: Clear Flags
+      description: When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time). Alternatively, you can clear the flag manually below to allow your sync process to update the value as usual.
+      no_records: There are currently no records with the changed email address flag set.
+    error_saving: There was an error saving the change.
+    file:
+      assets: Assets
+      back_to_theme_editor: back to theme editor
+      enter_filename: Enter a filename (can only contain a-z, underscore, and period)
+      filename: Filename
+      no_files: No files yet.
+      size: Size
+      upload: Upload File
+      upload_new: Upload a new file
+    generate: Generate
+    group_membership_requests: Group Membership Requests
+    home: Admin Home
+    invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
+    key: Key
+    logo:
+      name: Logo
+      delete: delete logo
+      format_information: A transparent gif or png will look the best.
+      size_information: Upload an image file below. It will be resized to be no larger than 400x80.
+      upload: Upload Logo
+    max_admins: You are currently at the limit for administrators for your selected plan. Please <a href="http://beonebody.com">upgrade</a> in order to add more administrators.
     must_be_superadmin: You must be a super administrator to modify settings.
+    new_admin_template: Create a new admin template.
+    new_api_or: a new API key or
+    no_api_key: You do not yet have an API key.
     no_more_admins: No more admins are allowed.
     people_not_synced_to_donortools_count:
-      one: "1 pessoas está fora de sincronia com o Donor Tools."
-      other: "{{count}} pessoas estão fora de sincronia com o Donor Tools."
-    promote_to_super_admin: "Promover para super admin."
-    view_contributions: "Visualizar e gerenciar contribuições."
+      one: "1 person is out of sync with Donor Tools."
+      other: "{{count}} people are out of sync with Donor Tools."
+    promote_to_super_admin: "Promote to super admin."
+    request:
+      one: request
+      other: requests
+    rest_api_information: To use the REST API with Ruby, you might do this
+    settings:
+      enabled: Enabled
+      disabled: Disabled
+      one_per_line: "(one per line)"
+      save: Save Settings
+      settings: Settings
+    show_privileges: show privileges
+    syncs:
+      complete: Complete
+      duration: Duration
+      error: Error
+      id: ID
+      legacy_id: Legacy ID
+      name: Name
+      none: None yet.
+      operation: Operation
+      rate: Rate
+      results: Sync Results
+      start: Start
+      status: Status
+      success: Success
+      sync: Sync
+      syncs: Syncs
+      type: Type
+    themes:
+      custom_themes: Custom Theme
+      description: You can tweak your site's look by editing your custom theme below. Upload assets, e.g. images, CSS, etc., by clicking "Manage Assets." <strong>Changes are not seen by your visitors until you enable the custom theme in <a href="{{url}}">settings</a>.</strong>
+      edit: Edit
+      manage_assets: Manage Assets
+      preview: Preview
+      preview_instructions: Preview any page with your custom theme by appending <code>?theme=custom</code> to the end of its URL, like <%= link_to 'this', person_path(@logged_in, :theme => 'custom') %>. <strong>If you lock yourself out of your site by building a bad custom theme, use <code>?theme=aqueouslight</code> to get back in and disable it.</strong>
+      reset: To reset your custom theme back to its default look, blank out the text box above and save changes.
+      save_preview: Save Changes and Preview
+      syntax_description: Template syntax is <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Special template parts to insert are
+    username: Username
+    view_contributions: "View and manage contributions."
+    your_key: your key
 
   accounts:
     birthday: Birthday
@@ -385,8 +472,21 @@ en:
 
   attendance:
     add_somebody_not_in_group: Add somebody not in the group
+    adult: Adult
+    attendance: Attendance
+    class_time: Class Time
     date: Date
+    export: Export to File
+    group: Group
+    group_missing: group missing
+    id: ID
+    name: Name
+    name_unknown: name unknown
+    next_date: next date
+    no_records: no records to display
     not_enabled: Attendance tracking is not enabled for this goup.
+    prev_date: prev date
+    recorded_time: Recorded Time
     save: Save Attendance
     saved: Attendance saved.
     wrong_date_format: Please enter the date as YYYY/MM/DD.
@@ -1293,6 +1393,7 @@ en:
     run: run
     save_and_continue_editing: Save and Continue Editing
     save_and_run_report: Save and Run Report
+    separate_values: "separate values with vertical pipe |"
     show_tips: "Show Reporting Tips &raquo;"
     tips:
       - <em>nil</em> is not the same as an empty string. You may have to test for both, using an [or] group.

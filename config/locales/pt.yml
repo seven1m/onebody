@@ -10,6 +10,7 @@ pt:
   Edit: Editar
   Errors: Erros
   From: De
+  Help: Ajuda
   Modify: Modificar
   New: Novo
   No_action_to_show: Nenhuma ação respondeu ao mostrar
@@ -34,6 +35,7 @@ pt:
   edit: editar
   feature_unavailable: "Esta função ainda não está disponível."
   file_not_found: Arquivo não encontrado
+  for: para
   from: de
   group: Grupo
   help: ajuda
@@ -278,16 +280,101 @@ pt:
   admin:
     admin: admin
     admin_added: "{{name}} adicionado."
+    admin_count:
+      one: Existe atualmente {{count}} administrador.
+      other: Existem atualmente {{count}} administradores.
     admin_removed: Admin removido.
-    already_admin: "{{name}} já é um admin."  
+    admin_template_description: Modelos permitem a você agrupar adminstradores com privilégios idênticos.
+    administrators: Administradores
+    add_individual: Adicionar um indivíduo.
+    add_person: Adicionar Pessoa
+    add_selected: Adicionar Selecionado
+    add_template: Adicionar Modelo
+    already_admin: "{{name}} já é um admin."
+    api: API
+    api_login_details: Seu detalhe de login da API
     demote_to_standard_admin: "Rebaixar para admin padrão."
+    display: mostrar
+    enable: Habilitar
+    enable_api_confirmation: Você tem certeza que deseja remover a sua chave de API?
+    emails:
+      alert: Esta seção é útil se você sincroniza seus dados de uma fonte de dados externa utilizando o Agente de Atualização. Se você não o utiliza, você pode ignorar esta lista.
+      changed_adresses: Endereços de Email Alterados
+      clear_flags: Limpar Marcações
+      description: Quando um usuário muda o seu endereço de email online, uma marcação é feita e as sincronizações subsequêntes não podem mudar o endereço de email de volta até que a marcação for limpa. Para limpar a marcação, simplesmente configure o endereço de email do usuário na sua fonte de dados externa para a mesma listada abaixo e então execute o seu processo de sincronização (ou espere que ele seja executado no próximo agendamento). Alternativamente, você pode limpar a marcação manualmente para permitir que o processo de sincronização atualize o valor como normalmente o faria.
+      no_records: Não há registros com o endereço de email alterado.
+    error_saving: Houve um erro ao salvar a mudança.
+    file:
+      assets: Arquivos
+      back_to_theme_editor: voltar para o editor de tema
+      enter_filename: Entre com um nome de arquivo (pode somente conter a-z, underscore, e ponto)
+      filename: Nome do Arquivo
+      no_files: Nenhum arquivo ainda.
+      size: Tamanho
+      upload: Carregar Arquivo
+      upload_new: Carregar um novo arquivo
+    generate: Gerar
+    group_membership_requests: Requisições de Afiliação em Grupo
+    home: Início Admin
+    invalidate_confirmation: Você tem certeza que deseja invalidar esta chave e criar uma nova?
+    key: Chave
+    logo:
+      name: Logotipo
+      delete: deletar logotipo
+      format_information: Um gif ou png transparente ficará melhor.
+      size_information: Carregue uma imagem abaixo. Ela será redimensionada para não ser maior que 400x80.
+      upload: Carregar Logotipo
+    max_admins: Você está atualmente utilizando o limite de administradores para o seu plano. Por favor <a href="http://beonebody.com">atualize</a> o seu plano para adicionar mais administradores.
     must_be_superadmin: Você deve ser um super adminstrador para modificar estas configurações.
+    new_admin_template: Criar um novo modelo admin.
+    new_api_or: a nova chave de API ou
+    no_api_key: Você não tem uma chave de API.
     no_more_admins: Não são permitidos mais admins.
     people_not_synced_to_donortools_count:
       one: "1 pessoas está fora de sincronia com o Donor Tools."
       other: "{{count}} pessoas estão fora de sincronia com o Donor Tools."
     promote_to_super_admin: "Promover para super admin."
+    request:
+      one: requisição
+      other: requisições
+    rest_api_information: Para usar uma API REST com Ruby, você pode fazer isto
+    settings: 
+      enabled: Habilitado
+      disabled: Desabilitado
+      one_per_line: "(um por linha)"
+      save: Salvar Configurações
+      settings: Configurações
+    show_privileges: mostrar privilégios
+    syncs:
+      complete: Completado
+      duration: Duração
+      error: Erro
+      id: ID
+      legacy_id: ID Legado
+      name: Nome
+      none: Nada ainda.
+      operation: Operação
+      rate: Categoria
+      results: Resultados de Sincronização
+      start: Começo
+      status: Status
+      success: Sucesso
+      sync: Sincronização
+      syncs: Sincronizações
+      type: Tipo
+    themes:
+      custom_themes: Tema Customizado
+      description: Você pode alterar a aparência do seu site editando seu tema customizado. Carregue arquivos, ex. imagens, CSS, etc, ao clicar em "Gerenciar Arquivos". <strong>As mudanças não serão vistas pelos seus visitantes até que você habilite um tema customizado nas <a href="{{url}}">configurações</a>.</strong>
+      edit: Editar
+      manage_assets: Gerenciar Arquivos
+      preview: Pré-Visualizar
+      preview_instructions: Pré-Visualize qualquer página com o seu tema customizado adicionando <code>?theme=custom</code> no final da URL (endereço), como <%= link_to 'esta', person_path(@logged_in, :theme => 'custom') %>. <strong>Se você se trancar fora do site ao construir um tema customizado com erro, use <code>?theme=aqueouslight</code> para voltar e desabilitá-lo.</strong>
+      reset: Para resetar o seu tema customizado e voltar à aparência padrão, limpe a caixa de texto abaixo e salve as mudanças.
+      save_preview: Salvar Mudanças e Pré-Visualizar
+      syntax_description: A sintaxe do modelo é <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Partes especiais do modelo para inserir são
+    username: Nome de Usuário
     view_contributions: "Visualizar e gerenciar contribuições."
+    your_key: sua chave
 
   accounts:
     birthday: Aniversário
@@ -385,8 +472,21 @@ pt:
 
   attendance:
     add_somebody_not_in_group: Adicionar alguém que não faz parte do grupo
+    adult: Adulto
+    attendance: Frequência
+    class_time: Horário
     date: Data
+    export: Exportar para um arquivo
+    group: Grupo
+    group_missing: grupo faltando
+    id: ID
+    name: Nome
+    name_unknown: nome desconhecido
+    next_date: próxima data
+    no_records: nenhum registro para mostrar
     not_enabled: Registro de frequência não está habilitado para este grupo.
+    prev_date: data anterior
+    recorded_time: Horário Gravado
     save: Salvar Frequência
     saved: Frequência salva.
     wrong_date_format: Por favor digite a data no formato AAAA/MM/DD.
@@ -1293,6 +1393,7 @@ pt:
     run: executar
     save_and_continue_editing: Salvar e Continuar Executando
     save_and_run_report: Salvar e Executar o Relatório
+    separate_values: "separe os valores com um traço vertical |"
     show_tips: "Exibir dicas para os Relatórios &raquo;"
     tips:
       - <em>nulo</em> não é o mesmo que um texto vazio. Você pode ter que testar ambos, usando um grupo [ou].

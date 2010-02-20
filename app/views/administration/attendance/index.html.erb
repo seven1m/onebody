@@ -1,17 +1,17 @@
 <h1>
   <%= @attended_at.to_time.to_s(:date) %>
-  Attendance
-  <% if @group %>for <%=h @group.name %><% end %>
+  <%= I18n.t('attendance.attendance') %>
+  <% if @group %><%= I18n.t('for') %> <%=h @group.name %><% end %>
 </h1>
 
 <p>
-  <%= pluralize @record_count, 'record' %>
+  <%= pluralize @record_count, I18n.t('import.record') %>
 </p>
 
 <p class="no-print">
-  <%= label_tag :attended_at, 'Date:', :class => 'inline' %>
+  <%= label_tag :attended_at, I18n.t('attendance.date') + ':', :class => 'inline' %>
   <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
-  <%= label_tag :group_name, 'Group:', :class => 'inline' %>
+  <%= label_tag :group_name, I18n.t('attendance.group') + ':', :class => 'inline' %>
   <%= select_tag :group_name, options_for_select(['']) + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "location.href='?attended_at='+encodeURIComponent($('attended_at').value)+'&group_id='+this.value" %>
 </p>
 
@@ -19,12 +19,12 @@
 
 <table>
   <tr>
-    <th>ID</th>
-    <th><%= sortable_column_heading 'Name',          'attendance_records.last_name,attendance_records.first_name' %></th>
-    <th>Adult</th>
-    <th><%= sortable_column_heading 'Group',         'groups.name'                                                %></th>
-    <th><%= sortable_column_heading 'Class Time',    'attendance_records.attended_at'                             %></th>
-    <th><%= sortable_column_heading 'Recorded Time', 'attendance_records.created_at'                              %></th>
+    <th><%= I18n.t('attendance.id') %></th>
+    <th><%= sortable_column_heading I18n.t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name' %></th>
+    <th><%= I18n.t('attendance.adult') %></th>
+    <th><%= sortable_column_heading I18n.t('attendance.group'),         'groups.name'                                                %></th>
+    <th><%= sortable_column_heading I18n.t('attendance.class_time'),    'attendance_records.attended_at'                             %></th>
+    <th><%= sortable_column_heading I18n.t('attendance.recorded_time'), 'attendance_records.created_at'                              %></th>
   </tr>
   <% @records.each do |record| %>
     <tr id="record<%= record.id %>">
@@ -41,17 +41,17 @@
         <% elsif record.person %>
           <%= link_to h(record.person.name), record.person %>
         <% else %>
-          <%= '(name unknown)' %>
+          <%= '(' + I18n.t('attendance.name_unknown') + ')' %>
         <% end %>
       </td>
       <td>
-        <% if record.person && record.person.adult? %>adult<% end %>
+        <% if record.person && record.person.adult? %>I18n.t('attendance.adult')<% end %>
       </td>
       <td>
         <% if record.group %>
           <%= link_to h(record.group.name), record.group %>
         <% else %>
-          <em>group missing</em>
+          <em><%= I18n.t('attendance.group_missing') %></em>
         <% end %>
       </td>
       <td>
@@ -61,7 +61,7 @@
         <%= record.created_at.to_s(:time) %>
       </td>
       <td>
-        <%= link_to_remote image_tag('delete.png', :alt => 'Delete', :class => 'icon no-print'), :url => administration_attendance_path(record), :method => 'delete', :confirm => 'Are you sure you want to delete this record?' %>
+        <%= link_to_remote image_tag('delete.png', :alt => I18n.t('Delete'), :class => 'icon no-print'), :url => administration_attendance_path(record), :method => 'delete', :confirm => I18n.t('are_you_sure') %>
       </td>
     </tr>
   <% end %>
@@ -71,15 +71,15 @@
 
 <% if @records.any? %>
   <p>
-    <%= link_to 'Export to File', administration_attendance_index_path(:format => 'csv', :attended_at => @attended_at) %>
+    <%= link_to I18n.t('attendance.export'), administration_attendance_index_path(:format => 'csv', :attended_at => @attended_at) %>
   </p>
 <% else %>
-  <p><em>no records to display</em></p>
+  <p><em><%= I18n.t('attendance.no_records') %></em></p>
 <% end %>
 
 <p>
-  <%= link_to '&laquo; prev date', prev_administration_attendance_path(:attended_at => @attended_at) %> |
-  <%= link_to 'next date &raquo;', next_administration_attendance_path(:attended_at => @attended_at) %>
+  <%= link_to '&laquo; ' + I18n.t('attendance.prev_date'), prev_administration_attendance_path(:attended_at => @attended_at) %> |
+  <%= link_to I18n.t('attendance.next_date') + ' &raquo;', next_administration_attendance_path(:attended_at => @attended_at) %>
 </p>
 
 <%= calendar_date_select_includes 'silver' %>

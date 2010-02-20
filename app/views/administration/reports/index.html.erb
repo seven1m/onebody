@@ -1,5 +1,5 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('plus.png', :alt => 'New Report', :class => 'icon') + ' New Report', new_administration_report_path %></li>
+  <li><%= link_to image_tag('plus.png', :alt => I18n.t('reporting.new_report'), :class => 'icon') + ' ' + I18n.t('reporting.new_report'), new_administration_report_path %></li>
 <% end %>
 
 <% if @offline %>
