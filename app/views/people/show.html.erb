@@ -19,8 +19,8 @@
   <% if @logged_in.admin?(:edit_profiles) %>
     <li><%= link_to image_tag('link.png', :class => 'icon', :alt => I18n.t('relationships.relationships')) + ' ' + I18n.t('relationships.relationships'), person_relationships_path(@person) %></li>
   <% end %>
-  <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) %>
-    <li><%= link_to image_tag('money.png', :class => 'icon', :alt => I18n.t('contributions.Contributions')) + ' ' + I18n.t('contributions.Contributions'), person_contributions_path(@person) %></li>
+  <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) and @person.donortools_admin_url %>
+    <li><%= link_to image_tag('money.png', :class => 'icon', :alt => I18n.t('contributions.Contributions')) + ' ' + I18n.t('contributions.Contributions'), @person.donortools_admin_url %></li>
   <% end %>
 <% end %>
 

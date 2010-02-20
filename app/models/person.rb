@@ -729,6 +729,12 @@ class Person < ActiveRecord::Base
     save(false)
   end
   
+  def donortools_admin_url
+    if donortools_id
+      "#{Setting.get('services', 'donor_tools_url').sub(/\/$/, '')}/personas/#{donortools_id}/donations"
+    end
+  end
+  
   before_save :set_synced_to_donortools
   def set_synced_to_donortools
    if (changed & %w(first_name last_name suffix work_phone mobile_phone email)).any?
