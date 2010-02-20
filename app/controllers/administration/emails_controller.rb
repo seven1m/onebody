@@ -9,7 +9,7 @@ class Administration::EmailsController < ApplicationController
     params[:ids].to_a.each do |id|
       Person.find(id).update_attribute(:email_changed, false)
     end
-    flash[:notice] = 'Flag(s) cleared.'
+    flash[:notice] = I18n.t('messages.flag_cleared')
     redirect_to administration_emails_path
   end
   

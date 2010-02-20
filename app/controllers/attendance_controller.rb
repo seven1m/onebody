@@ -7,12 +7,12 @@ class AttendanceController < ApplicationController
         begin
           @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
         rescue ArgumentError
-          flash[:warning] = "Please enter the date as YYYY/MM/DD."
+          flash[:warning] = I18n.t('attendance.wrong_date_format')
           @attended_at = Date.today
         end
         @records = @group.get_people_attendance_records_for_date(@attended_at)
       else
-        render :text => 'Attendance tracking is not enabled for this goup.', :layout => true, :status => 500
+        render :text => I18n.t('attendance.not_enabled'), :layout => true, :status => 500
       end
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
@@ -57,7 +57,7 @@ class AttendanceController < ApplicationController
           if @group
             redirect_to group_attendance_index_path(@group, :attended_at => @attended_at)
           else
-            render :text => 'Attendance saved.', :layout => true
+            render :text => I18n.t('attendance.saved'), :layout => true
           end
         end
         format.json { render :text => {'status' => 'success'}.to_json }

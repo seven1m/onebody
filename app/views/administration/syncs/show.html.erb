@@ -1,22 +1,22 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'Syncs', administration_syncs_path %></li>
+  <li><%= link_to <%= I18n.t('admin.syncs.syncs') %>, administration_syncs_path %></li>
 <% end %>
 
-<h1>Sync <%=h @sync.created_at.to_s %></h1>
+<h1><%= I18n.t('admin.syncs.syncs') %> <%=h @sync.created_at.to_s %></h1>
 
 <% if @counts %>
-  <%= image_tag pie_chart_url(@counts, :width => 400, :height => 200, :title =>'Sync Results'), :alt => 'Sync Results' %>
+  <%= image_tag pie_chart_url(@counts, :width => 400, :height => 200, :title =>I18n.t('admin.syncs.results')), :alt => I18n.t('admin.syncs.results') %>
 <% end %>
 
 <%= will_paginate @items %>
 
 <table>
   <tr>
-    <th><%= sortable_column_heading 'Type',      'sync_items.syncable_type' %></th>
-    <th><%= sortable_column_heading 'Name',      'sync_items.name'          %></th>
-    <th><%= sortable_column_heading 'Legacy ID', 'sync_items.legacy_id'     %></th>
-    <th><%= sortable_column_heading 'Operation', 'sync_items.operation'     %></th>
-    <th><%= sortable_column_heading 'Status',    'sync_items.status'        %></th>
+    <th><%= sortable_column_heading I18n.t('admin.syncs.type'),      'sync_items.syncable_type' %></th>
+    <th><%= sortable_column_heading I18n.t('admin.syncs.name'),      'sync_items.name'          %></th>
+    <th><%= sortable_column_heading I18n.t('admin.syncs.legacy_id'), 'sync_items.legacy_id'     %></th>
+    <th><%= sortable_column_heading I18n.t('admin.syncs.operation'), 'sync_items.operation'     %></th>
+    <th><%= sortable_column_heading I18n.t('admin.syncs.status'),    'sync_items.status'        %></th>
     <th>Errors</th>
   </tr>
   <% @items.each do |item| %>

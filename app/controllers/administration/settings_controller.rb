@@ -26,13 +26,13 @@ class Administration::SettingsController < ApplicationController
       setting.update_attributes! :value => value
     end
     reload_settings
-    flash[:notice] = 'Settings saved.'
+    flash[:notice] = I18n.t('application.settings_saved')
     redirect_to administration_settings_path
   end
   
   def reload
     reload_settings
-    flash[:notice] = 'Settings reloaded.'
+    flash[:notice] = I18n.t('application.settings_reloaded')
     redirect_to admin_path
   end
   
@@ -40,7 +40,7 @@ class Administration::SettingsController < ApplicationController
   
     def only_admins
       unless @logged_in.super_admin?
-        render :text => 'You must be a super administrator to modify settings.', :layout => true, :status => 401
+        render :text => I18n.t('admin.must_be_superadmin'), :layout => true, :status => 401
         return false
       end
     end

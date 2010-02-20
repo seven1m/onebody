@@ -6,9 +6,9 @@ class AuthenticationsController < ApplicationController
     if person = Person.authenticate(params[:authentication][:email], params[:authentication][:password])
       render :xml => person.to_xml(:except => ['salt', 'encrypted_password', 'feed_code', 'api_key']), :status => 201
     elsif person == nil
-      render :text => 'email not found', :status => 404
+      render :text => I18n.t('session.email_not_found'), :status => 404
     else
-      render :text => 'password incorrect', :status => 401
+      render :text => I18n.t('session.password_incorrect'), :status => 401
     end
   end
   

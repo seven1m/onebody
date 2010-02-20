@@ -21,7 +21,7 @@ class Administration::ApiKeysController < ApplicationController
   
     def only_admins
       unless @logged_in.super_admin?
-        render :text => 'You must be a super administrator to use the API.', :layout => true, :status => 401
+        render :text => I18n.t('application.api_access'), :layout => true, :status => 401
         return false
       end
     end

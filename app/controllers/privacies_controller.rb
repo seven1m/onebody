@@ -31,7 +31,7 @@ class PrivaciesController < ApplicationController
       if @logged_in.can_edit?(@person)
         @family = @person.family
         unless @family.visible?
-          flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family is currently hidden from all pages on this site!"
+          flash[:warning] = I18n.t('privacies.family_hidden', :your => @family == @logged_in.family ? I18n.t('your') : I18n.t('privacies.this'))
         end
       else
         render :text => I18n.t('not_authorized'), :layout => true, :status => 401
@@ -46,10 +46,10 @@ class PrivaciesController < ApplicationController
       update_person
     elsif params[:family]
       update_family
-    elsif params[:agree] or params[:commit] == 'I Agree'
+    elsif params[:agree] or params[:commit] == I18n.t('privacies.i_agree')
       update_consent
     else
-      render :text => 'missing params', :status => 500
+      render :text => I18n.t('privacies.missing_params'), :status => 500
     end
   end
   
@@ -59,7 +59,7 @@ class PrivaciesController < ApplicationController
     @group = Group.find(params[:group_id])
     @membership = Membership.find(params[:membership_id])
     if @membership.update_attributes(params[:membership])
-      flash[:notice] = 'Settings saved.'
+      flash[:notice] = I18n.t('privacies.saved')
     else
       edit; render :action => 'edit'
     end
@@ -74,9 +74,9 @@ class PrivaciesController < ApplicationController
         params[:person].each { |k, v| params[:person][k] = (v == 'nil') ? nil : v } 
         if person.update_attributes(params[:person])
           if person.visible?
-            flash[:notice] = "Personal settings saved for #{person.name}."
+            flash[:notice] = I18n.t('privacies.saved_personal', :name => person.name)
           else
-            flash[:warning] = "#{person.name} has been hidden from all pages on this site!"
+            flash[:warning] = I18n.t('privacies.person_is_hidden', :name => person.name)
           end
         else
           add_errors_to_flash(person)
@@ -92,15 +92,15 @@ class PrivaciesController < ApplicationController
     @person = Person.find(params[:person_id])
     @family = @person.family
     if not @logged_in.can_edit? @family
-      render :text => "You may not edit these settings. Sorry.", :status => 401
+      render :text => I18n.t('privacies.cant_edit'), :status => 401
       return
     else
       @family.update_attributes params[:family]
       if @family.visible?
-        flash[:notice] = "Family settings saved."
+        flash[:notice] = I18n.t('privacies.saved_family')
         flash[:warning] = nil
       else
-        flash[:warning] = "#{@family == @logged_in.family ? 'Your' : 'This'} family has been hidden from all pages on this site!"
+        flash[:warning] = I18n.t('privacies.family_hidden', :your => @family == @logged_in.family ? I18n.t('your') : I18n.t('privacies.this'))
       end
     end
     redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
@@ -109,14 +109,14 @@ class PrivaciesController < ApplicationController
   def update_consent
     @person = Person.find(params[:person_id])
     @family = @person.family
-    if params[:agree] == 'I Agree.'
+    if params[:agree] == I18n.t('privacies.i_agree') + "."
       if person = @family.people.find(params[:person_id])
         @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) at #{Time.now.to_s}"
         @person.save
-        flash[:notice] = 'Agreement saved.'
+        flash[:notice] = I18n.t('privacies.agreement_saved')
       end
-    elsif params[:commit] == 'I Agree'
-      flash[:warning] = 'You must check the box indicating you agree to the statement below.'
+    elsif params[:commit] == I18n.t('privacies.i_agree')
+      flash[:warning] = I18n.t('privacies.you_must_check_agreement_statement')
     end
     redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
   end

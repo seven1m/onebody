@@ -1,31 +1,27 @@
-<h1>Custom Theme</h1>
+<h1><%= I18n.t('admin.themes.custom_themes') %></h1>
 
 <p>
-  You can tweak your site's look by editing your custom theme below.
-  Upload assets, e.g. images, CSS, etc., by clicking "Manage Assets."
-  <strong>Changes are not seen by your visitors until you enable the custom theme in
-  <%= link_to 'settings', administration_settings_path %>.</strong>
+  <%= I18n.t('admin.themes.description', :url => administration_settings_path) %>
 </p>
 
-<h2>Preview</h2>
+<h2><%= I18n.t('admin.themes.preview') %></h2>
 
 <iframe src="<%= person_path(@logged_in, :theme => 'custom') %>" width="100%" height="500" style="border:5px solid black;"></iframe>
 
-<h2>Edit</h2>
+<h2><%= I18n.t('admin.themes.edit') %></h2>
 
-<p><%= link_to 'Manage Assets', administration_files_path %></p>
+<p><%= link_to I18n.t('admin.themes.manage_assets'), administration_files_path %></p>
 
 <% form_tag(administration_theme_path, :method => :put) do %>
   <p>
     <%= text_area_tag :theme, @theme, :rows => 100, :cols => 100, :style => 'width:90%;height:500px;font-family:monospace;color:#333;' %>
   </p>
   <p>
-    <%= submit_tag 'Save Changes and Preview' %>
-    <span class="discreet">To reset your custom theme back to its default look, blank out the text
-    box above and save changes.</span>
+    <%= submit_tag I18n.t('admin.themes.save_preview') %>
+    <span class="discreet"><%= I18n.t('admin.themes.reset') %></span>
   </p>
   <p id="template-help">
-    Template syntax is <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Special template parts to insert are:
+    <%= I18n.t('admin.themes.syntax_description') %>:
     <code>{{ site_name }}</code>, <code>{{ content_for_head }}</code>, <code>{{ banner_message }}</code>,
     <code>{{ heading }}</code>, <code>{{ subheading }}</code>, <code>{{ personal_nav_links }}</code>,
     <code>{{ nav_links }}</code>, <code>{{ content_for_subnav }}</code>, <code>{{ notice }}</code>,
@@ -34,9 +30,6 @@
     and <code>{{ analytics_js }}</code>.
   </p>
   <p>
-    Preview any page with your custom theme by appending
-    <code>?theme=custom</code> to the end of its URL, like <%= link_to 'this', person_path(@logged_in, :theme => 'custom') %>.
-    <strong>If you lock yourself out of your site by building a bad custom theme, use <code>?theme=aqueouslight</code>
-    to get back in and disable it.</strong>
+    <%= I18n.t('admin.themes.preview_instructions') %>
   </p>
 <% end %>

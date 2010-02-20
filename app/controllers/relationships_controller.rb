@@ -7,7 +7,7 @@ class RelationshipsController < ApplicationController
     elsif params[:family_id]
       family_index
     else
-      render :text => 'No person selected.', :layout => true
+      render :text => I18n.t('relationships.no_person_selected'), :layout => true
     end
   end
   
@@ -43,7 +43,7 @@ class RelationshipsController < ApplicationController
     elsif params[:family_id]
       create_for_family
     else
-      render :text => 'No person selected.', :layout => true
+      render :text => I18n.t('relationships.no_person_selected'), :layout => true
     end
   end
   

@@ -48,8 +48,8 @@ module StreamsHelper
       content = ''
       stream_item.context['picture_ids'].to_a.each do |picture_id|
         content << link_to(
-          image_tag(small_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => 'click to enlarge', :class => 'stream-pic'),
-          album_picture_path(stream_item.streamable_id, picture_id), :title => 'click to enlarge'
+          image_tag(small_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => I18n.t('pictures.click_to_enlarge'), :class => 'stream-pic'),
+          album_picture_path(stream_item.streamable_id, picture_id), :title => I18n.t('pictures.click_to_enlarge')
         ) + ' '
       end
     end
@@ -64,7 +64,7 @@ module StreamsHelper
   
   def recent_time_ago_in_words(time)
     if time >= 1.day.ago
-      time_ago_in_words(time) + ' ago'
+      time_ago_in_words(time) + ' ' + I18n.t('stream.ago')
     else
       time.to_s
     end
@@ -74,7 +74,7 @@ module StreamsHelper
     enabled = cookies["stream_#{type}"]
     enabled = cookies["stream_#{type}"] = checked_by_default if cookies["stream_#{type}"].nil?
     link_to_function(
-      image_tag(enabled ? 'checkmark.png' : 'remove.gif', :alt => "Enable/Disable #{name}", :class => 'icon') + " #{name}",
+      image_tag(enabled ? 'checkmark.png' : 'remove.gif', :alt => I18n.t('stream.enable_disable') + " #{name}", :class => 'icon') + " #{name}",
       "enable_stream_item_type('" + type + "', this.getElementsByTagName('img')[0].readAttribute('src') != '/images/checkmark.png');",
       :id => "enable-stream_" + type
     )

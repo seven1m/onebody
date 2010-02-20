@@ -62,11 +62,11 @@ class GroupsController < ApplicationController
     @can_share = @group.can_share?(@logged_in)
     @member_of = @logged_in.member_of?(@group)
     unless @group.approved? or @group.admin?(@logged_in)
-      render :text => 'This group is pending approval', :layout => true
+      render :text => I18n.t('groups.this_group_is_pending_approval'), :layout => true
       return
     end
     unless @logged_in.can_see?(@group)
-      render :text => 'Group not found.', :layout => true, :status => 404
+      render :text => I18n.t('groups.not_found'), :layout => true, :status => 404
       return
     end
   end
@@ -88,10 +88,10 @@ class GroupsController < ApplicationController
       unless @group.errors.any?
         if @logged_in.admin?(:manage_groups)
           @group.update_attribute(:approved, true)
-          flash[:notice] = 'The group has been created.'
+          flash[:notice] = I18n.t('groups.created')
         else
           @group.memberships.create(:person => @logged_in, :admin => true)
-          flash[:notice] = 'Your group has been created and is pending approval.'
+          flash[:notice] = I18n.t('groups.created_pending_approval')
         end
         @group.photo = photo
         redirect_to @group
@@ -121,7 +121,7 @@ class GroupsController < ApplicationController
       photo = params[:group].delete(:photo)
       params[:group].cleanse 'address'
       if @group.update_attributes(params[:group])
-        flash[:notice] = 'Group settings have been saved.'
+        flash[:notice] = I18n.t('groups.settings_saved')
         @group.photo = photo if photo and (photo.respond_to?(:read) or photo == 'remove' or photo.class.name == 'ActionController::TestUploadedFile')
         redirect_to @group
       else
@@ -136,7 +136,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     if @logged_in.can_edit?(@group)
       @group.destroy
-      flash[:notice] = 'Group deleted.'
+      flash[:notice] = I18n.t('groups.deleted')
       redirect_to groups_path
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
