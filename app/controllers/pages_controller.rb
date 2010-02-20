@@ -37,7 +37,7 @@ class PagesController < ApplicationController
           render :text => I18n.t('pages.not_found'), :status => 404
         end
       elsif is_tour_page?
-        render :file => RAILS_ROOT + "/public/#{@path}.html.liquid"
+        render :file => RAILS_ROOT + "/public/#{@path}.#{I18n.locale}.html.liquid"
       else
         render :text => I18n.t('pages.not_found'), :status => 404
       end
@@ -150,7 +150,7 @@ class PagesController < ApplicationController
     end
     
     def is_tour_page?
-      @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.html.liquid")
+      @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.#{I18n.locale}.html.liquid")
     end
     
     def feature_enabled?
