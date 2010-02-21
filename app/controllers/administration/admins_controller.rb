@@ -28,12 +28,12 @@ class Administration::AdminsController < ApplicationController
       if Site.current.max_admins.nil? or Admin.people_count < Site.current.max_admins
         person = Person.find(id)
         if person.admin?
-          flash[:notice] += I18n.t('admin.already_admin', :person => person.name) + " "
+          flash[:notice] += I18n.t('admin.already_admin', :name => person.name) + " "
         else
           person.admin = params[:template_id].to_i > 0 ? Admin.find(params[:template_id]) : Admin.create!
           person.save!
           if person.save
-            flash[:notice] += I18n.t('admin.admin_added', :person => person.name) + " "
+            flash[:notice] += I18n.t('admin.admin_added', :name => person.name) + " "
           else
             add_errors_to_flash(person)
           end
