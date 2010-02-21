@@ -54,7 +54,6 @@ class Donortools::Persona < ActiveResource::Base
       setup_connection
       Person.unsynced_to_donortools(:all, :include => :family).each_slice(SYNC_AT_A_TIME) do |people|
         people.each do |person|
-          puts person.name
           next unless person.family and person.adult?
           person.update_donor
         end
