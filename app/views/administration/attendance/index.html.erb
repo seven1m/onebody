@@ -45,7 +45,7 @@
         <% end %>
       </td>
       <td>
-        <% if record.person && record.person.adult? %>I18n.t('attendance.adult')<% end %>
+        <% if record.person && record.person.adult? %><%= I18n.t('attendance.adult') %><% end %>
       </td>
       <td>
         <% if record.group %>
