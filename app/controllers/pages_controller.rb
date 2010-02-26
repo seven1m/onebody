@@ -23,7 +23,7 @@ class PagesController < ApplicationController
       if @page.published?
         render_with_template(@page)
       else
-        render_with_template('Page not found.', 404)
+        render_with_template(I18n.t('pages.not_found'), 404)
       end
     else
       if @page
@@ -34,12 +34,12 @@ class PagesController < ApplicationController
             render :action => 'show'
           end
         else
-          render :text => 'Page not found.', :status => 404
+          render :text => I18n.t('pages.not_found'), :status => 404
         end
       elsif is_tour_page?
-        render :file => RAILS_ROOT + "/public/#{@path}.html.liquid"
+        render :file => RAILS_ROOT + "/public/#{@path}.#{I18n.locale}.html.liquid"
       else
-        render :text => 'Page not found.', :status => 404
+        render :text => I18n.t('pages.not_found'), :status => 404
       end
     end
   end
@@ -64,7 +64,7 @@ class PagesController < ApplicationController
     if @logged_in.admin?(:edit_pages)
       @page = Page.create(params[:page])
       unless @page.errors.any?
-        flash[:notice] = 'Page saved.'
+        flash[:notice] = I18n.t('pages.saved')
         redirect_to params[:commit] =~ /continue editing/i ? edit_page_path(@page) : @page
       else
         @page_paths_and_ids = Page.paths_and_ids
@@ -88,7 +88,7 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     if @logged_in.can_edit?(@page)
       if @page.update_attributes(params[:page])
-        flash[:notice] = 'Page saved.'
+        flash[:notice] = I18n.t('pages.saved')
         redirect_to params[:commit] =~ /continue editing/i ? edit_page_path(@page) : @page
       else
         @page_paths_and_ids = Page.paths_and_ids
@@ -106,7 +106,7 @@ class PagesController < ApplicationController
       if @page.errors.any?
         add_errors_to_flash(@page)
       else
-        flash[:notice] = 'Page deleted.'
+        flash[:notice] = I18n.t('pages.deleted')
       end
       redirect_to pages_path
     else
@@ -121,7 +121,7 @@ class PagesController < ApplicationController
       if template = Page.find_by_path('template')
         render :text => template.body.sub(/\[\[content\]\]/, content), :status => status
       else
-        render :text => 'Template not found.', :layout => true, :status => 500
+        render :text => I18n.t('pages.template_not_found'), :layout => true, :status => 500
       end
     end
   
@@ -150,7 +150,7 @@ class PagesController < ApplicationController
     end
     
     def is_tour_page?
-      @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.html.liquid")
+      @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.#{I18n.locale}.html.liquid")
     end
     
     def feature_enabled?

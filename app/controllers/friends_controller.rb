@@ -10,7 +10,7 @@ class FriendsController < ApplicationController
       @pending = me? ? @person.pending_friendship_requests : []
       @friendships = @person.friendships.all.select { |f| f.friend and @logged_in.can_see?(f.friend) }
     else
-      render :text => 'Person not found.', :layout => true, :status => 404
+      render :text => I18n.t('people.not_found'), :layout => true, :status => 404
     end
   end
   
@@ -31,14 +31,14 @@ class FriendsController < ApplicationController
     @friendship_request = @person.friendship_requests.find(params[:id])
     if params[:accept]
       @friendship_request.accept
-      flash[:notice] = 'Friendship accepted.'
+      flash[:notice] = I18n.t('people.friendship_accepted')
       redirect_to person_friends_path(@person)
     elsif params[:reject]
       @friendship_request.reject
-      flash[:notice] = 'Friendship rejected.'
+      flash[:notice] = I18n.t('people.friendship_rejected')
       redirect_to person_friends_path(@person)
     else
-      render :text => 'Must specify accept=true or reject=true', :layout => true, :status => 500
+      render :text => I18n.t('people.friendship_must_specify'), :layout => true, :status => 500
     end
   end
   
@@ -49,7 +49,7 @@ class FriendsController < ApplicationController
       @friendship.destroy
       redirect_to person_friends_path(@person)
     else
-      render :text => 'Friend not found.', :layout => true, :status => 404
+      render :text => I18n.t('people.friend_not_found'), :layout => true, :status => 404
     end
   end
   
@@ -67,7 +67,7 @@ class FriendsController < ApplicationController
   
     def person_must_be_user
       unless @logged_in.id == params[:person_id].to_i
-        render :text => 'You may not manage friendships for anyone but yourself.', :layout => true, :status => 401
+        render :text => I18n.t('people.friendship_manage'), :layout => true, :status => 401
         return false
       end
     end

@@ -18,6 +18,7 @@ namespace :deploy do
       run "mkdir -p #{shared_path}/public"
       run "mkdir -p #{shared_path}/themes"
       run "mkdir -p #{shared_path}/plugins"
+      run "mkdir -p #{shared_path}/initializers"
     end
     after 'deploy:setup', 'deploy:shared:setup'
     
@@ -34,11 +35,15 @@ namespace :deploy do
   task :after_update_code do
     rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
     put rb, "#{release_path}/config/initializers/links.rb"
-    run "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    run "if [ -e #{shared_path}/config/email.yml ]; then ln -sf #{shared_path}/config/email.yml #{release_path}/config/email.yml; fi"
-    run "rm -rf #{release_path}/public/assets && ln -s #{shared_path}/public/assets #{release_path}/public/assets"
-    run "cd #{shared_path}/plugins; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/plugins/; fi"
-    run "cd #{release_path} && whenever -w RAILS_ENV=production"
+    commands = [
+      "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml",
+      "if [ -e #{shared_path}/config/email.yml ]; then ln -sf #{shared_path}/config/email.yml #{release_path}/config/email.yml; fi",
+      "rm -rf #{release_path}/public/assets && ln -s #{shared_path}/public/assets #{release_path}/public/assets",
+      "cd #{shared_path}/plugins; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/plugins/; fi",
+      "cd #{shared_path}/initializers; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/config/initializers/; fi",
+      "cd #{release_path} && whenever -w RAILS_ENV=production"
+    ]
+    run commands.join('; ')
   end
   
   task :copy_ssh_key do

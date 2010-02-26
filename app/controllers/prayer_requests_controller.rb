@@ -12,7 +12,7 @@ class PrayerRequestsController < ApplicationController
   def show
     @req = PrayerRequest.find(params[:id])
     unless @logged_in.can_see?(@req)
-      render :text => 'Prayer Request not found.', :layout => true, :status => 404
+      render :text => I18n.t('prayer.not_found'), :layout => true, :status => 404
     end
   end
 
@@ -21,7 +21,7 @@ class PrayerRequestsController < ApplicationController
     if @logged_in.member_of?(@group)
       @req = @group.prayer_requests.new(:person_id => @logged_in.id)
     else
-      render :text => 'You cannot post a prayer request in this group because you are not a member.', :layout => true, :status => 401
+      render :text => I18n.t('prayer.cant_post'), :layout => true, :status => 401
     end
   end
 
@@ -37,7 +37,7 @@ class PrayerRequestsController < ApplicationController
         new; render :action => 'new'
       end
     else
-      render :text => 'You cannot post a prayer request in this group because you are not a member.', :layout => true, :status => 401
+      render :text => I18n.t('prayer.cant_post'), :layout => true, :status => 401
     end
   end
   
@@ -45,7 +45,7 @@ class PrayerRequestsController < ApplicationController
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])
     unless @logged_in.member_of?(@group) and @logged_in.can_edit?(@req)
-      render :text => 'You cannot edit this prayer request.', :layout => true, :status => 401
+      render :text => I18n.t('prayer.cant_edit'), :layout => true, :status => 401
     end
   end
   
@@ -60,7 +60,7 @@ class PrayerRequestsController < ApplicationController
         edit; render :action => 'edit'
       end
     else
-      render :text => 'You cannot edit this prayer request.', :layout => true, :status => 401
+      render :text => I18n.t('prayer.cant_edit'), :layout => true, :status => 401
     end
   end
     
@@ -71,7 +71,7 @@ class PrayerRequestsController < ApplicationController
       @req.destroy
       redirect_to group_path(@group, :anchor => 'prayer')
     else
-      render :text => 'You cannot delete this prayer request.', :layout => true, :status => 401
+      render :text => I18n.t('prayer.cant_delete'), :layout => true, :status => 401
     end
   end
 end

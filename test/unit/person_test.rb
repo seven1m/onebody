@@ -1,5 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
+GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL)
+
 class PersonTest < ActiveSupport::TestCase
   fixtures :people, :families
   
@@ -316,6 +318,21 @@ class PersonTest < ActiveSupport::TestCase
       assert !@person2.reload.synced_to_donortools?
     end
     
+  end
+  
+  should "know if it is a super admin" do
+    @person1 = Person.forge
+    assert !@person1.admin?
+    assert !@person1.super_admin?
+    @person2 = Person.forge(:admin => Admin.create)
+    assert @person2.admin?
+    assert !@person2.super_admin?
+    @person3 = Person.forge(:admin => Admin.create(:super_admin => true))
+    assert @person3.admin?
+    assert @person3.super_admin?
+    @person4 = Person.forge(:email => 'support@example.com')
+    assert @person4.admin?
+    assert @person4.super_admin?
   end
   
   private

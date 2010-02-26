@@ -67,7 +67,7 @@ class NewsController < ApplicationController
       if @news_item.save
         respond_to do |format|
           format.html do
-            flash[:notice] = 'News saved.'
+            flash[:notice] = I18n.t('news.saved')
             redirect_to params[:redirect_to] || @news_item
           end
         end
@@ -93,7 +93,7 @@ class NewsController < ApplicationController
     if @logged_in.can_edit?(@news_item)
       if @news_item.update_attributes(params[:news_item])
         respond_to do |format|
-          format.html { flash[:notice] = 'News saved.'; redirect_to @news_item }
+          format.html { flash[:notice] = I18n.t('news.saved'); redirect_to @news_item }
         end
       else
         respond_to do |format|
@@ -110,7 +110,7 @@ class NewsController < ApplicationController
     if @logged_in.can_edit?(@news_item)
       @news_item.destroy
       respond_to do |format|
-        format.html { flash[:notice] = 'News deleted.'; redirect_to news_path }
+        format.html { flash[:notice] = I18n.t('news.deleted'); redirect_to news_path }
       end
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401

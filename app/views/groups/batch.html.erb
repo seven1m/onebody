@@ -1,6 +1,6 @@
-<h1>Batch Edit Groups</h1>
+<h1><%= I18n.t('groups.batch_edit_groups') %></h1>
 
-<p><em>Scroll left and right to see all columns.</em></p>
+<p><em><%= I18n.t('groups.scroll_left_and_right') %></em></p>
 
 <% form_remote_tag :url => batch_groups_path,
   :loading  => "Element.show('loading')",
@@ -8,21 +8,21 @@
   :html     => {:style => 'overflow:auto;width:90%;background-color:#fff;'} do %>
   <table>
     <tr>
-      <th>Category</th>
-      <th>Name</th>
-      <th>Address</th>
-      <th>Members Send</th>
-      <th>Private</th>
-      <th>Hidden</th>
-      <th>Approved</th>
-      <th>Link Code(s)</th>
-      <th>Blog</th>
-      <th>Email</th>
-      <th>Prayer</th>
-      <th>Attendance</th>
-      <th>Pictures</th>
-      <th>GCalendar Link</th>
-      <th>Approval Required to Join</th>
+      <th><%= I18n.t('groups.category') %></th>
+      <th><%= I18n.t('name') %></th>
+      <th><%= I18n.t('privacies.address') %></th>
+      <th><%= I18n.t('groups.members_send') %></th>
+      <th><%= I18n.t('privacies.private') %></th>
+      <th><%= I18n.t('privacies.hidden') %></th>
+      <th><%= I18n.t('groups.approved') %></th>
+      <th><%= I18n.t('groups.class_link_code') %></th>
+      <th><%= I18n.t('stream.blog') %></th>
+      <th><%= I18n.t('people.email') %></th>
+      <th><%= I18n.t('prayer.prayer') %></th>
+      <th><%= I18n.t('groups.attendance') %></th>
+      <th><%= I18n.t('pictures.pictures') %></th>
+      <th><%= I18n.t('groups.calendar_private_link') %></th>
+      <th><%= I18n.t('groups.approval_required_to_join') %></th>
     </tr>
     <% @groups.each do |group| %>
       <tr id="group<%= group.id %>" class="group">
@@ -46,10 +46,10 @@
     <% end %>
   </table>
   <p>
-    <%= submit_tag 'Save Changes' %>
+    <%= submit_tag I18n.t('save_changes') %>
     <span id="loading" style="display:none;">
-      <%= image_tag 'spinner_small.gif', :alt => 'Saving...', :class => 'icon' %>
-      Saving...
+      <%= image_tag 'spinner_small.gif', :alt => I18n.t('saving') + '...', :class => 'icon' %>
+      <%= I18n.t('saving') %>...
     </span>
   </p>
 <% end %>

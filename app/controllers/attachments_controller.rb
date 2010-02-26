@@ -11,10 +11,10 @@ class AttachmentsController < ApplicationController
         end
         send_data data, :filename => @attachment.name, :type => @attachment.content_type || 'application/octet-stream', :disposition => 'inline'
       else
-        render :text => 'This file has been deleted.', :layout => true, :status => 404
+        render :text => I18n.t('attachments.file_deleted'), :layout => true, :status => 404
       end
     else
-      render :text => 'Attachment not found.', :layout => true, :status => 404
+      render :text => I18n.t('attachments.not_found'), :layout => true, :status => 404
     end
   end
   
@@ -25,7 +25,7 @@ class AttachmentsController < ApplicationController
       and (@attachment.page.published? or (get_user and @logged_in.admin?(:edit_pages)))
       send_data File.read(@attachment.file_path), :filename => @attachment.name, :type => @attachment.content_type || 'application/octet-stream', :disposition => 'inline'
     else
-      render :text => 'This file cannot be found.', :layout => true, :status => 404
+      render :text => I18n.t('attachments.file_not_found'), :layout => true, :status => 404
     end
   end
   
@@ -38,7 +38,7 @@ class AttachmentsController < ApplicationController
         render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
-      render :text => 'Unknown attachment type.', :layout => true, :status => 500
+      render :text => I18n.t('attachments.unknown_type'), :layout => true, :status => 500
     end
   end
   
@@ -47,13 +47,13 @@ class AttachmentsController < ApplicationController
       @page = Page.find(params[:attachment][:page_id])
       if @logged_in.can_edit?(@page)
         Attachment.create_from_file(params[:attachment])
-        flash[:notice] = 'Attachment saved.'
+        flash[:notice] = I18n.t('attachments.saved')
         redirect_back
       else
         render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
-      render :text => 'Unknown attachment type.', :layout => true, :status => 500
+      render :text => I18n.t('attachments.unknown_type'), :layout => true, :status => 500
     end
   end
   
@@ -61,7 +61,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.find(params[:id])
     if @logged_in.can_edit?(@attachment)
       @attachment.destroy
-      flash[:notice] = 'Attachment deleted.'
+      flash[:notice] = I18n.t('attachments.deleted')
       redirect_back
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401

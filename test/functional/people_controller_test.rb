@@ -1,5 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
+GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL)
+
 class PeopleControllerTest < ActionController::TestCase
 
   def setup
@@ -127,7 +129,7 @@ class PeopleControllerTest < ActionController::TestCase
     @person.admin = Admin.create!(:edit_profiles => true)
     @person.save!
     post :destroy, {:id => @person.id}, {:logged_in_id => @person.id}
-    assert_response :error
+    assert_response :unauthorized
     assert !@person.reload.deleted?
   end
   
@@ -168,34 +170,32 @@ class PeopleControllerTest < ActionController::TestCase
     get :show, {:id => @person.id, :format => 'xml'}, {:logged_in_id => @other_person.id}
     assert_response :success
   end
-
-  # should "not show services unless admin" do
-  #   get :show, {:id => @person.id}, {:logged_in_id => @person.id} # myself
-  #   assert_response :success
-  #   assert_no_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'serving'}
-  #   get :show, {:id => @person.id}, {:logged_in_id => @other_person.id} # someone else
-  #   assert_response :success
-  #   assert_no_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'serving'}
-  #   get :edit, {:id => @person.id}, {:logged_in_id => @person.id}
-  #   assert_response :success
-  #   assert_no_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'serving'}
-  #   assert_no_tag :tag => 'tbody', :attributes => {:id => 'edit_services_table_body'}
-  # end
-  # 
-  # should "show services in show and edit if admin" do
-  #   @other_person.admin = Admin.create!(:edit_profiles => true)
-  #   get :show, {:id => @person.id}, {:logged_in_id => @other_person.id}
-  #   assert_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'serving'}
-  #   get :edit, {:id => @person.id}, {:logged_in_id => @other_person.id}
-  #   assert_response :success
-  #   assert_tag :tag => 'h2', :attributes => {:class => 'tab', :id => 'serving'}
-  #   assert_tag :tag => 'tbody', :attributes => {:id => 'edit_services_table_body'}
-  # end
   
   should "show business listing" do
     people(:tim).update_attributes!(:business_name => 'Tim Morgan Enterprises')
     get :show, {:id => people(:tim).id}, {:logged_in_id => people(:tim).id}
     assert_response :success
     assert_select 'body', /Tim Morgan Enterprises/
+  end
+
+  should "not allow creation of people if the site has reached limit" do
+    @family = Family.forge
+    @admin = Person.forge(:admin => Admin.create(:edit_profiles => true))
+    Site.current.update_attribute(:max_people, 1000)
+    post :create, {:person => {:first_name => 'John', :last_name => 'Smith', :family_id => @family.id, :child => false}}, {:logged_in_id => @admin.id}
+    assert_response :redirect
+    Site.current.update_attribute(:max_people, 1)
+    post :create, {:person => {:first_name => 'John', :last_name => 'Doe',   :family_id => @family.id, :child => false}}, {:logged_in_id => @admin.id}
+    assert_response :unauthorized
+    Site.current.update_attribute(:max_people, nil)
+    post :create, {:person => {:first_name => 'Jane', :last_name => 'Smith', :family_id => @family.id, :child => false}}, {:logged_in_id => @admin.id}
+    assert_response :redirect
+  end
+  
+  should "not allow deletion of a global super admin" do
+     @super_admin = Person.forge(:admin => Admin.create(:super_admin => true))
+     @global_super_admin = Person.forge(:email => 'support@example.com')
+     post :destroy, {:id => @global_super_admin.id}, {:logged_in_id => @super_admin.id}
+     assert_response :unauthorized
   end
 end

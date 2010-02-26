@@ -32,7 +32,7 @@ class VersesController < ApplicationController
       expire_fragment(%r{views/people/#{@logged_in.id}_})
       redirect_to params[:redirect_to] || @verse
     else
-      render :text => 'That verse could not be found. Did you type the reference correctly?', :layout => true, :status => 404
+      render :text => I18n.t('verses.not_found'), :layout => true, :status => 404
     end
   end
   

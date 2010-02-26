@@ -9,6 +9,8 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 Edge
 ----
 
+**Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
+
 * Upgrade to Rails 2.3.5.
 * I18n to English, Portuguese [gustavobim]
 * Interface for iPhone and other mobile browsers.
@@ -17,11 +19,27 @@ Edge
 * Improvements to the admin dashboard, including graphs.
 * Sync api and interface for viewing synchronization results (UpdateAgent).
 * Add changed emails interface in admin section.
+* Merge "Super Admin" and standard admin interface into one.
 * New Admin "Templates" feature.
+* New Contributions feature, thanks to Donor Tools.
+* Interface for setting a group to sync with Campaign Monitor.
+* Simple Sermondrop integration.
+* New group batch editing interface.
+* New ability to update relationships via api.
+* New authentication api.
+* New option to disable removal of contact details in messages.
+* Group leader is now more explicit, and selectable.
+* Optional env variable for specifying site to show in dev mode.
+* Limit attributes/columns that can be specified via online import method.
 * Ability to reload settings from admin dashboard.
 * Simplified log view; much more efficient.
 * Way better handling of deleted records, and an interface to manage them.
 * New plugin hook api.
+* Ensure that all settings are reloaded for *all* instances of app.
+* Better checks and feedback when people/group limit has been reached.
+* Show 100 years at a time in the javascript date popup.
+* Update Facebook feed import page.
+* Clean up the group advanced tab.
 * Improve performance of search by family name.
 * Don't start tour upon first login.
 * Fix Group calendars for Google Apps accounts.

@@ -25,27 +25,27 @@ class Administration::AdminsController < ApplicationController
   def create
     flash[:notice] = ''
     params[:ids].to_a.each do |id|
-      if Site.current.max_admins.nil? or Admin.count < Site.current.max_admins
+      if Site.current.max_admins.nil? or Admin.people_count < Site.current.max_admins
         person = Person.find(id)
         if person.admin?
-          flash[:notice] += "#{person.name} is already an admin. "
+          flash[:notice] += I18n.t('admin.already_admin', :name => person.name) + " "
         else
           person.admin = params[:template_id].to_i > 0 ? Admin.find(params[:template_id]) : Admin.create!
           person.save!
           if person.save
-            flash[:notice] += "#{person.name} added. "
+            flash[:notice] += I18n.t('admin.admin_added', :name => person.name) + " "
           else
             add_errors_to_flash(person)
           end
         end
       else
-        flash[:notice] += 'No more admins are allowed.'
+        flash[:notice] += I18n.t('admin.no_more_admins') + " "
         break
       end
     end
     if params[:template_name]
       Admin.create!(:template_name => params[:template_name])
-      flash[:notice] += 'Template created.'
+      flash[:notice] += I18n.t('application.template_created')
     end
     redirect_to administration_admins_path
   end
@@ -57,7 +57,7 @@ class Administration::AdminsController < ApplicationController
     else
       @admin.destroy
     end
-    flash[:notice] = 'Admin removed.'
+    flash[:notice] = I18n.t('admin.admin_removed')
     redirect_to administration_admins_path
   end
   

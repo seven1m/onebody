@@ -7,7 +7,7 @@ class ToursController < ApplicationController
     elsif params[:stop]
       destroy
     else
-      raise ActionController::UnknownAction, 'No action responded to show'
+      raise ActionController::UnknownAction, I18n.t('No_action_to_show')
     end
   end
 

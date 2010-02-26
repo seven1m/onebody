@@ -192,7 +192,11 @@ URL:
     format: string
     value: 
     description: URL for external community news feed (news will be imported periodically)
-System: 
+System:
+  Language:
+    format: string
+    value: en
+    description: Language for interface elements.
   Suffixes: 
     format: list
     value: |
@@ -241,7 +245,7 @@ Appearance:
   Public Theme: 
     format: string
     value: aqueouslight
-    description: Name of selected theme (from themes/ directory) for the public CMS site.
+    description: Name of selected theme for the public CMS site.
   Show Subheading: 
     format: boolean
     value: true
@@ -249,7 +253,7 @@ Appearance:
   Theme: 
     format: string
     value: aqueouslight
-    description: Name of selected theme (from themes/ directory).
+    description: Name of selected theme for site.
 Privacy: 
   Allow Unencrypted Logins: 
     format: boolean

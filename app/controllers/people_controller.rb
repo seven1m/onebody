@@ -17,7 +17,7 @@ class PeopleController < ApplicationController
           if @people.any?
             render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family])
           else
-            flash[:warning] = 'No more records.'
+            flash[:warning] = I18n.t('No_more_records')
             redirect_to people_path
           end
         end
@@ -25,7 +25,7 @@ class PeopleController < ApplicationController
           if @people.any?
             render :text => @people.to_csv_mine(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family], :methods => %w(group_names))
           else
-            flash[:warning] = 'No more records.'
+            flash[:warning] = I18n.t('No_more_records')
             redirect_to people_path
           end
         end
@@ -33,7 +33,7 @@ class PeopleController < ApplicationController
           if @people.any?
             render :text => @people.to_json(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family])
           else
-            flash[:warning] = 'No more records.'
+            flash[:warning] = I18n.t('No_more_records')
             redirect_to people_path
           end
         end
@@ -79,14 +79,15 @@ class PeopleController < ApplicationController
         end
       end
     elsif @person and @person.deleted? and @logged_in.admin?(:edit_profiles)
-      render :text => "This person has been deleted. You can restore the record <a href=\"#{administration_deleted_people_path('search[id]' => @person.id)}\">here</a>.", :status => 404, :layout => true
+      @deleted_people_url = administration_deleted_people_path('search[id]' => @person.id)
+      render :text => I18n.t('people.deleted', :url => @deleted_people_url), :status => 404, :layout => true
     else
-      render :text => 'Person not found.', :status => 404, :layout => true
+      render :text => I18n.t('people.not_found'), :status => 404, :layout => true
     end
   end
   
   def new
-    if Site.current.max_people.nil? or Person.count < Site.current.max_people
+    if Person.can_create?
       if @logged_in.admin?(:edit_profiles)
         defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
         unless params[:family_id].nil?
@@ -108,26 +109,29 @@ class PeopleController < ApplicationController
         format.html { render :partial => "new_family", :layout => true } if @family.new_record?
       end
     else
-      render :text => 'No people can be added at this time. Sorry.', :layout => true, :status => 500
+      render :text => I18n.t('people.cant_be_added'), :layout => true, :status => 401
     end
   end
   
   def create
-    raise 'no more people can be created' unless Site.current.max_people.nil? or Person.count < Site.current.max_people
-    if @logged_in.admin?(:edit_profiles)
-      params[:person].cleanse(:birthday, :anniversary)
-      @person = Person.new(params[:person])
-      respond_to do |format|
-        if @person.save
-          format.html { redirect_to @person.family }
-          format.xml  { render :xml => @person, :status => :created, :location => @person }
-        else
-          format.html { render :action => "new" }
-          format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
+    if Person.can_create?
+      if @logged_in.admin?(:edit_profiles)
+        params[:person].cleanse(:birthday, :anniversary)
+        @person = Person.new(params[:person])
+        respond_to do |format|
+          if @person.save
+            format.html { redirect_to @person.family }
+            format.xml  { render :xml => @person, :status => :created, :location => @person }
+          else
+            format.html { render :action => "new" }
+            format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
+          end
         end
+      else
+        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => I18n.t('people.cant_be_added'), :layout => true, :status => 401
     end
   end
 
@@ -148,7 +152,7 @@ class PeopleController < ApplicationController
       if updated = @person.update_from_params(params)
         respond_to do |format|
           format.html do
-            flash[:notice] = 'Changes submitted.'
+            flash[:notice] = I18n.t('people.changes_submitted')
             redirect_to edit_person_path(@person, :anchor => params[:anchor])
           end
           format.xml { render :xml => @person.to_xml } if can_export?
@@ -164,14 +168,16 @@ class PeopleController < ApplicationController
   def destroy
     if @logged_in.admin?(:edit_profiles)
       @person = Person.find(params[:id])
-      unless me?
+      if me?
+        render :text => I18n.t('people.cant_delete_yourself'), :layout => true, :status => 401
+      elsif @person.global_super_admin?
+        render :text => I18n.t('people.cant_delete'), :layout => true, :status => 401
+      else
         @person.destroy
         redirect_to @person.family
-      else
-        render :text => 'You cannot delete yourself.', :status => 500
       end
     else
-     render :text => I18n.t('not_authorized'), :status => 401
+     render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
   
@@ -195,11 +201,11 @@ class PeopleController < ApplicationController
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if Person.connection.adapter_name == 'MySQL'
         ids = params[:hash][:legacy_id].to_s.split(',')
-        raise 'Too many at once' if ids.length > 1000
+        raise I18n.t('families.too_many') if ids.length > 1000
         hashes = Person.hashify(:legacy_ids => ids, :attributes => params[:hash][:attrs].split(','), :debug => params[:hash][:debug])
         render :xml => hashes
       else
-        render :text => 'This method is only available in a MySQL environment.', :status => 500
+        render :text => I18n.t('families.only_in_mysql'), :status => 500
       end
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
@@ -233,14 +239,14 @@ class PeopleController < ApplicationController
   def favs
     @person = Person.find(params[:id])
     unless @logged_in.can_see?(@person)
-      render :text => 'Person not found.', :status => 404, :layout => true
+      render :text => I18n.t('people.not_found'), :status => 404, :layout => true
     end
   end
   
   def testimony
     @person = Person.find(params[:id])
     unless @logged_in.can_see?(@person)
-      render :text => 'Person not found.', :status => 404, :layout => true
+      render :text => I18n.t('people.not_found'), :status => 404, :layout => true
     end
   end
 

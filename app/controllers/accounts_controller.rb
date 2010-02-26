@@ -41,7 +41,7 @@ class AccountsController < ApplicationController
             if Setting.get(:features, :sign_up_approval_email).to_s.any?
               @person.save
               Notifier.deliver_pending_sign_up(@person)
-              render :text => "Your account is pending approval. You will receive an email once it's approved.", :layout => true
+              render :text => I18n.t('accounts.pending_approval'), :layout => true
             else
               @person.update_attributes!(:can_sign_in => true, :full_access => true, :visible_to_everyone => true, :visible_on_printed_directory => true)
               params[:email] = @person.email
@@ -51,7 +51,7 @@ class AccountsController < ApplicationController
             render :action => 'new'
           end
         else
-          @person.errors.add_to_base("Must be at least 13 years of age.")
+          @person.errors.add_to_base(I18n.t('accounts.must_be_13_of_age'))
           render :action => 'new'
         end
       end
@@ -62,7 +62,7 @@ class AccountsController < ApplicationController
     elsif params[:email].to_s.any?
       create_by_email
     else
-      flash[:warning] = 'Please fill in all required fields.'
+      flash[:warning] = I18n.t('accounts.fill_required_fields')
       render :action => 'new'
     end
   end
@@ -79,13 +79,13 @@ class AccountsController < ApplicationController
             render :text => v.errors.full_messages.join('; '), :layout => true
           else
             Notifier.deliver_email_verification(v)
-            render :text => 'The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)', :layout => true
+            render :text => I18n.t('accounts.verification_email_sent'), :layout => true
           end
         else
           redirect_to page_for_public_path('system/bad_status')
         end
       else
-        flash[:warning] = "That email address could not be found in our system. If you have another address, try again."
+        flash[:warning] = I18n.t('accounts.email_not_found')
         render :action => 'new'
       end
     end
@@ -103,14 +103,14 @@ class AccountsController < ApplicationController
             render :text => v.errors.full_messages.join('; '), :layout => true
           else
             Notifier.deliver_mobile_verification(v)
-            flash[:warning] = 'The verification message has been sent. Please check your phone and enter the code you receive.'
+            flash[:warning] = I18n.t('accounts.verification_message_sent')
             redirect_to verify_code_account_path(:id => v.id)
           end
         else
           redirect_to page_for_public_path('system/bad_status')
         end
       else
-        flash[:warning] = "That mobile number could not be found in our system. You may try again."
+        flash[:warning] = I18n.t('accounts.mobile_number_not_found')
         render :action => 'new'
       end
     end
@@ -118,9 +118,9 @@ class AccountsController < ApplicationController
     def create_by_birthday
       if params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
         Notifier.deliver_birthday_verification(params)
-        render :text => 'Your submission will be reviewed as soon as possible. You will receive an email once you have been approved.', :layout => true
+        render :text => I18n.t('accounts.submission_will_be_reviewed'), :layout => true
       else
-        flash[:warning] = 'You must complete all the required fields.'
+        flash[:warning] = I18n.t('accounts.fill_required_fields')
         render :action => 'new'
       end
     end
@@ -130,7 +130,7 @@ class AccountsController < ApplicationController
   def verify_code
     v = Verification.find(params[:id])
     unless v.pending?
-      render :text => 'There was an error.', :layout => true, :status => 500
+      render :text => I18n.t('There_was_an_error'), :layout => true, :status => 500
       return
     end
     if params[:code].to_i > 0
@@ -142,7 +142,7 @@ class AccountsController < ApplicationController
         end
         @people = Person.find :all, :conditions => conditions, :include => :family
         if @people.nil? or @people.empty?
-          render :text => "Sorry. There was an error. If you requested the office make a change, it's possible it just hasn't been done yet. Please try again later.", :layout => true, :status => 500
+          render :text => I18n.t('accounts.there_was_an_error'), :layout => true, :status => 500
           return
         elsif @people.length == 1
           person = @people.first
@@ -156,7 +156,7 @@ class AccountsController < ApplicationController
         v.update_attribute :verified, true
       else
         v.update_attribute :verified, false
-        render :text => 'You entered the wrong code.', :layout => true, :status => 500
+        render :text => I18n.t('accounts.wrong_code'), :layout => true, :status => 500
       end
     end
   end
@@ -166,7 +166,7 @@ class AccountsController < ApplicationController
     if @logged_in.can_edit?(@person)
       generate_encryption_key
     else
-      render :text => 'You cannot edit this account.', :layout => true, :status => 401
+      render :text => I18n.t('accounts.cannot_edit'), :layout => true, :status => 401
     end
   end
   
@@ -185,35 +185,35 @@ class AccountsController < ApplicationController
       if @person.errors.any?
         edit; render :action => 'edit'
       elsif password == false or password_confirmation == false # error decrypting the password
-        flash[:warning] = 'There was an error setting the password. Please try again.'
+        flash[:warning] = I18n.t('accounts.set_password_error')
         edit; render :action => 'edit'
       elsif password.to_s.any?
         @person.change_password(password, password_confirmation)
         if @person.errors.any?
           edit; render :action => 'edit'
         else
-          flash[:notice] = 'Changes saved.'
+          flash[:notice] = I18n.t('Changes_saved')
           redirect_to @person
         end
       else
-        flash[:notice] = 'Changes saved.'
+        flash[:notice] = I18n.t('Changes_saved')
         redirect_to @person
       end
     else
-      render :text => 'You cannot edit this account.', :layout => true, :status => 401
+      render :text => I18n.t('accounts.cannot_edit'), :layout => true, :status => 401
     end
   end
   
   def select
     unless session[:select_from_people]
-      render :text => 'This page is no longer valid.', :layout => true
+      render :text => I18n.t('Page_no_longer_valid'), :layout => true
       return
     end
     @people = session[:select_from_people]
     if request.post? and params[:id] and @people.map { |p| p.id }.include?(params[:id].to_i)
       session[:logged_in_id] = params[:id].to_i
       session[:select_from_people] = nil
-      flash[:warning] = 'You must set your personal email address and password to continue.'
+      flash[:warning] = I18n.t('accounts.must_set_email_pass')
       redirect_to edit_person_account_path(session[:logged_in_id])
     end
   end

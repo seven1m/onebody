@@ -27,10 +27,15 @@ class ApplicationController < ActionController::Base
       elsif Setting.get(:features, :multisite)
         Site.current = Site.find_by_host_and_active(request.host, true)
       else
-        Site.current = Site.find(1) or raise 'No Default site found.'
+        Site.current = Site.find(1) or raise I18n.t('application.no_default_site')
       end
       if Site.current
+        if Site.current.settings_changed_at and SETTINGS['timestamp'] < Site.current.settings_changed_at
+          RAILS_DEFAULT_LOGGER.info('Reloading Settings Cache...')
+          Setting.precache_settings(true)
+        end
         update_view_paths
+        set_locale
         set_time_zone
         set_local_formats
         set_layout_variables
@@ -41,7 +46,7 @@ class ApplicationController < ActionController::Base
         redirect_to request.url.sub(/^(https?:\/\/)www\./, '\1')
         return false
       else
-        render :text => 'There is no site configured at this address: ' + request.host, :status => 404
+        render :text => I18n.t('application.no_site_configured', :host => request.host), :status => 404
         return false
       end
     end
@@ -55,6 +60,10 @@ class ApplicationController < ActionController::Base
         theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
       end
       self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths)
+    end
+    
+    def set_locale
+      I18n.locale = Setting.get(:system, :language)
     end
     
     def set_time_zone

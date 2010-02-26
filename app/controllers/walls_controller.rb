@@ -13,7 +13,7 @@ class WallsController < ApplicationController
         end
       end
     else
-      render :text => 'Wall not found.', :status => 404
+      render :text => I18n.t('wall.not_found'), :status => 404
     end
   end
   
@@ -26,10 +26,10 @@ class WallsController < ApplicationController
       if @logged_in.can_see?(@person1, @person2) and @person1.wall_enabled? and @person2.wall_enabled?
         @messages = Message.find(:all, :conditions => ['(wall_id = ? and person_id = ?) or (wall_id = ? and person_id = ?)', @person1.id, @person2.id, @person2.id, @person1.id], :order => 'created_at desc')
       else
-        render :text => 'One or more walls not found.', :status => 404
+        render :text => I18n.t('wall.one_or_more_not_found'), :status => 404
       end
     else
-      render :text => 'Must specify exactly two people', :status => 500
+      render :text => I18n.t('wall.must_specify_two_people'), :status => 500
     end
   end
 end

@@ -62,43 +62,46 @@ class GroupsController < ApplicationController
     @can_share = @group.can_share?(@logged_in)
     @member_of = @logged_in.member_of?(@group)
     unless @group.approved? or @group.admin?(@logged_in)
-      render :text => 'This group is pending approval', :layout => true
+      render :text => I18n.t('groups.this_group_is_pending_approval'), :layout => true
       return
     end
     unless @logged_in.can_see?(@group)
-      render :text => 'Group not found.', :layout => true, :status => 404
+      render :text => I18n.t('groups.not_found'), :layout => true, :status => 404
       return
     end
   end
   
   def new
-    if Site.current.max_groups.nil? or Group.count < Site.current.max_groups
+    if Group.can_create?
       @group = Group.new(:creator_id => @logged_in.id)
       @categories = Group.categories.keys
     else
-      render :text => 'No groups can be created at this time. Sorry.', :layout => true, :status => 500
+      render :text => I18n.t('groups.no_more'), :layout => true, :status => 401
     end
   end
   
   def create
-    raise 'no more groups can be created' unless Site.current.max_groups.nil? or Group.count < Site.current.max_groups
-    photo = params[:group].delete(:photo)
-    params[:group].cleanse 'address'
-    @group = Group.new(params[:group])
-    @group.creator = @logged_in
-    if @group.save
-      if @logged_in.admin?(:manage_groups)
-        @group.update_attribute(:approved, true)
-        flash[:notice] = 'The group has been created.'
+    if Group.can_create?
+      photo = params[:group].delete(:photo)
+      params[:group].cleanse 'address'
+      @group = Group.new(params[:group])
+      @group.creator = @logged_in
+      if @group.save
+        if @logged_in.admin?(:manage_groups)
+          @group.update_attribute(:approved, true)
+          flash[:notice] = I18n.t('groups.created')
+        else
+          @group.memberships.create(:person => @logged_in, :admin => true)
+          flash[:notice] = I18n.t('groups.created_pending_approval')
+        end
+        @group.photo = photo
+        redirect_to @group
       else
-        @group.memberships.create(:person => @logged_in, :admin => true)
-        flash[:notice] = 'Your group has been created and is pending approval.'
+        @categories = Group.categories.keys
+        render :action => 'new'
       end
-      @group.photo = photo
-      redirect_to @group
     else
-      @categories = Group.categories.keys
-      render :action => 'new'
+      render :text => I18n.t('groups.no_more'), :layout => true, :status => 401
     end
   end
   
@@ -118,7 +121,7 @@ class GroupsController < ApplicationController
       photo = params[:group].delete(:photo)
       params[:group].cleanse 'address'
       if @group.update_attributes(params[:group])
-        flash[:notice] = 'Group settings have been saved.'
+        flash[:notice] = I18n.t('groups.settings_saved')
         @group.photo = photo if photo and (photo.respond_to?(:read) or photo == 'remove' or photo.class.name == 'ActionController::TestUploadedFile')
         redirect_to @group
       else
@@ -133,7 +136,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     if @logged_in.can_edit?(@group)
       @group.destroy
-      flash[:notice] = 'Group deleted.'
+      flash[:notice] = I18n.t('groups.deleted')
       redirect_to groups_path
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401

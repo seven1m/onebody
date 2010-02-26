@@ -22,6 +22,10 @@ class Admin < ActiveRecord::Base
     (reports + Report.find_all_by_restricted(false)).uniq.sort_by &:name
   end
   
+  def self.people_count
+    all.inject(0) { |sum, admin| sum += admin.people.count; sum }
+  end
+  
   scope_by_site_id
   
   serialize :flags

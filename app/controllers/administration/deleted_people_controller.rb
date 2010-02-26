@@ -34,7 +34,7 @@ class Administration::DeletedPeopleController < ApplicationController
         person.update_attribute(:deleted, false) if person.deleted?
       elsif params[:purge]
         unless person.deleted?
-          render :text => 'Person not deleted.', :layout => true, :status => 401
+          render :text => I18n.t('people.not_deleted'), :layout => true, :status => 401
           return
         end
         person.destroy_for_real

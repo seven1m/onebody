@@ -140,4 +140,16 @@ class GroupsControllerTest < ActionController::TestCase
     assert new_group.approved?
   end
   
+  should "not allow creation of groups if the site has reached limit" do
+    Site.current.update_attribute(:max_groups, 1000)
+    post :create, {:group => {:name => 'test name 1', :category => 'test cat 1'}}, {:logged_in_id => @person.id}
+    assert_response :redirect
+    Site.current.update_attribute(:max_groups, 1)
+    post :create, {:group => {:name => 'test name 2', :category => 'test cat 2'}}, {:logged_in_id => @person.id}
+    assert_response :unauthorized
+    Site.current.update_attribute(:max_groups, nil)
+    post :create, {:group => {:name => 'test name 3', :category => 'test cat 3'}}, {:logged_in_id => @person.id}
+    assert_response :redirect
+  end
+  
 end

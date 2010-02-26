@@ -1,26 +1,26 @@
-<h1>API</h1>
+<h1><%= I18n.t('admin.api') %></h1>
 
 <% if @key %>
 
-  <p>Your API login details:</p>
+  <p><%= I18n.t('admin.api_login_details') %>:</p>
   <table>
     <tr>
-      <th style="text-align:right;">Username:</th>
+      <th style="text-align:right;"><%= I18n.t('admin.username') %>:</th>
       <td><%=h @logged_in.email %></td>
     </tr>
     <tr>
-      <th style="text-align:right;">Key:</th>
-      <td><code id="key" style="display:none;"><%=h @key %></code><%= link_to_function 'display', "Element.show('key');Element.hide('key_link');", :id => 'key_link' %></td>
+      <th style="text-align:right;"><%= I18n.t('admin.key') %>:</th>
+      <td><code id="key" style="display:none;"><%=h @key %></code><%= link_to_function I18n.t('admin.display'), "Element.show('key');Element.hide('key_link');", :id => 'key_link' %></td>
     <tr/>
   </table>
   
-  <p><%= link_to 'Generate', administration_api_key_path, :method => 'post', :confirm => 'Are you sure you want to invalidate this key and create a new one?' %>
-  a new API key or <%= link_to 'disable', administration_api_key_path, :method => 'delete', :confirm => 'Are you sure?' %> your key.</p>
+  <p><%= link_to I18n.t('admin.generate'), administration_api_key_path, :method => 'post', :confirm => I18n.t('admin.invalidate_confirmation') %>
+  <%= I18n.t('admin.new_api_or') %> <%= link_to 'disable', administration_api_key_path, :method => 'delete', :confirm => I18n.t('are_you_sure') %> <%= I18n.t('admin.your_key') %>.</p>
   
-  <h2>Help</h2>
+  <h2><%= I18n.t('Help') %></h2>
   
   <p>
-    To use the REST API with Ruby, you might do this:
+    <%= I18n.t('admin.rest_api_information') %>:
   </p>
   
   <pre>
@@ -39,8 +39,8 @@
 
 <% else %>
 
-  <p>You do not yet have an API key.
-  <%= link_to 'Enable', administration_api_key_path, :method => 'post', :confirm => 'Are you sure you want to enable your API key?' %>
-  your API key now.</p>
+  <p><%= I18n.t('admin.no_api_key') %>
+  <%= link_to I18n.t('admin.enable'), administration_api_key_path, :method => 'post', :confirm => I18n.t('admin.enable_api_confirmation') %>
+  <%= I18n.t('admin.your_key') %>.</p>
 
 <% end %>

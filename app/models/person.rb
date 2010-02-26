@@ -114,9 +114,9 @@ class Person < ActiveRecord::Base
   has_many :friendship_requests
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :relationships, :dependent => :delete_all
-  has_many :related_people, :class_name => 'Person', :through => :relationships
+  has_many :related_people, :class_name => 'Person', :through => :relationships, :source => :related
   has_many :inward_relationships, :class_name => 'Relationship', :foreign_key => 'related_id', :dependent => :delete_all
-  has_many :inward_related_people, :class_name => 'Person', :through => :inward_relationships
+  has_many :inward_related_people, :class_name => 'Person', :through => :inward_relationships, :source => :person
   has_many :prayer_requests, :order => 'created_at desc'
   has_many :attendance_records
   has_many :feeds
@@ -130,6 +130,7 @@ class Person < ActiveRecord::Base
   attr_protected nil
   
   named_scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
+  named_scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
     
   acts_as_password
   has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES
@@ -229,6 +230,10 @@ class Person < ActiveRecord::Base
     else
       val
     end
+  end
+  
+  def self.can_create?
+    Site.current.max_people.nil? or Person.can_sign_in.count < Site.current.max_people
   end
   
   def birthday_soon?
@@ -399,7 +404,11 @@ class Person < ActiveRecord::Base
   end
   
   def super_admin?
-    admin and admin.super_admin?
+    (admin and admin.super_admin?) or global_super_admin?
+  end
+  
+  def global_super_admin?
+    defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL.to_s.any? and email == GLOBAL_SUPER_ADMIN_EMAIL
   end
   
   def valid_email?
@@ -663,6 +672,7 @@ class Person < ActiveRecord::Base
   
   def update_donor
     Donortools::Persona.setup_connection
+    return unless adult?
     if donor = donortools_id && (Donortools::Persona.find(donortools_id) rescue nil)
       donor.names[0].first_name         = first_name
       donor.names[0].last_name          = last_name
@@ -721,6 +731,12 @@ class Person < ActiveRecord::Base
     self.donortools_id = donor.id
     self.synced_to_donortools = true
     save(false)
+  end
+  
+  def donortools_admin_url
+    if donortools_id
+      "#{Setting.get('services', 'donor_tools_url').sub(/\/$/, '')}/personas/#{donortools_id}/donations"
+    end
   end
   
   before_save :set_synced_to_donortools

@@ -48,6 +48,8 @@ class Group < ActiveRecord::Base
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
   belongs_to :site
   
+  named_scope :active, :conditions => {:hidden => false}
+  
   scope_by_site_id
   
   attr_accessible :name, :description, :meets, :location, :directions, :other_notes, :address, :members_send, :private, :category, :leader_id, :blog, :email, :prayer, :attendance, :gcal_private_link, :approval_required_to_join, :pictures
@@ -89,6 +91,10 @@ class Group < ActiveRecord::Base
   
   def inspect
     "<#{name}>"
+  end
+  
+  def self.can_create?
+    Site.current.max_groups.nil? or Group.active.count < Site.current.max_groups
   end
   
   def admin?(person, exclude_global_admins=false)
@@ -140,7 +146,7 @@ class Group < ActiveRecord::Base
     elsif Membership.column_names.include?('auto')
       memberships.find_all_by_auto(true).each { |m| m.destroy }
     end
-    if cm_api_list_id.to_s.any? and Setting.get(:services, :campaign_monitor_api_key).to_s.any?
+    if respond_to?(:cm_api_list_id) and cm_api_list_id.to_s.any? and Setting.get(:services, :campaign_monitor_api_key).to_s.any?
       sync_with_campaign_monitor
     end
   end

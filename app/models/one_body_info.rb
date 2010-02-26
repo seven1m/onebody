@@ -172,6 +172,10 @@ class OneBodyInfo
     "rake db:migrate RAILS_ENV=#{OneBodyInfo.setup_environment}"
   end
   
+  def available_locales
+    YAML.load_file(RAILS_ROOT + '/config/locales.yml')
+  end
+  
   def precache
     @install_method = nil;       install_method
     @this_version = nil;         this_version

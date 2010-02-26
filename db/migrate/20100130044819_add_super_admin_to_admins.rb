@@ -5,7 +5,7 @@ class AddSuperAdminToAdmins < ActiveRecord::Migration
     end
     Admin.reset_column_information
     Site.each do
-      Setting.get(:access, :super_admins).each do |email|
+      Setting.get(:access, :super_admins).to_a.each do |email|
         Person.find_all_by_email(email).each do |person|
           admin = Admin.create!(:super_admin => true)
           person.admin = admin

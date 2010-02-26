@@ -101,6 +101,7 @@ class Setting < ActiveRecord::Base
         SETTINGS[site_id][section] ||= {}
         SETTINGS[site_id][section][name] = setting.value
       end
+      SETTINGS['timestamp'] = Time.now
       SETTINGS
     end
     
@@ -147,6 +148,7 @@ class Setting < ActiveRecord::Base
       Dir[PLUGIN_SETTINGS_FILES].each do |path|
         Setting.update_from_yaml(path)
       end
+      Setting.precache_settings(true)
     end
     
     def update_site_from_params(id, params)

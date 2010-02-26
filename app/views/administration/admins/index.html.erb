@@ -1,21 +1,22 @@
 <% content_for :subnav do %>
-  <li><%= link_to 'Admin Home', admin_path %></li>
+  <li><%= link_to I18n.t('admin.home'), admin_path %></li>
 <% end %>
 
 <% content_for :sidebar do %>
   <p>
-    There are currently <%= pluralize @admin_count, 'administrator' %>.
+    <%= I18n.t('admin.admin_count', :count => @admin_count) %>
   </p>
   
-  <% if Site.current.max_admins.nil? or Admin.count < Site.current.max_admins %>
-  
+  <% if Site.current.max_admins and Admin.people_count >= Site.current.max_admins %>
+    <p><%= I18n.t('admin.max_admins') %></p>
+  <% else %>
     <%= form_remote_tag :url => search_path %>
       <%= hidden_field_tag :select_person, true %>
       <p>
-        Add an individual.<br/>
-        <label for="name">Name:</label> <%= text_field_tag 'name' %>
+        <%= I18n.t('admin.add_individual') %><br/>
+        <label for="name"><%= I18n.t('name') %>:</label> <%= text_field_tag 'name' %>
         <br/>
-        <%= submit_tag 'Add Person' %>
+        <%= submit_tag I18n.t('admin.add_person') %>
       </p>
     </form>
     
@@ -23,36 +24,35 @@
       <% form_tag(administration_admins_path) do %>
         <%= select_tag :template_id, options_for_select([['Individual', 0]] + @templates.map { |t| [t.template_name, t.id] }) %>
         <div id="results"></div>
-        <p><%= submit_tag 'Add Selected' %></p>
+        <p><%= submit_tag I18n.t('admin.add_selected') %></p>
       <% end %>
     </div>
     
     <% form_tag(administration_admins_path) do %>
       <p>
-        Create a new admin template.<br/>
-        <label for="template_name">Name:</label> <%= text_field_tag 'template_name' %>
+        <%= I18n.t('admin.new_admin_template') %><br/>
+        <label for="template_name"><%= I18n.t('name') %>:</label> <%= text_field_tag 'template_name' %>
         <br/>
-        <%= submit_tag 'Add Template' %><br/>
-        Templates allow you to group admins with identical privileges together.
+        <%= submit_tag I18n.t('admin.add_template') %><br/>
+        <%= I18n.t('admin.admin_template_description') %>
       </p>
     <% end %>
-    
   <% end %>
   
 <% end %>
 
-<h2>Administrators</h2>
+<h2><%= I18n.t('admin.administrators') %></h2>
 
 <% @admins.each do |admin| %>
   <div style="margin-bottom:3px;">
-    <%= link_to_function image_tag('plus.gif', :alt => 'show privileges', :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
+    <%= link_to_function image_tag('plus.gif', :alt => I18n.t('admin.show_privileges'), :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
     <% if admin.template_name %>
       <strong><%=h admin.template_name %></strong>
     <% else %>
       <%= link_to h(admin.person.name), admin.person %>
       <% if admin.super_admin? %>(super admin)<% end %>
     <% end %>
-    <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+    <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet' %>
     <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;margin-left:15px;">
       <% if admin.super_admin? %>
         <% if @logged_in.super_admin? %>
@@ -76,7 +76,7 @@
           <% admin.people.all(:order => 'last_name, first_name').each do |person| %>
             <br/>
             <%= link_to h(person.name), person %>
-            <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => 'Are you sure?', :class => 'discreet' %>
+            <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet' %>
           <% end %>
         <% end %>
         <% if @logged_in.super_admin? %>

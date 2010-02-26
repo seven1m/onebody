@@ -1,5 +1,8 @@
 class Donortools::Persona < ActiveResource::Base
   
+  SLEEP_BETWEEN_PUSHES = 0.25
+  SYNC_AT_A_TIME = 5
+  
   def update_phone_numbers(locals)
     # scenarios:
     # 1. ph exists remotely - do nothing
@@ -47,11 +50,14 @@ class Donortools::Persona < ActiveResource::Base
     end
     
     def update_all
+      return unless can_sync?
       setup_connection
-      Person.find_each(:conditions => {:synced_to_donortools => false, :deleted => false}) do |person|
-        next unless person.family and person.adult?
-        person.update_donor
-        sleep 0.5
+      Person.unsynced_to_donortools(:all, :include => :family).each_slice(SYNC_AT_A_TIME) do |people|
+        people.each do |person|
+          next unless person.family and person.adult?
+          person.update_donor
+        end
+        sleep SLEEP_BETWEEN_PUSHES
       end
     end
     

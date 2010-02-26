@@ -11,7 +11,7 @@ class FamiliesController < ApplicationController
           if @families.any?
             render :xml  => @families.to_xml(:include => [:people], :except => %w(site_id))
           else
-            flash[:warning] = 'No more records.'
+            flash[:warning] = I18n.t('No_more_records')
             redirect_to people_path
           end
         end
@@ -19,7 +19,7 @@ class FamiliesController < ApplicationController
           if @families.any?
             render :text => @families.to_csv_mine(:except => %w(site_id))
           else
-            flash[:warning] = 'No more records.'
+            flash[:warning] = I18n.t('No_more_records')
             redirect_to people_path
           end
         end
@@ -54,7 +54,7 @@ class FamiliesController < ApplicationController
         end
       end
     else
-      render :text => 'Family not found.', :status => 404
+      render :text => I18n.t('families.not_found'), :status => 404
     end
   end
   
@@ -88,16 +88,16 @@ class FamiliesController < ApplicationController
     @family = Family.find(params[:id])
     if @family.update_attributes(params[:family])
       respond_to do |format|
-        format.html { flash[:notice] = 'Family saved.'; redirect_to params[:redirect_to] || @family }
+        format.html { flash[:notice] = I18n.t('families.saved'); redirect_to params[:redirect_to] || @family }
         format.xml  { render :xml => @family.to_xml } if can_export?
       end
     else
       respond_to do |format|
-        format.html { flash[:warning] = 'There were errors.'; redirect_to params[:redirect_to] || @family }
+        format.html { flash[:warning] = I18n.t('There_were_errors'); redirect_to params[:redirect_to] || @family }
         format.xml  { render :xml => @family.errors, :status => :unprocessable_entity } if can_export?
         format.js do # only used by barcode entry right now
           render :update do |page|
-            page.replace_html :notice, "There were errors:<br/>#{@family.errors.full_messages.join('; ')}"
+            page.replace_html :notice, I18n.t('There_were_errors') + ":<br/>#{@family.errors.full_messages.join('; ')}"
             page[:notice].show
           end
         end
@@ -108,7 +108,7 @@ class FamiliesController < ApplicationController
   def destroy
     @family = Family.find(params[:id])
     if @family == @logged_in.family
-      flash[:warning] = 'You cannot delete your own family.'
+      flash[:warning] = I18n.t('families.cannot_delete_your_own')
       redirect_to @family
     else
       @family.destroy
@@ -130,11 +130,11 @@ class FamiliesController < ApplicationController
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if Family.connection.adapter_name == 'MySQL'
         ids = params[:hash][:legacy_id].to_s.split(',')
-        raise 'Too many at once' if ids.length > 1000
+        raise I18n.t('families.too_many') if ids.length > 1000
         hashes = Family.hashify(:legacy_ids => ids, :attributes => params[:hash][:attrs].split(','), :debug => params[:hash][:debug])
         render :xml => hashes
       else
-        render :text => 'This method is only available in a MySQL environment.', :status => 500
+        render :text => I18n.t('families.only_in_mysql'), :status => 500
       end
     else
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401

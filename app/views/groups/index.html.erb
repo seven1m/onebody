@@ -1,22 +1,22 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('plus.png', :alt => 'Add Group', :class => 'icon') + ' Add Group', new_group_path %></li>
+  <li><%= link_to image_tag('plus.png', :alt => I18n.t('groups.add_group'), :class => 'icon') + ' ' + I18n.t('groups.add_group'), new_group_path %></li>
 <% end %>
 
 <% if @unapproved_groups.any? %>
   <p class="highlight">
-    The following <%= @unapproved_groups.length == 1 ? 'group is' : 'groups are' %>
-    pending approval: <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(g)) }.join(', ') %>
+    <%= I18n.t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %>
+    <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(g)) }.join(', ') %>
   </p>
 <% end %>
 
 <table>
   <tr>
     <td style="padding-right:25px;">
-      <h2 style="border:none;">Your Groups</h2>
+      <h2 style="border:none;"><%= I18n.t('groups.your_groups') %></h2>
       <%= render :partial => 'person_groups' %>
     </td>
     <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;">
-      <h2 style="border:none;">Browse By Category</h2>
+      <h2 style="border:none;"><%= I18n.t('search.browse_by_category') %></h2>
       <ul>
         <% @categories.each do |category, group_count| %>
           <li>
@@ -27,19 +27,19 @@
       </ul>
     </td>
     <td style="padding-left:25px;border-left:1px dotted #ccc;">
-      <h2 style="border:none;">Search By Name</h2>
+      <h2 style="border:none;"><%= I18n.t('search.search_by_name') %></h2>
       <%= form_tag(groups_path, :method => 'get', :style => 'border:none;') %>
         <p><%= text_field_tag :name, nil, :style => 'width:120px;' %>
-          <input type="submit" value="Search" style="width:120px;"/></p>
+          <input type="submit" value="<%= I18n.t('search.search') %>" style="width:120px;"/></p>
       </form>
 
-      <h2 style="border-top:1px dotted #ccc;border-bottom:none;padding-top:20px;">Create a Group</h2>
+      <h2 style="border-top:1px dotted #ccc;border-bottom:none;padding-top:20px;"><%= I18n.t('groups.create_a_group') %></h2>
       <p>
-        If you can't find the group you're looking for, create it!
+        <%= I18n.t('groups.if_cant_find_create_it') %>
       </p>
       <p>
-        <%= link_to image_tag('add_small.gif', :alt => 'Create a group.', :class => 'icon'), new_group_path %>
-        <%= link_to 'Create a Group', new_group_path %>
+        <%= link_to image_tag('add_small.gif', :alt => I18n.t('groups.create_a_group'), :class => 'icon'), new_group_path %>
+        <%= link_to I18n.t('groups.create_a_group'), new_group_path %>
       </p>
     </td>
   </tr>

@@ -1,4 +1,4 @@
-<h1><%=h @person.name_possessive %> Groupies</h1>
+<h1><%=h @person.name_possessive %> <%= I18n.t('groups.groupies') %></h1>
 
 <% if @people.any? %>
   <ul style="list-style-type:none;">
@@ -12,5 +12,5 @@
     <% end %>
   </ul>
 <% else %>
-  <p class="highlight">Nobody yet!</p>
+  <p class="highlight"><%= I18n.t('groups.nobody_yet') %>!</p>
 <% end %>
