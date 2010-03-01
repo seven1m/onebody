@@ -20,6 +20,7 @@ pt:
   There_was_an_error: Houve um erro.
   There_were_errors: Houveram erros.
   To: Para
+  You: Você
   are_you_sure: "Você tem certeza?"
   are_you_sure_cannot_be_undone: Você tem certeza? Isto não pode ser desfeito!
   back_to: Voltar para
@@ -290,21 +291,26 @@ pt:
     add_person: Adicionar Pessoa
     add_selected: Adicionar Selecionado
     add_template: Adicionar Modelo
+    alerts: Alertas
     already_admin: "{{name}} já é um admin."
     api: API
     api_login_details: Seu detalhe de login da API
+    customization: Customização
     demote_to_standard_admin: "Rebaixar para admin padrão."
+    deleted_records: Registros Deletados
+    deleted_records_manage: Gerenciar pessoas e famílias deletadas.
     display: mostrar
     enable: Habilitar
     enable_api_confirmation: Você tem certeza que deseja remover a sua chave de API?
     emails:
       alert: Esta seção é útil se você sincroniza seus dados de uma fonte de dados externa utilizando o Agente de Atualização. Se você não o utiliza, você pode ignorar esta lista.
-      changed_adresses: Endereços de Email Alterados
+      changed_addresses: Endereços de Email Alterados
       clear_flags: Limpar Marcações
       description: Quando um usuário muda o seu endereço de email online, uma marcação é feita e as sincronizações subsequêntes não podem mudar o endereço de email de volta até que a marcação for limpa. Para limpar a marcação, simplesmente configure o endereço de email do usuário na sua fonte de dados externa para a mesma listada abaixo e então execute o seu processo de sincronização (ou espere que ele seja executado no próximo agendamento). Alternativamente, você pode limpar a marcação manualmente para permitir que o processo de sincronização atualize o valor como normalmente o faria.
       no_records: Não há registros com o endereço de email alterado.
     error_saving: Houve um erro ao salvar a mudança.
-    file:
+    export_data: Exportar Dados
+    files:
       assets: Arquivos
       back_to_theme_editor: voltar para o editor de tema
       enter_filename: Entre com um nome de arquivo (pode somente conter a-z, underscore, e ponto)
@@ -316,12 +322,16 @@ pt:
     generate: Gerar
     group_membership_requests: Requisições de Afiliação em Grupo
     home: Início Admin
+    import_data: Importar Dados
+    import_data_description: Importar dados de pessoas de um arquivo separado por vírgulas (CSV).
     invalidate_confirmation: Você tem certeza que deseja invalidar esta chave e criar uma nova?
     key: Chave
+    log: Log
+    log_review: Revisar o log.
     logo:
-      name: Logotipo
       delete: deletar logotipo
       format_information: Um gif ou png transparente ficará melhor.
+      logo: Logotipo
       size_information: Carregue uma imagem abaixo. Ela será redimensionada para não ser maior que 400x80.
       upload: Carregar Logotipo
     max_admins: Você está atualmente utilizando o limite de administradores para o seu plano. Por favor <a href="http://beonebody.com">atualize</a> o seu plano para adicionar mais administradores.
@@ -330,6 +340,10 @@ pt:
     new_api_or: a nova chave de API ou
     no_api_key: Você não tem uma chave de API.
     no_more_admins: Não são permitidos mais admins.
+    page_number_when_prompted: 
+      one: Entre com o número da página quando solicidado ({{count}} registro por página).
+      other: Entre com o número da página quando solicidado ({{count}} registros por página).
+    pages: Páginas
     people_not_synced_to_donortools_count:
       one: "1 pessoas está fora de sincronia com o Donor Tools."
       other: "{{count}} pessoas estão fora de sincronia com o Donor Tools."
@@ -342,6 +356,8 @@ pt:
       enabled: Habilitado
       disabled: Desabilitado
       one_per_line: "(um por linha)"
+      reload: Recarregar Configurações
+      reload_message: If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.
       save: Salvar Configurações
       settings: Configurações
     show_privileges: mostrar privilégios
@@ -350,16 +366,20 @@ pt:
       duration: Duração
       error: Erro
       id: ID
+      incomplete: Incompleto
+      last: Última Sincronização
       legacy_id: ID Legado
       name: Nome
       none: Nada ainda.
       operation: Operação
       rate: Categoria
       results: Resultados de Sincronização
+      review_results: Revisar resultados de sincronizações anteriores.
       start: Começo
       status: Status
       success: Sucesso
       sync: Sincronização
+      sync_error: erro de sincronização
       syncs: Sincronizações
       type: Tipo
     themes:
@@ -372,8 +392,21 @@ pt:
       reset: Para resetar o seu tema customizado e voltar à aparência padrão, limpe a caixa de texto abaixo e salve as mudanças.
       save_preview: Salvar Mudanças e Pré-Visualizar
       syntax_description: A sintaxe do modelo é <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Partes especiais do modelo para inserir são
+      theme: Tema
+    updates:
+      changed_email:
+        one: "{{count}} endereço de email alterado"
+        other: "{{count}} endereços de email alterados"
+      pending:
+        one: "{{count}} atualização pendente"
+        other: "{{count}} atualizações pendentes"
+      per_day: Atualizações por Dia
+      updates: Atualizações
     username: Nome de Usuário
     view_contributions: "Visualizar e gerenciar contribuições."
+    welcome_message: Bem vindo, {{name}}.
+    you_are_admin: You are an administrator with the privileges
+    you_are_super: You are a super administrator.
     your_key: sua chave
 
   accounts:
@@ -480,6 +513,8 @@ pt:
     group: Grupo
     group_missing: grupo faltando
     id: ID
+    last_date: Última data
+    manage_and_export: Gerenciar e exportar frequências.
     name: Nome
     name_unknown: nome desconhecido
     next_date: próxima data
@@ -487,6 +522,10 @@ pt:
     not_enabled: Registro de frequência não está habilitado para este grupo.
     prev_date: data anterior
     recorded_time: Horário Gravado
+    records_from_count:
+      one: "{{count}} registro de frequência de"
+      other: "{{count}} registros de frequência de"
+    records_per_day: Registros de Frequência por Dia
     save: Salvar Frequência
     saved: Frequência salva.
     wrong_date_format: Por favor digite a data no formato AAAA/MM/DD.
@@ -562,6 +601,7 @@ pt:
     edit: Editar Família
     edit_person: Editar Pessoa
     existing_person: Pessoa Existente
+    families: Famílias
     find_on_map: Encontrar endereço no mapa
     last_name: Último Nome da Família
     last_name_example: Silva
@@ -650,7 +690,7 @@ pt:
     attendance: Frequência
     back_to: voltar ao grupo
     back_to_homepage: Voltar à Página Inicial do Grupo
-    batch_edit_groups: Editar Grupos em Lotes
+    batch_edit_groups: Editar Grupos em Lote
     by_allow_anyone_to_join: Ao permitir que qualquer um entre neste grupo sem que um administrador aprove, potencialmente qualquer usuário do site pode ler mensagens no grupo "privado".
     calendar_help: No seu Calendário do Google, nas Configurações de Calendário, copie o seu Link de XML "Privado" e cole nesta caixa de textos para mostrar o calendário na página do grupo.
     calendar_private_link: Link Privado do Calendário do Google
@@ -706,6 +746,7 @@ pt:
     leader: Líder
     leader_id: Id do Líder
     leave_this_group: Deixar este Grupo
+    linked: Grupos Conectados
     location: Local
     location_address: Local e Endereço
     meets: Encontros
@@ -727,6 +768,12 @@ pt:
     other_notes: Outras Notas
     parents_of: "Pais de:"
     pending_approval: "{{following}} aprovação"
+    pending_approval_count:
+      one: "{{count}} grupo pendente de aprovação"
+      other: "{{count}} grupos pendentes de aprovação"
+    pending_membership_request_count:
+      one: "{{count}} requisição de associação pendente"
+      other: "{{count}} requisições de associação pendentes"
     privacy_security: Privacidade e Segurança
     private_group: Grupo Privado
     promote: Promover
@@ -751,6 +798,7 @@ pt:
     this_group_is_private: Este grupo é particular. Somente pessoas participantes podem visualizar as mensagens.
     this_group_maintained_by_staff: Este grupo é mantido pelo staff.
     this_picture: Esta Foto
+    types: Tipos de Grupos
     user_settings_saved: Configurações de usuário salvas.
     view_group: Visualizar Grupo
     yes_do_it: Sim, faça.
@@ -799,6 +847,7 @@ pt:
     file_missing: arquivo faltando
     flag_cleared: Marcações limpas.
     from: De
+    group: Grupo
     group_message_to: Mensagem de Grupo para {{group}}
     in: em
     message: Mensagem
@@ -813,11 +862,13 @@ pt:
     not_found: Mensagem não encontrada.
     posted_by: postado por
     preview: Pré-visualização
+    private: Particular
     reply: Responder
     reply_by: Resposta por
     reply_to_this_message: Responder à esta mensagem
     send_message: Enviar Mensagem
     sent: A sua mensagem foi enviada.
+    sent_per_day: Mensagens Enviadas Por Dia
     some_quoted_text_is_hidden: Algumas citações nesta mensagem estão ocultas;
     subject: Assunto
     this_group_is_not_private: Este grupo não é particular, então as mensagens enviadas aqui serão visíveis por pessoas que não são membros deste grupo.
@@ -826,6 +877,7 @@ pt:
     this_will_send_a_private_email: Isto irá enviar um email <em>particular</em>.
     to_show_the_entire_message: para mostrar a mensagem inteira.
     unknown_type: Tipo de mensagem desconhecido.
+    wall: Parede de Recados
     wall_not_found: Parede de Recados não encontrada
     wall_post: Mensagem na Parede de Recados
 
@@ -1022,6 +1074,9 @@ pt:
     pending_approval: aprovações pendentes
     pending_updates: Atualizações Pendentes
     people: Pessoas
+    person:
+      one: Pessoa
+      other: Pessoas
     person_isnt_any_groups: "{{person}} não está em nenhum grupo agora."
     person_type: Tipo de Pessoa
     pic: Foto
@@ -1377,6 +1432,7 @@ pt:
     is_not_nil: não é nulo
     less_than: menor que
     less_than_or_equal: menor ou igual que
+    manage_and_run: Manage and run reports.
     matches_case_insensitive: igual (considerando maiúsculas e minúsculas)
     matches_case_sensitive: igual
     move_down: Mover para baixo
@@ -1391,6 +1447,7 @@ pt:
     restricted: Restrito
     restricted_note: Todos os admins com o privilégio de 'executar relatórios' poderão executar este relatório.
     run: executar
+    run_reports: Executar Relatórios.
     save_and_continue_editing: Salvar e Continuar Executando
     save_and_run_report: Salvar e Executar o Relatório
     separate_values: "separe os valores com um traço vertical |"

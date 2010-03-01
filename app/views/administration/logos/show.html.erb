@@ -1,8 +1,8 @@
-<h1><%= I18n.t('admin.logo.name') %></h1>
+<h1><%= I18n.t('admin.logo.logo') %></h1>
 
 <% if @filename.to_s.any? %>
   <p>
-    <%= image_tag "/assets/site#{Site.current.id}/#{@filename}", :alt => I18n.t('admin.logo.name') %><br/>
+    <%= image_tag "/assets/site#{Site.current.id}/#{@filename}", :alt => I18n.t('admin.logo.logo') %><br/>
     <%= link_to I18n.t('admin.logo.delete'), administration_logo_path, :method => 'delete', :confirm => I18n.t('are_you_sure') %>
   </p>
 <% end %>

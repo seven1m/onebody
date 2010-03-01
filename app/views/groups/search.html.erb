@@ -38,7 +38,7 @@
             <%= I18n.t('people.email') %>: <%= mail_to u(group.full_address), h(group.full_address) %>
           <% end %>
           <br/>
-          <%= pluralize(group.people.count, 'person', 'people') %>
+          <%= I18n.t('people.person', :count => group.people.count) %>
         </td>
       </tr>
     <% end %>

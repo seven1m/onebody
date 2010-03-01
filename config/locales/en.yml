@@ -20,6 +20,7 @@ en:
   There_was_an_error: There was an error.
   There_were_errors: There were errors.
   To: To
+  You: You
   are_you_sure: Are you sure?
   are_you_sure_cannot_be_undone: Are you sure? This cannot be undone!
   back_to: Back to
@@ -290,21 +291,26 @@ en:
     add_person: Add Person
     add_selected: Add Selected
     add_template: Add Template
+    alerts: Alerts
     already_admin: "{{name}} is already an admin."
     api: API
     api_login_details: Your API login details
+    customization: Customization
     demote_to_standard_admin: "Demote to standard admin."
+    deleted_records: Deleted Records
+    deleted_records_manage: Manage deleted people and families.
     display: display
     enable: Enable
     enable_api_confirmation: Are you sure you want to enable your API key?
     emails:
       alert: This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely ignore this list.
-      changed_adresses: Changed Email Addresses
+      changed_addresses: Changed Email Addresses
       clear_flags: Clear Flags
       description: When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time). Alternatively, you can clear the flag manually below to allow your sync process to update the value as usual.
       no_records: There are currently no records with the changed email address flag set.
     error_saving: There was an error saving the change.
-    file:
+    export_data: Export Data
+    files:
       assets: Assets
       back_to_theme_editor: back to theme editor
       enter_filename: Enter a filename (can only contain a-z, underscore, and period)
@@ -316,12 +322,16 @@ en:
     generate: Generate
     group_membership_requests: Group Membership Requests
     home: Admin Home
+    import_data: Import Data
+    import_data_description: Import people data from a Comma Separated Values (CSV) file.
     invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
     key: Key
+    log: Log
+    log_review: Review the log.
     logo:
-      name: Logo
       delete: delete logo
       format_information: A transparent gif or png will look the best.
+      logo: Logo
       size_information: Upload an image file below. It will be resized to be no larger than 400x80.
       upload: Upload Logo
     max_admins: You are currently at the limit for administrators for your selected plan. Please <a href="http://beonebody.com">upgrade</a> in order to add more administrators.
@@ -330,6 +340,10 @@ en:
     new_api_or: a new API key or
     no_api_key: You do not yet have an API key.
     no_more_admins: No more admins are allowed.
+    page_number_when_prompted: 
+      one: Enter the page number when prompted ({{count}} record per page).
+      other: Enter the page number when prompted ({{count}} records per page).
+    pages: Pages
     people_not_synced_to_donortools_count:
       one: "1 person is out of sync with Donor Tools."
       other: "{{count}} people are out of sync with Donor Tools."
@@ -342,6 +356,8 @@ en:
       enabled: Enabled
       disabled: Disabled
       one_per_line: "(one per line)"
+      reload: Reload Settings
+      reload_message: If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.
       save: Save Settings
       settings: Settings
     show_privileges: show privileges
@@ -350,16 +366,20 @@ en:
       duration: Duration
       error: Error
       id: ID
+      incomplete: Incomplete
+      last: Last Sync
       legacy_id: Legacy ID
       name: Name
       none: None yet.
       operation: Operation
       rate: Rate
       results: Sync Results
+      review_results: Review previous synchronization results.
       start: Start
       status: Status
       success: Success
       sync: Sync
+      sync_error: sync error
       syncs: Syncs
       type: Type
     themes:
@@ -372,8 +392,21 @@ en:
       reset: To reset your custom theme back to its default look, blank out the text box above and save changes.
       save_preview: Save Changes and Preview
       syntax_description: Template syntax is <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Special template parts to insert are
+      theme: Theme
+    updates:
+      changed_email:
+        one: "{{count}} changed email address"
+        other: "{{count}} changed email addresses"
+      pending:
+        one: "{{count}} pending update"
+        other: "{{count}} pending updates"
+      per_day: Updates Per Day
+      updates: Updates
     username: Username
     view_contributions: "View and manage contributions."
+    welcome_message: Welcome, {{name}}.
+    you_are_admin: You are an administrator with the privileges
+    you_are_super: You are a super administrator.
     your_key: your key
 
   accounts:
@@ -480,6 +513,8 @@ en:
     group: Group
     group_missing: group missing
     id: ID
+    last_date: Last date
+    manage_and_export: Manage and export attendance.
     name: Name
     name_unknown: name unknown
     next_date: next date
@@ -487,6 +522,10 @@ en:
     not_enabled: Attendance tracking is not enabled for this goup.
     prev_date: prev date
     recorded_time: Recorded Time
+    records_from_count:
+      one: "{{count}} attendance record from"
+      other: "{{count}} attendance records from"
+    records_per_day: Attendance Records Per Day
     save: Save Attendance
     saved: Attendance saved.
     wrong_date_format: Please enter the date as YYYY/MM/DD.
@@ -562,6 +601,7 @@ en:
     edit: Edit Family
     edit_person: Edit Person
     existing_person: Existing Person
+    families: Families
     find_on_map: Find address on map
     last_name: Family Last Name
     last_name_example: Doe
@@ -706,6 +746,7 @@ en:
     leader: Leader
     leader_id: Leader Id
     leave_this_group: Leave This Group
+    linked: Linked Groups
     location: Location
     location_address: Location and Address
     meets: Meets
@@ -727,6 +768,12 @@ en:
     other_notes: Other Notes
     parents_of: "Parents of:"
     pending_approval: "{{following}} approval"
+    pending_approval_count:
+      one: "{{count}} group pending approval"
+      other: "{{count}} groups pending approval"
+    pending_membership_request_count:
+      one: "{{count}} pending membership request"
+      other: "{{count}} pending membership requests"
     privacy_security: Privacy and Security
     private_group: Private Group
     promote: Promote
@@ -751,6 +798,7 @@ en:
     this_group_is_private: This group is private. Only people in this group can see its messages.
     this_group_maintained_by_staff: This group is maintained by office staff.
     this_picture: This Picture
+    types: Types of Groups
     user_settings_saved: User settings saved.
     view_group: View Group
     yes_do_it: Yes, do it.
@@ -799,6 +847,7 @@ en:
     file_missing: file missing
     flag_cleared: Flag(s) cleared.
     from: From
+    group: Group
     group_message_to: Group Message to {{group}}
     in: in
     message: Message
@@ -813,11 +862,13 @@ en:
     not_found: Message not found.
     posted_by: posted by
     preview: Preview
+    private: Private
     reply: Reply
     reply_by: Reply by
     reply_to_this_message: Reply to this message
     send_message: Send Message
     sent: Your message has been sent.
+    sent_per_day: Messages Sent Per Day
     some_quoted_text_is_hidden: Some quoted text in this message is hidden;
     subject: Subject
     this_group_is_not_private: This group is not private, so messages posted here will be visible by people who aren't members of this group.
@@ -826,6 +877,7 @@ en:
     this_will_send_a_private_email: This will send a <em>private</em> email.
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
+    wall: Wall
     wall_not_found: Wall not found
     wall_post: Wall Post
 
@@ -1022,6 +1074,9 @@ en:
     pending_approval: pending approval
     pending_updates: Pending Updates
     people: People
+    person:
+      one: Person
+      other: People
     person_isnt_any_groups: "{{person}} isn't in any groups right now."
     person_type: Person Type
     pic: Pic
@@ -1377,6 +1432,7 @@ en:
     is_not_nil: is not nil
     less_than: less than
     less_than_or_equal: less than or equal
+    manage_and_run: Manage and run reports.
     matches_case_insensitive: matches (case insensitive)
     matches_case_sensitive: matches
     move_down: Move Down
@@ -1391,6 +1447,7 @@ en:
     restricted: Restricted
     restricted_note: All admins with the 'run reports' privilege will be able to run this report.
     run: run
+    run_reports: Run reports.
     save_and_continue_editing: Save and Continue Editing
     save_and_run_report: Save and Run Report
     separate_values: "separate values with vertical pipe |"

@@ -28,7 +28,7 @@
 </table>
 
 <% unless @syncs.any? %>
-  <p><em><%= I18n.t('admin.syncs.none_yet') %></em></p>
+  <p><em><%= I18n.t('admin.syncs.none') %></em></p>
 <% end %>
 
 <%= will_paginate @syncs %>
