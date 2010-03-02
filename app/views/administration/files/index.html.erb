@@ -1,33 +1,33 @@
-<h1><%= I18n.t('admin.files.assets') %></h1>
+<h1><%= I18n.t('admin.file.assets') %></h1>
 
 <p>
-  <%= link_to '&laquo; ' + I18n.t('admin.files.back_to_theme_editor'), administration_theme_path %>
+  <%= link_to '&laquo; ' + I18n.t('admin.file.back_to_theme_editor'), administration_theme_path %>
 </p>
 
 <table>
-  <tr><th><%= I18n.t('admin.files.filename') %></th><th><%= I18n.t('admin.files.size') %></th></tr>
+  <tr><th><%= I18n.t('admin.file.filename') %></th><th><%= I18n.t('admin.file.size') %></th></tr>
   <% @files.each do |file| %>
     <tr>
       <td><%= link_to h(file[:filename]), file[:url] %></td>
       <td><%= number_to_human_size file[:size] %></td>
-      <td><%= link_to <%= I18n.t('delete') %>, administration_file_path(file[:filename]), :method => :delete, :confirm => <%= I18n.t('are_you_sure') %>, :class => 'discreet' %></td>
+      <td><%= link_to I18n.t('delete'), administration_file_path(file[:filename]), :method => :delete, :confirm => I18n.t('are_you_sure'), :class => 'discreet' %></td>
     </tr>
   <% end %>
   <% if @files.empty? %>
-    <tr><td colspan="2"><em><%= I18n.t('admin.files.no_files') %></em></td></tr>
+    <tr><td colspan="2"><em><%= I18n.t('admin.file.no_files') %></em></td></tr>
   <% end %>
 </table>
 
 <% form_tag(administration_files_path, :method => :post, :multipart => true) do %>
   <p>
-    <%= I18n.t('admin.files.upload_new') %>:<br/>
+    <%= I18n.t('admin.file.upload_new') %>:<br/>
     <%= file_field_tag :file %>
   </p>
   <p>
-    <%= I18n.t('admin.files.enter_filename') %>:<br/>
+    <%= I18n.t('admin.file.enter_filename') %>:<br/>
     <%= text_field_tag :filename %>
   </p>
   <p>
-    <%= submit_tag I18n.t('admin.files.upload') %>
+    <%= submit_tag I18n.t('admin.file.upload') %>
   </p>
 <% end %>
