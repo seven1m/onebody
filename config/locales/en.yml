@@ -475,6 +475,7 @@ en:
     adult: Adult
     attendance: Attendance
     class_time: Class Time
+    clear_search: clear
     date: Date
     export: Export to File
     group: Group
@@ -489,6 +490,8 @@ en:
     recorded_time: Recorded Time
     save: Save Attendance
     saved: Attendance saved.
+    Search: Search
+    search_person: Search by Person Name
     wrong_date_format: Please enter the date as YYYY/MM/DD.
 
   calendars:

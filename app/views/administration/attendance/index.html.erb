@@ -78,6 +78,16 @@
 <% end %>
 
 <p>
+  <% form_tag administration_attendance_index_path, :method => :get do %>
+    <%= hidden_field_tag :attended_at, @attended_at %>
+    <%= label_tag :person_name, I18n.t('attendance.search_person') + ':', :class => 'inline' %>
+    <%= text_field_tag :person_name, params[:person_name], :size => 15 %>
+    <%= submit_tag I18n.t('attendance.Search') %>
+    <% if params[:person_name] %><%= link_to I18n.t('attendance.clear_search'), administration_attendance_index_path(:attended_at => @attended_at) %><% end %>
+  <% end %>
+</p>
+
+<p>
   <%= link_to '&laquo; ' + I18n.t('attendance.prev_date'), prev_administration_attendance_path(:attended_at => @attended_at) %> |
   <%= link_to I18n.t('attendance.next_date') + ' &raquo;', next_administration_attendance_path(:attended_at => @attended_at) %>
 </p>

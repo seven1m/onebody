@@ -19,6 +19,9 @@ class Administration::AttendanceController < ApplicationController
       conditions.add_condition(["group_id = ?", @group.id])
       params[:sort] ||= 'attendance_records.last_name,attendance_records.first_name'
     end
+    if params[:person_name]
+      conditions.add_condition(["#{sql_concat 'attendance_records.first_name', %q(' '), 'attendance_records.last_name'} like ?", "%#{params[:person_name]}%"])
+    end
     unless params[:sort].to_s.split(',').all? { |col| VALID_SORT_COLS.include?(col) }
       params[:sort] = 'groups.name'
     end
