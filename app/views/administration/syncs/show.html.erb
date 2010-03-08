@@ -1,11 +1,11 @@
 <% content_for :subnav do %>
-  <li><%= link_to <%= I18n.t('admin.syncs.syncs') %>, administration_syncs_path %></li>
+  <li><%= link_to I18n.t('admin.syncs.syncs'), administration_syncs_path %></li>
 <% end %>
 
 <h1><%= I18n.t('admin.syncs.syncs') %> <%=h @sync.created_at.to_s %></h1>
 
 <% if @counts %>
-  <%= image_tag pie_chart_url(@counts, :width => 400, :height => 200, :title =>I18n.t('admin.syncs.results')), :alt => I18n.t('admin.syncs.results') %>
+  <%= image_tag pie_chart_url(@counts, :width => 400, :height => 200, :title => I18n.t('admin.syncs.results')), :alt => I18n.t('admin.syncs.results') %>
 <% end %>
 
 <%= will_paginate @items %>
