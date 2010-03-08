@@ -2,6 +2,7 @@ class OneBodyInfo
   RELEASED_VERSION_URL = 'http://github.com/seven1m/onebody/tree/stable/VERSION?raw=true'
   DEV_VERSION_URL = 'http://github.com/seven1m/onebody/tree/master/VERSION?raw=true'
   GIT_REVISION_YAML_URL = 'http://github.com/api/v1/yaml/seven1m/onebody/commits/master'
+  PHONE_HOME_FOR_VERSION_INFO = true
   
   cattr_accessor :setup_environment
   
