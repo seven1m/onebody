@@ -508,6 +508,7 @@ pt:
     adult: Adulto
     attendance: Frequência
     class_time: Horário
+    clear_search: limpar
     date: Data
     export: Exportar para um arquivo
     group: Grupo
@@ -528,6 +529,8 @@ pt:
     records_per_day: Registros de Frequência por Dia
     save: Salvar Frequência
     saved: Frequência salva.
+    Search: Buscar
+    search_person: Buscar pelo Nome da Pessoa
     wrong_date_format: Por favor digite a data no formato AAAA/MM/DD.
 
   calendars:
