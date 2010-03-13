@@ -12,7 +12,7 @@ class Person
 
         x = pdf.absolute_left_margin
         y = pdf.absolute_top_margin + 30
-        pdf.add_text x, y, "#{Setting.get(:name, :community)} Directory\n\n", size
+        pdf.add_text x, y, "#{Setting.get(:name, :community)} #{I18n.t('nav.directory')}\n\n", size
 
         x = pdf.absolute_left_margin
         w = pdf.absolute_right_margin
@@ -34,7 +34,7 @@ class Person
       w = pdf.text_width('Directory', s)
       x = pdf.margin_x_middle - w/2 # centered
       y =  pdf.absolute_top_margin - 200
-      pdf.add_text x, y, 'Directory', s
+      pdf.add_text x, y, I18n.t('nav.directory'), s
 
       # disable for now, until we can ensure 16bit pngs don't blow up
       # if Setting.get(:appearance, :logo).to_s.any?
@@ -44,7 +44,7 @@ class Person
       #   end
       # end
 
-      t = "Created especially for #{self.name} on #{Date.today.strftime '%B %e, %Y'}"
+      t = I18n.t('printable_directories.created_for', { :name => self.name, :date => (Date.today.strftime '%B %e, %Y') } )
       s = 14
       w = pdf.text_width(t, s)
       x = pdf.margin_x_middle - w/2 # centered

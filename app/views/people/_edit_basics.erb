@@ -63,19 +63,19 @@
     </div>
   <% end %>
   <%= hidden_field_tag :anchor, 'basics' %>
-  <%= form.label :first_name %>   <%= form.text_field :first_name %><br/>
-  <%= form.label :last_name %>    <%= form.text_field :last_name %><br/>
-  <%= form.label :suffix %>       <%= form.select :suffix, [nil]+Setting.get(:system, :suffixes) %><br/>
-  <%= form.label :gender %>       <%= form.select :gender, [nil, 'Male', 'Female'] %><br/>
-  <%= form.label :email %>        <%= form.text_field :email %><br/>
-  <%= form.label :mobile_phone %> <%= form.phone_field :mobile_phone %><br/>
-  <%= form.label :work_phone %>   <%= form.phone_field :work_phone %><br/>
-  <%= form.label :fax %>          <%= form.phone_field :fax %><br/>
+  <%= form.label :first_name, I18n.t('accounts.first_name') %>   <%= form.text_field :first_name %><br/>
+  <%= form.label :last_name, I18n.t('accounts.last_name') %>    <%= form.text_field :last_name %><br/>
+  <%= form.label :suffix, I18n.t('people.suffix') %>       <%= form.select :suffix, [nil]+Setting.get(:system, :suffixes) %><br/>
+  <%= form.label :gender, I18n.t('accounts.gender') %>       <%= form.select :gender, [['', nil], [I18n.t('search.male'), 'Male'], [I18n.t('search.female'), 'Female']] %><br/>
+  <%= form.label :email, I18n.t('people.email') %>        <%= form.text_field :email %><br/>
+  <%= form.label :mobile_phone, I18n.t('privacies.mobile_phone') %> <%= form.phone_field :mobile_phone %><br/>
+  <%= form.label :work_phone, I18n.t('privacies.work_phone') %>   <%= form.phone_field :work_phone %><br/>
+  <%= form.label :fax, I18n.t('privacies.fax') %>          <%= form.phone_field :fax %><br/>
   <% if @logged_in.admin?(:edit_profiles) %>
-    <%= form.label :child %>      <%= form.select :child, [['Determine by birthday', nil], ['Yes', true], ['No', false]] %><br/>  
+    <%= form.label :child, I18n.t('people.child') %>      <%= form.select :child, [[I18n.t('people.determine_by_birthday'), nil], [I18n.t('Answer_yes'), true], [I18n.t('Answer_no'), false]] %><br/>  
   <% end %>
-  <%= form.label :birthday %>     <%= form.date_field :birthday %><br/>
-  <%= form.label :anniversary %>  <%= form.date_field :anniversary %>
+  <%= form.label :birthday, I18n.t('privacies.birthday') %>     <%= form.date_field :birthday %><br/>
+  <%= form.label :anniversary, I18n.t('privacies.anniversary') %>  <%= form.date_field :anniversary %>
   <%= render :partial => 'edit_custom_fields' %>
   <% unless @person.new_record? %>
     <% fields_for :family, @family do |family| %>

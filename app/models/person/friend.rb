@@ -5,18 +5,18 @@ class Person
         # already requested by other person
         self.friendships.create! :friend => person
         self.friendship_requests.find_by_from_id(person.id).destroy
-        "#{person.name} has been added as a friend."
+        I18n.t('friends.added_as_friend', :name => person.name)
       elsif self.can_request_friendship_with?(person)
         # clean up past rejections
         FriendshipRequest.delete_all ['person_id = ? and from_id = ? and rejected = ?', self.id, person.id, true]
         person.friendship_requests.create!(:from => self)
-        "A friend request has been sent to #{person.name}."
+        I18n.t('friends.request_sent', :name => person.name)
       elsif self.friendship_waiting_on?(person)
-        "A friend request is already pending with #{person.name}."
+        I18n.t('friends.already_pending', :name => person.name)
       elsif self.friendship_rejected_by?(person)
-        "You cannot request friendship with #{person.name}."
+        I18n.t('friends.cannot_request', :name => person.name)
       else
-        raise 'unknown state'
+        raise I18n.t('friends.unknown_state')
       end
     end
 

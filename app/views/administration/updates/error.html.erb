@@ -1,11 +1,10 @@
-<h1>Error Updating Record</h1>
+<h1><%= I18n.t('import.error_importing') %></h1>
 
 <p>
-  There was at least one error while attempting to update records in the database. Please correct the errors,
-  then return to the <%= link_to 'Pending Updates', administration_updates_path %> interface to complete the process.
+  <%= I18n.t('import.error_updating_message', :url => administration_updates_path) %>
 </p>
 
-<h2><%= pluralize @update.errors.length, 'Error' %></h2>
+<h2><%= pluralize @update.errors.length, I18n.t('import.error') %></h2>
 
 <ul>
   <% @update.errors.full_messages.each do |error| %>
@@ -13,9 +12,9 @@
   <% end %>
 </ul>
 
-<h2>Records</h2>
+<h2><%= I18n.t('import.errors') %></h2>
 
 <ul>
-  <li>Person: <%= link_to "#{@update.person.name}",        @update.person        %></li>
-  <li>Family: <%= link_to "#{@update.person.family.name}", @update.person.family %></li>
+  <li><%= I18n.t('person') %>: <%= link_to "#{@update.person.name}",        @update.person        %></li>
+  <li><%= I18n.t('people.family') %>: <%= link_to "#{@update.person.family.name}", @update.person.family %></li>
 </ul>

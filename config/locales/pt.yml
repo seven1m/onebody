@@ -1,8 +1,8 @@
 pt:
 
   About: Sobre
-  answer_yes: "sim"
-  answer_no: "não"
+  Answer_yes: Sim
+  Answer_no: Não
   Change: Mude
   Changes_saved: Mudanças salvas.
   Delete: Deletar
@@ -21,6 +21,8 @@ pt:
   There_were_errors: Houveram erros.
   To: Para
   You: Você
+  answer_yes: "sim"
+  answer_no: "não"
   are_you_sure: "Você tem certeza?"
   are_you_sure_cannot_be_undone: Você tem certeza? Isto não pode ser desfeito!
   back_to: Voltar para
@@ -277,6 +279,8 @@ pt:
         header: 
           one: "Houve um erro ao salvar as mudanças."
           other: "Existem {{count}} erros ao salvar as mudanças."
+      messages:
+        record_invalid: "A validação falhou: {{errors}}"
 
   admin:
     admin: admin
@@ -665,7 +669,10 @@ pt:
     add_friend_are_you_sure: Você tem certeza? Um email será enviado para esta pessoa requisitando amizade.
     add_to_friends: Adicionar aos Amigos
     add_your_friends_to_profile: <a href="{{url}}">Adicionar seus amigos</a> à sua página de perfil!    
+    added_as_friend: "{{name}} foi adicionado(a) como seu amigo(a)."
+    already_pending: Um pedido de amizade já está pendente com {{name}}.
     can_rearrange_list: Você pode organizar os seus amigos clicando no ícone {{img}} e arrastando-os para cima/baixo com o seu mouse.
+    cannot_request: Você não pode fazer um pedido de amizade com {{name}}.
     confirm_email_will_be_sent: "Você tem certeza? Um email será enviado a essa pessoa com o convite de amizade."
     decline: Recusar Amigo
     friend_request_pending: pedido de amizade pendente
@@ -675,8 +682,10 @@ pt:
     personal_friends: "Amigos do(a) {{name}}"
     reorder_list: Reordenar esta lista arrastando.
     remove_from_friends: Remover dos Amigos
+    request_sent: Um pedido de amizade foi enviado para {{name}}.
     top_on_profile: O máximo de {{max_number}} amigos é mostrado na página de perfil.
     search_in_the_directory: Procurar por amigos no diretório
+    unknown_state: estado desconhecido
     you_have_pending_requests: Você tem <a href="{{url}}">pedidos de amizade</a>.
 
   groups:
@@ -813,6 +822,9 @@ pt:
     apply_settings_to_imports: "Aplicar as seguintes configurações para toda a importação:"
     attempt_match_existing_people: Tente encontrar pessoas existentes pelo nome se nenhum ID for incluído.
     completed_records: Registros Completados
+    error: Erro
+    error_updating: Erro ao atualizar registro.
+    error_updating_message: Houve pelo menos um erro ao tentar atualizar os registros no banco de dados. Por favor corriga os erros e então retorne à interface de <a href="{{url}}">Atualizações Pendentes</a> para completar o processo.
     errored_records: Registros com Erro
     first: Primeiro
     for_list_of_available_attributes: para uma lista de atributos disponíveis (nem todos os atributos são requeridos).
@@ -826,6 +838,8 @@ pt:
     only_first_records__will_be_imported: Somente os primeiros {{records}} serão importados. Para arquivos grandes, você deve dividir os registros em múltiplos arquivos, ou usar o <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> para importar uma grande quantidade de uma vez.
     people: Importar Pessoas
     record: registro
+    record_updated: Registro Atualizado.
+    records: Registros
     select_csv_file: Selecione um Arquivo Separado por Vírgulas (CSV) para importação com os nomes de atributos como a linha inicial.
     status: Status
     the_changes_will_be_made: As seguintes mudanças serão feitas. Somente os registros selecionados serão criados/atualizados.
@@ -1011,6 +1025,7 @@ pt:
     change_your_picture: Mude a sua Foto
     changes_must_be_reviewed: Mudanças em nos detalhes abaixo deverão ser <strong>revisadas pelo staff</strong>. Para requisitar mudanças, entre os detalhes abaixo e clique 'Submeter'.
     changes_submitted: Mudanças submetidas.
+    child: Criança
     child_alert: Você necessita especificar se a pessoa é uma criança (menor de 13 anos) ou não para completar esta atualização.
     click_to_send_verification_email: Clique OK para enviar um email de verificação para este usuário. Assim que o usuário clicar o link no email, ele poderá setar a sua senha e entrar no sistema.
     click_to_change_email: <a href="{{url}}">Clique aqui</a> para mudar o seu endereço de email.
@@ -1019,6 +1034,7 @@ pt:
     current_services: "Ministérios atuais:"
     deleted: Esta pessoa foi deletada. Você pode restaurá-la <a href="{{url}}">aqui</a>.
     description_of_business: Descrição dos Negócios
+    determine_by_birthday: Determinar pela data de nascimento
     email: Email
     email_address: endereço de email (usado no login da conta) é
     enter_family_details: Entre os Detalhes da Família
@@ -1105,6 +1121,7 @@ pt:
     show_a_map_here: Exiba um mapa aqui, fornecendo ao OneBody a sua chave do Yahoo Maps API. <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Clique aqui</a> para ajuda.
     show_full_screen: exibir em tela cheia
     show_hidden_groups: Exibir Grupos Ocultos
+    suffix: Sufixo
     tell_about_your_favorite: Conte sobre seus interesses preferidos, música, filmes e mais <a href="{{url}}">aqui</a>.
     tell_us_about_yourself: Conte-nos sobre você. Como é sua personalidade? O que o seu melhor amigo diz sobre você?
     testimony: Testemunho
@@ -1218,6 +1235,7 @@ pt:
   printable_directories:
     already_sent: Aparentemente um diretório já foi enviado um tempo atrás. Por favor verifique o seu email (e o seu diretório de spam, em todo caso).
     click_to_have_custom_pdf_via_email: Clique no botão abaixo para ter o seu diretório customizado em PDF enviado ao seu email.
+    created_for: Criado especialmente para {{name}} em {{date}}
     email_custom_directory: Enviar o meu Diretório Customizado via Email
     include_family_pictures: incluir fotos das famílias
     make_sure_you_have_adobe: Tenha certeza que você possui o <a href="{{url}}">Adobe Reader</a> ou outros programa capaz de visualizar arquivos PDF.
@@ -1517,7 +1535,7 @@ pt:
     zip: CEP
 
   session:
-    account_not_activated: Sua conta ainda não foi ativada. <a href=\"/pages/help\">Clique aqui</a> para começar.
+    account_not_activated: Sua conta ainda não foi ativada. <a href="/pages/help">Clique aqui</a> para começar.
     create_the_first_user: "Você pode criar o primeiro usuário executando o comando:"
     email_address: "Endereço de Email:"
     email_found: Aquele email foi encontrado mas você deve verificá-lo antes de poder acessar o sistema.
@@ -1544,6 +1562,7 @@ pt:
 
   stream: 
     ago: atrás
+    and_more: e mais {{length}} itens por {{name}}...
     blog: Blog
     create_blog_post: Ou, criar uma <a href="{{url}}">postatem no blog</a> com um título e formatação...
     enable_disable: Habilitar/Desabilitar
@@ -1557,11 +1576,13 @@ pt:
     import_twitter_updates: "Importar as suas atualizações do Twitter..."
     more: Mais
     my_activity: Minha Atividade
+    nothing_to_show: Agora, não há nada a mostrar.
     rss: RSS
     share_something: Compartilhe Algo
     share_something_here: "Você deveria <a href="#" onclick="{{js}};return false;">compartilhar algo aqui</a>."
     show: Mostrar
     twitter: Twitter
+    where_activity_appear: Aqui é onde as suas atividades, de seus amigos e grupos irá aparecer.
 
   tags: 
     add_tags: "Adicionar Tags (separadas por espaços)"

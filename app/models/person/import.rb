@@ -115,10 +115,10 @@ class Person
               person.update_attributes!(person_vals)
               person.family.update_attributes!(family_vals)
             rescue => e
-              errored << {:first_name => person.first_name, :last_name => person.last_name, :status => 'Error updating record.', :message => e.message}
+              errored << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.error_updating'), :message => e.message}
               raise ActiveRecord::Rollback
             else
-              completed << {:first_name => person.first_name, :last_name => person.last_name, :status => 'Record updated.'}
+              completed << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.record_updated')}
             end
           end
         end
