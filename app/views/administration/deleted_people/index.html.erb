@@ -1,13 +1,13 @@
 <% if @families.any? %>
-  <h1>Empty Families</h1>
-  <p class="very-strong">The following active families have no people in them and probably should be deleted:</p>
+  <h1><%= I18n.t('admin.deleted_people.empty_families') %></h1>
+  <p class="very-strong"><%= I18n.t('admin.deleted_people.empty_families_description') %>:</p>
   <% form_tag batch_families_path do %>
     <table>
       <tr>
         <th><input type="checkbox" onclick="var check_all=this.checked; $$('.family_checkbox').each(function(e){e.checked=check_all})"/></th>
-        <th>ID</th>
-        <th>Legacy ID</th>
-        <th>Family</th>
+        <th><%= I18n.t('admin.syncs.id') %></th>
+        <th><%= I18n.t('admin.syncs.legacy_id') %></th>
+        <th><%= I18n.t('people.family') %></th>
       </tr>
       <% @families.each do |family| %>
         <tr>
@@ -19,15 +19,15 @@
       <% end %>
     </table>
     <p>
-      <%= submit_tag 'Delete', :name => 'delete' %>
+      <%= submit_tag I18n.t('Delete'), :name => 'delete' %>
     </p>
   <% end %>
 <% end %>
 
-<h1>Deleted People</h1>
+<h1><%= I18n.t('admin.deleted_people.deleted_people') %></h1>
 
 <% if params[:search] %>
-  <p>The results of your search are displayed below. <%= link_to 'Show all.', administration_deleted_people_path %></p>
+  <p><%= I18n.t('admin.deleted_people.search_results') %> <%= link_to I18n.t('groups.show_all'), administration_deleted_people_path %></p>
 <% end %>
 
 <%= will_paginate @people %>
@@ -37,15 +37,15 @@
     <table>
       <tr>
         <th><input type="checkbox" onclick="var check_all=this.checked; $$('.person_checkbox').each(function(e){e.checked=check_all})"/></th>
-        <th><%= sortable_column_heading('ID', 'people.id') %></th>
-        <th><%= sortable_column_heading('Legacy ID',        'people.legacy_id'       ) %></th>
-        <th><%= sortable_column_heading('Last Name',        'people.last_name'       ) %></th>
-        <th><%= sortable_column_heading('First Name',       'people.first_name'      ) %></th>
-        <th><%= sortable_column_heading('Family ID',        'people.family_id'       ) %></th>
-        <th><%= sortable_column_heading('Legacy Family ID', 'people.legacy_family_id') %></th>
-        <th><%= sortable_column_heading('Family Name',      'families.name'          ) %></th>
-        <th><%= sortable_column_heading('Family Deleted?',  'families.deleted'       ) %></th>
-        <th><%= sortable_column_heading('Last Updated',     'people.updated_at desc' ) %></th>
+        <th><%= sortable_column_heading(I18n.t('admin.syncs.id'), 'people.id') %></th>
+        <th><%= sortable_column_heading(I18n.t('admin.syncs.legacy_id'),        'people.legacy_id'       ) %></th>
+        <th><%= sortable_column_heading(I18n.t('accounts.last_name'),        'people.last_name'       ) %></th>
+        <th><%= sortable_column_heading(I18n.t('accounts.first_name'),       'people.first_name'      ) %></th>
+        <th><%= sortable_column_heading(I18n.t('families.family_id'),        'people.family_id'       ) %></th>
+        <th><%= sortable_column_heading(I18n.t('families.legacy_family_id'), 'people.legacy_family_id') %></th>
+        <th><%= sortable_column_heading(I18n.t('people.family'),      'families.name'          ) %></th>
+        <th><%= sortable_column_heading(I18n.t('families.deleted_confirmation'),  'families.deleted'       ) %></th>
+        <th><%= sortable_column_heading(I18n.t('admin.last_updated'),     'people.updated_at desc' ) %></th>
       </tr>
       <% @people.each do |person| %>
         <tr>
@@ -58,26 +58,26 @@
             <td><%=h person.family.id %></td>
             <td><%=h person.family.legacy_id %></td>
             <td><%=h person.family.name %></td>
-            <td><%= person.family.deleted? ? 'deleted' : link_to('active', person.family) %></td>
+            <td><%= person.family.deleted? ? I18n.t('admin.logs.deleted') : link_to(I18n.t('admin.active'), person.family) %></td>
           <% else %>
-            <td colspan="4"><em>family not found</em></td>
+            <td colspan="4"><em><%= I18n.t('families.not_found') %></em></td>
           <% end %>
           <td><%=h person.updated_at.to_s %></td>
         </tr>
       <% end %>
     </table>
     <p>
-      <%= submit_tag 'Undelete', :name => 'undelete' %>
-      <%= link_to_function 'purge &raquo;', "Element.show('purge');this.parentNode.removeChild(this);", :class => 'discreet' %>
+      <%= submit_tag I18n.t('admin.deleted_people.undelete'), :name => 'undelete' %>
+      <%= link_to_function I18n.t('admin.deleted_people.purge') + ' &raquo;', "Element.show('purge');this.parentNode.removeChild(this);", :class => 'discreet' %>
       <div id="purge" style="display:none;">
-        <%= submit_tag 'Purge', :name => 'purge' %>
+        <%= submit_tag I18n.t('admin.deleted_people.purge'), :name => 'purge' %>
         <%= check_box_tag :purge_empty_families, true, false %>
-        <%= label_tag :purge_empty_families, 'And purge family when empty.', :class => 'inline' %>
+        <%= label_tag :purge_empty_families, I18n.t('admin.deleted_people.purge_when_empty'), :class => 'inline' %>
       </div>
     </p>
   <% end %>
 <% else %>
-  <p><em>no people found</em></p>
+  <p><em><%= I18n.t('admin.deleted_people.not_found') %></em></p>
 <% end %>
 
 <%= will_paginate @people %>

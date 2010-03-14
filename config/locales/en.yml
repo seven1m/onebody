@@ -4,6 +4,7 @@ en:
   Answer_yes: Yes
   Answer_no: No
   Change: Change
+  Changes: Changes
   Changes_saved: Changes saved.
   Delete: Delete
   Done: Done
@@ -13,6 +14,7 @@ en:
   Help: Help
   Modify: Modify
   New: New
+  Now: Now
   No_action_to_show: No action responded to show
   No_more_records: No more records.
   Page_no_longer_valid: This page is no longer valid.
@@ -20,6 +22,11 @@ en:
   There_was_an_error: There was an error.
   There_were_errors: There were errors.
   To: To
+  Update: Update
+  Was: Was
+  What: What
+  When: When
+  Who: Who
   You: You
   answer_yes: "yes"
   answer_no: "no"
@@ -53,7 +60,9 @@ en:
   none: none
   not_authorized: You are not authorized.
   of: of
+  on: on
   only_admins: You must be an administrator to use this section.
+  or: or
   people: People
   person: Person
   phone: Phone
@@ -283,6 +292,7 @@ en:
         record_invalid: "The validation failed: {{errors}}"
   
   admin:
+    active: active
     admin: admin
     admin_added: "{{name}} added."
     admin_count:
@@ -301,6 +311,15 @@ en:
     api_login_details: Your API login details
     customization: Customization
     demote_to_standard_admin: "Demote to standard admin."
+    deleted_people:
+      deleted_people: Deleted People
+      empty_families: Empty Families
+      empty_families_description: The following active families have no people in them and probably should be deleted
+      not_found: no people found
+      purge: Purge
+      purge_when_empty: And purge family when empty.
+      search_results: The results of your search are displayed below.
+      undelete: Undelete
     deleted_records: Deleted Records
     deleted_records_manage: Manage deleted people and families.
     display: display
@@ -314,7 +333,7 @@ en:
       no_records: There are currently no records with the changed email address flag set.
     error_saving: There was an error saving the change.
     export_data: Export Data
-    files:
+    file:
       assets: Assets
       back_to_theme_editor: back to theme editor
       enter_filename: Enter a filename (can only contain a-z, underscore, and period)
@@ -330,6 +349,7 @@ en:
     import_data_description: Import people data from a Comma Separated Values (CSV) file.
     invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
     key: Key
+    last_updated: Last Updated
     log: Log
     log_review: Review the log.
     logo:
@@ -338,6 +358,21 @@ en:
       logo: Logo
       size_information: Upload an image file below. It will be resized to be no larger than 400x80.
       upload: Upload Logo
+    logs:
+      date_format: date format
+      date_range: Date Range
+      deleted: deleted
+      filtering_options: Filtering Options
+      flagged: Flagged
+      flagged_and_not_flagged: Flagged and Not Flagged
+      flagged_only: Flagged Only
+      mark_as_reviewed: Mark Selected as Reviewed
+      new_and_reviewed: New and Reviewed
+      new_only: New Only
+      nothing_to_show: There is nothing to show. Check the Filtering Options to expand your query.
+      private_message: This message may be private. Are you sure you want to view it?
+      reviewed: reviewed
+      update_display: Update Display
     max_admins: You are currently at the limit for administrators for your selected plan. Please <a href="http://beonebody.com">upgrade</a> in order to add more administrators.
     must_be_superadmin: You must be a super administrator to modify settings.
     new_admin_template: Create a new admin template.
@@ -401,10 +436,23 @@ en:
       changed_email:
         one: "{{count}} changed email address"
         other: "{{count}} changed email addresses"
+      complete: Complete
+      completed: Completed
+      groups_pending: Groups Pending Approval
+      mark_complete: Mark Complete
+      mark_incomplete: Mark Incomplete
+      no_updates: No updates
+      none: None at this time.
       pending:
         one: "{{count}} pending update"
         other: "{{count}} pending updates"
+      pending_title: Pending
+      person_deleted: person deleted
       per_day: Updates Per Day
+      profile_updates: Profile Updates
+      review_changes: review changes following update
+      show_status: Show {{status}}
+      updated: updated
       updates: Updates
     username: Username
     view_contributions: "View and manage contributions."
@@ -549,11 +597,17 @@ en:
     comment: comment
     commented_on: commented on
     deleted: Comment deleted.
+    leave_another_note_for: Leave another note for {{name}}
+    leave_note: Leave a Note
+    leave_note_for: Leave a note for {{name}}
+    leave_a_note_for: Leave a note for
     none_yet: none yet
     not_authorized: You are not authorized to delete this comment.
     object_not_found: That {{name}} was not found.
     save: Save Comment
     saved: Comment saved.
+    view: View
+    which_picture: Which picture are you commenting on?
   
   contributions:
     add_to_donor_tools_now: "Add to Donor Tools now."
@@ -604,15 +658,18 @@ en:
     city_st_zip: City, ST, Zip
     delete: Delete Family
     delete_person: Delete Person
+    deleted_confirmation: Family Deleted?
     drag_to_reorder_members: Drag the green arrows to reorder family members.
     edit: Edit Family
     edit_person: Edit Person
     existing_person: Existing Person
     families: Families
+    family_id: Family ID
     find_on_map: Find address on map
     last_name: Family Last Name
     last_name_example: Doe
     legacy_id: Legacy ID
+    legacy_family_id: Legacy Family ID
     name: Family Name
     name_example: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
     new: New Family

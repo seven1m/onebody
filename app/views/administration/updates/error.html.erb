@@ -1,4 +1,4 @@
-<h1><%= I18n.t('import.error_importing') %></h1>
+<h1><%= I18n.t('import.error_updating') %></h1>
 
 <p>
   <%= I18n.t('import.error_updating_message', :url => administration_updates_path) %>
@@ -12,7 +12,7 @@
   <% end %>
 </ul>
 
-<h2><%= I18n.t('import.errors') %></h2>
+<h2><%= I18n.t('import.records') %></h2>
 
 <ul>
   <li><%= I18n.t('person') %>: <%= link_to "#{@update.person.name}",        @update.person        %></li>

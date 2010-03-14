@@ -4,6 +4,7 @@ pt:
   Answer_yes: Sim
   Answer_no: Não
   Change: Mude
+  Changes: Mudanças
   Changes_saved: Mudanças salvas.
   Delete: Deletar
   Done: Pronto
@@ -13,6 +14,7 @@ pt:
   Help: Ajuda
   Modify: Modificar
   New: Novo
+  Now: Agora
   No_action_to_show: Nenhuma ação respondeu ao mostrar
   No_more_records: Não há mais registros.
   Page_no_longer_valid: Esta página não é mais válida.
@@ -20,6 +22,11 @@ pt:
   There_was_an_error: Houve um erro.
   There_were_errors: Houveram erros.
   To: Para
+  Update: Atualizar
+  Was: Era
+  What: O que
+  When: Quando
+  Who: Quem
   You: Você
   answer_yes: "sim"
   answer_no: "não"
@@ -53,7 +60,9 @@ pt:
   none: nenhum
   not_authorized: "Você não está autorizado"
   of: de
+  on: em
   only_admins: "Você precisa ser um administrador para usar essa seção."
+  or: ou
   people: Pessoas
   person: Pessoa
   phone: Telefone
@@ -283,6 +292,7 @@ pt:
         record_invalid: "A validação falhou: {{errors}}"
 
   admin:
+    active: ativar
     admin: admin
     admin_added: "{{name}} adicionado."
     admin_count:
@@ -301,6 +311,15 @@ pt:
     api_login_details: Seu detalhe de login da API
     customization: Customização
     demote_to_standard_admin: "Rebaixar para admin padrão."
+    deleted_people:
+      deleted_people: Pessoas Deletadas
+      empty_families: Famílias sem Pessoas
+      empty_families_description: As seguintes famílias ativas não possuem pessoas nelas e provavelmente devem ser deletadas
+      not_found: nenhuma pessoa encontrada
+      purge: Limpar
+      purge_when_empty: E limpar família quando vazia.
+      search_results: Os resultados da sua busca são mostrados abaixo.
+      undelete: Desfazer
     deleted_records: Registros Deletados
     deleted_records_manage: Gerenciar pessoas e famílias deletadas.
     display: mostrar
@@ -314,7 +333,7 @@ pt:
       no_records: Não há registros com o endereço de email alterado.
     error_saving: Houve um erro ao salvar a mudança.
     export_data: Exportar Dados
-    files:
+    file:
       assets: Arquivos
       back_to_theme_editor: voltar para o editor de tema
       enter_filename: Entre com um nome de arquivo (pode somente conter a-z, underscore, e ponto)
@@ -329,6 +348,7 @@ pt:
     import_data: Importar Dados
     import_data_description: Importar dados de pessoas de um arquivo separado por vírgulas (CSV).
     invalidate_confirmation: Você tem certeza que deseja invalidar esta chave e criar uma nova?
+    last_updated: Última Atualização
     key: Chave
     log: Log
     log_review: Revisar o log.
@@ -338,6 +358,21 @@ pt:
       logo: Logotipo
       size_information: Carregue uma imagem abaixo. Ela será redimensionada para não ser maior que 400x80.
       upload: Carregar Logotipo
+    logs:
+      date_format: formato da data
+      date_range: Intervalo de Data
+      deleted: deletado
+      filtering_options: Opções de Filtro
+      flagged: Marcado
+      flagged_and_not_flagged: Marcado e Não Marcado
+      flagged_only: Somente Marcados
+      mark_as_reviewed: Marcar Selecionado como Revisado
+      new_and_reviewed: Novos e Revisados
+      new_only: Somente Novos
+      nothing_to_show: Não há nada para mostrar. Verifique as opçoes de filtro para expandir sua pesquisa.
+      private_message: Esta mensagem pode ser particular. Você tem certeza que deseja visualizá-la?
+      reviewed: revisado
+      update_display: Atualizar Visualização
     max_admins: Você está atualmente utilizando o limite de administradores para o seu plano. Por favor <a href="http://beonebody.com">atualize</a> o seu plano para adicionar mais administradores.
     must_be_superadmin: Você deve ser um super adminstrador para modificar estas configurações.
     new_admin_template: Criar um novo modelo admin.
@@ -401,16 +436,29 @@ pt:
       changed_email:
         one: "{{count}} endereço de email alterado"
         other: "{{count}} endereços de email alterados"
+      complete: Completo
+      completed: Completado
+      groups_pending: Grupos Pendentes de Aprovação
+      mark_complete: Marcar como Completado
+      mark_incomplete: Marcar como Incompleto
+      no_updates: Não há atualizações
+      none: Nada até agora
       pending:
         one: "{{count}} atualização pendente"
         other: "{{count}} atualizações pendentes"
+      pending_title: Pendente
+      person_deleted: pessoa deletada
       per_day: Atualizações por Dia
+      profile_updates: Atualizações de Perfil
+      review_changes: revisar mudanças seguindo atualização
+      show_status: Mostrar {{status}}
+      updated: atualizado
       updates: Atualizações
     username: Nome de Usuário
     view_contributions: "Visualizar e gerenciar contribuições."
     welcome_message: Bem vindo, {{name}}.
-    you_are_admin: You are an administrator with the privileges
-    you_are_super: You are a super administrator.
+    you_are_admin: Você é um administrador com os privilégios
+    you_are_super: Você é um super administrador
     your_key: sua chave
 
   accounts:
@@ -549,11 +597,17 @@ pt:
     comment: comentário
     commented_on: comentado em
     deleted: Comentário Deletado.
+    leave_another_note_for: Deixe outra nota para {{name}}
+    leave_note: Deixe uma Nota
+    leave_note_for: Deixe uma nota para {{name}}
+    leave_a_note_for: Deixe uma nota para
     none_yet: nada ainda
     not_authorized: Você não está autorizado a deletar este comentário.
     object_not_found: Aquele {{name}} não foi encontrado.
     save: Salvar Comentário
     saved: Comentário salvo.
+    view: Visualizar
+    which_picture: Qual foto você está comentando??
 
   contributions:
     add_to_donor_tools_now: "Adicionar ao Donor Tools agora."
@@ -604,15 +658,18 @@ pt:
     city_st_zip: Cidade, Estado, CEP
     delete: Deletar Família
     delete_person: Deletar Pessoa
+    deleted_confirmation: Família Deletada?
     drag_to_reorder_members: Arraste as setas verdes para reordenar os membros da família.
     edit: Editar Família
     edit_person: Editar Pessoa
     existing_person: Pessoa Existente
     families: Famílias
+    family_id: ID da Família
     find_on_map: Encontrar endereço no mapa
     last_name: Último Nome da Família
     last_name_example: Silva
     legacy_id: Código Legado
+    legacy_family_id: ID Legado da Família
     name: Nome da Família
     name_example: "<em>João Silva</em> ou <em>João &amp; Maria Silva</em>"
     new: Nova Família
@@ -1453,7 +1510,7 @@ pt:
     is_not_nil: não é nulo
     less_than: menor que
     less_than_or_equal: menor ou igual que
-    manage_and_run: Manage and run reports.
+    manage_and_run: Gerenciar e executar relatórios.
     matches_case_insensitive: igual (considerando maiúsculas e minúsculas)
     matches_case_sensitive: igual
     move_down: Mover para baixo

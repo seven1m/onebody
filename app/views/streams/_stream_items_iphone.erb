@@ -15,14 +15,14 @@
         <% end %><br/>
         <span class="byline">
           <% if stream_item.person %><%=h stream_item.person.name %> &middot;<% end %>
-          <%= time_ago_in_words stream_item.created_at %> ago<br/>
+          <%= time_ago_in_words stream_item.created_at %> <%= I18n.t('comments.ago') %><br/>
         </span>
       </a>
       <% if stream_item.context.any? %>
         <% stream_item.context['picture_ids'].to_a[0..5].each do |picture_id| %>
           <%= link_to \
-            image_tag(small_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => 'click to enlarge', :class => 'stream-pic'),
-              album_picture_path(stream_item.streamable_id, picture_id), :title => 'click to enlarge',
+            image_tag(small_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => I18n.t('pictures.click_to_enlarge'), :class => 'stream-pic'),
+              album_picture_path(stream_item.streamable_id, picture_id), :title => I18n.t('pictures.click_to_enlarge'),
               :style => 'display:inline;' %>
         <% end %>
       <% end %>
@@ -39,7 +39,7 @@
         <%= link_to stream_icon(stream_item), stream_item %>
         <%= stream_item_content(stream_item) %>
         <% unless stream_item.wall %>
-          <%= link_to 'View...', stream_item, :class => 'small' %>
+          <%= link_to I18n.t('comments.view') + '...', stream_item, :class => 'small' %>
         <% end %>
       <% end %>
     </li>

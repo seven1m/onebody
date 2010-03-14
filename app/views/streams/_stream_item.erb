@@ -22,21 +22,21 @@
       <%= link_to stream_icon(stream_item), stream_item %>
       <%= stream_item_content(stream_item) %>
       <% unless stream_item.wall %>
-        <%= link_to 'View...', stream_item, :class => 'small' %>
+        <%= link_to I18n.t('comments.view') + '...', stream_item, :class => 'small' %>
       <% end %>
     <% end %>
     <div class="nowrap stream-item-timestamp">
-      <%= time_ago_in_words stream_item.created_at %> ago
+      <%= time_ago_in_words stream_item.created_at %> <%= I18n.t('comments.ago') %>
       <% if stream_item.person %>
         by <%= link_to h(stream_item.person.name), stream_item.person %>
       <% end %>
       <% if stream_item.wall %>
-        to <%= link_to h(stream_item.wall.name), stream_item.wall %>
+        <%= I18n.t('to') %> <%= link_to h(stream_item.wall.name), stream_item.wall %>
       <% end %>
       <% if @group.nil? and stream_item.group %>
-        in <%= link_to h(stream_item.group.name), stream_item.group %>
+        <%= I18n.t('in') %> <%= link_to h(stream_item.group.name), stream_item.group %>
       <% elsif original_url = stream_item.context['original_url'] %>
-        from <%= link_to h(domain_name_from_url(original_url)), original_url %>
+        <%= I18n.t('from') %> <%= link_to h(domain_name_from_url(original_url)), original_url %>
       <% end %>
     </div>
     <% if stream_item.title %>
@@ -56,7 +56,7 @@
                 <%= link_to h(comment['person'].name), comment['person'] %>:
                 <%=h comment['text'] %>
                 <span class="stream-item-timestamp">
-                  <%= time_ago_in_words(comment['created_at']) %> ago
+                  <%= time_ago_in_words(comment['created_at']) %> <%= I18n.t('comments.ago') %>
                 </span>
               </td>
             </tr>
@@ -66,7 +66,7 @@
     <% end %>
     <% if stream_item.can_have_comments? %>
       <div class="new-comment">
-        <%= link_to_function image_tag('comment.gif', :alt => 'Add a Comment', :class => 'icon') + ' Add a Comment',
+        <%= link_to_function image_tag('comment.gif', :alt => I18n.t('comments.add_a_comment'), :class => 'icon') + ' ' + I18n.t('comments.add_a_comment'),
           "new Effect.Appear('new-comment-for-#{stream_item.id}'); this.parentNode.style.visibility = 'visible';",
           :class => 'discreet small' %>
         <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
@@ -75,7 +75,7 @@
               <% if stream_item.context['picture_ids'].to_a.length == 1 %>
                 <%= hidden_field_tag 'picture_id', stream_item.context['picture_ids'].first %>
               <% else %>
-                Which picture are you commenting on?<br/>
+                <%= I18n.t('comments.which_picture') %><br/>
                 <% stream_item.context['picture_ids'].to_a.each_with_index do |picture_id, index| %>
                   <%= radio_button_tag :picture_id, picture_id, index == 0 %>
                   <%= label_tag "picture_id_#{picture_id}", image_tag(tn_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => '', :class => 'icon'), :class => 'inline' %>
@@ -87,21 +87,21 @@
             <% end %>
             <%= hidden_field_tag :return_to, stream_path %>
             <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
-            <%= form.submit 'Save Comment' %>
+            <%= form.submit I18n.t('comments.save') %>
           <% end %>
         </div>
       </div>
     <% elsif stream_item.wall_id %>
       <div class="new-comment discreet small">
-        <%= image_tag('comment.gif', :alt => 'Leave a Note', :class => 'icon') %>
+        <%= image_tag('comment.gif', :alt => I18n.t('comments.leave_note'), :class => 'icon') %>
         <% if stream_item.wall == @logged_in %>
-          <%= link_to 'Leave a note for ' + h(stream_item.person.name), stream_item.person %>
+          <%= link_to I18n.t('comments.leave_note_for', :name => h(stream_item.person.name)), stream_item.person %>
         <% elsif stream_item.person == @logged_in %>
-          <%= link_to 'Leave another note for ' + h(stream_item.wall.name), stream_item.wall %>
+          <%= link_to I18n.t('comments.leave_another_note_for', :name => h(stream_item.wall.name)), stream_item.wall %>
         <% else %>
-          Leave a note for:
+          <%= I18n.t('comments.leave_a_note_for') %>:
           <%= link_to h(stream_item.person.name), stream_item.person %>
-          or
+          <%= I18n.t('or') %>
           <%= link_to h(stream_item.wall.name), stream_item.wall %>
         <% end %>
       </div>
