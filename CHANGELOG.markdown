@@ -12,9 +12,11 @@ Edge
 **Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
 
 * Upgrade to Rails 2.3.5.
-* I18n to English, Portuguese [gustavobim]
+* Beta support for I18n - English and Portuguese languages [gustavobim]
+* Sync people data with Donor Tools.
+* Sync group lists with Campaign Monitor.
+* Integrate podcast widget from Sermondrop.
 * Interface for iPhone and other mobile browsers.
-* New reporting engine and interface.
 * Interface for managing relationships between people.
 * Improvements to the admin dashboard, including graphs.
 * Sync api and interface for viewing synchronization results (UpdateAgent).
@@ -38,8 +40,10 @@ Edge
 * Ensure that all settings are reloaded for *all* instances of app.
 * Better checks and feedback when people/group limit has been reached.
 * Show 100 years at a time in the javascript date popup.
+* Better counting of admins and feedback when limit is reached.
 * Update Facebook feed import page.
 * Clean up the group advanced tab.
+* Update cap recipe to copy shared/initializers upon deploy.
 * Improve performance of search by family name.
 * Don't start tour upon first login.
 * Fix Group calendars for Google Apps accounts.
