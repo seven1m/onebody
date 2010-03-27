@@ -20,7 +20,7 @@ Rails::Initializer.run do |config|
   # dependencies 
   config.gem 'transaction-simple',     :version => '~> 1.4.0', :lib => 'transaction/simple'
   config.gem 'color',                  :version => '~> 1.4.0'
-  config.gem 'pdf-writer',             :version => '~> 1.1.8'
+  config.gem 'pdf-writer',             :version => '~> 1.1.8', :lib => 'pdf/writer'
   config.gem 'liquid',                 :version => '~> 2.0.0'
   config.gem 'highline',               :version => '~> 1.5.0'
   config.gem 'mini_magick',            :version => '>= 1.2.5'
