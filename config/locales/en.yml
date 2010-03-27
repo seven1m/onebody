@@ -988,6 +988,7 @@ en:
     about_this_note: about this note
     add_a_note: Add a Note
     add_note: Add Note
+    body: Body
     by: by
     creating_note_doesnt_send_email: "Creating a note does <em>not</em> send an email to the group."
     delete_note: Delete Note
@@ -1035,7 +1036,8 @@ en:
     wait_one_day_and_wait: WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished.
 
   pages:
-    are_you_sure: Are you sure? This will be permanent and will delete all children of this page!    
+    are_you_sure: Are you sure? This will be permanent and will delete all children of this page!
+    body: Body
     collapse: collapse
     deleted: Page deleted.
     edit_page: Edit Page
@@ -1047,10 +1049,12 @@ en:
     new_root_page: new root page
     not_found: Page not found.
     pages: Pages
+    path: Path
     published: Published
     save_and_continue_editing: Save and Continue Editing
     saved: Page saved.
     template_not_found: Template not found.
+    title: Title
     to_add_attachment_first_save_it: To add an attachment to this page, first save it.
     unpublished: unpublished
     upload_attachment: Upload Attachment

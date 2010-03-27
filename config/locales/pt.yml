@@ -988,6 +988,7 @@ pt:
     about_this_note: sobre esta nota
     add_a_note: Adicionar uma Nota
     add_note: Adicionar Nota
+    body: Corpo da Nota
     by: por
     creating_note_doesnt_send_email: "A criação de notas <em>não</em> envia um email ao grupo."
     delete_note: Deletar Nota
@@ -1035,7 +1036,8 @@ pt:
     wait_one_day_and_wait: AGUARDE UM DIA ou dispare manualmente o script de atualização da base de dados no servidor e espere até que seja finalizado.
 
   pages:
-    are_you_sure: Você tem certeza? Isto irá deletar todas as páginas filhas desta permanentemente!    
+    are_you_sure: Você tem certeza? Isto irá deletar todas as páginas filhas desta permanentemente!
+    body: Corpo da Página
     collapse: recolher
     deleted: Página deletada.
     edit_page: Editar Página
@@ -1047,10 +1049,12 @@ pt:
     new_root_page: nova página raiz
     not_found: Página não encontrada.
     pages: Páginas
+    path: Caminho
     published: Publicada
     save_and_continue_editing: Salvar e Continuar Editando
     saved: Página salva.
     template_not_found: Modelo não encontrado.
+    title: Título
     to_add_attachment_first_save_it: Para adicionar um anexo à esta página, primeivo é necessário salvá-la.
     unpublished: não publicada
     upload_attachment: Carregar Anexo
