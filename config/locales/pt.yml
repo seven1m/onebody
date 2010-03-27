@@ -486,6 +486,8 @@ pt:
     please_select_your_name: Por favor selecione o seu nome da lista abaixo
     select_your_carrier: Selecione a sua operadora de celular
     set_password_error: Houve um erro ao definir sua senha. Por favor tente novamente.
+    set_your_email: Você precisa configurar o seu email pessoal e senha para continuar.
+    set_your_email_may_be_different: Você precisa configurar o seu email pessoal (ele pode ser diferente do email que você verificou) e senha para continuar.
     submission_will_be_reviewed: Os seus dados serão revisados assim que possível. Você receberá um email assim que você for aprovado.
     text_messaging_fees: Taxas para a mensagem de texto podem ser cobradas.
     there_was_an_error: Desculpe. Houve um erro. Se você requisitou uma mudança feita pelo escritório, é possível que ela ainda não tenha sido feita. Por favor tente novamente mais tarde.
