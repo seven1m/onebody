@@ -20,8 +20,8 @@
   <% end %>
 
   <p>
-    <%= form.label :title %> <%= form.text_field :title %><br/>
-    <%= form.label :body %>  <%= form.text_field :body, :value => white_list(@note.body), :rows => 15, :cols => 80, :style => 'width:100%' %><br/>
+    <%= form.label :title, I18n.t('notes.title') %> <%= form.text_field :title %><br/>
+    <%= form.label :body, I18n.t('notes.body') %>  <%= form.text_field :body, :value => white_list(@note.body), :rows => 15, :cols => 80, :style => 'width:100%' %><br/>
     <%= form.submit I18n.t('notes.save_note') %>
   </p>
 <% end %>

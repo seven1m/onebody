@@ -16,10 +16,10 @@
 <% form_for @page do |form| %>
   <%= form.error_messages %>
   <div>
-    <%= form.label :title %>               <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
-    <%= form.label :parent_id, 'Path' %>   <%= form.select :parent_id, [['(root)', nil]] + @page_paths_and_ids, {}, :style => 'width:auto;' %> /
+    <%= form.label :title, I18n.t('pages.title') %>               <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
+    <%= form.label :parent_id, I18n.t('pages.path') %>   <%= form.select :parent_id, [['(root)', nil]] + @page_paths_and_ids, {}, :style => 'width:auto;' %> /
                                            <%= form.text_field :slug %><br/>
-    <%= form.label :body %>                <%= form.text_area :body, :rows => 20, :cols => 80, :style => 'width:80%;font-family:monaco,monospace;' %><br/>
+    <%= form.label :body, I18n.t('pages.body') %>                <%= form.text_area :body, :rows => 20, :cols => 80, :style => 'width:80%;font-family:monaco,monospace;' %><br/>
     <%= form.submit I18n.t('save') %>
     <%= form.submit I18n.t('pages.save_and_continue_editing') %>
     <%= form.check_box :published, :class => 'checkbox', :onclick => "$('page_navigation').checked=this.checked" %>
