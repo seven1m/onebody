@@ -147,7 +147,11 @@ class AccountsController < ApplicationController
         elsif @people.length == 1
           person = @people.first
           session[:logged_in_id] = person.id
-          flash[:warning] = "You must set your personal email address#{v.mobile_phone ? '' : ' (it may be different than the one you verified)'} and password to continue."
+          if v.mobile_phone?
+            flash[:warning] = I18n.t('accounts.set_your_email')
+          else
+            flash[:warning] = I18n.t('accounts.set_your_email_may_be_different')
+          end
           redirect_to edit_person_account_path(person.id)
         else
           session[:select_from_people] = @people
