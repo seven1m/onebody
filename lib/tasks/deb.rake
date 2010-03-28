@@ -68,18 +68,16 @@ namespace :onebody do
 
     # build deb
     filename = "onebody_#{DEB_VERSION}_all.deb"
-    `fakeroot dpkg-deb --build pkg && mv pkg.deb #{filename}`
+    puts `fakeroot dpkg-deb --build pkg && mv pkg.deb #{RAILS_ROOT}/#{filename}`
     
     # look for errors
     lintian = `lintian #{filename}`
     puts "#{lintian.scan(/^W:/).length} warnings. Run `lintian #{filename}` to see them all."
     if lintian =~ /^E:/
-      FileUtils.rm(filename)
       puts 'There were errors:'
       puts lintian.grep(/^E:/).join("\n")
-    else
-      puts "Package written to: #{filename}"
     end
+    puts "Package written to: #{filename}"
   end
   
 end
