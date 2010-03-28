@@ -1,4 +1,4 @@
-<h2><%= I18n.t('people.person', :count => @group.people.count) %></h2>
+<h2><%= I18n.t('people.person', :count => group_people_count = @group.people.count) %></h2>
 
 <% if group_people_count > 25 and params[:action] == 'show' %>
   <p>
