@@ -29,8 +29,9 @@ class PrayerRequestsController < ApplicationController
     @group = Group.find(params[:group_id])
     if @logged_in.member_of?(@group)
       params[:prayer_request][:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
-      @req = @group.prayer_requests.create(params[:prayer_request].merge(:person_id => @logged_in.id))
-      unless @req.errors.any?
+      @req = @group.prayer_requests.build(params[:prayer_request])
+      @req.person = @logged_in
+      if @req.save
         redirect_to group_path(@req.group, :anchor => 'prayer')
       else
         new; render :action => 'new'

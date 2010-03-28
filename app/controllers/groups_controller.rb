@@ -84,8 +84,9 @@ class GroupsController < ApplicationController
     if Group.can_create?
       photo = params[:group].delete(:photo)
       params[:group].cleanse 'address'
-      @group = Group.create(params[:group])
-      unless @group.errors.any?
+      @group = Group.new(params[:group])
+      @group.creator = @logged_in
+      if @group.save
         if @logged_in.admin?(:manage_groups)
           @group.update_attribute(:approved, true)
           flash[:notice] = I18n.t('groups.created')
@@ -117,7 +118,6 @@ class GroupsController < ApplicationController
   def update
     @group = Group.find(params[:id])
     if @logged_in.can_edit?(@group)
-      params[:group].delete(:approved) unless @logged_in.admin?(:manage_groups)
       photo = params[:group].delete(:photo)
       params[:group].cleanse 'address'
       if @group.update_attributes(params[:group])

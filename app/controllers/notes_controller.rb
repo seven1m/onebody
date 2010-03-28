@@ -34,9 +34,14 @@ class NotesController < ApplicationController
   end
   
   def create
-    @note = Note.create(params[:note].merge(:person_id => @logged_in.id))
-    unless @note.errors.any?
-      flash[:notice] = I18n.t('notes.saved')
+    @note = Note.new(params[:note])
+    @note.group_id = params[:note][:group_id] if params[:note][:group_id]
+    if @note.group
+      raise 'error' unless @note.group.blog? and @note.group.can_post?(@logged_in)
+    end
+    @note.person = @logged_in
+    if @note.save
+      flash[:notice] = I18n.t('notes.saved') 
       redirect_to params[:redirect_to] || @note
     else
       render :action => 'new'

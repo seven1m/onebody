@@ -125,6 +125,10 @@ class Person < ActiveRecord::Base
     
   scope_by_site_id
   
+  attr_accessible :gender, :first_name, :last_name, :suffix, :mobile_phone, :work_phone, :fax, :birthday, :email, :website, :activities, :interests, :music, :tv_shows, :movies, :books, :quotes, :about, :testimony, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :business_name, :business_description, :business_phone, :business_email, :business_website, :business_category, :suffx, :anniversary, :alternate_email, :get_wall_email, :wall_enabled, :messages_enabled, :business_address, :visible, :friends_enabled, :share_activity, :twitter_account
+  attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
+  attr_protected nil
+  
   named_scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
   named_scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
     
@@ -139,8 +143,6 @@ class Person < ActiveRecord::Base
     self.photo_without_logging = p
   end
   
-  attr_protected :api_key, :feed_code
-
   validates_presence_of :first_name, :last_name
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
@@ -333,6 +335,8 @@ class Person < ActiveRecord::Base
       (what.page and self.can_edit?(what.page)) or (what.message and self.can_edit?(what.message))
     when 'NewsItem'
       self.admin?(:manage_news) or (what.person and what.person == self )
+    when 'Membership'
+      self.admin?(:manage_groups) or (what.group and what.group.admin?(self)) or self.can_edit?(what.person)
     else
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end

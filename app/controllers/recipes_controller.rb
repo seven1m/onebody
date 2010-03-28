@@ -20,12 +20,13 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @recipe = Recipe.new(:person => @logged_in)
+    @recipe = Recipe.new
   end
   
   def create
-    @recipe = Recipe.new(:person => @logged_in)
-    if @recipe.update_attributes(params[:recipe])
+    @recipe = Recipe.new(params[:recipe])
+    @recipe.person = @logged_in
+    if @recipe.save
       flash[:notice] = I18n.t('recipes.saved')
       redirect_to @recipe
     else

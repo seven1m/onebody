@@ -47,7 +47,8 @@ class SearchTest < ActiveSupport::TestCase
     @search.name = 'jane'
     assert_equal 1, @search.query.length
     # without full access
-    people(:peter).update_attributes!(:full_access => false)
+    people(:peter).full_access = false
+    people(:peter).save
     assert_equal 0, @search.query.length
   end
   

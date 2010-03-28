@@ -64,8 +64,10 @@ class PersonTest < ActiveSupport::TestCase
     end
     
     should 'know about linked group memberships' do
-      @group.update_attributes!(:link_code => 'B345')
-      @person.update_attributes!(:classes => 'A123,B345,C567')
+      @group.link_code = 'B345'
+      @group.save!
+      @person.classes = 'A123,B345,C567'
+      @person.save!
       @group.update_memberships
       assert @person.member_of?(@group)
       assert !@person2.member_of?(@group)
@@ -82,8 +84,10 @@ class PersonTest < ActiveSupport::TestCase
     
     should 'know about parent_of group memberships via linked group membership' do
       @child = Person.forge(:family => @person.family, :child => true)
-      @group.update_attributes!(:link_code => 'B345')
-      @child.update_attributes!(:classes => 'A123,B345,C567')
+      @group.link_code = 'B345'
+      @group.save!
+      @child.classes = 'A123,B345,C567'
+      @child.save!
       @group.update_memberships
       @parent_group = Group.forge(:parents_of => @group.id)
       @parent_group.update_memberships
@@ -265,7 +269,9 @@ class PersonTest < ActiveSupport::TestCase
   
   should "not allow child and birthday to both be unspecified" do
     @person = Person.forge
-    @person.update_attributes(:child => nil, :birthday => nil)
+    @person.birthday = nil
+    @person.child = nil
+    @person.save
     assert @person.errors.on(:child)
   end
   

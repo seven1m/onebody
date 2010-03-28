@@ -10,8 +10,6 @@ module Seven1m
     module ClassMethods
       def acts_as_scoped_globally(foreign_key, value)
         class_eval <<-END
-          attr_protected '#{foreign_key}'
-          
           class << self
             def find_by_sql_with_global_scope(sql) 
               unless disable_global_scope

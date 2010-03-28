@@ -90,15 +90,16 @@ class PeopleController < ApplicationController
     if Person.can_create?
       if @logged_in.admin?(:edit_profiles)
         defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
+        @person = Person.new(defaults)
         unless params[:family_id].nil?
           @family = Family.find(params[:family_id])
           number = @family.people.count('*', :conditions => ['deleted = ?', false])
-          @person = Person.new(defaults.merge(:family_id => @family.id).merge(:last_name => @family.last_name))
+          @person.family_id = @family.id
+          @person.last_name = @family.last_name
         else
           @family_option = "new_family"
           @family = Family.new
           number = 0
-          @person = Person.new(defaults)
         end
         @person.child = (number >= 2)
       else
@@ -118,6 +119,7 @@ class PeopleController < ApplicationController
       if @logged_in.admin?(:edit_profiles)
         params[:person].cleanse(:birthday, :anniversary)
         @person = Person.new(params[:person])
+        @person.family_id = params[:person][:family_id]
         respond_to do |format|
           if @person.save
             format.html { redirect_to @person.family }

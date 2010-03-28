@@ -59,3 +59,8 @@ Bypassing the Global Scope
       Person.first
       # SELECT * FROM people limit 1;
     end
+
+Ensure Safety of the Foreign Key
+--------------------------------
+
+Be sure to either call `attr_protected FOREIGN_KEY` or to exclude the foreign key from your `attr_accessible` call on your model.

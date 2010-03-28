@@ -21,6 +21,9 @@ class Album < ActiveRecord::Base
   
   scope_by_site_id
   
+  attr_accessible :name, :description, :is_public
+  attr_protected nil
+  
   acts_as_logger LogItem
   
   validates_presence_of :name

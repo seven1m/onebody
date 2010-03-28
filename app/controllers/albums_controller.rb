@@ -45,12 +45,14 @@ class AlbumsController < ApplicationController
   end
   
   def create
-    @album = Album.new(params[:album].merge(:person_id => @logged_in.id))
+    @album = Album.new(params[:album])
     if @album.group and !can_add_pictures_to_group?(@album.group)
       @album.errors.add_to_base(I18n.t('albums.cannot_add_pictures_to_group'))
     end
     if params['remove_owner'] and @logged_in.admin?(:manage_pictures)
       @album.person = nil
+    else
+      @album.person = @logged_in
     end
     if @album.save
       flash[:notice] = I18n.t('albums.saved')

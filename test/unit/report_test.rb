@@ -3,7 +3,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ReportTest < ActiveSupport::TestCase
   
   should "delete admin associations if changed to unrestricted" do
-    @report = Report.create(:name => 'Foo', :restricted => true, :definition => {'collection' => 'people', 'selector' => []})
+    @report = Report.new(:name => 'Foo', :restricted => true)
+    @report.definition = {'collection' => 'people', 'selector' => []}
+    @report.save
     @report.admins.create
     assert_equal 1, @report.admins.count
     @report.name = 'Bar'
