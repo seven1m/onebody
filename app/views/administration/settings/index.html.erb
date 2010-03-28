@@ -3,7 +3,7 @@
 <% form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
   <% if params[:site_id] %><%= hidden_field_tag :site_id, params[:site_id] %><% end %>
   <% @settings.each do |section_name, section| %>
-    <h2 class="tab" id="<%= section_name %>"><%=h section_name %></h2>
+    <h2 class="tab" id="<%= section_name %>"><%=h I18n.t(:name, :scope => [:admin, :settings, section_name], :default => section_name) %></h2>
     <div class="section">
       <table>
         <% section.each_with_index do |setting, index| %>
