@@ -20,7 +20,7 @@
               <% elsif setting.format == 'password' %>
                 <%= password_field_tag setting.id, setting.value %>
               <% else %>
-                <% if @lists and @lists[setting.section] and vals = @lists[setting.section][setting.name] %>
+                <% if @lists and @lists[setting.section] and vals = @lists[setting.section][setting.read_attribute(:name)] %>
                   <%= select_tag setting.id, options_for_select(vals, setting.value) %>
                 <% else %>
                   <%= text_field_tag setting.id, setting.value %>
