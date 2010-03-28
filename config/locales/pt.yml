@@ -391,7 +391,238 @@ pt:
       one: requisição
       other: requisições
     rest_api_information: Para usar uma API REST com Ruby, você pode fazer isto
-    settings: 
+    settings:
+      Contact:
+        name: Contato
+        Tech Support Email:
+          name: Email de Suporte Técnico
+          description: Email para contato para ajuda técnica com o site.
+        Community Email:
+          name: Email da Comunidade
+          description: Visível em alguns lugares do site
+        Community Office Phone:
+          name: Telefone do Escritório da Comunidade
+          description: Telefone do escritório
+        Bug Notification Email:
+          name: Email de Notificações de Erros
+          description: Endereço de Email para enviar relatórios de erros no site
+        Birthday Verification Email:
+          name: Email de Verificação de Aniversário
+          description: Email enviado quando alguém solicita a verificação via data de nascimento (não pode ficar em branco)
+        Send Email Changes To:
+          name: Enviar emails de mudanças para
+          description: Email enviado quando alguém altera o seu endereço de email (pode ser vazio para não receber emails)
+        Community Address:
+          name: Endereço da Comunidade
+          description: Visível nos Termos de Uso
+        Send Updates To:
+          name: Enviar Atualizações para
+          description: Email enviado quando alguém atualiza o seu perfil (pode ser vazio para não receber emails)
+      Name:
+        name: Nome
+        Community:
+          name: Comunidade
+          description: O nome da comunidade
+        Site:
+          name: Site
+          description: O nome da parte de membros deste website
+        Slogan:
+          name: Slogan
+          description: Slogan que será mostrado no topo de cada página.
+      Features:
+        name: Funcionalidades
+        Multisite:
+          name: Múltiplos Sites
+          description: Quando habilitado, esta instância pode gerenciar múltiplos sites, baseado no nome de domínio.
+        SSL:
+          name: SSL
+          description: Se você possui uma configuração SSL, você pode ligá-la nesta configuração a qual fará a página de login ser criptografada. Se não, um algoritmo avançado de hash em JavaScript está habilitado para ter certeza que as senhas dos usuários não sejam enviadas em texto puro.
+        Reporting:
+          name: Relatórios
+          description: Requer MongoDB para ser configurado e usado.
+        Sign Up:
+          name: Registro
+          description: Habilita a possibilidade de pessoas se registrarem para este site. Configure o endereço do aprovador abaixo.
+        Banner Message:
+          name: Mensagem no Topo
+          description: Mensagem para ser exibida no topo de todas as páginas do site (HTML), como um alerta
+        Groups:
+          name: Grupos
+          description: Habilita Grupos.
+        Pictures:
+          name: Fotos
+          description: Habilita o Compartilhamento de Fotos.
+        Notes:
+          name: Notas
+          description: Habilita o Compartilhamento de Notas.
+        Friends:
+          name: Amigos
+          description: Habilita a amizade mútua (confirmado via email)
+        Content Management System:
+          name: Sistema de Gerenciamento de Conteúdo
+          description: Habilita "Páginas" - Use o OneBody para hospedar o seu website.
+        Sign Up Approval Email:
+          name: Email de Aprovação de Registros
+          description: Aonde serão enviados os pedidos de associação pendentes (necessita ser um admin; deixe em branco para auto-aprovação).
+        Sidebar Group Category:
+          name: Categoria de Grupo na Barra Lateral
+          description: Pessoas em grupos mútuos nesta categoria serão exibidos na barra lateral do perfil do usuário.
+        Publications:
+          name: Publicações
+          description: Habilita Publicações.
+        Sidebar Group Heading:
+          name: Exibe Cabeçalho do Grupo
+          description: Cabeçallho para ser exibido acima das pessoas nos grupos mútuos (veja a configuração acima)
+        Verses:
+          name: Versículos
+          description: Habilita o Compartilhamento de Versículos.
+        Recipes:
+          name: Receitas
+          description: Habilita o Compartilhamento de Receitas.
+        Updates Must Be Approved:
+          name: Atualizações Precisam ser Aprovadas
+          description: Se habilitado, todas as mudanças nas informações "básicas" de um usuário (telefone, endereço, etc.) irão aguardar a aprovação de um administrador antes de serem aplicadas.
+        Edit Legacy Ids:
+          name: Editar Ids Legados
+          description: Se habilitada, permitirá um acesso administrativo para manualmente modificar as Famílias e IDs Legados das Pessoas.
+        Service:
+          name: Serviços
+          description: Se habilitado, administradores podem registrar serviços individuais em áreas da cominidade.
+        Custom Person Type:
+          name: Tipos Customizados - Pessoas
+          description: Se habilitado, administradores podem especificar um tipo customizado nas mesmas linhas de Elder, Diácono, etc.
+        Custom Person Fields:
+          name: Campos Customizados - Pessoas
+          description: Adiciona campos customizados (um por linha). Ao incluir a palavra "date" (ou "Data") irá criar um campo do tipo Data. Adicione um asterísco (*) para fazer o campo visível e editável pelos usuários.
+        Community Google Calendar:
+          name: Calendário da Comunidade - Google
+          description: A URL para o Calendário da Comunidade. Ele pode ter acesso público ou privado, mas o calendário por si só, necessita ser compartilhado publicamente para ser incluído na característica individual ("meu calendário").
+        News Page:
+          name: Páginas de Notícias
+          description: Habilita a página de notícias da comunidade. Itens de notícias pode ser submetidos pelos administradores e/ou consultadas de um feed RSS (veja URL nas confiurações de Notícias RSS).
+        News by Users:
+          name: Notícias por Usuários
+          description: Permite conteúdo de notícias submetidos pelos usuários (precisa também ser habilitado na Página de Notícias abaixo).
+      Services:
+        name: Serviços
+        Yahoo:
+          name: Yahoo
+          description: A sua chave de API do Yahoo - https://developer.yahoo.com/wsregapp/index.php
+        Analytics:
+          name: Estatísticas de Acesso
+          description: Se você usa o Google Analytics ou algum outro serviço de estatísticas baseado em JavaScript, insira o código aqui. Ele será inserido no final de todas as páginas.
+        Campaign Monitor API Key:
+          name: Chave de API do Campaing Monitor
+          description: Para sincronizar um ou mais grupos com a lista de participantes do Monitor de Campanhas, cole a sua chave de API do Monitor de Campanhas aqui.
+        Donor Tools URL:
+          name: URL do Donor Tools
+          description: URL Completa do site Donor Tools, e.g. https://meusite.donortools.com/
+        Donor Tools API Email:
+          name: Email da API do Donor Tools
+          description: Endereço de email para administradores acessarem a API do Donor Tools. É recomendado que você crie um "api" especial para este propósito.
+        Donor Tools API Password:
+          name: Senha de API do Donor Tools
+          description: Senha da API de usuário.
+        Sermondrop URL:
+          name: URL do Sermondrop
+          description: URL completa para o seu site Sermondrop, e.g. http://meusite.sermondrop.com/
+      URL:
+        name: URL
+        Visitor:
+          name: Visitante
+          description: URL para o site principal (visitantes será direcionados para cá se eles tentarem visitar a parte de membros)
+        Site:
+          name: Site
+          description: URL deste site (incluindo a barra no final por favor)
+        News Feed:
+          name: Feed de Notícias
+          description: URL para o feed externo de notícias da comunidade (as notícias serão importadas periodicamente)
+      System:
+        name: Sistema
+        Language:
+          name: Idioma
+          description: Idioma para os elementos da interface.
+        Suffixes:
+          name: Sufixos
+          description: ""
+        Time Zone:
+          name: Fuso Horário
+          description: Configure para exibir corretamente datas e horários no site.
+      Formats:
+        name: Formatos
+        Full Date and Time:
+          name: Data e Horários Completos
+          description: Formato para exibição de data e horário.
+        Time:
+          name: Horário
+          description: Formato para exibição de horário.
+        Phone:
+          name: Telefone
+          description: Format for displaying phone numbers (landlines). Use 'd' for digits.
+        Mobile Phone:
+          name: Telefone Celular
+          description: Formato para exibição de telefone celular. Use 'd' para os dígitos.
+        Date:
+          name: Data
+          description: Formato para exibição de datas.
+        Date Without Year:
+          name: Data sem o Ano
+          description: Formato para exibição de data sem o ano, ex. aniversários.
+      Appearance:
+        name: Aparência
+        Logo:
+          name: Logotipo
+          description: Nome de Arquivo do logotipo (encontrado no diretório public/images/).
+        Public Theme:
+          name: Tema Público
+          description: Nome do tema selecionado para o CMS público do site.
+        Show Subheading:
+          name: Mostrar subtítulo
+          description: Abaixo do título do site/logotipo, exiba o endereço do site e o slogan.
+        Theme:
+          name: Tema
+          description: Nome do tema selecionado para o site.
+      Privacy:
+        name: Privacidade
+        Allow Unencrypted Logins:
+          name: Permitir logins não encriptados
+          description: Os login são assegurados com uma chave de criptografia RSA pública/privada usando JavaScript. Marque esta caixa para permitir o fallback para smartphones e outros navegadores com problemas para entrar no site.
+        Relay All Email:
+          name: Retransmitir todos os Emails
+          description: Se habilidato, todos os endereçcos de email serão ocultados com uma máscara confiando as respostas ao site. Se desabilitado, as pessoas que possuem o seu endereço de email compartilhado, terão os seus endereços revelados em mensagens de saída do site.
+        Max Sign in Attempts:
+          name: Máximas Tentativas de Acesso
+          description: Número máximo de falhas de entrada no site em um período de 15 minutos antes que a conta seja bloqueada. (A conta será automaticamente desbloqueada após 15 minutos)
+        Share Address by Default:
+          name: Compartilhar Endereço por Padrão
+          description: Se habilitado, novos usuários terão os seus endereços residenciais compartilhados com outros membros do site.
+        Share Home Phone by Default:
+          name: Compartilhar Telefone Res. por Padrão
+          description: Se habilitado, novos usuários terão os seus telefones residenciais compartilhados com outros membros do site.
+        Share Mobile Phone by Default:
+          name: Compartilhar Celular por Padrão
+          description: Se habilitado, novos usuários terão os seus telefones celulares compartilhados com outros membros do site.
+        Share Work Phone by Default:
+          name: Compartilhar Telefone Com. por Padrão
+          description: Se habilitado, novos usuários terão os seus telefones comerciais compartilhados com outros membros do site.
+        Share Fax by Default:
+          name: Compartilhar Fax por Padrão
+          description: Se habilitado, novos usuários terão os seus faxes compartilhados com outros membros do site.
+        Share Email by Default:
+          name: Compartilhar Email por Padrão
+          description: Se habilitado, novos usuários terão os seus emails compartilhados com outros membros do site.
+        Share Birthday by Default:
+          name: Compartilhar Aniversário por Padrão
+          description: Se habilitado, novos usuários terão a sua data de nascimento compartilhada com outros membros do site.
+        Share Anniversary by Default:
+          name: Compartilhar Aniversário de Casamento por Padrão
+          description: Se habilitado, novos usuários terão a sua data de casamento compartilhada com outros membros do site.
+        Allow Picture Comments:
+          name: Permitir comentários em fotos
+          description: Se habilitado, os usuários poderão postar comentários nas fotos.
+        Hide Contact Details in Messages:
+          name: Ocultar Detalhes de Contato nas Mensagens
+          description: Se habilitado, tentativas são feitas para esconder números de telefone e endereços de email dentro das mensagens visualizadas online.
       enabled: Habilitado
       disabled: Desabilitado
       one_per_line: "(um por linha)"
