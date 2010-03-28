@@ -26,7 +26,6 @@ class Page < ActiveRecord::Base
   acts_as_logger LogItem
   
   attr_accessible :slug, :title, :body, :parent_id, :parent, :path, :published, :navigation
-  attr_protected nil
   
   validates_presence_of :slug, :title, :body
   validates_uniqueness_of :path

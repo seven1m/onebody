@@ -27,8 +27,7 @@ class Recipe < ActiveRecord::Base
   scope_by_site_id
   
   attr_accessible :title, :notes, :description, :ingredients, :directions, :prep, :bake, :serving_size
-  attr_protected nil
-  
+
   validates_presence_of :title
   validates_presence_of :ingredients
   validates_presence_of :directions

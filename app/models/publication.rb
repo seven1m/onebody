@@ -19,7 +19,6 @@ class Publication < ActiveRecord::Base
   scope_by_site_id
   
   attr_accessible :name, :description
-  attr_protected nil
   
   has_one_file :path => DB_PUBLICATIONS_PATH
   acts_as_logger LogItem

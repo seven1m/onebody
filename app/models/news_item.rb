@@ -26,7 +26,6 @@ class NewsItem < ActiveRecord::Base
   acts_as_logger LogItem
   
   attr_accessible :title, :body
-  attr_protected nil
   
   def name; title; end
   

@@ -21,7 +21,6 @@ class Report < ActiveRecord::Base
   scope_by_site_id
   
   attr_accessible :name, :restricted, :selector, :sort
-  attr_protected nil
   
   has_and_belongs_to_many :admins
   belongs_to :last_run_by, :class_name => 'Person'

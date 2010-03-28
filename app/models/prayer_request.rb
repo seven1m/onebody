@@ -21,7 +21,6 @@ class PrayerRequest < ActiveRecord::Base
   scope_by_site_id
   
   attr_accessible :request, :answer, :answered_at
-  attr_protected nil
   
   acts_as_logger LogItem
   
