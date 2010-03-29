@@ -6,8 +6,8 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
-Edge
-----
+1.1.0 / March 29, 2010
+----------------------
 
 **Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
 
