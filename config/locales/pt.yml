@@ -512,7 +512,7 @@ pt:
           name: Estatísticas de Acesso
           description: Se você usa o Google Analytics ou algum outro serviço de estatísticas baseado em JavaScript, insira o código aqui. Ele será inserido no final de todas as páginas.
         Campaign Monitor API Key:
-          name: Chave de API do Campaing Monitor
+          name: Chave de API do Campaign Monitor
           description: Para sincronizar um ou mais grupos com a lista de participantes do Monitor de Campanhas, cole a sua chave de API do Monitor de Campanhas aqui.
         Donor Tools URL:
           name: URL do Donor Tools
