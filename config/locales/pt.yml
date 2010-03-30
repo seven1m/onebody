@@ -373,6 +373,7 @@ pt:
       private_message: Esta mensagem pode ser particular. Você tem certeza que deseja visualizá-la?
       reviewed: revisado
       update_display: Atualizar Visualização
+    manage_admins: Gerenciar Administradores
     max_admins: Você está atualmente utilizando o limite de administradores para o seu plano. Por favor <a href="http://beonebody.com">atualize</a> o seu plano para adicionar mais administradores.
     must_be_superadmin: Você deve ser um super adminstrador para modificar estas configurações.
     new_admin_template: Criar um novo modelo admin.

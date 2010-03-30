@@ -373,6 +373,7 @@ en:
       private_message: This message may be private. Are you sure you want to view it?
       reviewed: reviewed
       update_display: Update Display
+    manage_admins: Manage Administrators
     max_admins: You are currently at the limit for administrators for your selected plan. Please <a href="http://beonebody.com">upgrade</a> in order to add more administrators.
     must_be_superadmin: You must be a super administrator to modify settings.
     new_admin_template: Create a new admin template.

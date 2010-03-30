@@ -15,6 +15,9 @@
     <p>
       <%= I18n.t('admin.admin_count', :count => @admin_count) %>
     </p>
+    <p>
+      <%= link_to I18n.t('admin.manage_admins'), administration_admins_path %>
+    </p>
   <% end %>
 
   <% if @logged_in.super_admin? %>
