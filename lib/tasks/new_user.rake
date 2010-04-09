@@ -14,27 +14,32 @@ namespace :onebody do
       :email                        => ENV['EMAIL']  ||  ask('Email Address: ') { |q| q.validate = VALID_EMAIL_ADDRESS },
       :first_name                   => ENV['FIRST']  ||  ask('First Name: ')    { |q| q.validate = /.+/ },
       :last_name                    => ENV['LAST']   ||  ask('Last Name: ')     { |q| q.validate = /.+/ },
-      :gender                       => ENV['GENDER'] || (ask('Gender ("m" or "f"): ', %w(m f)) { |q| q.case = :down } =~ /^m/ ? 'Male' : 'Female'),
-      :can_sign_in                  => true,
-      :visible_to_everyone          => true,
-      :visible_on_printed_directory => true,
-      :full_access                  => true,
-      :child                        => false,
-      :salt                         => ENV['SALT']
+      :gender                       => ENV['GENDER'] || (ask('Gender ("m" or "f"): ', %w(m f)) { |q| q.case = :down } =~ /^m/ ? 'Male' : 'Female')
     }
-    unless attrs[:encrypted_password] = ENV['ENCRYPTED_PASSWORD'] or attrs[:password] = ENV['PASSWORD']
-      attrs[:password] = ask('Password: ') { |q| q.echo = false; q.validate = /.{5,}/ }
-      confirm =  ask('Password (again): ') { |q| q.echo = false }
-      raise 'Passwords do not match.' unless attrs[:password] == confirm
+    person = site.people.new(attrs)
+    if ENV['ENCRYPTED_PASSWORD']
+      person.encrypted_password = ENV['ENCRYPTED_PASSWORD']
+    elsif ENV['PASSWORD']
+      person.password = ENV['PASSWORD']
+    else
+      password = ask('Password: ') { |q| q.echo = false; q.validate = /.{5,}/ }
+      confirm = ask('Password (again): ') { |q| q.echo = false }
+      raise 'Passwords do not match.' unless password == confirm
+      person.password = password
     end
-    person = site.people.create!(attrs)
+    person.can_sign_in = true
+    person.visible_to_everyone = true
+    person.visible_on_printed_directory = true
+    person.full_access = true
+    person.child = false
+    person.salt = ENV['SALT'] if ENV['SALT']
     family = site.families.create!(
       :name => person.name,
       :last_name => person.last_name
     )
     family.people << person
     person.admin = Admin.create!(:super_admin => true)
-    person.save
+    person.save!
   end
   
   task :newuser => :new_user do
