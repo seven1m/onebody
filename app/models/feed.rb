@@ -42,7 +42,7 @@ class Feed < ActiveRecord::Base
     rescue
       increment!(:error_count)
     else
-      if feed
+      if feed and feed.entries.any?
         if feed.entries[0].url != last_url # otherwise, feed is up to date
           feed.entries[0...IMPORT_LIMIT].reverse.each do |entry|
             if url.include?('flickr.com')
