@@ -6,6 +6,14 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+1.1.1 / April 11, 2010
+----------------------
+
+* Fix bug preventing group sync with Campaign Monitor.
+* Fix onebody:new_user rake task.
+* Fix iPhone login form not encrypting password properly.
+* Fix contributions interface for Ruby pre-1.8.7.
+
 1.1.0 / March 29, 2010
 ----------------------
 
