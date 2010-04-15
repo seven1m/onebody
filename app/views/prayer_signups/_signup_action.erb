@@ -1,0 +1,17 @@
+<% if signups = @signups[hour.strftime('%Y/%m/%d %H:%M')] %>
+  <%= signups.sort_by { |s| s.created_at }.map do |signup|
+    if signup.other_name.to_s.any?
+      signup.other_name
+    else
+      link_to(signup.person.name, person_path(signup.person))
+    end + ' ' +
+    ((signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) ? link_to_remote(image_tag('delete.png', :alt => I18n.t('remove'), :class => 'icon'), :url => prayer_signup_path(signup), :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet') : '')
+  end.join('<br/>') %>
+  <% unless signups.map { |s| s.person }.include? @logged_in or hour < @now %>
+    <br/>
+    <%= link_to_remote 'sign up here', :url => prayer_signups_path(:person_id => @logged_in, :start => hour.strftime('%Y/%m/%d %H:%M')), :html => {:class => 'discreet'}, :method => 'post', :confirm => I18n.t('prayer_signups.shared_slot_are_you_sure') %>
+  <% end %>
+<% elsif hour >= @now %>
+  <%= link_to_remote 'sign up here', :url => prayer_signups_path(:person_id => @logged_in, :start => hour.strftime('%Y/%m/%d %H:%M')), :html => {:class => "very-strong"}, :method => 'post', :confirm => I18n.t('are_you_sure') %>
+<% end %>
+

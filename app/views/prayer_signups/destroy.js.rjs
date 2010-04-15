@@ -1,0 +1,2 @@
+page.replace_html "signup#{@start.strftime('%Y-%m-%d-%H')}", :partial => 'signup_action', :locals => {:hour => @start}
+page.replace_html 'taken_slots', :partial => 'taken_slots'

@@ -148,6 +148,18 @@ Features:
     format: boolean
     value: true
     description: Allow user submitted news content (must also enable News Page below).
+  Prayer Event:
+    format: boolean
+    value: false
+    description: Enable to have a prayer event where people can sign up to pray.
+  Prayer Event First Date and Time:
+    format: string
+    value:
+    description: If 'Prayer Event' is enabled above, enter the start date and time in the format 'MM/DD/YYYY HH:00'
+  Prayer Event Last Date and Time:
+    format: string
+    value:
+    description: If 'Prayer Event' is enabled above, enter the end date and time in the format 'MM/DD/YYYY HH:00'
 Services: 
   Yahoo: 
     format: string

@@ -1,0 +1,7 @@
+page.replace_html "signup#{@start.strftime('%Y-%m-%d-%H')}", :partial => 'signup_action', :locals => {:hour => @start}
+page.replace_html 'taken_slots', :partial => 'taken_slots'
+if params[:ids] # done by admin from sidebar panel
+  page.replace_html 'admin_add_status', I18n.t('changes_saved')
+  page.visual_effect :highlight, 'admin_add_status',
+    :afterFinish => "function() { $('admin_add_status').innerHTML = '' }"
+end

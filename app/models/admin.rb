@@ -92,5 +92,6 @@ class Admin < ActiveRecord::Base
     run_reports
     manage_reports
     manage_contributions
+    manage_prayer_signups
   )
 end

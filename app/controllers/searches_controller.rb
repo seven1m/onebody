@@ -50,7 +50,7 @@ class SearchesController < ApplicationController
         else
           render :update do |page|
             if params[:select_person]
-              @people = @people[0..MAX_SELECT_PEOPLE]
+              @people = @people[0...MAX_SELECT_PEOPLE]
               page.replace_html 'results', :partial => 'select_person'
               page.show 'add_member'
             elsif params[:select_family]

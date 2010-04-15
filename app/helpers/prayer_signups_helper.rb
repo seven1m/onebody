@@ -1,4 +1,4 @@
-module PrayerHelper
+module PrayerSignupsHelper
   def range_of_hours(first, last)
     hours = []
     current = first

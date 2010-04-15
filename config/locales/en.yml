@@ -1290,6 +1290,16 @@ en:
     save_prayer_request: Save Prayer Request
     submitted_by: Submitted by
 
+  prayer_signups:
+    add_somebody: Add Somebody
+    misconfigured: This feature is not configured properly. Check that the dates are configured properly.
+    other_name: Or, someone else
+    other_name_note: Only enter a name here for someone not in the database.
+    shared_slot_are_you_sure: This time slot is already occupied by at least one other person. Are you sure you wish to sign up for this time as well?
+    select_time_slot: Select time slot
+    signup_removed: Sign-up removed.
+    signup_saved: Sign-up saved.
+
   profile: 
     fax: fax
     home: home

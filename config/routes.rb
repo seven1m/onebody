@@ -64,6 +64,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :pictures
 
+  map.resources :prayer_signups
+
   map.resources :recipes do |recipes|
     recipes.resource :photo, :member => PHOTO_SIZE_METHODS
   end
