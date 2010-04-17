@@ -38,7 +38,7 @@ namespace :onebody do
       :last_name => person.last_name
     )
     family.people << person
-    person.admin = Admin.create!(:super_admin => true)
+    person.admin = Admin.create!(:super_admin => true) unless %w(no false).include?(ENV['ADMIN'])
     person.save!
   end
   
