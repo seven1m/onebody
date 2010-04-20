@@ -97,15 +97,17 @@ class Group < ActiveRecord::Base
   end
   
   def admin?(person, exclude_global_admins=false)
-    if exclude_global_admins
-      admins.include? person
-    else
-      person.admin?(:manage_groups) or admins.include? person
+    if person
+      if exclude_global_admins
+        admins.include? person
+      else
+        person.admin?(:manage_groups) or admins.include? person
+      end
     end
   end
   
   def last_admin?(person)
-    (admin? person and not person.admin?(:manage_groups)) and admins.length == 1
+    person and admin?(person, :exclude_global_admins) and admins.length == 1
   end
   
   def linked?
