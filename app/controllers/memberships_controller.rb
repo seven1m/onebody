@@ -63,7 +63,7 @@ class MembershipsController < ApplicationController
     @membership = @group.memberships.find_by_person_id(params[:id])
     if @logged_in.can_edit?(@group) or @membership.person == @logged_in
       if @group.last_admin?(@membership.person)
-        flash[:warning] = I18n.t('groups.last_admin_remove', :name => person.name)
+        flash[:warning] = I18n.t('groups.last_admin_remove', :name => @membership.person.name)
       else
         @membership.destroy
       end
