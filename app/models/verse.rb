@@ -5,15 +5,15 @@
 # Table name: verses
 #
 #  id          :integer       not null, primary key
-#  reference   :string(50)    
-#  text        :text          
-#  translation :string(10)    
-#  created_at  :datetime      
-#  updated_at  :datetime      
-#  book        :integer       
-#  chapter     :integer       
-#  verse       :integer       
-#  site_id     :integer       
+#  reference   :string(50)
+#  text        :text
+#  translation :string(10)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  book        :integer
+#  chapter     :integer
+#  verse       :integer
+#  site_id     :integer
 #
 
 require 'net/http'
@@ -22,37 +22,37 @@ class Verse < ActiveRecord::Base
   has_and_belongs_to_many :people, :conditions => ['people.visible = ?', true]
   has_many :comments, :dependent => :destroy
   belongs_to :site
-  
+
   scope_by_site_id
   acts_as_logger LogItem
   acts_as_taggable
-    
+
   def admin?(person)
     self.people.include? person or person.admin?(:manage_verses)
   end
-  
+
   def reference=(ref)
     write_attribute :reference, Verse.normalize_reference(ref)
     lookup
   end
-  
+
   def to_param
     self.reference
   end
-  
+
   def name; reference; end
-  
+
   def title; reference; end
-  
+
   def body; text; end
-  
+
   def book_name
     @book_name ||= reference.gsub(/[\d\:\s\-;,]+$/, '')
   end
-  
+
   # living stones (KJV, ASV, YLT, AKJV, WEB)
   LS_BASE_URL = 'http://www.seek-first.com/Bible.php?q=&passage=Seek'
-  
+
   def lookup
     if Rails.env == 'test'
       self.translation = 'WEB'
@@ -77,25 +77,25 @@ class Verse < ActiveRecord::Base
       end
     end
   end
-  
+
   def lookup!
     lookup
     save
   end
-  
+
   def update_sortables
     self.book = Verse::BOOKS.index(self.book_name)
     self.chapter = self.reference.gsub(/^.\s*[^\d]*/, '').to_i
     self.verse = self.reference.split(':').last.to_i
   end
-  
+
   def <=>(v)
     [book, chapter, verse] <=> [v.book, v.chapter, v.verse]
   end
 
   validates_presence_of :text, :reference
   validates_length_of :text, :maximum => 1000, :allow_nil => true, :message => " is a bit too long. Please pick a shorter passage."
-  
+
   BOOKS = [
     'Genesis',
     'Exodus',
@@ -164,12 +164,12 @@ class Verse < ActiveRecord::Base
     'Jude',
     'Revelation',
   ]
-  
+
   YOUVERSION_BOOKS = %w(
     gen exod lev num deut josh judg ruth 1sam 2sam 1kgs 2kgs 1chr 2chr ezra neh esth job ps prov eccl song isa jer lam ezek dan hos joel amos obad jonah mic nah hab zeph hag zech mal
     matt mark luke john acts rom 1cor 2cor gal eph phil col 1thess 2thess 1tim 2tim titus phlm heb jas 1pet 2pet 1john 2john 3john jude rev
   )
-  
+
   BOOKS_AND_CHAPTERS = {
     'Genesis'         => 1..50,
     'Exodus'          => 1..40,
@@ -238,17 +238,17 @@ class Verse < ActiveRecord::Base
     'Jude'            => 1..1,
     'Revelation'      => 1..22
   }
-  
+
   def youversion_url
     "http://www.youversion.com/bible/web/#{YOUVERSION_BOOKS[book]}/#{chapter}/#{verse}"
   end
-  
+
   def ebible_url
     "http://ebible.com/##{URI.encode(reference)}"
   end
-  
+
   class << self
-    
+
     def find(reference_or_id, options=nil)
       if reference_or_id.nil?
         nil
@@ -258,7 +258,7 @@ class Verse < ActiveRecord::Base
         find_by_reference(reference_or_id)
       end
     end
-    
+
     def find_by_reference(reference)
       find_or_create_by_reference(Verse.normalize_reference(reference))
     end
@@ -291,7 +291,7 @@ class Verse < ActiveRecord::Base
     def normalize_numbers(numbers)
       numbers.gsub(/\s+/, '')
     end
-    
+
     def combine_refs(refs)
       combined = refs.first
       refs[1..-1].each do |ref|
@@ -305,9 +305,9 @@ class Verse < ActiveRecord::Base
       end
       combined
     end
-    
+
     LINK_URL = "http://bible.gospelcom.net/cgi-bin/bible?passage=%s&version=%s"
-    
+
     def link_references_in_text(text)
       BOOKS.each do |book|
         text.gsub!(/(#{book}\s\d+(?::\d+)?(?:[\-,;](?:\d+:)?\d+)*)(?:\s\(([A-Z]+)\))?/) do |match|
@@ -317,14 +317,14 @@ class Verse < ActiveRecord::Base
       end
       text
     end
-    
+
     def random_book_and_chapter
       book = BOOKS_AND_CHAPTERS.keys.rand
       [book, BOOKS_AND_CHAPTERS[book].to_a.rand]
     end
-  
+
   end
-  
+
   # note: this must be called from a controller since this is habtm with people
   def create_as_stream_item(person, created_at=nil)
     StreamItem.create!(

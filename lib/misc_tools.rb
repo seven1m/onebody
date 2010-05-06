@@ -5,14 +5,14 @@ class Hash
       self[key] = nil if self.has_key?(key) and self[key].blank?
     end
   end
-  
+
   def reject_blanks ; reject  { |k, v| v.to_s.empty? }; end
   def reject_blanks!; reject! { |k, v| v.to_s.empty? }; end
-  
+
   def to_date
     Date.new(self[:year].to_i, self[:month].to_i, self[:day].to_i) rescue nil
   end
-  
+
   def +(hash)
     self.merge hash
   end
@@ -28,7 +28,7 @@ class String
   def to_date
     Date.parse(self) rescue nil
   end
-  
+
   def digits_only
     d = scan(/\d/).join('')
     d.any? ? d : nil
@@ -43,7 +43,7 @@ class Array
       end
     end
   end
-  
+
   def rand_count(count)
     selected = []
     cage = self.clone

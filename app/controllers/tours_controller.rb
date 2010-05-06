@@ -16,7 +16,7 @@ class ToursController < ApplicationController
     expire_fragment(%r{views/people/.+_#{@logged_in.id}})
     redirect_to stream_path
   end
-  
+
   def destroy
     session[:touring] = false
     expire_fragment(%r{views/people/.+_#{@logged_in.id}})

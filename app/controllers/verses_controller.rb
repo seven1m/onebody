@@ -18,7 +18,7 @@ class VersesController < ApplicationController
       @tags = Verse.tag_counts
     end
   end
-  
+
   def show
     @verse = Verse.find(params[:id])
   end
@@ -35,7 +35,7 @@ class VersesController < ApplicationController
       render :text => I18n.t('verses.not_found'), :layout => true, :status => 404
     end
   end
-  
+
   def update
     @verse = Verse.find(params[:id])
     @verse.tag_list.remove(params[:remove_tag]) if params[:remove_tag]
@@ -43,7 +43,7 @@ class VersesController < ApplicationController
     @verse.save
     redirect_to @verse
   end
-  
+
   def destroy
     @verse = Verse.find(params[:id])
     @verse.people.delete @logged_in

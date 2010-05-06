@@ -1,6 +1,6 @@
 class Administration::LogItemsController < ApplicationController
   before_filter :only_admins
-  
+
   def index
     conditions = []
     session[:admin_log] ||= {}
@@ -25,14 +25,14 @@ class Administration::LogItemsController < ApplicationController
     conditions = nil if conditions.empty?
     @items = LogItem.paginate(:order => 'id desc', :conditions => conditions, :page => params[:page])
   end
-  
+
   def show
     @item = LogItem.find(params[:id])
     respond_to do |format|
       format.js
     end
   end
-  
+
   def batch
     now = Time.now
     params[:log_items].each do |id|
@@ -43,16 +43,16 @@ class Administration::LogItemsController < ApplicationController
     end
     redirect_to administration_log_items_path
   end
-  
+
   private
-  
+
     def format_date(date, default_time=nil)
       if default_time and date !~ /:/
         date += " #{default_time}"
       end
       DateTime.parse(date) rescue nil
     end
-  
+
     def only_admins
       unless @logged_in.admin?(:view_log)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401

@@ -1,5 +1,5 @@
 class WallsController < ApplicationController
-  
+
   def show
     @person = Person.find(params[:person_id])
     if @logged_in.can_see?(@person) and @person.wall_enabled?
@@ -16,7 +16,7 @@ class WallsController < ApplicationController
       render :text => I18n.t('wall.not_found'), :status => 404
     end
   end
-  
+
   # /people/1/wall/with?id=2
   # show 2 walls (wall-to-wall)
   def with

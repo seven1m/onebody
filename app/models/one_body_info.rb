@@ -3,9 +3,9 @@ class OneBodyInfo
   DEV_VERSION_URL = 'http://github.com/seven1m/onebody/tree/master/VERSION?raw=true'
   GIT_REVISION_YAML_URL = 'http://github.com/api/v1/yaml/seven1m/onebody/commits/master'
   PHONE_HOME_FOR_VERSION_INFO = true
-  
+
   cattr_accessor :setup_environment
-  
+
   def install_method
     @install_method ||= begin
       if File.exists?(File.join(RAILS_ROOT, '.git'))
@@ -15,15 +15,15 @@ class OneBodyInfo
       end
     end
   end
-  
+
   def git_install_method?
     install_method == :git
   end
-  
+
   def this_version
     ONEBODY_VERSION
   end
-  
+
   def this_revision
     if install_method == :git
       @this_revision ||= begin
@@ -39,7 +39,7 @@ class OneBodyInfo
       end
     end
   end
-  
+
   def released_version
     if RELEASED_VERSION_URL
       if PHONE_HOME_FOR_VERSION_INFO
@@ -49,7 +49,7 @@ class OneBodyInfo
       end
     end
   end
-  
+
   def development_version
     if DEV_VERSION_URL
       if PHONE_HOME_FOR_VERSION_INFO
@@ -59,57 +59,57 @@ class OneBodyInfo
       end
     end
   end
-  
+
   def development_revision
     if PHONE_HOME_FOR_VERSION_INFO
       @development_revision ||= get_revision_from_yaml(open(GIT_REVISION_YAML_URL).read)
     end
   end
-  
+
   def up_to_date
     if PHONE_HOME_FOR_VERSION_INFO
       this_version >= released_version
     end
   end
-  
+
   def themes
     Dir["#{Rails.root}/themes/*"].map { |t| File.split(t).last }.reject { |t| t == 'README' }
   end
-  
+
   def database_config
     @database_config ||= database_yaml[OneBodyInfo.setup_environment]
   end
-  
+
   def database_yaml
     YAML::load_file(database_config_filename)
   end
-  
+
   def edit_database(config)
     yaml = build_database_config(config)
     backup_database_config
     write_database_config(yaml)
   end
-  
+
   def database_config_filename
     File.join(RAILS_ROOT, 'config/database.yml')
   end
-  
+
   def backup_database_config
     backup_filename = database_config_filename + '.backup'
     File.delete(backup_filename) if File.exists?(backup_filename)
     File.open(backup_filename, 'w') { |f| f.write File.read(database_config_filename) }
   end
-  
+
   def write_database_config(config)
     File.open(database_config_filename, 'w') do |file|
       YAML::dump(config, file)
     end
   end
-  
+
   def test_database_config(config)
     connect_to_database(build_database_config(config)[OneBodyInfo.setup_environment])
   end
-  
+
   def build_database_config(config)
     settings = {
       'adapter'  => config[:adapter],
@@ -126,7 +126,7 @@ class OneBodyInfo
     yaml[OneBodyInfo.setup_environment] = settings
     yaml
   end
-  
+
   def database_version
     @database_version ||= begin
       if connect_to_database(database_config)
@@ -138,13 +138,13 @@ class OneBodyInfo
       end
     end
   end
-  
+
   def people_count
     if connect_to_database(database_config)
       ActiveRecord::Base.connection.select_value("SELECT count(*) FROM people").to_i rescue nil
     end
   end
-  
+
   def connect_to_database(config)
     begin
       ActiveRecord::Base.establish_connection(config)
@@ -154,29 +154,29 @@ class OneBodyInfo
       ActiveRecord::Base.connection
     end
   end
-  
+
   def possible_database_versions
     Dir[File.join(RAILS_ROOT, 'db/migrate/*.rb')].map { |m| File.split(m).last.split('_').first.to_i }.sort
   end
-  
+
   def max_database_version
     possible_database_versions.last
   end
-  
+
   def database_up_to_date
     if database_version
       database_version >= max_database_version
     end
   end
-  
+
   def database_upgrade_code
     "rake db:migrate RAILS_ENV=#{OneBodyInfo.setup_environment}"
   end
-  
+
   def available_locales
     YAML.load_file(RAILS_ROOT + '/config/locales.yml')
   end
-  
+
   def precache
     @install_method = nil;       install_method
     @this_version = nil;         this_version
@@ -187,12 +187,12 @@ class OneBodyInfo
     @database_version = nil;     database_version
   end
   alias_method :reload, :precache
-  
+
   private
     def get_version_from_url(url)
       open(url).read.strip
     end
-    
+
     def get_revision_from_yaml(yaml)
       YAML::load(yaml)['commits'].first['id']
     end

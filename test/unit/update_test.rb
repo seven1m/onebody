@@ -16,10 +16,10 @@ class UpdateTest < ActiveSupport::TestCase
       assert_equal updates(:update_jeremy)[attribute], people(:jeremy).family[attribute.sub(/^family_/, '')]
     end
   end
-  
+
   should "list only the changes" do
     # better than nothing
     assert_equal 9, updates(:update_jeremy).changes.keys.length
   end
-  
+
 end

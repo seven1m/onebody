@@ -17,7 +17,7 @@ class SignInTest < ActionController::IntegrationTest
     post '/session', :email => people(:peter).email, :password => 'secret'
     assert_redirected_to stream_path
   end
-  
+
   should "allow family members to share an email address" do
     Setting.set(nil, 'Features', 'SSL', true)
     # tim
@@ -33,7 +33,7 @@ class SignInTest < ActionController::IntegrationTest
     assert_template 'streams/show'
     assert_select 'h1', Regexp.new(people(:jennie).name)
   end
-  
+
   should "not allow users to access most actions with feed code" do
     get "/people?code=#{people(:tim).feed_code}"
     assert_response :redirect
@@ -46,5 +46,5 @@ class SignInTest < ActionController::IntegrationTest
     get "/groups/#{groups(:morgan).id}/memberships/#{people(:jeremy).id}?code=#{people(:jeremy).feed_code}&email=off"
     assert_redirected_to people_path
   end
-  
+
 end

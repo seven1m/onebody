@@ -3,22 +3,22 @@
 # Table name: relationships
 #
 #  id         :integer       not null, primary key
-#  person_id  :integer       
-#  related_id :integer       
-#  name       :string(255)   
-#  other_name :string(255)   
-#  site_id    :integer       
-#  created_at :datetime      
-#  updated_at :datetime      
+#  person_id  :integer
+#  related_id :integer
+#  name       :string(255)
+#  other_name :string(255)
+#  site_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 class Relationship < ActiveRecord::Base
-  
+
   belongs_to :person
   belongs_to :related, :foreign_key => 'related_id', :class_name => 'Person'
-  
+
   scope_by_site_id
-  
+
   validates_presence_of :name
   validates_inclusion_of :name, :in => I18n.t('relationships.names').keys.map { |r| r.to_s }
   validates_presence_of :other_name, :if => Proc.new { |r| r.name == 'other' }
@@ -26,37 +26,37 @@ class Relationship < ActiveRecord::Base
   validates_presence_of :related_id
   validates_uniqueness_of :name, :scope => [:person_id, :related_id]
   validates_uniqueness_of :other_name, :scope => [:name, :person_id, :related_id]
-  
+
   acts_as_logger LogItem
-  
+
   def name_or_other
     name == 'other' ? other_name : I18n.t(name, :scope => 'relationships.names')
   end
-  
+
   def reciprocate
     if can_auto_reciprocate?
       Relationship.create(:person => related, :related => person, :name => reciprocal_name)
     end
   end
-  
+
   def reciprocal_name
     RECIPROCAL_RELATIONSHIP_NAMES[name][person.gender]
   end
-  
+
   def can_auto_reciprocate?
     !reciprocal_name.nil?
   end
-  
+
   def self.other_names
     connection.select_values("select distinct other_name from relationships where other_name is not null and other_name != '' and site_id=#{Site.current.id} order by other_name")
   end
-  
+
   after_save :update_relationships_hash
   after_destroy :update_relationships_hash
   def update_relationships_hash
     person.update_relationships_hash!
   end
-  
+
   RECIPROCAL_RELATIONSHIP_NAMES = {
     'aunt'            => {'Male' => 'nephew',         'Female' => 'niece'          },
     'brother'         => {'Male' => 'brother',        'Female' => 'sister'         },

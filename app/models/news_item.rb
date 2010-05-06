@@ -3,40 +3,40 @@
 # Table name: news_items
 #
 #  id         :integer       not null, primary key
-#  title      :string(255)   
-#  link       :string(255)   
-#  body       :text          
-#  published  :datetime      
+#  title      :string(255)
+#  link       :string(255)
+#  body       :text
+#  published  :datetime
 #  active     :boolean       default(TRUE)
-#  site_id    :integer       
-#  source     :string(255)   
-#  person_id  :integer       
-#  sequence   :integer       
-#  expires_at :datetime      
-#  created_at :datetime      
-#  updated_at :datetime      
+#  site_id    :integer
+#  source     :string(255)
+#  person_id  :integer
+#  sequence   :integer
+#  expires_at :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 class NewsItem < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   belongs_to :person
   belongs_to :site
-  
+
   scope_by_site_id
   acts_as_logger LogItem
-  
+
   attr_accessible :title, :body
-  
+
   def name; title; end
-  
+
   before_save :update_published_date
-  
+
   def update_published_date
    self.published = Time.now if published.nil?
   end
-  
+
   after_create :create_as_stream_item
-  
+
   def create_as_stream_item
     StreamItem.create!(
       :title           => title,
@@ -49,9 +49,9 @@ class NewsItem < ActiveRecord::Base
       :shared          => true
     )
   end
-  
+
   after_update :update_stream_items
-  
+
   def update_stream_items
     StreamItem.find_all_by_streamable_type_and_streamable_id('NewsItem', id).each do |stream_item|
       stream_item.title = title
@@ -59,13 +59,13 @@ class NewsItem < ActiveRecord::Base
       stream_item.save
     end
   end
-  
+
   after_destroy :delete_stream_items
-  
+
   def delete_stream_items
     StreamItem.destroy_all(:streamable_type => 'NewsItem', :streamable_id => id)
   end
-  
+
   class << self
     def update_from_feed
       if raw_items = get_feed_items
@@ -83,8 +83,8 @@ class NewsItem < ActiveRecord::Base
         end
         NewsItem.update_all("active = 0", "source = 'feed' and id not in (#{active.map { |n| n.id }.join(',')})") if active.any?
       end
-    end  
-    
+    end
+
     def get_feed_items
       urls = []
       urls << Setting.get(:url, :news_feed) if Setting.get(:url, :news_feed).to_s.any?

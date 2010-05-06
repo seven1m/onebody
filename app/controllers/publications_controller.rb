@@ -1,8 +1,8 @@
 class PublicationsController < ApplicationController
-  
+
   skip_before_filter :authenticate_user, :only => %w(index)
   before_filter :authenticate_user_with_code_or_session, :only => %w(index)
-  
+
   def index
     @publications = Publication.all(:order => 'created_at desc')
     @groups = Group.all(:conditions => "name like 'Publications%'")
@@ -11,7 +11,7 @@ class PublicationsController < ApplicationController
       format.xml { render :layout => false }
     end
   end
-  
+
   def show
     @publication = Publication.find(params[:id])
     if @publication.has_file?
@@ -20,7 +20,7 @@ class PublicationsController < ApplicationController
       render :text => I18n.t('file_not_found'), :layout => true, :status => 404
     end
   end
-  
+
   def new
     if @logged_in.admin?(:manage_publications)
       @publication = Publication.new
@@ -29,7 +29,7 @@ class PublicationsController < ApplicationController
       render :text => I18n.t('only_admins'), :layout => true, :status => 401
     end
   end
-  
+
   def create
     if @logged_in.admin?(:manage_publications)
       @publication = Publication.new
@@ -57,7 +57,7 @@ class PublicationsController < ApplicationController
       render :text => I18n.t('only_admins'), :layout => true, :status => 401
     end
   end
-  
+
   def destroy
     if @logged_in.admin?(:manage_publications)
       Publication.find(params[:id]).destroy

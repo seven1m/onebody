@@ -2,11 +2,11 @@ class Administration::LogosController < ApplicationController
 
   before_filter :only_admins
   before_filter :get_path
-  
+
   def show
     @filename = Setting.get(:appearance, :logo)
   end
-  
+
   def create
     unless params[:file].to_s.blank?
       if img = MiniMagick::Image.from_blob(params[:file].read) rescue nil \
@@ -20,7 +20,7 @@ class Administration::LogosController < ApplicationController
     end
     redirect_to administration_logo_path
   end
-  
+
   def destroy
     if Setting.get(:appearance, :logo).to_s.any?
       filename = "#{@path}/#{Setting.get(:appearance, :logo)}"
@@ -29,14 +29,14 @@ class Administration::LogosController < ApplicationController
     end
     redirect_to administration_logo_path
   end
-  
+
   private
-  
+
   def get_path
     @path = "#{Rails.root}/public/assets/site#{Site.current.id}"
     unless File.exist?(@path)
       FileUtils.mkdir_p(@path)
     end
   end
-  
+
 end

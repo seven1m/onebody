@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
       render :text => I18n.t('groups.not_authorized_view'), :layout => true, :status => 401
     end
   end
-  
+
   def new
     if params[:to_person_id] and @person = Person.find(params[:to_person_id]) and @logged_in.can_see?(@person)
       @message = Message.new(:to_person_id => @person.id)
@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
       render :text => I18n.t('There_was_an_error'), :layout => true, :status => 500
     end
   end
-  
+
   def create
     if m = params[:message]
       if m[:wall_id].to_i > 0
@@ -36,9 +36,9 @@ class MessagesController < ApplicationController
       raise I18n.t('messages.missing_param')
     end
   end
-  
+
   private
-  
+
   def create_wall_message
     @person = Person.find(params[:message][:wall_id])
     if params[:note_private] == 'true'
@@ -71,7 +71,7 @@ class MessagesController < ApplicationController
       render :text => I18n.t('messages.wall_not_found'), :layout => true, :status => 404
     end
   end
-  
+
   def create_private_message
     @person = Person.find(params[:message][:to_person_id])
     if @person.email and @logged_in.can_see?(@person)
@@ -84,7 +84,7 @@ class MessagesController < ApplicationController
       render :text => I18n.t('messages.no_email_for_person', :name => @person.name), :layout => true, :status => 500
     end
   end
-  
+
   def create_group_message
     @group = Group.find(params[:message][:group_id])
     if @group.can_post? @logged_in
@@ -98,7 +98,7 @@ class MessagesController < ApplicationController
       render :text => I18n.t('groups.not_authorized_post'), :layout => true, :status => 500
     end
   end
-  
+
   def send_message
     attributes = params[:message].merge(:person => @logged_in)
     if params[:preview]
@@ -114,16 +114,16 @@ class MessagesController < ApplicationController
       end
     end
   end
-  
+
   public
-  
+
   def show
     @message = Message.find(params[:id])
     unless @logged_in.can_see?(@message)
       render :text => I18n.t('messages.not_found'), :layout => true, :status => 404
     end
   end
-  
+
   def destroy
     @message = Message.find(params[:id])
     if @logged_in.can_edit?(@message)

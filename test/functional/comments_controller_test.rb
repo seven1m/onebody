@@ -1,11 +1,11 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class CommentsControllerTest < ActionController::TestCase
-  
+
   def setup
     @person = Person.forge
   end
-  
+
   should "add a comment to a verse" do
     @verse = Verse.forge
     num_comments = Comment.count
@@ -13,7 +13,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_equal num_comments + 1, Comment.count
   end
-  
+
   should "add a comment to a recipe" do
     @recipe = Recipe.forge
     num_comments = Comment.count
@@ -21,7 +21,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_equal num_comments + 1, Comment.count
   end
-  
+
   should "add a comment to a note" do
     @note = @person.forge(:note)
     num_comments = Comment.count
@@ -29,7 +29,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_equal num_comments + 1, Comment.count
   end
-  
+
   should "delete a comment" do
     @comment = @person.forge(:comment)
     post :destroy, {:id => @comment.id}, {:logged_in_id => @person}
@@ -38,12 +38,12 @@ class CommentsControllerTest < ActionController::TestCase
       @comment.reload
     end
   end
-  
+
   should "not delete a comment unless user is owner or admin" do
     @comment = @person.forge(:comment)
     @other_person = Person.forge
     post :destroy, {:id => @comment.id}, {:logged_in_id => @other_person}
     assert_response :unauthorized
   end
-  
+
 end

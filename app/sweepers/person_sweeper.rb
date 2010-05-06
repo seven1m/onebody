@@ -7,7 +7,7 @@ class PersonSweeper < ActionController::Caching::Sweeper
       expire_fragment(%r{views/stream/stream_items/#{stream_item.id}_})
     end
   end
-  
+
   alias_method :after_destroy, :after_save
-  
+
 end

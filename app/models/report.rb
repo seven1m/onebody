@@ -3,46 +3,46 @@
 # Table name: reports
 #
 #  id             :integer       not null, primary key
-#  site_id        :integer       
-#  name           :string(255)   
-#  definition     :text          
+#  site_id        :integer
+#  name           :string(255)
+#  definition     :text
 #  restricted     :boolean       default(TRUE)
-#  created_by_id  :integer       
+#  created_by_id  :integer
 #  run_count      :integer       default(0)
-#  last_run_at    :datetime      
-#  last_run_by_id :integer       
-#  created_at     :datetime      
-#  updated_at     :datetime      
+#  last_run_at    :datetime
+#  last_run_by_id :integer
+#  created_at     :datetime
+#  updated_at     :datetime
 #
 
 class Report < ActiveRecord::Base
   unloadable
-  
+
   scope_by_site_id
-  
+
   attr_accessible :name, :restricted, :selector, :sort
-  
+
   has_and_belongs_to_many :admins
   belongs_to :last_run_by, :class_name => 'Person'
   belongs_to :created_by, :class_name => 'Person'
-  
+
   serialize :definition, Hash
-  
+
   validates_presence_of :name
   validates_uniqueness_of :name
-  
+
   VALID_COLLECTIONS = %w(people groups)
-  
+
   validates_each :definition do |record, attribute, value|
     unless VALID_COLLECTIONS.include?(value['collection']) \
       and value['selector'].is_a?(Array)
       record.errors.add(attribute, :invalid)
     end
   end
-  
+
   BLANK_CONDITION = ['', '=', '']
   BLANK_SORT = ['', '']
-  
+
   DEFAULT_DEFINITION = {
     'definition' => {
       'collection' => 'people',
@@ -55,18 +55,18 @@ class Report < ActiveRecord::Base
       ]
     }
   }
-  
+
   after_save :delete_associations_if_unrestricted
-  
+
   def delete_associations_if_unrestricted
     admins.clear unless restricted?
   end
-  
+
   def runnable_by?(person)
     person.super_admin? or !restricted? or \
       (person.admin and person.admin.reports.find(id))
   end
-  
+
   def run
     if collection and definition['selector']
       options = (definition['options'] || {}).dup.merge(:sort => definition['sort'])
@@ -81,9 +81,9 @@ class Report < ActiveRecord::Base
       false
     end
   end
-  
+
   # Mongo Database Connection
-  
+
   class << self
     def connect_mongo!
       config = YAML::load_file(RAILS_ROOT + '/config/database.yml')['mongo'] rescue nil
@@ -104,7 +104,7 @@ class Report < ActiveRecord::Base
     def update_mongo_js!
       MONGO_CONNECTIONS[Site.current.id].eval('db.system.js.save({_id: "select", value: function(arr, fun){ var matched=[]; for(var i=0; i<arr.length; i++) { if(fun(arr[i])) matched.push(arr[i]) }; return matched; } });')
     end
-    
+
     def db
       MONGO_CONNECTIONS[Site.current.id] || begin
         connect_mongo!
@@ -112,13 +112,13 @@ class Report < ActiveRecord::Base
       end
     end
   end
-  
+
   def collection
     if definition.is_a?(Hash) and definition['collection']
       @collection ||= self.class.db[definition['collection']]
     end
   end
-  
+
   # Nested Selector Definition
   # * A simple conditional takes the form: [field, operator, value]
   #   * Fields are those avaialable from Report::PEOPLE_FIELDS
@@ -152,14 +152,14 @@ class Report < ActiveRecord::Base
   #     {'field' => 'child',  'operator' => '=',   'value' => true  },
   #     {'field' => ')',      'operator' => '$and'                  }
   #   ]
-  
-  
+
+
   # Selector Definition Conversion - TO
-  
+
   def selector_for_form
     definition['selector'].map { |c| Report.condition_for_form(c) }.flatten
   end
-  
+
   class << self
     def condition_for_form(cond)
       if ['$or', '$and'].include?(cond.first)
@@ -178,7 +178,7 @@ class Report < ActiveRecord::Base
         {'field' => field, 'operator' => operator, 'value' => value}
       end
     end
-    
+
     def process_params!(params)
       if params[:add]
         add_condition_to_params!(params[:report][:selector], params[:add].to_i)
@@ -198,11 +198,11 @@ class Report < ActiveRecord::Base
         move_sort_in_params!(params[:report][:sort], params[:movesort].to_i, params[:direction])
       end
     end
-    
+
     def add_condition_to_params!(params, index)
       params.insert(index+1, condition_for_form(BLANK_CONDITION))
     end
-    
+
     def remove_condition_from_params!(params, index)
       params.delete_at(index)
       remove_empty_groups_from_params!(params)
@@ -212,7 +212,7 @@ class Report < ActiveRecord::Base
         end
       end
     end
-    
+
     def remove_empty_groups_from_params!(params)
       begin
         complete = true
@@ -225,7 +225,7 @@ class Report < ActiveRecord::Base
         end
       end while !complete
     end
-    
+
     def add_group_to_params!(params, index)
       stack = []
       params.each_with_index do |param, i|
@@ -241,7 +241,7 @@ class Report < ActiveRecord::Base
         params.insert(index+i+1, part)
       end
     end
-    
+
     def move_condition_in_params!(params, index, direction)
       # cannot go above or below top level parens ( and )
       return if index == 1 and direction == 'up'
@@ -254,7 +254,7 @@ class Report < ActiveRecord::Base
       end
       remove_empty_groups_from_params!(params)
     end
-    
+
     def flip_conjunctions_in_params!(params)
       params.each do |param|
         if ['(', ')'].include?(param['field'])
@@ -262,20 +262,20 @@ class Report < ActiveRecord::Base
         end
       end
     end
-    
+
     def sort_for_form(sort)
       {'field' => sort[0], 'direction' => sort[1]}
     end
-    
+
     def add_sort_to_params!(params, index)
       params.insert(index+1, sort_for_form(BLANK_SORT))
     end
-    
+
     def remove_sort_from_params!(params, index)
       params.delete_at(index)
       params.insert(0, sort_for_form(BLANK_SORT)) if params.empty?
     end
-    
+
     def move_sort_in_params!(params, index, direction)
       return if index == 0 and direction == 'up'
       return if index == params.length-1 and direction == 'down'
@@ -287,13 +287,13 @@ class Report < ActiveRecord::Base
       end
     end
   end
-  
+
   # Selector Definition Conversion - FROM
-  
+
   def selector=(params)
     definition['selector'] = convert_selector_params(params)
   end
-  
+
   def convert_selector_params(params)
     sel = []
     stack = [sel]
@@ -320,28 +320,28 @@ class Report < ActiveRecord::Base
     end
     sel
   end
-  
+
   def sort=(params)
     definition['sort'] = convert_sort_params(params)
   end
-  
+
   def convert_sort_params(params)
     params.map do |param|
       [param['field'], param['direction'].to_sym]
     end
   end
-  
+
   # Selector Definition Conversion - JAVASCRIPT
-  
+
   def selector_to_javascript
     'return ' + conditional_to_javascript('this', definition['selector'].first) + ';'
   end
-  
+
   JOINERS = {
     '$and' => ' && ',
     '$or'  => ' || '
   }
-  
+
   def conditional_to_javascript(context, cond)
     if joiner = JOINERS[cond.first]
       '(' + cond.last.map { |c| conditional_to_javascript(context, c) }.join(joiner) + ')'
@@ -367,7 +367,7 @@ class Report < ActiveRecord::Base
       end
     end
   end
-  
+
   def typecast_selector_value(field, operator, value)
     if %w(nil !nil).include?(operator)
       nil
@@ -383,16 +383,16 @@ class Report < ActiveRecord::Base
       value
     end
   end
-  
+
   PEOPLE_FIELDS = (
     Person.columns.map     { |c| [c.name,                        c.type.to_s] }.sort +
     Admin.columns.map      { |c| ["admin.#{c.name}",             c.type.to_s] }.sort +
     Group.columns.map      { |c| ["groups.#{c.name}",            c.type.to_s] }.sort +
     Membership.columns.map { |c| ["groups.membership.#{c.name}", c.type.to_s] }.sort
   ).reject { |col, type| col =~ /site_id$/ }
-  
+
   ONE_TO_MANY_ASSOCIATIONS = ['groups']
-  
+
   OPERATORS_AND_TYPES = [
     [I18n.t('reporting.is_exactly'),                '='                                                     ],
     [I18n.t('reporting.contains_case_sensitive'),   'c',   ['string', 'text', 'time', 'datetime']           ],
@@ -409,12 +409,12 @@ class Report < ActiveRecord::Base
     [I18n.t('reporting.is_nil'),                    'nil'                                                   ],
     [I18n.t('reporting.is_not_nil'),                '!nil'                                                  ]
   ]
-  
+
   class << self
     def field_type(field)
       PEOPLE_FIELDS.detect { |f, t| f == field }[1] rescue nil
     end
-    
+
     def operators_for_field(collection, field)
       ops = OPERATORS_AND_TYPES.dup
       unless field == ''
@@ -424,5 +424,5 @@ class Report < ActiveRecord::Base
       ops.map { |o| o[0..1] }
     end
   end
-  
+
 end

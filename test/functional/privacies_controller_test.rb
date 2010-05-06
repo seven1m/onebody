@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class PrivaciesControllerTest < ActionController::TestCase
-  
+
   should "redirect to edit action" do
     get :show, {:group_id => groups(:college).id, :membership_id => memberships(:peter_in_college_group).id},
       {:logged_in_id => people(:peter).id}
@@ -9,7 +9,7 @@ class PrivaciesControllerTest < ActionController::TestCase
     get :show, {:person_id => people(:peter).id}, {:logged_in_id => people(:peter).id}
     assert_redirected_to edit_person_privacy_path(people(:peter))
   end
-  
+
   should "edit membership privacy" do
     get :edit, {:group_id => groups(:college).id, :membership_id => memberships(:peter_in_college_group).id},
       {:logged_in_id => people(:peter).id}
@@ -39,7 +39,7 @@ class PrivaciesControllerTest < ActionController::TestCase
     assert !memberships(:peter_in_college_group).share_birthday?
     assert !memberships(:peter_in_college_group).share_anniversary?
   end
-  
+
   should "only allow admins and adult family members to edit privacy" do
     get :edit, {:person_id => people(:peter).id}, {:logged_in_id => people(:jeremy).id}
     assert_response :unauthorized
@@ -48,7 +48,7 @@ class PrivaciesControllerTest < ActionController::TestCase
     get :edit, {:person_id => people(:peter).id}, {:logged_in_id => people(:tim).id}
     assert_response :success
   end
-  
+
   should "edit personal privacy" do
     get :edit, {:person_id => people(:peter).id}, {:logged_in_id => people(:peter).id}
     assert_response :success
@@ -72,7 +72,7 @@ class PrivaciesControllerTest < ActionController::TestCase
     assert !people(:peter).share_birthday?
     assert !people(:peter).share_activity?
   end
-  
+
   should "edit family privacy" do
     get :edit, {:person_id => people(:peter).id}, {:logged_in_id => people(:peter).id}
     assert_response :success
@@ -102,5 +102,5 @@ class PrivaciesControllerTest < ActionController::TestCase
     assert !people(:peter).family.share_anniversary?
     assert !people(:peter).family.share_activity?
   end
-  
+
 end

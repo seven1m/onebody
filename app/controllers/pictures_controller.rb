@@ -1,22 +1,22 @@
 class PicturesController < ApplicationController
-  
+
   def index
     @album = Album.find(params[:album_id])
     @pictures = @album.pictures.paginate(:order => 'id', :page => params[:page])
   end
-  
+
   def show
     @album = Album.find(params[:album_id])
     @picture = Picture.find(params[:id])
   end
-  
+
   def next
     @album = Album.find(params[:album_id])
     ids = @album.picture_ids
     next_id = ids[ids.index(params[:id].to_i)+1] || ids.first
     redirect_to album_picture_path(params[:album_id], next_id)
   end
-  
+
   def prev
     @album = Album.find(params[:album_id])
     ids = @album.picture_ids
@@ -62,7 +62,7 @@ class PicturesController < ApplicationController
     flash[:notice] += " " + I18n.t('pictures.failed', :fail => fail) if fail > 0
     redirect_to params[:redirect_to] || @album
   end
-  
+
   # rotate / cover selection
   def update
     @album = Album.find(params[:album_id])
@@ -79,7 +79,7 @@ class PicturesController < ApplicationController
       render :text => I18n.t('pictures.cant_edit'), :layout => true, :status => 401
     end
   end
-  
+
   def destroy
     @album = Album.find(params[:album_id])
     @picture = Picture.find(params[:id])
@@ -90,5 +90,5 @@ class PicturesController < ApplicationController
       render :text => I18n.t('pictures.cant_delete'), :layout => true, :status => 401
     end
   end
-  
+
 end

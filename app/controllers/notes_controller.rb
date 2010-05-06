@@ -28,11 +28,11 @@ class NotesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def new
     @note = Note.new(:group => Group.find_by_id(params[:group_id]))
   end
-  
+
   def create
     @note = Note.new(params[:note])
     @note.group_id = params[:note][:group_id] if params[:note][:group_id]
@@ -41,20 +41,20 @@ class NotesController < ApplicationController
     end
     @note.person = @logged_in
     if @note.save
-      flash[:notice] = I18n.t('notes.saved') 
+      flash[:notice] = I18n.t('notes.saved')
       redirect_to params[:redirect_to] || @note
     else
       render :action => 'new'
     end
   end
-  
+
   def edit
     @note = Note.find(params[:id])
     unless @logged_in.can_edit?(@note)
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def update
     @note = Note.find(params[:id])
     if @logged_in.can_edit?(@note)
@@ -67,7 +67,7 @@ class NotesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def destroy
     @note = Note.find(params[:id])
     if @logged_in.can_edit?(@note)
@@ -81,5 +81,5 @@ class NotesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
 end

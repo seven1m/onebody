@@ -17,7 +17,7 @@ Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
   config.i18n.default_locale = File.exist?("#{RAILS_ROOT}/config/locale") ? File.read("#{RAILS_ROOT}/config/locale").strip.to_sym : :en
   config.i18n.load_path << Dir["#{RAILS_ROOT}/plugins/**/config/locales/*.{rb,yml}"]
-  # dependencies 
+  # dependencies
   config.gem 'transaction-simple',     :version => '~> 1.4.0', :lib => 'transaction/simple'
   config.gem 'color',                  :version => '~> 1.4.0'
   config.gem 'pdf-writer',             :version => '~> 1.1.8', :lib => 'pdf/writer'

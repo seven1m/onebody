@@ -7,12 +7,12 @@ module NavigationHelpers
   #
   def path_to(page_name)
     case page_name
-    
+
       when 'news'
         news_path
       when 'new news submission'
         new_news_item_path
-    
+
       # Add more mappings here.
       # Here is a more fancy example:
       #

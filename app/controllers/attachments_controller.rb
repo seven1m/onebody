@@ -1,6 +1,6 @@
 class AttachmentsController < ApplicationController
   skip_before_filter :authenticate_user, :only => %w(get)
-  
+
   def show
     @attachment = Attachment.find(params[:id])
     if @logged_in.can_see?(@attachment)
@@ -17,7 +17,7 @@ class AttachmentsController < ApplicationController
       render :text => I18n.t('attachments.not_found'), :layout => true, :status => 404
     end
   end
-  
+
   # only for page attachments
   def get
     @attachment = Attachment.find(params[:id])
@@ -28,7 +28,7 @@ class AttachmentsController < ApplicationController
       render :text => I18n.t('attachments.file_not_found'), :layout => true, :status => 404
     end
   end
-  
+
   def new
     if params[:page_id]
       @page = Page.find(params[:page_id])
@@ -41,7 +41,7 @@ class AttachmentsController < ApplicationController
       render :text => I18n.t('attachments.unknown_type'), :layout => true, :status => 500
     end
   end
-  
+
   def create
     if params[:attachment][:page_id]
       @page = Page.find(params[:attachment][:page_id])
@@ -56,7 +56,7 @@ class AttachmentsController < ApplicationController
       render :text => I18n.t('attachments.unknown_type'), :layout => true, :status => 500
     end
   end
-  
+
   def destroy
     @attachment = Attachment.find(params[:id])
     if @logged_in.can_edit?(@attachment)
@@ -67,5 +67,5 @@ class AttachmentsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
 end

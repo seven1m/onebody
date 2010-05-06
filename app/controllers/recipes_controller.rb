@@ -22,7 +22,7 @@ class RecipesController < ApplicationController
   def new
     @recipe = Recipe.new
   end
-  
+
   def create
     @recipe = Recipe.new(params[:recipe])
     @recipe.person = @logged_in
@@ -33,14 +33,14 @@ class RecipesController < ApplicationController
       render :action => 'new'
     end
   end
-  
+
   def edit
     @recipe = Recipe.find(params[:id])
     unless @logged_in.can_edit?(@recipe)
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def update
     @recipe = Recipe.find(params[:id])
     @recipe.tag_list.remove(params[:remove_tag]) if params[:remove_tag]

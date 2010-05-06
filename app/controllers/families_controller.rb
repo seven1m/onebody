@@ -1,7 +1,7 @@
 class FamiliesController < ApplicationController
-  
+
   cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy)
-  
+
   def index
     respond_to do |format|
       format.html { redirect_to @logged_in }
@@ -26,7 +26,7 @@ class FamiliesController < ApplicationController
       end
     end
   end
-  
+
   def show
     if params[:legacy_id]
       @family = Family.find_by_legacy_id(params[:id])
@@ -57,13 +57,13 @@ class FamiliesController < ApplicationController
       render :text => I18n.t('families.not_found'), :status => 404
     end
   end
-  
+
   before_filter :can_edit?, :only => %w(new create edit update destroy reorder)
-  
+
   def new
     @family = Family.new
   end
-  
+
   def create
     @family = Family.new_with_default_sharing(params[:family])
     respond_to do |format|
@@ -79,7 +79,7 @@ class FamiliesController < ApplicationController
       end
     end
   end
-  
+
   def edit
     @family = Family.find(params[:id])
   end
@@ -104,7 +104,7 @@ class FamiliesController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     @family = Family.find(params[:id])
     if @family == @logged_in.family
@@ -115,7 +115,7 @@ class FamiliesController < ApplicationController
       redirect_to people_path
     end
   end
-  
+
   def reorder
     @family = Family.find(params[:id])
     params[:people].to_a.each_with_index do |id, index|
@@ -125,7 +125,7 @@ class FamiliesController < ApplicationController
     end
     render :nothing => true
   end
-  
+
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if Family.connection.adapter_name == 'MySQL'
@@ -140,7 +140,7 @@ class FamiliesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def batch
     # delete family (used by Administration::DeletedPeopleController)
     if @logged_in.admin?(:edit_profiles) and params[:delete]
@@ -159,7 +159,7 @@ class FamiliesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def select
     @family = Family.find(params[:id]) unless params[:id].blank?
     respond_to do |format|
@@ -171,7 +171,7 @@ class FamiliesController < ApplicationController
   def schema
     render :xml => Family.columns.map { |c| {:name => c.name, :type => c.type} }
   end
-  
+
   private
 
   def can_edit?

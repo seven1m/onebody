@@ -3,14 +3,14 @@
 # Table name: twitter_messages
 #
 #  id                  :integer       not null, primary key
-#  twitter_screen_name :integer       
-#  person_id           :integer       
-#  message             :string(140)   
-#  reply               :string(140)   
-#  created_at          :datetime      
-#  updated_at          :datetime      
-#  site_id             :integer       
-#  twitter_message_id  :string(255)   
+#  twitter_screen_name :integer
+#  person_id           :integer
+#  message             :string(140)
+#  reply               :string(140)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  site_id             :integer
+#  twitter_message_id  :string(255)
 #
 
 class TwitterMessage < ActiveRecord::Base
@@ -18,23 +18,23 @@ class TwitterMessage < ActiveRecord::Base
   scope_by_site_id
 
   MAX_MESSAGES_PER_MINUTE = 200
-  
+
   belongs_to :person
-  
+
   validates_presence_of :twitter_screen_name
   validates_uniqueness_of :twitter_message_id
-  
+
   def validate
     if TwitterMessage.count('*', :conditions => ['created_at >= ?', 1.minutes.ago]) > MAX_MESSAGES_PER_MINUTE
       errors.add_to_base('Too many messages per minute.')
     end
   end
-    
+
   def twitter_screen_name=(screen_name)
     write_attribute :twitter_screen_name, screen_name
     self.person = Person.find_by_twitter_account(screen_name)
   end
-  
+
   def build_reply
     raise 'No message' unless self.message.to_s.strip.any?
     if self.person

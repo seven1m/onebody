@@ -18,7 +18,7 @@ class PhotosControllerTest < ActionController::TestCase
     get :medium, {:family_id => @family.id}, {:logged_in_id => @person}
     assert_response :success
   end
-  
+
   should "show a person photo" do
     @person.forge_photo
     get :show, {:person_id => @person.id}, {:logged_in_id => @person}
@@ -33,12 +33,12 @@ class PhotosControllerTest < ActionController::TestCase
     get :show, {:person_id => @child.id}, {:logged_in_id => @person}
     assert_response :missing
   end
-  
+
   should "show a group photo" do
     @group = Group.forge(:photo => true)
     get :show, {:group_id => @group.id}, {:logged_in_id => @person}
     assert_response :success
-  end  
+  end
 
   should "show a picture photo" do
     @album = Album.forge
@@ -52,27 +52,27 @@ class PhotosControllerTest < ActionController::TestCase
     get :show, {:recipe_id => @recipe.id}, {:logged_in_id => @person}
     assert_response :success
   end
-  
+
   should "update a photo" do
     post :update, {:family_id => @person.family.id, :photo => fixture_file_upload('files/image.jpg')},
       {:logged_in_id => @person}
     assert_response :redirect
   end
-  
+
   should "not update a photo unless user can edit the object" do
     post :update, {:family_id => @family.id, :photo => fixture_file_upload('files/image.jpg')},
       {:logged_in_id => @person}
     assert_response :error
   end
-  
+
   should "delete a photo" do
     post :destroy, {:family_id => @person.family.id}, {:logged_in_id => @person}
     assert_response :redirect
   end
-  
+
   should "not delete a photo unless user can edit the object" do
     post :destroy, {:family_id => @family.id}, {:logged_in_id => @person}
     assert_response :error
   end
-  
+
 end

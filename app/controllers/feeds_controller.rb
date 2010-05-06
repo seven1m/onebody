@@ -29,7 +29,7 @@ class FeedsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def create
     @person = Person.find(params[:person_id])
     if @logged_in.can_edit?(@person)
@@ -72,7 +72,7 @@ class FeedsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def destroy
     if params[:person_id]
       @person = Person.find(params[:person_id])
