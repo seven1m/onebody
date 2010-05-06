@@ -3,19 +3,19 @@
 # Table name: log_items
 #
 #  id             :integer       not null, primary key
-#  object_changes :text          
-#  person_id      :integer       
-#  created_at     :datetime      
-#  reviewed_on    :datetime      
-#  reviewed_by    :integer       
-#  flagged_on     :datetime      
-#  flagged_by     :string(255)   
-#  deleted        :boolean       
-#  name           :string(255)   
-#  group_id       :integer       
-#  site_id        :integer       
-#  loggable_id    :integer       
-#  loggable_type  :string(255)   
+#  object_changes :text
+#  person_id      :integer
+#  created_at     :datetime
+#  reviewed_on    :datetime
+#  reviewed_by    :integer
+#  flagged_on     :datetime
+#  flagged_by     :string(255)
+#  deleted        :boolean
+#  name           :string(255)
+#  group_id       :integer
+#  site_id        :integer
+#  loggable_id    :integer
+#  loggable_type  :string(255)
 #
 
 class LogItem < ActiveRecord::Base
@@ -24,15 +24,15 @@ class LogItem < ActiveRecord::Base
   belongs_to :reviewed_by, :class_name => 'Person', :foreign_key => 'reviewed_by'
   belongs_to :site
   belongs_to :loggable, :polymorphic => true
-  
+
   serialize :object_changes
-  
+
   scope_by_site_id
-  
+
   def object
     self.loggable
   end
-  
+
   def object_description
     return nil unless object
     if object.is_a? Page
@@ -45,7 +45,7 @@ class LogItem < ActiveRecord::Base
       object.id
     end
   end
-  
+
   def object_excerpt
     return nil unless object
     case loggable_type
@@ -63,7 +63,7 @@ class LogItem < ActiveRecord::Base
       nil
     end
   end
-  
+
   def object_url
     return nil if deleted?
     id = loggable_id
@@ -78,7 +78,7 @@ class LogItem < ActiveRecord::Base
       object
     end
   end
-  
+
   def object_image_url
     return nil if deleted?
     return nil unless object.respond_to? 'has_photo?' and object.has_photo?
@@ -95,7 +95,7 @@ class LogItem < ActiveRecord::Base
       chars = text.split(//)
       chars.length > length ? chars[0...l].join + truncate_string : text
     end
-    
+
   class << self
     def flag_suspicious_activity(since='1 hour')
       conditions = ["loggable_type in ('Message', 'Comment')"]

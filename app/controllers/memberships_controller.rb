@@ -1,8 +1,8 @@
 class MembershipsController < ApplicationController
-  
+
   skip_before_filter :authenticate_user, :only => %w(show update)
   before_filter :authenticate_user_with_code_or_session, :only => %w(show update)
-  
+
   def show
     # allow email links to work (since they will be GET requests)
     if params[:email]
@@ -11,7 +11,7 @@ class MembershipsController < ApplicationController
       raise ActionController::UnknownAction, I18n.t('No_action_to_show')
     end
   end
-  
+
   def index
     @group = Group.find(params[:group_id])
     if @logged_in.can_see?(@group)
@@ -20,7 +20,7 @@ class MembershipsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   # join group
   def create
     @group = Group.find(params[:group_id])
@@ -33,7 +33,7 @@ class MembershipsController < ApplicationController
     end
     redirect_back
   end
-  
+
   def update
     @group = Group.find(params[:group_id])
     # email on/off
@@ -43,7 +43,7 @@ class MembershipsController < ApplicationController
         @group.set_options_for @person, {:get_email => (params[:email] == 'on')}
         flash[:notice] = I18n.t('groups.email_settings_changed')
         redirect_back
-      else  
+      else
         render :text => I18n.t('There_was_an_error'), :layout => true, :status => 500
       end
     # promote/demote
@@ -56,7 +56,7 @@ class MembershipsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   # leave group
   def destroy
     @group = Group.find(params[:group_id])
@@ -70,7 +70,7 @@ class MembershipsController < ApplicationController
     end
     redirect_back
   end
-  
+
   def batch
     if params[:person_id]
       batch_on_person
@@ -78,7 +78,7 @@ class MembershipsController < ApplicationController
       batch_on_group
     end
   end
-  
+
   def batch_on_person
     @person = Person.find(params[:person_id])
     if @logged_in.can_edit?(@person) and @logged_in.admin?(:manage_groups)
@@ -99,7 +99,7 @@ class MembershipsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def batch_on_group
     @group = Group.find(params[:group_id])
     group_people = @group.people
@@ -129,5 +129,5 @@ class MembershipsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
 end

@@ -1,13 +1,13 @@
 class Administration::AdminsController < ApplicationController
   before_filter :only_admins
-  
+
   def index
     Admin.destroy_all(["(select count(*) from people where admin_id=admins.id and deleted=?) = 0 and template_name is null", false])
     @admin_count = Person.count('*', :conditions => ['admin_id is not null'])
     @templates = Admin.all(:order => 'template_name', :conditions => 'template_name is not null')
     @admins = @templates + Admin.all(:order => 'people.last_name, people.first_name', :include => :people, :conditions => 'template_name is null')
   end
-  
+
   def update
     @admin = Admin.find(params[:id])
     if params[:super_admin] and @logged_in.super_admin?
@@ -21,7 +21,7 @@ class Administration::AdminsController < ApplicationController
     end
     @success = @admin.save
   end
-  
+
   def create
     flash[:notice] = ''
     params[:ids].to_a.each do |id|
@@ -49,7 +49,7 @@ class Administration::AdminsController < ApplicationController
     end
     redirect_to administration_admins_path
   end
-  
+
   def destroy
     @admin = Admin.find(params[:id])
     if params[:person_id]
@@ -60,9 +60,9 @@ class Administration::AdminsController < ApplicationController
     flash[:notice] = I18n.t('admin.admin_removed')
     redirect_to administration_admins_path
   end
-  
+
   private
-  
+
     def only_admins
       unless @logged_in.admin?(:manage_access)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401

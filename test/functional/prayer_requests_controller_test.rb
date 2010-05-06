@@ -1,37 +1,37 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class PrayerRequestsControllerTest < ActionController::TestCase
-  
+
   def setup
     @person, @other_person = Person.forge, Person.forge
     @group = Group.forge
     @group.memberships.create(:person_id => @person.id)
     @prayer_request = @group.forge(:prayer_requests, :person_id => @person.id)
   end
-  
+
   should "list all prayer requests" do
     get :index, {:group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal 1, assigns(:reqs).length
   end
-  
+
   should "list all answered prayer requests" do
     @unanswered = @group.forge(:prayer_requests, :answer => nil, :person_id => @person.id)
     get :index, {:answered => true, :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal 1, assigns(:reqs).length
   end
-  
+
   should "show a prayer request" do
     get :show, {:id => @prayer_request.id, :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
   end
-  
+
   should "not show a prayer request if the user is not a member of the group" do
     get :show, {:id => @prayer_request.id, :group_id => @group.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
-  
+
   should "create a prayer request" do
     get :new, {:group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
@@ -42,14 +42,14 @@ class PrayerRequestsControllerTest < ActionController::TestCase
     assert_equal 'test answer', new_req.answer
     assert_equal '01/01/2010',  new_req.answered_at.strftime('%m/%d/%Y')
   end
-  
+
   should "not create a prayer request if the user is not a member of the group" do
     get :new, {:group_id => @group.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
     post :create, {:group_id => @group.id, :prayer_request => {:request => 'test req', :answer => 'test answer', :answered_at => '1/1/2010'}}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
-  
+
   should "edit a prayer request" do
     get :edit, {:id => @prayer_request.id, :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
@@ -59,14 +59,14 @@ class PrayerRequestsControllerTest < ActionController::TestCase
     assert_equal 'test answer', @prayer_request.answer
     assert_equal '01/01/2010',  @prayer_request.answered_at.strftime('%m/%d/%Y')
   end
-  
+
   should "not edit a prayer request if the user is not a member of the group" do
     get :edit, {:id => @prayer_request.id, :group_id => @group.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
     post :update, {:id => @prayer_request.id, :group_id => @group.id, :prayer_request => {:request => 'test req', :answer => 'test answer', :answered_at => '1/1/2010'}}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
-  
+
   should "delete a prayer request" do
     post :destroy, {:id => @prayer_request.id, :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :redirect
@@ -74,10 +74,10 @@ class PrayerRequestsControllerTest < ActionController::TestCase
       @prayer_request.reload
     end
   end
-  
+
   should "not delete a prayer request if the user is not a member of the group" do
     post :destroy, {:id => @prayer_request.id, :group_id => @group.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
-  
+
 end

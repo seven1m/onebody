@@ -2,24 +2,24 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   include ExceptionNotifiable
-  
+
   cache_sweeper :stream_item_sweeper, :only => %w(create update destroy)
 
   layout 'default.html'
-  
+
   before_filter :get_site
   before_filter :feature_enabled?
   before_filter :authenticate_user
   before_filter :detect_mobile
-  
+
   def iphone?
     session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
   end
-  
+
   def params_without_action
     params.clone.delete_if { |k, v| %w(controller action).include? k }
   end
-  
+
   private
     def get_site
       if ENV['ONEBODY_SITE']
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
         return false
       end
     end
-    
+
     def update_view_paths
       if (theme_name = get_theme_name) == 'custom'
         theme_name = "custom/site#{Site.current.id}"
@@ -61,15 +61,15 @@ class ApplicationController < ActionController::Base
       end
       self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths)
     end
-    
+
     def set_locale
       I18n.locale = Setting.get(:system, :language)
     end
-    
+
     def set_time_zone
       Time.zone = Setting.get(:system, :time_zone)
     end
-    
+
     def set_local_formats
       ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
         :default           => Setting.get(:formats, :full_date_and_time),
@@ -78,14 +78,14 @@ class ApplicationController < ActionController::Base
         :date_without_year => Setting.get(:formats, :date_without_year)
       )
     end
-    
+
     def set_layout_variables
       @site_name       = CGI.escapeHTML(Setting.get(:name, :site))
       @show_subheading = Setting.get(:appearance, :show_subheading)
       @copyright_year  = Date.today.year
       @community_name  = CGI.escapeHTML(Setting.get(:name, :community))
     end
-    
+
     def get_theme_name
       if params[:theme] and params[:theme] =~ /^[a-z0-9_]+$/
         params[:theme]
@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
         Setting.get(:appearance, :theme)
       end
     end
-    
+
     # used by some anonymous controller actions to see if someone is logged in
     # (without redirecting if they are not)
     def get_user
@@ -101,11 +101,11 @@ class ApplicationController < ActionController::Base
         Person.logged_in = @logged_in = Person.find_by_id(id)
       end
     end
-    
+
     def authenticate_user # default
       authenticate_user_with_http_basic_or_session
     end
-  
+
     def authenticate_user_with_session
       if id = session[:logged_in_id]
         unless person = Person.find_by_id(id)
@@ -129,14 +129,14 @@ class ApplicationController < ActionController::Base
         return false
       end
     end
-    
+
     def authenticate_user_with_code_or_session
       Person.logged_in = @logged_in = nil
       unless params[:code] and Person.logged_in = @logged_in = Person.find_by_feed_code_and_deleted(params[:code], false)
         authenticate_user_with_session
       end
     end
-    
+
     def authenticate_user_with_http_basic_or_session
       Person.logged_in = @logged_in = nil
       authenticate_with_http_basic do |email, api_key|
@@ -149,14 +149,14 @@ class ApplicationController < ActionController::Base
         authenticate_user_with_session
       end
     end
-    
+
     def generate_encryption_key
       key = OpenSSL::PKey::RSA.new(1024)
       @public_modulus  = key.public_key.n.to_s(16)
       @public_exponent = key.public_key.e.to_s(16)
       session[:key] = key.to_pem
     end
-    
+
     def decrypt_password(pass)
       if session[:key]
         key = OpenSSL::PKey::RSA.new(session[:key])
@@ -169,7 +169,7 @@ class ApplicationController < ActionController::Base
         false
       end
     end
-    
+
     def detect_mobile
       session[:iphone] = params[:iphone] == 'true' if params[:iphone]
       if iphone?
@@ -183,7 +183,7 @@ class ApplicationController < ActionController::Base
         self.class.layout 'default.html'
       end
     end
-    
+
     def rescue_action_with_page_detection(exception)
       get_site
       path, args = request.request_uri.downcase.split('?')
@@ -194,11 +194,11 @@ class ApplicationController < ActionController::Base
       end
     end
     alias_method_chain :rescue_action, :page_detection
-    
+
     def me?
       @logged_in and @person and @logged_in == @person
     end
-    
+
     def redirect_back(fallback=nil)
       if params[:from]
         redirect_to(params[:from])
@@ -211,22 +211,22 @@ class ApplicationController < ActionController::Base
       end
       return false # in case you want to halt action
     end
-        
+
     def add_errors_to_flash(record)
       flash[:warning] = record.errors.full_messages.join('; ')
     end
-    
+
     def only_admins
       unless @logged_in.admin?
         render :text => I18n.t('only_admins'), :layout => true, :status => 401
         return false
       end
     end
-    
+
     def feature_enabled?
       true
     end
-    
+
     def can_export?
       @logged_in and @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
     end

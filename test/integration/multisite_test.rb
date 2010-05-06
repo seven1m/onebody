@@ -4,12 +4,12 @@ class MultisiteTest < ActionController::IntegrationTest
   def setup
     Setting.set_global('Features', 'Multisite', true)
   end
-  
+
   def teardown
     Setting.set_global('Features', 'Multisite', false)
     site! 'www.example.com'
   end
-  
+
   def test_login
     site! 'site1'
     post_sign_in_form 'tom@example.com'
@@ -21,7 +21,7 @@ class MultisiteTest < ActionController::IntegrationTest
     assert_response :success
     assert_select 'body', /email address cannot be found/
   end
-  
+
   def test_browse
     site! 'site1'
     sign_in_as people(:jim)

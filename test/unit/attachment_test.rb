@@ -12,31 +12,31 @@ class AttachmentTest < ActiveSupport::TestCase
     )
     @attachment = @message.attachments.first
   end
-  
+
   should "save a file" do
     assert @attachment.has_file?
     assert_equal "#{@attachment.id}.test.pdf", @attachment.file_name
     assert File.exist?(@attachment.file_path)
   end
-  
+
   should "delete a file" do
     @attachment.file = nil
     assert !@attachment.has_file?
   end
-  
+
   should "delete a file when the object is destroyed" do
     file_path = @attachment.file_path
     assert File.exist?(file_path)
     @attachment.destroy
     assert !File.exist?(file_path)
   end
-  
+
   should "create an attachment with file at once" do
     @attachment = Attachment.create_from_file(:message_id => @message.id, :file => fixture_file_upload('files/attachment.pdf'))
     assert @attachment.valid?
     assert @attachment.has_file?
   end
-  
+
   should "recognize whether it is an image or not" do
     img = Attachment.create_from_file(:file => fixture_file_upload('files/image.jpg'))
     assert img.image?
@@ -44,5 +44,5 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 2, img.height
     assert !Attachment.create_from_file(:file => fixture_file_upload('files/attachment.pdf')).image?
   end
-  
+
 end

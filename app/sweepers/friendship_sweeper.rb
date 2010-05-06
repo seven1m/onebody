@@ -10,7 +10,7 @@ class FriendshipSweeper < ActionController::Caching::Sweeper
       expire_fragment(%r{views/people/#{record.friend_id}_})
     end
   end
-  
+
   alias_method :after_destroy, :after_save
-  
+
 end

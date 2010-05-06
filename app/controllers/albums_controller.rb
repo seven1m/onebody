@@ -31,7 +31,7 @@ class AlbumsController < ApplicationController
     @album = Album.find(params[:id])
     redirect_to album_pictures_path(@album)
   end
-  
+
   def new
     if @group = Group.find_by_id(params[:group_id]) and can_add_pictures_to_group?(@group)
       @album = @group.albums.build
@@ -39,11 +39,11 @@ class AlbumsController < ApplicationController
       @album = Album.new
     end
   end
-  
+
   def can_add_pictures_to_group?(group)
     group.pictures? and (@logged_in.member_of?(group) or group.admin?(@logged_in))
   end
-  
+
   def create
     @album = Album.new(params[:album])
     if @album.group and !can_add_pictures_to_group?(@album.group)
@@ -61,14 +61,14 @@ class AlbumsController < ApplicationController
       render :action => 'new'
     end
   end
-  
+
   def edit
     @album = Album.find(params[:id])
     unless @logged_in.can_edit?(@album)
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def update
     @album = Album.find(params[:id])
     if @logged_in.can_edit?(@album)
@@ -82,7 +82,7 @@ class AlbumsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def destroy
     @album = Album.find(params[:id])
     if @logged_in.can_edit?(@album)
@@ -92,5 +92,5 @@ class AlbumsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
 end

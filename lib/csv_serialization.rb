@@ -6,9 +6,9 @@ module ActiveRecord
       CsvSerializer.new(self, options).to_s
     end
   end
-  
+
   class CsvSerializer < ActiveRecord::Serialization::Serializer
-   
+
     def serialize
       values = serializable_attribute_names.map do |a|
         options[:read_attribute] ? @record.read_attribute(a).to_s : @record.send(a).to_s
@@ -24,7 +24,7 @@ module ActiveRecord
       end
       CSV.generate_line(values)
     end
-    
+
   end
 end
 
@@ -32,7 +32,7 @@ module ActiveSupport
   module CoreExtensions
     module Array
       module Conversions
-      
+
         def to_csv_mine(options = {})
           raise "Not all elements respond to to_csv_mine" unless all? { |e| e.respond_to? :to_csv_mine }
           serializer = ActiveRecord::CsvSerializer.new(first, options)
@@ -43,7 +43,7 @@ module ActiveSupport
           CSV.generate_line(names) + "\n" +
           map { |e| e.to_csv_mine(options) }.join("\n")
         end
-        
+
       end
     end
   end

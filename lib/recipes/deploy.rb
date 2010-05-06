@@ -4,9 +4,9 @@ namespace :deploy do
     sudo "mkdir -p #{deploy_to}"
     sudo "chown #{user}:#{user} #{deploy_to}"
   end
-  
+
   namespace :shared do
-  
+
     desc 'Setup shared directories'
     task :setup do
       Dir[File.dirname(__FILE__) + '/../../db/**/*'].each do |path|
@@ -21,9 +21,9 @@ namespace :deploy do
       run "mkdir -p #{shared_path}/initializers"
     end
     after 'deploy:setup', 'deploy:shared:setup'
-    
+
   end
-  
+
   task :create_database do
     mysql_root_password = HighLine.new.ask('MySQL ROOT password: ') { |q| q.echo = false }
     run "mysql -uroot -p#{mysql_root_password} -e \"create database onebody; grant all on onebody.* to onebody@localhost identified by '#{get_db_password}'\""
@@ -31,7 +31,7 @@ namespace :deploy do
     put yml, "#{shared_path}/config/database.yml"
   end
   after 'deploy:setup', 'deploy:create_database'
-  
+
   task :after_update_code do
     rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
     put rb, "#{release_path}/config/initializers/links.rb"
@@ -45,11 +45,11 @@ namespace :deploy do
     ]
     run commands.join('; ')
   end
-  
+
   task :copy_ssh_key do
     run "mkdir -p ~/.ssh"
     pubkey = File.read(ENV['HOME'] + '/.ssh/id_rsa.pub')
     run "echo #{pubkey} >> ~/.ssh/authorized_keys"
   end
-  
+
 end

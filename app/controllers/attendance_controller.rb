@@ -1,5 +1,5 @@
 class AttendanceController < ApplicationController
-  
+
   def index
     @group = Group.find(params[:group_id])
     if @group.admin?(@logged_in)
@@ -18,7 +18,7 @@ class AttendanceController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   # this method is similar to batch, but does not clear all the existing records for the group first
   # this method also allows you to record attendance for people not in the database (used for checkin 'add a friend' feature)
   def create
@@ -66,7 +66,7 @@ class AttendanceController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   # this method clears all existing attendance for the entire date and adds what is sent in params
   def batch
     @group = Group.find(params[:group_id])
@@ -93,5 +93,5 @@ class AttendanceController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
 end

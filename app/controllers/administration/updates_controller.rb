@@ -1,6 +1,6 @@
 class Administration::UpdatesController < ApplicationController
   before_filter :only_admins
-  
+
   def index
     @updates = Update.paginate(
       :page       => params[:page],
@@ -9,7 +9,7 @@ class Administration::UpdatesController < ApplicationController
     )
     @unapproved_groups = Group.find_all_by_approved(false)
   end
-  
+
   def update
     @update = Update.find(params[:id])
     if params[:complete] == 'true'
@@ -46,9 +46,9 @@ class Administration::UpdatesController < ApplicationController
     @update.destroy
     redirect_to administration_updates_path
   end
-  
+
   private
-  
+
     def only_admins
       unless @logged_in.admin?(:manage_updates)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401

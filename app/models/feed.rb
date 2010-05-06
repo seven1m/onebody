@@ -3,38 +3,38 @@
 # Table name: feeds
 #
 #  id          :integer       not null, primary key
-#  person_id   :integer       
-#  name        :string(100)   
-#  url         :string(1000)  
-#  site_id     :integer       
+#  person_id   :integer
+#  name        :string(100)
+#  url         :string(1000)
+#  site_id     :integer
 #  error_count :integer       default(0)
-#  created_at  :datetime      
-#  updated_at  :datetime      
-#  last_url    :string(1000)  
+#  created_at  :datetime
+#  updated_at  :datetime
+#  last_url    :string(1000)
 #
 
 class Feed < ActiveRecord::Base
   belongs_to :person
-  
+
   scope_by_site_id
-  
+
   attr_accessible :name, :url
-  
+
   validates_presence_of :person_id, :url, :name
   validates_uniqueness_of :name, :scope => :person_id
   validates_uniqueness_of :url, :scope => :person_id
   validates_format_of :url, :with => /^https?\:\/\/.+/
-  
+
   before_save :transform_url
-  
+
   def transform_url
     self.url = self.class.transform_url(url)
   end
-  
+
   IMPORT_LIMIT = 5
-  
+
   after_create :import_content
-  
+
   def import_content
     begin
       feed = Feedzirra::Feed.fetch_and_parse(url)
@@ -60,7 +60,7 @@ class Feed < ActiveRecord::Base
       end
     end
   end
-  
+
   def import_note(entry)
     unless Note.exists?(['original_url = ? and person_id = ?', entry.url, person_id])
       body = entry.content || entry.summary
@@ -78,7 +78,7 @@ class Feed < ActiveRecord::Base
       )
     end
   end
-  
+
   def import_picture(entry)
     unless Picture.exists?(['original_url = ? and person_id = ?', entry.url, person_id])
       album = person.albums.find_or_create_by_name('Flickr') do |a|
@@ -110,13 +110,13 @@ class Feed < ActiveRecord::Base
       end
     end
   end
-  
+
   def self.import_all
     Feed.all.each do |feed|
       feed.import_content
     end
   end
-  
+
   def self.transform_url(url)
     url = url.to_s
     url = 'http://' + url unless url =~ /^https?:\/\//

@@ -26,12 +26,12 @@ module Highrise
       end
     end
   end
-  
-  
+
+
   class Base < ActiveResource::Base
     self.site = ENV['SITE']
   end
-  
+
   # Abstract super-class, don't instantiate directly. Use Kase, Company, Person instead.
   class Subject < Base
     def notes
@@ -46,33 +46,33 @@ module Highrise
       Task.find(:all, :from => "/#{self.class.collection_name}/#{id}/tasks.xml")
     end
   end
-  
+
   class Kase < Subject
     # find(:all, :from => :open)
-    # find(:all, :from => :closed)  
-    
+    # find(:all, :from => :closed)
+
     def close!
       self.closed_at = Time.now.utc
       save
     end
   end
-  
+
   class Person < Subject
     include Pagination
-    
+
     def self.find_all_across_pages_since(time)
       find_all_across_pages(:params => { :since => time.to_s(:db).gsub(/[^\d]/, '') })
     end
-    
+
     def company
       Company.find(company_id) if company_id
     end
-    
+
     def name
       "#{first_name} #{last_name}".strip
     end
   end
-  
+
   class Company < Subject
     include Pagination
 
@@ -84,7 +84,7 @@ module Highrise
       Person.find(:all, :from => "/companies/#{id}/people.xml")
     end
   end
-  
+
   class Note < Base
     include Pagination
 
@@ -92,7 +92,7 @@ module Highrise
       Comment.find(:all, :from => "/notes/#{id}/comments.xml")
     end
   end
-  
+
   class Email < Base
     include Pagination
 
@@ -100,14 +100,14 @@ module Highrise
       Comment.find(:all, :from => "/emails/#{email_id}/comments.xml")
     end
   end
-  
+
   class Comment < Base
   end
 
   class Task < Base
     # find(:all, :from => :upcoming)
-    # find(:all, :from => :assigned)  
-    # find(:all, :from => :completed)  
+    # find(:all, :from => :assigned)
+    # find(:all, :from => :completed)
 
     def complete!
       load_attributes_from_response(post(:complete))
@@ -123,7 +123,7 @@ module Highrise
   class Group < Base
     # Auto-loads the users collection
   end
-  
+
   class Membership < Base
   end
 end

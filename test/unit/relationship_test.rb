@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class RelationshipTest < ActiveSupport::TestCase
-  
+
   should "not allow an invalid relationship name" do
     relationship = Relationship.new(
       :name    => 'junk',
@@ -11,7 +11,7 @@ class RelationshipTest < ActiveSupport::TestCase
     assert !relationship.valid?
     assert relationship.errors.on(:name)
   end
-  
+
   should "allow a valid relationship name" do
     relationship = Relationship.new(
       :name    => 'uncle',
@@ -20,7 +20,7 @@ class RelationshipTest < ActiveSupport::TestCase
     )
     assert relationship.valid?
   end
-  
+
   should "reciprocate certain relationship names" do
     relationship = Relationship.create!(
       :name    => 'mother_in_law',
@@ -30,7 +30,7 @@ class RelationshipTest < ActiveSupport::TestCase
     assert relationship.can_auto_reciprocate?
     assert_equal 'son_in_law', relationship.reciprocal_name
   end
-  
+
   should "not reciprocate certain relationship names" do
     relationship = Relationship.create!(
       :name       => 'other',
@@ -41,5 +41,5 @@ class RelationshipTest < ActiveSupport::TestCase
     assert !relationship.can_auto_reciprocate?
     assert_equal nil, relationship.reciprocal_name
   end
-  
+
 end

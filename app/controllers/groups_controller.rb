@@ -53,7 +53,7 @@ class GroupsController < ApplicationController
       end
     end
   end
-    
+
   def show
     @group = Group.find(params[:id])
     @stream_items = @group.shared_stream_items(20)
@@ -70,7 +70,7 @@ class GroupsController < ApplicationController
       return
     end
   end
-  
+
   def new
     if Group.can_create?
       @group = Group.new(:creator_id => @logged_in.id)
@@ -79,7 +79,7 @@ class GroupsController < ApplicationController
       render :text => I18n.t('groups.no_more'), :layout => true, :status => 401
     end
   end
-  
+
   def create
     if Group.can_create?
       photo = params[:group].delete(:photo)
@@ -104,7 +104,7 @@ class GroupsController < ApplicationController
       render :text => I18n.t('groups.no_more'), :layout => true, :status => 401
     end
   end
-  
+
   def edit
     @group ||= Group.find(params[:id])
     if @logged_in.can_edit?(@group)
@@ -114,7 +114,7 @@ class GroupsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def update
     @group = Group.find(params[:id])
     if @logged_in.can_edit?(@group)
@@ -131,7 +131,7 @@ class GroupsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def destroy
     @group = Group.find(params[:id])
     if @logged_in.can_edit?(@group)
@@ -142,7 +142,7 @@ class GroupsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def batch
     if @logged_in.admin?(:manage_groups)
       if request.post?
@@ -160,9 +160,9 @@ class GroupsController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   private
-  
+
     def feature_enabled?
       unless Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
         redirect_to people_path

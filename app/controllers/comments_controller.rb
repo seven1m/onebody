@@ -20,7 +20,7 @@ class CommentsController < ApplicationController
       render :text => I18n.t('comments.object_not_found', :name => object.class.name), :layout => true, :status => 404
     end
   end
-  
+
   def destroy
     @comment = Comment.find(params[:id])
     if @logged_in.can_edit?(@comment)
@@ -31,5 +31,5 @@ class CommentsController < ApplicationController
       render :text => I18n.t('comments.not_authorized'), :layout => true, :status => 401
     end
   end
-   
+
 end

@@ -2,7 +2,7 @@ class Administration::ReportsController < ApplicationController
 
   before_filter :only_admins_can_run_reports,    :only => ['index', 'show']
   before_filter :only_admins_can_manage_reports, :only => ['new', 'create', 'edit', 'update', 'destroy']
-  
+
   def index
     if @logged_in.super_admin?
       @reports = Report.all(:order => 'name')
@@ -11,7 +11,7 @@ class Administration::ReportsController < ApplicationController
     end
     @offline = true unless Report.db
   end
-  
+
   def show
     if Report.db
       @report = Report.find(params[:id])
@@ -30,14 +30,14 @@ class Administration::ReportsController < ApplicationController
       render :text => I18n.t('reporting.report_database_offline'), :layout => true, :status => 500
     end
   end
-  
+
   def new
     @report = Report.new
     @report.definition = Report::DEFAULT_DEFINITION['definition']
     @conditions = @report.selector_for_form
     @admins = Admin.all_for_presentation
   end
-  
+
   def create
     Report.process_params!(params)
     @report = Report.new
@@ -54,13 +54,13 @@ class Administration::ReportsController < ApplicationController
       render :action => 'new'
     end
   end
-  
+
   def edit
     @report = Report.find(params[:id])
     @conditions = @report.selector_for_form
     @admins = Admin.all_for_presentation
   end
-  
+
   def update
     @report = Report.find(params[:id])
     @report.attributes = params[:report]
@@ -73,27 +73,27 @@ class Administration::ReportsController < ApplicationController
       render :action => 'edit'
     end
   end
-  
+
   def destroy
     @report = Report.find(params[:id])
     @report.destroy
     redirect_to administration_reports_path
   end
-  
+
   private
-  
+
     def only_admins_can_run_reports
       unless @logged_in.admin?(:run_reports)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401
         return false
       end
     end
-    
+
     def only_admins_can_manage_reports
       unless @logged_in.admin?(:manage_reports)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401
         return false
       end
     end
-    
+
 end

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class NoteTest < ActiveSupport::TestCase
   fixtures :notes
-  
+
   def setup
     @person = Person.forge
     @note = Note.forge
@@ -11,7 +11,7 @@ class NoteTest < ActiveSupport::TestCase
   should "only set group if user can post to group" do
     Person.logged_in = @person
     @group = Group.forge
-    # user cannot post 
+    # user cannot post
     @note.group_id = @group.id
     assert @note.group.nil?
     assert @note.group_id.nil?
@@ -28,5 +28,5 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal @group, @note.group
     assert_equal @group.id, @note.group_id
   end
-  
+
 end

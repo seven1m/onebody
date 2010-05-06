@@ -1,5 +1,5 @@
 class BiblesController < ApplicationController
-  
+
   before_filter :convert_reference_into_book_and_chapter, :only => %w(show)
   before_filter :get_filename,                            :only => %w(show)
   before_filter :redirect_to_normalized_url,              :only => %w(show)
@@ -17,9 +17,9 @@ class BiblesController < ApplicationController
       end
     end
   end
-  
+
   private
-  
+
     def redirect_to_complete_url
       if params[:book] != 'x'
         book = Verse.normalize_book(params[:book]).downcase
@@ -36,7 +36,7 @@ class BiblesController < ApplicationController
         params[:chapter] = $2
       end
     end
-  
+
     def get_filename
       params[:book].gsub!(/\+/, ' ')
       if @book = Verse.normalize_book(params[:book]) and  @chapter = params[:chapter].to_i
@@ -45,7 +45,7 @@ class BiblesController < ApplicationController
         @chapter_filename = nil unless File.exists?(@chapter_filename)
       end
     end
-    
+
     def redirect_to_normalized_url
       return unless @chapter_filename
       url_book = @book.downcase
@@ -57,7 +57,7 @@ class BiblesController < ApplicationController
         end
       end
     end
-    
+
     def feature_enabled?
       false # for now
     end

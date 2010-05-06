@@ -8,7 +8,7 @@ class Administration::FilesController < ApplicationController
       {:filename => File.split(file).last, :url => "/assets/site#{Site.current.id}/#{File.split(file).last}", :size => File.stat(file).size}
     end
   end
-  
+
   def create
     if params[:filename] =~ /^[a-z0-9_]+(\.[a-z0-9_]+)?$/
       File.open(@path + '/' + params[:filename], 'wb') do |file|
@@ -20,7 +20,7 @@ class Administration::FilesController < ApplicationController
       render :text => I18n.t('attachments.invalid_name'), :layout => true, :status => 500
     end
   end
-  
+
   def destroy
     if params[:id] =~ /^[a-z0-9_]+(\.[a-z0-9_]+)?$/
       begin
@@ -33,9 +33,9 @@ class Administration::FilesController < ApplicationController
       render :text => I18n.t('attachments.invalid_name'), :layout => true, :status => 500
     end
   end
-  
+
   private
-  
+
   def get_path
     @path = "#{Rails.root}/public/assets/site#{Site.current.id}"
     unless File.exist?(@path)

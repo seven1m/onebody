@@ -3,49 +3,49 @@
 # Table name: updates
 #
 #  id               :integer       not null, primary key
-#  person_id        :integer       
-#  first_name       :string(255)   
-#  last_name        :string(255)   
-#  home_phone       :string(25)    
-#  mobile_phone     :string(25)    
-#  work_phone       :string(25)    
-#  fax              :string(25)    
-#  address1         :string(255)   
-#  address2         :string(255)   
-#  city             :string(255)   
-#  state            :string(2)     
-#  zip              :string(10)    
-#  birthday         :datetime      
-#  anniversary      :datetime      
-#  created_at       :datetime      
-#  complete         :boolean       
-#  suffix           :string(25)    
-#  gender           :string(6)     
-#  family_name      :string(255)   
-#  family_last_name :string(255)   
-#  site_id          :integer       
-#  custom_fields    :text          
+#  person_id        :integer
+#  first_name       :string(255)
+#  last_name        :string(255)
+#  home_phone       :string(25)
+#  mobile_phone     :string(25)
+#  work_phone       :string(25)
+#  fax              :string(25)
+#  address1         :string(255)
+#  address2         :string(255)
+#  city             :string(255)
+#  state            :string(2)
+#  zip              :string(10)
+#  birthday         :datetime
+#  anniversary      :datetime
+#  created_at       :datetime
+#  complete         :boolean
+#  suffix           :string(25)
+#  gender           :string(6)
+#  family_name      :string(255)
+#  family_last_name :string(255)
+#  site_id          :integer
+#  custom_fields    :text
 #
 
 class Update < ActiveRecord::Base
   PERSON_ATTRIBUTES = %w(first_name last_name mobile_phone work_phone fax birthday anniversary suffix gender custom_fields)
   FAMILY_ATTRIBUTES = %w(family_name family_last_name home_phone address1 address2 city state zip)
-  
+
   belongs_to :person
   belongs_to :site
-  
+
   scope_by_site_id
-  
+
   serialize :custom_fields
-  
+
   attr_accessor :child
-  
+
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
-  
+
   def custom_fields
     (f = read_attribute(:custom_fields)).is_a?(Array) ? f : []
   end
-  
+
   def custom_fields_as_hash
     returning({}) do |hash|
       Setting.get(:features, :custom_person_fields).each_with_index do |field, index|
@@ -53,7 +53,7 @@ class Update < ActiveRecord::Base
       end
     end
   end
-  
+
   def custom_fields=(values)
     existing_values = read_attribute(:custom_fields) || []
     if values.is_a?(Hash)
@@ -67,7 +67,7 @@ class Update < ActiveRecord::Base
     end
     write_attribute(:custom_fields, existing_values)
   end
-  
+
   def typecast_custom_value(val, index)
     if Setting.get(:features, :custom_person_fields)[index] =~ /[Dd]ate/
       Date.parse(val.to_s) rescue nil
@@ -75,7 +75,7 @@ class Update < ActiveRecord::Base
       val
     end
   end
-  
+
   def do!
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
     success = person.update_attributes(person_attributes) && person.family.update_attributes(family_attributes)
@@ -85,34 +85,34 @@ class Update < ActiveRecord::Base
     end
     return success
   end
-  
+
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :home_phone]
-  
+
   def person_attributes
     attrs = self.attributes.reject { |key, val| !PERSON_ATTRIBUTES.include?(key) }
     attrs['custom_fields'] = custom_fields_as_hash
     attrs['child'] = child
     attrs
   end
-  
+
   def person_attributes=(attributes)
     self.attributes = attributes
   end
-  
+
   def family_attributes
     {
       :name      => self.family_name,
       :last_name => self.family_last_name,
     }.merge(self.attributes.reject { |k, v| !(FAMILY_ATTRIBUTES - %w(family_name family_last_name)).include?(k) })
   end
-  
+
   def family_attributes=(attributes)
     attributes = attributes.clone
     self.family_name = attributes.delete(:name)
     self.family_last_name = attributes.delete(:last_name)
     self.attributes = attributes
   end
-  
+
   def changes
     p = self.person
     p.attributes = person_attributes
@@ -125,7 +125,7 @@ class Update < ActiveRecord::Base
     f_changes['family_last_name'] = f_changes.delete('last_name') if f_changes['last_name']
     p_changes.merge(f_changes)
   end
-  
+
   def self.create_from_params(params, person)
     params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
     returning person.updates.new do |update|
@@ -135,7 +135,7 @@ class Update < ActiveRecord::Base
       Notifier.deliver_profile_update(person, update.changes) if Setting.get(:contact, :send_updates_to)
     end
   end
-  
+
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
     returning([]) do |data|
       counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from updates where site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }

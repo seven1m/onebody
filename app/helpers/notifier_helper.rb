@@ -1,5 +1,5 @@
 module NotifierHelper
-  
+
   def format_changed_attribute(attribute, value)
     if value.is_a?(DateTime) or value.is_a?(Time)
       value.to_s(:date)
@@ -9,5 +9,5 @@ module NotifierHelper
       value.to_s
     end
   end
-  
+
 end

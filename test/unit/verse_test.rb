@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class VerseTest < ActiveSupport::TestCase
   fixtures :verses
-  
+
   def setup
     @verse = Verse.create(:reference => '1 John 1:9', :text => 'test')
   end
@@ -11,17 +11,17 @@ class VerseTest < ActiveSupport::TestCase
     v = Verse.find(@verse.reference)
     assert_equal 'test', v.text
   end
-  
+
   should "find an existing verse by id" do
     v = Verse.find(@verse.id)
     assert_equal 'test', v.text
   end
-  
+
   should "create a verse by reference" do
     v = Verse.find('1 John 1:9')
     assert_equal 'test', v.text
   end
-  
+
   should "link verses in a body of text" do
     text = <<-END
       Here is a verse: John 3:16.
@@ -36,7 +36,7 @@ class VerseTest < ActiveSupport::TestCase
     assert linked.index('http://bible.gospelcom.net/cgi-bin/bible?passage=Romans+12&version=NIV')
     assert linked.index('http://bible.gospelcom.net/cgi-bin/bible?passage=Romans+12&version=MSG')
   end
-  
+
   should "normalize reference" do
     assert_equal "3 John 1:1", Verse.normalize_reference("3 john 1:1")
     assert_equal "2 Chronicles 10:1", Verse.normalize_reference("ii chronicles 10:1")

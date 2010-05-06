@@ -8,7 +8,7 @@ class FamiliesControllerTest < ActionController::TestCase
     @child = Person.forge(:family => @family, :birthday => 1.year.ago, :gender => 'Female', :child => nil)
     @admin = Person.forge(:admin => Admin.create(:edit_profiles => true))
   end
-  
+
   should "show a family" do
     get :show, {:id => @family.id}, {:logged_in_id => @person.id}
     assert_response :success
@@ -16,7 +16,7 @@ class FamiliesControllerTest < ActionController::TestCase
     assert_equal @family, assigns(:family)
     assert_equal [@person, @child], assigns(:people)
   end
-  
+
   should "not show hidden people in the family" do
     get :show, {:id => @family.id}, {:logged_in_id => @other_person.id}
     assert_response :success
@@ -24,13 +24,13 @@ class FamiliesControllerTest < ActionController::TestCase
     assert_equal @family, assigns(:family)
     assert_equal [@person], assigns(:people)
   end
-  
+
   should "not show the family unless it is visible" do
     @family.update_attributes! :visible => false
     get :show, {:id => @family.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
-  
+
   should "create a new family" do
     get :new, nil, {:logged_in_id => @admin.id}
     assert_response :success
@@ -42,7 +42,7 @@ class FamiliesControllerTest < ActionController::TestCase
       {:logged_in_id => @admin.id}
     assert_response :redirect
   end
-  
+
   should "not create a new family unless user is admin" do
     get :new, nil, {:logged_in_id => @person.id}
     assert_response :unauthorized
@@ -54,7 +54,7 @@ class FamiliesControllerTest < ActionController::TestCase
       {:logged_in_id => @person.id}
     assert_response :unauthorized
   end
-  
+
   should "edit a family" do
     get :edit, {:id => @family.id}, {:logged_in_id => @admin.id}
     assert_response :success
@@ -63,12 +63,12 @@ class FamiliesControllerTest < ActionController::TestCase
       {:logged_in_id => @admin.id}
     assert_response :redirect
   end
-  
+
   should "not show xml unless user can export data" do
     get :show, {:id => @family.id, :format => 'xml'}, {:logged_in_id => @person.id}
     assert_response 406
   end
-  
+
   should "show xml for admin who can export data" do
     @other_person.admin = Admin.create!(:export_data => true)
     @other_person.save!

@@ -1,16 +1,16 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class WallsControllerTest < ActionController::TestCase
-  
+
   def setup
     @person, @other_person = Person.forge, Person.forge
     11.times { @person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @other_person }
   end
-  
+
   def add_messages_to_other_person
     @other_person.wall_messages.create! :subject => 'Wall Post', :body => Faker::Lorem.sentence, :person => @person
   end
-    
+
   should "show all messages from one person's wall when rendered as html" do
     get :show, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :success
@@ -34,13 +34,13 @@ class WallsControllerTest < ActionController::TestCase
     get :show, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
-  
+
   should "not show a person's wall if they have it disabled" do
     @person.update_attribute :wall_enabled, false
     get :show, {:person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
-  
+
   should "show the interaction of two people (wall-to-wall)" do
     add_messages_to_other_person
     get :with, {:person_id => @person.id, :id => @other_person.id}, {:logged_in_id => @other_person.id}
@@ -57,13 +57,13 @@ class WallsControllerTest < ActionController::TestCase
     get :with, {:person_id => @person.id, :id => @other_person.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
-  
+
   should "not show the interaction of two people (wall-to-wall) if any of the people have their wall disabled" do
     @person.update_attribute :wall_enabled, false
     get :with, {:person_id => @person.id, :id => @other_person.id}, {:logged_in_id => @other_person.id}
     assert_response :missing
   end
-  
+
   should "not show 'with' unless id is specified" do
     assert_raise(ActiveRecord::RecordNotFound) do
       get :with, {:person_id => @person.id}, {:logged_in_id => @other_person.id}

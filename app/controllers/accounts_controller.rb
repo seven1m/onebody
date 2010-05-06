@@ -1,11 +1,11 @@
 class AccountsController < ApplicationController
   filter_parameter_logging :password
-  
+
   before_filter :check_ssl, :except => [:verify]
   skip_before_filter :authenticate_user, :except => %w(edit update)
-  
+
   cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update)
-  
+
   def show
     if params[:person_id]
       redirect_to person_account_path(params[:person_id])
@@ -25,7 +25,7 @@ class AccountsController < ApplicationController
       @person = Person.new
     end
   end
-  
+
   def create
     if params[:person] and Setting.get(:features, :sign_up) and params[:phone].blank? # phone is to catch bots (hidden field)
       if Person.find_by_email(params[:person][:email])
@@ -66,9 +66,9 @@ class AccountsController < ApplicationController
       render :action => 'new'
     end
   end
-  
+
   private
-  
+
     def create_by_email
       person = Person.find_by_email(params[:email])
       family = Family.find_by_email(params[:email])
@@ -89,7 +89,7 @@ class AccountsController < ApplicationController
         render :action => 'new'
       end
     end
-  
+
     def create_by_mobile
       mobile = params[:mobile].scan(/\d/).join('')
       person = Person.find_by_mobile_phone(mobile)
@@ -114,7 +114,7 @@ class AccountsController < ApplicationController
         render :action => 'new'
       end
     end
-  
+
     def create_by_birthday
       if params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
         Notifier.deliver_birthday_verification(params)
@@ -126,7 +126,7 @@ class AccountsController < ApplicationController
     end
 
   public
-  
+
   def verify_code
     v = Verification.find(params[:id])
     unless v.pending?
@@ -164,7 +164,7 @@ class AccountsController < ApplicationController
       end
     end
   end
-  
+
   def edit
     @person ||= Person.find(params[:person_id])
     if @logged_in.can_edit?(@person)
@@ -173,7 +173,7 @@ class AccountsController < ApplicationController
       render :text => I18n.t('accounts.cannot_edit'), :layout => true, :status => 401
     end
   end
-  
+
   def update
     @person = Person.find(params[:person_id])
     if @logged_in.can_edit?(@person)
@@ -207,7 +207,7 @@ class AccountsController < ApplicationController
       render :text => I18n.t('accounts.cannot_edit'), :layout => true, :status => 401
     end
   end
-  
+
   def select
     unless session[:select_from_people]
       render :text => I18n.t('Page_no_longer_valid'), :layout => true
@@ -221,7 +221,7 @@ class AccountsController < ApplicationController
       redirect_to edit_person_account_path(session[:logged_in_id])
     end
   end
-  
+
   private
     def check_ssl
       unless request.ssl? or RAILS_ENV != 'production' or !Setting.get(:features, :ssl)

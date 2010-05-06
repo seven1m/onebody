@@ -1,6 +1,6 @@
 class Administration::SyncsController < ApplicationController
   before_filter :only_admins
-  
+
   VALID_SORT_COLS = %w(
     sync_items.syncable_type
     sync_items.name
@@ -8,14 +8,14 @@ class Administration::SyncsController < ApplicationController
     sync_items.operation
     sync_items.status
   )
-  
+
   def index
     @syncs = Sync.paginate(
       :order  => 'created_at desc',
       :page   => params[:page]
     )
   end
-  
+
   def show
     unless params[:sort] and params[:sort].to_s.split(',').all? { |col| VALID_SORT_COLS.include?(col) }
       params[:sort] = 'sync_items.status,sync_items.name'
@@ -24,7 +24,7 @@ class Administration::SyncsController < ApplicationController
     @items = @sync.sync_items.paginate(:order => params[:sort], :page => params[:page])
     @counts = @sync.count_items
   end
-  
+
   # for api only
   def create
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
@@ -38,7 +38,7 @@ class Administration::SyncsController < ApplicationController
       render :text => I18n.t('not_authorized'), :status => 401
     end
   end
-  
+
   # for api only
   def update
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
@@ -51,7 +51,7 @@ class Administration::SyncsController < ApplicationController
       render :text => I18n.t('not_authorized'), :status => 401
     end
   end
-  
+
   # for api only
   def create_items
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
@@ -66,9 +66,9 @@ class Administration::SyncsController < ApplicationController
       render :text => I18n.t('not_authorized'), :status => 401
     end
   end
-  
+
   private
-  
+
     def only_admins
       unless @logged_in.admin?(:manage_sync)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401
