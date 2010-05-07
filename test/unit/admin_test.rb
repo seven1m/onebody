@@ -23,4 +23,14 @@ class AdminTest < ActiveSupport::TestCase
     assert_equal [@report], @person.admin.all_reports
   end
 
+  context 'Privileges' do
+    should "track available privileges" do
+      assert Admin.privileges.include?('view_hidden_profiles')
+    end
+
+    should "add privileges" do
+      Admin.add_privileges('foo')
+      assert Admin.privileges.include?('foo')
+    end
+  end
 end
