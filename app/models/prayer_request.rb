@@ -26,7 +26,10 @@ class PrayerRequest < ActiveRecord::Base
 
   validates_presence_of :request, :group_id, :person_id
 
-  def name; "Prayer Request in #{group.name rescue '?'}"; end
+  def name
+    group_name = group.name rescue '?'
+    I18n.t('prayer.name', :group_name => group_name)
+  end
 
   def body
     html = "#{request}"
