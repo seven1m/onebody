@@ -71,7 +71,7 @@ class Report < ActiveRecord::Base
     if collection and definition['selector']
       options = (definition['options'] || {}).dup.merge(:sort => definition['sort'])
       f = collection.find(selector_to_javascript, options)
-      f.count # get Mongo to thrown an error if there's a problem
+      f.count # get Mongo to throw an error if there's a problem
       increment(:run_count)
       self.last_run_at = Time.now
       self.last_run_by_id = Person.logged_in.id if Person.logged_in
