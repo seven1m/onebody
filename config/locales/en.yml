@@ -1278,6 +1278,7 @@ en:
     delete_request: Delete Request
     edit_prayer_request: Edit Prayer Request
     edit_request: Edit Request
+    name: Prayer Request in {{group_name}}
     new_prayer_request: New Prayer Request
     not_found: Prayer Request not found.
     posted_by: posted by
