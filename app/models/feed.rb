@@ -36,6 +36,7 @@ class Feed < ActiveRecord::Base
   after_create :import_content
 
   def import_content
+    return if Rails.env.test?
     begin
       feed = Feedzirra::Feed.fetch_and_parse(url)
       feed.entries
