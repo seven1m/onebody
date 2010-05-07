@@ -97,7 +97,7 @@ module Forgeable
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest).each do |model|
+%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed).each do |model|
   eval "#{model}.class_eval { include Forgeable }"
 end
 
@@ -182,4 +182,8 @@ end
 
 class PrayerRequest
   self.forgery_defaults = {:request => :sentence, :answer => :sentence, :answered_at => Time.now}
+end
+
+class Feed
+  self.forgery_defaults = {:name => :word}
 end
