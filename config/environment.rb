@@ -29,7 +29,7 @@ Rails::Initializer.run do |config|
   config.gem 'nokogiri',               :version => '~> 1.4.0'
   config.gem 'builder',                :version => '>= 2.1.2'
   config.gem 'feedzirra',              :version => '>= 0.0.23'
-  config.gem 'mongo',                  :version => '~> 1.0'
+  config.gem 'mongo',                  :version => '>= 1.0.1'
   config.gem 'fastercsv',              :version => '~> 1.5.0'
 end
 
