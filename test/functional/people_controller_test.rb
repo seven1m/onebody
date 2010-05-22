@@ -198,4 +198,25 @@ class PeopleControllerTest < ActionController::TestCase
      post :destroy, {:id => @global_super_admin.id}, {:logged_in_id => @super_admin.id}
      assert_response :unauthorized
   end
+
+  should "not error when viewing a person not in a family" do
+    @admin = Person.forge(:admin => Admin.create(:view_hidden_profiles => true))
+    @person = Person.create!(:first_name => 'Deanna', :last_name => 'Troi', :child => false, :visible_to_everyone => true)
+    # normal person should not see
+    assert_nothing_raised do
+      get :show, {:id => @person.id}, {:logged_in_id => @other_person.id}
+    end
+    assert_response :missing
+    # admin should see a message
+    assert_nothing_raised do
+      get :show, {:id => @person.id}, {:logged_in_id => @admin.id}
+    end
+    assert_response :success
+    assert_select 'div.warning', I18n.t('people.no_family_for_this_person')
+    assert_nothing_raised do
+      get :show, {:id => @person.id, :simple => true}, {:logged_in_id => @admin.id}
+    end
+    assert_response :success
+    assert_select 'div.warning', I18n.t('people.no_family_for_this_person')
+  end
 end
