@@ -470,7 +470,7 @@
         function submitForm(e, callback){
             var $form = (typeof(e)==='string') ? $(e) : $(e.target);
 
-            if ($form.length && $form.is(jQTSettings.formSelector) && $form.attr('action')) {
+            if ($form.length && $form.is(jQTSettings.formSelector) && $form.attr('action') && !$form.hasClass('external')) {
                 showPageByHref($form.attr('action'), {
                     data: $form.serialize(),
                     method: $form.attr('method') || "POST",

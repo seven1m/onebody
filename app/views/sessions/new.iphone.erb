@@ -23,7 +23,7 @@
   }
 </script>
 
-<form method="post" action="/session" onsubmit="return encrypt_password()" id="signin_form">
+<form method="post" action="/session" onsubmit="return encrypt_password()" id="signin_form" class="external">
   <%= hidden_field_tag :from, params[:from] %>
   <%= hidden_field_tag :encrypted_password %>
   <div class="info"><%= I18n.t('session.sign_up_or_sign_in', :url => new_account_path) %></div>
