@@ -1146,6 +1146,7 @@ en:
     new_person: New Person
     no_additional_access_avaiable: No additional access options available at this time.
     no_families_found: No families found.
+    no_family_for_this_person: This person does not belong to a family. They will be unable to sign in and will not be visible to others on the site.
     no_groups_yet: no groups yet
     not_deleted: Person not deleted.
     not_found: Person not found.

@@ -15,3 +15,21 @@ li .byline, li .detail {
 .info table td {
   text-align: left;
 }
+
+html { background-color: #4e8bc1; }
+
+div.body { 
+  color: black;
+  background: #fff;
+  border: 1px solid #B4B4B4;
+  font: bold 17px Helvetica;
+  padding: 15px;
+  margin: 15px 10px 17px 10px;
+  -webkit-border-radius: 8px;
+}
+
+div.body ul {
+  border: none;
+  list-style: disc outside none;
+}
+

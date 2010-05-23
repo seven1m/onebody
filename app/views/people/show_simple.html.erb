@@ -2,6 +2,10 @@
   <%= link_to_function '[' + I18n.t('close') + ']', 'Element.hide("popup")', :class => 'discreet' %>
 </div>
 
+<% unless @family %>
+  <div class="warning"><%=h I18n.t('people.no_family_for_this_person') %></div>
+<% end %>
+
 <h2><%=h @person.name %></h2>
 
 <%= render :partial => 'details' %>

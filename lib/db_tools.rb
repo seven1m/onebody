@@ -55,7 +55,7 @@ class ActiveRecord::Base
     options = attributes.pop.symbolize_keys
     attributes.each do |attribute|
       class_eval "
-        def #{attribute}; #{options[:to]}.#{attribute}; end
+        def #{attribute}; #{options[:to]} && #{options[:to]}.#{attribute}; end
       "
     end
   end

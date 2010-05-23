@@ -10,10 +10,11 @@
 
 <h2><%=h @verse.reference %> (<%=h @verse.translation %>)</h2>
 
+<div class="body" style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.0' %>em;line-height:1.2em;">
+  <%=h @verse.text %>
+</div>
+
 <ul>
-  <li style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;">
-    <%=h @verse.text %>
-  </li>
   <li class="arrow"><%= link_to 'YouVersion', @verse.youversion_url %></li>
   <li class="arrow"><%= link_to 'eBible', @verse.ebible_url %></li>
   <li class="arrow"><%= link_to 'Bible Gateway', "http://www.biblegateway.com/passage/?search=#{u(@verse.reference)}" %></li>

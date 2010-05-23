@@ -11,7 +11,12 @@
 </head>
 <body>
   <div class="current" id="home">
-    <div class="toolbar"><%= yield :toolbar %></div>
+    <div class="toolbar">
+      <%= yield :toolbar %>
+      <% unless ['streams', 'sessions'].include?(params[:controller]) %>
+        <%= link_to I18n.t('nav.home'), stream_path, :class => 'button', :onclick => "location.href='/'" %>
+      <% end %>
+    </div>
     <%= notice %>
     <%= yield %>
     <div class="info">
