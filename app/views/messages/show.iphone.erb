@@ -22,15 +22,13 @@
   <% end %>
 </h2>
 
-<ul>
-  <li>
+<div class="body">
   <% if @message.html_body.to_s.any? %>
     <p><%= white_list_with_removal(hide_contact_details(@message.html_body)) %></p>
   <% else %>
     <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
   <% end %>
-  </li>
-</ul>
+</div>
 
 <% if @message.attachments.any? %>
   <h2><%= I18n.t('messages.attachments') %>:</h2>

@@ -13,8 +13,7 @@ class ApplicationController < ActionController::Base
   before_filter :detect_mobile
 
   def iphone?
-    false
-    #session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
+    session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
   end
 
   def params_without_action
