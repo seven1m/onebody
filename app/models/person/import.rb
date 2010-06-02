@@ -62,8 +62,12 @@ class Person
         person_hash, family_hash = split_change_hash(row_as_hash)
         if record = tiered_find(person_hash, match_by_name)
           record.attributes = person_hash
-          record.family.attributes = family_hash
-          [record, record.family]
+          if record.family
+            record.family.attributes = family_hash
+            [record, record.family]
+          else
+            [record, Family.new(family_hash)]
+          end
         else
           [new(person_hash), Family.new(family_hash)]
         end
