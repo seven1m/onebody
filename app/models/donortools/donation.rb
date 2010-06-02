@@ -1,5 +1,5 @@
 class Donortools::Donation < ActiveResource::Base
-  
+
   # same resource is prefixed or not based on parameters
   def self.prefix(options={})
     if options[:persona_id]
@@ -8,17 +8,17 @@ class Donortools::Donation < ActiveResource::Base
       "/"
     end
   end
-  
+
   def self.prefix_parameters
     []
   end
-  
+
   def donation_type
     I18n.t("d#{donation_type_id}", :scope => ['contributions', 'donation_types'])
   end
-  
+
   attr_accessor :person
-  
+
   class << self
     def all(params={}, options={})
       if params.any?
@@ -36,7 +36,7 @@ class Donortools::Donation < ActiveResource::Base
       end
       donations
     end
-    
+
     def setup_connection
       self.site     = Setting.get(:services, :donor_tools_url)
       self.user     = Setting.get(:services, :donor_tools_api_email)

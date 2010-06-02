@@ -3,18 +3,18 @@
 # Table name: verifications
 #
 #  id           :integer       not null, primary key
-#  verified     :boolean       
-#  created_at   :datetime      
-#  email        :string(255)   
-#  code         :integer       
-#  mobile_phone :string(25)    
-#  updated_at   :datetime      
-#  site_id      :integer       
+#  verified     :boolean
+#  created_at   :datetime
+#  email        :string(255)
+#  code         :integer
+#  mobile_phone :string(25)
+#  updated_at   :datetime
+#  site_id      :integer
 #
 
 class Verification < ActiveRecord::Base
   belongs_to :site
-  
+
   scope_by_site_id
 
   # generates security code
@@ -30,7 +30,7 @@ class Verification < ActiveRecord::Base
       end until code > 0
     end
   end
-  
+
   def pending?
     read_attribute(:verified).nil?
   end

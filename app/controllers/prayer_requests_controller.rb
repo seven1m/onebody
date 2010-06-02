@@ -40,7 +40,7 @@ class PrayerRequestsController < ApplicationController
       render :text => I18n.t('prayer.cant_post'), :layout => true, :status => 401
     end
   end
-  
+
   def edit
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])
@@ -48,7 +48,7 @@ class PrayerRequestsController < ApplicationController
       render :text => I18n.t('prayer.cant_edit'), :layout => true, :status => 401
     end
   end
-  
+
   def update
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])
@@ -63,7 +63,7 @@ class PrayerRequestsController < ApplicationController
       render :text => I18n.t('prayer.cant_edit'), :layout => true, :status => 401
     end
   end
-    
+
   def destroy
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])

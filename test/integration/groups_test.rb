@@ -24,7 +24,7 @@ class GroupsTest < ActionController::IntegrationTest
     assert_response :success
     assert_select 'body', :html => /Morgan\sGroup/
   end
-  
+
   def test_disable_email
     # with code
     put "/groups/#{groups(:college).id}/memberships/#{people(:jeremy).id}?code=#{people(:jeremy).feed_code}&email=off"

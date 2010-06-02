@@ -6,7 +6,7 @@ class FamilySweeper < ActionController::Caching::Sweeper
       expire_fragment(%r{views/people/#{record.id}_})
     end
   end
-  
+
   alias_method :after_destroy, :after_save
-  
+
 end

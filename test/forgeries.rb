@@ -6,7 +6,7 @@ module Forgeable
     attributes.merge!(foreign_key => self.id)
     eval(association.to_s.classify).forge(attributes)
   end
-  
+
   def forge_photo(photo=true)
     if photo.is_a?(String)
       self.photo = File.open(photo)
@@ -14,7 +14,7 @@ module Forgeable
       self.photo = File.open(RAILS_ROOT + '/test/fixtures/files/image.jpg')
     end
   end
-  
+
   def forge_file(file=true)
     if file.is_a?(String)
       self.file = File.open(file)
@@ -22,12 +22,12 @@ module Forgeable
       self.file = ActionController::TestUploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', nil, false)
     end
   end
-  
+
   def self.included(mod)
     mod.extend(ClassMethods)
     mod.class_eval <<-END
       @@forgery_defaults = {}
-      
+
       def self.forgery_defaults=(defaults)
         class_eval do
           @@forgery_defaults = defaults
@@ -49,9 +49,9 @@ module Forgeable
       end
     END
   end
-  
+
   module ClassMethods
-    
+
     def forge(attributes={})
       attributes.symbolize_keys!
       attributes = forgery_defaults.merge(attributes)
@@ -74,7 +74,7 @@ module Forgeable
       obj.forge_file(file)   if file
       obj
     end
-    
+
     def fake(symbol)
       case symbol
       when :word
@@ -93,11 +93,11 @@ module Forgeable
         raise 'Unrecognized faker symbol.'
       end
     end
-    
+
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest).each do |model|
+%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed).each do |model|
   eval "#{model}.class_eval { include Forgeable }"
 end
 
@@ -117,7 +117,7 @@ class Person
     person.forge_photo if photo
     person
   end
-  
+
   def forge_blog
     # must be set for the logger to correctly mark these entries
     Person.logged_in = self
@@ -182,4 +182,8 @@ end
 
 class PrayerRequest
   self.forgery_defaults = {:request => :sentence, :answer => :sentence, :answered_at => Time.now}
+end
+
+class Feed
+  self.forgery_defaults = {:name => :word}
 end

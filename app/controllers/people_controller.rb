@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
 
   caches_action :show, :for => 15.minutes, :cache_path => Proc.new { |c| "people/#{c.params[:id]}#{c.params[:simple] ? '_simple' : ''}#{c.params[:business] ? '_business' : ''}_for_#{Person.logged_in.id}" }, :if => Proc.new { |c| c.params[:format] != 'iphone' }
   cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy import batch)
-  
+
   def index
     respond_to do |format|
       format.html { redirect_to person_path(@logged_in, :tour => params[:tour]) }
@@ -40,7 +40,7 @@ class PeopleController < ApplicationController
       end
     end
   end
-  
+
   def show
     if params[:id].to_i == session[:logged_in_id]
       @person = @logged_in
@@ -84,7 +84,7 @@ class PeopleController < ApplicationController
       render :text => I18n.t('people.not_found'), :status => 404, :layout => true
     end
   end
-  
+
   def new
     if Person.can_create?
       if @logged_in.admin?(:edit_profiles)
@@ -112,7 +112,7 @@ class PeopleController < ApplicationController
       render :text => I18n.t('people.cant_be_added'), :layout => true, :status => 401
     end
   end
-  
+
   def create
     if Person.can_create?
       if @logged_in.admin?(:edit_profiles)
@@ -146,7 +146,7 @@ class PeopleController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def update
     @person = Person.find(params[:id])
     if @logged_in.can_edit?(@person)
@@ -165,7 +165,7 @@ class PeopleController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def destroy
     if @logged_in.admin?(:edit_profiles)
       @person = Person.find(params[:id])
@@ -181,7 +181,7 @@ class PeopleController < ApplicationController
      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def import
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if request.get?
@@ -197,7 +197,7 @@ class PeopleController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       if Person.connection.adapter_name == 'MySQL'
@@ -212,7 +212,7 @@ class PeopleController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def batch
     # post from families/show page
     if params[:family_id] and @logged_in.admin?(:edit_profiles)
@@ -232,18 +232,18 @@ class PeopleController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def schema
     render :xml => Person.columns.map { |c| {:name => c.name, :type => c.type} }
   end
-  
+
   def favs
     @person = Person.find(params[:id])
     unless @logged_in.can_see?(@person)
       render :text => I18n.t('people.not_found'), :status => 404, :layout => true
     end
   end
-  
+
   def testimony
     @person = Person.find(params[:id])
     unless @logged_in.can_see?(@person)

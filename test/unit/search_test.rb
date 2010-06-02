@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class SearchTest < ActiveSupport::TestCase
   fixtures :people, :families
-  
+
   def setup
     Person.logged_in = people(:jeremy)
   end
@@ -38,7 +38,7 @@ class SearchTest < ActiveSupport::TestCase
     assert_equal 1, results.length
     assert_equal 'Mac Morgan', results.first.name
   end
-  
+
   should "not show people under 18 unless user has full access" do
     # with full access
     Person.logged_in = people(:peter)
@@ -51,7 +51,7 @@ class SearchTest < ActiveSupport::TestCase
     people(:peter).save
     assert_equal 0, @search.query.length
   end
-  
+
   should "search for families" do
     Person.logged_in = people(:peter)
     @search = Search.new

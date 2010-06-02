@@ -3,95 +3,95 @@
 # Table name: people
 #
 #  id                           :integer       not null, primary key
-#  family_id                    :integer       
-#  sequence                     :integer       
-#  gender                       :string(6)     
-#  first_name                   :string(255)   
-#  last_name                    :string(255)   
-#  mobile_phone                 :string(25)    
-#  work_phone                   :string(25)    
-#  fax                          :string(25)    
-#  birthday                     :datetime      
-#  email                        :string(255)   
-#  website                      :string(255)   
-#  classes                      :text          
-#  shepherd                     :string(255)   
-#  mail_group                   :string(1)     
-#  encrypted_password           :string(100)   
-#  activities                   :text          
-#  interests                    :text          
-#  music                        :text          
-#  tv_shows                     :text          
-#  movies                       :text          
-#  books                        :text          
-#  quotes                       :text          
-#  about                        :text          
-#  testimony                    :text          
-#  share_mobile_phone           :boolean       
-#  share_work_phone             :boolean       
-#  share_fax                    :boolean       
-#  share_email                  :boolean       
-#  share_birthday               :boolean       
-#  business_name                :string(100)   
-#  business_description         :text          
-#  business_phone               :string(25)    
-#  business_email               :string(255)   
-#  business_website             :string(255)   
-#  legacy_id                    :integer       
-#  email_changed                :boolean       
-#  suffix                       :string(25)    
-#  anniversary                  :datetime      
-#  updated_at                   :datetime      
-#  alternate_email              :string(255)   
+#  family_id                    :integer
+#  sequence                     :integer
+#  gender                       :string(6)
+#  first_name                   :string(255)
+#  last_name                    :string(255)
+#  mobile_phone                 :string(25)
+#  work_phone                   :string(25)
+#  fax                          :string(25)
+#  birthday                     :datetime
+#  email                        :string(255)
+#  website                      :string(255)
+#  classes                      :text
+#  shepherd                     :string(255)
+#  mail_group                   :string(1)
+#  encrypted_password           :string(100)
+#  activities                   :text
+#  interests                    :text
+#  music                        :text
+#  tv_shows                     :text
+#  movies                       :text
+#  books                        :text
+#  quotes                       :text
+#  about                        :text
+#  testimony                    :text
+#  share_mobile_phone           :boolean
+#  share_work_phone             :boolean
+#  share_fax                    :boolean
+#  share_email                  :boolean
+#  share_birthday               :boolean
+#  business_name                :string(100)
+#  business_description         :text
+#  business_phone               :string(25)
+#  business_email               :string(255)
+#  business_website             :string(255)
+#  legacy_id                    :integer
+#  email_changed                :boolean
+#  suffix                       :string(25)
+#  anniversary                  :datetime
+#  updated_at                   :datetime
+#  alternate_email              :string(255)
 #  email_bounces                :integer       default(0)
-#  business_category            :string(100)   
+#  business_category            :string(100)
 #  get_wall_email               :boolean       default(TRUE)
-#  account_frozen               :boolean       
-#  wall_enabled                 :boolean       
+#  account_frozen               :boolean
+#  wall_enabled                 :boolean
 #  messages_enabled             :boolean       default(TRUE)
-#  business_address             :string(255)   
-#  flags                        :string(255)   
+#  business_address             :string(255)
+#  flags                        :string(255)
 #  visible                      :boolean       default(TRUE)
-#  parental_consent             :string(255)   
-#  admin_id                     :integer       
+#  parental_consent             :string(255)
+#  admin_id                     :integer
 #  friends_enabled              :boolean       default(TRUE)
-#  member                       :boolean       
-#  staff                        :boolean       
-#  elder                        :boolean       
-#  deacon                       :boolean       
-#  can_sign_in                  :boolean       
-#  visible_to_everyone          :boolean       
-#  visible_on_printed_directory :boolean       
-#  full_access                  :boolean       
-#  legacy_family_id             :integer       
-#  feed_code                    :string(50)    
-#  share_activity               :boolean       
-#  site_id                      :integer       
-#  can_pick_up                  :string(100)   
-#  cannot_pick_up               :string(100)   
-#  medical_notes                :string(200)   
-#  twitter_account              :string(100)   
-#  api_key                      :string(50)    
-#  salt                         :string(50)    
-#  deleted                      :boolean       
-#  child                        :boolean       
-#  custom_type                  :string(100)   
-#  custom_fields                :text          
+#  member                       :boolean
+#  staff                        :boolean
+#  elder                        :boolean
+#  deacon                       :boolean
+#  can_sign_in                  :boolean
+#  visible_to_everyone          :boolean
+#  visible_on_printed_directory :boolean
+#  full_access                  :boolean
+#  legacy_family_id             :integer
+#  feed_code                    :string(50)
+#  share_activity               :boolean
+#  site_id                      :integer
+#  can_pick_up                  :string(100)
+#  cannot_pick_up               :string(100)
+#  medical_notes                :string(200)
+#  twitter_account              :string(100)
+#  api_key                      :string(50)
+#  salt                         :string(50)
+#  deleted                      :boolean
+#  child                        :boolean
+#  custom_type                  :string(100)
+#  custom_fields                :text
 #  signin_count                 :integer       default(0)
-#  relationships_hash           :string(40)    
-#  donortools_id                :integer       
-#  synced_to_donortools         :boolean       
+#  relationships_hash           :string(40)
+#  donortools_id                :integer
+#  synced_to_donortools         :boolean
 #
 
 class Person < ActiveRecord::Base
-  
+
   MAX_TO_BATCH_AT_A_TIME = 50
 
   BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
   EXTRAS = %w(email alternate_email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
-  
+
   belongs_to :family
   belongs_to :admin
   belongs_to :donor, :class_name => 'Donortools::Persona', :foreign_key => 'donortools_id'
@@ -123,26 +123,27 @@ class Person < ActiveRecord::Base
   has_many :feeds
   has_many :stream_items
   belongs_to :site
-    
+
   scope_by_site_id
-  
+
   attr_accessible :gender, :first_name, :last_name, :suffix, :mobile_phone, :work_phone, :fax, :birthday, :email, :website, :activities, :interests, :music, :tv_shows, :movies, :books, :quotes, :about, :testimony, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :business_name, :business_description, :business_phone, :business_email, :business_website, :business_category, :suffx, :anniversary, :alternate_email, :get_wall_email, :wall_enabled, :messages_enabled, :business_address, :visible, :friends_enabled, :share_activity, :twitter_account
   attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :medical_notes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
-  
+  attr_accessible :id, :sequence, :can_pick_up, :cannot_pick_up, :family_id, :if => Proc.new { l = Person.logged_in and l.admin?(:edit_profiles) and l.admin?(:import_data) and Person.import_in_progress }
+
   named_scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
   named_scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
-    
+
   acts_as_password
   has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES
-    
+
   acts_as_logger LogItem, :ignore => %w(signin_count)
-  
+
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
     LogItem.create :loggable_type => 'Person', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
     self.photo_without_logging = p
   end
-  
+
   validates_presence_of :first_name, :last_name
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
@@ -153,7 +154,7 @@ class Person < ActiveRecord::Base
   validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
   validates_format_of :alternate_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
   validates_inclusion_of :gender, :in => %w(Male Female), :allow_nil => true
-  
+
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
   validates_each [:email, :child] do |record, attribute, value|
@@ -175,7 +176,7 @@ class Person < ActiveRecord::Base
       end
     end
   end
-  
+
   def name
     @name ||= begin
       if deleted?
@@ -187,7 +188,7 @@ class Person < ActiveRecord::Base
       end
     end
   end
-  
+
   def name_possessive
     name =~ /s$/ ? "#{name}'" : "#{name}'s"
   end
@@ -195,17 +196,17 @@ class Person < ActiveRecord::Base
   def first_name_possessive
     first_name =~ /s$/ ? "#{first_name}'" : "#{first_name}'s"
   end
-  
+
   def inspect
     "<#{name}>"
   end
-  
+
   serialize :custom_fields
-  
+
   def custom_fields
     (f = read_attribute(:custom_fields)).is_a?(Array) ? f : []
   end
-  
+
   def custom_fields=(values)
     if values.nil?
       write_attribute(:custom_fields, [])
@@ -223,7 +224,7 @@ class Person < ActiveRecord::Base
       write_attribute(:custom_fields, existing_values)
     end
   end
-  
+
   def typecast_custom_value(val, index)
     if Setting.get(:features, :custom_person_fields)[index] =~ /[Dd]ate/
       Date.parse(val.to_s) rescue nil
@@ -231,38 +232,38 @@ class Person < ActiveRecord::Base
       val
     end
   end
-  
+
   def self.can_create?
     Site.current.max_people.nil? or Person.can_sign_in.count < Site.current.max_people
   end
-  
+
   def birthday_soon?
     today = Date.today
     birthday and ((birthday.yday()+365 - today.yday()).modulo(365) < BIRTHDAY_SOON_DAYS)
   end
-      
+
   before_create :generate_salt
-  
+
   def generate_salt
     self.salt = ActiveSupport::SecureRandom.hex(50)[0...50] unless read_attribute(:salt)
   end
-  
+
   def salt
     read_attribute(:salt) || generate_salt
   end
-  
+
   inherited_attributes    :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_activity, :wall_enabled, :parent => :family
   fall_through_attributes :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :to => :family
   fall_through_attributes :share_home_phone, :share_home_phone?, :share_address, :share_address?, :share_anniversary, :share_anniversary?, :to => :family
   sharable_attributes     :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
-  
+
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
-    
+
   def groups_sharing(attribute)
     memberships.find(:all, :conditions => ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
   end
-  
+
   def can_see?(*whats)
     whats.select do |what|
       case what.class.name
@@ -299,9 +300,9 @@ class Person < ActiveRecord::Base
       end
     end.length == whats.length
   end
-  
+
   alias_method :sees?, :can_see?
-  
+
   def can_edit?(what)
     return false if self.account_frozen?
     case what.class.name
@@ -341,38 +342,38 @@ class Person < ActiveRecord::Base
       raise "Unrecognized argument to can_edit? (#{what.inspect})"
     end
   end
-  
+
   def can_sign_in?
     read_attribute(:can_sign_in) and consent_or_13?
   end
-  
+
   def full_access?
     read_attribute(:full_access) or admin? or staff? or elder? or deacon?
   end
-  
+
   def messages_enabled?
     read_attribute(:messages_enabled) and email.to_s.any?
   end
-  
+
   def member_of?(group)
     memberships.find_by_group_id(group.id)
   end
-  
+
   def birthday=(b)
     write_attribute(:birthday, b)
     if y = years_of_age
       self.child = nil
     end
   end
-  
+
   def at_least?(age) # assumes you won't pass in anything over 18
     (y = years_of_age and y >= age) or child == false
   end
-  
+
   def age
     birthday && birthday.distance_to(Date.today)
   end
-  
+
   def years_of_age(on=Date.today)
     return nil unless birthday
     return nil if birthday.year == 1900
@@ -381,40 +382,40 @@ class Person < ActiveRecord::Base
     years -= 1 if on.month == birthday.month and on.day < birthday.day
     years
   end
-  
+
   def at_least_13?; at_least?(13); end
   def adult?; at_least?(18); end
-  
+
   def parental_consent?; parental_consent.to_s.any?; end
   def consent_or_13?; at_least_13? or parental_consent?; end
-  
+
   def visible?(fam=nil)
     fam ||= self.family
     fam and fam.visible? and read_attribute(:visible) and consent_or_13? and visible_to_everyone?
   end
-  
+
   def admin?(perm=nil)
     if super_admin?
       true
     elsif perm
       admin and admin.flags[perm.to_s]
     else
-      admin ? true : false 
+      admin ? true : false
     end
   end
-  
+
   def super_admin?
     (admin and admin.super_admin?) or global_super_admin?
   end
-  
+
   def global_super_admin?
     defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL.to_s.any? and email == GLOBAL_SUPER_ADMIN_EMAIL
   end
-  
+
   def valid_email?
     email.to_s.strip =~ VALID_EMAIL_ADDRESS
   end
-  
+
   def gender=(g)
     if g.to_s.strip.blank?
       g = nil
@@ -423,7 +424,7 @@ class Person < ActiveRecord::Base
     end
     write_attribute(:gender, g)
   end
-  
+
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and adult?
   def parents
     if family 
@@ -434,17 +435,17 @@ class Person < ActiveRecord::Base
   def active?
     log_items.count(["created_at >= ?", 1.day.ago]) > 0
   end
-  
+
   def has_favs?
     %w(activities interests music tv_shows movies books quotes).detect do |fav|
       self.send(fav).to_s.any?
     end ? true : false
   end
-  
+
   def access_attributes
     self.attributes.keys.grep(/_access$/).reject { |a| a == 'full_access' }
   end
-  
+
   # generates security code for grabbing feed(s) without logging in
   before_create :update_feed_code
   def update_feed_code
@@ -453,13 +454,13 @@ class Person < ActiveRecord::Base
       write_attribute :feed_code, code
     end while Person.count('*', :conditions => ['feed_code = ?', code]) > 0
   end
-  
+
   def generate_api_key
     write_attribute :api_key, ActiveSupport::SecureRandom.hex(50)[0...50]
   end
-  
+
   attr_writer :no_auto_sequence
-  
+
   before_save :update_sequence
   def update_sequence
     return if @no_auto_sequence
@@ -469,7 +470,7 @@ class Person < ActiveRecord::Base
       self.sequence = family.people.maximum(:sequence, :conditions => conditions).to_i + 1
     end
   end
-  
+
   def update_from_params(params)
     params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
     if params[:photo_url] and params[:photo_url].length > 7 # not just "http://"
@@ -504,18 +505,18 @@ class Person < ActiveRecord::Base
       self
     end
   end
-  
+
   def can_edit_profile?
     admin?(:edit_profiles) or not Setting.get(:features, :updates_must_be_approved)
   end
-  
+
   def suffix=(s)
     s = nil if s.blank?
     write_attribute(:suffix, s)
   end
-  
+
   attr_accessor :dont_mark_email_changed
-  
+
   before_update :mark_email_changed
   def mark_email_changed
     return if dont_mark_email_changed
@@ -524,7 +525,7 @@ class Person < ActiveRecord::Base
       Notifier.deliver_email_update(self)
     end
   end
-  
+
   def calendar_accounts(include_family=false)
     cals = groups.all(
       :conditions => "gcal_private_link != '' and gcal_private_link is not null",
@@ -550,7 +551,7 @@ class Person < ActiveRecord::Base
       "https://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=0&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}&amp;ctz=UTC#{Time.zone.utc_offset}"
     end
   end
-  
+
   def shared_stream_items(count=30, mine=false)
     enabled_types = []
     enabled_types << 'Message' # wall posts and group posts (not personal messages)
@@ -618,13 +619,13 @@ class Person < ActiveRecord::Base
     end
     stream_items
   end
-  
+
   def show_attribute_to?(attribute, who)
     send(attribute).to_s.strip.any? and
     (not respond_to?("share_#{attribute}_with?") or
     send("share_#{attribute}_with?", who))
   end
-  
+
   def all_friend_and_groupy_ids
     if Setting.get(:features, :friends)
       friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id }
@@ -634,15 +635,15 @@ class Person < ActiveRecord::Base
     friend_ids + sidebar_group_people.map { |p| p.id }
   end
 
-  def to_liquid; inspect; end  
-  
+  def to_liquid; inspect; end
+
   def age_group
     the_classes = self.classes.to_s.split(',')
     if the_class = the_classes.detect { |c| c =~ /^AG:$/ }
       the_class.match(/^AG:(.+)$/)[1]
     end
   end
-  
+
   def attendance_today
     today = Date.today
     self.attendance_records.all(
@@ -651,23 +652,23 @@ class Person < ActiveRecord::Base
       :order      => 'attended_at'
     )
   end
-  
+
   def group_names
     groups.map { |g| g.name }.join(', ')
   end
-  
+
   def update_relationships_hash
     rels = relationships.all(:include => :related).map do |relationship|
       "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
     end.sort
     self.relationships_hash = Digest::SHA1.hexdigest(rels.join(','))
   end
-  
+
   def update_relationships_hash!
     update_relationships_hash
     save(false)
   end
-  
+
   def update_donor
     Donortools::Persona.setup_connection
     return unless adult?
@@ -730,13 +731,13 @@ class Person < ActiveRecord::Base
     self.synced_to_donortools = true
     save(false)
   end
-  
+
   def donortools_admin_url
     if donortools_id
       "#{Setting.get('services', 'donor_tools_url').sub(/\/$/, '')}/personas/#{donortools_id}/donations"
     end
   end
-  
+
   before_save :set_synced_to_donortools
   def set_synced_to_donortools
    if (changed & %w(first_name last_name suffix work_phone mobile_phone email)).any?
@@ -744,7 +745,7 @@ class Person < ActiveRecord::Base
    end
    true
   end
-  
+
   alias_method :destroy_for_real, :destroy
   def destroy
     self.update_attribute(:deleted, true)
@@ -754,16 +755,16 @@ class Person < ActiveRecord::Base
     self.membership_requests.destroy_all
     self.friendship_requests.destroy_all
   end
-  
- 
+
+
   class << self
-    
+
     # used to update a batch of records at one time, for UpdateAgent API
     def update_batch(records, options={})
       raise "Too many records to batch at once (#{records.length})" if records.length > MAX_TO_BATCH_AT_A_TIME
       records.map do |record|
         person = find_by_legacy_id(record['legacy_id'])
-        # find the family (by legacy_id, preferably) 
+        # find the family (by legacy_id, preferably)
         family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
         if person.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and family_id
           # family should have already been claimed by barcode -- we're just going to try to match up people by name
@@ -817,15 +818,15 @@ class Person < ActiveRecord::Base
         end
       end
     end
-  
+
     def business_categories
       find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' order by business_category").map { |p| p.business_category }
     end
-  
+
     def custom_types
       find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' order by custom_type").map { |p| p.custom_type }
     end
-    
+
     def send_to_mongo
       db = Report.db
       people = db['people_new']
@@ -846,7 +847,7 @@ class Person < ActiveRecord::Base
       db['people_new'].rename('people')
       db['people'].count
     end
-  
+
   end
 
   # model extensions

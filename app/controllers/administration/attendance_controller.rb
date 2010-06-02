@@ -1,7 +1,7 @@
 class Administration::AttendanceController < ApplicationController
 
   before_filter :only_admins
-  
+
   VALID_SORT_COLS = %w(
     attendance_records.last_name
     attendance_records.first_name
@@ -66,26 +66,26 @@ class Administration::AttendanceController < ApplicationController
       end
     end
   end
-  
+
   def prev
     @attended_at = Date.parse(params[:attended_at])
     date = AttendanceRecord.maximum(:attended_at, :conditions => ["attended_at < ?", @attended_at.strftime('%Y/%m/%d 0:00')])
     redirect_to administration_attendance_index_path(:attended_at => date)
   end
-  
+
   def next
     @attended_at = Date.parse(params[:attended_at])
     date = AttendanceRecord.minimum(:attended_at, :conditions => ["attended_at > ?", @attended_at.strftime('%Y/%m/%d 23:59:59')])
     redirect_to administration_attendance_index_path(:attended_at => date)
   end
-  
+
   def destroy
     @record = AttendanceRecord.find(params[:id])
     @record.destroy
   end
-  
+
   private
-  
+
     def only_admins
       unless @logged_in.admin?(:manage_attendance)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401

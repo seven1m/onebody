@@ -7,27 +7,27 @@ class Notifier < ActionMailer::Base
     subject "Profile Update from #{person.name}."
     body :person => person, :updates => updates
   end
-  
+
   def email_update(person)
     recipients Setting.get(:contact, :send_email_changes_to)
     from Site.current.noreply_email
     subject "#{person.name} Changed Email"
     body :person => person
   end
-  
+
   def date_and_time_report
     recipients Setting.get(:contact, :tech_support_email)
     from Site.current.noreply_email
     subject "Date & Time Incorrect"
   end
-  
+
   def friend_request(person, friend)
     recipients "#{friend.name} <#{friend.email}>"
     from Site.current.noreply_email
     subject "Friend Request from #{person.name}"
     body :person => person, :friend => friend
   end
-  
+
   def membership_request(group, person)
     unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
       unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
@@ -39,7 +39,7 @@ class Notifier < ActionMailer::Base
     subject "Request to Join Group from #{person.name}"
     body :person => person, :group => group
   end
-  
+
   def message(to, msg, id_and_code=nil)
     recipients to.email
     from msg.email_from(to)
@@ -88,35 +88,35 @@ class Notifier < ActionMailer::Base
     subject "24-7 Prayer: Don't Forget!"
     body :times => times
   end
-  
+
   def email_verification(verification)
     recipients verification.email
     from Site.current.noreply_email
     subject "Verify Email"
     body :verification => verification
   end
-  
+
   def mobile_verification(verification)
     recipients verification.email
     from Site.current.noreply_email
     subject "Verify Mobile"
     body :verification => verification
   end
-  
+
   def birthday_verification(params)
     recipients Setting.get(:contact, :birthday_verification_email)
     from params[:email]
     subject "Birthday Verification"
     body params
   end
-  
+
   def pending_sign_up(person)
     recipients Setting.get(:features, :sign_up_approval_email)
     from Site.current.noreply_email
     subject "Pending Sign Up"
     body :person => person
   end
-  
+
   def printed_directory(person, file)
     recipients "#{person.name} <#{person.email}>"
     from Site.current.noreply_email
@@ -124,10 +124,10 @@ class Notifier < ActionMailer::Base
     body :person => person
     attachment :content_type => 'application/pdf', :filename => 'directory.pdf', :body => file.read
   end
-  
+
   def receive(email)
     sent_to = email.cc.to_a + email.to.to_a
-    
+
     return unless email.from.to_s.any?
     return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
     return if email['Return-Path'] and ['<>', ''].include?(email['Return-Path'].to_s)
@@ -135,7 +135,7 @@ class Notifier < ActionMailer::Base
     return if email.from.to_s =~ /no\-?reply|postmaster|mailer\-daemon/i
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
     return unless get_site(email)
-    
+
     unless @person = get_from_person(email)
       Notifier.deliver_simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
@@ -148,7 +148,7 @@ class Notifier < ActionMailer::Base
       )
       return
     end
-    
+
     unless body = get_body(email) and (body[:text] or body[:html])
       Notifier.deliver_simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
@@ -165,7 +165,7 @@ class Notifier < ActionMailer::Base
     end
 
     @message_sent_to_group = false
-    
+
     sent_to.each do |address|
       address, domain = address.strip.downcase.split('@')
       next unless address.any? and domain.any?
@@ -177,9 +177,9 @@ class Notifier < ActionMailer::Base
       end
     end
   end
-  
+
   private
-  
+
     def group_email(group, email, body)
       # if is this looks like a reply, try to link this message to its original based on the subject
       if email.subject =~ /^re:/i
@@ -217,7 +217,7 @@ class Notifier < ActionMailer::Base
         @message_sent_to_group = true
       end
     end
-    
+
     def reply_email(email, body)
       message, code_hash = get_in_reply_to_message_and_code(email)
       if message and message.code_hash == code_hash
@@ -258,7 +258,7 @@ class Notifier < ActionMailer::Base
         )
       end
     end
-    
+
     def get_in_reply_to_message_and_code(email)
       message_id, code_hash, message = nil
       # first try in-reply-to and references headers
@@ -275,27 +275,27 @@ class Notifier < ActionMailer::Base
         return [message, code_hash]
       end
     end
-    
+
     def message_error_notification(email, message)
       Notifier.deliver_simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
         "Message Error: #{email.subject}",
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
         "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site had " +
-        "trouble saving the message (#{message.errors.full_messages.join('; ')}). " + 
+        "trouble saving the message (#{message.errors.full_messages.join('; ')}). " +
         "You may post your message directly from the site after signing into " +
         "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
         "#{Setting.get(:contact, :tech_support_contact)}."
       )
     end
-  
+
     def get_site(email)
       (email.cc.to_a + email.to.to_a).each do |address|
         return Site.current if Site.current = Site.find_by_host(address.downcase.split('@').last)
       end
       nil
     end
-    
+
     def get_from_person(email)
       people = Person.find :all, :conditions => ["#{sql_lcase('email')} = ?", email.from.first.downcase]
       if people.length == 0
@@ -310,7 +310,7 @@ class Notifier < ActionMailer::Base
         end
       end
     end
-  
+
     def get_body(email)
       # if the message is multipart, try to grab the plain text and/or html parts
       text = nil
@@ -336,7 +336,7 @@ class Notifier < ActionMailer::Base
         return {:text => email.body}
       end
     end
-  
+
     def clean_body(body)
       # this has the potential for error, but we'll just go with it and see
       body.to_s.split(/^[>\s]*\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \-/).first.to_s.strip

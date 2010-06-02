@@ -1,7 +1,9 @@
 class Person
-  
+
+  cattr_accessor :import_in_progress
+
   MAX_RECORDS_TO_IMPORT = 500
-  
+
   COLUMN_ALIASES = {
     'First Name'             => 'first_name',
     'Last Name'              => 'last_name',
@@ -21,7 +23,7 @@ class Person
     'Individual Email'       => 'email',
     'Household Email'        => 'family_email'
   }
-  
+
   module Import
     def self.included(mod)
       mod.extend(ClassMethods)
@@ -29,17 +31,18 @@ class Person
 
     module ClassMethods
       def importable_column_names
-        (columns.map { |c| c.name } + Family.columns.map { |c| "family_#{c.name}" }).reject { |c| %w(site_id family_site_id encrypted_password salt email_changed email_bounces flags parental_consent admin_id feed_code twitter_account api_key deleted signin_count latitude longitude family_deleted).include?(c) or c =~ /_at$/ }
+        (Person.attr_accessible.keys + Family.attr_accessible.keys.map { |k| "family_#{k}" }).uniq
       end
-      
+
       def translate_column_name(col)
         importable_column_names.include?(col) ? col : COLUMN_ALIASES[col]
       end
-      
+
       def queue_import_from_csv_file(file, match_by_name=true, merge_attributes={})
+        Person.import_in_progress = true
         data = FasterCSV.parse(file)
         attributes = data.shift.map { |a| translate_column_name(a) }
-        data[0...MAX_RECORDS_TO_IMPORT].map do |row|
+        the_changes = data[0...MAX_RECORDS_TO_IMPORT].map do |row|
           person, family = get_changes_for_import(attributes, row, match_by_name)
           person.attributes = merge_attributes
           if person.changed? or family.changed?
@@ -50,8 +53,10 @@ class Person
             nil
           end
         end.compact
+        Person.import_in_progress = false
+        the_changes
       end
-  
+
       def get_changes_for_import(attributes, row, match_by_name=true)
         row_as_hash = {}
         row.each_with_index do |col, index|
@@ -72,7 +77,7 @@ class Person
           [new(person_hash), Family.new(family_hash)]
         end
       end
-  
+
       def tiered_find(attributes, match_by_name=true)
         a = attributes.clone.reject_blanks
         a['id']        &&
@@ -84,8 +89,9 @@ class Person
         match_by_name  && a['first_name'] && a['last_name'] &&
           find_by_first_name_and_last_name(a['first_name'], a['last_name'])
       end
-  
+
       def import_data(params)
+        Person.import_in_progress = true
         completed = []
         errored = []
         params[:new].to_a.each do |key, vals|
@@ -103,7 +109,11 @@ class Person
               family.update_attributes!(family_vals)
               person = Person.create!(person_vals.merge('family_id' => family.id))
             rescue => e
-              errored << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Error creating record.', :message => e.message}
+              if person_vals
+                errored << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Error creating record.', :message => e.message}
+              else
+                errored << {:status => 'Error creating record.', :message => e.message}
+              end
               raise ActiveRecord::Rollback
             else
               completed << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Record created.'}
@@ -119,13 +129,18 @@ class Person
               person.update_attributes!(person_vals)
               person.family.update_attributes!(family_vals)
             rescue => e
-              errored << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.error_updating'), :message => e.message}
+              if person
+                errored << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.error_updating'), :message => e.message}
+              else
+                errored << {:status => I18n.t('import.error_updating'), :message => e.message}
+              end
               raise ActiveRecord::Rollback
             else
               completed << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.record_updated')}
             end
           end
         end
+        Person.import_in_progress = false
         [completed, errored]
       end
 

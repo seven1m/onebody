@@ -1,5 +1,5 @@
 module Administration::LogItemsHelper
-  
+
   def log_item_path(log_item)
     if log_item.loggable_type == 'Picture'
       picture_path(log_item.loggable)
@@ -7,7 +7,7 @@ module Administration::LogItemsHelper
       send(log_item.loggable_type.underscore + '_path', log_item.loggable_id)
     end
   end
-  
+
   def log_item_change_value(log_item, attribute, value)
     model = Kernel.const_get(log_item.loggable_type)
     if value.is_a?(Time)
@@ -24,5 +24,5 @@ module Administration::LogItemsHelper
       value
     end
   end
-  
+
 end

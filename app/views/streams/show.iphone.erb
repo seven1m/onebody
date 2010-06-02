@@ -1,8 +1,11 @@
 <% content_for :toolbar do %>
   <h1>Home</h1>
   <%= link_to 'Sign Out', session_path, :method => :delete, :class => 'button leftButton' %>
-  <%= link_to image_tag('user.png', :alt => 'Profile', :style => 'margin-top:8px;'), @logged_in, :class => 'button', :rel => 'external', :style => 'right:45px;' %>
-  <%= link_to image_tag('magnifier.png', :alt => 'Search', :style => 'margin-top:8px;'), new_search_path, :class => 'button', :rel => 'external' %>
 <% end %>
+
+<ul>
+  <li class="arrow"><%= link_to image_tag('user.png', :alt => 'Profile', :class => 'thumbnail', :width => 16, :height => 16) + h(@logged_in.name), @logged_in, :style => 'right:45px;' %></li>
+  <li class="arrow"><%= link_to image_tag('magnifier.png', :alt => 'Search', :class => 'thumbnail', :width => 16, :height => 16) + 'Search for People', new_search_path %></li>
+</ul>
 
 <%= render :partial => 'streams/stream_items_iphone' %>

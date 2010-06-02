@@ -1,5 +1,5 @@
 class CalendarsController < ApplicationController
-  
+
   def show
     if params[:person_id]
       @person = Person.find(params[:person_id])
@@ -17,5 +17,5 @@ class CalendarsController < ApplicationController
       end
     end
   end
-  
+
 end

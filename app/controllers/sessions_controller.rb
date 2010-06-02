@@ -2,11 +2,11 @@ class SessionsController < ApplicationController
   skip_before_filter :authenticate_user
   before_filter :check_ssl, :except => %w(destroy)
   before_filter :check_too_many_signin_failures, :only => %w(create)
-  
+
   def show
     redirect_to new_session_path
   end
-  
+
   # sign in form
   def new
     if Person.count > 0
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       render :action => 'no_users'
     end
   end
-  
+
   # sign in
   def create
     if params[:password].to_s.any? and (Rails.env == 'test' or Setting.get(:privacy, :allow_unencrypted_logins))
@@ -63,13 +63,13 @@ class SessionsController < ApplicationController
       flash.clear
     end
   end
-  
+
   # sign out
   def destroy
     reset_session
     redirect_to new_session_path
   end
-  
+
   private
     def check_ssl
       unless request.ssl? or RAILS_ENV != 'production' or !Setting.get(:features, :ssl)
@@ -77,7 +77,7 @@ class SessionsController < ApplicationController
         return false
       end
     end
-    
+
     def check_too_many_signin_failures
       if SigninFailure.count('*',
         :conditions => ['email = ? and ip = ? and created_at >= ?', params[:email].downcase, request.remote_ip, 15.minutes.ago]) >
@@ -86,5 +86,5 @@ class SessionsController < ApplicationController
         return false
       end
     end
-  
+
 end

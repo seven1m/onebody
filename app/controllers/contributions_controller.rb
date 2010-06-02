@@ -1,7 +1,7 @@
 class ContributionsController < ApplicationController
   before_filter :only_admins
   before_filter :ensure_api_connection
-  
+
   def index
     Donortools::Persona.setup_connection
     if params[:person_id]
@@ -17,7 +17,7 @@ class ContributionsController < ApplicationController
       @count_unsynced = Person.unsynced_to_donortools.count
     end
   end
-  
+
   def sync
     if params[:person_id]
       if request.post?
@@ -44,21 +44,21 @@ class ContributionsController < ApplicationController
       end
     end
   end
-  
+
   private
-  
+
     def only_admins
       unless @logged_in.admin?(:manage_contributions)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401
         return false
       end
     end
-    
+
     def ensure_api_connection
       unless Donortools::Persona.can_sync?
         render :text => I18n.t('contributions.api_not_configured', :url => administration_settings_path(:anchor => 'Services')), :layout => true
         return false
       end
     end
-  
+
 end

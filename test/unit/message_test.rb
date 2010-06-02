@@ -2,9 +2,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < ActiveSupport::TestCase
   fixtures :messages
-  
+
   include MessagesHelper
-  
+
   def setup
     @person, @second_person, @third_person = Person.forge, Person.forge, Person.forge
     @admin_person = Person.forge(:admin_id => Admin.create(:manage_messages => true).id)
@@ -17,7 +17,7 @@ class MessageTest < ActiveSupport::TestCase
     @message = Message.create_with_attachments({:to => @person, :person => @second_person, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph}, files)
     assert_equal 1, @message.attachments.count
   end
-  
+
   should "preview a message" do
     subject, body = Faker::Lorem.sentence, Faker::Lorem.paragraph
     @preview = Message.preview(:to => @person, :person => @second_person, :subject => subject, :body => body)
@@ -27,7 +27,7 @@ class MessageTest < ActiveSupport::TestCase
     assert @body.index('Hit "Reply" to send a message')
     assert @body.index(/http:\/\/.+\/privacy/)
   end
-  
+
   should "know who can see the message" do
     # group message
     @message = Message.create(:group => @group, :person => @person, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph)

@@ -14,8 +14,4 @@
 
 <h2><%=h @news_item.title %></h2>
 
-<ul>
-  <li>
-    <p><%= white_list_with_removal @news_item.body %></p>
-  </li>
-</ul>
+<div class="body"><%= white_list_with_removal @news_item.body %></div>

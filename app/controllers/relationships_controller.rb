@@ -1,6 +1,6 @@
 class RelationshipsController < ApplicationController
   before_filter :only_admins
-  
+
   def index
     if params[:person_id]
       person_index
@@ -10,7 +10,7 @@ class RelationshipsController < ApplicationController
       render :text => I18n.t('relationships.no_person_selected'), :layout => true
     end
   end
-  
+
   def person_index
     @person = Person.find(params[:person_id], :conditions => {:deleted => false})
     @relationships = @person.relationships.all(:include => :related, :order => 'people.last_name, people.first_name')
@@ -22,7 +22,7 @@ class RelationshipsController < ApplicationController
       format.xml  { render :xml => @relationships }
     end
   end
-  
+
   def family_index
     @family = Family.find(params[:family_id], :conditions => {:deleted => false})
     people_ids = @family.people.map { |p| p.id }
@@ -36,7 +36,7 @@ class RelationshipsController < ApplicationController
     @suggested_relationships = @family.suggested_relationships
     render :action => 'family_index'
   end
-  
+
   def create
     if params[:person_id]
       create_for_person
@@ -46,7 +46,7 @@ class RelationshipsController < ApplicationController
       render :text => I18n.t('relationships.no_person_selected'), :layout => true
     end
   end
-  
+
   def create_for_person
     @person = Person.find(params[:person_id], :conditions => {:deleted => false})
     @related = Person.find(params[:ids].to_a.first, :conditions => {:deleted => false})
@@ -61,7 +61,7 @@ class RelationshipsController < ApplicationController
       end
     end
   end
-  
+
   def create_for_family
     @family = Family.find(params[:family_id], :conditions => {:deleted => false})
     params[:people].to_a.each do |person_id, relationships|
@@ -75,7 +75,7 @@ class RelationshipsController < ApplicationController
     end
     redirect_to family_relationships_path(@family)
   end
-  
+
   def destroy
     @person = Person.find(params[:person_id], :conditions => {:deleted => false})
     @person.relationship.find(params[:id]).destroy
@@ -83,7 +83,7 @@ class RelationshipsController < ApplicationController
       format.xml { head :ok }
     end
   end
-  
+
   def batch
     @person = Person.find(params[:person_id], :conditions => {:deleted => false})
     params[:ids].to_a.each do |id|
@@ -103,14 +103,14 @@ class RelationshipsController < ApplicationController
     end
     redirect_to person_relationships_path(@person)
   end
-  
+
   private
-  
+
     def only_admins
       unless @logged_in.admin?(:edit_profiles)
         render :text => I18n.t('only_admins'), :layout => true, :status => 401
         return false
       end
     end
-  
+
 end

@@ -1,24 +1,24 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class NotesControllerTest < ActionController::TestCase
-  
+
   def setup
     @person, @other_person = Person.forge, Person.forge
     @note = @person.forge(:note)
   end
-  
+
   #should "list all notes" do
   #  get :index, nil, {:logged_in_id => @person.id}
   #  assert_response :success
   #  assert_equal 1, assigns(:notes).length
   #end
-  
+
   should "show a note" do
     get :show, {:id => @note.id}, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal @note, assigns(:note)
   end
-  
+
   should "not show a note unless user can see note owner" do
     @person.update_attribute :visible, false
     get :show, {:id => @note.id}, {:logged_in_id => @other_person.id}
@@ -36,7 +36,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 'test body',  @new_note.body
     assert_redirected_to note_path(@new_note)
   end
-  
+
   should "edit a note" do
     get :edit, {:id => @note.id}, {:logged_in_id => @person.id}
     assert_response :success
@@ -48,7 +48,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 'test body',  @note.body
     assert_redirected_to note_path(@note)
   end
-  
+
   should "not edit a note unless user is owner or admin" do
     get :edit, {:id => @note.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
@@ -58,7 +58,7 @@ class NotesControllerTest < ActionController::TestCase
     }, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
-  
+
   should "delete a personal note" do
     post :destroy, {:id => @note.id}, {:logged_in_id => @person.id}
     assert_raise(ActiveRecord::RecordNotFound) do
@@ -66,7 +66,7 @@ class NotesControllerTest < ActionController::TestCase
     end
     assert_redirected_to person_path(@person, :anchor => 'blog')
   end
-  
+
   should "delete a group note" do
     @group = Group.forge
     @note.group = @group
@@ -77,10 +77,10 @@ class NotesControllerTest < ActionController::TestCase
     end
     assert_redirected_to group_path(@group, :anchor => 'blog')
   end
-  
+
   should "not delete a note unless user is owner or admin" do
     post :destroy, {:id => @note.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
-  
+
 end

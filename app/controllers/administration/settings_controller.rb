@@ -1,7 +1,7 @@
 class Administration::SettingsController < ApplicationController
-  
+
   before_filter :only_admins
-  
+
   def index
     @settings = Setting.find_all_by_site_id_and_hidden(
       Site.current.id,
@@ -15,7 +15,7 @@ class Administration::SettingsController < ApplicationController
     @lists['System']['Time Zone'] = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
     @lists['System']['Language'] = info.available_locales.invert
   end
-  
+
   def batch
     Setting.find_all_by_site_id(Site.current.id).each do |setting|
       next if setting.hidden?
@@ -29,22 +29,22 @@ class Administration::SettingsController < ApplicationController
     flash[:notice] = I18n.t('application.settings_saved')
     redirect_to administration_settings_path
   end
-  
+
   def reload
     reload_settings
     flash[:notice] = I18n.t('application.settings_reloaded')
     redirect_to admin_path
   end
-  
+
   private
-  
+
     def only_admins
       unless @logged_in.super_admin?
         render :text => I18n.t('admin.must_be_superadmin'), :layout => true, :status => 401
         return false
       end
     end
-  
+
     def reload_settings
       Site.current.update_attribute(:settings_changed_at, Time.now)
       expire_fragment(%r{views/})

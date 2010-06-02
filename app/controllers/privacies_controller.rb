@@ -13,7 +13,7 @@ class PrivaciesController < ApplicationController
       redirect_to edit_person_privacy_path(id, params_without_action.merge(:anchor => "p#{id}"))
     end
   end
-  
+
   def edit
     if params[:group_id]
       @group ||= Group.find(params[:group_id])
@@ -38,7 +38,7 @@ class PrivaciesController < ApplicationController
       end
     end
   end
-  
+
   def update
     if params[:membership]
       update_membership
@@ -52,9 +52,9 @@ class PrivaciesController < ApplicationController
       render :text => I18n.t('privacies.missing_params'), :status => 500
     end
   end
-  
+
   private
-  
+
   def update_membership
     @group = Group.find(params[:group_id])
     @membership = Membership.find(params[:membership_id])
@@ -70,14 +70,14 @@ class PrivaciesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def update_person
     @person = Person.find(params[:person_id])
     @family = @person.family
     if @logged_in.can_edit?(@family)
       if person = @family.people.find(params[:person_id])
         sharing = params[:person].reject { |k, v| k.to_s !~ /^wall_enabled$|^messages_enabled$|^visible$|^share_/ }
-        sharing.each { |k, v| sharing[k] = (v == 'nil') ? nil : v } 
+        sharing.each { |k, v| sharing[k] = (v == 'nil') ? nil : v }
         if person.update_attributes(sharing)
           if person.visible?
             flash[:notice] = I18n.t('privacies.saved_personal', :name => person.name)
@@ -93,7 +93,7 @@ class PrivaciesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-    
+
   def update_family
     @person = Person.find(params[:person_id])
     @family = @person.family
@@ -111,7 +111,7 @@ class PrivaciesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def update_consent
     @person = Person.find(params[:person_id])
     @family = @person.family

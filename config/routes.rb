@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
 
   map.home '', :controller => 'pages', :action => 'show_for_public'
-  
+
   map.resource :stream
 
   map.resource :account, :member => {:verify_code => :any, :select => :any}
@@ -49,9 +49,9 @@ ActionController::Routing::Routes.draw do |map|
     groups.resource :photo, :member => PHOTO_SIZE_METHODS
     groups.resource :calendar
   end
-  
+
   map.resources :memberships, :collection => {:batch => :any}
-  
+
   map.resources :contributions, :collection => {:sync => [:get, :post]}
 
   map.resources :service_categories, :collection => {:batch_edit => :get, :close_batch_edit => :get}
@@ -61,7 +61,7 @@ ActionController::Routing::Routes.draw do |map|
       pictures.resource :photo, :member => PHOTO_SIZE_METHODS
     end
   end
-  
+
   map.resources :pictures
 
   map.resources :prayer_signups
@@ -95,7 +95,7 @@ ActionController::Routing::Routes.draw do |map|
   map.bible 'bible/:book/:chapter', :controller => 'bibles', :action => 'show',
     :book => 'x', :chapter => 0,
     :requirements => {:book => /[A-Za-z0-9 \+(%20)]+/, :chapter => /\d{1,3}/}
-    
+
   map.resources :pages, :as => 'pages/admin' do |pages|
     pages.resources :attachments
   end

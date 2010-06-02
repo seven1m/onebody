@@ -1,6 +1,6 @@
 module StreamsHelper
   include MessagesHelper
-  
+
   def stream_icon(stream_item)
     src = case stream_item.streamable_type
     when 'NewsItem'
@@ -28,15 +28,15 @@ module StreamsHelper
     end
     image_tag(src, :alt => stream_item.title, :class => 'icon')
   end
-  
+
   def stream_item_path(stream_item)
     send(stream_item.streamable_type.underscore + '_path', stream_item.streamable_id)
   end
-  
+
   def stream_item_url(stream_item)
     send(stream_item.streamable_type.underscore + '_url', stream_item.streamable_id)
   end
-  
+
   def stream_item_content(stream_item, use_code=false)
     if stream_item.body
       if stream_item.streamable_type == 'Message'
@@ -61,7 +61,7 @@ module StreamsHelper
     end
     content
   end
-  
+
   def recent_time_ago_in_words(time)
     if time >= 1.day.ago
       time_ago_in_words(time) + ' ' + I18n.t('stream.ago')
@@ -69,7 +69,7 @@ module StreamsHelper
       time.to_s
     end
   end
-  
+
   def stream_type_checkmark(name, type, checked_by_default=true)
     enabled = cookies["stream_#{type}"]
     enabled = cookies["stream_#{type}"] = checked_by_default if cookies["stream_#{type}"].nil?
@@ -79,6 +79,6 @@ module StreamsHelper
       :id => "enable-stream_" + type
     )
   end
-  
-  
+
+
 end

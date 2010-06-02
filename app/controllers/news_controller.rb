@@ -73,7 +73,7 @@ class NewsController < ApplicationController
         end
       else
         respond_to do |format|
-          format.html { render :action => 'new' } 
+          format.html { render :action => 'new' }
         end
       end
     else
@@ -97,7 +97,7 @@ class NewsController < ApplicationController
         end
       else
         respond_to do |format|
-          format.html { render :action => 'edit' } 
+          format.html { render :action => 'edit' }
         end
       end
     else

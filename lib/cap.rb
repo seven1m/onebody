@@ -3,11 +3,11 @@ class Capistrano::Configuration
     template = File.read(filename)
     result   = ERB.new(template).result(binding)
   end
-  
+
   def get_db_password
     @db_password ||= HighLine.new.ask('Password to use for the "onebody" MySQL user: ') { |q| q.echo = false }
   end
-  
+
   def run_and_return(cmd)
     output = []
     run cmd do |ch, st, data|

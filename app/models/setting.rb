@@ -3,16 +3,16 @@
 # Table name: settings
 #
 #  id          :integer       not null, primary key
-#  section     :string(100)   
-#  name        :string(100)   
-#  format      :string(20)    
-#  value       :string(500)   
-#  description :string(500)   
-#  hidden      :boolean       
-#  created_at  :datetime      
-#  updated_at  :datetime      
-#  site_id     :integer       
-#  global      :boolean       
+#  section     :string(100)
+#  name        :string(100)
+#  format      :string(20)
+#  value       :string(500)
+#  description :string(500)
+#  hidden      :boolean
+#  created_at  :datetime
+#  updated_at  :datetime
+#  site_id     :integer
+#  global      :boolean
 #
 
 class Setting < ActiveRecord::Base
@@ -21,15 +21,15 @@ class Setting < ActiveRecord::Base
     'Services.Yahoo',
     'Features.Multisite', 'Features.SSL', 'Features.Edit Legacy Ids', 'Features.Reporting'
   ]
-  
+
   SETTINGS_FILE = File.join(RAILS_ROOT, "config/settings.yml")
   PLUGIN_SETTINGS_FILES = File.join(RAILS_ROOT, "plugins/**/config/settings.yml")
-  
+
   serialize :value
   belongs_to :site
-  
+
   cattr_accessor :current
-  
+
   def name
     I18n.t('name',
       :scope   => ['admin.settings', section, read_attribute(:name)],
@@ -43,7 +43,7 @@ class Setting < ActiveRecord::Base
       :default => read_attribute(:description)
     )
   end
-  
+
   def value
     v = read_attribute(:value)
     case self['format'] # self.format causes a NoMethodError outside the Rails env
@@ -55,9 +55,9 @@ class Setting < ActiveRecord::Base
         v
     end
   end
-  
+
   def value?; value; end
-  
+
   class << self
     def get(section, name, default=nil)
       precache_settings unless SETTINGS.any?
@@ -82,16 +82,16 @@ class Setting < ActiveRecord::Base
         end
       end
     end
-    
+
     def global?(section, name)
       Setting::GLOBAL_SETTINGS.map { |s| s.split('.').map { |p| p.underscore.gsub(' ', '_') } }.include? [section, name]
     end
-    
+
     def delete(section, name) # must be proper case section and name
       raise 'Must be proper case string' if name.is_a? Symbol
       find_all_by_section_and_name(section, name).each { |s| s.destroy }
     end
-    
+
     def set(site_id, section, name, value) # must be proper case section and name
       raise 'Must be proper case string' if name.is_a? Symbol
       if setting = find_by_site_id_and_section_and_name(site_id, section, name)
@@ -101,9 +101,9 @@ class Setting < ActiveRecord::Base
       end
       precache_settings(true)
     end
-    
+
     def set_global(section, name, value); set(nil, section, name, value); end
-    
+
     def precache_settings(fresh=false)
       return if SETTINGS.any? and not fresh
       return unless table_exists?
@@ -118,7 +118,7 @@ class Setting < ActiveRecord::Base
       SETTINGS['timestamp'] = Time.now
       SETTINGS
     end
-    
+
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
       settings_in_db = Setting.all
@@ -136,7 +136,7 @@ class Setting < ActiveRecord::Base
         end
       end
     end
-    
+
     def update_site_from_hash(site, settings)
       settings_in_db = Setting.all
       settings.each do |section_name, section|
@@ -149,14 +149,14 @@ class Setting < ActiveRecord::Base
         end
       end
     end
-    
+
     def update_site(site)
       update_site_from_hash(site, YAML::load(File.open(SETTINGS_FILE)))
       Dir[PLUGIN_SETTINGS_FILES].each do |path|
         update_site_from_hash(site, YAML::load(File.open(path)))
       end
     end
-    
+
     def update_all
       Setting.update_from_yaml(SETTINGS_FILE)
       Dir[PLUGIN_SETTINGS_FILES].each do |path|
@@ -164,7 +164,7 @@ class Setting < ActiveRecord::Base
       end
       Setting.precache_settings(true)
     end
-    
+
     def update_site_from_params(id, params)
       Setting.find_all_by_site_id(id).each do |setting|
         next if setting.hidden?
@@ -178,7 +178,7 @@ class Setting < ActiveRecord::Base
       end
       Setting.precache_settings(true)
     end
-    
+
     def update_global_from_params(params)
       Setting.find_all_by_site_id_and_global(nil, true).each do |setting|
         next if setting.hidden?

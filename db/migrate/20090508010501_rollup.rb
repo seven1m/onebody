@@ -553,7 +553,7 @@ class Rollup < ActiveRecord::Migration
       t.integer  "verse"
       t.integer  "site_id"
     end
-    
+
     Site.current = Site.create :name => 'Default', :host => 'example.com'
   end
 

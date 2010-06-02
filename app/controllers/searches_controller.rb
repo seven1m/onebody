@@ -13,10 +13,10 @@ class SearchesController < ApplicationController
       redirect_to new_search_path
     end
   end
-  
+
   def new
   end
-  
+
   def create
     params.reject_blanks!
     @search = Search.new_from_params(params)
@@ -75,5 +75,5 @@ class SearchesController < ApplicationController
       end
     end
   end
-  
+
 end

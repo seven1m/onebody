@@ -15,7 +15,7 @@ Rake::Task['onebody:build_settings_fixture_file'].invoke
 require File.dirname(__FILE__) + '/forgeries'
 
 class ActiveSupport::TestCase
-  
+
   include ActionController::TestProcess
 
   self.use_transactional_fixtures = true
@@ -32,28 +32,28 @@ class ActiveSupport::TestCase
     assert_template 'streams/show'
     assert_select 'h1', Regexp.new(name)
   end
-  
+
   def post_sign_in_form(email, password='secret')
     Setting.set_global('Features', 'SSL', true)
     post '/session', :email => email, :password => password
   end
-  
+
   def view_profile(person)
     get "/people/#{person.id}"
     assert_response :success
     assert_template 'people/show'
     assert_select 'h1', Regexp.new(person.name)
   end
-  
+
   def site!(site)
     host! site
     get '/'
   end
-  
+
   def assert_deliveries(count)
     assert_equal count, ActionMailer::Base.deliveries.length
   end
-  
+
   def assert_emails_delivered(email, people)
     people.each do |person|
       matches = ActionMailer::Base.deliveries.select do |delivered|

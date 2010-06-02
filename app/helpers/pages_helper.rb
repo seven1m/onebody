@@ -5,7 +5,7 @@ module PagesHelper
       link_to(parent.title, page_path(parent)) + ' &raquo;'
     end
   end
-  
+
   def page_path(page)
     if @logged_in and @logged_in.admin?(:edit_pages)
       super
@@ -14,7 +14,7 @@ module PagesHelper
       page_for_public_path(path)
     end
   end
-  
+
   def home_path
     if @logged_in and @logged_in.admin?(:edit_pages)
       page_path(Page.find_by_path('home'))

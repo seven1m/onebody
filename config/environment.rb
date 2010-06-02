@@ -17,7 +17,7 @@ Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
   config.i18n.default_locale = File.exist?("#{RAILS_ROOT}/config/locale") ? File.read("#{RAILS_ROOT}/config/locale").strip.to_sym : :en
   config.i18n.load_path << Dir["#{RAILS_ROOT}/plugins/**/config/locales/*.{rb,yml}"]
-  # dependencies 
+  # dependencies
   config.gem 'transaction-simple',     :version => '~> 1.4.0', :lib => 'transaction/simple'
   config.gem 'color',                  :version => '~> 1.4.0'
   config.gem 'pdf-writer',             :version => '~> 1.1.8', :lib => 'pdf/writer'
@@ -28,8 +28,8 @@ Rails::Initializer.run do |config|
   config.gem 'whenever',               :version => '~> 0.4.0'
   config.gem 'nokogiri',               :version => '~> 1.4.0'
   config.gem 'builder',                :version => '>= 2.1.2'
-  config.gem 'feedzirra',              :version => '>= 0.0.20'
-  config.gem 'mongo',                  :version => '>= 0.18'
+  config.gem 'feedzirra',              :version => '>= 0.0.23'
+  config.gem 'mongo',                  :version => '>= 1.0.1'
   config.gem 'fastercsv',              :version => '~> 1.5.0'
 end
 

@@ -4,12 +4,12 @@
 # Table name: prayer_signups
 #
 #  id         :integer       not null, primary key
-#  person_id  :integer       
-#  start      :datetime      
-#  created_at :datetime      
-#  reminded   :boolean       
-#  other      :string(100)   
-#  site_id    :integer       
+#  person_id  :integer
+#  start      :datetime
+#  created_at :datetime
+#  reminded   :boolean
+#  other      :string(100)
+#  site_id    :integer
 #
 
 class PrayerSignup < ActiveRecord::Base
@@ -22,7 +22,7 @@ class PrayerSignup < ActiveRecord::Base
 
   validates_uniqueness_of :start, :scope => 'person_id'
   validates_presence_of :start
-  
+
   self.skip_time_zone_conversion_for_attributes = [:start]
 
   class << self

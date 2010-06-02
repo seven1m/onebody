@@ -19,7 +19,7 @@ class SignUpTest < ActionController::IntegrationTest
     end
     verify_code(v, people(:peter))
   end
-  
+
   def test_verify_mobile
     get '/account/new?mobile=true'
     assert_response :success
@@ -37,7 +37,7 @@ class SignUpTest < ActionController::IntegrationTest
     assert_equal people(:peter).mobile_phone, v.mobile_phone
     verify_code(v, people(:peter))
   end
-  
+
   def verify_code(v, person)
     get '/account/verify_code', :id => v.id, :code => v.code
     assert_redirected_to edit_person_account_path(person.id)

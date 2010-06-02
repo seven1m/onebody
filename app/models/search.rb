@@ -1,17 +1,17 @@
 class Search
-  
+
   ITEMS_PER_PAGE = 100
-  
+
   attr_accessor :show_businesses, :show_hidden, :testimony, :member
   attr_reader :count, :people, :family_name, :family_barcode_id, :families
-  
+
   def initialize
     @people = []
     @family_name = nil
     @families = []
     @conditions = []
   end
-  
+
   def name=(name)
     if name
       name.gsub! /\sand\s/, ' & '
@@ -28,26 +28,26 @@ class Search
       @conditions.add_condition ["(families.name like ? or families.last_name like ? or families.id in (?))", "%#{family_name}%", "%#{family_name}%", family_ids]
     end
   end
-  
+
   def family_barcode_id=(id)
     @family_barcode_id = id
     @conditions.add_condition ["families.barcode_id = ?", id] if id
   end
-  
+
   def family_id=(id)
     @conditions.add_condition ["people.family_id = ?", id] if id
   end
-  
+
   def family=(fam); family_id = fam.id if fam; end
-  
+
   def business_category=(cat)
     @conditions.add_condition ["people.business_category = ?", cat] if cat
   end
-  
+
   def gender=(g)
     @conditions.add_condition ["people.gender = ?", g] if g
   end
-  
+
   def address=(addr)
     addr.symbolize_keys!.reject_blanks!
     @conditions.add_condition ["#{sql_lcase('families.city')} LIKE ?", "#{addr[:city].downcase}%"] if addr[:city]
@@ -55,28 +55,28 @@ class Search
     @conditions.add_condition ["families.zip like ?", "#{addr[:zip]}%"] if addr[:zip]
     @search_address = addr.any?
   end
-  
+
   def birthday=(bday)
     bday.symbolize_keys!.reject_blanks!
     @conditions.add_condition ["#{sql_month('people.birthday')} = ?", bday[:month]] if bday[:month]
     @conditions.add_condition ["#{sql_day('people.birthday')} = ?", bday[:day]] if bday[:day]
     @search_birthday = bday.any?
   end
-  
+
   def anniversary=(ann)
     ann.symbolize_keys!.reject_blanks!
     @conditions.add_condition ["#{sql_month('people.anniversary')} = ?", ann[:month]] if ann[:month]
     @conditions.add_condition ["#{sql_day('people.anniversary')} = ?", ann[:day]] if ann[:day]
     @search_anniversary = ann.any?
   end
-  
+
   def favorites=(favs)
     favs.reject! { |n, v| not %w(activities interests music tv_shows movies books).include? n.to_s or v.to_s.empty? }
     favs.each do |name, value|
       @conditions.add_condition ["people.#{name.to_s} like ?", "%#{value}%"]
     end
   end
-  
+
   def type=(type)
     if type
       if %w(member staff deacon elder).include?(type.downcase)
@@ -86,7 +86,7 @@ class Search
       end
     end
   end
-  
+
   def query(page=nil, search_by=:person)
     case search_by.to_s
       when 'person'
@@ -95,7 +95,7 @@ class Search
         query_families(page)
     end
   end
-  
+
   def query_people(page=nil)
     @conditions.add_condition ["people.deleted = ?", false]
     @conditions.add_condition ["people.business_name is not null and people.business_name != ''"] if show_businesses
@@ -138,13 +138,13 @@ class Search
     end
     @people = WillPaginate::Collection.new(page || 1, 30, @count).replace(@people)
   end
-  
+
   def query_families(page=nil)
     @conditions.add_condition ["families.deleted = ?", false]
     @count = Family.count :conditions => @conditions
     @families = Family.paginate(:all, :page => page, :conditions => @conditions, :order => "last_name")
   end
-  
+
   def self.new_from_params(params)
     search = new
     search.name = params[:name] || params[:quick_name]

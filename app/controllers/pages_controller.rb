@@ -4,12 +4,12 @@ class PagesController < ApplicationController
   before_filter :get_path
   before_filter :get_page, :get_user, :only => %w(show_for_public)
   before_filter :feature_enabled?, :only => %w(show_for_public) # must follow get_page
-  
+
   #caches_action :show_for_public, :for => 1.day,
   #  :cache_path => Proc.new { |c| "pages/#{c.instance_eval('@page.path')}" rescue '' },
   #  :if => Proc.new { |c| !(l = c.instance_eval('@logged_in')) or !l.admin?(:edit_pages) }
   #cache_sweeper :page_sweeper, :only => %w(create update destroy)
-  
+
   def index
     if @parent = Page.find_by_id(params[:parent_id])
       @pages = @parent.children.all(:order => 'title')
@@ -17,7 +17,7 @@ class PagesController < ApplicationController
       @pages = Page.find_all_by_parent_id(nil)
     end
   end
-  
+
   def show_for_public
     if @theme_name == 'page:template'
       if @page.published?
@@ -43,14 +43,14 @@ class PagesController < ApplicationController
       end
     end
   end
-  
+
   def show
     @page = Page.find(params[:id])
     unless @logged_in.admin?(:edit_pages)
       redirect_to page_for_public_path(:path => @page.path)
     end
   end
-  
+
   def new
     if @logged_in.admin?(:edit_pages)
       @page = Page.new(:parent_id => params[:parent_id])
@@ -59,7 +59,7 @@ class PagesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def create
     if @logged_in.admin?(:edit_pages)
       @page = Page.create(params[:page])
@@ -74,7 +74,7 @@ class PagesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def edit
     @page = Page.find(params[:id])
     if @logged_in.can_edit?(@page)
@@ -83,7 +83,7 @@ class PagesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def update
     @page = Page.find(params[:id])
     if @logged_in.can_edit?(@page)
@@ -98,7 +98,7 @@ class PagesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   def destroy
     @page = Page.find(params[:id])
     if @logged_in.can_edit?(@page)
@@ -113,9 +113,9 @@ class PagesController < ApplicationController
       render :text => I18n.t('not_authorized'), :layout => true, :status => 401
     end
   end
-  
+
   private
-  
+
     def render_with_template(page, status=200)
       content = page.is_a?(String) ? page : page.body
       if template = Page.find_by_path('template')
@@ -124,7 +124,7 @@ class PagesController < ApplicationController
         render :text => I18n.t('pages.template_not_found'), :layout => true, :status => 500
       end
     end
-  
+
     def get_path
       @path = [*params[:path]].join('/')
       if @path.sub!(%r{/edit$}, '')
@@ -132,11 +132,11 @@ class PagesController < ApplicationController
         return false
       end
     end
-    
+
     def get_page
       @page = Page.find_by_id_or_path(@path)
     end
-    
+
     def get_theme_name
       if params[:action] == 'show_for_public'
         if (@theme_name = Setting.get(:appearance, :public_theme)) == 'page:template'
@@ -148,11 +148,11 @@ class PagesController < ApplicationController
         super
       end
     end
-    
+
     def is_tour_page?
       @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.#{I18n.locale}.html.liquid")
     end
-    
+
     def feature_enabled?
       unless (@page and @page.system? and !@page.home?) or \
         is_tour_page? or Setting.get(:features, :content_management_system)

@@ -16,7 +16,7 @@ class Person
         []
       end
     end
-    
+
     def sidebar_group_people_count
       if sidebar_groups.any?
         Person.count(
