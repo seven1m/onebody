@@ -1377,6 +1377,7 @@ pt:
     new_person: Nova Pessoa
     no_additional_access_avaiable: Nenhuma opção de acesso adicional está disponível neste momento.
     no_families_found: Nenhuma família encontrada.
+    no_family_for_this_person: Esta pessoa não faz parte de nenhuma família. Ela não conseguirá entrar e não será visível a outros no site.
     no_groups_yet: não há grupos ainda
     not_deleted: Pessoa não foi deletada.
     not_found: Pessoa não encontrada.
@@ -1509,6 +1510,7 @@ pt:
     delete_request: Deletar Pedido
     edit_prayer_request: Editar pedido de oração
     edit_request: Editar Pedido
+    name: Pedido de Oração no grupo {{group_name}}
     new_prayer_request: Novo pedido de oração
     not_found: Pedido de Oração não encontrado.
     posted_by: enviado por
@@ -1520,6 +1522,16 @@ pt:
     request: Pedido
     save_prayer_request: Salvar Pedido de Oração
     submitted_by: Submetido por
+
+  prayer_signups:
+    add_somebody: Adicionar alguém
+    misconfigured: Esta característica não está configurada corretamente. Verifique se as datas estão configuradas corretamente.
+    other_name: Ou, outra pessoa
+    other_name_note: Somente digite um nome para alguém que não está cadastrado no banco de dados.
+    shared_slot_are_you_sure: Este intervalo de tempo já está ocupado por pelo menos uma pessoa. Você tem certeza que também deseja se registrar para este horário?
+    select_time_slot: Selecione um espaço de tempo
+    signup_removed: Registro removido.
+    signup_saved: Registro salvo.
 
   profile: 
     fax: fax
