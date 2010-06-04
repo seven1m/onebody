@@ -223,6 +223,11 @@ System:
     format: string
     value: Central Time (US & Canada)
     description: Set to properly display dates and times on the site.
+  Online Only Relationships:
+    format: list
+    hidden: true
+    value:
+    description: Relationship names that should not be synced externally.
 Formats: 
   Full Date and Time: 
     format: string

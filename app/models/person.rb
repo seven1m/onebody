@@ -658,7 +658,9 @@ class Person < ActiveRecord::Base
   end
 
   def update_relationships_hash
-    rels = relationships.all(:include => :related).map do |relationship|
+    rels = relationships.all(:include => :related).select do |relationship|
+      !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
+    end.map do |relationship|
       "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
     end.sort
     self.relationships_hash = Digest::SHA1.hexdigest(rels.join(','))
@@ -796,7 +798,9 @@ class Person < ActiveRecord::Base
         person.dont_mark_email_changed = true # set flag to indicate we're the api
         if person.save
           if record['relationships'] and record['relationships_hash'] != person.relationships_hash
-            person.relationships.destroy_all
+            person.relationships.all.select do |relationship|
+              !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
+            end.each { |r| r.delete }
             record['relationships'].split(',').each do |relationship|
               if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.find_by_legacy_id($1)
                 person.relationships.create(
@@ -806,6 +810,7 @@ class Person < ActiveRecord::Base
                 )
               end
             end
+            person.update_relationships_hash!
           end
           s = {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id, :name => person.name}
           if person.email_changed? # email_changed flag still set
