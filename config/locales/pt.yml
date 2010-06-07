@@ -712,7 +712,7 @@ pt:
     last_name: Último Nome
     leave_blank: Deixe estes campos em branco se você não deseja mudar a sua senha.
     mobile_number_not_found: Aquele celular não foi encontrado no nosso sistema. Você pode tentar novamente.
-    must_be_13_of_age: Deve ter pelo menos 13 anos de idade.
+    must_be_of_age: Deve ter pelo menos {{years}} anos de idade.
     must_set_email_pass: Você deve definir o seu email pessoal e senha para continuar.
     pending_approval: A sua conta está com a aprovação pendente. Você receberá um email assim que ela for aprovada.
     please_select_your_name: Por favor selecione o seu nome da lista abaixo
@@ -1321,7 +1321,7 @@ pt:
     changes_must_be_reviewed: Mudanças em nos detalhes abaixo deverão ser <strong>revisadas pelo staff</strong>. Para requisitar mudanças, entre os detalhes abaixo e clique 'Submeter'.
     changes_submitted: Mudanças submetidas.
     child: Criança
-    child_alert: Você necessita especificar se a pessoa é uma criança (menor de 13 anos) ou não para completar esta atualização.
+    child_alert: Você necessita especificar se a pessoa é uma criança (menor de {{years}} anos) ou não para completar esta atualização.
     click_to_send_verification_email: Clique OK para enviar um email de verificação para este usuário. Assim que o usuário clicar o link no email, ele poderá setar a sua senha e entrar no sistema.
     click_to_change_email: <a href="{{url}}">Clique aqui</a> para mudar o seu endereço de email.
     completely_private: completamente particular
@@ -1425,7 +1425,7 @@ pt:
     this_account_is_frozen: Esta conta está congelada. {{name}} não pode fazer mudanças ao seu perfil até que a conta seja descongelada.
     this_email_will_not_be_visible: Este endereço de email não será visível a ninguém exceto administradores.
     this_event_doesnt_have_pictures: "Este evento ainda não contém nenhuma foto."
-    this_person_is_less_13_years: Acreditamos que esta pessoa seja menor de 13 anos de idade e não possui o consentimento dos seus pais.
+    this_person_is_not_an_adult: Acreditamos que esta pessoa seja menor de {{years}} anos de idade e não possui o consentimento dos seus pais.
     this_profile_is_hidden: Este perfil é oculto
     this_profile_is_hidden_from_people: Este perfil é oculto da maioria das pessoas.
     tv_shows: Programas de TV
@@ -1563,8 +1563,8 @@ pt:
     cant_edit: Você não pode editar estas configurações. Desculpe.
     change_email_password: Alterar Email/Senha
     child_profile_has_parental_consent: Esse perfil de criança possui um consentimento dos pais de {{name}}.
-    child_under_age_no_parents_consent: "Esta criança tem menos de 13 anos e seus pais não derão permissão para permitir que a sua informação seja exibida."
-    child_under_age_you_have_not_consent: "Esta criança tem menos de 13 anos e você não deu a permissão para 1) permitir que a informação dela seja exibida, e 2) permitir que ela entre e use este web site."
+    child_under_age_no_parents_consent: "Esta criança tem menos de {{years}} anos e seus pais não derão permissão para permitir que a sua informação seja exibida."
+    child_under_age_you_have_not_consent: "Esta criança tem menos de {{years}} anos e você não deu a permissão para 1) permitir que a informação dela seja exibida, e 2) permitir que ela entre e use este web site."
     click_the_agree: "Clique no botão 'Eu concordo'."
     default: Padrão
     detail: Detalhe

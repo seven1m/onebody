@@ -344,7 +344,7 @@ class Person < ActiveRecord::Base
   end
 
   def can_sign_in?
-    read_attribute(:can_sign_in) and consent_or_13?
+    read_attribute(:can_sign_in) and adult_or_consent?
   end
 
   def full_access?
@@ -383,15 +383,14 @@ class Person < ActiveRecord::Base
     years
   end
 
-  def at_least_13?; at_least?(13); end
-  def adult?; at_least?(18); end
+  def adult?; at_least?(Setting.get(:system, :adult_age).to_i); end
 
   def parental_consent?; parental_consent.to_s.any?; end
-  def consent_or_13?; at_least_13? or parental_consent?; end
+  def adult_or_consent?; adult? or parental_consent?; end
 
   def visible?(fam=nil)
     fam ||= self.family
-    fam and fam.visible? and read_attribute(:visible) and consent_or_13? and visible_to_everyone?
+    fam and fam.visible? and read_attribute(:visible) and adult_or_consent? and visible_to_everyone?
   end
 
   def admin?(perm=nil)

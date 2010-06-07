@@ -134,7 +134,7 @@ class Search
         and (not @search_birthday or person.share_birthday_with(Person.logged_in)) \
         and (not @search_anniversary or person.share_anniversary_with(Person.logged_in)) \
         and (not @search_address or person.share_address_with(Person.logged_in)) \
-        and (person.consent_or_13? or (Person.logged_in.admin?(:view_hidden_profiles) and @show_hidden))
+        and (person.adult_or_consent? or (Person.logged_in.admin?(:view_hidden_profiles) and @show_hidden))
     end
     @people = WillPaginate::Collection.new(page || 1, 30, @count).replace(@people)
   end

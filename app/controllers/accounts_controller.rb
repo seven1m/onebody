@@ -35,7 +35,7 @@ class AccountsController < ApplicationController
         attributes = {:can_sign_in => false, :full_access => false, :visible_to_everyone => false}
         attributes.merge! params[:person].reject { |k, v| !%w(email first_name last_name gender birthday).include?(k) }
         @person = Person.new(attributes)
-        if @person.at_least_13?
+        if @person.adult?
           if @person.save
             @person.family = Family.create(:name => @person.name, :last_name => @person.last_name)
             if Setting.get(:features, :sign_up_approval_email).to_s.any?
@@ -51,7 +51,7 @@ class AccountsController < ApplicationController
             render :action => 'new'
           end
         else
-          @person.errors.add_to_base(I18n.t('accounts.must_be_13_of_age'))
+          @person.errors.add_to_base(I18n.t('accounts.must_be_of_age'), :years => Setting.get(:system, :adult_age))
           render :action => 'new'
         end
       end

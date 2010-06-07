@@ -38,11 +38,11 @@
       </fieldset>
       <fieldset>
         <legend><%= I18n.t('people.visibility') %></legend>
-        <% unless @person.consent_or_13? %>
-          <em><%= I18n.t('people.this_person_is_less_13_years') %></em>
+        <% unless @person.adult_or_consent? %>
+          <em><%= I18n.t('people.this_person_is_not_an_adult', :years => Setting.get(:system, :adult_age)) %></em>
           <br/>
         <% end %>
-        <% content_tag :span, :style => @person.consent_or_13? ? nil : 'text-decoration:line-through;' do %>
+        <% content_tag :span, :style => @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
           <%= form.check_box :can_sign_in %>                  <%= form.label I18n.t('people.can_sign_in'),                  nil, :class => 'inline' %>
           <% if @person.can_sign_in? %>
             (<%= link_to I18n.t('people.send_email'), account_path(:email => @person.email), :method => 'post', :confirm => I18n.t('people.click_to_send_verification_email') %>)

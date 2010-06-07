@@ -198,8 +198,8 @@ en:
               invalid: The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)
             child: 
               blank: The 'child' property must be either 'Yes' or 'No' because the birthday is unspecified.
-              cannot_be_no: The 'child' property cannot be 'No' because the birthday indicates the person is less than 13 years old.
-              cannot_be_yes: The 'child' property cannot be 'Yes' because the birthday indicates the person is 13 or older.
+              cannot_be_no: The 'child' property cannot be 'No' because the birthday indicates the person is not an adult.
+              cannot_be_yes: The 'child' property cannot be 'Yes' because the birthday indicates the person is not an adult.
             email: 
               invalid: The email address is not formatted correctly (something@example.com).
               taken: There is another person with the same email address.
@@ -481,7 +481,7 @@ en:
     last_name: Last Name
     leave_blank: Leave these fields blank if you don't want to change your password.
     mobile_number_not_found: That mobile number could not be found in our system. You may try again.
-    must_be_13_of_age: Must be at least 13 years of age.
+    must_be_of_age: Must be at least {{years}} years of age.
     must_set_email_pass: You must set your personal email address and password to continue.
     pending_approval: Your account is pending approval. You will receive an email once it's approved.
     please_select_your_name: Please select your name from the list below
@@ -1090,7 +1090,7 @@ en:
     changes_must_be_reviewed: Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit.'
     changes_submitted: Changes submitted.
     child: Child
-    child_alert: You must specify whether the person is a Child (under 13) or not to complete this update.
+    child_alert: You must specify whether the person is a Child (under {{years}}) or not to complete this update.
     click_to_send_verification_email: Click OK to send a verification email to this user. Once the user clicks the link in the email, they will be able to set their password and sign in.
     click_to_change_email: <a href="{{url}}">Click here</a> to change this email address.
     completely_private: completely private
@@ -1194,7 +1194,7 @@ en:
     this_account_is_frozen: This account is frozen. {{name}} cannot make changes to this profile or anyone else's until this account is unfrozen.
     this_email_will_not_be_visible: This email address will not be visible to anyone except administrators.
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
-    this_person_is_less_13_years: This person is believed to be less than 13 years of age, and does not have parental consent.
+    this_person_is_not_an_adult: This person is believed to be less than {{years}} years of age, and does not have parental consent.
     this_profile_is_hidden: This profile is hidden
     this_profile_is_hidden_from_people: This profile is hidden from most people.
     tv_shows: TV Shows
@@ -1332,8 +1332,8 @@ en:
     cant_edit: You may not edit these settings. Sorry.
     change_email_password: Change Email/Password
     child_profile_has_parental_consent: This child's profile has parental consent from {{name}}.
-    child_under_age_no_parents_consent: "This child is under the age of 13, and his/her parents have not given consent to allow their information to be displayed."
-    child_under_age_you_have_not_consent: "This child is under the age of 13, and you have not given consent to 1) allow their information to be displayed, and 2) allow them to sign into and use this web site."
+    child_under_age_no_parents_consent: "This child is under the age of {{years}}, and his/her parents have not given consent to allow their information to be displayed."
+    child_under_age_you_have_not_consent: "This child is under the age of {{years}}, and you have not given consent to 1) allow their information to be displayed, and 2) allow them to sign into and use this web site."
     click_the_agree: "Click the 'I Agree' button."
     default: Default
     detail: Detail

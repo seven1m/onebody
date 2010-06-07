@@ -228,6 +228,10 @@ System:
     hidden: true
     value:
     description: Relationship names that should not be synced externally.
+  Adult Age:
+    format: string
+    value: 18
+    description: Age at which a person is considered old enough to use the site and be seen by others in the directory.
 Formats: 
   Full Date and Time: 
     format: string

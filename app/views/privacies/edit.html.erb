@@ -113,7 +113,7 @@
 
 <% @family.people.each do |person| %>
 
-  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %><% if not person.consent_or_13? %> <%= image_tag('lock_red.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
+  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %><% if not person.adult_or_consent? %> <%= image_tag('lock_red.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
   
   <div class="section">
   
@@ -121,9 +121,9 @@
   
     <%= hidden_field_tag :anchor, "p#{person.id}" %>
     
-    <% if person.consent_or_13? %>
+    <% if person.adult_or_consent? %>
     
-      <% if not person.at_least_13? %>
+      <% if not person.adult? %>
         <p class="highlight">
           <%= I18n.t('privacies.child_profile_has_parental_consent', :name => h(person.parental_consent)) %>
           <%= I18n.t('privacies.have_concerns_regarding_this', :phone => h(Setting.get(:contact, :community_office_phone))) %>
@@ -206,7 +206,7 @@
     <% elsif @logged_in.family == @family and @logged_in.adult? %>
     
       <p class="alert">
-        <%= I18n.t('privacies.child_under_age_you_have_not_consent') %>
+        <%= I18n.t('privacies.child_under_age_you_have_not_consent', :years => Setting.get(:system, :adult_age)) %>
       </p>
       
       <p>
@@ -228,7 +228,7 @@
     <% else %>
     
       <p class="alert">
-        <%= I18n.t('privacies.child_under_age_no_parents_consent') %>
+        <%= I18n.t('privacies.child_under_age_no_parents_consent', :years => Setting.get(:system, :adult_age)) %>
       </p>
       
     <% end %>

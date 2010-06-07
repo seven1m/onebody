@@ -45,7 +45,10 @@ class SearchTest < ActiveSupport::TestCase
     people(:jane).update_attributes!(:birthday => 17.years.ago)
     @search = Search.new
     @search.name = 'jane'
-    assert_equal 1, @search.query.length
+    Setting.set(1, 'System', 'Adult Age', 18)
+    assert_equal 0, @search.query.length # Jane is considered a child, so still not visible
+    Setting.set(1, 'System', 'Adult Age', 13)
+    assert_equal 1, @search.query.length # Jane is an adult
     # without full access
     people(:peter).full_access = false
     people(:peter).save

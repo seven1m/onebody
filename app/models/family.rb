@@ -146,7 +146,7 @@ class Family < ActiveRecord::Base
   self.digits_only_for_attributes = [:home_phone]
 
   def children_without_consent
-    people.select { |p| !p.consent_or_13? }
+    people.select { |p| !p.adult_or_consent? }
   end
 
   def visible_people

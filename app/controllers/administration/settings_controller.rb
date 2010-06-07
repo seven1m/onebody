@@ -14,6 +14,7 @@ class Administration::SettingsController < ApplicationController
     @lists['Appearance']['Public Theme'] = info.themes + ['page:template']
     @lists['System']['Time Zone'] = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
     @lists['System']['Language'] = info.available_locales.invert
+    @lists['System']['Adult Age'] = %w(13 14 15 16 17 18 19 20 21)
   end
 
   def batch
