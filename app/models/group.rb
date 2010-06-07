@@ -139,7 +139,7 @@ class Group < ActiveRecord::Base
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
     elsif linked?
-      conditions = ['deleted = ?', false]
+      conditions = []
       link_code.downcase.split.each do |code|
         conditions.add_condition ["#{sql_lcase('classes')} = ? or classes like ? or classes like ? or classes like ? or classes like ? or classes like ?", code, "#{code},%", "%,#{code}", "%,#{code},%", "#{code}[%", "%,#{code}[%"], 'or'
       end
@@ -153,6 +153,7 @@ class Group < ActiveRecord::Base
   end
 
   def update_membership_associations(new_people)
+    new_people.reject! { |p| p.deleted? }
     self.people.reload
     (new_people - self.people).each { |p| memberships.create!(:person => p, :auto => true) }
     (self.people - new_people).each { |p| m = memberships.find_by_person_id(p.id); m.destroy if m.auto? }
