@@ -156,7 +156,7 @@ class Group < ActiveRecord::Base
     new_people.reject! { |p| p.deleted? }
     self.people.reload
     (new_people - self.people).each { |p| memberships.create!(:person => p, :auto => true) }
-    (self.people - new_people).each { |p| m = memberships.find_by_person_id(p.id); m.destroy if m.auto? }
+    (self.people - new_people).each { |p| m = memberships.find_by_person_id(p.id); m.delete if m.auto? }
   end
 
   def can_send?(person)
