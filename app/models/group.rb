@@ -270,7 +270,7 @@ class Group < ActiveRecord::Base
 
   class << self
     def update_memberships
-      find(:all).each { |group| group.update_memberships }
+      all(:order => 'parents_of').each { |group| group.update_memberships }
     end
 
     def categories
