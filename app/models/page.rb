@@ -17,6 +17,9 @@
 #
 
 class Page < ActiveRecord::Base
+
+  UNPUBLISHED_PAGES = %w(sign_up_header sign_up_verify)
+
   belongs_to :parent, :class_name => 'Page'
   has_many :children, :class_name => 'Page', :foreign_key => 'parent_id', :dependent => :destroy
   has_many :attachments

@@ -143,7 +143,7 @@ module ApplicationHelper
   end
 
   def render_page_content(path)
-    Page.find_by_path(path).body rescue ''
+    Page.find_by_path_and_published(path, true).body rescue nil
   end
 
   def format_phone(phone, mobile=false)
