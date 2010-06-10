@@ -343,6 +343,8 @@ pt:
       upload: Carregar Arquivo
       upload_new: Carregar um novo arquivo
     generate: Gerar
+    group_administrators: Administradores de Grupo
+    group_administrators_help: Para adicionar/remover uma pessoa como um administrador de grupo, clique em "editar", próximo ao grupo e promova um membro existente.
     group_membership_requests: Requisições de Afiliação em Grupo
     home: Início Admin
     import_data: Importar Dados
@@ -374,6 +376,7 @@ pt:
       reviewed: revisado
       update_display: Atualizar Visualização
     manage_admins: Gerenciar Administradores
+    manage_group_administrators: Gerenciar Administradores de Grupo
     max_admins: Você está atualmente utilizando o limite de administradores para o seu plano. Por favor <a href="http://beonebody.com">atualize</a> o seu plano para adicionar mais administradores.
     must_be_superadmin: Você deve ser um super adminstrador para modificar estas configurações.
     new_admin_template: Criar um novo modelo admin.
@@ -1886,7 +1889,7 @@ pt:
     nothing_to_show: Agora, não há nada a mostrar.
     rss: RSS
     share_something: Compartilhe Algo
-    share_something_here: "Você deveria <a href="#" onclick="{{js}};return false;">compartilhar algo aqui</a>."
+    share_something_here: Você deveria <a href="#" onclick="{{js}};return false;">compartilhar algo aqui</a>.
     show: Mostrar
     twitter: Twitter
     where_activity_appear: Aqui é onde as suas atividades, de seus amigos e grupos irá aparecer.
