@@ -343,6 +343,8 @@ en:
       upload: Upload File
       upload_new: Upload a new file
     generate: Generate
+    group_administrators: Group Administrators
+    group_administrators_help: To add/remove a person as a group administrator, click "edit" next to the group and promote an existing group member.
     group_membership_requests: Group Membership Requests
     home: Admin Home
     import_data: Import Data
@@ -374,6 +376,7 @@ en:
       reviewed: reviewed
       update_display: Update Display
     manage_admins: Manage Administrators
+    manage_group_administrators: Manage Group Administrators
     max_admins: You are currently at the limit for administrators for your selected plan. Please <a href="http://beonebody.com">upgrade</a> in order to add more administrators.
     must_be_superadmin: You must be a super administrator to modify settings.
     new_admin_template: Create a new admin template.

@@ -1,0 +1,19 @@
+<% content_for :sidebar do %>
+  <%= I18n.t('admin.group_administrators_help') %>
+<% end %>
+
+<h2><%= I18n.t('admin.group_administrators') %></h2>
+
+<table>
+  <tr>
+    <th><%= link_to 'Admin', administration_admins_path(:groups => true, :sort => 'admin') %></th>
+    <th><%= link_to 'Group', administration_admins_path(:groups => true, :sort => 'group') %></th>
+  </tr>
+  <% @group_admins.each do |person, group| %>
+    <tr>
+      <td><%= link_to h(person.name), person %></td>
+      <td><%= link_to h(group.name), group %></td>
+      <td><%= link_to I18n.t('edit'), edit_group_path(group) %></td>
+    </tr>
+  <% end %>
+</table>

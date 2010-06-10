@@ -38,6 +38,8 @@
       </p>
     <% end %>
   <% end %>
+
+  <p><%= link_to I18n.t('admin.manage_group_administrators'), administration_admins_path(:groups => true) %></p>
   
 <% end %>
 
@@ -87,3 +89,4 @@
     </div>
   </div>
 <% end %>
+

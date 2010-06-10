@@ -2,10 +2,17 @@ class Administration::AdminsController < ApplicationController
   before_filter :only_admins
 
   def index
-    Admin.destroy_all(["(select count(*) from people where admin_id=admins.id and deleted=?) = 0 and template_name is null", false])
-    @admin_count = Person.count('*', :conditions => ['admin_id is not null'])
-    @templates = Admin.all(:order => 'template_name', :conditions => 'template_name is not null')
-    @admins = @templates + Admin.all(:order => 'people.last_name, people.first_name', :include => :people, :conditions => 'template_name is null')
+    if params[:groups]
+      @group_admins = Membership.find_all_by_admin(true, :include => [:group, :person]) \
+        .map { |m| [m.person, m.group] } \
+        .sort_by { |a| (params[:sort] == 'group' ? a[1] : a[0]).name }
+      render :action => 'group_admins'
+    else
+      Admin.destroy_all(["(select count(*) from people where admin_id=admins.id and deleted=?) = 0 and template_name is null", false])
+      @admin_count = Person.count('*', :conditions => ['admin_id is not null'])
+      @templates = Admin.all(:order => 'template_name', :conditions => 'template_name is not null')
+      @admins = @templates + Admin.all(:order => 'people.last_name, people.first_name', :include => :people, :conditions => 'template_name is null')
+    end
   end
 
   def update

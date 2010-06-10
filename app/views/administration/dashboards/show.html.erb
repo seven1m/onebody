@@ -92,6 +92,8 @@
     <% display_metric @membership_request_count > 0 do %>
       <%= link_to I18n.t('groups.pending_membership_request_count', :count => @membership_request_count), administration_membership_requests_path %>
     <% end %>
+
+    <p><%= link_to I18n.t('admin.manage_group_administrators'), administration_admins_path(:groups => true) %></p>
   <% end %>
 
   <% if @logged_in.admin?(:manage_attendance) %>
