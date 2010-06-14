@@ -51,7 +51,7 @@ class AccountsController < ApplicationController
             render :action => 'new'
           end
         else
-          @person.errors.add_to_base(I18n.t('accounts.must_be_of_age'), :years => Setting.get(:system, :adult_age))
+          @person.errors.add_to_base(I18n.t('accounts.must_be_of_age', :years => Setting.get(:system, :adult_age)))
           render :action => 'new'
         end
       end
