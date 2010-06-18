@@ -1396,8 +1396,8 @@ pt:
     pending_updates: Atualizações Pendentes
     people: Pessoas
     person:
-      one: Pessoa
-      other: Pessoas
+      one: 1 Pessoa
+      other: "{{count}} Pessoas"
     person_isnt_any_groups: "{{person}} não está em nenhum grupo agora."
     person_type: Tipo de Pessoa
     pic: Foto
