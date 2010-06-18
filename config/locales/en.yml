@@ -1162,8 +1162,8 @@ en:
     pending_updates: Pending Updates
     people: People
     person:
-      one: Person
-      other: People
+      one: 1 Person
+      other: "{{count}} People"
     person_isnt_any_groups: "{{person}} isn't in any groups right now."
     person_type: Person Type
     pic: Pic
