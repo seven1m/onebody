@@ -552,6 +552,9 @@ pt:
         Time Zone:
           name: Fuso Horário
           description: Configure para exibir corretamente datas e horários no site.
+        Adult Age:
+          name: Idade adulta
+          description: É a idade em que uma pessoa é considerada com idade suficiente para usar o site e ser visto por outros no diretório.
       Formats:
         name: Formatos
         Full Date and Time:
