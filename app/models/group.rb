@@ -196,7 +196,7 @@ class Group < ActiveRecord::Base
   def gcal_url
     if gcal_private_link.to_s.any?
       if token = gcal_token
-        "https://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{gcal_account}&amp;color=%23A32929&amp;ctz=UTC#{Time.zone.utc_offset}"
+        "https://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;showTz=1&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{gcal_account}&amp;color=%23A32929&amp;ctz=UTC#{Time.zone.formatted_offset}"
       end
     end
   end
