@@ -547,7 +547,7 @@ class Person < ActiveRecord::Base
     cals.uniq!
     if cals.any?
       src = cals.map { |c| "src=#{c}" }.join("&amp;")
-      "https://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=0&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}&amp;ctz=UTC#{Time.zone.utc_offset}"
+      "https://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=1&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}&amp;ctz=UTC#{Time.zone.formatted_offset}"
     end
   end
 
