@@ -1364,7 +1364,7 @@ en:
     only_adult_can_edit: Only an adult can edit these settings. According to our records, you are not. Please contact us if you believe this to be an error.
     person_is_hidden: "{{name}} has been hidden from all pages on this site!"
     please_read_our_privacy_policy: Please read our <a href="{{url}}">Privacy Policy</a> for details regarding the use of your personal information.
-    people_can_still_send: People can still send your family email <a href="{{url}}">through the site</a> if Private Messages are enabled.
+    people_can_still_send: People can still send your family email <a href="#" onclick="alert('One user can send a message to another via this site. The system is monitored for abuse and allows people to contact you without getting your email address. We recommend you leave your email address private to prevent unsolicited email.');return false;">through the site</a> if Private Messages are enabled.
     privacy_settings: Privacy Settings
     privacy: Privacy
     private: Private
