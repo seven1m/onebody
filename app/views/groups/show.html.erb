@@ -105,7 +105,7 @@
         </p>
         <p>
           <%= submit_tag I18n.t('messages.send_message') %>
-          <%= link_to I18n.t('people.advanced') + ' &raquo;', new_group_message_path(@group) %>
+          <%= link_to I18n.t('people.advanced') + ' &raquo;', new_group_message_path(@group), :onclick => "var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href; var s = document.createElement('input'); s.setAttribute('name', 'message[subject]'); s.setAttribute('value', $('message_subject').value); f.appendChild(s); var b = document.createElement('input'); b.setAttribute('name', 'message[body]'); b.setAttribute('value', $('message_body').value); f.appendChild(b); f.submit(); return false;" %>
         </p>
         <% if @group.address.to_s.any? %>
           <p class="discreet"><%= I18n.t('groups.or_send_from_your_email', :email => @group.full_address) %></p>

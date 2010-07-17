@@ -14,6 +14,10 @@ class MessagesController < ApplicationController
       @message = Message.new(:to_person_id => @person.id)
     elsif params[:group_id] and @group = Group.find(params[:group_id]) and @group.can_post?(@logged_in)
       @message = Message.new(:group_id => @group.id)
+      if params[:message]
+        @message.subject = params[:message][:subject]
+        @message.body    = params[:message][:body]
+      end
     elsif params[:parent_id] and @parent = Message.find(params[:parent_id]) and @logged_in.can_see?(@parent)
       @message = Message.new(:parent => @parent, :group_id => @parent.group_id, :subject => "Re: #{@parent.subject}", :dont_send => true)
     else
