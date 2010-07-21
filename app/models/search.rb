@@ -31,7 +31,7 @@ class Search
 
   def family_barcode_id=(id)
     @family_barcode_id = id
-    @conditions.add_condition ["families.barcode_id = ?", id] if id
+    @conditions.add_condition ["(families.barcode_id = ? or families.alternate_barcode_id = ?)", id, id] if id
   end
 
   def family_id=(id)
