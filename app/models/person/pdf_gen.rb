@@ -1,5 +1,6 @@
 class Person
   module PdfGen
+    include ApplicationHelper
     def generate_directory_pdf(with_pictures=false)
       pdf = PDF::Writer.new
       pdf.margins_pt 70, 20, 20, 20
@@ -80,17 +81,11 @@ class Person
             ).stroke
             pdf.move_pointer 10
           end
+          pdf.text family.name + "\n", :font_size => 18
           if with_pictures and family.has_photo?
             pdf.move_pointer 300 if pdf.y < 300
             pdf.add_image File.read(family.photo_large_path), pdf.absolute_left_margin, pdf.y-150, nil, 150
             pdf.move_pointer 160
-          end
-          pdf.text family.name + "\n", :font_size => 18
-          if family.people.length > 2
-            p = family.people.map do |p|
-              p.last_name == family.last_name ? p.first_name : p.name
-            end.join(', ')
-            pdf.text p + "\n", :font_size => 11
           end
           if family.share_address_with(self) and family.mapable?
             pdf.text family.address1 + "\n", :font_size => 14
@@ -98,6 +93,16 @@ class Person
             pdf.text family.city + ', ' + family.state + '  ' + family.zip + "\n"
           end
           pdf.text ApplicationHelper.format_phone(family.home_phone), :font_size => 14 if family.home_phone.to_i > 0
+          family.people.find_all_by_deleted(false).each do |person|
+            name = person.last_name == family.last_name ? person.first_name : person.name
+            pdf.text name, :font_size => 11
+            if person.show_attribute_to?(:mobile_phone, self)
+              pdf.text "  " + format_phone(person.mobile_phone, :mobile) + " mobile", :font_size => 9
+            end
+            if person.show_attribute_to?(:email, self)
+              pdf.text "  " + person.email, :font_size => 9
+            end
+          end
           pdf.text "\n"
         end
       end
