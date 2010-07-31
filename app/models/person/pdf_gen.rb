@@ -1,6 +1,5 @@
 class Person
   module PdfGen
-    include ApplicationHelper
     def generate_directory_pdf(with_pictures=false)
       pdf = PDF::Writer.new
       pdf.margins_pt 70, 20, 20, 20
@@ -81,11 +80,18 @@ class Person
             ).stroke
             pdf.move_pointer 10
           end
-          pdf.text family.name + "\n", :font_size => 18
           if with_pictures and family.has_photo?
-            pdf.move_pointer 300 if pdf.y < 300
+            if pdf.y < 300
+              pdf.move_pointer 300 
+            else
+              pdf.move_pointer 20
+            end
+            pdf.text family.name + "\n", :font_size => 18
+            pdf.move_pointer 10
             pdf.add_image File.read(family.photo_large_path), pdf.absolute_left_margin, pdf.y-150, nil, 150
             pdf.move_pointer 160
+          else
+            pdf.text family.name + "\n", :font_size => 18
           end
           if family.share_address_with(self) and family.mapable?
             pdf.text family.address1 + "\n", :font_size => 14
@@ -95,13 +101,16 @@ class Person
           pdf.text ApplicationHelper.format_phone(family.home_phone), :font_size => 14 if family.home_phone.to_i > 0
           family.people.find_all_by_deleted(false).each do |person|
             name = person.last_name == family.last_name ? person.first_name : person.name
-            pdf.text name, :font_size => 11
+            pdf.text "\n", :font_size => 11
+            pdf.add_text_wrap pdf.absolute_left_margin, pdf.y, 400, name, 11
+            details = ''
             if person.show_attribute_to?(:mobile_phone, self)
-              pdf.text "  " + format_phone(person.mobile_phone, :mobile) + " mobile", :font_size => 9
+              details += '   ' + ApplicationHelper.format_phone(person.mobile_phone, :mobile)
             end
             if person.show_attribute_to?(:email, self)
-              pdf.text "  " + person.email, :font_size => 9
+              details += '   ' + person.email
             end
+            pdf.add_text_wrap pdf.absolute_left_margin + pdf.text_width(name, 11), pdf.y, 200, details, 9
           end
           pdf.text "\n"
         end
