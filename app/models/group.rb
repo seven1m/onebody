@@ -246,8 +246,7 @@ class Group < ActiveRecord::Base
     # (and also set their get_email attribute to false in the group)
     upload_to_cm = []
     in_group.each do |person|
-      if unsubscribed.map { |p| p[0] }.include?(person.name) or
-        unsubscribed.map { |p| p[1] }.include?(person.email)
+      if unsubscribed.map { |p| p[1].downcase }.include?(person.email.downcase)
         person.memberships.find_by_group_id(self.id).update_attribute(:get_email, false)
       else
         upload_to_cm << [person.name, person.email]
@@ -256,13 +255,13 @@ class Group < ActiveRecord::Base
     # unsubscribe addresses in the subscriber list but not found in the group
     subscribed = cm.Subscribers.GetActive('ListID' => cm_api_list_id, 'Date' => '2000-01-01 00:00:00')['anyType']['Subscriber'].to_a.map { |s| [s['Name'], s['EmailAddress']] }
     subscribed.each do |name, email|
-      if not upload_to_cm.any? { |n, e| e == email }
+      if not upload_to_cm.any? { |n, e| e.downcase == email.downcase }
         cm.Subscriber.Unsubscribe('ListID' => cm_api_list_id, 'Email' => email)
       end
     end
     # subscribe addresses in the group but not in the subscriber list
     upload_to_cm.each do |name, email|
-      if not subscribed.any? { |n, e| e == email }
+      if not subscribed.any? { |n, e| e.downcase == email.downcase }
         cm.Subscriber.Add('ListID' => cm_api_list_id, 'Email' => email, 'Name' => name)
       end
     end
