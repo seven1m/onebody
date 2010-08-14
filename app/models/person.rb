@@ -333,7 +333,9 @@ class Person < ActiveRecord::Base
     when 'Page'
       self.admin?(:edit_pages)
     when 'Attachment'
-      (what.page and self.can_edit?(what.page)) or (what.message and self.can_edit?(what.message))
+      (what.page and self.can_edit?(what.page)) or \
+      (what.message and self.can_edit?(what.message)) or \
+      (what.group and what.group.admin?(self))
     when 'NewsItem'
       self.admin?(:manage_news) or (what.person and what.person == self )
     when 'Membership'

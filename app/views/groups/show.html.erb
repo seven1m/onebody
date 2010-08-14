@@ -135,6 +135,17 @@
     <% if Setting.get(:features, :pictures ) and @group.pictures? %><li><%= link_to image_tag('picture.png',  :alt => I18n.t('groups.group_pictures'), :class => 'icon') + ' ' + I18n.t('groups.group_pictures'), group_albums_path(@group)          %></li><% end %>
     <% if @group.prayer?                                          %><li><%= link_to image_tag('heart.png',    :alt => I18n.t('groups.group_prayer'),   :class => 'icon') + ' ' + I18n.t('groups.group_prayer'),   group_prayer_requests_path(@group) %></li><% end %>
   </ul>
+
+  <% if @group.attachments.count > 0 %>
+    <div style="margin-left:20px;">
+      <p>
+        <strong><%= I18n.t('attachments.files') %></strong><br/>
+        <% @group.attachments.all(:order => 'name').each do |attachment| %>
+          <%= link_to h(attachment.name), get_attachment_path(attachment) %><br/>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
 </div>
 
 <%# Main Content %>

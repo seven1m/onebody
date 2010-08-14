@@ -56,6 +56,24 @@
     <%= form.check_box :members_send, :class => 'checkbox' %>
     <%= form.label :members_send, I18n.t('groups.group_members_can_post'), :class => 'inline' %>
   </div>
+
+  <h2 class="tab" id="attachments"><%= I18n.t('attachments.files') %></h2>
+  <div class="section">
+    <table>
+      <% @group.attachments.all(:order => 'name').each do |attachment| %>
+        <tr>
+          <td><%= link_to h(attachment.name), get_attachment_path(attachment) %></td>
+          <td><%= number_to_human_size(attachment.file_size) rescue 'file missing' %></td>
+          <td><%= attachment.created_at.to_s(:date) %></td>
+          <td><%= link_to I18n.t('delete'), attachment, :method => :delete, :confirm => I18n.t('are_you_sure') %></td>
+        </tr>
+      <% end %>
+    </table>
+    <% if @group.attachments.count == 0 %>
+      <p><em><%= I18n.t('none') %></em></p>
+    <% end %>
+    <p><%= link_to I18n.t('attachments.upload_file'), new_group_attachment_path(@group) %></p>
+  </div>
   
   <% if @logged_in.admin?(:manage_groups) %>
     <h2 class="tab" id="advanced"><%= I18n.t('people.advanced') %></h2>

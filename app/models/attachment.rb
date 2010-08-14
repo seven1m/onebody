@@ -9,11 +9,13 @@
 #  created_at   :datetime
 #  site_id      :integer
 #  page_id      :integer
+#  group_id     :integer
 #
 
 class Attachment < ActiveRecord::Base
   belongs_to :message
   belongs_to :page
+  belongs_to :group
   belongs_to :site
   scope_by_site_id
   has_one_file :path => DB_ATTACHMENTS_PATH

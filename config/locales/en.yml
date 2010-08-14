@@ -552,6 +552,7 @@ en:
   attachments:
     deleted: Attachment deleted.
     file: File
+    files: Files
     file_deleted: This file has been deleted.
     file_not_found: This file cannot be found.
     invalid_name: Filename contains invalid characters.
@@ -762,6 +763,7 @@ en:
     approve_group: Approve Group
     approved: Approved
     are_you_sure_option: Are you sure you want to {{option}} email from the group {{group}}?
+    attachments: Attachments
     attendance: Attendance
     back_to: back to the group
     back_to_homepage: Back to Groups Homepage

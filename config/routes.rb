@@ -46,6 +46,7 @@ ActionController::Routing::Routes.draw do |map|
     groups.resources :prayer_requests
     groups.resources :attendance, :collection => {:batch => :post}
     groups.resources :albums
+    groups.resources :attachments
     groups.resource :photo, :member => PHOTO_SIZE_METHODS
     groups.resource :calendar
   end
