@@ -108,7 +108,7 @@ class MessagesController < ApplicationController
     if params[:preview]
       @preview = Message.preview(attributes)
     else
-      @message = Message.create_with_attachments(attributes, [params[:file]].compact)
+      @message = Message.create_with_attachments(attributes, params[:files].to_a)
       if @message.errors.any?
         add_errors_to_flash(@message)
         redirect_back
