@@ -56,11 +56,15 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @stream_items = @group.shared_stream_items(20)
+    @member_of = @logged_in.member_of?(@group)
+    if @member_of or (not @group.private? and not @group.hidden?) or @group.admin?(@logged_in)
+      @stream_items = @group.shared_stream_items(20)
+    else
+      @stream_items = []
+    end
     @show_map = Setting.get(:services, :yahoo) && @group.mapable?
     @can_post = @group.can_post?(@logged_in)
     @can_share = @group.can_share?(@logged_in)
-    @member_of = @logged_in.member_of?(@group)
     unless @group.approved? or @group.admin?(@logged_in)
       render :text => I18n.t('groups.this_group_is_pending_approval'), :layout => true
       return

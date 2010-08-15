@@ -44,6 +44,20 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_response :unauthorized
   end
 
+  should "create a new group attachment" do
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    post :create, {:attachment => {:group_id => groups(:morgan).id, :file => fixture_file_upload('files/attachment.pdf')}}, {:logged_in_id => @admin.id}
+    assert_redirected_to edit_group_path(groups(:morgan), :anchor => 'attachments')
+    assert_equal 1, groups(:morgan).attachments.count
+  end
+
+  should "not create a group attachment unless user is admin" do
+    get :new, {:group_id => groups(:morgan).id}, {:logged_in_id => @person.id}
+    assert_response :unauthorized
+    post :create, {:attachment => {:group_id => groups(:morgan).id, :file => fixture_file_upload('files/attachment.pdf')}}, {:logged_in_id => @person.id}
+    assert_response :unauthorized
+  end
+
   should "delete a page attachment" do
     @admin = Person.forge(:admin => Admin.create(:edit_pages => true))
     @attachment = Attachment.create_from_file(:page_id => pages(:foo).id, :file => fixture_file_upload('files/attachment.pdf'))
@@ -60,4 +74,19 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_response :unauthorized
   end
 
+  should "delete a group attachment" do
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @attachment = Attachment.create_from_file(:group_id => groups(:morgan).id, :file => fixture_file_upload('files/attachment.pdf'))
+    post :destroy, {:id => @attachment.id, :from => edit_group_path(groups(:morgan))}, {:logged_in_id => @admin.id}
+    assert_redirected_to edit_group_path(groups(:morgan))
+    assert_raise(ActiveRecord::RecordNotFound) do
+      @attachment.reload
+    end
+  end
+
+  should "not delete a group attachment unless user is admin" do
+    @attachment = Attachment.create_from_file(:group_id => groups(:morgan).id, :file => fixture_file_upload('files/attachment.pdf'))
+    post :destroy, {:id => @attachment.id}, {:logged_in_id => @person.id}
+    assert_response :unauthorized
+  end
 end

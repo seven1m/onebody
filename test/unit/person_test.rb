@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL)
+GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL == 'support@example.com'
 
 class PersonTest < ActiveSupport::TestCase
   fixtures :people, :families

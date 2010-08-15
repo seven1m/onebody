@@ -36,9 +36,9 @@ module MessagesHelper
   end
 
   def render_message_text_body(message_body, hide_bulk_quoting=false)
-    body = remove_sensitive_links(hide_contact_details(auto_link(message_body)))
+    body = remove_sensitive_links(hide_contact_details(message_body))
     body = remove_bulk_quoting(body) if hide_bulk_quoting
-    preserve_breaks(remove_excess_breaks(body))
+    auto_link(preserve_breaks(remove_excess_breaks(body)))
   end
 
   def remove_sensitive_links(message_body)

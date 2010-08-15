@@ -786,6 +786,7 @@ pt:
   attachments:
     deleted: Anexo deletado.
     file: Arquivo
+    files: Arquivos
     file_deleted: Este arquivo foi deletado.
     file_not_found: Este arquivo não foi encontrado.
     invalid_name: O nome do arquivo contém caracteres inválidos.
@@ -996,6 +997,7 @@ pt:
     approve_group: Aprovar Grupo
     approved: Aprovado
     are_you_sure_option: Você tem certeza que deseja {{option}} os emails deste grupo {{group}}?
+    attachments: Anexos
     attendance: Frequência
     back_to: voltar ao grupo
     back_to_homepage: Voltar à Página Inicial do Grupo

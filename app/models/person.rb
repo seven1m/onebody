@@ -333,7 +333,9 @@ class Person < ActiveRecord::Base
     when 'Page'
       self.admin?(:edit_pages)
     when 'Attachment'
-      (what.page and self.can_edit?(what.page)) or (what.message and self.can_edit?(what.message))
+      (what.page and self.can_edit?(what.page)) or \
+      (what.message and self.can_edit?(what.message)) or \
+      (what.group and what.group.admin?(self))
     when 'NewsItem'
       self.admin?(:manage_news) or (what.person and what.person == self )
     when 'Membership'
@@ -547,7 +549,7 @@ class Person < ActiveRecord::Base
     cals.uniq!
     if cals.any?
       src = cals.map { |c| "src=#{c}" }.join("&amp;")
-      "https://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=1&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}&amp;ctz=UTC#{Time.zone.now.formatted_offset}"
+      "https://www.google.com/calendar/embed?showTitle=0&amp;showDate=1&amp;showPrint=1&amp;showTz=1&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;#{src}&amp;ctz=#{Time.zone.tzinfo.name}"
     end
   end
 

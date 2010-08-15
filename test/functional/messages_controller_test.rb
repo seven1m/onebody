@@ -111,11 +111,12 @@ class MessagesControllerTest < ActionController::TestCase
     get :new, {:group_id => @group.id}, {:logged_in_id => @person}
     assert_response :success
     body = Faker::Lorem.sentence
-    post :create, {:file => fixture_file_upload('files/attachment.pdf'), :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
+    post :create, {:files => [fixture_file_upload('files/attachment.pdf')], :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :redirect
     assert_redirected_to group_path(@group)
     assert_match /has been sent/, flash[:notice]
     assert ActionMailer::Base.deliveries.any?
+    assert_equal 1, Message.last.attachments.count
   end
 
   should "create new private messages with an attachment" do
@@ -123,10 +124,11 @@ class MessagesControllerTest < ActionController::TestCase
     get :new, {:to_person_id => @person.id}, {:logged_in_id => @other_person}
     assert_response :success
     body = Faker::Lorem.sentence
-    post :create, {:file => fixture_file_upload('files/attachment.pdf'), :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
+    post :create, {:files => [fixture_file_upload('files/attachment.pdf')], :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :success
     assert_select 'body', /message.+sent/
     assert ActionMailer::Base.deliveries.any?
+    assert_equal 1, Message.last.attachments.count
   end
 
   should "show a message" do

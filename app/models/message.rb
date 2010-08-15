@@ -218,11 +218,11 @@ class Message < ActiveRecord::Base
 
   def can_see?(p)
     if group and group.private?
-      p.member_of?(group)
+      p.member_of?(group) or group.admin?(p)
     elsif p.admin?(:manage_messages)
       true
     elsif group
-      p.member_of?(group) or p.admin?(:manage_messages)
+      p.member_of?(group) or group.admin?(p)
     elsif wall and not wall.wall_enabled?
       p == wall
     elsif wall

@@ -43,6 +43,7 @@ class Group < ActiveRecord::Base
   has_many :attendance_records
   has_many :albums
   has_many :stream_items, :dependent => :destroy
+  has_many :attachments, :dependent => :delete_all
   belongs_to :creator, :class_name => 'Person', :foreign_key => 'creator_id'
   belongs_to :leader, :class_name => 'Person', :foreign_key => 'leader_id'
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
@@ -196,7 +197,7 @@ class Group < ActiveRecord::Base
   def gcal_url
     if gcal_private_link.to_s.any?
       if token = gcal_token
-        "https://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;showTz=1&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{gcal_account}&amp;color=%23A32929&amp;ctz=UTC#{Time.zone.now.formatted_offset}"
+        "https://www.google.com/calendar/embed?pvttk=#{token}&amp;showTitle=0&amp;showCalendars=0&amp;showTz=1&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=#{gcal_account}&amp;color=%23A32929&amp;ctz=#{Time.zone.tzinfo.name}"
       end
     end
   end
@@ -246,8 +247,7 @@ class Group < ActiveRecord::Base
     # (and also set their get_email attribute to false in the group)
     upload_to_cm = []
     in_group.each do |person|
-      if unsubscribed.map { |p| p[0] }.include?(person.name) or
-        unsubscribed.map { |p| p[1] }.include?(person.email)
+      if unsubscribed.map { |p| p[1].downcase }.include?(person.email.downcase)
         person.memberships.find_by_group_id(self.id).update_attribute(:get_email, false)
       else
         upload_to_cm << [person.name, person.email]
@@ -256,13 +256,13 @@ class Group < ActiveRecord::Base
     # unsubscribe addresses in the subscriber list but not found in the group
     subscribed = cm.Subscribers.GetActive('ListID' => cm_api_list_id, 'Date' => '2000-01-01 00:00:00')['anyType']['Subscriber'].to_a.map { |s| [s['Name'], s['EmailAddress']] }
     subscribed.each do |name, email|
-      if not upload_to_cm.any? { |n, e| e == email }
+      if not upload_to_cm.any? { |n, e| e.downcase == email.downcase }
         cm.Subscriber.Unsubscribe('ListID' => cm_api_list_id, 'Email' => email)
       end
     end
     # subscribe addresses in the group but not in the subscriber list
     upload_to_cm.each do |name, email|
-      if not subscribed.any? { |n, e| e == email }
+      if not subscribed.any? { |n, e| e.downcase == email.downcase }
         cm.Subscriber.Add('ListID' => cm_api_list_id, 'Email' => email, 'Name' => name)
       end
     end
