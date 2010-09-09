@@ -35,7 +35,7 @@ class NotesController < ApplicationController
 
   def create
     @note = Note.new(params[:note])
-    @note.group_id = params[:note][:group_id] if params[:note][:group_id]
+    @note.group_id = params[:note][:group_id]
     if @note.group
       raise 'error' unless @note.group.blog? and @note.group.can_post?(@logged_in)
     end
