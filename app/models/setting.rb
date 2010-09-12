@@ -147,7 +147,7 @@ class Setting < ActiveRecord::Base
         RAILS_DEFAULT_LOGGER.info('Reloading settings for all sites...')
         settings_in_db = Setting.all
         # per site settings
-        Site.find(:all).each do |site|
+        Site.find_all_by_active(true).each do |site|
           update_site_from_hash(site, settings)
         end
         # globals
