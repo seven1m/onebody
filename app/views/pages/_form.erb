@@ -1,4 +1,4 @@
-<% unless @page.path == 'template' %>
+<% unless @page.path == 'template' or @page.raw? %>
   <%= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
   <script type="text/javascript">
     tinyMCE.init({
@@ -23,5 +23,7 @@
     <%= form.label :published, I18n.t('pages.published'), :class => 'inline' %>
     <%= form.check_box :navigation, :class => 'checkbox' %>
     <%= form.label :navigation, I18n.t('pages.visible_in_navigation'), :class => 'inline' %>
+    <%= form.check_box :raw, :class => 'checkbox' %>
+    <%= form.label :raw, I18n.t('pages.raw'), :class => 'inline' %>
   </div>
 <% end %>

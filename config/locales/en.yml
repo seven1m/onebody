@@ -1053,12 +1053,13 @@ en:
     expand: expand
     help_and_system_pages: "'Help' and 'System' pages are used by OneBody and may be adapted to your community if needed. Other pages are only visible if the Content Management System feature is enabled."
     loading: loading...
-    new_page: New Page
+    new_page: new
     new_root_page: new root page
     not_found: Page not found.
     pages: Pages
     path: Path
     published: Published
+    raw: Raw
     save_and_continue_editing: Save and Continue Editing
     saved: Page saved.
     template_not_found: Template not found.
@@ -1066,6 +1067,7 @@ en:
     to_add_attachment_first_save_it: To add an attachment to this page, first save it.
     unpublished: unpublished
     upload_attachment: Upload Attachment
+    view_page: View Page
     visible_in_navigation: Visibile in Navigation
 
   people:
