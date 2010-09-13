@@ -27,7 +27,7 @@
     <%= format_phone(@person.fax) %>
   <% end %>
   <% render :layout => 'people/detail_row', :locals => { :attribute => :address, :label => I18n.t('privacies.address') } do %>
-    <%=h @person.address.sub(/\n/, '<br/>') %><br/>
+    <%= preserve_breaks @person.address %><br/>
     <%= link_to h(@person.city), search_path(:city => @person.city), :title => I18n.t('people.search_people_city') %>,
     <%= link_to h(@person.state), search_path(:state => @person.state), :title => I18n.t('people.search_people_state') %>
     <% if @person.zip %>
