@@ -1,15 +1,11 @@
 <% unless @page.path == 'template' %>
-  <%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg.js' %>
-  <%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg-settings.js' %>
-
+  <%= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
   <script type="text/javascript">
-    page_full = new WYSIWYG.Settings();
-    page_full.ImagesDir = "/javascripts/openwysiwyg/images/";
-    page_full.PopupsDir = "/javascripts/openwysiwyg/popups/";
-    page_full.CSSFile   = "/javascripts/openwysiwyg/styles/wysiwyg.css";
-    page_full.Width     = "80%";
-    page_full.Height    = "350px";
-	  WYSIWYG.attach('page_body', page_full);
+    tinyMCE.init({
+      mode: "exact",
+      elements: "page_body",
+      theme: "advanced"
+    });
   </script>
 <% end %>
 

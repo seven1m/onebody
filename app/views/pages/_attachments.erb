@@ -7,9 +7,9 @@
         (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
         <% unless @page.path == 'template' %>
           <% if attachment.image? %>
-            <%= link_to_function I18n.t('insert'), "insertImage('#{get_attachment_path(attachment)}', '#{attachment.human_name}', '#{attachment.width}px', '#{attachment.height}px')" %>
+            <%= link_to_function I18n.t('insert'), "insertImage('#{get_attachment_path(attachment)}', '#{h attachment.human_name}', #{attachment.width}, #{attachment.height})" %>
           <% else %>
-            <%= link_to_function I18n.t('insert'), "insertLink('#{get_attachment_path(attachment)}')" %>
+            <%= link_to_function I18n.t('insert'), "insertLink('#{get_attachment_path(attachment)}', '#{h attachment.human_name}')" %>
           <% end %>
         <% end %>
         <%= link_to I18n.t('delete'), attachment, :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet' %>
@@ -25,9 +25,10 @@
 
 <script type="text/javascript">
   function insertImage(src, name, width, height) {
-	  WYSIWYG.insertImage(src, width, height, 'left', 0, name, 0, 0, 'page_body', "width:#{width}; height:#{height}; margin-right:10px;");
+    if(width > 400) width = 400;
+    tinyMCE.execCommand('mceInsertContent', false, '<img alt=\'' + name + '\' src=\'' + src + '\' width=\'' + width + '\' />');
   }
-  function insertLink(href) {
-    WYSIWYG.insertLink(href, null, null, null, null, 'page_body')
+  function insertLink(href, name) {
+    tinyMCE.execCommand('mceInsertContent', false, '<a href=\'' + href + '\'>' + name + '</a>');
   }
 </script>

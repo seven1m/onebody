@@ -1,14 +1,15 @@
 /**
- * $Id: mctabs.js 162 2007-01-03 16:16:52Z spocke $
+ * mctabs.js
  *
- * Moxiecode DHTML Tabs script.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 function MCTabs() {
-	this.settings = new Array();
+	this.settings = [];
 };
 
 MCTabs.prototype.init = function(settings) {
@@ -28,17 +29,19 @@ MCTabs.prototype.getParam = function(name, default_value) {
 };
 
 MCTabs.prototype.displayTab = function(tab_id, panel_id) {
-	var panelElm = document.getElementById(panel_id);
-	var panelContainerElm = panelElm ? panelElm.parentNode : null;
-	var tabElm = document.getElementById(tab_id);
-	var tabContainerElm = tabElm ? tabElm.parentNode : null;
-	var selectionClass = this.getParam('selection_class', 'current');
+	var panelElm, panelContainerElm, tabElm, tabContainerElm, selectionClass, nodes, i;
+
+	panelElm= document.getElementById(panel_id);
+	panelContainerElm = panelElm ? panelElm.parentNode : null;
+	tabElm = document.getElementById(tab_id);
+	tabContainerElm = tabElm ? tabElm.parentNode : null;
+	selectionClass = this.getParam('selection_class', 'current');
 
 	if (tabElm && tabContainerElm) {
-		var nodes = tabContainerElm.childNodes;
+		nodes = tabContainerElm.childNodes;
 
 		// Hide all other tabs
-		for (var i=0; i<nodes.length; i++) {
+		for (i = 0; i < nodes.length; i++) {
 			if (nodes[i].nodeName == "LI")
 				nodes[i].className = '';
 		}
@@ -48,10 +51,10 @@ MCTabs.prototype.displayTab = function(tab_id, panel_id) {
 	}
 
 	if (panelElm && panelContainerElm) {
-		var nodes = panelContainerElm.childNodes;
+		nodes = panelContainerElm.childNodes;
 
 		// Hide all other panels
-		for (var i=0; i<nodes.length; i++) {
+		for (i = 0; i < nodes.length; i++) {
 			if (nodes[i].nodeName == "DIV")
 				nodes[i].className = 'panel';
 		}

@@ -1,47 +1,34 @@
 /**
- * $Id: editor_plugin_src.js 201 2007-02-12 15:56:56Z spocke $
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-/* Import theme	specific language pack */
-tinyMCE.importPluginLanguagePack('print');
+(function() {
+	tinymce.create('tinymce.plugins.Print', {
+		init : function(ed, url) {
+			ed.addCommand('mcePrint', function() {
+				ed.getWin().print();
+			});
 
-var TinyMCE_PrintPlugin = {
-	getInfo : function() {
-		return {
-			longname : 'Print',
-			author : 'Moxiecode Systems AB',
-			authorurl : 'http://tinymce.moxiecode.com',
-			infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/print',
-			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
-		};
-	},
+			ed.addButton('print', {title : 'print.print_desc', cmd : 'mcePrint'});
+		},
 
-	getControlHTML : function(cn)	{
-		switch (cn) {
-			case "print":
-				return tinyMCE.getButtonHTML(cn, 'lang_print_desc', '{$pluginurl}/images/print.gif', 'mcePrint');
+		getInfo : function() {
+			return {
+				longname : 'Print',
+				author : 'Moxiecode Systems AB',
+				authorurl : 'http://tinymce.moxiecode.com',
+				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/print',
+				version : tinymce.majorVersion + "." + tinymce.minorVersion
+			};
 		}
+	});
 
-		return "";
-	},
-
-	/**
-	 * Executes	the	search/replace commands.
-	 */
-	execCommand : function(editor_id, element, command,	user_interface,	value) {
-		// Handle commands
-		switch (command) {
-			case "mcePrint":
-				tinyMCE.getInstanceById(editor_id).contentWindow.print();
-				return true;
-		}
-
-		// Pass to next handler in chain
-		return false;
-	}
-};
-
-tinyMCE.addPlugin("print", TinyMCE_PrintPlugin);
+	// Register plugin
+	tinymce.PluginManager.add('print', tinymce.plugins.Print);
+})();
