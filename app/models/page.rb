@@ -119,7 +119,7 @@ class Page < ActiveRecord::Base
     end
 
     def paths_and_ids
-      connection.select_all("select path, id from pages where path != '' order by path").map { |r| [r['path'], r['id'].to_i] }
+      connection.select_all("select path, id from pages where path != '' and site_id = #{Site.current.id} order by path").map { |r| [r['path'], r['id'].to_i] }
     end
 
     def root_pages(include_home=false, published=true, navigation=true)
