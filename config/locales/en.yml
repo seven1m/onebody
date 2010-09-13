@@ -491,7 +491,7 @@ en:
     select_your_carrier: Select your mobile carrier
     set_password_error: There was an error setting the password. Please try again.
     set_your_email: You must set your personal email address and password to continue.
-    set_your_email_may_be_different: You must set your personal email address (it may be different than the one you verified) and password to continue.
+    set_your_email_may_be_different: Please enter your personal email address and NEW password to complete your registration.
     submission_will_be_reviewed: Your submission will be reviewed as soon as possible. You will receive an email once you have been approved.
     text_messaging_fees: Text messaging fees may apply.
     there_was_an_error: Sorry. There was an error. If you requested the office make a change, it's possible it just hasn't been done yet. Please try again later.
