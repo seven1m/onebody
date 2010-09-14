@@ -798,11 +798,11 @@ class Person < ActiveRecord::Base
         end
         person.dont_mark_email_changed = true # set flag to indicate we're the api
         if person.save
-          if record['relationships'] and record['relationships_hash'] != person.relationships_hash
+          if record['relationships_hash'] != person.relationships_hash
             person.relationships.all.select do |relationship|
               !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
             end.each { |r| r.delete }
-            record['relationships'].split(',').each do |relationship|
+            record['relationships'].to_s.split(',').each do |relationship|
               if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.find_by_legacy_id($1)
                 person.relationships.create(
                   :related    => related,
