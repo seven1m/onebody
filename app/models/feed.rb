@@ -71,12 +71,12 @@ class Feed < ActiveRecord::Base
       elsif url.include?('facebook.com')
         body = entry.title
       end
-      person.notes.create(
-        :title        => url.include?('facebook.com') || url.include?('twitter.com') ? nil : entry.title,
-        :body         => body,
-        :created_at   => entry.published,
-        :original_url => entry.url
-      )
+      note = person.notes.build
+      note.title = url.include?('facebook.com') || url.include?('twitter.com') ? nil : entry.title,
+      note.body = body
+      note.created_at = entry.published
+      note.original_url = entry.url
+      note.save
     end
   end
 
