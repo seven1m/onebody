@@ -2,7 +2,7 @@ module PagesHelper
 
   def breadcrumbs_for(page)
     if parent = page.parent and not parent.system?
-      link_to(parent.title, page_path(parent)) + ' &raquo;'
+      link_to(parent.title, page_path(parent)) + sanitize(' &raquo;')
     end
   end
 
