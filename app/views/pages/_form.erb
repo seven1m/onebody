@@ -1,30 +1,35 @@
-<% unless @page.path == 'template' %>
-  <%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg.js' %>
-  <%= javascript_include_tag 'openwysiwyg/scripts/wysiwyg-settings.js' %>
-
+<% unless @page.path == 'template' or @page.raw? %>
+  <%= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
   <script type="text/javascript">
-    page_full = new WYSIWYG.Settings();
-    page_full.ImagesDir = "/javascripts/openwysiwyg/images/";
-    page_full.PopupsDir = "/javascripts/openwysiwyg/popups/";
-    page_full.CSSFile   = "/javascripts/openwysiwyg/styles/wysiwyg.css";
-    page_full.Width     = "80%";
-    page_full.Height    = "350px";
-	  WYSIWYG.attach('page_body', page_full);
+    tinyMCE.init({
+      mode: "exact",
+      elements: "page_body",
+      theme: "advanced",
+      extended_valid_elements: "style[type]"
+    });
   </script>
 <% end %>
 
 <% form_for @page do |form| %>
   <%= form.error_messages %>
   <div>
-    <%= form.label :title, I18n.t('pages.title') %>               <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
-    <%= form.label :parent_id, I18n.t('pages.path') %>   <%= form.select :parent_id, [['(root)', nil]] + @page_paths_and_ids, {}, :style => 'width:auto;' %> /
-                                           <%= form.text_field :slug %><br/>
-    <%= form.label :body, I18n.t('pages.body') %>                <%= form.text_area :body, :rows => 20, :cols => 80, :style => 'width:80%;font-family:monaco,monospace;' %><br/>
+    <%= form.label :title, I18n.t('pages.title') %>
+    <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
+    <% if @page.home? %>
+
+    <% else %>
+      <%= form.label :parent_id, I18n.t('pages.path') %>
+      <%= form.select :parent_id, [['(root)', nil]] + @page_paths_and_ids, {}, :style => 'width:auto;' %> /
+      <%= form.text_field :slug, :size => 10 %><br/>
+    <% end %>
+    <%= form.label :body, I18n.t('pages.body') %>      <%= form.text_area :body, :rows => 20, :cols => 80, :style => 'width:80%;font-family:monaco,monospace;' %><br/>
     <%= form.submit I18n.t('save') %>
     <%= form.submit I18n.t('pages.save_and_continue_editing') %>
     <%= form.check_box :published, :class => 'checkbox', :onclick => "$('page_navigation').checked=this.checked" %>
     <%= form.label :published, I18n.t('pages.published'), :class => 'inline' %>
     <%= form.check_box :navigation, :class => 'checkbox' %>
     <%= form.label :navigation, I18n.t('pages.visible_in_navigation'), :class => 'inline' %>
+    <%= form.check_box :raw, :class => 'checkbox' %>
+    <%= form.label :raw, I18n.t('pages.raw'), :class => 'inline' %>
   </div>
 <% end %>

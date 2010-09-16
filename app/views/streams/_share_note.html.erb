@@ -2,7 +2,7 @@
 <div class="section">
   <% form_for :note, :url => notes_path do |form| %>
     <%= hidden_field_tag :redirect_to, request.request_uri %>
-    <%= form.hidden_field :group_id %>
+    <%= form.hidden_field :group_id, :value => @group && @group.id %>
     <p>
       <%= I18n.t('notes.share_note_description') %>
       <%= form.text_area :body, :rows => 2, :cols => 80 %>

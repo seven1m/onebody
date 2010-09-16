@@ -14,6 +14,7 @@
 #  updated_at :datetime
 #  navigation :boolean       default(TRUE)
 #  system     :boolean
+#  raw        :boolean       default(FALSE)
 #
 
 class Page < ActiveRecord::Base
@@ -28,7 +29,7 @@ class Page < ActiveRecord::Base
   scope_by_site_id
   acts_as_logger LogItem
 
-  attr_accessible :slug, :title, :body, :parent_id, :parent, :path, :published, :navigation
+  attr_accessible :slug, :title, :body, :parent_id, :parent, :path, :published, :navigation, :raw
 
   validates_presence_of :slug, :title, :body
   validates_uniqueness_of :path
@@ -118,7 +119,7 @@ class Page < ActiveRecord::Base
     end
 
     def paths_and_ids
-      connection.select_all("select path, id from pages where path != '' order by path").map { |r| [r['path'], r['id'].to_i] }
+      connection.select_all("select path, id from pages where path != '' and site_id = #{Site.current.id} order by path").map { |r| [r['path'], r['id'].to_i] }
     end
 
     def root_pages(include_home=false, published=true, navigation=true)

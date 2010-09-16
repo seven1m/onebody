@@ -119,21 +119,47 @@ class Setting < ActiveRecord::Base
       SETTINGS
     end
 
+    def load_file_stamps(filename)
+      if File.exist?(f = File.join(RAILS_ROOT, 'tmp/filestamps.yml'))
+        YAML::load(File.open(f))[filename]
+      end
+    end
+
+    def get_file_stamp(filename)
+      stat = File.stat(filename)
+      {'size' => stat.size, 'mtime' => stat.mtime}
+    end
+
+    def set_file_stamps(filename)
+      stamps_filename = File.join(RAILS_ROOT, 'tmp/filestamps.yml')
+      if File.exist?(stamps_filename)
+        stamps = YAML::load(File.open(stamps_filename))
+      else
+        stamps = {}
+      end
+      stamps[filename] = get_file_stamp(filename)
+      File.open(stamps_filename, 'w') { |f| YAML::dump(stamps, f) }
+    end
+
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
-      settings_in_db = Setting.all
-      # per site settings
-      Site.find(:all).each do |site|
-        update_site_from_hash(site, settings)
-      end
-      # globals
-      settings.each do |section_name, section|
-        section.each do |setting_name, setting|
-          next unless setting['global']
-          unless settings_in_db.detect { |s| s.site_id == nil and s.section == section_name and s.name == setting_name }
-            Setting.create!(setting.merge(:section => section_name, :name => setting_name))
+      if load_file_stamps(filename) != get_file_stamp(filename)
+        RAILS_DEFAULT_LOGGER.info('Reloading settings for all sites...')
+        settings_in_db = Setting.all
+        # per site settings
+        Site.find_all_by_active(true).each do |site|
+          update_site_from_hash(site, settings)
+        end
+        # globals
+        settings.each do |section_name, section|
+          section.each do |setting_name, setting|
+            next unless setting['global']
+            unless settings_in_db.detect { |s| s.site_id == nil and s.section == section_name and s.name == setting_name }
+              Setting.create!(setting.merge(:section => section_name, :name => setting_name))
+            end
           end
         end
+        set_file_stamps(filename)
       end
     end
 
