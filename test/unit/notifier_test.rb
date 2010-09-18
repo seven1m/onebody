@@ -105,6 +105,7 @@ class NotifierTest < ActiveSupport::TestCase
     reply = TMail::Mail.new
     reply.from = "Jennie Morgan <#{people(:jennie).email}>"
     reply.to = 'rewritten@foo.bar'
+    reply.cc = people(:jeremy).email # ensure messages don't get sent to same person twice
     reply.subject = 're: test from jeremy'
     reply.body = "hello jeremy\n\n" + sent.body
     reply.in_reply_to = sent.message_id
