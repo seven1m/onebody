@@ -97,6 +97,27 @@ class NotifierTest < ActiveSupport::TestCase
     assert sent.body.index("hello jeremy")
   end
 
+  should "send private email and accept reply with a rewritten to address" do
+    Message.create :person => people(:jeremy), :to => people(:jennie), :subject => 'test from jeremy', :body => 'hello jennie'
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    # now reply
+    reply = TMail::Mail.new
+    reply.from = "Jennie Morgan <#{people(:jennie).email}>"
+    reply.to = 'rewritten@foo.bar'
+    reply.subject = 're: test from jeremy'
+    reply.body = "hello jeremy\n\n" + sent.body
+    reply.in_reply_to = sent.message_id
+    ActionMailer::Base.deliveries = []
+    Notifier.receive(reply.to_s)
+    assert_equal 1, ActionMailer::Base.deliveries.length
+    sent = ActionMailer::Base.deliveries.first
+    assert_equal [people(:jeremy).email], sent.to
+    assert_equal 're: test from jeremy', sent.subject
+    assert sent.from != people(:jennie).email
+    assert sent.body.index("hello jeremy")
+  end
+
   should "reject unsolicited email" do
     msg = TMail::Mail.new
     msg.from = "Jennie Morgan <#{people(:jennie).email}>"

@@ -169,8 +169,8 @@ class Notifier < ActionMailer::Base
     sent_to.each do |address|
       address, domain = address.strip.downcase.split('@')
       next unless address.any? and domain.any?
-      next unless [Site.current.host, Site.current.secondary_host].compact.include?(domain)
-      if group = Group.find_by_address(address) and group.can_send?(@person)
+      our_domain = [Site.current.host, Site.current.secondary_host].compact.include?(domain)
+      if our_domain and group = Group.find_by_address(address) and group.can_send?(@person)
         group_email(group, email, body)
       elsif address.to_s.any? and not @message_sent_to_group # reply to previous message
         reply_email(email, body)
@@ -270,7 +270,7 @@ class Notifier < ActionMailer::Base
       end
       # fallback to using id and code hash inside email body
       # (Outlook does not use the psuedo-standard headers we rely on above)
-      message_id, code_hash = (m = get_body(email).to_s.match(/id:\s*(\d+)_([0-9abcdef]{6,6})/i)) && m[1..2]
+      message_id, code_hash = (m = get_body(email).to_s.match(Message::MESSAGE_ID_RE)) && m[1..2]
       if message = Message.find_by_id(message_id)
         return [message, code_hash]
       end
@@ -290,8 +290,16 @@ class Notifier < ActionMailer::Base
     end
 
     def get_site(email)
+      # prefer the to address
       (email.cc.to_a + email.to.to_a).each do |address|
         return Site.current if Site.current = Site.find_by_host(address.downcase.split('@').last)
+      end
+      # fallback if to address was rewritten
+      # Calvin College in MI is known to rewrite our from/reply-to addresses to be the same as the host that made the connection
+      if get_body(email).to_s =~ Message::MESSAGE_ID_RE
+        Site.each do
+          return Site.current if get_in_reply_to_message_and_code(email)
+        end
       end
       nil
     end
