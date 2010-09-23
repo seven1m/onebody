@@ -157,7 +157,7 @@ class Notifier < ActionMailer::Base
       Notifier.deliver_simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
         "Message Rejected: #{email.subject}",
-        message
+        reject_msg
       )
       return
     end
