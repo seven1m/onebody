@@ -40,12 +40,12 @@
     </div>
     <p>
       <% if reply.html_body.to_s.any? %>
-        <%= render_message_html_body(reply) %>
+        <%= render_message_html_body(reply.html_body) %>
       <% elsif params[:show_quoted] %>
-        <%= render_message_text_body(reply) %>
+        <%= render_message_text_body(reply.body) %>
       <% else %>
-        <%= html = render_message_text_body(reply, :hide_bulk_quoting) %>
-        <% if html != render_message_text_body(reply) %>
+        <%= html = render_message_text_body(reply.body, :hide_bulk_quoting) %>
+        <% if html != render_message_text_body(reply.body) %>
           <br/>
           <em style="color:#009;">
             <%= I18n.t('messages.some_quoted_text_is_hidden') %>
