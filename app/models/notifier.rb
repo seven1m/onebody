@@ -137,14 +137,27 @@ class Notifier < ActionMailer::Base
     return unless get_site(email)
 
     unless @person = get_from_person(email)
-      Notifier.deliver_simple_message(
-        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
-        "Message Rejected: #{email.subject}",
+      if @multiple_people_with_same_email
+        reject_msg = \
+        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
+        "Sorry for the inconvenience, but the system cannot determine who you are because more " +
+        "than one person in your family share the same email address. You can fix this by " +
+        "configuring your own personal email address in the system, or by setting the sender name " +
+        "in your email account to be the same as your name in our database. " +
+        "Alternatively, you can sign in at #{Setting.get(:url, :site)} and " +
+        "send your message via the Web."
+      else
+        reject_msg = \
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
         "Sorry for the inconvenience, but the system does not recognize your email address " +
         "as a user of the system. If you want to send a message to someone, please send from " +
         "your registered account email address or sign in at #{Setting.get(:url, :site)} and " +
         "send your message via the Web."
+      end
+      Notifier.deliver_simple_message(
+        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+        "Message Rejected: #{email.subject}",
+        message
       )
       return
     end
@@ -312,6 +325,7 @@ class Notifier < ActionMailer::Base
       elsif people.length == 1
         people.first
       elsif people.length > 1
+        @multiple_people_with_same_email = true
         # try to narrow it down based on name in the from line
         people.detect do |p|
           p.name.downcase.split.first == email.friendly_from.to_s.downcase.split.first
