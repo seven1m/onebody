@@ -33,10 +33,10 @@
 <% if @message.attachments.any? %>
   <h2><%= I18n.t('messages.attachments') %>:</h2>
   <ul>
-    <% message.attachments.each do |attachment| %>
+    <% @message.attachments.each do |attachment| %>
       <li>
-        <%= link_to image_tag('attachment.gif', :alt => I18n.t('messages.attachment'), :class => 'icon'), [message, attachment] %>
-        <%= link_to h(attachment.name), [message, attachment] %>
+        <%= link_to image_tag('attachment.gif', :alt => I18n.t('messages.attachment'), :class => 'icon'), [@message, attachment] %>
+        <%= link_to h(attachment.name), [@message, attachment] %>
         (<%= number_to_human_size(attachment.file_size) rescue I18n.t('messages.file_missing') %>)
       </li>
     <% end %>
@@ -73,10 +73,10 @@
       <% if @message.attachments.any? %>
         <h2><%= I18n.t('messages.attachments') %>:</h2>
         <ul>
-          <% message.attachments.each do |attachment| %>
+          <% @message.attachments.each do |attachment| %>
             <li>
-              <%= link_to image_tag('attachment.gif', :alt => I18n.t('messages.attachment'), :class => 'icon'), [message, attachment] %>
-              <%= link_to h(attachment.name), [message, attachment] %>
+              <%= link_to image_tag('attachment.gif', :alt => I18n.t('messages.attachment'), :class => 'icon'), [@message, attachment] %>
+              <%= link_to h(attachment.name), [@message, attachment] %>
               (<%= number_to_human_size(attachment.file_size) rescue I18n.t('messages.file_missing') %>)
             </li>
           <% end %>
