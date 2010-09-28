@@ -310,7 +310,7 @@ class Notifier < ActionMailer::Base
       end
       # fallback if to address was rewritten
       # Calvin College in MI is known to rewrite our from/reply-to addresses to be the same as the host that made the connection
-      if get_body(email).to_s =~ Message::MESSAGE_ID_RE
+      if get_body(email).to_s =~ Message::MESSAGE_ID_RE_IN_BODY
         Site.each do
           return Site.current if get_in_reply_to_message_and_code(email)
         end
