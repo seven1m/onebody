@@ -22,7 +22,8 @@ require 'uri'
 require 'digest/md5'
 
 class Message < ActiveRecord::Base
-  MESSAGE_ID_RE = /id:\s*(\d+)_([0-9abcdef]{6})/i
+  MESSAGE_ID_RE = /<(\d+)_([0-9abcdef]{6})_/
+  MESSAGE_ID_RE_IN_BODY = /id:\s*(\d+)_([0-9abcdef]{6})/i
 
   belongs_to :group
   belongs_to :person

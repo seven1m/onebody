@@ -134,6 +134,7 @@ class Notifier < ActionMailer::Base
     return if sent_to.detect { |a| a =~ /no\-?reply|postmaster|mailer\-daemon/i }
     return if email.from.to_s =~ /no\-?reply|postmaster|mailer\-daemon/i
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
+    return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.find($1) and m.code_hash == $2 # just sent, looping back into the receiver
     return unless get_site(email)
 
     unless @person = get_from_person(email)
@@ -276,14 +277,14 @@ class Notifier < ActionMailer::Base
       message_id, code_hash, message = nil
       # first try in-reply-to and references headers
       (email.in_reply_to.to_a + email.references.to_a).each do |in_reply_to|
-        message_id, code_hash = (m = in_reply_to.match(/<(\d+)_([0-9abcdef]{6,6})_/)) && m[1..2]
+        message_id, code_hash = (m = in_reply_to.match(Message::MESSAGE_ID_RE)) && m[1..2]
         if message = Message.find_by_id(message_id)
           return [message, code_hash]
         end
       end
       # fallback to using id and code hash inside email body
       # (Outlook does not use the psuedo-standard headers we rely on above)
-      message_id, code_hash = (m = get_body(email).to_s.match(Message::MESSAGE_ID_RE)) && m[1..2]
+      message_id, code_hash = (m = get_body(email).to_s.match(Message::MESSAGE_ID_RE_IN_BODY)) && m[1..2]
       if message = Message.find_by_id(message_id)
         return [message, code_hash]
       end
