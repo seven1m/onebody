@@ -31,6 +31,7 @@ Rails::Initializer.run do |config|
   config.gem 'feedzirra',              :version => '>= 0.0.23'
   config.gem 'mongo',                  :version => '>= 1.0.1'
   config.gem 'fastercsv',              :version => '~> 1.5.0'
+  config.gem 'rubyzip',                :version => '~> 0.9.4', :lib => 'zip/zip'
 end
 
 (Setting.update_all if Setting.table_exists?) rescue nil

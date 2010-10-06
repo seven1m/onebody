@@ -105,6 +105,8 @@ ActionController::Routing::Routes.draw do |map|
     pages.page_for_public 'pages/*path', :action => 'show_for_public', :conditions => {:method => :get}
   end
 
+  map.resource :pc_sync
+
   map.resource :admin, :controller => 'administration/dashboards'
   map.namespace :administration, :path_prefix => 'admin' do |admin|
     admin.resource :api_key
