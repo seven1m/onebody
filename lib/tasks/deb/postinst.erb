@@ -28,25 +28,26 @@ if [[ ! -e /etc/onebody ]]; then
   mkdir /etc/onebody
 fi
 
-if [[ `which gem` = "" ]] || [[ `gem -v` < "1.3.6" ]]; then
+if [[ `which gem` = "" ]] || [[ `gem -v` < "1.3.7" ]]; then
   echo "Installing/Upgrading RubyGems..."
   cd /tmp
-  wget -nv http://production.cf.rubygems.org/rubygems/rubygems-1.3.6.tgz || exit
-  tar xzf rubygems-1.3.6.tgz || exit
-  rm rubygems-1.3.6.tgz
-  cd /tmp/rubygems-1.3.6
+  wget -nv http://production.cf.rubygems.org/rubygems/rubygems-1.3.7.tgz || exit
+  tar xzf rubygems-1.3.7.tgz || exit
+  rm rubygems-1.3.7.tgz
+  cd /tmp/rubygems-1.3.7
   ruby setup.rb || exit
   cd /tmp
-  rm -rf /tmp/rubygems-1.3.6
+  rm -rf /tmp/rubygems-1.3.7
   echo "Symlinking /usr/bin/gem1.8 at /usr/bin/gem..."
   ln -sf /usr/bin/gem1.8 /usr/bin/gem
 fi
 
 echo "Installing required gems..."
-for gem in rdoc rack highline builder sqlite3-ruby chronic whenever; do
+gem install activesupport -v 2.3.5 --no-rdoc --no-ri
+gem install rack -v 1.0.1 --no-rdoc --no-ri
+for gem in rdoc highline builder sqlite3-ruby chronic whenever rubyzip; do
   if [[ `gem list $gem | grep $gem` = "" ]]; then gem install $gem --no-rdoc --no-ri || exit; fi
 done
-gem install rack -v 1.0.1 --no-rdoc --no-ri
 
 if [[ `which irb` = "" ]]; then
   echo "Symlinking /usr/bin/irb1.8 at /usr/bin/irb..."
