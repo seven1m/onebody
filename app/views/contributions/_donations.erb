@@ -5,7 +5,7 @@
         <% unless params[:person_id] %>
           <td><% if donation.person %><%= link_to h(donation.person.name), person_contributions_path(donation.person) %><% end %></td>
         <% end %>
-        <td><%=h donation.received_date.to_s(:date) %></td>
+        <td><%=h donation.received_on.to_s(:date) %></td>
         <td><%=h '%.02f' % (donation.amount_in_cents / 100) %> <%=h donation.currency %></td>
         <td><%=h donation.memo %></td>
         <td><%=h donation.donation_type %></td>

@@ -13,7 +13,7 @@ class ContributionsController < ApplicationController
       end
       render :action => 'person_index'
     else
-      @donations = Donortools::Donation.all({}, :include => :person).sort_by(&:received_date).reverse
+      @donations = Donortools::Donation.all({}, :include => :person).sort_by(&:received_on).reverse
       @count_unsynced = Person.unsynced_to_donortools.count
     end
   end
