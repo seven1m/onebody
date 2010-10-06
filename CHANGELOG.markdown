@@ -6,6 +6,34 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+1.2.0 / October, 2010
+---------------------
+
+**Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
+
+* Native sync with PowerChurch (one-way).
+* Prayer Event feature has returned.
+* Improved mobile interface.
+* Improvements to feed import feature. Removed Facebook import due problems with new FB users.
+* New interface for managing group admins in one place.
+* Ability to send multiple file attachments in a message via the web interface.
+* Fix for email replies where the original sender address is rewritten (Calvin College, I'm looking at you).
+* Fix bug causing some messages to loop around in the system unnecessarily.
+* Better feedback for individuals who share an email address.
+* Fixes for Google Calendar integration and timezones.
+* Upgraded the WYSIWYG editor for CMS pages.
+* CMS pages can now be edited as raw HTML.
+* Group membership calculation is now faster.
+* Content on sign up page is now customizable.
+* Adult age is now configurable and defaults to 18.
+* Improved formatting for the printed directory.
+* New rake task for exporting SQL data for a single site.
+* Improved sync with Campaign Monitor.
+* Improved i18n support for Portuguese.
+* Lots of little bug fixes and usebility improvements.
+* More unit tests.
+* Plugged some mass assignment vulnerabilities.
+
 1.1.1 / April 11, 2010
 ----------------------
 
