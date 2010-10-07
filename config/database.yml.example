@@ -1,13 +1,18 @@
---- 
-development: 
-  adapter: sqlite3
-  database: db/development.db
-test: 
-  adapter: sqlite3
-  database: db/test.db
-production: 
-  adapter: sqlite3
-  database: db/production.db
-mongo:
+development:
+  adapter: mysql
+  database: onebody_dev
   host: localhost
+  username: onebody
+  password: onebody
+test:
+  adapter: mysql
+  database: onebody_test
+  host: localhost
+  username: onebody
+  password: onebody
+production:
+  adapter: mysql
   database: onebody
+  host: localhost
+  username: onebody
+  password: onebody
