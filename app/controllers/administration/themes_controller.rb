@@ -22,6 +22,7 @@ class Administration::ThemesController < ApplicationController
     elsif params[:theme] =~ /<body>.*\{\{\s*content_for_layout\s*\}\}.*<\/body>/m
       File.open(@theme_filename, 'w') { |f| f.write(params[:theme]) }
       File.chmod(0664, @theme_filename)
+      expire_fragment(%r{views/people/#{@logged_in.id}_})
       redirect_to edit_administration_theme_path
     else
       render :text => I18n.t('application.custom_theme_message', :content => content_for_layout), :layout => true, :status => 500
