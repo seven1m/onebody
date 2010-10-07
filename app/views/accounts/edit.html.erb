@@ -30,7 +30,9 @@
     <br/>
     <label for="password"><%= I18n.t('session.password') %></label>
     <%= password_field_tag :password, nil %><br/>
-    <%= I18n.t('accounts.leave_blank') %><br/>
+    <% unless @person.encrypted_password.nil? %>
+      <%= I18n.t('accounts.leave_blank') %><br/>
+    <% end %>
     <label for="password_confirmation"><%= I18n.t('session.password_confirm') %></label>
     <%= password_field_tag :password_confirmation, nil %><br/>
     <%= submit_tag I18n.t('save_changes') %>

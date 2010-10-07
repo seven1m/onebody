@@ -147,6 +147,7 @@ class AccountsController < ApplicationController
         elsif @people.length == 1
           person = @people.first
           session[:logged_in_id] = person.id
+          flash[:sticky_notice] = true
           if v.mobile_phone?
             flash[:warning] = I18n.t('accounts.set_your_email')
           else

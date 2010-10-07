@@ -62,7 +62,7 @@ module ApplicationHelper
       <<-HTML
         <div id="notice" #{flash[:warning] ? 'class="warning"' : nil}>#{flash[:warning] || flash[:notice]}</div>
         <script type="text/javascript">
-          setTimeout("new Effect.Fade('notice');", 15000)
+          #{!flash[:sticky_notice] && "setTimeout(\"new Effect.Fade('notice');\", 15000)"}
         </script>
       HTML
     end
