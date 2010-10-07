@@ -18,7 +18,8 @@
     <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;">
       <h2 style="border:none;"><%= I18n.t('search.browse_by_category') %></h2>
       <ul>
-        <% @categories.each do |category, group_count| %>
+        <% @categories.keys.sort.each do |category| %>
+          <% group_count = @categories[category] %>
           <li>
             <%= link_to h(category), groups_path(:category => category) %>
             (<%=h group_count %>)
