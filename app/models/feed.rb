@@ -72,7 +72,7 @@ class Feed < ActiveRecord::Base
         body = entry.title
       end
       note = person.notes.build
-      note.title = url.include?('facebook.com') || url.include?('twitter.com') ? nil : entry.title,
+      note.title = url.include?('facebook.com') || url.include?('twitter.com') ? nil : entry.title
       note.body = body
       note.created_at = entry.published
       note.original_url = entry.url
