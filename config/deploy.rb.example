@@ -1,13 +1,3 @@
-# copy this file to config/deploy.rb and adjust, then on the server:
-# # sudo adduser deploy
-# add user "deploy" to /etc/sudoers
-# copy your ssh public key (~/.ssh/id_rsa.pub) to the remote server (/home/deploy/.ssh/authorized_keys)
-# finally, on your local machine:
-# # cap deploy:install
-# # cap deploy:setup
-# # cap deploy:cold
-# See http://www.capify.org/getting-started/rails for more help
-
 # point to your server
 set :host, 'beonebody.org'
 
@@ -20,9 +10,6 @@ set :repository, "git://github.com/seven1m/onebody.git"
 set :branch, 'stable' # remove this line if you want bleeding edge or you're pointing to your own repo/fork
 set :scm, :git
 
-# port to run OneBody Setup Mode on
-set :setup_port, 7999
-
 set :application, 'onebody'
 set :user, 'deploy'
 set :runner, user
@@ -31,3 +18,9 @@ set :deploy_via, :fast_remote_cache
 set :deploy_to, "/var/www/apps/#{application}"
 set :copy_exclude, %w(test .git)
 set :use_sudo, false
+
+# for RVM
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require "rvm/capistrano"
+set :rvm_ruby_string, 'ree@onebody'
+set :rvm_type, :user

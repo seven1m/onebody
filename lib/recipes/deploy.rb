@@ -1,9 +1,10 @@
 namespace :deploy do
 
-  task :before_setup do
+  task :chown_deploy_dir do
     sudo "mkdir -p #{deploy_to}"
     sudo "chown #{user}:#{user} #{deploy_to}"
   end
+  before 'deploy:setup', 'deploy:chown_deploy_dir'
 
   namespace :shared do
 
@@ -25,14 +26,17 @@ namespace :deploy do
   end
 
   task :create_database do
-    mysql_root_password = HighLine.new.ask('MySQL ROOT password: ') { |q| q.echo = false }
-    run "mysql -uroot -p#{mysql_root_password} -e \"create database onebody; grant all on onebody.* to onebody@localhost identified by '#{get_db_password}'\""
-    yml = render_erb_template(File.dirname(__FILE__) + '/templates/database.yml')
-    put yml, "#{shared_path}/config/database.yml"
+    unless ENV['SKIP_DB_SETUP']
+      mysql_root_password = HighLine.new.ask('MySQL ROOT password: ') { |q| q.echo = false }
+      p = mysql_root_password.empty? ? '' : "-p#{mysql_root_password}"
+      run "mysql -uroot #{p} -e \"create database if not exists onebody; grant all on onebody.* to onebody@localhost identified by '#{get_db_password}';\""
+      yml = render_erb_template(File.dirname(__FILE__) + '/templates/database.yml')
+      put yml, "#{shared_path}/config/database.yml"
+    end
   end
   after 'deploy:setup', 'deploy:create_database'
 
-  task :after_update_code do
+  task :update_links_and_plugins do
     rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
     put rb, "#{release_path}/config/initializers/links.rb"
     commands = [
@@ -41,10 +45,11 @@ namespace :deploy do
       "rm -rf #{release_path}/public/assets && ln -s #{shared_path}/public/assets #{release_path}/public/assets",
       "cd #{shared_path}/plugins; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/plugins/; fi",
       "cd #{shared_path}/initializers; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/config/initializers/; fi",
-      "cd #{release_path} && whenever -w RAILS_ENV=production"
+      "cd #{release_path}; if [[ `which whenever` != '' ]]; then whenever -w RAILS_ENV=production; fi"
     ]
     run commands.join('; ')
   end
+  after 'deploy:update_code', 'deploy:update_links_and_plugins'
 
   task :copy_ssh_key do
     run "mkdir -p ~/.ssh"
