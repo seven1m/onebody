@@ -9,8 +9,9 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 1.2.0 / October, 2010
 ---------------------
 
-**Upgrade Note:** Gem dependencies have changed, so be sure to run `rake gems:install`.
+**Upgrade Note:** Gem dependencies have changed, so be sure to run `cap deploy:upgrade` or `rake gems:install`.
 
+* Change from GPL v3 to AGPL v3 license with this release (see LICENSE).
 * Native sync with PowerChurch (one-way).
 * Prayer Event feature has returned.
 * Improved mobile interface.
@@ -28,6 +29,7 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 * Adult age is now configurable and defaults to 18.
 * Improved formatting for the printed directory.
 * New rake task for exporting SQL data for a single site.
+* Deprecated SQLite support and set database.yml.example to point to MySQL.
 * Improved sync with Campaign Monitor.
 * Improved i18n support for Portuguese.
 * Lots of little bug fixes and usebility improvements.
@@ -38,7 +40,7 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 ----------------------
 
 * Fix bug preventing group sync with Campaign Monitor.
-* Fix onebody:new_user rake task.
+* Fix onebody:new\_user rake task.
 * Fix iPhone login form not encrypting password properly.
 * Fix contributions interface for Ruby pre-1.8.7.
 
@@ -106,18 +108,18 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 * Improve online import -- attempt to translate incorrect column names.
 * Only import max 500 records with online import feature.
 * Default log view to last 7 days.
-* Added fast_remote_cache plugin for capistrano.
+* Added fast\_remote\_cache plugin for capistrano.
 * Display the person legacy id on their profile for admins.
 * Improved display of changed values in log.
-* Ensure all people have a feed_code.
+* Ensure all people have a feed\_code.
 * Include person legacy id in exported attendance.
 * Include group link code (if any) in exported attendance.
 * Add prev and next links to attendance admin.
 * Delete zombie admins.
 * Display the family legacy id for admins.
-* Properly handle changes to Person#email and Family#barcode_id and set/clear flags accordingly.
+* Properly handle changes to Person#email and Family#barcode\_id and set/clear flags accordingly.
 * Remove duplicate pages.
-* Do not log changes to Person#signin_count.
+* Do not log changes to Person#signin\_count.
 * Redefine migration rake tasks to include migrations inside plugins.
 * Load settings from plugins automatically.
 * Use a serialized text col to store admin privileges instead of table columns.
@@ -232,8 +234,8 @@ to version 0.7.8 and run all database migrations before upgrading to this releas
 * Catch bots signing up for account using a dummy hidden field.
 * New option to groups to allow users to join without requring admin approval.
 * New settings to change default sharing/privacy options for new families.
-* New solucija_ib theme.
-* New solucija_im theme.
+* New solucija\_ib theme.
+* New solucija\_im theme.
 * Tons of bug fixes.
 
 0.7.8 / October 23, 2008
@@ -255,7 +257,7 @@ to version 0.7.8 and run all database migrations before upgrading to this releas
 * Add Yahoo Map link next to profile home address (Ben Hudson).
 * Populate Directory search name field from quick search box (Ben Hudson).
 * Change appearance of private group.
-* Show hidden people when doing a select_person search (admins only).
+* Show hidden people when doing a select\_person search (admins only).
 * Fix friendship mirroring bug.
 * Work around WYSIWYG editor escaping special syntax for inserting setting values.
 * Fix bug saving family upon new account signup.
@@ -302,7 +304,7 @@ to version 0.7.8 and run all database migrations before upgrading to this releas
 * Fix group category selection and form feedback.
 * Add Publications group for new sites.
 * Generate api key in onebody:api:key rake task if not present.
-* Batch compare and update should take site_id into account.
+* Batch compare and update should take site\_id into account.
 * script/inbox should not take –site arg since it is determined by Notifier#recieve anyway.
 * Fix bug detecting secondary host.
 * Fixed incremental search for City and State
