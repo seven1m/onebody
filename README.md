@@ -67,12 +67,12 @@ Replace `SERVER` with the fully qualified hostname of your remote server.
 
     sudo apt-get install mysql-server apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev postfix courier-pop imagemagick rsync
     rvm install ree
-    rvm ree
-    rvm gemset create onebody
-    rvm ree@onebody --default
-    gem install passenger
+    rvm use ree@onebody --create --default
+    gem install passenger --pre
     rvmsudo passenger-install-apache2-module
     rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf.d/passenger
+
+_Passenger 3.0 is in RC at the time of this writing; the --pre option will not be necessary once it is released._
 
 _There is a bug in Passenger's --snippet command that causes an extra bit of text to be appended to the config file. You'll need to edit `/etc/apache2/conf.d/passenger` and remove the very last line._
 
