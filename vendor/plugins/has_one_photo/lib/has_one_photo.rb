@@ -89,7 +89,8 @@ module Seven1m
             PHOTO_SIZES.each do |name, dimensions|
               path = send('photo_' + name.to_s + '_path')
               img = MiniMagick::Image.from_blob(File.read(path))
-              img.rotate(degrees).write(path)
+              img.rotate(degrees)
+              img.write(path)
               File.chmod(0644, path)
             end
             self.updated_at = Time.now
