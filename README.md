@@ -86,7 +86,7 @@ See http://modrails.com/documentation/Users%20guide%20Apache.html for help with 
 _If you don't have Git installed on your Workstation, you can download the tarball [here](http://github.com/seven1m/onebody/zipball/stable)._
 
     gem install capistrano
-    cp config/deploy.rb{.example,}
+    cp config/deploy.rb.example config/deploy.rb
 
 Edit the `config/deploy.rb` file and set `:host` to the fully qualified hostname or ip address of your remote server.
 
