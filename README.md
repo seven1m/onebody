@@ -94,6 +94,12 @@ Now, we're ready to setup OneBody on the remote server using Capistrano. But don
 
     cap deploy:setup
 
+**On passwords:**
+
+* First, you'll be asked for your 'deploy' password since this issues a `sudo` command on the server.
+* When asked for the "MySQL ROOT password" -- this is the password you set up for the MySQL root user when you installed MySQL. If you left it blank, then just hit enter when prompted.
+* When asked for the "Password to use for the onebody MySQL user" -- this can be anything you want.
+
 If everything works as planned, you can move on to the biggie:
 
     cap deploy:install
