@@ -4,10 +4,10 @@ class PcSyncsController < ApplicationController
   # can easily sync with OneBody servers without need for PHP running.
 
   def create
-    if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
+    if @logged_in and @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       sync_dir = File.join(Rails.root, 'tmp', 'pc_sync')
       FileUtils.mkdir_p(sync_dir)
-      if Sync.last.complete?
+      if (s = Sync.last).nil? or s.complete?
         @guid = params[:user_guid].scan(/[a-z0-9]/).join # no funny business
         if Site.current.external_guid == @guid
           if params[:onebodysync]
