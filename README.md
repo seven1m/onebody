@@ -106,6 +106,8 @@ If everything works as planned, you can move on to the biggie:
 
 See the [CapRecipes](http://github.com/seven1m/onebody/wiki/CapRecipes) page on the wiki for more information about the various cap commands.
 
+_It seems one final `cap deploy` is necessary to trigger the crontab update. We'll try to fix that in the next release._
+
 ### 6. Setup Virtual Host <span style="color:red;">[Server]</span>
 
 Now create a file in `/etc/apache2/sites-available/onebody` and add the following to it:
