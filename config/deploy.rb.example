@@ -18,9 +18,3 @@ set :deploy_via, :fast_remote_cache
 set :deploy_to, "/var/www/apps/#{application}"
 set :copy_exclude, %w(test .git)
 set :use_sudo, false
-
-# for RVM
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-require "rvm/capistrano"
-set :rvm_ruby_string, 'ree@onebody'
-set :rvm_type, :user
