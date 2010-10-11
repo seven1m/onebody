@@ -11,9 +11,11 @@ class SessionsController < ApplicationController
   def new
     if Person.count > 0
       generate_encryption_key
-    else
+    elsif Setting.get(:features, :multisite)
       @show_help = local_request?
       render :action => 'no_users'
+    else
+      redirect_to new_setup_path
     end
   end
 

@@ -1643,6 +1643,18 @@ en:
     tour: tour
     you_may_read_our_privacy_policy_here: You may read our Privacy Policy <a href="{{url}}">here</a>.
 
+  setup:
+    admin_account: Admin Account
+    complete: "Now you're ready to sign in for the first time!"
+    congratulations: "Congratulations! OneBody is running. Now it's time to add an admin user and set some other settings..."
+    do_right_away: You should do this right away, especially if your server is available on the public Web.
+    domain_name: Domain Name
+    domain_name_note: "Enter the domain for this site, without any leading \"www\", like so: \"example.com\" or \"members.example.com\"."
+    email_note: This is the email address that will receive real-time bug reports.
+    heading: First-Time Setup
+    invalid_domain_name: Invalid domain name.
+    more_accounts_later: "(You'll be able to create more admin accounts later.)"
+
   stream: 
     ago: ago
     and_more: and {{length}} more by {{name}}...

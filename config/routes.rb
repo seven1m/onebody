@@ -4,6 +4,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.home '', :controller => 'pages', :action => 'show_for_public'
 
+  map.resource :setup
+
   map.resource :stream
 
   map.resource :account, :member => {:verify_code => :any, :select => :any}
