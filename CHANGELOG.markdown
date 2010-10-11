@@ -9,10 +9,12 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 1.2.0 / October, 2010
 ---------------------
 
-**Upgrade Note:** Gem dependencies have changed, so be sure to run `cap deploy:upgrade` or `rake gems:install`.
+**Upgrade Note:** Gem dependencies have changed. The `cap deploy` or `cap deploy:migrations` recipe will install/upgrade the dependencies, but if you are not using Capistrano for deployment, you must run `rake gems:install`.
 
 * Change from GPL v3 to AGPL v3 license with this release (see LICENSE).
 * Native sync with PowerChurch (one-way).
+* New web-based first-time setup feature upon site startup.
+* Updated install instructions and cap recipes. Add new prepare:ubuntu recipe.
 * Prayer Event feature has returned.
 * Improved mobile interface.
 * Improvements to feed import feature. Removed Facebook import due problems with new FB users.
