@@ -8,7 +8,7 @@ class PcSyncsController < ApplicationController
       sync_dir = File.join(Rails.root, 'tmp', 'pc_sync')
       FileUtils.mkdir_p(sync_dir)
       if (s = Sync.last).nil? or s.complete?
-        @guid = params[:user_guid].scan(/[a-z0-9]/).join # no funny business
+        @guid = params[:user_guid].scan(/[\-{}a-z0-9]/i).join # no funny business
         if Site.current.external_guid == @guid
           if params[:onebodysync]
             filename = File.join(sync_dir, "#{@guid}-#{Time.now.to_f.to_s}.zip")
