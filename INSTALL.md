@@ -27,9 +27,9 @@ For **Windows** workstations, grab the 1.8.7 RubyInstaller from [here](http://ru
 
 **Log back in as the _deploy_ user for all remaining Server instructions.**
 
-### 2. Install Git, RVM, and SSH <span style="color:red;">[Server]</span>
+### 2. Install Git, RVM, and more <span style="color:red;">[Server]</span>
 
-    sudo apt-get install git-core curl build-essential zlib1g-dev libssl-dev libreadline5-dev openssh-server
+    sudo apt-get install git-core curl build-essential zlib1g-dev libssl-dev libreadline5-dev openssh-server imagemagick rsync postfix courier-pop
     bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-latest )
     echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
 
@@ -42,14 +42,18 @@ _Be sure to configure your firewall to allow access to your SSH server from your
 
 ### 3. Copy Your SSH Key <span style="color:green;">[Workstation]</span>
 
+This is optional, but recommend to avoid typing your deploy password a lot.
+
 Replace `SERVER` with the fully qualified hostname of your remote server.
 
     [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen
     ssh deploy@SERVER "mkdir -p ~/.ssh; echo `cat ~/.ssh/id_rsa.pub` >> ~/.ssh/authorized_keys"
 
+_This will be different on Windows of course._
+
 ### 4. Install Server Software <span style="color:red;">[Server]</span>
 
-    sudo apt-get install mysql-server apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev postfix courier-pop imagemagick rsync
+    sudo apt-get install mysql-server apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev
     rvm install ree
     rvm use ree@onebody --create --default
     gem install passenger --pre
@@ -86,11 +90,9 @@ Now, we're ready to setup OneBody on the remote server using Capistrano. But don
 
 If everything works as planned, you can move on to the biggie:
 
-    cap deploy:install
+    cap deploy:migrations
 
 See the [CapRecipes](http://github.com/seven1m/onebody/wiki/CapRecipes) page on the wiki for more information about the various cap commands.
-
-_It seems one final `cap deploy` is necessary to trigger the crontab update. We'll try to fix that in the next release._
 
 ### 6. Setup Virtual Host <span style="color:red;">[Server]</span>
 
@@ -136,7 +138,7 @@ There are a few different ways to upgrade your existing OneBody install, dependi
 Try this on your <span style="color:green;">Workstation</span>:
 
     git fetch origin --tags && git checkout stable
-    cap deploy:upgrade
+    cap deploy:migrations
 
 If you get an error about missing `copy.rb`, see the related note in the "Troubleshooting" section below.
 
@@ -164,26 +166,6 @@ To upgrade, do the following on the <span style="color:red;">Server</span>:
 2. Perform a _new_ install by following the directions above, stopping before `cap deploy:setup`.
 3. Run `cap deploy:setup SKIP_DB_SETUP=true`.
 3. Edit `/var/www/apps/onebody/config/database.yml` and point it to your existing database name.
-4. Run `cap deploy:install`.
+4. Run `cap deploy:migrations`.
 5. Point your existing virtual host (`/etc/apache/sites-available/something`) to `/var/www/apps/onebody/current/public`
 6. Start Apache: `sudo /etc/init.d/apache2 start`
-
-
-## Troubleshooting
-
-If you have trouble installing or upgrading, here are some steps to help before you yell on the mailing list "IT'S BROKE!"
-
-1. Take a deep breath. The problem is almost certainly indicated on the screen or in a log somewhere.
-2. _Read_ the error message. If you all you see is an "Oops" page, then check the logs (most recent errors at the bottom):
-   * `/var/www/apps/onebody/shared/log/production.log`
-   * `/var/log/apache/error.log`
-3. Make a change, restart Apache, and try again.
-
-Here are some common problems and solutions:
-
-<dl>
-<dt>The Rails 2.3.x gem is missing.</dt>
-<dd>Run `gem install rails -v 2.3.x` (replace x with the number reported in the error)</dd>
-<dt>`copy.rb` is missing</dt>
-<dd>`scp vendor/plugins/fast_remote_cache/lib/capistrano/recipes/deploy/strategy/utilities/copy.rb deploy@SERVER:/var/www/apps/onebody/shared/bin/`</dd>
-</dl>

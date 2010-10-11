@@ -5,22 +5,28 @@ OneBody is open-source, web-based social networking and online directory softwar
 Screenshots and feature information can be found at the [commercial website](http://beonebody.com).
 
 
-## Easy(-ish) Install on Ubuntu
+## Install on Ubuntu
 
-OneBody is a complex app with a lot of moving parts. Installation can be involved, so we've tried to automate as much of the process as possible using [Capistrano](http://github.com/capistrano/capistrano).
+OneBody is a complex app with a lot of moving parts. Installation can be lengthy, so we've tried to automate as much of the process as possible using [Capistrano](http://github.com/capistrano/capistrano).
 
-If you're server is Ubuntu 10.04 or higher, try this:
+If you're dedicated server or VPS is Ubuntu 10.04 or higher, try this:
 
     # 1. on your server:
     sudo adduser deploy
     sudo adduser deploy sudo
+    # copy your SSH public key to avoid password prompts
 
     # 2. on your local machine:
     gem install capistrano
     # edit config/deploy.rb to point to your server
     cap prepare:ubuntu
     cap deploy:setup
-    cap deploy:install
+    cap deploy:migrations
+    # edit /etc/apache2/sites-available/default
+    # and point DocumentRoot to "/var/www/apps/onebody/current/public"
+
+    # 3. in your web browser:
+    # visit http://your-server-name-or-ip
 
 We also have full step-by-step instructions in our INSTALL.md file.
 

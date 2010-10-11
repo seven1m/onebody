@@ -8,9 +8,9 @@ class Capistrano::Configuration
     @db_password ||= HighLine.new.ask('Password to use for the "onebody" MySQL user: ') { |q| q.echo = false }
   end
 
-  def run_and_return(cmd)
+  def run_and_return(cmd, options={})
     output = []
-    run cmd do |ch, st, data|
+    run cmd, options do |ch, st, data|
       output << data
     end
     return output.to_s

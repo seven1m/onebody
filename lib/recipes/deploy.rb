@@ -51,10 +51,29 @@ namespace :deploy do
   end
   after 'deploy:update_code', 'deploy:update_links_and_plugins'
 
-  task :copy_ssh_key do
-    run "mkdir -p ~/.ssh"
-    pubkey = File.read(ENV['HOME'] + '/.ssh/id_rsa.pub')
-    run "echo #{pubkey} >> ~/.ssh/authorized_keys"
+  desc 'Install/Update Rails'
+  task :rails do
+    run "ver=`grep \"RAILS_GEM_VERSION\" #{release_path}/config/environment.rb | cut -d \\\\' -f 2` && " + \
+        "lst=`gem list rails | fgrep $ver`; " + \
+        "if [[ $lst == \"\" ]]; then " + \
+        "  gem install rails -v $ver --no-rdoc --no-ri; " + \
+        "fi", :shell => "~/.rvm/bin/rvm-shell"
   end
+  after 'deploy:update_code', 'deploy:rails'
+
+  desc 'Install mysql gem'
+  task :mysqlgem, :roles => :web do
+    run "lst=`gem list mysql`; " + \
+        "if [[ $lst == \"\" ]]; then " + \
+        "  gem install mysql --no-rdoc --no-ri; " + \
+        "fi", :shell => "~/.rvm/bin/rvm-shell"
+  end
+  after 'deploy:rails', 'deploy:mysqlgem'
+
+  desc 'Install gem dependencies'
+  task :gemdeps, :roles => :web do
+    run "cd #{release_path} && rake gems:install", :shell => "~/.rvm/bin/rvm-shell"
+  end
+  after 'deploy:rails', 'deploy:gemdeps'
 
 end

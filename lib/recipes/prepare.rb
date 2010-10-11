@@ -41,8 +41,8 @@ namespace :prepare do
     end
 
     task :prereqs do
-      sudo "apt-get update"
-      sudo "apt-get install git-core curl build-essential zlib1g-dev libssl-dev libreadline5-dev imagemagick rsync -y"
+      sudo "DEBIAN_FRONTEND=noninteractive apt-get update"
+      sudo "DEBIAN_FRONTEND=noninteractive apt-get install git-core curl build-essential zlib1g-dev libssl-dev libreadline5-dev imagemagick rsync -q -y"
     end
 
     task :rvm do
@@ -62,11 +62,11 @@ namespace :prepare do
     end
 
     task :apache do
-      sudo "apt-get install apache2 -y"
+      sudo "DEBIAN_FRONTEND=noninteractive apt-get install apache2 -q -y"
     end
 
     task :passenger do
-      sudo "apt-get install apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev -y"
+      sudo "DEBIAN_FRONTEND=noninteractive apt-get install apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev -q -y"
       run  "gem install passenger --pre && " + \
            "rvmsudo passenger-install-apache2-module -a && " + \
            "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf.d/passenger",
