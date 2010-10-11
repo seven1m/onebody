@@ -140,6 +140,7 @@ There are a few different ways to upgrade your existing OneBody install, dependi
 Try this on your <span style="color:green;">Workstation</span>:
 
     git fetch origin --tags && git checkout stable
+    # update your config/deploy.rb to add the RVM setup at the bottom
     cap deploy:migrations
 
 If you get an error about missing `copy.rb`, see the related note in the "Troubleshooting" section below.
