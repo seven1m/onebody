@@ -131,6 +131,8 @@ _Don't forget to point a DNS MX record at your server's IP address for incoming 
 
 ## Upgrade Steps
 
+**Backup your MySQL database and your `db` directory first!**
+
 There are a few different ways to upgrade your existing OneBody install, depending on how you installed the software originally...
 
 ### I originally installed via Capistrano.
