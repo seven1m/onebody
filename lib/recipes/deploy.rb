@@ -36,21 +36,6 @@ namespace :deploy do
   end
   after 'deploy:setup', 'deploy:create_database'
 
-  task :update_links_and_plugins do
-    rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
-    put rb, "#{release_path}/config/initializers/links.rb"
-    commands = [
-      "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml",
-      "if [ -e #{shared_path}/config/email.yml ]; then ln -sf #{shared_path}/config/email.yml #{release_path}/config/email.yml; fi",
-      "rm -rf #{release_path}/public/assets && ln -s #{shared_path}/public/assets #{release_path}/public/assets",
-      "cd #{shared_path}/plugins; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/plugins/; fi",
-      "cd #{shared_path}/initializers; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/config/initializers/; fi",
-      "cd #{release_path}; if [[ `which whenever` != '' ]]; then whenever -w RAILS_ENV=production; fi"
-    ]
-    run commands.join('; ')
-  end
-  after 'deploy:update_code', 'deploy:update_links_and_plugins'
-
   desc 'Install/Update Rails'
   task :rails do
     run "ver=`grep \"RAILS_GEM_VERSION\" #{release_path}/config/environment.rb | cut -d \\\\' -f 2` && " + \
@@ -75,5 +60,20 @@ namespace :deploy do
     run "cd #{release_path} && rake gems:install"
   end
   after 'deploy:rails', 'deploy:gemdeps'
+
+  task :update_links_and_plugins do
+    rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
+    put rb, "#{release_path}/config/initializers/links.rb"
+    commands = [
+      "ln -sf #{shared_path}/config/database.yml #{release_path}/config/database.yml",
+      "if [ -e #{shared_path}/config/email.yml ]; then ln -sf #{shared_path}/config/email.yml #{release_path}/config/email.yml; fi",
+      "rm -rf #{release_path}/public/assets && ln -s #{shared_path}/public/assets #{release_path}/public/assets",
+      "cd #{shared_path}/plugins; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/plugins/; fi",
+      "cd #{shared_path}/initializers; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/config/initializers/; fi",
+      "cd #{release_path}; if [[ `which whenever` != '' ]]; then whenever -w RAILS_ENV=production; fi"
+    ]
+    run commands.join('; ')
+  end
+  after 'deploy:update_code', 'deploy:update_links_and_plugins'
 
 end
