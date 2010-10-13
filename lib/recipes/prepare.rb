@@ -18,7 +18,7 @@ namespace :prepare do
   end
 
   def validate_os(regex)
-    unless `lsb_release -d` =~ regex
+    unless run_and_return('lsb_release -d') =~ regex
       puts "Your server operating system is not supported by this command."
       exit(1)
     end
