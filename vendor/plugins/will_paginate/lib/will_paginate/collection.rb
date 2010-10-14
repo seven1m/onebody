@@ -33,14 +33,11 @@ module WillPaginate
   # 
   # If you are writing a library that provides a collection which you would like
   # to conform to this API, you don't have to copy these methods over; simply
-  # make your plugin/gem dependant on the "mislav-will_paginate" gem:
+  # make your plugin/gem dependant on this library and do:
   #
-  #   gem 'mislav-will_paginate'
   #   require 'will_paginate/collection'
-  #   
   #   # WillPaginate::Collection is now available for use
   class Collection < Array
-    require 'active_support'
     attr_reader :current_page, :per_page, :total_entries, :total_pages
 
     # Arguments to the constructor are the current page number, per-page limit
@@ -142,34 +139,6 @@ module WillPaginate
       end
 
       result
-    end
-    
-    # ActiveSupport's Array#to_xml outputs in the form of:
-    #
-    #   <records type="array">...</records>
-    #
-    # A WillPaginate::Collection needs page, per_page, and total_entries,
-    # so the class is distinguished by a special type and those values. This special
-    # type is understood by ActiveResource, and looks like:
-    #
-    #   <records type="collection">
-    #     <current-page>1</current-page>
-    #     <per-page>30</per-page>
-    #     <total-entries>1337</total-entries>
-    #     ...
-    #   </records>
-    def to_xml_with_collection_type(options = {})
-      serializeable_collection.to_xml_without_collection_type(options) do |xml|
-        xml.tag!(:current_page, {:type => ActiveSupport::CoreExtensions::Hash::Conversions::XML_TYPE_NAMES[current_page.class.name]}, current_page)
-        xml.tag!(:per_page, {:type => ActiveSupport::CoreExtensions::Hash::Conversions::XML_TYPE_NAMES[per_page.class.name]}, per_page)
-        xml.tag!(:total_entries, {:type => ActiveSupport::CoreExtensions::Hash::Conversions::XML_TYPE_NAMES[total_entries.class.name]}, total_entries)
-      end.sub(%{type="array"}, %{type="collection"})
-    end
-    alias_method_chain :to_xml, :collection_type
-    
-    def serializeable_collection #:nodoc:
-      # Ugly hack because to_xml will not yield the XML Builder object when empty?
-      empty? ? returning(self.clone) { |c| c.instance_eval {|i| def empty?; false; end } } : self
     end
   end
 end

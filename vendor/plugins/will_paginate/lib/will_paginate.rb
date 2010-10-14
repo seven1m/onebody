@@ -1,4 +1,5 @@
 require 'active_support'
+require 'will_paginate/core_ext'
 
 # = You *will* paginate!
 #
@@ -13,12 +14,11 @@ module WillPaginate
     def enable
       enable_actionpack
       enable_activerecord
-      enable_activeresource
     end
     
     # hooks WillPaginate::ViewHelpers into ActionView::Base
     def enable_actionpack
-      return if ActionView::Base.instance_methods.include? 'will_paginate'
+      return if ActionView::Base.instance_methods.include_method? :will_paginate
       require 'will_paginate/view_helpers'
       ActionView::Base.send :include, ViewHelpers
 
@@ -36,7 +36,7 @@ module WillPaginate
 
       # support pagination on associations
       a = ActiveRecord::Associations
-      returning([ a::AssociationCollection ]) { |classes|
+      [ a::AssociationCollection ].tap { |classes|
         # detect http://dev.rubyonrails.org/changeset/9230
         unless a::HasManyThroughAssociation.superclass == a::HasManyAssociation
           classes << a::HasManyThroughAssociation
@@ -45,17 +45,16 @@ module WillPaginate
         klass.send :include, Finder::ClassMethods
         klass.class_eval { alias_method_chain :method_missing, :paginate }
       end
-    end
-    
-    def enable_activeresource
-      unless defined?(ActiveResource::Base)
-        $stderr.puts "Can't find ActiveResource.  `gem install activeresource` to correct this."
-        return
+      
+      # monkeypatch Rails ticket #2189: "count breaks has_many :through"
+      ActiveRecord::Base.class_eval do
+        protected
+        def self.construct_count_options_from_args(*args)
+          result = super
+          result[0] = '*' if result[0].is_a?(String) and result[0] =~ /\.\*$/
+          result
+        end
       end
-
-      return if ActiveResource::Base.respond_to? :instantiate_collection_with_collection      
-      require 'will_paginate/deserializer'
-      ActiveResource::Base.class_eval { include Deserializer }
     end
 
     # Enable named_scope, a feature of Rails 2.1, even if you have older Rails
@@ -85,6 +84,7 @@ module WillPaginate
   end
 end
 
-if defined?(Rails) and defined?(ActiveRecord) and defined?(ActionController)
-  WillPaginate.enable
+if defined? Rails
+  WillPaginate.enable_activerecord if defined? ActiveRecord
+  WillPaginate.enable_actionpack if defined? ActionController
 end

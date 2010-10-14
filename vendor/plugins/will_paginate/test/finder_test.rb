@@ -9,7 +9,7 @@ class FinderTest < ActiveRecordTestCase
   fixtures :topics, :replies, :users, :projects, :developers_projects
 
   def test_new_methods_presence
-    assert_respond_to_all Topic, %w(per_page paginate paginate_by_sql)
+    assert_respond_to_all Topic, %w(per_page paginate paginate_by_sql paginate_by_definition_in_class)
   end
   
   def test_simple_paginate
@@ -37,6 +37,22 @@ class FinderTest < ActiveRecordTestCase
 
     # :count could be nil and we should still not cry
     assert_nothing_raised { Topic.paginate :page => 1, :count => nil }
+  end
+  
+  def test_counting_when_integer_has_length_method
+    Integer.module_eval { def length; to_s.length; end }
+    begin
+      assert_equal 2, 11.length
+      entries = Developer.paginate :page => 1, :per_page => 5
+      assert_equal 11, entries.total_entries
+      assert_equal 5, entries.size
+      assert_equal 3, entries.total_pages
+    ensure
+      begin
+        Integer.module_eval { remove_method :length }
+      rescue
+      end
+    end
   end
   
   def test_paginate_with_per_page
@@ -197,7 +213,7 @@ class FinderTest < ActiveRecordTestCase
 
   def test_paginate_with_dynamic_finder
     expected = [replies(:witty_retort), replies(:spam)]
-    assert_equal expected, Reply.paginate_by_topic_id(1, :page => 1)
+    assert_equal expected, Reply.paginate_by_topic_id(1, :page => 1, :order => :created_at)
 
     entries = Developer.paginate :conditions => { :salary => 100000 }, :page => 1, :per_page => 5
     assert_equal 8, entries.total_entries
@@ -284,11 +300,11 @@ class FinderTest < ActiveRecordTestCase
   # this functionality is temporarily removed
   def xtest_pagination_defines_method
     pager = "paginate_by_created_at"
-    assert !User.methods.include?(pager), "User methods should not include `#{pager}` method"
+    assert !User.methods.include_method?(pager), "User methods should not include `#{pager}` method"
     # paginate!
     assert 0, User.send(pager, nil, :page => 1).total_entries
     # the paging finder should now be defined
-    assert User.methods.include?(pager), "`#{pager}` method should be defined on User"
+    assert User.methods.include_method?(pager), "`#{pager}` method should be defined on User"
   end
 
   # Is this Rails 2.0? Find out by testing find_all which was removed in [6998]
@@ -361,18 +377,15 @@ class FinderTest < ActiveRecordTestCase
     end
 
     def test_paginate_by_sql
-      assert_respond_to Developer, :paginate_by_sql
-      Developer.expects(:find_by_sql).with(regexp_matches(/sql LIMIT 3(,| OFFSET) 3/)).returns([])
-      Developer.expects(:count_by_sql).with('SELECT COUNT(*) FROM (sql) AS count_table').returns(0)
-      
-      entries = Developer.paginate_by_sql 'sql', :page => 2, :per_page => 3
+      sql = "SELECT * FROM users WHERE type = 'Developer' ORDER BY id"
+      entries = Developer.paginate_by_sql(sql, :page => 2, :per_page => 3)
+      assert_equal 11, entries.total_entries
+      assert_equal [users(:dev_4), users(:dev_5), users(:dev_6)], entries
     end
 
     def test_paginate_by_sql_respects_total_entries_setting
-      Developer.expects(:find_by_sql).returns([])
-      Developer.expects(:count_by_sql).never
-      
-      entries = Developer.paginate_by_sql 'sql', :page => 1, :total_entries => 999
+      sql = "SELECT * FROM users"
+      entries = Developer.paginate_by_sql(sql, :page => 1, :total_entries => 999)
       assert_equal 999, entries.total_entries
     end
 
@@ -385,7 +398,7 @@ class FinderTest < ActiveRecordTestCase
 
     # TODO: counts are still wrong
     def test_ability_to_use_with_custom_finders
-      # is_taggable defines find_tagged_with(tag, options)
+      # acts_as_taggable defines find_tagged_with(tag, options)
       Topic.expects(:find_tagged_with).with('will_paginate', :offset => 5, :limit => 5).returns([])
       Topic.expects(:count).with({}).returns(0)
       
@@ -440,7 +453,7 @@ class FinderTest < ActiveRecordTestCase
     end
 
     # detect ActiveRecord 2.1
-    if ActiveRecord::Base.private_methods.include?('references_eager_loaded_tables?')
+    if ActiveRecord::Base.private_methods.include_method?(:references_eager_loaded_tables?)
       def test_removes_irrelevant_includes_in_count
         Developer.expects(:find).returns([1])
         Developer.expects(:count).with({}).returns(0)
@@ -471,6 +484,13 @@ class FinderTest < ActiveRecordTestCase
       Project.find(1, :include => :replies)
       
       # I cannot reproduce any of the failures from those reports :(
+    end
+
+    def test_hmt_with_uniq
+      project = Project.find(1)
+      result = project.unique_replies.paginate :page => 1, :per_page => 1,
+        :order => 'replies.id'
+      assert_equal replies(:decisive), result.first
     end
   end
 end
