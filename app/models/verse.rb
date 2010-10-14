@@ -309,6 +309,7 @@ class Verse < ActiveRecord::Base
     LINK_URL = "http://bible.gospelcom.net/cgi-bin/bible?passage=%s&version=%s"
 
     def link_references_in_text(text)
+      return unless text
       BOOKS.each do |book|
         text.gsub!(/(#{book}\s\d+(?::\d+)?(?:[\-,;](?:\d+:)?\d+)*)(?:\s\(([A-Z]+)\))?/) do |match|
           url = LINK_URL % [CGI.escape($1), $2 || 'NIV']
