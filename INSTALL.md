@@ -49,6 +49,8 @@ Replace `SERVER` with the fully qualified hostname of your remote server.
     [[ -f ~/.ssh/id_rsa.pub ]] || ssh-keygen
     ssh deploy@SERVER "mkdir -p ~/.ssh; echo `cat ~/.ssh/id_rsa.pub` >> ~/.ssh/authorized_keys"
 
+_You may need to `chmod 600 ~/.ssh/authorized_keys` as well._
+
 _This will be different on Windows of course._
 
 ### 4. Install Server Software <span style="color:red;">[Server]</span>

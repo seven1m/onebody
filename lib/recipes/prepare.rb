@@ -80,4 +80,65 @@ namespace :prepare do
 
   end
 
+  namespace :centos do
+
+    desc 'Installs all prerequisites and gets a bare CentOS server ready for OneBody.'
+    task :default do
+      puts "This will prepare CentOS 5.5 so that OneBody can be deployed."
+      validate_os(/CentOS release 5\.5/)
+      confirm
+      prereqs
+      git
+      rvm
+      ree
+      mysql
+      apache
+      passenger
+    end
+
+    task :prereqs do
+      sudo "yum install zlib-devel openssl-devel perl cpio expat-devel gettext-devel autoconf gcc gcc-c++ readline-devel libxml2 libxml2-devel libxslt libxslt-devel ImageMagick -q -y"
+    end
+
+    task :git do
+      run "mkdir -p /tmp/git-install && cd /tmp/git-install && wget http://www.codemonkey.org.uk/projects/git-snapshots/git/git-latest.tar.gz && tar xzf git-latest.tar.gz && cd git* && autoconf && ./configure && make"
+      sudo "echo" # so the password is cached
+      run "cd /tmp/git-install/git* && sudo make install"
+    end
+
+    task :rvm do
+      run "cd && " + \
+          "wget http://rvm.beginrescueend.com/releases/rvm-install-latest && " + \
+          "chmod +x rvm-install-latest && " + \
+          "./rvm-install-latest; " + \
+          "echo '[[ -s \"$HOME/.rvm/scripts/rvm\" ]] && . \"$HOME/.rvm/scripts/rvm\"' >> ~/.bashrc"
+    end
+
+    task :ree do
+      run "~/.rvm/bin/rvm install ree && ~/.rvm/bin/rvm use ree@onebody --create --default"
+    end
+
+    task :mysql do
+      sudo "yum install mysql-server mysql-devel -q -y"
+      sudo "/sbin/chkconfig mysqld on"
+      sudo "/etc/init.d/mysqld start"
+    end
+
+    task :apache do
+      sudo "yum install httpd -q -y"
+      sudo "/sbin/chkconfig httpd on"
+      sudo "/etc/init.d/httpd start"
+    end
+
+    task :passenger do
+      sudo "yum install httpd-devel curl-devel -q -y"
+      run  "gem install passenger --pre && " + \
+           "rvmsudo passenger-install-apache2-module -a && " + \
+           "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/httpd/conf.d/passenger.conf",
+           :shell => "~/.rvm/bin/rvm-shell"
+      sudo "sed -i '/^P\\|^L/!d' /etc/httpd/conf.d/passenger.conf" # remove extraneous ansi escape sequence from snippet output
+    end
+
+  end
+
 end
