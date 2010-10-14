@@ -12,7 +12,7 @@ Rails::Initializer.run do |config|
   config.action_controller.cache_store = :file_store, "#{Rails.root}/cache"
   config.log_path = File.join(File.dirname(__FILE__), "../log/#{RAILS_ENV}.log")
   config.database_configuration_file = File.expand_path(File.join(File.dirname(__FILE__), 'database.yml'))
-  config.load_paths << "#{Rails.root}/app/sweepers"
+  config.autoload_paths << "#{Rails.root}/app/sweepers"
   config.plugin_paths << "#{Rails.root}/plugins"
   config.time_zone = 'UTC'
   config.i18n.default_locale = File.exist?("#{RAILS_ROOT}/config/locale") ? File.read("#{RAILS_ROOT}/config/locale").strip.to_sym : :en
