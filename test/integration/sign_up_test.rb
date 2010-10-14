@@ -44,7 +44,7 @@ class SignUpTest < ActionController::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'accounts/edit'
-    assert_select 'div#notice', /set your personal email address/
+    assert_select 'div#notice', /set your personal email address|Please enter your personal email address and NEW password/
     put "/people/#{person.id}/account", :person => {:email => person.email}, :password => 'secret', :password_confirmation => 'secret'
     assert_redirected_to person_path(person)
   end
