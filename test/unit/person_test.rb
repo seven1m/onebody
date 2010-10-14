@@ -14,20 +14,45 @@ class PersonTest < ActiveSupport::TestCase
 
     setup { @person = Person.forge }
 
-    should_not_allow_values_for :email,            *(BAD_EMAIL_ADDRESSES + [:message => /not formatted correctly/])
-    should_allow_values_for     :email,            *GOOD_EMAIL_ADDRESSES
+    BAD_EMAIL_ADDRESSES.each do |address|
+      should_not allow_value(address).for(:email)
+    end
 
-    should_not_allow_values_for :business_email,   *(BAD_EMAIL_ADDRESSES + [:message => /not formatted correctly/])
-    should_allow_values_for     :business_email,   *GOOD_EMAIL_ADDRESSES
+    GOOD_EMAIL_ADDRESSES.each do |address|
+      should allow_value(address).for(:email)
+    end
 
-    should_not_allow_values_for :alternate_email,  *(BAD_EMAIL_ADDRESSES + [:message => /not formatted correctly/])
-    should_allow_values_for     :alternate_email,  *GOOD_EMAIL_ADDRESSES
+    BAD_EMAIL_ADDRESSES.each do |address|
+      should_not allow_value(address).for(:business_email)
+    end
 
-    should_not_allow_values_for :website,          *(BAD_WEB_ADDRESSES   + [:message => /not formatted correctly/])
-    should_allow_values_for     :website,          *GOOD_WEB_ADDRESSES
+    GOOD_EMAIL_ADDRESSES.each do |address|
+      should allow_value(address).for(:business_email)
+    end
 
-    should_not_allow_values_for :business_website, *(BAD_WEB_ADDRESSES   + [:message => /not formatted correctly/])
-    should_allow_values_for     :business_website, *GOOD_WEB_ADDRESSES
+    BAD_EMAIL_ADDRESSES.each do |address|
+      should_not allow_value(address).for(:alternate_email)
+    end
+
+    GOOD_EMAIL_ADDRESSES.each do |address|
+      should allow_value(address).for(:alternate_email)
+    end
+
+    BAD_WEB_ADDRESSES.each do |address|
+      should_not allow_value(address).for(:website)
+    end
+
+    GOOD_WEB_ADDRESSES.each do |address|
+      should allow_value(address).for(:website)
+    end
+
+    BAD_WEB_ADDRESSES.each do |address|
+      should_not allow_value(address).for(:business_website)
+    end
+
+    GOOD_WEB_ADDRESSES.each do |address|
+      should allow_value(address).for(:business_website)
+    end
 
   end
 
