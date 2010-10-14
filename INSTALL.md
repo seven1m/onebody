@@ -2,6 +2,8 @@
 
 Installation has been tested on Ubuntu Linux 10.04.1 LTS (Lucid Lynx) and 10.10 (Maverick Meerkat). If you are using a different Linux distro or Mac OS X, you will need to adjust some of the commands below to match your environment.
 
+Supplemental install notes are available for CentOS 5.5 in the `doc` folder.
+
 
 ## Install Steps
 
