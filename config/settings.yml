@@ -275,6 +275,10 @@ Appearance:
     format: string
     value: aqueouslight
     description: Name of selected theme for site.
+  Info Tab First:
+    format: boolean
+    value: false
+    description: If enabled, move the Info tab on profiles to the far left and have it open by default.
 Privacy: 
   Allow Unencrypted Logins: 
     format: boolean

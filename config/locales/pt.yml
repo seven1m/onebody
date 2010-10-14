@@ -589,6 +589,9 @@ pt:
         Theme:
           name: Tema
           description: Nome do tema selecionado para o site.
+        Info Tab First:
+          name: Info Tab First
+          description: If enabled, move the Info tab on profiles to the far left and have it open by default.
       Privacy:
         name: Privacidade
         Allow Unencrypted Logins:

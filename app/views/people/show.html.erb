@@ -60,6 +60,9 @@
 <%= render :partial => 'pending_updates' %>
 
 <div id="share" style="margin-bottom:20px;display:none;">
+  <% if Setting.get(:appearance, :info_tab_first) %>
+    <%= render :partial => 'info_tab' %>
+  <% end %>
   <% if me? %>
     <%= render :partial => 'streams/share' %>
   <% elsif @person.wall_enabled? %>
@@ -83,10 +86,9 @@
       <% end %>
     </div>
   <% end %>
-  <h2 class="tab" id="info"><%= image_tag('information.png', :alt => I18n.t('people.info'), :class => 'icon') %> <%= I18n.t('people.info') %></h2>
-  <div class="section">
-    <%= render :partial => 'details' %>
-  </div>
+  <% unless Setting.get(:appearance, :info_tab_first) %>
+    <%= render :partial => 'info_tab' %>
+  <% end %>
 </div>
 
 <div style="float:right;width:200px;">
