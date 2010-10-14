@@ -22,10 +22,12 @@ If you're dedicated server or VPS is Ubuntu 10.04 or higher, try this:
     cap prepare:ubuntu
     cap deploy:setup
     cap deploy:migrations
+
+    # 3. on your server
     # edit /etc/apache2/sites-available/default
     # and point DocumentRoot to "/var/www/apps/onebody/current/public"
 
-    # 3. in your web browser:
+    # 4. in your web browser:
     # visit http://your-server-name-or-ip
 
 We also have full step-by-step instructions in our INSTALL.md file.
