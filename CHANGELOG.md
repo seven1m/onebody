@@ -6,8 +6,17 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
-1.2.0 / October, 2010
----------------------
+1.2.1 / October 13, 2010
+------------------------
+
+* New Appearance setting to show "Info" tab first on profile pages.
+* New prepare:centos Capistrano recipe for installing to CentOS 5.5, with supplemental install instructions.
+* Upgraded the WYSIWYG editor for news items.
+* Upgraded to Rails 2.3.9.
+* Fixes for existing Capistrano recipes.
+
+1.2.0 / October 11, 2010
+------------------------
 
 **Upgrade Note:** Gem dependencies have changed. The `cap deploy` or `cap deploy:migrations` recipe will install/upgrade the dependencies, but if you are not using Capistrano for deployment, you must run `rake gems:install`.
 
