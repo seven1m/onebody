@@ -23,7 +23,7 @@ module Seven1m
               end
               find_by_sql_without_global_scope(sql)
             end
-            alias_method_chain(:find_by_sql, :global_scope) unless instance_methods.include?('find_by_sql_without_global_scope')
+            #alias_method_chain(:find_by_sql, :global_scope) unless instance_methods.include?('find_by_sql_without_global_scope')
             
             def current_scoped_methods_with_global_scope
               m = current_scoped_methods_without_global_scope || {}
@@ -40,7 +40,7 @@ module Seven1m
               end
               return m
             end
-            alias_method_chain(:current_scoped_methods, :global_scope) unless instance_methods.include?('current_scoped_methods_without_global_scope')
+            #alias_method_chain(:current_scoped_methods, :global_scope) unless instance_methods.include?('current_scoped_methods_without_global_scope')
             
             def without_global_scope
               self.disable_global_scope = true
@@ -57,7 +57,7 @@ module Seven1m
             end
             create_without_global_scope
           end
-          alias_method_chain(:create, :global_scope) unless instance_methods.include?('create_without_global_scope')
+          #alias_method_chain(:create, :global_scope) unless instance_methods.include?('create_without_global_scope')
         END
       end
     end

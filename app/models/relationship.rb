@@ -20,12 +20,16 @@ class Relationship < ActiveRecord::Base
   scope_by_site_id
 
   validates_presence_of :name
-  validates_inclusion_of :name, :in => I18n.t('relationships.names').keys.map { |r| r.to_s }
   validates_presence_of :other_name, :if => Proc.new { |r| r.name == 'other' }
   validates_presence_of :person_id
   validates_presence_of :related_id
   validates_uniqueness_of :name, :scope => [:other_name, :person_id, :related_id]
   validates_uniqueness_of :other_name, :scope => [:name, :person_id, :related_id]
+  validates_each :name do |record, attribute, value|
+    unless I18n.t('relationships.names').keys.map { |r| r.to_s }.include?(value)
+      record.errors.add attribute, :inclusion
+    end
+  end
 
   acts_as_logger LogItem
 

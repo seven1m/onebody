@@ -1,13 +1,12 @@
 RAILS_ROOT = File.dirname(__FILE__) + '/..' unless defined?(RAILS_ROOT)
 
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
-require 'notifier'
+require File.expand_path('../../config/application', __FILE__)
+require 'rails/test_help'
+#require 'notifier'
 require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
-require 'tasks/rails'
+require File.expand_path('../../lib/rake_abandon', __FILE__)
+OneBody::Application.load_tasks
 
 # flatten settings hash and write to fixture file
 Rake::Task['onebody:build_settings_fixture_file'].invoke
@@ -15,8 +14,6 @@ Rake::Task['onebody:build_settings_fixture_file'].invoke
 require File.dirname(__FILE__) + '/forgeries'
 
 class ActiveSupport::TestCase
-
-  include ActionController::TestProcess
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false

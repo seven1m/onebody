@@ -49,7 +49,7 @@ class Group < ActiveRecord::Base
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
   belongs_to :site
 
-  named_scope :active, :conditions => {:hidden => false}
+  scope :active, :conditions => {:hidden => false}
 
   scope_by_site_id
 
@@ -83,7 +83,7 @@ class Group < ActiveRecord::Base
     self.photo_without_logging = p
   end
 
-  named_scope :checkin_destinations, :include => :group_times, :conditions => ['group_times.checkin_time_id is not null'], :order => 'group_times.ordering'
+  scope :checkin_destinations, :include => :group_times, :conditions => ['group_times.checkin_time_id is not null'], :order => 'group_times.ordering'
 
   def name_group # returns something like "Morgan group"
     "#{name}#{name =~ /group$/i ? '' : ' group'}"

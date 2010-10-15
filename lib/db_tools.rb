@@ -29,7 +29,8 @@ end
 class ActiveRecord::Base
 
   def self.scope_by_site_id
-    acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 0)"
+    #acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 0)"
+    default_scope lambda { where(:site_id => Site.current.id) }
   end
 
   def self.hashify(options)

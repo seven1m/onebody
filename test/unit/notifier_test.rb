@@ -7,8 +7,6 @@ class NotifierTest < ActiveSupport::TestCase
 
   fixtures :people, :families
 
-  include ActionMailer::Quoting
-
   def setup
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true

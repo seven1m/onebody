@@ -1,4 +1,4 @@
-ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+Time::DATE_FORMATS.merge!(
   :default           => "%m/%d/%Y %I:%M %p",
   :date              => "%m/%d/%Y",
   :time              => "%I:%M %p",

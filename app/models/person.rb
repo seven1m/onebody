@@ -130,8 +130,8 @@ class Person < ActiveRecord::Base
   attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :medical_notes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
   attr_accessible :id, :sequence, :can_pick_up, :cannot_pick_up, :family_id, :if => Proc.new { l = Person.logged_in and l.admin?(:edit_profiles) and l.admin?(:import_data) and Person.import_in_progress }
 
-  named_scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
-  named_scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
+  scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
+  scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
 
   acts_as_password
   has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES

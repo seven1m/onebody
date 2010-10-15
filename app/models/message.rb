@@ -75,7 +75,7 @@ class Message < ActiveRecord::Base
     body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
   end
 
-  validate_on_create do |record|
+  validate :on => :create do |record|
     if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => ['created_at >= ?', Date.today-1])
       record.errors.add_to_base 'already saved' # Notifier relies on this message (don't change it)
     end
