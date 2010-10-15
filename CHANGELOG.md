@@ -6,6 +6,11 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+1.2.2 / October 14, 2010
+------------------------
+
+* Upgrade to Rails 2.3.10 due to security advisory CVE-2010-3933.
+
 1.2.1 / October 13, 2010
 ------------------------
 
