@@ -52,14 +52,16 @@ class ApplicationController < ActionController::Base
     end
 
     def update_view_paths
-      if (theme_name = get_theme_name) == 'custom'
+      theme_name = get_theme_name
+      if theme_name == 'custom'
         theme_name = "custom/site#{Site.current.id}"
       end
-      theme_dirs = [File.join(RAILS_ROOT, 'themes', theme_name)]
+      theme_dirs = [Rails.root.join('themes', theme_name)]
       if defined?(DEPLOY_THEME_DIR)
         theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
       end
-      self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths)
+      prepend_view_path(theme_dirs)
+      @view_paths = self.class.view_paths
     end
 
     def set_locale
