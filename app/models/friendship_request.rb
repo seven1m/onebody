@@ -21,8 +21,15 @@ class FriendshipRequest < ActiveRecord::Base
   validates_presence_of :from_id
   validates_uniqueness_of :person_id, :scope => :from_id
 
-  def validate
+  validate :validate_email_on_target
+
+  def validate_email_on_target
     errors.add(:person, :invalid_address) unless person.valid_email?
+  end
+
+  validate :validate_friends_enabled_on_target
+
+  def validate_friends_enabled_on_target
     errors.add(:person, :refused) unless person.friends_enabled
   end
 

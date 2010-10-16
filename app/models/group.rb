@@ -66,7 +66,9 @@ class Group < ActiveRecord::Base
 
   serialize :cached_parents
 
-  def validate
+  validate :validate_self_referencing_parents_of
+
+  def validate_self_referencing_parents_of
     begin
       errors.add('parents_of', :points_to_self) if not new_record? and parents_of == id
     rescue
