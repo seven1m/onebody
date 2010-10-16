@@ -111,7 +111,7 @@ class MessagesControllerTest < ActionController::TestCase
     get :new, {:group_id => @group.id}, {:logged_in_id => @person}
     assert_response :success
     body = Faker::Lorem.sentence
-    post :create, {:files => [fixture_file_upload('files/attachment.pdf')], :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
+    post :create, {:files => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)], :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :redirect
     assert_redirected_to group_path(@group)
     assert_match /has been sent/, flash[:notice]
@@ -124,7 +124,7 @@ class MessagesControllerTest < ActionController::TestCase
     get :new, {:to_person_id => @person.id}, {:logged_in_id => @other_person}
     assert_response :success
     body = Faker::Lorem.sentence
-    post :create, {:files => [fixture_file_upload('files/attachment.pdf')], :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
+    post :create, {:files => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)], :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person}
     assert_response :success
     assert_select 'body', /message.+sent/
     assert ActionMailer::Base.deliveries.any?
@@ -140,7 +140,7 @@ class MessagesControllerTest < ActionController::TestCase
   should "show a message with an attachment" do
     @message = Message.create_with_attachments(
       {:group => @group, :person => @person, :subject => 'test subject', :body => 'test body'},
-      [fixture_file_upload('files/attachment.pdf')]
+      [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)]
     )
     @attachment = @message.attachments.first
     get :show, {:id => @message.id}, {:logged_in_id => @person}

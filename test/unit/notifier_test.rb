@@ -11,11 +11,6 @@ class NotifierTest < ActiveSupport::TestCase
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.perform_deliveries = true
     ActionMailer::Base.deliveries = []
-
-    @expected = TMail::Mail.new
-    @expected.set_content_type "text", "plain", { "charset" => CHARSET }
-
-    #@receive_emails = read_fixtures('receive')
   end
 
   should "send group email" do
@@ -42,8 +37,8 @@ class NotifierTest < ActiveSupport::TestCase
     sent = ActionMailer::Base.deliveries.first
     assert_equal [Setting.get(:contact, :send_email_changes_to)], sent.to
     assert_equal "#{people(:tim).name} Changed Email", sent.subject
-    assert sent.body.index("#{people(:tim).name} has had their email changed.")
-    assert sent.body.index("Email: #{people(:tim).email}")
+    assert sent.body.to_s.index("#{people(:tim).name} has had their email changed.")
+    assert sent.body.to_s.index("Email: #{people(:tim).email}")
   end
 
   should "send private email and accept reply" do
@@ -53,14 +48,16 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal [people(:jennie).email], sent.to
     assert_equal "test from jeremy", sent.subject
     assert sent.from != people(:jeremy).email
-    assert sent.body.index("hello jennie")
+    assert sent.body.to_s.index("hello jennie")
     # now reply
-    reply = TMail::Mail.new
-    reply.from = "Jennie Morgan <#{people(:jennie).email}>"
-    reply.to = sent.from
-    reply.subject = 're: test from jeremy'
-    reply.body = 'hello jeremy'
-    reply.in_reply_to = sent.message_id
+    from_address = people(:jennie).email
+    reply = Mail.new do
+      from        "Jennie Morgan <#{from_address}>"
+      to          sent.from
+      subject     're: test from jeremy'
+      body        'hello jeremy'
+      in_reply_to sent.message_id
+    end
     ActionMailer::Base.deliveries = []
     Notifier.receive(reply.to_s)
     assert_equal 1, ActionMailer::Base.deliveries.length
@@ -68,7 +65,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal [people(:jeremy).email], sent.to
     assert_equal 're: test from jeremy', sent.subject
     assert sent.from != people(:jennie).email
-    assert sent.body.index("hello jeremy")
+    assert sent.body.to_s.index("hello jeremy")
   end
 
   should "send private email and accept reply from outlook" do
@@ -78,13 +75,15 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal [people(:jennie).email], sent.to
     assert_equal "test from jeremy", sent.subject
     assert sent.from != people(:jeremy).email
-    assert sent.body.index("hello jennie")
+    assert sent.body.to_s.index("hello jennie")
     # now reply
-    reply = TMail::Mail.new
-    reply.from = "Jennie Morgan <#{people(:jennie).email}>"
-    reply.to = sent.from
-    reply.subject = 're: test from jeremy'
-    reply.body = "hello jeremy\n" + sent.body
+    from_address = people(:jennie).email
+    reply = Mail.new do
+      from    "Jennie Morgan <#{from_address}>"
+      to      sent.from
+      subject 're: test from jeremy'
+      body    "hello jeremy\n" + sent.body.to_s
+    end
     ActionMailer::Base.deliveries = []
     Notifier.receive(reply.to_s)
     assert_equal 1, ActionMailer::Base.deliveries.length
@@ -92,7 +91,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal [people(:jeremy).email], sent.to
     assert_equal 're: test from jeremy', sent.subject
     assert sent.from != people(:jennie).email
-    assert sent.body.index("hello jeremy")
+    assert sent.body.to_s.index("hello jeremy")
   end
 
   should "send private email and accept reply with a rewritten to address" do
@@ -100,13 +99,16 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.length
     sent = ActionMailer::Base.deliveries.first
     # now reply
-    reply = TMail::Mail.new
-    reply.from = "Jennie Morgan <#{people(:jennie).email}>"
-    reply.to = 'rewritten@foo.bar'
-    reply.cc = people(:jeremy).email # ensure messages don't get sent to same person twice
-    reply.subject = 're: test from jeremy'
-    reply.body = "hello jeremy\n\n" + sent.body
-    reply.in_reply_to = sent.message_id
+    from_address = people(:jennie).email
+    cc_address   = people(:jeremy).email
+    reply = Mail.new do
+      from        "Jennie Morgan <#{from_address}>"
+      to          'rewritten@foo.bar'
+      cc          cc_address # ensure messages don't get sent to same person twice
+      subject     're: test from jeremy'
+      body        "hello jeremy\n\n" + sent.body.to_s
+      in_reply_to sent.message_id
+    end
     ActionMailer::Base.deliveries = []
     Notifier.receive(reply.to_s)
     assert_equal 1, ActionMailer::Base.deliveries.length
@@ -114,37 +116,40 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal [people(:jeremy).email], sent.to
     assert_equal 're: test from jeremy', sent.subject
     assert sent.from != people(:jennie).email
-    assert sent.body.index("hello jeremy")
+    assert sent.body.to_s.index("hello jeremy")
   end
 
   should "reject unsolicited email" do
-    msg = TMail::Mail.new
-    msg.from = "Jennie Morgan <#{people(:jennie).email}>"
-    msg.to = 'jeremysmith@example.com'
-    msg.subject = 'hi jeremy'
-    msg.body = 'hello jeremy'
+    from_address = people(:jennie).email
+    msg = Mail.new do
+      from    "Jennie Morgan <#{from_address}>"
+      to      'jeremysmith@example.com'
+      subject 'hi jeremy'
+      body    'hello jeremy'
+    end
     Notifier.receive(msg.to_s)
     assert_equal 1, ActionMailer::Base.deliveries.length
     sent = ActionMailer::Base.deliveries.first
     assert_equal [people(:jennie).email], sent.to
     assert_equal 'Message Rejected: hi jeremy', sent.subject
     assert_equal [Site.current.noreply_email], sent.from
-    assert sent.body.index("unsolicited")
+    assert sent.body.to_s.index("unsolicited")
   end
 
   should "reject email from unknown sender" do
-    msg = TMail::Mail.new
-    msg.from = "Joe Spammer <joe@spammy.com>"
-    msg.to = 'jeremysmith@example.com'
-    msg.subject = 'hi jeremy'
-    msg.body = 'hello jeremy'
+    msg = Mail.new do
+      from    "Joe Spammer <joe@spammy.com>"
+      to      'jeremysmith@example.com'
+      subject 'hi jeremy'
+      body    'hello jeremy'
+    end
     Notifier.receive(msg.to_s)
     assert_equal 1, ActionMailer::Base.deliveries.length
     sent = ActionMailer::Base.deliveries.first
     assert_equal ['joe@spammy.com'], sent.to
     assert_equal 'Message Rejected: hi jeremy', sent.subject
     assert_equal [Site.current.noreply_email], sent.from
-    assert sent.body.index("the system does not recognize your email address")
+    assert sent.body.to_s.index("the system does not recognize your email address")
   end
 
   should "accept multipart email with attachment" do
@@ -160,11 +165,13 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   should "discard email sent to the noreply address" do
-    msg = TMail::Mail.new
-    msg.from = "Jennie Morgan <#{people(:jennie).email}>" # even from known address
-    msg.to = Site.current.noreply_email
-    msg.subject = 're: hi jeremy'
-    msg.body = 'some sort of automated response'
+    from_address = people(:jennie).email
+    msg = Mail.new do
+      from    "Jennie Morgan <#{from_address}>" # even from known address
+      to      Site.current.noreply_email
+      subject 're: hi jeremy'
+      body    'some sort of automated response'
+    end
     Notifier.receive(msg.to_s)
     assert_equal 0, ActionMailer::Base.deliveries.length
   end
@@ -189,7 +196,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal email.from, sent.to
     assert_equal 'Message Rejected: test to morgan group in site 2 (should fail)', sent.subject
     assert_equal [Site.current.noreply_email], sent.from
-    assert sent.body.index("the system does not recognize your email address")
+    assert sent.body.to_s.index("the system does not recognize your email address")
   end
 
   def teardown
@@ -199,12 +206,13 @@ class NotifierTest < ActiveSupport::TestCase
   private
     def to_email(values)
       values.symbolize_keys!
-      email = TMail::Mail.new
-      email.to = values[:to]
-      email.cc = values[:cc] if values[:cc]
-      email.from = values[:from]
-      email.subject = values[:subject]
-      email.body = values[:body]
+      email = Mail.new do
+        to      values[:to]
+        cc      values[:cc] if values[:cc]
+        from    values[:from]
+        subject values[:subject]
+        body    values[:body]
+      end
       email
     end
 

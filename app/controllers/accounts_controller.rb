@@ -117,7 +117,7 @@ class AccountsController < ApplicationController
 
     def create_by_birthday
       if params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
-        Notifier.deliver_birthday_verification(params)
+        Notifier.deliver_birthday_verification(params[:name], params[:email], params[:phone], params[:birthday], params[:notes])
         render :text => I18n.t('accounts.submission_will_be_reviewed'), :layout => true
       else
         flash[:warning] = I18n.t('accounts.fill_required_fields')

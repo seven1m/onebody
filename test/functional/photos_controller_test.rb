@@ -54,13 +54,13 @@ class PhotosControllerTest < ActionController::TestCase
   end
 
   should "update a photo" do
-    post :update, {:family_id => @person.family.id, :photo => fixture_file_upload('files/image.jpg')},
+    post :update, {:family_id => @person.family.id, :photo => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)},
       {:logged_in_id => @person}
     assert_response :redirect
   end
 
   should "not update a photo unless user can edit the object" do
-    post :update, {:family_id => @family.id, :photo => fixture_file_upload('files/image.jpg')},
+    post :update, {:family_id => @family.id, :photo => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)},
       {:logged_in_id => @person}
     assert_response :error
   end

@@ -102,10 +102,10 @@ class Message < ActiveRecord::Base
   def send_to_person(person)
     if person.email.to_s.any?
       id_and_code = "#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
-      email = Notifier.create_message(person, self, id_and_code)
+      email = Notifier.full_message(person, self, id_and_code)
       email.add_message_id
       email.message_id = "<#{id_and_code}_#{email.message_id.gsub(/^</, '')}"
-      Notifier.deliver(email)
+      email.deliver
     end
   end
 
@@ -281,7 +281,7 @@ class Message < ActiveRecord::Base
 
   def self.preview(attributes)
     msg = Message.new(attributes)
-    Notifier.create_message(Person.new(:email => 'test@example.com'), msg)
+    Notifier.full_message(Person.new(:email => 'test@example.com'), msg)
   end
 
   def self.create_with_attachments(attributes, files)

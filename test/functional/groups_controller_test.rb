@@ -84,7 +84,7 @@ class GroupsControllerTest < ActionController::TestCase
   should "add a group photo" do
     @group.photo = nil
     assert !@group.has_photo?
-    post :update, {:id => @group.id, :group => {:photo => fixture_file_upload('files/image.jpg')}}, {:logged_in_id => @person.id}
+    post :update, {:id => @group.id, :group => {:photo => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)}}, {:logged_in_id => @person.id}
     assert_redirected_to group_path(@group)
     assert Group.find(@group.id).has_photo?
   end

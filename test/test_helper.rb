@@ -55,7 +55,7 @@ class ActiveSupport::TestCase
     people.each do |person|
       matches = ActionMailer::Base.deliveries.select do |delivered|
         delivered.subject == email.subject and \
-        delivered.body.index(email.body) and \
+        delivered.body.to_s.index(email.body.to_s) and \
         delivered.to == [person.email]
       end
       assert_equal 1, matches.length
@@ -63,4 +63,8 @@ class ActiveSupport::TestCase
   end
 
   fixtures :all
+
+  setup do
+    Site.current = Site.find(1)
+  end
 end

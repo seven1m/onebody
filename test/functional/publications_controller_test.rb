@@ -30,7 +30,11 @@ class PublicationsControllerTest < ActionController::TestCase
     get :new, nil, {:logged_in_id => @admin.id}
     assert_response :success
     post :create, {
-      :publication => {:name => 'test name', :description => 'test desc', :file => fixture_file_upload('files/attachment.pdf')}
+      :publication => {
+        :name        => 'test name',
+        :description => 'test desc',
+        :file        => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)
+      }
     }, {:logged_in_id => @admin.id}
     assert_redirected_to publications_path
   end
@@ -39,7 +43,11 @@ class PublicationsControllerTest < ActionController::TestCase
     get :new, nil, {:logged_in_id => @person.id}
     assert_response :unauthorized
     post :create, {
-      :publication => {:name => 'test name', :description => 'test desc', :file => fixture_file_upload('files/attachment.pdf')}
+      :publication => {
+        :name        => 'test name',
+        :description => 'test desc',
+        :file        => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)
+      }
     }, {:logged_in_id => @person.id}
     assert_response :unauthorized
   end
@@ -47,7 +55,11 @@ class PublicationsControllerTest < ActionController::TestCase
   should "redirect to a new message upon publication upload" do
     pub_group = Group.find_by_name('Publications')
     post :create, {
-      :publication => {:name => 'test name', :description => 'test desc', :file => fixture_file_upload('files/attachment.pdf')},
+      :publication => {
+        :name        => 'test name',
+        :description => 'test desc',
+        :file        => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)
+      },
       :send_update_to_group_id => pub_group.id
     }, {:logged_in_id => @admin.id}
     assert_redirected_to new_message_path(:group_id => pub_group)

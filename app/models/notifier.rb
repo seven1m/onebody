@@ -1,48 +1,60 @@
 class Notifier < ActionMailer::Base
   helper :notifier, :application
 
+  default :from => lambda { Site.current.noreply_email }
+
   def profile_update(person, updates)
-    recipients Setting.get(:contact, :send_updates_to)
-    from Site.current.noreply_email
-    subject "Profile Update from #{person.name}."
-    body :person => person, :updates => updates
+    @person = person
+    @updates = updates
+    mail(
+      :to      => Setting.get(:contact, :send_updates_to),
+      :subject => "Profile Update from #{person.name}."
+    )
   end
 
   def email_update(person)
-    recipients Setting.get(:contact, :send_email_changes_to)
-    from Site.current.noreply_email
-    subject "#{person.name} Changed Email"
-    body :person => person
+    @person = person
+    mail(
+      :to      => Setting.get(:contact, :send_email_changes_to),
+      :subject => "#{person.name} Changed Email"
+    )
   end
 
   def date_and_time_report
-    recipients Setting.get(:contact, :tech_support_email)
-    from Site.current.noreply_email
-    subject "Date & Time Incorrect"
+    mail(
+      :to      => Setting.get(:contact, :tech_support_email),
+      :subject => "Date & Time Incorrect"
+    )
   end
 
   def friend_request(person, friend)
-    recipients "#{friend.name} <#{friend.email}>"
-    from Site.current.noreply_email
-    subject "Friend Request from #{person.name}"
-    body :person => person, :friend => friend
+    @person = person
+    @friend = friend
+    mail(
+      :to      => "#{friend.name} <#{friend.email}>",
+      :subject => "Friend Request from #{person.name}"
+    )
   end
 
   def membership_request(group, person)
+    @group = group
+    @person = person
     unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
       unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
         to = Admin.find_all_by_super_admin(true).map { |a| a.person.email }
       end
     end
-    recipients to
-    from person.email.to_s.any? ? "#{person.name} <#{person.email}>" : Site.current.noreply_email
-    subject "Request to Join Group from #{person.name}"
-    body :person => person, :group => group
+    mail(
+      :to      => to,
+      :from    => person.email.to_s.any? ? "#{person.name} <#{person.email}>" : Site.current.noreply_email,
+      :subject => "Request to Join Group from #{person.name}"
+    )
   end
 
-  def message(to, msg, id_and_code=nil)
-    recipients to.email
-    from msg.email_from(to)
+  def full_message(to, msg, id_and_code=nil)
+    @to          = to
+    @msg         = msg
+    @id_and_code = id_and_code
     h = {'Reply-To' => msg.email_reply_to(to)}
     if msg.group
       h.update(
@@ -57,72 +69,91 @@ class Notifier < ActionMailer::Base
       end
     end
     headers h
-    if msg.wall
-      subject 'Wall Post'
-    else
-      subject msg.subject
-    end
-    part :content_type => "multipart/alternative" do |p|
-      p.part :content_type => "text/plain", :body => render_message('message', :to => to, :msg => msg, :id_and_code => id_and_code)
-      if msg.html_body.to_s.any?
-        p.part :content_type => "text/html", :body => render_message('html_message', :to => to, :msg => msg, :id_and_code => id_and_code)
-      end
-    end
     msg.attachments.each do |a|
-      attachment :content_type => a.content_type, :filename => a.name, :body => File.read(a.file_path)
+      #attachments[a.name] = {
+        #:mime_type => a.content_type,
+        #:content   => File.read(a.file_path)
+      #}
+      # TODO check that it's ok to not specify content-type...
+      attachments[a.name] = File.read(a.file_path)
+    end
+    mail(
+      :to      => to.email,
+      :from    => msg.email_from(to),
+      :subject => msg.wall ? 'Wall Post' : msg.subject # TODO fix i18n here
+    ) do |format|
+      format.text
+      if msg.html_body.to_s.any?
+        format.html
+      end
     end
   end
 
   # used for auto-generated responses
   def simple_message(t, s, b, f=Site.current.noreply_email)
     headers 'Auto-Submitted' => 'auto-replied'
-    recipients t
-    from f
-    subject s
-    body b
+    mail(
+      :to      => t,
+      :from    => f,
+      :subject => s
+    ) do |format|
+      format.text { render :text => b }
+    end
   end
 
   def prayer_reminder(person, times)
-    recipients person.email
-    from Site.current.noreply_email
-    subject "24-7 Prayer: Don't Forget!"
-    body :times => times
+    @times = times
+    mail(
+      :to      => person.email,
+      :subject => "24-7 Prayer: Don't Forget!"
+    )
   end
 
   def email_verification(verification)
-    recipients verification.email
-    from Site.current.noreply_email
-    subject "Verify Email"
-    body :verification => verification
+    @verification = verification
+    mail(
+      :to      => verification.email,
+      :subject => "Verify Email"
+    )
   end
 
   def mobile_verification(verification)
-    recipients verification.email
-    from Site.current.noreply_email
-    subject "Verify Mobile"
-    body :verification => verification
+    @verification = verification
+    mail(
+      :to      => verification.email,
+      :subject => "Verify Mobile"
+    )
   end
 
-  def birthday_verification(params)
-    recipients Setting.get(:contact, :birthday_verification_email)
-    from params[:email]
-    subject "Birthday Verification"
-    body params
+  def birthday_verification(name, email, phone, birthday, notes)
+    @name     = name
+    @email    = email
+    @phone    = phone
+    @birthday = birthday
+    @notes    = notes
+    mail(
+      :to      => Setting.get(:contact, :birthday_verification_email),
+      :from    => params[:email],
+      :subject => "Birthday Verification"
+    )
   end
 
   def pending_sign_up(person)
-    recipients Setting.get(:features, :sign_up_approval_email)
-    from Site.current.noreply_email
-    subject "Pending Sign Up"
-    body :person => person
+    @person = person
+    mail(
+      :to      => Setting.get(:features, :sign_up_approval_email),
+      :subject => "Pending Sign Up"
+    )
   end
 
   def printed_directory(person, file)
-    recipients "#{person.name} <#{person.email}>"
-    from Site.current.noreply_email
-    subject "#{Setting.get(:name, :site)} Directory"
-    body :person => person
-    attachment :content_type => 'application/pdf', :filename => 'directory.pdf', :body => file.read
+    @person = person
+    # TODO check that it is ok that we don't specify content-type application/pdf here
+    attachments['directory.pdf'] = file.read
+    mail(
+      :to      => "#{person.name} <#{person.email}>",
+      :subject => "#{Setting.get(:name, :site)} Directory"
+    )
   end
 
   def receive(email)
@@ -329,7 +360,7 @@ class Notifier < ActionMailer::Base
         @multiple_people_with_same_email = true
         # try to narrow it down based on name in the from line
         people.detect do |p|
-          p.name.downcase.split.first == email.friendly_from.to_s.downcase.split.first
+          p.name.downcase.split.first == email.header['from'].value.to_s.downcase.split.first
         end
       end
     end

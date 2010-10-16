@@ -19,7 +19,7 @@ module Forgeable
     if file.is_a?(String)
       self.file = File.open(file)
     else
-      self.file = ActionController::TestUploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', nil, false)
+      self.file = Rack::Test::UploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', 'application/pdf', true)
     end
   end
 

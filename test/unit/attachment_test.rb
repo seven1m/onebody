@@ -1,14 +1,13 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class AttachmentTest < ActiveSupport::TestCase
-  fixtures :attachments
 
   def setup
     @person, @other_person = Person.forge, Person.forge
     @message = Message.create_with_attachments(
       {:to => @person, :person => @other_person,
       :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph},
-      [fixture_file_upload('files/attachment.pdf')]
+      [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)]
     )
     @attachment = @message.attachments.first
   end
@@ -32,17 +31,20 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   should "create an attachment with file at once" do
-    @attachment = Attachment.create_from_file(:message_id => @message.id, :file => fixture_file_upload('files/attachment.pdf'))
+    @attachment = Attachment.create_from_file(
+      :message_id => @message.id,
+      :file       => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)
+    )
     assert @attachment.valid?
     assert @attachment.has_file?
   end
 
   should "recognize whether it is an image or not" do
-    img = Attachment.create_from_file(:file => fixture_file_upload('files/image.jpg'))
+    img = Attachment.create_from_file(:file => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true))
     assert img.image?
     assert_equal 2, img.width
     assert_equal 2, img.height
-    assert !Attachment.create_from_file(:file => fixture_file_upload('files/attachment.pdf')).image?
+    assert !Attachment.create_from_file(:file => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)).image?
   end
 
 end

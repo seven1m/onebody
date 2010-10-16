@@ -126,7 +126,7 @@ class GroupsController < ApplicationController
       params[:group].cleanse 'address'
       if @group.update_attributes(params[:group])
         flash[:notice] = I18n.t('groups.settings_saved')
-        @group.photo = photo if photo and (photo.respond_to?(:read) or photo == 'remove' or photo.class.name == 'ActionController::TestUploadedFile')
+        @group.photo = photo if photo and (photo.respond_to?(:read) or photo == 'remove' or photo.class.name == 'Rack::Test::UploadedFile')
         redirect_to @group
       else
         edit; render :action => 'edit'
