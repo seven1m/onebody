@@ -69,7 +69,7 @@ class PersonTest < ActiveSupport::TestCase
       @person2 = Person.forge
       @person2.email = @person.email
       @person2.save
-      assert @person2.errors.on(:email)
+      assert @person2.errors[:email]
     end
 
   end
@@ -297,7 +297,7 @@ class PersonTest < ActiveSupport::TestCase
     @person.birthday = nil
     @person.child = nil
     @person.save
-    assert @person.errors.on(:child)
+    assert @person.errors[:child]
   end
 
   should "select a proper sequence within the family if none is specified" do
