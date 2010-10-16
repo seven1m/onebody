@@ -179,6 +179,7 @@ OneBody::Application.routes.draw do
             :privacy, :tour, :pc_sync
 
   resources :news, :as => :news_item
+  match 'news', :to => 'news#index'
 
   resources :attachments do
     member do
@@ -186,8 +187,8 @@ OneBody::Application.routes.draw do
     end
   end
 
-  match 'bible/:book/:chapter', :to => 'bibles#show', :as => :bible,
-    :defaults    => {:book => 'x', :chapter => 0},
+  match 'bible(/:book(/:chapter))' => 'bibles#show',
+    :defaults    => {:book => 'x', :chapter => '0'},
     :constraints => {:book => /[A-Za-z0-9 \+(%20)]+/, :chapter => /\d{1,3}/}
 
   resources :pages, :path => 'pages/admin' do
@@ -196,8 +197,9 @@ OneBody::Application.routes.draw do
 
   match 'pages/*path' => 'pages#show_for_public', :via => :get, :as => :page_for_public
 
-  namespace :admin, :as => :administration do
-    match '/' => 'dashboards#show'
+  match '/admin' => 'administration/dashboards#show'
+
+  namespace :administration, :path => :admin do
     resources :emails do
       collection do
         put :batch
