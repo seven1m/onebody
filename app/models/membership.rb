@@ -35,8 +35,9 @@ class Membership < ActiveRecord::Base
 
   def family; person.family; end
 
-  # generates security code
-  def before_create
+  before_create :generate_security_code
+
+  def generate_security_code
     begin
       code = rand(999999)
       write_attribute :code, code

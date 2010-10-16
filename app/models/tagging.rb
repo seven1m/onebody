@@ -16,7 +16,9 @@ class Tagging < ActiveRecord::Base
   belongs_to :verse,  :foreign_key => 'taggable_id'
   belongs_to :recipe, :foreign_key => 'taggable_id'
 
-  def after_destroy
+  after_destroy :destroy_unused_tags
+
+  def destroy_unused_tags
     if Tag.destroy_unused
       if tag.taggings.count.zero?
         tag.destroy

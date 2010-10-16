@@ -18,7 +18,9 @@ class MembershipRequest < ActiveRecord::Base
 
   scope_by_site_id
 
-  def after_create
+  after_create :deliver
+
+  def deliver
     Notifier.deliver_membership_request(group, person)
   end
 
