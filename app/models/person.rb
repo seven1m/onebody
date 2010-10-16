@@ -669,7 +669,7 @@ class Person < ActiveRecord::Base
 
   def update_relationships_hash!
     update_relationships_hash
-    save(false)
+    save(:validate => false)
   end
 
   def update_donor
@@ -732,7 +732,7 @@ class Person < ActiveRecord::Base
     donor.save
     self.donortools_id = donor.id
     self.synced_to_donortools = true
-    save(false)
+    save(:validate => false)
   end
 
   def donortools_admin_url

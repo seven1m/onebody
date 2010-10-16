@@ -116,7 +116,7 @@ class Site < ActiveRecord::Base
     was = Site.current
     Site.current = self
     group = Group.new(:name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true)
-    group.save(false)
+    group.save(:validate => false)
     Site.current = was
   end
 
