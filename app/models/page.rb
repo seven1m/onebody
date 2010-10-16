@@ -90,7 +90,7 @@ class Page < ActiveRecord::Base
 
     def find(id, *args)
       if id.is_a?(String) and id !~ /^\d+$/
-        returning find_by_path(id) do |page|
+        find_by_path(id).tap do |page|
           raise ActiveRecord::RecordNotFound unless page
         end
       else

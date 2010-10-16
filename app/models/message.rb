@@ -308,7 +308,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-    returning([]) do |data|
+    [].tap do |data|
       private_counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where to_person_id is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
       group_counts   = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where group_id     is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
       wall_counts    = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where wall_id      is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }

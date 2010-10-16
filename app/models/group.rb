@@ -274,7 +274,7 @@ class Group < ActiveRecord::Base
     end
 
     def categories
-      returning({}) do |cats|
+      {}.tap do |cats|
         if Person.logged_in.admin?(:manage_groups)
           results = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' group by category").map { |g| [g.category, g.group_count] }
         else

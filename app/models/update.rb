@@ -47,7 +47,7 @@ class Update < ActiveRecord::Base
   end
 
   def custom_fields_as_hash
-    returning({}) do |hash|
+    {}.tap do |hash|
       Setting.get(:features, :custom_person_fields).each_with_index do |field, index|
         hash[index] = custom_fields[index] if custom_fields[index]
       end
@@ -128,7 +128,7 @@ class Update < ActiveRecord::Base
 
   def self.create_from_params(params, person)
     params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
-    returning person.updates.new do |update|
+    person.updates.new.tap do |update|
       update.person_attributes = params[:person].reject_blanks if params[:person]
       update.family_attributes = params[:family].reject_blanks if params[:family]
       update.save
@@ -137,7 +137,7 @@ class Update < ActiveRecord::Base
   end
 
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-    returning([]) do |data|
+    [].tap do |data|
       counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from updates where site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
       ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
         d = date.strftime(date_strftime)

@@ -163,7 +163,7 @@ end
 
 class Verse
   def self.forge(attributes={})
-    returning Verse.find("#{Verse::BOOKS.rand} #{rand(25)+1}:#{rand(50)+1}") do |verse|
+    Verse.find("#{Verse::BOOKS.rand} #{rand(25)+1}:#{rand(50)+1}").tap do |verse|
       attributes.each do |attr, val|
         verse.send("#{attr}=", val) # will allow tag_list= to work
       end

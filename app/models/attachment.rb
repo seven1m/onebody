@@ -48,7 +48,7 @@ class Attachment < ActiveRecord::Base
     def create_from_file(attributes)
       file = attributes.delete(:file)
       attributes.merge!(:name => File.split(file.original_filename).last, :content_type => file.content_type)
-      returning create(attributes) do |attachment|
+      create(attributes).tap do |attachment|
         if attachment.valid?
           attachment.file = file
           attachment.errors.add_to_base('File could not be saved.') unless attachment.has_file?
