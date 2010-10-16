@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails',                  '   3.0.0'
+#gem 'rails',                  '   3.0.0'
+gem 'rails', :git => '/home/tim/p/rails', :branch => '3-0-stable'
 gem 'mysql',                  '~> 2.8.1'
 gem 'liquid',                 '~> 2.0.0'
 gem 'will_paginate',          '~> 3.0.pre2'

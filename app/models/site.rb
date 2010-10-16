@@ -85,32 +85,30 @@ class Site < ActiveRecord::Base
 
   def add_pages
     return unless Page.table_exists?
-    Page.without_global_scope do
-      Dir["#{Rails.root}/db/pages/**/index.html"].each do |filename|
-        html = File.read(filename)
-        path, filename = filename.split('pages/').last.split('/')
-        pub = nav = path != 'system'
-        unless self.pages.find_by_path(path)
-          self.pages.create!(:slug => path, :title => path.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
-        end
+    Dir["#{Rails.root}/db/pages/**/index.html"].each do |filename|
+      html = File.read(filename)
+      path, filename = filename.split('pages/').last.split('/')
+      pub = nav = path != 'system'
+      unless Page.find_by_path(path)
+        Page.create!(:slug => path, :title => path.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
       end
-      Dir["#{Rails.root}/db/pages/**/*.html"].each do |filename|
-        next if filename =~ /index\.html$/
-        html = File.read(filename)
-        path, filename = filename.split('pages/').last.split('/')
-        slug = filename.split('.').first
-        nav = path != 'system'
-        pub = !Page::UNPUBLISHED_PAGES.include?(slug)
-        parent = self.pages.find_by_path(path)
-        unless parent.children.find_by_slug(slug)
-          page = parent.children.build(:slug => slug, :title => slug.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
-          page.site_id = self.id
-          page.save!
-        end
+    end
+    Dir["#{Rails.root}/db/pages/**/*.html"].each do |filename|
+      next if filename =~ /index\.html$/
+      html = File.read(filename)
+      path, filename = filename.split('pages/').last.split('/')
+      slug = filename.split('.').first
+      nav = path != 'system'
+      pub = !Page::UNPUBLISHED_PAGES.include?(slug)
+      parent = Page.find_by_path(path)
+      unless parent.children.find_by_slug(slug)
+        page = parent.children.build(:slug => slug, :title => slug.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
+        page.site_id = self.id
+        page.save!
       end
-      unless self.pages.find_by_path('home')
-        self.pages.create!(:slug => 'home', :title => 'Home', :body => 'Congratulations! OneBody is up and running.', :system => true)
-      end
+    end
+    unless Page.find_by_path('home')
+      Page.create!(:slug => 'home', :title => 'Home', :body => 'Congratulations! OneBody is up and running.', :system => true)
     end
   end
 
