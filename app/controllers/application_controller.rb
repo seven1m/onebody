@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
     end
 
     def set_local_formats
-      ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+      Time::DATE_FORMATS.merge!(
         :default           => Setting.get(:formats, :full_date_and_time),
         :date              => Setting.get(:formats, :date),
         :time              => Setting.get(:formats, :time),
