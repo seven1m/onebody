@@ -186,16 +186,16 @@ class Notifier < ActionMailer::Base
         "your registered account email address or sign in at #{Setting.get(:url, :site)} and " +
         "send your message via the Web."
       end
-      Notifier.deliver_simple_message(
+      Notifier.simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
         "Message Rejected: #{email.subject}",
         reject_msg
-      )
+      ).deliver
       return
     end
 
     unless body = get_body(email) and (body[:text] or body[:html])
-      Notifier.deliver_simple_message(
+      Notifier.simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
         "Message Unreadable: #{email.subject}",
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
@@ -205,7 +205,7 @@ class Notifier < ActionMailer::Base
         "or you may send your message directly from the site after signing into " +
         "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
         "#{Setting.get(:contact, :tech_support_contact)}."
-      )
+      ).deliver
       return
     end
 
@@ -267,7 +267,7 @@ class Notifier < ActionMailer::Base
       message, code_hash = get_in_reply_to_message_and_code(email)
       if message and message.code_hash == code_hash
         if message.created_at < (DateTime.now - MAX_DAYS_FOR_REPLIES)
-          Notifier.deliver_simple_message(
+          Notifier.simple_message(
             email['Return-Path'] ? email['Return-Path'].to_s : email.from,
             "Message Too Old: #{email.subject}",
             "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
@@ -276,7 +276,7 @@ class Notifier < ActionMailer::Base
             "to this person, please sign into #{Setting.get(:url, :site)} and send the message " +
             "via the web site. If you need help, please contact " +
             "#{Setting.get(:contact, :tech_support_contact)}."
-          )
+          ).deliver
         else
           to_person = message.person
           message = Message.create(
@@ -293,14 +293,14 @@ class Notifier < ActionMailer::Base
         end
       else
         # notify the sender that the message is unsolicited and was not delivered
-        Notifier.deliver_simple_message(
+        Notifier.simple_message(
           email['Return-Path'] ? email['Return-Path'].to_s : email.from,
           "Message Rejected: #{email.subject}",
           "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
           "Sorry for the inconvenience, but it appears the message was unsolicited. " +
           "If you want to send a message to someone, please sign in at #{Setting.get(:url, :site)}, " +
           "find the person, and click \"private message.\""
-        )
+        ).deliver
       end
     end
 
@@ -322,7 +322,7 @@ class Notifier < ActionMailer::Base
     end
 
     def message_error_notification(email, message)
-      Notifier.deliver_simple_message(
+      Notifier.simple_message(
         email['Return-Path'] ? email['Return-Path'].to_s : email.from,
         "Message Error: #{email.subject}",
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
@@ -331,7 +331,7 @@ class Notifier < ActionMailer::Base
         "You may post your message directly from the site after signing into " +
         "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
         "#{Setting.get(:contact, :tech_support_contact)}."
-      )
+      ).deliver
     end
 
     def get_site(email)

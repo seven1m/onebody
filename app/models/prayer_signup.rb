@@ -32,7 +32,7 @@ class PrayerSignup < ActiveRecord::Base
       signups.each do |person, times|
         if person.email.to_s.any?
           puts person.name
-          Notifier.deliver_prayer_reminder(person, times)
+          Notifier.prayer_reminder(person, times).deliver
         end
       end
       nil

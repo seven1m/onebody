@@ -40,7 +40,7 @@ class AccountsController < ApplicationController
             @person.family = Family.create(:name => @person.name, :last_name => @person.last_name)
             if Setting.get(:features, :sign_up_approval_email).to_s.any?
               @person.save
-              Notifier.deliver_pending_sign_up(@person)
+              Notifier.pending_sign_up(@person).deliver
               render :text => I18n.t('accounts.pending_approval'), :layout => true
             else
               @person.update_attributes!(:can_sign_in => true, :full_access => true, :visible_to_everyone => true, :visible_on_printed_directory => true)
@@ -78,7 +78,7 @@ class AccountsController < ApplicationController
           if v.errors.any?
             render :text => v.errors.full_messages.join('; '), :layout => true
           else
-            Notifier.deliver_email_verification(v)
+            Notifier.email_verification(v).deliver
             render :text => I18n.t('accounts.verification_email_sent'), :layout => true
           end
         else
@@ -102,7 +102,7 @@ class AccountsController < ApplicationController
           if v.errors.any?
             render :text => v.errors.full_messages.join('; '), :layout => true
           else
-            Notifier.deliver_mobile_verification(v)
+            Notifier.mobile_verification(v).deliver
             flash[:warning] = I18n.t('accounts.verification_message_sent')
             redirect_to verify_code_account_path(:id => v.id)
           end
@@ -117,7 +117,7 @@ class AccountsController < ApplicationController
 
     def create_by_birthday
       if params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
-        Notifier.deliver_birthday_verification(params[:name], params[:email], params[:phone], params[:birthday], params[:notes])
+        Notifier.birthday_verification(params[:name], params[:email], params[:phone], params[:birthday], params[:notes]).deliver
         render :text => I18n.t('accounts.submission_will_be_reviewed'), :layout => true
       else
         flash[:warning] = I18n.t('accounts.fill_required_fields')

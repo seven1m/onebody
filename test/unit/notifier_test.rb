@@ -32,7 +32,7 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   should "send email update" do
-    Notifier.deliver_email_update(people(:tim))
+    Notifier.email_update(people(:tim)).deliver
     assert !ActionMailer::Base.deliveries.empty?
     sent = ActionMailer::Base.deliveries.first
     assert_equal [Setting.get(:contact, :send_email_changes_to)], sent.to

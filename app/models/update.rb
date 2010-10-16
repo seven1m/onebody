@@ -132,7 +132,7 @@ class Update < ActiveRecord::Base
       update.person_attributes = params[:person].reject_blanks if params[:person]
       update.family_attributes = params[:family].reject_blanks if params[:family]
       update.save
-      Notifier.deliver_profile_update(person, update.changes) if Setting.get(:contact, :send_updates_to)
+      Notifier.profile_update(person, update.changes).deliver if Setting.get(:contact, :send_updates_to)
     end
   end
 
