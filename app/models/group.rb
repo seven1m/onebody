@@ -278,9 +278,9 @@ class Group < ActiveRecord::Base
     def categories
       {}.tap do |cats|
         if Person.logged_in.admin?(:manage_groups)
-          results = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' group by category").map { |g| [g.category, g.group_count] }
+          results = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' and site_id = #{Site.current.id} group by category").map { |g| [g.category, g.group_count] }
         else
-          results = Group.find_by_sql(["select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' and hidden = ? and approved = ? group by category", false, true]).map { |g| [g.category, g.group_count] }
+          results = Group.find_by_sql(["select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' and hidden = ? and approved = ? and site_id = #{Site.current.id} group by category", false, true]).map { |g| [g.category, g.group_count] }
         end
         results.each do |cat, count|
           cats[cat] = count.to_i
