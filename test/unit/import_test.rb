@@ -12,8 +12,15 @@ class ImportTest < ActiveSupport::TestCase
            "Jean-Luc,Picard,false,true,1"
     changes = Person.queue_import_from_csv_file(data)
     assert_equal 1, changes.length
-    assert_equal({"last_name" => [nil, "Picard"], "first_name" => [nil, "Jean-Luc"], "child" => [nil, false], "member" => [false, true], "sequence" => [nil, 1]},
-                 changes.first[1])
+    assert_equal({
+      "last_name"      => [nil,   "Picard"  ],
+      "first_name"     => [nil,   "Jean-Luc"],
+      "child"          => [nil,   false     ],
+      "member"         => [false, true      ],
+      "sequence"       => [nil,   1         ],
+      "site_id"        => [nil,   1         ],
+      "family_site_id" => [nil,   1         ]
+    }, changes.first[1])
   end
 
   should "import data" do
