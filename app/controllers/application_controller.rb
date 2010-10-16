@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
         theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
       end
       prepend_view_path(theme_dirs)
-      @view_paths = self.class.view_paths
+      @view_paths = lookup_context.view_paths
     end
 
     def set_locale
