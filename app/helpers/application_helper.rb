@@ -168,7 +168,7 @@ module ApplicationHelper
     return nil unless html
     html.gsub!(/<script.+?<\/script>/mi, '')
     html.gsub!(/<style.+?<\/style>/mi, '')
-    white_list(html) { |node, bad| node.to_s.gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }
+    white_list(html) { |node, bad| node.to_s.gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }.html_safe
   end
 
   def domain_name_from_url(url)

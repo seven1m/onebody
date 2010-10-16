@@ -1,14 +1,14 @@
-<%= I18n.t('notifier.name_submitted_birthday_request', :name => @name) %>:
+<%=raw I18n.t('notifier.name_submitted_birthday_request', :name => @name) %>:
 
-<%= I18n.t('name') %>: <%= @name %>
-<%= I18n.t('people.email') %>: <%= @email %>
-<%= I18n.t('phone') %>: <%= @phone %>
-<%= I18n.t('privacies.birthday') %>: <%= @birthday %>
-<%= I18n.t('notes.notes') %>: <%= @notes %>
+<%=raw I18n.t('name') %>: <%=raw @name %>
+<%=raw I18n.t('people.email') %>: <%=raw @email %>
+<%=raw I18n.t('phone') %>: <%=raw @phone %>
+<%=raw I18n.t('privacies.birthday') %>: <%=raw @birthday %>
+<%=raw I18n.t('notes.notes') %>: <%=raw @notes %>
 
 ----
 
-1. <%= I18n.t('notifier.verify_person_identity') %>
-2. <%= I18n.t('notifier.update_record_membership') %>
-3. <%= I18n.t('notifier.wait_one_day_and_wait') %>
-4. <%= I18n.t('notifier.click_link_to_complete_process', :url => Setting.get(:url, :site) + 'account/new?email=' + @email) %>
+1. <%=raw I18n.t('notifier.verify_person_identity') %>
+2. <%=raw I18n.t('notifier.update_record_membership') %>
+3. <%=raw I18n.t('notifier.wait_one_day_and_wait') %>
+4. <%=raw I18n.t('notifier.click_link_to_complete_process', :url => Setting.get(:url, :site) + 'account/new?email=' + @email) %>

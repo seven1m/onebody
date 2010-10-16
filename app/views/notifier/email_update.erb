@@ -1,5 +1,5 @@
-<%= I18n.t('notifier.person_had_their_email_changed', :name => @person.name) %>
+<%=raw I18n.t('notifier.person_had_their_email_changed', :name => @person.name) %>
 
-<%= I18n.t('people.email') %>: <%= @person.email %>
+<%=raw I18n.t('people.email') %>: <%=raw @person.email %>
 
-<%= I18n.t('notifier.please_make_updates') %>
+<%=raw I18n.t('notifier.please_make_updates') %>

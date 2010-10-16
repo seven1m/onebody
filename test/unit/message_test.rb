@@ -22,8 +22,8 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal subject, @preview.subject
     @body = get_email_body(@preview)
     assert @body.to_s.index(body)
-    assert @body.to_s.index('Hit "Reply" to send a message')
-    assert @body.to_s.index(/http:\/\/.+\/privacy/)
+    assert_match(/Hit "Reply" to send a message/, @body.to_s)
+    assert_match(/http:\/\/.+\/privacy/, @body.to_s)
   end
 
   should "know who can see the message" do

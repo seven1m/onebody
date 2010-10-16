@@ -1,5 +1,5 @@
 
-<%= I18n.t('notifier.verification_code') %>: <%= @verification.code %>
+<%=raw I18n.t('notifier.verification_code') %>: <%= @verification.code %>
 
-<%= Setting.get(:name, :community) %>
-<%= Setting.get(:contact, :community_office_phone) %>
+<%=raw Setting.get(:name, :community) %>
+<%=raw Setting.get(:contact, :community_office_phone) %>
