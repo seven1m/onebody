@@ -248,7 +248,7 @@ class Notifier < ActionMailer::Base
       else
         if email.has_attachments?
           email.attachments.each do |attachment|
-            name = File.split(attachment.original_filename.to_s).last
+            name = File.split(attachment.filename.to_s).last
             unless ATTACHMENTS_TO_IGNORE.include? name.downcase
               att = message.attachments.create(
                 :name => name,
