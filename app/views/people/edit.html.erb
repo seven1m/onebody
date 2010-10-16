@@ -207,13 +207,6 @@
 
 </div>
 
-<% if nil and Site.current.twitter_enabled? %>
-  <h2 class="tab" id="twitter"><%= I18n.t('stream.twitter') %></h2>
-  <div class="section">
-    <%= render :partial => 'twitter' %>
-  </div>
-<% end %>
-
 <% if @logged_in.admin?(:manage_groups) %>
   <h2 class="tab" id="groups"><%= I18n.t('people.groups') %></h2>
   <div class="section">
