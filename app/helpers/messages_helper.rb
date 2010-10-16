@@ -13,10 +13,10 @@ module MessagesHelper
   end
 
   def get_email_body(msg)
-    if alternative = msg.parts.detect { |p| p.content_type.downcase == 'multipart/alternative' } and
-      plain = alternative.parts.detect { |p| p.content_type.downcase == 'text/plain' }
+    if alternative = msg.parts.detect { |p| p.content_type.downcase.split(';').first == 'multipart/alternative' } and
+      plain = alternative.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }
       return plain.body
-    elsif plain = msg.parts.detect { |p| p.content_type.downcase == 'text/plain' }
+    elsif plain = msg.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }
       return plain.body
     else
       msg.body

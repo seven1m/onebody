@@ -371,16 +371,16 @@ class Notifier < ActionMailer::Base
       html = nil
       if email.multipart?
         email.parts.each do |part|
-          case part.content_type.downcase
+          case part.content_type.downcase.split(';').first
             when 'text/plain'
               text = part.body
             when 'text/html'
               html = part.body
             when 'multipart/alternative'
-              if p = part.parts.detect { |p| p.content_type.downcase == 'text/plain' }
+              if p = part.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }
                 text ||= p.body
               end
-              if p = part.parts.detect { |p| p.content_type.downcase == 'text/html'  }
+              if p = part.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/html'  }
                 html ||= p.body
               end
           end
