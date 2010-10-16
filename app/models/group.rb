@@ -193,7 +193,7 @@ class Group < ActiveRecord::Base
   end
 
   def attendance_dates
-    attendance_records.find_by_sql("select distinct attended_at from attendance_records where group_id = #{id} order by attended_at desc").map { |r| r.attended_at }
+    attendance_records.find_by_sql("select distinct attended_at from attendance_records where group_id = #{id} and site_id = #{Site.current.id} order by attended_at desc").map { |r| r.attended_at }
   end
 
   def gcal_url
