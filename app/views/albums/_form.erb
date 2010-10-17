@@ -1,5 +1,5 @@
 <% form_for @album do |form| %>
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   <%= form.hidden_field :group_id %>
   <p>
     <%= form.label I18n.t('albums.name') %>         <%= form.text_field :name %><br/>

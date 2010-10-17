@@ -16,7 +16,7 @@
 <%= render :partial => 'pending_updates' %>
 
 <% form_for @person do |form| %>
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   <%= form.hidden_field :family_id %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="width:250px;float:right;">

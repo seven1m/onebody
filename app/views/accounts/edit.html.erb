@@ -22,7 +22,7 @@
 <% form_for @person, :url => person_account_path(@person), :html => {:onsubmit => "return encrypt_passwords()"} do |form| %>
   <%= hidden_field_tag :encrypted_password %>
   <%= hidden_field_tag :encrypted_password_confirmation %>
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   <p>
     <label for="person_email"><%= I18n.t('session.email_address') %></label>
     <%= form.text_field :email, :style => 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>

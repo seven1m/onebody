@@ -3,7 +3,7 @@
   <% if params[:people] %> <%= hidden_field_tag :people,  true %><% end %>
   <% if params[:barcode] %><%= hidden_field_tag :barcode, true %><% end %>
   
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   
   <p>
     <%= render :partial => 'form_fields', :locals => {:form => form} %>

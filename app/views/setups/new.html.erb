@@ -28,7 +28,7 @@
 
   <p class="very-strong"><%= I18n.t('setup.do_right_away') %></p>
 
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
 
   <p>
     <label for="domain_name"><%= I18n.t('setup.domain_name') %>:</label>

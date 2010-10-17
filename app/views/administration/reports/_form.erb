@@ -1,6 +1,6 @@
 <% form_for [:administration, @report], :html => {:id => 'report_form'} do |form| %>
 
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
 
   <p>
     <%= form.label :name, I18n.t('name') %>

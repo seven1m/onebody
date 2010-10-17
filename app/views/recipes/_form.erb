@@ -10,7 +10,7 @@
 </script>
 
 <% form_for @recipe, :html => {:multipart => true} do |form| %>
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   <p>
     <%= form.label :title, I18n.t('recipes.title') %>               <%= form.text_field :title %>                  <br/>
     <%= form.label :tag_list, I18n.t("tags.tags") %>                <%= form.text_field :tag_list %>               <br/>

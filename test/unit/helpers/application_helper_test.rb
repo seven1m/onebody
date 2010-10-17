@@ -18,4 +18,18 @@ class ApplicationHelperTest < ActionView::TestCase
     end
   end
 
+  context 'error_messages_for' do
+    setup do
+      @Form = Struct.new(:object)
+    end
+    should 'return nothing if no errors' do
+      form = @Form.new(people(:tim))
+      assert error_messages_for(form).nil?
+    end
+    should 'be html_safe' do
+      form = @Form.new(Album.create) # album doesn't have a name
+      assert error_messages_for(form).html_safe?
+    end
+  end
+
 end

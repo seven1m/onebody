@@ -171,6 +171,17 @@ module ApplicationHelper
     white_list(html) { |node, bad| node.to_s.gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }.html_safe
   end
 
+  def error_messages_for(form)
+    if form.object.errors.any?
+      (
+        "<p>#{I18n.t('There_were_errors')}</p>" + \
+        "<ol>" + \
+        form.object.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
+        "</ol>"
+      ).html_safe
+    end
+  end
+
   def domain_name_from_url(url)
     url =~ /^https?:\/\/([^\/]+)/
     $1

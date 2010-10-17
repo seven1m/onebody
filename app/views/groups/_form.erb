@@ -1,6 +1,6 @@
 <% form_for @group, :html => {:multipart => true, :style => 'border:none;padding:0;'} do |form| %>
 
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   
   <h2 class="tab" id="details"><%= I18n.t('groups.details') %></h2>
   <div class="section">

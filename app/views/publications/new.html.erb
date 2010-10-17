@@ -1,7 +1,7 @@
 <h1><%= I18n.t('publications.new_publication') %></h1>
 
 <% form_for @publication, :html => {:multipart => true} do |form| %>
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   <p>
     <%= form.label :name, I18n.t('publications.name') %>         <%= form.text_field :name %><br/>
     <%= form.label :description, I18n.t('publications.description') %> <%= form.text_area :description, :rows => 3 %><br/>

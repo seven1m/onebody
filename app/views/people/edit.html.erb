@@ -83,7 +83,7 @@
 <h2 class="tab" id="about"><%= I18n.t('people.about') %></h2>
 <div class="section">
   <% form_for @person do |form| %>
-    <%= form.error_messages %>
+    <%= error_messages_for(form) %>
     <%= hidden_field_tag :anchor, 'about' %>
     <div>
       <label for="person_testimony"><%= I18n.t('people.testimony') %>:</label>

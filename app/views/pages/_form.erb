@@ -11,7 +11,7 @@
 <% end %>
 
 <% form_for @page do |form| %>
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   <div>
     <%= form.label :title, I18n.t('pages.title') %>
     <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
