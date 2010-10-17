@@ -1,34 +1,27 @@
 jonathan_sky:
-  id: 1
-  user_id: 1
+  user: jonathan
   text: The sky is particularly blue today
   
 jonathan_grass:
-  id: 2
-  user_id: 1
+  user: jonathan
   text: The grass seems very green
   
 jonathan_rain:
-  id: 3
-  user_id: 1
+  user: jonathan
   text: Why does the rain fall?
   
 jonathan_cloudy:
-  id: 4
-  user_id: 1
+  user: jonathan
   text: Is it cloudy?
 
 jonathan_still_cloudy:
-  id: 5
-  user_id: 1
+  user: jonathan
   text: Is it still cloudy?
 
 sam_ground:
-  id: 6
-  user_id: 2
+  user: sam
   text: The ground is looking too brown
   
 sam_flowers:
-  id: 7
-  user_id: 2
+  user: sam
   text: Why are the flowers dead?

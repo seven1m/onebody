@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/abstract_unit'
 
-class TagListTest < Test::Unit::TestCase
+class TagListTest < ActiveSupport::TestCase
   def test_from_leaves_string_unchanged
     tags = '"One  ", Two'
     original = tags.dup
@@ -42,14 +42,20 @@ class TagListTest < Test::Unit::TestCase
     assert_equivalent ['Alpha, Beta', 'Delta', 'Gamma, something'], TagList.from('"Alpha, Beta", Delta, "Gamma, something"')
   end
   
+  def test_from_with_inner_quotes
+    assert_equivalent ["House", "Drum 'n' Bass", "Trance"], TagList.from("House, Drum 'n' Bass, Trance")
+    assert_equivalent ["House", "Drum'n'Bass", "Trance"], TagList.from("House, Drum'n'Bass, Trance")
+  end
+  
   def test_from_removes_white_space
     assert_equivalent %w(Alpha Beta), TagList.from('" Alpha   ", "Beta  "')
     assert_equivalent %w(Alpha Beta), TagList.from('  Alpha,  Beta ')
   end
-
-  def test_from_removes_dots
-    assert_equivalent %w(Alpha Beta), TagList.from('Alpha., Beta')
-    assert_equivalent %w(Alpha Beta), TagList.from('Alpha, Be.ta')
+  
+  def test_from_and_new_treat_both_accept_arrays
+    tags = ["One", "Two"]
+    
+    assert_equal TagList.from(tags), TagList.new(tags)
   end
   
   def test_alternative_delimiter
@@ -102,5 +108,12 @@ class TagListTest < Test::Unit::TestCase
   def test_remove_with_parsing
     tag_list = TagList.from("Three, Four, Five")
     assert_equal %w(Four), tag_list.remove("Three, Five", :parse => true)
+  end
+  
+  def test_toggle
+    tag_list = TagList.new("One", "Two")
+    assert_equal %w(One Three), tag_list.toggle("Two", "Three")
+    assert_equal %w(), tag_list.toggle("One", "Three")
+    assert_equal %w(Four), tag_list.toggle("Four")
   end
 end

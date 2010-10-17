@@ -11,7 +11,9 @@ module ActiveRecord #:nodoc:
           has_many :tags, :through => :taggings
           
           before_save :save_cached_tag_list
-          after_save :save_tags
+          
+          after_create :save_tags
+          after_update :save_tags
           
           include ActiveRecord::Acts::Taggable::InstanceMethods
           extend ActiveRecord::Acts::Taggable::SingletonMethods
@@ -29,7 +31,33 @@ module ActiveRecord #:nodoc:
       end
       
       module SingletonMethods
-        # Pass either a tag string, or an array of strings or tags
+        # Returns an array of related tags.
+        # Related tags are all the other tags that are found on the models tagged with the provided tags.
+        # 
+        # Pass either a tag, string, or an array of strings or tags.
+        # 
+        # Options:
+        #   :order - SQL Order how to order the tags. Defaults to "count DESC, tags.name".
+        def find_related_tags(tags, options = {})
+          tags = tags.is_a?(Array) ? TagList.new(tags.map(&:to_s)) : TagList.from(tags)
+          
+          related_models = find_tagged_with(tags)
+          
+          return [] if related_models.blank?
+          
+          related_ids = related_models.to_s(:db)
+          
+          Tag.find(:all, options.merge({
+            :select => "#{Tag.table_name}.*, COUNT(#{Tag.table_name}.id) AS count",
+            :joins  => "JOIN #{Tagging.table_name} ON #{Tagging.table_name}.taggable_type = '#{base_class.name}'
+              AND  #{Tagging.table_name}.taggable_id IN (#{related_ids})
+              AND  #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
+            :order => options[:order] || "count DESC, #{Tag.table_name}.name",
+            :group => "#{Tag.table_name}.id, #{Tag.table_name}.name HAVING #{Tag.table_name}.name NOT IN (#{tags.map { |n| quote_value(n) }.join(",")})"
+          }))
+        end
+        
+        # Pass either a tag, string, or an array of strings or tags.
         # 
         # Options:
         #   :exclude - Find models that are not tagged with the given tags
@@ -38,13 +66,6 @@ module ActiveRecord #:nodoc:
         def find_tagged_with(*args)
           options = find_options_for_find_tagged_with(*args)
           options.blank? ? [] : find(:all, options)
-        end
-
-        # will_paginate's method_missing function wants to hit
-        # find_all_tagged_with if you call paginate_tagged_with, which is
-        # obviously suboptimal
-        def find_all_tagged_with(*args)
-          find_tagged_with(*args)
         end
         
         def find_options_for_find_tagged_with(tags, options = {})
@@ -58,6 +79,11 @@ module ActiveRecord #:nodoc:
           
           taggings_alias, tags_alias = "#{table_name}_taggings", "#{table_name}_tags"
           
+          joins = [
+            "INNER JOIN #{Tagging.table_name} #{taggings_alias} ON #{taggings_alias}.taggable_id = #{table_name}.#{primary_key} AND #{taggings_alias}.taggable_type = #{quote_value(base_class.name)}",
+            "INNER JOIN #{Tag.table_name} #{tags_alias} ON #{tags_alias}.id = #{taggings_alias}.tag_id"
+          ]
+          
           if options.delete(:exclude)
             conditions << <<-END
               #{table_name}.id NOT IN
@@ -67,80 +93,67 @@ module ActiveRecord #:nodoc:
             END
           else
             if options.delete(:match_all)
-              conditions << <<-END
-                (SELECT COUNT(*) FROM #{Tagging.table_name}
-                 INNER JOIN #{Tag.table_name} ON #{Tagging.table_name}.tag_id = #{Tag.table_name}.id
-                 WHERE #{Tagging.table_name}.taggable_type = #{quote_value(base_class.name)} AND
-                 taggable_id = #{table_name}.id AND
-                 #{tags_condition(tags)}) = #{tags.size}
-              END
+              joins << joins_for_match_all_tags(tags)
             else
               conditions << tags_condition(tags, tags_alias)
             end
           end
           
           { :select => "DISTINCT #{table_name}.*",
-            :joins => "INNER JOIN #{Tagging.table_name} #{taggings_alias} ON #{taggings_alias}.taggable_id = #{table_name}.#{primary_key} AND #{taggings_alias}.taggable_type = #{quote_value(base_class.name)} " +
-                      "INNER JOIN #{Tag.table_name} #{tags_alias} ON #{tags_alias}.id = #{taggings_alias}.tag_id",
+            :joins => joins.join(" "),
             :conditions => conditions.join(" AND ")
           }.reverse_merge!(options)
         end
         
+        def joins_for_match_all_tags(tags)
+          joins = []
+          
+          tags.each_with_index do |tag, index|
+            taggings_alias, tags_alias = "taggings_#{index}", "tags_#{index}"
+
+            join = <<-END
+              INNER JOIN #{Tagging.table_name} #{taggings_alias} ON
+                #{taggings_alias}.taggable_id = #{table_name}.#{primary_key} AND
+                #{taggings_alias}.taggable_type = #{quote_value(base_class.name)}
+
+              INNER JOIN #{Tag.table_name} #{tags_alias} ON
+                #{taggings_alias}.tag_id = #{tags_alias}.id AND
+                #{tags_alias}.name = ?
+            END
+
+            joins << sanitize_sql([join, tag])
+          end
+          
+          joins.join(" ")
+        end
+        
         # Calculate the tag counts for all tags.
         # 
-        # Options:
-        #  :start_at - Restrict the tags to those created after a certain time
-        #  :end_at - Restrict the tags to those created before a certain time
-        #  :conditions - A piece of SQL conditions to add to the query
-        #  :limit - The maximum number of tags to return
-        #  :order - A piece of SQL to order by. Eg 'tags.count desc' or 'taggings.created_at desc'
-        #  :at_least - Exclude tags with a frequency less than the given value
-        #  :at_most - Exclude tags with a frequency greater than the given value
+        # See Tag.counts for available options.
         def tag_counts(options = {})
           Tag.find(:all, find_options_for_tag_counts(options))
         end
-
-        # Find how many objects are tagged with a certain tag.
-        def count_by_tag(tag_name)
-          counts = tag_counts(:conditions => "tags.name = #{quote_value(tag_name)}")
-          counts[0].respond_to?(:count) ? counts[0].count : 0
-        end
         
         def find_options_for_tag_counts(options = {})
-          options.assert_valid_keys :start_at, :end_at, :conditions, :at_least, :at_most, :order, :limit
           options = options.dup
+          scope = scope(:tag_count)
           
-          scope = scope(:find)
-          start_at = sanitize_sql(["#{Tagging.table_name}.created_at >= ?", options.delete(:start_at)]) if options[:start_at]
-          end_at = sanitize_sql(["#{Tagging.table_name}.created_at <= ?", options.delete(:end_at)]) if options[:end_at]
-          
-          conditions = [
-            "#{Tagging.table_name}.taggable_type = #{quote_value(base_class.name)}",
-            sanitize_sql(options.delete(:conditions)),
-            scope && scope[:conditions],
-            start_at,
-            end_at
-          ]
-          
+          conditions = []
+          conditions << send(:sanitize_conditions, options.delete(:conditions)) if options[:conditions]
+          conditions << send(:sanitize_conditions, scope[:conditions]) if scope && scope[:conditions]
+          conditions << "#{Tagging.table_name}.taggable_type = #{quote_value(base_class.name)}"
           conditions << type_condition unless descends_from_active_record? 
           conditions.compact!
-          conditions = conditions.join(' AND ')
+          conditions = conditions.join(" AND ")
           
-          joins = ["INNER JOIN #{Tagging.table_name} ON #{Tag.table_name}.id = #{Tagging.table_name}.tag_id"]
-          joins << "INNER JOIN #{table_name} ON #{table_name}.#{primary_key} = #{Tagging.table_name}.taggable_id"
-          joins << scope[:joins] if scope && scope[:joins]
+          joins = ["INNER JOIN #{table_name} ON #{table_name}.#{primary_key} = #{Tagging.table_name}.taggable_id"]
+          joins << options.delete(:joins) if options[:joins].present?
+          joins << scope[:joins] if scope && scope[:joins].present?
+          joins = joins.join(" ")
           
-          at_least  = sanitize_sql(['COUNT(*) >= ?', options.delete(:at_least)]) if options[:at_least]
-          at_most   = sanitize_sql(['COUNT(*) <= ?', options.delete(:at_most)]) if options[:at_most]
-          having    = [at_least, at_most].compact.join(' AND ')
-          group_by  = "#{Tag.table_name}.id, #{Tag.table_name}.name HAVING COUNT(*) > 0"
-          group_by << " AND #{having}" unless having.blank?
+          options = { :conditions => conditions, :joins => joins }.update(options)
           
-          { :select     => "#{Tag.table_name}.id, #{Tag.table_name}.name, COUNT(*) AS count", 
-            :joins      => joins.join(" "),
-            :conditions => conditions,
-            :group      => group_by
-          }.reverse_merge!(options)
+          Tag.options_for_counts(options)
         end
         
         def caching_tag_list?
@@ -150,7 +163,7 @@ module ActiveRecord #:nodoc:
        private
         def tags_condition(tags, table_name = Tag.table_name)
           condition = tags.map { |t| sanitize_sql(["#{table_name}.name LIKE ?", t]) }.join(" OR ")
-          "(" + condition + ")"
+          "(" + condition + ")" unless condition.blank?
         end
       end
       
@@ -197,9 +210,12 @@ module ActiveRecord #:nodoc:
         
         # Calculate the tag counts for the tags used by this model.
         #
-        # The possible options are the same as the tag_counts class method, excluding :conditions.
+        # The possible options are the same as the tag_counts class method.
         def tag_counts(options = {})
-          self.class.tag_counts({ :conditions => self.class.send(:tags_condition, tag_list) }.reverse_merge!(options))
+          return [] if tag_list.blank?
+          
+          options[:conditions] = self.class.send(:merge_conditions, options[:conditions], self.class.send(:tags_condition, tag_list))
+          self.class.tag_counts(options)
         end
         
         def reload_with_tag_list(*args) #:nodoc:

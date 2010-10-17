@@ -33,6 +33,19 @@ class TagList < Array
     self
   end
   
+  # Toggle the presence of the given tags.
+  # If a tag is already in the list it is removed, otherwise it is added.
+  def toggle(*names)
+    extract_and_apply_options!(names)
+    
+    names.each do |name|
+      include?(name) ? delete(name) : push(name)
+    end
+    
+    clean! 
+    self
+  end
+  
   # Transform the tag_list into a tag string suitable for edting in a form.
   # The tags are joined with <tt>TagList.delimiter</tt> and quoted if necessary.
   #
@@ -41,15 +54,9 @@ class TagList < Array
   def to_s
     clean!
     
-    list = map do |name|
-      if delimiter.is_a?(Regexp)
-        name.match(delimiter) ? "\"#{name}\"" : name
-      else
-        name.include?(delimiter) ? "\"#{name}\"" : name
-      end
-    end
-    
-    list.join( delimiter.is_a?(Regexp) ? "#{delimiter.source.match(/[^\\\[\]\*\?\{\}\.\|]/)[0]} " : (delimiter.ends_with?(" ") ? delimiter : "#{delimiter} ") )
+    map do |name|
+      name.include?(delimiter) ? "\"#{name}\"" : name
+    end.join(delimiter.ends_with?(" ") ? delimiter : "#{delimiter} ")
   end
   
  private
@@ -76,16 +83,27 @@ class TagList < Array
     # 
     #   tag_list = TagList.from("One , Two,  Three")
     #   tag_list # ["One", "Two", "Three"]
-    def from(string)
-      returning new do |tag_list|
-        string = string.to_s.gsub('.', '').dup
+    def from(source)
+      tag_list = new
+      
+      case source
+      when Array
+        tag_list.add(source)
+      else
+        string = source.to_s.dup
         
         # Parse the quoted tags
-        string.gsub!(/"(.*?)"\s*#{delimiter}?\s*/) { tag_list << $1; "" }
-        string.gsub!(/'(.*?)'\s*#{delimiter}?\s*/) { tag_list << $1; "" }
+        [
+          /\s*#{delimiter}\s*(['"])(.*?)\1\s*/,
+          /^\s*(['"])(.*?)\1\s*#{delimiter}?/
+        ].each do |re|
+          string.gsub!(re) { tag_list << $2; "" }
+        end
         
         tag_list.add(string.split(delimiter))
       end
+      
+      tag_list
     end
   end
 end
