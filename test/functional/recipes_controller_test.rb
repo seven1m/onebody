@@ -8,21 +8,21 @@ class RecipesControllerTest < ActionController::TestCase
   end
 
   should "list all recipes" do
-    get :index, nil, {:logged_in_id => @person}
+    get :index, nil, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal 1, assigns(:recipes).length
   end
 
   should "show a recipe" do
-    get :show, {:id => @recipe.id}, {:logged_in_id => @person}
+    get :show, {:id => @recipe.id}, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal @recipe, assigns(:recipe)
   end
 
   should "create a recipe" do
-    get :new, nil, {:logged_in_id => @person}
+    get :new, nil, {:logged_in_id => @person.id}
     assert_response :success
-    post :create, {:recipe => {:title => 'test title', :ingredients => 'test ing', :directions => 'test dir'}}, {:logged_in_id => @person}
+    post :create, {:recipe => {:title => 'test title', :ingredients => 'test ing', :directions => 'test dir'}}, {:logged_in_id => @person.id}
     assert_equal 2, Recipe.count
     new_recipe = Recipe.last
     assert_redirected_to recipe_path(new_recipe)
@@ -32,9 +32,9 @@ class RecipesControllerTest < ActionController::TestCase
   end
 
   should "edit a recipe" do
-    get :edit, {:id => @recipe.id}, {:logged_in_id => @person}
+    get :edit, {:id => @recipe.id}, {:logged_in_id => @person.id}
     assert_response :success
-    post :update, {:id => @recipe.id, :recipe => {:title => 'test title', :ingredients => 'test ing', :directions => 'test dir'}}, {:logged_in_id => @person}
+    post :update, {:id => @recipe.id, :recipe => {:title => 'test title', :ingredients => 'test ing', :directions => 'test dir'}}, {:logged_in_id => @person.id}
     assert_redirected_to recipe_path(@recipe)
     assert_equal 'test title', @recipe.reload.title
     assert_equal 'test ing', @recipe.ingredients
@@ -42,14 +42,14 @@ class RecipesControllerTest < ActionController::TestCase
   end
 
   should "not edit a recipe unless user is owner or admin" do
-    get :edit, {:id => @recipe.id}, {:logged_in_id => @other_person}
+    get :edit, {:id => @recipe.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
-    post :update, {:id => @recipe.id, :recipe => {:title => 'test title', :ingredients => 'test ing', :directions => 'test dir'}}, {:logged_in_id => @other_person}
+    post :update, {:id => @recipe.id, :recipe => {:title => 'test title', :ingredients => 'test ing', :directions => 'test dir'}}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
 
   should "delete a recipe" do
-    post :destroy, {:id => @recipe.id}, {:logged_in_id => @person}
+    post :destroy, {:id => @recipe.id}, {:logged_in_id => @person.id}
     assert_raise(ActiveRecord::RecordNotFound) do
       @recipe.reload
     end
@@ -57,7 +57,7 @@ class RecipesControllerTest < ActionController::TestCase
   end
 
   should "not delete a recipe unless user is owner or admin" do
-    post :destroy, {:id => @recipe.id}, {:logged_in_id => @other_person}
+    post :destroy, {:id => @recipe.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
 

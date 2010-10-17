@@ -39,9 +39,9 @@ class AlbumsControllerTest < ActionController::TestCase
   end
 
   should "not edit an album unless user is owner or admin" do
-    get :edit, {:id => @album.id}, {:logged_in_id => @other_person}
+    get :edit, {:id => @album.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
-    post :update, {:id => @album.id, :album => {:name => 'test name', :description => 'test desc'}}, {:logged_in_id => @other_person}
+    post :update, {:id => @album.id, :album => {:name => 'test name', :description => 'test desc'}}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
 
@@ -54,7 +54,7 @@ class AlbumsControllerTest < ActionController::TestCase
   end
 
   should "not delete an album unless user is owner or admin" do
-    post :destroy, {:id => @album.id}, {:logged_in_id => @other_person}
+    post :destroy, {:id => @album.id}, {:logged_in_id => @other_person.id}
     assert_response :unauthorized
   end
 
