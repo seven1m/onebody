@@ -1,6 +1,6 @@
 # Learn more about this file: http://github.com/javan/whenever
 
-set :environment, 'production_lite'
+set :environment, 'production'
 
 if File.exist?('config/email.yml')
   every 1.minute do
