@@ -136,11 +136,11 @@ module ActiveRecord #:nodoc:
         
         def find_options_for_tag_counts(options = {})
           options = options.dup
-          scope = scope(:tag_count)
+          #scope = scope(:find)
           
           conditions = []
           conditions << send(:sanitize_conditions, options.delete(:conditions)) if options[:conditions]
-          conditions << send(:sanitize_conditions, scope[:conditions]) if scope && scope[:conditions]
+          #conditions << send(:sanitize_conditions, scope[:conditions]) if scope && scope[:conditions]
           conditions << "#{Tagging.table_name}.taggable_type = #{quote_value(base_class.name)}"
           conditions << type_condition unless descends_from_active_record? 
           conditions.compact!
@@ -148,7 +148,7 @@ module ActiveRecord #:nodoc:
           
           joins = ["INNER JOIN #{table_name} ON #{table_name}.#{primary_key} = #{Tagging.table_name}.taggable_id"]
           joins << options.delete(:joins) if options[:joins].present?
-          joins << scope[:joins] if scope && scope[:joins].present?
+          #joins << scope[:joins] if scope && scope[:joins].present?
           joins = joins.join(" ")
           
           options = { :conditions => conditions, :joins => joins }.update(options)
