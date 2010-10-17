@@ -61,7 +61,7 @@
 
 <% if @message.group and @message.group.can_post? @logged_in %>
   <p>
-    <%= link_to_remote I18n.t('messages.reply_to_this_message') + ' &raquo;', :url => new_message_path(:parent_id => @message.id), :method => 'get' %>
+    <%= link_to I18n.t('messages.reply_to_this_message') + ' &raquo;', :remote => true, :url => new_message_path(:parent_id => @message.id), :method => 'get' %>
   </p>
 <% end %>
 

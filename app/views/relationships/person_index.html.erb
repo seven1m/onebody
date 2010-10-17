@@ -6,7 +6,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= form_remote_tag :url => search_path %>
+  <%= form_tag :remote => true, :url => search_path %>
     <%= hidden_field_tag :select_person, true %>
     <p>
       <%= I18n.t('relationships.add_a_relationship') %><br/>

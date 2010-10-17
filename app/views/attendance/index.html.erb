@@ -20,7 +20,7 @@
   <p><%= submit_tag I18n.t('attendance.save') %></p>
 <% end %>
 
-<% form_remote_tag :url => search_path, :html => {:style => 'border:none;'} do %>
+<% form_tag :remote => true, :url => search_path, :html => {:style => 'border:none;'} do %>
   <%= hidden_field_tag :select_person, true %>
   <p>
     <label for="add_person_name"><%= I18n.t('attendance.add_somebody_not_in_group') %>:</label>

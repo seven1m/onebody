@@ -10,7 +10,7 @@
   <% if Site.current.max_admins and Admin.people_count >= Site.current.max_admins %>
     <p><%= I18n.t('admin.max_admins') %></p>
   <% else %>
-    <%= form_remote_tag :url => search_path %>
+    <%= form_tag :remote => true, :url => search_path %>
       <%= hidden_field_tag :select_person, true %>
       <p>
         <%= I18n.t('admin.add_individual') %><br/>
@@ -58,7 +58,7 @@
     <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;margin-left:15px;">
       <% if admin.super_admin? %>
         <% if @logged_in.super_admin? %>
-          <%= link_to_remote I18n.t('admin.demote_to_standard_admin'), :url => administration_admin_path(admin, :super_admin => 'false'), :method => :put %>
+          <%= link_to I18n.t('admin.demote_to_standard_admin'), :remote => true, :url => administration_admin_path(admin, :super_admin => 'false'), :method => :put %>
         <% end %>
       <% else %>
         <%= check_box_tag 'select_all', true, false, :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name=*&value='+this.checked})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
@@ -83,7 +83,7 @@
         <% end %>
         <% if @logged_in.super_admin? %>
           <br/>
-          <%= link_to_remote I18n.t('admin.promote_to_super_admin'), :url => administration_admin_path(admin, :super_admin => 'true'), :method => :put %>
+          <%= link_to I18n.t('admin.promote_to_super_admin'), :remote => true, :url => administration_admin_path(admin, :super_admin => 'true'), :method => :put %>
         <% end %>
       <% end %>
     </div>

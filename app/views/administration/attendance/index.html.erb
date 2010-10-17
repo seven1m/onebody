@@ -61,7 +61,7 @@
         <%= record.created_at.to_s(:time) %>
       </td>
       <td>
-        <%= link_to_remote image_tag('delete.png', :alt => I18n.t('Delete'), :class => 'icon no-print'), :url => administration_attendance_path(record), :method => 'delete', :confirm => I18n.t('are_you_sure') %>
+        <%= link_to image_tag('delete.png', :alt => I18n.t('Delete'), :class => 'icon no-print'), :remote => true, :url => administration_attendance_path(record), :method => 'delete', :confirm => I18n.t('are_you_sure') %>
       </td>
     </tr>
   <% end %>

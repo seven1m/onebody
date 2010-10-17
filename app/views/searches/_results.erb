@@ -68,7 +68,7 @@
         <% end %>
         <td>
           <% if Setting.get(:features, :friends) and @logged_in.can_request_friendship_with?(person) and @logged_in != person %>
-            <%= link_to_remote image_tag('contact_add.gif', :alt => I18n.t('friends.add_friend'), :class => 'icon'), {:url => person_friends_path(@logged_in, :friend_id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => I18n.t('friends.confirm_email_will_be_sent')}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
+            <%= link_to image_tag('contact_add.gif', :alt => I18n.t('friends.add_friend'), :class => 'icon'), {:remote => true, :url => person_friends_path(@logged_in, :friend_id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => I18n.t('friends.confirm_email_will_be_sent')}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
           <% end %>
         </td>
       </tr>

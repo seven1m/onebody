@@ -2,7 +2,7 @@
 
 <p><%= I18n.t('contributions.people_not_synced', :count => @unsynced_people.total_entries) %></p>
 
-<% form_remote_tag :url => sync_contributions_path, :loading => "Element.show('updating')" do %>
+<% form_tag :remote => true, :url => sync_contributions_path, :loading => "Element.show('updating')" do %>
 
   <%= will_paginate @unsynced_people %>
 

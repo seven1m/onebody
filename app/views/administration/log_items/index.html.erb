@@ -60,7 +60,7 @@
             <% end %>
           </td>
           <td><%= item.created_at.to_s %></td>
-          <td><%= link_to_remote I18n.t('changes'), :url => administration_log_item_path(item), :method => :get %></td>
+          <td><%= link_to I18n.t('changes'), :remote => true, :url => administration_log_item_path(item), :method => :get %></td>
         </tr>
         <tr id="changes<%= item.id %>" style="display:none;" class="changes">
           <td colspan="5" id="changes<%= item.id %>_content"></td>
