@@ -1,7 +1,7 @@
 <%= link_to_function I18n.t('wall.post_a_message'), "Element.show('wall_message'); $('message_body').focus();" %>
 
 <div id="wall_message">
-  <% remote_form_for Message.new(:wall => @person), :html => {:style => 'border:none;'}, :update => 'wall_content' do |form| %>
+  <% form_for Message.new(:wall => @person), :remote => true, :html => {:style => 'border:none;'}, :update => 'wall_content' do |form| %>
     <%= form.hidden_field :wall_id %>
     <em><%= I18n.t("wall.to_send_a_private_message", :url => new_message_path(:to_person_id => @person)) %></em><br/>
     <%= form.text_area :body, :rows => 3, :cols => 40 %>
