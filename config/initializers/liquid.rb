@@ -19,7 +19,9 @@ class LiquidView
     assigns = @action_view.assigns.dup
 
     content_for = @action_view.instance_variable_get("@_content_for")
-    assigns['content_for_layout'] = content_for[:layout]
+    content_for.each do |key, content|
+      assigns["content_for_#{key.to_s}"] = content
+    end
 
     @action_view.controller._helpers.instance_methods.each do |method|
       assigns[method.to_s] = Proc.new { @action_view.send(method) }
