@@ -19,7 +19,7 @@ module PagesHelper
     if @logged_in and @logged_in.admin?(:edit_pages)
       page_path(Page.find_by_path('home'))
     else
-      super
+      root_path
     end
   end
 
