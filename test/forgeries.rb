@@ -57,6 +57,7 @@ module Forgeable
       attributes = forgery_defaults.merge(attributes)
       photo = attributes.delete(:photo)
       file = attributes.delete(:file)
+      Site.current = Site.find(1) unless Site.current
       obj = new
       attributes.each do |attribute, value|
         obj.send("#{attribute}=", value)

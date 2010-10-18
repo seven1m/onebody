@@ -63,8 +63,4 @@ class ActiveSupport::TestCase
   end
 
   fixtures :all
-
-  setup do
-    Site.current = Site.find(1)
-  end
 end
