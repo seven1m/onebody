@@ -1,6 +1,6 @@
 <p id="add_picture_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => I18n.t('pictures.add_a_picture'), :class => 'icon') + ' ' + I18n.t('pictures.add_a_picture'), "Element.show('add_picture');Element.hide('add_picture_link');" %></p>
 <div id="add_picture">
-  <% form_for Picture.new, :url => album_pictures_path(@album), :html => {:multipart => true} do |form| %>
+  <%= form_for Picture.new, :url => album_pictures_path(@album), :html => {:multipart => true} do |form| %>
     <%= hidden_field_tag :album_id, @album %>
     <label for="picture"><%= I18n.t('pictures.add_a_picture') %>:</label>
     <%= file_field_tag 'picture1' %><br/>

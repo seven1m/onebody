@@ -1,4 +1,4 @@
-<% form_for @family do |form| %>
+<%= form_for @family do |form| %>
   <% if params[:compact] %><%= hidden_field_tag :compact, true %><% end %>
   <% if params[:people] %> <%= hidden_field_tag :people,  true %><% end %>
   <% if params[:barcode] %><%= hidden_field_tag :barcode, true %><% end %>

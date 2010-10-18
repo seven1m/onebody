@@ -7,7 +7,7 @@
   <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
 </p>
 
-<% form_tag batch_group_attendance_index_path(@group) do %>
+<%= form_tag batch_group_attendance_index_path(@group) do %>
   <%= hidden_field_tag :attended_at, @attended_at %>
   <ul style="list-style:none;">
     <% @records.each do |person, record| %>
@@ -20,7 +20,7 @@
   <p><%= submit_tag I18n.t('attendance.save') %></p>
 <% end %>
 
-<% form_tag :remote => true, :url => search_path, :html => {:style => 'border:none;'} do %>
+<%= form_tag :remote => true, :url => search_path, :html => {:style => 'border:none;'} do %>
   <%= hidden_field_tag :select_person, true %>
   <p>
     <label for="add_person_name"><%= I18n.t('attendance.add_somebody_not_in_group') %>:</label>
@@ -30,7 +30,7 @@
 <% end %>
 
 <div id="add_member" style="display:none;">
-  <% form_tag group_attendance_index_path(@group), :method => 'post',
+  <%= form_tag group_attendance_index_path(@group), :method => 'post',
     :id => 'add_people_form', :style => 'border:none;' do %>
     <%= hidden_field_tag :attended_at, @attended_at %>
     <div id="results"></div>

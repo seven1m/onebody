@@ -15,7 +15,7 @@
 
 <%= render :partial => 'pending_updates' %>
 
-<% form_for @person do |form| %>
+<%= form_for @person do |form| %>
   <%= error_messages_for(form) %>
   <%= form.hidden_field :family_id %>
   <% if @logged_in.admin?(:edit_profiles) %>
@@ -42,7 +42,7 @@
           <em><%= I18n.t('people.this_person_is_not_an_adult', :years => Setting.get(:system, :adult_age)) %></em>
           <br/>
         <% end %>
-        <% content_tag :span, :style => @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
+        <%= content_tag :span, :style => @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
           <%= form.check_box :can_sign_in %>                  <%= form.label I18n.t('people.can_sign_in'),                  nil, :class => 'inline' %>
           <% if @person.can_sign_in? %>
             (<%= link_to I18n.t('people.send_email'), account_path(:email => @person.email), :method => 'post', :confirm => I18n.t('people.click_to_send_verification_email') %>)

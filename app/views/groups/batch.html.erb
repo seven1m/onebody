@@ -2,7 +2,7 @@
 
 <p><em><%= I18n.t('groups.scroll_left_and_right') %></em></p>
 
-<% form_tag :remote => true, :url => batch_groups_path,
+<%= form_tag :remote => true, :url => batch_groups_path,
   :loading  => "Element.show('loading')",
   :complete => "Element.hide('loading')",
   :html     => {:style => 'overflow:auto;width:90%;background-color:#fff;'} do %>

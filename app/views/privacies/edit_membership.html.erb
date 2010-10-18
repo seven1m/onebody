@@ -1,6 +1,6 @@
 <h1><%= I18n.t('privacies.sharing_with', { :url => @group, :name => h(@group.name) }) %></h1>
 
-<% form_for :membership, @membership, :url => group_membership_privacy_path(@group, @membership), :html => {:method => 'put'} do |form| %>
+<%= form_for :membership, @membership, :url => group_membership_privacy_path(@group, @membership), :html => {:method => 'put'} do |form| %>
   <%= error_messages_for(form) %>
   <p><%= I18n.t('privacies.the_items_are_visible', :url => privacy_path) %></p>
   <ul>

@@ -1,6 +1,6 @@
 <p id="add_prayer_request_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => I18n.t('prayer.add_a_prayer_request') + '.', :class => 'icon') + ' ' + I18n.t('prayer.add_a_prayer_request'), "Element.show('add_prayer_request');Element.hide('add_prayer_request_link');$('prayer_request_request').focus();" %></p>
 <div id="add_prayer_request">
-  <% form_for PrayerRequest.new do |form| %>
+  <%= form_for PrayerRequest.new do |form| %>
     <% if @group %>
       <%= hidden_field_tag 'prayer_request[group_id]', @group.id %>
     <% end %>

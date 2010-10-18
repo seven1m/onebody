@@ -9,7 +9,7 @@
   });
 </script>
 
-<% form_for @recipe, :html => {:multipart => true} do |form| %>
+<%= form_for @recipe, :html => {:multipart => true} do |form| %>
   <%= error_messages_for(form) %>
   <p>
     <%= form.label :title, I18n.t('recipes.title') %>               <%= form.text_field :title %>                  <br/>

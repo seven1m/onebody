@@ -4,7 +4,7 @@
 
 <% if @logged_in.can_edit?(@group) and @requests.any? %>
   <h2><%= I18n.t('groups.requests') %></h2>
-  <% form_tag batch_group_memberships_path(@group) do |form| %>
+  <%= form_tag batch_group_memberships_path(@group) do |form| %>
     <table>
       <% @requests.each do |req| %>
         <tr>

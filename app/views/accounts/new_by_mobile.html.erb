@@ -2,7 +2,7 @@
 <p>
   <%= I18n.t('accounts.verify_by_phone_description') %>
 </p>
-<% form_tag account_path, :method => 'post', :onsubmit => "return confirm('" + I18n.t('accounts.your_carrier_will_charge') + "')" do %>
+<%= form_tag account_path, :method => 'post', :onsubmit => "return confirm('" + I18n.t('accounts.your_carrier_will_charge') + "')" do %>
   <p>
     <label for="mobile"><%= I18n.t('accounts.type_your_mobile') %>:</label>
     <%= text_field_tag :mobile, params[:mobile] == 'true' ? '' : params[:mobile] %><br/>

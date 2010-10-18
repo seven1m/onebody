@@ -11,13 +11,13 @@
 
 <p/>
 
-<% form_remote_for @family do |form| %>
+  <%= form_for @family, :remote => true do |form| %>
   <%= render :partial => "families/form_fields", :locals => {:form => form} %>
   <p><%= submit_tag I18n.t('next') + ' &raquo;' %></p>
 <% end %>
 
 <div id="existing_family_form" style="display: none;">
-  <% form_tag :remote => true, :url => search_path, :html => {:id => 'add_existing'} do %>
+  <%= form_tag :remote => true, :url => search_path, :html => {:id => 'add_existing'} do %>
     <%= hidden_field_tag :select_family, true %>
     <p>
       <label for="add_person_name"><%= I18n.t('people.search_existing_family') %>:</label>
@@ -29,7 +29,7 @@
 </div>
 
 <div id="select_family_form" style="display:none;">
-  <% form_tag :remote => true, :url => "/families/select" do %>
+  <%= form_tag :remote => true, :url => "/families/select" do %>
     <div id="results"></div>
     <p><%= submit_tag I18n.t('next') + ' &raquo;' %></p>
   <% end %>

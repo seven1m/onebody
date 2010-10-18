@@ -4,7 +4,7 @@
 
 <% if Setting.get(:features, :sign_up) %>
   <h2><%= I18n.t('accounts.create') %></h2>
-  <% form_for @person, :url => account_path, :method => 'post' do |form| %>
+  <%= form_for @person, :url => account_path, :method => 'post' do |form| %>
     <%= error_messages_for(form) %>
     <p>
       <%= form.label :email, I18n.t('people.email') %>             <%= form.text_field :email %><br/>

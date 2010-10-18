@@ -1,4 +1,4 @@
-<% form_for @attachment, :html => {:multipart => true, :style => 'width:400px;border:none;'} do |form| %>
+<%= form_for @attachment, :html => {:multipart => true, :style => 'width:400px;border:none;'} do |form| %>
   <%= form.hidden_field :page_id %>
   <%= form.hidden_field :group_id %>
   <p>

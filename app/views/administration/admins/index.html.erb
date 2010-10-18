@@ -21,14 +21,14 @@
     </form>
     
     <div id="add_member" style="display:none;">
-      <% form_tag(administration_admins_path) do %>
+      <%= form_tag(administration_admins_path) do %>
         <%= select_tag :template_id, options_for_select([['Individual', 0]] + @templates.map { |t| [t.template_name, t.id] }) %>
         <div id="results"></div>
         <p><%= submit_tag I18n.t('admin.add_selected') %></p>
       <% end %>
     </div>
     
-    <% form_tag(administration_admins_path) do %>
+    <%= form_tag(administration_admins_path) do %>
       <p>
         <%= I18n.t('admin.new_admin_template') %><br/>
         <label for="template_name"><%= I18n.t('name') %>:</label> <%= text_field_tag 'template_name' %>

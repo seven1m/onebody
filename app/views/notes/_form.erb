@@ -9,7 +9,7 @@
   });
 </script>
 
-<% form_for @note do |form| %>
+<%= form_for @note do |form| %>
 
   <%= form.hidden_field :group_id %>
   <% if @note.group %>

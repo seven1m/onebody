@@ -17,7 +17,7 @@
   </form>
   
   <div id="add_member" style="display:none;">
-    <% form_tag person_relationships_path(@person) do %>
+    <%= form_tag person_relationships_path(@person) do %>
       <label for="name"><%= I18n.t('relationships.relationship_type') %></label>
       <%= select_tag :name, options_for_select(['']+I18n.t('relationships.names').invert.sort), :onchange => "if(this.value=='other') { Element.show('other_name'); $('other_name').focus() } else Element.hide('other_name');" %>
       <%= text_field_tag :other_name, nil, :style => 'display:none;' %><div class="autocomplete" id="other_name_auto_complete"></div>
@@ -35,7 +35,7 @@
 <h2><%= I18n.t('relationships.outward') %></h2>
 
 <% if @relationships.any? %>
-  <% form_tag batch_person_relationships_path(@person) do %>
+  <%= form_tag batch_person_relationships_path(@person) do %>
     <table>
       <tr>
         <th><input type="checkbox" onclick="var check_all=this.checked; $$('.outward_relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
@@ -62,7 +62,7 @@
 <h2><%= I18n.t('relationships.inward') %></h2>
 
 <% if @inward_relationships.any? %>
-  <% form_tag batch_person_relationships_path(@person) do %>
+  <%= form_tag batch_person_relationships_path(@person) do %>
     <table>
       <tr>
         <th><input type="checkbox" onclick="var check_all=this.checked; $$('.inward_relationship_checkbox').each(function(e){e.checked=check_all})"/></th>

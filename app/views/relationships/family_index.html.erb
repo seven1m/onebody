@@ -48,7 +48,7 @@
   <p><%= link_to_function I18n.t('relationships.create_family_relationships'), "Element.show('auto_generate');Element.hide(this)" %></p>
 
   <div id="auto_generate" style="display:none;">
-    <% form_tag family_relationships_path(@family) do %>
+    <%= form_tag family_relationships_path(@family) do %>
       <p><%= I18n.t('relationships.create_family_relationships_description') %></p>
       <table>
         <tr>

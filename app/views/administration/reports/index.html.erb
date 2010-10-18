@@ -28,13 +28,13 @@
           <% end %>
         </td>
         <td>
-          <% content_tag :span, :title => report.updated_at.to_s do %>
+          <%= content_tag :span, :title => report.updated_at.to_s do %>
             <%=h time_ago_in_words report.updated_at %> ago
           <% end %>
         </td>
         <td>
           <% if report.last_run_at %>
-            <% content_tag :span, :title => report.last_run_at.to_s do %>
+            <%= content_tag :span, :title => report.last_run_at.to_s do %>
               <%=h time_ago_in_words report.last_run_at %> ago
             <% end %>
             <% if report.last_run_by %>

@@ -17,7 +17,7 @@
   <div id="taken_slots"><%= render :partial => 'taken_slots' %></div>
 
   <% if @logged_in.admin?(:manage_prayer_signups) %>
-    <% form_tag :remote => true, :url => search_path do %>
+    <%= form_tag :remote => true, :url => search_path do %>
       <%= hidden_field_tag :select_person, true %>
       <%= hidden_field_tag :select_one, true %>
       <p>
@@ -28,7 +28,7 @@
     <% end %>
 
     <div id="add_member" style="display:none;">
-      <% form_tag :remote => true, :url => prayer_signups_path do %>
+      <%= form_tag :remote => true, :url => prayer_signups_path do %>
         <div id="results"></div>
         <%= label_tag 'other_name', I18n.t('prayer_signups.other_name') %>
         <%= radio_button_tag 'ids[]', 0, false, :onclick => "$('other_name').focus()" %>

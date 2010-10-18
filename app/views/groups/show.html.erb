@@ -95,7 +95,7 @@
   <% if @group.email? and @can_post %>
     <h2 class="tab" id="email"><%= image_tag('message.gif', :alt => I18n.t('people.email'), :class => 'icon') %> <%= I18n.t('people.email') %></h2>
     <div class="section">
-      <% form_for Message.new(:group => @group), :html => {:enctype => 'multipart/form-data', :id => 'message'} do |form| %>
+      <%= form_for Message.new(:group => @group), :html => {:enctype => 'multipart/form-data', :id => 'message'} do |form| %>
         <%= form.hidden_field :group_id %>
         <p>
           <%= form.label :subject, I18n.t('messages.subject') %>

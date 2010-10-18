@@ -20,7 +20,7 @@
   <p class="very-strong"><%=h @error %></p>
 <% end %>
 
-<% form_for @person, :url => setup_path, :html => {:method => 'POST', :onsubmit => "return encrypt_passwords()"} do |form| %>
+<%= form_for @person, :url => setup_path, :html => {:method => 'POST', :onsubmit => "return encrypt_passwords()"} do |form| %>
   <%= hidden_field_tag :encrypted_password %>
   <%= hidden_field_tag :encrypted_password_confirmation %>
 

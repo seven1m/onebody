@@ -39,7 +39,7 @@
           <%= link_to I18n.t('admin.updates.mark_complete'), administration_update_path(update, :complete => true), :method => 'put' %> |
           <%= link_to I18n.t('Delete'), administration_update_path(update), :method => 'delete', :confirm => I18n.t('are_you_sure') %>
         <% end %>
-        <% form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
+        <%= form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
           <%= hidden_field_tag :complete, true %>
           <table>
             <% if update.first_name %><tr><td><%= I18n.t('accounts.first_name') %>:</td><td><%=h update.first_name %></td></tr><% end %>

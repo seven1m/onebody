@@ -1,4 +1,4 @@
-<% form_tag :remote => true, :url => batch_memberships_path do %>
+<%= form_tag :remote => true, :url => batch_memberships_path do %>
   <%= hidden_field_tag 'person_id', @person.id %>
   <% @person.groups.each do |group| %>
     <%= check_box_tag 'ids[]', group.id, true, :class => 'checkbox' %><%= link_to h(group.name), group %><br/>
@@ -10,7 +10,7 @@
   <%= submit_tag I18n.t('Save') %> <span id="group_list_status"></span>
 <% end %>
 
-<% form_tag :remote => true, :url => groups_path, :method => 'get' do %>
+<%= form_tag :remote => true, :url => groups_path, :method => 'get' do %>
   <p>
     <label for="name"><%= I18n.t('people.add_group') %>:</label> <%= text_field_tag 'name' %>
     <br/>

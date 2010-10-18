@@ -1,6 +1,6 @@
 <h1><%= I18n.t('import.import_people') %></h1>
 
-<% form_tag({}, :method => 'post', :multipart => true) do %>
+<%= form_tag({}, :method => 'post', :multipart => true) do %>
   <p>
     <%= I18n.t('import.select_csv_file') %>
     <%= link_to_function I18n.t('click_here'), "Element.toggle('attributes')" %> <%= I18n.t('import.for_list_of_available_attributes') %>

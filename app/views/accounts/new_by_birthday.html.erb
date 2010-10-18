@@ -1,4 +1,4 @@
-<% form_tag account_path, :method => 'post' do %>
+<%= form_tag account_path, :method => 'post' do %>
   <p>
     <label for="name"><%= I18n.t('accounts.your_full_name') %>:</label>
     <%= text_field_tag :name %><br/>

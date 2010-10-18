@@ -28,7 +28,7 @@
   <%= I18n.t('privacies.these_settings_affect_your_family') %>
 </p>
 
-<% form_for :family, @family, :url => person_privacy_path(@family.people.first), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
+<%= form_for :family, @family, :url => person_privacy_path(@family.people.first), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
 
   <p>
     <%= form.check_box 'visible', :class => 'checkbox', :onclick => "check_visibility();if($('notice')) new Effect.Fade('notice');if(!changed_sections.include('family'))changed_sections.push('family')" %>
@@ -117,7 +117,7 @@
   
   <div class="section">
   
-  <% form_for :person, person, :url => person_privacy_path(person), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
+  <%= form_for :person, person, :url => person_privacy_path(person), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
   
     <%= hidden_field_tag :anchor, "p#{person.id}" %>
     

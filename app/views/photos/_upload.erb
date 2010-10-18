@@ -1,5 +1,5 @@
 <p>
-  <% form_tag url, :multipart => true, :method => 'put' do %>
+  <%= form_tag url, :multipart => true, :method => 'put' do %>
     <%= render :partial => 'photo_fields' %>
     <br/>
     <%= I18n.t('photos.please_choose_photo') %><br/>

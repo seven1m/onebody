@@ -7,7 +7,7 @@
   </p>
 <% end %>
 
-<% form_tag administration_logo_path, :method => 'post', :multipart => true do %>
+<%= form_tag administration_logo_path, :method => 'post', :multipart => true do %>
   <p><%= I18n.t('admin.logo.size_information') %></p>
   <p><%= I18n.t('admin.logo.format_information') %></p>
   <p>

@@ -10,7 +10,7 @@
   </script>
 <% end %>
 
-<% form_for @page do |form| %>
+<%= form_for @page do |form| %>
   <%= error_messages_for(form) %>
   <div>
     <%= form.label :title, I18n.t('pages.title') %>

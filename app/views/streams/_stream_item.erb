@@ -70,7 +70,7 @@
           "new Effect.Appear('new-comment-for-#{stream_item.id}'); this.parentNode.style.visibility = 'visible';",
           :class => 'discreet small' %>
         <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
-          <% form_for Comment.new do |form| %>
+          <%= form_for Comment.new do |form| %>
             <% if stream_item.streamable_type == 'Album' %>
               <% if stream_item.context['picture_ids'].to_a.length == 1 %>
                 <%= hidden_field_tag 'picture_id', stream_item.context['picture_ids'].first %>

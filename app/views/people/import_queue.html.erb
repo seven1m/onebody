@@ -1,7 +1,7 @@
 <h1><%= I18n.t('import.people') %></h1>
 
 <% if @records.any? %>
-  <% form_tag({}, :method => 'put') do %>
+  <%= form_tag({}, :method => 'put') do %>
     <p>
       <%= I18n.t('import.the_changes_will_be_made') %>
     </p>

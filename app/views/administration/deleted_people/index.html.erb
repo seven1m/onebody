@@ -1,7 +1,7 @@
 <% if @families.any? %>
   <h1><%= I18n.t('admin.deleted_people.empty_families') %></h1>
   <p class="very-strong"><%= I18n.t('admin.deleted_people.empty_families_description') %>:</p>
-  <% form_tag batch_families_path do %>
+  <%= form_tag batch_families_path do %>
     <table>
       <tr>
         <th><input type="checkbox" onclick="var check_all=this.checked; $$('.family_checkbox').each(function(e){e.checked=check_all})"/></th>
@@ -33,7 +33,7 @@
 <%= will_paginate @people %>
 
 <% if @people.any? %>
-  <% form_tag batch_administration_deleted_people_path, :method => :put do %>
+  <%= form_tag batch_administration_deleted_people_path, :method => :put do %>
     <table>
       <tr>
         <th><input type="checkbox" onclick="var check_all=this.checked; $$('.person_checkbox').each(function(e){e.checked=check_all})"/></th>

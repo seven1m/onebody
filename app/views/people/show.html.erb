@@ -1,4 +1,4 @@
-<% content_for :subnav do %>
+<%= content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">
       <%= link_to I18n.t('people.edit_family'), @person.family %>
@@ -68,7 +68,7 @@
   <% elsif @person.wall_enabled? %>
     <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => I18n.t('messages.message'), :class => 'icon') %> <%= I18n.t('messages.message') %></h2>
     <div class="section">
-      <% form_for Message.new(:wall => @person) do |form| %>
+      <%= form_for Message.new(:wall => @person) do |form| %>
         <%= form.hidden_field :wall_id %>
         <p>
           <%= image_tag('comments.png', :alt => I18n.t('people.note_for', :name => @person.first_name), :class => 'icon') %>

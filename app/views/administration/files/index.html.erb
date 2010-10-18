@@ -18,7 +18,7 @@
   <% end %>
 </table>
 
-<% form_tag(administration_files_path, :method => :post, :multipart => true) do %>
+<%= form_tag(administration_files_path, :method => :post, :multipart => true) do %>
   <p>
     <%= I18n.t('admin.file.upload_new') %>:<br/>
     <%= file_field_tag :file %>

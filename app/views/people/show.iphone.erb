@@ -12,31 +12,31 @@
   <% end %>
   <%= render :partial => 'photo' %>
   <ul>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :website, :label => I18n.t('people.website') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :website, :label => I18n.t('people.website') } do %>
       <%= link_to h(simple_url(@person.website)), @person.website, :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :email, :label => I18n.t('people.email') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :email, :label => I18n.t('people.email') } do %>
       <%= mail_to @person.email, @person.email, :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :home_phone, :label => I18n.t('profile.home') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :home_phone, :label => I18n.t('profile.home') } do %>
       <%= link_to format_phone(@person.home_phone) + ' (home)', "tel:#{@person.home_phone}", :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :mobile_phone, :label => I18n.t('profile.mobile') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :mobile_phone, :label => I18n.t('profile.mobile') } do %>
       <%= link_to format_phone(@person.mobile_phone) + ' (mobile)', "tel:#{@person.mobile_phone}", :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :work_phone, :label => I18n.t('profile.work') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :work_phone, :label => I18n.t('profile.work') } do %>
       <%= link_to format_phone(@person.work_phone) + ' (work)', "tel:#{@person.work_phone}", :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :fax, :label => I18n.t('privacies.fax') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :fax, :label => I18n.t('privacies.fax') } do %>
       <%= link_to format_phone(@person.fax) + ' (fax)', "tel:#{@person.fax}", :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :address, :label => 'Address' } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :address, :label => 'Address' } do %>
       <%= link_to preserve_breaks(@person.family.pretty_address), "http://maps.google.com/maps?q=#{url_encode(@person.family.mapable_address)}", :rel => 'external' %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :birthday, :label => 'Birthday' } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :birthday, :label => 'Birthday' } do %>
       birthday: <%=h @person.birthday.to_s(:date) %>
     <% end %>
-    <% render :layout => 'people/detail_row_iphone', :locals => { :attribute => :anniversary, :label => 'Anniversary' } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :anniversary, :label => 'Anniversary' } do %>
       anniversary: <%=h @person.anniversary.to_s(:date) %>
     <% end %>
   </ul>
@@ -153,7 +153,7 @@
   <% elsif @person.wall_enabled? %>
     <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => 'Message', :class => 'icon') %> Message</h2>
     <div class="section">
-      <% form_for Message.new(:wall => @person) do |form| %>
+      <%= form_for Message.new(:wall => @person) do |form| %>
         <%= form.hidden_field :wall_id %>
         <p>
           <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>

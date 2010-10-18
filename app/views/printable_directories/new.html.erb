@@ -9,7 +9,7 @@
   </p>
 <% end %>
 
-<% form_tag printable_directory_path, :method => 'post' do %>
+<%= form_tag printable_directory_path, :method => 'post' do %>
   <p><%= I18n.t('printable_directories.click_to_have_custom_pdf_via_email') %></p>
   <p><%= check_box_tag 'with_pictures', true, false %> <label for="with_pictures" class="inline"><%= I18n.t('printable_directories.include_family_pictures') %></label> <%= I18n.t('printable_directories.will_take_longer') %></p>
   <p><%= submit_tag I18n.t('printable_directories.email_custom_directory') %></p>

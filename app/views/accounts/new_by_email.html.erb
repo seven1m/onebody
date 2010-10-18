@@ -2,7 +2,7 @@
 <p>
   <%= I18n.t('accounts.enter_your_email') %>
 </p>
-<% form_tag account_path, :method => 'post' do %>
+<%= form_tag account_path, :method => 'post' do %>
   <p>
     <label for="email"><%= I18n.t('accounts.type_your_email') %>:</label>
     <%= text_field_tag :email, params[:email] == 'true' ? '' : params[:email] %>

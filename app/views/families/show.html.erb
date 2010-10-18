@@ -50,7 +50,7 @@
     "Element.toggle('add_existing')" %>
 </p>
   
-<% form_tag :remote => true, :url => search_path, :html => {:id => 'add_existing', :style => 'display:none;'} do %>
+<%= form_tag :remote => true, :url => search_path, :html => {:id => 'add_existing', :style => 'display:none;'} do %>
   <%= hidden_field_tag :select_person, true %>
   <p>
     <label for="add_person_name"><%= I18n.t('families.add_existing_person') %>:</label>
@@ -60,7 +60,7 @@
 <% end %>
 
 <div id="add_member" style="display:none;">
-  <% form_tag :remote => true, :url => batch_people_path do %>
+  <%= form_tag :remote => true, :url => batch_people_path do %>
     <%= hidden_field_tag :family_id, @family.id %>
     <div id="results"></div>
     <p class="very-strong"><%= I18n.t('families.adding_will_remove_from_their_family') %></p>

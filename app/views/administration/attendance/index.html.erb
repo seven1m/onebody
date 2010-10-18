@@ -78,7 +78,7 @@
 <% end %>
 
 <p>
-  <% form_tag administration_attendance_index_path, :method => :get do %>
+  <%= form_tag administration_attendance_index_path, :method => :get do %>
     <%= hidden_field_tag :attended_at, @attended_at %>
     <%= label_tag :person_name, I18n.t('attendance.search_person') + ':', :class => 'inline' %>
     <%= text_field_tag :person_name, params[:person_name], :size => 15 %>

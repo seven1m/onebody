@@ -5,7 +5,7 @@
     <br/>
   <% end %>
   <% if (non_admins = @group.people.select { |p| not @group.admin?(p, true) }).any? %>
-    <% form_tag group_memberships_path(@group), :method => 'put', :onsubmit => "if($('promote_id').value != '') this.action += '/' + $('promote_id').value; else return false" do %>
+    <%= form_tag group_memberships_path(@group), :method => 'put', :onsubmit => "if($('promote_id').value != '') this.action += '/' + $('promote_id').value; else return false" do %>
       <%= select_tag 'id', options_for_select([''] + non_admins.map { |p| [p.name, p.id] }), :id => 'promote_id' %><br/>
       <%= submit_tag I18n.t('groups.promote'), :name => 'promote' %>
     <% end %>

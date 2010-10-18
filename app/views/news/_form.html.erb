@@ -9,7 +9,7 @@
   });
 </script>
 
-<% form_for @news_item, :url => @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
+<%= form_for @news_item, :url => @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
   <p>
     <%= form.label :title, I18n.t('news.title_description') %>
     <%= form.text_field :title %>

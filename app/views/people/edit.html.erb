@@ -82,7 +82,7 @@
 
 <h2 class="tab" id="about"><%= I18n.t('people.about') %></h2>
 <div class="section">
-  <% form_for @person do |form| %>
+  <%= form_for @person do |form| %>
     <%= error_messages_for(form) %>
     <%= hidden_field_tag :anchor, 'about' %>
     <div>
@@ -101,7 +101,7 @@
     
 <h2 class="tab" id="favorites"><%= I18n.t('people.favs') %></h2>
 <div class="section">
-  <% form_for @person do |form| %>
+  <%= form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'favorites' %>
     <p style="font-style:italic;"><%= I18n.t('people.separate_items_with_commas') %></p>
     <div>
@@ -130,7 +130,7 @@
     <%= I18n.t('people.if_you_wish_to_be_listed_business_dir', :url => search_path(:business => true)) %>
   </p>
 
-  <% form_for @person do |form| %>
+  <%= form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'business' %>
     <div>
       <label for="person_business_category"><%= I18n.t('search.business_category') %></label>
@@ -173,7 +173,7 @@
   </div>
   
   <h2><%= I18n.t('people.wall_emails') %></h2>
-  <% form_for @person do |form| %>
+  <%= form_for @person do |form| %>
     <p>
       <%= form.check_box :get_wall_email, :class => 'checkbox' %>
       <%= I18n.t('people.send_email_when_someone_posts_wall') %><br/>
@@ -196,7 +196,7 @@
     <li><%= I18n.t('people.you_will_not_able_use_this_address') %></li>
   </ul>
 
-  <% form_for @person do |form| %>
+  <%= form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'email' %>
     <div>
       <label for="person_alternate_email"><%= I18n.t('people.alternate_email') %>:</label>
@@ -226,7 +226,7 @@
 <% if @logged_in.admin?(:edit_profiles) %>
   <h2 class="tab" id="delete"><%= I18n.t('Delete') %></h2>
   <div class="section">
-    <% form_for @person, :html => {:method => 'delete'} do |form| %>
+    <%= form_for @person, :html => {:method => 'delete'} do |form| %>
       <p><%= I18n.t('people.if_your_system_is_setup_to_sync') %></p>
       <p><%= form.submit I18n.t('Delete') + " #{@person.name}" %></p>
     <% end %>
