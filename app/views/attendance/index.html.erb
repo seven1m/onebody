@@ -7,7 +7,7 @@
   <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
 </p>
 
-<% form_tag batch_group_attendance_path(@group) do %>
+<% form_tag batch_group_attendance_index_path(@group) do %>
   <%= hidden_field_tag :attended_at, @attended_at %>
   <ul style="list-style:none;">
     <% @records.each do |person, record| %>
