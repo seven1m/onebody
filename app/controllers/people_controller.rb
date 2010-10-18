@@ -15,7 +15,7 @@ class PeopleController < ApplicationController
         end
         format.xml do
           if @people.any?
-            render :xml  => @people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family])
+            render :xml  => @people.to_xml(:except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family])
           else
             flash[:warning] = I18n.t('No_more_records')
             redirect_to people_path
@@ -23,7 +23,7 @@ class PeopleController < ApplicationController
         end
         format.csv do
           if @people.any?
-            render :text => @people.to_csv_mine(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family], :methods => %w(group_names))
+            render :text => @people.to_csv_mine(:except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family], :methods => %w(group_names))
           else
             flash[:warning] = I18n.t('No_more_records')
             redirect_to people_path
@@ -31,7 +31,7 @@ class PeopleController < ApplicationController
         end
         format.json do
           if @people.any?
-            render :text => @people.to_json(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family])
+            render :text => @people.to_json(:except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family])
           else
             flash[:warning] = I18n.t('No_more_records')
             redirect_to people_path
@@ -74,7 +74,7 @@ class PeopleController < ApplicationController
         respond_to do |format|
           format.html
           format.iphone
-          format.xml { render :xml => @person.to_xml(:read_attribute => true) } if can_export?
+          format.xml { render :xml => @person.to_xml } if can_export?
         end
       end
     elsif @person and @person.deleted? and @logged_in.admin?(:edit_profiles)

@@ -52,7 +52,7 @@ namespace :onebody do
         if ENV['FILE']
           people = Person.all(:order => 'last_name, first_name, suffix')
           File.open(ENV['FILE'], 'w') do |file|
-            file.write people.to_xml(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family])
+            file.write people.to_xml(:except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family])
           end
         else
           puts 'You must specify the output file path, e.g. FILE=people.xml'
@@ -65,7 +65,7 @@ namespace :onebody do
         if ENV['FILE']
           people = Person.all(:order => 'last_name, first_name, suffix')
           File.open(ENV['FILE'], 'w') do |file|
-            file.write people.to_csv_mine(:read_attribute => true, :except => %w(feed_code encrypted_password salt api_key site_id), :include => [:family])
+            file.write people.to_csv_mine(:except => %w(feed_code encrypted_password salt api_key site_id), :include => [:family])
           end
         else
           puts 'You must specify the output file path, e.g. FILE=people.csv'
