@@ -28,4 +28,8 @@ module Administration::DashboardsHelper
     content_tag(options[:content_tag]) { html }
   end
 
+  def metric_alerts
+    @alerts.map { |a| "<p>#{a}</p>" }.join("\n").html_safe
+  end
+
 end

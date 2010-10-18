@@ -201,7 +201,7 @@
     <div id="alerts">
       <h2><%= t('admin.alerts') %></h2>
       <div class="very-strong">
-        <%= @alerts.map { |a| "<p>#{a}</p>" } %>
+        <%= metric_alerts %>
       </div>
     </div>
     <script type="text/javascript">
