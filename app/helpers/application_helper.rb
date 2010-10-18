@@ -143,7 +143,9 @@ module ApplicationHelper
   end
 
   def render_page_content(path)
-    Page.find_by_path_and_published(path, true).body rescue nil
+    if page = Page.find_by_path_and_published(path, true)
+      white_list_with_removal(page.body)
+    end
   end
 
   def format_phone(phone, mobile=false)
