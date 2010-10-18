@@ -23,7 +23,7 @@ class PublicationsControllerTest < ActionController::TestCase
   should "show (send data) for a publication" do
     get :show, {:id => @publication.id}, {:logged_in_id => @person.id}
     assert_response :success
-    assert_equal File.read(@publication.file_path).length, @response.binary_content.length
+    assert_equal File.read(@publication.file_path).length, @response.body.length
   end
 
   should "create a new publication" do
