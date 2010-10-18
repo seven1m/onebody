@@ -7,7 +7,7 @@
       <%= t('notes.share_note_description') %>
       <%= form.text_area :body, :rows => 2, :cols => 80 %>
       <%= form.submit t('notes.share_note') %>
-      <span class="small"><%= t('stream.create_blog_post', :url => @note && @note.group_id ? new_group_note_path(@note.group_id) : new_note_path) %></span>
+      <span class="small"><%= t('stream.create_blog_post_html', :url => @note && @note.group_id ? new_group_note_path(@note.group_id) : new_note_path) %></span>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>

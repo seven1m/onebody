@@ -1,7 +1,7 @@
 <% if @message.to %>
   <h1><%= t('messages.email_message_to', :name => h(@message.to.name)) %></h1>
   <p>
-    <%= t('messages.this_will_send_a_private_email') %>
+    <%= t('messages.this_will_send_a_private_email_html') %>
   </p>
 <% elsif @message.group %>
   <h1><%= t('messages.group_message_to', :group => h(@message.group.name)) %></h1>

@@ -18,7 +18,7 @@
 <% end %>
 
 <p>
-  <%= t('privacies.modify_the_privacy_settings', :url => help_path('privacy_policy')) %>
+  <%= t('privacies.modify_the_privacy_settings_html', :url => help_path('privacy_policy')) %>
 </p>
 
 <h2 class="tab" id="f"><%= t('privacies.family_privacy') %> <% unless @family.visible? %> <%= image_tag('lock.gif', :alt => t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
@@ -69,7 +69,7 @@
         <td><%= t('privacies.email') %></td>
         <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
-        <td><em><%= t('privacies.people_can_still_send') %></em></td>
+        <td><em><%= t('privacies.people_can_still_send_html') %></em></td>
       </tr>
       <tr>
         <td><%= t('privacies.birthday') %></td>
@@ -213,15 +213,15 @@
         <%= t('privacies.to_show_on_this_site', :name => h(person.name)) %>
       </p>
       <ol>
-        <li><%= t('privacies.read_safeguarding_children', :url => help_path('safeguarding_children')) %></li>
-        <li><%= t('privacies.read_privacy_policy', :url => help_path('privacy_policy')) %></li>
+        <li><%= t('privacies.read_safeguarding_children_html', :url => help_path('safeguarding_children')) %></li>
+        <li><%= t('privacies.read_privacy_policy_html', :url => help_path('privacy_policy')) %></li>
         <li><%= t('privacies.read_statement_below') %></li>
         <li><%= t('privacies.click_the_agree') %></li>
       </ol>
       
       <p>
         <%= check_box_tag 'agree', t('privacies.i_agree') + ".", false, :class => 'checkbox' %>
-        <%= t('privacies.as_a_parent_agree', { :name => h(person.name), :url => help_path('privacy_policy') } ) %><br/>
+        <%= t('privacies.as_a_parent_agree_html', :name => h(person.name), :url => help_path('privacy_policy')) %><br/>
         <%= submit_tag t('privacies.i_agree') %>
       </p>
       

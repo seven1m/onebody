@@ -26,7 +26,7 @@
 <form method="post" action="/session" onsubmit="return encrypt_password()" id="signin_form" class="external">
   <%= hidden_field_tag :from, params[:from] %>
   <%= hidden_field_tag :encrypted_password %>
-  <div class="info"><%= t('session.sign_up_or_sign_in', :url => new_account_path) %></div>
+  <div class="info"><%= t('session.sign_up_or_sign_in_html', :url => new_account_path) %></div>
   <ul class="edit rounded">
     <li><%= text_field_tag :email, params[:email], :placeholder => t('session.email_address'), :type => 'email', :autocapitalize => 'off' %></li>
     <li><input type="password" id="password" placeholder="<%= t('session.password') %>" <% if Setting.get(:privacy, :allow_unencrypted_logins) %>name="password"<% end %>/></li>
@@ -36,4 +36,4 @@
 
 <script type="text/javascript"> document.getElementById('<%= params[:email].to_s.any? ? 'password' : 'email' %>').focus(); </script>
 
-<div class="info"><%= t("session.you_may_read_our_privacy_policy_here", :url => help_path('privacy_policy')) %></div>
+<div class="info"><%= t("session.you_may_read_our_privacy_policy_here_html", :url => help_path('privacy_policy')) %></div>

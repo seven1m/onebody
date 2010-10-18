@@ -1,8 +1,8 @@
-<h1><%= t('privacies.sharing_with', { :url => @group, :name => h(@group.name) }) %></h1>
+<h1><%= t('privacies.sharing_with_html', :url => @group, :name => h(@group.name)) %></h1>
 
 <%= form_for @membership, :url => group_membership_privacy_path(@group, @membership), :html => {:method => 'put'} do |form| %>
   <%= error_messages_for(form) %>
-  <p><%= t('privacies.the_items_are_visible', :url => privacy_path) %></p>
+  <p><%= t('privacies.the_items_are_visible_html', :url => privacy_path) %></p>
   <ul>
     <% @visible_to_everyone.each do |attribute| %>
       <li><%= attribute.humanize %></li>

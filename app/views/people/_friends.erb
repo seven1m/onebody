@@ -31,5 +31,5 @@
     <p><%= link_to t('more') + "...", person_friends_path(@person) %></p>
   <% end %>
 <% elsif me? %>
-  <p class="highlight"><%= link_to t('friends.add_your_friends_to_profile', :url => search_path(:search_friends => true)) %></p>
+  <p class="highlight"><%= link_to t('friends.add_your_friends_to_profile_html', :url => search_path(:search_friends => true)) %></p>
 <% end %>

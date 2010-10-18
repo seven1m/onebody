@@ -2,7 +2,7 @@
   <li><%= link_to image_tag('group.png', :alt => t('group'), :class => 'icon') + ' ' + t('back_to') + ' ' + h(@group.name), @group %></li>
 <% end %>
 
-<h1><%= t('messages.message_in', { :group => @group, :name => h(@group.name) } ) %></h1>
+<h1><%= t('messages.messages_in_html', :url => group_path(@group), :name => h(@group.name)) %></h1>
 
 <% @messages.each do |message| %>
 

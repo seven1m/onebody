@@ -67,7 +67,7 @@
 <% if @has_friendship_requests %>
   <div class="highlight">
     <%= image_tag('user_add.png', :alt => t('friends.friends'), :class => 'icon') %>
-    <%= t('friends.you_have_pending_requests', :url => person_friends_path(@person)) %>
+    <%= t('friends.you_have_pending_requests_html', :url => person_friends_path(@person)) %>
   </div>
 <% end %>
 
@@ -79,7 +79,7 @@
   <p style="margin-bottom:20px;" id="share-something">
     <%= link_to_function image_tag('add_small.gif', :alt => t('stream.share_something'), :class => 'icon'),
       "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
-    <%= t('stream.share_something_here', :js => "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');") %>
+    <%= t('stream.share_something_here_html', :js => "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');") %>
   </p>
   <%= render :partial => 'stream_items' %>
 </div>

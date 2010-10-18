@@ -12,9 +12,9 @@
     <%= form.hidden_field :name, :value => 'Facebook' %>
     <%= hidden_field_tag :type, 'facebook' %>
     <ol>
-      <li><%= t('feeds.log_into_facebook') %></li>
+      <li><%= t('feeds.log_into_facebook_html') %></li>
       <li>
-        <%= t('feeds.copy_your_notifications_link') %>
+        <%= t('feeds.copy_your_notifications_link_html') %>
         <%= image_tag('fb_notifications.png', :alt => t('feeds.facebook_notifications'), :style => 'border:1px solid #000;') %>
       </li>
       <li>
@@ -53,7 +53,7 @@
     <%= hidden_field_tag :type, 'flickr' %>
     <ol>
       <li>
-        <%= t('feeds.log_into_flickr') %><br/>
+        <%= t('feeds.log_into_flickr_html') %><br/>
         <%= image_tag('flickr_url.png', :alt => t('feeds.flickr_url'), :style => 'border:1px solid #000;margin:20px 0;') %>
       </li>
       <li>
@@ -91,5 +91,5 @@
 <% end %>
 
 <p>
-  <%= t('feeds.note') %>
+  <%= t('feeds.note_html') %>
 </p>

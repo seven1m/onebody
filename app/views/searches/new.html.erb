@@ -25,11 +25,11 @@
   <% elsif params[:search_friends] %>
     <h2><%= t('search.find_your_friends') %></h2>
     <ol>
-      <li><%= t('search.friends_search') %></li>
+      <li><%= t('search.friends_search_html') %></li>
       <li><%= t("search.click_the_icon_to_add_them", :img => image_tag('contact_add.gif', :alt => t('friends.add_friend'), :class => 'icon')) %></li>
     </ol>
     <p>
-      <%= t("search.add_as_many_friends_you_like", :url => person_friends_path(@logged_in)) %>
+      <%= t("search.add_as_many_friends_you_like_html", :url => person_friends_path(@logged_in)) %>
     </p>
   <% else %>
     <table>
@@ -39,8 +39,8 @@
             "$('name').focus();new Effect.Highlight('name', {})" %>
         </td>
         <td>
-          <strong><%= t("search.find_someone_quickly", :js => "$('search_name').focus();new Effect.Highlight('search_name', {})") %></strong>
-          <%= t('search.use_advanced_search', :js => "$('name_search').focus();new Effect.Highlight('name_search', {})") %>
+          <strong><%= t("search.find_someone_quickly_html", :js => "$('search_name').focus();new Effect.Highlight('search_name', {})") %></strong>
+          <%= t('search.use_advanced_search_html', :js => "$('name_search').focus();new Effect.Highlight('name_search', {})") %>
         </td>
       </tr>
       <tr>
@@ -48,7 +48,7 @@
           <%= link_to image_tag('directory.gif', :alt => t("search.browse_the_directory")), search_path(:browse => true) %>
         </td>
         <td>
-          <%= t('search.browse_directory_description', :url => search_path(:browse => true)) %>
+          <%= t('search.browse_directory_description_html', :url => search_path(:browse => true)) %>
         </td>
       </tr>
       <tr>
@@ -56,7 +56,7 @@
           <%= link_to image_tag('business.gif', :alt => t('search.business_directory')), search_path(:business => true) %>
         </td>
         <td>
-          <%= t('search.business_directory_description', :url => search_path(:business => true)) %>
+          <%= t('search.business_directory_description_html', :url => search_path(:business => true)) %>
         </td>
       </tr>
       <tr>
@@ -64,7 +64,7 @@
           <%= link_to image_tag('print.gif', :alt => t("search.printed_directory")), printable_directory_path %>
         </td>
         <td>
-          <%= t('search.printed_directory_description', :url => printable_directory_path) %>
+          <%= t('search.printed_directory_description_html', :url => printable_directory_path) %>
         </td>
       </tr>
     </table>

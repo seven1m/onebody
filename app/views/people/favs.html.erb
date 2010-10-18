@@ -40,7 +40,7 @@
 
 <% unless (@person.activities.to_s.any? or @person.interests.to_s.any? or @person.music.to_s.any? or @person.tv_shows.to_s.any? or @person.movies.to_s.any? or @person.books.to_s.any? or @person.quotes.to_s.any?) %>
   <% if me? %>
-    <p><em><%= t('people.tell_about_your_favorite', :url => edit_person_path(@person, :anchor => 'favorites')) %></em></p>
+    <p><em><%= t('people.tell_about_your_favorite_html', :url => edit_person_path(@person, :anchor => 'favorites')) %></em></p>
   <% else %>
     <p><em><%= t('people.nothing_yet') %></em></p>
   <% end %>

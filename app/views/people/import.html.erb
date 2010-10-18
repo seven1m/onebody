@@ -6,7 +6,7 @@
     <%= link_to_function t('click_here'), "Element.toggle('attributes')" %> <%= t('import.for_list_of_available_attributes') %>
   </p>
   <p>
-    <strong><%= t('import.only_first_records__will_be_imported', :records => pluralize(Person::MAX_RECORDS_TO_IMPORT, t('import.record'))) %></strong>
+    <strong><%= t('import.only_first_records_will_be_imported_html', :count => Person::MAX_RECORDS_TO_IMPORT) %></strong>
   </p>
   <ul id="attributes" style="display:none;">
     <% @column_names.each do |name| %>

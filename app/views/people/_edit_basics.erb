@@ -5,11 +5,11 @@
 <% else %>
   <% if Setting.get(:features, :updates_must_be_approved) %>
     <p>
-      <%= t('people.changes_must_be_reviewed') %>
+      <%= t('people.changes_must_be_reviewed_html') %>
     </p>
   <% end %>
   <p style="font-weight:bold;">
-    <%= t('people.if_you_wish_to_remove_something', :url => edit_person_privacy_path(@person)) %>
+    <%= t('people.if_you_wish_to_remove_something_html', :url => edit_person_privacy_path(@person)) %>
   </p>
 <% end %>
 

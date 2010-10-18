@@ -1,7 +1,7 @@
 <h1><%= t('admin.themes.custom_themes') %></h1>
 
 <p>
-  <%= t('admin.themes.description', :url => administration_settings_path) %>
+  <%= t('admin.themes.description_html', :url => administration_settings_path) %>
 </p>
 
 <h2><%= t('admin.themes.preview') %></h2>
@@ -21,7 +21,7 @@
     <span class="discreet"><%= t('admin.themes.reset') %></span>
   </p>
   <p id="template-help">
-    <%= t('admin.themes.syntax_description') %>:
+    <%= t('admin.themes.syntax_description_html') %>:
     <code>{{ site_name }}</code>, <code>{{ content_for_head }}</code>, <code>{{ banner_message }}</code>,
     <code>{{ heading }}</code>, <code>{{ subheading }}</code>, <code>{{ personal_nav_links }}</code>,
     <code>{{ nav_links }}</code>, <code>{{ content_for_subnav }}</code>, <code>{{ notice }}</code>,
@@ -30,6 +30,6 @@
     and <code>{{ analytics_js }}</code>.
   </p>
   <p>
-    <%= t('admin.themes.preview_instructions') %>
+    <%= t('admin.themes.preview_instructions_html', :url => person_path(@logged_in, :theme => 'custom')) %>
   </p>
 <% end %>

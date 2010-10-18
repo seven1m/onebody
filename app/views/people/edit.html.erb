@@ -25,7 +25,7 @@
 </p>
 
 <p>
-  <%= t('privacies.please_read_our_privacy_policy', :url => help_path('privacy_policy')) %>
+  <%= t('privacies.please_read_our_privacy_policy_html', :url => help_path('privacy_policy')) %>
 </p>
 
 <% if @logged_in.admin?(:edit_profiles) and @person.account_frozen? %>
@@ -57,8 +57,8 @@
 <h2 class="tab" id="picture"><%= t('people.pic') %></h2>
 <div class="section">
   <p>
-    <%= t('people.upload_a_picture_of', :name => me? ? 'yourself' : h(@person.name)) %>
-    <%= t('people.please_only_upload_real_photo') %>
+    <%= t('people.upload_a_picture_of_html', :name => me? ? 'yourself' : h(@person.name)) %>
+    <%= t('people.please_only_upload_real_photo_html') %>
   </p>
   <table><tr><td>
   <%= render :partial => 'photo' %>
@@ -70,8 +70,8 @@
 <h2 class="tab" id="family-picture"><%= t('people.family_pic') %></h2>
 <div class="section">
   <p>
-    <%= t('people.upload_family_picture') %>
-    <%= t('people.please_only_upload_real_photo') %>
+    <%= t('people.upload_family_picture_html') %>
+    <%= t('people.please_only_upload_real_photo_html') %>
   </p>
   <table><tr><td>
   <%= render :partial => 'families/photo' %>
@@ -127,7 +127,7 @@
 <h2 class="tab" id="business"><%= t('people.business') %></h2>
 <div class="section">
   <p>
-    <%= t('people.if_you_wish_to_be_listed_business_dir', :url => search_path(:business => true)) %>
+    <%= t('people.if_you_wish_to_be_listed_business_dir_html', :url => search_path(:business => true)) %>
   </p>
 
   <%= form_for @person do |form| %>
@@ -169,7 +169,7 @@
         <%= t('people.have_an_email_in_the_system') %>
       <% end %>
     </p>
-    <p><%= t('people.click_to_change_email', :url => edit_person_account_path(@person)) %></p>
+    <p><%= t('people.click_to_change_email_html', :url => edit_person_account_path(@person)) %></p>
   </div>
   
   <h2><%= t('people.wall_emails') %></h2>

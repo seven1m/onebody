@@ -20,7 +20,7 @@
   <%= form_tag :remote => true, :url => search_path, :html => {:id => 'add_existing'} do %>
     <%= hidden_field_tag :select_family, true %>
     <p>
-      <label for="add_person_name"><%= t('people.search_existing_family') %>:</label>
+      <label for="add_person_name"><%= t('people.search_existing_family_html') %>:</label>
       <%= text_field_tag 'family_name', nil, :id => 'search_family_name' %>
       <%= submit_tag t('search.search_by_name') %>
     </p>

@@ -25,7 +25,7 @@
   <p>
     <%= t('people.you_arent_in_any_groups') %>
     <% if params[:person_id] %>
-      <%= t('people.find_a_group', :group => groups_url) %>
+      <%= t('people.find_a_group_html', :url => groups_path) %>
     <% end %>
   </p>
 <% else %>

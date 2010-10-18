@@ -15,7 +15,7 @@
   <% if @note.group %>
     <p><em><%= t('notes.this_note_will_be_posted', :group => h(@note.group.name)) %></em></p>
     <% if @note.group.private? %>
-      <p class="very-strong"><%= t('notes.this_note_will_not_be_private') %></p>
+      <p class="very-strong"><%= t('notes.this_note_will_not_be_private_html') %></p>
     <% end %>
   <% end %>
 

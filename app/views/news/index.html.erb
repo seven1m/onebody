@@ -13,13 +13,13 @@
 <p>
   <%= t('news.welcome_to_the_place') %>
   <% if Setting.get(:features, :news_by_users) %>
-    <%= t('news.if_you_have_something_to_share', :url => new_news_item_path) %>
+    <%= t('news.if_you_have_something_to_share_html', :url => new_news_item_path) %>
   <% end %>
 </p>
 
 <p>
   <%= link_to image_tag('feed_small.png', :alt => t('news.news_feed'), :class => 'icon'), news_path(:format => 'xml', :code => @logged_in.feed_code) %>
-  <%= t('news.subscribe_to_community_news', :url => news_path(:format => 'xml', :code => @logged_in.feed_code)) %>
+  <%= t('news.subscribe_to_community_news_html', :url => news_path(:format => 'xml', :code => @logged_in.feed_code)) %>
 </p>
 
 <%= will_paginate @news_items %>

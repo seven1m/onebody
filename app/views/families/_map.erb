@@ -8,6 +8,6 @@
   </div>
 <% elsif Setting.get(:services, :yahoo).blank? and @logged_in.super_admin? %>
   <div style="width:250px;float:right;height:200px;vertical-align:middle;border:1px solid #ccc;padding:10px;">
-    <em><%= t('people.show_a_map_here') %></em>
+    <em><%= t('people.show_a_map_here_html') %></em>
   </div>
 <% end %>

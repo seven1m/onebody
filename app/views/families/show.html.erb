@@ -53,7 +53,7 @@
 <%= form_tag :remote => true, :url => search_path, :html => {:id => 'add_existing', :style => 'display:none;'} do %>
   <%= hidden_field_tag :select_person, true %>
   <p>
-    <label for="add_person_name"><%= t('families.add_existing_person') %>:</label>
+    <label for="add_person_name"><%= t('families.add_existing_person_html') %>:</label>
     <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
     <%= submit_tag t('search.search_by_name') %>
   </p>
@@ -63,7 +63,7 @@
   <%= form_tag :remote => true, :url => batch_people_path do %>
     <%= hidden_field_tag :family_id, @family.id %>
     <div id="results"></div>
-    <p class="very-strong"><%= t('families.adding_will_remove_from_their_family') %></p>
+    <p class="very-strong"><%= t('families.adding_will_remove_from_their_family_html') %></p>
     <p><%= submit_tag t('search.add_selected') %></p>
   <% end %>
 </div>

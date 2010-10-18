@@ -131,7 +131,7 @@
       <%= preserve_breaks @person.about %>
     <% else %>
       <% if me? %>
-        <p><em><%= t('people.write_something_about_yourself', :url => edit_person_path(@person, :anchor => 'about')) %></em></p>
+        <p><em><%= t('people.write_something_about_yourself_html', :url => edit_person_path(@person, :anchor => 'about')) %></em></p>
       <% else %>
         <p><em><%= t('people.nothing_here_yet') %></em></p>
       <% end %>
