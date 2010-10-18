@@ -1,6 +1,6 @@
 <h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => I18n.t('pictures.pictures'), :class => 'icon') %> <%= I18n.t('pictures.picture') %></h2>
 <div class="section">
-  <%= form_for :picture, :url => pictures_path, :html => {:multipart => true, :onsubmit => "if($('album_id').value=='!') custom_select_val($('album_id'), '#{I18n.t('pictures.enter_the_new_album_title')}')"} do |form| %>
+  <%= form_for Picture.new, :multipart => true, :onsubmit => "if($('album_id').value=='!') custom_select_val($('album_id'), '#{I18n.t('pictures.enter_the_new_album_title')}')" do |form| %>
     <%= hidden_field_tag :redirect_to, request.fullpath %>
     <% if @group %><%= hidden_field_tag :group_id, @group.id %><% end %>
     <%= label_tag :album_id, I18n.t('pictures.album'), :id => 'album_id_label' %>
