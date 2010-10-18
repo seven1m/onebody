@@ -557,6 +557,7 @@ en:
     file_not_found: This file cannot be found.
     invalid_name: Filename contains invalid characters.
     not_found: Attachment not found.
+    save_group_first: You must save this group before you can add files to it.
     saved: Attachment saved.
     unknown_type: Unknown attachment type.
     upload_attachment: Upload Attachment
