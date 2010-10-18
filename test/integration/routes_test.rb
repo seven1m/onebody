@@ -9,6 +9,7 @@ class RoutesTest < ActionController::IntegrationTest
     assert_routing '/news/1', :controller => 'news', :action => 'show', :id => '1'
     assert_equal '/news/1', news_item_path(1)
     assert_equal '/news', news_path
+    assert_equal '/news', news_items_path
   end
 
   should "route to bible" do

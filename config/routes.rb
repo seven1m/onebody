@@ -178,7 +178,7 @@ OneBody::Application.routes.draw do
   resource  :setup, :stream, :session, :search, :printable_directory,
             :privacy, :tour, :pc_sync
 
-  resources :news, :as => :news_item
+  resources :news, :as => :news_items
   match 'news', :to => 'news#index'
 
   resources :attachments do
