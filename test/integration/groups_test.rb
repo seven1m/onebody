@@ -1,6 +1,11 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class GroupsTest < ActionController::IntegrationTest
+
+  setup do
+    Site.current = Site.find(1)
+  end
+
   def test_search
     sign_in_as people(:tim)
     get '/groups'

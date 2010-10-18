@@ -49,7 +49,8 @@ class Search
   end
 
   def address=(addr)
-    addr.symbolize_keys!.reject_blanks!
+    addr.symbolize_keys! if addr.respond_to?(:symbolize_keys!)
+    addr.reject_blanks!
     @conditions.add_condition ["#{sql_lcase('families.city')} LIKE ?", "#{addr[:city].downcase}%"] if addr[:city]
     @conditions.add_condition ["#{sql_lcase('families.state')} LIKE ?", "#{addr[:state].downcase}%"] if addr[:state]
     @conditions.add_condition ["families.zip like ?", "#{addr[:zip]}%"] if addr[:zip]
@@ -57,14 +58,16 @@ class Search
   end
 
   def birthday=(bday)
-    bday.symbolize_keys!.reject_blanks!
+    bday.symbolize_keys! if bday.respond_to?(:symbolize_keys!)
+    bday.reject_blanks!
     @conditions.add_condition ["#{sql_month('people.birthday')} = ?", bday[:month]] if bday[:month]
     @conditions.add_condition ["#{sql_day('people.birthday')} = ?", bday[:day]] if bday[:day]
     @search_birthday = bday.any?
   end
 
   def anniversary=(ann)
-    ann.symbolize_keys!.reject_blanks!
+    ann.symbolize_keys! if ann.respond_to?(:symbolize_keys!)
+    ann.reject_blanks!
     @conditions.add_condition ["#{sql_month('people.anniversary')} = ?", ann[:month]] if ann[:month]
     @conditions.add_condition ["#{sql_day('people.anniversary')} = ?", ann[:day]] if ann[:day]
     @search_anniversary = ann.any?
