@@ -1,5 +1,3 @@
-RAILS_ROOT = File.dirname(__FILE__) + '/..' unless defined?(RAILS_ROOT)
-
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/application', __FILE__)
 require 'rails/test_help'
