@@ -86,7 +86,7 @@ class Report < ActiveRecord::Base
 
   class << self
     def connect_mongo!
-      config = YAML::load_file(RAILS_ROOT + '/config/database.yml')['mongo'] rescue nil
+      config = YAML::load_file(Rails.root.join('config/database.yml'))['mongo'] rescue nil
       if config
         begin
           MONGO_CONNECTIONS[Site.current.id] = Mongo::Connection.new(config['host']).db("#{config['database']}_for_site#{Site.current.id}")

@@ -22,8 +22,8 @@ class Setting < ActiveRecord::Base
     'Features.Multisite', 'Features.SSL', 'Features.Edit Legacy Ids', 'Features.Reporting'
   ]
 
-  SETTINGS_FILE = File.join(RAILS_ROOT, "config/settings.yml")
-  PLUGIN_SETTINGS_FILES = File.join(RAILS_ROOT, "plugins/**/config/settings.yml")
+  SETTINGS_FILE = Rails.root.join("config/settings.yml")
+  PLUGIN_SETTINGS_FILES = Rails.root.join("plugins/**/config/settings.yml")
 
   serialize :value
   belongs_to :site
@@ -120,7 +120,7 @@ class Setting < ActiveRecord::Base
     end
 
     def load_file_stamps(filename)
-      if File.exist?(f = File.join(RAILS_ROOT, 'tmp/filestamps.yml'))
+      if File.exist?(f = Rails.root.join('tmp/filestamps.yml'))
         YAML::load(File.open(f))[filename]
       end
     end
@@ -131,7 +131,7 @@ class Setting < ActiveRecord::Base
     end
 
     def set_file_stamps(filename)
-      stamps_filename = File.join(RAILS_ROOT, 'tmp/filestamps.yml')
+      stamps_filename = Rails.root.join('tmp/filestamps.yml')
       if File.exist?(stamps_filename)
         stamps = YAML::load(File.open(stamps_filename))
       else

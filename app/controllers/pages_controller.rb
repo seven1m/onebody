@@ -37,7 +37,7 @@ class PagesController < ApplicationController
           render :text => I18n.t('pages.not_found'), :status => 404
         end
       elsif is_tour_page?
-        render :file => RAILS_ROOT + "/public/#{@path}.#{I18n.locale}.html.liquid"
+        render :file => Rails.root.join("public/#{@path}.#{I18n.locale}.html.liquid")
       else
         render :text => I18n.t('pages.not_found'), :status => 404
       end

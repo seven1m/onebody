@@ -66,7 +66,7 @@ namespace :i18n do
     end.flatten.uniq
     
     # Get all keys used in app
-    Dir[RAILS_ROOT + '/app/**/*'].each do |path|
+    Dir[Rails.root.join('app/**/*')].each do |path|
       missing = []
       unless File.directory?(path)
         File.read(path).scan(/I18n\.t\(['"](.+?)['"]/).map { |s| s.first }.each do |key|
@@ -91,7 +91,7 @@ namespace :i18n do
   task :misused_keys => :environment do
     # Get all keys used in app
     misused_keys = []
-    Dir[RAILS_ROOT + '/app/views/**/*.erb'].each do |path|
+    Dir[Rails.root.join('app/views/**/*.erb')].each do |path|
       matches = []
       unless File.directory?(path)
         File.read(path).scan(/.{0,11}I18n\.t\(/).map { |s| s.to_s }.each do |match|

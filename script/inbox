@@ -37,7 +37,7 @@ if not (host and username and password)
   exit
 end
 
-RAILS_ENV = options[:environment]
+ENV["RAILS_ENV"] = options[:environment]
 
 require 'net/pop'
 

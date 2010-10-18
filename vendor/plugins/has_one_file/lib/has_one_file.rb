@@ -10,7 +10,7 @@ module Seven1m
     module ClassMethods
       def has_one_file(options)
         options.symbolize_keys!
-        file_env = RAILS_ENV == 'production' ? '' : ('.' + RAILS_ENV)
+        file_env = Rails.env.production? ? '' : ('.' + Rails.env)
         class_eval <<-END
           CONTENT_TYPES = {
             'gif' => "image/gif",

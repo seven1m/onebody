@@ -11,7 +11,7 @@ module Forgeable
     if photo.is_a?(String)
       self.photo = File.open(photo)
     else
-      self.photo = File.open(RAILS_ROOT + '/test/fixtures/files/image.jpg')
+      self.photo = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
     end
   end
 

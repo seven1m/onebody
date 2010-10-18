@@ -8,7 +8,7 @@ class OneBodyInfo
 
   def install_method
     @install_method ||= begin
-      if File.exists?(File.join(RAILS_ROOT, '.git'))
+      if File.exists?(Rails.root.join('.git'))
         :git
       else
         :manual
@@ -29,9 +29,9 @@ class OneBodyInfo
       @this_revision ||= begin
         # we want to do this without running any real git command on the system
         # this might not be the best way to get this information, but seems to work
-        if File.exists?(head = File.join(RAILS_ROOT, '.git/refs/heads/master'))
+        if File.exists?(head = Rails.root.join('.git/refs/heads/master'))
           File.read(head).strip
-        elsif File.exists?(head = File.join(RAILS_ROOT, '.git/logs/HEAD'))
+        elsif File.exists?(head = Rails.root.join('.git/logs/HEAD'))
           File.read(head).split[1]
         else
           '???'
@@ -91,7 +91,7 @@ class OneBodyInfo
   end
 
   def database_config_filename
-    File.join(RAILS_ROOT, 'config/database.yml')
+    Rails.root.join('config/database.yml')
   end
 
   def backup_database_config
@@ -156,7 +156,7 @@ class OneBodyInfo
   end
 
   def possible_database_versions
-    Dir[File.join(RAILS_ROOT, 'db/migrate/*.rb')].map { |m| File.split(m).last.split('_').first.to_i }.sort
+    Dir[Rails.root.join('db/migrate/*.rb')].map { |m| File.split(m).last.split('_').first.to_i }.sort
   end
 
   def max_database_version
@@ -174,7 +174,7 @@ class OneBodyInfo
   end
 
   def available_locales
-    YAML.load_file(RAILS_ROOT + '/config/locales.yml')
+    YAML.load_file(Rails.root.join('config/locales.yml'))
   end
 
   def precache

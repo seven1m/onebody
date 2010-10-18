@@ -363,7 +363,7 @@ class PersonTest < ActiveSupport::TestCase
   private
 
     def partial_fixture(table, name, valid_attributes)
-      YAML::load(File.open(File.join(RAILS_ROOT, "test/fixtures/#{table}.yml")))[name].tap do |fixture|
+      YAML::load(File.open(Rails.root.join("test/fixtures/#{table}.yml")))[name].tap do |fixture|
         fixture.delete_if { |key, val| !valid_attributes.include? key }
         fixture.each do |key, val|
           fixture[key] = val.to_s

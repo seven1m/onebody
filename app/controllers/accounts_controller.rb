@@ -225,7 +225,7 @@ class AccountsController < ApplicationController
 
   private
     def check_ssl
-      unless request.ssl? or RAILS_ENV != 'production' or !Setting.get(:features, :ssl)
+      unless request.ssl? or !Rails.env.production? or !Setting.get(:features, :ssl)
         redirect_to :protocol => 'https://', :from => params[:from]
         return
       end
