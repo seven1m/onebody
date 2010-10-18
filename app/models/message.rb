@@ -79,10 +79,10 @@ class Message < ActiveRecord::Base
 
   validate :on => :create do |record|
     if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => ['created_at >= ?', Date.today-1])
-      record.errors.add_to_base 'already saved' # Notifier relies on this message (don't change it)
+      record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
     end
     if record.subject =~ /Out of Office/i
-      record.errors.add_to_base 'autoreply' # don't change!
+      record.errors.add :base, 'autoreply' # don't change!
     end
   end
 
@@ -293,13 +293,13 @@ class Message < ActiveRecord::Base
       files.select { |f| f && f.size > 0 }.each do |file|
         attachment = message.attachments.create(:name => File.split(file.original_filename).last, :content_type => file.content_type)
         if attachment.errors.any?
-          attachment.errors.each_full { |e| message.errors.add_to_base(e) }
+          attachment.errors.each_full { |e| message.errors.add(:base, e) }
           return message
         else
           begin
             attachment.file = file
           rescue
-            message.errors.add_to_base('Attachment could not be read.')
+            message.errors.add(:base, 'Attachment could not be read.')
             return message
           end
         end

@@ -28,7 +28,7 @@ class MembershipRequest < ActiveRecord::Base
 
   def validate_duplicate_membership
     if Membership.find_by_group_id_and_person_id(group_id, person_id)
-      errors.add_to_base('Already a member of this group.')
+      errors.add(:base, 'Already a member of this group.')
     end
   end
 end

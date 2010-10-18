@@ -242,7 +242,7 @@ class Notifier < ActionMailer::Base
         :dont_send => true
       )
       if message.errors.any?
-        if message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
+        unless message.errors[:base].detect { |e| ['already saved', 'autoreply'].include?(e) }
           Notifier.message_error_notification(email, message)
         end
       else
@@ -287,7 +287,7 @@ class Notifier < ActionMailer::Base
             :html_body => clean_body(body[:html]),
             :parent => message
           )
-          if message.errors.any? and message.errors.on_base != 'already saved' and message.errors.on_base != 'autoreply'
+          if message.errors.any? and !message.errors[:base].detect { |e| ['already saved', 'autoreply'].include?(e) }
             Notifier.message_error_notification(email, message)
           end
         end

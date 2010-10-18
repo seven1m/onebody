@@ -51,7 +51,7 @@ class Attachment < ActiveRecord::Base
       create(attributes).tap do |attachment|
         if attachment.valid?
           attachment.file = file
-          attachment.errors.add_to_base('File could not be saved.') unless attachment.has_file?
+          attachment.errors.add(:base, 'File could not be saved.') unless attachment.has_file?
         end
       end
     end

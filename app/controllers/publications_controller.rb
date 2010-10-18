@@ -50,7 +50,7 @@ class PublicationsController < ApplicationController
           render :action => 'new'
         end
       else
-        @publication.errors.add_to_base(I18n.t('publications.you_must_select_file'))
+        @publication.errors.add(:base, I18n.t('publications.you_must_select_file'))
         render :action => 'new'
       end
     else

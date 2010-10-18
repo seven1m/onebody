@@ -47,7 +47,7 @@ class AlbumsController < ApplicationController
   def create
     @album = Album.new(params[:album])
     if @album.group and !can_add_pictures_to_group?(@album.group)
-      @album.errors.add_to_base(I18n.t('albums.cannot_add_pictures_to_group'))
+      @album.errors.add(:base, I18n.t('albums.cannot_add_pictures_to_group'))
     end
     if params['remove_owner'] and @logged_in.admin?(:manage_pictures)
       @album.person = nil

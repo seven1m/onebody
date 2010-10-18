@@ -80,8 +80,8 @@ class Update < ActiveRecord::Base
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
     success = person.update_attributes(person_attributes) && person.family.update_attributes(family_attributes)
     unless success
-      person.errors.full_messages.each        { |m| self.errors.add_to_base m }
-      person.family.errors.full_messages.each { |m| self.errors.add_to_base m }
+      person.errors.full_messages.each        { |m| self.errors.add :base, m }
+      person.family.errors.full_messages.each { |m| self.errors.add :base, m }
     end
     return success
   end

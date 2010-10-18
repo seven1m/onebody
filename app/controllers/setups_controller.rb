@@ -20,7 +20,7 @@ class SetupsController < ApplicationController
         Site.current.save
       else
         generate_encryption_key
-        @person.errors.add_to_base I18n.t('setup.invalid_domain_name')
+        @person.errors.add :base, I18n.t('setup.invalid_domain_name')
         render :action => 'new'
         return
       end

@@ -81,7 +81,7 @@ class Page < ActiveRecord::Base
 
   def cannot_destroy_system_page
     if system?
-      errors.add_to_base('Cannot delete system pages.')
+      errors.add(:base, 'Cannot delete system pages.')
       return false
     end
   end
