@@ -285,7 +285,7 @@ class Family < ActiveRecord::Base
     end
 
     def new_with_default_sharing(attrs)
-      attrs.symbolize_keys!
+      attrs.symbolize_keys! if attrs.respond_to?(:symbolize_keys!)
       attrs.merge!(
         :share_address      => Setting.get(:privacy, :share_address_by_default),
         :share_home_phone   => Setting.get(:privacy, :share_home_phone_by_default),
