@@ -1,22 +1,22 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('verse.png', :alt => I18n.t('verses.all_verses'), :class => 'icon') + ' ' + I18n.t('verses.all_verses'), verses_path %></li>
+  <li><%= link_to image_tag('verse.png', :alt => t('verses.all_verses'), :class => 'icon') + ' ' + t('verses.all_verses'), verses_path %></li>
 <% end %>
 
 <% content_for :sidebar do %>
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to image_tag('delete.png', :alt => I18n.t('verses.remove_this_verse'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => I18n.t('are_you_sure') %>
-      <%= link_to I18n.t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => I18n.t('are_you_sure') %>
+      <%= link_to image_tag('delete.png', :alt => t('verses.remove_this_verse'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => t('are_you_sure') %>
+      <%= link_to t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => t('are_you_sure') %>
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => I18n.t('verses.add_this_verse_to_my_list'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), verses_path(:id => @verse), :method => 'post' %>
-      <%= link_to I18n.t('verses.add_this_verse_to_my_list'), verses_path(:id => @verse), :method => 'post' %>
+      <%= link_to image_tag('add_small.gif', :alt => t('verses.add_this_verse_to_my_list'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), verses_path(:id => @verse), :method => 'post' %>
+      <%= link_to t('verses.add_this_verse_to_my_list'), verses_path(:id => @verse), :method => 'post' %>
     </p>
   <% end %>
 
   <% if @verse.people.count > 0 %>
-    <h2><%= I18n.t('verses.people_who_like_this_verse') %></h2>
+    <h2><%= t('verses.people_who_like_this_verse') %></h2>
     <table>
       <% @verse.people.each do |person| %>
         <tr>
@@ -31,16 +31,16 @@
     </table>
   <% end %>
     
-  <h2><%= I18n.t('tags.tags') %></h2>
+  <h2><%= t('tags.tags') %></h2>
 
   <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>
     <p>
       <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse, :br => true} %><br/>
-      <%= I18n.t('tags.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+      <%= t('tags.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
     </p>
   </form>
 
-  <h2><%= I18n.t('verses.tools') %></h2>
+  <h2><%= t('verses.tools') %></h2>
   <p>
     <%= link_to 'YouVersion', @verse.youversion_url %><br/>
     <%= link_to 'eBible', @verse.ebible_url %><br/>
@@ -55,14 +55,14 @@
   <span style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;"><%=h @verse.text %></span>
 </p>
 <p>
-  <%= link_to I18n.t('verses.read_this_passage_at_youversion'), @verse.youversion_url, :class => 'small' %>
+  <%= link_to t('verses.read_this_passage_at_youversion'), @verse.youversion_url, :class => 'small' %>
 </p>
 
 <% if @verse.translation == 'WEB' %>
   <p class="small discreet">
-   <%= I18n.t('verses.disclaimer') %>
+   <%= t('verses.disclaimer') %>
   </p>
 <% end %>
 
-<h2><%= I18n.t('Comments') %></h2>
-<%= render :partial => 'comments/comments', :locals => {:object => @verse, :intro => I18n.t('verses.about_this_verse')} %>
+<h2><%= t('Comments') %></h2>
+<%= render :partial => 'comments/comments', :locals => {:object => @verse, :intro => t('verses.about_this_verse')} %>

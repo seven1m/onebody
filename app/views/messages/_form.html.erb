@@ -4,20 +4,20 @@
   <%= form.hidden_field :parent_id %>
   <p>
     <% unless @message.parent %>
-      <%= form.label :subject, I18n.t('messages.subject') %>
+      <%= form.label :subject, t('messages.subject') %>
       <%= form.text_field :subject %><br/>
     <% else %>
       <%= form.hidden_field :subject %>
     <% end %>
-    <%= form.label :body, I18n.t('messages.message') %>
+    <%= form.label :body, t('messages.message') %>
     <%= form.text_area :body, :rows => 15, :cols => 80 %><br/>
     <label class="attachment">
-      <%= I18n.t('messages.attachment_optional') %>: <input type="file" name="files[]"/>
-      <%= link_to_function image_tag('plus.png', :class => 'icon'), "var atts = $$('.attachment'); atts[atts.length-1].insert({after:'<label class=\"attachment\">#{I18n.t('messages.attachment_optional')}: <input type=\"file\" name=\"files[]\"/><br/></label>'});" %>
+      <%= t('messages.attachment_optional') %>: <input type="file" name="files[]"/>
+      <%= link_to_function image_tag('plus.png', :class => 'icon'), "var atts = $$('.attachment'); atts[atts.length-1].insert({after:'<label class=\"attachment\">#{t('messages.attachment_optional')}: <input type=\"file\" name=\"files[]\"/><br/></label>'});" %>
       <br/>
     </label>
   </p>
   <p>
-    <%= submit_tag I18n.t('messages.send_message') %>
+    <%= submit_tag t('messages.send_message') %>
   </p>
 <% end %>

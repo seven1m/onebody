@@ -1,10 +1,10 @@
 <h1>
   <% if @parent %><%=h @parent.title %><% end %>
-  <%= I18n.t('pages.pages') %>
+  <%= t('pages.pages') %>
 </h1>
 
 <%= render :partial => 'list' %>
 
-<p style="margin-left:35px;"><%= link_to I18n.t('pages.new_root_page'), new_page_path, :class => 'discreet' %></p>
+<p style="margin-left:35px;"><%= link_to t('pages.new_root_page'), new_page_path, :class => 'discreet' %></p>
 
-<p><%= I18n.t('pages.help_and_system_pages') %></p>
+<p><%= t('pages.help_and_system_pages') %></p>

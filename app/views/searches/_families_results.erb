@@ -1,13 +1,13 @@
-<h2><%= I18n.t('search_results') %></h2>
+<h2><%= t('search_results') %></h2>
 
-<p><%= I18n.t("search.families_found", :count => @count) %></p>
+<p><%= t("search.families_found", :count => @count) %></p>
 
 <%= will_paginate @families %>
 
 <% if @families and @families.any? %>
   <table>
     <tr>
-      <th><%= I18n.t('search.family_name') %></th>
+      <th><%= t('search.family_name') %></th>
     </tr>
     <% @families.each do |family| %>
       <tr>

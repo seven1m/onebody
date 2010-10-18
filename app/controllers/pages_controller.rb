@@ -23,7 +23,7 @@ class PagesController < ApplicationController
       if @page.published?
         render_with_template(@page)
       else
-        render_with_template(I18n.t('pages.not_found'), 404)
+        render_with_template(t('pages.not_found'), 404)
       end
     else
       if @page
@@ -34,12 +34,12 @@ class PagesController < ApplicationController
             render :action => 'show'
           end
         else
-          render :text => I18n.t('pages.not_found'), :status => 404
+          render :text => t('pages.not_found'), :status => 404
         end
       elsif is_tour_page?
         render :file => Rails.root.join("public/#{@path}.#{I18n.locale}.html.liquid")
       else
-        render :text => I18n.t('pages.not_found'), :status => 404
+        render :text => t('pages.not_found'), :status => 404
       end
     end
   end
@@ -56,7 +56,7 @@ class PagesController < ApplicationController
       @page = Page.new(:parent_id => params[:parent_id])
       @page_paths_and_ids = Page.paths_and_ids
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -64,14 +64,14 @@ class PagesController < ApplicationController
     if @logged_in.admin?(:edit_pages)
       @page = Page.create(params[:page])
       unless @page.errors.any?
-        flash[:notice] = I18n.t('pages.saved')
+        flash[:notice] = t('pages.saved')
         redirect_to params[:commit] =~ /continue editing/i ? edit_page_path(@page) : @page
       else
         @page_paths_and_ids = Page.paths_and_ids
         render :action => 'new'
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -80,7 +80,7 @@ class PagesController < ApplicationController
     if @logged_in.can_edit?(@page)
       @page_paths_and_ids = Page.paths_and_ids
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -88,14 +88,14 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     if @logged_in.can_edit?(@page)
       if @page.update_attributes(params[:page])
-        flash[:notice] = I18n.t('pages.saved')
+        flash[:notice] = t('pages.saved')
         redirect_to params[:commit] =~ /continue editing/i ? edit_page_path(@page) : @page
       else
         @page_paths_and_ids = Page.paths_and_ids
         render :action => 'edit'
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -106,11 +106,11 @@ class PagesController < ApplicationController
       if @page.errors.any?
         add_errors_to_flash(@page)
       else
-        flash[:notice] = I18n.t('pages.deleted')
+        flash[:notice] = t('pages.deleted')
       end
       redirect_to pages_path
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -121,7 +121,7 @@ class PagesController < ApplicationController
       if template = Page.find_by_path('template')
         render :text => template.body.sub(/\[\[content\]\]/, content), :status => status
       else
-        render :text => I18n.t('pages.template_not_found'), :layout => true, :status => 500
+        render :text => t('pages.template_not_found'), :layout => true, :status => 500
       end
     end
 

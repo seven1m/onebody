@@ -33,7 +33,7 @@ class PcSyncsController < ApplicationController
         render :text => 'ERROR: Sync already in progress.', :status => 500
       end
     else
-      render :text => I18n.t('not_authorized'), :status => 401
+      render :text => t('not_authorized'), :status => 401
     end
   end
 

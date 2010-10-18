@@ -1,13 +1,13 @@
-<p id="add_prayer_request_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => I18n.t('prayer.add_a_prayer_request') + '.', :class => 'icon') + ' ' + I18n.t('prayer.add_a_prayer_request'), "Element.show('add_prayer_request');Element.hide('add_prayer_request_link');$('prayer_request_request').focus();" %></p>
+<p id="add_prayer_request_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('prayer.add_a_prayer_request') + '.', :class => 'icon') + ' ' + t('prayer.add_a_prayer_request'), "Element.show('add_prayer_request');Element.hide('add_prayer_request_link');$('prayer_request_request').focus();" %></p>
 <div id="add_prayer_request">
   <%= form_for PrayerRequest.new do |form| %>
     <% if @group %>
       <%= hidden_field_tag 'prayer_request[group_id]', @group.id %>
     <% end %>
     <p>
-      <label for="prayer_request_request"><%= I18n.t('prayer.prayer_request') %>:</label><br/>
+      <label for="prayer_request_request"><%= t('prayer.prayer_request') %>:</label><br/>
       <%= text_area_tag 'prayer_request[request]', '', :id => 'prayer_request_request', :rows => '10' %><br/>
-      <%= submit_tag I18n.t('prayer.add_prayer_request'), :style => 'width:125px;' %>
+      <%= submit_tag t('prayer.add_prayer_request'), :style => 'width:125px;' %>
     </p>
   <% end %>
 </div>

@@ -15,13 +15,13 @@
               <%= link_to h(group.name), group %><br/>
               <% if me? or @logged_in.admin?(:manage_groups) %>
                 <span>
-                  <%= I18n.t('people.email') %>:
+                  <%= t('people.email') %>:
                   <% if membership.get_email %>
-                    <strong title="<%= I18n.t('groups.email_from_group_is_on') %>"><%= I18n.t('groups.email_on') %></strong> |
-                    <%= link_to I18n.t('groups.email_off'), group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => I18n.t('groups.if_ok_you_will_stop_receiving'), :title => I18n.t('groups.configure_email_from_group') %>
+                    <strong title="<%= t('groups.email_from_group_is_on') %>"><%= t('groups.email_on') %></strong> |
+                    <%= link_to t('groups.email_off'), group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => t('groups.if_ok_you_will_stop_receiving'), :title => t('groups.configure_email_from_group') %>
                   <% else %>
-                    <%= link_to I18n.t('groups.email_on'), group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => I18n.t('groups.if_ok_you_will_start_receiving'), :title => I18n.t('groups.configure_email_from_group') %> |
-                    <strong title="<%= I18n.t('groups.email_from_group_is_off') %>"><%= I18n.t('groups.email_off') %></strong>
+                    <%= link_to t('groups.email_on'), group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => t('groups.if_ok_you_will_start_receiving'), :title => t('groups.configure_email_from_group') %> |
+                    <strong title="<%= t('groups.email_from_group_is_off') %>"><%= t('groups.email_off') %></strong>
                   <% end %>
                 </span>
               <% end %>
@@ -32,15 +32,15 @@
     <% end %>
   </table>
   <% if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? } %>
-    <p><%= link_to_function I18n.t('people.show_hidden_groups'), "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
+    <p><%= link_to_function t('people.show_hidden_groups'), "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
   <% end %>
 <% elsif me? %>
   <p>
-    <%= I18n.t('people.you_arent_in_any_groups') %>
+    <%= t('people.you_arent_in_any_groups') %>
     <% if params[:person_id] %>
-      <%= I18n.t('people.find_a_group', :group => groups_url) %>
+      <%= t('people.find_a_group', :group => groups_url) %>
     <% end %>
   </p>
 <% else %>
-  <p><%= I18n.t('people.person_isnt_any_groups', :person => h(@person.first_name)) %></p>
+  <p><%= t('people.person_isnt_any_groups', :person => h(@person.first_name)) %></p>
 <% end %>

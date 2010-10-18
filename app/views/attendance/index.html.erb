@@ -1,9 +1,9 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => I18n.t('groups.view_group'), :class => 'icon') + ' ' + I18n.t('groups.view_group'), @group %></li>
+  <li><%= link_to image_tag('eye.png', :alt => t('groups.view_group'), :class => 'icon') + ' ' + t('groups.view_group'), @group %></li>
 <% end %>
 
 <p>
-  <%= label_tag :attended_at, I18n.t('attendance.date') + ':', :class => 'inline' %>
+  <%= label_tag :attended_at, t('attendance.date') + ':', :class => 'inline' %>
   <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
 </p>
 
@@ -17,15 +17,15 @@
       </li>
     <% end %>
   </ul>
-  <p><%= submit_tag I18n.t('attendance.save') %></p>
+  <p><%= submit_tag t('attendance.save') %></p>
 <% end %>
 
 <%= form_tag :remote => true, :url => search_path, :html => {:style => 'border:none;'} do %>
   <%= hidden_field_tag :select_person, true %>
   <p>
-    <label for="add_person_name"><%= I18n.t('attendance.add_somebody_not_in_group') %>:</label>
+    <label for="add_person_name"><%= t('attendance.add_somebody_not_in_group') %>:</label>
     <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
-    <%= submit_tag I18n.t('search.search_by_name') %>
+    <%= submit_tag t('search.search_by_name') %>
   </p>
 <% end %>
 
@@ -34,7 +34,7 @@
     :id => 'add_people_form', :style => 'border:none;' do %>
     <%= hidden_field_tag :attended_at, @attended_at %>
     <div id="results"></div>
-    <p><%= submit_tag I18n.t('search.add_selected') %></p>
+    <p><%= submit_tag t('search.add_selected') %></p>
   <% end %>
 </div>
 

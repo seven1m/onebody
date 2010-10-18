@@ -2,7 +2,7 @@
   <%= iphone_back_button %>
   <h1>Verse</h1>
   <% if @logged_in.verses.include? @verse %>
-    <%= link_to '-', @verse, :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'add' %>
+    <%= link_to '-', @verse, :method => 'delete', :confirm => t('are_you_sure'), :class => 'add' %>
   <% else %>
     <%= link_to '+', verses_path(:id => @verse), :method => 'post', :class => 'add' %>
   <% end %>
@@ -22,15 +22,15 @@
 
 <% if @verse.translation == 'WEB' %>
   <div class="info">
-   <%= I18n.t('verses.disclaimer') %>
+   <%= t('verses.disclaimer') %>
   </div>
 <% end %>
 
-<h2><%= I18n.t('Comments') %></h2>
-<%= render :partial => 'comments/comments_iphone', :locals => {:object => @verse, :intro => I18n.t('verses.about_this_verse')} %>
+<h2><%= t('Comments') %></h2>
+<%= render :partial => 'comments/comments_iphone', :locals => {:object => @verse, :intro => t('verses.about_this_verse')} %>
 
 <% if @verse.people.count > 0 %>
-  <h2><%= I18n.t('verses.people_who_like_this_verse') %></h2>
+  <h2><%= t('verses.people_who_like_this_verse') %></h2>
   <ul>
     <% @verse.people.each do |person| %>
       <li class="arrow">
@@ -45,7 +45,7 @@
   </ul>
 <% end %>
   
-<h2><%= I18n.t('tags.tags') %></h2>
+<h2><%= t('tags.tags') %></h2>
 
 <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;', :id => 'add_tags_form') %>
   <ul>
@@ -54,8 +54,8 @@
     <% end %>
   </ul>
   <ul>
-    <li><%= text_field_tag :add_tags, nil, :placeholder => I18n.t('tags.add_tags') %></li>
-    <li class="arrow"><a href="#" onclick="document.getElementById('add_tags_form').submit();return false;"><%= I18n.t('Save') %></a></li>
+    <li><%= text_field_tag :add_tags, nil, :placeholder => t('tags.add_tags') %></li>
+    <li class="arrow"><a href="#" onclick="document.getElementById('add_tags_form').submit();return false;"><%= t('Save') %></a></li>
   </ul>
 </form>
 

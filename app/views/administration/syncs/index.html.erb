@@ -1,17 +1,17 @@
-<h1><%= I18n.t('admin.syncs.syncs') %></h1>
+<h1><%= t('admin.syncs.syncs') %></h1>
 
 <%= will_paginate @syncs %>
 
 <table>
   <tr>
-    <th><%= I18n.t('admin.syncs.id') %></th>
-    <th><%= I18n.t('admin.syncs.start') %></th>
-    <th><%= I18n.t('admin.syncs.duration') %></th>
-    <th><%= I18n.t('by') %></th>
-    <th><%= I18n.t('admin.syncs.complete') %></th>
-    <th><%= I18n.t('admin.syncs.success') %></th>
-    <th><%= I18n.t('admin.syncs.error') %></th>
-    <th><%= I18n.t('admin.syncs.rate') %></th>
+    <th><%= t('admin.syncs.id') %></th>
+    <th><%= t('admin.syncs.start') %></th>
+    <th><%= t('admin.syncs.duration') %></th>
+    <th><%= t('by') %></th>
+    <th><%= t('admin.syncs.complete') %></th>
+    <th><%= t('admin.syncs.success') %></th>
+    <th><%= t('admin.syncs.error') %></th>
+    <th><%= t('admin.syncs.rate') %></th>
   </tr>
   <% @syncs.each do |sync| %>
     <tr>
@@ -28,7 +28,7 @@
 </table>
 
 <% unless @syncs.any? %>
-  <p><em><%= I18n.t('admin.syncs.none') %></em></p>
+  <p><em><%= t('admin.syncs.none') %></em></p>
 <% end %>
 
 <%= will_paginate @syncs %>

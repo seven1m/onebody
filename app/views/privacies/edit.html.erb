@@ -1,107 +1,107 @@
 <%= stylesheet_link_tag 'tabs' %>
 <%= javascript_include_tag 'tabs' %>
 
-<h1><%= I18n.t('privacies.privacy') %></h1>
+<h1><%= t('privacies.privacy') %></h1>
 
 <% if @person %>
   <% content_for :subnav do %>
-    <li><%= link_to image_tag('eye.png', :alt => I18n.t('privacies.view_profile'), :class => 'icon') + ' ' + I18n.t('privacies.view_profile'), person_path(@person) %></li>
-    <li><%= link_to image_tag('pencil.png', :alt => I18n.t('privacies.edit_profile'), :class => 'icon') + ' ' + I18n.t('privacies.edit_profile'), edit_person_path(@person) %></li>
-    <li><%= link_to image_tag('email_edit.png', :alt => I18n.t('privacies.change_email_password'), :class => 'icon') + ' ' + I18n.t('privacies.change_email_password'), edit_person_account_path(@person) %></li>
+    <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), person_path(@person) %></li>
+    <li><%= link_to image_tag('pencil.png', :alt => t('privacies.edit_profile'), :class => 'icon') + ' ' + t('privacies.edit_profile'), edit_person_path(@person) %></li>
+    <li><%= link_to image_tag('email_edit.png', :alt => t('privacies.change_email_password'), :class => 'icon') + ' ' + t('privacies.change_email_password'), edit_person_account_path(@person) %></li>
   <% end %>
 <% end %>
 
 <% unless @logged_in.adult? %>
   <p style="font-weight:bold;">
-    <%= I18n.t('privacies.only_adult_can_edit') %>
+    <%= t('privacies.only_adult_can_edit') %>
   </p>
 <% end %>
 
 <p>
-  <%= I18n.t('privacies.modify_the_privacy_settings', :url => help_path('privacy_policy')) %>
+  <%= t('privacies.modify_the_privacy_settings', :url => help_path('privacy_policy')) %>
 </p>
 
-<h2 class="tab" id="f"><%= I18n.t('privacies.family_privacy') %> <% unless @family.visible? %> <%= image_tag('lock.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
+<h2 class="tab" id="f"><%= t('privacies.family_privacy') %> <% unless @family.visible? %> <%= image_tag('lock.gif', :alt => t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
 
 <div class="section">
 <p>
-  <%= I18n.t('privacies.these_settings_affect_your_family') %>
+  <%= t('privacies.these_settings_affect_your_family') %>
 </p>
 
 <%= form_for @family, :url => person_privacy_path(@family.people.first), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
 
   <p>
     <%= form.check_box 'visible', :class => 'checkbox', :onclick => "check_visibility();if($('notice')) new Effect.Fade('notice');if(!changed_sections.include('family'))changed_sections.push('family')" %>
-    <strong><%= I18n.t('privacies.visible_on_site') %></strong><br/>
-    <em><%= I18n.t('privacies.by_turning_off_site_visibility') %>, <%= @family == @logged_in.family ? I18n.t('privacies.your') : I18n.t('privacies.this') %> <%= I18n.t('privacies.entire_family_will_not_appear') %></em>
+    <strong><%= t('privacies.visible_on_site') %></strong><br/>
+    <em><%= t('privacies.by_turning_off_site_visibility') %>, <%= @family == @logged_in.family ? t('privacies.your') : t('privacies.this') %> <%= t('privacies.entire_family_will_not_appear') %></em>
   </p>
 
   <div id="family">
 
     <table>
-      <tr><th><%= I18n.t('privacies.detail') %></th><th><%= I18n.t('privacies.visible') %></th><th><%= I18n.t('privacies.hidden') %></th></tr>
+      <tr><th><%= t('privacies.detail') %></th><th><%= t('privacies.visible') %></th><th><%= t('privacies.hidden') %></th></tr>
       <tr>
-        <td><%= I18n.t('privacies.address') %></td>
+        <td><%= t('privacies.address') %></td>
         <td><%= form.radio_button :share_address, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_address, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.mobile_phone') %></td>
+        <td><%= t('privacies.mobile_phone') %></td>
         <td><%= form.radio_button :share_mobile_phone, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_mobile_phone, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.home_phone') %></td>
+        <td><%= t('privacies.home_phone') %></td>
         <td><%= form.radio_button :share_home_phone, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_home_phone, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.work_phone') %></td>
+        <td><%= t('privacies.work_phone') %></td>
         <td><%= form.radio_button :share_work_phone, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_work_phone, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.fax') %></td>
+        <td><%= t('privacies.fax') %></td>
         <td><%= form.radio_button :share_fax, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_fax, false, :class => 'checkbox' %></td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.email') %></td>
+        <td><%= t('privacies.email') %></td>
         <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
-        <td><em><%= I18n.t('privacies.people_can_still_send') %></em></td>
+        <td><em><%= t('privacies.people_can_still_send') %></em></td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.birthday') %></td>
+        <td><%= t('privacies.birthday') %></td>
         <td><%= form.radio_button :share_birthday, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_birthday, false, :class => 'checkbox' %></td>
-        <td><em><%= I18n.t('privacies.the_year_is_never_shown') %></em></td>
+        <td><em><%= t('privacies.the_year_is_never_shown') %></em></td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.anniversary') %></td>
+        <td><%= t('privacies.anniversary') %></td>
         <td><%= form.radio_button :share_anniversary, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_anniversary, false, :class => 'checkbox' %></td>
-        <td><em><%= I18n.t('privacies.the_year_is_never_shown') %></em></td>
+        <td><em><%= t('privacies.the_year_is_never_shown') %></em></td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.activity') %></td>
+        <td><%= t('privacies.activity') %></td>
         <td><%= form.radio_button :share_activity, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :share_activity, false, :class => 'checkbox' %></td>
         <td>
-          <%= I18n.t('privacies.hide_your_activity') %>
+          <%= t('privacies.hide_your_activity') %>
         </td>
       </tr>
       <tr>
-        <td><%= I18n.t('privacies.wall') %></td>
+        <td><%= t('privacies.wall') %></td>
         <td><%= form.radio_button :wall_enabled, true, :class => 'checkbox' %></td>
         <td><%= form.radio_button :wall_enabled, false, :class => 'checkbox' %></td>
-        <td><em><%= I18n.t('privacies.space_to_post_messages', :name => 'you') %></em></td>
+        <td><em><%= t('privacies.space_to_post_messages', :name => 'you') %></em></td>
       </tr>
     </table>
  
   </div>
   
-  <p><%= submit_tag I18n.t('privacies.save_family_settings') %></p>
+  <p><%= submit_tag t('privacies.save_family_settings') %></p>
   
   <%= render :partial => 'group_privacy_listing', :locals => {:person => @person} %>
 
@@ -113,7 +113,7 @@
 
 <% @family.people.each do |person| %>
 
-  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %><% if not person.adult_or_consent? %> <%= image_tag('lock_red.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => I18n.t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
+  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %><% if not person.adult_or_consent? %> <%= image_tag('lock_red.gif', :alt => t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
   
   <div class="section">
   
@@ -125,110 +125,110 @@
     
       <% if not person.adult? %>
         <p class="highlight">
-          <%= I18n.t('privacies.child_profile_has_parental_consent', :name => h(person.parental_consent)) %>
-          <%= I18n.t('privacies.have_concerns_regarding_this', :phone => h(Setting.get(:contact, :community_office_phone))) %>
+          <%= t('privacies.child_profile_has_parental_consent', :name => h(person.parental_consent)) %>
+          <%= t('privacies.have_concerns_regarding_this', :phone => h(Setting.get(:contact, :community_office_phone))) %>
         </p>
       <% end %>
     
-      <p><%= I18n.t('privacies.you_may_override', :name => h(person.name)) %></p>
+      <p><%= t('privacies.you_may_override', :name => h(person.name)) %></p>
       
       <p>
         <%= form.check_box 'visible', :class => 'checkbox person-visible-checkbox', :id => "person-visible#{person.id}", :onclick => "check_visibility();" %>
-        <strong><%= I18n.t('privacies.visible_on_site') %></strong><br/>
-        <em><%= I18n.t('privacies.by_turning_off', :name => h(person.first_name)) %></em>
+        <strong><%= t('privacies.visible_on_site') %></strong><br/>
+        <em><%= t('privacies.by_turning_off', :name => h(person.first_name)) %></em>
       </p>
       
       <div id="person<%= person.id %>" class="person">
       
         <table>
-          <tr><th><%= I18n.t('privacies.detail') %></th><th><%= I18n.t('privacies.visible') %></th><th><%= I18n.t('privacies.hidden') %></th><th><%= I18n.t('privacies.default') %></th></tr>
+          <tr><th><%= t('privacies.detail') %></th><th><%= t('privacies.visible') %></th><th><%= t('privacies.hidden') %></th><th><%= t('privacies.default') %></th></tr>
           <tr>
-            <td><%= I18n.t('privacies.mobile_phone') %></td>
+            <td><%= t('privacies.mobile_phone') %></td>
             <td><%= radio_button_tag 'person[share_mobile_phone]', true, person.attributes['share_mobile_phone'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_mobile_phone]', false, person.attributes['share_mobile_phone'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_mobile_phone]', 'nil', person.attributes['share_mobile_phone'] == nil, :class => 'checkbox' %></td>
           </tr>
           <tr>
-            <td><%= I18n.t('privacies.work_phone') %></td>
+            <td><%= t('privacies.work_phone') %></td>
             <td><%= radio_button_tag 'person[share_work_phone]', true, person.attributes['share_work_phone'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_work_phone]', false, person.attributes['share_work_phone'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_work_phone]', 'nil', person.attributes['share_work_phone'] == nil, :class => 'checkbox' %></td>
           </tr>
           <tr>
-            <td><%= I18n.t('privacies.fax') %></td>
+            <td><%= t('privacies.fax') %></td>
             <td><%= radio_button_tag 'person[share_fax]', true, person.attributes['share_fax'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_fax]', false, person.attributes['share_fax'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_fax]', 'nil', person.attributes['share_fax'] == nil, :class => 'checkbox' %></td>
           </tr>
           <tr>
-            <td><%= I18n.t('privacies.email') %></td>
+            <td><%= t('privacies.email') %></td>
             <td><%= radio_button_tag 'person[share_email]', true, person.attributes['share_email'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_email]', false, person.attributes['share_email'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_email]', 'nil', person.attributes['share_email'] == nil, :class => 'checkbox' %></td>
           </tr>
           <tr>
-            <td><%= I18n.t('privacies.birthday') %></td>
+            <td><%= t('privacies.birthday') %></td>
             <td><%= radio_button_tag 'person[share_birthday]', true, person.attributes['share_birthday'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_birthday]', false, person.attributes['share_birthday'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_birthday]', 'nil', person.attributes['share_birthday'] == nil, :class => 'checkbox' %></td>
-            <td><em><%= I18n.t('privacies.the_year_is_never_shown') %></em></td>
+            <td><em><%= t('privacies.the_year_is_never_shown') %></em></td>
           </tr>
           <tr>
-            <td><%= I18n.t('privacies.activity') %></td>
+            <td><%= t('privacies.activity') %></td>
             <td><%= radio_button_tag 'person[share_activity]', true, person.attributes['share_activity'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_activity]', false, person.attributes['share_activity'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[share_activity]', 'nil', person.attributes['share_activity'] == nil, :class => 'checkbox' %></td>
             <td>
-              <%= I18n.t('privacies.hide_your_activity') %>
+              <%= t('privacies.hide_your_activity') %>
             </td>
           </tr>
           <tr>
-            <td><%= I18n.t('privacies.wall') %></td>
+            <td><%= t('privacies.wall') %></td>
             <td><%= radio_button_tag 'person[wall_enabled]', true, person.attributes['wall_enabled'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[wall_enabled]', false, person.attributes['wall_enabled'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[wall_enabled]', 'nil', person.attributes['wall_enabled'] == nil, :class => 'checkbox' %></td>
-            <td><em><%= I18n.t('privacies.space_to_post_messages', :name => h(@logged_in == person ? 'you' : person.first_name)) %></em></td>
+            <td><em><%= t('privacies.space_to_post_messages', :name => h(@logged_in == person ? 'you' : person.first_name)) %></em></td>
           </tr>
         </table>
       
         <p>
-          <%= image_tag 'message.gif', :alt => I18n.t('privacies.private_message'), :class => 'icon' %>
-          <%= I18n.t('privacies.private_messages_enabled') %><br/>
+          <%= image_tag 'message.gif', :alt => t('privacies.private_message'), :class => 'icon' %>
+          <%= t('privacies.private_messages_enabled') %><br/>
           <input name="person[messages_enabled]" type="hidden" value="0" />
-          <%= check_box_tag 'person[messages_enabled]', 1, person.attributes['messages_enabled'], :class => 'checkbox', :onclick => "if(!this.checked) return confirm('" + I18n.t('privacies.disabling_private_messages', :name => person.name) + "')" %>
-          <%= I18n.t('privacies.if_this_is_unchecked', { :name_possessive => h(@logged_in == person ? 'your' : person.name_possessive), :first_name => h(@logged_in == person ? 'you' : person.first_name) }) %>
+          <%= check_box_tag 'person[messages_enabled]', 1, person.attributes['messages_enabled'], :class => 'checkbox', :onclick => "if(!this.checked) return confirm('" + t('privacies.disabling_private_messages', :name => person.name) + "')" %>
+          <%= t('privacies.if_this_is_unchecked', { :name_possessive => h(@logged_in == person ? 'your' : person.name_possessive), :first_name => h(@logged_in == person ? 'you' : person.first_name) }) %>
         </p>
       
       </div>
       
-      <p><%= submit_tag I18n.t('privacies.save_personal_settings') %></p>
+      <p><%= submit_tag t('privacies.save_personal_settings') %></p>
       
     <% elsif @logged_in.family == @family and @logged_in.adult? %>
     
       <p class="alert">
-        <%= I18n.t('privacies.child_under_age_you_have_not_consent', :years => Setting.get(:system, :adult_age)) %>
+        <%= t('privacies.child_under_age_you_have_not_consent', :years => Setting.get(:system, :adult_age)) %>
       </p>
       
       <p>
-        <%= I18n.t('privacies.to_show_on_this_site', :name => h(person.name)) %>
+        <%= t('privacies.to_show_on_this_site', :name => h(person.name)) %>
       </p>
       <ol>
-        <li><%= I18n.t('privacies.read_safeguarding_children', :url => help_path('safeguarding_children')) %></li>
-        <li><%= I18n.t('privacies.read_privacy_policy', :url => help_path('privacy_policy')) %></li>
-        <li><%= I18n.t('privacies.read_statement_below') %></li>
-        <li><%= I18n.t('privacies.click_the_agree') %></li>
+        <li><%= t('privacies.read_safeguarding_children', :url => help_path('safeguarding_children')) %></li>
+        <li><%= t('privacies.read_privacy_policy', :url => help_path('privacy_policy')) %></li>
+        <li><%= t('privacies.read_statement_below') %></li>
+        <li><%= t('privacies.click_the_agree') %></li>
       </ol>
       
       <p>
-        <%= check_box_tag 'agree', I18n.t('privacies.i_agree') + ".", false, :class => 'checkbox' %>
-        <%= I18n.t('privacies.as_a_parent_agree', { :name => h(person.name), :url => help_path('privacy_policy') } ) %><br/>
-        <%= submit_tag I18n.t('privacies.i_agree') %>
+        <%= check_box_tag 'agree', t('privacies.i_agree') + ".", false, :class => 'checkbox' %>
+        <%= t('privacies.as_a_parent_agree', { :name => h(person.name), :url => help_path('privacy_policy') } ) %><br/>
+        <%= submit_tag t('privacies.i_agree') %>
       </p>
       
     <% else %>
     
       <p class="alert">
-        <%= I18n.t('privacies.child_under_age_no_parents_consent', :years => Setting.get(:system, :adult_age)) %>
+        <%= t('privacies.child_under_age_no_parents_consent', :years => Setting.get(:system, :adult_age)) %>
       </p>
       
     <% end %>
@@ -265,7 +265,7 @@
   tab_click = function(e) {
     if(changes) {
       changes = false;
-      if(confirm('<%= I18n.t('privacies.you_made_a_change_tab') %>')) {
+      if(confirm('<%= t('privacies.you_made_a_change_tab') %>')) {
         sections[lastSection].getElementsByTagName('form')[0].submit();
       } else {
         original_tab_click(e);
@@ -276,7 +276,7 @@
   };
   set_handlers();
   onbeforeunload = function() {
-    if(changes) return '<%= I18n.t('privacies.you_made_a_change_page') %>';
+    if(changes) return '<%= t('privacies.you_made_a_change_page') %>';
   };
 //]]>
 </script>

@@ -2,11 +2,11 @@
 
 <%= render_page_content 'system/sign_in_header' %>
 
-<h2><%= I18n.t('session.please_sign_in') %></h2>
+<h2><%= t('session.please_sign_in') %></h2>
 
 <div style="width:150px;float:right;margin:10px;text-align:center;">
-  <%= link_to image_tag('help.gif', :alt => I18n.t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
-  <%= link_to I18n.t('session.i_need_help'), help_path %>
+  <%= link_to image_tag('help.gif', :alt => t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
+  <%= link_to t('session.i_need_help'), help_path %>
 </div>
 
 <script type="text/javascript">
@@ -28,21 +28,21 @@
   <%= hidden_field_tag :from, params[:from] %>
   <%= hidden_field_tag :encrypted_password %>
   
-  <p><%= I18n.t('session.sign_up_or_sign_in', :url => new_account_path) %></p>
+  <p><%= t('session.sign_up_or_sign_in', :url => new_account_path) %></p>
   
   <table>
     <tr>
-      <td><label for="email"><%= I18n.t('session.email_address') %></label></td>
+      <td><label for="email"><%= t('session.email_address') %></label></td>
       <td><%= text_field_tag :email, params[:email], :size => 30 %></td>
     </tr>
     <tr>
-      <td><label for="password"><%= I18n.t('session.password') %></label></td>
+      <td><label for="password"><%= t('session.password') %></label></td>
       <td><input type="password" id="password" <% if Setting.get(:privacy, :allow_unencrypted_logins) %>name="password"<% end %>/></td>
     </tr>
     <tr>
       <td></td>
       <td>
-        <input type="submit" value="<%= I18n.t('session.sign_in') %>"/><br/>
+        <input type="submit" value="<%= t('session.sign_in') %>"/><br/>
       </td>
     </tr>
   </table>

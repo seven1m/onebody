@@ -1,10 +1,10 @@
-<p id="add_picture_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => I18n.t('pictures.add_a_picture'), :class => 'icon') + ' ' + I18n.t('pictures.add_a_picture'), "Element.show('add_picture');Element.hide('add_picture_link');" %></p>
+<p id="add_picture_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('pictures.add_a_picture'), :class => 'icon') + ' ' + t('pictures.add_a_picture'), "Element.show('add_picture');Element.hide('add_picture_link');" %></p>
 <div id="add_picture">
   <%= form_for Picture.new, :url => album_pictures_path(@album), :html => {:multipart => true} do |form| %>
     <%= hidden_field_tag :album_id, @album %>
-    <label for="picture"><%= I18n.t('pictures.add_a_picture') %>:</label>
+    <label for="picture"><%= t('pictures.add_a_picture') %>:</label>
     <%= file_field_tag 'picture1' %><br/>
-    <%= link_to_function I18n.t('pictures.upload_more') + ' &raquo;', 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
+    <%= link_to_function t('pictures.upload_more') + ' &raquo;', 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
     <span id="more_upload" style="display:none;">
       <%= file_field_tag 'picture2' %><br/>
       <%= file_field_tag 'picture3' %><br/>
@@ -19,10 +19,10 @@
     <br/>
     <% if @logged_in.admin?(:manage_pictures) %>
       <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox' %>
-      <%= label_tag 'remove_owner', I18n.t('pictures.there_are_gerenal_comm_pictures'), :class => 'inline' %>
+      <%= label_tag 'remove_owner', t('pictures.there_are_gerenal_comm_pictures'), :class => 'inline' %>
       <br/>
     <% end %>
-    <%= submit_tag I18n.t('pictures.upload') %>
+    <%= submit_tag t('pictures.upload') %>
   <% end %>
 </div>
 

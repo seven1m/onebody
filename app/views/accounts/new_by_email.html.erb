@@ -1,12 +1,12 @@
-<h1><%= I18n.t('accounts.verify_by_email') %></h1>
+<h1><%= t('accounts.verify_by_email') %></h1>
 <p>
-  <%= I18n.t('accounts.enter_your_email') %>
+  <%= t('accounts.enter_your_email') %>
 </p>
 <%= form_tag account_path, :method => 'post' do %>
   <p>
-    <label for="email"><%= I18n.t('accounts.type_your_email') %>:</label>
+    <label for="email"><%= t('accounts.type_your_email') %>:</label>
     <%= text_field_tag :email, params[:email] == 'true' ? '' : params[:email] %>
   </p>
-  <p><%= submit_tag I18n.t('accounts.verify_email') %></p>
+  <p><%= submit_tag t('accounts.verify_email') %></p>
 <% end %>
 

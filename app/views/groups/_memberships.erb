@@ -5,7 +5,7 @@
       <tr>
         <% person = membership.person %>
         <td>
-          <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or membership.auto?), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(" + I18n.t('groups.you_are_to_remove_yourself') + ")" : nil) %>
+          <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or membership.auto?), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(" + t('groups.you_are_to_remove_yourself') + ")" : nil) %>
         </td>
         <td>
           <%= link_to(h(person.name), person, :id => "person_label#{person.id}") rescue '?' %>
@@ -16,9 +16,9 @@
   </table>
 
   <% if @group.people.length > 1 %>
-    <p><%= submit_tag I18n.t('groups.remove_selected') %></p>
+    <p><%= submit_tag t('groups.remove_selected') %></p>
   <% else %>
-    <p><em><%= I18n.t('groups.cannot_remove_last_admin') %></em></p>
+    <p><em><%= t('groups.cannot_remove_last_admin') %></em></p>
   <% end %>
 
 <% end %>
@@ -27,28 +27,28 @@
   <%= form_tag :remote => true, :url => search_path do %>
     <%= hidden_field_tag :select_person, true %>
     <p>
-      <label for="add_person_name"><%= I18n.t('groups.add_somebody') %>:</label>
+      <label for="add_person_name"><%= t('groups.add_somebody') %>:</label>
       <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
       <% if @group.parents_of %>
         <strong>Remember, this is a group automatically containing
           parents of people in <%= link_to h(@group.parents_of_group.name), @group.parents_of_group %>.
           Adding people manually should be done sparingly.
       <% end %>
-      <%= submit_tag I18n.t('search.search_by_name') %>
+      <%= submit_tag t('search.search_by_name') %>
     </p>
   <% end %>
 
   <div id="add_member" style="display:none;">
     <%= form_tag :remote => true, :url => batch_group_memberships_path(@group), :html => {:id => 'add_people_form'} do %>
       <div id="results"></div>
-      <p><%= submit_tag I18n.t('search.add_selected') %></p>
+      <p><%= submit_tag t('search.add_selected') %></p>
     <% end %>
   </div>
 <% else %>
   <p class="very-strong">
-    <%= I18n.t('groups.this_group_is_pending_you_may_not_add_people') %>
+    <%= t('groups.this_group_is_pending_you_may_not_add_people') %>
   </p>
 <% end %>
 
-<h2><%= I18n.t('reporting.Admins') %></h2>
+<h2><%= t('reporting.Admins') %></h2>
 <%= render :partial => 'groups/admins' %>

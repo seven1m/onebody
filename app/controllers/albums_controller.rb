@@ -6,14 +6,14 @@ class AlbumsController < ApplicationController
       if @logged_in.can_see?(@person)
         @albums = @person.albums.all
       else
-        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+        render :text => t('not_authorized'), :layout => true, :status => 401
       end
     elsif params[:group_id]
       @group = Group.find(params[:group_id])
       if @logged_in.can_see?(@group)
         @albums = @group.albums.all
       else
-        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+        render :text => t('not_authorized'), :layout => true, :status => 401
       end
     else
       @albums = (
@@ -47,7 +47,7 @@ class AlbumsController < ApplicationController
   def create
     @album = Album.new(params[:album])
     if @album.group and !can_add_pictures_to_group?(@album.group)
-      @album.errors.add(:base, I18n.t('albums.cannot_add_pictures_to_group'))
+      @album.errors.add(:base, t('albums.cannot_add_pictures_to_group'))
     end
     if params['remove_owner'] and @logged_in.admin?(:manage_pictures)
       @album.person = nil
@@ -55,7 +55,7 @@ class AlbumsController < ApplicationController
       @album.person = @logged_in
     end
     if @album.save
-      flash[:notice] = I18n.t('albums.saved')
+      flash[:notice] = t('albums.saved')
       redirect_to @album
     else
       render :action => 'new'
@@ -65,7 +65,7 @@ class AlbumsController < ApplicationController
   def edit
     @album = Album.find(params[:id])
     unless @logged_in.can_edit?(@album)
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -73,13 +73,13 @@ class AlbumsController < ApplicationController
     @album = Album.find(params[:id])
     if @logged_in.can_edit?(@album)
       if @album.update_attributes(params[:album])
-        flash[:notice] = I18n.t('Changes_saved')
+        flash[:notice] = t('Changes_saved')
         redirect_to @album
       else
         render :action => 'edit'
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -89,7 +89,7 @@ class AlbumsController < ApplicationController
       @album.destroy
       redirect_to albums_path
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 

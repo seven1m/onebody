@@ -8,9 +8,9 @@
         </td>
         <td>
           <%= link_to h(publication.name), publication, :target => '_new' %>
-          <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => I18n.t('new') + '!', :class => 'no-border' %><% end %>
+          <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => t('new') + '!', :class => 'no-border' %><% end %>
           <% if @logged_in.admin?(:manage_publications) %>
-            <%= link_to '[' + I18n.t('delete') + ']', publication, :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet' %>
+            <%= link_to '[' + t('delete') + ']', publication, :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet' %>
           <% end %>
           <br/>
           <%=h publication.description %>
@@ -20,8 +20,8 @@
   </table>
   
   <p>
-    <%= I18n.t('publications.files_with_acrobat_icon', {:img => image_tag('acrobat.gif', :alt => 'Adobe Acrobat', :class => 'icon'), :url => link_to('Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html')}) %>
+    <%= t('publications.files_with_acrobat_icon', {:img => image_tag('acrobat.gif', :alt => 'Adobe Acrobat', :class => 'icon'), :url => link_to('Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html')}) %>
   </p>
 <% else %>
-  <p><em><%= I18n.t('publications.no_publications_available') %></em></p>
+  <p><em><%= t('publications.no_publications_available') %></em></p>
 <% end %>

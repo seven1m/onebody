@@ -1,10 +1,10 @@
-<p id="add_verse_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => I18n.t('verses.add_verse'), :class => 'icon') + ' ' + I18n.t('verses.add_verse'), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></p>
+<p id="add_verse_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('verses.add_verse'), :class => 'icon') + ' ' + t('verses.add_verse'), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></p>
 <div id="add_verse">
   <%= form_for Verse.new do |form| %>
     <p>
-      <%= I18n.t('verses.type_a_reference_below_and_hit_enter') %><br/>
+      <%= t('verses.type_a_reference_below_and_hit_enter') %><br/>
       <%= text_field_tag :id, nil, :style => 'border:1px solid #ccc;width:100px;' %>
-      <%= submit_tag I18n.t('verses.add_verse'), :style => 'width:100px;' %>
+      <%= submit_tag t('verses.add_verse'), :style => 'width:100px;' %>
     </p>
   <% end %>
 </div>

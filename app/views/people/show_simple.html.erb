@@ -1,9 +1,9 @@
 <div style="width:75px;float:right;text-align:right;">
-  <%= link_to_function '[' + I18n.t('close') + ']', 'Element.hide("popup")', :class => 'discreet' %>
+  <%= link_to_function '[' + t('close') + ']', 'Element.hide("popup")', :class => 'discreet' %>
 </div>
 
 <% unless @family %>
-  <div class="warning"><%=h I18n.t('people.no_family_for_this_person') %></div>
+  <div class="warning"><%=h t('people.no_family_for_this_person') %></div>
 <% end %>
 
 <h2><%=h @person.name %></h2>

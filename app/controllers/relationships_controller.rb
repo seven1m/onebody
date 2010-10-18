@@ -7,7 +7,7 @@ class RelationshipsController < ApplicationController
     elsif params[:family_id]
       family_index
     else
-      render :text => I18n.t('relationships.no_person_selected'), :layout => true
+      render :text => t('relationships.no_person_selected'), :layout => true
     end
   end
 
@@ -43,7 +43,7 @@ class RelationshipsController < ApplicationController
     elsif params[:family_id]
       create_for_family
     else
-      render :text => I18n.t('relationships.no_person_selected'), :layout => true
+      render :text => t('relationships.no_person_selected'), :layout => true
     end
   end
 
@@ -94,7 +94,7 @@ class RelationshipsController < ApplicationController
           r = relationship.reciprocate
           if r.nil?
             flash[:warning] ||= ''
-            flash[:warning] << I18n.t('relationships.cannot_be_reciprocated', :name => relationship.related.name) + "\n"
+            flash[:warning] << t('relationships.cannot_be_reciprocated', :name => relationship.related.name) + "\n"
           elsif !r.valid?
             add_errors_to_flash(r)
           end
@@ -108,7 +108,7 @@ class RelationshipsController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:edit_profiles)
-        render :text => I18n.t('only_admins'), :layout => true, :status => 401
+        render :text => t('only_admins'), :layout => true, :status => 401
         return false
       end
     end

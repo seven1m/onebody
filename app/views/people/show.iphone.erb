@@ -6,28 +6,28 @@
 <div class="info">
   <% unless @person.visible?(@family) %>
     <p>
-      <%= image_tag('lock.gif', :alt => I18n.t('people.hidden_profile'), :class => 'icon') %>
-      <%= I18n.t('people.this_profile_is_hidden') %>.
+      <%= image_tag('lock.gif', :alt => t('people.hidden_profile'), :class => 'icon') %>
+      <%= t('people.this_profile_is_hidden') %>.
     </p>
   <% end %>
   <%= render :partial => 'photo' %>
   <ul>
-    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :website, :label => I18n.t('people.website') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :website, :label => t('people.website') } do %>
       <%= link_to h(simple_url(@person.website)), @person.website, :rel => 'external' %>
     <% end %>
-    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :email, :label => I18n.t('people.email') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :email, :label => t('people.email') } do %>
       <%= mail_to @person.email, @person.email, :rel => 'external' %>
     <% end %>
-    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :home_phone, :label => I18n.t('profile.home') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :home_phone, :label => t('profile.home') } do %>
       <%= link_to format_phone(@person.home_phone) + ' (home)', "tel:#{@person.home_phone}", :rel => 'external' %>
     <% end %>
-    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :mobile_phone, :label => I18n.t('profile.mobile') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :mobile_phone, :label => t('profile.mobile') } do %>
       <%= link_to format_phone(@person.mobile_phone) + ' (mobile)', "tel:#{@person.mobile_phone}", :rel => 'external' %>
     <% end %>
-    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :work_phone, :label => I18n.t('profile.work') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :work_phone, :label => t('profile.work') } do %>
       <%= link_to format_phone(@person.work_phone) + ' (work)', "tel:#{@person.work_phone}", :rel => 'external' %>
     <% end %>
-    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :fax, :label => I18n.t('privacies.fax') } do %>
+    <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :fax, :label => t('privacies.fax') } do %>
       <%= link_to format_phone(@person.fax) + ' (fax)', "tel:#{@person.fax}", :rel => 'external' %>
     <% end %>
     <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :address, :label => 'Address' } do %>

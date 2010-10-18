@@ -6,10 +6,10 @@ class PrayerSignupsController < ApplicationController
         get_signups
         set_now
       else
-        render :text => I18n.t('prayer_signups.misconfigured'), :layout => true
+        render :text => t('prayer_signups.misconfigured'), :layout => true
       end
     else
-      render :text => I18n.t('feature_unavailable'), :layout => true
+      render :text => t('feature_unavailable'), :layout => true
     end
   end
 
@@ -49,7 +49,7 @@ class PrayerSignupsController < ApplicationController
         if signup.errors.any?
           flash[:warning] = signup.errors.full_messages.join('; ')
         else
-          flash[:notice] = I18n.t('prayer_signups.signup_saved')
+          flash[:notice] = t('prayer_signups.signup_saved')
         end
         redirect_to prayer_signups_path
       end
@@ -64,11 +64,11 @@ class PrayerSignupsController < ApplicationController
   def respond_to_unauthorized
     respond_to do |format|
       format.html do
-        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+        render :text => t('not_authorized'), :layout => true, :status => 401
       end
       format.js do
         render(:update) do |page|
-          page.alert(I18n.t('not_authorized'))
+          page.alert(t('not_authorized'))
         end
       end
     end
@@ -79,7 +79,7 @@ class PrayerSignupsController < ApplicationController
     if (signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups))
       @start = signup.start
       signup.destroy
-      flash[:notice] = I18n.t('prayer_signups.signup_removed')
+      flash[:notice] = t('prayer_signups.signup_removed')
     end
     respond_to do |format|
       format.html { redirect_to prayer_signups_path }

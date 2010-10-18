@@ -1,10 +1,10 @@
-<%=raw I18n.t('notifier.person_has_signed_for_account', :name => @person.name) %>
+<%=raw t('notifier.person_has_signed_for_account', :name => @person.name) %>
 
-<%=raw I18n.t('name') %>: <%=raw @person.name %>
-<%=raw I18n.t('people.email') %>: <%=raw @person.email %>
+<%=raw t('name') %>: <%=raw @person.name %>
+<%=raw t('people.email') %>: <%=raw @person.email %>
 
-<%=raw I18n.t('notifier.if_you_approve_this_account_creation') %>: <%=raw Setting.get(:url, :site) %>people/<%= @person.id %>/edit
+<%=raw t('notifier.if_you_approve_this_account_creation') %>: <%=raw Setting.get(:url, :site) %>people/<%= @person.id %>/edit
 
-<%=raw I18n.t('notifier.check_boxes_in_visibility_sidebar') %>
+<%=raw t('notifier.check_boxes_in_visibility_sidebar') %>
 
-<%=raw I18n.t('notifier.be_sure_to_send_verification_email') %>
+<%=raw t('notifier.be_sure_to_send_verification_email') %>

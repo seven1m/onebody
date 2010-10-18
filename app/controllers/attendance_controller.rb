@@ -7,15 +7,15 @@ class AttendanceController < ApplicationController
         begin
           @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
         rescue ArgumentError
-          flash[:warning] = I18n.t('attendance.wrong_date_format')
+          flash[:warning] = t('attendance.wrong_date_format')
           @attended_at = Date.today
         end
         @records = @group.get_people_attendance_records_for_date(@attended_at)
       else
-        render :text => I18n.t('attendance.not_enabled'), :layout => true, :status => 500
+        render :text => t('attendance.not_enabled'), :layout => true, :status => 500
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -57,13 +57,13 @@ class AttendanceController < ApplicationController
           if @group
             redirect_to group_attendance_index_path(@group, :attended_at => @attended_at)
           else
-            render :text => I18n.t('attendance.saved'), :layout => true
+            render :text => t('attendance.saved'), :layout => true
           end
         end
         format.json { render :text => {'status' => 'success'}.to_json }
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -90,7 +90,7 @@ class AttendanceController < ApplicationController
       end
       redirect_to group_attendance_index_path(@group, :attended_at => @attended_at)
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 

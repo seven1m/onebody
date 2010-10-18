@@ -2,21 +2,21 @@
   <% if @person %>
     <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + h(@person.name), @person %></li>
   <% end %>
-  <li><%= link_to image_tag('plus.png', :alt => I18n.t('recipes.add_a_recipe'), :class => 'icon') + ' ' + I18n.t('recipes.add_a_recipe'), new_recipe_path %></li>
+  <li><%= link_to image_tag('plus.png', :alt => t('recipes.add_a_recipe'), :class => 'icon') + ' ' + t('recipes.add_a_recipe'), new_recipe_path %></li>
 <% end %>
 
-<h1><%= I18n.t('recipes.recipes') %></h1>
+<h1><%= t('recipes.recipes') %></h1>
 
-<p><%= I18n.t('recipes.share_your_recipes', :community => h(Setting.get(:name, :community))) %></p>
+<p><%= t('recipes.share_your_recipes', :community => h(Setting.get(:name, :community))) %></p>
 
 <% content_for :sidebar do %>
-  <h2><%= I18n.t('tags.tags') %></h2>
+  <h2><%= t('tags.tags') %></h2>
   <div class="tag-cloud">
     <%= tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
       <%= link_to h(tag.name), tag, :class => css_class %>
     <% end %>
     <% if @tags.empty? %>
-      <em><%= I18n.t('tags.no_tags_yet') %></em>
+      <em><%= t('tags.no_tags_yet') %></em>
     <% end %>
   </div>
 <% end %>
@@ -24,5 +24,5 @@
 <% if @recipes.any? %>
   <%= render :partial => 'list', :locals => {:recipes => @recipes} %>
 <% else %>
-  <p><em><%= I18n.t('recipes.no_recipes_yet') %></em></p>
+  <p><em><%= t('recipes.no_recipes_yet') %></em></p>
 <% end %>

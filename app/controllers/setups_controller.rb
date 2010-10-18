@@ -20,7 +20,7 @@ class SetupsController < ApplicationController
         Site.current.save
       else
         generate_encryption_key
-        @person.errors.add :base, I18n.t('setup.invalid_domain_name')
+        @person.errors.add :base, t('setup.invalid_domain_name')
         render :action => 'new'
         return
       end
@@ -29,13 +29,13 @@ class SetupsController < ApplicationController
       @person.password_confirmation = params[:encrypted_password_confirmation].to_s.any? ? decrypt_password(params[:encrypted_password_confirmation]) : nil
       unless @person.password and @person.password == @person.password_confirmation
         generate_encryption_key
-        @person.errors.add :error, I18n.t('accounts.set_password_error')
+        @person.errors.add :error, t('accounts.set_password_error')
         render :action => 'new'
         return
       end
       unless @person.email.to_s.any?
         generate_encryption_key
-        @person.errors.add :email, I18n.t('activerecord.errors.models.person.attributes.email.invalid')
+        @person.errors.add :email, t('activerecord.errors.models.person.attributes.email.invalid')
         render :action => 'new'
         return
       end
@@ -52,7 +52,7 @@ class SetupsController < ApplicationController
       if @person.save
         Setting.set_global('Contact', 'Bug Notification Email', @person.email)
         Setting.set_global('Contact', 'Tech Support Email', @person.email)
-        flash[:notice] = I18n.t('setup.complete')
+        flash[:notice] = t('setup.complete')
         redirect_to new_session_path(:from => '/stream')
       else
         generate_encryption_key
@@ -66,7 +66,7 @@ class SetupsController < ApplicationController
 
     def check_setup_requirements
       if Person.count > 0 or Setting.get(:features, :multisite)
-        render :text => I18n.t('not_authorized'), :layout => true
+        render :text => t('not_authorized'), :layout => true
         return false
       end
     end

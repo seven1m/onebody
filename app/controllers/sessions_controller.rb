@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
       password = params[:password]
     else
       unless password = decrypt_password(params[:encrypted_password])
-        render :text => I18n.t('session.sign_in_error', :url => new_session_path), :layout => true, :status => 500
+        render :text => t('session.sign_in_error', :url => new_session_path), :layout => true, :status => 500
         return
       end
     end
@@ -45,19 +45,19 @@ class SessionsController < ApplicationController
       end
     elsif person == nil
       if family = Family.find_by_email(params[:email])
-        flash[:warning] = I18n.t('session.email_found')
+        flash[:warning] = t('session.email_found')
         redirect_to new_account_path(:email => params[:email])
       else
-        flash[:warning] = I18n.t('session.email_not_found_try_another')
+        flash[:warning] = t('session.email_not_found_try_another')
         generate_encryption_key
         render :action => 'new'
         flash.clear
       end
     else
       if p = Person.find_by_email(params[:email]) and p.encrypted_password.nil?
-        flash[:warning] = I18n.t('session.account_not_activated')
+        flash[:warning] = t('session.account_not_activated')
       else
-        flash[:warning] = I18n.t('session.password_doesnt_match')
+        flash[:warning] = t('session.password_doesnt_match')
         SigninFailure.create(:email => params[:email].downcase, :ip => request.remote_ip)
       end
       generate_encryption_key
@@ -84,7 +84,7 @@ class SessionsController < ApplicationController
       if SigninFailure.count('*',
         :conditions => ['email = ? and ip = ? and created_at >= ?', params[:email].downcase, request.remote_ip, 15.minutes.ago]) >
         Setting.get(:privacy, :max_sign_in_attempts).to_i
-        render :text => I18n.t('session.max_sign_in_attempts'), :layout => true
+        render :text => t('session.max_sign_in_attempts'), :layout => true
         return false
       end
     end

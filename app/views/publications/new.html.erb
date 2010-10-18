@@ -1,19 +1,19 @@
-<h1><%= I18n.t('publications.new_publication') %></h1>
+<h1><%= t('publications.new_publication') %></h1>
 
 <%= form_for @publication, :html => {:multipart => true} do |form| %>
   <%= error_messages_for(form) %>
   <p>
-    <%= form.label :name, I18n.t('publications.name') %>         <%= form.text_field :name %><br/>
-    <%= form.label :description, I18n.t('publications.description') %> <%= form.text_area :description, :rows => 3 %><br/>
-    <%= form.label :file, I18n.t('publications.file') %>         <%= form.file_field :file %><br/>
+    <%= form.label :name, t('publications.name') %>         <%= form.text_field :name %><br/>
+    <%= form.label :description, t('publications.description') %> <%= form.text_area :description, :rows => 3 %><br/>
+    <%= form.label :file, t('publications.file') %>         <%= form.file_field :file %><br/>
     <%= radio_button_tag :send_update_to_group_id, 0, true, :class => 'checkbox' %>
-    <%= label_tag :send_update_to_group_id_0, I18n.t('publications.notify_no_one'), :class => 'inline' %>
+    <%= label_tag :send_update_to_group_id_0, t('publications.notify_no_one'), :class => 'inline' %>
     <br/>
     <% @groups.each do |group| %>
       <%= radio_button_tag :send_update_to_group_id, group.id, false, :class => 'checkbox' %>
-      <%= label_tag "send_update_to_group_id_#{group.id}", I18n.t('publications.notify_the_group', :group => group.name), :class => 'inline' %>
+      <%= label_tag "send_update_to_group_id_#{group.id}", t('publications.notify_the_group', :group => group.name), :class => 'inline' %>
       <br/>
     <% end %>
-    <%= form.submit I18n.t('publications.save_publication') %>
+    <%= form.submit t('publications.save_publication') %>
   </p>
 <% end %>

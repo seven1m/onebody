@@ -3,18 +3,18 @@
   <%= error_messages_for(form) %>
 
   <p>
-    <%= form.label :name, I18n.t('name') %>
+    <%= form.label :name, t('name') %>
     <%= form.text_field :name %>
   </p>
   
   <p>
     <%= form.check_box :restricted, :onclick => "toggle_admins()" %>
-    <%= form.label :restricted, I18n.t('reporting.restricted'), :class => 'inline' %>
-    <span id="restricted_note"><br/><%= I18n.t('reporting.restricted_note') %></span>
+    <%= form.label :restricted, t('reporting.restricted'), :class => 'inline' %>
+    <span id="restricted_note"><br/><%= t('reporting.restricted_note') %></span>
   </p>
   
   <fieldset id="admins" style="width:300px;">
-    <legend><%= I18n.t('reporting.Admins') %></legend>
+    <legend><%= t('reporting.Admins') %></legend>
     <div style="height:100px;overflow:auto;">
       <% @admins.each do |admin| %>
         <%= check_box_tag 'report[admin_ids][]', admin.id, @report.admin_ids.include?(admin.id), :id => "admin#{admin.id}" %>
@@ -24,36 +24,36 @@
   </fieldset>
   
   <fieldset>
-    <legend><%= I18n.t('reporting.Criteria') %></legend>
+    <legend><%= t('reporting.Criteria') %></legend>
     <div id="criteria_root">
       <%= render :partial => "#{@report.definition['collection']}_selector", :collection => @conditions %>
     </div>
     <p>
       <%= link_to_function image_tag('arrow_switch.png', :class => 'icon'), "flip_conjunctions()" %>
-      <%= link_to_function I18n.t('reporting.flip_conjunctions'), "flip_conjunctions()" %>
+      <%= link_to_function t('reporting.flip_conjunctions'), "flip_conjunctions()" %>
     </p>
   </fieldset>
   
   <fieldset>
-    <legend><%= I18n.t('reporting.Sort_Order') %></legend>
+    <legend><%= t('reporting.Sort_Order') %></legend>
     <div id="sort_root">
       <%= render :partial => "sort_attribute", :collection => @report.definition['sort'].to_a %>
     </div>
   </fieldset>
   
   <p>
-    <%= form.submit I18n.t('reporting.save_and_run_report') %>
-    <%= form.submit I18n.t('reporting.save_and_continue_editing'), :name => 'continue_editing' %>
-    <%= link_to I18n.t('reporting.cancel_changes'), administration_reports_path, :class => 'small' %>
+    <%= form.submit t('reporting.save_and_run_report') %>
+    <%= form.submit t('reporting.save_and_continue_editing'), :name => 'continue_editing' %>
+    <%= link_to t('reporting.cancel_changes'), administration_reports_path, :class => 'small' %>
   </p>
 
 <% end %>
 
-<p><%= link_to_function I18n.t('reporting.show_tips'), "Element.toggle('tips')" %></p>
+<p><%= link_to_function t('reporting.show_tips'), "Element.toggle('tips')" %></p>
 
 <div id="tips" style="display:none;">
   <ul>
-    <% I18n.t('reporting.tips').each do |tip| %>
+    <% t('reporting.tips').each do |tip| %>
       <li><%= tip %></li>
     <% end %>
   </ul>

@@ -1,15 +1,15 @@
 <% content_for :subnav do %>
-  <li><%= link_to I18n.t('admin.home'), admin_path %></li>
+  <li><%= link_to t('admin.home'), admin_path %></li>
 <% end %>
 
 <h1>
-  <% if params[:complete] %><%= I18n.t('admin.updates.completed') %><% else %><%= I18n.t('admin.updates.pending_title') %><% end %>
+  <% if params[:complete] %><%= t('admin.updates.completed') %><% else %><%= t('admin.updates.pending_title') %><% end %>
   Updates
 </h1>
 
-<h2><%= I18n.t('admin.updates.profile_updates') %></h2>
+<h2><%= t('admin.updates.profile_updates') %></h2>
 
-<p><%= link_to I18n.t('admin.updates.show_status', :status => params[:complete] ? I18n.t('admin.updates.pending_title') : I18n.t('admin.updates.complete')), :complete => params[:complete].nil? %></p>
+<p><%= link_to t('admin.updates.show_status', :status => params[:complete] ? t('admin.updates.pending_title') : t('admin.updates.complete')), :complete => params[:complete].nil? %></p>
 
 <%= will_paginate @updates, :params => {:complete => params[:complete]} %>
 
@@ -22,40 +22,40 @@
             <%= render :partial => 'people/thumbnail', :locals => {:person => update.person} %>
           </a>
         <% else %>
-          <%= image_tag 'man.tn.gif', :alt => '(' + I18n.t('admin.updates.person_deleted') + ')', :class => 'icon thumbnail' %>
+          <%= image_tag 'man.tn.gif', :alt => '(' + t('admin.updates.person_deleted') + ')', :class => 'icon thumbnail' %>
         <% end %>
       </td>
       <td class="update">
         <% if update.person %>
           <%= link_to h(update.person.name), person_path(:id => update.person) %>
         <% else %>
-          '(<%= I18n.t('admin.updates.person_deleted') %>)'
+          '(<%= t('admin.updates.person_deleted') %>)'
         <% end %>
-        <%= I18n.t('admin.updates.updated') %>
+        <%= t('admin.updates.updated') %>
         <%= update.created_at.to_s %>
         <% if update.complete %>
-          <%= link_to I18n.t('admin.updates.mark_incomplete'), administration_update_path(update, :complete => false), :method => 'put' %>
+          <%= link_to t('admin.updates.mark_incomplete'), administration_update_path(update, :complete => false), :method => 'put' %>
         <% else %>
-          <%= link_to I18n.t('admin.updates.mark_complete'), administration_update_path(update, :complete => true), :method => 'put' %> |
-          <%= link_to I18n.t('Delete'), administration_update_path(update), :method => 'delete', :confirm => I18n.t('are_you_sure') %>
+          <%= link_to t('admin.updates.mark_complete'), administration_update_path(update, :complete => true), :method => 'put' %> |
+          <%= link_to t('Delete'), administration_update_path(update), :method => 'delete', :confirm => t('are_you_sure') %>
         <% end %>
         <%= form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
           <%= hidden_field_tag :complete, true %>
           <table>
-            <% if update.first_name %><tr><td><%= I18n.t('accounts.first_name') %>:</td><td><%=h update.first_name %></td></tr><% end %>
-            <% if update.last_name %><tr><td><%= I18n.t('accounts.last_name') %>:</td><td><%=h update.last_name %></td></tr><% end %>
-            <% if update.home_phone %><tr><td><%= I18n.t('privacies.home_phone') %>:</td><td><%= format_phone update.home_phone %></td></tr><% end %>
-            <% if update.mobile_phone %><tr><td><%= I18n.t('privacies.mobile_phone') %>:</td><td><%= format_phone update.mobile_phone, mobile=true %></td></tr><% end %>
-            <% if update.work_phone %><tr><td><%= I18n.t('privacies.work_phone') %>:</td><td><%= format_phone update.work_phone %></td></tr><% end %>
-            <% if update.fax %><tr><td><%= I18n.t('privacies.fax') %>:</td><td><%= format_phone update.fax %></td></tr><% end %>
-            <% if update.address1 %><tr><td><%= I18n.t('privacies.address') %>:</td><td><%=h update.address1 %></td></tr><% end %>
-            <% if update.address2 %><tr><td><%= I18n.t('privacies.address2') %>:</td><td><%=h update.address2 %></td></tr><% end %>
-            <% if update.city %><tr><td><%= I18n.t('search.city') %>:</td><td><%=h update.city %></td></tr><% end %>
-            <% if update.state %><tr><td><%= I18n.t('search.state') %>:</td><td><%=h update.state %></td></tr><% end %>
-            <% if update.zip %><tr><td><%= I18n.t('search.zip') %>:</td><td><%=h update.zip %></td></tr><% end %>
+            <% if update.first_name %><tr><td><%= t('accounts.first_name') %>:</td><td><%=h update.first_name %></td></tr><% end %>
+            <% if update.last_name %><tr><td><%= t('accounts.last_name') %>:</td><td><%=h update.last_name %></td></tr><% end %>
+            <% if update.home_phone %><tr><td><%= t('privacies.home_phone') %>:</td><td><%= format_phone update.home_phone %></td></tr><% end %>
+            <% if update.mobile_phone %><tr><td><%= t('privacies.mobile_phone') %>:</td><td><%= format_phone update.mobile_phone, mobile=true %></td></tr><% end %>
+            <% if update.work_phone %><tr><td><%= t('privacies.work_phone') %>:</td><td><%= format_phone update.work_phone %></td></tr><% end %>
+            <% if update.fax %><tr><td><%= t('privacies.fax') %>:</td><td><%= format_phone update.fax %></td></tr><% end %>
+            <% if update.address1 %><tr><td><%= t('privacies.address') %>:</td><td><%=h update.address1 %></td></tr><% end %>
+            <% if update.address2 %><tr><td><%= t('privacies.address2') %>:</td><td><%=h update.address2 %></td></tr><% end %>
+            <% if update.city %><tr><td><%= t('search.city') %>:</td><td><%=h update.city %></td></tr><% end %>
+            <% if update.state %><tr><td><%= t('search.state') %>:</td><td><%=h update.state %></td></tr><% end %>
+            <% if update.zip %><tr><td><%= t('search.zip') %>:</td><td><%=h update.zip %></td></tr><% end %>
             <% if update.birthday %>
               <tr>
-                <td><%= I18n.t('search.birthday') %>:</td>
+                <td><%= t('search.birthday') %>:</td>
                 <td>
                   <% unless update.birthday.year == 1800 %>
                     <%= update.birthday.to_s(:date) %>
@@ -65,15 +65,15 @@
             <% end %>
             <% if !update.complete? and (update.birthday.nil? or update.person.years_of_age.nil?) %>
               <tr>
-                <td><%= I18n.t('people.child') %>:</td>
+                <td><%= t('people.child') %>:</td>
                 <td>
-                  <%= form.select :child, ['', [I18n.t('Answer_yes'), true], [I18n.t('Answer_no'), false]] %>
+                  <%= form.select :child, ['', [t('Answer_yes'), true], [t('Answer_no'), false]] %>
                 </td>
               </tr>
             <% end %>
             <% if update.anniversary %>
               <tr>
-                <td><%= I18n.t('privacies.anniversary') %>:</td>
+                <td><%= t('privacies.anniversary') %>:</td>
                 <td>
                   <% unless update.anniversary.year == 1800 %>
                     <%= update.anniversary.to_s(:date) %>
@@ -95,8 +95,8 @@
               <td></td>
               <td>
                 <%= check_box_tag 'review', true, false %>
-                <%= label_tag 'review', I18n.t('admin.updates.review_changes'), :class => 'inline' %><br/>
-                <%= form.submit I18n.t('Update') %>
+                <%= label_tag 'review', t('admin.updates.review_changes'), :class => 'inline' %><br/>
+                <%= form.submit t('Update') %>
               </td>
             </tr>
           </table>
@@ -109,15 +109,15 @@
 <%= will_paginate @updates, :params => {:complete => params[:complete]} %>
 
 <% if @updates.empty? %>
-  <p><em><%= I18n.t('admin.updates.no_updates') %>!</em></p>
+  <p><em><%= t('admin.updates.no_updates') %>!</em></p>
 <% end %>
 
 <% if @logged_in.admin?(:manage_groups) %>
-  <h2><%= I18n.t('admin.updates.groups_pending') %></h2>
+  <h2><%= t('admin.updates.groups_pending') %></h2>
   <% if not params[:complete] and @unapproved_groups.any? %>
 
-    <p><%= I18n.t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %> <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(:id => g)) }.join(', ') %></p>
+    <p><%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %> <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(:id => g)) }.join(', ') %></p>
   <% else %>
-    <p><%= I18n.t('admin.updates.none') %></p>
+    <p><%= t('admin.updates.none') %></p>
   <% end %>
 <% end %>

@@ -1,6 +1,6 @@
 <% content_for :subnav do %>
-  <li><%= link_to I18n.t('reporting.Reports'), administration_reports_path %></li>
-  <li><%= link_to image_tag('pencil.png', :class => 'icon') + ' ' + I18n.t('reporting.edit_report'), edit_administration_report_path(@report) %></li>
+  <li><%= link_to t('reporting.Reports'), administration_reports_path %></li>
+  <li><%= link_to image_tag('pencil.png', :class => 'icon') + ' ' + t('reporting.edit_report'), edit_administration_report_path(@report) %></li>
 <% end %>
 
 <h1><%=h @report.name %></h1>

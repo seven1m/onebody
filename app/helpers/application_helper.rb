@@ -41,19 +41,19 @@ module ApplicationHelper
   def nav_links
     html = ''
     if Setting.get(:features, :content_management_system)
-      html << "<li>#{tab_link I18n.t("nav.pages"), '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
+      html << "<li>#{tab_link t("nav.pages"), '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
     end
-    html << "<li>#{tab_link I18n.t("nav.home"), stream_path, params[:controller] == 'streams'}</li>"
+    html << "<li>#{tab_link t("nav.home"), stream_path, params[:controller] == 'streams'}</li>"
     profile_link = @logged_in ? person_path(@logged_in, :tour => params[:tour]) : people_path
-    html << "<li>#{tab_link I18n.t("nav.profile"), profile_link, params[:controller] == 'people' && me?}</li>"
+    html << "<li>#{tab_link t("nav.profile"), profile_link, params[:controller] == 'people' && me?}</li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
-      html << "<li>#{ tab_link I18n.t("nav.groups"), groups_path, params[:controller] == 'groups'}</li>"
+      html << "<li>#{ tab_link t("nav.groups"), groups_path, params[:controller] == 'groups'}</li>"
     end
-    html << "<li>#{tab_link I18n.t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
+    html << "<li>#{tab_link t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
     if Setting.get(:services, :sermondrop_url).to_s.any?
-      html << "<li>#{tab_link I18n.t("nav.podcasts"), podcasts_path, params[:controller] == 'podcasts'}</li>"
+      html << "<li>#{tab_link t("nav.podcasts"), podcasts_path, params[:controller] == 'podcasts'}</li>"
     end
-    #html << "<li>#{tab_link I18n.t("nav.bible"), bible_path, params[:controller] == 'bibles'}</li>"
+    #html << "<li>#{tab_link t("nav.bible"), bible_path, params[:controller] == 'bibles'}</li>"
     html
   end
 
@@ -72,23 +72,23 @@ module ApplicationHelper
     html = ''
     if @logged_in
       html << "<li class=\"personal\">"
-      html << link_to(image_tag('door_in.png', :alt => I18n.t('session.sign_out'), :class => 'icon') + ' ' + I18n.t('session.sign_out'), session_path, :method => 'delete')
+      html << link_to(image_tag('door_in.png', :alt => t('session.sign_out'), :class => 'icon') + ' ' + t('session.sign_out'), session_path, :method => 'delete')
       html << "</li>"
       html << "<li class=\"personal\">"
       if session[:touring]
-        html << link_to(image_tag('car.png', :alt => I18n.t('session.tour'), :class => 'icon') + ' ' + I18n.t('session.tour'), tour_path(:stop => true), :class => 'active')
+        html << link_to(image_tag('car.png', :alt => t('session.tour'), :class => 'icon') + ' ' + t('session.tour'), tour_path(:stop => true), :class => 'active')
       else
-        html << link_to(image_tag('car.png', :alt => I18n.t('session.tour'), :class => 'icon') + ' ' + I18n.t('session.tour'), tour_path(:start => true), :id => 'tour_link')
+        html << link_to(image_tag('car.png', :alt => t('session.tour'), :class => 'icon') + ' ' + t('session.tour'), tour_path(:start => true), :id => 'tour_link')
       end
       html << "</li>"
       if @logged_in.admin?
         html << "<li class=\"personal\">"
-        html << link_to(image_tag('cog.png', :alt => I18n.t('admin.admin'), :class => 'icon') + ' ' + I18n.t('admin.admin'), admin_path, :class => params[:controller] =~ /^admin/ ? 'active' : nil)
+        html << link_to(image_tag('cog.png', :alt => t('admin.admin'), :class => 'icon') + ' ' + t('admin.admin'), admin_path, :class => params[:controller] =~ /^admin/ ? 'active' : nil)
         html << "</li>"
       end
     else
       html << "<li class=\"personal\">"
-      html << link_to(image_tag('door.png', :alt => I18n.t('session.sign_in'), :class => 'icon') + ' ' + I18n.t('session.sign_in'), new_session_path)
+      html << link_to(image_tag('door.png', :alt => t('session.sign_in'), :class => 'icon') + ' ' + t('session.sign_in'), new_session_path)
       html << "</li>"
     end
     html
@@ -176,7 +176,7 @@ module ApplicationHelper
   def error_messages_for(form)
     if form.object.errors.any?
       (
-        "<p>#{I18n.t('There_were_errors')}</p>" + \
+        "<p>#{t('There_were_errors')}</p>" + \
         "<ol>" + \
         form.object.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
         "</ol>"

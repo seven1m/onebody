@@ -1,25 +1,25 @@
 <%= form_for [@group, @req] do |form| %>
   <%= form.hidden_field :group_id %>
-  <h2><%= I18n.t('prayer.request') %></h2>
+  <h2><%= t('prayer.request') %></h2>
   <p>
-    <%= form.label :person_id, I18n.t('prayer.by') %>
+    <%= form.label :person_id, t('prayer.by') %>
     <% if @req.new_record? %>
       <%= form.select :person_id, @req.group.people.map { |p| [p.name, p.id] } %><br/>
     <% else %>
       <%= form.hidden_field :person_id %>
       <%=h @req.person.name %>
     <% end %>
-    <%= form.label :request, I18n.t('prayer.request') %>         <%= form.text_area :request, :rows => 5 %>
+    <%= form.label :request, t('prayer.request') %>         <%= form.text_area :request, :rows => 5 %>
   </p>
   
-  <p><%= form.submit I18n.t('prayer.save_prayer_request') %></p>
+  <p><%= form.submit t('prayer.save_prayer_request') %></p>
   
-  <h2><%= I18n.t('prayer.answer') %></h2>
-  <p><%= I18n.t('prayer.remember_to_come_back') %></p>
+  <h2><%= t('prayer.answer') %></h2>
+  <p><%= t('prayer.remember_to_come_back') %></p>
   <p>
-    <%= form.label :answered_at, I18n.t('prayer.answer_date') %> <%= form.text_field :answered_at %> <em>MM/DD/YYYY</em><br/>
-    <%= form.label :answer, I18n.t('prayer.answer') %>                     <%= form.text_area :answer, :rows => 5 %>
+    <%= form.label :answered_at, t('prayer.answer_date') %> <%= form.text_field :answered_at %> <em>MM/DD/YYYY</em><br/>
+    <%= form.label :answer, t('prayer.answer') %>                     <%= form.text_area :answer, :rows => 5 %>
   </p>
   
-  <p><%= form.submit I18n.t('prayer.save_prayer_request') %></p>
+  <p><%= form.submit t('prayer.save_prayer_request') %></p>
 <% end %>

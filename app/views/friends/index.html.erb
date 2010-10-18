@@ -1,9 +1,9 @@
-<h1><%= I18n.t('friends.personal_friends', :name => h(@person.name_possessive)) %></h1>
+<h1><%= t('friends.personal_friends', :name => h(@person.name_possessive)) %></h1>
 
 <% if @pending.any? %>
   <div class="highlight">
-    <h2><%= I18n.t('friends.pending_requests') %></h2>
-    <p><%= I18n.t('friends.people_requested') %></p>
+    <h2><%= t('friends.pending_requests') %></h2>
+    <p><%= t('friends.people_requested') %></p>
     <table>
       <% @pending.each do |friendship_request| %>
         <tr>
@@ -16,8 +16,8 @@
             <%= link_to h(friendship_request.from.name), friendship_request.from %>
             <br/>
             <strong>
-              <%= link_to image_tag('contact_add.gif', :alt => I18n.t('friends.accept'), :class => 'icon') + ' ' + I18n.t('friends.accept'), person_friend_path(@logged_in, friendship_request, :accept => true), :method => 'put', :style => 'text-decoration:none;' %><br/>
-              <%= link_to image_tag('remove.gif', :alt => I18n.t('friends.decline'), :class => 'icon') + ' ' + I18n.t('friends.decline'), person_friend_path(@logged_in, friendship_request, :reject => true), :method => 'put', :confirm => I18n.t('are_you_sure'), :style => 'text-decoration:none;' %>
+              <%= link_to image_tag('contact_add.gif', :alt => t('friends.accept'), :class => 'icon') + ' ' + t('friends.accept'), person_friend_path(@logged_in, friendship_request, :accept => true), :method => 'put', :style => 'text-decoration:none;' %><br/>
+              <%= link_to image_tag('remove.gif', :alt => t('friends.decline'), :class => 'icon') + ' ' + t('friends.decline'), person_friend_path(@logged_in, friendship_request, :reject => true), :method => 'put', :confirm => t('are_you_sure'), :style => 'text-decoration:none;' %>
             </strong>
           </td>
         </tr>
@@ -28,8 +28,8 @@
 
 <% if @friendships.any? %>
   <% if @friendships.length > 1 %>
-    <p><%= I18n.t('friends.can_rearrange_list', :img => image_tag('reorder.png', :alt => 'Reorder', :class => 'icon')) %>
-    (<%= I18n.t('friends.top_on_profile', :max_number => MAX_FRIENDS_ON_PROFILE) %>)</p>
+    <p><%= t('friends.can_rearrange_list', :img => image_tag('reorder.png', :alt => 'Reorder', :class => 'icon')) %>
+    (<%= t('friends.top_on_profile', :max_number => MAX_FRIENDS_ON_PROFILE) %>)</p>
   <% end %>
   <ul id="friends" style="list-style-type:none;">
     <% @friendships.each do |friendship| %>
@@ -40,8 +40,8 @@
         <%= link_to h(friendship.friend.name), friendship.friend %>
         (added <%= friendship.created_at.to_time.to_s %>)
         <% if me? %>
-          <% if @friendships.length > 1 %><%= image_tag 'reorder.png', :alt => I18n.t('friends.reorder_list'), :class => 'handle icon' %><% end %>
-          <%= link_to image_tag('user_delete.png', :alt => I18n.t('friends.remove_from_friends'), :class => 'icon') + ' ' + I18n.t('friends.remove_from_friends'), person_friend_path(@person, friendship.friend), :class => 'discreet', :method => 'delete', :confirm => I18n.t('are_you_sure') %>
+          <% if @friendships.length > 1 %><%= image_tag 'reorder.png', :alt => t('friends.reorder_list'), :class => 'handle icon' %><% end %>
+          <%= link_to image_tag('user_delete.png', :alt => t('friends.remove_from_friends'), :class => 'icon') + ' ' + t('friends.remove_from_friends'), person_friend_path(@person, friendship.friend), :class => 'discreet', :method => 'delete', :confirm => t('are_you_sure') %>
         <% end %>
       </li>
     <% end %>
@@ -50,12 +50,12 @@
   <%= javascript_include_tag 'dragdrop.js' %>
   <%= sortable_element 'friends', :url => reorder_person_friends_path(@person), :handle => 'handle' %>
 <% else %>
-  <p class="highlight"><%= I18n.t('groups.nobody_yet') %>!</h2>
+  <p class="highlight"><%= t('groups.nobody_yet') %>!</h2>
 <% end %>
 
 <% if me? %>
   <p>
-    <%= link_to image_tag('add_small.gif', :alt => I18n.t('friends.add_friend'), :class => 'icon') + ' ' + I18n.t('friends.search_in_the_directory'), new_search_path(:search_friends => true) %></p>
+    <%= link_to image_tag('add_small.gif', :alt => t('friends.add_friend'), :class => 'icon') + ' ' + t('friends.search_in_the_directory'), new_search_path(:search_friends => true) %></p>
   </p>
 <% end %>
 

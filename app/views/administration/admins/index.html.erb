@@ -1,22 +1,22 @@
 <% content_for :subnav do %>
-  <li><%= link_to I18n.t('admin.home'), admin_path %></li>
+  <li><%= link_to t('admin.home'), admin_path %></li>
 <% end %>
 
 <% content_for :sidebar do %>
   <p>
-    <%= I18n.t('admin.admin_count', :count => @admin_count) %>
+    <%= t('admin.admin_count', :count => @admin_count) %>
   </p>
   
   <% if Site.current.max_admins and Admin.people_count >= Site.current.max_admins %>
-    <p><%= I18n.t('admin.max_admins') %></p>
+    <p><%= t('admin.max_admins') %></p>
   <% else %>
     <%= form_tag :remote => true, :url => search_path %>
       <%= hidden_field_tag :select_person, true %>
       <p>
-        <%= I18n.t('admin.add_individual') %><br/>
-        <label for="name"><%= I18n.t('name') %>:</label> <%= text_field_tag 'name' %>
+        <%= t('admin.add_individual') %><br/>
+        <label for="name"><%= t('name') %>:</label> <%= text_field_tag 'name' %>
         <br/>
-        <%= submit_tag I18n.t('admin.add_person') %>
+        <%= submit_tag t('admin.add_person') %>
       </p>
     </form>
     
@@ -24,41 +24,41 @@
       <%= form_tag(administration_admins_path) do %>
         <%= select_tag :template_id, options_for_select([['Individual', 0]] + @templates.map { |t| [t.template_name, t.id] }) %>
         <div id="results"></div>
-        <p><%= submit_tag I18n.t('admin.add_selected') %></p>
+        <p><%= submit_tag t('admin.add_selected') %></p>
       <% end %>
     </div>
     
     <%= form_tag(administration_admins_path) do %>
       <p>
-        <%= I18n.t('admin.new_admin_template') %><br/>
-        <label for="template_name"><%= I18n.t('name') %>:</label> <%= text_field_tag 'template_name' %>
+        <%= t('admin.new_admin_template') %><br/>
+        <label for="template_name"><%= t('name') %>:</label> <%= text_field_tag 'template_name' %>
         <br/>
-        <%= submit_tag I18n.t('admin.add_template') %><br/>
-        <%= I18n.t('admin.admin_template_description') %>
+        <%= submit_tag t('admin.add_template') %><br/>
+        <%= t('admin.admin_template_description') %>
       </p>
     <% end %>
   <% end %>
 
-  <p><%= link_to I18n.t('admin.manage_group_administrators'), administration_admins_path(:groups => true) %></p>
+  <p><%= link_to t('admin.manage_group_administrators'), administration_admins_path(:groups => true) %></p>
   
 <% end %>
 
-<h2><%= I18n.t('admin.administrators') %></h2>
+<h2><%= t('admin.administrators') %></h2>
 
 <% @admins.each do |admin| %>
   <div style="margin-bottom:3px;">
-    <%= link_to_function image_tag('plus.gif', :alt => I18n.t('admin.show_privileges'), :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
+    <%= link_to_function image_tag('plus.gif', :alt => t('admin.show_privileges'), :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
     <% if admin.template_name %>
       <strong><%=h admin.template_name %></strong>
     <% else %>
       <%= link_to h(admin.person.name), admin.person %>
       <% if admin.super_admin? %>(super admin)<% end %>
     <% end %>
-    <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet' %>
+    <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet' %>
     <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;margin-left:15px;">
       <% if admin.super_admin? %>
         <% if @logged_in.super_admin? %>
-          <%= link_to I18n.t('admin.demote_to_standard_admin'), :remote => true, :url => administration_admin_path(admin, :super_admin => 'false'), :method => :put %>
+          <%= link_to t('admin.demote_to_standard_admin'), :remote => true, :url => administration_admin_path(admin, :super_admin => 'false'), :method => :put %>
         <% end %>
       <% else %>
         <%= check_box_tag 'select_all', true, false, :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name=*&value='+this.checked})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
@@ -78,12 +78,12 @@
           <% admin.people.all(:order => 'last_name, first_name').each do |person| %>
             <br/>
             <%= link_to h(person.name), person %>
-            <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => I18n.t('are_you_sure'), :class => 'discreet' %>
+            <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet' %>
           <% end %>
         <% end %>
         <% if @logged_in.super_admin? %>
           <br/>
-          <%= link_to I18n.t('admin.promote_to_super_admin'), :remote => true, :url => administration_admin_path(admin, :super_admin => 'true'), :method => :put %>
+          <%= link_to t('admin.promote_to_super_admin'), :remote => true, :url => administration_admin_path(admin, :super_admin => 'true'), :method => :put %>
         <% end %>
       <% end %>
     </div>

@@ -1,11 +1,11 @@
-<h1><%= I18n.t('admin.emails.changed_addresses') %></h1>
+<h1><%= t('admin.emails.changed_addresses') %></h1>
 
 <p>
-  <em><%= I18n.t('admin.emails.alert') %></em>
+  <em><%= t('admin.emails.alert') %></em>
 </p>
 
 <p>
-  <%= I18n.t('admin.emails.description') %>
+  <%= t('admin.emails.description') %>
 </p>
 
 <% if @people.any? %>
@@ -13,11 +13,11 @@
     <table>
       <tr>
         <th><input type="checkbox" onclick="var check_all=this.checked; $$('.person_checkbox').each(function(e){e.checked=check_all})"/></th>
-        <th><%= I18n.t('admin.syncs.id') %></th>
-        <th><%= I18n.t('admin.syncs.legacy_id') %></th>
-        <th><%= I18n.t('accounts.last_name') %></th>
-        <th><%= I18n.t('accounts.first_name') %></th>
-        <th><%= I18n.t('people.email') %></th>
+        <th><%= t('admin.syncs.id') %></th>
+        <th><%= t('admin.syncs.legacy_id') %></th>
+        <th><%= t('accounts.last_name') %></th>
+        <th><%= t('accounts.first_name') %></th>
+        <th><%= t('people.email') %></th>
       </tr>
       <% @people.each do |person| %>
         <tr>
@@ -30,8 +30,8 @@
         </tr>
       <% end %>
     </table>
-    <p><%= submit_tag I18n.t('admin.emails.clear_flags') %></p>
+    <p><%= submit_tag t('admin.emails.clear_flags') %></p>
   <% end %>
 <% else %>
-  <p><strong><%= I18n.t('admin.emails.no_records') %></strong></p>
+  <p><strong><%= t('admin.emails.no_records') %></strong></p>
 <% end %>

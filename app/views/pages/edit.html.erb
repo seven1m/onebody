@@ -1,9 +1,9 @@
 <% content_for :subnav do %>
-  <li><%= link_to I18n.t('pages.pages'), pages_path %></li>
-  <li><%= link_to I18n.t('pages.view_page'), @page %></li>
+  <li><%= link_to t('pages.pages'), pages_path %></li>
+  <li><%= link_to t('pages.view_page'), @page %></li>
 <% end %>
 
-<h1><%= I18n.t('pages.edit_page') %></h1>
+<h1><%= t('pages.edit_page') %></h1>
 
 <div style="float:right;width:500px;border-left:1px solid #ccc;padding-left:25px;">
   <%= render :partial => 'attachments' %>

@@ -6,7 +6,7 @@
     <%= render :partial => 'families/photo', :locals => defined?(url) ? {:url => url} : nil %>
   <% elsif me? and params[:controller] == 'people' and params[:action] == 'show' %>
     <div id="profile-pic" class="profile-pic-<%= @person.gender.to_s == 'Female' ? 'woman' : 'man' %>" onclick="location.href = '<%= edit_person_path %>#picture'">
-      <%= link_to image_tag('person_picture.gif', :alt => I18n.t('people.change_your_picture'), :class => 'icon') + ' ' + I18n.t('people.change_your_picture'), edit_person_path + '#picture' %>
+      <%= link_to image_tag('person_picture.gif', :alt => t('people.change_your_picture'), :class => 'icon') + ' ' + t('people.change_your_picture'), edit_person_path + '#picture' %>
     </div>
   <% else %>
     <% if defined?(url) %><a href="<%= url_for(url) %>"><% end %>

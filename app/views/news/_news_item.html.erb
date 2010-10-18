@@ -2,8 +2,8 @@
   <h2>
     <%= link_to h(news_item.title), news_item, :class => 'no-underline' %>
     <% if @logged_in.can_edit?(news_item) %>
-      <%= link_to I18n.t('edit'), edit_news_item_path(news_item), :class => 'discreet' %>
-      <%= link_to I18n.t('delete'), news_item_path(news_item), :class => 'discreet', :method => :delete, :confirm => I18n.t('are_you_sure') %>
+      <%= link_to t('edit'), edit_news_item_path(news_item), :class => 'discreet' %>
+      <%= link_to t('delete'), news_item_path(news_item), :class => 'discreet', :method => :delete, :confirm => t('are_you_sure') %>
     <% end %>
   </h2>
   <div class="news-item-meta">

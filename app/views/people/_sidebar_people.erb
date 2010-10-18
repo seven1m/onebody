@@ -1,7 +1,7 @@
 <% if (count = @person.sidebar_group_people_count) > 0 %>
   <h2><%= Setting.get(:features, :sidebar_group_heading) %></h2>
   <% if count > MAX_GROUPIES_ON_PROFILE %>
-    <p><%= MAX_GROUPIES_ON_PROFILE %> <%= I18n.t('of') %> <%= count %></p>
+    <p><%= MAX_GROUPIES_ON_PROFILE %> <%= t('of') %> <%= count %></p>
   <% end %>
   <table>
     <% @sidebar_group_people.each do |person| %>
@@ -15,7 +15,7 @@
           <%= link_to h(person.name), person %>
           <% if person.birthday_soon? %><span class="small">
             <br/>
-            <%= image_tag('birthday.png', :alt => I18n.t('privacies.birthday'), :class => 'icon') %>
+            <%= image_tag('birthday.png', :alt => t('privacies.birthday'), :class => 'icon') %>
             <%= person.birthday.to_s(:date_without_year) %></span>
           <% end %>
         </td>
@@ -23,6 +23,6 @@
     <% end %>
   </table>
   <% if count > MAX_GROUPIES_ON_PROFILE %>
-    <p><%= link_to I18n.t('more') + "...", person_groupies_path(@person) %></p>
+    <p><%= link_to t('more') + "...", person_groupies_path(@person) %></p>
   <% end %>
 <% end %>

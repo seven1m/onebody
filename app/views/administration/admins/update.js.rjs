@@ -8,6 +8,6 @@ if @success
     end
   end
 else
-  page.alert(I18n.t('admin.error_saving'))
+  page.alert(t('admin.error_saving'))
 end
 

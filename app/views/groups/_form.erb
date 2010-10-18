@@ -2,65 +2,65 @@
 
   <%= error_messages_for(form) %>
   
-  <h2 class="tab" id="details"><%= I18n.t('groups.details') %></h2>
+  <h2 class="tab" id="details"><%= t('groups.details') %></h2>
   <div class="section">
-    <%= form.label :name, I18n.t('groups.name_required') %>         <%= form.text_field :name, :onkeyup => 'update_address(this.value)' %><br/>
-    <%= form.label :category, I18n.t('groups.category_required') %> <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
-    <%= form.label :description, I18n.t('groups.description') %>                     <%= form.text_area :description, :rows => 3 %><br/>
-    <%= form.label :other_notes, I18n.t('groups.other_notes') %>                     <%= form.text_area :other_notes, :rows => 3 %><br/>
+    <%= form.label :name, t('groups.name_required') %>         <%= form.text_field :name, :onkeyup => 'update_address(this.value)' %><br/>
+    <%= form.label :category, t('groups.category_required') %> <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
+    <%= form.label :description, t('groups.description') %>                     <%= form.text_area :description, :rows => 3 %><br/>
+    <%= form.label :other_notes, t('groups.other_notes') %>                     <%= form.text_area :other_notes, :rows => 3 %><br/>
     <% unless @group.new_record? %>
-      <%= form.label :leader_id, I18n.t('groups.leader_id') %>                     <%= form.select :leader_id, [['(none)',nil]]+@members.map { |m| [m.name, m.id] } %><br/>
+      <%= form.label :leader_id, t('groups.leader_id') %>                     <%= form.select :leader_id, [['(none)',nil]]+@members.map { |m| [m.name, m.id] } %><br/>
     <% end %>
-    <%= form.label :creator, I18n.t('groups.creator') %>                         <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>
+    <%= form.label :creator, t('groups.creator') %>                         <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>
   </div>
 
-  <h2 class="tab" id="picture"><%= I18n.t('pictures.picture') %></h2>
+  <h2 class="tab" id="picture"><%= t('pictures.picture') %></h2>
   <div class="section">
     <%= render :partial => 'photo' %>
     <%= form.file_field :photo %><br/>
-    <strong><%= I18n.t('photos.only_jpeg_photos_are_accepted') %></strong><br/>
+    <strong><%= t('photos.only_jpeg_photos_are_accepted') %></strong><br/>
     <% if !@group.new_record? and @group.has_photo? %>
-      <%= link_to I18n.t('groups.remove_group_photo'), group_path(@group, :group => {:photo => 'remove'}), :method => 'put', :confirm => I18n.t('are_you_sure') %>
+      <%= link_to t('groups.remove_group_photo'), group_path(@group, :group => {:photo => 'remove'}), :method => 'put', :confirm => t('are_you_sure') %>
       <br/>
     <% end %>
-    <em><%= I18n.t('groups.click_save_changes_to_upload') %></em>
+    <em><%= t('groups.click_save_changes_to_upload') %></em>
   </div>
   
-  <h2 class="tab" id="meets"><%= I18n.t('groups.meets') %></h2>
+  <h2 class="tab" id="meets"><%= t('groups.meets') %></h2>
   <div class="section">
-    <%= form.label :meets, I18n.t('groups.meets_when') %>              <%= form.text_field :meets %><br/>
-    <%= form.label :location, I18n.t('groups.location_address') %> <%= form.text_area :location, :rows => 3 %><br/>
-    <%= form.label :directions, I18n.t('groups.directions') %>                       <%= form.text_area :directions, :rows => 3 %>
+    <%= form.label :meets, t('groups.meets_when') %>              <%= form.text_field :meets %><br/>
+    <%= form.label :location, t('groups.location_address') %> <%= form.text_area :location, :rows => 3 %><br/>
+    <%= form.label :directions, t('groups.directions') %>                       <%= form.text_area :directions, :rows => 3 %>
   </div>
   
-  <h2 class="tab" id="features"><%= I18n.t('groups.features') %></h2>
+  <h2 class="tab" id="features"><%= t('groups.features') %></h2>
   <div class="section">
-    <%= form.check_box :blog,       :class => 'checkbox' %> <%= form.label :blog,       I18n.t('groups.enable_blog'),                :class => 'inline' %><br/>
-    <%= form.check_box :email,      :class => 'checkbox' %> <%= form.label :email,      I18n.t('groups.enable_email'),               :class => 'inline' %><br/>
-    <%= form.check_box :prayer,     :class => 'checkbox' %> <%= form.label :prayer,     I18n.t('groups.enable_prayer_requests'),     :class => 'inline' %><br/>
-    <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, I18n.t('groups.enable_attendance_tracking'), :class => 'inline' %><br/>
-    <%= form.label :address, I18n.t('people.email') + ':', :class => 'inline' %>
+    <%= form.check_box :blog,       :class => 'checkbox' %> <%= form.label :blog,       t('groups.enable_blog'),                :class => 'inline' %><br/>
+    <%= form.check_box :email,      :class => 'checkbox' %> <%= form.label :email,      t('groups.enable_email'),               :class => 'inline' %><br/>
+    <%= form.check_box :prayer,     :class => 'checkbox' %> <%= form.label :prayer,     t('groups.enable_prayer_requests'),     :class => 'inline' %><br/>
+    <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, t('groups.enable_attendance_tracking'), :class => 'inline' %><br/>
+    <%= form.label :address, t('people.email') + ':', :class => 'inline' %>
     <%= form.text_field :address, :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h Site.current.host %>
-    <%= form.label :gcal_private_link, I18n.t('groups.calendar_private_link') %>
+    <%= form.label :gcal_private_link, t('groups.calendar_private_link') %>
     <%= form.text_field :gcal_private_link, :size => 50 %>
-    <%= link_to_function I18n.t('help'), "alert('" + I18n.t('groups.calendar_help') + "')" %>
+    <%= link_to_function t('help'), "alert('" + t('groups.calendar_help') + "')" %>
   </div>
   
-  <h2 class="tab" id="privacy"><%= I18n.t('groups.privacy_security') %></h2>
+  <h2 class="tab" id="privacy"><%= t('groups.privacy_security') %></h2>
   <div class="section">
     <%= form.check_box :approval_required_to_join, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
-    <%= form.label :approval_required_to_join, I18n.t('groups.approval_required_to_join'), :class => 'inline' %><br/>
+    <%= form.label :approval_required_to_join, t('groups.approval_required_to_join'), :class => 'inline' %><br/>
     <%= form.check_box :private, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
-    <%= form.label :private, I18n.t('groups.private_group'), :class => 'inline' %>
-    <em><%= I18n.t('groups.if_checked_message_only_to_members') %></em><br/>
+    <%= form.label :private, t('groups.private_group'), :class => 'inline' %>
+    <em><%= t('groups.if_checked_message_only_to_members') %></em><br/>
     <%= form.check_box :members_send, :class => 'checkbox' %>
-    <%= form.label :members_send, I18n.t('groups.group_members_can_post'), :class => 'inline' %>
+    <%= form.label :members_send, t('groups.group_members_can_post'), :class => 'inline' %>
   </div>
 
-  <h2 class="tab" id="attachments"><%= I18n.t('attachments.files') %></h2>
+  <h2 class="tab" id="attachments"><%= t('attachments.files') %></h2>
   <div class="section">
     <% if @group.new_record? %>
-      <p><em><%= I18n.t('attachments.save_group_first') %></em></p>
+      <p><em><%= t('attachments.save_group_first') %></em></p>
     <% else %>
       <table>
         <% @group.attachments.all(:order => 'name').each do |attachment| %>
@@ -68,27 +68,27 @@
             <td><%= link_to h(attachment.name), get_attachment_path(attachment) %></td>
             <td><%= number_to_human_size(attachment.file_size) rescue 'file missing' %></td>
             <td><%= attachment.created_at.to_s(:date) %></td>
-            <td><%= link_to I18n.t('delete'), attachment, :method => :delete, :confirm => I18n.t('are_you_sure') %></td>
+            <td><%= link_to t('delete'), attachment, :method => :delete, :confirm => t('are_you_sure') %></td>
           </tr>
         <% end %>
       </table>
       <% if @group.attachments.count == 0 %>
-        <p><em><%= I18n.t('none') %></em></p>
+        <p><em><%= t('none') %></em></p>
       <% end %>
-      <p><%= link_to I18n.t('attachments.upload_file'), new_group_attachment_path(@group) %></p>
+      <p><%= link_to t('attachments.upload_file'), new_group_attachment_path(@group) %></p>
     <% end %>
   </div>
   
   <% if @logged_in.admin?(:manage_groups) %>
-    <h2 class="tab" id="advanced"><%= I18n.t('people.advanced') %></h2>
+    <h2 class="tab" id="advanced"><%= t('people.advanced') %></h2>
     <div class="section">
-      <%= I18n.t('groups.the_settings_are_for_advanced_users') %><br/>
-      <%= form.label :link_code, I18n.t('groups.class_link_code') %>
+      <%= t('groups.the_settings_are_for_advanced_users') %><br/>
+      <%= form.label :link_code, t('groups.class_link_code') %>
       <%= form.text_field :link_code %>
-      <em><%= I18n.t('groups.separate_codes_with_space') %></em>
+      <em><%= t('groups.separate_codes_with_space') %></em>
       
-      <%= form.label :parents_of, I18n.t('groups.parents_of') %>
-      <%= form.select :parents_of, [['(' + I18n.t('none') + ')', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %>
+      <%= form.label :parents_of, t('groups.parents_of') %>
+      <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %>
       <em>Membership will be auto-generated from parents of selected group's members.</em>
         
       <%= form.label :cm_api_list_id, 'Campaign Monitor API List ID:' %>
@@ -100,13 +100,13 @@
         <em>To sync with a Campaign Monitor subscriber list, paste the API List ID here.</em>
       </div>
       
-      <%= form.label :hidden, I18n.t('groups.hidden_group') %>
+      <%= form.label :hidden, t('groups.hidden_group') %>
       <%= form.check_box :hidden, :class => 'checkbox' %>
       <%= form.label :hidden, 'Hide this group from non-admins.', :class => 'inline' %>
     </div>
   <% end %>
   
-  <p><%= form.submit I18n.t('save_changes') %></p>
+  <p><%= form.submit t('save_changes') %></p>
 <% end %>
 
 <script type="text/javascript">
@@ -117,7 +117,7 @@
   }
   function check_mutual_exclusion() {
     if(!$('group_approval_required_to_join').checked && $('group_private').checked) {
-      alert('<%= I18n.t('groups.by_allow_anyone_to_join') %>');
+      alert('<%= t('groups.by_allow_anyone_to_join') %>');
     }
   }
 </script>

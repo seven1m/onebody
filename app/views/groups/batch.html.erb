@@ -1,6 +1,6 @@
-<h1><%= I18n.t('groups.batch_edit_groups') %></h1>
+<h1><%= t('groups.batch_edit_groups') %></h1>
 
-<p><em><%= I18n.t('groups.scroll_left_and_right') %></em></p>
+<p><em><%= t('groups.scroll_left_and_right') %></em></p>
 
 <%= form_tag :remote => true, :url => batch_groups_path,
   :loading  => "Element.show('loading')",
@@ -8,21 +8,21 @@
   :html     => {:style => 'overflow:auto;width:90%;background-color:#fff;'} do %>
   <table>
     <tr>
-      <th><%= I18n.t('groups.category') %></th>
-      <th><%= I18n.t('name') %></th>
-      <th><%= I18n.t('privacies.address') %></th>
-      <th><%= I18n.t('groups.members_send') %></th>
-      <th><%= I18n.t('privacies.private') %></th>
-      <th><%= I18n.t('privacies.hidden') %></th>
-      <th><%= I18n.t('groups.approved') %></th>
-      <th><%= I18n.t('groups.class_link_code') %></th>
-      <th><%= I18n.t('stream.blog') %></th>
-      <th><%= I18n.t('people.email') %></th>
-      <th><%= I18n.t('prayer.prayer') %></th>
-      <th><%= I18n.t('groups.attendance') %></th>
-      <th><%= I18n.t('pictures.pictures') %></th>
-      <th><%= I18n.t('groups.calendar_private_link') %></th>
-      <th><%= I18n.t('groups.approval_required_to_join') %></th>
+      <th><%= t('groups.category') %></th>
+      <th><%= t('name') %></th>
+      <th><%= t('privacies.address') %></th>
+      <th><%= t('groups.members_send') %></th>
+      <th><%= t('privacies.private') %></th>
+      <th><%= t('privacies.hidden') %></th>
+      <th><%= t('groups.approved') %></th>
+      <th><%= t('groups.class_link_code') %></th>
+      <th><%= t('stream.blog') %></th>
+      <th><%= t('people.email') %></th>
+      <th><%= t('prayer.prayer') %></th>
+      <th><%= t('groups.attendance') %></th>
+      <th><%= t('pictures.pictures') %></th>
+      <th><%= t('groups.calendar_private_link') %></th>
+      <th><%= t('groups.approval_required_to_join') %></th>
     </tr>
     <% @groups.each do |group| %>
       <tr id="group<%= group.id %>" class="group">
@@ -46,10 +46,10 @@
     <% end %>
   </table>
   <p>
-    <%= submit_tag I18n.t('save_changes') %>
+    <%= submit_tag t('save_changes') %>
     <span id="loading" style="display:none;">
-      <%= image_tag 'spinner_small.gif', :alt => I18n.t('saving') + '...', :class => 'icon' %>
-      <%= I18n.t('saving') %>...
+      <%= image_tag 'spinner_small.gif', :alt => t('saving') + '...', :class => 'icon' %>
+      <%= t('saving') %>...
     </span>
   </p>
 <% end %>

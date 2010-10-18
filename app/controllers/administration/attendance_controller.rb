@@ -88,7 +88,7 @@ class Administration::AttendanceController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:manage_attendance)
-        render :text => I18n.t('only_admins'), :layout => true, :status => 401
+        render :text => t('only_admins'), :layout => true, :status => 401
         return false
       end
     end

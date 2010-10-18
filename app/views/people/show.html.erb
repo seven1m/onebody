@@ -1,26 +1,26 @@
 <%= content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">
-      <%= link_to I18n.t('people.edit_family'), @person.family %>
-      <%= link_to I18n.t('people.new_family'), new_family_path %>
+      <%= link_to t('people.edit_family'), @person.family %>
+      <%= link_to t('people.new_family'), new_family_path %>
     </div>
   <% end %>
   <% if @logged_in.can_edit? @person %>
     <%= render :partial => 'edit_person' %>
   <% end %>
   <% if me? %>
-    <% if Setting.get(:features, :community_google_calendar).to_s.any? %><li><%= link_to image_tag('calendar.png', :alt => I18n.t('people.my_calendar'), :class => 'icon') + ' ' + I18n.t('people.my_calendar'), person_calendar_path(@person) %></li><% end %>
+    <% if Setting.get(:features, :community_google_calendar).to_s.any? %><li><%= link_to image_tag('calendar.png', :alt => t('people.my_calendar'), :class => 'icon') + ' ' + t('people.my_calendar'), person_calendar_path(@person) %></li><% end %>
   <% else %>
     <%= render :partial => 'friendship' %>
     <% if @person.messages_enabled? %>
-      <li><%= link_to image_tag('message.gif', :alt => I18n.t('people.send_email'), :class => 'icon') + ' ' + I18n.t('people.send_email'), new_message_path(:to_person_id => @person) %></li>
+      <li><%= link_to image_tag('message.gif', :alt => t('people.send_email'), :class => 'icon') + ' ' + t('people.send_email'), new_message_path(:to_person_id => @person) %></li>
     <% end %>
   <% end %>
   <% if @logged_in.admin?(:edit_profiles) %>
-    <li><%= link_to image_tag('link.png', :class => 'icon', :alt => I18n.t('relationships.relationships')) + ' ' + I18n.t('relationships.relationships'), person_relationships_path(@person) %></li>
+    <li><%= link_to image_tag('link.png', :class => 'icon', :alt => t('relationships.relationships')) + ' ' + t('relationships.relationships'), person_relationships_path(@person) %></li>
   <% end %>
   <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) and @person.donortools_admin_url %>
-    <li><%= link_to image_tag('money.png', :class => 'icon', :alt => I18n.t('contributions.Contributions')) + ' ' + I18n.t('contributions.Contributions'), @person.donortools_admin_url %></li>
+    <li><%= link_to image_tag('money.png', :class => 'icon', :alt => t('contributions.Contributions')) + ' ' + t('contributions.Contributions'), @person.donortools_admin_url %></li>
   <% end %>
 <% end %>
 
@@ -47,13 +47,13 @@
 <% end %>
 
 <% unless @family %>
-  <div class="warning"><%=h I18n.t('people.no_family_for_this_person') %></div>
+  <div class="warning"><%=h t('people.no_family_for_this_person') %></div>
 <% end %>
 
 <% unless @person.visible?(@family) %>
   <p>
-    <%= image_tag('lock.gif', :alt => I18n.t('search.hidden_profile'), :class => 'icon') %>
-    <%= I18n.t('people.this_profile_is_hidden') %>
+    <%= image_tag('lock.gif', :alt => t('search.hidden_profile'), :class => 'icon') %>
+    <%= t('people.this_profile_is_hidden') %>
   </p>
 <% end %>
 
@@ -66,21 +66,21 @@
   <% if me? %>
     <%= render :partial => 'streams/share' %>
   <% elsif @person.wall_enabled? %>
-    <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => I18n.t('messages.message'), :class => 'icon') %> <%= I18n.t('messages.message') %></h2>
+    <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => t('messages.message'), :class => 'icon') %> <%= t('messages.message') %></h2>
     <div class="section">
       <%= form_for Message.new(:wall => @person) do |form| %>
         <%= form.hidden_field :wall_id %>
         <p>
-          <%= image_tag('comments.png', :alt => I18n.t('people.note_for', :name => @person.first_name), :class => 'icon') %>
-          <%= I18n.t('people.leave_message_for', :name => h(@person.first_name)) %>
-          <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', I18n.t('privacies.public'), :class => 'inline' %>
-          <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', I18n.t('privacies.private'), :class => 'inline' %>
+          <%= image_tag('comments.png', :alt => t('people.note_for', :name => @person.first_name), :class => 'icon') %>
+          <%= t('people.leave_message_for', :name => h(@person.first_name)) %>
+          <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', t('privacies.public'), :class => 'inline' %>
+          <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', t('privacies.private'), :class => 'inline' %>
           <% unless @person.messages_enabled? %>(disabled)<% end %>
           <br/>
           <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
-          <%= form.submit I18n.t('wall.save_message'), :id => 'note_submit' %>
+          <%= form.submit t('wall.save_message'), :id => 'note_submit' %>
           <span class="small discreet">
-            <%= I18n.t('messages.this_message_will_be_visible', :name => h(@person.first_name_possessive)) %>
+            <%= t('messages.this_message_will_be_visible', :name => h(@person.first_name_possessive)) %>
           </span>
         </p>
       <% end %>
@@ -94,16 +94,16 @@
 <div style="float:right;width:200px;">
   <ul id="my-stuff">
     <% if @person.testimony.to_s.any? %>
-      <li><%= link_to image_tag('lightbulb.png', :alt => I18n.t('people.my_testimony'), :class => 'icon') + ' ' + I18n.t('people.my_testimony'), testimony_person_path(@person) %></li>
+      <li><%= link_to image_tag('lightbulb.png', :alt => t('people.my_testimony'), :class => 'icon') + ' ' + t('people.my_testimony'), testimony_person_path(@person) %></li>
     <% end %>
     <% if @person.has_favs? %>
-      <li><%= link_to image_tag('emoticon_smile.png', :alt => I18n.t('people.my_favorites'), :class => 'icon') + ' ' + I18n.t('people.my_favorites'), favs_person_path(@person) %></li>
+      <li><%= link_to image_tag('emoticon_smile.png', :alt => t('people.my_favorites'), :class => 'icon') + ' ' + t('people.my_favorites'), favs_person_path(@person) %></li>
     <% end %>
-    <% if Setting.get(:features, :notes    ) %><li><%= link_to image_tag('note.png',     :alt => I18n.t('people.my_notes'), :class => 'icon') + ' ' + I18n.t('people.my_notes'),    person_notes_path(@person)   %></li><% end %>
-    <% if Setting.get(:features, :pictures ) %><li><%= link_to image_tag('picture.png',  :alt => I18n.t('people.my_pictures'), :class => 'icon') + ' ' + I18n.t('people.my_pictures'), person_albums_path(@person)  %></li><% end %>
-    <% if Setting.get(:features, :verses   ) %><li><%= link_to image_tag('verse.png',    :alt => I18n.t('people.my_verses'),   :class => 'icon') + ' ' + I18n.t('people.my_verses'),   person_verses_path(@person)  %></li><% end %>
-    <% if Setting.get(:features, :recipes  ) %><li><%= link_to image_tag('recipe.png',   :alt => I18n.t('people.my_recipes'),  :class => 'icon') + ' ' + I18n.t('people.my_recipes'),  person_recipes_path(@person) %></li><% end %>
-    <% if @person.wall_enabled?              %><li><%= link_to image_tag('comments.png', :alt => I18n.t('people.my_messages'), :class => 'icon') + ' ' + I18n.t('people.my_messages'), person_wall_path(@person)    %></li><% end %>
+    <% if Setting.get(:features, :notes    ) %><li><%= link_to image_tag('note.png',     :alt => t('people.my_notes'), :class => 'icon') + ' ' + t('people.my_notes'),    person_notes_path(@person)   %></li><% end %>
+    <% if Setting.get(:features, :pictures ) %><li><%= link_to image_tag('picture.png',  :alt => t('people.my_pictures'), :class => 'icon') + ' ' + t('people.my_pictures'), person_albums_path(@person)  %></li><% end %>
+    <% if Setting.get(:features, :verses   ) %><li><%= link_to image_tag('verse.png',    :alt => t('people.my_verses'),   :class => 'icon') + ' ' + t('people.my_verses'),   person_verses_path(@person)  %></li><% end %>
+    <% if Setting.get(:features, :recipes  ) %><li><%= link_to image_tag('recipe.png',   :alt => t('people.my_recipes'),  :class => 'icon') + ' ' + t('people.my_recipes'),  person_recipes_path(@person) %></li><% end %>
+    <% if @person.wall_enabled?              %><li><%= link_to image_tag('comments.png', :alt => t('people.my_messages'), :class => 'icon') + ' ' + t('people.my_messages'), person_wall_path(@person)    %></li><% end %>
   </ul>
 </div>
 
@@ -117,7 +117,7 @@
   <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
 
   <% if nil and Setting.get(:features, :verses) and @verses.any? %>
-    <h2 class="profile tab" id="verses"><%= I18n.t('verses.verses') %></h2>
+    <h2 class="profile tab" id="verses"><%= t('verses.verses') %></h2>
     <div id="verses_content" class="section">
       <%= render :partial => @verses %>
     </div>
@@ -125,28 +125,28 @@
 
   <% if nil %>
 
-  <h2 class="profile tab" id="about"><%= I18n.t('About') %></h2>
+  <h2 class="profile tab" id="about"><%= t('About') %></h2>
   <div id="about_content" class="section">
     <% if @person.about.to_s.any? %>
       <%= preserve_breaks @person.about %>
     <% else %>
       <% if me? %>
-        <p><em><%= I18n.t('people.write_something_about_yourself', :url => edit_person_path(@person, :anchor => 'about')) %></em></p>
+        <p><em><%= t('people.write_something_about_yourself', :url => edit_person_path(@person, :anchor => 'about')) %></em></p>
       <% else %>
-        <p><em><%= I18n.t('people.nothing_here_yet') %></em></p>
+        <p><em><%= t('people.nothing_here_yet') %></em></p>
       <% end %>
     <% end %>
   </div>
 
   <% if @person.testimony.to_s.any? %>
-    <h2 class="profile tab" id="testimony"><%= I18n.t('people.testimony') %></h2>
+    <h2 class="profile tab" id="testimony"><%= t('people.testimony') %></h2>
     <div id="testimony_content" class="section">
       <%= preserve_breaks @person.testimony %>
-      <p><%= link_to I18n.t('people.read_more_testimonies'), search_path(:testimony => true) %></p>
+      <p><%= link_to t('people.read_more_testimonies'), search_path(:testimony => true) %></p>
     </div>
   <% end %>
 
-  <h2 class="profile tab" id="favorites"><%= I18n.t('people.favorites') %></h2>
+  <h2 class="profile tab" id="favorites"><%= t('people.favorites') %></h2>
   <div id="favorites_content" class="section">
     <%= render :partial => 'favorites' %>
   </div>
@@ -169,4 +169,4 @@
   Element.show('share');
 </script>
 
-<% if session[:touring] %><%= tour_popup(I18n.t('people.profile_tab'), '/pages/help/tour_profile', 450, 'right') %><% end %>
+<% if session[:touring] %><%= tour_popup(t('people.profile_tab'), '/pages/help/tour_profile', 450, 'right') %><% end %>

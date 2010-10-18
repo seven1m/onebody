@@ -1,11 +1,11 @@
 <% if @logged_in.can_edit?(@person) and @person.pending_updates.count > 0 %>
   <p>
-    <%= image_tag 'clock.gif', :alt => I18n.t('people.pending_updates'), :class => 'icon' %>
-    <%= I18n.t('people.update_to_profile_is') %>
+    <%= image_tag 'clock.gif', :alt => t('people.pending_updates'), :class => 'icon' %>
+    <%= t('people.update_to_profile_is') %>
     <% if @logged_in.admin?(:edit_profiles) %>
-      <%= link_to I18n.t('people.pending_approval'), administration_updates_path %>.
+      <%= link_to t('people.pending_approval'), administration_updates_path %>.
     <% else %>
-      <%= I18n.t('people.pending_approval') %>.
+      <%= t('people.pending_approval') %>.
     <% end %>
   </p>
 <% end %>

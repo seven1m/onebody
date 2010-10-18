@@ -1,9 +1,9 @@
 <% @person.pictures.each do |picture| %>
   <div class="picture">
-    <%= link_to image_tag(medium_picture_path(picture), :alt => I18n.t('pictures.click_to_enlarge')), picture, :title => I18n.t('pictures.click_to_enlarge') %>
+    <%= link_to image_tag(medium_picture_path(picture), :alt => t('pictures.click_to_enlarge')), picture, :title => t('pictures.click_to_enlarge') %>
   </div>
 <% end %>
 
 <% if @person.pictures.count == 0 %>
-  <p><em><%= I18n.t('people.this_event_doesnt_have_pictures') %></em></p>
+  <p><em><%= t('people.this_event_doesnt_have_pictures') %></em></p>
 <% end %>

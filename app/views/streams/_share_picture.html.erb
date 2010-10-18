@@ -1,14 +1,14 @@
-<h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => I18n.t('pictures.pictures'), :class => 'icon') %> <%= I18n.t('pictures.picture') %></h2>
+<h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => t('pictures.pictures'), :class => 'icon') %> <%= t('pictures.picture') %></h2>
 <div class="section">
-  <%= form_for Picture.new, :multipart => true, :onsubmit => "if($('album_id').value=='!') custom_select_val($('album_id'), '#{I18n.t('pictures.enter_the_new_album_title')}')" do |form| %>
+  <%= form_for Picture.new, :multipart => true, :onsubmit => "if($('album_id').value=='!') custom_select_val($('album_id'), '#{t('pictures.enter_the_new_album_title')}')" do |form| %>
     <%= hidden_field_tag :redirect_to, request.fullpath %>
     <% if @group %><%= hidden_field_tag :group_id, @group.id %><% end %>
-    <%= label_tag :album_id, I18n.t('pictures.album'), :id => 'album_id_label' %>
-    <%= select_tag :album_id, '', {:onChange => "if(this.value=='!') custom_select_val(this,'#{I18n.t('pictures.enter_the_new_album_title')}')"} %>
-    <span id="albums_loading" style="display:none;"><%= image_tag 'spinner_small.gif', :alt => I18n.t('loading'), :class => 'icon' %> <%= I18n.t('loading') %>...</span><br/>
-    <label for="picture"><%= I18n.t('pictures.add_a_picture') %></label>
+    <%= label_tag :album_id, t('pictures.album'), :id => 'album_id_label' %>
+    <%= select_tag :album_id, '', {:onChange => "if(this.value=='!') custom_select_val(this,'#{t('pictures.enter_the_new_album_title')}')"} %>
+    <span id="albums_loading" style="display:none;"><%= image_tag 'spinner_small.gif', :alt => t('loading'), :class => 'icon' %> <%= t('loading') %>...</span><br/>
+    <label for="picture"><%= t('pictures.add_a_picture') %></label>
     <%= file_field_tag 'picture1' %><br/>
-    <%= link_to_function I18n.t('pictures.upload_more') + "&raquo;", 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
+    <%= link_to_function t('pictures.upload_more') + "&raquo;", 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
     <span id="more_upload" style="display:none;">
       <%= file_field_tag 'picture2' %><br/>
       <%= file_field_tag 'picture3' %><br/>
@@ -21,7 +21,7 @@
       <%= file_field_tag 'picture10' %><br/>
     </span>
     <br/>
-    <%= submit_tag I18n.t('pictures.upload') %>
+    <%= submit_tag t('pictures.upload') %>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>
     <%= render :partial => 'people/not_sharing_activity' %>

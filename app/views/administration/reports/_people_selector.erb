@@ -23,7 +23,7 @@
       <% if Report.field_type(object['field']) == 'boolean' %>
         <%= select_tag 'report[selector][][value]', options_for_select([true, false], object['value']) %>
       <% elsif ['in', '!in'].include?(object['operator']) %>
-        <%= text_field_tag 'report[selector][][value]', object['value'] %> <em><%= I18n.t('reporting.separate_values') %></em>
+        <%= text_field_tag 'report[selector][][value]', object['value'] %> <em><%= t('reporting.separate_values') %></em>
       <% elsif ['nil', '!nil'].include?(object['operator']) %>
         <!-- no value -->
       <% else %>
@@ -31,11 +31,11 @@
       <% end %>
     </span>
     <span class="controls">
-      <%= link_to_function image_tag('plus.png',       :class => 'icon', :alt => I18n.t('reporting.add_criteria')),    "add_criteria(#{people_selector_counter})"          %>
-      <%= link_to_function image_tag('group_add.png',  :class => 'icon', :alt => I18n.t('reporting.add_group')),       "add_group(#{people_selector_counter})"             %>
-      <%= link_to_function image_tag('arrow_down.png', :class => 'icon', :alt => I18n.t('reporting.move_down')),       "move_criteria(#{people_selector_counter}, 'down')" %>
-      <%= link_to_function image_tag('arrow_up.png',   :class => 'icon', :alt => I18n.t('reporting.move_up')),         "move_criteria(#{people_selector_counter}, 'up')"   %>
-      <%= link_to_function image_tag('delete.png',     :class => 'icon', :alt => I18n.t('reporting.remove_criteria')), "remove_criteria(#{people_selector_counter});"      %>
+      <%= link_to_function image_tag('plus.png',       :class => 'icon', :alt => t('reporting.add_criteria')),    "add_criteria(#{people_selector_counter})"          %>
+      <%= link_to_function image_tag('group_add.png',  :class => 'icon', :alt => t('reporting.add_group')),       "add_group(#{people_selector_counter})"             %>
+      <%= link_to_function image_tag('arrow_down.png', :class => 'icon', :alt => t('reporting.move_down')),       "move_criteria(#{people_selector_counter}, 'down')" %>
+      <%= link_to_function image_tag('arrow_up.png',   :class => 'icon', :alt => t('reporting.move_up')),         "move_criteria(#{people_selector_counter}, 'up')"   %>
+      <%= link_to_function image_tag('delete.png',     :class => 'icon', :alt => t('reporting.remove_criteria')), "remove_criteria(#{people_selector_counter});"      %>
     </span>
   </div>
 <% end %>

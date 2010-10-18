@@ -5,12 +5,12 @@
 </div>
 <%= link_to h(comment.person.name),comment.person %>
 <% if params[:controller] == 'shares' %>
-  <%= I18n.t('comments.commented_on') %>
+  <%= t('comments.commented_on') %>
   <%= link_to h(on.title), comment.on %>
 <% end %>
 <%= comment.created_at.to_s %>
 <% if @logged_in.can_edit?(comment) %>
-  <%= link_to '[' + I18n.t('delete') + ']', comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => I18n.t('are_you_sure') %>
+  <%= link_to '[' + t('delete') + ']', comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => t('are_you_sure') %>
 <% end %>
 <br/>
 <%= preserve_breaks comment.text %>

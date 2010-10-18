@@ -1,27 +1,27 @@
-<h1><%= I18n.t('admin.themes.custom_themes') %></h1>
+<h1><%= t('admin.themes.custom_themes') %></h1>
 
 <p>
-  <%= I18n.t('admin.themes.description', :url => administration_settings_path) %>
+  <%= t('admin.themes.description', :url => administration_settings_path) %>
 </p>
 
-<h2><%= I18n.t('admin.themes.preview') %></h2>
+<h2><%= t('admin.themes.preview') %></h2>
 
 <iframe src="<%= person_path(@logged_in, :theme => 'custom') %>" width="100%" height="500" style="border:5px solid black;"></iframe>
 
-<h2><%= I18n.t('admin.themes.edit') %></h2>
+<h2><%= t('admin.themes.edit') %></h2>
 
-<p><%= link_to I18n.t('admin.themes.manage_assets'), administration_files_path %></p>
+<p><%= link_to t('admin.themes.manage_assets'), administration_files_path %></p>
 
 <%= form_tag(administration_theme_path, :method => :put) do %>
   <p>
     <%= text_area_tag :theme, @theme, :rows => 100, :cols => 100, :style => 'width:90%;height:500px;font-family:monospace;color:#333;' %>
   </p>
   <p>
-    <%= submit_tag I18n.t('admin.themes.save_preview') %>
-    <span class="discreet"><%= I18n.t('admin.themes.reset') %></span>
+    <%= submit_tag t('admin.themes.save_preview') %>
+    <span class="discreet"><%= t('admin.themes.reset') %></span>
   </p>
   <p id="template-help">
-    <%= I18n.t('admin.themes.syntax_description') %>:
+    <%= t('admin.themes.syntax_description') %>:
     <code>{{ site_name }}</code>, <code>{{ content_for_head }}</code>, <code>{{ banner_message }}</code>,
     <code>{{ heading }}</code>, <code>{{ subheading }}</code>, <code>{{ personal_nav_links }}</code>,
     <code>{{ nav_links }}</code>, <code>{{ content_for_subnav }}</code>, <code>{{ notice }}</code>,
@@ -30,6 +30,6 @@
     and <code>{{ analytics_js }}</code>.
   </p>
   <p>
-    <%= I18n.t('admin.themes.preview_instructions') %>
+    <%= t('admin.themes.preview_instructions') %>
   </p>
 <% end %>

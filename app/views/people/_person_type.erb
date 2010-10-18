@@ -1,15 +1,15 @@
 <p class="user-type">
   <% if @person.elder? %>
-    <%= image_tag 'elder.png', :alt => I18n.t('search.elder'), :class => 'icon' %> <%= I18n.t('search.elder') %>
+    <%= image_tag 'elder.png', :alt => t('search.elder'), :class => 'icon' %> <%= t('search.elder') %>
   <% end %>
   <% if @person.deacon? %>
-    <%= image_tag 'deacon.png', :alt => I18n.t('search.deacon'), :class => 'icon' %> <%= I18n.t('search.deacon') %>
+    <%= image_tag 'deacon.png', :alt => t('search.deacon'), :class => 'icon' %> <%= t('search.deacon') %>
   <% end %>
   <% if @person.staff? %>
-    <%= image_tag 'staff.png', :alt => I18n.t('search.staff'), :class => 'icon' %> <%= I18n.t('search.staff') %>
+    <%= image_tag 'staff.png', :alt => t('search.staff'), :class => 'icon' %> <%= t('search.staff') %>
   <% end %>
   <% if @person.member? %>
-    <%= image_tag 'star.gif', :alt => I18n.t('search.member'), :class => 'icon' %> <%= I18n.t('search.member') %>
+    <%= image_tag 'star.gif', :alt => t('search.member'), :class => 'icon' %> <%= t('search.member') %>
   <% end %>
   <% if Setting.get(:features, :custom_person_type) and @person.custom_type.to_s.any? %>
     <%= image_tag 'staff.png', :alt => @person.custom_type, :class => 'icon' %> <%=h @person.custom_type %>

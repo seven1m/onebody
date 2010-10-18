@@ -1,5 +1,5 @@
 <% content_for :toolbar do %>
-  <h1><%= I18n.t('friends.friends') %></h1>
+  <h1><%= t('friends.friends') %></h1>
   <%= iphone_back_button %>
 <% end %>
 
@@ -17,5 +17,5 @@
     <% end %>
   </ul>
 <% else %>
-  <div class="info"><%= I18n.t('groups.nobody_yet') %>!</div>
+  <div class="info"><%= t('groups.nobody_yet') %>!</div>
 <% end %>

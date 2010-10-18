@@ -34,7 +34,7 @@ class Administration::DeletedPeopleController < ApplicationController
         person.update_attribute(:deleted, false) if person.deleted?
       elsif params[:purge]
         unless person.deleted?
-          render :text => I18n.t('people.not_deleted'), :layout => true, :status => 401
+          render :text => t('people.not_deleted'), :layout => true, :status => 401
           return
         end
         person.destroy_for_real
@@ -50,7 +50,7 @@ class Administration::DeletedPeopleController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:edit_profiles)
-        render :text => I18n.t('only_admins'), :layout => true, :status => 401
+        render :text => t('only_admins'), :layout => true, :status => 401
         return false
       end
     end

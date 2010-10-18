@@ -1,10 +1,10 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@group.name), @group %></li>
+  <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' ' + t('back_to') + ' ' + h(@group.name), @group %></li>
 <% end %>
 
 <h1>
-  <% if params[:answered] %><%= I18n.t('prayer.answered') %><% end %>
-  <%= I18n.t('prayer.prayer_requests_in') %> <%= link_to h(@group.name), @group %>
+  <% if params[:answered] %><%= t('prayer.answered') %><% end %>
+  <%= t('prayer.prayer_requests_in') %> <%= link_to h(@group.name), @group %>
 </h1>
 
 <% @reqs.each do |req| %>

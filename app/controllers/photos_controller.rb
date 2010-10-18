@@ -13,7 +13,7 @@ class PhotosController < ApplicationController
     if @logged_in.can_see?(@object)
       send_photo(@object)
     else
-      render :text => I18n.t('photos.unavailable'), :status => 404
+      render :text => t('photos.unavailable'), :status => 404
     end
   end
 
@@ -31,7 +31,7 @@ class PhotosController < ApplicationController
       end
       redirect_back
     else
-      render :text => I18n.t('photos.unavailable'), :status => 500
+      render :text => t('photos.unavailable'), :status => 500
     end
   end
 
@@ -40,7 +40,7 @@ class PhotosController < ApplicationController
       @object.photo = nil
       redirect_back
     else
-      render :text => I18n.t('photos.unavailable'), :status => 500
+      render :text => t('photos.unavailable'), :status => 500
     end
   end
 
@@ -53,7 +53,7 @@ class PhotosController < ApplicationController
       and PHOTO_TYPES.include?(@type = id_key.split('_').first.classify)
       @object = Kernel.const_get(@type).find(params[id_key])
     else
-      render :text => I18n.t('photos.object_not_found'), :layout => true, :status => 404
+      render :text => t('photos.object_not_found'), :layout => true, :status => 404
       return false
     end
   end

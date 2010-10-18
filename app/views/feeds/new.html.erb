@@ -1,51 +1,51 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => I18n.t('privacies.view_profile'), :class => 'icon') + ' ' + I18n.t('privacies.view_profile'), @person %></li>
-  <li><%= link_to image_tag('feed_small.png', :alt => I18n.t('people.feeds'), :class => 'icon') + ' ' + I18n.t('people.feeds'), person_feeds_path(@person) %></li>
+  <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), @person %></li>
+  <li><%= link_to image_tag('feed_small.png', :alt => t('people.feeds'), :class => 'icon') + ' ' + t('people.feeds'), person_feeds_path(@person) %></li>
 <% end %>
 
 <% case params[:type]; when 'facebook' %>
   
-  <h1><%= I18n.t('stream.import_facebook_updates') %></h1>
+  <h1><%= t('stream.import_facebook_updates') %></h1>
 
   <%= form_for [@person, @feed] do |form| %>
     <%= error_messages_for(form) %>
     <%= form.hidden_field :name, :value => 'Facebook' %>
     <%= hidden_field_tag :type, 'facebook' %>
     <ol>
-      <li><%= I18n.t('feeds.log_into_facebook') %></li>
+      <li><%= t('feeds.log_into_facebook') %></li>
       <li>
-        <%= I18n.t('feeds.copy_your_notifications_link') %>
-        <%= image_tag('fb_notifications.png', :alt => I18n.t('feeds.facebook_notifications'), :style => 'border:1px solid #000;') %>
+        <%= t('feeds.copy_your_notifications_link') %>
+        <%= image_tag('fb_notifications.png', :alt => t('feeds.facebook_notifications'), :style => 'border:1px solid #000;') %>
       </li>
       <li>
-        <%= I18n.t('feeds.paste_link_here') %>: <%= form.text_field :url, :size => 60 %>
+        <%= t('feeds.paste_link_here') %>: <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
-        <%= form.submit I18n.t('messages.preview') + '...' %>
+        <%= form.submit t('messages.preview') + '...' %>
       </li>
     </ol>
   <% end %>
   
 <% when 'twitter' %>
 
-  <h1><%= I18n.t('stream.import_twitter_updates') %></h1>
+  <h1><%= t('stream.import_twitter_updates') %></h1>
 
   <%= form_for [@person, @feed] do |form| %>  
     <%= error_messages_for(form) %>
     <%= form.hidden_field :name, :value => 'Twitter' %>
     <%= hidden_field_tag :type, 'twitter' %>
     <ol>
-      <li><%= I18n.t('feeds.enter_twitter_username') %>: <%= form.text_field :url, :size => 15 %>
+      <li><%= t('feeds.enter_twitter_username') %>: <%= form.text_field :url, :size => 15 %>
       </li>
       <li>
-        <%= form.submit I18n.t('messages.preview') + '...' %>
+        <%= form.submit t('messages.preview') + '...' %>
       </li>
     </ol>
   <% end %>
 
 <% when 'flickr' %>
 
-  <h1><%= I18n.t('stream.import_flickr_photos') %></h1>
+  <h1><%= t('stream.import_flickr_photos') %></h1>
 
   <%= form_for [@person, @feed] do |form| %>  
     <%= error_messages_for(form) %>
@@ -53,37 +53,37 @@
     <%= hidden_field_tag :type, 'flickr' %>
     <ol>
       <li>
-        <%= I18n.t('feeds.log_into_flickr') %><br/>
-        <%= image_tag('flickr_url.png', :alt => I18n.t('feeds.flickr_url'), :style => 'border:1px solid #000;margin:20px 0;') %>
+        <%= t('feeds.log_into_flickr') %><br/>
+        <%= image_tag('flickr_url.png', :alt => t('feeds.flickr_url'), :style => 'border:1px solid #000;margin:20px 0;') %>
       </li>
       <li>
-        <%= I18n.t('feeds.copy_the_url_from_bar') %>:
+        <%= t('feeds.copy_the_url_from_bar') %>:
         <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
-        <%= form.submit I18n.t('messages.preview') + '...' %>
+        <%= form.submit t('messages.preview') + '...' %>
       </li>
     </ol>
   <% end %>
 
 <% when 'rss' %>
 
-  <h1><%= I18n.t('stream.import_blog_feed') %></h1>
+  <h1><%= t('stream.import_blog_feed') %></h1>
 
   <%= form_for [@person, @feed] do |form| %>  
     <%= error_messages_for(form) %>
     <%= hidden_field_tag :type, 'rss' %>
     <ol>
       <li>
-        <%= I18n.t('feeds.blog_name') %>:
+        <%= t('feeds.blog_name') %>:
         <%= form.text_field :name, :value => @feed.name || 'Blog', :size => 10 %>
       </li>
       <li>
-        <%= I18n.t('feeds.log_into_blog', :img => image_tag('feed_small.png', :alt => 'Feed Icon', :class => 'icon')) %>:
+        <%= t('feeds.log_into_blog', :img => image_tag('feed_small.png', :alt => 'Feed Icon', :class => 'icon')) %>:
         <%= form.text_field :url, :size => 60 %>
       </li>
       <li>
-        <%= form.submit I18n.t('messages.preview') + '...' %>
+        <%= form.submit t('messages.preview') + '...' %>
       </li>
     </ol>
   <% end %>
@@ -91,5 +91,5 @@
 <% end %>
 
 <p>
-  <%= I18n.t('feeds.note') %>
+  <%= t('feeds.note') %>
 </p>

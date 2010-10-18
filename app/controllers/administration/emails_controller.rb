@@ -9,7 +9,7 @@ class Administration::EmailsController < ApplicationController
     params[:ids].to_a.each do |id|
       Person.find(id).update_attribute(:email_changed, false)
     end
-    flash[:notice] = I18n.t('messages.flag_cleared')
+    flash[:notice] = t('messages.flag_cleared')
     redirect_to administration_emails_path
   end
 
@@ -17,7 +17,7 @@ class Administration::EmailsController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:manage_updates)
-        render :text => I18n.t('only_admins'), :layout => true, :status => 401
+        render :text => t('only_admins'), :layout => true, :status => 401
         return false
       end
     end

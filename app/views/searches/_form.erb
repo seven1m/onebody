@@ -1,8 +1,8 @@
 <%= form_tag(search_path, :method => 'get', :id => 'search-form') do %>
-  <h2><%= I18n.t('search.advanced_search') %></h2>
-  <label for="name_search"><%= I18n.t('search.name') %>:</label>
+  <h2><%= t('search.advanced_search') %></h2>
+  <label for="name_search"><%= t('search.name') %>:</label>
   <%= text_field_tag 'name', params[:name], :id => 'name_search' %><br/>
-  <label for="birthday_month"><%= I18n.t('search.birthday') %>:</label>
+  <label for="birthday_month"><%= t('search.birthday') %>:</label>
   <select name="birthday_month" id="birthday_month">
     <option value=""></option>
     <%= options_for_select MONTHS_FOR_SELECT, params[:birthday_month].to_i %>
@@ -11,7 +11,7 @@
     <option value=""></option>
     <%= options_for_select 1..31, params[:birthday_day].to_i %>
   </select><br/>
-  <label for="anniversary_month"><%= I18n.t('search.anniversary') %>:</label>
+  <label for="anniversary_month"><%= t('search.anniversary') %>:</label>
   <select name="anniversary_month" id="anniversary_month">
     <option value=""></option>
     <%= options_for_select MONTHS_FOR_SELECT, params[:anniversary_month].to_i %>
@@ -20,24 +20,24 @@
     <option value=""></option>
     <%= options_for_select 1..31, params[:anniversary_day].to_i %>
   </select><br/>
-  <label for="gender"><%= I18n.t('search.gender') %>:</label>
+  <label for="gender"><%= t('search.gender') %>:</label>
   <select name="gender" id="gender">
     <option value=""></option>
-    <%= options_for_select ([[I18n.t('search.male'), 'Male'], [I18n.t('search.female'), 'Female']]), params[:gender] %>
+    <%= options_for_select ([[t('search.male'), 'Male'], [t('search.female'), 'Female']]), params[:gender] %>
   </select>
-  <label for="city"><%= I18n.t('search.city') %>:</label>
+  <label for="city"><%= t('search.city') %>:</label>
   <%= text_field_tag :city, params[:city] %><br/>
-  <label for="state"><%= I18n.t('search.state') %>:</label>
+  <label for="state"><%= t('search.state') %>:</label>
   <%= text_field_tag :state, params[:state] %><br/>
-  <label for="zip"><%= I18n.t('search.zip') %>:</label>
+  <label for="zip"><%= t('search.zip') %>:</label>
   <%= text_field_tag :zip, params[:zip] %><br/>
-  <label for="type"><%= I18n.t('type') %>:</label>
+  <label for="type"><%= t('type') %>:</label>
   <select name="type" id="type">
-    <option value=""><%= I18n.t('search.all') %></option>
-    <%= options_for_select ([[I18n.t('search.member'), 'member'], [I18n.t('search.staff'), 'staff'], [I18n.t('search.deacon'), 'deacon'], [I18n.t('search.elder'), 'elder']]) + (Setting.get(:features, :custom_person_type) ? Person.custom_types : []), params[:type] %>
+    <option value=""><%= t('search.all') %></option>
+    <%= options_for_select ([[t('search.member'), 'member'], [t('search.staff'), 'staff'], [t('search.deacon'), 'deacon'], [t('search.elder'), 'elder']]) + (Setting.get(:features, :custom_person_type) ? Person.custom_types : []), params[:type] %>
   </select><br/>
-  <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> <%= I18n.t('search.show_hidden') %>
-  <input type="submit" value="<%= I18n.t("search.search") %>"/>
+  <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> <%= t('search.show_hidden') %>
+  <input type="submit" value="<%= t("search.search") %>"/>
 <% end %>
 
 <script type="text/javascript">

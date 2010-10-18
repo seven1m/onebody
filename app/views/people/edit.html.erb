@@ -20,45 +20,45 @@
     <% else %>
       <%=h @family.name %>
     <% end %>
-    &middot; <%= I18n.t('Edit') %>:</strong>
+    &middot; <%= t('Edit') %>:</strong>
   <%= @family.visible_people.map { |p| link_to(p == @person ? "<strong>#{h(p.first_name)}</strong>" : h(p.first_name), edit_person_path(p)) }.join(' | ') %>
 </p>
 
 <p>
-  <%= I18n.t('privacies.please_read_our_privacy_policy', :url => help_path('privacy_policy')) %>
+  <%= t('privacies.please_read_our_privacy_policy', :url => help_path('privacy_policy')) %>
 </p>
 
 <% if @logged_in.admin?(:edit_profiles) and @person.account_frozen? %>
-  <p class="very-strong"><%= I18n.t('people.this_account_is_frozen', :name => @person.name) %></p>
+  <p class="very-strong"><%= t('people.this_account_is_frozen', :name => @person.name) %></p>
 <% end %>
 
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => I18n.t('privacies.view_profile'), :class => 'icon') + ' ' + I18n.t('privacies.view_profile'), person_path(@person) %></li>
-  <li><%= link_to image_tag('email_edit.png', :alt => I18n.t('privacies.change_email_password'), :class => 'icon') + ' ' + I18n.t('privacies.change_email_password'), edit_person_account_path(@person) %></li>
-  <li><%= link_to image_tag('lock.png', :alt => I18n.t('privacies.privacy_settings'), :class => 'icon') + ' ' + I18n.t('privacies.privacy_settings'), edit_person_privacy_path(@person, :anchor => "p#{@person.id}") %></li>
-  <li><%= link_to image_tag('feed_small.png', :alt => I18n.t('people.feeds'), :class => 'icon') + ' ' + I18n.t('people.feeds'), person_feeds_path(@person) %></li>
+  <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), person_path(@person) %></li>
+  <li><%= link_to image_tag('email_edit.png', :alt => t('privacies.change_email_password'), :class => 'icon') + ' ' + t('privacies.change_email_password'), edit_person_account_path(@person) %></li>
+  <li><%= link_to image_tag('lock.png', :alt => t('privacies.privacy_settings'), :class => 'icon') + ' ' + t('privacies.privacy_settings'), edit_person_privacy_path(@person, :anchor => "p#{@person.id}") %></li>
+  <li><%= link_to image_tag('feed_small.png', :alt => t('people.feeds'), :class => 'icon') + ' ' + t('people.feeds'), person_feeds_path(@person) %></li>
   <% if @logged_in.admin?(:edit_profiles) and !me? %>
-    <li><%= link_to (@person.account_frozen? ? I18n.t('people.unfreeze') : I18n.t('people.freeze')), person_path(@person, :freeze => 'toggle'), :method => 'put', :confirm => I18n.t('are_you_sure') %></li>
+    <li><%= link_to (@person.account_frozen? ? t('people.unfreeze') : t('people.freeze')), person_path(@person, :freeze => 'toggle'), :method => 'put', :confirm => t('are_you_sure') %></li>
   <% end %>
 <% end %>
 
 <% if @person.account_frozen? and me? %>
   <p class="attention">
-    <%= I18n.t('people.your_account_has_been_frozen') %>
-    <%= I18n.t('people.you_many_not_make_changes') %>
+    <%= t('people.your_account_has_been_frozen') %>
+    <%= t('people.you_many_not_make_changes') %>
   </p>
 <% end %>
 
-<h2 class="tab" id="basics"><%= I18n.t('people.basics') %></h2>
+<h2 class="tab" id="basics"><%= t('people.basics') %></h2>
 <div class="section">
   <%= render :partial => 'edit_basics' %>
 </div>
 
-<h2 class="tab" id="picture"><%= I18n.t('people.pic') %></h2>
+<h2 class="tab" id="picture"><%= t('people.pic') %></h2>
 <div class="section">
   <p>
-    <%= I18n.t('people.upload_a_picture_of', :name => me? ? 'yourself' : h(@person.name)) %>
-    <%= I18n.t('people.please_only_upload_real_photo') %>
+    <%= t('people.upload_a_picture_of', :name => me? ? 'yourself' : h(@person.name)) %>
+    <%= t('people.please_only_upload_real_photo') %>
   </p>
   <table><tr><td>
   <%= render :partial => 'photo' %>
@@ -67,11 +67,11 @@
   </td></tr></table>
 </div>
 
-<h2 class="tab" id="family-picture"><%= I18n.t('people.family_pic') %></h2>
+<h2 class="tab" id="family-picture"><%= t('people.family_pic') %></h2>
 <div class="section">
   <p>
-    <%= I18n.t('people.upload_family_picture') %>
-    <%= I18n.t('people.please_only_upload_real_photo') %>
+    <%= t('people.upload_family_picture') %>
+    <%= t('people.please_only_upload_real_photo') %>
   </p>
   <table><tr><td>
   <%= render :partial => 'families/photo' %>
@@ -80,135 +80,135 @@
   </td></tr></table>
 </div>
 
-<h2 class="tab" id="about"><%= I18n.t('people.about') %></h2>
+<h2 class="tab" id="about"><%= t('people.about') %></h2>
 <div class="section">
   <%= form_for @person do |form| %>
     <%= error_messages_for(form) %>
     <%= hidden_field_tag :anchor, 'about' %>
     <div>
-      <label for="person_testimony"><%= I18n.t('people.testimony') %>:</label>
-      <%= I18n.t('people.share_your_personal_testimony') %><br/>
+      <label for="person_testimony"><%= t('people.testimony') %>:</label>
+      <%= t('people.share_your_personal_testimony') %><br/>
       <%= form.text_area :testimony, :rows => 15, :style => 'width:95%;' %><br/>
-      <label for="person_about"><%= I18n.t('people.about_me') %>:</label>
-      <%= I18n.t('people.tell_us_about_yourself') %><br/>
+      <label for="person_about"><%= t('people.about_me') %>:</label>
+      <%= t('people.tell_us_about_yourself') %><br/>
       <%= form.text_area :about, :rows => 10, :style => 'width:95%;' %><br/>
-      <label for="person_website"><%= I18n.t('people.website') %>:</label>
+      <label for="person_website"><%= t('people.website') %>:</label>
       <%= form.text_field :website %>
     </div>
-    <p><input type="submit" value="<%= I18n.t('save_changes') %>"/></p>
+    <p><input type="submit" value="<%= t('save_changes') %>"/></p>
   <% end %>
 </div>
     
-<h2 class="tab" id="favorites"><%= I18n.t('people.favs') %></h2>
+<h2 class="tab" id="favorites"><%= t('people.favs') %></h2>
 <div class="section">
   <%= form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'favorites' %>
-    <p style="font-style:italic;"><%= I18n.t('people.separate_items_with_commas') %></p>
+    <p style="font-style:italic;"><%= t('people.separate_items_with_commas') %></p>
     <div>
-    <label for="person_activities"><%= I18n.t('people.activities') %>:</label>
+    <label for="person_activities"><%= t('people.activities') %>:</label>
     <%= form.text_area :activities, :rows => 4 %>
-    <label for="person_interests"><%= I18n.t('people.interests') %>:</label>
+    <label for="person_interests"><%= t('people.interests') %>:</label>
     <%= form.text_area :interests, :rows => 4 %>
-    <label for="person_music"><%= I18n.t('people.music') %>:</label>
+    <label for="person_music"><%= t('people.music') %>:</label>
     <%= form.text_area :music, :rows => 4 %>
-    <label for="person_tv_shows"><%= I18n.t('people.tv_shows') %>:</label>
+    <label for="person_tv_shows"><%= t('people.tv_shows') %>:</label>
     <%= form.text_area :tv_shows, :rows => 4 %>
-    <label for="person_movies"><%= I18n.t('people.movies') %>:</label>
+    <label for="person_movies"><%= t('people.movies') %>:</label>
     <%= form.text_area :movies, :rows => 4 %>
-    <label for="person_books"><%= I18n.t('people.books') %>:</label>
+    <label for="person_books"><%= t('people.books') %>:</label>
     <%= form.text_area :books, :rows => 4 %>
-    <label for="person_quotes"><%= I18n.t('people.quotes') %>:</label>
+    <label for="person_quotes"><%= t('people.quotes') %>:</label>
     <%= form.text_area :quotes, :rows => 4 %>
     </div>
-    <p><input type="submit" value="<%= I18n.t('save_changes') %>"/></p>
+    <p><input type="submit" value="<%= t('save_changes') %>"/></p>
   <% end %>
 </div>
 
-<h2 class="tab" id="business"><%= I18n.t('people.business') %></h2>
+<h2 class="tab" id="business"><%= t('people.business') %></h2>
 <div class="section">
   <p>
-    <%= I18n.t('people.if_you_wish_to_be_listed_business_dir', :url => search_path(:business => true)) %>
+    <%= t('people.if_you_wish_to_be_listed_business_dir', :url => search_path(:business => true)) %>
   </p>
 
   <%= form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'business' %>
     <div>
-      <label for="person_business_category"><%= I18n.t('search.business_category') %></label>
-      <select name="person[business_category]" id="person_business_category" onchange="if(this.value=='!') custom_select_val(this, '<%= I18n.t('people.enter_new_category') %>')">
+      <label for="person_business_category"><%= t('search.business_category') %></label>
+      <select name="person[business_category]" id="person_business_category" onchange="if(this.value=='!') custom_select_val(this, '<%= t('people.enter_new_category') %>')">
         <option value=""></option>
         <%= options_for_select @business_categories, @person.business_category %>
-        <option value="!">[<%= I18n.t('new_category') %>]</option>
+        <option value="!">[<%= t('new_category') %>]</option>
       </select><br/>
-      <label for="person_business_name"><%= I18n.t('people.business_name') %>:</label>
+      <label for="person_business_name"><%= t('people.business_name') %>:</label>
       <%= form.text_field :business_name %><br/>
-      <label for="person_business_description"><%= I18n.t('people.description_of_business') %>:</label>
+      <label for="person_business_description"><%= t('people.description_of_business') %>:</label>
       <%= form.text_area :business_description, :rows => 3 %><br/>
-      <label for="person_business_phone"><%= I18n.t('people.business_phone') %>:</label>
+      <label for="person_business_phone"><%= t('people.business_phone') %>:</label>
       <%= form.text_field :business_phone %><br/>
-      <label for="person_business_email"><%= I18n.t('people.business_email') %>:</label>
+      <label for="person_business_email"><%= t('people.business_email') %>:</label>
       <%= form.text_field :business_email %><br/>
-      <label for="person_business_website"><%= I18n.t('people.business_website') %>:</label>
+      <label for="person_business_website"><%= t('people.business_website') %>:</label>
       <%= form.text_field :business_website %><br/>
-      <label for="person_business_address"><%= I18n.t('people.business_address') %>:</label>
+      <label for="person_business_address"><%= t('people.business_address') %>:</label>
       <%= form.text_area :business_address, :rows => 2 %>
     </div>
   
-    <p><%= submit_tag I18n.t('save_changes') %></p>
+    <p><%= submit_tag t('save_changes') %></p>
   <% end %>
 </div>
 
-<h2 class="tab" id="email"><%= I18n.t('people.email') %></h2>
+<h2 class="tab" id="email"><%= t('people.email') %></h2>
 <div class="section">
   <div class="highlight">
     <p>
       <% if @person.email.to_s.any? %>
-        <%=h @person == @logged_in ? I18n.t('your') : @person.name_possessive %> <%= I18n.t('people.email_address') %>:<br/>
+        <%=h @person == @logged_in ? t('your') : @person.name_possessive %> <%= t('people.email_address') %>:<br/>
         <span style="font-size:2em;"><%=h @person.email %></span>
       <% else %>
-        <%= @person == @logged_in ? I18n.t('you_dont') : h(@person.name) + " " + I18n.t('doesnt') %>
-        <%= I18n.t('people.have_an_email_in_the_system') %>
+        <%= @person == @logged_in ? t('you_dont') : h(@person.name) + " " + t('doesnt') %>
+        <%= t('people.have_an_email_in_the_system') %>
       <% end %>
     </p>
-    <p><%= I18n.t('people.click_to_change_email', :url => edit_person_account_path(@person)) %></p>
+    <p><%= t('people.click_to_change_email', :url => edit_person_account_path(@person)) %></p>
   </div>
   
-  <h2><%= I18n.t('people.wall_emails') %></h2>
+  <h2><%= t('people.wall_emails') %></h2>
   <%= form_for @person do |form| %>
     <p>
       <%= form.check_box :get_wall_email, :class => 'checkbox' %>
-      <%= I18n.t('people.send_email_when_someone_posts_wall') %><br/>
-      <%= submit_tag I18n.t('save_changes') %>
+      <%= t('people.send_email_when_someone_posts_wall') %><br/>
+      <%= submit_tag t('save_changes') %>
     </p>
   <% end %>
 
-  <h2><%= I18n.t('groups.group_emails') %></h2>
+  <h2><%= t('groups.group_emails') %></h2>
   <%= render :partial => 'groups/person_groups' %>
 
-  <h2><%= I18n.t('people.alternate_email') %></h2>
+  <h2><%= t('people.alternate_email') %></h2>
 
   <p>
-    <%= I18n.t('people.if_you_have_another_email') %>
-    <%= I18n.t('please_note') %>:
+    <%= t('people.if_you_have_another_email') %>
+    <%= t('please_note') %>:
   </p>
 
   <ul>
-    <li><%= I18n.t('people.this_email_will_not_be_visible') %></li>
-    <li><%= I18n.t('people.you_will_not_able_use_this_address') %></li>
+    <li><%= t('people.this_email_will_not_be_visible') %></li>
+    <li><%= t('people.you_will_not_able_use_this_address') %></li>
   </ul>
 
   <%= form_for @person do |form| %>
     <%= hidden_field_tag :anchor, 'email' %>
     <div>
-      <label for="person_alternate_email"><%= I18n.t('people.alternate_email') %>:</label>
+      <label for="person_alternate_email"><%= t('people.alternate_email') %>:</label>
       <%= form.text_field :alternate_email %><br/>
-      <%= submit_tag I18n.t('save_changes') %>
+      <%= submit_tag t('save_changes') %>
     </div>
   <% end %>
 
 </div>
 
 <% if @logged_in.admin?(:manage_groups) %>
-  <h2 class="tab" id="groups"><%= I18n.t('people.groups') %></h2>
+  <h2 class="tab" id="groups"><%= t('people.groups') %></h2>
   <div class="section">
     <div id="groups_list">
       <%= render :partial => 'group_selection' %>
@@ -217,18 +217,18 @@
 <% end %>
 
 <% if @logged_in.admin?(:manage_access) %>
-  <h2 class="tab" id="access"><%= I18n.t('people.access') %></h2>
+  <h2 class="tab" id="access"><%= t('people.access') %></h2>
   <div class="section">
     <%= render :partial => 'access' %>
   </div>
 <% end %>
 
 <% if @logged_in.admin?(:edit_profiles) %>
-  <h2 class="tab" id="delete"><%= I18n.t('Delete') %></h2>
+  <h2 class="tab" id="delete"><%= t('Delete') %></h2>
   <div class="section">
     <%= form_for @person, :html => {:method => 'delete'} do |form| %>
-      <p><%= I18n.t('people.if_your_system_is_setup_to_sync') %></p>
-      <p><%= form.submit I18n.t('Delete') + " #{@person.name}" %></p>
+      <p><%= t('people.if_your_system_is_setup_to_sync') %></p>
+      <p><%= form.submit t('Delete') + " #{@person.name}" %></p>
     <% end %>
   </div>
 <% end %>
@@ -245,7 +245,7 @@
   tab_click = function(e) {
     if(changes) {
       changes = false;
-      if(confirm('<%= I18n.t('privacies.you_made_a_change_tab') %>')) {
+      if(confirm('<%= t('privacies.you_made_a_change_tab') %>')) {
         sections[lastSection].getElementsByTagName('form')[0].submit();
       } else {
         original_tab_click(e);
@@ -256,7 +256,7 @@
   };
   set_handlers();
   onbeforeunload = function() {
-    if(changes) return '<%= I18n.t('privacies.you_made_a_change_page') %>';
+    if(changes) return '<%= t('privacies.you_made_a_change_page') %>';
   };
 //]]>
 </script>

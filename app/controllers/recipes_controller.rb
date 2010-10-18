@@ -6,7 +6,7 @@ class RecipesController < ApplicationController
       if @logged_in.can_see?(@person)
         @recipes = @person.recipes.paginate(:order => 'created_at desc', :page => params[:page])
       else
-        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+        render :text => t('not_authorized'), :layout => true, :status => 401
       end
       @tags = Recipe.tag_counts(:conditions => ['recipes.id in (?)', @recipes.map { |v| v.id } || [0]])
     else
@@ -27,7 +27,7 @@ class RecipesController < ApplicationController
     @recipe = Recipe.new(params[:recipe])
     @recipe.person = @logged_in
     if @recipe.save
-      flash[:notice] = I18n.t('recipes.saved')
+      flash[:notice] = t('recipes.saved')
       redirect_to @recipe
     else
       render :action => 'new'
@@ -37,7 +37,7 @@ class RecipesController < ApplicationController
   def edit
     @recipe = Recipe.find(params[:id])
     unless @logged_in.can_edit?(@recipe)
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -48,13 +48,13 @@ class RecipesController < ApplicationController
     @recipe.save if params[:remove_tag] or params[:add_tags]
     if @logged_in.can_edit?(@recipe)
       if @recipe.update_attributes(params[:recipe])
-        flash[:notice] = I18n.t('recipes.saved')
+        flash[:notice] = t('recipes.saved')
         redirect_to @recipe
       else
         render :action => 'edit'
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -62,10 +62,10 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
     if @logged_in.can_edit?(@recipe)
       @recipe.destroy
-      flash[:notice] = I18n.t('recipes.deleted')
+      flash[:notice] = t('recipes.deleted')
       redirect_to recipes_path
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 

@@ -6,7 +6,7 @@ class FeedsController < ApplicationController
       if @logged_in.can_edit?(@person)
         @feeds = @person.feeds.all
       else
-        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+        render :text => t('not_authorized'), :layout => true, :status => 401
       end
     elsif @logged_in.admin?(:edit_profiles)
       @feeds = Feed.all(
@@ -17,7 +17,7 @@ class FeedsController < ApplicationController
       )
       render :action => 'index_for_all'
     else
-      render :text => I18n.t('There_was_an_error'), :layout => true, :status => 500
+      render :text => t('There_was_an_error'), :layout => true, :status => 500
     end
   end
 
@@ -26,7 +26,7 @@ class FeedsController < ApplicationController
     if @logged_in.can_edit?(@person)
       @feed = @person.feeds.new
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -43,10 +43,10 @@ class FeedsController < ApplicationController
           if @feed.save
             if @feed.error_count.to_i > 0
               @feed.destroy; @feed = @person.feeds.new
-              flash[:notice] = I18n.t('feeds.error_retrieving')
+              flash[:notice] = t('feeds.error_retrieving')
               render :action => 'new', :type => params[:type]
             else
-              flash[:notice] = I18n.t('feeds.done', :url => stream_path)
+              flash[:notice] = t('feeds.done', :url => stream_path)
               redirect_to person_feeds_path(@person)
             end
           else
@@ -59,9 +59,9 @@ class FeedsController < ApplicationController
           if feed and @entries.to_a.any?
             render :action => 'preview'
           else
-            text = I18n.t('feeds.no_entries_found')
-            text << " " + I18n.t('feeds.no_entries_found_twitter_alert') if params[:type] == 'twitter'
-            text << " " + I18n.t('feeds.no_entries_found_flickr_alert') if params[:type] == 'flickr'
+            text = t('feeds.no_entries_found')
+            text << " " + t('feeds.no_entries_found_twitter_alert') if params[:type] == 'twitter'
+            text << " " + t('feeds.no_entries_found_flickr_alert') if params[:type] == 'flickr'
             render :text => text, :layout => true, :status => 400
           end
         end
@@ -69,7 +69,7 @@ class FeedsController < ApplicationController
         render :action => 'new'
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -78,14 +78,14 @@ class FeedsController < ApplicationController
       @person = Person.find(params[:person_id])
       if @logged_in.can_edit?(@person)
         @person.feeds.find(params[:id]).destroy
-        flash[:notice] = I18n.t('feeds.deleted')
+        flash[:notice] = t('feeds.deleted')
         redirect_to person_feeds_path(@person)
       else
-        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+        render :text => t('not_authorized'), :layout => true, :status => 401
       end
     elsif @logged_in.admin?(:edit_profiles)
       Feed.find(params[:id]).destroy
-      flash[:notice] = I18n.t('feeds.deleted')
+      flash[:notice] = t('feeds.deleted')
       redirect_to feeds_path
     end
   end

@@ -1,22 +1,22 @@
-<h1><%= I18n.t('admin.settings.settings') %></h1>
+<h1><%= t('admin.settings.settings') %></h1>
 
 <%= form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
   <% if params[:site_id] %><%= hidden_field_tag :site_id, params[:site_id] %><% end %>
   <% @settings.each do |section_name, section| %>
-    <h2 class="tab" id="<%= section_name %>"><%=h I18n.t(:name, :scope => [:admin, :settings, section_name], :default => section_name) %></h2>
+    <h2 class="tab" id="<%= section_name %>"><%=h t(:name, :scope => [:admin, :settings, section_name], :default => section_name) %></h2>
     <div class="section">
       <table>
         <% section.each_with_index do |setting, index| %>
           <tr class="<%= index % 2 == 0 ? 'even' : 'odd' %>">
             <td style="white-space:nowrap;font-weight:bold;">
               <%=h setting.name %>:
-              <% if setting.format == 'list' %><br/><%= I18n.t('admin.settings.one_per_line') %><% end %>
+              <% if setting.format == 'list' %><br/><%= t('admin.settings.one_per_line') %><% end %>
             </td>
             <td style="white-space:nowrap;">
               <% if setting.format == 'list' %>
                 <%= text_area_tag setting.id, setting.value.to_a.join("\n"), :rows => 3, :style => 'width:300px;' %>
               <% elsif setting.format == 'boolean' %>
-                <%= select_tag setting.id, options_for_select([[I18n.t('admin.settings.enabled'), true], [I18n.t('admin.settings.disabled'), false]], setting.value?) %>
+                <%= select_tag setting.id, options_for_select([[t('admin.settings.enabled'), true], [t('admin.settings.disabled'), false]], setting.value?) %>
               <% elsif setting.format == 'password' %>
                 <%= password_field_tag setting.id, setting.value %>
               <% else %>
@@ -34,7 +34,7 @@
     </div>
   <% end %>
   
-  <p><%= submit_tag I18n.t('admin.settings.save') %></p>
+  <p><%= submit_tag t('admin.settings.save') %></p>
 <% end %>
                
 <%= javascript_include_tag 'tabs' %>

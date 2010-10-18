@@ -1,10 +1,10 @@
-<h1><%= I18n.t('import.error_updating') %></h1>
+<h1><%= t('import.error_updating') %></h1>
 
 <p>
-  <%= I18n.t('import.error_updating_message', :url => administration_updates_path) %>
+  <%= t('import.error_updating_message', :url => administration_updates_path) %>
 </p>
 
-<h2><%= pluralize @update.errors.length, I18n.t('import.error') %></h2>
+<h2><%= pluralize @update.errors.length, t('import.error') %></h2>
 
 <ul>
   <% @update.errors.full_messages.each do |error| %>
@@ -12,9 +12,9 @@
   <% end %>
 </ul>
 
-<h2><%= I18n.t('import.records') %></h2>
+<h2><%= t('import.records') %></h2>
 
 <ul>
-  <li><%= I18n.t('person') %>: <%= link_to "#{@update.person.name}",        @update.person        %></li>
-  <li><%= I18n.t('people.family') %>: <%= link_to "#{@update.person.family.name}", @update.person.family %></li>
+  <li><%= t('person') %>: <%= link_to "#{@update.person.name}",        @update.person        %></li>
+  <li><%= t('people.family') %>: <%= link_to "#{@update.person.family.name}", @update.person.family %></li>
 </ul>

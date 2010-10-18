@@ -1,23 +1,23 @@
 <% content_for :head do %>
-  <link rel="alternate" type="application/atom+xml" title="<%= I18n.t('publications.feed') %>" href="<%= url_for publications_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+  <link rel="alternate" type="application/atom+xml" title="<%= t('publications.feed') %>" href="<%= url_for publications_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
 <% end %>
 
 <% content_for :subnav do %>
   <% if @logged_in.admin?(:manage_publications) %>
-    <li><%= link_to image_tag('plus.png', :alt => I18n.t('publications.new_publication'), :class => 'icon') + ' ' + I18n.t('publications.add_publication'), new_publication_path %></li>
+    <li><%= link_to image_tag('plus.png', :alt => t('publications.new_publication'), :class => 'icon') + ' ' + t('publications.add_publication'), new_publication_path %></li>
   <% end %>
-  <li><%= link_to image_tag('feed_small.png', :alt => I18n.t('publications.feed'), :class => 'icon') + ' ' + I18n.t('publications.subscribe'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %></li>
+  <li><%= link_to image_tag('feed_small.png', :alt => t('publications.feed'), :class => 'icon') + ' ' + t('publications.subscribe'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %></li>
 <% end %>
 
-<h1><%= I18n.t('publications.publications') %></h1>
+<h1><%= t('publications.publications') %></h1>
 
 <%= render :partial => 'list' %>
 
-<h2><%= I18n.t('publications.update_notifications') %></h2>
+<h2><%= t('publications.update_notifications') %></h2>
 
 <p>
-  <%= link_to image_tag('rss.png', :alt => I18n.t('publications.feed'), :class => 'icon'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %>
-  <%= I18n.t('publications.subscribe_feed', :url => publications_path(:format => 'xml', :code => @logged_in.feed_code)) %>
+  <%= link_to image_tag('rss.png', :alt => t('publications.feed'), :class => 'icon'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %>
+  <%= t('publications.subscribe_feed', :url => publications_path(:format => 'xml', :code => @logged_in.feed_code)) %>
 </p>
 
 <% @groups.each do |group| %>
@@ -25,25 +25,25 @@
   
   <% if @logged_in.member_of?(group) %>
     <p>
-      <%= image_tag 'message.gif', :alt => I18n.t('publications.email_notifications'), :class => 'icon' %>
-      <%= I18n.t('publications.currently_signed_up') %>
-      <%= link_to I18n.t('click_here'), group_membership_path(group, @logged_in), :method => 'delete' %>
-      <%= I18n.t('publications.to_stop_receiving_notifications') %>
+      <%= image_tag 'message.gif', :alt => t('publications.email_notifications'), :class => 'icon' %>
+      <%= t('publications.currently_signed_up') %>
+      <%= link_to t('click_here'), group_membership_path(group, @logged_in), :method => 'delete' %>
+      <%= t('publications.to_stop_receiving_notifications') %>
     </p>
   <% else %>
     <p>
-      <%= image_tag 'message.gif', :alt => I18n.t('publications.email_notifications'), :class => 'icon' %>
-      <%= I18n.t('publications.start_receiving_notifications') %>
-      <%= link_to I18n.t('click_here'), group_memberships_path(group, :id => @logged_in), :method => 'post' %>.
+      <%= image_tag 'message.gif', :alt => t('publications.email_notifications'), :class => 'icon' %>
+      <%= t('publications.start_receiving_notifications') %>
+      <%= link_to t('click_here'), group_memberships_path(group, :id => @logged_in), :method => 'post' %>.
     </p>
   <% end %>
 
   <% if @logged_in.admin?(:manage_publications) %>
     <p style="background-color:#ffc;">
-      <%= l = group.people.length %> <%= l == 1 ? I18n.t('people_count.is') : I18n.t('people_count.are') %>
-      <%= I18n.t('publications.signed_to_recieve') %>
+      <%= l = group.people.length %> <%= l == 1 ? t('people_count.is') : t('people_count.are') %>
+      <%= t('publications.signed_to_recieve') %>
       |
-      <%= link_to I18n.t('groups.view_group'), group %>
+      <%= link_to t('groups.view_group'), group %>
     </p>
   <% end %>
 <% end %>

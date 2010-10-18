@@ -3,7 +3,7 @@
     <strong><%= link_to h(verse.reference), verse %></strong>
     <% unless @person %>
       <% if (count = verse.people.count) > 0 %>
-        saved by <%= I18n.t('people_count', :count => count) %>
+        saved by <%= t('people_count', :count => count) %>
       <% end %>
     <% end %>
   </div>

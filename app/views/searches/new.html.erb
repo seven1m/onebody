@@ -8,7 +8,7 @@
 <% content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">
-      <%= link_to I18n.t('search.new_family'), new_family_path %>
+      <%= link_to t('search.new_family'), new_family_path %>
     </div>
   <% end %>
   <%= render :partial => 'subnav' %>
@@ -16,55 +16,55 @@
 
 <p id="searching" style="font-size:14pt;display:none;">
   <%= image_tag 'spinner.gif', :alt => 'searching', :class => 'no-border' %>
-  <%= I18n.t('search.searching') %>
+  <%= t('search.searching') %>
 </p>
 
 <div id="results">
   <% if @people %>
     <%= render :partial => 'results' %>
   <% elsif params[:search_friends] %>
-    <h2><%= I18n.t('search.find_your_friends') %></h2>
+    <h2><%= t('search.find_your_friends') %></h2>
     <ol>
-      <li><%= I18n.t('search.friends_search') %></li>
-      <li><%= I18n.t("search.click_the_icon_to_add_them", :img => image_tag('contact_add.gif', :alt => I18n.t('friends.add_friend'), :class => 'icon')) %></li>
+      <li><%= t('search.friends_search') %></li>
+      <li><%= t("search.click_the_icon_to_add_them", :img => image_tag('contact_add.gif', :alt => t('friends.add_friend'), :class => 'icon')) %></li>
     </ol>
     <p>
-      <%= I18n.t("search.add_as_many_friends_you_like", :url => person_friends_path(@logged_in)) %>
+      <%= t("search.add_as_many_friends_you_like", :url => person_friends_path(@logged_in)) %>
     </p>
   <% else %>
     <table>
       <tr>
         <td>
-          <%= link_to_function image_tag('search.gif', :alt => I18n.t('search.search_the_directory')),
+          <%= link_to_function image_tag('search.gif', :alt => t('search.search_the_directory')),
             "$('name').focus();new Effect.Highlight('name', {})" %>
         </td>
         <td>
-          <strong><%= I18n.t("search.find_someone_quickly", :js => "$('search_name').focus();new Effect.Highlight('search_name', {})") %></strong>
-          <%= I18n.t('search.use_advanced_search', :js => "$('name_search').focus();new Effect.Highlight('name_search', {})") %>
+          <strong><%= t("search.find_someone_quickly", :js => "$('search_name').focus();new Effect.Highlight('search_name', {})") %></strong>
+          <%= t('search.use_advanced_search', :js => "$('name_search').focus();new Effect.Highlight('name_search', {})") %>
         </td>
       </tr>
       <tr>
         <td>
-          <%= link_to image_tag('directory.gif', :alt => I18n.t("search.browse_the_directory")), search_path(:browse => true) %>
+          <%= link_to image_tag('directory.gif', :alt => t("search.browse_the_directory")), search_path(:browse => true) %>
         </td>
         <td>
-          <%= I18n.t('search.browse_directory_description', :url => search_path(:browse => true)) %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <%= link_to image_tag('business.gif', :alt => I18n.t('search.business_directory')), search_path(:business => true) %>
-        </td>
-        <td>
-          <%= I18n.t('search.business_directory_description', :url => search_path(:business => true)) %>
+          <%= t('search.browse_directory_description', :url => search_path(:browse => true)) %>
         </td>
       </tr>
       <tr>
         <td>
-          <%= link_to image_tag('print.gif', :alt => I18n.t("search.printed_directory")), printable_directory_path %>
+          <%= link_to image_tag('business.gif', :alt => t('search.business_directory')), search_path(:business => true) %>
         </td>
         <td>
-          <%= I18n.t('search.printed_directory_description', :url => printable_directory_path) %>
+          <%= t('search.business_directory_description', :url => search_path(:business => true)) %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to image_tag('print.gif', :alt => t("search.printed_directory")), printable_directory_path %>
+        </td>
+        <td>
+          <%= t('search.printed_directory_description', :url => printable_directory_path) %>
         </td>
       </tr>
     </table>

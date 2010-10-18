@@ -12,7 +12,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render :text => I18n.t('feature_unavailable')
+            render :text => t('feature_unavailable')
           end
         end
       end
@@ -24,7 +24,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render :text => I18n.t('feature_unavailable')
+            render :text => t('feature_unavailable')
           end
         end
       end
@@ -44,7 +44,7 @@ class NewsController < ApplicationController
           if the_url = Setting.get(:url, :news)
             redirect_to the_url
           else
-            render :text => I18n.t('feature_unavailable')
+            render :text => t('feature_unavailable')
           end
         end
       end
@@ -55,7 +55,7 @@ class NewsController < ApplicationController
     if @logged_in.admin?(:manage_news) or Setting.get(:features, :news_by_users)
       @news_item = NewsItem.new
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -67,7 +67,7 @@ class NewsController < ApplicationController
       if @news_item.save
         respond_to do |format|
           format.html do
-            flash[:notice] = I18n.t('news.saved')
+            flash[:notice] = t('news.saved')
             redirect_to params[:redirect_to] || @news_item
           end
         end
@@ -77,14 +77,14 @@ class NewsController < ApplicationController
         end
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
   def edit
     @news_item = NewsItem.find(params[:id])
     unless @logged_in.can_edit?(@news_item)
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -93,7 +93,7 @@ class NewsController < ApplicationController
     if @logged_in.can_edit?(@news_item)
       if @news_item.update_attributes(params[:news_item])
         respond_to do |format|
-          format.html { flash[:notice] = I18n.t('news.saved'); redirect_to @news_item }
+          format.html { flash[:notice] = t('news.saved'); redirect_to @news_item }
         end
       else
         respond_to do |format|
@@ -101,7 +101,7 @@ class NewsController < ApplicationController
         end
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -110,10 +110,10 @@ class NewsController < ApplicationController
     if @logged_in.can_edit?(@news_item)
       @news_item.destroy
       respond_to do |format|
-        format.html { flash[:notice] = I18n.t('news.deleted'); redirect_to news_path }
+        format.html { flash[:notice] = t('news.deleted'); redirect_to news_path }
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 end

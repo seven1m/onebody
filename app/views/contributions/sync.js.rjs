@@ -1,5 +1,5 @@
 if @ids.any?
-  page.replace_html :sync_status, I18n.t('contributions.remaining', :count => @ids.length)
+  page.replace_html :sync_status, t('contributions.remaining', :count => @ids.length)
   args = @ids.map { |id| "ids[]=#{id}" }.join('&')
   page << <<-JS
     setTimeout("new Ajax.Request('#{sync_contributions_path}', {parameters:'#{args}'})", #{Donortools::Persona::SLEEP_BETWEEN_PUSHES * 1000});

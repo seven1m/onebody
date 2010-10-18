@@ -1,4 +1,4 @@
-<p><%= link_to image_tag('back.gif', :alt => I18n.t('groups.back_to_homepage'), :class => 'icon') + ' ' + I18n.t('groups.back_to_homepage'), groups_path %></p>
+<p><%= link_to image_tag('back.gif', :alt => t('groups.back_to_homepage'), :class => 'icon') + ' ' + t('groups.back_to_homepage'), groups_path %></p>
 
 <% if @groups.any? %>
 
@@ -17,7 +17,7 @@
         <td>
           <span class="list-heading">
             <%= link_to h(group.name), group %>
-            <% if group.private? %><%= image_tag('lock.gif', :alt => I18n.t('groups.private_group'), :class => 'icon') %><% end %>
+            <% if group.private? %><%= image_tag('lock.gif', :alt => t('groups.private_group'), :class => 'icon') %><% end %>
           </span>
           <% if group.admin?(@logged_in) %>
             <%= link_to 'edit', edit_group_path(group), :class => 'discreet' %>
@@ -31,14 +31,14 @@
           <% end %>
           <% if group.leader %>
             <br/>
-            <%= I18n.t('groups.leader') %>: <%= link_to h(group.leader.name), person_path(group.leader) %>
+            <%= t('groups.leader') %>: <%= link_to h(group.leader.name), person_path(group.leader) %>
           <% end %>
           <% if group.address.to_s.any? and group.can_send? @logged_in %>
             <br/>
-            <%= I18n.t('people.email') %>: <%= mail_to u(group.full_address), h(group.full_address) %>
+            <%= t('people.email') %>: <%= mail_to u(group.full_address), h(group.full_address) %>
           <% end %>
           <br/>
-          <%= I18n.t('people.person', :count => group.people.count) %>
+          <%= t('people.person', :count => group.people.count) %>
         </td>
       </tr>
     <% end %>
@@ -46,14 +46,14 @@
 
 <% else %>
 
-  <p><em><%= I18n.t('groups.no_groups_found') %></em></p>
+  <p><em><%= t('groups.no_groups_found') %></em></p>
 
 <% end %>
 
 <% if @logged_in.admin?(:manage_groups) and @hidden_groups.any? %>
-  <h2><%= I18n.t('groups.hidden_groups') %></h2>
+  <h2><%= t('groups.hidden_groups') %></h2>
   <p>
-    <%= I18n.t('groups.only_admins_see_this_list') %>:<br/>
+    <%= t('groups.only_admins_see_this_list') %>:<br/>
     <%= @hidden_groups.map { |g| link_to(h(g.name), g) }.join(', ') %>
   </p>
 <% end %>

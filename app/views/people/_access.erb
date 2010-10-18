@@ -7,8 +7,8 @@
         <%= form.check_box attribute %> <%= form.label attribute, nil, :class => 'inline' %><br/>
       <% end %>
     <% else %>
-      <em><%= I18n.t('people.no_additional_access_avaiable') %></em>
+      <em><%= t('people.no_additional_access_avaiable') %></em>
     <% end %>
   </p>
-  <p><%= submit_tag I18n.t('people.save_access') %></p>
+  <p><%= submit_tag t('people.save_access') %></p>
 <% end %>

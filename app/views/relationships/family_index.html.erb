@@ -8,8 +8,8 @@
 
   <table id="unique_relationships">
     <tr>
-      <th><%= I18n.t('name') %></th>
-      <th><%= I18n.t('relationships.relationship') %>
+      <th><%= t('name') %></th>
+      <th><%= t('relationships.relationship') %>
     <th>
     <% @unique_relationships.each do |person, relationship_names| %>
       <tr>
@@ -21,10 +21,10 @@
   
   <table id="individual_relationships" style="display:none;">
     <tr>
-      <th><%= I18n.t('From') %></th>
+      <th><%= t('From') %></th>
       <th></th>
-      <th><%= I18n.t('To') %></th>
-      <th><%= I18n.t('relationships.relationship') %>
+      <th><%= t('To') %></th>
+      <th><%= t('relationships.relationship') %>
     <th>
     <% @relationships.each do |relationship| %>
       <tr>
@@ -36,26 +36,26 @@
     <% end %>
   </table>
   
-  <p><%= link_to_function I18n.t('relationships.toggle_individual'), "Element.toggle('unique_relationships'); Element.toggle('individual_relationships');" %></p>
+  <p><%= link_to_function t('relationships.toggle_individual'), "Element.toggle('unique_relationships'); Element.toggle('individual_relationships');" %></p>
   
 <% else %>
 
-  <p><em><%= I18n.t('none') %></em></p>
+  <p><em><%= t('none') %></em></p>
   
 <% end %>
 
 <% if @family.people.count > 0 %>
-  <p><%= link_to_function I18n.t('relationships.create_family_relationships'), "Element.show('auto_generate');Element.hide(this)" %></p>
+  <p><%= link_to_function t('relationships.create_family_relationships'), "Element.show('auto_generate');Element.hide(this)" %></p>
 
   <div id="auto_generate" style="display:none;">
     <%= form_tag family_relationships_path(@family) do %>
-      <p><%= I18n.t('relationships.create_family_relationships_description') %></p>
+      <p><%= t('relationships.create_family_relationships_description') %></p>
       <table>
         <tr>
-          <th><%= I18n.t('From') %></th>
+          <th><%= t('From') %></th>
           <th></th>
-          <th><%= I18n.t('To') %></th>
-          <th><%= I18n.t('relationships.relationship') %>
+          <th><%= t('To') %></th>
+          <th><%= t('relationships.relationship') %>
         <th>
         <% @suggested_relationships.each do |person, relationships| %>
           <% relationships.each do |related, relationship| %>
@@ -63,12 +63,12 @@
               <td><%= link_to h(person.name), person %></td>
               <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
               <td><%= link_to h(related.name), related %></td>
-              <td><%= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{I18n.t('none')})", '']]+I18n.t('relationships.names').invert.sort, relationship.to_sym) %></td>
+              <td><%= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{t('none')})", '']]+t('relationships.names').invert.sort, relationship.to_sym) %></td>
             </tr>
           <% end %>
         <% end %>
       </table>
-      <%= submit_tag I18n.t('relationships.create_family_relationships') %>
+      <%= submit_tag t('relationships.create_family_relationships') %>
     <% end %>
   </div>
 <% end %>

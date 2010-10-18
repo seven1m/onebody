@@ -1,9 +1,9 @@
 <% @albums.each do |album| %>
   <div class="picture">
-    <%= link_to image_tag(album.cover ? medium_picture_path(album.cover) : 'camera.gif', :alt => I18n.t('albums.click_to_view')), album, :title => I18n.t('albums.click_to_view') %><br/>
+    <%= link_to image_tag(album.cover ? medium_picture_path(album.cover) : 'camera.gif', :alt => t('albums.click_to_view')), album, :title => t('albums.click_to_view') %><br/>
     <%=h album.name %>
     <% if album.person %>
-      <%= I18n.t('by') %> <%= link_to h(album.person.name), album.person %>
+      <%= t('by') %> <%= link_to h(album.person.name), album.person %>
     <% end %>
   </div>
 <% end %>

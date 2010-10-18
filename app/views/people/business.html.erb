@@ -1,13 +1,13 @@
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
   <p>
-    <%= I18n.t('people.services_provided_by') %><br/>
+    <%= t('people.services_provided_by') %><br/>
     <%= link_to h(@person.name), @person %>
   </p>
 <% end %>
 
 <div>
-  <%= link_to I18n.t('people.business_directory'), search_path(:business => true) %> &raquo;
+  <%= link_to t('people.business_directory'), search_path(:business => true) %> &raquo;
   <% if @person.business_category.to_s.any? %>
     <%= link_to h(@person.business_category), search_path(:business => true, :category => @person.business_category) %> &raquo;
   <% end %>
@@ -18,15 +18,15 @@
 
 <table>
   <% if @person.business_phone.to_i > 0 %>
-    <tr><td><%= I18n.t('people.business_phone') %>:</td><td><%= format_phone @person.business_phone %></td></tr>
+    <tr><td><%= t('people.business_phone') %>:</td><td><%= format_phone @person.business_phone %></td></tr>
   <% end %>
   <% if @person.business_email.to_s.any? %>
-    <tr><td><%= I18n.t('people.business_email') %>:</td><td><%= mail_to @person.business_email %></td></tr>
+    <tr><td><%= t('people.business_email') %>:</td><td><%= mail_to @person.business_email %></td></tr>
   <% end %>
   <% if @person.business_website.to_s.any? %>
-    <tr><td><%= I18n.t('people.business_website') %>:</td><td><%= link_to h(@person.business_website), @person.business_website %></td></tr>
+    <tr><td><%= t('people.business_website') %>:</td><td><%= link_to h(@person.business_website), @person.business_website %></td></tr>
   <% end %>
   <% if @person.business_address.to_s.any? %>
-    <tr><td><%= I18n.t('people.business_address') %>:</td><td><%= preserve_breaks @person.business_address %></td></tr>
+    <tr><td><%= t('people.business_address') %>:</td><td><%= preserve_breaks @person.business_address %></td></tr>
   <% end %>
 </table>

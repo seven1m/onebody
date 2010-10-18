@@ -4,9 +4,9 @@
   <%= select_tag 'report[sort][][direction]',
     options_for_select([:asc, :desc], object[1]) %>
   <span class="controls">
-    <%= link_to_function image_tag('plus.png',       :class => 'icon', :alt => I18n.t('reporting.add_sort_attribute')),    "add_sort(#{sort_attribute_counter})"          %>
-    <%= link_to_function image_tag('arrow_down.png', :class => 'icon', :alt => I18n.t('reporting.move_down')),             "move_sort(#{sort_attribute_counter}, 'down')" %>
-    <%= link_to_function image_tag('arrow_up.png',   :class => 'icon', :alt => I18n.t('reporting.move_up')),               "move_sort(#{sort_attribute_counter}, 'up')"   %>
-    <%= link_to_function image_tag('delete.png',     :class => 'icon', :alt => I18n.t('reporting.remove_sort_attribute')), "remove_sort(#{sort_attribute_counter});"      %>
+    <%= link_to_function image_tag('plus.png',       :class => 'icon', :alt => t('reporting.add_sort_attribute')),    "add_sort(#{sort_attribute_counter})"          %>
+    <%= link_to_function image_tag('arrow_down.png', :class => 'icon', :alt => t('reporting.move_down')),             "move_sort(#{sort_attribute_counter}, 'down')" %>
+    <%= link_to_function image_tag('arrow_up.png',   :class => 'icon', :alt => t('reporting.move_up')),               "move_sort(#{sort_attribute_counter}, 'up')"   %>
+    <%= link_to_function image_tag('delete.png',     :class => 'icon', :alt => t('reporting.remove_sort_attribute')), "remove_sort(#{sort_attribute_counter});"      %>
   </span>
 </div>

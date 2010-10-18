@@ -1,12 +1,12 @@
-<% if @item.person %><p><%= I18n.t('Who') %>: <%= link_to h(@item.person.name), @item.person %></p><% end %>
+<% if @item.person %><p><%= t('Who') %>: <%= link_to h(@item.person.name), @item.person %></p><% end %>
 <table>
   <% @item.object_changes.to_a.each do |key, value| %>
   <tr>
       <td><%=h key %>:</td>
       <td>
         <% if value.is_a?(Array) %>
-          <%= I18n.t('Was') %>: <%=h log_item_change_value(@item, key, value.first) %><br/>
-          <%= I18n.t('Now') %>: <%=h log_item_change_value(@item, key, value.last) %>
+          <%= t('Was') %>: <%=h log_item_change_value(@item, key, value.first) %><br/>
+          <%= t('Now') %>: <%=h log_item_change_value(@item, key, value.last) %>
         <% else %>
           <%=h value %>
         <% end %>

@@ -2,25 +2,25 @@
   <%= content %>
 <% else %>
   <p>
-    <%= I18n.t('accounts.verify_who_you_are') %>
+    <%= t('accounts.verify_who_you_are') %>
   </p>
 
   <ul>
     <li>
-      <%= link_to I18n.t('accounts.verify_by_email'), new_account_path(:email => true) %><br/>
-      <%= I18n.t('accounts.verify_by_email_message') %>
+      <%= link_to t('accounts.verify_by_email'), new_account_path(:email => true) %><br/>
+      <%= t('accounts.verify_by_email_message') %>
     </li>
     <li>
-      <%= link_to I18n.t('accounts.verify_by_phone'), new_account_path(:mobile => true) %><br/>
-      <%= I18n.t('accounts.verify_by_phone_message') %>
-      <span style="color:#f00;"><%= I18n.t('accounts.text_messaging_fees') %></span>
+      <%= link_to t('accounts.verify_by_phone'), new_account_path(:mobile => true) %><br/>
+      <%= t('accounts.verify_by_phone_message') %>
+      <span style="color:#f00;"><%= t('accounts.text_messaging_fees') %></span>
     </li>
     <li>
-      <%= link_to I18n.t('accounts.verify_by_birthday'), new_account_path(:birthday => true) %><br/>
-      <%= I18n.t('accounts.verify_by_birthday_message') %>
+      <%= link_to t('accounts.verify_by_birthday'), new_account_path(:birthday => true) %><br/>
+      <%= t('accounts.verify_by_birthday_message') %>
     </li>
     <li>
-      <%= I18n.t('accounts.call_office', :office_phone => h(Setting.get(:contact, :community_office_phone))) %>
+      <%= t('accounts.call_office', :office_phone => h(Setting.get(:contact, :community_office_phone))) %>
     </li>
   </ul>
 <% end %>

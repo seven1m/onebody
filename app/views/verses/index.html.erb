@@ -2,23 +2,23 @@
   <% if @person %>
     <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + h(@person.name), @person %></li>
   <% end %>
-  <li><%= link_to_function image_tag('plus.png', :alt => I18n.t('verses.add_a_verse'), :class => 'icon') + ' ' + I18n.t('verses.add_a_verse'), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></li>
+  <li><%= link_to_function image_tag('plus.png', :alt => t('verses.add_a_verse'), :class => 'icon') + ' ' + t('verses.add_a_verse'), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></li>
 <% end %>
 
-<h1><%= I18n.t('verses.verses') %></h1>
+<h1><%= t('verses.verses') %></h1>
 
-<p><%= I18n.t('verses.intro', :community => h(Setting.get(:name, :community))) %></p>
+<p><%= t('verses.intro', :community => h(Setting.get(:name, :community))) %></p>
 
 <%= render :partial => 'add_verse' %>
 
 <% content_for :sidebar do %>
-  <h2><%= I18n.t('tags.tags') %></h2>
+  <h2><%= t('tags.tags') %></h2>
   <div class="tag-cloud">
     <%= tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
       <%= link_to h(tag.name), tag, :class => css_class %>
     <% end %>
     <% if @tags.empty? %>
-      <em><%= I18n.t('tags.no_tags_yet') %></em>
+      <em><%= t('tags.no_tags_yet') %></em>
     <% end %>
   </div>
 <% end %>
@@ -28,7 +28,7 @@
 <% if @verses.any? %>
   <%= render :partial => @verses %>
 <% else %>
-  <p><em><%= I18n.t('verses.no_verses_yet') %></em></p>
+  <p><em><%= t('verses.no_verses_yet') %></em></p>
 <% end %>
 
 <%= will_paginate @verses %>

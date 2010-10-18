@@ -1,10 +1,10 @@
 <p>
-  <%= I18n.t('accounts.code_be_careful') %>
+  <%= t('accounts.code_be_careful') %>
 </p>
 
 <form method="post">
   <%= hidden_field_tag :id, params[:id] %>
-  <p><label for="code"><%= I18n.t('accounts.enter_code') %>:</label>
+  <p><label for="code"><%= t('accounts.enter_code') %>:</label>
   <%= text_field_tag :code, params[:code] %></p>
-  <p><%= submit_tag I18n.t('accounts.check_code') %></p>
+  <p><%= submit_tag t('accounts.check_code') %></p>
 </form>

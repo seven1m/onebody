@@ -19,15 +19,15 @@ class Administration::ReportsController < ApplicationController
         begin
           @results = @report.run
         rescue Mongo::OperationFailure => e
-          render :text => "#{I18n.t('reporting.error_running_report')}<br/><br/><pre>#{e.message rescue 'none given'}</pre>", :layout => true
+          render :text => "#{t('reporting.error_running_report')}<br/><br/><pre>#{e.message rescue 'none given'}</pre>", :layout => true
         rescue Mongo::ConnectionFailure => e
-          render :text => "#{I18n.t('reporting.report_database_offline')}<br/><br/><pre>#{e.message rescue 'none given'}</pre>", :layout => true
+          render :text => "#{t('reporting.report_database_offline')}<br/><br/><pre>#{e.message rescue 'none given'}</pre>", :layout => true
         end
       else
-        render :text => I18n.t(:only_admins), :layout => true, :status => 401
+        render :text => t(:only_admins), :layout => true, :status => 401
       end
     else
-      render :text => I18n.t('reporting.report_database_offline'), :layout => true, :status => 500
+      render :text => t('reporting.report_database_offline'), :layout => true, :status => 500
     end
   end
 
@@ -66,7 +66,7 @@ class Administration::ReportsController < ApplicationController
     @report.attributes = params[:report]
     @conditions = @report.selector_for_form
     if @report.save
-      flash[:notice] = I18n.t('changes_saved')
+      flash[:notice] = t('changes_saved')
       redirect_to params[:continue_editing] ? edit_administration_report_path(@report) : administration_report_path(@report)
     else
       @admins = Admin.all_for_presentation
@@ -84,14 +84,14 @@ class Administration::ReportsController < ApplicationController
 
     def only_admins_can_run_reports
       unless @logged_in.admin?(:run_reports)
-        render :text => I18n.t('only_admins'), :layout => true, :status => 401
+        render :text => t('only_admins'), :layout => true, :status => 401
         return false
       end
     end
 
     def only_admins_can_manage_reports
       unless @logged_in.admin?(:manage_reports)
-        render :text => I18n.t('only_admins'), :layout => true, :status => 401
+        render :text => t('only_admins'), :layout => true, :status => 401
         return false
       end
     end
