@@ -32,7 +32,7 @@ module MessagesHelper
   end
 
   def render_message_html_body(message_body)
-    "<p>#{white_list_with_removal(remove_sensitive_links(hide_contact_details(auto_link(message_body))))}</p>"
+    "<p>#{white_list_with_removal(remove_sensitive_links(hide_contact_details(auto_link(message_body))))}</p>".html_safe
   end
 
   def render_message_text_body(message_body, hide_bulk_quoting=false)
