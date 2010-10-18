@@ -27,7 +27,7 @@ class Membership < ActiveRecord::Base
   belongs_to :person
   belongs_to :site
 
-  validates_uniqueness_of :group_id, :scope => :person_id
+  validates_uniqueness_of :group_id, :scope => [:site_id, :person_id]
 
   scope_by_site_id
 

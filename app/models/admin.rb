@@ -30,7 +30,7 @@ class Admin < ActiveRecord::Base
 
   serialize :flags
 
-  validates_uniqueness_of :template_name, :allow_nil => true
+  validates_uniqueness_of :template_name, :allow_nil => true, :scope => :site_id
 
   before_save :ensure_flags_is_hash
 

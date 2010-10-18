@@ -19,7 +19,7 @@ class FriendshipRequest < ActiveRecord::Base
 
   validates_presence_of :person_id
   validates_presence_of :from_id
-  validates_uniqueness_of :person_id, :scope => :from_id
+  validates_uniqueness_of :person_id, :scope => [:site_id, :from_id]
 
   validate :validate_email_on_target
 

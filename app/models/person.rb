@@ -147,8 +147,8 @@ class Person < ActiveRecord::Base
   validates_presence_of :first_name, :last_name
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
-  validates_uniqueness_of :alternate_email, :allow_nil => true, :scope => :deleted, :unless => Proc.new { |p| p.deleted? }
-  validates_uniqueness_of :feed_code, :allow_nil => true
+  validates_uniqueness_of :alternate_email, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |p| p.deleted? }
+  validates_uniqueness_of :feed_code, :allow_nil => true, :scope => :site_id
   validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
   validates_format_of :business_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
   validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS

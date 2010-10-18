@@ -21,8 +21,8 @@ class Feed < ActiveRecord::Base
   attr_accessible :name, :url
 
   validates_presence_of :person_id, :url, :name
-  validates_uniqueness_of :name, :scope => :person_id
-  validates_uniqueness_of :url, :scope => :person_id
+  validates_uniqueness_of :name, :scope => [:site_id, :person_id]
+  validates_uniqueness_of :url, :scope => [:site_id, :person_id]
   validates_format_of :url, :with => /^https?\:\/\/.+/
 
   before_save :transform_url
