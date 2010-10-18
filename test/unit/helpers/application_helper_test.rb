@@ -18,7 +18,7 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_equal('before <strong>bold</strong> and <em>italic</em> after', white_list_with_removal('before <strong>bold</strong> and <em>italic</em> after'))
     end
     should 'be html_safe' do
-      assert white_list_with_removal('<strong>safe</strong>').html_safe
+      assert white_list_with_removal('<strong>safe</strong>').html_safe?
     end
   end
 
