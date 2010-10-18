@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   #protect_from_forgery
 
-  include ExceptionNotifiable
-
   cache_sweeper :stream_item_sweeper, :only => %w(create update destroy)
 
   layout 'default.html'
