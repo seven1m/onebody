@@ -39,19 +39,20 @@ module StreamsHelper
 
   def stream_item_content(stream_item, use_code=false)
     if stream_item.body
-      if stream_item.streamable_type == 'Message'
-        content = render_message_html_body(stream_item.body)
+      content = if stream_item.streamable_type == 'Message'
+        render_message_html_body(stream_item.body)
       else
-        content = white_list_with_removal(auto_link(stream_item.body))
+        white_list_with_removal(auto_link(stream_item.body))
       end
     elsif stream_item.context.any?
-      content = ''
-      stream_item.context['picture_ids'].to_a.each do |picture_id|
-        content << link_to(
-          image_tag(small_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => t('pictures.click_to_enlarge'), :class => 'stream-pic'),
-          album_picture_path(stream_item.streamable_id, picture_id), :title => t('pictures.click_to_enlarge')
-        ) + ' '
-      end
+      content = ''.tap do |content|
+        stream_item.context['picture_ids'].to_a.each do |picture_id|
+          content << link_to(
+            image_tag(small_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => t('pictures.click_to_enlarge'), :class => 'stream-pic'),
+            album_picture_path(stream_item.streamable_id, picture_id), :title => t('pictures.click_to_enlarge')
+          ) + ' '
+        end
+      end.html_safe
     end
     if use_code
       content.gsub!(/<img([^>]+)src="(.+?)"/) do |match|
