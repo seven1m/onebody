@@ -23,14 +23,9 @@ module Administration::DashboardsHelper
   def display_metric(alert, options={}, &block)
     options.symbolize_keys!
     options.reverse_merge!(:content_tag => :p)
-    html = capture(&block)
+    html = with_output_buffer(&block)
     @alerts << html if alert
-    output = content_tag(options[:content_tag]) { html }
-    if block_called_from_erb?(block)
-      concat(output)
-    else
-      output
-    end
+    content_tag(options[:content_tag]) { html }
   end
 
 end
