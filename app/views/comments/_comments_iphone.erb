@@ -20,7 +20,7 @@
 
 <%= form_for Comment.new, :html => {:style => 'border:none;', :id => 'comment_form'} do |form| %>
   <%= hidden_field_tag object.class.name.downcase + '_id', object.id %>
-  <%= hidden_field_tag :return_to, request.request_uri %>
+  <%= hidden_field_tag :return_to, request.fullpath %>
 
   <ul class="edit form">
     <li><%= I18n.t('comments.add_a_comment') %><br/><%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea', :placeholder => 'Comment' %></li>

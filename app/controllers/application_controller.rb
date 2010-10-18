@@ -125,7 +125,7 @@ class ApplicationController < ActionController::Base
           return false
         end
       else
-        redirect_to new_session_path(:from => request.request_uri)
+        redirect_to new_session_path(:from => request.fullpath)
         return false
       end
     end
@@ -186,7 +186,7 @@ class ApplicationController < ActionController::Base
 
     def rescue_action_with_page_detection(exception)
       get_site
-      path, args = request.request_uri.downcase.split('?')
+      path, args = request.fullpath.downcase.split('?')
       if exception.is_a?(ActionController::RoutingError) and @page = Page.find_by_path(path)
         redirect_to '/pages/' + @page.path + (args ? "?#{args}" : '')
       else

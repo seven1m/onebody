@@ -1,7 +1,7 @@
 <h2 class="tab" id="news"><%= image_tag('newspaper.png', :alt => I18n.t('news.news'), :class => 'icon')%> <%= I18n.t('news.news') %></h2>
 <div class="section">
   <%= form_for :news_item, :url => news_path do |form| %>
-    <%= hidden_field_tag :redirect_to, request.request_uri %>
+    <%= hidden_field_tag :redirect_to, request.fullpath %>
     <p>
       <%= form.label :title, I18n.t('news.title_description') %>
       <%= form.text_field :title %>
