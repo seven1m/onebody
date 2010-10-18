@@ -1,6 +1,4 @@
 class AccountsController < ApplicationController
-  filter_parameter_logging :password
-
   before_filter :check_ssl, :except => [:verify]
   skip_before_filter :authenticate_user, :except => %w(edit update)
 
