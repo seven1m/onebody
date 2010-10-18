@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class AdminTest < ActiveSupport::TestCase
 
   should "know about associated reports" do
-    @person = Person.forge(:admin => Admin.create)
+    @person = Person.forge(:admin => Admin.forge)
     assert_equal [], @person.admin.reports.all
     @report = Report.new(:name => 'Foo')
     @report.definition = Report::DEFAULT_DEFINITION['definition']
@@ -14,7 +14,7 @@ class AdminTest < ActiveSupport::TestCase
   end
 
   should "know about unrestricted reports" do
-    @person = Person.forge(:admin => Admin.create)
+    @person = Person.forge(:admin => Admin.forge)
     assert_equal [], @person.admin.reports.all
     @report = Report.new(:name => 'Foo', :restricted => false)
     @report.definition = Report::DEFAULT_DEFINITION['definition']

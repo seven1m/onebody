@@ -98,7 +98,7 @@ module Forgeable
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed).each do |model|
+%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed Admin).each do |model|
   eval "#{model}.class_eval { include Forgeable }"
 end
 
