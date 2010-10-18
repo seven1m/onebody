@@ -199,10 +199,6 @@ class NotifierTest < ActiveSupport::TestCase
     assert sent.body.to_s.index("the system does not recognize your email address")
   end
 
-  def teardown
-    Site.current = Site.find(1)
-  end
-
   private
     def to_email(values)
       values.symbolize_keys!

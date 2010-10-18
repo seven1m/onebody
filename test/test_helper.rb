@@ -61,4 +61,10 @@ class ActiveSupport::TestCase
   end
 
   fixtures :all
+
+  setup do
+    # this is so fixture loading and forgeries won't bomb
+    # (since they are often loaded before AppplicaitonController can call get_site)
+    Site.current = Site.find(1)
+  end
 end

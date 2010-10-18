@@ -9,7 +9,6 @@ if Rails.env.test? and ActiveRecord::Base.connected?
       end
     end
   end
-  Site.current = Site.find(1) if Site.table_exists?
 end
 
 SETTINGS = {}

@@ -4,7 +4,6 @@ class FriendTest < ActionController::IntegrationTest
   fixtures :people, :families, :friendships
 
   def setup
-    Site.current = Site.find(1)
     Setting.set(1, 'Features', 'Friends', true)
   end
 
