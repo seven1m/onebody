@@ -67,11 +67,10 @@ namespace :prepare do
 
     task :passenger do
       sudo "DEBIAN_FRONTEND=noninteractive apt-get install apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev -q -y"
-      run  "gem install passenger --pre && " + \
+      run  "gem install passenger && " + \
            "rvmsudo passenger-install-apache2-module -a && " + \
            "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf.d/passenger",
            :shell => "~/.rvm/bin/rvm-shell"
-      sudo "sed -i '/^P\\|^L/!d' /etc/apache2/conf.d/passenger" # remove extraneous ansi escape sequence from snippet output
     end
 
     task :postfix do
@@ -132,11 +131,10 @@ namespace :prepare do
 
     task :passenger do
       sudo "yum install httpd-devel curl-devel -q -y"
-      run  "gem install passenger --pre && " + \
+      run  "gem install passenger && " + \
            "rvmsudo passenger-install-apache2-module -a && " + \
            "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/httpd/conf.d/passenger.conf",
            :shell => "~/.rvm/bin/rvm-shell"
-      sudo "sed -i '/^P\\|^L/!d' /etc/httpd/conf.d/passenger.conf" # remove extraneous ansi escape sequence from snippet output
     end
 
   end
