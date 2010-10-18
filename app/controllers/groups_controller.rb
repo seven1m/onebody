@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
       @person = Person.find(params[:person_id])
       respond_to do |format|
         format.js   { render :partial => 'person_groups' }
-        format.html { render :partial => 'person_groups', :layout => true }
+        format.html { render :action => 'index_for_person' }
         if can_export?
           format.xml { render :xml =>  @person.groups.to_xml(:except => %w(site_id)) }
           format.csv { render :text => @person.groups.to_csv_mine(:except => %w(site_id)) }
