@@ -14,7 +14,7 @@
 <% content_for :sidebar do %>
   <h2><%= t('tags.tags') %></h2>
   <div class="tag-cloud">
-    <%= tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
+    <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
       <%= link_to h(tag.name), tag, :class => css_class %>
     <% end %>
     <% if @tags.empty? %>

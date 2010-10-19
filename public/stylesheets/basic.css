@@ -620,3 +620,9 @@ tr.subsection th {
 #report_form .sort_attribute:hover .controls {
   visibility: visible;
 }
+
+/* tag cloud */
+.size1 { font-size: 8pt;  }
+.size2 { font-size: 11pt; }
+.size3 { font-size: 14pt; }
+.size4 { font-size: 16pt; }
