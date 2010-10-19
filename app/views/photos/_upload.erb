@@ -6,7 +6,7 @@
     <input type="submit" value="<%= t('photos.upload', :name => name) %>" class="submit">
     <% if defined? delete and delete %>
       <br/>
-      <%= link_to t('photos.remove', :name => h(name)), url, :method => 'delete', :confirm => t('are_you_sure') %>
+      <%= link_to t('photos.remove', :name => name), url, :method => 'delete', :confirm => t('are_you_sure') %>
     <% end %>
   <% end %>
 </p>

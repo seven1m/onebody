@@ -1,12 +1,12 @@
 <% Setting.get(:features, :custom_person_fields).each_with_index do |field, index| %>
   <% if field.include?('*') or @logged_in.admin?(:edit_profiles) or @logged_in.admin?(:view_hidden_properties) and @person.custom_fields[index].to_s.any? %>
     <tr>
-      <td><%=h custom_field_name(index) %>:</label>
+      <td><%= custom_field_name(index) %>:</label>
       <td>
         <% if field =~ /[Dd]ate/ %>
-          <%=h @person.custom_fields[index].strftime('%m/%d/%Y') rescue @person.custom_fields[index] %>
+          <%= @person.custom_fields[index].strftime('%m/%d/%Y') rescue @person.custom_fields[index] %>
         <% else %>
-          <%=h @person.custom_fields[index] %>
+          <%= @person.custom_fields[index] %>
         <% end %>
       </td>
     </tr>

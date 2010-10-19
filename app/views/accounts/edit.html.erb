@@ -18,7 +18,7 @@
   <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), person_path(@person) %></li>
 <% end %>
 
-<h1><%=h @person.name %></h1>
+<h1><%= @person.name %></h1>
 <%= form_for @person, :url => person_account_path(@person), :html => {:onsubmit => "return encrypt_passwords()"} do |form| %>
   <%= hidden_field_tag :encrypted_password %>
   <%= hidden_field_tag :encrypted_password_confirmation %>
@@ -26,7 +26,7 @@
   <p>
     <label for="person_email"><%= t('session.email_address') %></label>
     <%= form.text_field :email, :style => 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>
-    <strong class="very-strong"><%= t('accounts.change_email_warning', :person => h(@person == @logged_in ? t('accounts.you_use') : @person.name + ' ' + t('accounts.uses'))) %></strong>
+    <strong class="very-strong"><%= t('accounts.change_email_warning', :person => @person == @logged_in ? t('accounts.you_use') : @person.name + ' ' + t('accounts.uses')) %></strong>
     <br/>
     <label for="password"><%= t('session.password') %></label>
     <%= password_field_tag :password, nil %><br/>

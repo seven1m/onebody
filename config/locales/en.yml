@@ -1129,7 +1129,6 @@ en:
     friendship_rejected: Friendship rejected.
     full_access: Full Access
     groups: Groups
-    have_an_email_in_the_system: have an email address in the system
     hidden_profile: Hidden Profile
     if_you_have_another_email: If you have another email (perhaps a work address) you wish to utilize to send email to groups, you may enter it here.
     if_you_wish_to_be_listed_business_dir_html: If you wish to be listed in the <a href="{{url}}">Business Directory</a>, Enter your business name, description, and other details below.
@@ -1153,6 +1152,7 @@ en:
     new_family: New Family
     new_person: New Person
     no_additional_access_avaiable: No additional access options available at this time.
+    no_email: "{{name}} doesn't have an email address in the system"
     no_families_found: No families found.
     no_family_for_this_person: This person does not belong to a family. They will be unable to sign in and will not be visible to others on the site.
     no_groups_yet: no groups yet

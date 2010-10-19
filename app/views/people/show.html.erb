@@ -26,7 +26,7 @@
 
 <% content_for :sidebar do %>
   <%= render :partial => 'photo' %>
-  <h1><%=h @person.name %></h1>
+  <h1><%= @person.name %></h1>
   <%= render :partial => 'person_type' %>
   <%= render :partial => 'family' %>
   <%= render :partial => 'hidden_children' %>
@@ -41,13 +41,13 @@
   <% end %>
   <% if @logged_in.admin? %>
     <p class="discreet">
-      Legacy ID: <%=h @person.legacy_id %>
+      Legacy ID: <%= @person.legacy_id %>
     </p>
   <% end %>
 <% end %>
 
 <% unless @family %>
-  <div class="warning"><%=h t('people.no_family_for_this_person') %></div>
+  <div class="warning"><%= t('people.no_family_for_this_person') %></div>
 <% end %>
 
 <% unless @person.visible?(@family) %>
@@ -72,7 +72,7 @@
         <%= form.hidden_field :wall_id %>
         <p>
           <%= image_tag('comments.png', :alt => t('people.note_for', :name => @person.first_name), :class => 'icon') %>
-          <%= t('people.leave_message_for', :name => h(@person.first_name)) %>
+          <%= t('people.leave_message_for', :name => @person.first_name) %>
           <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', t('privacies.public'), :class => 'inline' %>
           <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', t('privacies.private'), :class => 'inline' %>
           <% unless @person.messages_enabled? %>(disabled)<% end %>
@@ -80,7 +80,7 @@
           <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
           <%= form.submit t('wall.save_message'), :id => 'note_submit' %>
           <span class="small discreet">
-            <%= t('messages.this_message_will_be_visible', :name => h(@person.first_name_possessive)) %>
+            <%= t('messages.this_message_will_be_visible', :name => @person.first_name_possessive) %>
           </span>
         </p>
       <% end %>

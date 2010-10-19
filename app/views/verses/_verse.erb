@@ -1,6 +1,6 @@
 <div class="verse">
   <div class="verse-heading">
-    <strong><%= link_to h(verse.reference), verse %></strong>
+    <strong><%= link_to verse.reference, verse %></strong>
     <% unless @person %>
       <% if (count = verse.people.count) > 0 %>
         saved by <%= t('people_count', :count => count) %>
@@ -8,7 +8,7 @@
     <% end %>
   </div>
   <div class="verse-body">
-    <%=h verse.text %>
+    <%= verse.text %>
   </div>
   <% unless @person %>
     <div class="comment-summary">

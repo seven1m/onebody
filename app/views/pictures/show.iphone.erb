@@ -8,16 +8,16 @@
 <div class="info">
   <% if @picture.person %>
     <%= render :partial => 'people/thumbnail', :locals => {:person => @picture.person} %>
-    <%= link_to h(@picture.person.name), @picture.person %><br/>
+    <%= link_to @picture.person.name, @picture.person %><br/>
   <% end %>
   <%= @picture.created_at.to_s %><br/>
-  <%= t('pictures.in_album') %> <%= link_to h(@picture.album.name), @picture.album %>
+  <%= t('pictures.in_album') %> <%= link_to @picture.album.name, @picture.album %>
   <% if @picture.album.group %>
-    <p><%= t('in') %> <%= link_to h(@picture.album.group.name), @picture.album.group %></p>
+    <p><%= t('in') %> <%= link_to @picture.album.group.name, @picture.album.group %></p>
   <% end %>
   <% if @picture.original_url %>
     <p>
-      <%= t('From') %> <%= link_to h(domain_name_from_url(@picture.original_url)), @picture.original_url %>
+      <%= t('From') %> <%= link_to domain_name_from_url(@picture.original_url), @picture.original_url %>
     </p>
   <% end %>
 </div>

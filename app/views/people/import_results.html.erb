@@ -8,9 +8,9 @@
   <tr><th><%= t('import.first') %></th><th><%= t('import.last') %></th><th><%= t('import.status') %></th></tr>
   <% @completed.each do |record| %>
     <tr>
-      <td><%=h record[:first_name] %></td>
-      <td><%=h record[:last_name] %></td>
-      <td><%=h record[:status] %></td>
+      <td><%= record[:first_name] %></td>
+      <td><%= record[:last_name] %></td>
+      <td><%= record[:status] %></td>
     </tr>
   <% end %>
 </table>
@@ -22,12 +22,12 @@
     <tr><th><%= t('import.first') %></th><th><%= t('import.last') %></th><th><%= t('import.status') %></th></tr>
     <% @errored.each do |record| %>
       <tr>
-        <td><%=h record[:first_name] %></td>
-        <td><%=h record[:last_name] %></td>
-        <td><%=h record[:status] %></td>
+        <td><%= record[:first_name] %></td>
+        <td><%= record[:last_name] %></td>
+        <td><%= record[:status] %></td>
       </tr>
       <tr>
-        <td colspan="3" style="padding-left:20px;font-size:smaller;"><%=h record[:message] %></td>
+        <td colspan="3" style="padding-left:20px;font-size:smaller;"><%= record[:message] %></td>
       </tr>
     <% end %>
   </table>

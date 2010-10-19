@@ -1,6 +1,6 @@
 <% if object.tags.any? %>
   <% object.tags.each do |tag| %>
-    <%= link_to h(tag.name), tag %>
+    <%= link_to tag.name, tag %>
   <% end %>
 <% else %>
   <em><%= t('none') %></em>

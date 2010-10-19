@@ -8,7 +8,7 @@
   <tr><th><%= t('admin.file.filename') %></th><th><%= t('admin.file.size') %></th></tr>
   <% @files.each do |file| %>
     <tr>
-      <td><%= link_to h(file[:filename]), file[:url] %></td>
+      <td><%= link_to file[:filename], file[:url] %></td>
       <td><%= number_to_human_size file[:size] %></td>
       <td><%= link_to t('delete'), administration_file_path(file[:filename]), :method => :delete, :confirm => t('are_you_sure'), :class => 'discreet' %></td>
     </tr>

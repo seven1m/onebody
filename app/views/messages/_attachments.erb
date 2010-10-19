@@ -3,7 +3,7 @@
     <strong><%= t('messages.attachments') %>:</strong><br/>
     <% message.attachments.each do |attachment| %>
       <%= link_to image_tag('attachment.gif', :alt => t('messages.attachment'), :class => 'icon'), [message, attachment] %>
-      <%= link_to h(attachment.name), [message, attachment] %>
+      <%= link_to attachment.name, [message, attachment] %>
       (<%= number_to_human_size(attachment.file_size) rescue t('messages.file_missing') %>)
       <br/>
     <% end %>

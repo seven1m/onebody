@@ -15,8 +15,8 @@
     <% @unsynced_people.each do |person| %>
       <tr>
         <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
-        <td><%= link_to h(person.name), person %></td>
-        <td><%= link_to h(person.family.name), person.family %></td>
+        <td><%= link_to person.name, person %></td>
+        <td><%= link_to person.family.name, person.family %></td>
       </tr>
     <% end %>
   </table>

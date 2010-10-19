@@ -5,7 +5,7 @@
     <% @people.each do |person| %>
       <br/>
       <%= radio_button_tag :id, person.id, false, :class => "checkbox", :id => "person_#{person.id}" %>
-      <label for="person_<%= person.id %>" style="display:inline;"><%=h person.name %></label>
+      <label for="person_<%= person.id %>" style="display:inline;"><%= person.name %></label>
     <% end %>
   </p>
   <p><%= submit_tag t('accounts.I_am_this_person') %></p>

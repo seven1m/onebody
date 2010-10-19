@@ -20,7 +20,7 @@
       <%= t('accounts.verify_by_birthday_message') %>
     </li>
     <li>
-      <%= t('accounts.call_office', :office_phone => h(Setting.get(:contact, :community_office_phone))) %>
+      <%= t('accounts.call_office', :office_phone => Setting.get(:contact, :community_office_phone)) %>
     </li>
   </ul>
 <% end %>

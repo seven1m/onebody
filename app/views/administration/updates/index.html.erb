@@ -27,7 +27,7 @@
       </td>
       <td class="update">
         <% if update.person %>
-          <%= link_to h(update.person.name), person_path(:id => update.person) %>
+          <%= link_to update.person.name, person_path(:id => update.person) %>
         <% else %>
           '(<%= t('admin.updates.person_deleted') %>)'
         <% end %>
@@ -42,17 +42,17 @@
         <%= form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
           <%= hidden_field_tag :complete, true %>
           <table>
-            <% if update.first_name %><tr><td><%= t('accounts.first_name') %>:</td><td><%=h update.first_name %></td></tr><% end %>
-            <% if update.last_name %><tr><td><%= t('accounts.last_name') %>:</td><td><%=h update.last_name %></td></tr><% end %>
+            <% if update.first_name %><tr><td><%= t('accounts.first_name') %>:</td><td><%= update.first_name %></td></tr><% end %>
+            <% if update.last_name %><tr><td><%= t('accounts.last_name') %>:</td><td><%= update.last_name %></td></tr><% end %>
             <% if update.home_phone %><tr><td><%= t('privacies.home_phone') %>:</td><td><%= format_phone update.home_phone %></td></tr><% end %>
             <% if update.mobile_phone %><tr><td><%= t('privacies.mobile_phone') %>:</td><td><%= format_phone update.mobile_phone, mobile=true %></td></tr><% end %>
             <% if update.work_phone %><tr><td><%= t('privacies.work_phone') %>:</td><td><%= format_phone update.work_phone %></td></tr><% end %>
             <% if update.fax %><tr><td><%= t('privacies.fax') %>:</td><td><%= format_phone update.fax %></td></tr><% end %>
-            <% if update.address1 %><tr><td><%= t('privacies.address') %>:</td><td><%=h update.address1 %></td></tr><% end %>
-            <% if update.address2 %><tr><td><%= t('privacies.address2') %>:</td><td><%=h update.address2 %></td></tr><% end %>
-            <% if update.city %><tr><td><%= t('search.city') %>:</td><td><%=h update.city %></td></tr><% end %>
-            <% if update.state %><tr><td><%= t('search.state') %>:</td><td><%=h update.state %></td></tr><% end %>
-            <% if update.zip %><tr><td><%= t('search.zip') %>:</td><td><%=h update.zip %></td></tr><% end %>
+            <% if update.address1 %><tr><td><%= t('privacies.address') %>:</td><td><%= update.address1 %></td></tr><% end %>
+            <% if update.address2 %><tr><td><%= t('privacies.address2') %>:</td><td><%= update.address2 %></td></tr><% end %>
+            <% if update.city %><tr><td><%= t('search.city') %>:</td><td><%= update.city %></td></tr><% end %>
+            <% if update.state %><tr><td><%= t('search.state') %>:</td><td><%= update.state %></td></tr><% end %>
+            <% if update.zip %><tr><td><%= t('search.zip') %>:</td><td><%= update.zip %></td></tr><% end %>
             <% if update.birthday %>
               <tr>
                 <td><%= t('search.birthday') %>:</td>
@@ -84,9 +84,9 @@
             <% update.custom_fields_as_hash.each do |key, val| %>
               <% if val %>
                 <tr>
-                  <td><%=h key %>:</td>
+                  <td><%= key %>:</td>
                   <td>
-                    <%=h val %>
+                    <%= val %>
                   </td>
                 </tr>
               <% end %>
@@ -116,7 +116,7 @@
   <h2><%= t('admin.updates.groups_pending') %></h2>
   <% if not params[:complete] and @unapproved_groups.any? %>
 
-    <p><%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %> <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(:id => g)) }.join(', ') %></p>
+    <p><%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %> <%= @unapproved_groups.map { |g| link_to(g.name, group_path(:id => g)) }.join(', ') %></p>
   <% else %>
     <p><%= t('admin.updates.none') %></p>
   <% end %>

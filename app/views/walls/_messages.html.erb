@@ -7,7 +7,7 @@
         </a>
       </td>
       <td>
-        <%= link_to h(message.person.name), person_path(message.person) %>
+        <%= link_to message.person.name, person_path(message.person) %>
         <% if @person %>(<%= link_to t('wall.wall_to_wall'), with_person_wall_path(@person, :id => message.person) %>)<% end %>
         <%= message.created_at.to_s %>
         <% if @logged_in.can_edit?(message) %>

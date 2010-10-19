@@ -5,10 +5,10 @@
 <% if @show_help %>
   <p>
     <%= t('session.create_the_first_user') %>
-    <code>rake onebody:new_user <% unless Site.current.default? %>SITE="<%=h Site.current.name %>"<% end %></code>
+    <code>rake onebody:new_user <% unless Site.current.default? %>SITE="<%= Site.current.name %>"<% end %></code>
   </p>
   <p>
     <%= t('session.load_sample_data') %>
-    <code>rake onebody:load_sample_data <% unless Site.current.default? %>SITE="<%=h Site.current.name %>"<% end %></code>
+    <code>rake onebody:load_sample_data <% unless Site.current.default? %>SITE="<%= Site.current.name %>"<% end %></code>
   </p>
 <% end %>

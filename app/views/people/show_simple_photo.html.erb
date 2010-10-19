@@ -2,7 +2,7 @@
   <%= link_to_function '[' + t('close') + ']', 'Element.hide("popup")', :class => 'discreet' %>
 </div>
 
-<h2><%=h @person.name %></h2>
+<h2><%= @person.name %></h2>
 
 <% if @person.has_photo? or not @family.has_photo? %>
   <%= render :partial => 'photo' %>

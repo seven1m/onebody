@@ -1,7 +1,7 @@
 <li>
-  <%=h feed.name %>
+  <%= feed.name %>
   <%= link_to_function 'url', "Element.show('feed#{feed.id}');Element.hide(this);" %>
-  <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%=h feed.url %></span>
-  <% if @logged_in.admin? %><span class="small discreet">(<%=h pluralize(feed.error_count, ' error') %>)</small><% end %>
+  <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%= feed.url %></span>
+  <% if @logged_in.admin? %><span class="small discreet">(<%= pluralize(feed.error_count, ' error') %>)</small><% end %>
   <%= link_to image_tag('delete.png', :alt => t('Delete'), :class => 'icon'), [@person, feed], :method => 'delete', :confirm => t('feeds.are_you_sure') %>
 </li>

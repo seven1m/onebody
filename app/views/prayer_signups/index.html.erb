@@ -47,7 +47,7 @@
 <% range_of_hours(@first, @last).each do |hour| %>
   <% if hour.day != day %>
     <a name="<%= hour.strftime('%Y%m%d') %>"></a>
-    <h2><%=h hour.strftime '%A, %B %d' %></h2>
+    <h2><%= hour.strftime '%A, %B %d' %></h2>
     <% day = hour.day %>
     <table>
   <% end %>

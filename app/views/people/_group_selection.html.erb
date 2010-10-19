@@ -1,7 +1,7 @@
 <%= form_tag :remote => true, :url => batch_memberships_path do %>
   <%= hidden_field_tag 'person_id', @person.id %>
   <% @person.groups.each do |group| %>
-    <%= check_box_tag 'ids[]', group.id, true, :class => 'checkbox' %><%= link_to h(group.name), group %><br/>
+    <%= check_box_tag 'ids[]', group.id, true, :class => 'checkbox' %><%= link_to group.name, group %><br/>
   <% end %>
   <% if @person.groups.empty? %>
     <em><%= t('people.no_groups_yet') %></em><br/>

@@ -4,21 +4,21 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <h1><%= link_to h(@picture.album.name), @picture.album %></h1>
+  <h1><%= link_to @picture.album.name, @picture.album %></h1>
   <% if @picture.album.group %>
-    <p>in <%= link_to h(@picture.album.group.name), @picture.album.group %></p>
+    <p>in <%= link_to @picture.album.group.name, @picture.album.group %></p>
   <% end %>
   <% if @picture.person %>
     <p>
       <%= t('pictures.picture_uploaded_by') %><br/>
       <%= render :partial => 'people/thumbnail', :locals => {:person => @picture.person} %>
-      <%= link_to h(@picture.person.name), @picture.person %><br/>
+      <%= link_to @picture.person.name, @picture.person %><br/>
       <%= @picture.created_at.to_s %>
     </p>
   <% end %>
   <% if @picture.original_url %>
     <p>
-      <%= t('From') %> <%= link_to h(domain_name_from_url(@picture.original_url)), @picture.original_url %>
+      <%= t('From') %> <%= link_to domain_name_from_url(@picture.original_url), @picture.original_url %>
     </p>
   <% end %>
   <% if @logged_in.can_edit?(@picture) %>

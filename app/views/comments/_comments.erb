@@ -8,7 +8,7 @@
           </a>
         </td>
         <td>
-          <%= link_to h(comment.person.name), comment.person %>
+          <%= link_to comment.person.name, comment.person %>
           <%= comment.created_at.to_s %>
           <% if @logged_in.can_edit?(comment) %>
             <%= link_to image_tag('delete.png', :alt => t('Delete'), :class => 'icon'), comment_path(comment), :class => 'discreet', :method => 'delete', :confirm => t('are_you_sure') %>

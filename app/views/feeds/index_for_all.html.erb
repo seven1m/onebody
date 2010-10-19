@@ -10,12 +10,12 @@
   <tr><th><%= t('person') %></th><th><%= t('stream.feed') %></th><th><%= t('Errors') %></th><th><%= t('feeds.url') %></th><th></th></tr>
   <% @feeds.each do |feed| %>
     <tr>
-      <td><%= link_to h(feed.person.name), feed.person %></td>
-      <td><%=h feed.name %></td>
-      <td><%=h pluralize(feed.error_count, 'error') %></td>
+      <td><%= link_to feed.person.name, feed.person %></td>
+      <td><%= feed.name %></td>
+      <td><%= pluralize(feed.error_count, 'error') %></td>
       <td>
         <%= link_to_function 'url', "Element.show('feed#{feed.id}');Element.hide(this);" %>
-        <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%=h feed.url %></span>
+        <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%= feed.url %></span>
       </td>
       <td>
         <%= link_to image_tag('delete.png', :alt => t('Delete'), :class => 'icon'), feed, :method => 'delete', :confirm => t('are_you_sure') %>

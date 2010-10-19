@@ -8,7 +8,7 @@
           <%= check_box_tag 'ids[]', person.id, false, :class => 'checkbox', :disabled => (@group.last_admin?(person) or membership.auto?), :onclick => (person == @logged_in and not @logged_in.admin?(:manage_groups) ? "if(this.checked)alert(" + t('groups.you_are_to_remove_yourself') + ")" : nil) %>
         </td>
         <td>
-          <%= link_to(h(person.name), person, :id => "person_label#{person.id}") rescue '?' %>
+          <%= link_to(person.name, person, :id => "person_label#{person.id}") rescue '?' %>
           <% if membership.auto? %><%= image_tag 'link.png', :alt => 'linked', :class => 'icon' %><% end %>
         </td>
       </tr>
@@ -31,7 +31,7 @@
       <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
       <% if @group.parents_of %>
         <strong>Remember, this is a group automatically containing
-          parents of people in <%= link_to h(@group.parents_of_group.name), @group.parents_of_group %>.
+          parents of people in <%= link_to @group.parents_of_group.name, @group.parents_of_group %>.
           Adding people manually should be done sparingly.
       <% end %>
       <%= submit_tag t('search.search_by_name') %>

@@ -6,11 +6,11 @@
   <table>
     <tr>
       <th style="text-align:right;"><%= t('admin.username') %>:</th>
-      <td><%=h @logged_in.email %></td>
+      <td><%= @logged_in.email %></td>
     </tr>
     <tr>
       <th style="text-align:right;"><%= t('admin.key') %>:</th>
-      <td><code id="key" style="display:none;"><%=h @key %></code><%= link_to_function t('admin.display'), "Element.show('key');Element.hide('key_link');", :id => 'key_link' %></td>
+      <td><code id="key" style="display:none;"><%= @key %></code><%= link_to_function t('admin.display'), "Element.show('key');Element.hide('key_link');", :id => 'key_link' %></td>
     <tr/>
   </table>
   
@@ -28,7 +28,7 @@
     require 'activeresource'
     
     class Person < ActiveResource::Base
-      self.site = 'https://beonebody.com/api/<%=h Site.current.host %>/'
+      self.site = 'https://beonebody.com/api/<%= Site.current.host %>/'
       self.user = 'user@example.com'
       self.password = 'api-key-goes-here'
     end

@@ -9,19 +9,19 @@
   <%= render :partial => 'people/photo' %>
   <p>
     <%= t('notes.posted') %> <%= @note.created_at.to_time.to_s %>
-    <% if @note.group %><%= t('to') %> <%= link_to h(@note.group.name), group_url(:id => @note.group) %><% end %>
-    <%= t('notes.by') %> <%= link_to h(@note.person.name), person_url(:id => @note.person) %>
+    <% if @note.group %><%= t('to') %> <%= link_to @note.group.name, group_url(:id => @note.group) %><% end %>
+    <%= t('notes.by') %> <%= link_to @note.person.name, person_url(:id => @note.person) %>
   </p>
 <% end %>
 
-<h1><%=h @note.title %></h1>
+<h1><%= @note.title %></h1>
 
 <div <% if @note.title.to_s.empty? and @note.body.length <= 200 %>class="note-content-big"<% end %>>
   <%= white_list_with_removal auto_link(@note.body) %>
 </div>
 
 <% if @note.original_url %>
-  <p class="small"><%= t('notes.note_imported_from') %> <%= link_to h(domain_name_from_url(@note.original_url)), @note.original_url %>.</p>
+  <p class="small"><%= t('notes.note_imported_from') %> <%= link_to domain_name_from_url(@note.original_url), @note.original_url %>.</p>
 <% end %>
 
 <h2><%= t('Comments') %></h2>

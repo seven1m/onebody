@@ -2,7 +2,7 @@
   <% if field.include?('*') or @logged_in.admin?(:edit_profiles) %>
     <% field = field.sub(/\*/, '') %>
     <br/>
-    <label><%=h field %></label>
+    <label><%= field %></label>
     <% if field =~ /[Dd]ate/ %>
       <%= date_field_tag "person[custom_fields][#{index}]", @person.custom_fields[index] %>
     <% else %>

@@ -24,9 +24,9 @@
           <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
           <td><%= link_to person.id, person %></td>
           <td><%= person.legacy_id %></td>
-          <td><%=h person.last_name %></td>
-          <td><%=h person.first_name %></td>
-          <td><%=h person.email %></td>
+          <td><%= person.last_name %></td>
+          <td><%= person.first_name %></td>
+          <td><%= person.email %></td>
         </tr>
       <% end %>
     </table>

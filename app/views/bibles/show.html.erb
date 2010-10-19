@@ -31,5 +31,5 @@
 <span id="verse<%= verse.id %>" class="verse"
   title="<%= verse.reference %> - Click to select. Shift+Click to select multiple."
   onmouseover="if(selecting_from_verse)toggle_highlight_between(selecting_from_verse,<%= verse.id %>);"
-  onmouseup="done_selecting(<%= verse.id %>)"><span class="reference" id="reference<%= verse.id %>"><%=h verse.chapter_and_verse %></span><span id="text<%= verse.id %>"><%= verse.html %></span></span>
+  onmouseup="done_selecting(<%= verse.id %>)"><span class="reference" id="reference<%= verse.id %>"><%= verse.chapter_and_verse %></span><span id="text<%= verse.id %>"><%= verse.html %></span></span>
 <% end %>

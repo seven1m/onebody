@@ -1,7 +1,7 @@
 <h1>
   <%= @attended_at.to_time.to_s(:date) %>
   <%= t('attendance.attendance') %>
-  <% if @group %><%= t('for') %> <%=h @group.name %><% end %>
+  <% if @group %><%= t('for') %> <%= @group.name %><% end %>
 </h1>
 
 <p>
@@ -29,17 +29,17 @@
   <% @records.each do |record| %>
     <tr id="record<%= record.id %>">
       <td>
-        <%=h record.person_id %>
+        <%= record.person_id %>
       </td>
       <td>
         <% if record.first_name.to_s.any? %>
           <% if record.person %>
-            <%= link_to h("#{record.first_name} #{record.last_name}"), record.person %>
+            <%= link_to "#{record.first_name} #{record.last_name}", record.person %>
           <% else %>
-            <%=h record.first_name %> <%=h record.last_name %>
+            <%= record.first_name %> <%= record.last_name %>
           <% end %>
         <% elsif record.person %>
-          <%= link_to h(record.person.name), record.person %>
+          <%= link_to record.person.name, record.person %>
         <% else %>
           <%= '(' + t('attendance.name_unknown') + ')' %>
         <% end %>
@@ -49,7 +49,7 @@
       </td>
       <td>
         <% if record.group %>
-          <%= link_to h(record.group.name), record.group %>
+          <%= link_to record.group.name, record.group %>
         <% else %>
           <em><%= t('attendance.group_missing') %></em>
         <% end %>

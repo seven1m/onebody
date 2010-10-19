@@ -12,7 +12,7 @@
               <% end %>
             </td>
             <td class="group">
-              <%= link_to h(group.name), group %><br/>
+              <%= link_to group.name, group %><br/>
               <% if me? or @logged_in.admin?(:manage_groups) %>
                 <span>
                   <%= t('people.email') %>:
@@ -42,5 +42,5 @@
     <% end %>
   </p>
 <% else %>
-  <p><%= t('people.person_isnt_any_groups', :person => h(@person.first_name)) %></p>
+  <p><%= t('people.person_isnt_any_groups', :person => @person.first_name) %></p>
 <% end %>

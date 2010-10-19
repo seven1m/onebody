@@ -5,7 +5,7 @@
 <% if @unapproved_groups.any? %>
   <p class="highlight">
     <%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %>
-    <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(g)) }.join(', ') %>
+    <%= @unapproved_groups.map { |g| link_to(g.name, group_path(g)) }.join(', ') %>
   </p>
 <% end %>
 
@@ -21,8 +21,8 @@
         <% @categories.keys.sort.each do |category| %>
           <% group_count = @categories[category] %>
           <li>
-            <%= link_to h(category), groups_path(:category => category) %>
-            (<%=h group_count %>)
+            <%= link_to category, groups_path(:category => category) %>
+            (<%= group_count %>)
           </li>
         <% end %>
       </ul>

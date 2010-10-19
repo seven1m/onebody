@@ -3,11 +3,11 @@
 <% end %>
 
 <div class="recipe-title">
-  <strong><%= link_to h(recipe.title), recipe %></strong>
+  <strong><%= link_to recipe.title, recipe %></strong>
   <% unless @person %>
     by
     <% if recipe.person %>
-      <%= link_to h(recipe.person.name), person_path(recipe.person) %>
+      <%= link_to recipe.person.name, person_path(recipe.person) %>
     <% else %>
       ???
     <% end %>
@@ -22,5 +22,5 @@
 </div>
 
 <div class="recipe-body">
-  <%= truncate h(recipe.description), :length => 50, :omission => '...' %>
+  <%= truncate recipe.description, :length => 50, :omission => '...' %>
 </div>

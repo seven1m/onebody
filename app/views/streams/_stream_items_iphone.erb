@@ -11,10 +11,10 @@
         </div>
         <% if stream_item.title %>
           <%= stream_icon(stream_item) %>
-          <%= h(stream_item.title) %>
+          <%= stream_item.title %>
         <% end %><br/>
         <span class="byline">
-          <% if stream_item.person %><%=h stream_item.person.name %> &middot;<% end %>
+          <% if stream_item.person %><%= stream_item.person.name %> &middot;<% end %>
           <%= time_ago_in_words stream_item.created_at %> <%= t('comments.ago') %><br/>
         </span>
       </a>

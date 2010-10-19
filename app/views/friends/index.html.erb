@@ -1,4 +1,4 @@
-<h1><%= t('friends.personal_friends', :name => h(@person.name_possessive)) %></h1>
+<h1><%= t('friends.personal_friends', :name => @person.name_possessive) %></h1>
 
 <% if @pending.any? %>
   <div class="highlight">
@@ -13,7 +13,7 @@
             </a>
           </td>
           <td>
-            <%= link_to h(friendship_request.from.name), friendship_request.from %>
+            <%= link_to friendship_request.from.name, friendship_request.from %>
             <br/>
             <strong>
               <%= link_to image_tag('contact_add.gif', :alt => t('friends.accept'), :class => 'icon') + ' ' + t('friends.accept'), person_friend_path(@logged_in, friendship_request, :accept => true), :method => 'put', :style => 'text-decoration:none;' %><br/>
@@ -37,7 +37,7 @@
         <a href="<%= url_for person_url(:id => friendship.friend) %>">
           <%= render :partial => 'people/thumbnail', :locals => {:person => friendship.friend} %>
         </a>
-        <%= link_to h(friendship.friend.name), friendship.friend %>
+        <%= link_to friendship.friend.name, friendship.friend %>
         (added <%= friendship.created_at.to_time.to_s %>)
         <% if me? %>
           <% if @friendships.length > 1 %><%= image_tag 'reorder.png', :alt => t('friends.reorder_list'), :class => 'handle icon' %><% end %>

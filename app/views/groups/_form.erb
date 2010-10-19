@@ -40,7 +40,7 @@
     <%= form.check_box :prayer,     :class => 'checkbox' %> <%= form.label :prayer,     t('groups.enable_prayer_requests'),     :class => 'inline' %><br/>
     <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, t('groups.enable_attendance_tracking'), :class => 'inline' %><br/>
     <%= form.label :address, t('people.email') + ':', :class => 'inline' %>
-    <%= form.text_field :address, :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%=h Site.current.host %>
+    <%= form.text_field :address, :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%= Site.current.host %>
     <%= form.label :gcal_private_link, t('groups.calendar_private_link') %>
     <%= form.text_field :gcal_private_link, :size => 50 %>
     <%= link_to_function t('help'), "alert('" + t('groups.calendar_help') + "')" %>
@@ -65,7 +65,7 @@
       <table>
         <% @group.attachments.all(:order => 'name').each do |attachment| %>
           <tr>
-            <td><%= link_to h(attachment.name), get_attachment_path(attachment) %></td>
+            <td><%= link_to attachment.name, get_attachment_path(attachment) %></td>
             <td><%= number_to_human_size(attachment.file_size) rescue 'file missing' %></td>
             <td><%= attachment.created_at.to_s(:date) %></td>
             <td><%= link_to t('delete'), attachment, :method => :delete, :confirm => t('are_you_sure') %></td>

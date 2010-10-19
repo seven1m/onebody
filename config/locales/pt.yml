@@ -1365,7 +1365,7 @@ pt:
     friendship_rejected: Amizade rejeitada.
     full_access: Acesso Total
     groups: Grupos
-    have_an_email_in_the_system: tem um endereço de email no sistema
+    no_email: "{{name}} não tem um endereço de email no sistema"
     hidden_profile: Perfil Oculto
     if_you_have_another_email: Se você têm outro email (talvez um endereço comercial) você pode utilizá-lo para enviar emails para os grupos e você pode digitá-lo aqui.
     if_you_wish_to_be_listed_business_dir_html: Se vocês quiser ser listado no <a href="{{url}}">Diretório de Negócios</a>, entre o nome da empresa, descrição e outros detalhes abaixo.

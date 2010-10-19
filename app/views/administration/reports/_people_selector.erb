@@ -1,6 +1,6 @@
 <% if object['field'] == '(' %>
   <!-- start <%= object['operator'] %> -->
-  <table style="margin-left:5px;"><tr><td class="criteria-joiner"><span><%=h object['operator'].sub(/^\$/, '') %></span></td><td>
+  <table style="margin-left:5px;"><tr><td class="criteria-joiner"><span><%= object['operator'].sub(/^\$/, '') %></span></td><td>
   <%= hidden_field_tag 'report[selector][][field]', '(' %>
   <%= hidden_field_tag 'report[selector][][operator]', object['operator'] %>
 <% elsif object['field'] == ')' %>

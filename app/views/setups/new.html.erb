@@ -17,7 +17,7 @@
 <h1><%= t('setup.heading') %></h1>
 
 <% if @error %>
-  <p class="very-strong"><%=h @error %></p>
+  <p class="very-strong"><%= @error %></p>
 <% end %>
 
 <%= form_for @person, :url => setup_path, :html => {:method => 'POST', :onsubmit => "return encrypt_passwords()"} do |form| %>

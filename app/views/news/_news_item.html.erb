@@ -1,6 +1,6 @@
 <div class="news-item">
   <h2>
-    <%= link_to h(news_item.title), news_item, :class => 'no-underline' %>
+    <%= link_to news_item.title, news_item, :class => 'no-underline' %>
     <% if @logged_in.can_edit?(news_item) %>
       <%= link_to t('edit'), edit_news_item_path(news_item), :class => 'discreet' %>
       <%= link_to t('delete'), news_item_path(news_item), :class => 'discreet', :method => :delete, :confirm => t('are_you_sure') %>
@@ -9,9 +9,9 @@
   <div class="news-item-meta">
     posted <%= news_item.published.to_s(:date) rescue '?' %>
     <% if news_item.person %>
-      by <%= link_to h(news_item.person.name), news_item.person %>
+      by <%= link_to news_item.person.name, news_item.person %>
     <% elsif news_item.link.to_s.any? %>
-      from <%= link_to h(news_item.link.sub(/^http:\/\//, '')), news_item.link %>
+      from <%= link_to news_item.link.sub(/^http:\/\//, ''), news_item.link %>
     <% end %>
   </div>
   <p>

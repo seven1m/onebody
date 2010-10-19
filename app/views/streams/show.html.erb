@@ -12,7 +12,7 @@
 
 <div style="width:200px;float:right;">
   <%= render :partial => 'people/photo', :locals => {:url => @person} %>
-  <h1><%=h @person.name %></h1>
+  <h1><%= @person.name %></h1>
   <p>
     <% if @person.share_home_phone?   and @person.home_phone.to_s.any?            %><%= format_phone @person.home_phone            %> <%= t('profile.home') %>  <br/><% end %>
     <% if @person.share_mobile_phone? and @person.mobile_phone.to_s.any?          %><%= format_phone @person.mobile_phone          %> <%= t('profile.mobile') %><br/><% end %>

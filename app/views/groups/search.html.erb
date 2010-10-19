@@ -16,7 +16,7 @@
         </td>
         <td>
           <span class="list-heading">
-            <%= link_to h(group.name), group %>
+            <%= link_to group.name, group %>
             <% if group.private? %><%= image_tag('lock.gif', :alt => t('groups.private_group'), :class => 'icon') %><% end %>
           </span>
           <% if group.admin?(@logged_in) %>
@@ -27,15 +27,15 @@
           <% end %>
           <% if group.description.to_s.any? %>
             <br/>
-            <%=h group.description %>
+            <%= group.description %>
           <% end %>
           <% if group.leader %>
             <br/>
-            <%= t('groups.leader') %>: <%= link_to h(group.leader.name), person_path(group.leader) %>
+            <%= t('groups.leader') %>: <%= link_to group.leader.name, person_path(group.leader) %>
           <% end %>
           <% if group.address.to_s.any? and group.can_send? @logged_in %>
             <br/>
-            <%= t('people.email') %>: <%= mail_to u(group.full_address), h(group.full_address) %>
+            <%= t('people.email') %>: <%= mail_to u(group.full_address), group.full_address %>
           <% end %>
           <br/>
           <%= t('people.person', :count => group.people.count) %>
@@ -54,6 +54,6 @@
   <h2><%= t('groups.hidden_groups') %></h2>
   <p>
     <%= t('groups.only_admins_see_this_list') %>:<br/>
-    <%= @hidden_groups.map { |g| link_to(h(g.name), g) }.join(', ') %>
+    <%= @hidden_groups.map { |g| link_to(g.name, g) }.join(', ') %>
   </p>
 <% end %>

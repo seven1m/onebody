@@ -2,7 +2,7 @@
   <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), person_path(@person) %></li>
 <% end %>
 
-<h1><%= t('feeds.feeds_for', :name => h(@person.name)) %></h1>
+<h1><%= t('feeds.feeds_for', :name => @person.name) %></h1>
 
 <p>
   <%= t('feeds.description') %>

@@ -12,7 +12,7 @@
           </a>
         </td>
         <td class="person">
-          <%= link_to h(person.name), person %>
+          <%= link_to person.name, person %>
           <% if person.birthday_soon? %><span class="small">
             <br/>
             <%= image_tag('birthday.png', :alt => t('privacies.birthday'), :class => 'icon') %>

@@ -19,7 +19,7 @@
           </a>
         </td>
         <td>
-          <%= link_to h(person.name), person %>
+          <%= link_to person.name, person %>
           <% unless person.visible?(@family) %>
             <%= image_tag('lock.gif', :alt => t('people.hidden_profile'), :class => 'icon') %>
           <% end %>

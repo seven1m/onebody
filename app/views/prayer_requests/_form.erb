@@ -7,7 +7,7 @@
       <%= form.select :person_id, @req.group.people.map { |p| [p.name, p.id] } %><br/>
     <% else %>
       <%= form.hidden_field :person_id %>
-      <%=h @req.person.name %>
+      <%= @req.person.name %>
     <% end %>
     <%= form.label :request, t('prayer.request') %>         <%= form.text_area :request, :rows => 5 %>
   </p>

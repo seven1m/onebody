@@ -1,4 +1,4 @@
-<% if notice = @wall_notice || flash[:wall_notice] %><p class="very-strong"><%=h notice %></p><% end %>
+<% if notice = @wall_notice || flash[:wall_notice] %><p class="very-strong"><%= notice %></p><% end %>
 <p>
   <% if me? %>
     <em><%= t('wall.description') %></em>

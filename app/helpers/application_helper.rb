@@ -16,9 +16,9 @@ module ApplicationHelper
       img = image_tag("/assets/site#{Site.current.id}/#{logo}", :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;')
       link_to(img, '/')
     elsif !@page or @page.for_members?
-      link_to(h(Setting.get(:name, :site)), people_path)
+      link_to(Setting.get(:name, :site), people_path)
     else
-      link_to(h(Setting.get(:name, :community)), '/')
+      link_to(Setting.get(:name, :community), '/')
     end
   end
 

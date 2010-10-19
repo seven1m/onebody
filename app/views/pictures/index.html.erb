@@ -6,9 +6,9 @@
   <% end %>
 <% end %>
 
-<h1><%=h @album.name %> <% if @album.group %><%= t('in') %> <%= link_to h(@album.group.name), @album.group %><% end %></h1>
+<h1><%= @album.name %> <% if @album.group %><%= t('in') %> <%= link_to @album.group.name, @album.group %><% end %></h1>
 
-<p><%=h @album.description %></p>
+<p><%= @album.description %></p>
 
 <%= render :partial => 'upload' %>
 

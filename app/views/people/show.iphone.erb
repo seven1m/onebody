@@ -1,5 +1,5 @@
 <% content_for :toolbar do %>
-  <h1><%=h @person.name %></h1>
+  <h1><%= @person.name %></h1>
   <%= iphone_back_button %>
 <% end %>
 
@@ -13,7 +13,7 @@
   <%= render :partial => 'photo' %>
   <ul>
     <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :website, :label => t('people.website') } do %>
-      <%= link_to h(simple_url(@person.website)), @person.website, :rel => 'external' %>
+      <%= link_to simple_url(@person.website), @person.website, :rel => 'external' %>
     <% end %>
     <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :email, :label => t('people.email') } do %>
       <%= mail_to @person.email, @person.email, :rel => 'external' %>
@@ -34,10 +34,10 @@
       <%= link_to preserve_breaks(@person.family.pretty_address), "http://maps.google.com/maps?q=#{url_encode(@person.family.mapable_address)}", :rel => 'external' %>
     <% end %>
     <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :birthday, :label => 'Birthday' } do %>
-      birthday: <%=h @person.birthday.to_s(:date) %>
+      birthday: <%= @person.birthday.to_s(:date) %>
     <% end %>
     <%= render :layout => 'people/detail_row_iphone', :locals => { :attribute => :anniversary, :label => 'Anniversary' } do %>
-      anniversary: <%=h @person.anniversary.to_s(:date) %>
+      anniversary: <%= @person.anniversary.to_s(:date) %>
     <% end %>
   </ul>
 </div>
@@ -51,7 +51,7 @@
           <div class="thumbnail">
             <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
           </div>
-          <%=h person.name %>
+          <%= person.name %>
           <% unless person.visible?(@family) %>
             <%= image_tag('lock.gif', :alt => 'Hidden Profile', :class => 'icon') %>
           <% end %>
@@ -75,7 +75,7 @@
           <div class="thumbnail">
             <%= render :partial => 'people/thumbnail', :locals => {:person => friend} %>
           </div>
-          <%=h friend.name %>
+          <%= friend.name %>
           <% if friend.birthday_soon? %>
             <br/>
             <span class="detail">
@@ -106,7 +106,7 @@
           <div class="thumbnail">
             <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
           </div>
-          <%=h person.name %>
+          <%= person.name %>
           <% if person.birthday_soon? %>
             <br/>
             <span class="detail">
@@ -137,7 +137,7 @@
                 <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border' %>
               <% end %>
             </div>
-            <%=h group.name %>
+            <%= group.name %>
           </a>
         </li>
       <% end %>
@@ -157,7 +157,7 @@
         <%= form.hidden_field :wall_id %>
         <p>
           <%= image_tag('comments.png', :alt => "Note for #{@person.first_name}", :class => 'icon') %>
-          Leave a message for <%=h @person.first_name %>:
+          Leave a message for <%= @person.first_name %>:
           <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', 'Public', :class => 'inline' %>
           <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', 'Private', :class => 'inline' %>
           <% unless @person.messages_enabled? %>(disabled)<% end %>
@@ -166,7 +166,7 @@
           <%= form.submit 'Save Message', :id => 'note_submit' %>
           <span class="small discreet">
             This message will be visible to anyone who can see
-            <%=h @person.first_name_possessive %> profile.
+            <%= @person.first_name_possessive %> profile.
           </span>
         </p>
       <% end %>

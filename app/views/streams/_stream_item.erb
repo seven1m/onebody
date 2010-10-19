@@ -7,7 +7,7 @@
     <% if stream_item.title %>
       <h2>
         <%= link_to stream_icon(stream_item), stream_item %>
-        <%= link_to h(stream_item.title), stream_item %>
+        <%= link_to stream_item.title, stream_item %>
       </h2>
     <% else %>
       <% if stream_item.wall and (params[:controller] != 'people' or stream_item.wall_id != @person.id) %>
@@ -28,15 +28,15 @@
     <div class="nowrap stream-item-timestamp">
       <%= time_ago_in_words stream_item.created_at %> <%= t('comments.ago') %>
       <% if stream_item.person %>
-        by <%= link_to h(stream_item.person.name), stream_item.person %>
+        by <%= link_to stream_item.person.name, stream_item.person %>
       <% end %>
       <% if stream_item.wall %>
-        <%= t('to') %> <%= link_to h(stream_item.wall.name), stream_item.wall %>
+        <%= t('to') %> <%= link_to stream_item.wall.name, stream_item.wall %>
       <% end %>
       <% if @group.nil? and stream_item.group %>
-        <%= t('in') %> <%= link_to h(stream_item.group.name), stream_item.group %>
+        <%= t('in') %> <%= link_to stream_item.group.name, stream_item.group %>
       <% elsif original_url = stream_item.context['original_url'] %>
-        <%= t('from') %> <%= link_to h(domain_name_from_url(original_url)), original_url %>
+        <%= t('from') %> <%= link_to domain_name_from_url(original_url), original_url %>
       <% end %>
     </div>
     <% if stream_item.title %>
@@ -53,8 +53,8 @@
                 </a>
               </td>
               <td>
-                <%= link_to h(comment['person'].name), comment['person'] %>:
-                <%=h comment['text'] %>
+                <%= link_to comment['person'].name, comment['person'] %>:
+                <%= comment['text'] %>
                 <span class="stream-item-timestamp">
                   <%= time_ago_in_words(comment['created_at']) %> <%= t('comments.ago') %>
                 </span>
@@ -95,14 +95,14 @@
       <div class="new-comment discreet small">
         <%= image_tag('comment.gif', :alt => t('comments.leave_note'), :class => 'icon') %>
         <% if stream_item.wall == @logged_in %>
-          <%= link_to t('comments.leave_note_for', :name => h(stream_item.person.name)), stream_item.person %>
+          <%= link_to t('comments.leave_note_for', :name => stream_item.person.name), stream_item.person %>
         <% elsif stream_item.person == @logged_in %>
-          <%= link_to t('comments.leave_another_note_for', :name => h(stream_item.wall.name)), stream_item.wall %>
+          <%= link_to t('comments.leave_another_note_for', :name => stream_item.wall.name), stream_item.wall %>
         <% else %>
           <%= t('comments.leave_a_note_for') %>:
-          <%= link_to h(stream_item.person.name), stream_item.person %>
+          <%= link_to stream_item.person.name, stream_item.person %>
           <%= t('or') %>
-          <%= link_to h(stream_item.wall.name), stream_item.wall %>
+          <%= link_to stream_item.wall.name, stream_item.wall %>
         <% end %>
       </div>
     <% end %>

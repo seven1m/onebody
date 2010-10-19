@@ -50,13 +50,13 @@
               <%= image_tag('flag_red.gif', :alt => t('admin.logs.flagged'), :class => 'icon') %>
             <% end %>
           </td>
-          <td><%=h item.loggable_type %></td>
+          <td><%= item.loggable_type %></td>
           <td>
             <% if item.deleted? %>
-              <span style="text-decoration:line-through;"><%=h item.name %></span>
+              <span style="text-decoration:line-through;"><%= item.name %></span>
               (<%= t('admin.logs.deleted') %>)
             <% else %>
-              <%= link_to h(item.name), log_item_path(item), :confirm => item.loggable_type == 'Message' ? t('admin.logs.private_message') : nil %>
+              <%= link_to item.name, log_item_path(item), :confirm => item.loggable_type == 'Message' ? t('admin.logs.private_message') : nil %>
             <% end %>
           </td>
           <td><%= item.created_at.to_s %></td>

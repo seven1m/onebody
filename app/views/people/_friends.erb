@@ -17,7 +17,7 @@
           </a>
         </td>
         <td class="friend">
-          <%= link_to h(friend.name), person_url(:id => friend) %>
+          <%= link_to friend.name, person_url(:id => friend) %>
           <% if friend.birthday_soon? %>
             <br/>
             <%= image_tag('birthday.png', :alt => t('privacies.birthday'), :class => 'icon') %>

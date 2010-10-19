@@ -12,9 +12,9 @@
       <% @families.each do |family| %>
         <tr>
           <td><%= check_box_tag 'ids[]', family.id, false, :class => 'family_checkbox' %></td>
-          <td><%=h family.id %></td>
-          <td><%=h family.legacy_id %></td>
-          <td><%= link_to h(family.name), family %></li>
+          <td><%= family.id %></td>
+          <td><%= family.legacy_id %></td>
+          <td><%= link_to family.name, family %></li>
         </tr>
       <% end %>
     </table>
@@ -50,19 +50,19 @@
       <% @people.each do |person| %>
         <tr>
           <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
-          <td><%=h person.id %></td>
-          <td><%=h person.legacy_id %></td>
-          <td><%=h person.last_name %></td>
-          <td><%=h person.first_name %></td>
+          <td><%= person.id %></td>
+          <td><%= person.legacy_id %></td>
+          <td><%= person.last_name %></td>
+          <td><%= person.first_name %></td>
           <% if person.family %>
-            <td><%=h person.family.id %></td>
-            <td><%=h person.family.legacy_id %></td>
-            <td><%=h person.family.name %></td>
+            <td><%= person.family.id %></td>
+            <td><%= person.family.legacy_id %></td>
+            <td><%= person.family.name %></td>
             <td><%= person.family.deleted? ? t('admin.logs.deleted') : link_to(t('admin.active'), person.family) %></td>
           <% else %>
             <td colspan="4"><em><%= t('families.not_found') %></em></td>
           <% end %>
-          <td><%=h person.updated_at.to_s %></td>
+          <td><%= person.updated_at.to_s %></td>
         </tr>
       <% end %>
     </table>

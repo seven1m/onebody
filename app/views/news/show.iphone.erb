@@ -6,12 +6,12 @@
 <div class="info">
   <%= t('news.posted') %> <%= @news_item.published.to_s(:date) rescue '?' %>
   <% if @news_item.person %>
-    <%= t('news.by') %> <%= link_to h(@news_item.person.name), @news_item.person %>
+    <%= t('news.by') %> <%= link_to @news_item.person.name, @news_item.person %>
   <% elsif @news_item.link.to_s.any? %>
-    <%= t('from') %> <%= link_to h(@news_item.link.sub(/^http:\/\//, '')), @news_item.link %>
+    <%= t('from') %> <%= link_to @news_item.link.sub(/^http:\/\//, ''), @news_item.link %>
   <% end %>
 </div>
 
-<h2><%=h @news_item.title %></h2>
+<h2><%= @news_item.title %></h2>
 
 <div class="body"><%= white_list_with_removal @news_item.body %></div>

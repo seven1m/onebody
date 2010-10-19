@@ -1,5 +1,5 @@
 <% content_for :toolbar do %>
-  <h1><%=h @group.name %></h1>
+  <h1><%= @group.name %></h1>
   <%= iphone_back_button %>
 <% end %>
 
@@ -9,7 +9,7 @@
   <% else %>
     <%= image_tag 'group.jpg', :alt => @group.name %>
   <% end %>
-  <p><%= t('groups.category') %>: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
+  <p><%= t('groups.category') %>: <%= link_to @group.category, groups_path(:category => @group.category) %></p>
 </div>
 
 <h2><%= t('groups.recent_activity') %></h2>
@@ -25,7 +25,7 @@
         <div class="thumbnail">
           <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
         </div>
-        <%=h person.name %>
+        <%= person.name %>
         <% if person.birthday_soon? %>
           <br/>
           <span class="detail">

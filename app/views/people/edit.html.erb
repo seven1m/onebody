@@ -16,12 +16,12 @@
 <p>
   <strong>
     <% if @logged_in.admin?(:edit_profiles) %>
-      <%= link_to h(@family.name), @family %>
+      <%= link_to @family.name, @family %>
     <% else %>
-      <%=h @family.name %>
+      <%= @family.name %>
     <% end %>
     &middot; <%= t('Edit') %>:</strong>
-  <%= @family.visible_people.map { |p| link_to(p == @person ? "<strong>#{h(p.first_name)}</strong>" : h(p.first_name), edit_person_path(p)) }.join(' | ') %>
+  <%= @family.visible_people.map { |p| link_to(p == @person ? content_tag(:strong, p.first_name) : p.first_name, edit_person_path(p)) }.join(' | ').html_safe %>
 </p>
 
 <p>
@@ -57,7 +57,7 @@
 <h2 class="tab" id="picture"><%= t('people.pic') %></h2>
 <div class="section">
   <p>
-    <%= t('people.upload_a_picture_of_html', :name => me? ? 'yourself' : h(@person.name)) %>
+    <%= t('people.upload_a_picture_of_html', :name => me? ? 'yourself' : @person.name) %>
     <%= t('people.please_only_upload_real_photo_html') %>
   </p>
   <table><tr><td>
@@ -162,11 +162,10 @@
   <div class="highlight">
     <p>
       <% if @person.email.to_s.any? %>
-        <%=h @person == @logged_in ? t('your') : @person.name_possessive %> <%= t('people.email_address') %>:<br/>
-        <span style="font-size:2em;"><%=h @person.email %></span>
+        <%= @person == @logged_in ? t('your') : @person.name_possessive %> <%= t('people.email_address') %>:<br/>
+        <span style="font-size:2em;"><%= @person.email %></span>
       <% else %>
-        <%= @person == @logged_in ? t('you_dont') : h(@person.name) + " " + t('doesnt') %>
-        <%= t('people.have_an_email_in_the_system') %>
+        <%= t('people.no_email', :name => @person.name) %>
       <% end %>
     </p>
     <p><%= t('people.click_to_change_email_html', :url => edit_person_account_path(@person)) %></p>

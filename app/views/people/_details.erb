@@ -8,7 +8,7 @@
 <table>
   <%= render :layout => 'people/detail_row', :locals => { :attribute => :website, :label => t('people.website') } do %>
     <% if @person.website.to_s.any? %>
-      <%= link_to h(simple_url(@person.website)), @person.website %>
+      <%= link_to simple_url(@person.website), @person.website %>
     <% end %>
   <% end %>
   <%= render :layout => 'people/detail_row', :locals => { :attribute => :email, :label => t('privacies.email') } do %>
@@ -28,10 +28,10 @@
   <% end %>
   <%= render :layout => 'people/detail_row', :locals => { :attribute => :address, :label => t('privacies.address') } do %>
     <%= preserve_breaks @person.address %><br/>
-    <%= link_to h(@person.city), search_path(:city => @person.city), :title => t('people.search_people_city') %>,
-    <%= link_to h(@person.state), search_path(:state => @person.state), :title => t('people.search_people_state') %>
+    <%= link_to @person.city, search_path(:city => @person.city), :title => t('people.search_people_city') %>,
+    <%= link_to @person.state, search_path(:state => @person.state), :title => t('people.search_people_state') %>
     <% if @person.zip %>
-      <%= link_to h(@person.short_zip), search_path(:zip => @person.short_zip), :title => t('people.search_people_zip') %>
+      <%= link_to @person.short_zip, search_path(:zip => @person.short_zip), :title => t('people.search_people_zip') %>
     <% end %>
     <%= render :partial => 'families/map_link' %>
   <% end %>
@@ -49,6 +49,6 @@
   <% end %>
   <%= render :partial => 'people/custom_fields' %>
   <% if @person.business_name.to_s.any? %>
-    <tr><td><%= t('people.business') %>:</td><td><%= link_to h(@person.business_name), person_path(@person, :business => true) %><br/><%=h truncate(@person.business_description, :length => 200) %></td></tr>
+    <tr><td><%= t('people.business') %>:</td><td><%= link_to @person.business_name, person_path(@person, :business => true) %><br/><%= truncate(@person.business_description, :length => 200) %></td></tr>
   <% end %>
 </table>

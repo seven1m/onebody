@@ -12,15 +12,15 @@
   </div>
 <% end %>
 
-<h1><%=h @recipe.title %></h1>
+<h1><%= @recipe.title %></h1>
 <p class="below-h1">
   Added by:
   <% if @recipe.person %>
-    <%= link_to h(@recipe.person.name), person_path(@recipe.person) %>
+    <%= link_to @recipe.person.name, person_path(@recipe.person) %>
   <% else %>
     ???
   <% end %>
-  <%=h @recipe.created_at.to_s %>
+  <%= @recipe.created_at.to_s %>
 </p>
   
 <table>
@@ -37,18 +37,18 @@
   </tr>
   <tr>
     <td style="white-space:nowrap;"><%= t('recipes.serving_size') %>:</td>
-    <td><%=h @recipe.serving_size %></td>
+    <td><%= @recipe.serving_size %></td>
   </tr>
   <% if @recipe.prep.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;"><%= t('recipes.prep_cook_time') %>:</td>
-      <td><%=h @recipe.prep %></td>
+      <td><%= @recipe.prep %></td>
     </tr>
   <% end %>
   <% if @recipe.bake.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;"><%= t('recipes.bake_time') %>:</td>
-      <td><%=h @recipe.bake %></td>
+      <td><%= @recipe.bake %></td>
     </tr>
   <% end %>
   <% if @recipe.description.to_s.any? %>

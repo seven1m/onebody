@@ -20,25 +20,25 @@
     <% @reports.each do |report| %>
       <tr>
         <td><strong>
-          <%= link_to h(report.name), administration_report_path(report) %>
+          <%= link_to report.name, administration_report_path(report) %>
         </strong></td>
         <td>
           <% if report.created_by %>
-            <%= link_to h(report.created_by.name), report.created_by %>
+            <%= link_to report.created_by.name, report.created_by %>
           <% end %>
         </td>
         <td>
           <%= content_tag :span, :title => report.updated_at.to_s do %>
-            <%=h time_ago_in_words report.updated_at %> ago
+            <%= time_ago_in_words report.updated_at %> ago
           <% end %>
         </td>
         <td>
           <% if report.last_run_at %>
             <%= content_tag :span, :title => report.last_run_at.to_s do %>
-              <%=h time_ago_in_words report.last_run_at %> ago
+              <%= time_ago_in_words report.last_run_at %> ago
             <% end %>
             <% if report.last_run_by %>
-              by <%= link_to h(report.last_run_by.name), report.last_run_by %>
+              by <%= link_to report.last_run_by.name, report.last_run_by %>
             <% end %>
           <% end  %>
         </td>

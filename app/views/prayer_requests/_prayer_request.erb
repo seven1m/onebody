@@ -1,5 +1,5 @@
 <p>
-  <%= link_to h(req.person.name), req.person %> |
+  <%= link_to req.person.name, req.person %> |
   <%= req.created_at.to_s :date %>
   <% if @logged_in.can_edit?(req) %>
     <%= link_to '[' + t('edit') + ']', edit_group_prayer_request_path(req.group, req), :class => 'discreet' %>
@@ -8,8 +8,8 @@
     <%= link_to '[' + t('delete') + ']', group_prayer_request_path(req.group, req), :class => 'discreet', :confirm => t('are_you_sure'), :method => 'delete' %>
   <% end %>
   <br/>
-  <%=h req.request %>
+  <%= req.request %>
   <% if req.answered_at %>
-    <br/><strong><%= t('prayer.answered_on') %> <%= req.answered_at.to_s :date %>:</strong> <%=h req.answer %>
+    <br/><strong><%= t('prayer.answered_on') %> <%= req.answered_at.to_s :date %>:</strong> <%= req.answer %>
   <% end %>
 </p>

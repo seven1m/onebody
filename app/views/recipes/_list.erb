@@ -10,12 +10,12 @@
         <% end %>
       </td>
       <td>
-        <strong><%= link_to h(recipe.title), recipe %></strong>
+        <strong><%= link_to recipe.title, recipe %></strong>
         <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => t('new'), :class => 'no-border' %><% end %>
         <% unless @person %>
           by
           <% if recipe.person %>
-            <%= link_to h(recipe.person.name), person_path(recipe.person) %>
+            <%= link_to recipe.person.name, person_path(recipe.person) %>
           <% else %>
             ???
           <% end %>
@@ -28,7 +28,7 @@
           Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>
         <% end %>
         <br/>
-        <%= truncate h(recipe.description), :length => 50, :omission => '...' %>
+        <%= truncate recipe.description, :length => 50, :omission => '...' %>
       </td>
     </tr>
   <% end %>

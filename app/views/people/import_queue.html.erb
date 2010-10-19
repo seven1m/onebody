@@ -13,10 +13,10 @@
           <li>
             <% if person.new_record? %>
               <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.new_#{index}').each(function(e){e.checked=$('record#{index}').checked})" %>
-              <%=h person.name %> <strong>(new)</strong>
+              <%= person.name %> <strong>(new)</strong>
             <% else %>
               <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.changes_#{person.id}').each(function(e){e.checked=$('record#{index}').checked})" %>
-              <%= link_to h(person.name), person %>
+              <%= link_to person.name, person %>
             <% end %>
             <%= link_to_function t('changes') + ' &raquo;', "Element.toggle('details#{index}')", :class => 'discreet' %>
             <ul id="details<%= index %>" style="list-style:none;padding-left:25px;display:none;">
@@ -28,7 +28,7 @@
                     <% else %>
                       <%= check_box_tag "changes[#{person.id}][#{key}]", val.last.to_s, true, :class => "changes_#{person.id}" %>
                     <% end %>
-                    <%=h key %>: <%=h val.first.inspect %> =&gt; <%=h val.last.inspect %>
+                    <%= key %>: <%= val.first.inspect %> =&gt; <%= val.last.inspect %>
                   </label>
                 </li>
               <% end %>

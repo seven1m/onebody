@@ -3,10 +3,10 @@
     <%= render :partial => 'people/thumbnail', :locals => {:person => comment.person} %>
   </a>
 </div>
-<%= link_to h(comment.person.name),comment.person %>
+<%= link_to comment.person.name, comment.person %>
 <% if params[:controller] == 'shares' %>
   <%= t('comments.commented_on') %>
-  <%= link_to h(on.title), comment.on %>
+  <%= link_to on.title, comment.on %>
 <% end %>
 <%= comment.created_at.to_s %>
 <% if @logged_in.can_edit?(comment) %>

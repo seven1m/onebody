@@ -13,7 +13,7 @@
     <% @records.each do |person, record| %>
       <li>
         <%= check_box_tag 'ids[]', person.id, record ? true : false, :id => "ids_#{person.id}" %>
-        <%= label_tag "ids_#{person.id}", h(person.name), :class => 'inline' %>
+        <%= label_tag "ids_#{person.id}", person.name, :class => 'inline' %>
       </li>
     <% end %>
   </ul>

@@ -1,6 +1,6 @@
 <% if @person.show_attribute_to?(attribute, @logged_in) %>
   <tr>
-    <td><%=h label %>:</td>
+    <td><%= label %>:</td>
     <td>
       <%= block_given? ? yield : value %>
       <% if @person.respond_to?("share_#{attribute}?") and

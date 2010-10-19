@@ -18,11 +18,11 @@
   <%= render :partial => 'photo' %>
   
   <h1>
-    <%=h @group.name %>
+    <%= @group.name %>
   </h1>
-  <p><%= t('groups.category') %>: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
+  <p><%= t('groups.category') %>: <%= link_to @group.category, groups_path(:category => @group.category) %></p>
   <% if @group.leader %>
-    <p><%= t('groups.leader') %>: <%= link_to h(@group.leader.name), @group.leader %></p>
+    <p><%= t('groups.leader') %>: <%= link_to @group.leader.name, @group.leader %></p>
   <% end %>
   
   <% if @group.linked? or @group.parents_of %>
@@ -65,7 +65,7 @@
   <div id="group-details" <% if @show_map %>style="margin-right:275px;"<% end %>>
 
     <p>
-      <%=h @group.description %>
+      <%= @group.description %>
       <% if @group.private? %>
         <%= image_tag('lock.gif', :alt => t('groups.this_group_is_private'), :class => 'icon') %>
       <% end %>
@@ -73,16 +73,16 @@
 
     <table>
       <% if @group.meets.to_s.any? %>
-        <tr><td><%= t('groups.meets') %>:</td><td><%=h @group.meets %></td></tr>
+        <tr><td><%= t('groups.meets') %>:</td><td><%= @group.meets %></td></tr>
       <% end %>
       <% if @group.location.to_s.any? %>
-        <tr><td><%= t('groups.location') %>:</td><td><%=h @group.location %></td></tr>
+        <tr><td><%= t('groups.location') %>:</td><td><%= @group.location %></td></tr>
       <% end %>
       <% if @group.directions.to_s.any? %>
-        <tr><td><%= t('groups.directions') %>:</td><td><%=h @group.directions %></td></tr>
+        <tr><td><%= t('groups.directions') %>:</td><td><%= @group.directions %></td></tr>
       <% end %>
       <% if @group.other_notes.to_s.any? %>
-        <tr><td><%= t('groups.notes') %>:</td><td><%=h @group.other_notes %></td></tr>
+        <tr><td><%= t('groups.notes') %>:</td><td><%= @group.other_notes %></td></tr>
       <% end %>
     </table>
 
@@ -141,7 +141,7 @@
       <p>
         <strong><%= t('attachments.files') %></strong><br/>
         <% @group.attachments.all(:order => 'name').each do |attachment| %>
-          <%= link_to h(attachment.name), get_attachment_path(attachment) %><br/>
+          <%= link_to attachment.name, get_attachment_path(attachment) %><br/>
         <% end %>
       </p>
     </div>

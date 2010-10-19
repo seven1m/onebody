@@ -11,7 +11,7 @@
           <div class="thumbnail">
             <%= render :partial => 'people/thumbnail', :locals => {:person => friendship.friend} %>
           </div>
-          <%=h friendship.friend.name %>
+          <%= friendship.friend.name %>
         </a>
       </li>
     <% end %>

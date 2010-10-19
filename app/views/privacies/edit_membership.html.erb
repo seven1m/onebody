@@ -1,4 +1,4 @@
-<h1><%= t('privacies.sharing_with_html', :url => @group, :name => h(@group.name)) %></h1>
+<h1><%= t('privacies.sharing_with_html', :url => @group, :name => @group.name) %></h1>
 
 <%= form_for @membership, :url => group_membership_privacy_path(@group, @membership), :html => {:method => 'put'} do |form| %>
   <%= error_messages_for(form) %>
@@ -9,7 +9,7 @@
     <% end %>
   </ul>
   
-  <p><%= t('privacies.the_items_may_be_shared', :name => h(@group.name)) %></p>
+  <p><%= t('privacies.the_items_may_be_shared', :name => @group.name) %></p>
   <table>
     <tr><th><%= t('privacies.detail') %></th><th><%= t('privacies.visible') %></th><th><%= t('privacies.hidden') %></th></tr>
     <% @sharable_with_group.each do |attribute| %>

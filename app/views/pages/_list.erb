@@ -7,7 +7,7 @@
           <%= link_to_function image_tag('minus.gif', :alt => t('pages.collapse'), :class => 'icon'), "Element.show('page#{page.id}_expand_link');Element.hide('page#{page.id}_collapse_link');Element.update('page#{page.id}_children', '')", :id => "page#{page.id}_collapse_link", :style => 'display:none;' %>
           <%= image_tag('spinner_small.gif', :alt => t('pages.loading'), :id => "loading#{page.id}", :style => 'display:none;', :class => 'icon') %>
         </span>
-        <%= link_to h(page.title), page %>
+        <%= link_to page.title, page %>
         <%= link_to t('edit'), edit_page_path(page), :class => 'discreet' %>
         <% unless page.system? %>
           <%= link_to t('delete'), page, :method => 'delete', :confirm => t('pages.are_you_sure'), :class => 'discreet' %>

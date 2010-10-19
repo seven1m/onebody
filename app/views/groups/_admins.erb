@@ -1,6 +1,6 @@
 <p>
   <% @group.admins.each do |person| %>
-    <%= link_to h(person.name), person %>
+    <%= link_to person.name, person %>
     <%= link_to 'x', group_membership_path(@group, person.id), :method => 'put', :confirm => t('are_you_sure'), :class => 'discreet' %>
     <br/>
   <% end %>

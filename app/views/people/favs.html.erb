@@ -5,7 +5,7 @@
   <% end %>
 <% end %>
 
-<h1><%=h @person.name_possessive %> <%= t('people.favorites') %></h1>
+<h1><%= @person.name_possessive %> <%= t('people.favorites') %></h1>
 
 <table>
   <% if @person.activities.to_s.any? %>

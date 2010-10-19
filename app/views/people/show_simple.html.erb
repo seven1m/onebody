@@ -3,9 +3,9 @@
 </div>
 
 <% unless @family %>
-  <div class="warning"><%=h t('people.no_family_for_this_person') %></div>
+  <div class="warning"><%= t('people.no_family_for_this_person') %></div>
 <% end %>
 
-<h2><%=h @person.name %></h2>
+<h2><%= @person.name %></h2>
 
 <%= render :partial => 'details' %>

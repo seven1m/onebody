@@ -1,11 +1,11 @@
 <% content_for :toolbar do %>
   <%= iphone_back_button  %>
-  <h1><%=h @album.name %></h1>
+  <h1><%= @album.name %></h1>
 <% end %>
 
 <div class="info">
-  <%=h @album.description %><br/>
-  <% if @album.group %><%= t('pictures.posted_in') %> <%= link_to h(@album.group.name), @album.group %><% end %>
+  <%= @album.description %><br/>
+  <% if @album.group %><%= t('pictures.posted_in') %> <%= link_to @album.group.name, @album.group %><% end %>
 </div>
 
 <ul>

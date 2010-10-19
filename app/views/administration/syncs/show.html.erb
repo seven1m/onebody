@@ -2,7 +2,7 @@
   <li><%= link_to t('admin.syncs.syncs'), administration_syncs_path %></li>
 <% end %>
 
-<h1><%= t('admin.syncs.syncs') %> <%=h @sync.created_at.to_s %></h1>
+<h1><%= t('admin.syncs.syncs') %> <%= @sync.created_at.to_s %></h1>
 
 <% if @counts %>
   <%= image_tag pie_chart_url(@counts, :width => 400, :height => 200, :title => t('admin.syncs.results')), :alt => t('admin.syncs.results') %>
@@ -21,12 +21,13 @@
   </tr>
   <% @items.each do |item| %>
     <tr>
-      <td><%=h item.syncable_type %></td>
-      <td><%= item.syncable_id ? link_to(h(item.name || '(blank)'), syncable_path(item)) : h(item.name || '(blank)') %></td>
-      <td><%=h item.legacy_id %></td>
-      <td><%=h item.operation %></td>
-      <td><%=h item.status %></td>
-      <td class="very-strong"><%=h item.error_messages.is_a?(Array) ? item.error_messages.join('; ') : item.error_messages %></td>
+      <td><%= item.syncable_type %></td>
+      <% name = item.name || '(blank)' %>
+      <td><%= item.syncable_id ? link_to(name, syncable_path(item)) : name %></td>
+      <td><%= item.legacy_id %></td>
+      <td><%= item.operation %></td>
+      <td><%= item.status %></td>
+      <td class="very-strong"><%= item.error_messages.is_a?(Array) ? item.error_messages.join('; ') : item.error_messages %></td>
     </tr>
   <% end %>
 </table>

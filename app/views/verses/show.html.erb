@@ -25,7 +25,7 @@
               <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
             </a>
           </td>
-          <td><%= link_to h(person.name), person_path(person) %></td>
+          <td><%= link_to person.name, person_path(person) %></td>
         </tr>
       <% end %>
     </table>
@@ -49,10 +49,10 @@
 
 <% end %>
 
-<h1><%=h @verse.reference %> <span style="font-size:60%;color:#999;">(<%=h @verse.translation %>)</span></h1>
+<h1><%= @verse.reference %> <span style="font-size:60%;color:#999;">(<%= @verse.translation %>)</span></h1>
 
 <p>
-  <span style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;"><%=h @verse.text %></span>
+  <span style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;"><%= @verse.text %></span>
 </p>
 <p>
   <%= link_to t('verses.read_this_passage_at_youversion'), @verse.youversion_url, :class => 'small' %>

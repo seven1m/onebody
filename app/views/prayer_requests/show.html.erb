@@ -8,21 +8,21 @@
 <% end %>
 
 <h1>
-  <span style="font-size:10pt"><%= link_to h(@req.group.name), @req.group %></span><br/>
+  <span style="font-size:10pt"><%= link_to @req.group.name, @req.group %></span><br/>
   <%= t('prayer.prayer_request') %>
 </h1>
 
 <p>
-  <%= t('prayer.submitted_by') %> <%= link_to h(@req.person.name), person_url(:id => @req.person) %>
+  <%= t('prayer.submitted_by') %> <%= link_to @req.person.name, person_url(:id => @req.person) %>
   on <%= @req.created_at.to_time.to_s :date %>
 </p>
 
-<p style="font-size:larger;"><%=h @req.request %></p>
+<p style="font-size:larger;"><%= @req.request %></p>
 
 <% if @req.answer.to_s.any? %>
   <h2><%= t('prayer.answer') %></h2>
   <% if @req.answered_at %>
     <p><%= t('prayer.answered_on') %> <%= @req.answered_at.to_time.to_s :date %></p>
   <% end %>
-  <p style="font-size:larger;"><%=h @req.answer %></p.>
+  <p style="font-size:larger;"><%= @req.answer %></p.>
 <% end %>

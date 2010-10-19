@@ -3,10 +3,10 @@
     <div class="note-timestamp">
       <%= t('notes.posted') %> <%= note.created_at.to_s %>
       <% if note.group %>
-        <%= t('by') %> <%= link_to(h(note.person.name), note.person) rescue '?' %>
+        <%= t('by') %> <%= link_to(note.person.name, note.person) rescue '?' %>
       <% end %>
     </div>
-    <%= link_to h(note.title), note %>
+    <%= link_to note.title, note %>
     <% if @logged_in.can_edit?(note) %>
       <%= link_to '[' + t('edit') + ']', edit_note_path(note), :class => 'discreet' %>
       <%= link_to '[' + t('delete') + ']', note_path(note), :class => 'discreet', :confirm => t('are_you_sure'), :method => 'delete' %>

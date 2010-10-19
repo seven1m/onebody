@@ -2,19 +2,19 @@
   <%= render :partial => 'photo' %>
   <p>
     <%= t('people.services_provided_by') %><br/>
-    <%= link_to h(@person.name), @person %>
+    <%= link_to @person.name, @person %>
   </p>
 <% end %>
 
 <div>
   <%= link_to t('people.business_directory'), search_path(:business => true) %> &raquo;
   <% if @person.business_category.to_s.any? %>
-    <%= link_to h(@person.business_category), search_path(:business => true, :category => @person.business_category) %> &raquo;
+    <%= link_to @person.business_category, search_path(:business => true, :category => @person.business_category) %> &raquo;
   <% end %>
 </div>
-<h1><%=h @person.business_name %></h1>
+<h1><%= @person.business_name %></h1>
 
-<p><%=h @person.business_description %></p>
+<p><%= @person.business_description %></p>
 
 <table>
   <% if @person.business_phone.to_i > 0 %>
@@ -24,7 +24,7 @@
     <tr><td><%= t('people.business_email') %>:</td><td><%= mail_to @person.business_email %></td></tr>
   <% end %>
   <% if @person.business_website.to_s.any? %>
-    <tr><td><%= t('people.business_website') %>:</td><td><%= link_to h(@person.business_website), @person.business_website %></td></tr>
+    <tr><td><%= t('people.business_website') %>:</td><td><%= link_to @person.business_website, @person.business_website %></td></tr>
   <% end %>
   <% if @person.business_address.to_s.any? %>
     <tr><td><%= t('people.business_address') %>:</td><td><%= preserve_breaks @person.business_address %></td></tr>

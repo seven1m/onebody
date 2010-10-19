@@ -1,12 +1,12 @@
 <% content_for :sidebar do %>
   <h2><%= t('You') %></h2>
   <p>
-    <%= t('admin.welcome_message', :name => h(@logged_in.name)) %>
+    <%= t('admin.welcome_message', :name => @logged_in.name) %>
     <% if @logged_in.super_admin? %>
       <%= t('admin.you_are_super') %>
     <% else %>
       <%= t('admin.you_are_admin') %>:
-      <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
+      <%= @privileges.any? ? @privileges.to_sentence : 'none' %>.
     <% end %>
   </p>
   

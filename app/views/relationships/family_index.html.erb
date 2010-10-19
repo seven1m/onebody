@@ -1,8 +1,8 @@
 <% content_for :subnav do %>
-  <li><%= link_to h(@family.name), @family %></li>
+  <li><%= link_to @family.name, @family %></li>
 <% end %>
 
-<h1>Family Relationships for <%=h @family.name %></h1>
+<h1>Family Relationships for <%= @family.name %></h1>
 
 <% if @relationships.any? %>
 
@@ -13,8 +13,8 @@
     <th>
     <% @unique_relationships.each do |person, relationship_names| %>
       <tr>
-        <td><%= link_to h(person.name), person_relationships_path(person) %></td>
-        <td><%=h relationship_names.join(', ') %></td>
+        <td><%= link_to person.name, person_relationships_path(person) %></td>
+        <td><%= relationship_names.join(', ') %></td>
       </tr>
     <% end %>
   </table>
@@ -28,10 +28,10 @@
     <th>
     <% @relationships.each do |relationship| %>
       <tr>
-        <td><%= link_to h(relationship.person.name), person_relationships_path(relationship.person) %></td>
+        <td><%= link_to relationship.person.name, person_relationships_path(relationship.person) %></td>
         <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
-        <td><%= link_to h(relationship.related.name), person_relationships_path(relationship.related) %></td>
-        <td><%=h relationship.name_or_other %></td>
+        <td><%= link_to relationship.related.name, person_relationships_path(relationship.related) %></td>
+        <td><%= relationship.name_or_other %></td>
       </tr>
     <% end %>
   </table>
@@ -60,9 +60,9 @@
         <% @suggested_relationships.each do |person, relationships| %>
           <% relationships.each do |related, relationship| %>
             <tr>
-              <td><%= link_to h(person.name), person %></td>
+              <td><%= link_to person.name, person %></td>
               <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
-              <td><%= link_to h(related.name), related %></td>
+              <td><%= link_to related.name, related %></td>
               <td><%= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{t('none')})", '']]+t('relationships.names').invert.sort, relationship.to_sym) %></td>
             </tr>
           <% end %>

@@ -12,7 +12,7 @@
             <% end %>
           </td>
           <td class="group">
-            <%= link_to h(group.name), group %><br/>
+            <%= link_to group.name, group %><br/>
           </td>
         </tr>
       <% end %>
@@ -29,5 +29,5 @@
     <% end %>
   </p>
 <% else %>
-  <p><%=h t('people.person_isnt_any_groups', :person => @person.first_name) %></p>
+  <p><%= t('people.person_isnt_any_groups', :person => @person.first_name) %></p>
 <% end %>

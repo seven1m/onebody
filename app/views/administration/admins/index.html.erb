@@ -49,9 +49,9 @@
   <div style="margin-bottom:3px;">
     <%= link_to_function image_tag('plus.gif', :alt => t('admin.show_privileges'), :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
     <% if admin.template_name %>
-      <strong><%=h admin.template_name %></strong>
+      <strong><%= admin.template_name %></strong>
     <% else %>
-      <%= link_to h(admin.person.name), admin.person %>
+      <%= link_to admin.person.name, admin.person %>
       <% if admin.super_admin? %>(super admin)<% end %>
     <% end %>
     <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet' %>
@@ -68,7 +68,7 @@
           <% next if %w(assign_checkin_cards manage_checkin).include?(privilege) and not Setting.get(:features, :checkin_modules) %>
           <% unless admin.person == @logged_in and privilege == 'manage_access' %>
             <span class="nowrap">
-              <%= check_box_tag privilege, true, admin.flags[privilege], :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %><span id="admin_<%= admin.id %>_<%= privilege %>"><%=h privilege.gsub('_', ' ') %></span>
+              <%= check_box_tag privilege, true, admin.flags[privilege], :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %><span id="admin_<%= admin.id %>_<%= privilege %>"><%= privilege.gsub('_', ' ') %></span>
             </span>
             <% all_selected = false unless admin.flags[privilege] %>
           <% end %>
@@ -77,7 +77,7 @@
         <% if admin.template_name %>
           <% admin.people.all(:order => 'last_name, first_name').each do |person| %>
             <br/>
-            <%= link_to h(person.name), person %>
+            <%= link_to person.name, person %>
             <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet' %>
           <% end %>
         <% end %>

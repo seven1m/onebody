@@ -1,6 +1,6 @@
 <div>
   <% if @person.has_photo? %>
-    <%= link_to image_tag(medium_person_photo_path(@person, :m => @person.updated_at.to_s(:number)), :alt => h(@person.name)),
+    <%= link_to image_tag(medium_person_photo_path(@person, :m => @person.updated_at.to_s(:number)), :alt => @person.name),
       defined?(url) ? url : large_person_photo_path(@person) %>
   <% elsif @family and @family.has_photo? and params[:action] != 'edit' %>
     <%= render :partial => 'families/photo', :locals => defined?(url) ? {:url => url} : nil %>

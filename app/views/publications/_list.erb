@@ -7,13 +7,13 @@
           <%= link_to image_tag(publication.file_content_type == 'application/pdf' ? 'acrobat.gif' : 'publication.gif', :alt => publication.name, :class => 'no-border'), publication, :target => '_new' %>
         </td>
         <td>
-          <%= link_to h(publication.name), publication, :target => '_new' %>
+          <%= link_to publication.name, publication, :target => '_new' %>
           <% if publication.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => t('new') + '!', :class => 'no-border' %><% end %>
           <% if @logged_in.admin?(:manage_publications) %>
             <%= link_to '[' + t('delete') + ']', publication, :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet' %>
           <% end %>
           <br/>
-          <%=h publication.description %>
+          <%= publication.description %>
         </td>
       </tr>
     <% end %>

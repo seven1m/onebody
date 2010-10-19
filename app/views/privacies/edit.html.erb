@@ -113,7 +113,7 @@
 
 <% @family.people.each do |person| %>
 
-  <h2 class="tab" id="p<%= person.id %>"><%=h person.name %><% if not person.adult_or_consent? %> <%= image_tag('lock_red.gif', :alt => t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
+  <h2 class="tab" id="p<%= person.id %>"><%= person.name %><% if not person.adult_or_consent? %> <%= image_tag('lock_red.gif', :alt => t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% elsif not person.visible? %> <%= image_tag('lock.gif', :alt => t('privacies.invisible'), :class => 'icon', :style => 'height:12px;') %><% end %></h2>
   
   <div class="section">
   
@@ -125,17 +125,17 @@
     
       <% if not person.adult? %>
         <p class="highlight">
-          <%= t('privacies.child_profile_has_parental_consent', :name => h(person.parental_consent)) %>
-          <%= t('privacies.have_concerns_regarding_this', :phone => h(Setting.get(:contact, :community_office_phone))) %>
+          <%= t('privacies.child_profile_has_parental_consent', :name => person.parental_consent) %>
+          <%= t('privacies.have_concerns_regarding_this', :phone => Setting.get(:contact, :community_office_phone)) %>
         </p>
       <% end %>
     
-      <p><%= t('privacies.you_may_override', :name => h(person.name)) %></p>
+      <p><%= t('privacies.you_may_override', :name => person.name) %></p>
       
       <p>
         <%= form.check_box 'visible', :class => 'checkbox person-visible-checkbox', :id => "person-visible#{person.id}", :onclick => "check_visibility();" %>
         <strong><%= t('privacies.visible_on_site') %></strong><br/>
-        <em><%= t('privacies.by_turning_off', :name => h(person.first_name)) %></em>
+        <em><%= t('privacies.by_turning_off', :name => person.first_name) %></em>
       </p>
       
       <div id="person<%= person.id %>" class="person">
@@ -187,7 +187,7 @@
             <td><%= radio_button_tag 'person[wall_enabled]', true, person.attributes['wall_enabled'] == true, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[wall_enabled]', false, person.attributes['wall_enabled'] == false, :class => 'checkbox' %></td>
             <td><%= radio_button_tag 'person[wall_enabled]', 'nil', person.attributes['wall_enabled'] == nil, :class => 'checkbox' %></td>
-            <td><em><%= t('privacies.space_to_post_messages', :name => h(@logged_in == person ? 'you' : person.first_name)) %></em></td>
+            <td><em><%= t('privacies.space_to_post_messages', :name => @logged_in == person ? 'you' : person.first_name) %></em></td>
           </tr>
         </table>
       
@@ -196,7 +196,7 @@
           <%= t('privacies.private_messages_enabled') %><br/>
           <input name="person[messages_enabled]" type="hidden" value="0" />
           <%= check_box_tag 'person[messages_enabled]', 1, person.attributes['messages_enabled'], :class => 'checkbox', :onclick => "if(!this.checked) return confirm('" + t('privacies.disabling_private_messages', :name => person.name) + "')" %>
-          <%= t('privacies.if_this_is_unchecked', { :name_possessive => h(@logged_in == person ? 'your' : person.name_possessive), :first_name => h(@logged_in == person ? 'you' : person.first_name) }) %>
+          <%= t('privacies.if_this_is_unchecked', { :name_possessive => @logged_in == person ? 'your' : person.name_possessive, :first_name => @logged_in == person ? 'you' : person.first_name }) %>
         </p>
       
       </div>
@@ -210,7 +210,7 @@
       </p>
       
       <p>
-        <%= t('privacies.to_show_on_this_site', :name => h(person.name)) %>
+        <%= t('privacies.to_show_on_this_site', :name => person.name) %>
       </p>
       <ol>
         <li><%= t('privacies.read_safeguarding_children_html', :url => help_path('safeguarding_children')) %></li>
@@ -221,7 +221,7 @@
       
       <p>
         <%= check_box_tag 'agree', t('privacies.i_agree') + ".", false, :class => 'checkbox' %>
-        <%= t('privacies.as_a_parent_agree_html', :name => h(person.name), :url => help_path('privacy_policy')) %><br/>
+        <%= t('privacies.as_a_parent_agree_html', :name => person.name, :url => help_path('privacy_policy')) %><br/>
         <%= submit_tag t('privacies.i_agree') %>
       </p>
       

@@ -10,7 +10,7 @@
   <%= render :partial => 'families/details' %>
   <% if @logged_in.admin? %>
     <p class="discreet">
-      <%= t('families.legacy_id') %>: <%=h @family.legacy_id %>
+      <%= t('families.legacy_id') %>: <%= @family.legacy_id %>
     </p>
   <% end %>
 <% end %>
@@ -25,7 +25,7 @@
       <a href="<%= url_for person %>">
         <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
       </a>
-      <%= link_to h(person.name), person %>
+      <%= link_to person.name, person %>
       <% unless person.visible? %>
         <%= image_tag('lock.gif', :alt => t('search.hidden_profile'), :class => 'icon') %>
       <% end %>
