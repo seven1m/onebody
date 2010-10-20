@@ -29,7 +29,6 @@ end
 class ActiveRecord::Base
 
   def self.scope_by_site_id
-    #acts_as_scoped_globally 'site_id', "(Site.current ? Site.current.id : 0)"
     default_scope lambda { where(:site_id => Site.current.id) }
   end
 
@@ -60,7 +59,6 @@ class ActiveRecord::Base
       "
     end
   end
-
 
   def to_mongo_hash
     attributes.inject({}) do |hash, item|
