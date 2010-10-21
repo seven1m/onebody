@@ -98,7 +98,7 @@ module Forgeable
 end
 
 %w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed Admin).each do |model|
-  eval "#{model}.class_eval { include Forgeable }"
+  Object.const_get(model).class_eval { include Forgeable }
 end
 
 class Person
