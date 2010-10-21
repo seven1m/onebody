@@ -195,7 +195,7 @@
 </div>
 
 <div id="about" <% if @person.about.to_s.length > 500 %>class="scrolling-about"<% end %>>
-  <%= white_list_with_removal @person.about %>
+  <%= sanitize_html @person.about %>
 </div>
 
 <%# Main Content %>

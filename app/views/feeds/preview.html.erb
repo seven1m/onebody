@@ -19,6 +19,6 @@
   <h2><%= %w(twitter facebook).include?(params[:type]) ? nil : entry.title %></h2>
   <p><%= t('feeds.posted') %>: <%= entry.published.to_s %></p>
   <p>
-    <%= white_list_with_removal entry.content || entry.summary %>
+    <%= sanitize_html entry.content || entry.summary %>
   </p>
 <% end %>

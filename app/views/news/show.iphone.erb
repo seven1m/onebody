@@ -14,4 +14,4 @@
 
 <h2><%= @news_item.title %></h2>
 
-<div class="body"><%= white_list_with_removal @news_item.body %></div>
+<div class="body"><%= sanitize_html @news_item.body %></div>

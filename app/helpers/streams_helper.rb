@@ -42,7 +42,7 @@ module StreamsHelper
       content = if stream_item.streamable_type == 'Message'
         render_message_html_body(stream_item.body)
       else
-        white_list_with_removal(auto_link(stream_item.body))
+        sanitize_html(auto_link(stream_item.body))
       end
     elsif stream_item.context.any?
       content = ''.tap do |content|

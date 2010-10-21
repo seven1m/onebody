@@ -2,23 +2,21 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
 
-  include WhiteListHelper
-
-  context 'white_list_with_removal' do
+  context 'sanitize_html' do
     should 'remove style tags and their content' do
-      assert_equal('before after', white_list_with_removal('before <style type="text/css">body { font-size: 12pt; }</style>after'))
+      assert_equal('before after', sanitize_html('before <style type="text/css">body { font-size: 12pt; }</style>after'))
     end
     should 'remove script tags and their content' do
-      assert_equal('before after', white_list_with_removal('before <script type="text/javascript">alert("hi")</script>after'))
+      assert_equal('before after', sanitize_html('before <script type="text/javascript">alert("hi")</script>after'))
     end
     should 'remove other illegal tags' do
-      assert_equal('before and after', white_list_with_removal('before <bad>and</bad> after'))
+      assert_equal('before and after', sanitize_html('before <bad>and</bad> after'))
     end
     should 'allow safe tags' do
-      assert_equal('before <strong>bold</strong> and <em>italic</em> after', white_list_with_removal('before <strong>bold</strong> and <em>italic</em> after'))
+      assert_equal('<p>before <strong>bold</strong> and <em>italic</em> after</p>', sanitize_html('<p>before <strong>bold</strong> and <em>italic</em> after</p>'))
     end
     should 'be html_safe' do
-      assert white_list_with_removal('<strong>safe</strong>').html_safe?
+      assert sanitize_html('<strong>safe</strong>').html_safe?
     end
   end
 

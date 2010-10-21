@@ -21,7 +21,7 @@
 
   <p>
     <%= form.label :title, t('notes.title') %> <%= form.text_field :title %><br/>
-    <%= form.label :body, t('notes.body') %>  <%= form.text_field :body, :value => white_list(@note.body), :rows => 15, :cols => 80, :style => 'width:100%' %><br/>
+    <%= form.label :body, t('notes.body') %>  <%= form.text_field :body, :value => sanitize_html(@note.body), :rows => 15, :cols => 80, :style => 'width:100%' %><br/>
     <%= form.submit t('notes.save_note') %>
   </p>
 <% end %>

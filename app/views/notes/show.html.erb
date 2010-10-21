@@ -17,7 +17,7 @@
 <h1><%= @note.title %></h1>
 
 <div <% if @note.title.to_s.empty? and @note.body.length <= 200 %>class="note-content-big"<% end %>>
-  <%= white_list_with_removal auto_link(@note.body) %>
+  <%= sanitize_html auto_link(@note.body) %>
 </div>
 
 <% if @note.original_url %>

@@ -7,4 +7,4 @@
 
 <h1><%= @person.name_possessive %> <%= t('people.testimony') %></h1>
 
-<%= white_list_with_removal @person.testimony %>
+<%= sanitize_html @person.testimony %>

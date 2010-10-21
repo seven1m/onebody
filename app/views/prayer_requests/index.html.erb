@@ -24,7 +24,7 @@
       <div style="clear:left;"></div>
     </div>
     <div class="stream-item-body">
-      <div><%= white_list_with_removal auto_link(req.body) %></div>
+      <div><%= sanitize_html auto_link(req.body) %></div>
       <%= render :partial => 'meta', :locals => {:req => req} %>
     </div>
   </div>

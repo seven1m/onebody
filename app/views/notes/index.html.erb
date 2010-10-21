@@ -36,12 +36,12 @@
         <h2><%= link_to note.title, note %></h2>
         <%= render :partial => 'meta', :locals => {:note => note} %>
         <div>
-          <%= white_list_with_removal auto_link(note.body) %>
+          <%= sanitize_html auto_link(note.body) %>
         </div>
       <% else %>
         <h2></h2>
         <%= image_tag('note.png', :alt => t('notes.note'), :class => 'icon') %>
-        <%= white_list_with_removal auto_link(note.body) %>
+        <%= sanitize_html auto_link(note.body) %>
         <%= render :partial => 'meta', :locals => {:note => note} %>
       <% end %>
 

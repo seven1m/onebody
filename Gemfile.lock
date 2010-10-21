@@ -88,6 +88,8 @@ GEM
     rubyforge (2.0.4)
       json_pure (>= 1.1.7)
     rubyzip (0.9.4)
+    sanitize (1.2.1)
+      nokogiri (~> 1.4.1)
     shoulda (2.11.3)
     subexec (0.0.4)
     thor (0.14.3)
@@ -114,5 +116,6 @@ DEPENDENCIES
   pdf-writer (~> 1.1.8)
   rails!
   rubyzip (~> 0.9.4)
+  sanitize (~> 1.2.1)
   shoulda (~> 2.11.3)
   will_paginate (~> 3.0.pre2)

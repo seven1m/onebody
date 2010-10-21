@@ -15,6 +15,6 @@
     <% end %>
   </div>
   <p>
-    <%= white_list_with_removal news_item.body %>
+    <%= sanitize_html news_item.body %>
   </p>
 </div>

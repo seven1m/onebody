@@ -17,6 +17,7 @@ gem 'builder',                '>= 2.1.2'
 gem 'fastercsv',              '~> 1.5.0'
 gem 'pdf-writer',             '~> 1.1.8', :require => 'pdf/writer'
 gem 'rubyzip',                '~> 0.9.4', :require => 'zip/zip'
+gem 'sanitize',               '~> 1.2.1'
 
 group :development, :test do
   gem 'faker',                '>= 0.3.1'

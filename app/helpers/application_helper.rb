@@ -144,7 +144,7 @@ module ApplicationHelper
 
   def render_page_content(path)
     if page = Page.find_by_path_and_published(path, true)
-      white_list_with_removal(page.body)
+      sanitize_html(page.body)
     end
   end
 
@@ -166,11 +166,9 @@ module ApplicationHelper
     n ? n.sub(/\*/, '') : nil
   end
 
-  def white_list_with_removal(html)
+  def sanitize_html(html)
     return nil unless html
-    html.gsub!(/<script.+?<\/script>/mi, '')
-    html.gsub!(/<style.+?<\/style>/mi, '')
-    white_list(html) { |node, bad| node.to_s.gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }.html_safe
+    Sanitize.clean(html, Sanitize::Config::ONEBODY).html_safe
   end
 
   def error_messages_for(form)

@@ -24,7 +24,7 @@
 
 <div class="body">
   <% if @message.html_body.to_s.any? %>
-    <p><%= white_list_with_removal(hide_contact_details(@message.html_body)) %></p>
+    <p><%= sanitize_html(hide_contact_details(@message.html_body)) %></p>
   <% else %>
     <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
   <% end %>
@@ -54,7 +54,7 @@
       </div>
       <p>
         <% if reply.html_body.to_s.any? %>
-          <%= white_list(hide_contact_details(reply.html_body)) %>
+          <%= sanitize_html(hide_contact_details(reply.html_body)) %>
         <% elsif params[:show_quoted] %>
           <%= preserve_breaks(remove_excess_breaks(hide_contact_details(reply.body))) %>
         <% else %>

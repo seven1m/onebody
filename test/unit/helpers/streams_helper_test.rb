@@ -2,7 +2,6 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 class StreamsHelperTest < ActionView::TestCase
   include ApplicationHelper
-  include WhiteListHelper
 
   context 'stream_item_content' do
     should 'be html_safe for messages' do

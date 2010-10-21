@@ -54,21 +54,21 @@
   <% if @recipe.description.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;"><%= t('recipes.description') %>:</td>
-      <td><%= white_list_with_removal @recipe.description %></td>
+      <td><%= sanitize_html @recipe.description %></td>
     </tr>
   <% end %>
   <tr>
     <td style="white-space:nowrap;"><%= t('recipes.ingredients') %>:</td>
-    <td><%= white_list_with_removal @recipe.ingredients %></td>
+    <td><%= sanitize_html @recipe.ingredients %></td>
   </tr>
   <tr>
     <td style="white-space:nowrap;"><%= t('recipes.directions') %>:</td>
-    <td><%= white_list_with_removal @recipe.directions %></td>
+    <td><%= sanitize_html @recipe.directions %></td>
   </tr>
   <% if @recipe.notes.to_s.any? %>
     <tr>
       <td style="white-space:nowrap;"><%= t('recipes.other_notes') %>:</td>
-      <td><%= white_list_with_removal @recipe.notes %></td>
+      <td><%= sanitize_html @recipe.notes %></td>
     </tr>
   <% end %>
 </table>

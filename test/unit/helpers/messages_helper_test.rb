@@ -2,7 +2,6 @@ require File.dirname(__FILE__) + '/../../test_helper'
 
 class MessagesHelperTest < ActionView::TestCase
   include ApplicationHelper
-  include WhiteListHelper
 
   context 'render_message_html_body' do
     setup do
