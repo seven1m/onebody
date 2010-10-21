@@ -11,7 +11,7 @@
       <% if message.person %>
         <span class="nowrap">
           <a href="<%= url_for message.person %>">
-            <%= image_tag message.person.has_photo? ? tn_person_photo_path(message.person) : (message.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag message.person.photo.exists? ? message.person.photo.url(:tn) : (message.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
               :alt => message.person.name %>
           </a>
         </span>

@@ -81,7 +81,7 @@ class LogItem < ActiveRecord::Base
 
   def object_image_url
     return nil if deleted?
-    return nil unless object.respond_to? 'has_photo?' and object.has_photo?
+    return nil unless object.respond_to? 'photo.exists?' and object.photo.exists?
     controller = loggable_type.pluralize.downcase
     action = 'photo'
     id = "#{loggable_id}.tn.jpg"

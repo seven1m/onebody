@@ -2,10 +2,10 @@
   <li class="arrow">
     <a href="<%= person_url(:id => person) %>">
       <div class="thumbnail">
-        <% if person.has_photo? %>
-          <%= image_tag tn_person_photo_path(person), :alt => person.name, :class => 'no-border' %>
-        <% elsif person.family and person.family.has_photo? %>
-          <%= image_tag tn_family_photo_path(person.family), :alt => person.family.name, :class => 'no-border' %>
+        <% if person.photo.exists? %>
+          <%= image_tag person.photo.url(:tn), :alt => person.name, :class => 'no-border' %>
+        <% elsif person.family and person.family.photo.exists? %>
+          <%= image_tag person.family.photo.url(:tn), :alt => person.family.name, :class => 'no-border' %>
         <% else %>
           <% if person.gender.to_s == 'Female' %>
             <%= image_tag 'woman.tn.gif', :alt => person.name, :class => 'icon thumbnail' %>

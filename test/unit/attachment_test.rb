@@ -13,18 +13,18 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   should "save a file" do
-    assert @attachment.has_file?
-    assert_equal "#{@attachment.id}.test.pdf", @attachment.file_name
-    assert File.exist?(@attachment.file_path)
+    assert @attachment.file.exists?
+    assert_match /\.pdf$/, @attachment.file.path
+    assert File.exist?(@attachment.file.path)
   end
 
   should "delete a file" do
     @attachment.file = nil
-    assert !@attachment.has_file?
+    assert !@attachment.file.exists?
   end
 
   should "delete a file when the object is destroyed" do
-    file_path = @attachment.file_path
+    file_path = @attachment.file.path
     assert File.exist?(file_path)
     @attachment.destroy
     assert !File.exist?(file_path)
@@ -36,7 +36,7 @@ class AttachmentTest < ActiveSupport::TestCase
       :file       => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)
     )
     assert @attachment.valid?
-    assert @attachment.has_file?
+    assert @attachment.file.exists?
   end
 
   should "recognize whether it is an image or not" do

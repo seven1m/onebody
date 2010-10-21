@@ -100,7 +100,7 @@ class Feed < ActiveRecord::Base
         end
         if res.is_a?(Net::HTTPOK)
           picture.photo = StringIO.new(res.body)
-          unless picture.has_photo?
+          unless picture.photo.exists?
             picture.destroy
           end
         else

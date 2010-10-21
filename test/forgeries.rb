@@ -13,6 +13,7 @@ module Forgeable
     else
       self.photo = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
     end
+    save
   end
 
   def forge_file(file=true)
@@ -21,6 +22,7 @@ module Forgeable
     else
       self.file = Rack::Test::UploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', 'application/pdf', true)
     end
+    save
   end
 
   def self.included(mod)

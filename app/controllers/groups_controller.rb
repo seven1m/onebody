@@ -122,11 +122,10 @@ class GroupsController < ApplicationController
   def update
     @group = Group.find(params[:id])
     if @logged_in.can_edit?(@group)
-      photo = params[:group].delete(:photo)
+      params[:group][:photo] = nil if params[:group][:photo] == 'remove'
       params[:group].cleanse 'address'
       if @group.update_attributes(params[:group])
         flash[:notice] = t('groups.settings_saved')
-        @group.photo = photo if photo and (photo.respond_to?(:read) or photo == 'remove' or photo.class.name == 'Rack::Test::UploadedFile')
         redirect_to @group
       else
         edit; render :action => 'edit'

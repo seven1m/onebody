@@ -12,15 +12,6 @@ class PublicationsController < ApplicationController
     end
   end
 
-  def show
-    @publication = Publication.find(params[:id])
-    if @publication.has_file?
-      send_file @publication.file_path, :type => @publication.file_content_type, :disposition => 'inline', :filename => @publication.pseudo_file_name
-    else
-      render :text => t('file_not_found'), :layout => true, :status => 404
-    end
-  end
-
   def new
     if @logged_in.admin?(:manage_publications)
       @publication = Publication.new

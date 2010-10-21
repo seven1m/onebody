@@ -4,7 +4,7 @@
     <% @page.attachments.each do |attachment| %>
       <li>
         <%= link_to attachment.name, get_attachment_path(attachment) %>
-        (<%= number_to_human_size(attachment.file_size) rescue 'file missing' %>)
+        (<%= number_to_human_size(attachment.file.size) rescue 'file missing' %>)
         <% unless @page.path == 'template' %>
           <% if attachment.image? %>
             <%= link_to_function t('insert'), "insertImage('#{get_attachment_path(attachment)}', '#{h attachment.human_name}', #{attachment.width}, #{attachment.height})" %>

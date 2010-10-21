@@ -20,16 +20,17 @@ class Publication < ActiveRecord::Base
 
   attr_accessible :name, :description
 
-  has_one_file :path => DB_PUBLICATIONS_PATH
+  has_attached_file :file, PAPERCLIP_FILE_OPTIONS
   acts_as_logger LogItem
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :site_id
+  validates_attachment_size :file, :less_than => PAPERCLIP_FILE_MAX_SIZE
 
   def pseudo_file_name
     filename = name.scan(/[a-z0-9]/i).join
     filename = id.to_s if filename.empty?
-    filename + '.' + file_name.split('.').last
+    filename + '.' + file.path.split('.').last
   end
 
   after_create :create_as_stream_item

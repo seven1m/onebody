@@ -22,7 +22,7 @@
       <% if note.person %>
         <span class="nowrap">
           <a href="<%= url_for note.person %>">
-            <%= image_tag note.person.has_photo? ? tn_person_photo_path(note.person) : (note.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag note.person.photo.exists? ? note.person.photo.url(:tn) : (note.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
               :alt => note.person.name %>
           </a>
         </span>

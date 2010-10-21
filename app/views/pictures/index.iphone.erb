@@ -11,7 +11,7 @@
 <ul>
   <% @pictures.each do |picture| %>
     <li>
-      <%= link_to image_tag(medium_picture_path(picture), :alt => t('pictures.click_to_enlarge')),
+      <%= link_to image_tag(picture.photo.url(:medium), :alt => t('pictures.click_to_enlarge')),
         [@album, picture], :title => t('pictures.click_to_enlarge') %>
     </li>
   <% end %>

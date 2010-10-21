@@ -20,10 +20,10 @@ class PublicationsControllerTest < ActionController::TestCase
     assert_equal [Group.find_by_name('Publications')], assigns(:groups)
   end
 
-  should "show (send data) for a publication" do
-    get :show, {:id => @publication.id}, {:logged_in_id => @person.id}
+  should "link to file attachment for each publication" do
+    get :index, nil, {:logged_in_id => @person.id}
     assert_response :success
-    assert_equal File.read(@publication.file_path).length, @response.body.length
+    assert @response.body.index(@publication.file.url)
   end
 
   should "create a new publication" do

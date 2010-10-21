@@ -4,7 +4,7 @@
 
 <h2><%= @person.name %></h2>
 
-<% if @person.has_photo? or not @family.has_photo? %>
+<% if @person.photo.exists? or not @family.photo.exists? %>
   <%= render :partial => 'photo' %>
 <% else %>
   <%= render :partial => 'families/photo' %>

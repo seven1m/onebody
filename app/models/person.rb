@@ -134,7 +134,7 @@ class Person < ActiveRecord::Base
   scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
 
   acts_as_password
-  has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
   acts_as_logger LogItem, :ignore => %w(signin_count)
 
@@ -154,6 +154,8 @@ class Person < ActiveRecord::Base
   validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
   validates_format_of :alternate_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
   validates_inclusion_of :gender, :in => %w(Male Female), :allow_nil => true
+  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
 
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
@@ -610,7 +612,7 @@ class Person < ActiveRecord::Base
     comment_people_ids = stream_items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
     comment_people = Person.all(
       :conditions => ["id in (?)", comment_people_ids],
-      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at' # only what's needed
+      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_fingerprint' # only what's needed
     ).inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
     stream_items.each do |stream_item|
       stream_item.context['comments'].to_a.each do |comment|

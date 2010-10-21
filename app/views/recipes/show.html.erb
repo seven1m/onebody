@@ -6,9 +6,9 @@
   <% end %>
 <% end %>
 
-<% if @recipe.has_photo? %>
+<% if @recipe.photo.exists? %>
   <div style="width:200;float:right;">
-    <%= image_tag(medium_recipe_photo_path(@recipe), :alt => @recipe.title) %>
+    <%= image_tag(@recipe.photo.url(:medium), :alt => @recipe.title) %>
   </div>
 <% end %>
 

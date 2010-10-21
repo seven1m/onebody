@@ -1,5 +1,5 @@
-<% if person and person.has_photo? %>
-  <%= image_tag tn_person_photo_path(person, :m => person.updated_at.to_s(:number)), :alt => person.name, :class => 'icon thumbnail' %>
+<% if person and person.photo.exists? %>
+  <%= image_tag person.photo.url(:tn), :alt => person.name, :class => 'icon thumbnail' %>
 <% else %>
   <% if person and person.gender.to_s == 'Female' %>
     <%= image_tag 'woman.tn.gif', :alt => person.name, :class => 'icon thumbnail' %>

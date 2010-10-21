@@ -291,17 +291,14 @@ class Message < ActiveRecord::Base
     message = Message.create(attributes.update(:dont_send => true))
     unless message.errors.any?
       files.select { |f| f && f.size > 0 }.each do |file|
-        attachment = message.attachments.create(:name => File.split(file.original_filename).last, :content_type => file.content_type)
+        attachment = message.attachments.create(
+          :name         => File.split(file.original_filename).last,
+          :content_type => file.content_type,
+          :file         => file
+        )
         if attachment.errors.any?
           attachment.errors.each_full { |e| message.errors.add(:base, e) }
           return message
-        else
-          begin
-            attachment.file = file
-          rescue
-            message.errors.add(:base, 'Attachment could not be read.')
-            return message
-          end
         end
       end
       message.dont_send = false

@@ -131,8 +131,8 @@
         <li class="arrow">
           <a href="<%= url_for group %>">
             <div class="thumbnail">
-              <% if group.has_photo? %>
-                <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border' %>
+              <% if group.photo.exists? %>
+                <%= image_tag group.photo.url(:tn), :alt => group.name, :class => 'no-border' %>
               <% else %>
                 <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border' %>
               <% end %>

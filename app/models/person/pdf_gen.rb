@@ -65,7 +65,7 @@ class Person
         if family.mapable? or family.home_phone.to_i > 0
           pdf.move_pointer 120 if pdf.y < 120
           if family.last_name[0..0] != alpha
-            if with_pictures and family.has_photo?
+            if with_pictures and family.photo.exists?
               pdf.move_pointer 450 if pdf.y < 450
             else
               pdf.move_pointer 150 if pdf.y < 150
@@ -80,7 +80,7 @@ class Person
             ).stroke
             pdf.move_pointer 10
           end
-          if with_pictures and family.has_photo?
+          if with_pictures and family.photo.exists?
             if pdf.y < 300
               pdf.move_pointer 300 
             else

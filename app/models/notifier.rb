@@ -72,10 +72,10 @@ class Notifier < ActionMailer::Base
     msg.attachments.each do |a|
       #attachments[a.name] = {
         #:mime_type => a.content_type,
-        #:content   => File.read(a.file_path)
+        #:content   => File.read(a.file.path)
       #}
       # TODO check that it's ok to not specify content-type...
-      attachments[a.name] = File.read(a.file_path)
+      attachments[a.name] = File.read(a.file.path)
     end
     mail(
       :to      => to.email,
@@ -249,12 +249,19 @@ class Notifier < ActionMailer::Base
         if email.has_attachments?
           email.attachments.each do |attachment|
             name = File.split(attachment.filename.to_s).last
+            ext = File.extname(name)
             unless ATTACHMENTS_TO_IGNORE.include? name.downcase
+              tmp = Tempfile.new(['attachment', ext.blank? ? 'bin' : ext])
+              tmp.write(attachment.body.to_s)
+              tmp.rewind
+              # TODO newer version of Paperclip may now accept an email part (attachment) directly -- test it
               att = message.attachments.create(
-                :name => name,
-                :content_type => attachment.content_type.strip
+                :name         => name,
+                :content_type => attachment.content_type.strip,
+                :file         => tmp
               )
-              att.file = attachment
+              tmp.delete
+              # TODO no need to save content_type twice
             end
           end
         end

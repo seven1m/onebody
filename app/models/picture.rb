@@ -20,13 +20,35 @@ class Picture < ActiveRecord::Base
 
   scope_by_site_id
 
-  has_one_photo :path => "#{DB_PHOTO_PATH}/pictures", :sizes => PHOTO_SIZES
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
   acts_as_logger LogItem
 
   validates_presence_of :album_id
+  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
 
   def name
     "Picture #{id}#{album ? ' in Album ' + album.name : nil}"
+  end
+
+  VALID_DEGREES = [90, -90, 180]
+
+  class ErrorRotatingPhoto < RuntimeError; end
+
+  def rotate(degrees)
+    if !VALID_DEGREES.include?(degrees)
+      raise ErrorRotatingPhoto.new('Invalid degree value.')
+    end
+    tmp = Tempfile.new(['photo', File.extname(photo.path)])
+    size = `convert #{photo.path} -rotate #{degrees} #{tmp.path} && stat -c %s #{tmp.path}`
+    if size.to_i > 0
+      self.photo = tmp
+      save!
+      tmp.delete
+      valid?
+    else
+      raise ErrorRotatingPhoto
+    end
   end
 
   after_create :create_as_stream_item

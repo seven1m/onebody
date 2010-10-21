@@ -52,14 +52,7 @@ OneBody::Application.routes.draw do
         get :with
       end
     end
-    resource :photo do
-      member do
-        get :tn
-        get :small
-        get :medium
-        get :large
-      end
-    end
+    resource :photo
     resources :groups, :pictures, :groupies, :services, :albums, :feeds, :notes, :verses, :recipes
     resource :privacy, :blog, :calendar
   end
@@ -74,14 +67,7 @@ OneBody::Application.routes.draw do
     member do
       post :reorder
     end
-    resource :photo do
-      member do
-        get :tn
-        get :small
-        get :medium
-        get :large
-      end
-    end
+    resource :photo
     resources :relationships
   end
 
@@ -107,14 +93,7 @@ OneBody::Application.routes.draw do
         post :batch
       end
     end
-    resource :photo do
-      member do
-        get :tn
-        get :small
-        get :medium
-        get :large
-      end
-    end
+    resource :photo
     resources :notes, :prayer_requests, :albums, :attachments
     resource :calendar
   end
@@ -146,26 +125,12 @@ OneBody::Application.routes.draw do
         get :next
         get :prev
       end
-      resource :photo do
-        member do
-          get :tn
-          get :small
-          get :medium
-          get :large
-        end
-      end
+      resource :photo
     end
   end
 
   resources :recipes do
-    resource :photo do
-      member do
-        get :tn
-        get :small
-        get :medium
-        get :large
-      end
-    end
+    resource :photo
   end
 
   resources :messages do

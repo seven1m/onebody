@@ -59,7 +59,7 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   should "create one picture" do
-    post :create, {:album_id => @album.id, :picture1 => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)}, {:logged_in_id => @person.id}
+    post :create, {:album_id => @album.id, :picture1 => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true), :picture2 => nil}, {:logged_in_id => @person.id}
     assert_redirected_to album_path(@album)
     assert_equal "1 picture(s) saved", flash[:notice]
   end

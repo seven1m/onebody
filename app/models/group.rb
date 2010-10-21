@@ -63,6 +63,8 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :address, :allow_nil => true, :scope => :site_id
   validates_length_of :address, :in => 2..30, :allow_nil => true
   validates_uniqueness_of :cm_api_list_id, :allow_nil => true, :allow_blank => true, :scope => :site_id
+  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
 
   serialize :cached_parents
 
@@ -76,7 +78,7 @@ class Group < ActiveRecord::Base
     end
   end
 
-  has_one_photo :path => "#{DB_PHOTO_PATH}/groups", :sizes => PHOTO_SIZES
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
   acts_as_logger LogItem
 
   alias_method 'photo_without_logging=', 'photo='

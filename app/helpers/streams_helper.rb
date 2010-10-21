@@ -48,7 +48,8 @@ module StreamsHelper
       content = ''.tap do |content|
         stream_item.context['picture_ids'].to_a.each do |picture_id|
           content << link_to(
-            image_tag(small_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => t('pictures.click_to_enlarge'), :class => 'stream-pic'),
+            # TODO this is horrible -- I have to query the picture to get its photo url
+            image_tag(Picture.find(picture_id).photo.url(:small), :alt => t('pictures.click_to_enlarge'), :class => 'stream-pic'),
             album_picture_path(stream_item.streamable_id, picture_id), :title => t('pictures.click_to_enlarge')
           ) + ' '
         end

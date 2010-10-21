@@ -3,7 +3,7 @@
   <h1><%= t('pictures.picture') %></h1>
 <% end %>
 
-<%= image_tag(large_picture_path(@picture), :alt => '') %>
+<%= image_tag(@picture.photo.url(:large), :alt => '') %>
 
 <div class="info">
   <% if @picture.person %>

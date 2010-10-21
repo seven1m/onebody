@@ -38,7 +38,7 @@
 </p>
 
 <p>
-  <%= link_to image_tag(large_picture_path(@picture), :alt => t('pictures.click_to_see_original')), @picture.original_url || full_picture_path(@picture) %>
+  <%= link_to image_tag(@picture.photo.url(:large), :alt => t('pictures.click_to_see_original')), @picture.original_url || @picture.photo.url %>
 </p>
 <% if Setting.get(:privacy, :allow_picture_comments) %>
 <h2><%= t('Comments') %></h2>

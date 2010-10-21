@@ -83,18 +83,18 @@ class GroupsControllerTest < ActionController::TestCase
 
   should "add a group photo" do
     @group.photo = nil
-    assert !@group.has_photo?
+    assert !@group.photo.exists?
     post :update, {:id => @group.id, :group => {:photo => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)}}, {:logged_in_id => @person.id}
     assert_redirected_to group_path(@group)
-    assert Group.find(@group.id).has_photo?
+    assert Group.find(@group.id).photo.exists?
   end
 
   should "remove a group photo" do
     @group.forge_photo
-    assert @group.has_photo?
+    assert @group.photo.exists?
     post :update, {:id => @group.id, :group => {:photo => 'remove'}}, {:logged_in_id => @person.id}
     assert_redirected_to group_path(@group)
-    assert !Group.find(@group.id).has_photo?
+    assert !Group.find(@group.id).photo.exists?
   end
 
   should "edit a group" do

@@ -5,8 +5,8 @@
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <tr <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
           <td>
-            <% if group.has_photo? %>
-              <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border' %>
+            <% if group.photo.exists? %>
+              <%= image_tag group.photo.url(:tn), :alt => group.name, :class => 'no-border' %>
             <% else %>
               <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border' %>
             <% end %>

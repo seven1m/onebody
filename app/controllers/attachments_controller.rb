@@ -4,8 +4,8 @@ class AttachmentsController < ApplicationController
   def show
     @attachment = Attachment.find(params[:id])
     if @logged_in.can_see?(@attachment)
-      if @attachment.has_file?
-        data = File.read(@attachment.file_path)
+      if @attachment.file.exists?
+        data = File.read(@attachment.file.path)
         if data.respond_to?(:encode)
           data.encode!("iso-8859-1", :undef => :replace, :invalid => :replace)
         end
@@ -21,8 +21,8 @@ class AttachmentsController < ApplicationController
   # only for page and group attachments
   def get
     @attachment = Attachment.find(params[:id])
-    if @attachment.has_file? and !@attachment.message
-      data = File.read(@attachment.file_path)
+    if @attachment.file.exists? and !@attachment.message
+      data = File.read(@attachment.file.path)
       details = {:filename => @attachment.name, :type => @attachment.content_type || 'application/octet-stream'}
       if @attachment.page and (@attachment.page.published? or (get_user and @logged_in.admin?(:edit_pages)))
         send_data data, details.merge(:disposition => 'inline')

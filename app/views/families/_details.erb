@@ -1,4 +1,4 @@
-<% if @family.has_photo? %>
+<% if @family.photo.exists? %>
   <%= render :partial => 'families/photo' %>
 <% else %>
   <%= image_tag 'family.jpg', :alt => t('families.no_photo') %>

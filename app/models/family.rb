@@ -48,7 +48,7 @@ class Family < ActiveRecord::Base
   attr_accessible :name, :last_name, :address1, :address2, :city, :state, :zip, :home_phone, :email, :share_address, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :wall_enabled, :visible, :share_activity, :share_home_phone
   attr_accessible :legacy_id, :barcode_id, :alternate_barcode_id, :people_attributes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
 
-  has_one_photo :path => "#{DB_PHOTO_PATH}/families", :sizes => PHOTO_SIZES
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
   #acts_as_logger LogItem
 
   alias_method 'photo_without_logging=', 'photo='
@@ -63,6 +63,8 @@ class Family < ActiveRecord::Base
   validates_uniqueness_of :alternate_barcode_id, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, :in => 10..50, :allow_nil => true
   validates_format_of :barcode_id, :alternate_barcode_id, :with => /^\d+$/, :allow_nil => true
+  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
 
   validates_each [:barcode_id, :alternate_barcode_id] do |record, attribute, value|
     if attribute.to_s == 'barcode_id' and record.barcode_id

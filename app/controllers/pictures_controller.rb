@@ -42,11 +42,12 @@ class PicturesController < ApplicationController
     end
     success = fail = 0
     (1..10).each do |index|
-      if ((pic = params["picture#{index}"]).read rescue '').length > 0
-        pic.seek(0)
-        picture = @album.pictures.create(:person => (params[:remove_owner] ? nil : @logged_in))
-        picture.photo = pic
-        if picture.has_photo?
+      if pic = params["picture#{index}"]
+        picture = @album.pictures.create(
+          :person => (params[:remove_owner] ? nil : @logged_in),
+          :photo  => pic
+        )
+        if picture.photo.exists?
           success += 1
           if @album.pictures.count == 1 # first pic should be default cover pic
             picture.update_attribute(:cover, true)
@@ -69,7 +70,7 @@ class PicturesController < ApplicationController
     @picture = Picture.find(params[:id])
     if @logged_in.can_edit?(@picture)
       if params[:degrees]
-        @picture.rotate_photo params[:degrees].to_i
+        @picture.rotate params[:degrees].to_i
       elsif params[:cover]
         @album.pictures.all.each { |p| p.update_attribute :cover, false }
         @picture.update_attribute :cover, true

@@ -31,8 +31,10 @@ class Recipe < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :ingredients
   validates_presence_of :directions
+  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
 
-  has_one_photo :path => "#{DB_PHOTO_PATH}/recipes", :sizes => PHOTO_SIZES
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
   acts_as_logger LogItem
   acts_as_taggable
 

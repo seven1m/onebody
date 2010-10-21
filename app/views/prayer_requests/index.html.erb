@@ -14,7 +14,7 @@
       <% if req.person %>
         <span class="nowrap">
           <a href="<%= url_for req.person %>">
-            <%= image_tag req.person.has_photo? ? tn_person_photo_path(req.person) : (req.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag req.person.photo.exists? ? req.person.photo.url(:tn) : (req.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
               :alt => req.person.name %>
           </a>
         </span>

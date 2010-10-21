@@ -292,6 +292,34 @@ class PersonTest < ActiveSupport::TestCase
 
   end
 
+  context 'Stream' do
+
+    setup do
+      @person = Person.forge
+      @friend = Person.forge
+      StreamItem.delete_all # clear fixtures
+      @pic = @person.forge(:pictures)
+    end
+
+    should 'eager load commenters on stream items' do
+      @pic.comments.create!(:person => @friend)
+      stream_item = StreamItem.find_by_streamable_type_and_streamable_id('Album', @pic.album_id)
+      received = @person.shared_stream_items
+      assert_equal 1, received.length
+      assert_equal stream_item.id, received.first.id
+      assert_equal @friend.id, received.first.context['comments'].first['person'].id
+    end
+
+    should 'be show thumbnail for eager loaded commenters' do
+      @friend.photo = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
+      @friend.save
+      @pic.comments.create!(:person => @friend)
+      received = @person.shared_stream_items.first
+      assert_match %r{#{@person.photo_fingerprint}\.jpg}, received.context['comments'].first['person'].photo.url
+    end
+
+  end
+
   should "not allow child and birthday to both be unspecified" do
     @person = Person.forge
     @person.birthday = nil

@@ -1,7 +1,7 @@
 <div>
-  <% if @family.has_photo? %>
-    <%= link_to image_tag(medium_family_photo_path(@family, :m => @family.updated_at.to_s(:number)), :alt => @family.name),
-      defined?(url) ? url : large_family_photo_path(@family, :back => request.fullpath) %>
+  <% if @family.photo.exists? %>
+    <%= link_to image_tag(@family.photo.url(:medium), :alt => @family.name),
+      defined?(url) ? url : @family.photo.url(:large) %>
     <% elsif params[:action] == 'edit' %>
       <%= image_tag 'family.jpg', :alt => @family.name %>
     <% end %>

@@ -1,5 +1,5 @@
-<% if recipe.has_photo? %>
-  <%= link_to image_tag(tn_recipe_photo_path(recipe), :alt => recipe.title, :class => 'no-border'), recipe, :style => 'float:left;' %>
+<% if recipe.photo.exists? %>
+  <%= link_to image_tag(recipe.photo.url(:tn), :alt => recipe.title, :class => 'no-border'), recipe, :style => 'float:left;' %>
 <% end %>
 
 <div class="recipe-title">

@@ -7,8 +7,8 @@
       <tr>
         <td class="icon">
           <% if @logged_in.sees? group %><a href="<%= url_for group %>"><% end %>
-            <% if group.has_photo? %>
-              <%= image_tag small_group_photo_path(group), :alt => group.name %>
+            <% if group.photo.exists? %>
+              <%= image_tag group.photo.url(:small), :alt => group.name %>
             <% else %>
               <%= image_tag 'group.small.jpg', :alt => group.name %>
             <% end %>
