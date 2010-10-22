@@ -4,7 +4,7 @@
     <%= hidden_field_tag :album_id, @album %>
     <label for="picture"><%= t('pictures.add_a_picture') %>:</label>
     <%= file_field_tag 'picture1' %><br/>
-    <%= link_to_function t('pictures.upload_more') + ' &raquo;', 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
+    <%= link_to_function t('pictures.upload_more'), 'Element.show("more_upload");Element.hide(this)', :class => 'discreet' %>
     <span id="more_upload" style="display:none;">
       <%= file_field_tag 'picture2' %><br/>
       <%= file_field_tag 'picture3' %><br/>
@@ -19,7 +19,7 @@
     <br/>
     <% if @logged_in.admin?(:manage_pictures) %>
       <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox' %>
-      <%= label_tag 'remove_owner', t('pictures.there_are_gerenal_comm_pictures'), :class => 'inline' %>
+      <%= label_tag 'remove_owner', t('pictures.hide_my_name'), :class => 'inline' %>
       <br/>
     <% end %>
     <%= submit_tag t('pictures.upload') %>

@@ -765,7 +765,7 @@ pt:
     cannot_add_pictures_to_group: Não pode adicionar fotos a este grupo.
     click_to_view: clique para visualizar
     description: Descrição
-    dont_show_my_name: Este é um álbum geral da comunidade &mdash; não mostre meu nome nas fotos (opção somente para administradores).
+    dont_show_my_name: Este é um álbum geral da comunidade — não mostre meu nome nas fotos (opção somente para administradores).
     edit_picture: Editar Foto do Álbum
     name: Nome
     new: Novo Álbum
@@ -1130,7 +1130,7 @@ pt:
     errored_records: Registros com Erro
     first: Primeiro
     for_list_of_available_attributes: para uma lista de atributos disponíveis (nem todos os atributos são requeridos).
-    hint_excel_docs: "Dica: Documentos Excel podem ser exportados como um CSV no menu Arquivo &mdash;&gt; Salvar como."
+    hint_excel_docs: "Dica: Documentos Excel podem ser exportados como um CSV no menu Arquivo —> Salvar como."
     import_data: "Importar Dados..."
     import_people: Importar Pessoas
     import_results: Resultados da Importação
@@ -1408,7 +1408,7 @@ pt:
     person_isnt_any_groups: "{{person}} não está em nenhum grupo agora."
     person_type: Tipo de Pessoa
     pic: Foto
-    please_only_upload_real_photo_html: Por favor, somente carregue uma <span class="very-strong">foto real</span> &mdash; nenhum desenho, clip-art ou fotos falsas por favor.
+    please_only_upload_real_photo_html: Por favor, somente carregue uma <span class="very-strong">foto real</span> — nenhum desenho, clip-art ou fotos falsas por favor.
     previously_served: "Serviu antes em:"
     private_but_shared_group_members: particular mas compartilhado com alguns membros do grupo
     profile_tab: Tab de Perfil
@@ -1426,7 +1426,7 @@ pt:
     search_existing_family_html: Procurar famílias <em>existentes</em>
     separate_items_with_commas: Separe os itens com vírgulas para que eles possam ser relacionados com os mesmos interesses de outras pessoas.
     services_provided_by: Ministérios providos por
-    share_your_personal_testimony: Compartilhe o seu testemunho pessoal &mdash; como você passou a conhecer Jesus Cristo e como Ele mudou a sua vida.
+    share_your_personal_testimony: Compartilhe o seu testemunho pessoal — como você passou a conhecer Jesus Cristo e como Ele mudou a sua vida.
     show_a_map_here_html: Exiba um mapa aqui, fornecendo ao OneBody a sua chave do Yahoo Maps API. <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Clique aqui</a> para ajuda.
     show_full_screen: exibir em tela cheia
     show_hidden_groups: Exibir Grupos Ocultos
@@ -1434,7 +1434,7 @@ pt:
     tell_about_your_favorite_html: Conte sobre seus interesses preferidos, música, filmes e mais <a href="{{url}}">aqui</a>.
     tell_us_about_yourself: Conte-nos sobre você. Como é sua personalidade? O que o seu melhor amigo diz sobre você?
     testimony: Testemunho
-    these_do_not_control_access: Isto não controla acesso &mdash; apenas visualização.
+    these_do_not_control_access: Isto não controla acesso — apenas visualização.
     this_account_is_frozen: Esta conta está congelada. {{name}} não pode fazer mudanças ao seu perfil até que a conta seja descongelada.
     this_email_will_not_be_visible: Este endereço de email não será visível a ninguém exceto administradores.
     this_event_doesnt_have_pictures: "Este evento ainda não contém nenhuma foto."
@@ -1502,9 +1502,9 @@ pt:
     rotate_right: Girar à Direita
     saved: "{{success}} foto(s) salva(s)"
     set_as_cover: Setar como Capa
-    there_are_gerenal_comm_pictures: "Essas são fotos gerais da comunidade &mdash; não mostre meu nome nelas (opção somente para administradores)."
+    hide_my_name: "Essas são fotos gerais da comunidade — não mostre meu nome nelas (opção somente para administradores)."
     upload: Carregar!
-    upload_more: Carregar mais
+    upload_more: Carregar mais »
 
   podcasts:
     not_configured: Sermondrop não está configurado.
@@ -1792,7 +1792,7 @@ pt:
     save_and_continue_editing: Salvar e Continuar Executando
     save_and_run_report: Salvar e Executar o Relatório
     separate_values: "separe os valores com um traço vertical |"
-    show_tips: "Exibir dicas para os Relatórios &raquo;"
+    show_tips: "Exibir dicas para os Relatórios »"
     tips:
       - <em>nulo</em> não é o mesmo que um texto vazio. Você pode ter que testar ambos, usando um grupo [ou].
       - O atributo 'filho' é somente <em>verdadeiro/falso</em> em casos que a data de nascimento é desconhecida; de outra maneira, é <em>nulo</em>.

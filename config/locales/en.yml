@@ -528,7 +528,7 @@ en:
     cannot_add_pictures_to_group: Cannot add pictures in this group.
     click_to_view: click to view
     description: Description
-    dont_show_my_name: This is a general community album &mdash; don't show my name on the pictures (admin-only option).
+    dont_show_my_name: This is a general community album — don't show my name on the pictures (admin-only option).
     edit_picture: Edit Picture Album
     name: Name
     new: New Album
@@ -894,7 +894,7 @@ en:
     errored_records: Errored Records
     first: First
     for_list_of_available_attributes: for a list of available attributes (not all attributes are required).
-    hint_excel_docs: "Hint: Excel documents can be exported as CSV from the File &mdash;&gt; Save As menu."
+    hint_excel_docs: "Hint: Excel documents can be exported as CSV from the File —> Save As menu."
     import_data: "Import Data..."
     import_people: Import People
     import_results: Import Results
@@ -1172,7 +1172,7 @@ en:
     person_isnt_any_groups: "{{person}} isn't in any groups right now."
     person_type: Person Type
     pic: Pic
-    please_only_upload_real_photo_html: Please only upload a <span class="very-strong">real photo</span> &mdash; no graphics, clip-art, or fakes please.
+    please_only_upload_real_photo_html: Please only upload a <span class="very-strong">real photo</span> — no graphics, clip-art, or fakes please.
     previously_served: "Previously served in:"
     private_but_shared_group_members: private but shared with some group members
     profile_tab: Profile Tab
@@ -1190,7 +1190,7 @@ en:
     search_existing_family_html: Search <em>existing</em> family
     separate_items_with_commas: Separate items with commas so they can be linked to other people with the same interests.
     services_provided_by: Services provided by
-    share_your_personal_testimony: Share your personal testimony &mdash; how you came to know Jesus Christ and how he has changed your life.
+    share_your_personal_testimony: Share your personal testimony — how you came to know Jesus Christ and how he has changed your life.
     show_a_map_here_html: Show a map here by providing OneBody with your Yahoo Maps API key. <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Click here</a> for help.
     show_full_screen: show full screen
     show_hidden_groups: Show Hidden Groups
@@ -1198,7 +1198,7 @@ en:
     tell_about_your_favorite_html: Tell about your favorite interests, music, movies, and more <a href="{{url}}">here</a>.
     tell_us_about_yourself: Tell us about yourself. What's your personality like? What would your best friend say about you?
     testimony: Testimony
-    these_do_not_control_access: These do not control access &mdash; only appearance.
+    these_do_not_control_access: These do not control access — only appearance.
     this_account_is_frozen: This account is frozen. {{name}} cannot make changes to this profile or anyone else's until this account is unfrozen.
     this_email_will_not_be_visible: This email address will not be visible to anyone except administrators.
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
@@ -1266,9 +1266,9 @@ en:
     rotate_right: Rotate Right
     saved: "{{success}} picture(s) saved"
     set_as_cover: Set as Cover
-    there_are_gerenal_comm_pictures: "These are general community pictures &mdash; don't show my name on them (admin-only option)."
+    hide_my_name: "These are general community pictures — don't show my name on them (admin-only option)."
     upload: Upload!
-    upload_more: Upload more
+    upload_more: Upload more »
   
   podcasts:
     not_configured: Sermondrop is not configured.
@@ -1556,7 +1556,7 @@ en:
     save_and_continue_editing: Save and Continue Editing
     save_and_run_report: Save and Run Report
     separate_values: "separate values with vertical pipe |"
-    show_tips: "Show Reporting Tips &raquo;"
+    show_tips: "Show Reporting Tips »"
     tips:
       - <em>nil</em> is not the same as an empty string. You may have to test for both, using an [or] group.
       - The 'child' attribute is only <em>true/false</em> in cases where the birthday is unknown; otherwise, it is <em>nil</em>.
