@@ -41,22 +41,20 @@ class PicturesController < ApplicationController
       return
     end
     success = fail = 0
-    (1..10).each do |index|
-      if pic = params["picture#{index}"]
-        picture = @album.pictures.create(
-          :person => (params[:remove_owner] ? nil : @logged_in),
-          :photo  => pic
-        )
-        if picture.photo.exists?
-          success += 1
-          if @album.pictures.count == 1 # first pic should be default cover pic
-            picture.update_attribute(:cover, true)
-          end
-        else
-          fail += 1
-          picture.log_item.destroy rescue nil
-          picture.destroy rescue nil
+    Array(params[:pictures]).each do |pic|
+      picture = @album.pictures.create(
+        :person => (params[:remove_owner] ? nil : @logged_in),
+        :photo  => pic
+      )
+      if picture.photo.exists?
+        success += 1
+        if @album.pictures.count == 1 # first pic should be default cover pic
+          picture.update_attribute(:cover, true)
         end
+      else
+        fail += 1
+        picture.log_item.destroy rescue nil
+        picture.destroy rescue nil
       end
     end
     flash[:notice] = t('pictures.saved', :success => success)
