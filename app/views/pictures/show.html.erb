@@ -32,9 +32,9 @@
 <% end %>
 
 <p>
-  <%= link_to '&laquo; ' + t('pictures.prev'), prev_album_picture_path(@album, @picture) %>
+  <%= link_to t('pictures.prev'), prev_album_picture_path(@album, @picture) %>
   |
-  <%= link_to t('pictures.next') + ' &raquo;', next_album_picture_path(@album, @picture) %>
+  <%= link_to t('pictures.next'), next_album_picture_path(@album, @picture) %>
 </p>
 
 <p>

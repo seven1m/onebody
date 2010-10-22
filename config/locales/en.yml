@@ -1256,12 +1256,12 @@ en:
     error_finding: There was an error finding the album. Please try again.
     failed: "{{fail}} not saved due to errors"
     in_album: in album
-    next: next
+    next: next »
     picture: Picture
     picture_uploaded_by: Picture uploaded by
     pictures: Pictures
     posted_in: Posted in
-    prev: prev
+    prev: « prev
     rotate_left: Rotate Left
     rotate_right: Rotate Right
     saved: "{{success}} picture(s) saved"

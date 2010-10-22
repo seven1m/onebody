@@ -1492,12 +1492,12 @@ pt:
     error_finding: Houve um erro ao encontrar este álbum. Por favor tente novamente.
     failed: "{{fail}} não salvas devido a erros"
     in_album: no álbum
-    next: próximo
+    next: próximo »
     picture: Foto
     picture_uploaded_by: Foto carregada por
     pictures: Fotos
     posted_in: Postada em
-    prev: anterior
+    prev: « anterior
     rotate_left: Girar à Esquerda
     rotate_right: Girar à Direita
     saved: "{{success}} foto(s) salva(s)"
