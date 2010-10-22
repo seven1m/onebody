@@ -11,6 +11,15 @@ module ApplicationHelper
     end
   end
 
+  def stylesheet_tags
+    stylesheet_link_tag('basic', 'aqueouslight', :cache => true) + "\n" + \
+    stylesheet_link_tag('print', :media => 'print')
+  end
+
+  def javascript_tags
+    javascript_include_tag('jquery.min', 'rails', :cache => true)
+  end
+
   def heading
     if (logo = Setting.get(:appearance, :logo)).to_s.any?
       img = image_tag("/assets/site#{Site.current.id}/#{logo}", :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;')
