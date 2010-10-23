@@ -325,9 +325,16 @@ div.autocomplete ul li {
 	font-size: smaller;
 }
 
+#stream-page-body {
+  margin-right: 250px;
+}
+
+.stream-items {
+  padding-left: 25px;
+}
+
 .stream-item {
 	margin: 0 0 15px 0;
-	display: none;
 	clear: left;
 }
 
@@ -405,22 +412,8 @@ table.cells-centered td.graphic {
   text-align: center;
 }
 
-div#stream-display-options {
-  display: none;
-}
-
-div#stream-display-options ul {
-  margin-left: 0;
-  padding-left: 0;
-}
-
-div#stream-display-options li {
-  list-style: none;
-  padding-left: 0;
-}
-
-div#stream-display-options li a {
-  text-decoration: none;
+#share-something {
+  margin-bottom: 20px;
 }
 
 #share {

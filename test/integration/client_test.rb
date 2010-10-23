@@ -10,7 +10,6 @@ class ClientTest < ActionController::IntegrationTest
     setup do
       sign_in_as people(:tim)
       visit "/people/#{people(:tim).id}"
-      selenium.wait_for_page(5)
     end
 
     should 'show share section' do
@@ -26,6 +25,37 @@ class ClientTest < ActionController::IntegrationTest
         :timeout_in_seconds => 5
       assert_equal 1, selenium.js_eval("window.albums.length").to_i
       assert_equal 2, selenium.js_eval("window.$('#album_id *').length").to_i
+    end
+
+  end
+
+  context 'Stream' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'show share section when link is clicked' do
+      visit '/stream'
+      selenium.click "xpath=//p[@id='share-something']/a[1]"
+      assert_equal '', selenium.js_eval("window.document.getElementById('share').style.display")
+    end
+
+    should 'load albums on picture tab' do
+      visit '/stream'
+      selenium.js_eval("window.$('#share').show()")
+      selenium.click "xpath=//div[@id='share']/h2[@class='tab']/div[2]",
+        :wait_for           => :condition,
+        :javascript         => 'window.albums != null',
+        :timeout_in_seconds => 5
+      assert_equal 1, selenium.js_eval("window.albums.length").to_i
+      assert_equal 2, selenium.js_eval("window.$('#album_id *').length").to_i
+    end
+
+    should 'auto-show share block if hash in url' do
+      visit '/groups' # have to fake out selenium for the next step...
+      visit '/stream#picture'
+      assert_equal '', selenium.js_eval("window.document.getElementById('share').style.display")
     end
 
   end

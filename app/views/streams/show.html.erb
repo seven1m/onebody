@@ -24,11 +24,10 @@
   <table class="cells-centered" style="margin-top:20px;">
     <tr>
       <td class="graphic" style="padding-bottom:20px;">
-        <%= link_to_function image_tag('add.png', :alt => t("stream.share_something"), :class => 'icon'),
-          "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
+        <%= link_to_function image_tag('add.png', :alt => t("stream.share_something"), :class => 'icon'), "shareSomething()" %>
       </td>
       <td style="padding-bottom:20px;">
-        <%= link_to_function t("stream.share_something").sub(/\s/, '<br/>').html_safe, "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
+        <%= link_to_function t("stream.share_something").sub(/\s/, '<br/>').html_safe, "shareSomething()" %>
       </td>
     </tr>
     <tr>
@@ -47,21 +46,6 @@
     <%= link_to image_tag('flickr.png', :alt => t("stream.import_flickr_photos"), :class => 'icon') + ' ' + t("stream.flickr"), new_person_feed_path(@logged_in, :type => 'flickr'), :style => 'text-decoration:none;' %><br/>
     <%= link_to image_tag('rss.png', :alt => t("stream.import_blog_feed"), :class => 'icon') + ' ' + t("stream.blog"), new_person_feed_path(@logged_in, :type => 'rss'), :style => 'text-decoration:none;' %><br/>
   </p>
-  
-  <div id="stream-display-options">
-    <h2><%= t('stream.show') %></h2>
-    <ul style="padding-left:10px;">
-      <% if Setting.get(:features, :notes       ) %><li><%= stream_type_checkmark(t('notes.notes'),        'note'       ) %></li><% end %>
-      <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark(t('pictures.pictures'),     'album'      ) %></li><% end %>
-      <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark(t('verses.verses'),       'verse'      ) %></li><% end %>
-      <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark(t('recipes.recipes'),      'recipe'     ) %></li><% end %>
-      <% if Setting.get(:features, :news_page   ) %><li><%= stream_type_checkmark(t('news.news'),         'news_item'  ) %></li><% end %>
-      <% if Setting.get(:features, :publications) %><li><%= stream_type_checkmark(t('publications.publications'), 'publication') %></li><% end %>
-      <li><%= stream_type_checkmark(t('prayer.prayer_requests'), 'prayer_request') %></li>
-      <li><%= stream_type_checkmark(t('messages.messages'), 'message') %></li>
-      <li><%= stream_type_checkmark(t("stream.my_activity"), 'mine') %></li>
-    </ul>
-  </div>
 </div>
 
 <% if @has_friendship_requests %>
@@ -71,27 +55,23 @@
   </div>
 <% end %>
 
-<div style="display:none;margin:0 250px 25px 25px;" id="share">
-  <%= render :partial => 'share' %>
-</div>
+<div id="stream-page-body">
 
-<div style="margin-right:250px;padding-left:25px;">
-  <p style="margin-bottom:20px;" id="share-something">
-    <%= link_to_function image_tag('add_small.gif', :alt => t('stream.share_something'), :class => 'icon'),
-      "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
-    <%= t('stream.share_something_here_html', :js => "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');") %>
-  </p>
-  <%= render :partial => 'stream_items' %>
-</div>
+  <div id="share" style="display:none;">
+    <%= render :partial => 'share' %>
+  </div>
 
-<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@logged_in.id) %>'; </script>
-<%= javascript_include_tag 'load_albums.js' %> <%# do not move this line below the style block below #%>
-<%= javascript_include_tag 'stream.js' %> <%# do not move this line below the style block below #%>
+  <div class="stream-items">
+    <p id="share-something">
+      <%= link_to_function image_tag('add_small.gif', :alt => t('stream.share_something'), :class => 'icon'), "shareSomething()" %>
+      <%= t('stream.share_something_here_html', :js => "shareSomething()") %>
+    </p>
+    <%= render :partial => 'stream_items' %>
+  </div>
 
-<style type="text/css">
-  /* show all in case browser has scripting disabled */
-  .stream-item { display: block; }
-</style>
+<% content_for :head do %>
+  <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@logged_in.id) %>'; </script>
+<% end %>
 
 <%= stylesheet_link_tag 'tabs.css' %>
 <%= javascript_include_tag 'tabs.js' %>

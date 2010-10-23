@@ -135,4 +135,5 @@
     show_section(selected);
     set_handlers();
     setInterval(checkHash, 100);
+    if(typeof after_tab_setup == 'function') after_tab_setup();
   };
