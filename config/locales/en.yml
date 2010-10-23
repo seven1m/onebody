@@ -985,7 +985,7 @@ en:
     news_with_advanced_formatting_html: Or, share <a href="{{url}}">news with advanced formatting...</a>
     no_news_is_available: No news is available at this time.
     posted: Posted
-    return_to_news: return to News
+    return_to_news: « Return to News
     save_news: Save News
     saved: News saved.
     submit_news: Submit News

@@ -1221,7 +1221,7 @@ pt:
     news_with_advanced_formatting_html: Ou, compartilhe <a href="{{url}}">notícias com formatação avancada...</a>
     no_news_is_available: Nenhuma notícia está disponível neste momento.
     posted: Postado
-    return_to_news: retorna às Notícias
+    return_to_news: « Retorna às Notícias
     save_news: Salvar Notícias
     saved: Notícia salva.
     submit_news: "Enviar Notícias"
