@@ -17,7 +17,8 @@ module ApplicationHelper
   end
 
   def javascript_tags
-    javascript_include_tag('jquery.min', 'rails', :cache => true)
+    javascript_include_tag('jquery.min', 'rails', 'application', :cache => true) + "\n" + \
+    csrf_meta_tag
   end
 
   def heading
