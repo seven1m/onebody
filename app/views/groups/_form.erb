@@ -18,7 +18,6 @@
   <div class="section">
     <%= render :partial => 'photo' %>
     <%= form.file_field :photo %><br/>
-    <strong><%= t('photos.only_jpeg_photos_are_accepted') %></strong><br/>
     <% if !@group.new_record? and @group.photo.exists? %>
       <%= link_to t('groups.remove_group_photo'), group_path(@group, :group => {:photo => 'remove'}), :method => 'put', :confirm => t('are_you_sure') %>
       <br/>

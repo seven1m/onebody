@@ -1398,7 +1398,6 @@ pt:
     nothing_here_yet: Nada aqui ainda!
     nothing_yet: Nada ainda!
     only_an_approximation: somente uma aproximação
-    only_jpeg_accepted: "Somente JPEGs (aquivos com a extensão .jpg) são aceitas nesse momento."
     pending_approval: aprovações pendentes
     pending_updates: Atualizações Pendentes
     people: Pessoas
@@ -1469,7 +1468,6 @@ pt:
 
   photos:
     object_not_found: Objeto não encontrado.
-    only_jpeg_photos_are_accepted: Somente fotos JPEG são aceitas neste momento. Por favor tenha certeza que a foto é apropriada e não ofensiva aos outros.
     please_choose_photo: Por favor escolha uma foto que não irá ofender os outros.
     remove: Remover {{name}}
     unavailable: Foto indisponível.

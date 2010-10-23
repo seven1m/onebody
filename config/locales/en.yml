@@ -1162,7 +1162,6 @@ en:
     nothing_here_yet: Nothing here yet!
     nothing_yet: Nothing yet!
     only_an_approximation: only an approximation
-    only_jpeg_accepted: "Only JPEGs (files ending with .jpg) are accepted at this time."
     pending_approval: pending approval
     pending_updates: Pending Updates
     people: People
@@ -1233,7 +1232,6 @@ en:
 
   photos:
     object_not_found: Object not found.
-    only_jpeg_photos_are_accepted: Only JPEG photos are accepted at this time. Please make sure the picture is appropriate and not offensive to others.
     please_choose_photo: Please choose a photo that won't offend others.
     remove: Remove {{name}}
     unavailable: Photo unavailable.
