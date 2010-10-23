@@ -41,11 +41,15 @@ class PicturesController < ApplicationController
       return
     end
     success = fail = 0
+    errors = []
     Array(params[:pictures]).each do |pic|
       picture = @album.pictures.create(
         :person => (params[:remove_owner] ? nil : @logged_in),
         :photo  => pic
       )
+      if picture.errors.any?
+        errors += picture.errors.full_messsages
+      end
       if picture.photo.exists?
         success += 1
         if @album.pictures.count == 1 # first pic should be default cover pic
@@ -59,6 +63,7 @@ class PicturesController < ApplicationController
     end
     flash[:notice] = t('pictures.saved', :success => success)
     flash[:notice] += " " + t('pictures.failed', :fail => fail) if fail > 0
+    flash[:notice] += " " + errors if errors.any?
     redirect_to params[:redirect_to] || @album
   end
 

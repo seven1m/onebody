@@ -166,7 +166,7 @@
 <%= javascript_include_tag 'tabs.js' %>
 <script type="text/javascript">
   set_up_tabs();
-  Element.show('share');
+  $('#share').show();
 </script>
 
 <% if session[:touring] %><%= tour_popup(t('people.profile_tab'), '/pages/help/tour_profile', 450, 'right') %><% end %>

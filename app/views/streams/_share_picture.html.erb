@@ -1,13 +1,13 @@
 <h2 class="tab" id="picture"><%= image_tag('picture.png', :alt => t('pictures.pictures'), :class => 'icon') %> <%= t('pictures.picture') %></h2>
 <div class="section">
-  <%= form_for Picture.new, :multipart => true, :onsubmit => "if($('album_id').value=='!') custom_select_val($('album_id'), '#{t('pictures.enter_the_new_album_title')}')" do |form| %>
+  <%= form_for Picture.new, :html => {:multipart => true, :id => 'share_picture_form', 'data-album-prompt' => t('pictures.enter_the_new_album_title')} do |form| %>
     <%= hidden_field_tag :redirect_to, request.fullpath %>
     <% if @group %><%= hidden_field_tag :group_id, @group.id %><% end %>
     <%= label_tag :album_id, t('pictures.album'), :id => 'album_id_label' %>
     <%= select_tag :album_id, '', {:onChange => "if(this.value=='!') custom_select_val(this,'#{t('pictures.enter_the_new_album_title')}')"} %>
     <span id="albums_loading" style="display:none;"><%= image_tag 'spinner_small.gif', :alt => t('loading'), :class => 'icon' %> <%= t('loading') %>...</span><br/>
-    <label for="picture"><%= t('pictures.add_a_picture') %></label>
-    <%= file_field_tag 'pictures[]' %><br/>
+    <label for="pictures"><%= t('pictures.add_a_picture') %></label>
+    <%= file_field_tag 'pictures[]', :multiple => true %><br/>
     <%= submit_tag t('pictures.upload') %>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>

@@ -1,33 +1,28 @@
 albums = null;
 function load_tab(id) {
   if(id == 'picture' && !albums) {
-    new Ajax.Request(ALBUMS_JSON_PATH, {
-      method: 'get',
-      onLoading: function(){
-        Element.show('albums_loading')
-      },
-      onSuccess: function(transport){
-        Element.hide('albums_loading')
-        albums = transport.responseText.evalJSON();
-        albums.each(function(a){
-          var option = document.createElement('option');
-          option.value = a.id;
-          option.text = a.name;
-          try {
-            $('album_id').add(option, null);
-          } catch(ex) {
-            $('album_id').add(option);
-          }
-        })
+    $('#albums_loading').show();
+    $.get(ALBUMS_JSON_PATH, null, function(data){
+      $('#albums_loading').hide();
+      albums = data;
+      $.each(albums, function(i, a){
         var option = document.createElement('option');
-        option.value = '!';
-        option.text = '[new]';
+        option.value = a.album.id;
+        option.text = a.album.name;
         try {
-          $('album_id').add(option, null);
+          $('#album_id')[0].add(option, null);
         } catch(ex) {
-          $('album_id').add(option);
+          $('#album_id')[0].add(option);
         }
+      })
+      var option = document.createElement('option');
+      option.value = '!';
+      option.text = '[new]';
+      try {
+        $('#album_id')[0].add(option, null);
+      } catch(ex) {
+        $('#album_id')[0].add(option);
       }
-    });
+    }, 'json');
   }
 }
