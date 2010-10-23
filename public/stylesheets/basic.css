@@ -17,9 +17,6 @@ label.inline { display: inline; }
   cursor: move;
 }
 
-.share-box {
-}
-
 .errorExplanation {
   border: 1px solid #ccc;
   background-color: #ffc;
@@ -29,6 +26,7 @@ label.inline { display: inline; }
 .errorExplanation h2 {
   color: red;
   border: none;
+  margin-top: 10px;
 }
 
 li.family-member{

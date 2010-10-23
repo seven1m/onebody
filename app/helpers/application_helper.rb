@@ -184,10 +184,12 @@ module ApplicationHelper
   def error_messages_for(form)
     if form.object.errors.any?
       (
-        "<p>#{t('There_were_errors')}</p>" + \
-        "<ol>" + \
+        "<div class=\"errorExplanation\">" + \
+        "<h2>#{t('There_were_errors')}</h2>" + \
+        "<ul>" + \
         form.object.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
-        "</ol>"
+        "</ul>" + \
+        "</div>"
       ).html_safe
     end
   end
