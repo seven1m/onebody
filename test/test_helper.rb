@@ -9,6 +9,13 @@ OneBody::Application.load_tasks
 # flatten settings hash and write to fixture file
 Rake::Task['onebody:build_settings_fixture_file'].invoke
 
+Webrat.configure do |config|
+  config.mode = :selenium
+  config.application_framework = :rails
+  config.application_environment = :test
+  config.application_port = 4567
+end
+
 require File.dirname(__FILE__) + '/forgeries'
 
 class ActiveSupport::TestCase
@@ -66,5 +73,33 @@ class ActiveSupport::TestCase
     # this is so fixture loading and forgeries won't bomb
     # (since they are often loaded before AppplicaitonController can call get_site)
     Site.current = Site.find(1)
+  end
+end
+
+module WebratTestHelper
+  def sign_in_as(person, password='secret')
+    visit '/session/new'
+    fill_in :email, :with => person.email
+    fill_in :password, :with => password
+    click_button I18n.t('session.sign_in')
+    selenium.wait_for_page_to_load(5)
+    assert_match %r{/stream$}, current_url
+  end
+end
+
+if ENV['SELENIUM_RUNNING']
+  # set SELENIUM_RUNNING=true when running tests to
+  # skip start and stop of selenium rc server
+  module Webrat
+    module Selenium
+      class SeleniumRCServer
+        def start
+          # should already be running
+        end
+        def stop
+          # leave it running
+        end
+      end
+    end
   end
 end
