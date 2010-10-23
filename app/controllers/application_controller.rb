@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   cache_sweeper :stream_item_sweeper, :only => %w(create update destroy)
 
-  layout 'default.html'
+  layout 'default'
 
   before_filter :get_site
   before_filter :feature_enabled?
@@ -180,7 +180,7 @@ class ApplicationController < ActionController::Base
           self.class.layout 'iphone.html'
         end
       else
-        self.class.layout 'default.html'
+        self.class.layout 'default'
       end
     end
 
