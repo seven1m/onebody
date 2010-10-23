@@ -1637,9 +1637,9 @@ en:
     password_doesnt_match: The password you entered doesn't match our records. Please try again.
     password_incorrect: password incorrect
     please_sign_in: Please sign in.
-    sign_in: sign In
+    sign_in: Sign In
     sign_in_error_html: There was an error signing you in. Please <a href="{{url}}">try again</a>.
-    sign_out: sign Out
+    sign_out: Sign Out
     sign_up_or_sign_in_html: "<a href=\"{{url}}\">Sign Up</a> for an account, or sign in:"
     there_are_no_users_in_the_system: There are no users in the system.
     tour: tour
