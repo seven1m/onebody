@@ -1,4 +1,4 @@
-<%= content_for :subnav do %>
+<% content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">
       <%= link_to t('people.edit_family'), @person.family %>
@@ -155,12 +155,13 @@
 
 </div>
 
+<% content_for :head do %>
+  <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@person.id) %>'; </script>
+<% end %>
+
 <style type="text/css">
   .stream-item { display: block; }
 </style>
-
-<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@person.id) %>'; </script>
-<%= javascript_include_tag 'load_albums.js' %>
 
 <%= stylesheet_link_tag 'tabs.css' %>
 <%= javascript_include_tag 'tabs.js' %>
