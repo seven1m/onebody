@@ -1,6 +1,6 @@
 <li>
   <%= feed.name %>
-  <%= link_to_function 'url', "Element.show('feed#{feed.id}');Element.hide(this);" %>
+  <%= link_to_function 'url', "$('#feed#{feed.id}').show();$(this).hide();" %>
   <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%= feed.url %></span>
   <% if @logged_in.admin? %><span class="small discreet">(<%= pluralize(feed.error_count, ' error') %>)</small><% end %>
   <%= link_to image_tag('delete.png', :alt => t('Delete'), :class => 'icon'), [@person, feed], :method => 'delete', :confirm => t('feeds.are_you_sure') %>

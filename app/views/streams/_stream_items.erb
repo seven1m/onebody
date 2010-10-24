@@ -9,7 +9,7 @@
   <% if grouped_items.any? and not (stream_item.person_id == last_stream_item.person_id and stream_item.streamable_type == last_stream_item.streamable_type) %>
     </div>
     <p class="stream-item-group-link">
-      <%= link_to_function t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "Element.hide(this.parentNode); new Effect.Appear('stream-item-group#{grouped_items.first}')" %>
+      <%= link_to_function t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "$(this.parentNode).hide(); $('#stream-item-group#{grouped_items.first}').show()" %>
     </p>
     </div>
     <% grouped_items = [] %>
@@ -26,7 +26,7 @@
 <% if grouped_items.any? %>
   </div>
   <p class="stream-item-group-link">
-    <%= link_to_function t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "Element.hide(this.parentNode); new Effect.Appear('stream-item-group#{grouped_items.first}')" %>
+    <%= link_to_function t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "$(this.parentNode).hide(); $('#stream-item-group#{grouped_items.first}').show()" %>
   </p>
   </div>
 <% end %>

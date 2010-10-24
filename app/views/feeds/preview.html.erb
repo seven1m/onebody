@@ -2,7 +2,7 @@
 
 <p>
   <%= t('feeds.looks_right') %>
-  <%= form_for [@person, @feed], :html => {:onsubmit => "$('finalize_feed').disabled=true;Element.show('please_wait');"} do |form| %>
+  <%= form_for [@person, @feed], :html => {:onsubmit => "$('#finalize_feed')[0].disabled=true;$('#please_wait').show();"} do |form| %>
     <%= form.hidden_field :name %>
     <%= form.hidden_field :url %>
     <%= hidden_field_tag :type, params[:type] %>

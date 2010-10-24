@@ -32,7 +32,7 @@
         <div id="results"></div>
         <%= label_tag 'other_name', t('prayer_signups.other_name') %>
         <%= radio_button_tag 'ids[]', 0, false, :onclick => "$('other_name').focus()" %>
-        <%= text_field_tag 'other_name', '', :size => 10, :onfocus => "$('ids__0').checked = true; Element.show('other_name_note')", :style => 'width:80px;' %>
+        <%= text_field_tag 'other_name', '', :size => 10, :onfocus => "$('ids__0').checked = true; $('#other_name_note').show()", :style => 'width:80px;' %>
         <div id="other_name_note" style="display:none;"><%= t('prayer_signups.other_name_note') %></div>
         <%= label_tag 'start', t('prayer_signups.select_time_slot') %>
         <%= select_tag 'start', options_for_select([''] + range_of_hours(@first, @last).map { |h| [h.strftime("%a #{ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS[:time]}"), h.strftime('%Y/%m/%d %H:%M')] }) %>

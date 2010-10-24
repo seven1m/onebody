@@ -33,6 +33,7 @@ class FeedsController < ApplicationController
   def create
     @person = Person.find(params[:person_id])
     if @logged_in.can_edit?(@person)
+      # FIXME why is this being done in the controller?
       if params[:type] == 'twitter' and params[:feed][:url] !~ /twitter\.com/
         params[:feed][:url] = "http://twitter.com/statuses/user_timeline.atom?screen_name=#{params[:feed][:url]}"
       end

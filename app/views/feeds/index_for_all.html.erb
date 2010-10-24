@@ -14,7 +14,7 @@
       <td><%= feed.name %></td>
       <td><%= pluralize(feed.error_count, 'error') %></td>
       <td>
-        <%= link_to_function 'url', "Element.show('feed#{feed.id}');Element.hide(this);" %>
+        <%= link_to_function 'url', "$('#feed#{feed.id}').show();$(this).hide();" %>
         <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%= feed.url %></span>
       </td>
       <td>

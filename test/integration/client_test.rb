@@ -58,6 +58,42 @@ class ClientTest < ActionController::IntegrationTest
       assert_equal '', selenium.js_eval("window.document.getElementById('share').style.display")
     end
 
+    should 'expand/collapse grouped items' do
+      people(:tim).notes.delete_all
+      @n1 = people(:tim).forge(:notes)
+      sleep 1 # so the creation time will sort properly
+      @n2 = people(:tim).forge(:notes)
+      @stream_item = StreamItem.find_by_streamable_type_and_streamable_id('Note', @n1.id)
+      visit '/stream'
+      group_id = "#stream-item-group#{@stream_item.id}"
+      assert_equal 'none', selenium.js_eval("window.$('#{group_id}').css('display')")
+      selenium.click "xpath=//p[@class='stream-item-group-link']/a[1]"
+      assert_equal 'block', selenium.js_eval("window.$('#{group_id}').css('display')")
+      assert_equal 'none', selenium.js_eval("window.$('.stream-item-group-link').css('display')")
+    end
+
+  end
+
+  context 'Verse' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'hide the new verse form until expanded' do
+      visit '/verses'
+      assert_equal 'none', selenium.js_eval("window.$('#add_verse').css('display')")
+      selenium.click "xpath=//p[@id='add_verse_link']/a[1]"
+      assert_equal 'block', selenium.js_eval("window.$('#add_verse').css('display')")
+      assert_equal 'id', selenium.js_eval("window.$('*:focus')[0].id")
+    end
+
+    should 'show the new verse form if #add in the url' do
+      visit '/verses#add'
+      assert_equal 'block', selenium.js_eval("window.$('#add_verse').css('display')")
+      assert_equal 'id', selenium.js_eval("window.$('*:focus')[0].id")
+    end
+
   end
 
   context 'Search' do

@@ -2,7 +2,7 @@
   <% if @person %>
     <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + @person.name, @person %></li>
   <% end %>
-  <li><%= link_to_function image_tag('plus.png', :alt => t('verses.add_a_verse'), :class => 'icon') + ' ' + t('verses.add_a_verse'), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></li>
+  <li><%= link_to_function image_tag('plus.png', :alt => t('verses.add_a_verse'), :class => 'icon') + ' ' + t('verses.add_a_verse'), "show_verse_form()" %></li>
 <% end %>
 
 <h1><%= t('verses.verses') %></h1>

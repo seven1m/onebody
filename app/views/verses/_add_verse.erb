@@ -1,4 +1,4 @@
-<p id="add_verse_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('verses.add_verse'), :class => 'icon') + ' ' + t('verses.add_verse'), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></p>
+<p id="add_verse_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('verses.add_verse'), :class => 'icon') + ' ' + t('verses.add_verse'), "show_verse_form();" %></p>
 <div id="add_verse">
   <%= form_for Verse.new do |form| %>
     <p>
@@ -11,9 +11,14 @@
 
 <script type="text/javascript">
   if(location.hash == '#add') {
-    $('reference').focus();
+    $('#id')[0].focus();
   } else {
-    Element.hide('add_verse');
-    Element.show('add_verse_link');
+    $('#add_verse').hide();
+    $('#add_verse_link').show();
+  }
+  function show_verse_form() {
+    $('#add_verse').show();
+    $('#add_verse_link').hide();
+    $('#id')[0].focus();
   }
 </script>
