@@ -3,8 +3,8 @@
     <% @pages.each do |page| %>
       <li>
         <span style="<%= page.children.count == 0 ? 'visibility:hidden' : nil %>">
-          <%= link_to image_tag('plus.gif',  :alt => t('pages.expand'), :class => 'icon'), :remote => true, :url => pages_path(:parent_id => page), :method => 'get', :html => {:id => "page#{page.id}_expand_link"}, :loading => "Element.show('loading#{page.id}')", :complete => "Element.hide('loading#{page.id}')" %>
-          <%= link_to_function image_tag('minus.gif', :alt => t('pages.collapse'), :class => 'icon'), "Element.show('page#{page.id}_expand_link');Element.hide('page#{page.id}_collapse_link');Element.update('page#{page.id}_children', '')", :id => "page#{page.id}_collapse_link", :style => 'display:none;' %>
+          <%= link_to image_tag('plus.gif',  :alt => t('pages.expand'), :class => 'icon'), pages_path(:parent_id => page), :remote => true, :method => 'get', :id => "page#{page.id}_expand_link" %>
+          <%= link_to_function image_tag('minus.gif', :alt => t('pages.collapse'), :class => 'icon'), "collapsePage(#{page.id})", :id => "page#{page.id}_collapse_link", :style => 'display:none;' %>
           <%= image_tag('spinner_small.gif', :alt => t('pages.loading'), :id => "loading#{page.id}", :style => 'display:none;', :class => 'icon') %>
         </span>
         <%= link_to page.title, page %>
@@ -18,3 +18,11 @@
     <% end %>
   </ul>
 <% end %>
+
+<script type="text/javascript">
+  function collapsePage(id) {
+    $('#page' + id + '_expand_link').show();
+    $('#page' + id + '_collapse_link').hide();
+    $('#page' + id + '_children').html('');
+  }
+</script>

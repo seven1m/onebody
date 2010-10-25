@@ -74,7 +74,7 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
-  context 'Verse' do
+  context 'Verses' do
 
     setup do
       sign_in_as people(:tim)
@@ -121,7 +121,7 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
-  context 'Group' do
+  context 'Groups' do
 
     setup do
       sign_in_as people(:tim)
@@ -155,6 +155,26 @@ class ClientTest < ActionController::IntegrationTest
       assert_equal I18n.t('changes_saved'), selenium.alert
       assert_equal 'Morgan Group', groups(:morgan).reload.name
       assert !groups(:morgan).private?
+    end
+
+  end
+
+  context 'Pages' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'expand/collapse page children' do
+      visit '/pages/admin'
+      assert_contain 'Foo'
+      assert @page = Page.find_by_path('foo')
+      selenium.click "page#{@page.id}_expand_link",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#page#{@page.id}_children *').length > 0",
+        :timeout_in_seconds => 5
+      selenium.click "page#{@page.id}_collapse_link"
+      assert_equal '0', selenium.js_eval("window.$('#page#{@page.id}_children *').length")
     end
 
   end
