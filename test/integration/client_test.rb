@@ -121,4 +121,41 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
+  context 'Group' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'batch edit all groups' do
+      visit '/groups/batch'
+      selenium.click "groups_#{groups(:morgan).id}_private"
+      fill_in "groups_#{groups(:morgan).id}_name", :with => 'foobar'
+      assert_equal 'true', selenium.js_eval("window.$('#groups_#{groups(:morgan).id}_name').hasClass('changed')")
+      assert_equal 'true', selenium.js_eval("window.$('#groups_#{groups(:morgan).id}_private').hasClass('changed')")
+      assert_equal 'false', selenium.js_eval("window.$('#groups_#{groups(:morgan).id}_private').next().hasClass('changed')")
+      assert_equal 'false', selenium.js_eval("window.$('#groups_#{groups(:morgan).id}_hidden').hasClass('changed')")
+      selenium.click "name=commit",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#loading').css('display') == 'none'",
+        :timeout_in_seconds => 10
+      assert_equal I18n.t('changes_saved'), selenium.alert
+      assert_equal 'foobar', groups(:morgan).reload.name
+      assert groups(:morgan).private?
+      # put it back
+      selenium.click "groups_#{groups(:morgan).id}_private"
+      fill_in "groups_#{groups(:morgan).id}_name", :with => 'Morgan Group'
+      assert_equal 'true', selenium.js_eval("window.$('#groups_#{groups(:morgan).id}_name').hasClass('changed')")
+      assert_equal 'false', selenium.js_eval("window.$('#groups_#{groups(:morgan).id}_private').hasClass('changed')")
+      assert_equal 'true', selenium.js_eval("window.$('#groups_#{groups(:morgan).id}_private').next().hasClass('changed')")
+      selenium.click "name=commit",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#loading').css('display') == 'none'",
+        :timeout_in_seconds => 10
+      assert_equal 'Morgan Group', groups(:morgan).reload.name
+      assert !groups(:morgan).private?
+    end
+
+  end
+
 end

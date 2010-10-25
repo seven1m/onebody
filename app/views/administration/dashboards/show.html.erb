@@ -93,6 +93,7 @@
       <%= link_to t('groups.pending_membership_request_count', :count => @membership_request_count), administration_membership_requests_path %>
     <% end %>
 
+    <p><%= link_to t('groups.batch_edit_groups'), batch_groups_path %></p>
     <p><%= link_to t('admin.manage_group_administrators'), administration_admins_path(:groups => true) %></p>
   <% end %>
 

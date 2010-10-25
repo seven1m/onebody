@@ -2,10 +2,8 @@
 
 <p><em><%= t('groups.scroll_left_and_right') %></em></p>
 
-<%= form_tag :remote => true, :url => batch_groups_path,
-  :loading  => "Element.show('loading')",
-  :complete => "Element.hide('loading')",
-  :html     => {:style => 'overflow:auto;width:90%;background-color:#fff;'} do %>
+<%= form_tag batch_groups_path, :id => 'batch_groups_form',
+  :style => 'overflow:auto;width:90%;background-color:#fff;' do %>
   <table>
     <tr>
       <th><%= t('groups.category') %></th>
@@ -14,34 +12,20 @@
       <th><%= t('groups.members_send') %></th>
       <th><%= t('privacies.private') %></th>
       <th><%= t('privacies.hidden') %></th>
-      <th><%= t('groups.approved') %></th>
       <th><%= t('groups.class_link_code') %></th>
-      <th><%= t('stream.blog') %></th>
-      <th><%= t('people.email') %></th>
-      <th><%= t('prayer.prayer') %></th>
-      <th><%= t('groups.attendance') %></th>
-      <th><%= t('pictures.pictures') %></th>
-      <th><%= t('groups.calendar_private_link') %></th>
       <th><%= t('groups.approval_required_to_join') %></th>
     </tr>
     <% @groups.each do |group| %>
       <tr id="group<%= group.id %>" class="group">
-        <td><%= text_field_tag "groups[#{group.id}][category]",                  group.category,  :size => 10           %></td>
-        <td><%= text_field_tag "groups[#{group.id}][name]",                      group.name,      :size => 10           %></td>
-        <td><%= text_field_tag "groups[#{group.id}][address]",                   group.address,   :size => 10           %></td>
+        <td><%= text_field_tag "groups[#{group.id}][category]",                  group.category,  :size => 20           %></td>
+        <td><%= text_field_tag "groups[#{group.id}][name]",                      group.name,      :size => 20           %></td>
+        <td><%= text_field_tag "groups[#{group.id}][address]",                   group.address,   :size => 20           %></td>
         <td><%= check_box_tag  "groups[#{group.id}][members_send]",              true, group.members_send?              %><%= hidden_field_tag "groups[#{group.id}][members_send]", 0 %></td>
         <td><%= check_box_tag  "groups[#{group.id}][private]",                   true, group.private?                   %><%= hidden_field_tag "groups[#{group.id}][private]", 0 %></td>
         <td><%= check_box_tag  "groups[#{group.id}][hidden]",                    true, group.hidden?                    %><%= hidden_field_tag "groups[#{group.id}][hidden]", 0 %></td>
-        <td><%= check_box_tag  "groups[#{group.id}][approved]",                  true, group.approved?                  %><%= hidden_field_tag "groups[#{group.id}][approved]", 0 %></td>
         <td><%= text_field_tag "groups[#{group.id}][link_code]",                 group.link_code, :size => 5            %></td>
-        <td><%= check_box_tag  "groups[#{group.id}][blog]",                      true, group.blog?                      %><%= hidden_field_tag "groups[#{group.id}][email]", 0 %></td>
-        <td><%= check_box_tag  "groups[#{group.id}][email]",                     true, group.email?                     %><%= hidden_field_tag "groups[#{group.id}][prayer]", 0 %></td>
-        <td><%= check_box_tag  "groups[#{group.id}][prayer]",                    true, group.prayer?                    %><%= hidden_field_tag "groups[#{group.id}][attendance]", 0 %></td>
-        <td><%= check_box_tag  "groups[#{group.id}][attendance]",                true, group.attendance?                %><%= hidden_field_tag "groups[#{group.id}][pictures]", 0 %></td>
-        <td><%= check_box_tag  "groups[#{group.id}][pictures]",                  true, group.pictures?                  %><%= hidden_field_tag "groups[#{group.id}][gcal_private_link]", 0 %></td>
-        <td><%= text_field_tag "groups[#{group.id}][gcal_private_link]",         group.gcal_private_link, :size => 5    %></td>
         <td><%= check_box_tag  "groups[#{group.id}][approval_required_to_join]", true, group.approval_required_to_join? %><%= hidden_field_tag "groups[#{group.id}][approval_required_to_join]", 0 %></td>
-        <td class="errors"></td>
+        <td class="errors"><%= group.errors.full_messages.join('; ') %></td>
       </tr>
     <% end %>
   </table>
@@ -53,3 +37,33 @@
     </span>
   </p>
 <% end %>
+
+<script type="text/javascript">
+  $(':input').change(function() {
+    var el = $(this);
+    if(el.attr('type') == 'checkbox') {
+      if(el[0].checked) {
+        el.addClass('changed');
+      } else {
+        el.next().addClass('changed');
+      }
+    } else {
+      el.addClass('changed');
+    }
+  });
+  $('#batch_groups_form').submit(function(){
+    $('#loading').show();
+    var data = $(':input.changed').serializeArray();
+    $.ajax({
+      url: $(this).attr('action'),
+      type: 'POST',
+      data: data,
+      dataType: 'script',
+      complete: function(){
+        $(':input').removeClass('changed');
+        $('#loading').hide();
+      }
+    });
+    return false;
+  });
+</script>

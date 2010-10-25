@@ -149,11 +149,24 @@ class GroupsController < ApplicationController
   def batch
     if @logged_in.admin?(:manage_groups)
       if request.post?
-        @errors = []
-        params[:groups].each do |id, details|
-          group = Group.find(id)
-          unless group.update_attributes(details)
-            @errors << [id, group.errors.full_messages]
+        respond_to do |format|
+          format.html do
+            @groups = Group.all(:order => 'category, name')
+            @groups.group_by(&:id).each do |id, groups|
+              group = groups.first
+              if vals = params[:groups][id.to_s]
+                group.update_attributes(vals)
+              end
+            end
+          end
+          format.js do
+            @errors = []
+            Array(params[:groups]).each do |id, details|
+              group = Group.find(id)
+              unless group.update_attributes(details)
+                @errors << [id, group.errors.full_messages]
+              end
+            end
           end
         end
       else

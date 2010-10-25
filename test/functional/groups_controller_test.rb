@@ -152,4 +152,40 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  should "batch edit groups" do
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @group2 = Group.forge
+    get :batch, nil, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    # regular post
+    post :batch, {:groups => {@group.id.to_s => {:name => "foobar", :members_send => "0"}, @group2.id.to_s => {:address => 'baz'}}}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    assert_equal 'foobar', @group.reload.name
+    assert !@group.members_send?
+    assert_equal 'baz', @group2.reload.address
+    # ajax post
+    post :batch, {:format => 'js', :groups => {@group.id.to_s => {:name => "lorem", :members_send => "true"}, @group2.id.to_s => {:address => 'ipsum'}}}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    assert_equal 'lorem', @group.reload.name
+    assert @group.members_send?
+    assert_equal 'ipsum', @group2.reload.address
+  end
+
+  should 'report errors when batch editing groups' do
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    # regular post
+    post :batch, {:groups => {@group.id.to_s => {:address => "bad*address"}}}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    assert_select "#group#{@group.id} .errors", I18n.t('activerecord.errors.models.group.attributes.address.invalid')
+    # ajax post
+    post :batch, {:format => 'js', :groups => {@group.id.to_s => {:address => "bad*address"}}}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    assert_match /\$\("#group#{@group.id}"\)\.addClass\('error'\)/, @response.body
+  end
+
 end
