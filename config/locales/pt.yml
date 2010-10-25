@@ -77,10 +77,11 @@ pt:
   you_dont: Você não
   your: Seu
 
+  errors:
+    format: "{{message}}"
+
   activerecord: 
     errors: 
-      full_messages: 
-        format: "{{message}}"
       models: 
         admin: 
           attributes: 
@@ -283,13 +284,6 @@ pt:
             text: 
               blank: "A passagem está em branco. Você digitou a referência corretamente?"
               too_long: "A passagen é grande demais. Tente especificar uma passagem mais curta."
-      template: 
-        body: "Por favor corriga os seguintes problemas:"
-        header: 
-          one: "Houve um erro ao salvar as mudanças."
-          other: "Existem {{count}} erros ao salvar as mudanças."
-      messages:
-        record_invalid: "A validação falhou: {{errors}}"
 
   admin:
     active: ativar

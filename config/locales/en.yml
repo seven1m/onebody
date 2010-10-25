@@ -77,10 +77,11 @@ en:
   you_dont: You don't
   your: Your
 
+  errors:
+    format: "{{message}}"
+
   activerecord: 
     errors: 
-      full_messages: 
-        format: "{{message}}"
       models: 
         admin: 
           attributes: 
@@ -283,14 +284,7 @@ en:
             text: 
               blank: The passage is blank. Did you type the reference correctly?
               too_long: The passage is too long. Try to specify a shorter passage.
-      template: 
-        body: "Please correct the following problems:"
-        header: 
-          one: There was an error saving the changes.
-          other: There were {{count}} errors saving the changes.
-      messages:
-        record_invalid: "The validation failed: {{errors}}"
-  
+
   admin:
     active: active
     admin: admin

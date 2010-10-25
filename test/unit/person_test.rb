@@ -388,6 +388,13 @@ class PersonTest < ActiveSupport::TestCase
     assert @person4.super_admin?
   end
 
+  should "properly translate validation errors" do
+    @person = Person.forge
+    assert !@person.update_attributes(:website => 'bad/address')
+    assert_equal [I18n.t('activerecord.errors.models.person.attributes.website.invalid')],
+      @person.errors.full_messages
+  end
+
   private
 
     def partial_fixture(table, name, valid_attributes)
