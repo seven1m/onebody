@@ -18,7 +18,7 @@
     map.disableKeyControls();
   }
   if(typeof(hide_map) == 'undefined' || !hide_map) {
-    Element.show('map-container')
+    $('#map-container').show();
     onload = load_map;
   }
 </script>
