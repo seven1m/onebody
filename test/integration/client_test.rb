@@ -152,6 +152,7 @@ class ClientTest < ActionController::IntegrationTest
         :wait_for           => :condition,
         :javascript         => "window.$('#loading').css('display') == 'none'",
         :timeout_in_seconds => 10
+      assert_equal I18n.t('changes_saved'), selenium.alert
       assert_equal 'Morgan Group', groups(:morgan).reload.name
       assert !groups(:morgan).private?
     end

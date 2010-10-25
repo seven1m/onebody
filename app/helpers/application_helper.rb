@@ -12,12 +12,12 @@ module ApplicationHelper
   end
 
   def stylesheet_tags
-    stylesheet_link_tag('basic', 'aqueouslight', :cache => true) + "\n" + \
+    stylesheet_link_tag('basic', 'aqueouslight', 'tabs', :cache => true) + "\n" + \
     stylesheet_link_tag('print', :media => 'print')
   end
 
   def javascript_tags
-    javascript_include_tag('jquery.min', 'rails', 'application', :cache => true) + "\n" + \
+    javascript_include_tag('jquery.min', 'rails', 'tabs', 'application', :cache => true) + "\n" + \
     csrf_meta_tag
   end
 

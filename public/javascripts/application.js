@@ -58,10 +58,12 @@ function load_tab(id) {
   }
 }
 
-function shareSomething() {
+function shareSomething(hash) {
   $('#share').show();
   $('#share-something').hide();
-  location.hash = 'note';
+  $('#map-container').hide();
+  $('#group-details').hide();
+  location.hash = hash || 'note';
 }
 
 $('#share_picture_form').live('submit', function(){
@@ -72,7 +74,6 @@ $('#share_picture_form').live('submit', function(){
 
 if(location.hash != '') {
   window.after_tab_setup = function() {
-    $('#share').show();
-    $('#share-something').hide();
+    shareSomething(location.hash.replace(/#/, ''));
   };
 }

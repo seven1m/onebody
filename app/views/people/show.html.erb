@@ -159,12 +159,6 @@
   <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@person.id) %>'; </script>
 <% end %>
 
-<style type="text/css">
-  .stream-item { display: block; }
-</style>
-
-<%= stylesheet_link_tag 'tabs.css' %>
-<%= javascript_include_tag 'tabs.js' %>
 <script type="text/javascript">
   set_up_tabs();
   $('#share').show();

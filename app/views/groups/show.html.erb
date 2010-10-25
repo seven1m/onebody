@@ -153,9 +153,8 @@
 
   <% if @can_share %>
     <p style="margin-bottom:20px;" id="share-something">
-      <%= link_to_function image_tag('add_small.gif', :alt => t('stream.share_something'), :class => 'icon'),
-        "if($('map-container'))Element.hide('map-container'); if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
-    <%= t('stream.share_something_here_html', :js => "if($('map-container'))Element.hide('map-container'); if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';") %>
+      <%= link_to_function image_tag('add_small.gif', :alt => t('stream.share_something'), :class => 'icon'), "shareSomething('email')" %>
+      <%= t('stream.share_something_here_html', :js => "shareSomething('email')") %>
     </p>
   <% end %>
 
@@ -167,31 +166,15 @@
 
 </div>
 
-<style type="text/css">
-  .stream-item { display: block; }
-</style>
-
 <% unless @group.blog? or @group.email? or @group.prayer? %>
   <p><em><%= t('groups.this_group_doesnot_offer') %></em></p>
 <% end %>
 
-<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= group_albums_path(@group.id) %>'; </script>
-<%= javascript_include_tag 'load_albums.js' %>
-
-<% if @can_share %>
-  <%= javascript_include_tag 'tabs' %>
-  <%= stylesheet_link_tag 'tabs' %>
-  <script type="text/javascript">
-    set_up_tabs();
-    ALBUMS_PATH = '';
-    if(location.hash != '') {
-      if($('map-container')) hide_map = true;
-      if($('group-details')) Element.hide('group-details');
-      Element.hide('share-something');
-      Element.show('share');
-    }
-  </script>
+<% content_for :head do %>
+  <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= group_albums_path(@group.id) %>'; </script>
 <% end %>
+
+<script type="text/javascript"> set_up_tabs(); </script>
 
 <% if @show_map %>
   <%= render :partial => 'map_scripts' %>
