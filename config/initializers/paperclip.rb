@@ -7,7 +7,8 @@ PAPERCLIP_PHOTO_OPTIONS = {
     :medium      => '150x150>',
     :large       => '400x400>',
     :original    => '800x800>'
-  }
+  },
+  :default_url   => "/images/missing_:style.png"
 }
 
 PAPERCLIP_PHOTO_MAX_SIZE = 5.megabytes
