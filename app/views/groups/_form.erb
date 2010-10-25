@@ -93,7 +93,7 @@
       <%= form.label :cm_api_list_id, 'Campaign Monitor API List ID:' %>
       You must follow all policies of Campaign Monitor, including
       <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.<br/>
-      <%= link_to_function 'I agree. &raquo;', "Element.show('cm_section');Element.hide(this);" %>
+      <%= link_to_function 'I agree. &raquo;'.html_safe, "$('#cm_section').show();$(this).hide();" %>
       <div id="cm_section" style="display:none;">
         <%= form.text_field :cm_api_list_id %>
         <em>To sync with a Campaign Monitor subscriber list, paste the API List ID here.</em>
