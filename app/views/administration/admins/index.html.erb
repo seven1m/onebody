@@ -47,7 +47,7 @@
 
 <% @admins.each do |admin| %>
   <div style="margin-bottom:3px;">
-    <%= link_to_function image_tag('plus.gif', :alt => t('admin.show_privileges'), :class => 'icon'), "Element.toggle('privileges_#{admin.id}')" %>
+    <%= link_to_function image_tag('plus.gif', :alt => t('admin.show_privileges'), :class => 'icon'), "$('#privileges_#{admin.id}').toggle()" %>
     <% if admin.template_name %>
       <strong><%= admin.template_name %></strong>
     <% else %>

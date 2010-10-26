@@ -19,7 +19,7 @@
     <% end %>
   </table>
   <% if @logged_in.admin?(:manage_groups) and groups.detect { |g| g.hidden? } %>
-    <p><%= link_to_function t('people.show_hidden_groups'), "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
+    <p><%= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()" %></p>
   <% end %>
 <% elsif me? %>
   <p>

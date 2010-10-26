@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def stylesheet_tags
-    stylesheet_link_tag('basic', 'aqueouslight', 'tabs', :cache => true) + "\n" + \
+    stylesheet_link_tag('ui-lightness/jquery-ui-1.8.5.custom', 'basic', 'aqueouslight', 'tabs', :cache => true) + "\n" + \
     stylesheet_link_tag('print', :media => 'print')
   end
 

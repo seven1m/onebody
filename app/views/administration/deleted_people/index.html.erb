@@ -68,7 +68,7 @@
     </table>
     <p>
       <%= submit_tag t('admin.deleted_people.undelete'), :name => 'undelete' %>
-      <%= link_to_function t('admin.deleted_people.purge') + ' &raquo;', "Element.show('purge');this.parentNode.removeChild(this);", :class => 'discreet' %>
+      <%= link_to_function raw(t('admin.deleted_people.purge') + ' &raquo;'), "$('#purge').show();$(this).remove();", :class => 'discreet' %>
       <div id="purge" style="display:none;">
         <%= submit_tag t('admin.deleted_people.purge'), :name => 'purge' %>
         <%= check_box_tag :purge_empty_families, true, false %>

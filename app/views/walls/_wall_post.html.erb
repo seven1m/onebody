@@ -1,4 +1,4 @@
-<%= link_to_function t('wall.post_a_message'), "Element.show('wall_message'); $('message_body').focus();" %>
+<%= link_to_function t('wall.post_a_message'), "$('#wall_message').show()[0].focus()" %>
 
 <div id="wall_message">
   <%= form_for Message.new(:wall => @person), :remote => true, :html => {:style => 'border:none;'}, :update => 'wall_content' do |form| %>
@@ -10,4 +10,4 @@
   <% end %>
 </div>
 
-<script type="text/javascript">Element.hide('wall_message');</script>
+<script type="text/javascript"> $('#wall_message').hide() </script>

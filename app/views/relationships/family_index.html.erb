@@ -36,7 +36,7 @@
     <% end %>
   </table>
   
-  <p><%= link_to_function t('relationships.toggle_individual'), "Element.toggle('unique_relationships'); Element.toggle('individual_relationships');" %></p>
+  <p><%= link_to_function t('relationships.toggle_individual'), "$('#unique_relationships, #individual_relationships').toggle();" %></p>
   
 <% else %>
 
@@ -45,7 +45,7 @@
 <% end %>
 
 <% if @family.people.count > 0 %>
-  <p><%= link_to_function t('relationships.create_family_relationships'), "Element.show('auto_generate');Element.hide(this)" %></p>
+  <p><%= link_to_function t('relationships.create_family_relationships'), "$('#auto_generate').show();$(this).hide()" %></p>
 
   <div id="auto_generate" style="display:none;">
     <%= form_tag family_relationships_path(@family) do %>

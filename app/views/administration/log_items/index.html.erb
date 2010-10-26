@@ -4,7 +4,7 @@
 
 <h1><%= t('admin.log') %></h1>
 
-<p><%= link_to_function t('admin.logs.filtering_options') + ' &raquo;', "Element.toggle('log_options')" %></p>
+<p><%= link_to_function t('admin.logs.filtering_options') + ' &raquo;', "$('#log_options').toggle()" %></p>
 
 <form id="log_options" style="display:none;">
   <strong><%= t('stream.show') %>:</strong>

@@ -1,4 +1,4 @@
-<p id="add_note_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('notes.add_a_note'), :class => 'icon') + ' ' + t('notes.add_a_note'), "Element.show('add_note');Element.hide('add_note_link');$('note_title').focus();" %></p>
+<p id="add_note_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('notes.add_a_note'), :class => 'icon') + ' ' + t('notes.add_a_note'), "$('#add_note').show();$('#add_note_link').hide();$('#note_title')[0].focus();" %></p>
 <div id="add_note">
   <%= form_tag(new_note_url, :method => 'post') %>
     <% if @group %>
@@ -14,6 +14,6 @@
   </form>
 </div>
 <script type="text/javascript">
-  Element.hide('add_note');
-  Element.show('add_note_link');
+  $('#add_note').hide();
+  $('#add_note_link').show();
 </script>

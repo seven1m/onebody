@@ -10,7 +10,7 @@
     </tr>
     <tr>
       <th style="text-align:right;"><%= t('admin.key') %>:</th>
-      <td><code id="key" style="display:none;"><%= @key %></code><%= link_to_function t('admin.display'), "Element.show('key');Element.hide('key_link');", :id => 'key_link' %></td>
+      <td><code id="key" style="display:none;"><%= @key %></code><%= link_to_function t('admin.display'), "$('#key').show();$('#key_link').hide();", :id => 'key_link' %></td>
     <tr/>
   </table>
   

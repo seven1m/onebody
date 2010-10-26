@@ -47,7 +47,7 @@
   <%= link_to image_tag('add_small.gif', :alt => t('people.new_person'), :class => 'icon') + ' ' + t('people.new_person'),
     new_person_path(:family_id => @family) %>
   <%= link_to_function image_tag('add_small.gif', :alt => t('families.existing_person'), :class => 'icon') + ' ' + t('families.existing_person'),
-    "Element.toggle('add_existing')" %>
+    "$('#add_existing').toggle()" %>
 </p>
   
 <%= form_tag :remote => true, :url => search_path, :html => {:id => 'add_existing', :style => 'display:none;'} do %>

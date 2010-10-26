@@ -18,7 +18,7 @@
               <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.changes_#{person.id}').each(function(e){e.checked=$('record#{index}').checked})" %>
               <%= link_to person.name, person %>
             <% end %>
-            <%= link_to_function t('changes') + ' &raquo;', "Element.toggle('details#{index}')", :class => 'discreet' %>
+            <%= link_to_function t('changes') + ' &raquo;', "$('#details#{index}').toggle()", :class => 'discreet' %>
             <ul id="details<%= index %>" style="list-style:none;padding-left:25px;display:none;">
               <% changes.each do |key, val| %>
                 <li>
