@@ -8,3 +8,4 @@
 * xml export
 * test attr_accessible :if
 * deprecation warnings!
+* admin dashboard alerts at top

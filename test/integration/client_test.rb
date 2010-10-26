@@ -199,4 +199,35 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
+  context 'Family' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'automatically fill last name as full family name is entered' do
+      visit '/families/new'
+      # have to simulate onkeyup by calling set_last_name()
+      selenium.key_press 'family_name', 'J'; selenium.js_eval("window.set_last_name()")
+      assert_equal '', selenium.js_eval("window.$('#family_last_name').val()")
+      selenium.key_press 'family_name', 'o'; selenium.js_eval("window.set_last_name()")
+      assert_equal '', selenium.js_eval("window.$('#family_last_name').val()")
+      selenium.key_press 'family_name', 'e'; selenium.js_eval("window.set_last_name()")
+      assert_equal '', selenium.js_eval("window.$('#family_last_name').val()")
+      selenium.key_press 'family_name', ' '; selenium.js_eval("window.set_last_name()")
+      assert_equal '', selenium.js_eval("window.$('#family_last_name').val()")
+      selenium.key_press 'family_name', 'S'; selenium.js_eval("window.set_last_name()")
+      assert_equal 'S', selenium.js_eval("window.$('#family_last_name').val()")
+      selenium.key_press 'family_name', 'm'; selenium.js_eval("window.set_last_name()")
+      assert_equal 'Sm', selenium.js_eval("window.$('#family_last_name').val()")
+      selenium.key_press 'family_name', 'i'; selenium.js_eval("window.set_last_name()")
+      assert_equal 'Smi', selenium.js_eval("window.$('#family_last_name').val()")
+      selenium.key_press 'family_name', 't'; selenium.js_eval("window.set_last_name()")
+      assert_equal 'Smit', selenium.js_eval("window.$('#family_last_name').val()")
+      selenium.key_press 'family_name', 'h'; selenium.js_eval("window.set_last_name()")
+      assert_equal 'Smith', selenium.js_eval("window.$('#family_last_name').val()")
+    end
+
+  end
+
 end
