@@ -40,7 +40,7 @@
   <%= form_tag batch_person_relationships_path(@person) do %>
     <table>
       <tr>
-        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.outward_relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th><input type="checkbox" onclick="$('.outward_relationship_checkbox').attr('checked', this.checked)"/></th>
         <th><%= t('name') %></th>
         <th><%= t('relationships.relationship') %>
       <th>
@@ -67,7 +67,7 @@
   <%= form_tag batch_person_relationships_path(@person) do %>
     <table>
       <tr>
-        <th><input type="checkbox" onclick="var check_all=this.checked; $$('.inward_relationship_checkbox').each(function(e){e.checked=check_all})"/></th>
+        <th><input type="checkbox" onclick="$('.inward_relationship_checkbox').attr('checked', this.checked)"/></th>
         <th><%= t('From') %></th>
         <th></th>
         <th><%= t('To') %></th>

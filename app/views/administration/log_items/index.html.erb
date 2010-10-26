@@ -28,7 +28,7 @@
   <%= form_tag batch_administration_log_items_path, :method => 'put' %>
     <table style="width:100%;">
       <tr>
-        <th><input type="checkbox" onclick="var checked=$('check_all').checked;$$('.log_item_checkbox').each(function(e){e.checked=checked});" class="checkbox" id="check_all"/></th>
+        <th><input type="checkbox" onclick="$('.log_item_checkbox').attr('checked', this.checked)" class="checkbox" id="check_all"/></th>
         <th></th>
         <th><%= t('type') %></th>
         <th><%= t('What') %></th>

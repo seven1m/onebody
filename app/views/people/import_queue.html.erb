@@ -12,10 +12,10 @@
           <% person, changes = record %>
           <li>
             <% if person.new_record? %>
-              <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.new_#{index}').each(function(e){e.checked=$('record#{index}').checked})" %>
+              <%= check_box_tag "record#{index}", true, true, :onclick => "$('.new_#{index}').attr('checked', $('#record#{index}').attr('checked'))" %>
               <%= person.name %> <strong>(new)</strong>
             <% else %>
-              <%= check_box_tag "record#{index}", true, true, :onclick => "$$('.changes_#{person.id}').each(function(e){e.checked=$('record#{index}').checked})" %>
+              <%= check_box_tag "record#{index}", true, true, :onclick => "$('.changes_#{person.id}').attr('checked', $('#record#{index}').attr('checked'))" %>
               <%= link_to person.name, person %>
             <% end %>
             <%= link_to_function t('changes') + ' &raquo;', "$('#details#{index}').toggle()", :class => 'discreet' %>
