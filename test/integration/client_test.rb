@@ -179,4 +179,24 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
+  context 'Relationships' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'show empty text field when "other" is selected' do
+      visit "/people/#{people(:tim).id}/relationships"
+      fill_in I18n.t('search.search_by_name'), :with => people(:jeremy).first_name
+      selenium.click "xpath=//input[@value='#{I18n.t('relationships.add_relationship_button')}']",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#results *').length > 0",
+        :timeout_in_seconds => 5
+      selenium.select "relationship_name", 'value=other'
+      assert_equal 'inline', selenium.js_eval("window.$('#other_name').css('display')")
+      assert_equal 'other_name', selenium.js_eval("window.$('*:focus')[0].id")
+    end
+
+  end
+
 end

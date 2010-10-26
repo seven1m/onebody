@@ -6,7 +6,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= form_tag :remote => true, :url => search_path %>
+  <%= form_tag search_path, :remote => true %>
     <%= hidden_field_tag :select_person, true %>
     <p>
       <%= t('relationships.add_a_relationship') %><br/>
@@ -18,11 +18,13 @@
   
   <div id="add_member" style="display:none;">
     <%= form_tag person_relationships_path(@person) do %>
-      <label for="name"><%= t('relationships.relationship_type') %></label>
-      <%= select_tag :name, options_for_select(['']+t('relationships.names').invert.sort), :onchange => "if(this.value=='other') { Element.show('other_name'); $('other_name').focus() } else Element.hide('other_name');" %>
-      <%= text_field_tag :other_name, nil, :style => 'display:none;' %><div class="autocomplete" id="other_name_auto_complete"></div>
+      <label for="relationship_name"><%= t('relationships.relationship_type') %></label>
+      <%= select_tag :name, options_for_select(['']+t('relationships.names').invert.sort),
+        :id => 'relationship_name',
+        :onchange => "if(this.value=='other') { $('#other_name').show()[0].focus() } else { $('#other_name').hide() }" %>
+      <%= text_field_tag :other_name, nil, :style => 'display:none;' %>
       <script type="text/javascript">
-        new Autocompleter.Local('other_name', 'other_name_auto_complete', <%= @other_names.inspect %>, {});
+        $('#other_name').autocomplete({source: <%= raw @other_names.inspect %>})
       </script>
       <div id="results"></div>
       <p><%= submit_tag t('search.add_selected') %></p>
