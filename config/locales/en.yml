@@ -53,6 +53,7 @@ en:
   insert: insert
   loading: Loading
   more: more
+  multiple_files: Your web browser may support multiple file uploads — try selecting multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard.
   name: Name
   new: new
   new_category: new category
@@ -1248,7 +1249,6 @@ en:
     error_finding: There was an error finding the album. Please try again.
     failed: "{{fail}} not saved due to errors"
     in_album: in album
-    multiple_files: Your web browser may support multiple file uploads — try selecting multiple files using the Ctrl key (Windows) or Command key (Mac) on your keyboard.
     next: next »
     picture: Picture
     picture_uploaded_by: Picture uploaded by

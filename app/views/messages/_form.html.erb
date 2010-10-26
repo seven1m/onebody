@@ -11,11 +11,9 @@
     <% end %>
     <%= form.label :body, t('messages.message') %>
     <%= form.text_area :body, :rows => 15, :cols => 80 %><br/>
-    <label class="attachment">
-      <%= t('messages.attachment_optional') %>: <input type="file" name="files[]"/>
-      <%= link_to_function image_tag('plus.png', :class => 'icon'), "var atts = $$('.attachment'); atts[atts.length-1].insert({after:'<label class=\"attachment\">#{t('messages.attachment_optional')}: <input type=\"file\" name=\"files[]\"/><br/></label>'});" %>
-      <br/>
-    </label>
+    <label for="file"><%= t('messages.attachment_optional') %>:</label>
+    <input type="file" id="file" name="files[]" multiple="multiple"/><br/>
+    <em><%= t('multiple_files') %></em>
   </p>
   <p>
     <%= submit_tag t('messages.send_message') %>

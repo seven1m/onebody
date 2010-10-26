@@ -10,7 +10,7 @@
       <%= file_field_tag 'pictures[]', :multiple => true %>
     </p>
     <p>
-      <em><%= t('pictures.multiple_files') %></em>
+      <em><%= t('multiple_files') %></em>
     </p>
     <% if @logged_in.admin?(:manage_pictures) %>
       <p>
