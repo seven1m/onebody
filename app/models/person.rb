@@ -835,27 +835,6 @@ class Person < ActiveRecord::Base
       find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' and site_id = #{Site.current.id} order by custom_type").map { |p| p.custom_type }
     end
 
-    def send_to_mongo
-      db = Report.db
-      people = db['people_new']
-      find_each do |person|
-        next if person.deleted?
-        h = person.to_mongo_hash
-        h['admin'] = person.admin ? person.admin.to_mongo_hash : nil
-        h['family'] = person.family.to_mongo_hash
-        h['groups'] = []
-        person.memberships.all(:include => :group).each do |membership|
-          gh = membership.group.to_mongo_hash
-          gh['membership'] = membership.to_mongo_hash
-          h['groups'] << gh
-        end
-        people.insert(h)
-      end
-      db['people'].drop
-      db['people_new'].rename('people')
-      db['people'].count
-    end
-
   end
 
   # model extensions

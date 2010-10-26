@@ -1,5 +1,0 @@
-if params[:preview] == 'selector'
-  page.replace_html 'criteria_root', :partial => "#{@report.definition['collection']}_selector", :collection => @conditions
-elsif params[:preview] == 'sort'
-  page.replace_html 'sort_root', :partial => "sort_attribute", :collection => @report.definition['sort'].to_a
-end
