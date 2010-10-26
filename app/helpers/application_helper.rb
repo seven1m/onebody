@@ -17,7 +17,7 @@ module ApplicationHelper
   end
 
   def javascript_tags
-    javascript_include_tag('jquery.min', 'rails', 'tabs', 'application', :cache => true) + "\n" + \
+    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.5.custom.min', 'rails', 'tabs', 'application', :cache => true) + "\n" + \
     csrf_meta_tag
   end
 
