@@ -33,11 +33,11 @@
       <tr>
         <td>
           <%= link_to_function image_tag('search.gif', :alt => t('search.search_the_directory')),
-            "$('name').focus();new Effect.Highlight('name', {})" %>
+            "$('#search_name').effect('highlight', {}, 3000)[0].focus()" %>
         </td>
         <td>
-          <strong><%= t("search.find_someone_quickly_html", :js => "$('search_name').focus();new Effect.Highlight('search_name', {})") %></strong>
-          <%= t('search.use_advanced_search_html', :js => "$('name_search').focus();new Effect.Highlight('name_search', {})") %>
+          <strong><%= t("search.find_someone_quickly_html", :js => "$('#search_name').effect('highlight', {}, 3000)[0].focus()") %></strong>
+          <%= t('search.use_advanced_search_html', :js => "$('#name_search').effect('highlight', {}, 3000)[0].focus()") %>
         </td>
       </tr>
       <tr>

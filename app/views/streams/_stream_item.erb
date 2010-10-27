@@ -67,7 +67,7 @@
     <% if stream_item.can_have_comments? %>
       <div class="new-comment">
         <%= link_to_function image_tag('comment.gif', :alt => t('comments.add_a_comment'), :class => 'icon') + ' ' + t('comments.add_a_comment'),
-          "new Effect.Appear('new-comment-for-#{stream_item.id}'); this.parentNode.style.visibility = 'visible';",
+          "$('#new-comment-for-#{stream_item.id}').show(); $(this.parentNode).css('visibility', 'visible');",
           :class => 'discreet small' %>
         <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
           <%= form_for Comment.new do |form| %>
