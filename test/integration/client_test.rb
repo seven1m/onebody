@@ -27,6 +27,49 @@ class ClientTest < ActionController::IntegrationTest
       assert_equal 2, selenium.js_eval("window.$('#album_id *').length").to_i
     end
 
+    should 'alert to changes on profile edit when changing tabs' do
+      visit "/people/#{people(:tim).id}/edit"
+      assert_equal 'false', selenium.js_eval("window.changes")
+      selenium.type 'person_first_name', 'John'
+      assert_equal 'true', selenium.js_eval("window.changes")
+      selenium.click "xpath=//h2[@class='tab']/div[4]"
+      assert_equal I18n.t('privacies.you_made_a_change_tab'), selenium.confirmation
+      selenium.wait_for_page
+      assert_match %r{/people/#{people(:tim).id}/edit#basics$}, current_url
+      assert_equal 'John', people(:tim).reload.first_name
+      people(:tim).update_attribute(:first_name, 'Tim') # put it back
+    end
+
+  end
+
+  context 'Privacy' do
+
+    setup do
+      sign_in_as people(:tim)
+      visit "/people/#{people(:tim).id}/privacy/edit"
+    end
+
+    should 'alert to changes when changing tabs' do
+      assert_equal 'false', selenium.js_eval("window.changes")
+      selenium.click 'family_share_address_false'
+      assert_equal 'true', selenium.js_eval("window.changes")
+      selenium.click "xpath=//h2[@class='tab']/div[2]"
+      assert_equal I18n.t('privacies.you_made_a_change_tab'), selenium.confirmation
+      selenium.wait_for_page
+      assert_match %r{/people/#{people(:tim).id}/privacy/edit}, current_url
+      assert_equal false, people(:tim).family.reload.share_address?
+      people(:tim).family.update_attribute(:share_address, false) # put it back
+    end
+
+    should 'hide individual tabs when family visibility is disabled' do
+      assert_equal '4', selenium.js_eval("window.$.grep(window.tabs, function(e){ return e.style.display != 'none' }).length")
+      selenium.click 'family_visible'
+      assert_equal '1', selenium.js_eval("window.$.grep(window.tabs, function(e){ return e.style.display != 'none' }).length")
+      selenium.click 'family_visible'
+      assert_equal '4', selenium.js_eval("window.$.grep(window.tabs, function(e){ return e.style.display != 'none' }).length")
+      selenium.js_eval "window.changes = false" # cancel confirmation popup
+    end
+
   end
 
   context 'Stream' do

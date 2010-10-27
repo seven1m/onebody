@@ -234,26 +234,21 @@
 //<![CDATA[
   set_up_tabs();
   changes = false;
-  $$('.section input').concat($$('.section textarea')).each(function(e){
-    e.onchange = function() { changes = true };
-    if(e.type == 'submit') e.onclick = function() { changes = false };
-  });
+  $('.section :input').change(function(){ changes = true });
+  $(':submit').click(function(){ changes = false });
   original_tab_click = tab_click;
   tab_click = function(e) {
-    if(changes) {
+    if(changes && confirm('<%= escape_javascript t('privacies.you_made_a_change_tab') %>')) {
       changes = false;
-      if(confirm('<%= t('privacies.you_made_a_change_tab') %>')) {
-        sections[lastSection].getElementsByTagName('form')[0].submit();
-      } else {
-        original_tab_click(e);
-      }
+      sections[lastSection].getElementsByTagName('form')[0].submit();
     } else {
+      changes = false;
       original_tab_click(e);
     }
   };
   set_handlers();
   onbeforeunload = function() {
-    if(changes) return '<%= t('privacies.you_made_a_change_page') %>';
+    if(changes) return '<%= escape_javascript t('privacies.you_made_a_change_page') %>';
   };
 //]]>
 </script>
