@@ -5,13 +5,13 @@
     else
       link_to(signup.person.name, person_path(signup.person))
     end + ' ' +
-      ((signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) ? link_to(image_tag('delete.png', :alt => t('remove'), :remote => true, :class => 'icon'), :url => prayer_signup_path(signup), :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet') : '')
-  end.join('<br/>') %>
+      ((signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) ? link_to(image_tag('delete.png', :alt => t('remove'), :class => 'icon'), prayer_signup_path(signup), :remote => true, :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet') : '')
+  end.join('<br/>').html_safe %>
   <% unless signups.map { |s| s.person }.include? @logged_in or hour < @now %>
     <br/>
-    <%= link_to 'sign up here', :remote => true, :url => prayer_signups_path(:person_id => @logged_in, :start => hour.strftime('%Y/%m/%d %H:%M')), :html => {:class => 'discreet'}, :method => 'post', :confirm => t('prayer_signups.shared_slot_are_you_sure') %>
+    <%= link_to 'sign up here', prayer_signups_path(:person_id => @logged_in, :start => hour.strftime('%Y/%m/%d %H:%M')), :remote => true, :method => 'post', :confirm => t('prayer_signups.shared_slot_are_you_sure'), :class => 'discreet' %>
   <% end %>
 <% elsif hour >= @now %>
-  <%= link_to 'sign up here', :remote => true, :url => prayer_signups_path(:person_id => @logged_in, :start => hour.strftime('%Y/%m/%d %H:%M')), :html => {:class => "very-strong"}, :method => 'post', :confirm => t('are_you_sure') %>
+  <%= link_to 'sign up here', prayer_signups_path(:person_id => @logged_in, :start => hour.strftime('%Y/%m/%d %H:%M')), :remote => true, :method => 'post', :confirm => t('are_you_sure'), :class => "very-strong" %>
 <% end %>
 
