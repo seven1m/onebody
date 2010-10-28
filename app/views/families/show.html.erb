@@ -67,7 +67,16 @@
     <p><%= submit_tag t('search.add_selected') %></p>
   <% end %>
 </div>
-  
-<%= javascript_include_tag 'dragdrop.js' %>
-<%= sortable_element('people', :url => reorder_family_path(@family)) %>
 
+<script type="text/javascript">
+  $('#people').sortable({
+    axis: 'y',
+    handle: '.handle',
+    update: function(){
+      $.post(
+        '<%= escape_javascript reorder_family_path(@family) %>',
+        $(this).sortable('serialize')
+      );
+    }
+  }).disableSelection();
+</script>

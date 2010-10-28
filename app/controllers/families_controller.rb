@@ -118,7 +118,7 @@ class FamiliesController < ApplicationController
 
   def reorder
     @family = Family.find(params[:id])
-    params[:people].to_a.each_with_index do |id, index|
+    Array(params[:person]).each_with_index do |id, index|
       p = @family.people.find_by_id(id)
       p.no_auto_sequence = true
       p.update_attribute(:sequence, index+1)
