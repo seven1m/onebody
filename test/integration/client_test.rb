@@ -242,6 +242,27 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
+  context 'Message' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'preview message' do
+      visit "/messages/new?to_person_id=#{people(:jennie).id}"
+      assert_has_focus '#message_subject'
+      assert_display 'none', '#preview'
+      fill_in :message_subject, :with => 'Hi There'
+      fill_in :message_body, :with => 'This is a test.'
+      selenium.wait_for_condition "window.$('#preview-from').html() != ''", 7
+      assert_display 'block', '#preview'
+      assert_equal 'From: timmorgan@example.com', selenium.get_text('preview-from')
+      assert_equal "#{I18n.t('messages.subject')}: Hi There", selenium.get_text('preview-subject')
+      assert_match /^This is a test./, selenium.get_text('preview-email')
+    end
+
+  end
+
   context 'Family' do
 
     setup do

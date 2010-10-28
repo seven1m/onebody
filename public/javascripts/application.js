@@ -4,14 +4,15 @@ function observeFields(func, frequency, fields) {
     observeFieldsValueMap[field] = $('#'+field).val();
   });
   var observer = function() {
+    var changed = false;
     for(var f in observeFieldsValueMap) {
       var currentValue = $('#'+f).val();
       if(observeFieldsValueMap[f] != currentValue) {
         observeFieldsValueMap[f] = currentValue;
-        func(f);
-        return;
+        changed = true;
       }
     }
+    if(changed) func(f);
   };
   setInterval(observer, frequency);
 };
