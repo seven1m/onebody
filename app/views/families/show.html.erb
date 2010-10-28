@@ -47,10 +47,10 @@
   <%= link_to image_tag('add_small.gif', :alt => t('people.new_person'), :class => 'icon') + ' ' + t('people.new_person'),
     new_person_path(:family_id => @family) %>
   <%= link_to_function image_tag('add_small.gif', :alt => t('families.existing_person'), :class => 'icon') + ' ' + t('families.existing_person'),
-    "$('#add_existing').toggle()" %>
+    "$('#add_existing').toggle(); $('#add_person_name')[0].focus()", :id => 'add_existing_link' %>
 </p>
-  
-<%= form_tag :remote => true, :url => search_path, :html => {:id => 'add_existing', :style => 'display:none;'} do %>
+
+<%= form_tag search_path, :remote => true, :id => 'add_existing', :style => 'display:none;' do %>
   <%= hidden_field_tag :select_person, true %>
   <p>
     <label for="add_person_name"><%= t('families.add_existing_person_html') %>:</label>
@@ -60,7 +60,7 @@
 <% end %>
 
 <div id="add_member" style="display:none;">
-  <%= form_tag :remote => true, :url => batch_people_path do %>
+  <%= form_tag batch_people_path, :remote => true do %>
     <%= hidden_field_tag :family_id, @family.id %>
     <div id="results"></div>
     <p class="very-strong"><%= t('families.adding_will_remove_from_their_family_html') %></p>

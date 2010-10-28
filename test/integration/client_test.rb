@@ -271,6 +271,15 @@ class ClientTest < ActionController::IntegrationTest
       assert_equal 'Smith', selenium.field('family_last_name')
     end
 
+    should 'add existing people to family' do
+      visit "/families/#{families(:morgan).id}"
+      assert_display 'none', '#add_existing'
+      assert_display 'none', '#add_member'
+      selenium.click 'add_existing_link'
+      assert_display 'block', '#add_existing'
+      assert_has_focus '#add_person_name'
+    end
+
   end
 
 end
