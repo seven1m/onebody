@@ -263,6 +263,29 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
+  context 'Attendance' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'add somebody not in the group' do
+      groups(:morgan).attendance_records.delete_all
+      visit "/groups/#{groups(:morgan).id}/attendance"
+      assert_equal '0', selenium.js_eval("window.$('#attendance_form :checked').length")
+      assert_display 'none', '#add_member'
+      fill_in :add_person_name, :with => 'Tim'
+      selenium.click "xpath=//input[@value='#{I18n.t('search.search_by_name')}']",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#results *').length > 0",
+        :timeout_in_seconds => 5
+      selenium.click "xpath=//input[@value='#{I18n.t('search.add_selected')}']",
+        :wait_for           => :page
+      assert_equal '1', selenium.js_eval("window.$('#attendance_form :checked').length")
+    end
+
+  end
+
   context 'Family' do
 
     setup do
