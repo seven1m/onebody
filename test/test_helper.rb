@@ -85,6 +85,15 @@ module WebratTestHelper
     selenium.wait_for_page_to_load(5)
     assert_match %r{/stream$}, current_url
   end
+
+  def assert_display(display, selector)
+    assert_equal display, selenium.js_eval("window.$('#{selector}').css('display')")
+  end
+
+  def assert_has_focus(id)
+    id.sub!(/^#/, '')
+    assert_equal id, selenium.js_eval("window.$(':focus')[0].id")
+  end
 end
 
 if ENV['SELENIUM_RUNNING']

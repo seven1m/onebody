@@ -13,7 +13,7 @@ class ClientTest < ActionController::IntegrationTest
     end
 
     should 'show share section' do
-      assert_equal '', selenium.js_eval("window.document.getElementById('share').style.display")
+      assert_display 'block', '#share'
     end
 
     should 'load albums on picture tab' do
@@ -81,7 +81,7 @@ class ClientTest < ActionController::IntegrationTest
     should 'show share section when link is clicked' do
       visit '/stream'
       selenium.click "xpath=//p[@id='share-something']/a[1]"
-      assert_equal '', selenium.js_eval("window.document.getElementById('share').style.display")
+      assert_display 'block', '#share'
     end
 
     should 'load albums on picture tab' do
@@ -98,7 +98,7 @@ class ClientTest < ActionController::IntegrationTest
     should 'auto-show share block if hash in url' do
       visit '/groups' # have to fake out selenium for the next step...
       visit '/stream#picture'
-      assert_equal '', selenium.js_eval("window.document.getElementById('share').style.display")
+      assert_display 'block', '#share'
     end
 
     should 'expand/collapse grouped items' do
@@ -109,10 +109,10 @@ class ClientTest < ActionController::IntegrationTest
       @stream_item = StreamItem.find_by_streamable_type_and_streamable_id('Note', @n1.id)
       visit '/stream'
       group_id = "#stream-item-group#{@stream_item.id}"
-      assert_equal 'none', selenium.js_eval("window.$('#{group_id}').css('display')")
+      assert_display 'none', group_id
       selenium.click "xpath=//p[@class='stream-item-group-link']/a[1]"
-      assert_equal 'block', selenium.js_eval("window.$('#{group_id}').css('display')")
-      assert_equal 'none', selenium.js_eval("window.$('.stream-item-group-link').css('display')")
+      assert_display 'block', group_id
+      assert_display 'none', '.stream-item-group-link'
     end
 
   end
@@ -125,16 +125,16 @@ class ClientTest < ActionController::IntegrationTest
 
     should 'hide the new verse form until expanded' do
       visit '/verses'
-      assert_equal 'none', selenium.js_eval("window.$('#add_verse').css('display')")
+      assert_display 'none', '#add_verse'
       selenium.click "xpath=//p[@id='add_verse_link']/a[1]"
-      assert_equal 'block', selenium.js_eval("window.$('#add_verse').css('display')")
-      assert_equal 'id', selenium.js_eval("window.$('*:focus')[0].id")
+      assert_display 'block', '#add_verse'
+      assert_has_focus '#id'
     end
 
     should 'show the new verse form if #add in the url' do
       visit '/verses#add'
-      assert_equal 'block', selenium.js_eval("window.$('#add_verse').css('display')")
-      assert_equal 'id', selenium.js_eval("window.$('*:focus')[0].id")
+      assert_display 'block', '#add_verse'
+      assert_has_focus '#id'
     end
 
   end
@@ -236,8 +236,8 @@ class ClientTest < ActionController::IntegrationTest
         :javascript         => "window.$('#results *').length > 0",
         :timeout_in_seconds => 5
       selenium.select "relationship_name", 'value=other'
-      assert_equal 'inline', selenium.js_eval("window.$('#other_name').css('display')")
-      assert_equal 'other_name', selenium.js_eval("window.$('*:focus')[0].id")
+      assert_display 'inline', '#other_name'
+      assert_has_focus '#other_name'
     end
 
   end
@@ -252,23 +252,23 @@ class ClientTest < ActionController::IntegrationTest
       visit '/families/new'
       # have to simulate onkeyup by calling set_last_name()
       selenium.key_press 'family_name', 'J'; selenium.js_eval("window.set_last_name()")
-      assert_equal '', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal '', selenium.field('family_last_name')
       selenium.key_press 'family_name', 'o'; selenium.js_eval("window.set_last_name()")
-      assert_equal '', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal '', selenium.field('family_last_name')
       selenium.key_press 'family_name', 'e'; selenium.js_eval("window.set_last_name()")
-      assert_equal '', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal '', selenium.field('family_last_name')
       selenium.key_press 'family_name', ' '; selenium.js_eval("window.set_last_name()")
-      assert_equal '', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal '', selenium.field('family_last_name')
       selenium.key_press 'family_name', 'S'; selenium.js_eval("window.set_last_name()")
-      assert_equal 'S', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal 'S', selenium.field('family_last_name')
       selenium.key_press 'family_name', 'm'; selenium.js_eval("window.set_last_name()")
-      assert_equal 'Sm', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal 'Sm', selenium.field('family_last_name')
       selenium.key_press 'family_name', 'i'; selenium.js_eval("window.set_last_name()")
-      assert_equal 'Smi', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal 'Smi', selenium.field('family_last_name')
       selenium.key_press 'family_name', 't'; selenium.js_eval("window.set_last_name()")
-      assert_equal 'Smit', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal 'Smit', selenium.field('family_last_name')
       selenium.key_press 'family_name', 'h'; selenium.js_eval("window.set_last_name()")
-      assert_equal 'Smith', selenium.js_eval("window.$('#family_last_name').val()")
+      assert_equal 'Smith', selenium.field('family_last_name')
     end
 
   end
