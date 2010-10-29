@@ -279,7 +279,7 @@ module ActionView
         @template.phone_field(@object_name, method, options.merge(:object => @object))
       end
       def date_field(method, options = {})
-        options[:value] = self.object[method].to_s(:date)
+        options[:value] = self.object[method].to_s(:date) rescue ''
         options[:size] ||= 12
         text_field(method, options)
       end

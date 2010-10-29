@@ -91,6 +91,15 @@ class ApplicationHelperTest < ActionView::TestCase
                      form.date_field(:birthday)
       end
     end
+    should 'handle nil and empty string' do
+      people(:tim).birthday = nil
+      assert_equal '<input id="birthday" name="birthday" size="12" type="text" value="" />',
+                   date_field_tag(:birthday, '')
+      form_for(people(:tim)) do |form|
+        assert_equal '<input id="person_birthday" name="person[birthday]" size="12" type="text" value="" />',
+                     form.date_field(:birthday)
+      end
+    end
   end
 
   context 'phone_field' do
