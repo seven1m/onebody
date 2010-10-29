@@ -88,8 +88,8 @@
 </p>
 
 <p>
-  <%= link_to '&laquo; ' + t('attendance.prev_date'), prev_administration_attendance_path(:attended_at => @attended_at) %> |
-  <%= link_to t('attendance.next_date') + ' &raquo;', next_administration_attendance_path(:attended_at => @attended_at) %>
+  <%= link_to '&laquo; ' + t('attendance.prev_date'), prev_administration_attendance_index_path(:attended_at => @attended_at) %> |
+  <%= link_to t('attendance.next_date') + ' &raquo;', next_administration_attendance_index_path(:attended_at => @attended_at) %>
 </p>
 
 <script type="text/javascript">
