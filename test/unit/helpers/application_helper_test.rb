@@ -51,6 +51,37 @@ class ApplicationHelperTest < ActionView::TestCase
     end
   end
 
+  context 'sortable_column_heading' do
+    attr_accessor :params
+    should 'generate a link to the correct url' do
+      @params = {:controller => 'administration/syncs', :action => 'show', :id => 1}
+      assert_match %r{/admin/syncs/1},
+                   sortable_column_heading('type', 'sync_items.syncable_type')
+      @params = {:controller => 'administration/deleted_people', :action => 'index'}
+      assert_match %r{/admin/deleted_people},
+                   sortable_column_heading('id', 'people.id')
+      @params = {:controller => 'administration/attendance', :action => 'index'}
+      assert_match %r{/admin/attendance},
+                   sortable_column_heading('group', 'groups.name')
+    end
+    should 'prepend sort arg and trail existing ones off' do
+      @params = {:controller => 'administration/attendance', :action => 'index'}
+      assert_match %r{/admin/attendance\?sort=groups\.name},
+                   sortable_column_heading('group', 'groups.name')
+      @params = {:controller => 'administration/attendance', :action => 'index', :sort => 'groups.name'}
+      assert_match %r{/admin/attendance\?sort=attendance_records\.attended_at%2Cgroups\.name},
+                   sortable_column_heading('class time', 'attendance_records.attended_at')
+      @params = {:controller => 'administration/attendance', :action => 'index', :sort => 'attendance_records.attended_at,groups.name'}
+      assert_match %r{/admin/attendance\?sort=groups\.name%2Cattendance_records\.attended_at},
+                   sortable_column_heading('group', 'groups.name')
+    end
+    should 'preserve other args' do
+      @params = {:controller => 'administration/attendance', :action => 'index', :page => 1}
+      assert_match %r{/admin/attendance\?page=1&amp;sort=groups\.name},
+                   sortable_column_heading('group', 'groups.name', [:page])
+    end
+  end
+
   context 'date_field and date_field_tag' do
     should 'output a text field' do
       assert_equal '<input id="birthday" name="birthday" size="12" type="text" value="04/28/1981" />',

@@ -228,6 +228,20 @@ module ApplicationHelper
     "http://chart.apis.google.com/chart?chtt=#{options[:title]}&cht=p&chd=t:#{counts.join(',')}&chs=#{options[:width]}x#{options[:height]}&chl=#{labels.join('|')}&chco=#{options[:colors].join(',')}"
   end
 
+  def sortable_column_heading(label, sort, keep_params=[])
+    new_sort = (sort.split(',') + params[:sort].to_s.split(',')).uniq.join(',')
+    options = {
+      :controller => params[:controller],
+      :action     => params[:action],
+      :id         => params[:id],
+      :sort       => new_sort
+    }.merge(
+      params.reject { |k, v| !keep_params.include?(k) }
+    )
+    url = url_for(options)
+    link_to label, url
+  end
+
   def iphone_back_button(url=nil, label='Back')
     if url
       "<a class=\"button backButton\" rel=\"external\" href=\"#{url}\">#{label}</a>"
