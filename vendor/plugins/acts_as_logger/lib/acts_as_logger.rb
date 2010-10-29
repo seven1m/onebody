@@ -16,11 +16,11 @@ module Foo
             before_save :get_changes
             after_save :log_changes
             after_destroy :log_destroy
-            
+
             def get_changes
-              @logger_changes = self.changes.reject { |k, v| @@log_ignore_attributes.include?(k) }
+              @logger_changes = self.changes.to_hash.reject { |k, v| @@log_ignore_attributes.include?(k) }
             end
-            
+
             def log_changes
               if @logger_changes.any? and @@log_class.table_exists? \
                 and @@log_class.column_names.include?('loggable_id')
@@ -34,7 +34,7 @@ module Foo
                 )
               end
             end
-            
+
             def log_destroy
               if @@log_class.table_exists? \
                 and @@log_class.column_names.include?('loggable_id')

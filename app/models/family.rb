@@ -49,7 +49,7 @@ class Family < ActiveRecord::Base
   attr_accessible :legacy_id, :barcode_id, :alternate_barcode_id, :people_attributes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
-  #acts_as_logger LogItem
+  acts_as_logger LogItem
 
   alias_method 'photo_without_logging=', 'photo='
   def photo=(p)
