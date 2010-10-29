@@ -161,7 +161,7 @@ class Person < ActiveRecord::Base
   # validate that an email address is properly formatted
   validates_each [:email, :child] do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any? and not record.deleted?
-      if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]) > 0
+      if Person.count(:conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]) > 0
         record.errors.add attribute, :taken
       end
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
@@ -455,7 +455,7 @@ class Person < ActiveRecord::Base
     begin # ensure unique
       code = ActiveSupport::SecureRandom.hex(50)[0...50]
       write_attribute :feed_code, code
-    end while Person.count('*', :conditions => ['feed_code = ?', code]) > 0
+    end while Person.count(:conditions => ['feed_code = ?', code]) > 0
   end
 
   def generate_api_key

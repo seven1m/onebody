@@ -27,7 +27,7 @@ class Administration::AttendanceController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        @record_count = AttendanceRecord.count('*',
+        @record_count = AttendanceRecord.count(
           :conditions => conditions,
           :include    => %w(person group)
         )

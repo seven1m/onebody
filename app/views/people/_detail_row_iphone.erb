@@ -4,7 +4,7 @@
       not @person.send("share_#{attribute}?") and
       @logged_in.can_edit?(@person) %>
       <div class="thumbnail">
-        <% if @person.memberships.count('*', :conditions => ["share_#{attribute} = ?", true]) > 0 %>
+        <% if @person.memberships.count(:conditions => ["share_#{attribute} = ?", true]) > 0 %>
           <%= image_tag('lock_partial.gif', :alt => t('people.private_but_shared_group_members'), :class => 'icon') %>
         <% else %>
           <%= image_tag('lock.gif', :alt => t('people.completely_private'), :class => 'icon') %>

@@ -9,7 +9,7 @@ class Administration::AdminsController < ApplicationController
       render :action => 'group_admins'
     else
       Admin.destroy_all(["(select count(*) from people where admin_id=admins.id and deleted=?) = 0 and template_name is null", false])
-      @admin_count = Person.count('*', :conditions => ['admin_id is not null'])
+      @admin_count = Person.count(:conditions => ['admin_id is not null'])
       @templates = Admin.all(:order => 'template_name', :conditions => 'template_name is not null')
       @admins = @templates + Admin.all(:order => 'people.last_name, people.first_name', :include => :people, :conditions => 'template_name is null')
     end

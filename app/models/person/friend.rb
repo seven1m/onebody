@@ -25,15 +25,15 @@ class Person
     end
 
     def friendship_rejected_by?(person)
-      person.friendship_requests.count('*', :conditions => ['from_id = ? and rejected = ?', self.id, true]) > 0
+      person.friendship_requests.count(:conditions => ['from_id = ? and rejected = ?', self.id, true]) > 0
     end
 
     def friendship_waiting_on?(person)
-      person.friendship_requests.count('*', :conditions => ['from_id = ? and rejected = ?', self.id, false]) > 0
+      person.friendship_requests.count(:conditions => ['from_id = ? and rejected = ?', self.id, false]) > 0
     end
 
     def friend?(person)
-      friends.count('*', :conditions => ['friend_id = ?', person.id]) > 0
+      friends.count(:conditions => ['friend_id = ?', person.id]) > 0
     end
   end
 end

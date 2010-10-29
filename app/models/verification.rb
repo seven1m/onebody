@@ -21,7 +21,7 @@ class Verification < ActiveRecord::Base
 
   def generate_security_code
     conditions = ['created_at >= ? and email = ?', Date.today, email]
-    if Verification.count('*', :conditions => conditions) >= MAX_DAILY_VERIFICATION_ATTEMPTS
+    if Verification.count(:conditions => conditions) >= MAX_DAILY_VERIFICATION_ATTEMPTS
       errors.add :base, 'You have exceeded the daily limit for verification attempts.'
       return false
     else

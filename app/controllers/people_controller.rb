@@ -92,7 +92,7 @@ class PeopleController < ApplicationController
         @person = Person.new(defaults)
         unless params[:family_id].nil?
           @family = Family.find(params[:family_id])
-          number = @family.people.count('*', :conditions => ['deleted = ?', false])
+          number = @family.people.count(:conditions => ['deleted = ?', false])
           @person.family_id = @family.id
           @person.last_name = @family.last_name
         else

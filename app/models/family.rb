@@ -70,11 +70,11 @@ class Family < ActiveRecord::Base
     if attribute.to_s == 'barcode_id' and record.barcode_id
       if record.barcode_id == record.alternate_barcode_id
         record.errors.add(attribute, :taken)
-      elsif Family.count('*', :conditions => ['alternate_barcode_id = ?', record.barcode_id]) > 0
+      elsif Family.count(:conditions => ['alternate_barcode_id = ?', record.barcode_id]) > 0
         record.errors.add(attribute, :taken)
       end
     elsif attribute.to_s == 'alternate_barcode_id' and record.alternate_barcode_id
-      if Family.count('*', :conditions => ['barcode_id = ?', record.alternate_barcode_id]) > 0
+      if Family.count(:conditions => ['barcode_id = ?', record.alternate_barcode_id]) > 0
         record.errors.add(attribute, :taken)
       end
     end

@@ -143,7 +143,7 @@ class Setting < ActiveRecord::Base
 
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
-      if load_file_stamps(filename) != get_file_stamp(filename) or Setting.count('*', :conditions => {:global => true}) == 0
+      if load_file_stamps(filename) != get_file_stamp(filename) or Setting.count(:conditions => {:global => true}) == 0
         RAILS_DEFAULT_LOGGER.info('Reloading settings for all sites...')
         settings_in_db = Setting.all
         # per site settings
