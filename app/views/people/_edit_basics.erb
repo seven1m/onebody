@@ -85,5 +85,7 @@
   <p><%= submit_tag t('submit') %></p>
 <% end %>
 
-<script type="text/javascript"> $('person_first_name').focus() </script>
-<%= calendar_date_select_includes 'silver' %>
+<script type="text/javascript">
+  $('#person_first_name')[0].focus()
+  $('#person_birthday, #person_anniversary').datepicker({changeYear:true, yearRange:'1900:2025'});
+</script>

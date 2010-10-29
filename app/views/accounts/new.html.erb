@@ -28,4 +28,6 @@
   #dummy_phone { display: none; }
 </style>
 
-<%= calendar_date_select_includes 'silver' %>
+<script type="text/javascript">
+  $('#person_birthday').datepicker({changeYear:true, yearRange:'1900:2025'});
+</script>

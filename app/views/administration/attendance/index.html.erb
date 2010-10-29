@@ -92,4 +92,6 @@
   <%= link_to t('attendance.next_date') + ' &raquo;', next_administration_attendance_path(:attended_at => @attended_at) %>
 </p>
 
-<%= calendar_date_select_includes 'silver' %>
+<script type="text/javascript">
+  $('#attended_at').datepicker({changeYear:true});
+</script>

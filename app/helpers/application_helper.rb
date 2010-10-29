@@ -259,25 +259,22 @@ module ActionView
         options[:size] ||= 15
         InstanceTag.new(object_name, method, self, options.delete(:object)).to_input_field_tag("text", options)
       end
-      def date_field(object_name, method, options = {})
-        options[:value] = options[:object][method].to_s(:date) rescue ''
-        options[:size] ||= 12
-        InstanceTag.new(object_name, method, self, options.delete(:object)).to_input_field_tag("text", options)
-      end
     end
     class FormBuilder
       def phone_field(method, options = {})
         @template.phone_field(@object_name, method, options.merge(:object => @object))
       end
       def date_field(method, options = {})
-        options = {:time => false, :size => 15, :buttons => false, :year_range => 100}.merge(options)
-        calendar_date_select(method, options)
+        options[:value] = self.object[method].to_s(:date)
+        options[:size] ||= 12
+        text_field(method, options)
       end
     end
     module FormTagHelper
       def date_field_tag(name, value = nil, options = {})
-        options = {:time => false, :size => 15, :buttons => false, :year_range => 100}.merge(options)
-        calendar_date_select_tag(name, value, options)
+        value = value.to_s(:date) rescue ''
+        options[:size] ||= 12
+        text_field_tag(name, value, options)
       end
     end
   end

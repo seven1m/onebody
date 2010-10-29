@@ -51,4 +51,24 @@ class ApplicationHelperTest < ActionView::TestCase
     end
   end
 
+  context 'date_field and date_field_tag' do
+    should 'output a text field' do
+      assert_equal '<input id="birthday" name="birthday" size="12" type="text" value="04/28/1981" />',
+                   date_field_tag(:birthday, Date.new(1981, 4, 28))
+      form_for(people(:tim)) do |form|
+        assert_equal '<input id="person_birthday" name="person[birthday]" size="12" type="text" value="04/28/1981" />',
+                     form.date_field(:birthday)
+      end
+    end
+  end
+
+  context 'phone_field' do
+    should 'output a text field' do
+      form_for(people(:tim)) do |form|
+        assert_equal '<input id="person_mobile_phone" name="person[mobile_phone]" size="15" type="text" value="(918) 123-4567" />',
+                     form.phone_field(:mobile_phone)
+      end
+    end
+  end
+
 end
