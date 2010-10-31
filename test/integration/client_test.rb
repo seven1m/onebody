@@ -40,6 +40,33 @@ class ClientTest < ActionController::IntegrationTest
       people(:tim).update_attribute(:first_name, 'Tim') # put it back
     end
 
+    should 'remove group memberships on edit page' do
+      visit "/people/#{people(:jeremy).id}/edit#groups"
+      assert_equal '1', selenium.js_eval("window.$('#group_memberships :checkbox[value=#{groups(:morgan).id}]').length")
+      selenium.click "xpath=//form[@id='group_memberships']/input[@value='#{groups(:morgan).id}']"
+      selenium.click "xpath=//form[@id='group_memberships']/input[@type='submit']",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#group_memberships :checkbox[value=#{groups(:morgan).id}]').length == 0",
+        :timeout_in_seconds => 5
+    end
+
+    should 'add group memberships on edit page' do
+      visit "/people/#{people(:jeremy).id}/edit#groups"
+      assert_equal '0', selenium.js_eval("window.$('#group_memberships :checkbox[value=#{groups(:publications).id}]').length")
+      fill_in I18n.t('people.add_group'), :with => 'Publications'
+      selenium.click "xpath=//input[@value='#{I18n.t('search.search_by_name')}']",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#group_memberships :checkbox[value=#{groups(:publications).id}]').length == 1",
+        :timeout_in_seconds => 5
+      assert_equal 'false', selenium.js_eval("window.$('#group_memberships :checkbox[value=#{groups(:publications).id}]').attr('checked')")
+      selenium.click "xpath=//input[@value='#{groups(:publications).id}']"
+      selenium.click "xpath=//form[@id='group_memberships']/input[@type='submit']",
+        :wait_for           => :condition,
+        :javascript         => "window.$.active == 0",
+        :timeout_in_seconds => 5
+      assert_equal 'true', selenium.js_eval("window.$('#group_memberships :checkbox[value=#{groups(:morgan).id}]').attr('checked')")
+    end
+
   end
 
   context 'Privacy' do

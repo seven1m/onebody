@@ -89,7 +89,7 @@ class MembershipsController < ApplicationController
       end
       # remove groups
       (@person.groups - groups).each do |group|
-        group.memberships.find_by_person_id(@person).destroy unless group.last_admin?(@person)
+        group.memberships.find_by_person_id(@person.id).destroy unless group.last_admin?(@person)
       end
       @person.groups.reload
       respond_to do |format|
