@@ -1,0 +1,11 @@
+<% if params[:person_id] %>
+  $('#groups_list').html('<%= escape_javascript render(:partial => 'people/group_selection') %>');
+  $('#group_list_status').html('Groups saved.');
+  $('#group_list_status').effect('highlight', {}, '3000', function(){ $(this).hide() });
+<% else %>
+  $('#memberships').html('<%= escape_javascript render(:partial => 'groups/memberships') %>');
+  <% params[:ids].each do |id| %>
+    $('#person_label<%= id %>').effect('highlight', {}, '3000');
+  <% end %>
+  $('#add_person_name')[0].focus();
+<% end %>

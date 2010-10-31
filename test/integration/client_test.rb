@@ -200,6 +200,26 @@ class ClientTest < ActionController::IntegrationTest
       assert !groups(:morgan).private?
     end
 
+    should 'edit group memberships' do
+      visit "/groups/#{groups(:college).id}/edit"
+      assert_equal '2', selenium.js_eval("window.$('.memberships :checkbox').length")
+      fill_in :add_person_name, :with => 'Tim'
+      selenium.click "xpath=//input[@value='#{I18n.t('search.search_by_name')}']",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#results *').length > 0",
+        :timeout_in_seconds => 5
+      selenium.click "xpath=//input[@value='#{I18n.t('search.add_selected')}']",
+        :wait_for           => :condition,
+        :javascript         => "window.$('.memberships :checkbox[value=#{people(:tim).id}]').length == 1",
+        :timeout_in_seconds => 5
+      assert_equal '3', selenium.js_eval("window.$('.memberships :checkbox').length")
+      assert_has_focus '#add_person_name'
+      selenium.click "xpath=//input[@type='checkbox' and @value='#{people(:tim).id}']"
+      selenium.click "xpath=//input[@value='#{I18n.t('groups.remove_selected')}']",
+        :wait_for           => :page
+      assert_equal '0', selenium.js_eval("window.$('.memberships :checkbox[value=#{people(:tim).id}]').length")
+    end
+
   end
 
   context 'Pages' do

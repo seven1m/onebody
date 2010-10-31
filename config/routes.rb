@@ -78,8 +78,8 @@ OneBody::Application.routes.draw do
     end
     resources :memberships do
       collection do
-        get  :batch
-        post :batch
+        post   :batch
+        delete :batch
       end
       resource :privacy
     end
