@@ -617,3 +617,7 @@ tr.subsection th {
 .size2 { font-size: 11pt; }
 .size3 { font-size: 14pt; }
 .size4 { font-size: 16pt; }
+
+.admin {
+  margin-bottom: 3px;
+}

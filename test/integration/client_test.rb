@@ -283,6 +283,26 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
+  context 'Admins' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'add/remove people' do
+      visit '/admin/admins'
+      fill_in :name, :with => 'Jeremy'
+      selenium.click "xpath=//input[@value='#{I18n.t('admin.add_person')}']",
+        :wait_for           => :condition,
+        :javascript         => "window.$('#results *').length > 0",
+        :timeout_in_seconds => 5
+      selenium.click "xpath=//input[@value='#{I18n.t('admin.add_selected')}']",
+        :wait_for           => :page
+      assert_equal '1', selenium.js_eval("window.$('#admin#{people(:jeremy).admin_id}').length")
+    end
+
+  end
+
   context 'Attendance' do
 
     setup do

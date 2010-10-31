@@ -10,7 +10,7 @@
   <% if Site.current.max_admins and Admin.people_count >= Site.current.max_admins %>
     <p><%= t('admin.max_admins_html') %></p>
   <% else %>
-    <%= form_tag :remote => true, :url => search_path %>
+    <%= form_tag search_path, :remote => true %>
       <%= hidden_field_tag :select_person, true %>
       <p>
         <%= t('admin.add_individual') %><br/>
@@ -46,7 +46,7 @@
 <h2><%= t('admin.administrators') %></h2>
 
 <% @admins.each do |admin| %>
-  <div style="margin-bottom:3px;">
+  <div class="admin" id="admin<%= admin.id %>">
     <%= link_to_function image_tag('plus.gif', :alt => t('admin.show_privileges'), :class => 'icon'), "$('#privileges_#{admin.id}').toggle()" %>
     <% if admin.template_name %>
       <strong><%= admin.template_name %></strong>
