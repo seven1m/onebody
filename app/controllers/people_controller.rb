@@ -86,30 +86,24 @@ class PeopleController < ApplicationController
   end
 
   def new
-    if Person.can_create?
-      if @logged_in.admin?(:edit_profiles)
-        defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
-        @person = Person.new(defaults)
-        unless params[:family_id].nil?
+    if params[:family_id]
+      if Person.can_create?
+        if @logged_in.admin?(:edit_profiles)
+          defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
+          @person = Person.new(defaults)
           @family = Family.find(params[:family_id])
           number = @family.people.count(:conditions => ['deleted = ?', false])
           @person.family_id = @family.id
           @person.last_name = @family.last_name
+          @person.child = (number >= 2)
         else
-          @family_option = "new_family"
-          @family = Family.new
-          number = 0
+          render :text => t('not_authorized'), :layout => true, :status => 401
         end
-        @person.child = (number >= 2)
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
-      end
-      respond_to do |format|
-        format.html if !@family.new_record?
-        format.html { render :partial => "new_family", :layout => true } if @family.new_record?
+        render :text => t('people.cant_be_added'), :layout => true, :status => 401
       end
     else
-      render :text => t('people.cant_be_added'), :layout => true, :status => 401
+      render :text => t('There_was_an_error'), :layout => true, :status => 500
     end
   end
 
