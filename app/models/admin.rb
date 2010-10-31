@@ -16,11 +16,6 @@ class Admin < ActiveRecord::Base
   def person; people.first; end # only admin templates have more than one
 
   belongs_to :site
-  has_and_belongs_to_many :reports, :order => 'name'
-
-  def all_reports
-    (reports + Report.find_all_by_restricted(false)).uniq.sort_by &:name
-  end
 
   def self.people_count
     all.inject(0) { |sum, admin| sum += admin.people.count; sum }
@@ -89,8 +84,6 @@ class Admin < ActiveRecord::Base
     manage_news
     manage_attendance
     manage_sync
-    run_reports
-    manage_reports
     manage_contributions
     manage_prayer_signups
   )
