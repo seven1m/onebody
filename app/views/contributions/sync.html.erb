@@ -2,7 +2,7 @@
 
 <p><%= t('contributions.people_not_synced', :count => @unsynced_people.total_entries) %></p>
 
-<%= form_tag :remote => true, :url => sync_contributions_path, :loading => "$('#updating').show()" do %>
+<%= form_tag sync_contributions_path, :remote => true, :id => 'contributions_sync_form' do %>
 
   <%= will_paginate @unsynced_people %>
 
@@ -32,3 +32,13 @@
   </p>
 
 <% end %>
+
+<script type="text/javascript">
+  $('#contributions_sync_form').bind(
+    'ajax:loading',
+    function(){ $('#updating').show() }
+  ).bind(
+    'ajax:complete',
+    function(){ $('#updating').hide() }
+  );
+</script>

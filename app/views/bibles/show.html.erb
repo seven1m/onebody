@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%= form_tag :remote => true, :url => bible_path, :method => :get,
+  <%= form_tag bible_path, :remote => true, :method => :get,
     :loading => "$('#loading').show()", :complete => "$('#loading').hide()",
     :html => {:method => :get, :id => 'bible-lookup'} do %>
     <%= text_field_tag :reference, @reference, :size => 10 %><br/>
