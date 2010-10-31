@@ -410,4 +410,26 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
+  context 'Friendships' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'create friendship request' do
+      FriendshipRequest.delete_all(["from_id = ?", people(:tim).id])
+      visit "/people/#{people(:peter).id}"
+      selenium.click "add_friend_#{people(:peter).id}",
+        :wait_for           => :condition,
+        :javascript         => 'window.$.active == 0',
+        :timeout_in_seconds => 5
+      assert_display 'none', "#add_friend_#{people(:peter).id}"
+      assert_equal I18n.t('friends.request_sent', :name => people(:peter).name), selenium.alert
+    end
+
+    should 'remove friendship' do
+    end
+
+  end
+
 end
