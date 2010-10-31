@@ -18,7 +18,7 @@
   </ul>
 
   <p>
-    <%= link_to t('pages.upload_attachment'), :remote => true, :url => new_attachment_path(:page_id => @page), :method => 'get', :html => {:id => 'new_attachment_link'} %>
+    <%= link_to t('pages.upload_attachment'), new_attachment_path(:page_id => @page), :remote => true, :method => 'get', :id => 'new_attachment_link' %>
   </p>
 
 </div>

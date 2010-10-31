@@ -393,4 +393,21 @@ class ClientTest < ActionController::IntegrationTest
 
   end
 
+  context 'Attachments' do
+
+    setup do
+      sign_in_as people(:tim)
+    end
+
+    should 'show new attachment form' do
+      visit "/pages/admin/#{Page.first.id}/edit"
+      selenium.click 'new_attachment_link',
+        :wait_for           => :condition,
+        :javascript         => 'window.$.active == 0',
+        :timeout_in_seconds => 5
+      assert_equal '1', selenium.js_eval("window.$('#attachments form').length")
+    end
+
+  end
+
 end
