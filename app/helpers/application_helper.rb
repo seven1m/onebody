@@ -11,14 +11,29 @@ module ApplicationHelper
     end
   end
 
+  def head_tags
+    (
+      '<meta http-equiv="content-type" content="text/html; charset=utf-8" />' + \
+      '<meta http-equiv="Pragma" content="no-cache"/>' + \
+      '<meta http-equiv="no-cache"/>' + \
+      '<meta http-equiv="Expires" content="-1"/>' + \
+      '<meta http-equiv="Cache-Control" content="no-cache"/>'
+    ).html_safe
+  end
+
   def stylesheet_tags
-    stylesheet_link_tag('ui-lightness/jquery-ui-1.8.5.custom', 'basic', 'aqueouslight', 'tabs', :cache => true) + "\n" + \
-    stylesheet_link_tag('print', :media => 'print')
+    stylesheet_link_tag('ui-lightness/jquery-ui-1.8.5.custom', 'clean/style', :cache => true) + "\n" + \
+    "<!--[if lte IE 8]>\n".html_safe + \
+      stylesheet_link_tag('clean/ie', :cache => true) + "\n" + \
+    "<![endif]-->".html_safe
   end
 
   def javascript_tags
-    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.5.custom.min', 'rails', 'tabs', 'application', :cache => true) + "\n" + \
-    csrf_meta_tag
+    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.5.custom.min', 'rails', 'clean/main', 'application', :cache => true) + "\n" + \
+    csrf_meta_tag + "\n" + \
+    "<!--[if lte IE 8]>\n".html_safe + \
+      javascript_include_tag('clean/ie', :cache => true) + "\n" + \
+    "<![endif]-->".html_safe
   end
 
   def heading
@@ -26,45 +41,52 @@ module ApplicationHelper
       img = image_tag("/assets/site#{Site.current.id}/#{logo}", :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;')
       link_to(img, '/')
     elsif !@page or @page.for_members?
-      link_to(Setting.get(:name, :site), people_path)
+      Setting.get(:name, :site)
     else
-      link_to(Setting.get(:name, :community), '/')
+      Setting.get(:name, :community)
     end
   end
 
   def subheading
-    if !@page or @page.for_members?
-      html = simple_url(Setting.get(:url, :site))
-    else
-      html = simple_url(Setting.get(:url, :visitor))
-    end
     if Setting.get(:name, :slogan).to_s.any?
-      html << " | #{h Setting.get(:name, :slogan)}"
+      Setting.get(:name, :slogan)
     end
-    html
   end
 
   def tab_link(title, url, active=false)
-    link_to(title, url, :class => active ? 'active' : nil)
+    link_to(title, url, :class => active ? 'active button' : 'button')
   end
 
   def nav_links
     html = ''
-    if Setting.get(:features, :content_management_system)
-      html << "<li>#{tab_link t("nav.pages"), '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
-    end
     html << "<li>#{tab_link t("nav.home"), stream_path, params[:controller] == 'streams'}</li>"
-    profile_link = @logged_in ? person_path(@logged_in, :tour => params[:tour]) : people_path
-    html << "<li>#{tab_link t("nav.profile"), profile_link, params[:controller] == 'people' && me?}</li>"
+    if @logged_in
+      profile_link = person_path(@logged_in, :tour => params[:tour])
+      edit_profile_html = "<div><a class=\"sub edit-icon\" href=\"#{edit_person_path(@logged_in)}\">#{t('edit')}</a></div>"
+    else
+      profile_link = people_path
+      edit_profile_html = ''
+    end
+    html << "<li><div>#{tab_link t("nav.profile"), profile_link, params[:controller] == 'people' && me?}</div>#{params[:controller] == 'people' && me? && edit_profile_html || ''}</li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
       html << "<li>#{ tab_link t("nav.groups"), groups_path, params[:controller] == 'groups'}</li>"
     end
     html << "<li>#{tab_link t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
-    if Setting.get(:services, :sermondrop_url).to_s.any?
-      html << "<li>#{tab_link t("nav.podcasts"), podcasts_path, params[:controller] == 'podcasts'}</li>"
-    end
-    #html << "<li>#{tab_link t("nav.bible"), bible_path, params[:controller] == 'bibles'}</li>"
     html
+  end
+
+  def common_nav_links
+    html = ''
+    html << "<li class=\"platform\"><a href=\"http://beonebody.com\">OneBody v2</a></li>"
+    if Setting.get(:services, :sermondrop_url).to_s.any?
+      html << "<li>#{link_to t("nav.podcasts"), podcasts_path}</li>"
+    end
+    html << "<li><a href=\"/admin\">admin</a></li>"
+    html
+  end
+
+  def search_form
+    "<form><input name=\"name\" id=\"search_name\" size=\"20\" placeholder=\"#{t('search.search_by_name')}\"/></form>".html_safe
   end
 
   def notice
@@ -76,6 +98,13 @@ module ApplicationHelper
         </script>
       HTML
     end
+  end
+
+  def footer_content
+    "&copy; #{Date.today.year}, #{Setting.get(:name, :community)} &middot; " + \
+    "<a href=\"/pages/help/privacy_policy\">#{t('layouts.privacy_policy')}</a> &middot; " + \
+    "<a href=\"/pages/system/credits\">#{t('layouts.credits')}</a> &middot; " + \
+    t('layouts.powered_by_html')
   end
 
   def personal_nav_links

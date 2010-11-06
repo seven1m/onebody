@@ -1,0 +1,365 @@
+@dark: #333;
+@light: #eee;
+@common: #333;
+@footer: @light - 75;
+@primary: #3286B5;
+@secondary: #5F9128;
+@tertiary: #C8EAFE;
+
+@heading-font: "Century Gothic", "Tw Cen MT", Futura, "URW Gothic L", Arial, sans-serif;
+@body-font: "Helvetica Neue", Arial, Helvetica, sans-serif;
+@body-font-color: @dark + 40;
+
+.gradient(@top:#fff, @bottom:#eee) {
+  background-repeat: no-repeat;
+  background: @top;
+  background: -moz-linear-gradient(top, @top 0%, @bottom 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@top), color-stop(100%,@bottom));
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient( startColorstr='%d', endColorstr='%d', GradientType=0 )", @top, @bottom));
+}
+.radialgradient(@inner:#fff, @outer:#eee) {
+  background-color: @outer;
+  background: -moz-radial-gradient(center bottom 90deg, circle farthest-side, @inner 0%, @outer 50%);
+  background: -webkit-gradient(radial, center bottom, 0, center bottom, 300, from(@inner), to(@outer));
+  /* fall back to linear gradient in IE */
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient( startColorstr='%d', endColorstr='%d', GradientType=0 )", @inner, @outer));
+}
+.shadow(@x:0px, @y:2px, @blur:5px, @opacity:.5) {
+  -webkit-box-shadow: @x @y @blur rgba(0, 0, 0, @opacity);
+  -moz-box-shadow: @x @y @blur rgba(0, 0, 0, @opacity);
+  box-shadow: @x @y @blur rgba(0, 0, 0, @opacity);
+}
+.curve(@radius:8px) {
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+  -khtml-border-radius: @radius;
+  border-radius: @radius;
+}
+.topcurve(@radius:8px) {
+  -moz-border-radius-topleft: @radius;
+  -moz-border-radius-topright: @radius;
+  -webkit-border-top-left-radius: @radius;
+  -webkit-border-top-right-radius: @radius;
+  -khtml-border-top-radius: @radius;
+  -khtml-border-left-radius: @radius;
+  border-top-left-radius: @radius;
+  border-top-right-radius: @radius;
+}
+
+/* CSS Reset */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background: transparent; }
+body { line-height: 1; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+/* remember to define focus styles! */
+:focus { outline: 0; }
+/* remember to highlight inserts somehow! */
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+/* tables still need 'cellspacing="0"' in the markup */
+table { border-collapse: collapse; border-spacing: 0; }
+
+/* Site Styles */
+
+.curved { .curve }
+.shadowed { .shadow }
+.clear { clear:both; display:block; overflow:hidden; visibility:hidden; width:0; height:0 }
+
+body {
+  background-color: #fff;
+  margin: 0;
+  font-family: @body-font;
+  color: @body-font-color;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: @heading-font;
+}
+ul.list, ol.list {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+a {
+  color: @dark;
+}
+a:hover {
+  color: @primary;
+}
+
+#common {
+  font-family: @heading-font;
+  .gradient(@common+20, @common);
+  padding: 15px;
+  color: @light;
+}
+#common-nav {
+  float: right;
+  margin: 6px 25px;
+  color: @light - 70;
+  a {
+    color: @light - 70;
+  }
+  list-style: none;
+  font-size: 10pt;
+  li {
+    display: inline;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  li.platform:after {
+    content: " \00a0/";
+  }
+  li:after {
+    content: " \00a0·";
+  }
+  li:last-child:after {
+    content: "";
+  }
+}
+#search {
+  float: right;
+  input {
+    border: none;
+    .curve(12px);
+    padding: 4px 8px;
+    background-color: @dark+75;
+    color: @light;
+    text-align: center;
+  }
+}
+#nav {
+  font-family: @heading-font;
+  .radialgradient(#fff, @light - 10);
+  border-bottom: 1px solid @light - 20;
+  z-index: 2;
+  position: relative;
+  .shadow(0px, -5px);
+  .heading {
+    padding: 25px 0;
+  }
+  h1 {
+    color: @secondary;
+    font-size: 24pt;
+    font-weight: normal;
+    margin-bottom: 10px;
+  }
+  .tagline {
+    font-size: 11pt;
+    color: @light - 100;
+  }
+  .buttons {
+    float: right;
+    text-align: left;
+    vertical-align: top;
+    width: 610px;
+    margin-top: 45px;
+    list-style: none;
+    font-size: 11pt;
+    li {
+      display: inline;
+      display: inline-block;
+      text-align: center;
+      vertical-align: top;
+      margin: 0 35px 0 0;
+      div {
+        height: 30px;
+      }
+      a.button {
+        .gradient(@light, @light - 50);
+        .curve(4px);
+        .shadow;
+        padding: 8px 12px 8px 12px;
+        color: @dark;
+        text-decoration: none;
+      }
+      a.sub {
+        text-align: left;
+        margin-top: -10px;
+        color: @dark + 50;
+        text-decoration: none;
+      }
+      a.sub:hover {
+        color: @primary;
+      }
+    }
+    li a.button:hover, li a.button.active {
+      .gradient(@primary+50, @primary);
+      color: @light;
+    }
+  }
+}
+#main {
+  margin-top: 45px;
+  line-height: 1.2;
+  min-height: 500px;
+  p {
+    margin-bottom: 15px;
+  }
+}
+#footer {
+  .line-top;
+  padding: 25px;
+  margin-top: 50px;
+  text-align: center;
+  font-size: 10pt;
+  color: @footer;
+  a {
+    color: @footer;
+  }
+}
+
+.inner {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.profile {
+  .profile-sidebar {
+    float: left;
+    width: 300px;
+  }
+  .profile-pic {
+    img {
+      display: block;
+      margin: 0 0 25px -7px;
+      padding: 6px;
+      border: 1px solid @light - 20;
+    }
+    a {
+      text-decoration: none;
+    }
+  }
+  h2 {
+    font-weight: normal;
+    margin: 20px 0 0 0;
+    font-family: @heading-font;
+    font-size: 18pt;
+    padding-bottom: 5px;
+    border-bottom: 1px solid @light - 20;
+    strong {
+      font-size: 22pt;
+    }
+  }
+  .profile-body {
+    margin-left: 350px;
+  }
+  .profile-details {
+    margin: 30px 0;
+    color: @body-font-color + 35;
+    a {
+      color: @body-font-color + 35;
+    }
+    a:hover {
+      color: @primary;
+    }
+    list-style: none;
+    li {
+      display: inline;
+      display: inline-block;
+      margin: 0 25px 15px 0;
+    }
+    li.icon {
+      margin-right: 4px;
+    }
+    .new-line {
+      display: block;
+    }
+  }
+  h3 {
+    font-size: 16pt;
+    font-weight: normal;
+    border-bottom: 1px solid @light - 20;
+    margin: 40px 0 20px 0;
+    padding-bottom: 5px;
+  }
+  h3:first-child {
+    margin-top: 0;
+  }
+  h4 {
+    font-family: @body-font;
+    display: inline;
+  }
+  h4:after {
+    content: " /";
+  }
+}
+.family {
+  list-style: none;
+  li {
+    display: inline;
+    display: inline-block;
+    margin-right: 30px;
+    text-align: center;
+  }
+}
+.favorites-group {
+  margin-bottom: 10px;
+}
+.favorites-inline {
+  display: inline;
+  list-style: none;
+  li {
+    display: inline;
+  }
+  li:after {
+    content: " ·";
+  }
+  li:last-child:after {
+    content: "";
+  }
+}
+.quotes {
+  list-style-type: none;
+  li {
+    font-style: italic;
+    a {
+      font-style: normal;
+    }
+  }
+}
+
+.silhouette-man {
+  background: url(/images/clean/manoutline.png) top left no-repeat;
+  width: 292px;
+  height: 120px;
+  padding-top: 80px;
+  text-align: center;
+}
+.silhouette-woman {
+  background: url(/images/clean/womanoutline.png) top left no-repeat;
+  width: 292px;
+  height: 120px;
+  padding-top: 80px;
+  text-align: center;
+}
+
+
+/* Generic Styles */
+
+.margin-top     { margin-top:     15px; }
+.margin-bottom  { margin-bottom:  15px; }
+.margin-left    { margin-left:    15px; }
+.margin-right   { margin-right:   15px; }
+
+.padding-top    { padding-top:    15px; }
+.padding-bottom { padding-bottom: 15px; }
+.padding-left   { padding-left:   15px; }
+.padding-right  { padding-right:  15px; }
+
+.line-top       { border-top:    1px solid @light - 20; }
+.line-bottom    { border-bottom: 1px solid @light - 20; }
+.line-left      { border-left:   1px solid @light - 20; }
+.line-right     { border-right:  1px solid @light - 20; }
+
+/* Icons */
+
+.icon {
+  border: none;
+  background-color: transparent;
+  vertical-align: middle;
+}
+
+.edit-icon {
+  padding-left: 15px;
+  background: url(/images/clean/edit.png) left no-repeat;
+}

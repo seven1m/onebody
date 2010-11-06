@@ -1,0 +1,12 @@
+#nav .buttons li a.button {
+  border: 1px solid #ccc;
+}
+#common-nav li.last-child:after {
+  content: none;
+}
+.favorites-inline li.last-child:after {
+  content: none;
+}
+.profile h3.first-child {
+  margin-top: 0;
+}

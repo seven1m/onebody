@@ -1305,10 +1305,10 @@ en:
     signup_saved: Sign-up saved.
 
   profile: 
-    fax: fax
-    home: home
-    mobile: mobile
-    work: work
+    fax: "[f]"
+    home: "[h]"
+    mobile: "[m]"
+    work: "[w]"
 
   printable_directories:
     already_sent: It seems a directory was already sent to you a little while ago. Please check your email (and your spam folder just in case).

@@ -1,3 +1,94 @@
+<div class="profile">
+
+  <div class="profile-sidebar">
+    <%= render :partial => 'photo' %>
+  </div>
+
+  <div class="profile-body">
+    <h2>
+      <strong><%= @person.name %></strong>
+      <% if @person.description.to_s.any? %>
+        / <%= @person.description %>
+      <% end %>
+    </h2>
+    <ul class="profile-details">
+      <%= attribute(:website)      do %><li class="website"><%= link_to simple_url(@person.website), @person.website %>                           </li><% end %>
+      <%= attribute(:email)        do %><li class="email"  ><%= mail_to @person.email                                %>                           </li><% end %>
+      <%= attribute(:mobile_phone) do %><li class="phone"  ><%= format_phone @person.mobile_phone                    %> <%= t('profile.mobile') %></li><% end %>
+      <%= attribute(:home_phone)   do %><li class="phone"  ><%= format_phone @person.home_phone                      %> <%= t('profile.home'  ) %></li><% end %>
+      <%= attribute(:fax)          do %><li class="phone"  ><%= format_phone @person.fax                             %> <%= t('profile.fax'   ) %></li><% end %>
+      <div class="new-line"></div>
+      <%= attribute(:address) do %>
+        <li class="address"><%= preserve_breaks @person.address %><br/><%= @person.city %>, <%= @person.state %> <%= @person.short_zip %></li>
+      <% end %>
+      <div class="new-line"></div>
+      <li class="icon"><img src="/images/clean/facebook.png"/></li>
+      <li class="icon"><img src="/images/clean/twitter.png"/></li>
+      <li class="icon"><img src="/images/clean/flickr.png"/></li>
+    </ul>
+  </div>
+
+  <div class="clear"></div>
+  <div class="profile-sidebar">
+    <h3>Family</h3>
+    <ul class="margin-bottom family">
+      <li><img src="/images/clean/manoutline.tn.png"/><br/><a href="/people/1">Joe</a>
+      <li><img src="/images/clean/womanoutline.tn.png"/><br/><a href="/people/2">Shelly</a>
+      <li><img src="/images/clean/womanoutline.tn.png"/><br/><a href="/people/3">Lydia</a>
+      <li><img src="/images/clean/manoutline.tn.png"/><br/><a href="/people/4">Kale</a>
+    </ul>
+  </div>
+
+  <div class="profile-body">
+
+    <h3>About</h3>
+    <div class="about">
+      <p>Baf helpa sepen ricevanto ge, nomo prezoinda literaturo por nf. Bo ojd ekoo hura posta, se igi tiaĵo triangulo landonomo, ne tia reen sekse iufoje.</p>
+      <div class="favorites-group">
+        <h4>Books</h4>
+        <ul class="favorites-inline">
+          <li><a href="#">1984</a></li>
+          <li><a href="#">Ben-Hur</a></li>
+          <li><a href="#">Moby-Dick</a></li>
+          <li><a href="#">Wuthering Heights</a></li>
+        </ul>
+      </div>
+      <div class="favorites-group">
+        <h4>Music</h4>
+        <ul class="favorites-inline">
+          <li><a href="#">Michael Bublé</a></li>
+          <li><a href="#">Frank Sinatra</a></li>
+          <li><a href="#">Sammy Davis, Jr.</a></li>
+        </ul>
+      </div>
+      <div class="favorites-group">
+        <h4>Movies</h4>
+        <ul class="favorites-inline">
+          <li><a href="#">Airplane!</a></li>
+          <li><a href="#">The Alamo</a></li>
+          <li><a href="#">A Farewell to Arms</a></li>
+          <li><a href="#">Othello</a></li>
+          <li><a href="#">To Sir With Love</a></li>
+        </ul>
+      </div>
+      <div class="favorites-group">
+        <h4>Quotes</h4>
+        <ul class="list quotes">
+          <li>I may not be able to say all I think; but I am not going to say anything that I do not think. I would rather a thousand times be a free soul in jail than to be a sycophant and coward in the streets. — <a href="http://en.wikiquote.org/wiki/Eugene_V._Debs#Canton_Anti-war_Speech_.281918.29">Eugene V. Debs, Canton Anti-war Speech (1918)</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Testimony</h3>
+    <div class="testimony">
+      <p>Jam if tria frazparto finaĵvorto. Ro mis iufoje apostrofo adjektiva, ha ladskatolo mallongigoj veo, sob lo propozicio afganistano. Help iomete u esk, por nk fini logi vortludo. Jes malpli matematiko ja, nomo helpverbo avo to. Kvanta nuancado u pra.</p>
+      <p>Lia nuna imperativo ed. Hoj grupa nette senforte ia, halt' alial senforte sor ek, ac ial volu nederlando. Plue ti movi fundamento, neniu eŭro sed iv, zorgi povus un' om. Kompleksa duondifina if cis, id franjo responde tra, sis dura pleje mf. Gv tial tempo finaĵvorto men, sub infano rilativo familiano dz. Se infano leteri dekuma poe, tipo kontraŭa profitanto tc sed, ilion frikativo vir to.</p>
+    </div>
+
+  </div>
+</div>
+
+<% if nil %>
 <% content_for :subnav do %>
   <% if @logged_in.admin?(:edit_profiles) %>
     <div style="float:right;">
@@ -165,3 +256,4 @@
 </script>
 
 <% if session[:touring] %><%= tour_popup(t('people.profile_tab'), '/pages/help/tour_profile', 450, 'right') %><% end %>
+<% end %>

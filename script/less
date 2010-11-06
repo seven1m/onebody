@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+LESSC = File.dirname(__FILE__) + "/../vendor/cloudhead-less.js/bin/lessc"
+
+old_times = {}
+files = Dir[ARGV.first + '/*.less'].to_a
+loop do
+  files.each do |file|
+    new_time = File.stat(file).mtime.to_f rescue 0
+    if old_times[file].nil? or new_time > old_times[file]
+      old_times[file] = new_time
+      system("#{LESSC} #{file} > #{file.split('.').first}.css")
+      puts "#{file} changed"
+    end
+  end
+  sleep 1
+end

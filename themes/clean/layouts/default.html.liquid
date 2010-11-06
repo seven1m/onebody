@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title>{{ site_name }}</title>
+  {{ head_tags }}
+  {{ stylesheet_tags }}
+  {{ javascript_tags }}
+  {{ content_for_head }}
+</head>
+<body>
+  {% if banner_message %}
+    <div id="banner">{{ banner_message }}</div>
+  {% endif %}
+  <div id="common" class="shadowed">
+    <div class="inner">
+      <div id="search">
+        {{ search_form }}
+      </div>
+      <ul id="common-nav">
+        {{ common_nav_links }}
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div id="nav">
+    <div class="inner">
+      <ul class="buttons">
+        {{ nav_links }}
+      </ul>
+      <div class="heading">
+        <h1>{{ heading }}</h1>
+        <span class="tagline">{{ subheading }}</span>
+      </div>
+    </div>
+  </div>
+  <div id="main">
+    <div class="inner">
+      {{ content_for_layout }}
+    </div>
+  </div>
+  <div class="inner">
+    <div id="footer">
+      {{ footer_content }}
+    </div>
+  </div>
+  {{ news_js }}
+  {{ analytics_js }}
+</body>
+</html>

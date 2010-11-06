@@ -5,6 +5,7 @@ PAPERCLIP_PHOTO_OPTIONS = {
     :tn          => '32x32>',
     :small       => '75x75>',
     :medium      => '150x150>',
+    :profile     => '300x500>',
     :large       => '400x400>',
     :original    => '800x800>'
   },
