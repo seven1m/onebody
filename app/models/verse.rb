@@ -1,21 +1,4 @@
 # coding: utf-8
-
-# == Schema Information
-#
-# Table name: verses
-#
-#  id          :integer       not null, primary key
-#  reference   :string(50)
-#  text        :text
-#  translation :string(10)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  book        :integer
-#  chapter     :integer
-#  verse       :integer
-#  site_id     :integer
-#
-
 require 'net/http'
 
 class Verse < ActiveRecord::Base

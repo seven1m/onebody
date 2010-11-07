@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: settings
-#
-#  id          :integer       not null, primary key
-#  section     :string(100)
-#  name        :string(100)
-#  format      :string(20)
-#  value       :string(500)
-#  description :string(500)
-#  hidden      :boolean
-#  created_at  :datetime
-#  updated_at  :datetime
-#  site_id     :integer
-#  global      :boolean
-#
-
 class Setting < ActiveRecord::Base
   GLOBAL_SETTINGS = [
     'Contact.Tech Support Email', 'Contact.Bug Notification Email',

@@ -1,23 +1,3 @@
-# == Schema Information
-#
-# Table name: messages
-#
-#  id           :integer       not null, primary key
-#  group_id     :integer
-#  person_id    :integer
-#  created_at   :datetime
-#  updated_at   :datetime
-#  parent_id    :integer
-#  subject      :string(255)
-#  body         :text
-#  share_email  :boolean
-#  wall_id      :integer
-#  to_person_id :integer
-#  code         :integer
-#  site_id      :integer
-#  html_body    :text
-#
-
 require 'uri'
 require 'digest/md5'
 

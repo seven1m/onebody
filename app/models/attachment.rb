@@ -1,17 +1,3 @@
-# == Schema Information
-#
-# Table name: attachments
-#
-#  id           :integer       not null, primary key
-#  message_id   :integer
-#  name         :string(255)
-#  content_type :string(50)
-#  created_at   :datetime
-#  site_id      :integer
-#  page_id      :integer
-#  group_id     :integer
-#
-
 class Attachment < ActiveRecord::Base
   belongs_to :message
   belongs_to :page

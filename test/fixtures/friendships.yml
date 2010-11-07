@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: friendships
-#
-#  id         :integer       not null, primary key
-#  person_id  :integer       
-#  friend_id  :integer       
-#  created_at :datetime      
-#  ordering   :integer       default(1000)
-#  site_id    :integer       
-#
-
 tim_to_jeremy:
   site_id: 1
   id: 1

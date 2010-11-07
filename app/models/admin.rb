@@ -1,16 +1,3 @@
-# == Schema Information
-#
-# Table name: admins
-#
-#  id            :integer       not null, primary key
-#  created_at    :datetime
-#  updated_at    :datetime
-#  site_id       :integer
-#  template_name :string(100)
-#  flags         :text
-#  super_admin   :boolean
-#
-
 class Admin < ActiveRecord::Base
   has_many :people, :dependent => :nullify
   def person; people.first; end # only admin templates have more than one

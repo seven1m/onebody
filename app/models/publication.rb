@@ -1,17 +1,3 @@
-# == Schema Information
-#
-# Table name: publications
-#
-#  id          :integer       not null, primary key
-#  name        :string(255)
-#  description :text
-#  created_at  :datetime
-#  file        :string(255)
-#  updated_at  :datetime
-#  site_id     :integer
-#  person_id   :integer
-#
-
 class Publication < ActiveRecord::Base
   belongs_to :person
   belongs_to :site

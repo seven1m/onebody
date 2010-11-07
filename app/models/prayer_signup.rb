@@ -1,17 +1,3 @@
-# == Schema Information
-# Schema version: 20080709134559
-#
-# Table name: prayer_signups
-#
-#  id         :integer       not null, primary key
-#  person_id  :integer
-#  start      :datetime
-#  created_at :datetime
-#  reminded   :boolean
-#  other      :string(100)
-#  site_id    :integer
-#
-
 class PrayerSignup < ActiveRecord::Base
   belongs_to :person
   belongs_to :site

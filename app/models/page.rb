@@ -1,22 +1,3 @@
-# == Schema Information
-#
-# Table name: pages
-#
-#  id         :integer       not null, primary key
-#  slug       :string(255)
-#  title      :string(255)
-#  body       :text
-#  parent_id  :integer
-#  path       :string(255)
-#  published  :boolean       default(TRUE)
-#  site_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  navigation :boolean       default(TRUE)
-#  system     :boolean
-#  raw        :boolean       default(FALSE)
-#
-
 class Page < ActiveRecord::Base
 
   UNPUBLISHED_PAGES = %w(sign_up_header sign_up_verify)

@@ -1,22 +1,3 @@
-# == Schema Information
-#
-# Table name: recipes
-#
-#  id           :integer       not null, primary key
-#  person_id    :integer
-#  title        :string(255)
-#  notes        :text
-#  description  :text
-#  ingredients  :text
-#  directions   :text
-#  created_at   :datetime
-#  updated_at   :datetime
-#  prep         :string(255)
-#  bake         :string(255)
-#  serving_size :integer
-#  site_id      :integer
-#
-
 class Recipe < ActiveRecord::Base
 
   has_many :comments, :dependent => :destroy

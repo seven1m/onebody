@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: feeds
-#
-#  id          :integer       not null, primary key
-#  person_id   :integer
-#  name        :string(100)
-#  url         :string(1000)
-#  site_id     :integer
-#  error_count :integer       default(0)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  last_url    :string(1000)
-#
-
 class Feed < ActiveRecord::Base
   belongs_to :person
 

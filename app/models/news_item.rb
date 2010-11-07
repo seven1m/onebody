@@ -1,22 +1,3 @@
-# == Schema Information
-#
-# Table name: news_items
-#
-#  id         :integer       not null, primary key
-#  title      :string(255)
-#  link       :string(255)
-#  body       :text
-#  published  :datetime
-#  active     :boolean       default(TRUE)
-#  site_id    :integer
-#  source     :string(255)
-#  person_id  :integer
-#  sequence   :integer
-#  expires_at :datetime
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 class NewsItem < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   belongs_to :person

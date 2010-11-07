@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: friendships
-#
-#  id         :integer       not null, primary key
-#  person_id  :integer
-#  friend_id  :integer
-#  created_at :datetime
-#  ordering   :integer       default(1000)
-#  site_id    :integer
-#
-
 class Friendship < ActiveRecord::Base
   belongs_to :person
   belongs_to :friend, :class_name => 'Person', :foreign_key => 'friend_id'

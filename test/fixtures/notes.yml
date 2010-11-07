@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: notes
-#
-#  id           :integer       not null, primary key
-#  person_id    :integer       
-#  title        :string(255)   
-#  body         :text          
-#  created_at   :datetime      
-#  updated_at   :datetime      
-#  original_url :string(255)   
-#  group_id     :integer       
-#  site_id      :integer       
-#
-
 person_note:
   site_id: 1
   id: 1

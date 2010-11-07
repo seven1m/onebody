@@ -1,32 +1,3 @@
-# == Schema Information
-#
-# Table name: updates
-#
-#  id               :integer       not null, primary key
-#  person_id        :integer
-#  first_name       :string(255)
-#  last_name        :string(255)
-#  home_phone       :string(25)
-#  mobile_phone     :string(25)
-#  work_phone       :string(25)
-#  fax              :string(25)
-#  address1         :string(255)
-#  address2         :string(255)
-#  city             :string(255)
-#  state            :string(2)
-#  zip              :string(10)
-#  birthday         :datetime
-#  anniversary      :datetime
-#  created_at       :datetime
-#  complete         :boolean
-#  suffix           :string(25)
-#  gender           :string(6)
-#  family_name      :string(255)
-#  family_last_name :string(255)
-#  site_id          :integer
-#  custom_fields    :text
-#
-
 class Update < ActiveRecord::Base
   PERSON_ATTRIBUTES = %w(first_name last_name mobile_phone work_phone fax birthday anniversary suffix gender custom_fields)
   FAMILY_ATTRIBUTES = %w(family_name family_last_name home_phone address1 address2 city state zip)

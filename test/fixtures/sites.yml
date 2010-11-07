@@ -1,27 +1,3 @@
-# == Schema Information
-#
-# Table name: sites
-#
-#  id                    :integer       not null, primary key
-#  name                  :string(255)   
-#  host                  :string(255)   
-#  created_at            :datetime      
-#  updated_at            :datetime      
-#  secondary_host        :string(255)   
-#  max_admins            :integer       
-#  max_people            :integer       
-#  max_groups            :integer       
-#  import_export_enabled :boolean       default(TRUE)
-#  pages_enabled         :boolean       default(TRUE)
-#  pictures_enabled      :boolean       default(TRUE)
-#  publications_enabled  :boolean       default(TRUE)
-#  active                :boolean       default(TRUE)
-#  twitter_enabled       :boolean       
-#  external_guid         :string(255)   default("0")
-#
-
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
 default:
   id: 1
   name: Default
