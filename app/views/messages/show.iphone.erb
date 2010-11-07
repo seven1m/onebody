@@ -24,9 +24,9 @@
 
 <div class="body">
   <% if @message.html_body.to_s.any? %>
-    <p><%= sanitize_html(hide_contact_details(@message.html_body)) %></p>
+    <p><%= sanitize_html(@message.html_body) %></p>
   <% else %>
-    <p><%= preserve_breaks(remove_excess_breaks(hide_contact_details(@message.body))) %></p>
+    <p><%= preserve_breaks(remove_excess_breaks(@message.body)) %></p>
   <% end %>
 </div>
 
@@ -54,11 +54,11 @@
       </div>
       <p>
         <% if reply.html_body.to_s.any? %>
-          <%= sanitize_html(hide_contact_details(reply.html_body)) %>
+          <%= sanitize_html(reply.html_body) %>
         <% elsif params[:show_quoted] %>
-          <%= preserve_breaks(remove_excess_breaks(hide_contact_details(reply.body))) %>
+          <%= preserve_breaks(remove_excess_breaks(reply.body)) %>
         <% else %>
-          <% trimmed = remove_bulk_quoting(hide_contact_details(reply.body)) %>
+          <% trimmed = remove_bulk_quoting(reply.body) %>
           <%= preserve_breaks(remove_excess_breaks(trimmed)) %>
           <% if reply.body.split(/\n/).length != trimmed.split(/\n/).length %>
             <br/>

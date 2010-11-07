@@ -32,11 +32,11 @@ module MessagesHelper
   end
 
   def render_message_html_body(message_body)
-    "<p>#{sanitize_html(remove_sensitive_links(hide_contact_details(auto_link(message_body))))}</p>".html_safe
+    "<p>#{sanitize_html(remove_sensitive_links(auto_link(message_body)))}</p>".html_safe
   end
 
   def render_message_text_body(message_body, hide_bulk_quoting=false)
-    body = remove_sensitive_links(hide_contact_details(message_body))
+    body = remove_sensitive_links(message_body)
     body = remove_bulk_quoting(body) if hide_bulk_quoting
     auto_link(preserve_breaks(remove_excess_breaks(body)))
   end
