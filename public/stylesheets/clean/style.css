@@ -366,8 +366,12 @@ a:hover {
 .family li {
   display: inline;
   display: inline-block;
-  margin-right: 30px;
+  margin-right: 20px;
   text-align: center;
+  font-size: smaller;
+}
+.family li a {
+  text-decoration: none;
 }
 .favorites-group {
   margin-bottom: 10px;
