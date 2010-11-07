@@ -7,6 +7,7 @@ class StreamsController < ApplicationController
     @stream_items = @logged_in.shared_stream_items(30)
     @person = @logged_in
     @has_friendship_requests = @logged_in.pending_friendship_requests.count > 0
+    @albums = @logged_in.albums.all(:order => 'name')
     respond_to do |format|
       format.html
       format.iphone

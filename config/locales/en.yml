@@ -1651,6 +1651,8 @@ en:
     more_accounts_later: "(You'll be able to create more admin accounts later.)"
 
   stream: 
+    about_heading: Your Homepage
+    about_html: "This is your custom-built homepage — things displayed here are from people in groups with you, your family and friends."
     ago: ago
     and_more: and {{length}} more by {{name}}...
     blog: Blog
@@ -1668,8 +1670,9 @@ en:
     my_activity: My Activity
     nothing_to_show: Right now, there's nothing to show.
     rss: RSS
-    share_something: Share Something
-    share_something_here_html: You should share <a href="#" onclick="{{js}};return false;">something here</a>.
+    share_heading: Share With Friends
+    share_something: Share something.
+    share_something_about: Items you share here will appear on your friends and fellow group members' home pages (but no one else's).
     show: Show
     twitter: Twitter
     where_activity_appear: This is where activity from you, your friends, and your groups will appear.

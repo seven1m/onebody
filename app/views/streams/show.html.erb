@@ -18,21 +18,35 @@
 <% end %>
 
 <div id="stream-page-body">
-
-  <div id="share" style="display:none;">
-    <%= render :partial => 'share' %>
-  </div>
-
   <div class="stream-items">
-    <!--
-    <p id="share-something">
-      <%= link_to_function image_tag('add_small.gif', :alt => t('stream.share_something'), :class => 'icon'), "shareSomething()" %>
-      <%= t('stream.share_something_here_html', :js => "shareSomething()") %>
-    </p>
-    -->
+    <div class="right-sidebar line-left">
+      <h2><%= t('stream.about_heading') %></h2>
+      <p><%= t('stream.about_html') %></p>
+      <h2 class="double-margin-top"><%= t('stream.share_heading') %></h2>
+      <p id="share-something">
+        <p><%= t('stream.share_something_about', :js => "shareSomething()") %></p>
+        <p style="margin-top:25px;">
+          <%= content_tag :a, :href => '#', :onclick => 'shareSomething();return false', :class => 'button' do %>
+            <span class="add-icon"><%= t('stream.share_something') %></span>
+          <% end %>
+        </p>
+      </p>
+    </div>
+    <div id="share" style="display:none;">
+      <%= render :partial => 'share' %>
+    </div>
     <%= render :partial => 'stream_items' %>
   </div>
 
 <% content_for :head do %>
-  <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@logged_in.id) %>'; </script>
+  <script type="text/javascript">
+    $(function(){
+      $('#share').dialog({
+        autoOpen: false,
+        width: 600,
+        height: 425,
+        modal: true
+      }).tabs();
+    });
+  </script>
 <% end %>

@@ -2,7 +2,7 @@
 
 <%= render_page_content 'system/sign_in_header' %>
 
-<h2><%= t('session.please_sign_in') %></h2>
+<h2 class="line-bottom"><%= t('session.please_sign_in') %></h2>
 
 <div style="width:150px;float:right;margin:10px;text-align:center;">
   <%= link_to image_tag('help.gif', :alt => t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
@@ -30,10 +30,10 @@
   
   <p><%= t('session.sign_up_or_sign_in_html', :url => new_account_path) %></p>
   
-  <table>
+  <table class="spaced">
     <tr>
       <td><label for="email"><%= t('session.email_address') %></label></td>
-      <td><%= text_field_tag :email, params[:email], :size => 30 %></td>
+      <td><%= text_field_tag :email, params[:email], :size => 30, :autocomplete => 'off' %></td>
     </tr>
     <tr>
       <td><label for="password"><%= t('session.password') %></label></td>

@@ -22,14 +22,14 @@ module ApplicationHelper
   end
 
   def stylesheet_tags
-    stylesheet_link_tag('ui-lightness/jquery-ui-1.8.5.custom', 'clean/style', :cache => true) + "\n" + \
+    stylesheet_link_tag('smoothness/jquery-ui-1.8.6.custom', 'clean/style', :cache => true) + "\n" + \
     "<!--[if lte IE 8]>\n".html_safe + \
       stylesheet_link_tag('clean/ie', :cache => true) + "\n" + \
     "<![endif]-->".html_safe
   end
 
   def javascript_tags
-    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.5.custom.min', 'rails', 'clean/main', 'application', :cache => true) + "\n" + \
+    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.6.custom.min', 'rails', 'clean/main', 'application', :cache => true) + "\n" + \
     csrf_meta_tag + "\n" + \
     "<!--[if lte IE 8]>\n".html_safe + \
       javascript_include_tag('clean/ie', :cache => true) + "\n" + \

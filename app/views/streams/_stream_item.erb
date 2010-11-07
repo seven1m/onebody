@@ -13,16 +13,17 @@
         <div style="float:left;margin:0 10px 0 -12px;height:37px;">
           <%= image_tag('arrow_right.png', :alt => '', :style => 'padding:10px 0 0 0;vertical-align:top;') %>
           <a href="<%= url_for stream_item.wall %>">
-            <%= image_tag stream_item.wall.photo.exists? ? stream_item.wall.photo.url(:tn) : (stream_item.wall.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag stream_item.wall.photo.exists? ? stream_item.wall.photo.url(:tn) : (stream_item.wall.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
               :alt => stream_item.wall.name %>
           </a>
         </div>
       <% end %>
-      <%= link_to stream_icon(stream_item), stream_item %>
-      <%= stream_item_content(stream_item) %>
-      <% unless stream_item.wall %>
-        <%= link_to t('comments.view') + '...', stream_item, :class => 'small' %>
-      <% end %>
+      <p>
+        <%= stream_item_content(stream_item) %>
+        <% unless stream_item.wall %>
+          <%= link_to t('comments.view') + '...', stream_item, :class => 'small' %>
+        <% end %>
+      </p>
     <% end %>
     <div class="nowrap stream-item-timestamp">
       <%= time_ago_in_words stream_item.created_at %> <%= t('comments.ago') %>
@@ -65,9 +66,9 @@
     <% end %>
     <% if stream_item.can_have_comments? %>
       <div class="new-comment">
-        <%= link_to_function image_tag('comment.gif', :alt => t('comments.add_a_comment'), :class => 'icon') + ' ' + t('comments.add_a_comment'),
+        <%= link_to_function t('comments.add_a_comment'),
           "$('#new-comment-for-#{stream_item.id}').show(); $(this.parentNode).css('visibility', 'visible');",
-          :class => 'discreet small' %>
+          :class => 'discreet small comment-icon' %>
         <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
           <%= form_for Comment.new do |form| %>
             <% if stream_item.streamable_type == 'Album' %>
@@ -86,14 +87,14 @@
               <%= hidden_field_tag stream_item.streamable_type.downcase + '_id', stream_item.streamable_id %>
             <% end %>
             <%= hidden_field_tag :return_to, stream_path %>
-            <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
+            <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %><br/>
             <%= form.submit t('comments.save') %>
           <% end %>
         </div>
       </div>
     <% elsif stream_item.wall %>
       <div class="new-comment discreet small">
-        <%= image_tag('comment.gif', :alt => t('comments.leave_note'), :class => 'icon') %>
+        <%= image_tag('clean/add.png', :alt => t('comments.leave_note'), :class => 'icon') %>
         <% if stream_item.wall == @logged_in %>
           <%= link_to t('comments.leave_note_for', :name => stream_item.person.name), stream_item.person %>
         <% elsif stream_item.person == @logged_in %>

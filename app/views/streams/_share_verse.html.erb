@@ -1,9 +1,10 @@
-<h2 class="tab" id="verse"><%= image_tag('verse.png', :alt => t('verses.verse'), :class => 'icon') %> <%= t('verses.verse') %></h2>
-<div class="section">
+<div id="share-verse">
   <%= form_for Verse.new do |form| %>
     <%= hidden_field_tag :redirect_to, request.fullpath %>
     <p>
-      <%= t('verses.type_a_reference_below_and_hit_enter') %><br/>
+      <%= t('verses.type_a_reference_below_and_hit_enter') %>
+    </p>
+    <p>
       <%= text_field_tag :id, nil, :style => 'border:1px solid #ccc;width:100px;' %>
       <%= submit_tag t('verses.add_verse'), :style => 'width:100px;' %>
     </p>
