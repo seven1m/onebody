@@ -190,7 +190,7 @@ a:hover {
 }
 #main {
   margin-top: 45px;
-  line-height: 1.2;
+  line-height: 1.3;
   min-height: 500px;
   p {
     margin-bottom: 15px;
@@ -369,4 +369,42 @@ a:hover {
 .edit-icon {
   padding-left: 15px;
   background: url(/images/clean/edit.png) left no-repeat;
+}
+
+/* Stream */
+
+.stream-item {
+  margin-bottom: 40px;
+  h2 {
+    margin-bottom: 10px;
+  }
+  ul, ol {
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+  .stream-item-meta {
+    line-height: 1em;
+    float: left;
+    width: 32px;
+    text-align: right;
+  }
+  .stream-item-body {
+    margin-left: 50px;
+  }
+  .new-comment {
+    visibility: hidden;
+  }
+  .stream-item-timestamp {
+    font-size: smaller;
+    margin-bottom: 10px;
+  }
+  .stream-item-group-link {
+    margin-top: -30px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+  }
+}
+
+.stream-item:hover .new-comment {
+  visibility: visible;
 }
