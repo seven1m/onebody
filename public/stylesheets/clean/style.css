@@ -449,6 +449,16 @@ input[type=submit]:hover {
   padding-left: 15px;
   background: url(/images/clean/comment.png) left no-repeat;
 }
+ul.buttons {
+  list-style: none;
+  margin-bottom: 25px;
+}
+ul.buttons li {
+  display: inline;
+  display: inline-block;
+  text-align: center;
+  margin: 0 25px 0 0;
+}
 a.button {
   background-repeat: no-repeat;
   background: #eeeeee;

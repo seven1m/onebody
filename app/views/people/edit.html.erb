@@ -1,30 +1,15 @@
 <style type="text/css"> form { border:none; }</style>
 
-<%= javascript_include_tag 'tiny_mce/tiny_mce.js' %>
-<script type="text/javascript">
-  tinyMCE.init({
-    mode: "exact",
-    elements: "person_testimony,person_about",
-    theme: "advanced",
-    convert_newlines_to_brs : true,
-    invalid_elements: "pre,font"
-  });
-</script>
+<ul class="buttons">
+  <% @family.visible_people.each do |person| %>
+    <li><%= link_to person.first_name, edit_person_path(person), :class => @person == person ? 'button active' : 'button' %></li>
+  <% end %>
+</ul>
 
-<p>
-  <strong>
-    <% if @logged_in.admin?(:edit_profiles) %>
-      <%= link_to @family.name, @family %>
-    <% else %>
-      <%= @family.name %>
-    <% end %>
-    &middot; <%= t('Edit') %>:</strong>
-  <%= @family.visible_people.map { |p| link_to(p == @person ? content_tag(:strong, p.first_name) : p.first_name, edit_person_path(p)) }.join(' | ').html_safe %>
-</p>
-
-<p>
+<p class="discreet small">
   <%= t('privacies.please_read_our_privacy_policy_html', :url => help_path('privacy_policy')) %>
 </p>
+
 
 <% if @logged_in.admin?(:edit_profiles) and @person.account_frozen? %>
   <p class="very-strong"><%= t('people.this_account_is_frozen', :name => @person.name) %></p>
@@ -47,208 +32,191 @@
   </p>
 <% end %>
 
-<h2 class="tab" id="basics"><%= t('people.basics') %></h2>
-<div class="section">
-  <%= render :partial => 'edit_basics' %>
-</div>
-
-<h2 class="tab" id="picture"><%= t('people.pic') %></h2>
-<div class="section">
-  <p>
-    <%= t('people.upload_a_picture_of_html', :name => me? ? 'yourself' : @person.name) %>
-    <%= t('people.please_only_upload_real_photo_html') %>
-  </p>
-  <table><tr><td>
-  <%= render :partial => 'photo' %>
-  </td><td>
-  <%= photo_upload_for @person %>
-  </td></tr></table>
-</div>
-
-<h2 class="tab" id="family-picture"><%= t('people.family_pic') %></h2>
-<div class="section">
-  <p>
-    <%= t('people.upload_family_picture_html') %>
-    <%= t('people.please_only_upload_real_photo_html') %>
-  </p>
-  <table><tr><td>
-  <%= render :partial => 'families/photo' %>
-  </td><td>
-  <%= photo_upload_for @family %>
-  </td></tr></table>
-</div>
-
-<h2 class="tab" id="about"><%= t('people.about') %></h2>
-<div class="section">
-  <%= form_for @person do |form| %>
-    <%= error_messages_for(form) %>
-    <%= hidden_field_tag :anchor, 'about' %>
-    <div>
-      <label for="person_testimony"><%= t('people.testimony') %>:</label>
-      <%= t('people.share_your_personal_testimony') %><br/>
-      <%= form.text_area :testimony, :rows => 15, :style => 'width:95%;' %><br/>
-      <label for="person_about"><%= t('people.about_me') %>:</label>
-      <%= t('people.tell_us_about_yourself') %><br/>
-      <%= form.text_area :about, :rows => 10, :style => 'width:95%;' %><br/>
-      <label for="person_website"><%= t('people.website') %>:</label>
-      <%= form.text_field :website %>
-    </div>
-    <p><input type="submit" value="<%= t('save_changes') %>"/></p>
-  <% end %>
-</div>
-    
-<h2 class="tab" id="favorites"><%= t('people.favs') %></h2>
-<div class="section">
-  <%= form_for @person do |form| %>
-    <%= hidden_field_tag :anchor, 'favorites' %>
-    <p style="font-style:italic;"><%= t('people.separate_items_with_commas') %></p>
-    <div>
-    <label for="person_activities"><%= t('people.activities') %>:</label>
-    <%= form.text_area :activities, :rows => 4 %>
-    <label for="person_interests"><%= t('people.interests') %>:</label>
-    <%= form.text_area :interests, :rows => 4 %>
-    <label for="person_music"><%= t('people.music') %>:</label>
-    <%= form.text_area :music, :rows => 4 %>
-    <label for="person_tv_shows"><%= t('people.tv_shows') %>:</label>
-    <%= form.text_area :tv_shows, :rows => 4 %>
-    <label for="person_movies"><%= t('people.movies') %>:</label>
-    <%= form.text_area :movies, :rows => 4 %>
-    <label for="person_books"><%= t('people.books') %>:</label>
-    <%= form.text_area :books, :rows => 4 %>
-    <label for="person_quotes"><%= t('people.quotes') %>:</label>
-    <%= form.text_area :quotes, :rows => 4 %>
-    </div>
-    <p><input type="submit" value="<%= t('save_changes') %>"/></p>
-  <% end %>
-</div>
-
-<h2 class="tab" id="business"><%= t('people.business') %></h2>
-<div class="section">
-  <p>
-    <%= t('people.if_you_wish_to_be_listed_business_dir_html', :url => search_path(:business => true)) %>
-  </p>
-
-  <%= form_for @person do |form| %>
-    <%= hidden_field_tag :anchor, 'business' %>
-    <div>
-      <label for="person_business_category"><%= t('search.business_category') %></label>
-      <select name="person[business_category]" id="person_business_category" onchange="if(this.value=='!') custom_select_val(this, '<%= t('people.enter_new_category') %>')">
-        <option value=""></option>
-        <%= options_for_select @business_categories, @person.business_category %>
-        <option value="!">[<%= t('new_category') %>]</option>
-      </select><br/>
-      <label for="person_business_name"><%= t('people.business_name') %>:</label>
-      <%= form.text_field :business_name %><br/>
-      <label for="person_business_description"><%= t('people.description_of_business') %>:</label>
-      <%= form.text_area :business_description, :rows => 3 %><br/>
-      <label for="person_business_phone"><%= t('people.business_phone') %>:</label>
-      <%= form.text_field :business_phone %><br/>
-      <label for="person_business_email"><%= t('people.business_email') %>:</label>
-      <%= form.text_field :business_email %><br/>
-      <label for="person_business_website"><%= t('people.business_website') %>:</label>
-      <%= form.text_field :business_website %><br/>
-      <label for="person_business_address"><%= t('people.business_address') %>:</label>
-      <%= form.text_area :business_address, :rows => 2 %>
-    </div>
-  
-    <p><%= submit_tag t('save_changes') %></p>
-  <% end %>
-</div>
-
-<h2 class="tab" id="email"><%= t('people.email') %></h2>
-<div class="section">
-  <div class="highlight">
-    <p>
-      <% if @person.email.to_s.any? %>
-        <%= @person == @logged_in ? t('your') : @person.name_possessive %> <%= t('people.email_address') %>:<br/>
-        <span style="font-size:2em;"><%= @person.email %></span>
-      <% else %>
-        <%= t('people.no_email', :name => @person.name) %>
-      <% end %>
-    </p>
-    <p><%= t('people.click_to_change_email_html', :url => edit_person_account_path(@person)) %></p>
-  </div>
-  
-  <h2><%= t('people.wall_emails') %></h2>
-  <%= form_for @person do |form| %>
-    <p>
-      <%= form.check_box :get_wall_email, :class => 'checkbox' %>
-      <%= t('people.send_email_when_someone_posts_wall') %><br/>
-      <%= submit_tag t('save_changes') %>
-    </p>
-  <% end %>
-
-  <h2><%= t('groups.group_emails') %></h2>
-  <%= render :partial => 'groups/person_groups' %>
-
-  <h2><%= t('people.alternate_email') %></h2>
-
-  <p>
-    <%= t('people.if_you_have_another_email') %>
-    <%= t('please_note') %>:
-  </p>
-
+<div id="edit-profile">
   <ul>
-    <li><%= t('people.this_email_will_not_be_visible') %></li>
-    <li><%= t('people.you_will_not_able_use_this_address') %></li>
+    <li><a href="#basics"        ><%= t('people.basics'    ) %></a></li>
+    <li><a href="#picture"       ><%= t('people.pic'       ) %></a></li>
+    <li><a href="#about"         ><%= t('people.about'     ) %></a></li>
+    <li><a href="#favs"          ><%= t('people.favs'      ) %></a></li>
+    <li><a href="#business"      ><%= t('people.business'  ) %></a></li>
+    <li><a href="#email"         ><%= t('people.email'     ) %></a></li>
+    <% if @logged_in.admin?(:manage_groups) %>
+      <li><a href="#groups"      ><%= t('people.groups'    ) %></a></li>
+    <% end %>
+    <% if @logged_in.admin?(:edit_profiles) %>
+      <li><a href="#delete"      ><%= t('Delete'           ) %></a></li>
+    <% end %>
   </ul>
 
-  <%= form_for @person do |form| %>
-    <%= hidden_field_tag :anchor, 'email' %>
-    <div>
-      <label for="person_alternate_email"><%= t('people.alternate_email') %>:</label>
-      <%= form.text_field :alternate_email %><br/>
-      <%= submit_tag t('save_changes') %>
+  <div id="basics">
+    <%= render :partial => 'edit_basics' %>
+  </div>
+
+  <div id="picture">
+    <p>
+      <%= t('people.upload_a_picture_of_html', :name => me? ? 'yourself' : @person.name) %>
+      <%= t('people.please_only_upload_real_photo_html') %>
+    </p>
+    <table><tr><td>
+    <%= render :partial => 'photo' %>
+    </td><td>
+    <%= photo_upload_for @person %>
+    </td></tr></table>
+
+    <p>
+      <%= t('people.upload_family_picture_html') %>
+      <%= t('people.please_only_upload_real_photo_html') %>
+    </p>
+    <table><tr><td>
+    <%= render :partial => 'families/photo' %>
+    </td><td>
+    <%= photo_upload_for @family %>
+    </td></tr></table>
+  </div>
+
+  <div id="about">
+    <%= form_for @person do |form| %>
+      <%= error_messages_for(form) %>
+      <%= hidden_field_tag :anchor, 'about' %>
+      <div>
+        <label for="person_testimony"><%= t('people.testimony') %>:</label>
+        <%= t('people.share_your_personal_testimony') %><br/>
+        <%= form.text_area :testimony, :rows => 15, :style => 'width:95%;' %><br/>
+        <label for="person_about"><%= t('people.about_me') %>:</label>
+        <%= t('people.tell_us_about_yourself') %><br/>
+        <%= form.text_area :about, :rows => 10, :style => 'width:95%;' %><br/>
+        <label for="person_website"><%= t('people.website') %>:</label>
+        <%= form.text_field :website %>
+      </div>
+      <p><input type="submit" value="<%= t('save_changes') %>"/></p>
+    <% end %>
+  </div>
+
+  <div id="favs">
+    <%= form_for @person do |form| %>
+      <%= hidden_field_tag :anchor, 'favorites' %>
+      <p style="font-style:italic;"><%= t('people.separate_items_with_commas') %></p>
+      <div>
+      <label for="person_activities"><%= t('people.activities') %>:</label>
+      <%= form.text_area :activities, :rows => 4 %>
+      <label for="person_interests"><%= t('people.interests') %>:</label>
+      <%= form.text_area :interests, :rows => 4 %>
+      <label for="person_music"><%= t('people.music') %>:</label>
+      <%= form.text_area :music, :rows => 4 %>
+      <label for="person_tv_shows"><%= t('people.tv_shows') %>:</label>
+      <%= form.text_area :tv_shows, :rows => 4 %>
+      <label for="person_movies"><%= t('people.movies') %>:</label>
+      <%= form.text_area :movies, :rows => 4 %>
+      <label for="person_books"><%= t('people.books') %>:</label>
+      <%= form.text_area :books, :rows => 4 %>
+      <label for="person_quotes"><%= t('people.quotes') %>:</label>
+      <%= form.text_area :quotes, :rows => 4 %>
+      </div>
+      <p><input type="submit" value="<%= t('save_changes') %>"/></p>
+    <% end %>
+  </div>
+
+  <div id="business">
+    <p>
+      <%= t('people.if_you_wish_to_be_listed_business_dir_html', :url => search_path(:business => true)) %>
+    </p>
+
+    <%= form_for @person do |form| %>
+      <%= hidden_field_tag :anchor, 'business' %>
+      <div>
+        <label for="person_business_category"><%= t('search.business_category') %></label>
+        <select name="person[business_category]" id="person_business_category" onchange="if(this.value=='!') custom_select_val(this, '<%= t('people.enter_new_category') %>')">
+          <option value=""></option>
+          <%= options_for_select @business_categories, @person.business_category %>
+          <option value="!">[<%= t('new_category') %>]</option>
+        </select><br/>
+        <label for="person_business_name"><%= t('people.business_name') %>:</label>
+        <%= form.text_field :business_name %><br/>
+        <label for="person_business_description"><%= t('people.description_of_business') %>:</label>
+        <%= form.text_area :business_description, :rows => 3 %><br/>
+        <label for="person_business_phone"><%= t('people.business_phone') %>:</label>
+        <%= form.text_field :business_phone %><br/>
+        <label for="person_business_email"><%= t('people.business_email') %>:</label>
+        <%= form.text_field :business_email %><br/>
+        <label for="person_business_website"><%= t('people.business_website') %>:</label>
+        <%= form.text_field :business_website %><br/>
+        <label for="person_business_address"><%= t('people.business_address') %>:</label>
+        <%= form.text_area :business_address, :rows => 2 %>
+      </div>
+
+      <p><%= submit_tag t('save_changes') %></p>
+    <% end %>
+  </div>
+
+  <div id="email">
+    <div class="highlight">
+      <p>
+        <% if @person.email.to_s.any? %>
+          <%= @person == @logged_in ? t('your') : @person.name_possessive %> <%= t('people.email_address') %>:<br/>
+          <span style="font-size:2em;"><%= @person.email %></span>
+        <% else %>
+          <%= t('people.no_email', :name => @person.name) %>
+        <% end %>
+      </p>
+      <p><%= t('people.click_to_change_email_html', :url => edit_person_account_path(@person)) %></p>
+    </div>
+
+    <h2><%= t('people.wall_emails') %></h2>
+    <%= form_for @person do |form| %>
+      <p>
+        <%= form.check_box :get_wall_email, :class => 'checkbox' %>
+        <%= t('people.send_email_when_someone_posts_wall') %><br/>
+        <%= submit_tag t('save_changes') %>
+      </p>
+    <% end %>
+
+    <h2><%= t('groups.group_emails') %></h2>
+    <%= render :partial => 'groups/person_groups' %>
+
+    <h2><%= t('people.alternate_email') %></h2>
+
+    <p>
+      <%= t('people.if_you_have_another_email') %>
+      <%= t('please_note') %>:
+    </p>
+
+    <ul>
+      <li><%= t('people.this_email_will_not_be_visible') %></li>
+      <li><%= t('people.you_will_not_able_use_this_address') %></li>
+    </ul>
+
+    <%= form_for @person do |form| %>
+      <%= hidden_field_tag :anchor, 'email' %>
+      <div>
+        <label for="person_alternate_email"><%= t('people.alternate_email') %>:</label>
+        <%= form.text_field :alternate_email %><br/>
+        <%= submit_tag t('save_changes') %>
+      </div>
+    <% end %>
+
+  </div>
+
+  <% if @logged_in.admin?(:manage_groups) %>
+    <div id="groups">
+      <div id="groups_list">
+        <%= render :partial => 'group_selection' %>
+      </div>
     </div>
   <% end %>
 
-</div>
-
-<% if @logged_in.admin?(:manage_groups) %>
-  <h2 class="tab" id="groups"><%= t('people.groups') %></h2>
-  <div class="section">
-    <div id="groups_list">
-      <%= render :partial => 'group_selection' %>
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <div id="delete">
+      <%= form_for @person, :html => {:method => 'delete'} do |form| %>
+        <p><%= t('people.if_your_system_is_setup_to_sync') %></p>
+        <p><%= form.submit t('Delete') + " #{@person.name}" %></p>
+      <% end %>
     </div>
-  </div>
-<% end %>
+  <% end %>
 
-<% if @logged_in.admin?(:manage_access) %>
-  <h2 class="tab" id="access"><%= t('people.access') %></h2>
-  <div class="section">
-    <%= render :partial => 'access' %>
-  </div>
+<% content_for :head do %>
+  <script type="text/javascript">
+    $(function(){
+      $('#edit-profile').tabs();
+    });
+  </script>
 <% end %>
-
-<% if @logged_in.admin?(:edit_profiles) %>
-  <h2 class="tab" id="delete"><%= t('Delete') %></h2>
-  <div class="section">
-    <%= form_for @person, :html => {:method => 'delete'} do |form| %>
-      <p><%= t('people.if_your_system_is_setup_to_sync') %></p>
-      <p><%= form.submit t('Delete') + " #{@person.name}" %></p>
-    <% end %>
-  </div>
-<% end %>
-
-<script type="text/javascript">
-//<![CDATA[
-  set_up_tabs();
-  changes = false;
-  $('.section :input').change(function(){ changes = true });
-  $(':submit').click(function(){ changes = false });
-  original_tab_click = tab_click;
-  tab_click = function(e) {
-    if(changes && confirm('<%= escape_javascript t('privacies.you_made_a_change_tab') %>')) {
-      changes = false;
-      sections[lastSection].getElementsByTagName('form')[0].submit();
-    } else {
-      changes = false;
-      original_tab_click(e);
-    }
-  };
-  set_handlers();
-  onbeforeunload = function() {
-    if(changes) return '<%= escape_javascript t('privacies.you_made_a_change_page') %>';
-  };
-//]]>
-</script>

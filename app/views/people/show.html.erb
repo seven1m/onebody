@@ -53,7 +53,7 @@
     <div class="about">
       <% if @person.about.to_s.any? %>
         <div class="favorites-group">
-          <%= sanitize_html @person.about %>
+          <%= preserve_breaks @person.about %>
         </div>
       <% end %>
       <% if @person.activities.to_s.any? %>
