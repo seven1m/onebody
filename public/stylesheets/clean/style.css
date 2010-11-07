@@ -374,7 +374,7 @@ a:hover {
   text-decoration: none;
 }
 .favorites-group {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 .favorites-inline {
   display: inline;
@@ -382,6 +382,9 @@ a:hover {
 }
 .favorites-inline li {
   display: inline;
+}
+.favorites-inline li a {
+  text-decoration: none;
 }
 .favorites-inline li:after {
   content: " ·";

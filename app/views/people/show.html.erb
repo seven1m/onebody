@@ -49,48 +49,87 @@
 
   <div class="profile-body">
 
-    <h3>About</h3>
+    <h3><%= t('About') %></h3>
     <div class="about">
-      <p>Baf helpa sepen ricevanto ge, nomo prezoinda literaturo por nf. Bo ojd ekoo hura posta, se igi tiaĵo triangulo landonomo, ne tia reen sekse iufoje.</p>
+      <% if @person.about.to_s.any? %>
+        <div class="favorites-group">
+          <%= sanitize_html @person.about %>
+        </div>
+      <% end %>
+      <% if @person.activities.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.activities') %></h4>
+          <ul class="favorites-inline">
+            <% linkify(@person.activities, :activities).each do |link| %>
+              <li><%= link %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @person.interests.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.interests') %></h4>
+          <ul class="favorites-inline">
+            <% linkify(@person.interests, :interests).each do |link| %>
+              <li><%= link %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @person.books.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.books') %></h4>
+          <ul class="favorites-inline">
+            <% linkify(@person.books, :books).each do |link| %>
+              <li><%= link %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @person.music.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.music') %></h4>
+          <ul class="favorites-inline">
+            <% linkify(@person.music, :music).each do |link| %>
+              <li><%= link %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @person.movies.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.movies') %></h4>
+          <ul class="favorites-inline">
+            <% linkify(@person.movies, :movies).each do |link| %>
+              <li><%= link %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @person.tv_shows.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.tv_shows') %></h4>
+          <ul class="favorites-inline">
+            <% linkify(@person.tv_shows, :tv_shows).each do |link| %>
+              <li><%= link %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
       <div class="favorites-group">
-        <h4>Books</h4>
-        <ul class="favorites-inline">
-          <li><a href="#">1984</a></li>
-          <li><a href="#">Ben-Hur</a></li>
-          <li><a href="#">Moby-Dick</a></li>
-          <li><a href="#">Wuthering Heights</a></li>
-        </ul>
-      </div>
-      <div class="favorites-group">
-        <h4>Music</h4>
-        <ul class="favorites-inline">
-          <li><a href="#">Michael Bublé</a></li>
-          <li><a href="#">Frank Sinatra</a></li>
-          <li><a href="#">Sammy Davis, Jr.</a></li>
-        </ul>
-      </div>
-      <div class="favorites-group">
-        <h4>Movies</h4>
-        <ul class="favorites-inline">
-          <li><a href="#">Airplane!</a></li>
-          <li><a href="#">The Alamo</a></li>
-          <li><a href="#">A Farewell to Arms</a></li>
-          <li><a href="#">Othello</a></li>
-          <li><a href="#">To Sir With Love</a></li>
-        </ul>
-      </div>
-      <div class="favorites-group">
-        <h4>Quotes</h4>
+        <h4><%= t('people.quotes') %></h4>
+        <!--
         <ul class="list quotes">
           <li>I may not be able to say all I think; but I am not going to say anything that I do not think. I would rather a thousand times be a free soul in jail than to be a sycophant and coward in the streets. — <a href="http://en.wikiquote.org/wiki/Eugene_V._Debs#Canton_Anti-war_Speech_.281918.29">Eugene V. Debs, Canton Anti-war Speech (1918)</a></li>
         </ul>
+        -->
+        <p><%= preserve_breaks @person.quotes %></p>
       </div>
     </div>
 
-    <h3>Testimony</h3>
+    <h3><%= t('people.testimony') %></h3>
     <div class="testimony">
-      <p>Jam if tria frazparto finaĵvorto. Ro mis iufoje apostrofo adjektiva, ha ladskatolo mallongigoj veo, sob lo propozicio afganistano. Help iomete u esk, por nk fini logi vortludo. Jes malpli matematiko ja, nomo helpverbo avo to. Kvanta nuancado u pra.</p>
-      <p>Lia nuna imperativo ed. Hoj grupa nette senforte ia, halt' alial senforte sor ek, ac ial volu nederlando. Plue ti movi fundamento, neniu eŭro sed iv, zorgi povus un' om. Kompleksa duondifina if cis, id franjo responde tra, sis dura pleje mf. Gv tial tempo finaĵvorto men, sub infano rilativo familiano dz. Se infano leteri dekuma poe, tipo kontraŭa profitanto tc sed, ilion frikativo vir to.</p>
+      <%= preserve_breaks @person.testimony %>
     </div>
 
   </div>
