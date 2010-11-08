@@ -116,21 +116,25 @@
           </ul>
         </div>
       <% end %>
-      <div class="favorites-group">
-        <h4><%= t('people.quotes') %></h4>
-        <!--
-        <ul class="list quotes">
-          <li>I may not be able to say all I think; but I am not going to say anything that I do not think. I would rather a thousand times be a free soul in jail than to be a sycophant and coward in the streets. — <a href="http://en.wikiquote.org/wiki/Eugene_V._Debs#Canton_Anti-war_Speech_.281918.29">Eugene V. Debs, Canton Anti-war Speech (1918)</a></li>
-        </ul>
-        -->
-        <p><%= preserve_breaks @person.quotes %></p>
-      </div>
+      <% if @person.quotes.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.quotes') %></h4>
+          <!--
+          <ul class="list quotes">
+            <li>I may not be able to say all I think; but I am not going to say anything that I do not think. I would rather a thousand times be a free soul in jail than to be a sycophant and coward in the streets. — <a href="http://en.wikiquote.org/wiki/Eugene_V._Debs#Canton_Anti-war_Speech_.281918.29">Eugene V. Debs, Canton Anti-war Speech (1918)</a></li>
+          </ul>
+          -->
+          <p><%= preserve_breaks @person.quotes %></p>
+        </div>
+      <% end %>
     </div>
 
-    <h3><%= t('people.testimony') %></h3>
-    <div class="testimony">
-      <%= preserve_breaks @person.testimony %>
-    </div>
+    <% if @person.testimony.to_s.any? %>
+      <h3><%= t('people.testimony') %></h3>
+      <div class="testimony">
+        <%= preserve_breaks @person.testimony %>
+      </div>
+    <% end %>
 
   </div>
 </div>

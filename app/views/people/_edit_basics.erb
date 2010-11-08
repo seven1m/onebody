@@ -19,7 +19,7 @@
   <%= error_messages_for(form) %>
   <%= form.hidden_field :family_id %>
   <% if @logged_in.admin?(:edit_profiles) %>
-    <div style="width:250px;float:right;">
+    <div class="right-sidebar line-left">
       <fieldset>
         <legend><%= t('people.person_type') %></legend>
         <em><%= t('people.these_do_not_control_access') %></em><br/>
@@ -32,7 +32,8 @@
           <%= form.label :custom_type, 'Custom Type:', :class => 'inline' %>
           <%= form.text_field :custom_type, :size => 10 %><div class="autocomplete" id="person_custom_type_auto_complete"></div>
           <script type="text/javascript">
-            new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', <%= @custom_types.inspect %>, {});
+            // FIXME
+            //new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', <%= @custom_types.inspect %>, {});
           </script>
         <% end %>
       </fieldset>
@@ -63,11 +64,12 @@
     </div>
   <% end %>
   <%= hidden_field_tag :anchor, 'basics' %>
-  <%= form.label :first_name, t('accounts.first_name') %>   <%= form.text_field :first_name %><br/>
-  <%= form.label :last_name, t('accounts.last_name') %>    <%= form.text_field :last_name %><br/>
-  <%= form.label :suffix, t('people.suffix') %>       <%= form.select :suffix, [nil]+Setting.get(:system, :suffixes) %><br/>
-  <%= form.label :gender, t('accounts.gender') %>       <%= form.select :gender, [['', nil], [t('search.male'), 'Male'], [t('search.female'), 'Female']] %><br/>
+  <%= form.label :first_name, t('people.name') %>
+    <%= form.text_field :first_name, :size => 15 %>
+    <%= form.text_field :last_name, :size => 15 %>
+    <%= form.select :suffix, [nil]+Setting.get(:system, :suffixes) %><br/>
   <%= form.label :description, t('accounts.description') %> <%= form.text_field :description %><br/>
+  <%= form.label :gender, t('accounts.gender') %>       <%= form.select :gender, [['', nil], [t('search.male'), 'Male'], [t('search.female'), 'Female']] %><br/>
   <%= form.label :email, t('people.email') %>        <%= form.text_field :email %><br/>
   <%= form.label :mobile_phone, t('privacies.mobile_phone') %> <%= form.phone_field :mobile_phone %><br/>
   <%= form.label :work_phone, t('privacies.work_phone') %>   <%= form.phone_field :work_phone %><br/>

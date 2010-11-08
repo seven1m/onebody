@@ -470,6 +470,9 @@ en:
     code_be_careful: Please be careful to enter the correct code. If you make a mistake, you will have to start over.
     create: Create Account
     date_format: MM/DD/YYYY
+    description: Description
+    description_about_male_html: One or two words describing yourself, e.g. <em>Super Dad, 
+    description_about_female_html: One or two words describing yourself, e.g. <em>Soccer Mom, 
     email_not_found: That email address could not be found in our system. If you have another address, try again.
     enter_code: Enter the code
     enter_your_email: Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site.
@@ -1145,6 +1148,7 @@ en:
     my_testimony: My Testimony
     my_verses: My Verses
     music: Music
+    name: Name
     new_family: New Family
     new_person: New Person
     no_additional_access_avaiable: No additional access options available at this time.
@@ -1632,8 +1636,8 @@ en:
     please_sign_in: Please sign in.
     sign_in: Sign In
     sign_in_error_html: There was an error signing you in. Please <a href="{{url}}">try again</a>.
-    sign_out: Sign Out
-    sign_up_or_sign_in_html: "<a href=\"{{url}}\">Sign Up</a> for an account, or sign in:"
+    sign_out: sign out
+    sign_up_or_sign_in_html: "<a href=\"{{url}}\">Sign Up</a> for an account if you don't have one."
     there_are_no_users_in_the_system: There are no users in the system.
     tour: tour
     you_may_read_our_privacy_policy_here_html: You may read our Privacy Policy <a href="{{url}}">here</a>.

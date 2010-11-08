@@ -40,10 +40,8 @@ module ApplicationHelper
     if (logo = Setting.get(:appearance, :logo)).to_s.any?
       img = image_tag("/assets/site#{Site.current.id}/#{logo}", :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;')
       link_to(img, '/')
-    elsif !@page or @page.for_members?
-      Setting.get(:name, :site)
     else
-      Setting.get(:name, :community)
+      Setting.get(:name, :site)
     end
   end
 
@@ -78,6 +76,9 @@ module ApplicationHelper
   def common_nav_links
     html = ''
     html << "<li class=\"platform\"><a href=\"http://beonebody.com\">OneBody v2</a></li>"
+    if @logged_in
+      html << "<li>#{link_to t("session.sign_out"), session_path, :method => :delete}</li>"
+    end
     if Setting.get(:services, :sermondrop_url).to_s.any?
       html << "<li>#{link_to t("nav.podcasts"), podcasts_path}</li>"
     end
