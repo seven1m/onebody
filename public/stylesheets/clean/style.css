@@ -418,6 +418,9 @@ fieldset legend {
 .profile .profile-details li.icon {
   margin-right: 4px;
 }
+.profile .profile-details li.icon img {
+  vertical-align: middle;
+}
 .profile .profile-details .new-line {
   display: block;
 }
