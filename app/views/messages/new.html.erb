@@ -1,10 +1,10 @@
 <% if @message.to %>
-  <h1><%= t('messages.email_message_to', :name => @message.to.name) %></h1>
+  <h2><%= t('messages.email_message_to', :name => @message.to.name) %></h2>
   <p>
     <%= t('messages.this_will_send_a_private_email_html') %>
   </p>
 <% elsif @message.group %>
-  <h1><%= t('messages.group_message_to', :group => @message.group.name) %></h1>
+  <h2><%= t('messages.group_message_to', :group => @message.group.name) %></h2>
   <p>
     <%= t('messages.this_will_send_an_email_to', :group => @message.group.name) %>
     <% unless @group.private? %>

@@ -29,11 +29,12 @@ module ApplicationHelper
   end
 
   def javascript_tags
-    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.6.custom.min', 'rails', 'clean/main', 'application', :cache => true) + "\n" + \
+    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.6.custom.min', 'jquery.qtip-1.0.0-rc3.min.js', 'rails', 'clean/main', 'application', :cache => true) + "\n" + \
     csrf_meta_tag + "\n" + \
     "<!--[if lte IE 8]>\n".html_safe + \
       javascript_include_tag('clean/ie', :cache => true) + "\n" + \
-    "<![endif]-->".html_safe
+    "<![endif]-->\n".html_safe + \
+    "<script type=\"text/javascript\">logged_in = #{@logged_in ? @logged_in.id : 'null'}</script>".html_safe
   end
 
   def heading
@@ -51,21 +52,19 @@ module ApplicationHelper
     end
   end
 
-  def tab_link(title, url, active=false)
-    link_to(title, url, :class => active ? 'active button' : 'button')
+  def tab_link(title, url, active=false, id=nil)
+    link_to(title, url, :class => active ? 'active button' : 'button', :id => id)
   end
 
   def nav_links
     html = ''
-    html << "<li>#{tab_link t("nav.home"), stream_path, params[:controller] == 'streams'}</li>"
+    html << "<li>#{tab_link t("nav.home"), stream_path, params[:controller] == 'streams', 'home-tab'}</li>"
     if @logged_in
       profile_link = person_path(@logged_in, :tour => params[:tour])
-      edit_profile_html = "<div><a class=\"sub edit-icon\" href=\"#{edit_person_path(@logged_in)}\">#{t('edit')}</a></div>"
     else
       profile_link = people_path
-      edit_profile_html = ''
     end
-    html << "<li><div>#{tab_link t("nav.profile"), profile_link, params[:controller] == 'people' && me?}</div>#{params[:controller] == 'people' && me? && edit_profile_html || ''}</li>"
+    html << "<li><div>#{tab_link t("nav.profile"), profile_link, params[:controller] == 'people' && me?, 'profile-tab'}</div></li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
       html << "<li>#{ tab_link t("nav.groups"), groups_path, params[:controller] == 'groups'}</li>"
     end
@@ -84,6 +83,10 @@ module ApplicationHelper
     end
     html << "<li><a href=\"/admin\">admin</a></li>"
     html
+  end
+
+  def menu_content
+    render :partial => 'people/menus'
   end
 
   def search_form

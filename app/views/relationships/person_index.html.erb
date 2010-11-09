@@ -32,13 +32,13 @@
   </div>
 <% end %>
 
-<h1><%= @person.name %></h1>
+<h2><%= @person.name %></h2>
 
-<h2><%= t('relationships.outward') %></h2>
+<h3><%= t('relationships.outward') %></h3>
 
 <% if @relationships.any? %>
   <%= form_tag batch_person_relationships_path(@person) do %>
-    <table>
+    <table class="spaced">
       <tr>
         <th><input type="checkbox" onclick="$('.outward_relationship_checkbox').attr('checked', this.checked)"/></th>
         <th><%= t('name') %></th>
@@ -61,11 +61,11 @@
   <p><em><%= t('none') %></em></p>
 <% end %>
 
-<h2><%= t('relationships.inward') %></h2>
+<h3><%= t('relationships.inward') %></h3>
 
 <% if @inward_relationships.any? %>
   <%= form_tag batch_person_relationships_path(@person) do %>
-    <table>
+    <table class="spaced">
       <tr>
         <th><input type="checkbox" onclick="$('.inward_relationship_checkbox').attr('checked', this.checked)"/></th>
         <th><%= t('From') %></th>
@@ -77,7 +77,7 @@
         <tr>
           <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'inward_relationship_checkbox' %></td>
           <td><%= link_to relationship.person.name, person_relationships_path(relationship.person) %></td>
-          <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
+          <td><div class="right-icon" style="width:10px;height:16px;"></td>
           <td><%= @person.name %></td>
           <td><%= relationship.name_or_other %></td>
         </tr>

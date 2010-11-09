@@ -77,8 +77,18 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 15px;
 }
 h2 {
-  font-size: 16pt;
+  font-size: 20pt;
   font-weight: normal;
+}
+h3 {
+  font-size: 14pt;
+  font-weight: normal;
+  border-bottom: 1px solid @light - 20;
+  margin: 40px 0 20px 0;
+  padding-bottom: 5px;
+}
+h3:first-child {
+  margin-top: 0;
 }
 ul.list, ol.list, .page-body ul, .page-body ol {
   padding-left: 20px;
@@ -214,11 +224,13 @@ fieldset {
       a.button:hover, a.button.active {
         .gradient(@primary+50, @primary);
       }
-      a.sub {
-        text-align: left;
-        margin-top: -10px;
-        color: @dark + 50;
-        text-decoration: none;
+      .sub {
+        margin-top: 5px;
+        a {
+          text-align: left;
+          color: @dark + 50;
+          text-decoration: none;
+        }
       }
       a.sub:hover {
         color: @primary;
@@ -254,6 +266,7 @@ fieldset {
   width: 285px;
   margin: 0 40px 50px 0;
   padding: 0 25px 25px 0;
+  background-color: #fff;
 }
 
 .right-sidebar {
@@ -261,6 +274,11 @@ fieldset {
   width: 300px;
   margin: 0 0 50px 50px;
   padding: 0 0 25px 25px;
+  background-color: #fff;
+}
+
+.accommodate-left-sidebar {
+  margin-left: 350px;
 }
 
 .profile {
@@ -315,16 +333,6 @@ fieldset {
       display: block;
     }
   }
-  h3 {
-    font-size: 16pt;
-    font-weight: normal;
-    border-bottom: 1px solid @light - 20;
-    margin: 40px 0 20px 0;
-    padding-bottom: 5px;
-  }
-  h3:first-child {
-    margin-top: 0;
-  }
   h4 {
     font-family: @body-font;
     display: inline;
@@ -345,6 +353,10 @@ fieldset {
       text-decoration: none;
     }
   }
+}
+.edit-picture .profile-pic {
+  float: left;
+  margin: 0 20px 20px 0;
 }
 .favorites-group {
   margin-bottom: 15px;
@@ -398,20 +410,21 @@ fieldset {
   vertical-align: middle;
 }
 
-.edit-icon {
+.icon-sprite(@x, @y) {
   padding-left: 15px;
-  background: url(/images/clean/edit.png) left no-repeat;
+  background: url(/images/clean/icons.png) @x @y no-repeat;
 }
 
-.add-icon {
-  padding-left: 15px;
-  background: url(/images/clean/add.png) left no-repeat;
-}
-
-.comment-icon {
-  padding-left: 15px;
-  background: url(/images/clean/comment.png) left no-repeat;
-}
+.add-icon     { .icon-sprite(0px,    0px) }
+.edit-icon    { .icon-sprite(0px,  -20px) }
+.lock-icon    { .icon-sprite(0px,  -40px) }
+.comment-icon { .icon-sprite(0px,  -64px) } /* up just a bit */
+.dots-icon    { .icon-sprite(0px,  -80px) }
+.people-icon  { .icon-sprite(0px, -100px) }
+.money-icon   { .icon-sprite(0px, -120px) }
+.feed-icon    { .icon-sprite(0px, -140px) }
+.right-icon   { .icon-sprite(0px, -160px) }
+.left-icon    { .icon-sprite(0px, -180px) }
 
 ul.buttons {
   list-style: none;
@@ -501,6 +514,26 @@ table.comments {
   }
 }
 
+/* Popup Menus */
+
+.popup-menu {
+  list-style: none;
+  li {
+    margin-bottom: 3px;
+  }
+  li.divider {
+    height: 1px;
+    margin: 6px 0;
+    border-top: 1px solid @light - 20;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+.qtip-wrapper {
+  .shadow;
+}
+
 /* Generic Styles */
 
 .margin-top     { margin-top:     15px; }
@@ -523,8 +556,9 @@ table.comments {
 .line-left      { border-left:   1px solid @light - 20; }
 .line-right     { border-right:  1px solid @light - 20; }
 
-table.spaced td {
+table.spaced td, table.spaced th {
   padding: 0 20px 10px 0;
+  text-align: left;
 }
 
 .small {
@@ -533,4 +567,9 @@ table.spaced td {
 
 .discreet, .discreet a {
   color: @light - 50;
+}
+
+.very-strong {
+  color: red;
+  font-weight: bold;
 }

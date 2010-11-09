@@ -35,7 +35,16 @@
   </div>
   <div id="main">
     <div class="inner">
-      {{ content_for_layout }}
+      {% if content_for_sidebar %}
+        <div class="left-sidebar">
+          {{ content_for_sidebar }}
+        </div>
+        <div class="accommodate-left-sidebar">
+          {{ content_for_layout }}
+        </div>
+      {% else %}
+        {{ content_for_layout }}
+      {% endif %}
     </div>
   </div>
   <div class="inner">
@@ -45,5 +54,6 @@
   </div>
   {{ news_js }}
   {{ analytics_js }}
+  {{ menu_content }}
 </body>
 </html>

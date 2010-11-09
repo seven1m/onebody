@@ -18,7 +18,7 @@
   <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), person_path(@person) %></li>
 <% end %>
 
-<h1><%= @person.name %></h1>
+<h2><%= @person.name %></h2>
 <%= form_for @person, :url => person_account_path(@person), :html => {:onsubmit => "return encrypt_passwords()"} do |form| %>
   <%= hidden_field_tag :encrypted_password %>
   <%= hidden_field_tag :encrypted_password_confirmation %>

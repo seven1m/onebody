@@ -134,8 +134,18 @@ h6 {
   margin-bottom: 15px;
 }
 h2 {
-  font-size: 16pt;
+  font-size: 20pt;
   font-weight: normal;
+}
+h3 {
+  font-size: 14pt;
+  font-weight: normal;
+  border-bottom: 1px solid #dadada;
+  margin: 40px 0 20px 0;
+  padding-bottom: 5px;
+}
+h3:first-child {
+  margin-top: 0;
 }
 ul.list,
 ol.list,
@@ -313,9 +323,11 @@ fieldset legend {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #64b8e7), color-stop(100%, #3286b5));
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64b8e7', endColorstr='#3286b5', GradientType=0 );
 }
-#nav .buttons li a.sub {
+#nav .buttons li .sub {
+  margin-top: 5px;
+}
+#nav .buttons li .sub a {
   text-align: left;
-  margin-top: -10px;
   color: #656565;
   text-decoration: none;
 }
@@ -348,12 +360,17 @@ fieldset legend {
   width: 285px;
   margin: 0 40px 50px 0;
   padding: 0 25px 25px 0;
+  background-color: #fff;
 }
 .right-sidebar {
   float: right;
   width: 300px;
   margin: 0 0 50px 50px;
   padding: 0 0 25px 25px;
+  background-color: #fff;
+}
+.accommodate-left-sidebar {
+  margin-left: 350px;
 }
 .profile .profile-sidebar {
   float: left;
@@ -404,16 +421,6 @@ fieldset legend {
 .profile .profile-details .new-line {
   display: block;
 }
-.profile h3 {
-  font-size: 16pt;
-  font-weight: normal;
-  border-bottom: 1px solid #dadada;
-  margin: 40px 0 20px 0;
-  padding-bottom: 5px;
-}
-.profile h3:first-child {
-  margin-top: 0;
-}
 .profile h4 {
   font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
   display: inline;
@@ -433,6 +440,10 @@ fieldset legend {
 }
 .family li a {
   text-decoration: none;
+}
+.edit-picture .profile-pic {
+  float: left;
+  margin: 0 20px 20px 0;
 }
 .favorites-group {
   margin-bottom: 15px;
@@ -482,17 +493,46 @@ fieldset legend {
   background-color: transparent;
   vertical-align: middle;
 }
-.edit-icon {
-  padding-left: 15px;
-  background: url(/images/clean/edit.png) left no-repeat;
-}
 .add-icon {
   padding-left: 15px;
-  background: url(/images/clean/add.png) left no-repeat;
+  background: url(/images/clean/icons.png) 0px 0px no-repeat;
+}
+.edit-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png) 0px -20px no-repeat;
+}
+.lock-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png) 0px -40px no-repeat;
 }
 .comment-icon {
   padding-left: 15px;
-  background: url(/images/clean/comment.png) left no-repeat;
+  background: url(/images/clean/icons.png) 0px -64px no-repeat;
+}
+/* up just a bit */
+.dots-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png) 0px -80px no-repeat;
+}
+.people-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png) 0px -100px no-repeat;
+}
+.money-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png) 0px -120px no-repeat;
+}
+.feed-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png) 0px -140px no-repeat;
+}
+.right-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png) 0px -160px no-repeat;
+}
+.left-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png) 0px -180px no-repeat;
 }
 ul.buttons {
   list-style: none;
@@ -592,6 +632,26 @@ table.comments {
 table.comments td {
   padding: 5px;
 }
+/* Popup Menus */
+.popup-menu {
+  list-style: none;
+}
+.popup-menu li {
+  margin-bottom: 3px;
+}
+.popup-menu li.divider {
+  height: 1px;
+  margin: 6px 0;
+  border-top: 1px solid #dadada;
+}
+.popup-menu a {
+  text-decoration: none;
+}
+.qtip-wrapper {
+  -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+}
 /* Generic Styles */
 .margin-top {
   margin-top: 15px;
@@ -641,12 +701,17 @@ table.comments td {
 .line-right {
   border-right: 1px solid #dadada;
 }
-table.spaced td {
+table.spaced td, table.spaced th {
   padding: 0 20px 10px 0;
+  text-align: left;
 }
 .small {
   font-size: smaller;
 }
 .discreet, .discreet a {
   color: #bcbcbc;
+}
+.very-strong {
+  color: red;
+  font-weight: bold;
 }

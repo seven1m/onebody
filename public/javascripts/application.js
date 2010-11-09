@@ -48,3 +48,46 @@ if(location.hash != '') {
     shareSomething(location.hash.replace(/#/, ''));
   };
 }
+
+function setupMenu(selector, contentSelector) {
+  $(selector).qtip({
+    content: $(contentSelector).html(),
+    show: {
+      delay: 750,
+      when: {
+        event: 'mouseover'
+      },
+      effect: {
+        type: 'slide'
+      }
+    },
+    hide: {
+      delay: 1000,
+      fixed: true,
+      when: {
+        event: 'mouseout'
+      }
+    },
+    style: {
+      name: 'light',
+      tip: 'topMiddle'
+    },
+    position: {
+      corner: {
+        target: 'bottomMiddle',
+        tooltip: 'topMiddle'
+      }
+    }
+  });
+}
+
+function setupMenus() {
+  if($('#home-tab-menu').length == 1) {
+    setupMenu('#home-tab', '#home-tab-menu');
+  }
+  if($('#profile-tab-menu').length == 1) {
+    setupMenu('#profile-tab', '#profile-tab-menu');
+  }
+}
+
+$(setupMenus);

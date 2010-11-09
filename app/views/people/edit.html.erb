@@ -15,16 +15,6 @@
   <p class="very-strong"><%= t('people.this_account_is_frozen', :name => @person.name) %></p>
 <% end %>
 
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), person_path(@person) %></li>
-  <li><%= link_to image_tag('email_edit.png', :alt => t('privacies.change_email_password'), :class => 'icon') + ' ' + t('privacies.change_email_password'), edit_person_account_path(@person) %></li>
-  <li><%= link_to image_tag('lock.png', :alt => t('privacies.privacy_settings'), :class => 'icon') + ' ' + t('privacies.privacy_settings'), edit_person_privacy_path(@person, :anchor => "p#{@person.id}") %></li>
-  <li><%= link_to image_tag('feed_small.png', :alt => t('people.feeds'), :class => 'icon') + ' ' + t('people.feeds'), person_feeds_path(@person) %></li>
-  <% if @logged_in.admin?(:edit_profiles) and !me? %>
-    <li><%= link_to (@person.account_frozen? ? t('people.unfreeze') : t('people.freeze')), person_path(@person, :freeze => 'toggle'), :method => 'put', :confirm => t('are_you_sure') %></li>
-  <% end %>
-<% end %>
-
 <% if @person.account_frozen? and me? %>
   <p class="attention">
     <%= t('people.your_account_has_been_frozen') %>
@@ -52,26 +42,15 @@
     <%= render :partial => 'edit_basics' %>
   </div>
 
-  <div id="picture">
-    <p>
-      <%= t('people.upload_a_picture_of_html', :name => me? ? 'yourself' : @person.name) %>
-      <%= t('people.please_only_upload_real_photo_html') %>
-    </p>
-    <table><tr><td>
+  <div id="picture" class="edit-picture">
     <%= render :partial => 'photo' %>
-    </td><td>
+    <p><%= t('people.upload_a_picture_of_html', :name => me? ? 'yourself' : @person.name) %></p>
     <%= photo_upload_for @person %>
-    </td></tr></table>
 
-    <p>
-      <%= t('people.upload_family_picture_html') %>
-      <%= t('people.please_only_upload_real_photo_html') %>
-    </p>
-    <table><tr><td>
+    <div class="clear margin-bottom"></div>
     <%= render :partial => 'families/photo' %>
-    </td><td>
+    <p><%= t('people.upload_family_picture_html') %></p>
     <%= photo_upload_for @family %>
-    </td></tr></table>
   </div>
 
   <div id="about">
@@ -98,19 +77,19 @@
       <p style="font-style:italic;"><%= t('people.separate_items_with_commas') %></p>
       <div>
       <label for="person_activities"><%= t('people.activities') %>:</label>
-      <%= form.text_area :activities, :rows => 4 %>
+      <%= form.text_area :activities, :rows => 4, :cols => 80 %>
       <label for="person_interests"><%= t('people.interests') %>:</label>
-      <%= form.text_area :interests, :rows => 4 %>
+      <%= form.text_area :interests, :rows => 4, :cols => 80 %>
       <label for="person_music"><%= t('people.music') %>:</label>
-      <%= form.text_area :music, :rows => 4 %>
+      <%= form.text_area :music, :rows => 4, :cols => 80 %>
       <label for="person_tv_shows"><%= t('people.tv_shows') %>:</label>
-      <%= form.text_area :tv_shows, :rows => 4 %>
+      <%= form.text_area :tv_shows, :rows => 4, :cols => 80 %>
       <label for="person_movies"><%= t('people.movies') %>:</label>
-      <%= form.text_area :movies, :rows => 4 %>
+      <%= form.text_area :movies, :rows => 4, :cols => 80 %>
       <label for="person_books"><%= t('people.books') %>:</label>
-      <%= form.text_area :books, :rows => 4 %>
+      <%= form.text_area :books, :rows => 4, :cols => 80 %>
       <label for="person_quotes"><%= t('people.quotes') %>:</label>
-      <%= form.text_area :quotes, :rows => 4 %>
+      <%= form.text_area :quotes, :rows => 4, :cols => 80 %>
       </div>
       <p><input type="submit" value="<%= t('save_changes') %>"/></p>
     <% end %>
@@ -161,7 +140,7 @@
       <p><%= t('people.click_to_change_email_html', :url => edit_person_account_path(@person)) %></p>
     </div>
 
-    <h2><%= t('people.wall_emails') %></h2>
+    <h3><%= t('people.wall_emails') %></h3>
     <%= form_for @person do |form| %>
       <p>
         <%= form.check_box :get_wall_email, :class => 'checkbox' %>
@@ -170,17 +149,17 @@
       </p>
     <% end %>
 
-    <h2><%= t('groups.group_emails') %></h2>
+    <h3><%= t('groups.group_emails') %></h3>
     <%= render :partial => 'groups/person_groups' %>
 
-    <h2><%= t('people.alternate_email') %></h2>
+    <h3><%= t('people.alternate_email') %></h3>
 
     <p>
       <%= t('people.if_you_have_another_email') %>
       <%= t('please_note') %>:
     </p>
 
-    <ul>
+    <ul class="list">
       <li><%= t('people.this_email_will_not_be_visible') %></li>
       <li><%= t('people.you_will_not_able_use_this_address') %></li>
     </ul>
@@ -212,6 +191,7 @@
       <% end %>
     </div>
   <% end %>
+</div>
 
 <% content_for :head do %>
   <script type="text/javascript">

@@ -919,6 +919,18 @@ en:
     powered_by_html: Powered by <a href="http://beonebody.org" rel="external">OneBody</a>
     privacy_policy: Privacy Policy
 
+  menus:
+    home:
+      feed: feed
+    profile:
+      contributions: contributions
+      edit: edit profile
+      edit_family: edit family
+      new_family: new family
+      privacy: privacy
+      password: password
+      relationships: relationships
+
   messages: 
     ago: ago
     attachment: Attachment
@@ -948,7 +960,7 @@ en:
     reply: Reply
     reply_by: Reply by
     reply_to_this_message: Reply to this message
-    send_message: Send Message
+    send_message: Send Email
     sent: Your message has been sent.
     sent_per_day: Messages Sent Per Day
     some_quoted_text_is_hidden: Some quoted text in this message is hidden;
@@ -1207,8 +1219,8 @@ en:
     tv_shows: TV Shows
     type_web_address: "Or, type a web address for your image:"
     unfreeze: Unfreeze
-    upload_a_picture_of_html: Upload a <strong>picture of {{name}}</strong>.
-    upload_family_picture_html: Upload a <strong>family picture</strong>.
+    upload_a_picture_of_html: Upload a picture of {{name}} here.
+    upload_family_picture_html: Upload a family picture here.
     update_to_profile_is: An update to this profile is
     visibility: Visibility
     visible_on_printed_directory: Visible on Printed Directory
