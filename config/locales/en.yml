@@ -1604,6 +1604,7 @@ en:
     find_your_friends: Find Your Friends
     friends_search_html: Use the <strong>fields on the left</strong> to search for your friends.
     gender: Gender
+    heading: "{{name}} Directory"
     hidden_profile: Hidden Profile
     male: Male
     member: Member
@@ -1617,7 +1618,7 @@ en:
     print: Print
     printed_directory: Printed Directory
     printed_directory_description_html: The directory is constantly changing. While finding someone online is usually your best bet, you may desire to <a href="{{url}}">print the directory</a> for those 'offline' moments.
-    search: Search
+    search: Directory Search
     search_by_name: Search by name
     search_the_directory: Search the Directory
     searching: Searching...

@@ -487,6 +487,41 @@ fieldset legend {
   padding-top: 80px;
   text-align: center;
 }
+/* Search */
+#search-page {
+  text-align: center;
+  margin-top: 100px;
+}
+#search-page h2.search-heading {
+  color: #5f9128;
+  font-size: 24pt;
+  width: 400px;
+  margin: 0 auto 25px auto;
+}
+#search-page .search-field {
+  font-size: 12pt;
+  padding: 4px;
+  width: 400px;
+}
+#search-page .links {
+  margin-top: 75px;
+  list-style: none;
+  text-align: center;
+}
+#search-page .links li {
+  display: inline;
+  display: inline-block;
+  margin: 0 10px;
+}
+#searching {
+  font-size: 14pt;
+  display: none;
+}
+.search-results td, .search-results th {
+  padding: 0 15px;
+  vertical-align: middle;
+  text-align: left;
+}
 /* Icons */
 .icon {
   border: none;
@@ -714,4 +749,10 @@ table.spaced td, table.spaced th {
 .very-strong {
   color: red;
   font-weight: bold;
+}
+.centered {
+  text-align: center;
+}
+.pagination {
+  margin: 15px 0;
 }

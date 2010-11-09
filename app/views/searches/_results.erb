@@ -1,27 +1,8 @@
-<h2><%= t('search_results') %></h2>
-
-<p>
-  <%= t("search.people_found", :count => @count) %>
-  <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
-    <%= t("search.not_showing_hidden_people") %>
-  <% end %>
-</p>
-
 <%= will_paginate @people, :params => params %>
 
 <% if @people and @people.any? %>
 
-  <% if @search.show_businesses %>
-    <p>
-      <label for="category"><%= t('search.business_category') %></label>
-      <select id="category" onchange="location.href='?business=true&category='+value">
-        <option value=""><%= t('search.show_all') %></option>
-        <%= options_for_select @business_categories, params[:category] %>
-      </select>
-    </p>
-  <% end %>
-
-  <table>
+  <table class="search-results">
     <tr>
       <th></th>
       <% if @search.show_businesses %>
@@ -43,6 +24,8 @@
               <%= image_tag person.photo.url(:tn), :alt => person.name, :class => 'no-border' %>
             <% elsif person.family and person.family.photo.exists? %>
               <%= image_tag person.family.photo.url(:tn), :alt => person.family.name, :class => 'no-border' %>
+            <% else %>
+              <%= image_tag person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png', :alt => person.name %>
             <% end %>
           </a>
         </td>
@@ -56,7 +39,6 @@
         <% else %>
           <td>
             <%= link_to person.name, person_path(:id => person) %>
-            <%= render :partial => 'person_type', :locals => {:person => person} %>
             <% unless person.visible? %>
               <%= image_tag 'lock.gif', :alt => t('search.hidden_profile'), :class => 'icon' %>
             <% end %>
@@ -67,9 +49,7 @@
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
         <% end %>
         <td>
-          <% if Setting.get(:features, :friends) and @logged_in.can_request_friendship_with?(person) and @logged_in != person %>
-            <%= link_to image_tag('contact_add.gif', :alt => t('friends.add_friend'), :class => 'icon'), {:remote => true, :url => person_friends_path(@logged_in, :friend_id => person), :loading => "$('add_friend_#{person.id}').innerHTML += '<img src=\"/images/spinner_small.gif\" class=\"icon\"/>';", :confirm => t('friends.confirm_email_will_be_sent')}, :class => 'discreet', :id => "add_friend_#{person.id}" %>
-          <% end %>
+          <%= render :partial => 'person_type', :locals => {:person => person} %>
         </td>
       </tr>
     <% end %>
