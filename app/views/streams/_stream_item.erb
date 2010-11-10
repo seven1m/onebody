@@ -5,9 +5,9 @@
   </div>
   <div class="stream-item-body">
     <% if stream_item.title %>
-      <h2>
+      <h3>
         <%= link_to stream_item.title, stream_item %>
-      </h2>
+      </h3>
     <% else %>
       <% if stream_item.wall and (params[:controller] != 'people' or stream_item.wall_id != @person.id) %>
         <div style="float:left;margin:0 10px 0 -12px;height:37px;">

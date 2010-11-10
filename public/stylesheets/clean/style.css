@@ -678,8 +678,9 @@ a.button:hover, a.button.active {
 .stream-item {
   margin-bottom: 10px;
 }
-.stream-item h2 {
+.stream-item h3 {
   margin-bottom: 10px;
+  border: none;
 }
 .stream-item ul, .stream-item ol {
   padding-left: 20px;
