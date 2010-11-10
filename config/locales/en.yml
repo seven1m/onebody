@@ -922,6 +922,9 @@ en:
   menus:
     home:
       feed: feed
+      pictures: pictures
+      publications: publications
+      verses: verses
     profile:
       contributions: contributions
       edit: edit profile
