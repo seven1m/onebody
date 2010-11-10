@@ -1646,7 +1646,7 @@ pt:
     email_notifications: Notificações por Email
     feed: Feed de Publicações
     file: Arquivo
-    files_with_acrobat_icon: Para arquivos com o ícone Acrobat {{img}}, você irá precisar {{url}} (conhecido como "Acrobat Reader") ou outro programa compatível com a visualização de arquivos PDF.
+    files_with_acrobat_icon_html: Para arquivos com o ícone Acrobat {{img}}, você irá precisar {{url}} (conhecido como "Acrobat Reader") ou outro programa compatível com a visualização de arquivos PDF.
     inform_publication_available: Este é para informar você que uma nova publicação foi adicionada ao {{site}}.
     name: Nome
     new_publication: Nova Publicação

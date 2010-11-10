@@ -209,8 +209,8 @@ module ApplicationHelper
     if form.object.errors.any?
       (
         "<div class=\"errorExplanation\">" + \
-        "<h2>#{t('There_were_errors')}</h2>" + \
-        "<ul>" + \
+        "<h3>#{t('There_were_errors')}</h3>" + \
+        "<ul class=\"list\">" + \
         form.object.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
         "</ul>" + \
         "</div>"

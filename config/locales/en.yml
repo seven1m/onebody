@@ -1431,7 +1431,7 @@ en:
     email_notifications: Email Notifications
     feed: Publications Feed
     file: File
-    files_with_acrobat_icon: For files with the Acrobat icon {{img}}, you will need {{url}} (aka "Acrobat Reader") or another program capable of viewing PDF files.
+    files_with_acrobat_icon_html: For files with the Acrobat icon {{img}}, you will need {{url}} (aka "Acrobat Reader") or another program capable of viewing PDF files.
     inform_publication_available: This is to inform you that a new publication has been added to {{site}}.
     name: Name
     new_publication: New Publication

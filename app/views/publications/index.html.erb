@@ -4,19 +4,23 @@
 
 <% content_for :subnav do %>
   <% if @logged_in.admin?(:manage_publications) %>
-    <li><%= link_to image_tag('plus.png', :alt => t('publications.new_publication'), :class => 'icon') + ' ' + t('publications.add_publication'), new_publication_path %></li>
+    
   <% end %>
   <li><%= link_to image_tag('feed_small.png', :alt => t('publications.feed'), :class => 'icon') + ' ' + t('publications.subscribe'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %></li>
 <% end %>
 
-<h1><%= t('publications.publications') %></h1>
 
-<%= render :partial => 'list' %>
+<% content_for :sidebar do %>
+  <h2><%= t('publications.publications') %></h2>
+  <p><%= t('publications.files_with_acrobat_icon_html', {:img => image_tag('clean/acrobat.png', :alt => 'Adobe Acrobat', :class => 'icon'), :url => link_to('Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html')}) %></p>
+  <div id="publications"><%= render :partial => 'list' %></div>
+<% end %>
+
 
 <h2><%= t('publications.update_notifications') %></h2>
 
 <p>
-  <%= link_to image_tag('rss.png', :alt => t('publications.feed'), :class => 'icon'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %>
+  <%= link_to image_tag('clean/feed.png', :alt => t('publications.feed'), :class => 'icon'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %>
   <%= t('publications.subscribe_feed_html', :url => publications_path(:format => 'xml', :code => @logged_in.feed_code)) %>
 </p>
 
@@ -25,14 +29,14 @@
   
   <% if @logged_in.member_of?(group) %>
     <p>
-      <%= image_tag 'message.gif', :alt => t('publications.email_notifications'), :class => 'icon' %>
+      <%= image_tag 'clean/email.png', :alt => t('publications.email_notifications'), :class => 'email-notification-icon' %>
       <%= t('publications.currently_signed_up') %>
       <%= link_to t('click_here'), group_membership_path(group, @logged_in), :method => 'delete' %>
       <%= t('publications.to_stop_receiving_notifications') %>
     </p>
   <% else %>
     <p>
-      <%= image_tag 'message.gif', :alt => t('publications.email_notifications'), :class => 'icon' %>
+      <%= image_tag 'clean/email.png', :alt => t('publications.email_notifications'), :class => 'email-notification-icon' %>
       <%= t('publications.start_receiving_notifications') %>
       <%= link_to t('click_here'), group_memberships_path(group, :id => @logged_in), :method => 'post' %>.
     </p>

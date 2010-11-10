@@ -15,7 +15,7 @@ class PublicationsController < ApplicationController
   def new
     if @logged_in.admin?(:manage_publications)
       @publication = Publication.new
-      @groups = Group.all(:conditions => "name like 'Publications%'")
+      set_groups
     else
       render :text => t('only_admins'), :layout => true, :status => 401
     end
@@ -27,8 +27,8 @@ class PublicationsController < ApplicationController
       if (file = params[:publication].delete(:file)) and not file.is_a? String
         @publication.attributes = params[:publication]
         @publication.person = @logged_in
+        @publication.file = file
         if @publication.save
-          @publication.file = file
           flash[:notice] = t('publications.saved')
           if params[:send_update_to_group_id].to_i > 0
             @group = Group.find(params[:send_update_to_group_id])
@@ -38,10 +38,12 @@ class PublicationsController < ApplicationController
             redirect_to publications_path
           end
         else
+          set_groups
           render :action => 'new'
         end
       else
         @publication.errors.add(:base, t('publications.you_must_select_file'))
+        set_groups
         render :action => 'new'
       end
     else
@@ -53,9 +55,18 @@ class PublicationsController < ApplicationController
     if @logged_in.admin?(:manage_publications)
       Publication.find(params[:id]).destroy
       flash[:notice] = t('publications.deleted')
-      redirect_to publications_path
+      respond_to do |format|
+        format.html { redirect_to publications_path }
+        format.js { @publications = Publication.all(:order => 'created_at desc') }
+      end
     else
       render :text => t('only_admins'), :layout => true, :status => 401
     end
   end
+
+  private
+
+    def set_groups
+      @groups = Group.all(:conditions => "name like 'Publications%'")
+    end
 end

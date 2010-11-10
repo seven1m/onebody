@@ -4,7 +4,7 @@ class Publication < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :name, :description
+  attr_accessible :name, :description, :file
 
   has_attached_file :file, PAPERCLIP_FILE_OPTIONS
   acts_as_logger LogItem

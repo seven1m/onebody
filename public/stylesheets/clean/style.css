@@ -136,6 +136,10 @@ h6 {
 h2 {
   font-size: 20pt;
   font-weight: normal;
+  margin-top: 30px;
+}
+h2:first-child {
+  margin-top: 0;
 }
 h3 {
   font-size: 14pt;
@@ -490,6 +494,17 @@ fieldset legend {
   padding-top: 80px;
   text-align: center;
 }
+.errorExplanation {
+  border: 1px solid #dadada;
+  -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+.errorExplanation h3 {
+  border: none;
+  color: #ff6666;
+}
 /* Search */
 #search-page {
   text-align: center;
@@ -531,59 +546,69 @@ fieldset legend {
   background-color: transparent;
   vertical-align: middle;
 }
+.email-notification-icon {
+  vertical-align: middle;
+  float: left;
+  margin-right: 10px;
+}
 .add-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px 0px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px 0px no-repeat;
 }
 .edit-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -20px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -20px no-repeat;
 }
 .lock-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -40px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -40px no-repeat;
 }
 .comment-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -66px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -66px no-repeat;
 }
 /* up just a bit */
 .dots-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -80px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -80px no-repeat;
 }
 .people-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -100px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -100px no-repeat;
 }
 .money-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -120px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -120px no-repeat;
 }
 .feed-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -140px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -140px no-repeat;
 }
 .right-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -160px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -160px no-repeat;
 }
 .left-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -180px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -180px no-repeat;
 }
 .picture-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -200px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -200px no-repeat;
 }
 .file-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -220px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -220px no-repeat;
 }
 .verse-icon {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) 0px -240px no-repeat;
+  background: url(/images/clean/icons.png?201011091342) 0px -240px no-repeat;
 }
+.delete-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png?201011091342) 0px -256px no-repeat;
+}
+/* down a bit */
 ul.buttons {
   list-style: none;
   margin-bottom: 25px;

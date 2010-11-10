@@ -1,13 +1,15 @@
-@dark: #333;
-@light: #eee;
-@common: #333;
-@footer: @light - 75;
-@primary: #3286B5;
+@dark:      #333;
+@light:     #eee;
+@common:    #333;
+@footer:    @light - 75;
+@primary:   #3286B5;
 @secondary: #5F9128;
-@tertiary: #C8EAFE;
+@tertiary:  #C8EAFE;
+@alert:     #f66;
 
 @heading-font: "Century Gothic", "Tw Cen MT", Futura, "URW Gothic L", Arial, sans-serif;
-@body-font: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+@body-font:    "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+
 @body-font-color: @dark + 40;
 
 .gradient(@top:#fff, @bottom:#eee) {
@@ -79,6 +81,10 @@ h1, h2, h3, h4, h5, h6 {
 h2 {
   font-size: 20pt;
   font-weight: normal;
+  margin-top: 30px;
+}
+h2:first-child {
+  margin-top: 0;
 }
 h3 {
   font-size: 14pt;
@@ -404,6 +410,15 @@ fieldset {
   padding-top: 80px;
   text-align: center;
 }
+.errorExplanation {
+  h3 {
+    border: none;
+    color: @alert;
+  }
+  border: 1px solid @light - 20;
+  .shadow;
+  padding: 10px;
+}
 
 /* Search */
 
@@ -452,9 +467,15 @@ fieldset {
   vertical-align: middle;
 }
 
+.email-notification-icon {
+  vertical-align: middle;
+  float: left;
+  margin-right: 10px;
+}
+
 .icon-sprite(@x, @y) {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091321) @x @y no-repeat;
+  background: url(/images/clean/icons.png?201011091342) @x @y no-repeat;
 }
 
 .add-icon     { .icon-sprite(0px,    0px) }
@@ -470,6 +491,7 @@ fieldset {
 .picture-icon { .icon-sprite(0px, -200px) }
 .file-icon    { .icon-sprite(0px, -220px) }
 .verse-icon   { .icon-sprite(0px, -240px) }
+.delete-icon  { .icon-sprite(0px, -256px) } /* down a bit */
 
 ul.buttons {
   list-style: none;
