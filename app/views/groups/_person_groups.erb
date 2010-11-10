@@ -1,5 +1,5 @@
 <% if @person.groups.count > 0 %>
-  <table>
+  <table class="spaced">
     <% @person.memberships.all(:order => 'groups.name', :include => :group).each do |membership| %>
       <% if group = membership.group %>
         <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
