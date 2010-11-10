@@ -107,7 +107,6 @@ module ApplicationHelper
   def footer_content
     "&copy; #{Date.today.year}, #{Setting.get(:name, :community)} &middot; " + \
     "<a href=\"/pages/help/privacy_policy\">#{t('layouts.privacy_policy')}</a> &middot; " + \
-    "<a href=\"/pages/system/credits\">#{t('layouts.credits')}</a> &middot; " + \
     t('layouts.powered_by_html')
   end
 

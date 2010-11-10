@@ -1147,7 +1147,7 @@ pt:
     credits: Créditos
     full_site: Visualização Normal
     this_is_the_fallback_template: Este é um template usado no caso do seu selecionado não puder ser encontrado. Por favor verifique que as suas configurações de Tema aponte a um diretório real dentro do diretório themes/.
-    powered_by_html: Provido por <a href="http://beonebody.org" rel="external">OneBody</a>
+    powered_by_html: Provido por <a href="http://beonebody.com" rel="external">OneBody</a>
     privacy_policy: Política de Privacidade
 
   messages: 

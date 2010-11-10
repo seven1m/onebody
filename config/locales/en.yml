@@ -916,7 +916,7 @@ en:
     credits: Credits
     full_site: Full Site
     this_is_the_fallback_template: This is the fallback template used in case your selected theme cannot be found. Please check that your Theme setting points to a real directory inside the themes/ directory.
-    powered_by_html: Powered by <a href="http://beonebody.org" rel="external">OneBody</a>
+    powered_by_html: Powered by <a href="http://beonebody.com" rel="external">OneBody</a>
     privacy_policy: Privacy Policy
 
   menus:
