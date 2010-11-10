@@ -828,6 +828,7 @@ en:
     location_address: Location and Address
     meets: Meets
     meets_when: Meets When
+    members: Group Members
     members_send: Members Send
     must_specify_ids_list: You must specify a list of ids.
     name_required: Name (required)

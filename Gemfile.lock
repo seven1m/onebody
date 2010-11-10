@@ -1,11 +1,11 @@
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 4480521df962705872cb3a7d718247feb84c0467
+  revision: 7611a0925c47e3cdb1989996f19285d95404d884
   branch: 3-0-stable
   specs:
     actionmailer (3.0.2.pre)
       actionpack (= 3.0.2.pre)
-      mail (~> 2.2.6.1)
+      mail (~> 2.2.9)
     actionpack (3.0.2.pre)
       activemodel (= 3.0.2.pre)
       activesupport (= 3.0.2.pre)
@@ -35,13 +35,13 @@ GIT
       activerecord (= 3.0.2.pre)
       activeresource (= 3.0.2.pre)
       activesupport (= 3.0.2.pre)
-      bundler (~> 1.0.3)
+      bundler (~> 1.0.0)
       railties (= 3.0.2.pre)
     railties (3.0.2.pre)
       actionpack (= 3.0.2.pre)
       activesupport (= 3.0.2.pre)
       rake (>= 0.8.7)
-      thor (~> 0.14.2)
+      thor (~> 0.14.4)
 
 GIT
   remote: git://github.com/seven1m/webrat.git
@@ -54,9 +54,9 @@ GIT
 
 GIT
   remote: git://github.com/thoughtbot/paperclip.git
-  revision: ef7233d25700a7e69cebd2334b656fa9ca0ae927
+  revision: fa7ee7caf4255c16ac52bbe28afd01c4d30fe0ec
   specs:
-    paperclip (2.3.4)
+    paperclip (2.3.5)
       activerecord
       activesupport
 
@@ -84,15 +84,17 @@ GEM
       rubyforge (>= 2.0.4)
     httparty (0.6.1)
       crack (= 0.1.8)
-    i18n (0.4.1)
-    jquery-rails (0.2.4)
+    i18n (0.4.2)
+    jquery-rails (0.2.5)
       rails (~> 3.0)
+      thor (~> 0.14.4)
     json_pure (1.4.6)
     liquid (2.2.2)
-    mail (2.2.6.1)
+    mail (2.2.9)
       activesupport (>= 2.3.6)
-      mime-types
-      treetop (>= 1.4.5)
+      i18n (~> 0.4.1)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
     mime-types (1.16)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
@@ -118,7 +120,7 @@ GEM
       nokogiri (~> 1.4.1)
     selenium-client (1.2.18)
     shoulda (2.11.3)
-    thor (0.14.3)
+    thor (0.14.4)
     transaction-simple (1.4.0)
       hoe (>= 1.1.7)
     treetop (1.4.8)

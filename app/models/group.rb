@@ -1,7 +1,11 @@
 class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
-  has_many :people, :through => :memberships, :order => 'last_name, first_name'
+  has_many :people, :through => :memberships, :order => 'last_name, first_name' do
+    def thumbnails
+      self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', :order => 'last_name, first_name')
+    end
+  end
   has_many :admins, :through => :memberships, :source => :person, :order => 'last_name, first_name', :conditions => ['memberships.admin = ?', true]
   has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc', :dependent => :destroy
   has_many :notes, :order => 'created_at desc'
@@ -121,6 +125,8 @@ class Group < ActiveRecord::Base
     if respond_to?(:cm_api_list_id) and cm_api_list_id.to_s.any? and Setting.get(:services, :campaign_monitor_api_key).to_s.any?
       sync_with_campaign_monitor
     end
+    # have to expire the group fragments here since this is run in background nightly
+    ActionController::Base.cache_store.delete_matched(%r{groups/#{id}})
   end
 
   def update_membership_associations(new_people)
@@ -254,6 +260,10 @@ class Group < ActiveRecord::Base
           cats[cat] = count.to_i
         end
       end
+    end
+
+    def category_names
+      categories.keys.sort
     end
 
     def count_by_type

@@ -158,10 +158,13 @@
     </p>
   <% end %>
 
-  <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
-  
-  <% unless @stream_items.any? %>
-    <p><%= t('groups.no_online_group_activity') %></p>
+  <% cache do %>
+    <h3><%= t('groups.members') %></h3>
+    <% @members.each do |member| %>
+      <% content_tag :a, :href => person_path(member) do %>
+        <%= render :partial => 'people/thumbnail', :locals => {:person => member} %>
+      <% end %>
+    <% end %>
   <% end %>
 
 </div>
