@@ -1,18 +1,15 @@
-<% content_for :subnav do %>
-  <% if @person %>
-    <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + @person.name, @person %></li>
-  <% end %>
-  <li><%= link_to_function image_tag('plus.png', :alt => t('verses.add_a_verse'), :class => 'icon') + ' ' + t('verses.add_a_verse'), "show_verse_form()" %></li>
-<% end %>
-
-<h1><%= t('verses.verses') %></h1>
+<h2><%= t('verses.verses') %></h2>
 
 <p><%= t('verses.intro', :community => Setting.get(:name, :community)) %></p>
 
-<%= render :partial => 'add_verse' %>
-
 <% content_for :sidebar do %>
-  <h2><%= t('tags.tags') %></h2>
+
+  <%= render :partial => 'add_verse' %>
+
+  <h3><%= t('tags.tags') %></h3>
+
+  <p><%= t('verses.about_tags') %></p>
+
   <div class="tag-cloud">
     <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
       <%= link_to tag.name, tag, :class => css_class %>
@@ -21,9 +18,8 @@
       <em><%= t('tags.no_tags_yet') %></em>
     <% end %>
   </div>
-<% end %>
 
-<%= will_paginate @verses %>
+<% end %>
 
 <% if @verses.any? %>
   <%= render :partial => @verses %>

@@ -646,6 +646,34 @@ a.button:hover, a.button.active {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91c35a', endColorstr='#5f9128', GradientType=0 );
   color: #eeeeee;
 }
+/* Tag Cloud */
+.tag-cloud a {
+  text-decoration: none;
+}
+.tag-cloud .size1 {
+  font-size: 8pt;
+}
+.tag-cloud .size2 {
+  font-size: 12pt;
+}
+.tag-cloud .size3 {
+  font-size: 16pt;
+}
+.tag-cloud .size4 {
+  font-size: 20pt;
+}
+/* Verses */
+.verse {
+  margin-bottom: 25px;
+}
+.verse .verse-heading {
+  font-size: 14pt;
+  border-bottom: none;
+  margin-bottom: 5px;
+}
+.verse .saved-by {
+  font-size: 11pt;
+}
 /* Stream */
 .stream-item {
   margin-bottom: 10px;
@@ -794,5 +822,16 @@ table.spaced td, table.spaced th {
   text-align: center;
 }
 .pagination {
-  margin: 15px 0;
+  margin: 25px 0;
+}
+.pagination em {
+  font-style: normal;
+  border: 1px solid #dadada;
+  padding: 3px;
+}
+.pagination a {
+  padding: 3px;
+}
+.pagination .disabled {
+  color: #bcbcbc;
 }

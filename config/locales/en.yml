@@ -1705,12 +1705,15 @@ en:
     tags: Tags
 
   verses: 
+    about_tags: Tags can group verses together by topic, author, date, or whatever.
     about_this_verse: about this verse. Share what it means to you, how it has helped you, or simply why you like it.
     add_a_verse: Add a Verse
     add_this_verse_to_my_list: Add this verse to my list.
     add_verse: Add Verse
+    add_your_favorite_verse: "Add your favorite verse:"
     all_verses: All Verses
     disclaimer: Scripture quotations marked 'WEB' are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.
+    example_verse: "John 3:16"
     intro: Share your favorite Bible verses with {{community}}.
     no_verses_yet: No verses yet!
     not_found: That verse could not be found. Did you type the reference correctly?
@@ -1718,7 +1721,6 @@ en:
     read_this_passage_at_youversion: Read this passage at YouVersion...
     remove_this_verse: Remove this verse from my list.
     tools: Tools
-    type_a_reference_below_and_hit_enter: "Type a reference (e.g. John 3:16, Matthew 5:3-11) below and hit enter:"
     verse: Verse
     verses: Verses
 

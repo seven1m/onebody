@@ -518,6 +518,37 @@ a.button:hover, a.button.active {
   color: @light;
 }
 
+/* Tag Cloud */
+
+.tag-cloud {
+  a {
+    text-decoration: none;
+  }
+  .size1 { font-size: 8pt;  }
+  .size2 { font-size: 12pt; }
+  .size3 { font-size: 16pt; }
+  .size4 { font-size: 20pt; }
+}
+
+/* Verses */
+
+.verse {
+  margin-bottom: 25px;
+  .verse-heading {
+    font-size: 14pt;
+    border-bottom: none;
+    margin-bottom: 5px;
+  }
+  .saved-by {
+    font-size: 11pt;
+  }
+  .verse-body {
+  }
+  .comment-summary {
+
+  }
+}
+
 /* Stream */
 
 .stream-item {
@@ -646,5 +677,16 @@ table.spaced td, table.spaced th {
 }
 
 .pagination {
-  margin: 15px 0;
+  margin: 25px 0;
+  em {
+    font-style: normal;
+    border: 1px solid @light - 20;
+    padding: 3px;
+  }
+  a {
+    padding: 3px;
+  }
+  .disabled {
+    color: @light - 50;
+  }
 }

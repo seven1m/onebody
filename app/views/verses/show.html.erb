@@ -1,23 +1,20 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('verse.png', :alt => t('verses.all_verses'), :class => 'icon') + ' ' + t('verses.all_verses'), verses_path %></li>
-<% end %>
-
 <% content_for :sidebar do %>
+
+  <p><%= link_to raw('&laquo ') + t('verses.all_verses'), verses_path %></p>
+
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to image_tag('delete.png', :alt => t('verses.remove_this_verse'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), @verse, :method => 'delete', :confirm => t('are_you_sure') %>
-      <%= link_to t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => t('are_you_sure') %>
+      <%= link_to t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
     </p>
   <% else %>
     <p>
-      <%= link_to image_tag('add_small.gif', :alt => t('verses.add_this_verse_to_my_list'), :class => 'icon', :style => 'float:left;margin:4px 5px 10px 0;'), verses_path(:id => @verse), :method => 'post' %>
-      <%= link_to t('verses.add_this_verse_to_my_list'), verses_path(:id => @verse), :method => 'post' %>
+      <%= link_to t('verses.add_this_verse_to_my_list'), verses_path(:id => @verse), :method => 'post', :class => 'add-icon' %>
     </p>
   <% end %>
 
   <% if @verse.people.count > 0 %>
-    <h2><%= t('verses.people_who_like_this_verse') %></h2>
-    <table>
+    <h3><%= t('verses.people_who_like_this_verse') %></h3>
+    <table class="spaced">
       <% @verse.people.each do |person| %>
         <tr>
           <td>
@@ -31,16 +28,18 @@
     </table>
   <% end %>
     
-  <h2><%= t('tags.tags') %></h2>
+  <h3><%= t('tags.tags') %></h3>
 
   <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>
     <p>
       <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse, :br => true} %><br/>
+    </p>
+    <p>
       <%= t('tags.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
     </p>
   </form>
 
-  <h2><%= t('verses.tools') %></h2>
+  <h3><%= t('verses.tools') %></h3>
   <p>
     <%= link_to 'YouVersion', @verse.youversion_url %><br/>
     <%= link_to 'eBible', @verse.ebible_url %><br/>
@@ -49,7 +48,7 @@
 
 <% end %>
 
-<h1><%= @verse.reference %> <span style="font-size:60%;color:#999;">(<%= @verse.translation %>)</span></h1>
+<h2><%= @verse.reference %> <span style="font-size:60%;color:#999;">(<%= @verse.translation %>)</span></h2>
 
 <p>
   <span style="font-size:<%= @verse.text.length > 200 ? '1.6' : '2.4' %>em;line-height:1.2em;"><%= @verse.text %></span>
@@ -64,5 +63,5 @@
   </p>
 <% end %>
 
-<h2><%= t('Comments') %></h2>
+<h3><%= t('Comments') %></h3>
 <%= render :partial => 'comments/comments', :locals => {:object => @verse, :intro => t('verses.about_this_verse')} %>

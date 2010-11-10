@@ -8,7 +8,12 @@
       <% elsif controller == 'recipes' %>
         <% url = recipe_path(:id => object, :remove_tag => tag.name) %>
       <% end %>
-      <%= link_to 'x', url, :title => t('delete'), :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => t('tags.confirm_delete') %>
+      <%= link_to '', url,
+        :title   => t('delete'),
+        :class   => 'delete-icon',
+        :style   => (defined?(br) && br) ? nil : 'margin-left:-5px;',
+        :method  => 'put',
+        :confirm => t('tags.confirm_delete') %>
     <% end %>
     <% if defined?(br) and br %><br/><% end %>
   <% end %>
