@@ -34,11 +34,11 @@ namespace :onebody do
     end
     if paths.any?
       puts
-      puts "==================================================================================="
+      puts "============================================================================"
       puts "Operation complete."
       puts "Please check that all photos and files are in place in public/system."
-      puts "Then you can delete the db/photos, db/attachments, and db/publications directories."
-      puts "==================================================================================="
+      puts "Then you can delete the db/photos, db/attachments, and db/publications dirs."
+      puts "============================================================================"
       puts
     end
   end
