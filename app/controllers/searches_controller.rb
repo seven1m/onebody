@@ -33,7 +33,7 @@ class SearchesController < ApplicationController
         if @people.length == 1 and (params[:name] or params[:quick_name])
           redirect_to person_path(:id => @people.first)
         else
-          render :action => 'new'
+          render :action => 'create'
         end
       end
       wants.iphone do
