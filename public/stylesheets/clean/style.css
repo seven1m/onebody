@@ -66,8 +66,11 @@ td {
   border: 0;
   outline: 0;
   font-size: 100%;
-  vertical-align: top;
+  vertical-align: baseline;
   background: transparent;
+}
+td {
+  vertical-align: top;
 }
 body {
   line-height: 1;
