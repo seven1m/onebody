@@ -53,7 +53,7 @@ function setupMenu(selector, contentSelector) {
   $(selector).qtip({
     content: $(contentSelector).html(),
     show: {
-      delay: 750,
+      delay: 500,
       when: {
         event: 'mouseover'
       },
