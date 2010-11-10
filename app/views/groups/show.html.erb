@@ -1,161 +1,19 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => t('groups.all_groups'), :class => 'icon') + ' ' + t('groups.all_groups'), groups_path %></li>
-  <% if @logged_in.can_edit?(@group) %>
-    <li><%= link_to image_tag('pencil.png', :alt => t('groups.edit_group'), :class => 'icon') + ' ' + t('groups.edit_group'), edit_group_path(@group) %></li>
-    <% if @group.attendance? %>
-      <li><%= link_to image_tag('checkmark.png', :alt => t('groups.attendance'), :class => 'icon') + ' ' + t('groups.attendance'), group_attendance_index_path(@group) %></li>
-    <% end %>
-    <% if not @group.approved? and @logged_in.admin?(:manage_groups) %>
-      <li><%= link_to image_tag('thumb_up.png', :alt => t('groups.approve_group'), :class => 'icon') + ' ' + t('groups.approve_group'), group_path(@group, :group => {:approved => true}), :confirm => t('are_you_sure'), :method => 'put', :class => 'very-strong' %></li>
-    <% end %>
-  <% end %>
-  <% if @member_of %>
-    <li><%= link_to image_tag('lock.png', :alt => t('privacies.group_privacy'), :class => 'icon') + ' ' + t('privacies.group_privacy'), group_membership_privacy_path(@group, @member_of) %></li>
-  <% end %>
-<% end %>
+<%= render :partial => 'menu' %>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'photo' %>
-  
-  <h1>
-    <%= @group.name %>
-  </h1>
-  <p><%= t('groups.category') %>: <%= link_to @group.category, groups_path(:category => @group.category) %></p>
-  <% if @group.leader %>
-    <p><%= t('groups.leader') %>: <%= link_to @group.leader.name, @group.leader %></p>
-  <% end %>
-  
-  <% if @group.linked? or @group.parents_of %>
-    <p><em><%= t('groups.this_group_maintained_by_staff') %></em></p>
-  <% elsif not @group.approved %>
-    <p class="very-strong"><%= t('groups.this_group_is_pending_approval') %></p>
-  <% else %>
-    <% if @group.membership_requests.count(:conditions => ['person_id = ?', @logged_in.id]) > 0 %>
-      <p class="very-strong"><%= t('groups.you_requested_join_this_group') %></p>
-    <% elsif not @member_of %>
-      <p><%= link_to t('groups.join_this_group'), group_memberships_path(@group, :id => @logged_in), :method => 'post', :confirm => @group.admin?(@logged_in) ? t('are_you_sure') : t('groups.request_will_be_sent_to_admins') %></p>
-    <% elsif not @group.last_admin?(@logged_in) %>
-      <p><%= link_to t('groups.leave_this_group'), group_membership_path(@group, @logged_in), :method => 'delete', :confirm => t('are_you_sure') %></p>
-    <% end %>
-  <% end %>
-  
-  <%= render :partial => 'people' %>
-<% end %>
 
-<% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
+  <h2><%= @group.name %></h2>
 
-<% if @group.admin?(@logged_in) and @group.membership_requests.count > 0 %>
-  <p class="highlight">
-    <%= t('groups.this_group_has_pending_html', :url => group_memberships_path(@group)) %>
-  </p>
-<% end %>
-
-<% if @group.description.to_s.any? or @group.meets.to_s.any? or @group.location.to_s.any? or @group.directions.to_s.any? or @group.other_notes.to_s.any? %>
-
-  <% if @show_map %>
-    <div id="map-container" style="display:none;">
-      <div id="map"></div>
-      <div id="map-link">
-        <%= t('people.only_an_approximation') %> |
-        <%= link_to t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@group.location)}", :target => '_new' %>
-      </div>
-    </div>
+  <% if @group.description.to_s.any? %>
+    <p><%= @group.description %></p>
   <% end %>
 
-  <div id="group-details" <% if @show_map %>style="margin-right:275px;"<% end %>>
-
-    <p>
-      <%= @group.description %>
-      <% if @group.private? %>
-        <%= image_tag('lock.gif', :alt => t('groups.this_group_is_private'), :class => 'icon') %>
-      <% end %>
-    </p>
-
-    <table>
-      <% if @group.meets.to_s.any? %>
-        <tr><td><%= t('groups.meets') %>:</td><td><%= @group.meets %></td></tr>
-      <% end %>
-      <% if @group.location.to_s.any? %>
-        <tr><td><%= t('groups.location') %>:</td><td><%= @group.location %></td></tr>
-      <% end %>
-      <% if @group.directions.to_s.any? %>
-        <tr><td><%= t('groups.directions') %>:</td><td><%= @group.directions %></td></tr>
-      <% end %>
-      <% if @group.other_notes.to_s.any? %>
-        <tr><td><%= t('groups.notes') %>:</td><td><%= @group.other_notes %></td></tr>
-      <% end %>
-    </table>
-
-  </div>
-  
-<% end %>
-
-<div id="share" style="display:none;margin-bottom:20px;">
-  
-  <% if @group.email? and @can_post %>
-    <h2 class="tab" id="email"><%= image_tag('message.gif', :alt => t('people.email'), :class => 'icon') %> <%= t('people.email') %></h2>
-    <div class="section">
-      <%= form_for Message.new(:group => @group), :html => {:enctype => 'multipart/form-data', :id => 'message'} do |form| %>
-        <%= form.hidden_field :group_id %>
-        <p>
-          <%= form.label :subject, t('messages.subject') %>
-          <%= form.text_field :subject %><br/>
-          <%= form.label :body, t('messages.message') %>
-          <%= form.text_area :body, :rows => 5, :cols => 80 %>
-        </p>
-        <p>
-          <%= submit_tag t('messages.send_message') %>
-          <%= link_to raw(t('people.advanced') + ' &raquo;'), new_group_message_path(@group), :onclick => "var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href; var s = document.createElement('input'); s.setAttribute('name', 'message[subject]'); s.setAttribute('value', $('message_subject').value); f.appendChild(s); var b = document.createElement('input'); b.setAttribute('name', 'message[body]'); b.setAttribute('value', $('message_body').value); f.appendChild(b); f.submit(); return false;" %>
-        </p>
-        <% if @group.address.to_s.any? %>
-          <p class="discreet"><%= t('groups.or_send_from_your_email_html', :email => @group.full_address) %></p>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-  
-  <% if @group.blog? and @can_post and @note = Note.new(:group => @group) %>
-    <%= render :partial => 'streams/share_note' %>
+  <% if @group.meets.to_s.any? %>
+    <p><%= @group.meets %></p>
   <% end %>
 
-  <% if @group.pictures? %>
-    <%= render :partial => 'streams/share_picture' %>
-  <% end %>
-
-  <% if @group.prayer? %>
-    <%= render :partial => 'streams/share_prayer' %>
-  <% end %>
-</div>
-
-<div style="float:right;width:150px;clear:right;">
-  <ul id="my-stuff">
-    <% if @group.gcal_url                                         %><li><%= link_to image_tag('calendar.png', :alt => t('groups.group_calendar'), :class => 'icon') + ' ' + t('groups.group_calendar'), group_calendar_path(@group)        %></li><% end %>
-    <% if @group.email?                                           %><li><%= link_to image_tag('message.gif',  :alt => t('groups.group_emails'),   :class => 'icon') + ' ' + t('groups.group_emails'),   group_messages_path(@group)        %></li><% end %>
-    <% if Setting.get(:features, :notes    ) and @group.blog?     %><li><%= link_to image_tag('note.png',     :alt => t('groups.group_notes'), :class => 'icon') + ' ' + t('groups.group_notes'),    group_notes_path(@group)           %></li><% end %>
-    <% if Setting.get(:features, :pictures ) and @group.pictures? %><li><%= link_to image_tag('picture.png',  :alt => t('groups.group_pictures'), :class => 'icon') + ' ' + t('groups.group_pictures'), group_albums_path(@group)          %></li><% end %>
-    <% if @group.prayer?                                          %><li><%= link_to image_tag('heart.png',    :alt => t('groups.group_prayer'),   :class => 'icon') + ' ' + t('groups.group_prayer'),   group_prayer_requests_path(@group) %></li><% end %>
-  </ul>
-
-  <% if @group.attachments.count > 0 %>
-    <div style="margin-left:20px;">
-      <p>
-        <strong><%= t('attachments.files') %></strong><br/>
-        <% @group.attachments.all(:order => 'name').each do |attachment| %>
-          <%= link_to attachment.name, get_attachment_path(attachment) %><br/>
-        <% end %>
-      </p>
-    </div>
-  <% end %>
-</div>
-
-<%# Main Content %>
-<div id="profile-body">
-
-  <% if @can_share %>
-    <p style="margin-bottom:20px;" id="share-something">
-      <%= link_to_function image_tag('add_small.gif', :alt => t('stream.share_something'), :class => 'icon'), "shareSomething('email')" %>
-      <%= t('stream.share_something_here_html', :js => "shareSomething('email')") %>
-    </p>
+  <% if @group.location.to_s.any? %>
+    <p><%= @group.location %></p>
   <% end %>
 
   <% cache do %>
@@ -167,18 +25,21 @@
     <% end %>
   <% end %>
 
-</div>
-
-<% unless @group.blog? or @group.email? or @group.prayer? %>
-  <p><em><%= t('groups.this_group_doesnot_offer') %></em></p>
 <% end %>
-
-<% content_for :head do %>
-  <script type="text/javascript"> ALBUMS_JSON_PATH = '<%= group_albums_path(@group.id) %>'; </script>
-<% end %>
-
-<script type="text/javascript"> set_up_tabs(); </script>
 
 <% if @show_map %>
+  <div id="map-container" style="display:none;margin-bottom:30px;">
+    <div id="map" style="width:600px;height:250px;"></div>
+    <div id="map-link">
+      <%= t('people.only_an_approximation') %> |
+      <%= link_to t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@group.location)}", :target => '_new' %>
+    </div>
+  </div>
   <%= render :partial => 'map_scripts' %>
+<% end %>
+
+<% if @show_cal %>
+  <div id="cal-container">
+    <iframe src="<%= @group.gcal_url %>" style="border: 0" width="600" height="400" frameborder="0"></iframe>
+  </div>
 <% end %>

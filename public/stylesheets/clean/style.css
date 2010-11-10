@@ -358,6 +358,12 @@ fieldset legend {
 #footer a {
   color: #a3a3a3;
 }
+#map {
+  margin-bottom: 20px;
+}
+#cal-container {
+  margin-bottom: 20px;
+}
 .inner {
   width: 960px;
   margin: 0 auto;

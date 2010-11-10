@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
       end
     # /groups
     else
-      @categories = Group.categories
+      @categories = Group.category_names
       if @logged_in.admin?(:manage_groups)
         @unapproved_groups = Group.find_all_by_approved(false)
       else
@@ -66,6 +66,7 @@ class GroupsController < ApplicationController
       @stream_items = []
     end
     @show_map = Setting.get(:services, :yahoo) && @group.mapable?
+    @show_cal = @group.gcal_url
     @can_post = @group.can_post?(@logged_in)
     @can_share = @group.can_share?(@logged_in)
     unless @group.approved? or @group.admin?(@logged_in)

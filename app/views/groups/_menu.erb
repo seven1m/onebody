@@ -1,0 +1,9 @@
+<% if @logged_in.can_edit?(@group) %>
+  <div id="group-tab-menu" style="display:none;">
+    <ul class="popup-menu">
+      <% if @logged_in.can_edit?(@group) %>
+        <li><%= link_to t('menus.group.edit'), edit_group_path(@group), :class => 'edit-icon' %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

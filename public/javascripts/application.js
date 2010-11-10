@@ -88,6 +88,9 @@ function setupMenus() {
   if($('#profile-tab-menu').length == 1) {
     setupMenu('#profile-tab', '#profile-tab-menu');
   }
+  if($('#group-tab-menu').length == 1) {
+    setupMenu('#group-tab', '#group-tab-menu');
+  }
 }
 
 $(setupMenus);

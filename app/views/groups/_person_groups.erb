@@ -13,7 +13,7 @@
             </td>
             <td class="group">
               <%= link_to group.name, group %><br/>
-              <% if me? or @logged_in.admin?(:manage_groups) %>
+              <% if params[:controller] == 'people' and (me? or @logged_in.admin?(:manage_groups)) %>
                 <span>
                   <%= t('people.email') %>:
                   <% if membership.get_email %>

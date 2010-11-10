@@ -1,8 +1,11 @@
-<p><%= link_to image_tag('back.gif', :alt => t('groups.back_to_homepage'), :class => 'icon') + ' ' + t('groups.back_to_homepage'), groups_path %></p>
+<% content_for :sidebar do %>
+  <p><%= link_to t('groups.back_to_homepage'), groups_path, :class => 'left-icon' %></p>
+  <%= render :partial => 'search' %>
+<% end %>
 
 <% if @groups.any? %>
 
-  <table class="iconed">
+  <table class="spaced">
     <% @groups.each do |group| %>
       <tr>
         <td class="icon">

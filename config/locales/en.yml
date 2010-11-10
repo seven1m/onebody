@@ -766,8 +766,9 @@ en:
     attachments: Attachments
     attendance: Attendance
     back_to: back to the group
-    back_to_homepage: Back to Groups Homepage
+    back_to_homepage: Back to Your Groups
     batch_edit_groups: Batch Edit Groups
+    browse_by_category: Browse by Category
     by_allow_anyone_to_join: By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.
     calendar_help: In your Google Calendar, in Calendar Settings, copy your "Private" XML Link and paste in this box to display your calendar on the group page.
     calendar_private_link: Google Calendar Private Link
@@ -863,6 +864,8 @@ en:
     request_will_be_sent_to_admins: Are you sure? A request will be sent to the group administrator(s).
     settings_saved: Group settings have been saved.
     scroll_left_and_right: Scroll left and right to see all columns.
+    search: Group Search
+    search_for_a_group: Search for a Group
     select_one_or_more: Select one or more above and choose an action
     separate_codes_with_space: Separate multiple codes with a space.
     show_all: Show all...
@@ -934,6 +937,8 @@ en:
       privacy: privacy
       password: password
       relationships: relationships
+    group:
+      edit: edit group
 
   messages: 
     ago: ago
