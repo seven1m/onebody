@@ -90,7 +90,9 @@ module ApplicationHelper
   end
 
   def search_form
-    "<form><input name=\"name\" id=\"search_name\" size=\"20\" placeholder=\"#{t('search.search_by_name')}\"/></form>".html_safe
+    form_tag(search_path, :method => :get) do
+      text_field_tag('name', nil, :id => 'search_name', :size => 20, :placeholder => t('search.search_by_name'))
+    end
   end
 
   def notice
