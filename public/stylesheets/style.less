@@ -6,6 +6,7 @@
 @secondary: #5F9128;
 @tertiary:  #C8EAFE;
 @alert:     #f66;
+@comment-background: #fec;
 
 @heading-font: "Century Gothic", "Tw Cen MT", Futura, "URW Gothic L", Arial, sans-serif;
 @body-font:    "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
@@ -75,7 +76,7 @@ body {
   font-family: @body-font;
   color: @body-font-color;
 }
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3 {
   font-family: @heading-font;
   margin-bottom: 15px;
 }
@@ -96,6 +97,11 @@ h3 {
 }
 h3:first-child {
   margin-top: 0;
+}
+h4 {
+  font-weight: normal;
+  font-family: @body-font;
+  margin-bottom: 5px;
 }
 ul.list, ol.list, .page-body ul, .page-body ol {
   padding-left: 20px;
@@ -554,7 +560,7 @@ a.button:hover, a.button.active {
   .comment-summary {
     margin-top: 10px;
     font-style: italic;
-    background-color: #ffc;
+    background-color: @comment-background;
     padding: 3px;
   }
 }
@@ -629,7 +635,7 @@ a.button:hover, a.button.active {
 table.comments {
   margin: 20px 0;
   padding: 15px;
-  background-color: #fec;
+  background-color: @comment-background;
   td {
     padding: 5px;
   }

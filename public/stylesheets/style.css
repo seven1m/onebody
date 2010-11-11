@@ -127,12 +127,7 @@ body {
   font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
   color: #5b5b5b;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3 {
   font-family: "Century Gothic", "Tw Cen MT", Futura, "URW Gothic L", Arial, sans-serif;
   margin-bottom: 15px;
 }
@@ -153,6 +148,11 @@ h3 {
 }
 h3:first-child {
   margin-top: 0;
+}
+h4 {
+  font-weight: normal;
+  font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+  margin-bottom: 5px;
 }
 ul.list,
 ol.list,
@@ -686,7 +686,7 @@ a.button:hover, a.button.active {
 .verse .comment-summary {
   margin-top: 10px;
   font-style: italic;
-  background-color: #ffc;
+  background-color: #ffeecc;
   padding: 3px;
 }
 /* Groups */
@@ -754,7 +754,7 @@ a.button:hover, a.button.active {
 table.comments {
   margin: 20px 0;
   padding: 15px;
-  background-color: #fec;
+  background-color: #ffeecc;
 }
 table.comments td {
   padding: 5px;

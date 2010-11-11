@@ -1,5 +1,5 @@
 <% if object.comments.any? %>
-  <table class="spaced">
+  <table class="comments">
     <% object.comments.each do |comment| %>
       <tr>
         <td>
@@ -8,14 +8,14 @@
           </a>
         </td>
         <td>
-          <%= link_to comment.person.name, comment.person %>
-          <%= comment.created_at.to_s %>
-          <% if @logged_in.can_edit?(comment) %>
-            <%= link_to '', comment_path(comment), :class => 'delete-icon', :method => 'delete', :confirm => t('are_you_sure') %>
-          <% end %>
-          <br/>
-          <%= preserve_breaks comment.text %>
-          <br/>&nbsp;
+          <h4>
+            <%= link_to comment.person.name, comment.person %>
+            <%= comment.created_at.to_s %>
+            <% if @logged_in.can_edit?(comment) %>
+              <%= link_to '', comment_path(comment), :class => 'delete-icon', :method => 'delete', :confirm => t('are_you_sure') %>
+            <% end %>
+          </h4>
+          <p><%= preserve_breaks comment.text %></p>
         </td>
       </tr>
     <% end %>
