@@ -17,21 +17,22 @@
   </div>
 <% end %>
 
+<% content_for :sidebar do %>
+  <h3><%= t('stream.about_heading') %></h3>
+  <p><%= t('stream.about_html') %></p>
+  <h3 class="double-margin-top"><%= t('stream.share_heading') %></h3>
+  <p id="share-something">
+    <p><%= t('stream.share_something_about', :js => "shareSomething()") %></p>
+    <p style="margin-top:25px;">
+      <%= content_tag :a, :href => '#', :onclick => 'shareSomething();return false', :class => 'button' do %>
+        <span class="add-icon"><%= t('stream.share_something') %></span>
+      <% end %>
+    </p>
+  </p>
+<% end %>
+
 <div id="stream-page-body">
   <div class="stream-items">
-    <div class="right-sidebar line-left">
-      <h2><%= t('stream.about_heading') %></h2>
-      <p><%= t('stream.about_html') %></p>
-      <h2 class="double-margin-top"><%= t('stream.share_heading') %></h2>
-      <p id="share-something">
-        <p><%= t('stream.share_something_about', :js => "shareSomething()") %></p>
-        <p style="margin-top:25px;">
-          <%= content_tag :a, :href => '#', :onclick => 'shareSomething();return false', :class => 'button' do %>
-            <span class="add-icon"><%= t('stream.share_something') %></span>
-          <% end %>
-        </p>
-      </p>
-    </div>
     <div id="share" style="display:none;">
       <%= render :partial => 'share' %>
     </div>
