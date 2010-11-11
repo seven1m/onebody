@@ -683,6 +683,12 @@ a.button:hover, a.button.active {
 .verse .saved-by {
   font-size: 11pt;
 }
+.verse .comment-summary {
+  margin-top: 10px;
+  font-style: italic;
+  background-color: #ffc;
+  padding: 3px;
+}
 /* Groups */
 .hidden-group {
   display: none;

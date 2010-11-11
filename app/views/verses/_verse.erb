@@ -11,8 +11,6 @@
     <%= verse.text %>
   </div>
   <% unless @person %>
-    <div class="comment-summary">
-      <%= render :partial => 'comments/comment_summary', :locals => {:object => verse} %>
-    </div>
+    <%= render :partial => 'comments/comment_summary', :locals => {:object => verse} %>
   <% end %>
 </div>
