@@ -18,12 +18,12 @@
           </a>
         </div>
       <% end %>
-      <p>
+      <div class="stream-item-content">
         <%= stream_item_content(stream_item) %>
         <% unless stream_item.wall %>
           <%= link_to t('comments.view') + '...', stream_item, :class => 'small' %>
         <% end %>
-      </p>
+      </div>
     <% end %>
     <div class="nowrap stream-item-timestamp">
       <%= time_ago_in_words stream_item.created_at %> <%= t('comments.ago') %>

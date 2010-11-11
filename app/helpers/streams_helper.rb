@@ -40,7 +40,7 @@ module StreamsHelper
   def stream_item_content(stream_item, use_code=false)
     if stream_item.body
       content = if stream_item.streamable_type == 'Message'
-        render_message_html_body(stream_item.body)
+        render_message_body(stream_item)
       else
         sanitize_html(auto_link(stream_item.body))
       end

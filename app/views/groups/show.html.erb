@@ -43,3 +43,7 @@
     <iframe src="<%= @group.gcal_url %>" style="border: 0" width="600" height="400" frameborder="0"></iframe>
   </div>
 <% end %>
+
+<div class="group-stream">
+  <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
+</div>

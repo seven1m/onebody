@@ -972,6 +972,7 @@ en:
     send_message: Send Email
     sent: Your message has been sent.
     sent_per_day: Messages Sent Per Day
+    show_quoted_content: show quoted content
     some_quoted_text_is_hidden: Some quoted text in this message is hidden;
     subject: Subject
     this_group_is_not_private: This group is not private, so messages posted here will be visible by people who aren't members of this group.

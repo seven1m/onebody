@@ -234,7 +234,8 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.create!(
       :title           => wall_id ? nil : subject,
-      :body            => html_body.to_s.any? ? html_body : body.gsub(/\n/, '<br/>'),
+      :body            => html_body.to_s.any? ? html_body : body,
+      :text            => !html_body.to_s.any?,
       :wall_id         => wall_id,
       :person_id       => person_id,
       :group_id        => group_id,
@@ -251,7 +252,13 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.find_all_by_streamable_type_and_streamable_id('Message', id).each do |stream_item|
       stream_item.title = wall_id ? nil : subject
-      stream_item.body  = body
+      if html_body.to_s.any?
+        stream_item.body = html_body
+        stream_item.text = false
+      else
+        stream_item.body = body
+        stream_item.text = true
+      end
       stream_item.save
     end
   end

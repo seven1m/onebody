@@ -1,17 +1,4 @@
 module MessagesHelper
-  def remove_bulk_quoting(message_body)
-    message_body = message_body.strip.split(/[\-_]{10,}\n([^\n]+\n?)?http:\/\/[^\n]+/).first
-    trimmed = []
-    bulk = true
-    message_body.strip.split(/\n/).reverse.each do |line|
-      unless (line.strip.empty? or line =~ /^>/) and bulk
-        trimmed << line
-        bulk = false
-      end
-    end
-    trimmed.reverse.join("\n").split(/\s*[\-_]+?.original.message.[\-_]+?/i).first.split(/[\-_]+\s*from:.*?\(via/i).first.strip
-  end
-
   def get_email_body(msg)
     if alternative = msg.parts.detect { |p| p.content_type.downcase.split(';').first == 'multipart/alternative' } and
       plain = alternative.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }
@@ -24,7 +11,13 @@ module MessagesHelper
   end
 
   def render_message_body(message)
-    if message.html_body.to_s.any?
+    if message.is_a?(StreamItem)
+      if message.text?
+        render_message_text_body(message.body)
+      else
+        render_message_html_body(message.body)
+      end
+    elsif message.html_body.to_s.any?
       render_message_html_body(message.html_body)
     else
       render_message_text_body(message.body)
@@ -32,13 +25,19 @@ module MessagesHelper
   end
 
   def render_message_html_body(message_body)
-    "<p>#{sanitize_html(remove_sensitive_links(auto_link(message_body)))}</p>".html_safe
+    html = sanitize_html(remove_sensitive_links(auto_link(message_body))).html_safe
+    html.gsub!(/(\-\s){20,}.{0,15}Hit "Reply".+$/m, '')
+    html.gsub!(/<blockquote>(\s*[^\s]+.+\s*)<\/blockquote>/mi, "<div class=\"quoted-content\"><div style=\"display:none;\">\\1</div><a href=\"#\" onclick=\"$(this).hide().prev().show();return false;\">#{t('messages.show_quoted_content')}</a></div>")
+    html.gsub!(/<p><p>[^:graph:]*<\/p><\/p>/, '<br/>') # paragraphs inside paragraphs? C'mon Microsoft!
+    html.gsub!(/(<br\s?\/?>\s*){3,}/mi, '<br/><br/>')
+    html
   end
 
-  def render_message_text_body(message_body, hide_bulk_quoting=false)
-    body = remove_sensitive_links(message_body)
-    body = remove_bulk_quoting(body) if hide_bulk_quoting
-    auto_link(preserve_breaks(remove_excess_breaks(body)))
+  def render_message_text_body(message_body)
+    body = h(remove_sensitive_links(message_body))
+    body = auto_link(preserve_breaks(remove_excess_breaks(body), false))
+    body.gsub!(/(<br\s?\/?>&gt;.*){3,}/mi, "<div class=\"quoted-content\"><div style=\"display:none;\">\\0</div><a href=\"#\" onclick=\"$(this).hide().prev().show();return false;\">#{t('messages.show_quoted_content')}</a></div>")
+    body
   end
 
   def remove_sensitive_links(message_body)
