@@ -54,6 +54,16 @@
 
     <h3><%= t('About') %></h3>
     <div class="about">
+      <% unless @person.about.to_s.any? or
+                @person.activities.to_s.any? or
+                @person.interests.to_s.any? or
+                @person.books.to_s.any? or
+                @person.music.to_s.any? or
+                @person.movies.to_s.any? or
+                @person.tv_shows.to_s.any? or
+                @person.quotes.to_s.any? %>
+        <em><%= t('people.nothing_here_yet') %></em>
+      <% end %>
       <% if @person.about.to_s.any? %>
         <div class="favorites-group">
           <%= preserve_breaks @person.about %>
