@@ -1,21 +1,7 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => t('groups.all_groups'), :class => 'icon') + ' ' + t('groups.all_groups'), groups_path %></li>
+<% content_for :sidebar do %>
+
 <% end %>
 
-<script type="text/javascript">
-//<![CDATA[
-  SAFE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  function remove_symbols(text) {
-    var sanitized = '';
-    for(var i=0; i<text.length; i++) {
-      var c = text.substring(i, i+1);
-      if(SAFE_CHARS.indexOf(c) > -1) sanitized += c;
-    }
-    return sanitized.toLowerCase();
-  };
-//]]>
-</script>
-
-<h1><%= t('groups.new_group') %></h1>
+<h2><%= t('groups.new_group') %></h2>
 
 <%= render :partial => 'form' %>

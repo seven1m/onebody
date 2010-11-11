@@ -8,7 +8,7 @@
               <% if group.photo.exists? %>
                 <%= image_tag group.photo.url(:tn), :alt => group.name, :class => 'no-border' %>
               <% else %>
-                <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border' %>
+                <%= image_tag 'clean/group.tn.png', :alt => group.name, :class => 'no-border' %>
               <% end %>
             </td>
             <td class="group">
@@ -30,10 +30,13 @@
         <% end %>
       <% end %>
     <% end %>
+    <% if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? } %>
+      <tr>
+        <td></td>
+        <td><%= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", :class => 'discreet' %></td>
+      </tr>
+    <% end %>
   </table>
-  <% if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? } %>
-    <p><%= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()" %></p>
-  <% end %>
 <% elsif me? %>
   <p>
     <%= t('people.you_arent_in_any_groups') %>

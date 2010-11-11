@@ -1,21 +1,35 @@
 <%= form_for @group, :html => {:multipart => true, :style => 'border:none;padding:0;'} do |form| %>
 
   <%= error_messages_for(form) %>
-  
-  <h2 class="tab" id="details"><%= t('groups.details') %></h2>
+
+  <h3><%= t('groups.details') %></h3>
   <div class="section">
-    <%= form.label :name, t('groups.name_required') %>         <%= form.text_field :name, :onkeyup => 'update_address(this.value)' %><br/>
-    <%= form.label :category, t('groups.category_required') %> <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
-    <%= form.label :description, t('groups.description') %>                     <%= form.text_area :description, :rows => 3 %><br/>
-    <%= form.label :other_notes, t('groups.other_notes') %>                     <%= form.text_area :other_notes, :rows => 3 %><br/>
+    <%= form.label :name, t('groups.name_required') %>
+    <%= form.text_field :name, :onkeyup => 'update_address(this.value)' %><br/>
+
+    <%= form.label :category, t('groups.category_required') %>
+    <div class="form-field-hint"><%= t('groups.category_hint') %></div>
+    <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
+
+    <%= form.label :description, t('groups.description') %>
+    <div class="form-field-hint"><%= t('groups.description_hint') %></div>
+    <%= form.text_area :description, :rows => 3 %><br/>
+
+    <%= form.label :other_notes, t('groups.other_notes') %>
+    <%= form.text_area :other_notes, :rows => 3 %><br/>
+
     <% unless @group.new_record? %>
-      <%= form.label :leader_id, t('groups.leader_id') %>                     <%= form.select :leader_id, [['(none)',nil]]+@members.map { |m| [m.name, m.id] } %><br/>
+      <%= form.label :leader_id, t('groups.leader_id') %>
+      <%= form.select :leader_id, [['(none)',nil]]+@members.map { |m| [m.name, m.id] } %><br/>
     <% end %>
-    <%= form.label :creator, t('groups.creator') %>                         <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>
+
+    <%= form.label :creator, t('groups.creator') %>
+    <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>
   </div>
 
-  <h2 class="tab" id="picture"><%= t('pictures.picture') %></h2>
+  <h3><%= t('groups.picture') %></h3>
   <div class="section">
+    <div class="form-field-hint"><%= t('groups.picture_hint') %></div>
     <%= render :partial => 'photo' %>
     <%= form.file_field :photo %><br/>
     <% if !@group.new_record? and @group.photo.exists? %>
@@ -24,28 +38,47 @@
     <% end %>
     <em><%= t('groups.click_save_changes_to_upload') %></em>
   </div>
-  
-  <h2 class="tab" id="meets"><%= t('groups.meets') %></h2>
+
+  <h3><%= t('groups.meets') %></h3>
   <div class="section">
-    <%= form.label :meets, t('groups.meets_when') %>              <%= form.text_field :meets %><br/>
-    <%= form.label :location, t('groups.location_address') %> <%= form.text_area :location, :rows => 3 %><br/>
-    <%= form.label :directions, t('groups.directions') %>                       <%= form.text_area :directions, :rows => 3 %>
+    <%= form.label :meets, t('groups.meets_when') %>
+    <div class="form-field-hint"><%= t('groups.meets_when_hint') %></div>
+    <%= form.text_field :meets %><br/>
+
+    <%= form.label :location, t('groups.location_address') %>
+    <div class="form-field-hint"><%= t('groups.location_address_hint') %></div>
+    <%= form.text_area :location, :rows => 3 %><br/>
+
+    <%= form.label :directions, t('groups.directions') %>
+    <div class="form-field-hint"><%= t('groups.directions_hint') %></div>
+    <%= form.text_area :directions, :rows => 3 %>
   </div>
-  
-  <h2 class="tab" id="features"><%= t('groups.features') %></h2>
+
+  <h3><%= t('groups.features') %></h3>
   <div class="section">
-    <%= form.check_box :blog,       :class => 'checkbox' %> <%= form.label :blog,       t('groups.enable_blog'),                :class => 'inline' %><br/>
-    <%= form.check_box :email,      :class => 'checkbox' %> <%= form.label :email,      t('groups.enable_email'),               :class => 'inline' %><br/>
-    <%= form.check_box :prayer,     :class => 'checkbox' %> <%= form.label :prayer,     t('groups.enable_prayer_requests'),     :class => 'inline' %><br/>
+    <div class="form-field-hint"><%= t('groups.address_hint') %></div>
+    <%= form.check_box :email, :class => 'checkbox', :onclick => 'toggleAddressField()' %>
+    <%= form.label :email, t('groups.enable_email'), :class => 'inline' %>
+
+    <span id="group_address_field">
+      <%= form.text_field :address, :size => 15, :onkeyup => "this.value = remove_symbols(this.value)" %>@<%= Site.current.host %>
+    </span><br/>
+
+    <%= form.check_box :prayer, :class => 'checkbox' %> <%= form.label :prayer, t('groups.enable_prayer_requests'), :class => 'inline' %><br/>
+
     <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, t('groups.enable_attendance_tracking'), :class => 'inline' %><br/>
-    <%= form.label :address, t('people.email') + ':', :class => 'inline' %>
-    <%= form.text_field :address, :style => 'width:150px;', :onkeyup => "this.value = remove_symbols(this.value)" %>@<%= Site.current.host %>
-    <%= form.label :gcal_private_link, t('groups.calendar_private_link') %>
-    <%= form.text_field :gcal_private_link, :size => 50 %>
-    <%= link_to_function t('help'), "alert('" + t('groups.calendar_help') + "')" %>
+
+    <%= check_box_tag :calendar, nil, false, :class => 'checkbox', :onclick => 'toggleCalendarField()' %>
+    <%= label_tag  :calendar, t('groups.enable_calendar'), :class => 'inline' %><br/>
+
+    <span id="group_calendar_field">
+      <%= form.label :gcal_private_link, t('groups.calendar_private_link'), :class => 'inline' %>
+      <%= form.text_field :gcal_private_link, :size => 50 %>
+      <%= link_to_function t('help'), "alert('" + t('groups.calendar_help') + "')" %>
+    </span>
   </div>
-  
-  <h2 class="tab" id="privacy"><%= t('groups.privacy_security') %></h2>
+
+  <h3><%= t('groups.privacy_security') %></h3>
   <div class="section">
     <%= form.check_box :approval_required_to_join, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
     <%= form.label :approval_required_to_join, t('groups.approval_required_to_join'), :class => 'inline' %><br/>
@@ -56,11 +89,9 @@
     <%= form.label :members_send, t('groups.group_members_can_post'), :class => 'inline' %>
   </div>
 
-  <h2 class="tab" id="attachments"><%= t('attachments.files') %></h2>
-  <div class="section">
-    <% if @group.new_record? %>
-      <p><em><%= t('attachments.save_group_first') %></em></p>
-    <% else %>
+  <% unless @group.new_record? %>
+    <h3><%= t('attachments.files') %></h3>
+    <div class="section">
       <table>
         <% @group.attachments.all(:order => 'name').each do |attachment| %>
           <tr>
@@ -75,50 +106,67 @@
         <p><em><%= t('none') %></em></p>
       <% end %>
       <p><%= link_to t('attachments.upload_file'), new_group_attachment_path(@group) %></p>
-    <% end %>
-  </div>
-  
-  <% if @logged_in.admin?(:manage_groups) %>
-    <h2 class="tab" id="advanced"><%= t('people.advanced') %></h2>
-    <div class="section">
-      <%= t('groups.the_settings_are_for_advanced_users') %><br/>
-      <%= form.label :link_code, t('groups.class_link_code') %>
-      <%= form.text_field :link_code %>
-      <em><%= t('groups.separate_codes_with_space') %></em>
-      
-      <%= form.label :parents_of, t('groups.parents_of') %>
-      <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %>
-      <em>Membership will be auto-generated from parents of selected group's members.</em>
-        
-      <%= form.label :cm_api_list_id, 'Campaign Monitor API List ID:' %>
-      You must follow all policies of Campaign Monitor, including
-      <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.<br/>
-      <%= link_to_function 'I agree. &raquo;'.html_safe, "$('#cm_section').show();$(this).hide();" %>
-      <div id="cm_section" style="display:none;">
-        <%= form.text_field :cm_api_list_id %>
-        <em>To sync with a Campaign Monitor subscriber list, paste the API List ID here.</em>
-      </div>
-      
-      <%= form.label :hidden, t('groups.hidden_group') %>
-      <%= form.check_box :hidden, :class => 'checkbox' %>
-      <%= form.label :hidden, 'Hide this group from non-admins.', :class => 'inline' %>
     </div>
   <% end %>
-  
+
+  <% if @logged_in.admin?(:manage_groups) %>
+    <p class="double-margin-top" id="advanced_section_link"><%= link_to_function t('groups.advanced') + ' »', "$('#advanced_section, #advanced_section_heading').show();$('#advanced_section_link').hide();" %></p>
+    <h3 id="advanced_section_heading" style="display:none;"><%= t('groups.advanced') %></h3>
+    <div id="advanced_section" style="display:none;">
+      <div class="section">
+        <%= t('groups.the_settings_are_for_advanced_users') %><br/>
+        <%= form.label :link_code, t('groups.class_link_code') %>
+        <%= form.text_field :link_code %>
+        <em><%= t('groups.separate_codes_with_space') %></em>
+
+        <%= form.label :parents_of, t('groups.parents_of') %>
+        <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %>
+        <em>Membership will be auto-generated from parents of selected group's members.</em>
+
+        <%= form.label :cm_api_list_id, 'Campaign Monitor API List ID:' %>
+        You must follow all policies of Campaign Monitor, including
+        <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.<br/>
+        <%= link_to_function 'I agree. &raquo;'.html_safe, "$('#cm_section').show();$(this).hide();" %>
+        <div id="cm_section" style="display:none;">
+          <%= form.text_field :cm_api_list_id %>
+          <em>To sync with a Campaign Monitor subscriber list, paste the API List ID here.</em>
+        </div>
+
+        <%= form.label :hidden, t('groups.hidden_group') %>
+        <%= form.check_box :hidden, :class => 'checkbox' %>
+        <%= form.label :hidden, 'Hide this group from non-admins.', :class => 'inline' %>
+      </div>
+    </div>
+  <% end %>
+
   <p><%= form.submit t('save_changes') %></p>
 <% end %>
 
 <script type="text/javascript">
   function update_address(name) {
-    var address = '';
-    name.toLowerCase().scan(/[a-z0-9]/, function(s) {address += s});
-    $('group_address').value = address;
+    var address = name.toLowerCase().match(/[a-z0-9]+/g).join('');
+    $('#group_address').val(address);
   }
   function check_mutual_exclusion() {
-    if(!$('group_approval_required_to_join').checked && $('group_private').checked) {
+    if(!$('#group_approval_required_to_join').attr('checked') && $('#group_private').attr('checked')) {
       alert('<%= t('groups.by_allow_anyone_to_join') %>');
     }
   }
+  function toggleAddressField() {
+    if($('#group_email').attr('checked')) {
+      $('#group_address_field').css('display', 'inline');
+    } else {
+      $('#group_address_field').css('display', 'none');
+      $('#group_address').val('');
+    }
+  }
+  function toggleCalendarField() {
+    if($('#calendar').attr('checked')) {
+      $('#group_calendar_field').css('display', 'inline');
+    } else {
+      $('#group_calendar_field').css('display', 'none');
+    }
+  }
+  toggleAddressField();
+  toggleCalendarField();
 </script>
-
-<script type="text/javascript"> set_up_tabs(); </script>

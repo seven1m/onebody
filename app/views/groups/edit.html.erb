@@ -3,20 +3,6 @@
   <li><%= link_to image_tag('delete.png', :alt => t('groups.delete_group'), :class => 'icon') + ' ' + t('groups.delete_group'), @group, :confirm => t('are_you_sure_cannot_be_undone'), :method => 'delete' %></li>
 <% end %>
 
-<script type="text/javascript">
-//<![CDATA[
-  SAFE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  function remove_symbols(text) {
-    var sanitized = '';
-    for(var i=0; i<text.length; i++) {
-      var c = text.substring(i, i+1);
-      if(SAFE_CHARS.indexOf(c) > -1) sanitized += c;
-    }
-    return sanitized.toLowerCase();
-  };
-//]]>
-</script>
-
 <% content_for :sidebar do %>
   <div id="memberships">
     <%= render :partial => 'memberships' %>

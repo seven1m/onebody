@@ -2,6 +2,8 @@
 
 <% content_for :sidebar do %>
 
+  <%= render :partial => 'photo' %>
+
   <h2><%= @group.name %></h2>
 
   <% if @group.description.to_s.any? %>
@@ -22,6 +24,9 @@
       <% content_tag :a, :href => person_path(member) do %>
         <%= render :partial => 'people/thumbnail', :locals => {:person => member} %>
       <% end %>
+    <% end %>
+    <% if @members.empty? %>
+      <p><em><%= t('groups.nobody_yet') %></em></p>
     <% end %>
   <% end %>
 
@@ -47,3 +52,7 @@
 <div class="group-stream">
   <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
 </div>
+
+<% unless @show_map or @show_cal or @stream_items.any? %>
+  <p><em><%= t('groups.no_activity_yet') %></em></p>
+<% end %>

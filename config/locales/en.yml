@@ -757,6 +757,9 @@ en:
     accept: Accept
     add_group: Add Group
     add_somebody: Add somebody
+    address: Email
+    address_hint: Give your group a unique email address so messages can be sent easily.
+    advanced: Advanced
     all_groups: All Groups
     approval: approval
     approval_required_to_join: Approval required for people to join group
@@ -770,9 +773,11 @@ en:
     batch_edit_groups: Batch Edit Groups
     browse_by_category: Browse by Category
     by_allow_anyone_to_join: By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.
+    calendar: Calendar
     calendar_help: In your Google Calendar, in Calendar Settings, copy your "Private" XML Link and paste in this box to display your calendar on the group page.
     calendar_private_link: Google Calendar Private Link
     category: Category
+    category_hint: Make your group easy to find by placing it an appropriate category.
     category_required: Category (required)
     cannot_remove_last_admin: You cannot remove the last group admin. You may delete the group, however.
     change: Change
@@ -789,7 +794,9 @@ en:
     delete_group: Delete Group
     deleted: Group deleted.
     description: Description
+    description_hint: "Enter a sentence or two to give people an idea of why you meet and of your group's goals."
     directions: Directions
+    directions_hint: You may want to include travel directions.
     edit_group: Edit Group
     email_from_group_is_on: email from this group is ON
     email_from_group_is_off: email from this group is OFF
@@ -798,6 +805,7 @@ en:
     email_settings_changed: Your email settings for the group have been changed.
     enable_attendance_tracking: Enable Attendance Tracking
     enable_blog: Enable Blog
+    enable_calendar: Enable Calendar
     enable_email: Enable Email
     enable_prayer_requests: Enable Prayer Requests
     features: Features
@@ -815,7 +823,7 @@ en:
     hidden_group: Hidden Group
     hidden_groups: Hidden Groups
     if_cant_find_create_it: If you can't find the group you're looking for, create it!
-    if_checked_message_only_to_members: If checked, message are only visible to members of the group.
+    if_checked_message_only_to_members: If checked, messages are only visible to members of the group.
     if_ok_you_will_stop_receiving: If you click OK, you will no longer receive email from this group.
     if_ok_you_will_start_receiving: If you click OK, you will start receiving email from this group.
     ignore: Ignore
@@ -827,8 +835,10 @@ en:
     linked: Linked Groups
     location: Location
     location_address: Location and Address
+    location_address_hint: If you enter a physical address, an interactive map will be displayed on your group page.
     meets: Meets
     meets_when: Meets When
+    meets_when_hint: 'Something like "Wednesdays at 7pm" or "As Announced"'
     members: Group Members
     members_send: Members Send
     must_specify_ids_list: You must specify a list of ids.
@@ -840,6 +850,7 @@ en:
     not_authorized_post: You are not authorized to post to this group.
     not_found: Group not found.
     notes: Notes
+    no_activity_yet: "This group hasn't had any activity yet."
     no_groups_found: no groups found
     no_online_group_activity: No online group activity to display.
     only_admins_see_this_list: Only administrators (such as yourself) see this list
@@ -853,6 +864,8 @@ en:
     pending_membership_request_count:
       one: "{{count}} pending membership request"
       other: "{{count}} pending membership requests"
+    picture: Group Picture
+    picture_hint: Use a group shot or a clip-art graphic to help people recognize your group on this site.
     privacy_security: Privacy and Security
     private_group: Private Group
     promote: Promote
