@@ -223,7 +223,7 @@ class Verse < ActiveRecord::Base
   }
 
   def youversion_url
-    "http://www.youversion.com/bible/web/#{YOUVERSION_BOOKS[book]}/#{chapter}/#{verse}"
+    "http://www.youversion.com/bible/web/#{YOUVERSION_BOOKS[book || 0]}/#{chapter}/#{verse}"
   end
 
   def ebible_url
