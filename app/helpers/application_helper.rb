@@ -22,17 +22,17 @@ module ApplicationHelper
   end
 
   def stylesheet_tags
-    stylesheet_link_tag('smoothness/jquery-ui-1.8.6.custom', 'clean/style', :cache => true) + "\n" + \
+    stylesheet_link_tag('jquery-ui-1.8.6.custom', 'style', :cache => true) + "\n" + \
     "<!--[if lte IE 8]>\n".html_safe + \
-      stylesheet_link_tag('clean/ie', :cache => true) + "\n" + \
+      stylesheet_link_tag('ie') + "\n" + \
     "<![endif]-->".html_safe
   end
 
   def javascript_tags
-    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.6.custom.min', 'jquery.qtip-1.0.0-rc3.min.js', 'rails', 'clean/main', 'application', :cache => true) + "\n" + \
+    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.6.custom.min', 'jquery.qtip-1.0.0-rc3.min.js', 'rails', 'application', :cache => true) + "\n" + \
     csrf_meta_tag + "\n" + \
     "<!--[if lte IE 8]>\n".html_safe + \
-      javascript_include_tag('clean/ie', :cache => true) + "\n" + \
+      javascript_include_tag('ie') + "\n" + \
     "<![endif]-->\n".html_safe + \
     "<script type=\"text/javascript\">logged_in = #{@logged_in ? @logged_in.id : 'null'}</script>".html_safe
   end
