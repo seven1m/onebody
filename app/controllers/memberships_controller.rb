@@ -14,6 +14,7 @@ class MembershipsController < ApplicationController
 
   def index
     @group = Group.find(params[:group_id])
+    @can_edit = @logged_in.can_edit?(@group)
     if @logged_in.can_see?(@group)
       @requests = @group.membership_requests
     else
@@ -68,7 +69,10 @@ class MembershipsController < ApplicationController
         @membership.destroy
       end
     end
-    redirect_back
+    respond_to do |format|
+      format.html { redirect_back }
+      format.js
+    end
   end
 
   def batch
@@ -104,12 +108,15 @@ class MembershipsController < ApplicationController
     @group = Group.find(params[:group_id])
     group_people = @group.people
     if @logged_in.can_edit?(@group)
+      @can_edit = true
       if params[:ids] and params[:ids].is_a?(Array)
+        @added = []
         params[:ids].each do |id|
           if request.post?
             person = Person.find(id)
-            unless params[:commit] == 'Ignore'
-              @group.memberships.create(:person => person) unless group_people.include?(person)
+            unless params[:commit] == 'Ignore' or group_people.include?(person)
+              @group.memberships.create(:person => person) 
+              @added << person
             end
             @group.membership_requests.find_all_by_person_id(id).each { |r| r.destroy }
           elsif request.delete?

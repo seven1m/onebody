@@ -1,19 +1,14 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => t('groups.view_group'), :class => 'icon') + ' ' + t('groups.view_group'), @group %></li>
-  <li><%= link_to image_tag('delete.png', :alt => t('groups.delete_group'), :class => 'icon') + ' ' + t('groups.delete_group'), @group, :confirm => t('are_you_sure_cannot_be_undone'), :method => 'delete' %></li>
-<% end %>
-
 <% content_for :sidebar do %>
-  <div id="memberships">
-    <%= render :partial => 'memberships' %>
-  </div>
- 
+  <p><%= link_to t('groups.back_to_group', :name => @group.name), @group, :class => 'left-icon' %></p>
+  <p class="double-margin-top">
+    <%= link_to t('groups.edit_members'), group_memberships_path(@group), :class => 'edit-icon' %>
+  </p>
 <% end %>
 
 <% if @group.private? %><%= render :partial => 'private' %><% end %>
 
 <% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
 
-<h1><%= t('groups.edit_group') %></h1>
+<h2><%= t('groups.edit_group') %></h2>
 
 <%= render :partial => 'form' %>

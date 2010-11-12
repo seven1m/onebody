@@ -92,7 +92,7 @@ class Group < ActiveRecord::Base
   def mapable?
     # must look like ", OK 74137"
     # TODO: this needs some work to be usable in other countries
-    location.to_s.any? && location =~ /,\s[A-Z]{2}\s+\d{5}/ ? true : false
+    location.to_s.any? && location =~ /\s[A-Z]{2}\s+\d{5}/ ? true : false
   end
 
   def address=(a)

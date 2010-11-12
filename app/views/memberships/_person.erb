@@ -1,0 +1,22 @@
+<%= content_tag :tr, :id => "person#{person.id}" do %>
+  <td class="icon">
+    <a href="<%= url_for person %>">
+      <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+    </a>
+  </td>
+  <td class="name">
+    <%= link_to person.name, person %>
+    <% if person.birthday_soon? %>
+      <br/>
+      <span class="small">
+        <%= image_tag('birthday.png', :alt => t('privacies.birthday'), :class => 'icon') %>
+        <%= person.birthday.to_s(:date_without_year) %>
+      </span>
+    <% end %>
+  </td>
+  <% if @can_edit %>
+    <td class="action">
+      <%= link_to '', group_membership_path(@group, person.id), :remote => true, :method => :delete, :class => 'delete-icon delete-action', :style => 'display:none;' %>
+    </td>
+  <% end %>
+<% end %>

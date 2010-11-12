@@ -11,5 +11,5 @@
 </p>
 
 <% if @people.length == 1 %>
-  <script type="text/javascript"> $('add_people_form') && $('add_people_form').onsubmit() </script>
+  <script type="text/javascript"> $('#add_people_form').trigger('submit') </script>
 <% end %>

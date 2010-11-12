@@ -768,22 +768,26 @@ en:
     are_you_sure_option: Are you sure you want to {{option}} email from the group {{group}}?
     attachments: Attachments
     attendance: Attendance
-    back_to: back to the group
-    back_to_homepage: Back to Your Groups
+    back_to_group: "Back to {{name}}"
+    back_to_homepage: "Back to Your Groups"
     batch_edit_groups: Batch Edit Groups
     browse_by_category: Browse by Category
     by_allow_anyone_to_join: By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.
     calendar: Calendar
     calendar_help: In your Google Calendar, in Calendar Settings, copy your "Private" XML Link and paste in this box to display your calendar on the group page.
     calendar_private_link: Google Calendar Private Link
+    campaign_monitor_sync: "Campaign Monitor API List ID:"
+    campaign_monitor_sync_help: To sync with a Campaign Monitor subscriber list, paste the API List ID here.
+    campaign_monitor_policy_html: 'You must follow all policies of Campaign Monitor, including <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.'
+    cannot_remove_last_admin: You cannot remove the last group admin. You may delete the group, however.
     category: Category
     category_hint: Make your group easy to find by placing it an appropriate category.
     category_required: Category (required)
-    cannot_remove_last_admin: You cannot remove the last group admin. You may delete the group, however.
     change: Change
     change_email_settings: Change Email Settings
     change_this_picture: Change This Picture
     class_link_code: "Class Link Code(s):"
+    class_link_code_hint_html: 'Useful for syncing with external systems. See <a href="https://github.com/seven1m/onebody/wiki/HowGroupMembershipWorks">here</a>. Separate multiple codes with a space.'
     click_save_changes_to_upload: Click "Save Changes" at the bottom of this form to upload a new picture.
     configure_email_from_group: configure email from this group
     create_a_group: Create a Group
@@ -797,7 +801,9 @@ en:
     description_hint: "Enter a sentence or two to give people an idea of why you meet and of your group's goals."
     directions: Directions
     directions_hint: You may want to include travel directions.
+    done_removing_people: Done.
     edit_group: Edit Group
+    edit_members: Edit Group Members
     email_from_group_is_on: email from this group is ON
     email_from_group_is_off: email from this group is OFF
     email_off: "off"
@@ -822,6 +828,7 @@ en:
     groupies: Groupies
     hidden_group: Hidden Group
     hidden_groups: Hidden Groups
+    i_agree: I Agree
     if_cant_find_create_it: If you can't find the group you're looking for, create it!
     if_checked_message_only_to_members: If checked, messages are only visible to members of the group.
     if_ok_you_will_stop_receiving: If you click OK, you will no longer receive email from this group.
@@ -845,7 +852,7 @@ en:
     name_required: Name (required)
     new_group: New Group
     no_more: No groups can be added at this time.
-    nobody_yet: Nobody yet
+    nobody_yet: nobody yet
     not_authorized_view: You are not authorized to view this group
     not_authorized_post: You are not authorized to post to this group.
     not_found: Group not found.
@@ -857,6 +864,7 @@ en:
     or_send_from_your_email_html: "Or, send to <a href='mailto:{{email}}'>{{email}}</a> from your email client."
     other_notes: Other Notes
     parents_of: "Parents of:"
+    parents_of_hint: "Membership will be auto-generated from parents of selected group's members."
     pending_approval: "{{following}} approval"
     pending_approval_count:
       one: "{{count}} group pending approval"
@@ -864,6 +872,7 @@ en:
     pending_membership_request_count:
       one: "{{count}} pending membership request"
       other: "{{count}} pending membership requests"
+    people_in_group: "People In {{name}}"
     picture: Group Picture
     picture_hint: Use a group shot or a clip-art graphic to help people recognize your group on this site.
     privacy_security: Privacy and Security
@@ -871,6 +880,7 @@ en:
     promote: Promote
     recent_activity: Recent Activity
     remove_group_photo: Remove Group Photo
+    remove_people: Remove People
     remove_selected: Remove Selected
     requests: Requests
     request_sent: A request to join this group has been sent to the group administrator(s).
@@ -880,7 +890,6 @@ en:
     search: Group Search
     search_for_a_group: Search for a Group
     select_one_or_more: Select one or more above and choose an action
-    separate_codes_with_space: Separate multiple codes with a space.
     show_all: Show all...
     the_settings_are_for_advanced_users: The settings below are for advanced users.
     there_was_errors_saving: There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages.
@@ -893,8 +902,10 @@ en:
     this_group_maintained_by_staff: This group is maintained by office staff.
     this_picture: This Picture
     types: Types of Groups
+    unmapable_address: "This does not resemble a physical address; no map will be shown."
     user_settings_saved: User settings saved.
     view_group: View Group
+    view_members: View Group Member Details
     yes_do_it: Yes, do it.
     you_are_to_remove_yourself: You're about to remove yourself from this group! You won't be able to edit it anymore if you do that
     you_requested_join_this_group: You have requested to join this group.
@@ -951,6 +962,7 @@ en:
       password: password
       relationships: relationships
     group:
+      delete: delete group
       edit: edit group
 
   messages: 

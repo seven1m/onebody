@@ -30,6 +30,14 @@
     <% end %>
   <% end %>
 
+  <p class="double-margin-top">
+    <% if @logged_in.can_edit?(@group) %>
+      <%= link_to t('groups.edit_members'), group_memberships_path(@group), :class => 'edit-icon discreet' %>
+    <% else %>
+      <%= link_to t('groups.view_members'), group_memberships_path(@group), :class => 'discreet' %>
+    <% end %>
+  </p>
+
 <% end %>
 
 <% if @show_map %>

@@ -389,15 +389,6 @@ fieldset legend {
   float: left;
   width: 300px;
 }
-.profile .profile-pic img {
-  display: block;
-  margin: 0 0 25px -7px;
-  padding: 6px;
-  border: 1px solid #dadada;
-}
-.profile .profile-pic a {
-  text-decoration: none;
-}
 .profile h2 {
   font-weight: normal;
   margin: 20px 0 0 0;
@@ -443,6 +434,15 @@ fieldset legend {
 }
 .profile h4:after {
   content: " /";
+}
+.profile-pic img {
+  display: block;
+  margin: 0 0 25px -7px;
+  padding: 6px;
+  border: 1px solid #dadada;
+}
+.profile-pic a {
+  text-decoration: none;
 }
 .family {
   list-style: none;
@@ -845,6 +845,20 @@ table.comments td {
 table.spaced td, table.spaced th {
   padding: 0 20px 10px 0;
   text-align: left;
+}
+table.members {
+  width: 100%;
+}
+table.members .icon {
+  width: 32px;
+  padding: 0 10px 5px 0;
+}
+table.members .action {
+  width: 10px;
+}
+.heading-action {
+  float: right;
+  margin-top: -45px;
 }
 .small {
   font-size: smaller;

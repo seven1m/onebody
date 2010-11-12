@@ -27,6 +27,25 @@
     <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>
   </div>
 
+  <h3><%= t('groups.meets') %></h3>
+  <div class="section">
+    <%= form.label :meets, t('groups.meets_when') %>
+    <div class="form-field-hint"><%= t('groups.meets_when_hint') %></div>
+    <%= form.text_field :meets %><br/>
+
+    <%= form.label :location, t('groups.location_address') %>
+    <% if Setting.get(:services, :yahoo) %>
+      <div class="form-field-hint"><%= t('groups.location_address_hint') %></div>
+    <% end %>
+    <%= form.text_area :location, :rows => 3 %>
+    <div id="map-preview"></div>
+    <br/>
+
+    <%= form.label :directions, t('groups.directions') %>
+    <div class="form-field-hint"><%= t('groups.directions_hint') %></div>
+    <%= form.text_area :directions, :rows => 3 %>
+  </div>
+
   <h3><%= t('groups.picture') %></h3>
   <div class="section">
     <div class="form-field-hint"><%= t('groups.picture_hint') %></div>
@@ -37,21 +56,6 @@
       <br/>
     <% end %>
     <em><%= t('groups.click_save_changes_to_upload') %></em>
-  </div>
-
-  <h3><%= t('groups.meets') %></h3>
-  <div class="section">
-    <%= form.label :meets, t('groups.meets_when') %>
-    <div class="form-field-hint"><%= t('groups.meets_when_hint') %></div>
-    <%= form.text_field :meets %><br/>
-
-    <%= form.label :location, t('groups.location_address') %>
-    <div class="form-field-hint"><%= t('groups.location_address_hint') %></div>
-    <%= form.text_area :location, :rows => 3 %><br/>
-
-    <%= form.label :directions, t('groups.directions') %>
-    <div class="form-field-hint"><%= t('groups.directions_hint') %></div>
-    <%= form.text_area :directions, :rows => 3 %>
   </div>
 
   <h3><%= t('groups.features') %></h3>
@@ -116,20 +120,20 @@
       <div class="section">
         <%= t('groups.the_settings_are_for_advanced_users') %><br/>
         <%= form.label :link_code, t('groups.class_link_code') %>
+        <div class="form-field-hint"><%= t('groups.class_link_code_hint_html') %></div>
         <%= form.text_field :link_code %>
-        <em><%= t('groups.separate_codes_with_space') %></em>
 
         <%= form.label :parents_of, t('groups.parents_of') %>
+        <div class="form-field-hint"><%= t('groups.parents_of_hint') %></div>
         <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %>
-        <em>Membership will be auto-generated from parents of selected group's members.</em>
+        <em></em>
 
-        <%= form.label :cm_api_list_id, 'Campaign Monitor API List ID:' %>
-        You must follow all policies of Campaign Monitor, including
-        <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.<br/>
-        <%= link_to_function 'I agree. &raquo;'.html_safe, "$('#cm_section').show();$(this).hide();" %>
+        <%= form.label :cm_api_list_id, t('groups.campaign_monitor_sync') %>
+        <%= t('groups.campaign_monitor_policy_html') %><br/>
+        <%= link_to_function t('groups.i_agree'), "$('#cm_section').show();$(this).hide();$('#group_cm_api_list_id')[0].focus();" %>
         <div id="cm_section" style="display:none;">
+          <em><%= t('groups.campaign_monitor_sync_help') %></em><br/>
           <%= form.text_field :cm_api_list_id %>
-          <em>To sync with a Campaign Monitor subscriber list, paste the API List ID here.</em>
         </div>
 
         <%= form.label :hidden, t('groups.hidden_group') %>
@@ -139,9 +143,12 @@
     </div>
   <% end %>
 
-  <p><%= form.submit t('save_changes') %></p>
+  <p class="double-margin-top"><%= form.submit t('save_changes') %></p>
 <% end %>
 
+<% if Setting.get(:services, :yahoo) %>
+  <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= Setting.get(:services, :yahoo) %>"></script>
+<% end %>
 <script type="text/javascript">
   function update_address(name) {
     var address = name.toLowerCase().match(/[a-z0-9]+/g).join('');
@@ -150,6 +157,38 @@
   function check_mutual_exclusion() {
     if(!$('#group_approval_required_to_join').attr('checked') && $('#group_private').attr('checked')) {
       alert('<%= t('groups.by_allow_anyone_to_join') %>');
+    }
+  }
+  function createMapMarker(address) {
+    var img = new YImage();
+    img.src = '/images/map_marker.gif';
+    img.size = new YSize(16, 28);
+    return new YMarker(address, img);
+  }
+  map = null;
+  function mapLocation() {
+    <%= Setting.get(:services, :yahoo) ? nil : 'return;' %>
+    var width = 350;
+    var height = 150;
+    if($('#group_location').val().match(/\s[A-Z]{2}\s+\d{5}/)) {
+      var address = $('#group_location').val();
+      if(map) {
+        map.removeMarkersAll();
+      } else {
+        $('#map-preview').html('').css('width', width+'px').css('height', height+'px');
+        map = new YMap('map-preview');
+        map.addZoomLong();
+        map.setMapType(YAHOO_MAP_REG);
+        map.addTypeControl();
+        map.disableKeyControls();
+      }
+      map.drawZoomAndCenter(address, 6);
+      map.addOverlay(createMapMarker(address));
+    } else {
+      $('#map-preview').html(
+        '<%= escape_javascript t('groups.unmapable_address') %>'
+      ).css('width', 'auto').css('height', 'auto');
+      map = null;
     }
   }
   function toggleAddressField() {
@@ -169,4 +208,5 @@
   }
   toggleAddressField();
   toggleCalendarField();
+  observeFields(mapLocation, 2000, ['group_location']);
 </script>

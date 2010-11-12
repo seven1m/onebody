@@ -16,13 +16,15 @@ class GroupsController < ApplicationController
     # /groups?category=Small+Groups
     # /groups?name=college
     elsif params[:category] or params[:name]
+      @categories = Group.category_names
       conditions = []
       conditions.add_condition ['hidden = ? and approved = ?', false, true] unless @logged_in.admin?(:manage_groups)
       conditions.add_condition ['category = ?', params[:category]] if params[:category]
       conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
       @groups = Group.find(:all, :conditions => conditions, :order => 'name')
-      conditions[1] = true # only hidden groups
-      @hidden_groups = Group.find(:all, :conditions => conditions, :order => 'name')
+      conditions_for_hidden = conditions.dup
+      conditions_for_hidden[1] = true # only hidden groups
+      @hidden_groups = Group.find(:all, :conditions => conditions_for_hidden, :order => 'name')
       respond_to do |format|
         format.html { render :action => 'search' }
         format.js
@@ -94,6 +96,7 @@ class GroupsController < ApplicationController
       params[:group].cleanse 'address'
       @group = Group.new(params[:group])
       @group.creator = @logged_in
+      @group.photo = photo
       if @group.save
         if @logged_in.admin?(:manage_groups)
           @group.update_attribute(:approved, true)
@@ -102,7 +105,6 @@ class GroupsController < ApplicationController
           @group.memberships.create(:person => @logged_in, :admin => true)
           flash[:notice] = t('groups.created_pending_approval')
         end
-        @group.photo = photo
         redirect_to @group
       else
         @categories = Group.categories.keys
