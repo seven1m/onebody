@@ -102,6 +102,7 @@
     <% end %>
   </div>
   <script type="text/javascript">
+    $('#album').autocomplete({source: <%= raw @album_names.inspect %>});
     function selectShare(share) {
       $('.share-type').hide();
       $('#'+share).show();
