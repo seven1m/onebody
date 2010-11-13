@@ -1186,6 +1186,8 @@ en:
     interests: Interests
     leave_message_for: "Leave a message for {{name}}:"
     legacy_external_id: Legacy/External ID
+    limited_access: "Your account currently has limited access; We're showing you an abbreviated profile page as a result."
+    limited_access_denied: "Your account currently has limited access."
     movies: Movies
     my_calendar: My Calendar
     my_favorites: My Favorites

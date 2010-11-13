@@ -266,10 +266,6 @@ class Person < ActiveRecord::Base
     read_attribute(:can_sign_in) and adult_or_consent?
   end
 
-  def full_access?
-    read_attribute(:full_access) or admin? or staff? or elder? or deacon?
-  end
-
   def messages_enabled?
     read_attribute(:messages_enabled) and email.to_s.any?
   end

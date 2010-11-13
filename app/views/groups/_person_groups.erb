@@ -5,7 +5,7 @@
         <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
           <tr <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
             <td>
-              <%= render :partial => 'thumbnail', :locals => {:group => group} %>
+              <%= render :partial => 'groups/thumbnail', :locals => {:group => group} %>
             </td>
             <td class="group">
               <%= link_to group.name, group %>

@@ -1,4 +1,8 @@
-<h1><%= @person.name %></h1>
+<% content_for :sidebar do %>
+  <%= t('people.limited_access') %>
+<% end %>
+
+<h2><%= @person.name %></h2>
 
 <table>
   <% if @person.home_phone.to_s.any? %>
@@ -6,5 +10,5 @@
   <% end %>
 </table>
 
-<h2><%= t('people.groups') %></h2>
+<h3><%= t('people.groups') %></h3>
 <%= render :partial => 'groups/person_groups' %>

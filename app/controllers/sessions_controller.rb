@@ -40,8 +40,10 @@ class SessionsController < ApplicationController
       session[:ip_address] = request.remote_ip
       if params[:from].to_s.any?
         redirect_to 'http://' + request.host + ([80, 443].include?(request.port) ? '' : ":#{request.port}") + params[:from]
-      else
+      elsif person.full_access?
         redirect_to stream_path
+      else
+        redirect_to person
       end
     elsif person == nil
       if family = Family.find_by_email(params[:email])

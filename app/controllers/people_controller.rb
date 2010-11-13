@@ -49,7 +49,9 @@ class PeopleController < ApplicationController
     else
       @person = Person.find_by_id(params[:id], :include => :family)
     end
-    if @person and @logged_in.can_see?(@person)
+    if params[:limited] or !@logged_in.full_access?
+      render :action => 'show_limited'
+    elsif @person and @logged_in.can_see?(@person)
       @family = @person.family
       @family_people = @person.family.try(:visible_people) || []
       @friends = @person.friends.all(:limit => MAX_FRIENDS_ON_PROFILE, :order => 'friendships.ordering').select { |p| @logged_in.can_see?(p) }
@@ -68,8 +70,6 @@ class PeopleController < ApplicationController
         end
       elsif params[:business]
         render :action => 'business'
-      elsif not @logged_in.full_access? and not @me
-        render :action => 'show_limited'
       else
         respond_to do |format|
           format.html
