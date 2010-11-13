@@ -1,34 +1,6 @@
 module StreamsHelper
   include MessagesHelper
 
-  def stream_icon(stream_item)
-    src = case stream_item.streamable_type
-    when 'NewsItem'
-      'newspaper.png'
-    when 'Note'
-      'note.png'
-    when 'Message'
-      if stream_item.wall_id
-        'comments.png'
-      else
-        'message.gif'
-      end
-    when 'Verse'
-      'verse.png'
-    when 'Album'
-      'picture.png'
-    when 'Publication'
-      'page.png'
-    when 'Recipe'
-      'recipe.png'
-    when 'PrayerRequest'
-      'heart.png'
-    else
-      return nil
-    end
-    image_tag(src, :alt => stream_item.title, :class => 'icon')
-  end
-
   def stream_item_path(stream_item)
     send(stream_item.streamable_type.underscore + '_path', stream_item.streamable_id)
   end
