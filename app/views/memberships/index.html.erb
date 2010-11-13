@@ -1,9 +1,12 @@
 <% content_for :sidebar do %>
   <p><%= link_to t('groups.back_to_group', :name => @group.name), @group, :class => 'left-icon' %></p>
+
+  <h2><%= t('groups.people_in_group', :name => @group.name) %></h2>
+
   <% if @group.approved? %>
     <%= form_tag search_path, :remote => true do %>
       <%= hidden_field_tag :select_person, true %>
-      <p>
+      <p class="double-margin-top">
         <label for="add_person_name"><%= t('groups.add_somebody') %>:</label>
         <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
         <% if @group.parents_of %>
@@ -27,8 +30,6 @@
     </p>
   <% end %>
 <% end %>
-
-<h2><%= t('groups.people_in_group', :name => @group.name) %></h2>
 
 <% if @logged_in.can_edit?(@group) and @requests.any? %>
   <h3><%= t('groups.requests') %></h3>
