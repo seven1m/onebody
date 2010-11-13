@@ -48,6 +48,16 @@
   <div class="clear"></div>
   <div class="profile-sidebar">
     <%= render :partial => 'family' %>
+
+    <% if @albums.any? %>
+      <h3><%= t('albums.picture_albums') %></h3>
+      <p>
+        <% @albums.each do |album| %>
+          <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', :alt => album.name),
+            album, :title => album.name %>
+        <% end %>
+      </p>
+    <% end %>
   </div>
 
   <div class="profile-body">
