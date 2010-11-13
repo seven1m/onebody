@@ -1,25 +1,24 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('picture.png', :alt => t('pictures.all_pictures'), :class => 'icon') + ' ' + t('pictures.all_pictures'), albums_path %></li>
-  <% if @logged_in.can_edit? @album %>
-    <li><%= link_to image_tag('pencil.png', :alt => t('pictures.edit_album'), :class => 'icon') + ' ' + t('pictures.edit_album'), edit_album_path(@album) %></li>
-    <li><%= link_to image_tag('delete.png', :alt => t('pictures.delete_album'), :class => 'icon') + ' ' + t('pictures.delete_album'), album_path(@album), :method => 'delete', :confirm => t('pictures.are_you_sure') %></li>
+<% content_for :sidebar do %>
+  <h2><%= @album.name %> <% if @album.group %><%= t('in') %> <%= link_to @album.group.name, @album.group %><% end %></h2>
+
+  <p><%= @album.description %></p>
+
+  <% if @logged_in.can_edit?(@album) %>
+    <%= render :partial => 'upload' %>
+    <p class="double-margin-top discreet">
+      <%= link_to t('pictures.edit_album'), edit_album_path(@album), :class => 'edit-icon' %><br/>
+      <%= link_to t('pictures.delete_album'), @album, :method => :delete, :confirm => t('are_you_sure'), :class => 'delete-icon' %>
+    </p>
   <% end %>
 <% end %>
-
-<h1><%= @album.name %> <% if @album.group %><%= t('in') %> <%= link_to @album.group.name, @album.group %><% end %></h1>
-
-<p><%= @album.description %></p>
-
-<%= render :partial => 'upload' %>
 
 <%= will_paginate @pictures %>
 
 <% @pictures.each do |picture| %>
-  <div class="picture">
-    <%= link_to image_tag(picture.photo.url(:medium), :alt => t('pictures.click_to_enlarge')),
+  <%= link_to image_tag(picture.photo.url(:medium), :alt => t('pictures.click_to_enlarge'), :class => 'picture'),
       [@album, picture], :title => t('pictures.click_to_enlarge') %>
-  </div>
 <% end %>
 <br clear="both"/>
 
 <%= will_paginate @pictures %>
+

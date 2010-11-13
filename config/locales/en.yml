@@ -1304,7 +1304,7 @@ en:
     in_album: in album
     next: next »
     picture: Picture
-    picture_uploaded_by: Picture uploaded by
+    picture_uploaded_by: "Picture uploaded {{when}} by"
     pictures: Pictures
     posted_in: Posted in
     prev: « prev

@@ -538,22 +538,24 @@ fieldset {
   background: url(/images/clean/icons.png?201011091342) @x @y no-repeat;
 }
 
-.add-icon     { .icon-sprite(0px,    0px) }
-.edit-icon    { .icon-sprite(0px,  -20px) }
-.lock-icon    { .icon-sprite(0px,  -40px) }
-.comment-icon { .icon-sprite(0px,  -66px) } /* up just a bit */
-.dots-icon    { .icon-sprite(0px,  -80px) }
-.people-icon  { .icon-sprite(0px, -100px) }
-.money-icon   { .icon-sprite(0px, -120px) }
-.feed-icon    { .icon-sprite(0px, -140px) }
-.right-icon   { .icon-sprite(0px, -160px) }
-.left-icon    { .icon-sprite(0px, -180px) }
-.picture-icon { .icon-sprite(0px, -200px) }
-.file-icon    { .icon-sprite(0px, -220px) }
-.verse-icon   { .icon-sprite(0px, -240px) }
-.delete-icon  { .icon-sprite(0px, -256px) } /* down a bit */
-.email-icon   { .icon-sprite(0px, -280px) }
-.prayer-icon  { .icon-sprite(0px, -300px) }
+.add-icon        { .icon-sprite(0px,    0px) }
+.edit-icon       { .icon-sprite(0px,  -20px) }
+.lock-icon       { .icon-sprite(0px,  -40px) }
+.comment-icon    { .icon-sprite(0px,  -66px) } /* up just a bit */
+.dots-icon       { .icon-sprite(0px,  -80px) }
+.people-icon     { .icon-sprite(0px, -100px) }
+.money-icon      { .icon-sprite(0px, -120px) }
+.feed-icon       { .icon-sprite(0px, -140px) }
+.right-icon      { .icon-sprite(0px, -160px) }
+.left-icon       { .icon-sprite(0px, -180px) }
+.picture-icon    { .icon-sprite(0px, -200px) }
+.file-icon       { .icon-sprite(0px, -220px) }
+.verse-icon      { .icon-sprite(0px, -240px) }
+.delete-icon     { .icon-sprite(0px, -256px) } /* down a bit */
+.email-icon      { .icon-sprite(0px, -280px) }
+.heart-icon      { .icon-sprite(0px, -300px) }
+.rotate-cw-icon  { .icon-sprite(0px, -320px) }
+.rotate-ccw-icon { .icon-sprite(0px, -340px) }
 
 ul.buttons {
   list-style: none;
@@ -635,6 +637,21 @@ a.button:hover, a.button.active {
   margin: 10px 0;
 }
 
+/* Pictures */
+
+.picture {
+  padding: 4px;
+  border: 1px solid @light - 20;
+  margin: 4px;
+  .shadow(0px, 2px, 10px, .25);
+}
+.albums {
+  td {
+    padding: 0 20px 10px 0;
+    vertical-align: middle;
+  }
+}
+
 /* Stream */
 
 .stream-item {
@@ -679,10 +696,7 @@ a.button:hover, a.button.active {
     }
   }
   .stream-pic {
-    padding: 4px;
-    border: 1px solid @light - 20;
-    margin: 4px;
-    .shadow(0px, 2px, 10px, .25);
+    .picture;
   }
 }
 
@@ -696,6 +710,9 @@ table.comments {
   background-color: @comment-background;
   td {
     padding: 5px;
+    h4 {
+      white-space: nowrap;
+    }
   }
 }
 

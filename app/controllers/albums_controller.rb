@@ -19,7 +19,7 @@ class AlbumsController < ApplicationController
       @albums = (
         Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc') +
         Album.all(:conditions => ["person_id in (?)", @logged_in.all_friend_and_groupy_ids])
-      ).uniq
+      ).uniq.sort_by(&:name)
     end
     respond_to do |format|
       format.html

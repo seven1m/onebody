@@ -668,9 +668,17 @@ fieldset legend {
   padding-left: 15px;
   background: url(/images/clean/icons.png?201011091342) 0px -280px no-repeat;
 }
-.prayer-icon {
+.heart-icon {
   padding-left: 15px;
   background: url(/images/clean/icons.png?201011091342) 0px -300px no-repeat;
+}
+.rotate-cw-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png?201011091342) 0px -320px no-repeat;
+}
+.rotate-ccw-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png?201011091342) 0px -340px no-repeat;
 }
 ul.buttons {
   list-style: none;
@@ -758,6 +766,19 @@ a.button:hover, a.button.active {
 .quoted-content {
   margin: 10px 0;
 }
+/* Pictures */
+.picture {
+  padding: 4px;
+  border: 1px solid #dadada;
+  margin: 4px;
+  -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+}
+.albums td {
+  padding: 0 20px 10px 0;
+  vertical-align: middle;
+}
 /* Stream */
 .stream-item {
   margin-bottom: 25px;
@@ -819,6 +840,9 @@ table.comments {
 }
 table.comments td {
   padding: 5px;
+}
+table.comments td h4 {
+  white-space: nowrap;
 }
 /* Popup Menus */
 .popup-menu {

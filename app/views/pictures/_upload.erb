@@ -1,32 +1,5 @@
-<p id="add_picture_link" style="display:none;">
-  <%= link_to image_tag('add_small.gif', :alt => t('pictures.add_a_picture'), :class => 'icon') + ' ' + t('pictures.add_a_picture'), "#" %>
-</p>
-
-<div id="add_picture">
-  <%= form_for Picture.new, :url => album_pictures_path(@album), :html => {:multipart => true} do |form| %>
-    <%= hidden_field_tag :album_id, @album %>
-    <p>
-      <label for="picture"><%= t('pictures.add_a_picture') %>:</label>
-      <%= file_field_tag 'pictures[]', :multiple => true %>
-    </p>
-    <p>
-      <em><%= t('multiple_files') %></em>
-    </p>
-    <% if @logged_in.admin?(:manage_pictures) %>
-      <p>
-        <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox' %>
-        <%= label_tag 'remove_owner', t('pictures.hide_my_name'), :class => 'inline' %>
-      </p>
-    <% end %>
-    <p><%= submit_tag t('pictures.upload') %></p>
-  <% end %>
-</div>
-
-<script type="text/javascript">
-  $('#add_picture_link').show();
-  $('#add_picture').hide();
-  $('#add_picture_link a').click(function(){
-    $('#add_picture').show();
-    $('#add_picture_link').hide();
-  });
-</script>
+<%= form_for Picture.new, :html => {:multipart => true} do |form| %>
+  <%= hidden_field_tag :album_id, @album.id %>
+  <%= file_field_tag 'pictures[]', :multiple => true %>
+  <%= submit_tag t('pictures.upload') %>
+<% end %>
