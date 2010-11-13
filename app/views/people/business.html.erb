@@ -12,11 +12,11 @@
     <%= link_to @person.business_category, search_path(:business => true, :category => @person.business_category) %> &raquo;
   <% end %>
 </div>
-<h1><%= @person.business_name %></h1>
+<h2><%= @person.business_name %></h2>
 
 <p><%= @person.business_description %></p>
 
-<table>
+<table class="spaced">
   <% if @person.business_phone.to_i > 0 %>
     <tr><td><%= t('people.business_phone') %>:</td><td><%= format_phone @person.business_phone %></td></tr>
   <% end %>
