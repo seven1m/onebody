@@ -21,21 +21,57 @@
   <h3><%= t('stream.about_heading') %></h3>
   <p><%= t('stream.about_html') %></p>
   <h3 class="double-margin-top"><%= t('stream.share_heading') %></h3>
-  <p id="share-something">
-    <p><%= t('stream.share_something_about', :js => "shareSomething()") %></p>
-    <p style="margin-top:25px;">
-      <%= content_tag :a, :href => '#', :onclick => 'shareSomething();return false', :class => 'button' do %>
-        <span class="add-icon"><%= t('stream.share_something') %></span>
-      <% end %>
-    </p>
-  </p>
+  <p><%= t('stream.share_something_about') %></p>
+  <div class="share">
+    <%= text_field_tag 'share-starter', '', :placeholder => t('share.profile') %>
+    <ul class="share-details share-selector" style="display:none;">
+      <li><%= link_to_function t('share.note'), "selectShare('share-note')", :class => 'comment2-icon', :id => 'share-note-icon' %></li>
+      <li><%= link_to_function t('share.picture'), "selectShare('share-picture')", :class => 'picture-icon', :id => 'share-picture-icon' %></li>
+      <li><%= link_to_function t('share.verse'), "selectShare('share-verse')", :class => 'verse-icon', :id => 'share-verse-icon' %></li>
+      <li class="cancel-link"><%= link_to_function '', 'hideShare()', :class =>  'delete-icon' %></li>
+    </ul>
+    <%= form_for Note.new, :html => {:id => 'share-note', :class => 'share-type'} do |form| %>
+      <%= hidden_field_tag :redirect_to, stream_path %>
+      <span class="small"><%= t('share.note_label') %></span><br/>
+      <%= form.text_area :body, :rows => 2 %><br/>
+      <%= submit_tag t('share.share') %>
+    <% end %>
+    <%= form_for Picture.new, :html => {:multipart => true, :id => 'share-picture', :class => 'share-type'} do |form| %>
+      <%= file_field_tag 'pictures[]', :multiple => true %><br/>
+      <%= text_field_tag 'album', '', :size => 10, :placeholder => t('share.default_album_name') %><br/>
+      <%= submit_tag t('share.share') %>
+    <% end %>
+    <%= form_for Verse.new, :html => {:id => 'share-verse', :class => 'share-type'} do |form| %>
+      <span class="small"><%= t('share.verse_label') %></span><br/>
+      <%= form.text_field :id, :size => 15 %><br/>
+      <%= submit_tag t('share.share') %>
+    <% end %>
+  </div>
+  <script type="text/javascript">
+    $('#album').autocomplete({source: <%= raw @album_names.inspect %>});
+    function selectShare(share) {
+      $('.share-type').hide();
+      $('#'+share).show();
+      $('#'+share+' :input[type!="hidden"]')[0].focus();
+      $('.share-selector a').removeClass('active');
+      $('#'+share+'-icon').addClass('active');
+    }
+    function showShare() {
+      $('.share-details').show();
+      $('#share-starter').hide();
+      var first = $('.share .share-type:first').attr('id');
+      selectShare(first);
+    }
+    function hideShare() {
+      $('.share-type, .share-details').hide();
+      $('#share-starter').show();
+    }
+    $('#share-starter').bind('focus', showShare);
+  </script>
 <% end %>
 
 <div id="stream-page-body">
   <div class="stream-items">
-    <div id="share" style="display:none;">
-      <%= render :partial => 'share' %>
-    </div>
     <%= render :partial => 'stream_items' %>
   </div>
 

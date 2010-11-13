@@ -475,6 +475,7 @@ fieldset legend {
   list-style: none;
 }
 .favorites-inline li {
+  white-space: nowrap;
   display: inline;
 }
 .favorites-inline li a {
@@ -596,6 +597,12 @@ fieldset legend {
 .share .share-selector li a.active {
   color: #5f9128;
 }
+.left-sidebar .share #share-starter {
+  width: 270px;
+}
+.left-sidebar .share textarea {
+  width: 270px;
+}
 /* Icons */
 .icon {
   border: none;
@@ -624,6 +631,10 @@ fieldset legend {
   background: url(/images/clean/icons.png?201011091342) 0px -66px no-repeat;
 }
 /* up just a bit */
+.comment2-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png?201011091342) 0px -60px no-repeat;
+}
 .dots-icon {
   padding-left: 15px;
   background: url(/images/clean/icons.png?201011091342) 0px -80px no-repeat;

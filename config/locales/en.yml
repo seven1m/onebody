@@ -1709,12 +1709,17 @@ en:
     default_album_name: Album Name
     email: Email
     group: "Share something with your group."
+    note: Note
+    note_label: "What's on your mind?"
     picture: Picture
     prayer_answer: Answer
     prayer_answered_at: Date Answered
     prayer_request: Prayer Request
     prayer_share_answer: "This is as an answered prayer..."
+    profile: "Share something with friends."
     share: Share!
+    verse: Verse
+    verse_label: "Verse or Passage:"
 
   stream: 
     about_heading: Your Homepage

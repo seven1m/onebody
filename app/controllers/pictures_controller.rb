@@ -40,7 +40,7 @@ class PicturesController < ApplicationController
       else
         @logged_in.name
       end
-    )
+    ) { |a| a.person = @logged_in }
     success = fail = 0
     errors = []
     Array(params[:pictures]).each do |pic|
