@@ -1475,11 +1475,10 @@ en:
     publications: Publications
     save_publication: Save Publication
     saved: Publication saved.
-    signed_to_recieve: signed up to recieve notifications
-    start_receiving_notifications: If you wish to recieve email notifications when new publications are made available on this page,
+    start_receiving_notifications: "Recieve notifications via email when new publications are made available on this page:"
     subscribe: Subscribe
     subscribe_feed_html: <a href="{{url}}">Subscribe</a> to Publications with your feed reader.
-    to_stop_receiving_notifications: to stop receiving these notifications.
+    unsubscribe: Unsubscribe
     update_notifications: Update Notifications
     you_must_select_file: You must select a file.
 

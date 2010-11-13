@@ -2,52 +2,42 @@
   <link rel="alternate" type="application/atom+xml" title="<%= t('publications.feed') %>" href="<%= url_for publications_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
 <% end %>
 
-<% content_for :subnav do %>
-  <% if @logged_in.admin?(:manage_publications) %>
-    
-  <% end %>
-  <li><%= link_to image_tag('feed_small.png', :alt => t('publications.feed'), :class => 'icon') + ' ' + t('publications.subscribe'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %></li>
-<% end %>
-
-
 <% content_for :sidebar do %>
-  <h2><%= t('publications.publications') %></h2>
-  <p><%= t('publications.files_with_acrobat_icon_html', {:img => image_tag('clean/acrobat.png', :alt => 'Adobe Acrobat', :class => 'icon'), :url => link_to('Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html')}) %></p>
-  <div id="publications"><%= render :partial => 'list' %></div>
-<% end %>
+  <h3><%= t('publications.update_notifications') %></h3>
 
+  <p>
+    <%= link_to image_tag('clean/feed.png', :alt => t('publications.feed'), :class => 'big-icon'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %>
+    <%= t('publications.subscribe_feed_html', :url => publications_path(:format => 'xml', :code => @logged_in.feed_code)) %>
+  </p>
 
-<h2><%= t('publications.update_notifications') %></h2>
-
-<p>
-  <%= link_to image_tag('clean/feed.png', :alt => t('publications.feed'), :class => 'icon'), publications_path(:format => 'xml', :code => @logged_in.feed_code) %>
-  <%= t('publications.subscribe_feed_html', :url => publications_path(:format => 'xml', :code => @logged_in.feed_code)) %>
-</p>
-
-<% @groups.each do |group| %>
-  <h3><%= group.name %></h3>
-  
-  <% if @logged_in.member_of?(group) %>
-    <p>
-      <%= image_tag 'clean/email.png', :alt => t('publications.email_notifications'), :class => 'email-notification-icon' %>
-      <%= t('publications.currently_signed_up') %>
-      <%= link_to t('click_here'), group_membership_path(group, @logged_in), :method => 'delete' %>
-      <%= t('publications.to_stop_receiving_notifications') %>
-    </p>
-  <% else %>
-    <p>
-      <%= image_tag 'clean/email.png', :alt => t('publications.email_notifications'), :class => 'email-notification-icon' %>
-      <%= t('publications.start_receiving_notifications') %>
-      <%= link_to t('click_here'), group_memberships_path(group, :id => @logged_in), :method => 'post' %>.
-    </p>
+  <% if @groups.any? %>
+    <h3><%= t('publications.email_notifications') %></h3>
+    <p><%= t('publications.start_receiving_notifications') %></p>
   <% end %>
+  <% @groups.each do |group| %>
+    <% if @logged_in.member_of?(group) %>
+      <p>
+        <%= image_tag 'clean/email.png', :alt => t('publications.email_notifications'), :class => 'big-icon' %>
+        <strong><%= group.name %></strong>
+        <%= link_to t('publications.unsubscribe'), group_membership_path(group, @logged_in), :method => 'delete', :confirm => t('are_you_sure') %>
+        <% if @logged_in.admin?(:manage_publications) %>
+          <br/><%= link_to t('groups.view_group'), group %>
+        <% end %>
+      </p>
+    <% else %>
+      <p>
+        <%= image_tag 'clean/email.png', :alt => t('publications.email_notifications'), :class => 'big-icon' %>
+        <strong><%= group.name %></strong><br/>
+        <%= link_to t('publications.subscribe'), group_memberships_path(group, :id => @logged_in), :method => 'post', :confirm => t('are_you_sure') %>
+        <% if @logged_in.admin?(:manage_publications) %>
+          <br/><%= link_to t('groups.view_group'), group %>
+        <% end %>
+      </p>
+    <% end %>
 
-  <% if @logged_in.admin?(:manage_publications) %>
-    <p style="background-color:#ffc;">
-      <%= l = group.people.length %> <%= l == 1 ? t('people_count.is') : t('people_count.are') %>
-      <%= t('publications.signed_to_recieve') %>
-      |
-      <%= link_to t('groups.view_group'), group %>
-    </p>
   <% end %>
 <% end %>
+
+<h2><%= t('publications.publications') %></h2>
+<p><%= t('publications.files_with_acrobat_icon_html', {:img => image_tag('clean/acrobat.png', :alt => 'Adobe Acrobat', :class => 'icon'), :url => link_to('Adobe Reader', 'http://www.adobe.com/products/acrobat/readstep2.html')}) %></p>
+<div id="publications"><%= render :partial => 'list' %></div>

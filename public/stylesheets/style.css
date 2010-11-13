@@ -435,6 +435,7 @@ fieldset legend {
 }
 .profile h4 {
   font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+  font-weight: bold;
   display: inline;
 }
 .profile h4:after {
@@ -601,7 +602,7 @@ fieldset legend {
   background-color: transparent;
   vertical-align: middle;
 }
-.email-notification-icon {
+.big-icon {
   vertical-align: middle;
   float: left;
   margin-right: 10px;

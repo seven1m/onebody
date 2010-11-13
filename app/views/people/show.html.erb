@@ -72,61 +72,37 @@
       <% if @person.activities.to_s.any? %>
         <div class="favorites-group">
           <h4><%= t('people.activities') %></h4>
-          <ul class="favorites-inline">
-            <% linkify(@person.activities, :activities).each do |link| %>
-              <li><%= link %></li>
-            <% end %>
-          </ul>
+          <%= preserve_breaks @person.activities %>
         </div>
       <% end %>
       <% if @person.interests.to_s.any? %>
         <div class="favorites-group">
           <h4><%= t('people.interests') %></h4>
-          <ul class="favorites-inline">
-            <% linkify(@person.interests, :interests).each do |link| %>
-              <li><%= link %></li>
-            <% end %>
-          </ul>
+          <%= preserve_breaks @person.interests %>
         </div>
       <% end %>
       <% if @person.books.to_s.any? %>
         <div class="favorites-group">
           <h4><%= t('people.books') %></h4>
-          <ul class="favorites-inline">
-            <% linkify(@person.books, :books).each do |link| %>
-              <li><%= link %></li>
-            <% end %>
-          </ul>
+          <%= preserve_breaks @person.books %>
         </div>
       <% end %>
       <% if @person.music.to_s.any? %>
         <div class="favorites-group">
           <h4><%= t('people.music') %></h4>
-          <ul class="favorites-inline">
-            <% linkify(@person.music, :music).each do |link| %>
-              <li><%= link %></li>
-            <% end %>
-          </ul>
+          <%= preserve_breaks @person.music %>
         </div>
       <% end %>
       <% if @person.movies.to_s.any? %>
         <div class="favorites-group">
           <h4><%= t('people.movies') %></h4>
-          <ul class="favorites-inline">
-            <% linkify(@person.movies, :movies).each do |link| %>
-              <li><%= link %></li>
-            <% end %>
-          </ul>
+          <%= preserve_breaks @person.movies %>
         </div>
       <% end %>
       <% if @person.tv_shows.to_s.any? %>
         <div class="favorites-group">
           <h4><%= t('people.tv_shows') %></h4>
-          <ul class="favorites-inline">
-            <% linkify(@person.tv_shows, :tv_shows).each do |link| %>
-              <li><%= link %></li>
-            <% end %>
-          </ul>
+          <%= preserve_breaks @person.tv_shows %>
         </div>
       <% end %>
       <% if @person.quotes.to_s.any? %>
