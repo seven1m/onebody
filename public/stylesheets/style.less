@@ -7,6 +7,7 @@
 @tertiary:  #C8EAFE;
 @alert:     #f66;
 @comment-background: #fec;
+@notice:    #fec;
 
 @heading-font: "Century Gothic", "Tw Cen MT", Futura, "URW Gothic L", Arial, sans-serif;
 @body-font:    "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
@@ -255,6 +256,11 @@ fieldset {
     }
   }
 }
+#notice {
+  background-color: @notice;
+  padding: 4px;
+  text-align: center;
+}
 #main {
   margin-top: 45px;
   line-height: 1.3;
@@ -392,6 +398,7 @@ fieldset {
   display: inline;
   list-style: none;
   li {
+    white-space: nowrap;
     display: inline;
     a {
       text-decoration: none;

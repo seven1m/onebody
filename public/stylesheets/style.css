@@ -346,6 +346,11 @@ fieldset legend {
 #nav .buttons li a.sub:hover {
   color: #3286b5;
 }
+#notice {
+  background-color: #ffeecc;
+  padding: 4px;
+  text-align: center;
+}
 #main {
   margin-top: 45px;
   line-height: 1.3;
