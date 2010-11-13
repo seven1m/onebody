@@ -1,16 +1,6 @@
 <% content_for :sidebar do %>
 
-  <p><%= link_to raw('&laquo ') + t('verses.all_verses'), verses_path %></p>
-
-  <% if @logged_in.verses.include? @verse %>
-    <p>
-      <%= link_to t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
-    </p>
-  <% else %>
-    <p>
-      <%= link_to t('verses.add_this_verse_to_my_list'), verses_path(:id => @verse), :method => 'post', :class => 'add-icon' %>
-    </p>
-  <% end %>
+  <p><%= link_to t('verses.all_verses'), verses_path, :class => 'left-icon' %></p>
 
   <% if @verse.people.count > 0 %>
     <h3><%= t('verses.people_who_like_this_verse') %></h3>
@@ -27,7 +17,17 @@
       <% end %>
     </table>
   <% end %>
-    
+
+  <% if @logged_in.verses.include? @verse %>
+    <p>
+      <%= link_to t('verses.remove_this_verse'), @verse, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
+    </p>
+  <% else %>
+    <p>
+      <%= link_to t('verses.add_this_verse_to_my_list'), verses_path(:id => @verse), :method => 'post', :class => 'add-icon' %>
+    </p>
+  <% end %>
+
   <h3><%= t('tags.tags') %></h3>
 
   <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>

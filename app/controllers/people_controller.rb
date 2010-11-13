@@ -54,10 +54,8 @@ class PeopleController < ApplicationController
     elsif @person and @logged_in.can_see?(@person)
       @family = @person.family
       @family_people = @person.family.try(:visible_people) || []
-      @friends = @person.friends.all(:limit => MAX_FRIENDS_ON_PROFILE, :order => 'friendships.ordering').select { |p| @logged_in.can_see?(p) }
-      @sidebar_group_people = @person.random_sidebar_group_people.select { |p| @logged_in.can_see?(p) }
-      @stream_items = @person.shared_stream_items(20, :mine)
       @albums = @person.albums.all(:order => 'created_at desc')
+      @verses = @person.verses.all(:order => 'book, chapter, verse')
       if params[:simple]
         if @logged_in.full_access?
           if params[:photo]

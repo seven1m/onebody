@@ -1260,6 +1260,7 @@ en:
     upload_a_picture_of_html: Upload a picture of {{name}} here.
     upload_family_picture_html: Upload a family picture here.
     update_to_profile_is: An update to this profile is
+    verses: Verses
     visibility: Visibility
     visible_on_printed_directory: Visible on Printed Directory
     visible_to_everyone: Visible to everyone
@@ -1751,7 +1752,7 @@ en:
 
   verses: 
     about_tags: Tags can group verses together by topic, author, date, or whatever.
-    about_this_verse: about this verse. Share what it means to you, how it has helped you, or simply why you like it.
+    about_this_verse: about this verse. Share what it means to you or how it has helped you.
     add_a_verse: Add a Verse
     add_this_verse_to_my_list: Add this verse to my list.
     add_verse: Add Verse

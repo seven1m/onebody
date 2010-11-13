@@ -55,6 +55,7 @@
     <h3><%= t('About') %></h3>
     <div class="about">
       <% unless @person.about.to_s.any? or
+                @verses.any? or
                 @person.activities.to_s.any? or
                 @person.interests.to_s.any? or
                 @person.books.to_s.any? or
@@ -67,6 +68,16 @@
       <% if @person.about.to_s.any? %>
         <div class="favorites-group">
           <%= preserve_breaks @person.about %>
+        </div>
+      <% end %>
+      <% if @verses.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.verses') %></h4>
+          <ul class="favorites-inline">
+            <% @verses.each do |verse| %>
+              <li><%= link_to verse.reference, verse %></li>
+            <% end %>
+          </ul>
         </div>
       <% end %>
       <% if @person.activities.to_s.any? %>
