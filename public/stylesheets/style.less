@@ -124,6 +124,9 @@ input, textarea {
   padding: 6px;
   .curve(4px);
 }
+input.defaulted {
+  color: @light - 50;
+}
 input[type=submit] {
   .curve(4px);
   .shadow;
@@ -137,14 +140,15 @@ input[type=submit]:hover {
   .gradient(@secondary+50, @secondary);
   color: @light;
 }
+textarea {
+  font-family: @body-font;
+}
 label {
   display: block;
-  font-weight: bold;
-  margin-top: 15px;
+  /*margin-top: 15px;*/
 }
 label.inline {
   display: inline;
-  font-weight: normal;
 }
 fieldset {
   margin-bottom: 15px;
@@ -479,6 +483,42 @@ fieldset {
   }
 }
 
+/* Share */
+
+.share {
+  margin-bottom: 25px;
+  width: 600px;
+  textarea {
+    width: 588px;
+  }
+  .cancel-link {
+    float: right;
+    text-align: right;
+    a {
+      margin-right: -15px;
+    }
+  }
+  .share-type {
+    display: none;
+  }
+  .share-selector {
+    padding: 2px;
+    margin-bottom: 8px;
+    list-style: none;
+    li {
+      display: inline;
+      display: inline-block;
+      margin-right: 15px;
+      a {
+        text-decoration: none;
+      }
+      a.active {
+        color: @secondary;
+      }
+    }
+  }
+}
+
 /* Icons */
 
 .icon {
@@ -512,6 +552,8 @@ fieldset {
 .file-icon    { .icon-sprite(0px, -220px) }
 .verse-icon   { .icon-sprite(0px, -240px) }
 .delete-icon  { .icon-sprite(0px, -256px) } /* down a bit */
+.email-icon   { .icon-sprite(0px, -280px) }
+.prayer-icon  { .icon-sprite(0px, -300px) }
 
 ul.buttons {
   list-style: none;

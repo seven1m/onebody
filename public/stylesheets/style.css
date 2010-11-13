@@ -184,6 +184,9 @@ input, textarea {
   -khtml-border-radius: 4px;
   border-radius: 4px;
 }
+input.defaulted {
+  color: #bcbcbc;
+}
 input[type=submit] {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -210,14 +213,16 @@ input[type=submit]:hover {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91c35a', endColorstr='#5f9128', GradientType=0 );
   color: #eeeeee;
 }
+textarea {
+  font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+}
 label {
   display: block;
-  font-weight: bold;
-  margin-top: 15px;
+  /*margin-top: 15px;*/
+
 }
 label.inline {
   display: inline;
-  font-weight: normal;
 }
 fieldset {
   margin-bottom: 15px;
@@ -556,6 +561,40 @@ fieldset legend {
   vertical-align: middle;
   text-align: left;
 }
+/* Share */
+.share {
+  margin-bottom: 25px;
+  width: 600px;
+}
+.share textarea {
+  width: 588px;
+}
+.share .cancel-link {
+  float: right;
+  text-align: right;
+}
+.share .cancel-link a {
+  margin-right: -15px;
+}
+.share .share-type {
+  display: none;
+}
+.share .share-selector {
+  padding: 2px;
+  margin-bottom: 8px;
+  list-style: none;
+}
+.share .share-selector li {
+  display: inline;
+  display: inline-block;
+  margin-right: 15px;
+}
+.share .share-selector li a {
+  text-decoration: none;
+}
+.share .share-selector li a.active {
+  color: #5f9128;
+}
 /* Icons */
 .icon {
   border: none;
@@ -625,6 +664,14 @@ fieldset legend {
   background: url(/images/clean/icons.png?201011091342) 0px -256px no-repeat;
 }
 /* down a bit */
+.email-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png?201011091342) 0px -280px no-repeat;
+}
+.prayer-icon {
+  padding-left: 15px;
+  background: url(/images/clean/icons.png?201011091342) 0px -300px no-repeat;
+}
 ul.buttons {
   list-style: none;
   margin-bottom: 25px;

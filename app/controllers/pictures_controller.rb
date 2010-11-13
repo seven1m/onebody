@@ -32,14 +32,15 @@ class PicturesController < ApplicationController
         return
       end
     end
-    if params[:album_id].to_s =~ /^\d+$/
-      @album = (@group ? @group.albums : Album).find(params[:album_id])
-    elsif not ['', '!'].include?(params[:album_id].to_s)
-      @album = (@group ? @group.albums : @logged_in.albums).find_or_create_by_name(params[:album_id])
-    else
-      render :text => t('pictures.error_finding'), :layout => true, :status => 500
-      return
-    end
+    @album = (@group ? @group.albums : Album).find_or_create_by_name(
+      if params[:album].to_s.any? and params[:album] != t('share.default_album_name')
+        params[:album]
+      elsif @group
+        @group.name
+      else
+        @logged_in.name
+      end
+    )
     success = fail = 0
     errors = []
     Array(params[:pictures]).each do |pic|
@@ -64,7 +65,7 @@ class PicturesController < ApplicationController
     flash[:notice] = t('pictures.saved', :success => success)
     flash[:notice] += " " + t('pictures.failed', :fail => fail) if fail > 0
     flash[:notice] += " " + errors if errors.any?
-    redirect_to params[:redirect_to] || @album
+    redirect_to params[:redirect_to] || @group || @album
   end
 
   # rotate / cover selection

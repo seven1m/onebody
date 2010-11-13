@@ -57,6 +57,72 @@
   </div>
 <% end %>
 
+<% if @can_post and (@group.email? or @group.prayer? or @group.pictures?) %>
+  <div class="share">
+    <%= text_field_tag 'share-starter', '', :size => 50, :placeholder => t('share.group') %>
+    <ul class="share-details share-selector" style="display:none;">
+      <% if @group.email? %>
+        <li><%= link_to_function t('share.email'), "selectShare('share-email')", :class => 'email-icon', :id => 'share-email-icon' %></li>
+      <% end %>
+      <% if @group.prayer? %>
+        <li><%= link_to_function t('share.prayer_request'), "selectShare('share-prayer')", :class => 'prayer-icon', :id => 'share-prayer-icon' %></li>
+      <% end %>
+      <% if @group.pictures? %>
+        <li><%= link_to_function t('share.picture'), "selectShare('share-picture')", :class => 'picture-icon', :id => 'share-picture-icon' %></li>
+      <% end %>
+      <li class="cancel-link"><%= link_to_function '', 'hideShare()', :class =>  'delete-icon' %></li>
+    </ul>
+    <% if @group.email? %>
+      <%= form_for Message.new(:group => @group), :html => {:id => 'share-email', :class => 'share-type'} do |form| %>
+        <%= form.hidden_field :group_id %>
+        <%= form.text_field :subject, :size => 50 %>
+        <%= form.text_area :body, :rows => 5 %><br/>
+        <%= submit_tag t('share.share') %>
+      <% end %>
+    <% end %>
+    <% if @group.prayer? %>
+      <%= form_for PrayerRequest.new, :html => {:id => 'share-prayer', :class => 'share-type'} do |form| %>
+        <%= hidden_field_tag :group_id, @group.id %>
+        <%= form.text_area :request, :rows => 5 %><br/>
+        <div id="prayer-answer" style="display:none">
+          <%= form.text_area :answer, :rows => 5, :placeholder => t('share.prayer_answer') %><br/>
+          <%= form.text_field :answered_at, :size => 10, :placeholder => t('share.prayer_answered_at') %>
+        </div>
+        <%= submit_tag t('share.share') %>
+        <%= link_to_function t('share.prayer_share_answer'), "$('#prayer-answer').show();$(this).hide();", :class => 'discreet' %>
+      <% end %>
+    <% end %>
+    <% if @group.pictures? %>
+      <%= form_for Picture.new, :html => {:multipart => true, :id => 'share-picture', :class => 'share-type'} do |form| %>
+        <%= hidden_field_tag :group_id, @group.id %>
+        <%= file_field_tag 'pictures[]', :multiple => true %>
+        <%= text_field_tag 'album', '', :size => 10, :placeholder => t('share.default_album_name') %>
+        <%= submit_tag t('share.share') %>
+      <% end %>
+    <% end %>
+  </div>
+  <script type="text/javascript">
+    function selectShare(share) {
+      $('.share-type').hide();
+      $('#'+share).show();
+      $('#'+share+' :input[type!="hidden"]')[0].focus();
+      $('.share-selector a').removeClass('active');
+      $('#'+share+'-icon').addClass('active');
+    }
+    function showShare() {
+      $('.share-details').show();
+      $('#share-starter').hide();
+      var first = $('.share .share-type:first').attr('id');
+      selectShare(first);
+    }
+    function hideShare() {
+      $('.share-type, .share-details').hide();
+      $('#share-starter').show();
+    }
+    $('#share-starter').bind('focus', showShare);
+  </script>
+<% end %>
+
 <div class="group-stream">
   <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
 </div>

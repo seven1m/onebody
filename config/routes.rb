@@ -137,7 +137,7 @@ OneBody::Application.routes.draw do
     resources :attachments
   end
 
-  resources :pictures, :prayer_signups, :authentications, :feeds, :verses,
+  resources :pictures, :prayer_signups, :authentications, :feeds, :verses, :shares,
             :publications, :notes, :tags, :comments, :prayer_requests, :podcasts
 
   resource  :setup, :stream, :session, :search, :printable_directory,

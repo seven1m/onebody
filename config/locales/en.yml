@@ -813,6 +813,7 @@ en:
     enable_blog: Enable Blog
     enable_calendar: Enable Calendar
     enable_email: Enable Email
+    enable_pictures: Enable Pictures
     enable_prayer_requests: Enable Prayer Requests
     features: Features
     following_are_pending_approval:
@@ -1701,6 +1702,17 @@ en:
     heading: First-Time Setup
     invalid_domain_name: Invalid domain name.
     more_accounts_later: "(You'll be able to create more admin accounts later.)"
+
+  share:
+    default_album_name: Album Name
+    email: Email
+    group: "Share something with your group."
+    picture: Picture
+    prayer_answer: Answer
+    prayer_answered_at: Date Answered
+    prayer_request: Prayer Request
+    prayer_share_answer: "This is as an answered prayer..."
+    share: Share!
 
   stream: 
     about_heading: Your Homepage

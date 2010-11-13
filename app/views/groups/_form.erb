@@ -70,6 +70,8 @@
 
     <%= form.check_box :prayer, :class => 'checkbox' %> <%= form.label :prayer, t('groups.enable_prayer_requests'), :class => 'inline' %><br/>
 
+    <%= form.check_box :pictures, :class => 'checkbox' %> <%= form.label :pictures, t('groups.enable_pictures'), :class => 'inline' %><br/>
+
     <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, t('groups.enable_attendance_tracking'), :class => 'inline' %><br/>
 
     <%= check_box_tag :calendar, nil, false, :class => 'checkbox', :onclick => 'toggleCalendarField()' %>
