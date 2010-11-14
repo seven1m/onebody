@@ -1,5 +1,7 @@
 class AlbumsController < ApplicationController
 
+  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy)
+
   def index
     if params[:person_id]
       @person = Person.find(params[:person_id])

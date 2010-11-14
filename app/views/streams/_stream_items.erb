@@ -15,11 +15,9 @@
     <% grouped_items = [] %>
   <% end %>
   <% if grouped_items.any? and not grouped_items.include?(stream_item.id); grouped_items << stream_item.id; end %>
-  
-  <% cache("stream/stream_items/#{stream_item.id}_for_#{@logged_in.id}") do %>
-    <%= render :partial => 'stream_item', :object => stream_item %>
-  <% end %>
-  
+
+  <%= render :partial => 'stream_item', :object => stream_item %>
+
   <% last_stream_item = stream_item %>
 <% end %>
 

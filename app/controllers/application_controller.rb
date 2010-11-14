@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
 
   LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/*)
 
-  cache_sweeper :stream_item_sweeper, :only => %w(create update destroy)
-
   layout 'default'
 
   before_filter :get_site

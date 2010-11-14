@@ -5,11 +5,6 @@ class PagesController < ApplicationController
   before_filter :get_page, :get_user, :only => %w(show_for_public)
   before_filter :feature_enabled?, :only => %w(show_for_public) # must follow get_page
 
-  #caches_action :show_for_public, :for => 1.day,
-  #  :cache_path => Proc.new { |c| "pages/#{c.instance_eval('@page.path')}" rescue '' },
-  #  :if => Proc.new { |c| !(l = c.instance_eval('@logged_in')) or !l.admin?(:edit_pages) }
-  #cache_sweeper :page_sweeper, :only => %w(create update destroy)
-
   def index
     if @parent = Page.find_by_id(params[:parent_id])
       @pages = @parent.children.all(:order => 'title')

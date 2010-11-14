@@ -18,7 +18,7 @@
     <p><%= @group.location %></p>
   <% end %>
 
-  <% cache do %>
+  <% cache(:fragment => 'members') do %>
     <h3><%= t('groups.members') %></h3>
     <% @members.each do |member| %>
       <% content_tag :a, :href => person_path(member) do %>

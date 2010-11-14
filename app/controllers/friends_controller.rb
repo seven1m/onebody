@@ -1,7 +1,5 @@
 class FriendsController < ApplicationController
 
-  cache_sweeper :friendship_sweeper, :only => %w(create update destroy reorder)
-
   before_filter :person_must_be_user, :except => %w(index)
 
   def index

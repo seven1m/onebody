@@ -70,20 +70,8 @@
   </script>
 <% end %>
 
-<div id="stream-page-body">
+<% cache(:fragment => 'stream_items', :for => @logged_in.id) do %>
   <div class="stream-items">
     <%= render :partial => 'stream_items' %>
   </div>
-
-<% content_for :head do %>
-  <script type="text/javascript">
-    $(function(){
-      $('#share').dialog({
-        autoOpen: false,
-        width: 600,
-        height: 425,
-        modal: true
-      }).tabs();
-    });
-  </script>
 <% end %>
