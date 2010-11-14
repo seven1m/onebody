@@ -28,17 +28,6 @@
     </p>
   <% end %>
 
-  <h3><%= t('tags.tags') %></h3>
-
-  <%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>
-    <p>
-      <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse, :br => true} %><br/>
-    </p>
-    <p>
-      <%= t('tags.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
-    </p>
-  </form>
-
   <h3><%= t('verses.tools') %></h3>
   <p>
     <%= link_to 'YouVersion', @verse.youversion_url %><br/>
@@ -62,6 +51,15 @@
    <%= t('verses.disclaimer') %>
   </p>
 <% end %>
+
+<h3><%= t('tags.tags') %></h3>
+<p><%= t('verses.about_tags') %></p>
+<%= form_tag(@verse, :method => 'put', :style => 'border:none;padding:0;') %>
+  <%= render :partial => 'tags/tags_with_delete', :locals => {:object => @verse} %>
+  <p>
+    <%= t('tags.add_tags') %>: <%= text_field_tag :add_tags, nil, :style => 'width:125px;' %>
+  </p>
+</form>
 
 <h3><%= t('Comments') %></h3>
 <%= render :partial => 'comments/comments', :locals => {:object => @verse, :intro => t('verses.about_this_verse')} %>

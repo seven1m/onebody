@@ -737,7 +737,15 @@ a.button:hover, a.button.active {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91c35a', endColorstr='#5f9128', GradientType=0 );
   color: #eeeeee;
 }
-/* Tag Cloud */
+/* Tags */
+.tags {
+  list-style: none;
+  margin-bottom: 10px;
+}
+.tags li {
+  display: inline;
+  margin-right: 10px;
+}
 .tag-cloud a {
   text-decoration: none;
 }
