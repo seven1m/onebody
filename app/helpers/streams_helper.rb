@@ -18,10 +18,9 @@ module StreamsHelper
       end
     elsif stream_item.context.any?
       content = ''.tap do |content|
-        stream_item.context['picture_ids'].to_a.each do |picture_id|
+        stream_item.context['picture_ids'].to_a.each do |picture_id, fingerprint, extension|
           content << link_to(
-            # TODO this is horrible -- I have to query the picture to get its photo url
-            image_tag(Picture.find(picture_id).photo.url(:small), :alt => t('pictures.click_to_enlarge'), :class => 'stream-pic'),
+            image_tag(Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small), :alt => t('pictures.click_to_enlarge'), :class => 'stream-pic'),
             album_picture_path(stream_item.streamable_id, picture_id), :title => t('pictures.click_to_enlarge')
           ) + ' '
         end

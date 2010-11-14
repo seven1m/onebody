@@ -72,14 +72,13 @@
         <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
           <%= form_for Comment.new do |form| %>
             <% if stream_item.streamable_type == 'Album' %>
-              <% if stream_item.context['picture_ids'].to_a.length == 1 %>
-                <%= hidden_field_tag 'picture_id', stream_item.context['picture_ids'].first %>
+              <% if Array(stream_item.context['picture_ids']).length == 1 %>
+                <%= hidden_field_tag 'picture_id', stream_item.context['picture_ids'].first[0] %>
               <% else %>
                 <%= t('comments.which_picture') %><br/>
-                <% stream_item.context['picture_ids'].to_a.each_with_index do |picture_id, index| %>
-                  <%= radio_button_tag :picture_id, picture_id, index == 0 %>
-                  <%# TODO doing extra lookup here for Picture %>
-                  <%= label_tag "picture_id_#{picture_id}", image_tag(Picture.find(picture_id).photo.url(:tn), :alt => '', :class => 'icon'), :class => 'inline' %>
+                <% stream_item.context['picture_ids'].to_a.each do |picture_id, fingerprint, extension| %>
+                  <%= radio_button_tag :picture_id, picture_id, picture_id == stream_item.context['picture_ids'].first[0] %>
+                  <%= label_tag "picture_id_#{picture_id}", image_tag(Picture.photo_url_from_parts(picture_id, fingerprint, extension, :tn), :alt => '', :class => 'icon'), :class => 'inline' %>
                   &nbsp;
                 <% end %>
               <% end %>
