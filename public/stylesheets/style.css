@@ -185,7 +185,7 @@ input, textarea {
   border-radius: 4px;
 }
 input.defaulted {
-  color: #bcbcbc;
+  color: #a3a3a3;
 }
 input[type=submit] {
   -moz-border-radius: 4px;
@@ -601,6 +601,9 @@ fieldset legend {
 }
 .share .share-selector li a.active {
   color: #5f9128;
+}
+.left-sidebar .share {
+  width: 270px;
 }
 .left-sidebar .share #share-starter {
   width: 270px;
