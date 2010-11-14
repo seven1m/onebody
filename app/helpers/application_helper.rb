@@ -76,12 +76,12 @@ module ApplicationHelper
     html = ''
     html << "<li class=\"platform\"><a href=\"http://beonebody.com\">OneBody v2</a></li>"
     if @logged_in
+      html << "<li>#{link_to t("admin.admin"), admin_path}</li>" if @logged_in.admin?
       html << "<li>#{link_to t("session.sign_out"), session_path, :method => :delete}</li>"
     end
     if Setting.get(:services, :sermondrop_url).to_s.any?
       html << "<li>#{link_to t("nav.podcasts"), podcasts_path}</li>"
     end
-    html << "<li><a href=\"/admin\">admin</a></li>"
     html
   end
 
@@ -110,32 +110,6 @@ module ApplicationHelper
     "&copy; #{Date.today.year}, #{Setting.get(:name, :community)} &middot; " + \
     "<a href=\"/pages/help/privacy_policy\">#{t('layouts.privacy_policy')}</a> &middot; " + \
     t('layouts.powered_by_html')
-  end
-
-  def personal_nav_links
-    html = ''
-    if @logged_in
-      html << "<li class=\"personal\">"
-      html << link_to(image_tag('door_in.png', :alt => t('session.sign_out'), :class => 'icon') + ' ' + t('session.sign_out'), session_path, :method => 'delete')
-      html << "</li>"
-      html << "<li class=\"personal\">"
-      if session[:touring]
-        html << link_to(image_tag('car.png', :alt => t('session.tour'), :class => 'icon') + ' ' + t('session.tour'), tour_path(:stop => true), :class => 'active')
-      else
-        html << link_to(image_tag('car.png', :alt => t('session.tour'), :class => 'icon') + ' ' + t('session.tour'), tour_path(:start => true), :id => 'tour_link')
-      end
-      html << "</li>"
-      if @logged_in.admin?
-        html << "<li class=\"personal\">"
-        html << link_to(image_tag('cog.png', :alt => t('admin.admin'), :class => 'icon') + ' ' + t('admin.admin'), admin_path, :class => params[:controller] =~ /^admin/ ? 'active' : nil)
-        html << "</li>"
-      end
-    else
-      html << "<li class=\"personal\">"
-      html << link_to(image_tag('door.png', :alt => t('session.sign_in'), :class => 'icon') + ' ' + t('session.sign_in'), new_session_path)
-      html << "</li>"
-    end
-    html
   end
 
   def news_js
