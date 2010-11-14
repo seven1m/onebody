@@ -1,0 +1,25 @@
+<% content_for :sidebar do %>
+  <p>
+    <%= link_to t('admin.back_to_admin_list'), administration_admins_path, :class => 'left-icon' %>
+  </p>
+
+  <% if @admin.template? %>
+    <h3>People</h3>
+    <table class="spaced">
+      <% @people.each do |person| %>
+        <tr>
+          <td><%= render :partial => 'people/thumbnail', :locals => {:person => person} %></td>
+          <td><%= link_to person.name, person %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+<% end %>
+
+<% if @admin.template? %>
+  <h2><%= @admin.template_name %></h2>
+<% else %>
+  <h2><%= @admin.person.name %></h2>
+<% end %>
+
+<%= render :partial => 'form' %>

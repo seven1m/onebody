@@ -9,24 +9,37 @@ class Administration::AdminsController < ApplicationController
       render :action => 'group_admins'
     else
       Admin.destroy_all(["(select count(*) from people where admin_id=admins.id and deleted=?) = 0 and template_name is null", false])
-      @admin_count = Person.count(:conditions => ['admin_id is not null'])
-      @templates = Admin.all(:order => 'template_name', :conditions => 'template_name is not null')
-      @admins = @templates + Admin.all(:order => 'people.last_name, people.first_name', :include => :people, :conditions => 'template_name is null')
+      @order = case params[:order]
+               when 'template'
+                 "admins.super_admin, admins.template_name, people.last_name, people.first_name"
+               else
+                 'people.last_name, people.first_name'
+               end
+      @people = Person.where('admin_id is not null').order(@order).all(:include => :admin)
+      @templates = Admin.where('template_name is not null').order(:template_name).all(:select => '*, (select count(*) from people where admin_id=admins.id) as people_count')
     end
+  end
+
+  def edit
+    @admin = Admin.find(params[:id])
+    @people = @admin.people.order('last_name, first_name')
   end
 
   def update
     @admin = Admin.find(params[:id])
-    if params[:super_admin] and @logged_in.super_admin?
-      @admin.super_admin = params[:super_admin] == 'true'
-      params[:name] = '*'
-      params[:value] = 'false'
+    Admin.privileges.each do |priv|
+      @admin.flags[priv] = params[:privileges][priv] == 'true'
     end
-    @privs = params[:name] == '*' ? Admin.privileges : [params[:name]]
-    @privs.each do |priv|
-      @admin.flags[priv] = params[:value] == 'true'
+    if @logged_in.super_admin?
+      if @admin.super_admin = params[:super_admin] == 'true'
+        Admin.privileges.each do |priv|
+          @admin.flags[priv] = false
+        end
+      end
     end
-    @success = @admin.save
+    flash[:notice] = t('Changes_saved')
+    @admin.save!
+    redirect_to administration_admins_path
   end
 
   def create
@@ -60,12 +73,17 @@ class Administration::AdminsController < ApplicationController
   def destroy
     @admin = Admin.find(params[:id])
     if params[:person_id]
-      Person.find(params[:person_id]).update_attribute(:admin_id, nil)
+      @person = Person.find(params[:person_id])
+      @person.update_attribute(:admin_id, nil)
+      respond_to do |format|
+        format.html
+        format.js
+      end
     else
       @admin.destroy
+      flash[:notice] = t('admin.admin_removed')
+      redirect_to administration_admins_path
     end
-    flash[:notice] = t('admin.admin_removed')
-    redirect_to administration_admins_path
   end
 
   private

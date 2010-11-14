@@ -12,6 +12,10 @@ class Admin < ActiveRecord::Base
 
   serialize :flags
 
+  def template?
+    !template_name.nil?
+  end
+
   validates_uniqueness_of :template_name, :allow_nil => true, :scope => :site_id
 
   before_save :ensure_flags_is_hash
@@ -23,6 +27,14 @@ class Admin < ActiveRecord::Base
   cattr_accessor :privileges
 
   class << self
+    # only the privileges available in the locale file, along with title and description
+    # and also in the correct sorted order from the locale
+    def privileges_for_show
+      I18n.t('admin.privileges').select do |t|
+        privileges.include?(t['name'])
+      end
+    end
+
     def add_privileges(*privs)
       self.privileges ||= []
       privs.each do |priv|
@@ -45,33 +57,27 @@ class Admin < ActiveRecord::Base
       end
     end
     alias_method :add_privilege, :add_privileges
-
-    def all_for_presentation
-      all.sort_by { |a| [a.template_name || '~', a.person.name] }
-    end
   end
 
   add_privileges *%w(
+    edit_pages
+    edit_profiles
+    export_data
+    import_data
+    manage_access
+    manage_attendance
+    manage_comments
+    manage_contributions
+    manage_groups
+    manage_news
+    manage_notes
+    manage_pictures
+    manage_prayer_signups
+    manage_publications
+    manage_sync
+    manage_updates
     view_hidden_profiles
     view_hidden_properties
     view_log
-    edit_pages
-    import_data
-    export_data
-    edit_profiles
-    manage_publications
-    manage_groups
-    manage_notes
-    manage_messages
-    manage_comments
-    manage_recipes
-    manage_pictures
-    manage_access
-    manage_updates
-    manage_news
-    manage_attendance
-    manage_sync
-    manage_contributions
-    manage_prayer_signups
   )
 end

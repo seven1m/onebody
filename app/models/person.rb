@@ -232,7 +232,7 @@ class Person < ActiveRecord::Base
     when 'Family'
       !what.deleted? and (admin?(:edit_profiles) or (what == self.family and self.adult?))
     when 'Message'
-      admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
+      what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
     when 'PrayerRequest'
       admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group))
     when 'RemoteAccount'

@@ -948,6 +948,16 @@ table.spaced td, table.spaced th {
 table.members {
   width: 100%;
 }
+table.members .detail td {
+  padding-bottom: 0;
+}
+table.members .description {
+  color: #bcbcbc;
+}
+table.members td, table.members th {
+  text-align: left;
+  padding: 0 20px 15px 0;
+}
 table.members .icon {
   width: 32px;
   padding: 0 10px 5px 0;

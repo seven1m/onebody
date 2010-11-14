@@ -292,10 +292,10 @@ en:
     admin: admin
     admin_added: "{{name}} added."
     admin_count:
-      one: There is currently {{count}} administrator.
-      other: There are currently {{count}} administrators.
+      one: "{{count}} Administrator"
+      other: "{{count}} Administrators"
     admin_removed: Admin removed.
-    admin_template_description: Templates allow you to group admins with identical privileges together.
+    admin_template_description: Templates allow you to have predefined permission sets for use with more than one administrator.
     administrators: Administrators
     add_individual: Add an individual.
     add_person: Add Person
@@ -305,6 +305,7 @@ en:
     already_admin: "{{name}} is already an admin."
     api: API
     api_login_details: Your API login details
+    back_to_admin_list: Back to Administrator List
     customization: Customization
     demote_to_standard_admin: "Demote to standard admin."
     deleted_people:
@@ -319,6 +320,7 @@ en:
     deleted_records: Deleted Records
     deleted_records_manage: Manage deleted people and families.
     display: display
+    edit_admin: Edit Admin
     enable: Enable
     enable_api_confirmation: Are you sure you want to enable your API key?
     emails:
@@ -340,6 +342,7 @@ en:
       upload_new: Upload a new file
     generate: Generate
     group_administrators: Group Administrators
+    group_administrators_description: Each group can designate people who can administer that particular group, regardless of their status on this page.
     group_administrators_help: To add/remove a person as a group administrator, click "edit" next to the group and promote an existing group member.
     group_membership_requests: Group Membership Requests
     home: Admin Home
@@ -386,6 +389,59 @@ en:
     people_not_synced_to_donortools_count:
       one: "1 person is out of sync with Donor Tools."
       other: "{{count}} people are out of sync with Donor Tools."
+    privileges:
+      # must be an array so that order is preserved
+      - name: view_hidden_profiles
+        title: View Hidden Profiles
+        about: "View hidden people in the database, e.g. children and others marked as invisible."
+      - name: view_hidden_properties
+        title: View Hidden Properties
+        about: "View hidden phone numbers, email addresses, and other private information."
+      - name: edit_profiles
+        title: Edit Profiles
+        about: "Edit name, phone numbers, email, password, and anything else associated with a user's profile."
+      - name: manage_access
+        title: Manage Access
+        about: "Manage site administrators. ('Manage Admins' must be selected to manage group administrators.)"
+      - name: manage_attendance
+        title: Manage Attendance
+        about: "View, edit, and export attendance."
+      - name: manage_comments
+        title: Manage Comments
+        about: "Ability to delete any site comments."
+      - name: manage_contributions
+        title: Manage Contributions
+        about: "View, edit, delete contributions (if Donor Tools is setup)."
+      - name: manage_groups
+        title: Manage Groups
+        about: "View, edit, delete any group (even if hidden or private)."
+      - name: manage_news
+        title: Manage News
+        about: "View, edit, delete all news."
+      - name: manage_notes
+        title: Manage Notes
+        about: "Edit and delete any notes (status updates)."
+      - name: manage_pictures
+        title: Manage Pictures
+        about: "View, edit, delete any pictures and albums."
+      - name: manage_prayer_signups
+        title: Manage Prayer Signups
+        about: "Edit and delete signups for a Prayer Event."
+      - name: manage_publications
+        title: Manage Publications
+        about: "Create and delete site publications."
+      - name: manage_updates
+        title: Manage Updates
+        about: "View, edit, delete pending profile updates made by users."
+      - name: manage_sync
+        title: Manage Sync
+        about: "View and track synchronizations made with UpdateAgent."
+      - name: import_data
+        title: Import Data
+        about: "Import data from CSV or by using UpdateAgent."
+      - name: export_data
+        title: Export Data
+        about: "Export all site data to XML and CSV."
     promote_to_super_admin: "Promote to super admin."
     request:
       one: request
@@ -400,6 +456,8 @@ en:
       save: Save Settings
       settings: Settings
     show_privileges: show privileges
+    super_admin: Super Admin
+    super_admin_about: Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!
     syncs:
       complete: Complete
       duration: Duration
@@ -421,6 +479,8 @@ en:
       sync_error: sync error
       syncs: Syncs
       type: Type
+    template: Template
+    templates: Templates
     themes:
       custom_themes: Custom Theme
       description_html: You can tweak your site's look by editing your custom theme below. Upload assets, e.g. images, CSS, etc., by clicking "Manage Assets." <strong>Changes are not seen by your visitors until you enable the custom theme in <a href="{{url}}">settings</a>.</strong>

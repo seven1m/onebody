@@ -1,12 +1,5 @@
-<% content_for :subnav do %>
-  <li><%= link_to t('admin.home'), admin_path %></li>
-<% end %>
-
 <% content_for :sidebar do %>
-  <p>
-    <%= t('admin.admin_count', :count => @admin_count) %>
-  </p>
-  
+  <h2><%= t('admin.administrators') %></h2>
   <% if Site.current.max_admins and Admin.people_count >= Site.current.max_admins %>
     <p><%= t('admin.max_admins_html') %></p>
   <% else %>
@@ -19,7 +12,7 @@
         <%= submit_tag t('admin.add_person') %>
       </p>
     </form>
-    
+
     <div id="add_member" style="display:none;">
       <%= form_tag(administration_admins_path) do %>
         <%= select_tag :template_id, options_for_select([['Individual', 0]] + @templates.map { |t| [t.template_name, t.id] }) %>
@@ -27,66 +20,61 @@
         <p><%= submit_tag t('admin.add_selected') %></p>
       <% end %>
     </div>
-    
+
+    <h3><%= t('admin.templates') %></h3>
+    <p><%= t('admin.admin_template_description') %></p>
+    <ul class="list">
+      <% @templates.each do |template| %>
+        <li>
+          <%= link_to template.template_name, edit_administration_admin_path(template.id) %>
+          (<%= template.people_count %>)
+        </li>
+      <% end %>
+    </ul>
+    <!--
     <%= form_tag(administration_admins_path) do %>
       <p>
         <%= t('admin.new_admin_template') %><br/>
         <label for="template_name"><%= t('name') %>:</label> <%= text_field_tag 'template_name' %>
         <br/>
         <%= submit_tag t('admin.add_template') %><br/>
-        <%= t('admin.admin_template_description') %>
       </p>
     <% end %>
+    -->
   <% end %>
 
-  <p><%= link_to t('admin.manage_group_administrators'), administration_admins_path(:groups => true) %></p>
-  
+  <h3><%= t('admin.group_administrators') %></h3>
+  <p><%= t('admin.group_administrators_description') %></p>
+  <p><%= link_to t('admin.manage_group_administrators'), administration_admins_path(:groups => true), :class => 'right-icon' %></p>
+
 <% end %>
 
-<h2><%= t('admin.administrators') %></h2>
+<h3><%= t('admin.admin_count', :count => @people.length) %></h3>
 
-<% @admins.each do |admin| %>
-  <div class="admin" id="admin<%= admin.id %>">
-    <%= link_to_function image_tag('plus.gif', :alt => t('admin.show_privileges'), :class => 'icon'), "$('#privileges_#{admin.id}').toggle()" %>
-    <% if admin.template_name %>
-      <strong><%= admin.template_name %></strong>
-    <% else %>
-      <%= link_to admin.person.name, admin.person %>
-      <% if admin.super_admin? %>(super admin)<% end %>
-    <% end %>
-    <%= link_to 'x', administration_admin_path(admin), :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet' %>
-    <div id="privileges_<%= admin.id %>" style="display:none;font-size:smaller;margin-left:15px;">
-      <% if admin.super_admin? %>
-        <% if @logged_in.super_admin? %>
-          <%= link_to t('admin.demote_to_standard_admin'), :remote => true, :url => administration_admin_path(admin, :super_admin => 'false'), :method => :put %>
+<table class="members">
+  <tr>
+    <th></th>
+    <th><%= link_to t('name'), '?order=name' %></th>
+    <th><%= link_to t('admin.template'), '?order=template' %></th>
+  </tr>
+  <% @people.each do |person| %>
+    <tr class="admin" id="person<%= person.id %>">
+      <td class="icon">
+        <%= content_tag :a, :href => person_path(person) do %>
+          <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
         <% end %>
-      <% else %>
-        <%= check_box_tag 'select_all', true, false, :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name=*&value='+this.checked})", :id => "select_all_#{admin.id}", :class => 'checkbox' %>
-        <em>select all</em><br/>
-        <% all_selected = true %>
-        <% Admin.privileges.sort.each do |privilege| %>
-          <% next if %w(assign_checkin_cards manage_checkin).include?(privilege) and not Setting.get(:features, :checkin_modules) %>
-          <% unless admin.person == @logged_in and privilege == 'manage_access' %>
-            <span class="nowrap">
-              <%= check_box_tag privilege, true, admin.flags[privilege], :id => "#{privilege}_#{admin.id}", :onclick => "new Ajax.Request('#{administration_admin_path(admin)}', {method:'PUT',parameters:'name='+this.name+'&value='+this.checked})", :class => "checkbox privilege privilege#{admin.id}" %><span id="admin_<%= admin.id %>_<%= privilege %>"><%= privilege.gsub('_', ' ') %></span>
-            </span>
-            <% all_selected = false unless admin.flags[privilege] %>
-          <% end %>
+      </td>
+      <td><%= link_to person.name, edit_administration_admin_path(person.admin_id) %></td>
+      <td>
+        <% if person.admin.super_admin? %>
+          <%= t('admin.super_admin') %>
+        <% elsif person.admin.template_name %>
+          <%= person.admin.template_name %>
         <% end %>
-        <% if all_selected %><script type="text/javascript">$('select_all_<%= admin.id %>').checked = true</script><% end %>
-        <% if admin.template_name %>
-          <% admin.people.all(:order => 'last_name, first_name').each do |person| %>
-            <br/>
-            <%= link_to person.name, person %>
-            <%= link_to 'x', administration_admin_path(admin, :person_id => person.id), :method => 'delete', :confirm => t('are_you_sure'), :class => 'discreet' %>
-          <% end %>
-        <% end %>
-        <% if @logged_in.super_admin? %>
-          <br/>
-          <%= link_to t('admin.promote_to_super_admin'), :remote => true, :url => administration_admin_path(admin, :super_admin => 'true'), :method => :put %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
-<% end %>
-
+      </td>
+      <td class="action">
+        <%= link_to '', administration_admin_path(person.admin, :person_id => person.id), :remote => true, :method => :delete, :confirm => t('are_you_sure'), :class => 'delete-icon' %>
+      </td>
+    </tr>
+  <% end %>
+</table>
