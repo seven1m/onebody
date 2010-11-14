@@ -38,7 +38,7 @@ class AlbumsController < ApplicationController
     if @group = Group.find_by_id(params[:group_id]) and can_add_pictures_to_group?(@group)
       @album = @group.albums.build
     else
-      @album = Album.new
+      @album = Album.new(:is_public => true)
     end
   end
 
@@ -53,6 +53,7 @@ class AlbumsController < ApplicationController
     end
     if params['remove_owner'] and @logged_in.admin?(:manage_pictures)
       @album.person = nil
+      @album.is_public = true
     else
       @album.person = @logged_in
     end

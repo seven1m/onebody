@@ -3,6 +3,10 @@
 
   <p><%= @album.description %></p>
 
+  <% if @album.person %>
+    <p><%= t('by') %> <%= link_to @album.person.name, @album.person %></p>
+  <% end %>
+
   <% if @logged_in.can_edit?(@album) %>
     <%= render :partial => 'upload' %>
     <p class="double-margin-top discreet">
@@ -18,6 +22,11 @@
   <%= link_to image_tag(picture.photo.url(:medium), :alt => t('pictures.click_to_enlarge'), :class => 'picture'),
       [@album, picture], :title => t('pictures.click_to_enlarge') %>
 <% end %>
+
+<% if @pictures.empty? %>
+  <p><%= image_tag('missing_large.png', :alt => t('none')) %></p>
+<% end %>
+
 <br clear="both"/>
 
 <%= will_paginate @pictures %>
