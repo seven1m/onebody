@@ -100,7 +100,7 @@ module ApplicationHelper
       <<-HTML
         <div id="notice" #{flash[:warning] ? 'class="warning"' : nil}>#{flash[:warning] || flash[:notice]}</div>
         <script type="text/javascript">
-          #{!flash[:sticky_notice] && "setTimeout(\"$('#notice').hide('slow');\", 15000)"}
+          #{flash[:sticky_notice] ? '' : "$('#notice').fadeOut(15000);"}
         </script>
       HTML
     end
