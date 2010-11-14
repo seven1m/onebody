@@ -7,7 +7,7 @@ class PersonSweeper < ActionController::Caching::Sweeper
     end
   end
 
-  def after_save;    expire_group_members; end
-  def after_destroy; expire_group_members; end
+  def after_save(record);    expire_group_members(record); end
+  def after_destroy(record); expire_group_members(record); end
 
 end
