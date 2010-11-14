@@ -10,15 +10,17 @@
   <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => t('publications.all_publications'), :class => 'icon') + ' ' + t('publications.all_publications'), publications_path %></li><% end %>
 <% end %>
 
-<% if @has_friendship_requests %>
-  <div class="highlight">
-    <%= image_tag('user_add.png', :alt => t('friends.friends'), :class => 'icon') %>
-    <%= t('friends.you_have_pending_requests_html', :url => person_friends_path(@person)) %>
-  </div>
+<% cache(:fragment => 'friendship_requests', :for => @logged_in.id) do %>
+  <% if @has_friendship_requests %>
+    <div class="highlight">
+      <%= image_tag('user_add.png', :alt => t('friends.friends'), :class => 'icon') %>
+      <%= t('friends.you_have_pending_requests_html', :url => person_friends_path(@person)) %>
+    </div>
+  <% end %>
 <% end %>
 
 <% content_for :sidebar do %>
-  <h3><%= t('stream.about_heading') %></h3>
+  <h2><%= t('stream.about_heading') %></h2>
   <p><%= t('stream.about_html') %></p>
   <h3 class="double-margin-top"><%= t('stream.share_heading') %></h3>
   <p><%= t('stream.share_something_about') %></p>
