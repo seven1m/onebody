@@ -13,20 +13,16 @@ class Administration::DashboardsController < ApplicationController
     end
     @last_sync = Sync.last(:order => 'created_at')
     @sync_counts = @last_sync.count_items if @last_sync
-    if @logged_in.super_admin?
-      @privileges = nil
-    else
-      @privileges = Admin.privileges.select { |p| @logged_in.admin.flags[p] }.map { |p| p.humanize }
-    end
-    @daily_update_counts = Update.daily_counts(30, 0, '%b %d', ['%a', 'Sun'])
-    @daily_message_counts = Message.daily_counts(30, 0, '%b %d', ['%a', 'Sun'])
+    @daily_update_counts = Update.daily_counts(15, 0, '%b %d', ['%a', 'Sun'])
+    @daily_message_counts = Message.daily_counts(15, 0, '%b %d', ['%a', 'Sun'])
     @group_type_counts = Group.count_by_type
     @linked_group_counts = Group.count_by_linked
-    @daily_attendance_counts = AttendanceRecord.daily_counts(30, 0, '%b %d', ['%a', 'Sun'])
+    @daily_attendance_counts = AttendanceRecord.daily_counts(15, 0, '%b %d', ['%a', 'Sun'])
     @person_count = Person.count('id', :conditions => {:deleted => false})
     @family_count = Family.count('id', :conditions => {:deleted => false})
     @group_count  = Group.count('id')
     @unsynced_to_donortools = Person.unsynced_to_donortools.count
+    @deleted_people_count = Person.where(:deleted => true).count
     @alerts = []
   end
 

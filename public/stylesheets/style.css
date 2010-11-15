@@ -393,7 +393,8 @@ fieldset legend {
   background-color: #fff;
 }
 .accommodate-left-sidebar {
-  margin-left: 350px;
+  width: 600px;
+  float: left;
 }
 .profile .profile-sidebar {
   float: left;
@@ -871,6 +872,52 @@ table.comments td {
 }
 table.comments td h4 {
   white-space: nowrap;
+}
+/* Admin Dashboard */
+.admin-chart {
+  border: 1px solid #e4e4e4;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+  padding: 20px;
+  width: 245px;
+  height: 150px;
+  float: left;
+  margin: 0 10px 10px 0;
+}
+.metrics a.admin-metric {
+  text-decoration: none;
+  background-color: #eeeeee;
+  border: 1px solid #e4e4e4;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -khtml-border-radius: 8px;
+  border-radius: 8px;
+  float: left;
+  width: 116px;
+  height: 100px;
+  padding: 10px;
+  margin: 0 11px 11px 0;
+  text-align: center;
+}
+.metrics a.admin-metric span {
+  color: #5f9128;
+  display: block;
+  font-style: normal;
+  font-size: 32pt;
+}
+.metrics a.admin-metric:hover {
+  color: #5f9128;
+}
+.metrics a.warn span {
+  color: #ff9933;
+}
+.metrics a.critical span {
+  color: #ff1b0d;
+}
+.admin-chart:hover, .admin-metric:hover {
+  border-color: #5f9128;
 }
 /* Popup Menus */
 .popup-menu {

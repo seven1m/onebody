@@ -307,6 +307,8 @@ en:
     api_login_details: Your API login details
     back_to_admin_list: Back to Administrator List
     customization: Customization
+    dashboard: Admin Dashboard
+    dashboard_about: This is the starting point for managing your community site. Click any of the items on the right to view/manage a single aspect of the database.
     demote_to_standard_admin: "Demote to standard admin."
     deleted_people:
       deleted_people: Deleted People
@@ -317,6 +319,9 @@ en:
       purge_when_empty: And purge family when empty.
       search_results: The results of your search are displayed below.
       undelete: Undelete
+    deleted_people_count:
+      one: "{{count}} deleted person"
+      other: "{{count}} deleted people"
     deleted_records: Deleted Records
     deleted_records_manage: Manage deleted people and families.
     display: display
@@ -348,6 +353,7 @@ en:
     home: Admin Home
     import_data: Import Data
     import_data_description: Import people data from a Comma Separated Values (CSV) file.
+    import_export: Import/Export
     invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
     key: Key
     last_updated: Last Updated
@@ -387,8 +393,8 @@ en:
       other: Enter the page number when prompted ({{count}} records per page).
     pages: Pages
     people_not_synced_to_donortools_count:
-      one: "1 person is out of sync with Donor Tools."
-      other: "{{count}} people are out of sync with Donor Tools."
+      one: "1 out of sync with Donor Tools."
+      other: "{{count}} out of sync with Donor Tools."
     privileges:
       # must be an array so that order is preserved
       - name: view_hidden_profiles
@@ -476,7 +482,9 @@ en:
       status: Status
       success: Success
       sync: Sync
-      sync_error: sync error
+      sync_errors:
+        one: "{{count}} sync error"
+        other: "{{count}} sync errors"
       syncs: Syncs
       type: Type
     template: Template
@@ -531,8 +539,8 @@ en:
     create: Create Account
     date_format: MM/DD/YYYY
     description: Description
-    description_about_male_html: One or two words describing yourself, e.g. <em>Super Dad, 
-    description_about_female_html: One or two words describing yourself, e.g. <em>Soccer Mom, 
+    description_about_male_html: One or two words describing yourself
+    description_about_female_html: One or two words describing yourself
     email_not_found: That email address could not be found in our system. If you have another address, try again.
     enter_code: Enter the code
     enter_your_email: Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site.
@@ -927,11 +935,11 @@ en:
     parents_of_hint: "Membership will be auto-generated from parents of selected group's members."
     pending_approval: "{{following}} approval"
     pending_approval_count:
-      one: "{{count}} group pending approval"
-      other: "{{count}} groups pending approval"
-    pending_membership_request_count:
-      one: "{{count}} pending membership request"
-      other: "{{count}} pending membership requests"
+      one: "{{count}} group to approve"
+      other: "{{count}} groups to approve"
+    membership_request_count:
+      one: "{{count}} membership request"
+      other: "{{count}} membership requests"
     people_in_group: "People In {{name}}"
     picture: Group Picture
     picture_hint: Use a group shot or a clip-art graphic to help people recognize your group on this site.

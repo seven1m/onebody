@@ -8,6 +8,9 @@
 @alert:     #f66;
 @comment-background: #fec;
 @notice:    #fec;
+@metric:    @secondary;
+@warn:      #f93;
+@critical:  #FF1B0D;
 
 @heading-font: "Century Gothic", "Tw Cen MT", Futura, "URW Gothic L", Arial, sans-serif;
 @body-font:    "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
@@ -307,7 +310,8 @@ fieldset {
 }
 
 .accommodate-left-sidebar {
-  margin-left: 350px;
+  width: 600px;
+  float: left;
 }
 
 .profile {
@@ -742,6 +746,50 @@ table.comments {
       white-space: nowrap;
     }
   }
+}
+
+/* Admin Dashboard */
+
+.admin-chart {
+  border: 1px solid @light - 10;
+  .curve;
+  padding: 20px;
+  width: 245px;
+  height: 150px;
+  float: left;
+  margin: 0 10px 10px 0;
+}
+.metrics {
+  a.admin-metric {
+    text-decoration: none;
+    background-color: @light;
+    border: 1px solid @light - 10;
+    .curve;
+    float: left;
+    width: 116px;
+    height: 100px;
+    padding: 10px;
+    margin: 0 11px 11px 0;
+    text-align: center;
+    span {
+      color: @metric;
+      display: block;
+      font-style: normal;
+      font-size: 32pt;
+    }
+  }
+  a.admin-metric:hover {
+    color: @secondary;
+  }
+  a.warn span {
+    color: @warn;
+  }
+  a.critical span {
+    color: @critical;
+  }
+}
+.admin-chart:hover, .admin-metric:hover {
+  border-color: @secondary;
 }
 
 /* Popup Menus */
