@@ -28,11 +28,13 @@
         <li>
           <%= link_to template.template_name, edit_administration_admin_path(template.id) %>
           (<%= template.people_count %>)
+          <%= link_to '', administration_admin_path(template.id), :method => :delete, :confirm => t('are_you_sure'), :class => 'delete-icon' %>
         </li>
       <% end %>
     </ul>
-    <!--
-    <%= form_tag(administration_admins_path) do %>
+
+    <p><%= link_to_function t('admin.new_admin_template'), "$('#new-template-form').show();$('#template_name')[0].focus();$(this).parent().hide();", :class => 'add-icon' %></p>
+    <%= form_tag administration_admins_path, :id => 'new-template-form', :style => 'display:none;' do %>
       <p>
         <%= t('admin.new_admin_template') %><br/>
         <label for="template_name"><%= t('name') %>:</label> <%= text_field_tag 'template_name' %>
@@ -40,7 +42,6 @@
         <%= submit_tag t('admin.add_template') %><br/>
       </p>
     <% end %>
-    -->
   <% end %>
 
   <h3><%= t('admin.group_administrators') %></h3>

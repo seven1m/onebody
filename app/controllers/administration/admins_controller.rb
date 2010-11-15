@@ -67,7 +67,11 @@ class Administration::AdminsController < ApplicationController
       Admin.create!(:template_name => params[:template_name])
       flash[:notice] += t('application.template_created')
     end
-    redirect_to administration_admins_path
+    if params[:redirect_to]
+      redirect_to params[:redirect_to]
+    else
+      redirect_to administration_admins_path
+    end
   end
 
   def destroy
