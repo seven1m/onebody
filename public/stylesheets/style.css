@@ -1005,12 +1005,32 @@ table.members td, table.members th {
   text-align: left;
   padding: 0 20px 15px 0;
 }
+table.members td.label {
+  width: 150px;
+}
 table.members .icon {
   width: 32px;
   padding: 0 10px 5px 0;
 }
 table.members .action {
   width: 10px;
+}
+table.members h3 {
+  margin: 15px 0 0 0;
+}
+table.members h3.first {
+  margin-top: 0;
+}
+table.members label {
+  display: block;
+  margin-top: 4px;
+}
+table.members label.inline {
+  display: inline;
+  margin: 0;
+}
+table.members .subsection td {
+  font-style: italic;
 }
 .heading-action {
   float: right;

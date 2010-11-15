@@ -21,9 +21,9 @@ class Setting < ActiveRecord::Base
   end
 
   def description
-    I18n.t('description',
-      :scope   => ['admin.settings', section, read_attribute(:name)],
-      :default => read_attribute(:description)
+    I18n.t(
+      'description',
+      :scope   => ['admin.settings', section, read_attribute(:name)]
     )
   end
 

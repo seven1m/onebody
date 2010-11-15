@@ -3,18 +3,18 @@ class Administration::SettingsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @settings = Setting.find_all_by_site_id_and_hidden(
+    @settings = {}
+    Setting.find_all_by_site_id_and_hidden(
       Site.current.id,
       false,
       :order => 'section, name'
-    ).group_by &:section
-    @lists = {'Appearance' => {}, 'System' => {}}
+    ).each do |setting|
+      @settings[setting.section] ||= {}
+      @settings[setting.section][setting['name']] = setting
+    end
+    @timezones = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
     info = OneBodyInfo.new
-    @lists['Appearance']['Theme'] = info.themes
-    @lists['Appearance']['Public Theme'] = info.themes + ['page:template']
-    @lists['System']['Time Zone'] = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
-    @lists['System']['Language'] = info.available_locales.invert
-    @lists['System']['Adult Age'] = %w(13 14 15 16 17 18 19 20 21)
+    @langs = info.available_locales.invert
   end
 
   def batch

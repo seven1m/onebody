@@ -87,11 +87,12 @@ class ApplicationController < ActionController::Base
     end
 
     def get_theme_name
-      if params[:theme] and params[:theme] =~ /^[a-z0-9_]+$/
-        params[:theme]
-      else
-        Setting.get(:appearance, :theme)
-      end
+      'clean'
+      #if params[:theme] and params[:theme] =~ /^[a-z0-9_]+$/
+        #params[:theme]
+      #else
+        #Setting.get(:appearance, :theme)
+      #end
     end
 
     # used by some anonymous controller actions to see if someone is logged in

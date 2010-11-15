@@ -2,9 +2,15 @@
   <div id="home-tab-menu" style="display:none;">
     <ul class="popup-menu">
       <li><%= link_to t('menus.home.feed'),         stream_path(:format => 'xml', :code => @logged_in.feed_code), :class => 'feed-icon'    %></li>
-      <li><%= link_to t('menus.home.pictures'),     albums_path,                                                  :class => 'picture-icon' %></li>
-      <li><%= link_to t('menus.home.verses'),       verses_path,                                                  :class => 'verse-icon'   %></li>
-      <li><%= link_to t('menus.home.publications'), publications_path,                                            :class => 'file-icon'    %></li>
+      <% if Setting.get(:features, :pictures) %>
+        <li><%= link_to t('menus.home.pictures'),     albums_path,                                                  :class => 'picture-icon' %></li>
+      <% end %>
+      <% if Setting.get(:features, :verses) %>
+        <li><%= link_to t('menus.home.verses'),       verses_path,                                                  :class => 'verse-icon'   %></li>
+      <% end %>
+      <% if Setting.get(:features, :publications) %>
+        <li><%= link_to t('menus.home.publications'), publications_path,                                            :class => 'file-icon'    %></li>
+      <% end %>
     </ul>
   </div>
 <% end %>
