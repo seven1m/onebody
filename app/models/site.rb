@@ -18,6 +18,8 @@ class Site < ActiveRecord::Base
   validates_uniqueness_of :name, :host
   validates_exclusion_of :host, :in => %w(admin api home onebody)
 
+  has_attached_file :logo, PAPERCLIP_LOGO_OPTIONS
+
   def default?
     id == 1
   end

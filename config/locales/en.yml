@@ -363,7 +363,7 @@ en:
       delete: delete logo
       format_information: A transparent gif or png will look the best.
       logo: Logo
-      size_information: Upload an image file below. It will be resized to be no larger than 400x80.
+      size_information: Upload an image file below. It will be resized to be no larger than 300x80.
       upload: Upload Logo
     logs:
       date_format: date format

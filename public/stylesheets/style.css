@@ -294,7 +294,7 @@ fieldset legend {
   box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.5);
 }
 #nav .heading {
-  padding: 25px 0;
+  padding: 25px 0 10px 0;
 }
 #nav h1 {
   color: #5f9128;
@@ -305,6 +305,7 @@ fieldset legend {
 #nav .tagline {
   font-size: 11pt;
   color: #8a8a8a;
+  margin-bottom: 10px;
 }
 #nav .buttons {
   float: right;

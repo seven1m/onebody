@@ -352,7 +352,7 @@ pt:
       delete: deletar logotipo
       format_information: Um gif ou png transparente ficará melhor.
       logo: Logotipo
-      size_information: Carregue uma imagem abaixo. Ela será redimensionada para não ser maior que 400x80.
+      size_information: Carregue uma imagem abaixo. Ela será redimensionada para não ser maior que 300x80.
       upload: Carregar Logotipo
     logs:
       date_format: formato da data

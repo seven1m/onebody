@@ -38,16 +38,15 @@ module ApplicationHelper
   end
 
   def heading
-    if (logo = Setting.get(:appearance, :logo)).to_s.any?
-      img = image_tag("/assets/site#{Site.current.id}/#{logo}", :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;')
-      link_to(img, '/')
+    if Site.current.logo.exists?
+      link_to(image_tag(Site.current.logo.url(:layout), :alt => Setting.get(:name, :site)), '/')
     else
       Setting.get(:name, :site)
     end
   end
 
   def subheading
-    if Setting.get(:name, :slogan).to_s.any?
+    if Setting.get(:name, :slogan).to_s.any? and !Site.current.logo.exists?
       Setting.get(:name, :slogan)
     end
   end
