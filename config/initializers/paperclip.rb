@@ -15,9 +15,6 @@ PAPERCLIP_PHOTO_OPTIONS = {
 PAPERCLIP_PHOTO_MAX_SIZE = 5.megabytes
 PAPERCLIP_PHOTO_CONTENT_TYPES = ['image/jpeg', 'image/png']
 
-PAPERCLIP_LOGO_OPTIONS = PAPERCLIP_PHOTO_OPTIONS.dup
-PAPERCLIP_LOGO_OPTIONS[:styles][:layout] = '300x80>'
-
 PAPERCLIP_FILE_OPTIONS = {
   :path          => ":rails_root/public/system/:rails_env/:class/:attachment/:id/:fingerprint.:extension",
   :url           => "/system/:rails_env/:class/:attachment/:id/:fingerprint.:extension"

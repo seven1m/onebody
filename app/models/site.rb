@@ -18,7 +18,18 @@ class Site < ActiveRecord::Base
   validates_uniqueness_of :name, :host
   validates_exclusion_of :host, :in => %w(admin api home onebody)
 
-  has_attached_file :logo, PAPERCLIP_LOGO_OPTIONS
+  has_attached_file :logo,
+    :path          => ":rails_root/public/system/:rails_env/:class/:attachment/:id/:style/:fingerprint.:extension",
+    :url           => "/system/:rails_env/:class/:attachment/:id/:style/:fingerprint.:extension",
+    :styles        => {
+      :tn          => '32x32#',
+      :small       => '75x75>',
+      :medium      => '150x150>',
+      :layout      => '300x80>',
+      :large       => '400x400>',
+      :original    => '800x800>'
+    },
+    :default_url   => "/images/missing_:style.png"
 
   def default?
     id == 1
