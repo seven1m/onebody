@@ -1,28 +1,20 @@
-<% if @logged_in.can_edit?(@req) %>
-  <% content_for :subnav do %>
-    <li><%= link_to image_tag('pencil.png', :alt => t('prayer.edit_request'), :class => 'icon') + ' ' + t('prayer.edit_request'), edit_group_prayer_request_path(@req.group, @req) %></li>
-    <% if @req.group and @req.group.admin?(@logged_in) %>
-      <li><%= link_to image_tag('delete.png', :alt => t('prayer.delete_request'), :class => 'icon') + ' ' + t('prayer.delete_request'), group_prayer_request_path(@req.group, @req), :confirm => t('are_you_sure'), :method => 'delete' %></li>
-    <% end %>
+<% content_for :sidebar do %>
+  <p><%= link_to t('groups.back_to_group', :name => @req.group.name), @req.group, :class => 'left-icon' %></p>
+  <p><%= t('prayer.submitted_by', :group_name => @req.group.name, :person_name => @req.person.name, :date => @req.created_at.to_s(:date)) %></p>
+  <% if @req.answered_at %>
+    <p><%= t('prayer.answered_on', :date => @req.answered_at.to_s(:date)) %>
+  <% end %>
+  <% if @logged_in.can_edit?(@req) %>
+    <p><%= link_to t('prayer.edit_request'), edit_group_prayer_request_path(@req.group, @req), :class => 'edit-icon' %></p>
+    <p><%= link_to t('prayer.delete_request'), [@req.group, @req], :method => :delete, :confirm => t('are_you_sure'), :class => 'delete-icon' %></p>
   <% end %>
 <% end %>
 
-<h1>
-  <span style="font-size:10pt"><%= link_to @req.group.name, @req.group %></span><br/>
-  <%= t('prayer.prayer_request') %>
-</h1>
-
-<p>
-  <%= t('prayer.submitted_by') %> <%= link_to @req.person.name, person_url(:id => @req.person) %>
-  on <%= @req.created_at.to_time.to_s :date %>
-</p>
+<h2><%= t('prayer.prayer_request') %></h2>
 
 <p style="font-size:larger;"><%= @req.request %></p>
 
 <% if @req.answer.to_s.any? %>
-  <h2><%= t('prayer.answer') %></h2>
-  <% if @req.answered_at %>
-    <p><%= t('prayer.answered_on') %> <%= @req.answered_at.to_time.to_s :date %></p>
-  <% end %>
+  <h3><%= t('prayer.answer') %></h3>
   <p style="font-size:larger;"><%= @req.answer %></p.>
 <% end %>

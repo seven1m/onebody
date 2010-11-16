@@ -1644,7 +1644,7 @@ en:
     answer: Answer
     answer_date: Answer Date
     answered: Answered
-    answered_on: Answered on
+    answered_on: "Answered on {{date}}."
     by: By
     cant_edit: You cannot edit this prayer request.
     cant_delete: You cannot delete this prayer request.
@@ -1663,7 +1663,7 @@ en:
     remember_to_come_back: Remember to come back and fill this section so your group can have a record of answered prayers.
     request: Request
     save_prayer_request: Save Prayer Request
-    submitted_by: Submitted by
+    submitted_by: "Request submitted by {{person_name}} in {{group_name}} on {{date}}."
 
   prayer_signups:
     add_somebody: Add Somebody
