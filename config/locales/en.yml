@@ -1212,7 +1212,7 @@ en:
     there_was_errors_saving: There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages.
     this_group_doesnot_offer: This group does not offer any features and is for informational purposes only.
     this_group_has_pending_html: This group has pending <a href="{{url}}">group membership requests</a>.
-    this_group_is_hidden: This group is hidden.
+    this_group_is_hidden: "This group is hidden. It's existence is hidden from most people."
     this_group_is_pending_approval: This group is pending approval.
     this_group_is_pending_you_may_not_add_people: This group is pending approval. You may not add people to it yet.
     this_group_is_private: This group is private. Only people in this group can see its messages.

@@ -40,6 +40,24 @@
 
 <% end %>
 
+<% if !@group.approved? and @logged_in.admin?(:manage_groups) %>
+  <div class="alert">
+    <p><%= t('groups.this_group_is_pending_approval') %></p>
+    <%= form_for @group do |form| %>
+      <%= hidden_field_tag 'group[approved]', true %>
+      <%= form.submit t('groups.approve_group') %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @group.private? %>
+  <p><%= t('groups.this_group_is_private') %></p>
+<% end %>
+
+<% if @group.hidden? %>
+  <p><%= t('groups.this_group_is_hidden') %></p>
+<% end %>
+
 <% if @show_map %>
   <div id="map-container" style="display:none;margin-bottom:30px;">
     <div id="map" style="width:600px;height:250px;"></div>
