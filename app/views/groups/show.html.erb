@@ -30,7 +30,7 @@
     <% end %>
   <% end %>
 
-  <p class="double-margin-top">
+  <p class="margin-top">
     <% if @logged_in.can_edit?(@group) %>
       <%= link_to t('groups.edit_members'), group_memberships_path(@group), :class => 'edit-icon discreet' %>
     <% else %>
@@ -38,6 +38,15 @@
     <% end %>
   </p>
 
+  <% if @albums.any? %>
+    <h3><%= t('albums.picture_albums') %></h3>
+    <p>
+      <% @albums.each do |album| %>
+        <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', :alt => album.name),
+          album, :title => album.name %>
+      <% end %>
+    </p>
+  <% end %>
 <% end %>
 
 <% if !@group.approved? and @logged_in.admin?(:manage_groups) %>
@@ -120,7 +129,7 @@
     <% end %>
   </div>
   <script type="text/javascript">
-    $('#album').autocomplete({source: <%= raw @album_names.inspect %>});
+    $('#album').autocomplete({source: <%= raw @albums.map { |a| a.name }.inspect %>});
     function selectShare(share) {
       $('.share-type').hide();
       $('#'+share).show();

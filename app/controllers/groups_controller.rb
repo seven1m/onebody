@@ -71,7 +71,7 @@ class GroupsController < ApplicationController
     @show_cal = @group.gcal_url
     @can_post = @group.can_post?(@logged_in)
     @can_share = @group.can_share?(@logged_in)
-    @album_names = @group.albums.all(:select => 'name').map { |a| a.name }
+    @albums = @group.albums.all(:order => 'name')
     unless @group.approved? or @group.admin?(@logged_in)
       render :text => t('groups.this_group_is_pending_approval'), :layout => true
       return
