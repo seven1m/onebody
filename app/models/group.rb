@@ -1,9 +1,9 @@
 class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
-  has_many :people, :through => :memberships, :order => 'last_name, first_name' do
+  has_many :people, :through => :memberships do
     def thumbnails
-      self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', :order => 'last_name, first_name')
+      self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', :order => 'people.last_name, people.first_name')
     end
   end
   has_many :admins, :through => :memberships, :source => :person, :order => 'last_name, first_name', :conditions => ['memberships.admin = ?', true]
@@ -279,6 +279,86 @@ class Group < ActiveRecord::Base
         :linked             => Group.count('id', :conditions => "link_code is not null and link_code != ''"),
         :parents_of         => Group.count('id', :conditions => "parents_of is not null")
       }.reject { |k, v| v == 0 }
+    end
+
+    EXPORT_COLS = {
+      :group => %w(
+        name
+        description
+        meets
+        location
+        directions
+        other_notes
+        creator_id
+        address
+        members_send
+        private
+        category
+        leader_id
+        updated_at
+        hidden
+        approved
+        link_code
+        parents_of
+        blog
+        email
+        prayer
+        attendance
+        legacy_id
+        gcal_private_link
+        approval_required_to_join
+        pictures
+        cm_api_list_id
+      ),
+      :member => %w(
+        first_name
+        last_name
+        id
+        legacy_id
+      )
+    }
+
+    def to_csv
+      FasterCSV.generate do |csv|
+        csv << EXPORT_COLS[:group]
+        (1..(Group.count/50)).each do |page|
+          Group.paginate(:include => :people, :per_page => 50, :page => page).each do |group|
+            csv << EXPORT_COLS[:group].map { |c| group.send(c) }
+          end
+        end
+      end
+    end
+
+    def create_to_csv_job
+      Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{Person.logged_in.id}, :file => FakeFile.new(Group.to_csv, 'groups.csv'))")
+    end
+
+    def to_xml
+      builder = Builder::XmlMarkup.new
+      builder.groups do |groups|
+        (1..(Group.count/50)).each do |page|
+          Group.paginate(:include => :people, :per_page => 100, :page => page).each do |group|
+            groups.group do |g|
+              EXPORT_COLS[:group].each do |col|
+                g.tag!(col, group.send(col))
+              end
+              g.people do |people|
+                group.people.each do |person|
+                  people.person do |p|
+                    EXPORT_COLS[:member].each do |col|
+                      p.tag!(col, person.send(col))
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def create_to_xml_job
+      Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{Person.logged_in.id}, :file => FakeFile.new(Group.to_xml, 'groups.xml'))")
     end
   end
 end

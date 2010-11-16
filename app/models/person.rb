@@ -3,7 +3,7 @@ class Person < ActiveRecord::Base
   MAX_TO_BATCH_AT_A_TIME = 50
 
   BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
-  EXTRAS = %w(email alternate_email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
+  EXTRAS = %w(description email alternate_email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
 
@@ -37,6 +37,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :feeds
   has_many :stream_items
+  has_many :generated_files
   belongs_to :site
 
   scope_by_site_id
@@ -565,10 +566,6 @@ class Person < ActiveRecord::Base
       :include    => :group,
       :order      => 'attended_at'
     )
-  end
-
-  def group_names
-    groups.map { |g| g.name }.join(', ')
   end
 
   def update_relationships_hash

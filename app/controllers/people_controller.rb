@@ -6,35 +6,13 @@ class PeopleController < ApplicationController
     respond_to do |format|
       format.html { redirect_to person_path(@logged_in, :tour => params[:tour]) }
       if can_export?
-        if params[:family_id]
-          @people = Person.find_all_by_family_id_and_deleted(params[:family_id], false)
-          @people.reject! { |p| p.at_least?(18) } if params[:child]
-        else
-          @people = Person.paginate(:conditions => ['deleted = ?', false], :order => 'last_name, first_name, suffix', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
-        end
         format.xml do
-          if @people.any?
-            render :xml  => @people.to_xml(:except => %w(feed_code encrypted_password salt api_key site_id), :include => [:groups, :family])
-          else
-            flash[:warning] = t('No_more_records')
-            redirect_to people_path
-          end
+          job = Person.create_to_xml_job
+          redirect_to generated_file_path(job.id)
         end
         format.csv do
-          if @people.any?
-            render :text => @people.to_csv_mine(:except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family], :methods => %w(group_names))
-          else
-            flash[:warning] = t('No_more_records')
-            redirect_to people_path
-          end
-        end
-        format.json do
-          if @people.any?
-            render :text => @people.to_json(:except => %w(feed_code encrypted_password salt api_key site_id), :include => params[:no_family] ? nil : [:family])
-          else
-            flash[:warning] = t('No_more_records')
-            redirect_to people_path
-          end
+          job = Person.create_to_csv_job
+          redirect_to generated_file_path(job.id)
         end
       end
     end

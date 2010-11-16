@@ -46,12 +46,12 @@ class GroupsController < ApplicationController
         format.html
         if can_export?
           format.xml do
-            @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
-            render :xml =>  @groups.to_xml(:except => %w(site_id))
+            job = Group.create_to_xml_job
+            redirect_to generated_file_path(job.id)
           end
           format.csv do
-            @groups = Group.paginate(:order => 'name', :page => params[:page], :per_page => params[:per_page] || MAX_EXPORT_AT_A_TIME)
-            render :text => @groups.to_csv_mine(:except => %w(site_id))
+            job = Group.create_to_csv_job
+            redirect_to generated_file_path(job.id)
           end
         end
       end

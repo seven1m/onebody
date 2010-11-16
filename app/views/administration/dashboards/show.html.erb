@@ -25,25 +25,17 @@
         <table class="spaced">
           <tr>
             <th><%= t('people.people') %> (<%= @person_count %>)</th>
-            <td><%= link_to_with_page_prompt 'XML', people_path(:format => 'xml') %></td>
-            <td><%= link_to_with_page_prompt 'CSV', people_path(:format => 'csv') %></td>
-          </tr>
-          <tr>
-            <th><%= t('families.families') %> (<%= @family_count %>)</th>
-            <td><%= link_to_with_page_prompt 'XML', families_path(:format => 'xml') %></td>
-            <td><%= link_to_with_page_prompt 'CSV', families_path(:format => 'csv') %></td>
+            <td><%= link_to 'XML', people_path(:format => 'xml') %></td>
+            <td><%= link_to 'CSV', people_path(:format => 'csv') %></td>
           </tr>
           <% if Setting.get(:features, :groups) %>
             <tr>
               <th><%= t('nav.groups') %> (<%= @group_count %>)</th>
-              <td><%= link_to_with_page_prompt 'XML', groups_path(:format => 'xml') %></td>
-              <td><%= link_to_with_page_prompt 'CSV', groups_path(:format => 'csv') %></td>
+              <td><%= link_to 'XML', groups_path(:format => 'xml') %></td>
+              <td><%= link_to 'CSV', groups_path(:format => 'csv') %></td>
             </tr>
           <% end %>
         </table>
-        <p>
-          <%= t('admin.page_number_when_prompted', :count => MAX_EXPORT_AT_A_TIME) %>
-        </p>
       <% end %>
     <% end %>
 
