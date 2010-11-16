@@ -1,8 +1,4 @@
-<% content_for :subnav do %>
-  <li><%= link_to t('admin.syncs.syncs'), administration_syncs_path %></li>
-<% end %>
-
-<h1><%= t('admin.syncs.syncs') %> <%= @sync.created_at.to_s %></h1>
+<h2><%= t('admin.syncs.sync') %> <%= @sync.created_at.to_s %></h2>
 
 <% if @counts %>
   <%= image_tag pie_chart_url(@counts, :width => 400, :height => 200, :title => t('admin.syncs.results')), :alt => t('admin.syncs.results') %>
@@ -10,7 +6,7 @@
 
 <%= will_paginate @items %>
 
-<table>
+<table class="spaced">
   <tr>
     <th><%= sortable_column_heading t('admin.syncs.type'),      'sync_items.syncable_type' %></th>
     <th><%= sortable_column_heading t('admin.syncs.name'),      'sync_items.name'          %></th>

@@ -4,9 +4,9 @@ class Administration::DashboardsController < ApplicationController
   def show
     Admin.destroy_all '(select count(*) from people where people.admin_id = admins.id) = 0'
     @admin_count = Person.count(:conditions => ['admin_id is not null'])
-    @update_count = Update.count :conditions => {:complete => false}
-    @email_changed_count = Person.count :conditions => {:email_changed => true, :deleted => false}
-    @groups_pending_approval_count = Group.count :conditions => {:approved => false}
+    @update_count = Update.count(:conditions => {:complete => false})
+    @email_changed_count = Person.count(:conditions => {:email_changed => true, :deleted => false})
+    @groups_pending_approval_count = Group.count(:conditions => {:approved => false})
     @membership_request_count = MembershipRequest.count
     if @attendance_last_date = AttendanceRecord.maximum(:attended_at)
       @attendance_records_count = AttendanceRecord.count(:conditions => ["date(attended_at) = date(?)", @attendance_last_date])

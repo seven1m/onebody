@@ -1,8 +1,8 @@
-<h1>
+<h2>
   <%= @attended_at.to_time.to_s(:date) %>
   <%= t('attendance.attendance') %>
   <% if @group %><%= t('for') %> <%= @group.name %><% end %>
-</h1>
+</h2>
 
 <p>
   <%= pluralize @record_count, t('import.record') %>
@@ -17,7 +17,7 @@
 
 <%= will_paginate @records, :params => {:sort => params[:sort], :group_id => params[:group_id]} %>
 
-<table>
+<table class="spaced">
   <tr>
     <th><%= t('attendance.id') %></th>
     <th><%= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name' %></th>
@@ -88,8 +88,8 @@
 </p>
 
 <p>
-  <%= link_to '&laquo; ' + t('attendance.prev_date'), prev_administration_attendance_index_path(:attended_at => @attended_at) %> |
-  <%= link_to t('attendance.next_date') + ' &raquo;', next_administration_attendance_index_path(:attended_at => @attended_at) %>
+  <%= link_to t('attendance.prev_date'), prev_administration_attendance_index_path(:attended_at => @attended_at), :class => 'left-icon' %><br/>
+  <%= link_to t('attendance.next_date'), next_administration_attendance_index_path(:attended_at => @attended_at), :class => 'right-icon' %>
 </p>
 
 <script type="text/javascript">

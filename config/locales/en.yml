@@ -332,7 +332,7 @@ en:
       alert: This administration section is useful if you sync your data from an external source using UpdateAgent. If you do not, you may safely ignore this list.
       changed_addresses: Changed Email Addresses
       clear_flags: Clear Flags
-      description: When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time). Alternatively, you can clear the flag manually below to allow your sync process to update the value as usual.
+      description: When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time). Alternatively, you can clear the flag manually here to allow your sync process to update the value as usual.
       no_records: There are currently no records with the changed email address flag set.
     error_saving: There was an error saving the change.
     export_data: Export Data

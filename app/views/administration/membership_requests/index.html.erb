@@ -1,6 +1,6 @@
-<h1><%= t('admin.group_membership_requests') %></h1>
+<h2><%= t('admin.group_membership_requests') %></h2>
 
-<table>
+<table class="spaced">
   <% @reqs_by_group.each do |group, reqs| %>
     <tr>
       <td><%= group ? link_to(group.name, group) : '(' + t('groups.deleted') + ')' %></td>

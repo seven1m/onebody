@@ -1,8 +1,8 @@
 <% if @families.any? %>
-  <h1><%= t('admin.deleted_people.empty_families') %></h1>
+  <h2><%= t('admin.deleted_people.empty_families') %></h2>
   <p class="very-strong"><%= t('admin.deleted_people.empty_families_description') %>:</p>
   <%= form_tag batch_families_path do %>
-    <table>
+    <table class="spaced">
       <tr>
         <th><input type="checkbox" onclick="$('.family_checkbox').attr('checked', this.checked)"/></th>
         <th><%= t('admin.syncs.id') %></th>
@@ -24,7 +24,7 @@
   <% end %>
 <% end %>
 
-<h1><%= t('admin.deleted_people.deleted_people') %></h1>
+<h2><%= t('admin.deleted_people.deleted_people') %></h2>
 
 <% if params[:search] %>
   <p><%= t('admin.deleted_people.search_results') %> <%= link_to t('groups.show_all'), administration_deleted_people_path %></p>
@@ -34,7 +34,7 @@
 
 <% if @people.any? %>
   <%= form_tag batch_administration_deleted_people_path, :method => :put do %>
-    <table>
+    <table class="spaced">
       <tr>
         <th><input type="checkbox" onclick="$('.person_checkbox').attr('checked', this.checked)"/></th>
         <th><%= sortable_column_heading(t('admin.syncs.id'), 'people.id') %></th>
