@@ -138,7 +138,8 @@ OneBody::Application.routes.draw do
   end
 
   resources :pictures, :prayer_signups, :authentications, :feeds, :verses, :shares,
-            :publications, :notes, :tags, :comments, :prayer_requests, :podcasts
+            :publications, :notes, :tags, :comments, :prayer_requests, :podcasts,
+            :generated_files
 
   resource  :setup, :stream, :session, :search, :printable_directory,
             :privacy, :tour, :pc_sync

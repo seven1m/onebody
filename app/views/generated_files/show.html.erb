@@ -1,0 +1,7 @@
+<h2 id="build_heading"><%= t('generated_files.building') %></h2>
+
+<p id="build_loading"><%= image_tag 'spinner.gif', :alt => t('generated_files.building') %></p>
+
+<script type="text/javascript">
+  setTimeout(function(){ $.get('<%= escape_javascript generated_file_path(params[:id], :format => :js, :count => 1) %>') }, 10000);
+</script>

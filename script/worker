@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+
+# example:
+# script/worker -e production host username password database
+
+PID_PATH = File.dirname(__FILE__) + '/../tmp/pids/worker.pid'
+MAX_PID_LIFE = 30 * 60 # 30 mins
+
+require 'time'
+if File.exist?(PID_PATH)
+  if Time.now - File.stat(PID_PATH).mtime > MAX_PID_LIFE
+    Process.kill('KILL', File.read(PID_PATH).strip.to_i) rescue nil
+    File.delete(PID_PATH)
+  else
+    exit
+  end
+end
+
+File.open(PID_PATH, 'w') { |f| f.write(Process.pid.to_s) }
+
+require 'optparse'
+options = {}
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: script/worker -e environment host username password database"
+  opts.on("-e", '--environment production', "specify environment (development, production)") do |val|
+    options[:environment] = val
+  end
+  opts.on("--debug") do
+    options[:debug] = true
+  end
+end
+parser.parse!
+
+host, username, password, db_name = ARGV
+
+if not (host and username and password and db_name)
+  puts parser.help
+  File.delete(PID_PATH)
+  exit
+end
+
+ENV["RAILS_ENV"] = options[:environment]
+
+require 'rubygems'
+require 'mysql'
+
+db = Mysql.connect(host, username, password, db_name)
+stmt = db.prepare("select site_id, id, command from jobs order by created_at")
+stmt.execute
+
+if stmt.num_rows > 0
+  require File.dirname(__FILE__) + '/../config/environment'
+  while job = stmt.fetch
+    site_id, id, command = job
+    logger = RAILS_DEFAULT_LOGGER
+    logger.info "Worker running job #{id} in site #{site_id}..."
+    begin
+      Site.current = Site.find(site_id)
+      logger.info eval(command.gsub(/JOB_ID/, id.to_s))
+    rescue => e
+      logger.error(e.message)
+      logger.error(e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s)
+    ensure
+      del_stmt = db.prepare("delete from jobs where id = %d" % id)
+      del_stmt.execute
+      del_stmt.close
+    end
+    logger.info "Finished job #{id}."
+  end
+elsif options[:debug]
+  print 'No jobs to work.'
+end
+
+stmt.close
+db.close
+
+File.delete(PID_PATH)

@@ -1068,6 +1068,13 @@ en:
     unknown_state: unknown state
     you_have_pending_requests_html: You have <a href="{{url}}">pending friend requests</a>.
 
+  generated_files:
+    building: "Building your file..."
+    complete_heading: "Done!"
+    complete_message: "Your file is complete and ready to download."
+    failure_heading: "We're sorry..."
+    failure_message: "There seems to have been an error while generating your file."
+
   groups:
     25_of: "25 of"
     accept: Accept
