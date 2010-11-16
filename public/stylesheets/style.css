@@ -910,6 +910,7 @@ table.comments td h4 {
 }
 .metrics a.admin-metric:hover {
   color: #5f9128;
+  border-color: #5f9128;
 }
 .metrics a.warn span {
   color: #ff9933;
@@ -917,7 +918,7 @@ table.comments td h4 {
 .metrics a.critical span {
   color: #ff1b0d;
 }
-.admin-chart:hover, .admin-metric:hover {
+.admin-chart:hover {
   border-color: #5f9128;
 }
 /* Popup Menus */
