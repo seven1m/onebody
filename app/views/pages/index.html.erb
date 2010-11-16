@@ -1,10 +1,9 @@
-<h1>
-  <% if @parent %><%= @parent.title %><% end %>
-  <%= t('pages.pages') %>
-</h1>
+<% content_for :sidebar do %><% end %>
 
-<%= render :partial => 'list' %>
+<h2><%= t('pages.pages') %></h2>
 
-<p style="margin-left:35px;"><%= link_to t('pages.new_root_page'), new_page_path, :class => 'discreet' %></p>
-
-<p><%= t('pages.help_and_system_pages') %></p>
+<ul class="list">
+  <% @pages.each do |page| %>
+    <li><%= link_to page.title, edit_page_path(page) %></li>
+  <% end %>
+</ul>

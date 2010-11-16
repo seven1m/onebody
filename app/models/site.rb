@@ -87,9 +87,6 @@ class Site < ActiveRecord::Base
         page.save!
       end
     end
-    unless Page.find_by_path('home')
-      Page.create!(:slug => 'home', :title => 'Home', :body => 'Congratulations! OneBody is up and running.', :system => true)
-    end
   end
 
   def add_publications_group

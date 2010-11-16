@@ -6,11 +6,7 @@ class PagesController < ApplicationController
   before_filter :feature_enabled?, :only => %w(show_for_public) # must follow get_page
 
   def index
-    if @parent = Page.find_by_id(params[:parent_id])
-      @pages = @parent.children.all(:order => 'title')
-    else
-      @pages = Page.find_all_by_parent_id(nil)
-    end
+    @pages = Page.where(:system => true).order(:title)
   end
 
   def show_for_public
@@ -46,35 +42,9 @@ class PagesController < ApplicationController
     end
   end
 
-  def new
-    if @logged_in.admin?(:edit_pages)
-      @page = Page.new(:parent_id => params[:parent_id])
-      @page_paths_and_ids = Page.paths_and_ids
-    else
-      render :text => t('not_authorized'), :layout => true, :status => 401
-    end
-  end
-
-  def create
-    if @logged_in.admin?(:edit_pages)
-      @page = Page.create(params[:page])
-      unless @page.errors.any?
-        flash[:notice] = t('pages.saved')
-        redirect_to params[:commit] =~ /continue editing/i ? edit_page_path(@page) : @page
-      else
-        @page_paths_and_ids = Page.paths_and_ids
-        render :action => 'new'
-      end
-    else
-      render :text => t('not_authorized'), :layout => true, :status => 401
-    end
-  end
-
   def edit
     @page = Page.find(params[:id])
-    if @logged_in.can_edit?(@page)
-      @page_paths_and_ids = Page.paths_and_ids
-    else
+    unless @logged_in.can_edit?(@page)
       render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
@@ -84,26 +54,10 @@ class PagesController < ApplicationController
     if @logged_in.can_edit?(@page)
       if @page.update_attributes(params[:page])
         flash[:notice] = t('pages.saved')
-        redirect_to params[:commit] =~ /continue editing/i ? edit_page_path(@page) : @page
+        redirect_to pages_path
       else
-        @page_paths_and_ids = Page.paths_and_ids
         render :action => 'edit'
       end
-    else
-      render :text => t('not_authorized'), :layout => true, :status => 401
-    end
-  end
-
-  def destroy
-    @page = Page.find(params[:id])
-    if @logged_in.can_edit?(@page)
-      @page.destroy
-      if @page.errors.any?
-        add_errors_to_flash(@page)
-      else
-        flash[:notice] = t('pages.deleted')
-      end
-      redirect_to pages_path
     else
       render :text => t('not_authorized'), :layout => true, :status => 401
     end
