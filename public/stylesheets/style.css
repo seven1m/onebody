@@ -913,7 +913,7 @@ table.comments td h4 {
   font-style: normal;
   font-size: 32pt;
 }
-.metrics a.admin-metric:hover {
+.metrics a.admin-metric:hover, .metrics a.admin-metric:hover span {
   color: #5f9128;
   border-color: #5f9128;
 }
