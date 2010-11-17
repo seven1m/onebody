@@ -397,6 +397,11 @@ fieldset legend {
   width: 600px;
   float: left;
 }
+.loading-centered {
+  text-align: center;
+  width: 300px;
+  margin: 150px auto;
+}
 .profile .profile-sidebar {
   float: left;
   width: 300px;
