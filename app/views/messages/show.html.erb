@@ -9,18 +9,20 @@
   <% end %>
 <% end %>
 
-<h1><%= @message.subject %> <% if @message.wall %>for <%= @message.wall.name %><% end %></h1>
+<% content_for :sidebar do %>
+  <h2><%= @message.subject %> <% if @message.wall %>for <%= @message.wall.name %><% end %></h2>
 
-<div class="message-details">
-  <div style="width:32px;float:left;margin:4px;">
+  <p>
     <a href="<%= url_for @message.person %>">
       <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
     </a>
-  </div>
-  <%= image_tag 'comment.gif', :alt => t('messages.message'), :class => 'icon' %>
-  <%= t('messages.message_by') %> <%= link_to @message.person.name, @message.person %><br/>
-  <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
-</div>
+    <%= t('messages.message_by') %> <%= link_to @message.person.name, @message.person %>
+  </p>
+
+  <p>
+    <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
+  </p>
+<% end %>
 
 <%= render_message_body(@message) %>
 
@@ -60,8 +62,8 @@
 <% end %>
 
 <% if @message.group and @message.group.can_post? @logged_in %>
-  <p>
-    <%= link_to t('messages.reply_to_this_message') + ' &raquo;', :remote => true, :url => new_message_path(:parent_id => @message.id), :method => 'get' %>
+  <p class="double-margin-top">
+    <%= link_to t('messages.reply_to_this_message'), new_message_path(:parent_id => @message.id), :remote => true, :method => :get %>
   </p>
 <% end %>
 
