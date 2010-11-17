@@ -1,10 +1,3 @@
-<% if @logged_in.can_edit?(@note) %>
-  <% content_for :subnav do %>
-    <%= link_to image_tag('pencil.png', :alt => t('notes.edit_note'), :class => 'icon') + ' ' + t('notes.edit_note'), edit_note_url(:id => @note), :class => 'discreet' %>
-    <%= link_to image_tag('delete.png', :alt => t('notes.delete_note'), :class => 'icon') + ' ' + t('notes.delete_note'), @note, :class => 'discreet', :method => 'delete', :confirm => t('are_you_sure') %>
-  <% end %>
-<% end %>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'people/photo' %>
   <p>
@@ -12,6 +5,10 @@
     <% if @note.group %><%= t('to') %> <%= link_to @note.group.name, group_url(:id => @note.group) %><% end %>
     <%= t('notes.by') %> <%= link_to @note.person.name, person_url(:id => @note.person) %>
   </p>
+  <% if @logged_in.can_edit?(@note) %>
+    <%= link_to t('notes.edit_note'), edit_note_path(@note), :class => 'edit-icon' %><br/>
+    <%= link_to t('notes.delete_note'), @note, :class => 'delete-icon', :method => :delete, :confirm => t('are_you_sure') %>
+  <% end %>
 <% end %>
 
 <h1><%= @note.title %></h1>
