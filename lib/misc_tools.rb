@@ -37,7 +37,7 @@ end
 
 class Array
   def with_indexes
-    returning([]) do |with|
+    [].tap do |with|
       self.each_with_index do |item, index|
         with << [item, index]
       end

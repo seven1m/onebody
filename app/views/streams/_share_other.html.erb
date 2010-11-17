@@ -1,15 +1,15 @@
-<h2 class="tab" id="more"><%= image_tag('bricks.png', :alt => 'More', :class => 'icon') %> <%= I18n.t('stream.more') %> </h2>
+<h2 class="tab" id="more"><%= image_tag('bricks.png', :alt => 'More', :class => 'icon') %> <%= t('stream.more') %> </h2>
 <div class="section">
   <% if Setting.get(:features, :recipes) %>
     <p>
-      <%= link_to image_tag('plus.png', :alt => I18n.t('recipes.new_recipe'), :class => 'icon'), new_recipe_path %>
-      <%= link_to I18n.t('recipes.new_recipe'), new_recipe_path %>
+      <%= link_to image_tag('plus.png', :alt => t('recipes.new_recipe'), :class => 'icon'), new_recipe_path %>
+      <%= link_to t('recipes.new_recipe'), new_recipe_path %>
     </p>
   <% end %>
   <% if Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications) %>
     <p>
-      <%= link_to image_tag('plus.png', :alt => I18n.t('publications.add_publication'), :class => 'icon'), new_publication_path %>
-      <%= link_to I18n.t('publications.new_publication'), new_publication_path %>
+      <%= link_to image_tag('plus.png', :alt => t('publications.add_publication'), :class => 'icon'), new_publication_path %>
+      <%= link_to t('publications.new_publication'), new_publication_path %>
     </p>
   <% end %>
   <% unless params[:controller] != 'streams' or @logged_in.share_activity? %>

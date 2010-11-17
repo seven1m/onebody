@@ -1,2 +1,0 @@
-MONGO_DB_NAME = "onebody_#{RAILS_ENV}"
-MONGO_CONNECTIONS = {}

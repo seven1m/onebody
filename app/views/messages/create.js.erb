@@ -1,0 +1,6 @@
+<% if @preview %>
+  $('#preview-from').html('<%= escape_javascript t('messages.from') + ': ' + h(@preview.from) %>');
+  $('#preview-subject').html('<%= escape_javascript t('messages.subject') + ': ' + h(@preview.subject) %>');
+  $('#preview-email').html('<%= escape_javascript simple_format(auto_link(h(get_email_body(@preview)))) %>');
+  $('#preview').show();
+<% end %>

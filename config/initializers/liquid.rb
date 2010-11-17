@@ -7,29 +7,23 @@ class LiquidView
   end
 
   def self.call(template)
-    "LiquidView.new(self).render(template, local_assigns)"
+    "LiquidView.new(self).render(\"#{template_source(template)}\")"
   end
 
-  def render(template, local_assigns_for_rails_less_than_2_1_0 = nil)
+  def self.template_source(template)
+    template.source.gsub('"', '\\"')
+  end
+
+  def render(source)
     @action_view.controller.headers["Content-Type"] ||= 'text/html; charset=utf-8'
     assigns = @action_view.assigns.dup
 
-    # template is a Template object in Rails >=2.1.0, a source string previously.
-    if template.respond_to? :source
-      source = template.source
-      local_assigns = local_assigns_for_rails_less_than_2_1_0
-      local_assigns = template.locals if template.respond_to? :locals
-    else
-      source = template
-      local_assigns = local_assigns_for_rails_less_than_2_1_0
+    content_for = @action_view.instance_variable_get("@_content_for")
+    content_for.each do |key, content|
+      assigns["content_for_#{key.to_s}"] = content
     end
 
-    if content_for_layout = @action_view.instance_variable_get("@content_for_layout")
-      assigns['content_for_layout'] = content_for_layout
-    end
-    assigns.merge!(local_assigns)
-
-    @action_view.controller.master_helper_module.instance_methods.each do |method|
+    @action_view.controller._helpers.instance_methods.each do |method|
       assigns[method.to_s] = Proc.new { @action_view.send(method) }
     end
 
@@ -52,8 +46,4 @@ class LiquidView
 
 end
 
-if defined? ActionView::Template and ActionView::Template.respond_to? :register_template_handler
-  ActionView::Template
-else
-  ActionView::Base
-end.register_template_handler(:liquid, LiquidView)
+ActionView::Template.register_template_handler(:liquid, LiquidView)

@@ -1,24 +1,24 @@
-<h1><%= I18n.t('feeds.preview') %></h1>
+<h1><%= t('feeds.preview') %></h1>
 
 <p>
-  <%= I18n.t('feeds.looks_right') %>
-  <% form_for [@person, @feed], :html => {:onsubmit => "$('finalize_feed').disabled=true;Element.show('please_wait');"} do |form| %>
+  <%= t('feeds.looks_right') %>
+  <%= form_for [@person, @feed], :html => {:onsubmit => "$('#finalize_feed')[0].disabled=true;$('#please_wait').show();"} do |form| %>
     <%= form.hidden_field :name %>
     <%= form.hidden_field :url %>
     <%= hidden_field_tag :type, params[:type] %>
     <%= hidden_field_tag :final, true %>
-    <%= form.submit I18n.t('feeds.add_the_feed'), :id => 'finalize_feed' %>
+    <%= form.submit t('feeds.add_the_feed'), :id => 'finalize_feed' %>
     <span id="please_wait" style="display:none;">
-      <%= image_tag('spinner_small.gif', :alt => I18n.t('feeds.please_wait'), :class => 'icon') %>
-      <%= I18n.t('feeds.please_wait') %>
+      <%= image_tag('spinner_small.gif', :alt => t('feeds.please_wait'), :class => 'icon') %>
+      <%= t('feeds.please_wait') %>
     </span>
   <% end %>
 </p>
 
 <% @entries.each do |entry| %>
-  <h2><%=h %w(twitter facebook).include?(params[:type]) ? nil : entry.title %></h2>
-  <p><%= I18n.t('feeds.posted') %>: <%=h entry.published.to_s %></p>
+  <h2><%= %w(twitter facebook).include?(params[:type]) ? nil : entry.title %></h2>
+  <p><%= t('feeds.posted') %>: <%= entry.published.to_s %></p>
   <p>
-    <%= white_list_with_removal entry.content || entry.summary %>
+    <%= sanitize_html entry.content || entry.summary %>
   </p>
 <% end %>

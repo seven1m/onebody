@@ -1,13 +1,13 @@
 <% content_for :subnav do %>
   <% if @person %>
-    <li><%= link_to image_tag('user.png', :alt => I18n.t('person'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@person.name), @person %></li>
+    <li><%= link_to image_tag('user.png', :alt => t('person'), :class => 'icon') + ' ' + t('back_to') + ' ' + @person.name, @person %></li>
     <% if params[:family] %>
-      <li><%= link_to image_tag('checkmark.png', :alt => I18n.t('calendars.family_members_enabled'), :class => 'icon') + ' ' + I18n.t('calendars.family_members_enabled'), '?', :style => 'text-decoration:none;' %></li>
+      <li><%= link_to image_tag('checkmark.png', :alt => t('calendars.family_members_enabled'), :class => 'icon') + ' ' + t('calendars.family_members_enabled'), '?', :style => 'text-decoration:none;' %></li>
     <% else %>
-      <li><%= link_to image_tag('remove.gif', :alt => I18n.t('calendars.family_members_disabled'), :class => 'icon') + ' ' + I18n.t('calendars.family_members_disabled'), '?family=true', :style => 'text-decoration:none;' %></li>
+      <li><%= link_to image_tag('remove.gif', :alt => t('calendars.family_members_disabled'), :class => 'icon') + ' ' + t('calendars.family_members_disabled'), '?family=true', :style => 'text-decoration:none;' %></li>
     <% end %>
   <% elsif @group %>
-    <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@group.name), @group %></li>
+    <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' ' + t('back_to') + ' ' + @group.name, @group %></li>
   <% end %>
 <% end %>
 

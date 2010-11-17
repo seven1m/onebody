@@ -17,7 +17,7 @@ class Administration::UpdatesController < ApplicationController
         if params[:update] and params[:update][:child]
           @update.child = (params[:update][:child] == 'true')
         elsif @update.birthday.nil?
-          flash[:warning] = I18n.t('people.child_alert', :years => Setting.get(:system, :adult_age))
+          flash[:warning] = t('people.child_alert', :years => Setting.get(:system, :adult_age))
           redirect_to administration_updates_path
           return
         end
@@ -51,7 +51,7 @@ class Administration::UpdatesController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:manage_updates)
-        render :text => I18n.t('only_admins'), :layout => true, :status => 401
+        render :text => t('only_admins'), :layout => true, :status => 401
         return false
       end
     end

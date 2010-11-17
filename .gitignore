@@ -1,4 +1,4 @@
-db/*.db
+.bundle
 db/schema.rb
 db/*.sql
 db/*.backup.*
@@ -12,6 +12,11 @@ config/deploy.rb
 config/email.yml
 config/locale
 public/images/logo*
+public/system/production
+public/system/development
+public/system/test
+public/stylesheets/all.css
+public/javascripts/all.js
 test/fixtures/settings.yml
 config/query_reviewer.yml
 vendor/plugins/query_reviewer

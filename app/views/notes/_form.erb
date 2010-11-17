@@ -9,19 +9,19 @@
   });
 </script>
 
-<% form_for @note do |form| %>
+<%= form_for @note do |form| %>
 
   <%= form.hidden_field :group_id %>
   <% if @note.group %>
-    <p><em><%= I18n.t('notes.this_note_will_be_posted', :group => h(@note.group.name)) %></em></p>
+    <p><em><%= t('notes.this_note_will_be_posted', :group => @note.group.name) %></em></p>
     <% if @note.group.private? %>
-      <p class="very-strong"><%= I18n.t('notes.this_note_will_not_be_private') %></p>
+      <p class="very-strong"><%= t('notes.this_note_will_not_be_private_html') %></p>
     <% end %>
   <% end %>
 
   <p>
-    <%= form.label :title, I18n.t('notes.title') %> <%= form.text_field :title %><br/>
-    <%= form.label :body, I18n.t('notes.body') %>  <%= form.text_field :body, :value => white_list(@note.body), :rows => 15, :cols => 80, :style => 'width:100%' %><br/>
-    <%= form.submit I18n.t('notes.save_note') %>
+    <%= form.label :title, t('notes.title') %> <%= form.text_field :title %><br/>
+    <%= form.label :body, t('notes.body') %>  <%= form.text_field :body, :value => sanitize_html(@note.body), :rows => 15, :cols => 80, :style => 'width:100%' %><br/>
+    <%= form.submit t('notes.save_note') %>
   </p>
 <% end %>

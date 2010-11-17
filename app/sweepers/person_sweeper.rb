@@ -1,13 +1,26 @@
 class PersonSweeper < ActionController::Caching::Sweeper
   observe Person
 
-  def after_save(record)
-    expire_fragment(%r{views/people/#{record.id}_})
-    record.stream_items.all.each do |stream_item|
-      expire_fragment(%r{views/stream/stream_items/#{stream_item.id}_})
+  def expire_group_members(record)
+    record.groups.all.each do |group|
+      expire_fragment(:controller => 'groups', :action => 'show', :id => group.id, :fragment => 'members')
     end
   end
 
-  alias_method :after_destroy, :after_save
+  def expire_stream_items(record)
+    record.stream_items.all.each do |stream_item|
+      stream_item.expire_caches
+    end
+  end
+
+  def after_save(record)
+    expire_group_members(record)
+    expire_stream_items(record)
+  end
+
+  def after_destroy(record)
+    expire_group_members(record)
+    expire_stream_items(record)
+  end
 
 end

@@ -1,34 +1,30 @@
-<% content_for :subnav do %>
-  <% if @person %>
-    <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + h(@person.name), @person %></li>
-  <% end %>
-  <li><%= link_to_function image_tag('plus.png', :alt => I18n.t('verses.add_a_verse'), :class => 'icon') + ' ' + I18n.t('verses.add_a_verse'), "Element.show('add_verse');Element.hide('add_verse_link');$('reference').focus();" %></li>
-<% end %>
+<h2><%= t('verses.verses') %></h2>
 
-<h1><%= I18n.t('verses.verses') %></h1>
-
-<p><%= I18n.t('verses.intro', :community => h(Setting.get(:name, :community))) %></p>
-
-<%= render :partial => 'add_verse' %>
+<p><%= t('verses.intro', :community => Setting.get(:name, :community)) %></p>
 
 <% content_for :sidebar do %>
-  <h2><%= I18n.t('tags.tags') %></h2>
+
+  <%= render :partial => 'add_verse' %>
+
+  <h3><%= t('tags.tags') %></h3>
+
+  <p><%= t('verses.about_tags') %></p>
+
   <div class="tag-cloud">
     <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
-      <%= link_to h(tag.name), tag, :class => css_class %>
+      <%= link_to tag.name, tag, :class => css_class %>
     <% end %>
     <% if @tags.empty? %>
-      <em><%= I18n.t('tags.no_tags_yet') %></em>
+      <em><%= t('tags.no_tags_yet') %></em>
     <% end %>
   </div>
-<% end %>
 
-<%= will_paginate @verses %>
+<% end %>
 
 <% if @verses.any? %>
   <%= render :partial => @verses %>
 <% else %>
-  <p><em><%= I18n.t('verses.no_verses_yet') %></em></p>
+  <p><em><%= t('verses.no_verses_yet') %></em></p>
 <% end %>
 
 <%= will_paginate @verses %>

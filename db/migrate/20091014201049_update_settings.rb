@@ -1,6 +1,6 @@
 class UpdateSettings < ActiveRecord::Migration
   def self.up
-    actual = YAML::load(File.open(RAILS_ROOT + '/config/settings.yml'))
+    actual = YAML::load(File.open(Rails.root.join('config/settings.yml')))
     Setting.all.each do |setting|
       # remove old ones
       if not actual.has_key?(setting.section) or not actual[setting.section].has_key?(setting.name)

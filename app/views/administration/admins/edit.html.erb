@@ -1,0 +1,48 @@
+<% content_for :sidebar do %>
+  <p>
+    <%= link_to t('admin.back_to_admin_list'), administration_admins_path, :class => 'left-icon' %>
+  </p>
+
+  <% if @admin.template? %>
+    <h3>People</h3>
+    <table class="spaced">
+      <% @people.each do |person| %>
+        <tr id="person<%= person.id %>">
+          <td><%= render :partial => 'people/thumbnail', :locals => {:person => person} %></td>
+          <td><%= link_to person.name, person %></td>
+          <td><%= link_to '', administration_admin_path(person.admin, :person_id => person.id), :remote => true, :method => :delete, :confirm => t('are_you_sure'), :class => 'delete-icon' %></td>
+        </tr>
+      <% end %>
+    </table>
+    <% if Site.current.max_admins and Admin.people_count >= Site.current.max_admins %>
+      <p><%= t('admin.max_admins_html') %></p>
+    <% else %>
+      <%= form_tag search_path, :remote => true %>
+        <%= hidden_field_tag :select_person, true %>
+        <p>
+          <%= t('admin.add_individual') %><br/>
+          <label for="name"><%= t('name') %>:</label> <%= text_field_tag 'name' %>
+          <br/>
+          <%= submit_tag t('admin.add_person') %>
+        </p>
+      </form>
+
+      <div id="add_member" style="display:none;">
+        <%= form_tag(administration_admins_path) do %>
+          <%= hidden_field_tag :redirect_to, edit_administration_admin_path(@admin) %>
+          <%= hidden_field_tag :template_id, @admin.id %>
+          <div id="results"></div>
+          <p><%= submit_tag t('admin.add_selected') %></p>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @admin.template? %>
+  <h2><%= @admin.template_name %></h2>
+<% else %>
+  <h2><%= @admin.person.name %></h2>
+<% end %>
+
+<%= render :partial => 'form' %>

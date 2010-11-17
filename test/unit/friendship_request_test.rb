@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class FriendshipRequestTest < ActiveSupport::TestCase
-  fixtures :friendship_requests, :people # no friendship fixtures
+  fixtures :people
 
   def test_state_methods
     Friendship.delete_all

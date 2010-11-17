@@ -1,22 +1,22 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => I18n.t('privacies.view_profile'), :class => 'icon') + ' ' + I18n.t('privacies.view_profile'), person_path(@person) %></li>
+  <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), person_path(@person) %></li>
 <% end %>
 
-<h1><%= I18n.t('feeds.feeds_for', :name => h(@person.name)) %></h1>
+<h1><%= t('feeds.feeds_for', :name => @person.name) %></h1>
 
 <p>
-  <%= I18n.t('feeds.description') %>
+  <%= t('feeds.description') %>
 </p>
 
 <ul>
   <%= render :partial => @feeds %>
 </ul>
 
-<% if @feeds.empty? %><p><em><%= I18n.t('feeds.none_added') %></em></p><% end %>
+<% if @feeds.empty? %><p><em><%= t('feeds.none_added') %></em></p><% end %>
 
-<h2><%= I18n.t('feeds.add_a_feed') %></h2>
+<h2><%= t('feeds.add_a_feed') %></h2>
 <p style="padding-left:10px;">
-  <%= link_to image_tag('twitter.png', :alt => I18n.t('feeds.link_with_twitter'), :class => 'icon') + ' ' + I18n.t('stream.twitter'), new_person_feed_path(@logged_in, :type => 'twitter'), :style => 'text-decoration:none;' %><br/>
-  <%= link_to image_tag('flickr.png', :alt => I18n.t('feeds.link_with_flickr'), :class => 'icon') + ' ' + I18n.t('stream.flickr'), new_person_feed_path(@logged_in, :type => 'flickr'), :style => 'text-decoration:none;' %><br/>
-  <%= link_to image_tag('rss.png', :alt => I18n.t('feeds.link_with_rss'), :class => 'icon') + ' ' + I18n.t('stream.rss'), new_person_feed_path(@logged_in, :type => 'rss'), :style => 'text-decoration:none;' %><br/>
+  <%= link_to image_tag('twitter.png', :alt => t('feeds.link_with_twitter'), :class => 'icon') + ' ' + t('stream.twitter'), new_person_feed_path(@logged_in, :type => 'twitter'), :style => 'text-decoration:none;' %><br/>
+  <%= link_to image_tag('flickr.png', :alt => t('feeds.link_with_flickr'), :class => 'icon') + ' ' + t('stream.flickr'), new_person_feed_path(@logged_in, :type => 'flickr'), :style => 'text-decoration:none;' %><br/>
+  <%= link_to image_tag('rss.png', :alt => t('feeds.link_with_rss'), :class => 'icon') + ' ' + t('stream.rss'), new_person_feed_path(@logged_in, :type => 'rss'), :style => 'text-decoration:none;' %><br/>
 </p>

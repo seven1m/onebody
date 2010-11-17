@@ -1,172 +1,150 @@
-<% content_for :subnav do %>
-  <% if @logged_in.admin?(:edit_profiles) %>
-    <div style="float:right;">
-      <%= link_to I18n.t('people.edit_family'), @person.family %>
-      <%= link_to I18n.t('people.new_family'), new_family_path %>
-    </div>
-  <% end %>
-  <% if @logged_in.can_edit? @person %>
-    <%= render :partial => 'edit_person' %>
-  <% end %>
-  <% if me? %>
-    <% if Setting.get(:features, :community_google_calendar).to_s.any? %><li><%= link_to image_tag('calendar.png', :alt => I18n.t('people.my_calendar'), :class => 'icon') + ' ' + I18n.t('people.my_calendar'), person_calendar_path(@person) %></li><% end %>
-  <% else %>
-    <%= render :partial => 'friendship' %>
-    <% if @person.messages_enabled? %>
-      <li><%= link_to image_tag('message.gif', :alt => I18n.t('people.send_email'), :class => 'icon') + ' ' + I18n.t('people.send_email'), new_message_path(:to_person_id => @person) %></li>
-    <% end %>
-  <% end %>
-  <% if @logged_in.admin?(:edit_profiles) %>
-    <li><%= link_to image_tag('link.png', :class => 'icon', :alt => I18n.t('relationships.relationships')) + ' ' + I18n.t('relationships.relationships'), person_relationships_path(@person) %></li>
-  <% end %>
-  <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) and @person.donortools_admin_url %>
-    <li><%= link_to image_tag('money.png', :class => 'icon', :alt => I18n.t('contributions.Contributions')) + ' ' + I18n.t('contributions.Contributions'), @person.donortools_admin_url %></li>
-  <% end %>
-<% end %>
+<div class="profile">
 
-<% content_for :sidebar do %>
-  <%= render :partial => 'photo' %>
-  <h1><%=h @person.name %></h1>
-  <%= render :partial => 'person_type' %>
-  <%= render :partial => 'family' %>
-  <%= render :partial => 'hidden_children' %>
-  <% if Setting.get(:features, :friends) %>
-    <%= render :partial => 'friends' %>
-  <% end %>
-  <% if Setting.get(:features, :sidebar_group_category) %>
-    <%= render :partial => 'sidebar_people' %>
-  <% end %>
-  <% if Setting.get(:features, :groups) %>
-    <%= render :partial => 'sidebar_groups' %>
-  <% end %>
-  <% if @logged_in.admin? %>
-    <p class="discreet">
-      Legacy ID: <%=h @person.legacy_id %>
-    </p>
-  <% end %>
-<% end %>
-
-<% unless @family %>
-  <div class="warning"><%=h I18n.t('people.no_family_for_this_person') %></div>
-<% end %>
-
-<% unless @person.visible?(@family) %>
-  <p>
-    <%= image_tag('lock.gif', :alt => I18n.t('search.hidden_profile'), :class => 'icon') %>
-    <%= I18n.t('people.this_profile_is_hidden') %>
-  </p>
-<% end %>
-
-<%= render :partial => 'pending_updates' %>
-
-<div id="share" style="margin-bottom:20px;display:none;">
-  <% if Setting.get(:appearance, :info_tab_first) %>
-    <%= render :partial => 'info_tab' %>
-  <% end %>
-  <% if me? %>
-    <%= render :partial => 'streams/share' %>
-  <% elsif @person.wall_enabled? %>
-    <h2 class="tab" id="message"><%= image_tag('comments.png', :alt => I18n.t('messages.message'), :class => 'icon') %> <%= I18n.t('messages.message') %></h2>
-    <div class="section">
-      <% form_for Message.new(:wall => @person) do |form| %>
-        <%= form.hidden_field :wall_id %>
-        <p>
-          <%= image_tag('comments.png', :alt => I18n.t('people.note_for', :name => @person.first_name), :class => 'icon') %>
-          <%= I18n.t('people.leave_message_for', :name => h(@person.first_name)) %>
-          <%= radio_button_tag 'note_private', false, true %><%= label_tag 'note_private_false', I18n.t('privacies.public'), :class => 'inline' %>
-          <%= radio_button_tag 'note_private', true, false, :onclick => "this.form.submit()", :disabled => !@person.messages_enabled?, :readonly => !@person.messages_enabled? %><%= label_tag 'note_private_true', I18n.t('privacies.private'), :class => 'inline' %>
-          <% unless @person.messages_enabled? %>(disabled)<% end %>
-          <br/>
-          <%= form.text_area :body, :rows => 2, :cols => 70, :style => 'width:375px;' %>
-          <%= form.submit I18n.t('wall.save_message'), :id => 'note_submit' %>
-          <span class="small discreet">
-            <%= I18n.t('messages.this_message_will_be_visible', :name => h(@person.first_name_possessive)) %>
-          </span>
-        </p>
-      <% end %>
-    </div>
-  <% end %>
-  <% unless Setting.get(:appearance, :info_tab_first) %>
-    <%= render :partial => 'info_tab' %>
-  <% end %>
-</div>
-
-<div style="float:right;width:200px;">
-  <ul id="my-stuff">
-    <% if @person.testimony.to_s.any? %>
-      <li><%= link_to image_tag('lightbulb.png', :alt => I18n.t('people.my_testimony'), :class => 'icon') + ' ' + I18n.t('people.my_testimony'), testimony_person_path(@person) %></li>
-    <% end %>
-    <% if @person.has_favs? %>
-      <li><%= link_to image_tag('emoticon_smile.png', :alt => I18n.t('people.my_favorites'), :class => 'icon') + ' ' + I18n.t('people.my_favorites'), favs_person_path(@person) %></li>
-    <% end %>
-    <% if Setting.get(:features, :notes    ) %><li><%= link_to image_tag('note.png',     :alt => I18n.t('people.my_notes'), :class => 'icon') + ' ' + I18n.t('people.my_notes'),    person_notes_path(@person)   %></li><% end %>
-    <% if Setting.get(:features, :pictures ) %><li><%= link_to image_tag('picture.png',  :alt => I18n.t('people.my_pictures'), :class => 'icon') + ' ' + I18n.t('people.my_pictures'), person_albums_path(@person)  %></li><% end %>
-    <% if Setting.get(:features, :verses   ) %><li><%= link_to image_tag('verse.png',    :alt => I18n.t('people.my_verses'),   :class => 'icon') + ' ' + I18n.t('people.my_verses'),   person_verses_path(@person)  %></li><% end %>
-    <% if Setting.get(:features, :recipes  ) %><li><%= link_to image_tag('recipe.png',   :alt => I18n.t('people.my_recipes'),  :class => 'icon') + ' ' + I18n.t('people.my_recipes'),  person_recipes_path(@person) %></li><% end %>
-    <% if @person.wall_enabled?              %><li><%= link_to image_tag('comments.png', :alt => I18n.t('people.my_messages'), :class => 'icon') + ' ' + I18n.t('people.my_messages'), person_wall_path(@person)    %></li><% end %>
-  </ul>
-</div>
-
-<div id="about" <% if @person.about.to_s.length > 500 %>class="scrolling-about"<% end %>>
-  <%= white_list_with_removal @person.about %>
-</div>
-
-<%# Main Content %>
-<div id="profile-body">
-  
-  <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
-
-  <% if nil and Setting.get(:features, :verses) and @verses.any? %>
-    <h2 class="profile tab" id="verses"><%= I18n.t('verses.verses') %></h2>
-    <div id="verses_content" class="section">
-      <%= render :partial => @verses %>
-    </div>
-  <% end %>
-
-  <% if nil %>
-
-  <h2 class="profile tab" id="about"><%= I18n.t('About') %></h2>
-  <div id="about_content" class="section">
-    <% if @person.about.to_s.any? %>
-      <%= preserve_breaks @person.about %>
-    <% else %>
-      <% if me? %>
-        <p><em><%= I18n.t('people.write_something_about_yourself', :url => edit_person_path(@person, :anchor => 'about')) %></em></p>
+  <div class="profile-sidebar">
+    <div class="profile-pic">
+      <% if @person.photo.exists? %>
+        <%= link_to image_tag(@person.photo.url(:profile), :alt => @person.name), @person.photo.url %>
+      <% elsif @family and @family.photo.exists? and params[:action] != 'edit' %>
+        <%= link_to image_tag(@family.photo.url(:profile), :alt => @family.name), @family.photo.url %>
+      <% elsif me? and params[:controller] == 'people' and params[:action] == 'show' %>
+        <div class="silhouette-<%= @person.gender.to_s == 'Female' ? 'woman' : 'man' %>" onclick="location.href = '<%= edit_person_path %>#picture'">
+          <%= link_to t('people.change_your_picture'), edit_person_path(:anchor => 'picture'), :class => 'edit-icon' %>
+        </div>
       <% else %>
-        <p><em><%= I18n.t('people.nothing_here_yet') %></em></p>
+        <div class="silhouette-<%= @person.gender.to_s == 'Female' ? 'woman' : 'man' %>"></div>
       <% end %>
+    </div>
+  </div>
+
+  <div class="profile-body">
+    <h2>
+      <strong><%= @person.name %></strong>
+      <% if @person.description.to_s.any? %>
+        / <%= @person.description %>
+      <% end %>
+    </h2>
+    <ul class="profile-details">
+      <%= attribute(:website)      do %><li class="website"><%= link_to simple_url(@person.website), @person.website %>                           </li><% end %>
+      <%= attribute(:email)        do %><li class="email"  ><%= mail_to @person.email                                %>                           </li><% end %>
+      <%= attribute(:mobile_phone) do %><li class="phone"  ><%= format_phone @person.mobile_phone                    %> <%= t('profile.mobile') %></li><% end %>
+      <%= attribute(:home_phone)   do %><li class="phone"  ><%= format_phone @person.home_phone                      %> <%= t('profile.home'  ) %></li><% end %>
+      <%= attribute(:fax)          do %><li class="phone"  ><%= format_phone @person.fax                             %> <%= t('profile.fax'   ) %></li><% end %>
+      <div class="new-line"></div>
+      <%= attribute(:address) do %>
+        <li class="address"><%= preserve_breaks @person.address %><br/><%= @person.city %>, <%= @person.state %> <%= @person.short_zip %></li>
+      <% end %>
+      <div class="new-line"></div>
+      <li class="icon">
+        <%= link_to image_tag('clean/email.png', :alt => t('messages.send_message')), new_message_path(:to_person_id => @person) %>
+        <%= link_to t('messages.send_message'), new_message_path(:to_person_id => @person) %>
+      </li>
+      <div class="new-line"></div>
+      <li class="icon"><img src="/images/clean/facebook.png"/></li>
+      <li class="icon"><img src="/images/clean/twitter.png"/></li>
+      <li class="icon"><img src="/images/clean/flickr.png"/></li>
+    </ul>
+  </div>
+
+  <div class="clear"></div>
+  <div class="profile-sidebar">
+    <%= render :partial => 'family' %>
+
+    <% if @albums.any? %>
+      <h3><%= t('albums.picture_albums') %></h3>
+      <p>
+        <% @albums.each do |album| %>
+          <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', :alt => album.name),
+            album, :title => album.name %>
+        <% end %>
+      </p>
     <% end %>
   </div>
 
-  <% if @person.testimony.to_s.any? %>
-    <h2 class="profile tab" id="testimony"><%= I18n.t('people.testimony') %></h2>
-    <div id="testimony_content" class="section">
-      <%= preserve_breaks @person.testimony %>
-      <p><%= link_to I18n.t('people.read_more_testimonies'), search_path(:testimony => true) %></p>
+  <div class="profile-body">
+
+    <h3><%= t('About') %></h3>
+    <div class="about">
+      <% unless @person.about.to_s.any? or
+                @verses.any? or
+                @person.activities.to_s.any? or
+                @person.interests.to_s.any? or
+                @person.books.to_s.any? or
+                @person.music.to_s.any? or
+                @person.movies.to_s.any? or
+                @person.tv_shows.to_s.any? or
+                @person.quotes.to_s.any? %>
+        <em><%= t('people.nothing_here_yet') %></em>
+      <% end %>
+      <% if @person.about.to_s.any? %>
+        <div class="favorites-group">
+          <%= preserve_breaks @person.about %>
+        </div>
+      <% end %>
+      <% if @verses.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.verses') %></h4>
+          <ul class="favorites-inline">
+            <% @verses.each do |verse| %>
+              <li><%= link_to verse.reference, verse %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @person.activities.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.activities') %></h4>
+          <%= preserve_breaks @person.activities %>
+        </div>
+      <% end %>
+      <% if @person.interests.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.interests') %></h4>
+          <%= preserve_breaks @person.interests %>
+        </div>
+      <% end %>
+      <% if @person.books.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.books') %></h4>
+          <%= preserve_breaks @person.books %>
+        </div>
+      <% end %>
+      <% if @person.music.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.music') %></h4>
+          <%= preserve_breaks @person.music %>
+        </div>
+      <% end %>
+      <% if @person.movies.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.movies') %></h4>
+          <%= preserve_breaks @person.movies %>
+        </div>
+      <% end %>
+      <% if @person.tv_shows.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.tv_shows') %></h4>
+          <%= preserve_breaks @person.tv_shows %>
+        </div>
+      <% end %>
+      <% if @person.quotes.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.quotes') %></h4>
+          <!--
+          <ul class="list quotes">
+            <li>I may not be able to say all I think; but I am not going to say anything that I do not think. I would rather a thousand times be a free soul in jail than to be a sycophant and coward in the streets. — <a href="http://en.wikiquote.org/wiki/Eugene_V._Debs#Canton_Anti-war_Speech_.281918.29">Eugene V. Debs, Canton Anti-war Speech (1918)</a></li>
+          </ul>
+          -->
+          <p><%= preserve_breaks @person.quotes %></p>
+        </div>
+      <% end %>
     </div>
-  <% end %>
 
-  <h2 class="profile tab" id="favorites"><%= I18n.t('people.favorites') %></h2>
-  <div id="favorites_content" class="section">
-    <%= render :partial => 'favorites' %>
+    <% if @person.testimony.to_s.any? %>
+      <h3><%= t('people.testimony') %></h3>
+      <div class="testimony">
+        <%= preserve_breaks @person.testimony %>
+      </div>
+    <% end %>
+
   </div>
-  
-  <% end %>
-
 </div>
-
-<style type="text/css">
-  .stream-item { display: block; }
-</style>
-
-<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@person.id) %>'; </script>
-<%= javascript_include_tag 'load_albums.js' %>
-
-<%= stylesheet_link_tag 'tabs.css' %>
-<%= javascript_include_tag 'tabs.js' %>
-<script type="text/javascript">
-  set_up_tabs();
-  Element.show('share');
-</script>
-
-<% if session[:touring] %><%= tour_popup(I18n.t('people.profile_tab'), '/pages/help/tour_profile', 450, 'right') %><% end %>

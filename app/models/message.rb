@@ -1,23 +1,3 @@
-# == Schema Information
-#
-# Table name: messages
-#
-#  id           :integer       not null, primary key
-#  group_id     :integer
-#  person_id    :integer
-#  created_at   :datetime
-#  updated_at   :datetime
-#  parent_id    :integer
-#  subject      :string(255)
-#  body         :text
-#  share_email  :boolean
-#  wall_id      :integer
-#  to_person_id :integer
-#  code         :integer
-#  site_id      :integer
-#  html_body    :text
-#
-
 require 'uri'
 require 'digest/md5'
 
@@ -71,16 +51,18 @@ class Message < ActiveRecord::Base
     return top
   end
 
-  def before_save
+  before_save :remove_unsubscribe_link
+
+  def remove_unsubscribe_link
     body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
   end
 
-  validate_on_create do |record|
+  validate :on => :create do |record|
     if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => ['created_at >= ?', Date.today-1])
-      record.errors.add_to_base 'already saved' # Notifier relies on this message (don't change it)
+      record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
     end
     if record.subject =~ /Out of Office/i
-      record.errors.add_to_base 'autoreply' # don't change!
+      record.errors.add :base, 'autoreply' # don't change!
     end
   end
 
@@ -102,10 +84,10 @@ class Message < ActiveRecord::Base
   def send_to_person(person)
     if person.email.to_s.any?
       id_and_code = "#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
-      email = Notifier.create_message(person, self, id_and_code)
+      email = Notifier.full_message(person, self, id_and_code)
       email.add_message_id
       email.message_id = "<#{id_and_code}_#{email.message_id.gsub(/^</, '')}"
-      Notifier.deliver(email)
+      email.deliver
     end
   end
 
@@ -207,8 +189,9 @@ class Message < ActiveRecord::Base
     end
   end
 
-  # generates security code
-  def before_create
+  before_create :generate_security_code
+
+  def generate_security_code
     begin
       code = rand(999999)
       write_attribute :code, code
@@ -222,8 +205,6 @@ class Message < ActiveRecord::Base
   def can_see?(p)
     if group and group.private?
       p.member_of?(group) or group.admin?(p)
-    elsif p.admin?(:manage_messages)
-      true
     elsif group
       p.member_of?(group) or group.admin?(p)
     elsif wall and not wall.wall_enabled?
@@ -251,7 +232,8 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.create!(
       :title           => wall_id ? nil : subject,
-      :body            => html_body.to_s.any? ? html_body : body.gsub(/\n/, '<br/>'),
+      :body            => html_body.to_s.any? ? html_body : body,
+      :text            => !html_body.to_s.any?,
       :wall_id         => wall_id,
       :person_id       => person_id,
       :group_id        => group_id,
@@ -268,7 +250,13 @@ class Message < ActiveRecord::Base
     return unless streamable?
     StreamItem.find_all_by_streamable_type_and_streamable_id('Message', id).each do |stream_item|
       stream_item.title = wall_id ? nil : subject
-      stream_item.body  = body
+      if html_body.to_s.any?
+        stream_item.body = html_body
+        stream_item.text = false
+      else
+        stream_item.body = body
+        stream_item.text = true
+      end
       stream_item.save
     end
   end
@@ -281,24 +269,21 @@ class Message < ActiveRecord::Base
 
   def self.preview(attributes)
     msg = Message.new(attributes)
-    Notifier.create_message(Person.new(:email => 'test@example.com'), msg)
+    Notifier.full_message(Person.new(:email => 'test@example.com'), msg)
   end
 
   def self.create_with_attachments(attributes, files)
     message = Message.create(attributes.update(:dont_send => true))
     unless message.errors.any?
       files.select { |f| f && f.size > 0 }.each do |file|
-        attachment = message.attachments.create(:name => File.split(file.original_filename).last, :content_type => file.content_type)
+        attachment = message.attachments.create(
+          :name         => File.split(file.original_filename).last,
+          :content_type => file.content_type,
+          :file         => file
+        )
         if attachment.errors.any?
-          attachment.errors.each_full { |e| message.errors.add_to_base(e) }
+          attachment.errors.each_full { |e| message.errors.add(:base, e) }
           return message
-        else
-          begin
-            attachment.file = file
-          rescue
-            message.errors.add_to_base('Attachment could not be read.')
-            return message
-          end
         end
       end
       message.dont_send = false
@@ -308,17 +293,15 @@ class Message < ActiveRecord::Base
   end
 
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-    returning([]) do |data|
+    [].tap do |data|
       private_counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where to_person_id is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
       group_counts   = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where group_id     is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
-      wall_counts    = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where wall_id      is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
       ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
         d = date.strftime(date_strftime)
         d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
         private_count = private_counts[date] ? private_counts[date][0]['count'].to_i : 0
         group_count   = group_counts[date]   ? group_counts[date][0]['count'].to_i   : 0
-        wall_count    = wall_counts[date]    ? wall_counts[date][0]['count'].to_i    : 0
-        data << [d, private_count, group_count, wall_count]
+        data << [d, private_count, group_count]
       end
     end
   end

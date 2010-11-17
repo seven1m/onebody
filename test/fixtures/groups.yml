@@ -1,38 +1,3 @@
-# == Schema Information
-#
-# Table name: groups
-#
-#  id                        :integer       not null, primary key
-#  name                      :string(100)   
-#  description               :string(500)   
-#  meets                     :string(100)   
-#  location                  :string(100)   
-#  directions                :string(500)   
-#  other_notes               :string(500)   
-#  creator_id                :integer       
-#  address                   :string(255)   
-#  members_send              :boolean       default(TRUE)
-#  private                   :boolean       
-#  category                  :string(50)    
-#  leader_id                 :integer       
-#  updated_at                :datetime      
-#  hidden                    :boolean       
-#  approved                  :boolean       
-#  link_code                 :string(255)   
-#  parents_of                :integer       
-#  site_id                   :integer       
-#  blog                      :boolean       default(TRUE)
-#  email                     :boolean       default(TRUE)
-#  prayer                    :boolean       default(TRUE)
-#  attendance                :boolean       default(TRUE)
-#  legacy_id                 :integer       
-#  gcal_private_link         :string(255)   
-#  approval_required_to_join :boolean       default(TRUE)
-#  pictures                  :boolean       default(TRUE)
-#  cm_api_list_id            :string(50)    
-#
-
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 morgan:
   site_id: 1
   id: 1

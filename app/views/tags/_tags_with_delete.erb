@@ -1,17 +1,24 @@
 <% controller ||= object.class.name.pluralize.downcase %>
 <% if object.tags.any? %>
-  <% object.tags.each do |tag| %>
-    <%= link_to h(tag.name), tag %>
-    <% if params[:controller] == controller %>
-      <% if controller == 'verses' %>
-        <% url = verse_path(:id => object, :remove_tag => tag.name) %>
-      <% elsif controller == 'recipes' %>
-        <% url = recipe_path(:id => object, :remove_tag => tag.name) %>
-      <% end %>
-      <%= link_to 'x', url, :title => I18n.t('delete'), :class => 'discreet', :style => 'margin-left:-5px;', :method => 'put', :confirm => I18n.t('tags.confirm_delete') %>
+  <ul class="tags">
+    <% object.tags.each do |tag| %>
+      <li>
+        <%= link_to tag.name, tag %>
+        <% if params[:controller] == controller %>
+          <% if controller == 'verses' %>
+            <% url = verse_path(:id => object, :remove_tag => tag.name) %>
+          <% elsif controller == 'recipes' %>
+            <% url = recipe_path(:id => object, :remove_tag => tag.name) %>
+          <% end %>
+          <%= link_to '', url,
+            :title   => t('delete'),
+            :class   => 'delete-icon',
+            :method  => 'put',
+            :confirm => t('tags.confirm_delete') %>
+        <% end %>
+      </li>
     <% end %>
-    <% if defined?(br) and br %><br/><% end %>
-  <% end %>
+  </ul>
 <% else %>
-  <em><%= I18n.t('tags.no_tags_yet') %></em>
+  <em><%= t('tags.no_tags_yet') %></em>
 <% end %>

@@ -1,12 +1,12 @@
-<%=h Setting.get(:url, :site) %>admin/updates
+<%=raw Setting.get(:url, :site) %>admin/updates
 
-<%=h @person.name %> (<%=h @person.family.name %>) <%= I18n.t('notifier.has_submited_profile_update') %>:
+<%=raw @person.name %> (<%=raw @person.family.name %>) <%= t('notifier.has_submited_profile_update') %>:
 
 <%- (Update::PERSON_ATTRIBUTES + Update::FAMILY_ATTRIBUTES).each do |attribute| -%>
 <%- if change = @updates[attribute] -%>
-<%=h attribute.humanize %>
-  <%= I18n.t('notifier.old') %>: <%= format_changed_attribute(attribute, change.first) %>
-  <%= I18n.t('notifier.new') %>: <%= format_changed_attribute(attribute, change.last) %>
+<%=raw attribute.humanize %>
+  <%= t('notifier.old') %>: <%= format_changed_attribute(attribute, change.first) %>
+  <%= t('notifier.new') %>: <%= format_changed_attribute(attribute, change.last) %>
 
 <%- end -%>
 <%- end -%>

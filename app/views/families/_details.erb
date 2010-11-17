@@ -1,8 +1,8 @@
-<% if @family.has_photo? %>
+<% if @family.photo.exists? %>
   <%= render :partial => 'families/photo' %>
 <% else %>
-  <%= image_tag 'family.jpg', :alt => I18n.t('families.no_photo') %>
+  <%= image_tag 'family.jpg', :alt => t('families.no_photo') %>
 <% end %>
-<h1><%= link_to h(@family.name), @family %></h1>
+<h1><%= link_to @family.name, @family %></h1>
 <p><%= preserve_breaks @family.pretty_address %> <%= render(:partial => 'map_link') %></p>
 <p><%= format_phone @family.home_phone %></p>

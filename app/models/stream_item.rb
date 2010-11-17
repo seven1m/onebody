@@ -1,22 +1,3 @@
-# == Schema Information
-#
-# Table name: stream_items
-#
-#  id              :integer       not null, primary key
-#  site_id         :integer
-#  title           :string(500)
-#  body            :text
-#  context         :text
-#  person_id       :integer
-#  group_id        :integer
-#  streamable_id   :integer
-#  streamable_type :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
-#  wall_id         :integer
-#  shared          :boolean
-#
-
 class StreamItem < ActiveRecord::Base
   belongs_to :person
   belongs_to :wall, :class_name => 'Person'
@@ -32,6 +13,22 @@ class StreamItem < ActiveRecord::Base
 
   def ensure_context_is_hash
     self.context = {} if not context.is_a?(Hash)
+  end
+
+  after_save :expire_caches
+  after_destroy :expire_caches
+
+  # can't do this in a sweeper since there isn't a controller involved
+  def expire_caches
+    if %w(NewsItem Publication).include?(streamable_type)
+      ActionController::Base.cache_store.delete_matched(%r{stream\?for=\d+&fragment=stream_items})
+    else
+      ids = [person_id] + person.all_friend_and_groupy_ids
+      ActionController::Base.cache_store.delete_matched(%r{stream\?for=(#{ids.join('|')})&fragment=stream_items})
+    end
+    if group_id
+      ActionController::Base.cache_store.delete_matched(%r{groups/#{group_id}\?fragment=stream_items})
+    end
   end
 
   def can_have_comments?

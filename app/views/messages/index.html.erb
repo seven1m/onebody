@@ -1,8 +1,8 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => I18n.t('group'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@group.name), @group %></li>
+  <li><%= link_to image_tag('group.png', :alt => t('group'), :class => 'icon') + ' ' + t('back_to') + ' ' + @group.name, @group %></li>
 <% end %>
 
-<h1><%= I18n.t('messages.message_in', { :group => @group, :name => h(@group.name) } ) %></h1>
+<h2><%= t('messages.messages_in_html', :url => group_path(@group), :name => @group.name) %></h2>
 
 <% @messages.each do |message| %>
 
@@ -11,7 +11,7 @@
       <% if message.person %>
         <span class="nowrap">
           <a href="<%= url_for message.person %>">
-            <%= image_tag message.person.has_photo? ? tn_person_photo_path(message.person) : (message.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag message.person.photo.exists? ? message.person.photo.url(:tn) : (message.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
               :alt => message.person.name %>
           </a>
         </span>
@@ -21,20 +21,16 @@
       <div style="clear:left;"></div>
     </div>
     <div class="stream-item-body">
-      <h2><%= link_to h(message.subject), message %></h2>
+      <h2><%= link_to message.subject, message %></h2>
       <%= render :partial => 'meta', :locals => {:message => message} %>
       <div>
         <%= render_message_body(message) %>
       </div>
 
-      <% if (count = message.children.count) > 0 %><p><%= pluralize count, I18n.t('messages.reply') %></p><% end %>
+      <% if (count = message.children.count) > 0 %><p><%= pluralize count, t('messages.reply') %></p><% end %>
     </div>
 </div>
 
 <% end %>
 
 <%= will_paginate @messages %>
-
-<style type="text/css">
-  .stream-item { display: block; }
-</style>

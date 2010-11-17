@@ -1,21 +1,3 @@
-# == Schema Information
-#
-# Table name: comments
-#
-#  id           :integer       not null, primary key
-#  verse_id     :integer
-#  person_id    :integer
-#  text         :text
-#  created_at   :datetime
-#  updated_at   :datetime
-#  recipe_id    :integer
-#  news_item_id :integer
-#  song_id      :integer
-#  note_id      :integer
-#  site_id      :integer
-#  picture_id   :integer
-#
-
 class Comment < ActiveRecord::Base
   belongs_to :person
   belongs_to :site

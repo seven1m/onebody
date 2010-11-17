@@ -4,37 +4,37 @@
   function encrypt_passwords() {
     var rsa = new RSAKey();
     rsa.setPublic('<%= @public_modulus %>', '<%= @public_exponent %>');
-    if($('password').value != '') {
-      $('encrypted_password').value = hex2b64(rsa.encrypt($('password').value));
-      $('encrypted_password_confirmation').value = hex2b64(rsa.encrypt($('password_confirmation').value));
-      $('password').value = '';
-      $('password_confirmation').value = '';
+    if($('#password').val() != '') {
+      $('#encrypted_password').val(hex2b64(rsa.encrypt($('#password').val())));
+      $('#encrypted_password_confirmation').val(hex2b64(rsa.encrypt($('#password_confirmation').val())));
+      $('#password').val('');
+      $('#password_confirmation').val('');
     }
     return true
   }
 </script>
 
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => I18n.t('privacies.view_profile'), :class => 'icon') + ' ' + I18n.t('privacies.view_profile'), person_path(@person) %></li>
+  <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), person_path(@person) %></li>
 <% end %>
 
-<h1><%=h @person.name %></h1>
-<% form_for @person, :url => person_account_path(@person), :html => {:onsubmit => "return encrypt_passwords()"} do |form| %>
+<h2><%= @person.name %></h2>
+<%= form_for @person, :url => person_account_path(@person), :html => {:onsubmit => "return encrypt_passwords()"} do |form| %>
   <%= hidden_field_tag :encrypted_password %>
   <%= hidden_field_tag :encrypted_password_confirmation %>
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
   <p>
-    <label for="person_email"><%= I18n.t('session.email_address') %></label>
+    <label for="person_email"><%= t('session.email_address') %></label>
     <%= form.text_field :email, :style => 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>
-    <strong class="very-strong"><%= I18n.t('accounts.change_email_warning', :person => h(@person == @logged_in ? I18n.t('accounts.you_use') : @person.name + ' ' + I18n.t('accounts.uses'))) %></strong>
+    <strong class="very-strong"><%= t('accounts.change_email_warning', :person => @person == @logged_in ? t('accounts.you_use') : @person.name + ' ' + t('accounts.uses')) %></strong>
     <br/>
-    <label for="password"><%= I18n.t('session.password') %></label>
+    <label for="password"><%= t('session.password') %></label>
     <%= password_field_tag :password, nil %><br/>
     <% unless @person.encrypted_password.nil? %>
-      <%= I18n.t('accounts.leave_blank') %><br/>
+      <%= t('accounts.leave_blank') %><br/>
     <% end %>
-    <label for="password_confirmation"><%= I18n.t('session.password_confirm') %></label>
+    <label for="password_confirmation"><%= t('session.password_confirm') %></label>
     <%= password_field_tag :password_confirmation, nil %><br/>
-    <%= submit_tag I18n.t('save_changes') %>
+    <%= submit_tag t('save_changes') %>
   </p>
 <% end %>

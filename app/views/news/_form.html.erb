@@ -9,16 +9,16 @@
   });
 </script>
 
-<% form_for @news_item, :url => @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
+<%= form_for @news_item, :url => @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
   <p>
-    <%= form.label :title, I18n.t('news.title_description') %>
+    <%= form.label :title, t('news.title_description') %>
     <%= form.text_field :title %>
   </p>
   <p>
-    <%= form.label :body, I18n.t('news.body_description') %>
+    <%= form.label :body, t('news.body_description') %>
     <%= form.text_area :body, :rows => 10, :cols => 100, :style => 'width:75%;' %>
   </p>
   <p>
-    <%= form.submit @news_item.new_record? ? I18n.t('news.submit_news') : I18n.t('news.save_news') %>
+    <%= form.submit @news_item.new_record? ? t('news.submit_news') : t('news.save_news') %>
   </p>
 <% end %>

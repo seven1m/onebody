@@ -3,7 +3,7 @@
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
   <% end %>
 <% else %>
-  <p><em><%= I18n.t('verses.no_verses_yet') %></em></p>
+  <p><em><%= t('verses.no_verses_yet') %></em></p>
 <% end %>
 
 <% if @logged_in == @person %>

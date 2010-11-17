@@ -33,7 +33,7 @@ class SearchesController < ApplicationController
         if @people.length == 1 and (params[:name] or params[:quick_name])
           redirect_to person_path(:id => @people.first)
         else
-          render :action => 'new'
+          render :action => 'create'
         end
       end
       wants.iphone do
@@ -47,30 +47,11 @@ class SearchesController < ApplicationController
         if params[:auto_complete]
           @people = @people[0..MAX_SELECT_PEOPLE]
           render :partial => 'auto_complete'
-        else
-          render :update do |page|
-            if params[:select_person]
-              @people = @people[0...MAX_SELECT_PEOPLE]
-              page.replace_html 'results', :partial => 'select_person'
-              page.show 'add_member'
-            elsif params[:select_family]
-              @families = @families.to_a[0..MAX_SELECT_FAMILIES]
-              page.replace_html 'results', :partial => 'select_family'
-              if !@families.empty?
-                page.show 'select_family_form'
-                page.hide 'no_families_found'
-              else
-                page.hide 'select_family_form'
-                page.show 'no_families_found'
-              end
-            else
-              if @people
-                page.replace_html 'results', :partial => 'results'
-              elsif @families
-                page.replace_html 'results', :partial => 'families_results'
-              end
-            end
-          end
+          # TODO indicate if there are more people not shown
+        elsif params[:select_person]
+          @people = @people[0...MAX_SELECT_PEOPLE]
+        elsif params[:select_family]
+          @families = @families.to_a[0..MAX_SELECT_FAMILIES]
         end
       end
     end

@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: friendship_requests
-#
-#  id         :integer       not null, primary key
-#  person_id  :integer
-#  from_id    :integer
-#  rejected   :boolean
-#  created_at :datetime
-#  site_id    :integer
-#
-
 class FriendshipRequest < ActiveRecord::Base
   belongs_to :person
   belongs_to :from, :class_name => 'Person', :foreign_key => 'from_id'
@@ -19,16 +7,23 @@ class FriendshipRequest < ActiveRecord::Base
 
   validates_presence_of :person_id
   validates_presence_of :from_id
-  validates_uniqueness_of :person_id, :scope => :from_id
+  validates_uniqueness_of :person_id, :scope => [:site_id, :from_id]
 
-  def validate
+  validate :validate_email_on_target
+
+  def validate_email_on_target
     errors.add(:person, :invalid_address) unless person.valid_email?
+  end
+
+  validate :validate_friends_enabled_on_target
+
+  def validate_friends_enabled_on_target
     errors.add(:person, :refused) unless person.friends_enabled
   end
 
   after_create :send_request
   def send_request
-    Notifier.deliver_friend_request(from, person)
+    Notifier.friend_request(from, person).deliver
   end
 
   def accept

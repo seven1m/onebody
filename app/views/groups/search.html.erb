@@ -1,59 +1,46 @@
-<p><%= link_to image_tag('back.gif', :alt => I18n.t('groups.back_to_homepage'), :class => 'icon') + ' ' + I18n.t('groups.back_to_homepage'), groups_path %></p>
+<% content_for :sidebar do %>
+  <p><%= link_to t('groups.back_to_homepage'), groups_path, :class => 'left-icon' %></p>
+
+  <%= render :partial => 'search' %>
+
+  <h3><%= t('groups.browse_by_category') %></h3>
+  <p><%= select_tag 'category', options_for_select(@categories, params[:category]), :include_blank => true, :onchange => "location.href='?category='+this.value" %></p>
+<% end %>
 
 <% if @groups.any? %>
-
-  <table class="iconed">
+  <table class="spaced">
     <% @groups.each do |group| %>
-      <tr>
-        <td class="icon">
-          <% if @logged_in.sees? group %><a href="<%= url_for group %>"><% end %>
-            <% if group.has_photo? %>
-              <%= image_tag small_group_photo_path(group), :alt => group.name %>
-            <% else %>
-              <%= image_tag 'group.small.jpg', :alt => group.name %>
+      <% if @logged_in.can_see?(group) %>
+        <tr>
+          <td>
+            <%= render :partial => 'thumbnail', :locals => {:group => group} %>
+          </td>
+          <td class="group">
+            <%= link_to group.name, group %>
+            <% if group.private? %>(private)<% end %>
+            <% if group.description.to_s.any? %>
+              <br/>
+              <%= group.description %>
             <% end %>
-          <% if @logged_in.sees? group %></a><% end %>
-        </td>
-        <td>
-          <span class="list-heading">
-            <%= link_to h(group.name), group %>
-            <% if group.private? %><%= image_tag('lock.gif', :alt => I18n.t('groups.private_group'), :class => 'icon') %><% end %>
-          </span>
-          <% if group.admin?(@logged_in) %>
-            <%= link_to 'edit', edit_group_path(group), :class => 'discreet' %>
-            <% if group.linked? %>
-              <%= image_tag 'link.png', :alt => group.link_code, :class => 'icon' %>
+            <% if group.leader %>
+              <br/>
+              <%= t('groups.leader') %>: <%= link_to group.leader.name, person_path(group.leader) %>
             <% end %>
-          <% end %>
-          <% if group.description.to_s.any? %>
             <br/>
-            <%=h group.description %>
-          <% end %>
-          <% if group.leader %>
-            <br/>
-            <%= I18n.t('groups.leader') %>: <%= link_to h(group.leader.name), person_path(group.leader) %>
-          <% end %>
-          <% if group.address.to_s.any? and group.can_send? @logged_in %>
-            <br/>
-            <%= I18n.t('people.email') %>: <%= mail_to u(group.full_address), h(group.full_address) %>
-          <% end %>
-          <br/>
-          <%= I18n.t('people.person', :count => group.people.count) %>
-        </td>
-      </tr>
+            <%= t('people.person', :count => group.people.count) %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </table>
-
 <% else %>
-
-  <p><em><%= I18n.t('groups.no_groups_found') %></em></p>
-
+  <p><em><%= t('groups.no_groups_found') %></em></p>
 <% end %>
 
 <% if @logged_in.admin?(:manage_groups) and @hidden_groups.any? %>
-  <h2><%= I18n.t('groups.hidden_groups') %></h2>
+  <h3><%= t('groups.hidden_groups') %></h3>
   <p>
-    <%= I18n.t('groups.only_admins_see_this_list') %>:<br/>
-    <%= @hidden_groups.map { |g| link_to(h(g.name), g) }.join(', ') %>
+    <%= t('groups.only_admins_see_this_list') %>:<br/>
+    <%= @hidden_groups.map { |g| link_to(g.name, g) }.join(', ') %>
   </p>
 <% end %>

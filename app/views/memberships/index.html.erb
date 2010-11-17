@@ -1,24 +1,83 @@
-<p><%= link_to '&laquo; ' + I18n.t('groups.back_to'), group_url(:id => @group) %></p>
+<% content_for :sidebar do %>
+  <p><%= link_to t('groups.back_to_group', :name => @group.name), @group, :class => 'left-icon' %></p>
 
-<h1><%= @group.name %></h1>
+  <h2><%= t('groups.people_in_group', :name => @group.name) %></h2>
 
-<% if @logged_in.can_edit?(@group) and @requests.any? %>
-  <h2><%= I18n.t('groups.requests') %></h2>
-  <% form_tag batch_group_memberships_path(@group) do |form| %>
-    <table>
-      <% @requests.each do |req| %>
-        <tr>
-          <td><%= check_box_tag 'ids[]', req.person.id, false, :class => 'checkbox' %></td>
-          <td><%= link_to h(req.person.name), person_url(:id => req.person) %></td>
-        </tr>
+  <% if @group.approved? %>
+    <%= form_tag search_path, :remote => true do %>
+      <%= hidden_field_tag :select_person, true %>
+      <p class="double-margin-top">
+        <label for="add_person_name"><%= t('groups.add_somebody') %>:</label>
+        <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
+        <% if @group.parents_of %>
+          <strong>Remember, this is a group automatically containing
+            parents of people in <%= link_to @group.parents_of_group.name, @group.parents_of_group %>.
+            Adding people manually should be done sparingly.
+        <% end %>
+        <%= submit_tag t('search.search_by_name') %>
+      </p>
+    <% end %>
+
+    <div id="add_member" style="display:none;">
+      <%= form_tag batch_group_memberships_path(@group), :remote => true, :id => 'add_people_form' do %>
+        <div id="results"></div>
+        <p><%= submit_tag t('search.add_selected') %></p>
       <% end %>
-    </table>
-    <p>
-      <%= I18n.t('groups.select_one_or_more') %>:<br/>
-      <input type="submit" name="commit" value="<%= I18n.t('groups.accept') %>" style="font-weight:bold;"><br/>
-      <input type="submit" name="commit" value="<%= I18n.t('groups.ignore') %>">
+    </div>
+  <% else %>
+    <p class="very-strong">
+      <%= t('groups.this_group_is_pending_you_may_not_add_people') %>
     </p>
   <% end %>
 <% end %>
 
-<%= render :partial => 'groups/people' %>
+<% if @logged_in.can_edit?(@group) and @requests.any? %>
+  <h3><%= t('groups.requests') %></h3>
+  <%= form_tag batch_group_memberships_path(@group) do |form| %>
+    <table>
+      <% @requests.each do |req| %>
+        <tr>
+          <td><%= check_box_tag 'ids[]', req.person.id, false, :class => 'checkbox' %></td>
+          <td><%= link_to req.person.name, person_url(:id => req.person) %></td>
+        </tr>
+      <% end %>
+    </table>
+    <p>
+      <%= t('groups.select_one_or_more') %>:<br/>
+      <input type="submit" name="commit" value="<%= t('groups.accept') %>" style="font-weight:bold;"><br/>
+      <input type="submit" name="commit" value="<%= t('groups.ignore') %>">
+    </p>
+  <% end %>
+<% end %>
+
+<h3 id="people-heading"><%= t('people.person', :count => @group.people.count) %></h3>
+
+<div class="heading-action">
+  <%= link_to t('groups.remove_people'), '', :class => 'delete-icon discreet', :id => 'delete-people-action' %>
+</div>
+
+<table class="members" id="memberships">
+  <% @group.memberships.all(:include => :person, :order => 'people.last_name, people.first_name').each do |membership| %>
+    <% if person = membership.person %>
+      <%= render :partial => 'person', :locals => {:person => person} %>
+    <% end %>
+  <% end %>
+</table>
+
+<% if @group.people.count == 0 %>
+  <p><em><%= t('groups.nobody_yet') %></em></p>
+<% end %>
+
+<script type="text/javascript">
+  $('#delete-people-action').toggle(function(){
+    deleting_people = true;
+    $('.delete-action').show();
+    $('#delete-people-action').html('<%= escape_javascript t('groups.done_removing_people') %>');
+    return false;
+  }, function() {
+    deleting_people = false;
+    $('.delete-action').hide();
+    $('#delete-people-action').html('<%= escape_javascript t('groups.remove_people') %>');
+    return false;
+  });
+</script>

@@ -1,8 +1,8 @@
 <% content_for :sidebar do %>
-  <%= I18n.t('admin.group_administrators_help') %>
+  <%= t('admin.group_administrators_help') %>
 <% end %>
 
-<h2><%= I18n.t('admin.group_administrators') %></h2>
+<h2><%= t('admin.group_administrators') %></h2>
 
 <table>
   <tr>
@@ -11,9 +11,9 @@
   </tr>
   <% @group_admins.each do |person, group| %>
     <tr>
-      <td><%= link_to h(person.name), person %></td>
-      <td><%= link_to h(group.name), group %></td>
-      <td><%= link_to I18n.t('edit'), edit_group_path(group) %></td>
+      <td><%= link_to person.name, person %></td>
+      <td><%= link_to group.name, group %></td>
+      <td><%= link_to t('edit'), edit_group_path(group) %></td>
     </tr>
   <% end %>
 </table>

@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: feeds
-#
-#  id          :integer       not null, primary key
-#  person_id   :integer
-#  name        :string(100)
-#  url         :string(1000)
-#  site_id     :integer
-#  error_count :integer       default(0)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  last_url    :string(1000)
-#
-
 class Feed < ActiveRecord::Base
   belongs_to :person
 
@@ -21,8 +6,8 @@ class Feed < ActiveRecord::Base
   attr_accessible :name, :url
 
   validates_presence_of :person_id, :url, :name
-  validates_uniqueness_of :name, :scope => :person_id
-  validates_uniqueness_of :url, :scope => :person_id
+  validates_uniqueness_of :name, :scope => [:site_id, :person_id]
+  validates_uniqueness_of :url, :scope => [:site_id, :person_id]
   validates_format_of :url, :with => /^https?\:\/\/.+/
 
   before_save :transform_url
@@ -100,7 +85,7 @@ class Feed < ActiveRecord::Base
         end
         if res.is_a?(Net::HTTPOK)
           picture.photo = StringIO.new(res.body)
-          unless picture.has_photo?
+          unless picture.photo.exists?
             picture.destroy
           end
         else

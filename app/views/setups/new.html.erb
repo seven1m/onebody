@@ -14,36 +14,36 @@
   }
 </script>
 
-<h1><%= I18n.t('setup.heading') %></h1>
+<h1><%= t('setup.heading') %></h1>
 
 <% if @error %>
-  <p class="very-strong"><%=h @error %></p>
+  <p class="very-strong"><%= @error %></p>
 <% end %>
 
-<% form_for @person, :url => setup_path, :html => {:method => 'POST', :onsubmit => "return encrypt_passwords()"} do |form| %>
+<%= form_for @person, :url => setup_path, :html => {:method => 'POST', :onsubmit => "return encrypt_passwords()"} do |form| %>
   <%= hidden_field_tag :encrypted_password %>
   <%= hidden_field_tag :encrypted_password_confirmation %>
 
-  <p><%= I18n.t('setup.congratulations') %></p>
+  <p><%= t('setup.congratulations') %></p>
 
-  <p class="very-strong"><%= I18n.t('setup.do_right_away') %></p>
+  <p class="very-strong"><%= t('setup.do_right_away') %></p>
 
-  <%= form.error_messages %>
+  <%= error_messages_for(form) %>
 
   <p>
-    <label for="domain_name"><%= I18n.t('setup.domain_name') %>:</label>
+    <label for="domain_name"><%= t('setup.domain_name') %>:</label>
     <%= text_field_tag 'domain_name', Site.current.host %><br/>
-    <em><%= I18n.t('setup.domain_name_note') %></em>
+    <em><%= t('setup.domain_name_note') %></em>
   </p>
 
-  <h2><%= I18n.t('setup.admin_account') %></h2>
-  <p><%= I18n.t('setup.more_accounts_later') %></p>
-  <p><label><%= I18n.t('accounts.first_name') %>:</label><%= form.text_field :first_name %></p>
-  <p><label><%= I18n.t('accounts.last_name') %>:</label><%= form.text_field :last_name %></p>
-  <p><label><%= I18n.t('session.email_address') %></label><%= form.text_field :email %><br/><em><%= I18n.t('setup.email_note') %></em></p>
-  <p><label><%= I18n.t('session.password') %></label><%= password_field_tag 'password' %></p>
-  <p><label><%= I18n.t('session.password_confirm') %></label><%= password_field_tag 'password_confirmation' %></p>
+  <h2><%= t('setup.admin_account') %></h2>
+  <p><%= t('setup.more_accounts_later') %></p>
+  <p><label><%= t('accounts.first_name') %>:</label><%= form.text_field :first_name %></p>
+  <p><label><%= t('accounts.last_name') %>:</label><%= form.text_field :last_name %></p>
+  <p><label><%= t('session.email_address') %></label><%= form.text_field :email %><br/><em><%= t('setup.email_note') %></em></p>
+  <p><label><%= t('session.password') %></label><%= password_field_tag 'password' %></p>
+  <p><label><%= t('session.password_confirm') %></label><%= password_field_tag 'password_confirmation' %></p>
 
-  <p style="margin-top:25px;"><%= submit_tag I18n.t('save_changes') %></p>
+  <p style="margin-top:25px;"><%= submit_tag t('save_changes') %></p>
 
 <% end %>

@@ -1,22 +1,3 @@
-# == Schema Information
-#
-# Table name: pages
-#
-#  id         :integer       not null, primary key
-#  slug       :string(255)
-#  title      :string(255)
-#  body       :text
-#  parent_id  :integer
-#  path       :string(255)
-#  published  :boolean       default(TRUE)
-#  site_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  navigation :boolean       default(TRUE)
-#  system     :boolean
-#  raw        :boolean       default(FALSE)
-#
-
 class Page < ActiveRecord::Base
 
   UNPUBLISHED_PAGES = %w(sign_up_header sign_up_verify)
@@ -32,7 +13,7 @@ class Page < ActiveRecord::Base
   attr_accessible :slug, :title, :body, :parent_id, :parent, :path, :published, :navigation, :raw
 
   validates_presence_of :slug, :title, :body
-  validates_uniqueness_of :path
+  validates_uniqueness_of :path, :scope => :site_id
   validates_exclusion_of :slug, :in => %w(admin edit new)
   validates_format_of :slug, :with => /^[a-z][a-z_]*$/
 
@@ -81,7 +62,7 @@ class Page < ActiveRecord::Base
 
   def cannot_destroy_system_page
     if system?
-      errors.add_to_base('Cannot delete system pages.')
+      errors.add(:base, 'Cannot delete system pages.')
       return false
     end
   end
@@ -90,7 +71,7 @@ class Page < ActiveRecord::Base
 
     def find(id, *args)
       if id.is_a?(String) and id !~ /^\d+$/
-        returning find_by_path(id) do |page|
+        find_by_path(id).tap do |page|
           raise ActiveRecord::RecordNotFound unless page
         end
       else

@@ -1,12 +1,13 @@
 class FamilySweeper < ActionController::Caching::Sweeper
   observe Family
 
-  def after_save(record)
+  def expire_group_members(record)
     record.people.each do |person|
-      expire_fragment(%r{views/people/#{record.id}_})
+      PersonSweeper.instance.expire_group_members(person)
     end
   end
 
-  alias_method :after_destroy, :after_save
+  def after_save(record);    expire_group_members(record); end
+  def after_destroy(record); expire_group_members(record); end
 
 end

@@ -69,7 +69,7 @@ class PersonTest < ActiveSupport::TestCase
       @person2 = Person.forge
       @person2.email = @person.email
       @person2.save
-      assert @person2.errors.on(:email)
+      assert @person2.errors[:email]
     end
 
   end
@@ -292,12 +292,40 @@ class PersonTest < ActiveSupport::TestCase
 
   end
 
+  context 'Stream' do
+
+    setup do
+      @person = Person.forge
+      @friend = Person.forge
+      StreamItem.delete_all # clear fixtures
+      @pic = @person.forge(:pictures)
+    end
+
+    should 'eager load commenters on stream items' do
+      @pic.comments.create!(:person => @friend)
+      stream_item = StreamItem.find_by_streamable_type_and_streamable_id('Album', @pic.album_id)
+      received = @person.shared_stream_items
+      assert_equal 1, received.length
+      assert_equal stream_item.id, received.first.id
+      assert_equal @friend.id, received.first.context['comments'].first['person'].id
+    end
+
+    should 'be show thumbnail for eager loaded commenters' do
+      @friend.photo = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
+      @friend.save
+      @pic.comments.create!(:person => @friend)
+      received = @person.shared_stream_items.first
+      assert_match %r{#{@person.photo_fingerprint}\.jpg}, received.context['comments'].first['person'].photo.url
+    end
+
+  end
+
   should "not allow child and birthday to both be unspecified" do
     @person = Person.forge
     @person.birthday = nil
     @person.child = nil
     @person.save
-    assert @person.errors.on(:child)
+    assert @person.errors[:child]
   end
 
   should "select a proper sequence within the family if none is specified" do
@@ -360,10 +388,17 @@ class PersonTest < ActiveSupport::TestCase
     assert @person4.super_admin?
   end
 
+  should "properly translate validation errors" do
+    @person = Person.forge
+    assert !@person.update_attributes(:website => 'bad/address')
+    assert_equal [I18n.t('activerecord.errors.models.person.attributes.website.invalid')],
+      @person.errors.full_messages
+  end
+
   private
 
     def partial_fixture(table, name, valid_attributes)
-      returning YAML::load(File.open(File.join(RAILS_ROOT, "test/fixtures/#{table}.yml")))[name] do |fixture|
+      YAML::load(File.open(Rails.root.join("test/fixtures/#{table}.yml")))[name].tap do |fixture|
         fixture.delete_if { |key, val| !valid_attributes.include? key }
         fixture.each do |key, val|
           fixture[key] = val.to_s

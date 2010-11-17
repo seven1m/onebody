@@ -1,11 +1,9 @@
-# Filters added to this controller will be run for all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
-  include ExceptionNotifiable
+  #protect_from_forgery
 
-  cache_sweeper :stream_item_sweeper, :only => %w(create update destroy)
+  LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/*)
 
-  layout 'default.html'
+  layout 'default'
 
   before_filter :get_site
   before_filter :feature_enabled?
@@ -27,7 +25,7 @@ class ApplicationController < ActionController::Base
       elsif Setting.get(:features, :multisite)
         Site.current = Site.find_by_host_and_active(request.host, true)
       else
-        Site.current = Site.find(1) or raise I18n.t('application.no_default_site')
+        Site.current = Site.find(1) or raise t('application.no_default_site')
       end
       if Site.current
         if Site.current.settings_changed_at and SETTINGS['timestamp'] < Site.current.settings_changed_at
@@ -46,20 +44,22 @@ class ApplicationController < ActionController::Base
         redirect_to request.url.sub(/^(https?:\/\/)www\./, '\1')
         return false
       else
-        render :text => I18n.t('application.no_site_configured', :host => request.host), :status => 404
+        render :text => t('application.no_site_configured', :host => request.host), :status => 404
         return false
       end
     end
 
     def update_view_paths
-      if (theme_name = get_theme_name) == 'custom'
+      theme_name = get_theme_name
+      if theme_name == 'custom'
         theme_name = "custom/site#{Site.current.id}"
       end
-      theme_dirs = [File.join(RAILS_ROOT, 'themes', theme_name)]
+      theme_dirs = [Rails.root.join('themes', theme_name)]
       if defined?(DEPLOY_THEME_DIR)
         theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
       end
-      self.view_paths = ActionView::PathSet.new(theme_dirs + ActionController::Base.view_paths)
+      prepend_view_path(theme_dirs)
+      @view_paths = lookup_context.view_paths
     end
 
     def set_locale
@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
     end
 
     def set_local_formats
-      ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+      Time::DATE_FORMATS.merge!(
         :default           => Setting.get(:formats, :full_date_and_time),
         :date              => Setting.get(:formats, :date),
         :time              => Setting.get(:formats, :time),
@@ -87,11 +87,12 @@ class ApplicationController < ActionController::Base
     end
 
     def get_theme_name
-      if params[:theme] and params[:theme] =~ /^[a-z0-9_]+$/
-        params[:theme]
-      else
-        Setting.get(:appearance, :theme)
-      end
+      'clean'
+      #if params[:theme] and params[:theme] =~ /^[a-z0-9_]+$/
+        #params[:theme]
+      #else
+        #Setting.get(:appearance, :theme)
+      #end
     end
 
     # used by some anonymous controller actions to see if someone is logged in
@@ -119,13 +120,14 @@ class ApplicationController < ActionController::Base
           return false
         end
         Person.logged_in = @logged_in = person
+        check_full_access
         if Site.current.id != @logged_in.site_id
           session[:logged_in_id] = nil
           redirect_to new_session_path
           return false
         end
       else
-        redirect_to new_session_path(:from => request.request_uri)
+        redirect_to new_session_path(:from => request.fullpath)
         return false
       end
     end
@@ -180,13 +182,23 @@ class ApplicationController < ActionController::Base
           self.class.layout 'iphone.html'
         end
       else
-        self.class.layout 'default.html'
+        self.class.layout 'default'
+      end
+    end
+
+    def check_full_access
+      if @logged_in and !@logged_in.full_access?
+        unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") or \
+               LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
+          render :text => t('people.limited_access_denied'), :layout => true, :status => 401
+          return false
+        end
       end
     end
 
     def rescue_action_with_page_detection(exception)
       get_site
-      path, args = request.request_uri.downcase.split('?')
+      path, args = request.fullpath.downcase.split('?')
       if exception.is_a?(ActionController::RoutingError) and @page = Page.find_by_path(path)
         redirect_to '/pages/' + @page.path + (args ? "?#{args}" : '')
       else
@@ -218,7 +230,7 @@ class ApplicationController < ActionController::Base
 
     def only_admins
       unless @logged_in.admin?
-        render :text => I18n.t('only_admins'), :layout => true, :status => 401
+        render :text => t('only_admins'), :layout => true, :status => 401
         return false
       end
     end
@@ -232,3 +244,4 @@ class ApplicationController < ActionController::Base
     end
 
 end
+

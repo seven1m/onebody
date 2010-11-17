@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+LESSC = File.dirname(__FILE__) + "/../vendor/cloudhead-less.js/bin/lessc"
+
+require 'fileutils'
+
+STYLESHEETS_PATH = File.join(File.dirname(__FILE__), '../public/stylesheets')
+
+old_times = {}
+files = Dir[File.join(STYLESHEETS_PATH, '/**/*.less')].to_a
+loop do
+  files.each do |file|
+    new_time = File.stat(file).mtime.to_f rescue 0
+    if old_times[file].nil? or new_time > old_times[file]
+      old_times[file] = new_time
+      system("#{LESSC} #{file} > #{file.sub(/\.less$/, '.css')}")
+      if File.exist?(all = File.join(STYLESHEETS_PATH, 'all.css'))
+        FileUtils.rm(all)
+      end
+      puts "#{file} changed"
+    end
+  end
+  sleep 1
+end

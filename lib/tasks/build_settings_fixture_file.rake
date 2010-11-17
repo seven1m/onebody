@@ -15,7 +15,7 @@ namespace :onebody do
       end
     end
 
-    File.open(RAILS_ROOT + '/test/fixtures/settings.yml', 'w') do |file|
+    File.open(Rails.root.join('test/fixtures/settings.yml'), 'w') do |file|
       YAML::dump(flat_settings, file)
     end
   end

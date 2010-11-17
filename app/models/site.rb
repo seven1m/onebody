@@ -1,25 +1,3 @@
-# == Schema Information
-#
-# Table name: sites
-#
-#  id                    :integer       not null, primary key
-#  name                  :string(255)
-#  host                  :string(255)
-#  created_at            :datetime
-#  updated_at            :datetime
-#  secondary_host        :string(255)
-#  max_admins            :integer
-#  max_people            :integer
-#  max_groups            :integer
-#  import_export_enabled :boolean       default(TRUE)
-#  pages_enabled         :boolean       default(TRUE)
-#  pictures_enabled      :boolean       default(TRUE)
-#  publications_enabled  :boolean       default(TRUE)
-#  active                :boolean       default(TRUE)
-#  twitter_enabled       :boolean
-#  external_guid         :string(255)   default("0")
-#
-
 class Site < ActiveRecord::Base
 
   class << self
@@ -39,6 +17,19 @@ class Site < ActiveRecord::Base
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
   validates_exclusion_of :host, :in => %w(admin api home onebody)
+
+  has_attached_file :logo,
+    :path          => ":rails_root/public/system/:rails_env/:class/:attachment/:id/:style/:fingerprint.:extension",
+    :url           => "/system/:rails_env/:class/:attachment/:id/:style/:fingerprint.:extension",
+    :styles        => {
+      :tn          => '32x32#',
+      :small       => '75x75>',
+      :medium      => '150x150>',
+      :layout      => '300x80>',
+      :large       => '400x400>',
+      :original    => '800x800>'
+    },
+    :default_url   => "/images/missing_:style.png"
 
   def default?
     id == 1
@@ -85,31 +76,26 @@ class Site < ActiveRecord::Base
 
   def add_pages
     return unless Page.table_exists?
-    Page.without_global_scope do
-      Dir["#{Rails.root}/db/pages/**/index.html"].each do |filename|
-        html = File.read(filename)
-        path, filename = filename.split('pages/').last.split('/')
-        pub = nav = path != 'system'
-        unless self.pages.find_by_path(path)
-          self.pages.create!(:slug => path, :title => path.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
-        end
+    Dir["#{Rails.root}/db/pages/**/index.html"].each do |filename|
+      html = File.read(filename)
+      path, filename = filename.split('pages/').last.split('/')
+      pub = nav = path != 'system'
+      unless Page.find_by_path(path)
+        Page.create!(:slug => path, :title => path.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
       end
-      Dir["#{Rails.root}/db/pages/**/*.html"].each do |filename|
-        next if filename =~ /index\.html$/
-        html = File.read(filename)
-        path, filename = filename.split('pages/').last.split('/')
-        slug = filename.split('.').first
-        nav = path != 'system'
-        pub = !Page::UNPUBLISHED_PAGES.include?(slug)
-        parent = self.pages.find_by_path(path)
-        unless parent.children.find_by_slug(slug)
-          page = parent.children.build(:slug => slug, :title => slug.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
-          page.site_id = self.id
-          page.save!
-        end
-      end
-      unless self.pages.find_by_path('home')
-        self.pages.create!(:slug => 'home', :title => 'Home', :body => 'Congratulations! OneBody is up and running.', :system => true)
+    end
+    Dir["#{Rails.root}/db/pages/**/*.html"].each do |filename|
+      next if filename =~ /index\.html$/
+      html = File.read(filename)
+      path, filename = filename.split('pages/').last.split('/')
+      slug = filename.split('.').first
+      nav = path != 'system'
+      pub = !Page::UNPUBLISHED_PAGES.include?(slug)
+      parent = Page.find_by_path(path)
+      unless parent.children.find_by_slug(slug)
+        page = parent.children.build(:slug => slug, :title => slug.titleize, :body => html, :system => true, :navigation => nav, :published => pub)
+        page.site_id = self.id
+        page.save!
       end
     end
   end
@@ -118,7 +104,7 @@ class Site < ActiveRecord::Base
     was = Site.current
     Site.current = self
     group = Group.new(:name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true)
-    group.save(false)
+    group.save(:validate => false)
     Site.current = was
   end
 

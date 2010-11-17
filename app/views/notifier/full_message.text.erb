@@ -1,0 +1,8 @@
+<%=raw @msg.introduction(@to) -%>
+<%=raw @msg.body %>
+- - - - - - - - - - - - - - - - - - - - - - - -
+<%=raw @msg.reply_instructions(@to) -%>
+<%=raw @msg.disable_email_instructions(@to) -%>
+<% if @id_and_code %>
+<%=raw t('notifier.message_id') %>: <%= @id_and_code -%>
+<% end -%>

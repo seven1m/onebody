@@ -1,23 +1,3 @@
-# == Schema Information
-#
-# Table name: attendance_records
-#
-#  id             :integer       not null, primary key
-#  site_id        :integer
-#  person_id      :integer
-#  group_id       :integer
-#  attended_at    :datetime
-#  created_at     :datetime
-#  updated_at     :datetime
-#  first_name     :string(255)
-#  last_name      :string(255)
-#  family_name    :string(255)
-#  age            :string(255)
-#  can_pick_up    :string(100)
-#  cannot_pick_up :string(100)
-#  medical_notes  :string(200)
-#
-
 class AttendanceRecord < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
@@ -46,7 +26,7 @@ class AttendanceRecord < ActiveRecord::Base
   end
 
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-    returning([]) do |data|
+    [].tap do |data|
       counts = connection.select_all("select count(date(attended_at)) as count, date(attended_at) as date from attendance_records where site_id=#{Site.current.id} group by date(attended_at) order by attended_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
       ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
         d = date.strftime(date_strftime)

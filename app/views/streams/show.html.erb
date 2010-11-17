@@ -1,100 +1,93 @@
 <% content_for :head do %>
-  <link rel="alternate" type="application/atom+xml" title='<%= I18n.t("stream.feed") %>' href="<%= url_for stream_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+  <link rel="alternate" type="application/atom+xml" title='<%= t("stream.feed") %>' href="<%= url_for stream_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
 <% end %>
 
 <% content_for :subnav do %>
-  <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => I18n.t('pictures.all_pictures'),     :class => 'icon') + ' ' + I18n.t('pictures.all_pictures'),     albums_path       %></li><% end %>
-  <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => I18n.t('verses.all_verses'),       :class => 'icon') + ' ' + I18n.t('verses.all_verses'),       verses_path       %></li><% end %>
-  <% if Setting.get(:features, :recipes     ) %><li><%= link_to image_tag('recipe.png',    :alt => I18n.t('recipes.all_recipes'),      :class => 'icon') + ' ' + I18n.t('recipes.all_recipes'),      recipes_path      %></li><% end %>
-  <% if Setting.get(:features, :news_page   ) %><li><%= link_to image_tag('newspaper.png', :alt => I18n.t('news.all_news'),  :class => 'icon') + ' ' + I18n.t('news.all_news'),  news_path         %></li><% end %>
-  <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => I18n.t('publications.all_publications'), :class => 'icon') + ' ' + I18n.t('publications.all_publications'), publications_path %></li><% end %>
+  <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => t('pictures.all_pictures'),         :class => 'icon') + ' ' + t('pictures.all_pictures'),         albums_path       %></li><% end %>
+  <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => t('verses.all_verses'),             :class => 'icon') + ' ' + t('verses.all_verses'),             verses_path       %></li><% end %>
+  <% if Setting.get(:features, :recipes     ) %><li><%= link_to image_tag('recipe.png',    :alt => t('recipes.all_recipes'),           :class => 'icon') + ' ' + t('recipes.all_recipes'),           recipes_path      %></li><% end %>
+  <% if Setting.get(:features, :news_page   ) %><li><%= link_to image_tag('newspaper.png', :alt => t('news.all_news'),                 :class => 'icon') + ' ' + t('news.all_news'),                 news_path         %></li><% end %>
+  <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => t('publications.all_publications'), :class => 'icon') + ' ' + t('publications.all_publications'), publications_path %></li><% end %>
 <% end %>
 
-<div style="width:200px;float:right;">
-  <%= render :partial => 'people/photo', :locals => {:url => @person} %>
-  <h1><%=h @person.name %></h1>
-  <p>
-    <% if @person.share_home_phone?   and @person.home_phone.to_s.any?            %><%= format_phone @person.home_phone            %> <%= I18n.t('profile.home') %>  <br/><% end %>
-    <% if @person.share_mobile_phone? and @person.mobile_phone.to_s.any?          %><%= format_phone @person.mobile_phone          %> <%= I18n.t('profile.mobile') %><br/><% end %>
-    <% if @person.share_work_phone?   and @person.work_phone.to_s.any?            %><%= format_phone @person.work_phone            %> <%= I18n.t('profile.work') %>  <br/><% end %>
-    <% if @person.share_fax?          and @person.fax.to_s.any?                   %><%= format_phone @person.fax                   %> <%= I18n.t('profile.fax') %>   <br/><% end %>
-    <% if @person.share_address?      and @person.family.pretty_address.to_s.any? %><%= preserve_breaks @person.family.pretty_address %>    <br/><% end %>
-  </p>
-
-  <table class="cells-centered" style="margin-top:20px;">
-    <tr>
-      <td class="graphic" style="padding-bottom:20px;">
-        <%= link_to_function image_tag('add.png', :alt => I18n.t("stream.share_something"), :class => 'icon'),
-          "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
-      </td>
-      <td style="padding-bottom:20px;">
-        <%= link_to_function I18n.t("stream.share_something").sub(/\s/, '<br/>'), "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
-      </td>
-    </tr>
-    <tr>
-      <td class="graphic">
-        <%= link_to image_tag('feed.gif', :alt => I18n.t('stream.feed'), :class => 'icon'), stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
-      </td>
-      <td>
-        <%= link_to I18n.t('stream.feed'), stream_path(:format => 'xml', :code => @logged_in.feed_code) %>
-      </td>
-    </tr>
-  </table>
-  
-  <h2><%= I18n.t("stream.import_from") %></h2>
-  <p style="padding-left:10px;">
-    <%= link_to image_tag('twitter.png', :alt => I18n.t("stream.import_twitter_updates"), :class => 'icon') + ' ' + I18n.t("stream.twitter"), new_person_feed_path(@logged_in, :type => 'twitter'), :style => 'text-decoration:none;' %><br/>
-    <%= link_to image_tag('flickr.png', :alt => I18n.t("stream.import_flickr_photos"), :class => 'icon') + ' ' + I18n.t("stream.flickr"), new_person_feed_path(@logged_in, :type => 'flickr'), :style => 'text-decoration:none;' %><br/>
-    <%= link_to image_tag('rss.png', :alt => I18n.t("stream.import_blog_feed"), :class => 'icon') + ' ' + I18n.t("stream.blog"), new_person_feed_path(@logged_in, :type => 'rss'), :style => 'text-decoration:none;' %><br/>
-  </p>
-  
-  <div id="stream-display-options">
-    <h2><%= I18n.t('stream.show') %></h2>
-    <ul style="padding-left:10px;">
-      <% if Setting.get(:features, :notes       ) %><li><%= stream_type_checkmark(I18n.t('notes.notes'),        'note'       ) %></li><% end %>
-      <% if Setting.get(:features, :pictures    ) %><li><%= stream_type_checkmark(I18n.t('pictures.pictures'),     'album'      ) %></li><% end %>
-      <% if Setting.get(:features, :verses      ) %><li><%= stream_type_checkmark(I18n.t('verses.verses'),       'verse'      ) %></li><% end %>
-      <% if Setting.get(:features, :recipes     ) %><li><%= stream_type_checkmark(I18n.t('recipes.recipes'),      'recipe'     ) %></li><% end %>
-      <% if Setting.get(:features, :news_page   ) %><li><%= stream_type_checkmark(I18n.t('news.news'),         'news_item'  ) %></li><% end %>
-      <% if Setting.get(:features, :publications) %><li><%= stream_type_checkmark(I18n.t('publications.publications'), 'publication') %></li><% end %>
-      <li><%= stream_type_checkmark(I18n.t('prayer.prayer_requests'), 'prayer_request') %></li>
-      <li><%= stream_type_checkmark(I18n.t('messages.messages'), 'message') %></li>
-      <li><%= stream_type_checkmark(I18n.t("stream.my_activity"), 'mine') %></li>
-    </ul>
-  </div>
-</div>
-
-<% if @has_friendship_requests %>
-  <div class="highlight">
-    <%= image_tag('user_add.png', :alt => I18n.t('friends.friends'), :class => 'icon') %>
-    <%= I18n.t('friends.you_have_pending_requests', :url => person_friends_path(@person)) %>
-  </div>
+<% cache(:fragment => 'friendship_requests', :for => @logged_in.id) do %>
+  <% if @has_friendship_requests %>
+    <div class="highlight">
+      <%= image_tag('user_add.png', :alt => t('friends.friends'), :class => 'icon') %>
+      <%= t('friends.you_have_pending_requests_html', :url => person_friends_path(@person)) %>
+    </div>
+  <% end %>
 <% end %>
 
-<div style="display:none;margin:0 250px 25px 25px;" id="share">
-  <%= render :partial => 'share' %>
-</div>
+<% content_for :sidebar do %>
+  <h2><%= t('stream.about_heading') %></h2>
+  <p><%= t('stream.about_html') %></p>
+  <% if Setting.get(:features, :notes) or Setting.get(:features, :pictures) or Setting.get(:features, :verses) %>
+    <h3 class="double-margin-top"><%= t('stream.share_heading') %></h3>
+    <p><%= t('stream.share_something_about') %></p>
+    <div class="share">
+      <%= text_field_tag 'share-starter', '', :placeholder => t('share.profile') %>
+      <ul class="share-details share-selector" style="display:none;">
+        <% if Setting.get(:features, :notes) %>
+          <li><%= link_to_function t('share.note'), "selectShare('share-note')", :class => 'comment2-icon', :id => 'share-note-icon' %></li>
+        <% end %>
+        <% if Setting.get(:features, :pictures) %>
+          <li><%= link_to_function t('share.picture'), "selectShare('share-picture')", :class => 'picture-icon', :id => 'share-picture-icon' %></li>
+        <% end %>
+        <% if Setting.get(:features, :verses) %>
+          <li><%= link_to_function t('share.verse'), "selectShare('share-verse')", :class => 'verse-icon', :id => 'share-verse-icon' %></li>
+        <% end %>
+        <li class="cancel-link"><%= link_to_function '', 'hideShare()', :class =>  'delete-icon' %></li>
+      </ul>
+      <% if Setting.get(:features, :notes) %>
+        <%= form_for Note.new, :html => {:id => 'share-note', :class => 'share-type'} do |form| %>
+          <%= hidden_field_tag :redirect_to, stream_path %>
+          <span class="small"><%= t('share.note_label') %></span><br/>
+          <%= form.text_area :body, :rows => 2 %><br/>
+          <%= submit_tag t('share.share') %>
+        <% end %>
+      <% end %>
+      <% if Setting.get(:features, :pictures) %>
+        <%= form_for Picture.new, :html => {:multipart => true, :id => 'share-picture', :class => 'share-type'} do |form| %>
+          <%= file_field_tag 'pictures[]', :multiple => true %><br/>
+          <%= text_field_tag 'album', '', :size => 10, :placeholder => t('share.default_album_name') %><br/>
+          <%= submit_tag t('share.share') %>
+        <% end %>
+      <% end %>
+      <% if Setting.get(:features, :verses) %>
+        <%= form_for Verse.new, :html => {:id => 'share-verse', :class => 'share-type'} do |form| %>
+          <span class="small"><%= t('share.verse_label') %></span><br/>
+          <%= form.text_field :id, :size => 15 %><br/>
+          <%= submit_tag t('share.share') %>
+        <% end %>
+      <% end %>
+    </div>
+    <script type="text/javascript">
+      $('#album').autocomplete({source: <%= raw @album_names.inspect %>});
+      function selectShare(share) {
+        $('.share-type').hide();
+        $('#'+share).show();
+        $('#'+share+' :input[type!="hidden"]')[0].focus();
+        $('.share-selector a').removeClass('active');
+        $('#'+share+'-icon').addClass('active');
+      }
+      function showShare() {
+        $('.share-details').show();
+        $('#share-starter').hide();
+        var first = $('.share .share-type:first').attr('id');
+        selectShare(first);
+      }
+      function hideShare() {
+        $('.share-type, .share-details').hide();
+        $('#share-starter').show();
+      }
+      $('#share-starter').bind('focus', showShare);
+    </script>
+  <% end %>
+<% end %>
 
-<div style="margin-right:250px;padding-left:25px;">
-  <p style="margin-bottom:20px;" id="share-something">
-    <%= link_to_function image_tag('add_small.gif', :alt => I18n.t('stream.share_something'), :class => 'icon'),
-      "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');" %>
-    <%= I18n.t('stream.share_something_here', :js => "new Effect.Appear('share'); location.hash = 'note'; Element.hide('share-something');") %>
-  </p>
-  <%= render :partial => 'stream_items' %>
-</div>
-
-<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= person_albums_path(@logged_in.id) %>'; </script>
-<%= javascript_include_tag 'load_albums.js' %> <%# do not move this line below the style block below #%>
-<%= javascript_include_tag 'stream.js' %> <%# do not move this line below the style block below #%>
-
-<style type="text/css">
-  /* show all in case browser has scripting disabled */
-  .stream-item { display: block; }
-</style>
-
-<%= stylesheet_link_tag 'tabs.css' %>
-<%= javascript_include_tag 'tabs.js' %>
-<script type="text/javascript"> set_up_tabs(); </script>
-
-<% if session[:touring] %><%= tour_popup('Home Tab', '/pages/help/tour_home', 450, 'right') %><% end %>
+<% cache(:fragment => 'stream_items', :for => @logged_in.id) do %>
+  <div class="stream-items">
+    <%= render :partial => 'stream_items' %>
+  </div>
+<% end %>

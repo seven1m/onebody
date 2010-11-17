@@ -1,35 +1,22 @@
-# == Schema Information
-#
-# Table name: publications
-#
-#  id          :integer       not null, primary key
-#  name        :string(255)
-#  description :text
-#  created_at  :datetime
-#  file        :string(255)
-#  updated_at  :datetime
-#  site_id     :integer
-#  person_id   :integer
-#
-
 class Publication < ActiveRecord::Base
   belongs_to :person
   belongs_to :site
 
   scope_by_site_id
 
-  attr_accessible :name, :description
+  attr_accessible :name, :description, :file
 
-  has_one_file :path => DB_PUBLICATIONS_PATH
+  has_attached_file :file, PAPERCLIP_FILE_OPTIONS
   acts_as_logger LogItem
 
   validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :site_id
+  validates_attachment_size :file, :less_than => PAPERCLIP_FILE_MAX_SIZE
 
   def pseudo_file_name
     filename = name.scan(/[a-z0-9]/i).join
     filename = id.to_s if filename.empty?
-    filename + '.' + file_name.split('.').last
+    filename + '.' + file.path.split('.').last
   end
 
   after_create :create_as_stream_item

@@ -1,12 +1,7 @@
-<% content_for :subnav do %>
-  <% if @group %>
-    <li><%= link_to image_tag('group.png', :alt => I18n.t('group'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@group.name), @group %></li>
-  <% elsif @person %>
-    <li><%= link_to image_tag('user.png', :alt => I18n.t('person'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@person.name), @person %></li>
-  <% end %>
-  <li><%= link_to image_tag('plus.png', :alt => I18n.t('albums.new'), :class => 'icon') + ' ' + I18n.t('albums.new'), @group ? new_group_album_path(@group) : new_album_path %></li>
+<% content_for :sidebar do %>
+  <p><%= link_to t('albums.new'), new_album_path, :class => 'add-icon' %></p>
 <% end %>
 
-<h1><%= I18n.t('albums.picture_albums') %></h1>
+<h2><%= t('albums.picture_albums') %></h2>
 
 <%= render :partial => 'albums' %>

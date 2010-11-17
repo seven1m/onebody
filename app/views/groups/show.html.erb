@@ -1,198 +1,160 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => I18n.t('groups.all_groups'), :class => 'icon') + ' ' + I18n.t('groups.all_groups'), groups_path %></li>
-  <% if @logged_in.can_edit?(@group) %>
-    <li><%= link_to image_tag('pencil.png', :alt => I18n.t('groups.edit_group'), :class => 'icon') + ' ' + I18n.t('groups.edit_group'), edit_group_path(@group) %></li>
-    <% if @group.attendance? %>
-      <li><%= link_to image_tag('checkmark.png', :alt => I18n.t('groups.attendance'), :class => 'icon') + ' ' + I18n.t('groups.attendance'), group_attendance_index_path(@group) %></li>
-    <% end %>
-    <% if not @group.approved? and @logged_in.admin?(:manage_groups) %>
-      <li><%= link_to image_tag('thumb_up.png', :alt => I18n.t('groups.approve_group'), :class => 'icon') + ' ' + I18n.t('groups.approve_group'), group_path(@group, :group => {:approved => true}), :confirm => I18n.t('are_you_sure'), :method => 'put', :class => 'very-strong' %></li>
-    <% end %>
-  <% end %>
-  <% if @member_of %>
-    <li><%= link_to image_tag('lock.png', :alt => I18n.t('privacies.group_privacy'), :class => 'icon') + ' ' + I18n.t('privacies.group_privacy'), group_membership_privacy_path(@group, @member_of) %></li>
-  <% end %>
-<% end %>
+<%= render :partial => 'menu' %>
 
 <% content_for :sidebar do %>
+
   <%= render :partial => 'photo' %>
-  
-  <h1>
-    <%=h @group.name %>
-  </h1>
-  <p><%= I18n.t('groups.category') %>: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
-  <% if @group.leader %>
-    <p><%= I18n.t('groups.leader') %>: <%= link_to h(@group.leader.name), @group.leader %></p>
+
+  <h2><%= @group.name %></h2>
+
+  <% if @group.description.to_s.any? %>
+    <p><%= @group.description %></p>
   <% end %>
-  
-  <% if @group.linked? or @group.parents_of %>
-    <p><em><%= I18n.t('groups.this_group_maintained_by_staff') %></em></p>
-  <% elsif not @group.approved %>
-    <p class="very-strong"><%= I18n.t('groups.this_group_is_pending_approval') %></p>
-  <% else %>
-    <% if @group.membership_requests.count('*', :conditions => ['person_id = ?', @logged_in.id]) > 0 %>
-      <p class="very-strong"><%= I18n.t('groups.you_requested_join_this_group') %></p>
-    <% elsif not @member_of %>
-      <p><%= link_to I18n.t('groups.join_this_group'), group_memberships_path(@group, :id => @logged_in), :method => 'post', :confirm => @group.admin?(@logged_in) ? I18n.t('are_you_sure') : I18n.t('groups.request_will_be_sent_to_admins') %></p>
-    <% elsif not @group.last_admin?(@logged_in) %>
-      <p><%= link_to I18n.t('groups.leave_this_group'), group_membership_path(@group, @logged_in), :method => 'delete', :confirm => I18n.t('are_you_sure') %></p>
+
+  <% if @group.meets.to_s.any? %>
+    <p><%= @group.meets %></p>
+  <% end %>
+
+  <% if @group.location.to_s.any? %>
+    <p><%= @group.location %></p>
+  <% end %>
+
+  <% cache(:fragment => 'members') do %>
+    <h3><%= t('groups.members') %></h3>
+    <% @members.each do |member| %>
+      <% content_tag :a, :href => person_path(member) do %>
+        <%= render :partial => 'people/thumbnail', :locals => {:person => member} %>
+      <% end %>
+    <% end %>
+    <% if @members.empty? %>
+      <p><em><%= t('groups.nobody_yet') %></em></p>
     <% end %>
   <% end %>
-  
-  <%= render :partial => 'people' %>
-<% end %>
 
-<% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
-
-<% if @group.admin?(@logged_in) and @group.membership_requests.count > 0 %>
-  <p class="highlight">
-    <%= I18n.t('groups.this_group_has_pending', :url => group_memberships_path(@group)) %>
+  <p class="margin-top">
+    <% if @logged_in.can_edit?(@group) %>
+      <%= link_to t('groups.edit_members'), group_memberships_path(@group), :class => 'edit-icon discreet' %>
+    <% else %>
+      <%= link_to t('groups.view_members'), group_memberships_path(@group), :class => 'discreet' %>
+    <% end %>
   </p>
-<% end %>
 
-<% if @group.description.to_s.any? or @group.meets.to_s.any? or @group.location.to_s.any? or @group.directions.to_s.any? or @group.other_notes.to_s.any? %>
-
-  <% if @show_map %>
-    <div id="map-container" style="display:none;">
-      <div id="map"></div>
-      <div id="map-link">
-        <%= I18n.t('people.only_an_approximation') %> |
-        <%= link_to I18n.t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@group.location)}", :target => '_new' %>
-      </div>
-    </div>
-  <% end %>
-
-  <div id="group-details" <% if @show_map %>style="margin-right:275px;"<% end %>>
-
+  <% if @albums.any? %>
+    <h3><%= t('albums.picture_albums') %></h3>
     <p>
-      <%=h @group.description %>
-      <% if @group.private? %>
-        <%= image_tag('lock.gif', :alt => I18n.t('groups.this_group_is_private'), :class => 'icon') %>
+      <% @albums.each do |album| %>
+        <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', :alt => album.name),
+          album, :title => album.name %>
       <% end %>
     </p>
+  <% end %>
+<% end %>
 
-    <table>
-      <% if @group.meets.to_s.any? %>
-        <tr><td><%= I18n.t('groups.meets') %>:</td><td><%=h @group.meets %></td></tr>
-      <% end %>
-      <% if @group.location.to_s.any? %>
-        <tr><td><%= I18n.t('groups.location') %>:</td><td><%=h @group.location %></td></tr>
-      <% end %>
-      <% if @group.directions.to_s.any? %>
-        <tr><td><%= I18n.t('groups.directions') %>:</td><td><%=h @group.directions %></td></tr>
-      <% end %>
-      <% if @group.other_notes.to_s.any? %>
-        <tr><td><%= I18n.t('groups.notes') %>:</td><td><%=h @group.other_notes %></td></tr>
-      <% end %>
-    </table>
-
+<% if !@group.approved? and @logged_in.admin?(:manage_groups) %>
+  <div class="alert">
+    <p><%= t('groups.this_group_is_pending_approval') %></p>
+    <%= form_for @group do |form| %>
+      <%= hidden_field_tag 'group[approved]', true %>
+      <%= form.submit t('groups.approve_group') %>
+    <% end %>
   </div>
-  
 <% end %>
 
-<div id="share" style="display:none;margin-bottom:20px;">
-  
-  <% if @group.email? and @can_post %>
-    <h2 class="tab" id="email"><%= image_tag('message.gif', :alt => I18n.t('people.email'), :class => 'icon') %> <%= I18n.t('people.email') %></h2>
-    <div class="section">
-      <% form_for Message.new(:group => @group), :html => {:enctype => 'multipart/form-data', :id => 'message'} do |form| %>
-        <%= form.hidden_field :group_id %>
-        <p>
-          <%= form.label :subject, I18n.t('messages.subject') %>
-          <%= form.text_field :subject %><br/>
-          <%= form.label :body, I18n.t('messages.message') %>
-          <%= form.text_area :body, :rows => 5, :cols => 80 %>
-        </p>
-        <p>
-          <%= submit_tag I18n.t('messages.send_message') %>
-          <%= link_to I18n.t('people.advanced') + ' &raquo;', new_group_message_path(@group), :onclick => "var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href; var s = document.createElement('input'); s.setAttribute('name', 'message[subject]'); s.setAttribute('value', $('message_subject').value); f.appendChild(s); var b = document.createElement('input'); b.setAttribute('name', 'message[body]'); b.setAttribute('value', $('message_body').value); f.appendChild(b); f.submit(); return false;" %>
-        </p>
-        <% if @group.address.to_s.any? %>
-          <p class="discreet"><%= I18n.t('groups.or_send_from_your_email', :email => @group.full_address) %></p>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-  
-  <% if @group.blog? and @can_post and @note = Note.new(:group => @group) %>
-    <%= render :partial => 'streams/share_note' %>
-  <% end %>
-
-  <% if @group.pictures? %>
-    <%= render :partial => 'streams/share_picture' %>
-  <% end %>
-
-  <% if @group.prayer? %>
-    <%= render :partial => 'streams/share_prayer' %>
-  <% end %>
-</div>
-
-<div style="float:right;width:150px;clear:right;">
-  <ul id="my-stuff">
-    <% if @group.gcal_url                                         %><li><%= link_to image_tag('calendar.png', :alt => I18n.t('groups.group_calendar'), :class => 'icon') + ' ' + I18n.t('groups.group_calendar'), group_calendar_path(@group)        %></li><% end %>
-    <% if @group.email?                                           %><li><%= link_to image_tag('message.gif',  :alt => I18n.t('groups.group_emails'),   :class => 'icon') + ' ' + I18n.t('groups.group_emails'),   group_messages_path(@group)        %></li><% end %>
-    <% if Setting.get(:features, :notes    ) and @group.blog?     %><li><%= link_to image_tag('note.png',     :alt => I18n.t('groups.group_notes'), :class => 'icon') + ' ' + I18n.t('groups.group_notes'),    group_notes_path(@group)           %></li><% end %>
-    <% if Setting.get(:features, :pictures ) and @group.pictures? %><li><%= link_to image_tag('picture.png',  :alt => I18n.t('groups.group_pictures'), :class => 'icon') + ' ' + I18n.t('groups.group_pictures'), group_albums_path(@group)          %></li><% end %>
-    <% if @group.prayer?                                          %><li><%= link_to image_tag('heart.png',    :alt => I18n.t('groups.group_prayer'),   :class => 'icon') + ' ' + I18n.t('groups.group_prayer'),   group_prayer_requests_path(@group) %></li><% end %>
-  </ul>
-
-  <% if @group.attachments.count > 0 %>
-    <div style="margin-left:20px;">
-      <p>
-        <strong><%= I18n.t('attachments.files') %></strong><br/>
-        <% @group.attachments.all(:order => 'name').each do |attachment| %>
-          <%= link_to h(attachment.name), get_attachment_path(attachment) %><br/>
-        <% end %>
-      </p>
-    </div>
-  <% end %>
-</div>
-
-<%# Main Content %>
-<div id="profile-body">
-
-  <% if @can_share %>
-    <p style="margin-bottom:20px;" id="share-something">
-      <%= link_to_function image_tag('add_small.gif', :alt => I18n.t('stream.share_something'), :class => 'icon'),
-        "if($('map-container'))Element.hide('map-container'); if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';" %>
-    <%= I18n.t('stream.share_something_here', :js => "if($('map-container'))Element.hide('map-container'); if($('group-details'))Element.hide('group-details'); Element.hide('share-something'); Element.show('share'); location.hash = 'email';") %>
-    </p>
-  <% end %>
-
-  <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
-  
-  <% unless @stream_items.any? %>
-    <p><%= I18n.t('groups.no_online_group_activity') %></p>
-  <% end %>
-
-</div>
-
-<style type="text/css">
-  .stream-item { display: block; }
-</style>
-
-<% unless @group.blog? or @group.email? or @group.prayer? %>
-  <p><em><%= I18n.t('groups.this_group_doesnot_offer') %></em></p>
+<% if @group.private? %>
+  <p><%= t('groups.this_group_is_private') %></p>
 <% end %>
 
-<script type="text/javascript"> ALBUMS_JSON_PATH = '<%= group_albums_path(@group.id) %>'; </script>
-<%= javascript_include_tag 'load_albums.js' %>
-
-<% if @can_share %>
-  <%= javascript_include_tag 'tabs' %>
-  <%= stylesheet_link_tag 'tabs' %>
-  <script type="text/javascript">
-    set_up_tabs();
-    ALBUMS_PATH = '';
-    if(location.hash != '') {
-      if($('map-container')) hide_map = true;
-      if($('group-details')) Element.hide('group-details');
-      Element.hide('share-something');
-      Element.show('share');
-    }
-  </script>
+<% if @group.hidden? %>
+  <p><%= t('groups.this_group_is_hidden') %></p>
 <% end %>
 
 <% if @show_map %>
+  <div id="map-container" style="display:none;margin-bottom:30px;">
+    <div id="map" style="width:600px;height:250px;"></div>
+    <div id="map-link">
+      <%= t('people.only_an_approximation') %> |
+      <%= link_to t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@group.location)}", :target => '_new' %>
+    </div>
+  </div>
   <%= render :partial => 'map_scripts' %>
+<% end %>
+
+<% if @show_cal %>
+  <div id="cal-container">
+    <iframe src="<%= @group.gcal_url %>" style="border: 0" width="600" height="400" frameborder="0"></iframe>
+  </div>
+<% end %>
+
+<% if @can_post and (@group.email? or @group.prayer? or @group.pictures?) %>
+  <div class="share">
+    <%= text_field_tag 'share-starter', '', :size => 50, :placeholder => t('share.group') %>
+    <ul class="share-details share-selector" style="display:none;">
+      <% if @group.email? %>
+        <li><%= link_to_function t('share.email'), "selectShare('share-email')", :class => 'email-icon', :id => 'share-email-icon' %></li>
+      <% end %>
+      <% if @group.prayer? %>
+        <li><%= link_to_function t('share.prayer_request'), "selectShare('share-prayer')", :class => 'heart-icon', :id => 'share-prayer-icon' %></li>
+      <% end %>
+      <% if @group.pictures? %>
+        <li><%= link_to_function t('share.picture'), "selectShare('share-picture')", :class => 'picture-icon', :id => 'share-picture-icon' %></li>
+      <% end %>
+      <li class="cancel-link"><%= link_to_function '', 'hideShare()', :class =>  'delete-icon' %></li>
+    </ul>
+    <% if @group.email? %>
+      <%= form_for Message.new(:group => @group), :html => {:id => 'share-email', :class => 'share-type'} do |form| %>
+        <%= form.hidden_field :group_id %>
+        <%= form.text_field :subject, :size => 50 %>
+        <%= form.text_area :body, :rows => 5 %><br/>
+        <%= submit_tag t('share.share') %>
+      <% end %>
+    <% end %>
+    <% if @group.prayer? %>
+      <%= form_for PrayerRequest.new, :html => {:id => 'share-prayer', :class => 'share-type'} do |form| %>
+        <%= hidden_field_tag :group_id, @group.id %>
+        <%= form.text_area :request, :rows => 5 %><br/>
+        <div id="prayer-answer" style="display:none">
+          <%= form.text_area :answer, :rows => 5, :placeholder => t('share.prayer_answer') %><br/>
+          <%= form.text_field :answered_at, :size => 10, :placeholder => t('share.prayer_answered_at') %>
+        </div>
+        <%= submit_tag t('share.share') %>
+        <%= link_to_function t('share.prayer_share_answer'), "$('#prayer-answer').show();$(this).hide();", :class => 'discreet' %>
+      <% end %>
+    <% end %>
+    <% if @group.pictures? %>
+      <%= form_for Picture.new, :html => {:multipart => true, :id => 'share-picture', :class => 'share-type'} do |form| %>
+        <%= hidden_field_tag :group_id, @group.id %>
+        <%= file_field_tag 'pictures[]', :multiple => true %>
+        <%= text_field_tag 'album', '', :size => 10, :placeholder => t('share.default_album_name') %>
+        <%= submit_tag t('share.share') %>
+      <% end %>
+    <% end %>
+  </div>
+  <script type="text/javascript">
+    $('#album').autocomplete({source: <%= raw @albums.map { |a| a.name }.inspect %>});
+    function selectShare(share) {
+      $('.share-type').hide();
+      $('#'+share).show();
+      $('#'+share+' :input[type!="hidden"]')[0].focus();
+      $('.share-selector a').removeClass('active');
+      $('#'+share+'-icon').addClass('active');
+    }
+    function showShare() {
+      $('.share-details').show();
+      $('#share-starter').hide();
+      var first = $('.share .share-type:first').attr('id');
+      selectShare(first);
+    }
+    function hideShare() {
+      $('.share-type, .share-details').hide();
+      $('#share-starter').show();
+    }
+    $('#share-starter').bind('focus', showShare);
+  </script>
+<% end %>
+
+<div class="group-stream">
+  <%= render :partial => 'streams/stream_item', :collection => @stream_items %>
+</div>
+
+<% unless @show_map or @show_cal or @stream_items.any? %>
+  <p><em><%= t('groups.no_activity_yet') %></em></p>
 <% end %>

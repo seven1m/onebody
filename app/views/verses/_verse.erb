@@ -1,18 +1,16 @@
 <div class="verse">
-  <div class="verse-heading">
-    <strong><%= link_to h(verse.reference), verse %></strong>
+  <h3 class="verse-heading">
+    <%= link_to verse.reference, verse, :class => 'verse-reference' %>
     <% unless @person %>
       <% if (count = verse.people.count) > 0 %>
-        saved by <%= I18n.t('people_count', :count => count) %>
+        <span class="saved-by">saved by <%= t('people_count', :count => count) %></span>
       <% end %>
     <% end %>
-  </div>
+  </h3>
   <div class="verse-body">
-    <%=h verse.text %>
+    <%= verse.text %>
   </div>
   <% unless @person %>
-    <div class="comment-summary">
-      <%= render :partial => 'comments/comment_summary', :locals => {:object => verse} %>
-    </div>
+    <%= render :partial => 'comments/comment_summary', :locals => {:object => verse} %>
   <% end %>
 </div>

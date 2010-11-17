@@ -3,7 +3,7 @@ class UpdateLeaderOnGroups < ActiveRecord::Migration
     Site.each do
       Group.find_all_by_leader_id(nil).each do |group|
         group.leader = group.admins.first
-        group.save(false)
+        group.save(:validate => false)
       end
     end
   end

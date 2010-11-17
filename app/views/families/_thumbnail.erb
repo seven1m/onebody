@@ -1,3 +1,3 @@
-<% if family.has_photo? %>
-  <%= image_tag tn_family_photo_path(family, :m => family.updated_at.to_s(:number)), :alt => family.name, :class => 'icon thumbnail' %>
+<% if family.photo.exists? %>
+  <%= image_tag family.photo.url(:tn), :alt => family.name, :class => 'icon thumbnail' %>
 <% end %>

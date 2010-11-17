@@ -13,7 +13,13 @@ such as tests, smarter tag assignment, and tag cloud calculations.
 
 == Installation
 
-  ruby script/plugin install http://svn.viney.net.nz/things/rails/plugins/acts_as_taggable_on_steroids
+Rails 2.*
+
+  ruby script/plugin install git://github.com/jviney/acts_as_taggable_on_steroids.git
+
+Rails 3:
+
+  rails plugin install git://github.com/jviney/acts_as_taggable_on_steroids.git
 
 == Usage
 
@@ -48,6 +54,11 @@ You can also add or remove arrays of tags.
 
   p.tag_list.add("Great", "Awful")
   p.tag_list.remove("Funny")
+  
+In your views you should use something like the following:
+
+  <%= f.label :tag_list %>
+  <%= f.text_field :tag_list, :size => 80 %>
 
 === Finding tagged objects
 
@@ -76,6 +87,10 @@ A helper is included to assist with generating tag clouds. Include it in your he
   module ApplicationHelper
     include TagsHelper
   end
+  
+You can also use the <tt>counts</tt> method on <tt>Tag</tt> to get the counts for all tags in the database.
+
+  Tag.counts
 
 Here is an example that generates a tag cloud.
 
@@ -129,12 +144,6 @@ If you want to change the delimiter used to parse and present tags, set TagList.
 For example, to use spaces instead of commas, add the following to config/environment.rb:
 
   TagList.delimiter = " "
-  
-You can also use a regexp as delimiter:
-
-  TagList.delimiter = /,|;/
-  
-The above code would parse the string and use ',' and ';' as delimiters.
 
 === Unused tags
 

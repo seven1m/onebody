@@ -8,31 +8,29 @@
   <% end %>
   <% if grouped_items.any? and not (stream_item.person_id == last_stream_item.person_id and stream_item.streamable_type == last_stream_item.streamable_type) %>
     </div>
-    <p class="stream-item-group-link">
-      <%= link_to_function I18n.t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "Element.hide(this.parentNode); new Effect.Appear('stream-item-group#{grouped_items.first}')" %>
-    </p>
+    <div class="stream-item-group-link">
+      <%= link_to_function t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "$(this.parentNode).hide(); $('#stream-item-group#{grouped_items.first}').show()" %>
+    </div>
     </div>
     <% grouped_items = [] %>
   <% end %>
   <% if grouped_items.any? and not grouped_items.include?(stream_item.id); grouped_items << stream_item.id; end %>
-  
-  <% cache("stream/stream_items/#{stream_item.id}_for_#{@logged_in.id}") do %>
-    <%= render :partial => 'stream_item', :object => stream_item %>
-  <% end %>
-  
+
+  <%= render :partial => 'stream_item', :object => stream_item %>
+
   <% last_stream_item = stream_item %>
 <% end %>
 
 <% if grouped_items.any? %>
   </div>
-  <p class="stream-item-group-link">
-    <%= link_to_function I18n.t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "Element.hide(this.parentNode); new Effect.Appear('stream-item-group#{grouped_items.first}')" %>
-  </p>
+  <div class="stream-item-group-link">
+    <%= link_to_function t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "$(this.parentNode).hide(); $('#stream-item-group#{grouped_items.first}').show()" %>
+  </div>
   </div>
 <% end %>
 
 <% if @stream_items.empty? %>
-  <p><%= I18n.t('stream.where_activity_appear') %></p>
-  <p><em><%= I18n.t('stream.nothing_to_show') %></em></p>
+  <p><%= t('stream.where_activity_appear') %></p>
+  <p><em><%= t('stream.nothing_to_show') %></em></p>
 <% end %>
 

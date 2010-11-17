@@ -1,25 +1,25 @@
 <% content_for :head do %>
-  <link rel="alternate" type="application/atom+xml" title="<%= I18n.t('news.news_feed') %>" href="<%= url_for news_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+  <link rel="alternate" type="application/atom+xml" title="<%= t('news.news_feed') %>" href="<%= url_for news_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
 <% end %>
 
 <% content_for :subnav do %>
   <% if Setting.get(:features, :news_by_users) or @logged_in.admin?(:manage_news) %>
-    <li><%= link_to image_tag('plus.png', :alt => I18n.t('news.submit_news'), :class => 'icon') + ' ' + I18n.t('news.submit_news'), new_news_item_path %></li>
+    <li><%= link_to image_tag('plus.png', :alt => t('news.submit_news'), :class => 'icon') + ' ' + t('news.submit_news'), new_news_item_path %></li>
   <% end %>
 <% end %>
 
-<h1><%= I18n.t('news.news') %></h1>
+<h1><%= t('news.news') %></h1>
 
 <p>
-  <%= I18n.t('news.welcome_to_the_place') %>
+  <%= t('news.welcome_to_the_place') %>
   <% if Setting.get(:features, :news_by_users) %>
-    <%= I18n.t('news.if_you_have_something_to_share', :url => new_news_item_path) %>
+    <%= t('news.if_you_have_something_to_share_html', :url => new_news_item_path) %>
   <% end %>
 </p>
 
 <p>
-  <%= link_to image_tag('feed_small.png', :alt => I18n.t('news.news_feed'), :class => 'icon'), news_path(:format => 'xml', :code => @logged_in.feed_code) %>
-  <%= I18n.t('news.subscribe_to_community_news', :url => news_path(:format => 'xml', :code => @logged_in.feed_code)) %>
+  <%= link_to image_tag('feed_small.png', :alt => t('news.news_feed'), :class => 'icon'), news_path(:format => 'xml', :code => @logged_in.feed_code) %>
+  <%= t('news.subscribe_to_community_news_html', :url => news_path(:format => 'xml', :code => @logged_in.feed_code)) %>
 </p>
 
 <%= will_paginate @news_items %>
@@ -29,5 +29,5 @@
 <%= will_paginate @news_items %>
 
 <% unless @news_items.any? %>
-  <p><em><%= I18n.t('news.no_news_is_available') %></em></p>
+  <p><em><%= t('news.no_news_is_available') %></em></p>
 <% end %>

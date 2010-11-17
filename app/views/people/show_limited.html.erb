@@ -1,10 +1,14 @@
-<h1><%=h @person.name %></h1>
+<% content_for :sidebar do %>
+  <%= t('people.limited_access') %>
+<% end %>
+
+<h2><%= @person.name %></h2>
 
 <table>
   <% if @person.home_phone.to_s.any? %>
-    <tr><td><%= I18n.t('privacies.home_phone') %>:</td><td><%= format_phone @person.home_phone %></td></tr>
+    <tr><td><%= t('privacies.home_phone') %>:</td><td><%= format_phone @person.home_phone %></td></tr>
   <% end %>
 </table>
 
-<h2><%= I18n.t('people.groups') %></h2>
+<h3><%= t('people.groups') %></h3>
 <%= render :partial => 'groups/person_groups' %>

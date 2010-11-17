@@ -83,18 +83,18 @@ class GroupsControllerTest < ActionController::TestCase
 
   should "add a group photo" do
     @group.photo = nil
-    assert !@group.has_photo?
-    post :update, {:id => @group.id, :group => {:photo => fixture_file_upload('files/image.jpg')}}, {:logged_in_id => @person.id}
+    assert !@group.photo.exists?
+    post :update, {:id => @group.id, :group => {:photo => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)}}, {:logged_in_id => @person.id}
     assert_redirected_to group_path(@group)
-    assert Group.find(@group.id).has_photo?
+    assert Group.find(@group.id).photo.exists?
   end
 
   should "remove a group photo" do
     @group.forge_photo
-    assert @group.has_photo?
+    assert @group.photo.exists?
     post :update, {:id => @group.id, :group => {:photo => 'remove'}}, {:logged_in_id => @person.id}
     assert_redirected_to group_path(@group)
-    assert !Group.find(@group.id).has_photo?
+    assert !Group.find(@group.id).photo.exists?
   end
 
   should "edit a group" do
@@ -150,6 +150,42 @@ class GroupsControllerTest < ActionController::TestCase
     Site.current.update_attribute(:max_groups, nil)
     post :create, {:group => {:name => 'test name 3', :category => 'test cat 3'}}, {:logged_in_id => @person.id}
     assert_response :redirect
+  end
+
+  should "batch edit groups" do
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @group2 = Group.forge
+    get :batch, nil, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    # regular post
+    post :batch, {:groups => {@group.id.to_s => {:name => "foobar", :members_send => "0"}, @group2.id.to_s => {:address => 'baz'}}}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    assert_equal 'foobar', @group.reload.name
+    assert !@group.members_send?
+    assert_equal 'baz', @group2.reload.address
+    # ajax post
+    post :batch, {:format => 'js', :groups => {@group.id.to_s => {:name => "lorem", :members_send => "true"}, @group2.id.to_s => {:address => 'ipsum'}}}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    assert_equal 'lorem', @group.reload.name
+    assert @group.members_send?
+    assert_equal 'ipsum', @group2.reload.address
+  end
+
+  should 'report errors when batch editing groups' do
+    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    # regular post
+    post :batch, {:groups => {@group.id.to_s => {:address => "bad*address"}}}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    assert_select "#group#{@group.id} .errors", I18n.t('activerecord.errors.models.group.attributes.address.invalid')
+    # ajax post
+    post :batch, {:format => 'js', :groups => {@group.id.to_s => {:address => "bad*address"}}}, {:logged_in_id => @admin.id}
+    assert_response :success
+    assert_template :batch
+    assert_match /\$\("#group#{@group.id}"\)\.addClass\('error'\)/, @response.body
   end
 
 end

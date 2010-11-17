@@ -3,15 +3,15 @@
     <% @donations.each do |donation| %>
       <tr>
         <% unless params[:person_id] %>
-          <td><% if donation.person %><%= link_to h(donation.person.name), person_contributions_path(donation.person) %><% end %></td>
+          <td><% if donation.person %><%= link_to donation.person.name, person_contributions_path(donation.person) %><% end %></td>
         <% end %>
-        <td><%=h donation.received_on.to_s(:date) %></td>
-        <td><%=h '%.02f' % (donation.amount_in_cents / 100) %> <%=h donation.currency %></td>
-        <td><%=h donation.memo %></td>
-        <td><%=h donation.donation_type %></td>
+        <td><%= donation.received_on.to_s(:date) %></td>
+        <td><%= '%.02f' % (donation.amount_in_cents / 100) %> <%= donation.currency %></td>
+        <td><%= donation.memo %></td>
+        <td><%= donation.donation_type %></td>
       </tr>
     <% end %>
   </table>
 <% else %>
-  <p><em><%= I18n.t('none') %></em></p>
+  <p><em><%= t('none') %></em></p>
 <% end %>

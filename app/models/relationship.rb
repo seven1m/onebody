@@ -1,17 +1,3 @@
-# == Schema Information
-#
-# Table name: relationships
-#
-#  id         :integer       not null, primary key
-#  person_id  :integer
-#  related_id :integer
-#  name       :string(255)
-#  other_name :string(255)
-#  site_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 class Relationship < ActiveRecord::Base
 
   belongs_to :person
@@ -20,12 +6,16 @@ class Relationship < ActiveRecord::Base
   scope_by_site_id
 
   validates_presence_of :name
-  validates_inclusion_of :name, :in => I18n.t('relationships.names').keys.map { |r| r.to_s }
   validates_presence_of :other_name, :if => Proc.new { |r| r.name == 'other' }
   validates_presence_of :person_id
   validates_presence_of :related_id
-  validates_uniqueness_of :name, :scope => [:other_name, :person_id, :related_id]
-  validates_uniqueness_of :other_name, :scope => [:name, :person_id, :related_id]
+  validates_uniqueness_of :name, :scope => [:site_id, :other_name, :person_id, :related_id]
+  validates_uniqueness_of :other_name, :scope => [:site_id, :name, :person_id, :related_id]
+  validates_each :name do |record, attribute, value|
+    unless I18n.t('relationships.names').keys.map { |r| r.to_s }.include?(value)
+      record.errors.add attribute, :inclusion
+    end
+  end
 
   acts_as_logger LogItem
 

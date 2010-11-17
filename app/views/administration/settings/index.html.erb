@@ -1,49 +1,132 @@
-<h1><%= I18n.t('admin.settings.settings') %></h1>
+<% content_for :sidebar do %>
+  <h2><%= t('admin.settings.settings') %></h2>
 
-<% form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
-  <% if params[:site_id] %><%= hidden_field_tag :site_id, params[:site_id] %><% end %>
-  <% @settings.each do |section_name, section| %>
-    <h2 class="tab" id="<%= section_name %>"><%=h I18n.t(:name, :scope => [:admin, :settings, section_name], :default => section_name) %></h2>
-    <div class="section">
-      <table>
-        <% section.each_with_index do |setting, index| %>
-          <tr class="<%= index % 2 == 0 ? 'even' : 'odd' %>">
-            <td style="white-space:nowrap;font-weight:bold;">
-              <%=h setting.name %>:
-              <% if setting.format == 'list' %><br/><%= I18n.t('admin.settings.one_per_line') %><% end %>
-            </td>
-            <td style="white-space:nowrap;">
-              <% if setting.format == 'list' %>
-                <%= text_area_tag setting.id, setting.value.to_a.join("\n"), :rows => 3, :style => 'width:300px;' %>
-              <% elsif setting.format == 'boolean' %>
-                <%= select_tag setting.id, options_for_select([[I18n.t('admin.settings.enabled'), true], [I18n.t('admin.settings.disabled'), false]], setting.value?) %>
-              <% elsif setting.format == 'password' %>
-                <%= password_field_tag setting.id, setting.value %>
-              <% else %>
-                <% if @lists and @lists[setting.section] and vals = @lists[setting.section][setting.read_attribute(:name)] %>
-                  <%= select_tag setting.id, options_for_select(vals, setting.value) %>
-                <% else %>
-                  <%= text_field_tag setting.id, setting.value %>
-                <% end %>
-              <% end %>
-            </td>
-            <td style="color:#666;padding-bottom:20px;"><%=h setting.description %></td>
-          </tr>
-        <% end %>
-      </table>
-    </div>
+  <% if @logged_in.super_admin? %>
+    <p class="small discreet"><%= link_to t('admin.settings.reload'), reload_administration_settings_path, :method => 'put', :title => t('admin.settings.reload_message') %></p>
   <% end %>
-  
-  <p><%= submit_tag I18n.t('admin.settings.save') %></p>
 <% end %>
-               
-<%= javascript_include_tag 'tabs' %>
-<%= stylesheet_link_tag 'tabs' %>
-<style type="text/css">
-  div.section { border-style: solid none none none; }
-</style>
+
+
+<%= form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
+
+  <table class="members">
+
+    <%= section_row(t('admin.settings.name_heading')) %>
+
+      <%= setting_row('Name', 'Community') %>
+      <%= setting_row('Name', 'Site') %>
+      <%= setting_row('Name', 'Slogan') %>
+
+    <%= section_row(t('admin.settings.contact_heading')) %>
+
+      <%= subsection_row(t('admin.settings.contact_automated_email_about')) %>
+      <%= setting_row('Contact', 'Send Email Changes To') %>
+      <%= setting_row('Contact', 'Send Updates To') %>
+      <%= setting_row('Contact', 'Birthday Verification Email') %>
+
+      <%= subsection_row(t('admin.settings.contact_community_info_about')) %>
+      <%= setting_row('Contact', 'Community Office Phone') %>
+      <%= setting_row('Contact', 'Community Address') %>
+      <%= setting_row('Contact', 'Community Email') %>
+
+    <%= section_row(t('admin.settings.features_heading')) %>
+
+      <%= setting_row('Features', 'Friends') %>
+      <%= setting_row('Features', 'Groups') %>
+
+      <%= subsection_row(t('admin.settings.features_prayer_event_about')) %>
+      <%= setting_row('Features', 'Prayer Event') %>
+      <%= setting_row('Features', 'Prayer Event First Date and Time') %>
+      <%= setting_row('Features', 'Prayer Event Last Date and Time') %>
+
+    <%= section_row(t('admin.settings.sharing_heading')) %>
+
+      <%= subsection_row(t('admin.settings.sharing_communications_about')) %>
+      <%= setting_row('Features', 'News Page') %>
+      <%= setting_row('Features', 'Publications') %>
+
+      <%= subsection_row(t('admin.settings.sharing_about')) %>
+      <%= setting_row('Features', 'News by Users') %>
+      <%= setting_row('Features', 'Notes') %>
+      <%= setting_row('Features', 'Pictures') %>
+      <%= setting_row('Features', 'Verses') %>
+
+    <%= section_row(t('admin.settings.membership_management_heading')) %>
+
+      <%= setting_row('Features', 'Updates Must Be Approved') %>
+      <%= setting_row('Features', 'Sign Up') %>
+      <%= setting_row('Features', 'Sign Up Approval Email') %>
+      <%= setting_row('Features', 'Custom Person Type') %>
+      <%= setting_row('Features', 'Custom Person Fields') %>
+      <%= setting_row('System', 'Adult Age', :options => (13..21)) %>
+      <%= setting_row('System', 'Suffixes') %>
+
+    <%= section_row(t('admin.settings.locale_heading')) %>
+
+      <%= setting_row('System', 'Language', :options => @langs) %>
+      <%= setting_row('System', 'Time Zone', :options => @timezones) %>
+
+    <%= section_row(t('admin.settings.formats_heading')) %>
+
+      <%= subsection_row(t('admin.settings.formats_date_about_html')) %>
+      <%= setting_row('Formats', 'Full Date and Time') %>
+      <%= setting_row('Formats', 'Date') %>
+      <%= setting_row('Formats', 'Date Without Year') %>
+      <%= setting_row('Formats', 'Time') %>
+
+      <%= subsection_row(t('admin.settings.formats_phone_about')) %>
+      <%= setting_row('Formats', 'Mobile Phone') %>
+      <%= setting_row('Formats', 'Phone') %>
+
+    <%= section_row(t('admin.settings.privacy_heading')) %>
+
+      <%= setting_row('Privacy', 'Allow Picture Comments') %>
+      <%= setting_row('Privacy', 'Max Sign in Attempts', :options => [5, 10, 20, 50]) %>
+
+      <%= subsection_row(t('admin.settings.privacy_defaults_about')) %>
+      <tr>
+        <td class="label"><label><%= t('admin.settings.privacy_defaults') %></label></td>
+        <td>
+          <%= setting_field(:section => 'Privacy', :name => 'Share Email by Default',        :label => :name) %><br/>
+          <%= setting_field(:section => 'Privacy', :name => 'Share Home Phone by Default',   :label => :name) %><br/>
+          <%= setting_field(:section => 'Privacy', :name => 'Share Mobile Phone by Default', :label => :name) %><br/>
+          <%= setting_field(:section => 'Privacy', :name => 'Share Work Phone by Default',   :label => :name) %><br/>
+          <%= setting_field(:section => 'Privacy', :name => 'Share Fax by Default',          :label => :name) %><br/>
+          <%= setting_field(:section => 'Privacy', :name => 'Share Address by Default',      :label => :name) %><br/>
+          <%= setting_field(:section => 'Privacy', :name => 'Share Birthday by Default',     :label => :name) %><br/>
+          <%= setting_field(:section => 'Privacy', :name => 'Share Anniversary by Default',  :label => :name) %>
+        </td>
+      </tr>
+
+    <%= section_row(t('admin.settings.services_heading')) %>
+
+      <%= setting_row('URL', 'Visitor') %>
+      <%= setting_row('URL', 'News Feed') %>
+      <%= setting_row('Services', 'Analytics') %>
+      <%= setting_row('Services', 'Donor Tools URL') %>
+      <%= setting_row('Services', 'Donor Tools API Email') %>
+      <%= setting_row('Services', 'Donor Tools API Password') %>
+      <%= setting_row('Services', 'Campaign Monitor API Key') %>
+      <%= setting_row('Services', 'Sermondrop URL') %>
+
+  </table>
+
+  <p><%= submit_tag t('save_changes') %></p>
+
+<% end %>
+
 <script type="text/javascript">
-//<![CDATA[
-  set_up_tabs();
-//]]>
+  function toggleSetting(control_id, target_ids) {
+    for(var i=0; i<target_ids.length; i++) {
+      $('.setting'+target_ids[i]).css('display', $('#'+control_id).attr('checked') ? '' : 'none');
+    }
+  }
+  function setupToggler(control_id, target_ids) {
+    $('#'+control_id).click(function(){ toggleSetting(control_id, target_ids) });
+    toggleSetting(control_id, target_ids);
+  }
+  setupToggler(<%= @settings['Features']['Sign Up'].id %>,      [<%= @settings['Features']['Sign Up Approval Email'].id %> ]);
+  setupToggler(<%= @settings['Features']['News Page'].id %>,    [<%= @settings['Features']['News by Users'].id %>          ]);
+  setupToggler(<%= @settings['Features']['Prayer Event'].id %>, [<%= @settings['Features']['Prayer Event First Date and Time'].id %>,
+                                                                 <%= @settings['Features']['Prayer Event Last Date and Time' ].id %>]);
 </script>

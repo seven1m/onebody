@@ -1,8 +1,27 @@
 require File.dirname(__FILE__) + '/abstract_unit'
 
-class ActsAsTaggableOnSteroidsTest < Test::Unit::TestCase
-  fixtures :tags, :taggings, :posts, :users, :photos, :subscriptions, :magazines
+class ActsAsTaggableOnSteroidsTest < ActiveSupport::TestCase
+  def test_find_related_tags_with
+    assert_equivalent [tags(:good), tags(:bad), tags(:question)], Post.find_related_tags("nature")
+    assert_equivalent [tags(:nature)], Post.find_related_tags([tags(:good)])
+    assert_equivalent [tags(:bad), tags(:question)], Post.find_related_tags(["Very Good", "Nature"])        
+    assert_equivalent [tags(:bad), tags(:question)], Post.find_related_tags([tags(:good), tags(:nature)])
+  end
   
+  def test_find_tagged_with_include_and_order
+    assert_equal photos(:sam_sky, :sam_flower, :jonathan_dog),  Photo.find_tagged_with("Nature", :order => "photos.title DESC", :include => :user)
+  end
+  
+  def test_find_related_tags_with_non_existent_tags
+    assert_equal [], Post.find_related_tags("ABCDEFG")
+    assert_equal [], Post.find_related_tags(['HIJKLM'])
+  end
+  
+  def test_find_related_tags_with_nothing
+    assert_equal [], Post.find_related_tags("")
+    assert_equal [], Post.find_related_tags([])    
+  end
+    
   def test_find_tagged_with
     assert_equivalent [posts(:jonathan_sky), posts(:sam_flowers)], Post.find_tagged_with('"Very good"')
     assert_equal Post.find_tagged_with('"Very good"'), Post.find_tagged_with(['Very good'])
@@ -137,6 +156,26 @@ class ActsAsTaggableOnSteroidsTest < Test::Unit::TestCase
     assert_tag_counts users(:jonathan).magazines.tag_counts, :good => 1
   end
   
+  def test_tag_counts_on_model_instance
+    assert_tag_counts photos(:jonathan_dog).tag_counts, :animal => 3, :nature => 3
+  end
+  
+  def test_tag_counts_on_model_instance_merges_conditions
+    assert_tag_counts photos(:jonathan_dog).tag_counts(:conditions => "tags.name = 'Crazy animal'"), :animal => 3
+  end
+  
+  def test_tag_counts_on_model_instance_with_no_tags
+    photo = Photo.create!
+    
+    assert_tag_counts photo.tag_counts, {}
+  end
+  
+  def test_tag_counts_should_sanitize_scope_conditions
+    Photo.send :with_scope, :find => { :conditions => ["tags.id = ?", tags(:animal).id] } do
+      assert_tag_counts Photo.tag_counts, :animal => 3
+    end
+  end
+  
   def test_tag_counts_respects_custom_table_names
     Tagging.table_name = "categorisations"
     Tag.table_name = "categories"
@@ -163,8 +202,8 @@ class ActsAsTaggableOnSteroidsTest < Test::Unit::TestCase
     assert_equivalent ["Nature", "Question"], posts(:jonathan_rain).tag_list
     posts(:jonathan_rain).taggings.reload
     
-    # Only an update of the posts table should be executed
-    assert_queries 1 do
+    # Only an update of the posts table should be executed, the other two queries are for savepoints
+    assert_queries 3 do
       posts(:jonathan_rain).update_attributes!(:tag_list => posts(:jonathan_rain).tag_list.to_s)
     end
     
@@ -334,14 +373,12 @@ class ActsAsTaggableOnSteroidsTest < Test::Unit::TestCase
   end
 end
 
-class ActsAsTaggableOnSteroidsFormTest < Test::Unit::TestCase
-  fixtures :tags, :taggings, :posts, :users, :photos
-  
+class ActsAsTaggableOnSteroidsFormTest < ActiveSupport::TestCase
   include ActionView::Helpers::FormHelper
   
   def test_tag_list_contents
     fields_for :post, posts(:jonathan_sky) do |f|
-      assert_match /Very good, Nature/, f.text_field(:tag_list)
+      assert_match posts(:jonathan_sky).tag_list.to_s, f.text_field(:tag_list)
     end
   end
 end

@@ -28,39 +28,44 @@ class PicturesController < ApplicationController
     if params[:group_id]
       unless @group = Group.find(params[:group_id]) and @group.pictures? \
         and (@logged_in.member_of?(@group) or @logged_in.can_edit?(@group))
-        render :text => I18n.t('There_was_an_error'), :layout => true, :status => 500
+        render :text => t('There_was_an_error'), :layout => true, :status => 500
         return
       end
     end
-    if params[:album_id].to_s =~ /^\d+$/
-      @album = (@group ? @group.albums : Album).find(params[:album_id])
-    elsif not ['', '!'].include?(params[:album_id].to_s)
-      @album = (@group ? @group.albums : @logged_in.albums).find_or_create_by_name(params[:album_id])
-    else
-      render :text => I18n.t('pictures.error_finding'), :layout => true, :status => 500
-      return
-    end
+    @album = (@group ? @group.albums : Album).find_or_create_by_name(
+      if params[:album].to_s.any? and params[:album] != t('share.default_album_name')
+        params[:album]
+      elsif @group
+        @group.name
+      else
+        @logged_in.name
+      end
+    ) { |a| a.person = @logged_in }
     success = fail = 0
-    (1..10).each do |index|
-      if ((pic = params["picture#{index}"]).read rescue '').length > 0
-        pic.seek(0)
-        picture = @album.pictures.create(:person => (params[:remove_owner] ? nil : @logged_in))
-        picture.photo = pic
-        if picture.has_photo?
-          success += 1
-          if @album.pictures.count == 1 # first pic should be default cover pic
-            picture.update_attribute(:cover, true)
-          end
-        else
-          fail += 1
-          picture.log_item.destroy rescue nil
-          picture.destroy rescue nil
+    errors = []
+    Array(params[:pictures]).each do |pic|
+      picture = @album.pictures.create(
+        :person => (params[:remove_owner] ? nil : @logged_in),
+        :photo  => pic
+      )
+      if picture.errors.any?
+        errors += picture.errors.full_messsages
+      end
+      if picture.photo.exists?
+        success += 1
+        if @album.pictures.count == 1 # first pic should be default cover pic
+          picture.update_attribute(:cover, true)
         end
+      else
+        fail += 1
+        picture.log_item.destroy rescue nil
+        picture.destroy rescue nil
       end
     end
-    flash[:notice] = I18n.t('pictures.saved', :success => success)
-    flash[:notice] += " " + I18n.t('pictures.failed', :fail => fail) if fail > 0
-    redirect_to params[:redirect_to] || @album
+    flash[:notice] = t('pictures.saved', :success => success)
+    flash[:notice] += " " + t('pictures.failed', :fail => fail) if fail > 0
+    flash[:notice] += " " + errors if errors.any?
+    redirect_to params[:redirect_to] || @group || @album
   end
 
   # rotate / cover selection
@@ -69,14 +74,14 @@ class PicturesController < ApplicationController
     @picture = Picture.find(params[:id])
     if @logged_in.can_edit?(@picture)
       if params[:degrees]
-        @picture.rotate_photo params[:degrees].to_i
+        @picture.rotate params[:degrees].to_i
       elsif params[:cover]
         @album.pictures.all.each { |p| p.update_attribute :cover, false }
         @picture.update_attribute :cover, true
       end
       redirect_to [@album, @picture]
     else
-      render :text => I18n.t('pictures.cant_edit'), :layout => true, :status => 401
+      render :text => t('pictures.cant_edit'), :layout => true, :status => 401
     end
   end
 
@@ -87,7 +92,7 @@ class PicturesController < ApplicationController
       @picture.destroy
       redirect_to @album
     else
-      render :text => I18n.t('pictures.cant_delete'), :layout => true, :status => 401
+      render :text => t('pictures.cant_delete'), :layout => true, :status => 401
     end
   end
 

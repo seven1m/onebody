@@ -1,5 +1,5 @@
 <p class="timestamp">
-  <% if message.person %><%= I18n.t('messages.posted_by') %> <%= link_to h(message.person.name), message.person %><% end %>
-  <% if message.group %><%= I18n.t('messages.in') %> <%= link_to h(message.group.name), message.group %><% end %>
-  <%= time_ago_in_words message.created_at %> <%= I18n.t('messages.ago') %>
+  <% if message.person %><%= t('messages.posted_by') %> <%= link_to message.person.name, message.person %><% end %>
+  <% if message.group %><%= t('messages.in') %> <%= link_to message.group.name, message.group %><% end %>
+  <%= time_ago_in_words message.created_at %> <%= t('messages.ago') %>
 </p>

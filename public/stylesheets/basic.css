@@ -17,9 +17,6 @@ label.inline { display: inline; }
   cursor: move;
 }
 
-.share-box {
-}
-
 .errorExplanation {
   border: 1px solid #ccc;
   background-color: #ffc;
@@ -29,6 +26,7 @@ label.inline { display: inline; }
 .errorExplanation h2 {
   color: red;
   border: none;
+  margin-top: 10px;
 }
 
 li.family-member{
@@ -325,9 +323,16 @@ div.autocomplete ul li {
 	font-size: smaller;
 }
 
+#stream-page-body {
+  margin-right: 250px;
+}
+
+.stream-items {
+  padding-left: 25px;
+}
+
 .stream-item {
 	margin: 0 0 15px 0;
-	display: none;
 	clear: left;
 }
 
@@ -405,22 +410,8 @@ table.cells-centered td.graphic {
   text-align: center;
 }
 
-div#stream-display-options {
-  display: none;
-}
-
-div#stream-display-options ul {
-  margin-left: 0;
-  padding-left: 0;
-}
-
-div#stream-display-options li {
-  list-style: none;
-  padding-left: 0;
-}
-
-div#stream-display-options li a {
-  text-decoration: none;
+#share-something {
+  margin-bottom: 20px;
 }
 
 #share {
@@ -619,4 +610,14 @@ tr.subsection th {
 #report_form .criteria:hover .controls,
 #report_form .sort_attribute:hover .controls {
   visibility: visible;
+}
+
+/* tag cloud */
+.size1 { font-size: 8pt;  }
+.size2 { font-size: 11pt; }
+.size3 { font-size: 14pt; }
+.size4 { font-size: 16pt; }
+
+.admin {
+  margin-bottom: 3px;
 }

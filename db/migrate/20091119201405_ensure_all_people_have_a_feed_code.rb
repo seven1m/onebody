@@ -3,7 +3,7 @@ class EnsureAllPeopleHaveAFeedCode < ActiveRecord::Migration
     Site.each do
       Person.find_all_by_feed_code(nil).each do |person|
         person.update_feed_code
-        person.save(false) # no validation
+        person.save(:validate => false) # no validation
       end
     end
   end

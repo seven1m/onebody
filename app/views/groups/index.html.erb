@@ -1,49 +1,26 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('plus.png', :alt => I18n.t('groups.add_group'), :class => 'icon') + ' ' + I18n.t('groups.add_group'), new_group_path %></li>
-<% end %>
-
 <% if @unapproved_groups.any? %>
   <p class="highlight">
-    <%= I18n.t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %>
-    <%= @unapproved_groups.map { |g| link_to(h(g.name), group_path(g)) }.join(', ') %>
+    <%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %>
+    <%= @unapproved_groups.map { |g| link_to(g.name, group_path(g)) }.join(', ') %>
   </p>
 <% end %>
 
-<table>
-  <tr>
-    <td style="padding-right:25px;">
-      <h2 style="border:none;"><%= I18n.t('groups.your_groups') %></h2>
-      <%= render :partial => 'person_groups' %>
-    </td>
-    <td style="padding-left:25px;border-left:1px dotted #ccc;padding-right:25px;">
-      <h2 style="border:none;"><%= I18n.t('search.browse_by_category') %></h2>
-      <ul>
-        <% @categories.keys.sort.each do |category| %>
-          <% group_count = @categories[category] %>
-          <li>
-            <%= link_to h(category), groups_path(:category => category) %>
-            (<%=h group_count %>)
-          </li>
-        <% end %>
-      </ul>
-    </td>
-    <td style="padding-left:25px;border-left:1px dotted #ccc;">
-      <h2 style="border:none;"><%= I18n.t('search.search_by_name') %></h2>
-      <%= form_tag(groups_path, :method => 'get', :style => 'border:none;') %>
-        <p><%= text_field_tag :name, nil, :style => 'width:120px;' %>
-          <input type="submit" value="<%= I18n.t('search.search') %>" style="width:120px;"/></p>
-      </form>
+<% content_for :sidebar do %>
 
-      <h2 style="border-top:1px dotted #ccc;border-bottom:none;padding-top:20px;"><%= I18n.t('groups.create_a_group') %></h2>
-      <p>
-        <%= I18n.t('groups.if_cant_find_create_it') %>
-      </p>
-      <p>
-        <%= link_to image_tag('add_small.gif', :alt => I18n.t('groups.create_a_group'), :class => 'icon'), new_group_path %>
-        <%= link_to I18n.t('groups.create_a_group'), new_group_path %>
-      </p>
-    </td>
-  </tr>
-</table>
+  <%= render :partial => 'search' %>
 
-<% if session[:touring] %><%= tour_popup('Groups Tab', '/pages/help/tour_groups', 450, 'right') %><% end %>
+  <h3><%= t('groups.browse_by_category') %></h3>
+  <p><%= select_tag 'category', options_for_select(@categories), :include_blank => true, :onchange => "location.href='?category='+this.value" %></p>
+
+  <h3><%= t('groups.create_a_group') %></h3>
+  <p>
+    <%= t('groups.if_cant_find_create_it') %>
+  </p>
+  <p>
+    <%= link_to t('groups.create_a_group'), new_group_path, :class => 'add-icon' %>
+  </p>
+
+<% end %>
+
+<h2><%= t('groups.your_groups') %></h2>
+<%= render :partial => 'person_groups' %>

@@ -12,9 +12,9 @@ class PageTest < ActiveSupport::TestCase
   should "always have a lowercase slug with no spaces or symbols other than underscore" do
     assert Page.create(:slug => 'hello',     :title => 'Foo', :body => 'foo rocks').valid?
     assert Page.create(:slug => 'foo_foo',   :title => 'Foo', :body => 'foo rocks').valid?
-    assert Page.create(:slug => 'Foo',       :title => 'Foo', :body => 'foo rocks').errors.on(:slug)
-    assert Page.create(:slug => 'Foo_Foo',   :title => 'Foo', :body => 'foo rocks').errors.on(:slug)
-    assert Page.create(:slug => 'Foo*^!Foo', :title => 'Foo', :body => 'foo rocks').errors.on(:slug)
+    assert Page.create(:slug => 'Foo',       :title => 'Foo', :body => 'foo rocks').errors[:slug]
+    assert Page.create(:slug => 'Foo_Foo',   :title => 'Foo', :body => 'foo rocks').errors[:slug]
+    assert Page.create(:slug => 'Foo*^!Foo', :title => 'Foo', :body => 'foo rocks').errors[:slug]
   end
 
   should "find a page by its path" do
@@ -39,11 +39,11 @@ class PageTest < ActiveSupport::TestCase
 
   should "not allow a slug of 'admin' or 'edit' or 'new'" do
     @page1 = Page.create(:slug => 'admin', :title => 'Admin', :body => '')
-    assert @page1.errors.on(:slug)
+    assert @page1.errors[:slug]
     @page2 = Page.create(:slug => 'edit', :title => 'Edit', :body => '')
-    assert @page2.errors.on(:slug)
+    assert @page2.errors[:slug]
     @page3 = Page.create(:slug => 'new', :title => 'New', :body => '')
-    assert @page3.errors.on(:slug)
+    assert @page3.errors[:slug]
   end
 
 end

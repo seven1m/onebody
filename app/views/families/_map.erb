@@ -2,12 +2,12 @@
   <div id="map-container" style="width:250px;float:right;display:none;">
     <div id="map" style="width:250px;height:200px;"></div>
     <div class="discreet" style="font-size:smaller;text-align:right;">
-      <%= I18n.t('people.only_an_approximation') %> |
-      <%= link_to I18n.t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@family.mapable_address)}", :target => '_new' %>
+      <%= t('people.only_an_approximation') %> |
+      <%= link_to t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@family.mapable_address)}", :target => '_new' %>
     </div>
   </div>
 <% elsif Setting.get(:services, :yahoo).blank? and @logged_in.super_admin? %>
   <div style="width:250px;float:right;height:200px;vertical-align:middle;border:1px solid #ccc;padding:10px;">
-    <em><%= I18n.t('people.show_a_map_here') %></em>
+    <em><%= t('people.show_a_map_here_html') %></em>
   </div>
 <% end %>

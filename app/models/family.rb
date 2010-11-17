@@ -1,40 +1,3 @@
-# == Schema Information
-#
-# Table name: families
-#
-#  id                   :integer       not null, primary key
-#  name                 :string(255)
-#  last_name            :string(255)
-#  address1             :string(255)
-#  address2             :string(255)
-#  city                 :string(255)
-#  state                :string(10)
-#  zip                  :string(10)
-#  home_phone           :string(25)
-#  email                :string(255)
-#  latitude             :float
-#  longitude            :float
-#  share_address        :boolean       default(TRUE)
-#  share_mobile_phone   :boolean
-#  share_work_phone     :boolean
-#  share_fax            :boolean
-#  share_email          :boolean
-#  share_birthday       :boolean       default(TRUE)
-#  share_anniversary    :boolean       default(TRUE)
-#  legacy_id            :integer
-#  updated_at           :datetime
-#  wall_enabled         :boolean       default(TRUE)
-#  visible              :boolean       default(TRUE)
-#  share_activity       :boolean       default(TRUE)
-#  site_id              :integer
-#  share_home_phone     :boolean       default(TRUE)
-#  deleted              :boolean
-#  barcode_id           :string(50)
-#  barcode_assigned_at  :datetime
-#  barcode_id_changed   :boolean
-#  alternate_barcode_id :string(50)
-#
-
 class Family < ActiveRecord::Base
 
   MAX_TO_BATCH_AT_A_TIME = 50
@@ -48,7 +11,7 @@ class Family < ActiveRecord::Base
   attr_accessible :name, :last_name, :address1, :address2, :city, :state, :zip, :home_phone, :email, :share_address, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :wall_enabled, :visible, :share_activity, :share_home_phone
   attr_accessible :legacy_id, :barcode_id, :alternate_barcode_id, :people_attributes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
 
-  has_one_photo :path => "#{DB_PHOTO_PATH}/families", :sizes => PHOTO_SIZES
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
   acts_as_logger LogItem
 
   alias_method 'photo_without_logging=', 'photo='
@@ -59,20 +22,22 @@ class Family < ActiveRecord::Base
 
   sharable_attributes :mobile_phone, :address, :anniversary
 
-  validates_uniqueness_of :barcode_id, :allow_nil => true, :scope => :deleted, :unless => Proc.new { |f| f.deleted? }
-  validates_uniqueness_of :alternate_barcode_id, :allow_nil => true, :scope => :deleted, :unless => Proc.new { |f| f.deleted? }
+  validates_uniqueness_of :barcode_id, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |f| f.deleted? }
+  validates_uniqueness_of :alternate_barcode_id, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, :in => 10..50, :allow_nil => true
   validates_format_of :barcode_id, :alternate_barcode_id, :with => /^\d+$/, :allow_nil => true
+  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
 
   validates_each [:barcode_id, :alternate_barcode_id] do |record, attribute, value|
     if attribute.to_s == 'barcode_id' and record.barcode_id
       if record.barcode_id == record.alternate_barcode_id
         record.errors.add(attribute, :taken)
-      elsif Family.count('*', :conditions => ['alternate_barcode_id = ?', record.barcode_id]) > 0
+      elsif Family.count(:conditions => ['alternate_barcode_id = ?', record.barcode_id]) > 0
         record.errors.add(attribute, :taken)
       end
     elsif attribute.to_s == 'alternate_barcode_id' and record.alternate_barcode_id
-      if Family.count('*', :conditions => ['barcode_id = ?', record.alternate_barcode_id]) > 0
+      if Family.count(:conditions => ['barcode_id = ?', record.alternate_barcode_id]) > 0
         record.errors.add(attribute, :taken)
       end
     end
@@ -285,7 +250,7 @@ class Family < ActiveRecord::Base
     end
 
     def new_with_default_sharing(attrs)
-      attrs.symbolize_keys!
+      attrs.symbolize_keys! if attrs.respond_to?(:symbolize_keys!)
       attrs.merge!(
         :share_address      => Setting.get(:privacy, :share_address_by_default),
         :share_home_phone   => Setting.get(:privacy, :share_home_phone_by_default),
@@ -300,7 +265,7 @@ class Family < ActiveRecord::Base
     end
 
     def daily_barcode_assignment_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-      returning([]) do |data|
+      [].tap do |data|
         counts = connection.select_all("select count(date(barcode_assigned_at)) as count, date(barcode_assigned_at) as date from families where site_id=#{Site.current.id} and barcode_assigned_at is not null group by date(barcode_assigned_at) order by barcode_assigned_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
         ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
           d = date.strftime(date_strftime)

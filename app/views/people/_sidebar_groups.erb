@@ -1,33 +1,33 @@
-<h2><%= I18n.t('people.groups') %></h2>
+<h2><%= t('people.groups') %></h2>
 <% if (groups = @person.groups.all).any? %>
   <table>
     <% groups.sort_by(&:name).each do |group| %>
       <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
         <tr <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
           <td>
-            <% if group.has_photo? %>
-              <%= image_tag tn_group_photo_path(group), :alt => group.name, :class => 'no-border' %>
+            <% if group.photo.exists? %>
+              <%= image_tag group.photo.url(:tn), :alt => group.name, :class => 'no-border' %>
             <% else %>
               <%= image_tag 'group.tn.jpg', :alt => group.name, :class => 'no-border' %>
             <% end %>
           </td>
           <td class="group">
-            <%= link_to h(group.name), group %><br/>
+            <%= link_to group.name, group %><br/>
           </td>
         </tr>
       <% end %>
     <% end %>
   </table>
   <% if @logged_in.admin?(:manage_groups) and groups.detect { |g| g.hidden? } %>
-    <p><%= link_to_function I18n.t('people.show_hidden_groups'), "$$('.hidden-group').each(function(e){Element.toggle(e)})" %></p>
+    <p><%= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()" %></p>
   <% end %>
 <% elsif me? %>
   <p>
-    <%= I18n.t('people.you_arent_in_any_groups') %>
+    <%= t('people.you_arent_in_any_groups') %>
     <% if params[:person_id] %>
-      <%= I18n.t('people.find_a_group', :group => groups_url) %>
+      <%= t('people.find_a_group_html', :url => groups_path) %>
     <% end %>
   </p>
 <% else %>
-  <p><%=h I18n.t('people.person_isnt_any_groups', :person => @person.first_name) %></p>
+  <p><%= t('people.person_isnt_any_groups', :person => @person.first_name) %></p>
 <% end %>

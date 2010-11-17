@@ -1,26 +1,28 @@
 <% content_for :subnav do %>
   <% if @message.group %>
-    <li><%= link_to '&laquo; ' + I18n.t('groups.back_to'), @message.group %></li>
+    <li><%= link_to '&laquo; ' + t('groups.back_to'), @message.group %></li>
   <% elsif person = (@message.to || @message.wall) and @logged_in.sees? person %>
-    <li><%= link_to I18n.t('people.back_to', :name =>h(person.name)), person %></li>
+    <li><%= link_to t('people.back_to', :name => person.name), person %></li>
   <% end %>
   <% if @message.person == @logged_in or @logged_in.can_edit? @message %>
-    <li><%= link_to image_tag('delete.png', :alt => I18n.t('messages.delete_message'), :class => 'icon') + ' ' + I18n.t('messages.delete_message'), @message, :method => 'delete', :confirm => I18n.t('are_you_sure') %></li>
+    <li><%= link_to image_tag('delete.png', :alt => t('messages.delete_message'), :class => 'icon') + ' ' + t('messages.delete_message'), @message, :method => 'delete', :confirm => t('are_you_sure') %></li>
   <% end %>
 <% end %>
 
-<h1><%=h @message.subject %> <% if @message.wall %>for <%=h @message.wall.name %><% end %></h1>
+<% content_for :sidebar do %>
+  <h2><%= @message.subject %> <% if @message.wall %>for <%= @message.wall.name %><% end %></h2>
 
-<div class="message-details">
-  <div style="width:32px;float:left;margin:4px;">
+  <p>
     <a href="<%= url_for @message.person %>">
       <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
     </a>
-  </div>
-  <%= image_tag 'comment.gif', :alt => I18n.t('messages.message'), :class => 'icon' %>
-  <%= I18n.t('messages.message_by') %> <%= link_to h(@message.person.name), @message.person %><br/>
-  <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
-</div>
+    <%= t('messages.message_by') %> <%= link_to @message.person.name, @message.person %>
+  </p>
+
+  <p>
+    <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
+  </p>
+<% end %>
 
 <%= render_message_body(@message) %>
 
@@ -34,8 +36,8 @@
           <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
         </a>
       </div>
-      <%= image_tag 'comment.gif', :alt => I18n.t('messages.reply'), :class => 'icon' %>
-      <%= I18n.t('messages.reply_by') %> <%= link_to h(reply.person.name), reply.person %><br/>
+      <%= image_tag 'comment.gif', :alt => t('messages.reply'), :class => 'icon' %>
+      <%= t('messages.reply_by') %> <%= link_to reply.person.name, reply.person %><br/>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>
     <p>
@@ -48,9 +50,9 @@
         <% if html != render_message_text_body(reply.body) %>
           <br/>
           <em style="color:#009;">
-            <%= I18n.t('messages.some_quoted_text_is_hidden') %>
-            <%= link_to I18n.t('click_here'), :show_quoted => true %>
-            <%= I18n.t('messages.to_show_the_entire_message') %>
+            <%= t('messages.some_quoted_text_is_hidden') %>
+            <%= link_to t('click_here'), :show_quoted => true %>
+            <%= t('messages.to_show_the_entire_message') %>
           </em>
         <% end %>
       <% end %>
@@ -60,8 +62,8 @@
 <% end %>
 
 <% if @message.group and @message.group.can_post? @logged_in %>
-  <p>
-    <%= link_to_remote I18n.t('messages.reply_to_this_message') + ' &raquo;', :url => new_message_path(:parent_id => @message.id), :method => 'get' %>
+  <p class="double-margin-top">
+    <%= link_to t('messages.reply_to_this_message'), new_message_path(:parent_id => @message.id), :remote => true, :method => :get %>
   </p>
 <% end %>
 

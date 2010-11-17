@@ -2,6 +2,8 @@ module ActiveRecord
   module Associations
     module ClassMethods
       def inherited_attribute(name, parent)
+        @inherited_attributes ||= []
+        @inherited_attributes << name
         name = name.to_s
         class_eval "def #{name}; (v = read_attribute(:#{name})).nil? ? (#{parent.to_s} && #{parent.to_s}.#{name}) : v; end"
         class_eval "alias_method :#{name}?, :#{name}"

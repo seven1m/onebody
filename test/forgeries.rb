@@ -11,16 +11,18 @@ module Forgeable
     if photo.is_a?(String)
       self.photo = File.open(photo)
     else
-      self.photo = File.open(RAILS_ROOT + '/test/fixtures/files/image.jpg')
+      self.photo = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
     end
+    save
   end
 
   def forge_file(file=true)
     if file.is_a?(String)
       self.file = File.open(file)
     else
-      self.file = ActionController::TestUploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', nil, false)
+      self.file = Rack::Test::UploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', 'application/pdf', true)
     end
+    save
   end
 
   def self.included(mod)
@@ -97,8 +99,8 @@ module Forgeable
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed).each do |model|
-  eval "#{model}.class_eval { include Forgeable }"
+%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed Admin).each do |model|
+  Object.const_get(model).class_eval { include Forgeable }
 end
 
 class Person
@@ -163,7 +165,7 @@ end
 
 class Verse
   def self.forge(attributes={})
-    returning Verse.find("#{Verse::BOOKS.rand} #{rand(25)+1}:#{rand(50)+1}") do |verse|
+    Verse.find("#{Verse::BOOKS.rand} #{rand(25)+1}:#{rand(50)+1}").tap do |verse|
       attributes.each do |attr, val|
         verse.send("#{attr}=", val) # will allow tag_list= to work
       end

@@ -44,9 +44,12 @@ class Donortools::Persona < ActiveResource::Base
 
   class << self
     def can_sync?
-      Setting.get(:services, :donor_tools_url).to_s.any? and
-      Setting.get(:services, :donor_tools_api_email).to_s.any? and
-      Setting.get(:services, :donor_tools_api_password).to_s.any?
+      Rails.env.test? or
+      (
+        Setting.get(:services, :donor_tools_url).to_s.any? and
+        Setting.get(:services, :donor_tools_api_email).to_s.any? and
+        Setting.get(:services, :donor_tools_api_password).to_s.any?
+      )
     end
 
     def update_all

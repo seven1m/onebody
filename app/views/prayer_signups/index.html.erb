@@ -17,26 +17,26 @@
   <div id="taken_slots"><%= render :partial => 'taken_slots' %></div>
 
   <% if @logged_in.admin?(:manage_prayer_signups) %>
-    <% form_remote_tag :url => search_path do %>
+    <%= form_tag search_path, :remote => true do %>
       <%= hidden_field_tag :select_person, true %>
       <%= hidden_field_tag :select_one, true %>
       <p>
-        <label for="add_person_name"><%= I18n.t('prayer_signups.add_somebody') %>:</label>
+        <label for="add_person_name"><%= t('prayer_signups.add_somebody') %>:</label>
         <%= text_field_tag 'name', nil %>
-        <%= submit_tag I18n.t('search.search_by_name') %>
+        <%= submit_tag t('search.search_by_name') %>
       </p>
     <% end %>
 
     <div id="add_member" style="display:none;">
-      <% form_remote_tag :url => prayer_signups_path do %>
+      <%= form_tag prayer_signups_path, :remote => true do %>
         <div id="results"></div>
-        <%= label_tag 'other_name', I18n.t('prayer_signups.other_name') %>
-        <%= radio_button_tag 'ids[]', 0, false, :onclick => "$('other_name').focus()" %>
-        <%= text_field_tag 'other_name', '', :size => 10, :onfocus => "$('ids__0').checked = true; Element.show('other_name_note')", :style => 'width:80px;' %>
-        <div id="other_name_note" style="display:none;"><%= I18n.t('prayer_signups.other_name_note') %></div>
-        <%= label_tag 'start', I18n.t('prayer_signups.select_time_slot') %>
-        <%= select_tag 'start', options_for_select([''] + range_of_hours(@first, @last).map { |h| [h.strftime("%a #{ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS[:time]}"), h.strftime('%Y/%m/%d %H:%M')] }) %>
-        <p><%= submit_tag I18n.t('search.add_selected') %></p>
+        <%= label_tag 'other_name', t('prayer_signups.other_name') %>
+        <%= radio_button_tag 'ids[]', 0, false, :onclick => "$('#other_name')[0].focus()" %>
+        <%= text_field_tag 'other_name', '', :size => 10, :onfocus => "$('#ids__0').attr('checked', true); $('#other_name_note').show()", :style => 'width:80px;' %>
+        <div id="other_name_note" style="display:none;"><%= t('prayer_signups.other_name_note') %></div>
+        <%= label_tag 'start', t('prayer_signups.select_time_slot') %>
+        <%= select_tag 'start', options_for_select([''] + range_of_hours(@first, @last).map { |h| [h.strftime("%a %H:%M %p"), h.strftime('%Y/%m/%d %H:%M')] }) %>
+        <p><%= submit_tag t('search.add_selected') %></p>
         <div id="admin_add_status"></div>
       <% end %>
     </div>
@@ -47,7 +47,7 @@
 <% range_of_hours(@first, @last).each do |hour| %>
   <% if hour.day != day %>
     <a name="<%= hour.strftime('%Y%m%d') %>"></a>
-    <h2><%=h hour.strftime '%A, %B %d' %></h2>
+    <h2><%= hour.strftime '%A, %B %d' %></h2>
     <% day = hour.day %>
     <table>
   <% end %>

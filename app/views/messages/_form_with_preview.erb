@@ -1,7 +1,7 @@
 <%= render :partial => 'form' %>
 
 <div id="preview" style="display:none;">
-  <h2><%= I18n.t('messages.preview') %></h2>
+  <h2><%= t('messages.preview') %></h2>
   <div id="preview-from"></div>
   <div id="preview-subject"></div>
   <div id="preview-email" style="width:600px;border:1px solid #999;padding:10px;"></div>
@@ -10,10 +10,9 @@
 <script type="text/javascript">
   function preview() {
     if(!navigator.userAgent.match(/MSIE 5/)) { // IE 5.x fails to serialize this form properly
-      new Ajax.Request('<%= messages_path %>', {method:'post', asynchronous:true, evalScripts:true, parameters:Form.serialize($('message')) + '&preview=true'});
+      $.post('<%= messages_path %>', $('#message').serialize()+'&preview=true');
     }
   }
+  observeFields(preview, 5000, ['message_subject', 'message_body']);
+  $('#message_subject')[0].focus();
 </script>
-
-<%= observe_field :message_subject, :function => 'preview()', :frequency => 2 %>
-<%= observe_field :message_body,    :function => 'preview()', :frequency => 2 %>

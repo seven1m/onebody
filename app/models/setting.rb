@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: settings
-#
-#  id          :integer       not null, primary key
-#  section     :string(100)
-#  name        :string(100)
-#  format      :string(20)
-#  value       :string(500)
-#  description :string(500)
-#  hidden      :boolean
-#  created_at  :datetime
-#  updated_at  :datetime
-#  site_id     :integer
-#  global      :boolean
-#
-
 class Setting < ActiveRecord::Base
   GLOBAL_SETTINGS = [
     'Contact.Tech Support Email', 'Contact.Bug Notification Email',
@@ -22,8 +5,8 @@ class Setting < ActiveRecord::Base
     'Features.Multisite', 'Features.SSL', 'Features.Edit Legacy Ids', 'Features.Reporting'
   ]
 
-  SETTINGS_FILE = File.join(RAILS_ROOT, "config/settings.yml")
-  PLUGIN_SETTINGS_FILES = File.join(RAILS_ROOT, "plugins/**/config/settings.yml")
+  SETTINGS_FILE = Rails.root.join("config/settings.yml")
+  PLUGIN_SETTINGS_FILES = Rails.root.join("plugins/**/config/settings.yml")
 
   serialize :value
   belongs_to :site
@@ -38,9 +21,9 @@ class Setting < ActiveRecord::Base
   end
 
   def description
-    I18n.t('description',
-      :scope   => ['admin.settings', section, read_attribute(:name)],
-      :default => read_attribute(:description)
+    I18n.t(
+      'description',
+      :scope   => ['admin.settings', section, read_attribute(:name)]
     )
   end
 
@@ -115,12 +98,12 @@ class Setting < ActiveRecord::Base
         SETTINGS[site_id][section] ||= {}
         SETTINGS[site_id][section][name] = setting.value
       end
-      SETTINGS['timestamp'] = Time.now
+      SETTINGS['timestamp'] = Time.now unless SETTINGS.empty?
       SETTINGS
     end
 
     def load_file_stamps(filename)
-      if File.exist?(f = File.join(RAILS_ROOT, 'tmp/filestamps.yml'))
+      if File.exist?(f = Rails.root.join('tmp/filestamps.yml'))
         YAML::load(File.open(f))[filename]
       end
     end
@@ -131,7 +114,7 @@ class Setting < ActiveRecord::Base
     end
 
     def set_file_stamps(filename)
-      stamps_filename = File.join(RAILS_ROOT, 'tmp/filestamps.yml')
+      stamps_filename = Rails.root.join('tmp/filestamps.yml')
       if File.exist?(stamps_filename)
         stamps = YAML::load(File.open(stamps_filename))
       else
@@ -143,7 +126,7 @@ class Setting < ActiveRecord::Base
 
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
-      if load_file_stamps(filename) != get_file_stamp(filename) or Setting.count('*', :conditions => {:global => true}) == 0
+      if load_file_stamps(filename) != get_file_stamp(filename) or Setting.count(:conditions => {:global => true}) == 0
         RAILS_DEFAULT_LOGGER.info('Reloading settings for all sites...')
         settings_in_db = Setting.all
         # per site settings

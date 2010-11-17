@@ -1,33 +1,33 @@
-<h1><%= I18n.t('import.import_results') %></h1>
+<h1><%= t('import.import_results') %></h1>
 
-<p><%= I18n.t('import.the_import_is_complete') %><% if @errored.any? %> <%= I18n.t('import.with_errors') %><% end %>.</p>
+<p><%= t('import.the_import_is_complete') %><% if @errored.any? %> <%= t('import.with_errors') %><% end %>.</p>
 
-<h2><%= I18n.t('import.completed_records') %></h2>
+<h2><%= t('import.completed_records') %></h2>
 
 <table>
-  <tr><th><%= I18n.t('import.first') %></th><th><%= I18n.t('import.last') %></th><th><%= I18n.t('import.status') %></th></tr>
+  <tr><th><%= t('import.first') %></th><th><%= t('import.last') %></th><th><%= t('import.status') %></th></tr>
   <% @completed.each do |record| %>
     <tr>
-      <td><%=h record[:first_name] %></td>
-      <td><%=h record[:last_name] %></td>
-      <td><%=h record[:status] %></td>
+      <td><%= record[:first_name] %></td>
+      <td><%= record[:last_name] %></td>
+      <td><%= record[:status] %></td>
     </tr>
   <% end %>
 </table>
 
 <% if @errored.any? %>
-  <h2><%= I18n.t('import.errored_records') %></h2>
+  <h2><%= t('import.errored_records') %></h2>
 
   <table>
-    <tr><th><%= I18n.t('import.first') %></th><th><%= I18n.t('import.last') %></th><th><%= I18n.t('import.status') %></th></tr>
+    <tr><th><%= t('import.first') %></th><th><%= t('import.last') %></th><th><%= t('import.status') %></th></tr>
     <% @errored.each do |record| %>
       <tr>
-        <td><%=h record[:first_name] %></td>
-        <td><%=h record[:last_name] %></td>
-        <td><%=h record[:status] %></td>
+        <td><%= record[:first_name] %></td>
+        <td><%= record[:last_name] %></td>
+        <td><%= record[:status] %></td>
       </tr>
       <tr>
-        <td colspan="3" style="padding-left:20px;font-size:smaller;"><%=h record[:message] %></td>
+        <td colspan="3" style="padding-left:20px;font-size:smaller;"><%= record[:message] %></td>
       </tr>
     <% end %>
   </table>

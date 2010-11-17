@@ -9,7 +9,7 @@ class RelationshipTest < ActiveSupport::TestCase
       :related => people(:jeremy)
     )
     assert !relationship.valid?
-    assert relationship.errors.on(:name)
+    assert relationship.errors[:name]
   end
 
   should "allow a valid relationship name" do

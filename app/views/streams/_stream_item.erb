@@ -5,38 +5,38 @@
   </div>
   <div class="stream-item-body">
     <% if stream_item.title %>
-      <h2>
-        <%= link_to stream_icon(stream_item), stream_item %>
-        <%= link_to h(stream_item.title), stream_item %>
-      </h2>
+      <h3>
+        <%= link_to stream_item.title, stream_item %>
+      </h3>
     <% else %>
       <% if stream_item.wall and (params[:controller] != 'people' or stream_item.wall_id != @person.id) %>
         <div style="float:left;margin:0 10px 0 -12px;height:37px;">
           <%= image_tag('arrow_right.png', :alt => '', :style => 'padding:10px 0 0 0;vertical-align:top;') %>
           <a href="<%= url_for stream_item.wall %>">
-            <%= image_tag stream_item.wall.has_photo? ? tn_person_photo_path(stream_item.wall) : (stream_item.wall.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag stream_item.wall.photo.exists? ? stream_item.wall.photo.url(:tn) : (stream_item.wall.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
               :alt => stream_item.wall.name %>
           </a>
         </div>
       <% end %>
-      <%= link_to stream_icon(stream_item), stream_item %>
-      <%= stream_item_content(stream_item) %>
-      <% unless stream_item.wall %>
-        <%= link_to I18n.t('comments.view') + '...', stream_item, :class => 'small' %>
-      <% end %>
+      <div class="stream-item-content">
+        <%= stream_item_content(stream_item) %>
+        <% unless stream_item.wall %>
+          <%= link_to t('comments.view') + '...', stream_item, :class => 'small' %>
+        <% end %>
+      </div>
     <% end %>
     <div class="nowrap stream-item-timestamp">
-      <%= time_ago_in_words stream_item.created_at %> <%= I18n.t('comments.ago') %>
+      <%= time_ago_in_words stream_item.created_at %> <%= t('comments.ago') %>
       <% if stream_item.person %>
-        by <%= link_to h(stream_item.person.name), stream_item.person %>
+        by <%= link_to stream_item.person.name, stream_item.person %>
       <% end %>
       <% if stream_item.wall %>
-        <%= I18n.t('to') %> <%= link_to h(stream_item.wall.name), stream_item.wall %>
+        <%= t('to') %> <%= link_to stream_item.wall.name, stream_item.wall %>
       <% end %>
       <% if @group.nil? and stream_item.group %>
-        <%= I18n.t('in') %> <%= link_to h(stream_item.group.name), stream_item.group %>
+        <%= t('in') %> <%= link_to stream_item.group.name, stream_item.group %>
       <% elsif original_url = stream_item.context['original_url'] %>
-        <%= I18n.t('from') %> <%= link_to h(domain_name_from_url(original_url)), original_url %>
+        <%= t('from') %> <%= link_to domain_name_from_url(original_url), original_url %>
       <% end %>
     </div>
     <% if stream_item.title %>
@@ -53,10 +53,10 @@
                 </a>
               </td>
               <td>
-                <%= link_to h(comment['person'].name), comment['person'] %>:
-                <%=h comment['text'] %>
+                <%= link_to comment['person'].name, comment['person'] %>:
+                <%= comment['text'] %>
                 <span class="stream-item-timestamp">
-                  <%= time_ago_in_words(comment['created_at']) %> <%= I18n.t('comments.ago') %>
+                  <%= time_ago_in_words(comment['created_at']) %> <%= t('comments.ago') %>
                 </span>
               </td>
             </tr>
@@ -66,19 +66,19 @@
     <% end %>
     <% if stream_item.can_have_comments? %>
       <div class="new-comment">
-        <%= link_to_function image_tag('comment.gif', :alt => I18n.t('comments.add_a_comment'), :class => 'icon') + ' ' + I18n.t('comments.add_a_comment'),
-          "new Effect.Appear('new-comment-for-#{stream_item.id}'); this.parentNode.style.visibility = 'visible';",
-          :class => 'discreet small' %>
+        <%= link_to_function t('comments.add_a_comment'),
+          "$('#new-comment-for-#{stream_item.id}').show(); $(this.parentNode).css('visibility', 'visible');",
+          :class => 'discreet small comment-icon' %>
         <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
-          <% form_for Comment.new do |form| %>
+          <%= form_for Comment.new do |form| %>
             <% if stream_item.streamable_type == 'Album' %>
-              <% if stream_item.context['picture_ids'].to_a.length == 1 %>
-                <%= hidden_field_tag 'picture_id', stream_item.context['picture_ids'].first %>
+              <% if Array(stream_item.context['picture_ids']).length == 1 %>
+                <%= hidden_field_tag 'picture_id', stream_item.context['picture_ids'].first[0] %>
               <% else %>
-                <%= I18n.t('comments.which_picture') %><br/>
-                <% stream_item.context['picture_ids'].to_a.each_with_index do |picture_id, index| %>
-                  <%= radio_button_tag :picture_id, picture_id, index == 0 %>
-                  <%= label_tag "picture_id_#{picture_id}", image_tag(tn_album_picture_photo_path(stream_item.streamable_id, picture_id), :alt => '', :class => 'icon'), :class => 'inline' %>
+                <%= t('comments.which_picture') %><br/>
+                <% stream_item.context['picture_ids'].to_a.each do |picture_id, fingerprint, extension| %>
+                  <%= radio_button_tag :picture_id, picture_id, picture_id == stream_item.context['picture_ids'].first[0] %>
+                  <%= label_tag "picture_id_#{picture_id}", image_tag(Picture.photo_url_from_parts(picture_id, fingerprint, extension, :tn), :alt => '', :class => 'icon'), :class => 'inline' %>
                   &nbsp;
                 <% end %>
               <% end %>
@@ -86,25 +86,27 @@
               <%= hidden_field_tag stream_item.streamable_type.downcase + '_id', stream_item.streamable_id %>
             <% end %>
             <%= hidden_field_tag :return_to, stream_path %>
-            <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %>
-            <%= form.submit I18n.t('comments.save') %>
+            <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %><br/>
+            <%= form.submit t('comments.save') %>
           <% end %>
         </div>
       </div>
     <% elsif stream_item.wall %>
       <div class="new-comment discreet small">
-        <%= image_tag('comment.gif', :alt => I18n.t('comments.leave_note'), :class => 'icon') %>
+        <%= image_tag('clean/add.png', :alt => t('comments.leave_note'), :class => 'icon') %>
         <% if stream_item.wall == @logged_in %>
-          <%= link_to I18n.t('comments.leave_note_for', :name => h(stream_item.person.name)), stream_item.person %>
+          <%= link_to t('comments.leave_note_for', :name => stream_item.person.name), stream_item.person %>
         <% elsif stream_item.person == @logged_in %>
-          <%= link_to I18n.t('comments.leave_another_note_for', :name => h(stream_item.wall.name)), stream_item.wall %>
+          <%= link_to t('comments.leave_another_note_for', :name => stream_item.wall.name), stream_item.wall %>
         <% else %>
-          <%= I18n.t('comments.leave_a_note_for') %>:
-          <%= link_to h(stream_item.person.name), stream_item.person %>
-          <%= I18n.t('or') %>
-          <%= link_to h(stream_item.wall.name), stream_item.wall %>
+          <%= t('comments.leave_a_note_for') %>:
+          <%= link_to stream_item.person.name, stream_item.person %>
+          <%= t('or') %>
+          <%= link_to stream_item.wall.name, stream_item.wall %>
         <% end %>
       </div>
+    <% else %>
+      <div class="stream-item-spacer"></div>
     <% end %>
   </div>
 </div>

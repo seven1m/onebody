@@ -1,41 +1,11 @@
-# == Schema Information
-#
-# Table name: groups
-#
-#  id                        :integer       not null, primary key
-#  name                      :string(100)
-#  description               :string(500)
-#  meets                     :string(100)
-#  location                  :string(100)
-#  directions                :string(500)
-#  other_notes               :string(500)
-#  creator_id                :integer
-#  address                   :string(255)
-#  members_send              :boolean       default(TRUE)
-#  private                   :boolean
-#  category                  :string(50)
-#  leader_id                 :integer
-#  updated_at                :datetime
-#  hidden                    :boolean
-#  approved                  :boolean
-#  link_code                 :string(255)
-#  parents_of                :integer
-#  site_id                   :integer
-#  blog                      :boolean       default(TRUE)
-#  email                     :boolean       default(TRUE)
-#  prayer                    :boolean       default(TRUE)
-#  attendance                :boolean       default(TRUE)
-#  legacy_id                 :integer
-#  gcal_private_link         :string(255)
-#  approval_required_to_join :boolean       default(TRUE)
-#  pictures                  :boolean       default(TRUE)
-#  cm_api_list_id            :string(50)
-#
-
 class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy
   has_many :membership_requests, :dependent => :destroy
-  has_many :people, :through => :memberships, :order => 'last_name, first_name'
+  has_many :people, :through => :memberships do
+    def thumbnails
+      self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', :order => 'people.last_name, people.first_name')
+    end
+  end
   has_many :admins, :through => :memberships, :source => :person, :order => 'last_name, first_name', :conditions => ['memberships.admin = ?', true]
   has_many :messages, :conditions => 'parent_id is null', :order => 'updated_at desc', :dependent => :destroy
   has_many :notes, :order => 'created_at desc'
@@ -49,7 +19,7 @@ class Group < ActiveRecord::Base
   belongs_to :parents_of_group, :class_name => 'Group', :foreign_key => 'parents_of'
   belongs_to :site
 
-  named_scope :active, :conditions => {:hidden => false}
+  scope :active, :conditions => {:hidden => false}
 
   scope_by_site_id
 
@@ -58,15 +28,19 @@ class Group < ActiveRecord::Base
 
   validates_presence_of :name
   validates_presence_of :category
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :scope => :site_id
   validates_format_of :address, :with => /^[a-zA-Z0-9]+$/, :allow_nil => true
-  validates_uniqueness_of :address, :allow_nil => true
+  validates_uniqueness_of :address, :allow_nil => true, :scope => :site_id
   validates_length_of :address, :in => 2..30, :allow_nil => true
-  validates_uniqueness_of :cm_api_list_id, :allow_nil => true, :allow_blank => true
+  validates_uniqueness_of :cm_api_list_id, :allow_nil => true, :allow_blank => true, :scope => :site_id
+  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
 
   serialize :cached_parents
 
-  def validate
+  validate :validate_self_referencing_parents_of
+
+  def validate_self_referencing_parents_of
     begin
       errors.add('parents_of', :points_to_self) if not new_record? and parents_of == id
     rescue
@@ -74,7 +48,7 @@ class Group < ActiveRecord::Base
     end
   end
 
-  has_one_photo :path => "#{DB_PHOTO_PATH}/groups", :sizes => PHOTO_SIZES
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
   acts_as_logger LogItem
 
   alias_method 'photo_without_logging=', 'photo='
@@ -83,7 +57,7 @@ class Group < ActiveRecord::Base
     self.photo_without_logging = p
   end
 
-  named_scope :checkin_destinations, :include => :group_times, :conditions => ['group_times.checkin_time_id is not null'], :order => 'group_times.ordering'
+  scope :checkin_destinations, :include => :group_times, :conditions => ['group_times.checkin_time_id is not null'], :order => 'group_times.ordering'
 
   def name_group # returns something like "Morgan group"
     "#{name}#{name =~ /group$/i ? '' : ' group'}"
@@ -118,7 +92,7 @@ class Group < ActiveRecord::Base
   def mapable?
     # must look like ", OK 74137"
     # TODO: this needs some work to be usable in other countries
-    location.to_s.any? && location =~ /,\s[A-Z]{2}\s+\d{5}/ ? true : false
+    location.to_s.any? && location =~ /\s[A-Z]{2}\s+\d{5}/ ? true : false
   end
 
   def address=(a)
@@ -151,6 +125,8 @@ class Group < ActiveRecord::Base
     if respond_to?(:cm_api_list_id) and cm_api_list_id.to_s.any? and Setting.get(:services, :campaign_monitor_api_key).to_s.any?
       sync_with_campaign_monitor
     end
+    # have to expire the group fragments here since this is run in background nightly
+    ActionController::Base.cache_store.delete_matched(%r{groups/#{id}})
   end
 
   def update_membership_associations(new_people)
@@ -191,7 +167,7 @@ class Group < ActiveRecord::Base
   end
 
   def attendance_dates
-    attendance_records.find_by_sql("select distinct attended_at from attendance_records where group_id = #{id} order by attended_at desc").map { |r| r.attended_at }
+    attendance_records.find_by_sql("select distinct attended_at from attendance_records where group_id = #{id} and site_id = #{Site.current.id} order by attended_at desc").map { |r| r.attended_at }
   end
 
   def gcal_url
@@ -274,11 +250,11 @@ class Group < ActiveRecord::Base
     end
 
     def categories
-      returning({}) do |cats|
+      {}.tap do |cats|
         if Person.logged_in.admin?(:manage_groups)
-          results = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' group by category").map { |g| [g.category, g.group_count] }
+          results = Group.find_by_sql("select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' and site_id = #{Site.current.id} group by category").map { |g| [g.category, g.group_count] }
         else
-          results = Group.find_by_sql(["select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' and hidden = ? and approved = ? group by category", false, true]).map { |g| [g.category, g.group_count] }
+          results = Group.find_by_sql(["select category, count(*) as group_count from groups where category is not null and category != '' and category != 'Subscription' and hidden = ? and approved = ? and site_id = #{Site.current.id} group by category", false, true]).map { |g| [g.category, g.group_count] }
         end
         results.each do |cat, count|
           cats[cat] = count.to_i
@@ -286,21 +262,103 @@ class Group < ActiveRecord::Base
       end
     end
 
+    def category_names
+      categories.keys.sort
+    end
+
     def count_by_type
       {
-        :normal             => Group.count('id', :conditions => {:hidden  => false, :private => false}),
-        :hidden             => Group.count('id', :conditions => {:hidden  => true,  :private => false}),
-        :private            => Group.count('id', :conditions => {:private => true,  :hidden  => false}),
-        :private_and_hidden => Group.count('id', :conditions => {:private => true,  :hidden  => true })
+        :public             => Group.count('id', :conditions => {:private => false, :hidden => false}),
+        :private            => Group.count('id', :conditions => {:private => true,  :hidden => false}),
       }.reject { |k, v| v == 0 }
     end
 
     def count_by_linked
       {
-        :unlinked           => Group.count('id', :conditions => "parents_of is null and (link_code is null or link_code = '')"),
+        :standard           => Group.count('id', :conditions => "parents_of is null and (link_code is null or link_code = '')"),
         :linked             => Group.count('id', :conditions => "link_code is not null and link_code != ''"),
-        :parents            => Group.count('id', :conditions => "parents_of is not null")
+        :parents_of         => Group.count('id', :conditions => "parents_of is not null")
       }.reject { |k, v| v == 0 }
+    end
+
+    EXPORT_COLS = {
+      :group => %w(
+        name
+        description
+        meets
+        location
+        directions
+        other_notes
+        creator_id
+        address
+        members_send
+        private
+        category
+        leader_id
+        updated_at
+        hidden
+        approved
+        link_code
+        parents_of
+        blog
+        email
+        prayer
+        attendance
+        legacy_id
+        gcal_private_link
+        approval_required_to_join
+        pictures
+        cm_api_list_id
+      ),
+      :member => %w(
+        first_name
+        last_name
+        id
+        legacy_id
+      )
+    }
+
+    def to_csv
+      FasterCSV.generate do |csv|
+        csv << EXPORT_COLS[:group]
+        (1..(Group.count/50)).each do |page|
+          Group.paginate(:include => :people, :per_page => 50, :page => page).each do |group|
+            csv << EXPORT_COLS[:group].map { |c| group.send(c) }
+          end
+        end
+      end
+    end
+
+    def create_to_csv_job
+      Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{Person.logged_in.id}, :file => FakeFile.new(Group.to_csv, 'groups.csv'))")
+    end
+
+    def to_xml
+      builder = Builder::XmlMarkup.new
+      builder.groups do |groups|
+        (1..(Group.count/50)).each do |page|
+          Group.paginate(:include => :people, :per_page => 100, :page => page).each do |group|
+            groups.group do |g|
+              EXPORT_COLS[:group].each do |col|
+                g.tag!(col, group.send(col))
+              end
+              g.people do |people|
+                group.people.each do |person|
+                  people.person do |p|
+                    EXPORT_COLS[:member].each do |col|
+                      p.tag!(col, person.send(col))
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    def create_to_xml_job
+      Job.add("GeneratedFile.create!(:job_id => JOB_ID, :person_id => #{Person.logged_in.id}, :file => FakeFile.new(Group.to_xml, 'groups.xml'))")
     end
   end
 end

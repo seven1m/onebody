@@ -7,19 +7,14 @@ module PagesHelper
   end
 
   def page_path(page)
-    if @logged_in and @logged_in.admin?(:edit_pages)
-      super
-    else
-      path = page.path == 'home' ? '' : page.path
-      page_for_public_path(path)
-    end
+    page_for_public_path(page.path)
   end
 
   def home_path
     if @logged_in and @logged_in.admin?(:edit_pages)
       page_path(Page.find_by_path('home'))
     else
-      super
+      root_path
     end
   end
 

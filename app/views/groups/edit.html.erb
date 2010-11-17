@@ -1,33 +1,14 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => I18n.t('groups.view_group'), :class => 'icon') + ' ' + I18n.t('groups.view_group'), @group %></li>
-  <li><%= link_to image_tag('delete.png', :alt => I18n.t('groups.delete_group'), :class => 'icon') + ' ' + I18n.t('groups.delete_group'), @group, :confirm => I18n.t('are_you_sure_cannot_be_undone'), :method => 'delete' %></li>
-<% end %>
-
-<script type="text/javascript">
-//<![CDATA[
-  SAFE_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  function remove_symbols(text) {
-    var sanitized = '';
-    for(var i=0; i<text.length; i++) {
-      var c = text.substring(i, i+1);
-      if(SAFE_CHARS.indexOf(c) > -1) sanitized += c;
-    }
-    return sanitized.toLowerCase();
-  };
-//]]>
-</script>
-
 <% content_for :sidebar do %>
-  <div id="memberships">
-    <%= render :partial => 'memberships' %>
-  </div>
- 
+  <p><%= link_to t('groups.back_to_group', :name => @group.name), @group, :class => 'left-icon' %></p>
+  <p class="double-margin-top">
+    <%= link_to t('groups.edit_members'), group_memberships_path(@group), :class => 'edit-icon' %>
+  </p>
 <% end %>
 
 <% if @group.private? %><%= render :partial => 'private' %><% end %>
 
 <% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
 
-<h1><%= I18n.t('groups.edit_group') %></h1>
+<h2><%= t('groups.edit_group') %></h2>
 
 <%= render :partial => 'form' %>

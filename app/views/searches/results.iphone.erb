@@ -1,12 +1,12 @@
 <% content_for :toolbar do %>
   <%= iphone_back_button(new_search_path) %>
-  <h1><%= I18n.t('search_results') %></h1>
+  <h1><%= t('search_results') %></h1>
 <% end %>
 
 <div class="info">
-  <%= I18n.t("search.people_found", :count => @count) %>
+  <%= t("search.people_found", :count => @count) %>
   <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
-    <%= I18n.t("search.not_showing_hidden_people") %>
+    <%= t("search.not_showing_hidden_people") %>
   <% end %>
 </div>
 
@@ -15,9 +15,9 @@
   <!--
   <% if @search.show_businesses %>
     <p>
-      <label for="category"><%= I18n.t('search.business_category') %></label>
+      <label for="category"><%= t('search.business_category') %></label>
       <select id="category" onchange="location.href='?business=true&category='+value">
-        <option value=""><%= I18n.t('search.show_all') %></option>
+        <option value=""><%= t('search.show_all') %></option>
         <%= options_for_select @business_categories, params[:category] %>
       </select>
     </p>

@@ -1,94 +1,9 @@
-# == Schema Information
-#
-# Table name: people
-#
-#  id                           :integer       not null, primary key
-#  family_id                    :integer
-#  sequence                     :integer
-#  gender                       :string(6)
-#  first_name                   :string(255)
-#  last_name                    :string(255)
-#  mobile_phone                 :string(25)
-#  work_phone                   :string(25)
-#  fax                          :string(25)
-#  birthday                     :datetime
-#  email                        :string(255)
-#  website                      :string(255)
-#  classes                      :text
-#  shepherd                     :string(255)
-#  mail_group                   :string(1)
-#  encrypted_password           :string(100)
-#  activities                   :text
-#  interests                    :text
-#  music                        :text
-#  tv_shows                     :text
-#  movies                       :text
-#  books                        :text
-#  quotes                       :text
-#  about                        :text
-#  testimony                    :text
-#  share_mobile_phone           :boolean
-#  share_work_phone             :boolean
-#  share_fax                    :boolean
-#  share_email                  :boolean
-#  share_birthday               :boolean
-#  business_name                :string(100)
-#  business_description         :text
-#  business_phone               :string(25)
-#  business_email               :string(255)
-#  business_website             :string(255)
-#  legacy_id                    :integer
-#  email_changed                :boolean
-#  suffix                       :string(25)
-#  anniversary                  :datetime
-#  updated_at                   :datetime
-#  alternate_email              :string(255)
-#  email_bounces                :integer       default(0)
-#  business_category            :string(100)
-#  get_wall_email               :boolean       default(TRUE)
-#  account_frozen               :boolean
-#  wall_enabled                 :boolean
-#  messages_enabled             :boolean       default(TRUE)
-#  business_address             :string(255)
-#  flags                        :string(255)
-#  visible                      :boolean       default(TRUE)
-#  parental_consent             :string(255)
-#  admin_id                     :integer
-#  friends_enabled              :boolean       default(TRUE)
-#  member                       :boolean
-#  staff                        :boolean
-#  elder                        :boolean
-#  deacon                       :boolean
-#  can_sign_in                  :boolean
-#  visible_to_everyone          :boolean
-#  visible_on_printed_directory :boolean
-#  full_access                  :boolean
-#  legacy_family_id             :integer
-#  feed_code                    :string(50)
-#  share_activity               :boolean
-#  site_id                      :integer
-#  can_pick_up                  :string(100)
-#  cannot_pick_up               :string(100)
-#  medical_notes                :string(200)
-#  twitter_account              :string(100)
-#  api_key                      :string(50)
-#  salt                         :string(50)
-#  deleted                      :boolean
-#  child                        :boolean
-#  custom_type                  :string(100)
-#  custom_fields                :text
-#  signin_count                 :integer       default(0)
-#  relationships_hash           :string(40)
-#  donortools_id                :integer
-#  synced_to_donortools         :boolean
-#
-
 class Person < ActiveRecord::Base
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
   BASICS = %w(first_name last_name suffix mobile_phone work_phone fax city state zip birthday anniversary gender address1 address2 city state zip)
-  EXTRAS = %w(email alternate_email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
+  EXTRAS = %w(description email alternate_email website business_category business_name business_description business_phone business_email business_website business_address activities interests music tv_shows movies books quotes about testimony twitter_account)
 
   cattr_accessor :logged_in # set in addition to @logged_in (for use by Notifier and other models)
 
@@ -122,6 +37,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :feeds
   has_many :stream_items
+  has_many :generated_files
   belongs_to :site
 
   scope_by_site_id
@@ -130,11 +46,11 @@ class Person < ActiveRecord::Base
   attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :medical_notes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
   attr_accessible :id, :sequence, :can_pick_up, :cannot_pick_up, :family_id, :if => Proc.new { l = Person.logged_in and l.admin?(:edit_profiles) and l.admin?(:import_data) and Person.import_in_progress }
 
-  named_scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
-  named_scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
+  scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
+  scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
 
   acts_as_password
-  has_one_photo :path => "#{DB_PHOTO_PATH}/people", :sizes => PHOTO_SIZES
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
   acts_as_logger LogItem, :ignore => %w(signin_count)
 
@@ -147,19 +63,21 @@ class Person < ActiveRecord::Base
   validates_presence_of :first_name, :last_name
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
-  validates_uniqueness_of :alternate_email, :allow_nil => true, :scope => :deleted, :unless => Proc.new { |p| p.deleted? }
-  validates_uniqueness_of :feed_code, :allow_nil => true
+  validates_uniqueness_of :alternate_email, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |p| p.deleted? }
+  validates_uniqueness_of :feed_code, :allow_nil => true, :scope => :site_id
   validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
   validates_format_of :business_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
   validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
   validates_format_of :alternate_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
   validates_inclusion_of :gender, :in => %w(Male Female), :allow_nil => true
+  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
 
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
   validates_each [:email, :child] do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any? and not record.deleted?
-      if Person.count('*', :conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]) > 0
+      if Person.count(:conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]) > 0
         record.errors.add attribute, :taken
       end
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
@@ -315,7 +233,7 @@ class Person < ActiveRecord::Base
     when 'Family'
       !what.deleted? and (admin?(:edit_profiles) or (what == self.family and self.adult?))
     when 'Message'
-      admin?(:manage_messages) or what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
+      what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
     when 'PrayerRequest'
       admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group))
     when 'RemoteAccount'
@@ -347,10 +265,6 @@ class Person < ActiveRecord::Base
 
   def can_sign_in?
     read_attribute(:can_sign_in) and adult_or_consent?
-  end
-
-  def full_access?
-    read_attribute(:full_access) or admin? or staff? or elder? or deacon?
   end
 
   def messages_enabled?
@@ -453,7 +367,7 @@ class Person < ActiveRecord::Base
     begin # ensure unique
       code = ActiveSupport::SecureRandom.hex(50)[0...50]
       write_attribute :feed_code, code
-    end while Person.count('*', :conditions => ['feed_code = ?', code]) > 0
+    end while Person.count(:conditions => ['feed_code = ?', code]) > 0
   end
 
   def generate_api_key
@@ -495,7 +409,7 @@ class Person < ActiveRecord::Base
       end
     elsif params[:freeze] and Person.logged_in.admin?(:edit_profiles)
       if Person.logged_in == self
-        self.errors.add_to_base('Cannot freeze your own account.')
+        self.errors.add(:base, 'Cannot freeze your own account.')
         false
       else
         toggle!(:account_frozen)
@@ -522,8 +436,8 @@ class Person < ActiveRecord::Base
   def mark_email_changed
     return if dont_mark_email_changed
     if changed.include?('email')
-      self.write_attribute(:email_changed, true)
-      Notifier.deliver_email_update(self)
+      write_attribute(:email_changed, true)
+      Notifier.email_update(self).deliver
     end
   end
 
@@ -610,7 +524,7 @@ class Person < ActiveRecord::Base
     comment_people_ids = stream_items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
     comment_people = Person.all(
       :conditions => ["id in (?)", comment_people_ids],
-      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at' # only what's needed
+      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_fingerprint' # only what's needed
     ).inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
     stream_items.each do |stream_item|
       stream_item.context['comments'].to_a.each do |comment|
@@ -654,10 +568,6 @@ class Person < ActiveRecord::Base
     )
   end
 
-  def group_names
-    groups.map { |g| g.name }.join(', ')
-  end
-
   def update_relationships_hash
     rels = relationships.all(:include => :related).select do |relationship|
       !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
@@ -669,7 +579,7 @@ class Person < ActiveRecord::Base
 
   def update_relationships_hash!
     update_relationships_hash
-    save(false)
+    save(:validate => false)
   end
 
   def update_donor
@@ -732,7 +642,7 @@ class Person < ActiveRecord::Base
     donor.save
     self.donortools_id = donor.id
     self.synced_to_donortools = true
-    save(false)
+    save(:validate => false)
   end
 
   def donortools_admin_url
@@ -826,32 +736,11 @@ class Person < ActiveRecord::Base
     end
 
     def business_categories
-      find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' order by business_category").map { |p| p.business_category }
+      find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' and site_id = #{Site.current.id} order by business_category").map { |p| p.business_category }
     end
 
     def custom_types
-      find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' order by custom_type").map { |p| p.custom_type }
-    end
-
-    def send_to_mongo
-      db = Report.db
-      people = db['people_new']
-      find_each do |person|
-        next if person.deleted?
-        h = person.to_mongo_hash
-        h['admin'] = person.admin ? person.admin.to_mongo_hash : nil
-        h['family'] = person.family.to_mongo_hash
-        h['groups'] = []
-        person.memberships.all(:include => :group).each do |membership|
-          gh = membership.group.to_mongo_hash
-          gh['membership'] = membership.to_mongo_hash
-          h['groups'] << gh
-        end
-        people.insert(h)
-      end
-      db['people'].drop
-      db['people_new'].rename('people')
-      db['people'].count
+      find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' and site_id = #{Site.current.id} order by custom_type").map { |p| p.custom_type }
     end
 
   end

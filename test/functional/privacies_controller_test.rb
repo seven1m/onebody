@@ -7,7 +7,7 @@ class PrivaciesControllerTest < ActionController::TestCase
       {:logged_in_id => people(:peter).id}
     assert_redirected_to edit_group_membership_privacy_path(groups(:college), memberships(:peter_in_college_group))
     get :show, {:person_id => people(:peter).id}, {:logged_in_id => people(:peter).id}
-    assert_redirected_to edit_person_privacy_path(people(:peter))
+    assert_redirected_to edit_person_privacy_path(people(:peter), :anchor => 'p3')
   end
 
   should "edit membership privacy" do

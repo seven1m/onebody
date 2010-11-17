@@ -1,10 +1,10 @@
 <div style="width:75px;float:right;text-align:right;">
-  <%= link_to_function '[' + I18n.t('close') + ']', 'Element.hide("popup")', :class => 'discreet' %>
+  <%= link_to_function '[' + t('close') + ']', '$("#popup").hide()', :class => 'discreet' %>
 </div>
 
-<h2><%=h @person.name %></h2>
+<h2><%= @person.name %></h2>
 
-<% if @person.has_photo? or not @family.has_photo? %>
+<% if @person.photo.exists? or not @family.photo.exists? %>
   <%= render :partial => 'photo' %>
 <% else %>
   <%= render :partial => 'families/photo' %>

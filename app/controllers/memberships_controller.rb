@@ -8,16 +8,17 @@ class MembershipsController < ApplicationController
     if params[:email]
       update
     else
-      raise ActionController::UnknownAction, I18n.t('No_action_to_show')
+      raise ActionController::UnknownAction, t('No_action_to_show')
     end
   end
 
   def index
     @group = Group.find(params[:group_id])
+    @can_edit = @logged_in.can_edit?(@group)
     if @logged_in.can_see?(@group)
       @requests = @group.membership_requests
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -29,7 +30,7 @@ class MembershipsController < ApplicationController
       @group.memberships.create(:person => @person)
     elsif me?
       @group.membership_requests.create(:person => @person)
-      flash[:warning] = I18n.t('groups.request_sent')
+      flash[:warning] = t('groups.request_sent')
     end
     redirect_back
   end
@@ -41,19 +42,19 @@ class MembershipsController < ApplicationController
       @person = Person.find(params[:id])
       if @logged_in.can_edit?(@group) or @logged_in.can_edit?(@person)
         @group.set_options_for @person, {:get_email => (params[:email] == 'on')}
-        flash[:notice] = I18n.t('groups.email_settings_changed')
+        flash[:notice] = t('groups.email_settings_changed')
         redirect_back
       else
-        render :text => I18n.t('There_was_an_error'), :layout => true, :status => 500
+        render :text => t('There_was_an_error'), :layout => true, :status => 500
       end
     # promote/demote
     elsif @logged_in.can_edit?(@group)
       @membership = @group.memberships.find_or_create_by_person_id(params[:id])
       @membership.update_attribute :admin, !params[:promote].nil?
-      flash[:notice] = I18n.t('groups.user_settings_saved')
+      flash[:notice] = t('groups.user_settings_saved')
       redirect_back
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -63,12 +64,15 @@ class MembershipsController < ApplicationController
     @membership = @group.memberships.find_by_person_id(params[:id])
     if @logged_in.can_edit?(@group) or @membership.person == @logged_in
       if @group.last_admin?(@membership.person)
-        flash[:warning] = I18n.t('groups.last_admin_remove', :name => @membership.person.name)
+        flash[:warning] = t('groups.last_admin_remove', :name => @membership.person.name)
       else
         @membership.destroy
       end
     end
-    redirect_back
+    respond_to do |format|
+      format.html { redirect_back }
+      format.js
+    end
   end
 
   def batch
@@ -89,14 +93,14 @@ class MembershipsController < ApplicationController
       end
       # remove groups
       (@person.groups - groups).each do |group|
-        group.memberships.find_by_person_id(@person).destroy unless group.last_admin?(@person)
+        group.memberships.find_by_person_id(@person.id).destroy unless group.last_admin?(@person)
       end
       @person.groups.reload
       respond_to do |format|
         format.js
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -104,12 +108,15 @@ class MembershipsController < ApplicationController
     @group = Group.find(params[:group_id])
     group_people = @group.people
     if @logged_in.can_edit?(@group)
+      @can_edit = true
       if params[:ids] and params[:ids].is_a?(Array)
+        @added = []
         params[:ids].each do |id|
           if request.post?
             person = Person.find(id)
-            unless params[:commit] == 'Ignore'
-              @group.memberships.create(:person => person) unless group_people.include?(person)
+            unless params[:commit] == 'Ignore' or group_people.include?(person)
+              @group.memberships.create(:person => person) 
+              @added << person
             end
             @group.membership_requests.find_all_by_person_id(id).each { |r| r.destroy }
           elsif request.delete?
@@ -123,10 +130,10 @@ class MembershipsController < ApplicationController
           format.html { redirect_back }
         end
       else
-        render :text => I18n.t('groups.must_specify_ids_list')
+        render :text => t('groups.must_specify_ids_list')
       end
     else
-      render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 

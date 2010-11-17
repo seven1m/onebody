@@ -1,16 +1,13 @@
-<div>
-  <% if @person.has_photo? %>
-    <%= link_to image_tag(medium_person_photo_path(@person, :m => @person.updated_at.to_s(:number)), :alt => h(@person.name)),
-      defined?(url) ? url : large_person_photo_path(@person) %>
-  <% elsif @family and @family.has_photo? and params[:action] != 'edit' %>
-    <%= render :partial => 'families/photo', :locals => defined?(url) ? {:url => url} : nil %>
+<div class="profile-pic">
+  <% if @person.photo.exists? %>
+    <%= link_to image_tag(@person.photo.url(:profile), :alt => @person.name),
+      defined?(url) ? url : @person.photo.url %>
+  <% elsif @family and @family.photo.exists? and params[:action] != 'edit' %>
+    <%= link_to image_tag(@family.photo.url(:profile), :alt => @family.name),
+      defined?(url) ? url : @family.photo.url %>
   <% elsif me? and params[:controller] == 'people' and params[:action] == 'show' %>
-    <div id="profile-pic" class="profile-pic-<%= @person.gender.to_s == 'Female' ? 'woman' : 'man' %>" onclick="location.href = '<%= edit_person_path %>#picture'">
-      <%= link_to image_tag('person_picture.gif', :alt => I18n.t('people.change_your_picture'), :class => 'icon') + ' ' + I18n.t('people.change_your_picture'), edit_person_path + '#picture' %>
+    <div class="silhouette-<%= @person.gender.to_s == 'Female' ? 'woman' : 'man' %>" onclick="location.href = '<%= edit_person_path %>#picture'">
+      <%= link_to t('people.change_your_picture'), edit_person_path(:anchor => 'picture'), :class => 'edit-icon' %>
     </div>
-  <% else %>
-    <% if defined?(url) %><a href="<%= url_for(url) %>"><% end %>
-    <%= render :partial => 'people/silhouette' %>
-    <% if defined?(url) %></a><% end %>
   <% end %>
 </div>

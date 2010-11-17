@@ -6,7 +6,7 @@ class VersesController < ApplicationController
       if @logged_in.can_see?(@person)
         @verses = @person.verses.paginate(:order => 'created_at desc', :page => params[:page])
       else
-        render :text => I18n.t('not_authorized'), :layout => true, :status => 401
+        render :text => t('not_authorized'), :layout => true, :status => 401
       end
       @tags = Verse.tag_counts(:conditions => ['verses.id in (?)', @verses.map { |v| v.id } || [0]])
     else
@@ -24,7 +24,8 @@ class VersesController < ApplicationController
   end
 
   def create
-    if @verse = Verse.find(params[:id]) rescue nil and @verse.valid?
+    id = params[:verse] ? params[:verse][:id] : params[:id]
+    if @verse = Verse.find(id) rescue nil and @verse.valid?
       unless @verse.people.include? @logged_in
         @verse.people << @logged_in
         @verse.create_as_stream_item(@logged_in)
@@ -32,7 +33,7 @@ class VersesController < ApplicationController
       expire_fragment(%r{views/people/#{@logged_in.id}_})
       redirect_to params[:redirect_to] || @verse
     else
-      render :text => I18n.t('verses.not_found'), :layout => true, :status => 404
+      render :text => t('verses.not_found'), :layout => true, :status => 404
     end
   end
 

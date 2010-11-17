@@ -1,10 +1,10 @@
 <% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@group.name), @group %></li>
+  <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' ' + t('back_to') + ' ' + @group.name, @group %></li>
 <% end %>
 
 <h1>
-  <% if params[:answered] %><%= I18n.t('prayer.answered') %><% end %>
-  <%= I18n.t('prayer.prayer_requests_in') %> <%= link_to h(@group.name), @group %>
+  <% if params[:answered] %><%= t('prayer.answered') %><% end %>
+  <%= t('prayer.prayer_requests_in') %> <%= link_to @group.name, @group %>
 </h1>
 
 <% @reqs.each do |req| %>
@@ -14,7 +14,7 @@
       <% if req.person %>
         <span class="nowrap">
           <a href="<%= url_for req.person %>">
-            <%= image_tag req.person.has_photo? ? tn_person_photo_path(req.person) : (req.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag req.person.photo.exists? ? req.person.photo.url(:tn) : (req.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
               :alt => req.person.name %>
           </a>
         </span>
@@ -24,7 +24,7 @@
       <div style="clear:left;"></div>
     </div>
     <div class="stream-item-body">
-      <div><%= white_list_with_removal auto_link(req.body) %></div>
+      <div><%= sanitize_html auto_link(req.body) %></div>
       <%= render :partial => 'meta', :locals => {:req => req} %>
     </div>
   </div>
@@ -32,7 +32,3 @@
 <% end %>
 
 <%= will_paginate @reqs %>
-
-<style type="text/css">
-  .stream-item { display: block; }
-</style>

@@ -1,1 +1,0 @@
-require 'has_one_photo'

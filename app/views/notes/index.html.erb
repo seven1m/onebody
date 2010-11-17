@@ -1,17 +1,17 @@
 <% content_for :subnav do %>
   <% if @person %>
-    <li><%= link_to image_tag('user.png', :alt => I18n.t('person'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@person.name), @person %></li>
+    <li><%= link_to image_tag('user.png', :alt => t('person'), :class => 'icon') + ' ' + t('back_to') + ' ' + @person.name, @person %></li>
   <% else %>
-    <li><%= link_to image_tag('group.png', :alt => I18n.t('group'), :class => 'icon') + ' ' + I18n.t('back_to') + ' ' + h(@group.name), @group %></li>
+    <li><%= link_to image_tag('group.png', :alt => t('group'), :class => 'icon') + ' ' + t('back_to') + ' ' + @group.name, @group %></li>
   <% end %>
 <% end %>
 
 <h1>
-  <%= I18n.t('notes.notes') %>
+  <%= t('notes.notes') %>
   <% if @person %>
-    <%= I18n.t('by') %> <%= link_to h(@person.name), @person %>
+    <%= t('by') %> <%= link_to @person.name, @person %>
   <% elsif @group %>
-    <%= I18n.t('in') %> <%= link_to h(@group.name), @group %>
+    <%= t('in') %> <%= link_to @group.name, @group %>
   <% end %>
 </h1>
 
@@ -22,7 +22,7 @@
       <% if note.person %>
         <span class="nowrap">
           <a href="<%= url_for note.person %>">
-            <%= image_tag note.person.has_photo? ? tn_person_photo_path(note.person) : (note.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag note.person.photo.exists? ? note.person.photo.url(:tn) : (note.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
               :alt => note.person.name %>
           </a>
         </span>
@@ -33,30 +33,26 @@
     </div>
     <div class="stream-item-body">
       <% if note.title.to_s.any? %>
-        <h2><%= link_to h(note.title), note %></h2>
+        <h2><%= link_to note.title, note %></h2>
         <%= render :partial => 'meta', :locals => {:note => note} %>
         <div>
-          <%= white_list_with_removal auto_link(note.body) %>
+          <%= sanitize_html auto_link(note.body) %>
         </div>
       <% else %>
         <h2></h2>
-        <%= image_tag('note.png', :alt => I18n.t('notes.note'), :class => 'icon') %>
-        <%= white_list_with_removal auto_link(note.body) %>
+        <%= image_tag('note.png', :alt => t('notes.note'), :class => 'icon') %>
+        <%= sanitize_html auto_link(note.body) %>
         <%= render :partial => 'meta', :locals => {:note => note} %>
       <% end %>
 
       <% if note.original_url %>
-        <p class="small"><%= I18n.t('notes.note_imported_from') %> <%= link_to h(domain_name_from_url(note.original_url)), note.original_url %>.</p>
+        <p class="small"><%= t('notes.note_imported_from') %> <%= link_to domain_name_from_url(note.original_url), note.original_url %>.</p>
       <% end %>
 
-      <% if (count = note.comments.count) > 0 %><p><%= pluralize count, I18n.t('comment') %></p><% end %>
+      <% if (count = note.comments.count) > 0 %><p><%= pluralize count, t('comment') %></p><% end %>
     </div>
 </div>
 
 <% end %>
 
 <%= will_paginate @notes %>
-
-<style type="text/css">
-  .stream-item { display: block; }
-</style>

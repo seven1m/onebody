@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageTest < ActiveSupport::TestCase
-  fixtures :messages
-
   include MessagesHelper
 
   def setup
@@ -13,7 +11,7 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   should "create a new message with attachments" do
-    files = [fixture_file_upload('files/attachment.pdf')]
+    files = [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)]
     @message = Message.create_with_attachments({:to => @person, :person => @second_person, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph}, files)
     assert_equal 1, @message.attachments.count
   end
@@ -23,9 +21,9 @@ class MessageTest < ActiveSupport::TestCase
     @preview = Message.preview(:to => @person, :person => @second_person, :subject => subject, :body => body)
     assert_equal subject, @preview.subject
     @body = get_email_body(@preview)
-    assert @body.index(body)
-    assert @body.index('Hit "Reply" to send a message')
-    assert @body.index(/http:\/\/.+\/privacy/)
+    assert @body.to_s.index(body)
+    assert_match(/Hit "Reply" to send a message/, @body.to_s)
+    assert_match(/http:\/\/.+\/privacy/, @body.to_s)
   end
 
   should "know who can see the message" do

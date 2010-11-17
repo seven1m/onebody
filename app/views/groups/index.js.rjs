@@ -1,1 +1,0 @@
-page.replace_html 'group_results', :partial => 'select_group'

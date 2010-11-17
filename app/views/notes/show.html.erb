@@ -1,28 +1,25 @@
-<% if @logged_in.can_edit?(@note) %>
-  <% content_for :subnav do %>
-    <%= link_to image_tag('pencil.png', :alt => I18n.t('notes.edit_note'), :class => 'icon') + ' ' + I18n.t('notes.edit_note'), edit_note_url(:id => @note), :class => 'discreet' %>
-    <%= link_to image_tag('delete.png', :alt => I18n.t('notes.delete_note'), :class => 'icon') + ' ' + I18n.t('notes.delete_note'), @note, :class => 'discreet', :method => 'delete', :confirm => I18n.t('are_you_sure') %>
-  <% end %>
-<% end %>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'people/photo' %>
   <p>
-    <%= I18n.t('notes.posted') %> <%= @note.created_at.to_time.to_s %>
-    <% if @note.group %><%= I18n.t('to') %> <%= link_to h(@note.group.name), group_url(:id => @note.group) %><% end %>
-    <%= I18n.t('notes.by') %> <%= link_to h(@note.person.name), person_url(:id => @note.person) %>
+    <%= t('notes.posted') %> <%= @note.created_at.to_time.to_s %>
+    <% if @note.group %><%= t('to') %> <%= link_to @note.group.name, group_url(:id => @note.group) %><% end %>
+    <%= t('notes.by') %> <%= link_to @note.person.name, person_url(:id => @note.person) %>
   </p>
+  <% if @logged_in.can_edit?(@note) %>
+    <%= link_to t('notes.edit_note'), edit_note_path(@note), :class => 'edit-icon' %><br/>
+    <%= link_to t('notes.delete_note'), @note, :class => 'delete-icon', :method => :delete, :confirm => t('are_you_sure') %>
+  <% end %>
 <% end %>
 
-<h1><%=h @note.title %></h1>
+<h1><%= @note.title %></h1>
 
 <div <% if @note.title.to_s.empty? and @note.body.length <= 200 %>class="note-content-big"<% end %>>
-  <%= white_list_with_removal auto_link(@note.body) %>
+  <%= sanitize_html auto_link(@note.body) %>
 </div>
 
 <% if @note.original_url %>
-  <p class="small"><%= I18n.t('notes.note_imported_from') %> <%= link_to h(domain_name_from_url(@note.original_url)), @note.original_url %>.</p>
+  <p class="small"><%= t('notes.note_imported_from') %> <%= link_to domain_name_from_url(@note.original_url), @note.original_url %>.</p>
 <% end %>
 
-<h2><%= I18n.t('Comments') %></h2>
-<%= render :partial => 'comments/comments', :locals => {:object => @note, :intro => I18n.t('notes.about_this_note') + '.'} %>
+<h2><%= t('Comments') %></h2>
+<%= render :partial => 'comments/comments', :locals => {:object => @note, :intro => t('notes.about_this_note') + '.'} %>

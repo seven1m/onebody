@@ -1,24 +1,12 @@
-# == Schema Information
-#
-# Table name: attachments
-#
-#  id           :integer       not null, primary key
-#  message_id   :integer
-#  name         :string(255)
-#  content_type :string(50)
-#  created_at   :datetime
-#  site_id      :integer
-#  page_id      :integer
-#  group_id     :integer
-#
-
 class Attachment < ActiveRecord::Base
   belongs_to :message
   belongs_to :page
   belongs_to :group
   belongs_to :site
   scope_by_site_id
-  has_one_file :path => DB_ATTACHMENTS_PATH
+  has_attached_file :file, PAPERCLIP_FILE_OPTIONS
+
+  validates_attachment_size :file, :less_than => PAPERCLIP_FILE_MAX_SIZE
 
   def visible_to?(person)
     (message and person.can_see?(message)) or page
@@ -29,7 +17,18 @@ class Attachment < ActiveRecord::Base
   end
 
   def image
-    @img ||= MiniMagick::Image.from_blob(File.read(self.file_path)) rescue nil
+    @img ||= unless @img == false
+      if `identify -format "%m/%b/%w/%h" #{self.file.path}` =~ %r{(.+)/(.+)B/(\d+)/(\d+)}
+        @img = {
+          'format' => $1,
+          'size'   => $2.to_i,
+          'width'  => $3.to_i,
+          'height' => $4.to_i
+        }
+      else
+        @img = false
+      end
+    end
   end
 
   def image?
@@ -46,12 +45,12 @@ class Attachment < ActiveRecord::Base
 
   class << self
     def create_from_file(attributes)
-      file = attributes.delete(:file)
+      file = attributes[:file]
       attributes.merge!(:name => File.split(file.original_filename).last, :content_type => file.content_type)
-      returning create(attributes) do |attachment|
+      create(attributes).tap do |attachment|
         if attachment.valid?
           attachment.file = file
-          attachment.errors.add_to_base('File could not be saved.') unless attachment.has_file?
+          attachment.errors.add(:base, 'File could not be saved.') unless attachment.file.exists?
         end
       end
     end

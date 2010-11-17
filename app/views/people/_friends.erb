@@ -1,12 +1,12 @@
 <% if (count = @person.friendships.count) > 0 %>
   <h2>
-    <%= I18n.t('friends.friends') %>
+    <%= t('friends.friends') %>
     <% if me? %>
-      <%= link_to I18n.t('edit'), person_friends_path(@person), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+      <%= link_to t('edit'), person_friends_path(@person), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
     <% end %>
   </h2>
   <% if count > MAX_FRIENDS_ON_PROFILE %>
-    <p><%= MAX_FRIENDS_ON_PROFILE %> <%= I18n.t('of') %> <%= count %></p>
+    <p><%= MAX_FRIENDS_ON_PROFILE %> <%= t('of') %> <%= count %></p>
   <% end %>
   <table>
     <% @friends.each do |friend| %>
@@ -17,19 +17,19 @@
           </a>
         </td>
         <td class="friend">
-          <%= link_to h(friend.name), person_url(:id => friend) %>
+          <%= link_to friend.name, person_url(:id => friend) %>
           <% if friend.birthday_soon? %>
             <br/>
-            <%= image_tag('birthday.png', :alt => I18n.t('privacies.birthday'), :class => 'icon') %>
-            <%= I18n.t('privacies.birthday') %> <%= friend.birthday.to_time.to_s :date rescue nil %>
+            <%= image_tag('birthday.png', :alt => t('privacies.birthday'), :class => 'icon') %>
+            <%= t('privacies.birthday') %> <%= friend.birthday.to_time.to_s :date rescue nil %>
           <% end %>
         </td>
       </tr>
     <% end %>
   </table>
   <% if count > MAX_FRIENDS_ON_PROFILE %>
-    <p><%= link_to I18n.t('more') + "...", person_friends_path(@person) %></p>
+    <p><%= link_to t('more') + "...", person_friends_path(@person) %></p>
   <% end %>
 <% elsif me? %>
-  <p class="highlight"><%= link_to I18n.t('friends.add_your_friends_to_profile', :url => search_path(:search_friends => true)) %></p>
+  <p class="highlight"><%= link_to t('friends.add_your_friends_to_profile_html', :url => search_path(:search_friends => true)) %></p>
 <% end %>

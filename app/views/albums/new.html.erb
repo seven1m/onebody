@@ -1,3 +1,5 @@
-<h1><%= I18n.t('albums.new_picture') %> <% if @group %><%= I18n.t('in') %> <%= link_to h(@group.name), @group %><% end %></h1>
+<% content_for :sidebar do %><% end %>
+
+<h2><%= t('albums.new_picture') %> <% if @group %><%= t('in') %> <%= link_to @group.name, @group %><% end %></h2>
 
 <%= render :partial => 'form' %>

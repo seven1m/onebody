@@ -1,13 +1,13 @@
-<h1><%= I18n.t('tags.tag') %>: <%=h @tag.name %></h1>
+<h2><%= t('tags.tag') %>: <%= @tag.name %></h2>
 
 <% if @tag.verses.any? %>
-  <h2><%= I18n.t('verses.verses') %></h2>
+  <h3><%= t('verses.verses') %></h3>
   <% @tag.verses.each do |verse| %>
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
   <% end %>
 <% end %>
 
 <% if @tag.recipes.any? %>
-  <h2><%= I18n.t('recipes.recipes') %></h2>
+  <h3><%= t('recipes.recipes') %></h3>
   <%= render :partial => 'recipes/list', :locals => {:recipes => @tag.recipes.paginate(:page => 1, :per_page => 100)} %>
 <% end %>

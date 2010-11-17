@@ -1,18 +1,18 @@
 <% content_for :toolbar do %>
   <%= iphone_back_button  %>
-  <h1><%=h @album.name %></h1>
+  <h1><%= @album.name %></h1>
 <% end %>
 
 <div class="info">
-  <%=h @album.description %><br/>
-  <% if @album.group %><%= I18n.t('pictures.posted_in') %> <%= link_to h(@album.group.name), @album.group %><% end %>
+  <%= @album.description %><br/>
+  <% if @album.group %><%= t('pictures.posted_in') %> <%= link_to @album.group.name, @album.group %><% end %>
 </div>
 
 <ul>
   <% @pictures.each do |picture| %>
     <li>
-      <%= link_to image_tag(medium_picture_path(picture), :alt => I18n.t('pictures.click_to_enlarge')),
-        [@album, picture], :title => I18n.t('pictures.click_to_enlarge') %>
+      <%= link_to image_tag(picture.photo.url(:medium), :alt => t('pictures.click_to_enlarge')),
+        [@album, picture], :title => t('pictures.click_to_enlarge') %>
     </li>
   <% end %>
 </ul>

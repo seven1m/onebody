@@ -5,30 +5,30 @@
   <% recipes.each do |recipe| %>
     <tr>
       <td>
-        <% if recipe.has_photo? %>
-          <%= link_to image_tag(tn_recipe_photo_path(recipe), :alt => recipe.title, :class => 'no-border'), recipe %>
+        <% if recipe.photo.exists? %>
+          <%= link_to image_tag(recipe.photo.url(:tn), :alt => recipe.title, :class => 'no-border'), recipe %>
         <% end %>
       </td>
       <td>
-        <strong><%= link_to h(recipe.title), recipe %></strong>
-        <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => I18n.t('new'), :class => 'no-border' %><% end %>
+        <strong><%= link_to recipe.title, recipe %></strong>
+        <% if recipe.created_at >= today - DAYS_NEW %><%= image_tag 'new.gif', :alt => t('new'), :class => 'no-border' %><% end %>
         <% unless @person %>
           by
           <% if recipe.person %>
-            <%= link_to h(recipe.person.name), person_path(recipe.person) %>
+            <%= link_to recipe.person.name, person_path(recipe.person) %>
           <% else %>
             ???
           <% end %>
         <% end %>
         <% if @person or recipe.admin? @logged_in %>
-          <%= link_to '[' + I18n.t('edit') + ']', edit_recipe_path(recipe), :class => 'discreet' %>
-          <%= link_to '[' + I18n.t('delete') + ']', recipe, :method => 'delete', :confirm => I18n.t("recipes.confirm_delete"), :class => 'discreet' %>
+          <%= link_to '[' + t('edit') + ']', edit_recipe_path(recipe), :class => 'discreet' %>
+          <%= link_to '[' + t('delete') + ']', recipe, :method => 'delete', :confirm => t("recipes.confirm_delete"), :class => 'discreet' %>
         <% end %>
         <% unless @person %>
           Tags: <%= render :partial => 'tags/tags_with_delete', :locals => {:object => recipe} %>
         <% end %>
         <br/>
-        <%= truncate h(recipe.description), :length => 50, :omission => '...' %>
+        <%= truncate recipe.description, :length => 50, :omission => '...' %>
       </td>
     </tr>
   <% end %>

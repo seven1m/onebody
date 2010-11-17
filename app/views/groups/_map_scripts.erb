@@ -1,11 +1,11 @@
 <script type="text/javascript" src="http://api.maps.yahoo.com/ajaxymap?v=3.4&amp;appid=<%= Setting.get(:services, :yahoo) %>"></script>
 <script type="text/javascript">
-  var address = <%= @group.location.inspect %>;
+  var address = '<%= escape_javascript @group.location %>';
   map_loaded = false;
   function load_map() {
     if(map_loaded) return;
     map_loaded = true;
-    var map = new YMap($('map'));
+    var map = new YMap('map');
     map.drawZoomAndCenter(address, 6);
     map.addZoomLong();
     map.setMapType(YAHOO_MAP_REG);
@@ -18,7 +18,7 @@
     map.disableKeyControls();
   }
   if(typeof(hide_map) == 'undefined' || !hide_map) {
-    Element.show('map-container')
+    $('#map-container').show();
     onload = load_map;
   }
 </script>

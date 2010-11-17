@@ -1,17 +1,17 @@
-<h1><%= I18n.t('accounts.verify_by_phone') %></h1>
+<h1><%= t('accounts.verify_by_phone') %></h1>
 <p>
-  <%= I18n.t('accounts.verify_by_phone_description') %>
+  <%= t('accounts.verify_by_phone_description_html') %>
 </p>
-<% form_tag account_path, :method => 'post', :onsubmit => "return confirm('" + I18n.t('accounts.your_carrier_will_charge') + "')" do %>
+<%= form_tag account_path, :method => 'post', :onsubmit => "return confirm('" + t('accounts.your_carrier_will_charge') + "')" do %>
   <p>
-    <label for="mobile"><%= I18n.t('accounts.type_your_mobile') %>:</label>
+    <label for="mobile"><%= t('accounts.type_your_mobile') %>:</label>
     <%= text_field_tag :mobile, params[:mobile] == 'true' ? '' : params[:mobile] %><br/>
-    <label for="carrier"><%= I18n.t('accounts.select_your_carrier') %>:</label>
+    <label for="carrier"><%= t('accounts.select_your_carrier') %>:</label>
     <select id="carrier" name="carrier">
       <option value=""></option>
       <%= options_for_select MOBILE_GATEWAYS.keys, params[:carrier] %>
     </select>
   </p>
-  <p><%= submit_tag I18n.t('accounts.verify_mobile') %></p>
+  <p><%= submit_tag t('accounts.verify_mobile') %></p>
 <% end %>
 

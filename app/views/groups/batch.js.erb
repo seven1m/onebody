@@ -1,0 +1,11 @@
+$('.group').removeClass('error');
+$('.group .errors').html('');
+<% if @errors.any? %>
+  <% @errors.each do |id, errors| %>
+    $("#group<%= id %>").addClass('error');
+    $("#group<%= id %> .errors").html('<%= escape_javascript errors.join('; ') %>');
+  <% end %>
+  alert('<%= escape_javascript t('groups.there_was_errors_saving') %>');
+<% else %>
+  alert('<%= escape_javascript t('changes_saved') %>');
+<% end %>

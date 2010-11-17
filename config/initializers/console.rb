@@ -1,13 +1,16 @@
-if $0 =~ /^irb/
+if defined?(IRB)
   Site.current = Site.find(1)
-  puts 'Sites:'
-  puts '  id    name                                     host'
-  puts '  ----- ---------------------------------------- ------------------------------'
-  puts Site.all.map { |s| "#{s.default? ? '*' : ' '} #{s.id.to_s.ljust 5} #{s.name.ljust(40)[0...40]} #{s.host.ljust(30)[0...30]}" }.join("\n")
-  def use(id)
-    Site.current = Site.find(id)
-    puts "Set Site.current to <#{Site.current.name}>"
+  def use(id=nil)
+    Site.current = Site.find(id) if id
+    puts 'Sites:'
+    puts '  id    name                                     host'
+    puts '  ----- ---------------------------------------- ------------------------------'
+    Site.all.each do |site|
+      next if id and site.id != id
+      puts "#{site == Site.current ? '*' : ' '} #{site.id.to_s.ljust 5} #{site.name.ljust(40)[0...40]} #{site.host.ljust(30)[0...30]}"
+    end
     true
   end
+  use
   puts 'Type "use ID" to change selected site...'
 end

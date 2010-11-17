@@ -11,50 +11,87 @@ module ApplicationHelper
     end
   end
 
+  def head_tags
+    (
+      '<meta http-equiv="content-type" content="text/html; charset=utf-8" />' + \
+      '<meta http-equiv="Pragma" content="no-cache"/>' + \
+      '<meta http-equiv="no-cache"/>' + \
+      '<meta http-equiv="Expires" content="-1"/>' + \
+      '<meta http-equiv="Cache-Control" content="no-cache"/>'
+    ).html_safe
+  end
+
+  def stylesheet_tags
+    stylesheet_link_tag('jquery-ui-1.8.6.custom', 'style', :cache => true) + "\n" + \
+    "<!--[if lte IE 8]>\n".html_safe + \
+      stylesheet_link_tag('ie') + "\n" + \
+    "<![endif]-->".html_safe
+  end
+
+  def javascript_tags
+    javascript_include_tag('jquery-1.4.3.min', 'jquery-ui-1.8.6.custom.min', 'jquery.qtip-1.0.0-rc3.min.js', 'rails', 'application', :cache => true) + "\n" + \
+    csrf_meta_tag + "\n" + \
+    "<!--[if lte IE 8]>\n".html_safe + \
+      javascript_include_tag('ie') + "\n" + \
+    "<![endif]-->\n".html_safe + \
+    "<script type=\"text/javascript\">logged_in = #{@logged_in ? @logged_in.id : 'null'}</script>".html_safe
+  end
+
   def heading
-    if (logo = Setting.get(:appearance, :logo)).to_s.any?
-      img = image_tag("/assets/site#{Site.current.id}/#{logo}", :alt => Setting.get(:name, :site), :class => 'no-border', :style => 'float:left;margin-right:10px;')
-      link_to(img, '/')
-    elsif !@page or @page.for_members?
-      link_to(h(Setting.get(:name, :site)), people_path)
+    if Site.current.logo.exists?
+      link_to(image_tag(Site.current.logo.url(:layout), :alt => Setting.get(:name, :site)), '/')
     else
-      link_to(h(Setting.get(:name, :community)), '/')
+      Setting.get(:name, :site)
     end
   end
 
   def subheading
-    if !@page or @page.for_members?
-      html = simple_url(Setting.get(:url, :site))
-    else
-      html = simple_url(Setting.get(:url, :visitor))
+    if Setting.get(:name, :slogan).to_s.any? and !Site.current.logo.exists?
+      Setting.get(:name, :slogan)
     end
-    if Setting.get(:name, :slogan).to_s.any?
-      html << " | #{h Setting.get(:name, :slogan)}"
-    end
-    html
   end
 
-  def tab_link(title, url, active=false)
-    link_to(title, url, :class => active ? 'active' : nil)
+  def tab_link(title, url, active=false, id=nil)
+    link_to(title, url, :class => active ? 'active button' : 'button', :id => id)
   end
 
   def nav_links
     html = ''
-    if Setting.get(:features, :content_management_system)
-      html << "<li>#{tab_link I18n.t("nav.pages"), '/', params[:controller] == 'pages' && @page && @page.home?}</li>"
+    html << "<li>#{tab_link t("nav.home"), stream_path, params[:controller] == 'streams', 'home-tab'}</li>"
+    if @logged_in
+      profile_link = person_path(@logged_in, :tour => params[:tour])
+    else
+      profile_link = people_path
     end
-    html << "<li>#{tab_link I18n.t("nav.home"), stream_path, params[:controller] == 'streams'}</li>"
-    profile_link = @logged_in ? person_path(@logged_in, :tour => params[:tour]) : people_path
-    html << "<li>#{tab_link I18n.t("nav.profile"), profile_link, params[:controller] == 'people' && me?}</li>"
+    html << "<li><div>#{tab_link t("nav.profile"), profile_link, params[:controller] == 'people' && me?, 'profile-tab'}</div></li>"
     if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
-      html << "<li>#{ tab_link I18n.t("nav.groups"), groups_path, params[:controller] == 'groups'}</li>"
+      html << "<li>#{ tab_link t("nav.groups"), groups_path, params[:controller] == 'groups', 'group-tab'}</li>"
     end
-    html << "<li>#{tab_link I18n.t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller])}</li>"
-    if Setting.get(:services, :sermondrop_url).to_s.any?
-      html << "<li>#{tab_link I18n.t("nav.podcasts"), podcasts_path, params[:controller] == 'podcasts'}</li>"
-    end
-    #html << "<li>#{tab_link I18n.t("nav.bible"), bible_path, params[:controller] == 'bibles'}</li>"
+    html << "<li>#{tab_link t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller]), 'directory-tab'}</li>"
     html
+  end
+
+  def common_nav_links
+    html = ''
+    html << "<li class=\"platform\"><a href=\"http://beonebody.com\">OneBody v2</a></li>"
+    if @logged_in
+      html << "<li>#{link_to t("admin.admin"), admin_path}</li>" if @logged_in.admin?
+      html << "<li>#{link_to t("session.sign_out"), session_path, :method => :delete}</li>"
+    end
+    if Setting.get(:services, :sermondrop_url).to_s.any?
+      html << "<li>#{link_to t("nav.podcasts"), podcasts_path}</li>"
+    end
+    html
+  end
+
+  def menu_content
+    render :partial => 'people/menus'
+  end
+
+  def search_form
+    form_tag(search_path, :method => :get) do
+      text_field_tag('name', nil, :id => 'search_name', :size => 20, :placeholder => t('search.search_by_name'))
+    end
   end
 
   def notice
@@ -62,36 +99,16 @@ module ApplicationHelper
       <<-HTML
         <div id="notice" #{flash[:warning] ? 'class="warning"' : nil}>#{flash[:warning] || flash[:notice]}</div>
         <script type="text/javascript">
-          #{!flash[:sticky_notice] && "setTimeout(\"new Effect.Fade('notice');\", 15000)"}
+          #{flash[:sticky_notice] ? '' : "$('#notice').fadeOut(15000);"}
         </script>
       HTML
     end
   end
 
-  def personal_nav_links
-    html = ''
-    if @logged_in
-      html << "<li class=\"personal\">"
-      html << link_to(image_tag('door_in.png', :alt => I18n.t('session.sign_out'), :class => 'icon') + ' ' + I18n.t('session.sign_out'), session_path, :method => 'delete')
-      html << "</li>"
-      html << "<li class=\"personal\">"
-      if session[:touring]
-        html << link_to(image_tag('car.png', :alt => I18n.t('session.tour'), :class => 'icon') + ' ' + I18n.t('session.tour'), tour_path(:stop => true), :class => 'active')
-      else
-        html << link_to(image_tag('car.png', :alt => I18n.t('session.tour'), :class => 'icon') + ' ' + I18n.t('session.tour'), tour_path(:start => true), :id => 'tour_link')
-      end
-      html << "</li>"
-      if @logged_in.admin?
-        html << "<li class=\"personal\">"
-        html << link_to(image_tag('cog.png', :alt => I18n.t('admin.admin'), :class => 'icon') + ' ' + I18n.t('admin.admin'), admin_path, :class => params[:controller] =~ /^admin/ ? 'active' : nil)
-        html << "</li>"
-      end
-    else
-      html << "<li class=\"personal\">"
-      html << link_to(image_tag('door.png', :alt => I18n.t('session.sign_in'), :class => 'icon') + ' ' + I18n.t('session.sign_in'), new_session_path)
-      html << "</li>"
-    end
-    html
+  def footer_content
+    "&copy; #{Date.today.year}, #{Setting.get(:name, :community)} &middot; " + \
+    "<a href=\"/pages/help/privacy_policy\">#{t('layouts.privacy_policy')}</a> &middot; " + \
+    t('layouts.powered_by_html')
   end
 
   def news_js
@@ -111,14 +128,6 @@ module ApplicationHelper
 
   def remove_excess_breaks(text)
     text.gsub(/(\n\s*){3,}/, "\n\n")
-  end
-
-  def hide_contact_details(text)
-    if Setting.get(:privacy, :hide_contact_details_in_messages)
-      text.gsub(/\(?\d\d\d\)?[\s\-\.]?\d\d\d[\s\-\.]\d\d\d\d/, '[phone number protected]').gsub(/[a-z\-_\.0-9]+@[a-z\-0-9\.]+\.[a-z]{2,4}/, '[email address protected]')
-    else
-      text
-    end
   end
 
   def image_tag(location, options)
@@ -143,7 +152,9 @@ module ApplicationHelper
   end
 
   def render_page_content(path)
-    Page.find_by_path_and_published(path, true).body rescue nil
+    if page = Page.find_by_path_and_published(path, true)
+      sanitize_html(page.body)
+    end
   end
 
   def format_phone(phone, mobile=false)
@@ -164,11 +175,22 @@ module ApplicationHelper
     n ? n.sub(/\*/, '') : nil
   end
 
-  def white_list_with_removal(html)
+  def sanitize_html(html)
     return nil unless html
-    html.gsub!(/<script.+?<\/script>/mi, '')
-    html.gsub!(/<style.+?<\/style>/mi, '')
-    white_list(html) { |node, bad| node.to_s.gsub(/<[^>]+>/, '').gsub(/</, '&lt;') }
+    Sanitize.clean(html, Sanitize::Config::ONEBODY).html_safe
+  end
+
+  def error_messages_for(form)
+    if form.object.errors.any?
+      (
+        "<div class=\"errorExplanation\">" + \
+        "<h3>#{t('There_were_errors')}</h3>" + \
+        "<ul class=\"list\">" + \
+        form.object.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
+        "</ul>" + \
+        "</div>"
+      ).html_safe
+    end
   end
 
   def domain_name_from_url(url)
@@ -205,6 +227,20 @@ module ApplicationHelper
     "http://chart.apis.google.com/chart?chtt=#{options[:title]}&cht=p&chd=t:#{counts.join(',')}&chs=#{options[:width]}x#{options[:height]}&chl=#{labels.join('|')}&chco=#{options[:colors].join(',')}"
   end
 
+  def sortable_column_heading(label, sort, keep_params=[])
+    new_sort = (sort.split(',') + params[:sort].to_s.split(',')).uniq.join(',')
+    options = {
+      :controller => params[:controller],
+      :action     => params[:action],
+      :id         => params[:id],
+      :sort       => new_sort
+    }.merge(
+      params.reject { |k, v| !keep_params.include?(k) }
+    )
+    url = url_for(options)
+    link_to label, url
+  end
+
   def iphone_back_button(url=nil, label='Back')
     if url
       "<a class=\"button backButton\" rel=\"external\" href=\"#{url}\">#{label}</a>"
@@ -236,25 +272,22 @@ module ActionView
         options[:size] ||= 15
         InstanceTag.new(object_name, method, self, options.delete(:object)).to_input_field_tag("text", options)
       end
-      def date_field(object_name, method, options = {})
-        options[:value] = options[:object][method].to_s(:date) rescue ''
-        options[:size] ||= 12
-        InstanceTag.new(object_name, method, self, options.delete(:object)).to_input_field_tag("text", options)
-      end
     end
     class FormBuilder
       def phone_field(method, options = {})
         @template.phone_field(@object_name, method, options.merge(:object => @object))
       end
       def date_field(method, options = {})
-        options = {:time => false, :size => 15, :buttons => false, :year_range => 100}.merge(options)
-        calendar_date_select(method, options)
+        options[:value] = self.object[method].to_s(:date) rescue ''
+        options[:size] ||= 12
+        text_field(method, options)
       end
     end
     module FormTagHelper
       def date_field_tag(name, value = nil, options = {})
-        options = {:time => false, :size => 15, :buttons => false, :year_range => 100}.merge(options)
-        calendar_date_select_tag(name, value, options)
+        value = value.to_s(:date) rescue ''
+        options[:size] ||= 12
+        text_field_tag(name, value, options)
       end
     end
   end

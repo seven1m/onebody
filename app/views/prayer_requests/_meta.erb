@@ -1,5 +1,5 @@
 <p class="timestamp">
-  <% if req.person %><%= I18n.t('prayer.posted_by') %> <%= link_to h(req.person.name), req.person %><% end %>
-  <% if req.group %>in <%= link_to h(req.group.name), req.group %><% end %>
+  <% if req.person %><%= t('prayer.posted_by') %> <%= link_to req.person.name, req.person %><% end %>
+  <% if req.group %>in <%= link_to req.group.name, req.group %><% end %>
   <%= time_ago_in_words req.created_at %> ago
 </p>

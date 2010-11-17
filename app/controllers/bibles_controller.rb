@@ -41,7 +41,7 @@ class BiblesController < ApplicationController
       params[:book].gsub!(/\+/, ' ')
       if @book = Verse.normalize_book(params[:book]) and  @chapter = params[:chapter].to_i
         @reference = "#{@book} #{@chapter}"
-        @chapter_filename = "#{RAILS_ROOT}/app/views/bibles/#{@book}/#{'%03d' % @chapter}.erb"
+        @chapter_filename = "#{Rails.root}/app/views/bibles/#{@book}/#{'%03d' % @chapter}.erb"
         @chapter_filename = nil unless File.exists?(@chapter_filename)
       end
     end

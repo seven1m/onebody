@@ -1,3 +1,10 @@
+<ul>
+  <li><a href="#share-note"   ><%= t('notes.note'      ) %></a></li>
+  <li><a href="#share-picture"><%= t('pictures.picture') %></a></li>
+  <li><a href="#share-verse"  ><%= t('verses.verse'    ) %></a></li>
+  <li><a href="#share-news"   ><%= t('news.news'       ) %></a></li>
+</ul>
+
 <% if Setting.get(:features, :notes) %>
   <%= render :partial => 'streams/share_note' %>
 <% end %>
@@ -12,9 +19,4 @@
 
 <% if Setting.get(:features, :news_by_users) or @logged_in.admin?(:manage_news) %>
   <%= render :partial => 'streams/share_news' %>
-<% end %>
-
-<% if Setting.get(:features, :recipes) or
-  (Setting.get(:features, :publications) and @logged_in.admin?(:manage_publications)) %>
-  <%= render :partial => 'streams/share_other' %>
 <% end %>

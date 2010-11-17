@@ -1,10 +1,10 @@
-<h2><%= I18n.t('groups.change_email_settings') %></h2>
+<h2><%= t('groups.change_email_settings') %></h2>
 
 <form method="POST">
   <p>
-    <%= I18n.t('groups.are_you_sure_option', { :option => @options.get_email? ? 'disable' : 'enable', :group => h(@group.name) } ) %>
+    <%= t('groups.are_you_sure_option', { :option => @options.get_email? ? 'disable' : 'enable', :group => @group.name } ) %>
   </p>
   <%= hidden_field_tag :person_id, params[:person_id] %>
   <%= hidden_field_tag :code, params[:code] %>
-  <p><%= submit_tag I18n.t('groups.yes_do_it') %></p>
+  <p><%= submit_tag t('groups.yes_do_it') %></p>
 </form>

@@ -17,7 +17,7 @@ class Administration::FilesController < ApplicationController
       File.chmod(0664, @path + '/' + params[:filename])
       redirect_to administration_files_path
     else
-      render :text => I18n.t('attachments.invalid_name'), :layout => true, :status => 500
+      render :text => t('attachments.invalid_name'), :layout => true, :status => 500
     end
   end
 
@@ -26,11 +26,11 @@ class Administration::FilesController < ApplicationController
       begin
         File.delete(@path + '/' + params[:id])
       rescue
-        render :text => I18n.t('attachments.file_not_found'), :layout => true, :status => 404
+        render :text => t('attachments.file_not_found'), :layout => true, :status => 404
       end
       redirect_to administration_files_path
     else
-      render :text => I18n.t('attachments.invalid_name'), :layout => true, :status => 500
+      render :text => t('attachments.invalid_name'), :layout => true, :status => 500
     end
   end
 

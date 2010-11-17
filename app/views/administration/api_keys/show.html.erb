@@ -1,26 +1,26 @@
-<h1><%= I18n.t('admin.api') %></h1>
+<h1><%= t('admin.api') %></h1>
 
 <% if @key %>
 
-  <p><%= I18n.t('admin.api_login_details') %>:</p>
+  <p><%= t('admin.api_login_details') %>:</p>
   <table>
     <tr>
-      <th style="text-align:right;"><%= I18n.t('admin.username') %>:</th>
-      <td><%=h @logged_in.email %></td>
+      <th style="text-align:right;"><%= t('admin.username') %>:</th>
+      <td><%= @logged_in.email %></td>
     </tr>
     <tr>
-      <th style="text-align:right;"><%= I18n.t('admin.key') %>:</th>
-      <td><code id="key" style="display:none;"><%=h @key %></code><%= link_to_function I18n.t('admin.display'), "Element.show('key');Element.hide('key_link');", :id => 'key_link' %></td>
+      <th style="text-align:right;"><%= t('admin.key') %>:</th>
+      <td><code id="key" style="display:none;"><%= @key %></code><%= link_to_function t('admin.display'), "$('#key').show();$('#key_link').hide();", :id => 'key_link' %></td>
     <tr/>
   </table>
   
-  <p><%= link_to I18n.t('admin.generate'), administration_api_key_path, :method => 'post', :confirm => I18n.t('admin.invalidate_confirmation') %>
-  <%= I18n.t('admin.new_api_or') %> <%= link_to 'disable', administration_api_key_path, :method => 'delete', :confirm => I18n.t('are_you_sure') %> <%= I18n.t('admin.your_key') %>.</p>
+  <p><%= link_to t('admin.generate'), administration_api_key_path, :method => 'post', :confirm => t('admin.invalidate_confirmation') %>
+  <%= t('admin.new_api_or') %> <%= link_to 'disable', administration_api_key_path, :method => 'delete', :confirm => t('are_you_sure') %> <%= t('admin.your_key') %>.</p>
   
-  <h2><%= I18n.t('Help') %></h2>
+  <h2><%= t('Help') %></h2>
   
   <p>
-    <%= I18n.t('admin.rest_api_information') %>:
+    <%= t('admin.rest_api_information') %>:
   </p>
   
   <pre>
@@ -28,7 +28,7 @@
     require 'activeresource'
     
     class Person < ActiveResource::Base
-      self.site = 'https://beonebody.com/api/<%=h Site.current.host %>/'
+      self.site = 'https://beonebody.com/api/<%= Site.current.host %>/'
       self.user = 'user@example.com'
       self.password = 'api-key-goes-here'
     end
@@ -39,8 +39,8 @@
 
 <% else %>
 
-  <p><%= I18n.t('admin.no_api_key') %>
-  <%= link_to I18n.t('admin.enable'), administration_api_key_path, :method => 'post', :confirm => I18n.t('admin.enable_api_confirmation') %>
-  <%= I18n.t('admin.your_key') %>.</p>
+  <p><%= t('admin.no_api_key') %>
+  <%= link_to t('admin.enable'), administration_api_key_path, :method => 'post', :confirm => t('admin.enable_api_confirmation') %>
+  <%= t('admin.your_key') %>.</p>
 
 <% end %>

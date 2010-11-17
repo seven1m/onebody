@@ -1,23 +1,3 @@
-# == Schema Information
-#
-# Table name: log_items
-#
-#  id             :integer       not null, primary key
-#  object_changes :text
-#  person_id      :integer
-#  created_at     :datetime
-#  reviewed_on    :datetime
-#  reviewed_by    :integer
-#  flagged_on     :datetime
-#  flagged_by     :string(255)
-#  deleted        :boolean
-#  name           :string(255)
-#  group_id       :integer
-#  site_id        :integer
-#  loggable_id    :integer
-#  loggable_type  :string(255)
-#
-
 class LogItem < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
@@ -81,7 +61,7 @@ class LogItem < ActiveRecord::Base
 
   def object_image_url
     return nil if deleted?
-    return nil unless object.respond_to? 'has_photo?' and object.has_photo?
+    return nil unless object.respond_to? 'photo.exists?' and object.photo.exists?
     controller = loggable_type.pluralize.downcase
     action = 'photo'
     id = "#{loggable_id}.tn.jpg"

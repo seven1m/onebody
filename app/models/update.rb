@@ -1,32 +1,3 @@
-# == Schema Information
-#
-# Table name: updates
-#
-#  id               :integer       not null, primary key
-#  person_id        :integer
-#  first_name       :string(255)
-#  last_name        :string(255)
-#  home_phone       :string(25)
-#  mobile_phone     :string(25)
-#  work_phone       :string(25)
-#  fax              :string(25)
-#  address1         :string(255)
-#  address2         :string(255)
-#  city             :string(255)
-#  state            :string(2)
-#  zip              :string(10)
-#  birthday         :datetime
-#  anniversary      :datetime
-#  created_at       :datetime
-#  complete         :boolean
-#  suffix           :string(25)
-#  gender           :string(6)
-#  family_name      :string(255)
-#  family_last_name :string(255)
-#  site_id          :integer
-#  custom_fields    :text
-#
-
 class Update < ActiveRecord::Base
   PERSON_ATTRIBUTES = %w(first_name last_name mobile_phone work_phone fax birthday anniversary suffix gender custom_fields)
   FAMILY_ATTRIBUTES = %w(family_name family_last_name home_phone address1 address2 city state zip)
@@ -47,7 +18,7 @@ class Update < ActiveRecord::Base
   end
 
   def custom_fields_as_hash
-    returning({}) do |hash|
+    {}.tap do |hash|
       Setting.get(:features, :custom_person_fields).each_with_index do |field, index|
         hash[index] = custom_fields[index] if custom_fields[index]
       end
@@ -80,8 +51,8 @@ class Update < ActiveRecord::Base
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
     success = person.update_attributes(person_attributes) && person.family.update_attributes(family_attributes)
     unless success
-      person.errors.full_messages.each        { |m| self.errors.add_to_base m }
-      person.family.errors.full_messages.each { |m| self.errors.add_to_base m }
+      person.errors.full_messages.each        { |m| self.errors.add :base, m }
+      person.family.errors.full_messages.each { |m| self.errors.add :base, m }
     end
     return success
   end
@@ -128,16 +99,16 @@ class Update < ActiveRecord::Base
 
   def self.create_from_params(params, person)
     params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
-    returning person.updates.new do |update|
+    person.updates.new.tap do |update|
       update.person_attributes = params[:person].reject_blanks if params[:person]
       update.family_attributes = params[:family].reject_blanks if params[:family]
       update.save
-      Notifier.deliver_profile_update(person, update.changes) if Setting.get(:contact, :send_updates_to)
+      Notifier.profile_update(person, update.changes).deliver if Setting.get(:contact, :send_updates_to)
     end
   end
 
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
-    returning([]) do |data|
+    [].tap do |data|
       counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from updates where site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
       ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
         d = date.strftime(date_strftime)

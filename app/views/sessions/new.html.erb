@@ -1,12 +1,11 @@
 <%= javascript_include_tag 'rsa.min.js' %>
 
-<%= render_page_content 'system/sign_in_header' %>
-
-<h2><%= I18n.t('session.please_sign_in') %></h2>
-
-<div style="width:150px;float:right;margin:10px;text-align:center;">
-  <%= link_to image_tag('help.gif', :alt => I18n.t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
-  <%= link_to I18n.t('session.i_need_help'), help_path %>
+<div class="left-sidebar line-right">
+  <%= render_page_content 'system/sign_in_header' %>
+  <div class="double-margin-top" style="text-align:center;">
+    <%= link_to image_tag('clean/help.png', :alt => t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
+    <%= link_to t('session.i_need_help'), help_path %>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -27,22 +26,23 @@
 <form method="post" action="/session" onsubmit="return encrypt_password()">
   <%= hidden_field_tag :from, params[:from] %>
   <%= hidden_field_tag :encrypted_password %>
-  
-  <p><%= I18n.t('session.sign_up_or_sign_in', :url => new_account_path) %></p>
-  
-  <table>
+
+  <h2 class="double-margin-bottom"><%= t('session.please_sign_in') %></h2>
+
+  <table class="spaced">
     <tr>
-      <td><label for="email"><%= I18n.t('session.email_address') %></label></td>
-      <td><%= text_field_tag :email, params[:email], :size => 30 %></td>
+      <td><label for="email"><%= t('session.email_address') %></label></td>
+      <td><%= text_field_tag :email, params[:email], :size => 30, :autocomplete => 'off' %></td>
     </tr>
     <tr>
-      <td><label for="password"><%= I18n.t('session.password') %></label></td>
-      <td><input type="password" id="password" <% if Setting.get(:privacy, :allow_unencrypted_logins) %>name="password"<% end %>/></td>
+      <td><label for="password"><%= t('session.password') %></label></td>
+      <td><input type="password" id="password" size="30" <% if Setting.get(:privacy, :allow_unencrypted_logins) %>name="password"<% end %>/></td>
     </tr>
     <tr>
       <td></td>
       <td>
-        <input type="submit" value="<%= I18n.t('session.sign_in') %>"/><br/>
+        <input type="submit" value="<%= t('session.sign_in') %>"/><br/>
+        <p class="double-margin-top"><%= t('session.sign_up_or_sign_in_html', :url => new_account_path) %></p>
       </td>
     </tr>
   </table>

@@ -1,5 +1,5 @@
 <p class="timestamp">
-  <% if note.person %><%= I18n.t('notes.posted_by') %> <%= link_to h(note.person.name), note.person %><% end %>
-  <% if note.group %><%= I18n.t('in') %> <%= link_to h(note.group.name), note.group %><% end %>
+  <% if note.person %><%= t('notes.posted_by') %> <%= link_to note.person.name, note.person %><% end %>
+  <% if note.group %><%= t('in') %> <%= link_to note.group.name, note.group %><% end %>
   <%= time_ago_in_words note.created_at %> ago
 </p>

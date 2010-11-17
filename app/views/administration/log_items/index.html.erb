@@ -1,25 +1,25 @@
 <% content_for :subnav do %>
-  <li><%= link_to I18n.t('admin.home'), admin_path %></li>
+  <li><%= link_to t('admin.home'), admin_path %></li>
 <% end %>
 
-<h1><%= I18n.t('admin.log') %></h1>
+<h1><%= t('admin.log') %></h1>
 
-<p><%= link_to_function I18n.t('admin.logs.filtering_options') + ' &raquo;', "Element.toggle('log_options')" %></p>
+<p><%= link_to_function t('admin.logs.filtering_options') + ' &raquo;', "$('#log_options').toggle()" %></p>
 
 <form id="log_options" style="display:none;">
-  <strong><%= I18n.t('stream.show') %>:</strong>
-  <select name="reviewed"><%= options_for_select [[I18n.t('admin.logs.new_only'), 'hidden'], [I18n.t('admin.logs.new_and_reviewed'), 'visible']], session[:admin_log] ? session[:admin_log][:reviewed] : nil %></select>
-  <select name="nonflagged"><%= options_for_select [[I18n.t('admin.logs.flagged_only'), 'hidden'], [I18n.t('admin.logs.flagged_and_not_flagged'), 'visible']], session[:admin_log] ? session[:admin_log][:nonflagged] : nil %></select><br/>
-  <strong><%= I18n.t('admin.logs.date_range') %></strong>
-  (<%= I18n.t('admin.logs.date_format') %>:
-  <span style="background-color:#ffc;"><%= DateTime.now.to_s(:date) %></span> <%= I18n.t('or') %>
+  <strong><%= t('stream.show') %>:</strong>
+  <select name="reviewed"><%= options_for_select [[t('admin.logs.new_only'), 'hidden'], [t('admin.logs.new_and_reviewed'), 'visible']], session[:admin_log] ? session[:admin_log][:reviewed] : nil %></select>
+  <select name="nonflagged"><%= options_for_select [[t('admin.logs.flagged_only'), 'hidden'], [t('admin.logs.flagged_and_not_flagged'), 'visible']], session[:admin_log] ? session[:admin_log][:nonflagged] : nil %></select><br/>
+  <strong><%= t('admin.logs.date_range') %></strong>
+  (<%= t('admin.logs.date_format') %>:
+  <span style="background-color:#ffc;"><%= DateTime.now.to_s(:date) %></span> <%= t('or') %>
   <span style="background-color:#ffc;"><%= DateTime.now.to_s %></span>)
-  <label for="date_from"><%= I18n.t('messages.from') %>:</label>
+  <label for="date_from"><%= t('messages.from') %>:</label>
   <input name="date[from]" id="date_from" size="15" value="<%= session[:admin_log] && session[:admin_log][:date] ? session[:admin_log][:date][:from] : nil %>"/>
-  <label for="date_to"><%= I18n.t('To') %>:</label>
+  <label for="date_to"><%= t('To') %>:</label>
   <input name="date[to]" id="date_to" size="15" value="<%= session[:admin_log] && session[:admin_log][:date] ? session[:admin_log][:date][:to] : nil %>"/>
   <br/>
-  <%= submit_tag I18n.t('admin.logs.update_display') %>
+  <%= submit_tag t('admin.logs.update_display') %>
 </form>
 
 <%= will_paginate @items %>
@@ -28,47 +28,47 @@
   <%= form_tag batch_administration_log_items_path, :method => 'put' %>
     <table style="width:100%;">
       <tr>
-        <th><input type="checkbox" onclick="var checked=$('check_all').checked;$$('.log_item_checkbox').each(function(e){e.checked=checked});" class="checkbox" id="check_all"/></th>
+        <th><input type="checkbox" onclick="$('.log_item_checkbox').attr('checked', this.checked)" class="checkbox" id="check_all"/></th>
         <th></th>
-        <th><%= I18n.t('type') %></th>
-        <th><%= I18n.t('What') %></th>
-        <th><%= I18n.t('When') %></th>
-        <th><%= I18n.t('Changes') %></th>
+        <th><%= t('type') %></th>
+        <th><%= t('What') %></th>
+        <th><%= t('When') %></th>
+        <th><%= t('Changes') %></th>
       </tr>
       <% @items.each do |item| %>
         <tr>
           <td style="font-size:smaller;line-height:13px;">
             <% if item.reviewed_on %>
-              <%= link_to I18n.t('admin.logs.reviewed'), person_path(item.reviewed_by_id) %>
-              <%= I18n.t('on') %> <%= item.reviewed_on.to_s %>
+              <%= link_to t('admin.logs.reviewed'), person_path(item.reviewed_by_id) %>
+              <%= t('on') %> <%= item.reviewed_on.to_s %>
             <% else %>
               <%= check_box_tag 'log_items[]', item.id, nil, :class => 'checkbox log_item_checkbox' %>
             <% end %>
           </td>
           <td>
             <% if item.flagged_on %>
-              <%= image_tag('flag_red.gif', :alt => I18n.t('admin.logs.flagged'), :class => 'icon') %>
+              <%= image_tag('flag_red.gif', :alt => t('admin.logs.flagged'), :class => 'icon') %>
             <% end %>
           </td>
-          <td><%=h item.loggable_type %></td>
+          <td><%= item.loggable_type %></td>
           <td>
             <% if item.deleted? %>
-              <span style="text-decoration:line-through;"><%=h item.name %></span>
-              (<%= I18n.t('admin.logs.deleted') %>)
+              <span style="text-decoration:line-through;"><%= item.name %></span>
+              (<%= t('admin.logs.deleted') %>)
             <% else %>
-              <%= link_to h(item.name), log_item_path(item), :confirm => item.loggable_type == 'Message' ? I18n.t('admin.logs.private_message') : nil %>
+              <%= link_to item.name, log_item_path(item), :confirm => item.loggable_type == 'Message' ? t('admin.logs.private_message') : nil %>
             <% end %>
           </td>
           <td><%= item.created_at.to_s %></td>
-          <td><%= link_to_remote I18n.t('changes'), :url => administration_log_item_path(item), :method => :get %></td>
+          <td><%= link_to t('changes'), :remote => true, :url => administration_log_item_path(item), :method => :get %></td>
         </tr>
         <tr id="changes<%= item.id %>" style="display:none;" class="changes">
           <td colspan="5" id="changes<%= item.id %>_content"></td>
         </tr>
       <% end %>
     </table>
-    <p><%= submit_tag I18n.t('admin.logs.mark_as_reviewed') %></p>
+    <p><%= submit_tag t('admin.logs.mark_as_reviewed') %></p>
   </form>
 <% else %>
-  <p><em><%= I18n.t('admin.logs.nothing_to_show') %></em></p>
+  <p><em><%= t('admin.logs.nothing_to_show') %></em></p>
 <% end %>

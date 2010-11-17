@@ -1,130 +1,205 @@
-ActionController::Routing::Routes.draw do |map|
+OneBody::Application.routes.draw do
 
-  PHOTO_SIZE_METHODS = {:tn => :get, :small => :get, :medium => :get, :large => :get}
+  root :to => 'pages#show_for_public'
 
-  map.home '', :controller => 'pages', :action => 'show_for_public'
-
-  map.resource :setup
-
-  map.resource :stream
-
-  map.resource :account, :member => {:verify_code => :any, :select => :any}
-
-  map.resources :people,
-    :collection => {:import => :any, :hashify => :post, :schema => :get, :batch => :post},
-    :member => {:favs => :get, :testimony => :get} do |people|
-    people.resources :groups
-    people.resources :pictures
-    people.resources :friends, :collection => {:reorder => :post}
-    people.resources :relationships, :collection => {:batch => :post}
-    people.resources :groupies
-    people.resources :services
-    people.resources :albums
-    people.resources :feeds
-    people.resources :notes
-    people.resources :verses
-    people.resources :recipes
-    people.resources :contributions, :collection => {:sync => [:get, :post]}
-    people.resource :account, :member => {:verify_code => :any, :select => :any}
-    people.resource :privacy
-    people.resource :blog
-    people.resource :wall, :member => {:with => :get}
-    people.resource :photo, :member => PHOTO_SIZE_METHODS
-    people.resource :calendar
-  end
-
-  map.resources :families,
-    :collection => {:hashify => :post, :schema => :get, :batch => :post, :select => :post},
-    :member => {:reorder => :post} do |families|
-    families.resources :relationships
-    families.resource :photo, :member => PHOTO_SIZE_METHODS
-  end
-
-  map.resources :groups,
-    :collection => {:batch => :any} do |groups|
-    groups.resources :memberships, :collection => {:batch => :any}, :has_one => :privacy
-    groups.resources :notes
-    groups.resources :messages, :collection => {:new => :any}
-    groups.resources :prayer_requests
-    groups.resources :attendance, :collection => {:batch => :post}
-    groups.resources :albums
-    groups.resources :attachments
-    groups.resource :photo, :member => PHOTO_SIZE_METHODS
-    groups.resource :calendar
-  end
-
-  map.resources :memberships, :collection => {:batch => :any}
-
-  map.resources :contributions, :collection => {:sync => [:get, :post]}
-
-  map.resources :service_categories, :collection => {:batch_edit => :get, :close_batch_edit => :get}
-
-  map.resources :albums do |albums|
-    albums.resources :pictures, :member => {:next => :get, :prev => :get} do |pictures|
-      pictures.resource :photo, :member => PHOTO_SIZE_METHODS
+  resource :account do
+    member do
+      get  :verify_code
+      post :verify_code
+      get  :select
+      post :select
     end
   end
 
-  map.resources :pictures
-
-  map.resources :prayer_signups
-
-  map.resources :recipes do |recipes|
-    recipes.resource :photo, :member => PHOTO_SIZE_METHODS
+  resources :people do
+    collection do
+      get  :schema
+      get  :import
+      post :import
+      post :hashfiy
+      post :batch
+    end
+    member do
+      get  :favs
+      get  :testimony
+    end
+    resources :friends do
+      collection do
+        post :reorder
+      end
+    end
+    resources :relationships do
+      collection do
+        post :batch
+      end
+    end
+    resources :contributions do
+      collection do
+        get  :sync
+        post :sync
+      end
+    end
+    resource :account do
+      member do
+        get  :verify_code
+        post :verify_code
+        get  :select
+        post :select
+      end
+    end
+    resource :wall do
+      member do
+        get :with
+      end
+    end
+    resource :photo
+    resources :groups, :pictures, :groupies, :services, :albums, :feeds, :notes, :verses, :recipes
+    resource :privacy, :blog, :calendar
   end
 
-  map.resources :messages do |messages|
-    messages.resources :attachments
+  resources :families do
+    collection do
+      get  :schema
+      post :hashfiy
+      post :batch
+      post :select
+    end
+    member do
+      post :reorder
+    end
+    resource :photo
+    resources :relationships
   end
 
-  map.resources :authentications
-  map.resources :feeds
-  map.resources :verses
-  map.resources :publications
-  map.resources :notes
-  map.resources :tags
-  map.resources :news, :singular => 'news_item'
-  map.resources :comments
-  map.resources :attachments, :member => {:get => :get}
-  map.resources :prayer_requests
-  map.resources :podcasts
-
-  map.resource :session
-  map.resource :search
-  map.resource :printable_directory
-  map.resource :privacy
-  map.resource :tour
-
-  map.bible 'bible/:book/:chapter', :controller => 'bibles', :action => 'show',
-    :book => 'x', :chapter => 0,
-    :requirements => {:book => /[A-Za-z0-9 \+(%20)]+/, :chapter => /\d{1,3}/}
-
-  map.resources :pages, :as => 'pages/admin' do |pages|
-    pages.resources :attachments
+  resources :groups do
+    collection do
+      get  :batch
+      post :batch
+    end
+    resources :memberships do
+      collection do
+        post   :batch
+        delete :batch
+      end
+      resource :privacy
+    end
+    resources :messages do
+      collection do
+        post :new
+      end
+    end
+    resources :attendance do
+      collection do
+        post :batch
+      end
+    end
+    resource :photo
+    resources :notes, :prayer_requests, :albums, :attachments
+    resource :calendar
   end
 
-  map.with_options :controller => 'pages' do |pages|
-    pages.page_for_public 'pages/*path', :action => 'show_for_public', :conditions => {:method => :get}
+  resources :memberships do
+    collection do
+      get  :batch
+      post :batch
+    end
   end
 
-  map.resource :pc_sync
-
-  map.resource :admin, :controller => 'administration/dashboards'
-  map.namespace :administration, :path_prefix => 'admin' do |admin|
-    admin.resource :api_key
-    admin.resource :logo
-    admin.resources :updates
-    admin.resources :emails, :collection => {:batch => :put}
-    admin.resources :admins
-    admin.resources :membership_requests
-    admin.resources :log_items, :collection => {:batch => :put}
-    admin.resources :settings, :collection => {:batch => :put, :reload => :put}
-    admin.resources :files, :requirements => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
-    admin.resources :attendance, :collection => {:prev => :get, :next => :get}
-    admin.resources :syncs, :member => {:create_items => :post}
-    admin.resources :deleted_people, :collection => {:batch => :put}
-    admin.resources :reports
-    admin.resource :theme
+  resources :contributions do
+    collection do
+      get  :sync
+      post :sync
+    end
   end
 
+  resources :service_categories do
+    collection do
+      get :batch_edit
+      get :close_batch_edit
+    end
+  end
+
+  resources :albums do
+    resources :pictures do
+      member do
+        get :next
+        get :prev
+      end
+      resource :photo
+    end
+  end
+
+  resources :recipes do
+    resource :photo
+  end
+
+  resources :messages do
+    resources :attachments
+  end
+
+  resources :pictures, :prayer_signups, :authentications, :feeds, :verses, :shares,
+            :publications, :notes, :tags, :comments, :prayer_requests, :podcasts,
+            :generated_files
+
+  resource  :setup, :stream, :session, :search, :printable_directory,
+            :privacy, :tour, :pc_sync
+
+  resources :news, :as => :news_items
+  match 'news', :to => 'news#index'
+
+  resources :attachments do
+    member do
+      get :get
+    end
+  end
+
+  match 'bible(/:book(/:chapter))' => 'bibles#show',
+    :defaults    => {:book => 'x', :chapter => '0'},
+    :constraints => {:book => /[A-Za-z0-9 \+(%20)]+/, :chapter => /\d{1,3}/}
+
+  resources :pages, :path => 'pages/admin' do
+    resources :attachments
+  end
+
+  match 'pages/*path' => 'pages#show_for_public', :via => :get, :as => :page_for_public
+
+  match '/admin' => 'administration/dashboards#show'
+
+  namespace :administration, :path => :admin do
+    resources :emails do
+      collection do
+        put :batch
+      end
+    end
+    resources :log_items do
+      collection do
+        put :batch
+      end
+    end
+    resources :settings do
+      collection do
+        put :batch
+        put :reload
+      end
+    end
+    resources :files, :constraints => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
+    resources :attendance do
+      collection do
+        get :prev
+        get :next
+      end
+    end
+    resources :syncs do
+      member do
+        post :create_items
+      end
+    end
+    resources :deleted_people do
+      collection do
+        put :batch
+      end
+    end
+    resources :updates, :admins, :membership_requests, :reports
+    resource :theme, :api_key, :logo
+  end
 end

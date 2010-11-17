@@ -1,22 +1,22 @@
 <% content_for :toolbar do %>
-  <h1><%=h @group.name %></h1>
+  <h1><%= @group.name %></h1>
   <%= iphone_back_button %>
 <% end %>
 
 <div class="info">
-  <% if @group.has_photo? %>
-    <%= image_tag medium_group_photo_path(@group), :alt => @group.name %>
+  <% if @group.photo.exists? %>
+    <%= image_tag @group.photo.url(:medium), :alt => @group.name %>
   <% else %>
     <%= image_tag 'group.jpg', :alt => @group.name %>
   <% end %>
-  <p><%= I18n.t('groups.category') %>: <%= link_to h(@group.category), groups_path(:category => @group.category) %></p>
+  <p><%= t('groups.category') %>: <%= link_to @group.category, groups_path(:category => @group.category) %></p>
 </div>
 
-<h2><%= I18n.t('groups.recent_activity') %></h2>
+<h2><%= t('groups.recent_activity') %></h2>
 
 <%= render :partial => 'streams/stream_items_iphone' %>
 
-<h2><%= I18n.t('people.people') %></h2>
+<h2><%= t('people.people') %></h2>
 
 <ul>
   <% @group.people.all(:order => 'last_name, first_name').each do |person| %>
@@ -25,12 +25,12 @@
         <div class="thumbnail">
           <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
         </div>
-        <%=h person.name %>
+        <%= person.name %>
         <% if person.birthday_soon? %>
           <br/>
           <span class="detail">
-            <%= image_tag('birthday.png', :alt => I18n.t('privacies.birthday'), :class => 'icon') %>
-            <%= I18n.t('privacies.birthday') %> <%= person.birthday.to_time.to_s :date rescue nil %>
+            <%= image_tag('birthday.png', :alt => t('privacies.birthday'), :class => 'icon') %>
+            <%= t('privacies.birthday') %> <%= person.birthday.to_time.to_s :date rescue nil %>
           </span>
         <% end %>
       </a>

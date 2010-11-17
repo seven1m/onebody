@@ -1,54 +1,54 @@
 <% if params[:action] == 'simple_view' and not @person.visible?(@family) %>
   <p>
-    <%= image_tag 'lock.gif', :alt => I18n.t('people.hidden_profile'), :class => 'icon' %>
-    <%= I18n.t('people.this_profile_is_hidden') %>
+    <%= image_tag 'lock.gif', :alt => t('people.hidden_profile'), :class => 'icon' %>
+    <%= t('people.this_profile_is_hidden') %>
   </p>
 <% end %>
 
 <table>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :website, :label => I18n.t('people.website') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :website, :label => t('people.website') } do %>
     <% if @person.website.to_s.any? %>
-      <%= link_to h(simple_url(@person.website)), @person.website %>
+      <%= link_to simple_url(@person.website), @person.website %>
     <% end %>
   <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :email, :label => I18n.t('privacies.email') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :email, :label => t('privacies.email') } do %>
     <%= mail_to @person.email %>
   <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :home_phone, :label => I18n.t('privacies.home_phone') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :home_phone, :label => t('privacies.home_phone') } do %>
     <%= format_phone(@person.home_phone) %>
   <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :mobile_phone, :label => I18n.t('privacies.mobile_phone') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :mobile_phone, :label => t('privacies.mobile_phone') } do %>
     <%= format_phone(@person.mobile_phone, :mobile) %>
   <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :work_phone, :label => I18n.t('privacies.work_phone') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :work_phone, :label => t('privacies.work_phone') } do %>
     <%= format_phone(@person.work_phone) %>
   <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :fax, :label => I18n.t('privacies.fax') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :fax, :label => t('privacies.fax') } do %>
     <%= format_phone(@person.fax) %>
   <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :address, :label => I18n.t('privacies.address') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :address, :label => t('privacies.address') } do %>
     <%= preserve_breaks @person.address %><br/>
-    <%= link_to h(@person.city), search_path(:city => @person.city), :title => I18n.t('people.search_people_city') %>,
-    <%= link_to h(@person.state), search_path(:state => @person.state), :title => I18n.t('people.search_people_state') %>
+    <%= link_to @person.city, search_path(:city => @person.city), :title => t('people.search_people_city') %>,
+    <%= link_to @person.state, search_path(:state => @person.state), :title => t('people.search_people_state') %>
     <% if @person.zip %>
-      <%= link_to h(@person.short_zip), search_path(:zip => @person.short_zip), :title => I18n.t('people.search_people_zip') %>
+      <%= link_to @person.short_zip, search_path(:zip => @person.short_zip), :title => t('people.search_people_zip') %>
     <% end %>
     <%= render :partial => 'families/map_link' %>
   <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :birthday, :label => I18n.t('privacies.birthday') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :birthday, :label => t('privacies.birthday') } do %>
     <% if @person.birthday %>
-      <%= link_to @person.birthday.strftime('%B'), search_path(:birthday_month => @person.birthday.month), :title => I18n.t('people.search_for_birthdays', :birthday => @person.birthday.strftime('%B')) %>
-      <%= link_to @person.birthday.strftime('%d'), search_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => I18n.t('people.search_for_birthdays', :birthday => @person.birthday.strftime('%B %d')) %>
+      <%= link_to @person.birthday.strftime('%B'), search_path(:birthday_month => @person.birthday.month), :title => t('people.search_for_birthdays', :birthday => @person.birthday.strftime('%B')) %>
+      <%= link_to @person.birthday.strftime('%d'), search_path(:birthday_month => @person.birthday.month, :birthday_day => @person.birthday.day), :title => t('people.search_for_birthdays', :birthday => @person.birthday.strftime('%B %d')) %>
     <% end %>
   <% end %>
-  <% render :layout => 'people/detail_row', :locals => { :attribute => :anniversary, :label => I18n.t('privacies.anniversary') } do %>
+  <%= render :layout => 'people/detail_row', :locals => { :attribute => :anniversary, :label => t('privacies.anniversary') } do %>
     <% if @person.anniversary %>
-      <%= link_to @person.anniversary.strftime('%B'), search_path(:anniversary_month => @person.anniversary.month), :title => I18n.t('people.search_for_anniversaries', :anniversary => @person.anniversary.strftime('%B')) %>
-      <%= link_to @person.anniversary.strftime('%d'), search_path(:anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day), :title => I18n.t('people.search_for_anniversaries', :anniversary => @person.anniversary.strftime('%B %d')) %>
+      <%= link_to @person.anniversary.strftime('%B'), search_path(:anniversary_month => @person.anniversary.month), :title => t('people.search_for_anniversaries', :anniversary => @person.anniversary.strftime('%B')) %>
+      <%= link_to @person.anniversary.strftime('%d'), search_path(:anniversary_month => @person.anniversary.month, :anniversary_day => @person.anniversary.day), :title => t('people.search_for_anniversaries', :anniversary => @person.anniversary.strftime('%B %d')) %>
     <% end %>
   <% end %>
   <%= render :partial => 'people/custom_fields' %>
   <% if @person.business_name.to_s.any? %>
-    <tr><td><%= I18n.t('people.business') %>:</td><td><%= link_to h(@person.business_name), person_path(@person, :business => true) %><br/><%=h truncate(@person.business_description, :length => 200) %></td></tr>
+    <tr><td><%= t('people.business') %>:</td><td><%= link_to @person.business_name, person_path(@person, :business => true) %><br/><%= truncate(@person.business_description, :length => 200) %></td></tr>
   <% end %>
 </table>

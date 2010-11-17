@@ -1,214 +1,132 @@
 <% content_for :sidebar do %>
-  <h2><%= I18n.t('You') %></h2>
-  <p>
-    <%= I18n.t('admin.welcome_message', :name => h(@logged_in.name)) %>
-    <% if @logged_in.super_admin? %>
-      <%= I18n.t('admin.you_are_super') %>
-    <% else %>
-      <%= I18n.t('admin.you_are_admin') %>:
-      <%=h @privileges.any? ? @privileges.to_sentence : 'none' %>.
-    <% end %>
-  </p>
-  
-  <% if @logged_in.admin?(:manage_access) %>
-    <h2><%= I18n.t('admin.administrators') %></h2>
-    <p>
-      <%= I18n.t('admin.admin_count', :count => @admin_count) %>
-    </p>
-    <p>
-      <%= link_to I18n.t('admin.manage_admins'), administration_admins_path %>
-    </p>
-  <% end %>
+  <h2><%= t('admin.dashboard') %></h2>
+
+  <p><%= t('admin.dashboard_about') %></p>
 
   <% if @logged_in.super_admin? %>
-    <h2><%= I18n.t('admin.customization') %></h2>
-    <ul style="list-style:none;">
-      <li><%= link_to I18n.t('admin.settings.settings'), administration_settings_path %></li>
-      <li><%= link_to I18n.t('admin.logo.logo'), administration_logo_path %></li>
-      <li><%= link_to I18n.t('admin.themes.theme'), edit_administration_theme_path %></li>
-      <li><%= link_to I18n.t('admin.pages'), pages_path %></li>
+    <h3><%= t('admin.customization') %></h3>
+    <ul class="list">
+      <li><%= link_to t('admin.settings.settings'), administration_settings_path %></li>
+      <li><%= link_to t('admin.logo.logo'), administration_logo_path %></li>
+      <li><%= link_to t('admin.pages'), pages_path %></li>
     </ul>
-  <% end %>
-  
-  <%= render_plugin_hook :admin_dashboard_sidebar_bottom %>
-  
-  <% if @logged_in.super_admin? %>
-    <br/><hr/>
-    <p class="small"><%= link_to I18n.t('admin.settings.reload'), reload_administration_settings_path, :method => 'put', :title => I18n.t('admin.settings.reload_message') %></p>
-  <% end %>
-<% end %>
-
-<div class="dashboard">
-  
-  <div id="alerts_container"></div>
-
-  <%= render_plugin_hook :admin_dashboard_top %>
-  
-  <% if Setting.get(:features, :reporting) and (@logged_in.admin?(:manage_reports) or @logged_in.admin?(:run_reports)) %>
-    <h2><%= I18n.t('reporting.Reports') %></h2>
-    <% if @logged_in.admin?(:manage_reports) %>
-      <p><%= link_to I18n.t('reporting.manage_and_run'), administration_reports_path %></p>
-    <% else %>
-      <p><%= link_to I18n.t('reporting.run_reports'), administration_reports_path %></p>
-    <% end %>
-  <% end %>
-  
-  <% if @logged_in.admin?(:manage_messages) and @daily_message_counts %>
-    <h2><%= I18n.t('messages.messages') %></h2>
-    <%= image_tag bar_chart_url(@daily_message_counts, :set_count => 3, :set_labels => [I18n.t('messages.private'), I18n.t('messages.group'), I18n.t('messages.wall')], :width => 550, :height => 250, :title => I18n.t('messages.sent_per_day')), :alt => I18n.t('messages.sent_per_day') %>
-  <% end %>
-
-  <% if @logged_in.admin?(:manage_updates) %>
-    <h2><%= I18n.t('admin.updates.updates') %></h2>
-    
-    <% if @daily_update_counts %>
-      <%= image_tag bar_chart_url(@daily_update_counts, :width => 450, :height => 150, :title => I18n.t('admin.updates.per_day'), :interval => 1), :alt => I18n.t('admin.updates.per_day') %>
-    <% end %>
-    
-    <% display_metric @update_count > 0 do %>
-      <%= link_to I18n.t('admin.updates.pending', :count => @update_count), administration_updates_path %>
-    <% end %>
-    
-    <% display_metric @email_changed_count > 0 do %>
-      <%= link_to I18n.t('admin.updates.changed_email', :count => @email_changed_count), administration_emails_path %>
-    <% end %>
-  <% end %>
-
-  <% if @logged_in.admin?(:manage_groups) %>
-    <h2><%= I18n.t('nav.groups') %></h2>
-    
-    <% if @group_type_counts %>
-      <%= image_tag pie_chart_url(@group_type_counts, :width => 400, :height => 200, :title => I18n.t('groups.types')), :alt => I18n.t('groups.types') %>
-    <% end %>
-
-    <% if @linked_group_counts %>
-      <%= image_tag pie_chart_url(@linked_group_counts, :width => 400, :height => 200, :title => I18n.t('groups.linked')), :alt => I18n.t('groups.linked') %>
-    <% end %>
-    
-    <% display_metric @groups_pending_approval_count > 0 do %>
-      <%= link_to I18n.t('groups.pending_approval_count', :count => @groups_pending_approval_count), administration_updates_path %>
-    <% end %>
-    
-    <% display_metric @membership_request_count > 0 do %>
-      <%= link_to I18n.t('groups.pending_membership_request_count', :count => @membership_request_count), administration_membership_requests_path %>
-    <% end %>
-
-    <p><%= link_to I18n.t('admin.manage_group_administrators'), administration_admins_path(:groups => true) %></p>
-  <% end %>
-
-  <% if @logged_in.admin?(:manage_attendance) %>
-    <h2><%= I18n.t('attendance.attendance') %></h2>
-    
-    <% if @daily_attendance_counts %>
-      <%= image_tag bar_chart_url(@daily_attendance_counts, :width => 550, :height => 250, :title => I18n.t('attendance.records_per_day')), :alt => I18n.t('attendance.records_per_day') %>
-    <% end %>
-    
-    <% if @attendance_records_count %>
-      <p>
-        <%= I18n.t('attendance.last_date') %>:
-        <%= I18n.t('attendance.records_from_count', :count => @attendance_records_count) %> <%= link_to day_word(@attendance_last_date), administration_attendance_index_path(:attended_at => @attendance_last_date) %>.
-      </p>
-    <% end %>
-    
-    <p><%= link_to I18n.t('attendance.manage_and_export'), administration_attendance_index_path %></p>
-  <% end %>
-
-  <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) %>
-    <h2><%= I18n.t('contributions.Contributions') %></h2>
-    <p><%= link_to I18n.t('admin.view_contributions'), contributions_path %></p>
-    <p><%= link_to I18n.t('admin.people_not_synced_to_donortools_count', :count => @unsynced_to_donortools), sync_contributions_path %></p>
-  <% end %>
-  
-  <%= render_plugin_hook :admin_dashboard_middle %>
-
-  <% if @logged_in.admin?(:manage_sync) %>
-    <h2><%= I18n.t('admin.syncs.sync') %></h2>
-    
-    <% if @sync_counts %>
-      <%= image_tag pie_chart_url(@sync_counts, :width => 400, :height => 200, :title => I18n.t('admin.syncs.results')), :alt => I18n.t('admin.syncs.results') %>
-    <% end %>
-    
-    <p>
-      <%= I18n.t('admin.syncs.last') %>:
-      <% if @last_sync %>
-        <%= link_to @last_sync.created_at.to_s, administration_sync_path(@last_sync) %>
-        <% if @last_sync.complete? %>
-          (<%= I18n.t('admin.syncs.complete') %>,
-          <% display_metric @last_sync.error_count > 0, :content_tag => :span do %><%= link_to pluralize(@last_sync.error_count, I18n.t('admin.syncs.sync_error')), administration_sync_path(@last_sync) %><% end %>)
-        <% else %>
-          (<%= I18n.t('admin.syncs.incomplete') %>)
-        <% end %>
-      <% else %>
-        <em><%= I18n.t('admin.syncs.none') %></em>
-      <% end %>
-    </p>
-    
-    <p><%= link_to I18n.t('admin.syncs.review_results'), administration_syncs_path %></p>
-  <% end %>
-
-  <% if @logged_in.admin?(:view_log) %>
-    <h2><%= I18n.t('admin.log') %></h2>
-    
-    <p><%= link_to I18n.t('admin.log_review'), administration_log_items_path %></p>
   <% end %>
 
   <% if Site.current.import_export_enabled? %>
 
-    <% if @logged_in.admin?(:import_data) %>
-      <h2><%= I18n.t('admin.import_data') %></h2>
-      
-      <p><%= link_to I18n.t('admin.import_data_description'), import_people_path %></p>
-    <% end %>
+    <% if @logged_in.admin?(:import_data) or @logged_in.admin?(:export_data) %>
+      <h3><%= t('admin.import_export') %></h3>
 
-    <% if @logged_in.admin?(:export_data) %>
-      <h2><%= I18n.t('admin.export_data') %></h2>
-      
-      <table>
-        <tr>
-          <th><%= I18n.t('people.people') %> (<%= @person_count %>)</th>
-          <td><%= link_to_with_page_prompt 'XML', people_path(:format => 'xml') %></td>
-          <td><%= link_to_with_page_prompt 'CSV', people_path(:format => 'csv') %></td>
-        </tr>
-        <tr>
-          <th><%= I18n.t('families.families') %> (<%= @family_count %>)</th>
-          <td><%= link_to_with_page_prompt 'XML', families_path(:format => 'xml') %></td>
-          <td><%= link_to_with_page_prompt 'CSV', families_path(:format => 'csv') %></td>
-        </tr>
-        <% if Setting.get(:features, :groups) %>
+      <% if @logged_in.admin?(:import_data) %>
+        <p><%= link_to t('admin.import_data_description'), import_people_path %></p>
+      <% end %>
+
+      <% if @logged_in.admin?(:export_data) %>
+        <table class="spaced">
           <tr>
-            <th><%= I18n.t('nav.groups') %> (<%= @group_count %>)</th>
-            <td><%= link_to_with_page_prompt 'XML', groups_path(:format => 'xml') %></td>
-            <td><%= link_to_with_page_prompt 'CSV', groups_path(:format => 'csv') %></td>
+            <th><%= t('people.people') %> (<%= @person_count %>)</th>
+            <td><%= link_to 'XML', people_path(:format => 'xml') %></td>
+            <td><%= link_to 'CSV', people_path(:format => 'csv') %></td>
           </tr>
-        <% end %>
-      </table>
-      <p>
-        <%= I18n.t('admin.page_number_when_prompted', :count => MAX_EXPORT_AT_A_TIME) %>
-      </p>
+          <% if Setting.get(:features, :groups) %>
+            <tr>
+              <th><%= t('nav.groups') %> (<%= @group_count %>)</th>
+              <td><%= link_to 'XML', groups_path(:format => 'xml') %></td>
+              <td><%= link_to 'CSV', groups_path(:format => 'csv') %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% end %>
     <% end %>
-    
-  <% end %>
-  
-  <% if @logged_in.admin?(:edit_profiles) %>
-    <h2><%= I18n.t('admin.deleted_records') %></h2>
-  
-    <p><%= link_to I18n.t('admin.deleted_records_manage'), administration_deleted_people_path %>
+
   <% end %>
 
-  <%= render_plugin_hook :admin_dashboard_bottom %>
-  
-  <% if @alerts.any? %>
-    <div id="alerts">
-      <h2><%= I18n.t('admin.alerts') %></h2>
-      <div class="very-strong">
-        <%= @alerts.map { |a| "<p>#{a}</p>" } %>
-      </div>
-    </div>
-    <script type="text/javascript">
-      var elm = $('alerts');
-      elm.parentNode.removeChild(elm);
-      $('alerts_container').appendChild(elm);
-    </script>
+  <%= render_plugin_hook :admin_dashboard_sidebar_bottom %>
+<% end %>
+
+<div class="metrics">
+  <% if @logged_in.admin?(:manage_updates) %>
+    <%= metric administration_updates_path, @update_count, 1, 5 do %>
+      <%= t('admin.updates.pending', :count => @update_count) %>
+    <% end %>
+
+    <%= metric administration_emails_path, @email_changed_count, 1, 10 do %>
+      <%= t('admin.updates.changed_email', :count => @email_changed_count) %>
+    <% end %>
   <% end %>
-  
+
+  <% if @logged_in.admin?(:manage_sync) and @last_sync %>
+    <%= metric administration_syncs_path, @last_sync.error_count, 1, 10 do %>
+      <%= t('admin.syncs.sync_errors', :count => @last_sync.error_count) %>
+    <% end %>
+  <% end %>
+
+  <% if @logged_in.admin?(:manage_groups) %>
+    <%= metric administration_updates_path, @groups_pending_approval_count, 1, 1 do %>
+      <%= t('groups.pending_approval_count', :count => @groups_pending_approval_count) %>
+    <% end %>
+
+    <%= metric administration_membership_requests_path, @membership_request_count, 1, 1 do %>
+      <%= t('groups.membership_request_count', :count => @membership_request_count) %>
+    <% end %>
+  <% end %>
+
+  <% if @logged_in.admin?(:manage_access) %>
+    <%= metric administration_admins_path, @admin_count, Site.current.max_admins && Site.current.max_admins*0.9, Site.current.max_admins do %>
+      <%= t('admin.admin_count', :count => @admin_count) %>
+    <% end %>
+  <% end %>
+
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <%= metric administration_deleted_people_path, @deleted_people_count do %>
+      <%= t('admin.deleted_people_count', :count => @deleted_people_count) %>
+    <% end %>
+  <% end %>
+
+  <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) %>
+    <%= metric contributions_path, @unsynced_to_donortools, 5, 25 do %>
+      <%= t('admin.people_not_synced_to_donortools_count', :count => @unsynced_to_donortools) %>
+    <% end %>
+  <% end %>
 </div>
+
+<div class="clear"></div>
+
+<div class="admin-chart">
+  <%= image_tag(bar_chart_url(@daily_message_counts, :width => 245, :height => 150, :title => t('messages.sent_per_day'), :set_count => 2, :set_labels => [t('messages.private'), t('messages.group')]), :alt => t('messages.sent_per_day')) %>
+</div>
+
+<% if @logged_in.admin?(:manage_updates) %>
+  <div class="admin-chart">
+    <%= link_to image_tag(bar_chart_url(@daily_update_counts, :width => 245, :height => 150, :title => t('admin.updates.per_day'), :interval => 1), :alt => t('admin.updates.per_day')),
+                administration_updates_path %>
+  </div>
+<% end %>
+
+<% if @logged_in.admin?(:manage_attendance) %>
+  <div class="admin-chart">
+    <%= link_to image_tag(bar_chart_url(@daily_attendance_counts, :width => 245, :height => 150, :title => t('attendance.records_per_day')), :alt => t('attendance.records_per_day')),
+                administration_attendance_index_path %>
+  </div>
+<% end %>
+
+<% if @logged_in.admin?(:manage_groups) %>
+  <div class="admin-chart">
+    <%= link_to image_tag(pie_chart_url(@group_type_counts, :width => 245, :height => 150, :title => t('groups.types')), :alt => t('groups.types')),
+                batch_groups_path %>
+  </div>
+
+  <div class="admin-chart">
+    <%= link_to image_tag(pie_chart_url(@linked_group_counts, :width => 245, :height => 150, :title => t('groups.linked')), :alt => t('groups.linked')),
+                batch_groups_path %>
+  </div>
+<% end %>
+
+<% if @logged_in.admin?(:manage_sync) %>
+  <div class="admin-chart">
+    <%= link_to image_tag(pie_chart_url(@sync_counts, :width => 245, :height => 150, :title => t('admin.syncs.results')), :alt => t('admin.syncs.results')),
+                administration_syncs_path %>
+  </div>
+<% end %>
+
+<div class="clear"></div>

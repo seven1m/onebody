@@ -1,21 +1,4 @@
 # coding: utf-8
-
-# == Schema Information
-#
-# Table name: verses
-#
-#  id          :integer       not null, primary key
-#  reference   :string(50)
-#  text        :text
-#  translation :string(10)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  book        :integer
-#  chapter     :integer
-#  verse       :integer
-#  site_id     :integer
-#
-
 require 'net/http'
 
 class Verse < ActiveRecord::Base
@@ -240,7 +223,7 @@ class Verse < ActiveRecord::Base
   }
 
   def youversion_url
-    "http://www.youversion.com/bible/web/#{YOUVERSION_BOOKS[book]}/#{chapter}/#{verse}"
+    "http://www.youversion.com/bible/web/#{YOUVERSION_BOOKS[book || 0]}/#{chapter}/#{verse}"
   end
 
   def ebible_url

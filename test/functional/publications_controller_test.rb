@@ -20,17 +20,21 @@ class PublicationsControllerTest < ActionController::TestCase
     assert_equal [Group.find_by_name('Publications')], assigns(:groups)
   end
 
-  should "show (send data) for a publication" do
-    get :show, {:id => @publication.id}, {:logged_in_id => @person.id}
+  should "link to file attachment for each publication" do
+    get :index, nil, {:logged_in_id => @person.id}
     assert_response :success
-    assert_equal File.read(@publication.file_path).length, @response.binary_content.length
+    assert @response.body.index(@publication.file.url)
   end
 
   should "create a new publication" do
     get :new, nil, {:logged_in_id => @admin.id}
     assert_response :success
     post :create, {
-      :publication => {:name => 'test name', :description => 'test desc', :file => fixture_file_upload('files/attachment.pdf')}
+      :publication => {
+        :name        => 'test name',
+        :description => 'test desc',
+        :file        => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)
+      }
     }, {:logged_in_id => @admin.id}
     assert_redirected_to publications_path
   end
@@ -39,7 +43,11 @@ class PublicationsControllerTest < ActionController::TestCase
     get :new, nil, {:logged_in_id => @person.id}
     assert_response :unauthorized
     post :create, {
-      :publication => {:name => 'test name', :description => 'test desc', :file => fixture_file_upload('files/attachment.pdf')}
+      :publication => {
+        :name        => 'test name',
+        :description => 'test desc',
+        :file        => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)
+      }
     }, {:logged_in_id => @person.id}
     assert_response :unauthorized
   end
@@ -47,7 +55,11 @@ class PublicationsControllerTest < ActionController::TestCase
   should "redirect to a new message upon publication upload" do
     pub_group = Group.find_by_name('Publications')
     post :create, {
-      :publication => {:name => 'test name', :description => 'test desc', :file => fixture_file_upload('files/attachment.pdf')},
+      :publication => {
+        :name        => 'test name',
+        :description => 'test desc',
+        :file        => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)
+      },
       :send_update_to_group_id => pub_group.id
     }, {:logged_in_id => @admin.id}
     assert_redirected_to new_message_path(:group_id => pub_group)
