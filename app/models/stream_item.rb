@@ -16,6 +16,7 @@ class StreamItem < ActiveRecord::Base
   end
 
   after_save :expire_caches
+  after_destroy :expire_caches
 
   # can't do this in a sweeper since there isn't a controller involved
   def expire_caches
