@@ -90,7 +90,7 @@ class Setting < ActiveRecord::Base
     def precache_settings(fresh=false)
       return if SETTINGS.any? and not fresh
       return unless table_exists?
-      find(:all).each do |setting|
+      Setting.all.each do |setting|
         site_id = setting.global? ? 0 : setting.site_id
         section = setting.section.downcase.gsub(/\s/, '_')
         name = setting.name.downcase.gsub(/\s/, '_')
@@ -104,7 +104,7 @@ class Setting < ActiveRecord::Base
 
     def load_file_stamps(filename)
       if File.exist?(f = Rails.root.join('tmp/filestamps.yml'))
-        YAML::load(File.open(f))[filename]
+        YAML::load(File.open(f))[filename.to_s]
       end
     end
 
@@ -120,24 +120,24 @@ class Setting < ActiveRecord::Base
       else
         stamps = {}
       end
-      stamps[filename] = get_file_stamp(filename)
+      stamps[filename.to_s] = get_file_stamp(filename)
       File.open(stamps_filename, 'w') { |f| YAML::dump(stamps, f) }
     end
 
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
       if load_file_stamps(filename) != get_file_stamp(filename) or Setting.count(:conditions => {:global => true}) == 0
-        RAILS_DEFAULT_LOGGER.info('Reloading settings for all sites...')
-        settings_in_db = Setting.all
+        Rails.logger.info('Reloading settings for all sites...')
         # per site settings
         Site.find_all_by_active(true).each do |site|
           update_site_from_hash(site, settings)
         end
         # globals
+        global_settings_in_db = Setting.find_all_by_site_id(nil)
         settings.each do |section_name, section|
           section.each do |setting_name, setting|
             next unless setting['global']
-            unless settings_in_db.detect { |s| s.site_id == nil and s.section == section_name and s.name == setting_name }
+            unless global_settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
               Setting.create!(setting.merge(:section => section_name, :name => setting_name))
             end
           end
@@ -147,11 +147,11 @@ class Setting < ActiveRecord::Base
     end
 
     def update_site_from_hash(site, settings)
-      settings_in_db = Setting.all
+      settings_in_db = Setting.find_all_by_site_id(site.id)
       settings.each do |section_name, section|
         section.each do |setting_name, setting|
           next if setting['global']
-          unless settings_in_db.detect { |s| s.site_id == site.id and s.section == section_name and s.name == setting_name }
+          unless settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
             setting['site_id'] = site.id
             Setting.create!(setting.merge(:section => section_name, :name => setting_name))
           end

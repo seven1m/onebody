@@ -32,5 +32,3 @@ module OneBody
     config.filter_parameters += [:password]
   end
 end
-
-(Setting.update_all if Setting.table_exists?) rescue nil
