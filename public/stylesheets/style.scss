@@ -1,56 +1,55 @@
-@dark:      #333;
-@light:     #eee;
-@common:    #333;
-@footer:    @light - 75;
-@primary:   #3286B5;
-@secondary: #5F9128;
-@tertiary:  #C8EAFE;
-@alert:     #f66;
-@comment-background: #fec;
-@notice:    #fec;
-@metric:    @secondary;
-@warn:      #f93;
-@critical:  #FF1B0D;
+$dark:      #333;
+$light:     #eee;
+$common:    #333;
+$footer:    $light - 75;
+$primary:   #5F9128;
+$secondary: #3286B5;
+$alert:     #f66;
+$comment-background: #fec;
+$notice:    #fec;
+$metric:    $primary;
+$warn:      #f93;
+$critical:  #FF1B0D;
 
-@heading-font: "Century Gothic", "Tw Cen MT", Futura, "URW Gothic L", Arial, sans-serif;
-@body-font:    "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+$heading-font: "Century Gothic", "Tw Cen MT", Futura, "URW Gothic L", Arial, sans-serif;
+$body-font:    "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
 
-@body-font-color: @dark + 40;
+$body-font-color: $dark + 40;
 
-.gradient(@top:#fff, @bottom:#eee) {
+@mixin gradient($top:#fff, $bottom:#eee) {
   background-repeat: no-repeat;
-  background: @top;
-  background: -moz-linear-gradient(top, @top 0%, @bottom 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@top), color-stop(100%,@bottom));
-  filter: e(%("progid:DXImageTransform.Microsoft.gradient( startColorstr='%d', endColorstr='%d', GradientType=0 )", @top, @bottom));
+  background: $top;
+  background: -moz-linear-gradient(top, $top 0%, $bottom 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$top), color-stop(100%,$bottom));
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$top', endColorstr='$bottom', GradientType=0 );
 }
-.radialgradient(@inner:#fff, @outer:#eee) {
-  background-color: @outer;
-  background: -moz-radial-gradient(center bottom 90deg, circle farthest-side, @inner 0%, @outer 50%);
-  background: -webkit-gradient(radial, center bottom, 0, center bottom, 300, from(@inner), to(@outer));
+@mixin radialgradient($inner:#fff, $outer:#eee) {
+  background-color: $outer;
+  background: -moz-radial-gradient(center bottom 90deg, circle farthest-side, $inner 0%, $outer 50%);
+  background: -webkit-gradient(radial, center bottom, 0, center bottom, 300, from($inner), to($outer));
   /* fall back to linear gradient in IE */
-  filter: e(%("progid:DXImageTransform.Microsoft.gradient( startColorstr='%d', endColorstr='%d', GradientType=0 )", @inner, @outer));
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$inner', endColorstr='$outer', GradientType=0 );
 }
-.shadow(@x:0px, @y:2px, @blur:5px, @opacity:.5) {
-  -webkit-box-shadow: @x @y @blur rgba(0, 0, 0, @opacity);
-  -moz-box-shadow: @x @y @blur rgba(0, 0, 0, @opacity);
-  box-shadow: @x @y @blur rgba(0, 0, 0, @opacity);
+@mixin shadow($x:0px, $y:2px, $blur:5px, $opacity:.5) {
+  -webkit-box-shadow: $x $y $blur rgba(0, 0, 0, $opacity);
+  -moz-box-shadow: $x $y $blur rgba(0, 0, 0, $opacity);
+  box-shadow: $x $y $blur rgba(0, 0, 0, $opacity);
 }
-.curve(@radius:8px) {
-  -moz-border-radius: @radius;
-  -webkit-border-radius: @radius;
-  -khtml-border-radius: @radius;
-  border-radius: @radius;
+@mixin curve($radius:8px) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -khtml-border-radius: $radius;
+  border-radius: $radius;
 }
-.topcurve(@radius:8px) {
-  -moz-border-radius-topleft: @radius;
-  -moz-border-radius-topright: @radius;
-  -webkit-border-top-left-radius: @radius;
-  -webkit-border-top-right-radius: @radius;
-  -khtml-border-top-radius: @radius;
-  -khtml-border-left-radius: @radius;
-  border-top-left-radius: @radius;
-  border-top-right-radius: @radius;
+@mixin topcurve($radius:8px) {
+  -moz-border-radius-topleft: $radius;
+  -moz-border-radius-topright: $radius;
+  -webkit-border-top-left-radius: $radius;
+  -webkit-border-top-right-radius: $radius;
+  -khtml-border-top-radius: $radius;
+  -khtml-border-left-radius: $radius;
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
 }
 
 /* CSS Reset */
@@ -70,18 +69,18 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 /* Site Styles */
 
-.curved { .curve }
-.shadowed { .shadow }
+.curved { @include curve }
+.shadowed { @include shadow }
 .clear { clear:both; display:block; overflow:hidden; visibility:hidden; width:0; height:0 }
 
 body {
   background-color: #fff;
   margin: 0;
-  font-family: @body-font;
-  color: @body-font-color;
+  font-family: $body-font;
+  color: $body-font-color;
 }
 h1, h2, h3 {
-  font-family: @heading-font;
+  font-family: $heading-font;
   margin-bottom: 15px;
 }
 h2 {
@@ -95,7 +94,7 @@ h2:first-child {
 h3 {
   font-size: 14pt;
   font-weight: normal;
-  border-bottom: 1px solid @light - 20;
+  border-bottom: 1px solid $light - 20;
   margin: 40px 0 20px 0;
   padding-bottom: 5px;
 }
@@ -104,7 +103,7 @@ h3:first-child {
 }
 h4 {
   font-weight: normal;
-  font-family: @body-font;
+  font-family: $body-font;
   margin-bottom: 5px;
 }
 ul.list, ol.list, .page-body ul, .page-body ol {
@@ -118,38 +117,37 @@ p {
   margin-bottom: 15px;
 }
 a {
-  color: @dark;
-}
-a:hover {
-  color: @primary;
+  color: $dark;
+  &:hover {
+    color: $secondary;
+  }
 }
 input, textarea {
-  border: 1px solid @light - 20;
+  border: 1px solid $light - 20;
   padding: 6px;
-  .curve(4px);
+  @include curve(4px);
 }
 input.defaulted {
-  color: @light - 75;
+  color: $light - 75;
 }
 input[type=submit] {
-  .curve(4px);
-  .shadow;
-  .gradient(@light, @light - 50);
+  @include curve(4px);
+  @include shadow;
+  @include gradient($light, $light - 50);
   padding: 6px 8px 4px 8px;
-  font-family: @heading-font;
+  font-family: $heading-font;
   font-size: 1.2em;
   border: none;
-}
-input[type=submit]:hover {
-  .gradient(@secondary+50, @secondary);
-  color: @light;
+  &:hover, &.active {
+    @include gradient($primary+50, $primary);
+    color: edgevalue($primary);
+  }
 }
 textarea {
-  font-family: @body-font;
+  font-family: $body-font;
 }
 label {
   display: block;
-  /*margin-top: 15px;*/
 }
 label.inline {
   display: inline;
@@ -162,17 +160,17 @@ fieldset {
 }
 
 #common {
-  font-family: @heading-font;
-  .gradient(@common+20, @common);
+  font-family: $heading-font;
+  @include gradient($common+20, $common);
   padding: 15px;
-  color: @light;
+  color: $light;
 }
 #common-nav {
   float: right;
   margin: 6px 25px;
-  color: @light - 70;
+  color: $light - 70;
   a {
-    color: @light - 70;
+    color: $light - 70;
   }
   list-style: none;
   font-size: 10pt;
@@ -195,32 +193,32 @@ fieldset {
   float: right;
   input {
     border: none;
-    .curve(12px);
+    @include curve(12px);
     padding: 4px 8px;
-    background-color: @dark+75;
-    color: @light;
+    background-color: $dark+75;
+    color: $light;
     text-align: center;
   }
 }
 #nav {
-  font-family: @heading-font;
-  .radialgradient(#fff, @light - 10);
-  border-bottom: 1px solid @light - 20;
+  font-family: $heading-font;
+  @include radialgradient(#fff, $light - 10);
+  border-bottom: 1px solid $light - 20;
   z-index: 2;
   position: relative;
-  .shadow(0px, -5px);
+  @include shadow(0px, -5px, 10px, .3);
   .heading {
     padding: 25px 0 10px 0;
   }
   h1 {
-    color: @secondary;
+    color: $primary;
     font-size: 24pt;
     font-weight: normal;
     margin-bottom: 10px;
   }
   .tagline {
     font-size: 11pt;
-    color: @light - 100;
+    color: $light - 100;
     margin-bottom: 10px;
   }
   .buttons {
@@ -242,26 +240,27 @@ fieldset {
       }
       a.button {
         padding: 8px 12px 8px 12px;
-      }
-      a.button:hover, a.button.active {
-        .gradient(@primary+50, @primary);
+        &:hover, &.active {
+          @include gradient($secondary+50, $secondary);
+          color: edgevalue($secondary);
+        }
       }
       .sub {
         margin-top: 5px;
         a {
           text-align: left;
-          color: @dark + 50;
+          color: $dark + 50;
           text-decoration: none;
         }
       }
       a.sub:hover {
-        color: @primary;
+        color: $secondary;
       }
     }
   }
 }
 #notice {
-  background-color: @notice;
+  background-color: $notice;
   padding: 4px;
   text-align: center;
 }
@@ -272,14 +271,14 @@ fieldset {
   min-height: 500px;
 }
 #footer {
-  .line-top;
+  border-top: 1px solid $light - 20;
   padding: 25px;
   margin-top: 50px;
   text-align: center;
   font-size: 10pt;
-  color: @footer;
+  color: $footer;
   a {
-    color: @footer;
+    color: $footer;
   }
 }
 #map {
@@ -329,10 +328,10 @@ fieldset {
   h2 {
     font-weight: normal;
     margin: 20px 0 0 0;
-    font-family: @heading-font;
+    font-family: $heading-font;
     font-size: 18pt;
     padding-bottom: 5px;
-    border-bottom: 1px solid @light - 20;
+    border-bottom: 1px solid $light - 20;
     strong {
       font-size: 22pt;
     }
@@ -342,14 +341,14 @@ fieldset {
   }
   .profile-details {
     margin: 30px 0;
-    color: @body-font-color + 35;
-    a {
-      color: @body-font-color + 35;
-    }
-    a:hover {
-      color: @primary;
-    }
+    color: $body-font-color + 35;
     list-style: none;
+    a {
+      color: $body-font-color + 35;
+      &:hover {
+        color: $secondary;
+      }
+    }
     li {
       display: inline;
       display: inline-block;
@@ -366,7 +365,7 @@ fieldset {
     }
   }
   h4 {
-    font-family: @body-font;
+    font-family: $body-font;
     font-weight: bold;
     display: inline;
   }
@@ -379,7 +378,7 @@ fieldset {
     display: block;
     margin: 0 0 25px -7px;
     padding: 6px;
-    border: 1px solid @light - 20;
+    border: 1px solid $light - 20;
   }
   a {
     text-decoration: none;
@@ -456,10 +455,10 @@ fieldset {
 .errorExplanation {
   h3 {
     border: none;
-    color: @alert;
+    color: $alert;
   }
-  border: 1px solid @light - 20;
-  .shadow;
+  border: 1px solid $light - 20;
+  @include shadow;
   padding: 10px;
 }
 
@@ -469,7 +468,7 @@ fieldset {
   text-align: center;
   margin-top: 100px;
   h2.search-heading {
-    color: @secondary;
+    color: $primary;
     font-size: 24pt;
     width: 400px;
     margin: 0 auto 25px auto;
@@ -532,7 +531,7 @@ fieldset {
         text-decoration: none;
       }
       a.active {
-        color: @secondary;
+        color: $primary;
       }
     }
   }
@@ -563,30 +562,30 @@ fieldset {
   margin-right: 10px;
 }
 
-.icon-sprite(@x, @y) {
+@mixin icon-sprite($x, $y) {
   padding-left: 15px;
-  background: url(/images/clean/icons.png?201011091342) @x @y no-repeat;
+  background: url(/images/clean/icons.png?201011091342) $x $y no-repeat;
 }
 
-.add-icon        { .icon-sprite(0px,    0px) }
-.edit-icon       { .icon-sprite(0px,  -20px) }
-.lock-icon       { .icon-sprite(0px,  -40px) }
-.comment-icon    { .icon-sprite(0px,  -66px) } /* up just a bit */
-.comment2-icon   { .icon-sprite(0px,  -60px) }
-.dots-icon       { .icon-sprite(0px,  -80px) }
-.people-icon     { .icon-sprite(0px, -100px) }
-.money-icon      { .icon-sprite(0px, -120px) }
-.feed-icon       { .icon-sprite(0px, -140px) }
-.right-icon      { .icon-sprite(0px, -160px) }
-.left-icon       { .icon-sprite(0px, -180px) }
-.picture-icon    { .icon-sprite(0px, -200px) }
-.file-icon       { .icon-sprite(0px, -220px) }
-.verse-icon      { .icon-sprite(0px, -240px) }
-.delete-icon     { .icon-sprite(0px, -256px) } /* down a bit */
-.email-icon      { .icon-sprite(0px, -280px) }
-.heart-icon      { .icon-sprite(0px, -300px) }
-.rotate-cw-icon  { .icon-sprite(0px, -320px) }
-.rotate-ccw-icon { .icon-sprite(0px, -340px) }
+.add-icon        { @include icon-sprite(0px,    0px) }
+.edit-icon       { @include icon-sprite(0px,  -20px) }
+.lock-icon       { @include icon-sprite(0px,  -40px) }
+.comment-icon    { @include icon-sprite(0px,  -66px) } /* up just a bit */
+.comment2-icon   { @include icon-sprite(0px,  -60px) }
+.dots-icon       { @include icon-sprite(0px,  -80px) }
+.people-icon     { @include icon-sprite(0px, -100px) }
+.money-icon      { @include icon-sprite(0px, -120px) }
+.feed-icon       { @include icon-sprite(0px, -140px) }
+.right-icon      { @include icon-sprite(0px, -160px) }
+.left-icon       { @include icon-sprite(0px, -180px) }
+.picture-icon    { @include icon-sprite(0px, -200px) }
+.file-icon       { @include icon-sprite(0px, -220px) }
+.verse-icon      { @include icon-sprite(0px, -240px) }
+.delete-icon     { @include icon-sprite(0px, -256px) } /* down a bit */
+.email-icon      { @include icon-sprite(0px, -280px) }
+.heart-icon      { @include icon-sprite(0px, -300px) }
+.rotate-cw-icon  { @include icon-sprite(0px, -320px) }
+.rotate-ccw-icon { @include icon-sprite(0px, -340px) }
 
 ul.buttons {
   list-style: none;
@@ -599,18 +598,18 @@ ul.buttons {
   }
 }
 a.button {
-  .gradient(@light, @light - 50);
-  .curve(4px);
-  .shadow;
-  font-family: @heading-font;
+  @include gradient($light, $light - 50);
+  @include curve(4px);
+  @include shadow;
+  font-family: $heading-font;
   font-size: 1.2em;
   padding: 6px 8px 4px 8px;
-  color: @dark;
+  color: $dark;
   text-decoration: none;
-}
-a.button:hover, a.button.active {
-  .gradient(@secondary+50, @secondary);
-  color: @light;
+  &:hover, &.active {
+    @include gradient($primary+50, $primary);
+    color: edgevalue($primary)
+  }
 }
 
 /* Tags */
@@ -650,7 +649,7 @@ a.button:hover, a.button.active {
   .comment-summary {
     margin-top: 10px;
     font-style: italic;
-    background-color: @comment-background;
+    background-color: $comment-background;
     padding: 3px;
   }
 }
@@ -678,11 +677,14 @@ a.button:hover, a.button.active {
 
 /* Pictures */
 
-.picture {
+@mixin picture {
   padding: 4px;
-  border: 1px solid @light - 20;
+  border: 1px solid $light - 20;
   margin: 4px;
-  .shadow(0px, 2px, 10px, .25);
+  @include shadow(0px, 2px, 10px, .25);
+}
+.picture {
+  @include picture;
 }
 .albums {
   td {
@@ -730,23 +732,22 @@ a.button:hover, a.button.active {
     margin-bottom: 40px;
     margin-left: 50px;
     a {
-      .discreet;
-      .small;
+      color: $light - 50;
+      font-size: smaller;
     }
   }
   .stream-pic {
-    .picture;
+    @include picture;
   }
-}
-
-.stream-item:hover .new-comment {
-  visibility: visible;
+  &:hover .new-comment {
+    visibility: visible;
+  }
 }
 
 table.comments {
   margin: 20px 0;
   padding: 15px;
-  background-color: @comment-background;
+  background-color: $comment-background;
   td {
     padding: 5px;
     h4 {
@@ -758,20 +759,23 @@ table.comments {
 /* Admin Dashboard */
 
 .admin-chart {
-  border: 1px solid @light - 10;
-  .curve;
+  border: 1px solid $light - 10;
+  @include curve;
   padding: 20px;
   width: 245px;
   height: 150px;
   float: left;
   margin: 0 10px 10px 0;
+  &:hover {
+    border-color: $primary;
+  }
 }
 .metrics {
   a.admin-metric {
     text-decoration: none;
-    background-color: @light;
-    border: 1px solid @light - 10;
-    .curve;
+    background-color: $light;
+    border: 1px solid $light - 10;
+    @include curve;
     float: left;
     width: 116px;
     height: 100px;
@@ -779,25 +783,24 @@ table.comments {
     margin: 0 11px 11px 0;
     text-align: center;
     span {
-      color: @metric;
+      color: $metric;
       display: block;
       font-style: normal;
       font-size: 32pt;
     }
-  }
-  a.admin-metric:hover, a.admin-metric:hover span {
-    color: @secondary;
-    border-color: @secondary;
+    &:hover, &:hover span {
+      color: $primary;
+    }
+    &:hover {
+      border-color: $primary;
+    }
   }
   a.warn span {
-    color: @warn;
+    color: $warn;
   }
   a.critical span {
-    color: @critical;
+    color: $critical;
   }
-}
-.admin-chart:hover {
-  border-color: @secondary;
 }
 
 /* Popup Menus */
@@ -810,14 +813,14 @@ table.comments {
   li.divider {
     height: 1px;
     margin: 6px 0;
-    border-top: 1px solid @light - 20;
+    border-top: 1px solid $light - 20;
   }
   a {
     text-decoration: none;
   }
 }
 .qtip-wrapper {
-  .shadow;
+  @include shadow;
 }
 
 /* Generic Styles */
@@ -837,10 +840,10 @@ table.comments {
 .padding-left   { padding-left:   15px; }
 .padding-right  { padding-right:  15px; }
 
-.line-top       { border-top:    1px solid @light - 20; }
-.line-bottom    { border-bottom: 1px solid @light - 20; }
-.line-left      { border-left:   1px solid @light - 20; }
-.line-right     { border-right:  1px solid @light - 20; }
+.line-top       { border-top:    1px solid $light - 20; }
+.line-bottom    { border-bottom: 1px solid $light - 20; }
+.line-left      { border-left:   1px solid $light - 20; }
+.line-right     { border-right:  1px solid $light - 20; }
 
 table.spaced td, table.spaced th {
   padding: 0 20px 10px 0;
@@ -855,7 +858,7 @@ table.members {
     }
   }
   .description {
-    color: @light - 50;
+    color: $light - 50;
   }
   td, th {
     text-align: left;
@@ -891,9 +894,9 @@ table.members {
 }
 
 .alert {
-  background-color: @alert + 100;
+  background-color: $alert + 100;
   padding: 10px;
-  .shadow;
+  @include shadow;
   margin-bottom: 25px;
 }
 
@@ -907,7 +910,7 @@ table.members {
 }
 
 .discreet, .discreet a {
-  color: @light - 50;
+  color: $light - 50;
 }
 
 .very-strong {
@@ -923,13 +926,18 @@ table.members {
   margin: 25px 0;
   em {
     font-style: normal;
-    border: 1px solid @light - 20;
+    border: 1px solid $light - 20;
     padding: 3px;
   }
   a {
     padding: 3px;
   }
   .disabled {
-    color: @light - 50;
+    color: $light - 50;
   }
+}
+
+.color-preview {
+  display: inline-block;
+  width: 20px;
 }

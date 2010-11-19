@@ -18,6 +18,7 @@ gem 'fastercsv',              '~> 1.5.0'
 gem 'pdf-writer',             '~> 1.1.8', :require => 'pdf/writer'
 gem 'rubyzip',                '~> 0.9.4', :require => 'zip/zip'
 gem 'sanitize',               '~> 1.2.1'
+gem 'haml',                   '~> 3.0.24'
 gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git' # until 2.3.5 is released
 
 group :development, :test do

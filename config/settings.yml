@@ -209,9 +209,15 @@ Appearance:
   Show Subheading: 
     format: boolean
     value: true
-  Theme: 
+  Theme Primary Color:
     format: string
-    value: aqueouslight
+    value: 5F9128
+  Theme Secondary Color:
+    format: string
+    value: 3286B5
+  Theme Top Color:
+    format: string
+    value: 333333
 Privacy: 
   Allow Unencrypted Logins: 
     format: boolean

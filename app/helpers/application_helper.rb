@@ -21,10 +21,33 @@ module ApplicationHelper
     ).html_safe
   end
 
+  STYLESHEET_MTIMES = {}
+
+  def cached_mtime_for_path(path)
+    if Rails.env.production?
+      STYLESHEET_MTIMES[path] ||= File.mtime(Rails.root.join(path)).to_i.to_s
+    else
+      File.mtime(Rails.root.join(path)).to_i.to_s
+    end
+  end
+
+  def stylesheet_path(ie=false)
+    theme_colors = Setting.get(:appearance, :theme_primary_color).to_s   + \
+                   Setting.get(:appearance, :theme_secondary_color).to_s + \
+                   Setting.get(:appearance, :theme_top_color).to_s
+    if ie
+      path = 'public/stylesheets/style.ie.scss'
+      browser_style_path(:browser => :ie) + '?' + cached_mtime_for_path(path) + theme_colors
+    else
+      path = 'public/stylesheets/style.scss'
+      style_path + '?' + cached_mtime_for_path(path) + theme_colors
+    end
+  end
+
   def stylesheet_tags
-    stylesheet_link_tag('jquery-ui-1.8.6.custom', 'style', :cache => true) + "\n" + \
+    stylesheet_link_tag(stylesheet_path) + "\n" + \
     "<!--[if lte IE 8]>\n".html_safe + \
-      stylesheet_link_tag('ie') + "\n" + \
+      stylesheet_link_tag(stylesheet_path(:ie)) + "\n" + \
     "<![endif]-->".html_safe
   end
 

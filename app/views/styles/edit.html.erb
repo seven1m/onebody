@@ -1,0 +1,74 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag 'colorpicker' %>
+  <%= javascript_include_tag 'colorpicker' %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <table style="margin-top:135px;"><tr>
+    <td style="padding-right:60px;"><%= render :partial => 'palette', :collection => COLOR_PALETTES[0..COLOR_PALETTES.length/2-1] %></td>
+    <td><%= render :partial => 'palette', :collection => COLOR_PALETTES[COLOR_PALETTES.length/2..-1] %></td>
+  </tr></table>
+<% end %>
+
+<%# TODO don't show logo when on this page %>
+
+<%= image_tag 'clean/style_primary.png',   :style => 'position:absolute;left:50%;margin-left:-400px;top:110px;z-index:100;' %>
+<%= image_tag 'clean/style_secondary.png', :style => 'position:absolute;left:50%;margin-left:-120px;top:130px;z-index:100;' %>
+
+<h2 style="margin-top:125px;"><%= t('styles.heading') %></h2>
+
+<%= form_tag style_path, :method => :put do %>
+  <div style="float:right;margin-top:-35px;" id="colorpicker"></div>
+  <p>
+    <%= label_tag :primary, t('styles.primary_color') %>
+    <%= text_field_tag :primary, @primary, :size => 6, :class => 'color-input' %>
+    <span class="color-preview">&nbsp;</span>
+  </p>
+  <p>
+    <%= label_tag :secondary, t('styles.secondary_color') %>
+    <%= text_field_tag :secondary, @secondary, :size => 6, :class => 'color-input' %>
+    <span class="color-preview">&nbsp;</span>
+  </p>
+  <p>
+    <%= label_tag :top, t('styles.top_color') %>
+    <%= text_field_tag :top, @top, :size => 6, :class => 'color-input' %>
+    <span class="color-preview">&nbsp;</span>
+  </p>
+  <p>
+    <%= submit_tag t('save_changes'), :id => 'submit-button' %>
+    <%= image_tag 'clean/style_primary2.png', :style => 'vertical-align:top;' %>
+  </p>
+<% end %>
+
+<%= image_tag 'clean/style_top_bar.png', :style => 'position:absolute;right:20px;top:20px;z-index:100;' %>
+
+<script type="text/javascript">
+  var palettes = <%= raw @palettes_as_json %>;
+  function choosePalette(name) {
+    var p = palettes[name];
+    $('#primary').val(p[0]);
+    $('#secondary').val(p[1]);
+    $('#top').val(p[2]);
+    $('#primary, #secondary, #top').trigger('keyup');
+  }
+
+  lastFocusedInput = null;
+
+  $('#primary, #secondary, #top').bind('keyup', function(){
+    $(this).siblings('.color-preview').css('background-color', '#'+$(this).val());
+  }).bind('focus', function(){
+    $('#colorpicker').ColorPickerSetColor($(this).val());
+    lastFocusedInput = this;
+  }).trigger('keyup');
+
+  $('#home-tab, #submit-button').addClass('active');
+
+  $('#colorpicker').ColorPicker({
+    onChange: function(hsb, hex, rgb, el){
+      if(lastFocusedInput) {
+        $(lastFocusedInput).val(hex).trigger('keyup');
+      }
+    },
+    flat: true
+  });
+</script>

@@ -147,6 +147,10 @@ OneBody::Application.routes.draw do
   resources :news, :as => :news_items
   match 'news', :to => 'news#index'
 
+  resource :style
+  match 'style.css'          => 'styles#show', :format => 'css', :as => :style
+  match 'style.:browser.css' => 'styles#show', :format => 'css', :as => :browser_style
+
   resources :attachments do
     member do
       get :get

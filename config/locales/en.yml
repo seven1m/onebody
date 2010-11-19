@@ -711,6 +711,8 @@ en:
       sharing_communications_about: Share information with your members easily.
       sharing_heading: Sharing
     show_privileges: show privileges
+    styles:
+      editor: Style Editor
     super_admin: Super Admin
     super_admin_about: Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!
     syncs:
@@ -2070,6 +2072,12 @@ en:
     show: Show
     twitter: Twitter
     where_activity_appear: This is where activity from you, your friends, and your groups will appear.
+
+  styles:
+    heading: Style Editor
+    primary_color: Primary Color
+    secondary_color: Secondary Color
+    top_color: Top Bar Color
 
   tags: 
     add_tags: Add Tags (space separated)
