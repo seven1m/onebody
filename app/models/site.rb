@@ -75,6 +75,8 @@ class Site < ActiveRecord::Base
   end
 
   def add_pages
+    was = Site.current
+    Site.current = self
     return unless Page.table_exists?
     Dir["#{Rails.root}/db/pages/**/index.html"].each do |filename|
       html = File.read(filename)
@@ -98,6 +100,7 @@ class Site < ActiveRecord::Base
         page.save!
       end
     end
+    Site.current = was
   end
 
   def add_publications_group
