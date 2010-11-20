@@ -254,10 +254,14 @@ module ApplicationHelper
   def pie_chart_url(data, options={})
     options.symbolize_keys!
     options.reverse_merge!(:width => 350, :height => 200, :title => '', :colors => ['4F9EC9', '79B933', 'FF9933'])
-    labels = data.keys
-    counts = labels.inject([]) { |a, l| a << data[l]; a }
-    labels.map! { |l| l.to_s.gsub('_', ' ') }
-    "http://chart.apis.google.com/chart?chtt=#{options[:title]}&cht=p&chd=t:#{counts.join(',')}&chs=#{options[:width]}x#{options[:height]}&chl=#{labels.join('|')}&chco=#{options[:colors].join(',')}"
+    if data
+      labels = data.keys
+      counts = labels.inject([]) { |a, l| a << data[l]; a }
+      labels.map! { |l| l.to_s.gsub('_', ' ') }
+      "http://chart.apis.google.com/chart?chtt=#{options[:title]}&cht=p&chd=t:#{counts.join(',')}&chs=#{options[:width]}x#{options[:height]}&chl=#{labels.join('|')}&chco=#{options[:colors].join(',')}"
+    else
+      ''
+    end
   end
 
   def sortable_column_heading(label, sort, keep_params=[])

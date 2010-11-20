@@ -123,7 +123,7 @@
   </div>
 <% end %>
 
-<% if @logged_in.admin?(:manage_sync) %>
+<% if @logged_in.admin?(:manage_sync) and @sync_counts %>
   <div class="admin-chart">
     <%= link_to image_tag(pie_chart_url(@sync_counts, :width => 245, :height => 150, :title => t('admin.syncs.results')), :alt => t('admin.syncs.results')),
                 administration_syncs_path %>
