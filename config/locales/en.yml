@@ -1,8 +1,8 @@
 en:
 
   About: About
-  Answer_yes: Yes
-  Answer_no: No
+  Answer_yes: "Yes"
+  Answer_no: "No"
   Change: Change
   Changes: Changes
   Changes_saved: Changes saved.
