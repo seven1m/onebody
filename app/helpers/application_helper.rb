@@ -13,12 +13,18 @@ module ApplicationHelper
 
   def head_tags
     (
-      '<meta http-equiv="content-type" content="text/html; charset=utf-8" />' + \
+      '<meta http-equiv="content-type" content="text/html; charset=utf-8"/>' + \
       '<meta http-equiv="Pragma" content="no-cache"/>' + \
       '<meta http-equiv="no-cache"/>' + \
       '<meta http-equiv="Expires" content="-1"/>' + \
-      '<meta http-equiv="Cache-Control" content="no-cache"/>'
+      '<meta http-equiv="Cache-Control" content="no-cache"/>' + \
+      (mobile? ? '<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>' : '')
     ).html_safe
+  end
+
+  def mobile?
+    session[:mobile] = params[:mobile] == 'true' if params[:mobile]
+    session[:mobile] or (request.env["HTTP_USER_AGENT"].to_s =~ /mobile/i and session[:mobile].nil?)
   end
 
   STYLESHEET_MTIMES = {}
@@ -31,13 +37,16 @@ module ApplicationHelper
     end
   end
 
-  def stylesheet_path(ie=false)
+  def stylesheet_path(browser=nil)
     theme_colors = Setting.get(:appearance, :theme_primary_color).to_s   + \
                    Setting.get(:appearance, :theme_secondary_color).to_s + \
                    Setting.get(:appearance, :theme_top_color).to_s
-    if ie
+    if browser == :ie
       path = 'public/stylesheets/style.ie.scss'
       browser_style_path(:browser => :ie) + '?' + cached_mtime_for_path(path) + theme_colors
+    elsif browser == :mobile
+      path = 'public/stylesheets/style.mobile.scss'
+      browser_style_path(:browser => :mobile) + '?' + cached_mtime_for_path(path) + theme_colors
     else
       path = 'public/stylesheets/style.scss'
       style_path + '?' + cached_mtime_for_path(path) + theme_colors
@@ -46,6 +55,7 @@ module ApplicationHelper
 
   def stylesheet_tags
     stylesheet_link_tag(stylesheet_path) + "\n" + \
+    (mobile? ? (stylesheet_link_tag(stylesheet_path(:mobile)) + "\n") : '') + \
     "<!--[if lte IE 8]>\n".html_safe + \
       stylesheet_link_tag(stylesheet_path(:ie)) + "\n" + \
     "<![endif]-->".html_safe
@@ -262,20 +272,6 @@ module ApplicationHelper
     )
     url = url_for(options)
     link_to label, url
-  end
-
-  def iphone_back_button(url=nil, label='Back')
-    if url
-      "<a class=\"button backButton\" rel=\"external\" href=\"#{url}\">#{label}</a>"
-    elsif params[:iphoneAjax]
-      "<a class=\"back\" href=\"#home\">#{label}</a>"
-    else
-      "<a class=\"button backButton\" rel=\"external\" href=\"/stream\">#{label}</a>"
-    end
-  end
-
-  def iphone?
-    controller.iphone?
   end
 
   def params_without_action

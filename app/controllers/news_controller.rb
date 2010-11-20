@@ -36,7 +36,6 @@ class NewsController < ApplicationController
       @news_item = NewsItem.find(params[:id])
       respond_to do |format|
         format.html
-        format.iphone
       end
     else
       respond_to do |format|

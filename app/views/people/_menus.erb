@@ -1,6 +1,7 @@
 <% if @logged_in %>
   <div id="home-tab-menu" style="display:none;">
     <ul class="popup-menu">
+      <% if mobile? %><li style="width:100px"><em><%= t('menus.home.mobile_tap_again') %></em></li><% end %>
       <li><%= link_to t('menus.home.feed'),         stream_path(:format => 'xml', :code => @logged_in.feed_code), :class => 'feed-icon'    %></li>
       <% if Setting.get(:features, :pictures) %>
         <li><%= link_to t('menus.home.pictures'),     albums_path,                                                  :class => 'picture-icon' %></li>
@@ -17,6 +18,7 @@
 <% if (@person and @logged_in.can_edit?(@person)) or (!@person and @logged_in) %>
   <div id="profile-tab-menu" style="display:none;">
     <ul class="popup-menu">
+      <% if mobile? %><li style="width:100px"><em><%= t('menus.profile.mobile_tap_again') %></em></li><% end %>
       <li><%= link_to t('menus.profile.edit'),            edit_person_path(@person || @logged_in),           :class => 'edit-icon'   %></li>
       <li><%= link_to t('menus.profile.privacy'),         edit_person_privacy_path(@person || @logged_in),   :class => 'lock-icon'   %></li>
       <li><%= link_to t('menus.profile.password'),        edit_person_account_path(@person || @logged_in),   :class => 'dots-icon'   %></li>

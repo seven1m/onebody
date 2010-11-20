@@ -48,7 +48,6 @@ class PeopleController < ApplicationController
       else
         respond_to do |format|
           format.html
-          format.iphone
           format.xml { render :xml => @person.to_xml } if can_export?
         end
       end

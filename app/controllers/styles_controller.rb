@@ -8,6 +8,8 @@ class StylesController < ApplicationController
   def show
     if params[:browser] == 'ie'
       path = 'public/stylesheets/style.ie.scss'
+    elsif params[:browser] == 'mobile'
+      path = 'public/stylesheets/style.mobile.scss'
     else
       path = 'public/stylesheets/style.scss'
     end

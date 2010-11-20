@@ -1276,6 +1276,7 @@ en:
   menus:
     home:
       feed: feed
+      mobile_tap_again: Tap button again to go to Home.
       pictures: pictures
       publications: publications
       verses: verses
@@ -1283,6 +1284,7 @@ en:
       contributions: contributions
       edit: edit profile
       edit_family: edit family
+      mobile_tap_again: Tap button again to go to your Profile.
       new_family: new family
       privacy: privacy
       password: password

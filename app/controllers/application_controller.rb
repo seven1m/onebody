@@ -8,11 +8,6 @@ class ApplicationController < ActionController::Base
   before_filter :get_site
   before_filter :feature_enabled?
   before_filter :authenticate_user
-  before_filter :detect_mobile
-
-  def iphone?
-    session[:iphone] or (request.env["HTTP_USER_AGENT"] and request.env["HTTP_USER_AGENT"] =~ /Mobile\/.+Safari/ and session[:iphone].nil?)
-  end
 
   def params_without_action
     params.clone.delete_if { |k, v| %w(controller action).include? k }
@@ -169,20 +164,6 @@ class ApplicationController < ActionController::Base
         end
       else
         false
-      end
-    end
-
-    def detect_mobile
-      session[:iphone] = params[:iphone] == 'true' if params[:iphone]
-      if iphone?
-        request.format = :iphone
-        if params[:iphoneAjax]
-          self.class.layout 'iphone_bare.html'
-        else
-          self.class.layout 'iphone.html'
-        end
-      else
-        self.class.layout 'default'
       end
     end
 

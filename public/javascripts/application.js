@@ -70,12 +70,12 @@ function setupMenu(selector, contentSelector) {
     },
     style: {
       name: 'light',
-      tip: 'topMiddle'
+      tip: navigator.userAgent.match(/mobile/i) ? 'topLeft' : 'topMiddle'
     },
     position: {
       corner: {
         target: 'bottomMiddle',
-        tooltip: 'topMiddle'
+        tooltip: navigator.userAgent.match(/mobile/i) ? 'topLeft' : 'topMiddle'
       }
     }
   });

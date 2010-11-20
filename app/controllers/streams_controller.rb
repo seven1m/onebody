@@ -14,7 +14,6 @@ class StreamsController < ApplicationController
     @album_names = @person.albums.all(:select => 'name').map { |a| a.name }
     respond_to do |format|
       format.html
-      format.iphone
       format.xml { render :layout => false }
     end
   end

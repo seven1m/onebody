@@ -36,13 +36,6 @@ class SearchesController < ApplicationController
           render :action => 'create'
         end
       end
-      wants.iphone do
-        if params[:iphoneAjax] # 'load more' link
-          render :partial => 'result_items_iphone'
-        else
-          render :action => 'results'
-        end
-      end
       wants.js do
         if params[:auto_complete]
           @people = @people[0..MAX_SELECT_PEOPLE]
