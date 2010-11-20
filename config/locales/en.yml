@@ -1285,6 +1285,7 @@ en:
       contributions: contributions
       edit: edit profile
       edit_family: edit family
+      email: email settings
       mobile_tap_again: Tap button again to go to your Profile.
       new_family: new family
       privacy: privacy
@@ -1737,7 +1738,7 @@ en:
     email: Email
     entire_family_will_not_appear: entire family will not appear in any searches. It is still possible to join groups and receive email from site administrators, though.
     family_hidden: "{{your}} family is currently hidden from all pages on this site!"
-    family_privacy: Family Privacy
+    family_privacy: Family
     fax: Fax
     group_privacy: Group Privacy
     have_concerns_regarding_this: If you have concerns regarding this, please contact us at {{phone}} immediately.
@@ -1751,12 +1752,12 @@ en:
     missing_params: missing params
     mobile: Mobile
     mobile_phone: Mobile Phone
-    modify_the_privacy_settings_html: Modify the privacy settings for you and your family below. To understand how we use the personal information of you and your family, please read our <a href="{{url}}">Privacy Policy</a>.
+    modify_the_privacy_settings_html: You can change the privacy settings for your family here. Items with a checkmark are visible to other members who sign into this website. Click the <img src="/images/plus.gif"/> to set privacy for groups (optional). To understand how we use the personal information of you and your family, please read our <a href="{{url}}">Privacy Policy</a>.
     not_sharing: Not Sharing    
     only_adult_can_edit: Only an adult can edit these settings. According to our records, you are not. Please contact us if you believe this to be an error.
     person_is_hidden: "{{name}} has been hidden from all pages on this site!"
     please_read_our_privacy_policy_html: Please read our <a href="{{url}}">Privacy Policy</a> for details regarding the use of your personal information.
-    people_can_still_send_html: People can still send your family email <a href="#" onclick="alert('One user can send a message to another via this site. The system is monitored for abuse and allows people to contact you without getting your email address. We recommend you leave your email address private to prevent unsolicited email.');return false;">through the site</a> if Private Messages are enabled.
+    people_can_still_send_html: "You can still receive email through the site, without revealing your email address on the Web."
     privacy_settings: Privacy Settings
     privacy: Privacy
     private: Private
@@ -1781,6 +1782,7 @@ en:
     to_show_on_this_site: "To show {{name}} on this site, please:"
     view_profile: View Profile
     visible: Visible
+    visible_note: Setting a profile to be invisible will cause you to not appear in any directory searches. You can still join groups and receive group email and email from site administrators though.
     visible_on_site: visible on site
     wall: Wall
     work: Work

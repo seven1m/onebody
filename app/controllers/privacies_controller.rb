@@ -28,8 +28,8 @@ class PrivaciesController < ApplicationController
         render :text => t('not_authorized'), :layout => true, :status => 401
       end
     elsif @person = Person.find(params[:person_id])
-      if @logged_in.can_edit?(@person)
-        @family = @person.family
+      @family = @person.family
+      if @logged_in.can_edit?(@family)
         unless @family.visible?
           flash[:warning] = t('privacies.family_hidden', :your => @family == @logged_in.family ? t('your') : t('privacies.this'))
         end
@@ -40,16 +40,30 @@ class PrivaciesController < ApplicationController
   end
 
   def update
-    if params[:membership]
-      update_membership
-    elsif params[:person]
-      update_person
-    elsif params[:family]
-      update_family
-    elsif params[:agree] or params[:commit] == t('privacies.i_agree')
-      update_consent
+    #elsif params[:agree] or params[:commit] == t('privacies.i_agree')
+      #update_consent
+    @person = Person.find(params[:person_id])
+    @family = @person.family
+    people_ids = @family.people.all.map { |p| p.id }
+    if @logged_in.can_edit?(@family)
+      @family.update_attributes!(params[:family])
+      params[:memberships].each do |membership_id, sharing|
+        m = Membership.where(["id = ? and person_id in (?)", membership_id, people_ids]).first
+        sharing.each do |attribute, value|
+          value = false if m.person.attributes[attribute]
+          m.attributes = {attribute => value}
+        end
+        m.save!
+      end
+      if @family.visible?
+        flash[:notice] = t('privacies.saved')
+        flash[:warning] = nil
+      else
+        flash[:warning] = t('privacies.family_hidden', :your => @family == @logged_in.family ? t('your') : t('privacies.this'))
+      end
+      redirect_to @person
     else
-      render :text => t('privacies.missing_params'), :status => 500
+      render :text => t('not_authorized'), :layout => true, :status => 401
     end
   end
 
@@ -66,47 +80,6 @@ class PrivaciesController < ApplicationController
       else
         edit; render :action => 'edit'
       end
-    else
-      render :text => t('not_authorized'), :layout => true, :status => 401
-    end
-  end
-
-  def update_person
-    @person = Person.find(params[:person_id])
-    @family = @person.family
-    if @logged_in.can_edit?(@family)
-      if person = @family.people.find(params[:person_id])
-        sharing = params[:person].reject { |k, v| k.to_s !~ /^wall_enabled$|^messages_enabled$|^visible$|^share_/ }
-        sharing.each { |k, v| sharing[k] = (v == 'nil') ? nil : v }
-        if person.update_attributes(sharing)
-          if person.visible?
-            flash[:notice] = t('privacies.saved_personal', :name => person.name)
-          else
-            flash[:warning] = t('privacies.person_is_hidden', :name => person.name)
-          end
-        else
-          add_errors_to_flash(person)
-        end
-      end
-      redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
-    else
-      render :text => t('not_authorized'), :layout => true, :status => 401
-    end
-  end
-
-  def update_family
-    @person = Person.find(params[:person_id])
-    @family = @person.family
-    if @logged_in.can_edit?(@family)
-      sharing = params[:family].reject { |k, v| k.to_s !~ /^wall_enabled$|^visible$|^share_/ }
-      @family.update_attributes(sharing)
-      if @family.visible?
-        flash[:notice] = t('privacies.saved_family')
-        flash[:warning] = nil
-      else
-        flash[:warning] = t('privacies.family_hidden', :your => @family == @logged_in.family ? t('your') : t('privacies.this'))
-      end
-      redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
     else
       render :text => t('not_authorized'), :layout => true, :status => 401
     end

@@ -1,230 +1,118 @@
 <h2><%= t('privacies.privacy') %></h2>
 
-<% unless @logged_in.adult? %>
-  <p style="font-weight:bold;">
-    <%= t('privacies.only_adult_can_edit') %>
-  </p>
-<% end %>
-
-<p>
-  <%= t('privacies.modify_the_privacy_settings_html', :url => help_path('privacy_policy')) %>
-</p>
+<p><%= t('privacies.modify_the_privacy_settings_html', :url => help_path('privacy_policy')) %></p>
 
 <div id="edit-privacy">
-  <ul>
-    <li><a href="#f"><%= t('privacies.family_privacy') %></a></li>
-    <% @family.people.each do |person| %>
-      <li><%= link_to person.first_name, "#p#{person.id}" %></li>
-    <% end %>
-  </ul>
+  <%= form_for @family, :url => person_privacy_path(@family.people.first), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
 
-  <div id="f">
-    <p>
-      <%= t('privacies.these_settings_affect_your_family') %>
-    </p>
-
-    <%= form_for @family, :url => person_privacy_path(@family.people.first), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
-
-      <p>
-        <%= form.check_box 'visible', :class => 'checkbox', :onclick => "show_or_hide_tabs()" %>
-        <label class="inline" for="family_visible"><strong><%= t('privacies.visible_on_site') %></strong></label><br/>
-        <em><%= t('privacies.by_turning_off_site_visibility') %>, <%= @family == @logged_in.family ? t('privacies.your') : t('privacies.this') %> <%= t('privacies.entire_family_will_not_appear') %></em>
-      </p>
-
-      <div id="family">
-
-        <table class="spaced">
-          <tr><th><%= t('privacies.detail') %></th><th><%= t('privacies.visible') %></th><th><%= t('privacies.hidden') %></th></tr>
-          <tr>
-            <td><%= t('privacies.address') %></td>
-            <td><%= form.radio_button :share_address, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_address, false, :class => 'checkbox' %></td>
-          </tr>
-          <tr>
-            <td><%= t('privacies.mobile_phone') %></td>
-            <td><%= form.radio_button :share_mobile_phone, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_mobile_phone, false, :class => 'checkbox' %></td>
-          </tr>
-          <tr>
-            <td><%= t('privacies.home_phone') %></td>
-            <td><%= form.radio_button :share_home_phone, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_home_phone, false, :class => 'checkbox' %></td>
-          </tr>
-          <tr>
-            <td><%= t('privacies.work_phone') %></td>
-            <td><%= form.radio_button :share_work_phone, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_work_phone, false, :class => 'checkbox' %></td>
-          </tr>
-          <tr>
-            <td><%= t('privacies.fax') %></td>
-            <td><%= form.radio_button :share_fax, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_fax, false, :class => 'checkbox' %></td>
-          </tr>
-          <tr>
-            <td><%= t('privacies.email') %></td>
-            <td><%= form.radio_button :share_email, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_email, false, :class => 'checkbox' %></td>
-            <td><em><%= t('privacies.people_can_still_send_html') %></em></td>
-          </tr>
-          <tr>
-            <td><%= t('privacies.birthday') %></td>
-            <td><%= form.radio_button :share_birthday, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_birthday, false, :class => 'checkbox' %></td>
-            <td><em><%= t('privacies.the_year_is_never_shown') %></em></td>
-          </tr>
-          <tr>
-            <td><%= t('privacies.anniversary') %></td>
-            <td><%= form.radio_button :share_anniversary, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_anniversary, false, :class => 'checkbox' %></td>
-            <td><em><%= t('privacies.the_year_is_never_shown') %></em></td>
-          </tr>
-          <tr>
-            <td><%= t('privacies.activity') %></td>
-            <td><%= form.radio_button :share_activity, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :share_activity, false, :class => 'checkbox' %></td>
+    <table class="spaced margin-top">
+      <tr>
+        <th></th>
+        <th><%= t('privacies.visible') %><sup>1</sup></th>
+      </tr>
+      <tr>
+        <td><strong><%= t('privacies.family_privacy') %></strong></td>
+        <td><%= form.check_box :visible, :class => 'visible-checkbox' %></td>
+      </tr>
+      <tr class="people-header-row">
+        <th></th>
+        <th><%= t('privacies.visible') %><sup>1</sup></th>
+        <th><%= t('privacies.activity') %><sup>2</sup></th>
+        <th><%= t('privacies.anniversary') %></th>
+        <th><%= t('privacies.address') %></th>
+        <th><%= t('privacies.home_phone') %></th>
+        <th><%= t('privacies.mobile_phone') %></th>
+        <th><%= t('privacies.work_phone') %></th>
+        <th><%= t('privacies.fax') %></th>
+        <th><%= t('privacies.email') %><sup>3</sup></th>
+        <th><%= t('privacies.birthday') %></th>
+      </tr>
+      <% @family.people.all(:order => :sequence).each do |person| %>
+        <%= form.fields_for :people, person do |person_form| %>
+          <tr class="person-row">
             <td>
-              <%= t('privacies.hide_your_activity') %>
+              <%= image_tag 'plus.gif', :class => 'expand-link', :id => "expand-link-#{person.id}" %>
+              <strong><%= person.first_name %></strong>
             </td>
+            <td><%= person_form.check_box :visible, :class => 'visible-checkbox' %></td>
+            <td><%= person_form.check_box :share_activity %></td>
+            <td><%= person_form.check_box :share_anniversary,  :class => "share-checkbox", 'data-share-type' => 'share-anniversary',  'data-person-id' => person.id %></td>
+            <td><%= person_form.check_box :share_address,      :class => "share-checkbox", 'data-share-type' => 'share-address',      'data-person-id' => person.id %></td>
+            <td><%= person_form.check_box :share_home_phone,   :class => "share-checkbox", 'data-share-type' => 'share-home-phone',   'data-person-id' => person.id %></td>
+            <td><%= person_form.check_box :share_mobile_phone, :class => "share-checkbox", 'data-share-type' => 'share-mobile-phone', 'data-person-id' => person.id %></td>
+            <td><%= person_form.check_box :share_work_phone,   :class => "share-checkbox", 'data-share-type' => 'share-work-phone',   'data-person-id' => person.id %></td>
+            <td><%= person_form.check_box :share_fax,          :class => "share-checkbox", 'data-share-type' => 'share-fax',          'data-person-id' => person.id %></td>
+            <td><%= person_form.check_box :share_email,        :class => "share-checkbox", 'data-share-type' => 'share-email',        'data-person-id' => person.id %></td>
+            <td><%= person_form.check_box :share_birthday,     :class => "share-checkbox", 'data-share-type' => 'share-birthday',     'data-person-id' => person.id %></td>
           </tr>
-          <tr>
-            <td><%= t('privacies.wall') %></td>
-            <td><%= form.radio_button :wall_enabled, true, :class => 'checkbox' %></td>
-            <td><%= form.radio_button :wall_enabled, false, :class => 'checkbox' %></td>
-            <td><em><%= t('privacies.space_to_post_messages', :name => 'you') %></em></td>
-          </tr>
-        </table>
-
-      </div>
-
-      <p><%= submit_tag t('privacies.save_family_settings') %></p>
-
-    <% end %>
-  </div>
-
-  <% @family.people.each do |person| %>
-
-    <%= content_tag :div, :id => "p#{person.id}" do %>
-
-      <%= form_for person, :url => person_privacy_path(person), :html => {:method => 'put', :style => 'border:none;padding:0;'} do |form| %>
-
-        <%= hidden_field_tag :anchor, "p#{person.id}" %>
-
-        <% if person.adult_or_consent? %>
-
-          <% if not person.adult? %>
-            <p class="highlight">
-              <%= t('privacies.child_profile_has_parental_consent', :name => person.parental_consent) %>
-              <%= t('privacies.have_concerns_regarding_this', :phone => Setting.get(:contact, :community_office_phone)) %>
-            </p>
+        <% end %>
+        <% person.memberships.all(:order => 'groups.name', :include => :group, :conditions => {'groups.hidden' => false}).each do |membership| %>
+          <%= fields_for "memberships[#{membership.id}]", membership do |membership_form| %>
+            <%= content_tag :tr, :style => 'display:none;', :class => "membership-row membership-for-#{person.id}" do %>
+              <td style="padding-left:15px;"><%= membership.group.name %></td>
+              <td></td>
+              <td></td>
+              <td><%= membership_form.check_box :share_anniversary,  :class => 'share-anniversary'  %></td>
+              <td><%= membership_form.check_box :share_address,      :class => 'share-address'      %></td>
+              <td><%= membership_form.check_box :share_home_phone,   :class => 'share-home-phone'   %></td>
+              <td><%= membership_form.check_box :share_mobile_phone, :class => 'share-mobile-phone' %></td>
+              <td><%= membership_form.check_box :share_work_phone,   :class => 'share-work-phone'   %></td>
+              <td><%= membership_form.check_box :share_fax,          :class => 'share-fax'          %></td>
+              <td><%= membership_form.check_box :share_email,        :class => 'share-email'        %></td>
+              <td><%= membership_form.check_box :share_birthday,     :class => 'share-birthday'     %></td>
+            <% end %>
           <% end %>
-
-          <p><%= t('privacies.you_may_override', :name => person.name) %></p>
-
-          <p>
-            <%= form.check_box 'visible', :class => 'checkbox person-visible-checkbox', :id => "person-visible#{person.id}", :onclick => "show_or_hide_tabs();" %>
-            <strong><%= t('privacies.visible_on_site') %></strong><br/>
-            <em><%= t('privacies.by_turning_off', :name => person.first_name) %></em>
-          </p>
-
-          <div id="person<%= person.id %>" class="person">
-
-            <table class="spaced">
-              <tr><th><%= t('privacies.detail') %></th><th><%= t('privacies.visible') %></th><th><%= t('privacies.hidden') %></th><th><%= t('privacies.default') %></th></tr>
-              <tr>
-                <td><%= t('privacies.mobile_phone') %></td>
-                <td><%= radio_button_tag 'person[share_mobile_phone]', true, person.attributes['share_mobile_phone'] == true, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_mobile_phone]', false, person.attributes['share_mobile_phone'] == false, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_mobile_phone]', 'nil', person.attributes['share_mobile_phone'] == nil, :class => 'checkbox' %></td>
-              </tr>
-              <tr>
-                <td><%= t('privacies.work_phone') %></td>
-                <td><%= radio_button_tag 'person[share_work_phone]', true, person.attributes['share_work_phone'] == true, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_work_phone]', false, person.attributes['share_work_phone'] == false, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_work_phone]', 'nil', person.attributes['share_work_phone'] == nil, :class => 'checkbox' %></td>
-              </tr>
-              <tr>
-                <td><%= t('privacies.fax') %></td>
-                <td><%= radio_button_tag 'person[share_fax]', true, person.attributes['share_fax'] == true, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_fax]', false, person.attributes['share_fax'] == false, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_fax]', 'nil', person.attributes['share_fax'] == nil, :class => 'checkbox' %></td>
-              </tr>
-              <tr>
-                <td><%= t('privacies.email') %></td>
-                <td><%= radio_button_tag 'person[share_email]', true, person.attributes['share_email'] == true, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_email]', false, person.attributes['share_email'] == false, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_email]', 'nil', person.attributes['share_email'] == nil, :class => 'checkbox' %></td>
-              </tr>
-              <tr>
-                <td><%= t('privacies.birthday') %></td>
-                <td><%= radio_button_tag 'person[share_birthday]', true, person.attributes['share_birthday'] == true, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_birthday]', false, person.attributes['share_birthday'] == false, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_birthday]', 'nil', person.attributes['share_birthday'] == nil, :class => 'checkbox' %></td>
-                <td><em><%= t('privacies.the_year_is_never_shown') %></em></td>
-              </tr>
-              <tr>
-                <td><%= t('privacies.activity') %></td>
-                <td><%= radio_button_tag 'person[share_activity]', true, person.attributes['share_activity'] == true, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_activity]', false, person.attributes['share_activity'] == false, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[share_activity]', 'nil', person.attributes['share_activity'] == nil, :class => 'checkbox' %></td>
-                <td>
-                  <%= t('privacies.hide_your_activity') %>
-                </td>
-              </tr>
-              <tr>
-                <td><%= t('privacies.wall') %></td>
-                <td><%= radio_button_tag 'person[wall_enabled]', true, person.attributes['wall_enabled'] == true, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[wall_enabled]', false, person.attributes['wall_enabled'] == false, :class => 'checkbox' %></td>
-                <td><%= radio_button_tag 'person[wall_enabled]', 'nil', person.attributes['wall_enabled'] == nil, :class => 'checkbox' %></td>
-                <td><em><%= t('privacies.space_to_post_messages', :name => @logged_in == person ? 'you' : person.first_name) %></em></td>
-              </tr>
-            </table>
-
-          </div>
-
-          <p><%= submit_tag t('privacies.save_personal_settings') %></p>
-
-        <% elsif @logged_in.family == @family and @logged_in.adult? %>
-
-          <p class="alert">
-            <%= t('privacies.child_under_age_you_have_not_consent', :years => Setting.get(:system, :adult_age)) %>
-          </p>
-
-          <p>
-            <%= t('privacies.to_show_on_this_site', :name => person.name) %>
-          </p>
-          <ol>
-            <li><%= t('privacies.read_safeguarding_children_html', :url => help_path('safeguarding_children')) %></li>
-            <li><%= t('privacies.read_privacy_policy_html', :url => help_path('privacy_policy')) %></li>
-            <li><%= t('privacies.read_statement_below') %></li>
-            <li><%= t('privacies.click_the_agree') %></li>
-          </ol>
-
-          <p>
-            <%= check_box_tag 'agree', t('privacies.i_agree') + ".", false, :class => 'checkbox' %>
-            <%= t('privacies.as_a_parent_agree_html', :name => person.name, :url => help_path('privacy_policy')) %><br/>
-            <%= submit_tag t('privacies.i_agree') %>
-          </p>
-
-        <% else %>
-
-          <p class="alert">
-            <%= t('privacies.child_under_age_no_parents_consent', :years => Setting.get(:system, :adult_age)) %>
-          </p>
-
         <% end %>
       <% end %>
+    </table>
 
-      <%= render :partial => 'group_privacy_listing', :locals => {:person => person} %>
-    <% end %>
+    <p class="discreet margin-top"><sup>1</sup><%= t('privacies.visible_note') %></p>
+    <p class="discreet margin-top"><sup>2</sup><%= t('privacies.hide_your_activity') %></p>
+    <p class="discreet margin-top"><sup>3</sup><%= t('privacies.people_can_still_send_html') %></p>
+
+    <p class="double-margin-top"><%= form.submit t('save_changes') %></p>
 
   <% end %>
 
-</div><%# /edit-privacy %>
+</div>
 
-<% content_for :head do %>
-  <script type="text/javascript">
-    $(function(){
-      $('#edit-privacy').tabs();
-    });
-  </script>
-<% end %>
+<%# precache image %>
+<%= image_tag 'minus.gif', :style => 'display:none;' %>
+
+<script type="text/javascript">
+  $('#family_visible').change(function(){
+    if(this.checked) {
+      $('.people-header-row, .person-row').show();
+    } else {
+      $('.people-header-row, .person-row, .membership-row').hide();
+    }
+  }).trigger('change');
+
+  $('.visible-checkbox').change(function(){
+    var c = $(this).closest('tr').find('input[type=checkbox]:not(.visible-checkbox)');
+    if(this.checked) c.attr('disabled', false).each(function(){ var c=$(this).data('was-checked'); if(c!=null) this.checked = c });
+    else c.attr('disabled', true).each(function(){ $(this).data('was-checked', this.checked) }).attr('checked', false);
+  }).trigger('change');
+
+  $('.share-checkbox').change(function(event, triggered){
+    var id = $(this).attr('data-person-id');
+    var type = $(this).attr('data-share-type');
+    var c = $('.membership-for-' + id + ' .' + type)
+    if(this.checked) {
+      c.attr('disabled', true).attr('checked', true);
+    } else {
+      c.attr('disabled', false);
+      if(!triggered) {
+        c.attr('checked', false);
+      }
+    }
+  }).trigger('change', 'triggered');
+
+  $('.expand-link').toggle(function(){
+    $(this).attr('src', '/images/minus.gif');
+    $('.' + $(this).attr('id').replace(/expand\-link\-/, 'membership-for-')).show('slow');
+  }, function(){
+    $(this).attr('src', '/images/plus.gif');
+    $('.' + $(this).attr('id').replace(/expand\-link\-/, 'membership-for-')).hide('hide');
+  });
+</script>

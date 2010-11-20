@@ -1,15 +1,7 @@
-<style type="text/css"> form { border:none; }</style>
-
-<ul class="buttons">
-  <% @family.visible_people.each do |person| %>
-    <li><%= link_to person.first_name, edit_person_path(person), :class => @person == person ? 'button active' : 'button' %></li>
-  <% end %>
-</ul>
-
-<p class="discreet small">
-  <%= t('privacies.please_read_our_privacy_policy_html', :url => help_path('privacy_policy')) %>
-</p>
-
+<% content_for :sidebar do %>
+  <p><%= link_to t('people.edit.email'), edit_person_path(@person, :email => true), :class => 'email-icon' %></p>
+  <p><%= link_to t('people.edit.privacy'), edit_person_privacy_path(@person), :class => 'lock-icon' %></p>
+<% end %>
 
 <% if @logged_in.admin?(:edit_profiles) and @person.account_frozen? %>
   <p class="very-strong"><%= t('people.this_account_is_frozen', :name => @person.name) %></p>
