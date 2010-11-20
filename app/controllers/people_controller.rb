@@ -110,6 +110,9 @@ class PeopleController < ApplicationController
       @family = @person.family
       @business_categories = Person.business_categories
       @custom_types = Person.custom_types
+      if params[:email]
+        render :action => 'email'
+      end
     else
       render :text => t('not_authorized'), :layout => true, :status => 401
     end
@@ -122,10 +125,12 @@ class PeopleController < ApplicationController
         respond_to do |format|
           format.html do
             flash[:notice] = t('people.changes_submitted')
-            redirect_to edit_person_path(@person, :anchor => params[:anchor])
+            redirect_to @person
           end
           format.xml { render :xml => @person.to_xml } if can_export?
         end
+      elsif params[:email]
+        edit
       else
         edit; render :action => 'edit'
       end

@@ -214,12 +214,17 @@ module ApplicationHelper
   end
 
   def error_messages_for(form)
-    if form.object.errors.any?
+    if form.respond_to?(:object)
+      obj = form.object
+    else
+      obj = form
+    end
+    if obj.errors.any?
       (
         "<div class=\"errorExplanation\">" + \
         "<h3>#{t('There_were_errors')}</h3>" + \
         "<ul class=\"list\">" + \
-        form.object.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
+        obj.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
         "</ul>" + \
         "</div>"
       ).html_safe

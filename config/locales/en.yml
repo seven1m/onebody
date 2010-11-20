@@ -77,6 +77,7 @@ en:
   to: to
   type: Type
   you_dont: You don't
+  you_made_a_change_page: Looks like you made a change to something on this page. Click OK to discard your edits and leave this page.
   your: Your
 
   errors:
@@ -1473,7 +1474,7 @@ en:
     changes_submitted: Changes submitted.
     child: Child
     child_alert: You must specify whether the person is a Child (under {{years}}) or not to complete this update.
-    click_to_send_verification_email: Click OK to send a verification email to this user. Once the user clicks the link in the email, they will be able to set their password and sign in.
+    click_to_send_verification_email: Send a password setup email to this user.
     click_to_change_email_html: <a href="{{url}}">Click here</a> to change this email address.
     completely_private: completely private
     create_new_family: Create a New Family
@@ -1481,6 +1482,17 @@ en:
     deleted_html: This person has been deleted. You can restore the record <a href="{{url}}">here</a>.
     description_of_business: Description of Business
     determine_by_birthday: Determine by birthday
+    edit:
+      about: About
+      basics: Basics
+      child_hint: If not birthday is specified, you must indicate whether this is a child or an adult.
+      description_hint: "A word or two about yourself — maybe your profession?"
+      email: Change Email Settings
+      family_photo: Family Photo
+      person_type_hint: These do not control access — only designation.
+      photo: Profile Photo
+      privacy: Change Privacy Settings
+      profile: Edit Profile
     email: Email
     email_address: email address (account login) is
     enter_family_details: Enter Family Details
@@ -1506,7 +1518,7 @@ en:
     hidden_profile: Hidden Profile
     if_you_have_another_email: If you have another email (perhaps a work address) you wish to utilize to send email to groups, you may enter it here.
     if_you_wish_to_be_listed_business_dir_html: If you wish to be listed in the <a href="{{url}}">Business Directory</a>, Enter your business name, description, and other details below.
-    if_you_wish_to_remove_something_html: If you wish to remove something below in order to keep others from seeing it, instead go to the <a href="{{url}}">Privacy</a> page and hide it.
+    if_you_wish_to_remove_something_html: If you wish to remove something in order to keep others from seeing it, instead go to the <a href="{{url}}">Privacy</a> page and hide it.
     if_your_system_is_setup_to_sync: If your system is set up to synchronize its data with an external source (e.g., a membership managment system), deleting this person may not be permanent and they may reappear following the next sync.
     if_your_system_is_setup_to_sync_change: If your system is set up to synchronize its data with an external source (e.g., a membership managment system), changes you make here may be overwritten on the next sync.
     info: Info
@@ -1546,7 +1558,7 @@ en:
       one: 1 Person
       other: "{{count}} People"
     person_isnt_any_groups: "{{person}} isn't in any groups right now."
-    person_type: Person Type
+    person_type: Roles
     pic: Pic
     please_only_upload_real_photo_html: Please only upload a <span class="very-strong">real photo</span> — no graphics, clip-art, or fakes please.
     previously_served: "Previously served in:"
@@ -1574,7 +1586,6 @@ en:
     tell_about_your_favorite_html: Tell about your favorite interests, music, movies, and more <a href="{{url}}">here</a>.
     tell_us_about_yourself: Tell us about yourself. What's your personality like? What would your best friend say about you?
     testimony: Testimony
-    these_do_not_control_access: These do not control access — only appearance.
     this_account_is_frozen: This account is frozen. {{name}} cannot make changes to this profile or anyone else's until this account is unfrozen.
     this_email_will_not_be_visible: This email address will not be visible to anyone except administrators.
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
@@ -1611,7 +1622,7 @@ en:
   photos:
     object_not_found: Object not found.
     please_choose_photo: Please choose a photo that won't offend others.
-    remove: Remove {{name}}
+    remove: Remove Photo
     unavailable: Photo unavailable.
     upload: Upload {{name}}
 
@@ -1777,7 +1788,6 @@ en:
     you_are_not_sharing_with_groups: You are not sharing your {{sharing}} with any groups specifically.
     you_are_sharing_with_groups: "You are sharing your {{sharing}} with the following groups:"
     you_have_activity_sharing_disabled_html: You have activity sharing disabled in your <a href="{{url}}">privacy settings</a>, so things you share here will only display on your profile.
-    you_made_a_change_page: Looks like you made a change to something on this page. Be sure to save your changes before leaving.
     you_made_a_change_tab: Looks like you made a change to something on this tab. Be sure to save your changes before going to another tab. Click OK to save your changes first.
     you_may_override: You may override the family settings for {{name}} by making changes below.
     you_may_share_items: "You may share items with fellow members of the following groups:"
