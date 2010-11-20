@@ -3,7 +3,7 @@
   <%= error_messages_for(form) %>
 
   <h3><%= t('groups.details') %></h3>
-  <div class="section">
+  <div class="spaced-labels">
     <%= form.label :name, t('groups.name_required') %>
     <%= form.text_field :name, :onkeyup => 'update_address(this.value)' %><br/>
 
@@ -28,7 +28,7 @@
   </div>
 
   <h3><%= t('groups.meets') %></h3>
-  <div class="section">
+  <div class="spaced-labels">
     <%= form.label :meets, t('groups.meets_when') %>
     <div class="form-field-hint"><%= t('groups.meets_when_hint') %></div>
     <%= form.text_field :meets %><br/>
@@ -47,7 +47,7 @@
   </div>
 
   <h3><%= t('groups.picture') %></h3>
-  <div class="section">
+  <div class="spaced-labels">
     <div class="form-field-hint"><%= t('groups.picture_hint') %></div>
     <%= render :partial => 'photo' %>
     <%= form.file_field :photo %><br/>
@@ -59,7 +59,7 @@
   </div>
 
   <h3><%= t('groups.features') %></h3>
-  <div class="section">
+  <div class="spaced-labels">
     <div class="form-field-hint"><%= t('groups.address_hint') %></div>
     <%= form.check_box :email, :class => 'checkbox', :onclick => 'toggleAddressField()' %>
     <%= form.label :email, t('groups.enable_email'), :class => 'inline' %>
@@ -85,7 +85,7 @@
   </div>
 
   <h3><%= t('groups.privacy_security') %></h3>
-  <div class="section">
+  <div class="spaced-labels">
     <%= form.check_box :approval_required_to_join, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
     <%= form.label :approval_required_to_join, t('groups.approval_required_to_join'), :class => 'inline' %><br/>
     <%= form.check_box :private, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
@@ -97,7 +97,7 @@
 
   <% unless @group.new_record? %>
     <h3><%= t('attachments.files') %></h3>
-    <div class="section">
+    <div class="spaced-labels">
       <table>
         <% @group.attachments.all(:order => 'name').each do |attachment| %>
           <tr>
@@ -119,7 +119,7 @@
     <p class="double-margin-top" id="advanced_section_link"><%= link_to_function t('groups.advanced') + ' »', "$('#advanced_section, #advanced_section_heading').show();$('#advanced_section_link').hide();" %></p>
     <h3 id="advanced_section_heading" style="display:none;"><%= t('groups.advanced') %></h3>
     <div id="advanced_section" style="display:none;">
-      <div class="section">
+      <div class="spaced-labels">
         <%= t('groups.the_settings_are_for_advanced_users') %><br/>
         <%= form.label :link_code, t('groups.class_link_code') %>
         <div class="form-field-hint"><%= t('groups.class_link_code_hint_html') %></div>
