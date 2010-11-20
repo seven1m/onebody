@@ -102,59 +102,55 @@ class Setting < ActiveRecord::Base
       SETTINGS
     end
 
-    def load_file_stamps(filename)
-      if File.exist?(f = Rails.root.join('tmp/filestamps.yml'))
-        YAML::load(File.open(f))[filename.to_s]
-      end
+    def get_hash_of_settings_in_db(site_id)
+      Setting.connection.select_all("select md5(group_concat(section, name)) as hash from settings where site_id = #{site_id} order by section, name").first['hash']
     end
 
-    def get_file_stamp(filename)
-      stat = File.stat(filename)
-      {'size' => stat.size, 'mtime' => stat.mtime}
+    def get_hash_of_settings_in_yaml(settings, global=false)
+      collected = []
+      each_setting_from_hash(settings, global) do |section_name, setting_name, setting|
+        collected << [section_name, setting_name]
+      end
+      Digest::MD5.hexdigest(collected.join)
     end
 
-    def set_file_stamps(filename)
-      stamps_filename = Rails.root.join('tmp/filestamps.yml')
-      if File.exist?(stamps_filename)
-        stamps = YAML::load(File.open(stamps_filename))
-      else
-        stamps = {}
+    def each_setting_from_hash(settings, global=false)
+      settings.each do |section_name, section|
+        section.each do |setting_name, setting|
+          if !!setting['global'] == global
+            yield(section_name, setting_name, setting)
+          end
+        end
       end
-      stamps[filename.to_s] = get_file_stamp(filename)
-      File.open(stamps_filename, 'w') { |f| YAML::dump(stamps, f) }
     end
 
     def update_from_yaml(filename)
       settings = YAML::load(File.open(filename))
-      if load_file_stamps(filename) != get_file_stamp(filename) or Setting.count(:conditions => {:global => true}) == 0
-        Rails.logger.info('Reloading settings for all sites...')
-        # per site settings
-        Site.find_all_by_active(true).each do |site|
+      # per site settings
+      Site.find_all_by_active(true).each do |site|
+        if get_hash_of_settings_in_db(site.id) != get_hash_of_settings_in_yaml(settings)
+          Rails.logger.info("Reloading settings for site #{site.id}...")
           update_site_from_hash(site, settings)
         end
-        # globals
+      end
+      # globals
+      if get_hash_of_settings_in_db(0) != get_hash_of_settings_in_yaml(settings, true)
+        Rails.logger.info("Reloading global settings...")
         global_settings_in_db = Setting.find_all_by_site_id(nil)
-        settings.each do |section_name, section|
-          section.each do |setting_name, setting|
-            next unless setting['global']
-            unless global_settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
-              Setting.create!(setting.merge(:section => section_name, :name => setting_name))
-            end
+        each_setting_from_hash(settings, true) do |section_name, setting_name, setting|
+          unless global_settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
+            Setting.create!(setting.merge(:section => section_name, :name => setting_name))
           end
         end
-        set_file_stamps(filename)
       end
     end
 
     def update_site_from_hash(site, settings)
       settings_in_db = Setting.find_all_by_site_id(site.id)
-      settings.each do |section_name, section|
-        section.each do |setting_name, setting|
-          next if setting['global']
-          unless settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
-            setting['site_id'] = site.id
-            Setting.create!(setting.merge(:section => section_name, :name => setting_name))
-          end
+      each_setting_from_hash(settings, false) do |section_name, setting_name, setting|
+        unless settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
+          setting['site_id'] = site.id
+          Setting.create!(setting.merge(:section => section_name, :name => setting_name))
         end
       end
     end
