@@ -11,7 +11,7 @@ class GroupsControllerTest < ActionController::TestCase
   should "show a group" do
     get :show, {:id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
-    assert_tag :tag => 'h1', :content => Regexp.new(@group.name)
+    assert_tag :tag => 'h2', :content => Regexp.new(@group.name)
   end
 
   should "not show a group if group is private and user is not a member of the group" do
@@ -31,7 +31,7 @@ class GroupsControllerTest < ActionController::TestCase
     @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
     get :show, {:id => @hidden_group.id}, {:logged_in_id => @admin.id}
     assert_response :success
-    assert_tag :tag => 'h1', :content => Regexp.new(@hidden_group.name)
+    assert_tag :tag => 'h2', :content => Regexp.new(@hidden_group.name)
   end
 
   should "list a person's groups" do
@@ -90,7 +90,8 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   should "remove a group photo" do
-    @group.forge_photo
+    @group.photo = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
+    @group.save!
     assert @group.photo.exists?
     post :update, {:id => @group.id, :group => {:photo => 'remove'}}, {:logged_in_id => @person.id}
     assert_redirected_to group_path(@group)

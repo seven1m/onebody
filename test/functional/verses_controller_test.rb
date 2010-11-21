@@ -20,7 +20,7 @@ class VersesControllerTest < ActionController::TestCase
   should "show one verse" do
     get :show, {:id => @verse.id}, {:logged_in_id => @person.id}
     assert_response :success
-    assert_select 'h1', Regexp.new(@verse.reference)
+    assert_select 'h2', Regexp.new(@verse.reference)
   end
 
   should "tag a verse" do

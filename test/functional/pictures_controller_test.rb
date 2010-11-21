@@ -59,14 +59,14 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   should "create one picture" do
-    post :create, {:album_id => @album.id, :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
+    post :create, {:album => @album.name, :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
     assert_redirected_to album_path(@album)
     assert_equal "1 picture(s) saved", flash[:notice]
   end
 
   should "create more than one picture" do
     post :create, {
-      :album_id => @album.id,
+      :album => @album.name,
       :pictures => [
         Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true),
         Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true),
@@ -86,7 +86,7 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   should "create a new album if specified" do
-    post :create, {:album_id => 'My Stuff', :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
+    post :create, {:album => 'My Stuff', :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
     album = Album.last
     assert_equal 'My Stuff', album.name
     assert_redirected_to album_path(album)
@@ -96,7 +96,7 @@ class PicturesControllerTest < ActionController::TestCase
   should "use an existing album if specified" do
     @album = @person.albums.create(:name => 'Existing Album')
     album_count = Album.count
-    post :create, {:album_id => 'Existing Album', :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
+    post :create, {:album => 'Existing Album', :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
     assert_equal album_count, Album.count
     assert_equal @album, Picture.last.album
     assert_redirected_to album_path(@album)

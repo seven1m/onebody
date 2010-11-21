@@ -14,14 +14,6 @@ class CommentsControllerTest < ActionController::TestCase
     assert_equal num_comments + 1, Comment.count
   end
 
-  should "add a comment to a recipe" do
-    @recipe = Recipe.forge
-    num_comments = Comment.count
-    post :create, {:text => 'dude', :recipe_id => @recipe.id}, {:logged_in_id => @person.id}
-    assert_response :redirect
-    assert_equal num_comments + 1, Comment.count
-  end
-
   should "add a comment to a note" do
     @note = @person.forge(:note)
     num_comments = Comment.count

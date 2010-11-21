@@ -10,28 +10,16 @@ class PagesController < ApplicationController
   end
 
   def show_for_public
-    if @theme_name == 'page:template'
+    if @page
       if @page.published?
-        render_with_template(@page)
-      else
-        render_with_template(t('pages.not_found'), 404)
-      end
-    else
-      if @page
-        if @page.published?
-          if @page.path =~ /\/tour_/
-            render :action => 'tour_show', :layout => false
-          else
-            render :action => 'show'
-          end
-        else
-          render :text => t('pages.not_found'), :status => 404
-        end
-      elsif is_tour_page?
-        render :file => Rails.root.join("public/#{@path}.#{I18n.locale}.html.liquid")
+        render :action => 'show'
       else
         render :text => t('pages.not_found'), :status => 404
       end
+    elsif is_tour_page?
+      render :file => Rails.root.join("public/#{@path}.#{I18n.locale}.html.liquid")
+    else
+      render :text => t('pages.not_found'), :status => 404
     end
   end
 
@@ -92,7 +80,6 @@ class PagesController < ApplicationController
 
     def feature_enabled?
       unless (@page and @page.system? and !@page.home?) or \
-        is_tour_page? or Setting.get(:features, :content_management_system)
         redirect_to stream_path
         false
       end

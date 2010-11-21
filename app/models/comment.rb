@@ -4,14 +4,13 @@ class Comment < ActiveRecord::Base
 
   # TODO: use polymorphism
   belongs_to :verse
-  belongs_to :recipe
   belongs_to :note
   belongs_to :picture
 
   scope_by_site_id
 
   def on
-    verse || recipe || note || picture
+    verse || note || picture
   end
 
   def name

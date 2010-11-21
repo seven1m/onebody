@@ -6,8 +6,3 @@
     <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
   <% end %>
 <% end %>
-
-<% if @tag.recipes.any? %>
-  <h3><%= t('recipes.recipes') %></h3>
-  <%= render :partial => 'recipes/list', :locals => {:recipes => @tag.recipes.paginate(:page => 1, :per_page => 100)} %>
-<% end %>

@@ -29,28 +29,6 @@ class PeopleControllerTest < ActionController::TestCase
     assert_template 'show_limited'
   end
 
-  should "show a simple view" do
-    get :show, {:id => @person.id, :simple => true}, {:logged_in_id => @other_person.id}
-    assert_response :success
-    assert_template 'show_simple'
-  end
-
-  should "show a simple photo view" do
-    get :show, {:id => @person.id, :simple => true, :photo => true}, {:logged_in_id => @other_person.id}
-    assert_response :success
-    assert_template 'show_simple_photo'
-  end
-
-  should "not show a simple view to limited users" do
-    get :show, {:id => @person.id, :simple => true}, {:logged_in_id => @limited_person.id}
-    assert_response :missing
-  end
-
-  should "not show a simple photo view to limited users" do
-    get :show, {:id => @person.id, :simple => true, :photo => true}, {:logged_in_id => @limited_person.id}
-    assert_response :missing
-  end
-
   should "not show a person if they are invisible to the logged in user" do
     @person.update_attribute :visible, false
     get :show, {:id => @person.id}, {:logged_in_id => @other_person.id}
@@ -75,7 +53,7 @@ class PeopleControllerTest < ActionController::TestCase
         }
       },
       {:logged_in_id => @person.id}
-    assert_redirected_to edit_person_path(@person)
+    assert_redirected_to person_path(@person)
     assert_equal first_name, @person.reload.first_name
     assert_equal 1, @person.updates.count
   end
@@ -91,7 +69,7 @@ class PeopleControllerTest < ActionController::TestCase
         }
       },
       {:logged_in_id => @person.id}
-    assert_redirected_to edit_person_path(@person)
+    assert_redirected_to person_path(@person)
     assert_equal testimony, @person.reload.testimony
     assert_equal interests, @person.interests
     assert_equal 0, @person.updates.count
@@ -113,7 +91,7 @@ class PeopleControllerTest < ActionController::TestCase
         }
       },
       {:logged_in_id => @other_person.id}
-    assert_redirected_to edit_person_path(@person)
+    assert_redirected_to person_path(@person)
     assert_equal 'Bob', @person.reload.first_name
     assert_equal 0, @person.updates.count
   end
@@ -173,7 +151,7 @@ class PeopleControllerTest < ActionController::TestCase
 
   should "show business listing" do
     people(:tim).update_attributes!(:business_name => 'Tim Morgan Enterprises')
-    get :show, {:id => people(:tim).id}, {:logged_in_id => people(:tim).id}
+    get :show, {:id => people(:tim).id, :business => true}, {:logged_in_id => people(:tim).id}
     assert_response :success
     assert_select 'body', /Tim Morgan Enterprises/
   end
@@ -210,11 +188,6 @@ class PeopleControllerTest < ActionController::TestCase
     # admin should see a message
     assert_nothing_raised do
       get :show, {:id => @person.id}, {:logged_in_id => @admin.id}
-    end
-    assert_response :success
-    assert_select 'div.warning', I18n.t('people.no_family_for_this_person')
-    assert_nothing_raised do
-      get :show, {:id => @person.id, :simple => true}, {:logged_in_id => @admin.id}
     end
     assert_response :success
     assert_select 'div.warning', I18n.t('people.no_family_for_this_person')

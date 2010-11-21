@@ -3,6 +3,7 @@ home:
   title: Home
   body: This is the homepage. Visit /pages/admin to edit.
   path: home
+  system: true
   site_id: 1
 
 foo:
@@ -10,6 +11,7 @@ foo:
   title: Foo
   body: Foo rocks.
   path: foo
+  system: true
   site_id: 1
 
 bar:
@@ -17,6 +19,7 @@ bar:
   title: Bar
   body: Bar is the best.
   path: bar
+  system: true
   site_id: 1
 
 baz:
@@ -25,4 +28,5 @@ baz:
   body: Baz is rad.
   parent: foo
   path: foo/baz
+  system: true
   site_id: 1

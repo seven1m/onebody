@@ -27,7 +27,7 @@
         <th><%= t('privacies.email') %><sup>3</sup></th>
         <th><%= t('privacies.birthday') %></th>
       </tr>
-      <% @family.people.all(:order => :sequence).each do |person| %>
+      <% @family.people.all.each do |person| %>
         <%= form.fields_for :people, person do |person_form| %>
           <tr class="person-row">
             <td>

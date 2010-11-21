@@ -32,6 +32,6 @@ class StreamItem < ActiveRecord::Base
   end
 
   def can_have_comments?
-    %w(Verse Note Recipe Album).include?(streamable_type)
+    %w(Verse Note Album).include?(streamable_type)
   end
 end

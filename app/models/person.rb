@@ -17,7 +17,6 @@ class Person < ActiveRecord::Base
   has_many :pictures, :order => 'created_at desc'
   has_many :messages
   has_many :wall_messages, :class_name => 'Message', :foreign_key => 'wall_id', :order => 'created_at desc'
-  has_many :recipes, :order => 'title'
   has_many :notes, :order => 'created_at desc'
   has_many :updates, :order => 'created_at'
   has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
@@ -199,7 +198,7 @@ class Person < ActiveRecord::Base
         what.visible_to?(self)
       when 'Note'
         what.person and can_see?(what.person)
-      when 'Recipe', 'Picture', 'Verse'
+      when 'Picture', 'Verse'
         true
       when 'Album'
         what.is_public? or can_see?(what.person)
@@ -234,8 +233,6 @@ class Person < ActiveRecord::Base
       admin?(:manage_pictures) or (what.person_id == self.id)
     when 'Picture'
       admin?(:manage_pictures) or (what.album and can_edit?(what.album)) or what.person_id == self.id
-    when 'Recipe'
-      self == what.person or self.admin?(:manage_recipes)
     when 'Note'
       self == what.person or self.admin?(:manage_notes)
     when 'Comment'
@@ -467,7 +464,6 @@ class Person < ActiveRecord::Base
     enabled_types << 'Verse'       if Setting.get(:features, :verses      )
     enabled_types << 'Album'       if Setting.get(:features, :pictures    )
     enabled_types << 'Note'        if Setting.get(:features, :notes       )
-    enabled_types << 'Recipe'      if Setting.get(:features, :recipes     )
     enabled_types << 'PrayerRequest'
     conditions = [
       "stream_items.streamable_type in (?)",

@@ -47,7 +47,7 @@ class PrivaciesController < ApplicationController
     people_ids = @family.people.all.map { |p| p.id }
     if @logged_in.can_edit?(@family)
       @family.update_attributes!(params[:family])
-      params[:memberships].each do |membership_id, sharing|
+      Array(params[:memberships]).each do |membership_id, sharing|
         m = Membership.where(["id = ? and person_id in (?)", membership_id, people_ids]).first
         sharing.each do |attribute, value|
           value = false if m.person.attributes[attribute]

@@ -37,8 +37,6 @@ class LogItem < ActiveRecord::Base
       end
     when 'Comment', 'Verse'
       truncate(object.text)
-    when 'Recipe'
-      truncate(object.description)
     else
       nil
     end

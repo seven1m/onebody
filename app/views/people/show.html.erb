@@ -23,6 +23,9 @@
         / <%= @person.description %>
       <% end %>
     </h2>
+    <% unless @family %>
+      <div class="warning"><%= I18n.t('people.no_family_for_this_person') %></div>
+    <% end %>
     <ul class="profile-details">
       <%= attribute(:website)      do %><li class="website"><%= link_to simple_url(@person.website), @person.website %>                           </li><% end %>
       <%= attribute(:email)        do %><li class="email"  ><%= mail_to @person.email                                %>                           </li><% end %>

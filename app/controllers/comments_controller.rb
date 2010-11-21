@@ -3,8 +3,6 @@ class CommentsController < ApplicationController
   def create
     if params[:verse_id]
       object = Verse.find(params[:verse_id])
-    elsif params[:recipe_id]
-      object = Recipe.find(params[:recipe_id])
     elsif params[:note_id]
       object = Note.find(params[:note_id])
     elsif params[:picture_id]

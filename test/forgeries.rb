@@ -92,7 +92,6 @@ class Person
     attributes.symbolize_keys!
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
-    photo = attributes.delete(:photo)
     attributes[:family] ||= Family.forge(:name => "#{first_name} #{last_name}", :last_name => last_name)
     defaults = {:first_name => first_name, :last_name => last_name, :gender => 'Male', :visible_to_everyone => true, :visible => true, :can_sign_in => true, :full_access => true, :email => Faker::Internet.email, :password => 'secret', :child => false}
     person = new
@@ -100,7 +99,6 @@ class Person
       person.send("#{attribute}=", value)
     end
     person.save!
-    person.forge_photo if photo
     person
   end
 

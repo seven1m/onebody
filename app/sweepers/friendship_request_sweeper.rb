@@ -6,6 +6,6 @@ class FriendshipRequestSweeper < ActionController::Caching::Sweeper
     expire_fragment(:controller => 'streams', :action => 'show', :for => record.from_id,   :fragment => 'friendship_requests')
   end
 
-  def after_save(record);    expire_group_members(record); end
-  def after_destroy(record); expire_group_members(record); end
+  def after_save(record);    expire_notice(record); end
+  def after_destroy(record); expire_notice(record); end
 end
