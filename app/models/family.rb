@@ -249,21 +249,6 @@ class Family < ActiveRecord::Base
       end
     end
 
-    def new_with_default_sharing(attrs)
-      attrs.symbolize_keys! if attrs.respond_to?(:symbolize_keys!)
-      attrs.merge!(
-        :share_address      => Setting.get(:privacy, :share_address_by_default),
-        :share_home_phone   => Setting.get(:privacy, :share_home_phone_by_default),
-        :share_mobile_phone => Setting.get(:privacy, :share_mobile_phone_by_default),
-        :share_work_phone   => Setting.get(:privacy, :share_work_phone_by_default),
-        :share_fax          => Setting.get(:privacy, :share_fax_by_default),
-        :share_email        => Setting.get(:privacy, :share_email_by_default),
-        :share_birthday     => Setting.get(:privacy, :share_birthday_by_default),
-        :share_anniversary  => Setting.get(:privacy, :share_anniversary_by_default)
-      )
-      new(attrs)
-    end
-
     def daily_barcode_assignment_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
       [].tap do |data|
         counts = connection.select_all("select count(date(barcode_assigned_at)) as count, date(barcode_assigned_at) as date from families where site_id=#{Site.current.id} and barcode_assigned_at is not null group by date(barcode_assigned_at) order by barcode_assigned_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }

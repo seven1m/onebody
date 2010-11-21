@@ -65,7 +65,7 @@ class FamiliesController < ApplicationController
   end
 
   def create
-    @family = Family.new_with_default_sharing(params[:family])
+    @family = Family.new(params[:family])
     respond_to do |format|
       if @family.save
         format.html do

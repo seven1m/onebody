@@ -42,7 +42,7 @@ class Person < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :gender, :first_name, :last_name, :suffix, :mobile_phone, :work_phone, :fax, :birthday, :email, :website, :activities, :interests, :music, :tv_shows, :movies, :books, :quotes, :about, :testimony, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :business_name, :business_description, :business_phone, :business_email, :business_website, :business_category, :suffx, :anniversary, :alternate_email, :get_wall_email, :wall_enabled, :messages_enabled, :business_address, :visible, :friends_enabled, :share_activity, :twitter_account
+  attr_accessible :gender, :first_name, :last_name, :suffix, :mobile_phone, :work_phone, :fax, :birthday, :email, :website, :activities, :interests, :music, :tv_shows, :movies, :books, :quotes, :about, :testimony, :share_address, :share_home_phone, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :business_name, :business_description, :business_phone, :business_email, :business_website, :business_category, :suffx, :anniversary, :alternate_email, :get_wall_email, :wall_enabled, :messages_enabled, :business_address, :visible, :friends_enabled, :share_activity, :twitter_account
   attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :medical_notes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
   attr_accessible :id, :sequence, :can_pick_up, :cannot_pick_up, :family_id, :if => Proc.new { l = Person.logged_in and l.admin?(:edit_profiles) and l.admin?(:import_data) and Person.import_in_progress }
 
@@ -669,6 +669,21 @@ class Person < ActiveRecord::Base
 
 
   class << self
+
+    def new_with_default_sharing(attrs)
+      attrs.symbolize_keys! if attrs.respond_to?(:symbolize_keys!)
+      attrs.merge!(
+        :share_address      => Setting.get(:privacy, :share_address_by_default     ),
+        :share_home_phone   => Setting.get(:privacy, :share_home_phone_by_default  ),
+        :share_mobile_phone => Setting.get(:privacy, :share_mobile_phone_by_default),
+        :share_work_phone   => Setting.get(:privacy, :share_work_phone_by_default  ),
+        :share_fax          => Setting.get(:privacy, :share_fax_by_default         ),
+        :share_email        => Setting.get(:privacy, :share_email_by_default       ),
+        :share_birthday     => Setting.get(:privacy, :share_birthday_by_default    ),
+        :share_anniversary  => Setting.get(:privacy, :share_anniversary_by_default )
+      )
+      new(attrs)
+    end
 
     # used to update a batch of records at one time, for UpdateAgent API
     def update_batch(records, options={})

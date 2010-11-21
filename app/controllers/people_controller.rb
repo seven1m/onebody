@@ -84,8 +84,10 @@ class PeopleController < ApplicationController
   def create
     if Person.can_create?
       if @logged_in.admin?(:edit_profiles)
+        @business_categories = Person.business_categories
+        @custom_types = Person.custom_types
         params[:person].cleanse(:birthday, :anniversary)
-        @person = Person.new(params[:person])
+        @person = Person.new_with_default_sharing(params[:person])
         @person.family_id = params[:person][:family_id]
         respond_to do |format|
           if @person.save
