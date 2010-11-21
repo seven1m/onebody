@@ -45,10 +45,7 @@ class ApplicationController < ActionController::Base
     end
 
     def update_view_paths
-      theme_name = get_theme_name
-      if theme_name == 'custom'
-        theme_name = "custom/site#{Site.current.id}"
-      end
+      theme_name = 'clean'
       theme_dirs = [Rails.root.join('themes', theme_name)]
       if defined?(DEPLOY_THEME_DIR)
         theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
@@ -79,15 +76,6 @@ class ApplicationController < ActionController::Base
       @show_subheading = Setting.get(:appearance, :show_subheading)
       @copyright_year  = Date.today.year
       @community_name  = CGI.escapeHTML(Setting.get(:name, :community))
-    end
-
-    def get_theme_name
-      'clean'
-      #if params[:theme] and params[:theme] =~ /^[a-z0-9_]+$/
-        #params[:theme]
-      #else
-        #Setting.get(:appearance, :theme)
-      #end
     end
 
     # used by some anonymous controller actions to see if someone is logged in

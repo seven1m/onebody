@@ -86,18 +86,6 @@ class PagesController < ApplicationController
       @page = Page.find_by_id_or_path(@path)
     end
 
-    def get_theme_name
-      if params[:action] == 'show_for_public'
-        if (@theme_name = Setting.get(:appearance, :public_theme)) == 'page:template'
-          'aqueouslight'
-        else
-          @theme_name
-        end
-      else
-        super
-      end
-    end
-
     def is_tour_page?
       @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.#{I18n.locale}.html.liquid")
     end
