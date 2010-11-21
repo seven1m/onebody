@@ -45,16 +45,9 @@ Features:
     format: boolean
     value: false
     global: true
-  Reporting:
-    format: boolean
-    value: false
-    global: true
   Sign Up: 
     format: boolean
     value: false
-  Banner Message: 
-    format: string
-    value: 
   Groups: 
     format: boolean
     value: true
@@ -67,21 +60,12 @@ Features:
   Friends: 
     format: boolean
     value: true
-  Content Management System: 
-    format: boolean
-    value: false
   Sign Up Approval Email: 
     format: string
     value: 
-  Sidebar Group Category: 
-    format: string
-    value: Small Groups
   Publications: 
     format: boolean
     value: true
-  Sidebar Group Heading: 
-    format: string
-    value: Small Group
   Verses: 
     format: boolean
     value: true
@@ -95,9 +79,6 @@ Features:
     format: boolean
     value: false
     global: true
-  Service:
-    format: boolean
-    value: false
   Custom Person Type:
     format: boolean
     value: false
@@ -199,16 +180,6 @@ Formats:
     format: string
     value: "%m/%d"
 Appearance: 
-  Logo: 
-    format: string
-    value: 
-    hidden: true
-  Public Theme: 
-    format: string
-    value: aqueouslight
-  Show Subheading: 
-    format: boolean
-    value: true
   Theme Primary Color:
     format: string
     value: 5F9128
