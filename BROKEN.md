@@ -3,6 +3,3 @@
 * feedzirra (not Rails 3 compatible)
 * whenever (maybe Rails 3 compatible)
 * `config.plugin_paths`
-* csv serialization `lib/csv_serialization.rb`
-* xml export
-* admin dashboard alerts at top
