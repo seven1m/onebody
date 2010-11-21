@@ -7,24 +7,6 @@ module Forgeable
     eval(association.to_s.classify).forge(attributes)
   end
 
-  def forge_photo(photo=true)
-    if photo.is_a?(String)
-      self.photo = File.open(photo)
-    else
-      self.photo = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
-    end
-    save
-  end
-
-  def forge_file(file=true)
-    if file.is_a?(String)
-      self.file = File.open(file)
-    else
-      self.file = Rack::Test::UploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', 'application/pdf', true)
-    end
-    save
-  end
-
   def self.included(mod)
     mod.extend(ClassMethods)
     mod.class_eval <<-END
@@ -57,8 +39,12 @@ module Forgeable
     def forge(attributes={})
       attributes.symbolize_keys!
       attributes = forgery_defaults.merge(attributes)
-      photo = attributes.delete(:photo)
-      file = attributes.delete(:file)
+      if attributes[:photo] == true
+        attributes[:photo] = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
+      end
+      if attributes[:file] == true
+        attributes[:file] = Rack::Test::UploadedFile.new(File.dirname(__FILE__) + '/fixtures/files/attachment.pdf', 'application/pdf', true)
+      end
       obj = new
       attributes.each do |attribute, value|
         obj.send("#{attribute}=", value)
@@ -72,8 +58,6 @@ module Forgeable
         end
         obj.save!
       end
-      obj.forge_photo(photo) if photo
-      obj.forge_file(file)   if file
       obj
     end
 
@@ -99,7 +83,7 @@ module Forgeable
   end
 end
 
-%w(Family Person Recipe Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed Admin).each do |model|
+%w(Family Person Note Picture Verse Group Album Publication Tag NewsItem Comment PrayerRequest Feed Admin).each do |model|
   Object.const_get(model).class_eval { include Forgeable }
 end
 
@@ -137,10 +121,6 @@ end
 
 class Family
   self.forgery_defaults = {:name => :name, :last_name => :last_name}
-end
-
-class Recipe
-  self.forgery_defaults = {:title => :word, :ingredients => :paragraph, :directions => :paragraph}
 end
 
 class Note
