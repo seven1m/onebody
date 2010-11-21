@@ -137,8 +137,7 @@ OneBody::Application.routes.draw do
             :publications, :notes, :tags, :comments, :prayer_requests, :podcasts,
             :generated_files
 
-  resource  :setup, :stream, :session, :search, :printable_directory,
-            :privacy, :tour, :pc_sync
+  resource  :setup, :stream, :session, :search, :printable_directory, :privacy, :pc_sync
 
   resources :news, :as => :news_items
   match 'news', :to => 'news#index'
