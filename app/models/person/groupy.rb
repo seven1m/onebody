@@ -1,12 +1,15 @@
 class Person
   module Groupy
+
+    # TODO rename "sidebar group people" to something more descriptive
+    # Basically, people who are likely to be in a small group with another person 
+
     def sidebar_groups
-      @sidebar_groups ||= Setting.get(:features, :sidebar_group_category) && \
-        groups.find_all_by_category(Setting.get(:features, :sidebar_group_category))
+      @sidebar_groups ||= self.groups.where("(select count(*) from memberships where group_id=groups.id) <= #{MAX_PEOPLE_IN_SMALL_GROUP}").all
     end
 
     def sidebar_group_people(limit=nil)
-      if sidebar_groups.to_a.any?
+      if sidebar_groups.any?
         Person.all(
           :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})",
           :joins => :memberships,
