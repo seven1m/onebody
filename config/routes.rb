@@ -53,7 +53,7 @@ OneBody::Application.routes.draw do
       end
     end
     resource :photo
-    resources :groups, :pictures, :groupies, :services, :albums, :feeds, :notes, :verses, :recipes
+    resources :groups, :pictures, :groupies, :services, :albums, :feeds, :notes, :verses
     resource :privacy, :blog, :calendar
   end
 
@@ -127,10 +127,6 @@ OneBody::Application.routes.draw do
       end
       resource :photo
     end
-  end
-
-  resources :recipes do
-    resource :photo
   end
 
   resources :messages do

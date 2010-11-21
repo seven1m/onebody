@@ -1,10 +1,6 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + @person.name, @person %></li>
-<% end %>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'people/photo' %>
-  <h1><%= @person.name %></h1>
+  <h2><%= @person.name %></h2>
 <% end %>
 
 <p>
@@ -21,6 +17,6 @@
   <% end %>
 </p>
 
-<h2><%= t('contributions.Contributions') %></h2>
+<h3><%= t('contributions.Contributions') %></h3>
 
 <%= render :partial => 'donations' %>

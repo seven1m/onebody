@@ -1,14 +1,3 @@
-<% content_for :subnav do %>
-  <% if @message.group %>
-    <li><%= link_to '&laquo; ' + t('groups.back_to'), @message.group %></li>
-  <% elsif person = (@message.to || @message.wall) and @logged_in.sees? person %>
-    <li><%= link_to t('people.back_to', :name => person.name), person %></li>
-  <% end %>
-  <% if @message.person == @logged_in or @logged_in.can_edit? @message %>
-    <li><%= link_to image_tag('delete.png', :alt => t('messages.delete_message'), :class => 'icon') + ' ' + t('messages.delete_message'), @message, :method => 'delete', :confirm => t('are_you_sure') %></li>
-  <% end %>
-<% end %>
-
 <% content_for :sidebar do %>
   <h2><%= @message.subject %> <% if @message.wall %>for <%= @message.wall.name %><% end %></h2>
 
@@ -22,6 +11,10 @@
   <p>
     <%= @message.created_at.strftime '%B %d, %Y %I:%M %p' %>
   </p>
+
+  <% if @logged_in.can_edit?(@message) %>
+    <p><%= link_to t('messages.delete_message'), @message, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon discreet' %></p>
+  <% end %>
 <% end %>
 
 <%= render_message_body(@message) %>
@@ -36,7 +29,6 @@
           <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
         </a>
       </div>
-      <%= image_tag 'comment.gif', :alt => t('messages.reply'), :class => 'icon' %>
       <%= t('messages.reply_by') %> <%= link_to reply.person.name, reply.person %><br/>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>

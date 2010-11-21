@@ -47,7 +47,7 @@
           </td>
           <td>
             <% if item.flagged_on %>
-              <%= image_tag('flag_red.gif', :alt => t('admin.logs.flagged'), :class => 'icon') %>
+              <span class="very-strong">!</span>
             <% end %>
           </td>
           <td><%= item.loggable_type %></td>

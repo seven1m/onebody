@@ -1,4 +1,4 @@
-<p id="add_note_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('notes.add_a_note'), :class => 'icon') + ' ' + t('notes.add_a_note'), "$('#add_note').show();$('#add_note_link').hide();$('#note_title')[0].focus();" %></p>
+<p id="add_note_link" style="display:none;"><%= link_to_function t('notes.add_a_note'), "$('#add_note').show();$('#add_note_link').hide();$('#note_title')[0].focus();", :class => 'add-icon' %></p>
 <div id="add_note">
   <%= form_tag(new_note_url, :method => 'post') %>
     <% if @group %>

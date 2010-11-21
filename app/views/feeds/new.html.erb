@@ -1,11 +1,6 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => t('privacies.view_profile'), :class => 'icon') + ' ' + t('privacies.view_profile'), @person %></li>
-  <li><%= link_to image_tag('feed_small.png', :alt => t('people.feeds'), :class => 'icon') + ' ' + t('people.feeds'), person_feeds_path(@person) %></li>
-<% end %>
-
 <% case params[:type]; when 'facebook' %>
   
-  <h1><%= t('stream.import_facebook_updates') %></h1>
+  <h2><%= t('stream.import_facebook_updates') %></h2>
 
   <%= form_for [@person, @feed] do |form| %>
     <%= error_messages_for(form) %>
@@ -28,7 +23,7 @@
   
 <% when 'twitter' %>
 
-  <h1><%= t('stream.import_twitter_updates') %></h1>
+  <h2><%= t('stream.import_twitter_updates') %></h2>
 
   <%= form_for [@person, @feed] do |form| %>  
     <%= error_messages_for(form) %>
@@ -45,7 +40,7 @@
 
 <% when 'flickr' %>
 
-  <h1><%= t('stream.import_flickr_photos') %></h1>
+  <h2><%= t('stream.import_flickr_photos') %></h2>
 
   <%= form_for [@person, @feed] do |form| %>  
     <%= error_messages_for(form) %>
@@ -68,7 +63,7 @@
 
 <% when 'rss' %>
 
-  <h1><%= t('stream.import_blog_feed') %></h1>
+  <h2><%= t('stream.import_blog_feed') %></h2>
 
   <%= form_for [@person, @feed] do |form| %>  
     <%= error_messages_for(form) %>
@@ -79,7 +74,7 @@
         <%= form.text_field :name, :value => @feed.name || 'Blog', :size => 10 %>
       </li>
       <li>
-        <%= t('feeds.log_into_blog', :img => image_tag('feed_small.png', :alt => 'Feed Icon', :class => 'icon')) %>:
+        <%= t('feeds.log_into_blog') %>:
         <%= form.text_field :url, :size => 60 %>
       </li>
       <li>

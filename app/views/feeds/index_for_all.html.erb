@@ -1,4 +1,4 @@
-<h1><%= t('feeds.all') %></h1>
+<h2><%= t('feeds.all') %></h2>
 
 <% if params[:order] == 'errors' %>
   <p><%= link_to t('feeds.sort_by_person'), feeds_path %></p>
@@ -6,7 +6,7 @@
   <p><%= link_to t('feeds.sort_by_error'), feeds_path(:order => 'errors') %></p>
 <% end %>
 
-<table>
+<table class="spaced">
   <tr><th><%= t('person') %></th><th><%= t('stream.feed') %></th><th><%= t('Errors') %></th><th><%= t('feeds.url') %></th><th></th></tr>
   <% @feeds.each do |feed| %>
     <tr>
@@ -18,7 +18,7 @@
         <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%= feed.url %></span>
       </td>
       <td>
-        <%= link_to image_tag('delete.png', :alt => t('Delete'), :class => 'icon'), feed, :method => 'delete', :confirm => t('are_you_sure') %>
+        <%= link_to '', feed, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
       </td>
     </tr>
   <% end %>

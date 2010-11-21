@@ -5,9 +5,13 @@
   </p>
 <% end %>
 
-<% if @group.private? %><%= render :partial => 'private' %><% end %>
+<p class="highlight">
+  <%= t('groups.this_group_is_private') %>
+</p>
 
-<% if @group.hidden? %><%= render :partial => 'hidden' %><% end %>
+<p class="highlight">
+  <%= t('groups.this_group_is_hidden') %>
+</p>
 
 <h2><%= t('groups.edit_group') %></h2>
 

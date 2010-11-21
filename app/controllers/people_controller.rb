@@ -33,17 +33,7 @@ class PeopleController < ApplicationController
       @family_people = @person.family.try(:visible_people) || []
       @albums = @person.albums.all(:order => 'created_at desc')
       @verses = @person.verses.all(:order => 'book, chapter, verse')
-      if params[:simple]
-        if @logged_in.full_access?
-          if params[:photo]
-            render :action => 'show_simple_photo', :layout => false
-          else
-            render :action => 'show_simple', :layout => false
-          end
-        else
-          render :text => '', :status => 404
-        end
-      elsif params[:business]
+      if params[:business]
         render :action => 'business'
       else
         respond_to do |format|

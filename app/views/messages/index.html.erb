@@ -1,7 +1,3 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => t('group'), :class => 'icon') + ' ' + t('back_to') + ' ' + @group.name, @group %></li>
-<% end %>
-
 <h2><%= t('messages.messages_in_html', :url => group_path(@group), :name => @group.name) %></h2>
 
 <% @messages.each do |message| %>
@@ -11,12 +7,12 @@
       <% if message.person %>
         <span class="nowrap">
           <a href="<%= url_for message.person %>">
-            <%= image_tag message.person.photo.exists? ? message.person.photo.url(:tn) : (message.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag message.person.photo.exists? ? message.person.photo.url(:tn) : (message.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
               :alt => message.person.name %>
           </a>
         </span>
       <% else %>
-        <%= image_tag 'man.tn.gif', :alt => '' %>
+        <%= image_tag 'clean/manoutline.tn.png', :alt => '' %>
       <% end %>
       <div style="clear:left;"></div>
     </div>

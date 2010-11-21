@@ -2,11 +2,11 @@
   <li><%= link_to @family.name, @family %></li>
 <% end %>
 
-<h1>Family Relationships for <%= @family.name %></h1>
+<h2>Family Relationships for <%= @family.name %></h2>
 
 <% if @relationships.any? %>
 
-  <table id="unique_relationships">
+  <table id="unique_relationships" class="spaced">
     <tr>
       <th><%= t('name') %></th>
       <th><%= t('relationships.relationship') %>
@@ -19,7 +19,7 @@
     <% end %>
   </table>
   
-  <table id="individual_relationships" style="display:none;">
+  <table id="individual_relationships" style="display:none;" class="spaced">
     <tr>
       <th><%= t('From') %></th>
       <th></th>
@@ -29,7 +29,7 @@
     <% @relationships.each do |relationship| %>
       <tr>
         <td><%= link_to relationship.person.name, person_relationships_path(relationship.person) %></td>
-        <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
+        <td><div class="right-icon" style="width:10px;height:16px;"></td>
         <td><%= link_to relationship.related.name, person_relationships_path(relationship.related) %></td>
         <td><%= relationship.name_or_other %></td>
       </tr>
@@ -50,7 +50,7 @@
   <div id="auto_generate" style="display:none;">
     <%= form_tag family_relationships_path(@family) do %>
       <p><%= t('relationships.create_family_relationships_description') %></p>
-      <table>
+      <table class="spaced">
         <tr>
           <th><%= t('From') %></th>
           <th></th>
@@ -61,7 +61,7 @@
           <% relationships.each do |related, relationship| %>
             <tr>
               <td><%= link_to person.name, person %></td>
-              <td><%= image_tag('arrow_right.png', :class => 'icon') %></td>
+              <td><div class="right-icon" style="width:10px;height:16px;"></td>
               <td><%= link_to related.name, related %></td>
               <td><%= select_tag "people[#{person.id}][#{related.id}]", options_for_select([["(#{t('none')})", '']]+t('relationships.names').invert.sort, relationship.to_sym) %></td>
             </tr>

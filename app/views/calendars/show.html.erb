@@ -1,13 +1,10 @@
-<% content_for :subnav do %>
+<% content_for :sidebar do %>
   <% if @person %>
-    <li><%= link_to image_tag('user.png', :alt => t('person'), :class => 'icon') + ' ' + t('back_to') + ' ' + @person.name, @person %></li>
     <% if params[:family] %>
-      <li><%= link_to image_tag('checkmark.png', :alt => t('calendars.family_members_enabled'), :class => 'icon') + ' ' + t('calendars.family_members_enabled'), '?', :style => 'text-decoration:none;' %></li>
+      <p><%= link_to t('calendars.family_members_enabled'), '?' %></p>
     <% else %>
-      <li><%= link_to image_tag('remove.gif', :alt => t('calendars.family_members_disabled'), :class => 'icon') + ' ' + t('calendars.family_members_disabled'), '?family=true', :style => 'text-decoration:none;' %></li>
+      <p><%= link_to t('calendars.family_members_disabled'), '?family=true' %></p>
     <% end %>
-  <% elsif @group %>
-    <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' ' + t('back_to') + ' ' + @group.name, @group %></li>
   <% end %>
 <% end %>
 

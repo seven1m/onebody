@@ -1,7 +1,3 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('newspaper.png', :alt => t('news.all_news'), :class => 'icon') + ' ' + t('news.all_news'), news_path %></li>
-<% end %>
-
 <%= render :partial => 'news_item', :object => @news_item %>
 
 <p>

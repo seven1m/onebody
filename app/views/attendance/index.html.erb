@@ -1,7 +1,3 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('eye.png', :alt => t('groups.view_group'), :class => 'icon') + ' ' + t('groups.view_group'), @group %></li>
-<% end %>
-
 <p>
   <%= label_tag :attended_at, t('attendance.date') + ':', :class => 'inline' %>
   <%= text_field_tag :attended_at, @attended_at.to_s(:date), :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>

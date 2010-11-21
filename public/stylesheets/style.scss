@@ -108,7 +108,7 @@ h4 {
   font-family: $body-font;
   margin-bottom: 5px;
 }
-ul.list, ol.list, .page-body ul, .page-body ol {
+ul.list, ol.list, .page-body ul, .page-body ol, .news-item ul, .news-item ol {
   padding-left: 20px;
   margin: 10px 0;
   li {
@@ -711,6 +711,14 @@ a.button {
   td {
     padding: 0 20px 10px 0;
     vertical-align: middle;
+  }
+}
+
+/* News */
+
+.news-item {
+  h3 {
+    border: none;
   }
 }
 

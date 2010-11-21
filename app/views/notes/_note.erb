@@ -20,8 +20,7 @@
       <%= render :partial => 'comments/comment_summary', :locals => {:object => note} %>
     </div>
     <p>
-      <%= link_to image_tag('comment.gif', :alt => t('Comments'), :class => 'icon'), note %>
-      <%= link_to t('comments.add_read_comments'), note %>
+      <%= link_to t('comments.add_read_comments'), note, :class => 'comment-icon' %>
     </p>
   </div>
 </div>

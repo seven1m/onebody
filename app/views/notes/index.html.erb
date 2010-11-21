@@ -1,19 +1,11 @@
-<% content_for :subnav do %>
-  <% if @person %>
-    <li><%= link_to image_tag('user.png', :alt => t('person'), :class => 'icon') + ' ' + t('back_to') + ' ' + @person.name, @person %></li>
-  <% else %>
-    <li><%= link_to image_tag('group.png', :alt => t('group'), :class => 'icon') + ' ' + t('back_to') + ' ' + @group.name, @group %></li>
-  <% end %>
-<% end %>
-
-<h1>
+<h2>
   <%= t('notes.notes') %>
   <% if @person %>
     <%= t('by') %> <%= link_to @person.name, @person %>
   <% elsif @group %>
     <%= t('in') %> <%= link_to @group.name, @group %>
   <% end %>
-</h1>
+</h2>
 
 <% @notes.each do |note| %>
 
@@ -22,12 +14,12 @@
       <% if note.person %>
         <span class="nowrap">
           <a href="<%= url_for note.person %>">
-            <%= image_tag note.person.photo.exists? ? note.person.photo.url(:tn) : (note.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag note.person.photo.exists? ? note.person.photo.url(:tn) : (note.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
               :alt => note.person.name %>
           </a>
         </span>
       <% else %>
-        <%= image_tag 'man.tn.gif', :alt => '' %>
+        <%= image_tag 'clean/manoutline.tn.png', :alt => '' %>
       <% end %>
       <div style="clear:left;"></div>
     </div>
@@ -40,7 +32,6 @@
         </div>
       <% else %>
         <h2></h2>
-        <%= image_tag('note.png', :alt => t('notes.note'), :class => 'icon') %>
         <%= sanitize_html auto_link(note.body) %>
         <%= render :partial => 'meta', :locals => {:note => note} %>
       <% end %>

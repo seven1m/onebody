@@ -11,7 +11,6 @@
     <% else %>
       <% if stream_item.wall and (params[:controller] != 'people' or stream_item.wall_id != @person.id) %>
         <div style="float:left;margin:0 10px 0 -12px;height:37px;">
-          <%= image_tag('arrow_right.png', :alt => '', :style => 'padding:10px 0 0 0;vertical-align:top;') %>
           <a href="<%= url_for stream_item.wall %>">
             <%= image_tag stream_item.wall.photo.exists? ? stream_item.wall.photo.url(:tn) : (stream_item.wall.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
               :alt => stream_item.wall.name %>
@@ -93,7 +92,6 @@
       </div>
     <% elsif stream_item.wall %>
       <div class="new-comment discreet small">
-        <%= image_tag('clean/add.png', :alt => t('comments.leave_note'), :class => 'icon') %>
         <% if stream_item.wall == @logged_in %>
           <%= link_to t('comments.leave_note_for', :name => stream_item.person.name), stream_item.person %>
         <% elsif stream_item.person == @logged_in %>

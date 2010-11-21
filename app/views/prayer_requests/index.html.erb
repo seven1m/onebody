@@ -1,11 +1,7 @@
-<% content_for :subnav do %>
-  <li><%= link_to image_tag('group.png', :alt => 'Group', :class => 'icon') + ' ' + t('back_to') + ' ' + @group.name, @group %></li>
-<% end %>
-
-<h1>
+<h2>
   <% if params[:answered] %><%= t('prayer.answered') %><% end %>
   <%= t('prayer.prayer_requests_in') %> <%= link_to @group.name, @group %>
-</h1>
+</h2>
 
 <% @reqs.each do |req| %>
 
@@ -14,12 +10,12 @@
       <% if req.person %>
         <span class="nowrap">
           <a href="<%= url_for req.person %>">
-            <%= image_tag req.person.photo.exists? ? req.person.photo.url(:tn) : (req.person.gender == 'Female' ? 'woman.tn.gif' : 'man.tn.gif'),
+            <%= image_tag req.person.photo.exists? ? req.person.photo.url(:tn) : (req.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
               :alt => req.person.name %>
           </a>
         </span>
       <% else %>
-        <%= image_tag 'man.tn.gif', :alt => '' %>
+        <%= image_tag 'clean/manoutline.tn.png', :alt => '' %>
       <% end %>
       <div style="clear:left;"></div>
     </div>

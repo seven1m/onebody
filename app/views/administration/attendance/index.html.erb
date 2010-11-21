@@ -4,7 +4,7 @@
   <% if @group %><%= t('for') %> <%= @group.name %><% end %>
 </h2>
 
-<p>
+<p id="record-count">
   <%= pluralize @record_count, t('import.record') %>
 </p>
 
@@ -61,7 +61,7 @@
         <%= record.created_at.to_s(:time) %>
       </td>
       <td>
-        <%= link_to image_tag('delete.png', :alt => t('Delete'), :class => 'icon no-print'), :remote => true, :url => administration_attendance_path(record), :method => 'delete', :confirm => t('are_you_sure') %>
+        <%= link_to '', administration_attendance_path(record), :remote => true, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
       </td>
     </tr>
   <% end %>

@@ -1,8 +1,8 @@
 <% if Setting.get(:features, :friends) %>
   <% if @logged_in.friend? @person %>
-    <li><%= link_to image_tag('user_delete.png', :alt => t('friends.remove_from_friends'), :class => 'icon') + ' ' + t('friends.remove_from_friends'), person_friend_path(@logged_in, @person), :method => 'delete', :confirm => t('are_you_sure') %></li>
+    <li><%= link_to t('friends.remove_from_friends'), person_friend_path(@logged_in, @person), :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %></li>
   <% elsif @logged_in.can_request_friendship_with?(@person) %>
-    <li><%= link_to image_tag('contact_add.gif', :alt => t('friends.add_to_friends'), :class => 'icon') + ' ' + t('friends.add_to_friends'), person_friends_path(@logged_in, :friend_id => @person), :remote => true, :method => :post, :confirm => t('friends.add_friend_are_you_sure'), :class => 'discreet', :id => "add_friend_#{@person.id}" %></li>
+    <li><%= link_to t('friends.add_to_friends'), person_friends_path(@logged_in, :friend_id => @person), :remote => true, :method => :post, :confirm => t('friends.add_friend_are_you_sure'), :class => 'add-icon', :id => "add_friend_#{@person.id}" %></li>
   <% elsif @logged_in.friendship_waiting_on? @person %>
     <li><em><%= t('friends.friend_request_pending') %></em></li>
   <% end %>

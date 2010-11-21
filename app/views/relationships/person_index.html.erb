@@ -1,10 +1,3 @@
-<% content_for :subnav do %>
-  <div style="float:right;">
-    <%= link_to image_tag('link.png', :alt => t('relationships.family'), :class => 'icon') + ' ' + t('relationships.family'), family_relationships_path(@person.family) %>
-  </div>
-  <li><%= link_to image_tag('user.png', :alt => @person.name, :class => 'icon') + ' ' + @person.name, @person %></li>
-<% end %>
-
 <% content_for :sidebar do %>
   <%= form_tag search_path, :remote => true %>
     <%= hidden_field_tag :select_person, true %>
@@ -13,6 +6,9 @@
       <label for="name"><%= t('search.search_by_name') %></label> <%= text_field_tag 'name' %>
       <br/>
       <%= submit_tag t('relationships.add_relationship_button') %>
+    </p>
+    <p class="double-margin-top">
+      <%= link_to t('relationships.family'), family_relationships_path(@person.family), :class => 'people-icon' %>
     </p>
   </form>
   

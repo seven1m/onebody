@@ -1,4 +1,4 @@
-<p id="add_prayer_request_link" style="display:none;"><%= link_to_function image_tag('add_small.gif', :alt => t('prayer.add_a_prayer_request') + '.', :class => 'icon') + ' ' + t('prayer.add_a_prayer_request'), "$('#add_prayer_request').show();$('#add_prayer_request_link').hide();$('#prayer_request_request')[0].focus();" %></p>
+<p id="add_prayer_request_link" style="display:none;"><%= link_to_function t('prayer.add_a_prayer_request'), "$('#add_prayer_request').show();$('#add_prayer_request_link').hide();$('#prayer_request_request')[0].focus();", :class => 'add-icon' %></p>
 <div id="add_prayer_request">
   <%= form_for PrayerRequest.new do |form| %>
     <% if @group %>

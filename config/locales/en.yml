@@ -1029,7 +1029,7 @@ en:
     link_with_flickr: Link with your Flickr photos...
     link_with_twitter: Link with your Twitter updates...
     link_with_rss: Link with your RSS feed...
-    log_into_blog: Find your blog's feed URL (usually by clicking the {{img}} icon) and paste it into the field below
+    log_into_blog: Find your blog's feed URL and paste it into the field here
     log_into_facebook_html: <a href="http://www.facebook.com/notifications.php" target="_new">Click here</a> and log into Facebook.
     log_into_flickr_html: Log into <a href="http://flickr.com">Flickr.com</a> and go to your photo page (click the "You" link near the top).
     no_entries_found: No entries were found at the URL provided. Please go back and try again.
@@ -1167,6 +1167,7 @@ en:
     leader_id: Leader Id
     leave_this_group: Leave This Group
     linked: Linked Groups
+    linked_membership: (linked)
     location: Location
     location_address: Location and Address
     location_address_hint: If you enter a physical address, an interactive map will be displayed on your group page.
@@ -1286,6 +1287,7 @@ en:
       edit: edit profile
       edit_family: edit family
       email: email settings
+      feeds: feeds
       mobile_tap_again: Tap button again to go to your Profile.
       new_family: new family
       privacy: privacy
@@ -1365,7 +1367,7 @@ en:
     save_news: Save News
     saved: News saved.
     submit_news: Submit News
-    subscribe_to_community_news_html: <a href="{{url}}">Subscribe</a> to Community News with your feed reader.
+    subscribe_to_community_news_html: <a href="{{url}}" class="feed-icon">Subscribe</a> to Community News with your feed reader.
     title_description: "Give your post a concise title:"
     welcome_to_the_place: Welcome to the place for community news.
 

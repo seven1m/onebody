@@ -40,7 +40,7 @@
           <td>
             <%= link_to person.name, person_path(:id => person) %>
             <% unless person.visible? %>
-              <%= image_tag 'lock.gif', :alt => t('search.hidden_profile'), :class => 'icon' %>
+              <span class="lock-icon">&nbsp;</span>
             <% end %>
           </td>
           <td><%= person.family ? person.family.name : t('search.no_family') %></td>
@@ -49,7 +49,7 @@
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
         <% end %>
         <td>
-          <%= render :partial => 'person_type', :locals => {:person => person} %>
+          <%= render :partial => 'people/person_type', :locals => {:person => person} %>
         </td>
       </tr>
     <% end %>

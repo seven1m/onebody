@@ -2,18 +2,9 @@
   <link rel="alternate" type="application/atom+xml" title='<%= t("stream.feed") %>' href="<%= url_for stream_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
 <% end %>
 
-<% content_for :subnav do %>
-  <% if Setting.get(:features, :pictures    ) %><li><%= link_to image_tag('picture.png',   :alt => t('pictures.all_pictures'),         :class => 'icon') + ' ' + t('pictures.all_pictures'),         albums_path       %></li><% end %>
-  <% if Setting.get(:features, :verses      ) %><li><%= link_to image_tag('verse.png',     :alt => t('verses.all_verses'),             :class => 'icon') + ' ' + t('verses.all_verses'),             verses_path       %></li><% end %>
-  <% if Setting.get(:features, :recipes     ) %><li><%= link_to image_tag('recipe.png',    :alt => t('recipes.all_recipes'),           :class => 'icon') + ' ' + t('recipes.all_recipes'),           recipes_path      %></li><% end %>
-  <% if Setting.get(:features, :news_page   ) %><li><%= link_to image_tag('newspaper.png', :alt => t('news.all_news'),                 :class => 'icon') + ' ' + t('news.all_news'),                 news_path         %></li><% end %>
-  <% if Setting.get(:features, :publications) %><li><%= link_to image_tag('page.png',      :alt => t('publications.all_publications'), :class => 'icon') + ' ' + t('publications.all_publications'), publications_path %></li><% end %>
-<% end %>
-
 <% cache(:fragment => 'friendship_requests', :for => @logged_in.id) do %>
   <% if @has_friendship_requests %>
     <div class="highlight">
-      <%= image_tag('user_add.png', :alt => t('friends.friends'), :class => 'icon') %>
       <%= t('friends.you_have_pending_requests_html', :url => person_friends_path(@person)) %>
     </div>
   <% end %>

@@ -1,4 +1,4 @@
-<h1><%= t('friends.personal_friends', :name => @person.name_possessive) %></h1>
+<h2><%= t('friends.personal_friends', :name => @person.name_possessive) %></h2>
 
 <% if @pending.any? %>
   <div class="highlight">
@@ -16,8 +16,8 @@
             <%= link_to friendship_request.from.name, friendship_request.from %>
             <br/>
             <strong>
-              <%= link_to image_tag('contact_add.gif', :alt => t('friends.accept'), :class => 'icon') + ' ' + t('friends.accept'), person_friend_path(@logged_in, friendship_request, :accept => true), :method => 'put', :style => 'text-decoration:none;' %><br/>
-              <%= link_to image_tag('remove.gif', :alt => t('friends.decline'), :class => 'icon') + ' ' + t('friends.decline'), person_friend_path(@logged_in, friendship_request, :reject => true), :method => 'put', :confirm => t('are_you_sure'), :style => 'text-decoration:none;' %>
+              <%= link_to t('friends.accept'), person_friend_path(@logged_in, friendship_request, :accept => true), :method => 'put', :class => 'add-icon' %><br/>
+              <%= link_to t('friends.decline'), person_friend_path(@logged_in, friendship_request, :reject => true), :method => 'put', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
             </strong>
           </td>
         </tr>
@@ -27,10 +27,6 @@
 <% end %>
 
 <% if @friendships.any? %>
-  <% if @friendships.length > 1 %>
-    <p><%= t('friends.can_rearrange_list', :img => image_tag('reorder.png', :alt => 'Reorder', :class => 'icon')) %>
-    (<%= t('friends.top_on_profile', :max_number => MAX_FRIENDS_ON_PROFILE) %>)</p>
-  <% end %>
   <ul id="friends" style="list-style-type:none;">
     <% @friendships.each do |friendship| %>
       <li id="friendship_<%= friendship.id %>">
@@ -40,8 +36,7 @@
         <%= link_to friendship.friend.name, friendship.friend %>
         (added <%= friendship.created_at.to_time.to_s %>)
         <% if me? %>
-          <% if @friendships.length > 1 %><%= image_tag 'reorder.png', :alt => t('friends.reorder_list'), :class => 'handle icon' %><% end %>
-          <%= link_to image_tag('user_delete.png', :alt => t('friends.remove_from_friends'), :class => 'icon') + ' ' + t('friends.remove_from_friends'), person_friend_path(@person, friendship.friend), :class => 'discreet', :method => 'delete', :confirm => t('are_you_sure') %>
+          <%= link_to t('friends.remove_from_friends'), person_friend_path(@person, friendship.friend), :class => 'delete-icon', :method => 'delete', :confirm => t('are_you_sure') %>
         <% end %>
       </li>
     <% end %>
@@ -55,7 +50,7 @@
 
 <% if me? %>
   <p>
-    <%= link_to image_tag('add_small.gif', :alt => t('friends.add_friend'), :class => 'icon') + ' ' + t('friends.search_in_the_directory'), new_search_path(:search_friends => true) %></p>
+    <%= link_to t('friends.search_in_the_directory'), new_search_path(:search_friends => true), :class => 'add-icon' %></p>
   </p>
 <% end %>
 
