@@ -62,6 +62,8 @@ class PeopleController < ApplicationController
   def new
     if params[:family_id]
       if Person.can_create?
+        @business_categories = Person.business_categories
+        @custom_types = Person.custom_types
         if @logged_in.admin?(:edit_profiles)
           defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
           @person = Person.new(defaults)

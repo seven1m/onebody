@@ -1,53 +1,57 @@
-<% if @logged_in.admin?(:edit_profiles) %>
-  <% content_for :subnav do %>
-    <li><%= link_to image_tag('pencil.png', :alt => t('families.edit'), :class => 'icon') + ' ' + t('families.edit') + ' ', edit_family_path(@family) %></li>
-    <li><%= link_to image_tag('delete.png', :alt => t('families.delete'), :class => 'icon') + ' ' + t('families.delete') + ' ', @family, :method => 'delete', :confirm => t('families.are_you_sure') %></li>
-    <li><%= link_to image_tag('link.png', :alt => t('relationships.family'), :class => 'icon') + ' ' + t('relationships.family'), family_relationships_path(@family) %></li>
-  <% end %>
-<% end %>
-
 <% content_for :sidebar do %>
   <%= render :partial => 'families/details' %>
+  <% if @logged_in.can_edit?(@family) %>
+    <p>
+      <%= link_to t('families.edit'), edit_family_path(@family), :class => 'edit-icon' %>
+    </p>
+    <p>
+      <%= link_to t('families.delete'), @family, :method => :delete, :confirm => t('families.are_you_sure'), :class => 'delete-icon' %>
+    </p>
+    <p>
+      <%= link_to t('relationships.family'), family_relationships_path(@family), :class => 'people-icon' %>
+    </p>
+  <% end %>
   <% if @logged_in.admin? %>
     <p class="discreet">
-      <%= t('families.legacy_id') %>: <%= @family.legacy_id %>
+      <%= t('families.legacy_id') %>: <%= @family.legacy_id || t('none') %>
     </p>
   <% end %>
 <% end %>
 
 <%= render :partial => 'map' %>
 
-<h2><%= t('people.people') %></h2>
+<h3><%= t('people.people') %></h3>
 
-<ol id="people">
-  <% @people.each do |person| %>
-    <li class="family-member" id="person_<%= person.id %>">
-      <a href="<%= url_for person %>">
-        <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
-      </a>
-      <%= link_to person.name, person %>
-      <% unless person.visible? %>
-        <%= image_tag('lock.gif', :alt => t('search.hidden_profile'), :class => 'icon') %>
-      <% end %>
-      <%= image_tag('reorder.png', :alt => t('families.reorder'), :class => 'handle icon') %>
-      <%= link_to image_tag('pencil.png', :alt => t('families.edit_person'), :class => 'icon'), edit_person_path(person), :class => 'discreet' %>
-      <%= link_to image_tag('delete.png', :alt => t('families.delete_person'), :class => 'icon'), person, :confirm => t('are_you_sure'), :method => :delete, :class => 'discreet' %>
-    </li>
-  <% end %>
-</ol>
-
-<p class="discreet"><%= t('families.drag_to_reorder_members') %></p>
+<table id="people" class="spaced">
+  <tbody>
+    <% @people.each do |person| %>
+      <tr class="family-member" id="person_<%= person.id %>">
+        <td>
+          <%= content_tag :a, :href => person_path(person) do %>
+            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          <% end %>
+        </td>
+        <td><%= link_to person.name, person %></td>
+        <td><span class="updown-icon handle"></span></td>
+        <td>
+          <%= link_to '', edit_person_path(person), :class => 'edit-icon' %>
+          <%= link_to '', person, :confirm => t('are_you_sure'), :method => :delete, :class => 'delete-icon' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <% if @people.empty? %>
   <p><em><%= t('families.no_one_yet') %></em></p>
+<% else %>
+  <p class="discreet"><%= t('families.drag_to_reorder_members') %></p>
 <% end %>
 
 <p>
   <strong><%= t('families.add_members') %>:</strong><br/>
-  <%= link_to image_tag('add_small.gif', :alt => t('people.new_person'), :class => 'icon') + ' ' + t('people.new_person'),
-    new_person_path(:family_id => @family) %>
-  <%= link_to_function image_tag('add_small.gif', :alt => t('families.existing_person'), :class => 'icon') + ' ' + t('families.existing_person'),
-    "$('#add_existing').toggle(); $('#add_person_name')[0].focus()", :id => 'add_existing_link' %>
+  <%= link_to t('people.new_person'), new_person_path(:family_id => @family), :class => 'add-icon' %><br/>
+  <%= link_to_function t('families.existing_person'), "$('#add_existing').toggle(); $('#add_person_name')[0].focus()", :id => 'add_existing_link', :class => 'add-icon' %>
 </p>
 
 <%= form_tag search_path, :remote => true, :id => 'add_existing', :style => 'display:none;' do %>
@@ -69,7 +73,7 @@
 </div>
 
 <script type="text/javascript">
-  $('#people').sortable({
+  $('#people tbody').sortable({
     axis: 'y',
     handle: '.handle',
     update: function(){

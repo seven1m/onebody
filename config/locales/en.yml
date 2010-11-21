@@ -985,7 +985,7 @@ en:
     delete: Delete Family
     delete_person: Delete Person
     deleted_confirmation: Family Deleted?
-    drag_to_reorder_members: Drag the green arrows to reorder family members.
+    drag_to_reorder_members: Drag the arrows to reorder family members.
     edit: Edit Family
     edit_person: Edit Person
     existing_person: Existing Person
@@ -1486,7 +1486,7 @@ en:
     edit:
       about: About
       basics: Basics
-      child_hint: If not birthday is specified, you must indicate whether this is a child or an adult.
+      child_hint: If no birthday is specified, you must indicate whether this is a child or an adult.
       description_hint: "A word or two about yourself — maybe your profession?"
       email: Change Email Settings
       family_photo: Family Photo

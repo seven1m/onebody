@@ -1,3 +1,6 @@
-<h1><%= t('people.new_person') %></h1>
+<% content_for :sidebar do %><% end %>
 
-<%= render :partial => 'edit_basics' %>
+<h2><%= t('people.new_person') %></h2>
+
+<%= error_messages_for(@person) %>
+<%= render :partial => 'form' %>

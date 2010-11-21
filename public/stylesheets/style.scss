@@ -1,4 +1,4 @@
-/* @import "public/stylesheets/jquery.ui.scss"; */
+@import "public/stylesheets/jquery.ui.scss";
 
 $dark:      #333;
 $light:     #eee;
@@ -606,6 +606,7 @@ fieldset {
 .heart-icon      { @include icon-sprite(0px, -300px) }
 .rotate-cw-icon  { @include icon-sprite(0px, -320px) }
 .rotate-ccw-icon { @include icon-sprite(0px, -340px) }
+.updown-icon     { @include icon-sprite(0px, -360px) }
 
 ul.buttons {
   list-style: none;
