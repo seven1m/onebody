@@ -93,7 +93,7 @@ class Person
           else
             pdf.text family.name + "\n", :font_size => 18
           end
-          if family.share_address_with(self) and family.mapable?
+          if family.people.detect { |p| p.share_address_with(self) } and family.mapable?
             pdf.text family.address1 + "\n", :font_size => 14
             pdf.text family.address2 + "\n" if family.address2.to_s.any?
             pdf.text family.city + ', ' + family.state + '  ' + family.zip + "\n"
