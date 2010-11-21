@@ -92,8 +92,8 @@ class Setting < ActiveRecord::Base
       return unless table_exists?
       Setting.all.each do |setting|
         site_id = setting.global? ? 0 : setting.site_id
-        section = setting.section.downcase.gsub(/\s/, '_')
-        name = setting.name.downcase.gsub(/\s/, '_')
+        section = setting.read_attribute(:section).downcase.gsub(/\s/, '_')
+        name = setting.read_attribute(:name).downcase.gsub(/\s/, '_')
         SETTINGS[site_id] ||= {}
         SETTINGS[site_id][section] ||= {}
         SETTINGS[site_id][section][name] = setting.value

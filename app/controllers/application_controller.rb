@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
       end
       if Site.current
         if Site.current.settings_changed_at and SETTINGS['timestamp'] < Site.current.settings_changed_at
-          RAILS_DEFAULT_LOGGER.info('Reloading Settings Cache...')
+          Rails.logger.info('Reloading Settings Cache...')
           Setting.precache_settings(true)
         end
         update_view_paths
