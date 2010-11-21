@@ -122,43 +122,6 @@ class PersonTest < ActiveSupport::TestCase
 
   end
 
-  def assert_viewer_can_see(f, p, g, can_see=true)
-    @family.update_attributes!(:share_mobile_phone => f)
-    @person.update_attributes!(:share_mobile_phone => p)
-    @membership.update_attributes!(:share_mobile_phone => g)
-    assert_equal can_see, @person.share_mobile_phone_with(@viewer)
-  end
-
-  def assert_viewer_cannot_see(f, p, g)
-    assert_viewer_can_see(f, p, g, false)
-  end
-
-  context 'Information Sharing (Privacy)' do
-
-    should 'inherit privacy settings from family' do
-      @person = Person.forge
-      @family = @person.family
-      @viewer = Person.forge
-      @group = Group.forge
-      @group.memberships.create!(:person => @viewer)
-      @membership = @group.memberships.create!(:person => @person)
-      # test all combinations on a single attribute (share_mobile_phone)
-      assert_viewer_cannot_see(true,  false, false)
-      assert_viewer_cannot_see(false, false, false)
-      assert_viewer_cannot_see(false, nil,   false)
-      assert_viewer_can_see(false, true,  false)
-      assert_viewer_can_see(true,  nil,   false)
-      assert_viewer_can_see(true,  true,  false)
-      assert_viewer_can_see(true,  false, true )
-      assert_viewer_can_see(false, false, true )
-      assert_viewer_can_see(false, nil,   true )
-      assert_viewer_can_see(false, true,  true )
-      assert_viewer_can_see(true,  nil,   true )
-      assert_viewer_can_see(true,  true,  true )
-    end
-
-  end
-
   context 'Updates' do
 
     should "create an update" do
@@ -216,18 +179,6 @@ class PersonTest < ActiveSupport::TestCase
     assert @person.reload.birthday_soon?
     @person.update_attributes!(:birthday => Time.now - 27.years + (BIRTHDAY_SOON_DAYS + 1).days)
     assert !@person.reload.birthday_soon?
-  end
-
-  should "return a random selection of sidebar group people" do
-    @group = Group.forge(:category => 'Small Groups')
-    15.times { @group.memberships.create!(:person => Person.forge) }
-    @person = @group.people.last
-    assert_equal 14, @person.sidebar_group_people.length # does not include self
-    first_time  = @person.random_sidebar_group_people(10)
-    second_time = @person.random_sidebar_group_people(10)
-    assert_not_equal first_time, second_time
-    assert_equal 10, first_time.length
-    assert_equal 10, second_time.length
   end
 
   should "not tz convert a birthday or anniversary" do
