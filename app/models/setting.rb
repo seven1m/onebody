@@ -13,20 +13,6 @@ class Setting < ActiveRecord::Base
 
   cattr_accessor :current
 
-  def name
-    I18n.t('name',
-      :scope   => ['admin.settings', section, read_attribute(:name)],
-      :default => read_attribute(:name)
-    )
-  end
-
-  def description
-    I18n.t(
-      'description',
-      :scope   => ['admin.settings', section, read_attribute(:name)]
-    )
-  end
-
   def value
     v = read_attribute(:value)
     case self['format'] # self.format causes a NoMethodError outside the Rails env

@@ -26,7 +26,7 @@ module Administration::SettingsHelper
     if @setting = @settings[section][name]
       content_tag(:tr, :class => "detail setting#{@setting.id}") do
         content_tag(:td, :class => 'label') do
-          label_tag @setting.id, @setting.name
+          label_tag @setting.id, setting_name(@setting)
         end + \
         content_tag(:td) do
           if block_given?
@@ -39,7 +39,7 @@ module Administration::SettingsHelper
       content_tag(:tr, :class => "description setting#{@setting.id}") do
         content_tag(:td) + \
         content_tag(:td) do
-          @setting.description
+          setting_description(@setting)
         end
       end
     end
@@ -50,7 +50,7 @@ module Administration::SettingsHelper
     if @setting.format == 'boolean'
       hidden_field_tag(@setting.id, false, :id => '') + \
       check_box_tag(@setting.id, true, @setting.value?) + \
-      label_tag(@setting.id, options[:label] == :name ? @setting.name : t('admin.settings.enabled'), :class => 'inline')
+      label_tag(@setting.id, options[:label] == :name ? setting_name(@setting) : t('admin.settings.enabled'), :class => 'inline')
     elsif @setting.format == 'list'
       text_area_tag(@setting.id, Array(@setting.value).join("\n"), :rows => 3, :cols => 40)
     elsif options[:options]
@@ -58,6 +58,20 @@ module Administration::SettingsHelper
     else
       text_field_tag(@setting.id, @setting.value, :size => 30)
     end
+  end
+
+  def setting_name(setting)
+    I18n.t('name',
+      :scope   => ['admin.settings', setting.section, setting.name],
+      :default => setting.name
+    )
+  end
+
+  def setting_description(setting)
+    I18n.t(
+      'description',
+      :scope   => ['admin.settings', setting.section, setting.name]
+    )
   end
 
 end
