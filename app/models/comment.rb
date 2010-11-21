@@ -24,7 +24,7 @@ class Comment < ActiveRecord::Base
 
   def update_stream_items_on_create
     find_all_associated_stream_items.each do |stream_item|
-      next if stream_item.streamable_type == 'Album' and not stream_item.context['picture_ids'].include?(on.id)
+      next if stream_item.streamable_type == 'Album' and not Array(stream_item.context['picture_ids']).detect { |pic| pic.first == on.id }
       stream_item.context['comments'] ||= []
       stream_item.context['comments'] << {
         'id'         => id,

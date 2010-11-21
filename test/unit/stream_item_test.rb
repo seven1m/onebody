@@ -91,11 +91,12 @@ class StreamItemTest < ActiveSupport::TestCase
       @picture1 = Picture.forge(:album => @album, :person => @person)
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
       assert_equal 1, items.length
-      assert_equal [@picture1.id], items.first.context['picture_ids']
+      assert_equal [[@picture1.id, @picture1.photo.fingerprint, @picture1.photo_extension]], items.first.context['picture_ids']
       @picture2 = Picture.forge(:album => @album, :person => @person)
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
       assert_equal 1, items.length
-      assert_equal [@picture1.id, @picture2.id], items.first.context['picture_ids']
+      assert_equal [[@picture1.id, @picture1.photo.fingerprint, @picture1.photo_extension],
+                    [@picture2.id, @picture2.photo.fingerprint, @picture2.photo_extension]], items.first.context['picture_ids']
     end
 
     should "update the context of all associated stream items when the picture is deleted" do
@@ -105,7 +106,7 @@ class StreamItemTest < ActiveSupport::TestCase
       @picture1.destroy
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
       assert_equal 1, items.length
-      assert_equal [@picture2.id], items.first.context['picture_ids']
+      assert_equal [[@picture2.id, @picture2.photo.fingerprint, @picture2.photo_extension]], items.first.context['picture_ids']
     end
 
     should "delete the album stream item if the last picture in the context is deleted" do
