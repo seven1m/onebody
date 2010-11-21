@@ -54,12 +54,6 @@ class Person < ActiveRecord::Base
 
   acts_as_logger LogItem, :ignore => %w(signin_count)
 
-  alias_method 'photo_without_logging=', 'photo='
-  def photo=(p)
-    LogItem.create :loggable_type => 'Person', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
-    self.photo_without_logging = p
-  end
-
   validates_presence_of :first_name, :last_name
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }

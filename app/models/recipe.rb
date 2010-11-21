@@ -19,12 +19,6 @@ class Recipe < ActiveRecord::Base
   acts_as_logger LogItem
   acts_as_taggable
 
-  alias_method 'photo_without_logging=', 'photo='
-  def photo=(p)
-    LogItem.create :loggable_type => 'Recipe', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
-    self.photo_without_logging = p
-  end
-
   def name; title; end
 
   def body; description; end

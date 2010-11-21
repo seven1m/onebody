@@ -14,12 +14,6 @@ class Family < ActiveRecord::Base
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
   acts_as_logger LogItem
 
-  alias_method 'photo_without_logging=', 'photo='
-  def photo=(p)
-    LogItem.create :loggable_type => 'Recipe', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
-    self.photo_without_logging = p
-  end
-
   sharable_attributes :mobile_phone, :address, :anniversary
 
   validates_uniqueness_of :barcode_id, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |f| f.deleted? }

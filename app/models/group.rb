@@ -51,12 +51,6 @@ class Group < ActiveRecord::Base
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
   acts_as_logger LogItem
 
-  alias_method 'photo_without_logging=', 'photo='
-  def photo=(p)
-    LogItem.create :loggable_type => 'Group', :loggable_id => id, :object_changes => {'photo' => (p ? 'changed' : 'removed')}, :person => Person.logged_in
-    self.photo_without_logging = p
-  end
-
   scope :checkin_destinations, :include => :group_times, :conditions => ['group_times.checkin_time_id is not null'], :order => 'group_times.ordering'
 
   def name_group # returns something like "Morgan group"
