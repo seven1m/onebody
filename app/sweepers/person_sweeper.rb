@@ -9,7 +9,9 @@ class PersonSweeper < ActionController::Caching::Sweeper
 
   def expire_stream_items(record)
     record.stream_items.all.each do |stream_item|
-      stream_item.expire_caches
+      #stream_item.expire_caches # very inefficient; let's just expire them all instead
+      ActionController::Base.cache_store.delete_matched(%r{groups/\d+\?fragment=stream_items})
+      ActionController::Base.cache_store.delete_matched(%r{stream\?for=\d+&fragment=stream_items})
     end
   end
 
