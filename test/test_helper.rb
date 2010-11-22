@@ -31,8 +31,7 @@ class ActiveSupport::TestCase
     post_sign_in_form(email, password)
     assert_response :redirect
     follow_redirect!
-    assert_template 'streams/show'
-    assert_select 'h1', Regexp.new(name)
+    assert_select 'li', I18n.t("session.sign_out")
   end
 
   def post_sign_in_form(email, password='secret')
@@ -44,7 +43,7 @@ class ActiveSupport::TestCase
     get "/people/#{person.id}"
     assert_response :success
     assert_template 'people/show'
-    assert_select 'h1', Regexp.new(person.name)
+    assert_select 'h2', Regexp.new(person.name)
   end
 
   def site!(site)

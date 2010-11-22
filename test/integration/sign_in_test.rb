@@ -25,13 +25,13 @@ class SignInTest < ActionController::IntegrationTest
     assert_redirected_to stream_path
     follow_redirect!
     assert_template 'streams/show'
-    assert_select 'h1', Regexp.new(people(:tim).name)
+    assert_select 'li', I18n.t("session.sign_out")
     # jennie
     post '/session', :email => people(:jennie).email, :password => 'password'
     assert_redirected_to stream_path
     follow_redirect!
     assert_template 'streams/show'
-    assert_select 'h1', Regexp.new(people(:jennie).name)
+    assert_select 'li', I18n.t("session.sign_out")
   end
 
   should "not allow users to access most actions with feed code" do

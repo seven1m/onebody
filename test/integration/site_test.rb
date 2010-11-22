@@ -4,7 +4,7 @@ class SiteTest < ActionController::IntegrationTest
 
   should "set view_paths based on site template selection" do
     get '/'
-    assert_match /themes\/aqueouslight/, assigns(:view_paths).first.to_s
+    assert_match /themes\/clean/, assigns(:view_paths).first.to_s
   end
 
 end

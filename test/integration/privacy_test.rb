@@ -8,7 +8,7 @@ class PrivacyTest < ActionController::IntegrationTest
     get "/people/#{people(:jeremy).id}"
     assert_select '#sidebar', /Where are my kids\?/
     assert_select '#sidebar a[href=?]', /\/pages\/help\/safeguarding_children/
-    assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
+    assert_select '.family li', 2 # not 3 (should not see child)
   end
 
   def test_children_without_consent_hidden_on_family_profiles
@@ -16,7 +16,7 @@ class PrivacyTest < ActionController::IntegrationTest
     get "/people/#{people(:tim).id}" # view Tim's profile
     assert_response :success
     assert_template 'people/show'
-    assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
+    assert_select '.family li', 2 # not 3 (should not see child)
   end
 
   def test_children_without_consent_profiles_hidden
@@ -45,7 +45,7 @@ class PrivacyTest < ActionController::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_template 'people/show'
-    assert_select '#sidebar tr.family-member', 2 # not 3 (should not see child)
+    assert_select '.family li', 2 # not 3 (should not see child)
     get "/people/#{people(:jeremy).id}/privacy/edit"
     assert_response :success
     assert_template 'privacies/edit'
@@ -64,14 +64,14 @@ class PrivacyTest < ActionController::IntegrationTest
     get "/people/#{people(:megan).id}"
     assert_response :success
     assert_template 'people/show'
-    assert_select '#sidebar tr.family-member', 3 # not 2 (should see child)
-    assert_select '#sidebar tr.family-member', :minimum => 1, :text => Regexp.new(people(:megan).name)
+    assert_select '.family li', 3 # not 2 (should see child)
+    assert_select '.family li', :minimum => 1, :text => Regexp.new(people(:megan).name)
   end
 
   def test_invisible_profiles
     people(:jane).update_attribute :visible, false
     sign_in_as people(:jeremy)
-    assert_select '#sidebar tr.family-member', 0 # only 1 visible family member -- no people displayed when there's only 1
+    assert_select '.family li', 0 # only 1 visible family member -- no people displayed when there's only 1
     sign_in_as people(:peter)
     get "/people/#{people(:jane).id}"
     assert_response :missing
