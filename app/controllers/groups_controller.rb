@@ -60,7 +60,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @members = @group.people.thumbnails unless fragment_exist?(:controller => 'groups', :action => 'show', :id => @group.id)
+    @members = @group.people.thumbnails unless fragment_exist?(:controller => 'groups', :action => 'show', :id => @group.id, :fragment => 'members')
     @member_of = @logged_in.member_of?(@group)
     if @member_of or (not @group.private? and not @group.hidden?) or @group.admin?(@logged_in)
       @stream_items = @group.shared_stream_items(20)
