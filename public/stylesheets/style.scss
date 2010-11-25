@@ -7,6 +7,7 @@ $footer:    $light - 75;
 $primary:   #5F9128;
 $secondary: #3286B5;
 $alert:     #f66;
+$highlight-background: #fc9;
 $comment-background: #fec;
 $notice:    #fec;
 $metric:    $primary;
@@ -385,6 +386,9 @@ fieldset {
   a {
     text-decoration: none;
   }
+}
+.profile-friendship-action {
+  margin-top: 15px;
 }
 .family {
   list-style: none;
@@ -928,6 +932,14 @@ table.members {
   @include shadow;
   margin-bottom: 25px;
 }
+
+.highlight {
+  background-color: $highlight-background;
+  padding: 10px;
+  @include shadow;
+  margin-bottom: 25px;
+}
+
 
 .heading-action {
   float: right;

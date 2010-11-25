@@ -1,10 +1,13 @@
-<h2><%= t('friends.personal_friends', :name => @person.name_possessive) %></h2>
+<% content_for :sidebar do %>
+  <%= render :partial => 'people/photo' %>
+  <h2><%= t('friends.personal_friends', :name => @person.name_possessive) %></h2>
+<% end %>
 
 <% if @pending.any? %>
-  <div class="highlight">
-    <h2><%= t('friends.pending_requests') %></h2>
+  <div>
+    <h3><%= t('friends.pending_requests') %></h3>
     <p><%= t('friends.people_requested') %></p>
-    <table>
+    <table class="spaced">
       <% @pending.each do |friendship_request| %>
         <tr>
           <td>
@@ -14,17 +17,20 @@
           </td>
           <td>
             <%= link_to friendship_request.from.name, friendship_request.from %>
-            <br/>
-            <strong>
-              <%= link_to t('friends.accept'), person_friend_path(@logged_in, friendship_request, :accept => true), :method => 'put', :class => 'add-icon' %><br/>
-              <%= link_to t('friends.decline'), person_friend_path(@logged_in, friendship_request, :reject => true), :method => 'put', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
-            </strong>
+          </td>
+          <td>
+            <%= link_to t('friends.accept'), person_friend_path(@logged_in, friendship_request, :accept => true), :method => 'put', :class => 'add-icon' %><br/>
+          </td>
+          <td>
+            <%= link_to t('friends.decline'), person_friend_path(@logged_in, friendship_request, :reject => true), :method => 'put', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
           </td>
         </tr>
       <% end %>
     </table>
   </div>
 <% end %>
+
+<h3><%= t('friends.friends') %></h3>
 
 <% if @friendships.any? %>
   <ul id="friends" style="list-style-type:none;">
@@ -45,11 +51,11 @@
   <%= javascript_include_tag 'dragdrop.js' %>
   <%= sortable_element 'friends', :url => reorder_person_friends_path(@person), :handle => 'handle' %>
 <% else %>
-  <p class="highlight"><%= t('groups.nobody_yet') %>!</h2>
+  <p><%= t('groups.nobody_yet') %></p>
 <% end %>
 
 <% if me? %>
-  <p>
+  <p class="double-margin-top">
     <%= link_to t('friends.search_in_the_directory'), new_search_path(:search_friends => true), :class => 'add-icon' %></p>
   </p>
 <% end %>

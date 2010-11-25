@@ -25,7 +25,11 @@ class Person < ActiveRecord::Base
   has_many :log_items
   has_many :stream_items
   has_many :friendships
-  has_many :friends, :class_name => 'Person', :through => :friendships
+  has_many :friends, :class_name => 'Person', :through => :friendships do
+    def thumbnails
+      self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', :order => 'people.last_name, people.first_name')
+    end
+  end
   has_many :friendship_requests
   has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
   has_many :relationships, :dependent => :delete_all
