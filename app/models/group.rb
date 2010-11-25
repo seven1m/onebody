@@ -3,6 +3,7 @@ class Group < ActiveRecord::Base
   has_many :membership_requests, :dependent => :destroy
   has_many :people, :through => :memberships do
     def thumbnails
+      # TODO figure out why select is changed to include people.*
       self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', :order => 'people.last_name, people.first_name')
     end
   end
