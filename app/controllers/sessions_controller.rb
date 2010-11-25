@@ -34,7 +34,6 @@ class SessionsController < ApplicationController
         redirect_to page_for_public_path('system/unauthorized')
         return
       end
-      person.increment!(:signin_count)
       session[:logged_in_id] = person.id
       session[:logged_in_name] = person.first_name + ' ' + person.last_name
       session[:ip_address] = request.remote_ip

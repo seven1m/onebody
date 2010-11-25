@@ -63,7 +63,6 @@ class Person
         share_activity
         child
         custom_type
-        signin_count
         donortools_id
         synced_to_donortools
         description
