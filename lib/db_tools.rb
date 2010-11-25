@@ -29,7 +29,9 @@ end
 class ActiveRecord::Base
 
   def self.scope_by_site_id
-    default_scope lambda { where(:site_id => Site.current.id) }
+    unless scoped_methods.last.respond_to?(:call) # this is so load('person.rb') will work at the console
+      default_scope lambda { where(:site_id => Site.current.id) }
+    end
   end
 
   def self.hashify(options)
