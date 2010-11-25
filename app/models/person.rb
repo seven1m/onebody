@@ -460,7 +460,7 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def shared_stream_items(count=30, mine=false)
+  def shared_stream_items(count=30)
     enabled_types = []
     enabled_types << 'Message' # wall posts and group posts (not personal messages)
     enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
@@ -469,62 +469,33 @@ class Person < ActiveRecord::Base
     enabled_types << 'Album'       if Setting.get(:features, :pictures    )
     enabled_types << 'Note'        if Setting.get(:features, :notes       )
     enabled_types << 'PrayerRequest'
-    conditions = [
-      "stream_items.streamable_type in (?)",
-      enabled_types
-    ]
-    if mine
-      conditions.add_condition([
-        "(stream_items.person_id = ? or stream_items.wall_id = ?) and " +
-        "(stream_items.group_id is null or (groups.hidden = ? and groups.private = ? and stream_items.streamable_type != 'Message'))",
-        id,
-        id,
-        false,
-        false
-      ])
-    else
-      friend_ids = all_friend_and_groupy_ids
-      group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
-      group_ids = [0] unless group_ids.any?
-      conditions.add_condition([
-        "stream_items.shared = ? and " +
-        "(stream_items.group_id in (?) or " +
-        " (stream_items.wall_id is null and stream_items.person_id in (?) and stream_items.streamable_type != 'PrayerRequest') or " +
-        " (stream_items.wall_id in (?) and stream_items.person_id in (?)) or " +
-        " stream_items.person_id = ? or " +
-        " stream_items.wall_id = ? or " +
-        " stream_items.streamable_type in ('NewsItem', 'Publication')) and " +
-        "(stream_items.group_id is null or (groups.hidden = ? and groups.private = ?))",
-        true,
-        group_ids,
-        friend_ids,
-        friend_ids,
-        friend_ids,
-        id,
-        id,
-        false,
-        false
-      ])
-    end
-    stream_items = StreamItem.all(
-      :conditions => conditions,
-      :order => 'stream_items.created_at desc',
-      :limit => count,
-      :include => [:person, :wall, :group]
-    )
-    # do our own eager loading here...
-    comment_people_ids = stream_items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
-    comment_people = Person.all(
-      :conditions => ["id in (?)", comment_people_ids],
-      :select => 'first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_fingerprint' # only what's needed
-    ).inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
-    stream_items.each do |stream_item|
-      stream_item.context['comments'].to_a.each do |comment|
-        comment['person'] = comment_people[comment['person_id']]
+    friend_ids = all_friend_and_groupy_ids
+    group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
+    group_ids = [0] unless group_ids.any?
+    relation = StreamItem.scoped \
+               .where(:streamable_type => enabled_types) \
+               .where(:shared => true) \
+               .where("(group_id in (:group_ids) or" +
+                      " (group_id is null and wall_id is null and person_id in (:friend_ids)) or" +
+                      " person_id = :id or" +
+                      " streamable_type in ('NewsItem', 'Publication')" +
+                      ")", :group_ids => group_ids, :friend_ids => friend_ids, :id => id) \
+               .order('created_at desc') \
+               .limit(count) \
+               .includes(:person, :group)
+    relation.to_a.tap do |stream_items|
+      # do our own eager loading here...
+      comment_people_ids = stream_items.map { |s| Array(s.context['comments']).map { |c| c['person_id'] } }.flatten
+      comment_people = Person.where(:id => comment_people_ids) \
+                             .select('first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_fingerprint') \
+                             .inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
+      stream_items.each do |stream_item|
+        Array(stream_item.context['comments']).each do |comment|
+          comment['person'] = comment_people[comment['person_id']]
+        end
+        stream_item.readonly!
       end
-      stream_item.readonly!
     end
-    stream_items
   end
 
   def show_attribute_to?(attribute, who)
