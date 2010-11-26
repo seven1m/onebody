@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
       password = params[:password]
     else
       unless password = decrypt_password(params[:encrypted_password])
-        render :text => t('session.sign_in_error', :url => new_session_path), :layout => true, :status => 500
+        render :text => t('session.sign_in_error_html', :url => new_session_path), :layout => true, :status => 500
         return
       end
     end
@@ -56,7 +56,7 @@ class SessionsController < ApplicationController
       end
     else
       if p = Person.find_by_email(params[:email]) and p.encrypted_password.nil?
-        flash[:warning] = t('session.account_not_activated')
+        flash[:warning] = t('session.account_not_activated_html')
       else
         flash[:warning] = t('session.password_doesnt_match')
         SigninFailure.create(:email => params[:email].downcase, :ip => request.remote_ip)

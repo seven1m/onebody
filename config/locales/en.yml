@@ -3,17 +3,14 @@ en:
   About: About
   Answer_yes: "Yes"
   Answer_no: "No"
-  Change: Change
   Changes: Changes
   Changes_saved: Changes saved.
   Delete: Delete
   Done: Done
-  Edit: Edit
   Errors: Errors
   From: From
   Help: Help
   Modify: Modify
-  New: New
   Now: Now
   No_action_to_show: No action responded to show
   No_more_records: No more records.
@@ -27,27 +24,20 @@ en:
   What: What
   When: When
   Who: Who
-  You: You
   answer_yes: "yes"
   answer_no: "no"
   are_you_sure: Are you sure?
-  are_you_sure_cannot_be_undone: Are you sure? This cannot be undone!
-  back_to: Back to
   by: By
   changes: changes
   changes_saved: Changes saved.
   click_here: Click here
-  close: close
   comment: comment
   Comments: Comments
   delete: delete
-  doesnt: doesn't
   edit: edit
   feature_unavailable: This feature is unavailable.
-  file_not_found: File not Found
   for: for
   from: from
-  group: Group
   help: help
   in: in
   insert: insert
@@ -57,7 +47,6 @@ en:
   name: Name
   new: new
   new_category: new category
-  next: Next
   none: none
   not_authorized: You are not authorized.
   of: of
@@ -68,7 +57,6 @@ en:
   person: Person
   phone: Phone
   please_note: Please Note
-  remove: Remove
   save: Save
   saving: Saving
   save_changes: Save Changes
@@ -76,7 +64,6 @@ en:
   submit: Submit
   to: to
   type: Type
-  you_dont: You don't
   you_made_a_change_page: Looks like you made a change to something on this page. Click OK to discard your edits and leave this page.
   your: Your
 
@@ -302,7 +289,6 @@ en:
     add_person: Add Person
     add_selected: Add Selected
     add_template: Add Template
-    alerts: Alerts
     already_admin: "{{name}} is already an admin."
     api: API
     api_login_details: Your API login details
@@ -310,7 +296,6 @@ en:
     customization: Customization
     dashboard: Admin Dashboard
     dashboard_about: This is the starting point for managing your community site. Click any of the items on the right to view/manage a single aspect of the database.
-    demote_to_standard_admin: "Demote to standard admin."
     deleted_people:
       deleted_people: Deleted People
       empty_families: Empty Families
@@ -323,10 +308,7 @@ en:
     deleted_people_count:
       one: "{{count}} deleted person"
       other: "{{count}} deleted people"
-    deleted_records: Deleted Records
-    deleted_records_manage: Manage deleted people and families.
     display: display
-    edit_admin: Edit Admin
     enable: Enable
     enable_api_confirmation: Are you sure you want to enable your API key?
     emails:
@@ -335,8 +317,6 @@ en:
       clear_flags: Clear Flags
       description: When a user changes their email address online, a flag is set, and subsequent syncs cannot change the email address back until the flag is cleared. To clear the flag, simply set the user's email address in your external database to be the same as below, and then run your sync process (or wait for it to run at its next scheduled time). Alternatively, you can clear the flag manually here to allow your sync process to update the value as usual.
       no_records: There are currently no records with the changed email address flag set.
-    error_saving: There was an error saving the change.
-    export_data: Export Data
     file:
       assets: Assets
       back_to_theme_editor: back to theme editor
@@ -352,7 +332,6 @@ en:
     group_administrators_help: To add/remove a person as a group administrator, click "edit" next to the group and promote an existing group member.
     group_membership_requests: Group Membership Requests
     home: Admin Home
-    import_data: Import Data
     import_data_description: Import people data from a Comma Separated Values (CSV) file.
     import_export: Import/Export
     invalidate_confirmation: Are you sure you want to invalidate this key and create a new one?
@@ -389,9 +368,6 @@ en:
     new_api_or: a new API key or
     no_api_key: You do not yet have an API key.
     no_more_admins: No more admins are allowed.
-    page_number_when_prompted: 
-      one: Enter the page number when prompted ({{count}} record per page).
-      other: Enter the page number when prompted ({{count}} records per page).
     pages: Pages
     people_not_synced_to_donortools_count:
       one: "1 out of sync with Donor Tools."
@@ -465,7 +441,6 @@ en:
         title: Export Data
         about: "Export all site data to XML and CSV."
         order: 17
-    promote_to_super_admin: "Promote to super admin."
     request:
       one: request
       other: requests
@@ -727,7 +702,6 @@ en:
       sharing_about: OneBody is best when members participate by adding their own content. Enable content sharing with these settings.
       sharing_communications_about: Share information with your members easily.
       sharing_heading: Sharing
-    show_privileges: show privileges
     styles:
       editor: Style Editor
     super_admin: Super Admin
@@ -737,15 +711,12 @@ en:
       duration: Duration
       error: Error
       id: ID
-      incomplete: Incomplete
-      last: Last Sync
       legacy_id: Legacy ID
       name: Name
       none: None yet.
       operation: Operation
       rate: Rate
       results: Sync Results
-      review_results: Review previous synchronization results.
       start: Start
       status: Status
       success: Success
@@ -791,10 +762,6 @@ en:
       updated: updated
       updates: Updates
     username: Username
-    view_contributions: "View and manage contributions."
-    welcome_message: Welcome, {{name}}.
-    you_are_admin: You are an administrator with the privileges
-    you_are_super: You are a super administrator.
     your_key: your key
 
   accounts:
@@ -807,8 +774,6 @@ en:
     create: Create Account
     date_format: MM/DD/YYYY
     description: Description
-    description_about_male_html: One or two words describing yourself
-    description_about_female_html: One or two words describing yourself
     email_not_found: That email address could not be found in our system. If you have another address, try again.
     enter_code: Enter the code
     enter_your_email: Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site.
@@ -848,7 +813,6 @@ en:
     verify_mobile: Verify Mobile
     verify_who_you_are: First, we need to verify you are who you say you are. Please choose one of the following options to verify your identity. You only have to do this once, and it only takes a few minutes.
     wrong_code: You entered the wrong code.
-    year_required: Year required
     you_use: you use
     your_birthday: Birthday with Year (required)
     your_carrier_will_charge: Your mobile carrier may and probably will charge you to receive this text message. Click OK to continue.
@@ -908,8 +872,6 @@ en:
     group: Group
     group_missing: group missing
     id: ID
-    last_date: Last date
-    manage_and_export: Manage and export attendance.
     name: Name
     name_unknown: name unknown
     next_date: next date
@@ -917,9 +879,6 @@ en:
     not_enabled: Attendance tracking is not enabled for this goup.
     prev_date: prev date
     recorded_time: Recorded Time
-    records_from_count:
-      one: "{{count}} attendance record from"
-      other: "{{count}} attendance records from"
     records_per_day: Attendance Records Per Day
     save: Save Attendance
     saved: Attendance saved.
@@ -940,7 +899,6 @@ en:
     commented_on: commented on
     deleted: Comment deleted.
     leave_another_note_for: Leave another note for {{name}}
-    leave_note: Leave a Note
     leave_note_for: Leave a note for {{name}}
     leave_a_note_for: Leave a note for
     none_yet: none yet
@@ -999,13 +957,10 @@ en:
     cannot_delete_your_own: You cannot delete your own family.
     city_st_zip: City, ST, Zip
     delete: Delete Family
-    delete_person: Delete Person
     deleted_confirmation: Family Deleted?
     drag_to_reorder_members: Drag the arrows to reorder family members.
     edit: Edit Family
-    edit_person: Edit Person
     existing_person: Existing Person
-    families: Families
     family_id: Family ID
     find_on_map: Find address on map
     last_name: Family Last Name
@@ -1016,10 +971,8 @@ en:
     name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
     new: New Family
     no_one_yet: No one in this family yet.
-    no_photo: no family photo
     not_found: Family not found.
     only_in_mysql: This method is only available in a MySQL environment.
-    reorder: Reorder Person (click and drag)
     save: Save Family
     saved: Family saved.
     select_before_proceeding: Please select a family before proceeding.
@@ -1064,25 +1017,20 @@ en:
 
   friends: 
     accept: Accept Friend
-    add_friend: Add Friend
     add_friend_are_you_sure: Are you sure? An email will be sent to this person requesting friendship.
     add_to_friends: Add to Friends
     add_your_friends_to_profile_html: <a href="{{url}}">Add your friends</a> to your profile page!
     added_as_friend: "{{name}} has been added as a friend."
     already_pending: A friend request is already pending with {{name}}.
-    can_rearrange_list: You can rearrange your friends list by clicking on the {{img}} icon and dragging it up/down with your mouse.
     cannot_request: You cannot request friendship with {{name}}.
-    confirm_email_will_be_sent: Are you sure? An email will be sent to this person requesting friendship.
     decline: Decline Friend
     friend_request_pending: friend request pending
     friends: Friends
     pending_requests: Pending Friend Requests
     people_requested: The following people have requested to be your friend.
     personal_friends: "{{name}} Friends"
-    reorder_list: Reorder this list by dragging.
     remove_from_friends: Remove from Friends
     request_sent: A friend request has been sent to {{name}}.
-    top_on_profile: The top {{max_number}} friends show on your profile page.
     search_in_the_directory: Search for friends in the directory
     unknown_state: unknown state
     you_have_pending_requests_html: You have <a href="{{url}}">pending friend requests</a>.
@@ -1095,27 +1043,19 @@ en:
     failure_message: "There seems to have been an error while generating your file."
 
   groups:
-    25_of: "25 of"
     accept: Accept
-    add_group: Add Group
     add_somebody: Add somebody
-    address: Email
     address_hint: Give your group a unique email address so messages can be sent easily.
     advanced: Advanced
-    all_groups: All Groups
-    approval: approval
     approval_required_to_join: Approval required for people to join group
     approve_group: Approve Group
-    approved: Approved
     are_you_sure_option: Are you sure you want to {{option}} email from the group {{group}}?
-    attachments: Attachments
     attendance: Attendance
     back_to_group: "Back to {{name}}"
     back_to_homepage: "Back to Your Groups"
     batch_edit_groups: Batch Edit Groups
     browse_by_category: Browse by Category
     by_allow_anyone_to_join: By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.
-    calendar: Calendar
     calendar_help: In your Google Calendar, in Calendar Settings, copy your "Private" XML Link and paste in this box to display your calendar on the group page.
     calendar_private_link: Google Calendar Private Link
     campaign_monitor_sync: "Campaign Monitor API List ID:"
@@ -1125,7 +1065,6 @@ en:
     category: Category
     category_hint: Make your group easy to find by placing it an appropriate category.
     category_required: Category (required)
-    change: Change
     change_email_settings: Change Email Settings
     change_this_picture: Change This Picture
     class_link_code: "Class Link Code(s):"
@@ -1152,7 +1091,6 @@ en:
     email_on: "on"
     email_settings_changed: Your email settings for the group have been changed.
     enable_attendance_tracking: Enable Attendance Tracking
-    enable_blog: Enable Blog
     enable_calendar: Enable Calendar
     enable_email: Enable Email
     enable_pictures: Enable Pictures
@@ -1161,13 +1099,8 @@ en:
     following_are_pending_approval:
       one: "The following group is pending approval:"
       other: "The following groups are pending approval:"
-    group_calendar: Group Calendar
     group_emails: Group Emails
     group_members_can_post: Group Members Can Post Messages
-    group_notes: Group Notes
-    group_pictures: Group Pictures
-    group_prayer: Group Prayer
-    group_wont_be_visible: Group won't be visible on members' profiles or other group lists (unless your an admin).
     groupies: Groupies
     hidden_group: Hidden Group
     hidden_groups: Hidden Groups
@@ -1184,7 +1117,6 @@ en:
     leave_this_group: Leave This Group
     linked: Linked Groups
     linked_membership: (linked)
-    location: Location
     location_address: Location and Address
     location_address_hint: If you enter a physical address, an interactive map will be displayed on your group page.
     meets: Meets
@@ -1200,16 +1132,13 @@ en:
     not_authorized_view: You are not authorized to view this group
     not_authorized_post: You are not authorized to post to this group.
     not_found: Group not found.
-    notes: Notes
     no_activity_yet: "This group hasn't had any activity yet."
     no_groups_found: no groups found
-    no_online_group_activity: No online group activity to display.
     only_admins_see_this_list: Only administrators (such as yourself) see this list
     or_send_from_your_email_html: "Or, send to <a href='mailto:{{email}}'>{{email}}</a> from your email client."
     other_notes: Other Notes
     parents_of: "Parents of:"
     parents_of_hint: "Membership will be auto-generated from parents of selected group's members."
-    pending_approval: "{{following}} approval"
     pending_approval_count:
       one: "{{count}} group to approve"
       other: "{{count}} groups to approve"
@@ -1222,10 +1151,8 @@ en:
     privacy_security: Privacy and Security
     private_group: Private Group
     promote: Promote
-    recent_activity: Recent Activity
     remove_group_photo: Remove Group Photo
     remove_people: Remove People
-    remove_selected: Remove Selected
     requests: Requests
     request_sent: A request to join this group has been sent to the group administrator(s).
     request_will_be_sent_to_admins: Are you sure? A request will be sent to the group administrator(s).
@@ -1237,14 +1164,12 @@ en:
     show_all: Show all...
     the_settings_are_for_advanced_users: The settings below are for advanced users.
     there_was_errors_saving: There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages.
-    this_group_doesnot_offer: This group does not offer any features and is for informational purposes only.
     this_group_has_pending_html: This group has pending <a href="{{url}}">group membership requests</a>.
     this_group_is_hidden: "This group is hidden. It's existence is hidden from most people."
     this_group_is_pending_approval: This group is pending approval.
     this_group_is_pending_you_may_not_add_people: This group is pending approval. You may not add people to it yet.
     this_group_is_private: This group is private. Only people in this group can see its messages.
     this_group_maintained_by_staff: This group is maintained by office staff.
-    this_picture: This Picture
     types: Types of Groups
     unmapable_address: "This does not resemble a physical address; no map will be shown."
     user_settings_saved: User settings saved.
@@ -1285,8 +1210,6 @@ en:
     with_errors: with errors
 
   layouts:
-    credits: Credits
-    full_site: Full Site
     this_is_the_fallback_template: This is the fallback template used in case your selected theme cannot be found. Please check that your Theme setting points to a real directory inside the themes/ directory.
     powered_by_html: Powered by <a href="http://beonebody.com" rel="external">OneBody</a>
     privacy_policy: Privacy Policy
@@ -1315,7 +1238,6 @@ en:
 
   messages: 
     ago: ago
-    attachment: Attachment
     attachment_optional: Attachment (optional)
     attachments: Attachments
     delete_message: Delete Message
@@ -1328,10 +1250,7 @@ en:
     in: in
     message: Message
     message_by: Message by
-    message_view: Message View
-    messages: Messages
     messages_in_html: Messages in <a href="{{url}}">{{name}}</a>
-    messages_on: on
     missing_param: Missing the message param.
     no_email_for_person: Sorry. We don't have an email address on file for {{name}}.
     not_authorized_delete: You are not authorized to delete this message.
@@ -1349,36 +1268,28 @@ en:
     some_quoted_text_is_hidden: Some quoted text in this message is hidden;
     subject: Subject
     this_group_is_not_private: This group is not private, so messages posted here will be visible by people who aren't members of this group.
-    this_message_will_be_visible: This message will be visible to anyone who can see {{name}} profile.
     this_will_send_an_email_to: This will send an email to {{group}}.
     this_will_send_a_private_email_html: This will send a <em>private</em> email.
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
-    wall: Wall
     wall_not_found: Wall not found
     wall_post: Wall Post
 
   nav: 
-    bible: Bible
     directory: Directory
     groups: Groups
     home: Home
-    pages: Pages
     podcasts: Podcasts
     profile: Profile
 
   news: 
-    all_news: All News
-    by: by
     body_description: "Share your announcement, information, or news here:"
     deleted: News deleted.
     edit_news_post: Edit News Post
     if_you_have_something_to_share_html: If you have something newsworthy to share, <a href="{{url}}">submit it here</a>.
     news: News
     news_feed: News Feed
-    news_with_advanced_formatting_html: Or, share <a href="{{url}}">news with advanced formatting...</a>
     no_news_is_available: No news is available at this time.
-    posted: Posted
     return_to_news: « Return to News
     save_news: Save News
     saved: News saved.
@@ -1405,8 +1316,6 @@ en:
     posted_by: posted by
     save_note: Save Note
     saved: Note saved.
-    share_note: Share Note
-    share_note_description: "What are you doing? What's on your mind?"
     this_note_will_be_posted: This note will be posted to the {{group}} blog.
     this_note_will_not_be_private_html: "This note will <strong>not</strong> be private since it is a blog post. To send a private message, send an email to the group."
     title: Title
@@ -1442,40 +1351,25 @@ en:
     are_you_sure: Are you sure? This will be permanent and will delete all children of this page!
     body: Body
     collapse: collapse
-    deleted: Page deleted.
     edit_page: Edit Page
-    edit_pages: Edit Pages
     expand: expand
-    help_and_system_pages: "'Help' and 'System' pages are used by OneBody and may be adapted to your community if needed. Other pages are only visible if the Content Management System feature is enabled."
     loading: loading...
     new_page: new
-    new_root_page: new root page
     not_found: Page not found.
     pages: Pages
-    path: Path
-    published: Published
-    raw: Raw
-    save_and_continue_editing: Save and Continue Editing
     saved: Page saved.
     template_not_found: Template not found.
     title: Title
     to_add_attachment_first_save_it: To add an attachment to this page, first save it.
-    unpublished: unpublished
     upload_attachment: Upload Attachment
     view_page: View Page
-    visible_in_navigation: Visibile in Navigation
 
   people:
-    about: About
     about_me: About Me
-    access: Access
     add_group: Add Group
-    add_new_person_existing_family: Add New Person to an Existing Family
     advanced: Advanced
     activities: Activities
     alternate_email: Alternate Email
-    back_to: back to {{name}}
-    basics: Basics
     books: Books
     business: Business
     business_directory: Business Directory
@@ -1495,9 +1389,6 @@ en:
     child_alert: You must specify whether the person is a Child (under {{years}}) or not to complete this update.
     click_to_send_verification_email: Send a password setup email to this user.
     click_to_change_email_html: <a href="{{url}}">Click here</a> to change this email address.
-    completely_private: completely private
-    create_new_family: Create a New Family
-    current_services: "Current services:"
     deleted_html: This person has been deleted. You can restore the record <a href="{{url}}">here</a>.
     description_of_business: Description of Business
     determine_by_birthday: Determine by birthday
@@ -1514,19 +1405,10 @@ en:
       profile: Edit Profile
     email: Email
     email_address: email address (account login) is
-    enter_family_details: Enter Family Details
     enter_new_category: Enter the new category.
-    edit_family: Edit Family
-    edit_favorites: Edit Favorites
-    edit_testimony: Edit Testimony
     family: Family
     family_legacy_external_id: Family Legacy/External ID
-    family_pic: Family Pic
-    favorites: Favorites
-    favs: Favs
-    feeds: Feeds
     find_a_group_html: Find a group <a href="{{url}}">here</a>.
-    freeze: Freeze
     friend_not_found: Friend not found.
     friendship_accepted: Friendship accepted.
     friendship_manage: You may not manage friendships for anyone but yourself.
@@ -1534,75 +1416,43 @@ en:
     friendship_rejected: Friendship rejected.
     full_access: Full Access
     groups: Groups
-    hidden_profile: Hidden Profile
     if_you_have_another_email: If you have another email (perhaps a work address) you wish to utilize to send email to groups, you may enter it here.
     if_you_wish_to_be_listed_business_dir_html: If you wish to be listed in the <a href="{{url}}">Business Directory</a>, Enter your business name, description, and other details below.
     if_you_wish_to_remove_something_html: If you wish to remove something in order to keep others from seeing it, instead go to the <a href="{{url}}">Privacy</a> page and hide it.
-    if_your_system_is_setup_to_sync: If your system is set up to synchronize its data with an external source (e.g., a membership managment system), deleting this person may not be permanent and they may reappear following the next sync.
     if_your_system_is_setup_to_sync_change: If your system is set up to synchronize its data with an external source (e.g., a membership managment system), changes you make here may be overwritten on the next sync.
-    info: Info
     interests: Interests
-    leave_message_for: "Leave a message for {{name}}:"
     legacy_external_id: Legacy/External ID
     limited_access: "Your account currently has limited access; We're showing you an abbreviated profile page as a result."
     limited_access_denied: "Your account currently has limited access."
     movies: Movies
-    my_calendar: My Calendar
-    my_favorites: My Favorites
-    my_messages: My Messages
-    my_notes: My Notes
-    my_pictures: My Pictures
-    my_recipes: My Recipes
-    my_testimony: My Testimony
-    my_verses: My Verses
     music: Music
     name: Name
-    new_family: New Family
     new_person: New Person
     no_additional_access_avaiable: No additional access options available at this time.
     no_email: "{{name}} doesn't have an email address in the system"
-    no_families_found: No families found.
     no_family_for_this_person: This person does not belong to a family. They will be unable to sign in and will not be visible to others on the site.
     no_groups_yet: no groups yet
     not_deleted: Person not deleted.
     not_found: Person not found.
-    note_for: Note for {{name}}
     nothing_here_yet: Nothing here yet!
-    nothing_yet: Nothing yet!
     only_an_approximation: only an approximation
     pending_approval: pending approval
-    pending_updates: Pending Updates
     people: People
     person:
       one: 1 Person
       other: "{{count}} People"
     person_isnt_any_groups: "{{person}} isn't in any groups right now."
     person_type: Roles
-    pic: Pic
-    please_only_upload_real_photo_html: Please only upload a <span class="very-strong">real photo</span> — no graphics, clip-art, or fakes please.
-    previously_served: "Previously served in:"
-    private_but_shared_group_members: private but shared with some group members
-    profile_tab: Profile Tab
     quotes: Quotes
-    read_more_testimonies: Read more testimonies...
     save_access: Save Access
-    search_for_anniversaries: search for {{anniversary}} anniversaries 
-    search_for_birthdays: search for {{birthday}} birthdays
-    search_people_city: search for people in this city
-    search_people_state: search for people in this state
-    search_people_zip: search for people in this zip code
     select_file_to_upload: "Select a file on your computer to upload:"
     send_email: Send Email
-    send_email_when_someone_posts_wall: Send me an email when someone posts a message on my wall.
-    search_existing_family_html: Search <em>existing</em> family
-    separate_items_with_commas: Separate items with commas so they can be linked to other people with the same interests.
     services_provided_by: Services provided by
     share_your_personal_testimony: Share your personal testimony — how you came to know Jesus Christ and how he has changed your life.
     show_a_map_here_html: Show a map here by providing OneBody with your Yahoo Maps API key. <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Click here</a> for help.
     show_full_screen: show full screen
     show_hidden_groups: Show Hidden Groups
     suffix: Suffix
-    tell_about_your_favorite_html: Tell about your favorite interests, music, movies, and more <a href="{{url}}">here</a>.
     tell_us_about_yourself: Tell us about yourself. What's your personality like? What would your best friend say about you?
     testimony: Testimony
     this_account_is_frozen: This account is frozen. {{name}} cannot make changes to this profile or anyone else's until this account is unfrozen.
@@ -1610,10 +1460,7 @@ en:
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
     this_person_is_not_an_adult: This person is believed to be less than {{years}} years of age, and does not have parental consent.
     this_profile_is_hidden: This profile is hidden
-    this_profile_is_hidden_from_people: This profile is hidden from most people.
     tv_shows: TV Shows
-    type_web_address: "Or, type a web address for your image:"
-    unfreeze: Unfreeze
     upload_a_picture_of_html: Upload a picture of {{name}} here.
     upload_family_picture_html: Upload a family picture here.
     update_to_profile_is: An update to this profile is
@@ -1621,16 +1468,12 @@ en:
     visibility: Visibility
     visible_on_printed_directory: Visible on Printed Directory
     visible_to_everyone: Visible to everyone
-    wall_emails: Wall Emails
     website: Website
     where_are_my_kids: Where are my kids?
-    would_like_to_serve: "Would like to serve in:"
-    write_something_about_yourself_html: Write something <a href="{{url}}">about yourself</a>.
     you_arent_in_any_groups: You aren't in any groups yet.
     you_many_not_make_changes: You may not make changes to your account at this time.
     you_will_not_able_use_this_address: You will not be able to use this address to sign into the site.
     your_account_has_been_frozen: Your account has been frozen. 
-    your_picture: Your Picture
           
   people_count: 
     are: people are
@@ -1640,7 +1483,6 @@ en:
 
   photos:
     object_not_found: Object not found.
-    please_choose_photo: Please choose a photo that won't offend others.
     remove: Remove Photo
     unavailable: Photo unavailable.
     upload: Upload {{name}}
@@ -1648,25 +1490,17 @@ en:
   pictures: 
     add_a_picture: Add a Picture
     album: Album
-    all_pictures: All Pictures
-    are_you_sure: "Are you sure? Deleting this album will also delete all its pictures!"
+    delete_are_you_sure: "Are you sure? Deleting this album will also delete all its pictures!"
     cant_delete: You cannot delete this picture.
     cant_edit: You cannot edit this picture.
     click_to_enlarge: click to enlarge
     click_to_see_original: click to see original
     comment_on_this_picture: Comment on this picture
     delete_album: Delete Album
-    delete_picture: Delete Picture
     edit_album: Edit Album
-    enter_the_new_album_title: Enter the new album title.
-    error_finding: There was an error finding the album. Please try again.
     failed: "{{fail}} not saved due to errors"
-    in_album: in album
     next: next »
-    picture: Picture
     picture_uploaded_by: "Picture uploaded {{when}} by"
-    pictures: Pictures
-    posted_in: Posted in
     prev: « prev
     rotate_left: Rotate Left
     rotate_right: Rotate Right
@@ -1674,7 +1508,6 @@ en:
     set_as_cover: Set as Cover
     hide_my_name: "These are general community pictures — don't show my name on them (admin-only option)."
     upload: Upload!
-    upload_more: Upload more »
   
   podcasts:
     not_configured: Sermondrop is not configured.
@@ -1741,84 +1574,43 @@ en:
     anniversary: Anniversary
     as_a_parent_agree_html: I, as a parent or legal gaurdian of {{name}}, hereby agree that I have read this site's <a href="{{url}}">Privacy Policy</a>, that the personal information of {{name}} may be displayed for other users of the web site (as determined by the privacy settings on this page), and that {{name}} may, if able, utilize this website as a normal user (including profile customization, and communication via private message, the wall, groups, etc.).
     birthday: Birthday
-    by_turning_off: By turning off site visibility, {{name}} will not appear anywhere on the site.
-    by_turning_off_site_visibility: By turning off site visibility
-    cant_edit: You may not edit these settings. Sorry.
-    change_email_password: Change Email/Password
     child_profile_has_parental_consent: This child's profile has parental consent from {{name}}.
     child_under_age_no_parents_consent: "This child is under the age of {{years}}, and his/her parents have not given consent to allow their information to be displayed."
     child_under_age_you_have_not_consent: "This child is under the age of {{years}}, and you have not given consent to 1) allow their information to be displayed, and 2) allow them to sign into and use this web site."
     click_the_agree: "Click the 'I Agree' button."
-    default: Default
     detail: Detail
-    disabling_private_messages: Disabling private messages will prevent {{name}} from receiving email through the web site. Also, {{name}} will not be able to send messages to groups or to other people directly because there will be no way for people to reply. Are you sure you want to disable private messages?
-    edit_profile: Edit Profile
     email: Email
-    entire_family_will_not_appear: entire family will not appear in any searches. It is still possible to join groups and receive email from site administrators, though.
     family_hidden: "{{your}} family is currently hidden from all pages on this site!"
     family_privacy: Family
     fax: Fax
     group_privacy: Group Privacy
-    have_concerns_regarding_this: If you have concerns regarding this, please contact us at {{phone}} immediately.
     hidden: Hidden
     hide_your_activity: "Hide your activity if you do not want friends and/or fellow group members to see your public messages, notes, verses, etc. on their home page. Note: private messages are never displayed, regardless of this setting."
-    home: Home
     home_phone: Home Phone
     i_agree: I Agree
-    if_this_is_unchecked: If this is unchecked and {{name_possessive}} email address is hidden, others will have no way to send a private email directly to {{first_name}} through this site.
-    invisible: Invisible
-    missing_params: missing params
-    mobile: Mobile
     mobile_phone: Mobile Phone
     modify_the_privacy_settings_html: You can change the privacy settings for your family here. Items with a checkmark are visible to other members who sign into this website. Click the <img src="/images/plus.gif"/> to set privacy for groups (optional). To understand how we use the personal information of you and your family, please read our <a href="{{url}}">Privacy Policy</a>.
-    not_sharing: Not Sharing    
-    only_adult_can_edit: Only an adult can edit these settings. According to our records, you are not. Please contact us if you believe this to be an error.
-    person_is_hidden: "{{name}} has been hidden from all pages on this site!"
     please_read_our_privacy_policy_html: Please read our <a href="{{url}}">Privacy Policy</a> for details regarding the use of your personal information.
     people_can_still_send_html: "You can still receive email through the site, without revealing your email address on the Web."
-    privacy_settings: Privacy Settings
     privacy: Privacy
     private: Private
-    private_message: Private Message
-    private_messages_enabled: "Private Messages Enabled:"
-    public: Public
-    read_privacy_policy_html: Read our <a href="{{url}}">Privacy Policy</a>.
-    read_safeguarding_children_html: Read our page about <a href="{{url}}">Safeguarding Children</a>.
     read_statement_below: Read the statement below and agree to it by checking the corresponding checkbox.
-    save_family_settings: Save Family Settings
-    save_personal_settings: Save Personal Settings
     saved: Settings saved.
-    saved_family: Family settings saved.
-    saved_personal: Personal settings saved for {{name}}.
     sharing_with_html: Sharing with <a href="{{url}}">{{name}}</a>
-    space_to_post_messages: A space for people to post messages for {{name}} and others to see.
     the_items_are_visible_html: "The following items are visible to everyone <a href=\"{{url}}\">change here</a>:"
     the_items_may_be_shared: "The following items may be shared with other members of {{name}}:"
-    the_year_is_never_shown: The year is never shown.
-    these_settings_affect_your_family: These settings affect your whole family. Person Privacy settings (the other tabs) may override these settings.
     this: this
-    to_show_on_this_site: "To show {{name}} on this site, please:"
-    view_profile: View Profile
     visible: Visible
     visible_note: Setting a profile to be invisible will cause you to not appear in any directory searches. You can still join groups and receive group email and email from site administrators though.
-    visible_on_site: visible on site
-    wall: Wall
-    work: Work
     work_phone: Work Phone
     you_are_not_sharing_with_groups: You are not sharing your {{sharing}} with any groups specifically.
     you_are_sharing_with_groups: "You are sharing your {{sharing}} with the following groups:"
-    you_have_activity_sharing_disabled_html: You have activity sharing disabled in your <a href="{{url}}">privacy settings</a>, so things you share here will only display on your profile.
-    you_made_a_change_tab: Looks like you made a change to something on this tab. Be sure to save your changes before going to another tab. Click OK to save your changes first.
-    you_may_override: You may override the family settings for {{name}} by making changes below.
     you_may_share_items: "You may share items with fellow members of the following groups:"
     you_must_check_agreement_statement: You must check the box indicating you agree to the statement below.
-    your: your
 
   publications: 
     add_publication: Add Publication
     add_publication: Add Publication
-    all_publications: All Publications
-    currently_signed_up: You are currently signed up to receive email notifications when new publications are made available here.
     deleted: Publication deleted.
     description: Description
     email_notifications: Email Notifications
@@ -1841,30 +1633,6 @@ en:
     unsubscribe: Unsubscribe
     update_notifications: Update Notifications
     you_must_select_file: You must select a file.
-
-  recipes: 
-    about_this_recipe: about this recipe.
-    add_a_recipe: Add a recipe
-    all_recipes: All Recipes
-    bake_time: Bake time
-    confirm_delete: Are you sure you want to delete this recipe?
-    delete_recipe: Delete Recipe
-    deleted: Recipe deleted.
-    description: Description
-    directions: Directions
-    edit_recipe: Edit Recipe
-    ingredients: Ingredients
-    new_recipe: New Recipe
-    no_recipes_yet: No recipes yet!
-    no_results: No results
-    other_notes: Other notes
-    prep_cook_time: Prep/Cook time
-    recipes: Recipes
-    save_recipe: Save Recipe
-    saved: Recipe saved.
-    serving_size: Serving size
-    share_your_recipes: Share your favorite recipes with {{community}}.
-    title: Title
 
   relationships: 
     Reciprocate: Reciprocate
@@ -1913,81 +1681,17 @@ en:
     relationships: Relationships
     toggle_individual: Toggle Individual Relationship View    
 
-  reporting: 
-    Admins: Admins
-    and: AND
-    Creator: Creator
-    Criteria: Criteria
-    Last_Modified: Last Modified
-    Last_Run: Last Run
-    Name: Name
-    Reports: Reports
-    Sort_Order: Sort Order
-    Source: Source
-    Total_Runs: Total Runs
-    add_criteria: Add Criteria
-    add_group: Add Group
-    add_sort_attribute: Add Sort Attribute
-    cancel_changes: Cancel Changes
-    contains_case_insensitive: contains (case insensitive)
-    contains_case_sensitive: contains
-    edit_report: Edit Report
-    error_running_report: There was an error running this report.
-    flip_conjunctions: Flip Logical Conjunctions
-    greater_than: greater than
-    greater_than_or_equal: greater than or equal
-    is_exactly: is exactly
-    is_nil: is nil
-    is_not: is not
-    is_not_nil: is not nil
-    less_than: less than
-    less_than_or_equal: less than or equal
-    manage_and_run: Manage and run reports.
-    matches_case_insensitive: matches (case insensitive)
-    matches_case_sensitive: matches
-    move_down: Move Down
-    move_up: Move Up
-    new_report: New Report
-    not_one_of: not one of
-    one_of: one of
-    or: OR
-    remove_criteria: Remove Criteria
-    remove_sort_attribute: Remove Sort Attribute
-    report_database_offline: The reporting database is offline, so no reports can be run. Please contact your administrator.
-    restricted: Restricted
-    restricted_note: All admins with the 'run reports' privilege will be able to run this report.
-    run: run
-    run_reports: Run reports.
-    save_and_continue_editing: Save and Continue Editing
-    save_and_run_report: Save and Run Report
-    separate_values: "separate values with vertical pipe |"
-    show_tips: "Show Reporting Tips »"
-    tips:
-      - <em>nil</em> is not the same as an empty string. You may have to test for both, using an [or] group.
-      - The 'child' attribute is only <em>true/false</em> in cases where the birthday is unknown; otherwise, it is <em>nil</em>.
-      - For the best results in searching for adults, specify 'birthday' is <em>less than</em> "YYYY-MM-DD" (replace with the appropriate date) [or] 'child' is <em>false</em>
-      - The 'gender' attribute can only be "Male", "Female", or nil.
-      - The <em>matches</em> operator (and the case-insensitive version) require knowledge of <a href="http://en.wikipedia.org/wiki/Regular_expression">Regular Expressions</a>. Use the <em>contains</em> operator for simple searches.
-
   search: 
-    add_as_many_friends_you_like_html: You can add as many friends as you like! When you're finished, you can edit your <a href="{{url}}">friends list</a> to remove and put them in the order you want.
     add_selected: Add Selected
     advanced_search: Advanced Search
     all: All
     anniversary: Anniversary
     birthday: Birthday
     browse: Browse
-    browse_by_category: Browse By Category
-    browse_directory_description_html: Of course, you can also <a href="{{url}}">browse the directory</a> by name.
-    browse_the_directory: browse the directory
-    business: Business
     business_category: "Business Category:"
     business_directory: Business Directory
-    business_directory_description_html: Some of our members have businesses they'd like you to know about. Next time you go to grab the yellow pages, try the <a href="{{url}}">business directory</a> first.
-    businesses: Businesses
     category: Category
     city: City
-    click_the_icon_to_add_them: Click the {{img}} icon to add them.
     deacon: Deacon
     elder: Elder
     families_found: 
@@ -1995,34 +1699,25 @@ en:
       other: "{{count}} families found"
     family_name: Family Name
     female: Female
-    find_someone_quickly_html: You can always find someone quickly by typing all or part of their name in the <a href="#" onclick="{{js}};return false;">top-right</a> of the screen.
-    find_your_friends: Find Your Friends
-    friends_search_html: Use the <strong>fields on the left</strong> to search for your friends.
     gender: Gender
     heading: "{{name}} Directory"
-    hidden_profile: Hidden Profile
     male: Male
     member: Member
     results_not_shown: Some results not shown — be more specific.
     name: Name
-    new_family: New Family
     no_family: (no family)
     not_showing_hidden_people: (not showing hidden people)
     people_found: 
       one: 1 person found
       other: "{{count}} people found"
-    print: Print
     printed_directory: Printed Directory
-    printed_directory_description_html: The directory is constantly changing. While finding someone online is usually your best bet, you may desire to <a href="{{url}}">print the directory</a> for those 'offline' moments.
     search: Directory Search
     search_by_name: Search by name
-    search_the_directory: Search the Directory
     searching: Searching...
     show_all: (show all)
     show_hidden: Show Hidden
     staff: Staff
     state: State
-    use_advanced_search_html: Or, use the <a href="#" onclick="{{js}};return false;">advanced search</a> feature to change the results interactively.
     zip: Zip
 
   session:
@@ -2036,7 +1731,6 @@ en:
     i_need_help: I need help.
     load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
     max_sign_in_attempts: We're sorry, but you have exceeded the maximum number of sign in attempts within a 15 minute period. You may try again in 15 minutes.
-    never_share_your_password: Never share your password with anyone!
     no_users: No Users
     password: "Password:"
     password_confirm: "Password (confirm):"
@@ -2048,8 +1742,6 @@ en:
     sign_out: sign out
     sign_up_or_sign_in_html: "<a href=\"{{url}}\">Sign Up</a> for an account if you don't have one."
     there_are_no_users_in_the_system: There are no users in the system.
-    tour: tour
-    you_may_read_our_privacy_policy_here_html: You may read our Privacy Policy <a href="{{url}}">here</a>.
 
   setup:
     admin_account: Admin Account
@@ -2084,23 +1776,15 @@ en:
     about_html: "This is your custom-built homepage — things displayed here are from people in groups with you, your family and friends."
     ago: ago
     and_more: and {{length}} more by {{name}}...
-    blog: Blog
-    create_blog_post_html: Or, create a <a href="{{url}}">blog post</a> with a title and formatting...
-    enable_disable: Enable/Disable
-    facebook: Facebook
     feed: Feed
     flickr: Flickr
     import_blog_feed: Import Posts From Your Blog...
     import_facebook_updates: Import your Facebook status updates...
     import_flickr_photos: Import your Flickr photos...
-    import_from: Import from...
     import_twitter_updates: Import your Twitter updates...
-    more: More
-    my_activity: My Activity
     nothing_to_show: Right now, there's nothing to show.
     rss: RSS
     share_heading: Share With Friends
-    share_something: Share something.
     share_something_about: Items you share here will appear on your friends and fellow group members' home pages (but no one else's).
     show: Show
     twitter: Twitter
@@ -2122,7 +1806,6 @@ en:
   verses: 
     about_tags: Tags can group verses together by topic, author, date, or whatever.
     about_this_verse: about this verse. Share what it means to you or how it has helped you.
-    add_a_verse: Add a Verse
     add_this_verse_to_my_list: Add this verse to my list.
     add_verse: Add Verse
     add_your_favorite_verse: "Add your favorite verse:"
@@ -2136,7 +1819,6 @@ en:
     read_this_passage_at_youversion: Read this passage at YouVersion...
     remove_this_verse: Remove this verse from my list.
     tools: Tools
-    verse: Verse
     verses: Verses
 
   wall:

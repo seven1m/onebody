@@ -44,7 +44,7 @@ class PeopleController < ApplicationController
       end
     elsif @person and @person.deleted? and @logged_in.admin?(:edit_profiles)
       @deleted_people_url = administration_deleted_people_path('search[id]' => @person.id)
-      render :text => t('people.deleted', :url => @deleted_people_url), :status => 404, :layout => true
+      render :text => t('people.deleted_html', :url => @deleted_people_url), :status => 404, :layout => true
     else
       render :text => t('people.not_found'), :status => 404, :layout => true
     end

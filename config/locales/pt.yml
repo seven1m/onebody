@@ -3,17 +3,14 @@ pt:
   About: Sobre
   Answer_yes: Sim
   Answer_no: Não
-  Change: Mude
   Changes: Mudanças
   Changes_saved: Mudanças salvas.
   Delete: Deletar
   Done: Pronto
-  Edit: Editar
   Errors: Erros
   From: De
   Help: Ajuda
   Modify: Modificar
-  New: Novo
   Now: Agora
   No_action_to_show: Nenhuma ação respondeu ao mostrar
   No_more_records: Não há mais registros.
@@ -27,27 +24,20 @@ pt:
   What: O que
   When: Quando
   Who: Quem
-  You: Você
   answer_yes: "sim"
   answer_no: "não"
   are_you_sure: "Você tem certeza?"
-  are_you_sure_cannot_be_undone: Você tem certeza? Isto não pode ser desfeito!
-  back_to: Voltar para
   by: De
   changes: mudanças
   changes_saved: Alterações salvas.
   click_here: Clique aqui
-  close: fechar
   comment: comentário
   Comments: "Comentários"
   delete: deletar
-  doesnt: não
   edit: editar
   feature_unavailable: "Esta função ainda não está disponível."
-  file_not_found: Arquivo não encontrado
   for: para
   from: de
-  group: Grupo
   help: ajuda
   in: em
   insert: inserir
@@ -56,7 +46,6 @@ pt:
   name: Nome
   new: novo
   new_category: nova categoria
-  next: Próximo
   none: nenhum
   not_authorized: "Você não está autorizado"
   of: de
@@ -74,7 +63,6 @@ pt:
   submit: Submeter
   to: to
   type: Tipo
-  you_dont: Você não
   your: Seu
 
   errors:
@@ -299,12 +287,10 @@ pt:
     add_person: Adicionar Pessoa
     add_selected: Adicionar Selecionado
     add_template: Adicionar Modelo
-    alerts: Alertas
     already_admin: "{{name}} já é um admin."
     api: API
     api_login_details: Seu detalhe de login da API
     customization: Customização
-    demote_to_standard_admin: "Rebaixar para admin padrão."
     deleted_people:
       deleted_people: Pessoas Deletadas
       empty_families: Famílias sem Pessoas
@@ -314,8 +300,6 @@ pt:
       purge_when_empty: E limpar família quando vazia.
       search_results: Os resultados da sua busca são mostrados abaixo.
       undelete: Desfazer
-    deleted_records: Registros Deletados
-    deleted_records_manage: Gerenciar pessoas e famílias deletadas.
     display: mostrar
     enable: Habilitar
     enable_api_confirmation: Você tem certeza que deseja remover a sua chave de API?
@@ -325,8 +309,6 @@ pt:
       clear_flags: Limpar Marcações
       description: Quando um usuário muda o seu endereço de email online, uma marcação é feita e as sincronizações subsequêntes não podem mudar o endereço de email de volta até que a marcação for limpa. Para limpar a marcação, simplesmente configure o endereço de email do usuário na sua fonte de dados externa para a mesma listada abaixo e então execute o seu processo de sincronização (ou espere que ele seja executado no próximo agendamento). Alternativamente, você pode limpar a marcação manualmente para permitir que o processo de sincronização atualize o valor como normalmente o faria.
       no_records: Não há registros com o endereço de email alterado.
-    error_saving: Houve um erro ao salvar a mudança.
-    export_data: Exportar Dados
     file:
       assets: Arquivos
       back_to_theme_editor: voltar para o editor de tema
@@ -341,7 +323,6 @@ pt:
     group_administrators_help: Para adicionar/remover uma pessoa como um administrador de grupo, clique em "editar", próximo ao grupo e promova um membro existente.
     group_membership_requests: Requisições de Afiliação em Grupo
     home: Início Admin
-    import_data: Importar Dados
     import_data_description: Importar dados de pessoas de um arquivo separado por vírgulas (CSV).
     invalidate_confirmation: Você tem certeza que deseja invalidar esta chave e criar uma nova?
     last_updated: Última Atualização
@@ -377,14 +358,10 @@ pt:
     new_api_or: a nova chave de API ou
     no_api_key: Você não tem uma chave de API.
     no_more_admins: Não são permitidos mais admins.
-    page_number_when_prompted: 
-      one: Entre com o número da página quando solicidado ({{count}} registro por página).
-      other: Entre com o número da página quando solicidado ({{count}} registros por página).
     pages: Páginas
     people_not_synced_to_donortools_count:
       one: "1 pessoas está fora de sincronia com o Donor Tools."
       other: "{{count}} pessoas estão fora de sincronia com o Donor Tools."
-    promote_to_super_admin: "Promover para super admin."
     request:
       one: requisição
       other: requisições
@@ -634,26 +611,21 @@ pt:
       reload_message: If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.
       save: Salvar Configurações
       settings: Configurações
-    show_privileges: mostrar privilégios
     syncs:
       complete: Completado
       duration: Duração
       error: Erro
       id: ID
-      incomplete: Incompleto
-      last: Última Sincronização
       legacy_id: ID Legado
       name: Nome
       none: Nada ainda.
       operation: Operação
       rate: Categoria
       results: Resultados de Sincronização
-      review_results: Revisar resultados de sincronizações anteriores.
       start: Começo
       status: Status
       success: Sucesso
       sync: Sincronização
-      sync_error: erro de sincronização
       syncs: Sincronizações
       type: Tipo
     themes:
@@ -690,10 +662,6 @@ pt:
       updated: atualizado
       updates: Atualizações
     username: Nome de Usuário
-    view_contributions: "Visualizar e gerenciar contribuições."
-    welcome_message: Bem vindo, {{name}}.
-    you_are_admin: Você é um administrador com os privilégios
-    you_are_super: Você é um super administrador
     your_key: sua chave
 
   accounts:
@@ -744,7 +712,6 @@ pt:
     verify_mobile: Verificar por Número de Celular
     verify_who_you_are: Primeiro, nós precisamos verificar quem você é. Por favor escolha uma das seguintes opções de verificação de identidade. Você só precisa fazer isto uma vez e levará apenas alguns minutos.
     wrong_code: Você digitou o código errado.
-    year_required: Ano é requerido
     you_use: você usa
     your_birthday: Data de Aniversário com o Ano (requirido)
     your_carrier_will_charge: A sua operadora de celular pode e provavalmente cobrará para você receber esta mensagem de texto. Clique OK para continuar.
@@ -765,7 +732,6 @@ pt:
     new: Novo Álbum
     new_picture: Nova Foto do Álbum
     picture_albums: Álbuns de Foto
-    pictures_may_show_on_feed: "*As fotos podem ser mostradas no feed de atividade dos seus amigos e membros do grupo."
     profile: "Perfil - mostrar este álbum somente no meu perfil.*"
     public: Público  - mostrar este álbum na página "Todas as Fotos" do meu perfil.
     save: Salvar Álbum
@@ -804,8 +770,6 @@ pt:
     group: Grupo
     group_missing: grupo faltando
     id: ID
-    last_date: Última data
-    manage_and_export: Gerenciar e exportar frequências.
     name: Nome
     name_unknown: nome desconhecido
     next_date: próxima data
@@ -813,9 +777,6 @@ pt:
     not_enabled: Registro de frequência não está habilitado para este grupo.
     prev_date: data anterior
     recorded_time: Horário Gravado
-    records_from_count:
-      one: "{{count}} registro de frequência de"
-      other: "{{count}} registros de frequência de"
     records_per_day: Registros de Frequência por Dia
     save: Salvar Frequência
     saved: Frequência salva.
@@ -836,7 +797,6 @@ pt:
     commented_on: comentado em
     deleted: Comentário Deletado.
     leave_another_note_for: Deixe outra nota para {{name}}
-    leave_note: Deixe uma Nota
     leave_note_for: Deixe uma nota para {{name}}
     leave_a_note_for: Deixe uma nota para
     none_yet: nada ainda
@@ -895,13 +855,10 @@ pt:
     cannot_delete_your_own: Você não pode deletar a sua própria família.
     city_st_zip: Cidade, Estado, CEP
     delete: Deletar Família
-    delete_person: Deletar Pessoa
     deleted_confirmation: Família Deletada?
     drag_to_reorder_members: Arraste as setas verdes para reordenar os membros da família.
     edit: Editar Família
-    edit_person: Editar Pessoa
     existing_person: Pessoa Existente
-    families: Famílias
     family_id: ID da Família
     find_on_map: Encontrar endereço no mapa
     last_name: Último Nome da Família
@@ -912,10 +869,8 @@ pt:
     name_example_html: "<em>João Silva</em> ou <em>João &amp; Maria Silva</em>"
     new: Nova Família
     no_one_yet: Ainda não há ninguém nesta família.
-    no_photo: não existe uma foto da família
     not_found: Família não encontrada.
     only_in_mysql: Este método somente está disponível nos ambientes MySQL.
-    reorder: Reordenar Pessoa (clique e arraste)
     save: Salvar Família
     saved: Família salva.
     select_before_proceeding: Por favor selecione a família antes de proceder.
@@ -960,43 +915,32 @@ pt:
 
   friends: 
     accept: Aceitar Amigo
-    add_friend: Adicionar Amigo
     add_friend_are_you_sure: Você tem certeza? Um email será enviado para esta pessoa requisitando amizade.
     add_to_friends: Adicionar aos Amigos
     add_your_friends_to_profile_html: <a href="{{url}}">Adicionar seus amigos</a> à sua página de perfil!    
     added_as_friend: "{{name}} foi adicionado(a) como seu amigo(a)."
     already_pending: Um pedido de amizade já está pendente com {{name}}.
-    can_rearrange_list: Você pode organizar os seus amigos clicando no ícone {{img}} e arrastando-os para cima/baixo com o seu mouse.
     cannot_request: Você não pode fazer um pedido de amizade com {{name}}.
-    confirm_email_will_be_sent: "Você tem certeza? Um email será enviado a essa pessoa com o convite de amizade."
     decline: Recusar Amigo
     friend_request_pending: pedido de amizade pendente
     friends: Amigos
     pending_requests: Pedidos de Amizade Pendentes
     people_requested: As seguintes pessoas pediram para ser seu amigo.
     personal_friends: "Amigos do(a) {{name}}"
-    reorder_list: Reordenar esta lista arrastando.
     remove_from_friends: Remover dos Amigos
     request_sent: Um pedido de amizade foi enviado para {{name}}.
-    top_on_profile: O máximo de {{max_number}} amigos é mostrado na página de perfil.
     search_in_the_directory: Procurar por amigos no diretório
     unknown_state: estado desconhecido
     you_have_pending_requests_html: Você tem <a href="{{url}}">pedidos de amizade</a>.
 
   groups:
-    25_of: "25 de"
     accept: Aceitar
-    add_group: Adicionar Grupo
     add_somebody: Adicionar alguém
-    all_groups: Todos os Grupos
-    approval: aprovação
     approval_required_to_join: Uma aprovação é requerida para pessoas entrarem neste grupo
     approve_group: Aprovar Grupo
     approved: Aprovado
     are_you_sure_option: Você tem certeza que deseja {{option}} os emails deste grupo {{group}}?
-    attachments: Anexos
     attendance: Frequência
-    back_to: voltar ao grupo
     back_to_homepage: Voltar à Página Inicial do Grupo
     batch_edit_groups: Editar Grupos em Lote
     by_allow_anyone_to_join: Ao permitir que qualquer um entre neste grupo sem que um administrador aprove, potencialmente qualquer usuário do site pode ler mensagens no grupo "privado".
@@ -1005,7 +949,6 @@ pt:
     category: Categoria
     category_required: Categoria (requerido)
     cannot_remove_last_admin: Você não pode remover o último administrador do grupo. Você pode deletar o grupo se preferir.
-    change: Mudar
     change_email_settings: Mudar Configurações de Email
     change_this_picture: Mudar esta Foto
     class_link_code: "Código(s) de Classe do Link:"
@@ -1027,20 +970,14 @@ pt:
     email_from_group_is_off: emails deste grupo estão DESLIGADOS
     email_settings_changed: As suas configurações de email para o grupo foram alteradas.
     enable_attendance_tracking: Habilitar Registro de Presença
-    enable_blog: Habilitar Blog
     enable_email: Habilitar Email
     enable_prayer_requests: Habilitar Pedidos de Oração
     features: Características
     following_are_pending_approval:
       one: "O seguinte grupo está pendente:"
       other: "Os seguintes grupos estão pendentes:"
-    group_calendar: Calendário do Grupo
     group_emails: Emails do Grupo
     group_members_can_post: Membros do Grupo podem Postar Mensagens
-    group_notes: Notas do Grupo
-    group_pictures: Fotos do Grupo
-    group_prayer: Oração do Grupo
-    group_wont_be_visible: O Grupo não será visível nos perfis dos membros ou outra listagem de grupos (a não ser que você seja um administrador).
     groupies: Grupos
     hidden_group: Grupo Oculto
     hidden_groups: Grupos Ocultos
@@ -1055,7 +992,6 @@ pt:
     leader_id: Id do Líder
     leave_this_group: Deixar este Grupo
     linked: Grupos Conectados
-    location: Local
     location_address: Local e Endereço
     meets: Encontros
     meets_when: Quando o grupo se encontra
@@ -1068,44 +1004,36 @@ pt:
     not_authorized_view: Você não está autorizado a visualizar este grupo
     not_authorized_post: Você não está autorizado a postar neste grupo.
     not_found: Grupo não encontrado.
-    notes: Notas
     no_groups_found: nenhum grupo encontrado
-    no_online_group_activity: Não existe nenhuma atividade do grupo para mostrar.
     only_admins_see_this_list: Somente administradores (como você) enxergam esta lista
     or_send_from_your_email_html: "Ou envie para <a href='mailto:{{email}}'>{{email}}</a> do seu programa de email."
     other_notes: Outras Notas
     parents_of: "Pais de:"
-    pending_approval: "{{following}} aprovação"
     pending_approval_count:
       one: "{{count}} grupo pendente de aprovação"
       other: "{{count}} grupos pendentes de aprovação"
-    pending_membership_request_count:
+    membership_request_count:
       one: "{{count}} requisição de associação pendente"
       other: "{{count}} requisições de associação pendentes"
     privacy_security: Privacidade e Segurança
     private_group: Grupo Privado
     promote: Promover
-    recent_activity: Atividade Recente
     remove_group_photo: Remover Foto do Grupo
-    remove_selected: Remover Selecionado
     requests: Requisições
     request_sent: Uma requisição para entrar neste grupo foi enviada ao(s) administrador(es) do grupo.
     request_will_be_sent_to_admins: Você tem certeza? Uma requisição será enviada ao(s) administrador(es) do grupo.
     settings_saved: Configurações do grupo foram salvar.
     scroll_left_and_right: Arraste para esquerda e direita para visualizar todas as colunas.
     select_one_or_more: Selecione uma ou mais opções abaixo e escolha uma ação
-    separate_codes_with_space: Separe múltiplos códigos com um espaço.
     show_all: Mostrar todos...
     the_settings_are_for_advanced_users: As configurações abaixo são para usuário avançados.
     there_was_errors_saving: Existe um ou mais erros ao salvar as mudanças. Os registros com erro estão destacados em vermelho. Arraste para visualizar todas as mensagens de erro.
-    this_group_doesnot_offer: Este grupo não oferece nenhuma característica e existe somente a fins de informação.
     this_group_has_pending_html: Este grupo possui <a href="{{url}}">pedidos de associação</a> pendentes.
     this_group_is_hidden: Este grupo é oculto.
     this_group_is_pending_approval: Este grupo está com a aprovação pendente.
     this_group_is_pending_you_may_not_add_people: Este grupo está com a aprovação pendente. Você ainda não pode adicionar nenhuma pessoa nele.
     this_group_is_private: Este grupo é particular. Somente pessoas participantes podem visualizar as mensagens.
     this_group_maintained_by_staff: Este grupo é mantido pelo staff.
-    this_picture: Esta Foto
     types: Tipos de Grupos
     user_settings_saved: Configurações de usuário salvas.
     view_group: Visualizar Grupo
@@ -1144,15 +1072,12 @@ pt:
     with_errors: com erros
 
   layouts:
-    credits: Créditos
-    full_site: Visualização Normal
     this_is_the_fallback_template: Este é um template usado no caso do seu selecionado não puder ser encontrado. Por favor verifique que as suas configurações de Tema aponte a um diretório real dentro do diretório themes/.
     powered_by_html: Provido por <a href="http://beonebody.com" rel="external">OneBody</a>
     privacy_policy: Política de Privacidade
 
   messages: 
     ago: atrás
-    attachment: Anexo
     attachment_optional: Anexo (opcional)
     attachments: Anexos
     delete_message: Deletar Mensagem
@@ -1165,10 +1090,7 @@ pt:
     in: em
     message: Mensagem
     message_by: Mensagem de
-    message_view: Visualização de Mensagem
-    messages: Mensagens
     messages_in_html: Mensagens em <a href="{{url}}">{{name}}</a>
-    messages_on: no
     missing_param: O parâmetro da mensagem está faltando.
     no_email_for_person: Desculpe. Não não temos um endereço de email para {{name}}.
     not_authorized_delete: Você não está autorizado a deletar esta mensagem.
@@ -1185,36 +1107,28 @@ pt:
     some_quoted_text_is_hidden: Algumas citações nesta mensagem estão ocultas;
     subject: Assunto
     this_group_is_not_private: Este grupo não é particular, então as mensagens enviadas aqui serão visíveis por pessoas que não são membros deste grupo.
-    this_message_will_be_visible: Esta mensagem será visível para qualquer um que puder visualizar o  perfil de {{name}}.
     this_will_send_an_email_to: Isto irá enviar um email para {{group}}.
     this_will_send_a_private_email_html: Isto irá enviar um email <em>particular</em>.
     to_show_the_entire_message: para mostrar a mensagem inteira.
     unknown_type: Tipo de mensagem desconhecido.
-    wall: Parede de Recados
     wall_not_found: Parede de Recados não encontrada
     wall_post: Mensagem na Parede de Recados
 
   nav: 
-    bible: "Bíblia"
     directory: "Diretório"
     groups: Grupos
     home: "Início"
-    pages: "Páginas"
     podcasts: Podcasts
     profile: Perfil
 
   news: 
-    all_news: "Todas as Notícias"
-    by: por
     body_description: "Compartilhe os seus anúncios, informações ou notícias aqui:"
     deleted: Notícia deletada.
     edit_news_post: Editar Postagem de Notícias
     if_you_have_something_to_share_html: Se você têm alguma notícia para compartilhar, <a href="{{url}}">submeta-a aqui</a>.
     news: "Notícias"
     news_feed: Feed de Notícias
-    news_with_advanced_formatting_html: Ou, compartilhe <a href="{{url}}">notícias com formatação avancada...</a>
     no_news_is_available: Nenhuma notícia está disponível neste momento.
-    posted: Postado
     return_to_news: « Retorna às Notícias
     save_news: Salvar Notícias
     saved: Notícia salva.
@@ -1241,8 +1155,6 @@ pt:
     posted_by: postada por
     save_note: Salvar Nota
     saved: Nota salva.
-    share_note: Compartilhar Nota
-    share_note_description: "O que você está fazendo? O que você têm em mente?"
     this_note_will_be_posted: Esta nota será postada no blog do grupo {{group}}.
     this_note_will_not_be_private_html: "Esta nota <strong>não</strong> será particular porque é um post de blog. Para enviar uma mensagem particular, envie um email para o grupo."
     title: Título
@@ -1278,40 +1190,25 @@ pt:
     are_you_sure: Você tem certeza? Isto irá deletar todas as páginas filhas desta permanentemente!
     body: Corpo da Página
     collapse: recolher
-    deleted: Página deletada.
     edit_page: Editar Página
-    edit_pages: Editar Páginas
     expand: expandir
-    help_and_system_pages: "As páginas de 'Ajuda' e 'Sistema' são usadas pelo OneBody e podem ser adaptadas para as necessidades de sua comunidade. Outras páginas são somente visíveis se a característica de Sistema de Gerenciamento de Conteúdo estiver habilitada."
     loading: carregando...
     new_page: nova
-    new_root_page: nova página raiz
     not_found: Página não encontrada.
     pages: Páginas
-    path: Caminho
-    published: Publicada
-    raw: HTML Puro
-    save_and_continue_editing: Salvar e Continuar Editando
     saved: Página salva.
     template_not_found: Modelo não encontrado.
     title: Título
     to_add_attachment_first_save_it: Para adicionar um anexo à esta página, primeivo é necessário salvá-la.
-    unpublished: não publicada
     upload_attachment: Carregar Anexo
     view_page: Exibir Página
-    visible_in_navigation: Visível na Navegação
 
   people:
-    about: Sobre
     about_me: Sobre Mim
-    access: Acesso
     add_group: Adicionar Grupo
-    add_new_person_existing_family: Adicionar Nova Pessoa a uma Família Existente
     advanced: Avançado
     activities: Atividades
     alternate_email: Email Alternativo
-    back_to: voltar para {{name}}
-    basics: Básico
     books: Livros
     business: Negócios
     business_directory: Diretório de Negócios
@@ -1331,27 +1228,15 @@ pt:
     child_alert: Você necessita especificar se a pessoa é uma criança (menor de {{years}} anos) ou não para completar esta atualização.
     click_to_send_verification_email: Clique OK para enviar um email de verificação para este usuário. Assim que o usuário clicar o link no email, ele poderá setar a sua senha e entrar no sistema.
     click_to_change_email_html: <a href="{{url}}">Clique aqui</a> para mudar o seu endereço de email.
-    completely_private: completamente particular
-    create_new_family: Criar uma Nova Família
-    current_services: "Ministérios atuais:"
     deleted_html: Esta pessoa foi deletada. Você pode restaurá-la <a href="{{url}}">aqui</a>.
     description_of_business: Descrição dos Negócios
     determine_by_birthday: Determinar pela data de nascimento
     email: Email
     email_address: endereço de email (usado no login da conta) é
-    enter_family_details: Entre os Detalhes da Família
     enter_new_category: Entre um nova categoria.
-    edit_family: Editar Família
-    edit_favorites: Editar Favoritos
-    edit_testimony: Editar Testemunho
     family: Família
     family_legacy_external_id: Família Legada/ID Externo
-    family_pic: Fotos de Família
-    favorites: Favoritos
-    favs: Favoritos
-    feeds: Feeds
     find_a_group_html: Encontre um grupo <a href="{{url}}">aqui</a>.
-    freeze: Congelar
     friend_not_found: Amigo não encontrado.
     friendship_accepted: Amizade confirmada.
     friendship_manage: Você não pode gerenciar pedidos de amizade para ninguém além de você.
@@ -1360,71 +1245,39 @@ pt:
     full_access: Acesso Total
     groups: Grupos
     no_email: "{{name}} não tem um endereço de email no sistema"
-    hidden_profile: Perfil Oculto
     if_you_have_another_email: Se você têm outro email (talvez um endereço comercial) você pode utilizá-lo para enviar emails para os grupos e você pode digitá-lo aqui.
     if_you_wish_to_be_listed_business_dir_html: Se vocês quiser ser listado no <a href="{{url}}">Diretório de Negócios</a>, entre o nome da empresa, descrição e outros detalhes abaixo.
     if_you_wish_to_remove_something_html: Se você quiser remover algo abaixo para prevenir que outros possam ver, vá à página de <a href="{{url}}">Privacidade</a> e oculte-os.
-    if_your_system_is_setup_to_sync: Se o seu sistema está configurado para sincronização com uma fonte de dados externa (ex. um sistema de gerenciamento de membros), deletar esta pessoa pode não ser permanente e ela pode reaparecer na próxima sincronização.
     if_your_system_is_setup_to_sync_change: Se o seu sistema está configurado para sincronização com uma fonte de dados externa (ex. um sistema de gerenciamento de membros), mudanças nesta pessoa podem ser sobrescritas na próxima sincronização.
-    info: Info
     interests: Interesses
-    leave_message_for: "Deixe uma mensagem para {{name}}:"
     legacy_external_id: Legado/ID Externo
     movies: Filmes
-    my_calendar: Meu Calendário
-    my_favorites: Meus Favoritos
-    my_messages: Minhas Mensagens
-    my_notes: Minhas Notas
-    my_pictures: Minhas Fotos
-    my_recipes: Minhas Receitas
-    my_testimony: Meu Testemunho
-    my_verses: Meus Versículos
     music: Música
-    new_family: Nova Família
     new_person: Nova Pessoa
     no_additional_access_avaiable: Nenhuma opção de acesso adicional está disponível neste momento.
-    no_families_found: Nenhuma família encontrada.
     no_family_for_this_person: Esta pessoa não faz parte de nenhuma família. Ela não conseguirá entrar e não será visível a outros no site.
     no_groups_yet: não há grupos ainda
     not_deleted: Pessoa não foi deletada.
     not_found: Pessoa não encontrada.
-    note_for: Nota para {{name}}
     nothing_here_yet: Nada aqui ainda!
-    nothing_yet: Nada ainda!
     only_an_approximation: somente uma aproximação
     pending_approval: aprovações pendentes
-    pending_updates: Atualizações Pendentes
     people: Pessoas
     person:
       one: 1 Pessoa
       other: "{{count}} Pessoas"
     person_isnt_any_groups: "{{person}} não está em nenhum grupo agora."
     person_type: Tipo de Pessoa
-    pic: Foto
-    please_only_upload_real_photo_html: Por favor, somente carregue uma <span class="very-strong">foto real</span> — nenhum desenho, clip-art ou fotos falsas por favor.
-    previously_served: "Serviu antes em:"
-    private_but_shared_group_members: particular mas compartilhado com alguns membros do grupo
-    profile_tab: Tab de Perfil
     quotes: Frases
-    read_more_testimonies: Ler mais testemunhos...
     save_access: Salvar Acessos
-    search_for_anniversaries: procurar por {{anniversary}} aniversários de casamento 
-    search_for_birthdays: procurar por {{birthday}} aniversários
-    search_people_city: procurar pessoas nesta cidade
-    search_people_state: procurar pessoas neste estado
-    search_people_zip: procurar pessoas neste cep
     select_file_to_upload: "Selecione um arquivo no seu computador para carregar:"
     send_email: Enviar Email
-    send_email_when_someone_posts_wall: Envie-me um email quando alguém postar mensagens na minha parede de recados.
-    search_existing_family_html: Procurar famílias <em>existentes</em>
-    separate_items_with_commas: Separe os itens com vírgulas para que eles possam ser relacionados com os mesmos interesses de outras pessoas.
     services_provided_by: Ministérios providos por
     share_your_personal_testimony: Compartilhe o seu testemunho pessoal — como você passou a conhecer Jesus Cristo e como Ele mudou a sua vida.
     show_a_map_here_html: Exiba um mapa aqui, fornecendo ao OneBody a sua chave do Yahoo Maps API. <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Clique aqui</a> para ajuda.
     show_full_screen: exibir em tela cheia
     show_hidden_groups: Exibir Grupos Ocultos
     suffix: Sufixo
-    tell_about_your_favorite_html: Conte sobre seus interesses preferidos, música, filmes e mais <a href="{{url}}">aqui</a>.
     tell_us_about_yourself: Conte-nos sobre você. Como é sua personalidade? O que o seu melhor amigo diz sobre você?
     testimony: Testemunho
     these_do_not_control_access: Isto não controla acesso — apenas visualização.
@@ -1433,26 +1286,19 @@ pt:
     this_event_doesnt_have_pictures: "Este evento ainda não contém nenhuma foto."
     this_person_is_not_an_adult: Acreditamos que esta pessoa seja menor de {{years}} anos de idade e não possui o consentimento dos seus pais.
     this_profile_is_hidden: Este perfil é oculto
-    this_profile_is_hidden_from_people: Este perfil é oculto da maioria das pessoas.
     tv_shows: Programas de TV
-    type_web_address: "Ou, qualquer endereço na web para a sua imagem:"
-    unfreeze: Descongelar
     upload_a_picture_of_html: Carregue uma <strong>foto do {{name}}</strong>.
     upload_family_picture_html: Carregue uma <strong>foto da família</strong>.
     update_to_profile_is: Uma atualização a este perfil é
     visibility: Visibilidade
     visible_on_printed_directory: Visível no Diretório Impresso
     visible_to_everyone: Visível a Todos
-    wall_emails: Emails da Parede de Recados
     website: Website
     where_are_my_kids: Aonde estão minhas crianças?
-    would_like_to_serve: "Gostaria de servir em:"
-    write_something_about_yourself_html: Escreva algo <a href="{{url}}">sobre você</a>.
     you_arent_in_any_groups: Você ainda não está em nenhum grupo.
     you_many_not_make_changes: Você não pode fazer mudanças à sua conta nesse momento.
     you_will_not_able_use_this_address: Você não poderá usar esse endereço para entrar neste site.
     your_account_has_been_frozen: Sua conta está congelada.
-    your_picture: Sua Foto
 
   people_count: 
     are: pessoas estão
@@ -1462,7 +1308,6 @@ pt:
 
   photos:
     object_not_found: Objeto não encontrado.
-    please_choose_photo: Por favor escolha uma foto que não irá ofender os outros.
     remove: Remover {{name}}
     unavailable: Foto indisponível.
     upload: Carregar {{name}}
@@ -1470,25 +1315,17 @@ pt:
   pictures: 
     add_a_picture: Adicionar uma Foto
     album: Álbum
-    all_pictures: Todas as Fotos
-    are_you_sure: "Você tem certeza? Deletando este álbum, você também deletará todas as suas fotos!"
+    delete_are_you_sure: "Você tem certeza? Deletando este álbum, você também deletará todas as suas fotos!"
     cant_delete: Você não pode deletar esta foto.
     cant_edit: Você não pode editar esta foto.
     click_to_enlarge: clique para alargar
     click_to_see_original: clique para ver o original
     comment_on_this_picture: Comente esta foto
     delete_album: Deletar Álbum
-    delete_picture: Deletar Foto
     edit_album: Editar Álbum
-    enter_the_new_album_title: Entre um novo título para o Álbum.
-    error_finding: Houve um erro ao encontrar este álbum. Por favor tente novamente.
     failed: "{{fail}} não salvas devido a erros"
-    in_album: no álbum
     next: próximo »
-    picture: Foto
     picture_uploaded_by: Foto carregada por
-    pictures: Fotos
-    posted_in: Postada em
     prev: « anterior
     rotate_left: Girar à Esquerda
     rotate_right: Girar à Direita
@@ -1496,7 +1333,6 @@ pt:
     set_as_cover: Setar como Capa
     hide_my_name: "Essas são fotos gerais da comunidade — não mostre meu nome nelas (opção somente para administradores)."
     upload: Carregar!
-    upload_more: Carregar mais »
 
   podcasts:
     not_configured: Sermondrop não está configurado.
@@ -1563,84 +1399,42 @@ pt:
     anniversary: Aniversário de Casamento
     as_a_parent_agree_html: Eu, como o pai/mãe ou guardião legal de {{name}}, concorco que eu li a <a href="{{url}}">Política de Privacidade</a> deste site, e as informações pessoais de {{name}} podem ser mostradas para outros usuários deste web site (como determindado pelas configurações de privacidade desta página), e que {{name}} pode, se habilitado, utilizar este website como um usuário normal (incluindo customização de perfil, comunicação via mensagens privadas, parede de recados, grupos, etc.).
     birthday: Data de Nascimento
-    by_turning_off: Ao desligar a visibilidade no site, {{name}} não aparecerá em lugar nenhum neste web site.
-    by_turning_off_site_visibility: Ao desligar a visibilidade no site
-    cant_edit: Você não pode editar estas configurações. Desculpe.
-    change_email_password: Alterar Email/Senha
     child_profile_has_parental_consent: Esse perfil de criança possui um consentimento dos pais de {{name}}.
     child_under_age_no_parents_consent: "Esta criança tem menos de {{years}} anos e seus pais não derão permissão para permitir que a sua informação seja exibida."
     child_under_age_you_have_not_consent: "Esta criança tem menos de {{years}} anos e você não deu a permissão para 1) permitir que a informação dela seja exibida, e 2) permitir que ela entre e use este web site."
     click_the_agree: "Clique no botão 'Eu concordo'."
-    default: Padrão
     detail: Detalhe
-    disabling_private_messages: Desabilitando mensagens privadas irá prevenir {{name}} de receber emails através deste web site. Também, {{name}} não poderá enviar mensagens a grupos ou outras pessoas diretamente, porque não existirá como as pessoas responderem. Você tem certeza que deseja desabilitar as mensagens privadas?
-    edit_profile: Editar Perfil
     email: Email
-    entire_family_will_not_appear: família inteira não aparecerá em nenhuma das buscas. Porém, é ainda possível entrar em grupos e receber emails dos administradores do site.
     family_hidden: "{{your}} família está atualmente oculta de todas as páginas deste site!"
     family_privacy: Privacidade da Família
     fax: Fax
     group_privacy: Privacidade do Grupo
-    have_concerns_regarding_this: Se você possui restrições ligadas a isso, por favor entre em contato no {{phone}} imediatamente.
     hidden: Oculto
     hide_your_activity: "Oculte a sua atividade se você não deseja que seus amigos e/ou membros de grupos visualizem as suas mensagens públicas, notas, versículos, etc. na página inicial deles. Nota: Mensagens privadas nunca são exibidas, independente desta configuração."
-    home: Casa
     home_phone: Telefone Residencial
     i_agree: Eu concordo
-    if_this_is_unchecked: Se isto estiver selecionado e {{name_possessive}} email for oculto, outros não terão como enviar uma mensagem privada diretamente para {{first_name}} através deste site.
-    invisible: Invisível
-    missing_params: parâmetros faltando
-    mobile: Celular
     mobile_phone: Celular
     modify_the_privacy_settings_html: Modifique as configurações de privacidade para você e a sua família abaixo. Para entender como nós usamos as suas informações pessoais e da sua família, por favor leia a nossa <a href="{{url}}">Política de Privacidade</a>.
-    not_sharing: Não Compartilhando
-    only_adult_can_edit: Somente um adulto pode editar essas configurações e de acordo com nossos registros você não é. Por favor nos contate se você acredita que isso é um erro.
-    person_is_hidden: "{{name}} has been hidden from all pages on this site!"
     please_read_our_privacy_policy_html: Por favor leia a nossa <a href="{{url}}">Política de Privacidade</a> para detalhes sobre o uso de suas informações pessoais.
     people_can_still_send_html: As pessoas ainda podem enviar um email para a sua família <a href="#" onclick="alert('Um usuário pode enviar uma mensagem para outro através deste site. O sistema é monitorado contra abusos e permite as pessoas te contatar sem possuir o seu endereço de email. Nós recomendamos que você deixe o seu endereço de email privado para previnir emails não solicitados.');return false;">através do site</a> se as Mensagens Privadas estiverem habilitadas.
-    privacy_settings: Configurações de Privacidade
     privacy: Privacidade
     private: Particular
-    private_message: Mensagem Particular
-    private_messages_enabled: "Mensagens Privadas habilitadas:"
-    public: Público
-    read_privacy_policy_html: Leia a nossa <a href="{{url}}">Política de Privacidade</a>.
-    read_safeguarding_children_html: Leia a nossa página sobre <a href="{{url}}">guardando nossas crianças</a>.
     read_statement_below: Leia o texto abaixo e concorde selecionando o checkbox correspondente.
-    save_family_settings: Salvar configurações de Família
-    save_personal_settings: Salvar configurações Pessoais
     saved: Configuraçoes salvas.
-    saved_family: Configuraçoes de Família salvas.
-    saved_personal: Configurações Pessoais salvas para {{name}}.
     sharing_with_html: Compartilhando com <a href="{{url}}">{{name}}</a>
-    space_to_post_messages: Um espaço para pessoas postarem mensagens para {{name}} e outros visualizarem.
     the_items_are_visible_html: "Os seguintes itens estão visíveis a todos <a href=\"{{url}}\">mude aqui</a>:"
     the_items_may_be_shared: "Os seguintes itens podem estar compartilhados com outros membros do {{name}}:"
-    the_year_is_never_shown: O ano nunca será mostrado.
-    these_settings_affect_your_family: Essas configurações afetam a sua família inteira. Configurações de Privacidade Pessoal (a outra aba) podem sobescrever essas configurações.
     this: esta
-    to_show_on_this_site: "Para mostrar o {{name}} neste site, por favor:"
-    view_profile: Visualizar Perfil
     visible: Visível
-    visible_on_site: visível no site
-    wall: Parede de Recados
-    work: Trabalho
     work_phone: Telefone Comercial
     you_are_not_sharing_with_groups: Você não está compartilhando o seu {{sharing}} com nenhum grupo específico.
     you_are_sharing_with_groups: "Você está compartilhando o seu {{sharing}} com os seguintes grupos:"
-    you_have_activity_sharing_disabled_html: Você possui o compartilhamento de atividades desabilitado nas suas <a href="{{url}}">configurações de privacidade</a>, então as informações que você compartilha aqui somente serão exibidas no seu perfil.
-    you_made_a_change_page: Parece que você fez alguma mudança nesta página. Tenha certeza que você salvou suas alterações antes de deixá-la.
-    you_made_a_change_tab: Parece que você fez alguma mudança nessa aba. Tenha certeza que você salvou suas alterações antes de ir para outra aba. Click OK para salvar suas alterações primeiro.
-    you_may_override: Você pode sobrescrever as configurações da família para {{name}} ao fazer as mudanças abaixo.
     you_may_share_items: "Você pode compartilhar itens com os membros dos seguintes grupos:"
     you_must_check_agreement_statement: Você deve marcar a caixa indicando que você concorda com o texto abaixo.
-    your: sua
 
   publications: 
     add_publication: Adicionar Publicação
     add_publication: Adicionar Publicação
-    all_publications: Todas as Publicações
-    currently_signed_up: Você está registrado para receber notificações por email quando novas publicações forem disponibilizadas aqui.
     deleted: Publicação foi deletada.
     description: Descrições
     email_notifications: Notificações por Email
@@ -1657,37 +1451,11 @@ pt:
     publications: Publicações
     save_publication: Salvar Publicação
     saved: Publicação foi gravada.
-    signed_to_recieve: registrada para receber notificações
     start_receiving_notifications: Se você deseja receber notificações por email quando novas publicações forem disponibilizadas aqui nesta página,
     subscribe: Subscrever
     subscribe_feed_html: <a href="{{url}}">Subscrever</a> à essa Publicação com o seu leitor de feeds.
-    to_stop_receiving_notifications: para parar de receber estas notificações.
     update_notifications: Atualizar Notificações
     you_must_select_file: Você deve selecionar um arquivo.
-
-  recipes: 
-    about_this_recipe: sobre essa receita.
-    add_a_recipe: Adicionar uma receita
-    all_recipes: Todas as Receitas
-    bake_time: Tempo para assar
-    confirm_delete: "Você tem certeza que deseja deletar essa receita?"
-    delete_recipe: Deletar Receita
-    deleted: Receita deletada.
-    description: Descrição
-    directions: Instruções
-    edit_recipe: Editar Receita
-    ingredients: Ingredientes
-    new_recipe: Nova Receita
-    no_recipes_yet: "Ainda não existe nenhuma receita!"
-    no_results: Nenhum resultado
-    other_notes: Outras notas
-    prep_cook_time: Preparo/Tempo de cozimento
-    recipes: Receitas
-    save_recipe: Salvar Receita
-    saved: Receita gravada.
-    serving_size: "Tamanaho da porção"
-    share_your_recipes: Compartilhe as suas receitas favoritas com {{community}}.
-    title: "Título"
 
   relationships: 
     Reciprocate: Reciprocidade
@@ -1736,81 +1504,17 @@ pt:
     relationships: Relacionamentos
     toggle_individual: "Alternar para a Visualização Individual de Relacionamento"
 
-  reporting: 
-    Admins: Admins
-    and: E
-    Creator: Autor
-    Criteria: Critério
-    Last_Modified: Última modificação
-    Last_Run: Última execução
-    Name: Nome
-    Reports: Relatórios
-    Sort_Order: Ordem de Classificação
-    Source: Origem
-    Total_Runs: Execuções totais
-    add_criteria: Adicionar critério
-    add_group: Adicionar agrupamento
-    add_sort_attribute: Adicionar Atributo de Ordenação
-    cancel_changes: Cancelar Alterações
-    contains_case_insensitive: contém (considerando maiúsculas e minúsculas)
-    contains_case_sensitive: contém
-    edit_report: Editar Relatório
-    error_running_report: Houve um erro ao executar este relatório.
-    flip_conjunctions: Alterar Conjunção Lógica
-    greater_than: maior que
-    greater_than_or_equal: maior ou igual a
-    is_exactly: é exatamente
-    is_nil: é nulo
-    is_not: não é
-    is_not_nil: não é nulo
-    less_than: menor que
-    less_than_or_equal: menor ou igual que
-    manage_and_run: Gerenciar e executar relatórios.
-    matches_case_insensitive: igual (considerando maiúsculas e minúsculas)
-    matches_case_sensitive: igual
-    move_down: Mover para baixo
-    move_up: Mover para cima
-    new_report: Novo Relatório
-    not_one_of: não é um dos
-    one_of: um dos
-    or: OU
-    remove_criteria: Remover Critério
-    remove_sort_attribute: Remover Atributo de Ordenação
-    report_database_offline: A base de relatórios estão offline, então nenhum relatório pode ser executado. Contate o seu Administrador.
-    restricted: Restrito
-    restricted_note: Todos os admins com o privilégio de 'executar relatórios' poderão executar este relatório.
-    run: executar
-    run_reports: Executar Relatórios.
-    save_and_continue_editing: Salvar e Continuar Executando
-    save_and_run_report: Salvar e Executar o Relatório
-    separate_values: "separe os valores com um traço vertical |"
-    show_tips: "Exibir dicas para os Relatórios »"
-    tips:
-      - <em>nulo</em> não é o mesmo que um texto vazio. Você pode ter que testar ambos, usando um grupo [ou].
-      - O atributo 'filho' é somente <em>verdadeiro/falso</em> em casos que a data de nascimento é desconhecida; de outra maneira, é <em>nulo</em>.
-      - Para um melhor resultado quando pesquisando por adultos, especifique a 'data de nascimento' sendo <em>menor que</em> "YYYY-MM-DD" (substitua pela data apropriada) [ou] 'criança' é <em>falso</em>
-      - O atributo 'gênero' pode ser somente "Masculino", "Feminino" ou nulo.
-      - O operador <em>igual</em> (e a versão considerando maiúsculas e minúsculas) requer conhecimento de <a href="http://pt.wikipedia.org/wiki/Expressão_regular">Expressões Regulares</a>. Use o operador <em>contém</em> para pesquisas simples.
-
   search: 
-    add_as_many_friends_you_like_html: Você pode adicionar quantos amigos você preferir! Quando você tiver terminado, você pode editar a sua <a href="{{url}}">lista de amigos</a> para remover e colocá-los na ordem que você quiser.
     add_selected: Adicionar Selecionado
     advanced_search: "Busca Avançada"
     all: Todos
     anniversary: "Aniversário de Casamento"
     birthday: Data de Nascimento
     browse: Procurar
-    browse_by_category: Procurar por Categoria
-    browse_directory_description_html: Claro, você também pode <a href="{{url}}">pesquisar no diretório</a> por nome.
-    browse_the_directory: "pesquisar no diretório"
-    business: "Negócios"
     business_category: "Categoria de Negócios:"
     business_directory: "Diretório de Negócios"
-    business_directory_description_html: Alguns dos nossos membros possuem negócios que eles gostariam que você soubesse a respeito. A próxima vez que você precisar das páginas amarelas, tente o <a href="{{url}}">diretório de negócios</a> primeiro.
-    businesses: "Negócios"
     category: Categoria
     city: Cidade
-    click_the_icon_to_add_them: "Clique no {{img}} ícone para adicioná-los."
     deacon: "Diácono"
     elder: Elder
     families_found: 
@@ -1818,36 +1522,26 @@ pt:
       other: "{{count}} famílias encontradas"
     family_name: "Nome da Família"
     female: Feminino
-    find_someone_quickly_html: "Você sempre pode encontrar alguém rapidamente digitando parte ou o nome completo da pessoa no <a href="#" onclick="{{js}};return false;">canto superior direito</a> da tela."
-    find_your_friends: Encontre seus amigos
-    friends_search_html: "Use os <strong>campos à esquerda</strong> para procurar os seus amigos."
     gender: "Gênero"
-    hidden_profile: Perfil Oculto
     male: Masculino
     member: Membro
     name: Nome
-    new_family: "Nova Família"
     no_family: "(não possui família)"
     not_showing_hidden_people: "(não está mostrando pessoas ocultas)"
     people_found: 
       one: 1 pessoa encontrada
       other: "{{count}} pessoas encontradas"
-    print: Imprimir
     printed_directory: "Diretório Impresso"
-    printed_directory_description_html: O diretório está sendo alterado constantemente. Enquanto encontrar alguém online é geralmente o melhor, você também pode <a href="{{url}}">imprimir o diretório</a> para aqueles momentos 'offline'.
     search: Busca
     search_by_name: Busca por nome
-    search_the_directory: "Procure no Diretório"
     searching: Procurando...
     show_all: (mostrar todos)
     show_hidden: Mostrar ocultos
     staff: Equipe
     state: Estado
-    use_advanced_search_html: "Ou, use a <a href="#" onclick="{{js}};return false;">busca avançada</a> para mudar os resultados interativamente."
     zip: CEP
 
   session:
-    account_not_activated_html: Sua conta ainda não foi ativada. <a href="/pages/help">Clique aqui</a> para começar.
     create_the_first_user: "Você pode criar o primeiro usuário executando o comando:"
     email_address: "Endereço de Email:"
     email_found: Aquele email foi encontrado mas você deve verificá-lo antes de poder acessar o sistema.
@@ -1857,7 +1551,6 @@ pt:
     i_need_help: Eu preciso de ajuda.
     load_sample_data: "Como uma alternativa, você pode carregar o OneBody com alguns dados de exemplo executando o comando:"
     max_sign_in_attempts: Desculpe mas você excedeu o número máximo de tentativas de login num período de 15 minutos. Você pode tentar novamente em 15 minutos.
-    never_share_your_password: "Nunca compartilhe a sua senha com ninguém!"
     no_users: Não há usuários
     password: "Senha:"
     password_confirm: "Senha (confirmação):"
@@ -1869,29 +1562,18 @@ pt:
     sign_out: sair
     sign_up_or_sign_in_html: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"
     there_are_no_users_in_the_system: "Não há usuários no sistema."
-    tour: conheça
-    you_may_read_our_privacy_policy_here_html: Você pode ler a nossa Política de Privacidade <a href="{{url}}">aqui</a>.
 
   stream: 
     ago: atrás
     and_more: e mais {{length}} itens por {{name}}...
-    blog: Blog
-    create_blog_post_html: Ou, criar uma <a href="{{url}}">postatem no blog</a> com um título e formatação...
-    enable_disable: Habilitar/Desabilitar
-    facebook: Facebook
     feed: Feed
     flickr: Flickr
     import_blog_feed: Importar os feeds RSS ou Atom do seu Blog...
     import_facebook_updates: "Importar as suas atualizações do Facebook..."
     import_flickr_photos: Importar as suas fotos do Flickr...
-    import_from: Importar de...
     import_twitter_updates: "Importar as suas atualizações do Twitter..."
-    more: Mais
-    my_activity: Minha Atividade
     nothing_to_show: Agora, não há nada a mostrar.
     rss: RSS
-    share_something: Compartilhe Algo
-    share_something_here_html: Você deveria <a href="#" onclick="{{js}};return false;">compartilhar algo aqui</a>.
     show: Mostrar
     twitter: Twitter
     where_activity_appear: Aqui é onde as suas atividades, de seus amigos e grupos irá aparecer.
@@ -1905,7 +1587,6 @@ pt:
 
   verses: 
     about_this_verse: "sobre esse versículo. Compartilhe o que ele significa para você, como te ajudou ou simplesmente porque você gosta."
-    add_a_verse: "Adicionar um Versículo"
     add_this_verse_to_my_list: "Adicionar esse versículo à minha lista."
     add_verse: "Adicionar Versículo"
     all_verses: "Todos os Versículos"
@@ -1917,8 +1598,6 @@ pt:
     read_this_passage_at_youversion: Leia essa passagem no site YouVersion...
     remove_this_verse: "Remover esse versículo da minha lista."
     tools: Ferramentas
-    type_a_reference_below_and_hit_enter: "Digite uma referência (ex. João 3:16, Mateus 5:3-11) abaixo e pressione enter:"
-    verse: "Versículo"
     verses: "Versículos"
 
   wall: 

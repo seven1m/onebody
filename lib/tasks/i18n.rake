@@ -69,7 +69,7 @@ namespace :i18n do
     Dir[Rails.root.join('app/**/*')].each do |path|
       missing = []
       unless File.directory?(path)
-        File.read(path).scan(/I18n\.t\(['"](.+?)['"]/).map { |s| s.first }.each do |key|
+        File.read(path).scan(/\Wt\(['"](.+?)['"]/).map { |s| s.first }.each do |key|
           unless available_keys.include?(key)
             if possible_match = available_keys.detect { |k| k[0...key.length] == key } and possible_match =~ /\.one$|\.other$|\.are$|\.is$|^relationships\.names\./
               # pass
@@ -106,6 +106,61 @@ namespace :i18n do
         end
       end
     end
+  end
+
+  desc "Find and remove translation keys that are no longer in use"
+  task :unused_keys => :environment do
+    require 'highline/import'
+
+    # Make sure we’ve loaded the translations
+    I18n.backend.send(:init_translations)
+    puts "#{I18n.available_locales.size} #{I18n.available_locales.size == 1 ? 'locale' : 'locales'} available: #{I18n.available_locales.to_sentence}"
+
+    # Get all keys from all locales
+    available_keys = I18n.backend.send(:translations).collect do |check_locale, translations|
+      collect_keys([], translations).sort
+    end.flatten.map do |key|
+      key.sub(/\.(one|other)$/, '')
+    end.uniq
+
+    available_keys.reject! do |key|
+      key =~ /^activerecord|^time|^support|^relationships|^number|^errors|^date|^admin\.privileges|^admin\.settings|^contributions\.donation_types/
+    end
+
+    # Get all keys used in app
+    used_keys = []
+    Dir[Rails.root.join('app/**/*')].each do |path|
+      unless File.directory?(path)
+        used_keys += File.read(path).scan(/\Wt\(['"](.+?)['"]/).map { |s| s.first }
+      end
+    end
+
+    # loop thru keys not found in the app
+    unused_keys = (available_keys - used_keys.uniq).sort
+    kill = []
+    puts "%d unused keys" % unused_keys.length
+    unused_keys.each_with_index do |key, index|
+      puts
+      puts "#{index+1}/#{unused_keys.length}"
+      puts "#{key}: #{I18n.t(key)}"
+      puts
+      case ask('[d]elete or any other key to keep (q to quit) ')
+      when 'd'
+        kill << key
+      when 'q'
+        File.open('kill.yml', 'w') { |f| YAML::dump(kill, f) }
+        exit
+      end
+    end
+    File.open('kill.yml', 'w') { |f| YAML::dump(kill, f) }
+
+    # list keys with _html not found
+    #puts
+    #(available_keys.select { |k| k =~ /_html/ } - used_keys.uniq).sort.each do |key|
+      #puts key
+      #puts `egrep -r "#{key.sub(/_html/, '')}" app/*`
+      #puts
+    #end
   end
 end
 

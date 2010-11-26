@@ -23,6 +23,7 @@
       <%= attribute(:website)      do %><li class="website"><%= link_to simple_url(@person.website), @person.website %>                           </li><% end %>
       <%= attribute(:email)        do %><li class="email"  ><%= mail_to @person.email                                %>                           </li><% end %>
       <%= attribute(:mobile_phone) do %><li class="phone"  ><%= format_phone @person.mobile_phone                    %> <%= t('profile.mobile') %></li><% end %>
+      <%= attribute(:work_phone)   do %><li class="phone"  ><%= format_phone @person.work_phone                      %> <%= t('profile.work')   %></li><% end %>
       <%= attribute(:home_phone)   do %><li class="phone"  ><%= format_phone @person.home_phone                      %> <%= t('profile.home'  ) %></li><% end %>
       <%= attribute(:fax)          do %><li class="phone"  ><%= format_phone @person.fax                             %> <%= t('profile.fax'   ) %></li><% end %>
       <div class="new-line"></div>

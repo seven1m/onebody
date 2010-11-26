@@ -69,22 +69,6 @@ class PrivaciesController < ApplicationController
 
   private
 
-  def update_membership
-    @group = Group.find(params[:group_id])
-    @membership = Membership.find(params[:membership_id])
-    if @logged_in.can_edit?(@membership)
-      sharing = params[:membership].reject { |k, v| k.to_s !~ /^share_/ }
-      if @membership.update_attributes(sharing)
-        flash[:notice] = t('privacies.saved')
-        redirect_to edit_group_membership_privacy_path(@group, @membership)
-      else
-        edit; render :action => 'edit'
-      end
-    else
-      render :text => t('not_authorized'), :layout => true, :status => 401
-    end
-  end
-
   def update_consent
     @person = Person.find(params[:person_id])
     @family = @person.family
