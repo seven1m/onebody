@@ -89,6 +89,8 @@
       <%= t('admin.people_not_synced_to_donortools_count', :count => @unsynced_to_donortools) %>
     <% end %>
   <% end %>
+
+  <%= render_plugin_hook(:admin_dashboard_metric) %>
 </div>
 
 <div class="clear"></div>
@@ -129,5 +131,7 @@
                 administration_syncs_path %>
   </div>
 <% end %>
+
+<%= render_plugin_hook(:admin_dashboard_chart) %>
 
 <div class="clear"></div>

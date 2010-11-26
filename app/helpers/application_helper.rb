@@ -240,7 +240,7 @@ module ApplicationHelper
     if hooks = PLUGIN_HOOKS[name]
       hooks.map do |hook|
         render :partial => hook
-      end.join("\n")
+      end.join("\n").html_safe
     end
   end
 
