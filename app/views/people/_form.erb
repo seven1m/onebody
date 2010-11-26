@@ -146,3 +146,28 @@
   <p class="double-margin-top"><%= form.submit t('save_changes') %></p>
 
 <% end %>
+
+<script type="text/javascript">
+  $('#person_birthday, #person_anniversary').datepicker({changeYear:true, yearRange:'1900:2025'});
+
+  $('#person_birthday').bind('keyup', function(){
+    var val = $(this).val();
+    if(val == '' || val.match(/1900/)) {
+      $('#child-selection').show();
+    } else {
+      $('#child-selection select').val('');
+      $('#child-selection').hide();
+    }
+  }).trigger('keyup');
+
+  changes_made = false;
+  $(':input').bind('change', function(){
+    changes_made = true;
+  });
+
+  $('form').submit(function(){ changes_made = false });
+
+  window.onbeforeunload = function() {
+    if(changes_made) return '<%= escape_javascript t('you_made_a_change_page') %>';
+  }
+</script>
