@@ -69,19 +69,20 @@ class Feed < ActiveRecord::Base
         a.description = 'Photos from my Flickr account.'
         a.is_public = false
       end
-      if entry.content =~ /<img src="([^"]+_m\.jpg)/
-        url = $1.sub(/_m\.jpg$/, '_b.jpg') # "big" size
-        res = Net::HTTP.get_response(URI.parse(url))
+      if entry.content =~ /<a href="([^"]+)".+><img src="([^"]+_m\.jpg)/
+        url = $1
+        img = $2.sub(/_m\.jpg$/, '_b.jpg') # "big" size
+        res = Net::HTTP.get_response(URI.parse(img))
         if !res.is_a?(Net::HTTPOK)
-          url = url.sub(/_b\.jpg$/, '.jpg') # try the original size
-          res = Net::HTTP.get_response(URI.parse(url))
+          img = img.sub(/_b\.jpg$/, '.jpg') # try the original size
+          res = Net::HTTP.get_response(URI.parse(img))
         end
         if res.is_a?(Net::HTTPOK)
           person.pictures.create(
             :album_id     => album.id,
-            :original_url => entry.url,
+            :original_url => entry.url || url,
             :created_at   => entry.published,
-            :photo        => FakeFile.new(res.body, url.split('/').last)
+            :photo        => FakeFile.new(res.body, img.split('/').last)
           )
         end
       end
