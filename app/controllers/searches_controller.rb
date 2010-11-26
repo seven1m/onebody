@@ -42,8 +42,10 @@ class SearchesController < ApplicationController
           render :partial => 'auto_complete'
           # TODO indicate if there are more people not shown
         elsif params[:select_person]
+          @more = @people.length > MAX_SELECT_FAMILIES
           @people = @people[0...MAX_SELECT_PEOPLE]
         elsif params[:select_family]
+          @more = @families.length > MAX_SELECT_FAMILIES
           @families = @families.to_a[0..MAX_SELECT_FAMILIES]
         end
       end
