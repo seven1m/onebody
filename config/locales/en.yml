@@ -397,58 +397,74 @@ en:
       one: "1 out of sync with Donor Tools."
       other: "{{count}} out of sync with Donor Tools."
     privileges:
-      # must be an array so that order is preserved
-      - name: view_hidden_profiles
+      view_hidden_profiles:
         title: View Hidden Profiles
         about: "View hidden people in the database, e.g. children and others marked as invisible."
-      - name: view_hidden_properties
+        order: 1
+      view_hidden_properties:
         title: View Hidden Properties
         about: "View hidden phone numbers, email addresses, and other private information."
-      - name: edit_profiles
+        order: 2
+      edit_profiles:
         title: Edit Profiles
         about: "Edit name, phone numbers, email, password, and anything else associated with a user's profile."
-      - name: manage_access
+        order: 3
+      manage_access:
         title: Manage Access
         about: "Manage site administrators. ('Manage Admins' must be selected to manage group administrators.)"
-      - name: manage_attendance
+        order: 4
+      manage_attendance:
         title: Manage Attendance
         about: "View, edit, and export attendance."
-      - name: manage_comments
+        order: 5
+      manage_comments:
         title: Manage Comments
         about: "Ability to delete any site comments."
-      - name: manage_contributions
+        order: 6
+      manage_contributions:
         title: Manage Contributions
         about: "View, edit, delete contributions (if Donor Tools is setup)."
-      - name: manage_groups
+        order: 7
+      manage_groups:
         title: Manage Groups
         about: "View, edit, delete any group (even if hidden or private)."
-      - name: manage_news
+        order: 8
+      manage_news:
         title: Manage News
         about: "View, edit, delete all news."
-      - name: manage_notes
+        order: 9
+      manage_notes:
         title: Manage Notes
         about: "Edit and delete any notes (status updates)."
-      - name: manage_pictures
+        order: 10
+      manage_pictures:
         title: Manage Pictures
         about: "View, edit, delete any pictures and albums."
-      - name: manage_prayer_signups
+        order: 11
+      manage_prayer_signups:
         title: Manage Prayer Signups
         about: "Edit and delete signups for a Prayer Event."
-      - name: manage_publications
+        order: 12
+      manage_publications:
         title: Manage Publications
         about: "Create and delete site publications."
-      - name: manage_updates
+        order: 13
+      manage_updates:
         title: Manage Updates
         about: "View, edit, delete pending profile updates made by users."
-      - name: manage_sync
+        order: 14
+      manage_sync:
         title: Manage Sync
         about: "View and track synchronizations made with UpdateAgent."
-      - name: import_data
+        order: 15
+      import_data:
         title: Import Data
         about: "Import data from CSV or by using UpdateAgent."
-      - name: export_data
+        order: 16
+      export_data:
         title: Export Data
         about: "Export all site data to XML and CSV."
+        order: 17
     promote_to_super_admin: "Promote to super admin."
     request:
       one: request

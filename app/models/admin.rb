@@ -30,8 +30,13 @@ class Admin < ActiveRecord::Base
     # only the privileges available in the locale file, along with title and description
     # and also in the correct sorted order from the locale
     def privileges_for_show
-      I18n.t('admin.privileges').select do |t|
-        privileges.include?(t['name'])
+      I18n.t('admin.privileges').select do |name, priv|
+        privileges.include?(name.to_s)
+      end.sort_by do |name, priv|
+        priv[:order].is_a?(Fixnum) ? '%03d' % priv[:order] : priv[:order].to_s
+      end.map do |name, priv|
+        priv[:name] = name.to_s
+        priv
       end
     end
 
@@ -80,4 +85,8 @@ class Admin < ActiveRecord::Base
     view_hidden_properties
     view_log
   )
+
+  Dir["#{Rails.root}/plugins/**/config/privileges.rb"].each do |path|
+    load(path)
+  end
 end
