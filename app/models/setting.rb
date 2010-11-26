@@ -115,8 +115,8 @@ class Setting < ActiveRecord::Base
       end
     end
 
-    def update_from_yaml(filename)
-      settings = YAML::load(File.open(filename))
+    def update_all
+      settings = load_settings_hash
       # per site settings
       Site.find_all_by_active(true).each do |site|
         if get_hash_of_settings_in_db(site.id) != get_hash_of_settings_in_yaml(settings)
@@ -139,6 +139,7 @@ class Setting < ActiveRecord::Base
           end
         end
       end
+      Setting.precache_settings(true)
     end
 
     def update_site_from_hash(site, settings)
@@ -157,18 +158,17 @@ class Setting < ActiveRecord::Base
     end
 
     def update_site(site)
-      update_site_from_hash(site, YAML::load(File.open(SETTINGS_FILE)))
-      #Dir[PLUGIN_SETTINGS_FILES].each do |path|
-        #update_site_from_hash(site, YAML::load(File.open(path)))
-      #end
+      update_site_from_hash(site, load_settings_hash)
     end
 
-    def update_all
-      Setting.update_from_yaml(SETTINGS_FILE)
-      #Dir[PLUGIN_SETTINGS_FILES].each do |path|
-        #Setting.update_from_yaml(path)
-      #end
-      Setting.precache_settings(true)
+    def load_settings_hash
+      YAML::load(File.open(SETTINGS_FILE)).tap do |settings|
+        Dir[PLUGIN_SETTINGS_FILES].each do |path|
+          YAML::load(File.open(path)).each do |n, s|
+            settings[n].merge!(s)
+          end
+        end
+      end
     end
 
     def update_site_from_params(id, params)
