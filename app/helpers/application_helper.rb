@@ -54,6 +54,7 @@ module ApplicationHelper
 
   def stylesheet_tags
     stylesheet_link_tag(stylesheet_path) + "\n" + \
+    stylesheet_link_tag('print.css', :media => 'print') + "\n" + \
     (mobile? ? (stylesheet_link_tag(stylesheet_path(:mobile)) + "\n") : '') + \
     "<!--[if lte IE 8]>\n".html_safe + \
       stylesheet_link_tag(stylesheet_path(:ie)) + "\n" + \
