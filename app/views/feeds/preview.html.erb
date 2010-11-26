@@ -1,4 +1,4 @@
-<h1><%= t('feeds.preview') %></h1>
+<h2><%= t('feeds.preview') %></h2>
 
 <p>
   <%= t('feeds.looks_right') %>
@@ -16,7 +16,7 @@
 </p>
 
 <% @entries.each do |entry| %>
-  <h2><%= %w(twitter facebook).include?(params[:type]) ? nil : entry.title %></h2>
+  <h3><%= %w(twitter facebook).include?(params[:type]) ? nil : entry.title %></h3>
   <p><%= t('feeds.posted') %>: <%= entry.published.to_s %></p>
   <p>
     <%= sanitize_html entry.content || entry.summary %>

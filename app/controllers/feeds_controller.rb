@@ -47,7 +47,7 @@ class FeedsController < ApplicationController
               flash[:notice] = t('feeds.error_retrieving')
               render :action => 'new', :type => params[:type]
             else
-              flash[:notice] = t('feeds.done', :url => stream_path)
+              flash[:notice] = t('feeds.done_html', :url => stream_path)
               redirect_to person_feeds_path(@person)
             end
           else
