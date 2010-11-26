@@ -174,7 +174,7 @@ class Family < ActiveRecord::Base
   def mark_barcode_id_changed
     return if dont_mark_barcode_id_changed
     if changed.include?('barcode_id')
-      self.write_attribute(:barcode_id_changed, true)
+      write_attribute(:barcode_id_changed, true)
     end
   end
 
