@@ -63,6 +63,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    aaronh-chronic (0.3.9)
     abstract (1.0.0)
     arel (2.0.4)
     builder (2.1.2)
@@ -127,6 +128,9 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
+    whenever (0.6.2)
+      aaronh-chronic (>= 0.3.9)
+      activesupport (>= 2.3.4)
     will_paginate (3.0.pre2)
 
 PLATFORMS
@@ -152,4 +156,5 @@ DEPENDENCIES
   selenium-client
   shoulda (~> 2.11.3)
   webrat!
+  whenever (~> 0.6.2)
   will_paginate (~> 3.0.pre2)

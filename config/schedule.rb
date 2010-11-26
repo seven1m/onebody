@@ -2,16 +2,20 @@
 
 set :environment, 'production'
 
-if File.exist?('config/email.yml')
+if File.exist?("#{Dir.pwd}/config/email.yml")
   every 1.minute do
     settings = YAML::load_file('config/email.yml')[@environment]['pop']
-    command "#{Rails.root}/script/inbox -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
+    command "#{Dir.pwd}/script/inbox -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\""
   end
 end
 
 every 1.minute do
-  settings = YAML::load_file('config/database.yml')[@environment]
-  command "#{Rails.root}/script/worker -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\" \"#{settings['database']}\""
+  yaml = YAML::load_file("#{Dir.pwd}/config/database.yml")
+  settings = yaml[@environment]
+  if settings.is_a?(String) and %w(production development).include?(settings)
+    settings = yaml[settings]
+  end
+  command "#{Dir.pwd}/script/worker -e #{@environment} \"#{settings['host']}\" \"#{settings['username']}\" \"#{settings['password']}\" \"#{settings['database']}\""
 end
 
 every 1.hour, :at => 19 do

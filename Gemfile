@@ -9,7 +9,7 @@ gem 'will_paginate',          '~> 3.0.pre2'
 gem 'highline',               '~> 1.6.1'
 gem 'campaign_monitor_party', '>= 0.2.1'
 # FIXME
-#gem 'whenever',               '~> 0.4.0'
+gem 'whenever',               '~> 0.6.2'
 gem 'nokogiri',               '~> 1.4.0'
 gem 'builder',                '>= 2.1.2'
 # FIXME
