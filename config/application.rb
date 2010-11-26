@@ -6,14 +6,14 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
+Dir[File.dirname(__FILE__) + '/../plugins/**/lib/*'].each do |plugin|
+  require plugin.sub(/\.rb$/, '')
+end
+
 module OneBody
   class Application < Rails::Application
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths << "#{config.root}/app/sweepers"
-
-    # Custom directory for plugins
-    # FIXME
-    #config.plugin_paths << "#{config.root}/plugins"
 
     # Cache store location
     config.action_controller.cache_store = [:file_store, "#{config.root}/cache"]
