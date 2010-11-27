@@ -7,7 +7,7 @@ $footer:    $light - 75;
 $primary:   #5F9128;
 $secondary: #3286B5;
 $alert:     #f66;
-$highlight-background: #fc9;
+$highlight-background: #c0e8ff;
 $comment-background: #fec;
 $notice:    #fec;
 $metric:    $primary;
@@ -108,6 +108,9 @@ h4 {
   font-weight: normal;
   font-family: $body-font;
   margin-bottom: 5px;
+}
+h4.strong {
+  font-weight: bold;
 }
 ul.list, ol.list, .page-body ul, .page-body ol, .news-item ul, .news-item ol {
   padding-left: 20px;
@@ -595,6 +598,7 @@ fieldset {
 .add-icon        { @include icon-sprite(0px,    0px) }
 .edit-icon       { @include icon-sprite(0px,  -20px) }
 .lock-icon       { @include icon-sprite(0px,  -40px) }
+.lock-icon-small { @include icon-sprite(0px,  -45px) }
 .comment-icon    { @include icon-sprite(0px,  -66px) } /* up just a bit */
 .comment2-icon   { @include icon-sprite(0px,  -60px) }
 .dots-icon       { @include icon-sprite(0px,  -80px) }
@@ -612,6 +616,7 @@ fieldset {
 .rotate-cw-icon  { @include icon-sprite(0px, -320px) }
 .rotate-ccw-icon { @include icon-sprite(0px, -340px) }
 .updown-icon     { @include icon-sprite(0px, -360px) }
+.alert-icon      { @include icon-sprite(0px, -380px) }
 
 ul.buttons {
   list-style: none;

@@ -6,6 +6,9 @@
         <%= content_tag :a, :href => person_path(person) do %>
           <%= render :partial => 'people/thumbnail', :locals => {:person => person} %><br/>
           <%= person.first_name %>
+          <% unless person.visible? %>
+            <span class="lock-icon-small"></span>
+          <% end %>
         <% end %>
       </li>
     <% end %>

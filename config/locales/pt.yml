@@ -1397,11 +1397,12 @@ pt:
     address2: Endereço Linha 2
     agreement_saved: Acordo salvo.
     anniversary: Aniversário de Casamento
-    as_a_parent_agree_html: Eu, como o pai/mãe ou guardião legal de {{name}}, concorco que eu li a <a href="{{url}}">Política de Privacidade</a> deste site, e as informações pessoais de {{name}} podem ser mostradas para outros usuários deste web site (como determindado pelas configurações de privacidade desta página), e que {{name}} pode, se habilitado, utilizar este website como um usuário normal (incluindo customização de perfil, comunicação via mensagens privadas, parede de recados, grupos, etc.).
+    as_a_parent_agree_html: Eu, como o pai/mãe ou guardião legal de {{name}}, concorco que eu li a <a href="{{url}}">Política de Privacidade</a> deste site, e as informações pessoais de {{name}} podem ser mostradas para outros usuários deste web site (como determindado pelas configurações de privacidade desta página), e que {{name}} pode, se habilitado, utilizar este website como um usuário normal (incluindo customização de perfil, comunicação via mensagens privadas, grupos, etc.).
     birthday: Data de Nascimento
     child_profile_has_parental_consent: Esse perfil de criança possui um consentimento dos pais de {{name}}.
     child_under_age_no_parents_consent: "Esta criança tem menos de {{years}} anos e seus pais não derão permissão para permitir que a sua informação seja exibida."
     child_under_age_you_have_not_consent: "Esta criança tem menos de {{years}} anos e você não deu a permissão para 1) permitir que a informação dela seja exibida, e 2) permitir que ela entre e use este web site."
+    children: Crianças
     click_the_agree: "Clique no botão 'Eu concordo'."
     detail: Detalhe
     email: Email
@@ -1419,12 +1420,15 @@ pt:
     people_can_still_send_html: As pessoas ainda podem enviar um email para a sua família <a href="#" onclick="alert('Um usuário pode enviar uma mensagem para outro através deste site. O sistema é monitorado contra abusos e permite as pessoas te contatar sem possuir o seu endereço de email. Nós recomendamos que você deixe o seu endereço de email privado para previnir emails não solicitados.');return false;">através do site</a> se as Mensagens Privadas estiverem habilitadas.
     privacy: Privacidade
     private: Particular
+    read_privacy_policy_html: Leia a nossa <a href="{{url}}">Política de Privacidade</a>.
+    read_safeguarding_children_html: Leia a nossa página sobre <a href="{{url}}">guardando nossas crianças</a>.
     read_statement_below: Leia o texto abaixo e concorde selecionando o checkbox correspondente.
     saved: Configuraçoes salvas.
     sharing_with_html: Compartilhando com <a href="{{url}}">{{name}}</a>
     the_items_are_visible_html: "Os seguintes itens estão visíveis a todos <a href=\"{{url}}\">mude aqui</a>:"
     the_items_may_be_shared: "Os seguintes itens podem estar compartilhados com outros membros do {{name}}:"
     this: esta
+    to_show_on_this_site: "Para mostrar o {{name}} neste site, por favor:"
     visible: Visível
     work_phone: Telefone Comercial
     you_are_not_sharing_with_groups: Você não está compartilhando o seu {{sharing}} com nenhum grupo específico.

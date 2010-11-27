@@ -29,6 +29,7 @@ class PrivaciesController < ApplicationController
       end
     elsif @person = Person.find(params[:person_id])
       @family = @person.family
+      @children = @family.people.where(:deleted => false).reject(&:adult?)
       if @logged_in.can_edit?(@family)
         unless @family.visible?
           flash[:warning] = t('privacies.family_hidden', :your => @family == @logged_in.family ? t('your') : t('privacies.this'))
@@ -40,30 +41,32 @@ class PrivaciesController < ApplicationController
   end
 
   def update
-    #elsif params[:agree] or params[:commit] == t('privacies.i_agree')
-      #update_consent
-    @person = Person.find(params[:person_id])
-    @family = @person.family
-    people_ids = @family.people.all.map { |p| p.id }
-    if @logged_in.can_edit?(@family)
-      @family.update_attributes!(params[:family])
-      Array(params[:memberships]).each do |membership_id, sharing|
-        m = Membership.where(["id = ? and person_id in (?)", membership_id, people_ids]).first
-        sharing.each do |attribute, value|
-          value = false if m.person.attributes[attribute]
-          m.attributes = {attribute => value}
-        end
-        m.save!
-      end
-      if @family.visible?
-        flash[:notice] = t('privacies.saved')
-        flash[:warning] = nil
-      else
-        flash[:warning] = t('privacies.family_hidden', :your => @family == @logged_in.family ? t('your') : t('privacies.this'))
-      end
-      redirect_to @person
+    if params[:agree] or params[:commit] == t('privacies.i_agree')
+      update_consent
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      @person = Person.find(params[:person_id])
+      @family = @person.family
+      people_ids = @family.people.all.map { |p| p.id }
+      if @logged_in.can_edit?(@family)
+        @family.update_attributes!(params[:family])
+        Array(params[:memberships]).each do |membership_id, sharing|
+          m = Membership.where(["id = ? and person_id in (?)", membership_id, people_ids]).first
+          sharing.each do |attribute, value|
+            value = false if m.person.attributes[attribute]
+            m.attributes = {attribute => value}
+          end
+          m.save!
+        end
+        if @family.visible?
+          flash[:notice] = t('privacies.saved')
+          flash[:warning] = nil
+        else
+          flash[:warning] = t('privacies.family_hidden', :your => @family == @logged_in.family ? t('your') : t('privacies.this'))
+        end
+        redirect_to @person
+      else
+        render :text => t('not_authorized'), :layout => true, :status => 401
+      end
     end
   end
 
@@ -75,14 +78,14 @@ class PrivaciesController < ApplicationController
     if @logged_in.can_edit?(@family) and @family == @logged_in.family
       if params[:agree] == t('privacies.i_agree') + "."
         if person = @family.people.find(params[:person_id])
-          @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) at #{Time.now.to_s}"
+          @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) #{Time.now.to_s}"
           @person.save
           flash[:notice] = t('privacies.agreement_saved')
         end
       elsif params[:commit] == t('privacies.i_agree')
         flash[:warning] = t('privacies.you_must_check_agreement_statement')
       end
-      redirect_to edit_person_privacy_path(@person, :section => params[:anchor])
+      redirect_to edit_person_privacy_path(@person)
     else
       render :text => t('not_authorized'), :layout => true, :status => 401
     end
