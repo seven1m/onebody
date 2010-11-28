@@ -8,6 +8,9 @@
     <%= render :partial => 'people/link', :locals => {:person => person} %>
     <br/>
   <% end %>
+  <% if @more %>
+    <em><%= t('search.results_not_shown') %></em>
+  <% end %>
 </p>
 
 <% if @people.length == 1 %>
