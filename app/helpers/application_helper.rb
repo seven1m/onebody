@@ -71,7 +71,7 @@ module ApplicationHelper
   end
 
   def heading
-    if Site.current.logo.exists?
+    if Site.current.logo.exists? and @hide_logo.nil?
       link_to(image_tag(Site.current.logo.url(:layout), :alt => Setting.get(:name, :site)), '/')
     else
       Setting.get(:name, :site)
