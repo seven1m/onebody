@@ -14,8 +14,6 @@ class RoutesTest < ActionController::IntegrationTest
 
   should "route to bible" do
     assert_recognizes({:controller => 'bibles', :action => 'show', :book => 'John', :chapter => '0'}, '/bible/John')
-    # FIXME: why doesn't the following assertion pass?
-    #assert_recognizes({:controller => 'bibles', :action => 'show', :book => 'John', :chapter => '3'}, '/bible/John/3')
   end
 
   should "route to pages" do

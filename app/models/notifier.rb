@@ -80,7 +80,7 @@ class Notifier < ActionMailer::Base
     mail(
       :to      => to.email,
       :from    => msg.email_from(to),
-      :subject => msg.wall ? 'Wall Post' : msg.subject # TODO fix i18n here
+      :subject => msg.subject
     ) do |format|
       format.text
       if msg.html_body.to_s.any?
