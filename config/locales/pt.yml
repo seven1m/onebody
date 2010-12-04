@@ -43,6 +43,7 @@ pt:
   insert: inserir
   loading: Carregando
   more: mais
+  multiple_files: O seu navegador pode ter suporte a múltiplos uploads de arquivos - tente selecionar múltiplos arquivos utilizando a tecla Ctrl (Windows) ou Command (Mac) no seu teclado.
   name: Nome
   new: novo
   new_category: nova categoria
@@ -63,6 +64,7 @@ pt:
   submit: Submeter
   to: to
   type: Tipo
+  you_made_a_change_page: Parece que você mudou alguma coisa nesta página. Clique OK para descartar as suas mudanças e deixar esta página.
   your: Seu
 
   errors:
@@ -278,8 +280,8 @@ pt:
     admin: admin
     admin_added: "{{name}} adicionado."
     admin_count:
-      one: Existe atualmente {{count}} administrador.
-      other: Existem atualmente {{count}} administradores.
+      one: "{{count}} Administrador."
+      other: "{{count}} Administradores."
     admin_removed: Admin removido.
     admin_template_description: Modelos permitem a você agrupar adminstradores com privilégios idênticos.
     administrators: Administradores
@@ -290,7 +292,10 @@ pt:
     already_admin: "{{name}} já é um admin."
     api: API
     api_login_details: Seu detalhe de login da API
+    back_to_admin_list: Voltar para a Lista de Administradores
     customization: Customização
+    dashboard: Painel de Administração
+    dashboard_about: Este é o ponto de partida para gerenciar o site da sua comunidade. Clique em qualquer item à direita para visualizar/gerenciar um aspecto em particular do banco de dados.
     deleted_people:
       deleted_people: Pessoas Deletadas
       empty_families: Famílias sem Pessoas
@@ -300,6 +305,9 @@ pt:
       purge_when_empty: E limpar família quando vazia.
       search_results: Os resultados da sua busca são mostrados abaixo.
       undelete: Desfazer
+    deleted_people_count:
+      one: "{{count}} pessoa deletada"
+      other: "{{count}} pessoas deletadas"
     display: mostrar
     enable: Habilitar
     enable_api_confirmation: Você tem certeza que deseja remover a sua chave de API?
@@ -320,13 +328,15 @@ pt:
       upload_new: Carregar um novo arquivo
     generate: Gerar
     group_administrators: Administradores de Grupo
+    group_administrators_description: Cada grupo pode designar pessoas para administrá-lo, independentemente do status delas nesta página.
     group_administrators_help: Para adicionar/remover uma pessoa como um administrador de grupo, clique em "editar", próximo ao grupo e promova um membro existente.
     group_membership_requests: Requisições de Afiliação em Grupo
     home: Início Admin
     import_data_description: Importar dados de pessoas de um arquivo separado por vírgulas (CSV).
+    import_export: Importar/Exportar
     invalidate_confirmation: Você tem certeza que deseja invalidar esta chave e criar uma nova?
-    last_updated: Última Atualização
     key: Chave
+    last_updated: Última Atualização
     log: Log
     log_review: Revisar o log.
     logo:
@@ -362,255 +372,340 @@ pt:
     people_not_synced_to_donortools_count:
       one: "1 pessoas está fora de sincronia com o Donor Tools."
       other: "{{count}} pessoas estão fora de sincronia com o Donor Tools."
+    privileges:
+      view_hidden_profiles:
+        title: Visualizar Perfis Ocultos
+        about: "Visualiza pessoas ocultas no banco de dados, ex. crianças e outros marcados como invisível."
+        order: 1
+      view_hidden_properties:
+        title: Visualizar Propriedades Ocultas
+        about: "Visualiza números de telefone, endereços de email e outras informações privadas ocultas."
+        order: 2
+      edit_profiles:
+        title: Editar Perfis
+        about: "Edita nome, número de telefone, email, senha e qualquer outro campo associado ao perfil do usuário."
+        order: 3
+      manage_access:
+        title: Gerenciar Acesso
+        about: "Gerencia os administradores do site. ('Gerenciar Admins' necessita ser selecionado para gerenciar os administradores de grupo.)"
+        order: 4
+      manage_attendance:
+        title: Gerenciar Frequência
+        about: "Visualiza, edita e exporta registros de frequência."
+        order: 5
+      manage_comments:
+        title: Gerenciar Comentários
+        about: "Habilidade para deletar qualquer comentário no site."
+        order: 6
+      manage_contributions:
+        title: Gerenciar Contribuições
+        about: "Visualiza, edita e deleta contribuições (se o Donor Tools estiver configurado)."
+        order: 7
+      manage_groups:
+        title: Gerenciar Grupos
+        about: "Visualiza, edita e deleta qualquer grupo (inclusive os ocultos e privados)."
+        order: 8
+      manage_news:
+        title: Gerenciar Notícias
+        about: "Visualiza, edita e deleta todas as notícias."
+        order: 9
+      manage_notes:
+        title: Gerenciar Notas
+        about: "Edita e deleta qualquer nota (atualizações de status)."
+        order: 10
+      manage_pictures:
+        title: Gerenciar Fotos
+        about: "Visualiza, edita e deleta qualquer foto ou álbum."
+        order: 11
+      manage_prayer_signups:
+        title: Gerenciar Inscrições para Oração
+        about: "Edita e deleta inscrições para um Evento de Oração."
+        order: 12
+      manage_publications:
+        title: Gerenciar Publicações
+        about: "Cria e deleta publicações no site."
+        order: 13
+      manage_updates:
+        title: Gerenciar Atualizações
+        about: "Visualiza, edita e deleta atualizações de perfil pendentes feitas pelos usuários."
+        order: 14
+      manage_sync:
+        title: Gerenciar Sincronização
+        about: "Visualiza e acompanha sincronizações feitas com o UpdateAgent."
+        order: 15
+      import_data:
+        title: Importar Dados
+        about: "Importa dados de um arquivo CSV ou utilizando o UpdateAgent."
+        order: 16
+      export_data:
+        title: Exportar Dados
+        about: "Exporta todos os dados do site para XML e CSV."
+        order: 17
     request:
       one: requisição
       other: requisições
     rest_api_information: Para usar uma API REST com Ruby, você pode fazer isto
     settings:
       Contact:
-        name: Contato
         Tech Support Email:
           name: Email de Suporte Técnico
           description: Email para contato para ajuda técnica com o site.
-        Community Email:
-          name: Email da Comunidade
-          description: Visível em alguns lugares do site
-        Community Office Phone:
-          name: Telefone do Escritório da Comunidade
-          description: Telefone do escritório
-        Bug Notification Email:
-          name: Email de Notificações de Erros
-          description: Endereço de Email para enviar relatórios de erros no site
-        Birthday Verification Email:
-          name: Email de Verificação de Aniversário
-          description: Email enviado quando alguém solicita a verificação via data de nascimento (não pode ficar em branco)
-        Send Email Changes To:
-          name: Enviar emails de mudanças para
-          description: Email enviado quando alguém altera o seu endereço de email (pode ser vazio para não receber emails)
         Community Address:
           name: Endereço da Comunidade
           description: Visível nos Termos de Uso
+        Community Office Phone:
+          name: Telefone do Escritório da Comunidade
+          description: Telefone do escritório
+        Birthday Verification Email:
+          name: Email de Verificação de Aniversário
+          description: Email enviado quando alguém solicita a verificação via data de nascimento (não pode ficar em branco)
+        Community Email: 
+          name: Email da Comunidade
+          description: Visível em alguns lugares do site
+        Bug Notification Email:
+          name: Email de Notificações de Erros
+          description: Endereço de Email para enviar relatórios de erros no site
+        Send Email Changes To:
+          name: Enviar emails de mudanças para
+          description: Email enviado quando alguém altera o seu endereço de email (pode ser vazio para não receber emails)
         Send Updates To:
           name: Enviar Atualizações para
           description: Email enviado quando alguém atualiza o seu perfil (pode ser vazio para não receber emails)
+      Services: 
+        Sermondrop URL: 
+          name: URL do Sermondrop
+          description: URL completa para o seu site no Sermondrop, ex. http://meusite.sermondrop.com/
+        Donor Tools API Password: 
+          name: Senha da API do Donor Tools
+          description: Senha do usuário da API.
+        Yahoo: 
+          name: Yahoo
+          description: A sua chave de API do Yahoo - https://developer.yahoo.com/wsregapp/index.php
+        Donor Tools URL: 
+          name: URL do Donor Tools
+          description: URL completa para o seu site no Donor Tools, ex. https://meusite.donortools.com/
+        Donor Tools API Email: 
+          name: Email da API do Donor Tools
+          description: Endereço de email do usuário admin para acessar a API do Donor Tools. É recomendável que você crie um usuário de api "especial" para este propósito.
+        Campaign Monitor API Key: 
+          name: Chave da API do Campaign Monitor
+          description: Para sincronizar um ou mais grupos com a lista de assinantes do Campaign Monitor, cole a sua chave de API do Campaign Monitor aqui.
+        Analytics: 
+          name: Analytics
+          description: Se você utiliza o Google Analytics ou algum outro serviço de estatísticas baseado em JavaScript, coloque o código aqui. Ele será inserido no final de cada página.
       Name:
-        name: Nome
         Community:
           name: Comunidade
           description: O nome da comunidade
-        Site:
-          name: Site
-          description: O nome da parte de membros deste website
         Slogan:
           name: Slogan
           description: Slogan que será mostrado no topo de cada página.
-      Features:
-        name: Funcionalidades
-        Multisite:
-          name: Múltiplos Sites
-          description: Quando habilitado, esta instância pode gerenciar múltiplos sites, baseado no nome de domínio.
-        SSL:
-          name: SSL
-          description: Se você possui uma configuração SSL, você pode ligá-la nesta configuração a qual fará a página de login ser criptografada. Se não, um algoritmo avançado de hash em JavaScript está habilitado para ter certeza que as senhas dos usuários não sejam enviadas em texto puro.
-        Reporting:
-          name: Relatórios
-          description: Requer MongoDB para ser configurado e usado.
-        Sign Up:
-          name: Registro
-          description: Habilita a possibilidade de pessoas se registrarem para este site. Configure o endereço do aprovador abaixo.
-        Banner Message:
-          name: Mensagem no Topo
-          description: Mensagem para ser exibida no topo de todas as páginas do site (HTML), como um alerta
-        Groups:
-          name: Grupos
-          description: Habilita Grupos.
-        Pictures:
-          name: Fotos
-          description: Habilita o Compartilhamento de Fotos.
-        Notes:
-          name: Notas
-          description: Habilita o Compartilhamento de Notas.
-        Friends:
-          name: Amigos
-          description: Habilita a amizade mútua (confirmado via email)
-        Content Management System:
-          name: Sistema de Gerenciamento de Conteúdo
-          description: Habilita "Páginas" - Use o OneBody para hospedar o seu website.
-        Sign Up Approval Email:
-          name: Email de Aprovação de Registros
-          description: Aonde serão enviados os pedidos de associação pendentes (necessita ser um admin; deixe em branco para auto-aprovação).
-        Sidebar Group Category:
-          name: Categoria de Grupo na Barra Lateral
-          description: Pessoas em grupos mútuos nesta categoria serão exibidos na barra lateral do perfil do usuário.
-        Publications:
-          name: Publicações
-          description: Habilita Publicações.
-        Sidebar Group Heading:
-          name: Exibe Cabeçalho do Grupo
-          description: Cabeçallho para ser exibido acima das pessoas nos grupos mútuos (veja a configuração acima)
-        Verses:
-          name: Versículos
-          description: Habilita o Compartilhamento de Versículos.
-        Recipes:
-          name: Receitas
-          description: Habilita o Compartilhamento de Receitas.
-        Updates Must Be Approved:
-          name: Atualizações Precisam ser Aprovadas
-          description: Se habilitado, todas as mudanças nas informações "básicas" de um usuário (telefone, endereço, etc.) irão aguardar a aprovação de um administrador antes de serem aplicadas.
-        Edit Legacy Ids:
-          name: Editar Ids Legados
-          description: Se habilitada, permitirá um acesso administrativo para manualmente modificar as Famílias e IDs Legados das Pessoas.
-        Service:
-          name: Serviços
-          description: Se habilitado, administradores podem registrar serviços individuais em áreas da cominidade.
-        Custom Person Type:
-          name: Tipos Customizados - Pessoas
-          description: Se habilitado, administradores podem especificar um tipo customizado nas mesmas linhas de Elder, Diácono, etc.
-        Custom Person Fields:
-          name: Campos Customizados - Pessoas
-          description: Adiciona campos customizados (um por linha). Ao incluir a palavra "date" (ou "Data") irá criar um campo do tipo Data. Adicione um asterísco (*) para fazer o campo visível e editável pelos usuários.
-        Community Google Calendar:
-          name: Calendário da Comunidade - Google
-          description: A URL para o Calendário da Comunidade. Ele pode ter acesso público ou privado, mas o calendário por si só, necessita ser compartilhado publicamente para ser incluído na característica individual ("meu calendário").
-        News Page:
-          name: Páginas de Notícias
-          description: Habilita a página de notícias da comunidade. Itens de notícias pode ser submetidos pelos administradores e/ou consultadas de um feed RSS (veja URL nas confiurações de Notícias RSS).
-        News by Users:
-          name: Notícias por Usuários
-          description: Permite conteúdo de notícias submetidos pelos usuários (precisa também ser habilitado na Página de Notícias abaixo).
-      Services:
-        name: Serviços
-        Yahoo:
-          name: Yahoo
-          description: A sua chave de API do Yahoo - https://developer.yahoo.com/wsregapp/index.php
-        Analytics:
-          name: Estatísticas de Acesso
-          description: Se você usa o Google Analytics ou algum outro serviço de estatísticas baseado em JavaScript, insira o código aqui. Ele será inserido no final de todas as páginas.
-        Campaign Monitor API Key:
-          name: Chave de API do Campaign Monitor
-          description: Para sincronizar um ou mais grupos com a lista de participantes do Monitor de Campanhas, cole a sua chave de API do Monitor de Campanhas aqui.
-        Donor Tools URL:
-          name: URL do Donor Tools
-          description: URL Completa do site Donor Tools, e.g. https://meusite.donortools.com/
-        Donor Tools API Email:
-          name: Email da API do Donor Tools
-          description: Endereço de email para administradores acessarem a API do Donor Tools. É recomendado que você crie um "api" especial para este propósito.
-        Donor Tools API Password:
-          name: Senha de API do Donor Tools
-          description: Senha da API de usuário.
-        Sermondrop URL:
-          name: URL do Sermondrop
-          description: URL completa para o seu site Sermondrop, e.g. http://meusite.sermondrop.com/
+        Site:
+          name: Site
+          description: O nome da parte de membros deste website
       URL:
-        name: URL
+        News Feed: 
+          name: Feed de Notícias
+          description: Enderço URL para o feed externo de notícias da comunidade (as notícias serão importadas periodicamente)
         Visitor:
           name: Visitante
           description: URL para o site principal (visitantes será direcionados para cá se eles tentarem visitar a parte de membros)
-        Site:
-          name: Site
-          description: URL deste site (incluindo a barra no final por favor)
-        News Feed:
-          name: Feed de Notícias
-          description: URL para o feed externo de notícias da comunidade (as notícias serão importadas periodicamente)
-      System:
-        name: Sistema
-        Language:
+      System: 
+        Suffixes: 
+          name: Suffixes
+          description: ""
+        Adult Age: 
+          name: Idade Adulta
+          description: Idade na qual a pessoa é considerada velha o bastante para usar o site e ser vista por outros no diretório.
+        Language: 
           name: Idioma
           description: Idioma para os elementos da interface.
-        Suffixes:
-          name: Sufixos
-          description: ""
-        Time Zone:
-          name: Fuso Horário
-          description: Configure para exibir corretamente datas e horários no site.
-        Adult Age:
-          name: Idade adulta
-          description: É a idade em que uma pessoa é considerada com idade suficiente para usar o site e ser visto por outros no diretório.
-      Formats:
-        name: Formatos
-        Full Date and Time:
-          name: Data e Horários Completos
-          description: Formato para exibição de data e horário.
-        Time:
-          name: Horário
-          description: Formato para exibição de horário.
-        Phone:
-          name: Telefone
-          description: Format for displaying phone numbers (landlines). Use 'd' for digits.
-        Mobile Phone:
-          name: Telefone Celular
-          description: Formato para exibição de telefone celular. Use 'd' para os dígitos.
-        Date:
-          name: Data
-          description: Formato para exibição de datas.
-        Date Without Year:
-          name: Data sem o Ano
-          description: Formato para exibição de data sem o ano, ex. aniversários.
-      Appearance:
-        name: Aparência
-        Logo:
-          name: Logotipo
-          description: Nome de Arquivo do logotipo (encontrado no diretório public/images/).
-        Public Theme:
+        Time Zone: 
+          name: Fuzo Horário
+          description: Configure para exibir datas e horários corretamente no site.
+      Appearance: 
+        Public Theme: 
           name: Tema Público
-          description: Nome do tema selecionado para o CMS público do site.
-        Show Subheading:
-          name: Mostrar subtítulo
-          description: Abaixo do título do site/logotipo, exiba o endereço do site e o slogan.
-        Theme:
+          description: Nome do tema selecionado para o site público.
+        Theme: 
           name: Tema
           description: Nome do tema selecionado para o site.
-        Info Tab First:
-          name: Info Tab First
-          description: If enabled, move the Info tab on profiles to the far left and have it open by default.
+        Show Subheading: 
+          name: Exibir Subtítulo
+          description: Abaixo do título/logo do site, exibir o endereço do site e o slogan.
+        Info Tab First: 
+          name: Aba de Informações Primeiro
+          description: Se habilitado, move a aba de Informações nos perfis para a esquerda e a abre por padrão.
+      Formats: 
+        Full Date and Time: 
+          name: Data e Horário Completos
+          description: Formato para exibição de datas e horários.
+        Time: 
+          name: Horário
+          description: Formato para exibição de horários.
+        Date: 
+          name: Data
+          description: Formato para exibição de datas.
+        Phone: 
+          name: Telefone (Fixo)
+          description: Formato para exibição de telefones fixo.
+        Date Without Year: 
+          name: Data sem o Ano
+          description: Formato para exibição de datas sem o ano, ex. aniversários.
+        Mobile Phone: 
+          name: Telefone Celular
+          description: Formato para exibição de telefones celulares.
+      Features:
+        Custom Person Type:
+          name: Tipos Customizados - Pessoas
+          description: Se habilitado, administradores podem especificar um tipo customizado nas mesmas linhas de Elder, Diácono, etc.
+        Prayer Event: 
+          name: Evento de Oração
+          description: Quando habilitado, membros irão ver uma escala de oração e poderão se inscrever para um ou mais horários (divididos de hora em hora).
+        Community Google Calendar:
+          name: Calendário da Comunidade - Google
+          description: A URL para o Calendário da Comunidade. Ele pode ter acesso público ou privado, mas o calendário por si só, necessita ser compartilhado publicamente para ser incluído na característica individual ("meu calendário").
+        Updates Must Be Approved:
+          name: Atualizações Precisam ser Aprovadas
+          description: Se habilitado, todas as mudanças nas informações "básicas" de um usuário (telefone, endereço, etc.) irão aguardar a aprovação de um administrador antes de serem aplicadas.
+        Sign Up:
+          name: Registro
+          description: Se habilitado, membros em potencial poderão criar as suas próprias contas no site. É altamente recomendável que você também insira um endereço de email de aprovação no próximo campo para que você possa revisar as inscrições antes de permitir o login.
+        SSL:
+          name: SSL
+          description: Se você possui uma configuração SSL, você pode ligá-la nesta configuração a qual fará a página de login ser criptografada. Se não, um algoritmo avançado de hash em JavaScript está habilitado para ter certeza que as senhas dos usuários não sejam enviadas em texto puro.
+        Notes:
+          name: Notas
+          description: Habilita o Compartilhamento de Notas.
+        Pictures:
+          name: Fotos
+          description: Habilita o Compartilhamento de Fotos.
+        Banner Message:
+          name: Mensagem no Topo
+          description: Mensagem para ser exibida no topo de todas as páginas do site (HTML), como um alerta
+        Multisite:
+          name: Múltiplos Sites
+          description: Quando habilitado, esta instância pode gerenciar múltiplos sites, baseado no nome de domínio.
+        Groups:
+          name: Grupos
+          description: Habilita Grupos.
+        News by Users: 
+          name: Notícias pelos Usuários
+          description: Permitir que o usuário submeta conteúdo de notícias.
+        Custom Person Fields: 
+          name: Campos Personalizados para Pessoas
+          description: Adicione os campos personalizados, um por linha. Ao incluir a palavra "date" (ou "Date"), isto fará o campo do tipo data. Incluindo um asterístico (*) irá fazer o campo visível e editável pelos usuários.
+        Edit Legacy Ids:
+          name: Editar Ids Legados
+          description: Se habilitada, permitirá um acesso administrativo para manualmente modificar as Famílias e IDs Legados das Pessoas.
+        Sign Up Approval Email:
+          name: Email de Aprovação de Registros
+          description: Aonde serão enviados os pedidos de associação pendentes (necessita ser um admin; deixe em branco para auto-aprovação).
+        Friends:
+          name: Amigos
+          description: Habilita a amizade mútua (confirmado via email)
+        Sidebar Group Heading:
+          name: Exibe Cabeçalho do Grupo
+          description: Cabeçallho para ser exibido acima das pessoas nos grupos mútuos (veja a configuração acima)
+        Prayer Event First Date and Time: 
+          name: Primeiro Espaço de Tempo
+          description: Insira a data e horário do primeiro espaço de tempo no formato 'MM/DD/AAAA HH:00'
+        Reporting:
+          name: Relatórios
+          description: Requer MongoDB para ser configurado e usado.
+        Sidebar Group Category:
+          name: Categoria de Grupo na Barra Lateral
+          description: Pessoas em grupos mútuos nesta categoria serão exibidos na barra lateral do perfil do usuário.
+        Content Management System:
+          name: Sistema de Gerenciamento de Conteúdo
+          description: Habilita "Páginas" - Use o OneBody para hospedar o seu website.
+        Publications:
+          name: Publicações
+          description: Habilita Publicações.
+        News Page:
+          name: Páginas de Notícias
+          description: Habilita a página de notícias da comunidade. Itens de notícias pode ser submetidos pelos administradores e/ou consultadas de um feed RSS (veja URL nas confiurações de Notícias RSS).
+        Verses:
+          name: Versículos
+          description: Habilita o Compartilhamento de Versículos.
+        Prayer Event Last Date and Time: 
+          name: Último Espaço de Tempo
+          description: Insira a data e horário para o último espaço de tempo no formato 'MM/DD/AAAA HH:00'
+        Recipes:
+          name: Receitas
+          description: Habilita o Compartilhamento de Receitas.
+        Service:
+          name: Serviços
+          description: Se habilitado, administradores podem registrar serviços individuais em áreas da cominidade.
       Privacy:
-        name: Privacidade
+        Hide Contact Details in Messages: 
+          name: Ocultar Detalhes de Contato nas Mensagens
+          description: Se habilitado, o sistema tenterá ocultar números de telefone e endereços de email dentro das mensagens quando visualizadas online.
+        Share Anniversary by Default:
+          name: Compartilhar Aniversário de Casamento
+          description: Se habilitado, novos usuários terão a sua data de casamento compartilhada com outros membros do site.
+        Share Email by Default:
+          name: Compartilhar Email
+          description: Se habilitado, novos usuários terão os seus emails compartilhados com outros membros do site.
         Allow Unencrypted Logins:
           name: Permitir logins não encriptados
           description: Os login são assegurados com uma chave de criptografia RSA pública/privada usando JavaScript. Marque esta caixa para permitir o fallback para smartphones e outros navegadores com problemas para entrar no site.
-        Relay All Email:
-          name: Retransmitir todos os Emails
-          description: Se habilidato, todos os endereçcos de email serão ocultados com uma máscara confiando as respostas ao site. Se desabilitado, as pessoas que possuem o seu endereço de email compartilhado, terão os seus endereços revelados em mensagens de saída do site.
-        Max Sign in Attempts:
-          name: Máximas Tentativas de Acesso
-          description: Número máximo de falhas de entrada no site em um período de 15 minutos antes que a conta seja bloqueada. (A conta será automaticamente desbloqueada após 15 minutos)
-        Share Address by Default:
-          name: Compartilhar Endereço por Padrão
-          description: Se habilitado, novos usuários terão os seus endereços residenciais compartilhados com outros membros do site.
         Share Home Phone by Default:
           name: Compartilhar Telefone Res. por Padrão
           description: Se habilitado, novos usuários terão os seus telefones residenciais compartilhados com outros membros do site.
-        Share Mobile Phone by Default:
-          name: Compartilhar Celular por Padrão
-          description: Se habilitado, novos usuários terão os seus telefones celulares compartilhados com outros membros do site.
+        Allow Picture Comments:
+          name: Permitir comentários em fotos
+          description: Se habilitado, os usuários poderão postar comentários nas fotos.
         Share Work Phone by Default:
           name: Compartilhar Telefone Com. por Padrão
           description: Se habilitado, novos usuários terão os seus telefones comerciais compartilhados com outros membros do site.
         Share Fax by Default:
           name: Compartilhar Fax por Padrão
           description: Se habilitado, novos usuários terão os seus faxes compartilhados com outros membros do site.
-        Share Email by Default:
-          name: Compartilhar Email por Padrão
-          description: Se habilitado, novos usuários terão os seus emails compartilhados com outros membros do site.
+        Max Sign in Attempts:
+          name: Máximas Tentativas de Acesso
+          description: Número máximo de falhas de entrada no site em um período de 15 minutos antes que a conta seja bloqueada. (A conta será automaticamente desbloqueada após 15 minutos)
+        Share Mobile Phone by Default:
+          name: Compartilhar Celular por Padrão
+          description: Se habilitado, novos usuários terão os seus telefones celulares compartilhados com outros membros do site.
+        Share Address by Default:
+          name: Compartilhar Endereço por Padrão
+          description: Se habilitado, novos usuários terão os seus endereços residenciais compartilhados com outros membros do site.
+        Relay All Email:
+          name: Retransmitir todos os Emails
+          description: Se habilidato, todos os endereçcos de email serão ocultados com uma máscara confiando as respostas ao site. Se desabilitado, as pessoas que possuem o seu endereço de email compartilhado, terão os seus endereços revelados em mensagens de saída do site.
         Share Birthday by Default:
           name: Compartilhar Aniversário por Padrão
           description: Se habilitado, novos usuários terão a sua data de nascimento compartilhada com outros membros do site.
-        Share Anniversary by Default:
-          name: Compartilhar Aniversário de Casamento por Padrão
-          description: Se habilitado, novos usuários terão a sua data de casamento compartilhada com outros membros do site.
-        Allow Picture Comments:
-          name: Permitir comentários em fotos
-          description: Se habilitado, os usuários poderão postar comentários nas fotos.
-        Hide Contact Details in Messages:
-          name: Ocultar Detalhes de Contato nas Mensagens
-          description: Se habilitado, tentativas são feitas para esconder números de telefone e endereços de email dentro das mensagens visualizadas online.
-      enabled: Habilitado
-      disabled: Desabilitado
-      one_per_line: "(um por linha)"
-      reload: Recarregar Configurações
+      contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
+      contact_community_info_about: "Enter contact information for your church or community office, where people can contact administrative staff."
+      contact_heading: Contact Information
+      disabled: Disabled
+      enabled: Enabled
+      features_heading: Software Features
+      features_prayer_event_about: "The following settings allow this site to manage signups and availability for a Prayer Event."
+      formats_heading: Formats
+      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
+      formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
+      locale_heading: Locale
+      membership_management_heading: Membership Management
+      name_heading: Community Name
+      one_per_line: "(one per line)"
+      privacy_defaults: Default Privacy Settings
+      privacy_defaults_about: "When a member's account is first created, the following privacy settings are applied to their information. (Members can still choose to show or hide any of their information at any time, regardless of the settings below.)"
+      privacy_heading: Privacy Controls
+      reload: Reload Settings
       reload_message: If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.
-      save: Salvar Configurações
-      settings: Configurações
+      save: Save Settings
+      services_heading: External Services
+      settings: Settings
+      sharing_about: OneBody is best when members participate by adding their own content. Enable content sharing with these settings.
+      sharing_communications_about: Share information with your members easily.
+      sharing_heading: Sharing
+    styles:
+      editor: Style Editor
+    super_admin: Super Admin
+    super_admin_about: Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!
     syncs:
       complete: Completado
       duration: Duração
@@ -626,8 +721,13 @@ pt:
       status: Status
       success: Sucesso
       sync: Sincronização
+      sync_errors:
+        one: "{{count}} erro de sincronização"
+        other: "{{count}} erros de sincronização"
       syncs: Sincronizações
       type: Tipo
+    template: Modelo
+    templates: Modelos
     themes:
       custom_themes: Tema Customizado
       description_html: Você pode alterar a aparência do seu site editando seu tema customizado. Carregue arquivos, ex. imagens, CSS, etc, ao clicar em "Gerenciar Arquivos". <strong>As mudanças não serão vistas pelos seus visitantes até que você habilite um tema customizado nas <a href="{{url}}">configurações</a>.</strong>
@@ -673,6 +773,7 @@ pt:
     code_be_careful: Por favor seja cuidadoso(a) para entrar com o código correto. Se você cometer um erro, você deverá comecar do início.
     create: Criar Conta
     date_format: MM/DD/AAAA
+    description: Descrição
     email_not_found: Aquele email não foi encontrado no nosso sistema. Se você possui outro email, tente novamente.
     enter_code: Insira o código
     enter_your_email: Digite o seu email e então clique no botão abaixo. Se nós tivermos o email no nosso arquivo, um email será enviado para confirmação e você terá acesso ao site.
@@ -754,6 +855,7 @@ pt:
     file_not_found: Este arquivo não foi encontrado.
     invalid_name: O nome do arquivo contém caracteres inválidos.
     not_found: Anexo não foi encontrado.
+    save_group_first: Você precisa salvar este grupo antes de adicionar arquivos nele.
     saved: Anexo salvo.
     unknown_type: Tipo de anexo desconhecido.
     upload_attachment: Carregar Anexo
@@ -933,25 +1035,40 @@ pt:
     unknown_state: estado desconhecido
     you_have_pending_requests_html: Você tem <a href="{{url}}">pedidos de amizade</a>.
 
+  generated_files:
+    building: "Contruindo o seu arquivo..."
+    complete_heading: "Pronto!"
+    complete_message: "O seu arquivo está completo e pronto para o download."
+    failure_heading: "Desculpe..."
+    failure_message: "Aparentemente houve um problema ao gerar o seu arquivo."
+
   groups:
     accept: Aceitar
     add_somebody: Adicionar alguém
+    address_hint: Give your group a unique email address so messages can be sent easily.
+    advanced: Advanced
     approval_required_to_join: Uma aprovação é requerida para pessoas entrarem neste grupo
     approve_group: Aprovar Grupo
-    approved: Aprovado
     are_you_sure_option: Você tem certeza que deseja {{option}} os emails deste grupo {{group}}?
     attendance: Frequência
+    back_to_group: "Back to {{name}}"
     back_to_homepage: Voltar à Página Inicial do Grupo
     batch_edit_groups: Editar Grupos em Lote
+    browse_by_category: Browse by Category
     by_allow_anyone_to_join: Ao permitir que qualquer um entre neste grupo sem que um administrador aprove, potencialmente qualquer usuário do site pode ler mensagens no grupo "privado".
     calendar_help: No seu Calendário do Google, nas Configurações de Calendário, copie o seu Link de XML "Privado" e cole nesta caixa de textos para mostrar o calendário na página do grupo.
     calendar_private_link: Link Privado do Calendário do Google
-    category: Categoria
-    category_required: Categoria (requerido)
+    campaign_monitor_sync: "Campaign Monitor API List ID:"
+    campaign_monitor_sync_help: To sync with a Campaign Monitor subscriber list, paste the API List ID here.
+    campaign_monitor_policy_html: 'You must follow all policies of Campaign Monitor, including <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.'
     cannot_remove_last_admin: Você não pode remover o último administrador do grupo. Você pode deletar o grupo se preferir.
+    category: Categoria
+    category_hint: Make your group easy to find by placing it an appropriate category.
+    category_required: Categoria (requerido)
     change_email_settings: Mudar Configurações de Email
     change_this_picture: Mudar esta Foto
     class_link_code: "Código(s) de Classe do Link:"
+    class_link_code_hint_html: 'Useful for syncing with external systems. See <a href="https://github.com/seven1m/onebody/wiki/HowGroupMembershipWorks">here</a>. Separate multiple codes with a space.'
     click_save_changes_to_upload: Clique em "Salvar Mudanças" no final deste formulário para carregar uma nova foto.
     configure_email_from_group: configure um email para este grupo
     create_a_group: Crie um Grupo
@@ -962,15 +1079,21 @@ pt:
     delete_group: Deletar Grupo
     deleted: Grupo deletado.
     description: Descrição
+    description_hint: "Enter a sentence or two to give people an idea of why you meet and of your group's goals."
     directions: Direções
+    directions_hint: You may want to include travel directions.
+    done_removing_people: Done.
     edit_group: Editar Grupo
-    email_off: desligado
-    email_on: ligado
+    edit_members: Edit Group Members
     email_from_group_is_on: emails deste grupo estão LIGADOS
     email_from_group_is_off: emails deste grupo estão DESLIGADOS
+    email_off: desligado
+    email_on: ligado
     email_settings_changed: As suas configurações de email para o grupo foram alteradas.
     enable_attendance_tracking: Habilitar Registro de Presença
+    enable_calendar: Enable Calendar
     enable_email: Habilitar Email
+    enable_pictures: Enable Pictures
     enable_prayer_requests: Habilitar Pedidos de Oração
     features: Características
     following_are_pending_approval:
@@ -981,6 +1104,7 @@ pt:
     groupies: Grupos
     hidden_group: Grupo Oculto
     hidden_groups: Grupos Ocultos
+    i_agree: I Agree
     if_cant_find_create_it: Se você não consegue encontrar o grupo que está procurando, crie-o!
     if_checked_message_only_to_members: Se checado, a mensagem será somente visível aos membros do grupo.
     if_ok_you_will_stop_receiving: Se você clicar OK, você não irá mais receber emails deste grupo.
@@ -992,9 +1116,13 @@ pt:
     leader_id: Id do Líder
     leave_this_group: Deixar este Grupo
     linked: Grupos Conectados
+    linked_membership: (linked)
     location_address: Local e Endereço
+    location_address_hint: If you enter a physical address, an interactive map will be displayed on your group page.
     meets: Encontros
     meets_when: Quando o grupo se encontra
+    meets_when_hint: 'Something like "Wednesdays at 7pm" or "As Announced"'
+    members: Group Members
     members_send: Membros Enviam
     must_specify_ids_list: Você precisa digitar uma lista de ids.
     name_required: Nome (requerido)
@@ -1004,39 +1132,49 @@ pt:
     not_authorized_view: Você não está autorizado a visualizar este grupo
     not_authorized_post: Você não está autorizado a postar neste grupo.
     not_found: Grupo não encontrado.
+    no_activity_yet: "This group hasn't had any activity yet."
     no_groups_found: nenhum grupo encontrado
     only_admins_see_this_list: Somente administradores (como você) enxergam esta lista
     or_send_from_your_email_html: "Ou envie para <a href='mailto:{{email}}'>{{email}}</a> do seu programa de email."
     other_notes: Outras Notas
     parents_of: "Pais de:"
+    parents_of_hint: "Membership will be auto-generated from parents of selected group's members."
     pending_approval_count:
       one: "{{count}} grupo pendente de aprovação"
       other: "{{count}} grupos pendentes de aprovação"
     membership_request_count:
       one: "{{count}} requisição de associação pendente"
       other: "{{count}} requisições de associação pendentes"
+    people_in_group: "People In {{name}}"
+    picture: Group Picture
+    picture_hint: Use a group shot or a clip-art graphic to help people recognize your group on this site.
     privacy_security: Privacidade e Segurança
     private_group: Grupo Privado
     promote: Promover
     remove_group_photo: Remover Foto do Grupo
+    remove_people: Remove People
     requests: Requisições
     request_sent: Uma requisição para entrar neste grupo foi enviada ao(s) administrador(es) do grupo.
     request_will_be_sent_to_admins: Você tem certeza? Uma requisição será enviada ao(s) administrador(es) do grupo.
     settings_saved: Configurações do grupo foram salvar.
     scroll_left_and_right: Arraste para esquerda e direita para visualizar todas as colunas.
+    search: Group Search
+    search_for_a_group: Search for a Group
     select_one_or_more: Selecione uma ou mais opções abaixo e escolha uma ação
     show_all: Mostrar todos...
     the_settings_are_for_advanced_users: As configurações abaixo são para usuário avançados.
     there_was_errors_saving: Existe um ou mais erros ao salvar as mudanças. Os registros com erro estão destacados em vermelho. Arraste para visualizar todas as mensagens de erro.
     this_group_has_pending_html: Este grupo possui <a href="{{url}}">pedidos de associação</a> pendentes.
-    this_group_is_hidden: Este grupo é oculto.
+    this_group_is_hidden: Este grupo é oculto. A sua existência é oculta da maioria das pessoas."
     this_group_is_pending_approval: Este grupo está com a aprovação pendente.
     this_group_is_pending_you_may_not_add_people: Este grupo está com a aprovação pendente. Você ainda não pode adicionar nenhuma pessoa nele.
     this_group_is_private: Este grupo é particular. Somente pessoas participantes podem visualizar as mensagens.
     this_group_maintained_by_staff: Este grupo é mantido pelo staff.
     types: Tipos de Grupos
+    unmapable_address: "This does not resemble a physical address; no map will be shown."
     user_settings_saved: Configurações de usuário salvas.
     view_group: Visualizar Grupo
+    view_members: View Group Member Details
     yes_do_it: Sim, faça.
     you_are_to_remove_yourself: Você irá remover você mesmo deste grupo! Você não conseguirá editá-lo mais se fizer isto
     you_requested_join_this_group: Você fez um pedido para entrar neste grupo.
@@ -1076,6 +1214,28 @@ pt:
     powered_by_html: Provido por <a href="http://beonebody.com" rel="external">OneBody</a>
     privacy_policy: Política de Privacidade
 
+  menus:
+    home:
+      feed: feed
+      mobile_tap_again: Tap button again to go to Home.
+      pictures: pictures
+      publications: publications
+      verses: verses
+    profile:
+      contributions: contributions
+      edit: edit profile
+      edit_family: edit family
+      email: email settings
+      feeds: feeds
+      mobile_tap_again: Tap button again to go to your Profile.
+      new_family: new family
+      privacy: privacy
+      password: password
+      relationships: relationships
+    group:
+      delete: delete group
+      edit: edit group
+
   messages: 
     ago: atrás
     attachment_optional: Anexo (opcional)
@@ -1104,6 +1264,7 @@ pt:
     send_message: Enviar Mensagem
     sent: A sua mensagem foi enviada.
     sent_per_day: Mensagens Enviadas Por Dia
+    show_quoted_content: show quoted content
     some_quoted_text_is_hidden: Algumas citações nesta mensagem estão ocultas;
     subject: Assunto
     this_group_is_not_private: Este grupo não é particular, então as mensagens enviadas aqui serão visíveis por pessoas que não são membros deste grupo.
@@ -1231,6 +1392,17 @@ pt:
     deleted_html: Esta pessoa foi deletada. Você pode restaurá-la <a href="{{url}}">aqui</a>.
     description_of_business: Descrição dos Negócios
     determine_by_birthday: Determinar pela data de nascimento
+    edit:
+      about: About
+      basics: Basics
+      child_hint: If no birthday is specified, you must indicate whether this is a child or an adult.
+      description_hint: "A word or two about yourself — maybe your profession?"
+      email: Change Email Settings
+      family_photo: Family Photo
+      person_type_hint: These do not control access — only designation.
+      photo: Profile Photo
+      privacy: Change Privacy Settings
+      profile: Edit Profile
     email: Email
     email_address: endereço de email (usado no login da conta) é
     enter_new_category: Entre um nova categoria.
@@ -1244,17 +1416,20 @@ pt:
     friendship_rejected: Amizade rejeitada.
     full_access: Acesso Total
     groups: Grupos
-    no_email: "{{name}} não tem um endereço de email no sistema"
     if_you_have_another_email: Se você têm outro email (talvez um endereço comercial) você pode utilizá-lo para enviar emails para os grupos e você pode digitá-lo aqui.
     if_you_wish_to_be_listed_business_dir_html: Se vocês quiser ser listado no <a href="{{url}}">Diretório de Negócios</a>, entre o nome da empresa, descrição e outros detalhes abaixo.
     if_you_wish_to_remove_something_html: Se você quiser remover algo abaixo para prevenir que outros possam ver, vá à página de <a href="{{url}}">Privacidade</a> e oculte-os.
     if_your_system_is_setup_to_sync_change: Se o seu sistema está configurado para sincronização com uma fonte de dados externa (ex. um sistema de gerenciamento de membros), mudanças nesta pessoa podem ser sobrescritas na próxima sincronização.
     interests: Interesses
     legacy_external_id: Legado/ID Externo
+    limited_access: "Your account currently has limited access; We're showing you an abbreviated profile page as a result."
+    limited_access_denied: "Your account currently has limited access."
     movies: Filmes
     music: Música
+    name: Name
     new_person: Nova Pessoa
     no_additional_access_avaiable: Nenhuma opção de acesso adicional está disponível neste momento.
+    no_email: "{{name}} doesn't have an email address in the system"
     no_family_for_this_person: Esta pessoa não faz parte de nenhuma família. Ela não conseguirá entrar e não será visível a outros no site.
     no_groups_yet: não há grupos ainda
     not_deleted: Pessoa não foi deletada.
@@ -1280,7 +1455,6 @@ pt:
     suffix: Sufixo
     tell_us_about_yourself: Conte-nos sobre você. Como é sua personalidade? O que o seu melhor amigo diz sobre você?
     testimony: Testemunho
-    these_do_not_control_access: Isto não controla acesso — apenas visualização.
     this_account_is_frozen: Esta conta está congelada. {{name}} não pode fazer mudanças ao seu perfil até que a conta seja descongelada.
     this_email_will_not_be_visible: Este endereço de email não será visível a ninguém exceto administradores.
     this_event_doesnt_have_pictures: "Este evento ainda não contém nenhuma foto."
@@ -1290,6 +1464,7 @@ pt:
     upload_a_picture_of_html: Carregue uma <strong>foto do {{name}}</strong>.
     upload_family_picture_html: Carregue uma <strong>foto da família</strong>.
     update_to_profile_is: Uma atualização a este perfil é
+    verses: Versículos
     visibility: Visibilidade
     visible_on_printed_directory: Visível no Diretório Impresso
     visible_to_everyone: Visível a Todos
@@ -1375,10 +1550,10 @@ pt:
     signup_saved: Registro salvo.
 
   profile: 
-    fax: fax
-    home: casa
-    mobile: celular
-    work: trabalho
+    fax: "[fax]"
+    home: "[cas]"
+    mobile: "[cel]"
+    work: "[trab]"
 
   printable_directories:
     already_sent: Aparentemente um diretório já foi enviado um tempo atrás. Por favor verifique o seu email (e o seu diretório de spam, em todo caso).
@@ -1417,7 +1592,7 @@ pt:
     mobile_phone: Celular
     modify_the_privacy_settings_html: Modifique as configurações de privacidade para você e a sua família abaixo. Para entender como nós usamos as suas informações pessoais e da sua família, por favor leia a nossa <a href="{{url}}">Política de Privacidade</a>.
     please_read_our_privacy_policy_html: Por favor leia a nossa <a href="{{url}}">Política de Privacidade</a> para detalhes sobre o uso de suas informações pessoais.
-    people_can_still_send_html: As pessoas ainda podem enviar um email para a sua família <a href="#" onclick="alert('Um usuário pode enviar uma mensagem para outro através deste site. O sistema é monitorado contra abusos e permite as pessoas te contatar sem possuir o seu endereço de email. Nós recomendamos que você deixe o seu endereço de email privado para previnir emails não solicitados.');return false;">através do site</a> se as Mensagens Privadas estiverem habilitadas.
+    people_can_still_send_html: "You can still receive email through the site, without revealing your email address on the Web."
     privacy: Privacidade
     private: Particular
     read_privacy_policy_html: Leia a nossa <a href="{{url}}">Política de Privacidade</a>.
@@ -1430,6 +1605,7 @@ pt:
     this: esta
     to_show_on_this_site: "Para mostrar o {{name}} neste site, por favor:"
     visible: Visível
+    visible_note: Setting a profile to be invisible will cause you to not appear in any directory searches. You can still join groups and receive group email and email from site administrators though.
     work_phone: Telefone Comercial
     you_are_not_sharing_with_groups: Você não está compartilhando o seu {{sharing}} com nenhum grupo específico.
     you_are_sharing_with_groups: "Você está compartilhando o seu {{sharing}} com os seguintes grupos:"
@@ -1458,6 +1634,7 @@ pt:
     start_receiving_notifications: Se você deseja receber notificações por email quando novas publicações forem disponibilizadas aqui nesta página,
     subscribe: Subscrever
     subscribe_feed_html: <a href="{{url}}">Subscrever</a> à essa Publicação com o seu leitor de feeds.
+    unsubscribe: Unsubscribe
     update_notifications: Atualizar Notificações
     you_must_select_file: Você deve selecionar um arquivo.
 
@@ -1527,8 +1704,10 @@ pt:
     family_name: "Nome da Família"
     female: Feminino
     gender: "Gênero"
+    heading: "{{name}} Directory"
     male: Masculino
     member: Membro
+    results_not_shown: Some results not shown — be more specific.
     name: Nome
     no_family: "(não possui família)"
     not_showing_hidden_people: "(não está mostrando pessoas ocultas)"
@@ -1546,6 +1725,7 @@ pt:
     zip: CEP
 
   session:
+    account_not_activated_html: Your account hasn't been activated yet. <a href="/pages/help">Click here</a> to get started.
     create_the_first_user: "Você pode criar o primeiro usuário executando o comando:"
     email_address: "Endereço de Email:"
     email_found: Aquele email foi encontrado mas você deve verificá-lo antes de poder acessar o sistema.
@@ -1567,7 +1747,37 @@ pt:
     sign_up_or_sign_in_html: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"
     there_are_no_users_in_the_system: "Não há usuários no sistema."
 
+  setup:
+    admin_account: Conta Administrativa
+    complete: "Agora você está pronto para entrar no sistema pela primeira vez!"
+    congratulations: "Congratulations! OneBody is running. Now it's time to add an admin user and set some other settings..."
+    do_right_away: You should do this right away, especially if your server is available on the public Web.
+    domain_name: Domain Name
+    domain_name_note: "Enter the domain for this site, without any leading \"www\", like so: \"example.com\" or \"members.example.com\"."
+    email_note: This is the email address that will receive real-time bug reports.
+    heading: First-Time Setup
+    invalid_domain_name: Invalid domain name.
+    more_accounts_later: "(You'll be able to create more admin accounts later.)"
+
+  share:
+    default_album_name: Nome do Álbum
+    email: Email
+    group: "Compartilhe algo com o seu grupo."
+    note: Nota
+    note_label: "O que passa na sua mente?"
+    picture: Foto
+    prayer_answer: Resposta
+    prayer_answered_at: Data da Resposta
+    prayer_request: Pedido de Oração
+    prayer_share_answer: "Esta é uma oração respondida..."
+    profile: "Compartilhar algo com seus amigos."
+    share: Compartilhar!
+    verse: Versículo
+    verse_label: "Versículo ou Passagem:"
+
   stream: 
+    about_heading: Sua Página Inicia;
+    about_html: "Esta é a sua página inicial personalizada — itens exibidos aqui são de pessoas pertencentes aos seus grupos, sua família e seus amigos."
     ago: atrás
     and_more: e mais {{length}} itens por {{name}}...
     feed: Feed
@@ -1578,9 +1788,17 @@ pt:
     import_twitter_updates: "Importar as suas atualizações do Twitter..."
     nothing_to_show: Agora, não há nada a mostrar.
     rss: RSS
+    share_heading: Compartilhar com Amigos
+    share_something_about: Os itens que você compartilhar aqui, serão exibidos aos seus amigos e nas páginas de seus colegas membros de grupos (porém para mais ninguém).
     show: Mostrar
     twitter: Twitter
     where_activity_appear: Aqui é onde as suas atividades, de seus amigos e grupos irá aparecer.
+
+  styles:
+    heading: Editor de Estilos
+    primary_color: Cor Primária
+    secondary_color: Cor Secundária
+    top_color: Cor da Barra Superior
 
   tags: 
     add_tags: "Adicionar Tags (separadas por espaços)"
@@ -1590,11 +1808,14 @@ pt:
     tags: Tags
 
   verses: 
+    about_tags: Tags podem agroupar versículos por tópico, autor, data ou qualquer outro assunto.
     about_this_verse: "sobre esse versículo. Compartilhe o que ele significa para você, como te ajudou ou simplesmente porque você gosta."
     add_this_verse_to_my_list: "Adicionar esse versículo à minha lista."
     add_verse: "Adicionar Versículo"
+    add_your_favorite_verse: "Adicionar o seu versículo favorito:"
     all_verses: "Todos os Versículos"
     disclaimer: "Trechos das escrituras marcados como 'WEB' são obtidos da World English Bible, uma tradução moderna em inglês da American Standard Version da Bíblia Sagrada. WEB está sob domínio público. Cópias e publicações são livres."
+    example_verse: "João 3:16"
     intro: "Compartilhe os seus versículos bíblicos favoritos com {{community}}."
     no_verses_yet: "Nenhum versículo ainda!"
     not_found: O versículo não pode ser encontrado. Você digitou a referência corretamente?
