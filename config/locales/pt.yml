@@ -691,7 +691,7 @@ pt:
       membership_management_heading: Membership Management
       name_heading: Community Name
       one_per_line: "(one per line)"
-      privacy_defaults: Default Privacy Settings
+      privacy_defaults: Configurações de Privacidade Padrão
       privacy_defaults_about: "When a member's account is first created, the following privacy settings are applied to their information. (Members can still choose to show or hide any of their information at any time, regardless of the settings below.)"
       privacy_heading: Privacy Controls
       reload: Reload Settings
@@ -1054,7 +1054,7 @@ pt:
     back_to_group: "Back to {{name}}"
     back_to_homepage: Voltar à Página Inicial do Grupo
     batch_edit_groups: Editar Grupos em Lote
-    browse_by_category: Browse by Category
+    browse_by_category: Procurar por uma Categoria
     by_allow_anyone_to_join: Ao permitir que qualquer um entre neste grupo sem que um administrador aprove, potencialmente qualquer usuário do site pode ler mensagens no grupo "privado".
     calendar_help: No seu Calendário do Google, nas Configurações de Calendário, copie o seu Link de XML "Privado" e cole nesta caixa de textos para mostrar o calendário na página do grupo.
     calendar_private_link: Link Privado do Calendário do Google
@@ -1159,7 +1159,7 @@ pt:
     settings_saved: Configurações do grupo foram salvar.
     scroll_left_and_right: Arraste para esquerda e direita para visualizar todas as colunas.
     search: Group Search
-    search_for_a_group: Search for a Group
+    search_for_a_group: Procurar por um Grupo
     select_one_or_more: Selecione uma ou mais opções abaixo e escolha uma ação
     show_all: Mostrar todos...
     the_settings_are_for_advanced_users: As configurações abaixo são para usuário avançados.
@@ -1217,24 +1217,24 @@ pt:
   menus:
     home:
       feed: feed
-      mobile_tap_again: Tap button again to go to Home.
-      pictures: pictures
-      publications: publications
-      verses: verses
+      mobile_tap_again: Aperte o botão novamente para ir para o Início.
+      pictures: fotos
+      publications: publicações
+      verses: versículos
     profile:
-      contributions: contributions
-      edit: edit profile
-      edit_family: edit family
-      email: email settings
+      contributions: contribuições
+      edit: editar perfil
+      edit_family: editar família
+      email: configurações de email
       feeds: feeds
-      mobile_tap_again: Tap button again to go to your Profile.
-      new_family: new family
-      privacy: privacy
-      password: password
-      relationships: relationships
+      mobile_tap_again: Aperte o botão novamente para ir ao seu Perfil.
+      new_family: nova família
+      privacy: privacidade
+      password: senha
+      relationships: relacionamentos
     group:
-      delete: delete group
-      edit: edit group
+      delete: deletar grupo
+      edit: editar grupo
 
   messages: 
     ago: atrás
@@ -1393,16 +1393,16 @@ pt:
     description_of_business: Descrição dos Negócios
     determine_by_birthday: Determinar pela data de nascimento
     edit:
-      about: About
-      basics: Basics
+      about: Sobre
+      basics: Dados Básicos
       child_hint: If no birthday is specified, you must indicate whether this is a child or an adult.
       description_hint: "A word or two about yourself — maybe your profession?"
-      email: Change Email Settings
-      family_photo: Family Photo
+      email: Alterar Configurações de Email
+      family_photo: Foto de Família
       person_type_hint: These do not control access — only designation.
-      photo: Profile Photo
-      privacy: Change Privacy Settings
-      profile: Edit Profile
+      photo: Foto do Perfil
+      privacy: Alterar Configurações de Privacidade
+      profile: Editar Perfil
     email: Email
     email_address: endereço de email (usado no login da conta) é
     enter_new_category: Entre um nova categoria.
@@ -1483,7 +1483,7 @@ pt:
 
   photos:
     object_not_found: Objeto não encontrado.
-    remove: Remover {{name}}
+    remove: Remover foto
     unavailable: Foto indisponível.
     upload: Carregar {{name}}
 
@@ -1776,8 +1776,8 @@ pt:
     verse_label: "Versículo ou Passagem:"
 
   stream: 
-    about_heading: Sua Página Inicia;
-    about_html: "Esta é a sua página inicial personalizada — itens exibidos aqui são de pessoas pertencentes aos seus grupos, sua família e seus amigos."
+    about_heading: Sua Página Inicial
+    about_html: "Esta é a sua página inicial personalizada — Itens exibidos aqui são de pessoas pertencentes aos seus grupos, sua família e seus amigos."
     ago: atrás
     and_more: e mais {{length}} itens por {{name}}...
     feed: Feed
