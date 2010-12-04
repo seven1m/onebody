@@ -199,6 +199,12 @@ class NotifierTest < ActiveSupport::TestCase
     assert sent.body.to_s.index("the system does not recognize your email address")
   end
 
+  should 'properly parse html email' do
+    body = Notifier.get_body(Mail.read(File.join(FIXTURES_PATH, 'html.email')))
+    assert_equal nil, body[:text]
+    assert body[:html]
+  end
+
   private
     def to_email(values)
       values.symbolize_keys!
