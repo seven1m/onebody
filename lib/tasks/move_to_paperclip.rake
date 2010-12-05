@@ -3,7 +3,9 @@ namespace :onebody do
   desc 'Move existing pictures and files to new locations for OneBody 2.0.0.'
   task :move_to_paperclip => :environment do
     require 'fileutils'
-    paths = Dir[Rails.root.join('db/{photos,attachments,publications}/**/*')].to_a
+    paths = Dir[DB_PHOTO_PATH.join('**/*')].to_a + \
+            Dir[DB_ATTACHMENTS_PATH.join('**/*')].to_a + \
+            Dir[DB_PUBLICATIONS_PATH.join('**/*')].to_a
     paths.each_with_index do |path, index|
       if path =~ %r{db/photos}
         _, collection, id, _, env, size = path.match(%r{db/photos/(.+)/(\d+)(\.(test|development))?\.(tn|small|medium|large|full)\.jpg}).to_a
