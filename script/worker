@@ -59,7 +59,9 @@ if stmt.num_rows > 0
       logger.info eval(command.gsub(/JOB_ID/, id.to_s))
     rescue => e
       logger.error(e.message)
-      logger.error(e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s)
+      backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
+      logger.error(backtrace)
+      Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Worker Error', e.message + "\n\n" + backtrace).deliver
     ensure
       del_stmt = db.prepare("delete from jobs where id = %d" % id)
       del_stmt.execute
