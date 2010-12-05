@@ -81,7 +81,7 @@ class Person
         updated_at
         visible
       )
-    }
+    } unless defined?(EXPORT_COLS)
 
     def self.included(mod)
       mod.extend(ClassMethods)

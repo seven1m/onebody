@@ -2,7 +2,7 @@ class Person
 
   cattr_accessor :import_in_progress
 
-  MAX_RECORDS_TO_IMPORT = 500
+  MAX_RECORDS_TO_IMPORT = 500 unless defined?(MAX_RECORDS_TO_IMPORT)
 
   COLUMN_ALIASES = {
     'First Name'             => 'first_name',
@@ -22,7 +22,7 @@ class Person
     'Cell Phone'             => 'mobile_phone',
     'Individual Email'       => 'email',
     'Household Email'        => 'family_email'
-  }
+  } unless defined?(COLUMN_ALIASES)
 
   module Import
     def self.included(mod)
