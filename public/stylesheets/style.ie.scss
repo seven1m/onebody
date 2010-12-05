@@ -1,6 +1,3 @@
-a.button {
-  border: 1px solid #ccc;
-}
 #common-nav li.last-child:after {
   content: none;
 }
@@ -9,4 +6,17 @@ a.button {
 }
 h2.first-child, h3.first-child {
   margin-top: 0;
+}
+input[type=button], input[type=submit], a.button {
+  border: 1px solid #ccc;
+  background-color: #dfdfdf;
+  filter: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  &:hover, &.active {
+    filter: none;
+  }
+}
+#nav {
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd', GradientType=0 );
 }

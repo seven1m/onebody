@@ -24,14 +24,12 @@ $body-font-color: $dark + 40;
   background: $top;
   background: -moz-linear-gradient(top, $top 0%, $bottom 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$top), color-stop(100%,$bottom));
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$top', endColorstr='$bottom', GradientType=0 );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$top}', endColorstr='#{$bottom}', GradientType=0 );
 }
 @mixin radialgradient($inner:#fff, $outer:#eee) {
   background-color: $outer;
   background: -moz-radial-gradient(center bottom 90deg, circle farthest-side, $inner 0%, $outer 50%);
   background: -webkit-gradient(radial, center bottom, 0, center bottom, 300, from($inner), to($outer));
-  /* fall back to linear gradient in IE */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$inner', endColorstr='$outer', GradientType=0 );
 }
 @mixin shadow($x:0px, $y:2px, $blur:5px, $opacity:.5) {
   -webkit-box-shadow: $x $y $blur rgba(0, 0, 0, $opacity);
@@ -946,7 +944,6 @@ table.members {
   margin-bottom: 25px;
 }
 
-
 .heading-action {
   float: right;
   margin-top: -45px;
@@ -987,4 +984,8 @@ table.members {
 .color-preview {
   display: inline-block;
   width: 20px;
+}
+
+a.styleless {
+  text-decoration: none;
 }
