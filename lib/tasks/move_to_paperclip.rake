@@ -27,10 +27,12 @@ namespace :onebody do
         puts "       This file/photo was not copied: #{path}"
       else
         object.send("#{attribute}=", File.open(path))
-        klass.skip_callback :save do
-          object.save(:validate => false)
-        end
-        object.save_attached_files
+        #klass.skip_callback :save do
+          #object.save(:validate => false)
+        #end
+        #object.save_attached_files
+        # manually update db so as to not trigger any callbacks
+        Person.connection.execute("UPDATE #{collection} SET #{attribute}_updated_at='#{Time.now.utc}', #{attribute}_fingerprint='#{object.attributes[attribute + '_fingerprint']}', #{attribute}_file_size=#{object.attributes[attribute + '_file_size']}, #{attribute}_content_type='#{object.attributes[attribute + '_content_type']}', #{attribute}_file_name='#{object.attributes[attribute + '_file_name']}' WHERE id=#{object.id}")
         puts "Copied #{path} =>\n       #{object.send(attribute).path}"
       end
       puts "       #{index+1}/#{paths.length} complete."
