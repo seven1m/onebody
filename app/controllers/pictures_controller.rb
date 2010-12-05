@@ -49,7 +49,7 @@ class PicturesController < ApplicationController
         :photo  => pic
       )
       if picture.errors.any?
-        errors += picture.errors.full_messsages
+        errors += picture.errors.full_messages
       end
       if picture.photo.exists?
         success += 1
@@ -64,8 +64,8 @@ class PicturesController < ApplicationController
     end
     flash[:notice] = t('pictures.saved', :success => success)
     flash[:notice] += " " + t('pictures.failed', :fail => fail) if fail > 0
-    flash[:notice] += " " + errors if errors.any?
-    redirect_to params[:redirect_to] || @group || @album
+    flash[:notice] += " " + errors.join('; ') if errors.any?
+    redirect_to params[:redirect_to] || @group || album_pictures_path(@album)
   end
 
   # rotate / cover selection
