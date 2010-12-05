@@ -60,11 +60,11 @@
 <% end %>
 
 <% if @group.private? %>
-  <p><%= t('groups.this_group_is_private') %></p>
+  <p class="highlight"><%= t('groups.this_group_is_private') %></p>
 <% end %>
 
 <% if @group.hidden? %>
-  <p><%= t('groups.this_group_is_hidden') %></p>
+  <p class="highlight"><%= t('groups.this_group_is_hidden') %></p>
 <% end %>
 
 <% if @show_map %>
