@@ -64,14 +64,14 @@ class Feed < ActiveRecord::Base
   end
 
   def import_picture(entry)
-    unless Picture.exists?(['original_url = ? and person_id = ?', entry.url, person_id])
-      album = person.albums.find_or_create_by_name('Flickr') do |a|
-        a.description = 'Photos from my Flickr account.'
-        a.is_public = false
-      end
-      if entry.content =~ /<a href="([^"]+)".+><img src="([^"]+_m\.jpg)/
-        url = $1
-        img = $2.sub(/_m\.jpg$/, '_b.jpg') # "big" size
+    if entry.content =~ /<a href="([^"]+)".+><img src="([^"]+_m\.jpg)/
+      url = $1
+      img = $2.sub(/_m\.jpg$/, '_b.jpg') # "big" size
+      unless Picture.exists?(['original_url = ? and person_id = ?', entry.url || url, person_id])
+        album = person.albums.find_or_create_by_name('Flickr') do |a|
+          a.description = 'Photos from my Flickr account.'
+          a.is_public = false
+        end
         res = Net::HTTP.get_response(URI.parse(img))
         if !res.is_a?(Net::HTTPOK)
           img = img.sub(/_b\.jpg$/, '.jpg') # try the original size
