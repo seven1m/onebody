@@ -42,7 +42,6 @@ class AddPaperclipColumns < ActiveRecord::Migration
       t.integer :file_file_size
       t.datetime :file_updated_at
     end
-    Rake::Task['onebody:move_to_paperclip'].invoke
   end
 
   def self.down
