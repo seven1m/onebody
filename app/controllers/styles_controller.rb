@@ -3,7 +3,7 @@ class StylesController < ApplicationController
   skip_before_filter :authenticate_user, :only => :show
   before_filter :only_admins, :only => :edit
 
-  caches_action :show, :cache_path => Proc.new { |c| "style#{c.params[:browser] ? ('.'+c.params[:browser]) : ''}" }
+  caches_action :show, :cache_path => Proc.new { |c| "style#{c.params[:browser] ? ('.'+c.params[:browser]) : ''}?id=#{Site.current.id}" }
 
   def show
     if params[:browser] == 'ie'
@@ -50,7 +50,7 @@ class StylesController < ApplicationController
       Setting.set(Site.current.id, 'Appearance', 'Theme Primary Color', params[:primary])
       Setting.set(Site.current.id, 'Appearance', 'Theme Secondary Color', params[:secondary])
       Setting.set(Site.current.id, 'Appearance', 'Theme Top Color', params[:top])
-      expire_fragment(%r{style(\.ie)?\.css})
+      expire_fragment(%r{style(\.ie)?\.css\?id=#{Site.current.id}})
     end
     redirect_to edit_style_path
   end
