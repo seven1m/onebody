@@ -3,7 +3,7 @@ class StylesController < ApplicationController
   skip_before_filter :authenticate_user, :only => :show
   before_filter :only_admins, :only => :edit
 
-  #caches_action :show, :cache_path => Proc.new { |c| "style#{c.params[:browser] ? ('.'+c.params[:browser]) : ''}" }
+  caches_action :show, :cache_path => Proc.new { |c| "style#{c.params[:browser] ? ('.'+c.params[:browser]) : ''}" }
 
   def show
     if params[:browser] == 'ie'
