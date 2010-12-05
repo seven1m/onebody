@@ -3,7 +3,9 @@ class UpdateAllStreamItems < ActiveRecord::Migration
     Site.each do
       Note.all.each        { |o| o.create_as_stream_item }
       Picture.all.each     { |o| o.create_as_stream_item }
-      Recipe.all.each      { |o| o.create_as_stream_item }
+      if defined?(Recipe)
+        Recipe.all.each      { |o| o.create_as_stream_item }
+      end
       Publication.all.each { |o| o.create_as_stream_item }
       NewsItem.all.each    { |o| o.create_as_stream_item }
       Message.all(
