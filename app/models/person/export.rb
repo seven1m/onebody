@@ -32,6 +32,9 @@ class Person
         share_fax
         share_email
         share_birthday
+        share_address
+        share_anniversary
+        share_home_phone
         business_category
         business_name
         business_description
@@ -44,9 +47,7 @@ class Person
         anniversary
         updated_at
         alternate_email
-        get_wall_email
         account_frozen
-        wall_enabled
         messages_enabled
         visible
         parental_consent
@@ -76,19 +77,9 @@ class Person
         state
         zip
         home_phone
-        share_address
-        share_mobile_phone
-        share_work_phone
-        share_fax
-        share_email
-        share_birthday
-        share_anniversary
         legacy_id
         updated_at
-        wall_enabled
         visible
-        share_activity
-        share_home_phone
       )
     }
 
@@ -129,7 +120,7 @@ class Person
                     people.person do |p|
                       inherited_attributes = Person.class_eval('@inherited_attributes')
                       EXPORT_COLS[:person].each do |col|
-                        p.tag!(col, inherited_attributes.include?(col.to_sym) ? person.attributes[col] : person.send(col))
+                        p.tag!(col, person.attributes[col])
                       end
                     end
                   end
