@@ -31,7 +31,7 @@ class AttendanceController < ApplicationController
           if @group
             @group.attendance_records.create!(
               :person_id      => person.id,
-              :attended_at    => @attended_at,
+              :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M'),
               :first_name     => person.first_name,
               :last_name      => person.last_name,
               :family_name    => person.family.name,
@@ -46,7 +46,7 @@ class AttendanceController < ApplicationController
       # record attendance for a person not in database (one at a time)
       if person = params[:person] and @group
         @group.attendance_records.create!(
-          :attended_at    => @attended_at,
+          :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M'),
           :first_name     => person['first_name'],
           :last_name      => person['last_name'],
           :age            => person['age']
@@ -77,7 +77,7 @@ class AttendanceController < ApplicationController
         if person = Person.find_by_id(id)
           @group.attendance_records.create!(
             :person_id      => person.id,
-            :attended_at    => @attended_at,
+            :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M'),
             :first_name     => person.first_name,
             :last_name      => person.last_name,
             :family_name    => person.family.name,
