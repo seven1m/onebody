@@ -126,7 +126,7 @@ a {
     color: $secondary;
   }
 }
-input, textarea {
+input[type=""], input[type=text], input[type=password], textarea {
   border: 1px solid $light - 20;
   padding: 6px;
   @include curve(4px);
