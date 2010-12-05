@@ -16,7 +16,7 @@ OneBody::Application.routes.draw do
       get  :schema
       get  :import
       post :import
-      post :hashfiy
+      post :hashify
       post :batch
     end
     member do
@@ -60,7 +60,7 @@ OneBody::Application.routes.draw do
   resources :families do
     collection do
       get  :schema
-      post :hashfiy
+      post :hashify
       post :batch
       post :select
     end
