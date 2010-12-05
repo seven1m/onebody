@@ -16,6 +16,7 @@ namespace :onebody do
         attribute = 'file'
       end
       next if collection.nil?
+      next if collection == 'recipes'
       klass = Object.const_get(collection.singularize.capitalize)
       env = 'production' if env.nil?
       next if Rails.env.to_s != env
