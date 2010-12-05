@@ -93,6 +93,7 @@ namespace :prepare do
       mysql
       apache
       passenger
+      bundler
     end
 
     task :prereqs do
@@ -135,6 +136,10 @@ namespace :prepare do
            "rvmsudo passenger-install-apache2-module -a && " + \
            "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/httpd/conf.d/passenger.conf",
            :shell => "~/.rvm/bin/rvm-shell"
+    end
+
+    task :bundler do
+      run "gem install bundler", :shell => "~/.rvm/bin/rvm-shell"
     end
 
   end

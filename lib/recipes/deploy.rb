@@ -1,5 +1,21 @@
 namespace :deploy do
 
+  task :migrate, :roles => :db, :only => { :primary => true } do
+    rake = fetch(:rake, "rake")
+    rails_env = fetch(:rails_env, "production")
+    migrate_env = fetch(:migrate_env, "")
+    migrate_target = fetch(:migrate_target, :latest)
+
+    directory = case migrate_target.to_sym
+      when :current then current_path
+      when :latest  then current_release
+      else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
+      end
+
+    puts "#{migrate_target} => #{directory}"
+    run "cd #{directory}; #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate", :shell => "~/.rvm/bin/rvm-shell"
+  end
+
   task :chown_deploy_dir do
     sudo "mkdir -p #{deploy_to}"
     sudo "chown #{user}:#{user} #{deploy_to}"
@@ -36,30 +52,11 @@ namespace :deploy do
   end
   after 'deploy:setup', 'deploy:create_database'
 
-  desc 'Install/Update Rails'
-  task :rails do
-    run "ver=`grep \"RAILS_GEM_VERSION\" #{release_path}/config/environment.rb | cut -d \\\\' -f 2` && " + \
-        "lst=`gem list rails | fgrep $ver`; " + \
-        "if [[ $lst == \"\" ]]; then " + \
-        "  gem install rails -v $ver --no-rdoc --no-ri; " + \
-        "fi"
-  end
-  after 'deploy:update_code', 'deploy:rails'
-
-  desc 'Install mysql gem'
-  task :mysqlgem, :roles => :web do
-    run "lst=`gem list mysql`; " + \
-        "if [[ $lst == \"\" ]]; then " + \
-        "  gem install mysql --no-rdoc --no-ri; " + \
-        "fi"
-  end
-  after 'deploy:rails', 'deploy:mysqlgem'
-
   desc 'Install gem dependencies'
-  task :gemdeps, :roles => :web do
-    run "cd #{release_path} && rake gems:install"
+  task :bundler, :roles => :web do
+    run "cd #{release_path} && bundle install", :shell => "~/.rvm/bin/rvm-shell"
   end
-  after 'deploy:rails', 'deploy:gemdeps'
+  after 'deploy:update_code', 'deploy:bundler'
 
   task :update_links_and_plugins do
     rb = render_erb_template(File.dirname(__FILE__) + '/templates/links.rb')
@@ -72,7 +69,7 @@ namespace :deploy do
       "cd #{shared_path}/initializers; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/config/initializers/; fi",
       "cd #{release_path}; if [[ `which whenever` != '' ]]; then whenever -w RAILS_ENV=production; fi"
     ]
-    run commands.join('; ')
+    run commands.join('; '), :shell => "~/.rvm/bin/rvm-shell"
   end
   after 'deploy:update_code', 'deploy:update_links_and_plugins'
 
