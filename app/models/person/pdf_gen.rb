@@ -88,7 +88,7 @@ class Person
             end
             pdf.text family.name + "\n", :font_size => 18
             pdf.move_pointer 10
-            pdf.add_image File.read(family.photo_large_path), pdf.absolute_left_margin, pdf.y-150, nil, 150
+            pdf.add_image File.read(family.photo.path(:large)), pdf.absolute_left_margin, pdf.y-150, nil, 150
             pdf.move_pointer 160
           else
             pdf.text family.name + "\n", :font_size => 18
