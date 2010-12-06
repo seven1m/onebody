@@ -359,7 +359,7 @@ fieldset {
       margin: 0 25px 15px 0;
     }
     li.icon {
-      margin-right: 4px;
+      margin-right: 10px;
       img {
         vertical-align: middle;
       }
@@ -388,9 +388,6 @@ fieldset {
     text-decoration: none;
   }
   padding-bottom: 10px;
-}
-.profile-friendship-action {
-  margin-top: 15px;
 }
 .family {
   list-style: none;
@@ -989,4 +986,10 @@ table.members {
 
 a.styleless {
   text-decoration: none;
+}
+
+p.divider {
+  height: 1px;
+  margin: 6px 0;
+  border-top: 1px solid $light - 20;
 }

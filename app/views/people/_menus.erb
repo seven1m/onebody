@@ -30,7 +30,7 @@
       <% if @logged_in.admin?(:edit_profiles) %>
         <li><%= link_to t('menus.profile.relationships'), person_relationships_path(@person || @logged_in),       :class => 'people-icon' %></li>
         <li class="divider"></li>
-        <li><%= link_to t('menus.profile.edit_family'),   family_path(@family || @logged_in.family_id),           :class => 'edit-icon'   %></li>
+        <li><%= link_to t('menus.profile.edit_family'),   family_path(@family || (@person && @person.family_id) || @logged_in.family_id),           :class => 'edit-icon'   %></li>
         <li><%= link_to t('menus.profile.new_family'),    new_family_path,                                        :class => 'add-icon'    %></li>
       <% end %>
     </ul>
