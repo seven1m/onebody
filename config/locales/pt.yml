@@ -992,6 +992,7 @@ pt:
     enter_twitter_username: Insira o seu usuário do Twitter aqui
     error_retrieving: Houve um erro ao consultar o feed. Por favor, verifique a URL (endereço) e tente novamente.
     facebook_notifications: Notificaçoes do Facebook
+    feeds: Feeds
     feeds_for: Feeds para {{name}}
     flickr_url: URL do Flickr
     link_with_facebook: Link com as suas atualizações de status do Facebook...
@@ -1399,6 +1400,7 @@ pt:
       description_hint: "A word or two about yourself — maybe your profession?"
       email: Alterar Configurações de Email
       family_photo: Foto de Família
+      password: Alterar Senha
       person_type_hint: These do not control access — only designation.
       photo: Foto do Perfil
       privacy: Alterar Configurações de Privacidade
