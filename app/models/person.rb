@@ -387,28 +387,16 @@ class Person < ActiveRecord::Base
     elsif params[:photo]
       self.photo = params[:photo] == 'remove' ? nil : params[:photo]
       'photo'
-    elsif params[:person] and (BASICS.detect { |a| params[:person][a] } or params[:family])
-      self.email = params[:person].delete(:email) # no 'update' necessary for email
-      self.save if changed.include?('email')
+    elsif params[:person]
       if Person.logged_in.can_edit_profile?
         params[:family] ||= {}
         params[:family][:legacy_id] = params[:person][:legacy_family_id] if params[:person][:legacy_family_id]
         params[:person].cleanse(:birthday, :anniversary)
         update_attributes(params[:person]) && family.update_attributes(params[:family])
       else
-        params[:person].delete(:family_id)
         Update.create_from_params(params, self)
-        self
+        update_attributes(params[:person].reject { |k, v| !EXTRAS.include?(k) })
       end
-    elsif params[:freeze] and Person.logged_in.admin?(:edit_profiles)
-      if Person.logged_in == self
-        self.errors.add(:base, 'Cannot freeze your own account.')
-        false
-      else
-        toggle!(:account_frozen)
-      end
-    elsif params[:person] # testimony, about, favorites, etc.
-      update_attributes params[:person].reject { |k, v| !EXTRAS.include?(k) }
     else
       self
     end

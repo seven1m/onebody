@@ -48,6 +48,8 @@
         <%= form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
           <%= hidden_field_tag :complete, true %>
           <table>
+            <% if update.family_name %><tr><td><%= t('families.name') %>:</td><td><%= update.family_name %></td></tr><% end %>
+            <% if update.family_last_name %><tr><td><%= t('families.last_name') %>:</td><td><%= update.family_last_name %></td></tr><% end %>
             <% if update.first_name %><tr><td><%= t('accounts.first_name') %>:</td><td><%= update.first_name %></td></tr><% end %>
             <% if update.last_name %><tr><td><%= t('accounts.last_name') %>:</td><td><%= update.last_name %></td></tr><% end %>
             <% if update.home_phone %><tr><td><%= t('privacies.home_phone') %>:</td><td><%= format_phone update.home_phone %></td></tr><% end %>

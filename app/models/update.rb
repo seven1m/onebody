@@ -100,8 +100,9 @@ class Update < ActiveRecord::Base
   def self.create_from_params(params, person)
     params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
     person.updates.new.tap do |update|
-      update.person_attributes = params[:person].reject_blanks if params[:person]
-      update.family_attributes = params[:family].reject_blanks if params[:family]
+      update.person_attributes = params[:person].reject { |k, v| !PERSON_ATTRIBUTES.include?(k) }.reject_blanks if params[:person]
+      Rails.logger.info(params[:family].inspect)
+      update.family_attributes = params[:family].reject { |k, v| !(FAMILY_ATTRIBUTES+%w(name last_name)).include?(k) }.reject_blanks if params[:family]
       update.save
       Notifier.profile_update(person, update.changes).deliver if Setting.get(:contact, :send_updates_to)
     end

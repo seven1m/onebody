@@ -13,6 +13,7 @@
     <% unless @family %>
       <div class="alert"><span class="alert-icon"></span> <%= t('people.no_family_for_this_person') %></div>
     <% end %>
+    <%= render :partial => 'pending_updates' %>
     <h2>
       <strong><%= @person.name %></strong>
       <% if @person.description.to_s.any? %>
