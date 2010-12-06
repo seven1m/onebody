@@ -1,20 +1,20 @@
-<h1><%= t('import.error_updating') %></h1>
+<h2><%= t('import.error_updating') %></h2>
 
 <p>
   <%= t('import.error_updating_message_html', :url => administration_updates_path) %>
 </p>
 
-<h2><%= pluralize @update.errors.length, t('import.error') %></h2>
+<h3><%= pluralize @update.errors.length, t('import.error') %></h3>
 
-<ul>
+<ul class="list">
   <% @update.errors.full_messages.each do |error| %>
     <li><%= error %></li>
   <% end %>
 </ul>
 
-<h2><%= t('import.records') %></h2>
+<h3><%= t('import.records') %></h3>
 
-<ul>
+<ul class="list">
   <li><%= t('person') %>: <%= link_to "#{@update.person.name}",        @update.person        %></li>
   <li><%= t('people.family') %>: <%= link_to "#{@update.person.family.name}", @update.person.family %></li>
 </ul>

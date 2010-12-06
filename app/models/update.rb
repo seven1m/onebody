@@ -60,28 +60,43 @@ class Update < ActiveRecord::Base
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :home_phone]
 
   def person_attributes
-    attrs = self.attributes.reject { |key, val| !PERSON_ATTRIBUTES.include?(key) }
+    attrs = self.attributes.reject { |key, val| !PERSON_ATTRIBUTES.include?(key) }.reject_blanks
     attrs['custom_fields'] = custom_fields_as_hash
     attrs['child'] = child
     attrs
   end
 
   def person_attributes=(attributes)
-    self.attributes = attributes
+    attributes.each do |key, val|
+      person.send("#{key}=", val)
+      if person.changed.include?(key)
+        self.send("#{key}=", val)
+      end
+    end
   end
 
   def family_attributes
     {
       :name      => self.family_name,
       :last_name => self.family_last_name,
-    }.merge(self.attributes.reject { |k, v| !(FAMILY_ATTRIBUTES - %w(family_name family_last_name)).include?(k) })
+    }.merge(
+      self.attributes.reject { |k, v| !(FAMILY_ATTRIBUTES - %w(family_name family_last_name)).include?(k) }
+    ).reject_blanks
+  end
+
+  def family
+    self.person.family
   end
 
   def family_attributes=(attributes)
-    attributes = attributes.clone
-    self.family_name = attributes.delete(:name)
-    self.family_last_name = attributes.delete(:last_name)
-    self.attributes = attributes
+    attributes.each do |key, val|
+      family.send("#{key}=", val)
+      if family.changed.include?(key)
+        key = 'family_name' if key == 'name'
+        key = 'family_last_name' if key == 'last_name'
+        self.send("#{key}=", val)
+      end
+    end
   end
 
   def changes
@@ -103,8 +118,10 @@ class Update < ActiveRecord::Base
       update.person_attributes = params[:person].reject { |k, v| !PERSON_ATTRIBUTES.include?(k) }.reject_blanks if params[:person]
       Rails.logger.info(params[:family].inspect)
       update.family_attributes = params[:family].reject { |k, v| !(FAMILY_ATTRIBUTES+%w(name last_name)).include?(k) }.reject_blanks if params[:family]
-      update.save
-      Notifier.profile_update(person, update.changes).deliver if Setting.get(:contact, :send_updates_to)
+      if update.person_attributes.reject { |k, v| %w(custom_fields child).include?(k) }.any? or update.family_attributes.any?
+        update.save
+        Notifier.profile_update(person, update.changes).deliver if Setting.get(:contact, :send_updates_to)
+      end
     end
   end
 
