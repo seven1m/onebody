@@ -29,4 +29,10 @@ class AccountsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  should "create account" do
+    Setting.set(1, 'Features', 'Sign Up', true)
+    post :create, {:person => {:email => 'user@example.com'}} # existing user
+    assert_response :success
+  end
+
 end

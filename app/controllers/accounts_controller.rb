@@ -83,8 +83,7 @@ class AccountsController < ApplicationController
           redirect_to page_for_public_path('system/bad_status')
         end
       else
-        flash[:warning] = t('accounts.email_not_found')
-        render :action => 'new'
+        render :text => t('accounts.email_not_found'), :layout => true
       end
     end
 
