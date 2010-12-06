@@ -50,7 +50,7 @@ class StylesController < ApplicationController
       Setting.set(Site.current.id, 'Appearance', 'Theme Primary Color', params[:primary])
       Setting.set(Site.current.id, 'Appearance', 'Theme Secondary Color', params[:secondary])
       Setting.set(Site.current.id, 'Appearance', 'Theme Top Color', params[:top])
-      expire_fragment(%r{style(\.ie)?\.css\?id=#{Site.current.id}})
+      expire_fragment(%r{style(\.ie|\.mobile)?\?id=#{Site.current.id}})
     end
     redirect_to edit_style_path
   end
