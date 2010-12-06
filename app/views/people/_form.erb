@@ -80,11 +80,11 @@
         <%= link_to t('people.click_to_send_verification_email'), account_path(:email => @person.email), :method => 'post', :confirm => t('are_you_sure'), :class => 'email-icon' %>
       <% end %>
     </div>
-    <%= content_tag :span, :style => @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
-      <%= form.check_box :can_sign_in %>                  <%= form.label t('people.can_sign_in'),                  nil, :class => 'inline' %><br/>
-      <%= form.check_box :visible_to_everyone %>          <%= form.label t('people.visible_to_everyone'),          nil, :class => 'inline' %><br/>
-      <%= form.check_box :visible_on_printed_directory %> <%= form.label t('people.visible_on_printed_directory'), nil, :class => 'inline' %><br/>
-      <%= form.check_box :full_access %>                  <%= form.label t('people.full_access'),                  nil, :class => 'inline' %>
+    <%= content_tag :div, :style => @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
+      <%= form.check_box :can_sign_in %>                  <%= form.label :can_sign_in,                  t('people.can_sign_in'),                  :class => 'inline' %><br/>
+      <%= form.check_box :visible_to_everyone %>          <%= form.label :visible_to_everyone,          t('people.visible_to_everyone'),          :class => 'inline' %><br/>
+      <%= form.check_box :visible_on_printed_directory %> <%= form.label :visible_on_printed_directory, t('people.visible_on_printed_directory'), :class => 'inline' %><br/>
+      <%= form.check_box :full_access %>                  <%= form.label :full_access,                  t('people.full_access'),                  :class => 'inline' %>
     <% end %>
 
     <% if Setting.get(:features, :edit_legacy_ids) %> 

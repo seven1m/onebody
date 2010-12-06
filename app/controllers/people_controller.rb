@@ -116,7 +116,11 @@ class PeopleController < ApplicationController
   def update
     @person = Person.find(params[:id])
     if @logged_in.can_edit?(@person)
+      can_sign_in = @person.can_sign_in? # before it gets updated
       if updated = @person.update_from_params(params)
+        if not can_sign_in and @person.can_sign_in? # changed
+          flash[:show_verification_link] = true
+        end
         respond_to do |format|
           format.html do
             flash[:notice] = t('people.changes_submitted')
