@@ -11,6 +11,9 @@
   <% if @more %>
     <em><%= t('search.results_not_shown') %></em>
   <% end %>
+  <% if @people.empty? %>
+    <em><%= t('search.people_found', :count => 0) %></em>
+  <% end %>
 </p>
 
 <% if @people.length == 1 %>
