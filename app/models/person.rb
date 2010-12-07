@@ -663,7 +663,7 @@ class Person < ActiveRecord::Base
           # avoid overwriting a newer email address
           if key == 'email' and person.email_changed?
             if value == person.email # email now matches (presumably, the external db has been updated to match the OneBody db)
-              person.write_attribute(:email_changed, false) # clear the flag
+              person.email_changed = false # clear the flag
             else
               next # don't overwrite the newer email address with an older one
             end

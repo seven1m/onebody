@@ -220,14 +220,14 @@ class Family < ActiveRecord::Base
           # avoid overwriting a newer barcode
           if key == 'barcode_id' and family.barcode_id_changed?
             if value == family.barcode_id # barcode now matches (presumably, the external db has been updated to match the OneBody db)
-              family.write_attribute(:barcode_id_changed, false) # clear the flag
+              family.barcode_id_changed = false # clear the flag
             else
               next # don't overwrite the newer barcode with an older one
             end
           elsif %w(barcode_id_changed remote_hash).include?(key) # skip these
             next
           end
-          family.write_attribute(key, value) # be sure to call the actual method (don't use write_attribute)
+          family.send("#{key}=", value) # be sure to call the actual method (don't use write_attribute)
         end
         family.dont_mark_barcode_id_changed = true # set flag to indicate we're the api
         if family.save
