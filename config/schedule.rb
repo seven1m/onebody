@@ -1,6 +1,7 @@
 # Learn more about this file: http://github.com/javan/whenever
 
 set :environment, 'production'
+set :job_template, "~/.rvm/bin/rvm-shell -c ':job'"
 
 if File.exist?("#{Dir.pwd}/config/email.yml")
   every 1.minute do
