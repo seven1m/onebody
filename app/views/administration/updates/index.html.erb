@@ -50,21 +50,21 @@
         <%= form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
           <%= hidden_field_tag :complete, true %>
           <table>
-            <% if update.family_name      %><tr><td><%= t('families.name')          %>:</td><td><%= update.family.name                               %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.family_name                        %></td></tr><% end %>
-            <% if update.family_last_name %><tr><td><%= t('families.last_name')     %>:</td><td><%= update.family.last_name                          %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.family_last_name                   %></td></tr><% end %>
-            <% if update.first_name       %><tr><td><%= t('accounts.first_name')    %>:</td><td><%= update.person.first_name                         %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.first_name                         %></td></tr><% end %>
-            <% if update.last_name        %><tr><td><%= t('accounts.last_name')     %>:</td><td><%= update.person.last_name                          %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.last_name                          %></td></tr><% end %>
-            <% if update.home_phone       %><tr><td><%= t('privacies.home_phone')   %>:</td><td><%= format_phone update.family.home_phone            %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.home_phone            %></td></tr><% end %>
-            <% if update.mobile_phone     %><tr><td><%= t('privacies.mobile_phone') %>:</td><td><%= format_phone update.person.mobile_phone, :mobile %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.mobile_phone, :mobile %></td></tr><% end %>
-            <% if update.work_phone       %><tr><td><%= t('privacies.work_phone')   %>:</td><td><%= format_phone update.person.work_phone            %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.work_phone            %></td></tr><% end %>
-            <% if update.fax              %><tr><td><%= t('privacies.fax')          %>:</td><td><%= format_phone update.person.fax                   %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.fax                   %></td></tr><% end %>
-            <% if update.address1         %><tr><td><%= t('privacies.address')      %>:</td><td><%= update.family.address1                           %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.address1                           %></td></tr><% end %>
-            <% if update.address2         %><tr><td><%= t('privacies.address2')     %>:</td><td><%= update.family.address2                           %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.address2                           %></td></tr><% end %>
-            <% if update.city             %><tr><td><%= t('search.city')            %>:</td><td><%= update.family.city                               %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.city                               %></td></tr><% end %>
-            <% if update.state            %><tr><td><%= t('search.state')           %>:</td><td><%= update.family.state                              %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.state                              %></td></tr><% end %>
-            <% if update.zip              %><tr><td><%= t('search.zip')             %>:</td><td><%= update.family.zip                                %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.zip                                %></td></tr><% end %>
+            <% if update.family_name      %><tr class="update-row"><td><%= t('families.name')          %>:</td><td><%= update.family.name                               %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.family_name                        %></td></tr><% end %>
+            <% if update.family_last_name %><tr class="update-row"><td><%= t('families.last_name')     %>:</td><td><%= update.family.last_name                          %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.family_last_name                   %></td></tr><% end %>
+            <% if update.first_name       %><tr class="update-row"><td><%= t('accounts.first_name')    %>:</td><td><%= update.person.first_name                         %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.first_name                         %></td></tr><% end %>
+            <% if update.last_name        %><tr class="update-row"><td><%= t('accounts.last_name')     %>:</td><td><%= update.person.last_name                          %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.last_name                          %></td></tr><% end %>
+            <% if update.home_phone       %><tr class="update-row"><td><%= t('privacies.home_phone')   %>:</td><td><%= format_phone update.family.home_phone            %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.home_phone            %></td></tr><% end %>
+            <% if update.mobile_phone     %><tr class="update-row"><td><%= t('privacies.mobile_phone') %>:</td><td><%= format_phone update.person.mobile_phone, :mobile %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.mobile_phone, :mobile %></td></tr><% end %>
+            <% if update.work_phone       %><tr class="update-row"><td><%= t('privacies.work_phone')   %>:</td><td><%= format_phone update.person.work_phone            %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.work_phone            %></td></tr><% end %>
+            <% if update.fax              %><tr class="update-row"><td><%= t('privacies.fax')          %>:</td><td><%= format_phone update.person.fax                   %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.fax                   %></td></tr><% end %>
+            <% if update.address1         %><tr class="update-row"><td><%= t('privacies.address')      %>:</td><td><%= update.family.address1                           %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.address1                           %></td></tr><% end %>
+            <% if update.address2         %><tr class="update-row"><td><%= t('privacies.address2')     %>:</td><td><%= update.family.address2                           %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.address2                           %></td></tr><% end %>
+            <% if update.city             %><tr class="update-row"><td><%= t('search.city')            %>:</td><td><%= update.family.city                               %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.city                               %></td></tr><% end %>
+            <% if update.state            %><tr class="update-row"><td><%= t('search.state')           %>:</td><td><%= update.family.state                              %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.state                              %></td></tr><% end %>
+            <% if update.zip              %><tr class="update-row"><td><%= t('search.zip')             %>:</td><td><%= update.family.zip                                %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.zip                                %></td></tr><% end %>
             <% if update.birthday         %>
-              <tr>
+              <tr class="update-row">
                 <td><%= t('search.birthday') %>:</td>
                 <td><%= update.person.birthday && update.person.birthday.to_s(:date) %></td>
                 <td><div class="right-icon" style="width:10px;height:16px;"></td>
@@ -86,7 +86,7 @@
               </tr>
             <% end %>
             <% if update.anniversary %>
-              <tr>
+              <tr class="update-row">
                 <td><%= t('privacies.anniversary') %>:</td>
                 <td><%= update.person.anniversary && update.person.anniversary.to_s(:date) %></td>
                 <td><div class="right-icon" style="width:10px;height:16px;"></td>
@@ -129,3 +129,14 @@
 <% if @updates.empty? %>
   <p><em><%= t('admin.updates.no_updates') %>!</em></p>
 <% end %>
+
+<script type="text/javascript">
+  $('.update-row').each(function(){
+    var elm = $(this);
+    var old_val = elm.children('td:eq(1)').html()
+    var new_val = elm.children('td:eq(3)').html()
+    if(old_val != new_val) {
+      elm.append('<td><span class="alert-icon"></span></td>')
+    }
+  });
+</script>
