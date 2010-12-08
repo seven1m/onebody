@@ -1219,6 +1219,7 @@ pt:
     home:
       feed: feed
       mobile_tap_again: Aperte o botão novamente para ir para o Início.
+      news: notícias
       pictures: fotos
       publications: publicações
       verses: versículos

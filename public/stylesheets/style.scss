@@ -613,6 +613,7 @@ fieldset {
 .rotate-ccw-icon { @include icon-sprite(0px, -340px) }
 .updown-icon     { @include icon-sprite(0px, -360px) }
 .alert-icon      { @include icon-sprite(0px, -380px) }
+.news-icon       { @include icon-sprite(0px, -400px) }
 
 ul.buttons {
   list-style: none;

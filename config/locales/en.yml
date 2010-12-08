@@ -1219,6 +1219,7 @@ en:
     home:
       feed: feed
       mobile_tap_again: Tap button again to go to Home.
+      news: news
       pictures: pictures
       publications: publications
       verses: verses
