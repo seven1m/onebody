@@ -157,7 +157,7 @@ class Notifier < ActionMailer::Base
   end
 
   def receive(email)
-    sent_to = email.cc.to_a + email.to.to_a
+    sent_to = Array(email.cc) + Array(email.to)
 
     return unless email.from.to_s.any?
     return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
@@ -258,7 +258,7 @@ class Notifier < ActionMailer::Base
             end
           end
         end
-        message.send_to_group(already_sent_to=email.to.to_a)
+        message.send_to_group(already_sent_to=Array(email.to))
         @message_sent_to_group = true
       end
     end
@@ -307,7 +307,7 @@ class Notifier < ActionMailer::Base
     def get_in_reply_to_message_and_code(email)
       message_id, code_hash, message = nil
       # first try in-reply-to and references headers
-      (email.in_reply_to.to_a + email.references.to_a).each do |in_reply_to|
+      (Array(email.in_reply_to) + Array(email.references)).each do |in_reply_to|
         message_id, code_hash = (m = in_reply_to.match(Message::MESSAGE_ID_RE)) && m[1..2]
         if message = Message.find_by_id(message_id)
           return [message, code_hash]
@@ -336,7 +336,7 @@ class Notifier < ActionMailer::Base
 
     def get_site(email)
       # prefer the to address
-      (email.cc.to_a + email.to.to_a).each do |address|
+      (Array(email.cc) + Array(email.to)).each do |address|
         return Site.current if Site.current = Site.find_by_host(address.downcase.split('@').last)
       end
       # fallback if to address was rewritten
