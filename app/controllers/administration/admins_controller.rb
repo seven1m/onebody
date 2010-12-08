@@ -28,7 +28,7 @@ class Administration::AdminsController < ApplicationController
   def update
     @admin = Admin.find(params[:id])
     Admin.privileges.each do |priv|
-      @admin.flags[priv] = params[:privileges][priv] == 'true'
+      @admin.flags[priv] = params[:privileges] && params[:privileges][priv] == 'true'
     end
     if @logged_in.super_admin?
       if @admin.super_admin = params[:super_admin] == 'true'
