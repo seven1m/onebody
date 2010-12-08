@@ -166,7 +166,7 @@ class Notifier < ActionMailer::Base
     return if sent_to.detect { |a| a =~ /no\-?reply|postmaster|mailer\-daemon/i }
     return if email.from.to_s =~ /no\-?reply|postmaster|mailer\-daemon/i
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
-    return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.find_by_id($1) and m.code_hash == $2 # just sent, looping back into the receiver
+    return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.unscoped { Message.find_by_id($1) } and m.code_hash == $2 # just sent, looping back into the receiver
     return unless get_site(email)
 
     unless @person = get_from_person(email)
