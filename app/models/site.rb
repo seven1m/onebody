@@ -126,7 +126,7 @@ class Site < ActiveRecord::Base
 
   class << self
     def each
-      Site.find(:all).each do |site|
+      Site.where(:active => true).each do |site|
         Site.current = site
         yield(site)
       end
