@@ -1,7 +1,8 @@
 class Notifier < ActionMailer::Base
   helper :notifier, :application
 
-  default :from => lambda { Site.current.noreply_email }
+  default :from    => lambda { Site.current.noreply_email },
+          :charset => 'UTF-8'
 
   def profile_update(person, updates)
     @person = person
