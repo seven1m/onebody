@@ -16,13 +16,20 @@ class AttendanceControllerTest < ActionController::TestCase
     assert attended
   end
 
-  should "overwrite existing records" do
+  should "overwrite existing records on batch" do
     post :batch, {:attended_at => '2009-12-01', :group_id => @group.id, :ids => [@person.id]}, {:logged_in_id => @person.id}
     post :batch, {:attended_at => '2009-12-01', :group_id => @group.id, :ids => []}, {:logged_in_id => @person.id}
     get  :index, {:attended_at => '2009-12-01', :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_equal 1, assigns(:records).length
     person, attended = assigns(:records).first
     assert !attended
+  end
+
+  should "overwrite existing records for the same person and same time on create" do
+    post :create, {:attended_at => '2009-12-01 09:00', :group_id => @group.id, :ids => [@person.id]}, {:logged_in_id => @person.id}
+    assert_equal 1, AttendanceRecord.where(:person_id => @person.id, :attended_at => '2009-12-01 09:00:00').count
+    post :create, {:attended_at => '2009-12-01 09:00', :group_id => @group.id, :ids => [@person.id]}, {:logged_in_id => @person.id}
+    assert_equal 1, AttendanceRecord.where(:person_id => @person.id, :attended_at => '2009-12-01 09:00:00').count
   end
 
   should "record attendance for people in the database" do

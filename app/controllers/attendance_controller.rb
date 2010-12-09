@@ -25,13 +25,13 @@ class AttendanceController < ApplicationController
     @group = params[:group_id].to_i > 0 ? Group.find(params[:group_id]) : nil
     @attended_at = Time.parse(params[:attended_at])
     if @logged_in.super_admin? or @group.admin?(@logged_in)
-      params[:ids].to_a.each do |id|
+      Array(params[:ids]).each do |id|
         if person = Person.find_by_id(id)
-          AttendanceRecord.delete_all(["person_id = ? and attendance_records.attended_at = ?", id, @attended_at])
+          AttendanceRecord.delete_all(["person_id = ? and attended_at = ?", id, @attended_at.strftime('%Y-%m-%d %H:%M:%S')])
           if @group
             @group.attendance_records.create!(
               :person_id      => person.id,
-              :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M'),
+              :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M:%S'),
               :first_name     => person.first_name,
               :last_name      => person.last_name,
               :family_name    => person.family.name,
@@ -46,7 +46,7 @@ class AttendanceController < ApplicationController
       # record attendance for a person not in database (one at a time)
       if person = params[:person] and @group
         @group.attendance_records.create!(
-          :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M'),
+          :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M:%S'),
           :first_name     => person['first_name'],
           :last_name      => person['last_name'],
           :age            => person['age']
@@ -72,12 +72,12 @@ class AttendanceController < ApplicationController
     @group = Group.find(params[:group_id])
     @attended_at = Time.parse(params[:attended_at])
     if @group.admin?(@logged_in)
-      @group.attendance_records.find_all_by_attended_at(@attended_at).each { |r| r.destroy }
+      @group.attendance_records.find_all_by_attended_at(@attended_at.strftime('%Y-%m-%d %H:%M:%S')).each { |r| r.destroy }
       params[:ids].to_a.each do |id|
         if person = Person.find_by_id(id)
           @group.attendance_records.create!(
             :person_id      => person.id,
-            :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M'),
+            :attended_at    => @attended_at.strftime('%Y-%m-%d %H:%M:%S'),
             :first_name     => person.first_name,
             :last_name      => person.last_name,
             :family_name    => person.family.name,
