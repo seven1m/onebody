@@ -1,4 +1,9 @@
-<h1><%= t('contributions.Sync_to_Donor_Tools') %></h1>
+<% content_for :sidebar do %>
+  <%= link_to image_tag('donortools_logo_small.png', :alt => t('contributions.go_to_donor_tools'), :class => 'icon'), Donortools::Persona.admin_url, :target => '_blank' %>
+  <%= link_to t('contributions.go_to_donor_tools'), Donortools::Persona.admin_url, :target => '_blank' %>
+<% end %>
+
+<h2><%= t('contributions.Sync_to_Donor_Tools') %></h2>
 
 <p><%= t('contributions.people_not_synced', :count => @unsynced_people.total_entries) %></p>
 
@@ -6,7 +11,7 @@
 
   <%= will_paginate @unsynced_people %>
 
-  <table>
+  <table class="spaced">
     <tr>
       <th><input type="checkbox" onclick="$('.person_checkbox').attr('checked', this.checked)"/></th>
       <th>Name</th>
@@ -38,7 +43,7 @@
     'ajax:loading',
     function(){ $('#updating').show() }
   ).bind(
-    'ajax:complete',
+    'ajax:error',
     function(){ $('#updating').hide() }
   );
 </script>

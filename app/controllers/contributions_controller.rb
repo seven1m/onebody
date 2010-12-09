@@ -6,14 +6,9 @@ class ContributionsController < ApplicationController
     Donortools::Persona.setup_connection
     if params[:person_id]
       @person = Person.find(params[:person_id])
-      if @donor = @person.donor
-        @donations = Donortools::Donation.all(:persona_id => @donor.id).sort_by(&:received_date).reverse
-      else
-        @donations = []
-      end
+      @donor = @person.donor
       render :action => 'person_index'
     else
-      @donations = Donortools::Donation.all({}, :include => :person).sort_by(&:received_on).reverse
       @count_unsynced = Person.unsynced_to_donortools.count
     end
   end
@@ -33,7 +28,7 @@ class ContributionsController < ApplicationController
         if params[:all_ids] == 'true'
           @ids = Person.unsynced_to_donortools(:select => 'id').map { |p| p.id }
         else
-          @ids = params[:ids].to_a
+          @ids = Array(params[:ids])
         end
         Person.all(:conditions => ["id in (?)", @ids.shift(Donortools::Persona::SYNC_AT_A_TIME)]).each do |person|
           person.update_donor
