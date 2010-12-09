@@ -20,11 +20,11 @@
 <table class="spaced">
   <tr>
     <th><%= t('attendance.id') %></th>
-    <th><%= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name' %></th>
+    <th><%= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name', %w(attended_at group_id) %></th>
     <th><%= t('attendance.adult') %></th>
-    <th><%= sortable_column_heading t('attendance.group'),         'groups.name'                                                %></th>
-    <th><%= sortable_column_heading t('attendance.class_time'),    'attendance_records.attended_at'                             %></th>
-    <th><%= sortable_column_heading t('attendance.recorded_time'), 'attendance_records.created_at'                              %></th>
+    <th><%= sortable_column_heading t('attendance.group'),         'groups.name',                                                %w(attended_at group_id) %></th>
+    <th><%= sortable_column_heading t('attendance.class_time'),    'attendance_records.attended_at',                             %w(attended_at group_id) %></th>
+    <th><%= sortable_column_heading t('attendance.recorded_time'), 'attendance_records.created_at',                              %w(attended_at group_id) %></th>
   </tr>
   <% @records.each do |record| %>
     <tr id="record<%= record.id %>">
