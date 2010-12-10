@@ -242,11 +242,7 @@ class Notifier < ActionMailer::Base
         :html_body => clean_body(body[:html]),
         :dont_send => true
       )
-      if message.errors.any?
-        unless message.errors[:base].detect { |e| ['already saved', 'autoreply'].include?(e) }
-          message_error_notification(email, message)
-        end
-      else
+      if message.valid?
         if email.has_attachments?
           email.attachments.each do |attachment|
             name = File.split(attachment.filename.to_s).last
@@ -288,9 +284,6 @@ class Notifier < ActionMailer::Base
             :html_body => clean_body(body[:html]),
             :parent => message
           )
-          if message.errors.any? and !message.errors[:base].detect { |e| ['already saved', 'autoreply'].include?(e) }
-            message_error_notification(email, message)
-          end
         end
       else
         # notify the sender that the message is unsolicited and was not delivered
@@ -320,19 +313,6 @@ class Notifier < ActionMailer::Base
       if message = Message.find_by_id(message_id)
         return [message, code_hash]
       end
-    end
-
-    def message_error_notification(email, message)
-      Notifier.simple_message(
-        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
-        "Message Error: #{email.subject}",
-        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
-        "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site had " +
-        "trouble saving the message (#{message.errors.full_messages.join('; ')}). " +
-        "You may post your message directly from the site after signing into " +
-        "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
-        "#{Setting.get(:contact, :tech_support_contact)}."
-      ).deliver
     end
 
     def get_site(email)
