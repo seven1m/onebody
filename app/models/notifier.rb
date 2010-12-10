@@ -244,7 +244,7 @@ class Notifier < ActionMailer::Base
       )
       if message.errors.any?
         unless message.errors[:base].detect { |e| ['already saved', 'autoreply'].include?(e) }
-          Notifier.message_error_notification(email, message)
+          message_error_notification(email, message)
         end
       else
         if email.has_attachments?
@@ -289,7 +289,7 @@ class Notifier < ActionMailer::Base
             :parent => message
           )
           if message.errors.any? and !message.errors[:base].detect { |e| ['already saved', 'autoreply'].include?(e) }
-            Notifier.message_error_notification(email, message)
+            message_error_notification(email, message)
           end
         end
       else
