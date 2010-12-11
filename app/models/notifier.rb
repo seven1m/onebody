@@ -158,7 +158,7 @@ class Notifier < ActionMailer::Base
   end
 
   def receive(email)
-    sent_to = Array(email.to) + Array(email.cc)
+    sent_to = Array(email.cc) + Array(email.to)
 
     return unless email.from.to_s.any?
     return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
