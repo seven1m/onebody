@@ -26,6 +26,8 @@ If you're dedicated server or VPS is Ubuntu 10.04 or higher, try this:
     # 3. on your server
     # edit /etc/apache2/sites-available/default
     # and point DocumentRoot to "/var/www/apps/onebody/current/public"
+    /etc/init.d/apache2 reload
+    # you may also need to set smtpd_use_tls=no in your /etc/postfix/main.cf
 
     # 4. in your web browser:
     # visit http://your-server-name-or-ip
