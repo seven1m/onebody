@@ -83,7 +83,6 @@ class Message < ActiveRecord::Base
 
   def send_to_person(person)
     if person.email.to_s.any?
-      id_and_code = "#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
       email = Notifier.full_message(person, self, id_and_code)
       email.add_message_id
       email.message_id = "<#{id_and_code}_#{email.message_id.gsub(/^</, '')}"
@@ -99,6 +98,10 @@ class Message < ActiveRecord::Base
         sent_to << person.email
       end
     end
+  end
+
+  def id_and_code
+    "#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
   end
 
   def introduction(to_person)
@@ -154,7 +157,7 @@ class Message < ActiveRecord::Base
     else
       msg << "To stop these emails, go to your privacy page:\n#{Setting.get(:url, :site)}privacy"
     end
-    msg
+    msg + "\n"
   end
 
   def disable_group_email_link(to_person)
@@ -303,15 +306,6 @@ class Message < ActiveRecord::Base
         group_count   = group_counts[date]   ? group_counts[date][0]['count'].to_i   : 0
         data << [d, private_count, group_count]
       end
-    end
-  end
-end
-
-module TMail
-  class Mail
-    # please don't mess with my message_id!
-    def add_message_id( fqdn = nil )
-      self.message_id ||= ::TMail::new_message_id(fqdn)
     end
   end
 end

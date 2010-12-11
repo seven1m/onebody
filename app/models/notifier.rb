@@ -158,7 +158,7 @@ class Notifier < ActionMailer::Base
   end
 
   def receive(email)
-    sent_to = Array(email.cc) + Array(email.to)
+    sent_to = Array(email.cc) + Array(email.to) # has to be reversed (cc first) so that group replies work right
 
     return unless email.from.to_s.any?
     return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
@@ -167,6 +167,7 @@ class Notifier < ActionMailer::Base
     return if email.from.to_s =~ /no\-?reply|postmaster|mailer\-daemon/i
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
     return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.unscoped { Message.find_by_id($1) } and m.code_hash == $2 # just sent, looping back into the receiver
+    return if ProcessedMessage.find_by_header_message_id(email.message_id)
     return unless get_site(email)
 
     unless @person = get_from_person(email)
@@ -237,6 +238,11 @@ class Notifier < ActionMailer::Base
         "find the person, and click \"Send Email.\""
       ).deliver
     end
+
+    # do not process this one ever again
+    ProcessedMessage.create(
+      :header_message_id => email.message_id
+    )
 
   end
 
