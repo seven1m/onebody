@@ -1,8 +1,20 @@
 <% content_for :sidebar do %>
   <h2><%= t('admin.settings.settings') %></h2>
 
+  <ul class="list">
+    <li><%= link_to_function t('admin.settings.name_heading'),                  "scrollTo('name')"                  %></li>
+    <li><%= link_to_function t('admin.settings.contact_heading'),               "scrollTo('contact')"               %></li>
+    <li><%= link_to_function t('admin.settings.features_heading'),              "scrollTo('features')"              %></li>
+    <li><%= link_to_function t('admin.settings.sharing_heading'),               "scrollTo('sharing')"               %></li>
+    <li><%= link_to_function t('admin.settings.membership_management_heading'), "scrollTo('membership_management')" %></li>
+    <li><%= link_to_function t('admin.settings.locale_heading'),                "scrollTo('locale')"                %></li>
+    <li><%= link_to_function t('admin.settings.formats_heading'),               "scrollTo('formats')"               %></li>
+    <li><%= link_to_function t('admin.settings.privacy_heading'),               "scrollTo('privacy')"               %></li>
+    <li><%= link_to_function t('admin.settings.services_heading'),              "scrollTo('services')"              %></li>
+  </ul>
+
   <% if @logged_in.super_admin? %>
-    <p class="small discreet"><%= link_to t('admin.settings.reload'), reload_administration_settings_path, :method => 'put', :title => t('admin.settings.reload_message') %></p>
+    <p class="small discreet double-margin-top"><%= link_to t('admin.settings.reload'), reload_administration_settings_path, :method => 'put', :title => t('admin.settings.reload_message') %></p>
   <% end %>
 <% end %>
 
@@ -11,13 +23,13 @@
 
   <table class="members">
 
-    <%= section_row(t('admin.settings.name_heading')) %>
+    <%= section_row(t('admin.settings.name_heading'), :name) %>
 
       <%= setting_row('Name', 'Community') %>
       <%= setting_row('Name', 'Site') %>
       <%= setting_row('Name', 'Slogan') %>
 
-    <%= section_row(t('admin.settings.contact_heading')) %>
+    <%= section_row(t('admin.settings.contact_heading'), :contact) %>
 
       <%= subsection_row(t('admin.settings.contact_automated_email_about')) %>
       <%= setting_row('Contact', 'Send Email Changes To') %>
@@ -29,7 +41,7 @@
       <%= setting_row('Contact', 'Community Address') %>
       <%= setting_row('Contact', 'Community Email') %>
 
-    <%= section_row(t('admin.settings.features_heading')) %>
+    <%= section_row(t('admin.settings.features_heading'), :features) %>
 
       <%= setting_row('Features', 'Friends') %>
       <%= setting_row('Features', 'Groups') %>
@@ -39,7 +51,7 @@
       <%= setting_row('Features', 'Prayer Event First Date and Time') %>
       <%= setting_row('Features', 'Prayer Event Last Date and Time') %>
 
-    <%= section_row(t('admin.settings.sharing_heading')) %>
+    <%= section_row(t('admin.settings.sharing_heading'), :sharing) %>
 
       <%= subsection_row(t('admin.settings.sharing_communications_about')) %>
       <%= setting_row('Features', 'News Page') %>
@@ -51,7 +63,7 @@
       <%= setting_row('Features', 'Pictures') %>
       <%= setting_row('Features', 'Verses') %>
 
-    <%= section_row(t('admin.settings.membership_management_heading')) %>
+    <%= section_row(t('admin.settings.membership_management_heading'), :membership_management) %>
 
       <%= setting_row('Features', 'Updates Must Be Approved') %>
       <%= setting_row('Features', 'Sign Up') %>
@@ -61,12 +73,12 @@
       <%= setting_row('System', 'Adult Age', :options => (13..21)) %>
       <%= setting_row('System', 'Suffixes') %>
 
-    <%= section_row(t('admin.settings.locale_heading')) %>
+    <%= section_row(t('admin.settings.locale_heading'), :locale) %>
 
       <%= setting_row('System', 'Language', :options => @langs) %>
       <%= setting_row('System', 'Time Zone', :options => @timezones) %>
 
-    <%= section_row(t('admin.settings.formats_heading')) %>
+    <%= section_row(t('admin.settings.formats_heading'), :formats) %>
 
       <%= subsection_row(t('admin.settings.formats_date_about_html')) %>
       <%= setting_row('Formats', 'Full Date and Time') %>
@@ -78,7 +90,7 @@
       <%= setting_row('Formats', 'Mobile Phone') %>
       <%= setting_row('Formats', 'Phone') %>
 
-    <%= section_row(t('admin.settings.privacy_heading')) %>
+    <%= section_row(t('admin.settings.privacy_heading'), :privacy) %>
 
       <%= setting_row('Privacy', 'Allow Picture Comments') %>
       <%= setting_row('Privacy', 'Max Sign in Attempts', :options => [5, 10, 20, 50]) %>
@@ -98,7 +110,7 @@
         </td>
       </tr>
 
-    <%= section_row(t('admin.settings.services_heading')) %>
+    <%= section_row(t('admin.settings.services_heading'), :services) %>
 
       <%= setting_row('URL', 'Visitor') %>
       <%= setting_row('URL', 'News Feed') %>
@@ -129,4 +141,8 @@
   setupToggler(<%= @settings['Features']['News Page'].id %>,    [<%= @settings['Features']['News by Users'].id %>          ]);
   setupToggler(<%= @settings['Features']['Prayer Event'].id %>, [<%= @settings['Features']['Prayer Event First Date and Time'].id %>,
                                                                  <%= @settings['Features']['Prayer Event Last Date and Time' ].id %>]);
+
+  function scrollTo(id) {
+    $('html, body').animate({'scrollTop':$('#'+id).offset().top}, 'slow');
+  }
 </script>

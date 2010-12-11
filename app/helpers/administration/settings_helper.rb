@@ -4,10 +4,10 @@ module Administration::SettingsHelper
     I18n.t(:name, :scope => [:admin, :settings, section], :default => section)
   end
 
-  def section_row(section)
+  def section_row(section, id=nil)
     content_tag(:tr) do
       content_tag(:td, :colspan => 2) do
-        content_tag(:h3) do
+        content_tag(:h3, :id => id) do
           section
         end
       end
