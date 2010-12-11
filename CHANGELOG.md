@@ -6,6 +6,43 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+2.0.0 Beta 2 / TBD
+------------------
+
+* Fix bugs in deployment recipes.
+* Fix bugs in email handling, including group replies.
+* Fix bugs in i18n.
+* Fix bug preventing accounts with limited access from verifying.
+* Update jQuery and jQuery UI.
+
+2.0.0 Beta 1 / December 8, 2010
+-------------------------------
+
+* Now running on Rails 3.
+* Completely redesigned interface with focus on usability.
+* New mobile interface with full functionality.
+* New Admin Dashboard.
+* Revamped Administrator management page.
+* New Style Editor interface.
+* Improved interface for managing profile updates.
+* Easier workflow for authorizing new users.
+* More efficient email handling.
+* More efficient background tasks, with new background queue and worker.
+* Improved caching.
+* Moved all attachments to use Paperclip plugin.
+* Improved Capistrano deployment recipes.
+* Use RVM for deployment.
+* Simplified determination of fellow group members and removed confusing "Sidebar Group" stuff.
+* More efficient loading of settings for quicker startup.
+* Now using SASS for stylesheets.
+* Export to XML and CSV are now async background jobs.
+* Page management revamp and simplification (and removal of CMS).
+* Better handling of public/profile picture album creation.
+* Now using jQuery and jQuery UI instead of Prototype and Scriptaculous.
+* Accept mutliple file/image selections where appropriate (and in browsers that support it).
+* Replace Whitelist plugin with Sanitize plugin.
+* Use patched version of Rails' own default_scope rather than my old acts_as_scoped_globally plugin.
+
 1.2.2 / October 14, 2010
 ------------------------
 
