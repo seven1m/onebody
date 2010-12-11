@@ -68,7 +68,7 @@ pt:
   your: Seu
 
   errors:
-    format: "{{message}}"
+    format: "%{message}"
 
   activerecord: 
     errors: 
@@ -278,10 +278,10 @@ pt:
   admin:
     active: ativar
     admin: admin
-    admin_added: "{{name}} adicionado."
+    admin_added: "%{name} adicionado."
     admin_count:
-      one: "{{count}} Administrador."
-      other: "{{count}} Administradores."
+      one: "%{count} Administrador."
+      other: "%{count} Administradores."
     admin_removed: Admin removido.
     admin_template_description: Modelos permitem a você agrupar adminstradores com privilégios idênticos.
     administrators: Administradores
@@ -289,7 +289,7 @@ pt:
     add_person: Adicionar Pessoa
     add_selected: Adicionar Selecionado
     add_template: Adicionar Modelo
-    already_admin: "{{name}} já é um admin."
+    already_admin: "%{name} já é um admin."
     api: API
     api_login_details: Seu detalhe de login da API
     back_to_admin_list: Voltar para a Lista de Administradores
@@ -306,8 +306,8 @@ pt:
       search_results: Os resultados da sua busca são mostrados abaixo.
       undelete: Desfazer
     deleted_people_count:
-      one: "{{count}} pessoa deletada"
-      other: "{{count}} pessoas deletadas"
+      one: "%{count} pessoa deletada"
+      other: "%{count} pessoas deletadas"
     display: mostrar
     enable: Habilitar
     enable_api_confirmation: Você tem certeza que deseja remover a sua chave de API?
@@ -371,7 +371,7 @@ pt:
     pages: Páginas
     people_not_synced_to_donortools_count:
       one: "1 pessoas está fora de sincronia com o Donor Tools."
-      other: "{{count}} pessoas estão fora de sincronia com o Donor Tools."
+      other: "%{count} pessoas estão fora de sincronia com o Donor Tools."
     privileges:
       view_hidden_profiles:
         title: Visualizar Perfis Ocultos
@@ -722,27 +722,27 @@ pt:
       success: Sucesso
       sync: Sincronização
       sync_errors:
-        one: "{{count}} erro de sincronização"
-        other: "{{count}} erros de sincronização"
+        one: "%{count} erro de sincronização"
+        other: "%{count} erros de sincronização"
       syncs: Sincronizações
       type: Tipo
     template: Modelo
     templates: Modelos
     themes:
       custom_themes: Tema Customizado
-      description_html: Você pode alterar a aparência do seu site editando seu tema customizado. Carregue arquivos, ex. imagens, CSS, etc, ao clicar em "Gerenciar Arquivos". <strong>As mudanças não serão vistas pelos seus visitantes até que você habilite um tema customizado nas <a href="{{url}}">configurações</a>.</strong>
+      description_html: Você pode alterar a aparência do seu site editando seu tema customizado. Carregue arquivos, ex. imagens, CSS, etc, ao clicar em "Gerenciar Arquivos". <strong>As mudanças não serão vistas pelos seus visitantes até que você habilite um tema customizado nas <a href="%{url}">configurações</a>.</strong>
       edit: Editar
       manage_assets: Gerenciar Arquivos
       preview: Pré-Visualizar
-      preview_instructions_html: Pré-Visualize qualquer página com o seu tema customizado adicionando <code>?theme=custom</code> no final da URL (endereço), como <a href="{{url}}">esta</a>. <strong>Se você se trancar fora do site ao construir um tema customizado com erro, use <code>?theme=aqueouslight</code> para voltar e desabilitá-lo.</strong>
+      preview_instructions_html: Pré-Visualize qualquer página com o seu tema customizado adicionando <code>?theme=custom</code> no final da URL (endereço), como <a href="%{url}">esta</a>. <strong>Se você se trancar fora do site ao construir um tema customizado com erro, use <code>?theme=aqueouslight</code> para voltar e desabilitá-lo.</strong>
       reset: Para resetar o seu tema customizado e voltar à aparência padrão, limpe a caixa de texto abaixo e salve as mudanças.
       save_preview: Salvar Mudanças e Pré-Visualizar
       syntax_description_html: A sintaxe do modelo é <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Partes especiais do modelo para inserir são
       theme: Tema
     updates:
       changed_email:
-        one: "{{count}} endereço de email alterado"
-        other: "{{count}} endereços de email alterados"
+        one: "%{count} endereço de email alterado"
+        other: "%{count} endereços de email alterados"
       complete: Completo
       completed: Completado
       groups_pending: Grupos Pendentes de Aprovação
@@ -751,14 +751,14 @@ pt:
       no_updates: Não há atualizações
       none: Nada até agora
       pending:
-        one: "{{count}} atualização pendente"
-        other: "{{count}} atualizações pendentes"
+        one: "%{count} atualização pendente"
+        other: "%{count} atualizações pendentes"
       pending_title: Pendente
       person_deleted: pessoa deletada
       per_day: Atualizações por Dia
       profile_updates: Atualizações de Perfil
       review_changes: revisar mudanças seguindo atualização
-      show_status: Mostrar {{status}}
+      show_status: Mostrar %{status}
       updated: atualizado
       updates: Atualizações
     username: Nome de Usuário
@@ -766,9 +766,9 @@ pt:
 
   accounts:
     birthday: Aniversário
-    call_office: Ligue para {{office_phone}} durante o horário comercial.
+    call_office: Ligue para %{office_phone} durante o horário comercial.
     cannot_edit: Você não pode editar esta conta.
-    change_email_warning: Após esta mudança, todos os emails deste site serão enviados a este endereço. Ele também será o endereço que {{person}} ususará para entrar no site.
+    change_email_warning: Após esta mudança, todos os emails deste site serão enviados a este endereço. Ele também será o endereço que %{person} ususará para entrar no site.
     check_code: Verificar Código
     code_be_careful: Por favor seja cuidadoso(a) para entrar com o código correto. Se você cometer um erro, você deverá comecar do início.
     create: Criar Conta
@@ -784,7 +784,7 @@ pt:
     last_name: Último Nome
     leave_blank: Deixe estes campos em branco se você não deseja mudar a sua senha.
     mobile_number_not_found: Aquele celular não foi encontrado no nosso sistema. Você pode tentar novamente.
-    must_be_of_age: Deve ter pelo menos {{years}} anos de idade.
+    must_be_of_age: Deve ter pelo menos %{years} anos de idade.
     must_set_email_pass: Você deve definir o seu email pessoal e senha para continuar.
     pending_approval: A sua conta está com a aprovação pendente. Você receberá um email assim que ela for aprovada.
     please_select_your_name: Por favor selecione o seu nome da lista abaixo
@@ -795,7 +795,7 @@ pt:
     submission_will_be_reviewed: Os seus dados serão revisados assim que possível. Você receberá um email assim que você for aprovado.
     text_messaging_fees: Taxas para a mensagem de texto podem ser cobradas.
     there_was_an_error: Desculpe. Houve um erro. Se você requisitou uma mudança feita pelo escritório, é possível que ela ainda não tenha sido feita. Por favor tente novamente mais tarde.
-    this_site_doesnt_allow_signup: Este site não permite que pessoas se inscrevam. Ao contrário, você precisa verificar o seu cadastro já existente ou contatar {{office_phone}}.
+    this_site_doesnt_allow_signup: Este site não permite que pessoas se inscrevam. Ao contrário, você precisa verificar o seu cadastro já existente ou contatar %{office_phone}.
     type_your_email: Digite o seu endereço de email aqui
     type_your_mobile: Digite o seu telefone celular aqui
     uses: usa
@@ -840,9 +840,9 @@ pt:
 
   application:
     api_access: Você precisa ser um super administrador para usar as APIs.
-    custom_theme_message: O tema customizado deve conter {{content}} em algum lugar de seu corpo.
+    custom_theme_message: O tema customizado deve conter %{content} em algum lugar de seu corpo.
     no_default_site: Não foi encontrado nenhum site padrão.
-    no_site_configured: "Não há nenhum site configurado para este endereço: {{host}}"
+    no_site_configured: "Não há nenhum site configurado para este endereço: %{host}"
     settings_reloaded: Configurações recarregadas.
     settings_saved: Configurações salvas.
     template_created: Modelo criado.
@@ -898,12 +898,12 @@ pt:
     comment: comentário
     commented_on: comentado em
     deleted: Comentário Deletado.
-    leave_another_note_for: Deixe outra nota para {{name}}
-    leave_note_for: Deixe uma nota para {{name}}
+    leave_another_note_for: Deixe outra nota para %{name}
+    leave_note_for: Deixe uma nota para %{name}
     leave_a_note_for: Deixe uma nota para
     none_yet: nada ainda
     not_authorized: Você não está autorizado a deletar este comentário.
-    object_not_found: Aquele {{name}} não foi encontrado.
+    object_not_found: Aquele %{name} não foi encontrado.
     save: Salvar Comentário
     saved: Comentário salvo.
     view: Visualizar
@@ -911,7 +911,7 @@ pt:
 
   contributions:
     add_to_donor_tools_now: "Adicionar ao Donor Tools agora."
-    api_not_configured_html: A API do Donor Tools não está configurada. Por favor, insira os detalhes de conexão da API nas <a href="{{url}}">configurações</a> Admin.
+    api_not_configured_html: A API do Donor Tools não está configurada. Por favor, insira os detalhes de conexão da API nas <a href="%{url}">configurações</a> Admin.
     Contributions: Contribuições
     donation_types:
       d1: Dinhheiro
@@ -934,14 +934,14 @@ pt:
     not_in_donor_tools: Não está no Donor Tools.
     people_not_synced:
       one: "Os seguintes indivíduos não estão em sincronia com o Donor Tools:"
-      other: "Os seguintes indivíduos não estão em sincronia com o Donor Tools ({{count}} pessoas):"
+      other: "Os seguintes indivíduos não estão em sincronia com o Donor Tools (%{count} pessoas):"
     people_not_synced_count:
       one: "1 pessoas não está em sincronia"
-      other: "{{count}} pessoas não estão em sincronia"
+      other: "%{count} pessoas não estão em sincronia"
     record_synced: Este registro foi sincronizado com o Donor Tools.
     remaining:
       one: "1 registro faltando..."
-      other: "{{count}} registros faltando..."
+      other: "%{count} registros faltando..."
     Sync_Selected: Sincronia Selecionada
     Sync_All: Sincronizar Todos
     Sync_to_Donor_Tools: Sincronizar com o Donor Tools
@@ -988,18 +988,18 @@ pt:
     copy_your_notifications_link_html: <strong>Clique com o botão direiro</strong> no link chamado "Suas Notificações" (de acordo com a figura abaixo) e escolha <strong>Copiar Atalho</strong> ou <strong>Copiar Localização do Link</strong> ou similar.
     deleted: Feed deletado.
     description: Você pode importar conteúdo e atualizações de serviços externos, redes sociais e blog adicionando os feeds abaixo.
-    done_html: Feito! Clique na aba <a href="{{url}}">Início</a> para visualizar o seu conteúdo importado.
+    done_html: Feito! Clique na aba <a href="%{url}">Início</a> para visualizar o seu conteúdo importado.
     enter_twitter_username: Insira o seu usuário do Twitter aqui
     error_retrieving: Houve um erro ao consultar o feed. Por favor, verifique a URL (endereço) e tente novamente.
     facebook_notifications: Notificaçoes do Facebook
     feeds: Feeds
-    feeds_for: Feeds para {{name}}
+    feeds_for: Feeds para %{name}
     flickr_url: URL do Flickr
     link_with_facebook: Link com as suas atualizações de status do Facebook...
     link_with_flickr: Link com as suas atualizações de fotos do Flickr...
     link_with_twitter: Link com as suas atualizações no Twitter...
     link_with_rss: Link com o seu RSS feed...
-    log_into_blog: Encontre a URL feed do seu blog (geralmente clicando no ícone {{img}}) e cole-a no campo abaixo
+    log_into_blog: Encontre a URL feed do seu blog (geralmente clicando no ícone %{img}) e cole-a no campo abaixo
     log_into_facebook_html: <a href="http://www.facebook.com/notifications.php" target="_new">Clique aqui</a> e entre no Facebook.
     log_into_flickr_html: Entre no <a href="http://flickr.com">Flickr.com</a> e vá até a página com sua foto (clique no link "Você" próximo ao topo).
     no_entries_found: Nenhum conteúdo foi encontrado na URL (endereço) fornecida. Por favor volte e tente novamente.
@@ -1020,21 +1020,21 @@ pt:
     accept: Aceitar Amigo
     add_friend_are_you_sure: Você tem certeza? Um email será enviado para esta pessoa requisitando amizade.
     add_to_friends: Adicionar aos Amigos
-    add_your_friends_to_profile_html: <a href="{{url}}">Adicionar seus amigos</a> à sua página de perfil!    
-    added_as_friend: "{{name}} foi adicionado(a) como seu amigo(a)."
-    already_pending: Um pedido de amizade já está pendente com {{name}}.
-    cannot_request: Você não pode fazer um pedido de amizade com {{name}}.
+    add_your_friends_to_profile_html: <a href="%{url}">Adicionar seus amigos</a> à sua página de perfil!    
+    added_as_friend: "%{name} foi adicionado(a) como seu amigo(a)."
+    already_pending: Um pedido de amizade já está pendente com %{name}.
+    cannot_request: Você não pode fazer um pedido de amizade com %{name}.
     decline: Recusar Amigo
     friend_request_pending: pedido de amizade pendente
     friends: Amigos
     pending_requests: Pedidos de Amizade Pendentes
     people_requested: As seguintes pessoas pediram para ser seu amigo.
-    personal_friends: "Amigos do(a) {{name}}"
+    personal_friends: "Amigos do(a) %{name}"
     remove_from_friends: Remover dos Amigos
-    request_sent: Um pedido de amizade foi enviado para {{name}}.
+    request_sent: Um pedido de amizade foi enviado para %{name}.
     search_in_the_directory: Procurar por amigos no diretório
     unknown_state: estado desconhecido
-    you_have_pending_requests_html: Você tem <a href="{{url}}">pedidos de amizade</a>.
+    you_have_pending_requests_html: Você tem <a href="%{url}">pedidos de amizade</a>.
 
   generated_files:
     building: "Contruindo o seu arquivo..."
@@ -1050,9 +1050,9 @@ pt:
     advanced: Advanced
     approval_required_to_join: Uma aprovação é requerida para pessoas entrarem neste grupo
     approve_group: Aprovar Grupo
-    are_you_sure_option: Você tem certeza que deseja {{option}} os emails deste grupo {{group}}?
+    are_you_sure_option: Você tem certeza que deseja %{option} os emails deste grupo %{group}?
     attendance: Frequência
-    back_to_group: "Back to {{name}}"
+    back_to_group: "Back to %{name}"
     back_to_homepage: Voltar à Página Inicial do Grupo
     batch_edit_groups: Editar Grupos em Lote
     browse_by_category: Procurar por uma Categoria
@@ -1112,7 +1112,7 @@ pt:
     if_ok_you_will_start_receiving: Se você clicar OK, você irá começar a receber emails deste grupo.
     ignore: Ignorar
     join_this_group: Entrar neste Grupo
-    last_admin_remove: "{{name}} é o último admin e não pode ser removido."
+    last_admin_remove: "%{name} é o último admin e não pode ser removido."
     leader: Líder
     leader_id: Id do Líder
     leave_this_group: Deixar este Grupo
@@ -1136,17 +1136,17 @@ pt:
     no_activity_yet: "This group hasn't had any activity yet."
     no_groups_found: nenhum grupo encontrado
     only_admins_see_this_list: Somente administradores (como você) enxergam esta lista
-    or_send_from_your_email_html: "Ou envie para <a href='mailto:{{email}}'>{{email}}</a> do seu programa de email."
+    or_send_from_your_email_html: "Ou envie para <a href='mailto:%{email}'>%{email}</a> do seu programa de email."
     other_notes: Outras Notas
     parents_of: "Pais de:"
     parents_of_hint: "Membership will be auto-generated from parents of selected group's members."
     pending_approval_count:
-      one: "{{count}} grupo pendente de aprovação"
-      other: "{{count}} grupos pendentes de aprovação"
+      one: "%{count} grupo pendente de aprovação"
+      other: "%{count} grupos pendentes de aprovação"
     membership_request_count:
-      one: "{{count}} requisição de associação pendente"
-      other: "{{count}} requisições de associação pendentes"
-    people_in_group: "People In {{name}}"
+      one: "%{count} requisição de associação pendente"
+      other: "%{count} requisições de associação pendentes"
+    people_in_group: "People In %{name}"
     picture: Group Picture
     picture_hint: Use a group shot or a clip-art graphic to help people recognize your group on this site.
     privacy_security: Privacidade e Segurança
@@ -1165,7 +1165,7 @@ pt:
     show_all: Mostrar todos...
     the_settings_are_for_advanced_users: As configurações abaixo são para usuário avançados.
     there_was_errors_saving: Existe um ou mais erros ao salvar as mudanças. Os registros com erro estão destacados em vermelho. Arraste para visualizar todas as mensagens de erro.
-    this_group_has_pending_html: Este grupo possui <a href="{{url}}">pedidos de associação</a> pendentes.
+    this_group_has_pending_html: Este grupo possui <a href="%{url}">pedidos de associação</a> pendentes.
     this_group_is_hidden: Este grupo é oculto. A sua existência é oculta da maioria das pessoas."
     this_group_is_pending_approval: Este grupo está com a aprovação pendente.
     this_group_is_pending_you_may_not_add_people: Este grupo está com a aprovação pendente. Você ainda não pode adicionar nenhuma pessoa nele.
@@ -1187,7 +1187,7 @@ pt:
     completed_records: Registros Completados
     error: Erro
     error_updating: Erro ao atualizar registro.
-    error_updating_message_html: Houve pelo menos um erro ao tentar atualizar os registros no banco de dados. Por favor corriga os erros e então retorne à interface de <a href="{{url}}">Atualizações Pendentes</a> para completar o processo.
+    error_updating_message_html: Houve pelo menos um erro ao tentar atualizar os registros no banco de dados. Por favor corriga os erros e então retorne à interface de <a href="%{url}">Atualizações Pendentes</a> para completar o processo.
     errored_records: Registros com Erro
     first: Primeiro
     for_list_of_available_attributes: para uma lista de atributos disponíveis (nem todos os atributos são requeridos).
@@ -1198,7 +1198,7 @@ pt:
     import_selected_people: Importar Pessoas Selecionadas
     last: Último
     no_records_were_found: Nenhum registro foi encontrado para importação.
-    only_first_records_will_be_imported_html: Somente os primeiros {{count}} registros serão importados. Para arquivos grandes, você deve dividir os registros em múltiplos arquivos, ou usar o <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> para importar uma grande quantidade de uma vez.
+    only_first_records_will_be_imported_html: Somente os primeiros %{count} registros serão importados. Para arquivos grandes, você deve dividir os registros em múltiplos arquivos, ou usar o <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> para importar uma grande quantidade de uma vez.
     people: Importar Pessoas
     record: registro
     record_updated: Registro Atualizado.
@@ -1243,18 +1243,18 @@ pt:
     attachment_optional: Anexo (opcional)
     attachments: Anexos
     delete_message: Deletar Mensagem
-    email_message_to: Email para {{name}}
+    email_message_to: Email para %{name}
     file_missing: arquivo faltando
     flag_cleared: Marcações limpas.
     from: De
     group: Grupo
-    group_message_to: Mensagem de Grupo para {{group}}
+    group_message_to: Mensagem de Grupo para %{group}
     in: em
     message: Mensagem
     message_by: Mensagem de
-    messages_in_html: Mensagens em <a href="{{url}}">{{name}}</a>
+    messages_in_html: Mensagens em <a href="%{url}">%{name}</a>
     missing_param: O parâmetro da mensagem está faltando.
-    no_email_for_person: Desculpe. Não não temos um endereço de email para {{name}}.
+    no_email_for_person: Desculpe. Não não temos um endereço de email para %{name}.
     not_authorized_delete: Você não está autorizado a deletar esta mensagem.
     not_found: Mensagem não encontrada.
     posted_by: postado por
@@ -1270,7 +1270,7 @@ pt:
     some_quoted_text_is_hidden: Algumas citações nesta mensagem estão ocultas;
     subject: Assunto
     this_group_is_not_private: Este grupo não é particular, então as mensagens enviadas aqui serão visíveis por pessoas que não são membros deste grupo.
-    this_will_send_an_email_to: Isto irá enviar um email para {{group}}.
+    this_will_send_an_email_to: Isto irá enviar um email para %{group}.
     this_will_send_a_private_email_html: Isto irá enviar um email <em>particular</em>.
     to_show_the_entire_message: para mostrar a mensagem inteira.
     unknown_type: Tipo de mensagem desconhecido.
@@ -1288,7 +1288,7 @@ pt:
     body_description: "Compartilhe os seus anúncios, informações ou notícias aqui:"
     deleted: Notícia deletada.
     edit_news_post: Editar Postagem de Notícias
-    if_you_have_something_to_share_html: Se você têm alguma notícia para compartilhar, <a href="{{url}}">submeta-a aqui</a>.
+    if_you_have_something_to_share_html: Se você têm alguma notícia para compartilhar, <a href="%{url}">submeta-a aqui</a>.
     news: "Notícias"
     news_feed: Feed de Notícias
     no_news_is_available: Nenhuma notícia está disponível neste momento.
@@ -1296,7 +1296,7 @@ pt:
     save_news: Salvar Notícias
     saved: Notícia salva.
     submit_news: "Enviar Notícias"
-    subscribe_to_community_news_html: <a href="{{url}}">Subscreva</a> às notícias da Comunidade com o seu leitor de feeds.
+    subscribe_to_community_news_html: <a href="%{url}">Subscreva</a> às notícias da Comunidade com o seu leitor de feeds.
     title_description: "Dê um título conciso para a sua postagem:"
     welcome_to_the_place: Bem vindo ao lugar para as notícias da comunidade.
 
@@ -1318,30 +1318,30 @@ pt:
     posted_by: postada por
     save_note: Salvar Nota
     saved: Nota salva.
-    this_note_will_be_posted: Esta nota será postada no blog do grupo {{group}}.
+    this_note_will_be_posted: Esta nota será postada no blog do grupo %{group}.
     this_note_will_not_be_private_html: "Esta nota <strong>não</strong> será particular porque é um post de blog. Para enviar uma mensagem particular, envie um email para o grupo."
     title: Título
 
   notifier:
-    attached_your_custom_directory: Olá, {{name}}. Segue em anexo o seu diretório para impressão customizado do {{site}}.
+    attached_your_custom_directory: Olá, %{name}. Segue em anexo o seu diretório para impressão customizado do %{site}.
     be_sure_to_send_verification_email: Tenha certeza de também clicar no "enviar email de verificação" para o usuário.
     check_boxes_in_visibility_sidebar: Verifique todas as opções apropriadas na barra lateral de "Visibilidade" e salve.
-    click_link_to_complete_process: "Clique no seguinte link para completar o processo: {{url}}"
+    click_link_to_complete_process: "Clique no seguinte link para completar o processo: %{url}"
     has_submited_profile_update: submeteu uma atualização de perfil
     if_you_cannot_click_link: Se não for possível clicar no link a seguir, você irá precisar copiar e colar o mesmo na sua barra de endereços do seu navegador de internet.
     if_you_approve_this_account_creation: Se você aprova esta criação de conta, ative a conta neste endereço
-    if_you_dont_know_why_get_this_email: Se você não sabe o porquê você está recebendo este email, você pode entrar em contato com {{name}} no telefone {{phone}}.
+    if_you_dont_know_why_get_this_email: Se você não sabe o porquê você está recebendo este email, você pode entrar em contato com %{name} no telefone %{phone}.
     message_id: ID da Mensagem
-    name_has_requested_join_group: "{{name}} requisitou para fazer parte do grupo {{group}}."
-    name_submitted_birthday_request: "{{name}} submeteu um pedido de verificação de aniversário"
+    name_has_requested_join_group: "%{name} requisitou para fazer parte do grupo %{group}."
+    name_submitted_birthday_request: "%{name} submeteu um pedido de verificação de aniversário"
     new: Novo
     old: Velho
-    person_had_their_email_changed: "{{name}} teve o seu email alterado."
-    person_has_signed_for_account: "{{name}} se inscreveu para uma conta."
-    person_wants_to_be_your_friend: "{{name}} quer ser seu amigo no {{site}}."
+    person_had_their_email_changed: "%{name} teve o seu email alterado."
+    person_has_signed_for_account: "%{name} se inscreveu para uma conta."
+    person_wants_to_be_your_friend: "%{name} quer ser seu amigo no %{site}."
     please_make_updates: Por favor faça as atualizações apropriadas para a base de membros.
-    this_email_to_verify_email: Este email é para verificar o seu endereço de email para acesso ao site {{site}}. Para verificar o seu endereço de email, por favor clique no link abaixo
-    this_notify_someone_reported: Isto é para notificar que alguém reportou que a data e hora estão incorretas no site {{site}}.
+    this_email_to_verify_email: Este email é para verificar o seu endereço de email para acesso ao site %{site}. Para verificar o seu endereço de email, por favor clique no link abaixo
+    this_notify_someone_reported: Isto é para notificar que alguém reportou que a data e hora estão incorretas no site %{site}.
     to_accept_or_decline: Para aceitar ou declinar, por favor acesso o sistem aqui
     to_approve_or_ignore: Para aprovar ou ignorar, acesse o sistema e visite o seguinte endereço
     update_record_membership: Atualize os registros na base de membros.
@@ -1388,10 +1388,10 @@ pt:
     changes_must_be_reviewed_html: Mudanças em nos detalhes abaixo deverão ser <strong>revisadas pelo staff</strong>. Para requisitar mudanças, entre os detalhes abaixo e clique 'Submeter'.
     changes_submitted: Mudanças submetidas.
     child: Criança
-    child_alert: Você necessita especificar se a pessoa é uma criança (menor de {{years}} anos) ou não para completar esta atualização.
+    child_alert: Você necessita especificar se a pessoa é uma criança (menor de %{years} anos) ou não para completar esta atualização.
     click_to_send_verification_email: Clique OK para enviar um email de verificação para este usuário. Assim que o usuário clicar o link no email, ele poderá setar a sua senha e entrar no sistema.
-    click_to_change_email_html: <a href="{{url}}">Clique aqui</a> para mudar o seu endereço de email.
-    deleted_html: Esta pessoa foi deletada. Você pode restaurá-la <a href="{{url}}">aqui</a>.
+    click_to_change_email_html: <a href="%{url}">Clique aqui</a> para mudar o seu endereço de email.
+    deleted_html: Esta pessoa foi deletada. Você pode restaurá-la <a href="%{url}">aqui</a>.
     description_of_business: Descrição dos Negócios
     determine_by_birthday: Determinar pela data de nascimento
     edit:
@@ -1411,7 +1411,7 @@ pt:
     enter_new_category: Entre um nova categoria.
     family: Família
     family_legacy_external_id: Família Legada/ID Externo
-    find_a_group_html: Encontre um grupo <a href="{{url}}">aqui</a>.
+    find_a_group_html: Encontre um grupo <a href="%{url}">aqui</a>.
     friend_not_found: Amigo não encontrado.
     friendship_accepted: Amizade confirmada.
     friendship_manage: Você não pode gerenciar pedidos de amizade para ninguém além de você.
@@ -1420,8 +1420,8 @@ pt:
     full_access: Acesso Total
     groups: Grupos
     if_you_have_another_email: Se você têm outro email (talvez um endereço comercial) você pode utilizá-lo para enviar emails para os grupos e você pode digitá-lo aqui.
-    if_you_wish_to_be_listed_business_dir_html: Se vocês quiser ser listado no <a href="{{url}}">Diretório de Negócios</a>, entre o nome da empresa, descrição e outros detalhes abaixo.
-    if_you_wish_to_remove_something_html: Se você quiser remover algo abaixo para prevenir que outros possam ver, vá à página de <a href="{{url}}">Privacidade</a> e oculte-os.
+    if_you_wish_to_be_listed_business_dir_html: Se vocês quiser ser listado no <a href="%{url}">Diretório de Negócios</a>, entre o nome da empresa, descrição e outros detalhes abaixo.
+    if_you_wish_to_remove_something_html: Se você quiser remover algo abaixo para prevenir que outros possam ver, vá à página de <a href="%{url}">Privacidade</a> e oculte-os.
     if_your_system_is_setup_to_sync_change: Se o seu sistema está configurado para sincronização com uma fonte de dados externa (ex. um sistema de gerenciamento de membros), mudanças nesta pessoa podem ser sobrescritas na próxima sincronização.
     interests: Interesses
     legacy_external_id: Legado/ID Externo
@@ -1432,7 +1432,7 @@ pt:
     name: Name
     new_person: Nova Pessoa
     no_additional_access_avaiable: Nenhuma opção de acesso adicional está disponível neste momento.
-    no_email: "{{name}} doesn't have an email address in the system"
+    no_email: "%{name} doesn't have an email address in the system"
     no_family_for_this_person: Esta pessoa não faz parte de nenhuma família. Ela não conseguirá entrar e não será visível a outros no site.
     no_groups_yet: não há grupos ainda
     not_deleted: Pessoa não foi deletada.
@@ -1443,8 +1443,8 @@ pt:
     people: Pessoas
     person:
       one: 1 Pessoa
-      other: "{{count}} Pessoas"
-    person_isnt_any_groups: "{{person}} não está em nenhum grupo agora."
+      other: "%{count} Pessoas"
+    person_isnt_any_groups: "%{person} não está em nenhum grupo agora."
     person_type: Tipo de Pessoa
     quotes: Frases
     save_access: Salvar Acessos
@@ -1458,13 +1458,13 @@ pt:
     suffix: Sufixo
     tell_us_about_yourself: Conte-nos sobre você. Como é sua personalidade? O que o seu melhor amigo diz sobre você?
     testimony: Testemunho
-    this_account_is_frozen: Esta conta está congelada. {{name}} não pode fazer mudanças ao seu perfil até que a conta seja descongelada.
+    this_account_is_frozen: Esta conta está congelada. %{name} não pode fazer mudanças ao seu perfil até que a conta seja descongelada.
     this_email_will_not_be_visible: Este endereço de email não será visível a ninguém exceto administradores.
     this_event_doesnt_have_pictures: "Este evento ainda não contém nenhuma foto."
-    this_person_is_not_an_adult: Acreditamos que esta pessoa seja menor de {{years}} anos de idade e não possui o consentimento dos seus pais.
+    this_person_is_not_an_adult: Acreditamos que esta pessoa seja menor de %{years} anos de idade e não possui o consentimento dos seus pais.
     this_profile_is_hidden: Este perfil é oculto
     tv_shows: Programas de TV
-    upload_a_picture_of_html: Carregue uma <strong>foto do {{name}}</strong>.
+    upload_a_picture_of_html: Carregue uma <strong>foto do %{name}</strong>.
     upload_family_picture_html: Carregue uma <strong>foto da família</strong>.
     update_to_profile_is: Uma atualização a este perfil é
     verses: Versículos
@@ -1482,13 +1482,13 @@ pt:
     are: pessoas estão
     is: pessoa está
     one: 1 pessoa
-    other: "{{count}} pessoas"
+    other: "%{count} pessoas"
 
   photos:
     object_not_found: Objeto não encontrado.
     remove: Remover foto
     unavailable: Foto indisponível.
-    upload: Carregar {{name}}
+    upload: Carregar %{name}
 
   pictures: 
     add_a_picture: Adicionar uma Foto
@@ -1501,13 +1501,13 @@ pt:
     comment_on_this_picture: Comente esta foto
     delete_album: Deletar Álbum
     edit_album: Editar Álbum
-    failed: "{{fail}} não salvas devido a erros"
+    failed: "%{fail} não salvas devido a erros"
     next: próximo »
     picture_uploaded_by: Foto carregada por
     prev: « anterior
     rotate_left: Girar à Esquerda
     rotate_right: Girar à Direita
-    saved: "{{success}} foto(s) salva(s)"
+    saved: "%{success} foto(s) salva(s)"
     set_as_cover: Setar como Capa
     hide_my_name: "Essas são fotos gerais da comunidade — não mostre meu nome nelas (opção somente para administradores)."
     upload: Carregar!
@@ -1529,7 +1529,7 @@ pt:
     delete_request: Deletar Pedido
     edit_prayer_request: Editar pedido de oração
     edit_request: Editar Pedido
-    name: Pedido de Oração no grupo {{group_name}}
+    name: Pedido de Oração no grupo %{group_name}
     new_prayer_request: Novo pedido de oração
     not_found: Pedido de Oração não encontrado.
     posted_by: enviado por
@@ -1561,10 +1561,10 @@ pt:
   printable_directories:
     already_sent: Aparentemente um diretório já foi enviado um tempo atrás. Por favor verifique o seu email (e o seu diretório de spam, em todo caso).
     click_to_have_custom_pdf_via_email: Clique no botão abaixo para ter o seu diretório customizado em PDF enviado ao seu email.
-    created_for: Criado especialmente para {{name}} em {{date}}
+    created_for: Criado especialmente para %{name} em %{date}
     email_custom_directory: Enviar o meu Diretório Customizado via Email
     include_family_pictures: incluir fotos das famílias
-    make_sure_you_have_adobe_html: Tenha certeza que você possui o <a href="{{url}}">Adobe Reader</a> ou outros programa capaz de visualizar arquivos PDF.
+    make_sure_you_have_adobe_html: Tenha certeza que você possui o <a href="%{url}">Adobe Reader</a> ou outros programa capaz de visualizar arquivos PDF.
     not_allowed: Você não pode imprimir o diretório. Desculpe.
     were_are_building_custom_pdf: "Nós estamos construindo o seu arquivo PDF agora. Isto poderá demorar alguns instantes, mas provavelmente não mais que alguns minutos. Assim que estiver pronto, nós enviaremos um email pra você. Fique a vontade para continuar sua visita pelo site (você pode deixar esta página se desejar)."
     will_take_longer: "(demorará um pouco mais)"
@@ -1575,16 +1575,16 @@ pt:
     address2: Endereço Linha 2
     agreement_saved: Acordo salvo.
     anniversary: Aniversário de Casamento
-    as_a_parent_agree_html: Eu, como o pai/mãe ou guardião legal de {{name}}, concorco que eu li a <a href="{{url}}">Política de Privacidade</a> deste site, e as informações pessoais de {{name}} podem ser mostradas para outros usuários deste web site (como determindado pelas configurações de privacidade desta página), e que {{name}} pode, se habilitado, utilizar este website como um usuário normal (incluindo customização de perfil, comunicação via mensagens privadas, grupos, etc.).
+    as_a_parent_agree_html: Eu, como o pai/mãe ou guardião legal de %{name}, concorco que eu li a <a href="%{url}">Política de Privacidade</a> deste site, e as informações pessoais de %{name} podem ser mostradas para outros usuários deste web site (como determindado pelas configurações de privacidade desta página), e que %{name} pode, se habilitado, utilizar este website como um usuário normal (incluindo customização de perfil, comunicação via mensagens privadas, grupos, etc.).
     birthday: Data de Nascimento
-    child_profile_has_parental_consent: Esse perfil de criança possui um consentimento dos pais de {{name}}.
-    child_under_age_no_parents_consent: "Esta criança tem menos de {{years}} anos e seus pais não derão permissão para permitir que a sua informação seja exibida."
-    child_under_age_you_have_not_consent: "Esta criança tem menos de {{years}} anos e você não deu a permissão para 1) permitir que a informação dela seja exibida, e 2) permitir que ela entre e use este web site."
+    child_profile_has_parental_consent: Esse perfil de criança possui um consentimento dos pais de %{name}.
+    child_under_age_no_parents_consent: "Esta criança tem menos de %{years} anos e seus pais não derão permissão para permitir que a sua informação seja exibida."
+    child_under_age_you_have_not_consent: "Esta criança tem menos de %{years} anos e você não deu a permissão para 1) permitir que a informação dela seja exibida, e 2) permitir que ela entre e use este web site."
     children: Crianças
     click_the_agree: "Clique no botão 'Eu concordo'."
     detail: Detalhe
     email: Email
-    family_hidden: "{{your}} família está atualmente oculta de todas as páginas deste site!"
+    family_hidden: "%{your} família está atualmente oculta de todas as páginas deste site!"
     family_privacy: Privacidade da Família
     fax: Fax
     group_privacy: Privacidade do Grupo
@@ -1593,25 +1593,25 @@ pt:
     home_phone: Telefone Residencial
     i_agree: Eu concordo
     mobile_phone: Celular
-    modify_the_privacy_settings_html: Modifique as configurações de privacidade para você e a sua família abaixo. Para entender como nós usamos as suas informações pessoais e da sua família, por favor leia a nossa <a href="{{url}}">Política de Privacidade</a>.
-    please_read_our_privacy_policy_html: Por favor leia a nossa <a href="{{url}}">Política de Privacidade</a> para detalhes sobre o uso de suas informações pessoais.
+    modify_the_privacy_settings_html: Modifique as configurações de privacidade para você e a sua família abaixo. Para entender como nós usamos as suas informações pessoais e da sua família, por favor leia a nossa <a href="%{url}">Política de Privacidade</a>.
+    please_read_our_privacy_policy_html: Por favor leia a nossa <a href="%{url}">Política de Privacidade</a> para detalhes sobre o uso de suas informações pessoais.
     people_can_still_send_html: "You can still receive email through the site, without revealing your email address on the Web."
     privacy: Privacidade
     private: Particular
-    read_privacy_policy_html: Leia a nossa <a href="{{url}}">Política de Privacidade</a>.
-    read_safeguarding_children_html: Leia a nossa página sobre <a href="{{url}}">guardando nossas crianças</a>.
+    read_privacy_policy_html: Leia a nossa <a href="%{url}">Política de Privacidade</a>.
+    read_safeguarding_children_html: Leia a nossa página sobre <a href="%{url}">guardando nossas crianças</a>.
     read_statement_below: Leia o texto abaixo e concorde selecionando o checkbox correspondente.
     saved: Configuraçoes salvas.
-    sharing_with_html: Compartilhando com <a href="{{url}}">{{name}}</a>
-    the_items_are_visible_html: "Os seguintes itens estão visíveis a todos <a href=\"{{url}}\">mude aqui</a>:"
-    the_items_may_be_shared: "Os seguintes itens podem estar compartilhados com outros membros do {{name}}:"
+    sharing_with_html: Compartilhando com <a href="%{url}">%{name}</a>
+    the_items_are_visible_html: "Os seguintes itens estão visíveis a todos <a href=\"%{url}\">mude aqui</a>:"
+    the_items_may_be_shared: "Os seguintes itens podem estar compartilhados com outros membros do %{name}:"
     this: esta
-    to_show_on_this_site: "Para mostrar o {{name}} neste site, por favor:"
+    to_show_on_this_site: "Para mostrar o %{name} neste site, por favor:"
     visible: Visível
     visible_note: Setting a profile to be invisible will cause you to not appear in any directory searches. You can still join groups and receive group email and email from site administrators though.
     work_phone: Telefone Comercial
-    you_are_not_sharing_with_groups: Você não está compartilhando o seu {{sharing}} com nenhum grupo específico.
-    you_are_sharing_with_groups: "Você está compartilhando o seu {{sharing}} com os seguintes grupos:"
+    you_are_not_sharing_with_groups: Você não está compartilhando o seu %{sharing} com nenhum grupo específico.
+    you_are_sharing_with_groups: "Você está compartilhando o seu %{sharing} com os seguintes grupos:"
     you_may_share_items: "Você pode compartilhar itens com os membros dos seguintes grupos:"
     you_must_check_agreement_statement: Você deve marcar a caixa indicando que você concorda com o texto abaixo.
 
@@ -1623,20 +1623,20 @@ pt:
     email_notifications: Notificações por Email
     feed: Feed de Publicações
     file: Arquivo
-    files_with_acrobat_icon_html: Para arquivos com o ícone Acrobat {{img}}, você irá precisar {{url}} (conhecido como "Acrobat Reader") ou outro programa compatível com a visualização de arquivos PDF.
-    inform_publication_available: Este é para informar você que uma nova publicação foi adicionada ao {{site}}.
+    files_with_acrobat_icon_html: Para arquivos com o ícone Acrobat %{img}, você irá precisar %{url} (conhecido como "Acrobat Reader") ou outro programa compatível com a visualização de arquivos PDF.
+    inform_publication_available: Este é para informar você que uma nova publicação foi adicionada ao %{site}.
     name: Nome
     new_publication: Nova Publicação
     new_publication_available: Nova Publicação Disponível
     no_publications_available: Não existem publicações disponíveis.
     notify_no_one: Não notificar ninguém
-    notify_the_group: Notificar o grupo {{group}}
+    notify_the_group: Notificar o grupo %{group}
     publications: Publicações
     save_publication: Salvar Publicação
     saved: Publicação foi gravada.
     start_receiving_notifications: Se você deseja receber notificações por email quando novas publicações forem disponibilizadas aqui nesta página,
     subscribe: Subscrever
-    subscribe_feed_html: <a href="{{url}}">Subscrever</a> à essa Publicação com o seu leitor de feeds.
+    subscribe_feed_html: <a href="%{url}">Subscrever</a> à essa Publicação com o seu leitor de feeds.
     unsubscribe: Unsubscribe
     update_notifications: Atualizar Notificações
     you_must_select_file: Você deve selecionar um arquivo.
@@ -1645,7 +1645,7 @@ pt:
     Reciprocate: Reciprocidade
     add_a_relationship: "Adicionar um relacionamento:"
     add_relationship_button: Ad. Relacionamento
-    cannot_be_reciprocated: "Um relacionamento recíproco com {{name}} não pode ser criado automaticamente."
+    cannot_be_reciprocated: "Um relacionamento recíproco com %{name} não pode ser criado automaticamente."
     create_family_relationships: Criar Relacionamentos Familiares
     create_family_relationships_description: "Você pode gerar relacionamentos para a família abaixo."
     family: Relacionamentos Familiares
@@ -1703,11 +1703,11 @@ pt:
     elder: Elder
     families_found: 
       one: "1 família encontrada"
-      other: "{{count}} famílias encontradas"
+      other: "%{count} famílias encontradas"
     family_name: "Nome da Família"
     female: Feminino
     gender: "Gênero"
-    heading: "{{name}} Directory"
+    heading: "%{name} Directory"
     male: Masculino
     member: Membro
     results_not_shown: Some results not shown — be more specific.
@@ -1716,7 +1716,7 @@ pt:
     not_showing_hidden_people: "(não está mostrando pessoas ocultas)"
     people_found: 
       one: 1 pessoa encontrada
-      other: "{{count}} pessoas encontradas"
+      other: "%{count} pessoas encontradas"
     printed_directory: "Diretório Impresso"
     search: Busca
     search_by_name: Busca por nome
@@ -1745,9 +1745,9 @@ pt:
     password_incorrect: senha incorreta
     please_sign_in: Por favor acesse o sistema.
     sign_in: acessar
-    sign_in_error_html: Houve um erro ao acessar o sistema. Por favor <a href="{{url}}">tente novamente</a>.
+    sign_in_error_html: Houve um erro ao acessar o sistema. Por favor <a href="%{url}">tente novamente</a>.
     sign_out: sair
-    sign_up_or_sign_in_html: "<a href=\"{{url}}\">Registrar</a> para uma conta, ou acesse com uma existente:"
+    sign_up_or_sign_in_html: "<a href=\"%{url}\">Registrar</a> para uma conta, ou acesse com uma existente:"
     there_are_no_users_in_the_system: "Não há usuários no sistema."
 
   setup:
@@ -1782,7 +1782,7 @@ pt:
     about_heading: Sua Página Inicial
     about_html: "Esta é a sua página inicial personalizada — Itens exibidos aqui são de pessoas pertencentes aos seus grupos, sua família e seus amigos."
     ago: atrás
-    and_more: e mais {{length}} itens por {{name}}...
+    and_more: e mais %{length} itens por %{name}...
     feed: Feed
     flickr: Flickr
     import_blog_feed: Importar os feeds RSS ou Atom do seu Blog...
@@ -1819,7 +1819,7 @@ pt:
     all_verses: "Todos os Versículos"
     disclaimer: "Trechos das escrituras marcados como 'WEB' são obtidos da World English Bible, uma tradução moderna em inglês da American Standard Version da Bíblia Sagrada. WEB está sob domínio público. Cópias e publicações são livres."
     example_verse: "João 3:16"
-    intro: "Compartilhe os seus versículos bíblicos favoritos com {{community}}."
+    intro: "Compartilhe os seus versículos bíblicos favoritos com %{community}."
     no_verses_yet: "Nenhum versículo ainda!"
     not_found: O versículo não pode ser encontrado. Você digitou a referência corretamente?
     people_who_like_this_verse: "Pessoas que gostam desse versículo"
@@ -1838,7 +1838,7 @@ pt:
     one_or_more_not_found: Uma ou mais parede de recados não foram encontradas.
     respect_privacy: "Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poderá causar o banimento do site."
     save_message: Salvar Mensagem
-    to_send_a_private_message_html: Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href="{{url}}">clique aqui</a>.
+    to_send_a_private_message_html: Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href="%{url}">clique aqui</a>.
     view_all_wall_messages: Visualizar todas as mensagens...
     wall: Parede de Recados
     wall_to_wall: Parede de Recados

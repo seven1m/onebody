@@ -68,7 +68,7 @@ en:
   your: Your
 
   errors:
-    format: "{{message}}"
+    format: "%{message}"
 
   activerecord: 
     errors: 
@@ -278,10 +278,10 @@ en:
   admin:
     active: active
     admin: admin
-    admin_added: "{{name}} added."
+    admin_added: "%{name} added."
     admin_count:
-      one: "{{count}} Administrator"
-      other: "{{count}} Administrators"
+      one: "%{count} Administrator"
+      other: "%{count} Administrators"
     admin_removed: Admin removed.
     admin_template_description: Templates allow you to have predefined permission sets for use with more than one administrator.
     administrators: Administrators
@@ -289,7 +289,7 @@ en:
     add_person: Add Person
     add_selected: Add Selected
     add_template: Add Template
-    already_admin: "{{name}} is already an admin."
+    already_admin: "%{name} is already an admin."
     api: API
     api_login_details: Your API login details
     back_to_admin_list: Back to Administrator List
@@ -306,8 +306,8 @@ en:
       search_results: The results of your search are displayed below.
       undelete: Undelete
     deleted_people_count:
-      one: "{{count}} deleted person"
-      other: "{{count}} deleted people"
+      one: "%{count} deleted person"
+      other: "%{count} deleted people"
     display: display
     enable: Enable
     enable_api_confirmation: Are you sure you want to enable your API key?
@@ -371,7 +371,7 @@ en:
     pages: Pages
     people_not_synced_to_donortools_count:
       one: "1 out of sync with Donor Tools."
-      other: "{{count}} out of sync with Donor Tools."
+      other: "%{count} out of sync with Donor Tools."
     privileges:
       view_hidden_profiles:
         title: View Hidden Profiles
@@ -722,27 +722,27 @@ en:
       success: Success
       sync: Sync
       sync_errors:
-        one: "{{count}} sync error"
-        other: "{{count}} sync errors"
+        one: "%{count} sync error"
+        other: "%{count} sync errors"
       syncs: Syncs
       type: Type
     template: Template
     templates: Templates
     themes:
       custom_themes: Custom Theme
-      description_html: You can tweak your site's look by editing your custom theme below. Upload assets, e.g. images, CSS, etc., by clicking "Manage Assets." <strong>Changes are not seen by your visitors until you enable the custom theme in <a href="{{url}}">settings</a>.</strong>
+      description_html: You can tweak your site's look by editing your custom theme below. Upload assets, e.g. images, CSS, etc., by clicking "Manage Assets." <strong>Changes are not seen by your visitors until you enable the custom theme in <a href="%{url}">settings</a>.</strong>
       edit: Edit
       manage_assets: Manage Assets
       preview: Preview
-      preview_instructions_html: Preview any page with your custom theme by appending <code>?theme=custom</code> to the end of its URL, like <a href="{{url}}">this</a>. <strong>If you lock yourself out of your site by building a bad custom theme, use <code>?theme=aqueouslight</code> to get back in and disable it.</strong>
+      preview_instructions_html: Preview any page with your custom theme by appending <code>?theme=custom</code> to the end of its URL, like <a href="%{url}">this</a>. <strong>If you lock yourself out of your site by building a bad custom theme, use <code>?theme=aqueouslight</code> to get back in and disable it.</strong>
       reset: To reset your custom theme back to its default look, blank out the text box above and save changes.
       save_preview: Save Changes and Preview
       syntax_description_html: Template syntax is <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Special template parts to insert are
       theme: Theme
     updates:
       changed_email:
-        one: "{{count}} changed email address"
-        other: "{{count}} changed email addresses"
+        one: "%{count} changed email address"
+        other: "%{count} changed email addresses"
       complete: Complete
       completed: Completed
       groups_pending: Groups Pending Approval
@@ -751,14 +751,14 @@ en:
       no_updates: No updates
       none: None at this time.
       pending:
-        one: "{{count}} pending update"
-        other: "{{count}} pending updates"
+        one: "%{count} pending update"
+        other: "%{count} pending updates"
       pending_title: Pending
       person_deleted: person deleted
       per_day: Updates Per Day
       profile_updates: Profile Updates
       review_changes: review changes following update
-      show_status: Show {{status}}
+      show_status: Show %{status}
       updated: updated
       updates: Updates
     username: Username
@@ -766,9 +766,9 @@ en:
 
   accounts:
     birthday: Birthday
-    call_office: Call {{office_phone}} during business hours.
+    call_office: Call %{office_phone} during business hours.
     cannot_edit: You cannot edit this account.
-    change_email_warning: After this change, all email from this site will be sent to this address. It will also be the address {{person}} to sign into this site.
+    change_email_warning: After this change, all email from this site will be sent to this address. It will also be the address %{person} to sign into this site.
     check_code: Check Code
     code_be_careful: Please be careful to enter the correct code. If you make a mistake, you will have to start over.
     create: Create Account
@@ -784,7 +784,7 @@ en:
     last_name: Last Name
     leave_blank: Leave these fields blank if you don't want to change your password.
     mobile_number_not_found: That mobile number could not be found in our system. You may try again.
-    must_be_of_age: Must be at least {{years}} years of age.
+    must_be_of_age: Must be at least %{years} years of age.
     must_set_email_pass: You must set your personal email address and password to continue.
     pending_approval: Your account is pending approval. You will receive an email once it's approved.
     please_select_your_name: Please select your name from the list below
@@ -795,7 +795,7 @@ en:
     submission_will_be_reviewed: Your submission will be reviewed as soon as possible. You will receive an email once you have been approved.
     text_messaging_fees: Text messaging fees may apply.
     there_was_an_error: Sorry. There was an error. If you requested the office make a change, it's possible it just hasn't been done yet. Please try again later.
-    this_site_doesnt_allow_signup: This site does not allow people to sign up. Instead, you must either verify your already-existing account information or contact {{office_phone}}.
+    this_site_doesnt_allow_signup: This site does not allow people to sign up. Instead, you must either verify your already-existing account information or contact %{office_phone}.
     type_your_email: Type your email address here
     type_your_mobile: Type your mobile phone number here
     uses: uses
@@ -840,9 +840,9 @@ en:
 
   application:
     api_access: You must be a super administrator to use the API.
-    custom_theme_message: The custom theme must contain {{content}} somewhere in its body.
+    custom_theme_message: The custom theme must contain %{content} somewhere in its body.
     no_default_site: No Default site found.
-    no_site_configured: "There is no site configured at this address: {{host}}"
+    no_site_configured: "There is no site configured at this address: %{host}"
     settings_reloaded: Settings reloaded.
     settings_saved: Settings saved.
     template_created: Template created.
@@ -898,12 +898,12 @@ en:
     comment: comment
     commented_on: commented on
     deleted: Comment deleted.
-    leave_another_note_for: Leave another note for {{name}}
-    leave_note_for: Leave a note for {{name}}
+    leave_another_note_for: Leave another note for %{name}
+    leave_note_for: Leave a note for %{name}
     leave_a_note_for: Leave a note for
     none_yet: none yet
     not_authorized: You are not authorized to delete this comment.
-    object_not_found: That {{name}} was not found.
+    object_not_found: That %{name} was not found.
     save: Save Comment
     saved: Comment saved.
     view: View
@@ -911,7 +911,7 @@ en:
   
   contributions:
     add_to_donor_tools_now: "Add to Donor Tools now."
-    api_not_configured_html: The Donor Tools API is not configured. Please enter the API connection details in Admin <a href="{{url}}">settings</a>.
+    api_not_configured_html: The Donor Tools API is not configured. Please enter the API connection details in Admin <a href="%{url}">settings</a>.
     Contributions: Contributions
     donation_types:
       d1: Cash
@@ -934,14 +934,14 @@ en:
     not_in_donor_tools: Not in Donor Tools.
     people_not_synced:
       one: "The following individual is not synced to Donor Tools:"
-      other: "The following individuals are not synced to Donor Tools ({{count}} people):"
+      other: "The following individuals are not synced to Donor Tools (%{count} people):"
     people_not_synced_count:
       one: "1 person is not synced"
-      other: "{{count}} people are not synced"
+      other: "%{count} people are not synced"
     record_synced: This record has been synced in Donor Tools.
     remaining:
       one: "1 record remaining..."
-      other: "{{count}} records remaining..."
+      other: "%{count} records remaining..."
     Sync_Selected: Sync Selected
     Sync_All: Sync All
     Sync_to_Donor_Tools: Sync to Donor Tools
@@ -988,12 +988,12 @@ en:
     copy_your_notifications_link_html: <strong>Right-</strong>click on the link labeled "Via RSS" on the right side of the page (pictured below) and choose <strong>Copy Shortcut</strong> or <strong>Copy Link Location</strong> or similar.
     deleted: Feed deleted.
     description: You can import content and updates from external services, social networks, and blogs by adding "feeds" below.
-    done_html: Done! Click the <a href="{{url}}">Home</a> tab to view your imported content.
+    done_html: Done! Click the <a href="%{url}">Home</a> tab to view your imported content.
     enter_twitter_username: Enter your Twitter username here
     error_retrieving: There was an error retrieving the feed. Please check the URL and try again.
     facebook_notifications: Facebook Notifications
     feeds: Feeds
-    feeds_for: Feeds for {{name}}
+    feeds_for: Feeds for %{name}
     flickr_url: Flickr URL
     link_with_facebook: Link with your Facebook status updates...
     link_with_flickr: Link with your Flickr photos...
@@ -1020,21 +1020,21 @@ en:
     accept: Accept Friend
     add_friend_are_you_sure: Are you sure? An email will be sent to this person requesting friendship.
     add_to_friends: Add to Friends
-    add_your_friends_to_profile_html: <a href="{{url}}">Add your friends</a> to your profile page!
-    added_as_friend: "{{name}} has been added as a friend."
-    already_pending: A friend request is already pending with {{name}}.
-    cannot_request: You cannot request friendship with {{name}}.
+    add_your_friends_to_profile_html: <a href="%{url}">Add your friends</a> to your profile page!
+    added_as_friend: "%{name} has been added as a friend."
+    already_pending: A friend request is already pending with %{name}.
+    cannot_request: You cannot request friendship with %{name}.
     decline: Decline Friend
     friend_request_pending: friend request pending
     friends: Friends
     pending_requests: Pending Friend Requests
     people_requested: The following people have requested to be your friend.
-    personal_friends: "{{name}} Friends"
+    personal_friends: "%{name} Friends"
     remove_from_friends: Remove from Friends
-    request_sent: A friend request has been sent to {{name}}.
+    request_sent: A friend request has been sent to %{name}.
     search_in_the_directory: Search for friends in the directory
     unknown_state: unknown state
-    you_have_pending_requests_html: You have <a href="{{url}}">pending friend requests</a>.
+    you_have_pending_requests_html: You have <a href="%{url}">pending friend requests</a>.
 
   generated_files:
     building: "Building your file..."
@@ -1050,9 +1050,9 @@ en:
     advanced: Advanced
     approval_required_to_join: Approval required for people to join group
     approve_group: Approve Group
-    are_you_sure_option: Are you sure you want to {{option}} email from the group {{group}}?
+    are_you_sure_option: Are you sure you want to %{option} email from the group %{group}?
     attendance: Attendance
-    back_to_group: "Back to {{name}}"
+    back_to_group: "Back to %{name}"
     back_to_homepage: "Back to Your Groups"
     batch_edit_groups: Batch Edit Groups
     browse_by_category: Browse by Category
@@ -1112,7 +1112,7 @@ en:
     if_ok_you_will_start_receiving: If you click OK, you will start receiving email from this group.
     ignore: Ignore
     join_this_group: Join This Group
-    last_admin_remove: "{{name}} is the last admin and cannot be removed."
+    last_admin_remove: "%{name} is the last admin and cannot be removed."
     leader: Leader
     leader_id: Leader Id
     leave_this_group: Leave This Group
@@ -1136,17 +1136,17 @@ en:
     no_activity_yet: "This group hasn't had any activity yet."
     no_groups_found: no groups found
     only_admins_see_this_list: Only administrators (such as yourself) see this list
-    or_send_from_your_email_html: "Or, send to <a href='mailto:{{email}}'>{{email}}</a> from your email client."
+    or_send_from_your_email_html: "Or, send to <a href='mailto:%{email}'>%{email}</a> from your email client."
     other_notes: Other Notes
     parents_of: "Parents of:"
     parents_of_hint: "Membership will be auto-generated from parents of selected group's members."
     pending_approval_count:
-      one: "{{count}} group to approve"
-      other: "{{count}} groups to approve"
+      one: "%{count} group to approve"
+      other: "%{count} groups to approve"
     membership_request_count:
-      one: "{{count}} membership request"
-      other: "{{count}} membership requests"
-    people_in_group: "People In {{name}}"
+      one: "%{count} membership request"
+      other: "%{count} membership requests"
+    people_in_group: "People In %{name}"
     picture: Group Picture
     picture_hint: Use a group shot or a clip-art graphic to help people recognize your group on this site.
     privacy_security: Privacy and Security
@@ -1165,7 +1165,7 @@ en:
     show_all: Show all...
     the_settings_are_for_advanced_users: The settings below are for advanced users.
     there_was_errors_saving: There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages.
-    this_group_has_pending_html: This group has pending <a href="{{url}}">group membership requests</a>.
+    this_group_has_pending_html: This group has pending <a href="%{url}">group membership requests</a>.
     this_group_is_hidden: "This group is hidden. It's existence is hidden from most people."
     this_group_is_pending_approval: This group is pending approval.
     this_group_is_pending_you_may_not_add_people: This group is pending approval. You may not add people to it yet.
@@ -1187,7 +1187,7 @@ en:
     completed_records: Completed Records
     error: Error
     error_updating: Error updating record.
-    error_updating_message_html: There was at least one error while attempting to update records in the database. Please correct the errors, then return to the <a href="{{url}}">Pending Updates</a> interface to complete the process.
+    error_updating_message_html: There was at least one error while attempting to update records in the database. Please correct the errors, then return to the <a href="%{url}">Pending Updates</a> interface to complete the process.
     errored_records: Errored Records
     first: First
     for_list_of_available_attributes: for a list of available attributes (not all attributes are required).
@@ -1198,7 +1198,7 @@ en:
     import_selected_people: Import Selected People
     last: Last
     no_records_were_found: No records were found to import.
-    only_first_records_will_be_imported_html: Only the first {{count}} records will be imported. For larger files, you must divide records into multiple files, or use the <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> to import a large batch at once.
+    only_first_records_will_be_imported_html: Only the first %{count} records will be imported. For larger files, you must divide records into multiple files, or use the <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> to import a large batch at once.
     people: Import People
     record: record
     record_updated: Record updated.
@@ -1243,18 +1243,18 @@ en:
     attachment_optional: Attachment (optional)
     attachments: Attachments
     delete_message: Delete Message
-    email_message_to: Email Message to {{name}}
+    email_message_to: Email Message to %{name}
     file_missing: file missing
     flag_cleared: Flag(s) cleared.
     from: From
     group: Group
-    group_message_to: Group Message to {{group}}
+    group_message_to: Group Message to %{group}
     in: in
     message: Message
     message_by: Message by
-    messages_in_html: Messages in <a href="{{url}}">{{name}}</a>
+    messages_in_html: Messages in <a href="%{url}">%{name}</a>
     missing_param: Missing the message param.
-    no_email_for_person: Sorry. We don't have an email address on file for {{name}}.
+    no_email_for_person: Sorry. We don't have an email address on file for %{name}.
     not_authorized_delete: You are not authorized to delete this message.
     not_found: Message not found.
     posted_by: posted by
@@ -1270,7 +1270,7 @@ en:
     some_quoted_text_is_hidden: Some quoted text in this message is hidden;
     subject: Subject
     this_group_is_not_private: This group is not private, so messages posted here will be visible by people who aren't members of this group.
-    this_will_send_an_email_to: This will send an email to {{group}}.
+    this_will_send_an_email_to: This will send an email to %{group}.
     this_will_send_a_private_email_html: This will send a <em>private</em> email.
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
@@ -1288,7 +1288,7 @@ en:
     body_description: "Share your announcement, information, or news here:"
     deleted: News deleted.
     edit_news_post: Edit News Post
-    if_you_have_something_to_share_html: If you have something newsworthy to share, <a href="{{url}}">submit it here</a>.
+    if_you_have_something_to_share_html: If you have something newsworthy to share, <a href="%{url}">submit it here</a>.
     news: News
     news_feed: News Feed
     no_news_is_available: No news is available at this time.
@@ -1296,7 +1296,7 @@ en:
     save_news: Save News
     saved: News saved.
     submit_news: Submit News
-    subscribe_to_community_news_html: <a href="{{url}}" class="feed-icon">Subscribe</a> to Community News with your feed reader.
+    subscribe_to_community_news_html: <a href="%{url}" class="feed-icon">Subscribe</a> to Community News with your feed reader.
     title_description: "Give your post a concise title:"
     welcome_to_the_place: Welcome to the place for community news.
 
@@ -1318,30 +1318,30 @@ en:
     posted_by: posted by
     save_note: Save Note
     saved: Note saved.
-    this_note_will_be_posted: This note will be posted to the {{group}} blog.
+    this_note_will_be_posted: This note will be posted to the %{group} blog.
     this_note_will_not_be_private_html: "This note will <strong>not</strong> be private since it is a blog post. To send a private message, send an email to the group."
     title: Title
 
   notifier:
-    attached_your_custom_directory: Hello, {{name}}. Attached is your custom printed directory from {{site}}.
+    attached_your_custom_directory: Hello, %{name}. Attached is your custom printed directory from %{site}.
     be_sure_to_send_verification_email: Be sure to also click to "send verification email" to the user.
     check_boxes_in_visibility_sidebar: Check all the appropriate boxes in the "Visibility" sidebar and save.
-    click_link_to_complete_process: "Click the following link to complete the process: {{url}}"
+    click_link_to_complete_process: "Click the following link to complete the process: %{url}"
     has_submited_profile_update: has submitted a profile update
     if_you_cannot_click_link: If you cannot click the link above, you may need to copy and paste it into the address bar of your web browser.
     if_you_approve_this_account_creation: If you approve of this account creation, activate the account at this address
-    if_you_dont_know_why_get_this_email: If you don't know why you're getting this email, you may contact {{name}} at {{phone}}.
+    if_you_dont_know_why_get_this_email: If you don't know why you're getting this email, you may contact %{name} at %{phone}.
     message_id: Message ID
-    name_has_requested_join_group: "{{name}} has requested to join the group {{group}}."
-    name_submitted_birthday_request: "{{name}} has submitted a birthday verification request"
+    name_has_requested_join_group: "%{name} has requested to join the group %{group}."
+    name_submitted_birthday_request: "%{name} has submitted a birthday verification request"
     new: New
     old: Old
-    person_had_their_email_changed: "{{name}} has had their email changed."
-    person_has_signed_for_account: "{{name}} has signed up for an account."
-    person_wants_to_be_your_friend: "{{name}} wants to be your friend on {{site}}."
+    person_had_their_email_changed: "%{name} has had their email changed."
+    person_has_signed_for_account: "%{name} has signed up for an account."
+    person_wants_to_be_your_friend: "%{name} wants to be your friend on %{site}."
     please_make_updates: Please make the appropriate updates to the membership database.
-    this_email_to_verify_email: This email is to verify your email address for access to the {{site}} website. To verify your email address, please click the link below
-    this_notify_someone_reported: This is to notify you that someone has reported that the date and time are incorrect at {{site}}.
+    this_email_to_verify_email: This email is to verify your email address for access to the %{site} website. To verify your email address, please click the link below
+    this_notify_someone_reported: This is to notify you that someone has reported that the date and time are incorrect at %{site}.
     to_accept_or_decline: To either accept or decline, please sign in here
     to_approve_or_ignore: To approve or ignore, sign in and visit the following address
     update_record_membership: Update their record in the membership database.
@@ -1388,10 +1388,10 @@ en:
     changes_must_be_reviewed_html: Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit.'
     changes_submitted: Changes submitted.
     child: Child
-    child_alert: You must specify whether the person is a Child (under {{years}}) or not to complete this update.
+    child_alert: You must specify whether the person is a Child (under %{years}) or not to complete this update.
     click_to_send_verification_email: Send a password setup email to this user.
-    click_to_change_email_html: <a href="{{url}}">Click here</a> to change this email address.
-    deleted_html: This person has been deleted. You can restore the record <a href="{{url}}">here</a>.
+    click_to_change_email_html: <a href="%{url}">Click here</a> to change this email address.
+    deleted_html: This person has been deleted. You can restore the record <a href="%{url}">here</a>.
     description_of_business: Description of Business
     determine_by_birthday: Determine by birthday
     edit:
@@ -1411,7 +1411,7 @@ en:
     enter_new_category: Enter the new category.
     family: Family
     family_legacy_external_id: Family Legacy/External ID
-    find_a_group_html: Find a group <a href="{{url}}">here</a>.
+    find_a_group_html: Find a group <a href="%{url}">here</a>.
     friend_not_found: Friend not found.
     friendship_accepted: Friendship accepted.
     friendship_manage: You may not manage friendships for anyone but yourself.
@@ -1420,8 +1420,8 @@ en:
     full_access: Full Access
     groups: Groups
     if_you_have_another_email: If you have another email (perhaps a work address) you wish to utilize to send email to groups, you may enter it here.
-    if_you_wish_to_be_listed_business_dir_html: If you wish to be listed in the <a href="{{url}}">Business Directory</a>, Enter your business name, description, and other details below.
-    if_you_wish_to_remove_something_html: If you wish to remove something in order to keep others from seeing it, instead go to the <a href="{{url}}">Privacy</a> page and hide it.
+    if_you_wish_to_be_listed_business_dir_html: If you wish to be listed in the <a href="%{url}">Business Directory</a>, Enter your business name, description, and other details below.
+    if_you_wish_to_remove_something_html: If you wish to remove something in order to keep others from seeing it, instead go to the <a href="%{url}">Privacy</a> page and hide it.
     if_your_system_is_setup_to_sync_change: If your system is set up to synchronize its data with an external source (e.g., a membership managment system), changes you make here may be overwritten on the next sync.
     interests: Interests
     legacy_external_id: Legacy/External ID
@@ -1432,7 +1432,7 @@ en:
     name: Name
     new_person: New Person
     no_additional_access_avaiable: No additional access options available at this time.
-    no_email: "{{name}} doesn't have an email address in the system"
+    no_email: "%{name} doesn't have an email address in the system"
     no_family_for_this_person: This person does not belong to a family. They will be unable to sign in and will not be visible to others on the site.
     no_groups_yet: no groups yet
     not_deleted: Person not deleted.
@@ -1443,8 +1443,8 @@ en:
     people: People
     person:
       one: 1 Person
-      other: "{{count}} People"
-    person_isnt_any_groups: "{{person}} isn't in any groups right now."
+      other: "%{count} People"
+    person_isnt_any_groups: "%{person} isn't in any groups right now."
     person_type: Roles
     quotes: Quotes
     save_access: Save Access
@@ -1458,13 +1458,13 @@ en:
     suffix: Suffix
     tell_us_about_yourself: Tell us about yourself. What's your personality like? What would your best friend say about you?
     testimony: Testimony
-    this_account_is_frozen: This account is frozen. {{name}} cannot make changes to this profile or anyone else's until this account is unfrozen.
+    this_account_is_frozen: This account is frozen. %{name} cannot make changes to this profile or anyone else's until this account is unfrozen.
     this_email_will_not_be_visible: This email address will not be visible to anyone except administrators.
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
-    this_person_is_not_an_adult: This person is believed to be less than {{years}} years of age, and does not have parental consent.
+    this_person_is_not_an_adult: This person is believed to be less than %{years} years of age, and does not have parental consent.
     this_profile_is_hidden: This profile is hidden
     tv_shows: TV Shows
-    upload_a_picture_of_html: Upload a picture of {{name}} here.
+    upload_a_picture_of_html: Upload a picture of %{name} here.
     upload_family_picture_html: Upload a family picture here.
     update_to_profile_is: An update to this profile is
     verses: Verses
@@ -1482,13 +1482,13 @@ en:
     are: people are
     is: person is
     one: 1 person
-    other: "{{count}} people"
+    other: "%{count} people"
 
   photos:
     object_not_found: Object not found.
     remove: Remove Photo
     unavailable: Photo unavailable.
-    upload: Upload {{name}}
+    upload: Upload %{name}
 
   pictures: 
     add_a_picture: Add a Picture
@@ -1501,13 +1501,13 @@ en:
     comment_on_this_picture: Comment on this picture
     delete_album: Delete Album
     edit_album: Edit Album
-    failed: "{{fail}} not saved due to errors"
+    failed: "%{fail} not saved due to errors"
     next: next »
-    picture_uploaded_by: "Picture uploaded {{when}} by"
+    picture_uploaded_by: "Picture uploaded %{when} by"
     prev: « prev
     rotate_left: Rotate Left
     rotate_right: Rotate Right
-    saved: "{{success}} picture(s) saved"
+    saved: "%{success} picture(s) saved"
     set_as_cover: Set as Cover
     hide_my_name: "These are general community pictures — don't show my name on them (admin-only option)."
     upload: Upload!
@@ -1521,7 +1521,7 @@ en:
     answer: Answer
     answer_date: Answer Date
     answered: Answered
-    answered_on: "Answered on {{date}}."
+    answered_on: "Answered on %{date}."
     by: By
     cant_edit: You cannot edit this prayer request.
     cant_delete: You cannot delete this prayer request.
@@ -1529,7 +1529,7 @@ en:
     delete_request: Delete Request
     edit_prayer_request: Edit Prayer Request
     edit_request: Edit Request
-    name: Prayer Request in {{group_name}}
+    name: Prayer Request in %{group_name}
     new_prayer_request: New Prayer Request
     not_found: Prayer Request not found.
     posted_by: posted by
@@ -1540,7 +1540,7 @@ en:
     remember_to_come_back: Remember to come back and fill this section so your group can have a record of answered prayers.
     request: Request
     save_prayer_request: Save Prayer Request
-    submitted_by: "Request submitted by {{person_name}} in {{group_name}} on {{date}}."
+    submitted_by: "Request submitted by %{person_name} in %{group_name} on %{date}."
 
   prayer_signups:
     add_somebody: Add Somebody
@@ -1561,10 +1561,10 @@ en:
   printable_directories:
     already_sent: It seems a directory was already sent to you a little while ago. Please check your email (and your spam folder just in case).
     click_to_have_custom_pdf_via_email: Click the button below to have a custom directory PDF file sent to your email.
-    created_for: Created especially for {{name}} on {{date}}
+    created_for: Created especially for %{name} on %{date}
     email_custom_directory: Email my Custom Directory
     include_family_pictures: include family pictures
-    make_sure_you_have_adobe_html: Make sure you have <a href="{{url}}">Adobe Reader</a> or another program that can view PDF files.
+    make_sure_you_have_adobe_html: Make sure you have <a href="%{url}">Adobe Reader</a> or another program that can view PDF files.
     not_allowed: You are not allowed to print the directory. Sorry.
     were_are_building_custom_pdf: "We're building your custom PDF right now. It will take a little while, but probably not more than a few minutes. Once it is ready, we will email it to you. Feel free to continue your visit to this site (you can leave this page if you want)."
     will_take_longer: "(will take a little longer)"
@@ -1575,16 +1575,16 @@ en:
     address2: Address Line 2
     agreement_saved: Agreement saved.
     anniversary: Anniversary
-    as_a_parent_agree_html: I, as a parent or legal gaurdian of {{name}}, hereby agree that I have read this site's <a href="{{url}}">Privacy Policy</a>, that the personal information of {{name}} may be displayed for other users of the web site (as determined by the privacy settings on this page), and that {{name}} may, if able, utilize this website as a normal user (including profile customization, and communication via private message, groups, etc.).
+    as_a_parent_agree_html: I, as a parent or legal gaurdian of %{name}, hereby agree that I have read this site's <a href="%{url}">Privacy Policy</a>, that the personal information of %{name} may be displayed for other users of the web site (as determined by the privacy settings on this page), and that %{name} may, if able, utilize this website as a normal user (including profile customization, and communication via private message, groups, etc.).
     birthday: Birthday
-    child_profile_has_parental_consent: This child's profile has parental consent from {{name}}.
-    child_under_age_no_parents_consent: "This child is under the age of {{years}}, and his/her parents have not given consent to allow their information to be displayed."
-    child_under_age_you_have_not_consent: "This child is under the age of {{years}}, and you have not given consent to 1) allow their information to be displayed, and 2) allow them to sign into and use this web site."
+    child_profile_has_parental_consent: This child's profile has parental consent from %{name}.
+    child_under_age_no_parents_consent: "This child is under the age of %{years}, and his/her parents have not given consent to allow their information to be displayed."
+    child_under_age_you_have_not_consent: "This child is under the age of %{years}, and you have not given consent to 1) allow their information to be displayed, and 2) allow them to sign into and use this web site."
     children: Children
     click_the_agree: "Click the 'I Agree' button."
     detail: Detail
     email: Email
-    family_hidden: "{{your}} family is currently hidden from all pages on this site!"
+    family_hidden: "%{your} family is currently hidden from all pages on this site!"
     family_privacy: Family
     fax: Fax
     group_privacy: Group Privacy
@@ -1593,25 +1593,25 @@ en:
     home_phone: Home Phone
     i_agree: I Agree
     mobile_phone: Mobile Phone
-    modify_the_privacy_settings_html: You can change the privacy settings for your family here. Items with a checkmark are visible to other members who sign into this website. Click the <img src="/images/plus.gif"/> to set privacy for groups (optional). To understand how we use the personal information of you and your family, please read our <a href="{{url}}">Privacy Policy</a>.
-    please_read_our_privacy_policy_html: Please read our <a href="{{url}}">Privacy Policy</a> for details regarding the use of your personal information.
+    modify_the_privacy_settings_html: You can change the privacy settings for your family here. Items with a checkmark are visible to other members who sign into this website. Click the <img src="/images/plus.gif"/> to set privacy for groups (optional). To understand how we use the personal information of you and your family, please read our <a href="%{url}">Privacy Policy</a>.
+    please_read_our_privacy_policy_html: Please read our <a href="%{url}">Privacy Policy</a> for details regarding the use of your personal information.
     people_can_still_send_html: "You can still receive email through the site, without revealing your email address on the Web."
     privacy: Privacy
     private: Private
-    read_privacy_policy_html: Read our <a href="{{url}}">Privacy Policy</a>.
-    read_safeguarding_children_html: Read our page about <a href="{{url}}">Safeguarding Children</a>.
+    read_privacy_policy_html: Read our <a href="%{url}">Privacy Policy</a>.
+    read_safeguarding_children_html: Read our page about <a href="%{url}">Safeguarding Children</a>.
     read_statement_below: Read the statement below and agree to it by checking the corresponding checkbox.
     saved: Settings saved.
-    sharing_with_html: Sharing with <a href="{{url}}">{{name}}</a>
-    the_items_are_visible_html: "The following items are visible to everyone <a href=\"{{url}}\">change here</a>:"
-    the_items_may_be_shared: "The following items may be shared with other members of {{name}}:"
+    sharing_with_html: Sharing with <a href="%{url}">%{name}</a>
+    the_items_are_visible_html: "The following items are visible to everyone <a href=\"%{url}\">change here</a>:"
+    the_items_may_be_shared: "The following items may be shared with other members of %{name}:"
     this: this
-    to_show_on_this_site: "To show {{name}} on this site, please:"
+    to_show_on_this_site: "To show %{name} on this site, please:"
     visible: Visible
     visible_note: Setting a profile to be invisible will cause you to not appear in any directory searches. You can still join groups and receive group email and email from site administrators though.
     work_phone: Work Phone
-    you_are_not_sharing_with_groups: You are not sharing your {{sharing}} with any groups specifically.
-    you_are_sharing_with_groups: "You are sharing your {{sharing}} with the following groups:"
+    you_are_not_sharing_with_groups: You are not sharing your %{sharing} with any groups specifically.
+    you_are_sharing_with_groups: "You are sharing your %{sharing} with the following groups:"
     you_may_share_items: "You may share items with fellow members of the following groups:"
     you_must_check_agreement_statement: You must check the box indicating you agree to the statement below.
 
@@ -1623,20 +1623,20 @@ en:
     email_notifications: Email Notifications
     feed: Publications Feed
     file: File
-    files_with_acrobat_icon_html: For files with the Acrobat icon {{img}}, you will need {{url}} (aka "Acrobat Reader") or another program capable of viewing PDF files.
-    inform_publication_available: This is to inform you that a new publication has been added to {{site}}.
+    files_with_acrobat_icon_html: For files with the Acrobat icon %{img}, you will need %{url} (aka "Acrobat Reader") or another program capable of viewing PDF files.
+    inform_publication_available: This is to inform you that a new publication has been added to %{site}.
     name: Name
     new_publication: New Publication
     new_publication_available: New Publication Available
     no_publications_available: There are currently no publications available.
     notify_no_one: Notify no one
-    notify_the_group: Notify the {{group}} group
+    notify_the_group: Notify the %{group} group
     publications: Publications
     save_publication: Save Publication
     saved: Publication saved.
     start_receiving_notifications: "Recieve notifications via email when new publications are made available on this page:"
     subscribe: Subscribe
-    subscribe_feed_html: <a href="{{url}}">Subscribe</a> to Publications with your feed reader.
+    subscribe_feed_html: <a href="%{url}">Subscribe</a> to Publications with your feed reader.
     unsubscribe: Unsubscribe
     update_notifications: Update Notifications
     you_must_select_file: You must select a file.
@@ -1645,7 +1645,7 @@ en:
     Reciprocate: Reciprocate
     add_a_relationship: "Add a relationship:"
     add_relationship_button: Add Relationship
-    cannot_be_reciprocated: A reciprocal relationship to {{name}} cannot be automatically created.
+    cannot_be_reciprocated: A reciprocal relationship to %{name} cannot be automatically created.
     create_family_relationships: Create Family Relationships
     create_family_relationships_description: You may generate relationships for this immediate family below.
     family: Family Relationships
@@ -1703,11 +1703,11 @@ en:
     elder: Elder
     families_found: 
       one: 1 family found
-      other: "{{count}} families found"
+      other: "%{count} families found"
     family_name: Family Name
     female: Female
     gender: Gender
-    heading: "{{name}} Directory"
+    heading: "%{name} Directory"
     male: Male
     member: Member
     results_not_shown: Some results not shown — be more specific.
@@ -1716,7 +1716,7 @@ en:
     not_showing_hidden_people: (not showing hidden people)
     people_found: 
       one: 1 person found
-      other: "{{count}} people found"
+      other: "%{count} people found"
     printed_directory: Printed Directory
     search: Directory Search
     search_by_name: Search by name
@@ -1745,9 +1745,9 @@ en:
     password_incorrect: password incorrect
     please_sign_in: Please sign in.
     sign_in: Sign In
-    sign_in_error_html: There was an error signing you in. Please <a href="{{url}}">try again</a>.
+    sign_in_error_html: There was an error signing you in. Please <a href="%{url}">try again</a>.
     sign_out: sign out
-    sign_up_or_sign_in_html: "<a href=\"{{url}}\">Sign Up</a> for an account if you don't have one."
+    sign_up_or_sign_in_html: "<a href=\"%{url}\">Sign Up</a> for an account if you don't have one."
     there_are_no_users_in_the_system: There are no users in the system.
 
   setup:
@@ -1782,7 +1782,7 @@ en:
     about_heading: Your Homepage
     about_html: "This is your custom-built homepage — things displayed here are from people in groups with you, your family and friends."
     ago: ago
-    and_more: and {{length}} more by {{name}}...
+    and_more: and %{length} more by %{name}...
     feed: Feed
     flickr: Flickr
     import_blog_feed: Import Posts From Your Blog...
@@ -1819,7 +1819,7 @@ en:
     all_verses: All Verses
     disclaimer: Scripture quotations marked 'WEB' are taken from the World English Bible, a Modern English update of the American Standard Version of the Holy Bible. WEB is in the public domain. Copy and publish it freely.
     example_verse: "John 3:16"
-    intro: Share your favorite Bible verses with {{community}}.
+    intro: Share your favorite Bible verses with %{community}.
     no_verses_yet: No verses yet!
     not_found: That verse could not be found. Did you type the reference correctly?
     people_who_like_this_verse: People who like this verse
@@ -1838,7 +1838,7 @@ en:
     one_or_more_not_found: One or more walls not found.
     respect_privacy: Please respect the privacy of others. Abusing the wall will get you banned from the site.
     save_message: Save Message
-    to_send_a_private_message_html: All users will see your message; to send a private message, <a href="{{url}}">click here</a>.
+    to_send_a_private_message_html: All users will see your message; to send a private message, <a href="%{url}">click here</a>.
     view_all_wall_messages: View all wall messages...
     wall: Wall
     wall_to_wall: Wall to Wall
