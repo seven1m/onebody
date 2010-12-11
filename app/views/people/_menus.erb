@@ -18,7 +18,7 @@
     </ul>
   </div>
 <% end %>
-<% if (@person and @logged_in.can_edit?(@person)) or (!@person and @logged_in) %>
+<% if (@person and @logged_in and @logged_in.can_edit?(@person)) or (!@person and @logged_in) %>
   <div id="profile-tab-menu" style="display:none;">
     <ul class="popup-menu">
       <% if mobile? %><li style="width:100px"><em><%= t('menus.profile.mobile_tap_again') %></em></li><% end %>
