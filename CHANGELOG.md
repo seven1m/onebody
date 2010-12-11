@@ -14,6 +14,7 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 * Fix bugs in i18n.
 * Fix bug preventing accounts with limited access from verifying.
 * Fix email/mobile verification.
+* Fix badly formatted text emails.
 * Update jQuery and jQuery UI.
 
 2.0.0 Beta 1 / December 8, 2010
