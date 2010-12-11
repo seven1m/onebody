@@ -255,7 +255,7 @@ class Notifier < ActionMailer::Base
             end
           end
         end
-        message.send_to_group(already_sent_to=Array(email.to))
+        message.send_to_group(already_sent_to=email.to.to_a)
         @message_sent_to_group = true
       end
     end

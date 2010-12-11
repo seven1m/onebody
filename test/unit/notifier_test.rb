@@ -22,6 +22,18 @@ class NotifierTest < ActiveSupport::TestCase
     assert_match /Hello College Group from Jeremy/, delivery.to_s
   end
 
+  should "not send group email to the same email address more than once" do
+    @jack = Person.forge(:email => 'family@jackandjill.com')
+    @jill = Person.forge(:email => 'family@jackandjill.com')
+    groups(:college).memberships.create!(:person => @jack)
+    groups(:college).memberships.create!(:person => @jill)
+    email = to_email(:from => 'user@example.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
+    Notifier.receive(email.to_s)
+    assert_deliveries 3 # 4 people in college group, but only 3 unique email addresses
+    assert_equal [['family@jackandjill.com'], ['peter@example.com'], ['user@example.com']],
+                 ActionMailer::Base.deliveries.map { |d| d.to }.sort
+  end
+
   should "not send group email to group members who received the message out of band" do
     email = to_email(:from => 'user@example.com', :to => 'peter@example.com', :cc => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
     Notifier.receive(email.to_s)
