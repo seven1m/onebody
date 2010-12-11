@@ -19,6 +19,6 @@ set :deploy_to, "/var/www/apps/#{application}"
 set :copy_exclude, %w(test .git)
 set :use_sudo, false
 
-unless ARGV.detect { |a| a =~ /^prepare/ }
-  set :default_shell, "$HOME/.rvm/bin/rvm-shell"
-end
+#unless ARGV.detect { |a| a =~ /^prepare/ }
+  #set :default_shell, "$HOME/.rvm/bin/rvm-shell"
+#end

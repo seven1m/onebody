@@ -54,7 +54,7 @@ namespace :deploy do
 
   desc 'Install gem dependencies'
   task :bundler, :roles => :web do
-    run "cd #{release_path} && bundle install", :shell => "~/.rvm/bin/rvm-shell"
+    run "cd #{release_path} && bundle install --without development --without test", :shell => "~/.rvm/bin/rvm-shell"
   end
   after 'deploy:update_code', 'deploy:bundler'
 
