@@ -1,5 +1,4 @@
 class AccountsController < ApplicationController
-  before_filter :check_ssl, :except => [:verify]
   skip_before_filter :authenticate_user, :except => %w(edit update)
 
   cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update)

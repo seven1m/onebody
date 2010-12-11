@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   #protect_from_forgery
 
-  LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/*)
+  LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/* accounts/*)
 
   layout 'default'
 

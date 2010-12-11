@@ -3,7 +3,7 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 class SignUpTest < ActionController::IntegrationTest
   fixtures :people, :families
 
-  def test_verify_email
+  should 'verify by email' do
     get '/account/new?email=true'
     assert_response :success
     assert_template 'accounts/new_by_email'
@@ -20,7 +20,7 @@ class SignUpTest < ActionController::IntegrationTest
     verify_code(v, people(:peter))
   end
 
-  def test_verify_mobile
+  should 'verify by mobile' do
     get '/account/new?mobile=true'
     assert_response :success
     assert_template 'accounts/new_by_mobile'
@@ -36,6 +36,12 @@ class SignUpTest < ActionController::IntegrationTest
     assert_select 'div#notice', /message has been sent/
     assert_equal people(:peter).mobile_phone, v.mobile_phone
     verify_code(v, people(:peter))
+  end
+
+  should 'verify with limited account' do
+    @person = Person.forge(:full_access => false)
+    v = Verification.create!(:email => @person.email)
+    verify_code(v, @person)
   end
 
   def verify_code(v, person)
