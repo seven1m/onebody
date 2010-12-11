@@ -614,6 +614,7 @@ fieldset {
 .updown-icon     { @include icon-sprite(0px, -360px) }
 .alert-icon      { @include icon-sprite(0px, -380px) }
 .news-icon       { @include icon-sprite(0px, -400px) }
+.podcast-icon    { @include icon-sprite(0px, -420px) }
 
 ul.buttons {
   list-style: none;

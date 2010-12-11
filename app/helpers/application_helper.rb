@@ -111,9 +111,6 @@ module ApplicationHelper
       html << "<li>#{link_to t("admin.admin"), admin_path}</li>" if @logged_in.admin?
       html << "<li>#{link_to t("session.sign_out"), session_path, :method => :delete}</li>"
     end
-    if Setting.get(:services, :sermondrop_url).to_s.any?
-      html << "<li>#{link_to t("nav.podcasts"), podcasts_path}</li>"
-    end
     html
   end
 

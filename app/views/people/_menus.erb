@@ -15,6 +15,9 @@
       <% if Setting.get(:features, :news_page) %>
         <li><%= link_to t('menus.home.news'), news_path, :class => 'news-icon' %></li>
       <% end %>
+      <% if Setting.get(:services, :sermondrop_url).to_s.any? %>
+        <li><%= link_to t('menus.kome.podcasts'), podcasts_path, :class => 'podcast-icon' %></li>
+      <% end %>
     </ul>
   </div>
 <% end %>
