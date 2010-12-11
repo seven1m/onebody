@@ -158,7 +158,7 @@ class Notifier < ActionMailer::Base
   end
 
   def receive(email)
-    sent_to = Array(email.cc) + Array(email.to)
+    sent_to = Array(email.to) + Array(email.cc)
 
     return unless email.from.to_s.any?
     return if email['Auto-Submitted'] and not %w(false no).include?(email['Auto-Submitted'].to_s.downcase)
@@ -211,6 +211,7 @@ class Notifier < ActionMailer::Base
     end
 
     @message_sent_to_group = false
+    sent_to_count = 0
 
     sent_to.each do |address|
       address, domain = address.strip.downcase.split('@')
@@ -218,10 +219,25 @@ class Notifier < ActionMailer::Base
       our_domain = [Site.current.host, Site.current.secondary_host].compact.include?(domain)
       if our_domain and group = Group.find_by_address(address) and group.can_send?(@person)
         group_email(group, email, body)
+        sent_to_count += 1 if @message_sent_to_group
       elsif address.to_s.any? and not @message_sent_to_group # reply to previous message
-        reply_email(email, body)
+        result = reply_email(email, body)
+        sent_to_count += 1 if result
       end
     end
+
+    if sent_to_count == 0
+      # notify the sender that no mail was sent
+      Notifier.simple_message(
+        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+        "Message Rejected: #{email.subject}",
+        "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
+        "Sorry for the inconvenience, but it appears the message was not properly addressed. " +
+        "If you want to send a message to someone, please sign in at #{Setting.get(:url, :site)}, " +
+        "find the person, and click \"Send Email.\""
+      ).deliver
+    end
+
   end
 
   private
@@ -274,6 +290,7 @@ class Notifier < ActionMailer::Base
             "via the web site. If you need help, please contact " +
             "#{Setting.get(:contact, :tech_support_contact)}."
           ).deliver
+          false
         else
           to_person = message.person
           message = Message.create(
@@ -284,17 +301,8 @@ class Notifier < ActionMailer::Base
             :html_body => clean_body(body[:html]),
             :parent => message
           )
+          true
         end
-      else
-        # notify the sender that the message is unsolicited and was not delivered
-        Notifier.simple_message(
-          email['Return-Path'] ? email['Return-Path'].to_s : email.from,
-          "Message Rejected: #{email.subject}",
-          "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
-          "Sorry for the inconvenience, but it appears the message was unsolicited. " +
-          "If you want to send a message to someone, please sign in at #{Setting.get(:url, :site)}, " +
-          "find the person, and click \"private message.\""
-        ).deliver
       end
     end
 

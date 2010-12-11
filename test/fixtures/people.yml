@@ -34,7 +34,7 @@ jeremy:
   classes: BW,ZZ,PT,CF,W08,OF03,W04,W10
   mail_group: M
   encrypted_password: 52cb50001a2065b4b24c1691be476be31a135d63 # secret
-  email: user@example.com
+  email: user@foobar.com
   wall_enabled: true
   member: true
   can_sign_in: true
@@ -53,7 +53,7 @@ peter:
   first_name: Peter
   last_name: Jones
   mail_group: M
-  email: peter@example.com
+  email: peter@foobar.com
   mobile_phone: 1234567890
   encrypted_password: cedf91e6f238f16a62c95ba434af03c04f7b5e4d # secret
   wall_enabled: true
@@ -97,7 +97,7 @@ mac:
   gender: Female
   first_name: Mac
   last_name: Morgan
-  email: mac@example.com
+  email: mac@foobar.com
   mail_group: M
   birthday: 2006-11-03
   encrypted_password: 090ef914e5b5364e6440aa0113c71d1e1f4e838c # secret
@@ -120,7 +120,7 @@ jane:
   last_name: Smith
   mail_group: M
   birthday: 1980-06-24
-  email: jane@example.com
+  email: jane@foobar.com
   encrypted_password: 57d1376901782c1c4e4b02f12a68b5a0e55d68f0 # secret
   wall_enabled: true
   member: true
@@ -162,7 +162,7 @@ jim:
   mobile_phone: 9181234567
   birthday: 1981-04-28
   anniversary: 2001-08-11
-  email: jim@example.com
+  email: jim@foobar.com
   encrypted_password: 4cf5384ef334336db8d2c6b204f84a23374a0069 # secret
   mail_group: M
   wall_enabled: true
@@ -184,7 +184,7 @@ tom:
   mobile_phone: 9181234567
   birthday: 1981-04-28
   anniversary: 2001-08-11
-  email: tom@example.com
+  email: tom@foobar.com
   encrypted_password: ef1159b680f66f27f501d63c9c40763b497df4f8 # secret
   mail_group: M
   wall_enabled: true

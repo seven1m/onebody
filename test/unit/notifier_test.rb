@@ -14,7 +14,7 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   should "send group email" do
-    email = to_email(:from => 'user@example.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
+    email = to_email(:from => 'user@foobar.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
     Notifier.receive(email.to_s)
     assert_deliveries 2 # 2 people in college group
     assert_emails_delivered(email, groups(:college).people)
@@ -27,15 +27,23 @@ class NotifierTest < ActiveSupport::TestCase
     @jill = Person.forge(:email => 'family@jackandjill.com')
     groups(:college).memberships.create!(:person => @jack)
     groups(:college).memberships.create!(:person => @jill)
-    email = to_email(:from => 'user@example.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
+    email = to_email(:from => 'user@foobar.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
     Notifier.receive(email.to_s)
     assert_deliveries 3 # 4 people in college group, but only 3 unique email addresses
-    assert_equal [['family@jackandjill.com'], ['peter@example.com'], ['user@example.com']],
+    assert_equal [['family@jackandjill.com'], ['peter@foobar.com'], ['user@foobar.com']],
+                 ActionMailer::Base.deliveries.map { |d| d.to }.sort
+  end
+
+  should "not send rejection notice when cc addresses are present" do
+    email = to_email(:from => 'user@foobar.com', :to => 'college@example.com', :cc => 'someoneelse@baz.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
+    Notifier.receive(email.to_s)
+    assert_deliveries 2
+    assert_equal [['peter@foobar.com'], ['user@foobar.com']],
                  ActionMailer::Base.deliveries.map { |d| d.to }.sort
   end
 
   should "not send group email to group members who received the message out of band" do
-    email = to_email(:from => 'user@example.com', :to => 'peter@example.com', :cc => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
+    email = to_email(:from => 'user@foobar.com', :to => 'peter@foobar.com', :cc => 'college@example.com', :subject => 'test to college group from user', :body => 'Hello College Group from Jeremy.')
     Notifier.receive(email.to_s)
     assert_deliveries 1 # 2 people in college group, but only 1 should receive it (Jeremy)
     assert_emails_delivered(email, [people(:jeremy)])
@@ -112,11 +120,9 @@ class NotifierTest < ActiveSupport::TestCase
     sent = ActionMailer::Base.deliveries.first
     # now reply
     from_address = people(:jennie).email
-    cc_address   = people(:jeremy).email
     reply = Mail.new do
       from        "Jennie Morgan <#{from_address}>"
       to          'rewritten@foo.bar'
-      cc          cc_address # ensure messages don't get sent to same person twice
       subject     're: test from jeremy'
       body        "hello jeremy\n\n" + sent.body.to_s
       in_reply_to sent.message_id
@@ -145,7 +151,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_equal [people(:jennie).email], sent.to
     assert_equal 'Message Rejected: hi jeremy', sent.subject
     assert_equal [Site.current.noreply_email], sent.from
-    assert sent.body.to_s.index("unsolicited")
+    assert sent.body.to_s.index("not properly addressed")
   end
 
   should "reject email from unknown sender" do
@@ -189,19 +195,19 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   should "receive email for different sites" do
-    email = to_email(:from => 'jim@example.com', :to => 'morgan@site1', :subject => 'test to morgan group in site 1', :body => 'Hello Site 1 from Jim!')
+    email = to_email(:from => 'jim@foobar.com', :to => 'morgan@site1', :subject => 'test to morgan group in site 1', :body => 'Hello Site 1 from Jim!')
     Notifier.receive(email.to_s)
     assert_deliveries 1
     assert_emails_delivered(email, groups(:morgan_in_site_1).people)
     ActionMailer::Base.deliveries = []
-    email = to_email(:from => 'tom@example.com', :to => 'morgan@site2', :subject => 'test to morgan group in site 2', :body => 'Hello Site 2 from Tom!')
+    email = to_email(:from => 'tom@foobar.com', :to => 'morgan@site2', :subject => 'test to morgan group in site 2', :body => 'Hello Site 2 from Tom!')
     Notifier.receive(email.to_s)
     assert_deliveries 1
     assert_emails_delivered(email, groups(:morgan_in_site_2).people)
   end
 
   should "reject email for the wrong site" do
-    email = to_email(:from => 'jim@example.com', :to => 'morgan@site2', :subject => 'test to morgan group in site 2 (should fail)', :body => 'Hello Site 2 from Tom! This should fail.')
+    email = to_email(:from => 'jim@foobar.com', :to => 'morgan@site2', :subject => 'test to morgan group in site 2 (should fail)', :body => 'Hello Site 2 from Tom! This should fail.')
     Notifier.receive(email.to_s)
     assert_deliveries 1
     sent = ActionMailer::Base.deliveries.first
