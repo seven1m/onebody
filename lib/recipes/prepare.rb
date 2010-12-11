@@ -38,6 +38,7 @@ namespace :prepare do
       apache
       passenger
       postfix
+      bundler
     end
 
     task :prereqs do
@@ -75,6 +76,10 @@ namespace :prepare do
 
     task :postfix do
       sudo "DEBIAN_FRONTEND=noninteractive apt-get install postfix courier-pop -q -y"
+    end
+
+    task :bundler do
+      run "gem install bundler", :shell => "~/.rvm/bin/rvm-shell"
     end
 
   end
