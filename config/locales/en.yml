@@ -1544,6 +1544,8 @@ en:
 
   prayer_signups:
     add_somebody: Add Somebody
+    home_page_heading: Sign Up To Pray
+    home_page_link: Sign up to pray here.
     misconfigured: This feature is not configured properly. Check that the dates are configured properly.
     other_name: Or, someone else
     other_name_note: Only enter a name here for someone not in the database.

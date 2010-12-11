@@ -5,7 +5,7 @@
     else
       link_to(signup.person.name, person_path(signup.person))
     end + ' ' +
-      ((signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) ? link_to('', prayer_signup_path(signup), :remote => true, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon') : '')
+      ((signup.person == @logged_in or @logged_in.admin?(:manage_prayer_signups)) ? link_to('', prayer_signup_path(signup), :remote => true, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon') : '') + raw('&nbsp;')
   end.join('<br/>').html_safe %>
   <% unless signups.map { |s| s.person }.include? @logged_in or hour < @now %>
     <br/>

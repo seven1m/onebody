@@ -5,6 +5,14 @@ class PrayerSignupsController < ApplicationController
       if @first and @last
         get_signups
         set_now
+        respond_to do |format|
+          format.html
+          format.js do
+            get_first_and_last
+            get_signups
+            set_now
+          end
+        end
       else
         render :text => t('prayer_signups.misconfigured'), :layout => true
       end

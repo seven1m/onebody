@@ -1,4 +1,4 @@
-<table>
+<table class="spaced">
   <% slots = range_of_hours(@first, @last).group_by { |h| h.strftime('%Y/%m/%d') } %>
   <% range_of_days(@first, @last).each do |day| %>
     <%

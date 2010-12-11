@@ -75,6 +75,14 @@
       $('#share-starter').bind('focus', showShare);
     </script>
   <% end %>
+  <% if Setting.get(:features, :prayer_event) %>
+    <h3><%= t('prayer_signups.home_page_heading') %></h3>
+    <div id="taken_slots"></div>
+    <p><%= link_to t('prayer_signups.home_page_heading'), prayer_signups_path, :class => 'right-icon' %></p>
+    <script type="text/javascript">
+      $.get('<%= prayer_signups_path(:format => 'js') %>');
+    </script>
+  <% end %>
 <% end %>
 
 <% cache(:fragment => 'stream_items', :for => @logged_in.id) do %>

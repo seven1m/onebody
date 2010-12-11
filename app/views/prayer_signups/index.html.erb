@@ -1,20 +1,12 @@
-<h1>24/7 Prayer - <%= @first.strftime('%b %d') %>-<%= @last.strftime('%d') %></h1>
-
-<p>
-  Churches throughout the area are joining together to
-  make <%= @first.strftime('%Y') %> a year of prayer. We have chosen
-  <%= @first.strftime('%b %d') %>-<%= @last.strftime('%d') %>
-  as our week to pray together 24 hours-a-day for <%= (@last - @first).to_i + 1 %> days.
-  The prayer room will be manned around the clock all that week.
-</p>
+<h2>Prayer Sign-up - <%= @first.strftime('%b %d') %>-<%= @last.strftime('%d') %></h2>
 
 <p style="font-weight:bold;">
   Sign up to pray below. You may sign up for multiple hours.
 </p>
 
 <% content_for :sidebar do %>
-  <h2>Taken Time Slots</h2>
-  <div id="taken_slots"><%= render :partial => 'taken_slots' %></div>
+  <h3>Taken Time Slots</h3>
+  <div id="taken_slots" class="double-margin-bottom"><%= render :partial => 'taken_slots' %></div>
 
   <% if @logged_in.admin?(:manage_prayer_signups) %>
     <%= form_tag search_path, :remote => true do %>
@@ -47,9 +39,9 @@
 <% range_of_hours(@first, @last).each do |hour| %>
   <% if hour.day != day %>
     <a name="<%= hour.strftime('%Y%m%d') %>"></a>
-    <h2><%= hour.strftime '%A, %B %d' %></h2>
+    <h3><%= hour.strftime '%A, %B %d' %></h3>
     <% day = hour.day %>
-    <table>
+    <table class="spaced">
   <% end %>
   <% start = hour.strftime('%Y/%m/%d %H:%M') %>
   <tr>
@@ -60,7 +52,7 @@
         else hour.strftime('%I:%M %p')
       end %>
     </td>
-    <td id="signup<%= hour.strftime('%Y-%m-%d-%H') %>">
+    <td id="signup<%= hour.strftime('%Y-%m-%d-%H') %>" style="white-space:nowrap;">
       <%= render :partial => 'signup_action', :locals => {:hour => hour} %>
     </td>
   </tr>
