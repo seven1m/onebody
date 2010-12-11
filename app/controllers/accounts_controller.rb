@@ -14,7 +14,7 @@ class AccountsController < ApplicationController
   def new
     if params[:email]
       render :action => 'new_by_email'
-    elsif params[:mobile]
+    elsif params[:phone]
       render :action => 'new_by_mobile'
     elsif params[:birthday]
       render :action => 'new_by_birthday'
@@ -54,7 +54,7 @@ class AccountsController < ApplicationController
       end
     elsif params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
       create_by_birthday
-    elsif params[:mobile].to_s.any? and params[:carrier].to_s.any?
+    elsif params[:phone].to_s.any? and params[:carrier].to_s.any?
       create_by_mobile
     elsif params[:email].to_s.any?
       create_by_email
@@ -87,7 +87,7 @@ class AccountsController < ApplicationController
     end
 
     def create_by_mobile
-      mobile = params[:mobile].scan(/\d/).join('')
+      mobile = params[:phone].scan(/\d/).join('')
       person = Person.find_by_mobile_phone(mobile)
       if person
         if person.can_sign_in?

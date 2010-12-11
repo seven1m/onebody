@@ -1,11 +1,11 @@
-<h1><%= t('accounts.verify_by_phone') %></h1>
+<h2><%= t('accounts.verify_by_phone') %></h2>
 <p>
   <%= t('accounts.verify_by_phone_description_html') %>
 </p>
 <%= form_tag account_path, :method => 'post', :onsubmit => "return confirm('" + t('accounts.your_carrier_will_charge') + "')" do %>
   <p>
-    <label for="mobile"><%= t('accounts.type_your_mobile') %>:</label>
-    <%= text_field_tag :mobile, params[:mobile] == 'true' ? '' : params[:mobile] %><br/>
+    <label for="phone"><%= t('accounts.type_your_mobile') %>:</label>
+    <%= text_field_tag :phone, params[:phone] == 'true' ? '' : params[:phone] %><br/>
     <label for="carrier"><%= t('accounts.select_your_carrier') %>:</label>
     <select id="carrier" name="carrier">
       <option value=""></option>
