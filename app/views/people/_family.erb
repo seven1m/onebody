@@ -2,7 +2,7 @@
   <h3><%= t('people.family') %></h3>
   <ul class="family">
     <% @family_people.each do |person| %>
-      <li>
+      <li class="nowrap">
         <%= content_tag :a, :href => person_path(person) do %>
           <%= render :partial => 'people/thumbnail', :locals => {:person => person} %><br/>
           <%= person.first_name %>
