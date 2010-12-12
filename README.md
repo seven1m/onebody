@@ -34,6 +34,8 @@ If you're dedicated server or VPS is Ubuntu 10.04 or higher, try this:
 
 We also have full step-by-step instructions in our INSTALL.md file.
 
+Please visit the [PostfixEmailSetup](http://github.com/seven1m/onebody/wiki/PostfixEmailSetup) page on the wiki for help with setting up incoming email.
+
 
 ## More Information
 
