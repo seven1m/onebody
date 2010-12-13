@@ -59,6 +59,7 @@ class AccountsController < ApplicationController
     elsif params[:email].to_s.any?
       create_by_email
     else
+      @person = Person.new
       flash[:warning] = t('accounts.fill_required_fields')
       render :action => 'new'
     end
