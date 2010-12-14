@@ -13,8 +13,13 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 * Fix bugs in email handling, including group replies.
 * Fix bugs in i18n.
 * Fix bug preventing accounts with limited access from verifying.
+* Fix bug on signup form when not all fields are completed.
 * Fix email/mobile verification.
 * Fix badly formatted text emails.
+* Fix group admin management interface.
+* Fix Sermondrop integration.
+* Fix Prayer Event pages.
+* Improve interface for managing settings.
 * Update jQuery and jQuery UI.
 
 2.0.0 Beta 1 / December 8, 2010
