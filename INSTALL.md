@@ -60,13 +60,9 @@ _This will be different on Windows of course._
     sudo apt-get install mysql-server apache2 apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev
     rvm install ree
     rvm use ree@onebody --create --default
-    gem install passenger --pre
+    gem install passenger
     rvmsudo passenger-install-apache2-module
     rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf.d/passenger
-
-_Passenger 3.0 is in RC at the time of this writing; the --pre option will not be necessary once it is released._
-
-_There is a bug in Passenger's --snippet command that causes an extra bit of text to be appended to the config file. You'll need to edit `/etc/apache2/conf.d/passenger` and remove the very last line._
 
 See http://modrails.com/documentation/Users%20guide%20Apache.html for help with Passenger and http://rvm.beginrescueend.com/integration/passenger/ for more help setting up Passenger with RVM.
 

@@ -50,7 +50,7 @@ Otherwise, it's just:
 
 Like I said above, the default prepare recipe installs Git from source. If you don't want that, you can install the pieces individually and skip the git piece:
 
-    cap prepare:centos:prereqs prepare:centos:rvm prepare:centos:ree prepare:centos:mysql prepare:centos:apache prepare:centos:passenger
+    cap prepare:centos:prereqs prepare:centos:rvm prepare:centos:ree prepare:centos:mysql prepare:centos:apache prepare:centos:passenger prepare:centos:bundler
     cap deploy:setup
     cap deploy:migrations
 
@@ -63,6 +63,7 @@ You can do this for any of the individual pieces. They are:
 * prepare:centos:mysql
 * prepare:centos:apache
 * prepare:centos:passenger
+* prepare:centos:bundler
 
 
 == Troubleshooting
