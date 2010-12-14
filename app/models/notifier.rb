@@ -219,8 +219,23 @@ class Notifier < ActionMailer::Base
       next unless address.any? and domain.any?
       our_domain = [Site.current.host, Site.current.secondary_host].compact.include?(domain)
       if our_domain and group = Group.find_by_address(address) and group.can_send?(@person)
-        group_email(group, email, body)
-        sent_to_count += 1 if @message_sent_to_group
+        message = group_email(group, email, body)
+        if @message_sent_to_group
+          sent_to_count += 1
+        elsif !message.valid? and message.errors[:base] !~ /already saved|autoreply/
+          Notifier.simple_message(
+            email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+            "Message Error: #{email.subject}",
+            "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
+            "Sorry for the inconvenience, but the #{Setting.get(:name, :site)} site had " +
+            "trouble saving the message (#{message.errors.full_messages.join('; ')}). " +
+            "You may post your message directly from the site after signing into " +
+            "#{Setting.get(:url, :site)}. If you continue to have trouble, please contact " +
+            "#{Setting.get(:contact, :tech_support_contact)}."
+          ).deliver
+          sent_to_count += 1
+          break
+        end
       elsif address.to_s.any? and not @message_sent_to_group # reply to previous message
         result = reply_email(email, body)
         sent_to_count += 1 if result
@@ -280,6 +295,7 @@ class Notifier < ActionMailer::Base
         message.send_to_group(already_sent_to=email.to.to_a)
         @message_sent_to_group = true
       end
+      message
     end
 
     def reply_email(email, body)

@@ -89,6 +89,14 @@ class NotifierTest < ActiveSupport::TestCase
     assert_match /Hello College Group from Jeremy/, delivery.to_s
   end
 
+  should "send rejection notice when group email is invalid" do
+    email = to_email(:from => 'user@foobar.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => '')
+    Notifier.receive(email.to_s)
+    assert_deliveries 1
+    delivery = ActionMailer::Base.deliveries.first
+    assert_match /too short/, delivery.to_s
+  end
+
   should "send email update" do
     Notifier.email_update(people(:tim)).deliver
     assert !ActionMailer::Base.deliveries.empty?
