@@ -1,8 +1,12 @@
 <% if @unapproved_groups.any? %>
-  <p class="highlight">
+  <div class="highlight">
     <%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %>
-    <%= @unapproved_groups.map { |g| link_to(g.name, group_path(g)) }.join(', ') %>
-  </p>
+    <ul class="list">
+      <% @unapproved_groups.each do |group| %>
+        <li><%= link_to group.name, group %></li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>
 
 <% content_for :sidebar do %>
