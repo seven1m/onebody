@@ -1079,6 +1079,7 @@ pt:
     details: Detalhes
     delete_group: Deletar Grupo
     deleted: Grupo deletado.
+    demote: Rebaixar
     description: Descrição
     description_hint: "Enter a sentence or two to give people an idea of why you meet and of your group's goals."
     directions: Direções

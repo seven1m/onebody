@@ -1076,6 +1076,7 @@ en:
     created: The group has been created.
     created_pending_approval: Your group has been created and is pending approval.
     creator: Creator
+    demote: Demote
     details: Details
     delete_group: Delete Group
     deleted: Group deleted.

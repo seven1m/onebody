@@ -4,7 +4,7 @@
 
 <h2><%= t('admin.group_administrators') %></h2>
 
-<table>
+<table class="spaced">
   <tr>
     <th><%= link_to 'Admin', administration_admins_path(:groups => true, :sort => 'admin') %></th>
     <th><%= link_to 'Group', administration_admins_path(:groups => true, :sort => 'group') %></th>

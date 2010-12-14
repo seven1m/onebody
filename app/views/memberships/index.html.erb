@@ -25,6 +25,10 @@
           <p><%= submit_tag t('search.add_selected') %></p>
         <% end %>
       </div>
+
+      <p>
+        <%= link_to t('admin.manage_admins'), '#', :id => 'promote-people-action' %>
+      </p>
     <% else %>
       <p class="very-strong">
         <%= t('groups.this_group_is_pending_you_may_not_add_people') %>
@@ -83,6 +87,13 @@
     deleting_people = false;
     $('.delete-action').hide();
     $('#delete-people-action').html('<%= escape_javascript t('groups.remove_people') %>');
+    return false;
+  });
+  $('#promote-people-action').toggle(function(){
+    $('.promote-action').show();
+    return false;
+  }, function() {
+    $('.promote-action').hide();
     return false;
   });
 </script>
