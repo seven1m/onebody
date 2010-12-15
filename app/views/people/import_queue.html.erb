@@ -1,4 +1,4 @@
-<h1><%= t('import.people') %></h1>
+<h2><%= t('import.people') %></h2>
 
 <% if @records.any? %>
   <%= form_tag({}, :method => 'put') do %>
@@ -18,7 +18,7 @@
               <%= check_box_tag "record#{index}", true, true, :onclick => "$('.changes_#{person.id}').attr('checked', $('#record#{index}').attr('checked'))" %>
               <%= link_to person.name, person %>
             <% end %>
-            <%= link_to_function t('changes') + ' &raquo;', "$('#details#{index}').toggle()", :class => 'discreet' %>
+            <%= link_to_function t('changes'), "$('#details#{index}').toggle()", :class => 'discreet' %>
             <ul id="details<%= index %>" style="list-style:none;padding-left:25px;display:none;">
               <% changes.each do |key, val| %>
                 <li>
