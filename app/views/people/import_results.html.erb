@@ -1,10 +1,10 @@
-<h1><%= t('import.import_results') %></h1>
+<h2><%= t('import.import_results') %></h2>
 
 <p><%= t('import.the_import_is_complete') %><% if @errored.any? %> <%= t('import.with_errors') %><% end %>.</p>
 
-<h2><%= t('import.completed_records') %></h2>
+<h3><%= t('import.completed_records') %></h3>
 
-<table>
+<table class="spaced">
   <tr><th><%= t('import.first') %></th><th><%= t('import.last') %></th><th><%= t('import.status') %></th></tr>
   <% @completed.each do |record| %>
     <tr>
@@ -16,9 +16,9 @@
 </table>
 
 <% if @errored.any? %>
-  <h2><%= t('import.errored_records') %></h2>
+  <h3><%= t('import.errored_records') %></h3>
 
-  <table>
+  <table class="spaced">
     <tr><th><%= t('import.first') %></th><th><%= t('import.last') %></th><th><%= t('import.status') %></th></tr>
     <% @errored.each do |record| %>
       <tr>
