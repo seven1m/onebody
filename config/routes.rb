@@ -18,6 +18,7 @@ OneBody::Application.routes.draw do
       post :import
       post :hashify
       post :batch
+      put  :import
     end
     member do
       get  :favs
