@@ -23,6 +23,9 @@ class StylesController < ApplicationController
     if (color = Setting.get(:appearance, :theme_top_color)).to_s.any?
       scss.sub!(/^\$common: .+/, "$common: ##{color};")
     end
+    if (color = Setting.get(:appearance, :theme_nav_color)).to_s.any?
+      scss.sub!(/^\$nav: .+/, "$nav: ##{color};")
+    end
     css = Sass::Engine.new(
       scss,
       :syntax => :scss,
@@ -37,6 +40,7 @@ class StylesController < ApplicationController
     @primary   = Setting.get(:appearance, :theme_primary_color)
     @secondary = Setting.get(:appearance, :theme_secondary_color)
     @top       = Setting.get(:appearance, :theme_top_color)
+    @nav       = Setting.get(:appearance, :theme_nav_color)
     @palettes_as_json = COLOR_PALETTES.inject({}) do |hash, palette|
       hash[palette.first] = palette.last
       hash
@@ -46,10 +50,12 @@ class StylesController < ApplicationController
   def update
     if params[:primary]   =~ /[0-9A-F]{3,6}/i and \
        params[:secondary] =~ /[0-9A-F]{3,6}/i and \
-       params[:top]       =~ /[0-9A-F]{3,6}/i
+       params[:top]       =~ /[0-9A-F]{3,6}/i and \
+       params[:nav_color] =~ /[0-9A-F]{3,6}/i
       Setting.set(Site.current.id, 'Appearance', 'Theme Primary Color', params[:primary])
       Setting.set(Site.current.id, 'Appearance', 'Theme Secondary Color', params[:secondary])
       Setting.set(Site.current.id, 'Appearance', 'Theme Top Color', params[:top])
+      Setting.set(Site.current.id, 'Appearance', 'Theme Nav Color', params[:nav_color])
       expire_fragment(%r{style(\.ie|\.mobile)?\?id=#{Site.current.id}})
     end
     redirect_to edit_style_path

@@ -189,6 +189,9 @@ Appearance:
   Theme Top Color:
     format: string
     value: 333333
+  Theme Nav Color:
+    format: string
+    value: E4E4E4
 Privacy: 
   Allow Unencrypted Logins: 
     format: boolean

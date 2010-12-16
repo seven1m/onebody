@@ -39,7 +39,8 @@ module ApplicationHelper
   def stylesheet_path(browser=nil)
     theme_colors = Setting.get(:appearance, :theme_primary_color).to_s   + \
                    Setting.get(:appearance, :theme_secondary_color).to_s + \
-                   Setting.get(:appearance, :theme_top_color).to_s
+                   Setting.get(:appearance, :theme_top_color).to_s       + \
+                   Setting.get(:appearance, :theme_nav_color).to_s
     if browser == :ie
       path = 'public/stylesheets/style.ie.scss'
       browser_style_path(:browser => :ie) + '?' + cached_mtime_for_path(path) + theme_colors

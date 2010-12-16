@@ -6,6 +6,7 @@ $common:    #333;
 $footer:    $light - 75;
 $primary:   #5F9128;
 $secondary: #3286B5;
+$nav:       #e4e4e4;
 $alert:     #f66;
 $highlight-background: #c0e8ff;
 $comment-background: #fec;
@@ -206,7 +207,7 @@ fieldset {
 }
 #nav {
   font-family: $heading-font;
-  @include radialgradient(#fff, $light - 10);
+  @include radialgradient($nav + 30, $nav);
   border-bottom: 1px solid $light - 20;
   z-index: 2;
   position: relative;
@@ -222,7 +223,7 @@ fieldset {
   }
   .tagline {
     font-size: 11pt;
-    color: $light - 100;
+    color: edgevalue($nav, 100);
     margin-bottom: 10px;
   }
   .buttons {

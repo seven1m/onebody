@@ -14,6 +14,7 @@
 
 <%= image_tag 'clean/style_primary.png',   :class => 'style-editor-pointer', :style => 'position:absolute;left:50%;margin-left:-400px;top:110px;z-index:100;' %>
 <%= image_tag 'clean/style_secondary.png', :class => 'style-editor-pointer', :style => 'position:absolute;left:50%;margin-left:-120px;top:130px;z-index:100;' %>
+<%= image_tag 'clean/style_nav_bar.png',   :class => 'style-editor-pointer', :style => 'position:absolute;right:35%;top:150px;z-index:100;'   %>
 
 <h2 class="style-editor-heading"><%= t('styles.heading') %></h2>
 
@@ -35,6 +36,11 @@
     <span class="color-preview">&nbsp;</span>
   </p>
   <p>
+    <%= label_tag :nav, t('styles.nav_color') %>
+    <%= text_field_tag :nav_color, @nav, :size => 6, :class => 'color-input' %>
+    <span class="color-preview">&nbsp;</span>
+  </p>
+  <p>
     <%= submit_tag t('save_changes'), :id => 'submit-button' %>
     <%= image_tag 'clean/style_primary2.png', :class => 'style-editor-pointer', :style => 'vertical-align:top;' %>
   </p>
@@ -49,12 +55,13 @@
     $('#primary').val(p[0]);
     $('#secondary').val(p[1]);
     $('#top').val(p[2]);
-    $('#primary, #secondary, #top').trigger('keyup');
+    $('#nav_color').val(p[3]);
+    $('#primary, #secondary, #top, #nav_color').trigger('keyup');
   }
 
   lastFocusedInput = null;
 
-  $('#primary, #secondary, #top').bind('keyup', function(){
+  $('#primary, #secondary, #top, #nav_color').bind('keyup', function(){
     $(this).siblings('.color-preview').css('background-color', '#'+$(this).val());
   }).bind('focus', function(){
     $('#colorpicker').ColorPickerSetColor($(this).val());
