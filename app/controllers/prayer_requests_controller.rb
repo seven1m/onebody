@@ -44,7 +44,7 @@ class PrayerRequestsController < ApplicationController
   def edit
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])
-    unless @logged_in.member_of?(@group) and @logged_in.can_edit?(@req)
+    unless @logged_in.can_edit?(@req)
       render :text => t('prayer.cant_edit'), :layout => true, :status => 401
     end
   end
@@ -52,7 +52,7 @@ class PrayerRequestsController < ApplicationController
   def update
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])
-    if @logged_in.member_of?(@group) and @logged_in.can_edit?(@req)
+    if @logged_in.can_edit?(@req)
       params[:prayer_request][:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
       if @req.update_attributes(params[:prayer_request])
         redirect_to group_path(@req.group, :anchor => 'prayer')
@@ -67,7 +67,7 @@ class PrayerRequestsController < ApplicationController
   def destroy
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])
-    if @logged_in.member_of?(@group) and @logged_in.can_edit?(@req)
+    if @logged_in.can_edit?(@req)
       @req.destroy
       redirect_to group_path(@group, :anchor => 'prayer')
     else
