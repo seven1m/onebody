@@ -20,8 +20,6 @@ class Message < ActiveRecord::Base
   validates_presence_of :person_id
   validates_presence_of :subject
   validates_length_of :subject, :minimum => 2
-  validates_presence_of :body
-  validates_length_of :body, :minimum => 2
 
   validates_each :to_person_id, :allow_nil => true do |record, attribute, value|
     if attribute.to_s == 'to_person_id' and value and record.to and record.to.email.nil?

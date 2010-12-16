@@ -83,7 +83,9 @@ class Notifier < ActionMailer::Base
       :from    => msg.email_from(to),
       :subject => msg.subject
     ) do |format|
-      format.text
+      if msg.body.to_s.any?
+        format.text
+      end
       if msg.html_body.to_s.any?
         format.html
       end
