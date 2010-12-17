@@ -57,20 +57,26 @@ class Sync < ActiveRecord::Base
       end
     end
     if File.exist?(filename = File.join(guid_path, 'ob1_families'))
+      Rails.logger.info('Syncing Families...')
       do_pc_sync_families(filename)
     end
     if File.exist?(filename = File.join(guid_path, 'ob2_people'))
+      Rails.logger.info('Syncing People...')
       do_pc_sync_people(filename)
     end
     if File.exist?(filename = File.join(guid_path, 'ob3_group'))
+      Rails.logger.info('Syncing Groups...')
       do_pc_sync_groups(filename)
     end
     if File.exist?(filename = File.join(guid_path, 'ob4_memberships'))
+      Rails.logger.info('Syncing Memberships...')
       do_pc_sync_memberships(filename)
     end
     if File.exist?(filename = File.join(guid_path, 'ob5_parentsof'))
+      Rails.logger.info('Syncing Parents of...')
       do_pc_sync_parentsof(filename)
     end
+    Rails.logger.info('Finished: ' + Time.now.to_s)
     self.finished_at = Time.now
     self.complete = true
     self.save!
@@ -79,136 +85,169 @@ class Sync < ActiveRecord::Base
 
   def do_pc_sync_families(filename)
     family_ids = []
-    Hash.from_xml(File.read(filename))['onebody']['families'].each do |family_hash|
-      family_ids << legacy_id = family_hash['legacy_id'].to_i
-      operation = nil
-      if family = Family.find_by_legacy_id(legacy_id)
-        family.deleted = false
-        family.save
-        operation = 'update'
-      else
-        operation = 'create'
+    begin
+      families = Hash.from_xml(File.read(filename))['onebody']['families']
+    rescue
+      Rails.logger.info('No Families to sync')
+    else  
+      families.each do |family_hash|
+        family_ids << legacy_id = family_hash['legacy_id'].to_i
+        operation = nil
+        if family = Family.find_by_legacy_id(legacy_id)
+          family.deleted = false
+          family.save
+          operation = 'update'
+        else
+          operation = 'create'
+        end
+        status = Family.update_batch([family_hash]).first
+        error = status[:error] && status[:error].split('; ')
+        sync_items.create(
+          :syncable_type  => 'Family',
+          :syncable_id    => status[:id],
+          :name           => status[:name],
+          :legacy_id      => legacy_id,
+          :operation      => operation,
+          :status         => status[:status],
+          :error_messages => error
+        )
+        if status[:status] == 'not saved'
+          self.increment(:error_count)
+        else
+          self.increment(:success_count)
+        end
       end
-      status = Family.update_batch([family_hash]).first
-      error = status[:error] && status[:error].split('; ')
-      sync_items.create(
-        :syncable_type  => 'Family',
-        :syncable_id    => status[:id],
-        :name           => status[:name],
-        :legacy_id      => legacy_id,
-        :operation      => operation,
-        :status         => status[:status],
-        :error_messages => error
-      )
-      if status[:status] == 'not saved'
-        self.increment(:error_count)
-      else
-        self.increment(:success_count)
-      end
+      Family.update_all(['deleted = ?', true], ['site_id = ? and deleted = ? and id != ? and legacy_id not in (?)', Site.current.id, false, self.person.family_id, family_ids])
     end
-    Family.update_all(['deleted = ?', true], ['site_id = ? and deleted = ? and id != ? and legacy_id not in (?)', Site.current.id, false, self.person.family_id, family_ids])
+    Rails.logger.info('Syncing Families...done')
   end
 
   def do_pc_sync_people(filename)
     people_ids = []
-    Hash.from_xml(File.read(filename))['onebody']['people'].each do |person_hash|
-      people_ids << legacy_id = person_hash['legacy_id'].to_i
-      operation = nil
-      if person = Person.find_by_legacy_id(legacy_id)
-        person.deleted = false
-        person.save
-        operation = 'update'
-      else
-        operation = 'create'
+    begin
+      people = Hash.from_xml(File.read(filename))['onebody']['people']
+    rescue
+      Rails.logger.info('No People to sync')
+    else
+      people.each do |person_hash|
+        people_ids << legacy_id = person_hash['legacy_id'].to_i
+        operation = nil
+        if person = Person.find_by_legacy_id(legacy_id)
+          person.deleted = false
+          person.save
+          operation = 'update'
+        else
+          operation = 'create'
+        end
+        status = Person.update_batch([person_hash]).first
+        error = status[:error] && status[:error].split('; ')
+        sync_items.create(
+          :syncable_type  => 'Person',
+          :syncable_id    => status[:id],
+          :name           => status[:name],
+          :legacy_id      => legacy_id,
+          :operation      => operation,
+          :status         => status[:status],
+          :error_messages => error
+        )
+        if status[:status] == 'not saved'
+          self.increment(:error_count)
+        else
+          self.increment(:success_count)
+        end
       end
-      status = Person.update_batch([person_hash]).first
-      error = status[:error] && status[:error].split('; ')
-      sync_items.create(
-        :syncable_type  => 'Person',
-        :syncable_id    => status[:id],
-        :name           => status[:name],
-        :legacy_id      => legacy_id,
-        :operation      => operation,
-        :status         => status[:status],
-        :error_messages => error
-      )
-      if status[:status] == 'not saved'
-        self.increment(:error_count)
-      else
-        self.increment(:success_count)
-      end
+      Person.update_all(['deleted = ?', true], ['site_id = ? and deleted = ? and id != ? and legacy_id not in (?)', Site.current.id, false, self.person.id, people_ids])
     end
-    Person.update_all(['deleted = ?', true], ['site_id = ? and deleted = ? and id != ? and legacy_id not in (?)', Site.current.id, false, self.person.id, people_ids])
+    Rails.logger.info('Syncing People...done')
   end
 
   def do_pc_sync_groups(filename)
     group_ids = []
-    Hash.from_xml(File.read(filename))['onebody']['groups'].each do |group_hash|
-      group_ids << legacy_id = group_hash['legacy_id'].to_i
-      operation = nil
-      if group = Group.find_by_legacy_id(legacy_id)
-        operation = 'update'
-      else
-        group = Group.new
-        operation = 'create'
-      end
-      group.name      = group_hash['name']
-      group.private   = group_hash['private']
-      group.approved  = group_hash['approved']
-      group.legacy_id = group_hash['legacy_id']
-      group.category  = group_hash['category']
-      status = group.save ? 'saved' : 'not saved'
-      sync_items.create(
-        :syncable_type  => 'Group',
-        :syncable_id    => group.id,
-        :name           => group.name,
-        :legacy_id      => legacy_id,
-        :operation      => operation,
-        :status         => status,
-        :error_messages => status == 'not saved' ? group.errors.full_messages : nil
-      )
-      if status == 'not saved'
-        self.increment(:error_count)
-      else
-        self.increment(:success_count)
+    begin 
+      groups = Hash.from_xml(File.read(filename))['onebody']['groups']
+    rescue
+      Rails.logger.info('No Groups to sync')
+    else  
+      groups.each do |group_hash|
+        group_ids << legacy_id = group_hash['legacy_id'].to_i
+        operation = nil
+        if group = Group.find_by_legacy_id(legacy_id)
+          operation = 'update'
+        else
+          group = Group.new
+          operation = 'create'
+        end
+        group.name      = group_hash['name']
+        group.private   = group_hash['private']
+        group.approved  = group_hash['approved']
+        group.legacy_id = group_hash['legacy_id']
+        group.category  = group_hash['category']
+        status = group.save ? 'saved' : 'not saved'
+        sync_items.create(
+          :syncable_type  => 'Group',
+          :syncable_id    => group.id,
+          :name           => group.name,
+          :legacy_id      => legacy_id,
+          :operation      => operation,
+          :status         => status,
+          :error_messages => status == 'not saved' ? group.errors.full_messages : nil
+        )
+        if status == 'not saved'
+          self.increment(:error_count)
+        else
+          self.increment(:success_count)
+        end
       end
     end
     Group.delete_all(['site_id = ? and legacy_id is not null and legacy_id not in (?)', Site.current.id, group_ids])
+    Rails.logger.info('Syncing Groups...done')
   end
 
   def do_pc_sync_memberships(filename)
-    by_group_id = Hash.from_xml(File.read(filename))['onebody']['memberships'].inject({}) do |hash, membership|
-      hash[membership['group_id'].to_i] ||= []
-      hash[membership['group_id'].to_i] << membership['person_id'].to_i
-      hash
-    end
-    by_group_id.each do |group_id, people_ids|
-      if group = Group.find_by_legacy_id(group_id)
-        people = Person.all(:conditions => ['legacy_id in (?)', people_ids])
-        people.each do |person|
-          unless person.member_of?(group)
-            group.memberships.create!(:person => person)
+    begin
+      memberships = Hash.from_xml(File.read(filename))['onebody']['memberships']
+    rescue
+      Rails.logger.info('No Memberships to sync')
+    else
+      by_group_id = memberships.inject({}) do |hash, membership|
+        hash[membership['group_id'].to_i] ||= []
+        hash[membership['group_id'].to_i] << membership['person_id'].to_i
+        hash
+      end
+      by_group_id.each do |group_id, people_ids|
+        if group = Group.find_by_legacy_id(group_id)
+          people = Person.all(:conditions => ['legacy_id in (?)', people_ids])
+          people.each do |person|
+            unless person.member_of?(group)
+              group.memberships.create!(:person => person)
+            end
           end
+          Membership.delete_all(['site_id = ? and group_id = ? and person_id not in (?)', Site.current.id, group.id, people.map { |p| p.id }])
         end
-        Membership.delete_all(['site_id = ? and group_id = ? and person_id not in (?)', Site.current.id, group.id, people.map { |p| p.id }])
       end
     end
+    Rails.logger.info('Syncing Memberships...done')
   end
 
   def do_pc_sync_parentsof(filename)
-    group_ids = Hash.from_xml(File.read(filename))['onebody']['parentsof'].map { |g| g['legacy_id'] }
-    group_ids.each do |group_id|
-      if group = Group.find_by_legacy_id(group_id)
-        if pgroup = Group.find_by_parents_of(group_id)
-          pgroup.update_memberships
-        else
-          pgroup = Group.new
-          pgroup.name = "Parents of #{group.name}"
-          pgroup.category = 'Parent Group'
-          pgroup.approved = true
-          pgroup.private = true
-          pgroup.parents_of = group.id
-          pgroup.save!
+    begin
+      group_ids = Hash.from_xml(File.read(filename))['onebody']['parentsof'].map { |g| g['legacy_id'] }
+    rescue
+      Rails.logger.info('No Parents-of Groups to sync')
+    else
+      group_ids.each do |group_id|
+        if group = Group.find_by_legacy_id(group_id)
+          if pgroup = Group.find_by_parents_of(group_id)
+            pgroup.update_memberships
+          else
+            pgroup = Group.new
+            pgroup.name = "Parents of #{group.name}"
+            pgroup.category = 'Parent Group'
+            pgroup.approved = true
+            pgroup.private = true
+            pgroup.parents_of = group.id
+            pgroup.save!
+          end
         end
       end
     end
