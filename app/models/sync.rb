@@ -240,8 +240,7 @@ class Sync < ActiveRecord::Base
           if pgroup = Group.find_by_parents_of(group_id)
             pgroup.update_memberships
           else
-            pgroup = Group.new
-            pgroup.name = "Parents of #{group.name}"
+            pgroup = Group.find_or_initialize_by_name("Parents of #{group.name}")
             pgroup.category = 'Parent Group'
             pgroup.approved = true
             pgroup.private = true
