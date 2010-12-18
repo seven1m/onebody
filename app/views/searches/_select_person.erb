@@ -16,6 +16,6 @@
   <% end %>
 </p>
 
-<% if @people.length == 1 %>
+<% if @people.length == 1 and !params[:no_auto_submit] %>
   <script type="text/javascript"> $('#add_people_form').trigger('submit') </script>
 <% end %>

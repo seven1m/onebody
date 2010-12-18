@@ -863,6 +863,7 @@ en:
 
   attendance:
     add_somebody_not_in_group: Add somebody not in the group
+    add_visitor: Add a visitor.
     adult: Adult
     attendance: Attendance
     class_time: Class Time
