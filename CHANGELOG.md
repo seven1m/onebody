@@ -6,9 +6,11 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
-2.0.0 Beta 2 / TBD
-------------------
+2.0.0 Beta 2 / December 17, 2010
+--------------------------------
 
+* Can now edit Nav Bar color with Style Editor.
+* Fix bugs in CSV import.
 * Fix bugs in deployment recipes.
 * Fix bugs in email handling, including group replies.
 * Fix bugs in i18n.
@@ -19,6 +21,7 @@ For detailed change history, view the Git log (http://github.com/seven1m/onebody
 * Fix group admin management interface.
 * Fix Sermondrop integration.
 * Fix Prayer Event pages.
+* Fix bugs in sync with PowerChurch.
 * Improve interface for managing settings.
 * Update jQuery and jQuery UI.
 
