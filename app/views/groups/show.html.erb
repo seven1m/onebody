@@ -32,7 +32,7 @@
     <% end %>
   <% end %>
 
-  <% if @group.attendance? %>
+  <% if @group.attendance? and (@logged_in.can_edit?(@group) or @logged_in.admin?(:manage_attendance)) %>
     <p>
       <%= link_to t('groups.attendance'), group_attendance_index_path(@group), :class => 'people-icon' %>
     </p>
