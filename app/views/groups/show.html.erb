@@ -32,6 +32,11 @@
     <% end %>
   <% end %>
 
+  <% if @group.attendance? %>
+    <p>
+      <%= link_to t('groups.attendance'), group_attendance_path(@group), :class => 'people-icon' %>
+    </p>
+  <% end %>
 
   <% cache(:fragment => 'members') do %>
     <h3><%= t('groups.members') %></h3>
