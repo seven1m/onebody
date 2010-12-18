@@ -13,7 +13,7 @@
     <tr>
       <td><%= link_to person.name, person %></td>
       <td><%= link_to group.name, group %></td>
-      <td><%= link_to t('edit'), edit_group_path(group) %></td>
+      <td><%= link_to t('edit'), group_memberships_path(group) %></td>
     </tr>
   <% end %>
 </table>
