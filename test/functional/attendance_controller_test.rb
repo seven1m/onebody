@@ -51,7 +51,7 @@ class AttendanceControllerTest < ActionController::TestCase
   should "respond to a json request with status='success'" do
     post :create, {:attended_at => '2009-12-01 9:00', :group_id => @group.id, :ids => [@person.id], :person => {'first_name' => 'Jimmy', 'last_name' => 'Smith', 'age' => '2 yr'}, :format => 'json'}, {:logged_in_id => @person.id}
     assert_response :success
-    assert_equal 'success', JSON.parse(@response.body)['status']
+    assert_equal 'success', ActiveSupport::JSON.decode(@response.body)['status']
   end
 
 end
