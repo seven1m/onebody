@@ -88,6 +88,7 @@ class AttendanceController < ApplicationController
           )
         end
       end
+      flash[:notice] = t('changes_saved')
       redirect_to group_attendance_index_path(@group, :attended_at => @attended_at.to_s(:date))
     else
       render :text => t('not_authorized'), :layout => true, :status => 401

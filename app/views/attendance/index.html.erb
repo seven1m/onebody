@@ -49,8 +49,8 @@
   <ul style="list-style:none;">
     <% @records.each do |person, record| %>
       <li>
-        <%= check_box_tag 'ids[]', record ? record.id : person.id, record ? true : false, :id => "ids_#{record ? record.id : person.id}" %>
-        <%= label_tag "ids_#{record ? record.id : person.id}", person.name, :class => 'inline' %>
+        <%= check_box_tag 'ids[]', person.id, record ? true : false, :id => "ids_#{person.id}" %>
+        <%= label_tag "ids_#{person.id}", person.name, :class => 'inline' %>
       </li>
     <% end %>
   </ul>
