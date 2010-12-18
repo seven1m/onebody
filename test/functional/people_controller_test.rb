@@ -118,25 +118,6 @@ class PeopleControllerTest < ActionController::TestCase
     assert_response :unauthorized
   end
 
-  should "freeze an account" do
-    @other_person.admin = Admin.create!(:edit_profiles => true)
-    @other_person.save!
-    post :update, {:id => @person.id, :freeze => 'toggle'}, {:logged_in_id => @other_person.id}
-    assert_response :redirect
-    assert @person.reload.account_frozen?
-    post :update, {:id => @person.id, :freeze => 'toggle'}, {:logged_in_id => @other_person.id}
-    assert_response :redirect
-    assert !@person.reload.account_frozen?
-  end
-
-  should "not freeze self" do
-    @person.admin = Admin.create!(:edit_profiles => true)
-    @person.save!
-    post :update, {:id => @person.id, :freeze => 'toggle'}, {:logged_in_id => @person.id}
-    assert_select 'body', /cannot freeze your own account/i
-    assert !@person.reload.account_frozen?
-  end
-
   should "not show xml unless user can export data" do
     get :show, {:id => @person.id, :format => 'xml'}, {:logged_in_id => @person.id}
     assert_response 406
