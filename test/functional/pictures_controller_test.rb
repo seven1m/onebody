@@ -60,7 +60,7 @@ class PicturesControllerTest < ActionController::TestCase
 
   should "create one picture" do
     post :create, {:album => @album.name, :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
-    assert_redirected_to album_path(@album)
+    assert_redirected_to album_pictures_path(@album)
     assert_equal "1 picture(s) saved", flash[:notice]
   end
 
@@ -73,7 +73,7 @@ class PicturesControllerTest < ActionController::TestCase
         Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)
       ]
     }, {:logged_in_id => @person.id}
-    assert_redirected_to album_path(@album)
+    assert_redirected_to album_pictures_path(@album)
     assert_equal "3 picture(s) saved", flash[:notice]
   end
 
@@ -89,7 +89,7 @@ class PicturesControllerTest < ActionController::TestCase
     post :create, {:album => 'My Stuff', :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
     album = Album.last
     assert_equal 'My Stuff', album.name
-    assert_redirected_to album_path(album)
+    assert_redirected_to album_pictures_path(album)
     assert_equal "1 picture(s) saved", flash[:notice]
   end
 
@@ -99,7 +99,7 @@ class PicturesControllerTest < ActionController::TestCase
     post :create, {:album => 'Existing Album', :pictures => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true)]}, {:logged_in_id => @person.id}
     assert_equal album_count, Album.count
     assert_equal @album, Picture.last.album
-    assert_redirected_to album_path(@album)
+    assert_redirected_to album_pictures_path(@album)
     assert_equal "1 picture(s) saved", flash[:notice]
   end
 
