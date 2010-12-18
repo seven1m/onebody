@@ -90,7 +90,7 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   should "send rejection notice when group email is invalid" do
-    email = to_email(:from => 'user@foobar.com', :to => 'college@example.com', :subject => 'test to college group from user', :body => '')
+    email = to_email(:from => 'user@foobar.com', :to => 'college@example.com', :subject => '')
     Notifier.receive(email.to_s)
     assert_deliveries 1
     delivery = ActionMailer::Base.deliveries.first
