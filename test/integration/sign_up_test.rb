@@ -21,10 +21,10 @@ class SignUpTest < ActionController::IntegrationTest
   end
 
   should 'verify by mobile' do
-    get '/account/new?mobile=true'
+    get '/account/new?phone=true'
     assert_response :success
     assert_template 'accounts/new_by_mobile'
-    post '/account', :mobile => people(:peter).mobile_phone, :carrier => 'Sprint'
+    post '/account', :phone => people(:peter).mobile_phone, :carrier => 'Sprint'
     v = Verification.find(:first, :order => 'id desc')
     assert !v.code.nil?
     assert v.code > 0
