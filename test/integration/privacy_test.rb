@@ -3,14 +3,6 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 class PrivacyTest < ActionController::IntegrationTest
   fixtures :people, :families
 
-  def test_help_for_parents_with_hidden_children
-    sign_in_as people(:jeremy)
-    get "/people/#{people(:jeremy).id}"
-    assert_select '#sidebar', /Where are my kids\?/
-    assert_select '#sidebar a[href=?]', /\/pages\/help\/safeguarding_children/
-    assert_select '.family li', 2 # not 3 (should not see child)
-  end
-
   def test_children_without_consent_hidden_on_family_profiles
     sign_in_as people(:peter)
     get "/people/#{people(:tim).id}" # view Tim's profile
@@ -28,7 +20,7 @@ class PrivacyTest < ActionController::IntegrationTest
   def test_children_without_consent_hidden_in_search_results
     sign_in_as people(:peter)
     get "/search", :name => 'Mac'
-    assert_template 'searches/new'
+    assert_template 'searches/create'
     assert_select 'body', /0 people found/
   end
 
@@ -49,7 +41,7 @@ class PrivacyTest < ActionController::IntegrationTest
     get "/people/#{people(:jeremy).id}/privacy/edit"
     assert_response :success
     assert_template 'privacies/edit'
-    assert_select 'p.alert', :minimum => 1, :text => /you have not given consent/
+    assert_select 'body', :minimum => 1, :text => /you have not given consent/
     assert_select 'li', :minimum => 1, :text => /Privacy Policy/
     assert_select 'input[type=submit][value=I Agree]', 1
     put "/people/#{people(:megan).id}/privacy", :agree => 'I Agree.'
@@ -60,12 +52,12 @@ class PrivacyTest < ActionController::IntegrationTest
     people(:megan).reload
     assert people(:megan).parental_consent # not nil
     assert people(:megan).parental_consent.include?("#{people(:jeremy).name} \(#{people(:jeremy).id}\)")
-    assert_select 'p.highlight', :minimum => 1, :text => /This child's profile has parental consent/
+    assert_select 'body', :minimum => 1, :text => /This child's profile has parental consent/
     get "/people/#{people(:megan).id}"
     assert_response :success
     assert_template 'people/show'
     assert_select '.family li', 3 # not 2 (should see child)
-    assert_select '.family li', :minimum => 1, :text => Regexp.new(people(:megan).name)
+    assert_select '.family li', :minimum => 1, :text => Regexp.new(people(:megan).first_name)
   end
 
   def test_invisible_profiles
