@@ -63,6 +63,8 @@ class Update < ActiveRecord::Base
     attrs = self.attributes.reject { |key, val| !PERSON_ATTRIBUTES.include?(key) }.reject_blanks
     attrs['custom_fields'] = custom_fields_as_hash
     attrs['child'] = child
+    attrs['birthday']    = nil if self.attributes['birthday']    and self.attributes['birthday'].year    == 1800
+    attrs['anniversary'] = nil if self.attributes['anniversary'] and self.attributes['anniversary'].year == 1800
     attrs
   end
 
@@ -115,7 +117,11 @@ class Update < ActiveRecord::Base
   def self.create_from_params(params, person)
     params = HashWithIndifferentAccess.new(params) unless params.is_a? HashWithIndifferentAccess
     person.updates.new.tap do |update|
-      update.person_attributes = params[:person].reject { |k, v| !PERSON_ATTRIBUTES.include?(k) }.reject_blanks if params[:person]
+      if params[:person]
+        params[:person][:birthday]    = Date.new(1800, 1, 1) if params[:person][:birthday]    and params[:person][:birthday].blank?
+        params[:person][:anniversary] = Date.new(1800, 1, 1) if params[:person][:anniversary] and params[:person][:anniversary].blank?
+        update.person_attributes = params[:person].reject { |k, v| !PERSON_ATTRIBUTES.include?(k) }.reject_blanks
+      end
       Rails.logger.info(params[:family].inspect)
       update.family_attributes = params[:family].reject { |k, v| !(FAMILY_ATTRIBUTES+%w(name last_name)).include?(k) }.reject_blanks if params[:family]
       if update.person_attributes.reject { |k, v| %w(custom_fields child).include?(k) }.any? or update.family_attributes.any?

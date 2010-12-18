@@ -71,7 +71,8 @@
                 <td><% unless update.birthday.year == 1800 %><%= update.birthday.to_s(:date) %><% end %></td>
               </tr>
             <% end %>
-            <% if !update.complete? and (update.birthday.nil? or update.person.years_of_age.nil?) %>
+            <% if !update.complete? and update.birthday and update.birthday.year == 1800 %>
+              <%# We're blanking out the birthday -- must know whether this is a child %>
               <tr>
                 <td><%= t('people.child') %>:</td>
                 <td></td>

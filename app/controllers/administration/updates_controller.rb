@@ -14,9 +14,9 @@ class Administration::UpdatesController < ApplicationController
     @update = Update.find(params[:id])
     if params[:complete] == 'true'
       if params[:commit]
-        if params[:update] and params[:update][:child]
+        if params[:update] and %w(true false).include?(params[:update][:child])
           @update.child = (params[:update][:child] == 'true')
-        elsif @update.birthday.nil?
+        elsif @update.birthday and @update.birthday.year == 1800
           flash[:warning] = t('people.child_alert', :years => Setting.get(:system, :adult_age))
           redirect_to administration_updates_path
           return

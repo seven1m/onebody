@@ -124,27 +124,37 @@ class PersonTest < ActiveSupport::TestCase
 
   context 'Updates' do
 
-    should "create an update" do
-      tim = {
-        'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
-        'family' => partial_fixture('families', 'morgan', %w(name last_name home_phone address1 address2 city state zip))
-      }
+    context 'Dates' do
 
-      (tim_change_first_name = tim.clone)['person']['first_name'] = 'Timothy'
-      update = Update.create_from_params(tim_change_first_name, people(:tim))
-      assert_equal 'Timothy', update.first_name
-      assert_equal '04/28/1981', update.birthday.strftime('%m/%d/%Y')
-      assert_equal '08/11/2001', update.anniversary.strftime('%m/%d/%Y')
+      setup do
+        @tim = {
+          'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
+          'family' => partial_fixture('families', 'morgan', %w(name last_name home_phone address1 address2 city state zip))
+        }
+      end
 
-      (tim_change_birthday = tim.clone)['person']['birthday'] = '06/24/1980'
-      update = Update.create_from_params(tim_change_birthday, people(:tim))
-      assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
-      assert_equal '08/11/2001', update.anniversary.strftime('%m/%d/%Y')
+      should "create an update with no dates changed" do
+        @tim['person']['first_name'] = 'Timothy'
+        update = Update.create_from_params(@tim, people(:tim))
+        assert_equal 'Timothy', update.first_name
+        assert_equal nil, update.birthday
+        assert_equal nil, update.anniversary
+      end
 
-      (tim_remove_anniversary = tim.clone)['person']['anniversary'] = ''
-      update = Update.create_from_params(tim_remove_anniversary, people(:tim))
-      assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
-      assert_equal nil,          update.anniversary
+      should "create an update with one date changed" do
+        @tim['person']['birthday'] = '06/24/1980'
+        update = Update.create_from_params(@tim, people(:tim))
+        assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
+        assert_equal nil, update.anniversary
+      end
+
+      should "create an update with a date removed" do
+        @tim['person']['anniversary'] = ''
+        update = Update.create_from_params(@tim, people(:tim))
+        assert_equal nil, update.birthday
+        assert_equal '01/01/1800', update.anniversary.strftime('%m/%d/%Y')
+      end
+
     end
 
     should "update the email address without creating an update" do
