@@ -171,6 +171,6 @@ class PeopleControllerTest < ActionController::TestCase
       get :show, {:id => @person.id}, {:logged_in_id => @admin.id}
     end
     assert_response :success
-    assert_select 'div.warning', I18n.t('people.no_family_for_this_person')
+    assert_select 'div.alert', I18n.t('people.no_family_for_this_person')
   end
 end
