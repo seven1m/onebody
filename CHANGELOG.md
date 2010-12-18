@@ -6,6 +6,12 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+2.0.0 Final / TBD
+-----------------
+
+* Fix missing link to group attendance page.
+* Fix handling of dates in profile updates.
+
 2.0.0 Beta 2 / December 17, 2010
 --------------------------------
 
