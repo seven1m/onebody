@@ -512,7 +512,7 @@ pt:
           description: URL para o site principal (visitantes será direcionados para cá se eles tentarem visitar a parte de membros)
       System: 
         Suffixes: 
-          name: Suffixes
+          name: Sufixos
           description: ""
         Adult Age: 
           name: Idade Adulta
@@ -677,35 +677,35 @@ pt:
         Share Birthday by Default:
           name: Compartilhar Aniversário por Padrão
           description: Se habilitado, novos usuários terão a sua data de nascimento compartilhada com outros membros do site.
-      contact_automated_email_about: "These email addresses are sent email when certain things happen on the site. You can set them all to the same address or to different ones, depending on separation of duties in your community."
-      contact_community_info_about: "Enter contact information for your church or community office, where people can contact administrative staff."
-      contact_heading: Contact Information
-      disabled: Disabled
-      enabled: Enabled
-      features_heading: Software Features
-      features_prayer_event_about: "The following settings allow this site to manage signups and availability for a Prayer Event."
-      formats_heading: Formats
-      formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
-      formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
-      locale_heading: Locale
-      membership_management_heading: Membership Management
-      name_heading: Community Name
-      one_per_line: "(one per line)"
+      contact_automated_email_about: "Estes emails são enviados quando certas coisas acontecem no site. Você pode configurar todos eles para o mesmo endereço de email ou para endereços diferentes, dependendo da separação de tarefas na sua comunidade."
+      contact_community_info_about: "Insira as informações de contato do escritório da sua igreja ou comunidade, na qual as pessoas possam entrar em contato com o time administrativo."
+      contact_heading: Informação de Contato
+      disabled: Desabilitado
+      enabled: Habilitado
+      features_heading: Características do Software
+      features_prayer_event_about: "As seguintes configurações permitem que este site gerencie inscrições e disponibilidade para Eventos de Oração."
+      formats_heading: Formatos
+      formats_date_about_html: "Insire o seu próprio formato de data e hora de acordo com o seu país. Veja <a href=\"/date_formatting_options.txt\" target=\"_new\">aqui</a> para opções de formatação."
+      formats_phone_about: "Configure o formato dos telefones com o a letra 'd', ex: ddd-ddd-dddd ou (dd) dddd-dddd, dependendo da sua localidade."
+      locale_heading: Localização
+      membership_management_heading: Gerenciamento de Membros
+      name_heading: Nome da Comunidade
+      one_per_line: "(um por linha)"
       privacy_defaults: Configurações de Privacidade Padrão
-      privacy_defaults_about: "When a member's account is first created, the following privacy settings are applied to their information. (Members can still choose to show or hide any of their information at any time, regardless of the settings below.)"
-      privacy_heading: Privacy Controls
-      reload: Reload Settings
-      reload_message: If you have made modifications to the system from the command line, you may need to reload all settings to see the changes take effect.
-      save: Save Settings
-      services_heading: External Services
-      settings: Settings
-      sharing_about: OneBody is best when members participate by adding their own content. Enable content sharing with these settings.
-      sharing_communications_about: Share information with your members easily.
-      sharing_heading: Sharing
+      privacy_defaults_about: "Quando uma conta de membro é criada, as seguintes configurações de privacidade são aplicadas para as suas informações. (Membros ainda podem escolher exibir ou ocultar as suas informações a qualquer momento, independentemente da configuração abaixo.)"
+      privacy_heading: Controles de Privacidade
+      reload: Recarregar Configurações
+      reload_message: Se você fez modificações no sistema via linha de comando, você talvez precise recarregar todas as configurações para que as mudanças tenham efeito.
+      save: Salvar Configurações
+      services_heading: Serviços Externos
+      settings: Configurações
+      sharing_about: O OneBody fica melhor quando os membros participam, adicionando os seus próprios conteúdos. Habilite o compartilhamento de conteúdo com esta configuração.
+      sharing_communications_about: Compartilhe informações com os seus membros facilmente.
+      sharing_heading: Compartilhamento
     styles:
-      editor: Style Editor
+      editor: Editor de Estilos
     super_admin: Super Admin
-    super_admin_about: Super Admins have full control over the site, with all available privileges. Be careful who you give this to — it could be dangerous!
+    super_admin_about: Super Admins possuem total controle no site, com todos os privilégios disponíveis. Tenha cuidado com quem possue isto - pode ser perigoso!
     syncs:
       complete: Completado
       duration: Duração
@@ -863,6 +863,7 @@ pt:
 
   attendance:
     add_somebody_not_in_group: Adicionar alguém que não faz parte do grupo
+    add_visitor: Adicionar um visitante.
     adult: Adulto
     attendance: Frequência
     class_time: Horário
@@ -1046,13 +1047,13 @@ pt:
   groups:
     accept: Aceitar
     add_somebody: Adicionar alguém
-    address_hint: Give your group a unique email address so messages can be sent easily.
-    advanced: Advanced
+    address_hint: Dê ao seu grupo um endereço de email para que as mensagens sejam enviadas facilmente.
+    advanced: Avançado
     approval_required_to_join: Uma aprovação é requerida para pessoas entrarem neste grupo
     approve_group: Aprovar Grupo
     are_you_sure_option: Você tem certeza que deseja %{option} os emails deste grupo %{group}?
     attendance: Frequência
-    back_to_group: "Back to %{name}"
+    back_to_group: "Voltar para %{name}"
     back_to_homepage: Voltar à Página Inicial do Grupo
     batch_edit_groups: Editar Grupos em Lote
     browse_by_category: Procurar por uma Categoria
@@ -1060,16 +1061,16 @@ pt:
     calendar_help: No seu Calendário do Google, nas Configurações de Calendário, copie o seu Link de XML "Privado" e cole nesta caixa de textos para mostrar o calendário na página do grupo.
     calendar_private_link: Link Privado do Calendário do Google
     campaign_monitor_sync: "Campaign Monitor API List ID:"
-    campaign_monitor_sync_help: To sync with a Campaign Monitor subscriber list, paste the API List ID here.
-    campaign_monitor_policy_html: 'You must follow all policies of Campaign Monitor, including <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.'
+    campaign_monitor_sync_help: Para sincronizar com a lista de assinantes do Campaign Monitor, cole o ID de Lista API aqui.
+    campaign_monitor_policy_html: 'Você deve seguir todas as políticas do Campaign Monitor, incluindo os <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">requerimentos de permissões</a>.'
     cannot_remove_last_admin: Você não pode remover o último administrador do grupo. Você pode deletar o grupo se preferir.
     category: Categoria
-    category_hint: Make your group easy to find by placing it an appropriate category.
+    category_hint: Torne o seu grupo mais fácil de ser encontrado colocando-o numa categoria apropriada.
     category_required: Categoria (requerido)
     change_email_settings: Mudar Configurações de Email
     change_this_picture: Mudar esta Foto
     class_link_code: "Código(s) de Classe do Link:"
-    class_link_code_hint_html: 'Useful for syncing with external systems. See <a href="https://github.com/seven1m/onebody/wiki/HowGroupMembershipWorks">here</a>. Separate multiple codes with a space.'
+    class_link_code_hint_html: 'Útil para a sincronização com sistemas externos. Veja <a href="https://github.com/seven1m/onebody/wiki/HowGroupMembershipWorks">aqui</a>. Separe múltiplos códigos com um espaço.'
     click_save_changes_to_upload: Clique em "Salvar Mudanças" no final deste formulário para carregar uma nova foto.
     configure_email_from_group: configure um email para este grupo
     create_a_group: Crie um Grupo
@@ -1081,21 +1082,21 @@ pt:
     deleted: Grupo deletado.
     demote: Rebaixar
     description: Descrição
-    description_hint: "Enter a sentence or two to give people an idea of why you meet and of your group's goals."
+    description_hint: "Insira uma frase ou duas para dar às pessoas uma idéia sobre o porquê vocês se reunem e qual o objetivo do seu grupo."
     directions: Direções
-    directions_hint: You may want to include travel directions.
-    done_removing_people: Done.
+    directions_hint: Você pode incluir direções para trajeto.
+    done_removing_people: Feito.
     edit_group: Editar Grupo
-    edit_members: Edit Group Members
+    edit_members: Editar Membros do Grupo
     email_from_group_is_on: emails deste grupo estão LIGADOS
     email_from_group_is_off: emails deste grupo estão DESLIGADOS
     email_off: desligado
     email_on: ligado
     email_settings_changed: As suas configurações de email para o grupo foram alteradas.
     enable_attendance_tracking: Habilitar Registro de Presença
-    enable_calendar: Enable Calendar
+    enable_calendar: Habilitar Calendário
     enable_email: Habilitar Email
-    enable_pictures: Enable Pictures
+    enable_pictures: Habilitar Fotos
     enable_prayer_requests: Habilitar Pedidos de Oração
     features: Características
     following_are_pending_approval:
@@ -1106,7 +1107,7 @@ pt:
     groupies: Grupos
     hidden_group: Grupo Oculto
     hidden_groups: Grupos Ocultos
-    i_agree: I Agree
+    i_agree: Eu concordo
     if_cant_find_create_it: Se você não consegue encontrar o grupo que está procurando, crie-o!
     if_checked_message_only_to_members: Se checado, a mensagem será somente visível aos membros do grupo.
     if_ok_you_will_stop_receiving: Se você clicar OK, você não irá mais receber emails deste grupo.
@@ -1118,13 +1119,13 @@ pt:
     leader_id: Id do Líder
     leave_this_group: Deixar este Grupo
     linked: Grupos Conectados
-    linked_membership: (linked)
+    linked_membership: (linkado)
     location_address: Local e Endereço
-    location_address_hint: If you enter a physical address, an interactive map will be displayed on your group page.
+    location_address_hint: Se você inserir um endereço real, um mapa interativo será exibido na página do grupo.
     meets: Encontros
     meets_when: Quando o grupo se encontra
-    meets_when_hint: 'Something like "Wednesdays at 7pm" or "As Announced"'
-    members: Group Members
+    meets_when_hint: 'Algo como "Quarta-Feira às 19:00" ou "Como anúnciado"'
+    members: Membros do Grupo
     members_send: Membros Enviam
     must_specify_ids_list: Você precisa digitar uma lista de ids.
     name_required: Nome (requerido)
@@ -1134,33 +1135,33 @@ pt:
     not_authorized_view: Você não está autorizado a visualizar este grupo
     not_authorized_post: Você não está autorizado a postar neste grupo.
     not_found: Grupo não encontrado.
-    no_activity_yet: "This group hasn't had any activity yet."
+    no_activity_yet: "Este grupo ainda não contém nenhuma atividade."
     no_groups_found: nenhum grupo encontrado
     only_admins_see_this_list: Somente administradores (como você) enxergam esta lista
     or_send_from_your_email_html: "Ou envie para <a href='mailto:%{email}'>%{email}</a> do seu programa de email."
     other_notes: Outras Notas
     parents_of: "Pais de:"
-    parents_of_hint: "Membership will be auto-generated from parents of selected group's members."
+    parents_of_hint: "A membresia será gerada automaticamente com os pais dos membros do grupo selecionado."
     pending_approval_count:
       one: "%{count} grupo pendente de aprovação"
       other: "%{count} grupos pendentes de aprovação"
     membership_request_count:
       one: "%{count} requisição de associação pendente"
       other: "%{count} requisições de associação pendentes"
-    people_in_group: "People In %{name}"
-    picture: Group Picture
-    picture_hint: Use a group shot or a clip-art graphic to help people recognize your group on this site.
+    people_in_group: "Pessoas No %{name}"
+    picture: Foto do Grupo
+    picture_hint: Use uma foto do grupo ou um desenho para ajudar as pessoas a reconhecer o seu grupo no site.
     privacy_security: Privacidade e Segurança
     private_group: Grupo Privado
     promote: Promover
     remove_group_photo: Remover Foto do Grupo
-    remove_people: Remove People
+    remove_people: Remover Pessoas
     requests: Requisições
     request_sent: Uma requisição para entrar neste grupo foi enviada ao(s) administrador(es) do grupo.
     request_will_be_sent_to_admins: Você tem certeza? Uma requisição será enviada ao(s) administrador(es) do grupo.
     settings_saved: Configurações do grupo foram salvar.
     scroll_left_and_right: Arraste para esquerda e direita para visualizar todas as colunas.
-    search: Group Search
+    search: Buscar Grupos
     search_for_a_group: Procurar por um Grupo
     select_one_or_more: Selecione uma ou mais opções abaixo e escolha uma ação
     show_all: Mostrar todos...
@@ -1173,10 +1174,10 @@ pt:
     this_group_is_private: Este grupo é particular. Somente pessoas participantes podem visualizar as mensagens.
     this_group_maintained_by_staff: Este grupo é mantido pelo staff.
     types: Tipos de Grupos
-    unmapable_address: "This does not resemble a physical address; no map will be shown."
+    unmapable_address: "Isto não aparenta ser um endereço real; nenhum mapa será exibido."
     user_settings_saved: Configurações de usuário salvas.
     view_group: Visualizar Grupo
-    view_members: View Group Member Details
+    view_members: Visualizar Detalhes dos Membros do Grupo
     yes_do_it: Sim, faça.
     you_are_to_remove_yourself: Você irá remover você mesmo deste grupo! Você não conseguirá editá-lo mais se fizer isto
     you_requested_join_this_group: Você fez um pedido para entrar neste grupo.
@@ -1399,12 +1400,12 @@ pt:
     edit:
       about: Sobre
       basics: Dados Básicos
-      child_hint: If no birthday is specified, you must indicate whether this is a child or an adult.
-      description_hint: "A word or two about yourself — maybe your profession?"
+      child_hint: Se o aniversário não for inserido, você deve indicar se esta pessoa é uma criança ou um adulto.
+      description_hint: "Uma palavra ou duas sobre você - talvez a sua profissão?"
       email: Alterar Configurações de Email
       family_photo: Foto de Família
       password: Alterar Senha
-      person_type_hint: These do not control access — only designation.
+      person_type_hint: Isto não controla o acesso - somente a nomeação.
       photo: Foto do Perfil
       privacy: Alterar Configurações de Privacidade
       profile: Editar Perfil
@@ -1546,6 +1547,8 @@ pt:
 
   prayer_signups:
     add_somebody: Adicionar alguém
+    home_page_heading: Inscreva-se para orar.
+    home_page_link: Inscreva-se aqui para orar.
     misconfigured: Esta característica não está configurada corretamente. Verifique se as datas estão configuradas corretamente.
     other_name: Ou, outra pessoa
     other_name_note: Somente digite um nome para alguém que não está cadastrado no banco de dados.
@@ -1597,7 +1600,7 @@ pt:
     mobile_phone: Celular
     modify_the_privacy_settings_html: Modifique as configurações de privacidade para você e a sua família abaixo. Para entender como nós usamos as suas informações pessoais e da sua família, por favor leia a nossa <a href="%{url}">Política de Privacidade</a>.
     please_read_our_privacy_policy_html: Por favor leia a nossa <a href="%{url}">Política de Privacidade</a> para detalhes sobre o uso de suas informações pessoais.
-    people_can_still_send_html: "You can still receive email through the site, without revealing your email address on the Web."
+    people_can_still_send_html: "Você ainda poderá receber emails através do site sem revelar o seu endereço de email na Internet."
     privacy: Privacidade
     private: Particular
     read_privacy_policy_html: Leia a nossa <a href="%{url}">Política de Privacidade</a>.
@@ -1610,7 +1613,7 @@ pt:
     this: esta
     to_show_on_this_site: "Para mostrar o %{name} neste site, por favor:"
     visible: Visível
-    visible_note: Setting a profile to be invisible will cause you to not appear in any directory searches. You can still join groups and receive group email and email from site administrators though.
+    visible_note: Ao configurar um perfil como invisível fará com que ele não apareça em nenhuma busca no diretório. Você ainda poderá participar de grupos e receber emails dos grupos e administradores do site.
     work_phone: Telefone Comercial
     you_are_not_sharing_with_groups: Você não está compartilhando o seu %{sharing} com nenhum grupo específico.
     you_are_sharing_with_groups: "Você está compartilhando o seu %{sharing} com os seguintes grupos:"
@@ -1720,7 +1723,7 @@ pt:
       one: 1 pessoa encontrada
       other: "%{count} pessoas encontradas"
     printed_directory: "Diretório Impresso"
-    search: Busca
+    search: Busca no Diretório
     search_by_name: Busca por nome
     searching: Procurando...
     show_all: (mostrar todos)
@@ -1804,6 +1807,7 @@ pt:
     primary_color: Cor Primária
     secondary_color: Cor Secundária
     top_color: Cor da Barra Superior
+    nav_color: Car da Barra de Navegação
 
   tags: 
     add_tags: "Adicionar Tags (separadas por espaços)"
