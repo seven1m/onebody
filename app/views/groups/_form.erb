@@ -74,7 +74,7 @@
 
     <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, t('groups.enable_attendance_tracking'), :class => 'inline' %><br/>
 
-    <%= check_box_tag :calendar, nil, false, :class => 'checkbox', :onclick => 'toggleCalendarField()' %>
+    <%= check_box_tag :calendar, nil, @group.gcal_private_link.to_s.any?, :class => 'checkbox', :onclick => 'toggleCalendarField()' %>
     <%= label_tag  :calendar, t('groups.enable_calendar'), :class => 'inline' %><br/>
 
     <span id="group_calendar_field">

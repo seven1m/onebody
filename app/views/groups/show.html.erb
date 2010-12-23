@@ -100,7 +100,7 @@
 
 <% if @show_cal %>
   <div id="cal-container">
-    <iframe src="<%= @group.gcal_url %>" style="border: 0" width="600" height="400" frameborder="0"></iframe>
+    <iframe src="<%=raw @group.gcal_url %>" style="border: 0" width="600" height="400" frameborder="0"></iframe>
   </div>
 <% end %>
 
