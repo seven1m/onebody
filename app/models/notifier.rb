@@ -93,11 +93,11 @@ class Notifier < ActionMailer::Base
   end
 
   # used for auto-generated responses
-  def simple_message(t, s, b, f=Site.current.noreply_email)
+  def simple_message(t, s, b, f=nil)
     headers 'Auto-Submitted' => 'auto-replied'
     mail(
       :to      => t,
-      :from    => f,
+      :from    => f || Site.current.noreply_email,
       :subject => s
     ) do |format|
       format.text { render :text => b }
