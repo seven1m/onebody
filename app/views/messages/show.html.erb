@@ -32,23 +32,9 @@
       <%= t('messages.reply_by') %> <%= link_to reply.person.name, reply.person %><br/>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>
-    <p>
-      <% if reply.html_body.to_s.any? %>
-        <%= render_message_html_body(reply.html_body) %>
-      <% elsif params[:show_quoted] %>
-        <%= render_message_text_body(reply.body) %>
-      <% else %>
-        <%= html = render_message_text_body(reply.body, :hide_bulk_quoting) %>
-        <% if html != render_message_text_body(reply.body) %>
-          <br/>
-          <em style="color:#009;">
-            <%= t('messages.some_quoted_text_is_hidden') %>
-            <%= link_to t('click_here'), :show_quoted => true %>
-            <%= t('messages.to_show_the_entire_message') %>
-          </em>
-        <% end %>
-      <% end %>
-    </p>
+    <div>
+      <%= render_message_body(reply) %>
+    </div>
     <%= render :partial => 'attachments', :locals => {:message => reply} %>
   </div>
 <% end %>
