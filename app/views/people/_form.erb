@@ -38,7 +38,8 @@
     <div id="child-selection">
       <%= form.label :child, t('people.child') %>
       <div class="form-field-hint"><%= t('people.edit.child_hint') %></div>
-      <%= form.select :child, [[t('people.determine_by_birthday'), nil], [t('Answer_yes'), true], [t('Answer_no'), false]] %><br/>  
+      <%# Following uses select_tag (rather than form.select) because the value was not being selected properly as a form.select -- don't know why %>
+      <%= select_tag "person[child]", options_for_select([[t('people.determine_by_birthday'), nil], [t('Answer_yes'), true], [t('Answer_no'), false]], @person.child), :id => "person_child" %><br/>  
     </div>
   <% end %>
 
