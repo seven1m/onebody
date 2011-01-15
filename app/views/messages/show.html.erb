@@ -19,6 +19,7 @@
 
 <%= render_message_body(@message) %>
 
+<br/><br/>
 <%= render :partial => 'attachments', :locals => {:message => @message} %>
 
 <% @message.children.each do |reply| %>
