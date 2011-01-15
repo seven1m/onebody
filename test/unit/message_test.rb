@@ -41,4 +41,15 @@ class MessageTest < ActiveSupport::TestCase
     assert @second_person.can_see?(@message)
     assert !@third_person.can_see?(@message)
   end
+
+  should 'allow a message without body if it has an html body' do
+    @message = Message.create(:subject => 'foo', :html_body => 'bar', :person => @person, :group => @group)
+    assert @message.valid?
+  end
+
+  should 'be invalid if no body or html body' do
+    @message = Message.create(:subject => 'foo', :person => @person, :group => @group)
+    assert !@message.valid?
+    assert @message.errors[:body].any?
+  end
 end
