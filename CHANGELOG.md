@@ -6,11 +6,22 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
-2.0.0 Final / TBD
------------------
+2.0.0 Final / January 26, 2011
+------------------------------
 
+* Relaxed html sanitization.
+* Remove tag name restrictions.
+* Fix reference to wrong gemset in .rvmrc.
+* Fix message creation where body is blank.
+* Fix missing attachment field on group email form.
+* Fix child-select field when editing a profile.
+* Fix bug with birthday verification email.
+* Fix bug with some auto-reply email.
+* Fix group calendar bug.
+* Fix attendance page appearance.
 * Fix missing link to group attendance page.
 * Fix handling of dates in profile updates.
+* Fix all broken unit and functional tests.
 
 2.0.0 Beta 2 / December 17, 2010
 --------------------------------
