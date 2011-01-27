@@ -6,7 +6,6 @@ class Tag < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :site_id
-  validates_exclusion_of :name, :in => %w(edit new delete destroy create update index)
 
   scope_by_site_id
 
