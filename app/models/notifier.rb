@@ -136,7 +136,7 @@ class Notifier < ActionMailer::Base
     @notes    = notes
     mail(
       :to      => Setting.get(:contact, :birthday_verification_email),
-      :from    => params[:email],
+      :from    => email,
       :subject => "Birthday Verification"
     )
   end
