@@ -12,7 +12,7 @@ class PcSyncsController < ApplicationController
         if Site.current.external_guid == @guid
           if params[:onebodysync]
             filename = File.join(sync_dir, "#{@guid}-#{Time.now.to_f.to_s}.zip")
-            FileUtils.cp(params[:onebodysync].path, filename)
+            FileUtils.cp(params[:onebodysync].tempfile.path, filename)
             render :text => 'Process Complete'
           elsif params[:new_guid]
             @sync = Sync.new(:started_at => Time.now)

@@ -57,7 +57,7 @@
   <% end %>
 
   <% if @logged_in.admin?(:manage_sync) and @last_sync %>
-    <%= metric administration_syncs_path, @last_sync.error_count, 1, 10 do %>
+    <%= metric administration_syncs_path, @last_sync.error_count || 0, 1, 10 do %>
       <%= t('admin.syncs.sync_errors', :count => @last_sync.error_count) %>
     <% end %>
   <% end %>
