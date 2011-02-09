@@ -1,0 +1,9 @@
+<% content_for :sidebar do %>
+  <p><%= link_to t('groups.back_to_group', :name => @group.name), @group, :class => 'left-icon' %></p>
+<% end %>
+
+<table class="members" id="memberships">
+  <% @people.each do |person| %>
+    <%= render :partial => 'person_birthday', :locals => {:person => person} %>
+  <% end %>
+</table>

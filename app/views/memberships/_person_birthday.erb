@@ -1,0 +1,16 @@
+<%= content_tag :tr, :id => "person#{person.id}" do %>
+  <td class="icon">
+    <a href="<%= url_for person %>">
+      <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+    </a>
+  </td>
+  <td class="name">
+    <%= link_to person.name, person %>
+    <% if @group.admin?(person, :exclude_global_admins) %>
+      <span class="discreet"><%= t('admin.admin') %></span>
+    <% end %>
+  </td>
+  <td class="birthday">
+    <%= person.birthday.strftime('%B %d') %>
+  </td>
+<% end %>

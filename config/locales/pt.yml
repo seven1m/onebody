@@ -1056,6 +1056,7 @@ pt:
     back_to_group: "Voltar para %{name}"
     back_to_homepage: Voltar à Página Inicial do Grupo
     batch_edit_groups: Editar Grupos em Lote
+    birthdays: Aniversários
     browse_by_category: Procurar por uma Categoria
     by_allow_anyone_to_join: Ao permitir que qualquer um entre neste grupo sem que um administrador aprove, potencialmente qualquer usuário do site pode ler mensagens no grupo "privado".
     calendar_help: No seu Calendário do Google, nas Configurações de Calendário, copie o seu Link de XML "Privado" e cole nesta caixa de textos para mostrar o calendário na página do grupo.

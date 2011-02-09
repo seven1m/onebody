@@ -38,6 +38,12 @@
     </p>
   <% end %>
 
+  <% if @logged_in.can_edit?(@group) %>
+    <p>
+      <%= link_to t('groups.birthdays'), birthdays_group_memberships_path(@group), :class => 'people-icon' %>
+    </p>
+  <% end %>
+
   <% cache(:fragment => 'members') do %>
     <h3><%= t('groups.members') %></h3>
     <% @members.each do |member| %>

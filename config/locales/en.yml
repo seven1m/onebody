@@ -1056,6 +1056,7 @@ en:
     back_to_group: "Back to %{name}"
     back_to_homepage: "Back to Your Groups"
     batch_edit_groups: Batch Edit Groups
+    birthdays: Birthdays
     browse_by_category: Browse by Category
     by_allow_anyone_to_join: By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.
     calendar_help: In your Google Calendar, in Calendar Settings, copy your "Private" XML Link and paste in this box to display your calendar on the group page.

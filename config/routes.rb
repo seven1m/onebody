@@ -79,6 +79,7 @@ OneBody::Application.routes.draw do
     end
     resources :memberships do
       collection do
+        get    :birthdays
         post   :batch
         delete :batch
       end
