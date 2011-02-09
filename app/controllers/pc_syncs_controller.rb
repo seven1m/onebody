@@ -21,7 +21,7 @@ class PcSyncsController < ApplicationController
             site = Site.current
             site.external_guid = Digest::SHA1.hexdigest("#{site.id}-#{@sync.created_at}-#{@sync.person.api_key}")
             site.save!
-            system("#{File.expand_path("#{Rails.root}/script/runner")} -e #{Rails.env} \"Site.current = Site.find(#{Site.current.id}); Sync.find(#{@sync.id}).do_pc_sync('#{@guid}')\" &")
+            system("#{File.expand_path("#{Rails.root}/script/rails runner")} -e #{Rails.env} \"Site.current = Site.find(#{Site.current.id}); Sync.find(#{@sync.id}).do_pc_sync('#{@guid}')\" &")
             render :text => "NEW PC_GUID = #{site.external_guid}"
           end
         else
