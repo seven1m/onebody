@@ -6,6 +6,13 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+2.0.1 / February 8, 2011
+------------------------
+
+* Upgraded to Rails 3.0.4 to fix multiple security vulnerabilities.
+* Fix bug showing help when no users are present in the db.
+* Partial fix for bug syncing with PowerChurch.
+
 2.0.0 Final / January 26, 2011
 ------------------------------
 
