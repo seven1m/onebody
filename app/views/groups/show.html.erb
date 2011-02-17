@@ -58,7 +58,8 @@
 
   <p class="margin-top">
     <% if @logged_in.can_edit?(@group) %>
-      <%= link_to t('groups.edit_members'), group_memberships_path(@group), :class => 'edit-icon discreet' %>
+      <%= link_to t('groups.edit_members'), group_memberships_path(@group), :class => 'edit-icon discreet' %><br/>
+      <%= link_to t('groups.edit_group'), edit_group_path(@group), :class => 'edit-icon discreet' %>
     <% else %>
       <%= link_to t('groups.view_members'), group_memberships_path(@group), :class => 'discreet' %>
     <% end %>
