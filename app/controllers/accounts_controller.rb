@@ -108,6 +108,7 @@ class AccountsController < ApplicationController
         end
       else
         flash[:warning] = t('accounts.mobile_number_not_found')
+        @person = Person.new
         render :action => 'new'
       end
     end
@@ -118,6 +119,7 @@ class AccountsController < ApplicationController
         render :text => t('accounts.submission_will_be_reviewed'), :layout => true
       else
         flash[:warning] = t('accounts.fill_required_fields')
+        @person = Person.new
         render :action => 'new'
       end
     end
