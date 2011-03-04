@@ -13,7 +13,7 @@ PAPERCLIP_PHOTO_OPTIONS = {
 }
 
 PAPERCLIP_PHOTO_MAX_SIZE = 5.megabytes
-PAPERCLIP_PHOTO_CONTENT_TYPES = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'images/x-png']
+PAPERCLIP_PHOTO_CONTENT_TYPES = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'image/x-png']
 
 PAPERCLIP_FILE_OPTIONS = {
   :path          => ":rails_root/public/system/:rails_env/:class/:attachment/:id/:fingerprint.:extension",
