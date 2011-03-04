@@ -10,7 +10,13 @@ class PhotosController < ApplicationController
     if @logged_in.can_edit?(@object)
       if params[:photo]
         @object.photo = params[:photo]
-        @object.save(:validate => false)
+        # annoying to users if changing their photo fails due to some other unrelated validation failure
+        # this is a total hack
+        if @object.valid? or @object.errors.select { |a, e| a == :photo_content_type }.empty?
+          @object.save(:validate => false)
+        else
+          flash[:warning] = @object.errors.full_messages.join('; ')
+        end
       end
       redirect_back
     else

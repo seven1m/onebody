@@ -19,6 +19,13 @@ class PhotosControllerTest < ActionController::TestCase
     assert_response :error
   end
 
+  should "not update a photo with invalid content type" do
+    post :update, {:family_id => @person.family.id, :photo => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.bmp'), 'image/bmp', true)},
+      {:logged_in_id => @person.id}
+    assert_response :redirect
+    assert flash[:warning]
+  end
+
   should "delete a photo" do
     post :destroy, {:family_id => @person.family.id}, {:logged_in_id => @person.id}
     assert_response :redirect
