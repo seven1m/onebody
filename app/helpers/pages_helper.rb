@@ -6,10 +6,6 @@ module PagesHelper
     end
   end
 
-  def page_path(page)
-    page_for_public_path(page.path)
-  end
-
   def home_path
     if @logged_in and @logged_in.admin?(:edit_pages)
       page_path(Page.find_by_path('home'))
