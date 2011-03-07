@@ -17,7 +17,7 @@ class Setting < ActiveRecord::Base
     v = read_attribute(:value)
     case self['format'] # self.format causes a NoMethodError outside the Rails env
       when 'boolean'
-        ![0, '0', 'f'].include?(v)
+        ![0, '0', 'f', false].include?(v)
       when 'list'
         v.is_a?(Array) ? v : v.to_s.split(/\n/)
       else
