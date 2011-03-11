@@ -2,8 +2,8 @@
   <%= image_tag person.photo.url(:tn), :alt => person.name, :class => 'icon thumbnail' %>
 <% else %>
   <% if person and person.gender.to_s == 'Female' %>
-    <%= image_tag 'clean/womanoutline.tn.png', :alt => person.name, :class => 'icon thumbnail' %>
+    <%= image_tag 'clean/womanoutline.tn.png', :alt => person.try(:name), :class => 'icon thumbnail' %>
   <% else %>
-    <%= image_tag 'clean/manoutline.tn.png', :alt => person.name, :class => 'icon thumbnail' %>
+    <%= image_tag 'clean/manoutline.tn.png', :alt => person.try(:name), :class => 'icon thumbnail' %>
   <% end %>
 <% end %>

@@ -5,7 +5,9 @@
     <a href="<%= url_for @message.person %>">
       <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
     </a>
-    <%= t('messages.message_by') %> <%= link_to @message.person.name, @message.person %>
+    <% if @message.person %>
+      <%= t('messages.message_by') %> <%= link_to @message.person.name, @message.person %>
+    <% end %>
   </p>
 
   <p>
@@ -30,7 +32,9 @@
           <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
         </a>
       </div>
-      <%= t('messages.reply_by') %> <%= link_to reply.person.name, reply.person %><br/>
+      <% if reply.person %>
+        <%= t('messages.reply_by') %> <%= link_to reply.person.name, reply.person %><br/>
+      <% end %>
       <%= reply.created_at.strftime '%B %d, %Y %I:%M %p' %>
     </div>
     <div>

@@ -1,6 +1,6 @@
 <% content_for :sidebar do %>
   <p><%= link_to t('groups.back_to_group', :name => @req.group.name), @req.group, :class => 'left-icon' %></p>
-  <p><%= t('prayer.submitted_by', :group_name => @req.group.name, :person_name => @req.person.name, :date => @req.created_at.to_s(:date)) %></p>
+  <p><%= t('prayer.submitted_by', :group_name => @req.group.name, :person_name => @req.person.try(:name) || '?', :date => @req.created_at.to_s(:date)) %></p>
   <% if @req.answered_at %>
     <p><%= t('prayer.answered_on', :date => @req.answered_at.to_s(:date)) %>
   <% end %>
