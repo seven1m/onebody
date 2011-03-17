@@ -22,7 +22,7 @@ class StreamItem < ActiveRecord::Base
   def expire_caches
     if %w(NewsItem Publication).include?(streamable_type)
       ActionController::Base.cache_store.delete_matched(%r{stream\?for=\d+&fragment=stream_items})
-    else
+    elsif person
       ids = [person_id] + person.all_friend_and_groupy_ids
       ActionController::Base.cache_store.delete_matched(%r{stream\?for=(#{ids.join('|')})&fragment=stream_items})
     end
