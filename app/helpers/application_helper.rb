@@ -285,6 +285,10 @@ module ApplicationHelper
     controller.params_without_action
   end
 
+  def datepicker_format
+    Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yy' : 'mm/dd/yy'
+  end
+
   class << self
     include ApplicationHelper
   end

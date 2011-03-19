@@ -13,4 +13,16 @@ class Date
     end
     {:years => years, :months => months, :days => days}
   end
+
+  def self.parse_in_locale(string)
+    begin
+      strptime(string, Setting.get(:formats, :date))
+    rescue ArgumentError
+      begin
+        parse(string) # fallback
+      rescue ArgumentError
+        nil
+      end
+    end
+  end
 end

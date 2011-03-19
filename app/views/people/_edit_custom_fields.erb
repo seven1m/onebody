@@ -6,7 +6,7 @@
     <% if field =~ /[Dd]ate/ %>
       <%= date_field_tag "person[custom_fields][#{index}]", @person.custom_fields[index], :id => "person_custom_field_#{index}"  %>
       <script type="text/javascript">
-        $('#person_custom_field_<%= index %>').datepicker({changeYear:true, yearRange:'1900:2025'});
+        $('#person_custom_field_<%= index %>').datepicker({changeYear:true, yearRange:'1900:2025', dateFormat:'<%= datepicker_format %>'});
       </script>
     <% else %>
       <%= text_field_tag "person[custom_fields][#{index}]", @person.custom_fields[index], :id => "person_custom_field_#{index}"  %>

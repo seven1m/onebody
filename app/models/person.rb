@@ -269,6 +269,9 @@ class Person < ActiveRecord::Base
   end
 
   def birthday=(b)
+    unless Date === b
+      b = Date.parse_in_locale(b.to_s)
+    end
     write_attribute(:birthday, b)
     if y = years_of_age
       self.child = nil

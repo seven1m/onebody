@@ -35,4 +35,30 @@ class AccountsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  should "create account with birthday in american date format" do
+    Setting.set(1, 'Features', 'Sign Up', true)
+    Setting.set(1, 'Formats', 'Date', '%m/%d/%Y')
+    post :create, {:person => {:email      => 'bob@example.com',
+                               :first_name => 'Bob',
+                               :last_name  => 'Morgan',
+                               :gender     => 'Male',
+                               :birthday   => '01/02/1980'}}
+    assert_response :success
+    assert bob = Person.find_by_email('bob@example.com')
+    assert_equal '01/02/1980', bob.birthday.strftime('%m/%d/%Y')
+  end
+
+  should "create account with birthday in european date format" do
+    Setting.set(1, 'Features', 'Sign Up', true)
+    Setting.set(1, 'Formats', 'Date', '%d/%m/%Y')
+    post :create, {:person => {:email      => 'bob@example.com',
+                               :first_name => 'Bob',
+                               :last_name  => 'Morgan',
+                               :gender     => 'Male',
+                               :birthday   => '02/01/1980'}}
+    assert_response :success
+    assert bob = Person.find_by_email('bob@example.com')
+    assert_equal 'Jan 02, 1980', bob.birthday.strftime('%b %d, %Y')
+  end
+
 end
