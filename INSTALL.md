@@ -133,6 +133,10 @@ _Don't forget to point a DNS MX record at your server's IP address for incoming 
 
 **Backup your MySQL database and your `db` directory first!**
 
+### Upgrade Notes
+
+Check the Google Group for details on specific releases. I try to send a message whenever I run into notable issues.
+
 There are a few different ways to upgrade your existing OneBody install, depending on how you installed the software originally...
 
 ### I originally installed via Capistrano.
