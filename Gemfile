@@ -22,7 +22,4 @@ gem 'paperclip',              '~> 2.3.6'
 group :development, :test do
   gem 'faker',                '~> 0.3.1'
   gem 'shoulda',              '~> 2.11.3'
-  gem 'webrat', :git => 'git://github.com/seven1m/webrat.git'
-  gem 'selenium-client', :require => 'selenium/client'
-  gem 'mongrel'
 end
