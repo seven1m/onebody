@@ -6,6 +6,25 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+2.1.0 / March 19, 2011
+----------------------
+
+* Parse birthday based on locale.
+* Add link to edit group on group page.
+* New page for group admins to see birthdays of members.
+* Update gems.
+* Fix schedule (crontab) and added instructions for proper RVM setup.
+* Fixes for deployment recipes and newer RVM and Capistrano versions.
+* Fix bug deleting group membership for deleted person.
+* Fix bug deleting cached stream items on deleted people.
+* Fix views failing due to deleted person.
+* Fix bug saving boolean settings.
+* Fix bug saving pages.
+* Fix typo in photo content type.
+* Fix for uploading photos with invalid type.
+* Fix error when rendering error for new account.
+* Fix runner call for pc\_sync background process
+
 2.0.1 / February 8, 2011
 ------------------------
 
