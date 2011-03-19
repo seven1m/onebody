@@ -20,6 +20,8 @@ If you're dedicated server or VPS is Ubuntu 10.04 or higher, try this:
     gem install capistrano
     # edit config/deploy.rb to point to your server
     cap prepare:ubuntu
+    # follow http://rvm.beginrescueend.com/rvm/install/
+    # to ensure .bashrc doesn't exit near the top
     cap deploy:setup
     cap deploy:migrations
 

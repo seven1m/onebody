@@ -1,7 +1,11 @@
 # Learn more about this file: http://github.com/javan/whenever
 
 set :environment, 'production'
-set :job_template, "~/.rvm/bin/rvm-shell -c ':job'"
+
+# the default job_template uses the -i flag, which throws a warning about "no job control"
+# without the -i flag, you must ensure your .bashrc doesn't exit at the top due to being non-interactive
+# check out the troubleshooting section at http://rvm.beginrescueend.com/rvm/install/ for help
+set :job_template, "bash -l -c ':job'"
 
 if File.exist?("#{Dir.pwd}/config/email.yml")
   every 1.minute do

@@ -35,6 +35,8 @@ Otherwise, it's just:
     gem install capistrano
     # edit config/deploy.rb to point to your server
     cap prepare:centos
+    # follow http://rvm.beginrescueend.com/rvm/install/
+    # to ensure .bashrc doesn't exit near the top
     cap deploy:setup
     cap deploy:migrations
 

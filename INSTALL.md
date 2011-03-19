@@ -38,7 +38,7 @@ For **Windows** workstations, grab the 1.8.7 RubyInstaller from [here](http://ru
 Log out and back in for the changes to take effect. Typing `type rvm | head -n1` should display
 "rvm is a function".
 
-See http://rvm.beginrescueend.com/rvm/install/ for more detailed instructions.
+**See http://rvm.beginrescueend.com/rvm/install/ and make sure your .bashrc doesn't exit near the top.**
 
 _Be sure to configure your firewall to allow access to your SSH server from your workstation._
 
