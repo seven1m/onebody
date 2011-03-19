@@ -5,7 +5,7 @@ class Capistrano::Configuration
   end
 
   def get_db_password
-    @db_password ||= HighLine.new.ask('Password to use for the "onebody" MySQL user: ') { |q| q.echo = false }
+    @db_password ||= HighLine.new.ask('Password to use for the new "onebody" MySQL user: ') { |q| q.echo = false }
   end
 
   def run_and_return(cmd, options={})
