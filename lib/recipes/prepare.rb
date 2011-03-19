@@ -68,10 +68,9 @@ namespace :prepare do
 
     task :passenger do
       sudo "DEBIAN_FRONTEND=noninteractive apt-get install apache2-prefork-dev libapr1-dev libaprutil1-dev libcurl4-openssl-dev libxml2-dev libxslt1-dev -q -y"
-      run  "gem install passenger && " + \
+      run  "gem install passenger --no-rdoc --no-ri && " + \
            "rvmsudo passenger-install-apache2-module -a && " + \
-           "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf.d/passenger",
-           :shell => "~/.rvm/bin/rvm-shell"
+           "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/apache2/conf.d/passenger"
     end
 
     task :postfix do
@@ -79,7 +78,7 @@ namespace :prepare do
     end
 
     task :bundler do
-      run "gem install bundler", :shell => "~/.rvm/bin/rvm-shell"
+      run "gem install bundler --no-rdoc --no-ri"
     end
 
   end
@@ -137,14 +136,13 @@ namespace :prepare do
 
     task :passenger do
       sudo "yum install httpd-devel curl-devel -q -y"
-      run  "gem install passenger && " + \
+      run  "gem install passenger --no-rdoc --no-ri && " + \
            "rvmsudo passenger-install-apache2-module -a && " + \
-           "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/httpd/conf.d/passenger.conf",
-           :shell => "~/.rvm/bin/rvm-shell"
+           "rvmsudo passenger-install-apache2-module --snippet | sudo tee /etc/httpd/conf.d/passenger.conf"
     end
 
     task :bundler do
-      run "gem install bundler", :shell => "~/.rvm/bin/rvm-shell"
+      run "gem install bundler --no-rdoc --no-ri"
     end
 
   end

@@ -13,7 +13,7 @@ namespace :deploy do
       end
 
     puts "#{migrate_target} => #{directory}"
-    run "cd #{directory}; #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate", :shell => "~/.rvm/bin/rvm-shell"
+    run "cd #{directory}; #{rake} RAILS_ENV=#{rails_env} #{migrate_env} db:migrate"
   end
 
   task :chown_deploy_dir do
@@ -43,7 +43,7 @@ namespace :deploy do
 
   task :create_database do
     unless ENV['SKIP_DB_SETUP']
-      mysql_root_password = HighLine.new.ask('MySQL ROOT password: ') { |q| q.echo = false }
+      mysql_root_password = HighLine.new.ask('What is your CURRENT MySQL ROOT password: ') { |q| q.echo = false }
       p = mysql_root_password.empty? ? '' : "-p#{mysql_root_password}"
       run "mysql -uroot #{p} -e \"create database if not exists onebody; grant all on onebody.* to onebody@localhost identified by '#{get_db_password}';\""
       yml = render_erb_template(File.dirname(__FILE__) + '/templates/database.yml')
@@ -54,7 +54,7 @@ namespace :deploy do
 
   desc 'Install gem dependencies'
   task :bundler, :roles => :web do
-    run "cd #{release_path} && bundle install --without development --without test", :shell => "~/.rvm/bin/rvm-shell"
+    run "cd #{release_path} && bundle install --without development --without test"
   end
   after 'deploy:update_code', 'deploy:bundler'
 
@@ -69,7 +69,7 @@ namespace :deploy do
       "cd #{shared_path}/initializers; if [ \"$(ls -A)\" ]; then rsync -a * #{release_path}/config/initializers/; fi",
       "cd #{release_path}; if [[ `which whenever` != '' ]]; then whenever -w RAILS_ENV=production; fi"
     ]
-    run commands.join('; '), :shell => "~/.rvm/bin/rvm-shell"
+    run commands.join('; ')
   end
   after 'deploy:update_code', 'deploy:update_links_and_plugins'
 

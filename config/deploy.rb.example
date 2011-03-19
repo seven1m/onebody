@@ -1,3 +1,8 @@
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require "rvm/capistrano"
+
+set :rvm_ruby_string, 'ree@onebody'
+
 # point to your server
 set :host, 'beonebody.org'
 
@@ -18,7 +23,4 @@ set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/apps/#{application}"
 set :copy_exclude, %w(test .git)
 set :use_sudo, false
-
-#unless ARGV.detect { |a| a =~ /^prepare/ }
-  #set :default_shell, "$HOME/.rvm/bin/rvm-shell"
-#end
+set :rvm_type, :user
