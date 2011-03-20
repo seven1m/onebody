@@ -6,6 +6,11 @@ This document lists notable changes in each release, in no particular order
 
 For detailed change history, view the Git log (http://github.com/seven1m/onebody/commits).
 
+2.1.1 / March 20, 2011
+----------------------
+
+* Remove dependence on local RVM install for deployment.
+
 2.1.0 / March 19, 2011
 ----------------------
 
