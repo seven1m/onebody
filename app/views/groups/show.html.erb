@@ -44,6 +44,18 @@
     </p>
   <% end %>
 
+  <% if @group.attachments.count > 0 %>
+    <h3><%= t('attachments.files') %></h3>
+    <table class="spaced">
+      <% @group.attachments.all(:order => 'name').each do |attachment| %>
+        <tr>
+          <td><%= link_to attachment.name, get_attachment_path(attachment) %></td>
+          <td><%= attachment.created_at.to_s(:date) %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+
   <% cache(:fragment => 'members') do %>
     <h3><%= t('groups.members') %></h3>
     <% @members.each do |member| %>

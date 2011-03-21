@@ -98,7 +98,7 @@
   <% unless @group.new_record? %>
     <h3><%= t('attachments.files') %></h3>
     <div class="spaced-labels">
-      <table>
+      <table class="spaced">
         <% @group.attachments.all(:order => 'name').each do |attachment| %>
           <tr>
             <td><%= link_to attachment.name, get_attachment_path(attachment) %></td>
