@@ -15,13 +15,19 @@ If you're dedicated server or VPS is Ubuntu 10.04 or higher, try this:
     sudo adduser deploy
     sudo adduser deploy sudo
     # copy your SSH public key to avoid password prompts
+    sudo apt-get install git-core curl build-essential zlib1g-dev libssl-dev libreadline5-dev imagemagick rsync
+    # follow http://rvm.beginrescueend.com/rvm/install/ to install RVM
+    rvm install ree
+    rvm use ree@onebody --create --default
 
     # 2. on your local machine:
     gem install capistrano
     # edit config/deploy.rb to point to your server
-    cap prepare:ubuntu
-    # follow http://rvm.beginrescueend.com/rvm/install/
-    # to ensure .bashrc doesn't exit near the top
+    cap prepare:mysql
+    cap prepare:apache
+    cap prepare:passenger
+    cap prepare:postfix
+    cap prepare:bundler
     cap deploy:setup
     cap deploy:migrations
 
