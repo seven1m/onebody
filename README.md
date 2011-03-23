@@ -23,11 +23,11 @@ If you're dedicated server or VPS is Ubuntu 10.04 or higher, try this:
     # 2. on your local machine:
     gem install capistrano
     # edit config/deploy.rb to point to your server
-    cap prepare:mysql
-    cap prepare:apache
-    cap prepare:passenger
-    cap prepare:postfix
-    cap prepare:bundler
+    cap prepare:ubuntu:mysql
+    cap prepare:ubuntu:apache
+    cap prepare:ubuntu:passenger
+    cap prepare:ubuntu:postfix
+    cap prepare:ubuntu:bundler
     cap deploy:setup
     cap deploy:migrations
 
