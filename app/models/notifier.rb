@@ -32,7 +32,7 @@ class Notifier < ActionMailer::Base
     @person = person
     @friend = friend
     mail(
-      :to      => "#{friend.name} <#{friend.email}>",
+      :to      => "\"#{friend.name}\" <#{friend.email}>",
       :subject => "Friend Request from #{person.name}"
     )
   end
@@ -47,7 +47,7 @@ class Notifier < ActionMailer::Base
     end
     mail(
       :to      => to,
-      :from    => person.email.to_s.any? ? "#{person.name} <#{person.email}>" : Site.current.noreply_email,
+      :from    => person.email.to_s.any? ? "\"#{person.name}\" <#{person.email}>" : Site.current.noreply_email,
       :subject => "Request to Join Group from #{person.name}"
     )
   end
@@ -154,7 +154,7 @@ class Notifier < ActionMailer::Base
     # TODO check that it is ok that we don't specify content-type application/pdf here
     attachments['directory.pdf'] = file.read
     mail(
-      :to      => "#{person.name} <#{person.email}>",
+      :to      => "\"#{person.name}\" <#{person.email}>",
       :subject => "#{Setting.get(:name, :site)} Directory"
     )
   end
