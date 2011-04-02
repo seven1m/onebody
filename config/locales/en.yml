@@ -1363,6 +1363,7 @@ en:
     new_page: new
     not_found: Page not found.
     pages: Pages
+    published: Published
     saved: Page saved.
     template_not_found: Template not found.
     title: Title

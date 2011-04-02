@@ -1363,6 +1363,7 @@ pt:
     new_page: nova
     not_found: Página não encontrada.
     pages: Páginas
+    published: Publicação
     saved: Página salva.
     template_not_found: Modelo não encontrado.
     title: Título
