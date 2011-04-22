@@ -158,12 +158,13 @@ class AccountsController < ApplicationController
           else
             flash[:warning] = t('accounts.set_your_email_may_be_different')
           end
+          v.update_attribute :verified, true
           redirect_to edit_person_account_path(person.id)
         else
           session[:select_from_people] = @people
+          v.update_attribute :verified, true
           redirect_to select_account_path
         end
-        v.update_attribute :verified, true
       else
         v.update_attribute :verified, false
         render :text => t('accounts.wrong_code'), :layout => true, :status => 500
