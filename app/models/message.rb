@@ -63,6 +63,14 @@ class Message < ActiveRecord::Base
     end
   end
 
+  before_save :remove_message_id_in_body
+
+  def remove_message_id_in_body
+    if body
+      body.gsub! MESSAGE_ID_RE_IN_BODY, ''
+    end
+  end
+
   validate :on => :create do |record|
     if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => ['created_at >= ?', Date.today-1])
       record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
