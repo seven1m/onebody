@@ -61,6 +61,9 @@ class Message < ActiveRecord::Base
     if body
       body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
     end
+    if html_body
+      html_body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
+    end
   end
 
   before_save :remove_message_id_in_body
@@ -68,6 +71,9 @@ class Message < ActiveRecord::Base
   def remove_message_id_in_body
     if body
       body.gsub! MESSAGE_ID_RE_IN_BODY, ''
+    end
+    if html_body
+      html_body.gsub! MESSAGE_ID_RE_IN_BODY, ''
     end
   end
 
