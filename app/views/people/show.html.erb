@@ -37,9 +37,11 @@
         <li class="address"><%= preserve_breaks @person.address %><br/><%= @person.city %>, <%= @person.state %> <%= @person.short_zip %></li>
       <% end %>
       <div class="new-line"></div>
-      <li class="icon">
-        <%= link_to t('messages.send_message'), new_message_path(:to_person_id => @person), :class => 'email-icon' %>
-      </li>
+      <% if @person.messages_enabled? %>
+        <li class="icon">
+          <%= link_to t('messages.send_message'), new_message_path(:to_person_id => @person), :class => 'email-icon' %>
+        </li>
+      <% end %>
       <%= render :partial => 'friendship' %>
       <% if @logged_in.can_edit?(@person) %>
         <li class="icon">
