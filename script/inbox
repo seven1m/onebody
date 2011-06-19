@@ -50,12 +50,13 @@ Net::POP3.start(host, nil, username, password) do |pop|
       begin
         logger.info "receiving mail..." 
         Notifier.receive(email.pop)
-        email.delete
       rescue Exception => e
         logger.error "Error receiving email at " + Time.now.to_s + "::: " + e.message + "\n----\n" + e.backtrace.to_s
         backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
         logger.error(backtrace)
         Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Email Error', e.message + "\n\n" + backtrace).deliver
+      ensure
+        email.delete
       end
     end
     logger.info "Finished Mail Importer." 
