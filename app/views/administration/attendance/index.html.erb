@@ -25,6 +25,9 @@
     <th><%= sortable_column_heading t('attendance.group'),         'groups.name',                                                %w(attended_at group_id) %></th>
     <th><%= sortable_column_heading t('attendance.class_time'),    'attendance_records.attended_at',                             %w(attended_at group_id) %></th>
     <th><%= sortable_column_heading t('attendance.recorded_time'), 'attendance_records.created_at',                              %w(attended_at group_id) %></th>
+    <% if Setting.get(:features, :checkin_modules) %>
+      <th>Add'l Pick-up People</th>
+    <% end %>
   </tr>
   <% @records.each do |record| %>
     <tr id="record<%= record.id %>">
@@ -59,6 +62,11 @@
       </td>
       <td>
         <%= record.created_at.to_s(:time) %>
+      </td>
+      <td>
+        <% if Setting.get(:features, :checkin_modules) %>
+          <%= record.checkin_people.map { |p| p.name }.join(', ') %>
+        <% end %>
       </td>
       <td>
         <%= link_to '', administration_attendance_path(record), :remote => true, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
