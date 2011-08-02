@@ -10,7 +10,7 @@ class AttendanceRecord < ActiveRecord::Base
   self.skip_time_zone_conversion_for_attributes = [:attended_at]
 
   def checkin_people
-    Relationship.all(:conditions => ['person_id = ? and other_name like ?', record.person_id, '%Check-in Person']).map { |r| r.related }.uniq
+    Relationship.all(:conditions => ['person_id = ? and other_name like ?', person_id, '%Check-in Person']).map { |r| r.related }.uniq
   end
 
   def self.groups_for_date(attended_at)
