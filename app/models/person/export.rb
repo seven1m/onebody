@@ -94,6 +94,7 @@ class Person
           total = Person.count(:conditions => {:deleted => false})
           (1..(total/100+1)).each do |page|
             Person.paginate(:conditions => {:deleted => false}, :include => :family, :per_page => 100, :page => page).each do |person|
+              next unless person.family
               csv << EXPORT_COLS[:person].map { |c| person.send(c) } + \
                      EXPORT_COLS[:family].map { |c| person.family.send(c) }
             end
