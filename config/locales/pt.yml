@@ -362,7 +362,7 @@ pt:
       update_display: Atualizar Visualização
     manage_admins: Gerenciar Administradores
     manage_group_administrators: Gerenciar Administradores de Grupo
-    max_admins_html: Você está atualmente utilizando o limite de administradores para o seu plano. Por favor <a href="http://beonebody.com">atualize</a> o seu plano para adicionar mais administradores.
+    max_admins_html: Você está atualmente utilizando o limite de administradores para o seu plano. Por favor atualize o seu plano para adicionar mais administradores.
     must_be_superadmin: Você deve ser um super adminstrador para modificar estas configurações.
     new_admin_template: Criar um novo modelo admin.
     new_api_or: a nova chave de API ou
@@ -1215,7 +1215,7 @@ pt:
 
   layouts:
     this_is_the_fallback_template: Este é um template usado no caso do seu selecionado não puder ser encontrado. Por favor verifique que as suas configurações de Tema aponte a um diretório real dentro do diretório themes/.
-    powered_by_html: Provido por <a href="http://beonebody.com" rel="external">OneBody</a>
+    powered_by_html: Provido por <a href="https://github.com/seven1m/onebody" rel="external">OneBody</a>
     privacy_policy: Política de Privacidade
 
   menus:
