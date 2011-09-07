@@ -804,7 +804,7 @@ en:
     verify: Verify Account
     verify_email: Verify Email
     verify_by_email: Verify by email.
-    verify_by_email_message: We send you an email, you click the link inside, and you're done.
+    verify_by_email_message: We send you an email, you click the link inside, and you're done. Use this to reset your password.
     verify_by_phone: Verify by mobile phone.
     verify_by_phone_description_html: Enter your mobile phone number, select your carrier, then click the button below. If we have the number on file, a text message will be sent to it allowing you to verify yourself and gain access to this site. <strong>Text messaging rates may be charged by your carrier. <span class="very-strong">Do not start this verification process until you know what you will be charged to receive a text message!</span></strong>
     verify_by_phone_message: We send you a text message, you type the code it contains, and you're done.

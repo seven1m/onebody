@@ -92,8 +92,9 @@ class Person
         FasterCSV.generate do |csv|
           csv << EXPORT_COLS[:person] + EXPORT_COLS[:family].map { |c| "family_#{c}" }
           total = Person.count(:conditions => {:deleted => false})
-          (1..(total/100)).each do |page|
+          (1..(total/100+1)).each do |page|
             Person.paginate(:conditions => {:deleted => false}, :include => :family, :per_page => 100, :page => page).each do |person|
+              next unless person.family
               csv << EXPORT_COLS[:person].map { |c| person.send(c) } + \
                      EXPORT_COLS[:family].map { |c| person.family.send(c) }
             end
@@ -109,7 +110,7 @@ class Person
         builder = Builder::XmlMarkup.new
         builder.families do |families|
           total = Family.count(:conditions => {:deleted => false})
-          (1..(total/100)).each do |page|
+          (1..(total/100+1)).each do |page|
             Family.paginate(:conditions => {:deleted => false}, :include => :people, :per_page => 100, :page => page).each do |family|
               families.family do |fam|
                 EXPORT_COLS[:family].each do |col|
