@@ -244,10 +244,10 @@ class Notifier < ActionMailer::Base
       end
     end
 
-    if sent_to_count == 0
+    if sent_to_count == 0 and return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
       # notify the sender that no mail was sent
       Notifier.simple_message(
-        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
+        return_to,
         "Message Rejected: #{email.subject}",
         "Your message with subject \"#{email.subject}\" was not delivered.\n\n" +
         "Sorry for the inconvenience, but it appears the message was not properly addressed. " +
