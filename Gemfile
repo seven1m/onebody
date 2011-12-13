@@ -17,7 +17,7 @@ gem 'pdf-writer',             '~> 1.1.8', :require => 'pdf/writer'
 gem 'rubyzip',                '~> 0.9.4', :require => 'zip/zip'
 gem 'sanitize',               '~> 1.2.1'
 gem 'haml',                   '~> 3.0.24'
-gem 'paperclip',              '~> 2.3.6'
+gem 'paperclip',              '   2.3.11'
 
 group :development, :test do
   gem 'faker',                '~> 0.3.1'
