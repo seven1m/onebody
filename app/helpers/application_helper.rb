@@ -154,7 +154,7 @@ module ApplicationHelper
 
   def preserve_breaks(text, make_safe=true)
     text = h(text.to_s) if make_safe
-    text.gsub(/\n/, '<br/>')
+    text = text.gsub(/\n/, '<br/>').html_safe
   end
 
   def remove_excess_breaks(text)
