@@ -593,30 +593,30 @@ fieldset {
   background: url(/images/clean/icons.png?201011091342) $x $y no-repeat;
 }
 
-.add-icon        { @include icon-sprite(0px,    0px) }
-.edit-icon       { @include icon-sprite(0px,  -20px) }
-.lock-icon       { @include icon-sprite(0px,  -40px) }
-.lock-icon-small { @include icon-sprite(0px,  -45px) }
-.comment-icon    { @include icon-sprite(0px,  -66px) } /* up just a bit */
-.comment2-icon   { @include icon-sprite(0px,  -60px) }
-.dots-icon       { @include icon-sprite(0px,  -80px) }
-.people-icon     { @include icon-sprite(0px, -100px) }
-.money-icon      { @include icon-sprite(0px, -120px) }
-.feed-icon       { @include icon-sprite(0px, -140px) }
-.right-icon      { @include icon-sprite(0px, -160px) }
-.left-icon       { @include icon-sprite(0px, -180px) }
-.picture-icon    { @include icon-sprite(0px, -200px) }
-.file-icon       { @include icon-sprite(0px, -220px) }
-.verse-icon      { @include icon-sprite(0px, -240px) }
-.delete-icon     { @include icon-sprite(0px, -256px) } /* down a bit */
-.email-icon      { @include icon-sprite(0px, -280px) }
-.heart-icon      { @include icon-sprite(0px, -300px) }
-.rotate-cw-icon  { @include icon-sprite(0px, -320px) }
-.rotate-ccw-icon { @include icon-sprite(0px, -340px) }
-.updown-icon     { @include icon-sprite(0px, -360px) }
-.alert-icon      { @include icon-sprite(0px, -380px) }
-.news-icon       { @include icon-sprite(0px, -400px) }
-.podcast-icon    { @include icon-sprite(0px, -420px) }
+.add-icon        { @include icon-sprite(0px,   -3px) }
+.edit-icon       { @include icon-sprite(0px,  -23px) }
+.lock-icon       { @include icon-sprite(0px,  -43px) }
+.lock-icon-small { @include icon-sprite(0px,  -48px) }
+.comment-icon    { @include icon-sprite(0px,  -69px) } /* up just a bit */
+.comment2-icon   { @include icon-sprite(0px,  -63px) }
+.dots-icon       { @include icon-sprite(0px,  -83px) }
+.people-icon     { @include icon-sprite(0px, -103px) }
+.money-icon      { @include icon-sprite(0px, -123px) }
+.feed-icon       { @include icon-sprite(0px, -143px) }
+.right-icon      { @include icon-sprite(0px, -163px) }
+.left-icon       { @include icon-sprite(0px, -183px) }
+.picture-icon    { @include icon-sprite(0px, -203px) }
+.file-icon       { @include icon-sprite(0px, -223px) }
+.verse-icon      { @include icon-sprite(0px, -243px) }
+.delete-icon     { @include icon-sprite(0px, -259px) } /* down a bit */
+.email-icon      { @include icon-sprite(0px, -283px) }
+.heart-icon      { @include icon-sprite(0px, -303px) }
+.rotate-cw-icon  { @include icon-sprite(0px, -323px) }
+.rotate-ccw-icon { @include icon-sprite(0px, -343px) }
+.updown-icon     { @include icon-sprite(0px, -363px) }
+.alert-icon      { @include icon-sprite(0px, -383px) }
+.news-icon       { @include icon-sprite(0px, -403px) }
+.podcast-icon    { @include icon-sprite(0px, -423px) }
 
 ul.buttons {
   list-style: none;
