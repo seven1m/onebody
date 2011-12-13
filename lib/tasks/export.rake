@@ -4,7 +4,7 @@ namespace :onebody do
 
     desc 'Export the SQL for a single site (pass SITE_ID and OUT_FILE arguments)'
     task :site => :environment do
-      db = Rails::Configuration.new.database_configuration[Rails.env]
+      db = YAML::load_file(Rails.root.join('config/database.yml'))['production']
       if ENV['SITE_ID'] and ENV['OUT_FILE']
         db_and_credentials = "-u#{db['username']} -p#{db['password']} #{db['database']}"
         `mysqldump \\
@@ -16,6 +16,7 @@ namespace :onebody do
           --ignore-table=#{db['database']}.signin_failures \\
           --ignore-table=#{db['database']}.sites \\
           --ignore-table=#{db['database']}.taggings \\
+          --ignore-table=#{db['database']}.processed_messages \\
           -w"site_id = #{ENV['SITE_ID']}" \\
           #{db_and_credentials} \\
           > #{ENV['OUT_FILE']}`
