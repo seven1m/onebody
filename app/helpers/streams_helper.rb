@@ -28,7 +28,7 @@ module StreamsHelper
     end
     if use_code
       content.gsub!(/<img([^>]+)src="(.+?)"/) do |match|
-        url = $2 + ($2.include?('?') ? '&' : '?') + 'code=' + @logged_in.feed_code
+        url = $2 && ($2 + ($2.include?('?') ? '&' : '?') + 'code=' + @logged_in.feed_code)
         "<img#{$1}src=\"#{url}\""
       end
     end
