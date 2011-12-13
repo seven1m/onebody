@@ -117,7 +117,7 @@ GEM
     whenever (0.6.8)
       aaronh-chronic (>= 0.3.9)
       activesupport (>= 2.3.4)
-    will_paginate (3.0.0)
+    will_paginate (3.0.2)
 
 PLATFORMS
   ruby
@@ -142,4 +142,4 @@ DEPENDENCIES
   sanitize (~> 1.2.1)
   shoulda (~> 2.11.3)
   whenever (~> 0.6.2)
-  will_paginate (~> 3.0.pre2)
+  will_paginate (~> 3.0.2)

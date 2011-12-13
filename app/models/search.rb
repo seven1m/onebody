@@ -126,7 +126,6 @@ class Search
     end
     @count = Person.count :conditions => @conditions, :include => :family
     @people = Person.paginate(
-      :all,
       :page => page,
       :conditions => @conditions,
       :include => :family,
@@ -145,7 +144,7 @@ class Search
   def query_families(page=nil)
     @conditions.add_condition ["families.deleted = ?", false]
     @count = Family.count :conditions => @conditions
-    @families = Family.paginate(:all, :page => page, :conditions => @conditions, :order => "last_name")
+    @families = Family.paginate(:page => page, :conditions => @conditions, :order => "last_name")
   end
 
   def self.new_from_params(params)

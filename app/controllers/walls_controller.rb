@@ -5,7 +5,7 @@ class WallsController < ApplicationController
     if @logged_in.can_see?(@person) and @person.wall_enabled?
       respond_to do |wants|
         wants.html do
-          @messages = @person.wall_messages.paginate(:all, :page => params[:page])
+          @messages = @person.wall_messages.paginate(:page => params[:page])
         end
         wants.js do
           @messages = @person.wall_messages.find(:all, :limit => 10)
