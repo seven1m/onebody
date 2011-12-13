@@ -75,6 +75,32 @@ namespace :onebody do
 
     end
 
+    desc 'Export OneBody photos for particular SITE_ID, save to OUT_PATH'
+    task :photos => :environment do
+      require 'fileutils'
+      Site.current = site = Site.find(ENV['SITE_ID'])
+      [Family, Group, Person, Picture].each do |model|
+        plural = model.name.pluralize.downcase
+        out_path = File.join(ENV['OUT_PATH'], plural, 'photos')
+        FileUtils.mkdir_p(out_path)
+        model.where('photo_file_name is not null').order(:id).find_each do |record|
+          puts "#{model.name} #{record.id}"
+          system("cp -r public/system/production/#{plural}/photos/#{record.id} #{out_path}/#{record.id}")
+        end
+      end
+      out_path = File.join(ENV['OUT_PATH'], 'attachments', 'files')
+      FileUtils.mkdir_p(out_path)
+      Attachment.where('file_file_name is not null').order(:id).find_each do |record|
+        puts "Attachment #{record.id}"
+        system("cp -r public/system/production/attachments/files/#{record.id} #{out_path}/#{record.id}")
+      end
+      out_path = File.join(ENV['OUT_PATH'], 'sites', 'logos')
+      FileUtils.mkdir_p(out_path)
+      if Site.current.logo.exists?
+        system("cp -r public/system/production/sites/logos/#{Site.current.id} #{out_path}/#{Site.current.id}")
+      end
+    end
+
   end
 
 end
