@@ -30,7 +30,11 @@ class PeopleController < ApplicationController
       render :action => 'show_limited'
     elsif @person and @logged_in.can_see?(@person)
       @family = @person.family
-      @family_people = @person.family.try(:visible_people) || []
+      if @person == @logged_in
+        @family_people = (@person.family.try(:people) || []).reject(&:deleted)
+      else
+        @family_people = @person.family.try(:visible_people) || []
+      end
       @albums = @person.albums.all(:order => 'created_at desc')
       @friends = @person.friends.thumbnails unless fragment_exist?(:controller => 'people', :action => 'show', :id => @person.id, :fragment => 'friends')
       @verses = @person.verses.all(:order => 'book, chapter, verse')
