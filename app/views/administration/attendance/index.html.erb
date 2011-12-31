@@ -1,104 +1,127 @@
-<h2>
-  <%= @attended_at.to_time.to_s(:date) %>
-  <%= t('attendance.attendance') %>
-  <% if @group %><%= t('for') %> <%= @group.name %><% end %>
-</h2>
+<style type="text/css" media="print">
+  .spaced th, .spaced td { text-align: left; padding-right: 10px; }
+  .spaced { margin-bottom: 20px; }
+  .no-print { display: none; }
+</style>
 
-<p id="record-count">
-  <%= pluralize @record_count, t('import.record') %>
-</p>
+<% content_for :sidebar do %>
+  <h2>
+    <%= @attended_at.to_time.to_s(:date) %>
+    <%= t('attendance.attendance') %>
+    <% if @group %><%= t('for') %> <%= @group.name %><% end %>
+  </h2>
 
-<p class="no-print">
-  <%= label_tag :attended_at, t('attendance.date') + ':', :class => 'inline' %>
-  <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
-  <%= label_tag :group_name, t('attendance.group') + ':', :class => 'inline' %>
-  <%= select_tag :group_name, options_for_select(['']) + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "location.href='?attended_at='+encodeURIComponent($('#attended_at').val())+'&group_id='+this.value" %>
-</p>
+  <p id="record-count">
+    <%= pluralize @record_count, t('import.record') %>
+  </p>
 
-<%= will_paginate @records, :params => {:sort => params[:sort], :group_id => params[:group_id]} %>
+  <p class="no-print">
+    <%= label_tag :attended_at, t('attendance.date') + ':' %>
+    <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %><br/>
+    <%= label_tag :group_name, t('attendance.group') + ':' %>
+    <%= select_tag :group_name, options_for_select(['']) + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "location.href='?attended_at='+encodeURIComponent($('#attended_at').val())+'&group_id='+this.value" %>
+  </p>
 
-<table class="spaced">
-  <tr>
-    <th><%= t('attendance.id') %></th>
-    <th><%= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name', %w(attended_at group_id) %></th>
-    <th><%= t('attendance.adult') %></th>
-    <th><%= sortable_column_heading t('attendance.group'),         'groups.name',                                                %w(attended_at group_id) %></th>
-    <th><%= sortable_column_heading t('attendance.class_time'),    'attendance_records.attended_at',                             %w(attended_at group_id) %></th>
-    <th><%= sortable_column_heading t('attendance.recorded_time'), 'attendance_records.created_at',                              %w(attended_at group_id) %></th>
-    <% if Setting.get(:features, :checkin_modules) %>
-      <th>Add'l Pick-up People</th>
+  <div class="no-print">
+    <% if @records.any? %>
+      <p>
+        <%= link_to t('attendance.export'), administration_attendance_index_path(:format => 'csv', :attended_at => @attended_at) %>
+      </p>
     <% end %>
-  </tr>
-  <% @records.each do |record| %>
-    <tr id="record<%= record.id %>">
-      <td>
-        <%= record.person_id %>
-      </td>
-      <td>
-        <% if record.first_name.to_s.any? %>
-          <% if record.person %>
-            <%= link_to "#{record.first_name} #{record.last_name}", record.person %>
-          <% else %>
-            <%= record.first_name %> <%= record.last_name %>
-          <% end %>
-        <% elsif record.person %>
-          <%= link_to record.person.name, record.person %>
-        <% else %>
-          <%= '(' + t('attendance.name_unknown') + ')' %>
-        <% end %>
-      </td>
-      <td>
-        <% if record.person && record.person.adult? %><%= t('attendance.adult') %><% end %>
-      </td>
-      <td>
-        <% if record.group %>
-          <%= link_to record.group.name, record.group %>
-        <% else %>
-          <em><%= t('attendance.group_missing') %></em>
-        <% end %>
-      </td>
-      <td>
-        <%= record.attended_at.to_s(:time) %>
-      </td>
-      <td>
-        <%= record.created_at.to_s(:time) %>
-      </td>
-      <td>
-        <% if Setting.get(:features, :checkin_modules) %>
-          <%= record.checkin_people.map { |p| p.name }.join(', ') %>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to '', administration_attendance_path(record), :remote => true, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
-      </td>
-    </tr>
-  <% end %>
-</table>
 
-<%= will_paginate @records, :params => {:sort => params[:sort], :group_id => params[:group_id], :attended_at => params[:attended_at]} %>
+    <p>
+      <%= form_tag administration_attendance_index_path, :method => :get do %>
+        <%= hidden_field_tag :attended_at, @attended_at %>
+        <%= label_tag :person_name, t('attendance.search_person') + ':' %>
+        <%= text_field_tag :person_name, params[:person_name], :size => 15 %>
+        <%= submit_tag t('attendance.Search') %>
+        <% if params[:person_name] %><%= link_to t('attendance.clear_search'), administration_attendance_index_path(:attended_at => @attended_at) %><% end %>
+      <% end %>
+    </p>
+
+    <p>
+      <%= link_to t('attendance.prev_date'), prev_administration_attendance_index_path(:attended_at => @attended_at), :class => 'left-icon' %><br/>
+      <%= link_to t('attendance.next_date'), next_administration_attendance_index_path(:attended_at => @attended_at), :class => 'right-icon' %>
+    </p>
+  </div>
+<% end %>
 
 <% if @records.any? %>
-  <p>
-    <%= link_to t('attendance.export'), administration_attendance_index_path(:format => 'csv', :attended_at => @attended_at) %>
-  </p>
+  <%= will_paginate @records, :params => {:sort => params[:sort], :group_id => params[:group_id]} %>
+
+  <table class="spaced">
+    <tr>
+      <th><%= t('attendance.id') %></th>
+      <th><%= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name', %w(attended_at group_id) %></th>
+      <th><%= t('attendance.adult') %></th>
+      <th><%= sortable_column_heading t('attendance.group'),         'groups.name',                                                %w(attended_at group_id) %></th>
+      <th><%= sortable_column_heading t('attendance.class_time'),    'attendance_records.attended_at',                             %w(attended_at group_id) %></th>
+      <th><%= sortable_column_heading t('attendance.recorded_time'), 'attendance_records.created_at',                              %w(attended_at group_id) %></th>
+      <% if Setting.get(:features, :checkin_modules) %>
+        <th>Pick-up*</th>
+      <% end %>
+    </tr>
+    <% @records.each do |record| %>
+      <tr id="record<%= record.id %>">
+        <td>
+          <%= record.person_id %>
+        </td>
+        <td>
+          <% if record.first_name.to_s.any? %>
+            <% if record.person %>
+              <%= link_to "#{record.first_name} #{record.last_name}", record.person %>
+            <% else %>
+              <%= record.first_name %> <%= record.last_name %>
+            <% end %>
+          <% elsif record.person %>
+            <%= link_to record.person.name, record.person %>
+          <% else %>
+            <%= '(' + t('attendance.name_unknown') + ')' %>
+          <% end %>
+        </td>
+        <td>
+          <% if record.person && record.person.adult? %><%= t('attendance.adult') %><% end %>
+        </td>
+        <td>
+          <% if record.group %>
+            <%= link_to record.group.name, record.group %>
+          <% else %>
+            <em><%= t('attendance.group_missing') %></em>
+          <% end %>
+        </td>
+        <td>
+          <%= record.attended_at.to_s(:time) %>
+        </td>
+        <td>
+          <%= record.created_at.to_s(:time) %>
+        </td>
+        <td>
+          <% if Setting.get(:features, :checkin_modules) %>
+            <%= record.checkin_people.map { |p| p.name }.join(', ') %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to '', administration_attendance_path(record), :remote => true, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
+        </td>
+      </tr>
+      <% if record.medical_notes.to_s.any? %>
+        <tr>
+          <td></td>
+          <td colspan="6">
+            Medical notes:
+            <%= record.medical_notes %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+
+  <%= will_paginate @records, :params => {:sort => params[:sort], :group_id => params[:group_id], :attended_at => params[:attended_at]} %>
+
+  <p>* Additional authorized pick-up people.</p>
 <% else %>
   <p><em><%= t('attendance.no_records') %></em></p>
 <% end %>
-
-<p>
-  <%= form_tag administration_attendance_index_path, :method => :get do %>
-    <%= hidden_field_tag :attended_at, @attended_at %>
-    <%= label_tag :person_name, t('attendance.search_person') + ':', :class => 'inline' %>
-    <%= text_field_tag :person_name, params[:person_name], :size => 15 %>
-    <%= submit_tag t('attendance.Search') %>
-    <% if params[:person_name] %><%= link_to t('attendance.clear_search'), administration_attendance_index_path(:attended_at => @attended_at) %><% end %>
-  <% end %>
-</p>
-
-<p>
-  <%= link_to t('attendance.prev_date'), prev_administration_attendance_index_path(:attended_at => @attended_at), :class => 'left-icon' %><br/>
-  <%= link_to t('attendance.next_date'), next_administration_attendance_index_path(:attended_at => @attended_at), :class => 'right-icon' %>
-</p>
 
 <script type="text/javascript">
   $('#attended_at').datepicker({changeYear:true, dateFormat:'<%= datepicker_format %>'});
