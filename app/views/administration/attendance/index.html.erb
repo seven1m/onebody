@@ -51,7 +51,6 @@
 
   <table class="spaced">
     <tr>
-      <th><%= t('attendance.id') %></th>
       <th><%= sortable_column_heading t('attendance.name'),          'attendance_records.last_name,attendance_records.first_name', %w(attended_at group_id) %></th>
       <th><%= t('attendance.adult') %></th>
       <th><%= sortable_column_heading t('attendance.group'),         'groups.name',                                                %w(attended_at group_id) %></th>
@@ -63,9 +62,6 @@
     </tr>
     <% @records.each do |record| %>
       <tr id="record<%= record.id %>">
-        <td>
-          <%= record.person_id %>
-        </td>
         <td>
           <% if record.first_name.to_s.any? %>
             <% if record.person %>
