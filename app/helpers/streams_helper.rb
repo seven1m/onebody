@@ -24,7 +24,7 @@ module StreamsHelper
             album_picture_path(stream_item.streamable_id, picture_id), :title => t('pictures.click_to_enlarge')
           ) + ' '
         end
-      end.html_safe
+      end
     end
     if use_code
       content.gsub!(/<img([^>]+)src="(.+?)"/) do |match|
@@ -32,7 +32,7 @@ module StreamsHelper
         "<img#{$1}src=\"#{url}\""
       end
     end
-    content
+    content.html_safe
   end
 
   def recent_time_ago_in_words(time)
