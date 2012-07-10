@@ -78,7 +78,7 @@ class Message < ActiveRecord::Base
   end
 
   validate :on => :create do |record|
-    if Message.find_by_person_id_and_subject_and_body(record.person_id, record.subject, record.body, :conditions => ['created_at >= ?', Date.today-1])
+    if Message.find_by_person_id_and_subject_and_body_and_to_person_id(record.person_id, record.subject, record.body, record.to_person_id, :conditions => ['created_at >= ?', Date.today-1])
       record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
     end
     if record.subject =~ /Out of Office/i
