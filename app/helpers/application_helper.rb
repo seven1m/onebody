@@ -107,7 +107,6 @@ module ApplicationHelper
 
   def common_nav_links
     html = ''
-    html << "<li class=\"platform\"><a href=\"http://beonebody.com\">OneBody v2</a></li>"
     if @logged_in
       html << "<li>#{link_to t("admin.admin"), admin_path}</li>" if @logged_in.admin?
       html << "<li>#{link_to t("session.sign_out"), session_path, :method => :delete}</li>"
