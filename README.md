@@ -1,6 +1,6 @@
 # OneBody
 
-OneBody is open-source, web-based social networking and online directory software for churches. OneBody is built on Ruby on Rails 2.3 and MySQL.
+OneBody is open-source, web-based social networking and online directory software for churches. OneBody is built on Ruby on Rails 3 and MySQL.
 
 Screenshots and feature information can be found at the [commercial website](http://beonebody.com).
 
