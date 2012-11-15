@@ -129,7 +129,7 @@ class Group < ActiveRecord::Base
     self.people.reload
     (new_people - self.people).each { |p| memberships.create!(:person => p, :auto => true) }
     ids_to_delete = (self.people - new_people).each { |p| p.id }
-    Membership.delete_all(["group_id = ? and person_id in (?) and auto = ?", id, ids_to_delete, true]I)
+    Membership.delete_all(["group_id = ? and person_id in (?) and auto = ?", id, ids_to_delete, true])
   end
 
   def can_send?(person)
