@@ -139,7 +139,7 @@
       <li class="cancel-link"><%= link_to_function '', 'hideShare()', :class =>  'delete-icon' %></li>
     </ul>
     <% if @group.email? %>
-      <%= form_for Message.new(:group => @group), :html => {:enctype => 'multipart/form-data', :id => 'share-email', :class => 'share-type'} do |form| %>
+      <%= form_for Message.new(:group => @group), :html => {:enctype => 'multipart/form-data', :id => 'share-email', :class => 'share-type', :onsubmit => "if($('#message_subject').val() == '' || $('#message_body').val() == '') { alert('Please fill in the subject and body.'); return false; }"} do |form| %>
         <%= form.hidden_field :group_id %>
         <%= form.text_field :subject, :size => 50 %>
         <%= form.text_area :body, :rows => 5 %><br/>
