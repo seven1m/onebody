@@ -90,7 +90,7 @@ class Sync < ActiveRecord::Base
     rescue
       Rails.logger.info('No Families to sync')
     else  
-      families.each do |family_hash|
+      Array.wrap(families).each do |family_hash|
         family_ids << legacy_id = family_hash['legacy_id'].to_i
         operation = nil
         if family = Family.find_by_legacy_id(legacy_id)
@@ -129,7 +129,7 @@ class Sync < ActiveRecord::Base
     rescue
       Rails.logger.info('No People to sync')
     else
-      people.each do |person_hash|
+      Array.wrap(people).each do |person_hash|
         people_ids << legacy_id = person_hash['legacy_id'].to_i
         operation = nil
         if person = Person.find_by_legacy_id(legacy_id)
@@ -168,7 +168,7 @@ class Sync < ActiveRecord::Base
     rescue
       Rails.logger.info('No Groups to sync')
     else  
-      groups.each do |group_hash|
+      Array.wrap(groups).each do |group_hash|
         group_ids << legacy_id = group_hash['legacy_id'].to_i
         operation = nil
         if group = Group.find_by_legacy_id(legacy_id)
