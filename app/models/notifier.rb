@@ -190,11 +190,13 @@ class Notifier < ActionMailer::Base
         "your registered account email address or sign in at #{Setting.get(:url, :site)} and " +
         "send your message via the Web."
       end
-      Notifier.simple_message(
-        email['Return-Path'] ? email['Return-Path'].to_s : email.from,
-        "Message Rejected: #{email.subject}",
-        reject_msg
-      ).deliver
+      if return_to = email['Return-Path'] ? email['Return-Path'].to_s : email.from
+        Notifier.simple_message(
+          return_to,
+          "Message Rejected: #{email.subject}",
+          reject_msg
+        ).deliver
+      end
       return
     end
 
