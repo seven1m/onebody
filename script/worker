@@ -49,7 +49,7 @@ stmt = db.prepare("select site_id, id, command from jobs order by created_at")
 stmt.execute
 
 if stmt.num_rows > 0
-  require File.dirname(__FILE__) + '/../config/environment'
+  require File.expand_path('../../config/environment', __FILE__)
   while job = stmt.fetch
     site_id, id, command = job
     logger = RAILS_DEFAULT_LOGGER
