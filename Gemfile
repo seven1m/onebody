@@ -17,6 +17,7 @@ gem 'rubyzip', :require => 'zip/zip'
 gem 'sanitize'
 gem 'haml'
 gem 'paperclip'
+gem 'pdf-writer', :git => 'git://github.com/metaskills/pdf-writer.git', :require => 'pdf/writer'
 
 group :development, :test do
   gem 'faker'
