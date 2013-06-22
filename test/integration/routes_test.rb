@@ -33,8 +33,9 @@ class RoutesTest < ActionController::IntegrationTest
     assert_routing '/admin/files/abc123_.abc123_', :controller => 'administration/files', :action => 'show', :id => 'abc123_.abc123_'
     post '/session', :email => people(:tim).email, :password => 'secret'
     assert_redirected_to stream_path
-    get '/admin/files/thisis..evil' # route not recognized
-    assert_response :missing
+    assert_raise(ActionController::RoutingError) do
+      get '/admin/files/thisis..evil' # route not recognized
+    end
   end
 
 end
