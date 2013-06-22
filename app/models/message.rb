@@ -317,8 +317,8 @@ class Message < ActiveRecord::Base
 
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
     [].tap do |data|
-      private_counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where to_person_id is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
-      group_counts   = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where group_id     is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
+      private_counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where to_person_id is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
+      group_counts   = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where group_id     is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
       ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
         d = date.strftime(date_strftime)
         d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
