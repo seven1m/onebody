@@ -32,12 +32,16 @@ class PrivacyTest < ActionController::IntegrationTest
   end
 
   def test_parent_give_parental_consent
+    sign_in_as people(:peter)
+    get person_path(people(:jeremy))
+    assert_template 'people/show'
+    assert_select '.family li', 2 # not 3, should not see child
     sign_in_as people(:jeremy)
     get '/people'
     assert_response :redirect
     follow_redirect!
     assert_template 'people/show'
-    assert_select '.family li', 2 # not 3 (should not see child)
+    assert_select '.family li', 3 # should see his own child
     get "/people/#{people(:jeremy).id}/privacy/edit"
     assert_response :success
     assert_template 'privacies/edit'
@@ -52,12 +56,16 @@ class PrivacyTest < ActionController::IntegrationTest
     people(:megan).reload
     assert people(:megan).parental_consent # not nil
     assert people(:megan).parental_consent.include?("#{people(:jeremy).name} \(#{people(:jeremy).id}\)")
-    assert_select 'body', :minimum => 1, :text => /This child's profile has parental consent/
+    assert_select 'body', :minimum => 1, :text => /profile has parental consent/
     get "/people/#{people(:megan).id}"
     assert_response :success
     assert_template 'people/show'
-    assert_select '.family li', 3 # not 2 (should see child)
+    assert_select '.family li', 3 # should still be 3
     assert_select '.family li', :minimum => 1, :text => Regexp.new(people(:megan).first_name)
+    sign_in_as people(:peter)
+    get person_path(people(:jeremy))
+    assert_template 'people/show'
+    assert_select '.family li', 3 # others should now see 3
   end
 
   def test_invisible_profiles
