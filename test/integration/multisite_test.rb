@@ -29,7 +29,7 @@ class MultisiteTest < ActionController::IntegrationTest
     assert_select 'body', /1 person found/
     assert_select 'body', /Jim Williams/
     assert_select 'body', :html => /Tom Jones/, :count => 0
-    get '/people/view/9'
+    get '/people/9'
     assert_response :missing
   end
 end
