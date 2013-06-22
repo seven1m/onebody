@@ -69,7 +69,7 @@
       <% if @friends.any? %>
         <h3><%= t('friends.friends') %></h3>
         <% @friends.each do |person| %>
-          <% content_tag :a, :href => person_path(person) do %>
+          <%= content_tag :a, :href => person_path(person) do %>
             <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
           <% end %>
         <% end %>
