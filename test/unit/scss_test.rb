@@ -4,9 +4,9 @@ class ScssTest < ActiveSupport::TestCase
 
   should 'calculate the coordinating edgevalue for a color' do
     result = render_css("#test { color: edgevalue(#fec) }")
-    assert_equal "#test{color:black}", result
+    assert_equal "#test{color:#000}", result
     result = render_css("#test { color: edgevalue(#333) }")
-    assert_equal "#test{color:white}", result
+    assert_equal "#test{color:#fff}", result
   end
 
   should 'calculate the coordinating edgevalue for a color with an offset' do
