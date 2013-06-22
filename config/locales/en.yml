@@ -1787,7 +1787,7 @@ en:
 
   stream: 
     about_heading: Your Homepage
-    about_html: "This is your custom-built homepage — things displayed here are from people in groups with you, your family and friends."
+    about_html: "This is your custom-built homepage &mdash; things displayed here are from people in groups with you, your family and friends."
     ago: ago
     and_more: and %{length} more by %{name}...
     feed: Feed
