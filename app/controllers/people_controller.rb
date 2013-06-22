@@ -36,7 +36,7 @@ class PeopleController < ApplicationController
         @family_people = @person.family.try(:visible_people) || []
       end
       @albums = @person.albums.all(:order => 'created_at desc')
-      @friends = @person.friends.thumbnails unless fragment_exist?(:controller => 'people', :action => 'show', :id => @person.id, :fragment => 'friends')
+      @friends = @person.friends.thumbnails
       @verses = @person.verses.all(:order => 'book, chapter, verse')
       if params[:business]
         render :action => 'business'
