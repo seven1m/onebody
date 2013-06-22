@@ -122,11 +122,12 @@ class Update < ActiveRecord::Base
         params[:person][:anniversary] = Date.new(1800, 1, 1) if params[:person][:anniversary] and params[:person][:anniversary].blank?
         update.person_attributes = params[:person].reject { |k, v| !PERSON_ATTRIBUTES.include?(k) }.reject_blanks
       end
-      Rails.logger.info(params[:family].inspect)
       update.family_attributes = params[:family].reject { |k, v| !(FAMILY_ATTRIBUTES+%w(name last_name)).include?(k) }.reject_blanks if params[:family]
       if update.person_attributes.reject { |k, v| %w(custom_fields child).include?(k) }.any? or update.family_attributes.any?
         update.save
         Notifier.profile_update(person, update.changes).deliver if Setting.get(:contact, :send_updates_to)
+      else
+        update.destroy
       end
     end
   end
