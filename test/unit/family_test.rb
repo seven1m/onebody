@@ -39,7 +39,7 @@ class FamilyTest < ActiveSupport::TestCase
       @family = Family.new(Family.forgery_defaults)
       @family.barcode_id = '1234567890'
       @family.save
-      assert_valid @family
+      assert @family.valid?
       @family.alternate_barcode_id = '1234567890'
       @family.save
       assert @family.errors[:barcode_id].any?
