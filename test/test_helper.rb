@@ -6,6 +6,8 @@ require 'rake'
 require File.expand_path('../../lib/rake_abandon', __FILE__)
 OneBody::Application.load_tasks
 
+require 'shoulda'
+
 # flatten settings hash and write to fixture file
 Rake::Task['onebody:build_settings_fixture_file'].invoke
 
