@@ -4,9 +4,7 @@ class StreamsController < ApplicationController
   before_filter :authenticate_user_with_code_or_session, :only => %w(show)
 
   def show
-    unless [nil, 'html'].include?(params[:format]) and fragment_exist?(:controller => 'streams', :action => 'show', :for => @logged_in.id, :fragment => 'stream_items')
-      @stream_items = @logged_in.shared_stream_items(30)
-    end
+    @stream_items = @logged_in.shared_stream_items(30)
     @person = @logged_in
     unless fragment_exist?(:controller => 'streams', :action => 'show', :for => @logged_in.id, :fragment => 'friendship_requests')
       @has_friendship_requests = @logged_in.pending_friendship_requests.count > 0

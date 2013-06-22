@@ -85,8 +85,6 @@
   <% end %>
 <% end %>
 
-<% cache(:fragment => 'stream_items', :for => @logged_in.id) do %>
-  <div class="stream-items">
-    <%= render :partial => 'stream_items' %>
-  </div>
-<% end %>
+<div class="stream-items">
+  <%= render :partial => 'stream_items' %>
+</div>
