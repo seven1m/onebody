@@ -40,7 +40,7 @@ class Person
 
       def queue_import_from_csv_file(file, match_by_name=true, merge_attributes={})
         Person.import_in_progress = true
-        data = FasterCSV.parse(file)
+        data = CSV.parse(file)
         attributes = data.shift.map { |a| translate_column_name(a) }
         the_changes = data[0...MAX_RECORDS_TO_IMPORT].map do |row|
           person, family = get_changes_for_import(attributes, row, match_by_name)
