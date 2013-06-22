@@ -3,6 +3,7 @@ module ApplicationHelper
   include TagsHelper
   include PicturesHelper
   include PhotosHelper
+  include ERB::Util
 
   def banner_message
     if Setting.get(:features, :banner_message).to_s.any?
