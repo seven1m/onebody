@@ -49,7 +49,6 @@
   </ul>
   
   <%= javascript_include_tag 'dragdrop.js' %>
-  <%= sortable_element 'friends', :url => reorder_person_friends_path(@person), :handle => 'handle' %>
 <% else %>
   <p><%= t('groups.nobody_yet') %></p>
 <% end %>
