@@ -10,17 +10,6 @@ module ApplicationHelper
     end
   end
 
-  def head_tags
-    (
-      '<meta http-equiv="content-type" content="text/html; charset=utf-8"/>' + \
-      '<meta http-equiv="Pragma" content="no-cache"/>' + \
-      '<meta http-equiv="no-cache"/>' + \
-      '<meta http-equiv="Expires" content="-1"/>' + \
-      '<meta http-equiv="Cache-Control" content="no-cache"/>' + \
-      (mobile? ? '<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>' : '')
-    ).html_safe
-  end
-
   def mobile?
     session[:mobile] = params[:mobile] == 'true' if params[:mobile]
     session[:mobile] or (request.env["HTTP_USER_AGENT"].to_s =~ /mobile/i and session[:mobile].nil?)
@@ -53,24 +42,6 @@ module ApplicationHelper
     end
   end
 
-  def stylesheet_tags
-    stylesheet_link_tag(stylesheet_path) + "\n" + \
-    stylesheet_link_tag('print.css', :media => 'print') + "\n" + \
-    (mobile? ? (stylesheet_link_tag(stylesheet_path(:mobile)) + "\n") : '') + \
-    "<!--[if lte IE 8]>\n".html_safe + \
-      stylesheet_link_tag(stylesheet_path(:ie)) + "\n" + \
-    "<![endif]-->".html_safe
-  end
-
-  def javascript_tags
-    javascript_include_tag('jquery-1.4.4.min', 'jquery-ui-1.8.7.custom.min', 'jquery.qtip-1.0.0-rc3.min.js', 'rails', 'application', :cache => true) + "\n" + \
-    csrf_meta_tag + "\n" + \
-    "<!--[if lte IE 8]>\n".html_safe + \
-      javascript_include_tag('ie') + "\n" + \
-    "<![endif]-->\n".html_safe + \
-    "<script type=\"text/javascript\">logged_in = #{@logged_in ? @logged_in.id : 'null'}</script>".html_safe
-  end
-
   def heading
     if Site.current.logo.exists? and @hide_logo.nil?
       link_to(image_tag(Site.current.logo.url(:layout), :alt => Setting.get(:name, :site)), '/')
@@ -89,31 +60,6 @@ module ApplicationHelper
     link_to(title, url, :class => active ? 'active button' : 'button', :id => id)
   end
 
-  def nav_links
-    html = ''
-    html << "<li>#{tab_link t("nav.home"), stream_path, params[:controller] == 'streams', 'home-tab'}</li>"
-    if @logged_in
-      profile_link = person_path(@logged_in, :tour => params[:tour])
-    else
-      profile_link = people_path
-    end
-    html << "<li><div>#{tab_link t("nav.profile"), profile_link, params[:controller] == 'people' && me?, 'profile-tab'}</div></li>"
-    if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
-      html << "<li>#{ tab_link t("nav.groups"), groups_path, params[:controller] == 'groups', 'group-tab'}</li>"
-    end
-    html << "<li>#{tab_link t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller]), 'directory-tab'}</li>"
-    html
-  end
-
-  def common_nav_links
-    html = ''
-    if @logged_in
-      html << "<li>#{link_to t("admin.admin"), admin_path}</li>" if @logged_in.admin?
-      html << "<li>#{link_to t("session.sign_out"), session_path, :method => :delete}</li>"
-    end
-    html
-  end
-
   def menu_content
     render :partial => 'people/menus'
   end
@@ -126,12 +72,15 @@ module ApplicationHelper
 
   def notice
     if flash[:warning] or flash[:notice]
-      <<-HTML
-        <div id="notice" #{flash[:warning] ? 'class="warning"' : nil}>#{flash[:warning] || flash[:notice]}</div>
-        <script type="text/javascript">
-          #{flash[:sticky_notice] ? '' : "$('#notice').fadeOut(15000);"}
-        </script>
-      HTML
+      html = content_tag(:div, :id => "notice", :class => flash[:warning] ? 'warning' : nil) do
+        flash[:warning] || flash[:notice]
+      end
+      unless flash[:sticky_notice]
+        html << content_tag(:script, :type => "text/javascript") do
+          "$('#notice').fadeOut(15000);"
+        end
+      end
+      html.html_safe
     end
   end
 

@@ -72,7 +72,6 @@ class ApplicationController < ActionController::Base
     end
 
     def set_layout_variables
-      @site_name       = CGI.escapeHTML(Setting.get(:name, :site))
       @show_subheading = Setting.get(:appearance, :show_subheading)
       @copyright_year  = Date.today.year
       @community_name  = CGI.escapeHTML(Setting.get(:name, :community))
