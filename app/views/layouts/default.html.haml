@@ -44,7 +44,10 @@
           = yield
     .inner
       #footer
-        = footer_content
-    = news_js
+        == &copy; #{Date.today.year}, #{Setting.get(:name, :community)}
+        &middot;
+        = link_to t('layouts.privacy_policy'), '/pages/help/privacy_policy'
+        &middot;
+    t('layouts.powered_by_html')
     = analytics_js
     = menu_content

@@ -84,16 +84,6 @@ module ApplicationHelper
     end
   end
 
-  def footer_content
-    "&copy; #{Date.today.year}, #{Setting.get(:name, :community)} &middot; " + \
-    "<a href=\"/pages/help/privacy_policy\">#{t('layouts.privacy_policy')}</a> &middot; " + \
-    t('layouts.powered_by_html')
-  end
-
-  def news_js
-    nil # not used any more
-  end
-
   def analytics_js
     if Rails.env.production?
       Setting.get(:services, :analytics)
