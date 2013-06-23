@@ -2,12 +2,10 @@
   <link rel="alternate" type="application/atom+xml" title='<%= t("stream.feed") %>' href="<%= url_for stream_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
 <% end %>
 
-<% cache(:fragment => 'friendship_requests', :for => @logged_in.id) do %>
-  <% if @has_friendship_requests %>
-    <div class="highlight">
-      <%= t('friends.you_have_pending_requests_html', :url => person_friends_path(@person)) %>
-    </div>
-  <% end %>
+<% if @has_friendship_requests %>
+  <div class="highlight">
+    <%= t('friends.you_have_pending_requests_html', :url => person_friends_path(@person)) %>
+  </div>
 <% end %>
 
 <% content_for :sidebar do %>
