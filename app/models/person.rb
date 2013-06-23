@@ -414,6 +414,10 @@ class Person < ActiveRecord::Base
     write_attribute(:suffix, s)
   end
 
+  def email_changed?
+    self[:email_changed]
+  end
+
   attr_accessor :dont_mark_email_changed
 
   before_update :mark_email_changed
