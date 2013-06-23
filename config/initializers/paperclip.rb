@@ -21,10 +21,3 @@ PAPERCLIP_FILE_OPTIONS = {
 }
 
 PAPERCLIP_FILE_MAX_SIZE = 25.megabytes
-
-# this patch is necessary due to filed bug:
-# http://github.com/thoughtbot/paperclip/issues/issue/337
-# TODO remove once bug is fixed in Paperclip
-class ActionDispatch::Http::UploadedFile
-  include Paperclip::Upfile
-end
