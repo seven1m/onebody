@@ -482,7 +482,7 @@ class Person < ActiveRecord::Base
       # do our own eager loading here...
       comment_people_ids = stream_items.map { |s| Array(s.context['comments']).map { |c| c['person_id'] } }.flatten
       comment_people = Person.where(:id => comment_people_ids) \
-                             .select('first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_fingerprint') \
+                             .select('first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_updated_at, photo_fingerprint') \
                              .inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
       stream_items.each do |stream_item|
         Array(stream_item.context['comments']).each do |comment|
