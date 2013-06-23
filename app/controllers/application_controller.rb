@@ -27,10 +27,9 @@ class ApplicationController < ActionController::Base
           Rails.logger.info('Reloading Settings Cache...')
           Setting.precache_settings(true)
         end
-        update_view_paths
-        set_locale
-        set_time_zone
-        set_local_formats
+        OneBody.set_locale
+        OneBody.set_time_zone
+        OneBody.set_local_formats
         set_layout_variables
       elsif site = Site.find_by_secondary_host_and_active(request.host, true)
         redirect_to 'http://' + site.host
@@ -44,33 +43,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def update_view_paths
-      theme_name = 'clean'
-      theme_dirs = [Rails.root.join('themes', theme_name)]
-      if defined?(DEPLOY_THEME_DIR)
-        theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
-      end
-      prepend_view_path(theme_dirs)
-      @view_paths = lookup_context.view_paths
-    end
-
-    def set_locale
-      I18n.locale = Setting.get(:system, :language)
-    end
-
-    def set_time_zone
-      Time.zone = Setting.get(:system, :time_zone)
-    end
-
-    def set_local_formats
-      Time::DATE_FORMATS.merge!(
-        :default           => Setting.get(:formats, :full_date_and_time),
-        :date              => Setting.get(:formats, :date),
-        :time              => Setting.get(:formats, :time),
-        :date_without_year => Setting.get(:formats, :date_without_year)
-      )
-    end
-
+    # XXX
     def set_layout_variables
       @show_subheading = Setting.get(:appearance, :show_subheading)
       @copyright_year  = Date.today.year
