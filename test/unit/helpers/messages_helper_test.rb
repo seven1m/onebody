@@ -5,7 +5,7 @@ class MessagesHelperTest < ActionView::TestCase
 
   context 'render_message_html_body' do
     setup do
-      @message = Message.create!(:person_id => people(:tim), :subject => 'Foo', :body => 'Bar')
+      @message = Message.create!(:person => people(:tim), :subject => 'Foo', :body => 'Bar')
     end
     should 'be html_safe' do
       assert render_message_html_body(@message.body).html_safe?
