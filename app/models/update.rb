@@ -47,6 +47,14 @@ class Update < ActiveRecord::Base
     end
   end
 
+  def birthday=(d)
+    self[:birthday] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
+  end
+
+  def anniversary=(d)
+    self[:anniversary] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
+  end
+
   def do!
     raise 'Unauthorized' unless Person.logged_in.admin?(:manage_updates)
     success = person.update_attributes(person_attributes) && person.family.update_attributes(family_attributes)

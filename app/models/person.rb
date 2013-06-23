@@ -268,14 +268,13 @@ class Person < ActiveRecord::Base
     memberships.find_by_group_id(group.id)
   end
 
-  def birthday=(b)
-    unless Date === b
-      b = Date.parse_in_locale(b.to_s)
-    end
-    write_attribute(:birthday, b)
-    if y = years_of_age
-      self.child = nil
-    end
+  def birthday=(d)
+    self[:birthday] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
+    self.child = nil if years_of_age
+  end
+
+  def anniversary=(d)
+    self[:anniversary] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
   end
 
   def at_least?(age) # assumes you won't pass in anything over 18

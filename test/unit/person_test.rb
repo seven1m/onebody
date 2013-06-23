@@ -144,6 +144,7 @@ class PersonTest < ActiveSupport::TestCase
       should "create an update with one date changed" do
         @tim['person']['birthday'] = '06/24/1980'
         update = Update.create_from_params(@tim, people(:tim))
+        assert update.birthday
         assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
         assert_equal nil, update.anniversary
       end
@@ -191,13 +192,38 @@ class PersonTest < ActiveSupport::TestCase
     assert !@person.reload.birthday_soon?
   end
 
-  should "not tz convert a birthday or anniversary" do
+  should "not tz convert a birthday" do
     @person = Person.forge
     Time.zone = 'Central Time (US & Canada)'
     @person.update_attributes!(:birthday => '4/28/1981')
     assert_equal '04/28/1981 00:00:00', @person.reload.birthday.strftime('%m/%d/%Y %H:%M:%S')
+  end
+
+  should "not tz convert an anniversary" do
+    @person = Person.forge
+    Time.zone = 'Central Time (US & Canada)'
     @person.update_attributes!(:anniversary => '8/11/2001')
     assert_equal '08/11/2001 00:00:00', @person.reload.anniversary.strftime('%m/%d/%Y %H:%M:%S')
+  end
+
+  should "parse birthday string by locale" do
+    @person = Person.forge
+    Setting.set(Site.current.id, 'Formats', 'Date', '%d/%m/%Y')
+    @person.birthday = '29/4/1981'
+    assert_equal Date.new(1981, 4, 29), @person.birthday
+    Setting.set(Site.current.id, 'Formats', 'Date', '%m/%d/%Y')
+    @person.birthday = '4/28/1981'
+    assert_equal Date.new(1981, 4, 28), @person.birthday
+  end
+
+  should "parse anniversary string by locale" do
+    @person = Person.forge
+    Setting.set(Site.current.id, 'Formats', 'Date', '%d/%m/%Y')
+    @person.anniversary = '12/8/1981'
+    assert_equal Date.new(1981, 8, 12), @person.anniversary
+    Setting.set(Site.current.id, 'Formats', 'Date', '%m/%d/%Y')
+    @person.anniversary = '8/11/1981'
+    assert_equal Date.new(1981, 8, 11), @person.anniversary
   end
 
   should "handle birthdays before 1970" do
