@@ -4,7 +4,7 @@ class Group < ActiveRecord::Base
   has_many :people, :through => :memberships do
     def thumbnails
       # TODO figure out why select is changed to include people.*
-      self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', :order => 'people.last_name, people.first_name')
+      self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at', :order => 'people.last_name, people.first_name')
     end
   end
   has_many :admins, :through => :memberships, :source => :person, :order => 'last_name, first_name', :conditions => ['memberships.admin = ?', true]
