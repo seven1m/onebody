@@ -219,6 +219,16 @@ module ApplicationHelper
     link_to label, url
   end
 
+  # prefer the object passed in, unless the object is nil or not yet persisted to disk
+  # fallback is @logged_in.id (default) or @logged_in.family_id (pass :family_id as second param)
+  def submenu_target(obj, fallback=:id)
+    if obj and obj.persisted?
+      obj
+    else
+      @logged_in.send(fallback)
+    end
+  end
+
   def params_without_action
     controller.params_without_action
   end
