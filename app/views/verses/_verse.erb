@@ -1,9 +1,9 @@
 <div class="verse">
   <h3 class="verse-heading">
-    <%= link_to verse.reference, verse, :class => 'verse-reference' %>
+    <%= link_to verse.reference, verse, class: 'verse-reference' %>
     <% unless @person %>
       <% if (count = verse.people.count) > 0 %>
-        <span class="saved-by">saved by <%= t('people_count', :count => count) %></span>
+        <span class="saved-by">saved by <%= t('people_count', count: count) %></span>
       <% end %>
     <% end %>
   </h3>
@@ -11,6 +11,6 @@
     <%= verse.text %>
   </div>
   <% unless @person %>
-    <%= render :partial => 'comments/comment_summary', :locals => {:object => verse} %>
+    <%= render partial: 'comments/comment_summary', locals: {object: verse} %>
   <% end %>
 </div>

@@ -1,4 +1,4 @@
-<%= will_paginate @people, :params => params_without_action %>
+<%= will_paginate @people, params: params_without_action %>
 
 <% if @people and @people.any? %>
 
@@ -19,26 +19,26 @@
     <% @people.each do |person| %>
       <tr>
         <td>
-          <a href="<%= person_url(:id => person) %>">
+          <a href="<%= person_url(id: person) %>">
             <% if person.photo.exists? %>
-              <%= image_tag person.photo.url(:tn), :alt => person.name, :class => 'no-border' %>
+              <%= image_tag person.photo.url(:tn), alt: person.name, class: 'no-border' %>
             <% elsif person.family and person.family.photo.exists? %>
-              <%= image_tag person.family.photo.url(:tn), :alt => person.family.name, :class => 'no-border' %>
+              <%= image_tag person.family.photo.url(:tn), alt: person.family.name, class: 'no-border' %>
             <% else %>
-              <%= image_tag person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png', :alt => person.name %>
+              <%= image_tag person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png', alt: person.name %>
             <% end %>
           </a>
         </td>
         <% if @search.show_businesses %>
-          <td><%= link_to person.business_name, person_path(person, :business => true) %></td>
+          <td><%= link_to person.business_name, person_path(person, business: true) %></td>
           <td>
             <% if person.business_category.to_s.any? %>
-              <%= link_to person.business_category, search_path(:business => true, :category => person.business_category) %>
+              <%= link_to person.business_category, search_path(business: true, category: person.business_category) %>
             <% end %>
           </td>
         <% else %>
           <td>
-            <%= link_to person.name, person_path(:id => person) %>
+            <%= link_to person.name, person_path(id: person) %>
             <% unless person.visible? %>
               <span class="lock-icon">&nbsp;</span>
             <% end %>
@@ -49,7 +49,7 @@
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
         <% end %>
         <td>
-          <%= render :partial => 'people/person_type', :locals => {:person => person} %>
+          <%= render partial: 'people/person_type', locals: {person: person} %>
         </td>
       </tr>
     <% end %>
@@ -57,4 +57,4 @@
 
 <% end %>
 
-<%= will_paginate @people, :params => params %>
+<%= will_paginate @people, params: params %>

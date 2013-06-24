@@ -10,12 +10,12 @@
     </tr>
     <tr>
       <th style="text-align:right;"><%= t('admin.key') %>:</th>
-      <td><code id="key" style="display:none;"><%= @key %></code><%= link_to_function t('admin.display'), "$('#key').show();$('#key_link').hide();", :id => 'key_link' %></td>
+      <td><code id="key" style="display:none;"><%= @key %></code><%= link_to_function t('admin.display'), "$('#key').show();$('#key_link').hide();", id: 'key_link' %></td>
     <tr/>
   </table>
   
-  <p><%= link_to t('admin.generate'), administration_api_key_path, :method => 'post', :confirm => t('admin.invalidate_confirmation') %>
-  <%= t('admin.new_api_or') %> <%= link_to 'disable', administration_api_key_path, :method => 'delete', :confirm => t('are_you_sure') %> <%= t('admin.your_key') %>.</p>
+  <p><%= link_to t('admin.generate'), administration_api_key_path, method: 'post', confirm: t('admin.invalidate_confirmation') %>
+  <%= t('admin.new_api_or') %> <%= link_to 'disable', administration_api_key_path, method: 'delete', confirm: t('are_you_sure') %> <%= t('admin.your_key') %>.</p>
   
   <h2><%= t('Help') %></h2>
   
@@ -40,7 +40,7 @@
 <% else %>
 
   <p><%= t('admin.no_api_key') %>
-  <%= link_to t('admin.enable'), administration_api_key_path, :method => 'post', :confirm => t('admin.enable_api_confirmation') %>
+  <%= link_to t('admin.enable'), administration_api_key_path, method: 'post', confirm: t('admin.enable_api_confirmation') %>
   <%= t('admin.your_key') %>.</p>
 
 <% end %>

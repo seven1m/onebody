@@ -1,4 +1,4 @@
-<%= javascript_include_tag('rsa/jsbn', 'rsa/prng4', 'rsa/rng', 'rsa/rsa', 'rsa/base64', :cache => 'rsa') %>
+<%= javascript_include_tag('rsa/jsbn', 'rsa/prng4', 'rsa/rng', 'rsa/rsa', 'rsa/base64', cache: 'rsa') %>
 
 <script type="text/javascript">
   function encrypt_passwords() {
@@ -15,14 +15,14 @@
 </script>
 
 <h2><%= @person.name %></h2>
-<%= form_for @person, :url => person_account_path(@person), :html => {:onsubmit => "return encrypt_passwords()"} do |form| %>
+<%= form_for @person, url: person_account_path(@person), html: {onsubmit: "return encrypt_passwords()"} do |form| %>
   <%= hidden_field_tag :encrypted_password %>
   <%= hidden_field_tag :encrypted_password_confirmation %>
   <%= error_messages_for(form) %>
   <p>
     <label for="person_email"><%= t('session.email_address') %></label>
-    <%= form.text_field :email, :style => 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>
-    <strong class="very-strong"><%= t('accounts.change_email_warning', :person => @person == @logged_in ? t('accounts.you_use') : @person.name + ' ' + t('accounts.uses')) %></strong>
+    <%= form.text_field :email, style: 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>
+    <strong class="very-strong"><%= t('accounts.change_email_warning', person: @person == @logged_in ? t('accounts.you_use') : @person.name + ' ' + t('accounts.uses')) %></strong>
     <br/>
     <label for="password"><%= t('session.password') %></label>
     <%= password_field_tag :password, nil %><br/>

@@ -1,4 +1,4 @@
-<%= javascript_include_tag('rsa/jsbn', 'rsa/prng4', 'rsa/rng', 'rsa/rsa', 'rsa/base64', :cache => 'rsa') %>
+<%= javascript_include_tag('rsa/jsbn', 'rsa/prng4', 'rsa/rng', 'rsa/rsa', 'rsa/base64', cache: 'rsa') %>
 
 <script type="text/javascript">
   function encrypt_passwords() {
@@ -20,7 +20,7 @@
   <p class="very-strong"><%= @error %></p>
 <% end %>
 
-<%= form_for @person, :url => setup_path, :html => {:method => 'POST', :onsubmit => "return encrypt_passwords()"} do |form| %>
+<%= form_for @person, url: setup_path, html: {method: 'POST', onsubmit: "return encrypt_passwords()"} do |form| %>
   <%= hidden_field_tag :encrypted_password %>
   <%= hidden_field_tag :encrypted_password_confirmation %>
 

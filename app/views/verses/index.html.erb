@@ -1,10 +1,10 @@
 <h2><%= t('verses.verses') %></h2>
 
-<p><%= t('verses.intro', :community => Setting.get(:name, :community)) %></p>
+<p><%= t('verses.intro', community: Setting.get(:name, :community)) %></p>
 
 <% content_for :sidebar do %>
 
-  <%= render :partial => 'add_verse' %>
+  <%= render partial: 'add_verse' %>
 
   <h3><%= t('tags.tags') %></h3>
 
@@ -12,7 +12,7 @@
 
   <div class="tag-cloud">
     <% tag_cloud @tags, %w(size1 size2 size3 size4) do |tag, css_class| %>
-      <%= link_to tag.name, tag, :class => css_class %>
+      <%= link_to tag.name, tag, class: css_class %>
     <% end %>
     <% if @tags.empty? %>
       <em><%= t('tags.no_tags_yet') %></em>
@@ -22,7 +22,7 @@
 <% end %>
 
 <% if @verses.any? %>
-  <%= render :partial => @verses %>
+  <%= render partial: @verses %>
 <% else %>
   <p><em><%= t('verses.no_verses_yet') %></em></p>
 <% end %>

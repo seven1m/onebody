@@ -8,8 +8,8 @@
     </div>
     <%= link_to note.title, note %>
     <% if @logged_in.can_edit?(note) %>
-      <%= link_to '[' + t('edit') + ']', edit_note_path(note), :class => 'discreet' %>
-      <%= link_to '[' + t('delete') + ']', note_path(note), :class => 'discreet', :confirm => t('are_you_sure'), :method => 'delete' %>
+      <%= link_to '[' + t('edit') + ']', edit_note_path(note), class: 'discreet' %>
+      <%= link_to '[' + t('delete') + ']', note_path(note), class: 'discreet', confirm: t('are_you_sure'), method: 'delete' %>
     <% end %>
   </div>
 
@@ -17,10 +17,10 @@
 
   <div class="note-comments">
     <div class="comment-summary">
-      <%= render :partial => 'comments/comment_summary', :locals => {:object => note} %>
+      <%= render partial: 'comments/comment_summary', locals: {object: note} %>
     </div>
     <p>
-      <%= link_to t('comments.add_read_comments'), note, :class => 'comment-icon' %>
+      <%= link_to t('comments.add_read_comments'), note, class: 'comment-icon' %>
     </p>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'photo' %>
+  <%= render partial: 'photo' %>
   <p>
     <%= t('people.services_provided_by') %><br/>
     <%= link_to @person.name, @person %>
@@ -7,9 +7,9 @@
 <% end %>
 
 <div>
-  <%= link_to t('people.business_directory'), search_path(:business => true) %> &raquo;
+  <%= link_to t('people.business_directory'), search_path(business: true) %> &raquo;
   <% if @person.business_category.to_s.any? %>
-    <%= link_to @person.business_category, search_path(:business => true, :category => @person.business_category) %> &raquo;
+    <%= link_to @person.business_category, search_path(business: true, category: @person.business_category) %> &raquo;
   <% end %>
 </div>
 <h2><%= @person.business_name %></h2>

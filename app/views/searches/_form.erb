@@ -1,8 +1,8 @@
-<%= form_tag(search_path, :method => 'post', :id => 'search-form') do %>
+<%= form_tag(search_path, method: 'post', id: 'search-form') do %>
   <%= hidden_field_tag :advanced, true %>
   <h2><%= t('search.advanced_search') %></h2>
   <label for="name_search"><%= t('search.name') %>:</label>
-  <%= text_field_tag 'name', params[:name], :id => 'name_search' %><br/>
+  <%= text_field_tag 'name', params[:name], id: 'name_search' %><br/>
   <label for="birthday_month"><%= t('search.birthday') %>:</label>
   <select name="birthday_month" id="birthday_month">
     <option value=""></option>
@@ -37,7 +37,7 @@
     <option value=""><%= t('search.all') %></option>
     <%= options_for_select ([[t('search.member'), 'member'], [t('search.staff'), 'staff'], [t('search.deacon'), 'deacon'], [t('search.elder'), 'elder']]) + (Setting.get(:features, :custom_person_type) ? Person.custom_types : []), params[:type] %>
   </select><br/>
-  <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> <label for="show_hidden" class="inline"><%= t('search.show_hidden') %></label><br/>
+  <%= check_box_tag :show_hidden, true, params[:show_hidden], class: 'checkbox' %> <label for="show_hidden" class="inline"><%= t('search.show_hidden') %></label><br/>
   <br/>
   <%= submit_tag t('search.search') %>
 <% end %>
@@ -49,7 +49,7 @@
     $('#searching').show();
     $('#results').html('');
     searchRequest = $.post(
-      "<%= search_path(:format => 'js') %>",
+      "<%= search_path(format: 'js') %>",
       $('#search-form').serialize(),
       function(){ $('#searching').hide() },
       'script'

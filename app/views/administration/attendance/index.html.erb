@@ -17,37 +17,37 @@
 
   <p class="no-print">
     <%= label_tag :attended_at, t('attendance.date') + ':' %>
-    <%= date_field_tag :attended_at, @attended_at, :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %><br/>
+    <%= date_field_tag :attended_at, @attended_at, onchange: "location.href='?attended_at='+encodeURIComponent(this.value)" %><br/>
     <%= label_tag :group_name, t('attendance.group') + ':' %>
-    <%= select_tag :group_name, options_for_select(['']) + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "location.href='?attended_at='+encodeURIComponent($('#attended_at').val())+'&group_id='+this.value" %>
+    <%= select_tag :group_name, options_for_select(['']) + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), onchange: "location.href='?attended_at='+encodeURIComponent($('#attended_at').val())+'&group_id='+this.value" %>
   </p>
 
   <div class="no-print">
     <% if @records.any? %>
       <p>
-        <%= link_to t('attendance.export'), administration_attendance_index_path(:format => 'csv', :attended_at => @attended_at) %>
+        <%= link_to t('attendance.export'), administration_attendance_index_path(format: 'csv', attended_at: @attended_at) %>
       </p>
     <% end %>
 
     <p>
-      <%= form_tag administration_attendance_index_path, :method => :get do %>
+      <%= form_tag administration_attendance_index_path, method: :get do %>
         <%= hidden_field_tag :attended_at, @attended_at %>
         <%= label_tag :person_name, t('attendance.search_person') + ':' %>
-        <%= text_field_tag :person_name, params[:person_name], :size => 15 %>
+        <%= text_field_tag :person_name, params[:person_name], size: 15 %>
         <%= submit_tag t('attendance.Search') %>
-        <% if params[:person_name] %><%= link_to t('attendance.clear_search'), administration_attendance_index_path(:attended_at => @attended_at) %><% end %>
+        <% if params[:person_name] %><%= link_to t('attendance.clear_search'), administration_attendance_index_path(attended_at: @attended_at) %><% end %>
       <% end %>
     </p>
 
     <p>
-      <%= link_to t('attendance.prev_date'), prev_administration_attendance_index_path(:attended_at => @attended_at), :class => 'left-icon' %><br/>
-      <%= link_to t('attendance.next_date'), next_administration_attendance_index_path(:attended_at => @attended_at), :class => 'right-icon' %>
+      <%= link_to t('attendance.prev_date'), prev_administration_attendance_index_path(attended_at: @attended_at), class: 'left-icon' %><br/>
+      <%= link_to t('attendance.next_date'), next_administration_attendance_index_path(attended_at: @attended_at), class: 'right-icon' %>
     </p>
   </div>
 <% end %>
 
 <% if @records.any? %>
-  <%= will_paginate @records, :params => {:sort => params[:sort], :group_id => params[:group_id]} %>
+  <%= will_paginate @records, params: {sort: params[:sort], group_id: params[:group_id]} %>
 
   <table class="spaced">
     <tr>
@@ -97,7 +97,7 @@
           <% end %>
         </td>
         <td>
-          <%= link_to '', administration_attendance_path(record), :remote => true, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
+          <%= link_to '', administration_attendance_path(record), remote: true, method: 'delete', confirm: t('are_you_sure'), class: 'delete-icon' %>
         </td>
       </tr>
       <% if record.medical_notes.to_s.any? %>
@@ -111,7 +111,7 @@
     <% end %>
   </table>
 
-  <%= will_paginate @records, :params => {:sort => params[:sort], :group_id => params[:group_id], :attended_at => params[:attended_at]} %>
+  <%= will_paginate @records, params: {sort: params[:sort], group_id: params[:group_id], attended_at: params[:attended_at]} %>
 
   <p>* Additional authorized pick-up people.</p>
 <% else %>

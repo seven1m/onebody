@@ -3,7 +3,7 @@
 
   <p>
     <a href="<%= url_for @message.person %>">
-      <%= render :partial => 'people/thumbnail', :locals => {:person => @message.person} %>
+      <%= render partial: 'people/thumbnail', locals: {person: @message.person} %>
     </a>
     <% if @message.person %>
       <%= t('messages.message_by') %> <%= link_to @message.person.name, @message.person %>
@@ -15,21 +15,21 @@
   </p>
 
   <% if @logged_in.can_edit?(@message) %>
-    <p><%= link_to t('messages.delete_message'), @message, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon discreet' %></p>
+    <p><%= link_to t('messages.delete_message'), @message, method: 'delete', confirm: t('are_you_sure'), class: 'delete-icon discreet' %></p>
   <% end %>
 <% end %>
 
 <%= render_message_body(@message) %>
 
 <br/><br/>
-<%= render :partial => 'attachments', :locals => {:message => @message} %>
+<%= render partial: 'attachments', locals: {message: @message} %>
 
 <% @message.children.each do |reply| %>
   <div class="message">
     <div class="message-details">
       <div style="width:32px;float:left;margin:4px;">
         <a href="<%= url_for reply.person %>">
-          <%= render :partial => 'people/thumbnail', :locals => {:person => reply.person} %>
+          <%= render partial: 'people/thumbnail', locals: {person: reply.person} %>
         </a>
       </div>
       <% if reply.person %>
@@ -40,13 +40,13 @@
     <div>
       <%= render_message_body(reply) %>
     </div>
-    <%= render :partial => 'attachments', :locals => {:message => reply} %>
+    <%= render partial: 'attachments', locals: {message: reply} %>
   </div>
 <% end %>
 
 <% if @message.group and @message.group.can_post? @logged_in %>
   <p class="double-margin-top">
-    <%= link_to t('messages.reply_to_this_message'), new_message_path(:parent_id => @message.id), :remote => true, :method => :get %>
+    <%= link_to t('messages.reply_to_this_message'), new_message_path(parent_id: @message.id), remote: true, method: :get %>
   </p>
 <% end %>
 

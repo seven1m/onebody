@@ -1,9 +1,9 @@
 <% if @family.photo.exists? %>
-  <%= render :partial => 'families/photo' %>
+  <%= render partial: 'families/photo' %>
 <% end %>
 <h2><%= link_to @family.name, @family %></h2>
 <p><%= format_phone @family.home_phone %></p>
 <p><%= preserve_breaks @family.pretty_address %></p>
 <% if @family.mapable? %>
-  <p><%= link_to t('families.find_on_map'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@family.mapable_address)}", :target => '_new', :class => 'right-icon' %></p>
+  <p><%= link_to t('families.find_on_map'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@family.mapable_address)}", target: '_new', class: 'right-icon' %></p>
 <% end %>

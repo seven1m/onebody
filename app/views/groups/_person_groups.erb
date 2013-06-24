@@ -1,11 +1,11 @@
 <% if @person.groups.count > 0 %>
   <table class="spaced">
-    <% @person.memberships.all(:order => 'groups.name', :include => :group).each do |membership| %>
+    <% @person.memberships.all(order: 'groups.name', include: :group).each do |membership| %>
       <% if group = membership.group %>
         <% if not group.hidden? or @logged_in.admin?(:manage_groups) %>
           <tr <% if group.hidden? %>class="grayed hidden-group" style="display:none;"<% end %>>
             <td>
-              <%= render :partial => 'groups/thumbnail', :locals => {:group => group} %>
+              <%= render partial: 'groups/thumbnail', locals: {group: group} %>
             </td>
             <td class="group">
               <%= link_to group.name, group %>
@@ -16,9 +16,9 @@
                   <%= t('people.email') %>:
                   <% if membership.get_email %>
                     <strong title="<%= t('groups.email_from_group_is_on') %>"><%= t('groups.email_on') %></strong> |
-                    <%= link_to t('groups.email_off'), group_membership_path(group, @person, :email => 'off'), :method => 'put', :confirm => t('groups.if_ok_you_will_stop_receiving'), :title => t('groups.configure_email_from_group') %>
+                    <%= link_to t('groups.email_off'), group_membership_path(group, @person, email: 'off'), method: 'put', confirm: t('groups.if_ok_you_will_stop_receiving'), title: t('groups.configure_email_from_group') %>
                   <% else %>
-                    <%= link_to t('groups.email_on'), group_membership_path(group, @person, :email => 'on'), :method => 'put', :confirm => t('groups.if_ok_you_will_start_receiving'), :title => t('groups.configure_email_from_group') %> |
+                    <%= link_to t('groups.email_on'), group_membership_path(group, @person, email: 'on'), method: 'put', confirm: t('groups.if_ok_you_will_start_receiving'), title: t('groups.configure_email_from_group') %> |
                     <strong title="<%= t('groups.email_from_group_is_off') %>"><%= t('groups.email_off') %></strong>
                   <% end %>
                 </span>
@@ -31,7 +31,7 @@
     <% if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? } %>
       <tr>
         <td></td>
-        <td><%= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", :class => 'discreet' %></td>
+        <td><%= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'discreet' %></td>
       </tr>
     <% end %>
   </table>
@@ -39,9 +39,9 @@
   <p>
     <%= t('people.you_arent_in_any_groups') %>
     <% if params[:person_id] %>
-      <%= t('people.find_a_group_html', :url => groups_path) %>
+      <%= t('people.find_a_group_html', url: groups_path) %>
     <% end %>
   </p>
 <% else %>
-  <p><%= t('people.person_isnt_any_groups', :person => @person.first_name) %></p>
+  <p><%= t('people.person_isnt_any_groups', person: @person.first_name) %></p>
 <% end %>

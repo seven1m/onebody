@@ -1,26 +1,26 @@
 <% if params[:advanced].nil? %>
 
   <div id="search-page">
-    <h2 class="search-heading"><%= t('search.heading', :name => Setting.get(:name, :community)) %></h2>
-    <%= form_tag(search_path, :method => 'get') do %>
-      <%= text_field_tag 'name', params[:name], :id => 'name_search', :class => 'search-field' %><br/>
+    <h2 class="search-heading"><%= t('search.heading', name: Setting.get(:name, :community)) %></h2>
+    <%= form_tag(search_path, method: 'get') do %>
+      <%= text_field_tag 'name', params[:name], id: 'name_search', class: 'search-field' %><br/>
       <%= submit_tag t('search.search') %>
-      <%= link_to t('search.browse'), search_path(:browse => true), :class => 'button' %>
+      <%= link_to t('search.browse'), search_path(browse: true), class: 'button' %>
     <% end %>
     <ul class="links">
-      <li><%= link_to t('search.advanced_search'), new_search_path(:advanced => true) %></li>
+      <li><%= link_to t('search.advanced_search'), new_search_path(advanced: true) %></li>
       <li><%= link_to t('search.printed_directory'), printable_directory_path %></li>
-      <li><%= link_to t('search.business_directory'), search_path(:business => true) %></li>
+      <li><%= link_to t('search.business_directory'), search_path(business: true) %></li>
     </ul>
   </div>
 
 <% else %>
 
   <% content_for :sidebar do %>
-    <%= render :partial => 'form' %>
+    <%= render partial: 'form' %>
   <% end %>
   <p id="searching">
-    <%= image_tag 'spinner.gif', :alt => 'searching', :class => 'no-border' %>
+    <%= image_tag 'spinner.gif', alt: 'searching', class: 'no-border' %>
     <%= t('search.searching') %>
   </p>
   <div id="results"></div>

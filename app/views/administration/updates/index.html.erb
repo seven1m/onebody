@@ -3,12 +3,12 @@
     <% if params[:complete] %><%= t('admin.updates.completed') %><% else %><%= t('admin.updates.pending_title') %><% end %>
     Updates
   </h2>
-  <p><%= link_to t('admin.updates.show_status', :status => params[:complete] ? t('admin.updates.pending_title') : t('admin.updates.complete')), :complete => params[:complete].nil? %></p>
+  <p><%= link_to t('admin.updates.show_status', status: params[:complete] ? t('admin.updates.pending_title') : t('admin.updates.complete')), complete: params[:complete].nil? %></p>
 
   <% if @logged_in.admin?(:manage_groups) %>
     <h3><%= t('admin.updates.groups_pending') %></h3>
     <% if not params[:complete] and @unapproved_groups.any? %>
-      <p><%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %> <%= raw @unapproved_groups.map { |g| link_to(h(g.name), group_path(:id => g)) }.join(', ') %></p>
+      <p><%= t('groups.following_are_pending_approval', count: @unapproved_groups.length) %> <%= raw @unapproved_groups.map { |g| link_to(h(g.name), group_path(id: g)) }.join(', ') %></p>
     <% else %>
       <p><%= t('admin.updates.none') %></p>
     <% end %>
@@ -17,7 +17,7 @@
 
 <h3><%= t('admin.updates.profile_updates') %></h3>
 
-<%= will_paginate @updates, :params => {:complete => params[:complete]} %>
+<%= will_paginate @updates, params: {complete: params[:complete]} %>
 
 <table class="spaced">
   <% @updates.each do |update| %>
@@ -25,29 +25,29 @@
       <td>
         <% if update.person %>
           <a href="<%= person_path(update.person) %>">
-            <%= render :partial => 'people/thumbnail', :locals => {:person => update.person} %>
+            <%= render partial: 'people/thumbnail', locals: {person: update.person} %>
           </a>
         <% else %>
-          <%= image_tag 'clean/manoutline.tn.png', :alt => '(' + t('admin.updates.person_deleted') + ')', :class => 'icon thumbnail' %>
+          <%= image_tag 'clean/manoutline.tn.png', alt: '(' + t('admin.updates.person_deleted') + ')', class: 'icon thumbnail' %>
         <% end %>
       </td>
       <td class="update">
         <p>
           <% if update.person %>
-            <%= link_to update.person.name, person_path(:id => update.person) %>
+            <%= link_to update.person.name, person_path(id: update.person) %>
           <% else %>
             '(<%= t('admin.updates.person_deleted') %>)'
           <% end %>
           <%= t('admin.updates.updated') %>
           <%= update.created_at.to_s %>
           <% if update.complete %>
-            <%= link_to t('admin.updates.mark_incomplete'), administration_update_path(update, :complete => false), :method => 'put' %>
+            <%= link_to t('admin.updates.mark_incomplete'), administration_update_path(update, complete: false), method: 'put' %>
           <% else %>
-            <%= link_to t('admin.updates.mark_complete'), administration_update_path(update, :complete => true), :method => 'put' %> |
-            <%= link_to t('Delete'), administration_update_path(update), :method => 'delete', :confirm => t('are_you_sure') %>
+            <%= link_to t('admin.updates.mark_complete'), administration_update_path(update, complete: true), method: 'put' %> |
+            <%= link_to t('Delete'), administration_update_path(update), method: 'delete', confirm: t('are_you_sure') %>
           <% end %>
         </p>
-        <%= form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
+        <%= form_for update, url: administration_update_path(update), method: 'put' do |form| %>
           <%= hidden_field_tag :complete, true %>
           <table>
             <% if update.family_name      %><tr class="update-row"><td><%= t('families.name')          %>:</td><td><%= update.family.name                               %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.family_name                        %></td></tr><% end %>
@@ -106,7 +106,7 @@
               <td></td>
               <td colspan="3">
                 <%= check_box_tag 'review', true, false %>
-                <%= label_tag 'review', t('admin.updates.review_changes'), :class => 'inline' %><br/>
+                <%= label_tag 'review', t('admin.updates.review_changes'), class: 'inline' %><br/>
                 <%= form.submit t('Update') %>
               </td>
             </tr>
@@ -117,7 +117,7 @@
   <% end %>
 </table>
 
-<%= will_paginate @updates, :params => {:complete => params[:complete]} %>
+<%= will_paginate @updates, params: {complete: params[:complete]} %>
 
 <% if @updates.empty? %>
   <p><em><%= t('admin.updates.no_updates') %>!</em></p>

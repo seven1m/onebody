@@ -4,7 +4,7 @@
   <% @reqs_by_group.each do |group, reqs| %>
     <tr>
       <td><%= group ? link_to(group.name, group) : '(' + t('groups.deleted') + ')' %></td>
-      <td><%= link_to t('admin.request', :count => reqs.length), group_memberships_path(group) %></td>
+      <td><%= link_to t('admin.request', count: reqs.length), group_memberships_path(group) %></td>
     </tr>
   <% end %>
 </table>

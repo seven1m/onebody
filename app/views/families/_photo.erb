@@ -1,6 +1,6 @@
 <div>
   <% if @family.photo.exists? %>
-    <%= link_to image_tag(@family.photo.url(:profile), :alt => @family.name),
+    <%= link_to image_tag(@family.photo.url(:profile), alt: @family.name),
       defined?(url) ? url : @family.photo.url(:large) %>
   <% end %>
 </div>

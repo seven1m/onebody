@@ -5,7 +5,7 @@
 <% end %>
 
 <% if @people.any? %>
-  <%= form_tag batch_administration_emails_path, :method => :put do %>
+  <%= form_tag batch_administration_emails_path, method: :put do %>
     <table class="spaced">
       <tr>
         <th><input type="checkbox" onclick="$('.person_checkbox').attr('checked', this.checked)"/></th>
@@ -17,7 +17,7 @@
       </tr>
       <% @people.each do |person| %>
         <tr>
-          <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
+          <td><%= check_box_tag 'ids[]', person.id, false, class: 'person_checkbox' %></td>
           <td><%= link_to person.id, person %></td>
           <td><%= person.legacy_id %></td>
           <td><%= person.last_name %></td>

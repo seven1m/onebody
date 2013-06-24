@@ -11,17 +11,17 @@
         <span class="nowrap">
           <a href="<%= url_for req.person %>">
             <%= image_tag req.person.photo.exists? ? req.person.photo.url(:tn) : (req.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
-              :alt => req.person.name %>
+              alt: req.person.name %>
           </a>
         </span>
       <% else %>
-        <%= image_tag 'clean/manoutline.tn.png', :alt => '' %>
+        <%= image_tag 'clean/manoutline.tn.png', alt: '' %>
       <% end %>
       <div style="clear:left;"></div>
     </div>
     <div class="stream-item-body">
       <div><%= sanitize_html auto_link(req.body) %></div>
-      <%= render :partial => 'meta', :locals => {:req => req} %>
+      <%= render partial: 'meta', locals: {req: req} %>
     </div>
   </div>
 

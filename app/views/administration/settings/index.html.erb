@@ -14,12 +14,12 @@
   </ul>
 
   <% if @logged_in.super_admin? %>
-    <p class="small discreet double-margin-top"><%= link_to t('admin.settings.reload'), reload_administration_settings_path, :method => 'put', :title => t('admin.settings.reload_message') %></p>
+    <p class="small discreet double-margin-top"><%= link_to t('admin.settings.reload'), reload_administration_settings_path, method: 'put', title: t('admin.settings.reload_message') %></p>
   <% end %>
 <% end %>
 
 
-<%= form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
+<%= form_tag(batch_administration_settings_path, method: 'put', style: "border:none;") do %>
 
   <table class="members">
 
@@ -69,13 +69,13 @@
       <%= setting_row('Features', 'Sign Up Approval Email') %>
       <%= setting_row('Features', 'Custom Person Type') %>
       <%= setting_row('Features', 'Custom Person Fields') %>
-      <%= setting_row('System', 'Adult Age', :options => (13..21)) %>
+      <%= setting_row('System', 'Adult Age', options: (13..21)) %>
       <%= setting_row('System', 'Suffixes') %>
 
     <%= section_row(t('admin.settings.locale_heading'), :locale) %>
 
-      <%= setting_row('System', 'Language', :options => @langs) %>
-      <%= setting_row('System', 'Time Zone', :options => @timezones) %>
+      <%= setting_row('System', 'Language', options: @langs) %>
+      <%= setting_row('System', 'Time Zone', options: @timezones) %>
 
     <%= section_row(t('admin.settings.formats_heading'), :formats) %>
 
@@ -92,20 +92,20 @@
     <%= section_row(t('admin.settings.privacy_heading'), :privacy) %>
 
       <%= setting_row('Privacy', 'Allow Picture Comments') %>
-      <%= setting_row('Privacy', 'Max Sign in Attempts', :options => [5, 10, 20, 50]) %>
+      <%= setting_row('Privacy', 'Max Sign in Attempts', options: [5, 10, 20, 50]) %>
 
       <%= subsection_row(t('admin.settings.privacy_defaults_about')) %>
       <tr>
         <td class="label"><label><%= t('admin.settings.privacy_defaults') %></label></td>
         <td>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Email by Default',        :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Home Phone by Default',   :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Mobile Phone by Default', :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Work Phone by Default',   :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Fax by Default',          :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Address by Default',      :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Birthday by Default',     :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Anniversary by Default',  :label => :name) %>
+          <%= setting_field(section: 'Privacy', name: 'Share Email by Default',        label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Home Phone by Default',   label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Mobile Phone by Default', label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Work Phone by Default',   label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Fax by Default',          label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Address by Default',      label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Birthday by Default',     label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Anniversary by Default',  label: :name) %>
         </td>
       </tr>
 

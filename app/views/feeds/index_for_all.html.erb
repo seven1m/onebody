@@ -3,7 +3,7 @@
 <% if params[:order] == 'errors' %>
   <p><%= link_to t('feeds.sort_by_person'), feeds_path %></p>
 <% else %>
-  <p><%= link_to t('feeds.sort_by_error'), feeds_path(:order => 'errors') %></p>
+  <p><%= link_to t('feeds.sort_by_error'), feeds_path(order: 'errors') %></p>
 <% end %>
 
 <table class="spaced">
@@ -18,7 +18,7 @@
         <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%= feed.url %></span>
       </td>
       <td>
-        <%= link_to '', feed, :method => 'delete', :confirm => t('are_you_sure'), :class => 'delete-icon' %>
+        <%= link_to '', feed, method: 'delete', confirm: t('are_you_sure'), class: 'delete-icon' %>
       </td>
     </tr>
   <% end %>

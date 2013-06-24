@@ -1,12 +1,12 @@
 <h2><%= t('import.import_people') %></h2>
 
-<%= form_tag({}, :method => 'post', :multipart => true) do %>
+<%= form_tag({}, method: 'post', multipart: true) do %>
   <p>
     <%= t('import.select_csv_file') %>
     <%= link_to_function t('click_here'), "$('#attributes').toggle()" %> <%= t('import.for_list_of_available_attributes') %>
   </p>
   <p>
-    <strong><%= t('import.only_first_records_will_be_imported_html', :count => Person::MAX_RECORDS_TO_IMPORT) %></strong>
+    <strong><%= t('import.only_first_records_will_be_imported_html', count: Person::MAX_RECORDS_TO_IMPORT) %></strong>
   </p>
   <ul id="attributes" style="display:none;">
     <% @column_names.each do |name| %>
@@ -21,13 +21,13 @@
   <fieldset>
     <legend><%= t('import.visibility_access') %></legend>
     <%= t('import.apply_settings_to_imports') %><br/>
-    <%= check_box_tag 'attributes[can_sign_in]', true, true, :id => 'attributes_can_sign_in' %>
+    <%= check_box_tag 'attributes[can_sign_in]', true, true, id: 'attributes_can_sign_in' %>
     <label for="attributes_can_sign_in" class="inline"><%= t('people.can_sign_in') %></label><br/>
-    <%= check_box_tag 'attributes[full_access]', true, true, :id => 'attributes_full_access' %>
+    <%= check_box_tag 'attributes[full_access]', true, true, id: 'attributes_full_access' %>
     <label for="attributes_full_access" class="inline"><%= t('people.full_access') %></label><br/>
-    <%= check_box_tag 'attributes[visible_to_everyone]', true, true, :id => 'attributes_visible_to_everyone' %>
+    <%= check_box_tag 'attributes[visible_to_everyone]', true, true, id: 'attributes_visible_to_everyone' %>
     <label for="attributes_visible_to_everyone" class="inline"><%= t('people.visible_to_everyone') %></label><br/>
-    <%= check_box_tag 'attributes[visible_on_printed_directory]', true, true, :id => 'attributes_visible_on_printed_directory' %>
+    <%= check_box_tag 'attributes[visible_on_printed_directory]', true, true, id: 'attributes_visible_on_printed_directory' %>
     <label for="attributes_visible_on_printed_directory" class="inline"><%= t('people.visible_on_printed_directory') %></label>
   </fieldset>
   <p>

@@ -1,5 +1,5 @@
 <% if @ids.any? %>
-  $('#sync_status').html('<%= escape_javascript t('contributions.remaining', :count => @ids.length) %>');
+  $('#sync_status').html('<%= escape_javascript t('contributions.remaining', count: @ids.length) %>');
   <% args = @ids.map { |id| "ids[]=#{id}" }.join('&') %>
   setTimeout(function(){
     $.post(

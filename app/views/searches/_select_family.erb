@@ -1,7 +1,7 @@
 <p>
   <% @families.each do |family| %>
-    <%= radio_button_tag 'id', family.id, @families.length == 1, :id => "family#{family.id}", :class => 'radiobutton' %>
-    <%= label_tag "family#{family.id}", family.name, :class => 'inline' %>
+    <%= radio_button_tag 'id', family.id, @families.length == 1, id: "family#{family.id}", class: 'radiobutton' %>
+    <%= label_tag "family#{family.id}", family.name, class: 'inline' %>
     <br/>
   <% end %>
   <% if @more %>

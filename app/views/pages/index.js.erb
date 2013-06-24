@@ -1,3 +1,3 @@
-$('#page<%= @parent.id %>_children').html('<%= escape_javascript render(:partial => 'list') %>')
+$('#page<%= @parent.id %>_children').html('<%= escape_javascript render(partial: 'list') %>')
 $('#page<%= @parent.id %>_expand_link').hide();
 $('#page<%= @parent.id %>_collapse_link').show();

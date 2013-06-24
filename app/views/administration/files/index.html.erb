@@ -10,7 +10,7 @@
     <tr>
       <td><%= link_to file[:filename], file[:url] %></td>
       <td><%= number_to_human_size file[:size] %></td>
-      <td><%= link_to t('delete'), administration_file_path(file[:filename]), :method => :delete, :confirm => t('are_you_sure'), :class => 'discreet' %></td>
+      <td><%= link_to t('delete'), administration_file_path(file[:filename]), method: :delete, confirm: t('are_you_sure'), class: 'discreet' %></td>
     </tr>
   <% end %>
   <% if @files.empty? %>
@@ -18,7 +18,7 @@
   <% end %>
 </table>
 
-<%= form_tag(administration_files_path, :method => :post, :multipart => true) do %>
+<%= form_tag(administration_files_path, method: :post, multipart: true) do %>
   <p>
     <%= t('admin.file.upload_new') %>:<br/>
     <%= file_field_tag :file %>

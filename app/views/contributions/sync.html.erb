@@ -1,13 +1,13 @@
 <% content_for :sidebar do %>
-  <%= link_to image_tag('donortools_logo_small.png', :alt => t('contributions.go_to_donor_tools'), :class => 'icon'), Donortools::Persona.admin_url, :target => '_blank' %>
-  <%= link_to t('contributions.go_to_donor_tools'), Donortools::Persona.admin_url, :target => '_blank' %>
+  <%= link_to image_tag('donortools_logo_small.png', alt: t('contributions.go_to_donor_tools'), class: 'icon'), Donortools::Persona.admin_url, target: '_blank' %>
+  <%= link_to t('contributions.go_to_donor_tools'), Donortools::Persona.admin_url, target: '_blank' %>
 <% end %>
 
 <h2><%= t('contributions.Sync_to_Donor_Tools') %></h2>
 
-<p><%= t('contributions.people_not_synced', :count => @unsynced_people.total_entries) %></p>
+<p><%= t('contributions.people_not_synced', count: @unsynced_people.total_entries) %></p>
 
-<%= form_tag sync_contributions_path, :remote => true, :id => 'contributions_sync_form' do %>
+<%= form_tag sync_contributions_path, remote: true, id: 'contributions_sync_form' do %>
 
   <%= will_paginate @unsynced_people %>
 
@@ -19,7 +19,7 @@
     </tr>
     <% @unsynced_people.each do |person| %>
       <tr>
-        <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
+        <td><%= check_box_tag 'ids[]', person.id, false, class: 'person_checkbox' %></td>
         <td><%= link_to person.name, person %></td>
         <td><%= link_to person.family.name, person.family %></td>
       </tr>
@@ -31,8 +31,8 @@
   <p>
     <%= hidden_field_tag 'all_ids' %>
     <%= submit_tag t('contributions.Sync_Selected') %>
-    <%= submit_tag t('contributions.Sync_All'), :onclick => "$('#all_ids').val('true')" %>
-    <%= image_tag 'spinner_small.gif', :alt => 'Updating...', :id => 'updating', :style => 'display:none;', :class => 'icon' %>
+    <%= submit_tag t('contributions.Sync_All'), onclick: "$('#all_ids').val('true')" %>
+    <%= image_tag 'spinner_small.gif', alt: 'Updating...', id: 'updating', style: 'display:none;', class: 'icon' %>
     <span id="sync_status"></span>
   </p>
 

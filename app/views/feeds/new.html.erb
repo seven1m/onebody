@@ -4,16 +4,16 @@
 
   <%= form_for [@person, @feed] do |form| %>
     <%= error_messages_for(form) %>
-    <%= form.hidden_field :name, :value => 'Facebook' %>
+    <%= form.hidden_field :name, value: 'Facebook' %>
     <%= hidden_field_tag :type, 'facebook' %>
     <ol>
       <li><%= t('feeds.log_into_facebook_html') %></li>
       <li>
         <%= t('feeds.copy_your_notifications_link_html') %>
-        <%= image_tag('fb_notifications.png', :alt => t('feeds.facebook_notifications'), :style => 'border:1px solid #000;') %>
+        <%= image_tag('fb_notifications.png', alt: t('feeds.facebook_notifications'), style: 'border:1px solid #000;') %>
       </li>
       <li>
-        <%= t('feeds.paste_link_here') %>: <%= form.text_field :url, :size => 60 %>
+        <%= t('feeds.paste_link_here') %>: <%= form.text_field :url, size: 60 %>
       </li>
       <li>
         <%= form.submit t('messages.preview') + '...' %>
@@ -27,10 +27,10 @@
 
   <%= form_for [@person, @feed] do |form| %>  
     <%= error_messages_for(form) %>
-    <%= form.hidden_field :name, :value => 'Twitter' %>
+    <%= form.hidden_field :name, value: 'Twitter' %>
     <%= hidden_field_tag :type, 'twitter' %>
     <ol>
-      <li><%= t('feeds.enter_twitter_username') %>: <%= form.text_field :url, :size => 15 %>
+      <li><%= t('feeds.enter_twitter_username') %>: <%= form.text_field :url, size: 15 %>
       </li>
       <li>
         <%= form.submit t('messages.preview') + '...' %>
@@ -44,16 +44,16 @@
 
   <%= form_for [@person, @feed] do |form| %>  
     <%= error_messages_for(form) %>
-    <%= form.hidden_field :name, :value => 'Flickr' %>
+    <%= form.hidden_field :name, value: 'Flickr' %>
     <%= hidden_field_tag :type, 'flickr' %>
     <ol>
       <li>
         <%= t('feeds.log_into_flickr_html') %><br/>
-        <%= image_tag('flickr_url.png', :alt => t('feeds.flickr_url'), :style => 'border:1px solid #000;margin:20px 0;') %>
+        <%= image_tag('flickr_url.png', alt: t('feeds.flickr_url'), style: 'border:1px solid #000;margin:20px 0;') %>
       </li>
       <li>
         <%= t('feeds.copy_the_url_from_bar') %>:
-        <%= form.text_field :url, :size => 60 %>
+        <%= form.text_field :url, size: 60 %>
       </li>
       <li>
         <%= form.submit t('messages.preview') + '...' %>
@@ -71,11 +71,11 @@
     <ol>
       <li>
         <%= t('feeds.blog_name') %>:
-        <%= form.text_field :name, :value => @feed.name || 'Blog', :size => 10 %>
+        <%= form.text_field :name, value: @feed.name || 'Blog', size: 10 %>
       </li>
       <li>
         <%= t('feeds.log_into_blog') %>:
-        <%= form.text_field :url, :size => 60 %>
+        <%= form.text_field :url, size: 60 %>
       </li>
       <li>
         <%= form.submit t('messages.preview') + '...' %>

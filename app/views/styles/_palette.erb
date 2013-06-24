@@ -1,9 +1,9 @@
 <% name, palette = palette %>
 <h3><%= name %></h3>
 <p>
-  <%= content_tag :a, :href => '#', :onclick => "choosePalette('#{name}');return false;", :class => 'styleless' do %>
+  <%= content_tag :a, href: '#', onclick: "choosePalette('#{name}');return false;", class: 'styleless' do %>
     <% palette.each do |color| %>
-      <%= content_tag :span, :class => 'color-preview', :style => "background-color:##{color};" do %>&nbsp;<% end %>
+      <%= content_tag :span, class: 'color-preview', style: "background-color:##{color};" do %>&nbsp;<% end %>
     <% end %>
   <% end %>
 </p>

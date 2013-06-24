@@ -1,15 +1,15 @@
-<p id="add_note_link" style="display:none;"><%= link_to_function t('notes.add_a_note'), "$('#add_note').show();$('#add_note_link').hide();$('#note_title')[0].focus();", :class => 'add-icon' %></p>
+<p id="add_note_link" style="display:none;"><%= link_to_function t('notes.add_a_note'), "$('#add_note').show();$('#add_note_link').hide();$('#note_title')[0].focus();", class: 'add-icon' %></p>
 <div id="add_note">
-  <%= form_tag(new_note_url, :method => 'post') %>
+  <%= form_tag(new_note_url, method: 'post') %>
     <% if @group %>
       <%= hidden_field_tag 'note[group_id]', @group.id %>
     <% end %>
     <p>
       <label for="note_title"><%= t('notes.title') %>:</label>
-      <%= text_field_tag 'note[title]', '', :id => 'note_title' %><br/>
+      <%= text_field_tag 'note[title]', '', id: 'note_title' %><br/>
       <label for="note_body"><%= t('notes.note') %>:</label><br/>
-      <%= text_area_tag 'note[body]', '', :id => 'note_body', :rows => '10' %><br/>
-      <%= submit_tag t('notes.add_note'), :style => 'width:100px;' %>
+      <%= text_area_tag 'note[body]', '', id: 'note_body', rows: '10' %><br/>
+      <%= submit_tag t('notes.add_note'), style: 'width:100px;' %>
     </p>
   </form>
 </div>

@@ -1,7 +1,7 @@
 <h2><%= t('admin.syncs.sync') %> <%= @sync.created_at.to_s %></h2>
 
 <% if @counts %>
-  <%= image_tag pie_chart_url(@counts, :width => 400, :height => 200, :title => t('admin.syncs.results')), :alt => t('admin.syncs.results') %>
+  <%= image_tag pie_chart_url(@counts, width: 400, height: 200, title: t('admin.syncs.results')), alt: t('admin.syncs.results') %>
 <% end %>
 
 <%= will_paginate @items %>

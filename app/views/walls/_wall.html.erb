@@ -3,11 +3,11 @@
   <% if me? %>
     <em><%= t('wall.description') %></em>
   <% else %>
-    <%= render :partial => 'walls/wall_post' %>
+    <%= render partial: 'walls/wall_post' %>
   <% end %>
 </p>
 <% if @messages.any? %>
-  <%= render :partial => 'walls/messages' %>
+  <%= render partial: 'walls/messages' %>
   <p>
     <%= link_to t('wall.view_all_wall_messages'), person_wall_path(@person) %>
   </p>

@@ -1,22 +1,22 @@
-<%= form_for @group, :html => {multipart: true, style: 'border:none;padding:0;'} do |form| %>
+<%= form_for @group, html: {multipart: true, style: 'border:none;padding:0;'} do |form| %>
 
   <%= error_messages_for(form) %>
 
   <h3><%= t('groups.details') %></h3>
   <div class="spaced-labels">
     <%= form.label :name, t('groups.name_required') %>
-    <%= form.text_field :name, :onkeyup => 'update_address(this.value)' %><br/>
+    <%= form.text_field :name, onkeyup: 'update_address(this.value)' %><br/>
 
     <%= form.label :category, t('groups.category_required') %>
     <div class="form-field-hint"><%= t('groups.category_hint') %></div>
-    <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{:onChange => "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
+    <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{onChange: "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
 
     <%= form.label :description, t('groups.description') %>
     <div class="form-field-hint"><%= t('groups.description_hint') %></div>
-    <%= form.text_area :description, :rows => 3 %><br/>
+    <%= form.text_area :description, rows: 3 %><br/>
 
     <%= form.label :other_notes, t('groups.other_notes') %>
-    <%= form.text_area :other_notes, :rows => 3 %><br/>
+    <%= form.text_area :other_notes, rows: 3 %><br/>
 
     <% unless @group.new_record? %>
       <%= form.label :leader_id, t('groups.leader_id') %>
@@ -24,7 +24,7 @@
     <% end %>
 
     <%= form.label :creator, t('groups.creator') %>
-    <%= form.text_field :creator, :value => (@group.creator ? @group.creator.name : nil), :readonly => true, :name => 'creator_name' %><br/>
+    <%= form.text_field :creator, value: (@group.creator ? @group.creator.name : nil), readonly: true, name: 'creator_name' %><br/>
   </div>
 
   <h3><%= t('groups.meets') %></h3>
@@ -37,22 +37,22 @@
     <% if Setting.get(:services, :yahoo) %>
       <div class="form-field-hint"><%= t('groups.location_address_hint') %></div>
     <% end %>
-    <%= form.text_area :location, :rows => 3 %>
+    <%= form.text_area :location, rows: 3 %>
     <div id="map-preview"></div>
     <br/>
 
     <%= form.label :directions, t('groups.directions') %>
     <div class="form-field-hint"><%= t('groups.directions_hint') %></div>
-    <%= form.text_area :directions, :rows => 3 %>
+    <%= form.text_area :directions, rows: 3 %>
   </div>
 
   <h3><%= t('groups.picture') %></h3>
   <div class="spaced-labels">
     <div class="form-field-hint"><%= t('groups.picture_hint') %></div>
-    <%= render :partial => 'photo' %>
+    <%= render partial: 'photo' %>
     <%= form.file_field :photo %><br/>
     <% if !@group.new_record? and @group.photo.exists? %>
-      <%= link_to t('groups.remove_group_photo'), group_path(@group, :group => {:photo => 'remove'}), :method => 'put', :confirm => t('are_you_sure') %>
+      <%= link_to t('groups.remove_group_photo'), group_path(@group, group: {photo: 'remove'}), method: 'put', confirm: t('are_you_sure') %>
       <br/>
     <% end %>
     <em><%= t('groups.click_save_changes_to_upload') %></em>
@@ -61,50 +61,50 @@
   <h3><%= t('groups.features') %></h3>
   <div class="spaced-labels">
     <div class="form-field-hint"><%= t('groups.address_hint') %></div>
-    <%= form.check_box :email, :class => 'checkbox', :onclick => 'toggleAddressField()' %>
-    <%= form.label :email, t('groups.enable_email'), :class => 'inline' %>
+    <%= form.check_box :email, class: 'checkbox', onclick: 'toggleAddressField()' %>
+    <%= form.label :email, t('groups.enable_email'), class: 'inline' %>
 
     <span id="group_address_field">
-      <%= form.text_field :address, :size => 15, :onkeyup => "this.value = remove_symbols(this.value)" %>@<%= Site.current.host %>
+      <%= form.text_field :address, size: 15, onkeyup: "this.value = remove_symbols(this.value)" %>@<%= Site.current.host %>
     </span><br/>
 
-    <%= form.check_box :prayer, :class => 'checkbox' %> <%= form.label :prayer, t('groups.enable_prayer_requests'), :class => 'inline' %><br/>
+    <%= form.check_box :prayer, class: 'checkbox' %> <%= form.label :prayer, t('groups.enable_prayer_requests'), class: 'inline' %><br/>
 
-    <%= form.check_box :pictures, :class => 'checkbox' %> <%= form.label :pictures, t('groups.enable_pictures'), :class => 'inline' %><br/>
+    <%= form.check_box :pictures, class: 'checkbox' %> <%= form.label :pictures, t('groups.enable_pictures'), class: 'inline' %><br/>
 
-    <%= form.check_box :attendance, :class => 'checkbox' %> <%= form.label :attendance, t('groups.enable_attendance_tracking'), :class => 'inline' %><br/>
+    <%= form.check_box :attendance, class: 'checkbox' %> <%= form.label :attendance, t('groups.enable_attendance_tracking'), class: 'inline' %><br/>
 
-    <%= check_box_tag :calendar, nil, @group.gcal_private_link.to_s.any?, :class => 'checkbox', :onclick => 'toggleCalendarField()' %>
-    <%= label_tag  :calendar, t('groups.enable_calendar'), :class => 'inline' %><br/>
+    <%= check_box_tag :calendar, nil, @group.gcal_private_link.to_s.any?, class: 'checkbox', onclick: 'toggleCalendarField()' %>
+    <%= label_tag  :calendar, t('groups.enable_calendar'), class: 'inline' %><br/>
 
     <span id="group_calendar_field">
-      <%= form.label :gcal_private_link, t('groups.calendar_private_link'), :class => 'inline' %>
-      <%= form.text_field :gcal_private_link, :size => 50 %>
+      <%= form.label :gcal_private_link, t('groups.calendar_private_link'), class: 'inline' %>
+      <%= form.text_field :gcal_private_link, size: 50 %>
       <%= link_to_function t('help'), "alert('" + t('groups.calendar_help') + "')" %>
     </span>
   </div>
 
   <h3><%= t('groups.privacy_security') %></h3>
   <div class="spaced-labels">
-    <%= form.check_box :approval_required_to_join, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
-    <%= form.label :approval_required_to_join, t('groups.approval_required_to_join'), :class => 'inline' %><br/>
-    <%= form.check_box :private, :class => 'checkbox', :onclick => "check_mutual_exclusion()" %>
-    <%= form.label :private, t('groups.private_group'), :class => 'inline' %>
+    <%= form.check_box :approval_required_to_join, class: 'checkbox', onclick: "check_mutual_exclusion()" %>
+    <%= form.label :approval_required_to_join, t('groups.approval_required_to_join'), class: 'inline' %><br/>
+    <%= form.check_box :private, class: 'checkbox', onclick: "check_mutual_exclusion()" %>
+    <%= form.label :private, t('groups.private_group'), class: 'inline' %>
     <em><%= t('groups.if_checked_message_only_to_members') %></em><br/>
-    <%= form.check_box :members_send, :class => 'checkbox' %>
-    <%= form.label :members_send, t('groups.group_members_can_post'), :class => 'inline' %>
+    <%= form.check_box :members_send, class: 'checkbox' %>
+    <%= form.label :members_send, t('groups.group_members_can_post'), class: 'inline' %>
   </div>
 
   <% unless @group.new_record? %>
     <h3><%= t('attachments.files') %></h3>
     <div class="spaced-labels">
       <table class="spaced">
-        <% @group.attachments.all(:order => 'name').each do |attachment| %>
+        <% @group.attachments.all(order: 'name').each do |attachment| %>
           <tr>
             <td><%= link_to attachment.name, get_attachment_path(attachment) %></td>
             <td><%= number_to_human_size(attachment.file.size) rescue 'file missing' %></td>
             <td><%= attachment.created_at.to_s(:date) %></td>
-            <td><%= link_to t('delete'), attachment, :method => :delete, :confirm => t('are_you_sure') %></td>
+            <td><%= link_to t('delete'), attachment, method: :delete, confirm: t('are_you_sure') %></td>
           </tr>
         <% end %>
       </table>
@@ -127,7 +127,7 @@
 
         <%= form.label :parents_of, t('groups.parents_of') %>
         <div class="form-field-hint"><%= t('groups.parents_of_hint') %></div>
-        <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.find_all_by_hidden(false, :order => 'name')-[@group]).map { |g| [g.name, g.id] } %>
+        <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.find_all_by_hidden(false, order: 'name')-[@group]).map { |g| [g.name, g.id] } %>
         <em></em>
 
         <%= form.label :cm_api_list_id, t('groups.campaign_monitor_sync') %>
@@ -139,8 +139,8 @@
         </div>
 
         <%= form.label :hidden, t('groups.hidden_group') %>
-        <%= form.check_box :hidden, :class => 'checkbox' %>
-        <%= form.label :hidden, 'Hide this group from non-admins.', :class => 'inline' %>
+        <%= form.check_box :hidden, class: 'checkbox' %>
+        <%= form.label :hidden, 'Hide this group from non-admins.', class: 'inline' %>
       </div>
     </div>
   <% end %>

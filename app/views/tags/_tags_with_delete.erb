@@ -6,13 +6,13 @@
         <%= link_to tag.name, tag %>
         <% if params[:controller] == controller %>
           <% if controller == 'verses' %>
-            <% url = verse_path(:id => object, :remove_tag => tag.name) %>
+            <% url = verse_path(id: object, remove_tag: tag.name) %>
           <% end %>
           <%= link_to '', url,
             :title   => t('delete'),
             :class   => 'delete-icon',
             :method  => 'put',
-            :confirm => t('tags.confirm_delete') %>
+            confirm: t('tags.confirm_delete') %>
         <% end %>
       </li>
     <% end %>
