@@ -81,6 +81,13 @@ class Person < ActiveRecord::Base
     end
   end
 
+  after_initialize :guess_last_name, if: -> p { p.last_name.nil? }
+
+  def guess_last_name
+    return unless family
+    self.last_name = family.last_name
+  end
+
   def name
     @name ||= begin
       if deleted?

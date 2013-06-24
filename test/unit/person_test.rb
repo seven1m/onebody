@@ -329,6 +329,12 @@ class PersonTest < ActiveSupport::TestCase
     end
   end
 
+  should "guess last_name upon initialization" do
+    @family = FactoryGirl.create(:family, last_name: 'Smith')
+    @person = @family.people.new
+    assert_equal 'Smith', @person.last_name
+  end
+
   should "select a proper sequence within the family if none is specified" do
     @person = FactoryGirl.create(:person)
     @person2 = FactoryGirl.create(:person, family: @person.family)
