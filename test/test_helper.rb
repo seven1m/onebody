@@ -18,8 +18,6 @@ Rake::Task['onebody:build_settings_fixture_file'].invoke
   #config.application_port = 4567
 #end
 
-require File.dirname(__FILE__) + '/forgeries'
-
 class ActiveSupport::TestCase
 
   self.use_transactional_fixtures = true
@@ -71,8 +69,8 @@ class ActiveSupport::TestCase
   fixtures :all
 
   setup do
-    # this is so fixture loading and forgeries won't bomb
-    # (since they are often loaded before AppplicaitonController can call get_site)
+    # this is so fixture loading doesn't bomb
+    # (since they are often loaded before AppplicationController can call get_site)
     Site.current = Site.find(1)
   end
 end

@@ -3,10 +3,10 @@ require_relative '../test_helper'
 class FamiliesControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
+    @person, @other_person = FactoryGirl.create_list(:person, 2)
     @family = @person.family
-    @child = Person.forge(:family => @family, :birthday => 1.year.ago, :gender => 'Female', :child => nil)
-    @admin = Person.forge(:admin => Admin.create(:edit_profiles => true))
+    @child = FactoryGirl.create(:person, :family => @family, :birthday => 1.year.ago, :gender => 'Female', :child => nil)
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:edit_profiles => true))
   end
 
   should "show a family" do
@@ -34,11 +34,11 @@ class FamiliesControllerTest < ActionController::TestCase
   should "create a new family" do
     get :new, nil, {:logged_in_id => @admin.id}
     assert_response :success
-    first_name = Faker::Name.first_name
-    last_name = Faker::Name.last_name
+    first_name = 'Mary'
+    last_name = 'Jones'
     name = "#{first_name} #{last_name}"
     post :create,
-      {:family => {:name => name, :last_name => last_name, :address1 => Faker::Address.street_address, :address2 => '', :city => Faker::Address.city, :state => Faker::Address.us_state, :zip => Faker::Address.zip_code, :home_phone => Faker::PhoneNumber.phone_number}},
+      {:family => {:name => name, :last_name => last_name, :address1 => '123 S Morgan st.', :address2 => '', :city => 'Tulsa', :state => 'OK', :zip => '74120', :home_phone => '123-456-7890'}},
       {:logged_in_id => @admin.id}
     assert_response :redirect
   end
@@ -46,11 +46,11 @@ class FamiliesControllerTest < ActionController::TestCase
   should "not create a new family unless user is admin" do
     get :new, nil, {:logged_in_id => @person.id}
     assert_response :unauthorized
-    first_name = Faker::Name.first_name
-    last_name = Faker::Name.last_name
+    first_name = 'Mary'
+    last_name = 'Jones'
     name = "#{first_name} #{last_name}"
     post :create,
-      {:family => {:name => name, :last_name => last_name, :address1 => Faker::Address.street_address, :address2 => '', :city => Faker::Address.city, :state => Faker::Address.us_state, :zip => Faker::Address.zip_code, :home_phone => Faker::PhoneNumber.phone_number}},
+      {:family => {:name => name, :last_name => last_name, :address1 => '123 S Morgan st.', :address2 => '', :city => 'Tulsa', :state => 'OK', :zip => '74120', :home_phone => '123-456-7890'}},
       {:logged_in_id => @person.id}
     assert_response :unauthorized
   end

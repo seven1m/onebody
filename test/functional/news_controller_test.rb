@@ -3,8 +3,8 @@ require_relative '../test_helper'
 class NewsControllerTest < ActionController::TestCase
 
   def setup
-    @person = Person.forge
-    @news_item = NewsItem.forge
+    @person = FactoryGirl.create(:person)
+    @news_item = FactoryGirl.create(:news_item)
   end
 
   should "list all items by js" do

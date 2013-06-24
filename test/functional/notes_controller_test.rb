@@ -3,8 +3,8 @@ require_relative '../test_helper'
 class NotesControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
-    @note = @person.forge(:note)
+    @person, @other_person = FactoryGirl.create_list(:person, 2)
+    @note = FactoryGirl.create(:note, :person => @person)
   end
 
   #should "list all notes" do
@@ -68,7 +68,7 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   should "delete a group note" do
-    @group = Group.forge
+    @group = FactoryGirl.create(:group)
     @note.group = @group
     @note.save
     post :destroy, {:id => @note.id}, {:logged_in_id => @person.id}

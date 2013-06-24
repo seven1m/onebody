@@ -39,7 +39,7 @@ class SignUpTest < ActionController::IntegrationTest
   end
 
   should 'verify with limited account' do
-    @person = Person.forge(:full_access => false)
+    @person = FactoryGirl.create(:person, :full_access => false)
     v = Verification.create!(:email => @person.email)
     verify_code(v, @person)
   end

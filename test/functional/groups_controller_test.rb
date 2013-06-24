@@ -3,8 +3,8 @@ require_relative '../test_helper'
 class GroupsControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
-    @group = Group.forge(:creator_id => @person.id, :category => 'Small Groups')
+    @person, @other_person = FactoryGirl.create_list(:person, 2)
+    @group = FactoryGirl.create(:group, :creator => @person, :category => 'Small Groups')
     @group.memberships.create(:person => @person, :admin => true)
   end
 
@@ -15,20 +15,20 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   should "not show a group if group is private and user is not a member of the group" do
-    @private_group = Group.forge(:private => true)
+    @private_group = FactoryGirl.create(:group, :private => true)
     get :show, {:id => @private_group.id}, {:logged_in_id => @person.id}
     assert_response :missing
   end
 
   should "not show a group if it is hidden" do
-    @hidden_group = Group.forge(:hidden => true)
+    @hidden_group = FactoryGirl.create(:group, :hidden => true)
     get :show, {:id => @hidden_group.id}, {:logged_in_id => @person.id}
     assert_response :missing
   end
 
   should "show a hidden group if the user can manage groups" do
-    @hidden_group = Group.forge(:hidden => true)
-    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @hidden_group = FactoryGirl.create(:group, :hidden => true)
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
     get :show, {:id => @hidden_group.id}, {:logged_in_id => @admin.id}
     assert_response :success
     assert_tag :tag => 'h2', :content => Regexp.new(@hidden_group.name)
@@ -47,14 +47,14 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   should "list a person's hidden groups if the user can manage groups" do
-    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
     @group.update_attribute :hidden, true
     get :index, {:person_id => @person.id}, {:logged_in_id => @admin.id}
     assert_tag :tag => 'tr', :attributes => {:class => 'grayed hidden-group'}
   end
 
   should "search for groups by name" do
-    Group.forge(:name => 'foo')
+    FactoryGirl.create(:group, :name => 'foo')
     get :index, {:name => 'foo'}, {:logged_in_id => @person.id}
     assert_equal 1, assigns(:groups).length
   end
@@ -66,17 +66,17 @@ class GroupsControllerTest < ActionController::TestCase
 
   should "list a person's unapproved groups" do
     Group.delete_all
-    @group = Group.forge(:creator_id => @person.id, :approved => false)
+    @group = FactoryGirl.create(:group, :creator_id => @person.id, :approved => false)
     @group.memberships.create(:person => @person, :admin => true)
-    2.times { Group.forge(:approved => false) }
+    2.times { FactoryGirl.create(:group, :approved => false) }
     get :index, nil, {:logged_in_id => @person.id}
     assert_equal 1, assigns(:unapproved_groups).length
   end
 
   should "list all unapproved groups if the user can manage groups" do
-    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
     Group.delete_all
-    2.times { Group.forge(:approved => false) }
+    2.times { FactoryGirl.create(:group, :approved => false) }
     get :index, nil, {:logged_in_id => @admin.id}
     assert_equal 2, assigns(:unapproved_groups).length
   end
@@ -128,7 +128,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   should "create an approved group if user can manage groups" do
-    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
     get :new, nil, {:logged_in_id => @admin.id}
     assert_response :success
     group_count = Group.count
@@ -154,8 +154,8 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   should "batch edit groups" do
-    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
-    @group2 = Group.forge
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
+    @group2 = FactoryGirl.create(:group)
     get :batch, nil, {:logged_in_id => @admin.id}
     assert_response :success
     assert_template :batch
@@ -176,7 +176,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   should 'report errors when batch editing groups' do
-    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
     # regular post
     post :batch, {:groups => {@group.id.to_s => {:address => "bad*address"}}}, {:logged_in_id => @admin.id}
     assert_response :success

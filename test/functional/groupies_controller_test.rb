@@ -3,8 +3,8 @@ require_relative '../test_helper'
 class GroupiesControllerTest < ActionController::TestCase
 
   def setup
-    @group = Group.forge(:category => 'Small Groups')
-    15.times { @group.memberships.create!(:person => Person.forge) }
+    @group = FactoryGirl.create(:group, :category => 'Small Groups')
+    15.times { @group.memberships.create!(:person => FactoryGirl.create(:person)) }
     @person = @group.people.last
   end
 

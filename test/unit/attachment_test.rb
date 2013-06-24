@@ -3,7 +3,8 @@ require_relative '../test_helper'
 class AttachmentTest < ActiveSupport::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
+    @person = FactoryGirl.create(:person)
+    @other_person = FactoryGirl.create(:person)
     @message = Message.create_with_attachments(
       {:to => @person, :person => @other_person,
       :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph},

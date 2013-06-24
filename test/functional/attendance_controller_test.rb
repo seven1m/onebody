@@ -3,8 +3,8 @@ require_relative '../test_helper'
 class AttendanceControllerTest < ActionController::TestCase
 
   def setup
-    @person = Person.forge
-    @group = Group.forge(:creator_id => @person.id, :category => 'Small Groups')
+    @person = FactoryGirl.create(:person)
+    @group = FactoryGirl.create(:group, :creator_id => @person.id, :category => 'Small Groups')
     @group.memberships.create(:person => @person, :admin => true)
   end
 

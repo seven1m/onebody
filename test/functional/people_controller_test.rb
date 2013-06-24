@@ -5,8 +5,8 @@ GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_AD
 class PeopleControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
-    @limited_person = Person.forge(:full_access => false)
+    @person, @other_person = FactoryGirl.create_list(:person, 2)
+    @limited_person = FactoryGirl.create(:person, :full_access => false)
   end
 
   should "redirect the index action to the currently logged in person" do
@@ -138,8 +138,8 @@ class PeopleControllerTest < ActionController::TestCase
   end
 
   should "not allow creation of people if the site has reached limit" do
-    @family = Family.forge
-    @admin = Person.forge(:admin => Admin.create(:edit_profiles => true))
+    @family = FactoryGirl.create(:family)
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:edit_profiles => true))
     Site.current.update_attribute(:max_people, 1000)
     post :create, {:person => {:first_name => 'John', :last_name => 'Smith', :family_id => @family.id, :child => false}}, {:logged_in_id => @admin.id}
     assert_response :redirect
@@ -152,14 +152,14 @@ class PeopleControllerTest < ActionController::TestCase
   end
 
   should "not allow deletion of a global super admin" do
-     @super_admin = Person.forge(:admin => Admin.create(:super_admin => true))
-     @global_super_admin = Person.forge(:email => 'support@example.com')
+     @super_admin = FactoryGirl.create(:person, :admin => Admin.create(:super_admin => true))
+     @global_super_admin = FactoryGirl.create(:person, :email => 'support@example.com')
      post :destroy, {:id => @global_super_admin.id}, {:logged_in_id => @super_admin.id}
      assert_response :unauthorized
   end
 
   should "not error when viewing a person not in a family" do
-    @admin = Person.forge(:admin => Admin.create(:view_hidden_profiles => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:view_hidden_profiles => true))
     @person = Person.create!(:first_name => 'Deanna', :last_name => 'Troi', :child => false, :visible_to_everyone => true)
     # normal person should not see
     assert_nothing_raised do

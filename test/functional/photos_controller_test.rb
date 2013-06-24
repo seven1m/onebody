@@ -3,8 +3,8 @@ require_relative '../test_helper'
 class PhotosControllerTest < ActionController::TestCase
 
   def setup
-    @family = Family.forge
-    @person = Person.forge
+    @family = FactoryGirl.create(:family)
+    @person = FactoryGirl.create(:person)
   end
 
   should "update a photo" do

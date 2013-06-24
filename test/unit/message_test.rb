@@ -4,8 +4,8 @@ class MessageTest < ActiveSupport::TestCase
   include MessagesHelper
 
   def setup
-    @person, @second_person, @third_person = Person.forge, Person.forge, Person.forge
-    @admin_person = Person.forge(:admin_id => Admin.create(:manage_groups => true).id)
+    @person, @second_person, @third_person = FactoryGirl.create_list(:person, 3)
+    @admin_person = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
     @group = Group.create! :name => 'Some Group', :category => 'test'
     @group.memberships.create! :person => @person
   end

@@ -3,10 +3,10 @@ require_relative '../test_helper'
 class PrayerRequestsControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
-    @group = Group.forge
+    @person, @other_person = FactoryGirl.create_list(:person, 2)
+    @group = FactoryGirl.create(:group)
     @group.memberships.create(:person_id => @person.id)
-    @prayer_request = @group.forge(:prayer_requests, :person_id => @person.id)
+    @prayer_request = FactoryGirl.create(:prayer_request, :group => @group, :person => @person)
   end
 
   should "list all prayer requests" do
@@ -16,7 +16,7 @@ class PrayerRequestsControllerTest < ActionController::TestCase
   end
 
   should "list all answered prayer requests" do
-    @unanswered = @group.forge(:prayer_requests, :answer => nil, :person_id => @person.id)
+    @unanswered = FactoryGirl.create(:prayer_request, :group => @group, :answer => nil, :person => @person)
     get :index, {:answered => true, :group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
     assert_equal 1, assigns(:reqs).length

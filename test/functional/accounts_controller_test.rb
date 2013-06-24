@@ -3,7 +3,7 @@ require_relative '../test_helper'
 class AccountsControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
+    @person, @other_person = FactoryGirl.create_list(:person, 2)
   end
 
   should "edit account" do

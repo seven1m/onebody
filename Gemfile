@@ -20,6 +20,7 @@ gem 'paperclip'
 gem 'pdf-writer', :git => 'git://github.com/metaskills/pdf-writer.git', :require => 'pdf/writer'
 
 group :development, :test do
+  gem 'factory_girl_rails'
   gem 'faker'
   gem 'shoulda', '~> 3.0.1', :require => false
   gem 'pry'

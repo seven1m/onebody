@@ -3,7 +3,7 @@ require_relative '../test_helper'
 class FriendsControllerTest < ActionController::TestCase
 
   def setup
-    @person, @friend, @other_person = Person.forge, Person.forge, Person.forge
+    @person, @friend, @other_person = FactoryGirl.create_list(:person, 3)
     @friendship = @person.friendships.create(:friend => @friend)
   end
 

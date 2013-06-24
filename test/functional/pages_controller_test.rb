@@ -3,8 +3,8 @@ require_relative '../test_helper'
 class PagesControllerTest < ActionController::TestCase
 
   def setup
-    @admin = Person.forge(:admin => Admin.create(:edit_pages => true))
-    @person = Person.forge
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:edit_pages => true))
+    @person = FactoryGirl.create(:person)
   end
 
   should "show a top level page based on path" do

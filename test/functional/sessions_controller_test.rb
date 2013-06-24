@@ -4,7 +4,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   def setup
     Setting.set_global('Features', 'SSL', true)
-    @person = Person.forge(:password => 'secret')
+    @person = FactoryGirl.create(:person, :password => 'secret')
   end
 
   should "redirect show action to new action" do

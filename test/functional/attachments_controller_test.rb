@@ -3,7 +3,7 @@ require_relative '../test_helper'
 class AttachmentsControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
+    @person, @other_person = FactoryGirl.create_list(:person, 2)
     @group = Group.create! :name => 'Some Group', :category => 'test'
     @group.memberships.create! :person => @person
     @message = Message.create_with_attachments(
@@ -24,14 +24,14 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   should "show the new page attachment form" do
-    @admin = Person.forge(:admin => Admin.create(:edit_pages => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:edit_pages => true))
     get :new, {:page_id => pages(:foo).id}, {:logged_in_id => @admin.id}
     assert_response :success
     assert_equal pages(:foo), assigns(:page)
   end
 
   should "create a new page attachment" do
-    @admin = Person.forge(:admin => Admin.create(:edit_pages => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:edit_pages => true))
     post :create, {:attachment => {:page_id => pages(:foo).id, :file => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)}, :from => edit_page_path(pages(:foo))}, {:logged_in_id => @admin.id}
     assert_redirected_to edit_page_path(pages(:foo))
     assert_equal 1, pages(:foo).attachments.count
@@ -45,7 +45,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   should "create a new group attachment" do
-    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
     post :create, {:attachment => {:group_id => groups(:morgan).id, :file => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)}}, {:logged_in_id => @admin.id}
     assert_redirected_to edit_group_path(groups(:morgan), :anchor => 'attachments')
     assert_equal 1, groups(:morgan).attachments.count
@@ -59,7 +59,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   should "delete a page attachment" do
-    @admin = Person.forge(:admin => Admin.create(:edit_pages => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:edit_pages => true))
     @attachment = Attachment.create_from_file(:page_id => pages(:foo).id, :file => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true))
     post :destroy, {:id => @attachment.id, :from => edit_page_path(pages(:foo))}, {:logged_in_id => @admin.id}
     assert_redirected_to edit_page_path(pages(:foo))
@@ -75,7 +75,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   end
 
   should "delete a group attachment" do
-    @admin = Person.forge(:admin => Admin.create(:manage_groups => true))
+    @admin = FactoryGirl.create(:person, :admin => Admin.create(:manage_groups => true))
     @attachment = Attachment.create_from_file(:group_id => groups(:morgan).id, :file => Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true))
     post :destroy, {:id => @attachment.id, :from => edit_group_path(groups(:morgan))}, {:logged_in_id => @admin.id}
     assert_redirected_to edit_group_path(groups(:morgan))

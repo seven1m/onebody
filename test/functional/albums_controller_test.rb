@@ -3,8 +3,8 @@ require_relative '../test_helper'
 class AlbumsControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
-    @album = @person.forge(:album)
+    @person, @other_person = FactoryGirl.create_list(:person, 2)
+    @album = FactoryGirl.create(:album, :person => @person)
   end
 
   should "list all albums" do

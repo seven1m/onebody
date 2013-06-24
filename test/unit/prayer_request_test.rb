@@ -3,9 +3,9 @@ require_relative '../test_helper'
 class PrayerRequestTest < ActiveSupport::TestCase
 
   def setup
-    @group = Group.forge
-    @person = Person.forge
-    @req = PrayerRequest.forge(:group => @group, :person => @person)
+    @group = FactoryGirl.create(:group)
+    @person = FactoryGirl.create(:person)
+    @req = FactoryGirl.create(:prayer_request, :group => @group, :person => @person)
   end
 
   should "have a name" do

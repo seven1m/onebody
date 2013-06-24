@@ -3,7 +3,7 @@ require_relative '../test_helper'
 class PhotoTest < ActiveSupport::TestCase
 
   should 'save a photo for a person' do
-    @person = Person.forge
+    @person = FactoryGirl.create(:person)
     @person.photo = File.open(Rails.root.join('test/fixtures/files/image.jpg'))
     @person.save
     @person.reload

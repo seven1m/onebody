@@ -49,6 +49,11 @@ GEM
     color (1.4.1)
     curb (0.7.18)
     erubis (2.7.0)
+    factory_girl (4.2.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
+      railties (>= 3.0.0)
     faker (1.1.2)
       i18n (~> 0.5)
     feedzirra (0.0.31)
@@ -163,6 +168,7 @@ PLATFORMS
 DEPENDENCIES
   builder
   campaign_monitor_party
+  factory_girl_rails
   faker
   feedzirra
   haml

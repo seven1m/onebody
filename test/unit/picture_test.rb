@@ -3,7 +3,7 @@ require_relative '../test_helper'
 class PictureTest < ActiveSupport::TestCase
 
   setup do
-    @picture = Picture.forge
+    @picture = FactoryGirl.create(:picture)
   end
 
   should 'rotate' do

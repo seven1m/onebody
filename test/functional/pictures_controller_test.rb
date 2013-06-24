@@ -3,14 +3,14 @@ require_relative '../test_helper'
 class PicturesControllerTest < ActionController::TestCase
 
   def setup
-    @person = Person.forge
-    @album = @person.forge(:album)
-    @picture  = @album.forge(:picture, :person_id => @person.id)
+    @person = FactoryGirl.create(:person)
+    @album = FactoryGirl.create(:album, :person => @person)
+    @picture  = FactoryGirl.create(:picture, :album => @album, :person => @person)
   end
 
   def add_pictures(how_many=2)
-    @picture2 = @album.forge(:picture, :person_id => @person.id)
-    @picture3 = @album.forge(:picture, :person_id => @person.id) unless how_many == 1
+    @picture2 = FactoryGirl.create(:picture, :album => @album, :person => @person)
+    @picture3 = FactoryGirl.create(:picture, :album => @album, :person => @person) unless how_many == 1
   end
 
   should "list all pictures in an album" do

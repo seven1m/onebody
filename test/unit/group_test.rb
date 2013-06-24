@@ -2,18 +2,19 @@ require_relative '../test_helper'
 
 class GroupTest < ActiveSupport::TestCase
   def setup
-    @person = Person.logged_in = Person.forge
+    @person = Person.logged_in = FactoryGirl.create(:person)
     # all are approved...
-    @group = Group.forge(:creator_id => @person.id, :category => 'Small Groups')
-    2.times { Group.forge(:category => 'foo', :hidden => false) }
-    Group.forge(:category => 'bar', :hidden => true)
+    @group = FactoryGirl.create(:group, :creator_id => @person.id, :category => 'Small Groups')
+    FactoryGirl.create(:group, :category => 'foo', :hidden => false)
+    FactoryGirl.create(:group, :category => 'foo', :hidden => false)
+    FactoryGirl.create(:group, :category => 'bar', :hidden => true)
     # also, these fixtures:
     # morgan (Small Groups), college (Small Groups), and publications (Subscription)
   end
 
   should "update its membership based on a link_code" do
-    3.times { Person.forge(:classes => 'foo') }
-    2.times { Person.forge(:classes => 'fooz,bar,baz') }
+    3.times { FactoryGirl.create(:person, :classes => 'foo') }
+    2.times { FactoryGirl.create(:person, :classes => 'fooz,bar,baz') }
     assert_equal 0, @group.people.count
     @group.link_code = 'foo'
     @group.save
@@ -30,7 +31,7 @@ class GroupTest < ActiveSupport::TestCase
 
   should "update its membership based on a parents_of selection" do
     @group.memberships.create!(:person => people(:mac))
-    @group2 = Group.forge(:parents_of => @group.id)
+    @group2 = FactoryGirl.create(:group, :parents_of => @group.id)
     assert_equal 2, @group2.people.count
     assert @group2.reload.people.include?(people(:tim))
     assert @group2.people.include?(people(:jennie))
@@ -58,7 +59,7 @@ class GroupTest < ActiveSupport::TestCase
 
   should "get attendance records by date per person" do
     @group.memberships.create!(:person_id => @person.id)
-    @group.memberships.create!(:person_id => Person.forge.id)
+    @group.memberships.create!(:person_id => FactoryGirl.create(:person).id)
     records = @group.get_people_attendance_records_for_date('2008-07-22')
     assert_equal 2, records.length
     assert !records.any? { |r| r.last }

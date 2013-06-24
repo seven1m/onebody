@@ -10,7 +10,7 @@ class Administration::AdminsControllerTest < ActionController::TestCase
   end
 
   should 'remove administrator' do
-    people(:jeremy).update_attribute(:admin_id, Admin.create!)
+    people(:jeremy).update_attribute(:admin, Admin.create!)
     post :destroy, {:id => people(:jeremy).admin_id}, {:logged_in_id => people(:tim).id}
     assert_redirected_to administration_admins_path
     assert_equal I18n.t('admin.admin_removed'), flash[:notice]

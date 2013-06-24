@@ -24,8 +24,8 @@ class RelationshipTest < ActiveSupport::TestCase
   should "reciprocate certain relationship names" do
     relationship = Relationship.create!(
       :name    => 'mother_in_law',
-      :person  => Person.forge(:gender => 'Male'),
-      :related => Person.forge(:gender => 'Female')
+      :person  => FactoryGirl.create(:person, :gender => 'Male'),
+      :related => FactoryGirl.create(:person, :gender => 'Female')
     )
     assert relationship.can_auto_reciprocate?
     assert_equal 'son_in_law', relationship.reciprocal_name

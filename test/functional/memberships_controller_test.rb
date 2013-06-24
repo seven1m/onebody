@@ -3,9 +3,10 @@ require_relative '../test_helper'
 class MembershipsControllerTest < ActionController::TestCase
 
   setup do
-    @admin = Person.forge(:admin => Admin.create!(:edit_profiles => true, :manage_groups => true))
-    @person = Person.forge
-    @group1, @group2 = Group.forge, Group.forge
+    @admin = FactoryGirl.create(:person, :admin => Admin.create!(:edit_profiles => true, :manage_groups => true))
+    @person = FactoryGirl.create(:person)
+    @group1 = FactoryGirl.create(:group)
+    @group2 = FactoryGirl.create(:group)
     @person.memberships.create!(:group => @group1)
   end
 
