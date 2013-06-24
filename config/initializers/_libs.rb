@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'open-uri'
 require 'rexml/document'
 require 'net/http'
