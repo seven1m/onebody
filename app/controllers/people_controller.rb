@@ -55,26 +55,12 @@ class PeopleController < ApplicationController
   end
 
   def new
-    if params[:family_id]
-      if Person.can_create?
-        @business_categories = Person.business_categories
-        @custom_types = Person.custom_types
-        if @logged_in.admin?(:edit_profiles)
-          defaults = {can_sign_in: true, visible_to_everyone: true, visible_on_printed_directory: true, full_access: true}
-          @person = Person.new(defaults)
-          @family = Family.find(params[:family_id])
-          number = @family.people.count(conditions: ['deleted = ?', false])
-          @person.family_id = @family.id
-          @person.last_name = @family.last_name
-          @person.child = (number >= 2)
-        else
-          render text: t('not_authorized'), layout: true, status: 401
-        end
-      else
-        render text: t('people.cant_be_added'), layout: true, status: 401
-      end
+    if @logged_in.admin?(:edit_profiles)
+      @family = Family.find(params[:family_id])
+      @person = @family.people.new
+      @person.set_default_visibility
     else
-      render text: t('There_was_an_error'), layout: true, status: 500
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 

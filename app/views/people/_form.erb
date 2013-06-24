@@ -2,7 +2,9 @@
 
   <h3><%= t('people.edit.basics') %></h3>
 
-  <%= form.hidden_field :family_id %>
+  <% if @logged_in.admin?(:edit_profiles) %>
+    <%= form.hidden_field :family_id %>
+  <% end %>
 
   <%= form.label :first_name, t('people.name') %>
   <%= form.text_field :first_name, size: 15 %>
@@ -67,7 +69,7 @@
       <%= form.text_field :custom_type, size: 10 %><div class="autocomplete" id="person_custom_type_auto_complete"></div>
       <script type="text/javascript">
         // FIXME
-        //new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', <%= @custom_types.inspect %>, {});
+        //new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', <%= custom_types.inspect %>, {});
       </script>
     <% end %>
 
@@ -128,7 +130,7 @@
   <label for="person_business_category"><%= t('search.business_category') %></label>
   <select name="person[business_category]" id="person_business_category" onchange="if(this.value=='!') custom_select_val(this, '<%= t('people.enter_new_category') %>')">
     <option value=""></option>
-    <%= options_for_select @business_categories, @person.business_category %>
+    <%= options_for_select business_categories, @person.business_category %>
     <option value="!">[<%= t('new_category') %>]</option>
   </select><br/>
   <label for="person_business_name"><%= t('people.business_name') %>:</label>

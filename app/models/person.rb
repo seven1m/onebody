@@ -689,11 +689,11 @@ class Person < ActiveRecord::Base
     end
 
     def business_categories
-      find_by_sql("select distinct business_category from people where business_category is not null and business_category != '' and site_id = #{Site.current.id} order by business_category").map { |p| p.business_category }
+      connection.select("select distinct business_category as name from people where business_category is not null and business_category != '' and site_id = #{Site.current.id} order by business_category").map { |c| c['name'] }
     end
 
     def custom_types
-      find_by_sql("select distinct custom_type from people where custom_type is not null and custom_type != '' and site_id = #{Site.current.id} order by custom_type").map { |p| p.custom_type }
+      connection.select("select distinct custom_type as name from people where custom_type is not null and custom_type != '' and site_id = #{Site.current.id} order by custom_type").map { |t| t['name'] }
     end
 
   end

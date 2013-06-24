@@ -13,4 +13,12 @@ module PeopleHelper
       capture(&block)
     end
   end
+
+  def business_categories
+    Person.business_categories
+  end
+
+  def custom_types
+    Person.custom_types
+  end
 end
