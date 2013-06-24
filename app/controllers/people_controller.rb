@@ -195,7 +195,7 @@ class PeopleController < ApplicationController
       params[:ids].each { |id| Person.find(id).update_attribute(:family_id, params[:family_id]) }
       respond_to do |format|
         format.html { redirect_to family_path(params[:family_id]) }
-        format.js   { render(:update) { |p| p.redirect_to family_path(params[:family_id]) } }
+        format.js   { render js: "location.replace('#{family_path(params[:family_id])}')" }
       end
     # API for use by UpdateAgent
     elsif @logged_in.admin?(:import_data) and Site.current.import_export_enabled?

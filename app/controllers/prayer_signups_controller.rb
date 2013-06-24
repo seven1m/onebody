@@ -75,9 +75,7 @@ class PrayerSignupsController < ApplicationController
         render text: t('not_authorized'), layout: true, status: 401
       end
       format.js do
-        render(:update) do |page|
-          page.alert(t('not_authorized'))
-        end
+        render js: "alert('#{t('not_authorized')}')"
       end
     end
   end
