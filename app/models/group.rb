@@ -24,7 +24,7 @@ class Group < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :name, :description, :meets, :location, :directions, :other_notes, :address, :members_send, :private, :category, :leader_id, :blog, :email, :prayer, :attendance, :gcal_private_link, :approval_required_to_join, :pictures, :cm_api_list_id
+  attr_accessible :name, :description, :photo, :meets, :location, :directions, :other_notes, :address, :members_send, :private, :category, :leader_id, :blog, :email, :prayer, :attendance, :gcal_private_link, :approval_required_to_join, :pictures, :cm_api_list_id
   attr_accessible :approved, :link_code, :parents_of, :hidden, :if => Proc.new { Person.logged_in && Person.logged_in.admin?(:manage_groups) }
 
   validates_presence_of :name
