@@ -18,7 +18,7 @@ gem 'haml'
 gem 'sass'
 gem 'paperclip'
 gem 'exception_notification'
-gem 'acts_as_taggable_on_steroids'
+gem 'acts_as_taggable_on_steroids', git: 'git://github.com/PavelNartov/acts_as_taggable_on_steroids.git', require: 'acts_as_taggable'
 gem 'pdf-writer', git: 'git://github.com/metaskills/pdf-writer.git', require: 'pdf/writer'
 
 group :development, :test do

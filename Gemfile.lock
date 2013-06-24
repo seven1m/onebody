@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/PavelNartov/acts_as_taggable_on_steroids.git
+  revision: e1d8332220ed32ed3c0a977e945fe17ab686397e
+  specs:
+    acts_as_taggable_on_steroids (2.1.2)
+      rails (~> 3.2.1)
+
+GIT
   remote: git://github.com/metaskills/pdf-writer.git
   revision: 7f5bc6c9ce69c26574bbfde36ebdb9ecf06709d0
   specs:
@@ -36,7 +43,6 @@ GEM
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
-    acts_as_taggable_on_steroids (1.2)
     arel (3.0.2)
     builder (3.0.4)
     campaign_monitor_party (0.2.1)
@@ -167,7 +173,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_taggable_on_steroids
+  acts_as_taggable_on_steroids!
   builder
   campaign_monitor_party
   exception_notification

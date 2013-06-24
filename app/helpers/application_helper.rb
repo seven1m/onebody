@@ -1,5 +1,3 @@
-require 'tags_helper'
-
 module ApplicationHelper
   include TagsHelper
   include PicturesHelper
