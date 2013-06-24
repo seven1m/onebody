@@ -7,8 +7,6 @@ class PrayerRequest < ActiveRecord::Base
 
   attr_accessible :request, :answer, :answered_at
 
-  acts_as_logger LogItem
-
   validates_presence_of :request, :group_id, :person_id
 
   def name

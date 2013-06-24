@@ -8,8 +8,6 @@ class Note < ActiveRecord::Base
 
   attr_accessible :title, :body
 
-  acts_as_logger LogItem
-
   validates_presence_of :body
 
   def name; title; end

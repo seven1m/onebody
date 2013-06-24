@@ -4,7 +4,6 @@ class NewsItem < ActiveRecord::Base
   belongs_to :site
 
   scope_by_site_id
-  acts_as_logger LogItem
 
   attr_accessible :title, :body
 

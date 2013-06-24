@@ -17,8 +17,6 @@ class Relationship < ActiveRecord::Base
     end
   end
 
-  acts_as_logger LogItem
-
   def name_or_other
     name == 'other' ? other_name : I18n.t(name, :scope => 'relationships.names')
   end

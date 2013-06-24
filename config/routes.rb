@@ -174,11 +174,6 @@ OneBody::Application.routes.draw do
         put :batch
       end
     end
-    resources :log_items do
-      collection do
-        put :batch
-      end
-    end
     resources :settings do
       collection do
         put :batch

@@ -9,8 +9,6 @@ class Friendship < ActiveRecord::Base
   validates_presence_of :friend_id
   validates_uniqueness_of :friend_id, :scope => [:site_id, :person_id]
 
-  acts_as_logger LogItem
-
   attr_accessor :skip_mirror
 
   before_create :mirror_friendship

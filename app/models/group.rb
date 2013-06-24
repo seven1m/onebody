@@ -50,7 +50,6 @@ class Group < ActiveRecord::Base
   end
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
-  acts_as_logger LogItem
 
   scope :checkin_destinations, :include => :group_times, :conditions => ['group_times.checkin_time_id is not null'], :order => 'group_times.ordering'
 

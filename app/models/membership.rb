@@ -7,8 +7,6 @@ class Membership < ActiveRecord::Base
 
   scope_by_site_id
 
-  acts_as_logger LogItem
-
   def family; person.family; end
 
   before_create :generate_security_code

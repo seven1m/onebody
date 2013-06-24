@@ -7,7 +7,6 @@ class Publication < ActiveRecord::Base
   attr_accessible :name, :description, :file
 
   has_attached_file :file, PAPERCLIP_FILE_OPTIONS
-  acts_as_logger LogItem
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => :site_id

@@ -55,8 +55,6 @@ class Person < ActiveRecord::Base
   acts_as_password
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
-  acts_as_logger LogItem
-
   validates_presence_of :first_name, :last_name
   validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
   validates_confirmation_of :password, :if => Proc.new { Person.logged_in }

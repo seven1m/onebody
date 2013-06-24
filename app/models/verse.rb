@@ -7,7 +7,6 @@ class Verse < ActiveRecord::Base
   belongs_to :site
 
   scope_by_site_id
-  acts_as_logger LogItem
   acts_as_taggable
 
   def admin?(person)

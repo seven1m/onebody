@@ -4,8 +4,6 @@ class PrayerSignup < ActiveRecord::Base
 
   scope_by_site_id
 
-  acts_as_logger LogItem
-
   validates_uniqueness_of :start, :scope => [:site_id, :person_id]
   validates_presence_of :start
 

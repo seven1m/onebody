@@ -33,8 +33,6 @@ class Message < ActiveRecord::Base
     end
   end
 
-  acts_as_logger LogItem
-
   def name
     if self.to
       "Private Message to #{to.name rescue '[deleted]'}"

@@ -7,7 +7,6 @@ class Picture < ActiveRecord::Base
   scope_by_site_id
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
-  acts_as_logger LogItem
 
   validates_presence_of :album_id
   validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE

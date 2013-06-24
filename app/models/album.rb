@@ -8,8 +8,6 @@ class Album < ActiveRecord::Base
 
   attr_accessible :name, :description, :is_public
 
-  acts_as_logger LogItem
-
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:site_id, :person_id]
 

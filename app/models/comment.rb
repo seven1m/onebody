@@ -17,8 +17,6 @@ class Comment < ActiveRecord::Base
     "Comment on #{on ? on.name : '?'}"
   end
 
-  acts_as_logger LogItem
-
   after_create :update_stream_items_on_create
 
   def update_stream_items_on_create

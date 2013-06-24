@@ -8,7 +8,6 @@ class Page < ActiveRecord::Base
   belongs_to :site
 
   scope_by_site_id
-  acts_as_logger LogItem
 
   attr_accessible :slug, :title, :body, :parent_id, :parent, :path, :published, :navigation, :raw
 

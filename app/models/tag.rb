@@ -9,8 +9,6 @@ class Tag < ActiveRecord::Base
 
   scope_by_site_id
 
-  acts_as_logger LogItem
-
   cattr_accessor :destroy_unused
   self.destroy_unused = false
 
