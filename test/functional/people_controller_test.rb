@@ -59,19 +59,18 @@ class PeopleControllerTest < ActionController::TestCase
   end
 
   should "edit favorites and other non-basic person information" do
-    testimony = Faker::Lorem.paragraph; interests = Faker::Lorem.paragraph
     post :update,
       {
         :id => @person.id,
         :person => {
-          :testimony => testimony,
-          :interests => interests
+          :testimony => 'testimony',
+          :interests => 'interests'
         }
       },
       {:logged_in_id => @person.id}
     assert_redirected_to person_path(@person)
-    assert_equal testimony, @person.reload.testimony
-    assert_equal interests, @person.interests
+    assert_equal 'testimony', @person.reload.testimony
+    assert_equal 'interests', @person.interests
     assert_equal 0, @person.updates.count
   end
 

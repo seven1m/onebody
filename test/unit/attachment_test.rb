@@ -7,7 +7,7 @@ class AttachmentTest < ActiveSupport::TestCase
     @other_person = FactoryGirl.create(:person)
     @message = Message.create_with_attachments(
       {:to => @person, :person => @other_person,
-      :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph},
+      :subject => 'subject', :body => 'body'},
       [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)]
     )
     @attachment = @message.attachments.first

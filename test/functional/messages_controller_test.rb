@@ -9,7 +9,7 @@ class MessagesControllerTest < ActionController::TestCase
   end
 
   should "delete a group message" do
-    @message = @group.messages.create! :subject => 'Just a Test', :body => Faker::Lorem.paragraph, :person => @person
+    @message = @group.messages.create! :subject => 'Just a Test', :body => 'body', :person => @person
     post :destroy, {:id => @message.id}, {:logged_in_id => @person.id}
     assert_response :redirect
   end
@@ -18,8 +18,7 @@ class MessagesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
     get :new, {:to_person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :success
-    body = Faker::Lorem.sentence
-    post :create, {:message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person.id}
+    post :create, {:message => {:to_person_id => @person.id, :subject => 'Hello There', :body => 'body'}}, {:logged_in_id => @other_person.id}
     assert_response :success
     assert_select 'body', /message.+sent/
     assert ActionMailer::Base.deliveries.any?
@@ -27,8 +26,7 @@ class MessagesControllerTest < ActionController::TestCase
 
   should "render preview of private message" do
     ActionMailer::Base.deliveries = []
-    body = Faker::Lorem.sentence
-    post :create, {:format => 'js', :preview => true, :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person.id}
+    post :create, {:format => 'js', :preview => true, :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => 'body'}}, {:logged_in_id => @other_person.id}
     assert_response :success
     assert_template 'create'
     assert ActionMailer::Base.deliveries.empty?
@@ -38,8 +36,7 @@ class MessagesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
     get :new, {:group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
-    body = Faker::Lorem.sentence
-    post :create, {:message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person.id}
+    post :create, {:message => {:group_id => @group.id, :subject => 'Hello There', :body => 'body'}}, {:logged_in_id => @person.id}
     assert_response :redirect
     assert_redirected_to group_path(@group)
     assert_match /has been sent/, flash[:notice]
@@ -48,8 +45,7 @@ class MessagesControllerTest < ActionController::TestCase
 
   should "render preview of group message" do
     ActionMailer::Base.deliveries = []
-    body = Faker::Lorem.sentence
-    post :create, {:format => 'js', :preview => true, :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person.id}
+    post :create, {:format => 'js', :preview => true, :message => {:group_id => @group.id, :subject => 'Hello There', :body => 'body'}}, {:logged_in_id => @person.id}
     assert_response :success
     assert_template 'create'
     assert ActionMailer::Base.deliveries.empty?
@@ -58,8 +54,7 @@ class MessagesControllerTest < ActionController::TestCase
   should "not allow someone to post to a group they don't belong to unless they're an admin" do
     get :new, {:group_id => @group.id}, {:logged_in_id => @other_person.id}
     assert_response :error
-    body = Faker::Lorem.sentence
-    post :create, {:message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @other_person.id}
+    post :create, {:message => {:group_id => @group.id, :subject => 'Hello There', :body => 'body'}}, {:logged_in_id => @other_person.id}
     assert_response :error
   end
 
@@ -67,8 +62,7 @@ class MessagesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
     get :new, {:group_id => @group.id}, {:logged_in_id => @person.id}
     assert_response :success
-    body = Faker::Lorem.sentence
-    post :create, {:files => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)], :message => {:group_id => @group.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person.id}
+    post :create, {:files => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)], :message => {:group_id => @group.id, :subject => 'Hello There', :body => 'body'}}, {:logged_in_id => @person.id}
     assert_response :redirect
     assert_redirected_to group_path(@group)
     assert_match /has been sent/, flash[:notice]
@@ -80,8 +74,7 @@ class MessagesControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries = []
     get :new, {:to_person_id => @person.id}, {:logged_in_id => @other_person.id}
     assert_response :success
-    body = Faker::Lorem.sentence
-    post :create, {:files => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)], :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => body}}, {:logged_in_id => @person.id}
+    post :create, {:files => [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)], :message => {:to_person_id => @person.id, :subject => 'Hello There', :body => 'body'}}, {:logged_in_id => @person.id}
     assert_response :success
     assert_select 'body', /message.+sent/
     assert ActionMailer::Base.deliveries.any?

@@ -7,7 +7,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     @group = Group.create! :name => 'Some Group', :category => 'test'
     @group.memberships.create! :person => @person
     @message = Message.create_with_attachments(
-      {:group => @group, :person => @person, :subject => Faker::Lorem.sentence, :body => Faker::Lorem.paragraph},
+      {:group => @group, :person => @person, :subject => 'subject', :body => 'body'},
       [Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)]
     )
     @attachment = @message.attachments.first
