@@ -12,10 +12,6 @@ class RoutesTest < ActionController::IntegrationTest
     assert_equal '/news', news_items_path
   end
 
-  should "route to bible" do
-    assert_recognizes({controller: 'bibles', action: 'show', book: 'John', chapter: '0'}, '/bible/John')
-  end
-
   should "route to pages" do
     assert_recognizes({controller: 'pages', action: 'show_for_public', path: 'home'}, '/pages/home')
   end

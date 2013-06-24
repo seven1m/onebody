@@ -156,10 +156,6 @@ OneBody::Application.routes.draw do
     end
   end
 
-  match 'bible(/:book(/:chapter))' => 'bibles#show',
-    :defaults    => {:book => 'x', :chapter => '0'},
-    :constraints => {:book => /[A-Za-z0-9 \+(%20)]+/, :chapter => /\d{1,3}/}
-
   resources :pages, :path => 'pages/admin' do
     resources :attachments
   end
