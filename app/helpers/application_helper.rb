@@ -6,7 +6,7 @@ module ApplicationHelper
 
   def banner_message
     if Setting.get(:features, :banner_message).to_s.any?
-      CGI.escapeHTML(Setting.get(:features, :banner_message))
+      h(Setting.get(:features, :banner_message))
     end
   end
 
