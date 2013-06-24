@@ -67,7 +67,7 @@ class Site < ActiveRecord::Base
     end
   end
 
-  after_create :add_settings, :add_pages, :add_publications_group
+  after_create :add_settings, :add_pages
 
   def add_settings
     Setting.update_site(self)
@@ -100,14 +100,6 @@ class Site < ActiveRecord::Base
         page.save!
       end
     end
-    Site.current = was
-  end
-
-  def add_publications_group
-    was = Site.current
-    Site.current = self
-    group = Group.new(:name => 'Publications', :description => 'People who wish to be notified when new publications become available on the website.', :category => 'Subscription', :address => 'publications', :members_send => false, :approved => true, :hidden => true)
-    group.save(:validate => false)
     Site.current = was
   end
 

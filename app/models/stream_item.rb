@@ -20,7 +20,7 @@ class StreamItem < ActiveRecord::Base
 
   # can't do this in a sweeper since there isn't a controller involved
   def expire_caches
-    if %w(NewsItem Publication).include?(streamable_type)
+    if NewsItem == streamable_type
       ActionController::Base.cache_store.delete_matched(%r{stream\?for=\d+&fragment=stream_items})
     elsif person
       ids = [person_id] + person.all_friend_and_groupy_ids

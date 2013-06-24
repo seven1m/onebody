@@ -9,9 +9,6 @@
       <% if Setting.get(:features, :verses) %>
         <li><%= link_to t('menus.home.verses'), verses_path, :class => 'verse-icon' %></li>
       <% end %>
-      <% if Setting.get(:features, :publications) %>
-        <li><%= link_to t('menus.home.publications'), publications_path, :class => 'file-icon' %></li>
-      <% end %>
       <% if Setting.get(:features, :news_page) %>
         <li><%= link_to t('menus.home.news'), news_path, :class => 'news-icon' %></li>
       <% end %>

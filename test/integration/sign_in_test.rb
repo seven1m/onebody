@@ -41,8 +41,6 @@ class SignInTest < ActionController::IntegrationTest
     assert_response :redirect
     get "/stream.xml?code=#{people(:tim).feed_code}"
     assert_response :success
-    get "/publications.xml?code=#{people(:tim).feed_code}"
-    assert_response :success
     get "/groups/#{groups(:morgan).id}/memberships/#{people(:jeremy).id}?code=#{people(:jeremy).feed_code}&email=off"
     assert_redirected_to people_path
   end

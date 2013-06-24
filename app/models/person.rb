@@ -456,7 +456,6 @@ class Person < ActiveRecord::Base
     enabled_types = []
     enabled_types << 'Message' # wall posts and group posts (not personal messages)
     enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
-    enabled_types << 'Publication' if Setting.get(:features, :publications)
     enabled_types << 'Verse'       if Setting.get(:features, :verses      )
     enabled_types << 'Album'       if Setting.get(:features, :pictures    )
     enabled_types << 'Note'        if Setting.get(:features, :notes       )
@@ -470,7 +469,7 @@ class Person < ActiveRecord::Base
                .where("(group_id in (:group_ids) or" +
                       " (group_id is null and wall_id is null and person_id in (:friend_ids)) or" +
                       " person_id = :id or" +
-                      " streamable_type in ('NewsItem', 'Publication')" +
+                      " streamable_type = 'NewsItem'" +
                       ")", :group_ids => group_ids, :friend_ids => friend_ids, :id => id) \
                .order('created_at desc') \
                .limit(count) \
