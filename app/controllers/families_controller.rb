@@ -72,7 +72,6 @@ class FamiliesController < ApplicationController
           redirect_to params[:redirect_to] || @family
         end
         format.xml  { render xml: @family, status: :created, location: @family }
-        format.js
       else
         format.html { render action: "new" }
         format.xml  { render xml: @family.errors, status: :unprocessable_entity }
