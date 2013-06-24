@@ -5,7 +5,7 @@
   <% end %>
   <% if @picture.person %>
     <p>
-      <%= t('pictures.picture_uploaded_by', :when => @picture.created_at.to_s) %><br/>
+      <%= t('pictures.picture_uploaded_by', :when => @picture.created_at.to_s(:full)) %><br/>
       <%= render :partial => 'people/thumbnail', :locals => {:person => @picture.person} %>
       <%= link_to @picture.person.name, @picture.person %><br/>
     </p>
