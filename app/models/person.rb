@@ -601,6 +601,12 @@ class Person < ActiveRecord::Base
     self.friendship_requests.destroy_all
   end
 
+  def set_default_visibility
+    self.can_sign_in = true
+    self.visible_to_everyone = true
+    self.visible_on_printed_directory = true
+    self.full_access = true
+  end
 
   class << self
 
