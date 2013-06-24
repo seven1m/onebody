@@ -17,6 +17,7 @@ gem 'sanitize'
 gem 'haml'
 gem 'sass'
 gem 'paperclip'
+gem 'exception_notification'
 gem 'pdf-writer', :git => 'git://github.com/metaskills/pdf-writer.git', :require => 'pdf/writer'
 
 group :development, :test do

@@ -49,6 +49,8 @@ GEM
     color (1.4.1)
     curb (0.7.18)
     erubis (2.7.0)
+    exception_notification (3.0.1)
+      actionmailer (>= 3.0.4)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.2.1)
@@ -166,6 +168,7 @@ PLATFORMS
 DEPENDENCIES
   builder
   campaign_monitor_party
+  exception_notification
   factory_girl_rails
   feedzirra
   haml
