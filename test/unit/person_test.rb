@@ -306,12 +306,27 @@ class PersonTest < ActiveSupport::TestCase
 
   end
 
-  should "not allow child and birthday to both be unspecified" do
-    @person = FactoryGirl.create(:person)
-    @person.birthday = nil
-    @person.child = nil
-    @person.save
-    assert @person.errors[:child]
+  context 'Child' do
+    should "guess child upon initialization" do
+      @family = FactoryGirl.create(:family)
+      FactoryGirl.create_list(:person, 2, family: @family)
+      @child = @family.people.new
+      assert_equal true, @child.child?
+    end
+
+    should "sets child=nil when birthday is set" do
+      @person = FactoryGirl.build(:person, child: false)
+      @person.birthday = 1.year.ago
+      assert_nil @person.child
+    end
+
+    should "not allow child and birthday to both be unspecified" do
+      @person = FactoryGirl.create(:person)
+      @person.birthday = nil
+      @person.child = nil
+      @person.save
+      assert @person.errors[:child]
+    end
   end
 
   should "select a proper sequence within the family if none is specified" do

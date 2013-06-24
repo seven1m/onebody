@@ -70,22 +70,13 @@ class Person < ActiveRecord::Base
 
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
-  validates_each [:email, :child] do |record, attribute, value|
+  validates_each :email do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any? and not record.deleted?
       if Person.count(conditions: ["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]) > 0
         record.errors.add attribute, :taken
       end
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
         record.errors.add attribute, :invalid
-      end
-    elsif attribute.to_s == 'child' and not record.deleted?
-      y = record.years_of_age
-      if value == true and y and y >= 13
-        record.errors.add attribute, :cannot_be_yes
-      elsif value == false and y and y < 13
-        record.errors.add attribute, :cannot_be_no
-      elsif value.nil? and y.nil?
-        record.errors.add attribute, :blank
       end
     end
   end
@@ -268,31 +259,11 @@ class Person < ActiveRecord::Base
 
   def birthday=(d)
     self[:birthday] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
-    self.child = nil if years_of_age
   end
 
   def anniversary=(d)
     self[:anniversary] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
   end
-
-  def at_least?(age) # assumes you won't pass in anything over 18
-    (y = years_of_age and y >= age) or child == false
-  end
-
-  def age
-    birthday && birthday.distance_to(Date.today)
-  end
-
-  def years_of_age(on=Date.today)
-    return nil unless birthday
-    return nil if birthday.year == 1900
-    years = on.year - birthday.year
-    years -= 1 if on.month < birthday.month
-    years -= 1 if on.month == birthday.month and on.day < birthday.day
-    years
-  end
-
-  def adult?; at_least?(Setting.get(:system, :adult_age).to_i); end
 
   def parental_consent?; parental_consent.to_s.any?; end
   def adult_or_consent?; adult? or parental_consent?; end
@@ -715,10 +686,12 @@ class Person < ActiveRecord::Base
   end
 
   # model extensions
+  # TODO move this to concerns
   Dir["#{Rails.root}/app/models/person/*.rb"].each do |ext|
     load(ext)
     mod_name = ext.split('/').last.split('.').first.classify
     class_eval "include Person::#{mod_name}"
   end
 
+  include ChildConcern
 end
