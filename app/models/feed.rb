@@ -6,9 +6,9 @@ class Feed < ActiveRecord::Base
   attr_accessible :name, :url
 
   validates_presence_of :person_id, :url, :name
-  validates_uniqueness_of :name, :scope => [:site_id, :person_id]
-  validates_uniqueness_of :url, :scope => [:site_id, :person_id]
-  validates_format_of :url, :with => /^https?\:\/\/.+/
+  validates_uniqueness_of :name, scope: [:site_id, :person_id]
+  validates_uniqueness_of :url, scope: [:site_id, :person_id]
+  validates_format_of :url, with: /^https?\:\/\/.+/
 
   before_save :transform_url
 
@@ -79,10 +79,10 @@ class Feed < ActiveRecord::Base
         end
         if res.is_a?(Net::HTTPOK)
           person.pictures.create(
-            :album_id     => album.id,
-            :original_url => entry.url || url,
-            :created_at   => entry.published,
-            :photo        => FakeFile.new(res.body, img.split('/').last)
+            album_id:     album.id,
+            original_url: entry.url || url,
+            created_at:   entry.published,
+            photo:        FakeFile.new(res.body, img.split('/').last)
           )
         end
       end

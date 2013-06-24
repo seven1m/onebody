@@ -124,12 +124,12 @@ class Search
         @conditions.add_condition ["people.custom_type = ?", @type]
       end
     end
-    @count = Person.count :conditions => @conditions, :include => :family
+    @count = Person.count conditions: @conditions, include: :family
     @people = Person.paginate(
-      :page => page,
-      :conditions => @conditions,
-      :include => :family,
-      :order => (show_businesses ? 'people.business_name' : 'people.last_name, people.first_name')
+      page: page,
+      conditions: @conditions,
+      include: :family,
+      order: (show_businesses ? 'people.business_name' : 'people.last_name, people.first_name')
     ).select do |person| # additional checks that don't work well in raw sql
       !person.nil? \
         and Person.logged_in.sees?(person) \
@@ -143,8 +143,8 @@ class Search
 
   def query_families(page=nil)
     @conditions.add_condition ["families.deleted = ?", false]
-    @count = Family.count :conditions => @conditions
-    @families = Family.paginate(:page => page, :conditions => @conditions, :order => "last_name")
+    @count = Family.count conditions: @conditions
+    @families = Family.paginate(page: page, conditions: @conditions, order: "last_name")
   end
 
   def self.new_from_params(params)
@@ -161,8 +161,8 @@ class Search
     search.testimony = params[:testimony]
     search.family_id = params[:family_id]
     search.show_hidden = params[:show_hidden]
-    search.birthday = {:month => params[:birthday_month], :day => params[:birthday_day]}
-    search.anniversary = {:month => params[:anniversary_month], :day => params[:anniversary_day]}
+    search.birthday = {month: params[:birthday_month], day: params[:birthday_day]}
+    search.anniversary = {month: params[:anniversary_month], day: params[:anniversary_day]}
     search.gender = params[:gender]
     search.address = params.reject { |k, v| not %w(city state zip).include? k }
     search.type = params[:type]

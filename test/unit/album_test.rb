@@ -4,7 +4,7 @@ class AlbumTest < ActiveSupport::TestCase
 
   should "have a cover picture" do
     @album = FactoryGirl.create(:album)
-    FactoryGirl.create(:picture, :album => @album)
+    FactoryGirl.create(:picture, album: @album)
     assert @album.cover
   end
 

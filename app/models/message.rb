@@ -7,21 +7,21 @@ class Message < ActiveRecord::Base
 
   belongs_to :group
   belongs_to :person
-  belongs_to :wall, :class_name => 'Person', :foreign_key => 'wall_id'
-  belongs_to :to, :class_name => 'Person', :foreign_key => 'to_person_id'
-  belongs_to :parent, :class_name => 'Message', :foreign_key => 'parent_id'
-  has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :conditions => 'to_person_id is null', :dependent => :destroy
-  has_many :attachments, :dependent => :destroy
-  has_many :log_items, :foreign_key => 'loggable_id', :conditions => "loggable_type = 'Message'"
+  belongs_to :wall, class_name: 'Person', foreign_key: 'wall_id'
+  belongs_to :to, class_name: 'Person', foreign_key: 'to_person_id'
+  belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
+  has_many :children, class_name: 'Message', foreign_key: 'parent_id', conditions: 'to_person_id is null', dependent: :destroy
+  has_many :attachments, dependent: :destroy
+  has_many :log_items, foreign_key: 'loggable_id', conditions: "loggable_type = 'Message'"
   belongs_to :site
 
   scope_by_site_id
 
   validates_presence_of :person_id
   validates_presence_of :subject
-  validates_length_of :subject, :minimum => 2
+  validates_length_of :subject, minimum: 2
 
-  validates_each :to_person_id, :allow_nil => true do |record, attribute, value|
+  validates_each :to_person_id, allow_nil: true do |record, attribute, value|
     if attribute.to_s == 'to_person_id' and value and record.to and record.to.email.nil?
       record.errors.add attribute, :invalid
     end
@@ -75,8 +75,8 @@ class Message < ActiveRecord::Base
     end
   end
 
-  validate :on => :create do |record|
-    if Message.find_by_person_id_and_subject_and_body_and_to_person_id_and_group_id(record.person_id, record.subject, record.body, record.to_person_id, record.group_id, :conditions => ['created_at >= ?', Date.today-1])
+  validate on: :create do |record|
+    if Message.find_by_person_id_and_subject_and_body_and_to_person_id_and_group_id(record.person_id, record.subject, record.body, record.to_person_id, record.group_id, conditions: ['created_at >= ?', Date.today-1])
       record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
     end
     if record.subject =~ /Out of Office/i
@@ -220,7 +220,7 @@ class Message < ActiveRecord::Base
   end
 
   def flagged?
-    log_items.count(:id, :conditions => "flagged_on is not null") > 0
+    log_items.count(:id, conditions: "flagged_on is not null") > 0
   end
 
   def can_see?(p)
@@ -252,16 +252,16 @@ class Message < ActiveRecord::Base
   def create_as_stream_item
     return unless streamable?
     StreamItem.create!(
-      :title           => wall_id ? nil : subject,
-      :body            => html_body.to_s.any? ? html_body : body,
-      :text            => !html_body.to_s.any?,
-      :wall_id         => wall_id,
-      :person_id       => person_id,
-      :group_id        => group_id,
-      :streamable_type => 'Message',
-      :streamable_id   => id,
-      :created_at      => created_at,
-      :shared          => (!wall || wall.share_activity?) && person.share_activity? && !(group && group.hidden?)
+      title:           wall_id ? nil : subject,
+      body:            html_body.to_s.any? ? html_body : body,
+      text:            !html_body.to_s.any?,
+      wall_id:         wall_id,
+      person_id:       person_id,
+      group_id:        group_id,
+      streamable_type: 'Message',
+      streamable_id:   id,
+      created_at:      created_at,
+      shared:          (!wall || wall.share_activity?) && person.share_activity? && !(group && group.hidden?)
     )
   end
 
@@ -285,22 +285,22 @@ class Message < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(:streamable_type => 'Message', :streamable_id => id)
+    StreamItem.destroy_all(streamable_type: 'Message', streamable_id: id)
   end
 
   def self.preview(attributes)
     msg = Message.new(attributes)
-    Notifier.full_message(Person.new(:email => 'test@example.com'), msg)
+    Notifier.full_message(Person.new(email: 'test@example.com'), msg)
   end
 
   def self.create_with_attachments(attributes, files)
-    message = Message.create(attributes.update(:dont_send => true))
+    message = Message.create(attributes.update(dont_send: true))
     unless message.errors.any?
       files.select { |f| f && f.size > 0 }.each do |file|
         attachment = message.attachments.create(
-          :name         => File.split(file.original_filename).last,
-          :content_type => file.content_type,
-          :file         => file
+          name:         File.split(file.original_filename).last,
+          content_type: file.content_type,
+          file:         file
         )
         if attachment.errors.any?
           attachment.errors.each_full { |e| message.errors.add(:base, e) }

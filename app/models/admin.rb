@@ -1,5 +1,5 @@
 class Admin < ActiveRecord::Base
-  has_many :people, :dependent => :nullify
+  has_many :people, dependent: :nullify
   def person; people.first; end # only admin templates have more than one
 
   belongs_to :site
@@ -16,7 +16,7 @@ class Admin < ActiveRecord::Base
     !template_name.nil?
   end
 
-  validates_uniqueness_of :template_name, :allow_nil => true, :scope => :site_id
+  validates_uniqueness_of :template_name, allow_nil: true, scope: :site_id
 
   before_save :ensure_flags_is_hash
 

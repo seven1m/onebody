@@ -2,35 +2,35 @@ class Family < ActiveRecord::Base
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
-  has_many :people, :order => 'sequence', :dependent => :destroy
+  has_many :people, order: 'sequence', dependent: :destroy
   accepts_nested_attributes_for :people
   belongs_to :site
 
   scope_by_site_id
 
   attr_accessible :name, :last_name, :address1, :address2, :city, :state, :zip, :home_phone, :email, :share_address, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :wall_enabled, :visible, :share_activity, :share_home_phone
-  attr_accessible :legacy_id, :barcode_id, :alternate_barcode_id, :people_attributes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
+  attr_accessible :legacy_id, :barcode_id, :alternate_barcode_id, :people_attributes, if: Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
   sharable_attributes :mobile_phone, :address, :anniversary
 
-  validates_uniqueness_of :barcode_id, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |f| f.deleted? }
-  validates_uniqueness_of :alternate_barcode_id, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |f| f.deleted? }
-  validates_length_of :barcode_id, :alternate_barcode_id, :in => 10..50, :allow_nil => true
-  validates_format_of :barcode_id, :alternate_barcode_id, :with => /^\d+$/, :allow_nil => true
-  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
-  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
+  validates_uniqueness_of :barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
+  validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
+  validates_length_of :barcode_id, :alternate_barcode_id, in: 10..50, allow_nil: true
+  validates_format_of :barcode_id, :alternate_barcode_id, with: /^\d+$/, allow_nil: true
+  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
 
   validates_each [:barcode_id, :alternate_barcode_id] do |record, attribute, value|
     if attribute.to_s == 'barcode_id' and record.barcode_id
       if record.barcode_id == record.alternate_barcode_id
         record.errors.add(attribute, :taken)
-      elsif Family.count(:conditions => ['alternate_barcode_id = ?', record.barcode_id]) > 0
+      elsif Family.count(conditions: ['alternate_barcode_id = ?', record.barcode_id]) > 0
         record.errors.add(attribute, :taken)
       end
     elsif attribute.to_s == 'alternate_barcode_id' and record.alternate_barcode_id
-      if Family.count(:conditions => ['barcode_id = ?', record.alternate_barcode_id]) > 0
+      if Family.count(conditions: ['barcode_id = ?', record.alternate_barcode_id]) > 0
         record.errors.add(attribute, :taken)
       end
     end
@@ -97,7 +97,7 @@ class Family < ActiveRecord::Base
     rescue
       logger.error("Could not get latitude and longitude for address #{mapable_address} for family #{name}.")
     else
-      update_attributes :latitude => lat, :longitude => lon
+      update_attributes latitude: lat, longitude: lon
     end
   end
 
@@ -117,39 +117,39 @@ class Family < ActiveRecord::Base
   end
 
   def suggested_relationships
-    all_people = people.all(:order => 'sequence')
+    all_people = people.all(order: 'sequence')
     relations = {
-      :adult => {
-        :male => {
-          :adult => {
-            :female => 'wife'
+      adult: {
+        male: {
+          adult: {
+            female: 'wife'
           },
-          :child => {
-            :male   => 'son',
-            :female => 'daughter'
+          child: {
+            male:   'son',
+            female: 'daughter'
           }
         },
-        :female => {
-          :adult => {
-            :male => 'husband'
+        female: {
+          adult: {
+            male: 'husband'
           },
-          :child => {
-            :male   => 'son',
-            :female => 'daughter'
+          child: {
+            male:   'son',
+            female: 'daughter'
           }
         }
       },
-      :child => {
-        :male => {
-          :adult => {
-            :male   => 'father',
-            :female => 'mother'
+      child: {
+        male: {
+          adult: {
+            male:   'father',
+            female: 'mother'
           }
         },
-        :female => {
-          :adult => {
-            :male   => 'father',
-            :female => 'mother'
+        female: {
+          adult: {
+            male:   'father',
+            female: 'mother'
           }
         }
       }
@@ -230,14 +230,14 @@ class Family < ActiveRecord::Base
         end
         family.dont_mark_barcode_id_changed = true # set flag to indicate we're the api
         if family.save
-          s = {:status => 'saved', :legacy_id => family.legacy_id, :id => family.id, :name => family.name}
+          s = {status: 'saved', legacy_id: family.legacy_id, id: family.id, name: family.name}
           if family.barcode_id_changed? # barcode_id_changed flag still set
             s[:status] = 'saved with error'
             s[:error] = "Newer barcode not overwritten: #{family.barcode_id.inspect}"
           end
           s
         else
-          {:status => 'not saved', :legacy_id => record['legacy_id'], :id => family.id, :name => family.name, :error => family.errors.full_messages.join('; ')}
+          {status: 'not saved', legacy_id: record['legacy_id'], id: family.id, name: family.name, error: family.errors.full_messages.join('; ')}
         end
       end
     end

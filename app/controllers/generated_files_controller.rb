@@ -6,7 +6,7 @@ class GeneratedFilesController < ApplicationController
     respond_to do |format|
       format.html do
         if @file
-          send_file(@file.file.path, :type => @file.file.content_type, :filename => @file.file_file_name)
+          send_file(@file.file.path, type: @file.file.content_type, filename: @file.file_file_name)
         end
       end
       format.js

@@ -1,7 +1,7 @@
 class Note < ActiveRecord::Base
   belongs_to :person
   belongs_to :group
-  has_many :comments, :dependent => :destroy
+  has_many :comments, dependent: :destroy
   belongs_to :site
 
   scope_by_site_id
@@ -29,15 +29,15 @@ class Note < ActiveRecord::Base
   def create_as_stream_item
     return unless person
     StreamItem.create!(
-      :title           => title,
-      :body            => body,
-      :context         => original_url.to_s.any? ? {'original_url' => original_url} : {},
-      :person_id       => person_id,
-      :group_id        => group_id,
-      :streamable_type => 'Note',
-      :streamable_id   => id,
-      :created_at      => created_at,
-      :shared          => group_id || person.share_activity? ? true : false
+      title:           title,
+      body:            body,
+      context:         original_url.to_s.any? ? {'original_url' => original_url} : {},
+      person_id:       person_id,
+      group_id:        group_id,
+      streamable_type: 'Note',
+      streamable_id:   id,
+      created_at:      created_at,
+      shared:          group_id || person.share_activity? ? true : false
     )
   end
 
@@ -54,7 +54,7 @@ class Note < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(:streamable_type => 'Note', :streamable_id => id)
+    StreamItem.destroy_all(streamable_type: 'Note', streamable_id: id)
   end
 
 end

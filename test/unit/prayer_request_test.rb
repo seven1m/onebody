@@ -5,7 +5,7 @@ class PrayerRequestTest < ActiveSupport::TestCase
   def setup
     @group = FactoryGirl.create(:group)
     @person = FactoryGirl.create(:person)
-    @req = FactoryGirl.create(:prayer_request, :group => @group, :person => @person)
+    @req = FactoryGirl.create(:prayer_request, group: @group, person: @person)
   end
 
   should "have a name" do

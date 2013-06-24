@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
         redirect_to request.url.sub(/^(https?:\/\/)www\./, '\1')
         return false
       else
-        render :text => t('application.no_site_configured', :host => request.host), :status => 404
+        render text: t('application.no_site_configured', host: request.host), status: 404
         return false
       end
     end
@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
           return false
         end
       else
-        redirect_to new_session_path(:from => request.fullpath)
+        redirect_to new_session_path(from: request.fullpath)
         return false
       end
     end
@@ -131,7 +131,7 @@ class ApplicationController < ActionController::Base
       if @logged_in and !@logged_in.full_access?
         unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") or \
                LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
-          render :text => t('people.limited_access_denied'), :layout => true, :status => 401
+          render text: t('people.limited_access_denied'), layout: true, status: 401
           return false
         end
       end
@@ -171,7 +171,7 @@ class ApplicationController < ActionController::Base
 
     def only_admins
       unless @logged_in.admin?
-        render :text => t('only_admins'), :layout => true, :status => 401
+        render text: t('only_admins'), layout: true, status: 401
         return false
       end
     end

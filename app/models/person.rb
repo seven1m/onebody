@@ -9,34 +9,34 @@ class Person < ActiveRecord::Base
 
   belongs_to :family
   belongs_to :admin
-  belongs_to :donor, :class_name => 'Donortools::Persona', :foreign_key => 'donortools_id'
-  has_many :memberships, :dependent => :destroy
-  has_many :membership_requests, :dependent => :destroy
-  has_many :groups, :through => :memberships
+  belongs_to :donor, class_name: 'Donortools::Persona', foreign_key: 'donortools_id'
+  has_many :memberships, dependent: :destroy
+  has_many :membership_requests, dependent: :destroy
+  has_many :groups, through: :memberships
   has_many :albums
-  has_many :pictures, :order => 'created_at desc'
+  has_many :pictures, order: 'created_at desc'
   has_many :messages
-  has_many :wall_messages, :class_name => 'Message', :foreign_key => 'wall_id', :order => 'created_at desc'
-  has_many :notes, :order => 'created_at desc'
-  has_many :updates, :order => 'created_at'
-  has_many :pending_updates, :class_name => 'Update', :foreign_key => 'person_id', :order => 'created_at', :conditions => ['complete = ?', false]
+  has_many :wall_messages, class_name: 'Message', foreign_key: 'wall_id', order: 'created_at desc'
+  has_many :notes, order: 'created_at desc'
+  has_many :updates, order: 'created_at'
+  has_many :pending_updates, class_name: 'Update', foreign_key: 'person_id', order: 'created_at', conditions: ['complete = ?', false]
   has_many :prayer_signups
   has_and_belongs_to_many :verses
   has_many :log_items
   has_many :stream_items
   has_many :friendships
-  has_many :friends, :class_name => 'Person', :through => :friendships do
+  has_many :friends, class_name: 'Person', through: :friendships do
     def thumbnails
-      self.all(:select => 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', :order => 'people.last_name, people.first_name')
+      self.all(select: 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint', order: 'people.last_name, people.first_name')
     end
   end
   has_many :friendship_requests
-  has_many :pending_friendship_requests, :class_name => 'FriendshipRequest', :conditions => ['rejected = ?', false]
-  has_many :relationships, :dependent => :delete_all
-  has_many :related_people, :class_name => 'Person', :through => :relationships, :source => :related
-  has_many :inward_relationships, :class_name => 'Relationship', :foreign_key => 'related_id', :dependent => :delete_all
-  has_many :inward_related_people, :class_name => 'Person', :through => :inward_relationships, :source => :person
-  has_many :prayer_requests, :order => 'created_at desc'
+  has_many :pending_friendship_requests, class_name: 'FriendshipRequest', conditions: ['rejected = ?', false]
+  has_many :relationships, dependent: :delete_all
+  has_many :related_people, class_name: 'Person', through: :relationships, source: :related
+  has_many :inward_relationships, class_name: 'Relationship', foreign_key: 'related_id', dependent: :delete_all
+  has_many :inward_related_people, class_name: 'Person', through: :inward_relationships, source: :person
+  has_many :prayer_requests, order: 'created_at desc'
   has_many :attendance_records
   has_many :feeds
   has_many :stream_items
@@ -46,33 +46,33 @@ class Person < ActiveRecord::Base
   scope_by_site_id
 
   attr_accessible :gender, :first_name, :last_name, :suffix, :description, :mobile_phone, :work_phone, :fax, :birthday, :email, :website, :activities, :interests, :music, :tv_shows, :movies, :books, :quotes, :about, :testimony, :share_address, :share_home_phone, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :business_name, :business_description, :business_phone, :business_email, :business_website, :business_category, :suffx, :anniversary, :alternate_email, :get_wall_email, :wall_enabled, :messages_enabled, :business_address, :visible, :friends_enabled, :share_activity, :twitter_account
-  attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :medical_notes, :if => Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
-  attr_accessible :id, :sequence, :can_pick_up, :cannot_pick_up, :family_id, :if => Proc.new { l = Person.logged_in and l.admin?(:edit_profiles) and l.admin?(:import_data) and Person.import_in_progress }
+  attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :medical_notes, if: Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
+  attr_accessible :id, :sequence, :can_pick_up, :cannot_pick_up, :family_id, if: Proc.new { l = Person.logged_in and l.admin?(:edit_profiles) and l.admin?(:import_data) and Person.import_in_progress }
 
-  scope :unsynced_to_donortools, lambda { {:conditions => ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
-  scope :can_sign_in, :conditions => {:can_sign_in => true, :deleted => false}
+  scope :unsynced_to_donortools, lambda { {conditions: ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
+  scope :can_sign_in, conditions: {can_sign_in: true, deleted: false}
 
   acts_as_password
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
   validates_presence_of :first_name, :last_name
-  validates_length_of :password, :minimum => 5, :allow_nil => true, :if => Proc.new { Person.logged_in }
-  validates_confirmation_of :password, :if => Proc.new { Person.logged_in }
-  validates_uniqueness_of :alternate_email, :allow_nil => true, :scope => [:site_id, :deleted], :unless => Proc.new { |p| p.deleted? }
-  validates_uniqueness_of :feed_code, :allow_nil => true, :scope => :site_id
-  validates_format_of :website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
-  validates_format_of :business_website, :allow_nil => true, :allow_blank => true, :with => /^https?\:\/\/.+/
-  validates_format_of :business_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
-  validates_format_of :alternate_email, :allow_nil => true, :allow_blank => true, :with => VALID_EMAIL_ADDRESS
-  validates_inclusion_of :gender, :in => %w(Male Female), :allow_nil => true
-  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
-  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
+  validates_length_of :password, minimum: 5, allow_nil: true, if: Proc.new { Person.logged_in }
+  validates_confirmation_of :password, if: Proc.new { Person.logged_in }
+  validates_uniqueness_of :alternate_email, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |p| p.deleted? }
+  validates_uniqueness_of :feed_code, allow_nil: true, scope: :site_id
+  validates_format_of :website, allow_nil: true, allow_blank: true, with: /^https?\:\/\/.+/
+  validates_format_of :business_website, allow_nil: true, allow_blank: true, with: /^https?\:\/\/.+/
+  validates_format_of :business_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
+  validates_format_of :alternate_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
+  validates_inclusion_of :gender, in: %w(Male Female), allow_nil: true
+  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
 
   # validate that an email address is unique to one family (family members may share an email address)
   # validate that an email address is properly formatted
   validates_each [:email, :child] do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any? and not record.deleted?
-      if Person.count(:conditions => ["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]) > 0
+      if Person.count(conditions: ["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]) > 0
         record.errors.add attribute, :taken
       end
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
@@ -165,14 +165,14 @@ class Person < ActiveRecord::Base
     read_attribute(:salt) || generate_salt
   end
 
-  fall_through_attributes :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, :to => :family
+  fall_through_attributes :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family
   sharable_attributes     :home_phone, :mobile_phone, :work_phone, :fax, :email, :birthday, :address, :anniversary, :activity
 
   self.skip_time_zone_conversion_for_attributes = [:birthday, :anniversary]
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
 
   def groups_sharing(attribute)
-    memberships.find(:all, :conditions => ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
+    memberships.find(:all, conditions: ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
   end
 
   def can_see?(*whats)
@@ -360,7 +360,7 @@ class Person < ActiveRecord::Base
     begin # ensure unique
       code = SecureRandom.hex(50)[0...50]
       write_attribute :feed_code, code
-    end while Person.count(:conditions => ['feed_code = ?', code]) > 0
+    end while Person.count(conditions: ['feed_code = ?', code]) > 0
   end
 
   def generate_api_key
@@ -375,7 +375,7 @@ class Person < ActiveRecord::Base
     if family and sequence.nil?
       conditions = ['deleted = ?', false]
       conditions.add_condition ['id != ?', id] unless new_record?
-      self.sequence = family.people.maximum(:sequence, :conditions => conditions).to_i + 1
+      self.sequence = family.people.maximum(:sequence, conditions: conditions).to_i + 1
     end
   end
 
@@ -428,11 +428,11 @@ class Person < ActiveRecord::Base
 
   def calendar_accounts(include_family=false)
     cals = groups.all(
-      :conditions => "gcal_private_link != '' and gcal_private_link is not null",
-      :select     => "groups.id, groups.gcal_private_link"
+      conditions: "gcal_private_link != '' and gcal_private_link is not null",
+      select:     "groups.id, groups.gcal_private_link"
     ).map { |g| g.gcal_account }.select { |a| a.to_s.any? }
     if include_family
-      Person.all(:conditions => ["family_id = ?", family_id]).each do |person|
+      Person.all(conditions: ["family_id = ?", family_id]).each do |person|
         cals += person.calendar_accounts
       end
     end
@@ -461,23 +461,23 @@ class Person < ActiveRecord::Base
     enabled_types << 'Note'        if Setting.get(:features, :notes       )
     enabled_types << 'PrayerRequest'
     friend_ids = all_friend_and_groupy_ids
-    group_ids = groups.find_all_by_hidden(false, :select => 'groups.id').map { |g| g.id }
+    group_ids = groups.find_all_by_hidden(false, select: 'groups.id').map { |g| g.id }
     group_ids = [0] unless group_ids.any?
     relation = StreamItem.scoped \
-               .where(:streamable_type => enabled_types) \
-               .where(:shared => true) \
+               .where(streamable_type: enabled_types) \
+               .where(shared: true) \
                .where("(group_id in (:group_ids) or" +
                       " (group_id is null and wall_id is null and person_id in (:friend_ids)) or" +
                       " person_id = :id or" +
                       " streamable_type = 'NewsItem'" +
-                      ")", :group_ids => group_ids, :friend_ids => friend_ids, :id => id) \
+                      ")", group_ids: group_ids, friend_ids: friend_ids, id: id) \
                .order('created_at desc') \
                .limit(count) \
                .includes(:person, :group)
     relation.to_a.tap do |stream_items|
       # do our own eager loading here...
       comment_people_ids = stream_items.map { |s| Array(s.context['comments']).map { |c| c['person_id'] } }.flatten
-      comment_people = Person.where(:id => comment_people_ids) \
+      comment_people = Person.where(id: comment_people_ids) \
                              .select('first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_updated_at, photo_fingerprint') \
                              .inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
       stream_items.each do |stream_item|
@@ -497,7 +497,7 @@ class Person < ActiveRecord::Base
 
   def all_friend_and_groupy_ids
     if Setting.get(:features, :friends)
-      friend_ids = friendships.all(:select => 'friend_id').map { |f| f.friend_id }
+      friend_ids = friendships.all(select: 'friend_id').map { |f| f.friend_id }
     else
       friend_ids = []
     end
@@ -516,14 +516,14 @@ class Person < ActiveRecord::Base
   def attendance_today
     today = Date.today
     self.attendance_records.all(
-      :conditions => ['attendance_records.attended_at >= ? and attendance_records.attended_at <= ?', today.strftime('%Y-%m-%d 0:00'), today.strftime('%Y-%m-%d 23:59:59')],
-      :include    => :group,
-      :order      => 'attended_at'
+      conditions: ['attendance_records.attended_at >= ? and attendance_records.attended_at <= ?', today.strftime('%Y-%m-%d 0:00'), today.strftime('%Y-%m-%d 23:59:59')],
+      include:    :group,
+      order:      'attended_at'
     )
   end
 
   def update_relationships_hash
-    rels = relationships.all(:include => :related).select do |relationship|
+    rels = relationships.all(include: :related).select do |relationship|
       !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
     end.map do |relationship|
       "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
@@ -533,7 +533,7 @@ class Person < ActiveRecord::Base
 
   def update_relationships_hash!
     update_relationships_hash
-    save(:validate => false)
+    save(validate: false)
   end
 
   def update_donor
@@ -550,53 +550,53 @@ class Person < ActiveRecord::Base
         donor.addresses[0].postal_code    = family.zip
       else
         donor.addresses << {
-          :street_address => family.address,
-          :city           => family.city,
-          :state          => family.state,
-          :postal_code    => family.zip
+          street_address: family.address,
+          city:           family.city,
+          state:          family.state,
+          postal_code:    family.zip
         }
       end
       phone_numbers = [
-        {:phone_number => family.home_phone, :address_type_id => 1},
-        {:phone_number => work_phone,        :address_type_id => 2},
-        {:phone_number => mobile_phone,      :address_type_id => 4}
+        {phone_number: family.home_phone, address_type_id: 1},
+        {phone_number: work_phone,        address_type_id: 2},
+        {phone_number: mobile_phone,      address_type_id: 4}
       ].select { |ph| ph[:phone_number].to_s.any? }
       donor.update_phone_numbers(phone_numbers)
       if donor.email_addresses[0]
         donor.email_addresses[0].email_address = email
       else
-        donor.email_addresses << {:email_address => email}
+        donor.email_addresses << {email_address: email}
       end
     else
       donor = Donortools::Persona.new
       donor.names_attributes = [
         {
-          :first_name => first_name,
-          :last_name  => last_name,
-          :suffix     => suffix
+          first_name: first_name,
+          last_name:  last_name,
+          suffix:     suffix
         }
       ]
       donor.addresses_attributes = [
         {
-          :street_address => family.address,
-          :city           => family.city,
-          :state          => family.state,
-          :postal_code    => family.zip
+          street_address: family.address,
+          city:           family.city,
+          state:          family.state,
+          postal_code:    family.zip
         }
       ]
       donor.phone_numbers_attributes = [
-        {:phone_number => family.home_phone, :address_type_id => 1},
-        {:phone_number => work_phone,        :address_type_id => 2},
-        {:phone_number => mobile_phone,      :address_type_id => 4}
+        {phone_number: family.home_phone, address_type_id: 1},
+        {phone_number: work_phone,        address_type_id: 2},
+        {phone_number: mobile_phone,      address_type_id: 4}
       ].select { |p| p[:phone_number].to_s.any? }
       donor.email_addresses_attributes = [
-        {:email_address => email}
+        {email_address: email}
       ]
     end
     donor.save
     self.donortools_id = donor.id
     self.synced_to_donortools = true
-    save(:validate => false)
+    save(validate: false)
   end
 
   def donortools_admin_url
@@ -629,14 +629,14 @@ class Person < ActiveRecord::Base
     def new_with_default_sharing(attrs)
       attrs.symbolize_keys! if attrs.respond_to?(:symbolize_keys!)
       attrs.merge!(
-        :share_address      => Setting.get(:privacy, :share_address_by_default     ),
-        :share_home_phone   => Setting.get(:privacy, :share_home_phone_by_default  ),
-        :share_mobile_phone => Setting.get(:privacy, :share_mobile_phone_by_default),
-        :share_work_phone   => Setting.get(:privacy, :share_work_phone_by_default  ),
-        :share_fax          => Setting.get(:privacy, :share_fax_by_default         ),
-        :share_email        => Setting.get(:privacy, :share_email_by_default       ),
-        :share_birthday     => Setting.get(:privacy, :share_birthday_by_default    ),
-        :share_anniversary  => Setting.get(:privacy, :share_anniversary_by_default )
+        share_address:      Setting.get(:privacy, :share_address_by_default     ),
+        share_home_phone:   Setting.get(:privacy, :share_home_phone_by_default  ),
+        share_mobile_phone: Setting.get(:privacy, :share_mobile_phone_by_default),
+        share_work_phone:   Setting.get(:privacy, :share_work_phone_by_default  ),
+        share_fax:          Setting.get(:privacy, :share_fax_by_default         ),
+        share_email:        Setting.get(:privacy, :share_email_by_default       ),
+        share_birthday:     Setting.get(:privacy, :share_birthday_by_default    ),
+        share_anniversary:  Setting.get(:privacy, :share_anniversary_by_default )
       )
       new(attrs)
     end
@@ -684,22 +684,22 @@ class Person < ActiveRecord::Base
             record['relationships'].to_s.split(',').each do |relationship|
               if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.find_by_legacy_id($1)
                 person.relationships.create(
-                  :related    => related,
-                  :name       => 'other',
-                  :other_name => $2
+                  related:    related,
+                  name:       'other',
+                  other_name: $2
                 )
               end
             end
             person.update_relationships_hash!
           end
-          s = {:status => 'saved', :legacy_id => person.legacy_id, :id => person.id, :name => person.name}
+          s = {status: 'saved', legacy_id: person.legacy_id, id: person.id, name: person.name}
           if person.email_changed? # email_changed flag still set
             s[:status] = 'saved with error'
             s[:error] = "Newer email not overwritten: #{person.email.inspect}"
           end
           s
         else
-          {:status => 'not saved', :legacy_id => record['legacy_id'], :id => person.id, :name => person.name, :error => person.errors.full_messages.join('; ')}
+          {status: 'not saved', legacy_id: record['legacy_id'], id: person.id, name: person.name, error: person.errors.full_messages.join('; ')}
         end
       end
     end

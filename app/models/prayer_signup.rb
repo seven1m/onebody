@@ -4,14 +4,14 @@ class PrayerSignup < ActiveRecord::Base
 
   scope_by_site_id
 
-  validates_uniqueness_of :start, :scope => [:site_id, :person_id]
+  validates_uniqueness_of :start, scope: [:site_id, :person_id]
   validates_presence_of :start
 
   self.skip_time_zone_conversion_for_attributes = [:start]
 
   class << self
     def deliver_reminders
-      signups = find :all, :conditions => "start >= now()"
+      signups = find :all, conditions: "start >= now()"
       signups = signups.group_by &:person
       signups.each do |person, times|
         if person.email.to_s.any?

@@ -9,13 +9,13 @@ class SearchTest < ActiveSupport::TestCase
 
   [
     [:name,        'tim',              1],
-    [:birthday,    {:month => '4'},    2],
-    [:birthday,    {:day => '24'},     2],
-    [:anniversary, {:month => '8'},    1],
-    [:anniversary, {:day => '11'},     1],
-    [:address,     {:city => 'tulsa'}, 2],
-    [:address,     {:state => 'ok'},   4],
-    [:address,     {:zip => '74111'},  2],
+    [:birthday,    {month: '4'},    2],
+    [:birthday,    {day: '24'},     2],
+    [:anniversary, {month: '8'},    1],
+    [:anniversary, {day: '11'},     1],
+    [:address,     {city: 'tulsa'}, 2],
+    [:address,     {state: 'ok'},   4],
+    [:address,     {zip: '74111'},  2],
     [:type,        'member',           5],
     [:type,        'staff',            2],
     [:type,        'elder',            0]
@@ -42,7 +42,7 @@ class SearchTest < ActiveSupport::TestCase
   should "not show people under 18 unless user has full access" do
     # with full access
     Person.logged_in = people(:peter)
-    people(:jane).update_attributes!(:birthday => 17.years.ago)
+    people(:jane).update_attributes!(birthday: 17.years.ago)
     @search = Search.new
     @search.name = 'jane'
     Setting.set(1, 'System', 'Adult Age', 18)

@@ -1,16 +1,16 @@
 class GroupsController < ApplicationController
-  cache_sweeper :group_sweeper, :only => %w(create update destroy batch)
+  cache_sweeper :group_sweeper, only: %w(create update destroy batch)
 
   def index
     # people/1/groups
     if params[:person_id]
       @person = Person.find(params[:person_id])
       respond_to do |format|
-        format.js   { render :partial => 'person_groups' }
-        format.html { render :action => 'index_for_person' }
+        format.js   { render partial: 'person_groups' }
+        format.html { render action: 'index_for_person' }
         if can_export?
-          format.xml { render :xml =>  @person.groups.to_xml(:except => %w(site_id)) }
-          format.csv { render :text => @person.groups.to_csv_mine(:except => %w(site_id)) }
+          format.xml { render xml:  @person.groups.to_xml(except: %w(site_id)) }
+          format.csv { render text: @person.groups.to_csv_mine(except: %w(site_id)) }
         end
       end
     # /groups?category=Small+Groups
@@ -21,16 +21,16 @@ class GroupsController < ApplicationController
       conditions.add_condition ['hidden = ? and approved = ?', false, true] unless @logged_in.admin?(:manage_groups)
       conditions.add_condition ['category = ?', params[:category]] if params[:category]
       conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
-      @groups = Group.find(:all, :conditions => conditions, :order => 'name')
+      @groups = Group.find(:all, conditions: conditions, order: 'name')
       conditions_for_hidden = conditions.dup
       conditions_for_hidden[1] = true # only hidden groups
-      @hidden_groups = Group.find(:all, :conditions => conditions_for_hidden, :order => 'name')
+      @hidden_groups = Group.find(:all, conditions: conditions_for_hidden, order: 'name')
       respond_to do |format|
-        format.html { render :action => 'search' }
+        format.html { render action: 'search' }
         format.js
         if can_export?
-          format.xml { render :xml =>  @groups.to_xml(:except => %w(site_id)) }
-          format.csv { render :text => @groups.to_csv_mine(:except => %w(site_id)) }
+          format.xml { render xml:  @groups.to_xml(except: %w(site_id)) }
+          format.csv { render text: @groups.to_csv_mine(except: %w(site_id)) }
         end
       end
     # /groups
@@ -60,7 +60,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @members = @group.people.thumbnails unless fragment_exist?(:controller => 'groups', :action => 'show', :id => @group.id, :fragment => 'members')
+    @members = @group.people.thumbnails unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
     @member_of = @logged_in.member_of?(@group)
     if @member_of or (not @group.private? and not @group.hidden?) or @group.admin?(@logged_in)
       @stream_items = @group.shared_stream_items(20)
@@ -71,23 +71,23 @@ class GroupsController < ApplicationController
     @show_cal = @group.gcal_url
     @can_post = @group.can_post?(@logged_in)
     @can_share = @group.can_share?(@logged_in)
-    @albums = @group.albums.all(:order => 'name')
+    @albums = @group.albums.all(order: 'name')
     unless @group.approved? or @group.admin?(@logged_in)
-      render :text => t('groups.this_group_is_pending_approval'), :layout => true
+      render text: t('groups.this_group_is_pending_approval'), layout: true
       return
     end
     unless @logged_in.can_see?(@group)
-      render :text => t('groups.not_found'), :layout => true, :status => 404
+      render text: t('groups.not_found'), layout: true, status: 404
       return
     end
   end
 
   def new
     if Group.can_create?
-      @group = Group.new(:creator_id => @logged_in.id)
+      @group = Group.new(creator_id: @logged_in.id)
       @categories = Group.categories.keys
     else
-      render :text => t('groups.no_more'), :layout => true, :status => 401
+      render text: t('groups.no_more'), layout: true, status: 401
     end
   end
 
@@ -103,16 +103,16 @@ class GroupsController < ApplicationController
           @group.update_attribute(:approved, true)
           flash[:notice] = t('groups.created')
         else
-          @group.memberships.create(:person => @logged_in, :admin => true)
+          @group.memberships.create(person: @logged_in, admin: true)
           flash[:notice] = t('groups.created_pending_approval')
         end
         redirect_to @group
       else
         @categories = Group.categories.keys
-        render :action => 'new'
+        render action: 'new'
       end
     else
-      render :text => t('groups.no_more'), :layout => true, :status => 401
+      render text: t('groups.no_more'), layout: true, status: 401
     end
   end
 
@@ -120,9 +120,9 @@ class GroupsController < ApplicationController
     @group ||= Group.find(params[:id])
     if @logged_in.can_edit?(@group)
       @categories = Group.categories.keys
-      @members = @group.people.all(:order => 'last_name, first_name', :select => 'people.id, people.first_name, people.last_name, people.suffix')
+      @members = @group.people.all(order: 'last_name, first_name', select: 'people.id, people.first_name, people.last_name, people.suffix')
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -135,10 +135,10 @@ class GroupsController < ApplicationController
         flash[:notice] = t('groups.settings_saved')
         redirect_to @group
       else
-        edit; render :action => 'edit'
+        edit; render action: 'edit'
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -149,7 +149,7 @@ class GroupsController < ApplicationController
       flash[:notice] = t('groups.deleted')
       redirect_to groups_path
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -158,7 +158,7 @@ class GroupsController < ApplicationController
       if request.post?
         respond_to do |format|
           format.html do
-            @groups = Group.all(:order => 'category, name')
+            @groups = Group.all(order: 'category, name')
             @groups.group_by(&:id).each do |id, groups|
               group = groups.first
               if vals = params[:groups][id.to_s]
@@ -177,10 +177,10 @@ class GroupsController < ApplicationController
           end
         end
       else
-        @groups = Group.all(:order => 'category, name')
+        @groups = Group.all(order: 'category, name')
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 

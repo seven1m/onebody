@@ -5,10 +5,10 @@ class Sync < ActiveRecord::Base
   attr_accessible :complete, :success_count, :error_count, :started_at, :finished_at
 
   belongs_to :person
-  has_many :sync_items, :dependent => :delete_all
-  has_many :people,   :through => :sync_items, :source => :syncable, :source_type => 'Person'
-  has_many :families, :through => :sync_items, :source => :syncable, :source_type => 'Family'
-  has_many :groups,   :through => :sync_items, :source => :syncable, :source_type => 'Group'
+  has_many :sync_items, dependent: :delete_all
+  has_many :people,   through: :sync_items, source: :syncable, source_type: 'Person'
+  has_many :families, through: :sync_items, source: :syncable, source_type: 'Family'
+  has_many :groups,   through: :sync_items, source: :syncable, source_type: 'Group'
 
   def total_count
     success_count.to_i + error_count.to_i
@@ -26,9 +26,9 @@ class Sync < ActiveRecord::Base
 
   def count_items
     {
-      :create => sync_items.count('id', :conditions => {:operation => 'create'}),
-      :update => sync_items.count('id', :conditions => {:operation => 'update'}),
-      :error  => sync_items.count('id', :conditions => "status in ('error', 'saved with error')"),
+      create: sync_items.count('id', conditions: {operation: 'create'}),
+      update: sync_items.count('id', conditions: {operation: 'update'}),
+      error:  sync_items.count('id', conditions: "status in ('error', 'saved with error')"),
     }.reject { |k, v| v == 0 }
   end
 
@@ -103,13 +103,13 @@ class Sync < ActiveRecord::Base
         status = Family.update_batch([family_hash]).first
         error = status[:error] && status[:error].split('; ')
         sync_items.create(
-          :syncable_type  => 'Family',
-          :syncable_id    => status[:id],
-          :name           => status[:name],
-          :legacy_id      => legacy_id,
-          :operation      => operation,
-          :status         => status[:status],
-          :error_messages => error
+          syncable_type:  'Family',
+          syncable_id:    status[:id],
+          name:           status[:name],
+          legacy_id:      legacy_id,
+          operation:      operation,
+          status:         status[:status],
+          error_messages: error
         )
         if status[:status] == 'not saved'
           self.increment(:error_count)
@@ -142,13 +142,13 @@ class Sync < ActiveRecord::Base
         status = Person.update_batch([person_hash]).first
         error = status[:error] && status[:error].split('; ')
         sync_items.create(
-          :syncable_type  => 'Person',
-          :syncable_id    => status[:id],
-          :name           => status[:name],
-          :legacy_id      => legacy_id,
-          :operation      => operation,
-          :status         => status[:status],
-          :error_messages => error
+          syncable_type:  'Person',
+          syncable_id:    status[:id],
+          name:           status[:name],
+          legacy_id:      legacy_id,
+          operation:      operation,
+          status:         status[:status],
+          error_messages: error
         )
         if status[:status] == 'not saved'
           self.increment(:error_count)
@@ -184,13 +184,13 @@ class Sync < ActiveRecord::Base
         group.category  = group_hash['category']
         status = group.save ? 'saved' : 'not saved'
         sync_items.create(
-          :syncable_type  => 'Group',
-          :syncable_id    => group.id,
-          :name           => group.name,
-          :legacy_id      => legacy_id,
-          :operation      => operation,
-          :status         => status,
-          :error_messages => status == 'not saved' ? group.errors.full_messages : nil
+          syncable_type:  'Group',
+          syncable_id:    group.id,
+          name:           group.name,
+          legacy_id:      legacy_id,
+          operation:      operation,
+          status:         status,
+          error_messages: status == 'not saved' ? group.errors.full_messages : nil
         )
         if status == 'not saved'
           self.increment(:error_count)
@@ -216,10 +216,10 @@ class Sync < ActiveRecord::Base
       end
       by_group_id.each do |group_id, people_ids|
         if group = Group.find_by_legacy_id(group_id)
-          people = Person.all(:conditions => ['legacy_id in (?)', people_ids])
+          people = Person.all(conditions: ['legacy_id in (?)', people_ids])
           people.each do |person|
             unless person.member_of?(group)
-              group.memberships.create!(:person => person)
+              group.memberships.create!(person: person)
             end
           end
           Membership.delete_all(['site_id = ? and group_id = ? and person_id not in (?)', Site.current.id, group.id, people.map { |p| p.id }])

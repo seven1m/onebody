@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
 
-  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy)
+  cache_sweeper :person_sweeper, :family_sweeper, only: %w(create update destroy)
 
   def index
     if params[:person_id]
@@ -8,24 +8,24 @@ class AlbumsController < ApplicationController
       if @logged_in.can_see?(@person)
         @albums = @person.albums.all
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     elsif params[:group_id]
       @group = Group.find(params[:group_id])
       if @logged_in.can_see?(@group)
         @albums = @group.albums.all
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     else
       @albums = (
-        Album.find_all_by_group_id_and_is_public(nil, true, :order => 'created_at desc') +
-        Album.all(:conditions => ["person_id in (?)", [@logged_in.id] + @logged_in.all_friend_and_groupy_ids])
+        Album.find_all_by_group_id_and_is_public(nil, true, order: 'created_at desc') +
+        Album.all(conditions: ["person_id in (?)", [@logged_in.id] + @logged_in.all_friend_and_groupy_ids])
       ).uniq.sort_by(&:name)
     end
     respond_to do |format|
       format.html
-      format.js { render :text => @albums.to_json }
+      format.js { render text: @albums.to_json }
     end
   end
 
@@ -38,7 +38,7 @@ class AlbumsController < ApplicationController
     if @group = Group.find_by_id(params[:group_id]) and can_add_pictures_to_group?(@group)
       @album = @group.albums.build
     else
-      @album = Album.new(:is_public => true)
+      @album = Album.new(is_public: true)
     end
   end
 
@@ -61,14 +61,14 @@ class AlbumsController < ApplicationController
       flash[:notice] = t('albums.saved')
       redirect_to @album
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
   def edit
     @album = Album.find(params[:id])
     unless @logged_in.can_edit?(@album)
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -79,10 +79,10 @@ class AlbumsController < ApplicationController
         flash[:notice] = t('Changes_saved')
         redirect_to @album
       else
-        render :action => 'edit'
+        render action: 'edit'
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -92,7 +92,7 @@ class AlbumsController < ApplicationController
       @album.destroy
       redirect_to albums_path
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 

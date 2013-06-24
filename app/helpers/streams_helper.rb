@@ -20,8 +20,8 @@ module StreamsHelper
       content = ''.tap do |content|
         stream_item.context['picture_ids'].to_a.each do |picture_id, fingerprint, extension|
           content << link_to(
-            image_tag(Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small), :alt => t('pictures.click_to_enlarge'), :class => 'stream-pic'),
-            album_picture_path(stream_item.streamable_id, picture_id), :title => t('pictures.click_to_enlarge')
+            image_tag(Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small), alt: t('pictures.click_to_enlarge'), class: 'stream-pic'),
+            album_picture_path(stream_item.streamable_id, picture_id), title: t('pictures.click_to_enlarge')
           ) + ' '
         end
       end

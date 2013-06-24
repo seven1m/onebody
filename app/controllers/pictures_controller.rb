@@ -2,7 +2,7 @@ class PicturesController < ApplicationController
 
   def index
     @album = Album.find(params[:album_id])
-    @pictures = @album.pictures.paginate(:order => 'id', :page => params[:page])
+    @pictures = @album.pictures.paginate(order: 'id', page: params[:page])
   end
 
   def show
@@ -28,7 +28,7 @@ class PicturesController < ApplicationController
     if params[:group_id]
       unless @group = Group.find(params[:group_id]) and @group.pictures? \
         and (@logged_in.member_of?(@group) or @logged_in.can_edit?(@group))
-        render :text => t('There_was_an_error'), :layout => true, :status => 500
+        render text: t('There_was_an_error'), layout: true, status: 500
         return
       end
     end
@@ -45,8 +45,8 @@ class PicturesController < ApplicationController
     errors = []
     Array(params[:pictures]).each do |pic|
       picture = @album.pictures.create(
-        :person => (params[:remove_owner] ? nil : @logged_in),
-        :photo  => pic
+        person: (params[:remove_owner] ? nil : @logged_in),
+        photo:  pic
       )
       if picture.errors.any?
         errors += picture.errors.full_messages
@@ -62,8 +62,8 @@ class PicturesController < ApplicationController
         picture.destroy rescue nil
       end
     end
-    flash[:notice] = t('pictures.saved', :success => success)
-    flash[:notice] += " " + t('pictures.failed', :fail => fail) if fail > 0
+    flash[:notice] = t('pictures.saved', success: success)
+    flash[:notice] += " " + t('pictures.failed', fail: fail) if fail > 0
     flash[:notice] += " " + errors.join('; ') if errors.any?
     redirect_to params[:redirect_to] || @group || album_pictures_path(@album)
   end
@@ -81,7 +81,7 @@ class PicturesController < ApplicationController
       end
       redirect_to [@album, @picture]
     else
-      render :text => t('pictures.cant_edit'), :layout => true, :status => 401
+      render text: t('pictures.cant_edit'), layout: true, status: 401
     end
   end
 
@@ -92,7 +92,7 @@ class PicturesController < ApplicationController
       @picture.destroy
       redirect_to @album
     else
-      render :text => t('pictures.cant_delete'), :layout => true, :status => 401
+      render text: t('pictures.cant_delete'), layout: true, status: 401
     end
   end
 

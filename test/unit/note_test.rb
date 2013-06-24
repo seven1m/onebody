@@ -16,7 +16,7 @@ class NoteTest < ActiveSupport::TestCase
     assert @note.group.nil?
     assert @note.group_id.nil?
     # user can post
-    @group.memberships.create! :person => @person
+    @group.memberships.create! person: @person
     # set by object
     @note.group = nil
     @note.group = @group

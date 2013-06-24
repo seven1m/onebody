@@ -19,9 +19,9 @@ class ScssTest < ActiveSupport::TestCase
   def render_css(scss)
     Sass::Engine.new(
       scss,
-      :syntax => :scss,
-      :cache  => false,
-      :style  => :compressed
+      syntax: :scss,
+      cache:  false,
+      style:  :compressed
     ).render.strip
   end
 end

@@ -14,10 +14,10 @@ class PrayerSignupsController < ApplicationController
           end
         end
       else
-        render :text => t('prayer_signups.misconfigured'), :layout => true
+        render text: t('prayer_signups.misconfigured'), layout: true
       end
     else
-      render :text => t('feature_unavailable'), :layout => true
+      render text: t('feature_unavailable'), layout: true
     end
   end
 
@@ -28,14 +28,14 @@ class PrayerSignupsController < ApplicationController
     elsif params[:other_name].to_s.any? and @start
       create_by_name(params[:other_name])
     else
-      render :nothing => true
+      render nothing: true
     end
   end
 
   def create_by_id(id)
     person = Person.find(id)
     if person == @logged_in or @logged_in.admin?(:manage_prayer_signups)
-      signup = person.prayer_signups.create(:start => @start.to_time)
+      signup = person.prayer_signups.create(start: @start.to_time)
       respond_to_signup(signup)
     else
       respond_to_unauthorized
@@ -44,7 +44,7 @@ class PrayerSignupsController < ApplicationController
 
   def create_by_name(name)
     if @logged_in.admin?(:manage_prayer_signups)
-      signup = PrayerSignup.create(:start => @start.to_time, :other_name => name)
+      signup = PrayerSignup.create(start: @start.to_time, other_name: name)
       respond_to_signup(signup)
     else
       respond_to_unauthorized
@@ -72,7 +72,7 @@ class PrayerSignupsController < ApplicationController
   def respond_to_unauthorized
     respond_to do |format|
       format.html do
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
       format.js do
         render(:update) do |page|
@@ -103,7 +103,7 @@ class PrayerSignupsController < ApplicationController
     end
 
     def get_signups
-      signups = PrayerSignup.all(:conditions => ['start >= ? and start <= ?', @first, @last], :order => 'start')
+      signups = PrayerSignup.all(conditions: ['start >= ? and start <= ?', @first, @last], order: 'start')
       @signups = signups.group_by { |r| r.start.strftime('%Y/%m/%d %H:%M') }
       @count_per_day = {}
       signups.each do |s|

@@ -33,10 +33,10 @@ module ApplicationHelper
                    Setting.get(:appearance, :theme_nav_color).to_s
     if browser == :ie
       path = 'public/stylesheets/style.ie.scss'
-      browser_style_path(:browser => :ie) + '?' + cached_mtime_for_path(path) + theme_colors
+      browser_style_path(browser: :ie) + '?' + cached_mtime_for_path(path) + theme_colors
     elsif browser == :mobile
       path = 'public/stylesheets/style.mobile.scss'
-      browser_style_path(:browser => :mobile) + '?' + cached_mtime_for_path(path) + theme_colors
+      browser_style_path(browser: :mobile) + '?' + cached_mtime_for_path(path) + theme_colors
     else
       path = 'public/stylesheets/style.scss'
       style_path + '?' + cached_mtime_for_path(path) + theme_colors
@@ -45,7 +45,7 @@ module ApplicationHelper
 
   def heading
     if Site.current.logo.exists? and @hide_logo.nil?
-      link_to(image_tag(Site.current.logo.url(:layout), :alt => Setting.get(:name, :site)), '/')
+      link_to(image_tag(Site.current.logo.url(:layout), alt: Setting.get(:name, :site)), '/')
     else
       Setting.get(:name, :site)
     end
@@ -58,26 +58,26 @@ module ApplicationHelper
   end
 
   def tab_link(title, url, active=false, id=nil)
-    link_to(title, url, :class => active ? 'active button' : 'button', :id => id)
+    link_to(title, url, class: active ? 'active button' : 'button', id: id)
   end
 
   def menu_content
-    render :partial => 'people/menus'
+    render partial: 'people/menus'
   end
 
   def search_form
-    form_tag(search_path, :method => :get) do
-      text_field_tag('name', nil, :id => 'search_name', :size => 20, :placeholder => t('search.search_by_name'))
+    form_tag(search_path, method: :get) do
+      text_field_tag('name', nil, id: 'search_name', size: 20, placeholder: t('search.search_by_name'))
     end
   end
 
   def notice
     if flash[:warning] or flash[:notice]
-      html = content_tag(:div, :id => "notice", :class => flash[:warning] ? 'warning' : nil) do
+      html = content_tag(:div, id: "notice", class: flash[:warning] ? 'warning' : nil) do
         flash[:warning] || flash[:notice]
       end
       unless flash[:sticky_notice]
-        html << content_tag(:script, :type => "text/javascript") do
+        html << content_tag(:script, type: "text/javascript") do
           "$('#notice').fadeOut(15000);"
         end
       end
@@ -134,9 +134,9 @@ module ApplicationHelper
     groupings = [3, 3, 4] unless groupings.length == 3
     ActionController::Base.helpers.number_to_phone(
       phone,
-      :area_code => format.index('(') ? true : false,
-      :groupings => groupings,
-      :delimiter => format.reverse.match(/[^d]/).to_s
+      area_code: format.index('(') ? true : false,
+      groupings: groupings,
+      delimiter: format.reverse.match(/[^d]/).to_s
     )
   end
 
@@ -176,14 +176,14 @@ module ApplicationHelper
   def render_plugin_hook(name)
     if hooks = PLUGIN_HOOKS[name]
       hooks.map do |hook|
-        render :partial => hook
+        render partial: hook
       end.join("\n").html_safe
     end
   end
 
   def bar_chart_url(data, options={})
     options.symbolize_keys!
-    options.reverse_merge!(:set_count => 1, :set_labels => nil, :width => 400, :height => 200, :title => '', :colors => ['4F9EC9', '79B933', 'FF9933'])
+    options.reverse_merge!(set_count: 1, set_labels: nil, width: 400, height: 200, title: '', colors: ['4F9EC9', '79B933', 'FF9933'])
     labels = data.map { |p| p[0] }
     counts = []
     (0...options[:set_count]).each do |set|
@@ -195,7 +195,7 @@ module ApplicationHelper
 
   def pie_chart_url(data, options={})
     options.symbolize_keys!
-    options.reverse_merge!(:width => 350, :height => 200, :title => '', :colors => ['4F9EC9', '79B933', 'FF9933'])
+    options.reverse_merge!(width: 350, height: 200, title: '', colors: ['4F9EC9', '79B933', 'FF9933'])
     if data
       labels = data.keys
       counts = labels.inject([]) { |a, l| a << data[l]; a }
@@ -209,10 +209,10 @@ module ApplicationHelper
   def sortable_column_heading(label, sort, keep_params=[])
     new_sort = (sort.split(',') + params[:sort].to_s.split(',')).uniq.join(',')
     options = {
-      :controller => params[:controller],
-      :action     => params[:action],
-      :id         => params[:id],
-      :sort       => new_sort
+      controller: params[:controller],
+      action:     params[:action],
+      id:         params[:id],
+      sort:       new_sort
     }.merge(
       params.reject { |k, v| !keep_params.include?(k) }
     )
@@ -244,7 +244,7 @@ module ActionView
     end
     class FormBuilder
       def phone_field(method, options = {})
-        @template.phone_field(@object_name, method, options.merge(:object => @object))
+        @template.phone_field(@object_name, method, options.merge(object: @object))
       end
       def date_field(method, options = {})
         options[:value] = self.object[method].to_s(:date) rescue ''

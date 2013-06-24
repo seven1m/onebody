@@ -5,25 +5,25 @@ class GroupsTest < ActionController::IntegrationTest
   def test_search
     sign_in_as people(:tim)
     get '/groups'
-    assert_select 'body', :html => /pending approval.*Morgan\sGroup/m
+    assert_select 'body', html: /pending approval.*Morgan\sGroup/m
     sign_in_as people(:jeremy)
     get '/groups?category=Small+Groups'
     assert_response :success
-    assert_select 'body', :html => /College Group/
-    assert_select 'body', :html => /Morgan Group/, :count => 0
+    assert_select 'body', html: /College Group/
+    assert_select 'body', html: /Morgan Group/, count: 0
     sign_in_as people(:tim)
     get '/groups?category=Small+Groups'
     assert_response :success
-    assert_select 'body', :html => /College Group/
-    assert_select 'body', :html => /Morgan Group/
+    assert_select 'body', html: /College Group/
+    assert_select 'body', html: /Morgan Group/
     get 'groups/1'
-    assert_select 'body', :html => /Approve Group/
+    assert_select 'body', html: /Approve Group/
     put '/groups/1?group[approved]=true'
-    assert_redirected_to group_path(:id => 1)
-    assert_select 'body', :html => /Approve Group/, :count => 0
+    assert_redirected_to group_path(id: 1)
+    assert_select 'body', html: /Approve Group/, count: 0
     get '/groups?category=Small+Groups'
     assert_response :success
-    assert_select 'body', :html => /Morgan\sGroup/
+    assert_select 'body', html: /Morgan\sGroup/
   end
 
   def test_disable_email

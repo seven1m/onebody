@@ -1,15 +1,15 @@
 class Album < ActiveRecord::Base
   belongs_to :group
-  belongs_to :person, :include => :family, :conditions => ['people.visible = ? and families.visible = ?', true, true]
+  belongs_to :person, include: :family, conditions: ['people.visible = ? and families.visible = ?', true, true]
   belongs_to :site
-  has_many :pictures, :dependent => :destroy
+  has_many :pictures, dependent: :destroy
 
   scope_by_site_id
 
   attr_accessible :name, :description, :is_public
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:site_id, :person_id]
+  validates_uniqueness_of :name, scope: [:site_id, :person_id]
 
   def cover
     @cover ||= pictures.find_by_cover(true)
@@ -19,6 +19,6 @@ class Album < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(:streamable_type => 'Album', :streamable_id => id)
+    StreamItem.destroy_all(streamable_type: 'Album', streamable_id: id)
   end
 end

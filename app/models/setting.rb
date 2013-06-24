@@ -64,7 +64,7 @@ class Setting < ActiveRecord::Base
     def set(site_id, section, name, value) # must be proper case section and name
       raise 'Must be proper case string' if name.is_a? Symbol
       if setting = find_by_site_id_and_section_and_name(site_id, section, name)
-        setting.update_attributes! :value => value
+        setting.update_attributes! value: value
       else
         raise "No setting found for #{section}/#{name}."
       end
@@ -130,7 +130,7 @@ class Setting < ActiveRecord::Base
         global_settings_in_db = Setting.find_all_by_global(true)
         each_setting_from_hash(settings, true) do |section_name, setting_name, setting|
           unless global_settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
-            global_settings_in_db << Setting.create!(setting.merge(:section => section_name, :name => setting_name))
+            global_settings_in_db << Setting.create!(setting.merge(section: section_name, name: setting_name))
           end
         end
         global_settings_in_db.each do |setting|
@@ -147,7 +147,7 @@ class Setting < ActiveRecord::Base
       each_setting_from_hash(settings, false) do |section_name, setting_name, setting|
         unless settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
           setting['site_id'] = site.id
-          settings_in_db << Setting.create!(setting.merge(:section => section_name, :name => setting_name))
+          settings_in_db << Setting.create!(setting.merge(section: section_name, name: setting_name))
         end
       end
       settings_in_db.each do |setting|
@@ -180,7 +180,7 @@ class Setting < ActiveRecord::Base
         elsif value == ''
           value = nil
         end
-        setting.update_attributes! :value => value
+        setting.update_attributes! value: value
       end
       Setting.precache_settings(true)
     end
@@ -194,7 +194,7 @@ class Setting < ActiveRecord::Base
         elsif value == ''
           value = nil
         end
-        setting.update_attributes! :value => value
+        setting.update_attributes! value: value
       end
       Setting.precache_settings(true)
     end

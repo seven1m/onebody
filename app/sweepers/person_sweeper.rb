@@ -3,7 +3,7 @@ class PersonSweeper < ActionController::Caching::Sweeper
 
   def expire_group_members(record)
     record.groups.all.each do |group|
-      expire_fragment(:controller => 'groups', :action => 'show', :id => group.id, :fragment => 'members')
+      expire_fragment(controller: 'groups', action: 'show', id: group.id, fragment: 'members')
     end
   end
 

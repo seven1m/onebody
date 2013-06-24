@@ -1,5 +1,5 @@
 class NewsItem < ActiveRecord::Base
-  has_many :comments, :dependent => :destroy
+  has_many :comments, dependent: :destroy
   belongs_to :person
   belongs_to :site
 
@@ -19,14 +19,14 @@ class NewsItem < ActiveRecord::Base
 
   def create_as_stream_item
     StreamItem.create!(
-      :title           => title,
-      :body            => body,
-      :person_id       => person_id,
-      :context         => link.to_s.any? ? {'original_url' => link} : {},
-      :streamable_type => 'NewsItem',
-      :streamable_id   => id,
-      :created_at      => published,
-      :shared          => true
+      title:           title,
+      body:            body,
+      person_id:       person_id,
+      context:         link.to_s.any? ? {'original_url' => link} : {},
+      streamable_type: 'NewsItem',
+      streamable_id:   id,
+      created_at:      published,
+      shared:          true
     )
   end
 
@@ -43,7 +43,7 @@ class NewsItem < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(:streamable_type => 'NewsItem', :streamable_id => id)
+    StreamItem.destroy_all(streamable_type: 'NewsItem', streamable_id: id)
   end
 
   class << self

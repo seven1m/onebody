@@ -1,6 +1,6 @@
 namespace :deploy do
 
-  task :migrate, :roles => :db, :only => { :primary => true } do
+  task :migrate, roles: :db, only: { primary: true } do
     rake = fetch(:rake, "rake")
     rails_env = fetch(:rails_env, "production")
     migrate_env = fetch(:migrate_env, "")
@@ -53,7 +53,7 @@ namespace :deploy do
   after 'deploy:setup', 'deploy:create_database'
 
   desc 'Install gem dependencies'
-  task :bundler, :roles => :web do
+  task :bundler, roles: :web do
     run "cd #{release_path} && bundle install --without development --without test"
   end
   after 'deploy:update_code', 'deploy:bundler'

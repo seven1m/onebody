@@ -36,8 +36,8 @@ class ApplicationHelperTest < ActionView::TestCase
 
   context 'render_page_content' do
     setup do
-      system = Page.create!(:slug => 'system', :title => 'System', :body => 'system pages')
-      sign_in_header = system.children.create!(:slug => 'sign_in_header', :title => 'Sign In Header', :body => 'safe<script>notsafe</script>')
+      system = Page.create!(slug: 'system', title: 'System', body: 'system pages')
+      sign_in_header = system.children.create!(slug: 'sign_in_header', title: 'Sign In Header', body: 'safe<script>notsafe</script>')
     end
     should 'return sanitized content' do
       content = render_page_content('system/sign_in_header')
@@ -54,29 +54,29 @@ class ApplicationHelperTest < ActionView::TestCase
   context 'sortable_column_heading' do
     attr_accessor :params
     should 'generate a link to the correct url' do
-      @params = {:controller => 'administration/syncs', :action => 'show', :id => 1}
+      @params = {controller: 'administration/syncs', action: 'show', id: 1}
       assert_match %r{/admin/syncs/1},
                    sortable_column_heading('type', 'sync_items.syncable_type')
-      @params = {:controller => 'administration/deleted_people', :action => 'index'}
+      @params = {controller: 'administration/deleted_people', action: 'index'}
       assert_match %r{/admin/deleted_people},
                    sortable_column_heading('id', 'people.id')
-      @params = {:controller => 'administration/attendance', :action => 'index'}
+      @params = {controller: 'administration/attendance', action: 'index'}
       assert_match %r{/admin/attendance},
                    sortable_column_heading('group', 'groups.name')
     end
     should 'prepend sort arg and trail existing ones off' do
-      @params = {:controller => 'administration/attendance', :action => 'index'}
+      @params = {controller: 'administration/attendance', action: 'index'}
       assert_match %r{/admin/attendance\?sort=groups\.name},
                    sortable_column_heading('group', 'groups.name')
-      @params = {:controller => 'administration/attendance', :action => 'index', :sort => 'groups.name'}
+      @params = {controller: 'administration/attendance', action: 'index', sort: 'groups.name'}
       assert_match %r{/admin/attendance\?sort=attendance_records\.attended_at%2Cgroups\.name},
                    sortable_column_heading('class time', 'attendance_records.attended_at')
-      @params = {:controller => 'administration/attendance', :action => 'index', :sort => 'attendance_records.attended_at,groups.name'}
+      @params = {controller: 'administration/attendance', action: 'index', sort: 'attendance_records.attended_at,groups.name'}
       assert_match %r{/admin/attendance\?sort=groups\.name%2Cattendance_records\.attended_at},
                    sortable_column_heading('group', 'groups.name')
     end
     should 'preserve other args' do
-      @params = {:controller => 'administration/attendance', :action => 'index', :page => 1}
+      @params = {controller: 'administration/attendance', action: 'index', page: 1}
       assert_match %r{/admin/attendance\?page=1&amp;sort=groups\.name},
                    sortable_column_heading('group', 'groups.name', [:page])
     end

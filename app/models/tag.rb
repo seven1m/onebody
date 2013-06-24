@@ -1,11 +1,11 @@
 class Tag < ActiveRecord::Base
   belongs_to :site
 
-  has_many :taggings, :dependent => :destroy
-  has_many :verses,  :through => :taggings, :conditions => "taggings.taggable_type = 'Verse'"
+  has_many :taggings, dependent: :destroy
+  has_many :verses,  through: :taggings, conditions: "taggings.taggable_type = 'Verse'"
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :site_id
+  validates_uniqueness_of :name, scope: :site_id
 
   scope_by_site_id
 
@@ -18,7 +18,7 @@ class Tag < ActiveRecord::Base
 
   # LIKE is used for cross-database case-insensitivity
   def self.find_or_create_with_like_by_name(name)
-    find(:first, :conditions => ["name LIKE ?", name]) || create(:name => name)
+    find(:first, conditions: ["name LIKE ?", name]) || create(name: name)
   end
 
   def ==(object)
@@ -70,10 +70,10 @@ class Tag < ActiveRecord::Base
       group_by  = "#{Tag.table_name}.id, #{Tag.table_name}.name HAVING COUNT(*) > 0"
       group_by << " AND #{having}" unless having.blank?
       
-      { :select     => "#{Tag.table_name}.id, #{Tag.table_name}.name, COUNT(*) AS count", 
-        :joins      => joins.join(" "),
-        :conditions => conditions,
-        :group      => group_by
+      { select:     "#{Tag.table_name}.id, #{Tag.table_name}.name, COUNT(*) AS count", 
+        joins:      joins.join(" "),
+        conditions: conditions,
+        group:      group_by
       }.update(options)
     end
   end

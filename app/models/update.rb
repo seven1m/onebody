@@ -87,8 +87,8 @@ class Update < ActiveRecord::Base
 
   def family_attributes
     {
-      :name      => self.family_name,
-      :last_name => self.family_last_name,
+      name:      self.family_name,
+      last_name: self.family_last_name,
     }.merge(
       self.attributes.reject { |k, v| !(FAMILY_ATTRIBUTES - %w(family_name family_last_name)).include?(k) }
     ).reject_blanks

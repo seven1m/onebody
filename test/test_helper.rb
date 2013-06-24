@@ -36,7 +36,7 @@ class ActiveSupport::TestCase
 
   def post_sign_in_form(email, password='secret')
     Setting.set_global('Features', 'SSL', true)
-    post '/session', :email => email, :password => password
+    post '/session', email: email, password: password
   end
 
   def view_profile(person)
@@ -78,8 +78,8 @@ end
 module WebratTestHelper
   def sign_in_as(person, password='secret')
     visit '/session/new'
-    fill_in :email, :with => person.email
-    fill_in :password, :with => password
+    fill_in :email, with: person.email
+    fill_in :password, with: password
     click_button I18n.t('session.sign_in')
     selenium.wait_for_page_to_load(5)
     assert_match %r{/stream$}, current_url

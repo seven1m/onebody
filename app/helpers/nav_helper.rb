@@ -38,7 +38,7 @@ module NavHelper
     [].tap do |links|
       if @logged_in
         links << content_tag(:li, link_to(t("admin.admin"), admin_path)) if @logged_in.admin?
-        links << content_tag(:li, link_to(t("session.sign_out"), session_path, :method => :delete))
+        links << content_tag(:li, link_to(t("session.sign_out"), session_path, method: :delete))
       end
     end.join.html_safe
   end

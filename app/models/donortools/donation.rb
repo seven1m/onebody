@@ -14,7 +14,7 @@ class Donortools::Donation < ActiveResource::Base
   end
 
   def donation_type
-    I18n.t("d#{donation_type_id}", :scope => ['contributions', 'donation_types'])
+    I18n.t("d#{donation_type_id}", scope: ['contributions', 'donation_types'])
   end
 
   attr_accessor :person
@@ -22,14 +22,14 @@ class Donortools::Donation < ActiveResource::Base
   class << self
     def all(params={}, options={})
       if params.any?
-        donations = find(:all, :params => params)
+        donations = find(:all, params: params)
       else
         donations = find(:all)
       end
       # do our own eager loading
       if options[:include] == :person
         persona_ids = donations.map { |d| d.persona_id }
-        people = Person.all(:conditions => ["donortools_id in (?)", persona_ids]).group_by(&:donortools_id)
+        people = Person.all(conditions: ["donortools_id in (?)", persona_ids]).group_by(&:donortools_id)
         donations.each do |donation|
           donation.person = people[donation.persona_id] && people[donation.persona_id][0]
         end

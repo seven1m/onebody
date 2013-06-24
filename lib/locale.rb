@@ -10,10 +10,10 @@ module OneBody
 
   def set_local_formats
     formats = {
-      :full              => Setting.get(:formats, :full_date_and_time),
-      :date              => Setting.get(:formats, :date),
-      :time              => Setting.get(:formats, :time),
-      :date_without_year => Setting.get(:formats, :date_without_year)
+      full:              Setting.get(:formats, :full_date_and_time),
+      date:              Setting.get(:formats, :date),
+      time:              Setting.get(:formats, :time),
+      date_without_year: Setting.get(:formats, :date_without_year)
     }
     Time::DATE_FORMATS.merge!(formats)
     Date::DATE_FORMATS.merge!(formats)

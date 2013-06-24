@@ -1,8 +1,8 @@
 class Tagging < ActiveRecord::Base
   belongs_to :tag
-  belongs_to :taggable, :polymorphic => true
+  belongs_to :taggable, polymorphic: true
 
-  belongs_to :verse,  :foreign_key => 'taggable_id'
+  belongs_to :verse,  foreign_key: 'taggable_id'
 
   after_destroy :destroy_tag_if_unused
 

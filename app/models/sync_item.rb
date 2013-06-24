@@ -5,5 +5,5 @@ class SyncItem < ActiveRecord::Base
   serialize :error_messages
 
   belongs_to :sync
-  belongs_to :syncable, :polymorphic => true
+  belongs_to :syncable, polymorphic: true
 end

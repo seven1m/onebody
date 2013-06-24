@@ -55,7 +55,7 @@ class Donortools::Persona < ActiveResource::Base
     def update_all
       return unless can_sync?
       setup_connection
-      Person.unsynced_to_donortools(:all, :include => :family).each_slice(SYNC_AT_A_TIME) do |people|
+      Person.unsynced_to_donortools(:all, include: :family).each_slice(SYNC_AT_A_TIME) do |people|
         people.each do |person|
           next unless person.family and person.adult?
           person.update_donor

@@ -13,7 +13,7 @@ class Administration::DashboardsHelperTest < ActionView::TestCase
       assert_equal '<p>content</p>', html
     end
     should 'output its content inside the specified tag' do
-      html = display_metric false, :content_tag => 'div' do
+      html = display_metric false, content_tag: 'div' do
         concat 'content'
       end
       assert_equal '<div>content</div>', html

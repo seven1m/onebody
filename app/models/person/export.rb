@@ -3,7 +3,7 @@ class Person
   module Export
 
     EXPORT_COLS = {
-      :person => %w(
+      person: %w(
         family_id
         sequence
         gender
@@ -68,7 +68,7 @@ class Person
         synced_to_donortools
         description
       ),
-      :family => %w(
+      family: %w(
         name
         last_name
         address1
@@ -91,9 +91,9 @@ class Person
       def to_csv
         FasterCSV.generate do |csv|
           csv << EXPORT_COLS[:person] + EXPORT_COLS[:family].map { |c| "family_#{c}" }
-          total = Person.count(:conditions => {:deleted => false})
+          total = Person.count(conditions: {deleted: false})
           (1..(total/100+1)).each do |page|
-            Person.paginate(:conditions => {:deleted => false}, :include => :family, :per_page => 100, :page => page).each do |person|
+            Person.paginate(conditions: {deleted: false}, include: :family, per_page: 100, page: page).each do |person|
               next unless person.family
               csv << EXPORT_COLS[:person].map { |c| person.send(c) } + \
                      EXPORT_COLS[:family].map { |c| person.family.send(c) }
@@ -109,9 +109,9 @@ class Person
       def to_xml
         builder = Builder::XmlMarkup.new
         builder.families do |families|
-          total = Family.count(:conditions => {:deleted => false})
+          total = Family.count(conditions: {deleted: false})
           (1..(total/100+1)).each do |page|
-            Family.paginate(:conditions => {:deleted => false}, :include => :people, :per_page => 100, :page => page).each do |family|
+            Family.paginate(conditions: {deleted: false}, include: :people, per_page: 100, page: page).each do |family|
               families.family do |fam|
                 EXPORT_COLS[:family].each do |col|
                   fam.tag!(col, family.send(col))

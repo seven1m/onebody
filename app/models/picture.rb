@@ -2,15 +2,15 @@ class Picture < ActiveRecord::Base
   belongs_to :album
   belongs_to :person
   belongs_to :site
-  has_many :comments, :dependent => :destroy
+  has_many :comments, dependent: :destroy
 
   scope_by_site_id
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
   validates_presence_of :album_id
-  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
-  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
+  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
 
   def name
     "Picture #{id}#{album ? ' in Album ' + album.name : nil}"
@@ -44,21 +44,21 @@ class Picture < ActiveRecord::Base
 
   def create_as_stream_item
     return unless person
-    if last_stream_item = StreamItem.last(:conditions => ["person_id = ? and created_at <= ?", person_id, created_at], :order => 'created_at') \
+    if last_stream_item = StreamItem.last(conditions: ["person_id = ? and created_at <= ?", person_id, created_at], order: 'created_at') \
       and last_stream_item.streamable == album
       last_stream_item.context['picture_ids'] << [id, photo.fingerprint, photo_extension]
       last_stream_item.created_at = created_at
       last_stream_item.save!
     else
       StreamItem.create!(
-        :title           => album.name,
-        :context         => {'picture_ids' => [[id, photo.fingerprint, photo_extension]]},
-        :person_id       => person_id,
-        :group_id        => album.group_id,
-        :streamable_type => 'Album',
-        :streamable_id   => album_id,
-        :created_at      => created_at,
-        :shared          => album.group_id || person.share_activity? ? true : false
+        title:           album.name,
+        context:         {'picture_ids' => [[id, photo.fingerprint, photo_extension]]},
+        person_id:       person_id,
+        group_id:        album.group_id,
+        streamable_type: 'Album',
+        streamable_id:   album_id,
+        created_at:      created_at,
+        shared:          album.group_id || person.share_activity? ? true : false
       )
     end
   end

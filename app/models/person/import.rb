@@ -110,13 +110,13 @@ class Person
               person = Person.create!(person_vals.merge('family_id' => family.id))
             rescue => e
               if person_vals
-                errored << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Error creating record.', :message => e.message}
+                errored << {first_name: person_vals['first_name'], last_name: person_vals['last_name'], status: 'Error creating record.', message: e.message}
               else
-                errored << {:status => 'Error creating record.', :message => e.message}
+                errored << {status: 'Error creating record.', message: e.message}
               end
               raise ActiveRecord::Rollback
             else
-              completed << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Record created.'}
+              completed << {first_name: person_vals['first_name'], last_name: person_vals['last_name'], status: 'Record created.'}
             end
           end
         end
@@ -130,13 +130,13 @@ class Person
               person.family.update_attributes!(family_vals)
             rescue => e
               if person
-                errored << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.error_updating'), :message => e.message}
+                errored << {first_name: person.first_name, last_name: person.last_name, status: I18n.t('import.error_updating'), message: e.message}
               else
-                errored << {:status => I18n.t('import.error_updating'), :message => e.message}
+                errored << {status: I18n.t('import.error_updating'), message: e.message}
               end
               raise ActiveRecord::Rollback
             else
-              completed << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.record_updated')}
+              completed << {first_name: person.first_name, last_name: person.last_name, status: I18n.t('import.record_updated')}
             end
           end
         end

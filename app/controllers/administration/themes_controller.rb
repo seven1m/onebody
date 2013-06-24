@@ -25,7 +25,7 @@ class Administration::ThemesController < ApplicationController
       expire_fragment(%r{views/people/#{@logged_in.id}_})
       redirect_to edit_administration_theme_path
     else
-      render :text => t('application.custom_theme_message', :content => content_for_layout), :layout => true, :status => 500
+      render text: t('application.custom_theme_message', content: content_for_layout), layout: true, status: 500
     end
   end
 

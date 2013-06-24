@@ -17,12 +17,12 @@ module Administration::DashboardsHelper
   end
 
   def link_to_with_page_prompt(label, url)
-    link_to(label, url, :onclick => "if(page=prompt('Page number:', 1))location.href = '#{url}?page=' + page; return false;")
+    link_to(label, url, onclick: "if(page=prompt('Page number:', 1))location.href = '#{url}?page=' + page; return false;")
   end
 
   def display_metric(alert, options={}, &block)
     options.symbolize_keys!
-    options.reverse_merge!(:content_tag => :p)
+    options.reverse_merge!(content_tag: :p)
     html = with_output_buffer(&block)
     @alerts << html if alert
     content_tag(options[:content_tag]) { html }
@@ -48,7 +48,7 @@ module Administration::DashboardsHelper
 
   def metric(destination, count, warn_threshold=nil, critical_threshold=nil, &block)
     css_class = 'admin-metric ' + metric_css_class(count, warn_threshold, critical_threshold)
-    content_tag(:a, :href => destination, :class => css_class) do
+    content_tag(:a, href: destination, class: css_class) do
       wrap_metric_count(capture(&block))
     end
   end

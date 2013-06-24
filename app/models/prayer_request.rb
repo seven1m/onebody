@@ -11,7 +11,7 @@ class PrayerRequest < ActiveRecord::Base
 
   def name
     group_name = group.name rescue '?'
-    I18n.t('prayer.name', :group_name => group_name)
+    I18n.t('prayer.name', group_name: group_name)
   end
 
   def body
@@ -29,13 +29,13 @@ class PrayerRequest < ActiveRecord::Base
   def create_as_stream_item
     return unless streamable?
     StreamItem.create!(
-      :body            => body,
-      :person_id       => person_id,
-      :group_id        => group_id,
-      :streamable_type => 'PrayerRequest',
-      :streamable_id   => id,
-      :created_at      => created_at,
-      :shared          => person.share_activity?
+      body:            body,
+      person_id:       person_id,
+      group_id:        group_id,
+      streamable_type: 'PrayerRequest',
+      streamable_id:   id,
+      created_at:      created_at,
+      shared:          person.share_activity?
     )
   end
 
@@ -52,6 +52,6 @@ class PrayerRequest < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(:streamable_type => 'PrayerRequest', :streamable_id => id)
+    StreamItem.destroy_all(streamable_type: 'PrayerRequest', streamable_id: id)
   end
 end

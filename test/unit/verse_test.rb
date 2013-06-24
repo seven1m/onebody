@@ -4,7 +4,7 @@ class VerseTest < ActiveSupport::TestCase
   fixtures :verses
 
   def setup
-    @verse = Verse.create(:reference => '1 John 1:9', :text => 'test')
+    @verse = Verse.create(reference: '1 John 1:9', text: 'test')
   end
 
   should "find an existing verse by reference" do

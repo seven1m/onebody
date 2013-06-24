@@ -19,7 +19,7 @@ class PrivacyTest < ActionController::IntegrationTest
 
   def test_children_without_consent_hidden_in_search_results
     sign_in_as people(:peter)
-    get "/search", :name => 'Mac'
+    get "/search", name: 'Mac'
     assert_template 'searches/create'
     assert_select 'body', /0 people found/
   end
@@ -45,10 +45,10 @@ class PrivacyTest < ActionController::IntegrationTest
     get "/people/#{people(:jeremy).id}/privacy/edit"
     assert_response :success
     assert_template 'privacies/edit'
-    assert_select 'body', :minimum => 1, :text => /you have not given consent/
-    assert_select 'li', :minimum => 1, :text => /Privacy Policy/
+    assert_select 'body', minimum: 1, text: /you have not given consent/
+    assert_select 'li', minimum: 1, text: /Privacy Policy/
     assert_select 'input[type=submit][value=I Agree]', 1
-    put "/people/#{people(:megan).id}/privacy", :agree => 'I Agree.'
+    put "/people/#{people(:megan).id}/privacy", agree: 'I Agree.'
     assert_response :redirect
     follow_redirect!
     assert_template 'privacies/edit'
@@ -56,12 +56,12 @@ class PrivacyTest < ActionController::IntegrationTest
     people(:megan).reload
     assert people(:megan).parental_consent # not nil
     assert people(:megan).parental_consent.include?("#{people(:jeremy).name} \(#{people(:jeremy).id}\)")
-    assert_select 'body', :minimum => 1, :text => /profile has parental consent/
+    assert_select 'body', minimum: 1, text: /profile has parental consent/
     get "/people/#{people(:megan).id}"
     assert_response :success
     assert_template 'people/show'
     assert_select '.family li', 3 # should still be 3
-    assert_select '.family li', :minimum => 1, :text => Regexp.new(people(:megan).first_name)
+    assert_select '.family li', minimum: 1, text: Regexp.new(people(:megan).first_name)
     sign_in_as people(:peter)
     get person_path(people(:jeremy))
     assert_template 'people/show'

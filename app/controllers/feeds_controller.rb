@@ -6,18 +6,18 @@ class FeedsController < ApplicationController
       if @logged_in.can_edit?(@person)
         @feeds = @person.feeds.all
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     elsif @logged_in.admin?(:edit_profiles)
       @feeds = Feed.all(
-        :include => :person,
-        :order => params[:order] == 'errors' ?
+        include: :person,
+        order: params[:order] == 'errors' ?
           'feeds.error_count desc' :
           'people.last_name, people.first_name, feeds.name'
       )
-      render :action => 'index_for_all'
+      render action: 'index_for_all'
     else
-      render :text => t('There_was_an_error'), :layout => true, :status => 500
+      render text: t('There_was_an_error'), layout: true, status: 500
     end
   end
 
@@ -26,7 +26,7 @@ class FeedsController < ApplicationController
     if @logged_in.can_edit?(@person)
       @feed = @person.feeds.new
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -45,32 +45,32 @@ class FeedsController < ApplicationController
             if @feed.error_count.to_i > 0
               @feed.destroy; @feed = @person.feeds.new
               flash[:notice] = t('feeds.error_retrieving')
-              render :action => 'new', :type => params[:type]
+              render action: 'new', type: params[:type]
             else
-              flash[:notice] = t('feeds.done_html', :url => stream_path)
+              flash[:notice] = t('feeds.done_html', url: stream_path)
               redirect_to person_feeds_path(@person)
             end
           else
-            render :action => 'new'
+            render action: 'new'
           end
         else
           url = Feed.transform_url(@feed.url)
           feed = Feedzirra::Feed.fetch_and_parse(url) rescue nil
           @entries = feed.entries[0...Feed::IMPORT_LIMIT] rescue []
           if feed and @entries.to_a.any?
-            render :action => 'preview'
+            render action: 'preview'
           else
             text = t('feeds.no_entries_found')
             text << " " + t('feeds.no_entries_found_twitter_alert') if params[:type] == 'twitter'
             text << " " + t('feeds.no_entries_found_flickr_alert') if params[:type] == 'flickr'
-            render :text => text, :layout => true, :status => 400
+            render text: text, layout: true, status: 400
           end
         end
       else
-        render :action => 'new'
+        render action: 'new'
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -82,7 +82,7 @@ class FeedsController < ApplicationController
         flash[:notice] = t('feeds.deleted')
         redirect_to person_feeds_path(@person)
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     elsif @logged_in.admin?(:edit_profiles)
       Feed.find(params[:id]).destroy

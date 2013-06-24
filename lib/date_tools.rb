@@ -11,7 +11,7 @@ class Date
       months += 12
       years -= 1
     end
-    {:years => years, :months => months, :days => days}
+    {years: years, months: months, days: days}
   end
 
   def self.parse_in_locale(string)

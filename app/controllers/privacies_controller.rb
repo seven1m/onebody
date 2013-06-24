@@ -1,16 +1,16 @@
 class PrivaciesController < ApplicationController
 
-  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(update)
+  cache_sweeper :person_sweeper, :family_sweeper, only: %w(update)
 
   def show
     if params[:find] == 'memberships'
       raise 'error' unless Membership.sharing_columns.include?(prop = "share_#{params[:sharing]}")
-      @memberships = @logged_in.memberships.all(:conditions => ["#{prop} = ?", true])
+      @memberships = @logged_in.memberships.all(conditions: ["#{prop} = ?", true])
     elsif params[:membership_id]
       redirect_to edit_group_membership_privacy_path(params[:group_id], params[:membership_id])
     else
       id = params[:person_id] || @logged_in.id
-      redirect_to edit_person_privacy_path(id, params_without_action.merge(:anchor => "p#{id}"))
+      redirect_to edit_person_privacy_path(id, params_without_action.merge(anchor: "p#{id}"))
     end
   end
 
@@ -23,19 +23,19 @@ class PrivaciesController < ApplicationController
         all = %w(address home_phone mobile_phone work_phone fax email birthday anniversary)
         @visible_to_everyone = all.select { |a| @person.send("share_#{a}?") }
         @sharable_with_group = all - @visible_to_everyone
-        render :action => 'edit_membership'
+        render action: 'edit_membership'
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     elsif @person = Person.find(params[:person_id])
       @family = @person.family
-      @children = @family.people.where(:deleted => false).reject(&:adult?)
+      @children = @family.people.where(deleted: false).reject(&:adult?)
       if @logged_in.can_edit?(@family)
         unless @family.visible?
-          flash[:warning] = t('privacies.family_hidden', :your => @family == @logged_in.family ? t('your') : t('privacies.this'))
+          flash[:warning] = t('privacies.family_hidden', your: @family == @logged_in.family ? t('your') : t('privacies.this'))
         end
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     end
   end
@@ -61,11 +61,11 @@ class PrivaciesController < ApplicationController
           flash[:notice] = t('privacies.saved')
           flash[:warning] = nil
         else
-          flash[:warning] = t('privacies.family_hidden', :your => @family == @logged_in.family ? t('your') : t('privacies.this'))
+          flash[:warning] = t('privacies.family_hidden', your: @family == @logged_in.family ? t('your') : t('privacies.this'))
         end
         redirect_to @person
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     end
   end
@@ -87,7 +87,7 @@ class PrivaciesController < ApplicationController
       end
       redirect_to edit_person_privacy_path(@person)
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 

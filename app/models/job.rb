@@ -4,7 +4,7 @@ class Job < ActiveRecord::Base
   scope_by_site_id
 
   def self.add(command)
-    create!(:command => command)
+    create!(command: command)
   end
 
 end

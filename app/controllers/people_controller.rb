@@ -1,10 +1,10 @@
 class PeopleController < ApplicationController
 
-  cache_sweeper :person_sweeper, :family_sweeper, :only => %w(create update destroy import batch)
+  cache_sweeper :person_sweeper, :family_sweeper, only: %w(create update destroy import batch)
 
   def index
     respond_to do |format|
-      format.html { redirect_to person_path(@logged_in, :tour => params[:tour]) }
+      format.html { redirect_to person_path(@logged_in, tour: params[:tour]) }
       if can_export?
         format.xml do
           job = Person.create_to_xml_job
@@ -22,12 +22,12 @@ class PeopleController < ApplicationController
     if params[:id].to_i == session[:logged_in_id]
       @person = @logged_in
     elsif params[:legacy_id]
-      @person = Person.find_by_legacy_id(params[:id], :include => :family)
+      @person = Person.find_by_legacy_id(params[:id], include: :family)
     else
-      @person = Person.find_by_id(params[:id], :include => :family)
+      @person = Person.find_by_id(params[:id], include: :family)
     end
     if params[:limited] or !@logged_in.full_access?
-      render :action => 'show_limited'
+      render action: 'show_limited'
     elsif @person and @logged_in.can_see?(@person)
       @family = @person.family
       if @person == @logged_in
@@ -35,22 +35,22 @@ class PeopleController < ApplicationController
       else
         @family_people = @person.family.try(:visible_people) || []
       end
-      @albums = @person.albums.all(:order => 'created_at desc')
+      @albums = @person.albums.all(order: 'created_at desc')
       @friends = @person.friends.thumbnails
-      @verses = @person.verses.all(:order => 'book, chapter, verse')
+      @verses = @person.verses.all(order: 'book, chapter, verse')
       if params[:business]
-        render :action => 'business'
+        render action: 'business'
       else
         respond_to do |format|
           format.html
-          format.xml { render :xml => @person.to_xml } if can_export?
+          format.xml { render xml: @person.to_xml } if can_export?
         end
       end
     elsif @person and @person.deleted? and @logged_in.admin?(:edit_profiles)
       @deleted_people_url = administration_deleted_people_path('search[id]' => @person.id)
-      render :text => t('people.deleted_html', :url => @deleted_people_url), :status => 404, :layout => true
+      render text: t('people.deleted_html', url: @deleted_people_url), status: 404, layout: true
     else
-      render :text => t('people.not_found'), :status => 404, :layout => true
+      render text: t('people.not_found'), status: 404, layout: true
     end
   end
 
@@ -60,21 +60,21 @@ class PeopleController < ApplicationController
         @business_categories = Person.business_categories
         @custom_types = Person.custom_types
         if @logged_in.admin?(:edit_profiles)
-          defaults = {:can_sign_in => true, :visible_to_everyone => true, :visible_on_printed_directory => true, :full_access => true}
+          defaults = {can_sign_in: true, visible_to_everyone: true, visible_on_printed_directory: true, full_access: true}
           @person = Person.new(defaults)
           @family = Family.find(params[:family_id])
-          number = @family.people.count(:conditions => ['deleted = ?', false])
+          number = @family.people.count(conditions: ['deleted = ?', false])
           @person.family_id = @family.id
           @person.last_name = @family.last_name
           @person.child = (number >= 2)
         else
-          render :text => t('not_authorized'), :layout => true, :status => 401
+          render text: t('not_authorized'), layout: true, status: 401
         end
       else
-        render :text => t('people.cant_be_added'), :layout => true, :status => 401
+        render text: t('people.cant_be_added'), layout: true, status: 401
       end
     else
-      render :text => t('There_was_an_error'), :layout => true, :status => 500
+      render text: t('There_was_an_error'), layout: true, status: 500
     end
   end
 
@@ -89,17 +89,17 @@ class PeopleController < ApplicationController
         respond_to do |format|
           if @person.save
             format.html { redirect_to @person.family }
-            format.xml  { render :xml => @person, :status => :created, :location => @person }
+            format.xml  { render xml: @person, status: :created, location: @person }
           else
-            format.html { render :action => "new" }
-            format.xml  { render :xml => @person.errors, :status => :unprocessable_entity }
+            format.html { render action: "new" }
+            format.xml  { render xml: @person.errors, status: :unprocessable_entity }
           end
         end
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     else
-      render :text => t('people.cant_be_added'), :layout => true, :status => 401
+      render text: t('people.cant_be_added'), layout: true, status: 401
     end
   end
 
@@ -110,10 +110,10 @@ class PeopleController < ApplicationController
       @business_categories = Person.business_categories
       @custom_types = Person.custom_types
       if params[:email]
-        render :action => 'email'
+        render action: 'email'
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -130,15 +130,15 @@ class PeopleController < ApplicationController
             flash[:notice] = t('people.changes_submitted')
             redirect_to @person
           end
-          format.xml { render :xml => @person.to_xml } if can_export?
+          format.xml { render xml: @person.to_xml } if can_export?
         end
       elsif params[:email]
         edit
       else
-        edit; render :action => 'edit'
+        edit; render action: 'edit'
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -146,15 +146,15 @@ class PeopleController < ApplicationController
     if @logged_in.admin?(:edit_profiles)
       @person = Person.find(params[:id])
       if me?
-        render :text => t('people.cant_delete_yourself'), :layout => true, :status => 401
+        render text: t('people.cant_delete_yourself'), layout: true, status: 401
       elsif @person.global_super_admin?
-        render :text => t('people.cant_delete'), :layout => true, :status => 401
+        render text: t('people.cant_delete'), layout: true, status: 401
       else
         @person.destroy
         redirect_to @person.family
       end
     else
-     render :text => t('not_authorized'), :layout => true, :status => 401
+     render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -164,13 +164,13 @@ class PeopleController < ApplicationController
         @column_names = Person.importable_column_names
       elsif request.post?
         @records = Person.queue_import_from_csv_file(params[:file].read, params[:match_by_name], params[:attributes])
-        render :action => 'import_queue'
+        render action: 'import_queue'
       elsif request.put?
         @completed, @errored = Person.import_data(params)
-        render :action => 'import_results'
+        render action: 'import_results'
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -179,13 +179,13 @@ class PeopleController < ApplicationController
       if Person.connection.adapter_name == 'MySQL'
         ids = params[:hash][:legacy_id].to_s.split(',')
         raise t('families.too_many') if ids.length > 1000
-        hashes = Person.hashify(:legacy_ids => ids, :attributes => params[:hash][:attrs].split(','), :debug => params[:hash][:debug])
-        render :xml => hashes
+        hashes = Person.hashify(legacy_ids: ids, attributes: params[:hash][:attrs].split(','), debug: params[:hash][:debug])
+        render xml: hashes
       else
-        render :text => t('families.only_in_mysql'), :status => 500
+        render text: t('families.only_in_mysql'), status: 500
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -202,28 +202,28 @@ class PeopleController < ApplicationController
       xml_params = Hash.from_xml(request.body.read)['hash']
       statuses = Person.update_batch(xml_params['records'], xml_params['options'] || {})
       respond_to do |format|
-        format.xml { render :xml => statuses }
+        format.xml { render xml: statuses }
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def schema
-    render :xml => Person.columns.map { |c| {:name => c.name, :type => c.type} }
+    render xml: Person.columns.map { |c| {name: c.name, type: c.type} }
   end
 
   def favs
     @person = Person.find(params[:id])
     unless @logged_in.can_see?(@person)
-      render :text => t('people.not_found'), :status => 404, :layout => true
+      render text: t('people.not_found'), status: 404, layout: true
     end
   end
 
   def testimony
     @person = Person.find(params[:id])
     unless @logged_in.can_see?(@person)
-      render :text => t('people.not_found'), :status => 404, :layout => true
+      render text: t('people.not_found'), status: 404, layout: true
     end
   end
 

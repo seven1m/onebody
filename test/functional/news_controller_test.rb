@@ -8,7 +8,7 @@ class NewsControllerTest < ActionController::TestCase
   end
 
   should "list all items by js" do
-    get :index, nil, {:logged_in_id => @person.id}
+    get :index, nil, {logged_in_id: @person.id}
     assert_response :success
     assert_equal 2, assigns(:news_items).length # 1 item already in news_items.yml
   end

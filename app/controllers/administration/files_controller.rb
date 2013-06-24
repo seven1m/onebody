@@ -5,7 +5,7 @@ class Administration::FilesController < ApplicationController
 
   def index
     @files = Dir[@path + '/*'].map do |file|
-      {:filename => File.split(file).last, :url => "/assets/site#{Site.current.id}/#{File.split(file).last}", :size => File.stat(file).size}
+      {filename: File.split(file).last, url: "/assets/site#{Site.current.id}/#{File.split(file).last}", size: File.stat(file).size}
     end
   end
 
@@ -17,7 +17,7 @@ class Administration::FilesController < ApplicationController
       File.chmod(0664, @path + '/' + params[:filename])
       redirect_to administration_files_path
     else
-      render :text => t('attachments.invalid_name'), :layout => true, :status => 500
+      render text: t('attachments.invalid_name'), layout: true, status: 500
     end
   end
 
@@ -26,11 +26,11 @@ class Administration::FilesController < ApplicationController
       begin
         File.delete(@path + '/' + params[:id])
       rescue
-        render :text => t('attachments.file_not_found'), :layout => true, :status => 404
+        render text: t('attachments.file_not_found'), layout: true, status: 404
       end
       redirect_to administration_files_path
     else
-      render :text => t('attachments.invalid_name'), :layout => true, :status => 500
+      render text: t('attachments.invalid_name'), layout: true, status: 500
     end
   end
 

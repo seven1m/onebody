@@ -11,9 +11,9 @@ class Person
     def sidebar_group_people(limit=nil)
       if sidebar_groups.any?
         Person.all(
-          :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})",
-          :joins => :memberships,
-          :limit => limit
+          conditions: "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})",
+          joins: :memberships,
+          limit: limit
         )
       else
         []
@@ -24,8 +24,8 @@ class Person
       if sidebar_groups.any?
         Person.count(
           '*',
-          :conditions => "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})",
-          :joins => :memberships
+          conditions: "people.id != #{self.id} and memberships.group_id in (#{sidebar_groups.map { |g| g.id }.join(',')})",
+          joins: :memberships
         )
       else
         0

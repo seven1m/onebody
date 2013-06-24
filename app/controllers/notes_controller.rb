@@ -4,19 +4,19 @@ class NotesController < ApplicationController
     if params[:person_id]
       @person = Person.find(params[:person_id])
       if @logged_in.can_see?(@person)
-        @notes = @person.notes.paginate(:order => 'created_at desc', :page => params[:page])
+        @notes = @person.notes.paginate(order: 'created_at desc', page: params[:page])
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     elsif params[:group_id]
       @group = Group.find(params[:group_id])
       if @logged_in.can_see?(@group) and @group.blog?
-        @notes = @group.notes.paginate(:order => 'created_at desc', :page => params[:page])
+        @notes = @group.notes.paginate(order: 'created_at desc', page: params[:page])
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
     else
-      render :text => t('There_was_an_error'), :status => 400
+      render text: t('There_was_an_error'), status: 400
     end
   end
 
@@ -25,12 +25,12 @@ class NotesController < ApplicationController
     if @logged_in.can_see?(@note)
       @person = @note.person
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
   def new
-    @note = Note.new(:group => Group.find_by_id(params[:group_id]))
+    @note = Note.new(group: Group.find_by_id(params[:group_id]))
   end
 
   def create
@@ -44,14 +44,14 @@ class NotesController < ApplicationController
       flash[:notice] = t('notes.saved')
       redirect_to params[:redirect_to] || @note
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
   def edit
     @note = Note.find(params[:id])
     unless @logged_in.can_edit?(@note)
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -61,10 +61,10 @@ class NotesController < ApplicationController
       if @note.update_attributes(params[:note])
         redirect_to @note
       else
-        render :action => 'edit'
+        render action: 'edit'
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -73,12 +73,12 @@ class NotesController < ApplicationController
     if @logged_in.can_edit?(@note)
       @note.destroy
       if @note.group
-        redirect_to group_path(@note.group, :anchor => 'blog')
+        redirect_to group_path(@note.group, anchor: 'blog')
       else
-        redirect_to person_path(@note.person, :anchor => 'blog')
+        redirect_to person_path(@note.person, anchor: 'blog')
       end
     else
-      render :text => t('not_authorized'), :layout => true, :status => 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 

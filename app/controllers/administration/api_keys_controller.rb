@@ -21,7 +21,7 @@ class Administration::ApiKeysController < ApplicationController
 
     def only_admins
       unless @logged_in.super_admin?
-        render :text => t('application.api_access'), :layout => true, :status => 401
+        render text: t('application.api_access'), layout: true, status: 401
         return false
       end
     end

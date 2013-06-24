@@ -4,7 +4,7 @@ class FamilyTest < ActiveSupport::TestCase
 
   context 'Barcodes' do
     should 'not allow the same barcode id to be assigned to two families' do
-      @family = FactoryGirl.create(:family, :barcode_id => '1234567890')
+      @family = FactoryGirl.create(:family, barcode_id: '1234567890')
       @family2 = FactoryGirl.build(:family)
       @family2.barcode_id = '1234567890'
       @family2.save
@@ -12,7 +12,7 @@ class FamilyTest < ActiveSupport::TestCase
     end
 
     should 'not allow the same alternate barcode id to be assigned to two families' do
-      @family = FactoryGirl.create(:family, :alternate_barcode_id => '1234567890')
+      @family = FactoryGirl.create(:family, alternate_barcode_id: '1234567890')
       @family2 = FactoryGirl.build(:family)
       @family2.alternate_barcode_id = '1234567890'
       @family2.save
@@ -21,13 +21,13 @@ class FamilyTest < ActiveSupport::TestCase
 
     should 'not allow the same id to be assigned to a barcode_id and an alternate_barcode_id on different families' do
       # alternate was there first
-      @family = FactoryGirl.create(:family, :alternate_barcode_id => '1234567890')
+      @family = FactoryGirl.create(:family, alternate_barcode_id: '1234567890')
       @family2 = FactoryGirl.build(:family)
       @family2.barcode_id = '1234567890'
       @family2.save
       assert @family2.errors[:barcode_id]
       # main id was there first
-      @family3 = FactoryGirl.create(:family, :barcode_id => '9876543210')
+      @family3 = FactoryGirl.create(:family, barcode_id: '9876543210')
       @family4 = FactoryGirl.build(:family)
       @family4.alternate_barcode_id = '9876543210'
       @family4.save

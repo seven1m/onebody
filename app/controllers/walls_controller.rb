@@ -5,15 +5,15 @@ class WallsController < ApplicationController
     if @logged_in.can_see?(@person) and @person.wall_enabled?
       respond_to do |wants|
         wants.html do
-          @messages = @person.wall_messages.paginate(:page => params[:page])
+          @messages = @person.wall_messages.paginate(page: params[:page])
         end
         wants.js do
-          @messages = @person.wall_messages.find(:all, :limit => 10)
-          render :partial => 'wall'
+          @messages = @person.wall_messages.find(:all, limit: 10)
+          render partial: 'wall'
         end
       end
     else
-      render :text => t('wall.not_found'), :status => 404
+      render text: t('wall.not_found'), status: 404
     end
   end
 
@@ -24,12 +24,12 @@ class WallsController < ApplicationController
     @person2 = Person.find(params[:id])
     if @person1 and @person2
       if @logged_in.can_see?(@person1, @person2) and @person1.wall_enabled? and @person2.wall_enabled?
-        @messages = Message.find(:all, :conditions => ['(wall_id = ? and person_id = ?) or (wall_id = ? and person_id = ?)', @person1.id, @person2.id, @person2.id, @person1.id], :order => 'created_at desc')
+        @messages = Message.find(:all, conditions: ['(wall_id = ? and person_id = ?) or (wall_id = ? and person_id = ?)', @person1.id, @person2.id, @person2.id, @person1.id], order: 'created_at desc')
       else
-        render :text => t('wall.one_or_more_not_found'), :status => 404
+        render text: t('wall.one_or_more_not_found'), status: 404
       end
     else
-      render :text => t('wall.must_specify_two_people'), :status => 500
+      render text: t('wall.must_specify_two_people'), status: 500
     end
   end
 end

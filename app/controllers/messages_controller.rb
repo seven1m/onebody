@@ -3,25 +3,25 @@ class MessagesController < ApplicationController
   def index
     @group = Group.find(params[:group_id])
     if @logged_in.can_see?(@group) and @group.email?
-      @messages = @group.messages.paginate(:order => 'created_at desc', :page => params[:page])
+      @messages = @group.messages.paginate(order: 'created_at desc', page: params[:page])
     else
-      render :text => t('groups.not_authorized_view'), :layout => true, :status => 401
+      render text: t('groups.not_authorized_view'), layout: true, status: 401
     end
   end
 
   def new
     if params[:to_person_id] and @person = Person.find(params[:to_person_id]) and @logged_in.can_see?(@person)
-      @message = Message.new(:to_person_id => @person.id)
+      @message = Message.new(to_person_id: @person.id)
     elsif params[:group_id] and @group = Group.find(params[:group_id]) and @group.can_post?(@logged_in)
-      @message = Message.new(:group_id => @group.id)
+      @message = Message.new(group_id: @group.id)
       if params[:message]
         @message.subject = params[:message][:subject]
         @message.body    = params[:message][:body]
       end
     elsif params[:parent_id] and @parent = Message.find(params[:parent_id]) and @logged_in.can_see?(@parent)
-      @message = Message.new(:parent => @parent, :group_id => @parent.group_id, :subject => "Re: #{@parent.subject}", :dont_send => true)
+      @message = Message.new(parent: @parent, group_id: @parent.group_id, subject: "Re: #{@parent.subject}", dont_send: true)
     else
-      render :text => t('There_was_an_error'), :layout => true, :status => 500
+      render text: t('There_was_an_error'), layout: true, status: 500
     end
   end
 
@@ -47,15 +47,15 @@ class MessagesController < ApplicationController
     @person = Person.find(params[:message][:wall_id])
     if params[:note_private] == 'true'
       @message = Message.new(
-        :person_id    => @logged_in.id,
-        :to_person_id => @person.id,
-        :body         => params[:message][:body]
+        person_id:    @logged_in.id,
+        to_person_id: @person.id,
+        body:         params[:message][:body]
       )
-      render :action => 'new'
+      render action: 'new'
       return
     end
     if @logged_in.can_see?(@person) and @person.wall_enabled?
-      message = @person.wall_messages.create(params[:message].merge(:subject => t('messages.wall_post'), :person => @logged_in))
+      message = @person.wall_messages.create(params[:message].merge(subject: t('messages.wall_post'), person: @logged_in))
       respond_to do |format|
         format.html do
           if message.errors.any?
@@ -67,12 +67,12 @@ class MessagesController < ApplicationController
           if message.errors.any?
             @wall_notice = t('There_was_an_error') + ": #{message.errors.full_messages.join('; ')}"
           end
-          @messages = @person.wall_messages.find(:all, :limit => 10)
-          render :partial => 'walls/wall'
+          @messages = @person.wall_messages.find(:all, limit: 10)
+          render partial: 'walls/wall'
         end
       end
     else
-      render :text => t('messages.wall_not_found'), :layout => true, :status => 404
+      render text: t('messages.wall_not_found'), layout: true, status: 404
     end
   end
 
@@ -81,11 +81,11 @@ class MessagesController < ApplicationController
     if @person.email and @logged_in.can_see?(@person)
       if send_message
         unless @preview
-          render :text => t('messages.sent'), :layout => true
+          render text: t('messages.sent'), layout: true
         end
       end
     else
-      render :text => t('messages.no_email_for_person', :name => @person.name), :layout => true, :status => 500
+      render text: t('messages.no_email_for_person', name: @person.name), layout: true, status: 500
     end
   end
 
@@ -99,12 +99,12 @@ class MessagesController < ApplicationController
         end
       end
     else
-      render :text => t('groups.not_authorized_post'), :layout => true, :status => 500
+      render text: t('groups.not_authorized_post'), layout: true, status: 500
     end
   end
 
   def send_message
-    attributes = params[:message].merge(:person => @logged_in)
+    attributes = params[:message].merge(person: @logged_in)
     if params[:preview]
       @preview = Message.preview(attributes)
     else
@@ -124,7 +124,7 @@ class MessagesController < ApplicationController
   def show
     @message = Message.find(params[:id])
     unless @logged_in.can_see?(@message)
-      render :text => t('messages.not_found'), :layout => true, :status => 404
+      render text: t('messages.not_found'), layout: true, status: 404
     end
   end
 
@@ -134,7 +134,7 @@ class MessagesController < ApplicationController
       @message.destroy
       redirect_to @message.group ? @message.group : stream_path
     else
-      render :text => t('messages.not_authorized_delete'), :layout => true, :status => 500
+      render text: t('messages.not_authorized_delete'), layout: true, status: 500
     end
   end
 end

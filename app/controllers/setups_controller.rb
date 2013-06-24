@@ -21,7 +21,7 @@ class SetupsController < ApplicationController
       else
         generate_encryption_key
         @person.errors.add :base, t('setup.invalid_domain_name')
-        render :action => 'new'
+        render action: 'new'
         return
       end
       @person.attributes = params[:person]
@@ -30,13 +30,13 @@ class SetupsController < ApplicationController
       unless @person.password and @person.password == @person.password_confirmation
         generate_encryption_key
         @person.errors.add :error, t('accounts.set_password_error')
-        render :action => 'new'
+        render action: 'new'
         return
       end
       unless @person.email.to_s.any?
         generate_encryption_key
         @person.errors.add :email, t('activerecord.errors.models.person.attributes.email.invalid')
-        render :action => 'new'
+        render action: 'new'
         return
       end
       @person.can_sign_in = true
@@ -45,18 +45,18 @@ class SetupsController < ApplicationController
       @person.full_access = true
       @person.child = false
       @person.family = Family.create!(
-        :name      => @person.name,
-        :last_name => @person.last_name
+        name:      @person.name,
+        last_name: @person.last_name
       )
-      @person.admin = Admin.create!(:super_admin => true)
+      @person.admin = Admin.create!(super_admin: true)
       if @person.save
         Setting.set_global('Contact', 'Bug Notification Email', @person.email)
         Setting.set_global('Contact', 'Tech Support Email', @person.email)
         flash[:notice] = t('setup.complete')
-        redirect_to new_session_path(:from => '/stream')
+        redirect_to new_session_path(from: '/stream')
       else
         generate_encryption_key
-        render :action => 'new'
+        render action: 'new'
         raise ActiveRecord::Rollback
       end
     end
@@ -66,7 +66,7 @@ class SetupsController < ApplicationController
 
     def check_setup_requirements
       if Person.count > 0 or Setting.get(:features, :multisite)
-        render :text => t('not_authorized'), :layout => true
+        render text: t('not_authorized'), layout: true
         return false
       end
     end
