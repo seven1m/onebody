@@ -1,4 +1,5 @@
-# Methods added to this helper will be available to all templates in the application.
+require 'tags_helper'
+
 module ApplicationHelper
   include TagsHelper
   include PicturesHelper
