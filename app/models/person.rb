@@ -45,8 +45,11 @@ class Person < ActiveRecord::Base
   attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :medical_notes, if: Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
   attr_accessible :id, :sequence, :can_pick_up, :cannot_pick_up, :family_id, if: Proc.new { l = Person.logged_in and l.admin?(:edit_profiles) and l.admin?(:import_data) and Person.import_in_progress }
 
-  scope :unsynced_to_donortools, lambda { {conditions: ["synced_to_donortools = ? and deleted = ? and (child = ? or birthday <= ?)", false, false, false, 18.years.ago]} }
-  scope :can_sign_in, conditions: {can_sign_in: true, deleted: false}
+  scope :undeleted, -> { where(deleted: false) }
+  scope :deleted, -> { where(deleted: true) }
+  scope :can_sign_in, -> { undeleted.where(can_sign_in: true) }
+  scope :administrators, -> { undeleted.where('admin_id is not null') }
+  scope :email_changed, -> { undeleted.where(email_changed: true) }
   scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at') }
 
   acts_as_password
@@ -69,7 +72,7 @@ class Person < ActiveRecord::Base
   # validate that an email address is properly formatted
   validates_each :email do |record, attribute, value|
     if attribute.to_s == 'email' and value.to_s.any? and not record.deleted?
-      if Person.count(conditions: ["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]) > 0
+      if Person.where(["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]).count > 0
         record.errors.add attribute, :taken
       end
       if value.to_s.strip !~ VALID_EMAIL_ADDRESS
@@ -167,7 +170,7 @@ class Person < ActiveRecord::Base
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
 
   def groups_sharing(attribute)
-    memberships.find(:all, conditions: ["share_#{attribute.to_s} = ?", true]).map { |m| m.group }
+    memberships.where(["share_#{attribute.to_s} = ?", true]).all.map(&:group)
   end
 
   def can_see?(*whats)
@@ -335,7 +338,7 @@ class Person < ActiveRecord::Base
     begin # ensure unique
       code = SecureRandom.hex(50)[0...50]
       write_attribute :feed_code, code
-    end while Person.count(conditions: ['feed_code = ?', code]) > 0
+    end while Person.where(feed_code: code).count > 0
   end
 
   def generate_api_key
@@ -348,9 +351,9 @@ class Person < ActiveRecord::Base
   def update_sequence
     return if @no_auto_sequence
     if family and sequence.nil?
-      conditions = ['deleted = ?', false]
-      conditions.add_condition ['id != ?', id] unless new_record?
-      self.sequence = family.people.maximum(:sequence, conditions: conditions).to_i + 1
+      scope = family.people.undeleted
+      scope = scope.where('id != ?', id) unless new_record?
+      self.sequence = scope.maximum(:sequence).to_i + 1
     end
   end
 
@@ -452,8 +455,7 @@ class Person < ActiveRecord::Base
     relation.to_a.tap do |stream_items|
       # do our own eager loading here...
       comment_people_ids = stream_items.map { |s| Array(s.context['comments']).map { |c| c['person_id'] } }.flatten
-      comment_people = Person.where(id: comment_people_ids) \
-                             .select('first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_updated_at, photo_fingerprint') \
+      comment_people = Person.where(id: comment_people_ids).minimal \
                              .inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
       stream_items.each do |stream_item|
         Array(stream_item.context['comments']).each do |comment|
@@ -489,12 +491,7 @@ class Person < ActiveRecord::Base
   end
 
   def attendance_today
-    today = Date.today
-    self.attendance_records.all(
-      conditions: ['attendance_records.attended_at >= ? and attendance_records.attended_at <= ?', today.strftime('%Y-%m-%d 0:00'), today.strftime('%Y-%m-%d 23:59:59')],
-      include:    :group,
-      order:      'attended_at'
-    )
+    attendance_records.on_date(Date.today).includes(:group).order(:attended_at)
   end
 
   def update_relationships_hash

@@ -5,6 +5,8 @@ class NewsItem < ActiveRecord::Base
 
   scope_by_site_id
 
+  scope :active, -> { where(active: true) }
+
   attr_accessible :title, :body
 
   def name; title; end

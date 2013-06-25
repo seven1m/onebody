@@ -51,4 +51,11 @@ class MessageTest < ActiveSupport::TestCase
     assert !@message.valid?
     assert @message.errors[:body].any?
   end
+
+  should 'not allow two identical messages to be saved' do
+    details = {subject: 'foo', body: 'foo', person: @person, group: @group}
+    @message = Message.create!(details)
+    @message2 = Message.new(details)
+    assert !@message2.valid?
+  end
 end

@@ -5,7 +5,7 @@ class PrivaciesController < ApplicationController
   def show
     if params[:find] == 'memberships'
       raise 'error' unless Membership.sharing_columns.include?(prop = "share_#{params[:sharing]}")
-      @memberships = @logged_in.memberships.all(conditions: ["#{prop} = ?", true])
+      @memberships = @logged_in.memberships.where("#{prop} = ?", true).all
     elsif params[:membership_id]
       redirect_to edit_group_membership_privacy_path(params[:group_id], params[:membership_id])
     else

@@ -8,6 +8,7 @@ class VersesController < ApplicationController
       else
         render text: t('not_authorized'), layout: true, status: 401
       end
+      # note: Tag.counts still accepts the :conditions option
       @tags = Verse.tag_counts(conditions: ['verses.id in (?)', @verses.map { |v| v.id } || [0]])
     else
       @verses = Verse.paginate(

@@ -2,11 +2,7 @@ class Administration::UpdatesController < ApplicationController
   before_filter :only_admins
 
   def index
-    @updates = Update.paginate(
-      page:       params[:page],
-      conditions: ['complete = ?', params[:complete] == 'true'],
-      order:      'created_at desc'
-    )
+    @updates = Update.where(complete: params[:complete] == 'true').order('created_at desc').page(params[:page])
     @unapproved_groups = Group.find_all_by_approved(false)
   end
 

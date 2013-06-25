@@ -21,10 +21,10 @@ class GroupsController < ApplicationController
       conditions.add_condition ['hidden = ? and approved = ?', false, true] unless @logged_in.admin?(:manage_groups)
       conditions.add_condition ['category = ?', params[:category]] if params[:category]
       conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
-      @groups = Group.find(:all, conditions: conditions, order: 'name')
+      @groups = Group.where(conditions).order('name')
       conditions_for_hidden = conditions.dup
       conditions_for_hidden[1] = true # only hidden groups
-      @hidden_groups = Group.find(:all, conditions: conditions_for_hidden, order: 'name')
+      @hidden_groups = Group.where(conditions_for_hidden).order('name')
       respond_to do |format|
         format.html { render action: 'search' }
         format.js
@@ -37,9 +37,9 @@ class GroupsController < ApplicationController
     else
       @categories = Group.category_names
       if @logged_in.admin?(:manage_groups)
-        @unapproved_groups = Group.find_all_by_approved(false)
+        @unapproved_groups = Group.unapproved
       else
-        @unapproved_groups = Group.find_all_by_creator_id_and_approved(@logged_in.id, false)
+        @unapproved_groups = Group.unapproved.where(creator_id: @logged_in.id)
       end
       @person = @logged_in
       respond_to do |format|
@@ -71,7 +71,7 @@ class GroupsController < ApplicationController
     @show_cal = @group.gcal_url
     @can_post = @group.can_post?(@logged_in)
     @can_share = @group.can_share?(@logged_in)
-    @albums = @group.albums.all(order: 'name')
+    @albums = @group.albums.order('name')
     unless @group.approved? or @group.admin?(@logged_in)
       render text: t('groups.this_group_is_pending_approval'), layout: true
       return
@@ -158,7 +158,7 @@ class GroupsController < ApplicationController
       if request.post?
         respond_to do |format|
           format.html do
-            @groups = Group.all(order: 'category, name')
+            @groups = Group.order('category, name')
             @groups.group_by(&:id).each do |id, groups|
               group = groups.first
               if vals = params[:groups][id.to_s]
@@ -177,7 +177,7 @@ class GroupsController < ApplicationController
           end
         end
       else
-        @groups = Group.all(order: 'category, name')
+        @groups = Group.order('category, name')
       end
     else
       render text: t('not_authorized'), layout: true, status: 401

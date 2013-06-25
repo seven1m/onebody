@@ -17,6 +17,8 @@ class Message < ActiveRecord::Base
 
   scope_by_site_id
 
+  scope :same_as, -> m { where('id != ?', m.id || 0).where(person_id: m.person_id, subject: m.subject, body: m.body, to_person_id: m.to_person_id, group_id: m.group_id).where('created_at >= ?', 1.day.ago) }
+
   validates_presence_of :person_id
   validates_presence_of :subject
   validates_length_of :subject, minimum: 2
@@ -76,7 +78,7 @@ class Message < ActiveRecord::Base
   end
 
   validate on: :create do |record|
-    if Message.find_by_person_id_and_subject_and_body_and_to_person_id_and_group_id(record.person_id, record.subject, record.body, record.to_person_id, record.group_id, conditions: ['created_at >= ?', Date.today-1])
+    if Message.same_as(self).any?
       record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
     end
     if record.subject =~ /Out of Office/i

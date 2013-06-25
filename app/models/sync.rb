@@ -26,9 +26,9 @@ class Sync < ActiveRecord::Base
 
   def count_items
     {
-      create: sync_items.count('id', conditions: {operation: 'create'}),
-      update: sync_items.count('id', conditions: {operation: 'update'}),
-      error:  sync_items.count('id', conditions: "status in ('error', 'saved with error')"),
+      create: sync_items.creates.count,
+      update: sync_items.updates.count,
+      error:  sync_items.errors.count
     }.reject { |k, v| v == 0 }
   end
 
@@ -216,7 +216,7 @@ class Sync < ActiveRecord::Base
       end
       by_group_id.each do |group_id, people_ids|
         if group = Group.find_by_legacy_id(group_id)
-          people = Person.all(conditions: ['legacy_id in (?)', people_ids])
+          people = Person.where(legacy_id: people_ids)
           people.each do |person|
             unless person.member_of?(group)
               group.memberships.create!(person: person)

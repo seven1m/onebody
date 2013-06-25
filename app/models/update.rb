@@ -7,6 +7,8 @@ class Update < ActiveRecord::Base
 
   scope_by_site_id
 
+  scope :pending, -> { where(complete: false) }
+
   serialize :custom_fields
 
   attr_accessor :child

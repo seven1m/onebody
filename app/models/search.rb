@@ -5,6 +5,8 @@ class Search
   attr_accessor :show_businesses, :show_hidden, :testimony, :member
   attr_reader :count, :people, :family_name, :family_barcode_id, :families
 
+  # TODO refactor to use scopes
+
   def initialize
     @people = []
     @family_name = nil
@@ -124,13 +126,9 @@ class Search
         @conditions.add_condition ["people.custom_type = ?", @type]
       end
     end
-    @count = Person.count conditions: @conditions, include: :family
-    @people = Person.paginate(
-      page: page,
-      conditions: @conditions,
-      include: :family,
-      order: (show_businesses ? 'people.business_name' : 'people.last_name, people.first_name')
-    ).select do |person| # additional checks that don't work well in raw sql
+    base = Person.where(@conditions).includes(:family).order(show_businesses ? 'people.business_name' : 'people.last_name, people.first_name')
+    @count = base.count
+    @people = base.page(page).select do |person| # additional checks that don't work well in raw sql
       !person.nil? \
         and Person.logged_in.sees?(person) \
         and (not @search_birthday or person.share_birthday_with(Person.logged_in)) \
@@ -143,8 +141,8 @@ class Search
 
   def query_families(page=nil)
     @conditions.add_condition ["families.deleted = ?", false]
-    @count = Family.count conditions: @conditions
-    @families = Family.paginate(page: page, conditions: @conditions, order: "last_name")
+    @count = Family.where(@conditions)
+    @families = Family.where(@conditions).order('last_name').page(page)
   end
 
   def self.new_from_params(params)

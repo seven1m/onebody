@@ -87,7 +87,7 @@ class Page < ActiveRecord::Base
     end
 
     def find_by_path(path)
-      find(:first, conditions: ['path = ?', normalize_path(path)])
+      where(path: normalize_path(path)).first
     end
 
     def normalize_path(path)

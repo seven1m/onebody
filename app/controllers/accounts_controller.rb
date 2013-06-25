@@ -145,7 +145,7 @@ class AccountsController < ApplicationController
         else
           conditions = ['people.email = ? or families.email = ?', v.email, v.email]
         end
-        @people = Person.find :all, conditions: conditions, include: :family
+        @people = Person.where(conditions).includes(:family)
         if @people.nil? or @people.empty?
           render text: t('accounts.there_was_an_error'), layout: true, status: 500
           return

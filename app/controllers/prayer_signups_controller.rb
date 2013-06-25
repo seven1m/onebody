@@ -101,7 +101,7 @@ class PrayerSignupsController < ApplicationController
     end
 
     def get_signups
-      signups = PrayerSignup.all(conditions: ['start >= ? and start <= ?', @first, @last], order: 'start')
+      signups = PrayerSignup.where('start >= ? and start <= ?', @first, @last).order('start')
       @signups = signups.group_by { |r| r.start.strftime('%Y/%m/%d %H:%M') }
       @count_per_day = {}
       signups.each do |s|

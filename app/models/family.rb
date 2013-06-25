@@ -15,6 +15,10 @@ class Family < ActiveRecord::Base
 
   sharable_attributes :mobile_phone, :address, :anniversary
 
+  scope :undeleted, -> { where(deleted: false) }
+  scope :deleted, -> { where(deleted: true) }
+  scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0', true) }
+
   validates_uniqueness_of :barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_uniqueness_of :alternate_barcode_id, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |f| f.deleted? }
   validates_length_of :barcode_id, :alternate_barcode_id, in: 10..50, allow_nil: true
@@ -26,11 +30,11 @@ class Family < ActiveRecord::Base
     if attribute.to_s == 'barcode_id' and record.barcode_id
       if record.barcode_id == record.alternate_barcode_id
         record.errors.add(attribute, :taken)
-      elsif Family.count(conditions: ['alternate_barcode_id = ?', record.barcode_id]) > 0
+      elsif Family.where(alternate_barcode_id: record.barcode_id).count > 0
         record.errors.add(attribute, :taken)
       end
     elsif attribute.to_s == 'alternate_barcode_id' and record.alternate_barcode_id
-      if Family.count(conditions: ['barcode_id = ?', record.alternate_barcode_id]) > 0
+      if Family.where(barcode_id: record.alternate_barcode_id).count > 0
         record.errors.add(attribute, :taken)
       end
     end

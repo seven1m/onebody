@@ -7,7 +7,7 @@ class NewsController < ApplicationController
     respond_to do |format|
       format.html do
         if Setting.get(:features, :news_page)
-          @news_items = NewsItem.paginate(conditions: {active: true}, order: 'published desc', include: :person, page: params[:page])
+          @news_items = NewsItem.active.order('published desc').includes(:person).page(params[:page])
         else
           if the_url = Setting.get(:url, :news)
             redirect_to the_url

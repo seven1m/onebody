@@ -15,7 +15,15 @@ class Group < ActiveRecord::Base
   belongs_to :parents_of_group, class_name: 'Group', foreign_key: 'parents_of'
   belongs_to :site
 
-  scope :active, conditions: {hidden: false}
+  scope :active, -> { where(hidden: false) }
+  scope :unapproved, -> { where(approved: false) }
+  scope :approved, -> { where(approved: true) }
+  scope :is_public, -> { where(private: false, hidden: false) } # cannot be 'public'
+  scope :is_private, -> { where(private: true, hidden: false) } # cannot be 'private'
+  scope :standard, -> { where("parents_of is null and (link_code is null or link_code = '')") }
+  scope :linked, -> { where("link_code is not null and link_code != ''") }
+  scope :parents_of, -> { where("parents_of is not null") }
+  scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.ordering') }
 
   scope_by_site_id
 
@@ -45,8 +53,6 @@ class Group < ActiveRecord::Base
   end
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
-
-  scope :checkin_destinations, include: :group_times, conditions: ['group_times.checkin_time_id is not null'], order: 'group_times.ordering'
 
   def name_group # returns something like "Morgan group"
     "#{name}#{name =~ /group$/i ? '' : ' group'}"
@@ -107,7 +113,7 @@ class Group < ActiveRecord::Base
       link_code.downcase.split.each do |code|
         conditions.add_condition ["#{sql_lcase('classes')} = ? or #{sql_lcase('classes')} like ? or #{sql_lcase('classes')} like ? or #{sql_lcase('classes')} like ? or #{sql_lcase('classes')} like ? or #{sql_lcase('classes')} like ?", code, "#{code},%", "%,#{code}", "%,#{code},%", "#{code}[%", "%,#{code}[%"], 'or'
       end
-      update_membership_associations(Person.find(:all, conditions: conditions))
+      update_membership_associations(Person.where(conditions).all)
     elsif Membership.column_names.include?('auto')
       memberships.find_all_by_auto(true).each { |m| m.destroy }
     end
@@ -149,7 +155,7 @@ class Group < ActiveRecord::Base
     records = {}
     people.each { |p| records[p.id] = [p, false] }
     date = Date.parse(date) if(date.is_a?(String))
-    attendance_records.all(conditions: ['attended_at >= ? and attended_at <= ?', date.strftime('%Y-%m-%d 0:00'), date.strftime('%Y-%m-%d 23:59:59')]).each do |record|
+    attendance_records.where('attended_at >= ? and attended_at <= ?', date.strftime('%Y-%m-%d 0:00'), date.strftime('%Y-%m-%d 23:59:59')).all.each do |record|
       records[record.person.id] = [record.person, record]
     end
     records.values.sort_by { |r| [r[0].last_name, r[0].first_name] }
@@ -183,10 +189,7 @@ class Group < ActiveRecord::Base
     )
     # do our own eager loading here...
     comment_people_ids = items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
-    comment_people = Person.all(
-      conditions: ["id in (?)", comment_people_ids],
-      select: 'first_name, last_name, suffix, gender, id, family_id, updated_at, photo_file_name, photo_fingerprint' # only what's needed
-    ).inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
+    comment_people = Person.where(id: comment_people_ids).minimal.each_with_object({}) { |p, h| h[p.id] = p } # as a hash with id as the key
     items.each do |stream_item|
       stream_item.context['comments'].to_a.each do |comment|
         comment['person'] = comment_people[comment['person_id']]
@@ -206,7 +209,7 @@ class Group < ActiveRecord::Base
     return unless (api_key = Setting.get(:services, :campaign_monitor_api_key)).to_s.any?
     return unless cm_api_list_id.to_s.any?
     cm = CampaignMonitorParty.new(api_key)
-    in_group = self.people.all(conditions: ['memberships.get_email = ?', true]).select { |p| p.email.to_s.any? }
+    in_group = self.people.where('memberships.get_email' => true).all.select { |p| p.email.to_s.any? }
     unsubscribed = cm.Subscribers.GetUnsubscribed('ListID' => cm_api_list_id, 'Date' => '2000-01-01 00:00:00')['anyType']['Subscriber'].to_a.map { |s| [s['Name'], s['EmailAddress']] }
     # ensure we don't resubscribe someone who has already unsubscribed
     # (and also set their get_email attribute to false in the group)
@@ -257,16 +260,16 @@ class Group < ActiveRecord::Base
 
     def count_by_type
       {
-        public:             Group.count('id', conditions: {private: false, hidden: false}),
-        private:            Group.count('id', conditions: {private: true,  hidden: false}),
+        public: is_public.count,
+        private: is_private.count
       }.reject { |k, v| v == 0 }
     end
 
     def count_by_linked
       {
-        standard:           Group.count('id', conditions: "parents_of is null and (link_code is null or link_code = '')"),
-        linked:             Group.count('id', conditions: "link_code is not null and link_code != ''"),
-        parents_of:         Group.count('id', conditions: "parents_of is not null")
+        standard: standard.count,
+        linked: linked.count,
+        parents_of: parents_of.count
       }.reject { |k, v| v == 0 }
     end
 

@@ -56,12 +56,8 @@ class Person
 
       alpha = nil
 
-      Family.find(
-        :all,
-        conditions: ["(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0", true],
-        order: 'families.last_name, families.name, people.sequence',
-        include: 'people'
-      ).each do |family|
+      families = Family.has_printable_people.includes(:people).order('families.last_name, families.name, people.sequence')
+      families.each do |family|
         if family.mapable? or family.home_phone.to_i > 0
           pdf.move_pointer 120 if pdf.y < 120
           if family.last_name[0..0] != alpha

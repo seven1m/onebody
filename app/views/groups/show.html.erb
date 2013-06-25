@@ -23,7 +23,7 @@
   <% elsif not @group.approved %>
     <p class="very-strong"><%= I18n.t('groups.this_group_is_pending_approval') %></p>
   <% else %>
-    <% if @group.membership_requests.count('*', conditions: ['person_id = ?', @logged_in.id]) > 0 %>
+    <% if @group.membership_requests.where(person_id: @logged_in.id).count > 0 %>
       <p class="very-strong"><%= I18n.t('groups.you_requested_join_this_group') %></p>
     <% elsif not @member_of %>
       <p><%= link_to I18n.t('groups.join_this_group'), group_memberships_path(@group, id: @logged_in), method: 'post', confirm: @group.admin?(@logged_in) ? I18n.t('are_you_sure') : I18n.t('groups.request_will_be_sent_to_admins'), class: 'add-icon' %></p>

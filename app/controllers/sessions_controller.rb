@@ -82,9 +82,7 @@ class SessionsController < ApplicationController
     end
 
     def check_too_many_signin_failures
-      if SigninFailure.count(
-        conditions: ['email = ? and ip = ? and created_at >= ?', params[:email].downcase, request.remote_ip, 15.minutes.ago]) >
-        Setting.get(:privacy, :max_sign_in_attempts).to_i
+      if SigninFailure.matching(request).count > Setting.get(:privacy, :max_sign_in_attempts).to_i
         render text: t('session.max_sign_in_attempts'), layout: true
         return false
       end

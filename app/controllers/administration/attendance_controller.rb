@@ -10,6 +10,7 @@ class Administration::AttendanceController < ApplicationController
     attendance_records.created_at
   )
 
+  # TODO refactor
   def index
     @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
     @groups = AttendanceRecord.groups_for_date(@attended_at)
@@ -69,13 +70,13 @@ class Administration::AttendanceController < ApplicationController
 
   def prev
     @attended_at = Date.parse(params[:attended_at])
-    date = AttendanceRecord.maximum(:attended_at, conditions: ["attended_at < ?", @attended_at.strftime('%Y/%m/%d 0:00')])
+    date = AttendanceRecord.where("attended_at < ?", @attended_at.strftime('%Y/%m/%d 0:00')).maximum(:attended_at)
     redirect_to administration_attendance_index_path(attended_at: date)
   end
 
   def next
     @attended_at = Date.parse(params[:attended_at])
-    date = AttendanceRecord.minimum(:attended_at, conditions: ["attended_at > ?", @attended_at.strftime('%Y/%m/%d 23:59:59')])
+    date = AttendanceRecord.where("attended_at > ?", @attended_at.strftime('%Y/%m/%d 23:59:59')).minimum(:attended_at)
     redirect_to administration_attendance_index_path(attended_at: date)
   end
 
