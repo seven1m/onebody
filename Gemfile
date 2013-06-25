@@ -25,4 +25,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'shoulda', '~> 3.0.1', require: false
   gem 'pry'
+  gem 'zeus'
+  gem 'watchr'
 end
