@@ -221,10 +221,6 @@ class Message < ActiveRecord::Base
     end until code > 0
   end
 
-  def flagged?
-    log_items.count(:id, conditions: "flagged_on is not null") > 0
-  end
-
   def can_see?(p)
     if group and group.private?
       p.member_of?(group) or group.admin?(p)
