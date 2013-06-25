@@ -1,12 +1,7 @@
 class Group < ActiveRecord::Base
   has_many :memberships, dependent: :destroy
   has_many :membership_requests, dependent: :destroy
-  has_many :people, through: :memberships do
-    def thumbnails
-      # TODO figure out why select is changed to include people.*
-      self.all(select: 'people.id, people.first_name, people.last_name, people.suffix, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at', order: 'people.last_name, people.first_name')
-    end
-  end
+  has_many :people, through: :memberships, order: 'last_name, first_name'
   has_many :admins, through: :memberships, source: :person, order: 'last_name, first_name', conditions: ['memberships.admin = ?', true]
   has_many :messages, conditions: 'parent_id is null', order: 'updated_at desc', dependent: :destroy
   has_many :notes, order: 'created_at desc'

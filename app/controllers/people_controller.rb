@@ -36,7 +36,7 @@ class PeopleController < ApplicationController
         @family_people = @person.family.try(:visible_people) || []
       end
       @albums = @person.albums.all(order: 'created_at desc')
-      @friends = @person.friends.thumbnails
+      @friends = @person.friends.minimal
       @verses = @person.verses.all(order: 'book, chapter, verse')
       if params[:business]
         render action: 'business'

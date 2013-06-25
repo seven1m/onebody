@@ -60,7 +60,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @members = @group.people.thumbnails unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
+    @members = @group.people.minimal unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
     @member_of = @logged_in.member_of?(@group)
     if @member_of or (not @group.private? and not @group.hidden?) or @group.admin?(@logged_in)
       @stream_items = @group.shared_stream_items(20)
@@ -120,7 +120,7 @@ class GroupsController < ApplicationController
     @group ||= Group.find(params[:id])
     if @logged_in.can_edit?(@group)
       @categories = Group.categories.keys
-      @members = @group.people.all(order: 'last_name, first_name', select: 'people.id, people.first_name, people.last_name, people.suffix')
+      @members = @group.people.minimal.order('last_name, first_name')
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
