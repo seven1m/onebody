@@ -1,5 +1,7 @@
 # Install/Upgrade
 
+**NOTE: these instructions are out of date.**
+
 Installation has been tested on Ubuntu Linux 10.04.1 LTS (Lucid Lynx) and 10.10 (Maverick Meerkat). If you are using a different Linux distro or Mac OS X, you will need to adjust some of the commands below to match your environment.
 
 Supplemental install notes are available for CentOS 5.5 in the `doc` folder.
@@ -13,7 +15,7 @@ Do **not** run as the root user directly (use `sudo`).
 
 ### 0. Ruby on Your <span style="color:green;">[Workstation]</span>
 
-You'll need Ruby 1.8.7 on your Workstation (other versions may work, but are untested).
+You'll need Ruby 1.9.3 on your Workstation (other versions may work, but are untested).
 
 For **Ubuntu** workstations, this should work (though RVM would be better here):
 
