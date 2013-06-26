@@ -84,12 +84,6 @@
     <% end %>
   <% end %>
 
-  <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) %>
-    <%= metric sync_contributions_path, @unsynced_to_donortools, 5, 25 do %>
-      <%= t('admin.people_not_synced_to_donortools_count', count: @unsynced_to_donortools) %>
-    <% end %>
-  <% end %>
-
   <%= render_plugin_hook(:admin_dashboard_metric) %>
 </div>
 
