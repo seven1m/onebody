@@ -117,9 +117,6 @@ class Group < ActiveRecord::Base
     elsif Membership.column_names.include?('auto')
       memberships.find_all_by_auto(true).each { |m| m.destroy }
     end
-    if respond_to?(:cm_api_list_id) and cm_api_list_id.to_s.any? and Setting.get(:services, :campaign_monitor_api_key).to_s.any?
-      sync_with_campaign_monitor
-    end
     # have to expire the group fragments here since this is run in background nightly
     ActionController::Base.cache_store.delete_matched(%r{groups/#{id}})
   end
@@ -203,37 +200,6 @@ class Group < ActiveRecord::Base
 
   def remove_parent_of_links
     Group.find_all_by_parents_of(id).each { |g| g.update_attribute(:parents_of, nil) }
-  end
-
-  def sync_with_campaign_monitor
-    return unless (api_key = Setting.get(:services, :campaign_monitor_api_key)).to_s.any?
-    return unless cm_api_list_id.to_s.any?
-    cm = CampaignMonitorParty.new(api_key)
-    in_group = self.people.where('memberships.get_email' => true).all.select { |p| p.email.to_s.any? }
-    unsubscribed = cm.Subscribers.GetUnsubscribed('ListID' => cm_api_list_id, 'Date' => '2000-01-01 00:00:00')['anyType']['Subscriber'].to_a.map { |s| [s['Name'], s['EmailAddress']] }
-    # ensure we don't resubscribe someone who has already unsubscribed
-    # (and also set their get_email attribute to false in the group)
-    upload_to_cm = []
-    in_group.each do |person|
-      if unsubscribed.map { |p| p[1].downcase }.include?(person.email.downcase)
-        person.memberships.find_by_group_id(self.id).update_attribute(:get_email, false)
-      else
-        upload_to_cm << [person.name, person.email]
-      end
-    end
-    # unsubscribe addresses in the subscriber list but not found in the group
-    subscribed = cm.Subscribers.GetActive('ListID' => cm_api_list_id, 'Date' => '2000-01-01 00:00:00')['anyType']['Subscriber'].to_a.map { |s| [s['Name'], s['EmailAddress']] }
-    subscribed.each do |name, email|
-      if not upload_to_cm.any? { |n, e| e.downcase == email.downcase }
-        cm.Subscriber.Unsubscribe('ListID' => cm_api_list_id, 'Email' => email)
-      end
-    end
-    # subscribe addresses in the group but not in the subscriber list
-    upload_to_cm.each do |name, email|
-      if not subscribed.any? { |n, e| e.downcase == email.downcase }
-        cm.Subscriber.Add('ListID' => cm_api_list_id, 'Email' => email, 'Name' => name)
-      end
-    end
   end
 
   class << self

@@ -45,8 +45,6 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.2)
     builder (3.0.4)
-    campaign_monitor_party (0.2.1)
-      httparty
     chronic (0.9.1)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -77,9 +75,6 @@ GEM
       tilt
     highline (1.6.19)
     hike (1.2.3)
-    httparty (0.11.0)
-      multi_json (~> 1.0)
-      multi_xml (>= 0.5.2)
     i18n (0.6.1)
     journey (1.0.4)
     jquery-rails (3.0.1)
@@ -94,7 +89,6 @@ GEM
     method_source (0.8.1)
     mime-types (1.23)
     multi_json (1.7.7)
-    multi_xml (0.5.4)
     mysql2 (0.3.11)
     nokogiri (1.4.7)
     paperclip (3.4.2)
@@ -178,7 +172,6 @@ PLATFORMS
 DEPENDENCIES
   acts_as_taggable_on_steroids!
   builder
-  campaign_monitor_party
   exception_notification
   factory_girl_rails
   feedzirra

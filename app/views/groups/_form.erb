@@ -130,14 +130,6 @@
         <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.find_all_by_hidden(false, order: 'name')-[@group]).map { |g| [g.name, g.id] } %>
         <em></em>
 
-        <%= form.label :cm_api_list_id, t('groups.campaign_monitor_sync') %>
-        <%= t('groups.campaign_monitor_policy_html') %><br/>
-        <%= link_to_function t('groups.i_agree'), "$('#cm_section').show();$(this).hide();$('#group_cm_api_list_id')[0].focus();" %>
-        <div id="cm_section" style="display:none;">
-          <em><%= t('groups.campaign_monitor_sync_help') %></em><br/>
-          <%= form.text_field :cm_api_list_id %>
-        </div>
-
         <%= form.label :hidden, t('groups.hidden_group') %>
         <%= form.check_box :hidden, class: 'checkbox' %>
         <%= form.label :hidden, 'Hide this group from non-admins.', class: 'inline' %>
