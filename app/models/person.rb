@@ -19,7 +19,6 @@ class Person < ActiveRecord::Base
   has_many :wall_messages, class_name: 'Message', foreign_key: 'wall_id', order: 'created_at desc'
   has_many :notes, order: 'created_at desc'
   has_many :updates, order: 'created_at'
-  has_many :pending_updates, class_name: 'Update', foreign_key: 'person_id', order: 'created_at', conditions: ['complete = ?', false]
   has_many :prayer_signups
   has_and_belongs_to_many :verses
   has_many :log_items
