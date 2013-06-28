@@ -139,8 +139,9 @@ class Person < ActiveRecord::Base
     end
   end
 
+  # FIXME deprecated
   def self.can_create?
-    Site.current.max_people.nil? or Person.can_sign_in.count < Site.current.max_people
+    true
   end
 
   def birthday_soon?
