@@ -70,7 +70,7 @@ class PeopleController < ApplicationController
         @business_categories = Person.business_categories
         @custom_types = Person.custom_types
         params[:person].cleanse(:birthday, :anniversary)
-        @person = Person.new_with_default_sharing(params[:person])
+        @person = Person.new_with_default_sharing(person_params)
         @person.family_id = params[:person][:family_id]
         respond_to do |format|
           if @person.save
@@ -97,6 +97,8 @@ class PeopleController < ApplicationController
       @custom_types = Person.custom_types
       if params[:email]
         render action: 'email'
+      else
+        render action: 'edit'
       end
     else
       render text: t('not_authorized'), layout: true, status: 401
@@ -106,22 +108,15 @@ class PeopleController < ApplicationController
   def update
     @person = Person.find(params[:id])
     if @logged_in.can_edit?(@person)
-      can_sign_in = @person.can_sign_in? # before it gets updated
-      if updated = @person.update_from_params(params)
-        if not can_sign_in and @person.can_sign_in? # changed
-          flash[:show_verification_link] = true
+      @updater = Updater.new(params)
+      @updater.save!
+      respond_to do |format|
+        format.html do
+          flash[:notice] = t('people.changes_submitted')
+          flash[:show_verification_link] = @updater.changes[:person].try(:[], :can_sign_in)
+          redirect_to @person
         end
-        respond_to do |format|
-          format.html do
-            flash[:notice] = t('people.changes_submitted')
-            redirect_to @person
-          end
-          format.xml { render xml: @person.to_xml } if can_export?
-        end
-      elsif params[:email]
-        edit
-      else
-        edit; render action: 'edit'
+        format.xml { render xml: @person.to_xml } if can_export?
       end
     else
       render text: t('not_authorized'), layout: true, status: 401
@@ -211,6 +206,13 @@ class PeopleController < ApplicationController
     unless @logged_in.can_see?(@person)
       render text: t('people.not_found'), status: 404, layout: true
     end
+  end
+
+  private
+
+  # FIXME this is temporary
+  def person_params
+    Updater.new(params).params[:person]
   end
 
 end

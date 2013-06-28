@@ -36,14 +36,12 @@ class PeopleControllerTest < ActionController::TestCase
   end
 
   should "create a person update" do
-    first_name = @person.first_name
     get :edit, {id: @person.id}, {logged_in_id: @person.id}
     assert_response :success
     post :update,
       {
         id: @person.id,
         person: {
-          family_id: @person.family_id, # should be ignored
           first_name: 'Bob',
           last_name: 'Smith'
         },
@@ -54,7 +52,7 @@ class PeopleControllerTest < ActionController::TestCase
       },
       {logged_in_id: @person.id}
     assert_redirected_to person_path(@person)
-    assert_equal first_name, @person.reload.first_name
+    assert_equal 'John', @person.reload.first_name # no change
     assert_equal 1, @person.updates.count
   end
 
@@ -92,7 +90,38 @@ class PeopleControllerTest < ActionController::TestCase
       {logged_in_id: @other_person.id}
     assert_redirected_to person_path(@person)
     assert_equal 'Bob', @person.reload.first_name
+    u = Updater.new(
+      {
+        id: @person.id,
+        person: {
+          first_name: 'Bob',
+          last_name: 'Smith'
+        },
+        family: {
+          name: 'Bob Smith',
+          last_name: 'Smith'
+        }
+      }
+    )
     assert_equal 0, @person.updates.count
+  end
+
+  should "create a person" do
+    @other_person.admin = Admin.create!(edit_profiles: true)
+    @other_person.save!
+    @family = @person.family
+    post :create,
+      {
+        person: {
+          first_name: 'Todd',
+          last_name: 'Jones',
+          family_id: @family.id,
+          child: '0'
+        }
+      },
+      {logged_in_id: @other_person.id}
+    assert_redirected_to family_path(@family)
+    assert @family.people.find_by_first_name('Todd')
   end
 
   should "delete a person" do
