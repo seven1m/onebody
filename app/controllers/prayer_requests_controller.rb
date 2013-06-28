@@ -3,9 +3,9 @@ class PrayerRequestsController < ApplicationController
   def index
     @group = Group.find(params[:group_id])
     if params[:answered]
-      @reqs = @group.prayer_requests.where("answer != '' and answer is not null").order('created_at desc').paginate(page: params[:page])
+      @reqs = @group.prayer_requests.where("answer != '' and answer is not null").order('created_at desc').page(params[:page])
     else
-      @reqs = @group.prayer_requests.paginate(order: 'created_at desc', page: params[:page])
+      @reqs = @group.prayer_requests.order('created_at desc').page(params[:page])
     end
   end
 

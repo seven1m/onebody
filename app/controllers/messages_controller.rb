@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
   def index
     @group = Group.find(params[:group_id])
     if @logged_in.can_see?(@group) and @group.email?
-      @messages = @group.messages.paginate(order: 'created_at desc', page: params[:page])
+      @messages = @group.messages.order('created_at desc').page(params[:page])
     else
       render text: t('groups.not_authorized_view'), layout: true, status: 401
     end

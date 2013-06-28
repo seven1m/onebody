@@ -4,14 +4,14 @@ class NotesController < ApplicationController
     if params[:person_id]
       @person = Person.find(params[:person_id])
       if @logged_in.can_see?(@person)
-        @notes = @person.notes.paginate(order: 'created_at desc', page: params[:page])
+        @notes = @person.notes.order('created_at desc').page(params[:page])
       else
         render text: t('not_authorized'), layout: true, status: 401
       end
     elsif params[:group_id]
       @group = Group.find(params[:group_id])
       if @logged_in.can_see?(@group) and @group.blog?
-        @notes = @group.notes.paginate(order: 'created_at desc', page: params[:page])
+        @notes = @group.notes.order('created_at desc').page(params[:page])
       else
         render text: t('not_authorized'), layout: true, status: 401
       end

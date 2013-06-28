@@ -6,7 +6,7 @@ class FamiliesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @logged_in }
       if can_export?
-        @families = Family.paginate(order: 'last_name, name', page: params[:page], per_page: params[:per_page] || MAX_EXPORT_AT_A_TIME)
+        @families = Family.order('last_name, name').paginate(page: params[:page], per_page: params[:per_page] || MAX_EXPORT_AT_A_TIME)
         format.xml do
           if @families.any?
             render xml:  @families.to_xml(include: [:people], except: %w(site_id))
