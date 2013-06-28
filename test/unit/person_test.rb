@@ -120,56 +120,6 @@ class PersonTest < ActiveSupport::TestCase
 
   end
 
-  context 'Updates' do
-
-    context 'Dates' do
-
-      setup do
-        @tim = {
-          'person' => partial_fixture('people', 'tim', %w(first_name last_name suffix gender mobile_phone work_phone fax birthday anniversary)),
-          'family' => partial_fixture('families', 'morgan', %w(name last_name home_phone address1 address2 city state zip))
-        }
-      end
-
-      should "create an update with no dates changed" do
-        @tim['person']['first_name'] = 'Timothy'
-        update = Update.create_from_params(@tim, people(:tim))
-        assert_equal 'Timothy', update.first_name
-        assert_equal nil, update.birthday
-        assert_equal nil, update.anniversary
-      end
-
-      should "create an update with one date changed" do
-        @tim['person']['birthday'] = '06/24/1980'
-        update = Update.create_from_params(@tim, people(:tim))
-        assert update.birthday
-        assert_equal '06/24/1980', update.birthday.strftime('%m/%d/%Y')
-        assert_equal nil, update.anniversary
-      end
-
-      should "create an update with a date removed" do
-        @tim['person']['anniversary'] = ''
-        update = Update.create_from_params(@tim, people(:tim))
-        assert_equal nil, update.birthday
-        assert_equal '01/01/1800', update.anniversary.strftime('%m/%d/%Y')
-      end
-
-    end
-
-    should "update the email address without creating an update" do
-      @person = FactoryGirl.create(:person)
-      Person.logged_in = @person
-      @person.update_from_params(
-        person: {
-          email: 'somethingelse@example.com'
-        }
-      )
-      @person.updates.reload
-      assert_equal 0, @person.updates.count
-    end
-
-  end
-
   should "mark email_changed when email address changes" do
     @person = FactoryGirl.create(:person)
     @person.email = 'newaddress@example.com'
@@ -262,18 +212,6 @@ class PersonTest < ActiveSupport::TestCase
       @person.custom_fields = {'0' => 'first', '2' => 'third'}
       @person.custom_fields = {'1' => 'second'}
       assert_equal ['first', 'second', 'third'], @person.custom_fields
-    end
-
-    should "create an update with custom_fields" do
-      Person.logged_in = @person
-      @person.update_from_params(
-        person: {
-          first_name: 'Jeremy',
-          custom_fields: {'0' => 'first', '2' => 'third'}
-        }
-      )
-      @person.updates.reload
-      assert_equal ['first', nil, 'third'], @person.updates.last.custom_fields
     end
 
   end
