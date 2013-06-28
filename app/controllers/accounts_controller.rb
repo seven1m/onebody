@@ -191,7 +191,7 @@ class AccountsController < ApplicationController
         password = params[:encrypted_password].to_s.any? ? decrypt_password(params[:encrypted_password]) : nil
         password_confirmation = params[:encrypted_password_confirmation].to_s.any? ? decrypt_password(params[:encrypted_password_confirmation]) : nil
       end
-      @person.attributes = params[:person]
+      @person.attributes = person_params
       @person.save
       if @person.errors.any?
         edit; render action: 'edit'
@@ -230,10 +230,15 @@ class AccountsController < ApplicationController
   end
 
   private
-    def check_ssl
-      unless request.ssl? or !Rails.env.production? or !Setting.get(:features, :ssl)
-        redirect_to protocol: 'https://', from: params[:from]
-        return
-      end
+
+  def person_params
+    params.require(:person).permit(:email)
+  end
+
+  def check_ssl
+    unless request.ssl? or !Rails.env.production? or !Setting.get(:features, :ssl)
+      redirect_to protocol: 'https://', from: params[:from]
+      return
     end
+  end
 end

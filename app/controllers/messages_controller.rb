@@ -27,9 +27,7 @@ class MessagesController < ApplicationController
 
   def create
     if m = params[:message]
-      if m[:wall_id].to_i > 0
-        create_wall_message
-      elsif m[:to_person_id].to_i > 0
+      if m[:to_person_id].to_i > 0
         create_private_message
       elsif m[:group_id].to_i > 0
         create_group_message
@@ -41,39 +39,27 @@ class MessagesController < ApplicationController
     end
   end
 
+  def show
+    @message = Message.find(params[:id])
+    unless @logged_in.can_see?(@message)
+      render text: t('messages.not_found'), layout: true, status: 404
+    end
+  end
+
+  def destroy
+    @message = Message.find(params[:id])
+    if @logged_in.can_edit?(@message)
+      @message.destroy
+      redirect_to @message.group ? @message.group : stream_path
+    else
+      render text: t('messages.not_authorized_delete'), layout: true, status: 500
+    end
+  end
+
   private
 
-  def create_wall_message
-    @person = Person.find(params[:message][:wall_id])
-    if params[:note_private] == 'true'
-      @message = Message.new(
-        person_id:    @logged_in.id,
-        to_person_id: @person.id,
-        body:         params[:message][:body]
-      )
-      render action: 'new'
-      return
-    end
-    if @logged_in.can_see?(@person) and @person.wall_enabled?
-      message = @person.wall_messages.create(params[:message].merge(subject: t('messages.wall_post'), person: @logged_in))
-      respond_to do |format|
-        format.html do
-          if message.errors.any?
-            flash[:wall_notice] = t('There_was_an_error') + ": #{message.errors.full_messages.join('; ')}"
-          end
-          redirect_to person_path(@person) + '#wall'
-        end
-        format.js do
-          if message.errors.any?
-            @wall_notice = t('There_was_an_error') + ": #{message.errors.full_messages.join('; ')}"
-          end
-          @messages = @person.wall_messages.find(:all, limit: 10)
-          render partial: 'walls/wall'
-        end
-      end
-    else
-      render text: t('messages.wall_not_found'), layout: true, status: 404
-    end
+  def message_params
+    params.require(:message).permit(:group_id, :to_person_id, :subject, :body)
   end
 
   def create_private_message
@@ -104,7 +90,7 @@ class MessagesController < ApplicationController
   end
 
   def send_message
-    attributes = params[:message].merge(person: @logged_in)
+    attributes = message_params.merge(person: @logged_in)
     if params[:preview]
       @preview = Message.preview(attributes)
     else
@@ -116,25 +102,6 @@ class MessagesController < ApplicationController
       else
         true
       end
-    end
-  end
-
-  public
-
-  def show
-    @message = Message.find(params[:id])
-    unless @logged_in.can_see?(@message)
-      render text: t('messages.not_found'), layout: true, status: 404
-    end
-  end
-
-  def destroy
-    @message = Message.find(params[:id])
-    if @logged_in.can_edit?(@message)
-      @message.destroy
-      redirect_to @message.group ? @message.group : stream_path
-    else
-      render text: t('messages.not_authorized_delete'), layout: true, status: 500
     end
   end
 end

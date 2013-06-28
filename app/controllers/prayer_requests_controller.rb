@@ -28,8 +28,8 @@ class PrayerRequestsController < ApplicationController
   def create
     @group = Group.find(params[:group_id])
     if @logged_in.member_of?(@group)
-      params[:prayer_request][:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
-      @req = @group.prayer_requests.build(params[:prayer_request])
+      prayer_request_params[:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
+      @req = @group.prayer_requests.build(prayer_request_params)
       @req.person = @logged_in
       if @req.save
         redirect_to group_path(@req.group, anchor: 'prayer')
@@ -53,8 +53,8 @@ class PrayerRequestsController < ApplicationController
     @group = Group.find(params[:group_id])
     @req = PrayerRequest.find(params[:id])
     if @logged_in.can_edit?(@req)
-      params[:prayer_request][:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
-      if @req.update_attributes(params[:prayer_request])
+      prayer_request_params[:answered_at] = Date.parse(params[:prayer_request][:answered_at]) rescue nil
+      if @req.update_attributes(prayer_request_params)
         redirect_to group_path(@req.group, anchor: 'prayer')
       else
         edit; render action: 'edit'
@@ -73,5 +73,11 @@ class PrayerRequestsController < ApplicationController
     else
       render text: t('prayer.cant_delete'), layout: true, status: 401
     end
+  end
+
+  private
+
+  def prayer_request_params
+    params.require(:prayer_request).permit(:request, :answer, :answered_at)
   end
 end

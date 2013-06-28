@@ -47,7 +47,7 @@ class AlbumsController < ApplicationController
   end
 
   def create
-    @album = Album.new(params[:album])
+    @album = Album.new(album_params)
     if @album.group and !can_add_pictures_to_group?(@album.group)
       @album.errors.add(:base, t('albums.cannot_add_pictures_to_group'))
     end
@@ -75,7 +75,7 @@ class AlbumsController < ApplicationController
   def update
     @album = Album.find(params[:id])
     if @logged_in.can_edit?(@album)
-      if @album.update_attributes(params[:album])
+      if @album.update_attributes(album_params)
         flash[:notice] = t('Changes_saved')
         redirect_to @album
       else
@@ -94,6 +94,12 @@ class AlbumsController < ApplicationController
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
+  end
+
+  private
+
+  def album_params
+    params.require(:album).permit(:name, :description)
   end
 
 end

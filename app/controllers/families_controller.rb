@@ -65,7 +65,7 @@ class FamiliesController < ApplicationController
   end
 
   def create
-    @family = Family.new(params[:family])
+    @family = Family.new(family_params)
     respond_to do |format|
       if @family.save
         format.html do
@@ -85,7 +85,7 @@ class FamiliesController < ApplicationController
 
   def update
     @family = Family.find(params[:id])
-    if @family.update_attributes(params[:family])
+    if @family.update_attributes(family_params)
       respond_to do |format|
         format.html { flash[:notice] = t('families.saved'); redirect_to params[:redirect_to] || @family }
         format.xml  { render xml: @family.to_xml } if can_export?
@@ -172,6 +172,10 @@ class FamiliesController < ApplicationController
   end
 
   private
+
+  def family_params
+    params.require(:family).permit(:legacy_id, :barcode_id, :alternate_barcode_id, :name, :last_name, :address1, :address2, :city, :state, :zip, :home_phone, :email, :share_address, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :wall_enabled, :visible, :share_activity, :share_home_phone)
+  end
 
   def can_edit?
     unless @logged_in.admin?(:edit_profiles)

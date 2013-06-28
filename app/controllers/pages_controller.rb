@@ -40,7 +40,7 @@ class PagesController < ApplicationController
   def update
     @page = Page.find(params[:id])
     if @logged_in.can_edit?(@page)
-      if @page.update_attributes(params[:page])
+      if @page.update_attributes(page_params)
         flash[:notice] = t('pages.saved')
         redirect_to pages_path
       else
@@ -53,36 +53,40 @@ class PagesController < ApplicationController
 
   private
 
-    def render_with_template(page, status=200)
-      content = page.is_a?(String) ? page : page.body
-      if template = Page.find_by_path('template')
-        render text: template.body.sub(/\[\[content\]\]/, content), status: status
-      else
-        render text: t('pages.template_not_found'), layout: true, status: 500
-      end
-    end
+  def page_params
+    params.require(:page).permit(:title, :slug, :body)
+  end
 
-    def get_path
-      @path = [*params[:path]].join('/')
-      if @path.sub!(%r{/edit$}, '')
-        redirect_to edit_page_path(Page.find(@path))
-        return false
-      end
+  def render_with_template(page, status=200)
+    content = page.is_a?(String) ? page : page.body
+    if template = Page.find_by_path('template')
+      render text: template.body.sub(/\[\[content\]\]/, content), status: status
+    else
+      render text: t('pages.template_not_found'), layout: true, status: 500
     end
+  end
 
-    def get_page
-      @page = Page.find_by_id_or_path(@path)
+  def get_path
+    @path = [*params[:path]].join('/')
+    if @path.sub!(%r{/edit$}, '')
+      redirect_to edit_page_path(Page.find(@path))
+      return false
     end
+  end
 
-    def is_tour_page?
-      @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.#{I18n.locale}.html.liquid")
-    end
+  def get_page
+    @page = Page.find_by_id_or_path(@path)
+  end
 
-    def feature_enabled?
-      unless (@page and @page.system? and !@page.home?) or \
-        redirect_to stream_path
-        false
-      end
+  def is_tour_page?
+    @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.#{I18n.locale}.html.liquid")
+  end
+
+  def feature_enabled?
+    unless (@page and @page.system? and !@page.home?) or \
+      redirect_to stream_path
+      false
     end
+  end
 
 end
