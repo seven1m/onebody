@@ -31,6 +31,7 @@ class Person
 
     module ClassMethods
       def importable_column_names
+        # FIXME
         (Person.attr_accessible.keys + Family.attr_accessible.keys.map { |k| "family_#{k}" }).uniq
       end
 

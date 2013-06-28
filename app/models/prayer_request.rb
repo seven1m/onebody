@@ -5,8 +5,6 @@ class PrayerRequest < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :request, :answer, :answered_at
-
   validates_presence_of :request, :group_id, :person_id
 
   def name

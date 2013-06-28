@@ -7,8 +7,6 @@ class NewsItem < ActiveRecord::Base
 
   scope :active, -> { where(active: true) }
 
-  attr_accessible :title, :body
-
   def name; title; end
 
   before_save :update_published_date
