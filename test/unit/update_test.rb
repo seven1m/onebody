@@ -1,25 +1,45 @@
 require_relative '../test_helper'
 
 class UpdateTest < ActiveSupport::TestCase
-  fixtures :updates, :people
 
-  should "update a person" do
-    Person.logged_in = people(:tim)
-    assert updates(:update_jeremy).do!
-    %w(first_name last_name suffix gender mobile_phone work_phone fax).each do |attribute|
-      assert_equal updates(:update_jeremy)[attribute], people(:jeremy)[attribute]
+  context 'apply' do
+    setup do
+      @person = FactoryGirl.create(:person)
+      @update = @person.updates.create!(data: {
+        person: {
+          first_name: 'Tim',
+          birthday: Date.new(2000, 1, 1)
+        },
+        family: {
+          name: 'Tim Smith'
+        }
+      })
+      assert @update.apply!
     end
-    %w(birthday anniversary).each do |attribute|
-      assert_equal updates(:update_jeremy)[attribute].to_s, people(:jeremy)[attribute].to_s
-    end
-    %w(home_phone address1 address2 city state zip family_name family_last_name).each do |attribute|
-      assert_equal updates(:update_jeremy)[attribute], people(:jeremy).family[attribute.sub(/^family_/, '')]
-    end
-  end
 
-  should "list only the changes" do
-    # better than nothing
-    assert_equal 9, updates(:update_jeremy).changes.keys.length
+    should 'update the person' do
+      assert_equal 'Tim', @person.reload.first_name
+    end
+
+    should 'update the person birthday' do
+      assert_equal Time.utc(2000, 1, 1), @person.reload.birthday
+    end
+
+    should 'update the family' do
+      assert_equal 'Tim Smith', @person.family.reload.name
+    end
+
+    context 'birthday of nil' do
+      setup do
+        @update.data[:person][:birthday] = nil
+        @update.data[:person][:child] = false
+        assert @update.apply!
+      end
+
+      should 'update the person birthday to nil' do
+        assert_equal nil, @person.reload.birthday
+      end
+    end
   end
 
 end
