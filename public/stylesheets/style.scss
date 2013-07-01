@@ -108,9 +108,6 @@ h4 {
   font-family: $body-font;
   margin-bottom: 5px;
 }
-h4.strong {
-  font-weight: bold;
-}
 ul.list, ol.list, .page-body ul, .page-body ol, .news-item ul, .news-item ol {
   padding-left: 20px;
   margin: 10px 0;
@@ -134,19 +131,6 @@ input[type=""], input[type=text], input[type=password], textarea {
 }
 input.defaulted {
   color: $light - 75;
-}
-input[type=submit] {
-  @include curve(4px);
-  @include shadow;
-  @include gradient($light, $light - 50);
-  padding: 6px 8px 4px 8px;
-  font-family: $heading-font;
-  font-size: 1.2em;
-  border: none;
-  &:hover, &.active {
-    @include gradient($primary+50, $primary);
-    color: edgevalue($primary);
-  }
 }
 textarea {
   font-family: $body-font;
@@ -591,7 +575,10 @@ fieldset {
 @mixin icon-sprite($x, $y) {
   padding-left: 15px;
   background: url(/images/clean/icons.png?201011091342) $x $y no-repeat;
+  min-width: 10px;
+  height: 16px;
 }
+
 
 .add-icon        { @include icon-sprite(0px,   -3px) }
 .edit-icon       { @include icon-sprite(0px,  -23px) }
@@ -618,6 +605,8 @@ fieldset {
 .news-icon       { @include icon-sprite(0px, -403px) }
 .podcast-icon    { @include icon-sprite(0px, -423px) }
 
+/* Buttons */
+
 ul.buttons {
   list-style: none;
   margin-bottom: 25px;
@@ -628,7 +617,7 @@ ul.buttons {
     margin: 0 25px 0 0;
   }
 }
-a.button {
+a.button, input[type=submit] {
   @include gradient($light, $light - 50);
   @include curve(4px);
   @include shadow;
@@ -637,9 +626,14 @@ a.button {
   padding: 6px 8px 4px 8px;
   color: $dark;
   text-decoration: none;
-  &:hover, &.active {
+  border: none;
+  &:hover, &.active, &.primary:hover {
     @include gradient($primary+50, $primary);
-    color: edgevalue($primary)
+    color: edgevalue($primary);
+  }
+  &.primary {
+    @include gradient($secondary+50, $secondary);
+    color: edgevalue($secondary);
   }
 }
 
@@ -842,6 +836,15 @@ table.comments {
   }
 }
 
+/* Admin Updates */
+
+.update table {
+  margin: 15px 0;
+  .actions td {
+    padding-top: 10px;
+  }
+}
+
 /* Popup Menus */
 
 .popup-menu {
@@ -930,6 +933,10 @@ table.members {
   .subsection td {
     font-style: italic;
   }
+}
+
+.strong {
+  font-weight: bold;
 }
 
 .alert {

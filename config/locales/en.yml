@@ -70,7 +70,27 @@ en:
   errors:
     format: "%{message}"
 
-  activerecord: 
+  activerecord:
+    attributes:
+      family:
+        name: Name
+        last_name: Last Name
+        home_phone: Home Phone
+        address1: Address Line 1
+        address2: Address Line 2
+        city: City
+        state: State
+        zip: Zipe
+      person:
+        first_name: First Name
+        last_name: Last Name
+        suffix: Suffix
+        gender: Gender
+        mobile_phone: Mobile Phone
+        work_phone: Work Phone
+        fax: Fax
+        birthday: Birthday
+        anniversary: Anniversary
     errors: 
       models: 
         admin: 
@@ -740,11 +760,18 @@ en:
       syntax_description_html: Template syntax is <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Special template parts to insert are
       theme: Theme
     updates:
+      apply: Apply
       changed_email:
         one: "%{count} changed email address"
         other: "%{count} changed email addresses"
+      child: Is this a child?
+      child_alert: You must specify whether the person is a Child (under %{years}) or not to complete this update.
+      child_select_options:
+        '': You must select one.
+        true: 'Yes'
+        false: 'No'
       complete: Complete
-      completed: Completed
+      completed_title: Completed Updates
       groups_pending: Groups Pending Approval
       mark_complete: Mark Complete
       mark_incomplete: Mark Incomplete
@@ -753,7 +780,7 @@ en:
       pending:
         one: "%{count} pending update"
         other: "%{count} pending updates"
-      pending_title: Pending
+      pending_title: Pending Updates
       person_deleted: person deleted
       per_day: Updates Per Day
       profile_updates: Profile Updates
@@ -1393,7 +1420,6 @@ en:
     changes_must_be_reviewed_html: Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit.'
     changes_submitted: Changes submitted.
     child: Child
-    child_alert: You must specify whether the person is a Child (under %{years}) or not to complete this update.
     click_to_send_verification_email: Send a password setup email to this user.
     click_to_change_email_html: <a href="%{url}">Click here</a> to change this email address.
     deleted_html: This person has been deleted. You can restore the record <a href="%{url}">here</a>.
