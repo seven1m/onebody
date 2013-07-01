@@ -45,12 +45,31 @@ class UpdaterTest < ActiveSupport::TestCase
             site_id: 2
           }
         }
-        @actual = Updater.new(params).send(:params)
+        @actual = Updater.new(params).params
       end
 
       should 'be removed' do
         expected = {
           'person' => {'first_name' => 'Jim'}
+        }
+        assert_equal expected, @actual
+      end
+    end
+
+    context 'given a parameter that is blank' do
+      setup do
+        params = {
+          id: 1,
+          person: {
+            mobile_phone: ''
+          }
+        }
+        @actual = Updater.new(params).params
+      end
+
+      should 'should be nil' do
+        expected = {
+          'person' => {'mobile_phone' => nil}
         }
         assert_equal expected, @actual
       end

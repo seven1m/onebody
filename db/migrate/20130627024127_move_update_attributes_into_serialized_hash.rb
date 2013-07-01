@@ -2,6 +2,7 @@ class MoveUpdateAttributesIntoSerializedHash < ActiveRecord::Migration
   def up
     change_table :updates do |t|
       t.text :data
+      t.text :diff
     end
 
     Update.reset_column_information
@@ -16,8 +17,8 @@ class MoveUpdateAttributesIntoSerializedHash < ActiveRecord::Migration
             mobile_phone:  update.mobile_phone,
             work_phone:    update.work_phone,
             fax:           update.fax,
-            birthday:      update.birthday,
-            anniversary:   update.anniversary,
+            birthday:      nilify(update.birthday),
+            anniversary:   nilify(update.anniversary),
             custom_fields: update.custom_fields,
           }.reject { |_, v| v.nil? },
           family: {
@@ -51,5 +52,12 @@ class MoveUpdateAttributesIntoSerializedHash < ActiveRecord::Migration
 
   def down
     raise ActiveRecord::IrreversibleMigration
+  end
+
+  private
+
+  def nilify(date)
+    return nil if date.nil? or date.year == 1800
+    date
   end
 end

@@ -96,17 +96,10 @@ class Updater
   # shows which fields would be affected if the update were applied
   def changes
     @changes ||= begin
-      HashWithIndifferentAccess.new.tap do |hash|
-        # temporarily set attributes
-        person.attributes = params[:person]
-        family.attributes = params[:family]
-        # get changes
-        hash[:person] = person.changes if person.changes.any?
-        hash[:family] = family.changes if family.changes.any?
-        # now reset the models
-        person.reload
-        family.reload
-      end
+      HashWithIndifferentAccess.new(
+        person: Comparator.new(person, params[:person]).changes,
+        family: Comparator.new(family, params[:family]).changes
+      ).reject { |_, v| v.empty? }
     end
   end
 
@@ -144,6 +137,7 @@ class Updater
             permitted[key] = filter_params(val, access, &block)
             permitted[key].permitted = true # tell StrongParameters it's permitted
           elsif val = yield(access, key, val)
+            val = cleanse_value(val)
             permitted[key] = val
           end
         end
@@ -151,6 +145,12 @@ class Updater
       permitted.permitted = true
       permitted.reject! { |_, v| v == {} }
     end
+  end
+
+  # converts empty string to nil
+  def cleanse_value(value)
+    value = value.strip
+    value if value.present?
   end
 
   # given a key, find corresponding spec/access (value) from supplied spec hash
