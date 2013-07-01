@@ -2,8 +2,6 @@ class Sync < ActiveRecord::Base
   belongs_to :site
   scope_by_site_id
 
-  attr_accessible :complete, :success_count, :error_count, :started_at, :finished_at
-
   belongs_to :person
   has_many :sync_items, dependent: :delete_all
   has_many :people,   through: :sync_items, source: :syncable, source_type: 'Person'

@@ -190,6 +190,7 @@ DEPENDENCIES
   sanitize
   sass
   shoulda (~> 3.0.1)
+  strong_parameters
   watchr
   whenever
   will_paginate

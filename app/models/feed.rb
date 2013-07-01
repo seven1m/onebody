@@ -3,8 +3,6 @@ class Feed < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :name, :url
-
   validates_presence_of :person_id, :url, :name
   validates_uniqueness_of :name, scope: [:site_id, :person_id]
   validates_uniqueness_of :url, scope: [:site_id, :person_id]

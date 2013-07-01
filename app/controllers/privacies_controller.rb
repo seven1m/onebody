@@ -48,11 +48,12 @@ class PrivaciesController < ApplicationController
       @family = @person.family
       people_ids = @family.people.all.map { |p| p.id }
       if @logged_in.can_edit?(@family)
-        @family.update_attributes!(params[:family])
+        @family.update_attributes!(family_params)
         Array(params[:memberships]).each do |membership_id, sharing|
           m = Membership.where(["id = ? and person_id in (?)", membership_id, people_ids]).first
           sharing.each do |attribute, value|
             value = false if m.person.attributes[attribute]
+            # FIXME this isn't safe (not using PermittedParameters)
             m.attributes = {attribute => value}
           end
           m.save!
@@ -71,6 +72,10 @@ class PrivaciesController < ApplicationController
   end
 
   private
+
+  def family_params
+    params.require(:family).permit(people_attributes: [:id, :share_address, :share_mobile_phone, :share_home_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :share_activity])
+  end
 
   def update_consent
     @person = Person.find(params[:person_id])

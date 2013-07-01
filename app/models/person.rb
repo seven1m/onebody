@@ -19,7 +19,6 @@ class Person < ActiveRecord::Base
   has_many :wall_messages, class_name: 'Message', foreign_key: 'wall_id', order: 'created_at desc'
   has_many :notes, order: 'created_at desc'
   has_many :updates, order: 'created_at'
-  has_many :pending_updates, class_name: 'Update', foreign_key: 'person_id', order: 'created_at', conditions: ['complete = ?', false]
   has_many :prayer_signups
   has_and_belongs_to_many :verses
   has_many :log_items
@@ -40,10 +39,6 @@ class Person < ActiveRecord::Base
   belongs_to :site
 
   scope_by_site_id
-
-  attr_accessible :gender, :first_name, :last_name, :suffix, :description, :mobile_phone, :work_phone, :fax, :birthday, :email, :website, :activities, :interests, :music, :tv_shows, :movies, :books, :quotes, :about, :testimony, :share_address, :share_home_phone, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :business_name, :business_description, :business_phone, :business_email, :business_website, :business_category, :suffx, :anniversary, :alternate_email, :get_wall_email, :wall_enabled, :messages_enabled, :business_address, :visible, :friends_enabled, :share_activity, :twitter_account
-  attr_accessible :classes, :shepherd, :mail_group, :legacy_id, :account_frozen, :member, :staff, :elder, :deacon, :can_sign_in, :visible_to_everyone, :visible_on_printed_directory, :full_access, :legacy_family_id, :child, :custom_type, :custom_fields, :medical_notes, if: Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
-  attr_accessible :id, :sequence, :can_pick_up, :cannot_pick_up, :family_id, if: Proc.new { l = Person.logged_in and l.admin?(:edit_profiles) and l.admin?(:import_data) and Person.import_in_progress }
 
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
@@ -144,8 +139,9 @@ class Person < ActiveRecord::Base
     end
   end
 
+  # FIXME deprecated
   def self.can_create?
-    Site.current.max_people.nil? or Person.can_sign_in.count < Site.current.max_people
+    true
   end
 
   def birthday_soon?

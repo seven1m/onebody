@@ -6,8 +6,6 @@ class Album < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :name, :description, :is_public
-
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:site_id, :person_id]
 
