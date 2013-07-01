@@ -21,5 +21,8 @@ OneBody::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+
+  # Raise an error when unauthorized parameters are assigned to a model
+  config.action_controller.action_on_unpermitted_parameters = :raise
 end
 

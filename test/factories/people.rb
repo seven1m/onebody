@@ -11,5 +11,13 @@ FactoryGirl.define do
     can_sign_in true
     full_access true
     family
+
+    trait :admin_edit_profiles do
+      admin { Admin.create!(edit_profiles: true) }
+    end
+
+    trait :admin_manage_updates do
+      admin { Admin.create!(manage_updates: true) }
+    end
   end
 end

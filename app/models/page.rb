@@ -9,8 +9,6 @@ class Page < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :slug, :title, :body, :parent_id, :parent, :path, :published, :navigation, :raw
-
   validates_presence_of :slug, :title, :body
   validates_uniqueness_of :path, scope: :site_id
   validates_exclusion_of :slug, in: %w(admin edit new)

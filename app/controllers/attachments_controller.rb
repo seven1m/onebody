@@ -60,7 +60,7 @@ class AttachmentsController < ApplicationController
     if params[:attachment][:page_id].to_s.any?
       @page = Page.find(params[:attachment][:page_id])
       if @logged_in.can_edit?(@page)
-        Attachment.create_from_file(params[:attachment])
+        Attachment.create_from_file(attachment_params)
         flash[:notice] = t('attachments.saved')
         redirect_back
       else
@@ -69,7 +69,7 @@ class AttachmentsController < ApplicationController
     elsif params[:attachment][:group_id].to_s.any?
       @group = Group.find(params[:attachment][:group_id])
       if @group.admin?(@logged_in)
-        Attachment.create_from_file(params[:attachment])
+        Attachment.create_from_file(attachment_params)
         flash[:notice] = t('attachments.saved')
         redirect_to edit_group_path(@group, anchor: 'attachments')
       else
@@ -89,6 +89,12 @@ class AttachmentsController < ApplicationController
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
+  end
+
+  private
+
+  def attachment_params
+    params.require(:attachment).permit(:group_id, :page_id, :file)
   end
 
 end

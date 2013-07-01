@@ -21,7 +21,7 @@ class AlbumsControllerTest < ActionController::TestCase
   should "create an album" do
     get :new, nil, {logged_in_id: @person.id}
     assert_response :success
-    post :create, {album: {name: 'test name', description: 'test desc'}}, {logged_in_id: @person.id}
+    post :create, {album: {group_id: nil, name: 'test name', description: 'test desc', is_public: false}}, {logged_in_id: @person.id}
     assert_response :redirect
     assert_equal 2, Album.count
     new_album = Album.last

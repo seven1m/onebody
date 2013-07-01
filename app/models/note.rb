@@ -6,8 +6,6 @@ class Note < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :title, :body
-
   validates_presence_of :body
 
   def name; title; end

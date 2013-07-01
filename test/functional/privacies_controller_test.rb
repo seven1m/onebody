@@ -26,6 +26,9 @@ class PrivaciesControllerTest < ActionController::TestCase
     assert_template :edit
     post :update, {
       person_id: people(:peter).id,
+      family: {
+        people_attributes: {}
+      },
       memberships: {
         memberships(:peter_in_college_group).id => {
           share_address:      true,

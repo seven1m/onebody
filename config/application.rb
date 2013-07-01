@@ -30,5 +30,8 @@ module OneBody
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # Disable whitelisted parameters, since we're using the strong_parameters gem
+    config.active_record.whitelist_attributes = false
   end
 end

@@ -8,9 +8,6 @@ class Family < ActiveRecord::Base
 
   scope_by_site_id
 
-  attr_accessible :name, :last_name, :address1, :address2, :city, :state, :zip, :home_phone, :email, :share_address, :share_mobile_phone, :share_work_phone, :share_fax, :share_email, :share_birthday, :share_anniversary, :wall_enabled, :visible, :share_activity, :share_home_phone
-  attr_accessible :legacy_id, :barcode_id, :alternate_barcode_id, :people_attributes, if: Proc.new { Person.logged_in and Person.logged_in.admin?(:edit_profiles) }
-
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
   sharable_attributes :mobile_phone, :address, :anniversary

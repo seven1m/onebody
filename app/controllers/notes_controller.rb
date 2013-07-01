@@ -4,14 +4,14 @@ class NotesController < ApplicationController
     if params[:person_id]
       @person = Person.find(params[:person_id])
       if @logged_in.can_see?(@person)
-        @notes = @person.notes.paginate(order: 'created_at desc', page: params[:page])
+        @notes = @person.notes.order('created_at desc').page(params[:page])
       else
         render text: t('not_authorized'), layout: true, status: 401
       end
     elsif params[:group_id]
       @group = Group.find(params[:group_id])
       if @logged_in.can_see?(@group) and @group.blog?
-        @notes = @group.notes.paginate(order: 'created_at desc', page: params[:page])
+        @notes = @group.notes.order('created_at desc').page(params[:page])
       else
         render text: t('not_authorized'), layout: true, status: 401
       end
@@ -34,8 +34,8 @@ class NotesController < ApplicationController
   end
 
   def create
-    @note = Note.new(params[:note])
-    @note.group_id = params[:note][:group_id]
+    @note = Note.new(note_params)
+    @note.group_id = note_params[:group_id]
     if @note.group
       raise 'error' unless @note.group.blog? and @note.group.can_post?(@logged_in)
     end
@@ -58,7 +58,7 @@ class NotesController < ApplicationController
   def update
     @note = Note.find(params[:id])
     if @logged_in.can_edit?(@note)
-      if @note.update_attributes(params[:note])
+      if @note.update_attributes(note_params)
         redirect_to @note
       else
         render action: 'edit'
@@ -80,6 +80,12 @@ class NotesController < ApplicationController
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
+  end
+
+  private
+
+  def note_params
+    params.require(:note).permit(:title, :body)
   end
 
 end

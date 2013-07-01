@@ -95,7 +95,7 @@ class GroupsController < ApplicationController
     if Group.can_create?
       photo = params[:group].delete(:photo)
       params[:group].cleanse 'address'
-      @group = Group.new(params[:group])
+      @group = Group.new(group_params)
       @group.creator = @logged_in
       @group.photo = photo
       if @group.save
@@ -131,7 +131,7 @@ class GroupsController < ApplicationController
     if @logged_in.can_edit?(@group)
       params[:group][:photo] = nil if params[:group][:photo] == 'remove'
       params[:group].cleanse 'address'
-      if @group.update_attributes(params[:group])
+      if @group.update_attributes(group_params)
         flash[:notice] = t('groups.settings_saved')
         redirect_to @group
       else
@@ -156,23 +156,13 @@ class GroupsController < ApplicationController
   def batch
     if @logged_in.admin?(:manage_groups)
       if request.post?
-        respond_to do |format|
-          format.html do
-            @groups = Group.order('category, name')
-            @groups.group_by(&:id).each do |id, groups|
-              group = groups.first
-              if vals = params[:groups][id.to_s]
-                group.update_attributes(vals)
-              end
-            end
-          end
-          format.js do
-            @errors = []
-            Array(params[:groups]).each do |id, details|
-              group = Group.find(id)
-              unless group.update_attributes(details)
-                @errors << [id, group.errors.full_messages]
-              end
+        @errors = []
+        @groups = Group.order('category, name')
+        @groups.group_by(&:id).each do |id, groups|
+          group = groups.first
+          if vals = params[:groups][id.to_s]
+            unless group.update_attributes(vals.permit(*group_attributes))
+              @errors << [id, group.errors.full_messages]
             end
           end
         end
@@ -186,10 +176,21 @@ class GroupsController < ApplicationController
 
   private
 
-    def feature_enabled?
-      unless Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
-        redirect_to people_path
-        false
-      end
+  def group_attributes
+    base = [:name, :description, :photo, :meets, :location, :directions, :other_notes, :address, :members_send, :private, :category, :leader_id, :blog, :email, :prayer, :attendance, :gcal_private_link, :approval_required_to_join, :pictures, :cm_api_list_id]
+    base += [:approved, :link_code, :parents_of, :hidden] if @logged_in.admin?(:manage_groups)
+    base
+  end
+
+  def group_params
+    params.require(:group).permit(*group_attributes)
+  end
+
+  def feature_enabled?
+    unless Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
+      redirect_to people_path
+      false
     end
+  end
+
 end

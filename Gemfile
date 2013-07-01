@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '~> 3.2.0'
 gem 'rails_autolink'
+gem 'strong_parameters'
 gem 'mysql2'
 gem 'jquery-rails'
 gem 'will_paginate'
