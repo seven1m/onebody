@@ -34,12 +34,6 @@ OneBody::Application.routes.draw do
         post :batch
       end
     end
-    resources :contributions do
-      collection do
-        get  :sync
-        post :sync
-      end
-    end
     resource :account do
       member do
         get  :verify_code
@@ -104,13 +98,6 @@ OneBody::Application.routes.draw do
     collection do
       get  :batch
       post :batch
-    end
-  end
-
-  resources :contributions do
-    collection do
-      get  :sync
-      post :sync
     end
   end
 

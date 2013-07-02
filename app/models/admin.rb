@@ -76,7 +76,6 @@ class Admin < ActiveRecord::Base
     manage_access
     manage_attendance
     manage_comments
-    manage_contributions
     manage_groups
     manage_news
     manage_notes

@@ -178,16 +178,6 @@ class Family < ActiveRecord::Base
     end
   end
 
-  before_save :set_synced_to_donortools
-  def set_synced_to_donortools
-   if (changed & %w(address city state zip home_phone)).any?
-     self.people.all.each do |person|
-       person.update_attribute(:synced_to_donortools, false)
-     end
-   end
-   true
-  end
-
   alias_method :destroy_for_real, :destroy
   def destroy
     people.all.each { |p| p.destroy }

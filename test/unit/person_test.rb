@@ -284,40 +284,6 @@ class PersonTest < ActiveSupport::TestCase
     assert_equal 2, @person2.sequence
   end
 
-  context 'Donor Tools' do
-
-    setup do
-      @person = FactoryGirl.create(:person)
-    end
-
-    should "update synced_to_donortools when certain attributes change" do
-      @person.update_attribute(:synced_to_donortools, true)
-      assert @person.synced_to_donortools
-      @person.update_attribute(:first_name, 'Foo')
-      assert !@person.synced_to_donortools
-    end
-
-    should "not update synced_to_donortools every time" do
-      @person.update_attribute(:synced_to_donortools, true)
-      assert @person.synced_to_donortools
-      @person.update_attribute(:activities, 'Foo')
-      assert @person.synced_to_donortools
-    end
-
-    should "update synced_to_donortools when certain family attributes change" do
-      @person2 = FactoryGirl.create(:person)
-      @person2.family = @person.family
-      @person.update_attribute(:synced_to_donortools, true)
-      @person2.update_attribute(:synced_to_donortools, true)
-      assert @person.synced_to_donortools?
-      assert @person2.synced_to_donortools?
-      @person.family.update_attribute(:home_phone, '9181234567')
-      assert !@person.reload.synced_to_donortools?
-      assert !@person2.reload.synced_to_donortools?
-    end
-
-  end
-
   should "know if it is a super admin" do
     @person1 = FactoryGirl.create(:person)
     assert !@person1.admin?

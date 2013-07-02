@@ -369,9 +369,6 @@ pt:
     no_api_key: Você não tem uma chave de API.
     no_more_admins: Não são permitidos mais admins.
     pages: Páginas
-    people_not_synced_to_donortools_count:
-      one: "1 pessoas está fora de sincronia com o Donor Tools."
-      other: "%{count} pessoas estão fora de sincronia com o Donor Tools."
     privileges:
       view_hidden_profiles:
         title: Visualizar Perfis Ocultos
@@ -397,10 +394,6 @@ pt:
         title: Gerenciar Comentários
         about: "Habilidade para deletar qualquer comentário no site."
         order: 6
-      manage_contributions:
-        title: Gerenciar Contribuições
-        about: "Visualiza, edita e deleta contribuições (se o Donor Tools estiver configurado)."
-        order: 7
       manage_groups:
         title: Gerenciar Grupos
         about: "Visualiza, edita e deleta qualquer grupo (inclusive os ocultos e privados)."
@@ -475,18 +468,9 @@ pt:
         Sermondrop URL: 
           name: URL do Sermondrop
           description: URL completa para o seu site no Sermondrop, ex. http://meusite.sermondrop.com/
-        Donor Tools API Password: 
-          name: Senha da API do Donor Tools
-          description: Senha do usuário da API.
         Yahoo: 
           name: Yahoo
           description: A sua chave de API do Yahoo - https://developer.yahoo.com/wsregapp/index.php
-        Donor Tools URL: 
-          name: URL do Donor Tools
-          description: URL completa para o seu site no Donor Tools, ex. https://meusite.donortools.com/
-        Donor Tools API Email: 
-          name: Email da API do Donor Tools
-          description: Endereço de email do usuário admin para acessar a API do Donor Tools. É recomendável que você crie um usuário de api "especial" para este propósito.
         Campaign Monitor API Key: 
           name: Chave da API do Campaign Monitor
           description: Para sincronizar um ou mais grupos com a lista de assinantes do Campaign Monitor, cole a sua chave de API do Campaign Monitor aqui.
@@ -910,46 +894,6 @@ pt:
     view: Visualizar
     which_picture: Qual foto você está comentando??
 
-  contributions:
-    add_to_donor_tools_now: "Adicionar ao Donor Tools agora."
-    api_not_configured_html: A API do Donor Tools não está configurada. Por favor, insira os detalhes de conexão da API nas <a href="%{url}">configurações</a> Admin.
-    Contributions: Contribuições
-    donation_types:
-      d1: Dinhheiro
-      d2: Cheque
-      d3: Cartão de Crédito
-      d4: Em espécie
-      d5: PayPal
-      d6: Outros
-      d7: eCheck
-      d8: Cashier's Check
-      d9: Money Order
-      d11: ACH
-      d13: Depósito Direto
-      d14: Doação Online
-      d16: Amazon Simple Pay
-      d17: Wire Transfer
-      d18: Cheque (Pessoas)
-      d19: Cheque (Empresa)
-    go_to_donor_tools: Ir ao Donor Tools.
-    not_in_donor_tools: Não está no Donor Tools.
-    people_not_synced:
-      one: "Os seguintes indivíduos não estão em sincronia com o Donor Tools:"
-      other: "Os seguintes indivíduos não estão em sincronia com o Donor Tools (%{count} pessoas):"
-    people_not_synced_count:
-      one: "1 pessoas não está em sincronia"
-      other: "%{count} pessoas não estão em sincronia"
-    record_synced: Este registro foi sincronizado com o Donor Tools.
-    remaining:
-      one: "1 registro faltando..."
-      other: "%{count} registros faltando..."
-    Sync_Selected: Sincronia Selecionada
-    Sync_All: Sincronizar Todos
-    Sync_to_Donor_Tools: Sincronizar com o Donor Tools
-    synced: "sincronizado:"
-    update_donor_tools_now: atualizar agora
-    view_in_donor_tools: Visualizar este indivíduo no Donor Tools.
-
   families:
     add_members: Adicionar Membros para a Família
     add_existing_person_html: "Adicionar uma pessoa <em>existente</em> a esta família"
@@ -1228,7 +1172,6 @@ pt:
       publications: publicações
       verses: versículos
     profile:
-      contributions: contribuições
       edit: editar perfil
       edit_family: editar família
       email: configurações de email

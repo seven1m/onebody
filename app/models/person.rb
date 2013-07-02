@@ -9,7 +9,6 @@ class Person < ActiveRecord::Base
 
   belongs_to :family
   belongs_to :admin
-  belongs_to :donor, class_name: 'Donortools::Persona', foreign_key: 'donortools_id'
   has_many :memberships, dependent: :destroy
   has_many :membership_requests, dependent: :destroy
   has_many :groups, through: :memberships
@@ -474,83 +473,6 @@ class Person < ActiveRecord::Base
   def update_relationships_hash!
     update_relationships_hash
     save(validate: false)
-  end
-
-  def update_donor
-    Donortools::Persona.setup_connection
-    return unless adult?
-    if donor = donortools_id && (Donortools::Persona.find(donortools_id) rescue nil)
-      donor.names[0].first_name         = first_name
-      donor.names[0].last_name          = last_name
-      donor.names[0].suffix             = suffix
-      if donor.addresses[0]
-        donor.addresses[0].street_address = family.address
-        donor.addresses[0].city           = family.city
-        donor.addresses[0].state          = family.state
-        donor.addresses[0].postal_code    = family.zip
-      else
-        donor.addresses << {
-          street_address: family.address,
-          city:           family.city,
-          state:          family.state,
-          postal_code:    family.zip
-        }
-      end
-      phone_numbers = [
-        {phone_number: family.home_phone, address_type_id: 1},
-        {phone_number: work_phone,        address_type_id: 2},
-        {phone_number: mobile_phone,      address_type_id: 4}
-      ].select { |ph| ph[:phone_number].to_s.any? }
-      donor.update_phone_numbers(phone_numbers)
-      if donor.email_addresses[0]
-        donor.email_addresses[0].email_address = email
-      else
-        donor.email_addresses << {email_address: email}
-      end
-    else
-      donor = Donortools::Persona.new
-      donor.names_attributes = [
-        {
-          first_name: first_name,
-          last_name:  last_name,
-          suffix:     suffix
-        }
-      ]
-      donor.addresses_attributes = [
-        {
-          street_address: family.address,
-          city:           family.city,
-          state:          family.state,
-          postal_code:    family.zip
-        }
-      ]
-      donor.phone_numbers_attributes = [
-        {phone_number: family.home_phone, address_type_id: 1},
-        {phone_number: work_phone,        address_type_id: 2},
-        {phone_number: mobile_phone,      address_type_id: 4}
-      ].select { |p| p[:phone_number].to_s.any? }
-      donor.email_addresses_attributes = [
-        {email_address: email}
-      ]
-    end
-    donor.save
-    self.donortools_id = donor.id
-    self.synced_to_donortools = true
-    save(validate: false)
-  end
-
-  def donortools_admin_url
-    if donortools_id
-      "#{Setting.get('services', 'donor_tools_url').sub(/\/$/, '')}/personas/#{donortools_id}/donations"
-    end
-  end
-
-  before_save :set_synced_to_donortools
-  def set_synced_to_donortools
-   if (changed & %w(first_name last_name suffix work_phone mobile_phone email)).any?
-     self.synced_to_donortools = false
-   end
-   true
   end
 
   alias_method :destroy_for_real, :destroy

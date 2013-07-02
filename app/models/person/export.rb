@@ -64,8 +64,6 @@ class Person
         share_activity
         child
         custom_type
-        donortools_id
-        synced_to_donortools
         description
       ),
       family: %w(
