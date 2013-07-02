@@ -55,7 +55,7 @@ module Foo
             # try each person until a password matches
             people.each do |person|
               if person.encrypted_password
-                compare = person.encrypt_second_pass(person.encrypt_first_pass(password))
+                compare = person.encrypt_second_pass(person.encrypt_first_pass(password.to_s))
                 return person if person.encrypted_password == compare
               end
             end

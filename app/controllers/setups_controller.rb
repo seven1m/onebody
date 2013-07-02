@@ -8,7 +8,6 @@ class SetupsController < ApplicationController
   end
 
   def new
-    generate_encryption_key
     @person = Person.new
   end
 
@@ -19,22 +18,19 @@ class SetupsController < ApplicationController
         Site.current.host = params[:domain_name]
         Site.current.save
       else
-        generate_encryption_key
         @person.errors.add :base, t('setup.invalid_domain_name')
         render action: 'new'
         return
       end
       @person.attributes = params[:person]
-      @person.password = params[:encrypted_password].to_s.any? ? decrypt_password(params[:encrypted_password]) : nil
-      @person.password_confirmation = params[:encrypted_password_confirmation].to_s.any? ? decrypt_password(params[:encrypted_password_confirmation]) : nil
+      @person.password = params[:password].present? ? params[:password] : nil
+      @person.password_confirmation = params[:password_confirmation].present? ? params[:password_confirmation] : nil
       unless @person.password and @person.password == @person.password_confirmation
-        generate_encryption_key
         @person.errors.add :error, t('accounts.set_password_error')
         render action: 'new'
         return
       end
       unless @person.email.to_s.any?
-        generate_encryption_key
         @person.errors.add :email, t('activerecord.errors.models.person.attributes.email.invalid')
         render action: 'new'
         return
@@ -55,7 +51,6 @@ class SetupsController < ApplicationController
         flash[:notice] = t('setup.complete')
         redirect_to new_session_path(from: '/stream')
       else
-        generate_encryption_key
         render action: 'new'
         raise ActiveRecord::Rollback
       end

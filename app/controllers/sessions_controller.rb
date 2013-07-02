@@ -9,27 +9,19 @@ class SessionsController < ApplicationController
 
   # sign in form
   def new
-    if Person.count > 0
-      generate_encryption_key
-    elsif Setting.get(:features, :multisite)
-      @show_help = request.local?
-      render action: 'no_users'
-    else
-      redirect_to new_setup_path
+    if not Person.any?
+      if Setting.get(:features, :multisite)
+        @show_help = request.local?
+        render action: 'no_users'
+      else
+        redirect_to new_setup_path
+      end
     end
   end
 
   # sign in
   def create
-    if params[:password].to_s.any? and (Rails.env == 'test' or Setting.get(:privacy, :allow_unencrypted_logins))
-      password = params[:password]
-    else
-      unless password = decrypt_password(params[:encrypted_password])
-        render text: t('session.sign_in_error_html', url: new_session_path), layout: true, status: 500
-        return
-      end
-    end
-    if person = Person.authenticate(params[:email], password)
+    if person = Person.authenticate(params[:email], params[:password])
       unless person.can_sign_in?
         redirect_to page_for_public_path('system/unauthorized')
         return
@@ -50,7 +42,6 @@ class SessionsController < ApplicationController
         redirect_to new_account_path(email: params[:email])
       else
         flash[:warning] = t('session.email_not_found_try_another')
-        generate_encryption_key
         render action: 'new'
         flash.clear
       end
@@ -61,7 +52,6 @@ class SessionsController < ApplicationController
         flash[:warning] = t('session.password_doesnt_match')
         SigninFailure.create(email: params[:email].downcase, ip: request.remote_ip)
       end
-      generate_encryption_key
       render action: 'new'
       flash.clear
     end

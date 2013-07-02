@@ -174,9 +174,7 @@ class AccountsController < ApplicationController
 
   def edit
     @person ||= Person.find(params[:person_id])
-    if @logged_in.can_edit?(@person)
-      generate_encryption_key
-    else
+    unless @logged_in.can_edit?(@person)
       render text: t('accounts.cannot_edit'), layout: true, status: 401
     end
   end
@@ -184,22 +182,12 @@ class AccountsController < ApplicationController
   def update
     @person = Person.find(params[:person_id])
     if @logged_in.can_edit?(@person)
-      if Rails.env == 'test'
-        password = params[:password]
-        password_confirmation = params[:password_confirmation]
-      else
-        password = params[:encrypted_password].to_s.any? ? decrypt_password(params[:encrypted_password]) : nil
-        password_confirmation = params[:encrypted_password_confirmation].to_s.any? ? decrypt_password(params[:encrypted_password_confirmation]) : nil
-      end
       @person.attributes = person_params
       @person.save
       if @person.errors.any?
         edit; render action: 'edit'
-      elsif password == false or password_confirmation == false # error decrypting the password
-        flash[:warning] = t('accounts.set_password_error')
-        edit; render action: 'edit'
-      elsif password.to_s.any?
-        @person.change_password(password, password_confirmation)
+      elsif params[:password].present?
+        @person.change_password(params[:password], params[:password_confirmation])
         if @person.errors.any?
           edit; render action: 'edit'
         else

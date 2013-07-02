@@ -1,5 +1,3 @@
-<%= javascript_include_tag 'rsa.min.js' %>
-
 <div class="left-sidebar line-right">
   <%= render_page_content 'system/sign_in_header' %>
   <div class="double-margin-top" style="text-align:center;">
@@ -8,24 +6,8 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  function encrypt_password() {
-    var rsa = new RSAKey();
-    rsa.setPublic('<%= @public_modulus %>', '<%= @public_exponent %>');
-    var res = rsa.encrypt(document.getElementById('password').value);
-    if (res) {
-      encrypted = linebrk(hex2b64(res), 64);
-      document.getElementById('encrypted_password').setAttribute('value', encrypted);
-      document.getElementById('password').setAttribute('value', '');
-      return true;
-    }
-    return false;
-  }
-</script>
-
-<form method="post" action="/session" onsubmit="return encrypt_password()">
+<form method="post" action="/session">
   <%= hidden_field_tag :from, params[:from] %>
-  <%= hidden_field_tag :encrypted_password %>
 
   <h2 class="double-margin-bottom"><%= t('session.please_sign_in') %></h2>
 
@@ -36,7 +18,7 @@
     </tr>
     <tr>
       <td><label for="password"><%= t('session.password') %></label></td>
-      <td><input type="password" id="password" size="30" <% if Setting.get(:privacy, :allow_unencrypted_logins) %>name="password"<% end %>/></td>
+      <td><input type="password" id="password" size="30" name="password"/></td>
     </tr>
     <tr>
       <td></td>

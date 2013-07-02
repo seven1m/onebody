@@ -6,7 +6,6 @@ require 'add_condition'
 require 'misc_tools'
 require 'db_tools'
 require 'date_tools'
-require 'cache_extensions'
 require 'csv'
 # FIXME
 #require 'csv_serialization'
