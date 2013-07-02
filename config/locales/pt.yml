@@ -526,9 +526,6 @@ pt:
         Custom Person Type:
           name: Tipos Customizados - Pessoas
           description: Se habilitado, administradores podem especificar um tipo customizado nas mesmas linhas de Elder, Diácono, etc.
-        Prayer Event: 
-          name: Evento de Oração
-          description: Quando habilitado, membros irão ver uma escala de oração e poderão se inscrever para um ou mais horários (divididos de hora em hora).
         Community Google Calendar:
           name: Calendário da Comunidade - Google
           description: A URL para o Calendário da Comunidade. Ele pode ter acesso público ou privado, mas o calendário por si só, necessita ser compartilhado publicamente para ser incluído na característica individual ("meu calendário").
@@ -574,9 +571,6 @@ pt:
         Sidebar Group Heading:
           name: Exibe Cabeçalho do Grupo
           description: Cabeçallho para ser exibido acima das pessoas nos grupos mútuos (veja a configuração acima)
-        Prayer Event First Date and Time: 
-          name: Primeiro Espaço de Tempo
-          description: Insira a data e horário do primeiro espaço de tempo no formato 'MM/DD/AAAA HH:00'
         Reporting:
           name: Relatórios
           description: Requer MongoDB para ser configurado e usado.
@@ -595,9 +589,6 @@ pt:
         Verses:
           name: Versículos
           description: Habilita o Compartilhamento de Versículos.
-        Prayer Event Last Date and Time: 
-          name: Último Espaço de Tempo
-          description: Insira a data e horário para o último espaço de tempo no formato 'MM/DD/AAAA HH:00'
         Recipes:
           name: Receitas
           description: Habilita o Compartilhamento de Receitas.

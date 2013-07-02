@@ -2,7 +2,7 @@ class Album < ActiveRecord::Base
   belongs_to :group
   belongs_to :person, include: :family, conditions: ['people.visible = ? and families.visible = ?', true, true]
   belongs_to :site
-  has_many :pictures, dependent: :destroy
+  has_many :pictures, dependent: :delete_all
 
   scope_by_site_id
 

@@ -419,10 +419,6 @@ en:
         title: Manage Pictures
         about: "View, edit, delete any pictures and albums."
         order: 11
-      manage_prayer_signups:
-        title: Manage Prayer Signups
-        about: "Edit and delete signups for a Prayer Event."
-        order: 12
       manage_publications:
         title: Manage Publications
         about: "Create and delete site publications."
@@ -546,9 +542,6 @@ en:
         Custom Person Type: 
           name: Custom Person Type
           description: If enabled, admins can specify a custom type along the lines of Elder, Deacon, etc.
-        Prayer Event: 
-          name: Prayer Event
-          description: Once enabled, members will be able to see the prayer schedule and sign up for one or more hour-long time slots.
         Community Google Calendar: 
           name: Community Google Calendar
           description: The URL for the community Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual ("my calendar") feature.
@@ -594,9 +587,6 @@ en:
         Sidebar Group Heading: 
           name: Sidebar Group Heading
           description: Heading to show above people in mutual groups (see above setting)
-        Prayer Event First Date and Time: 
-          name: First Time Slot
-          description: Enter the date and time of the first hour-long time slot in the format 'MM/DD/YYYY HH:00'
         Reporting: 
           name: Reporting
           description: Requires MongoDB to be setup and running.
@@ -615,9 +605,6 @@ en:
         Verses: 
           name: Verses
           description: Enable Verse sharing.
-        Prayer Event Last Date and Time: 
-          name: Last Time Slot
-          description: Enter the date and time of the very last hour-long time slot in the format 'MM/DD/YYYY HH:00'
         Recipes: 
           name: Recipes
           description: Enable Recipe sharing.
@@ -670,7 +657,6 @@ en:
       disabled: Disabled
       enabled: Enabled
       features_heading: Software Features
-      features_prayer_event_about: "The following settings allow this site to manage signups and availability for a Prayer Event."
       formats_heading: Formats
       formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
       formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."

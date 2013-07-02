@@ -46,11 +46,6 @@
       <%= setting_row('Features', 'Friends') %>
       <%= setting_row('Features', 'Groups') %>
 
-      <%= subsection_row(t('admin.settings.features_prayer_event_about')) %>
-      <%= setting_row('Features', 'Prayer Event') %>
-      <%= setting_row('Features', 'Prayer Event First Date and Time') %>
-      <%= setting_row('Features', 'Prayer Event Last Date and Time') %>
-
     <%= section_row(t('admin.settings.sharing_heading'), :sharing) %>
 
       <%= subsection_row(t('admin.settings.sharing_communications_about')) %>
@@ -133,8 +128,6 @@
   }
   setupToggler(<%= @settings['Features']['Sign Up'].id %>,      [<%= @settings['Features']['Sign Up Approval Email'].id %> ]);
   setupToggler(<%= @settings['Features']['News Page'].id %>,    [<%= @settings['Features']['News by Users'].id %>          ]);
-  setupToggler(<%= @settings['Features']['Prayer Event'].id %>, [<%= @settings['Features']['Prayer Event First Date and Time'].id %>,
-                                                                 <%= @settings['Features']['Prayer Event Last Date and Time' ].id %>]);
 
   function scrollTo(id) {
     $('html, body').animate({'scrollTop':$('#'+id).offset().top}, 'slow');

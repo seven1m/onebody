@@ -94,15 +94,6 @@ Features:
   News by Users:
     format: boolean
     value: true
-  Prayer Event:
-    format: boolean
-    value: false
-  Prayer Event First Date and Time:
-    format: string
-    value:
-  Prayer Event Last Date and Time:
-    format: string
-    value:
 Services: 
   Yahoo: 
     format: string
