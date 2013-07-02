@@ -491,9 +491,6 @@ en:
         Yahoo: 
           name: Yahoo
           description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
-        Campaign Monitor API Key: 
-          name: Campaign Monitor API Key
-          description: To sync one or more groups with Campaign Monitor subscriber lists, paste your Campaign Monitor API Key here.
         Analytics: 
           name: Analytics
           description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
@@ -1032,9 +1029,6 @@ en:
     by_allow_anyone_to_join: By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.
     calendar_help: In your Google Calendar, in Calendar Settings, copy your "Private" XML Link and paste in this box to display your calendar on the group page.
     calendar_private_link: Google Calendar Private Link
-    campaign_monitor_sync: "Campaign Monitor API List ID:"
-    campaign_monitor_sync_help: To sync with a Campaign Monitor subscriber list, paste the API List ID here.
-    campaign_monitor_policy_html: 'You must follow all policies of Campaign Monitor, including <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.'
     cannot_remove_last_admin: You cannot remove the last group admin. You may delete the group, however.
     category: Category
     category_hint: Make your group easy to find by placing it an appropriate category.

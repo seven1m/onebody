@@ -111,9 +111,6 @@ Services:
   Analytics: 
     format: string
     value: 
-  Campaign Monitor API Key:
-    format: string
-    value:
   Sermondrop URL:
     format: string
     value:
