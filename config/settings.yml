@@ -63,9 +63,6 @@ Features:
   Sign Up Approval Email: 
     format: string
     value: 
-  Publications: 
-    format: boolean
-    value: true
   Verses: 
     format: boolean
     value: true

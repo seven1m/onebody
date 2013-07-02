@@ -208,11 +208,6 @@ pt:
               blank: "O pedido de oração deve estar associado com uma pessoa."
             request: 
               blank: "O pedido de oração não pode estar em branco."
-        publication: 
-          attributes: 
-            name: 
-              blank: "A publicação precisa ter um nome."
-              taken: "Já existe uma outra publicação com este nome. Por favor escolha outro."
         recipe: 
           attributes: 
             directions: 
@@ -403,10 +398,6 @@ pt:
         title: Gerenciar Inscrições para Oração
         about: "Edita e deleta inscrições para um Evento de Oração."
         order: 12
-      manage_publications:
-        title: Gerenciar Publicações
-        about: "Cria e deleta publicações no site."
-        order: 13
       manage_updates:
         title: Gerenciar Atualizações
         about: "Visualiza, edita e deleta atualizações de perfil pendentes feitas pelos usuários."
@@ -580,9 +571,6 @@ pt:
         Content Management System:
           name: Sistema de Gerenciamento de Conteúdo
           description: Habilita "Páginas" - Use o OneBody para hospedar o seu website.
-        Publications:
-          name: Publicações
-          description: Habilita Publicações.
         News Page:
           name: Páginas de Notícias
           description: Habilita a página de notícias da comunidade. Itens de notícias pode ser submetidos pelos administradores e/ou consultadas de um feed RSS (veja URL nas confiurações de Notícias RSS).
@@ -1101,7 +1089,6 @@ pt:
       mobile_tap_again: Aperte o botão novamente para ir para o Início.
       news: notícias
       pictures: fotos
-      publications: publicações
       verses: versículos
     profile:
       edit: editar perfil
@@ -1490,32 +1477,6 @@ pt:
     you_are_sharing_with_groups: "Você está compartilhando o seu %{sharing} com os seguintes grupos:"
     you_may_share_items: "Você pode compartilhar itens com os membros dos seguintes grupos:"
     you_must_check_agreement_statement: Você deve marcar a caixa indicando que você concorda com o texto abaixo.
-
-  publications: 
-    add_publication: Adicionar Publicação
-    add_publication: Adicionar Publicação
-    deleted: Publicação foi deletada.
-    description: Descrições
-    email_notifications: Notificações por Email
-    feed: Feed de Publicações
-    file: Arquivo
-    files_with_acrobat_icon_html: Para arquivos com o ícone Acrobat %{img}, você irá precisar %{url} (conhecido como "Acrobat Reader") ou outro programa compatível com a visualização de arquivos PDF.
-    inform_publication_available: Este é para informar você que uma nova publicação foi adicionada ao %{site}.
-    name: Nome
-    new_publication: Nova Publicação
-    new_publication_available: Nova Publicação Disponível
-    no_publications_available: Não existem publicações disponíveis.
-    notify_no_one: Não notificar ninguém
-    notify_the_group: Notificar o grupo %{group}
-    publications: Publicações
-    save_publication: Salvar Publicação
-    saved: Publicação foi gravada.
-    start_receiving_notifications: Se você deseja receber notificações por email quando novas publicações forem disponibilizadas aqui nesta página,
-    subscribe: Subscrever
-    subscribe_feed_html: <a href="%{url}">Subscrever</a> à essa Publicação com o seu leitor de feeds.
-    unsubscribe: Unsubscribe
-    update_notifications: Atualizar Notificações
-    you_must_select_file: Você deve selecionar um arquivo.
 
   relationships: 
     Reciprocate: Reciprocidade

@@ -4,8 +4,7 @@ namespace :onebody do
   task :move_to_paperclip => :environment do
     require 'fileutils'
     paths = Dir[DB_PHOTO_PATH.join('**/*')].to_a + \
-            Dir[DB_ATTACHMENTS_PATH.join('**/*')].to_a + \
-            Dir[DB_PUBLICATIONS_PATH.join('**/*')].to_a
+            Dir[DB_ATTACHMENTS_PATH.join('**/*')].to_a
     paths.each_with_index do |path, index|
       if path =~ %r{db/photos}
         _, collection, id, _, env, size = path.match(%r{db/photos/(.+)/(\d+)(\.(test|development))?\.(tn|small|medium|large|full)\.jpg}).to_a
@@ -42,7 +41,7 @@ namespace :onebody do
       puts "============================================================================"
       puts "Operation complete."
       puts "Please check that all photos and files are in place in public/system."
-      puts "Then you can delete the db/photos, db/attachments, and db/publications dirs."
+      puts "Then you can delete the db/photos and db/attachments dirs."
       puts "============================================================================"
       puts
     end

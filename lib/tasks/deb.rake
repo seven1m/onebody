@@ -52,7 +52,6 @@ namespace :onebody do
     `git checkout-index -a -f --prefix=/tmp/onebody/ && mv /tmp/onebody/* #{Rails.root}/pkg/usr/lib/onebody/`
     `rm -rf #{Rails.root}/pkg/usr/lib/onebody/db/photos`
     `rm -rf #{Rails.root}/pkg/usr/lib/onebody/db/attachments`
-    `rm -rf #{Rails.root}/pkg/usr/lib/onebody/db/publications`
     `cd #{Rails.root}/pkg/usr/lib/onebody && rake gems:unpack:dependencies`
     `cd #{Rails.root}/pkg/usr/lib/onebody && rake rails:freeze:gems`
     `find #{Rails.root}/pkg -name .gitignore | xargs rm`

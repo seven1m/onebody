@@ -228,11 +228,6 @@ en:
               blank: The prayer request must be associated with a person.
             request: 
               blank: The prayer request cannot be blank.
-        publication: 
-          attributes: 
-            name: 
-              blank: The publication must have a name.
-              taken: There is another publication with this name. Please choose another name.
         recipe: 
           attributes: 
             directions: 
@@ -419,10 +414,6 @@ en:
         title: Manage Pictures
         about: "View, edit, delete any pictures and albums."
         order: 11
-      manage_publications:
-        title: Manage Publications
-        about: "Create and delete site publications."
-        order: 13
       manage_updates:
         title: Manage Updates
         about: "View, edit, delete pending profile updates made by users."
@@ -596,9 +587,6 @@ en:
         Content Management System: 
           name: Content Management System
           description: Enable "Pages" - Use OneBody to host your website.
-        Publications: 
-          name: Publications
-          description: Enable Publications.
         News Page: 
           name: News Page
           description: Enable community news page. News items can be submitted by admins and/or pulled from an RSS feed (see URL, News RSS setting).
@@ -1123,7 +1111,6 @@ en:
       mobile_tap_again: Tap button again to go to Home.
       news: news
       pictures: pictures
-      publications: publications
       verses: verses
     profile:
       edit: edit profile
@@ -1511,32 +1498,6 @@ en:
     you_are_sharing_with_groups: "You are sharing your %{sharing} with the following groups:"
     you_may_share_items: "You may share items with fellow members of the following groups:"
     you_must_check_agreement_statement: You must check the box indicating you agree to the statement below.
-
-  publications: 
-    add_publication: Add Publication
-    add_publication: Add Publication
-    deleted: Publication deleted.
-    description: Description
-    email_notifications: Email Notifications
-    feed: Publications Feed
-    file: File
-    files_with_acrobat_icon_html: For files with the Acrobat icon %{img}, you will need %{url} (aka "Acrobat Reader") or another program capable of viewing PDF files.
-    inform_publication_available: This is to inform you that a new publication has been added to %{site}.
-    name: Name
-    new_publication: New Publication
-    new_publication_available: New Publication Available
-    no_publications_available: There are currently no publications available.
-    notify_no_one: Notify no one
-    notify_the_group: Notify the %{group} group
-    publications: Publications
-    save_publication: Save Publication
-    saved: Publication saved.
-    start_receiving_notifications: "Recieve notifications via email when new publications are made available on this page:"
-    subscribe: Subscribe
-    subscribe_feed_html: <a href="%{url}">Subscribe</a> to Publications with your feed reader.
-    unsubscribe: Unsubscribe
-    update_notifications: Update Notifications
-    you_must_select_file: You must select a file.
 
   relationships: 
     Reciprocate: Reciprocate

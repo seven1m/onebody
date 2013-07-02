@@ -9,7 +9,7 @@ class GroupTest < ActiveSupport::TestCase
     FactoryGirl.create(:group, category: 'foo', hidden: false)
     FactoryGirl.create(:group, category: 'bar', hidden: true)
     # also, these fixtures:
-    # morgan (Small Groups), college (Small Groups), and publications (Subscription)
+    # morgan (Small Groups), college (Small Groups)
   end
 
   should "update its membership based on a link_code" do
