@@ -485,9 +485,6 @@ en:
           name: Send Updates To
           description: Email sent when someone updates their profile (can be blank for no email)
       Services: 
-        Sermondrop URL: 
-          name: Sermondrop URL
-          description: Full URL for your Sermondrop site, e.g. http://mysite.sermondrop.com/
         Yahoo: 
           name: Yahoo
           description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
@@ -1189,7 +1186,6 @@ en:
       mobile_tap_again: Tap button again to go to Home.
       news: news
       pictures: pictures
-      podcasts: podcasts
       publications: publications
       verses: verses
     profile:
@@ -1249,7 +1245,6 @@ en:
     directory: Directory
     groups: Groups
     home: Home
-    podcasts: Podcasts
     profile: Profile
 
   news: 
@@ -1480,9 +1475,6 @@ en:
     hide_my_name: "These are general community pictures — don't show my name on them (admin-only option)."
     upload: Upload!
   
-  podcasts:
-    not_configured: Sermondrop is not configured.
-
   prayer: 
     add_a_prayer_request: Add a prayer request
     add_prayer_request: Add Prayer Request

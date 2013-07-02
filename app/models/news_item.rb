@@ -68,7 +68,6 @@ class NewsItem < ActiveRecord::Base
     def get_feed_items
       urls = []
       urls << Setting.get(:url, :news_feed) if Setting.get(:url, :news_feed).to_s.any?
-      urls << "#{Setting.get(:services, :sermondrop_url).sub(/\/$/, '')}/sermons.rss" if Setting.get(:services, :sermondrop_url).to_s.any?
       urls.map do |url|
         next unless url.to_s.any?
         begin

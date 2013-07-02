@@ -111,9 +111,6 @@ Services:
   Analytics: 
     format: string
     value: 
-  Sermondrop URL:
-    format: string
-    value:
 URL: 
   Visitor: 
     format: string

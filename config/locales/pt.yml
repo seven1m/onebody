@@ -465,9 +465,6 @@ pt:
           name: Enviar Atualizações para
           description: Email enviado quando alguém atualiza o seu perfil (pode ser vazio para não receber emails)
       Services: 
-        Sermondrop URL: 
-          name: URL do Sermondrop
-          description: URL completa para o seu site no Sermondrop, ex. http://meusite.sermondrop.com/
         Yahoo: 
           name: Yahoo
           description: A sua chave de API do Yahoo - https://developer.yahoo.com/wsregapp/index.php
@@ -1162,7 +1159,6 @@ pt:
       mobile_tap_again: Aperte o botão novamente para ir para o Início.
       news: notícias
       pictures: fotos
-      podcasts: podcasts
       publications: publicações
       verses: versículos
     profile:
@@ -1222,7 +1218,6 @@ pt:
     directory: "Diretório"
     groups: Grupos
     home: "Início"
-    podcasts: Podcasts
     profile: Perfil
 
   news: 
@@ -1453,9 +1448,6 @@ pt:
     set_as_cover: Setar como Capa
     hide_my_name: "Essas são fotos gerais da comunidade — não mostre meu nome nelas (opção somente para administradores)."
     upload: Carregar!
-
-  podcasts:
-    not_configured: Sermondrop não está configurado.
 
   prayer: 
     add_a_prayer_request: Adicionar um pedido de oração
