@@ -2,7 +2,6 @@
   <p><%= link_to t('people.edit.privacy'), edit_person_privacy_path(@person), class: 'lock-icon' %></p>
   <p><%= link_to t('people.edit.email'), edit_person_path(@person, email: true), class: 'email-icon' %></p>
   <p><%= link_to t('people.edit.password'), edit_person_account_path(@person), class: 'dots-icon' %></p>
-  <p><%= link_to t('feeds.feeds', name: @person.first_name), person_feeds_path(@person), class: 'feed-icon' %></p>
   <% if @logged_in.admin?(:edit_profiles) %>
     <p><%= link_to t('relationships.relationships'), person_relationships_path(@person), class: 'people-icon' %></p>
     <p class="divider"></p>

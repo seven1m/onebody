@@ -43,7 +43,7 @@ OneBody::Application.routes.draw do
       end
     end
     resource :photo
-    resources :groups, :pictures, :groupies, :services, :albums, :feeds, :notes, :verses
+    resources :groups, :pictures, :groupies, :services, :albums, :notes, :verses
     resource :privacy, :blog, :calendar
   end
 

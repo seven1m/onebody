@@ -23,7 +23,6 @@
       <li><%= link_to t('menus.profile.privacy'),         edit_person_privacy_path(submenu_target(@person)),  class: 'lock-icon'   %></li>
       <li><%= link_to t('menus.profile.email'),           edit_person_path(submenu_target(@person)),          class: 'email-icon'  %></li>
       <li><%= link_to t('menus.profile.password'),        edit_person_account_path(submenu_target(@person)),  class: 'dots-icon'   %></li>
-      <li><%= link_to t('menus.profile.feeds'),           person_feeds_path(submenu_target(@person)),         class: 'feed-icon'   %></li>
       <% if @logged_in.admin?(:edit_profiles) %>
         <li><%= link_to t('menus.profile.relationships'), person_relationships_path(submenu_target(@person)), class: 'people-icon' %></li>
         <li class="divider"></li>

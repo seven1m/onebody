@@ -100,17 +100,6 @@ pt:
               taken: "Este cartão de família (código de barras) já está em uso por outra família."
               too_long: "Este cartão de família (código de barras) é grande demais (não pode conter mais do que 50 dígitos)."
               too_short: "Este cartão de família (código de barras) é pequeno demais (deve conter pelo menos 10 dígitos)."
-        feed: 
-          attributes: 
-            name: 
-              blank: O feed deve conter um nome.
-              taken: "Já existe um outro feed com esse nome. Por favor escolha outro nome."
-            person_id: 
-              blank: O feed deve estar associado a uma pessoa.
-            url: 
-              blank: Uma URL deve ser especificada para o feed.
-              invalid: "Esta URL não parece estar no formato correto. Você digitou o endereço corretamente? Tente colar o endereço ao invés de digitar."
-              taken: "Este feed já existe. Você não pode adicioná-lo novamente."
         friendship: 
           attributes: 
             friend_id: 
@@ -917,44 +906,6 @@ pt:
     select_before_proceeding: Por favor selecione a família antes de proceder.
     too_many: Muitos de uma só vez
 
-  feeds:
-    add_a_feed: Adicionar um Feed
-    add_the_feed: Sim, isto parece correto. Adicione o feed.
-    all: Todos os Feeds
-    are_you_sure: Você tem certeza que deseja remover este feed? Deletando este feed NÃO deletará o conteúdo (notas, fotos, etc.) que já foram importados à sua conta.
-    blog_name: Nome do seu blog
-    copy_the_url_from_bar: Copie a URL da barra de endereços e cole-a aqui
-    copy_your_notifications_link_html: <strong>Clique com o botão direiro</strong> no link chamado "Suas Notificações" (de acordo com a figura abaixo) e escolha <strong>Copiar Atalho</strong> ou <strong>Copiar Localização do Link</strong> ou similar.
-    deleted: Feed deletado.
-    description: Você pode importar conteúdo e atualizações de serviços externos, redes sociais e blog adicionando os feeds abaixo.
-    done_html: Feito! Clique na aba <a href="%{url}">Início</a> para visualizar o seu conteúdo importado.
-    enter_twitter_username: Insira o seu usuário do Twitter aqui
-    error_retrieving: Houve um erro ao consultar o feed. Por favor, verifique a URL (endereço) e tente novamente.
-    facebook_notifications: Notificaçoes do Facebook
-    feeds: Feeds
-    feeds_for: Feeds para %{name}
-    flickr_url: URL do Flickr
-    link_with_facebook: Link com as suas atualizações de status do Facebook...
-    link_with_flickr: Link com as suas atualizações de fotos do Flickr...
-    link_with_twitter: Link com as suas atualizações no Twitter...
-    link_with_rss: Link com o seu RSS feed...
-    log_into_blog: Encontre a URL feed do seu blog (geralmente clicando no ícone %{img}) e cole-a no campo abaixo
-    log_into_facebook_html: <a href="http://www.facebook.com/notifications.php" target="_new">Clique aqui</a> e entre no Facebook.
-    log_into_flickr_html: Entre no <a href="http://flickr.com">Flickr.com</a> e vá até a página com sua foto (clique no link "Você" próximo ao topo).
-    no_entries_found: Nenhum conteúdo foi encontrado na URL (endereço) fornecida. Por favor volte e tente novamente.
-    no_entries_found_flickr_alert: Se você está adicionando uma conta do Flickr, verifique que as suas fotos estão públicas.    
-    no_entries_found_twitter_alert: Se você está adicionando uma conta do Twitter, verifique que as suas atualizações no Twitter não são protegidas.
-    none_added: ainda não foi adicionado nada
-    note_html: "Nota: O conteúdo do seu feed externo é <strong>copiado</strong> para este site com um link apontando de volta ao original. Comentários feitos nos itens importados não são postados de volta ao original. Você pode deletar conteúdo neste site a qualquer momento e desabilitar o feed se mudar de idéia mais tarde."
-    looks_right: Isto parece correto?
-    paste_link_here: Cole o link aqui
-    please_wait: Por favor aguarde enquanto nós importamos o seu feed...
-    posted: Postado
-    preview: Visualização do Feed
-    sort_by_error: Ordenar por números de erros (decrescente)
-    sort_by_person: Ordenar por pessoa
-    url: URL
-
   friends: 
     accept: Aceitar Amigo
     add_friend_are_you_sure: Você tem certeza? Um email será enviado para esta pessoa requisitando amizade.
@@ -1719,16 +1670,11 @@ pt:
     and_more: e mais %{length} itens por %{name}...
     feed: Feed
     flickr: Flickr
-    import_blog_feed: Importar os feeds RSS ou Atom do seu Blog...
-    import_facebook_updates: "Importar as suas atualizações do Facebook..."
-    import_flickr_photos: Importar as suas fotos do Flickr...
-    import_twitter_updates: "Importar as suas atualizações do Twitter..."
     nothing_to_show: Agora, não há nada a mostrar.
     rss: RSS
     share_heading: Compartilhar com Amigos
     share_something_about: Os itens que você compartilhar aqui, serão exibidos aos seus amigos e nas páginas de seus colegas membros de grupos (porém para mais ninguém).
     show: Mostrar
-    twitter: Twitter
     where_activity_appear: Aqui é onde as suas atividades, de seus amigos e grupos irá aparecer.
 
   styles:
