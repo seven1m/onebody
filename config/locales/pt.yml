@@ -1211,8 +1211,6 @@ pt:
     this_will_send_a_private_email_html: Isto irá enviar um email <em>particular</em>.
     to_show_the_entire_message: para mostrar a mensagem inteira.
     unknown_type: Tipo de mensagem desconhecido.
-    wall_not_found: Parede de Recados não encontrada
-    wall_post: Mensagem na Parede de Recados
 
   nav: 
     directory: "Diretório"
@@ -1764,18 +1762,3 @@ pt:
     remove_this_verse: "Remover esse versículo da minha lista."
     tools: Ferramentas
     verses: "Versículos"
-
-  wall: 
-    description: "A parede de recados é um lugar para pessoas postarem mensagens amigáveis para você e outros visualizarem."
-    must_specify_two_people: É necessário especificar exatamente duas pessoas
-    newest_messages_appear_first: mensagens mais novas aparecem primeiro
-    no_messages_yet: "Ainda não existe nenhuma mensagem!"
-    not_found: Parede de Recados não encontrada.
-    post_a_message: Envie uma mensagem.
-    one_or_more_not_found: Uma ou mais parede de recados não foram encontradas.
-    respect_privacy: "Por favor respeite a privacidade dos outros. Abuso no envio de mensagens poderá causar o banimento do site."
-    save_message: Salvar Mensagem
-    to_send_a_private_message_html: Todos os usuários irão ver a sua mensagem; para enviar uma mensagem privada, <a href="%{url}">clique aqui</a>.
-    view_all_wall_messages: Visualizar todas as mensagens...
-    wall: Parede de Recados
-    wall_to_wall: Parede de Recados

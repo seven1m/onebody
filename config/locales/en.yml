@@ -1238,8 +1238,6 @@ en:
     this_will_send_a_private_email_html: This will send a <em>private</em> email.
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
-    wall_not_found: Wall not found
-    wall_post: Wall Post
 
   nav: 
     directory: Directory
@@ -1790,18 +1788,3 @@ en:
     remove_this_verse: Remove this verse from my list.
     tools: Tools
     verses: Verses
-
-  wall:
-    description: The Wall is a place for people to post friendly messages for you and others to see.
-    must_specify_two_people: Must specify exactly two people
-    newest_messages_appear_first: newest messages appear first
-    no_messages_yet: No messages yet!
-    not_found: Wall not found.
-    post_a_message: Post a message.
-    one_or_more_not_found: One or more walls not found.
-    respect_privacy: Please respect the privacy of others. Abusing the wall will get you banned from the site.
-    save_message: Save Message
-    to_send_a_private_message_html: All users will see your message; to send a private message, <a href="%{url}">click here</a>.
-    view_all_wall_messages: View all wall messages...
-    wall: Wall
-    wall_to_wall: Wall to Wall

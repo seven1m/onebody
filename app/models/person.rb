@@ -15,7 +15,6 @@ class Person < ActiveRecord::Base
   has_many :albums
   has_many :pictures, order: 'created_at desc'
   has_many :messages
-  has_many :wall_messages, class_name: 'Message', foreign_key: 'wall_id', order: 'created_at desc'
   has_many :notes, order: 'created_at desc'
   has_many :updates, order: 'created_at'
   has_many :prayer_signups
@@ -219,7 +218,7 @@ class Person < ActiveRecord::Base
     when 'Family'
       !what.deleted? and (admin?(:edit_profiles) or (what == self.family and self.adult?))
     when 'Message'
-      what.person == self or (what.group and what.group.admin? self) or what.wall_id == self.id
+      what.person == self or (what.group and what.group.admin? self)
     when 'PrayerRequest'
       admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group))
     when 'RemoteAccount'
@@ -401,7 +400,7 @@ class Person < ActiveRecord::Base
 
   def shared_stream_items(count=30)
     enabled_types = []
-    enabled_types << 'Message' # wall posts and group posts (not personal messages)
+    enabled_types << 'Message' # group posts (not personal messages)
     enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
     enabled_types << 'Verse'       if Setting.get(:features, :verses      )
     enabled_types << 'Album'       if Setting.get(:features, :pictures    )
@@ -414,7 +413,7 @@ class Person < ActiveRecord::Base
                .where(streamable_type: enabled_types) \
                .where(shared: true) \
                .where("(group_id in (:group_ids) or" +
-                      " (group_id is null and wall_id is null and person_id in (:friend_ids)) or" +
+                      " (group_id is null and person_id in (:friend_ids)) or" +
                       " person_id = :id or" +
                       " streamable_type = 'NewsItem'" +
                       ")", group_ids: group_ids, friend_ids: friend_ids, id: id) \

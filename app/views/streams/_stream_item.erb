@@ -9,28 +9,15 @@
         <%= link_to stream_item.title, stream_item %>
       </h3>
     <% else %>
-      <% if stream_item.wall and (params[:controller] != 'people' or stream_item.wall_id != @person.id) %>
-        <div style="float:left;margin:0 10px 0 -12px;height:37px;">
-          <a href="<%= url_for stream_item.wall %>">
-            <%= image_tag stream_item.wall.photo.exists? ? stream_item.wall.photo.url(:tn) : (stream_item.wall.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
-              alt: stream_item.wall.name %>
-          </a>
-        </div>
-      <% end %>
       <div class="stream-item-content">
         <%= stream_item_content(stream_item) %>
-        <% unless stream_item.wall %>
-          <%= link_to t('comments.view') + '...', stream_item, class: 'small' %>
-        <% end %>
+        <%= link_to t('comments.view') + '...', stream_item, class: 'small' %>
       </div>
     <% end %>
     <div class="nowrap stream-item-timestamp">
       <%= time_ago_in_words stream_item.created_at %> <%= t('comments.ago') %>
       <% if stream_item.person %>
         by <%= link_to stream_item.person.name, stream_item.person %>
-      <% end %>
-      <% if stream_item.wall %>
-        <%= t('to') %> <%= link_to stream_item.wall.name, stream_item.wall %>
       <% end %>
       <% if @group.nil? and stream_item.group %>
         <%= t('in') %> <%= link_to stream_item.group.name, stream_item.group %>
@@ -89,19 +76,6 @@
             <%= form.submit t('comments.save') %>
           <% end %>
         </div>
-      </div>
-    <% elsif stream_item.wall %>
-      <div class="new-comment discreet small">
-        <% if stream_item.wall == @logged_in %>
-          <%= link_to t('comments.leave_note_for', name: stream_item.person.name), stream_item.person %>
-        <% elsif stream_item.person == @logged_in %>
-          <%= link_to t('comments.leave_another_note_for', name: stream_item.wall.name), stream_item.wall %>
-        <% else %>
-          <%= t('comments.leave_a_note_for') %>:
-          <%= link_to stream_item.person.name, stream_item.person %>
-          <%= t('or') %>
-          <%= link_to stream_item.wall.name, stream_item.wall %>
-        <% end %>
       </div>
     <% else %>
       <div class="stream-item-spacer"></div>

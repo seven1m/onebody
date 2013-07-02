@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <h2><%= @message.subject %> <% if @message.wall %>for <%= @message.wall.name %><% end %></h2>
+  <h2><%= @message.subject %></h2>
 
   <p>
     <a href="<%= url_for @message.person %>">

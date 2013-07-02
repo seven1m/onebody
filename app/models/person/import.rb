@@ -156,8 +156,8 @@ class Person
           end
         end
         family_vals['legacy_id'] ||= person_vals['legacy_family_id']
-        person_vals.reject! { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
-        family_vals.reject! { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
+        person_vals.reject! { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$/ }
+        family_vals.reject! { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$/ }
         [person_vals, family_vals]
       end
     end

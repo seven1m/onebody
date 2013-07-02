@@ -8,7 +8,6 @@ morgan:
   state: OK
   zip: 74111
   home_phone: 9181234567
-  wall_enabled: true
 smith:
   site_id: 1
   id: 2
@@ -19,13 +18,11 @@ smith:
   state: OK
   zip: 74019
   home_phone: 9181234567
-  wall_enabled: true
 jones:
   site_id: 1
   id: 3
   name: Peter Jones
   last_name: Jones
-  wall_enabled: true
 morgan1:
   site_id: 2
   id: 4
@@ -36,7 +33,6 @@ morgan1:
   state: OK
   zip: 74111
   home_phone: 9181234567
-  wall_enabled: true
 morgan2:
   site_id: 3
   id: 5
@@ -47,4 +43,3 @@ morgan2:
   state: OK
   zip: 74111
   home_phone: 9181234567
-  wall_enabled: true

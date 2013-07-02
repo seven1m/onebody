@@ -7,7 +7,6 @@ class Message < ActiveRecord::Base
 
   belongs_to :group
   belongs_to :person
-  belongs_to :wall, class_name: 'Person', foreign_key: 'wall_id'
   belongs_to :to, class_name: 'Person', foreign_key: 'to_person_id'
   belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
   has_many :children, class_name: 'Message', foreign_key: 'parent_id', conditions: 'to_person_id is null', dependent: :destroy
@@ -38,8 +37,6 @@ class Message < ActiveRecord::Base
   def name
     if self.to
       "Private Message to #{to.name rescue '[deleted]'}"
-    elsif wall
-      "Post on #{wall.name_possessive rescue '[deleted]'} Wall"
     elsif parent
       "Reply to \"#{parent.subject}\" in Group #{top.group.name rescue '[deleted]'}"
     else
@@ -96,8 +93,6 @@ class Message < ActiveRecord::Base
       send_to_group
     elsif to
       send_to_person(to)
-    elsif wall
-      send_to_person(wall) if wall.get_wall_email
     end
   end
 
@@ -124,19 +119,14 @@ class Message < ActiveRecord::Base
     "#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
   end
 
+  # TODO remove
   def introduction(to_person)
-    if wall
-      "#{person.name} posted a message on your wall:\n#{'- ' * 24}\n"
-    else
-      ''
-    end
+    ''
   end
 
   def reply_url
     if group
       "#{Setting.get(:url, :site)}messages/view/#{self.id.to_s}"
-    elsif wall
-      "#{Setting.get(:url, :site)}people/#{person_id}#wall"
     else
       reply_subject = self.subject
       reply_subject = "RE: #{subject}" unless reply_subject =~ /^re:/i
@@ -158,9 +148,6 @@ class Message < ActiveRecord::Base
           msg << "To reply: #{reply_url}\n"
         end
       end
-    elsif wall
-      msg << "Your wall: #{Setting.get(:url, :site)}people/#{wall_id}#wall\n\n"
-      msg << "#{self.person.name_possessive} wall: #{reply_url}\n"
     end
     msg
   end
@@ -185,7 +172,7 @@ class Message < ActiveRecord::Base
   end
 
   def email_from(to_person)
-    if wall or not to_person.messages_enabled?
+    if not to_person.messages_enabled?
       "\"#{person.name}\" <#{Site.current.noreply_email}>"
     elsif group
       relay_address("#{person.name} [#{group.name}]")
@@ -195,7 +182,7 @@ class Message < ActiveRecord::Base
   end
 
   def email_reply_to(to_person)
-    if wall or not to_person.messages_enabled?
+    if not to_person.messages_enabled?
       "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
     else
       relay_address(person.name)
@@ -226,10 +213,6 @@ class Message < ActiveRecord::Base
       p.member_of?(group) or group.admin?(p)
     elsif group
       p.member_of?(group) or group.admin?(p)
-    elsif wall and not wall.wall_enabled?
-      p == wall
-    elsif wall
-      p.can_see?(wall)
     elsif to
       to == p or person == p
     else
@@ -242,7 +225,7 @@ class Message < ActiveRecord::Base
   end
 
   def streamable?
-    person_id and not to_person_id and (wall_id or group)
+    person_id and not to_person_id and group
   end
 
   after_create :create_as_stream_item
@@ -250,16 +233,15 @@ class Message < ActiveRecord::Base
   def create_as_stream_item
     return unless streamable?
     StreamItem.create!(
-      title:           wall_id ? nil : subject,
+      title:           subject,
       body:            html_body.to_s.any? ? html_body : body,
       text:            !html_body.to_s.any?,
-      wall_id:         wall_id,
       person_id:       person_id,
       group_id:        group_id,
       streamable_type: 'Message',
       streamable_id:   id,
       created_at:      created_at,
-      shared:          (!wall || wall.share_activity?) && person.share_activity? && !(group && group.hidden?)
+      shared:          person.share_activity? && !(group && group.hidden?)
     )
   end
 
@@ -268,7 +250,7 @@ class Message < ActiveRecord::Base
   def update_stream_items
     return unless streamable?
     StreamItem.find_all_by_streamable_type_and_streamable_id('Message', id).each do |stream_item|
-      stream_item.title = wall_id ? nil : subject
+      stream_item.title = subject
       if html_body.to_s.any?
         stream_item.body = html_body
         stream_item.text = false

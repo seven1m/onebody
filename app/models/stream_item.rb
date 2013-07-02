@@ -1,6 +1,5 @@
 class StreamItem < ActiveRecord::Base
   belongs_to :person
-  belongs_to :wall, class_name: 'Person'
   belongs_to :site
   belongs_to :group
   belongs_to :streamable, polymorphic: true
