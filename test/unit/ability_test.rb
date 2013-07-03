@@ -364,7 +364,7 @@ class AbilityTest < ActiveSupport::TestCase
         assert_can @user, :update, @prayer_request
       end
 
-      should 'destroy message' do
+      should 'destroy prayer request' do
         assert_can @user, :destroy, @prayer_request
       end
     end
@@ -378,7 +378,7 @@ class AbilityTest < ActiveSupport::TestCase
         assert_cannot @user, :update, @prayer_request
       end
 
-      should 'not destroy message' do
+      should 'not destroy prayer request' do
         assert_cannot @user, :destroy, @prayer_request
       end
     end
@@ -392,7 +392,7 @@ class AbilityTest < ActiveSupport::TestCase
         assert_can @user, :update, @prayer_request
       end
 
-      should 'destroy message' do
+      should 'destroy prayer request' do
         assert_can @user, :destroy, @prayer_request
       end
     end
