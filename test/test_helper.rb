@@ -66,6 +66,15 @@ class ActiveSupport::TestCase
     end
   end
 
+  def assert_can(user, action, subject)
+    assert Ability.new(user).can?(action, subject), "cannot #{action} #{subject.inspect}"
+  end
+
+  def assert_cannot(user, action, subject)
+    assert Ability.new(user).cannot?(action, subject), "can #{action} #{subject.inspect}"
+  end
+
+
   fixtures :all
 
   setup do
