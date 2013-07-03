@@ -1,7 +1,5 @@
 class PhotosController < ApplicationController
 
-  cache_sweeper :person_sweeper, :family_sweeper, only: %w(update destroy)
-
   PHOTO_TYPES = %w(Family Person Picture Group) # be sure to add tests to photos_controller_test
 
   before_filter :get_object

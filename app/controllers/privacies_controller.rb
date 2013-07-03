@@ -1,7 +1,5 @@
 class PrivaciesController < ApplicationController
 
-  cache_sweeper :person_sweeper, :family_sweeper, only: %w(update)
-
   def show
     if params[:find] == 'memberships'
       raise 'error' unless Membership.sharing_columns.include?(prop = "share_#{params[:sharing]}")

@@ -1,7 +1,5 @@
 class PeopleController < ApplicationController
 
-  cache_sweeper :person_sweeper, :family_sweeper, only: %w(create update destroy import batch)
-
   def index
     respond_to do |format|
       format.html { redirect_to person_path(@logged_in, tour: params[:tour]) }

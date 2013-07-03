@@ -13,7 +13,7 @@ end
 module OneBody
   class Application < Rails::Application
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %w(#{config.root}/app/sweepers #{config.root}/app/concerns)
+    config.autoload_paths += %w(#{config.root}/app/concerns)
 
     # Cache store location
     config.action_controller.cache_store = [:file_store, "#{config.root}/cache"]

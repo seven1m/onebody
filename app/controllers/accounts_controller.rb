@@ -1,8 +1,6 @@
 class AccountsController < ApplicationController
   skip_before_filter :authenticate_user, except: %w(edit update)
 
-  cache_sweeper :person_sweeper, :family_sweeper, only: %w(create update)
-
   def show
     if params[:person_id]
       redirect_to person_account_path(params[:person_id])

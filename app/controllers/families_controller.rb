@@ -1,7 +1,5 @@
 class FamiliesController < ApplicationController
 
-  cache_sweeper :person_sweeper, :family_sweeper, only: %w(create update destroy)
-
   def index
     respond_to do |format|
       format.html { redirect_to @logged_in }

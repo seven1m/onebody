@@ -1,5 +1,4 @@
 class GroupsController < ApplicationController
-  cache_sweeper :group_sweeper, only: %w(create update destroy batch)
 
   def index
     # people/1/groups
