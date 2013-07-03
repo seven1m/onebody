@@ -8,6 +8,7 @@ class Ability
     allow_groups
     allow_albums
     allow_messages
+    allow_prayer_requests
   end
 
   private
@@ -41,6 +42,12 @@ class Ability
         message.group_id # belongs to a group
       end
     end
+  end
+
+  def allow_prayer_requests
+    can [:update, :destroy], PrayerRequest, person: @person
+    can [:update, :destroy], PrayerRequest, group: {memberships: {person: @person, admin: true}}
+    can :manage, PrayerRequest if @person.admin?(:manage_groups)
   end
 
 end
