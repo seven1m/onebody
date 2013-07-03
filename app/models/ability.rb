@@ -31,6 +31,7 @@ class Ability
 
   def allow_albums
     can [:update, :destroy], Album, person: @person
+    can [:update, :destroy], Album, group: {memberships: {person: @person, admin: true}}
     can :manage, Album if @person.admin?(:manage_pictures)
   end
 

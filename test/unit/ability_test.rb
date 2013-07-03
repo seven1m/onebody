@@ -225,7 +225,50 @@ class AbilityTest < ActiveSupport::TestCase
       end
     end
 
-    context 'admin with manage_pictures privilege' do
+    context 'album in a group' do
+      setup do
+        @group = FactoryGirl.create(:group)
+        @album.update_attributes!(group: @group)
+      end
+
+      should 'not update album' do
+        assert_cannot @user, :update, @album
+      end
+
+      should 'not destroy album' do
+        assert_cannot @user, :destroy, @album
+      end
+
+      context 'user is group member' do
+        setup do
+          @group.memberships.create(person: @user)
+        end
+
+        should 'not update album' do
+          assert_cannot  @user, :update, @album
+        end
+
+        should 'not destroy album' do
+          assert_cannot  @user, :destroy, @album
+        end
+      end
+
+      context 'user is group admin' do
+        setup do
+          @group.memberships.create(person: @user, admin: true)
+        end
+
+        should 'update album' do
+          assert_can @user, :update, @album
+        end
+
+        should 'destroy album' do
+          assert_can @user, :destroy, @album
+        end
+      end
+    end
+
+    context 'user is admin with manage_pictures privilege' do
       setup do
         @user.update_attributes!(admin: Admin.create!(manage_pictures: true))
       end
