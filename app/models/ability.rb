@@ -7,6 +7,7 @@ class Ability
     allow_families
     allow_groups
     allow_albums
+    allow_pictures
     allow_messages
     allow_prayer_requests
   end
@@ -33,6 +34,12 @@ class Ability
     can [:update, :destroy], Album, person: @person
     can [:update, :destroy], Album, group: {memberships: {person: @person, admin: true}}
     can :manage, Album if @person.admin?(:manage_pictures)
+  end
+
+  def allow_pictures
+    can [:update, :destroy], Picture, person: @person
+    can [:update, :destroy], Picture, album: {group: {memberships: {person: @person, admin: true}}}
+    can :manage, Picture if @person.admin?(:manage_pictures)
   end
 
   def allow_messages

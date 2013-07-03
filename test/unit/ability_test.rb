@@ -283,6 +283,83 @@ class AbilityTest < ActiveSupport::TestCase
     end
   end
 
+  context 'picture' do
+    setup do
+      @picture = FactoryGirl.create(:picture)
+    end
+
+    should 'not update picture' do
+      assert_cannot @user, :update, @picture
+    end
+
+    should 'not destroy picture' do
+      assert_cannot @user, :destroy, @picture
+    end
+
+    context 'owned by user' do
+      setup do
+        @picture.update_attributes!(person: @user)
+      end
+
+      should 'update picture' do
+        assert_can @user, :update, @picture
+      end
+
+      should 'destroy picture' do
+        assert_can @user, :destroy, @picture
+      end
+    end
+
+    context 'picture in album in group' do
+      setup do
+        @group = FactoryGirl.create(:group)
+        @picture.album.update_attributes!(group: @group)
+      end
+
+      context 'user is group member' do
+        setup do
+          @group.memberships.create(person: @user)
+        end
+
+        should 'not update picture' do
+          assert_cannot @user, :update, @picture
+        end
+
+        should 'not destroy picture' do
+          assert_cannot @user, :destroy, @picture
+        end
+      end
+
+      context 'user is group admin' do
+        setup do
+          @group.memberships.create(person: @user, admin: true)
+        end
+
+        should 'update picture' do
+          assert_can @user, :update, @picture
+        end
+
+        should 'destroy picture' do
+          assert_can @user, :destroy, @picture
+        end
+      end
+    end
+
+    context 'user is admin with manage_pictures privilege' do
+      setup do
+        @user.update_attributes!(admin: Admin.create!(manage_pictures: true))
+      end
+
+      should 'update picture' do
+        assert_can @user, :update, @picture
+      end
+
+      should 'destroy picture' do
+        assert_can @user, :destroy, @picture
+      end
+    end
+  end
+
   context 'message' do
     setup do
       @message = FactoryGirl.create(:message)
