@@ -9,7 +9,9 @@ class Ability
     allow_albums
     allow_pictures
     allow_messages
+    allow_notes
     allow_prayer_requests
+    allow_comments
   end
 
   private
@@ -52,10 +54,20 @@ class Ability
     end
   end
 
+  def allow_notes
+    can [:update, :destroy], Note, person: @person
+    can :manage, Note if @person.admin?(:manage_notes)
+  end
+
   def allow_prayer_requests
     can [:update, :destroy], PrayerRequest, person: @person
     can [:update, :destroy], PrayerRequest, group: {memberships: {person: @person, admin: true}}
     can :manage, PrayerRequest if @person.admin?(:manage_groups)
+  end
+
+  def allow_comments
+    can [:update, :destroy], Comment, person: @person
+    can :manage, Comment if @person.admin?(:manage_comments)
   end
 
 end

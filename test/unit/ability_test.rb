@@ -447,6 +447,48 @@ class AbilityTest < ActiveSupport::TestCase
     end
   end
 
+  context 'note' do
+    setup do
+      @note = FactoryGirl.create(:note)
+    end
+
+    should 'not update note' do
+      assert_cannot @user, :update, @note
+    end
+
+    should 'not destroy note' do
+      assert_cannot @user, :destroy, @note
+    end
+
+    context 'owned by user' do
+      setup do
+        @note.update_attributes!(person: @user)
+      end
+
+      should 'update note' do
+        assert_can @user, :update, @note
+      end
+
+      should 'destroy note' do
+        assert_can @user, :destroy, @note
+      end
+    end
+
+    context 'user is admin with manage_notes privilege' do
+      setup do
+        @user.update_attributes!(admin: Admin.create!(manage_notes: true))
+      end
+
+      should 'update note' do
+        assert_can @user, :update, @note
+      end
+
+      should 'destroy note' do
+        assert_can @user, :destroy, @note
+      end
+    end
+  end
+
   context 'prayer request' do
     setup do
       @prayer_request = FactoryGirl.create(:prayer_request)
@@ -514,6 +556,48 @@ class AbilityTest < ActiveSupport::TestCase
 
       should 'destroy prayer request' do
         assert_can @user, :destroy, @prayer_request
+      end
+    end
+  end
+
+  context 'comment' do
+    setup do
+      @comment = FactoryGirl.create(:comment)
+    end
+
+    should 'not update comment' do
+      assert_cannot @user, :update, @comment
+    end
+
+    should 'not destroy comment' do
+      assert_cannot @user, :destroy, @comment
+    end
+
+    context 'owned by user' do
+      setup do
+        @comment.update_attributes!(person: @user)
+      end
+
+      should 'update comment' do
+        assert_can @user, :update, @comment
+      end
+
+      should 'destroy comment' do
+        assert_can @user, :destroy, @comment
+      end
+    end
+
+    context 'user is admin with manage_comments privilege' do
+      setup do
+        @user.update_attributes!(admin: Admin.create!(manage_comments: true))
+      end
+
+      should 'update comment' do
+        assert_can @user, :update, @comment
+      end
+
+      should 'destroy comment' do
+        assert_can @user, :destroy, @comment
       end
     end
   end
