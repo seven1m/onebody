@@ -5,7 +5,7 @@ class Ability
 
     # person
     can :update, person
-    can :update, Person.undeleted, family: person.family if person.adult?
+    can :update, Person, family: person.family, deleted: false if person.adult?
     can :manage, Person if person.admin?(:edit_profiles)
 
     # family
