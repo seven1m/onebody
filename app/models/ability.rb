@@ -20,5 +20,13 @@ class Ability
     can [:update, :destroy], Album, person: person
     can :manage, Album if person.admin?(:manage_pictures)
 
+    # message
+    can [:update, :destroy], Message, person: person
+    can [:update, :destroy], Message, group: {memberships: {person: person, admin: true}}
+    if person.admin?(:manage_groups)
+      can :manage, Message do |message|
+        message.group_id # belongs to a group
+      end
+    end
   end
 end
