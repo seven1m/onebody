@@ -19,8 +19,8 @@ class AlbumsController < ApplicationController
       end
     else
       @albums = (
-        Album.find_all_by_group_id_and_is_public(nil, true, order: 'created_at desc') +
-        Album.where("person_id in (?)", [@logged_in.id] + @logged_in.all_friend_and_groupy_ids).all
+        Album.find_all_by_is_public(true, order: 'created_at desc') +
+        Album.where("owner_type = 'Person' and owner_id in (?)", [@logged_in.id] + @logged_in.all_friend_and_groupy_ids).all
       ).uniq.sort_by(&:name)
     end
     respond_to do |format|
@@ -48,15 +48,15 @@ class AlbumsController < ApplicationController
 
   def create
     @album = Album.new(album_params)
-    if @album.group and !can_add_pictures_to_group?(@album.group)
+    if Group === @album.owner and !can_add_pictures_to_group?(@album.owner)
       render text: t('albums.cannot_add_pictures_to_group'), layout: true, status: :unauthorized
       return
     end
-    if params['remove_owner'] and @logged_in.admin?(:manage_pictures)
-      @album.person = nil
+    if params[:remove_owner] and @logged_in.admin?(:manage_pictures)
+      @album.owner = nil
       @album.is_public = true
     else
-      @album.person = @logged_in
+      @album.owner = @logged_in
     end
     if @album.save
       flash[:notice] = t('albums.saved')
@@ -100,7 +100,7 @@ class AlbumsController < ApplicationController
   private
 
   def album_params
-    params.require(:album).permit(:name, :description, :group_id, :is_public)
+    params.require(:album).permit(:name, :description, :is_public, :owner_type, :owner_id)
   end
 
 end

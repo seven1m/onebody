@@ -7,7 +7,7 @@ class Group < ActiveRecord::Base
   has_many :notes, order: 'created_at desc'
   has_many :prayer_requests, order: 'created_at desc'
   has_many :attendance_records
-  has_many :albums
+  has_many :albums, as: :owner
   has_many :stream_items, dependent: :destroy
   has_many :attachments, dependent: :delete_all
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'

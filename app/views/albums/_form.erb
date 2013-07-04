@@ -1,6 +1,5 @@
 <%= form_for @album do |form| %>
   <%= error_messages_for(form) %>
-  <%= form.hidden_field :group_id %>
   <p>
     <%= form.label t('albums.name') %>         <%= form.text_field :name %><br/>
     <%= form.label t('albums.description') %>  <%= form.text_area :description, rows: 3 %>

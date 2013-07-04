@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :album do
-    name 'My Album'
+    sequence(:name) { |n| "Album #{n}" }
   end
 end

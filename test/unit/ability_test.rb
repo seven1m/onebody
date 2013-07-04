@@ -227,7 +227,7 @@ class AbilityTest < ActiveSupport::TestCase
 
     context 'owned by user' do
       setup do
-        @album.update_attributes!(person: @user)
+        @album.update_attributes!(owner: @user)
       end
 
       should 'update album' do
@@ -242,7 +242,7 @@ class AbilityTest < ActiveSupport::TestCase
     context 'album in a group' do
       setup do
         @group = FactoryGirl.create(:group)
-        @album.update_attributes!(group: @group)
+        @album.update_attributes!(owner: @group)
       end
 
       should 'not update album' do
@@ -327,7 +327,7 @@ class AbilityTest < ActiveSupport::TestCase
     context 'picture in album in group' do
       setup do
         @group = FactoryGirl.create(:group)
-        @picture.album.update_attributes!(group: @group)
+        @picture.album.update_attributes!(owner: @group)
       end
 
       context 'user is group member' do

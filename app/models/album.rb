@@ -1,13 +1,13 @@
 class Album < ActiveRecord::Base
-  belongs_to :group
-  belongs_to :person, include: :family, conditions: ['people.visible = ? and families.visible = ?', true, true]
+
+  belongs_to :owner, polymorphic: true
   belongs_to :site
   has_many :pictures, dependent: :delete_all
 
   scope_by_site_id
 
   validates_presence_of :name
-  validates_uniqueness_of :name, scope: [:site_id, :person_id]
+  validates_uniqueness_of :name, scope: [:site_id, :owner_type, :owner_id]
 
   def cover
     @cover ||= pictures.find_by_cover(true)
