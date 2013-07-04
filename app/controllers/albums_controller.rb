@@ -7,6 +7,7 @@ class AlbumsController < ApplicationController
         @albums = @person.albums.all
       else
         render text: t('not_authorized'), layout: true, status: 401
+        return
       end
     elsif params[:group_id]
       @group = Group.find(params[:group_id])
@@ -14,6 +15,7 @@ class AlbumsController < ApplicationController
         @albums = @group.albums.all
       else
         render text: t('not_authorized'), layout: true, status: 401
+        return
       end
     else
       @albums = (
@@ -47,7 +49,8 @@ class AlbumsController < ApplicationController
   def create
     @album = Album.new(album_params)
     if @album.group and !can_add_pictures_to_group?(@album.group)
-      @album.errors.add(:base, t('albums.cannot_add_pictures_to_group'))
+      render text: t('albums.cannot_add_pictures_to_group'), layout: true, status: :unauthorized
+      return
     end
     if params['remove_owner'] and @logged_in.admin?(:manage_pictures)
       @album.person = nil
