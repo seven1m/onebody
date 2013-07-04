@@ -10,8 +10,7 @@ class Album < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:site_id, :owner_type, :owner_id]
 
   def cover
-    @cover ||= pictures.find_by_cover(true)
-    @cover ||= pictures.first
+    pictures.order('cover desc, id').first
   end
 
   after_destroy :delete_stream_items
