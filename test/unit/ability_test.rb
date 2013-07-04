@@ -6,6 +6,20 @@ class AbilityTest < ActiveSupport::TestCase
     @user = FactoryGirl.create(:person)
   end
 
+  context 'user has account frozen' do
+    setup do
+      @user.update_attributes!(account_frozen: true)
+    end
+
+    should 'not update self' do
+      assert_cannot @user, :update, @user
+    end
+
+    should 'not update family' do
+      assert_cannot @user, :update, @user.family
+    end
+  end
+
   context 'person' do
     should 'not update a stranger' do
       @stranger = FactoryGirl.create(:person)
@@ -602,4 +616,267 @@ class AbilityTest < ActiveSupport::TestCase
     end
   end
 
+  context 'page' do
+    setup do
+      @page = FactoryGirl.create(:page)
+    end
+
+    should 'not update page' do
+      assert_cannot @user, :update, @page
+    end
+
+    should 'not destroy page' do
+      assert_cannot @user, :destroy, @page
+    end
+
+    context 'user is admin with edit_pages privilege' do
+      setup do
+        @user.update_attributes!(admin: Admin.create!(edit_pages: true))
+      end
+
+      should 'update page' do
+        assert_can @user, :update, @page
+      end
+
+      should 'destroy page' do
+        assert_can @user, :destroy, @page
+      end
+    end
+  end
+
+  context 'attachment' do
+    context 'on a message' do
+      setup do
+        @message = FactoryGirl.create(:message, :with_attachment)
+        @attachment = @message.attachments.first
+      end
+
+      should 'not destroy attachment' do
+        assert_cannot @user, :destroy, @attachment
+      end
+
+      context 'user is owner of message' do
+        setup do
+          @message.update_attributes!(person: @user)
+        end
+
+        should 'destroy attachment' do
+          assert_can @user, :destroy, @attachment
+        end
+      end
+
+      context 'user is admin with manage_groups privilege' do
+        setup do
+          @user.update_attributes!(admin: Admin.create!(manage_groups: true))
+        end
+
+        should 'not destroy attachment' do
+          assert_cannot @user, :destroy, @attachment
+        end
+      end
+
+      # on a message that's on a group, yay!
+      context 'on a group' do
+        setup do
+          @group = FactoryGirl.create(:group)
+          @message.update_attributes!(group: @group)
+        end
+
+        context 'user is group member' do
+          setup do
+            @group.memberships.create(person: @user)
+          end
+
+          should 'not destroy attachment' do
+            assert_cannot @user, :destroy, @attachment
+          end
+        end
+
+        context 'user is group admin' do
+          setup do
+            @group.memberships.create(person: @user, admin: true)
+          end
+
+          should 'destroy attachment' do
+            assert_can @user, :destroy, @attachment
+          end
+        end
+      end
+    end
+
+    context 'on a group' do
+      setup do
+        @group = FactoryGirl.create(:group)
+        @attachment = @group.attachments.create!
+      end
+
+      context 'user is admin with manage_groups privilege' do
+        setup do
+          @user.update_attributes!(admin: Admin.create!(manage_groups: true))
+        end
+
+        should 'destroy attachment' do
+          assert_can @user, :destroy, @attachment
+        end
+      end
+
+      context 'user is group member' do
+        setup do
+          @group.memberships.create(person: @user)
+        end
+
+        should 'not destroy attachment' do
+          assert_cannot @user, :destroy, @attachment
+        end
+      end
+
+      context 'user is group admin' do
+        setup do
+          @group.memberships.create(person: @user, admin: true)
+        end
+
+        should 'destroy attachment' do
+          assert_can @user, :destroy, @attachment
+        end
+      end
+    end
+  end
+
+  context 'news item' do
+    setup do
+      @news_item = FactoryGirl.create(:news_item)
+    end
+
+    should 'not update news item' do
+      assert_cannot @user, :update, @news_item
+    end
+
+    should 'not destroy news item' do
+      assert_cannot @user, :destroy, @news_item
+    end
+
+    context 'user is owner of news item' do
+      setup do
+        @news_item.update_attributes!(person: @user)
+      end
+
+      should 'destroy news item' do
+        assert_can @user, :destroy, @news_item
+      end
+    end
+
+    context 'user is admin with manage_news privilege' do
+      setup do
+        @user.update_attributes!(admin: Admin.create!(manage_news: true))
+      end
+
+      should 'update news item' do
+        assert_can @user, :update, @news_item
+      end
+
+      should 'destroy news item' do
+        assert_can @user, :destroy, @news_item
+      end
+    end
+  end
+
+  context 'group membership' do
+    setup do
+      @group = FactoryGirl.create(:group)
+      @membership = @group.memberships.create!
+    end
+
+    should 'not update membership' do
+      assert_cannot @user, :update, @membership
+    end
+
+    should 'not destroy membership' do
+      assert_cannot @user, :destroy, @membership
+    end
+
+    context 'owned by user' do
+      setup do
+        @membership.update_attributes!(person: @user)
+      end
+
+      should 'update membership' do
+        assert_can @user, :update, @membership
+      end
+
+      should 'destroy membership' do
+        assert_can @user, :destroy, @membership
+      end
+    end
+
+    context 'user is admin with manage_groups privilege' do
+      setup do
+        @user.update_attributes!(admin: Admin.create!(manage_groups: true))
+      end
+
+      should 'update membership' do
+        assert_can @user, :update, @membership
+      end
+
+      should 'destroy membership' do
+        assert_can @user, :destroy, @membership
+      end
+    end
+
+    context 'user is admin with edit_profiles privilege' do
+      setup do
+        @user.update_attributes!(admin: Admin.create!(edit_profiles: true))
+      end
+
+      should 'update membership' do
+        assert_can @user, :update, @membership
+      end
+
+      should 'destroy membership' do
+        assert_can @user, :destroy, @membership
+      end
+    end
+
+    context 'user is group admin' do
+      setup do
+        @group.memberships.create(person: @user, admin: true)
+      end
+
+      should 'update membership' do
+        assert_can @user, :update, @membership
+      end
+
+      should 'destroy membership' do
+        assert_can @user, :destroy, @membership
+      end
+    end
+
+    context 'user is family member' do
+      setup do
+        @spouse = FactoryGirl.create(:person, family: @user.family)
+        @membership.update_attributes!(person: @spouse)
+      end
+
+      should 'update membership' do
+        assert_can @user, :update, @membership
+      end
+
+      should 'destroy membership' do
+        assert_can @user, :destroy, @membership
+      end
+
+      context 'user is child' do
+        setup do
+          @user.update_attributes!(child: true)
+        end
+
+        should 'not update membership' do
+          assert_cannot @user, :update, @membership
+        end
+
+        should 'not destroy membership' do
+          assert_cannot @user, :destroy, @membership
+        end
+      end
+    end
+  end
 end

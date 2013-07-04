@@ -205,44 +205,9 @@ class Person < ActiveRecord::Base
 
   alias_method :sees?, :can_see?
 
+  # deprecated
   def can_edit?(what)
-    return false if self.account_frozen?
-    case what.class.name
-    when 'Group'
-      what.admin?(self) or self.admin?(:manage_groups)
-    when 'Ministry'
-      admin?(:manage_ministries) or what.administrator == self
-    when 'Person'
-      !what.deleted? and (admin?(:edit_profiles) or (what.family == self.family and self.adult?) or what == self)
-    when 'Family'
-      !what.deleted? and (admin?(:edit_profiles) or (what == self.family and self.adult?))
-    when 'Message'
-      what.person == self or (what.group and what.group.admin? self)
-    when 'PrayerRequest'
-      admin?(:manage_groups) or what.person == self or (what.group and self.member_of?(what.group))
-    when 'RemoteAccount'
-      can_edit?(what.person)
-    when 'Album'
-      admin?(:manage_pictures) or (what.person_id == self.id)
-    when 'Picture'
-      admin?(:manage_pictures) or (what.album and can_edit?(what.album)) or what.person_id == self.id
-    when 'Note'
-      self == what.person or self.admin?(:manage_notes)
-    when 'Comment'
-      self == what.person or self.admin?(:manage_comments)
-    when 'Page'
-      self.admin?(:edit_pages)
-    when 'Attachment'
-      (what.page and self.can_edit?(what.page)) or \
-      (what.message and self.can_edit?(what.message)) or \
-      (what.group and what.group.admin?(self))
-    when 'NewsItem'
-      self.admin?(:manage_news) or (what.person and what.person == self )
-    when 'Membership'
-      self.admin?(:manage_groups) or (what.group and what.group.admin?(self)) or self.can_edit?(what.person)
-    else
-      raise "Unrecognized argument to can_edit? (#{what.inspect})"
-    end
+    Ability.new(self).can?(:update, what)
   end
 
   def can_sign_in?
