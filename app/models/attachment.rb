@@ -1,15 +1,16 @@
 class Attachment < ActiveRecord::Base
   belongs_to :message
-  belongs_to :page
   belongs_to :group
   belongs_to :site
+
   scope_by_site_id
+
   has_attached_file :file, PAPERCLIP_FILE_OPTIONS
 
   validates_attachment_size :file, less_than: PAPERCLIP_FILE_MAX_SIZE
 
   def visible_to?(person)
-    (message and person.can_see?(message)) or page
+    (message and person.can_see?(message))
   end
 
   def human_name

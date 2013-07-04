@@ -4,7 +4,6 @@ class Page < ActiveRecord::Base
 
   belongs_to :parent, class_name: 'Page'
   has_many :children, class_name: 'Page', foreign_key: 'parent_id', dependent: :destroy
-  has_many :attachments
   belongs_to :site
 
   scope_by_site_id

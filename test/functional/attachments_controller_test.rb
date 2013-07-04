@@ -23,27 +23,6 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_response :missing
   end
 
-  should "show the new page attachment form" do
-    @admin = FactoryGirl.create(:person, admin: Admin.create(edit_pages: true))
-    get :new, {page_id: pages(:foo).id}, {logged_in_id: @admin.id}
-    assert_response :success
-    assert_equal pages(:foo), assigns(:page)
-  end
-
-  should "create a new page attachment" do
-    @admin = FactoryGirl.create(:person, admin: Admin.create(edit_pages: true))
-    post :create, {attachment: {page_id: pages(:foo).id, file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)}, from: edit_page_path(pages(:foo))}, {logged_in_id: @admin.id}
-    assert_redirected_to edit_page_path(pages(:foo))
-    assert_equal 1, pages(:foo).attachments.count
-  end
-
-  should "not create a page attachment unless user is admin" do
-    get :new, {page_id: pages(:foo).id}, {logged_in_id: @person.id}
-    assert_response :unauthorized
-    post :create, {attachment: {page_id: pages(:foo).id, file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)}, from: edit_page_path(pages(:foo))}, {logged_in_id: @person.id}
-    assert_response :unauthorized
-  end
-
   should "create a new group attachment" do
     @admin = FactoryGirl.create(:person, admin: Admin.create(manage_groups: true))
     post :create, {attachment: {group_id: groups(:morgan).id, file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)}}, {logged_in_id: @admin.id}
@@ -55,22 +34,6 @@ class AttachmentsControllerTest < ActionController::TestCase
     get :new, {group_id: groups(:morgan).id}, {logged_in_id: @person.id}
     assert_response :unauthorized
     post :create, {attachment: {group_id: groups(:morgan).id, file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)}}, {logged_in_id: @person.id}
-    assert_response :unauthorized
-  end
-
-  should "delete a page attachment" do
-    @admin = FactoryGirl.create(:person, admin: Admin.create(edit_pages: true))
-    @attachment = Attachment.create_from_file(page_id: pages(:foo).id, file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true))
-    post :destroy, {id: @attachment.id, from: edit_page_path(pages(:foo))}, {logged_in_id: @admin.id}
-    assert_redirected_to edit_page_path(pages(:foo))
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @attachment.reload
-    end
-  end
-
-  should "not delete a page attachment unless user is admin" do
-    @attachment = Attachment.create_from_file(page_id: pages(:foo).id, file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true))
-    post :destroy, {id: @attachment.id, from: edit_page_path(pages(:foo))}, {logged_in_id: @person.id}
     assert_response :unauthorized
   end
 
