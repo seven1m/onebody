@@ -107,19 +107,6 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def decrypt_password(pass)
-      if session[:key]
-        key = OpenSSL::PKey::RSA.new(session[:key])
-        begin
-          key.private_decrypt(Base64.decode64(pass))
-        rescue OpenSSL::PKey::RSAError
-          false
-        end
-      else
-        false
-      end
-    end
-
     def check_full_access
       if @logged_in and !@logged_in.full_access?
         unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") or \
