@@ -6,6 +6,8 @@ class Album < ActiveRecord::Base
 
   scope_by_site_id
 
+  scope :join_group_memberships, -> { joins("inner join groups on groups.id = owner_id and owner_type = 'Group' inner join memberships on memberships.group_id = groups.id") }
+
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:site_id, :owner_type, :owner_id]
 

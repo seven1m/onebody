@@ -11,6 +11,10 @@ class AbilityTest < ActiveSupport::TestCase
       @user.update_attributes!(account_frozen: true)
     end
 
+    should 'read self' do
+      assert_can @user, :read, @user
+    end
+
     should 'not update self' do
       assert_cannot @user, :update, @user
     end
@@ -21,40 +25,173 @@ class AbilityTest < ActiveSupport::TestCase
   end
 
   context 'person' do
-    should 'not update a stranger' do
-      @stranger = FactoryGirl.create(:person)
-      assert_cannot @user, :update, @stranger
+    context 'given a stranger' do
+      setup do
+        @stranger = FactoryGirl.create(:person)
+      end
+
+      should 'read stranger' do
+        assert_can @user, :read, @stranger
+      end
+
+      should 'not update a stranger' do
+        assert_cannot @user, :update, @stranger
+      end
+
+      context 'stranger is deleted' do
+        setup do
+          @stranger.update_attributes!(deleted: true)
+        end
+
+        should 'not read stranger' do
+          assert_cannot @user, :read, @stranger
+        end
+      end
+
+      context 'stranger is not visible' do
+        setup do
+          @stranger.update_attributes!(visible: false)
+        end
+
+        should 'not read stranger' do
+          assert_cannot @user, :read, @stranger
+        end
+      end
+
+      context 'stranger is not marked visible_to_everyone' do
+        setup do
+          @stranger.update_attributes!(visible_to_everyone: false)
+        end
+
+        should 'not read stranger' do
+          assert_cannot @user, :read, @stranger
+        end
+      end
+
+      context 'stranger family is not visible' do
+        setup do
+          @stranger.family.update_attributes!(visible: false)
+        end
+
+        should 'not read stranger' do
+          assert_cannot @user, :read, @stranger
+        end
+      end
+
+      context 'stranger is a child' do
+        setup do
+          @stranger.update_attributes!(child: true)
+        end
+
+        should 'not read stranger' do
+          assert_cannot @user, :read, @stranger
+        end
+
+        context 'child has parental consent' do
+          setup do
+            @stranger.update_attributes!(parental_consent: true)
+          end
+
+          should 'read stranger' do
+            assert_can @user, :read, @stranger
+          end
+        end
+
+        context 'user is admin with view_hidden_profiles privilege' do
+          setup do
+            @user.update_attributes!(admin: Admin.create!(view_hidden_profiles: true))
+          end
+
+          should 'read stranger' do
+            assert_can @user, :read, @stranger
+          end
+        end
+      end
+    end
+
+    should 'read self' do
+      assert_can @user, :read, @user
     end
 
     should 'update self' do
       assert_can @user, :update, @user
     end
 
-    should 'update spouse' do
-      @spouse = FactoryGirl.create(:person, family: @user.family, child: false)
-      assert_can @user, :update, @spouse
-    end
-
-    should 'update child in family' do
-      @child = FactoryGirl.create(:person, family: @user.family, child: true)
-      assert_can @user, :update, @child
-    end
-
-    should 'not update deleted person in family' do
-      @deleted = FactoryGirl.create(:person, family: @user.family, deleted: true)
-      assert_cannot @user, :update, @deleted
-    end
-
-    context 'user is not an adult' do
+    context 'self is deleted' do
       setup do
-        @user.update_attributes!(child: true)
+        @user.update_attributes!(deleted: true)
       end
 
-      should 'not update others in family' do
+      should 'not read self' do
+        assert_cannot  @user, :read, @user
+      end
+    end
+
+    context 'family is deleted' do
+      setup do
+        @user.family.update_attributes!(deleted: true)
+      end
+
+      should 'not read self' do
+        assert_cannot  @user, :read, @user
+      end
+    end
+
+    context 'given another adult in the same family' do
+      setup do
         @adult = FactoryGirl.create(:person, family: @user.family, child: false)
-        assert_cannot @user, :update, @adult
+      end
+
+      should 'read adult' do
+        assert_can @user, :read, @adult
+      end
+
+      should 'update adult' do
+        assert_can @user, :update, @adult
+      end
+
+      context 'user is not an adult' do
+        setup do
+          @user.update_attributes!(child: true)
+        end
+
+        should 'not update adult' do
+          assert_cannot @user, :update, @adult
+        end
+      end
+    end
+
+    context 'given a child in the same family' do
+      setup do
         @child = FactoryGirl.create(:person, family: @user.family, child: true)
-        assert_cannot @user, :update, @child
+      end
+
+      should 'read child' do
+        assert_can @user, :read, @child
+      end
+
+      should 'update child' do
+        assert_can @user, :update, @child
+      end
+
+      context 'user is not an adult' do
+        setup do
+          @user.update_attributes!(child: true)
+        end
+
+        should 'not update child' do
+          assert_cannot @user, :update, @child
+        end
+      end
+    end
+
+    context 'given a deleted person in the same family' do
+      setup do
+        @deleted = FactoryGirl.create(:person, family: @user.family, deleted: true)
+      end
+
+      should 'not update deleted person' do
+        assert_cannot @user, :update, @deleted
       end
     end
 
@@ -63,23 +200,60 @@ class AbilityTest < ActiveSupport::TestCase
         @user.update_attributes!(admin: Admin.create!(edit_profiles: true))
       end
 
-      should 'update a stranger' do
-        @stranger = FactoryGirl.create(:person)
-        assert_can @user, :update, @stranger
-      end
-
-      should 'update a deleted person' do
-        @stranger = FactoryGirl.create(:person, deleted: true)
-        assert_can @user, :update, @stranger
-      end
-
-      should 'destroy stranger' do
-        @stranger = FactoryGirl.create(:person)
-        assert_can @user, :destroy, @stranger
-      end
-
       should 'create new person' do
         assert_can @user, :create, Person
+      end
+
+      context 'given a stranger' do
+        setup do
+          @stranger = FactoryGirl.create(:person)
+        end
+
+        should 'update stranger' do
+          assert_can @user, :update, @stranger
+        end
+
+        should 'destroy stranger' do
+          assert_can @user, :destroy, @stranger
+        end
+
+        context 'stranger is deleted' do
+          setup do
+            @stranger.update_attributes!(deleted: true)
+          end
+
+          should 'update stranger' do
+            assert_can @user, :update, @stranger
+          end
+        end
+
+        context 'stranger is hidden' do
+          setup do
+            @stranger.update_attributes!(visible: false)
+          end
+
+          should 'not read stranger' do
+            assert_cannot @user, :read, @stranger
+          end
+
+          should 'not update stranger' do
+            assert_cannot @user, :update, @stranger
+          end
+
+          context 'admin has view_hidden_profiles privilege' do
+            setup do
+              @user.admin.update_attributes!(view_hidden_profiles: true)
+            end
+
+            should 'read stranger' do
+              assert_can @user, :read, @stranger
+            end
+
+            should 'update stranger' do
+              assert_can @user, :update, @stranger
+            end
+          end
+        end
       end
     end
 
@@ -161,6 +335,10 @@ class AbilityTest < ActiveSupport::TestCase
       @group = FactoryGirl.create(:group)
     end
 
+    should 'read group' do
+      assert_can @user, :read, @group
+    end
+
     should 'not update group' do
       assert_cannot @user, :update, @group
     end
@@ -169,9 +347,53 @@ class AbilityTest < ActiveSupport::TestCase
       assert_cannot @user, :destroy, @group
     end
 
+    context 'group is hidden' do
+      setup do
+        @group.update_attributes!(hidden: true)
+      end
+
+      should 'not read group' do
+        assert_cannot @user, :read, @group
+      end
+
+      context 'user is a group member' do
+        setup do
+          @group.memberships.create!(person: @user)
+        end
+
+        should 'read group' do
+          assert_can @user, :read, @group
+        end
+      end
+    end
+
+    context 'group is private' do
+      setup do
+        @group.update_attributes!(private: true)
+      end
+
+      should 'not read group' do
+        assert_cannot @user, :read, @group
+      end
+
+      context 'user is a group member' do
+        setup do
+          @group.memberships.create!(person: @user)
+        end
+
+        should 'read group' do
+          assert_can @user, :read, @group
+        end
+      end
+    end
+
     context 'user is a group member' do
       setup do
         @group.memberships.create(person: @user)
+      end
+
+      should 'read group' do
+        assert_can @user, :read, @group
       end
 
       should 'not update group' do
@@ -202,6 +424,10 @@ class AbilityTest < ActiveSupport::TestCase
         @user.update_attributes!(admin: Admin.create!(manage_groups: true))
       end
 
+      should 'read group' do
+        assert_can @user, :read, @group
+      end
+
       should 'update group' do
         assert_can @user, :update, @group
       end
@@ -217,6 +443,10 @@ class AbilityTest < ActiveSupport::TestCase
       @album = FactoryGirl.create(:album)
     end
 
+    should 'not read album' do
+      assert_cannot @user, :read, @album
+    end
+
     should 'not update album' do
       assert_cannot @user, :update, @album
     end
@@ -225,9 +455,23 @@ class AbilityTest < ActiveSupport::TestCase
       assert_cannot @user, :destroy, @album
     end
 
+    context 'album is marked public' do
+      setup do
+        @album.update_attributes!(is_public: true)
+      end
+
+      should 'read album' do
+        assert_can @user, :read, @album
+      end
+    end
+
     context 'owned by user' do
       setup do
         @album.update_attributes!(owner: @user)
+      end
+
+      should 'read album' do
+        assert_can @user, :read, @album
       end
 
       should 'update album' do
@@ -239,10 +483,26 @@ class AbilityTest < ActiveSupport::TestCase
       end
     end
 
+    context 'owned by a friend' do
+      setup do
+        @friend = FactoryGirl.create(:person)
+        Friendship.create!(person: @user, friend: @friend)
+        @album.update_attributes!(owner: @friend)
+      end
+
+      should 'read album' do
+        assert_can @user, :read, @album
+      end
+    end
+
     context 'album in a group' do
       setup do
         @group = FactoryGirl.create(:group)
         @album.update_attributes!(owner: @group)
+      end
+
+      should 'not read album' do
+        assert_cannot @user, :read, @album
       end
 
       should 'not update album' do
@@ -258,6 +518,10 @@ class AbilityTest < ActiveSupport::TestCase
           @group.memberships.create(person: @user)
         end
 
+        should 'read album' do
+          assert_can @user, :read, @album
+        end
+
         should 'not update album' do
           assert_cannot  @user, :update, @album
         end
@@ -270,6 +534,10 @@ class AbilityTest < ActiveSupport::TestCase
       context 'user is group admin' do
         setup do
           @group.memberships.create(person: @user, admin: true)
+        end
+
+        should 'read album' do
+          assert_can @user, :read, @album
         end
 
         should 'update album' do

@@ -22,9 +22,29 @@ class Ability
   private
 
   def allow_people
+    can(:read, Person) { |p| admin_or_person_visible(p) and not person_or_family_deleted(p) }
     can :update, @person
-    can :update, Person, family: @person.family, deleted: false if @person.adult?
-    can :manage, Person if @person.admin?(:edit_profiles)
+    can [:read, :update], Person, family: @person.family, deleted: false if @person.adult? and not @person.family.deleted?
+    if @person.admin?(:edit_profiles)
+      can(:manage, Person) { |p| admin_or_person_visible(p) }
+    end
+  end
+
+  def person_or_family_deleted(person)
+    person.deleted? or
+    (person.family and person.family.deleted?)
+  end
+
+  def person_visible(person)
+    person.visible? and
+    person.visible_to_everyone? and
+    person.family.try(:visible?) and
+    person.adult_or_consent?
+  end
+
+  def admin_or_person_visible(person)
+    @person.admin?(:view_hidden_profiles) or
+    person_visible(person)
   end
 
   def allow_families
@@ -33,13 +53,22 @@ class Ability
   end
 
   def allow_groups
+    can :read, Group, hidden: false, private: false
+    can :read, Group, memberships: {person: @person}
     can [:update, :destroy], Group, memberships: {person: @person, admin: true}
     can :manage, Group if @person.admin?(:manage_groups)
   end
 
   def allow_albums
-    can [:update, :destroy], Album, owner: @person
-    can [:update, :destroy], Album, owner: {memberships: {person: @person, admin: true}}
+    can :manage, Album, owner_type: 'Person', owner_id: @person.id
+    can :read, Album, owner_type: 'Person', owner_id: @person.friend_ids
+    can :read, Album, is_public: true
+    can :read, Album.join_group_memberships, ['memberships.person_id = ?', @person.id] do |album|
+      Group === album.owner and album.owner.memberships.where(person_id: @person.id).any?
+    end
+    can :manage, Album.join_group_memberships, ['memberships.person_id = ? and memberships.admin = ?', @person.id, true] do |album|
+      Group === album.owner and album.owner.memberships.where(person_id: @person.id, admin: true).any?
+    end
     can :manage, Album if @person.admin?(:manage_pictures)
   end
 
@@ -103,7 +132,7 @@ class Ability
   end
 
   def disallow_frozen_account
-    cannot :manage, :all if @person.account_frozen?
+    cannot [:update, :destroy], :all if @person.account_frozen?
   end
 
 end
