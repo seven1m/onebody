@@ -1,7 +1,7 @@
 class MakeAlbumOwner < ActiveRecord::Migration
   def up
     change_table :albums do |t|
-      t.string :owner_id
+      t.integer :owner_id
       t.string :owner_type
     end
 

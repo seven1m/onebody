@@ -135,6 +135,11 @@ class ApplicationController < ActionController::Base
     end
     alias_method_chain :rescue_action, :page_detection
 
+    def authority_forbidden(error)
+      Authority.logger.warn(error.message)
+      render text: I18n.t('not_authorized'), layout: true, status: :forbidden
+    end
+
     def me?
       @logged_in and @person and @logged_in == @person
     end
