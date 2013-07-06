@@ -46,13 +46,15 @@ def run_suite
   run_tests('test/*', :force)
 end
 
-watch('^test/unit/(.*)_test\.rb'       ) { |m| run_tests("test/unit/#{m[1]}_test.rb")       }
-watch('^test/functional/(.*)_test\.rb' ) { |m| run_tests("test/functional/#{m[1]}_test.rb") }
-watch('^test/factories/(.*)\.rb'       ) { |m| run_tests("test/unit/#{m[1]}_test.rb")       }
-watch('^test/integration/(.*)_test\.rb') { |m| run_tests("test/integration/#{m[1]}_test.rb")}
-watch('^app/models/(.*)\.rb'           ) { |m| run_tests("test/unit/#{m[1]}_test.rb")       }
-watch('^app/controllers/(.*)\.rb'      ) { |m| run_tests("test/functional/#{m[1]}_test.rb") }
-watch('^lib/(.*)\.rb'                  ) { |m| run_tests("test/lib/#{m[1]}_test.rb")        }
+watch('^test/unit/(.*)_test\.rb'       ) { |m| run_tests("test/unit/#{m[1]}_test.rb")             }
+watch('^test/functional/(.*)_test\.rb' ) { |m| run_tests("test/functional/#{m[1]}_test.rb")       }
+watch('^test/factories/(.*)\.rb'       ) { |m| run_tests("test/unit/#{m[1]}_test.rb")             }
+watch('^test/integration/(.*)_test\.rb') { |m| run_tests("test/integration/#{m[1]}_test.rb")      }
+watch('^app/models/(.*)\.rb'           ) { |m| run_tests("test/unit/#{m[1]}_test.rb")             }
+watch('^app/authorizers/(.*)\.rb'      ) { |m| run_tests("test/unit/authorizers/#{m[1]}_test.rb") }
+watch('^app/concerns/(.*)\.rb'         ) { |m| run_tests("test/unit/concerns/#{m[1]}_test.rb")    }
+watch('^app/controllers/(.*)\.rb'      ) { |m| run_tests("test/functional/#{m[1]}_test.rb")       }
+watch('^lib/(.*)\.rb'                  ) { |m| run_tests("test/lib/#{m[1]}_test.rb")              }
 
 @interrupt_received = false
 

@@ -1,4 +1,7 @@
 class Person < ActiveRecord::Base
+  include Authority::UserAbilities
+  include Authority::Abilities
+  self.authorizer_name = 'PersonAuthorizer'
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
@@ -207,7 +210,7 @@ class Person < ActiveRecord::Base
 
   # deprecated
   def can_edit?(what)
-    Ability.new(self).can?(:update, what)
+    can_update?(what)
   end
 
   def can_sign_in?

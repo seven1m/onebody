@@ -67,11 +67,11 @@ class ActiveSupport::TestCase
   end
 
   def assert_can(user, action, subject)
-    assert Ability.new(user).can?(action, subject), "cannot #{action} #{subject.inspect}"
+    assert user.send("can_#{action}?", subject), "cannot #{action} #{subject.inspect}"
   end
 
   def assert_cannot(user, action, subject)
-    assert Ability.new(user).cannot?(action, subject), "can #{action} #{subject.inspect}"
+    refute user.send("can_#{action}?", subject), "can #{action} #{subject.inspect}"
   end
 
 

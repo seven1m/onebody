@@ -1,4 +1,8 @@
 class Group < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'GroupAuthorizer'
+
   has_many :memberships, dependent: :destroy
   has_many :membership_requests, dependent: :destroy
   has_many :people, through: :memberships, order: 'last_name, first_name'

@@ -1,4 +1,8 @@
 class Note < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'NoteAuthorizer'
+
   belongs_to :person
   belongs_to :group
   has_many :comments, dependent: :destroy

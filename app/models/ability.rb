@@ -21,32 +21,6 @@ class Ability
 
   private
 
-  def allow_people
-    can(:read, Person) { |p| admin_or_person_visible(p) and not person_or_family_deleted(p) }
-    can :update, @person
-    can [:read, :update], Person, family: @person.family, deleted: false if @person.adult? and not @person.family.deleted?
-    if @person.admin?(:edit_profiles)
-      can(:manage, Person) { |p| admin_or_person_visible(p) }
-    end
-  end
-
-  def person_or_family_deleted(person)
-    person.deleted? or
-    (person.family and person.family.deleted?)
-  end
-
-  def person_visible(person)
-    person.visible? and
-    person.visible_to_everyone? and
-    person.family.try(:visible?) and
-    person.adult_or_consent?
-  end
-
-  def admin_or_person_visible(person)
-    @person.admin?(:view_hidden_profiles) or
-    person_visible(person)
-  end
-
   def allow_families
     can :update, @person.family if @person.adult?
     can :manage, Family if @person.admin?(:edit_profiles)
@@ -86,11 +60,6 @@ class Ability
         message.group_id # belongs to a group
       end
     end
-  end
-
-  def allow_notes
-    can [:update, :destroy], Note, person: @person
-    can :manage, Note if @person.admin?(:manage_notes)
   end
 
   def allow_prayer_requests
