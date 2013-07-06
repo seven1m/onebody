@@ -1,6 +1,6 @@
 OneBody::Application.routes.draw do
 
-  root :to => 'pages#show_for_public'
+  root to: redirect('/stream')
 
   resource :account do
     member do
