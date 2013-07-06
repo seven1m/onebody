@@ -117,7 +117,7 @@ OneBody::Application.routes.draw do
     resources :attachments
   end
 
-  resources :tags, :only => :show
+  resources :tags, only: :show
 
   resources :pictures, :prayer_signups, :authentications, :feeds, :verses, :shares,
             :comments, :prayer_requests
@@ -127,12 +127,12 @@ OneBody::Application.routes.draw do
 
   resource  :setup, :stream, :session, :search, :printable_directory, :privacy, :pc_sync
 
-  resources :news, :as => :news_items
-  match 'news', :to => 'news#index'
+  resources :news, as: :news_items
+  match 'news', to: 'news#index'
 
   resource :style
-  match 'style.css'          => 'styles#show', :format => 'css', :as => :style
-  match 'style.:browser.css' => 'styles#show', :format => 'css', :as => :browser_style
+  match 'style.css'          => 'styles#show', format: 'css', as: :style
+  match 'style.:browser.css' => 'styles#show', format: 'css', as: :browser_style
 
   resources :attachments do
     member do
@@ -140,15 +140,15 @@ OneBody::Application.routes.draw do
     end
   end
 
-  resources :pages, :path => 'pages/admin' do
+  resources :pages, path: 'pages/admin' do
     resources :attachments
   end
 
-  match 'pages/*path' => 'pages#show_for_public', :via => :get, :as => :page_for_public
+  match 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
 
   match '/admin' => 'administration/dashboards#show'
 
-  namespace :administration, :path => :admin do
+  namespace :administration, path: :admin do
     resources :emails do
       collection do
         put :batch
@@ -160,7 +160,7 @@ OneBody::Application.routes.draw do
         put :reload
       end
     end
-    resources :files, :constraints => {:id => /[a-z0-9_]+(\.[a-z0-9_]+)?/}
+    resources :files, constraints: {id: /[a-z0-9_]+(\.[a-z0-9_]+)?/}
     resources :attendance do
       collection do
         get :prev
