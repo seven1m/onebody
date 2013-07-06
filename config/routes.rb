@@ -120,8 +120,10 @@ OneBody::Application.routes.draw do
   resources :tags, :only => :show
 
   resources :pictures, :prayer_signups, :authentications, :feeds, :verses, :shares,
-            :notes, :comments, :prayer_requests
+            :comments, :prayer_requests
             :generated_files
+
+  resources :notes, except: :index
 
   resource  :setup, :stream, :session, :search, :printable_directory, :privacy, :pc_sync
 
