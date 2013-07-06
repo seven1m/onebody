@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
-  #protect_from_forgery
+  #protect_from_forgery # FIXME
+
+  include NestedResourceConcern
 
   LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/* accounts/*)
 
@@ -13,7 +15,8 @@ class ApplicationController < ActionController::Base
     params.clone.delete_if { |k, v| %w(controller action).include? k }
   end
 
-  private
+  protected
+
     def get_site
       if ENV['ONEBODY_SITE']
         Site.current = Site.find_by_name_and_active(ENV['ONEBODY_SITE'], true)
@@ -56,6 +59,10 @@ class ApplicationController < ActionController::Base
       if id = session[:logged_in_id]
         Person.logged_in = @logged_in = Person.find_by_id(id)
       end
+    end
+
+    def current_user
+      @logged_in
     end
 
     def authenticate_user # default
