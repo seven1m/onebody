@@ -161,7 +161,7 @@ module NestedResourceConcern
         if @parent
           @parent.send(controller_name).scoped
         else
-          Kernel.const_get(controller_name.classify).scoped
+          controller_name.classify.constantize.scoped
         end
       end
       private(controller_name)
@@ -176,7 +176,7 @@ module NestedResourceConcern
     keys = self.class.nested_resource_options[:load][:resources]
     parent = keys.detect do |key|
       if id = params["#{key}_id".to_sym]
-        @parent = Kernel.const_get(key.to_s.classify).find(id)
+        @parent = key.to_s.classify.constantize.find(id)
         instance_variable_set "@#{key}", @parent
       end
     end
