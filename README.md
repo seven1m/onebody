@@ -1,5 +1,7 @@
 # OneBody
 
+*WARNING*: This is the 'next' branch, where some heavy-duty refactoring is going on. This branch is most likely broken right now. Be sure to `git checkout master` if you want the old stable OneBody.
+
 OneBody is open-source, web-based social networking and online directory software for churches. OneBody is built on Ruby 1.9.3, Rails 3.2 and MySQL.
 
 
