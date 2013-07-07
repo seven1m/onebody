@@ -27,11 +27,11 @@ def run_tests(test, force=false)
       result << char
       $stdout.write(char)
     end
-    if result =~/0 failures, 0 errors/
+    if result =~/.*0 failures, 0 errors/
       summary = $~.to_s
       secs = result.match(/Finished tests in ([\d\.]+s)/)[1]
       notify(true, 'Test Success', summary + ' ' + secs)
-    elsif result =~ /(\d+) failures?, (\d+) errors?/
+    elsif result =~ /.*(\d+) failures?, (\d+) errors?/
       summary = $~.to_s
       notify(false, summary)
     else
