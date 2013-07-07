@@ -237,6 +237,10 @@ class NestedResourceConcernTest < ActionController::TestCase
         @note = FactoryGirl.create(:note)
         NotesController.class_eval do
           load_resource
+
+          def note_params
+            {title: 'test'}
+          end
         end
       end
 
@@ -248,6 +252,22 @@ class NestedResourceConcernTest < ActionController::TestCase
 
         should 'find resource by id' do
           assert_equal @note, @controller.assigns[:note]
+        end
+      end
+
+      context 'when create is called' do
+        setup do
+          @controller = NotesController.new
+          @controller.action(:create)
+          @note = @controller.assigns[:note]
+        end
+
+        should 'instantiate a new resource' do
+          assert @note.new_record?
+        end
+
+        should 'set attributes on new resource' do
+          assert_equal 'test', @note.title
         end
       end
     end
@@ -262,7 +282,7 @@ class NestedResourceConcernTest < ActionController::TestCase
           private
 
           def get_note
-            @note = Note.find(params[:id])
+            @note = params[:id] ? Note.find(params[:id]) : Note.new
           end
         end
       end
@@ -282,6 +302,25 @@ class NestedResourceConcernTest < ActionController::TestCase
         should 'raise exception' do
           assert_raise(Authority::SecurityViolation) do
             @controller.action(:show)
+          end
+        end
+      end
+
+      context 'when create is called' do
+        setup do
+          @controller = NotesController.new
+          NotesController.class_eval do
+            def current_user
+              FactoryGirl.create(:person).tap do |p|
+                p.define_singleton_method(:can_create?) { |r| false }
+              end
+            end
+          end
+        end
+
+        should 'instantiate a new resource' do
+          assert_raise(Authority::SecurityViolation) do
+            @controller.action(:create)
           end
         end
       end

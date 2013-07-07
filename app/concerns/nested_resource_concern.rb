@@ -5,6 +5,8 @@ module NestedResourceConcern
 
   METHOD_TO_ACTION_NAMES = {
     'show'    => 'read',
+    'new'     => 'create',
+    'create'  => 'create',
     'edit'    => 'update',
     'update'  => 'update',
     'destroy' => 'delete'
@@ -116,7 +118,6 @@ module NestedResourceConcern
     end
 
     # Load the resource and set to an instance variable.
-    # By default, only applies to the `show`, `edit`, `update`, and `destroy` actions.
     #
     # For example:
     #
@@ -124,15 +125,16 @@ module NestedResourceConcern
     #       load_resource
     #     end
     #
-    # ... automatically loads the @note, so you don't have to do this:
+    # ...automatically finds the note for actions
+    # `show`, `edit`, `update`, and `destroy`.
     #
-    #     def show
-    #       @note = notes.find(params[:id])
-    #     end
+    # For the `new` action, simply instantiates a
+    # new resource. For `create`, instantiates and
+    # sets attributes to `<resource>_params`.
     #
     def load_resource(options={})
       unless options[:only] or options[:except]
-        options.reverse_merge!(only: [:show, :edit, :update, :destroy])
+        options.reverse_merge!(only: [:show, :new, :create, :edit, :update, :destroy])
       end
       before_filter :load_resource, options
       define_scope_method
@@ -141,7 +143,7 @@ module NestedResourceConcern
     # Checks authorization on resource.
     def authorize_resource(options={})
       unless options[:only] or options[:except]
-        options.reverse_merge!(only: [:show, :edit, :update, :destroy])
+        options.reverse_merge!(only: [:show, :new, :create, :edit, :update, :destroy])
       end
       before_filter :authorize_resource, options
     end
@@ -184,9 +186,18 @@ module NestedResourceConcern
   end
 
   def load_resource
-    if params[:id]
-      instance_variable_set("@#{resource_name}", send(controller_name).find(params[:id]))
+    scope = send(controller_name)
+    if ['new', 'create'].include?(params[:action].to_s)
+      resource = scope.new
+      if 'create' == params[:action].to_s
+        resource.attributes = send("#{controller_name.singularize}_params")
+      end
+    elsif params[:id]
+      resource = scope.find(params[:id])
+    else
+      resource = nil
     end
+    instance_variable_set("@#{resource_name}", resource)
   end
 
   # Verify the current user is authorized to view the parent resource.
