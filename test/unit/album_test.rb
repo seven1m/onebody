@@ -83,4 +83,38 @@ class AlbumTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context 'remove_owner = true' do
+    context 'owner is a person' do
+      setup do
+        Person.logged_in = @user = FactoryGirl.create(:person)
+        @album.owner = FactoryGirl.create(:person)
+      end
+
+      context 'user is not an admin' do
+        setup do
+          @album.remove_owner = true
+        end
+
+        should 'not clear owner' do
+          assert_not_nil @album.owner
+        end
+      end
+
+      context 'user is an admin with manage_pictures privilege' do
+        setup do
+          @user.update_attributes(admin: Admin.create!(manage_pictures: true))
+          @album.remove_owner = true
+        end
+
+        should 'clear owner' do
+          assert_nil @album.owner
+        end
+
+        should 'set album to public' do
+          assert @album.is_public?
+        end
+      end
+    end
+  end
 end
