@@ -33,19 +33,6 @@ class Ability
     can :manage, Group if @person.admin?(:manage_groups)
   end
 
-  def allow_albums
-    can :manage, Album, owner_type: 'Person', owner_id: @person.id
-    can :read, Album, owner_type: 'Person', owner_id: @person.friend_ids
-    can :read, Album, is_public: true
-    can :read, Album.join_group_memberships, ['memberships.person_id = ?', @person.id] do |album|
-      Group === album.owner and album.owner.memberships.where(person_id: @person.id).any?
-    end
-    can :manage, Album.join_group_memberships, ['memberships.person_id = ? and memberships.admin = ?', @person.id, true] do |album|
-      Group === album.owner and album.owner.memberships.where(person_id: @person.id, admin: true).any?
-    end
-    can :manage, Album if @person.admin?(:manage_pictures)
-  end
-
   def allow_pictures
     can [:update, :destroy], Picture, person: @person
     can [:update, :destroy], Picture, album: {owner: {memberships: {person: @person, admin: true}}}
