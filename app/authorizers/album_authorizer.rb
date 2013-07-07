@@ -18,6 +18,19 @@ class AlbumAuthorizer < ApplicationAuthorizer
     end
   end
 
+  def creatable_by?(user)
+    if resource.group
+      return false unless resource.group.pictures?
+      if user.member_of?(resource.group)
+        true
+      elsif user.admin?(:manage_pictures) and user.admin?(:manage_groups)
+        true
+      end
+    else
+      true
+    end
+  end
+
   def updatable_by?(user)
     # belongs to me
     if resource.owner == user

@@ -19,6 +19,67 @@ class AlbumAuthorizerTest < ActiveSupport::TestCase
     assert_cannot @user, :delete, @album
   end
 
+  context 'new album' do
+    setup do
+      @album = Album.new
+    end
+
+    should 'create album' do
+      assert_can @user, :create, @album
+    end
+
+    context 'belonging to a group' do
+      setup do
+        @group = FactoryGirl.create(:group)
+        @album.owner = @group
+      end
+
+      should 'not create album' do
+        assert_cannot @user, :create, @album
+      end
+
+      context 'user is group member' do
+        setup do
+          @group.memberships.create!(person: @user)
+        end
+
+        should 'create album' do
+          assert_can @user, :create, @album
+        end
+
+        context 'group has pictures disabled' do
+          setup do
+            @group.update_attributes!(pictures: false)
+          end
+
+          should 'not create album' do
+            assert_cannot  @user, :create, @album
+          end
+        end
+      end
+
+      context 'user is admin with manage_pictures and manage_groups privileges' do
+        setup do
+          @user.update_attributes!(admin: Admin.create(manage_pictures: true, manage_groups: true))
+        end
+
+        should 'create album' do
+          assert_can @user, :create, @album
+        end
+
+        context 'group has pictures disabled' do
+          setup do
+            @group.update_attributes!(pictures: false)
+          end
+
+          should 'not create album' do
+            assert_cannot  @user, :create, @album
+          end
+        end
+      end
+    end
+  end
+
   context 'album is marked public' do
     setup do
       @album.update_attributes!(is_public: true)
