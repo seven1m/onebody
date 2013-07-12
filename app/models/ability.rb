@@ -33,12 +33,6 @@ class Ability
     can :manage, Group if @person.admin?(:manage_groups)
   end
 
-  def allow_pictures
-    can [:update, :destroy], Picture, person: @person
-    can [:update, :destroy], Picture, album: {owner: {memberships: {person: @person, admin: true}}}
-    can :manage, Picture if @person.admin?(:manage_pictures)
-  end
-
   def allow_messages
     can [:update, :destroy], Message, person: @person
     can [:update, :destroy], Message, group: {memberships: {person: @person, admin: true}}

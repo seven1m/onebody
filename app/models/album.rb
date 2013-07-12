@@ -24,6 +24,11 @@ class Album < ActiveRecord::Base
     pictures.order('cover desc, id').first
   end
 
+  def cover=(picture)
+    pictures.update_all(cover: false)
+    pictures.find(picture.id).update_attributes!(cover: true)
+  end
+
   after_destroy :delete_stream_items
 
   def delete_stream_items
