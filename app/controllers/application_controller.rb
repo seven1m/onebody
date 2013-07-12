@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   #protect_from_forgery # FIXME
 
-  include NestedResourceConcern
+  include LoadAndAuthorizeResource
 
   LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/* accounts/*)
 
@@ -137,6 +137,10 @@ class ApplicationController < ActionController::Base
 
     def authority_forbidden(error)
       Authority.logger.warn(error.message)
+      render text: I18n.t('not_authorized'), layout: true, status: :forbidden
+    end
+
+    rescue_from 'LoadAndAuthorizeResource::AccessDenied', 'LoadAndAuthorizeResource::ParameterMissing' do |e|
       render text: I18n.t('not_authorized'), layout: true, status: :forbidden
     end
 

@@ -36,6 +36,24 @@ class AlbumTest < ActiveSupport::TestCase
     end
   end
 
+  context '#cover=' do
+    context 'album has a picture marked as cover' do
+      setup do
+        @pic1 = @album.pictures.create!(cover: true)
+        @pic2 = @album.pictures.create!
+        @album.update_attributes!(cover: @pic2)
+      end
+
+      should 'unset existing as cover' do
+        assert !@pic1.reload.cover
+      end
+
+      should 'set new cover' do
+        assert @pic2.reload.cover
+      end
+    end
+  end
+
   context '#group' do
     context 'album owner is a person' do
       setup do

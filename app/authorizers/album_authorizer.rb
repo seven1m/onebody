@@ -36,7 +36,7 @@ class AlbumAuthorizer < ApplicationAuthorizer
     if resource.owner == user
       true
     # belongs to a group I'm admin of
-    elsif  Group === resource.owner and resource.owner.admin?(user)
+    elsif Group === resource.owner and resource.owner.admin?(user)
       true
     # I'm a global admin
     elsif user.admin?(:manage_pictures)

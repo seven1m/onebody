@@ -1,4 +1,9 @@
 class Picture < ActiveRecord::Base
+
+  include Authority::Abilities
+  include AbilityConcern
+  self.authorizer_name = 'PictureAuthorizer'
+
   belongs_to :album
   belongs_to :person
   belongs_to :site
@@ -36,14 +41,28 @@ class Picture < ActiveRecord::Base
     end
   end
 
+  # return the next picture in this album
+  # if this is the last picture in the album, return the first
+  def next
+    album.pictures.order(:id).where('id > ?', id).first ||
+    album.pictures.order(:id).first
+  end
+
+  # return the previous picture in this album
+  # if this is the first picture in the album, return the last
+  def prev
+    album.pictures.order(:id).where('id < ?', id).last ||
+    album.pictures.order(:id).last
+  end
+
   def photo_extension
-    File.extname(photo.original_filename).sub(/^\.+/, '')
+    File.extname(photo.original_filename).sub(/^\.+/, '') if photo
   end
 
   after_create :create_as_stream_item
 
   def create_as_stream_item
-    return unless person
+    return unless person and photo?
     if last_stream_item = StreamItem.where("person_id = ? and created_at <= ?", person_id, created_at).order('created_at').last \
       and last_stream_item.streamable == album
       last_stream_item.context['picture_ids'] << [id, photo.fingerprint, photo_extension]
@@ -54,11 +73,11 @@ class Picture < ActiveRecord::Base
         title:           album.name,
         context:         {'picture_ids' => [[id, photo.fingerprint, photo_extension]]},
         person_id:       person_id,
-        group_id:        album.group_id,
+        group_id:        'Group' === album.owner_type ? album.owner_id : nil,
         streamable_type: 'Album',
         streamable_id:   album_id,
         created_at:      created_at,
-        shared:          album.group_id || person.share_activity? ? true : false
+        shared:          album.group || person.share_activity? ? true : false
       )
     end
   end
