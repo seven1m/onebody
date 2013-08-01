@@ -1,4 +1,8 @@
 class Membership < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'MembershipAuthorizer'
+
   belongs_to :group
   belongs_to :person
   belongs_to :site
