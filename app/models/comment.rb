@@ -1,4 +1,8 @@
 class Comment < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'CommentAuthorizer'
+
   belongs_to :person
   belongs_to :site
 
