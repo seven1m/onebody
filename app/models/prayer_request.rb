@@ -1,4 +1,8 @@
 class PrayerRequest < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'PrayerRequestAuthorizer'
+
   belongs_to :group
   belongs_to :person
   belongs_to :site
