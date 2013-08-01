@@ -1,4 +1,8 @@
 class NewsItem < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'NewsItemAuthorizer'
+
   has_many :comments, dependent: :destroy
   belongs_to :person
   belongs_to :site
