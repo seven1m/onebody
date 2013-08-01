@@ -11,6 +11,10 @@ class NoteAuthorizerTest < ActiveSupport::TestCase
     assert_can @user, :read, @note
   end
 
+  should 'not create note' do
+    assert_cannot @user, :create, @note
+  end
+
   should 'not update note' do
     assert_cannot @user, :update, @note
   end
@@ -22,6 +26,10 @@ class NoteAuthorizerTest < ActiveSupport::TestCase
   context 'owned by user' do
     setup do
       @note.update_attributes!(person: @user)
+    end
+
+    should 'create note' do
+      assert_can @user, :create, @note
     end
 
     should 'update note' do
@@ -36,6 +44,10 @@ class NoteAuthorizerTest < ActiveSupport::TestCase
   context 'user is admin with manage_notes privilege' do
     setup do
       @user.update_attributes!(admin: Admin.create!(manage_notes: true))
+    end
+
+    should 'create note' do
+      assert_can @user, :create, @note
     end
 
     should 'update note' do
@@ -57,6 +69,10 @@ class NoteAuthorizerTest < ActiveSupport::TestCase
       assert_can @user, :read, @note
     end
 
+    should 'not create note' do
+      assert_cannot @user, :create, @note
+    end
+
     context 'group is hidden' do
       setup do
         @group.update_attributes!(hidden: true)
@@ -66,6 +82,10 @@ class NoteAuthorizerTest < ActiveSupport::TestCase
         assert_cannot @user, :read, @note
       end
 
+      should 'not create note' do
+        assert_cannot @user, :create, @note
+      end
+
       context 'user is a group member' do
         setup do
           @group.memberships.create!(person: @user)
@@ -73,6 +93,10 @@ class NoteAuthorizerTest < ActiveSupport::TestCase
 
         should 'read note' do
           assert_can @user, :read, @note
+        end
+
+        should 'create note' do
+          assert_can @user, :create, @note
         end
       end
     end
@@ -86,6 +110,10 @@ class NoteAuthorizerTest < ActiveSupport::TestCase
         assert_cannot @user, :read, @note
       end
 
+      should 'not create note' do
+        assert_cannot @user, :create, @note
+      end
+
       context 'user is a group member' do
         setup do
           @group.memberships.create!(person: @user)
@@ -93,6 +121,10 @@ class NoteAuthorizerTest < ActiveSupport::TestCase
 
         should 'read note' do
           assert_can @user, :read, @note
+        end
+
+        should 'create note' do
+          assert_can @user, :create, @note
         end
       end
     end

@@ -62,7 +62,7 @@ class NotesControllerTest < ActionController::TestCase
   context '#new' do
     context 'shallow route' do
       setup do
-        get :new, nil, {logged_in_id: @user.id}
+        get :new, {person_id: @user.id}, {logged_in_id: @user.id}
       end
 
       should 'render template' do
@@ -85,7 +85,7 @@ class NotesControllerTest < ActionController::TestCase
 
   context '#create' do
     setup do
-      post :create, {note: {title: 'test title', body: 'test body'}},
+      post :create, {note: {title: 'test title', body: 'test body'}, person_id: @user.id},
         {logged_in_id: @user.id}
     end
 

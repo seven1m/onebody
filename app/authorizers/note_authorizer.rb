@@ -10,6 +10,19 @@ class NoteAuthorizer < ApplicationAuthorizer
     end
   end
 
+  def creatable_by?(user)
+    # my note
+    if resource.person == user
+      true
+    # group note and user is member
+    elsif resource.group and user.member_of?(resource.group)
+      true
+    # admin with manage_notes privilege
+    elsif user.admin?(:manage_notes)
+      true
+    end
+  end
+
   def updatable_by?(user)
     resource.person_id == user.id or user.admin?(:manage_notes)
   end

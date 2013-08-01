@@ -18,15 +18,6 @@ class Note < ActiveRecord::Base
     write_attribute(:title, t.to_s.any? ? t : nil)
   end
 
-  # FIXME
-  #def group_id=(id)
-    #if group = Group.find_by_id(id) and group.can_post?(Person.logged_in)
-      #write_attribute :group_id, id
-    #else
-      #write_attribute :group_id, nil
-    #end
-  #end
-
   after_create :create_as_stream_item
 
   def create_as_stream_item
