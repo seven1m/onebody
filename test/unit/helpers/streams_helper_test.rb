@@ -12,7 +12,7 @@ class StreamsHelperTest < ActionView::TestCase
     end
 
     should 'be html_safe for pictures' do
-      @album = Album.create!(person: people(:tim), name: 'Foo')
+      @album = Album.create!(owner: people(:tim), name: 'Foo')
       @picture = @album.pictures.create!(person: people(:tim), photo: File.open(Rails.root.join('test/fixtures/files/image.jpg')))
       @stream_item = StreamItem.last
       assert_equal @album, @stream_item.streamable

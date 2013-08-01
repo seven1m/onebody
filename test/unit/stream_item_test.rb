@@ -61,7 +61,7 @@ class StreamItemTest < ActiveSupport::TestCase
 
   context 'Picture' do
     should "create a shared Album stream item for a new picture when the picture's album is in a group" do
-      @album = FactoryGirl.create(:album, group: @group, person: @person)
+      @album = FactoryGirl.create(:album, owner: @group)
       @picture = FactoryGirl.create(:picture, album: @album, person: @person)
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
       assert_equal 1, items.length
@@ -69,7 +69,7 @@ class StreamItemTest < ActiveSupport::TestCase
     end
 
     should "create a shared Album stream item for a new picture when the pictures's album is not in a group and the owner is sharing their activity" do
-      @album = FactoryGirl.create(:album, person: @person)
+      @album = FactoryGirl.create(:album, owner: @person)
       @picture = FactoryGirl.create(:picture, album: @album, person: @person)
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
       assert_equal 1, items.length
@@ -79,7 +79,7 @@ class StreamItemTest < ActiveSupport::TestCase
 
     should "create a non-shared stream item if the picture's album is not on a group and the owner is not sharing their activity" do
       @person.update_attributes! share_activity: false
-      @album = FactoryGirl.create(:album, person: @person)
+      @album = FactoryGirl.create(:album, owner: @person)
       @picture = FactoryGirl.create(:picture, album: @album, person: @person)
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
       assert_equal 1, items.length
@@ -87,7 +87,7 @@ class StreamItemTest < ActiveSupport::TestCase
     end
 
     should "add to the context of the previous stream_item when contiguous pictures are added" do
-      @album = FactoryGirl.create(:album, person: @person)
+      @album = FactoryGirl.create(:album, owner: @person)
       @picture1 = FactoryGirl.create(:picture, album: @album, person: @person)
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
       assert_equal 1, items.length
@@ -100,7 +100,7 @@ class StreamItemTest < ActiveSupport::TestCase
     end
 
     should "update the context of all associated stream items when the picture is deleted" do
-      @album = FactoryGirl.create(:album, person: @person)
+      @album = FactoryGirl.create(:album, owner: @person)
       @picture1 = FactoryGirl.create(:picture, album: @album, person: @person)
       @picture2 = FactoryGirl.create(:picture, album: @album, person: @person)
       @picture1.destroy
@@ -110,7 +110,7 @@ class StreamItemTest < ActiveSupport::TestCase
     end
 
     should "delete the album stream item if the last picture in the context is deleted" do
-      @album = FactoryGirl.create(:album, person: @person)
+      @album = FactoryGirl.create(:album, owner: @person)
       @picture1 = FactoryGirl.create(:picture, album: @album, person: @person)
       @picture2 = FactoryGirl.create(:picture, album: @album, person: @person)
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
@@ -124,7 +124,7 @@ class StreamItemTest < ActiveSupport::TestCase
 
   context 'Album' do
     should "delete all associated stream items when the album is deleted" do
-      @album = FactoryGirl.create(:album, person: @person)
+      @album = FactoryGirl.create(:album, owner: @person)
       @picture = FactoryGirl.create(:picture, album: @album, person: @person)
       items = StreamItem.find_all_by_streamable_type_and_streamable_id('Album', @album.id)
       assert_equal 1, items.length
