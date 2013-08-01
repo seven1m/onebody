@@ -16,7 +16,6 @@ class MultisiteTest < ActionController::IntegrationTest
     assert_response :success
     assert_select 'body', /email address cannot be found/
     site! 'site2'
-    sign_in_as people(:tom)
     post_sign_in_form 'jim@example.com'
     assert_response :success
     assert_select 'body', /email address cannot be found/

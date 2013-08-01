@@ -48,7 +48,7 @@ class ActiveSupport::TestCase
 
   def site!(site)
     host! site
-    get '/'
+    get '/search'
   end
 
   def assert_deliveries(count)
