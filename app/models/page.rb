@@ -1,5 +1,8 @@
 class Page < ActiveRecord::Base
 
+  include Authority::Abilities
+  self.authorizer_name = 'PageAuthorizer'
+
   UNPUBLISHED_PAGES = %w(sign_up_header sign_up_verify)
 
   belongs_to :parent, class_name: 'Page'
