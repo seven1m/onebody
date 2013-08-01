@@ -2,6 +2,10 @@ require 'uri'
 require 'digest/md5'
 
 class Message < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'MessageAuthorizer'
+
   MESSAGE_ID_RE = /<(\d+)_([0-9abcdef]{6})_/
   MESSAGE_ID_RE_IN_BODY = /id:\s*(\d+)_([0-9abcdef]{6})/i
 
