@@ -1,4 +1,8 @@
 class Attachment < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'AttachmentAuthorizer'
+
   belongs_to :message
   belongs_to :group
   belongs_to :site

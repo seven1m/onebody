@@ -82,7 +82,7 @@ class AttachmentsController < ApplicationController
 
   def destroy
     @attachment = Attachment.find(params[:id])
-    if @logged_in.can_edit?(@attachment)
+    if @logged_in.can_delete?(@attachment)
       @attachment.destroy
       flash[:notice] = t('attachments.deleted')
       redirect_back
