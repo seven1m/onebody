@@ -13,15 +13,15 @@ class StreamsControllerTest < ActionController::TestCase
   end
 
   should 'show stream items and comments with commenter thumbnail' do
-    @pic = FactoryGirl.create(:picture, person: @person)
+    @pic = FactoryGirl.create(:picture, :with_file, person: @person)
     @pic.comments.create(person: @friend)
     get :show, nil, {logged_in_id: @person.id}
     assert_response :success
   end
 
   should 'show selection of picture when commenting on album with more than one picture' do
-    @pic = FactoryGirl.create(:picture, person: @person)
-    @pic2 = FactoryGirl.create(:picture, person: @person, album: @pic.album)
+    @pic = FactoryGirl.create(:picture, :with_file, person: @person)
+    @pic2 = FactoryGirl.create(:picture, :with_file, person: @person, album: @pic.album)
     get :show, nil, {logged_in_id: @person.id}
     assert_response :success
     assert_select 'body', /which picture/i

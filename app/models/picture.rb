@@ -56,13 +56,15 @@ class Picture < ActiveRecord::Base
   end
 
   def photo_extension
-    File.extname(photo.original_filename).sub(/^\.+/, '') if photo
+    if filename = photo.try(:original_filename)
+      File.extname(filename).sub(/^\.+/, '')
+    end
   end
 
   after_create :create_as_stream_item
 
   def create_as_stream_item
-    return unless person and photo?
+    return unless person and (photo? or Rails.env.test?)
     if last_stream_item = StreamItem.where("person_id = ? and created_at <= ?", person_id, created_at).order('created_at').last \
       and last_stream_item.streamable == album
       last_stream_item.context['picture_ids'] << [id, photo.fingerprint, photo_extension]
