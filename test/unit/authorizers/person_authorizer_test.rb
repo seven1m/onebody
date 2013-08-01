@@ -6,6 +6,20 @@ class PersonAuthorizerTest < ActiveSupport::TestCase
     @user = FactoryGirl.create(:person)
   end
 
+  context 'user has account frozen' do
+    setup do
+      @user.update_attributes!(account_frozen: true)
+    end
+
+    should 'read self' do
+      assert_can @user, :read, @user
+    end
+
+    should 'not update self' do
+      assert_cannot @user, :update, @user
+    end
+  end
+
   context 'given a stranger' do
     setup do
       @stranger = FactoryGirl.create(:person)
