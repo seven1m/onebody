@@ -1,5 +1,8 @@
 class Family < ActiveRecord::Base
 
+  include Authority::Abilities
+  self.authorizer_name = 'FamilyAuthorizer'
+
   MAX_TO_BATCH_AT_A_TIME = 50
 
   has_many :people, order: 'sequence', dependent: :destroy
