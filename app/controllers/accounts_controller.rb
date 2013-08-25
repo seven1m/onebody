@@ -1,6 +1,8 @@
 class AccountsController < ApplicationController
   skip_before_filter :authenticate_user, except: %w(edit update)
 
+  load_and_authorize_parent :person, permit: :edit, only: %w(edit update)
+
   def show
     if params[:person_id]
       redirect_to person_account_path(params[:person_id])
@@ -171,33 +173,24 @@ class AccountsController < ApplicationController
   end
 
   def edit
-    @person ||= Person.find(params[:person_id])
-    unless @logged_in.can_edit?(@person)
-      render text: t('accounts.cannot_edit'), layout: true, status: 401
-    end
   end
 
   def update
-    @person = Person.find(params[:person_id])
-    if @logged_in.can_edit?(@person)
-      @person.attributes = person_params
-      @person.save
+    @person.attributes = person_params
+    @person.save
+    if @person.errors.any?
+      edit; render action: 'edit'
+    elsif params[:password].present?
+      @person.change_password(params[:password], params[:password_confirmation])
       if @person.errors.any?
         edit; render action: 'edit'
-      elsif params[:password].present?
-        @person.change_password(params[:password], params[:password_confirmation])
-        if @person.errors.any?
-          edit; render action: 'edit'
-        else
-          flash[:notice] = t('Changes_saved')
-          redirect_to @person
-        end
       else
         flash[:notice] = t('Changes_saved')
         redirect_to @person
       end
     else
-      render text: t('accounts.cannot_edit'), layout: true, status: 401
+      flash[:notice] = t('Changes_saved')
+      redirect_to @person
     end
   end
 

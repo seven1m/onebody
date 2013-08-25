@@ -3,24 +3,106 @@ require_relative '../test_helper'
 class AccountsControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = FactoryGirl.create_list(:person, 2)
+    @person = FactoryGirl.create(:person)
   end
 
-  should "edit account" do
-    password_was = @person.encrypted_password
-    get :edit, {person_id: @person.id}, {logged_in_id: @person.id}
-    assert_response :success
-    post :update, {person_id: @person.id, person: {email: 'foo@example.com'}, password: 'password', password_confirmation: 'password'}, {logged_in_id: @person.id}
-    assert_redirected_to person_path(@person)
-    assert_equal 'foo@example.com', @person.reload.email
-    assert @person.encrypted_password != password_was
+  context '#show' do
+    context 'given a person_id param' do
+      setup do
+        get :show, {person_id: @person.id}, {logged_in_id: @person.id}
+      end
+
+      should 'redirect to the person account path' do
+        assert_redirected_to person_account_path(@person)
+      end
+    end
+
+    context 'given no params' do
+      setup do
+        get :show, {}, {logged_in_id: @person.id}
+      end
+
+      should 'redirect to the new account path' do
+        assert_redirected_to new_account_path
+      end
+    end
   end
 
-  should "not edit account unless user is admin" do
-    get :edit, {person_id: @person.id}, {logged_in_id: @other_person.id}
-    assert_response :unauthorized
-    post :update, {person_id: @person.id, person: {email: 'foo@example.com'}, password: 'password', password_confirmation: 'password'}, {logged_in_id: @other_person.id}
-    assert_response :unauthorized
+  context '#edit' do
+    context 'user is account owner' do
+      setup do
+        get :edit, {person_id: @person.id}, {logged_in_id: @person.id}
+      end
+
+      should 'render the edit form' do
+        assert_template :edit
+      end
+    end
+
+    context 'user is not account owner' do
+      setup do
+        @stranger = FactoryGirl.create(:person)
+        get :edit, {person_id: @person.id}, {logged_in_id: @stranger.id}
+      end
+
+      should 'return forbidden' do
+        assert_response :forbidden
+      end
+    end
+
+    context 'user is an admin with edit_profiles privilege' do
+      setup do
+        @admin = FactoryGirl.create(:person, admin: Admin.create!(edit_profiles: true))
+        get :edit, {person_id: @person.id}, {logged_in_id: @admin.id}
+      end
+
+      should 'render the edit form' do
+        assert_template :edit
+      end
+    end
+  end
+
+  context '#update' do
+    context 'user is account owner' do
+      setup do
+        @password_was = @person.encrypted_password
+        post :update, {person_id: @person.id, person: {email: 'foo@example.com'}, password: 'password', password_confirmation: 'password'}, {logged_in_id: @person.id}
+      end
+
+      should 'redirect to the profile page' do
+        assert_redirected_to person_path(@person)
+      end
+
+      should 'update email address' do
+        assert_equal 'foo@example.com', @person.reload.email
+      end
+
+      should 'update password' do
+        assert_not_equal @password_was, @person.reload.encrypted_password
+      end
+    end
+
+    context 'user is not account owner' do
+      setup do
+        @stranger = FactoryGirl.create(:person)
+        post :update, {person_id: @person.id, person: {email: 'foo@example.com'}, password: 'password', password_confirmation: 'password'}, {logged_in_id: @stranger.id}
+      end
+
+      should 'return forbidden' do
+        assert_response :forbidden
+      end
+    end
+
+    context 'user is an admin with edit_profiles privilege' do
+      setup do
+        @admin = FactoryGirl.create(:person, admin: Admin.create!(edit_profiles: true))
+        post :update, {person_id: @person.id, person: {email: 'foo@example.com'}, password: 'password', password_confirmation: 'password'}, {logged_in_id: @admin.id}
+      end
+
+      should 'redirect' do
+        assert_response :redirect
+      end
+    end
   end
 
   should "verify a code" do
