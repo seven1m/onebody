@@ -185,16 +185,16 @@ class AccountsController < ApplicationController
   end
 
   def select
-    unless session[:select_from_people]
-      render text: t('Page_no_longer_valid'), layout: true
-      return
-    end
-    @people = session[:select_from_people]
-    if request.post? and params[:id] and @people.map { |p| p.id }.include?(params[:id].to_i)
-      session[:logged_in_id] = params[:id].to_i
-      session[:select_from_people] = nil
-      flash[:warning] = t('accounts.must_set_email_pass')
-      redirect_to edit_person_account_path(session[:logged_in_id])
+    if session[:select_from_people]
+      @people = session[:select_from_people]
+      if request.post? and @person = @people.detect { |p| p.id == params[:id].to_i }
+        session[:logged_in_id] = @person.id
+        session[:select_from_people] = nil
+        flash[:warning] = t('accounts.must_set_email_pass')
+        redirect_to edit_person_account_path(@person)
+      end
+    else
+      render text: t('Page_no_longer_valid'), layout: true, status: :gone
     end
   end
 

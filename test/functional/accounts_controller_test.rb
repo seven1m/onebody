@@ -133,6 +133,87 @@ class AccountsControllerTest < ActionController::TestCase
     end
   end
 
+  context '#select' do
+    context 'GET with select people in session' do
+      setup do
+        @spouse = FactoryGirl.create(:person, family: @person.family)
+        get :select, {}, {select_from_people: [@person, @spouse]}
+      end
+
+      should 'render select template' do
+        assert_template :select
+      end
+    end
+
+    context 'POST with select people in session' do
+      context 'with a matching id' do
+        setup do
+          @spouse = FactoryGirl.create(:person, family: @person.family)
+          post :select, {id: @spouse.id}, {select_from_people: [@person, @spouse]}
+        end
+
+        should 'redirect to edit person account path' do
+          assert_redirected_to edit_person_account_path(@spouse)
+        end
+
+        should 'set flash to warn about setting password' do
+          assert_match /set.*email.*password/, flash[:warning]
+        end
+
+        should 'clear session select people' do
+          assert_nil session[:select_from_people]
+        end
+      end
+
+      context 'without a matching id' do
+        setup do
+          @spouse = FactoryGirl.create(:person, family: @person.family)
+          post :select, {id: '0'}, {select_from_people: [@person, @spouse]}
+        end
+
+        should 'return 200 OK status' do
+          assert_response :success
+        end
+
+        should 'render select template again' do
+          assert_template :select
+        end
+
+        should 'clear not session select people' do
+          assert_equal [@person, @spouse], session[:select_from_people]
+        end
+      end
+    end
+
+    context 'GET with no select people in session' do
+      setup do
+        get :select, {}, {}
+      end
+
+      should 'return status 410 Gone' do
+        assert_response :gone
+      end
+
+      should 'return page no longer valid' do
+        assert_select 'body', /no longer valid/
+      end
+    end
+
+    context 'POST with no select people in session' do
+      setup do
+        post :select, {id: @person.id}, {}
+      end
+
+      should 'return status 410 Gone' do
+        assert_response :gone
+      end
+
+      should 'return page no longer valid' do
+        assert_select 'body', /no longer valid/
+      end
+    end
+  end
+
   should "verify a code" do
     v = Verification.create!(email: @person.email)
     get :verify_code, {id: v.id, code: v.code}
