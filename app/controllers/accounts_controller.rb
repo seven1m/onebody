@@ -135,7 +135,7 @@ class AccountsController < ApplicationController
   def verify_code
     v = Verification.find(params[:id])
     unless v.pending?
-      render text: t('There_was_an_error'), layout: true, status: 500
+      render text: t('There_was_an_error'), layout: true, status: :not_found
       return
     end
     if params[:code].to_i > 0
@@ -167,7 +167,7 @@ class AccountsController < ApplicationController
         end
       else
         v.update_attribute :verified, false
-        render text: t('accounts.wrong_code'), layout: true, status: 500
+        render text: t('accounts.wrong_code'), layout: true, status: :bad_request
       end
     end
   end

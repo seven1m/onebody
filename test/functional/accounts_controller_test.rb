@@ -214,10 +214,120 @@ class AccountsControllerTest < ActionController::TestCase
     end
   end
 
-  should "verify a code" do
-    v = Verification.create!(email: @person.email)
-    get :verify_code, {id: v.id, code: v.code}
-    assert_response :redirect
+  context '#verify_code' do
+    context 'given a non-pending email verification' do
+      setup do
+        @verification = Verification.create!(email: @person.email, verified: false)
+        get :verify_code, {id: @verification.id}
+      end
+
+      should 'return 404 Not Found' do
+        assert_response :not_found
+      end
+    end
+
+    context 'given a pending email verification' do
+      setup do
+        @verification = Verification.create!(email: @person.email)
+      end
+
+      context 'GET with proper id and code' do
+        setup do
+          get :verify_code, {id: @verification.id, code: @verification.code}
+        end
+
+        should 'mark the verification verified' do
+          assert_equal true, @verification.reload.verified?
+        end
+
+        should 'redirect to edit person account' do
+          assert_redirected_to edit_person_account_path(@person)
+        end
+
+        should 'set flash notice to set email' do
+          assert_equal I18n.t('accounts.set_your_email_may_be_different'), flash[:warning]
+        end
+
+        should 'set logged in user in session' do
+          assert_equal @person.id, session[:logged_in_id]
+        end
+      end
+
+      context 'GET with improper id' do
+        should 'raise RecordNotFound exception' do
+          assert_raise ActiveRecord::RecordNotFound do
+            get :verify_code, {id: '111111111'}
+          end
+        end
+      end
+
+      context 'GET with proper id and wrong code' do
+        setup do
+          get :verify_code, {id: @verification.id, code: '1'}
+        end
+
+        should 'not mark the verification verified' do
+          assert_equal false, @verification.reload.verified?
+        end
+
+        should 'return 400 Bad Request' do
+          assert_response :bad_request
+        end
+
+        should 'render text' do
+          assert_select 'body', /wrong code/
+        end
+      end
+
+      context 'matching more than one family member' do
+        setup do
+          @spouse = FactoryGirl.create(:person, family: @person.family, email: @person.email)
+        end
+
+        context 'GET with proper id and code' do
+          setup do
+            get :verify_code, {id: @verification.id, code: @verification.code}
+          end
+
+          should 'mark the verification verified' do
+            assert_equal true, @verification.reload.verified?
+          end
+
+          should 'set select people in session' do
+            assert_equal [@person, @spouse], session[:select_from_people]
+          end
+
+          should 'redirect to select account path' do
+            assert_redirected_to select_account_path
+          end
+        end
+      end
+    end
+
+    context 'given a pending mobile verification' do
+      setup do
+        @person.update_attribute :mobile_phone, '1234567891'
+        @verification = Verification.create!(mobile_phone: @person.mobile_phone)
+      end
+
+      context 'GET with proper id and code' do
+        setup do
+          get :verify_code, {id: @verification.id, code: @verification.code}
+        end
+
+        should 'mark the verification verified' do
+          assert_equal true, @verification.reload.verified?
+        end
+
+        should 'redirect to edit person account' do
+          assert_redirected_to edit_person_account_path(@person)
+        end
+
+        should 'set flash notice to set email' do
+          assert_match /set.*email/, flash[:warning]
+        end
+      end
+    end
   end
 
   should "create account" do
