@@ -176,21 +176,11 @@ class AccountsController < ApplicationController
   end
 
   def update
-    @person.attributes = person_params
-    @person.save
-    if @person.errors.any?
-      edit; render action: 'edit'
-    elsif params[:password].present?
-      @person.change_password(params[:password], params[:password_confirmation])
-      if @person.errors.any?
-        edit; render action: 'edit'
-      else
-        flash[:notice] = t('Changes_saved')
-        redirect_to @person
-      end
-    else
+    if @person.update_attributes(person_params)
       flash[:notice] = t('Changes_saved')
       redirect_to @person
+    else
+      render action: 'edit'
     end
   end
 
@@ -211,7 +201,7 @@ class AccountsController < ApplicationController
   private
 
   def person_params
-    params.require(:person).permit(:email)
+    params.require(:person).permit(:email, :password, :password_confirmation)
   end
 
   def check_ssl

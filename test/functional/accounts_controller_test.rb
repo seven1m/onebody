@@ -66,7 +66,7 @@ class AccountsControllerTest < ActionController::TestCase
     context 'user is account owner' do
       setup do
         @password_was = @person.encrypted_password
-        post :update, {person_id: @person.id, person: {email: 'foo@example.com'}, password: 'password', password_confirmation: 'password'}, {logged_in_id: @person.id}
+        post :update, {person_id: @person.id, person: {email: 'foo@example.com', password: 'password', password_confirmation: 'password'}}, {logged_in_id: @person.id}
       end
 
       should 'redirect to the profile page' do
@@ -80,12 +80,40 @@ class AccountsControllerTest < ActionController::TestCase
       should 'update password' do
         assert_not_equal @password_was, @person.reload.encrypted_password
       end
+
+      context 'bad email given' do
+        setup do
+          post :update, {person_id: @person.id, person: {email: 'bad', password: 'password', password_confirmation: 'mismatched'}}, {logged_in_id: @person.id}
+        end
+
+        should 'be success' do
+          assert_response :success
+        end
+
+        should 'render edit template again' do
+          assert_template :edit
+        end
+      end
+
+      context 'passwords do not match' do
+        setup do
+          post :update, {person_id: @person.id, person: {email: 'foo@example.com', password: 'password', password_confirmation: 'mismatched'}}, {logged_in_id: @person.id}
+        end
+
+        should 'be success' do
+          assert_response :success
+        end
+
+        should 'render edit template again' do
+          assert_template :edit
+        end
+      end
     end
 
     context 'user is not account owner' do
       setup do
         @stranger = FactoryGirl.create(:person)
-        post :update, {person_id: @person.id, person: {email: 'foo@example.com'}, password: 'password', password_confirmation: 'password'}, {logged_in_id: @stranger.id}
+        post :update, {person_id: @person.id, person: {email: 'foo@example.com', password: 'password', password_confirmation: 'password'}}, {logged_in_id: @stranger.id}
       end
 
       should 'return forbidden' do
@@ -96,7 +124,7 @@ class AccountsControllerTest < ActionController::TestCase
     context 'user is an admin with edit_profiles privilege' do
       setup do
         @admin = FactoryGirl.create(:person, admin: Admin.create!(edit_profiles: true))
-        post :update, {person_id: @person.id, person: {email: 'foo@example.com'}, password: 'password', password_confirmation: 'password'}, {logged_in_id: @admin.id}
+        post :update, {person_id: @person.id, person: {email: 'foo@example.com', password: 'password', password_confirmation: 'password'}}, {logged_in_id: @admin.id}
       end
 
       should 'redirect' do
