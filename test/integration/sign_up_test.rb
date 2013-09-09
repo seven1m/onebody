@@ -31,9 +31,7 @@ class SignUpTest < ActionController::IntegrationTest
     assert_select_email do
       assert_select '', Regexp.new(v.code.to_s)
     end
-    assert_redirected_to verify_code_account_path(id: v.id)
-    follow_redirect!
-    assert_select 'div#notice', /message has been sent/
+    assert_select 'body', /message has been sent/
     assert_equal people(:peter).mobile_phone, v.mobile_phone
     verify_code(v, people(:peter))
   end

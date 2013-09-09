@@ -218,11 +218,12 @@ class AccountsControllerTest < ActionController::TestCase
     context 'given a non-pending email verification' do
       setup do
         @verification = Verification.create!(email: @person.email, verified: false)
-        get :verify_code, {id: @verification.id}
       end
 
-      should 'return 404 Not Found' do
-        assert_response :not_found
+      should 'raise RecordNotFound exception' do
+        assert_raise ActiveRecord::RecordNotFound do
+          get :verify_code, {id: @verification.id}
+        end
       end
     end
 

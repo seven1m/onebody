@@ -106,8 +106,7 @@ class AccountsController < ApplicationController
             render text: v.errors.full_messages.join('; '), layout: true
           else
             Notifier.mobile_verification(v).deliver
-            flash[:warning] = t('accounts.verification_message_sent')
-            redirect_to verify_code_account_path(id: v.id)
+            render text: t('accounts.verification_message_sent'), layout: true
           end
         else
           redirect_to page_for_public_path('system/bad_status')
@@ -133,42 +132,24 @@ class AccountsController < ApplicationController
   public
 
   def verify_code
-    v = Verification.find(params[:id])
-    unless v.pending?
-      render text: t('There_was_an_error'), layout: true, status: :not_found
-      return
-    end
-    if params[:code].to_i > 0
-      if v.code == params[:code].to_i
-        if v.mobile_phone
-          conditions = ['people.mobile_phone = ?', v.mobile_phone]
-        else
-          conditions = ['people.email = ? or families.email = ?', v.email, v.email]
-        end
-        @people = Person.where(conditions).includes(:family)
-        if @people.nil? or @people.empty?
-          render text: t('accounts.there_was_an_error'), layout: true, status: 500
-          return
-        elsif @people.length == 1
-          person = @people.first
-          session[:logged_in_id] = person.id
-          flash[:sticky_notice] = true
-          if v.mobile_phone?
-            flash[:warning] = t('accounts.set_your_email')
-          else
-            flash[:warning] = t('accounts.set_your_email_may_be_different')
-          end
-          v.update_attribute :verified, true
-          redirect_to edit_person_account_path(person.id)
-        else
-          session[:select_from_people] = @people
-          v.update_attribute :verified, true
-          redirect_to select_account_path
-        end
+    v = Verification.pending.find(params[:id])
+    if v.check!(params[:code])
+      if v.people.count > 1
+        session[:select_from_people] = v.people.all
+        redirect_to select_account_path
       else
-        v.update_attribute :verified, false
-        render text: t('accounts.wrong_code'), layout: true, status: :bad_request
+        person = v.people.first
+        session[:logged_in_id] = person.id
+        flash[:sticky_notice] = true
+        if v.mobile_phone?
+          flash[:warning] = t('accounts.set_your_email')
+        else
+          flash[:warning] = t('accounts.set_your_email_may_be_different')
+        end
+        redirect_to edit_person_account_path(person)
       end
+    else
+      render text: t('accounts.wrong_code'), layout: true, status: :bad_request
     end
   end
 
