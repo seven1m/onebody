@@ -28,6 +28,151 @@ class AccountsControllerTest < ActionController::TestCase
     end
   end
 
+  context '#new' do
+    context 'by email' do
+      setup do
+        get :new, {email: 'true'}
+      end
+
+      should 'render new_by_email template' do
+        assert_template :new_by_email
+      end
+    end
+
+    context 'by mobile phone' do
+      setup do
+        get :new, {phone: 'true'}
+      end
+
+      should 'render new_by_mobile template' do
+        assert_template :new_by_mobile
+      end
+    end
+
+    context 'by birthday' do
+      setup do
+        get :new, {birthday: 'true'}
+      end
+
+      should 'render new_by_birthday template' do
+        assert_template :new_by_birthday
+      end
+    end
+
+    context 'sign up feature enabled' do
+      setup do
+        Setting.set(1, 'Features', 'Sign Up', true)
+        get :new
+      end
+
+      should 'render new template' do
+        assert_template :new
+      end
+    end
+
+    context 'sign up feature disabled' do
+      setup do
+        Setting.set(1, 'Features', 'Sign Up', false)
+        get :new
+      end
+
+      should 'return failure message' do
+        assert_response :not_found
+        assert_select 'body', /page not found/i
+      end
+    end
+  end
+
+  context '#create' do
+    context 'sign up feature enabled' do
+      setup do
+        Setting.set(1, 'Features', 'Sign Up', true)
+        get :new
+      end
+
+      context 'sign up' do
+        context 'spam sign up (honey pot phone field has text)' do
+          setup do
+            @count_was = Person.count
+            post :create, {person: {email: 'rick@example.com'}, phone: '1234567890'}
+          end
+
+          should 'render new template' do
+            assert_template :new
+          end
+
+          should 'not create a new person' do
+            assert_equal @count_was, Person.count
+          end
+        end
+
+        context 'valid sign up' do
+          context 'no sign up approval needed' do
+            setup do
+              Setting.set(1, 'Features', 'Sign Up Approval Email', '')
+              post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+              @person = Person.last
+            end
+
+            should 'send email verification email' do
+              assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+            end
+
+            should 'create a new person' do
+              assert_equal 'rick@example.com', @person.email
+            end
+
+            should 'set can_sign_in=true' do
+              assert @person.can_sign_in?
+            end
+
+            should 'set full_access=true' do
+              assert @person.full_access?
+            end
+          end
+
+          context 'sign up approval required' do
+            setup do
+              Setting.set(1, 'Features', 'Sign Up Approval Email', 'admin@example.com')
+              post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+              @person = Person.last
+            end
+
+            should 'send pending signup email' do
+              assert_equal 'Pending Sign Up', ActionMailer::Base.deliveries.last.subject
+            end
+
+            should 'create a new person' do
+              assert_equal 'rick@example.com', @person.email
+            end
+
+            should 'set can_sign_in=false' do
+              refute @person.can_sign_in?
+            end
+
+            should 'set full_access=false' do
+              refute @person.full_access?
+            end
+          end
+        end
+
+        context 'sign up missing name' do
+          setup do
+            post :create, {person: {email: 'rick@example.com', birthday: '4/1/1980'}}
+          end
+
+          should 'render the new template again' do
+            assert_template :new
+          end
+
+          should 'fail to save the person' do
+            assert assigns['person'].errors.any?
+          end
+        end
+      end
+    end
+  end
+
   context '#edit' do
     context 'user is account owner' do
       setup do

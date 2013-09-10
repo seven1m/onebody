@@ -20,6 +20,8 @@ class AccountsController < ApplicationController
       render action: 'new_by_birthday'
     elsif Setting.get(:features, :sign_up)
       @person = Person.new
+    else
+      render text: I18n.t('pages.not_found'), layout: true, status: :not_found
     end
   end
 
