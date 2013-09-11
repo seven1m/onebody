@@ -84,13 +84,27 @@ class AccountsControllerTest < ActionController::TestCase
   end
 
   context '#create' do
-    context 'sign up feature enabled' do
-      setup do
-        Setting.set(1, 'Features', 'Sign Up', true)
-        get :new
+    context 'sign up' do
+      context 'sign up feature disabled' do
+        setup do
+          Setting.set(1, 'Features', 'Sign Up', false)
+          post :create, {person: {email: 'rick@example.com'}}
+        end
+
+        should 'set flash warning about required fields' do
+          assert_match /required/i, flash[:warning]
+        end
+
+        should 'render new template again' do
+          assert_template :new
+        end
       end
 
-      context 'sign up' do
+      context 'sign up feature enabled' do
+        setup do
+          Setting.set(1, 'Features', 'Sign Up', true)
+        end
+
         context 'spam sign up (honey pot phone field has text)' do
           setup do
             @count_was = Person.count
@@ -110,24 +124,58 @@ class AccountsControllerTest < ActionController::TestCase
           context 'no sign up approval needed' do
             setup do
               Setting.set(1, 'Features', 'Sign Up Approval Email', '')
-              post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
-              @person = Person.last
             end
 
-            should 'send email verification email' do
-              assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+            context 'user is an adult' do
+              setup do
+                post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+                @person = Person.last
+              end
+
+              should 'send email verification email' do
+                assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+              end
+
+              should 'create a new person' do
+                assert_equal 'rick@example.com', @person.email
+              end
+
+              should 'create a new family' do
+                assert @person.family
+                assert_equal @person.name, @person.family.name
+              end
+
+              should 'set can_sign_in=true' do
+                assert @person.can_sign_in?
+              end
+
+              should 'set full_access=true' do
+                assert @person.full_access?
+              end
             end
 
-            should 'create a new person' do
-              assert_equal 'rick@example.com', @person.email
-            end
+            context 'user is a child' do
+              setup do
+                ActionMailer::Base.deliveries.clear
+                @count_was = Person.count
+                post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: Date.today.to_s}}
+              end
 
-            should 'set can_sign_in=true' do
-              assert @person.can_sign_in?
-            end
+              should 'not send email' do
+                assert_nil ActionMailer::Base.deliveries.last
+              end
 
-            should 'set full_access=true' do
-              assert @person.full_access?
+              should 'not create a new person' do
+                assert_equal @count_was, Person.count
+              end
+
+              should 'render new template' do
+                assert_template :new
+              end
+
+              should 'add an error to the record' do
+                assert assigns[:person].errors[:base]
+              end
             end
           end
 
@@ -146,6 +194,11 @@ class AccountsControllerTest < ActionController::TestCase
               assert_equal 'rick@example.com', @person.email
             end
 
+              should 'create a new family' do
+                assert @person.family
+                assert_equal @person.name, @person.family.name
+              end
+
             should 'set can_sign_in=false' do
               refute @person.can_sign_in?
             end
@@ -153,6 +206,21 @@ class AccountsControllerTest < ActionController::TestCase
             should 'set full_access=false' do
               refute @person.full_access?
             end
+          end
+        end
+
+        context 'sign up with existing user email' do
+          setup do
+            @existing = FactoryGirl.create(:person, email: 'rick@example.com')
+            post :create, {person: {email: 'rick@example.com'}}
+          end
+
+          should 'send email verification email' do
+            assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+          end
+
+          should 'indicate that email was sent' do
+            assert_select 'body', /email.*sent/i
           end
         end
 
@@ -167,6 +235,49 @@ class AccountsControllerTest < ActionController::TestCase
 
           should 'fail to save the person' do
             assert assigns['person'].errors.any?
+          end
+        end
+      end
+    end
+
+    context 'verify email' do
+      context 'non-existent email' do
+        setup do
+          post :create, email: 'rick@example.com'
+        end
+
+        should 'indicate record not found' do
+          assert_select '#main', /not.*found/i
+        end
+      end
+
+      context 'email for existing user' do
+        setup do
+          @person = FactoryGirl.create(:person, email: 'rick@example.com')
+        end
+
+        context 'user can sign in' do
+          setup do
+            post :create, email: 'rick@example.com'
+          end
+
+          should 'send email verification email' do
+            assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+          end
+
+          should 'indicate that email was sent' do
+            assert_select '#main', /email.*sent/i
+          end
+        end
+
+        context 'user cannot sign in' do
+          setup do
+            @person.update_attribute(:can_sign_in, false)
+            post :create, email: 'rick@example.com'
+          end
+
+          should 'redirect to page for bad status' do
+            assert_redirected_to '/pages/system/bad_status'
           end
         end
       end
