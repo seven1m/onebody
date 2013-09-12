@@ -1,0 +1,8 @@
+language: ruby
+rvm:
+  - 1.9.3
+script:
+  - RAILS_ENV=test bundle exec rake --trace db:migrate test
+before_script:
+  - "echo -e 'test:\\n  adapter: mysql2\\n  database: onebody_test\\n  username: travis\\n  encoding: utf8' > config/database.yml"
+  - mysql -e 'create database onebody_test'
