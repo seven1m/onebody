@@ -1,6 +1,7 @@
 language: ruby
 rvm:
   - 1.9.3
+bundler_args: --without development production
 script:
   - RAILS_ENV=test bundle exec rake --trace db:migrate test
 before_script:
