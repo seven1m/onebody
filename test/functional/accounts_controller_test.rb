@@ -282,6 +282,63 @@ class AccountsControllerTest < ActionController::TestCase
         end
       end
     end
+
+    context 'verify mobile phone' do
+      context 'non-existent mobile phone' do
+        setup do
+          post :create, phone: '1234567899', carrier: 'AT&T'
+        end
+
+        should 'indicate record not found' do
+          assert_select '#notice', /not.*found/i
+        end
+      end
+
+      context 'mobile phone for existing user' do
+        setup do
+          @person = FactoryGirl.create(:person, mobile_phone: '1234567899')
+        end
+
+        context 'user can sign in' do
+          setup do
+            post :create, phone: '1234567899', carrier: 'AT&T'
+          end
+
+          should 'send email verification email' do
+            assert_equal 'Verify Mobile', ActionMailer::Base.deliveries.last.subject
+          end
+
+          should 'indicate that email was sent' do
+            assert_select '#main', /message.*sent/i
+          end
+        end
+
+        context 'user cannot sign in' do
+          setup do
+            @person.update_attribute(:can_sign_in, false)
+            post :create, phone: '1234567899', carrier: 'AT&T'
+          end
+
+          should 'redirect to page for bad status' do
+            assert_redirected_to '/pages/system/bad_status'
+          end
+        end
+      end
+    end
+
+    context 'verify birthday' do
+      setup do
+        post :create, name: 'Rick Smith', email: 'rick@example.com', phone: '1234567899', birthday: '4/1/1980', notes: 'let me in!'
+      end
+
+      should 'send email to administrator' do
+        assert_equal 'Birthday Verification', ActionMailer::Base.deliveries.last.subject
+      end
+
+      should 'indicate submission was sent' do
+        assert_select '#main', /submission.*reviewed/i
+      end
+    end
   end
 
   context '#edit' do
