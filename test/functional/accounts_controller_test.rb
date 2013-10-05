@@ -105,10 +105,10 @@ class AccountsControllerTest < ActionController::TestCase
           Setting.set(1, 'Features', 'Sign Up', true)
         end
 
-        context 'spam sign up (honey pot phone field has text)' do
+        context 'spam sign up (honeypot a_phone_number field has text)' do
           setup do
             @count_was = Person.count
-            post :create, {person: {email: 'rick@example.com'}, phone: '1234567890'}
+            post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}, a_phone_number: '1234567890'}
           end
 
           should 'render new template' do

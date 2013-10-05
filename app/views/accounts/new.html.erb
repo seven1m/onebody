@@ -12,7 +12,7 @@
       <%= form.label :last_name, t('accounts.last_name') %>   <%= form.text_field :last_name %><br/>
       <%= form.label :gender, t('accounts.gender') %>         <%= form.select :gender, [[t('search.male'), 'Male'], [t('search.female'), 'Female']] %><br/>
       <%= form.label :birthday, t('accounts.birthday') %>     <%= form.date_field :birthday %><br/>
-      <%= text_field_tag :phone, nil, id: 'dummy_phone' %>
+      <%= text_field_tag :a_phone_number, nil, id: 'dummy_phone' %>
       <%= form.submit t('accounts.create') %>
     </p>
   <% end %>
