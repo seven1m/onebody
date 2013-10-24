@@ -33,7 +33,7 @@ class Setting < ActiveRecord::Base
       return nil unless SETTINGS.any?
       section, name = section.to_s, name.to_s
       if global?(section, name)
-        SETTINGS[0][section][name]
+        SETTINGS[0][section][name].try(:value)
       else
         if Site.current
           if SETTINGS[Site.current.id].nil?
@@ -42,7 +42,7 @@ class Setting < ActiveRecord::Base
           end
           if SETTINGS[Site.current.id][section]
             return false if section == 'features' and Site.current.respond_to?("#{name}_enabled?") and not Site.current.send("#{name}_enabled?")
-            SETTINGS[Site.current.id][section][name] || default
+            SETTINGS[Site.current.id][section][name].try(:value) || default
           else
             default
           end
@@ -61,8 +61,24 @@ class Setting < ActiveRecord::Base
       find_all_by_section_and_name(section, name).each { |s| s.destroy }
     end
 
-    def set(site_id, section, name, value) # must be proper case section and name
-      raise 'Must be proper case string' if name.is_a? Symbol
+    def set(*args)
+      if args.length == 3
+        set_current(*args)
+      else
+        set_any(*args)
+      end
+    end
+
+    def set_current(section, name, value)
+      set_any(Site.current.id, section, name, value)
+    end
+
+    def set_any(site_id, section, name, value)
+      if section.is_a?(Symbol) and name.is_a?(Symbol)
+        setting = SETTINGS[site_id][section.to_s][name.to_s]
+        section = setting.section
+        name = setting.name
+      end
       if setting = find_by_site_id_and_section_and_name(site_id, section, name)
         setting.update_attributes! value: value
       else
@@ -82,7 +98,7 @@ class Setting < ActiveRecord::Base
         name = setting.read_attribute(:name).downcase.gsub(/\s/, '_')
         SETTINGS[site_id] ||= {}
         SETTINGS[site_id][section] ||= {}
-        SETTINGS[site_id][section][name] = setting.value
+        SETTINGS[site_id][section][name] = setting
       end
       SETTINGS['timestamp'] = Time.now unless SETTINGS.empty?
       SETTINGS
