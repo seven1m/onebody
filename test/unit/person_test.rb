@@ -126,6 +126,18 @@ class PersonTest < ActiveSupport::TestCase
     assert @person.email_changed?
   end
 
+  should 'lowercase email' do
+    @person = FactoryGirl.build(:person)
+    @person.email = 'TEST@example.COM'
+    assert_equal 'test@example.com', @person.email
+  end
+
+  should 'lowercase alternate_email' do
+    @person = FactoryGirl.build(:person)
+    @person.alternate_email = 'TEST@example.COM'
+    assert_equal 'test@example.com', @person.alternate_email
+  end
+
   should "generate a custom directory pdf" do
     @person = FactoryGirl.create(:person)
     assert_match /PDF\-1\.3/, @person.generate_directory_pdf.to_s[0..100]

@@ -67,10 +67,12 @@ class Person < ActiveRecord::Base
 
   def validate_email_unique
     return unless email.present? and not deleted?
-    if Person.where(["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", email.downcase, family_id || 0, id || 0, false]).count > 0
+    if Person.where(["email = ? and family_id != ? and id != ? and deleted = ?", email, family_id || 0, id || 0, false]).any?
       errors.add :email, :taken
     end
   end
+
+  lowercase_attribute :email, :alternate_email
 
   after_initialize :guess_last_name, if: -> p { p.last_name.nil? }
 
