@@ -70,6 +70,26 @@ en:
   errors:
     format: "%{message}"
 
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: Sign up is disabled.
+              spam: Sign up was completed by a robot.
+            first_name:
+              blank: First Name cannot be blank.
+            last_name:
+              blank: Last Name cannot be blank.
+            email:
+              blank: Email cannot be blank.
+            gender:
+              blank: Gender cannot be blank.
+            birthday:
+              blank: Birthday cannot be blank.
+              too_young: You are too young to sign up for this service.
+
   activerecord:
     attributes:
       family:
