@@ -66,9 +66,7 @@ class PersonTest < ActiveSupport::TestCase
 
     should 'not allow people in different families to have the same email address' do
       @person = FactoryGirl.create(:person, email: 'john@example.com')
-      @person2 = FactoryGirl.create(:person, email: 'john@example.com')
-      @person2.save
-      assert @person2.errors[:email]
+      assert_raise(ActiveRecord::RecordInvalid) { FactoryGirl.create(:person, email: 'john@example.com') }
     end
 
   end

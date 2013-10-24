@@ -58,21 +58,17 @@ class Person < ActiveRecord::Base
   validates_format_of :website, allow_nil: true, allow_blank: true, with: /^https?\:\/\/.+/
   validates_format_of :business_website, allow_nil: true, allow_blank: true, with: /^https?\:\/\/.+/
   validates_format_of :business_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
+  validates_format_of :email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :alternate_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_inclusion_of :gender, in: %w(Male Female), allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
+  validate :validate_email_unique # TODO replace this with validates_uniqueness_of with conditions when we get to Rails 4
 
-  # validate that an email address is unique to one family (family members may share an email address)
-  # validate that an email address is properly formatted
-  validates_each :email do |record, attribute, value|
-    if attribute.to_s == 'email' and value.to_s.any? and not record.deleted?
-      if Person.where(["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", value.downcase, record.family_id, record.id, false]).count > 0
-        record.errors.add attribute, :taken
-      end
-      if value.to_s.strip !~ VALID_EMAIL_ADDRESS
-        record.errors.add attribute, :invalid
-      end
+  def validate_email_unique
+    return unless email.present? and not deleted?
+    if Person.where(["#{sql_lcase('email')} = ? and family_id != ? and id != ? and deleted = ?", email.downcase, family_id || 0, id || 0, false]).count > 0
+      errors.add :email, :taken
     end
   end
 

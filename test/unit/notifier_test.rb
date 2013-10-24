@@ -62,7 +62,7 @@ class NotifierTest < ActiveSupport::TestCase
 
   should "not send group email to the same email address more than once" do
     @jack = FactoryGirl.create(:person, email: 'family@jackandjill.com')
-    @jill = FactoryGirl.create(:person, email: 'family@jackandjill.com')
+    @jill = FactoryGirl.create(:person, email: 'family@jackandjill.com', family: @jack.family)
     groups(:college).memberships.create!(person: @jack)
     groups(:college).memberships.create!(person: @jill)
     email = to_email(from: 'user@foobar.com', to: 'college@example.com', subject: 'test to college group from user', body: 'Hello College Group from Jeremy.')
