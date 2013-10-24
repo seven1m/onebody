@@ -21,6 +21,7 @@ class Signup
 
   def save
     return false unless valid?
+    return true if validate_existing
     return false unless create_family and create_person
     if sign_up_approval_required?
       deliver_signup_approval
@@ -36,6 +37,14 @@ class Signup
   end
 
   protected
+
+  def validate_existing
+    if @person = Person.where(email: email).first
+      @family = @person.family
+      create_and_deliver_verification
+      true
+    end
+  end
 
   def create_family
     @family = Family.create(

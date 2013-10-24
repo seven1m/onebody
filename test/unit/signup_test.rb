@@ -52,6 +52,39 @@ class SignupTest < ActiveSupport::TestCase
       end
     end
 
+    context 'user already exists with email' do
+      setup do
+        @person = FactoryGirl.create(:person, email: 'me@example.com')
+        @signup = FactoryGirl.build(:signup, email: 'me@example.com')
+      end
+
+      should 'be valid' do
+        assert @signup.valid?
+      end
+
+      context '#save' do
+        setup do
+          @family_count = Family.count
+          @person_count = Person.count
+          Notifier.deliveries.clear
+          @return = @signup.save
+        end
+
+        should 'return true' do
+          assert_equal true, @return
+        end
+
+        should 'not create any records' do
+          assert_equal @family_count, Family.count
+          assert_equal @person_count, Person.count
+        end
+
+        should 'deliver email verification email to user' do
+          assert_equal ['Verify Email'], Notifier.deliveries.map(&:subject)
+        end
+      end
+    end
+
     context 'honeypot field contains text' do
       setup do
         @signup = Signup.new(a_phone_number: '1234567890')
