@@ -20,56 +20,52 @@ class Signup
   end
 
   def save
+    return false unless valid?
+    return false unless create_family and create_person
+    if sign_up_approval_required?
+      deliver_signup_approval
+    else
+      create_and_deliver_verification
+    end
+    true
+  end
+
+  def save!
+    raise ArgumentError.new(errors.full_messages) unless valid?
+    save
+  end
+
+  protected
+
+  def create_family
     @family = Family.create(
       name: "#{first_name} #{last_name}",
       last_name: last_name
     )
-    full_access = !sign_up_approval_required?
+    @family.errors.empty?
+  end
+
+  def create_person
     @person = @family.people.create(
       email: email,
       first_name: first_name,
       last_name: last_name,
       birthday: birthday,
       gender: gender,
-      can_sign_in: full_access,
-      full_access: full_access,
-      visible_to_everyone: full_access,
-      visible_on_printed_directory: full_access
+      can_sign_in: full_access?,
+      full_access: full_access?,
+      visible_to_everyone: full_access?,
+      visible_on_printed_directory: full_access?
     )
-    if sign_up_approval_required?
-      deliver_signup_approval
-    else
-      create_and_deliver_verification
-    end
-    #attributes = {can_sign_in: false, full_access: false, visible_to_everyone: false}
-    #attributes.merge! params[:person].reject { |k, v| !%w(email first_name last_name gender birthday).include?(k) }
-    #@person = Person.new(attributes)
-    #if @person.adult?
-      #if @person.save
-        #@person.family = Family.create(name: @person.name, last_name: @person.last_name)
-        #if Setting.get(:features, :sign_up_approval_email).to_s.any?
-          #@person.save
-          #Notifier.pending_sign_up(@person).deliver
-          #render text: t('accounts.pending_approval'), layout: true
-        #else
-          #@person.update_attributes!(can_sign_in: true, full_access: true, visible_to_everyone: true, visible_on_printed_directory: true)
-          #params[:email] = @person.email
-          #create_by_email
-        #end
-      #else
-        #render action: 'new'
-      #end
-    #else
-      #@person.errors.add(:base, t('accounts.must_be_of_age', years: Setting.get(:system, :adult_age)))
-      #render action: 'new'
-    #end
-    true
+    @person.errors.empty?
   end
-
-  protected
 
   def deliver_signup_approval
     Notifier.pending_sign_up(@person).deliver
+  end
+
+  def full_access?
+    !sign_up_approval_required?
   end
 
   def create_and_deliver_verification

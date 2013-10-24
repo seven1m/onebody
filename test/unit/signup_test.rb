@@ -17,6 +17,18 @@ class SignupTest < ActiveSupport::TestCase
       msg = I18n.t('activemodel.errors.models.signup.attributes.base.disabled')
       assert_equal [msg], @signup.errors[:base]
     end
+
+    context '#save' do
+      should 'return false' do
+        assert !@signup.save
+      end
+    end
+
+    context '#save!' do
+      should 'raise exception' do
+        assert_raises(ArgumentError) { @signup.save! }
+      end
+    end
   end
 
   context 'sign up is enabled' do
@@ -133,6 +145,12 @@ class SignupTest < ActiveSupport::TestCase
               should 'deliver email verification email to user' do
                 assert_equal ['Verify Email'], Notifier.deliveries.map(&:subject)
               end
+            end
+          end
+
+          context '#save!' do
+            should 'return true' do
+              assert_equal true, @signup.save!
             end
           end
         end
