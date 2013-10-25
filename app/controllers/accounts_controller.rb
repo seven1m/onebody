@@ -19,45 +19,22 @@ class AccountsController < ApplicationController
     elsif params[:birthday]
       render action: 'new_by_birthday'
     elsif Setting.get(:features, :sign_up)
-      @person = Person.new
+      @signup = Signup.new
     else
       render text: I18n.t('pages.not_found'), layout: true, status: :not_found
     end
   end
 
   def create
-    if params[:person] and Setting.get(:features, :sign_up) and not bot?
-      if params[:person][:email].to_s.any?
-        if Person.find_by_email(params[:person][:email])
-          params[:email] = params[:person][:email]
-          create_by_email
-        else
-          attributes = {can_sign_in: false, full_access: false, visible_to_everyone: false}
-          attributes.merge! params[:person].reject { |k, v| !%w(email first_name last_name gender birthday).include?(k) }
-          @person = Person.new(attributes)
-          if @person.adult?
-            if @person.save
-              @person.family = Family.create(name: @person.name, last_name: @person.last_name)
-              if Setting.get(:features, :sign_up_approval_email).to_s.any?
-                @person.save
-                Notifier.pending_sign_up(@person).deliver
-                render text: t('accounts.pending_approval'), layout: true
-              else
-                @person.update_attributes!(can_sign_in: true, full_access: true, visible_to_everyone: true, visible_on_printed_directory: true)
-                params[:email] = @person.email
-                create_by_email
-              end
-            else
-              render action: 'new'
-            end
-          else
-            @person.errors.add(:base, t('accounts.must_be_of_age', years: Setting.get(:system, :adult_age)))
-            render action: 'new'
-          end
+    if params[:signup]
+      @signup = Signup.new(params[:signup])
+      if @signup.save
+        if @signup.verification_sent?
+          render text: t('accounts.verification_email_sent'), layout: true
+        elsif @signup.approval_sent?
+          render text: t('accounts.pending_approval'), layout: true
         end
       else
-        @person = Person.new
-        @person.errors.add(:email, :invalid)
         render action: 'new'
       end
     elsif params[:name].to_s.any? and params[:email].to_s.any? and params[:phone].to_s.any? and params[:birthday].to_s.any? and params[:notes].to_s.any?
@@ -67,7 +44,7 @@ class AccountsController < ApplicationController
     elsif params[:email].to_s.any?
       create_by_email
     else
-      @person = Person.new
+      @signup = Signup.new
       flash[:warning] = t('accounts.fill_required_fields')
       render action: 'new'
     end
@@ -115,7 +92,7 @@ class AccountsController < ApplicationController
         end
       else
         flash[:warning] = t('accounts.mobile_number_not_found')
-        @person = Person.new
+        @signup = Signup.new
         render action: 'new'
       end
     end
@@ -126,7 +103,7 @@ class AccountsController < ApplicationController
         render text: t('accounts.submission_will_be_reviewed'), layout: true
       else
         flash[:warning] = t('accounts.fill_required_fields')
-        @person = Person.new
+        @signup = Signup.new
         render action: 'new'
       end
     end

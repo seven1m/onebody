@@ -82,6 +82,18 @@ class SignupTest < ActiveSupport::TestCase
         should 'deliver email verification email to user' do
           assert_equal ['Verify Email'], Notifier.deliveries.map(&:subject)
         end
+
+        context '#verification_sent?' do
+          should 'return true' do
+            assert_equal true, @signup.verification_sent?
+          end
+        end
+
+        context '#approval_sent?' do
+          should 'return false' do
+            assert_equal false, @signup.approval_sent?
+          end
+        end
       end
     end
 
@@ -201,6 +213,18 @@ class SignupTest < ActiveSupport::TestCase
 
             should 'return true' do
               assert_equal true, @return
+            end
+
+            context '#verification_sent?' do
+              should 'return false' do
+                assert_equal false, @signup.verification_sent?
+              end
+            end
+
+            context '#approval_sent?' do
+              should 'return true' do
+                assert_equal true, @signup.approval_sent?
+              end
             end
 
             context 'created person' do

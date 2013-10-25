@@ -88,11 +88,7 @@ class AccountsControllerTest < ActionController::TestCase
       context 'sign up feature disabled' do
         setup do
           Setting.set(1, 'Features', 'Sign Up', false)
-          post :create, {person: {email: 'rick@example.com'}}
-        end
-
-        should 'set flash warning about required fields' do
-          assert_match /required/i, flash[:warning]
+          post :create, {signup: {email: 'rick@example.com'}}
         end
 
         should 'render new template again' do
@@ -108,7 +104,7 @@ class AccountsControllerTest < ActionController::TestCase
         context 'spam sign up (honeypot a_phone_number field has text)' do
           setup do
             @count_was = Person.count
-            post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}, a_phone_number: '1234567890'}
+            post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980', a_phone_number: '1234567890'}}
           end
 
           should 'render new template' do
@@ -128,7 +124,8 @@ class AccountsControllerTest < ActionController::TestCase
 
             context 'user is an adult' do
               setup do
-                post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+                post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+                assert assigns[:signup].errors.empty?
                 @person = Person.last
               end
 
@@ -158,7 +155,7 @@ class AccountsControllerTest < ActionController::TestCase
               setup do
                 ActionMailer::Base.deliveries.clear
                 @count_was = Person.count
-                post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: Date.today.to_s}}
+                post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: Date.today.to_s}}
               end
 
               should 'not send email' do
@@ -174,7 +171,7 @@ class AccountsControllerTest < ActionController::TestCase
               end
 
               should 'add an error to the record' do
-                assert assigns[:person].errors[:base]
+                assert assigns[:signup].errors[:base]
               end
             end
           end
@@ -182,7 +179,8 @@ class AccountsControllerTest < ActionController::TestCase
           context 'sign up approval required' do
             setup do
               Setting.set(1, 'Features', 'Sign Up Approval Email', 'admin@example.com')
-              post :create, {person: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+              post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
+              assert assigns[:signup].errors.empty?
               @person = Person.last
             end
 
@@ -194,10 +192,10 @@ class AccountsControllerTest < ActionController::TestCase
               assert_equal 'rick@example.com', @person.email
             end
 
-              should 'create a new family' do
-                assert @person.family
-                assert_equal @person.name, @person.family.name
-              end
+            should 'create a new family' do
+              assert @person.family
+              assert_equal @person.name, @person.family.name
+            end
 
             should 'set can_sign_in=false' do
               refute @person.can_sign_in?
@@ -212,7 +210,7 @@ class AccountsControllerTest < ActionController::TestCase
         context 'sign up with existing user email' do
           setup do
             @existing = FactoryGirl.create(:person, email: 'rick@example.com')
-            post :create, {person: {email: 'rick@example.com'}}
+            post :create, {signup: {email: 'rick@example.com', first_name: 'Rick', last_name: 'Smith', birthday: '4/1/1980'}}
           end
 
           should 'send email verification email' do
@@ -226,15 +224,15 @@ class AccountsControllerTest < ActionController::TestCase
 
         context 'sign up missing name' do
           setup do
-            post :create, {person: {email: 'rick@example.com', birthday: '4/1/1980'}}
+            post :create, {signup: {email: 'rick@example.com', birthday: '4/1/1980'}}
           end
 
           should 'render the new template again' do
             assert_template :new
           end
 
-          should 'fail to save the person' do
-            assert assigns['person'].errors.any?
+          should 'fail to save the signup' do
+            assert assigns['signup'].errors.any?
           end
         end
       end
@@ -653,11 +651,11 @@ class AccountsControllerTest < ActionController::TestCase
   should "create account with birthday in american date format" do
     Setting.set(1, 'Features', 'Sign Up', true)
     Setting.set(1, 'Formats', 'Date', '%m/%d/%Y')
-    post :create, {person: {email:      'bob@example.com',
-                               first_name: 'Bob',
-                               last_name:  'Morgan',
-                               gender:     'Male',
-                               birthday:   '01/02/1980'}}
+    post :create, {signup: {email:      'bob@example.com',
+                            first_name: 'Bob',
+                            last_name:  'Morgan',
+                            gender:     'Male',
+                            birthday:   '01/02/1980'}}
     assert_response :success
     assert bob = Person.find_by_email('bob@example.com')
     assert_equal '01/02/1980', bob.birthday.strftime('%m/%d/%Y')
@@ -666,11 +664,11 @@ class AccountsControllerTest < ActionController::TestCase
   should "create account with birthday in european date format" do
     Setting.set(1, 'Features', 'Sign Up', true)
     Setting.set(1, 'Formats', 'Date', '%d/%m/%Y')
-    post :create, {person: {email:      'bob@example.com',
-                               first_name: 'Bob',
-                               last_name:  'Morgan',
-                               gender:     'Male',
-                               birthday:   '02/01/1980'}}
+    post :create, {signup: {email:      'bob@example.com',
+                            first_name: 'Bob',
+                            last_name:  'Morgan',
+                            gender:     'Male',
+                            birthday:   '02/01/1980'}}
     assert_response :success
     assert bob = Person.find_by_email('bob@example.com')
     assert_equal 'Jan 02, 1980', bob.birthday.strftime('%b %d, %Y')

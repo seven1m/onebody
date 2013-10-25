@@ -1,6 +1,7 @@
 require 'active_model'
 
 class Signup
+  include ActiveModel::Naming
   include ActiveModel::Validations
 
   PARAMS = [:email, :password, :password_confirmation, :first_name, :last_name, :gender, :birthday, :a_phone_number]
@@ -8,7 +9,7 @@ class Signup
   attr_accessor *PARAMS
   attr_accessor :family, :person
 
-  validates :email, :first_name, :last_name, :gender, :birthday, presence: true
+  validates :email, :first_name, :last_name, :birthday, presence: true
   validate :validate_adult
   validate :validate_not_a_bot
   validate :validate_sign_up_allowed
@@ -34,6 +35,14 @@ class Signup
   def save!
     raise ArgumentError.new(errors.full_messages) unless valid?
     save
+  end
+
+  def verification_sent?
+    !!@verification_sent
+  end
+
+  def approval_sent?
+    !!@approval_sent
   end
 
   protected
@@ -71,6 +80,7 @@ class Signup
 
   def deliver_signup_approval
     Notifier.pending_sign_up(@person).deliver
+    @approval_sent = true
   end
 
   def full_access?
@@ -80,6 +90,7 @@ class Signup
   def create_and_deliver_verification
     verification = Verification.create!(email: @person.email)
     Notifier.email_verification(verification).deliver
+    @verification_sent = true
   end
 
   def sign_up_approval_required?
