@@ -5,6 +5,7 @@ require 'inherited_attribute'
 require 'add_condition'
 require 'misc_tools'
 require 'db_tools'
+require 'blank_to_nil'
 require 'date_tools'
 require 'csv'
 # FIXME
