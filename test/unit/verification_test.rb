@@ -3,10 +3,28 @@ require_relative '../test_helper'
 class VerificationTest < ActiveSupport::TestCase
 
   setup do
-    @verification = Verification.create(email: 'test@example.com')
+    @person = FactoryGirl.create(:person, email: 'test@example.com', mobile_phone: '1234567890')
+  end
+
+  context 'creation' do
+    context 'by email' do
+      setup do
+        @verification = Verification.new(email: 'test@example.com')
+      end
+
+      context 'given a person with email exists' do
+        should 'be valid' do
+          assert @verification.valid?
+        end
+      end
+    end
   end
 
   context '#generate_security_code' do
+    setup do
+      @verification = Verification.create(email: 'test@example.com')
+    end
+
     should 'store a random numeric code' do
       assert_operator @verification.code, :>=, Verification::MIN_CODE
       assert_operator @verification.code, :<=, Verification::MAX_CODE
@@ -17,9 +35,9 @@ class VerificationTest < ActiveSupport::TestCase
     context 'by email' do
       setup do
         MAX_DAILY_VERIFICATION_ATTEMPTS.times do
-          Verification.create!(email: 'test-limit@example.com')
+          Verification.create!(email: 'test@example.com')
         end
-        @verification = Verification.create(email: 'test-limit@example.com')
+        @verification = Verification.create(email: 'test@example.com')
       end
 
       should 'add error to base' do
@@ -30,7 +48,7 @@ class VerificationTest < ActiveSupport::TestCase
     context 'by mobile phone' do
       setup do
         MAX_DAILY_VERIFICATION_ATTEMPTS.times do
-          Verification.create!(mobile_phone: '1234567890')
+          Verification.create!(mobile_phone: '1234567890', carrier: 'AT&T')
         end
         @verification = Verification.create(mobile_phone: '1234567890')
       end
@@ -41,7 +59,70 @@ class VerificationTest < ActiveSupport::TestCase
     end
   end
 
+  context 'validate carrier' do
+    context 'given a mobile verification without carrier' do
+      setup do
+        @verification = Verification.new(mobile_phone: '1234567890')
+      end
+
+      should 'not be valid' do
+        assert !@verification.valid?
+        assert @verification.errors[:carrier]
+      end
+    end
+  end
+
+  context '#save' do
+    context 'given a mobile phone number matching an existing person' do
+      setup do
+        ActionMailer::Base.deliveries.clear
+        @verification = Verification.new(mobile_phone: '1234567890', carrier: 'AT&T')
+        @return = @verification.save
+      end
+
+      should 'return true' do
+        assert_equal true, @return
+      end
+
+      should 'not be verified' do
+        assert_equal false, @verification.reload.verified?
+      end
+
+      should 'set email address to mobile gateway' do
+        assert_equal '1234567890@txt.att.net', @verification.reload.email
+      end
+
+      should 'send verification email' do
+        assert_equal 'Verify Mobile', ActionMailer::Base.deliveries.last.subject
+      end
+    end
+
+    context 'given an email matching an existing person' do
+      setup do
+        ActionMailer::Base.deliveries.clear
+        @verification = Verification.new(email: 'test@example.com')
+        @return = @verification.save
+      end
+
+      should 'return true' do
+        assert_equal true, @return
+      end
+
+      should 'not be verified' do
+        assert_equal false, @verification.reload.verified?
+      end
+
+      should 'send verification email' do
+        assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+      end
+    end
+  end
+
   context '#check!' do
+    setup do
+      @verification = Verification.create(email: 'test@example.com')
+    end
+
     setup do
       @verification.code = 100000
     end
@@ -61,26 +142,16 @@ class VerificationTest < ActiveSupport::TestCase
     end
 
     context 'given no matching people' do
-      context 'given the matching code' do
-        setup do
-          @result = @verification.check!(100000)
-        end
+      setup do
+        @verification = Verification.new(email: 'nonexist@example.com')
+      end
 
-        should 'return false' do
-          assert_equal false, @result
-        end
-
-        should 'set verified=false' do
-          assert_equal false, @verification.reload.verified
-        end
+      should 'not be valid' do
+        assert !@verification.valid?
       end
     end
 
     context 'given one matching person' do
-      setup do
-        @person = FactoryGirl.create(:person, email: @verification.email)
-      end
-
       context 'given the matching code' do
         setup do
           @result = @verification.check!('100000')
@@ -98,8 +169,7 @@ class VerificationTest < ActiveSupport::TestCase
 
     context 'given two matching people' do
       setup do
-        @person1 = FactoryGirl.create(:person, email: @verification.email)
-        @person2 = FactoryGirl.create(:person, email: @verification.email, family: @person1.family)
+        @person2 = FactoryGirl.create(:person, email: 'test@example.com', family: @person.family)
       end
 
       context 'given the matching code' do

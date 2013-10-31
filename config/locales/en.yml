@@ -291,6 +291,14 @@ en:
               blank: The tag must have a name.
               exclusion: The tag name is invalid.
               taken: There is another tag with the same name.
+        verification:
+          attributes:
+            email:
+              invalid: That email address could not be found in our system. If you have another address, try again.
+            carrier:
+              inclusion: You must select a mobile carrier.
+            mobile_phone:
+              invalid: That mobile number could not be found in our system. You may try again.
         verse: 
           attributes: 
             reference: 
@@ -762,7 +770,6 @@ en:
     create: Create Account
     date_format: MM/DD/YYYY
     description: Description
-    email_not_found: That email address could not be found in our system. If you have another address, try again.
     enter_code: Enter the code
     enter_your_email: Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site.
     fill_required_fields: Please fill in all required fields.
@@ -771,7 +778,6 @@ en:
     first_name: First Name
     last_name: Last Name
     leave_blank: Leave these fields blank if you don't want to change your password.
-    mobile_number_not_found: That mobile number could not be found in our system. You may try again.
     must_be_of_age: Must be at least %{years} years of age.
     must_set_email_pass: You must set your personal email address and password to continue.
     pending_approval: Your account is pending approval. You will receive an email once it's approved.
