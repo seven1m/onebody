@@ -299,6 +299,8 @@ en:
               inclusion: You must select a mobile carrier.
             mobile_phone:
               invalid: That mobile number could not be found in our system. You may try again.
+            base:
+              unauthorized: There is a problem with your record preventing you from signing in.
         verse: 
           attributes: 
             reference: 

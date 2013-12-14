@@ -150,6 +150,10 @@ class SignupTest < ActiveSupport::TestCase
               assert_equal @person_count + 1, Person.count
             end
 
+            should 'deliver email verification email to user' do
+              assert_equal ['Verify Email'], Notifier.deliveries.map(&:subject)
+            end
+
             context 'created person' do
               setup do
                 @person = @signup.person
@@ -185,10 +189,6 @@ class SignupTest < ActiveSupport::TestCase
 
               should 'be visible on printed directory' do
                 assert_equal true, @person.visible_on_printed_directory?
-              end
-
-              should 'deliver email verification email to user' do
-                assert_equal ['Verify Email'], Notifier.deliveries.map(&:subject)
               end
             end
           end

@@ -88,8 +88,7 @@ class Signup
   end
 
   def create_and_deliver_verification
-    verification = Verification.create!(email: @person.email)
-    Notifier.email_verification(verification).deliver
+    Verification.create!(email: @person.email)
     @verification_sent = true
   end
 

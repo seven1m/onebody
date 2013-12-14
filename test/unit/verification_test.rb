@@ -101,19 +101,39 @@ class VerificationTest < ActiveSupport::TestCase
       setup do
         ActionMailer::Base.deliveries.clear
         @verification = Verification.new(email: 'test@example.com')
-        @return = @verification.save
       end
 
-      should 'return true' do
-        assert_equal true, @return
+      context 'person can sign in' do
+        setup do
+          @return = @verification.save
+        end
+
+        should 'return true' do
+          assert_equal true, @return
+        end
+
+        should 'not be verified' do
+          assert_equal false, @verification.reload.verified?
+        end
+
+        should 'send verification email' do
+          assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+        end
       end
 
-      should 'not be verified' do
-        assert_equal false, @verification.reload.verified?
-      end
+      context 'person cannot sign in' do
+        setup do
+          @person.update_attribute(:can_sign_in, false)
+          @return = @verification.save
+        end
 
-      should 'send verification email' do
-        assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+        should 'return false' do
+          assert_equal false, @return
+        end
+
+        should 'not send verification email' do
+          assert_nil ActionMailer::Base.deliveries.last
+        end
       end
     end
   end

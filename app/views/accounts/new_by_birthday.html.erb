@@ -1,4 +1,5 @@
 <%= form_tag account_path, method: 'post' do %>
+  <%= error_messages_for(@verification) %>
   <p>
     <label for="name"><%= t('accounts.your_full_name') %>:</label>
     <%= text_field_tag :name %><br/>
