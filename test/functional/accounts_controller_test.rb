@@ -29,33 +29,49 @@ class AccountsControllerTest < ActionController::TestCase
   end
 
   context '#new' do
-    context 'by email' do
+    context 'sign up feature disabled' do
       setup do
-        get :new, {email: 'true'}
+        Setting.set(1, 'Features', 'Sign Up', false)
       end
 
-      should 'render new_by_email template' do
-        assert_template :new_by_email
-      end
-    end
+      context 'verify account page' do
+        setup do
+          get :new
+        end
 
-    context 'by mobile phone' do
-      setup do
-        get :new, {phone: 'true'}
-      end
-
-      should 'render new_by_mobile template' do
-        assert_template :new_by_mobile
-      end
-    end
-
-    context 'by birthday' do
-      setup do
-        get :new, {birthday: 'true'}
+        should 'render new template' do
+          assert_template :new
+        end
       end
 
-      should 'render new_by_birthday template' do
-        assert_template :new_by_birthday
+      context 'by email' do
+        setup do
+          get :new, {email: 'true'}
+        end
+
+        should 'render new_by_email template' do
+          assert_template :new_by_email
+        end
+      end
+
+      context 'by mobile phone' do
+        setup do
+          get :new, {phone: 'true'}
+        end
+
+        should 'render new_by_mobile template' do
+          assert_template :new_by_mobile
+        end
+      end
+
+      context 'by birthday' do
+        setup do
+          get :new, {birthday: 'true'}
+        end
+
+        should 'render new_by_birthday template' do
+          assert_template :new_by_birthday
+        end
       end
     end
 
@@ -68,18 +84,17 @@ class AccountsControllerTest < ActionController::TestCase
       should 'render new template' do
         assert_template :new
       end
-    end
 
-    context 'sign up feature disabled' do
-      setup do
-        Setting.set(1, 'Features', 'Sign Up', false)
-        get :new
+      context 'verify by email' do
+        setup do
+          get :new, {email: 'true'}
+        end
+
+        should 'render new_by_email template' do
+          assert_template :new_by_email
+        end
       end
 
-      should 'return failure message' do
-        assert_response :not_found
-        assert_select 'body', /page not found/i
-      end
     end
   end
 

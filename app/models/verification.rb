@@ -54,7 +54,7 @@ class Verification < ActiveRecord::Base
     write_attribute :code, code
   end
 
-  before_create :send_verification_email
+  after_create :send_verification_email
 
   def email
     read_attribute(:email) || mobile_gateway_email

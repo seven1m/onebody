@@ -117,7 +117,9 @@ class VerificationTest < ActiveSupport::TestCase
         end
 
         should 'send verification email' do
-          assert_equal 'Verify Email', ActionMailer::Base.deliveries.last.subject
+          email = ActionMailer::Base.deliveries.last
+          assert_equal 'Verify Email', email.subject
+          assert_match %r{account/verify_code\?id=\d+&code=\d+}, email.body.to_s
         end
       end
 

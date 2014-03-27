@@ -24,9 +24,8 @@ class AccountsController < ApplicationController
       render action: 'new_by_birthday'
     elsif Setting.get(:features, :sign_up)
       @signup = Signup.new
-    else
-      render text: I18n.t('pages.not_found'), layout: true, status: :not_found
     end
+    # render template 'new' by default
   end
 
   def create
