@@ -54,6 +54,7 @@ watch('^app/models/(.*)\.rb'           ) { |m| run_tests("test/unit/#{m[1]}_test
 watch('^app/authorizers/(.*)\.rb'      ) { |m| run_tests("test/unit/authorizers/#{m[1]}_test.rb") }
 watch('^app/concerns/(.*)\.rb'         ) { |m| run_tests("test/unit/concerns/#{m[1]}_test.rb")    }
 watch('^app/controllers/(.*)\.rb'      ) { |m| run_tests("test/functional/#{m[1]}_test.rb")       }
+watch('^app/helpers/(.*)\.rb'          ) { |m| run_tests("test/unit/helpers/#{m[1]}_test.rb")     }
 watch('^lib/(.*)\.rb'                  ) { |m| run_tests("test/lib/#{m[1]}_test.rb")              }
 
 @interrupt_received = false
