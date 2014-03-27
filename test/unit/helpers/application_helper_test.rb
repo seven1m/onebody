@@ -84,6 +84,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   context 'date_field and date_field_tag' do
     should 'output a text field' do
+      Setting.set(:formats, :date, '%m/%d/%Y')
       OneBody.set_local_formats
       assert_equal '<input id="birthday" name="birthday" size="12" type="text" value="04/28/1981" />',
                    date_field_tag(:birthday, Date.new(1981, 4, 28))
