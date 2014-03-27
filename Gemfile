@@ -25,6 +25,7 @@ gem 'load_and_authorize_resource'
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda'
+  gem 'pry'
 end
 
 group :development do
