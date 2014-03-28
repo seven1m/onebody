@@ -13,11 +13,6 @@
     <li>
       <%= link_to t('accounts.verify_by_phone'), new_account_path(phone: true) %><br/>
       <%= t('accounts.verify_by_phone_message') %>
-      <span style="color:#f00;"><%= t('accounts.text_messaging_fees') %></span>
-    </li>
-    <li>
-      <%= link_to t('accounts.verify_by_birthday'), new_account_path(birthday: true) %><br/>
-      <%= t('accounts.verify_by_birthday_message') %>
     </li>
     <li>
       <%= t('accounts.call_office', office_phone: Setting.get(:contact, :community_office_phone)) %>

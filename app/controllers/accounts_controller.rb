@@ -12,20 +12,17 @@ class AccountsController < ApplicationController
   end
 
   def new
-    # TODO pass in verification
+    @verification ||= Verification.new
     if params[:email]
-      @verification = Verification.new
       render action: 'new_by_email'
     elsif params[:phone]
-      @verification = Verification.new
       render action: 'new_by_mobile'
-    elsif params[:birthday]
-      @verification = Verification.new
-      render action: 'new_by_birthday'
     elsif Setting.get(:features, :sign_up)
       @signup = Signup.new
+      render action: 'new'
+    else
+      render action: 'new'
     end
-    # render template 'new' by default
   end
 
   def create
@@ -44,12 +41,14 @@ class AccountsController < ApplicationController
       params.permit! # FIXME
       @verification = Verification.new(params[:verification])
       if @verification.save
-        # TODO appropriate message for type of verification
-        render text: t('accounts.verification_email_sent'), layout: true
-        #render text: t('accounts.verification_message_sent'), layout: true
-        #render text: t('accounts.submission_will_be_reviewed'), layout: true
+        if params[:phone]
+          flash[:notice] = t('accounts.verification_message_sent')
+          render action: 'verify_code'
+        else
+          render text: t('accounts.verification_email_sent'), layout: true
+        end
       else
-        render action: 'new_by_email'
+        new
       end
     else
       @signup = Signup.new
@@ -76,7 +75,7 @@ class AccountsController < ApplicationController
         redirect_to edit_person_account_path(person)
       end
     else
-      render text: t('accounts.wrong_code'), layout: true, status: :bad_request
+      render text: t('accounts.wrong_code_html'), layout: true, status: :bad_request
     end
   end
 

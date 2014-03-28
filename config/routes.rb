@@ -4,7 +4,6 @@ OneBody::Application.routes.draw do
 
   resource :account do
     member do
-      get  :verify_code
       post :verify_code
       get  :select
       post :select

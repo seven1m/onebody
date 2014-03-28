@@ -63,16 +63,6 @@ class AccountsControllerTest < ActionController::TestCase
           assert_template :new_by_mobile
         end
       end
-
-      context 'by birthday' do
-        setup do
-          get :new, {birthday: 'true'}
-        end
-
-        should 'render new_by_birthday template' do
-          assert_template :new_by_birthday
-        end
-      end
     end
 
     context 'sign up feature enabled' do
@@ -256,7 +246,7 @@ class AccountsControllerTest < ActionController::TestCase
     context 'verify email' do
       context 'non-existent email' do
         setup do
-          post :create, verification: {email: 'rick@example.com'}
+          post :create, verification: {email: 'rick@example.com'}, email: true
         end
 
         should 'indicate record not found' do
@@ -297,10 +287,11 @@ class AccountsControllerTest < ActionController::TestCase
     context 'verify mobile phone' do
       context 'non-existent mobile phone' do
         setup do
-          post :create, verification: {mobile_phone: '1234567899', carrier: 'AT&T'}
+          post :create, verification: {mobile_phone: '1234567899', carrier: 'AT&T'}, phone: true
         end
 
         should 'indicate record not found' do
+          assert_template 'new_by_mobile'
           assert_select 'body', /mobile number could not be found in our system/i
         end
       end
@@ -335,20 +326,6 @@ class AccountsControllerTest < ActionController::TestCase
         end
       end
     end
-
-    #context 'verify birthday' do
-      #setup do
-        #post :create, verification: {name: 'Rick Smith', email: 'rick@example.com', phone: '1234567899', birthday: '4/1/1980', notes: 'let me in!'}
-      #end
-
-      #should 'send email to administrator' do
-        #assert_equal 'Birthday Verification', ActionMailer::Base.deliveries.last.subject
-      #end
-
-      #should 'indicate submission was sent' do
-        #assert_select '#main', /submission.*reviewed/i
-      #end
-    #end
   end
 
   context '#edit' do
