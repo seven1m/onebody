@@ -8,9 +8,6 @@ OneBody::Application.load_tasks
 
 require 'shoulda'
 
-# flatten settings hash and write to fixture file
-Rake::Task['onebody:build_settings_fixture_file'].invoke
-
 #Webrat.configure do |config|
   #config.mode = :selenium
   #config.application_framework = :rails
