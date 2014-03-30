@@ -23,7 +23,7 @@ class Attachment < ActiveRecord::Base
 
   def image
     @img ||= unless @img == false
-      if `identify -format "%m/%b/%w/%h" #{self.file.path}` =~ %r{(.+)/(.+)B/(\d+)/(\d+)}
+      if `identify -format "%m/%b/%w/%h" #{self.file.path} 2>&1` =~ %r{(.+)/(.+)B/(\d+)/(\d+)}
         @img = {
           'format' => $1,
           'size'   => $2.to_i,

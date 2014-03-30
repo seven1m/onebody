@@ -30,8 +30,8 @@ class Picture < ActiveRecord::Base
       raise ErrorRotatingPhoto.new('Invalid degree value.')
     end
     tmp = Tempfile.new(['photo', File.extname(photo.path)])
-    size = `convert #{photo.path} -rotate #{degrees} #{tmp.path} && stat -c %s #{tmp.path}`
-    if size.to_i > 0
+    `convert #{photo.path} -rotate #{degrees} #{tmp.path}`
+    if File.stat(tmp.path).size > 0
       self.photo = tmp
       save!
       tmp.delete

@@ -45,7 +45,8 @@ class AttachmentTest < ActiveSupport::TestCase
     assert img.image?
     assert_equal 2, img.width
     assert_equal 2, img.height
-    assert !Attachment.create_from_file(file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true)).image?
+    file = Attachment.create_from_file(file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true))
+    assert !file.image?
   end
 
 end
