@@ -23,7 +23,7 @@ class Administration::DeletedPeopleController < ApplicationController
       conditions.reverse_merge!(params[:search])
     end
     @people = Person.includes(:family).where(conditions).order(params[:sort]).page(params[:page])
-    @families = Family.undeleted.where("(select count(id) from people where deleted = ? and family_id=families.id) = 0", false]).order('name')
+    @families = Family.undeleted.where(["(select count(id) from people where deleted = ? and family_id=families.id) = 0", false]).order('name')
   end
 
   def batch
