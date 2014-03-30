@@ -34,7 +34,7 @@ class Verification < ActiveRecord::Base
 
   def criteria
     if mobile_phone
-      {mobile_phone: mobile_phone.scan(/\d/).join}
+      {mobile_phone: mobile_phone.digits_only}
     elsif email
       {email: email}
     end
@@ -62,7 +62,7 @@ class Verification < ActiveRecord::Base
 
   def mobile_gateway_email
     if gateway = MOBILE_GATEWAYS[carrier]
-      gateway % mobile_phone.scan(/\d/).join
+      gateway % mobile_phone.digits_only
     end
   end
 
