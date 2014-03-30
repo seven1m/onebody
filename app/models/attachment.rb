@@ -10,6 +10,7 @@ class Attachment < ActiveRecord::Base
   scope_by_site_id
 
   has_attached_file :file, PAPERCLIP_FILE_OPTIONS
+  do_not_validate_attachment_file_type :file
 
   validates_attachment_size :file, less_than: PAPERCLIP_FILE_MAX_SIZE
 

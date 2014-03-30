@@ -28,6 +28,7 @@ class AttachmentTest < ActiveSupport::TestCase
     file_path = @attachment.file.path
     assert File.exist?(file_path)
     @attachment.destroy
+    @attachment.run_callbacks(:commit)
     assert !File.exist?(file_path)
   end
 

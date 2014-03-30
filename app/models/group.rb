@@ -31,6 +31,8 @@ class Group < ActiveRecord::Base
 
   scope_by_site_id
 
+  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
+
   validates_presence_of :name
   validates_presence_of :category
   validates_uniqueness_of :name, scope: :site_id
@@ -52,8 +54,6 @@ class Group < ActiveRecord::Base
       puts 'error checking for self-referencing parents_of (OK if you are migrating)'
     end
   end
-
-  has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
   def name_group # returns something like "Morgan group"
     "#{name}#{name =~ /group$/i ? '' : ' group'}"
