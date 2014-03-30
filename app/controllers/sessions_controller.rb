@@ -10,12 +10,7 @@ class SessionsController < ApplicationController
   # sign in form
   def new
     if not Person.any?
-      if Setting.get(:features, :multisite)
-        @show_help = request.local?
-        render action: 'no_users'
-      else
-        redirect_to new_setup_path
-      end
+      redirect_to new_setup_path
     end
   end
 

@@ -1575,7 +1575,6 @@ pt:
     i_need_help: Eu preciso de ajuda.
     load_sample_data: "Como uma alternativa, você pode carregar o OneBody com alguns dados de exemplo executando o comando:"
     max_sign_in_attempts: Desculpe mas você excedeu o número máximo de tentativas de login num período de 15 minutos. Você pode tentar novamente em 15 minutos.
-    no_users: Não há usuários
     password: "Senha:"
     password_confirm: "Senha (confirmação):"
     password_doesnt_match: A senha inserida não confere com os nossos registros. Por favor tente novamente.
@@ -1585,7 +1584,6 @@ pt:
     sign_in_error_html: Houve um erro ao acessar o sistema. Por favor <a href="%{url}">tente novamente</a>.
     sign_out: sair
     sign_up_or_sign_in_html: "<a href=\"%{url}\">Registrar</a> para uma conta, ou acesse com uma existente:"
-    there_are_no_users_in_the_system: "Não há usuários no sistema."
 
   setup:
     admin_account: Conta Administrativa

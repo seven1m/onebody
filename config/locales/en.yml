@@ -1625,7 +1625,6 @@ en:
     i_need_help: I need help.
     load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
     max_sign_in_attempts: We're sorry, but you have exceeded the maximum number of sign in attempts within a 15 minute period. You may try again in 15 minutes.
-    no_users: No Users
     password: "Password:"
     password_confirm: "Password (confirm):"
     password_doesnt_match: The password you entered doesn't match our records. Please try again.
@@ -1635,7 +1634,6 @@ en:
     sign_in_error_html: There was an error signing you in. Please <a href="%{url}">try again</a>.
     sign_out: sign out
     sign_up_or_sign_in_html: "<a href=\"%{url}\">Sign Up</a> for an account if you don't have one."
-    there_are_no_users_in_the_system: There are no users in the system.
 
   setup:
     admin_account: Admin Account

@@ -61,7 +61,7 @@ class SetupsController < ApplicationController
   private
 
     def check_setup_requirements
-      if Person.count > 0 or Setting.get(:features, :multisite)
+      if Person.count > 0
         render text: t('not_authorized'), layout: true
         return false
       end
