@@ -10,7 +10,7 @@ def notify(pass, heading, body='')
   cmd = if LINUX
     %(notify-send --hint=int:transient:1 "#{escape heading}" "#{escape body[0..400]}")
   else
-    %(growlnotify -m "#{escape body}" "#{escape heading}")
+    %(terminal-notifier -message "#{escape body}" -title "#{escape heading}")
   end
   system(cmd)
 end

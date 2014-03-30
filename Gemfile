@@ -21,17 +21,17 @@ gem 'acts_as_taggable_on_steroids', github: 'PavelNartov/acts_as_taggable_on_ste
 gem 'pdf-writer', github: 'metaskills/pdf-writer', require: 'pdf/writer'
 gem 'authority'
 gem 'load_and_authorize_resource'
+gem 'pry'
 
 group :test do
   gem 'factory_girl_rails'
   gem 'shoulda'
-  gem 'pry'
 end
 
 group :development do
-  gem 'pry'
   gem 'zeus'
   gem 'watchr'
+  gem 'terminal-notifer' if RUBY_PLATFORM =~ /darwin/
 end
 
 group :production do
