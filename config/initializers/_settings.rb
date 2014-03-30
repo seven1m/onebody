@@ -12,3 +12,5 @@ if Rails.env.test? and ActiveRecord::Base.connected?
 end
 
 SETTINGS = {}
+
+Setting.update_all if Setting.table_exists?

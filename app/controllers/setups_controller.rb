@@ -12,6 +12,7 @@ class SetupsController < ApplicationController
   end
 
   def create
+    params.permit! # FIXME
     Person.transaction do
       @person = Person.new
       if params[:domain_name].to_s.any?
