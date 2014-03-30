@@ -24,6 +24,15 @@ We also have full step-by-step instructions in our INSTALL.md file.
 Please visit the [PostfixEmailSetup](http://github.com/seven1m/onebody/wiki/PostfixEmailSetup) page on the wiki for help with setting up incoming email.
 
 
+## Tests
+
+To run tests:
+
+```
+mysql -u root -e "create database onebody_test; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
+rake test
+```
+
 ## Get Help
 
 * [Wiki](http://wiki.github.com/seven1m/onebody) - A wonderful resource full of helpful information; Check here first.
