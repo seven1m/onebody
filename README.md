@@ -13,8 +13,9 @@ OneBody is open-source, web-based social networking and online directory softwar
 2. Install MySQL.
 3. `git clone git://github.com/seven1m/onebody.git`
 4. `mysql -u root -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
-5. `cd onebody && bundle install && rake db:migrate`
-6. `rails server`
+5. `cp config/database.yml{.example,}`
+6. `cd onebody && bundle install && rake db:migrate`
+7. `rails server`
 
 Now visit the site running in development mode at localhost:3000.
 
@@ -31,7 +32,7 @@ Please visit the [PostfixEmailSetup](http://github.com/seven1m/onebody/wiki/Post
 
 ## Copyright
 
-Copyright (c) 2008-2013, [Tim Morgan](http://timmorgan.org)
+Copyright (c) [Tim Morgan](http://timmorgan.org)
 
 THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 
