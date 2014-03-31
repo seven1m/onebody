@@ -1,6 +1,8 @@
 require_relative '../test_helper'
 
 class GroupTest < ActiveSupport::TestCase
+  fixtures :people
+
   def setup
     @person = Person.logged_in = FactoryGirl.create(:person)
     # all are approved...

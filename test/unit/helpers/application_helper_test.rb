@@ -1,6 +1,7 @@
 require_relative '../../test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
+  fixtures :people
 
   context 'sanitize_html' do
     should 'remove style tags and their content' do

@@ -2,6 +2,8 @@ require_relative '../test_helper'
 
 class PageTest < ActiveSupport::TestCase
 
+  fixtures :pages
+
   should "update path when saved" do
     @foo = Page.create!(slug: 'foo', title: 'Foo', body: 'foo rocks')
     assert_equal 'foo', @foo.path

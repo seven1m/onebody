@@ -1,6 +1,7 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class GroupsTest < ActionController::IntegrationTest
+  fixtures :people, :groups
 
   def test_search
     sign_in_as people(:tim)

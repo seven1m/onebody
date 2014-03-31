@@ -3,6 +3,8 @@ require_relative '../../test_helper'
 class StreamsHelperTest < ActionView::TestCase
   include ApplicationHelper
 
+  fixtures :people, :groups
+
   context 'stream_item_content' do
     should 'be html_safe for messages' do
       @message = Message.create!(person: people(:tim), group: groups(:morgan), subject: 'Foo', body: 'Bar')

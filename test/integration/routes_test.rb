@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class RoutesTest < ActionController::IntegrationTest
+  fixtures :people
 
   # I'm just going to test some of the oddballs here...
 

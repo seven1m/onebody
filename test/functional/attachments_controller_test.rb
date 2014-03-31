@@ -1,6 +1,7 @@
 require_relative '../test_helper'
 
 class AttachmentsControllerTest < ActionController::TestCase
+  fixtures :groups
 
   def setup
     @person, @other_person = FactoryGirl.create_list(:person, 2)

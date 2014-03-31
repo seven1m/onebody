@@ -1,7 +1,8 @@
 require_relative '../test_helper'
 
 class SearchTest < ActiveSupport::TestCase
-  fixtures :people, :families
+
+  fixtures :people
 
   def setup
     Person.logged_in = people(:jeremy)

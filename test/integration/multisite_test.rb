@@ -1,6 +1,8 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class MultisiteTest < ActionController::IntegrationTest
+  fixtures :people
+
   def setup
     Setting.set_global('Features', 'Multisite', true)
   end

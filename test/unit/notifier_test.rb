@@ -5,7 +5,7 @@ class NotifierTest < ActiveSupport::TestCase
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures'
   CHARSET = "utf-8"
 
-  fixtures :people, :families
+  fixtures :people, :families, :groups
 
   def setup
     ActionMailer::Base.delivery_method = :test

@@ -1,6 +1,7 @@
 require_relative '../test_helper'
 
 class RelationshipTest < ActiveSupport::TestCase
+  fixtures :people
 
   should "not allow an invalid relationship name" do
     relationship = Relationship.new(

@@ -1,7 +1,7 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class FriendTest < ActionController::IntegrationTest
-  fixtures :people, :families, :friendships
+  fixtures :people, :groups, :families, :friendships
 
   def setup
     Setting.set(1, 'Features', 'Friends', true)

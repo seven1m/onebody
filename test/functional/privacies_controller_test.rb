@@ -1,6 +1,7 @@
 require_relative '../test_helper'
 
 class PrivaciesControllerTest < ActionController::TestCase
+  fixtures :people, :groups, :memberships
 
   should "redirect to edit action" do
     get :show, {group_id: groups(:college).id, membership_id: memberships(:peter_in_college_group).id},

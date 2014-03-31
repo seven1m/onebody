@@ -3,6 +3,7 @@ require_relative '../test_helper'
 GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL == 'support@example.com'
 
 class PeopleControllerTest < ActionController::TestCase
+  fixtures :people
 
   def setup
     @person, @other_person = FactoryGirl.create_list(:person, 2)

@@ -2,6 +2,8 @@ require_relative '../test_helper'
 
 class PagesControllerTest < ActionController::TestCase
 
+  fixtures :pages
+
   def setup
     @admin = FactoryGirl.create(:person, admin: Admin.create(edit_pages: true))
     @person = FactoryGirl.create(:person)

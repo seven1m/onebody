@@ -1,7 +1,7 @@
 require "#{File.dirname(__FILE__)}/../test_helper"
 
 class SignInTest < ActionController::IntegrationTest
-  fixtures :people
+  fixtures :people, :groups
 
   should "allow sign in" do
     Setting.set(nil, 'Features', 'SSL', true)
