@@ -91,19 +91,6 @@ class PeopleControllerTest < ActionController::TestCase
       {logged_in_id: @other_person.id}
     assert_redirected_to person_path(@person)
     assert_equal 'Bob', @person.reload.first_name
-    u = Updater.new(
-      {
-        id: @person.id,
-        person: {
-          first_name: 'Bob',
-          last_name: 'Smith'
-        },
-        family: {
-          name: 'Bob Smith',
-          last_name: 'Smith'
-        }
-      }
-    )
     assert_equal 0, @person.updates.count
   end
 

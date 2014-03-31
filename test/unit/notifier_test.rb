@@ -19,7 +19,7 @@ class NotifierTest < ActiveSupport::TestCase
     assert_deliveries 2 # 2 people in college group
     assert_emails_delivered(email, groups(:college).people)
     delivery = ActionMailer::Base.deliveries.first
-    assert_match /Hello College Group from Jeremy/, delivery.to_s
+    assert_match(/Hello College Group from Jeremy/, delivery.to_s)
   end
 
   should "send group replies to the group" do

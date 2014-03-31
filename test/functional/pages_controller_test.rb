@@ -43,7 +43,7 @@ class PagesControllerTest < ActionController::TestCase
   should "update a page" do
     post :update, {id: pages(:baz).id, page: {title: 'Test', slug: 'test', body: 'the body'}}, {logged_in_id: @admin.id}
     assert_redirected_to pages_path
-    assert_match /saved/, flash[:notice]
+    assert_match(/saved/, flash[:notice])
     assert_equal 'Test',     pages(:baz).reload.title
     assert_equal 'test',     pages(:baz).slug
     assert_equal 'the body', pages(:baz).body
