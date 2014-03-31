@@ -115,7 +115,7 @@ class MembershipsController < ApplicationController
           if request.post?
             person = Person.find(id)
             unless params[:commit] == 'Ignore' or group_people.include?(person)
-              @group.memberships.create(person: person) 
+              @group.memberships.create(person: person)
               @added << person
             end
             @group.membership_requests.find_all_by_person_id(id).each { |r| r.destroy }

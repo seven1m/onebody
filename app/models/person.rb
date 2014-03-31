@@ -272,11 +272,11 @@ class Person < ActiveRecord::Base
 
   # get the parents/guardians by grabbing people in family sequence 1 and 2 and adult?
   def parents
-    if family 
+    if family
       family.people.select { |p| !p.deleted? and p.adult? and [1, 2].include?(p.sequence) }
     end
   end
-  
+
   def active?
     log_items.count(["created_at >= ?", 1.day.ago]) > 0
   end

@@ -78,7 +78,7 @@ class Person
           end
           if with_pictures and family.photo.exists?
             if pdf.y < 300
-              pdf.move_pointer 300 
+              pdf.move_pointer 300
             else
               pdf.move_pointer 20
             end

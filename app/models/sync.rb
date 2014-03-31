@@ -87,7 +87,7 @@ class Sync < ActiveRecord::Base
       families = Hash.from_xml(File.read(filename))['onebody']['families']
     rescue
       Rails.logger.info('No Families to sync')
-    else  
+    else
       Array.wrap(families).each do |family_hash|
         family_ids << legacy_id = family_hash['legacy_id'].to_i
         operation = nil
@@ -161,11 +161,11 @@ class Sync < ActiveRecord::Base
 
   def do_pc_sync_groups(filename)
     group_ids = []
-    begin 
+    begin
       groups = Hash.from_xml(File.read(filename))['onebody']['groups']
     rescue
       Rails.logger.info('No Groups to sync')
-    else  
+    else
       Array.wrap(groups).each do |group_hash|
         group_ids << legacy_id = group_hash['legacy_id'].to_i
         operation = nil

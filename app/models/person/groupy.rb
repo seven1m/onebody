@@ -5,7 +5,7 @@ class Person
     extend ActiveSupport::Concern
 
     # TODO rename "sidebar group people" to something more descriptive
-    # Basically, people who are likely to be in a small group with another person 
+    # Basically, people who are likely to be in a small group with another person
 
     included do
       scope :in_groups, -> groups { joins(:memberships).where('memberships.group_id in (?)', groups.map(&:id)) }

@@ -22,7 +22,7 @@ module Foo
                 self.encrypted_password = nil
               end
             end
-            
+
             def change_password(new_password, new_password_confirmation)
               reload
               errors.clear
@@ -30,21 +30,21 @@ module Foo
               self.password_confirmation = new_password_confirmation
               return self.save
             end
-            
+
             def encrypt_first_pass(pass)
               Digest::MD5.hexdigest(pass)
             end
-            
+
             def encrypt_second_pass(pass)
               10.times { pass = Digest::SHA1.hexdigest(pass + salt) }
               return pass
             end
-            
+
             extend Foo::Acts::Password::SingletonMethods
           end
         end
       end
-      
+
       module SingletonMethods
         # if email and password match, returns a Person object
         # if email cannot be found, returns nil
