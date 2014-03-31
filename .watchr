@@ -10,7 +10,12 @@ def notify(pass, heading, body='')
   cmd = if LINUX
     %(notify-send --hint=int:transient:1 "#{escape heading}" "#{escape body[0..400]}")
   else
-    %(terminal-notifier -message "#{escape body}" -title "#{escape heading}")
+    if pass
+      icon = ''
+    else
+      icon = '-contentImage /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/AlertCautionIcon.icns'
+    end
+    %(terminal-notifier -message "#{escape body}" -title "#{escape heading}" #{icon})
   end
   system(cmd)
 end
@@ -31,9 +36,9 @@ def run_tests(test, force=false)
       summary = $~.to_s
       secs = result.match(/Finished tests in ([\d\.]+s)/)[1]
       notify(true, 'Test Success', summary + ' ' + secs)
-    elsif result =~ /.*(\d+) failures?, (\d+) errors?/
+    elsif result =~ /(\d+) failures?, (\d+) errors?/
       summary = $~.to_s
-      notify(false, summary)
+      notify(false, 'Test Failure', summary)
     else
       notify(false, 'Test Error', 'One or more tests could not run due to error.')
     end
