@@ -16,7 +16,7 @@ class Search
 
   def name=(name)
     if name
-      name.gsub! /\sand\s/, ' & '
+      name.gsub!(/\sand\s/, ' & ')
       @conditions.add_condition ["(#{sql_concat('people.first_name', %q(' '), 'people.last_name')} like ? or (#{name.index('&') ? '1=1' : '1=0'} and families.name like ?) or (people.first_name like ? and people.last_name like ?))", "%#{name}%", "%#{name}%", "#{name.split.first}%", "#{name.split.last}%"]
     end
   end
@@ -24,7 +24,7 @@ class Search
   def family_name=(family_name)
     @family_name = family_name
     if family_name
-      family_name.gsub! /\sand\s/, ' & '
+      family_name.gsub!(/\sand\s/, ' & ')
       family_ids = Person.connection.select_values("select distinct family_id from people where #{sql_concat('people.first_name', %q(' '), 'people.last_name')} like #{Person.connection.quote(family_name + '%')} and site_id = #{Site.current.id}").map { |id| id.to_i }
       family_ids = [0] unless family_ids.any?
       @conditions.add_condition ["(families.name like ? or families.last_name like ? or families.id in (?))", "%#{family_name}%", "%#{family_name}%", family_ids]
