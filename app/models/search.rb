@@ -40,7 +40,7 @@ class Search
     @conditions.add_condition ["people.family_id = ?", id] if id
   end
 
-  def family=(fam); family_id = fam.id if fam; end
+  def family=(fam); self.family_id = fam.id if fam; end
 
   def business_category=(cat)
     @conditions.add_condition ["people.business_category = ?", cat] if cat
