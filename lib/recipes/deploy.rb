@@ -17,7 +17,6 @@ namespace :deploy do
       end
       run "mkdir -p #{shared_path}/config"
       run "mkdir -p #{shared_path}/public"
-      run "mkdir -p #{shared_path}/themes"
       run "mkdir -p #{shared_path}/plugins"
       run "mkdir -p #{shared_path}/initializers"
     end

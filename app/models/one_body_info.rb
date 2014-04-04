@@ -72,10 +72,6 @@ class OneBodyInfo
     end
   end
 
-  def themes
-    Dir["#{Rails.root}/themes/*"].map { |t| File.split(t).last }.reject { |t| t == 'README' }
-  end
-
   def database_config
     @database_config ||= database_yaml[OneBodyInfo.setup_environment]
   end

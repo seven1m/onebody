@@ -89,6 +89,15 @@ class Setting < ActiveRecord::Base
 
     def set_global(section, name, value); set(nil, section, name, value); end
 
+    def reload_if_stale
+      precache_settings(true) if cache_stale?
+    end
+
+    def cache_stale?
+      Site.current.settings_changed_at and \
+      SETTINGS['timestamp'] < Site.current.settings_changed_at
+    end
+
     def precache_settings(fresh=false)
       return if SETTINGS.any? and not fresh
       return unless table_exists?

@@ -26,10 +26,7 @@ class ApplicationController < ActionController::Base
         Site.current = Site.find_by_id(1) || raise(t('application.no_default_site'))
       end
       if Site.current
-        if Site.current.settings_changed_at and SETTINGS['timestamp'] < Site.current.settings_changed_at
-          Rails.logger.info('Reloading Settings Cache...')
-          Setting.precache_settings(true)
-        end
+        Setting.reload_if_stale
         OneBody.set_locale
         OneBody.set_time_zone
         OneBody.set_local_formats
@@ -48,7 +45,6 @@ class ApplicationController < ActionController::Base
 
     # XXX
     def set_layout_variables
-      @show_subheading = Setting.get(:appearance, :show_subheading)
       @copyright_year  = Date.today.year
       @community_name  = CGI.escapeHTML(Setting.get(:name, :community))
     end

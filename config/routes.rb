@@ -118,9 +118,8 @@ OneBody::Application.routes.draw do
 
   resources :tags, only: :show
 
-  resources :pictures, :prayer_signups, :authentications, :feeds, :verses, :shares,
-            :comments, :prayer_requests
-            :generated_files
+  resources :pictures, :prayer_signups, :authentications, :verses, :shares,
+            :comments, :prayer_requests, :generated_files
 
   resources :notes, except: :index
 
@@ -159,7 +158,6 @@ OneBody::Application.routes.draw do
         put :reload
       end
     end
-    resources :files, constraints: {id: /[a-z0-9_]+(\.[a-z0-9_]+)?/}
     resources :attendance do
       collection do
         get :prev
@@ -177,6 +175,6 @@ OneBody::Application.routes.draw do
       end
     end
     resources :updates, :admins, :membership_requests, :reports
-    resource :theme, :api_key, :logo
+    resource :api_key, :logo
   end
 end
