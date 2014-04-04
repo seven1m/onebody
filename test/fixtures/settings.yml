@@ -1,0 +1,369 @@
+---
+contact_techsupportemail:
+  format: string
+  value: admin@example.com
+  global: true
+  section: Contact
+  name: Tech Support Email
+contact_communityemail:
+  format: string
+  value: info@beonebody.com
+  section: Contact
+  name: Community Email
+  site_id: 1
+contact_communityofficephone:
+  format: string
+  value: (123) 456-7890
+  section: Contact
+  name: Community Office Phone
+  site_id: 1
+contact_bugnotificationemail:
+  format: string
+  value: 
+  global: true
+  section: Contact
+  name: Bug Notification Email
+contact_birthdayverificationemail:
+  format: string
+  value: admin@beonebody.com
+  section: Contact
+  name: Birthday Verification Email
+  site_id: 1
+contact_sendemailchangesto:
+  format: string
+  value: admin@beonebody.com
+  section: Contact
+  name: Send Email Changes To
+  site_id: 1
+contact_communityaddress:
+  format: string
+  value: 123 West Imaginary Street, Broken Arrow, OK 12345-6789
+  section: Contact
+  name: Community Address
+  site_id: 1
+contact_sendupdatesto:
+  format: string
+  value: admin@beonebody.com
+  section: Contact
+  name: Send Updates To
+  site_id: 1
+name_community:
+  format: string
+  value: One Church
+  section: Name
+  name: Community
+  site_id: 1
+name_site:
+  format: string
+  value: One Church
+  section: Name
+  name: Site
+  site_id: 1
+name_slogan:
+  format: string
+  value: Welcome home.
+  section: Name
+  name: Slogan
+  site_id: 1
+features_multisite:
+  format: boolean
+  value: false
+  global: true
+  section: Features
+  name: Multisite
+features_ssl:
+  format: boolean
+  value: false
+  global: true
+  section: Features
+  name: SSL
+features_signup:
+  format: boolean
+  value: false
+  section: Features
+  name: Sign Up
+  site_id: 1
+features_groups:
+  format: boolean
+  value: true
+  section: Features
+  name: Groups
+  site_id: 1
+features_pictures:
+  format: boolean
+  value: true
+  section: Features
+  name: Pictures
+  site_id: 1
+features_notes:
+  format: boolean
+  value: true
+  section: Features
+  name: Notes
+  site_id: 1
+features_friends:
+  format: boolean
+  value: true
+  section: Features
+  name: Friends
+  site_id: 1
+features_signupapprovalemail:
+  format: string
+  value: 
+  section: Features
+  name: Sign Up Approval Email
+  site_id: 1
+features_verses:
+  format: boolean
+  value: true
+  section: Features
+  name: Verses
+  site_id: 1
+features_recipes:
+  format: boolean
+  value: false
+  section: Features
+  name: Recipes
+  site_id: 1
+features_updatesmustbeapproved:
+  format: boolean
+  value: true
+  section: Features
+  name: Updates Must Be Approved
+  site_id: 1
+features_editlegacyids:
+  format: boolean
+  value: false
+  global: true
+  section: Features
+  name: Edit Legacy Ids
+features_custompersontype:
+  format: boolean
+  value: false
+  section: Features
+  name: Custom Person Type
+  site_id: 1
+features_custompersonfields:
+  format: list
+  value: 
+  section: Features
+  name: Custom Person Fields
+  site_id: 1
+features_communitygooglecalendar:
+  format: string
+  value: 
+  section: Features
+  name: Community Google Calendar
+  site_id: 1
+features_newspage:
+  format: boolean
+  value: true
+  section: Features
+  name: News Page
+  site_id: 1
+features_newsbyusers:
+  format: boolean
+  value: true
+  section: Features
+  name: News by Users
+  site_id: 1
+services_yahoo:
+  format: string
+  value: 
+  global: true
+  section: Services
+  name: Yahoo
+services_analytics:
+  format: string
+  value: 
+  section: Services
+  name: Analytics
+  site_id: 1
+url_visitor:
+  format: string
+  value: http://beonebody.com
+  section: URL
+  name: Visitor
+  site_id: 1
+url_site:
+  format: string
+  value: http://beonebody.com/
+  hidden: true
+  section: URL
+  name: Site
+  site_id: 1
+url_newsfeed:
+  format: string
+  value: 
+  section: URL
+  name: News Feed
+  site_id: 1
+system_language:
+  format: string
+  value: en
+  section: System
+  name: Language
+  site_id: 1
+system_suffixes:
+  format: list
+  value: ! "--- \n- Jr.\n- Sr.\n- II\n- III\n"
+  section: System
+  name: Suffixes
+  site_id: 1
+system_timezone:
+  format: string
+  value: Central Time (US & Canada)
+  section: System
+  name: Time Zone
+  site_id: 1
+system_onlineonlyrelationships:
+  format: list
+  hidden: true
+  value: 
+  section: System
+  name: Online Only Relationships
+  site_id: 1
+system_adultage:
+  format: string
+  value: 18
+  section: System
+  name: Adult Age
+  site_id: 1
+formats_fulldateandtime:
+  format: string
+  value: ! '%m/%d/%Y %I:%M %p'
+  section: Formats
+  name: Full Date and Time
+  site_id: 1
+formats_time:
+  format: string
+  value: ! '%I:%M %p'
+  section: Formats
+  name: Time
+  site_id: 1
+formats_phone:
+  format: string
+  value: (ddd) ddd-dddd
+  section: Formats
+  name: Phone
+  site_id: 1
+formats_mobilephone:
+  format: string
+  value: (ddd) ddd-dddd
+  section: Formats
+  name: Mobile Phone
+  site_id: 1
+formats_date:
+  format: string
+  value: ! '%m/%d/%Y'
+  section: Formats
+  name: Date
+  site_id: 1
+formats_datewithoutyear:
+  format: string
+  value: ! '%m/%d'
+  section: Formats
+  name: Date Without Year
+  site_id: 1
+appearance_themeprimarycolor:
+  format: string
+  value: 5F9128
+  section: Appearance
+  name: Theme Primary Color
+  site_id: 1
+appearance_themesecondarycolor:
+  format: string
+  value: 3286B5
+  section: Appearance
+  name: Theme Secondary Color
+  site_id: 1
+appearance_themetopcolor:
+  format: string
+  value: 333333
+  section: Appearance
+  name: Theme Top Color
+  site_id: 1
+appearance_themenavcolor:
+  format: string
+  value: E4E4E4
+  section: Appearance
+  name: Theme Nav Color
+  site_id: 1
+privacy_allowunencryptedlogins:
+  format: boolean
+  value: false
+  section: Privacy
+  name: Allow Unencrypted Logins
+  site_id: 1
+privacy_relayallemail:
+  format: boolean
+  value: true
+  section: Privacy
+  name: Relay All Email
+  site_id: 1
+privacy_maxsigninattempts:
+  format: string
+  value: 10
+  section: Privacy
+  name: Max Sign in Attempts
+  site_id: 1
+privacy_shareaddressbydefault:
+  format: boolean
+  value: true
+  section: Privacy
+  name: Share Address by Default
+  site_id: 1
+privacy_sharehomephonebydefault:
+  format: boolean
+  value: true
+  section: Privacy
+  name: Share Home Phone by Default
+  site_id: 1
+privacy_sharemobilephonebydefault:
+  format: boolean
+  value: false
+  section: Privacy
+  name: Share Mobile Phone by Default
+  site_id: 1
+privacy_shareworkphonebydefault:
+  format: boolean
+  value: false
+  section: Privacy
+  name: Share Work Phone by Default
+  site_id: 1
+privacy_sharefaxbydefault:
+  format: boolean
+  value: false
+  section: Privacy
+  name: Share Fax by Default
+  site_id: 1
+privacy_shareemailbydefault:
+  format: boolean
+  value: false
+  section: Privacy
+  name: Share Email by Default
+  site_id: 1
+privacy_sharebirthdaybydefault:
+  format: boolean
+  value: true
+  section: Privacy
+  name: Share Birthday by Default
+  site_id: 1
+privacy_shareanniversarybydefault:
+  format: boolean
+  value: true
+  section: Privacy
+  name: Share Anniversary by Default
+  site_id: 1
+privacy_allowpicturecomments:
+  format: boolean
+  value: true
+  section: Privacy
+  name: Allow Picture Comments
+  site_id: 1
+privacy_hidecontactdetailsinmessages:
+  format: boolean
+  value: true
+  section: Privacy
+  name: Hide Contact Details in Messages
+  site_id: 1
