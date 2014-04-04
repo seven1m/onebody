@@ -23,7 +23,7 @@ end
 def run_tests(test, force=false)
   if force || File.exist?(test)
     puts "-" * 80
-    rspec_cmd = File.exists?('.zeus.sock') ? "zeus test" : "rake test"
+    rspec_cmd = File.exists?('.zeus.sock') ? "zeus test" : "ruby"
     puts "#{rspec_cmd} #{test}"
     cmd = IO.popen("#{rspec_cmd} #{test} 2>&1")
     result = ''
@@ -65,14 +65,14 @@ watch('^lib/(.*)\.rb'                  ) { |m| run_tests("test/lib/#{m[1]}_test.
 @interrupt_received = false
 
 # ^C
-Signal.trap 'INT' do
-  if @interrupt_received
-    exit 0
-  else
-    @interrupt_received = true
-    puts "\nInterrupt a second time to quit"
-    Kernel.sleep 1
-    @interrupt_received = false
-    run_suite
-  end
-end
+#Signal.trap 'INT' do
+#  if @interrupt_received
+#    exit 0
+#  else
+#    @interrupt_received = true
+#    puts "\nInterrupt a second time to quit"
+#    Kernel.sleep 1
+#    @interrupt_received = false
+#    run_suite
+#  end
+#end
