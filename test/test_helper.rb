@@ -71,6 +71,8 @@ class ActiveSupport::TestCase
     refute user.send("can_#{action}?", subject), "can #{action} #{subject.inspect}"
   end
 
+  fixtures :sites, :settings
+
   setup do
     # this is so fixture loading doesn't bomb
     # (since they are often loaded before AppplicationController can call get_site)

@@ -2,6 +2,8 @@ require_relative '../test_helper'
 
 class NewsControllerTest < ActionController::TestCase
 
+  fixtures :news_items
+
   def setup
     @person = FactoryGirl.create(:person)
     @news_item = FactoryGirl.create(:news_item)

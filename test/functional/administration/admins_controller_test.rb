@@ -1,7 +1,7 @@
 require_relative '../../test_helper'
 
 class Administration::AdminsControllerTest < ActionController::TestCase
-  fixtures :people
+  fixtures :people, :admins
 
   should 'add administrator' do
     post :create, {ids: [people(:jeremy).id]}, {logged_in_id: people(:tim).id}

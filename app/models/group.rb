@@ -123,7 +123,7 @@ class Group < ActiveRecord::Base
   end
 
   def update_membership_associations(new_people)
-    new_people.reject! { |p| p.deleted? }
+    new_people.reject! { |p| !p || p.deleted? }
     self.people.reload
     (new_people - self.people).each { |p| memberships.create!(person: p, auto: true) }
     ids_to_delete = (self.people - new_people).each { |p| p.id }
