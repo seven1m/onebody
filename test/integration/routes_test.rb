@@ -25,14 +25,4 @@ class RoutesTest < ActionController::IntegrationTest
     assert_routing '/admin/admins', controller: 'administration/admins', action: 'index'
   end
 
-  should "route to admin/files" do
-    assert_routing '/admin/files', controller: 'administration/files', action: 'index'
-    assert_routing '/admin/files/abc123_.abc123_', controller: 'administration/files', action: 'show', id: 'abc123_.abc123_'
-    post '/session', email: people(:tim).email, password: 'secret'
-    assert_redirected_to stream_path
-    assert_raise(ActionController::RoutingError) do
-      get '/admin/files/thisis..evil' # route not recognized
-    end
-  end
-
 end
