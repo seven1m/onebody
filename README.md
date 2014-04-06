@@ -19,8 +19,6 @@ OneBody is open-source, web-based social networking and online directory softwar
 
 Now visit the site running in development mode at localhost:3000.
 
-We also have full step-by-step instructions in our INSTALL.md file.
-
 Please visit the [PostfixEmailSetup](http://github.com/seven1m/onebody/wiki/PostfixEmailSetup) page on the wiki for help with setting up incoming email.
 
 
