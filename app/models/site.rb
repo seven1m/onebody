@@ -17,6 +17,7 @@ class Site < ActiveRecord::Base
   validates_presence_of :name, :host
   validates_uniqueness_of :name, :host
   validates_exclusion_of :host, in: %w(admin api home onebody)
+  do_not_validate_attachment_file_type :logo
 
   has_attached_file :logo,
     path:          ":rails_root/public/system/:rails_env/:class/:attachment/:id/:style/:fingerprint.:extension",
@@ -30,6 +31,8 @@ class Site < ActiveRecord::Base
       original:    '800x800>'
     },
     default_url:   "/images/missing_:style.png"
+
+
 
   def default?
     id == 1
