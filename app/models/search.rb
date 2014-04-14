@@ -1,171 +1,149 @@
+require 'ostruct'
+
 class Search
 
-  ITEMS_PER_PAGE = 100
+  attr_accessor :name, :family_name,
+                :gender,
+                :address,
+                :birthday, :anniversary,
+                :type,
+                :family_barcode_id,
+                :business,
+                :show_hidden
 
-  attr_accessor :show_businesses, :show_hidden, :testimony, :member
-  attr_reader :count, :people, :family_name, :family_barcode_id, :families
-
-  # TODO refactor to use scopes
-
-  def initialize
-    @people = []
-    @family_name = nil
-    @families = []
-    @conditions = []
-  end
-
-  def name=(name)
-    if name
-      name.gsub!(/\sand\s/, ' & ')
-      @conditions.add_condition ["(#{sql_concat('people.first_name', %q(' '), 'people.last_name')} like ? or (#{name.index('&') ? '1=1' : '1=0'} and families.name like ?) or (people.first_name like ? and people.last_name like ?))", "%#{name}%", "%#{name}%", "#{name.split.first}%", "#{name.split.last}%"]
+  def initialize(params={})
+    source = params.delete(:source) || :person
+    params.each do |key, val|
+      self.send("#{key}=", val) if respond_to?("#{key}=")
+    end
+    if source == :person
+      @scope = Person.scoped.joins(:family)
+    elsif source == :family
+      @scope = Family.scoped.includes(:people)
     end
   end
 
-  def family_name=(family_name)
-    @family_name = family_name
-    if family_name
-      family_name.gsub!(/\sand\s/, ' & ')
-      family_ids = Person.connection.select_values("select distinct family_id from people where #{sql_concat('people.first_name', %q(' '), 'people.last_name')} like #{Person.connection.quote(family_name + '%')} and site_id = #{Site.current.id}").map { |id| id.to_i }
-      family_ids = [0] unless family_ids.any?
-      @conditions.add_condition ["(families.name like ? or families.last_name like ? or families.id in (?))", "%#{family_name}%", "%#{family_name}%", family_ids]
+  def results
+    execute!
+    @scope
+  end
+
+  def count
+    execute!
+    @scope.count
+  end
+
+  def family_name=(name)
+    self.name = name
+  end
+
+  private
+
+  def execute!
+    return if @executed
+    not_deleted!
+    business!
+    order_by_name!
+    parental_consent!
+    name!
+    gender!
+    birthday!
+    anniversary!
+    address!
+    type!
+    family_barcode_id!
+    @executed = true
+  end
+
+  def where!(*args)
+    @scope = @scope.where(*args)
+  end
+
+  def order!(*args)
+    @scope = @scope.order(*args)
+  end
+
+  def not_deleted!
+    where!('people.deleted = ? and families.deleted = ?', false, false)
+  end
+
+  def business!
+    return unless business
+    where!("coalesce(people.business_name) != ''")
+    order!('people.business_name')
+  end
+
+  def order_by_name!
+    order!('people.last_name, people.first_name')
+  end
+
+  def parental_consent!
+    return unless require_parental_consent?
+    where!(
+      "(people.child = ?
+       or (birthday is not null and adddate(birthday, interval 13 year) <= curdate())
+       or (people.parental_consent is not null and people.parental_consent != ''))
+      ",
+      false
+    )
+  end
+
+  def name!
+    return unless name
+    where!(
+      "(concat(people.first_name, ' ', people.last_name) like :full_name
+       or (families.name like :full_name)
+       or (people.first_name like :first_name and people.last_name like :last_name))
+      ",
+      full_name:  like(name),
+      first_name: like(name.split.first, :after),
+      last_name:  like(name.split.last, :after)
+    )
+  end
+
+  def gender!
+    where!('people.gender = ?', gender) if gender
+  end
+
+  def birthday!
+    self.birthday ||= {}
+    where!('month(people.birthday) = ?', birthday[:month]) if birthday[:month].present?
+    where!('day(people.birthday)   = ?', birthday[:day])   if birthday[:day].present?
+  end
+
+  def anniversary!
+    self.anniversary ||= {}
+    where!('month(people.anniversary) = ?', anniversary[:month]) if anniversary[:month].present?
+    where!('day(people.anniversary)   = ?', anniversary[:day])   if anniversary[:day].present?
+  end
+
+  def address!
+    self.address ||= {}
+    where!('families.city like ?',  like(address[:city],  :after)) if address[:city].present?
+    where!('families.state like ?', like(address[:state], :after)) if address[:state].present?
+    where!('families.zip like ?',   like(address[:zip],   :after)) if address[:zip].present?
+  end
+
+  def type!
+    if %w(member staff deacon elder).include?(type)
+      where!("people.#{type} = ?", true)
+    elsif type
+      where!("people.custom_type = ?", type)
     end
   end
 
-  def family_barcode_id=(id)
-    @family_barcode_id = id
-    @conditions.add_condition ["(families.barcode_id = ? or families.alternate_barcode_id = ?)", id, id] if id
+  def family_barcode_id!
+    where!('families.barcode_id = ?', family_barcode_id) if family_barcode_id
   end
 
-  def family_id=(id)
-    @conditions.add_condition ["people.family_id = ?", id] if id
+  def require_parental_consent?
+    !(show_hidden && Person.logged_in.admin?(:view_hidden_profiles))
   end
 
-  def family=(fam); self.family_id = fam.id if fam; end
-
-  def business_category=(cat)
-    @conditions.add_condition ["people.business_category = ?", cat] if cat
-  end
-
-  def gender=(g)
-    @conditions.add_condition ["people.gender = ?", g] if g
-  end
-
-  def address=(addr)
-    addr.symbolize_keys! if addr.respond_to?(:symbolize_keys!)
-    addr.reject_blanks!
-    @conditions.add_condition ["#{sql_lcase('families.city')} LIKE ?", "#{addr[:city].downcase}%"] if addr[:city]
-    @conditions.add_condition ["#{sql_lcase('families.state')} LIKE ?", "#{addr[:state].downcase}%"] if addr[:state]
-    @conditions.add_condition ["families.zip like ?", "#{addr[:zip]}%"] if addr[:zip]
-    @search_address = addr.any?
-  end
-
-  def birthday=(bday)
-    bday.symbolize_keys! if bday.respond_to?(:symbolize_keys!)
-    bday.reject_blanks!
-    @conditions.add_condition ["#{sql_month('people.birthday')} = ?", bday[:month]] if bday[:month]
-    @conditions.add_condition ["#{sql_day('people.birthday')} = ?", bday[:day]] if bday[:day]
-    @search_birthday = bday.any?
-  end
-
-  def anniversary=(ann)
-    ann.symbolize_keys! if ann.respond_to?(:symbolize_keys!)
-    ann.reject_blanks!
-    @conditions.add_condition ["#{sql_month('people.anniversary')} = ?", ann[:month]] if ann[:month]
-    @conditions.add_condition ["#{sql_day('people.anniversary')} = ?", ann[:day]] if ann[:day]
-    @search_anniversary = ann.any?
-  end
-
-  def favorites=(favs)
-    favs.reject! { |n, v| not %w(activities interests music tv_shows movies books).include? n.to_s or v.to_s.empty? }
-    favs.each do |name, value|
-      @conditions.add_condition ["people.#{name.to_s} like ?", "%#{value}%"]
+  def like(str, position=:both)
+    str.dup.gsub(/[%_]/) { |x| '\\' + x }.tap do |s|
+      s.insert(0, '%') if [:before, :both].include?(position)
+      s << '%'         if [:after,  :both].include?(position)
     end
-  end
-
-  def type=(type)
-    if type
-      if %w(member staff deacon elder).include?(type.downcase)
-        @type = type.downcase
-      else
-        @type = type if Person.custom_types.include?(type)
-      end
-    end
-  end
-
-  def query(page=nil, search_by=:person)
-    case search_by.to_s
-      when 'person'
-        query_people(page)
-      when 'family'
-        query_families(page)
-    end
-  end
-
-  def query_people(page=nil)
-    @conditions.add_condition ["people.deleted = ?", false]
-    @conditions.add_condition ["people.business_name is not null and people.business_name != ''"] if show_businesses
-    @conditions.add_condition ["people.testimony is not null and people.testimony != ''"] if testimony
-    unless show_hidden and Person.logged_in.admin?(:view_hidden_profiles)
-      @conditions.add_condition ["people.visible_to_everyone = ?", true]
-      @conditions.add_condition ["(people.visible = ? and families.visible = ?)", true, true]
-      unless SQLITE
-        @conditions.add_condition ["(people.child = ? or (birthday is not null and adddate(birthday, interval 13 year) <= curdate()) or (people.parental_consent is not null and people.parental_consent != ''))", false]
-      end
-    end
-    unless Person.logged_in.full_access?
-      if SQLITE
-        @conditions.add_condition ["#{sql_now}-people.birthday >= 18"]
-      else
-        @conditions.add_condition ["DATE_ADD(people.birthday, INTERVAL 18 YEAR) <= CURDATE()"]
-      end
-    end
-    if @type
-      if %w(member staff deacon elder).include?(@type)
-        @conditions.add_condition ["people.#{@type} = ?", true]
-      else
-        @conditions.add_condition ["people.custom_type = ?", @type]
-      end
-    end
-    base = Person.where(@conditions).includes(:family).order(show_businesses ? 'people.business_name' : 'people.last_name, people.first_name')
-    @count = base.count
-    @people = base.page(page).select do |person| # additional checks that don't work well in raw sql
-      !person.nil? \
-        and Person.logged_in.sees?(person) \
-        and (not @search_birthday or person.share_birthday_with(Person.logged_in)) \
-        and (not @search_anniversary or person.share_anniversary_with(Person.logged_in)) \
-        and (not @search_address or person.share_address_with(Person.logged_in)) \
-        and (person.adult_or_consent? or (Person.logged_in.admin?(:view_hidden_profiles) and @show_hidden))
-    end
-    @people = WillPaginate::Collection.new(page || 1, 30, @count).replace(@people)
-  end
-
-  def query_families(page=nil)
-    @conditions.add_condition ["families.deleted = ?", false]
-    @count = Family.where(@conditions)
-    @families = Family.where(@conditions).order('last_name').page(page)
-  end
-
-  def self.new_from_params(params)
-    search = new
-    search.name = params[:name] || params[:quick_name]
-    if params[:family_name] =~ /^\d{10,}$/ # used by checkin dashboard (single text field for both name and barcode)
-      search.family_barcode_id = params[:family_name]
-    else
-      search.family_name = params[:family_name]
-      search.family_barcode_id = params[:family_barcode_id]
-    end
-    search.show_businesses = params[:business] || params[:businesses]
-    search.business_category = params[:category]
-    search.testimony = params[:testimony]
-    search.family_id = params[:family_id]
-    search.show_hidden = params[:show_hidden]
-    search.birthday = {month: params[:birthday_month], day: params[:birthday_day]}
-    search.anniversary = {month: params[:anniversary_month], day: params[:anniversary_day]}
-    search.gender = params[:gender]
-    search.address = params.reject { |k, v| not %w(city state zip).include? k }
-    search.type = params[:type]
-    search.favorites = params.reject { |k, v| not %w(activities interests music tv_shows movies books).include? k }
-    search.show_hidden = true if params[:select_person] and Person.logged_in.admin?(:view_hidden_profiles)
-    search
   end
 end

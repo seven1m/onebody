@@ -1601,8 +1601,8 @@ en:
     name: Name
     no_family: (no family)
     not_showing_hidden_people: (not showing hidden people)
-    people_found: 
-      one: 1 person found
+    people_found:
+      one: "1 person found"
       other: "%{count} people found"
     printed_directory: Printed Directory
     search: Directory Search

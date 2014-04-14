@@ -16,7 +16,7 @@
       <%= submit_tag t('search.search') %>
     <% end %>
 
-    <% if @search.show_businesses %>
+    <% if @search.business %>
       <p class="double-margin-top">
         <label for="category"><%= t('search.business_category') %></label>
         <select id="category" onchange="location.href='?business=true&category='+value">

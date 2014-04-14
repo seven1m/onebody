@@ -19,5 +19,10 @@ FactoryGirl.define do
     trait :admin_manage_updates do
       admin { Admin.create!(manage_updates: true) }
     end
+
+    trait :with_business do
+      business_category 'Home Improvement'
+      business_name 'ABC Home Improvement'
+    end
   end
 end

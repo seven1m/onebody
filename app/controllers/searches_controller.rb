@@ -19,18 +19,19 @@ class SearchesController < ApplicationController
 
   def create
     params.reject_blanks!
-    @search = Search.new_from_params(params)
-    if @search.family_name.blank? and @search.family_barcode_id.nil?
-      @people = @search.query(params[:page])
+    if params[:family_name].present? and params[:family_barcode_id].present?
+      @search = Search.new(params.merge(source: :family))
+      @families = @search.results.page(params[:page])
     else
-      @families = @search.query(params[:page], 'family')
+      @search = Search.new(params)
+      @people = @search.results.page(params[:page])
     end
     @count = @search.count
-    @show_birthdays = params[:birthday_month] or params[:birthday_day]
-    @business_categories = Person.business_categories if @search.show_businesses
+    @show_birthdays = params[:birthday].present?
+    @business_categories = Person.business_categories if @search.business
     respond_to do |wants|
       wants.html do
-        if @people.length == 1 and (params[:name] or params[:quick_name])
+        if false and @people.length == 1 and (params[:name] or params[:quick_name])
           redirect_to person_path(id: @people.first)
         else
           render action: 'create'

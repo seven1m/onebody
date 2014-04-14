@@ -5,7 +5,7 @@
   <table class="search-results">
     <tr>
       <th></th>
-      <% if @search.show_businesses %>
+      <% if @search.business %>
         <th><%= t('search.business') %></th>
         <th><%= t('search.category') %></th>
       <% else %>
@@ -29,7 +29,7 @@
             <% end %>
           </a>
         </td>
-        <% if @search.show_businesses %>
+        <% if @search.business %>
           <td><%= link_to person.business_name, person_path(person, business: true) %></td>
           <td>
             <% if person.business_category.to_s.any? %>
