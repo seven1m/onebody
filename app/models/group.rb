@@ -112,7 +112,7 @@ class Group < ActiveRecord::Base
     elsif linked?
       conditions = []
       link_code.downcase.split.each do |code|
-        conditions.add_condition ["#{sql_lcase('classes')} = ? or #{sql_lcase('classes')} like ? or #{sql_lcase('classes')} like ? or #{sql_lcase('classes')} like ? or #{sql_lcase('classes')} like ? or #{sql_lcase('classes')} like ?", code, "#{code},%", "%,#{code}", "%,#{code},%", "#{code}[%", "%,#{code}[%"], 'or'
+        conditions.add_condition ["lcase(classes) = ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ?", code, "#{code},%", "%,#{code}", "%,#{code},%", "#{code}[%", "%,#{code}[%"], 'or'
       end
       update_membership_associations(Person.where(conditions).all)
     elsif Membership.column_names.include?('auto')

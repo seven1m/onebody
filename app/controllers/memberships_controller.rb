@@ -140,7 +140,7 @@ class MembershipsController < ApplicationController
   def birthdays
     @group = Group.find(params[:group_id])
     if @logged_in.can_edit?(@group)
-      @people = @group.people.where('birthday is not null').order("#{sql_month 'people.birthday'}, #{sql_day 'people.birthday'}, people.last_name, people.first_name")
+      @people = @group.people.where('birthday is not null').order("month(people.birthday), day(people.birthday), people.last_name, people.first_name")
     else
       render text: t('not_authorized'), layout: true, status: 401
     end

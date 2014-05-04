@@ -288,7 +288,7 @@ class Notifier < ActionMailer::Base
           email.attachments.each do |attachment|
             name = File.split(attachment.filename.to_s).last
             unless ATTACHMENTS_TO_IGNORE.include? name.downcase
-              att = message.attachments.create(
+              message.attachments.create(
                 name:         name,
                 content_type: attachment.content_type.strip,
                 file:         FakeFile.new(attachment.body.to_s, name)
@@ -365,10 +365,10 @@ class Notifier < ActionMailer::Base
     end
 
     def get_from_person(email)
-      people = Person.where("#{sql_lcase('email')} = ?", email.from.first.downcase).all
+      people = Person.where("lcase(email) = ?", email.from.first.downcase).all
       if people.length == 0
         # user is not found in the system, try alternate email
-        Person.where("#{sql_lcase('alternate_email')} = ?", email.from.to_s.downcase).first
+        Person.where("lcase(alternate_email) = ?", email.from.to_s.downcase).first
       elsif people.length == 1
         people.first
       elsif people.length > 1
