@@ -72,6 +72,7 @@
           <%= render partial: 'people/thumbnail', locals: {person: person} %>
         <% end %>
       <% end %>
+      <p><%= link_to t('edit'), person_friends_path(@person) %></p>
     <% end %>
   </div>
 
