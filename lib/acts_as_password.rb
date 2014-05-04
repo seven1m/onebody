@@ -50,7 +50,7 @@ module Foo
         # if email cannot be found, returns nil
         # if email is found but password doesn't match, returns false
         def authenticate(email, password, options={})
-          people = find_all_by_email(email)
+          people = where(email: email).all
           if people.length > 0
             # try each person until a password matches
             people.each do |person|

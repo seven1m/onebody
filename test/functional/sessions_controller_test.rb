@@ -37,4 +37,9 @@ class SessionsControllerTest < ActionController::TestCase
     assert_redirected_to groups_path
   end
 
+  should 'not redirect off-site' do
+    post :create, {email: @person.email, password: 'secret', from: "http://google.com/groups"}
+    assert_redirected_to groups_path
+  end
+
 end

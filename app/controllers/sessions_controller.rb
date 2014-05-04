@@ -16,23 +16,30 @@ class SessionsController < ApplicationController
 
   # sign in
   def create
-    if person = Person.authenticate(params[:email], params[:password])
-      unless person.can_sign_in?
+    if @person = Person.authenticate(params[:email], params[:password])
+      unless @person.can_sign_in?
         redirect_to page_for_public_path('system/unauthorized')
         return
       end
-      session[:logged_in_id] = person.id
-      session[:logged_in_name] = person.first_name + ' ' + person.last_name
-      session[:ip_address] = request.remote_ip
+      setup_session!
       if params[:from].to_s.any?
-        redirect_to 'http://' + request.host + ([80, 443].include?(request.port) ? '' : ":#{request.port}") + params[:from]
-      elsif person.full_access?
+        redirect_to URI.parse(params[:from]).path
+      elsif @person.full_access?
         redirect_to stream_path
       else
-        redirect_to person
+        redirect_to @person
       end
-    elsif person == nil
-      if family = Family.find_by_email(params[:email])
+    elsif @person == false # person found, but not authenticated
+      if p = Person.undeleted.where(email: params[:email]).first and p.encrypted_password.nil?
+        flash[:warning] = t('session.account_not_activated_html').html_safe
+      else
+        flash[:warning] = t('session.password_doesnt_match')
+        SigninFailure.create(email: params[:email].downcase, ip: request.remote_ip)
+      end
+      render action: 'new'
+      flash.clear
+    else # person not found
+      if Family.undeleted.where(email: params[:email]).first
         flash[:warning] = t('session.email_found')
         redirect_to new_account_path(email: params[:email])
       else
@@ -40,15 +47,6 @@ class SessionsController < ApplicationController
         render action: 'new'
         flash.clear
       end
-    else
-      if p = Person.find_by_email(params[:email]) and p.encrypted_password.nil?
-        flash[:warning] = t('session.account_not_activated_html')
-      else
-        flash[:warning] = t('session.password_doesnt_match')
-        SigninFailure.create(email: params[:email].downcase, ip: request.remote_ip)
-      end
-      render action: 'new'
-      flash.clear
     end
   end
 
@@ -71,6 +69,12 @@ class SessionsController < ApplicationController
         render text: t('session.max_sign_in_attempts'), layout: true
         return false
       end
+    end
+
+    def setup_session!
+      session[:logged_in_id] = @person.id
+      session[:logged_in_name] = @person.name
+      session[:ip_address] = request.remote_ip
     end
 
 end
