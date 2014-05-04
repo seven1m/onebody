@@ -13,8 +13,6 @@ class Administration::SettingsController < ApplicationController
       @settings[setting.section][setting['name']] = setting
     end
     @timezones = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
-    info = OneBodyInfo.new
-    @langs = info.available_locales.invert
   end
 
   def batch

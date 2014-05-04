@@ -69,7 +69,7 @@
 
     <%= section_row(t('admin.settings.locale_heading'), :locale) %>
 
-      <%= setting_row('System', 'Language', options: @langs) %>
+      <%= setting_row('System', 'Language', options: ONEBODY_LOCALES.invert) %>
       <%= setting_row('System', 'Time Zone', options: @timezones) %>
 
     <%= section_row(t('admin.settings.formats_heading'), :formats) %>
