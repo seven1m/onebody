@@ -936,7 +936,7 @@ pt:
     change_email_settings: Mudar Configurações de Email
     change_this_picture: Mudar esta Foto
     class_link_code: "Código(s) de Classe do Link:"
-    class_link_code_hint_html: 'Útil para a sincronização com sistemas externos. Veja <a href="https://github.com/seven1m/onebody/wiki/HowGroupMembershipWorks">aqui</a>. Separe múltiplos códigos com um espaço.'
+    class_link_code_hint_html: 'Útil para a sincronização com sistemas externos. Veja <a href="https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks">aqui</a>. Separe múltiplos códigos com um espaço.'
     click_save_changes_to_upload: Clique em "Salvar Mudanças" no final deste formulário para carregar uma nova foto.
     configure_email_from_group: configure um email para este grupo
     create_a_group: Crie um Grupo
@@ -1066,7 +1066,7 @@ pt:
     import_selected_people: Importar Pessoas Selecionadas
     last: Último
     no_records_were_found: Nenhum registro foi encontrado para importação.
-    only_first_records_will_be_imported_html: Somente os primeiros %{count} registros serão importados. Para arquivos grandes, você deve dividir os registros em múltiplos arquivos, ou usar o <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> para importar uma grande quantidade de uma vez.
+    only_first_records_will_be_imported_html: Somente os primeiros %{count} registros serão importados. Para arquivos grandes, você deve dividir os registros em múltiplos arquivos, ou usar o <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a> para importar uma grande quantidade de uma vez.
     people: Importar Pessoas
     record: registro
     record_updated: Registro Atualizado.
@@ -1080,7 +1080,7 @@ pt:
 
   layouts:
     this_is_the_fallback_template: Este é um template usado no caso do seu selecionado não puder ser encontrado. Por favor verifique que as suas configurações de Tema aponte a um diretório real dentro do diretório themes/.
-    powered_by_html: Provido por <a href="https://github.com/seven1m/onebody" rel="external">OneBody</a>
+    powered_by_html: Provido por <a href="https://github.com/churchio/onebody" rel="external">OneBody</a>
     privacy_policy: Política de Privacidade
 
   menus:
@@ -1316,7 +1316,7 @@ pt:
     send_email: Enviar Email
     services_provided_by: Ministérios providos por
     share_your_personal_testimony: Compartilhe o seu testemunho pessoal — como você passou a conhecer Jesus Cristo e como Ele mudou a sua vida.
-    show_a_map_here_html: Exiba um mapa aqui, fornecendo ao OneBody a sua chave do Yahoo Maps API. <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Clique aqui</a> para ajuda.
+    show_a_map_here_html: Exiba um mapa aqui, fornecendo ao OneBody a sua chave do Yahoo Maps API. <a href="http://github.com/churchio/onebody/wikis/serviceapikeys">Clique aqui</a> para ajuda.
     show_full_screen: exibir em tela cheia
     show_hidden_groups: Exibir Grupos Ocultos
     suffix: Sufixo

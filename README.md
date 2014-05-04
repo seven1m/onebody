@@ -9,7 +9,7 @@ OneBody is open-source, web-based social networking and online directory softwar
 
 1. Install Ruby 2.1.1 or higher (we recommend you use [RVM](https://rvm.io/)).
 2. Install MySQL.
-3. `git clone git://github.com/seven1m/onebody.git`
+3. `git clone git://github.com/churchio/onebody.git`
 4. `mysql -u root -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
 5. `cp config/database.yml{.example,}`
 6. `cd onebody && bundle install && rake db:migrate`
@@ -17,7 +17,7 @@ OneBody is open-source, web-based social networking and online directory softwar
 
 Now visit the site running in development mode at localhost:3000.
 
-Please visit the [PostfixEmailSetup](http://github.com/seven1m/onebody/wiki/PostfixEmailSetup) page on the wiki for help with setting up incoming email.
+Please visit the [PostfixEmailSetup](http://github.com/churchio/onebody/wiki/PostfixEmailSetup) page on the wiki for help with setting up incoming email.
 
 
 ## Tests
@@ -31,7 +31,7 @@ rake test
 
 ## Get Help
 
-* [Wiki](http://wiki.github.com/seven1m/onebody) - A wonderful resource full of helpful information; Check here first.
+* [Wiki](http://wiki.github.com/churchio/onebody) - A wonderful resource full of helpful information; Check here first.
 * [Google Group](http://groups.google.com/group/churchio) - Community of people building open source church software. If you're stuck, ask nicely for some help and you will probably get it.
 
 

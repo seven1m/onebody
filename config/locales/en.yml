@@ -987,7 +987,7 @@ en:
     change_email_settings: Change Email Settings
     change_this_picture: Change This Picture
     class_link_code: "Class Link Code(s):"
-    class_link_code_hint_html: 'Useful for syncing with external systems. See <a href="https://github.com/seven1m/onebody/wiki/HowGroupMembershipWorks">here</a>. Separate multiple codes with a space.'
+    class_link_code_hint_html: 'Useful for syncing with external systems. See <a href="https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks">here</a>. Separate multiple codes with a space.'
     click_save_changes_to_upload: Click "Save Changes" at the bottom of this form to upload a new picture.
     configure_email_from_group: configure email from this group
     create_a_group: Create a Group
@@ -1117,7 +1117,7 @@ en:
     import_selected_people: Import Selected People
     last: Last
     no_records_were_found: No records were found to import.
-    only_first_records_will_be_imported_html: Only the first %{count} records will be imported. For larger files, you must divide records into multiple files, or use the <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> to import a large batch at once.
+    only_first_records_will_be_imported_html: Only the first %{count} records will be imported. For larger files, you must divide records into multiple files, or use the <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a> to import a large batch at once.
     people: Import People
     record: record
     record_updated: Record updated.
@@ -1131,7 +1131,7 @@ en:
 
   layouts:
     this_is_the_fallback_template: This is the fallback template used in case your selected theme cannot be found. Please check that your Theme setting points to a real directory inside the themes/ directory.
-    powered_by_html: Powered by <a href="https://github.com/seven1m/onebody" rel="external">OneBody</a>
+    powered_by_html: Powered by <a href="https://github.com/churchio/onebody" rel="external">OneBody</a>
     privacy_policy: Privacy Policy
 
   menus:
@@ -1366,7 +1366,7 @@ en:
     send_email: Send Email
     services_provided_by: Services provided by
     share_your_personal_testimony: Share your personal testimony — how you came to know Jesus Christ and how he has changed your life.
-    show_a_map_here_html: Show a map here by providing OneBody with your Yahoo Maps API key. <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Click here</a> for help.
+    show_a_map_here_html: Show a map here by providing OneBody with your Yahoo Maps API key. <a href="http://github.com/churchio/onebody/wikis/serviceapikeys">Click here</a> for help.
     show_full_screen: show full screen
     show_hidden_groups: Show Hidden Groups
     suffix: Suffix
