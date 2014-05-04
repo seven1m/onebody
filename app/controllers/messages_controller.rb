@@ -91,6 +91,10 @@ class MessagesController < ApplicationController
 
   def send_message
     attributes = message_params.merge(person: @logged_in)
+    if attributes[:parent_id] and not @logged_in.can_see?(Message.find(attributes[:parent_id]))
+      render text: 'unauthorized', status: :unauthorized
+      return
+    end
     if params[:preview]
       @preview = Message.preview(attributes)
     else

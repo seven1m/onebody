@@ -81,6 +81,14 @@ class MessagesControllerTest < ActionController::TestCase
     assert_equal 1, Message.last.attachments.count
   end
 
+  should "not allow parent_id on message user cannot see" do
+    @message = FactoryGirl.create(:message, to: @other_person)
+    get :new, {parent_id: @message.id}, {logged_in_id: @person.id}
+    assert_response :internal_server_error
+    post :create, {message: {to_person_id: @other_person.id, subject: 'Hello There', body: 'body', parent_id: @message.id}}, {logged_in_id: @person.id}
+    assert_response :unauthorized
+  end
+
   should "show a message" do
     @message = @group.messages.create!(person: @person, subject: 'test subject', body: 'test body')
     get :show, {id: @message.id}, {logged_in_id: @person.id}
