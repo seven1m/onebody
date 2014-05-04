@@ -1,13 +1,16 @@
 require_relative '../test_helper'
 
 class RelationshipTest < ActiveSupport::TestCase
-  fixtures :people
+  setup do
+    @person = FactoryGirl.create(:person)
+    @related = FactoryGirl.create(:person)
+  end
 
   should "not allow an invalid relationship name" do
     relationship = Relationship.new(
       name:    'junk',
-      person:  people(:tim),
-      related: people(:jeremy)
+      person:  @person,
+      related: @related
     )
     assert !relationship.valid?
     assert relationship.errors[:name]
@@ -16,8 +19,8 @@ class RelationshipTest < ActiveSupport::TestCase
   should "allow a valid relationship name" do
     relationship = Relationship.new(
       name:    'uncle',
-      person:  people(:tim),
-      related: people(:jeremy)
+      person:  @person,
+      related: @related
     )
     assert relationship.valid?
   end
@@ -25,8 +28,8 @@ class RelationshipTest < ActiveSupport::TestCase
   should "reciprocate certain relationship names" do
     relationship = Relationship.create!(
       name:    'mother_in_law',
-      person:  FactoryGirl.create(:person, gender: 'Male'),
-      related: FactoryGirl.create(:person, gender: 'Female')
+      person:  @person,
+      related: @related
     )
     assert relationship.can_auto_reciprocate?
     assert_equal 'son_in_law', relationship.reciprocal_name
@@ -36,11 +39,10 @@ class RelationshipTest < ActiveSupport::TestCase
     relationship = Relationship.create!(
       name:       'other',
       other_name: 'Friend',
-      person:     people(:tim),
-      related:    people(:jeremy)
+      person:     @person,
+      related:    @related
     )
     assert !relationship.can_auto_reciprocate?
     assert_equal nil, relationship.reciprocal_name
   end
-
 end

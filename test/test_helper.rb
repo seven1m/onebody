@@ -8,15 +8,11 @@ OneBody::Application.load_tasks
 
 require 'shoulda'
 
-#Webrat.configure do |config|
-  #config.mode = :selenium
-  #config.application_framework = :rails
-  #config.application_environment = :test
-  #config.application_port = 4567
-#end
+Site.current = Site.where(host: 'example.com').first_or_create! do |site|
+  site.name = 'Default'
+end
 
 class ActiveSupport::TestCase
-
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
 
@@ -69,14 +65,6 @@ class ActiveSupport::TestCase
 
   def assert_cannot(user, action, subject)
     refute user.send("can_#{action}?", subject), "can #{action} #{subject.inspect}"
-  end
-
-  fixtures :sites, :settings
-
-  setup do
-    # this is so fixture loading doesn't bomb
-    # (since they are often loaded before AppplicationController can call get_site)
-    Site.current = Site.find(1)
   end
 end
 

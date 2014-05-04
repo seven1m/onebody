@@ -2,8 +2,6 @@ require_relative '../test_helper'
 
 class PageTest < ActiveSupport::TestCase
 
-  fixtures :pages
-
   should "update path when saved" do
     @foo = Page.create!(slug: 'foo', title: 'Foo', body: 'foo rocks')
     assert_equal 'foo', @foo.path
@@ -20,17 +18,21 @@ class PageTest < ActiveSupport::TestCase
   end
 
   should "find a page by its path" do
-    assert_equal pages(:foo), Page.find('foo')
-    assert_equal pages(:baz), Page.find('foo/baz')
+    @parent = FactoryGirl.create(:page, slug: 'foo')
+    assert_equal @parent, Page.find('foo')
+    @child = FactoryGirl.create(:page, slug: 'baz', parent: @parent)
+    assert_equal @child, Page.find('foo/baz')
   end
 
   should "find home page by its path" do
-    assert_equal pages(:home), Page.find('')
+    @page = FactoryGirl.create(:page, slug: 'home')
+    assert_equal @page, Page.find('')
   end
 
   should "find a page by its id" do
-    assert_equal pages(:foo), Page.find(pages(:foo).id)
-    assert_equal pages(:foo), Page.find(pages(:foo).id.to_s)
+    @page = FactoryGirl.create(:page)
+    assert_equal @page, Page.find(@page.id)
+    assert_equal @page, Page.find(@page.id.to_s)
   end
 
   should "raise RecordNotFound if page does not exist" do

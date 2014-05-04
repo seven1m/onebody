@@ -1,21 +1,25 @@
 require_relative '../../test_helper'
 
 class Administration::AdminsControllerTest < ActionController::TestCase
-  fixtures :people, :admins
+
+  setup do
+    @admin = FactoryGirl.create(:person, :super_admin)
+    @user = FactoryGirl.create(:person)
+  end
 
   should 'add administrator' do
-    post :create, {ids: [people(:jeremy).id]}, {logged_in_id: people(:tim).id}
+    post :create, { ids: [@user.id] }, { logged_in_id: @admin.id }
     assert_redirected_to administration_admins_path
-    assert_equal I18n.t('admin.admin_added', name: people(:jeremy).name) + ' ', flash[:notice]
-    assert people(:jeremy).reload.admin?
+    assert_equal I18n.t('admin.admin_added', name: @user.name) + ' ', flash[:notice]
+    assert @user.reload.admin?
   end
 
   should 'remove administrator' do
-    people(:jeremy).update_attribute(:admin, Admin.create!)
-    post :destroy, {id: people(:jeremy).admin_id}, {logged_in_id: people(:tim).id}
+    @user.update_attribute(:admin, Admin.create!)
+    post :destroy, { id: @user.admin_id }, { logged_in_id: @admin.id }
     assert_redirected_to administration_admins_path
     assert_equal I18n.t('admin.admin_removed'), flash[:notice]
-    assert !people(:jeremy).reload.admin?
+    assert !@user.reload.admin?
   end
 
 end

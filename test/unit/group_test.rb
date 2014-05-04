@@ -1,17 +1,13 @@
 require_relative '../test_helper'
 
 class GroupTest < ActiveSupport::TestCase
-  fixtures :people, :groups, :families
-
-  def setup
+  setup do
     @person = Person.logged_in = FactoryGirl.create(:person)
     # all are approved...
     @group = FactoryGirl.create(:group, creator_id: @person.id, category: 'Small Groups')
     FactoryGirl.create(:group, category: 'foo', hidden: false)
     FactoryGirl.create(:group, category: 'foo', hidden: false)
     FactoryGirl.create(:group, category: 'bar', hidden: true)
-    # also, these fixtures:
-    # morgan (Small Groups), college (Small Groups)
   end
 
   should "update its membership based on a link_code" do
@@ -31,19 +27,27 @@ class GroupTest < ActiveSupport::TestCase
     assert_equal 0, @group.reload.people.count
   end
 
-  should "update its membership based on a parents_of selection" do
-    @group.memberships.create!(person: people(:mac))
-    @group2 = FactoryGirl.create(:group, parents_of: @group.id)
-    assert_equal 2, @group2.people.count
-    assert @group2.reload.people.include?(people(:tim))
-    assert @group2.people.include?(people(:jennie))
+  context 'given one group set as parents_of for another' do
+    setup do
+      @head = FactoryGirl.create(:person)
+      @spouse = FactoryGirl.create(:person, family: @head.family)
+      @child = FactoryGirl.create(:person, family: @head.family, child: true)
+      @group.memberships.create!(person: @child)
+      @group2 = FactoryGirl.create(:group, parents_of: @group.id)
+    end
+
+    should 'update its membership based on a parents_of selection' do
+      assert_equal 2, @group2.people.count
+      assert @group2.reload.people.include?(@head)
+      assert @group2.people.include?(@spouse)
+    end
   end
 
   should "list all group categories" do
     cats = Group.categories
     assert_equal 2, cats.keys.length
     # only two that are not hidden, not private, and are approved
-    assert_equal 2, cats['Small Groups']
+    assert_equal 1, cats['Small Groups']
     assert_equal 2, cats['foo']
     assert cats['bar'].nil?
     assert cats['Subscription'].nil?
@@ -53,7 +57,7 @@ class GroupTest < ActiveSupport::TestCase
     @person.admin = Admin.create(manage_groups: true); @person.save
     cats = Group.categories
     assert_equal 3, cats.keys.length
-    assert_equal 3, cats['Small Groups']
+    assert_equal 1, cats['Small Groups']
     assert_equal 2, cats['foo']
     assert_equal 1, cats['bar']
     assert cats['Subscription'].nil?

@@ -3,7 +3,6 @@ require_relative '../test_helper'
 GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL == 'support@example.com'
 
 class PeopleControllerTest < ActionController::TestCase
-  fixtures :people
 
   def setup
     @person, @other_person = FactoryGirl.create_list(:person, 2)
@@ -147,8 +146,8 @@ class PeopleControllerTest < ActionController::TestCase
   end
 
   should "show business listing" do
-    people(:tim).update_attributes!(business_name: 'Tim Morgan Enterprises')
-    get :show, {id: people(:tim).id, business: true}, {logged_in_id: people(:tim).id}
+    @person.update_attributes!(business_name: 'Tim Morgan Enterprises')
+    get :show, {id: @person.id, business: true}, {logged_in_id: @person.id}
     assert_response :success
     assert_select 'body', /Tim Morgan Enterprises/
   end

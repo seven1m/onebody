@@ -3,7 +3,6 @@ require_relative '../test_helper'
 GLOBAL_SUPER_ADMIN_EMAIL = 'support@example.com' unless defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL == 'support@example.com'
 
 class PersonTest < ActiveSupport::TestCase
-  fixtures :people, :families
 
   context 'Formats' do
 
@@ -231,7 +230,6 @@ class PersonTest < ActiveSupport::TestCase
     setup do
       @person = FactoryGirl.create(:person)
       @friend = FactoryGirl.create(:person, first_name: 'James', email: 'james@example.com')
-      StreamItem.delete_all # clear fixtures
       @pic = FactoryGirl.create(:picture, person: @person)
     end
 

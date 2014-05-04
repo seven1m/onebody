@@ -12,8 +12,8 @@ X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator: 
 Thread-Topic: multipart test
 Thread-Index: AcifO8WeOLjg2B43TDKkxKKI+foZlw==
-From: "Peter Jones" <peter@foobar.com>
-To: "College Group" <college@example.com>
+From: FROM_ADDRESS
+To: TO_ADDRESS
 
 This is a multi-part message in MIME format.
 

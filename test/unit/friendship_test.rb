@@ -1,36 +1,33 @@
 require_relative '../test_helper'
 
 class FriendshipTest < ActiveSupport::TestCase
-  fixtures :friendships, :people
-
   def setup
     Setting.set(1, 'Features', 'Friends', true)
+    @user = FactoryGirl.create(:person)
+    @other = FactoryGirl.create(:person)
   end
 
-  def test_friendship_creation
-    Friendship.destroy_all # kill the ones from the fixtures for this test
-    assert_equal 0, people(:jane).friends.count
-    assert_equal 0, people(:jennie).friends.count
-    people(:jane).friendships.create friend: people(:jennie)
-    assert_equal 1, people(:jane).friends.count
-    assert_equal 1, people(:jennie).friends.count
+  should 'make friends' do
+    assert_equal 0, @user.friends.count
+    assert_equal 0, @other.friends.count
+    @user.friendships.create friend: @other
+    assert_equal 1, @user.friends.count
+    assert_equal 1, @other.friends.count
   end
 
-  def test_duplicate_friendships_not_allowed
-    Friendship.destroy_all # kill the ones from the fixtures for this test
+  should 'not allow duplicate friendships' do
     assert_nothing_raised(ActiveRecord::RecordInvalid) do
-      people(:jane).friendships.create! friend: people(:jennie)
+      @user.friendships.create! friend: @other
     end
     assert_raise(ActiveRecord::RecordInvalid) do
-      people(:jennie).friendships.create! friend: people(:jane)
+      @other.friendships.create! friend: @user
     end
   end
 
-  def test_friendship_destroy
-    Friendship.destroy_all # kill the ones from the fixtures for this test
-    people(:jane).friendships.create! friend: people(:jennie)
+  should 'destroy friendships' do
+    @user.friendships.create! friend: @other
     assert_equal 2, Friendship.count
-    people(:jane).friendships.find(:first).destroy
+    @user.friendships.first.destroy
     assert_equal 0, Friendship.count
   end
 end

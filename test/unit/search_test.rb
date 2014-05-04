@@ -3,8 +3,6 @@ require_relative '../test_helper'
 class SearchTest < ActiveSupport::TestCase
 
   def setup
-    Person.delete_all # FIXME fixtures suck
-    Family.delete_all # FIXME fixtures suck
     @user = FactoryGirl.create(:person)
     Person.logged_in = @user
     @nobody = FactoryGirl.create(:person, first_name: 'Jack', last_name: 'Jones', family: FactoryGirl.create(:family, name: 'Jack Jones', last_name: 'Jones'))
