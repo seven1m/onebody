@@ -12,7 +12,7 @@
         <th><%= t('search.name') %></th>
         <th><%= t('search.family_name') %></th>
       <% end %>
-      <% if @show_birthdays %>
+      <% if show_birthdays? %>
         <th><%= t('search.birthday') %></th>
       <% end %>
     </tr>
@@ -45,7 +45,7 @@
           </td>
           <td><%= person.family ? person.family.name : t('search.no_family') %></td>
         <% end %>
-        <% if @show_birthdays %>
+        <% if show_birthdays? %>
           <td><%= person.birthday ? person.birthday.strftime('%B %d') : nil %></td>
         <% end %>
         <td>

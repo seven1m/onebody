@@ -5,7 +5,7 @@
     <h2><%= t('search.heading', name: Setting.get(:name, :community)) %></h2>
 
     <p>
-      <%= t("search.people_found", count: @count) %>
+      <%= t("search.people_found", count: @search.count) %>
       <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
         <%= t("search.not_showing_hidden_people") %>
       <% end %>
@@ -21,7 +21,7 @@
         <label for="category"><%= t('search.business_category') %></label>
         <select id="category" onchange="location.href='?business=true&category='+value">
           <option value=""><%= t('search.show_all') %></option>
-          <%= options_for_select @business_categories, params[:category] %>
+          <%= options_for_select Person.business_categories, params[:category] %>
         </select>
       </p>
     <% end %>

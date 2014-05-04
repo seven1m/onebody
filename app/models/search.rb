@@ -102,7 +102,7 @@ class Search
   end
 
   def gender!
-    where!('people.gender = ?', gender) if gender
+    where!('people.gender = ?', gender) if gender.present?
   end
 
   def birthday!
@@ -127,7 +127,7 @@ class Search
   def type!
     if %w(member staff deacon elder).include?(type)
       where!("people.#{type} = ?", true)
-    elsif type
+    elsif type.present?
       where!("people.custom_type = ?", type)
     end
   end
