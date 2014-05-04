@@ -10,6 +10,8 @@ Dir[File.dirname(__FILE__) + '/../plugins/**/lib/*'].each do |plugin|
   require plugin.sub(/\.rb$/, '')
 end
 
+require_relative '../lib/console'
+
 module OneBody
   class Application < Rails::Application
     # Custom directories with classes and modules you want to be autoloadable.
