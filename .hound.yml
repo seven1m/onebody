@@ -1,0 +1,5 @@
+LineLength:
+  Max: 120
+
+AndOr:
+  Enabled: false
