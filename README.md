@@ -2,14 +2,12 @@
 
 [![Build Status](https://travis-ci.org/churchio/onebody.png)](https://travis-ci.org/churchio/onebody)
 
-**WARNING: This is the 'next' branch, where some heavy-duty refactoring is going on. This branch is most likely broken right now (you can follow work progress [here](https://github.com/churchio/onebody/issues/milestones)). Be sure to `git checkout master` if you want the old stable OneBody.**
-
 OneBody is open-source, web-based social networking and online directory software for churches. OneBody is built on Ruby 2.1.1, Rails 3.2 and MySQL.
 
 
 ## Setup
 
-1. Install Ruby 1.9.3 or higher (we recommend you use [RVM](https://rvm.io/)).
+1. Install Ruby 2.1.1 or higher (we recommend you use [RVM](https://rvm.io/)).
 2. Install MySQL.
 3. `git clone git://github.com/seven1m/onebody.git`
 4. `mysql -u root -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
