@@ -46,13 +46,13 @@ class AlbumAuthorizer < ApplicationAuthorizer
 
   alias_method :deletable_by?, :updatable_by?
 
-  def self.readable_by(user, scope=Album.scoped)
+  def self.readable_by(user, scope = Album.scoped)
     if user.admin?(:manage_pictures)
       scope
     else
       scope.where(
-        "(owner_type = 'Person' and owner_id in (?)) or " +
-        "(owner_type = 'Group' and owner_id in (?)) or " +
+        "(owner_type = 'Person' and owner_id in (?)) or " \
+        "(owner_type = 'Group' and owner_id in (?)) or " \
         "is_public = ?",
         [user.id] + user.friend_ids,
         user.group_ids,

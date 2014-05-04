@@ -17,7 +17,7 @@ class PictureAuthorizer < ApplicationAuthorizer
   alias_method :deletable_by?, :updatable_by?
   alias_method :rotatable_by?, :updatable_by?
 
-  def self.readable_by(user, scope=Picture.scoped)
+  def self.readable_by(user, scope = Picture.scoped)
   end
 
 end

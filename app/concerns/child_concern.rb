@@ -29,7 +29,7 @@ module ChildConcern
     birthday && birthday.distance_to(Date.today)
   end
 
-  def years_of_age(on=Date.today)
+  def years_of_age(on = Date.today)
     return nil unless birthday
     return nil if birthday.year == 1900
     years = on.year - birthday.year
