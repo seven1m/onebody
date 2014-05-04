@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
 
   # sign in
   def create
+    params[:email].downcase!
     if @person = Person.authenticate(params[:email], params[:password])
       unless @person.can_sign_in?
         redirect_to page_for_public_path('system/unauthorized')
@@ -30,11 +31,11 @@ class SessionsController < ApplicationController
         redirect_to @person
       end
     elsif @person == false # person found, but not authenticated
-      if p = Person.undeleted.where(email: params[:email]).first and p.encrypted_password.nil?
+      if p = Person.undeleted.where(email: params[:email]).first and p.password_hash.nil? and p.encrypted_password.nil?
         flash[:warning] = t('session.account_not_activated_html').html_safe
       else
         flash[:warning] = t('session.password_doesnt_match')
-        SigninFailure.create(email: params[:email].downcase, ip: request.remote_ip)
+        SigninFailure.create(email: params[:email], ip: request.remote_ip)
       end
       render action: 'new'
       flash.clear

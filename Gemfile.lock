@@ -47,6 +47,7 @@ GEM
     authority (2.9.0)
       activesupport (>= 3.0.0)
       rake (>= 0.8.7)
+    bcrypt (3.1.7)
     builder (3.0.4)
     chronic (0.10.2)
     climate_control (0.0.3)
@@ -177,6 +178,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_taggable_on_steroids!
   authority
+  bcrypt
   builder
   exception_notification
   factory_girl_rails

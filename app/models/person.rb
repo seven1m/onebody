@@ -47,7 +47,6 @@ class Person < ActiveRecord::Base
   scope :email_changed, -> { undeleted.where(email_changed: true) }
   scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at') }
 
-  acts_as_password
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
   validates_presence_of :first_name, :last_name
@@ -145,16 +144,6 @@ class Person < ActiveRecord::Base
   def birthday_soon?
     today = Date.today
     birthday and ((birthday.yday()+365 - today.yday()).modulo(365) < BIRTHDAY_SOON_DAYS)
-  end
-
-  before_create :generate_salt
-
-  def generate_salt
-    self.salt = SecureRandom.hex(50)[0...50] unless read_attribute(:salt)
-  end
-
-  def salt
-    read_attribute(:salt) || generate_salt
   end
 
   fall_through_attributes :home_phone, :address, :address1, :address2, :city, :state, :zip, :short_zip, :mapable?, to: :family
@@ -555,4 +544,5 @@ class Person < ActiveRecord::Base
   end
 
   include ChildConcern
+  include PasswordConcern
 end

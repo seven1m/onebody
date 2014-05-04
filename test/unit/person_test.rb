@@ -314,6 +314,77 @@ class PersonTest < ActiveSupport::TestCase
       @person.errors.full_messages
   end
 
+  context '#authenticate' do
+    context 'right password' do
+      setup do
+        @person = FactoryGirl.create(:person, password: 'secret')
+        @authenticated = Person.authenticate(@person.email, 'secret')
+      end
+
+      should 'return false' do
+        assert_equal @person, @authenticated
+      end
+    end
+
+    context 'wrong password' do
+      setup do
+        @person = FactoryGirl.create(:person, password: 'secret')
+        @authenticated = Person.authenticate(@person.email, 'bad-password')
+      end
+
+      should 'return false' do
+        assert_equal false, @authenticated
+      end
+    end
+
+    context 'user with mixed case email' do
+      setup do
+        @person = FactoryGirl.create(:person, email: 'MIXED_case@example.com', password: 'secret')
+        @authenticated = Person.authenticate('mixed_CASE@example.com', 'secret')
+      end
+
+      should 'authenticate properly' do
+        assert_equal @person, @authenticated
+      end
+    end
+
+    context 'wrong email' do
+      setup do
+        @person = FactoryGirl.create(:person, password: 'secret')
+        @authenticated = Person.authenticate('wrong-email@example.com', 'secret')
+      end
+
+      should 'return false' do
+        assert_nil @authenticated
+      end
+    end
+
+    context 'user with legacy password' do
+      setup do
+        @person = FactoryGirl.create(:person,
+          email:              'bill@example.com',
+          encrypted_password: 'ec30317d2d9133b897cfac6718680f60a0110cec',
+          salt:               '0vrXxHlAjAY1w1frfCBYwcbHUHeOBcHlSn8VVXeSg9tWZfjYbq'
+        )
+        @authenticated = Person.authenticate('bill@example.com', 'secret')
+      end
+
+      should 'return the authenticated person' do
+        assert_equal @person, @authenticated
+      end
+
+      should 'change to BCrypt password hash' do
+        assert_not_nil @person.reload.password_hash
+        assert_not_nil @person.password_salt
+      end
+
+      should 'remove old password hash' do
+        assert_nil @person.reload.encrypted_password
+        assert_nil @person.salt
+      end
+    end
+  end
+
   private
 
     def partial_fixture(table, name, valid_attributes)

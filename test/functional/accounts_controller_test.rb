@@ -369,7 +369,7 @@ class AccountsControllerTest < ActionController::TestCase
   context '#update' do
     context 'user is account owner' do
       setup do
-        @password_was = @person.encrypted_password
+        @password_was = @person.password_hash
         post :update, {person_id: @person.id, person: {email: 'foo@example.com', password: 'password', password_confirmation: 'password'}}, {logged_in_id: @person.id}
       end
 
@@ -382,7 +382,7 @@ class AccountsControllerTest < ActionController::TestCase
       end
 
       should 'update password' do
-        assert_not_equal @password_was, @person.reload.encrypted_password
+        assert_not_equal @password_was, @person.reload.password_hash
       end
 
       context 'bad email given' do
@@ -461,7 +461,7 @@ class AccountsControllerTest < ActionController::TestCase
         end
 
         should 'set flash to warn about setting password' do
-          assert_match /set.*email.*password/, flash[:warning]
+          assert_match(/set.*email.*password/, flash[:warning])
         end
 
         should 'clear session select people' do
@@ -629,7 +629,7 @@ class AccountsControllerTest < ActionController::TestCase
         end
 
         should 'set flash notice to set email' do
-          assert_match /set.*email/, flash[:warning]
+          assert_match(/set.*email/, flash[:warning])
         end
       end
     end
