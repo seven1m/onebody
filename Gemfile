@@ -23,6 +23,7 @@ gem 'pdf-writer', github: 'metaskills/pdf-writer', require: 'pdf/writer'
 gem 'authority'
 gem 'load_and_authorize_resource'
 gem 'bcrypt'
+gem 'mini_magick'
 
 group :test do
   gem 'factory_girl_rails'

@@ -23,30 +23,24 @@ class Attachment < ActiveRecord::Base
   end
 
   def image
-    @img ||= unless @img == false
-      if `identify -format "%m/%b/%w/%h" #{self.file.path} 2>&1` =~ %r{(.+)/(.+)B/(\d+)/(\d+)}
-        @img = {
-          'format' => $1,
-          'size'   => $2.to_i,
-          'width'  => $3.to_i,
-          'height' => $4.to_i
-        }
-      else
-        @img = false
-      end
+    return @img unless @img.nil?
+    if img = MiniMagick::Image.new(file.path) and img.valid?
+      @img = img
+    else
+      @img = false
     end
   end
 
   def image?
-    image and %w(JPEG PNG GIF).include?(image['format'])
+    image and %w(JPEG PNG GIF).include?(image[:format])
   end
 
   def width
-    image? and image['width']
+    image[:width] if image?
   end
 
   def height
-    image? and image['height']
+    image[:height] if image?
   end
 
   class << self

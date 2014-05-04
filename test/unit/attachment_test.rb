@@ -44,10 +44,17 @@ class AttachmentTest < ActiveSupport::TestCase
   should "recognize whether it is an image or not" do
     img = Attachment.create_from_file(file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true))
     assert img.image?
+    file = Attachment.create_from_file(file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true))
+    assert !file.image?
+  end
+
+  should "know its width and height if an image" do
+    img = Attachment.create_from_file(file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/image.jpg'), 'image/jpeg', true))
     assert_equal 2, img.width
     assert_equal 2, img.height
     file = Attachment.create_from_file(file: Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/files/attachment.pdf'), 'application/pdf', true))
-    assert !file.image?
+    assert_nil file.width
+    assert_nil file.height
   end
 
 end

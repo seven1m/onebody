@@ -30,8 +30,9 @@ class Picture < ActiveRecord::Base
       raise ErrorRotatingPhoto.new('Invalid degree value.')
     end
     tmp = Tempfile.new(['photo', File.extname(photo.path)])
-    `convert #{photo.path} -rotate #{degrees} #{tmp.path}`
-    if File.stat(tmp.path).size > 0
+    if img = MiniMagick::Image.open(photo.path) and img.valid?
+      img.rotate(degrees)
+      img.write(tmp.path)
       self.photo = tmp
       save!
       tmp.delete
