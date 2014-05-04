@@ -20,9 +20,9 @@ class PeopleController < ApplicationController
     if params[:id].to_i == session[:logged_in_id]
       @person = @logged_in
     elsif params[:legacy_id]
-      @person = Person.find_by_legacy_id(params[:id], include: :family)
+      @person = Person.where(legacy_id: params[:id]).includes(:family).first
     else
-      @person = Person.find_by_id(params[:id], include: :family)
+      @person = Person.where(id: params[:id]).includes(:family).first
     end
     if params[:limited] or !@logged_in.full_access?
       render action: 'show_limited'
