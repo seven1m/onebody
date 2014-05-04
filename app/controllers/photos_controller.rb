@@ -1,6 +1,11 @@
 class PhotosController < ApplicationController
 
-  PHOTO_TYPES = %w(Family Person Picture Group) # be sure to add tests to photos_controller_test
+  PHOTO_TYPES = {
+    'family_id'  => Family,
+    'person_id'  => Person,
+    'picture_id' => Picture,
+    'group_id'   => Group
+  }
 
   before_filter :get_object
 
@@ -37,9 +42,8 @@ class PhotosController < ApplicationController
   def get_object
     # /families/123/photo
     # /families/123/photo/large
-    if id_key = params.keys.select { |k| k =~ /_id$/ }.last \
-      and PHOTO_TYPES.include?(@type = id_key.split('_').first.classify)
-      @object = Kernel.const_get(@type).find(params[id_key])
+    if id_key = params.keys.select { |k| k =~ /_id$/ }.last and model = PHOTO_TYPES[id_key]
+      @object = model.find(params[id_key])
     else
       render text: t('photos.object_not_found'), layout: true, status: 404
       return false
