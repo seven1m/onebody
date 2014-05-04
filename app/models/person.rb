@@ -92,12 +92,9 @@ class Person < ActiveRecord::Base
     end
   end
 
+  # FIXME this assumes English - how to fix?
   def name_possessive
     name =~ /s$/ ? "#{name}'" : "#{name}'s"
-  end
-
-  def first_name_possessive
-    first_name =~ /s$/ ? "#{first_name}'" : "#{first_name}'s"
   end
 
   def inspect
@@ -205,7 +202,7 @@ class Person < ActiveRecord::Base
   end
 
   def messages_enabled?
-    read_attribute(:messages_enabled) and email.to_s.any?
+    read_attribute(:messages_enabled) and email.present?
   end
 
   def member_of?(group)
@@ -220,7 +217,7 @@ class Person < ActiveRecord::Base
     self[:anniversary] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
   end
 
-  def parental_consent?; parental_consent.to_s.any?; end
+  def parental_consent?; parental_consent.present?; end
   def adult_or_consent?; adult? or parental_consent?; end
 
   def visible?(fam=nil)
@@ -243,7 +240,7 @@ class Person < ActiveRecord::Base
   end
 
   def global_super_admin?
-    defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL.to_s.any? and email == GLOBAL_SUPER_ADMIN_EMAIL
+    defined?(GLOBAL_SUPER_ADMIN_EMAIL) and GLOBAL_SUPER_ADMIN_EMAIL.present? and email == GLOBAL_SUPER_ADMIN_EMAIL
   end
 
   def valid_email?
@@ -272,7 +269,7 @@ class Person < ActiveRecord::Base
 
   def has_favs?
     %w(activities interests music tv_shows movies books quotes).detect do |fav|
-      self.send(fav).to_s.any?
+      self.send(fav).present?
     end ? true : false
   end
 
