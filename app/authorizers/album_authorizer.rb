@@ -5,10 +5,10 @@ class AlbumAuthorizer < ApplicationAuthorizer
     if resource.owner == user
       true
     # belongs to a friend
-    elsif Person === resource.owner and user.friend_ids.include?(resource.owner.id)
+    elsif resource.owner.is_a?(Person) and user.friend_ids.include?(resource.owner.id)
       true
     # belongs to a group I'm in
-    elsif Group === resource.owner and user.member_of?(resource.owner)
+    elsif resource.owner.is_a?(Group) and user.member_of?(resource.owner)
       true
     # is marked public
     elsif resource.is_public?
@@ -36,7 +36,7 @@ class AlbumAuthorizer < ApplicationAuthorizer
     if resource.owner == user
       true
     # belongs to a group I'm admin of
-    elsif Group === resource.owner and resource.owner.admin?(user)
+    elsif resource.owner.is_a?(Group) and resource.owner.admin?(user)
       true
     # I'm a global admin
     elsif user.admin?(:manage_pictures)
