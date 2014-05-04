@@ -123,7 +123,7 @@ OneBody::Application.routes.draw do
 
   resources :notes, except: :index
 
-  resource  :setup, :stream, :session, :search, :printable_directory, :privacy, :pc_sync
+  resource  :setup, :stream, :session, :search, :printable_directory, :privacy
 
   resources :news, as: :news_items
   match 'news', to: 'news#index'
