@@ -21,6 +21,8 @@ module OneBody
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
+    config.i18n.enforce_available_locales = true
+
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     config.i18n.default_locale = File.exist?("#{config.root}/config/locale") ? File.read("#{config.root}/config/locale").strip.to_sym : :en
     config.i18n.load_path += Dir["#{config.root}/plugins/**/config/locales/*.{rb,yml}"]
