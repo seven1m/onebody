@@ -2,6 +2,8 @@
   <%= content %>
 <% end %>
 
+<%= error_messages_for @verification if @verification %>
+
 <% if Setting.get(:features, :sign_up) %>
   <h2><%= t('accounts.create') %></h2>
   <%= form_for @signup, as: :signup, url: account_path, method: 'post' do |form| %>

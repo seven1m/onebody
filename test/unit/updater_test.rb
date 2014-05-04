@@ -155,8 +155,6 @@ class UpdaterTest < ActiveSupport::TestCase
       should 'not change the family model for city' do
         assert_nil @person.family.reload.city
       end
-
-      should 'properly store custom fields'
     end
 
     context 'updates do not need approval' do

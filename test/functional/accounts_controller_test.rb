@@ -276,10 +276,12 @@ class AccountsControllerTest < ActionController::TestCase
         context 'user cannot sign in' do
           setup do
             @person.update_attribute(:can_sign_in, false)
-            post :create, email: 'rick@example.com'
+            post :create, verification: {email: 'rick@example.com'}
           end
 
-          should 'redirect to page for bad status'
+          should 'show error message' do
+            assert_select 'body', /There is a problem with your record preventing you from signing in/
+          end
         end
       end
     end
@@ -322,7 +324,9 @@ class AccountsControllerTest < ActionController::TestCase
             post :create, verification: {mobile_phone: '1234567899', carrier: 'AT&T'}
           end
 
-          should 'redirect to page for bad status'
+          should 'show error message' do
+            assert_select 'body', /There is a problem with your record preventing you from signing in/
+          end
         end
       end
     end
