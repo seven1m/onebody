@@ -14,12 +14,12 @@
   </ul>
 
   <% if @logged_in.super_admin? %>
-    <p class="small discreet double-margin-top"><%= link_to t('admin.settings.reload'), reload_administration_settings_path, :method => 'put', :title => t('admin.settings.reload_message') %></p>
+    <p class="small discreet double-margin-top"><%= link_to t('admin.settings.reload'), reload_administration_settings_path, method: 'put', title: t('admin.settings.reload_message') %></p>
   <% end %>
 <% end %>
 
 
-<%= form_tag(batch_administration_settings_path, :method => 'put', :style => "border:none;") do %>
+<%= form_tag(batch_administration_settings_path, method: 'put', style: "border:none;") do %>
 
   <table class="members">
 
@@ -46,16 +46,10 @@
       <%= setting_row('Features', 'Friends') %>
       <%= setting_row('Features', 'Groups') %>
 
-      <%= subsection_row(t('admin.settings.features_prayer_event_about')) %>
-      <%= setting_row('Features', 'Prayer Event') %>
-      <%= setting_row('Features', 'Prayer Event First Date and Time') %>
-      <%= setting_row('Features', 'Prayer Event Last Date and Time') %>
-
     <%= section_row(t('admin.settings.sharing_heading'), :sharing) %>
 
       <%= subsection_row(t('admin.settings.sharing_communications_about')) %>
       <%= setting_row('Features', 'News Page') %>
-      <%= setting_row('Features', 'Publications') %>
 
       <%= subsection_row(t('admin.settings.sharing_about')) %>
       <%= setting_row('Features', 'News by Users') %>
@@ -70,13 +64,13 @@
       <%= setting_row('Features', 'Sign Up Approval Email') %>
       <%= setting_row('Features', 'Custom Person Type') %>
       <%= setting_row('Features', 'Custom Person Fields') %>
-      <%= setting_row('System', 'Adult Age', :options => (13..21)) %>
+      <%= setting_row('System', 'Adult Age', options: (13..21)) %>
       <%= setting_row('System', 'Suffixes') %>
 
     <%= section_row(t('admin.settings.locale_heading'), :locale) %>
 
-      <%= setting_row('System', 'Language', :options => @langs) %>
-      <%= setting_row('System', 'Time Zone', :options => @timezones) %>
+      <%= setting_row('System', 'Language', options: ONEBODY_LOCALES.invert) %>
+      <%= setting_row('System', 'Time Zone', options: @timezones) %>
 
     <%= section_row(t('admin.settings.formats_heading'), :formats) %>
 
@@ -93,20 +87,20 @@
     <%= section_row(t('admin.settings.privacy_heading'), :privacy) %>
 
       <%= setting_row('Privacy', 'Allow Picture Comments') %>
-      <%= setting_row('Privacy', 'Max Sign in Attempts', :options => [5, 10, 20, 50]) %>
+      <%= setting_row('Privacy', 'Max Sign in Attempts', options: [5, 10, 20, 50]) %>
 
       <%= subsection_row(t('admin.settings.privacy_defaults_about')) %>
       <tr>
         <td class="label"><label><%= t('admin.settings.privacy_defaults') %></label></td>
         <td>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Email by Default',        :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Home Phone by Default',   :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Mobile Phone by Default', :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Work Phone by Default',   :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Fax by Default',          :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Address by Default',      :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Birthday by Default',     :label => :name) %><br/>
-          <%= setting_field(:section => 'Privacy', :name => 'Share Anniversary by Default',  :label => :name) %>
+          <%= setting_field(section: 'Privacy', name: 'Share Email by Default',        label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Home Phone by Default',   label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Mobile Phone by Default', label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Work Phone by Default',   label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Fax by Default',          label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Address by Default',      label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Birthday by Default',     label: :name) %><br/>
+          <%= setting_field(section: 'Privacy', name: 'Share Anniversary by Default',  label: :name) %>
         </td>
       </tr>
 
@@ -115,11 +109,6 @@
       <%= setting_row('URL', 'Visitor') %>
       <%= setting_row('URL', 'News Feed') %>
       <%= setting_row('Services', 'Analytics') %>
-      <%= setting_row('Services', 'Donor Tools URL') %>
-      <%= setting_row('Services', 'Donor Tools API Email') %>
-      <%= setting_row('Services', 'Donor Tools API Password') %>
-      <%= setting_row('Services', 'Campaign Monitor API Key') %>
-      <%= setting_row('Services', 'Sermondrop URL') %>
 
   </table>
 
@@ -139,8 +128,6 @@
   }
   setupToggler(<%= @settings['Features']['Sign Up'].id %>,      [<%= @settings['Features']['Sign Up Approval Email'].id %> ]);
   setupToggler(<%= @settings['Features']['News Page'].id %>,    [<%= @settings['Features']['News by Users'].id %>          ]);
-  setupToggler(<%= @settings['Features']['Prayer Event'].id %>, [<%= @settings['Features']['Prayer Event First Date and Time'].id %>,
-                                                                 <%= @settings['Features']['Prayer Event Last Date and Time' ].id %>]);
 
   function scrollTo(id) {
     $('html, body').animate({'scrollTop':$('#'+id).offset().top}, 'slow');

@@ -7,46 +7,46 @@
 
 <% content_for :sidebar do %>
   <table class="style-editor-palettes"><tr>
-    <td style="padding-right:60px;"><%= render :partial => 'palette', :collection => COLOR_PALETTES[0..COLOR_PALETTES.length/2-1] %></td>
-    <td><%= render :partial => 'palette', :collection => COLOR_PALETTES[COLOR_PALETTES.length/2..-1] %></td>
+    <td style="padding-right:60px;"><%= render partial: 'palette', collection: COLOR_PALETTES[0..COLOR_PALETTES.length/2-1] %></td>
+    <td><%= render partial: 'palette', collection: COLOR_PALETTES[COLOR_PALETTES.length/2..-1] %></td>
   </tr></table>
 <% end %>
 
-<%= image_tag 'clean/style_primary.png',   :class => 'style-editor-pointer', :style => 'position:absolute;left:50%;margin-left:-400px;top:110px;z-index:100;' %>
-<%= image_tag 'clean/style_secondary.png', :class => 'style-editor-pointer', :style => 'position:absolute;left:50%;margin-left:-120px;top:130px;z-index:100;' %>
-<%= image_tag 'clean/style_nav_bar.png',   :class => 'style-editor-pointer', :style => 'position:absolute;right:35%;top:150px;z-index:100;'   %>
+<%= image_tag 'clean/style_primary.png',   class: 'style-editor-pointer', style: 'position:absolute;left:50%;margin-left:-400px;top:110px;z-index:100;' %>
+<%= image_tag 'clean/style_secondary.png', class: 'style-editor-pointer', style: 'position:absolute;left:50%;margin-left:-120px;top:130px;z-index:100;' %>
+<%= image_tag 'clean/style_nav_bar.png',   class: 'style-editor-pointer', style: 'position:absolute;right:35%;top:150px;z-index:100;'   %>
 
 <h2 class="style-editor-heading"><%= t('styles.heading') %></h2>
 
-<%= form_tag style_path, :method => :put do %>
+<%= form_tag style_path, method: :put do %>
   <div id="colorpicker"></div>
   <p>
     <%= label_tag :primary, t('styles.primary_color') %>
-    <%= text_field_tag :primary, @primary, :size => 6, :class => 'color-input' %>
+    <%= text_field_tag :primary, @primary, size: 6, class: 'color-input' %>
     <span class="color-preview">&nbsp;</span>
   </p>
   <p>
     <%= label_tag :secondary, t('styles.secondary_color') %>
-    <%= text_field_tag :secondary, @secondary, :size => 6, :class => 'color-input' %>
+    <%= text_field_tag :secondary, @secondary, size: 6, class: 'color-input' %>
     <span class="color-preview">&nbsp;</span>
   </p>
   <p>
     <%= label_tag :top, t('styles.top_color') %>
-    <%= text_field_tag :top, @top, :size => 6, :class => 'color-input' %>
+    <%= text_field_tag :top, @top, size: 6, class: 'color-input' %>
     <span class="color-preview">&nbsp;</span>
   </p>
   <p>
     <%= label_tag :nav, t('styles.nav_color') %>
-    <%= text_field_tag :nav_color, @nav, :size => 6, :class => 'color-input' %>
+    <%= text_field_tag :nav_color, @nav, size: 6, class: 'color-input' %>
     <span class="color-preview">&nbsp;</span>
   </p>
   <p>
-    <%= submit_tag t('save_changes'), :id => 'submit-button' %>
-    <%= image_tag 'clean/style_primary2.png', :class => 'style-editor-pointer', :style => 'vertical-align:top;' %>
+    <%= submit_tag t('save_changes'), id: 'submit-button' %>
+    <%= image_tag 'clean/style_primary2.png', class: 'style-editor-pointer', style: 'vertical-align:top;' %>
   </p>
 <% end %>
 
-<%= image_tag 'clean/style_top_bar.png', :class => 'style-editor-pointer', :style => 'position:absolute;right:20px;top:20px;z-index:100;' %>
+<%= image_tag 'clean/style_top_bar.png', class: 'style-editor-pointer', style: 'position:absolute;right:20px;top:20px;z-index:100;' %>
 
 <script type="text/javascript">
   var palettes = <%= raw @palettes_as_json %>;

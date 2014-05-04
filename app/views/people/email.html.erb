@@ -5,10 +5,10 @@
         <%= @person == @logged_in ? t('your') : @person.name_possessive %> <%= t('people.email_address') %>:<br/>
         <span style="font-size:2em;"><%= @person.email %></span>
       <% else %>
-        <%= t('people.no_email', :name => @person.name) %>
+        <%= t('people.no_email', name: @person.name) %>
       <% end %>
     </p>
-    <p><%= t('people.click_to_change_email_html', :url => edit_person_account_path(@person)) %></p>
+    <p><%= t('people.click_to_change_email_html', url: edit_person_account_path(@person)) %></p>
   </div>
 <% end %>
 
@@ -19,7 +19,7 @@
   <%= hidden_field_tag :email, true %>
 
   <h3><%= t('groups.group_emails') %></h3>
-  <%= render :partial => 'groups/person_groups' %>
+  <%= render partial: 'groups/person_groups' %>
 
   <h3><%= t('people.alternate_email') %></h3>
   <p>

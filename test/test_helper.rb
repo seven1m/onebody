@@ -1,25 +1,18 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path('../../config/application', __FILE__)
+require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 #require 'notifier'
 require 'rake'
 require File.expand_path('../../lib/rake_abandon', __FILE__)
 OneBody::Application.load_tasks
 
-# flatten settings hash and write to fixture file
-Rake::Task['onebody:build_settings_fixture_file'].invoke
+require 'shoulda'
 
-#Webrat.configure do |config|
-  #config.mode = :selenium
-  #config.application_framework = :rails
-  #config.application_environment = :test
-  #config.application_port = 4567
-#end
-
-require File.dirname(__FILE__) + '/forgeries'
+Site.current = Site.where(host: 'example.com').first_or_create! do |site|
+  site.name = 'Default'
+end
 
 class ActiveSupport::TestCase
-
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
 
@@ -36,7 +29,7 @@ class ActiveSupport::TestCase
 
   def post_sign_in_form(email, password='secret')
     Setting.set_global('Features', 'SSL', true)
-    post '/session', :email => email, :password => password
+    post '/session', email: email, password: password
   end
 
   def view_profile(person)
@@ -48,7 +41,7 @@ class ActiveSupport::TestCase
 
   def site!(site)
     host! site
-    get '/'
+    get '/search'
   end
 
   def assert_deliveries(count)
@@ -66,20 +59,20 @@ class ActiveSupport::TestCase
     end
   end
 
-  fixtures :all
+  def assert_can(user, action, subject)
+    assert user.send("can_#{action}?", subject), "cannot #{action} #{subject.inspect}"
+  end
 
-  setup do
-    # this is so fixture loading and forgeries won't bomb
-    # (since they are often loaded before AppplicaitonController can call get_site)
-    Site.current = Site.find(1)
+  def assert_cannot(user, action, subject)
+    refute user.send("can_#{action}?", subject), "can #{action} #{subject.inspect}"
   end
 end
 
 module WebratTestHelper
   def sign_in_as(person, password='secret')
     visit '/session/new'
-    fill_in :email, :with => person.email
-    fill_in :password, :with => password
+    fill_in :email, with: person.email
+    fill_in :password, with: password
     click_button I18n.t('session.sign_in')
     selenium.wait_for_page_to_load(5)
     assert_match %r{/stream$}, current_url

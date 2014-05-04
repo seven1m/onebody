@@ -1,7 +1,7 @@
-<%= form_tag batch_memberships_path, :remote => true, :id => 'group_memberships' do %>
+<%= form_tag batch_memberships_path, remote: true, id: 'group_memberships' do %>
   <%= hidden_field_tag 'person_id', @person.id %>
   <% @person.groups.each do |group| %>
-    <%= check_box_tag 'ids[]', group.id, true, :class => 'checkbox' %><%= link_to group.name, group %><br/>
+    <%= check_box_tag 'ids[]', group.id, true, class: 'checkbox' %><%= link_to group.name, group %><br/>
   <% end %>
   <% if @person.groups.empty? %>
     <em><%= t('people.no_groups_yet') %></em><br/>
@@ -10,7 +10,7 @@
   <%= submit_tag t('Save') %> <span id="group_list_status"></span>
 <% end %>
 
-<%= form_tag groups_path, :remote => true, :method => 'get' do %>
+<%= form_tag groups_path, remote: true, method: 'get' do %>
   <p>
     <label for="name"><%= t('people.add_group') %>:</label> <%= text_field_tag 'name' %>
     <br/>

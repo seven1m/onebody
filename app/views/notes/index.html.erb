@@ -15,25 +15,25 @@
         <span class="nowrap">
           <a href="<%= url_for note.person %>">
             <%= image_tag note.person.photo.exists? ? note.person.photo.url(:tn) : (note.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
-              :alt => note.person.name %>
+              alt: note.person.name %>
           </a>
         </span>
       <% else %>
-        <%= image_tag 'clean/manoutline.tn.png', :alt => '' %>
+        <%= image_tag 'clean/manoutline.tn.png', alt: '' %>
       <% end %>
       <div style="clear:left;"></div>
     </div>
     <div class="stream-item-body">
       <% if note.title.to_s.any? %>
         <h2><%= link_to note.title, note %></h2>
-        <%= render :partial => 'meta', :locals => {:note => note} %>
+        <%= render partial: 'meta', locals: {note: note} %>
         <div>
           <%= sanitize_html auto_link(note.body) %>
         </div>
       <% else %>
         <h2></h2>
         <%= sanitize_html auto_link(note.body) %>
-        <%= render :partial => 'meta', :locals => {:note => note} %>
+        <%= render partial: 'meta', locals: {note: note} %>
       <% end %>
 
       <% if note.original_url %>

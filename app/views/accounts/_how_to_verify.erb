@@ -7,20 +7,15 @@
 
   <ul class="list">
     <li>
-      <%= link_to t('accounts.verify_by_email'), new_account_path(:email => true) %><br/>
+      <%= link_to t('accounts.verify_by_email'), new_account_path(email: true) %><br/>
       <%= t('accounts.verify_by_email_message') %>
     </li>
     <li>
-      <%= link_to t('accounts.verify_by_phone'), new_account_path(:phone => true) %><br/>
+      <%= link_to t('accounts.verify_by_phone'), new_account_path(phone: true) %><br/>
       <%= t('accounts.verify_by_phone_message') %>
-      <span style="color:#f00;"><%= t('accounts.text_messaging_fees') %></span>
     </li>
     <li>
-      <%= link_to t('accounts.verify_by_birthday'), new_account_path(:birthday => true) %><br/>
-      <%= t('accounts.verify_by_birthday_message') %>
-    </li>
-    <li>
-      <%= t('accounts.call_office', :office_phone => Setting.get(:contact, :community_office_phone)) %>
+      <%= t('accounts.call_office', office_phone: Setting.get(:contact, :community_office_phone)) %>
     </li>
   </ul>
 <% end %>

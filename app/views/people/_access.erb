@@ -4,7 +4,7 @@
   <p>
     <% if (attributes = @person.access_attributes).any? %>
       <% attributes.each do |attribute| %>
-        <%= form.check_box attribute %> <%= form.label attribute, nil, :class => 'inline' %><br/>
+        <%= form.check_box attribute %> <%= form.label attribute, nil, class: 'inline' %><br/>
       <% end %>
     <% else %>
       <em><%= t('people.no_additional_access_avaiable') %></em>

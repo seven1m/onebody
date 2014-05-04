@@ -1,4 +1,4 @@
-<p id="add_prayer_request_link" style="display:none;"><%= link_to_function t('prayer.add_a_prayer_request'), "$('#add_prayer_request').show();$('#add_prayer_request_link').hide();$('#prayer_request_request')[0].focus();", :class => 'add-icon' %></p>
+<p id="add_prayer_request_link" style="display:none;"><%= link_to_function t('prayer.add_a_prayer_request'), "$('#add_prayer_request').show();$('#add_prayer_request_link').hide();$('#prayer_request_request')[0].focus();", class: 'add-icon' %></p>
 <div id="add_prayer_request">
   <%= form_for PrayerRequest.new do |form| %>
     <% if @group %>
@@ -6,8 +6,8 @@
     <% end %>
     <p>
       <label for="prayer_request_request"><%= t('prayer.prayer_request') %>:</label><br/>
-      <%= text_area_tag 'prayer_request[request]', '', :id => 'prayer_request_request', :rows => '10' %><br/>
-      <%= submit_tag t('prayer.add_prayer_request'), :style => 'width:125px;' %>
+      <%= text_area_tag 'prayer_request[request]', '', id: 'prayer_request_request', rows: '10' %><br/>
+      <%= submit_tag t('prayer.add_prayer_request'), style: 'width:125px;' %>
     </p>
   <% end %>
 </div>

@@ -1,7 +1,7 @@
-<%=raw t('notifier.this_email_to_verify_email', :site => Setting.get(:name, :site)) %>:
+<%=raw t('notifier.this_email_to_verify_email', site: Setting.get(:name, :site)) %>:
 
 <%=raw Setting.get(:url, :site) %>account/verify_code?id=<%= @verification.id %>&code=<%= @verification.code %>
 
 <%=raw t('notifier.if_you_cannot_click_link') %>
 
-<%=raw t('notifier.if_you_dont_know_why_get_this_email', { :name => Setting.get(:name, :community), :phone => Setting.get(:contact, :community_office_phone) } ) %>
+<%=raw t('notifier.if_you_dont_know_why_get_this_email', { name: Setting.get(:name, :community), phone: Setting.get(:contact, :community_office_phone) } ) %>

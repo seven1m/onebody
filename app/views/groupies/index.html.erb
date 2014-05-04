@@ -5,7 +5,7 @@
     <% @people.each do |person| %>
       <li>
         <a href="<%= url_for person %>">
-          <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+          <%= render partial: 'people/thumbnail', locals: {person: person} %>
         </a>
         <%= link_to person.name, person %>
       </li>

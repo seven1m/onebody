@@ -1,2 +1,2 @@
 $('#person<%= params[:id] %>').hide('slow', function(){$(this).detach()});
-$('#people-heading').html('<%= escape_javascript t('people.person', :count => @group.people.count) %>');
+$('#people-heading').html('<%= escape_javascript t('people.person', count: @group.people.count) %>');

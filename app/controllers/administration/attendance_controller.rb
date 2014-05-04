@@ -10,6 +10,7 @@ class Administration::AttendanceController < ApplicationController
     attendance_records.created_at
   )
 
+  # TODO refactor
   def index
     @attended_at = params[:attended_at] ? Date.parse(params[:attended_at]) : Date.today
     @groups = AttendanceRecord.groups_for_date(@attended_at)
@@ -20,7 +21,7 @@ class Administration::AttendanceController < ApplicationController
       params[:sort] ||= 'attendance_records.last_name,attendance_records.first_name'
     end
     if params[:person_name]
-      conditions.add_condition(["#{sql_concat 'attendance_records.first_name', %q(' '), 'attendance_records.last_name'} like ?", "%#{params[:person_name]}%"])
+      conditions.add_condition(["concat(attendance_records.first_name, ' ', attendance_records.last_name) like ?", "%#{params[:person_name]}%"])
     end
     unless params[:sort].to_s.split(',').all? { |col| VALID_SORT_COLS.include?(col) }
       params[:sort] = 'groups.name'
@@ -28,23 +29,23 @@ class Administration::AttendanceController < ApplicationController
     respond_to do |format|
       format.html do
         @record_count = AttendanceRecord.count(
-          :conditions => conditions,
-          :include    => %w(person group)
+          conditions: conditions,
+          include:    %w(person group)
         )
         @records = AttendanceRecord.paginate(
-          :page       => params[:page],
-          :conditions => conditions,
-          :order      => params[:sort],
-          :include    => %w(person group),
-          :per_page   => 100
+          page:       params[:page],
+          conditions: conditions,
+          order:      params[:sort],
+          include:    %w(person group),
+          per_page:   100
         )
       end
       format.csv do
         @records = AttendanceRecord.all(
-          :conditions => conditions,
-          :order      => 'group_id',
-          :select     => 'attendance_records.*, people.first_name, people.last_name, people.legacy_id, groups.name as group_name, groups.link_code as group_link_code',
-          :joins      => [:person, :group]
+          conditions: conditions,
+          order:      'group_id',
+          select:     'attendance_records.*, people.first_name, people.last_name, people.legacy_id, groups.name as group_name, groups.link_code as group_link_code',
+          joins:      [:person, :group]
         )
         CSV::Writer.generate(csv_str = '') do |csv|
           csv << %w(group_name group_id group_link_code first_name last_name person_id person_legacy_id class_time recorded_time)
@@ -62,21 +63,21 @@ class Administration::AttendanceController < ApplicationController
             ]
           end
         end
-        render :text => csv_str
+        render text: csv_str
       end
     end
   end
 
   def prev
     @attended_at = Date.parse(params[:attended_at])
-    date = AttendanceRecord.maximum(:attended_at, :conditions => ["attended_at < ?", @attended_at.strftime('%Y/%m/%d 0:00')])
-    redirect_to administration_attendance_index_path(:attended_at => date)
+    date = AttendanceRecord.where("attended_at < ?", @attended_at.strftime('%Y/%m/%d 0:00')).maximum(:attended_at)
+    redirect_to administration_attendance_index_path(attended_at: date)
   end
 
   def next
     @attended_at = Date.parse(params[:attended_at])
-    date = AttendanceRecord.minimum(:attended_at, :conditions => ["attended_at > ?", @attended_at.strftime('%Y/%m/%d 23:59:59')])
-    redirect_to administration_attendance_index_path(:attended_at => date)
+    date = AttendanceRecord.where("attended_at > ?", @attended_at.strftime('%Y/%m/%d 23:59:59')).minimum(:attended_at)
+    redirect_to administration_attendance_index_path(attended_at: date)
   end
 
   def destroy
@@ -88,7 +89,7 @@ class Administration::AttendanceController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:manage_attendance)
-        render :text => t('only_admins'), :layout => true, :status => 401
+        render text: t('only_admins'), layout: true, status: 401
         return false
       end
     end

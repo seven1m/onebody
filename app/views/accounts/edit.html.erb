@@ -1,36 +1,18 @@
-<%= javascript_include_tag('rsa/jsbn', 'rsa/prng4', 'rsa/rng', 'rsa/rsa', 'rsa/base64', :cache => 'rsa') %>
-
-<script type="text/javascript">
-  function encrypt_passwords() {
-    var rsa = new RSAKey();
-    rsa.setPublic('<%= @public_modulus %>', '<%= @public_exponent %>');
-    if($('#password').val() != '') {
-      $('#encrypted_password').val(hex2b64(rsa.encrypt($('#password').val())));
-      $('#encrypted_password_confirmation').val(hex2b64(rsa.encrypt($('#password_confirmation').val())));
-      $('#password').val('');
-      $('#password_confirmation').val('');
-    }
-    return true
-  }
-</script>
-
 <h2><%= @person.name %></h2>
-<%= form_for @person, :url => person_account_path(@person), :html => {:onsubmit => "return encrypt_passwords()"} do |form| %>
-  <%= hidden_field_tag :encrypted_password %>
-  <%= hidden_field_tag :encrypted_password_confirmation %>
+<%= form_for @person, url: person_account_path(@person) do |form| %>
   <%= error_messages_for(form) %>
   <p>
-    <label for="person_email"><%= t('session.email_address') %></label>
-    <%= form.text_field :email, :style => 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>
-    <strong class="very-strong"><%= t('accounts.change_email_warning', :person => @person == @logged_in ? t('accounts.you_use') : @person.name + ' ' + t('accounts.uses')) %></strong>
+    <%= form.label :person_email, t('session.email_address') %>
+    <%= form.text_field :email, style: 'border:1px solid #ccc;font-size:20pt;width:500px;' %><br/>
+    <strong class="very-strong"><%= t('accounts.change_email_warning', person: @person == @logged_in ? t('accounts.you_use') : @person.name + ' ' + t('accounts.uses')) %></strong>
     <br/>
-    <label for="password"><%= t('session.password') %></label>
-    <%= password_field_tag :password, nil %><br/>
-    <% unless @person.encrypted_password.nil? %>
+    <%= form.label :person_password, t('session.password') %>
+    <%= form.password_field :password %><br/>
+    <% if @person.encrypted_password %>
       <%= t('accounts.leave_blank') %><br/>
     <% end %>
-    <label for="password_confirmation"><%= t('session.password_confirm') %></label>
-    <%= password_field_tag :password_confirmation, nil %><br/>
+    <%= form.label :password_confirmation, t('session.password_confirm') %>
+    <%= form.password_field :password_confirmation %><br/>
     <%= submit_tag t('save_changes') %>
   </p>
 <% end %>

@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%= form_tag search_path, :remote => true %>
+  <%= form_tag search_path, remote: true %>
     <%= hidden_field_tag :select_person, true %>
     <p>
       <%= t('relationships.add_a_relationship') %><br/>
@@ -8,7 +8,7 @@
       <%= submit_tag t('relationships.add_relationship_button') %>
     </p>
     <p class="double-margin-top">
-      <%= link_to t('relationships.family'), family_relationships_path(@person.family), :class => 'people-icon' %>
+      <%= link_to t('relationships.family'), family_relationships_path(@person.family), class: 'people-icon' %>
     </p>
   </form>
   
@@ -16,9 +16,9 @@
     <%= form_tag person_relationships_path(@person) do %>
       <label for="relationship_name"><%= t('relationships.relationship_type') %></label>
       <%= select_tag :name, options_for_select(['']+t('relationships.names').invert.sort),
-        :id => 'relationship_name',
-        :onchange => "if(this.value=='other') { $('#other_name').show()[0].focus() } else { $('#other_name').hide() }" %>
-      <%= text_field_tag :other_name, nil, :style => 'display:none;' %>
+        id: 'relationship_name',
+        onchange: "if(this.value=='other') { $('#other_name').show()[0].focus() } else { $('#other_name').hide() }" %>
+      <%= text_field_tag :other_name, nil, style: 'display:none;' %>
       <script type="text/javascript">
         $('#other_name').autocomplete({source: <%= raw @other_names.inspect %>})
       </script>
@@ -42,15 +42,15 @@
       <th>
       <% @relationships.each do |relationship| %>
         <tr>
-          <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'outward_relationship_checkbox' %></td>
+          <td><%= check_box_tag 'ids[]', relationship.id, false, class: 'outward_relationship_checkbox' %></td>
           <td><%= link_to relationship.related.name, person_relationships_path(relationship.related) %></td>
           <td><%= relationship.name_or_other %></td>
         </tr>
       <% end %>
     </table>
     <p>
-      <%= submit_tag t('Delete'), :name => 'delete', :confirm => t('are_you_sure') %>
-      <%= submit_tag t('relationships.Reciprocate'), :name => 'reciprocate' %>
+      <%= submit_tag t('Delete'), name: 'delete', confirm: t('are_you_sure') %>
+      <%= submit_tag t('relationships.Reciprocate'), name: 'reciprocate' %>
     </p>
   <% end %>
 <% else %>
@@ -71,7 +71,7 @@
       <th>
       <% @inward_relationships.each do |relationship| %>
         <tr>
-          <td><%= check_box_tag 'ids[]', relationship.id, false, :class => 'inward_relationship_checkbox' %></td>
+          <td><%= check_box_tag 'ids[]', relationship.id, false, class: 'inward_relationship_checkbox' %></td>
           <td><%= link_to relationship.person.name, person_relationships_path(relationship.person) %></td>
           <td><div class="right-icon" style="width:10px;height:16px;"></td>
           <td><%= @person.name %></td>
@@ -80,8 +80,8 @@
       <% end %>
     </table>
     <p>
-      <%= submit_tag t('Delete'), :name => 'delete', :confirm => t('are_you_sure') %>
-      <%= submit_tag t('relationships.Reciprocate'), :name => 'reciprocate' %>
+      <%= submit_tag t('Delete'), name: 'delete', confirm: t('are_you_sure') %>
+      <%= submit_tag t('relationships.Reciprocate'), name: 'reciprocate' %>
     </p>
   <% end %>
 <% else %>

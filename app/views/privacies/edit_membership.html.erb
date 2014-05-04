@@ -1,22 +1,22 @@
-<h1><%= t('privacies.sharing_with_html', :url => @group, :name => @group.name) %></h1>
+<h1><%= t('privacies.sharing_with_html', url: @group, name: @group.name) %></h1>
 
-<%= form_for @membership, :url => group_membership_privacy_path(@group, @membership), :html => {:method => 'put'} do |form| %>
+<%= form_for @membership, url: group_membership_privacy_path(@group, @membership), html: {method: 'put'} do |form| %>
   <%= error_messages_for(form) %>
-  <p><%= t('privacies.the_items_are_visible_html', :url => privacy_path) %></p>
+  <p><%= t('privacies.the_items_are_visible_html', url: privacy_path) %></p>
   <ul>
     <% @visible_to_everyone.each do |attribute| %>
       <li><%= attribute.humanize %></li>
     <% end %>
   </ul>
   
-  <p><%= t('privacies.the_items_may_be_shared', :name => @group.name) %></p>
+  <p><%= t('privacies.the_items_may_be_shared', name: @group.name) %></p>
   <table>
     <tr><th><%= t('privacies.detail') %></th><th><%= t('privacies.visible') %></th><th><%= t('privacies.hidden') %></th></tr>
     <% @sharable_with_group.each do |attribute| %>
       <tr>
         <td><%= attribute.humanize %></td>
-        <td><%= form.radio_button "share_#{attribute}", true,  :class => 'checkbox' %></td>
-        <td><%= form.radio_button "share_#{attribute}", false, :class => 'checkbox' %></td>
+        <td><%= form.radio_button "share_#{attribute}", true,  class: 'checkbox' %></td>
+        <td><%= form.radio_button "share_#{attribute}", false, class: 'checkbox' %></td>
       </tr>
     <% end %>
   </table>

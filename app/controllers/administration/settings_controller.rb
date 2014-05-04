@@ -7,14 +7,12 @@ class Administration::SettingsController < ApplicationController
     Setting.find_all_by_site_id_and_hidden(
       Site.current.id,
       false,
-      :order => 'section, name'
+      order: 'section, name'
     ).each do |setting|
       @settings[setting.section] ||= {}
       @settings[setting.section][setting['name']] = setting
     end
     @timezones = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
-    info = OneBodyInfo.new
-    @langs = info.available_locales.invert
   end
 
   def batch
@@ -24,7 +22,7 @@ class Administration::SettingsController < ApplicationController
       value = value.split(/\n/) if value and setting.format == 'list'
       value = value == '' ? nil : value
       value = value == 'true' if setting.format == 'boolean'
-      setting.update_attributes! :value => value
+      setting.update_attributes! value: value
     end
     reload_settings
     flash[:notice] = t('application.settings_saved')
@@ -41,7 +39,7 @@ class Administration::SettingsController < ApplicationController
 
     def only_admins
       unless @logged_in.super_admin?
-        render :text => t('admin.must_be_superadmin'), :layout => true, :status => 401
+        render text: t('admin.must_be_superadmin'), layout: true, status: 401
         return false
       end
     end

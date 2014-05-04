@@ -2,32 +2,32 @@
 
   <% content_for :sidebar do %>
 
-    <h2><%= t('search.heading', :name => Setting.get(:name, :community)) %></h2>
+    <h2><%= t('search.heading', name: Setting.get(:name, :community)) %></h2>
 
     <p>
-      <%= t("search.people_found", :count => @count) %>
+      <%= t("search.people_found", count: @search.count) %>
       <% if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil? %>
         <%= t("search.not_showing_hidden_people") %>
       <% end %>
     </p>
 
-    <%= form_tag(search_path, :method => 'get', :class => 'double-margin-top') do %>
-      <%= text_field_tag 'name', params[:name], :id => 'name_search', :class => 'search-field' %>
+    <%= form_tag(search_path, method: 'get', class: 'double-margin-top') do %>
+      <%= text_field_tag 'name', params[:name], id: 'name_search', class: 'search-field' %>
       <%= submit_tag t('search.search') %>
     <% end %>
 
-    <% if @search.show_businesses %>
+    <% if @search.business %>
       <p class="double-margin-top">
         <label for="category"><%= t('search.business_category') %></label>
         <select id="category" onchange="location.href='?business=true&category='+value">
           <option value=""><%= t('search.show_all') %></option>
-          <%= options_for_select @business_categories, params[:category] %>
+          <%= options_for_select Person.business_categories, params[:category] %>
         </select>
       </p>
     <% end %>
 
     <p class="small double-margin-top">
-      <%= link_to t('search.advanced_search'), new_search_path(:advanced => true) %>
+      <%= link_to t('search.advanced_search'), new_search_path(advanced: true) %>
     </p>
 
   <% end %>
@@ -35,14 +35,14 @@
 <% else %>
 
   <% content_for :sidebar do %>
-    <%= render :partial => 'form' %>
+    <%= render partial: 'form' %>
   <% end %>
   <p id="searching">
-    <%= image_tag 'spinner.gif', :alt => 'searching', :class => 'no-border' %>
+    <%= image_tag 'spinner.gif', alt: 'searching', class: 'no-border' %>
     <%= t('search.searching') %>
   </p>
   <div id="results"></div>
 
 <% end %>
 
-<%= render :partial => 'results' %>
+<%= render partial: 'results' %>

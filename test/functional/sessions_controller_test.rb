@@ -1,10 +1,10 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require_relative '../test_helper'
 
 class SessionsControllerTest < ActionController::TestCase
 
   def setup
     Setting.set_global('Features', 'SSL', true)
-    @person = Person.forge(:password => 'secret')
+    @person = FactoryGirl.create(:person, password: 'secret')
   end
 
   should "redirect show action to new action" do
@@ -19,7 +19,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   should "sign in a user" do
-    post :create, {:email => @person.email, :password => 'secret'}
+    post :create, {email: @person.email, password: 'secret'}
     assert_nil flash[:warning]
     assert_redirected_to stream_path
     assert_equal @person.id, session[:logged_in_id]
@@ -32,8 +32,13 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   should "redirect to original location after sign in" do
-    post :create, {:email => @person.email, :password => 'secret', :from => "/groups"}
+    post :create, {email: @person.email, password: 'secret', from: "/groups"}
     assert_nil flash[:warning]
+    assert_redirected_to groups_path
+  end
+
+  should 'not redirect off-site' do
+    post :create, {email: @person.email, password: 'secret', from: "http://google.com/groups"}
     assert_redirected_to groups_path
   end
 

@@ -2,7 +2,7 @@ class Administration::EmailsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @people = Person.find_all_by_email_changed_and_deleted(true, false, :order => 'last_name, first_name')
+    @people = Person.find_all_by_email_changed_and_deleted(true, false, order: 'last_name, first_name')
   end
 
   def batch
@@ -17,7 +17,7 @@ class Administration::EmailsController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:manage_updates)
-        render :text => t('only_admins'), :layout => true, :status => 401
+        render text: t('only_admins'), layout: true, status: 401
         return false
       end
     end

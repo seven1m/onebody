@@ -1,10 +1,10 @@
 <p>
-  <%= t('accounts.code_be_careful') %>
+  <%= t('accounts.verify_code_intro') %>
 </p>
 
-<form method="post">
-  <%= hidden_field_tag :id, params[:id] %>
+<%= form_tag verify_code_account_path do %>
+  <%= hidden_field_tag :id, @verification.id %>
   <p><label for="code"><%= t('accounts.enter_code') %>:</label>
   <%= text_field_tag :code, params[:code] %></p>
   <p><%= submit_tag t('accounts.check_code') %></p>
-</form>
+<% end %>

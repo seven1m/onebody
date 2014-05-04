@@ -1,5 +1,5 @@
-<%= form_for Picture.new, :html => {:multipart => true} do |form| %>
+<%= form_for Picture.new, html: {multipart: true} do |form| %>
   <%= hidden_field_tag :album, @album.name %>
-  <%= file_field_tag 'pictures[]', :multiple => true %>
+  <%= file_field_tag 'pictures[]', multiple: true %>
   <%= submit_tag t('pictures.upload') %>
 <% end %>

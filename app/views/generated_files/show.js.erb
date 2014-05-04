@@ -7,5 +7,5 @@
   $('#build_heading').html('<%= escape_javascript t('generated_files.failure_heading') %>');
   $('#build_loading').html('<%= escape_javascript t('generated_files.failure_message') %>');
 <% else %>
-  setTimeout(function(){ $.get('<%= escape_javascript generated_file_path(params[:id], :format => :js, :count => params[:count].to_i+1) %>') }, 10000);
+  setTimeout(function(){ $.get('<%= escape_javascript generated_file_path(params[:id], format: :js, count: params[:count].to_i+1) %>') }, 10000);
 <% end %>

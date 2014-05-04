@@ -2,10 +2,12 @@
 <p>
   <%= t('accounts.enter_your_email') %>
 </p>
-<%= form_tag account_path, :method => 'post' do %>
+<%= form_tag account_path, method: 'post' do %>
+  <%= hidden_field_tag :email, true %>
+  <%= error_messages_for(@verification) %>
   <p>
-    <label for="email"><%= t('accounts.type_your_email') %>:</label>
-    <%= text_field_tag :email, params[:email] == 'true' ? '' : params[:email] %>
+    <label for="verification_email"><%= t('accounts.type_your_email') %>:</label>
+    <%= text_field_tag 'verification[email]', params[:email] == 'true' ? '' : params[:email] %>
   </p>
   <p><%= submit_tag t('accounts.verify_email') %></p>
 <% end %>

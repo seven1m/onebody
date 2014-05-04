@@ -1,7 +1,7 @@
-<%= content_tag :tr, :id => "person#{person.id}" do %>
+<%= content_tag :tr, id: "person#{person.id}" do %>
   <td class="icon">
     <a href="<%= url_for person %>">
-      <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
+      <%= render partial: 'people/thumbnail', locals: {person: person} %>
     </a>
   </td>
   <td class="name">
@@ -12,11 +12,11 @@
   </td>
   <% if @can_edit %>
     <td class="action">
-      <%= link_to '', group_membership_path(@group, person.id), :remote => true, :method => :delete, :class => 'delete-icon delete-action', :style => 'display:none;' %>
+      <%= link_to '', group_membership_path(@group, person.id), remote: true, method: :delete, class: 'delete-icon delete-action', style: 'display:none;' %>
       <% if @group.admin?(person, :exclude_global_admins) %>
-        <%= link_to t('groups.demote'), group_membership_path(@group, person.id), :method => :put, :class => 'promote-action', :style => 'display:none;' %>
+        <%= link_to t('groups.demote'), group_membership_path(@group, person.id), method: :put, class: 'promote-action', style: 'display:none;' %>
       <% else %>
-        <%= link_to t('groups.promote'), group_membership_path(@group, person.id, :promote => true), :method => :put, :class => 'promote-action', :style => 'display:none;' %>
+        <%= link_to t('groups.promote'), group_membership_path(@group, person.id, promote: true), method: :put, class: 'promote-action', style: 'display:none;' %>
       <% end %>
     </td>
   <% end %>

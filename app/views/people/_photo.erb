@@ -1,11 +1,11 @@
 <div class="profile-pic">
   <% if @person.photo.exists? %>
-    <%= link_to image_tag(@person.photo.url(:profile), :alt => @person.name), @person.photo.url %>
+    <%= link_to image_tag(@person.photo.url(:profile), alt: @person.name), @person.photo.url %>
   <% elsif @family and @family.photo.exists? and params[:action] != 'edit' %>
-    <%= link_to image_tag(@family.photo.url(:profile), :alt => @family.name), @family.photo.url %>
+    <%= link_to image_tag(@family.photo.url(:profile), alt: @family.name), @family.photo.url %>
   <% elsif me? and params[:controller] == 'people' and params[:action] == 'show' %>
     <div class="silhouette-<%= @person.gender.to_s == 'Female' ? 'woman' : 'man' %>" onclick="location.href = '<%= edit_person_path %>#picture'">
-      <%= link_to t('people.change_your_picture'), edit_person_path(:anchor => 'picture'), :class => 'edit-icon' %>
+      <%= link_to t('people.change_your_picture'), edit_person_path(anchor: 'picture'), class: 'edit-icon' %>
     </div>
   <% else %>
     <div class="silhouette-<%= @person.gender.to_s == 'Female' ? 'woman' : 'man' %>"></div>

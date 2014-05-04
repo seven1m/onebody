@@ -1,13 +1,13 @@
 class FriendshipRequest < ActiveRecord::Base
   belongs_to :person
-  belongs_to :from, :class_name => 'Person', :foreign_key => 'from_id'
+  belongs_to :from, class_name: 'Person', foreign_key: 'from_id'
   belongs_to :site
 
   scope_by_site_id
 
   validates_presence_of :person_id
   validates_presence_of :from_id
-  validates_uniqueness_of :person_id, :scope => [:site_id, :from_id]
+  validates_uniqueness_of :person_id, scope: [:site_id, :from_id]
 
   validate :validate_email_on_target
 
@@ -28,7 +28,7 @@ class FriendshipRequest < ActiveRecord::Base
 
   def accept
     raise 'Only target can accept friendship' unless Person.logged_in == self.person
-    self.person.friendships.create!(:friend => self.from)
+    self.person.friendships.create!(friend: self.from)
     self.destroy
   end
 

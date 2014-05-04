@@ -1,2 +1,0 @@
-page.replace_html "changes#{@item.id}_content", :partial => 'details'
-page.visual_effect :blind_down, "changes#{@item.id}"

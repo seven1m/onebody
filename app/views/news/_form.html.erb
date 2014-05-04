@@ -9,14 +9,14 @@
   });
 </script>
 
-<%= form_for @news_item, :url => @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
+<%= form_for @news_item, url: @news_item.new_record? ? news_path : news_item_path(@news_item) do |form| %>
   <p>
     <%= form.label :title, t('news.title_description') %>
     <%= form.text_field :title %>
   </p>
   <p>
     <%= form.label :body, t('news.body_description') %>
-    <%= form.text_area :body, :rows => 10, :cols => 100, :style => 'width:75%;' %>
+    <%= form.text_area :body, rows: 10, cols: 100, style: 'width:75%;' %>
   </p>
   <p>
     <%= form.submit @news_item.new_record? ? t('news.submit_news') : t('news.save_news') %>

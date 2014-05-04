@@ -2,14 +2,14 @@
 
   <div class="profile-sidebar">
     <div class="profile-pic">
-      <%= render :partial => 'photo' %>
+      <%= render partial: 'photo' %>
     </div>
   </div>
 
   <div class="profile-body">
     <% if flash[:show_verification_link] %>
       <div class="highlight">
-        <%= link_to t('people.click_to_send_verification_email'), account_path(:email => @person.email), :method => 'post', :confirm => t('are_you_sure'), :class => 'email-icon' %>
+        <%= link_to t('people.click_to_send_verification_email'), account_path(email: @person.email), method: 'post', confirm: t('are_you_sure'), class: 'email-icon' %>
       </div>
     <% end %>
     <% unless @person.visible? %>
@@ -18,7 +18,7 @@
     <% unless @family %>
       <div class="alert"><span class="alert-icon"></span> <%= t('people.no_family_for_this_person') %></div>
     <% end %>
-    <%= render :partial => 'pending_updates' %>
+    <%= render partial: 'pending_updates' %>
     <h2>
       <strong><%= @person.name %></strong>
       <% if @person.description.to_s.any? %>
@@ -39,13 +39,13 @@
       <div class="new-line"></div>
       <% if @person.messages_enabled? %>
         <li class="icon">
-          <%= link_to t('messages.send_message'), new_message_path(:to_person_id => @person), :class => 'email-icon' %>
+          <%= link_to t('messages.send_message'), new_message_path(to_person_id: @person), class: 'email-icon' %>
         </li>
       <% end %>
-      <%= render :partial => 'friendship' %>
+      <%= render partial: 'friendship' %>
       <% if @logged_in.can_edit?(@person) %>
         <li class="icon">
-          <%= link_to t('people.edit.profile'), edit_person_path(@person), :class => 'edit-icon' %>
+          <%= link_to t('people.edit.profile'), edit_person_path(@person), class: 'edit-icon' %>
         </li>
       <% end %>
     </ul>
@@ -53,27 +53,26 @@
 
   <div class="clear"></div>
   <div class="profile-sidebar">
-    <%= render :partial => 'family' %>
+    <%= render partial: 'family' %>
 
     <% if @albums.any? %>
       <h3><%= t('albums.picture_albums') %></h3>
       <p>
         <% @albums.each do |album| %>
-          <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', :alt => album.name),
-            album, :title => album.name %>
+          <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', alt: album.name),
+            album, title: album.name %>
         <% end %>
       </p>
     <% end %>
 
-    <% cache(:fragment => 'friends') do %>
-      <% if @friends.any? %>
-        <h3><%= t('friends.friends') %></h3>
-        <% @friends.each do |person| %>
-          <% content_tag :a, :href => person_path(person) do %>
-            <%= render :partial => 'people/thumbnail', :locals => {:person => person} %>
-          <% end %>
+    <% if @friends.any? %>
+      <h3><%= t('friends.friends') %></h3>
+      <% @friends.each do |person| %>
+        <%= content_tag :a, href: person_path(person) do %>
+          <%= render partial: 'people/thumbnail', locals: {person: person} %>
         <% end %>
       <% end %>
+      <p><%= link_to t('edit'), person_friends_path(@person) %></p>
     <% end %>
   </div>
 

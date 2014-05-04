@@ -1,47 +1,48 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require_relative '../test_helper'
 
 class FriendshipRequestTest < ActiveSupport::TestCase
-  fixtures :people
+  setup do
+    @user = FactoryGirl.create(:person)
+    @other = FactoryGirl.create(:person)
+  end
 
-  def test_state_methods
-    Friendship.delete_all
+  should 'work' do
+    # no requests and no friendships
+    assert @user.can_request_friendship_with?(@other)
+    assert !@user.friendship_waiting_on?(@other)
+    assert !@user.friendship_rejected_by?(@other)
+    assert @other.can_request_friendship_with?(@user)
+    assert !@other.friendship_waiting_on?(@user)
+    assert !@other.friendship_rejected_by?(@user)
 
-    # no requests and no friendships between tim and jeremy
-    assert people(:tim).can_request_friendship_with?(people(:jeremy))
-    assert !people(:tim).friendship_waiting_on?(people(:jeremy))
-    assert !people(:tim).friendship_rejected_by?(people(:jeremy))
-    assert people(:jeremy).can_request_friendship_with?(people(:tim))
-    assert !people(:jeremy).friendship_waiting_on?(people(:tim))
-    assert !people(:jeremy).friendship_rejected_by?(people(:tim))
+    # new pending request
+    @other.friendship_requests.create! from: @user
+    assert !@user.can_request_friendship_with?(@other)
+    assert @user.friendship_waiting_on?(@other)
+    assert !@user.friendship_rejected_by?(@other)
+    assert @other.can_request_friendship_with?(@user)
+    assert !@other.friendship_waiting_on?(@user)
+    assert !@other.friendship_rejected_by?(@user)
 
-    # new pending request from tim to jeremy
-    people(:jeremy).friendship_requests.create! :from => people(:tim)
-    assert !people(:tim).can_request_friendship_with?(people(:jeremy))
-    assert people(:tim).friendship_waiting_on?(people(:jeremy))
-    assert !people(:tim).friendship_rejected_by?(people(:jeremy))
-    assert people(:jeremy).can_request_friendship_with?(people(:tim))
-    assert !people(:jeremy).friendship_waiting_on?(people(:tim))
-    assert !people(:jeremy).friendship_rejected_by?(people(:tim))
-
-    # rejected request from tim to jeremy
-    people(:jeremy).friendship_requests.find(:first).update_attribute :rejected, true
-    assert !people(:tim).can_request_friendship_with?(people(:jeremy))
-    assert !people(:tim).friendship_waiting_on?(people(:jeremy))
-    assert people(:tim).friendship_rejected_by?(people(:jeremy))
-    assert people(:jeremy).can_request_friendship_with?(people(:tim))
-    assert !people(:jeremy).friendship_waiting_on?(people(:tim))
-    assert !people(:jeremy).friendship_rejected_by?(people(:tim))
+    # rejected request
+    @other.friendship_requests.find(:first).update_attribute :rejected, true
+    assert !@user.can_request_friendship_with?(@other)
+    assert !@user.friendship_waiting_on?(@other)
+    assert @user.friendship_rejected_by?(@other)
+    assert @other.can_request_friendship_with?(@user)
+    assert !@other.friendship_waiting_on?(@user)
+    assert !@other.friendship_rejected_by?(@user)
 
     # kill request
-    people(:jeremy).friendship_requests.find(:first).destroy
+    @other.friendship_requests.find(:first).destroy
 
-    # friendship established between tim and jeremy
-    people(:jeremy).friendships.create! :friend => people(:tim)
-    assert !people(:tim).can_request_friendship_with?(people(:jeremy))
-    assert !people(:tim).friendship_waiting_on?(people(:jeremy))
-    assert !people(:tim).friendship_rejected_by?(people(:jeremy))
-    assert !people(:jeremy).can_request_friendship_with?(people(:tim))
-    assert !people(:jeremy).friendship_waiting_on?(people(:tim))
-    assert !people(:jeremy).friendship_rejected_by?(people(:tim))
+    # friendship established
+    @other.friendships.create! friend: @user
+    assert !@user.can_request_friendship_with?(@other)
+    assert !@user.friendship_waiting_on?(@other)
+    assert !@user.friendship_rejected_by?(@other)
+    assert !@other.can_request_friendship_with?(@user)
+    assert !@other.friendship_waiting_on?(@user)
+    assert !@other.friendship_rejected_by?(@user)
   end
 end

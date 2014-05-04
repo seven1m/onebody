@@ -1,7 +1,7 @@
 <% content_for :sidebar do %>
-  <p><%= link_to t('groups.back_to_group', :name => @req.group.name), @req.group, :class => 'left-icon' %></p>
+  <p><%= link_to t('groups.back_to_group', name: @req.group.name), @req.group, class: 'left-icon' %></p>
 <% end %>
 
 <h2><%= t('prayer.edit_prayer_request') %></h2>
 
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>

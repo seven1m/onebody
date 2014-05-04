@@ -11,7 +11,7 @@
       </tr>
       <% @families.each do |family| %>
         <tr>
-          <td><%= check_box_tag 'ids[]', family.id, false, :class => 'family_checkbox' %></td>
+          <td><%= check_box_tag 'ids[]', family.id, false, class: 'family_checkbox' %></td>
           <td><%= family.id %></td>
           <td><%= family.legacy_id %></td>
           <td><%= link_to family.name, family %></li>
@@ -19,7 +19,7 @@
       <% end %>
     </table>
     <p>
-      <%= submit_tag t('Delete'), :name => 'delete' %>
+      <%= submit_tag t('Delete'), name: 'delete' %>
     </p>
   <% end %>
 <% end %>
@@ -33,7 +33,7 @@
 <%= will_paginate @people %>
 
 <% if @people.any? %>
-  <%= form_tag batch_administration_deleted_people_path, :method => :put do %>
+  <%= form_tag batch_administration_deleted_people_path, method: :put do %>
     <table class="spaced">
       <tr>
         <th><input type="checkbox" onclick="$('.person_checkbox').attr('checked', this.checked)"/></th>
@@ -49,7 +49,7 @@
       </tr>
       <% @people.each do |person| %>
         <tr>
-          <td><%= check_box_tag 'ids[]', person.id, false, :class => 'person_checkbox' %></td>
+          <td><%= check_box_tag 'ids[]', person.id, false, class: 'person_checkbox' %></td>
           <td><%= person.id %></td>
           <td><%= person.legacy_id %></td>
           <td><%= person.last_name %></td>
@@ -67,12 +67,12 @@
       <% end %>
     </table>
     <p>
-      <%= submit_tag t('admin.deleted_people.undelete'), :name => 'undelete' %>
-      <%= link_to_function raw(t('admin.deleted_people.purge') + ' &raquo;'), "$('#purge').show();$(this).remove();", :class => 'discreet' %>
+      <%= submit_tag t('admin.deleted_people.undelete'), name: 'undelete' %>
+      <%= link_to_function raw(t('admin.deleted_people.purge') + ' &raquo;'), "$('#purge').show();$(this).remove();", class: 'discreet' %>
       <div id="purge" style="display:none;">
-        <%= submit_tag t('admin.deleted_people.purge'), :name => 'purge' %>
+        <%= submit_tag t('admin.deleted_people.purge'), name: 'purge' %>
         <%= check_box_tag :purge_empty_families, true, false %>
-        <%= label_tag :purge_empty_families, t('admin.deleted_people.purge_when_empty'), :class => 'inline' %>
+        <%= label_tag :purge_empty_families, t('admin.deleted_people.purge_when_empty'), class: 'inline' %>
       </div>
     </p>
   <% end %>

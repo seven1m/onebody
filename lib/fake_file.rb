@@ -1,6 +1,4 @@
 class FakeFile < StringIO
-  include Paperclip::Upfile
-
   def initialize(data, filename)
     super(data)
     @filename = filename

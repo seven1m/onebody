@@ -11,9 +11,10 @@
 
 <%= form_for @note do |form| %>
 
-  <%= form.hidden_field :group_id %>
+  <%= error_messages_for(form) %>
+
   <% if @note.group %>
-    <p><em><%= t('notes.this_note_will_be_posted', :group => @note.group.name) %></em></p>
+    <p><em><%= t('notes.this_note_will_be_posted', group: @note.group.name) %></em></p>
     <% if @note.group.private? %>
       <p class="very-strong"><%= t('notes.this_note_will_not_be_private_html') %></p>
     <% end %>
@@ -21,7 +22,7 @@
 
   <p>
     <%= form.label :title, t('notes.title') %> <%= form.text_field :title %><br/>
-    <%= form.label :body, t('notes.body') %>  <%= form.text_field :body, :value => sanitize_html(@note.body), :rows => 15, :cols => 80, :style => 'width:100%' %><br/>
+    <%= form.label :body, t('notes.body') %>  <%= form.text_field :body, value: sanitize_html(@note.body), rows: 15, cols: 80, style: 'width:100%' %><br/>
     <%= form.submit t('notes.save_note') %>
   </p>
 <% end %>

@@ -24,7 +24,7 @@ every 1.minute do
 end
 
 every 1.hour, :at => 19 do
-  runner 'Site.each { Feed.import_all; NewsItem.update_from_feed }'
+  runner 'Site.each { NewsItem.update_from_feed }'
 end
 
 every 1.day, :at => '3:49 am' do

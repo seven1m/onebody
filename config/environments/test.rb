@@ -32,4 +32,7 @@ OneBody::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Raise an error when unauthorized parameters are assigned to a model
+  config.action_controller.action_on_unpermitted_parameters = :raise
 end

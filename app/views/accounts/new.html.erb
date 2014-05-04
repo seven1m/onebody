@@ -2,9 +2,11 @@
   <%= content %>
 <% end %>
 
+<%= error_messages_for @verification if @verification %>
+
 <% if Setting.get(:features, :sign_up) %>
   <h2><%= t('accounts.create') %></h2>
-  <%= form_for @person, :url => account_path, :method => 'post' do |form| %>
+  <%= form_for @signup, as: :signup, url: account_path, method: 'post' do |form| %>
     <%= error_messages_for(form) %>
     <p>
       <%= form.label :email, t('people.email') %>             <%= form.text_field :email %><br/>
@@ -12,17 +14,17 @@
       <%= form.label :last_name, t('accounts.last_name') %>   <%= form.text_field :last_name %><br/>
       <%= form.label :gender, t('accounts.gender') %>         <%= form.select :gender, [[t('search.male'), 'Male'], [t('search.female'), 'Female']] %><br/>
       <%= form.label :birthday, t('accounts.birthday') %>     <%= form.date_field :birthday %><br/>
-      <%= text_field_tag :phone, nil, :id => 'dummy_phone' %>
+      <%= form.text_field :a_phone_number, id: 'dummy_phone' %>
       <%= form.submit t('accounts.create') %>
     </p>
   <% end %>
 <% elsif !content %>
-  <p><%= t('accounts.this_site_doesnt_allow_signup', :office_phone => Setting.get(:contact, :community_office_phone)) %></p>
+  <p><%= t('accounts.this_site_doesnt_allow_signup', office_phone: Setting.get(:contact, :community_office_phone)) %></p>
 <% end %>
 
 <h2><%= t('accounts.verify') %></h2>
 
-<%= render :partial => 'how_to_verify' %>
+<%= render partial: 'how_to_verify' %>
 
 <style type="text/css" media="screen">
   #dummy_phone { display: none; }

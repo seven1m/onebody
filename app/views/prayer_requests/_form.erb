@@ -12,7 +12,7 @@
   </p>
   <p>
     <%= form.label :request, t('prayer.request') %>
-    <%= form.text_area :request, :rows => 5 %>
+    <%= form.text_area :request, rows: 5 %>
   </p>
 
   <p><%= form.submit t('prayer.save_prayer_request') %></p>
@@ -21,11 +21,11 @@
   <p><%= t('prayer.remember_to_come_back') %></p>
   <p>
     <%= form.label :answered_at, t('prayer.answer_date') %>
-    <%= form.text_field :answered_at, :value => @req.answered_at && @req.answered_at.to_s(:date) %>
+    <%= form.text_field :answered_at, value: @req.answered_at && @req.answered_at.to_s(:date) %>
   </p>
   <p>
     <%= form.label :answer, t('prayer.answer') %>
-    <%= form.text_area :answer, :rows => 5 %>
+    <%= form.text_area :answer, rows: 5 %>
   </p>
 
   <p><%= form.submit t('prayer.save_prayer_request') %></p>

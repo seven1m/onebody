@@ -3,10 +3,10 @@ class Administration::AdminsController < ApplicationController
 
   def index
     if params[:groups]
-      @group_admins = Membership.find_all_by_admin(true, :include => [:group, :person]) \
+      @group_admins = Membership.find_all_by_admin(true, include: [:group, :person]) \
         .map { |m| [m.person, m.group] } \
         .sort_by { |a| (params[:sort] == 'group' ? a[1] : a[0]).name }
-      render :action => 'group_admins'
+      render action: 'group_admins'
     else
       Admin.destroy_all(["(select count(*) from people where admin_id=admins.id and deleted=?) = 0 and template_name is null", false])
       @order = case params[:order]
@@ -15,8 +15,8 @@ class Administration::AdminsController < ApplicationController
                else
                  'people.last_name, people.first_name'
                end
-      @people = Person.where('admin_id is not null').order(@order).all(:include => :admin)
-      @templates = Admin.where('template_name is not null').order(:template_name).all(:select => '*, (select count(*) from people where admin_id=admins.id) as people_count')
+      @people = Person.where('admin_id is not null').order(@order).all(include: :admin)
+      @templates = Admin.where('template_name is not null').order(:template_name).all(select: '*, (select count(*) from people where admin_id=admins.id) as people_count')
     end
   end
 
@@ -48,12 +48,12 @@ class Administration::AdminsController < ApplicationController
       if Site.current.max_admins.nil? or Admin.people_count < Site.current.max_admins
         person = Person.find(id)
         if person.admin?
-          flash[:notice] += t('admin.already_admin', :name => person.name) + " "
+          flash[:notice] += t('admin.already_admin', name: person.name) + " "
         else
           person.admin = params[:template_id].to_i > 0 ? Admin.find(params[:template_id]) : Admin.create!
           person.save!
           if person.save
-            flash[:notice] += t('admin.admin_added', :name => person.name) + " "
+            flash[:notice] += t('admin.admin_added', name: person.name) + " "
           else
             add_errors_to_flash(person)
           end
@@ -64,7 +64,7 @@ class Administration::AdminsController < ApplicationController
       end
     end
     if params[:template_name]
-      Admin.create!(:template_name => params[:template_name])
+      Admin.create!(template_name: params[:template_name])
       flash[:notice] += t('application.template_created')
     end
     if params[:redirect_to]
@@ -94,7 +94,7 @@ class Administration::AdminsController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:manage_access)
-        render :text => t('only_admins'), :layout => true, :status => 401
+        render text: t('only_admins'), layout: true, status: 401
         return false
       end
     end

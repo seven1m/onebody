@@ -1,9 +1,9 @@
-<%= form.label :name,       t('families.name') %>        <%= form.text_field :name, :onkeyup => 'set_last_name()' %> <%= t('families.name_example_html') %><br/>
+<%= form.label :name,       t('families.name') %>        <%= form.text_field :name, onkeyup: 'set_last_name()' %> <%= t('families.name_example_html') %><br/>
 <%= form.label :last_name,  t('families.last_name') %>   <%= form.text_field :last_name %> <em><%= t('families.last_name_example') %></em><br/>
 <%= form.label :home_phone, t('privacies.home_phone') %> <%= form.phone_field :home_phone %><br/>
 <%= form.label :address1,   t('privacies.address') %>    <%= form.text_field :address1 %><br/>
 <%= form.label :address2,   t('privacies.address2') %>   <%= form.text_field :address2 %><br/>
-<%= form.label :city,       t('families.city_st_zip') %> <%= form.text_field :city %>, <%= form.text_field :state, :size => 4 %>, <%= form.text_field :zip, :size => 11 %><br/>
+<%= form.label :city,       t('families.city_st_zip') %> <%= form.text_field :city %>, <%= form.text_field :state, size: 4 %>, <%= form.text_field :zip, size: 11 %><br/>
 
 <script type="text/javascript">
   function set_last_name() {

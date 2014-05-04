@@ -2,9 +2,9 @@
   <span class="nowrap">
     <a href="<%= url_for stream_item.person %>">
       <%= image_tag stream_item.person.photo.exists? ? stream_item.person.photo.url(:tn) : (stream_item.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
-        :alt => stream_item.person.name %>
+        alt: stream_item.person.name %>
     </a>
   </span>
 <% else %>
-  <%= image_tag 'clean/manoutline.tn.png', :alt => '' %>
+  <%= image_tag 'clean/manoutline.tn.png', alt: '' %>
 <% end %>

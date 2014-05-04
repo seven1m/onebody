@@ -1,9 +1,9 @@
 <div class="profile-pic">
   <% if @group.photo.exists? %>
-    <%= image_tag @group.photo.url(:profile), :alt => @group.name %>
+    <%= image_tag @group.photo.url(:profile), alt: @group.name %>
   <% elsif @logged_in.can_edit?(@group) and params[:controller] == 'groups' and params[:action] == 'show' %>
     <div class="silhouette-group" onclick="location.href = '<%= edit_group_path %>#picture'">
-      <%= link_to t('groups.change_this_picture'), edit_group_path(:anchor => 'picture'), :class => 'edit-icon' %>
+      <%= link_to t('groups.change_this_picture'), edit_group_path(anchor: 'picture'), class: 'edit-icon' %>
     </div>
   <% else %>
     <div class="silhouette-group"></div>

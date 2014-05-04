@@ -1,10 +1,10 @@
 <% if @person == @logged_in %>
-  <%= render :partial => 'notes/add_note' %>
+  <%= render partial: 'notes/add_note' %>
 <% end %>
 
 <% if @person.notes.count > 0 %>
-  <% @person.notes.find(:all, :limit => 5).each do |note| %>
-    <%= render :partial => 'notes/note', :locals => {:note => note} %>
+  <% @person.notes.find(:all, limit: 5).each do |note| %>
+    <%= render partial: 'notes/note', locals: {note: note} %>
   <% end %>
 <% elsif @person == @logged_in %>
   <p><em><%= t('notes.dont_have_notes') %></em></p>

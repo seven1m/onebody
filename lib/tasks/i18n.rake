@@ -124,7 +124,7 @@ namespace :i18n do
     end.uniq
 
     available_keys.reject! do |key|
-      key =~ /^activerecord|^time|^support|^relationships|^number|^errors|^date|^admin\.privileges|^admin\.settings|^contributions\.donation_types/
+      key =~ /^activerecord|^time|^support|^relationships|^number|^errors|^date|^admin\.privileges|^admin\.settings/
     end
 
     # Get all keys used in app

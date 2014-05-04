@@ -1,21 +1,20 @@
 <%= form_for @album do |form| %>
   <%= error_messages_for(form) %>
-  <%= form.hidden_field :group_id %>
   <p>
     <%= form.label t('albums.name') %>         <%= form.text_field :name %><br/>
-    <%= form.label t('albums.description') %>  <%= form.text_area :description, :rows => 3 %>
+    <%= form.label t('albums.description') %>  <%= form.text_area :description, rows: 3 %>
   </p>
   <% if @album.new_record? %>
     <% if @logged_in.admin?(:manage_pictures) %>
       <p>
-        <%= check_box_tag 'remove_owner', true, false, :class => 'checkbox', :onclick => "$('#public-options').toggle()" %>
-        <%= label_tag 'remove_owner', t('albums.dont_show_my_name'), :class => 'inline' %>
+        <%= check_box_tag 'remove_owner', true, false, class: 'checkbox', onclick: "$('#public-options').toggle()" %>
+        <%= label_tag 'remove_owner', t('albums.dont_show_my_name'), class: 'inline' %>
       </p>
     <% end %>
     <p id="public-options">
-      <%= form.radio_button :is_public, true %><%= form.label :is_public_true, t('albums.public'), :class => 'inline' %>
+      <%= form.radio_button :is_public, true %><%= form.label :is_public_true, t('albums.public'), class: 'inline' %>
       <br/>
-      <%= form.radio_button :is_public, false %><%= form.label :is_public_false, t('albums.profile'), :class => 'inline' %>
+      <%= form.radio_button :is_public, false %><%= form.label :is_public_false, t('albums.profile'), class: 'inline' %>
     </p>
   <% end %>
   <p>

@@ -1,4 +1,4 @@
-<h2><%= t('messages.messages_in_html', :url => group_path(@group), :name => @group.name) %></h2>
+<h2><%= t('messages.messages_in_html', url: group_path(@group), name: @group.name) %></h2>
 
 <% @messages.each do |message| %>
 
@@ -8,17 +8,17 @@
         <span class="nowrap">
           <a href="<%= url_for message.person %>">
             <%= image_tag message.person.photo.exists? ? message.person.photo.url(:tn) : (message.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
-              :alt => message.person.name %>
+              alt: message.person.name %>
           </a>
         </span>
       <% else %>
-        <%= image_tag 'clean/manoutline.tn.png', :alt => '' %>
+        <%= image_tag 'clean/manoutline.tn.png', alt: '' %>
       <% end %>
       <div style="clear:left;"></div>
     </div>
     <div class="stream-item-body">
       <h2><%= link_to message.subject, message %></h2>
-      <%= render :partial => 'meta', :locals => {:message => message} %>
+      <%= render partial: 'meta', locals: {message: message} %>
       <div>
         <%= render_message_body(message) %>
       </div>

@@ -2,12 +2,14 @@
 <p>
   <%= t('accounts.verify_by_phone_description_html') %>
 </p>
-<%= form_tag account_path, :method => 'post', :onsubmit => "return confirm('" + t('accounts.your_carrier_will_charge') + "')" do %>
+<%= form_tag account_path, method: 'post' do %>
+  <%= hidden_field_tag :phone, true %>
+  <%= error_messages_for(@verification) %>
   <p>
-    <label for="phone"><%= t('accounts.type_your_mobile') %>:</label>
-    <%= text_field_tag :phone, params[:phone] == 'true' ? '' : params[:phone] %><br/>
-    <label for="carrier"><%= t('accounts.select_your_carrier') %>:</label>
-    <select id="carrier" name="carrier">
+    <label for="verification_mobile_phone"><%= t('accounts.type_your_mobile') %>:</label>
+    <%= text_field_tag 'verification[mobile_phone]', params[:phone] == 'true' ? '' : params[:phone] %><br/>
+    <label for="verification_carrier"><%= t('accounts.select_your_carrier') %>:</label>
+    <select id="verification_carrier" name="verification[carrier]">
       <option value=""></option>
       <%= options_for_select MOBILE_GATEWAYS.keys, params[:carrier] %>
     </select>

@@ -1,12 +1,16 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require_relative '../test_helper'
 
 class RelationshipTest < ActiveSupport::TestCase
+  setup do
+    @person = FactoryGirl.create(:person)
+    @related = FactoryGirl.create(:person)
+  end
 
   should "not allow an invalid relationship name" do
     relationship = Relationship.new(
-      :name    => 'junk',
-      :person  => people(:tim),
-      :related => people(:jeremy)
+      name:    'junk',
+      person:  @person,
+      related: @related
     )
     assert !relationship.valid?
     assert relationship.errors[:name]
@@ -14,18 +18,18 @@ class RelationshipTest < ActiveSupport::TestCase
 
   should "allow a valid relationship name" do
     relationship = Relationship.new(
-      :name    => 'uncle',
-      :person  => people(:tim),
-      :related => people(:jeremy)
+      name:    'uncle',
+      person:  @person,
+      related: @related
     )
     assert relationship.valid?
   end
 
   should "reciprocate certain relationship names" do
     relationship = Relationship.create!(
-      :name    => 'mother_in_law',
-      :person  => Person.forge(:gender => 'Male'),
-      :related => Person.forge(:gender => 'Female')
+      name:    'mother_in_law',
+      person:  @person,
+      related: @related
     )
     assert relationship.can_auto_reciprocate?
     assert_equal 'son_in_law', relationship.reciprocal_name
@@ -33,13 +37,12 @@ class RelationshipTest < ActiveSupport::TestCase
 
   should "not reciprocate certain relationship names" do
     relationship = Relationship.create!(
-      :name       => 'other',
-      :other_name => 'Friend',
-      :person     => people(:tim),
-      :related    => people(:jeremy)
+      name:       'other',
+      other_name: 'Friend',
+      person:     @person,
+      related:    @related
     )
     assert !relationship.can_auto_reciprocate?
     assert_equal nil, relationship.reciprocal_name
   end
-
 end

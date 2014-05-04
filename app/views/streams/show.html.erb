@@ -1,13 +1,11 @@
 <% content_for :head do %>
-  <link rel="alternate" type="application/atom+xml" title='<%= t("stream.feed") %>' href="<%= url_for stream_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+  <link rel="alternate" type="application/atom+xml" title='<%= t("stream.feed") %>' href="<%= url_for stream_path(format: 'xml', code: @logged_in.feed_code) %>"/>
 <% end %>
 
-<% cache(:fragment => 'friendship_requests', :for => @logged_in.id) do %>
-  <% if @has_friendship_requests %>
-    <div class="highlight">
-      <%= t('friends.you_have_pending_requests_html', :url => person_friends_path(@person)) %>
-    </div>
-  <% end %>
+<% if @has_friendship_requests %>
+  <div class="highlight">
+    <%= t('friends.you_have_pending_requests_html', url: person_friends_path(@person)) %>
+  </div>
 <% end %>
 
 <% content_for :sidebar do %>
@@ -17,38 +15,38 @@
     <h3 class="double-margin-top"><%= t('stream.share_heading') %></h3>
     <p><%= t('stream.share_something_about') %></p>
     <div class="share">
-      <%= text_field_tag 'share-starter', '', :placeholder => t('share.profile') %>
+      <%= text_field_tag 'share-starter', '', placeholder: t('share.profile') %>
       <ul class="share-details share-selector" style="display:none;">
         <% if Setting.get(:features, :notes) %>
-          <li><%= link_to_function t('share.note'), "selectShare('share-note')", :class => 'comment2-icon', :id => 'share-note-icon' %></li>
+          <li><%= link_to_function t('share.note'), "selectShare('share-note')", class: 'comment2-icon', id: 'share-note-icon' %></li>
         <% end %>
         <% if Setting.get(:features, :pictures) %>
-          <li><%= link_to_function t('share.picture'), "selectShare('share-picture')", :class => 'picture-icon', :id => 'share-picture-icon' %></li>
+          <li><%= link_to_function t('share.picture'), "selectShare('share-picture')", class: 'picture-icon', id: 'share-picture-icon' %></li>
         <% end %>
         <% if Setting.get(:features, :verses) %>
-          <li><%= link_to_function t('share.verse'), "selectShare('share-verse')", :class => 'verse-icon', :id => 'share-verse-icon' %></li>
+          <li><%= link_to_function t('share.verse'), "selectShare('share-verse')", class: 'verse-icon', id: 'share-verse-icon' %></li>
         <% end %>
-        <li class="cancel-link"><%= link_to_function '', 'hideShare()', :class =>  'delete-icon' %></li>
+        <li class="cancel-link"><%= link_to_function '', 'hideShare()', class:  'delete-icon' %></li>
       </ul>
       <% if Setting.get(:features, :notes) %>
-        <%= form_for Note.new, :html => {:id => 'share-note', :class => 'share-type'} do |form| %>
+        <%= form_for Note.new, html: {id: 'share-note', class: 'share-type'} do |form| %>
           <%= hidden_field_tag :redirect_to, stream_path %>
           <span class="small"><%= t('share.note_label') %></span><br/>
-          <%= form.text_area :body, :rows => 2 %><br/>
+          <%= form.text_area :body, rows: 2 %><br/>
           <%= submit_tag t('share.share') %>
         <% end %>
       <% end %>
       <% if Setting.get(:features, :pictures) %>
-        <%= form_for Picture.new, :html => {:multipart => true, :id => 'share-picture', :class => 'share-type'} do |form| %>
-          <%= file_field_tag 'pictures[]', :multiple => true %><br/>
-          <%= text_field_tag 'album', '', :size => 10, :placeholder => t('share.default_album_name') %><br/>
+        <%= form_for Picture.new, html: {multipart: true, id: 'share-picture', class: 'share-type'} do |form| %>
+          <%= file_field_tag 'pictures[]', multiple: true %><br/>
+          <%= text_field_tag 'album', '', size: 10, placeholder: t('share.default_album_name') %><br/>
           <%= submit_tag t('share.share') %>
         <% end %>
       <% end %>
       <% if Setting.get(:features, :verses) %>
-        <%= form_for Verse.new, :html => {:id => 'share-verse', :class => 'share-type'} do |form| %>
+        <%= form_for Verse.new, html: {id: 'share-verse', class: 'share-type'} do |form| %>
           <span class="small"><%= t('share.verse_label') %></span><br/>
-          <%= form.text_field :id, :size => 15 %><br/>
+          <%= form.text_field :id, size: 15 %><br/>
           <%= submit_tag t('share.share') %>
         <% end %>
       <% end %>
@@ -78,15 +76,13 @@
   <% if Setting.get(:features, :prayer_event) %>
     <h3><%= t('prayer_signups.home_page_heading') %></h3>
     <div id="taken_slots"></div>
-    <p><%= link_to t('prayer_signups.home_page_heading'), prayer_signups_path, :class => 'right-icon' %></p>
+    <p><%= link_to t('prayer_signups.home_page_heading'), prayer_signups_path, class: 'right-icon' %></p>
     <script type="text/javascript">
-      $.get('<%= prayer_signups_path(:format => 'js') %>');
+      $.get('<%= prayer_signups_path(format: 'js') %>');
     </script>
   <% end %>
 <% end %>
 
-<% cache(:fragment => 'stream_items', :for => @logged_in.id) do %>
-  <div class="stream-items">
-    <%= render :partial => 'stream_items' %>
-  </div>
-<% end %>
+<div class="stream-items">
+  <%= render partial: 'stream_items' %>
+</div>

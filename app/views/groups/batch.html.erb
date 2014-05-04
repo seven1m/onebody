@@ -2,8 +2,8 @@
 
 <p><em><%= t('groups.scroll_left_and_right') %></em></p>
 
-<%= form_tag batch_groups_path, :id => 'batch_groups_form',
-  :style => 'overflow:auto;width:90%;background-color:#fff;' do %>
+<%= form_tag batch_groups_path, id: 'batch_groups_form',
+  style: 'overflow:auto;width:90%;background-color:#fff;' do %>
   <table>
     <tr>
       <th><%= t('groups.category') %></th>
@@ -17,13 +17,13 @@
     </tr>
     <% @groups.each do |group| %>
       <tr id="group<%= group.id %>" class="group">
-        <td><%= text_field_tag "groups[#{group.id}][category]",                  group.category,  :size => 20           %></td>
-        <td><%= text_field_tag "groups[#{group.id}][name]",                      group.name,      :size => 20           %></td>
-        <td><%= text_field_tag "groups[#{group.id}][address]",                   group.address,   :size => 20           %></td>
+        <td><%= text_field_tag "groups[#{group.id}][category]",                  group.category,  size: 20           %></td>
+        <td><%= text_field_tag "groups[#{group.id}][name]",                      group.name,      size: 20           %></td>
+        <td><%= text_field_tag "groups[#{group.id}][address]",                   group.address,   size: 20           %></td>
         <td><%= check_box_tag  "groups[#{group.id}][members_send]",              true, group.members_send?              %><%= hidden_field_tag "groups[#{group.id}][members_send]", 0 %></td>
         <td><%= check_box_tag  "groups[#{group.id}][private]",                   true, group.private?                   %><%= hidden_field_tag "groups[#{group.id}][private]", 0 %></td>
         <td><%= check_box_tag  "groups[#{group.id}][hidden]",                    true, group.hidden?                    %><%= hidden_field_tag "groups[#{group.id}][hidden]", 0 %></td>
-        <td><%= text_field_tag "groups[#{group.id}][link_code]",                 group.link_code, :size => 5            %></td>
+        <td><%= text_field_tag "groups[#{group.id}][link_code]",                 group.link_code, size: 5            %></td>
         <td><%= check_box_tag  "groups[#{group.id}][approval_required_to_join]", true, group.approval_required_to_join? %><%= hidden_field_tag "groups[#{group.id}][approval_required_to_join]", 0 %></td>
         <td class="errors"><%= group.errors.full_messages.join('; ') %></td>
       </tr>
@@ -32,7 +32,7 @@
   <p>
     <%= submit_tag t('save_changes') %>
     <span id="loading" style="display:none;">
-      <%= image_tag 'spinner_small.gif', :alt => t('saving') + '...', :class => 'icon' %>
+      <%= image_tag 'spinner_small.gif', alt: t('saving') + '...', class: 'icon' %>
       <%= t('saving') %>...
     </span>
   </p>

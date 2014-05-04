@@ -1,7 +1,7 @@
 <h2><%= t('import.people') %></h2>
 
 <% if @records.any? %>
-  <%= form_tag({}, :method => 'put') do %>
+  <%= form_tag({}, method: 'put') do %>
     <p>
       <%= t('import.the_changes_will_be_made') %>
     </p>
@@ -12,21 +12,21 @@
           <% person, changes = record %>
           <li>
             <% if person.new_record? %>
-              <%= check_box_tag "record#{index}", true, true, :onclick => "$('.new_#{index}').attr('checked', $('#record#{index}').attr('checked'))" %>
+              <%= check_box_tag "record#{index}", true, true, onclick: "$('.new_#{index}').attr('checked', $('#record#{index}').attr('checked'))" %>
               <%= person.name %> <strong>(new)</strong>
             <% else %>
-              <%= check_box_tag "record#{index}", true, true, :onclick => "$('.changes_#{person.id}').attr('checked', $('#record#{index}').attr('checked'))" %>
+              <%= check_box_tag "record#{index}", true, true, onclick: "$('.changes_#{person.id}').attr('checked', $('#record#{index}').attr('checked'))" %>
               <%= link_to person.name, person %>
             <% end %>
-            <%= link_to_function t('changes'), "$('#details#{index}').toggle()", :class => 'discreet' %>
+            <%= link_to_function t('changes'), "$('#details#{index}').toggle()", class: 'discreet' %>
             <ul id="details<%= index %>" style="list-style:none;padding-left:25px;display:none;">
               <% changes.each do |key, val| %>
                 <li>
                   <label class="inline">
                     <% if person.new_record? %>
-                      <%= check_box_tag "new[#{index}][#{key}]", val.last.to_s, true, :class => "new_#{index}" %>
+                      <%= check_box_tag "new[#{index}][#{key}]", val.last.to_s, true, class: "new_#{index}" %>
                     <% else %>
-                      <%= check_box_tag "changes[#{person.id}][#{key}]", val.last.to_s, true, :class => "changes_#{person.id}" %>
+                      <%= check_box_tag "changes[#{person.id}][#{key}]", val.last.to_s, true, class: "changes_#{person.id}" %>
                     <% end %>
                     <%= key %>: <%= val.first.inspect %> =&gt; <%= val.last.inspect %>
                   </label>

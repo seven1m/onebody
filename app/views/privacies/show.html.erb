@@ -1,7 +1,7 @@
 <h1><%= t('privacies.group_privacy') %></h1>
 
 <% if @memberships.any? %>
-  <p><%= t('privacies.you_are_sharing_with_groups', :sharing => params[:sharing].humanize) %></p>
+  <p><%= t('privacies.you_are_sharing_with_groups', sharing: params[:sharing].humanize) %></p>
   <ul>
     <% @memberships.each do |membership| %>
       <li><%= link_to membership.group.name,
@@ -9,5 +9,5 @@
     <% end %>
   </ul>
 <% else %>
-  <p><%= t('privacies.you_are_not_sharing_with_groups', :sharing => params[:sharing].humanize) %></p>
+  <p><%= t('privacies.you_are_not_sharing_with_groups', sharing: params[:sharing].humanize) %></p>
 <% end %>

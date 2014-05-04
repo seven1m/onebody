@@ -1,4 +1,0 @@
-page.replace_html 'bible-content', :file => @chapter_filename
-page << "$('reference').value = #{@reference.inspect};"
-page << "book_name = #{@book.inspect}"
-page << 'setup_verses();'

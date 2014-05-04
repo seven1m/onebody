@@ -1,6 +1,6 @@
 <% if @unapproved_groups.any? %>
   <div class="highlight">
-    <%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %>
+    <%= t('groups.following_are_pending_approval', count: @unapproved_groups.length) %>
     <ul class="list">
       <% @unapproved_groups.each do |group| %>
         <li><%= link_to group.name, group %></li>
@@ -11,20 +11,20 @@
 
 <% content_for :sidebar do %>
 
-  <%= render :partial => 'search' %>
+  <%= render partial: 'search' %>
 
   <h3><%= t('groups.browse_by_category') %></h3>
-  <p><%= select_tag 'category', options_for_select(@categories), :include_blank => true, :onchange => "location.href='?category='+this.value" %></p>
+  <p><%= select_tag 'category', options_for_select(@categories), include_blank: true, onchange: "location.href='?category='+this.value" %></p>
 
   <h3><%= t('groups.create_a_group') %></h3>
   <p>
     <%= t('groups.if_cant_find_create_it') %>
   </p>
   <p>
-    <%= link_to t('groups.create_a_group'), new_group_path, :class => 'add-icon' %>
+    <%= link_to t('groups.create_a_group'), new_group_path, class: 'add-icon' %>
   </p>
 
 <% end %>
 
 <h2><%= t('groups.your_groups') %></h2>
-<%= render :partial => 'person_groups' %>
+<%= render partial: 'person_groups' %>

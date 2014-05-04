@@ -2,7 +2,7 @@
   <h2>
     <%= t('friends.friends') %>
     <% if me? %>
-      <%= link_to t('edit'), person_friends_path(@person), :style => 'font-size:10pt;color:#999;text-decoration:none;' %>
+      <%= link_to t('edit'), person_friends_path(@person), style: 'font-size:10pt;color:#999;text-decoration:none;' %>
     <% end %>
   </h2>
   <% if count > MAX_FRIENDS_ON_PROFILE %>
@@ -13,10 +13,10 @@
       <tr>
         <td>
           <a href="<%= url_for friend %>">
-            <%= render :partial => 'people/thumbnail', :locals => {:person => friend} %>
+            <%= render partial: 'people/thumbnail', locals: {person: friend} %>
           </a>
         </td>
-        <td class="friend"><%= link_to friend.name, person_url(:id => friend) %></td>
+        <td class="friend"><%= link_to friend.name, person_url(id: friend) %></td>
       </tr>
     <% end %>
   </table>
@@ -24,5 +24,5 @@
     <p><%= link_to t('more') + "...", person_friends_path(@person) %></p>
   <% end %>
 <% elsif me? %>
-  <p class="highlight"><%= link_to t('friends.add_your_friends_to_profile_html', :url => search_path(:search_friends => true)) %></p>
+  <p class="highlight"><%= link_to t('friends.add_your_friends_to_profile_html', url: search_path(search_friends: true)) %></p>
 <% end %>

@@ -1,8 +1,0 @@
-$("#signup<%= @start.strftime('%Y-%m-%d-%H') %>").html('<%= escape_javascript render(:partial => 'signup_action', :locals => {:hour => @start}) %>');
-$('#taken_slots').html('<%= escape_javascript render(:partial => 'taken_slots') %>');
-<% if params[:ids] %>
-  <%# done by admin from sidebar panel %>
-  $('#admin_add_status').html('<%= escape_javascript t('changes_saved') %>').effect('highlight', {}, 4000, function(){
-    $('#admin_add_status').html('');
-  });
-<% end %>

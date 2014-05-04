@@ -26,14 +26,14 @@
         <table class="spaced">
           <tr>
             <th><%= t('people.people') %> (<%= @person_count %>)</th>
-            <td><%= link_to 'XML', people_path(:format => 'xml') %></td>
-            <td><%= link_to 'CSV', people_path(:format => 'csv') %></td>
+            <td><%= link_to 'XML', people_path(format: 'xml') %></td>
+            <td><%= link_to 'CSV', people_path(format: 'csv') %></td>
           </tr>
           <% if Setting.get(:features, :groups) %>
             <tr>
               <th><%= t('nav.groups') %> (<%= @group_count %>)</th>
-              <td><%= link_to 'XML', groups_path(:format => 'xml') %></td>
-              <td><%= link_to 'CSV', groups_path(:format => 'csv') %></td>
+              <td><%= link_to 'XML', groups_path(format: 'xml') %></td>
+              <td><%= link_to 'CSV', groups_path(format: 'csv') %></td>
             </tr>
           <% end %>
         </table>
@@ -48,45 +48,39 @@
 <div class="metrics">
   <% if @logged_in.admin?(:manage_updates) %>
     <%= metric administration_updates_path, @update_count, 1, 5 do %>
-      <%= t('admin.updates.pending', :count => @update_count) %>
+      <%= t('admin.updates.pending', count: @update_count) %>
     <% end %>
 
     <%= metric administration_emails_path, @email_changed_count, 1, 10 do %>
-      <%= t('admin.updates.changed_email', :count => @email_changed_count) %>
+      <%= t('admin.updates.changed_email', count: @email_changed_count) %>
     <% end %>
   <% end %>
 
   <% if @logged_in.admin?(:manage_sync) and @last_sync %>
     <%= metric administration_syncs_path, @last_sync.error_count || 0, 1, 10 do %>
-      <%= t('admin.syncs.sync_errors', :count => @last_sync.error_count) %>
+      <%= t('admin.syncs.sync_errors', count: @last_sync.error_count) %>
     <% end %>
   <% end %>
 
   <% if @logged_in.admin?(:manage_groups) %>
     <%= metric administration_updates_path, @groups_pending_approval_count, 1, 1 do %>
-      <%= t('groups.pending_approval_count', :count => @groups_pending_approval_count) %>
+      <%= t('groups.pending_approval_count', count: @groups_pending_approval_count) %>
     <% end %>
 
     <%= metric administration_membership_requests_path, @membership_request_count, 1, 1 do %>
-      <%= t('groups.membership_request_count', :count => @membership_request_count) %>
+      <%= t('groups.membership_request_count', count: @membership_request_count) %>
     <% end %>
   <% end %>
 
   <% if @logged_in.admin?(:manage_access) %>
     <%= metric administration_admins_path, @admin_count, Site.current.max_admins && Site.current.max_admins*0.9, Site.current.max_admins do %>
-      <%= t('admin.admin_count', :count => @admin_count) %>
+      <%= t('admin.admin_count', count: @admin_count) %>
     <% end %>
   <% end %>
 
   <% if @logged_in.admin?(:edit_profiles) %>
     <%= metric administration_deleted_people_path, @deleted_people_count do %>
-      <%= t('admin.deleted_people_count', :count => @deleted_people_count) %>
-    <% end %>
-  <% end %>
-
-  <% if Donortools::Persona.can_sync? and @logged_in.admin?(:manage_contributions) %>
-    <%= metric sync_contributions_path, @unsynced_to_donortools, 5, 25 do %>
-      <%= t('admin.people_not_synced_to_donortools_count', :count => @unsynced_to_donortools) %>
+      <%= t('admin.deleted_people_count', count: @deleted_people_count) %>
     <% end %>
   <% end %>
 
@@ -96,38 +90,38 @@
 <div class="clear"></div>
 
 <div class="admin-chart">
-  <%= image_tag(bar_chart_url(@daily_message_counts, :width => 245, :height => 150, :title => t('messages.sent_per_day'), :set_count => 2, :set_labels => [t('messages.private'), t('messages.group')]), :alt => t('messages.sent_per_day')) %>
+  <%= image_tag(bar_chart_url(@daily_message_counts, width: 245, height: 150, title: t('messages.sent_per_day'), set_count: 2, set_labels: [t('messages.private'), t('messages.group')]), alt: t('messages.sent_per_day')) %>
 </div>
 
 <% if @logged_in.admin?(:manage_updates) %>
   <div class="admin-chart">
-    <%= link_to image_tag(bar_chart_url(@daily_update_counts, :width => 245, :height => 150, :title => t('admin.updates.per_day'), :interval => 1), :alt => t('admin.updates.per_day')),
+    <%= link_to image_tag(bar_chart_url(@daily_update_counts, width: 245, height: 150, title: t('admin.updates.per_day'), interval: 1), alt: t('admin.updates.per_day')),
                 administration_updates_path %>
   </div>
 <% end %>
 
 <% if @logged_in.admin?(:manage_attendance) %>
   <div class="admin-chart">
-    <%= link_to image_tag(bar_chart_url(@daily_attendance_counts, :width => 245, :height => 150, :title => t('attendance.records_per_day')), :alt => t('attendance.records_per_day')),
+    <%= link_to image_tag(bar_chart_url(@daily_attendance_counts, width: 245, height: 150, title: t('attendance.records_per_day')), alt: t('attendance.records_per_day')),
                 administration_attendance_index_path %>
   </div>
 <% end %>
 
 <% if @logged_in.admin?(:manage_groups) %>
   <div class="admin-chart">
-    <%= link_to image_tag(pie_chart_url(@group_type_counts, :width => 245, :height => 150, :title => t('groups.types')), :alt => t('groups.types')),
+    <%= link_to image_tag(pie_chart_url(@group_type_counts, width: 245, height: 150, title: t('groups.types')), alt: t('groups.types')),
                 batch_groups_path %>
   </div>
 
   <div class="admin-chart">
-    <%= link_to image_tag(pie_chart_url(@linked_group_counts, :width => 245, :height => 150, :title => t('groups.linked')), :alt => t('groups.linked')),
+    <%= link_to image_tag(pie_chart_url(@linked_group_counts, width: 245, height: 150, title: t('groups.linked')), alt: t('groups.linked')),
                 batch_groups_path %>
   </div>
 <% end %>
 
 <% if @logged_in.admin?(:manage_sync) and @sync_counts %>
   <div class="admin-chart">
-    <%= link_to image_tag(pie_chart_url(@sync_counts, :width => 245, :height => 150, :title => t('admin.syncs.results')), :alt => t('admin.syncs.results')),
+    <%= link_to image_tag(pie_chart_url(@sync_counts, width: 245, height: 150, title: t('admin.syncs.results')), alt: t('admin.syncs.results')),
                 administration_syncs_path %>
   </div>
 <% end %>

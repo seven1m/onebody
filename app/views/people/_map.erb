@@ -3,7 +3,7 @@
     <div id="map" style="width:250px;height:200px;"></div>
     <div class="discreet" style="font-size:smaller;text-align:right;">
       <%= t('people.only_an_approximation') %> |
-      <%= link_to t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@person.family.mapable_address)}", :target => '_new' %>
+      <%= link_to t('people.show_full_screen'), "http://maps.yahoo.com/broadband/#mvt=m&q1=#{url_encode(@person.family.mapable_address)}", target: '_new' %>
     </div>
   </div>
 <% elsif Setting.get(:services, :yahoo).blank? and @logged_in.super_admin? %>

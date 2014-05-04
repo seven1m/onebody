@@ -9,11 +9,11 @@
     </p>
   <% end %>
   <p style="font-weight:bold;">
-    <%= t('people.if_you_wish_to_remove_something_html', :url => edit_person_privacy_path(@person)) %>
+    <%= t('people.if_you_wish_to_remove_something_html', url: edit_person_privacy_path(@person)) %>
   </p>
 <% end %>
 
-<%= render :partial => 'pending_updates' %>
+<%= render partial: 'pending_updates' %>
 
 <%= form_for @person do |form| %>
   <%= error_messages_for(form) %>
@@ -23,14 +23,14 @@
       <fieldset>
         <legend><%= t('people.person_type') %></legend>
         <em><%= t('people.these_do_not_control_access') %></em><br/>
-        <%= form.check_box :member %> <%= form.label t('search.member'), nil, :class => 'inline' %><br/>
-        <%= form.check_box :staff %>  <%= form.label t('search.staff'),  nil, :class => 'inline' %><br/>
-        <%= form.check_box :elder %>  <%= form.label t('search.elder'),  nil, :class => 'inline' %><br/>
-        <%= form.check_box :deacon %> <%= form.label t('search.deacon'), nil, :class => 'inline' %>
+        <%= form.check_box :member %> <%= form.label t('search.member'), nil, class: 'inline' %><br/>
+        <%= form.check_box :staff %>  <%= form.label t('search.staff'),  nil, class: 'inline' %><br/>
+        <%= form.check_box :elder %>  <%= form.label t('search.elder'),  nil, class: 'inline' %><br/>
+        <%= form.check_box :deacon %> <%= form.label t('search.deacon'), nil, class: 'inline' %>
         <% if Setting.get(:features, :custom_person_type) %>
           <br/>
-          <%= form.label :custom_type, 'Custom Type:', :class => 'inline' %>
-          <%= form.text_field :custom_type, :size => 10 %><div class="autocomplete" id="person_custom_type_auto_complete"></div>
+          <%= form.label :custom_type, 'Custom Type:', class: 'inline' %>
+          <%= form.text_field :custom_type, size: 10 %><div class="autocomplete" id="person_custom_type_auto_complete"></div>
           <script type="text/javascript">
             // FIXME
             //new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', <%= @custom_types.inspect %>, {});
@@ -40,33 +40,33 @@
       <fieldset>
         <legend><%= t('people.visibility') %></legend>
         <% unless @person.adult_or_consent? %>
-          <em><%= t('people.this_person_is_not_an_adult', :years => Setting.get(:system, :adult_age)) %></em>
+          <em><%= t('people.this_person_is_not_an_adult', years: Setting.get(:system, :adult_age)) %></em>
           <br/>
         <% end %>
-        <%= content_tag :span, :style => @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
-          <%= form.check_box :can_sign_in %>                  <%= form.label t('people.can_sign_in'),                  nil, :class => 'inline' %>
+        <%= content_tag :span, style: @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
+          <%= form.check_box :can_sign_in %>                  <%= form.label t('people.can_sign_in'),                  nil, class: 'inline' %>
           <% if @person.can_sign_in? %>
-            (<%= link_to t('people.send_email'), account_path(:email => @person.email), :method => 'post', :confirm => t('people.click_to_send_verification_email') %>)
+            (<%= link_to t('people.send_email'), account_path(email: @person.email), method: 'post', confirm: t('people.click_to_send_verification_email') %>)
           <% end %>
           <br/>
-          <%= form.check_box :visible_to_everyone %>          <%= form.label t('people.visible_to_everyone'),          nil, :class => 'inline' %><br/>
-          <%= form.check_box :visible_on_printed_directory %> <%= form.label t('people.visible_on_printed_directory'), nil, :class => 'inline' %><br/>
-          <%= form.check_box :full_access %>                  <%= form.label t('people.full_access'),                  nil, :class => 'inline' %>
+          <%= form.check_box :visible_to_everyone %>          <%= form.label t('people.visible_to_everyone'),          nil, class: 'inline' %><br/>
+          <%= form.check_box :visible_on_printed_directory %> <%= form.label t('people.visible_on_printed_directory'), nil, class: 'inline' %><br/>
+          <%= form.check_box :full_access %>                  <%= form.label t('people.full_access'),                  nil, class: 'inline' %>
         <% end %>
       </fieldset>
      <% if Setting.get(:features, :edit_legacy_ids) %> 
       <fieldset>
         <legend><%= t('people.advanced') %></legend>
-        <%= form.label :legacy_id,        t('people.legacy_external_id') %>        <%= form.text_field :legacy_id, :size => 6 %>
-        <%= form.label :legacy_family_id, t('people.family_legacy_external_id') %> <%= form.text_field :legacy_family_id, :size => 6 %>
+        <%= form.label :legacy_id,        t('people.legacy_external_id') %>        <%= form.text_field :legacy_id, size: 6 %>
+        <%= form.label :legacy_family_id, t('people.family_legacy_external_id') %> <%= form.text_field :legacy_family_id, size: 6 %>
       </fieldset>
      <% end %>
     </div>
   <% end %>
   <%= hidden_field_tag :anchor, 'basics' %>
   <%= form.label :first_name, t('people.name') %>
-    <%= form.text_field :first_name, :size => 15 %>
-    <%= form.text_field :last_name, :size => 15 %>
+    <%= form.text_field :first_name, size: 15 %>
+    <%= form.text_field :last_name, size: 15 %>
     <%= form.select :suffix, [nil]+Setting.get(:system, :suffixes) %><br/>
   <%= form.label :description, t('accounts.description') %> <%= form.text_field :description %><br/>
   <%= form.label :gender, t('accounts.gender') %>       <%= form.select :gender, [['', nil], [t('search.male'), 'Male'], [t('search.female'), 'Female']] %><br/>
@@ -79,10 +79,10 @@
   <% end %>
   <%= form.label :birthday, t('privacies.birthday') %>     <%= form.date_field :birthday %><br/>
   <%= form.label :anniversary, t('privacies.anniversary') %>  <%= form.date_field :anniversary %>
-  <%= render :partial => 'edit_custom_fields' %>
+  <%= render partial: 'edit_custom_fields' %>
   <% unless @person.new_record? %>
     <% fields_for :family, @family do |family| %>
-      <%= render :partial => 'families/form_fields', :locals => {:form => family} %>
+      <%= render partial: 'families/form_fields', locals: {form: family} %>
     <% end %>
   <% end %>
   <p><%= submit_tag t('submit') %></p>

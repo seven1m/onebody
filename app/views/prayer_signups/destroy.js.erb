@@ -1,2 +1,0 @@
-$("#signup<%= @start.strftime('%Y-%m-%d-%H') %>").html('<%= escape_javascript render(:partial => 'signup_action', :locals => {:hour => @start}) %>');
-$('#taken_slots').html('<%= escape_javascript render(:partial => 'taken_slots') %>');

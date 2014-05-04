@@ -1,4 +1,4 @@
 <% @groups.each do |group| %>
-  <%= check_box_tag 'ids[]', group.id, false, :class => 'checkbox' %><%= link_to group.name, group %>
+  <%= check_box_tag 'ids[]', group.id, false, class: 'checkbox' %><%= link_to group.name, group %>
   <br/>
 <% end %>

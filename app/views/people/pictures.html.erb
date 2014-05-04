@@ -1,6 +1,6 @@
 <% @person.pictures.each do |picture| %>
   <div class="picture">
-    <%= link_to image_tag(picture.photo.url(:medium), :alt => t('pictures.click_to_enlarge')), picture, :title => t('pictures.click_to_enlarge') %>
+    <%= link_to image_tag(picture.photo.url(:medium), alt: t('pictures.click_to_enlarge')), picture, title: t('pictures.click_to_enlarge') %>
   </div>
 <% end %>
 

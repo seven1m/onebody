@@ -2,7 +2,7 @@
 
 <form method="POST">
   <p>
-    <%= t('groups.are_you_sure_option', { :option => @options.get_email? ? 'disable' : 'enable', :group => @group.name } ) %>
+    <%= t('groups.are_you_sure_option', { option: @options.get_email? ? 'disable' : 'enable', group: @group.name } ) %>
   </p>
   <%= hidden_field_tag :person_id, params[:person_id] %>
   <%= hidden_field_tag :code, params[:code] %>

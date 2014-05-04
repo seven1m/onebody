@@ -1,20 +1,20 @@
 <% content_for :sidebar do %>
   <h2><%= t('attendance.attendance') %></h2>
 
-  <%= form_tag search_path, :remote => true, :style => 'border:none;' do %>
+  <%= form_tag search_path, remote: true, style: 'border:none;' do %>
     <%= hidden_field_tag :select_person, true %>
     <%= hidden_field_tag :no_auto_submit, true %>
     <p>
       <label for="add_person_name"><%= t('attendance.add_somebody_not_in_group') %>:</label>
-      <%= text_field_tag 'name', nil, :id => 'add_person_name' %>
+      <%= text_field_tag 'name', nil, id: 'add_person_name' %>
       <%= submit_tag t('search.search_by_name') %>
     </p>
   <% end %>
 
   <div id="add_member" style="display:none;">
-    <%= form_tag group_attendance_index_path(@group), :method => 'post',
-      :id => 'add_people_form', :style => 'border:none;' do %>
-      <%= hidden_field_tag :attended_at, @attended_at, :id => nil %>
+    <%= form_tag group_attendance_index_path(@group), method: 'post',
+      id: 'add_people_form', style: 'border:none;' do %>
+      <%= hidden_field_tag :attended_at, @attended_at, id: nil %>
       <div id="results"></div>
       <p><%= submit_tag t('search.add_selected') %></p>
     <% end %>
@@ -22,16 +22,16 @@
 
   <!-- not ready yet
   <p class="double-margin-top">
-    <%= link_to_function t('attendance.add_visitor'), "$('#add_a_visitor').show();$('#person_first_name')[0].focus()", :class => 'add-icon discreet' %>
+    <%= link_to_function t('attendance.add_visitor'), "$('#add_a_visitor').show();$('#person_first_name')[0].focus()", class: 'add-icon discreet' %>
   </p>
   <div id="add_a_visitor" style="display:none">
-    <%= form_tag group_attendance_index_path(@group), :method => 'post' do %>
-      <%= hidden_field_tag :attended_at, @attended_at, :id => nil %>
+    <%= form_tag group_attendance_index_path(@group), method: 'post' do %>
+      <%= hidden_field_tag :attended_at, @attended_at, id: nil %>
       <%= fields_for Person.new do |person| %>
         <%= person.label :first_name, t('accounts.first_name') %>
-        <%= person.text_field :first_name, :size => 15 %>
+        <%= person.text_field :first_name, size: 15 %>
         <%= person.label :last_name, t('accounts.last_name') %>
-        <%= person.text_field :last_name, :size => 15 %>
+        <%= person.text_field :last_name, size: 15 %>
       <% end %>
       <p><%= submit_tag t('save') %></p>
     <% end %>
@@ -40,17 +40,17 @@
 <% end %>
 
 <p>
-  <%= label_tag :attended_at, t('attendance.date') + ':', :class => 'inline' %>
-  <%= text_field_tag :attended_at, @attended_at.to_s(:date), :onchange => "location.href='?attended_at='+encodeURIComponent(this.value)" %>
+  <%= label_tag :attended_at, t('attendance.date') + ':', class: 'inline' %>
+  <%= text_field_tag :attended_at, @attended_at.to_s(:date), onchange: "location.href='?attended_at='+encodeURIComponent(this.value)" %>
 </p>
 
-<%= form_tag batch_group_attendance_index_path(@group), :id => 'attendance_form' do %>
+<%= form_tag batch_group_attendance_index_path(@group), id: 'attendance_form' do %>
   <%= hidden_field_tag :attended_at, @attended_at %>
   <ul style="list-style:none;">
     <% @records.each do |person, record| %>
       <li>
-        <%= check_box_tag 'ids[]', person.id, record ? true : false, :id => "ids_#{person.id}" %>
-        <%= label_tag "ids_#{person.id}", person.name, :class => 'inline' %>
+        <%= check_box_tag 'ids[]', person.id, record ? true : false, id: "ids_#{person.id}" %>
+        <%= label_tag "ids_#{person.id}", person.name, class: 'inline' %>
       </li>
     <% end %>
   </ul>

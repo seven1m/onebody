@@ -1,5 +1,0 @@
-require 'rubygems'
-require 'active_support'
-require 'active_support/test_case'
-require 'active_record'
-require File.dirname(__FILE__) + '/../lib/attr_accessible_if'
