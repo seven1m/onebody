@@ -238,7 +238,7 @@ class Family < ActiveRecord::Base
 
     def daily_barcode_assignment_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
       [].tap do |data|
-        counts = connection.select_all("select count(date(barcode_assigned_at)) as count, date(barcode_assigned_at) as date from families where site_id=#{Site.current.id} and barcode_assigned_at is not null group by date(barcode_assigned_at) order by barcode_assigned_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
+        counts = connection.select_all("select count(date(barcode_assigned_at)) as count, date(barcode_assigned_at) as date from families where site_id=#{Site.current.id} and barcode_assigned_at is not null group by date(barcode_assigned_at) order by barcode_assigned_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
         ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
           d = date.strftime(date_strftime)
           d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]
