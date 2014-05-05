@@ -2,12 +2,11 @@
 require 'net/http'
 
 class Verse < ActiveRecord::Base
-  has_and_belongs_to_many :people, :conditions => ['people.visible = ?', true]
-  has_many :comments, :dependent => :destroy
+  has_and_belongs_to_many :people, conditions: ['people.visible = ?', true]
+  has_many :comments, dependent: :destroy
   belongs_to :site
 
   scope_by_site_id
-  acts_as_logger LogItem
   acts_as_taggable
 
   def admin?(person)
@@ -77,7 +76,7 @@ class Verse < ActiveRecord::Base
   end
 
   validates_presence_of :text, :reference
-  validates_length_of :text, :maximum => 1000, :allow_nil => true, :message => " is a bit too long. Please pick a shorter passage."
+  validates_length_of :text, maximum: 1000, allow_nil: true, message: " is a bit too long. Please pick a shorter passage."
 
   BOOKS = [
     'Genesis',
@@ -312,17 +311,17 @@ class Verse < ActiveRecord::Base
   # note: this must be called from a controller since this is habtm with people
   def create_as_stream_item(person, created_at=nil)
     StreamItem.create!(
-      :title           => reference,
-      :body            => text,
-      :person_id       => person.id,
-      :streamable_type => 'Verse',
-      :streamable_id   => id,
-      :created_at      => created_at || Time.now,
-      :shared          => person.share_activity?
+      title:           reference,
+      body:            text,
+      person_id:       person.id,
+      streamable_type: 'Verse',
+      streamable_id:   id,
+      created_at:      created_at || Time.now,
+      shared:          person.share_activity?
     )
   end
 
   def delete_stream_items(person)
-    StreamItem.destroy_all(:streamable_type => 'Verse', :streamable_id => id, :person_id => person.id)
+    StreamItem.destroy_all(streamable_type: 'Verse', streamable_id: id, person_id: person.id)
   end
 end

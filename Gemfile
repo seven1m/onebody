@@ -1,25 +1,45 @@
 source 'http://rubygems.org'
 
-gem 'rails',                  '~> 3.0.20'
-gem 'mysql',                  '~> 2.8.1'
-gem 'liquid',                 '~> 2.2.2'
-gem 'jquery-rails',           '~> 0.2.4'
-gem 'will_paginate',          '~> 3.0.2'
-gem 'highline',               '~> 1.6.1'
-gem 'campaign_monitor_party', '~> 0.2.1'
-gem 'whenever',               '~> 0.6.2'
-gem 'nokogiri',               '~> 1.4.0'
-gem 'builder',                '>= 2.1.2'
-gem 'loofah',                 '~> 1.0.0'
-gem 'feedzirra',              '~> 0.0.24'
-gem 'fastercsv',              '~> 1.5.0'
-gem 'pdf-writer',             '~> 1.1.8', :require => 'pdf/writer'
-gem 'rubyzip',                '~> 0.9.4', :require => 'zip/zip'
-gem 'sanitize',               '~> 1.2.1'
-gem 'haml',                   '~> 3.0.24'
-gem 'paperclip',              '   2.3.11'
+gem 'rails', '3.2.17'
+gem 'rails_autolink'
+gem 'strong_parameters'
+gem 'mysql2'
+gem 'jquery-rails'
+gem 'will_paginate'
+gem 'highline'
+gem 'whenever'
+gem 'nokogiri'
+gem 'builder'
+gem 'loofah'
+gem 'feedjira'
+gem 'rubyzip'
+gem 'zip-zip'
+gem 'sanitize'
+gem 'haml'
+gem 'sass'
+gem 'paperclip'
+gem 'acts_as_taggable_on_steroids', github: 'PavelNartov/acts_as_taggable_on_steroids', require: 'acts_as_taggable'
+gem 'pdf-writer', github: 'metaskills/pdf-writer', require: 'pdf/writer'
+gem 'authority'
+gem 'load_and_authorize_resource'
+gem 'bcrypt'
+gem 'mini_magick'
+
+group :test do
+  gem 'factory_girl_rails'
+  gem 'shoulda'
+end
+
+group :development do
+  gem 'zeus'
+  gem 'watchr'
+  gem 'terminal-notifier' if RUBY_PLATFORM =~ /darwin/
+end
 
 group :development, :test do
-  gem 'faker',                '~> 0.3.1'
-  gem 'shoulda',              '~> 2.11.3'
+  gem 'pry'
+end
+
+group :production do
+  gem 'exception_notification'
 end

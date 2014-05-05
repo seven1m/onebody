@@ -2,13 +2,13 @@
 <% @albums.each do |album| %>
   <tr>
     <td>
-      <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', :alt => t('albums.click_to_view'), :class => 'picture'),
-          album, :title => t('albums.click_to_view') %>
+      <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', alt: t('albums.click_to_view'), class: 'picture'),
+          album, title: t('albums.click_to_view') %>
     </td>
     <td>
       <%= link_to album.name, album %>
-      <% if album.person %>
-        <%= t('by') %> <%= link_to album.person.name, album.person %>
+      <% if Person === album.owner %>
+        <%= t('by') %> <%= link_to album.owner.name, album.owner %>
       <% end %>
     </td>
   </tr>

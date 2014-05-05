@@ -8,6 +8,7 @@ setup-authorized-ip
 setup-secret
 config/database.yml
 config/database.yml.backup
+config/secrets.yml
 config/deploy.rb
 config/email.yml
 config/locale
@@ -17,10 +18,9 @@ public/system/development
 public/system/test
 public/stylesheets/all.css
 public/javascripts/all.js
-test/fixtures/settings.yml
 config/query_reviewer.yml
 vendor/plugins/query_reviewer
 pkg
 *.deb
 script/package
-db/bible.web.osis.xml
+.idea

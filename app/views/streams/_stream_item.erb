@@ -1,6 +1,6 @@
 <div class="stream-item <%= stream_item.streamable_type.underscore.dasherize %> stream_<%= stream_item.streamable_type.underscore %> <% if stream_item.person == @person %>stream_mine<% end %>">
   <div class="stream-item-meta">
-    <%= render :partial => 'streams/person_thumbnail', :locals => {:stream_item => stream_item} %>
+    <%= render partial: 'streams/person_thumbnail', locals: {stream_item: stream_item} %>
     <div style="clear:left;"></div>
   </div>
   <div class="stream-item-body">
@@ -9,28 +9,15 @@
         <%= link_to stream_item.title, stream_item %>
       </h3>
     <% else %>
-      <% if stream_item.wall and (params[:controller] != 'people' or stream_item.wall_id != @person.id) %>
-        <div style="float:left;margin:0 10px 0 -12px;height:37px;">
-          <a href="<%= url_for stream_item.wall %>">
-            <%= image_tag stream_item.wall.photo.exists? ? stream_item.wall.photo.url(:tn) : (stream_item.wall.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'),
-              :alt => stream_item.wall.name %>
-          </a>
-        </div>
-      <% end %>
       <div class="stream-item-content">
         <%= stream_item_content(stream_item) %>
-        <% unless stream_item.wall %>
-          <%= link_to t('comments.view') + '...', stream_item, :class => 'small' %>
-        <% end %>
+        <%= link_to t('comments.view') + '...', stream_item, class: 'small' %>
       </div>
     <% end %>
     <div class="nowrap stream-item-timestamp">
       <%= time_ago_in_words stream_item.created_at %> <%= t('comments.ago') %>
       <% if stream_item.person %>
         by <%= link_to stream_item.person.name, stream_item.person %>
-      <% end %>
-      <% if stream_item.wall %>
-        <%= t('to') %> <%= link_to stream_item.wall.name, stream_item.wall %>
       <% end %>
       <% if @group.nil? and stream_item.group %>
         <%= t('in') %> <%= link_to stream_item.group.name, stream_item.group %>
@@ -48,7 +35,7 @@
             <tr class="stream-item-comment">
               <td style="text-align:right;">
                 <a href="<%= url_for comment['person'] %>">
-                  <%= render :partial => 'people/thumbnail', :locals => {:person => comment['person']} %>
+                  <%= render partial: 'people/thumbnail', locals: {person: comment['person']} %>
                 </a>
               </td>
               <td>
@@ -67,7 +54,7 @@
       <div class="new-comment">
         <%= link_to_function t('comments.add_a_comment'),
           "$('#new-comment-for-#{stream_item.id}').show(); $(this.parentNode).css('visibility', 'visible');",
-          :class => 'discreet small comment-icon' %>
+          class: 'discreet small comment-icon' %>
         <div id="new-comment-for-<%= stream_item.id %>" style="display:none;">
           <%= form_for Comment.new do |form| %>
             <% if stream_item.streamable_type == 'Album' %>
@@ -77,7 +64,7 @@
                 <%= t('comments.which_picture') %><br/>
                 <% stream_item.context['picture_ids'].to_a.each do |picture_id, fingerprint, extension| %>
                   <%= radio_button_tag :picture_id, picture_id, picture_id == stream_item.context['picture_ids'].first[0] %>
-                  <%= label_tag "picture_id_#{picture_id}", image_tag(Picture.photo_url_from_parts(picture_id, fingerprint, extension, :tn), :alt => '', :class => 'icon'), :class => 'inline' %>
+                  <%= label_tag "picture_id_#{picture_id}", image_tag(Picture.photo_url_from_parts(picture_id, fingerprint, extension, :tn), alt: '', class: 'icon'), class: 'inline' %>
                   &nbsp;
                 <% end %>
               <% end %>
@@ -85,23 +72,10 @@
               <%= hidden_field_tag stream_item.streamable_type.downcase + '_id', stream_item.streamable_id %>
             <% end %>
             <%= hidden_field_tag :return_to, stream_path %>
-            <%= text_area_tag 'text', '', :rows => 3, :cols => 40, :id => 'new_comment_textarea' %><br/>
+            <%= text_area_tag 'text', '', rows: 3, cols: 40, id: 'new_comment_textarea' %><br/>
             <%= form.submit t('comments.save') %>
           <% end %>
         </div>
-      </div>
-    <% elsif stream_item.wall %>
-      <div class="new-comment discreet small">
-        <% if stream_item.wall == @logged_in %>
-          <%= link_to t('comments.leave_note_for', :name => stream_item.person.name), stream_item.person %>
-        <% elsif stream_item.person == @logged_in %>
-          <%= link_to t('comments.leave_another_note_for', :name => stream_item.wall.name), stream_item.wall %>
-        <% else %>
-          <%= t('comments.leave_a_note_for') %>:
-          <%= link_to stream_item.person.name, stream_item.person %>
-          <%= t('or') %>
-          <%= link_to stream_item.wall.name, stream_item.wall %>
-        <% end %>
       </div>
     <% else %>
       <div class="stream-item-spacer"></div>

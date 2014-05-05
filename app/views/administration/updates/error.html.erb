@@ -1,7 +1,7 @@
 <h2><%= t('import.error_updating') %></h2>
 
 <p>
-  <%= t('import.error_updating_message_html', :url => administration_updates_path) %>
+  <%= t('import.error_updating_message_html', url: administration_updates_path) %>
 </p>
 
 <h3><%= pluralize @update.errors.length, t('import.error') %></h3>

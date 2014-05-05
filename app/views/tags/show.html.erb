@@ -3,6 +3,6 @@
 <% if @tag.verses.any? %>
   <h3><%= t('verses.verses') %></h3>
   <% @tag.verses.each do |verse| %>
-    <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
+    <%= render partial: 'verses/verse', locals: {verse: verse} %>
   <% end %>
 <% end %>

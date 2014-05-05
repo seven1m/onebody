@@ -2,26 +2,31 @@ require 'uri'
 require 'digest/md5'
 
 class Message < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'MessageAuthorizer'
+
   MESSAGE_ID_RE = /<(\d+)_([0-9abcdef]{6})_/
   MESSAGE_ID_RE_IN_BODY = /id:\s*(\d+)_([0-9abcdef]{6})/i
 
   belongs_to :group
   belongs_to :person
-  belongs_to :wall, :class_name => 'Person', :foreign_key => 'wall_id'
-  belongs_to :to, :class_name => 'Person', :foreign_key => 'to_person_id'
-  belongs_to :parent, :class_name => 'Message', :foreign_key => 'parent_id'
-  has_many :children, :class_name => 'Message', :foreign_key => 'parent_id', :conditions => 'to_person_id is null', :dependent => :destroy
-  has_many :attachments, :dependent => :destroy
-  has_many :log_items, :foreign_key => 'loggable_id', :conditions => "loggable_type = 'Message'"
+  belongs_to :to, class_name: 'Person', foreign_key: 'to_person_id'
+  belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
+  has_many :children, class_name: 'Message', foreign_key: 'parent_id', conditions: 'to_person_id is null', dependent: :destroy
+  has_many :attachments, dependent: :destroy
+  has_many :log_items, foreign_key: 'loggable_id', conditions: "loggable_type = 'Message'"
   belongs_to :site
 
   scope_by_site_id
 
+  scope :same_as, -> m { where('id != ?', m.id || 0).where(person_id: m.person_id, subject: m.subject, body: m.body, to_person_id: m.to_person_id, group_id: m.group_id).where('created_at >= ?', 1.day.ago) }
+
   validates_presence_of :person_id
   validates_presence_of :subject
-  validates_length_of :subject, :minimum => 2
+  validates_length_of :subject, minimum: 2
 
-  validates_each :to_person_id, :allow_nil => true do |record, attribute, value|
+  validates_each :to_person_id, allow_nil: true do |record, attribute, value|
     if attribute.to_s == 'to_person_id' and value and record.to and record.to.email.nil?
       record.errors.add attribute, :invalid
     end
@@ -33,13 +38,9 @@ class Message < ActiveRecord::Base
     end
   end
 
-  acts_as_logger LogItem
-
   def name
     if self.to
       "Private Message to #{to.name rescue '[deleted]'}"
-    elsif wall
-      "Post on #{wall.name_possessive rescue '[deleted]'} Wall"
     elsif parent
       "Reply to \"#{parent.subject}\" in Group #{top.group.name rescue '[deleted]'}"
     else
@@ -77,8 +78,8 @@ class Message < ActiveRecord::Base
     end
   end
 
-  validate :on => :create do |record|
-    if Message.find_by_person_id_and_subject_and_body_and_to_person_id_and_group_id(record.person_id, record.subject, record.body, record.to_person_id, record.group_id, :conditions => ['created_at >= ?', Date.today-1])
+  validate on: :create do |record|
+    if Message.same_as(self).any?
       record.errors.add :base, 'already saved' # Notifier relies on this message (don't change it)
     end
     if record.subject =~ /Out of Office/i
@@ -96,8 +97,6 @@ class Message < ActiveRecord::Base
       send_to_group
     elsif to
       send_to_person(to)
-    elsif wall
-      send_to_person(wall) if wall.get_wall_email
     end
   end
 
@@ -124,19 +123,14 @@ class Message < ActiveRecord::Base
     "#{self.id.to_s}_#{Digest::MD5.hexdigest(code.to_s)[0..5]}"
   end
 
+  # TODO remove
   def introduction(to_person)
-    if wall
-      "#{person.name} posted a message on your wall:\n#{'- ' * 24}\n"
-    else
-      ''
-    end
+    ''
   end
 
   def reply_url
     if group
       "#{Setting.get(:url, :site)}messages/view/#{self.id.to_s}"
-    elsif wall
-      "#{Setting.get(:url, :site)}people/#{person_id}#wall"
     else
       reply_subject = self.subject
       reply_subject = "RE: #{subject}" unless reply_subject =~ /^re:/i
@@ -158,9 +152,6 @@ class Message < ActiveRecord::Base
           msg << "To reply: #{reply_url}\n"
         end
       end
-    elsif wall
-      msg << "Your wall: #{Setting.get(:url, :site)}people/#{wall_id}#wall\n\n"
-      msg << "#{self.person.name_possessive} wall: #{reply_url}\n"
     end
     msg
   end
@@ -185,7 +176,7 @@ class Message < ActiveRecord::Base
   end
 
   def email_from(to_person)
-    if wall or not to_person.messages_enabled?
+    if not to_person.messages_enabled?
       "\"#{person.name}\" <#{Site.current.noreply_email}>"
     elsif group
       relay_address("#{person.name} [#{group.name}]")
@@ -195,7 +186,7 @@ class Message < ActiveRecord::Base
   end
 
   def email_reply_to(to_person)
-    if wall or not to_person.messages_enabled?
+    if not to_person.messages_enabled?
       "\"DO NOT REPLY\" <#{Site.current.noreply_email}>"
     else
       relay_address(person.name)
@@ -221,19 +212,11 @@ class Message < ActiveRecord::Base
     end until code > 0
   end
 
-  def flagged?
-    log_items.count(:id, :conditions => "flagged_on is not null") > 0
-  end
-
   def can_see?(p)
     if group and group.private?
       p.member_of?(group) or group.admin?(p)
     elsif group
       p.member_of?(group) or group.admin?(p)
-    elsif wall and not wall.wall_enabled?
-      p == wall
-    elsif wall
-      p.can_see?(wall)
     elsif to
       to == p or person == p
     else
@@ -246,7 +229,7 @@ class Message < ActiveRecord::Base
   end
 
   def streamable?
-    person_id and not to_person_id and (wall_id or group)
+    person_id and not to_person_id and group
   end
 
   after_create :create_as_stream_item
@@ -254,16 +237,15 @@ class Message < ActiveRecord::Base
   def create_as_stream_item
     return unless streamable?
     StreamItem.create!(
-      :title           => wall_id ? nil : subject,
-      :body            => html_body.to_s.any? ? html_body : body,
-      :text            => !html_body.to_s.any?,
-      :wall_id         => wall_id,
-      :person_id       => person_id,
-      :group_id        => group_id,
-      :streamable_type => 'Message',
-      :streamable_id   => id,
-      :created_at      => created_at,
-      :shared          => (!wall || wall.share_activity?) && person.share_activity? && !(group && group.hidden?)
+      title:           subject,
+      body:            html_body.to_s.any? ? html_body : body,
+      text:            !html_body.to_s.any?,
+      person_id:       person_id,
+      group_id:        group_id,
+      streamable_type: 'Message',
+      streamable_id:   id,
+      created_at:      created_at,
+      shared:          person.share_activity? && !(group && group.hidden?)
     )
   end
 
@@ -272,7 +254,7 @@ class Message < ActiveRecord::Base
   def update_stream_items
     return unless streamable?
     StreamItem.find_all_by_streamable_type_and_streamable_id('Message', id).each do |stream_item|
-      stream_item.title = wall_id ? nil : subject
+      stream_item.title = subject
       if html_body.to_s.any?
         stream_item.body = html_body
         stream_item.text = false
@@ -287,22 +269,22 @@ class Message < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(:streamable_type => 'Message', :streamable_id => id)
+    StreamItem.destroy_all(streamable_type: 'Message', streamable_id: id)
   end
 
   def self.preview(attributes)
     msg = Message.new(attributes)
-    Notifier.full_message(Person.new(:email => 'test@example.com'), msg)
+    Notifier.full_message(Person.new(email: 'test@example.com'), msg)
   end
 
   def self.create_with_attachments(attributes, files)
-    message = Message.create(attributes.update(:dont_send => true))
+    message = Message.create(attributes.update(dont_send: true))
     unless message.errors.any?
       files.select { |f| f && f.size > 0 }.each do |file|
         attachment = message.attachments.create(
-          :name         => File.split(file.original_filename).last,
-          :content_type => file.content_type,
-          :file         => file
+          name:         File.split(file.original_filename).last,
+          content_type: file.content_type,
+          file:         file
         )
         if attachment.errors.any?
           attachment.errors.each_full { |e| message.errors.add(:base, e) }
@@ -317,8 +299,8 @@ class Message < ActiveRecord::Base
 
   def self.daily_counts(limit, offset, date_strftime='%Y-%m-%d', only_show_date_for=nil)
     [].tap do |data|
-      private_counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where to_person_id is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
-      group_counts   = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where group_id     is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit} offset #{offset};").group_by { |p| Date.parse(p['date']) }
+      private_counts = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where to_person_id is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
+      group_counts   = connection.select_all("select count(date(created_at)) as count, date(created_at) as date from messages where group_id     is not null and site_id=#{Site.current.id} group by date(created_at) order by created_at desc limit #{limit.to_i} offset #{offset.to_i};").group_by { |p| Date.parse(p['date'].strftime('%Y-%m-%d')) }
       ((Date.today-offset-limit+1)..(Date.today-offset)).each do |date|
         d = date.strftime(date_strftime)
         d = ' ' if only_show_date_for and date.strftime(only_show_date_for[0]) != only_show_date_for[1]

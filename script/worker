@@ -42,38 +42,38 @@ end
 ENV["RAILS_ENV"] = options[:environment]
 
 require 'rubygems'
-require 'mysql'
+require 'mysql2'
 
-db = Mysql.connect(host, username, password, db_name)
-stmt = db.prepare("select site_id, id, command from jobs order by created_at")
-stmt.execute
+db = Mysql2::Client.new(host: host, username: username, password: password, database: db_name)
+results = db.query("select site_id, id, command from jobs order by created_at")
 
-if stmt.num_rows > 0
-  require File.dirname(__FILE__) + '/../config/environment'
-  while job = stmt.fetch
-    site_id, id, command = job
-    logger = RAILS_DEFAULT_LOGGER
+puts "#{results.count} job(s)" if options[:debug]
+
+if results.count > 0
+  require File.expand_path('../../config/environment', __FILE__)
+  results.each(as: :array) do |site_id, id, command|
+    p [site_id, id, command] if options[:debug]
+    logger = Rails.logger
     logger.info "Worker running job #{id} in site #{site_id}..."
     begin
       Site.current = Site.find(site_id)
       logger.info eval(command.gsub(/JOB_ID/, id.to_s))
+      puts 'done' if options[:debug]
     rescue => e
       logger.error(e.message)
       backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
       logger.error(backtrace)
       Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Worker Error', e.message + "\n\n" + backtrace).deliver
+      puts e.message if options[:debug]
     ensure
-      del_stmt = db.prepare("delete from jobs where id = %d" % id)
-      del_stmt.execute
-      del_stmt.close
+      db.query("delete from jobs where id = %d" % id)
     end
     logger.info "Finished job #{id}."
   end
 elsif options[:debug]
-  print 'No jobs to work.'
+  puts 'No jobs to process.'
 end
 
-stmt.close
 db.close
 
 File.delete(PID_PATH)

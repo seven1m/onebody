@@ -1,9 +1,7 @@
 class StylesController < ApplicationController
 
-  skip_before_filter :authenticate_user, :only => :show
-  before_filter :only_admins, :only => :edit
-
-  caches_action :show, :cache_path => Proc.new { |c| "style#{c.params[:browser] ? ('.'+c.params[:browser]) : ''}?id=#{Site.current.id}" }
+  skip_before_filter :authenticate_user, only: :show
+  before_filter :only_admins, only: :edit
 
   def show
     if params[:browser] == 'ie'
@@ -28,12 +26,12 @@ class StylesController < ApplicationController
     end
     css = Sass::Engine.new(
       scss,
-      :syntax => :scss,
-      :cache  => false,
-      :style  => :compressed
+      syntax: :scss,
+      cache:  false,
+      style:  :compressed
     ).render
     expires_in(1.year)
-    render :text => css, :type => 'text/css'
+    render text: css, type: 'text/css'
   end
 
   def edit
@@ -65,7 +63,7 @@ class StylesController < ApplicationController
 
     def only_admins
       unless @logged_in.super_admin?
-        render :text => t('admin.must_be_superadmin'), :layout => true, :status => 401
+        render text: t('admin.must_be_superadmin'), layout: true, status: 401
         return false
       end
     end

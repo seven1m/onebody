@@ -10,7 +10,7 @@ role :web, host
 role :db,  host, :primary => true
 
 # point to your github fork if you have one
-set :repository, "git://github.com/seven1m/onebody.git"
+set :repository, "git://github.com/churchio/onebody.git"
 set :branch, 'stable' # remove this line if you want bleeding edge or you're pointing to your own repo/fork
 set :scm, :git
 

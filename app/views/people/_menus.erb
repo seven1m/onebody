@@ -2,21 +2,15 @@
   <div id="home-tab-menu" style="display:none;">
     <ul class="popup-menu">
       <% if mobile? %><li style="width:100px"><em><%= t('menus.home.mobile_tap_again') %></em></li><% end %>
-      <li><%= link_to t('menus.home.feed'), stream_path(:format => 'xml', :code => @logged_in.feed_code), :class => 'feed-icon'    %></li>
+      <li><%= link_to t('menus.home.feed'), stream_path(format: 'xml', code: @logged_in.feed_code), class: 'feed-icon'    %></li>
       <% if Setting.get(:features, :pictures) %>
-        <li><%= link_to t('menus.home.pictures'), albums_path, :class => 'picture-icon' %></li>
+        <li><%= link_to t('menus.home.pictures'), albums_path, class: 'picture-icon' %></li>
       <% end %>
       <% if Setting.get(:features, :verses) %>
-        <li><%= link_to t('menus.home.verses'), verses_path, :class => 'verse-icon' %></li>
-      <% end %>
-      <% if Setting.get(:features, :publications) %>
-        <li><%= link_to t('menus.home.publications'), publications_path, :class => 'file-icon' %></li>
+        <li><%= link_to t('menus.home.verses'), verses_path, class: 'verse-icon' %></li>
       <% end %>
       <% if Setting.get(:features, :news_page) %>
-        <li><%= link_to t('menus.home.news'), news_path, :class => 'news-icon' %></li>
-      <% end %>
-      <% if Setting.get(:services, :sermondrop_url).to_s.any? %>
-        <li><%= link_to t('menus.kome.podcasts'), podcasts_path, :class => 'podcast-icon' %></li>
+        <li><%= link_to t('menus.home.news'), news_path, class: 'news-icon' %></li>
       <% end %>
     </ul>
   </div>
@@ -25,19 +19,17 @@
   <div id="profile-tab-menu" style="display:none;">
     <ul class="popup-menu">
       <% if mobile? %><li style="width:100px"><em><%= t('menus.profile.mobile_tap_again') %></em></li><% end %>
-      <li><%= link_to t('menus.profile.edit'),            edit_person_path(@person || @logged_in),                :class => 'edit-icon'   %></li>
-      <li><%= link_to t('menus.profile.privacy'),         edit_person_privacy_path(@person || @logged_in),        :class => 'lock-icon'   %></li>
-      <li><%= link_to t('menus.profile.email'),           edit_person_path(@person || @logged_in, :email =>true), :class => 'email-icon'  %></li>
-      <li><%= link_to t('menus.profile.password'),        edit_person_account_path(@person || @logged_in),        :class => 'dots-icon'   %></li>
-      <li><%= link_to t('menus.profile.feeds'),           person_feeds_path(@person || @logged_in),               :class => 'feed-icon'   %></li>
-      <% if @person and @logged_in.admin?(:manage_contributions) and Donortools::Persona.can_sync? and @person.donortools_admin_url %>
-        <li><%= link_to t('menus.profile.contributions'), @person.donortools_admin_url,                           :class => 'money-icon'  %></li>
-      <% end %>
+      <li><%= link_to t('menus.profile.edit'),            edit_person_path(submenu_target(@person)),          class: 'edit-icon'   %></li>
+      <li><%= link_to t('menus.profile.privacy'),         edit_person_privacy_path(submenu_target(@person)),  class: 'lock-icon'   %></li>
+      <li><%= link_to t('menus.profile.email'),           edit_person_path(submenu_target(@person)),          class: 'email-icon'  %></li>
+      <li><%= link_to t('menus.profile.password'),        edit_person_account_path(submenu_target(@person)),  class: 'dots-icon'   %></li>
       <% if @logged_in.admin?(:edit_profiles) %>
-        <li><%= link_to t('menus.profile.relationships'), person_relationships_path(@person || @logged_in),       :class => 'people-icon' %></li>
+        <li><%= link_to t('menus.profile.relationships'), person_relationships_path(submenu_target(@person)), class: 'people-icon' %></li>
         <li class="divider"></li>
-        <li><%= link_to t('menus.profile.edit_family'),   family_path(@family || (@person && @person.family_id) || @logged_in.family_id),           :class => 'edit-icon'   %></li>
-        <li><%= link_to t('menus.profile.new_family'),    new_family_path,                                        :class => 'add-icon'    %></li>
+        <% if not @family or @family.persisted? %>
+          <li><%= link_to t('menus.profile.edit_family'), family_path(submenu_target(@family || @person.try(:family), :family_id)), class: 'edit-icon' %></li>
+        <% end %>
+        <li><%= link_to t('menus.profile.new_family'),    new_family_path, class: 'add-icon' %></li>
       <% end %>
     </ul>
   </div>

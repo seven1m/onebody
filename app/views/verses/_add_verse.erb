@@ -2,8 +2,8 @@
   <%= form_for Verse.new do |form| %>
     <p>
       <%= form.label :id, t('verses.add_your_favorite_verse') %>
-      <%= text_field_tag :id, nil, :placeholder => t('verses.example_verse'), :style => 'border:1px solid #ccc;width:100px;' %>
-      <%= submit_tag t('verses.add_verse'), :style => 'width:100px;' %>
+      <%= text_field_tag :id, nil, placeholder: t('verses.example_verse'), style: 'border:1px solid #ccc;width:100px;' %>
+      <%= submit_tag t('verses.add_verse'), style: 'width:100px;' %>
     </p>
   <% end %>
 </div>

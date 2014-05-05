@@ -11,11 +11,11 @@ class CommentsController < ApplicationController
       raise 'Error.'
     end
     if @logged_in.can_see?(object)
-      object.comments.create(:person => @logged_in, :text => params[:text])
+      object.comments.create(person: @logged_in, text: params[:text])
       flash[:notice] = t('comments.saved')
       redirect_back
     else
-      render :text => t('comments.object_not_found', :name => object.class.name), :layout => true, :status => 404
+      render text: t('comments.object_not_found', name: object.class.name), layout: true, status: 404
     end
   end
 
@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
       flash[:notice] = t('comments.deleted')
       redirect_back
     else
-      render :text => t('comments.not_authorized'), :layout => true, :status => 401
+      render text: t('comments.not_authorized'), layout: true, status: 401
     end
   end
 

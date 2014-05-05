@@ -1,4 +1,8 @@
 class Comment < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'CommentAuthorizer'
+
   belongs_to :person
   belongs_to :site
 
@@ -16,8 +20,6 @@ class Comment < ActiveRecord::Base
   def name
     "Comment on #{on ? on.name : '?'}"
   end
-
-  acts_as_logger LogItem
 
   after_create :update_stream_items_on_create
 

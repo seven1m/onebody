@@ -1,4 +1,4 @@
-<%= form_for @message, :html => {:enctype => 'multipart/form-data', :id => 'message'} do |form| %>
+<%= form_for @message, html: {enctype: 'multipart/form-data', id: 'message'} do |form| %>
   <%= form.hidden_field :group_id %>
   <%= form.hidden_field :to_person_id %>
   <%= form.hidden_field :parent_id %>
@@ -10,7 +10,7 @@
       <%= form.hidden_field :subject %>
     <% end %>
     <%= form.label :body, t('messages.message') %>
-    <%= form.text_area :body, :rows => 15, :cols => 80 %><br/>
+    <%= form.text_area :body, rows: 15, cols: 80 %><br/>
     <label for="file"><%= t('messages.attachment_optional') %>:</label>
     <input type="file" id="file" name="files[]" multiple="multiple"/><br/>
     <em><%= t('multiple_files') %></em>

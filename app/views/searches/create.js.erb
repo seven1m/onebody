@@ -1,9 +1,9 @@
 <% if params[:select_person] %>
-  $('#results').html("<%= escape_javascript render(:partial => 'select_person') %>");
+  $('#results').html("<%= escape_javascript render(partial: 'select_person') %>");
   $('#add_member').show();
 
 <% elsif params[:select_family] %>
-  $('#results').html("<%= escape_javascript render(:partial => 'select_family') %>");
+  $('#results').html("<%= escape_javascript render(partial: 'select_family') %>");
   <% if @families.empty? %>
     $('#select_family_form').hide();
     $('#no_families_found').show();
@@ -14,9 +14,9 @@
 
 <% else %>
   <% if @people %>
-    $('#results').html("<%= escape_javascript render(:partial => 'results') %>");
+    $('#results').html("<%= escape_javascript render(partial: 'results') %>");
   <% elsif @families %>
-    $('#results').html("<%= escape_javascript render(:partial => 'families_results') %>");
+    $('#results').html("<%= escape_javascript render(partial: 'families_results') %>");
   <% end %>
 
 <% end %>

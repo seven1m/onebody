@@ -1,4 +1,4 @@
-<%=raw t('notifier.name_submitted_birthday_request', :name => @name) %>:
+<%=raw t('notifier.name_submitted_birthday_request', name: @name) %>:
 
 <%=raw t('name') %>: <%=raw @name %>
 <%=raw t('people.email') %>: <%=raw @email %>
@@ -11,4 +11,4 @@
 1. <%=raw t('notifier.verify_person_identity') %>
 2. <%=raw t('notifier.update_record_membership') %>
 3. <%=raw t('notifier.wait_one_day_and_wait') %>
-4. <%=raw t('notifier.click_link_to_complete_process', :url => Setting.get(:url, :site) + 'account/new?email=' + @email) %>
+4. <%=raw t('notifier.click_link_to_complete_process', url: Setting.get(:url, :site) + 'account/new?email=' + @email) %>

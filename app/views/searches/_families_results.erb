@@ -1,6 +1,6 @@
 <h2><%= t('search_results') %></h2>
 
-<p><%= t("search.families_found", :count => @count) %></p>
+<p><%= t("search.families_found", count: @search.count) %></p>
 
 <%= will_paginate @families %>
 

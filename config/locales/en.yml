@@ -70,7 +70,47 @@ en:
   errors:
     format: "%{message}"
 
-  activerecord: 
+  activemodel:
+    errors:
+      models:
+        signup:
+          attributes:
+            base:
+              disabled: Sign up is disabled.
+              spam: Sign up was completed by a robot.
+            first_name:
+              blank: First Name cannot be blank.
+            last_name:
+              blank: Last Name cannot be blank.
+            email:
+              blank: Email cannot be blank.
+            gender:
+              blank: Gender cannot be blank.
+            birthday:
+              blank: Birthday cannot be blank.
+              too_young: You are too young to sign up for this service.
+
+  activerecord:
+    attributes:
+      family:
+        name: Name
+        last_name: Last Name
+        home_phone: Home Phone
+        address1: Address Line 1
+        address2: Address Line 2
+        city: City
+        state: State
+        zip: Zipe
+      person:
+        first_name: First Name
+        last_name: Last Name
+        suffix: Suffix
+        gender: Gender
+        mobile_phone: Mobile Phone
+        work_phone: Work Phone
+        fax: Fax
+        birthday: Birthday
+        anniversary: Anniversary
     errors: 
       models: 
         admin: 
@@ -100,17 +140,6 @@ en:
               taken: This family card (barcode id) is already taken by another family.
               too_long: This family card (barcode id) is too long (cannot be more than 50 digits).
               too_short: This family card (barcode id) is too short (must be 10 digits).
-        feed: 
-          attributes: 
-            name: 
-              blank: The feed must have a name.
-              taken: There is another feed with this name. Please choose another name.
-            person_id: 
-              blank: The feed must be associated with a person.
-            url: 
-              blank: The feed must specify a URL.
-              invalid: This feed URL does not appear to be properly formatted. Did you type the address correctly? Try pasting it in instead.
-              taken: This feed already exists. You cannot add it again.
         friendship: 
           attributes: 
             friend_id: 
@@ -219,11 +248,6 @@ en:
               blank: The prayer request must be associated with a person.
             request: 
               blank: The prayer request cannot be blank.
-        publication: 
-          attributes: 
-            name: 
-              blank: The publication must have a name.
-              taken: There is another publication with this name. Please choose another name.
         recipe: 
           attributes: 
             directions: 
@@ -267,6 +291,16 @@ en:
               blank: The tag must have a name.
               exclusion: The tag name is invalid.
               taken: There is another tag with the same name.
+        verification:
+          attributes:
+            email:
+              invalid: That email address could not be found in our system. If you have another address, try again.
+            carrier:
+              inclusion: You must select a mobile carrier.
+            mobile_phone:
+              invalid: That mobile number could not be found in our system. You may try again.
+            base:
+              unauthorized: There is a problem with your record preventing you from signing in.
         verse: 
           attributes: 
             reference: 
@@ -369,9 +403,6 @@ en:
     no_api_key: You do not yet have an API key.
     no_more_admins: No more admins are allowed.
     pages: Pages
-    people_not_synced_to_donortools_count:
-      one: "1 out of sync with Donor Tools."
-      other: "%{count} out of sync with Donor Tools."
     privileges:
       view_hidden_profiles:
         title: View Hidden Profiles
@@ -397,10 +428,6 @@ en:
         title: Manage Comments
         about: "Ability to delete any site comments."
         order: 6
-      manage_contributions:
-        title: Manage Contributions
-        about: "View, edit, delete contributions (if Donor Tools is setup)."
-        order: 7
       manage_groups:
         title: Manage Groups
         about: "View, edit, delete any group (even if hidden or private)."
@@ -417,14 +444,6 @@ en:
         title: Manage Pictures
         about: "View, edit, delete any pictures and albums."
         order: 11
-      manage_prayer_signups:
-        title: Manage Prayer Signups
-        about: "Edit and delete signups for a Prayer Event."
-        order: 12
-      manage_publications:
-        title: Manage Publications
-        about: "Create and delete site publications."
-        order: 13
       manage_updates:
         title: Manage Updates
         about: "View, edit, delete pending profile updates made by users."
@@ -472,24 +491,9 @@ en:
           name: Send Updates To
           description: Email sent when someone updates their profile (can be blank for no email)
       Services: 
-        Sermondrop URL: 
-          name: Sermondrop URL
-          description: Full URL for your Sermondrop site, e.g. http://mysite.sermondrop.com/
-        Donor Tools API Password: 
-          name: Donor Tools API Password
-          description: Password of API user.
         Yahoo: 
           name: Yahoo
           description: Your Yahoo API key - https://developer.yahoo.com/wsregapp/index.php
-        Donor Tools URL: 
-          name: Donor Tools URL
-          description: Full URL for your Donor Tools site, e.g. https://mysite.donortools.com/
-        Donor Tools API Email: 
-          name: Donor Tools API Email
-          description: Email address of admin user for accessing the Donor Tools API. It is recommended you create a special "api" user for this purpose.
-        Campaign Monitor API Key: 
-          name: Campaign Monitor API Key
-          description: To sync one or more groups with Campaign Monitor subscriber lists, paste your Campaign Monitor API Key here.
         Analytics: 
           name: Analytics
           description: If you use Google Analytics or some other JavaScript-based stats service, put the code here. It will be inserted at the bottom of every page.
@@ -559,9 +563,6 @@ en:
         Custom Person Type: 
           name: Custom Person Type
           description: If enabled, admins can specify a custom type along the lines of Elder, Deacon, etc.
-        Prayer Event: 
-          name: Prayer Event
-          description: Once enabled, members will be able to see the prayer schedule and sign up for one or more hour-long time slots.
         Community Google Calendar: 
           name: Community Google Calendar
           description: The URL for the community Google Calendar.  Can be either the public or private address, but the calendar itself will need to be shared publicly in order to be included in the indivdual ("my calendar") feature.
@@ -607,9 +608,6 @@ en:
         Sidebar Group Heading: 
           name: Sidebar Group Heading
           description: Heading to show above people in mutual groups (see above setting)
-        Prayer Event First Date and Time: 
-          name: First Time Slot
-          description: Enter the date and time of the first hour-long time slot in the format 'MM/DD/YYYY HH:00'
         Reporting: 
           name: Reporting
           description: Requires MongoDB to be setup and running.
@@ -619,18 +617,12 @@ en:
         Content Management System: 
           name: Content Management System
           description: Enable "Pages" - Use OneBody to host your website.
-        Publications: 
-          name: Publications
-          description: Enable Publications.
         News Page: 
           name: News Page
           description: Enable community news page. News items can be submitted by admins and/or pulled from an RSS feed (see URL, News RSS setting).
         Verses: 
           name: Verses
           description: Enable Verse sharing.
-        Prayer Event Last Date and Time: 
-          name: Last Time Slot
-          description: Enter the date and time of the very last hour-long time slot in the format 'MM/DD/YYYY HH:00'
         Recipes: 
           name: Recipes
           description: Enable Recipe sharing.
@@ -683,7 +675,6 @@ en:
       disabled: Disabled
       enabled: Enabled
       features_heading: Software Features
-      features_prayer_event_about: "The following settings allow this site to manage signups and availability for a Prayer Event."
       formats_heading: Formats
       formats_date_about_html: "Enter your own date and time formats to match your part of the world. See <a href=\"/date_formatting_options.txt\" target=\"_new\">here</a> for formatting options."
       formats_phone_about: "Specify phone formatting with 'd', e.g. ddd-ddd-dddd or (dd) dddd-dddd, depending on your locale."
@@ -740,11 +731,18 @@ en:
       syntax_description_html: Template syntax is <a href="http://wiki.github.com/tobi/liquid/liquid-for-designers">Liquid</a>. Special template parts to insert are
       theme: Theme
     updates:
+      apply: Apply
       changed_email:
         one: "%{count} changed email address"
         other: "%{count} changed email addresses"
+      child: Is this a child?
+      child_alert: You must specify whether the person is a Child (under %{years}) or not to complete this update.
+      child_select_options:
+        '': You must select one.
+        true: 'Yes'
+        false: 'No'
       complete: Complete
-      completed: Completed
+      completed_title: Completed Updates
       groups_pending: Groups Pending Approval
       mark_complete: Mark Complete
       mark_incomplete: Mark Incomplete
@@ -753,7 +751,7 @@ en:
       pending:
         one: "%{count} pending update"
         other: "%{count} pending updates"
-      pending_title: Pending
+      pending_title: Pending Updates
       person_deleted: person deleted
       per_day: Updates Per Day
       profile_updates: Profile Updates
@@ -770,11 +768,9 @@ en:
     cannot_edit: You cannot edit this account.
     change_email_warning: After this change, all email from this site will be sent to this address. It will also be the address %{person} to sign into this site.
     check_code: Check Code
-    code_be_careful: Please be careful to enter the correct code. If you make a mistake, you will have to start over.
     create: Create Account
     date_format: MM/DD/YYYY
     description: Description
-    email_not_found: That email address could not be found in our system. If you have another address, try again.
     enter_code: Enter the code
     enter_your_email: Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site.
     fill_required_fields: Please fill in all required fields.
@@ -783,7 +779,6 @@ en:
     first_name: First Name
     last_name: Last Name
     leave_blank: Leave these fields blank if you don't want to change your password.
-    mobile_number_not_found: That mobile number could not be found in our system. You may try again.
     must_be_of_age: Must be at least %{years} years of age.
     must_set_email_pass: You must set your personal email address and password to continue.
     pending_approval: Your account is pending approval. You will receive an email once it's approved.
@@ -801,18 +796,20 @@ en:
     uses: uses
     verification_email_sent: The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)
     verification_message_sent: The verification message has been sent. Please check your phone and enter the code you receive.
+    verification_max_attempts_reached: You have exceeded the daily limit for verification attempts.
     verify: Verify Account
     verify_email: Verify Email
+    verify_code_intro: Please enter the code you received on your mobile phone.
     verify_by_email: Verify by email.
     verify_by_email_message: We send you an email, you click the link inside, and you're done. Use this to reset your password.
     verify_by_phone: Verify by mobile phone.
-    verify_by_phone_description_html: Enter your mobile phone number, select your carrier, then click the button below. If we have the number on file, a text message will be sent to it allowing you to verify yourself and gain access to this site. <strong>Text messaging rates may be charged by your carrier. <span class="very-strong">Do not start this verification process until you know what you will be charged to receive a text message!</span></strong>
+    verify_by_phone_description_html: Enter your mobile phone number, select your carrier, then click the button below. If we have the number on file, a text message will be sent to it allowing you to verify yourself and gain access to this site. <strong>Text messaging fees may apply.</strong>
     verify_by_phone_message: We send you a text message, you type the code it contains, and you're done.
     verify_by_birthday: Verify by birthday.
     verify_by_birthday_message: These submissions are reviewed by a real person and may take a few days to be approved.
     verify_mobile: Verify Mobile
     verify_who_you_are: First, we need to verify you are who you say you are. Please choose one of the following options to verify your identity. You only have to do this once, and it only takes a few minutes.
-    wrong_code: You entered the wrong code.
+    wrong_code_html: You entered the wrong code. <a href="/account/new?phone=true">Try again.</a>
     you_use: you use
     your_birthday: Birthday with Year (required)
     your_carrier_will_charge: Your mobile carrier may and probably will charge you to receive this text message. Click OK to continue.
@@ -909,47 +906,7 @@ en:
     saved: Comment saved.
     view: View
     which_picture: Which picture are you commenting on?
-  
-  contributions:
-    add_to_donor_tools_now: "Add to Donor Tools now."
-    api_not_configured_html: The Donor Tools API is not configured. Please enter the API connection details in Admin <a href="%{url}">settings</a>.
-    Contributions: Contributions
-    donation_types:
-      d1: Cash
-      d2: Check
-      d3: Credit Card
-      d4: In Kind
-      d5: PayPal
-      d6: Other
-      d7:  eCheck
-      d8: Cashier's Check
-      d9: Money Order
-      d11: ACH
-      d13: Direct Deposit
-      d14: Online Donation
-      d16: Amazon Simple Pay
-      d17: Wire Transfer
-      d18: Check (Personal)
-      d19: Check (Business)
-    go_to_donor_tools: Go to Donor Tools.
-    not_in_donor_tools: Not in Donor Tools.
-    people_not_synced:
-      one: "The following individual is not synced to Donor Tools:"
-      other: "The following individuals are not synced to Donor Tools (%{count} people):"
-    people_not_synced_count:
-      one: "1 person is not synced"
-      other: "%{count} people are not synced"
-    record_synced: This record has been synced in Donor Tools.
-    remaining:
-      one: "1 record remaining..."
-      other: "%{count} records remaining..."
-    Sync_Selected: Sync Selected
-    Sync_All: Sync All
-    Sync_to_Donor_Tools: Sync to Donor Tools
-    synced: "synced:"
-    update_donor_tools_now: update now
-    view_in_donor_tools: View this individual in Donor Tools.
-    
+
   families:
     add_members: Add Family Members
     add_existing_person_html: "Add an <em>existing</em> person to this family"
@@ -978,44 +935,6 @@ en:
     saved: Family saved.
     select_before_proceeding: Please select a family before proceeding.
     too_many: Too many at once
-
-  feeds:
-    add_a_feed: Add a Feed
-    add_the_feed: Yes, this looks right. Add the feed.
-    all: All Feeds
-    are_you_sure: Are you sure you want to remove this feed? Deleting this feed will NOT delete content (notes, pictures, etc.) that has already been imported into your account.
-    blog_name: Name of your blog
-    copy_the_url_from_bar: Copy the URL from the address bar and paste here
-    copy_your_notifications_link_html: <strong>Right-</strong>click on the link labeled "Via RSS" on the right side of the page (pictured below) and choose <strong>Copy Shortcut</strong> or <strong>Copy Link Location</strong> or similar.
-    deleted: Feed deleted.
-    description: You can import content and updates from external services, social networks, and blogs by adding "feeds" below.
-    done_html: Done! Click the <a href="%{url}">Home</a> tab to view your imported content.
-    enter_twitter_username: Enter your Twitter username here
-    error_retrieving: There was an error retrieving the feed. Please check the URL and try again.
-    facebook_notifications: Facebook Notifications
-    feeds: Feeds
-    feeds_for: Feeds for %{name}
-    flickr_url: Flickr URL
-    link_with_facebook: Link with your Facebook status updates...
-    link_with_flickr: Link with your Flickr photos...
-    link_with_twitter: Link with your Twitter updates...
-    link_with_rss: Link with your RSS feed...
-    log_into_blog: Find your blog's feed URL and paste it into the field here
-    log_into_facebook_html: <a href="http://www.facebook.com/notifications.php" target="_new">Click here</a> and log into Facebook.
-    log_into_flickr_html: Log into <a href="http://flickr.com">Flickr.com</a> and go to your photo page (click the "You" link near the top).
-    no_entries_found: No entries were found at the URL provided. Please go back and try again.
-    no_entries_found_flickr_alert: If adding a Flickr account, check that your Photos are public.
-    no_entries_found_twitter_alert: If adding a Twitter account, check that your Twitter updates aren't protected.
-    none_added: none added yet
-    note_html: "Note: content from your external feed is <strong>copied</strong> to this site with a link pointing back to the original. Comments made on imported entries are not posted back to the original. You may delete content on this site at any time and disable feed posting if you change your mind later."
-    looks_right: Does this look right?
-    paste_link_here: Paste the link here
-    please_wait: Please wait while we import your feed...
-    posted: Posted
-    preview: Preview Feed
-    sort_by_error: Sort by error count (descending)
-    sort_by_person: Sort by person
-    url: URL
 
   friends: 
     accept: Accept Friend
@@ -1061,9 +980,6 @@ en:
     by_allow_anyone_to_join: By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this "private" group.
     calendar_help: In your Google Calendar, in Calendar Settings, copy your "Private" XML Link and paste in this box to display your calendar on the group page.
     calendar_private_link: Google Calendar Private Link
-    campaign_monitor_sync: "Campaign Monitor API List ID:"
-    campaign_monitor_sync_help: To sync with a Campaign Monitor subscriber list, paste the API List ID here.
-    campaign_monitor_policy_html: 'You must follow all policies of Campaign Monitor, including <a href="http://www.campaignmonitor.com/resources/entry/558/about-permission/">permission requirements</a>.'
     cannot_remove_last_admin: You cannot remove the last group admin. You may delete the group, however.
     category: Category
     category_hint: Make your group easy to find by placing it an appropriate category.
@@ -1071,7 +987,7 @@ en:
     change_email_settings: Change Email Settings
     change_this_picture: Change This Picture
     class_link_code: "Class Link Code(s):"
-    class_link_code_hint_html: 'Useful for syncing with external systems. See <a href="https://github.com/seven1m/onebody/wiki/HowGroupMembershipWorks">here</a>. Separate multiple codes with a space.'
+    class_link_code_hint_html: 'Useful for syncing with external systems. See <a href="https://github.com/churchio/onebody/wiki/HowGroupMembershipWorks">here</a>. Separate multiple codes with a space.'
     click_save_changes_to_upload: Click "Save Changes" at the bottom of this form to upload a new picture.
     configure_email_from_group: configure email from this group
     create_a_group: Create a Group
@@ -1201,7 +1117,7 @@ en:
     import_selected_people: Import Selected People
     last: Last
     no_records_were_found: No records were found to import.
-    only_first_records_will_be_imported_html: Only the first %{count} records will be imported. For larger files, you must divide records into multiple files, or use the <a href="http://wiki.github.com/seven1m/onebody/updateagent">UpdateAgent</a> to import a large batch at once.
+    only_first_records_will_be_imported_html: Only the first %{count} records will be imported. For larger files, you must divide records into multiple files, or use the <a href="http://wiki.github.com/churchio/onebody/updateagent">UpdateAgent</a> to import a large batch at once.
     people: Import People
     record: record
     record_updated: Record updated.
@@ -1215,7 +1131,7 @@ en:
 
   layouts:
     this_is_the_fallback_template: This is the fallback template used in case your selected theme cannot be found. Please check that your Theme setting points to a real directory inside the themes/ directory.
-    powered_by_html: Powered by <a href="https://github.com/seven1m/onebody" rel="external">OneBody</a>
+    powered_by_html: Powered by <a href="https://github.com/churchio/onebody" rel="external">OneBody</a>
     privacy_policy: Privacy Policy
 
   menus:
@@ -1224,11 +1140,8 @@ en:
       mobile_tap_again: Tap button again to go to Home.
       news: news
       pictures: pictures
-      podcasts: podcasts
-      publications: publications
       verses: verses
     profile:
-      contributions: contributions
       edit: edit profile
       edit_family: edit family
       email: email settings
@@ -1278,14 +1191,11 @@ en:
     this_will_send_a_private_email_html: This will send a <em>private</em> email.
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
-    wall_not_found: Wall not found
-    wall_post: Wall Post
 
   nav: 
     directory: Directory
     groups: Groups
     home: Home
-    podcasts: Podcasts
     profile: Profile
 
   news: 
@@ -1393,7 +1303,6 @@ en:
     changes_must_be_reviewed_html: Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit.'
     changes_submitted: Changes submitted.
     child: Child
-    child_alert: You must specify whether the person is a Child (under %{years}) or not to complete this update.
     click_to_send_verification_email: Send a password setup email to this user.
     click_to_change_email_html: <a href="%{url}">Click here</a> to change this email address.
     deleted_html: This person has been deleted. You can restore the record <a href="%{url}">here</a>.
@@ -1457,7 +1366,7 @@ en:
     send_email: Send Email
     services_provided_by: Services provided by
     share_your_personal_testimony: Share your personal testimony — how you came to know Jesus Christ and how he has changed your life.
-    show_a_map_here_html: Show a map here by providing OneBody with your Yahoo Maps API key. <a href="http://github.com/seven1m/onebody/wikis/serviceapikeys">Click here</a> for help.
+    show_a_map_here_html: Show a map here by providing OneBody with your Yahoo Maps API key. <a href="http://github.com/churchio/onebody/wikis/serviceapikeys">Click here</a> for help.
     show_full_screen: show full screen
     show_hidden_groups: Show Hidden Groups
     suffix: Suffix
@@ -1517,9 +1426,6 @@ en:
     hide_my_name: "These are general community pictures — don't show my name on them (admin-only option)."
     upload: Upload!
   
-  podcasts:
-    not_configured: Sermondrop is not configured.
-
   prayer: 
     add_a_prayer_request: Add a prayer request
     add_prayer_request: Add Prayer Request
@@ -1622,32 +1528,6 @@ en:
     you_may_share_items: "You may share items with fellow members of the following groups:"
     you_must_check_agreement_statement: You must check the box indicating you agree to the statement below.
 
-  publications: 
-    add_publication: Add Publication
-    add_publication: Add Publication
-    deleted: Publication deleted.
-    description: Description
-    email_notifications: Email Notifications
-    feed: Publications Feed
-    file: File
-    files_with_acrobat_icon_html: For files with the Acrobat icon %{img}, you will need %{url} (aka "Acrobat Reader") or another program capable of viewing PDF files.
-    inform_publication_available: This is to inform you that a new publication has been added to %{site}.
-    name: Name
-    new_publication: New Publication
-    new_publication_available: New Publication Available
-    no_publications_available: There are currently no publications available.
-    notify_no_one: Notify no one
-    notify_the_group: Notify the %{group} group
-    publications: Publications
-    save_publication: Save Publication
-    saved: Publication saved.
-    start_receiving_notifications: "Recieve notifications via email when new publications are made available on this page:"
-    subscribe: Subscribe
-    subscribe_feed_html: <a href="%{url}">Subscribe</a> to Publications with your feed reader.
-    unsubscribe: Unsubscribe
-    update_notifications: Update Notifications
-    you_must_select_file: You must select a file.
-
   relationships: 
     Reciprocate: Reciprocate
     add_a_relationship: "Add a relationship:"
@@ -1721,8 +1601,8 @@ en:
     name: Name
     no_family: (no family)
     not_showing_hidden_people: (not showing hidden people)
-    people_found: 
-      one: 1 person found
+    people_found:
+      one: "1 person found"
       other: "%{count} people found"
     printed_directory: Printed Directory
     search: Directory Search
@@ -1745,7 +1625,6 @@ en:
     i_need_help: I need help.
     load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
     max_sign_in_attempts: We're sorry, but you have exceeded the maximum number of sign in attempts within a 15 minute period. You may try again in 15 minutes.
-    no_users: No Users
     password: "Password:"
     password_confirm: "Password (confirm):"
     password_doesnt_match: The password you entered doesn't match our records. Please try again.
@@ -1755,7 +1634,6 @@ en:
     sign_in_error_html: There was an error signing you in. Please <a href="%{url}">try again</a>.
     sign_out: sign out
     sign_up_or_sign_in_html: "<a href=\"%{url}\">Sign Up</a> for an account if you don't have one."
-    there_are_no_users_in_the_system: There are no users in the system.
 
   setup:
     admin_account: Admin Account
@@ -1787,21 +1665,16 @@ en:
 
   stream: 
     about_heading: Your Homepage
-    about_html: "This is your custom-built homepage — things displayed here are from people in groups with you, your family and friends."
+    about_html: "This is your custom-built homepage &mdash; things displayed here are from people in groups with you, your family and friends."
     ago: ago
     and_more: and %{length} more by %{name}...
     feed: Feed
     flickr: Flickr
-    import_blog_feed: Import Posts From Your Blog...
-    import_facebook_updates: Import your Facebook status updates...
-    import_flickr_photos: Import your Flickr photos...
-    import_twitter_updates: Import your Twitter updates...
     nothing_to_show: Right now, there's nothing to show.
     rss: RSS
     share_heading: Share With Friends
     share_something_about: Items you share here will appear on your friends and fellow group members' home pages (but no one else's).
     show: Show
-    twitter: Twitter
     where_activity_appear: This is where activity from you, your friends, and your groups will appear.
 
   styles:
@@ -1835,18 +1708,3 @@ en:
     remove_this_verse: Remove this verse from my list.
     tools: Tools
     verses: Verses
-
-  wall:
-    description: The Wall is a place for people to post friendly messages for you and others to see.
-    must_specify_two_people: Must specify exactly two people
-    newest_messages_appear_first: newest messages appear first
-    no_messages_yet: No messages yet!
-    not_found: Wall not found.
-    post_a_message: Post a message.
-    one_or_more_not_found: One or more walls not found.
-    respect_privacy: Please respect the privacy of others. Abusing the wall will get you banned from the site.
-    save_message: Save Message
-    to_send_a_private_message_html: All users will see your message; to send a private message, <a href="%{url}">click here</a>.
-    view_all_wall_messages: View all wall messages...
-    wall: Wall
-    wall_to_wall: Wall to Wall

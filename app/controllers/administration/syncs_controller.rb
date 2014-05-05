@@ -11,8 +11,8 @@ class Administration::SyncsController < ApplicationController
 
   def index
     @syncs = Sync.paginate(
-      :order  => 'created_at desc',
-      :page   => params[:page]
+      order:  'created_at desc',
+      page:   params[:page]
     )
   end
 
@@ -21,7 +21,7 @@ class Administration::SyncsController < ApplicationController
       params[:sort] = 'sync_items.status,sync_items.name'
     end
     @sync = Sync.find(params[:id])
-    @items = @sync.sync_items.paginate(:order => params[:sort], :page => params[:page])
+    @items = @sync.sync_items.paginate(order: params[:sort], page: params[:page])
     @counts = @sync.count_items
   end
 
@@ -32,10 +32,10 @@ class Administration::SyncsController < ApplicationController
       @sync.person = @logged_in
       @sync.save!
       respond_to do |format|
-        format.xml { render :xml => @sync.to_xml }
+        format.xml { render xml: @sync.to_xml }
       end
     else
-      render :text => t('not_authorized'), :status => 401
+      render text: t('not_authorized'), status: 401
     end
   end
 
@@ -45,10 +45,10 @@ class Administration::SyncsController < ApplicationController
       @sync = Sync.find(params[:id])
       @sync.update_attributes!(params[:sync])
       respond_to do |format|
-        format.xml { render :xml => @sync.to_xml }
+        format.xml { render xml: @sync.to_xml }
       end
     else
-      render :text => t('not_authorized'), :status => 401
+      render text: t('not_authorized'), status: 401
     end
   end
 
@@ -60,10 +60,10 @@ class Administration::SyncsController < ApplicationController
         @sync.sync_items.create!(item)
       end
       respond_to do |format|
-        format.xml { render :xml => @sync.to_xml }
+        format.xml { render xml: @sync.to_xml }
       end
     else
-      render :text => t('not_authorized'), :status => 401
+      render text: t('not_authorized'), status: 401
     end
   end
 
@@ -71,7 +71,7 @@ class Administration::SyncsController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:manage_sync)
-        render :text => t('only_admins'), :layout => true, :status => 401
+        render text: t('only_admins'), layout: true, status: 401
         return false
       end
     end

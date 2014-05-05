@@ -1,17 +1,21 @@
 class Picture < ActiveRecord::Base
+
+  include Authority::Abilities
+  include AbilityConcern
+  self.authorizer_name = 'PictureAuthorizer'
+
   belongs_to :album
   belongs_to :person
   belongs_to :site
-  has_many :comments, :dependent => :destroy
+  has_many :comments, dependent: :destroy
 
   scope_by_site_id
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
-  acts_as_logger LogItem
 
   validates_presence_of :album_id
-  validates_attachment_size :photo, :less_than => PAPERCLIP_PHOTO_MAX_SIZE
-  validates_attachment_content_type :photo, :content_type => PAPERCLIP_PHOTO_CONTENT_TYPES
+  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
+  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
 
   def name
     "Picture #{id}#{album ? ' in Album ' + album.name : nil}"
@@ -26,8 +30,9 @@ class Picture < ActiveRecord::Base
       raise ErrorRotatingPhoto.new('Invalid degree value.')
     end
     tmp = Tempfile.new(['photo', File.extname(photo.path)])
-    size = `convert #{photo.path} -rotate #{degrees} #{tmp.path} && stat -c %s #{tmp.path}`
-    if size.to_i > 0
+    if img = MiniMagick::Image.open(photo.path) and img.valid?
+      img.rotate(degrees)
+      img.write(tmp.path)
       self.photo = tmp
       save!
       tmp.delete
@@ -37,29 +42,45 @@ class Picture < ActiveRecord::Base
     end
   end
 
+  # return the next picture in this album
+  # if this is the last picture in the album, return the first
+  def next
+    album.pictures.order(:id).where('id > ?', id).first ||
+    album.pictures.order(:id).first
+  end
+
+  # return the previous picture in this album
+  # if this is the first picture in the album, return the last
+  def prev
+    album.pictures.order(:id).where('id < ?', id).last ||
+    album.pictures.order(:id).last
+  end
+
   def photo_extension
-    File.extname(photo.original_filename).sub(/^\.+/, '')
+    if filename = photo.try(:original_filename)
+      File.extname(filename).sub(/^\.+/, '')
+    end
   end
 
   after_create :create_as_stream_item
 
   def create_as_stream_item
-    return unless person
-    if last_stream_item = StreamItem.last(:conditions => ["person_id = ? and created_at <= ?", person_id, created_at], :order => 'created_at') \
+    return unless person and (photo? or Rails.env.test?)
+    if last_stream_item = StreamItem.where("person_id = ? and created_at <= ?", person_id, created_at).order('created_at').last \
       and last_stream_item.streamable == album
       last_stream_item.context['picture_ids'] << [id, photo.fingerprint, photo_extension]
       last_stream_item.created_at = created_at
       last_stream_item.save!
     else
       StreamItem.create!(
-        :title           => album.name,
-        :context         => {'picture_ids' => [[id, photo.fingerprint, photo_extension]]},
-        :person_id       => person_id,
-        :group_id        => album.group_id,
-        :streamable_type => 'Album',
-        :streamable_id   => album_id,
-        :created_at      => created_at,
-        :shared          => album.group_id || person.share_activity? ? true : false
+        title:           album.name,
+        context:         {'picture_ids' => [[id, photo.fingerprint, photo_extension]]},
+        person_id:       person_id,
+        group_id:        'Group' === album.owner_type ? album.owner_id : nil,
+        streamable_type: 'Album',
+        streamable_id:   album_id,
+        created_at:      created_at,
+        shared:          album.group || person.share_activity? ? true : false
       )
     end
   end

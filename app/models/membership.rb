@@ -1,13 +1,15 @@
 class Membership < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'MembershipAuthorizer'
+
   belongs_to :group
   belongs_to :person
   belongs_to :site
 
-  validates_uniqueness_of :group_id, :scope => [:site_id, :person_id]
+  validates_uniqueness_of :group_id, scope: [:site_id, :person_id]
 
   scope_by_site_id
-
-  acts_as_logger LogItem
 
   def family; person.family; end
 

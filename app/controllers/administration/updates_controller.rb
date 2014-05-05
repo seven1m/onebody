@@ -2,42 +2,16 @@ class Administration::UpdatesController < ApplicationController
   before_filter :only_admins
 
   def index
-    @updates = Update.paginate(
-      :page       => params[:page],
-      :conditions => ['complete = ?', params[:complete] == 'true'],
-      :order      => 'created_at desc'
-    )
-    @unapproved_groups = Group.find_all_by_approved(false)
+    @updates = toggle(Update).order('created_at desc').page(params[:page])
+    @unapproved_groups = Group.unapproved
   end
 
   def update
     @update = Update.find(params[:id])
-    if params[:complete] == 'true'
-      if params[:commit]
-        if params[:update] and %w(true false).include?(params[:update][:child])
-          @update.child = (params[:update][:child] == 'true')
-        elsif @update.birthday and @update.birthday.year == 1800
-          flash[:warning] = t('people.child_alert', :years => Setting.get(:system, :adult_age))
-          redirect_to administration_updates_path
-          return
-        end
-        if @update.do!
-          @update.update_attribute(:complete, true)
-          if params[:review]
-            redirect_to edit_person_path(@update.person, :anchor => 'basics')
-          else
-            redirect_to administration_updates_path
-          end
-        else
-          render :action => 'error', :status => 500
-        end
-      else
-        @update.update_attribute(:complete, true)
-        redirect_to administration_updates_path
-      end
-    else
-      @update.update_attribute(:complete, false)
+    if @update.update_attributes!(update_params)
       redirect_to administration_updates_path
+    else
+      render action: 'index'
     end
   end
 
@@ -49,11 +23,25 @@ class Administration::UpdatesController < ApplicationController
 
   private
 
-    def only_admins
-      unless @logged_in.admin?(:manage_updates)
-        render :text => t('only_admins'), :layout => true, :status => 401
-        return false
-      end
+  def update_params
+    params.require(:update).permit(:complete, :apply, :child)
+  end
+
+  def toggle(klass)
+    if params[:complete] == 'true'
+      @complete = true
+      klass.complete
+    else
+      @complete = false
+      klass.pending
     end
+  end
+
+  def only_admins
+    unless @logged_in.admin?(:manage_updates)
+      render text: t('only_admins'), layout: true, status: 401
+      return false
+    end
+  end
 
 end

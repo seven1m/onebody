@@ -1,12 +1,15 @@
 class NewsItem < ActiveRecord::Base
-  has_many :comments, :dependent => :destroy
+
+  include Authority::Abilities
+  self.authorizer_name = 'NewsItemAuthorizer'
+
+  has_many :comments, dependent: :destroy
   belongs_to :person
   belongs_to :site
 
   scope_by_site_id
-  acts_as_logger LogItem
 
-  attr_accessible :title, :body
+  scope :active, -> { where(active: true) }
 
   def name; title; end
 
@@ -20,14 +23,14 @@ class NewsItem < ActiveRecord::Base
 
   def create_as_stream_item
     StreamItem.create!(
-      :title           => title,
-      :body            => body,
-      :person_id       => person_id,
-      :context         => link.to_s.any? ? {'original_url' => link} : {},
-      :streamable_type => 'NewsItem',
-      :streamable_id   => id,
-      :created_at      => published,
-      :shared          => true
+      title:           title,
+      body:            body,
+      person_id:       person_id,
+      context:         link.to_s.any? ? {'original_url' => link} : {},
+      streamable_type: 'NewsItem',
+      streamable_id:   id,
+      created_at:      published,
+      shared:          true
     )
   end
 
@@ -44,7 +47,7 @@ class NewsItem < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(:streamable_type => 'NewsItem', :streamable_id => id)
+    StreamItem.destroy_all(streamable_type: 'NewsItem', streamable_id: id)
   end
 
   class << self
@@ -69,7 +72,6 @@ class NewsItem < ActiveRecord::Base
     def get_feed_items
       urls = []
       urls << Setting.get(:url, :news_feed) if Setting.get(:url, :news_feed).to_s.any?
-      urls << "#{Setting.get(:services, :sermondrop_url).sub(/\/$/, '')}/sermons.rss" if Setting.get(:services, :sermondrop_url).to_s.any?
       urls.map do |url|
         next unless url.to_s.any?
         begin

@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.1.1
+bundler_args: --without development production
+script:
+  - RAILS_ENV=test bundle exec rake --trace db:migrate test
+before_script:
+  - "echo -e 'test:\\n  adapter: mysql2\\n  database: onebody_test\\n  username: travis\\n  encoding: utf8' > config/database.yml && echo -e 'test:\\n  secret_token: abc123' > config/secrets.yml"
+  - mysql -e 'create database onebody_test'

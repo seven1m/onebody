@@ -1,21 +1,20 @@
 class Page < ActiveRecord::Base
 
+  include Authority::Abilities
+  self.authorizer_name = 'PageAuthorizer'
+
   UNPUBLISHED_PAGES = %w(sign_up_header sign_up_verify)
 
-  belongs_to :parent, :class_name => 'Page'
-  has_many :children, :class_name => 'Page', :foreign_key => 'parent_id', :dependent => :destroy
-  has_many :attachments
+  belongs_to :parent, class_name: 'Page'
+  has_many :children, class_name: 'Page', foreign_key: 'parent_id', dependent: :destroy
   belongs_to :site
 
   scope_by_site_id
-  acts_as_logger LogItem
-
-  attr_accessible :slug, :title, :body, :parent_id, :parent, :path, :published, :navigation, :raw
 
   validates_presence_of :slug, :title, :body
-  validates_uniqueness_of :path, :scope => :site_id
-  validates_exclusion_of :slug, :in => %w(admin edit new)
-  validates_format_of :slug, :with => /^[a-z][a-z_]*$/
+  validates_uniqueness_of :path, scope: :site_id
+  validates_exclusion_of :slug, in: %w(admin edit new)
+  validates_format_of :slug, with: /\A[a-z0-9][a-z0-9_]*\z/
 
   before_save :update_path
 
@@ -88,7 +87,7 @@ class Page < ActiveRecord::Base
     end
 
     def find_by_path(path)
-      find(:first, :conditions => ['path = ?', normalize_path(path)])
+      where(path: normalize_path(path)).first
     end
 
     def normalize_path(path)

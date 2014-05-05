@@ -1,4 +1,4 @@
-<%=raw t('notifier.person_wants_to_be_your_friend', { :name => @person.name, :site => Setting.get(:name, :site) } ) %>
+<%=raw t('notifier.person_wants_to_be_your_friend', { name: @person.name, site: Setting.get(:name, :site) } ) %>
 
 <%=raw t('notifier.to_accept_or_decline') %>:
 <%=raw Setting.get(:url, :site) %>people/<%= @friend.id %>/friends

@@ -1,14 +1,20 @@
 <% content_for :sidebar do %>
   <h2>
-    <% if params[:complete] %><%= t('admin.updates.completed') %><% else %><%= t('admin.updates.pending_title') %><% end %>
-    Updates
+    <% if @complete %>
+      <%= t('admin.updates.completed_title') %>
+    <% else %>
+      <%= t('admin.updates.pending_title') %>
+    <% end %>
   </h2>
-  <p><%= link_to t('admin.updates.show_status', :status => params[:complete] ? t('admin.updates.pending_title') : t('admin.updates.complete')), :complete => params[:complete].nil? %></p>
+  <p><%= link_to t('admin.updates.show_status', status: @complete ? t('admin.updates.pending_title') : t('admin.updates.complete')), complete: !@complete %></p>
 
   <% if @logged_in.admin?(:manage_groups) %>
     <h3><%= t('admin.updates.groups_pending') %></h3>
-    <% if not params[:complete] and @unapproved_groups.any? %>
-      <p><%= t('groups.following_are_pending_approval', :count => @unapproved_groups.length) %> <%= raw @unapproved_groups.map { |g| link_to(h(g.name), group_path(:id => g)) }.join(', ') %></p>
+    <% if not @complete and @unapproved_groups.any? %>
+      <p>
+        <%= t('groups.following_are_pending_approval', count: @unapproved_groups.length) %>
+        <%= raw @unapproved_groups.map { |g| link_to(g.name, g) }.join(', ') %>
+      </p>
     <% else %>
       <p><%= t('admin.updates.none') %></p>
     <% end %>
@@ -17,97 +23,53 @@
 
 <h3><%= t('admin.updates.profile_updates') %></h3>
 
-<%= will_paginate @updates, :params => {:complete => params[:complete]} %>
+<%= will_paginate @updates, params: {complete: !@complete} %>
 
 <table class="spaced">
   <% @updates.each do |update| %>
     <tr>
       <td>
-        <% if update.person %>
-          <a href="<%= person_path(update.person) %>">
-            <%= render :partial => 'people/thumbnail', :locals => {:person => update.person} %>
-          </a>
-        <% else %>
-          <%= image_tag 'clean/manoutline.tn.png', :alt => '(' + t('admin.updates.person_deleted') + ')', :class => 'icon thumbnail' %>
-        <% end %>
+        <%= render partial: 'people/thumbnail', locals: {person: update.person} %>
       </td>
       <td class="update">
         <p>
           <% if update.person %>
-            <%= link_to update.person.name, person_path(:id => update.person) %>
+            <%= link_to update.person.name, update.person %>
           <% else %>
-            '(<%= t('admin.updates.person_deleted') %>)'
+            (<%= t('admin.updates.person_deleted') %>)
           <% end %>
           <%= t('admin.updates.updated') %>
           <%= update.created_at.to_s %>
-          <% if update.complete %>
-            <%= link_to t('admin.updates.mark_incomplete'), administration_update_path(update, :complete => false), :method => 'put' %>
-          <% else %>
-            <%= link_to t('admin.updates.mark_complete'), administration_update_path(update, :complete => true), :method => 'put' %> |
-            <%= link_to t('Delete'), administration_update_path(update), :method => 'delete', :confirm => t('are_you_sure') %>
-          <% end %>
         </p>
-        <%= form_for update, :url => administration_update_path(update), :method => 'put' do |form| %>
-          <%= hidden_field_tag :complete, true %>
+        <%= form_for update, url: administration_update_path(update) do |form| %>
+          <%= hidden_field_tag 'update[apply]', true %>
           <table>
-            <% if update.family_name      %><tr class="update-row"><td><%= t('families.name')          %>:</td><td><%= update.family.name                               %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.family_name                        %></td></tr><% end %>
-            <% if update.family_last_name %><tr class="update-row"><td><%= t('families.last_name')     %>:</td><td><%= update.family.last_name                          %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.family_last_name                   %></td></tr><% end %>
-            <% if update.first_name       %><tr class="update-row"><td><%= t('accounts.first_name')    %>:</td><td><%= update.person.first_name                         %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.first_name                         %></td></tr><% end %>
-            <% if update.last_name        %><tr class="update-row"><td><%= t('accounts.last_name')     %>:</td><td><%= update.person.last_name                          %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.last_name                          %></td></tr><% end %>
-            <% if update.home_phone       %><tr class="update-row"><td><%= t('privacies.home_phone')   %>:</td><td><%= format_phone update.family.home_phone            %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.home_phone            %></td></tr><% end %>
-            <% if update.mobile_phone     %><tr class="update-row"><td><%= t('privacies.mobile_phone') %>:</td><td><%= format_phone update.person.mobile_phone, :mobile %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.mobile_phone, :mobile %></td></tr><% end %>
-            <% if update.work_phone       %><tr class="update-row"><td><%= t('privacies.work_phone')   %>:</td><td><%= format_phone update.person.work_phone            %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.work_phone            %></td></tr><% end %>
-            <% if update.fax              %><tr class="update-row"><td><%= t('privacies.fax')          %>:</td><td><%= format_phone update.person.fax                   %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= format_phone update.fax                   %></td></tr><% end %>
-            <% if update.address1         %><tr class="update-row"><td><%= t('privacies.address')      %>:</td><td><%= update.family.address1                           %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.address1                           %></td></tr><% end %>
-            <% if update.address2         %><tr class="update-row"><td><%= t('privacies.address2')     %>:</td><td><%= update.family.address2                           %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.address2                           %></td></tr><% end %>
-            <% if update.city             %><tr class="update-row"><td><%= t('search.city')            %>:</td><td><%= update.family.city                               %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.city                               %></td></tr><% end %>
-            <% if update.state            %><tr class="update-row"><td><%= t('search.state')           %>:</td><td><%= update.family.state                              %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.state                              %></td></tr><% end %>
-            <% if update.zip              %><tr class="update-row"><td><%= t('search.zip')             %>:</td><td><%= update.family.zip                                %></td><td><div class="right-icon" style="width:10px;height:16px;"></td><td><%= update.zip                                %></td></tr><% end %>
-            <% if update.birthday         %>
-              <tr class="update-row">
-                <td><%= t('search.birthday') %>:</td>
-                <td><%= update.person.birthday && update.person.birthday.to_s(:date) %></td>
-                <td><div class="right-icon" style="width:10px;height:16px;"></td>
-                <td><% unless update.birthday.year == 1800 %><%= update.birthday.to_s(:date) %><% end %></td>
-              </tr>
+            <% update.diff[:person].each do |key, (before, after)| %>
+              <%= update_row(update.person, key, before, after) %>
             <% end %>
-            <% if !update.complete? and update.birthday and update.birthday.year == 1800 %>
-              <%# We're blanking out the birthday -- must know whether this is a child %>
+            <% update.diff[:family].each do |key, (before, after)| %>
+              <%= update_row(update.family, key, before, after) %>
+            <% end %>
+            <% if update.require_child_designation? %>
               <tr>
-                <td><%= t('people.child') %>:</td>
-                <td></td>
-                <td></td>
-                <td>
-                  <%= form.select :child, ['', [t('Answer_yes'), true], [t('Answer_no'), false]] %>
+                <td colspan="4">
+                  <p><%= t('admin.updates.child_alert', years: Setting.get(:system, :adult_age)) %></p>
+                  <p>
+                    <label for="update_child" class="inline"><%= t('admin.updates.child') %></label>
+                    <%= select_tag 'update[child]', options_for_select(t('admin.updates.child_select_options').invert) %>
+                  </p>
                 </td>
               </tr>
             <% end %>
-            <% if update.anniversary %>
-              <tr class="update-row">
-                <td><%= t('privacies.anniversary') %>:</td>
-                <td><%= update.person.anniversary && update.person.anniversary.to_s(:date) %></td>
-                <td><div class="right-icon" style="width:10px;height:16px;"></td>
-                <td><% unless update.anniversary.year == 1800 %><%= update.anniversary.to_s(:date) %><% end %></td>
-              </tr>
-            <% end %>
-            <% update.custom_fields_as_hash.each do |key, val| %>
-              <% if val %>
-                <tr>
-                  <td><%= key %>:</td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <%= val %>
-                  </td>
-                </tr>
-              <% end %>
-            <% end %>
-            <tr>
-              <td></td>
-              <td colspan="3">
-                <%= check_box_tag 'review', true, false %>
-                <%= label_tag 'review', t('admin.updates.review_changes'), :class => 'inline' %><br/>
-                <%= form.submit t('Update') %>
+            <tr class="actions">
+              <td colspan="4">
+                <% if update.complete %>
+                  <%= link_to t('admin.updates.mark_incomplete'), administration_update_path(update, 'update[complete]' => false), method: 'put', class: 'button' %>
+                <% else %>
+                  <%= link_to_function t('admin.updates.apply'), "$(this).parents('form')[0].submit()", class: 'button primary' %>
+                  <%= link_to t('admin.updates.mark_complete'), administration_update_path(update, 'update[complete]' => true), method: 'put', class: 'button' %>
+                <% end %>
+                <%= link_to t('Delete'), administration_update_path(update), method: 'delete', confirm: t('are_you_sure'), class: 'button' %>
               </td>
             </tr>
           </table>
@@ -117,19 +79,8 @@
   <% end %>
 </table>
 
-<%= will_paginate @updates, :params => {:complete => params[:complete]} %>
+<%= will_paginate @updates, params: {complete: !@complete} %>
 
 <% if @updates.empty? %>
   <p><em><%= t('admin.updates.no_updates') %>!</em></p>
 <% end %>
-
-<script type="text/javascript">
-  $('.update-row').each(function(){
-    var elm = $(this);
-    var old_val = elm.children('td:eq(1)').html()
-    var new_val = elm.children('td:eq(3)').html()
-    if(old_val != new_val) {
-      elm.append('<td><span class="alert-icon"></span></td>')
-    }
-  });
-</script>

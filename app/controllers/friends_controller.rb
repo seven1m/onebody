@@ -1,9 +1,6 @@
 class FriendsController < ApplicationController
 
-  cache_sweeper :friendship_request_sweeper, :only => %w(create update destroy)
-  cache_sweeper :friendship_sweeper, :only => %w(create update destroy)
-
-  before_filter :person_must_be_user, :except => %w(index)
+  before_filter :person_must_be_user, except: %w(index)
 
   def index
     @person = Person.find(params[:person_id])
@@ -11,7 +8,7 @@ class FriendsController < ApplicationController
       @pending = me? ? @person.pending_friendship_requests : []
       @friendships = @person.friendships.all.select { |f| f.friend and @logged_in.can_see?(f.friend) }
     else
-      render :text => t('people.not_found'), :layout => true, :status => 404
+      render text: t('people.not_found'), layout: true, status: 404
     end
   end
 
@@ -39,7 +36,7 @@ class FriendsController < ApplicationController
       flash[:notice] = t('people.friendship_rejected')
       redirect_to person_friends_path(@person)
     else
-      render :text => t('people.friendship_must_specify'), :layout => true, :status => 500
+      render text: t('people.friendship_must_specify'), layout: true, status: 500
     end
   end
 
@@ -50,7 +47,7 @@ class FriendsController < ApplicationController
       @friendship.destroy
       redirect_to person_friends_path(@person)
     else
-      render :text => t('people.friend_not_found'), :layout => true, :status => 404
+      render text: t('people.friend_not_found'), layout: true, status: 404
     end
   end
 
@@ -61,14 +58,14 @@ class FriendsController < ApplicationController
         f.update_attribute :ordering, index
       end
     end
-    render :nothing => true
+    render nothing: true
   end
 
   private
 
     def person_must_be_user
       unless @logged_in.id == params[:person_id].to_i
-        render :text => t('people.friendship_manage'), :layout => true, :status => 401
+        render text: t('people.friendship_manage'), layout: true, status: 401
         return false
       end
     end

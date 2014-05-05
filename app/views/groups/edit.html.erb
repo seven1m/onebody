@@ -1,10 +1,10 @@
 <% content_for :sidebar do %>
-  <p><%= link_to t('groups.back_to_group', :name => @group.name), @group, :class => 'left-icon' %></p>
+  <p><%= link_to t('groups.back_to_group', name: @group.name), @group, class: 'left-icon' %></p>
   <p class="double-margin-top">
-    <%= link_to t('groups.edit_members'), group_memberships_path(@group), :class => 'edit-icon' %>
+    <%= link_to t('groups.edit_members'), group_memberships_path(@group), class: 'edit-icon' %>
   </p>
 <% end %>
 
 <h2><%= t('groups.edit_group') %></h2>
 
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>

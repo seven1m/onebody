@@ -1,5 +1,5 @@
 class Admin < ActiveRecord::Base
-  has_many :people, :dependent => :nullify
+  has_many :people, dependent: :nullify
   def person; people.first; end # only admin templates have more than one
 
   belongs_to :site
@@ -16,7 +16,7 @@ class Admin < ActiveRecord::Base
     !template_name.nil?
   end
 
-  validates_uniqueness_of :template_name, :allow_nil => true, :scope => :site_id
+  validates_uniqueness_of :template_name, allow_nil: true, scope: :site_id
 
   before_save :ensure_flags_is_hash
 
@@ -62,6 +62,10 @@ class Admin < ActiveRecord::Base
       end
     end
     alias_method :add_privilege, :add_privileges
+
+    def destroy_orphaned
+      destroy_all '(select count(*) from people where people.admin_id = admins.id) = 0'
+    end
   end
 
   add_privileges *%w(
@@ -72,13 +76,11 @@ class Admin < ActiveRecord::Base
     manage_access
     manage_attendance
     manage_comments
-    manage_contributions
     manage_groups
     manage_news
     manage_notes
     manage_pictures
     manage_prayer_signups
-    manage_publications
     manage_sync
     manage_updates
     view_hidden_profiles

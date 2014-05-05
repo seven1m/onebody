@@ -1,24 +1,13 @@
-# Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include TagsHelper
   include PicturesHelper
   include PhotosHelper
+  include ERB::Util
 
   def banner_message
     if Setting.get(:features, :banner_message).to_s.any?
-      CGI.escapeHTML(Setting.get(:features, :banner_message))
+      h(Setting.get(:features, :banner_message))
     end
-  end
-
-  def head_tags
-    (
-      '<meta http-equiv="content-type" content="text/html; charset=utf-8"/>' + \
-      '<meta http-equiv="Pragma" content="no-cache"/>' + \
-      '<meta http-equiv="no-cache"/>' + \
-      '<meta http-equiv="Expires" content="-1"/>' + \
-      '<meta http-equiv="Cache-Control" content="no-cache"/>' + \
-      (mobile? ? '<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>' : '')
-    ).html_safe
   end
 
   def mobile?
@@ -43,37 +32,19 @@ module ApplicationHelper
                    Setting.get(:appearance, :theme_nav_color).to_s
     if browser == :ie
       path = 'public/stylesheets/style.ie.scss'
-      browser_style_path(:browser => :ie) + '?' + cached_mtime_for_path(path) + theme_colors
+      browser_style_path(browser: :ie) + '?' + cached_mtime_for_path(path) + theme_colors
     elsif browser == :mobile
       path = 'public/stylesheets/style.mobile.scss'
-      browser_style_path(:browser => :mobile) + '?' + cached_mtime_for_path(path) + theme_colors
+      browser_style_path(browser: :mobile) + '?' + cached_mtime_for_path(path) + theme_colors
     else
       path = 'public/stylesheets/style.scss'
       style_path + '?' + cached_mtime_for_path(path) + theme_colors
     end
   end
 
-  def stylesheet_tags
-    stylesheet_link_tag(stylesheet_path) + "\n" + \
-    stylesheet_link_tag('print.css', :media => 'print') + "\n" + \
-    (mobile? ? (stylesheet_link_tag(stylesheet_path(:mobile)) + "\n") : '') + \
-    "<!--[if lte IE 8]>\n".html_safe + \
-      stylesheet_link_tag(stylesheet_path(:ie)) + "\n" + \
-    "<![endif]-->".html_safe
-  end
-
-  def javascript_tags
-    javascript_include_tag('jquery-1.4.4.min', 'jquery-ui-1.8.7.custom.min', 'jquery.qtip-1.0.0-rc3.min.js', 'rails', 'application', :cache => true) + "\n" + \
-    csrf_meta_tag + "\n" + \
-    "<!--[if lte IE 8]>\n".html_safe + \
-      javascript_include_tag('ie') + "\n" + \
-    "<![endif]-->\n".html_safe + \
-    "<script type=\"text/javascript\">logged_in = #{@logged_in ? @logged_in.id : 'null'}</script>".html_safe
-  end
-
   def heading
     if Site.current.logo.exists? and @hide_logo.nil?
-      link_to(image_tag(Site.current.logo.url(:layout), :alt => Setting.get(:name, :site)), '/')
+      link_to(image_tag(Site.current.logo.url(:layout), alt: Setting.get(:name, :site)), '/')
     else
       Setting.get(:name, :site)
     end
@@ -86,63 +57,31 @@ module ApplicationHelper
   end
 
   def tab_link(title, url, active=false, id=nil)
-    link_to(title, url, :class => active ? 'active button' : 'button', :id => id)
-  end
-
-  def nav_links
-    html = ''
-    html << "<li>#{tab_link t("nav.home"), stream_path, params[:controller] == 'streams', 'home-tab'}</li>"
-    if @logged_in
-      profile_link = person_path(@logged_in, :tour => params[:tour])
-    else
-      profile_link = people_path
-    end
-    html << "<li><div>#{tab_link t("nav.profile"), profile_link, params[:controller] == 'people' && me?, 'profile-tab'}</div></li>"
-    if Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
-      html << "<li>#{ tab_link t("nav.groups"), groups_path, params[:controller] == 'groups', 'group-tab'}</li>"
-    end
-    html << "<li>#{tab_link t("nav.directory"), new_search_path, %w(searches printable_directories).include?(params[:controller]), 'directory-tab'}</li>"
-    html
-  end
-
-  def common_nav_links
-    html = ''
-    if @logged_in
-      html << "<li>#{link_to t("admin.admin"), admin_path}</li>" if @logged_in.admin?
-      html << "<li>#{link_to t("session.sign_out"), session_path, :method => :delete}</li>"
-    end
-    html
+    link_to(title, url, class: active ? 'active button' : 'button', id: id)
   end
 
   def menu_content
-    render :partial => 'people/menus'
+    render partial: 'people/menus'
   end
 
   def search_form
-    form_tag(search_path, :method => :get) do
-      text_field_tag('name', nil, :id => 'search_name', :size => 20, :placeholder => t('search.search_by_name'))
+    form_tag(search_path, method: :get) do
+      text_field_tag('name', nil, id: 'search_name', size: 20, placeholder: t('search.search_by_name'))
     end
   end
 
   def notice
     if flash[:warning] or flash[:notice]
-      <<-HTML
-        <div id="notice" #{flash[:warning] ? 'class="warning"' : nil}>#{flash[:warning] || flash[:notice]}</div>
-        <script type="text/javascript">
-          #{flash[:sticky_notice] ? '' : "$('#notice').fadeOut(15000);"}
-        </script>
-      HTML
+      html = content_tag(:div, id: "notice", class: flash[:warning] ? 'warning' : nil) do
+        flash[:warning] || flash[:notice]
+      end
+      unless flash[:sticky_notice]
+        html << content_tag(:script, type: "text/javascript") do
+          "$('#notice').fadeOut(15000);"
+        end
+      end
+      html.html_safe
     end
-  end
-
-  def footer_content
-    "&copy; #{Date.today.year}, #{Setting.get(:name, :community)} &middot; " + \
-    "<a href=\"/pages/help/privacy_policy\">#{t('layouts.privacy_policy')}</a> &middot; " + \
-    t('layouts.powered_by_html')
-  end
-
-  def news_js
-    nil # not used any more
   end
 
   def analytics_js
@@ -194,9 +133,9 @@ module ApplicationHelper
     groupings = [3, 3, 4] unless groupings.length == 3
     ActionController::Base.helpers.number_to_phone(
       phone,
-      :area_code => format.index('(') ? true : false,
-      :groupings => groupings,
-      :delimiter => format.reverse.match(/[^d]/).to_s
+      area_code: format.index('(') ? true : false,
+      groupings: groupings,
+      delimiter: format.reverse.match(/[^d]/).to_s
     )
   end
 
@@ -236,14 +175,14 @@ module ApplicationHelper
   def render_plugin_hook(name)
     if hooks = PLUGIN_HOOKS[name]
       hooks.map do |hook|
-        render :partial => hook
+        render partial: hook
       end.join("\n").html_safe
     end
   end
 
   def bar_chart_url(data, options={})
     options.symbolize_keys!
-    options.reverse_merge!(:set_count => 1, :set_labels => nil, :width => 400, :height => 200, :title => '', :colors => ['4F9EC9', '79B933', 'FF9933'])
+    options.reverse_merge!(set_count: 1, set_labels: nil, width: 400, height: 200, title: '', colors: ['4F9EC9', '79B933', 'FF9933'])
     labels = data.map { |p| p[0] }
     counts = []
     (0...options[:set_count]).each do |set|
@@ -255,7 +194,7 @@ module ApplicationHelper
 
   def pie_chart_url(data, options={})
     options.symbolize_keys!
-    options.reverse_merge!(:width => 350, :height => 200, :title => '', :colors => ['4F9EC9', '79B933', 'FF9933'])
+    options.reverse_merge!(width: 350, height: 200, title: '', colors: ['4F9EC9', '79B933', 'FF9933'])
     if data
       labels = data.keys
       counts = labels.inject([]) { |a, l| a << data[l]; a }
@@ -269,15 +208,25 @@ module ApplicationHelper
   def sortable_column_heading(label, sort, keep_params=[])
     new_sort = (sort.split(',') + params[:sort].to_s.split(',')).uniq.join(',')
     options = {
-      :controller => params[:controller],
-      :action     => params[:action],
-      :id         => params[:id],
-      :sort       => new_sort
+      controller: params[:controller],
+      action:     params[:action],
+      id:         params[:id],
+      sort:       new_sort
     }.merge(
       params.reject { |k, v| !keep_params.include?(k) }
     )
     url = url_for(options)
     link_to label, url
+  end
+
+  # prefer the object passed in, unless the object is nil or not yet persisted to disk
+  # fallback is @logged_in.id (default) or @logged_in.family_id (pass :family_id as second param)
+  def submenu_target(obj, fallback=:id)
+    if obj and obj.persisted?
+      obj
+    else
+      @logged_in.send(fallback)
+    end
   end
 
   def params_without_action
@@ -288,36 +237,16 @@ module ApplicationHelper
     Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yy' : 'mm/dd/yy'
   end
 
+  # TODO remove after upgrade to Rails 4.1
+  # https://github.com/rails/rails/blob/654dd04af6172/activesupport/lib/active_support/core_ext/string/output_safety.rb#L103
+  JSON_ESCAPE = { '&' => '\u0026', '>' => '\u003e', '<' => '\u003c', "\u2028" => '\u2028', "\u2029" => '\u2029' }
+  JSON_ESCAPE_REGEXP = /[\u2028\u2029&><]/u
+  def json_escape(s)
+    result = s.to_s.gsub(JSON_ESCAPE_REGEXP, JSON_ESCAPE)
+    s.html_safe? ? result.html_safe : result
+  end
+
   class << self
     include ApplicationHelper
-  end
-end
-
-module ActionView
-  module Helpers
-    module FormHelper
-      def phone_field(object_name, method, options = {})
-        options[:value] = format_phone(options[:object][method], mobile=(method.to_s =~ /mobile/))
-        options[:size] ||= 15
-        InstanceTag.new(object_name, method, self, options.delete(:object)).to_input_field_tag("text", options)
-      end
-    end
-    class FormBuilder
-      def phone_field(method, options = {})
-        @template.phone_field(@object_name, method, options.merge(:object => @object))
-      end
-      def date_field(method, options = {})
-        options[:value] = self.object[method].to_s(:date) rescue ''
-        options[:size] ||= 12
-        text_field(method, options)
-      end
-    end
-    module FormTagHelper
-      def date_field_tag(name, value = nil, options = {})
-        value = value.to_s(:date) rescue ''
-        options[:size] ||= 12
-        text_field_tag(name, value, options)
-      end
-    end
   end
 end

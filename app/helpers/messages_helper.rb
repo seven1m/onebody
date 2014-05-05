@@ -1,4 +1,6 @@
 module MessagesHelper
+  include ERB::Util
+
   def get_email_body(msg)
     if alternative = msg.parts.detect { |p| p.content_type.downcase.split(';').first == 'multipart/alternative' } and
       plain = alternative.parts.detect { |p| p.content_type.downcase.split(';').first == 'text/plain' }

@@ -1,18 +1,17 @@
 <% content_for :sidebar do %>
-  <p><%= link_to t('people.edit.privacy'), edit_person_privacy_path(@person), :class => 'lock-icon' %></p>
-  <p><%= link_to t('people.edit.email'), edit_person_path(@person, :email => true), :class => 'email-icon' %></p>
-  <p><%= link_to t('people.edit.password'), edit_person_account_path(@person), :class => 'dots-icon' %></p>
-  <p><%= link_to t('feeds.feeds', :name => @person.first_name), person_feeds_path(@person), :class => 'feed-icon' %></p>
+  <p><%= link_to t('people.edit.privacy'), edit_person_privacy_path(@person), class: 'lock-icon' %></p>
+  <p><%= link_to t('people.edit.email'), edit_person_path(@person, email: true), class: 'email-icon' %></p>
+  <p><%= link_to t('people.edit.password'), edit_person_account_path(@person), class: 'dots-icon' %></p>
   <% if @logged_in.admin?(:edit_profiles) %>
-    <p><%= link_to t('relationships.relationships'), person_relationships_path(@person), :class => 'people-icon' %></p>
+    <p><%= link_to t('relationships.relationships'), person_relationships_path(@person), class: 'people-icon' %></p>
     <p class="divider"></p>
-    <p><%= link_to t('families.edit'), family_path(@family), :class => 'edit-icon' %></p>
-    <p><%= link_to t('families.new'), new_family_path, :class => 'add-icon' %></p>
+    <p><%= link_to t('families.edit'), family_path(@family), class: 'edit-icon' %></p>
+    <p><%= link_to t('families.new'), new_family_path, class: 'add-icon' %></p>
   <% end %>
 <% end %>
 
 <% if @logged_in.admin?(:edit_profiles) and @person.account_frozen? %>
-  <p class="very-strong"><%= t('people.this_account_is_frozen', :name => @person.name) %></p>
+  <p class="very-strong"><%= t('people.this_account_is_frozen', name: @person.name) %></p>
 <% end %>
 
 <% if @person.account_frozen? and me? %>
@@ -27,25 +26,25 @@
 
   <h2><%= t('people.edit.profile') %></h2>
 
-  <%= render :partial => 'pending_updates' %>
+  <%= render partial: 'pending_updates' %>
 
   <% if Setting.get(:features, :updates_must_be_approved) %>
     <p><%= t('people.changes_must_be_reviewed_html') %></p>
   <% end %>
 
   <p class="discreet small">
-    <%= t('privacies.please_read_our_privacy_policy_html', :url => help_path('privacy_policy')) %>
+    <%= t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy')) %>
   </p>
 
   <h3><%= t('people.edit.photo') %></h3>
-  <%= render :partial => 'photo' %>
-  <div class="form-field-hint"><%= t('people.upload_a_picture_of_html', :name => me? ? 'yourself' : @person.name) %></div>
+  <%= render partial: 'photo' %>
+  <div class="form-field-hint"><%= t('people.upload_a_picture_of_html', name: me? ? 'yourself' : @person.name) %></div>
   <%= photo_upload_for @person %>
 
   <h3><%= t('people.edit.family_photo') %></h3>
-  <%= render :partial => 'families/photo' %>
+  <%= render partial: 'families/photo' %>
   <div class="form-field-hint"><%= t('people.upload_family_picture_html') %></div>
   <%= photo_upload_for @family %>
 
-  <%= render :partial => 'form' %>
+  <%= render partial: 'form' %>
 </div>

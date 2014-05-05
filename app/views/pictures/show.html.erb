@@ -5,8 +5,8 @@
   <% end %>
   <% if @picture.person %>
     <p>
-      <%= t('pictures.picture_uploaded_by', :when => @picture.created_at.to_s) %><br/>
-      <%= render :partial => 'people/thumbnail', :locals => {:person => @picture.person} %>
+      <%= t('pictures.picture_uploaded_by', when: @picture.created_at.to_s(:full)) %><br/>
+      <%= render partial: 'people/thumbnail', locals: {person: @picture.person} %>
       <%= link_to @picture.person.name, @picture.person %><br/>
     </p>
   <% end %>
@@ -18,12 +18,12 @@
   <% if @logged_in.can_edit?(@picture) %>
     <h3><%= t('Modify') %></h3>
     <p>
-      <%= link_to t('pictures.rotate_left'), album_picture_path(@album, @picture, :degrees => -90), :confirm => t('are_you_sure'), :method => 'put', :class => 'rotate-ccw-icon' %><br/>
-      <%= link_to t('pictures.rotate_right'), album_picture_path(@album, @picture, :degrees => 90), :confirm => t('are_you_sure'), :method => 'put', :class => 'rotate-cw-icon' %><br/>
-      <%= link_to t('pictures.set_as_cover'), album_picture_path(@album, @picture, :cover => true), :confirm => t('are_you_sure'), :method => 'put', :class => 'heart-icon' %>
+      <%= link_to t('pictures.rotate_left'), album_picture_path(@album, @picture, degrees: -90), confirm: t('are_you_sure'), method: 'put', class: 'rotate-ccw-icon' %><br/>
+      <%= link_to t('pictures.rotate_right'), album_picture_path(@album, @picture, degrees: 90), confirm: t('are_you_sure'), method: 'put', class: 'rotate-cw-icon' %><br/>
+      <%= link_to t('pictures.set_as_cover'), album_picture_path(@album, @picture, cover: true), confirm: t('are_you_sure'), method: 'put', class: 'heart-icon' %>
     </p>
     <p>
-      <%= link_to t('Delete'), album_picture_path(@album, @picture), :confirm => t('are_you_sure'), :method => 'delete', :class => 'delete-icon' %><br/>
+      <%= link_to t('Delete'), album_picture_path(@album, @picture), confirm: t('are_you_sure'), method: 'delete', class: 'delete-icon' %><br/>
     </p>
   <% end %>
 <% end %>
@@ -35,9 +35,9 @@
 </p>
 
 <p>
-  <%= link_to image_tag(@picture.photo.url(:large), :alt => t('pictures.click_to_see_original')), @picture.original_url || @picture.photo.url %>
+  <%= link_to image_tag(@picture.photo.url(:large), alt: t('pictures.click_to_see_original')), @picture.original_url || @picture.photo.url %>
 </p>
 <% if Setting.get(:privacy, :allow_picture_comments) %>
 <h3><%= t('Comments') %></h3>
-<%= render :partial => 'comments/comments', :locals => {:object => @picture, :intro => t('pictures.comment_on_this_picture')} %>
+<%= render partial: 'comments/comments', locals: {object: @picture, intro: t('pictures.comment_on_this_picture')} %>
 <% end %>

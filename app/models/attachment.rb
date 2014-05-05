@@ -1,15 +1,21 @@
 class Attachment < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'AttachmentAuthorizer'
+
   belongs_to :message
-  belongs_to :page
   belongs_to :group
   belongs_to :site
-  scope_by_site_id
-  has_attached_file :file, PAPERCLIP_FILE_OPTIONS
 
-  validates_attachment_size :file, :less_than => PAPERCLIP_FILE_MAX_SIZE
+  scope_by_site_id
+
+  has_attached_file :file, PAPERCLIP_FILE_OPTIONS
+  do_not_validate_attachment_file_type :file
+
+  validates_attachment_size :file, less_than: PAPERCLIP_FILE_MAX_SIZE
 
   def visible_to?(person)
-    (message and person.can_see?(message)) or page
+    (message and person.can_see?(message))
   end
 
   def human_name
@@ -17,36 +23,30 @@ class Attachment < ActiveRecord::Base
   end
 
   def image
-    @img ||= unless @img == false
-      if `identify -format "%m/%b/%w/%h" #{self.file.path}` =~ %r{(.+)/(.+)B/(\d+)/(\d+)}
-        @img = {
-          'format' => $1,
-          'size'   => $2.to_i,
-          'width'  => $3.to_i,
-          'height' => $4.to_i
-        }
-      else
-        @img = false
-      end
+    return @img unless @img.nil?
+    if img = MiniMagick::Image.new(file.path) and img.valid?
+      @img = img
+    else
+      @img = false
     end
   end
 
   def image?
-    image and %w(JPEG PNG GIF).include?(image['format'])
+    image and %w(JPEG PNG GIF).include?(image[:format])
   end
 
   def width
-    image? and image['width']
+    image[:width] if image?
   end
 
   def height
-    image? and image['height']
+    image[:height] if image?
   end
 
   class << self
     def create_from_file(attributes)
       file = attributes[:file]
-      attributes.merge!(:name => File.split(file.original_filename).last, :content_type => file.content_type)
+      attributes.merge!(name: File.split(file.original_filename).last, content_type: file.content_type)
       create(attributes).tap do |attachment|
         if attachment.valid?
           attachment.file = file

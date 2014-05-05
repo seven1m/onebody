@@ -14,9 +14,9 @@
   <%= error_messages_for(form) %>
   <div>
     <%= form.label :title, t('pages.title') %>
-    <%= form.text_field :title, :onkeyup => "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
-    <%= form.label :body, t('pages.body') %>      <%= form.text_area :body, :rows => 20, :cols => 80, :style => 'width:80%;font-family:monaco,monospace;' %><br/>
-    <%= form.check_box :published %><%= form.label :published, t('pages.published'), :class => 'inline' %><br/>
+    <%= form.text_field :title, onkeyup: "slug = ''; this.value.toLowerCase().scan(/[a-z_]/, function(m){slug += m}); $('page_slug').value=slug" %><br/>
+    <%= form.label :body, t('pages.body') %>      <%= form.text_area :body, rows: 20, cols: 80, style: 'width:80%;font-family:monaco,monospace;' %><br/>
+    <%= form.check_box :published %><%= form.label :published, t('pages.published'), class: 'inline' %><br/>
     <%= form.submit t('save') %>
     <%= link_to t('pages.view_page'), page_path(@page) %>
   </div>

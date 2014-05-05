@@ -1,86 +1,213 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require_relative '../test_helper'
 
 class NotesControllerTest < ActionController::TestCase
 
   def setup
-    @person, @other_person = Person.forge, Person.forge
-    @note = @person.forge(:note)
+    @user = FactoryGirl.create(:person)
   end
 
-  #should "list all notes" do
-  #  get :index, nil, {:logged_in_id => @person.id}
-  #  assert_response :success
-  #  assert_equal 1, assigns(:notes).length
-  #end
+  context '#index' do
+    context 'nested route on person' do
+      setup do
+        @note = FactoryGirl.create(:note, person: @user)
+      end
 
-  should "show a note" do
-    get :show, {:id => @note.id}, {:logged_in_id => @person.id}
-    assert_response :success
-    assert_equal @note, assigns(:note)
-  end
-
-  should "not show a note unless user can see note owner" do
-    @person.update_attribute :visible, false
-    get :show, {:id => @note.id}, {:logged_in_id => @other_person.id}
-    assert_response :unauthorized
-  end
-
-  should "create a new personal note" do
-    get :new, nil, {:logged_in_id => @person.id}
-    assert_response :success
-    post :create, {
-      :note => {:title => 'test title', :body => 'test body'}
-    }, {:logged_in_id => @person.id}
-    @new_note = Note.last
-    assert_equal 'test title', @new_note.title
-    assert_equal 'test body',  @new_note.body
-    assert_redirected_to note_path(@new_note)
-  end
-
-  should "edit a note" do
-    get :edit, {:id => @note.id}, {:logged_in_id => @person.id}
-    assert_response :success
-    post :update, {
-      :id => @note.id,
-      :note => {:title => 'test title', :body => 'test body'}
-    }, {:logged_in_id => @person.id}
-    assert_equal 'test title', @note.reload.title
-    assert_equal 'test body',  @note.body
-    assert_redirected_to note_path(@note)
-  end
-
-  should "not edit a note unless user is owner or admin" do
-    get :edit, {:id => @note.id}, {:logged_in_id => @other_person.id}
-    assert_response :unauthorized
-    post :update, {
-      :id => @note.id,
-      :note => {:title => 'test title', :body => 'test body'}
-    }, {:logged_in_id => @other_person.id}
-    assert_response :unauthorized
-  end
-
-  should "delete a personal note" do
-    post :destroy, {:id => @note.id}, {:logged_in_id => @person.id}
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @note.reload
+      should 'list all notes by person' do
+        get :index, {person_id: @user.id}, {:logged_in_id => @user.id}
+        assert_response :success
+        assert_equal [@note], assigns(:notes)
+      end
     end
-    assert_redirected_to person_path(@person, :anchor => 'blog')
-  end
 
-  should "delete a group note" do
-    @group = Group.forge
-    @note.group = @group
-    @note.save
-    post :destroy, {:id => @note.id}, {:logged_in_id => @person.id}
-    assert_raise(ActiveRecord::RecordNotFound) do
-      @note.reload
+    context 'nested route on group' do
+      setup do
+        @group = FactoryGirl.create(:group)
+        @note = FactoryGirl.create(:note, group: @group, person: @user)
+      end
+
+      should 'list all notes by group' do
+        get :index, {group_id: @group.id}, {:logged_in_id => @user.id}
+        assert_response :success
+        assert_equal [@note], assigns(:notes)
+      end
     end
-    assert_redirected_to group_path(@group, :anchor => 'blog')
   end
 
-  should "not delete a note unless user is owner or admin" do
-    post :destroy, {:id => @note.id}, {:logged_in_id => @other_person.id}
-    assert_response :unauthorized
+  context '#show' do
+    context 'note owned by user' do
+      setup do
+        @note = FactoryGirl.create(:note, person: @user)
+      end
+
+      should 'show note' do
+        get :show, {id: @note.id}, {logged_in_id: @user.id}
+        assert_response :success
+        assert_equal @note, assigns(:note)
+      end
+    end
+
+    context 'note owned by invisible person' do
+      setup do
+        @stranger = FactoryGirl.create(:person, visible: false)
+        @note = FactoryGirl.create(:note, person: @stranger)
+      end
+
+      should 'not show note' do
+        get :show, {id: @note.id}, {logged_in_id: @user.id}
+        assert_response :forbidden
+      end
+    end
+  end
+
+  context '#new' do
+    context 'shallow route' do
+      setup do
+        get :new, {person_id: @user.id}, {logged_in_id: @user.id}
+      end
+
+      should 'render template' do
+        assert_response :success
+        assert_template :new
+      end
+    end
+
+    context 'nested route on a group' do
+      setup do
+        @group = FactoryGirl.create(:group)
+        get :new, {group_id: @group.id}, {logged_in_id: @user.id}
+      end
+
+      should 'assign the group' do
+        assert_equal @group, assigns[:note].group
+      end
+    end
+  end
+
+  context '#create' do
+    setup do
+      post :create, {note: {title: 'test title', body: 'test body'}, person_id: @user.id},
+        {logged_in_id: @user.id}
+    end
+
+    should 'create a new personal note' do
+      @note = Note.last
+      assert_equal 'test title', @note.reload.title
+      assert_equal 'test body',  @note.body
+    end
+
+    should 'redirect to the note' do
+      assert_redirected_to note_path(Note.last)
+    end
+  end
+
+  context '#edit' do
+    context 'user is not owner' do
+      setup do
+        @note = FactoryGirl.create(:note)
+        get :edit, {id: @note.id}, {logged_in_id: @user.id}
+      end
+
+      should 'return forbidden' do
+        assert_response :forbidden
+      end
+    end
+
+    context 'user is owner' do
+      setup do
+        @note = FactoryGirl.create(:note, person: @user)
+        get :edit, {id: @note.id}, {logged_in_id: @user.id}
+      end
+
+      should 'render template' do
+        assert_response :success
+        assert_template :edit
+      end
+    end
+  end
+
+  context '#update' do
+    context 'user is not owner' do
+      setup do
+        @note = FactoryGirl.create(:note)
+        post :update, {id: @note.id, note: {title: 'test title', body: 'test body'}},
+          {logged_in_id: @user.id}
+      end
+
+      should 'return forbidden' do
+        assert_response :forbidden
+      end
+    end
+
+    context 'user is owner' do
+      setup do
+        @note = FactoryGirl.create(:note, person: @user)
+        post :update, {id: @note.id, note: {title: 'test title', body: 'test body'}},
+          {logged_in_id: @user.id}
+      end
+
+      should 'update a note' do
+        assert_equal 'test title', @note.reload.title
+        assert_equal 'test body',  @note.body
+      end
+
+      should 'redirect to the note' do
+        assert_redirected_to note_path(@note)
+      end
+    end
+  end
+
+  context '#destroy' do
+    context 'user is not owner' do
+      setup do
+        @note = FactoryGirl.create(:note)
+        post :destroy, {id: @note.id}, {logged_in_id: @user.id}
+      end
+
+      should 'return forbidden' do
+        assert_response :forbidden
+      end
+    end
+
+    context 'user is owner' do
+      setup do
+        @note = FactoryGirl.create(:note, person: @user)
+        post :destroy, {id: @note.id}, {logged_in_id: @user.id}
+      end
+
+      should 'delete note' do
+        assert_raise(ActiveRecord::RecordNotFound) do
+          @note.reload
+        end
+      end
+
+      should 'redirect to the listing of notes for the person' do
+        assert_redirected_to person_notes_path(@user)
+      end
+    end
+
+    context 'note is in a group' do
+      setup do
+        @group = FactoryGirl.create(:group)
+        @note = FactoryGirl.create(:note, person: @user, group: @group)
+        post :destroy, {id: @note.id}, {logged_in_id: @user.id}
+      end
+
+      should 'redirect to the listing of notes for the group' do
+        assert_redirected_to group_notes_path(@group)
+      end
+    end
+
+    context 'note belongs to someone else' do
+      setup do
+        @stranger = FactoryGirl.create(:person)
+        @note = FactoryGirl.create(:note, person: @stranger)
+        post :destroy, {id: @note.id}, {logged_in_id: @user.id}
+      end
+
+      should 'return forbidden' do
+        assert_response :forbidden
+      end
+    end
   end
 
 end

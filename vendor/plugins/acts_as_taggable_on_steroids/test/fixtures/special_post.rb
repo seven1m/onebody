@@ -1,2 +1,0 @@
-class SpecialPost < Post
-end

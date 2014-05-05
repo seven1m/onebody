@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
-  #protect_from_forgery
+  protect_from_forgery
+
+  include LoadAndAuthorizeResource
 
   LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/* accounts/*)
 
@@ -13,7 +15,8 @@ class ApplicationController < ActionController::Base
     params.clone.delete_if { |k, v| %w(controller action).include? k }
   end
 
-  private
+  protected
+
     def get_site
       if ENV['ONEBODY_SITE']
         Site.current = Site.find_by_name_and_active(ENV['ONEBODY_SITE'], true)
@@ -23,14 +26,10 @@ class ApplicationController < ActionController::Base
         Site.current = Site.find_by_id(1) || raise(t('application.no_default_site'))
       end
       if Site.current
-        if Site.current.settings_changed_at and SETTINGS['timestamp'] < Site.current.settings_changed_at
-          Rails.logger.info('Reloading Settings Cache...')
-          Setting.precache_settings(true)
-        end
-        update_view_paths
-        set_locale
-        set_time_zone
-        set_local_formats
+        Setting.reload_if_stale
+        OneBody.set_locale
+        OneBody.set_time_zone
+        OneBody.set_local_formats
         set_layout_variables
       elsif site = Site.find_by_secondary_host_and_active(request.host, true)
         redirect_to 'http://' + site.host
@@ -39,41 +38,13 @@ class ApplicationController < ActionController::Base
         redirect_to request.url.sub(/^(https?:\/\/)www\./, '\1')
         return false
       else
-        render :text => t('application.no_site_configured', :host => request.host), :status => 404
+        render text: t('application.no_site_configured', host: request.host), status: 404
         return false
       end
     end
 
-    def update_view_paths
-      theme_name = 'clean'
-      theme_dirs = [Rails.root.join('themes', theme_name)]
-      if defined?(DEPLOY_THEME_DIR)
-        theme_dirs = [File.join(DEPLOY_THEME_DIR, theme_name)] + theme_dirs
-      end
-      prepend_view_path(theme_dirs)
-      @view_paths = lookup_context.view_paths
-    end
-
-    def set_locale
-      I18n.locale = Setting.get(:system, :language)
-    end
-
-    def set_time_zone
-      Time.zone = Setting.get(:system, :time_zone)
-    end
-
-    def set_local_formats
-      Time::DATE_FORMATS.merge!(
-        :default           => Setting.get(:formats, :full_date_and_time),
-        :date              => Setting.get(:formats, :date),
-        :time              => Setting.get(:formats, :time),
-        :date_without_year => Setting.get(:formats, :date_without_year)
-      )
-    end
-
+    # XXX
     def set_layout_variables
-      @site_name       = CGI.escapeHTML(Setting.get(:name, :site))
-      @show_subheading = Setting.get(:appearance, :show_subheading)
       @copyright_year  = Date.today.year
       @community_name  = CGI.escapeHTML(Setting.get(:name, :community))
     end
@@ -84,6 +55,10 @@ class ApplicationController < ActionController::Base
       if id = session[:logged_in_id]
         Person.logged_in = @logged_in = Person.find_by_id(id)
       end
+    end
+
+    def current_user
+      @logged_in
     end
 
     def authenticate_user # default
@@ -110,7 +85,7 @@ class ApplicationController < ActionController::Base
           return false
         end
       else
-        redirect_to new_session_path(:from => request.fullpath)
+        redirect_to new_session_path(from: request.fullpath)
         return false
       end
     end
@@ -135,31 +110,11 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def generate_encryption_key
-      key = OpenSSL::PKey::RSA.new(1024)
-      @public_modulus  = key.public_key.n.to_s(16)
-      @public_exponent = key.public_key.e.to_s(16)
-      session[:key] = key.to_pem
-    end
-
-    def decrypt_password(pass)
-      if session[:key]
-        key = OpenSSL::PKey::RSA.new(session[:key])
-        begin
-          key.private_decrypt(Base64.decode64(pass))
-        rescue OpenSSL::PKey::RSAError
-          false
-        end
-      else
-        false
-      end
-    end
-
     def check_full_access
       if @logged_in and !@logged_in.full_access?
         unless LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/#{params[:action]}") or \
                LIMITED_ACCESS_AVAILABLE_ACTIONS.include?("#{params[:controller]}/*")
-          render :text => t('people.limited_access_denied'), :layout => true, :status => 401
+          render text: t('people.limited_access_denied'), layout: true, status: 401
           return false
         end
       end
@@ -176,19 +131,28 @@ class ApplicationController < ActionController::Base
     end
     alias_method_chain :rescue_action, :page_detection
 
+    def authority_forbidden(error)
+      Authority.logger.warn(error.message)
+      render text: I18n.t('not_authorized'), layout: true, status: :forbidden
+    end
+
+    rescue_from 'LoadAndAuthorizeResource::AccessDenied', 'LoadAndAuthorizeResource::ParameterMissing' do |e|
+      render text: I18n.t('not_authorized'), layout: true, status: :forbidden
+    end
+
     def me?
       @logged_in and @person and @logged_in == @person
     end
 
     def redirect_back(fallback=nil)
       if params[:from]
-        redirect_to(params[:from])
+        redirect_to URI.parse(params[:from]).path
       elsif request.env["HTTP_REFERER"]
-        redirect_to(request.env["HTTP_REFERER"])
+        redirect_to URI.parse(request.env["HTTP_REFERER"]).path
       elsif fallback
-        redirect_to(fallback)
+        redirect_to fallback
       else
-        redirect_to(people_path)
+        redirect_to people_path
       end
       return false # in case you want to halt action
     end
@@ -199,7 +163,7 @@ class ApplicationController < ActionController::Base
 
     def only_admins
       unless @logged_in.admin?
-        render :text => t('only_admins'), :layout => true, :status => 401
+        render text: t('only_admins'), layout: true, status: 401
         return false
       end
     end

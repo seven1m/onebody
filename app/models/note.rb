@@ -1,14 +1,14 @@
 class Note < ActiveRecord::Base
+
+  include Authority::Abilities
+  self.authorizer_name = 'NoteAuthorizer'
+
   belongs_to :person
   belongs_to :group
-  has_many :comments, :dependent => :destroy
+  has_many :comments, dependent: :destroy
   belongs_to :site
 
   scope_by_site_id
-
-  attr_accessible :title, :body
-
-  acts_as_logger LogItem
 
   validates_presence_of :body
 
@@ -18,28 +18,20 @@ class Note < ActiveRecord::Base
     write_attribute(:title, t.to_s.any? ? t : nil)
   end
 
-  def group_id=(id)
-    if group = Group.find_by_id(id) and group.can_post?(Person.logged_in)
-      write_attribute :group_id, id
-    else
-      write_attribute :group_id, nil
-    end
-  end
-
   after_create :create_as_stream_item
 
   def create_as_stream_item
     return unless person
     StreamItem.create!(
-      :title           => title,
-      :body            => body,
-      :context         => original_url.to_s.any? ? {'original_url' => original_url} : {},
-      :person_id       => person_id,
-      :group_id        => group_id,
-      :streamable_type => 'Note',
-      :streamable_id   => id,
-      :created_at      => created_at,
-      :shared          => group_id || person.share_activity? ? true : false
+      title:           title,
+      body:            body,
+      context:         original_url.to_s.any? ? {'original_url' => original_url} : {},
+      person_id:       person_id,
+      group_id:        group_id,
+      streamable_type: 'Note',
+      streamable_id:   id,
+      created_at:      created_at,
+      shared:          group_id || person.share_activity? ? true : false
     )
   end
 
@@ -56,7 +48,7 @@ class Note < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.destroy_all(:streamable_type => 'Note', :streamable_id => id)
+    StreamItem.destroy_all(streamable_type: 'Note', streamable_id: id)
   end
 
 end

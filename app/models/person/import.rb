@@ -31,6 +31,7 @@ class Person
 
     module ClassMethods
       def importable_column_names
+        # FIXME
         (Person.attr_accessible.keys + Family.attr_accessible.keys.map { |k| "family_#{k}" }).uniq
       end
 
@@ -40,7 +41,7 @@ class Person
 
       def queue_import_from_csv_file(file, match_by_name=true, merge_attributes={})
         Person.import_in_progress = true
-        data = FasterCSV.parse(file)
+        data = CSV.parse(file)
         attributes = data.shift.map { |a| translate_column_name(a) }
         the_changes = data[0...MAX_RECORDS_TO_IMPORT].map do |row|
           person, family = get_changes_for_import(attributes, row, match_by_name)
@@ -110,13 +111,13 @@ class Person
               person = Person.create!(person_vals.merge('family_id' => family.id))
             rescue => e
               if person_vals
-                errored << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Error creating record.', :message => e.message}
+                errored << {first_name: person_vals['first_name'], last_name: person_vals['last_name'], status: 'Error creating record.', message: e.message}
               else
-                errored << {:status => 'Error creating record.', :message => e.message}
+                errored << {status: 'Error creating record.', message: e.message}
               end
               raise ActiveRecord::Rollback
             else
-              completed << {:first_name => person_vals['first_name'], :last_name => person_vals['last_name'], :status => 'Record created.'}
+              completed << {first_name: person_vals['first_name'], last_name: person_vals['last_name'], status: 'Record created.'}
             end
           end
         end
@@ -130,13 +131,13 @@ class Person
               person.family.update_attributes!(family_vals)
             rescue => e
               if person
-                errored << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.error_updating'), :message => e.message}
+                errored << {first_name: person.first_name, last_name: person.last_name, status: I18n.t('import.error_updating'), message: e.message}
               else
-                errored << {:status => I18n.t('import.error_updating'), :message => e.message}
+                errored << {status: I18n.t('import.error_updating'), message: e.message}
               end
               raise ActiveRecord::Rollback
             else
-              completed << {:first_name => person.first_name, :last_name => person.last_name, :status => I18n.t('import.record_updated')}
+              completed << {first_name: person.first_name, last_name: person.last_name, status: I18n.t('import.record_updated')}
             end
           end
         end
@@ -155,8 +156,8 @@ class Person
           end
         end
         family_vals['legacy_id'] ||= person_vals['legacy_family_id']
-        person_vals.reject! { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
-        family_vals.reject! { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$|wall_enabled/ }
+        person_vals.reject! { |k, v| !Person.column_names.include?(k) or k =~ /^share_|_at$/ }
+        family_vals.reject! { |k, v| !Family.column_names.include?(k) or k =~ /^share_|_at$/ }
         [person_vals, family_vals]
       end
     end

@@ -1,8 +1,8 @@
-xml.instruct! :xml, :version => "1.0" 
-xml.feed(:xmlns => "http://www.w3.org/2005/Atom") do |feed|
+xml.instruct! :xml, version: "1.0"
+xml.feed(xmlns: "http://www.w3.org/2005/Atom") do |feed|
   feed.title "#{Setting.get(:name, :site)} Activity Feed"
   feed.id    stream_url
-  feed.link  nil, :href => stream_url
+  feed.link  nil, href: stream_url
   if @stream_items.any?
     feed.updated @stream_items.first.created_at.xmlschema
   end
@@ -18,10 +18,10 @@ xml.feed(:xmlns => "http://www.w3.org/2005/Atom") do |feed|
           author.name 'Admin'
         end
       end
-      entry.content   stream_item_content(stream_item, :use_code), :type => 'html'
+      entry.content   stream_item_content(stream_item, :use_code), type: 'html'
       entry.published stream_item.created_at.xmlschema
       entry.updated   stream_item.created_at.xmlschema
-      entry.link      nil, :href => stream_item_url(stream_item)
+      entry.link      nil, href: stream_item_url(stream_item)
     end
   end
 end

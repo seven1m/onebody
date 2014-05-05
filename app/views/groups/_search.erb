@@ -1,7 +1,7 @@
 <h3><%= t('groups.search_for_a_group') %></h3>
-<%= form_tag(groups_path, :method => 'get', :style => 'border:none;') do %>
+<%= form_tag(groups_path, method: 'get', style: 'border:none;') do %>
   <p>
-   <%= text_field_tag :name, params[:name], :style => 'width:120px;' %>
+   <%= text_field_tag :name, params[:name], style: 'width:120px;' %>
     <%= submit_tag t('groups.search') %>
   </p>
 <% end %>

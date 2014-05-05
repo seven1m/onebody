@@ -44,7 +44,7 @@ class Person
       #   end
       # end
 
-      t = I18n.t('printable_directories.created_for', { :name => self.name, :date => (Date.today.strftime '%B %e, %Y') } )
+      t = I18n.t('printable_directories.created_for', { name: self.name, date: (Date.today.strftime '%B %e, %Y') } )
       s = 14
       w = pdf.text_width(t, s)
       x = pdf.margin_x_middle - w/2 # centered
@@ -56,12 +56,8 @@ class Person
 
       alpha = nil
 
-      Family.find(
-        :all,
-        :conditions => ["(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0", true],
-        :order => 'families.last_name, families.name, people.sequence',
-        :include => 'people'
-      ).each do |family|
+      families = Family.has_printable_people.includes(:people).order('families.last_name, families.name, people.sequence')
+      families.each do |family|
         if family.mapable? or family.home_phone.to_i > 0
           pdf.move_pointer 120 if pdf.y < 120
           if family.last_name[0..0] != alpha
@@ -71,7 +67,7 @@ class Person
               pdf.move_pointer 150 if pdf.y < 150
             end
             alpha = family.last_name[0..0]
-            pdf.text alpha + "\n", :font_size => 25
+            pdf.text alpha + "\n", font_size: 25
             pdf.line(
               pdf.absolute_left_margin,
               pdf.y - 5,
@@ -82,26 +78,26 @@ class Person
           end
           if with_pictures and family.photo.exists?
             if pdf.y < 300
-              pdf.move_pointer 300 
+              pdf.move_pointer 300
             else
               pdf.move_pointer 20
             end
-            pdf.text family.name + "\n", :font_size => 18
+            pdf.text family.name + "\n", font_size: 18
             pdf.move_pointer 10
             pdf.add_image File.read(family.photo.path(:large)), pdf.absolute_left_margin, pdf.y-150, nil, 150
             pdf.move_pointer 160
           else
-            pdf.text family.name + "\n", :font_size => 18
+            pdf.text family.name + "\n", font_size: 18
           end
           if family.people.detect { |p| p.share_address_with(self) } and family.mapable?
-            pdf.text family.address1 + "\n", :font_size => 14
+            pdf.text family.address1 + "\n", font_size: 14
             pdf.text family.address2 + "\n" if family.address2.to_s.any?
             pdf.text family.city + ', ' + family.state + '  ' + family.zip + "\n"
           end
-          pdf.text ApplicationHelper.format_phone(family.home_phone), :font_size => 14 if family.home_phone.to_i > 0
+          pdf.text ApplicationHelper.format_phone(family.home_phone), font_size: 14 if family.home_phone.to_i > 0
           family.people.find_all_by_deleted(false).each do |person|
             name = person.last_name == family.last_name ? person.first_name : person.name
-            pdf.text "\n", :font_size => 11
+            pdf.text "\n", font_size: 11
             pdf.add_text_wrap pdf.absolute_left_margin, pdf.y, 400, name, 11
             details = ''
             if person.show_attribute_to?(:mobile_phone, self)

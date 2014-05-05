@@ -1,7 +1,0 @@
-<li>
-  <%= feed.name %>
-  <%= link_to_function 'url', "$('#feed#{feed.id}').show();$(this).hide();" %>
-  <span id="feed<%= feed.id %>" style="display:none;font-family:monospace;"><%= feed.url %></span>
-  <% if @logged_in.admin? %><span class="small discreet">(<%= pluralize(feed.error_count, ' error') %>)</span><% end %>
-  <%= link_to '', [@person, feed], :method => 'delete', :confirm => t('feeds.are_you_sure'), :class => 'delete-icon' %>
-</li>

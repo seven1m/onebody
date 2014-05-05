@@ -6,8 +6,8 @@
 
 <table class="spaced">
   <tr>
-    <th><%= link_to 'Admin', administration_admins_path(:groups => true, :sort => 'admin') %></th>
-    <th><%= link_to 'Group', administration_admins_path(:groups => true, :sort => 'group') %></th>
+    <th><%= link_to 'Admin', administration_admins_path(groups: true, sort: 'admin') %></th>
+    <th><%= link_to 'Group', administration_admins_path(groups: true, sort: 'group') %></th>
   </tr>
   <% @group_admins.each do |person, group| %>
     <tr>

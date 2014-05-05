@@ -17,13 +17,13 @@ class Administration::DeletedPeopleController < ApplicationController
     unless params[:sort].to_s.split(',').all? { |col| VALID_SORT_COLS.include?(col) }
       params[:sort] = 'people.updated_at desc'
     end
-    conditions = {:deleted => true}
+    conditions = {deleted: true}
     if params[:search].is_a?(Hash)
       params[:search].reject! { |k, v| !%w(id legacy_id last_name first_name).include?(k) }
       conditions.reverse_merge!(params[:search])
     end
-    @people = Person.paginate(:include => :family, :conditions => conditions, :order => params[:sort], :page => params[:page])
-    @families = Family.all(:conditions => ["deleted = ? and (select count(id) from people where deleted = ? and family_id=families.id) = 0", false, false], :order => 'name')
+    @people = Person.includes(:family).where(conditions).order(params[:sort]).page(params[:page])
+    @families = Family.undeleted.where(["(select count(id) from people where deleted = ? and family_id=families.id) = 0", false]).order('name')
   end
 
   def batch
@@ -34,7 +34,7 @@ class Administration::DeletedPeopleController < ApplicationController
         person.update_attribute(:deleted, false) if person.deleted?
       elsif params[:purge]
         unless person.deleted?
-          render :text => t('people.not_deleted'), :layout => true, :status => 401
+          render text: t('people.not_deleted'), layout: true, status: 401
           return
         end
         person.destroy_for_real
@@ -50,7 +50,7 @@ class Administration::DeletedPeopleController < ApplicationController
 
     def only_admins
       unless @logged_in.admin?(:edit_profiles)
-        render :text => t('only_admins'), :layout => true, :status => 401
+        render text: t('only_admins'), layout: true, status: 401
         return false
       end
     end

@@ -1,4 +1,4 @@
-<%=raw t('notifier.name_has_requested_join_group', { :name => @person.name, :group => @group.name } ) %>
+<%=raw t('notifier.name_has_requested_join_group', { name: @person.name, group: @group.name } ) %>
 
 <%=raw t('notifier.to_approve_or_ignore') %>:
 <%=raw Setting.get(:url, :site) %>groups/<%= @group.id %>/memberships

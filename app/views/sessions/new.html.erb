@@ -1,48 +1,30 @@
-<%= javascript_include_tag 'rsa.min.js' %>
-
 <div class="left-sidebar line-right">
   <%= render_page_content 'system/sign_in_header' %>
   <div class="double-margin-top" style="text-align:center;">
-    <%= link_to image_tag('clean/help.png', :alt => t('session.help_signing_in'), :class => 'no-border'), help_path %><br/>
+    <%= link_to image_tag('clean/help.png', alt: t('session.help_signing_in'), class: 'no-border'), help_path %><br/>
     <%= link_to t('session.i_need_help'), help_path %>
   </div>
 </div>
 
-<script type="text/javascript">
-  function encrypt_password() {
-    var rsa = new RSAKey();
-    rsa.setPublic('<%= @public_modulus %>', '<%= @public_exponent %>');
-    var res = rsa.encrypt(document.getElementById('password').value);
-    if (res) {
-      encrypted = linebrk(hex2b64(res), 64);
-      document.getElementById('encrypted_password').setAttribute('value', encrypted);
-      document.getElementById('password').setAttribute('value', '');
-      return true;
-    }
-    return false;
-  }
-</script>
-
-<form method="post" action="/session" onsubmit="return encrypt_password()">
+<form method="post" action="/session">
   <%= hidden_field_tag :from, params[:from] %>
-  <%= hidden_field_tag :encrypted_password %>
 
   <h2 class="double-margin-bottom"><%= t('session.please_sign_in') %></h2>
 
   <table class="spaced">
     <tr>
       <td><label for="email"><%= t('session.email_address') %></label></td>
-      <td><%= text_field_tag :email, params[:email], :size => 30, :autocomplete => 'off' %></td>
+      <td><%= text_field_tag :email, params[:email], size: 30, autocomplete: 'off' %></td>
     </tr>
     <tr>
       <td><label for="password"><%= t('session.password') %></label></td>
-      <td><input type="password" id="password" size="30" <% if Setting.get(:privacy, :allow_unencrypted_logins) %>name="password"<% end %>/></td>
+      <td><input type="password" id="password" size="30" name="password"/></td>
     </tr>
     <tr>
       <td></td>
       <td>
         <input type="submit" value="<%= t('session.sign_in') %>"/><br/>
-        <p class="double-margin-top"><%= t('session.sign_up_or_sign_in_html', :url => new_account_path) %></p>
+        <p class="double-margin-top"><%= t('session.sign_up_or_sign_in_html', url: new_account_path) %></p>
       </td>
     </tr>
   </table>

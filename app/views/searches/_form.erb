@@ -1,43 +1,43 @@
-<%= form_tag(search_path, :method => 'post', :id => 'search-form') do %>
+<%= form_tag(search_path, method: 'post', id: 'search-form') do %>
   <%= hidden_field_tag :advanced, true %>
   <h2><%= t('search.advanced_search') %></h2>
   <label for="name_search"><%= t('search.name') %>:</label>
-  <%= text_field_tag 'name', params[:name], :id => 'name_search' %><br/>
+  <%= text_field_tag 'name', params[:name], id: 'name_search' %><br/>
   <label for="birthday_month"><%= t('search.birthday') %>:</label>
-  <select name="birthday_month" id="birthday_month">
+  <select name="birthday[month]" id="birthday_month">
     <option value=""></option>
-    <%= options_for_select MONTHS_FOR_SELECT, params[:birthday_month].to_i %>
+    <%= options_for_select MONTHS_FOR_SELECT, params[:birthday].try(:[], :month).to_i %>
   </select>
-  <select name="birthday_day" id="birthday_day">
+  <select name="birthday[day]" id="birthday_day">
     <option value=""></option>
-    <%= options_for_select 1..31, params[:birthday_day].to_i %>
+    <%= options_for_select 1..31, params[:birthday].try(:[], :day).to_i %>
   </select><br/>
   <label for="anniversary_month"><%= t('search.anniversary') %>:</label>
-  <select name="anniversary_month" id="anniversary_month">
+  <select name="anniversary[month]" id="anniversary_month">
     <option value=""></option>
-    <%= options_for_select MONTHS_FOR_SELECT, params[:anniversary_month].to_i %>
+    <%= options_for_select MONTHS_FOR_SELECT, params[:anniversary].try(:[], :month).to_i %>
   </select>
-  <select name="anniversary_day" id="anniversary_day">
+  <select name="anniversary[day]" id="anniversary_day">
     <option value=""></option>
-    <%= options_for_select 1..31, params[:anniversary_day].to_i %>
+    <%= options_for_select 1..31, params[:anniversary].try(:[], :day).to_i %>
   </select><br/>
   <label for="gender"><%= t('search.gender') %>:</label>
   <select name="gender" id="gender">
     <option value=""></option>
     <%= options_for_select ([[t('search.male'), 'Male'], [t('search.female'), 'Female']]), params[:gender] %>
   </select>
-  <label for="city"><%= t('search.city') %>:</label>
-  <%= text_field_tag :city, params[:city] %><br/>
-  <label for="state"><%= t('search.state') %>:</label>
-  <%= text_field_tag :state, params[:state] %><br/>
-  <label for="zip"><%= t('search.zip') %>:</label>
-  <%= text_field_tag :zip, params[:zip] %><br/>
+  <label for="address_city"><%= t('search.city') %>:</label>
+  <%= text_field_tag 'address[city]', params[:address].try(:[], :city) %><br/>
+  <label for="address_state"><%= t('search.state') %>:</label>
+  <%= text_field_tag 'address[state]', params[:address].try(:[], :state) %><br/>
+  <label for="address_zip"><%= t('search.zip') %>:</label>
+  <%= text_field_tag 'address[zip]', params[:address].try(:[], :zip) %><br/>
   <label for="type"><%= t('type') %>:</label>
   <select name="type" id="type">
     <option value=""><%= t('search.all') %></option>
     <%= options_for_select ([[t('search.member'), 'member'], [t('search.staff'), 'staff'], [t('search.deacon'), 'deacon'], [t('search.elder'), 'elder']]) + (Setting.get(:features, :custom_person_type) ? Person.custom_types : []), params[:type] %>
   </select><br/>
-  <%= check_box_tag :show_hidden, true, params[:show_hidden], :class => 'checkbox' %> <label for="show_hidden" class="inline"><%= t('search.show_hidden') %></label><br/>
+  <%= check_box_tag :show_hidden, true, params[:show_hidden], class: 'checkbox' %> <label for="show_hidden" class="inline"><%= t('search.show_hidden') %></label><br/>
   <br/>
   <%= submit_tag t('search.search') %>
 <% end %>
@@ -49,26 +49,10 @@
     $('#searching').show();
     $('#results').html('');
     searchRequest = $.post(
-      "<%= search_path(:format => 'js') %>",
+      "<%= search_path(format: 'js') %>",
       $('#search-form').serialize(),
       function(){ $('#searching').hide() },
       'script'
     );
   }
-
-  /*
-  observeFields(search, 2000, [
-    'name_search',
-    'birthday_month',
-    'birthday_day',
-    'anniversary_month',
-    'anniversary_day',
-    'gender',
-    'city',
-    'state',
-    'zip',
-    'type',
-    'show_hidden'
-  ]);
-  */
 </script>

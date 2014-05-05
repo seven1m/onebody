@@ -1,99 +1,64 @@
 class PicturesController < ApplicationController
 
+  LoadAndAuthorizeResource::METHOD_TO_ACTION_NAMES.merge!(
+    'next' => 'rotate',
+    'prev' => 'rotate',
+  )
+
+  load_and_authorize_parent :group, optional: true, only: :create, children: :albums
+  load_and_authorize_parent :album, optional: true
+  before_filter :find_or_create_album_by_name, only: :create
+  load_and_authorize_resource except: [:index, :create]
+
   def index
-    @album = Album.find(params[:album_id])
-    @pictures = @album.pictures.paginate(:order => 'id', :page => params[:page])
+    @pictures = pictures.order(:id).page(params[:page])
   end
 
   def show
-    @album = Album.find(params[:album_id])
-    @picture = Picture.find(params[:id])
   end
 
   def next
-    @album = Album.find(params[:album_id])
-    ids = @album.picture_ids
-    next_id = ids[ids.index(params[:id].to_i)+1] || ids.first
-    redirect_to album_picture_path(params[:album_id], next_id)
+    redirect_to [@album, @picture.next]
   end
 
   def prev
-    @album = Album.find(params[:album_id])
-    ids = @album.picture_ids
-    prev_id = ids[ids.index(params[:id].to_i)-1]
-    redirect_to album_picture_path(params[:album_id], prev_id)
+    redirect_to [@album, @picture.prev]
   end
 
   def create
-    if params[:group_id]
-      unless @group = Group.find(params[:group_id]) and @group.pictures? \
-        and (@logged_in.member_of?(@group) or @logged_in.can_edit?(@group))
-        render :text => t('There_was_an_error'), :layout => true, :status => 500
-        return
-      end
-    end
-    @album = (@group ? @group.albums : Album).find_or_create_by_name(
-      if params[:album].to_s.any? and params[:album] != t('share.default_album_name')
-        params[:album]
-      elsif @group
-        @group.name
-      else
-        @logged_in.name
-      end
-    ) { |a| a.person = @logged_in }
-    success = fail = 0
-    errors = []
-    Array(params[:pictures]).each do |pic|
-      picture = @album.pictures.create(
-        :person => (params[:remove_owner] ? nil : @logged_in),
-        :photo  => pic
-      )
-      if picture.errors.any?
-        errors += picture.errors.full_messages
-      end
-      if picture.photo.exists?
-        success += 1
-        if @album.pictures.count == 1 # first pic should be default cover pic
-          picture.update_attribute(:cover, true)
-        end
-      else
-        fail += 1
-        picture.log_item.destroy rescue nil
-        picture.destroy rescue nil
-      end
-    end
-    flash[:notice] = t('pictures.saved', :success => success)
-    flash[:notice] += " " + t('pictures.failed', :fail => fail) if fail > 0
-    flash[:notice] += " " + errors.join('; ') if errors.any?
+    @uploader = PictureUploader.new(@album, params, current_user)
+    @uploader.save
+    notices = [t('pictures.saved', success: @uploader.success)]
+    notices << t('pictures.failed', fail: @uploader.fail) if @uploader.fail > 0
+    flash[:notice] = notices.join('<br/>')
     redirect_to params[:redirect_to] || @group || album_pictures_path(@album)
   end
 
   # rotate / cover selection
   def update
-    @album = Album.find(params[:album_id])
-    @picture = Picture.find(params[:id])
-    if @logged_in.can_edit?(@picture)
-      if params[:degrees]
-        @picture.rotate params[:degrees].to_i
-      elsif params[:cover]
-        @album.pictures.all.each { |p| p.update_attribute :cover, false }
-        @picture.update_attribute :cover, true
-      end
-      redirect_to [@album, @picture]
-    else
-      render :text => t('pictures.cant_edit'), :layout => true, :status => 401
+    if params[:degrees]
+      @picture.rotate params[:degrees].to_i
+    elsif params[:cover]
+      @album.update_attributes!(cover: @picture)
     end
+    redirect_to [@album, @picture]
   end
 
   def destroy
-    @album = Album.find(params[:album_id])
-    @picture = Picture.find(params[:id])
-    if @logged_in.can_edit?(@picture)
-      @picture.destroy
-      redirect_to @album
-    else
-      render :text => t('pictures.cant_delete'), :layout => true, :status => 401
+    @picture.destroy
+    redirect_to @album
+  end
+
+  private
+
+  def find_or_create_album_by_name
+    return if @album or not params[:album]
+    unless @album = albums.where(name: params[:album]).first
+      @album = albums.new(name: params[:album])
+      Authority.enforce(:create, @album, current_user)
+      @album.save!
     end
+    @album.owner ||= @logged_in # if not owned by group
   end
 
 end

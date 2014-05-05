@@ -3,16 +3,16 @@
     <% @pages.each do |page| %>
       <li>
         <span style="<%= page.children.count == 0 ? 'visibility:hidden' : nil %>">
-          <%= link_to image_tag('plus.gif',  :alt => t('pages.expand'), :class => 'icon'), pages_path(:parent_id => page), :remote => true, :method => 'get', :id => "page#{page.id}_expand_link" %>
-          <%= link_to_function image_tag('minus.gif', :alt => t('pages.collapse'), :class => 'icon'), "collapsePage(#{page.id})", :id => "page#{page.id}_collapse_link", :style => 'display:none;' %>
-          <%= image_tag('spinner_small.gif', :alt => t('pages.loading'), :id => "loading#{page.id}", :style => 'display:none;', :class => 'icon') %>
+          <%= link_to image_tag('plus.gif',  alt: t('pages.expand'), class: 'icon'), pages_path(parent_id: page), remote: true, method: 'get', id: "page#{page.id}_expand_link" %>
+          <%= link_to_function image_tag('minus.gif', alt: t('pages.collapse'), class: 'icon'), "collapsePage(#{page.id})", id: "page#{page.id}_collapse_link", style: 'display:none;' %>
+          <%= image_tag('spinner_small.gif', alt: t('pages.loading'), id: "loading#{page.id}", style: 'display:none;', class: 'icon') %>
         </span>
         <%= link_to page.title, page %>
-        <%= link_to t('edit'), edit_page_path(page), :class => 'discreet' %>
+        <%= link_to t('edit'), edit_page_path(page), class: 'discreet' %>
         <% unless page.system? %>
-          <%= link_to t('delete'), page, :method => 'delete', :confirm => t('pages.are_you_sure'), :class => 'discreet' %>
+          <%= link_to t('delete'), page, method: 'delete', confirm: t('pages.are_you_sure'), class: 'discreet' %>
         <% end %>
-        <%= link_to t('pages.new_page'), new_page_path(:parent_id => page), :class => 'discreet' %>
+        <%= link_to t('pages.new_page'), new_page_path(parent_id: page), class: 'discreet' %>
         <div id="page<%= page.id %>_children"></div>
       </li>
     <% end %>

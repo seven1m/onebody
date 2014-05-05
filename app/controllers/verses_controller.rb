@@ -4,16 +4,17 @@ class VersesController < ApplicationController
     if params[:person_id]
       @person = Person.find(params[:person_id])
       if @logged_in.can_see?(@person)
-        @verses = @person.verses.paginate(:order => 'created_at desc', :page => params[:page])
+        @verses = @person.verses.paginate(order: 'created_at desc', page: params[:page])
       else
-        render :text => t('not_authorized'), :layout => true, :status => 401
+        render text: t('not_authorized'), layout: true, status: 401
       end
-      @tags = Verse.tag_counts(:conditions => ['verses.id in (?)', @verses.map { |v| v.id } || [0]])
+      # note: Tag.counts still accepts the :conditions option
+      @tags = Verse.tag_counts(conditions: ['verses.id in (?)', @verses.map { |v| v.id } || [0]])
     else
       @verses = Verse.paginate(
-        :order => 'book, chapter, verse',
-        :select => '*, (select count(*) from people_verses where verse_id = verses.id) as people_count',
-        :page => params[:page]
+        order: 'book, chapter, verse',
+        select: '*, (select count(*) from people_verses where verse_id = verses.id) as people_count',
+        page: params[:page]
       )
       @tags = Verse.tag_counts
     end
@@ -33,7 +34,7 @@ class VersesController < ApplicationController
       expire_fragment(%r{views/people/#{@logged_in.id}_})
       redirect_to params[:redirect_to] || @verse
     else
-      render :text => t('verses.not_found'), :layout => true, :status => 404
+      render text: t('verses.not_found'), layout: true, status: 404
     end
   end
 

@@ -1,64 +1,44 @@
 # OneBody
 
-OneBody is open-source, web-based social networking and online directory software for churches. OneBody is built on Ruby on Rails 3 and MySQL.
+[![Build Status](https://travis-ci.org/churchio/onebody.png)](https://travis-ci.org/churchio/onebody)
 
-Screenshots and feature information can be found at the [commercial website](http://beonebody.com).
-
-
-## Install on Ubuntu
-
-OneBody is a complex app with a lot of moving parts. Installation can be lengthy, so we've tried to automate as much of the process as possible using [Capistrano](http://github.com/capistrano/capistrano).
-
-If you're dedicated server or VPS is Ubuntu 10.04 or higher, try this:
-
-    # 1. on your server:
-    sudo adduser deploy
-    sudo adduser deploy sudo
-    # copy your SSH public key to avoid password prompts
-    sudo apt-get install git-core curl build-essential zlib1g-dev libssl-dev libreadline5-dev imagemagick rsync
-    # follow http://rvm.beginrescueend.com/rvm/install/ to install RVM
-    rvm install ree
-    rvm use ree@onebody --create --default
-
-    # 2. on your local machine:
-    gem install capistrano
-    # edit config/deploy.rb to point to your server
-    cap prepare:ubuntu:mysql
-    cap prepare:ubuntu:apache
-    cap prepare:ubuntu:passenger
-    cap prepare:ubuntu:postfix
-    cap prepare:ubuntu:bundler
-    cap deploy:setup
-    cap deploy:migrations
-
-    # 3. on your server
-    # edit /etc/apache2/sites-available/default
-    # and point DocumentRoot to "/var/www/apps/onebody/current/public"
-    sudo /etc/init.d/apache2 reload
-    # you may also need to set smtpd_use_tls=no in your /etc/postfix/main.cf
-
-    # 4. in your web browser:
-    # visit http://your-server-name-or-ip
-
-We also have full step-by-step instructions in our INSTALL.md file.
-
-Please visit the [PostfixEmailSetup](http://github.com/seven1m/onebody/wiki/PostfixEmailSetup) page on the wiki for help with setting up incoming email.
+OneBody is open-source, web-based social networking and online directory software for churches. OneBody is built on Ruby 2.1.1, Rails 3.2 and MySQL.
 
 
-## More Information
+## Setup
 
-* [Wiki](http://wiki.github.com/seven1m/onebody) - A wonderful resource full of helpful information; Check here first.
-* [Blog](http://blog.beonebody.com) - Some intermittent updates about new features.
-* [Google Group](http://groups.google.com/group/onebodyapp) - Community of hackers working on OneBody and running their own OneBody servers. If you're stuck, ask nicely for some help and you will probably get it.
-* [Twitter](http://twitter.com/onebody) - Status updates for beonebody.com and occasional feature notes.
+1. Install Ruby 2.1.1 or higher (we recommend you use [RVM](https://rvm.io/)).
+2. Install MySQL.
+3. `git clone git://github.com/churchio/onebody.git`
+4. `mysql -u root -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
+5. `cp config/database.yml{.example,}`
+6. `cp config/secrets.yml{.example,} && vim config/secrets.yml` - add a random secret token (you can use `rake secret` to generate a new random secret)
+7. `cd onebody && bundle install && rake db:migrate`
+8. `rails server`
+
+Now visit the site running in development mode at localhost:3000.
+
+Please visit the [PostfixEmailSetup](http://github.com/churchio/onebody/wiki/PostfixEmailSetup) page on the wiki for help with setting up incoming email.
+
+
+## Tests
+
+To run tests:
+
+```
+mysql -u root -e "create database onebody_test; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
+rake test
+```
+
+## Get Help
+
+* [Wiki](http://wiki.github.com/churchio/onebody) - A wonderful resource full of helpful information; Check here first.
+* [Google Group](http://groups.google.com/group/churchio) - Community of people building open source church software. If you're stuck, ask nicely for some help and you will probably get it.
 
 
 ## Copyright
 
-Copyright (c) 2008-2010, [Tim Morgan](http://timmorgan.org)
-
-
-## Disclaimer & License
+Copyright (c) [Tim Morgan](http://timmorgan.org)
 
 THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 

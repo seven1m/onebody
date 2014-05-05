@@ -1,11 +1,11 @@
 <% if @person.verses.count > 0 %>
   <% @person.verses.each do |verse| %>
-    <%= render :partial => 'verses/verse', :locals => {:verse => verse} %>
+    <%= render partial: 'verses/verse', locals: {verse: verse} %>
   <% end %>
 <% else %>
   <p><em><%= t('verses.no_verses_yet') %></em></p>
 <% end %>
 
 <% if @logged_in == @person %>
-  <%= render :partial => 'verses/add_verse' %>
+  <%= render partial: 'verses/add_verse' %>
 <% end %>

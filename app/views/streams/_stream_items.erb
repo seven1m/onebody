@@ -9,14 +9,14 @@
   <% if grouped_items.any? and not (stream_item.person_id == last_stream_item.person_id and stream_item.streamable_type == last_stream_item.streamable_type) %>
     </div>
     <div class="stream-item-group-link">
-      <%= link_to_function t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "$(this.parentNode).hide(); $('#stream-item-group#{grouped_items.first}').show()" %>
+      <%= link_to_function t('stream.and_more', { length: grouped_items.length, name: (last_stream_item.person.name rescue '') } ), "$(this.parentNode).hide(); $('#stream-item-group#{grouped_items.first}').show()" %>
     </div>
     </div>
     <% grouped_items = [] %>
   <% end %>
   <% if grouped_items.any? and not grouped_items.include?(stream_item.id); grouped_items << stream_item.id; end %>
 
-  <%= render :partial => 'stream_item', :object => stream_item %>
+  <%= render partial: 'stream_item', object: stream_item %>
 
   <% last_stream_item = stream_item %>
 <% end %>
@@ -24,7 +24,7 @@
 <% if grouped_items.any? %>
   </div>
   <div class="stream-item-group-link">
-    <%= link_to_function t('stream.and_more', { :length => grouped_items.length, :name => (last_stream_item.person.name rescue '') } ), "$(this.parentNode).hide(); $('#stream-item-group#{grouped_items.first}').show()" %>
+    <%= link_to_function t('stream.and_more', { length: grouped_items.length, name: (last_stream_item.person.name rescue '') } ), "$(this.parentNode).hide(); $('#stream-item-group#{grouped_items.first}').show()" %>
   </div>
   </div>
 <% end %>

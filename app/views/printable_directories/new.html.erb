@@ -1,11 +1,11 @@
 <% content_for :sidebar do %>
   <p>
-    <%= link_to image_tag('acrobat.gif', :alt => 'Adobe Reader', :class => 'no-border'), 'http://www.adobe.com/products/acrobat/readstep2.html' %>
-    <%= t('printable_directories.make_sure_you_have_adobe_html', :url => "http://www.adobe.com/products/acrobat/readstep2.html" ) %>
+    <%= link_to image_tag('acrobat.gif', alt: 'Adobe Reader', class: 'no-border'), 'http://www.adobe.com/products/acrobat/readstep2.html' %>
+    <%= t('printable_directories.make_sure_you_have_adobe_html', url: "http://www.adobe.com/products/acrobat/readstep2.html" ) %>
   </p>
 <% end %>
 
-<%= form_tag printable_directory_path, :method => 'post' do %>
+<%= form_tag printable_directory_path, method: 'post' do %>
   <p><%= t('printable_directories.click_to_have_custom_pdf_via_email') %></p>
   <p><%= check_box_tag 'with_pictures', true, false %> <label for="with_pictures" class="inline"><%= t('printable_directories.include_family_pictures') %></label> <%= t('printable_directories.will_take_longer') %></p>
   <p><%= submit_tag t('printable_directories.email_custom_directory') %></p>

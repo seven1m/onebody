@@ -1,18 +1,18 @@
 <p>
   <% @people.each do |person| %>
     <% if params[:select_one] %>
-      <%= radio_button_tag 'ids[]', person.id, @people.length == 1, :class => 'checkbox' %>
+      <%= radio_button_tag 'ids[]', person.id, @people.length == 1, class: 'checkbox' %>
     <% else %>
-      <%= check_box_tag 'ids[]', person.id, @people.length == 1, :class => 'checkbox' %>
+      <%= check_box_tag 'ids[]', person.id, @people.length == 1, class: 'checkbox' %>
     <% end %>
-    <%= render :partial => 'people/link', :locals => {:person => person} %>
+    <%= render partial: 'people/link', locals: {person: person} %>
     <br/>
   <% end %>
   <% if @more %>
     <em><%= t('search.results_not_shown') %></em>
   <% end %>
   <% if @people.empty? %>
-    <em><%= t('search.people_found', :count => 0) %></em>
+    <em><%= t('search.people_found', count: 0) %></em>
   <% end %>
 </p>
 

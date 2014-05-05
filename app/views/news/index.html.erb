@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <link rel="alternate" type="application/atom+xml" title="<%= t('news.news_feed') %>" href="<%= url_for news_path(:format => 'xml', :code => @logged_in.feed_code) %>"/>
+  <link rel="alternate" type="application/atom+xml" title="<%= t('news.news_feed') %>" href="<%= url_for news_path(format: 'xml', code: @logged_in.feed_code) %>"/>
 <% end %>
 
 <% content_for :sidebar do %>
@@ -8,18 +8,18 @@
   <p>
     <%= t('news.welcome_to_the_place') %>
     <% if Setting.get(:features, :news_by_users) %>
-      <%= t('news.if_you_have_something_to_share_html', :url => new_news_item_path) %>
+      <%= t('news.if_you_have_something_to_share_html', url: new_news_item_path) %>
     <% end %>
   </p>
 
   <p>
-    <%= t('news.subscribe_to_community_news_html', :url => news_path(:format => 'xml', :code => @logged_in.feed_code)) %>
+    <%= t('news.subscribe_to_community_news_html', url: news_path(format: 'xml', code: @logged_in.feed_code)) %>
   </p>
 <% end %>
 
 <%= will_paginate @news_items %>
 
-<%= render :partial => 'news_item', :collection => @news_items %>
+<%= render partial: 'news_item', collection: @news_items %>
 
 <%= will_paginate @news_items %>
 

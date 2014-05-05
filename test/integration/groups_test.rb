@@ -2,46 +2,80 @@ require "#{File.dirname(__FILE__)}/../test_helper"
 
 class GroupsTest < ActionController::IntegrationTest
 
-  def test_search
-    sign_in_as people(:tim)
-    get '/groups'
-    assert_select 'body', :html => /pending approval.*Morgan\sGroup/m
-    sign_in_as people(:jeremy)
-    get '/groups?category=Small+Groups'
-    assert_response :success
-    assert_select 'body', :html => /College Group/
-    assert_select 'body', :html => /Morgan Group/, :count => 0
-    sign_in_as people(:tim)
-    get '/groups?category=Small+Groups'
-    assert_response :success
-    assert_select 'body', :html => /College Group/
-    assert_select 'body', :html => /Morgan Group/
-    get 'groups/1'
-    assert_select 'body', :html => /Approve Group/
-    put '/groups/1?group[approved]=true'
-    assert_redirected_to group_path(:id => 1)
-    assert_select 'body', :html => /Approve Group/, :count => 0
-    get '/groups?category=Small+Groups'
-    assert_response :success
-    assert_select 'body', :html => /Morgan\sGroup/
+  setup do
+    @user = FactoryGirl.create(:person)
+    @group = FactoryGirl.create(:group, name: 'Small Group', category: 'Small Groups')
+    @other_group = FactoryGirl.create(:group, name: 'Other Group', category: 'Volunteer Groups')
   end
 
-  def test_disable_email
-    # with code
-    put "/groups/#{groups(:college).id}/memberships/#{people(:jeremy).id}?code=#{people(:jeremy).feed_code}&email=off"
-    assert !groups(:college).get_options_for(people(:jeremy)).get_email
-    put "/groups/#{groups(:college).id}/memberships/#{people(:jeremy).id}?code=#{people(:jeremy).feed_code}&email=on"
-    assert groups(:college).get_options_for(people(:jeremy)).get_email
-    # signed in
-    sign_in_as people(:jeremy)
-    put "/groups/#{groups(:college).id}/memberships/#{people(:jeremy).id}?email=off"
-    assert !groups(:college).get_options_for(people(:jeremy)).get_email
-    put "/groups/#{groups(:college).id}/memberships/#{people(:jeremy).id}?email=on"
-    assert groups(:college).get_options_for(people(:jeremy)).get_email
-    # GET request
-    get "/groups/#{groups(:college).id}/memberships/#{people(:jeremy).id}?code=#{people(:jeremy).feed_code}&email=off"
-    assert !groups(:college).get_options_for(people(:jeremy)).get_email
-    get "/groups/#{groups(:college).id}/memberships/#{people(:jeremy).id}?code=#{people(:jeremy).feed_code}&email=on"
-    assert groups(:college).get_options_for(people(:jeremy)).get_email
+  context 'user is a group admin' do
+    setup do
+      @user.update_attribute(:admin, Admin.create!(manage_groups: true))
+      sign_in_as @user
+      @group.approved = false
+      @group.save!
+    end
+
+    should 'show groups pending approval' do
+      get '/groups'
+      assert_select 'body', html: /pending approval.*Small\sGroup/m
+      get '/groups?category=Small+Groups'
+      assert_select 'body', html: /Small Group/
+    end
+
+    should 'show hidden groups matching by category' do
+      get '/groups?category=Small+Groups'
+      assert_response :success
+      assert_select 'body', html: /Small Group/
+    end
+
+    should 'show allow user to Approve group' do
+      get "groups/#{@group.id}"
+      assert_select 'body', html: /Approve Group/
+      put "/groups/#{@group.id}?group[approved]=true"
+      assert_redirected_to @group
+      assert_select 'body', html: /Approve Group/, count: 0
+    end
+  end
+
+  should 'not show pending groups' do
+    @group.approved = false
+    @group.save!
+    get '/groups'
+    assert_select 'body', html: /Small Group/, count: 0
+  end
+
+  context 'enable/disable email' do
+    setup do
+      Membership.create!(person: @user, group: @group)
+    end
+
+    context 'with code' do
+      should 'disable email' do
+        get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=off"
+        assert !@group.get_options_for(@user).get_email
+      end
+
+      should 'enable email' do
+        get "/groups/#{@group.id}/memberships/#{@user.id}?code=#{@user.feed_code}&email=on"
+        assert @group.get_options_for(@user).get_email
+      end
+    end
+
+    context 'while signed in' do
+      setup do
+        sign_in_as @user
+      end
+
+      should 'disable email' do
+        put "/groups/#{@group.id}/memberships/#{@user.id}?email=off"
+        assert !@group.get_options_for(@user).get_email
+      end
+
+      should 'enable email' do
+        put "/groups/#{@group.id}/memberships/#{@user.id}?email=on"
+        assert @group.get_options_for(@user).get_email
+      end
+    end
   end
 end

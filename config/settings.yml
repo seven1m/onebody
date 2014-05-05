@@ -63,9 +63,6 @@ Features:
   Sign Up Approval Email: 
     format: string
     value: 
-  Publications: 
-    format: boolean
-    value: true
   Verses: 
     format: boolean
     value: true
@@ -94,15 +91,6 @@ Features:
   News by Users:
     format: boolean
     value: true
-  Prayer Event:
-    format: boolean
-    value: false
-  Prayer Event First Date and Time:
-    format: string
-    value:
-  Prayer Event Last Date and Time:
-    format: string
-    value:
 Services: 
   Yahoo: 
     format: string
@@ -111,21 +99,6 @@ Services:
   Analytics: 
     format: string
     value: 
-  Campaign Monitor API Key:
-    format: string
-    value:
-  Donor Tools URL:
-    format: string
-    value:
-  Donor Tools API Email:
-    format: string
-    value:
-  Donor Tools API Password:
-    format: password
-    value:
-  Sermondrop URL:
-    format: string
-    value:
 URL: 
   Visitor: 
     format: string

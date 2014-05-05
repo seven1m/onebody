@@ -18,28 +18,25 @@ class SearchesController < ApplicationController
   end
 
   def create
-    params.reject_blanks!
-    @search = Search.new_from_params(params)
-    if @search.family_name.blank? and @search.family_barcode_id.nil?
-      @people = @search.query(params[:page])
+    if params[:family_name].present? and params[:family_barcode_id].present?
+      @search = Search.new(params.merge(source: :family))
+      @families = @search.results.page(params[:page])
     else
-      @families = @search.query(params[:page], 'family')
+      @search = Search.new(params)
+      @people = @search.results.page(params[:page])
     end
-    @count = @search.count
-    @show_birthdays = params[:birthday_month] or params[:birthday_day]
-    @business_categories = Person.business_categories if @search.show_businesses
-    respond_to do |wants|
-      wants.html do
-        if @people.length == 1 and (params[:name] or params[:quick_name])
-          redirect_to person_path(:id => @people.first)
+    respond_to do |format|
+      format.html do
+        if false and @people.length == 1 and (params[:name] or params[:quick_name])
+          redirect_to person_path(id: @people.first)
         else
-          render :action => 'create'
+          render action: 'create'
         end
       end
-      wants.js do
+      format.js do
         if params[:auto_complete]
           @people = @people[0..MAX_SELECT_PEOPLE]
-          render :partial => 'auto_complete'
+          render partial: 'auto_complete'
         elsif params[:select_person]
           @more = @people.length > MAX_SELECT_PEOPLE
           @people = @people[0...MAX_SELECT_PEOPLE]

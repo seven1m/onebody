@@ -1,13 +1,13 @@
 <% content_for :sidebar do %>
-  <%= render :partial => 'people/photo' %>
+  <%= render partial: 'people/photo' %>
   <p>
     <%= t('notes.posted') %> <%= @note.created_at.to_time.to_s %>
-    <% if @note.group %><%= t('to') %> <%= link_to @note.group.name, group_url(:id => @note.group) %><% end %>
-    <%= t('notes.by') %> <%= link_to @note.person.name, person_url(:id => @note.person) %>
+    <% if @note.group %><%= t('to') %> <%= link_to @note.group.name, group_url(id: @note.group) %><% end %>
+    <%= t('notes.by') %> <%= link_to @note.person.name, person_url(id: @note.person) %>
   </p>
   <% if @logged_in.can_edit?(@note) %>
-    <%= link_to t('notes.edit_note'), edit_note_path(@note), :class => 'edit-icon' %><br/>
-    <%= link_to t('notes.delete_note'), @note, :class => 'delete-icon', :method => :delete, :confirm => t('are_you_sure') %>
+    <%= link_to t('notes.edit_note'), edit_note_path(@note), class: 'edit-icon' %><br/>
+    <%= link_to t('notes.delete_note'), @note, class: 'delete-icon', method: :delete, confirm: t('are_you_sure') %>
   <% end %>
 <% end %>
 
@@ -22,4 +22,4 @@
 <% end %>
 
 <h2><%= t('Comments') %></h2>
-<%= render :partial => 'comments/comments', :locals => {:object => @note, :intro => t('notes.about_this_note') + '.'} %>
+<%= render partial: 'comments/comments', locals: {object: @note, intro: t('notes.about_this_note') + '.'} %>
