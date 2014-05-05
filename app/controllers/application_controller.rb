@@ -146,13 +146,13 @@ class ApplicationController < ActionController::Base
 
     def redirect_back(fallback=nil)
       if params[:from]
-        redirect_to(params[:from])
+        redirect_to URI.parse(params[:from]).path
       elsif request.env["HTTP_REFERER"]
-        redirect_to(request.env["HTTP_REFERER"])
+        redirect_to URI.parse(request.env["HTTP_REFERER"]).path
       elsif fallback
-        redirect_to(fallback)
+        redirect_to fallback
       else
-        redirect_to(people_path)
+        redirect_to people_path
       end
       return false # in case you want to halt action
     end

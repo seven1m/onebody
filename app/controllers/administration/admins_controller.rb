@@ -68,7 +68,7 @@ class Administration::AdminsController < ApplicationController
       flash[:notice] += t('application.template_created')
     end
     if params[:redirect_to]
-      redirect_to params[:redirect_to]
+      redirect_to URI.parse(params[:redirect_to]).path
     else
       redirect_to administration_admins_path
     end
