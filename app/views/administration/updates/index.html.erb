@@ -11,7 +11,10 @@
   <% if @logged_in.admin?(:manage_groups) %>
     <h3><%= t('admin.updates.groups_pending') %></h3>
     <% if not @complete and @unapproved_groups.any? %>
-      <p><%= t('groups.following_are_pending_approval', count: @unapproved_groups.length) %> <%= raw @unapproved_groups.map { |g| link_to(h(g.name), group_path(id: g)) }.join(', ') %></p>
+      <p>
+        <%= t('groups.following_are_pending_approval', count: @unapproved_groups.length) %>
+        <%= raw @unapproved_groups.map { |g| link_to(g.name, g) }.join(', ') %>
+      </p>
     <% else %>
       <p><%= t('admin.updates.none') %></p>
     <% end %>
