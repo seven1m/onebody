@@ -8,8 +8,6 @@ require 'db_tools'
 require 'blank_to_nil'
 require 'date_tools'
 require 'csv'
-# FIXME
-#require 'csv_serialization'
 require 'openssl'
 require 'base64'
 require 'digest/sha1'
