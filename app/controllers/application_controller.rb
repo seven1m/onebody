@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  #protect_from_forgery # FIXME
+  protect_from_forgery
 
   include LoadAndAuthorizeResource
 
