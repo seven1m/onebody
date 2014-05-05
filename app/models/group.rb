@@ -36,7 +36,7 @@ class Group < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :category
   validates_uniqueness_of :name, scope: :site_id
-  validates_format_of :address, with: /^[a-zA-Z0-9]+$/, allow_nil: true
+  validates_format_of :address, with: /\A[a-zA-Z0-9]+\z/, allow_nil: true
   validates_uniqueness_of :address, allow_nil: true, scope: :site_id
   validates_length_of :address, in: 2..30, allow_nil: true
   validates_uniqueness_of :cm_api_list_id, allow_nil: true, allow_blank: true, scope: :site_id
