@@ -9,11 +9,11 @@ OneBody is open-source, web-based social networking and online directory softwar
 
 1. Install Ruby 2.1.1 or higher (we recommend you use [RVM](https://rvm.io/)).
 2. Install MySQL.
-3. `git clone git://github.com/churchio/onebody.git`
+3. `git clone git://github.com/churchio/onebody.git && cd onebody`
 4. `mysql -u root -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
 5. `cp config/database.yml{.example,}`
 6. `cp config/secrets.yml{.example,} && vim config/secrets.yml` - add a random secret token (you can use `rake secret` to generate a new random secret)
-7. `cd onebody && bundle install && rake db:migrate`
+7. `bundle install && rake db:migrate`
 8. `rails server`
 
 Now visit the site running in development mode at localhost:3000.
