@@ -54,7 +54,12 @@ Net::POP3.start(host, nil, username, password) do |pop|
         logger.error "Error receiving email at " + Time.now.to_s + "::: " + e.message + "\n----\n" + e.backtrace.to_s
         backtrace = e.backtrace.is_a?(Array) ? e.backtrace.join("\n") : e.backtrace.to_s
         logger.error(backtrace)
-        Notifier.simple_message(Setting.get(:contact, :bug_notification_email), '[OneBody] Email Error', e.message + "\n\n" + backtrace).deliver
+        Notifier.simple_message(
+          Setting.get(:contact, :bug_notification_email),
+          '[OneBody] Email Error',
+          e.message + "\n\n" + backtrace,
+          'no-reply@localhost'
+        ).deliver
       ensure
         email.delete
       end
