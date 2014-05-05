@@ -107,9 +107,20 @@ class Updater
   # and/or creates a new Update pending approval
   def save!
     changes # set cache
-    person.update_attributes!(person_params)
-    family.update_attributes!(family_params)
     person.updates.create!(data: approval_params) if approval_params.any?
+    success = person.update_attributes(person_params) && family.update_attributes(family_params)
+    unless success
+      family.errors.full_messages.each { |m| person.errors.add(:base, m) }
+    end
+    success
+  end
+
+  def person
+    @person ||= Person.find(@id)
+  end
+
+  def family
+    person.family
   end
 
   private
@@ -168,14 +179,6 @@ class Updater
     end
   end
 
-  def person
-    @person ||= Person.find(@id)
-  end
-
-  def family
-    person.family
-  end
-
   def person_params
     immediate_params[:person]
   end
@@ -191,5 +194,4 @@ class Updater
   def approvals_enabled?
     Setting.get(:features, :updates_must_be_approved)
   end
-
 end

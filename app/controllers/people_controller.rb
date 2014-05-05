@@ -108,14 +108,18 @@ class PeopleController < ApplicationController
     @person = Person.find(params[:id])
     if @logged_in.can_edit?(@person)
       @updater = Updater.new(params)
-      @updater.save!
-      respond_to do |format|
-        format.html do
-          flash[:notice] = t('people.changes_submitted')
-          flash[:show_verification_link] = @updater.changes[:person].try(:[], :can_sign_in)
-          redirect_to @person
+      if @updater.save!
+        respond_to do |format|
+          format.html do
+            flash[:notice] = t('people.changes_submitted')
+            flash[:show_verification_link] = @updater.changes[:person].try(:[], :can_sign_in)
+            redirect_to @person
+          end
+          format.xml { render xml: @person.to_xml } if can_export?
         end
-        format.xml { render xml: @person.to_xml } if can_export?
+      else
+        @person = @updater.person
+        edit
       end
     else
       render text: t('not_authorized'), layout: true, status: 401
