@@ -237,6 +237,15 @@ module ApplicationHelper
     Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yy' : 'mm/dd/yy'
   end
 
+  # TODO remove after upgrade to Rails 4.1
+  # https://github.com/rails/rails/blob/654dd04af6172/activesupport/lib/active_support/core_ext/string/output_safety.rb#L103
+  JSON_ESCAPE = { '&' => '\u0026', '>' => '\u003e', '<' => '\u003c', "\u2028" => '\u2028', "\u2029" => '\u2029' }
+  JSON_ESCAPE_REGEXP = /[\u2028\u2029&><]/u
+  def json_escape(s)
+    result = s.to_s.gsub(JSON_ESCAPE_REGEXP, JSON_ESCAPE)
+    s.html_safe? ? result.html_safe : result
+  end
+
   class << self
     include ApplicationHelper
   end

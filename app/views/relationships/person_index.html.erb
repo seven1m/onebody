@@ -11,7 +11,7 @@
       <%= link_to t('relationships.family'), family_relationships_path(@person.family), class: 'people-icon' %>
     </p>
   </form>
-  
+
   <div id="add_member" style="display:none;">
     <%= form_tag person_relationships_path(@person) do %>
       <label for="relationship_name"><%= t('relationships.relationship_type') %></label>
@@ -20,7 +20,8 @@
         onchange: "if(this.value=='other') { $('#other_name').show()[0].focus() } else { $('#other_name').hide() }" %>
       <%= text_field_tag :other_name, nil, style: 'display:none;' %>
       <script type="text/javascript">
-        $('#other_name').autocomplete({source: <%= raw @other_names.inspect %>})
+        $('#other_name').autocomplete({source: <%=raw json_escape(@other_names.to_json) %>});
+        $('#relationship_name').trigger('change');
       </script>
       <div id="results"></div>
       <p><%= submit_tag t('search.add_selected') %></p>
