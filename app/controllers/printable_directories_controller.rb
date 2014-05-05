@@ -6,7 +6,7 @@ class PrintableDirectoriesController < ApplicationController
   end
 
   def create
-    if session[:directory_pdf_job].nil? or session[:directory_pdf_job] < 1.hour.ago
+    if session[:directory_pdf_job].nil? or session[:directory_pdf_job] < 10.minutes.ago
       Job.add("Person.find(#{@logged_in.id}).generate_and_email_directory_pdf(#{params[:with_pictures] ? 'true' : 'false'})")
       session[:directory_pdf_job] = Time.now
     else

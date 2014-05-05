@@ -87,7 +87,7 @@ class Person
 
     module ClassMethods
       def to_csv
-        FasterCSV.generate do |csv|
+        CSV.generate do |csv|
           csv << EXPORT_COLS[:person] + EXPORT_COLS[:family].map { |c| "family_#{c}" }
           total = Person.undeleted.count
           (1..(total/100+1)).each do |page|
