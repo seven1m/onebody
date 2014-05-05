@@ -16,8 +16,6 @@ class PagesController < ApplicationController
       else
         render text: t('pages.not_found'), status: 404
       end
-    elsif is_tour_page?
-      render file: Rails.root.join("public/#{@path}.#{I18n.locale}.html.liquid")
     else
       render text: t('pages.not_found'), status: 404
     end
@@ -76,10 +74,6 @@ class PagesController < ApplicationController
 
   def get_page
     @page = Page.find_by_id_or_path(@path)
-  end
-
-  def is_tour_page?
-    @path =~ /^help\/tour_[a-z]+$/ and File.exist?("#{Rails.root}/public/#{@path}.#{I18n.locale}.html.liquid")
   end
 
   def feature_enabled?

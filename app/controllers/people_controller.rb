@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { redirect_to person_path(@logged_in, tour: params[:tour]) }
+      format.html { redirect_to person_path(@logged_in) }
       if can_export?
         format.xml do
           job = Person.create_to_xml_job
