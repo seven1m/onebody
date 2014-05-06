@@ -37,5 +37,9 @@ module OneBody
 
     # Disable whitelisted parameters, since we're using the strong_parameters gem
     config.active_record.whitelist_attributes = false
+
+    config.generators do |g|
+      g.test_framework :rspec
+    end
   end
 end
