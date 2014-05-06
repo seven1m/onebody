@@ -27,7 +27,7 @@ To run tests:
 
 ```
 mysql -u root -e "create database onebody_test; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
-rake test
+rspec
 ```
 
 ## Get Help
