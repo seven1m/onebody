@@ -20,10 +20,10 @@ def notify(pass, heading, body='')
   system(cmd)
 end
 
-def run_tests(test, force=false)
+def run_specs(test, force=false)
   if force || File.exist?(test)
     puts "-" * 80
-    rspec_cmd = File.exists?('.zeus.sock') ? "zeus test" : "ruby"
+    rspec_cmd = File.exists?('.zeus.sock') ? "zeus test" : "rspec"
     puts "#{rspec_cmd} #{test}"
     cmd = IO.popen("#{rspec_cmd} #{test} 2>&1")
     result = ''
@@ -32,11 +32,11 @@ def run_tests(test, force=false)
       result << char
       $stdout.write(char)
     end
-    if result =~/.*0 failures, 0 errors/
+    if result =~/.*0 failures/
       summary = $~.to_s
-      secs = result.match(/Finished tests in ([\d\.]+s)/)[1]
+      secs = result.match(/Finished in ([\d\.]+)/)[1]
       notify(true, 'Test Success', summary + ' ' + secs)
-    elsif result =~ /(\d+) failures?, (\d+) errors?/
+    elsif result =~ /(\d+) failures?/
       summary = $~.to_s
       notify(false, 'Test Failure', summary)
     else
@@ -48,19 +48,19 @@ def run_tests(test, force=false)
 end
 
 def run_suite
-  run_tests('test/*', :force)
+  run_specs('test/*', :force)
 end
 
-watch('^test/unit/(.*)_test\.rb'       ) { |m| run_tests("test/unit/#{m[1]}_test.rb")             }
-watch('^test/functional/(.*)_test\.rb' ) { |m| run_tests("test/functional/#{m[1]}_test.rb")       }
-watch('^test/factories/(.*)\.rb'       ) { |m| run_tests("test/unit/#{m[1]}_test.rb")             }
-watch('^test/integration/(.*)_test\.rb') { |m| run_tests("test/integration/#{m[1]}_test.rb")      }
-watch('^app/models/(.*)\.rb'           ) { |m| run_tests("test/unit/#{m[1]}_test.rb")             }
-watch('^app/authorizers/(.*)\.rb'      ) { |m| run_tests("test/unit/authorizers/#{m[1]}_test.rb") }
-watch('^app/concerns/(.*)\.rb'         ) { |m| run_tests("test/unit/concerns/#{m[1]}_test.rb")    }
-watch('^app/controllers/(.*)\.rb'      ) { |m| run_tests("test/functional/#{m[1]}_test.rb")       }
-watch('^app/helpers/(.*)\.rb'          ) { |m| run_tests("test/unit/helpers/#{m[1]}_test.rb")     }
-watch('^lib/(.*)\.rb'                  ) { |m| run_tests("test/lib/#{m[1]}_test.rb")              }
+watch('^spec/models/(.*)_spec\.rb'     ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
+watch('^spec/controllers/(.*)_spec\.rb') { |m| run_specs("spec/controllers/#{m[1]}_spec.rb")        }
+watch('^test/factories/(.*)\.rb'       ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
+watch('^spec/requests/(.*)_spec\.rb'   ) { |m| run_specs("spec/requests/#{m[1]}_spec.rb")           }
+watch('^app/models/(.*)\.rb'           ) { |m| run_specs("spec/models/#{m[1]}_spec.rb")             }
+watch('^app/authorizers/(.*)\.rb'      ) { |m| run_specs("spec/models/authorizers/#{m[1]}_spec.rb") }
+watch('^app/concerns/(.*)\.rb'         ) { |m| run_specs("spec/models/concerns/#{m[1]}_spec.rb")    }
+watch('^app/controllers/(.*)\.rb'      ) { |m| run_specs("spec/controllers/#{m[1]}_spec.rb")        }
+watch('^app/helpers/(.*)\.rb'          ) { |m| run_specs("spec/helpers/#{m[1]}_spec.rb")            }
+watch('^lib/(.*)\.rb'                  ) { |m| run_specs("test/lib/#{m[1]}_spec.rb")                }
 
 @interrupt_received = false
 

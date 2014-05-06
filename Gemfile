@@ -27,7 +27,7 @@ gem 'mini_magick'
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'shoulda'
+  gem 'shoulda-matchers'
 end
 
 group :development do
@@ -38,6 +38,7 @@ end
 
 group :development, :test do
   gem 'pry'
+  gem 'rspec-rails', '~> 3.0.0.beta'
 end
 
 group :production do
