@@ -53,34 +53,36 @@ class NewsItem < ActiveRecord::Base
   class << self
     def update_from_feed
       if raw_items = get_feed_items
-        active = []
+        active_items = []
         raw_items.each do |raw_item|
-          item = NewsItem.find_by_link(raw_item.url) || NewsItem.new
-          item.link = raw_item.url
-          item.title = raw_item.title
-          item.body = raw_item.content || raw_item.summary
+          item = where(link: raw_item.url).first_or_initialize
+          item.link      = raw_item.url
+          item.title     = raw_item.title
+          item.body      = raw_item.content || raw_item.summary
           item.published = raw_item.published
-          item.active = true
-          item.source = 'feed'
+          item.active    = true
+          item.source    = 'feed'
           item.save
-          active << item
+          active_items << item
         end
-        NewsItem.update_all("active = 0", "source = 'feed' and id not in (#{active.map { |n| n.id }.join(',')})") if active.any?
+        if active_items.any?
+          where(source: 'feed').deactivate_all_except(active_items)
+        end
       end
     end
 
     def get_feed_items
-      urls = []
-      urls << Setting.get(:url, :news_feed) if Setting.get(:url, :news_feed).to_s.any?
-      urls.map do |url|
-        next unless url.to_s.any?
-        begin
-          feed = Feedzirra::Feed.fetch_and_parse(url)
-          feed.entries
-        rescue
-          nil
-        end
-      end.flatten.compact
+      url = Setting.get(:url, :news_feed)
+      if url.present?
+        feed = Feedjira::Feed.fetch_and_parse(url)
+        feed.try(:entries) || []
+      else
+        []
+      end
+    end
+
+    def deactivate_all_except(items)
+      where('id not in (?)', items.map(&:id)).update_all('active = 0')
     end
   end
 end
