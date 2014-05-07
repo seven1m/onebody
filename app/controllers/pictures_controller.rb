@@ -30,7 +30,7 @@ class PicturesController < ApplicationController
     @uploader.save
     notices = [t('pictures.saved', success: @uploader.success)]
     notices << t('pictures.failed', fail: @uploader.fail) if @uploader.fail > 0
-    flash[:notice] = notices.join('<br/>')
+    flash[:notice] = notices.join('<br/>').html_safe
     redirect_to params[:redirect_to] || @group || album_pictures_path(@album)
   end
 
