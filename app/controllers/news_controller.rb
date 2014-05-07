@@ -60,7 +60,7 @@ class NewsController < ApplicationController
 
   def create
     if @logged_in.admin?(:manage_news) or Setting.get(:features, :news_by_users)
-      @news_item = NewsItem.new(params[:news_item])
+      @news_item = NewsItem.new(news_item_params)
       @news_item.person = @logged_in
       @news_item.source = 'user'
       if @news_item.save
@@ -90,7 +90,7 @@ class NewsController < ApplicationController
   def update
     @news_item = NewsItem.find(params[:id])
     if @logged_in.can_edit?(@news_item)
-      if @news_item.update_attributes(params[:news_item])
+      if @news_item.update_attributes(news_item_params)
         respond_to do |format|
           format.html { flash[:notice] = t('news.saved'); redirect_to @news_item }
         end
@@ -114,5 +114,11 @@ class NewsController < ApplicationController
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
+  end
+
+  private
+
+  def news_item_params
+    params.require(:news_item).permit(:title, :body)
   end
 end
