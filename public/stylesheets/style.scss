@@ -726,6 +726,26 @@ a.button, input[type=submit] {
   }
 }
 
+.news-item-meta {
+  font-size: smaller;
+  margin: -20px 0 10px 0;
+  &, a {
+    color: $light - 50;
+  }
+}
+
+.left-sidebar .news-item-meta {
+  margin-top: 0;
+}
+
+.news-item-controls {
+  margin-top: 20px;
+}
+
+.news-item-body {
+  margin-top: 20px;
+}
+
 /* Stream */
 
 .stream-item {
