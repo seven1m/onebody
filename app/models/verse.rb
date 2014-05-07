@@ -242,7 +242,7 @@ class Verse < ActiveRecord::Base
     end
 
     def find_by_reference(reference)
-      find_or_create_by_reference(Verse.normalize_reference(reference))
+      where(reference: Verse.normalize_reference(reference)).first_or_create
     end
 
     # make the reference normal (proper book name, formatting, etc.)

@@ -49,7 +49,7 @@ class MembershipsController < ApplicationController
       end
     # promote/demote
     elsif @logged_in.can_edit?(@group)
-      @membership = @group.memberships.find_or_create_by_person_id(params[:id])
+      @membership = @group.memberships.where(person_id: params[:id]).first_or_create
       @membership.update_attribute :admin, !params[:promote].nil?
       flash[:notice] = t('groups.user_settings_saved')
       redirect_back
