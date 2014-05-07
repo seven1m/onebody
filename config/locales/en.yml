@@ -1413,6 +1413,7 @@ en:
     click_to_enlarge: click to enlarge
     click_to_see_original: click to see original
     comment_on_this_picture: Comment on this picture
+    default_album_name: Pictures
     delete_album: Delete Album
     edit_album: Edit Album
     failed: "%{fail} not saved due to errors"

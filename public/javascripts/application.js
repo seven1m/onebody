@@ -94,21 +94,3 @@ function setupMenus() {
 }
 
 $(setupMenus);
-
-$(function(){
-  $('input[placeholder]').focus(function(){
-    var i = $(this);
-    var p = i.attr('placeholder');
-    if(i.val() == p) {
-      i.val('');
-      i.removeClass('defaulted');
-    }
-  }).blur(function(){
-    var i = $(this);
-    var p = i.attr('placeholder');
-    if(i.val() == '') {
-      i.val(p);
-      i.addClass('defaulted');
-    }
-  }).trigger('blur');
-});

@@ -1363,6 +1363,7 @@ pt:
     click_to_enlarge: clique para alargar
     click_to_see_original: clique para ver o original
     comment_on_this_picture: Comente esta foto
+    default_album_name: Fotos
     delete_album: Deletar Álbum
     edit_album: Editar Álbum
     failed: "%{fail} não salvas devido a erros"

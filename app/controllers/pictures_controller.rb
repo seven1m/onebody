@@ -52,11 +52,10 @@ class PicturesController < ApplicationController
   private
 
   def find_or_create_album_by_name
-    return if @album or not params[:album]
-    unless @album = albums.where(name: params[:album]).first
-      @album = albums.new(name: params[:album])
-      Authority.enforce(:create, @album, current_user)
-      @album.save!
+    return if @album
+    name = params[:album].presence || I18n.t('pictures.default_album_name')
+    @album = albums.where(name: name).first_or_create do |album|
+      Authority.enforce(:create, album, current_user)
     end
     @album.owner ||= @logged_in # if not owned by group
   end
