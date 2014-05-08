@@ -38,7 +38,7 @@ class Note < ActiveRecord::Base
   after_update :update_stream_items
 
   def update_stream_items
-    StreamItem.find_all_by_streamable_type_and_streamable_id('Note', id).each do |stream_item|
+    StreamItem.where(streamable_type: "Note", streamable_id: id).all.each do |stream_item|
       stream_item.title = title
       stream_item.body  = body
       stream_item.save

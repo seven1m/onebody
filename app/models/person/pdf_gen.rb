@@ -95,7 +95,7 @@ class Person
             pdf.text family.city + ', ' + family.state + '  ' + family.zip + "\n"
           end
           pdf.text ApplicationHelper.format_phone(family.home_phone), font_size: 14 if family.home_phone.to_i > 0
-          family.people.find_all_by_deleted(false).each do |person|
+          family.people.where(deleted: false).all.each do |person|
             name = person.last_name == family.last_name ? person.first_name : person.name
             pdf.text "\n", font_size: 11
             pdf.add_text_wrap pdf.absolute_left_margin, pdf.y, 400, name, 11

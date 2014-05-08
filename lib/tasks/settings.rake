@@ -37,11 +37,11 @@ namespace :onebody do
       loop do
         puts
         puts 'Choose a section:'
-        sections = Setting.find_by_sql(
-          site ?
-            ["select distinct section from settings where site_id = ?", site.id] :
-            ["select distinct section from settings where global = ?", true]
-        ).map do |section|
+        sections = Setting.where(sql: if site
+  ["select distinct section from settings where site_id = ?", site.id]
+else
+  ["select distinct section from settings where global = ?", true]
+end).first.map do |section|
           section.section
         end
         section_selection = choose(*(sections + ['(back)'])) { |q| q.flow = :columns_down }
@@ -51,17 +51,17 @@ namespace :onebody do
           puts
           puts 'Choose a setting:'
           if site
-            settings = Setting.find_all_by_site_id_and_section(site.id, section_selection).map { |s| s.name }
+            settings = Setting.where(site_id: site.id, section: section_selection).all.map { |s| s.name }
           else
-            settings = Setting.find_all_by_global_and_section(true, section_selection).map { |s| s.name }
+            settings = Setting.where(global: true, section: section_selection).all.map { |s| s.name }
           end
           setting_selection = choose(*settings + ['(back)']) { |q| q.flow = :columns_down }
           break if setting_selection == '(back)'
 
           if site
-            setting = Setting.find_by_site_id_and_section_and_name(site.id, section_selection, setting_selection)
+            setting = Setting.where(site_id: site.id, section: section_selection, name: setting_selection).first
           else
-            setting = Setting.find_by_global_and_section_and_name(true, section_selection, setting_selection)
+            setting = Setting.where(global: true, section: section_selection, name: setting_selection).first
           end       
           puts
           puts "Setting - #{setting.section}: #{setting.name}"

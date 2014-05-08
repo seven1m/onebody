@@ -4,7 +4,7 @@ class Person
       if person.friendship_waiting_on?(self)
         # already requested by other person
         self.friendships.create! friend: person
-        self.friendship_requests.find_by_from_id(person.id).destroy
+        self.friendship_requests.where(from_id: person.id).first.destroy
         I18n.t('friends.added_as_friend', name: person.name)
       elsif self.can_request_friendship_with?(person)
         # clean up past rejections

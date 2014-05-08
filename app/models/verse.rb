@@ -237,7 +237,7 @@ class Verse < ActiveRecord::Base
       elsif reference_or_id.is_a?(Symbol) or reference_or_id.to_s =~ /^\d+$/
         super
       else
-        find_by_reference(reference_or_id)
+        where(reference: reference_or_id).first
       end
     end
 

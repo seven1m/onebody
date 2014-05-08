@@ -1,7 +1,7 @@
 class UpdateLeaderOnGroups < ActiveRecord::Migration
   def self.up
     Site.each do
-      Group.find_all_by_leader_id(nil).each do |group|
+      Group.where(leader_id: nil).each do |group|
         group.leader = group.admins.first
         group.save(:validate => false)
       end

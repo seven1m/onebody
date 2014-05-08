@@ -19,11 +19,11 @@ class ApplicationController < ActionController::Base
 
     def get_site
       if ENV['ONEBODY_SITE']
-        Site.current = Site.find_by_name_and_active(ENV['ONEBODY_SITE'], true)
+        Site.current = Site.where(name: ENV["ONEBODY_SITE"], active: true).first
       elsif Setting.get(:features, :multisite)
-        Site.current = Site.find_by_host_and_active(request.host, true)
+        Site.current = Site.where(host: request.host, active: true).first
       else
-        Site.current = Site.find_by_id(1) || raise(t('application.no_default_site'))
+        Site.current = Site.where(id: 1).first || raise(t('application.no_default_site'))
       end
       if Site.current
         Setting.reload_if_stale
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
         OneBody.set_time_zone
         OneBody.set_local_formats
         set_layout_variables
-      elsif site = Site.find_by_secondary_host_and_active(request.host, true)
+      elsif site = Site.where(secondary_host: request.host, active: true).first
         redirect_to 'http://' + site.host
         return false
       elsif request.host =~ /^www\./
@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
     # (without redirecting if they are not)
     def get_user
       if id = session[:logged_in_id]
-        Person.logged_in = @logged_in = Person.find_by_id(id)
+        Person.logged_in = @logged_in = Person.where(id: id).first
       end
     end
 
@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 
     def authenticate_user_with_session
       if id = session[:logged_in_id]
-        unless person = Person.find_by_id(id)
+        unless person = Person.where(id: id).first
           session[:logged_in_id] = nil
           redirect_to new_session_path
           return false
@@ -92,7 +92,7 @@ class ApplicationController < ActionController::Base
 
     def authenticate_user_with_code_or_session
       Person.logged_in = @logged_in = nil
-      unless params[:code] and Person.logged_in = @logged_in = Person.find_by_feed_code_and_deleted(params[:code], false)
+      unless params[:code] and Person.logged_in = @logged_in = Person.where(feed_code: params[:code], deleted: false).first
         authenticate_user_with_session
       end
     end
@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
       Person.logged_in = @logged_in = nil
       authenticate_with_http_basic do |email, api_key|
         if email.to_s.any? and api_key.to_s.length == 50
-          Person.logged_in = @logged_in = Person.find_by_email_and_api_key(email, api_key)
+          Person.logged_in = @logged_in = Person.where(email: email, api_key: api_key).first
           Person.logged_in = @logged_in = nil unless @logged_in and @logged_in.super_admin?
         end
       end
@@ -123,7 +123,7 @@ class ApplicationController < ActionController::Base
     def rescue_action_with_page_detection(exception)
       get_site
       path, args = request.fullpath.downcase.split('?')
-      if exception.is_a?(ActionController::RoutingError) and @page = Page.find_by_path(path)
+      if exception.is_a?(ActionController::RoutingError) and @page = Page.where(path: path).first
         redirect_to '/pages/' + @page.path + (args ? "?#{args}" : '')
       else
         rescue_action_without_page_detection(exception)

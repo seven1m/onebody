@@ -18,7 +18,7 @@ class NewsController < ApplicationController
       end
       format.xml do
         if Setting.get(:features, :news_page)
-          @news_items = NewsItem.find_all_by_active(true, order: 'published desc', include: :person, limit: 30)
+          @news_items = NewsItem.where(active: true).includes(:person).limit(30).order('published desc').all
           render layout: false
         else
           if the_url = Setting.get(:url, :news)

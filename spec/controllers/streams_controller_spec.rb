@@ -34,7 +34,7 @@ describe StreamsController do
     @n2 = FactoryGirl.create(:note, person: @person)
     get :show, nil, {logged_in_id: @person.id}
     expect(response).to be_success
-    @stream_item = StreamItem.find_by_streamable_type_and_streamable_id('Note', @n1.id)
+    @stream_item = StreamItem.where(streamable_type: "Note", streamable_id: @n1.id).first
     assert_select "#stream-item-group#{@stream_item.id}", 1
   end
 
@@ -44,7 +44,7 @@ describe StreamsController do
     @n2 = FactoryGirl.create(:news_item, person: @person)
     get :show, nil, {logged_in_id: @person.id}
     expect(response).to be_success
-    @stream_item = StreamItem.find_by_streamable_type_and_streamable_id('NewsItem', @n1.id)
+    @stream_item = StreamItem.where(streamable_type: "NewsItem", streamable_id: @n1.id).first
     assert_select "#stream-item-group#{@stream_item.id}", 0
   end
 

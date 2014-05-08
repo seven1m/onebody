@@ -35,7 +35,7 @@ module ActiveRecord
           alias_method :share_#{attribute}_with?, :share_#{attribute}_with
 
           def share_#{attribute}_through_group_with(person)
-            self.memberships.find_all_by_share_#{attribute}(true).any? do |m|
+            self.memberships.where(share_#{attribute}: true).any? do |m|
               person.member_of?(m.group)
             end
           end

@@ -166,7 +166,7 @@ describe PicturesController do
           end
 
           it 'should not create an album' do
-            expect(Album.find_by_name('New Album')).to be_nil
+            expect(Album.where(name: "New Album").first).to be_nil
           end
         end
 
@@ -191,7 +191,7 @@ describe PicturesController do
             end
 
             it 'should not create an album' do
-              expect(Album.find_by_name('New Album')).to be_nil
+              expect(Album.where(name: "New Album").first).to be_nil
             end
           end
         end

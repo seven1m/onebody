@@ -49,7 +49,7 @@ class Page < ActiveRecord::Base
     if home?
       Page.root_pages
     else
-      children.find_all_by_published_and_navigation(true, true)
+      children.where(published: true, navigation: true).all
     end
   end
 
@@ -80,9 +80,9 @@ class Page < ActiveRecord::Base
 
     def find_by_id_or_path(id_or_path)
       if id_or_path.is_a?(String) and id_or_path !~ /^\d+$/
-        find_by_path(id_or_path)
+        where(path: id_or_path).first
       else
-        find_by_id(id_or_path)
+        where(id: id_or_path).first
       end
     end
 
@@ -104,7 +104,7 @@ class Page < ActiveRecord::Base
     end
 
     def root_pages(include_home=false, published=true, navigation=true)
-      Page.find_all_by_parent_id_and_published_and_navigation(nil, published, navigation).select { |p| include_home or not p.home? }
+      Page.where(parent_id: nil, published: published, navigation: navigation).all.select { |p| include_home or not p.home? }
     end
 
   end

@@ -58,7 +58,7 @@ class Setting < ActiveRecord::Base
 
     def delete(section, name) # must be proper case section and name
       raise 'Must be proper case string' if name.is_a? Symbol
-      find_all_by_section_and_name(section, name).each { |s| s.destroy }
+      where(section: section, name: name).each { |s| s.destroy }
     end
 
     def set(*args)
@@ -79,7 +79,7 @@ class Setting < ActiveRecord::Base
         section = setting.section
         name = setting.name
       end
-      if setting = find_by_site_id_and_section_and_name(site_id, section, name)
+      if setting = where(site_id: site_id, section: section, name: name).first
         setting.update_attributes! value: value
       else
         raise "No setting found for #{section}/#{name}."
@@ -143,7 +143,7 @@ class Setting < ActiveRecord::Base
     def update_all
       settings = load_settings_hash
       # per site settings
-      Site.find_all_by_active(true).each do |site|
+      Site.where(active: true).each do |site|
         if get_hash_of_settings_in_db(site.id) != get_hash_of_settings_in_yaml(settings)
           Rails.logger.info("Reloading settings for site #{site.id}...")
           update_site_from_hash(site, settings)
@@ -152,7 +152,7 @@ class Setting < ActiveRecord::Base
       # globals
       if get_hash_of_settings_in_db != get_hash_of_settings_in_yaml(settings, true)
         Rails.logger.info("Reloading global settings...")
-        global_settings_in_db = Setting.find_all_by_global(true)
+        global_settings_in_db = Setting.where(global: true).all
         each_setting_from_hash(settings, true) do |section_name, setting_name, setting|
           unless global_settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
             global_settings_in_db << Setting.create!(setting.merge(section: section_name, name: setting_name))
@@ -168,7 +168,7 @@ class Setting < ActiveRecord::Base
     end
 
     def update_site_from_hash(site, settings)
-      settings_in_db = Setting.find_all_by_site_id(site.id)
+      settings_in_db = Setting.where(site_id: site.id).all
       each_setting_from_hash(settings, false) do |section_name, setting_name, setting|
         unless settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
           setting['site_id'] = site.id
@@ -197,7 +197,7 @@ class Setting < ActiveRecord::Base
     end
 
     def update_site_from_params(id, params)
-      Setting.find_all_by_site_id(id).each do |setting|
+      Setting.where(site_id: id).each do |setting|
         next if setting.hidden?
         value = params[setting.id.to_s]
         if setting.format == 'list'
@@ -211,7 +211,7 @@ class Setting < ActiveRecord::Base
     end
 
     def update_global_from_params(params)
-      Setting.find_all_by_site_id_and_global(nil, true).each do |setting|
+      Setting.where(site_id: nil, global: true).each do |setting|
         next if setting.hidden?
         value = params[setting.id.to_s]
         if setting.format == 'list'

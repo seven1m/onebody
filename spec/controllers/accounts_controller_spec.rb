@@ -645,7 +645,7 @@ describe AccountsController do
                             gender:     'Male',
                             birthday:   '01/02/1980'}}
     expect(response).to be_success
-    expect(bob = Person.find_by_email('bob@example.com')).to be
+    expect(bob = Person.where(email: "bob@example.com").first).to be
     expect(bob.birthday.strftime("%m/%d/%Y")).to eq("01/02/1980")
   end
 
@@ -658,7 +658,7 @@ describe AccountsController do
                             gender:     'Male',
                             birthday:   '02/01/1980'}}
     expect(response).to be_success
-    expect(bob = Person.find_by_email('bob@example.com')).to be
+    expect(bob = Person.where(email: "bob@example.com").first).to be
     expect(bob.birthday.strftime("%b %d, %Y")).to eq("Jan 02, 1980")
   end
 

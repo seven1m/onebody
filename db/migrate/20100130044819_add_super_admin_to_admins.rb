@@ -6,7 +6,7 @@ class AddSuperAdminToAdmins < ActiveRecord::Migration
     Admin.reset_column_information
     Site.each do
       Setting.get(:access, :super_admins).to_a.each do |email|
-        Person.find_all_by_email(email).each do |person|
+        Person.where(email: email).each do |person|
           admin = Admin.create!(:super_admin => true)
           person.admin = admin
           person.save!
@@ -22,7 +22,7 @@ class AddSuperAdminToAdmins < ActiveRecord::Migration
         :section => 'Access',
         :name    => 'Super Admins',
         :format  => 'list',
-        :value   => Admin.find_all_by_super_admin(true).map { |a| a.person.email }
+        :value   => Admin.where(super_admin: true).all.map { |a| a.person.email }
       )
     end
     change_table :admins do |t|

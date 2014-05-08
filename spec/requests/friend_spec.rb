@@ -30,7 +30,7 @@ describe 'Friend' do
 
     sign_in_as @stranger
     assert_select 'body', html: /pending friend requests/
-    f = @stranger.friendship_requests.find_by_from_id(@user.id)
+    f = @stranger.friendship_requests.where(from_id: @user.id).first
 
     put "/people/#{@stranger.id}/friends/#{f.id}?accept=true"
     expect(response).to be_redirect
