@@ -37,6 +37,7 @@ describe PeopleController do
   end
 
   it "should create a person update" do
+    Setting.set(Site.current.id, 'Features', 'Updates Must Be Approved', true)
     get :edit, {id: @person.id}, {logged_in_id: @person.id}
     expect(response).to be_success
     post :update,
@@ -53,7 +54,7 @@ describe PeopleController do
       },
       {logged_in_id: @person.id}
     expect(response).to redirect_to(person_path(@person))
-    expect(@person.reload.first_name).to eq("John")
+    expect(@person.reload.first_name).to eq("John") # should not change person
     expect(@person.updates.count).to eq(1)
   end
 

@@ -106,6 +106,10 @@ describe Updater do
       it "should return also parameters marked :approve" do
         expect(@actual[:person][:first_name]).to eq("Tim")
       end
+
+      after do
+        Setting.set(Site.current.id, 'Features', 'Updates Must Be Approved', true)
+      end
     end
 
     context 'user is admin' do
@@ -176,6 +180,10 @@ describe Updater do
 
       it 'should not create an Update' do
         expect(Update.last).to be_nil
+      end
+
+      after do
+        Setting.set(Site.current.id, 'Features', 'Updates Must Be Approved', true)
       end
     end
 
