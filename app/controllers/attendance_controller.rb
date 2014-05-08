@@ -26,7 +26,7 @@ class AttendanceController < ApplicationController
     @attended_at = Time.parse(params[:attended_at])
     if @logged_in.super_admin? or @group.admin?(@logged_in)
       Array(params[:ids]).each do |id|
-        if person = Person.find_by_id(id)
+        if person = Person.where(id: id).first
           AttendanceRecord.delete_all(["person_id = ? and attended_at = ?", id, @attended_at.strftime('%Y-%m-%d %H:%M:%S')])
           if @group
             @group.attendance_records.create!(
@@ -72,9 +72,9 @@ class AttendanceController < ApplicationController
     @group = Group.find(params[:group_id])
     @attended_at = Time.parse(params[:attended_at])
     if @group.admin?(@logged_in)
-      @group.attendance_records.find_all_by_attended_at(@attended_at.strftime('%Y-%m-%d %H:%M:%S')).each { |r| r.destroy }
+      @group.attendance_records.where(attended_at: @attended_at.strftime("%Y-%m-%d %H:%M:%S")).all.each { |r| r.destroy }
       params[:ids].to_a.each do |id|
-        if person = Person.find_by_id(id)
+        if person = Person.where(id: id).first
           @group.attendance_records.create!(
             person_id:      person.id,
             attended_at:    @attended_at.strftime('%Y-%m-%d %H:%M:%S'),

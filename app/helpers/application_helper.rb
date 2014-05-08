@@ -121,7 +121,7 @@ module ApplicationHelper
   end
 
   def render_page_content(path)
-    if page = Page.find_by_path_and_published(path, true)
+    if page = Page.where(path: path, published: true).first
       sanitize_html(page.body)
     end
   end

@@ -3,7 +3,7 @@ class Administration::AdminsController < ApplicationController
 
   def index
     if params[:groups]
-      @group_admins = Membership.find_all_by_admin(true, include: [:group, :person]) \
+      @group_admins = Membership.where(admin: true).includes(:group, :person).all \
         .map { |m| [m.person, m.group] } \
         .sort_by { |a| (params[:sort] == 'group' ? a[1] : a[0]).name }
       render action: 'group_admins'

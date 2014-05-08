@@ -254,7 +254,7 @@ describe Person do
 
     it 'should eager load commenters on stream items' do
       @pic.comments.create!(person: @friend)
-      stream_item = StreamItem.find_by_streamable_type_and_streamable_id('Album', @pic.album_id)
+      stream_item = StreamItem.where(streamable_type: "Album", streamable_id: @pic.album_id).first
       received = @person.shared_stream_items
       expect(received.length).to eq(1)
       expect(received.first.id).to eq(stream_item.id)

@@ -45,7 +45,7 @@ class PrayerRequest < ActiveRecord::Base
 
   def update_stream_items
     return unless streamable?
-    StreamItem.find_all_by_streamable_type_and_streamable_id('PrayerRequest', id).each do |stream_item|
+    StreamItem.where(streamable_type: "PrayerRequest", streamable_id: id).all.each do |stream_item|
       stream_item.body  = body
       stream_item.save
     end

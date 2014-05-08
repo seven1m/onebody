@@ -4,11 +4,7 @@ class Administration::SettingsController < ApplicationController
 
   def index
     @settings = {}
-    Setting.find_all_by_site_id_and_hidden(
-      Site.current.id,
-      false,
-      order: 'section, name'
-    ).each do |setting|
+    Setting.where(site_id: Site.current.id, hidden: false).order('section, name').each do |setting|
       @settings[setting.section] ||= {}
       @settings[setting.section][setting['name']] = setting
     end
@@ -16,7 +12,7 @@ class Administration::SettingsController < ApplicationController
   end
 
   def batch
-    Setting.find_all_by_site_id(Site.current.id).each do |setting|
+    Setting.where(site_id: Site.current.id).each do |setting|
       next if setting.hidden?
       value = params[setting.id.to_s]
       value = value.split(/\n/) if value and setting.format == 'list'

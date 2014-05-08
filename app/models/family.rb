@@ -194,12 +194,12 @@ class Family < ActiveRecord::Base
       raise "Too many records to batch at once (#{records.length})" if records.length > MAX_TO_BATCH_AT_A_TIME
       records.map do |record|
         # find the family (by legacy_id, preferably)
-        family = find_by_legacy_id(record['legacy_id'])
+        family = where(legacy_id: record["legacy_id"]).first
         if family.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and record['barcode_id'].to_s.any?
           # if no family was found by legacy id, let's try by barcode id
           # but only if the matched family has no legacy id!
           # (because two separate families could potentially have accidentally been assigned the same barcode)
-          family = find_by_legacy_id_and_barcode_id(nil, record['barcode_id'])
+          family = where(legacy_id: nil, barcode_id: record["barcode_id"]).first
         end
         # last resort, create a new record
         family ||= new

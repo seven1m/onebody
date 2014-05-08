@@ -198,7 +198,7 @@ class Message < ActiveRecord::Base
       "\"#{name}\" <#{person.email}>"
     else # special time-limited address that relays a private message directly back to the sender
       email = person.name.downcase.scan(/[a-z]/).join('')
-      email = email + person.id.to_s if Group.find_by_address(email)
+      email = email + person.id.to_s if Group.where(address: email).first
       "\"#{name}\" <#{email + '@' + Site.current.host}>"
     end
   end
@@ -253,7 +253,7 @@ class Message < ActiveRecord::Base
 
   def update_stream_items
     return unless streamable?
-    StreamItem.find_all_by_streamable_type_and_streamable_id('Message', id).each do |stream_item|
+    StreamItem.where(streamable_type: "Message", streamable_id: id).all.each do |stream_item|
       stream_item.title = subject
       if html_body.to_s.any?
         stream_item.body = html_body

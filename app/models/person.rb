@@ -206,7 +206,7 @@ class Person < ActiveRecord::Base
   end
 
   def member_of?(group)
-    memberships.find_by_group_id(group.id)
+    memberships.where(group_id: group.id).first
   end
 
   def birthday=(d)
@@ -358,7 +358,7 @@ class Person < ActiveRecord::Base
     enabled_types << 'Note'        if Setting.get(:features, :notes       )
     enabled_types << 'PrayerRequest'
     friend_ids = all_friend_and_groupy_ids
-    group_ids = groups.find_all_by_hidden(false, select: 'groups.id').map { |g| g.id }
+    group_ids = groups.where(hidden: false).select('groups.id').map { |g| g.id }
     group_ids = [0] unless group_ids.any?
     relation = StreamItem.scoped \
                .where(streamable_type: enabled_types) \
@@ -463,14 +463,14 @@ class Person < ActiveRecord::Base
     def update_batch(records, options={})
       raise "Too many records to batch at once (#{records.length})" if records.length > MAX_TO_BATCH_AT_A_TIME
       records.map do |record|
-        person = find_by_legacy_id(record['legacy_id'])
+        person = where(legacy_id: record["legacy_id"]).first
         # find the family (by legacy_id, preferably)
         family_id = Family.connection.select_value("select id from families where legacy_id = #{record['legacy_family_id'].to_i} and site_id = #{Site.current.id}")
         if person.nil? and options['claim_families_by_barcode_if_no_legacy_id'] and family_id
           # family should have already been claimed by barcode -- we're just going to try to match up people by name
           # mark all people in this family as deleted, in case we don't get them all matched up
           destroy_all ["family_id = ? and legacy_id is null and deleted = ?", family_id, false]
-          family_people = find_all_by_family_id_and_legacy_id(family_id, nil)
+          family_people = where(family_id: family_id, legacy_id: nil).all
           # try to match by name
           person = family_people.detect { |p| p.first_name.soundex == record['first_name'].soundex and p.last_name.soundex == record['last_name'].soundex }
           # it's not a huge deal if someone doesn't get matched up by name (a good percentage won't),
@@ -500,7 +500,7 @@ class Person < ActiveRecord::Base
               !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
             end.each { |r| r.delete }
             record['relationships'].to_s.split(',').each do |relationship|
-              if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.find_by_legacy_id($1)
+              if relationship =~ /(\d+)\[([^\]]+)\]/ and related = Person.where(legacy_id: $1).first
                 person.relationships.create(
                   related:    related,
                   name:       'other',

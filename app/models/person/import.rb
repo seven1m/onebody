@@ -82,13 +82,13 @@ class Person
       def tiered_find(attributes, match_by_name=true)
         a = attributes.clone.reject_blanks
         a['id']        &&
-          find_by_id(a['id'])               ||
+          where(id: a["id"]).first               ||
         a['legacy_id'] &&
-          find_by_legacy_id(a['legacy_id']) ||
+          where(legacy_id: a["legacy_id"]).first ||
         match_by_name  && a['first_name'] && a['last_name'] && a['birthday'] &&
-          find_by_first_name_and_last_name_and_birthday(a['first_name'], a['last_name'], Date.parse(a['birthday'])) ||
+          where(first_name: a["first_name"], last_name: a["last_name"], birthday: Date.parse(a["birthday"])).first ||
         match_by_name  && a['first_name'] && a['last_name'] &&
-          find_by_first_name_and_last_name(a['first_name'], a['last_name'])
+          where(first_name: a["first_name"], last_name: a["last_name"]).first
       end
 
       def import_data(params)
@@ -102,9 +102,9 @@ class Person
               name = "#{person_vals['first_name']} #{person_vals['last_name']}"
               last_name = person_vals['last_name']
               if family_vals['id']
-                family = Family.find_by_id(family_vals['id'])
+                family = Family.where(id: family_vals["id"]).first
               elsif family_vals['legacy_id']
-                family = Family.find_by_legacy_id(family_vals['legacy_id'])
+                family = Family.where(legacy_id: family_vals["legacy_id"]).first
               end
               family ||= Family.create!({'name' => name, 'last_name' => last_name})
               family.update_attributes!(family_vals)

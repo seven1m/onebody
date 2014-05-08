@@ -40,7 +40,7 @@ namespace :onebody do
     desc "Display stats about a site"
     task :show => :environment do
       if ENV['NAME'] or ENV['ID']
-        site = ENV['NAME'] ? Site.find_by_name(ENV['NAME']) : Site.find_by_id(ENV['ID'])
+        site = ENV['NAME'] ? Site.where(name: ENV["NAME"]).first : Site.where(id: ENV["ID"]).first
         if Site.current = site
           puts "Site:         #{site.name}"
           puts "Host:         #{site.host}"
@@ -72,7 +72,7 @@ namespace :onebody do
     desc "Delete a site"
     task :delete => :environment do
       if ENV['NAME'] or ENV['ID']
-        site = ENV['NAME'] ? Site.find_by_name(ENV['NAME']) : Site.find_by_id(ENV['ID'])
+        site = ENV['NAME'] ? Site.where(name: ENV["NAME"]).first : Site.where(id: ENV["ID"]).first
         if site and not site.default?
           Rake::Task['onebody:sites:show'].invoke
           Site.current = site
@@ -95,7 +95,7 @@ namespace :onebody do
     desc "Modify a site"
     task :modify => :environment do
       if ENV['NAME'] or ENV['ID']
-        site = ENV['NAME'] ? Site.find_by_name(ENV['NAME']) : Site.find_by_id(ENV['ID'])
+        site = ENV['NAME'] ? Site.where(name: ENV["NAME"]).first : Site.where(id: ENV["ID"]).first
         if site
           args = {}
           args['name'] = ENV['NEW_NAME'] unless ENV['NEW_NAME'].nil?
@@ -114,7 +114,7 @@ namespace :onebody do
     desc "Activate a site"
     task :activate => :environment do
       if ENV['NAME'] or ENV['ID']
-        site = ENV['NAME'] ? Site.find_by_name(ENV['NAME']) : Site.find_by_id(ENV['ID'])
+        site = ENV['NAME'] ? Site.where(name: ENV["NAME"]).first : Site.where(id: ENV["ID"]).first
         if site and not site.default?
           site.update_attributes!(:active => true)
           Rake::Task['onebody:sites'].invoke
@@ -130,7 +130,7 @@ namespace :onebody do
     desc "Deactivate a site"
     task :deactivate => :environment do
       if ENV['NAME'] or ENV['ID']
-        site = ENV['NAME'] ? Site.find_by_name(ENV['NAME']) : Site.find_by_id(ENV['ID'])
+        site = ENV['NAME'] ? Site.where(name: ENV["NAME"]).first : Site.where(id: ENV["ID"]).first
         if site and not site.default?
           site.update_attributes!(:active => false)
           Rake::Task['onebody:sites'].invoke

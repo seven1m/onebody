@@ -109,7 +109,7 @@ describe PeopleController do
       },
       {logged_in_id: @other_person.id}
     expect(response).to redirect_to(family_path(@family))
-    expect(@family.people.find_by_first_name('Todd')).to be
+    expect(@family.people.where(first_name: "Todd").first).to be
   end
 
   it "should delete a person" do

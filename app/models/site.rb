@@ -51,7 +51,7 @@ class Site < ActiveRecord::Base
   end
 
   def visible_name
-    settings.find_by_section_and_name('Name', 'Site').value rescue nil
+    settings.where(section: "Name", name: "Site").first.value rescue nil
   end
 
   def count_people
@@ -65,7 +65,7 @@ class Site < ActiveRecord::Base
   after_update :update_url
 
   def update_url
-    if setting = self.settings.find_by_section_and_name('URL', 'Site')
+    if setting = self.settings.where(section: "URL", name: "Site").first
       setting.update_attributes!(value: "http://#{host}/")
     end
   end
@@ -85,7 +85,7 @@ class Site < ActiveRecord::Base
       html = File.read(filename)
       path, filename = filename.split('pages/').last.split('/')
       pub = nav = path != 'system'
-      unless Page.find_by_path(path)
+      unless Page.where(path: path).first
         Page.create!(slug: path, title: path.titleize, body: html, system: true, navigation: nav, published: pub)
       end
     end
@@ -96,8 +96,8 @@ class Site < ActiveRecord::Base
       slug = filename.split('.').first
       nav = path != 'system'
       pub = !Page::UNPUBLISHED_PAGES.include?(slug)
-      parent = Page.find_by_path(path)
-      unless parent.children.find_by_slug(slug)
+      parent = Page.where(path: path).first
+      unless parent.children.where(slug: slug).first
         page = parent.children.build(slug: slug, title: slug.titleize, body: html, system: true, navigation: nav, published: pub)
         page.site_id = self.id
         page.save!

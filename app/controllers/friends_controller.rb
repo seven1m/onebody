@@ -43,7 +43,7 @@ class FriendsController < ApplicationController
   # id = Person (friend)
   def destroy
     @person = Person.find(params[:person_id])
-    if @friendship = @person.friendships.find_by_friend_id(params[:id])
+    if @friendship = @person.friendships.where(friend_id: params[:id]).first
       @friendship.destroy
       redirect_to person_friends_path(@person)
     else
@@ -54,7 +54,7 @@ class FriendsController < ApplicationController
   def reorder
     @person = Person.find(params[:person_id])
     params[:friends].each_with_index do |id, index|
-      if f = @person.friendships.find_by_id(id)
+      if f = @person.friendships.where(id: id).first
         f.update_attribute :ordering, index
       end
     end

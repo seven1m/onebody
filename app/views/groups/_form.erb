@@ -127,7 +127,7 @@
 
         <%= form.label :parents_of, t('groups.parents_of') %>
         <div class="form-field-hint"><%= t('groups.parents_of_hint') %></div>
-        <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.find_all_by_hidden(false, order: 'name')-[@group]).map { |g| [g.name, g.id] } %>
+        <%= form.select :parents_of, [['(' + t('none') + ')', '']] + (Group.where(hidden: false).order('name').all-[@group]).map { |g| [g.name, g.id] } %>
         <em></em>
 
         <%= form.label :hidden, t('groups.hidden_group') %>

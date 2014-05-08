@@ -88,7 +88,7 @@ class Picture < ActiveRecord::Base
   after_update :update_stream_items
 
   def update_stream_items
-    StreamItem.find_all_by_streamable_type_and_streamable_id('Album', album_id).each do |stream_item|
+    StreamItem.where(streamable_type: "Album", streamable_id: album_id).all.each do |stream_item|
       stream_item.context['picture_ids'].each do |pic|
         if pic[0] == id
           pic[1] = photo.fingerprint
@@ -102,7 +102,7 @@ class Picture < ActiveRecord::Base
   after_destroy :delete_stream_items
 
   def delete_stream_items
-    StreamItem.find_all_by_streamable_type_and_streamable_id('Album', album_id).each do |stream_item|
+    StreamItem.where(streamable_type: "Album", streamable_id: album_id).all.each do |stream_item|
       stream_item.context['picture_ids'].reject! { |pic| pic == self.id or pic.first == self.id }
       if stream_item.context['picture_ids'].any?
         stream_item.save!

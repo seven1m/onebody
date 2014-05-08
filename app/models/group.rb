@@ -96,11 +96,11 @@ class Group < ActiveRecord::Base
   end
 
   def get_options_for(person)
-    memberships.find_by_person_id(person.id)
+    memberships.where(person_id: person.id).first
   end
 
   def set_options_for(person, options)
-    memberships.find_by_person_id(person.id).update_attributes!(options)
+    memberships.where(person_id: person.id).first.update_attributes!(options)
   end
 
   after_save :update_memberships
@@ -116,7 +116,7 @@ class Group < ActiveRecord::Base
       end
       update_membership_associations(Person.where(conditions).all)
     elsif Membership.column_names.include?('auto')
-      memberships.find_all_by_auto(true).each { |m| m.destroy }
+      memberships.where(auto: true).all.each { |m| m.destroy }
     end
     # have to expire the group fragments here since this is run in background nightly
     ActionController::Base.cache_store.delete_matched(%r{groups/#{id}})
@@ -200,7 +200,7 @@ class Group < ActiveRecord::Base
   before_destroy :remove_parent_of_links
 
   def remove_parent_of_links
-    Group.find_all_by_parents_of(id).each { |g| g.update_attribute(:parents_of, nil) }
+    Group.where(parents_of: id).all.each { |g| g.update_attribute(:parents_of, nil) }
   end
 
   class << self

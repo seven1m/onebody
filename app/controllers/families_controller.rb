@@ -27,12 +27,12 @@ class FamiliesController < ApplicationController
 
   def show
     if params[:legacy_id]
-      @family = Family.find_by_legacy_id(params[:id])
+      @family = Family.where(legacy_id: params[:id]).first
     elsif params[:barcode_id]
-      @family = Family.find_by_barcode_id_and_deleted(params[:id], false) ||
-        Family.find_by_alternate_barcode_id_and_deleted(params[:id], false)
+      @family = Family.where(barcode_id: params[:id], deleted: false).first ||
+        Family.where(alternate_barcode_id: params[:id], deleted: false).first
     else
-      @family = Family.find_by_id_and_deleted(params[:id], false)
+      @family = Family.where(id: params[:id], deleted: false).first
     end
     raise ActiveRecord::RecordNotFound unless @family
     @people = @family.people.all.select { |p| @logged_in.can_see? p }
@@ -116,7 +116,7 @@ class FamiliesController < ApplicationController
   def reorder
     @family = Family.find(params[:id])
     Array(params[:person]).each_with_index do |id, index|
-      p = @family.people.find_by_id(id)
+      p = @family.people.where(id: id).first
       p.no_auto_sequence = true
       p.update_attribute(:sequence, index+1)
     end

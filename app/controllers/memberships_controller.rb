@@ -61,7 +61,7 @@ class MembershipsController < ApplicationController
   # leave group
   def destroy
     @group = Group.find(params[:group_id])
-    @membership = @group.memberships.find_by_person_id(params[:id])
+    @membership = @group.memberships.where(person_id: params[:id]).first
     if @logged_in.can_edit?(@group) or @membership.try(:person) == @logged_in
       if @membership.person and @group.last_admin?(@membership.person)
         flash[:warning] = t('groups.last_admin_remove', name: @membership.person.name)
@@ -93,7 +93,7 @@ class MembershipsController < ApplicationController
       end
       # remove groups
       (@person.groups - groups).each do |group|
-        group.memberships.find_by_person_id(@person.id).destroy unless group.last_admin?(@person)
+        group.memberships.where(person_id: @person.id).first.destroy unless group.last_admin?(@person)
       end
       @person.groups.reload
       respond_to do |format|
@@ -118,9 +118,9 @@ class MembershipsController < ApplicationController
               @group.memberships.create(person: person)
               @added << person
             end
-            @group.membership_requests.find_all_by_person_id(id).each { |r| r.destroy }
+            @group.membership_requests.where(person_id: id).all.each { |r| r.destroy }
           elsif request.delete?
-            if @membership = @group.memberships.find_by_person_id(id)
+            if @membership = @group.memberships.where(person_id: id).first
               @membership.destroy unless @group.last_admin?(@membership.person)
             end
           end

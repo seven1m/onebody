@@ -49,7 +49,7 @@ namespace :onebody do
 
       desc 'Export OneBody people data as XML file (pass FILE argument)'
       task :xml => :environment do
-        Site.current = site = ENV['SITE'] ? Site.find_by_name(ENV['SITE']) : Site.find(1)
+        Site.current = site = ENV['SITE'] ? Site.where(name: ENV["SITE"]).first : Site.find(1)
         if ENV['FILE']
           people = Person.all(:order => 'last_name, first_name, suffix')
           File.open(ENV['FILE'], 'w') do |file|
@@ -62,7 +62,7 @@ namespace :onebody do
 
       desc 'Export OneBody people data as CSV file (pass FILE argument)'
       task :csv => :environment do
-        Site.current = site = ENV['SITE'] ? Site.find_by_name(ENV['SITE']) : Site.find(1)
+        Site.current = site = ENV['SITE'] ? Site.where(name: ENV["SITE"]).first : Site.find(1)
         if ENV['FILE']
           people = Person.all(:order => 'last_name, first_name, suffix')
           File.open(ENV['FILE'], 'w') do |file|

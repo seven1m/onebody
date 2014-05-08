@@ -42,7 +42,7 @@ class Notifier < ActionMailer::Base
     @person = person
     unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
       unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
-        to = Admin.find_all_by_super_admin(true).map { |a| a.person.email }
+        to = Admin.where(super_admin: true).all.map { |a| a.person.email }
       end
     end
     mail(
@@ -168,8 +168,8 @@ class Notifier < ActionMailer::Base
     return if sent_to.detect { |a| a =~ /no\-?reply|postmaster|mailer\-daemon/i }
     return if email.from.to_s =~ /no\-?reply|postmaster|mailer\-daemon/i
     return if email.subject =~ /^undelivered mail returned to sender|^returned mail|^delivery failure/i
-    return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.unscoped { Message.find_by_id($1) } and m.code_hash == $2 # just sent, looping back into the receiver
-    return if ProcessedMessage.find_by_header_message_id(email.message_id)
+    return if email.message_id =~ Message::MESSAGE_ID_RE and m = Message.unscoped { Message.where(id: $1).first } and m.code_hash == $2 # just sent, looping back into the receiver
+    return if ProcessedMessage.where(header_message_id: email.message_id).first
     return unless get_site(email)
 
     unless @person = get_from_person(email)
@@ -222,7 +222,7 @@ class Notifier < ActionMailer::Base
       address, domain = address.strip.downcase.split('@')
       next unless address.any? and domain.any?
       our_domain = [Site.current.host, Site.current.secondary_host].compact.include?(domain)
-      if our_domain and group = Group.find_by_address(address) and group.can_send?(@person)
+      if our_domain and group = Group.where(address: address).first and group.can_send?(@person)
         message = group_email(group, email, body)
         if @message_sent_to_group
           sent_to_count += 1
@@ -270,7 +270,7 @@ class Notifier < ActionMailer::Base
     def group_email(group, email, body)
       # if is this looks like a reply, try to link this message to its original based on the subject
       if email.subject =~ /^re:/i
-        parent = group.messages.find_by_subject(email.subject.sub(/^re:\s?/i, ''), order: 'id desc')
+        parent = group.messages.where(subject: email.subject.sub(/^re:\s?/i, '')).order('id desc').first
       else
         parent = nil
       end
@@ -337,14 +337,14 @@ class Notifier < ActionMailer::Base
       # first try in-reply-to and references headers
       (Array(email.in_reply_to) + Array(email.references)).each do |in_reply_to|
         message_id, code_hash = (m = in_reply_to.match(Message::MESSAGE_ID_RE)) && m[1..2]
-        if message = Message.find_by_id(message_id)
+        if message = Message.where(id: message_id).first
           return [message, code_hash]
         end
       end
       # fallback to using id and code hash inside email body
       # (Outlook does not use the psuedo-standard headers we rely on above)
       message_id, code_hash = (m = get_body(email).to_s.match(Message::MESSAGE_ID_RE_IN_BODY)) && m[1..2]
-      if message = Message.find_by_id(message_id)
+      if message = Message.where(id: message_id).first
         return [message, code_hash]
       end
     end
@@ -352,7 +352,7 @@ class Notifier < ActionMailer::Base
     def get_site(email)
       # prefer the to address
       (Array(email.cc) + Array(email.to)).each do |address|
-        return Site.current if Site.current = Site.find_by_host(address.downcase.split('@').last)
+        return Site.current if Site.current = Site.where(host: address.downcase.split("@").last).first
       end
       # fallback if to address was rewritten
       # Calvin College in MI is known to rewrite our from/reply-to addresses to be the same as the host that made the connection
