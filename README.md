@@ -5,7 +5,7 @@
 OneBody is open-source, web-based social networking and online directory software for churches. OneBody is built on Ruby 2.1.1, Rails 3.2 and MySQL.
 
 
-## Setup
+## Development Setup
 
 1. Install Ruby 2.1.1 or higher (we recommend you use [RVM](https://rvm.io/)).
 2. Install MySQL.
@@ -17,6 +17,10 @@ OneBody is open-source, web-based social networking and online directory softwar
 8. `rails server`
 
 Now visit the site running in development mode at localhost:3000.
+
+## Production Setup
+
+TODO
 
 Please visit the [PostfixEmailSetup](http://github.com/churchio/onebody/wiki/PostfixEmailSetup) page on the wiki for help with setting up incoming email.
 
