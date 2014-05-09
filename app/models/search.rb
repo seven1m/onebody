@@ -141,7 +141,7 @@ class Search
   end
 
   def like(str, position=:both)
-    str.dup.gsub(/[%_]/) { |x| '\\' + x }.tap do |s|
+    str.to_s.dup.gsub(/[%_]/) { |x| '\\' + x }.tap do |s|
       s.insert(0, '%') if [:before, :both].include?(position)
       s << '%'         if [:after,  :both].include?(position)
     end
