@@ -37,7 +37,7 @@ class NewsItem < ActiveRecord::Base
   after_update :update_stream_items
 
   def update_stream_items
-    StreamItem.where(streamable_type: "NewsItem", streamable_id: id).all.each do |stream_item|
+    StreamItem.where(streamable_type: "NewsItem", streamable_id: id).each do |stream_item|
       stream_item.title = title
       stream_item.body  = body
       stream_item.save

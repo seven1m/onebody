@@ -6,7 +6,7 @@
   <% end %>
   <% if @logged_in.can_edit?(@req) %>
     <p><%= link_to t('prayer.edit_request'), edit_group_prayer_request_path(@req.group, @req), class: 'edit-icon' %></p>
-    <p><%= link_to t('prayer.delete_request'), [@req.group, @req], method: :delete, confirm: t('are_you_sure'), class: 'delete-icon' %></p>
+    <p><%= link_to t('prayer.delete_request'), [@req.group, @req], method: :delete, data: { confirm: t('are_you_sure') }, class: 'delete-icon' %></p>
   <% end %>
 <% end %>
 

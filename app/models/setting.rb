@@ -152,7 +152,7 @@ class Setting < ActiveRecord::Base
       # globals
       if get_hash_of_settings_in_db != get_hash_of_settings_in_yaml(settings, true)
         Rails.logger.info("Reloading global settings...")
-        global_settings_in_db = Setting.where(global: true).all
+        global_settings_in_db = Setting.where(global: true).to_a
         each_setting_from_hash(settings, true) do |section_name, setting_name, setting|
           unless global_settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
             global_settings_in_db << Setting.create!(setting.merge(section: section_name, name: setting_name))
@@ -168,7 +168,7 @@ class Setting < ActiveRecord::Base
     end
 
     def update_site_from_hash(site, settings)
-      settings_in_db = Setting.where(site_id: site.id).all
+      settings_in_db = Setting.where(site_id: site.id).to_a
       each_setting_from_hash(settings, false) do |section_name, setting_name, setting|
         unless settings_in_db.detect { |s| s.section == section_name and s.name == setting_name }
           setting['site_id'] = site.id

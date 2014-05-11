@@ -49,7 +49,7 @@ class Page < ActiveRecord::Base
     if home?
       Page.root_pages
     else
-      children.where(published: true, navigation: true).all
+      children.where(published: true, navigation: true)
     end
   end
 
@@ -104,7 +104,7 @@ class Page < ActiveRecord::Base
     end
 
     def root_pages(include_home=false, published=true, navigation=true)
-      Page.where(parent_id: nil, published: published, navigation: navigation).all.select { |p| include_home or not p.home? }
+      Page.where(parent_id: nil, published: published, navigation: navigation).to_a.select { |p| include_home or not p.home? }
     end
 
   end

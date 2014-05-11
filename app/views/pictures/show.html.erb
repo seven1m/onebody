@@ -18,12 +18,12 @@
   <% if @logged_in.can_edit?(@picture) %>
     <h3><%= t('Modify') %></h3>
     <p>
-      <%= link_to t('pictures.rotate_left'), album_picture_path(@album, @picture, degrees: -90), confirm: t('are_you_sure'), method: 'put', class: 'rotate-ccw-icon' %><br/>
-      <%= link_to t('pictures.rotate_right'), album_picture_path(@album, @picture, degrees: 90), confirm: t('are_you_sure'), method: 'put', class: 'rotate-cw-icon' %><br/>
-      <%= link_to t('pictures.set_as_cover'), album_picture_path(@album, @picture, cover: true), confirm: t('are_you_sure'), method: 'put', class: 'heart-icon' %>
+      <%= link_to t('pictures.rotate_left'), album_picture_path(@album, @picture, degrees: -90), data: { confirm: t('are_you_sure') }, method: 'put', class: 'rotate-ccw-icon' %><br/>
+      <%= link_to t('pictures.rotate_right'), album_picture_path(@album, @picture, degrees: 90), data: { confirm: t('are_you_sure') }, method: 'put', class: 'rotate-cw-icon' %><br/>
+      <%= link_to t('pictures.set_as_cover'), album_picture_path(@album, @picture, cover: true), data: { confirm: t('are_you_sure') }, method: 'put', class: 'heart-icon' %>
     </p>
     <p>
-      <%= link_to t('Delete'), album_picture_path(@album, @picture), confirm: t('are_you_sure'), method: 'delete', class: 'delete-icon' %><br/>
+      <%= link_to t('Delete'), album_picture_path(@album, @picture), data: { confirm: t('are_you_sure') }, method: 'delete', class: 'delete-icon' %><br/>
     </p>
   <% end %>
 <% end %>

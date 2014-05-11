@@ -60,10 +60,10 @@ class Message < ActiveRecord::Base
 
   def remove_unsubscribe_link
     if body
-      body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
+      body.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--')
     end
     if html_body
-      html_body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
+      html_body.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--')
     end
   end
 
@@ -253,7 +253,7 @@ class Message < ActiveRecord::Base
 
   def update_stream_items
     return unless streamable?
-    StreamItem.where(streamable_type: "Message", streamable_id: id).all.each do |stream_item|
+    StreamItem.where(streamable_type: "Message", streamable_id: id).each do |stream_item|
       stream_item.title = subject
       if html_body.to_s.any?
         stream_item.body = html_body

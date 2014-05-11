@@ -3,7 +3,7 @@ class PrivaciesController < ApplicationController
   def show
     if params[:find] == 'memberships'
       raise 'error' unless Membership.sharing_columns.include?(prop = "share_#{params[:sharing]}")
-      @memberships = @logged_in.memberships.where("#{prop} = ?", true).all
+      @memberships = @logged_in.memberships.where("#{prop} = ?", true)
     elsif params[:membership_id]
       redirect_to edit_group_membership_privacy_path(params[:group_id], params[:membership_id])
     else
@@ -44,7 +44,7 @@ class PrivaciesController < ApplicationController
     else
       @person = Person.find(params[:person_id])
       @family = @person.family
-      people_ids = @family.people.all.map { |p| p.id }
+      people_ids = @family.people.map { |p| p.id }
       if @logged_in.can_edit?(@family)
         @family.update_attributes!(family_params)
         Array(params[:memberships]).each do |membership_id, sharing|
@@ -80,7 +80,7 @@ class PrivaciesController < ApplicationController
     @family = @person.family
     if @logged_in.can_edit?(@family) and @family == @logged_in.family
       if params[:agree] == t('privacies.i_agree') + "."
-        if person = @family.people.find(params[:person_id])
+        if @family.people.find(params[:person_id])
           @person.parental_consent = "#{@logged_in.name} (#{@logged_in.id}) #{Time.now.to_s}"
           @person.save
           flash[:notice] = t('privacies.agreement_saved')

@@ -35,7 +35,7 @@ class FamiliesController < ApplicationController
       @family = Family.where(id: params[:id], deleted: false).first
     end
     raise ActiveRecord::RecordNotFound unless @family
-    @people = @family.people.all.select { |p| @logged_in.can_see? p }
+    @people = @family.people.to_a.select { |p| @logged_in.can_see? p }
     if @logged_in.can_see?(@family)
       respond_to do |format|
         format.html

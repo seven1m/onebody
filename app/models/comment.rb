@@ -55,6 +55,6 @@ class Comment < ActiveRecord::Base
       streamable_type = 'Album'
       streamable_id   = on.album_id
     end
-    StreamItem.where(streamable_type: streamable_type, streamable_id: streamable_id).all
+    StreamItem.where(streamable_type: streamable_type, streamable_id: streamable_id).to_a
   end
 end

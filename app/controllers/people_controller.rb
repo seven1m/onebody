@@ -34,9 +34,9 @@ class PeopleController < ApplicationController
       else
         @family_people = @person.family.try(:visible_people) || []
       end
-      @albums = @person.albums.all(order: 'created_at desc')
+      @albums = @person.albums.order(created_at: :desc)
       @friends = @person.friends.minimal
-      @verses = @person.verses.all(order: 'book, chapter, verse')
+      @verses = @person.verses.order(:book, :chapter, :verse)
       if params[:business]
         render action: 'business'
       else

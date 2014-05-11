@@ -20,7 +20,7 @@
 
   <% if @logged_in.verses.include? @verse %>
     <p>
-      <%= link_to t('verses.remove_this_verse'), @verse, method: 'delete', confirm: t('are_you_sure'), class: 'delete-icon' %>
+      <%= link_to t('verses.remove_this_verse'), @verse, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'delete-icon' %>
     </p>
   <% else %>
     <p>

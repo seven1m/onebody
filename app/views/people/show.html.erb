@@ -9,7 +9,7 @@
   <div class="profile-body">
     <% if flash[:show_verification_link] %>
       <div class="highlight">
-        <%= link_to t('people.click_to_send_verification_email'), account_path(email: @person.email), method: 'post', confirm: t('are_you_sure'), class: 'email-icon' %>
+        <%= link_to t('people.click_to_send_verification_email'), account_path(email: @person.email), method: 'post', data: { confirm: t('are_you_sure') }, class: 'email-icon' %>
       </div>
     <% end %>
     <% unless @person.visible? %>

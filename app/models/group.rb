@@ -5,11 +5,11 @@ class Group < ActiveRecord::Base
 
   has_many :memberships, dependent: :destroy
   has_many :membership_requests, dependent: :destroy
-  has_many :people, through: :memberships, order: 'last_name, first_name'
+  has_many :people, -> { order(:last_name, :first_name) }, through: :memberships
   has_many :admins, -> { where('memberships.admin' => true).order(:last_name, :first_name) }, through: :memberships, source: :person
   has_many :messages, -> { where('parent_id is null').order(updated_at: :desc) }, dependent: :destroy
-  has_many :notes, order: 'created_at desc'
-  has_many :prayer_requests, order: 'created_at desc'
+  has_many :notes, -> { order(created_at: :desc) }
+  has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :albums, as: :owner
   has_many :stream_items, dependent: :destroy
@@ -115,9 +115,9 @@ class Group < ActiveRecord::Base
       link_code.downcase.split.each do |code|
         conditions.add_condition ["lcase(classes) = ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ?", code, "#{code},%", "%,#{code}", "%,#{code},%", "#{code}[%", "%,#{code}[%"], 'or'
       end
-      update_membership_associations(Person.where(conditions).all)
+      update_membership_associations(Person.where(conditions).to_a)
     elsif Membership.column_names.include?('auto')
-      memberships.where(auto: true).all.each { |m| m.destroy }
+      memberships.where(auto: true).each { |m| m.destroy }
     end
     # have to expire the group fragments here since this is run in background nightly
     ActionController::Base.cache_store.delete_matched(%r{groups/#{id}})
@@ -154,7 +154,7 @@ class Group < ActiveRecord::Base
     records = {}
     people.each { |p| records[p.id] = [p, false] }
     date = Date.parse(date) if(date.is_a?(String))
-    attendance_records.where('attended_at >= ? and attended_at <= ?', date.strftime('%Y-%m-%d 0:00'), date.strftime('%Y-%m-%d 23:59:59')).all.each do |record|
+    attendance_records.where('attended_at >= ? and attended_at <= ?', date.strftime('%Y-%m-%d 0:00'), date.strftime('%Y-%m-%d 23:59:59')).each do |record|
       records[record.person.id] = [record.person, record]
     end
     records.values.sort_by { |r| [r[0].last_name, r[0].first_name] }
@@ -181,11 +181,7 @@ class Group < ActiveRecord::Base
   end
 
   def shared_stream_items(count)
-    items = stream_items.all(
-      order: 'stream_items.created_at desc',
-      limit: count,
-      include: :person
-    )
+    items = stream_items.limit(count).order('stream_items.created_at desc').includes(:person)
     # do our own eager loading here...
     comment_people_ids = items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
     comment_people = Person.where(id: comment_people_ids).minimal.each_with_object({}) { |p, h| h[p.id] = p } # as a hash with id as the key
@@ -201,7 +197,7 @@ class Group < ActiveRecord::Base
   before_destroy :remove_parent_of_links
 
   def remove_parent_of_links
-    Group.where(parents_of: id).all.each { |g| g.update_attribute(:parents_of, nil) }
+    Group.where(parents_of: id).each { |g| g.update_attribute(:parents_of, nil) }
   end
 
   class << self

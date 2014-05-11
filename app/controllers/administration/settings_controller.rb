@@ -8,7 +8,7 @@ class Administration::SettingsController < ApplicationController
       @settings[setting.section] ||= {}
       @settings[setting.section][setting['name']] = setting
     end
-    @timezones = ActiveSupport::TimeZone.all.map { |z| [z.to_s, z.name] }
+    @timezones = ActiveSupport::TimeZone.map { |z| [z.to_s, z.name] }
   end
 
   def batch

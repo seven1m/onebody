@@ -22,7 +22,7 @@
             <%= link_to t('friends.accept'), person_friend_path(@logged_in, friendship_request, accept: true), method: 'put', class: 'add-icon' %><br/>
           </td>
           <td>
-            <%= link_to t('friends.decline'), person_friend_path(@logged_in, friendship_request, reject: true), method: 'put', confirm: t('are_you_sure'), class: 'delete-icon' %>
+            <%= link_to t('friends.decline'), person_friend_path(@logged_in, friendship_request, reject: true), method: 'put', data: { confirm: t('are_you_sure') }, class: 'delete-icon' %>
           </td>
         </tr>
       <% end %>
@@ -42,7 +42,7 @@
         <%= link_to friendship.friend.name, friendship.friend %>
         (added <%= friendship.created_at.to_time.to_s %>)
         <% if me? %>
-          <%= link_to t('friends.remove_from_friends'), person_friend_path(@person, friendship.friend), class: 'delete-icon', method: 'delete', confirm: t('are_you_sure') %>
+          <%= link_to t('friends.remove_from_friends'), person_friend_path(@person, friendship.friend), class: 'delete-icon', method: 'delete', data: { confirm: t('are_you_sure') } %>
         <% end %>
       </li>
     <% end %>

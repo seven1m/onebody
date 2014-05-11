@@ -5,7 +5,7 @@
     <%= link_to '[' + t('edit') + ']', edit_group_prayer_request_path(req.group, req), class: 'discreet' %>
   <% end %>
   <% if (req.group and req.group.admin? @logged_in) or req.person == @logged_in %>
-    <%= link_to '[' + t('delete') + ']', group_prayer_request_path(req.group, req), class: 'discreet', confirm: t('are_you_sure'), method: 'delete' %>
+    <%= link_to '[' + t('delete') + ']', group_prayer_request_path(req.group, req), class: 'discreet', data: { confirm: t('are_you_sure') }, method: 'delete' %>
   <% end %>
   <br/>
   <%= req.request %>

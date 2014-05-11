@@ -14,8 +14,8 @@
     <tr/>
   </table>
   
-  <p><%= link_to t('admin.generate'), administration_api_key_path, method: 'post', confirm: t('admin.invalidate_confirmation') %>
-  <%= t('admin.new_api_or') %> <%= link_to 'disable', administration_api_key_path, method: 'delete', confirm: t('are_you_sure') %> <%= t('admin.your_key') %>.</p>
+  <p><%= link_to t('admin.generate'), administration_api_key_path, method: 'post', data: { confirm: t('admin.invalidate_confirmation') } %>
+  <%= t('admin.new_api_or') %> <%= link_to 'disable', administration_api_key_path, method: 'delete', data: { confirm: t('are_you_sure') } %> <%= t('admin.your_key') %>.</p>
   
   <h2><%= t('Help') %></h2>
   
@@ -40,7 +40,7 @@
 <% else %>
 
   <p><%= t('admin.no_api_key') %>
-  <%= link_to t('admin.enable'), administration_api_key_path, method: 'post', confirm: t('admin.enable_api_confirmation') %>
+  <%= link_to t('admin.enable'), administration_api_key_path, method: 'post', data: { confirm: t('admin.enable_api_confirmation') } %>
   <%= t('admin.your_key') %>.</p>
 
 <% end %>

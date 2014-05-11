@@ -41,12 +41,8 @@ class Administration::AttendanceController < ApplicationController
         )
       end
       format.csv do
-        @records = AttendanceRecord.all(
-          conditions: conditions,
-          order:      'group_id',
-          select:     'attendance_records.*, people.first_name, people.last_name, people.legacy_id, groups.name as group_name, groups.link_code as group_link_code',
-          joins:      [:person, :group]
-        )
+        @records = AttendanceRecord.where(conditions).order(:group_id).joins(:person, :group) \
+          .select('attendance_records.*, people.first_name, people.last_name, people.legacy_id, groups.name as group_name, groups.link_code as group_link_code')
         CSV::Writer.generate(csv_str = '') do |csv|
           csv << %w(group_name group_id group_link_code first_name last_name person_id person_legacy_id class_time recorded_time)
           @records.each do |record|

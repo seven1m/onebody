@@ -5,6 +5,6 @@ module AbilityConcern
 
   included do
     scope :readable_by,
-      -> user { authorizer.readable_by(user, self.scoped) }
+      -> user { authorizer.readable_by(user, self.all) }
   end
 end

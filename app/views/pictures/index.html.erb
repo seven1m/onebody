@@ -11,7 +11,7 @@
     <%= render partial: 'upload' %>
     <p class="double-margin-top discreet">
       <%= link_to t('pictures.edit_album'), edit_album_path(@album), class: 'edit-icon' %><br/>
-      <%= link_to t('pictures.delete_album'), @album, method: :delete, confirm: t('are_you_sure'), class: 'delete-icon' %>
+      <%= link_to t('pictures.delete_album'), @album, method: :delete, data: { confirm: t('are_you_sure') }, class: 'delete-icon' %>
     </p>
   <% end %>
 <% end %>

@@ -25,7 +25,7 @@ describe FriendshipRequest do
     expect(@other.friendship_rejected_by?(@user)).not_to be
 
     # rejected request
-    @other.friendship_requests.find(:first).update_attribute :rejected, true
+    @other.friendship_requests.first.update_attribute :rejected, true
     expect(@user.can_request_friendship_with?(@other)).not_to be
     expect(@user.friendship_waiting_on?(@other)).not_to be
     expect(@user.friendship_rejected_by?(@other)).to be
@@ -34,7 +34,7 @@ describe FriendshipRequest do
     expect(@other.friendship_rejected_by?(@user)).not_to be
 
     # kill request
-    @other.friendship_requests.find(:first).destroy
+    @other.friendship_requests.first.destroy
 
     # friendship established
     @other.friendships.create! friend: @user

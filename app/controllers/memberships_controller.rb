@@ -118,7 +118,7 @@ class MembershipsController < ApplicationController
               @group.memberships.create(person: person)
               @added << person
             end
-            @group.membership_requests.where(person_id: id).all.each { |r| r.destroy }
+            @group.membership_requests.where(person_id: id).each(&:destroy)
           elsif request.delete?
             if @membership = @group.memberships.where(person_id: id).first
               @membership.destroy unless @group.last_admin?(@membership.person)

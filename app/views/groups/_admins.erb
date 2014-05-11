@@ -1,7 +1,7 @@
 <p>
   <% @group.admins.each do |person| %>
     <%= link_to person.name, person %>
-    <%= link_to 'x', group_membership_path(@group, person.id), method: 'put', confirm: t('are_you_sure'), class: 'discreet' %>
+    <%= link_to 'x', group_membership_path(@group, person.id), method: 'put', data: { confirm: t('are_you_sure') }, class: 'discreet' %>
     <br/>
   <% end %>
   <% if (non_admins = @group.people.select { |p| not @group.admin?(p, true) }).any? %>

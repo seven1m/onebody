@@ -46,7 +46,7 @@
         <%= content_tag :span, style: @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
           <%= form.check_box :can_sign_in %>                  <%= form.label t('people.can_sign_in'),                  nil, class: 'inline' %>
           <% if @person.can_sign_in? %>
-            (<%= link_to t('people.send_email'), account_path(email: @person.email), method: 'post', confirm: t('people.click_to_send_verification_email') %>)
+            (<%= link_to t('people.send_email'), account_path(email: @person.email), method: 'post', data: { confirm: t('people.click_to_send_verification_email') } %>)
           <% end %>
           <br/>
           <%= form.check_box :visible_to_everyone %>          <%= form.label t('people.visible_to_everyone'),          nil, class: 'inline' %><br/>

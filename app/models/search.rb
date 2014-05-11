@@ -17,9 +17,9 @@ class Search
       self.send("#{key}=", val) if respond_to?("#{key}=")
     end
     if source == :person
-      @scope = Person.scoped.joins(:family)
+      @scope = Person.joins(:family)
     elsif source == :family
-      @scope = Family.scoped.includes(:people)
+      @scope = Family.includes(:people)
     end
   end
 

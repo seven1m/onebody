@@ -69,7 +69,7 @@
                   <%= link_to_function t('admin.updates.apply'), "$(this).parents('form')[0].submit()", class: 'button primary' %>
                   <%= link_to t('admin.updates.mark_complete'), administration_update_path(update, 'update[complete]' => true), method: 'put', class: 'button' %>
                 <% end %>
-                <%= link_to t('Delete'), administration_update_path(update), method: 'delete', confirm: t('are_you_sure'), class: 'button' %>
+                <%= link_to t('Delete'), administration_update_path(update), method: 'delete', data: { confirm: t('are_you_sure') }, class: 'button' %>
               </td>
             </tr>
           </table>

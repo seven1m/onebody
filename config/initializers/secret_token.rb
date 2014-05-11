@@ -3,5 +3,5 @@ token = secrets[Rails.env]['secret_token']
 if token == 'SOMETHING_RANDOM_HERE'
   raise StandardError.new('You forgot to set the secret token in config/secrets.yml')
 else
-  OneBody::Application.config.secret_token = token
+  OneBody::Application.config.secret_key_base = token
 end

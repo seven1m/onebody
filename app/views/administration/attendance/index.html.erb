@@ -97,7 +97,7 @@
           <% end %>
         </td>
         <td>
-          <%= link_to '', administration_attendance_path(record), remote: true, method: 'delete', confirm: t('are_you_sure'), class: 'delete-icon' %>
+          <%= link_to '', administration_attendance_path(record), remote: true, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'delete-icon' %>
         </td>
       </tr>
       <% if record.medical_notes.to_s.any? %>

@@ -11,11 +11,9 @@ class VersesController < ApplicationController
       # note: Tag.counts still accepts the :conditions option
       @tags = Verse.tag_counts(conditions: ['verses.id in (?)', @verses.map { |v| v.id } || [0]])
     else
-      @verses = Verse.paginate(
-        order: 'book, chapter, verse',
-        select: '*, (select count(*) from people_verses where verse_id = verses.id) as people_count',
-        page: params[:page]
-      )
+      @verses = Verse.order(:book, :chapter, :verse) \
+        .select('*, (select count(*) from people_verses where verse_id = verses.id) as people_count') \
+        .page(params[:page])
       @tags = Verse.tag_counts
     end
   end

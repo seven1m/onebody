@@ -46,7 +46,7 @@ class AlbumAuthorizer < ApplicationAuthorizer
 
   alias_method :deletable_by?, :updatable_by?
 
-  def self.readable_by(user, scope = Album.scoped)
+  def self.readable_by(user, scope = Album.all)
     if user.admin?(:manage_pictures)
       scope
     else

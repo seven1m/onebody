@@ -26,9 +26,9 @@
     <% if @group.membership_requests.where(person_id: @logged_in.id).count > 0 %>
       <p class="very-strong"><%= I18n.t('groups.you_requested_join_this_group') %></p>
     <% elsif not @member_of %>
-      <p><%= link_to I18n.t('groups.join_this_group'), group_memberships_path(@group, id: @logged_in), method: 'post', confirm: @group.admin?(@logged_in) ? I18n.t('are_you_sure') : I18n.t('groups.request_will_be_sent_to_admins'), class: 'add-icon' %></p>
+      <p><%= link_to I18n.t('groups.join_this_group'), group_memberships_path(@group, id: @logged_in), method: 'post', data: { confirm: @group.admin?(@logged_in) ? t('are_you_sure') : t('groups.request_will_be_sent_to_admins') }, class: 'add-icon' %></p>
     <% elsif not @group.last_admin?(@logged_in) %>
-      <p><%= link_to I18n.t('groups.leave_this_group'), group_membership_path(@group, @logged_in), method: 'delete', confirm: I18n.t('are_you_sure'), class: 'delete-icon' %></p>
+      <p><%= link_to I18n.t('groups.leave_this_group'), group_membership_path(@group, @logged_in), method: 'delete', data: { confirm: t('are_you_sure') }, class: 'delete-icon' %></p>
     <% end %>
   <% end %>
 
@@ -47,7 +47,7 @@
   <% if @group.attachments.count > 0 %>
     <h3><%= t('attachments.files') %></h3>
     <table class="spaced">
-      <% @group.attachments.all(order: 'name').each do |attachment| %>
+      <% @group.attachments.order(:name).each do |attachment| %>
         <tr>
           <td><%= link_to attachment.name, get_attachment_path(attachment) %></td>
           <td><%= attachment.created_at.to_s(:date) %></td>
