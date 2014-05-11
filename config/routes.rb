@@ -126,11 +126,10 @@ OneBody::Application.routes.draw do
   resource  :setup, :stream, :session, :search, :printable_directory, :privacy
 
   resources :news, as: :news_items
-  match 'news', to: 'news#index'
+  get 'news', to: 'news#index'
 
   resource :style
-  match 'style.css'          => 'styles#show', format: 'css', as: :style
-  match 'style.:browser.css' => 'styles#show', format: 'css', as: :browser_style
+  get 'style.:browser.css' => 'styles#show', format: 'css', as: :browser_style
 
   resources :attachments do
     member do
@@ -142,9 +141,9 @@ OneBody::Application.routes.draw do
     resources :attachments
   end
 
-  match 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
+  get 'pages/*path' => 'pages#show_for_public', via: :get, as: :page_for_public
 
-  match '/admin' => 'administration/dashboards#show'
+  get '/admin' => 'administration/dashboards#show'
 
   namespace :administration, path: :admin do
     resources :emails do

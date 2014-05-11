@@ -120,17 +120,6 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def rescue_action_with_page_detection(exception)
-      get_site
-      path, args = request.fullpath.downcase.split('?')
-      if exception.is_a?(ActionController::RoutingError) and @page = Page.where(path: path).first
-        redirect_to '/pages/' + @page.path + (args ? "?#{args}" : '')
-      else
-        rescue_action_without_page_detection(exception)
-      end
-    end
-    alias_method_chain :rescue_action, :page_detection
-
     def authority_forbidden(error)
       Authority.logger.warn(error.message)
       render text: I18n.t('not_authorized'), layout: true, status: :forbidden

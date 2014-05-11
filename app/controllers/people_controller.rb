@@ -29,7 +29,7 @@ class PeopleController < ApplicationController
     elsif @person and @logged_in.can_see?(@person)
       @family = @person.family
       if @person == @logged_in
-        # FIXME eager load family here
+        # TODO eager load family here
         @family_people = (@person.family.try(:people) || []).reject(&:deleted)
       else
         @family_people = @person.family.try(:visible_people) || []

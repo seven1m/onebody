@@ -2,7 +2,7 @@
 require 'net/http'
 
 class Verse < ActiveRecord::Base
-  has_and_belongs_to_many :people, conditions: ['people.visible = ?', true]
+  has_and_belongs_to_many :people, -> { where('people.visible' => true) }
   has_many :comments, dependent: :destroy
   belongs_to :site
 

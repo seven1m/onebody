@@ -84,7 +84,9 @@ describe Person do
 
     it 'should not allow people in different families to have the same email address' do
       @person = FactoryGirl.create(:person, email: 'john@example.com')
-      assert_raise(ActiveRecord::RecordInvalid) { FactoryGirl.create(:person, email: 'john@example.com') }
+      expect {
+        FactoryGirl.create(:person, email: 'john@example.com')
+      }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
   end

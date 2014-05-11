@@ -13,9 +13,9 @@ class Message < ActiveRecord::Base
   belongs_to :person
   belongs_to :to, class_name: 'Person', foreign_key: 'to_person_id'
   belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
-  has_many :children, class_name: 'Message', foreign_key: 'parent_id', conditions: 'to_person_id is null', dependent: :destroy
+  has_many :children, -> { where('to_person_id is null') }, class_name: 'Message', foreign_key: 'parent_id', dependent: :destroy
   has_many :attachments, dependent: :destroy
-  has_many :log_items, foreign_key: 'loggable_id', conditions: "loggable_type = 'Message'"
+  has_many :log_items, -> { where(loggable_type: 'Message') }, foreign_key: 'loggable_id'
   belongs_to :site
 
   scope_by_site_id

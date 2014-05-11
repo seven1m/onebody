@@ -6,8 +6,8 @@ class Group < ActiveRecord::Base
   has_many :memberships, dependent: :destroy
   has_many :membership_requests, dependent: :destroy
   has_many :people, through: :memberships, order: 'last_name, first_name'
-  has_many :admins, through: :memberships, source: :person, order: 'last_name, first_name', conditions: ['memberships.admin = ?', true]
-  has_many :messages, conditions: 'parent_id is null', order: 'updated_at desc', dependent: :destroy
+  has_many :admins, -> { where('memberships.admin' => true).order(:last_name, :first_name) }, through: :memberships, source: :person
+  has_many :messages, -> { where('parent_id is null').order(updated_at: :desc) }, dependent: :destroy
   has_many :notes, order: 'created_at desc'
   has_many :prayer_requests, order: 'created_at desc'
   has_many :attendance_records
@@ -110,6 +110,7 @@ class Group < ActiveRecord::Base
       parents = Group.find(parents_of).people.map { |p| p.parents }.flatten.uniq
       update_membership_associations(parents)
     elsif linked?
+      # TODO use a scope
       conditions = []
       link_code.downcase.split.each do |code|
         conditions.add_condition ["lcase(classes) = ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ? or lcase(classes) like ?", code, "#{code},%", "%,#{code}", "%,#{code},%", "#{code}[%", "%,#{code}[%"], 'or'

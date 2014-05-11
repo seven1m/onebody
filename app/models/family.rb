@@ -108,11 +108,11 @@ class Family < ActiveRecord::Base
   self.digits_only_for_attributes = [:home_phone]
 
   def children_without_consent
-    people.select { |p| !p.adult_or_consent? }
+    people.reject(&:adult_or_consent?)
   end
 
   def visible_people
-    people.find(:all).select do |person|
+    people.all.select do |person|
       !person.deleted? and (
         Person.logged_in.admin?(:view_hidden_profiles) or
         person.visible?(self)

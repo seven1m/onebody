@@ -27,7 +27,7 @@ class Person < ActiveRecord::Base
   has_many :friendships
   has_many :friends, class_name: 'Person', through: :friendships, order: 'people.last_name, people.first_name'
   has_many :friendship_requests
-  has_many :pending_friendship_requests, class_name: 'FriendshipRequest', conditions: ['rejected = ?', false]
+  has_many :pending_friendship_requests, -> { where(rejected: false) }, class_name: 'FriendshipRequest'
   has_many :relationships, dependent: :delete_all
   has_many :related_people, class_name: 'Person', through: :relationships, source: :related
   has_many :inward_relationships, class_name: 'Relationship', foreign_key: 'related_id', dependent: :delete_all
@@ -45,7 +45,7 @@ class Person < ActiveRecord::Base
   scope :can_sign_in, -> { undeleted.where(can_sign_in: true) }
   scope :administrators, -> { undeleted.where('admin_id is not null') }
   scope :email_changed, -> { undeleted.where(email_changed: true) }
-  scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at') }
+  scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at, people.deleted') }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
@@ -54,19 +54,19 @@ class Person < ActiveRecord::Base
   validates_confirmation_of :password, if: Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |p| p.deleted? }
   validates_uniqueness_of :feed_code, allow_nil: true, scope: :site_id
-  validates_format_of :website, allow_nil: true, allow_blank: true, with: /^https?\:\/\/.+/
-  validates_format_of :business_website, allow_nil: true, allow_blank: true, with: /^https?\:\/\/.+/
+  validates_format_of :website, allow_nil: true, allow_blank: true, with: /\Ahttps?\:\/\/.+/
+  validates_format_of :business_website, allow_nil: true, allow_blank: true, with: /\Ahttps?\:\/\/.+/
   validates_format_of :business_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :alternate_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_inclusion_of :gender, in: %w(Male Female), allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
-  validate :validate_email_unique # TODO replace this with validates_uniqueness_of with conditions when we get to Rails 4
+  validate :validate_email_unique
 
   def validate_email_unique
     return unless email.present? and not deleted?
-    if Person.where(["email = ? and family_id != ? and id != ? and deleted = ?", email, family_id || 0, id || 0, false]).any?
+    if Person.where("email = ? and family_id != ? and id != ? and deleted = ?", email, family_id || 0, id || 0, false).any?
       errors.add :email, :taken
     end
   end
@@ -412,7 +412,7 @@ class Person < ActiveRecord::Base
   end
 
   def update_relationships_hash
-    rels = relationships.all(include: :related).select do |relationship|
+    rels = relationships.includes(:related).to_a.select do |relationship|
       !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
     end.map do |relationship|
       "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
