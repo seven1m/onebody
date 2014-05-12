@@ -146,14 +146,14 @@ class Updater
         if access = find_spec(spec, key)
           if Hash === access
             permitted[key] = filter_params(val, access, &block)
-            permitted[key].permitted = true # tell StrongParameters it's permitted
+            permitted[key].permit!
           elsif val = yield(access, key, val)
             val = cleanse_value(val)
             permitted[key] = val
           end
         end
       end
-      permitted.permitted = true
+      permitted.permit!
       permitted.reject! { |_, v| v == {} }
     end
   end

@@ -65,8 +65,9 @@ describe FamiliesController do
   end
 
   it "should not show xml unless user can export data" do
-    get :show, {id: @family.id, format: 'xml'}, {logged_in_id: @person.id}
-    expect(response.status).to eq(406)
+    expect {
+      get :show, {id: @family.id, format: 'xml'}, {logged_in_id: @person.id}
+    }.to raise_error(ActionController::UnknownFormat)
   end
 
   it "should show xml for admin who can export data" do

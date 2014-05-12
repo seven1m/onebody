@@ -61,7 +61,7 @@ class AccountsController < ApplicationController
     v = Verification.pending.find(params[:id])
     if v.check!(params[:code])
       if v.people.count > 1
-        session[:select_from_people] = v.people.all
+        session[:select_from_people] = v.people.to_a
         redirect_to select_account_path
       else
         person = v.people.first

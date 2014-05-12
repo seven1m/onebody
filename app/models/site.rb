@@ -10,7 +10,7 @@ class Site < ActiveRecord::Base
     end
   end
 
-  Site.sub_tables.each { |n| has_many n, dependent: :delete_all }
+  Site.sub_tables.each { |n| has_many n.to_sym, dependent: :delete_all }
 
   cattr_accessor :current
 

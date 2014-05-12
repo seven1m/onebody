@@ -3,7 +3,7 @@
   <p>
     <%= submit_tag t('photos.upload', name: name) %>
     <% if defined? delete and delete %>
-      <%= link_to t('photos.remove'), url, method: 'delete', confirm: t('are_you_sure') %>
+      <%= link_to t('photos.remove'), url, method: 'delete', data: { confirm: t('are_you_sure') } %>
     <% end %>
   </p>
 <% end %>

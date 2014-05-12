@@ -16,23 +16,23 @@ class Person < ActiveRecord::Base
   has_many :membership_requests, dependent: :destroy
   has_many :groups, through: :memberships
   has_many :albums, as: :owner
-  has_many :pictures, order: 'created_at desc'
+  has_many :pictures, -> { order(created_at: :desc) }
   has_many :messages
-  has_many :notes, order: 'created_at desc'
-  has_many :updates, order: 'created_at'
+  has_many :notes, -> { order(created_at: :desc) }
+  has_many :updates, -> { order(:created_at) }
   has_many :prayer_signups
   has_and_belongs_to_many :verses
   has_many :log_items
   has_many :stream_items
   has_many :friendships
-  has_many :friends, class_name: 'Person', through: :friendships, order: 'people.last_name, people.first_name'
+  has_many :friends, -> { order('people.last_name', 'people.first_name') }, class_name: 'Person', through: :friendships
   has_many :friendship_requests
-  has_many :pending_friendship_requests, class_name: 'FriendshipRequest', conditions: ['rejected = ?', false]
+  has_many :pending_friendship_requests, -> { where(rejected: false) }, class_name: 'FriendshipRequest'
   has_many :relationships, dependent: :delete_all
   has_many :related_people, class_name: 'Person', through: :relationships, source: :related
   has_many :inward_relationships, class_name: 'Relationship', foreign_key: 'related_id', dependent: :delete_all
   has_many :inward_related_people, class_name: 'Person', through: :inward_relationships, source: :person
-  has_many :prayer_requests, order: 'created_at desc'
+  has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :stream_items
   has_many :generated_files
@@ -45,7 +45,7 @@ class Person < ActiveRecord::Base
   scope :can_sign_in, -> { undeleted.where(can_sign_in: true) }
   scope :administrators, -> { undeleted.where('admin_id is not null') }
   scope :email_changed, -> { undeleted.where(email_changed: true) }
-  scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at') }
+  scope :minimal, -> { select('people.id, people.first_name, people.last_name, people.suffix, people.child, people.gender, people.birthday, people.gender, people.photo_file_name, people.photo_content_type, people.photo_fingerprint, people.photo_updated_at, people.deleted') }
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
@@ -54,19 +54,19 @@ class Person < ActiveRecord::Base
   validates_confirmation_of :password, if: Proc.new { Person.logged_in }
   validates_uniqueness_of :alternate_email, allow_nil: true, scope: [:site_id, :deleted], unless: Proc.new { |p| p.deleted? }
   validates_uniqueness_of :feed_code, allow_nil: true, scope: :site_id
-  validates_format_of :website, allow_nil: true, allow_blank: true, with: /^https?\:\/\/.+/
-  validates_format_of :business_website, allow_nil: true, allow_blank: true, with: /^https?\:\/\/.+/
+  validates_format_of :website, allow_nil: true, allow_blank: true, with: /\Ahttps?\:\/\/.+/
+  validates_format_of :business_website, allow_nil: true, allow_blank: true, with: /\Ahttps?\:\/\/.+/
   validates_format_of :business_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_format_of :alternate_email, allow_nil: true, allow_blank: true, with: VALID_EMAIL_ADDRESS
   validates_inclusion_of :gender, in: %w(Male Female), allow_nil: true
   validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
   validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
-  validate :validate_email_unique # TODO replace this with validates_uniqueness_of with conditions when we get to Rails 4
+  validate :validate_email_unique
 
   def validate_email_unique
     return unless email.present? and not deleted?
-    if Person.where(["email = ? and family_id != ? and id != ? and deleted = ?", email, family_id || 0, id || 0, false]).any?
+    if Person.where("email = ? and family_id != ? and id != ? and deleted = ?", email, family_id || 0, id || 0, false).any?
       errors.add :email, :taken
     end
   end
@@ -150,7 +150,7 @@ class Person < ActiveRecord::Base
   self.digits_only_for_attributes = [:mobile_phone, :work_phone, :fax, :business_phone]
 
   def groups_sharing(attribute)
-    memberships.where(["share_#{attribute.to_s} = ?", true]).all.map(&:group)
+    memberships.where(["share_#{attribute.to_s} = ?", true]).map(&:group)
   end
 
   def can_see?(*whats)
@@ -360,7 +360,7 @@ class Person < ActiveRecord::Base
     friend_ids = all_friend_and_groupy_ids
     group_ids = groups.where(hidden: false).select('groups.id').map { |g| g.id }
     group_ids = [0] unless group_ids.any?
-    relation = StreamItem.scoped \
+    relation = StreamItem \
                .where(streamable_type: enabled_types) \
                .where(shared: true) \
                .where("(group_id in (:group_ids) or" +
@@ -393,7 +393,7 @@ class Person < ActiveRecord::Base
 
   def all_friend_and_groupy_ids
     if Setting.get(:features, :friends)
-      friend_ids = friendships.all(select: 'friend_id').map { |f| f.friend_id }
+      friend_ids = friendships.select(:friend_id).map { |f| f.friend_id }
     else
       friend_ids = []
     end
@@ -412,7 +412,7 @@ class Person < ActiveRecord::Base
   end
 
   def update_relationships_hash
-    rels = relationships.all(include: :related).select do |relationship|
+    rels = relationships.includes(:related).to_a.select do |relationship|
       !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
     end.map do |relationship|
       "#{relationship.related.legacy_id}[#{relationship.name_or_other}]"
@@ -470,7 +470,7 @@ class Person < ActiveRecord::Base
           # family should have already been claimed by barcode -- we're just going to try to match up people by name
           # mark all people in this family as deleted, in case we don't get them all matched up
           destroy_all ["family_id = ? and legacy_id is null and deleted = ?", family_id, false]
-          family_people = where(family_id: family_id, legacy_id: nil).all
+          family_people = where(family_id: family_id, legacy_id: nil).to_a
           # try to match by name
           person = family_people.detect { |p| p.first_name.soundex == record['first_name'].soundex and p.last_name.soundex == record['last_name'].soundex }
           # it's not a huge deal if someone doesn't get matched up by name (a good percentage won't),
@@ -496,7 +496,7 @@ class Person < ActiveRecord::Base
         person.dont_mark_email_changed = true # set flag to indicate we're the api
         if person.save
           if record['relationships_hash'] != person.relationships_hash
-            person.relationships.all.select do |relationship|
+            person.relationships.to_a.select do |relationship|
               !Setting.get(:system, :online_only_relationships).include?(relationship.name_or_other)
             end.each { |r| r.delete }
             record['relationships'].to_s.split(',').each do |relationship|

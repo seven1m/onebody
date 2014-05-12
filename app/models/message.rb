@@ -13,9 +13,9 @@ class Message < ActiveRecord::Base
   belongs_to :person
   belongs_to :to, class_name: 'Person', foreign_key: 'to_person_id'
   belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
-  has_many :children, class_name: 'Message', foreign_key: 'parent_id', conditions: 'to_person_id is null', dependent: :destroy
+  has_many :children, -> { where('to_person_id is null') }, class_name: 'Message', foreign_key: 'parent_id', dependent: :destroy
   has_many :attachments, dependent: :destroy
-  has_many :log_items, foreign_key: 'loggable_id', conditions: "loggable_type = 'Message'"
+  has_many :log_items, -> { where(loggable_type: 'Message') }, foreign_key: 'loggable_id'
   belongs_to :site
 
   scope_by_site_id
@@ -60,10 +60,10 @@ class Message < ActiveRecord::Base
 
   def remove_unsubscribe_link
     if body
-      body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
+      body.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--')
     end
     if html_body
-      html_body.gsub! /http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--'
+      html_body.gsub!(/http:\/\/.*?person_id=\d+&code=\d+/i, '--removed--')
     end
   end
 
@@ -253,7 +253,7 @@ class Message < ActiveRecord::Base
 
   def update_stream_items
     return unless streamable?
-    StreamItem.where(streamable_type: "Message", streamable_id: id).all.each do |stream_item|
+    StreamItem.where(streamable_type: "Message", streamable_id: id).each do |stream_item|
       stream_item.title = subject
       if html_body.to_s.any?
         stream_item.body = html_body

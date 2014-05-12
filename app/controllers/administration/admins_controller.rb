@@ -3,7 +3,7 @@ class Administration::AdminsController < ApplicationController
 
   def index
     if params[:groups]
-      @group_admins = Membership.where(admin: true).includes(:group, :person).all \
+      @group_admins = Membership.where(admin: true).includes(:group, :person) \
         .map { |m| [m.person, m.group] } \
         .sort_by { |a| (params[:sort] == 'group' ? a[1] : a[0]).name }
       render action: 'group_admins'
@@ -15,8 +15,8 @@ class Administration::AdminsController < ApplicationController
                else
                  'people.last_name, people.first_name'
                end
-      @people = Person.where('admin_id is not null').order(@order).all(include: :admin)
-      @templates = Admin.where('template_name is not null').order(:template_name).all(select: '*, (select count(*) from people where admin_id=admins.id) as people_count')
+      @people = Person.where('admin_id is not null').order(@order).includes(:admin)
+      @templates = Admin.where('template_name is not null').order(:template_name).select('*, (select count(*) from people where admin_id=admins.id) as people_count')
     end
   end
 

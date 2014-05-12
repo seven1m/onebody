@@ -5,7 +5,7 @@
       <%= link_to t('families.edit'), edit_family_path(@family), class: 'edit-icon' %>
     </p>
     <p>
-      <%= link_to t('families.delete'), @family, method: :delete, confirm: t('families.are_you_sure'), class: 'delete-icon' %>
+      <%= link_to t('families.delete'), @family, method: :delete, data: { confirm: t('families.are_you_sure') }, class: 'delete-icon' %>
     </p>
     <p>
       <%= link_to t('relationships.family'), family_relationships_path(@family), class: 'people-icon' %>
@@ -35,7 +35,7 @@
         <td><span class="updown-icon handle"></span></td>
         <td>
           <%= link_to '', edit_person_path(person), class: 'edit-icon' %>
-          <%= link_to '', person, confirm: t('are_you_sure'), method: :delete, class: 'delete-icon' %>
+          <%= link_to '', person, data: { confirm: t('are_you_sure') }, method: :delete, class: 'delete-icon' %>
         </td>
       </tr>
     <% end %>

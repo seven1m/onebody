@@ -2,7 +2,7 @@ class Administration::EmailsController < ApplicationController
   before_filter :only_admins
 
   def index
-    @people = Person.where(email_changed: true, deleted: false).order('last_name, first_name').all
+    @people = Person.where(email_changed: true, deleted: false).order('last_name, first_name')
   end
 
   def batch

@@ -246,6 +246,12 @@ module ApplicationHelper
     s.html_safe? ? result.html_safe : result
   end
 
+  # TODO replace all inline JS links with unobtrusive JS
+  def link_to_function(label, js, options={})
+    options[:onclick] = js + ';return false;'
+    link_to label, '#', options
+  end
+
   class << self
     include ApplicationHelper
   end

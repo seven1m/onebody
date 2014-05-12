@@ -4,7 +4,7 @@ require 'rails/all'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+Bundler.require(*Rails.groups)
 
 Dir[File.dirname(__FILE__) + '/../plugins/**/lib/*'].each do |plugin|
   require plugin.sub(/\.rb$/, '')
@@ -20,12 +20,10 @@ module OneBody
     # Cache store location
     config.action_controller.cache_store = [:file_store, "#{config.root}/cache"]
 
-    # Activate observers that should always be running.
-    # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-
     config.i18n.enforce_available_locales = true
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+    # To set a system-wide default other than :en, create the file config/locale (which is not under version control).
     config.i18n.default_locale = File.exist?("#{config.root}/config/locale") ? File.read("#{config.root}/config/locale").strip.to_sym : :en
     config.i18n.load_path += Dir["#{config.root}/plugins/**/config/locales/*.{rb,yml}"]
 
@@ -33,10 +31,7 @@ module OneBody
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
-
-    # Disable whitelisted parameters, since we're using the strong_parameters gem
-    config.active_record.whitelist_attributes = false
+    config.filter_parameters += [:password, :password_confirmation]
 
     config.generators do |g|
       g.test_framework :rspec

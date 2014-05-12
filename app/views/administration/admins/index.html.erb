@@ -28,7 +28,7 @@
         <li>
           <%= link_to template.template_name, edit_administration_admin_path(template.id) %>
           (<%= template.people_count %>)
-          <%= link_to '', administration_admin_path(template.id), method: :delete, confirm: t('are_you_sure'), class: 'delete-icon' %>
+          <%= link_to '', administration_admin_path(template.id), method: :delete, data: { confirm: t('are_you_sure') }, class: 'delete-icon' %>
         </li>
       <% end %>
     </ul>
@@ -74,7 +74,7 @@
         <% end %>
       </td>
       <td class="action">
-        <%= link_to '', administration_admin_path(person.admin, person_id: person.id), remote: true, method: :delete, confirm: t('are_you_sure'), class: 'delete-icon' %>
+        <%= link_to '', administration_admin_path(person.admin, person_id: person.id), remote: true, method: :delete, data: { confirm: t('are_you_sure') }, class: 'delete-icon' %>
       </td>
     </tr>
   <% end %>

@@ -29,14 +29,14 @@ class PeopleController < ApplicationController
     elsif @person and @logged_in.can_see?(@person)
       @family = @person.family
       if @person == @logged_in
-        # FIXME eager load family here
+        # TODO eager load family here
         @family_people = (@person.family.try(:people) || []).reject(&:deleted)
       else
         @family_people = @person.family.try(:visible_people) || []
       end
-      @albums = @person.albums.all(order: 'created_at desc')
+      @albums = @person.albums.order(created_at: :desc)
       @friends = @person.friends.minimal
-      @verses = @person.verses.all(order: 'book, chapter, verse')
+      @verses = @person.verses.order(:book, :chapter, :verse)
       if params[:business]
         render action: 'business'
       else

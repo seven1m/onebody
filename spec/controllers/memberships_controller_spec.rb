@@ -13,7 +13,7 @@ describe MembershipsController do
   it "should add/remote group memberships" do
     post :batch, {ids: [@group2.id], person_id: @person.id, format: :js}, {logged_in_id: @admin.id}
     expect(response).to be_success
-    expect(@person.reload.groups.all).to eq([@group2])
+    expect(@person.reload.groups.to_a).to eq([@group2])
   end
 
 end

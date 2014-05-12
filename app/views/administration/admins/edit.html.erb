@@ -10,7 +10,7 @@
         <tr id="person<%= person.id %>">
           <td><%= render partial: 'people/thumbnail', locals: {person: person} %></td>
           <td><%= link_to person.name, person %></td>
-          <td><%= link_to '', administration_admin_path(person.admin, person_id: person.id), remote: true, method: :delete, confirm: t('are_you_sure'), class: 'delete-icon' %></td>
+          <td><%= link_to '', administration_admin_path(person.admin, person_id: person.id), remote: true, method: :delete, data: { confirm: t('are_you_sure') }, class: 'delete-icon' %></td>
         </tr>
       <% end %>
     </table>

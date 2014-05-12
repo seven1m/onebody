@@ -12,7 +12,7 @@ class Person
     end
 
     def sidebar_groups
-      @sidebar_groups ||= self.groups.where("(select count(*) from memberships where group_id=groups.id) <= #{MAX_PEOPLE_IN_SMALL_GROUP}").all
+      @sidebar_groups ||= self.groups.where("(select count(*) from memberships where group_id=groups.id) <= #{MAX_PEOPLE_IN_SMALL_GROUP}")
     end
 
     def sidebar_group_people(limit=nil)

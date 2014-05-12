@@ -13,8 +13,8 @@ class RelationshipsController < ApplicationController
 
   def person_index
     @person = Person.undeleted.find(params[:person_id])
-    @relationships = @person.relationships.all(include: :related, order: 'people.last_name, people.first_name')
-    @inward_relationships = @person.inward_relationships.all(include: :person, order: 'people.last_name, people.first_name')
+    @relationships = @person.relationships.includes(:related).order('people.last_name', 'people.first_name')
+    @inward_relationships = @person.inward_relationships.includes(:person).order('people.last_name', 'people.first_name')
     @other_names = Relationship.other_names
     @relationship = Relationship.new(person: @person)
     respond_to do |format|

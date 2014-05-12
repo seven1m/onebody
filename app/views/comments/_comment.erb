@@ -10,7 +10,7 @@
 <% end %>
 <%= comment.created_at.to_s %>
 <% if @logged_in.can_edit?(comment) %>
-  <%= link_to '[' + t('delete') + ']', comment_path(comment), class: 'discreet', method: 'delete', confirm: t('are_you_sure') %>
+  <%= link_to '[' + t('delete') + ']', comment_path(comment), class: 'discreet', method: 'delete', data: { confirm: t('are_you_sure') } %>
 <% end %>
 <br/>
 <%= preserve_breaks comment.text %>

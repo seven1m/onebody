@@ -71,9 +71,9 @@ describe VersesController do
   end
 
   it "should create a shared stream item when a verse is added and the owner is sharing their activity" do
-    expect(StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).all.length).to eq(0)
+    expect(StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).count).to eq(0)
     post :create, {id: @verse.id}, {logged_in_id: @other_person.id}
-    items = StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).all
+    items = StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).to_a
     expect(items.length).to eq(1)
     expect(items.first.person).to eq(@other_person)
     expect(items.first).to be_shared
@@ -81,9 +81,9 @@ describe VersesController do
 
   it "should create a non-shared stream item when a verse is added and the owner is not sharing their activity" do
     @other_person.update_attributes! share_activity: false
-    expect(StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).all.length).to eq(0)
+    expect(StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).count).to eq(0)
     post :create, {id: @verse.id}, {logged_in_id: @other_person.id}
-    items = StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).all
+    items = StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).to_a
     expect(items.length).to eq(1)
     expect(items.first.person).to eq(@other_person)
     expect(items.first).to_not be_shared
@@ -91,9 +91,9 @@ describe VersesController do
 
   it "should delete all associated stream items when a verse is removed" do
     post :create, {id: @verse.id}, {logged_in_id: @other_person.id}
-    expect(StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).all.length).to eq(1)
+    expect(StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).count).to eq(1)
     post :destroy, {id: @verse.id}, {logged_in_id: @other_person.id}
-    expect(StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).all.length).to eq(0)
+    expect(StreamItem.where(streamable_type: "Verse", streamable_id: @verse.id).count).to eq(0)
   end
 
 end

@@ -15,7 +15,7 @@
   </p>
 
   <% if @logged_in.can_edit?(@message) %>
-    <p><%= link_to t('messages.delete_message'), @message, method: 'delete', confirm: t('are_you_sure'), class: 'delete-icon discreet' %></p>
+    <p><%= link_to t('messages.delete_message'), @message, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'delete-icon discreet' %></p>
   <% end %>
 <% end %>
 

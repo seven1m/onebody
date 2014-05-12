@@ -7,7 +7,7 @@
   </p>
   <% if @logged_in.can_edit?(@note) %>
     <%= link_to t('notes.edit_note'), edit_note_path(@note), class: 'edit-icon' %><br/>
-    <%= link_to t('notes.delete_note'), @note, class: 'delete-icon', method: :delete, confirm: t('are_you_sure') %>
+    <%= link_to t('notes.delete_note'), @note, class: 'delete-icon', method: :delete, data: { confirm: t('are_you_sure') } %>
   <% end %>
 <% end %>
 

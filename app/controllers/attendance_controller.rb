@@ -72,7 +72,7 @@ class AttendanceController < ApplicationController
     @group = Group.find(params[:group_id])
     @attended_at = Time.parse(params[:attended_at])
     if @group.admin?(@logged_in)
-      @group.attendance_records.where(attended_at: @attended_at.strftime("%Y-%m-%d %H:%M:%S")).all.each { |r| r.destroy }
+      @group.attendance_records.where(attended_at: @attended_at.strftime("%Y-%m-%d %H:%M:%S")).each { |r| r.destroy }
       params[:ids].to_a.each do |id|
         if person = Person.where(id: id).first
           @group.attendance_records.create!(

@@ -12,7 +12,7 @@
             <%= link_to comment.person.name, comment.person %>
             <%= comment.created_at.to_s %>
             <% if @logged_in.can_edit?(comment) %>
-              <%= link_to '', comment_path(comment), class: 'delete-icon', method: 'delete', confirm: t('are_you_sure') %>
+              <%= link_to '', comment_path(comment), class: 'delete-icon', method: 'delete', data: { confirm: t('are_you_sure') } %>
             <% end %>
           </h4>
           <p><%= preserve_breaks comment.text %></p>

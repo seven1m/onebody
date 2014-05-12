@@ -65,7 +65,7 @@
 <% end %>
 
 <table class="members" id="memberships">
-  <% @group.memberships.all(include: :person, order: 'people.last_name, people.first_name').each do |membership| %>
+  <% @group.memberships.includes(:person).order('people.last_name', 'people.first_name').each do |membership| %>
     <% if person = membership.person %>
       <%= render partial: 'person', locals: {person: person} %>
     <% end %>

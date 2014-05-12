@@ -1,8 +1,7 @@
 class Notifier < ActionMailer::Base
   helper :notifier, :application
 
-  default from:    lambda { Site.current.noreply_email },
-          charset: 'UTF-8'
+  default from: -> _ { Site.current.noreply_email }, charset: 'UTF-8'
 
   def profile_update(person, updates)
     @person = person
@@ -41,8 +40,8 @@ class Notifier < ActionMailer::Base
     @group = group
     @person = person
     unless (to = group.admins.select { |p| p.email.to_s.any? }.map { |p| "#{p.name} <#{p.email}>" }).any?
-      unless (to = Admin.all.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
-        to = Admin.where(super_admin: true).all.map { |a| a.person.email }
+      unless (to = Admin.to_a.select { |a| a.manage_updates? }.map { |a| "#{a.person.name} <#{a.person.email}>" }).any?
+        to = Admin.where(super_admin: true).map { |a| a.person.email }
       end
     end
     mail(
@@ -296,7 +295,8 @@ class Notifier < ActionMailer::Base
             end
           end
         end
-        message.send_to_group(already_sent_to=email.to.to_a)
+        already_sent_to = email.to.to_a
+        message.send_to_group(already_sent_to)
         @message_sent_to_group = true
       end
       message
@@ -365,7 +365,7 @@ class Notifier < ActionMailer::Base
     end
 
     def get_from_person(email)
-      people = Person.where("lcase(email) = ?", email.from.first.downcase).all
+      people = Person.where("lcase(email) = ?", email.from.first.downcase).to_a
       if people.length == 0
         # user is not found in the system, try alternate email
         Person.where("lcase(alternate_email) = ?", email.from.to_s.downcase).first

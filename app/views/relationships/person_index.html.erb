@@ -50,7 +50,7 @@
       <% end %>
     </table>
     <p>
-      <%= submit_tag t('Delete'), name: 'delete', confirm: t('are_you_sure') %>
+      <%= submit_tag t('Delete'), name: 'delete', data: { confirm: t('are_you_sure') } %>
       <%= submit_tag t('relationships.Reciprocate'), name: 'reciprocate' %>
     </p>
   <% end %>
@@ -81,7 +81,7 @@
       <% end %>
     </table>
     <p>
-      <%= submit_tag t('Delete'), name: 'delete', confirm: t('are_you_sure') %>
+      <%= submit_tag t('Delete'), name: 'delete', data: { confirm: t('are_you_sure') } %>
       <%= submit_tag t('relationships.Reciprocate'), name: 'reciprocate' %>
     </p>
   <% end %>

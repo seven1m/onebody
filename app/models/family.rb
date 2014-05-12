@@ -5,7 +5,7 @@ class Family < ActiveRecord::Base
 
   MAX_TO_BATCH_AT_A_TIME = 50
 
-  has_many :people, order: 'sequence', dependent: :destroy
+  has_many :people, -> { order(:sequence) }, dependent: :destroy
   accepts_nested_attributes_for :people
   belongs_to :site
 
@@ -108,11 +108,11 @@ class Family < ActiveRecord::Base
   self.digits_only_for_attributes = [:home_phone]
 
   def children_without_consent
-    people.select { |p| !p.adult_or_consent? }
+    people.reject(&:adult_or_consent?)
   end
 
   def visible_people
-    people.find(:all).select do |person|
+    people.select do |person|
       !person.deleted? and (
         Person.logged_in.admin?(:view_hidden_profiles) or
         person.visible?(self)
@@ -121,7 +121,7 @@ class Family < ActiveRecord::Base
   end
 
   def suggested_relationships
-    all_people = people.all(order: 'sequence')
+    all_people = people.order(:sequence)
     relations = {
       adult: {
         male: {
@@ -183,7 +183,7 @@ class Family < ActiveRecord::Base
 
   alias_method :destroy_for_real, :destroy
   def destroy
-    people.all.each { |p| p.destroy }
+    people.each(&:destroy)
     update_attribute(:deleted, true)
   end
 

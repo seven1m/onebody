@@ -1,8 +1,8 @@
 <% if Setting.get(:features, :friends) %>
   <% if @logged_in.friend? @person %>
-    <li class="icon"><%= link_to t('friends.remove_from_friends'), person_friend_path(@logged_in, @person), method: 'delete', confirm: t('are_you_sure'), class: 'delete-icon' %></li>
+    <li class="icon"><%= link_to t('friends.remove_from_friends'), person_friend_path(@logged_in, @person), method: 'delete', data: { confirm: t('are_you_sure') }, class: 'delete-icon' %></li>
   <% elsif @logged_in.can_request_friendship_with?(@person) %>
-    <li class="icon"><%= link_to t('friends.add_to_friends'), person_friends_path(@logged_in, friend_id: @person), remote: true, method: :post, confirm: t('friends.add_friend_are_you_sure'), class: 'add-icon', id: "add_friend_#{@person.id}" %></li>
+    <li class="icon"><%= link_to t('friends.add_to_friends'), person_friends_path(@logged_in, friend_id: @person), remote: true, method: :post, data: { confirm: t('friends.add_friend_are_you_sure') }, class: 'add-icon', id: "add_friend_#{@person.id}" %></li>
   <% elsif @logged_in.friendship_waiting_on? @person %>
     <li class="icon"><em><%= t('friends.friend_request_pending') %></em></li>
   <% end %>

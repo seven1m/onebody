@@ -80,7 +80,7 @@
     <% end %>
     <div class="form-field-hint">
       <% if @person.can_sign_in? and !@person.new_record? %>
-        <%= link_to t('people.click_to_send_verification_email'), account_path(email: @person.email), method: 'post', confirm: t('are_you_sure'), class: 'email-icon' %>
+        <%= link_to t('people.click_to_send_verification_email'), account_path(email: @person.email), method: 'post', data: { confirm: t('are_you_sure') }, class: 'email-icon' %>
       <% end %>
     </div>
     <%= content_tag :div, style: @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do %>
