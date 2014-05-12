@@ -1,0 +1,162 @@
+- @title = @person.name
+
+- content_for :header do
+  %section.content-header
+    = breadcrumbs
+    %h1
+      = @title
+      %small
+        = link_to "(#{@family.name})", @family
+
+.row
+  .col-lg-8.col-lg-push-4.col-sm-6.col-sm-push-6
+    .row
+      .col-lg-6.col-md-12
+        = avatar_tag @person, size: 'large', class: 'img-full'
+        %table.table
+          = show_attribute?(:website) do
+            %tr
+              %td Website
+              %td= link_to simple_url(@person.website), @person.website
+          = show_attribute?(:email) do
+            %tr
+              %td Email
+              %td= mail_to @person.email
+          = show_attribute?(:mobile_phone) do
+            %tr
+              %td Mobile Phone
+              %td= format_phone @person.mobile_phone
+          = show_attribute?(:home_phone) do
+            %tr
+              %td Home Phone
+              %td= format_phone @person.home_phone
+          = show_attribute?(:work_phone) do
+            %tr
+              %td Work Phone
+              %td= format_phone @person.work_phone
+          = show_attribute?(:address) do
+            %tr
+              %td Home Address
+              %td
+                = preserve_breaks @person.address
+                %br
+                == #{@person.city}, #{@person.state} #{@person.short_zip}
+      .col-lg-6.col-md-12
+        - @groups.each do |group|
+          .box{class: group_box_class(group)}
+            .box-header
+              %h3.box-title
+                %i.fa.fa-group
+                = link_to group.name, group
+            .box-body
+              %table.table
+                %tr
+                  %td members
+                  %td{style: "width:50px;"}= group.memberships.count
+                %tr
+                  %td messages
+                  %td{style: "width:50px;"}= group.messages.count
+        - if @groups.any?
+          %p= link_to 'see all...', person_groups_path(@person)
+        - if @groups.empty? and me?
+          .box
+            .box-body
+              %h3.box-title
+                %i.fa.fa-plus
+                %em Join a Group
+              lorem ipsum dolor
+  .col-lg-4.col-lg-pull-8.col-sm-6.col-sm-pull-6
+    / The time line
+    %ul.timeline
+      / timeline time label
+      %li.time-label
+        %span.bg-red
+          10 Feb. 2014
+      / /.timeline-label
+      / timeline item
+      %li
+        %i.fa.fa-envelope.bg-blue
+        .timeline-item
+          %span.time
+            %i.fa.fa-clock-o
+            12:05pm
+          %h3.timeline-header
+            %a{href: "#"} Justin Richter
+            favorited
+            %strong 1 John 1:9
+          .timeline-body
+            If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.
+          .timeline-footer
+            %a.btn.btn-primary.btn-xs Read more
+      / END timeline item
+      / timeline item
+      %li
+        %i.fa.fa-user.bg-aqua
+        .timeline-item
+          %span.time
+            %i.fa.fa-clock-o
+            9:35am
+          %h3.timeline-header.no-border
+            %a{href: "#"} Sarah Young
+            accepted your friend request
+      / END timeline item
+      / timeline time label
+      %li.time-label
+        %span.bg-green
+          8 Jan. 2014
+      / /.timeline-label
+      / timeline item
+      %li
+        %i.fa.fa-comment.bg-green
+        .timeline-item
+          %span.time
+            %i.fa.fa-clock-o
+            10:21am
+          %h3.timeline-header.no-border
+            %a{href: "#"} Jeremy Zongker
+            posted a note.
+          .timeline-body
+            Bacon ipsum dolor sit amet pork hamburger strip steak jerky landjaeger chuck brisket. Salami doner corned beef rump kevin spare ribs jowl.
+          .timeline-footer
+            %a.btn.btn-primary.btn-xs Read more
+            %a.btn.btn-primary.btn-xs Post a comment
+      / END timeline item
+      / timeline item
+      %li
+        %i.fa.fa-check-square-o.bg-yellow
+        .timeline-item
+          %span.time
+            %i.fa.fa-clock-o
+            8:55am
+          %h3.timeline-header.no-border
+            You checked into
+            = succeed "." do
+              %a{href: "#"} The Studio
+      / END timeline item
+      / timeline time label
+      %li.time-label
+        %span.bg-green
+          3 Jan. 2014
+      / /.timeline-label
+      / timeline item
+      %li
+        %i.fa.fa-camera.bg-purple
+        .timeline-item
+          %span.time
+            %i.fa.fa-clock-o
+            3:09pm
+          %h3.timeline-header
+            %a{href: "#"} Mina Lee
+            uploaded new photos
+          .timeline-body
+            %img.margin{alt: "...", src: "http://placehold.it/150x100"}
+            %img.margin{alt: "...", src: "http://placehold.it/150x100"}
+            %img.margin{alt: "...", src: "http://placehold.it/150x100"}
+            %img.margin{alt: "...", src: "http://placehold.it/150x100"}
+      / END timeline item
+      %li
+        %i.fa.fa-clock-o
+        %div{style: "margin:5px 0 0 60px;"}
+          %a.btn.btn-info.btn-xs{href: "#"}
+            %i.fa.fa-arrow-down
+            load more

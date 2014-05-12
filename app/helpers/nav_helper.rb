@@ -43,4 +43,31 @@ module NavHelper
     end.join.html_safe
   end
 
+  # TODO turn this into a presenter object
+  def breadcrumbs
+    content_tag(:ol, class: 'breadcrumb') do
+      crumbs.map do |icon_class, label, path|
+        content = (content_tag(:i, '', class: icon_class) + ' ' + h(label)).html_safe
+        content_tag(:li, class: path ? '' : 'active') do
+          if path
+            link_to content, path
+          else
+            content
+          end
+        end
+      end.join.html_safe
+    end
+  end
+
+  # TODO i18n
+  def crumbs
+    [].tap do |crumbs|
+      crumbs << ['fa fa-home', 'Home', root_path]
+      if params[:controller] == 'people' and @person
+        crumbs << ['fa fa-archive', 'Directory', new_search_path]
+        crumbs << ['fa fa-user', 'Profile']
+      end
+    end
+  end
+
 end

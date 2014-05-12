@@ -24,8 +24,11 @@ gem 'bcrypt'
 gem 'mini_magick'
 gem 'activerecord-session_store'
 gem 'sass-rails', '~> 4.0.2'
+gem 'bootstrap-sass', '~> 3.1.1'
 gem 'uglifier'
 gem 'coffee-rails', '~> 4.0.0'
+gem 'font-awesome-rails'
+gem 'ionicons-rails'
 
 group :test do
   gem 'factory_girl_rails'

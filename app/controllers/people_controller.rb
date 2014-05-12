@@ -37,6 +37,7 @@ class PeopleController < ApplicationController
       @albums = @person.albums.order(created_at: :desc)
       @friends = @person.friends.minimal
       @verses = @person.verses.order(:book, :chapter, :verse)
+      @groups = @person.groups.limit(3).order("(select created_at from stream_items where group_id=groups.id order by created_at desc limit 1) desc")
       if params[:business]
         render action: 'business'
       else

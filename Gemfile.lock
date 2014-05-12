@@ -55,6 +55,8 @@ GEM
       activesupport (>= 3.0.0)
       rake (>= 0.8.7)
     bcrypt (3.1.7)
+    bootstrap-sass (3.1.1.1)
+      sass (~> 3.2)
     builder (3.1.4)
     chronic (0.10.2)
     climate_control (0.0.3)
@@ -86,11 +88,14 @@ GEM
       curb (~> 0.8.1)
       loofah (~> 1.2.1)
       sax-machine (~> 0.2.1)
+    font-awesome-rails (4.0.3.2)
+      railties (>= 3.2, < 5.0)
     haml (4.0.5)
       tilt
     highline (1.6.21)
     hike (1.2.3)
     i18n (0.6.9)
+    ionicons-rails (1.4.1.0)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -213,13 +218,16 @@ DEPENDENCIES
   acts_as_taggable_on_steroids!
   authority
   bcrypt
+  bootstrap-sass (~> 3.1.1)
   builder
   coffee-rails (~> 4.0.0)
   exception_notification
   factory_girl_rails
   feedjira
+  font-awesome-rails
   haml
   highline
+  ionicons-rails
   jquery-rails
   load_and_authorize_resource!
   loofah
