@@ -1,7 +1,7 @@
-//= require bootstrap
-//= require font-awesome
-//= require ionicons
-//= require admin_lte
+@import "bootstrap";
+@import "font-awesome";
+@import "ionicons";
+@import "admin_lte";
 
 img.img-full {
   width: 100%;
@@ -9,4 +9,22 @@ img.img-full {
 
 .content-header .breadcrumb {
   margin-bottom: 10px;
+}
+
+.user-panel > .image img {
+  width: 45px;
+  height: 45px;
+}
+
+.timeline-pic {
+  @extend .img-thumbnail;
+  margin: 0 10px 10px 0;
+  width: 75px;
+}
+
+@media (max-width: 570px) {
+  .profile .col-xs-6 {
+    left: 0;
+    width: auto;
+  }
 }

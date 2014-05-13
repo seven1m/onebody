@@ -1,0 +1,166 @@
+<div class="profile">
+
+  <div class="profile-sidebar">
+    <div class="profile-pic">
+      <%= render partial: 'photo' %>
+    </div>
+  </div>
+
+  <div class="profile-body">
+    <% if flash[:show_verification_link] %>
+      <div class="highlight">
+        <%= link_to t('people.click_to_send_verification_email'), account_path(email: @person.email), method: 'post', data: { confirm: t('are_you_sure') }, class: 'email-icon' %>
+      </div>
+    <% end %>
+    <% unless @person.visible? %>
+      <div class="highlight"><span class="lock-icon"></span> <%= t('people.this_profile_is_hidden') %></div>
+    <% end %>
+    <% unless @family %>
+      <div class="alert"><span class="alert-icon"></span> <%= t('people.no_family_for_this_person') %></div>
+    <% end %>
+    <%= render partial: 'pending_updates' %>
+    <h2>
+      <strong><%= @person.name %></strong>
+      <% if @person.description.to_s.any? %>
+        / <%= @person.description %>
+      <% end %>
+    </h2>
+    <ul class="profile-details">
+      <%= attribute(:website)      do %><li class="website"><%= link_to simple_url(@person.website), @person.website %>                           </li><% end %>
+      <%= attribute(:email)        do %><li class="email"  ><%= mail_to @person.email                                %>                           </li><% end %>
+      <%= attribute(:mobile_phone) do %><li class="phone"  ><%= format_phone @person.mobile_phone                    %> <%= t('profile.mobile') %></li><% end %>
+      <%= attribute(:work_phone)   do %><li class="phone"  ><%= format_phone @person.work_phone                      %> <%= t('profile.work')   %></li><% end %>
+      <%= attribute(:home_phone)   do %><li class="phone"  ><%= format_phone @person.home_phone                      %> <%= t('profile.home'  ) %></li><% end %>
+      <%= attribute(:fax)          do %><li class="phone"  ><%= format_phone @person.fax                             %> <%= t('profile.fax'   ) %></li><% end %>
+      <div class="new-line"></div>
+      <%= attribute(:address) do %>
+        <li class="address"><%= preserve_breaks @person.address %><br/><%= @person.city %>, <%= @person.state %> <%= @person.short_zip %></li>
+      <% end %>
+      <div class="new-line"></div>
+      <% if @person.messages_enabled? %>
+        <li class="icon">
+          <%= link_to t('messages.send_message'), new_message_path(to_person_id: @person), class: 'email-icon' %>
+        </li>
+      <% end %>
+      <%= render partial: 'friendship' %>
+      <% if @logged_in.can_edit?(@person) %>
+        <li class="icon">
+          <%= link_to t('people.edit.profile'), edit_person_path(@person), class: 'edit-icon' %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="clear"></div>
+  <div class="profile-sidebar">
+    <%= render partial: 'family' %>
+
+    <% if @albums.any? %>
+      <h3><%= t('albums.picture_albums') %></h3>
+      <p>
+        <% @albums.each do |album| %>
+          <%= link_to image_tag(album.cover ? album.cover.photo.url(:tn) : 'missing_tn.png', alt: album.name),
+            album, title: album.name %>
+        <% end %>
+      </p>
+    <% end %>
+
+    <% if @friends.any? %>
+      <h3><%= t('friends.friends') %></h3>
+      <% @friends.each do |person| %>
+        <%= content_tag :a, href: person_path(person) do %>
+          <%= render partial: 'people/thumbnail', locals: {person: person} %>
+        <% end %>
+      <% end %>
+      <p><%= link_to t('edit'), person_friends_path(@person) %></p>
+    <% end %>
+  </div>
+
+  <div class="profile-body">
+
+    <h3><%= t('About') %></h3>
+    <div class="about">
+      <% unless @person.about.to_s.any? or
+                @verses.any? or
+                @person.activities.to_s.any? or
+                @person.interests.to_s.any? or
+                @person.books.to_s.any? or
+                @person.music.to_s.any? or
+                @person.movies.to_s.any? or
+                @person.tv_shows.to_s.any? or
+                @person.quotes.to_s.any? %>
+        <em><%= t('people.nothing_here_yet') %></em>
+      <% end %>
+      <% if @person.about.to_s.any? %>
+        <div class="favorites-group">
+          <%= preserve_breaks @person.about %>
+        </div>
+      <% end %>
+      <% if @verses.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.verses') %></h4>
+          <ul class="favorites-inline">
+            <% @verses.each do |verse| %>
+              <li><%= link_to verse.reference, verse %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if @person.activities.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.activities') %></h4>
+          <%= preserve_breaks @person.activities %>
+        </div>
+      <% end %>
+      <% if @person.interests.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.interests') %></h4>
+          <%= preserve_breaks @person.interests %>
+        </div>
+      <% end %>
+      <% if @person.books.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.books') %></h4>
+          <%= preserve_breaks @person.books %>
+        </div>
+      <% end %>
+      <% if @person.music.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.music') %></h4>
+          <%= preserve_breaks @person.music %>
+        </div>
+      <% end %>
+      <% if @person.movies.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.movies') %></h4>
+          <%= preserve_breaks @person.movies %>
+        </div>
+      <% end %>
+      <% if @person.tv_shows.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.tv_shows') %></h4>
+          <%= preserve_breaks @person.tv_shows %>
+        </div>
+      <% end %>
+      <% if @person.quotes.to_s.any? %>
+        <div class="favorites-group">
+          <h4><%= t('people.quotes') %></h4>
+          <!--
+          <ul class="list quotes">
+            <li>I may not be able to say all I think; but I am not going to say anything that I do not think. I would rather a thousand times be a free soul in jail than to be a sycophant and coward in the streets. — <a href="http://en.wikiquote.org/wiki/Eugene_V._Debs#Canton_Anti-war_Speech_.281918.29">Eugene V. Debs, Canton Anti-war Speech (1918)</a></li>
+          </ul>
+          -->
+          <p><%= preserve_breaks @person.quotes %></p>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @person.testimony.to_s.any? %>
+      <h3><%= t('people.testimony') %></h3>
+      <div class="testimony">
+        <%= preserve_breaks @person.testimony %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

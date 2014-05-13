@@ -15,7 +15,7 @@
   %body.skin-blue
     / header logo: style can be found in header.less
     %header.header
-      %a.logo{href: "#"} CHURCH.IO
+      = link_to 'CHURCH.IO', root_path, class: 'logo'
       / Header Navbar: style can be found in header.less
       %nav.navbar.navbar-static-top{role: "navigation"}
         / Sidebar toggle button
@@ -35,14 +35,17 @@
           / Sidebar user panel
           .user-panel
             .pull-left.image
-              = avatar_tag @logged_in, class: 'img-circle'
+              = link_to @logged_in do
+                = avatar_tag @logged_in, class: 'img-circle'
             .pull-left.info
-              %p Hello, Tim
+              %p
+                Hello,
+                = @logged_in.first_name
               %a{href: "#"}
                 %i.fa.fa-circle.text-success
                 Online
           / search form
-          %form.sidebar-form{action: "#", method: "get"}
+          %form.sidebar-form{action: '/search', method: 'get'}
             .input-group
               %input.form-control{name: "q", placeholder: "Search...", type: "text"}
               %span.input-group-btn
@@ -52,7 +55,7 @@
           / sidebar menu: : style can be found in sidebar.less
           %ul.sidebar-menu
             %li
-              %a{href: "#"}
+              = link_to root_path do
                 %i.fa.fa-home
                 %span Home
                 %small.badge.pull-right.bg-green 12 new
@@ -61,33 +64,34 @@
                 %i.fa.fa-user
                 %span Profile
             %li
-              %a{href: "#"}
+              = link_to groups_path do
                 %i.fa.fa-group
                 %span Groups
                 %small.badge.pull-right.bg-green 2 new
             %li.treeview
-              %a{href: "#"}
+              = link_to new_search_path do
                 %i.fa.fa-archive
                 %span Directory
                 %i.fa.fa-angle-left.pull-right
               %ul.treeview-menu
                 %li
-                  %a{href: "#"}
+                  = link_to search_path(business: true) do
                     %i.fa.fa-angle-double-right
                     Business Directory
                 %li
-                  %a{href: "#"}
+                  = link_to new_printable_directory_path do
                     %i.fa.fa-angle-double-right
                     Printed Directory
                 %li
-                  %a{href: "#"}
+                  = link_to new_search_path(advanced: true) do
                     %i.fa.fa-angle-double-right
                     Advanced Search
             %li
-              %a{href: "#"}
+              = link_to admin_path do
                 %i.fa.fa-cogs
                 %span Admin
                 %small.badge.pull-right.bg-orange 2 alerts
+          = yield(:sidebar)
         / /.sidebar
       / Right side column. Contains the navbar and content of the page
       %aside.right-side

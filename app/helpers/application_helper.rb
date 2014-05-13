@@ -252,6 +252,10 @@ module ApplicationHelper
     link_to label, '#', options
   end
 
+  def icon(css_class)
+    content_tag(:i, '', class: css_class)
+  end
+
   class << self
     include ApplicationHelper
   end

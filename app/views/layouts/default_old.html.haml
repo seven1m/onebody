@@ -1,0 +1,53 @@
+!!! 5
+%html{"xml:lang" => "en", xmlns: "http://www.w3.org/1999/xhtml"}
+  %head
+    %title= Setting.get(:name, :site)
+    %meta{content: "text/html; charset=utf-8", "http-equiv" => "content-type"}
+    = stylesheet_link_tag stylesheet_path
+    = stylesheet_link_tag 'print.css', media: 'print'
+    - if mobile?
+      %meta{name: "viewport", content: "width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"}
+      = stylesheet_link_tag stylesheet_path(:mobile)
+    /[if lte IE 8]
+      = stylesheet_link_tag stylesheet_path(:ie)
+      = javascript_include_tag 'ie'
+    = javascript_include_tag 'jquery-1.4.4.min', 'jquery-ui-1.8.7.custom.min', 'jquery.qtip-1.0.0-rc3.min.js', 'rails', 'application', cache: true
+    = csrf_meta_tag
+    :javascript
+      logged_in = #{@logged_in ? @logged_in.id : 'null'}
+    = yield :head
+  %body
+    #common.shadowed
+      .inner
+        #search
+          = search_form
+        %ul#common-nav
+          = common_nav_links
+        .clear
+    #nav
+      .inner
+        %ul.buttons
+          = nav_links
+        .heading
+          %h1= heading
+          .tagline= subheading
+    = notice
+    #main
+      .inner
+        - if (sidebar = yield(:sidebar)).any?
+          .left-sidebar
+            = sidebar
+          .accommodate-left-sidebar
+            = yield
+          .clear
+        - else
+          = yield
+    .inner
+      #footer
+        == &copy; #{Date.today.year}, #{Setting.get(:name, :community)}
+        &middot;
+        = link_to t('layouts.privacy_policy'), '/pages/help/privacy_policy'
+        &middot;
+        = t('layouts.powered_by_html')
+    = analytics_js
+    = menu_content

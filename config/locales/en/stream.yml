@@ -1,0 +1,20 @@
+en:
+
+  stream:
+
+    header:
+      picture:
+        one: "shared a picture in %{album}"
+        other: "shared some pictures in %{album}"
+      note: "posted a note"
+      verse: "shared %{ref}"
+
+    body:
+      picture:
+        alt: "click to enlarge"
+
+    footer:
+      button_label:
+        album: "Show all"
+        note: "Read more"
+        verse: "Read more"
