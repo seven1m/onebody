@@ -3,10 +3,13 @@ en:
   stream:
 
     header:
+      noone: "system"
+      message: "sent a message to %{group}"
+      news: "posted news"
+      note: "posted a note"
       picture:
         one: "shared a picture in %{album}"
         other: "shared some pictures in %{album}"
-      note: "posted a note"
       verse: "shared %{ref}"
 
     body:
@@ -18,3 +21,8 @@ en:
         album: "Show all"
         note: "Read more"
         verse: "Read more"
+
+    load_more: "load more..."
+
+    share:
+      heading: "Share"

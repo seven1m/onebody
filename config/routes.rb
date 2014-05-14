@@ -41,6 +41,7 @@ OneBody::Application.routes.draw do
         post :select
       end
     end
+    resource :stream
     resource :photo
     resources :groups, :pictures, :groupies, :services, :albums, :notes, :verses
     resource :privacy, :blog, :calendar

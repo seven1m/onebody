@@ -349,42 +349,6 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def shared_stream_items(count=30)
-    enabled_types = []
-    enabled_types << 'Message' # group posts (not personal messages)
-    enabled_types << 'NewsItem'    if Setting.get(:features, :news_page   )
-    enabled_types << 'Verse'       if Setting.get(:features, :verses      )
-    enabled_types << 'Album'       if Setting.get(:features, :pictures    )
-    enabled_types << 'Note'        if Setting.get(:features, :notes       )
-    enabled_types << 'PrayerRequest'
-    friend_ids = all_friend_and_groupy_ids
-    group_ids = groups.where(hidden: false).select('groups.id').map { |g| g.id }
-    group_ids = [0] unless group_ids.any?
-    relation = StreamItem \
-               .where(streamable_type: enabled_types) \
-               .where(shared: true) \
-               .where("(group_id in (:group_ids) or" +
-                      " (group_id is null and person_id in (:friend_ids)) or" +
-                      " person_id = :id or" +
-                      " streamable_type = 'NewsItem'" +
-                      ")", group_ids: group_ids, friend_ids: friend_ids, id: id) \
-               .order('created_at desc') \
-               .limit(count) \
-               .includes(:person, :group)
-    relation.to_a.tap do |stream_items|
-      # do our own eager loading here...
-      comment_people_ids = stream_items.map { |s| Array(s.context['comments']).map { |c| c['person_id'] } }.flatten
-      comment_people = Person.where(id: comment_people_ids).minimal \
-                             .inject({}) { |h, p| h[p.id] = p; h } # as a hash with id as the key
-      stream_items.each do |stream_item|
-        Array(stream_item.context['comments']).each do |comment|
-          comment['person'] = comment_people[comment['person_id']]
-        end
-        stream_item.readonly!
-      end
-    end
-  end
-
   def show_attribute_to?(attribute, who)
     send(attribute).to_s.strip.any? and
     (not respond_to?("share_#{attribute}_with?") or
@@ -393,11 +357,11 @@ class Person < ActiveRecord::Base
 
   def all_friend_and_groupy_ids
     if Setting.get(:features, :friends)
-      friend_ids = friendships.select(:friend_id).map { |f| f.friend_id }
+      friend_ids = friendships.pluck(:friend_id)
     else
       friend_ids = []
     end
-    friend_ids + sidebar_group_people.map { |p| p.id }
+    friend_ids + sidebar_group_people.map(&:id)
   end
 
   def age_group

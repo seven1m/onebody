@@ -38,7 +38,7 @@ class PeopleController < ApplicationController
       @friends = @person.friends.minimal
       @verses = @person.verses.order(:book, :chapter, :verse)
       @groups = @person.groups.limit(3).order("(select created_at from stream_items where group_id=groups.id order by created_at desc limit 1) desc")
-      @stream_items = @person.stream_items.order(created_at: :desc).paginate(page: params[:timeline_page], per_page: 50) # TODO change to per_page: 5
+      @stream_items = StreamItem.shared_with(@logged_in).where(person_id: @person.id).paginate(page: params[:timeline_page], per_page: 5)
       if params[:business]
         render action: 'business'
       else

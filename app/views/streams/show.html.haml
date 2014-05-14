@@ -1,0 +1,7 @@
+- content_for :meta do
+  %link{rel: 'alternate', type: 'application/atom+xml', title: t('stream.feed'), href: stream_url(format: :xml, code: @logged_in.feed_code)}
+
+.row.stream
+  .col-sm-6= timeline(@stream_items)
+  .col-sm-6
+    %h3= t('stream.share.heading')

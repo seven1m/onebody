@@ -11,7 +11,7 @@ class StreamItemDecorator < Draper::Decorator
       icon +
       h.content_tag(:div, class: 'timeline-item') do
         h.content_tag(:span, class: 'time') do
-          h.icon('fa fa-clock-o') + ' ' + object.created_at.to_s(:time)
+          h.icon('fa fa-clock-o') + ' ' + created_at.to_s(:time)
         end +
         header +
         body +
@@ -21,7 +21,7 @@ class StreamItemDecorator < Draper::Decorator
   end
 
   def icon
-    case object.streamable_type
+    case streamable_type
     when 'Note'
       h.icon('fa fa-envelope bg-blue')
     when 'Album'
@@ -39,33 +39,41 @@ class StreamItemDecorator < Draper::Decorator
 
   def header
     h.content_tag(:h3, class: 'timeline-header') do
-      h.link_to(object.person.name, object.person) +
+      if person
+        h.link_to(person.name, person)
+      else
+        I18n.t('stream.header.noone')
+      end +
       ' ' +
-      case object.streamable_type
+      case streamable_type
       when 'Note'
         I18n.t('stream.header.note')
       when 'Album'
-        I18n.t('stream.header.picture', count: Array(object.context['picture_ids']).length, album: h.link_to(object.title, h.album_path(object.streamable_id))).html_safe
+        I18n.t('stream.header.picture', count: Array(object.context['picture_ids']).length, album: h.link_to(title, h.album_path(streamable_id))).html_safe
       when 'Verse'
-        I18n.t('stream.header.verse', ref: h.link_to(object.title, object.streamable)).html_safe
+        I18n.t('stream.header.verse', ref: h.link_to(title, path)).html_safe
+      when 'NewsItem'
+        I18n.t('stream.header.news').html_safe
+      when 'Message'
+        I18n.t('stream.header.message', group: h.link_to(group.name, group)).html_safe
       else
-        object.streamable_type
+        streamable_type
       end
     end.html_safe
   end
 
   def body
     h.content_tag(:div, class: 'timeline-body') do
-      if object.streamable_type == 'Message'
+      if streamable_type == 'Message'
         h.truncate_html(h.render_message_body(object), length: MAX_BODY_SIZE)
       elsif object.body
-        h.sanitize_html(h.auto_link(object.body))
-      elsif object.streamable_type == 'Album'
+        h.truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE)
+      elsif streamable_type == 'Album'
         Array(object.context['picture_ids']).map do |picture_id, fingerprint, extension|
           url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small)
           h.link_to(
             h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: 'timeline-pic'),
-            h.album_picture_path(object.streamable_id, picture_id),
+            h.album_picture_path(streamable_id, picture_id),
             title: I18n.t('stream.body.picture.alt')
           )
         end.join(' ').html_safe
@@ -75,7 +83,7 @@ class StreamItemDecorator < Draper::Decorator
 
   def footer
     h.content_tag(:div, class: 'timeline-footer') do
-      label = I18n.t(object.streamable_type.downcase, scope: 'stream.footer.button_label', default: 'Read more')
+      label = I18n.t(streamable_type.downcase, scope: 'stream.footer.button_label', default: 'Read more')
       h.link_to label, path, class: 'btn btn-primary btn-xs'
     end
   end
