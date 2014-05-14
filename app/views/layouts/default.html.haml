@@ -103,10 +103,10 @@
         - else
           %section.content-header
             = breadcrumbs
-            %h1= @title
-            -#Tim Morgan
-            -#%small
-              -#%a{href: "#"} Tim &amp; Jennie Morgan
+            %h1
+              = @title
+              - if sub_title = yield(:sub_title).presence
+                %small= sub_title
         %section.content
           = yield
     = javascript_include_tag 'application'
