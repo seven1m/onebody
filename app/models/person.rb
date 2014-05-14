@@ -42,6 +42,7 @@ class Person < ActiveRecord::Base
 
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
+  scope :adults_or_have_consent, -> { where("child = 0 or coalesce(parental_consent, '') != ''") }
   scope :can_sign_in, -> { undeleted.where(can_sign_in: true) }
   scope :administrators, -> { undeleted.where('admin_id is not null') }
   scope :email_changed, -> { undeleted.where(email_changed: true) }
@@ -355,18 +356,9 @@ class Person < ActiveRecord::Base
     send("share_#{attribute}_with?", who))
   end
 
-  def all_friend_and_groupy_ids
-    if Setting.get(:features, :friends)
-      friend_ids = friendships.pluck(:friend_id)
-    else
-      friend_ids = []
-    end
-    friend_ids + sidebar_group_people.map(&:id)
-  end
-
   def age_group
     the_classes = self.classes.to_s.split(',')
-    if the_class = the_classes.detect { |c| c =~ /^AG:$/ }
+    if the_class = the_classes.detect { |c| c =~ /^AG:/ }
       the_class.match(/^AG:(.+)$/)[1]
     end
   end

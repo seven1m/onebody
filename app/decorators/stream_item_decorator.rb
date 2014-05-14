@@ -6,7 +6,8 @@ class StreamItemDecorator < Draper::Decorator
 
   delegate_all
 
-  def to_html
+  def to_html(options={})
+    @big = options.delete(:big)
     h.content_tag(:li) do
       icon +
       h.content_tag(:div, class: 'timeline-item') do
@@ -70,9 +71,9 @@ class StreamItemDecorator < Draper::Decorator
         h.truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE)
       elsif streamable_type == 'Album'
         Array(object.context['picture_ids']).map do |picture_id, fingerprint, extension|
-          url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, :small)
+          url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, @big ? :medium : :small)
           h.link_to(
-            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: 'timeline-pic'),
+            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: "timeline-pic #{@big ? 'medium' : 'small'}"),
             h.album_picture_path(streamable_id, picture_id),
             title: I18n.t('stream.body.picture.alt')
           )

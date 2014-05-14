@@ -34,6 +34,9 @@ module OneBody
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
 
+    # Disable implicit join references in ActiveRecord
+    config.active_record.disable_implicit_join_references = true
+
     config.generators do |g|
       g.test_framework :rspec
     end

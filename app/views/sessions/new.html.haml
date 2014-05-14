@@ -1,0 +1,29 @@
+- @body_class = 'bg-black'
+
+#login-box.form-box
+  = flash_messages
+  .header= t('session.form.header')
+  = form_tag '/session' do
+    .body.bg-gray
+      .form-group
+        = text_field_tag :email, params[:email], placeholder: t('session.form.placeholder.email'), class: 'form-control', autofocus: !@focus_password
+      .form-group
+        = password_field_tag :password, '', placeholder: t('session.form.placeholder.password'), class: 'form-control', autofocus: @focus_password
+      .form-group
+        = check_box_tag :remember_me, true, params[:remember_me]
+        = label_tag :remember_me, t('session.form.remember_me')
+    .footer
+      %button.btn.bg-olive.btn-block{type: 'submit'} Sign me in
+      %p
+        %a{href: "#"} I forgot my password
+      %a.text-center{href: 'register.html'} Register a new membership
+  - if false # not yet
+    .margin.text-center
+      %span Sign in using social networks
+      %br/
+      %button.btn.bg-light-blue.btn-circle
+        %i.fa.fa-facebook
+      %button.btn.bg-aqua.btn-circle
+        %i.fa.fa-twitter
+      %button.btn.bg-red.btn-circle
+        %i.fa.fa-google-plus

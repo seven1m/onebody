@@ -246,33 +246,6 @@ describe Person do
 
   end
 
-  describe 'Stream' do
-
-    before do
-      @person = FactoryGirl.create(:person)
-      @friend = FactoryGirl.create(:person, first_name: 'James', email: 'james@example.com')
-      @pic = FactoryGirl.create(:picture, person: @person)
-    end
-
-    it 'should eager load commenters on stream items' do
-      @pic.comments.create!(person: @friend)
-      stream_item = StreamItem.where(streamable_type: "Album", streamable_id: @pic.album_id).first
-      received = @person.shared_stream_items
-      expect(received.length).to eq(1)
-      expect(received.first.id).to eq(stream_item.id)
-      expect(received.first.context["comments"].first["person"].id).to eq(@friend.id)
-    end
-
-    it 'should be show thumbnail for eager loaded commenters' do
-      @friend.photo = File.open(Rails.root.join('spec/fixtures/files/image.jpg'))
-      @friend.save
-      @pic.comments.create!(person: @friend)
-      received = @person.shared_stream_items.first
-      expect(received.context["comments"].first["person"].photo.url).to match(/#{@person.photo_fingerprint}\.jpg/)
-    end
-
-  end
-
   describe 'Child' do
     it "should guess child upon initialization" do
       @family = FactoryGirl.create(:family)
@@ -401,6 +374,24 @@ describe Person do
       it 'should remove old password hash' do
         expect(@person.reload.encrypted_password).to be_nil
         expect(@person.salt).to be_nil
+      end
+    end
+  end
+
+  describe '.adults_or_have_consent' do
+    context 'given several users' do
+      let!(:child1) { FactoryGirl.create(:person, child: true) }
+      let!(:child2) { FactoryGirl.create(:person, birthday: 1.year.ago) }
+      let!(:child3) { FactoryGirl.create(:person, birthday: 1.year.ago, parental_consent: 'consent') }
+      let!(:adult)  { FactoryGirl.create(:person) }
+
+      it 'returns adults' do
+        expect(Person.adults_or_have_consent).to include(adult)
+      end
+
+      it 'returns children with parental consent' do
+        expect(Person.adults_or_have_consent).to include(child3)
+        expect(Person.adults_or_have_consent).to_not include(child1, child2)
       end
     end
   end

@@ -124,7 +124,11 @@ OneBody::Application.routes.draw do
 
   resources :notes, except: :index
 
-  resource  :setup, :stream, :session, :search, :printable_directory, :privacy
+  resource  :setup, :session, :search, :printable_directory, :privacy
+
+  resource :stream do
+    resources :people, controller: 'stream_people'
+  end
 
   resources :news, as: :news_items
   get 'news', to: 'news#index'

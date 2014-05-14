@@ -3,9 +3,21 @@
 @import "ionicons";
 @import "admin_lte";
 
+// global //
+
+.half {
+  @extend .col-md-6
+}
+
 img.img-full {
   width: 100%;
 }
+
+th.avatar, td.avatar {
+  width: 35px;
+}
+
+// layout //
 
 .content-header .breadcrumb {
   margin-bottom: 10px;
@@ -16,11 +28,13 @@ img.img-full {
   height: 45px;
 }
 
-.timeline-pic {
-  @extend .img-thumbnail;
-  margin: 0 10px 10px 0;
-  width: 75px;
+// session //
+
+.form-box .alert {
+  margin-left: 0;
 }
+
+// profile //
 
 @media (max-width: 570px) {
   .profile .col-xs-6 {
@@ -29,7 +43,28 @@ img.img-full {
   }
 }
 
+// timeline //
+
 .timeline-load-more {
   position: relative;
   z-index: 2;
+}
+
+.timeline-pic {
+  @extend .img-thumbnail;
+  margin: 0 10px 10px 0;
+  &.small { height: 75px; }
+  &.medium { height: 250px; }
+}
+
+// share //
+
+.stream .buttons {
+  padding: 7px;
+  background-color: #eee;
+  border-radius: 3px;
+}
+
+.dropdown-toggle.bg-teal {
+  border-left: 1px solid #27b1b2;
 }

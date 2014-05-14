@@ -212,6 +212,8 @@ GEM
       activesupport (>= 2.3.4)
       chronic (>= 0.6.3)
     will_paginate (3.0.5)
+    will_paginate-bootstrap (1.0.0)
+      will_paginate (>= 3.0.3)
     zeus (0.15.1)
       method_source (>= 0.6.7)
     zip-zip (0.3)
@@ -258,5 +260,6 @@ DEPENDENCIES
   watchr
   whenever
   will_paginate
+  will_paginate-bootstrap
   zeus
   zip-zip

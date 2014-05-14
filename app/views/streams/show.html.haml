@@ -1,7 +1,64 @@
 - content_for :meta do
   %link{rel: 'alternate', type: 'application/atom+xml', title: t('stream.feed'), href: stream_url(format: :xml, code: @logged_in.feed_code)}
 
+- @title = t('stream.title')
+- content_for :sub_title, t('stream.sub_title')
+
 .row.stream
   .col-sm-6= timeline(@stream_items)
   .col-sm-6
-    %h3= t('stream.share.heading')
+    - if setting(:features, [:notes, :pictures, :verses])
+      .box.box-success
+        .box-header
+          %h3.box-title
+            = t('stream.share.heading.friends')
+        .box-body
+          %p
+            - if setting(:features, :friends) and setting(:features, :groups)
+              = t('stream.share.intro.friends_and_group_members')
+            - elsif setting(:features, :friends)
+              = t('stream.share.intro.friends_only')
+            - elsif setting(:features, :groups)
+              = t('stream.share.intro.group_members_only')
+          .buttons
+            - if setting(:features, :notes)
+              = link_to new_note_path, class: 'btn bg-blue' do
+                %i.fa.fa-comment
+                = t('stream.share.button.note')
+            - if setting(:features, :pictures)
+              = link_to new_picture_path, class: 'btn bg-orange' do
+                %i.fa.fa-camera
+                = t('stream.share.button.picture')
+            - if setting(:features, :verses)
+              = link_to new_verse_path, class: 'btn bg-green' do
+                %i.fa.fa-book
+                = t('stream.share.button.verse')
+            - if setting(:features, :groups)
+              .btn-group
+                = link_to groups_path, class: 'btn bg-teal' do
+                  %i.fa.fa-envelope
+                  = t('stream.share.button.message')
+                - if @logged_in.groups.active.any?
+                  %a.btn.bg-teal.dropdown-toggle{data: {toggle: 'dropdown'}}
+                    %span.caret
+                  %ul.dropdown-menu{role: 'menu'}
+                    - @logged_in.groups.active.each do |group|
+                      - next unless group.can_post?(@logged_in)
+                      %li
+                        = link_to group.name, group
+        .box-footer
+          %em= t('stream.share.sharing_with_html', count: @logged_in.sharing_with_people.count, url: stream_people_path)
+
+    - if can_post_news?
+      .box.box-warning
+        .box-header
+          %h3.box-title
+            = t('stream.share.heading.everyone')
+        .box-body
+          %p= t('stream.share.intro.everyone')
+          .buttons
+            = link_to new_news_item_path, class: 'btn bg-red' do
+              %i.fa.fa-bullhorn
+              = t('stream.share.button.news')
+        .box-footer
+          %em= t('stream.share.sharing_with_html', count: Person.can_sign_in.adults_or_have_consent.count, url: new_search_path)

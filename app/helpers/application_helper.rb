@@ -70,6 +70,22 @@ module ApplicationHelper
     end
   end
 
+  def flash_class(level)
+    case level
+      when :notice then 'alert alert-info'
+      when :success then 'alert alert-success'
+      when :error then 'alert alert-danger'
+      when :warning then 'alert alert-warning'
+    end
+  end
+
+  def flash_messages
+    flash.map do |key, value|
+      content_tag(:div, value, class: flash_class(key))
+    end.join.html_safe
+  end
+
+  # TODO remove this
   def notice
     if flash[:warning] or flash[:notice]
       html = content_tag(:div, id: "notice", class: flash[:warning] ? 'warning' : nil) do
@@ -254,6 +270,32 @@ module ApplicationHelper
 
   def icon(css_class)
     content_tag(:i, '', class: css_class)
+  end
+
+  def setting(section, name)
+    if name.is_a?(Array)
+      name.detect { |n| Setting.get(section, n) }
+    else
+      Setting.get(section, name)
+    end
+  end
+
+  def pagination(scope)
+    will_paginate scope, renderer: BootstrapPagination::Rails
+  end
+
+  # TODO reevaluate with Rails 4.1
+  # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
+  def t(*args)
+    if Rails.env.production?
+      super
+    else
+      super.tap do |result|
+        if result =~ /"(translation missing: .*)"/
+          raise $1
+        end
+      end
+    end
   end
 
   class << self
