@@ -13,8 +13,18 @@ img.img-full {
   width: 100%;
 }
 
+tr.row-with-avatar {
+  td, th {
+    line-height: 2.3 !important;
+  }
+}
+
 th.avatar, td.avatar {
   width: 35px;
+}
+
+th.actions, td.actions {
+  text-align: right;
 }
 
 // layout //
@@ -43,6 +53,12 @@ th.avatar, td.avatar {
   }
 }
 
+img.avatar {
+  &.tn     { width: 35px;  }
+  &.small  { width: 75px;  }
+  &.medium { width: 250px; }
+}
+
 // timeline //
 
 .timeline-load-more {
@@ -53,7 +69,7 @@ th.avatar, td.avatar {
 .timeline-pic {
   @extend .img-thumbnail;
   margin: 0 10px 10px 0;
-  &.small { height: 75px; }
+  &.small  { height: 75px;  }
   &.medium { height: 250px; }
 }
 
@@ -63,6 +79,9 @@ th.avatar, td.avatar {
   padding: 7px;
   background-color: #eee;
   border-radius: 3px;
+  .btn {
+    margin-bottom: 3px;
+  }
 }
 
 .dropdown-toggle.bg-teal {

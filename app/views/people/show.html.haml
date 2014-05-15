@@ -19,15 +19,15 @@
           = show_attribute?(:mobile_phone) do
             %tr
               %td Mobile Phone
-              %td= format_phone @person.mobile_phone
+              %td= link_to_phone @person.mobile_phone, :mobile
           = show_attribute?(:home_phone) do
             %tr
               %td Home Phone
-              %td= format_phone @person.home_phone
+              %td= link_to_phone @person.home_phone
           = show_attribute?(:work_phone) do
             %tr
               %td Work Phone
-              %td= format_phone @person.work_phone
+              %td= link_to_phone @person.work_phone
           = show_attribute?(:address) do
             %tr
               %td Home Address
@@ -35,6 +35,15 @@
                 = preserve_breaks @person.address
                 %br
                 == #{@person.city}, #{@person.state} #{@person.short_zip}
+          = show_attribute?(:birthday) do
+            %tr
+              %td Birthday
+              %td= @person.birthday.to_s(:date_without_year)
+          = show_attribute?(:anniversary) do
+            %tr
+              %td Anniversary
+              %td= @person.anniversary.to_s(:date_without_year)
+
       .col-lg-6.col-md-12
         - @groups.each do |group|
           .box{class: group_box_class(group)}

@@ -155,6 +155,10 @@ module ApplicationHelper
     )
   end
 
+  def link_to_phone(phone, mobile=false)
+    link_to format_phone(phone, mobile), "tel:#{phone.digits_only}"
+  end
+
   def custom_field_name(index)
     n = Setting.get(:features, :custom_person_fields)[index]
     n ? n.sub(/\*/, '') : nil

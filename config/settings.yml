@@ -151,7 +151,7 @@ Formats:
     value: "%m/%d/%Y"
   Date Without Year: 
     format: string
-    value: "%m/%d"
+    value: "%b %d"
 Appearance: 
   Theme Primary Color:
     format: string

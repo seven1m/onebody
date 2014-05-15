@@ -13,8 +13,6 @@ class Family < ActiveRecord::Base
 
   has_attached_file :photo, PAPERCLIP_PHOTO_OPTIONS
 
-  sharable_attributes :mobile_phone, :address, :anniversary
-
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
   scope :has_printable_people, -> { where('(select count(*) from people where family_id = families.id and visible_on_printed_directory = ?) > 0', true) }
@@ -179,6 +177,18 @@ class Family < ActiveRecord::Base
     if changed.include?('barcode_id')
       write_attribute(:barcode_id_changed, true)
     end
+  end
+
+  # TODO would be better to actually have family-level sharing options
+  def show_attribute_to?(attribute, who)
+    send(attribute).present? and
+    people.any? { |p| p.show_attribute_to?(attribute, who) }
+  end
+
+  def anniversary_sharable_with(who)
+    people.detect { |person|
+      person.anniversary and person.show_attribute_to?(:anniversary, who)
+    }.try(:anniversary)
   end
 
   alias_method :destroy_for_real, :destroy

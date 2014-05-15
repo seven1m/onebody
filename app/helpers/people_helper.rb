@@ -27,15 +27,16 @@ module PeopleHelper
   def avatar_path(person, size=:tn)
     if person.try(:photo).try(:exists?)
       person.photo.url(size)
-    elsif person.try(:gender) == 'Female'
-      image_path("clean/womanoutline.#{size}.png")
     else
-      image_path("clean/manoutline.#{size}.png")
+      size = :large unless size == :tn # we only have only two sizes
+      img = person.try(:gender) == 'Female' ? 'woman' : 'man'
+      image_path("#{img}.#{size}.jpg")
     end
   end
 
   def avatar_tag(person, options={})
     options.reverse_merge!(size: :tn, alt: person.try(:name))
+    options.reverse_merge!(class: "avatar #{options[:size]}")
     image_tag(avatar_path(person, options.delete(:size)), options)
   end
 end

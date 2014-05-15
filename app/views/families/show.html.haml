@@ -1,0 +1,59 @@
+- @title = @family.name
+
+.row
+  .col-md-4
+    = avatar_tag @family, size: :large
+
+    %table.table
+      - if @family.show_attribute_to?(:home_phone, @logged_in)
+        %tr
+          %td Home Phone
+          %td= link_to_phone @family.home_phone
+      - if @family.show_attribute_to?(:address, @logged_in)
+        %tr
+          %td Home Address
+          %td
+            = preserve_breaks @family.address
+            %br
+            == #{@family.city}, #{@family.state} #{@family.short_zip}
+      - if anniversary = @family.anniversary_sharable_with(@logged_in)
+        %tr
+          %td Anniversary
+          %td= anniversary.to_s(:date_without_year)
+
+  .col-md-4
+
+    %table.table
+      - @people.each do |person|
+        %tr.row-with-avatar
+          %td.avatar= link_to avatar_tag(person), person
+          %td= link_to person.name, person
+          - if @logged_in.admin?(:edit_profiles)
+            %td.actions
+              = link_to person, method: :delete, class: 'btn btn-danger btn-xs' do
+                %i{class: 'fa fa-minus-circle'}
+
+
+    -#- if @logged_in.can_edit?(@family)
+      -#= link_to t('families.edit'), edit_family_path(@family), class: 'edit-icon'
+      -#= link_to t('families.delete'), @family, method: :delete, data: { confirm: t('families.are_you_sure') }, class: 'delete-icon'
+      -#= link_to t('relationships.family'), family_relationships_path(@family), class: 'people-icon'
+    -#- if @logged_in.admin?
+      -#= t('families.legacy_id')
+      -#= @family.legacy_id || t('none')
+
+    -#- @people.each do |person| 
+      -#= link_to person.name, person
+      -#= link_to '', edit_person_path(person), class: 'edit-icon' 
+      -#= link_to '', person, data: { confirm: t('are_you_sure') }, method: :delete, class: 'delete-icon' 
+      -#%br
+
+-#- if @people.empty?
+  -#%em= t('families.no_one_yet')
+-#- else
+  -#= t('families.drag_to_reorder_members')
+
+-#%p
+  -#= t('families.add_members')
+  -#= link_to t('people.new_person'), new_person_path(family_id: @family), class: 'add-icon'
+  -#= link_to_function t('families.existing_person'), "$('#add_existing').toggle(); $('#add_person_name')[0].focus()", id: 'add_existing_link', class: 'add-icon'
