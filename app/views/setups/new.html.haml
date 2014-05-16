@@ -1,0 +1,40 @@
+.row
+  .col-md-offset-3.col-md-6
+    %h2= t('setup.heading')
+
+    = form_for @person, url: setup_path, method: 'POST', html: { role: 'form' } do |form|
+      %p= t('setup.congratulations')
+
+      .callout.callout-warning= t('setup.do_right_away')
+
+      = error_messages_for(form)
+
+      .form-group
+        %label{for: 'domain_name'}= t('setup.domain_name')
+        = text_field_tag 'domain_name', Site.current.host, class: 'form-control'
+        %p.help-block= t('setup.domain_name_note')
+
+      %h3= t('setup.admin_account')
+      %p= t('setup.more_accounts_later')
+
+      .form-group
+        %label{for: 'person_first_name'}= t('setup.first_name')
+        = form.text_field :first_name, class: 'form-control'
+
+      .form-group
+        %label{for: 'person_last_name'}= t('setup.last_name')
+        = form.text_field :last_name, class: 'form-control'
+
+      .form-group
+        %label{for: 'person_email'}= t('setup.email')
+        = form.text_field :email, class: 'form-control'
+
+      .form-group
+        %label{for: 'person_password'}= t('setup.password')
+        = form.password_field :password, class: 'form-control'
+
+      .form-group
+        %label{for: 'person_password_confirmation'}= t('setup.password_confirmation')
+        = form.password_field :password_confirmation, class: 'form-control'
+
+      = button_tag t('setup.submit_button_html'), class: 'btn btn-primary'

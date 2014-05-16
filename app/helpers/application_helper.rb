@@ -176,17 +176,18 @@ module ApplicationHelper
       obj = form
     end
     if obj.errors.any?
-      (
-        "<div class=\"errorExplanation\">" + \
-        "<h3>#{t('There_were_errors')}</h3>" + \
-        "<ul class=\"list\">" + \
-        obj.errors.full_messages.map { |m| "<li>#{h m}</li>" }.join("\n") + \
-        "</ul>" + \
-        "</div>"
-      ).html_safe
+      content_tag(:div, class: 'callout callout-danger') do
+        content_tag(:h4, t('There_were_errors')) +
+        content_tag(:ul, class: 'list') do
+          obj.errors.full_messages.map do |message|
+            content_tag(:li, message)
+          end.join.html_safe
+        end
+      end
     end
   end
 
+  # TODO
   def domain_name_from_url(url)
     url =~ /^https?:\/\/([^\/]+)/
     $1

@@ -3,6 +3,8 @@ class SetupsController < ApplicationController
   skip_before_filter :authenticate_user
   before_filter :check_setup_requirements
 
+  layout 'signed_out'
+
   def show
     redirect_to new_setup_path
   end
