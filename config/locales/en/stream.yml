@@ -4,6 +4,7 @@ en:
 
     title: "Home"
     sub_title: "(things shared with me)"
+    none: "Nothing to show here yet."
 
     header:
       noone: "system"
