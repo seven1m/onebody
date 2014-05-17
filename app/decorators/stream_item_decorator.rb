@@ -7,6 +7,7 @@ class StreamItemDecorator < Draper::Decorator
   delegate_all
 
   def to_html(options={})
+    return if streamable_type == 'Message' and group_id.nil?
     @big = options.delete(:big)
     h.content_tag(:li) do
       icon +
