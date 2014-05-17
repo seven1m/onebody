@@ -6,7 +6,7 @@ class Album < ActiveRecord::Base
 
   belongs_to :owner, polymorphic: true
   belongs_to :site
-  has_many :pictures, dependent: :delete_all
+  has_many :pictures, dependent: :destroy
 
   scope_by_site_id
 
