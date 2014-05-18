@@ -12,7 +12,7 @@ OneBody is open-source, web-based social networking and online directory softwar
 3. `git clone git://github.com/churchio/onebody.git && cd onebody`
 4. `mysql -u root -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"`
 5. `cp config/database.yml{.example,}`
-6. `bundle install
+6. `bundle install`
 7. `cp config/secrets.yml{.example,} && vim config/secrets.yml` - add a random secret token (you can use `rake secret` to generate a new random secret)
 8. `rake db:migrate`
 9. `rails server`
