@@ -1263,24 +1263,6 @@ en:
     verify_person_identity: "Verify this person's identity. Be cautious; if in doubt, use the phone number provided to validate this person is who they say they are."
     wait_one_day_and_wait: WAIT ONE DAY or manually trigger the database update script on the server and wait until it is finished.
 
-  pages:
-    are_you_sure: Are you sure? This will be permanent and will delete all children of this page!
-    body: Body
-    collapse: collapse
-    edit_page: Edit Page
-    expand: expand
-    loading: loading...
-    new_page: new
-    not_found: Page not found.
-    pages: Pages
-    published: Published
-    saved: Page saved.
-    template_not_found: Template not found.
-    title: Title
-    to_add_attachment_first_save_it: To add an attachment to this page, first save it.
-    upload_attachment: Upload Attachment
-    view_page: View Page
-
   people:
     about_me: About Me
     add_group: Add Group

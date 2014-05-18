@@ -1,0 +1,14 @@
+- @title = t('.heading')
+
+%p= t('.intro')
+
+%table.table
+  %tr
+    %th= t('.name')
+    %th= t('.description')
+    %th
+  - @pages.each do |page|
+    %tr
+      %td= link_to page.title, edit_page_path(page)
+      %td= t(page.slug, scope: 'pages.descriptions', default: '')
+      %td= link_to t('.edit_button'), edit_page_path(page), class: 'btn btn-info btn-xs'

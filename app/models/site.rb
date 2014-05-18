@@ -95,10 +95,16 @@ class Site < ActiveRecord::Base
       path, filename = filename.split('pages/').last.split('/')
       slug = filename.split('.').first
       nav = path != 'system'
-      pub = !Page::UNPUBLISHED_PAGES.include?(slug)
       parent = Page.where(path: path).first
       unless parent.children.where(slug: slug).first
-        page = parent.children.build(slug: slug, title: slug.titleize, body: html, system: true, navigation: nav, published: pub)
+        page = parent.children.build(
+          slug:       slug,
+          title:      slug.titleize,
+          body:       html,
+          system:     true,
+          navigation: nav,
+          published:  true
+        )
         page.site_id = self.id
         page.save!
       end
