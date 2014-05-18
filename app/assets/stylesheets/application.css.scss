@@ -38,6 +38,21 @@ th.actions, td.actions {
   height: 45px;
 }
 
+.push-down {
+  margin-top: 25px;
+}
+
+.centered-header .header {
+  nav {
+    display: none;
+  }
+  .logo {
+    float: none;
+    width: auto;
+    text-align: center;
+  }
+}
+
 // session //
 
 .form-box .alert {

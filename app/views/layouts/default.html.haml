@@ -36,17 +36,18 @@
         / sidebar: style can be found in sidebar.less
         %section.sidebar
           / Sidebar user panel
-          .user-panel
-            .pull-left.image
-              = link_to @logged_in do
-                = avatar_tag @logged_in, class: 'img-circle'
-            .pull-left.info
-              %p
-                Hello,
-                = @logged_in.first_name
-              %a{href: "#"}
-                %i.fa.fa-circle.text-success
-                Online
+          - if @logged_in
+            .user-panel
+              .pull-left.image
+                = link_to @logged_in do
+                  = avatar_tag @logged_in, class: 'img-circle'
+              .pull-left.info
+                %p
+                  Hello,
+                  = @logged_in.first_name
+                %a{href: "#"}
+                  %i.fa.fa-circle.text-success
+                  Online
           / search form
           %form.sidebar-form{action: '/search', method: 'get'}
             .input-group

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   LIMITED_ACCESS_AVAILABLE_ACTIONS = %w(groups/show groups/index people/* pages/* sessions/* accounts/*)
 
-  layout 'default'
+  layout :layout
 
   before_filter :get_site
   before_filter :feature_enabled?
@@ -165,5 +165,12 @@ class ApplicationController < ActionController::Base
       @logged_in and @logged_in.admin?(:export_data) and Site.current.import_export_enabled?
     end
 
+    def layout
+      if @logged_in
+        'default'
+      else
+        'signed_out'
+      end
+    end
 end
 

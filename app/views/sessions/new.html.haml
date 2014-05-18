@@ -1,8 +1,10 @@
-- @body_class = 'bg-black'
+- @body_class = 'bg-black centered-header'
+- @section_class = ''
 
 #login-box.form-box
   = flash_messages
   .header= t('session.form.header')
+
   = form_tag '/session' do
     .body.bg-gray
       .form-group

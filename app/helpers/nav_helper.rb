@@ -59,13 +59,14 @@ module NavHelper
     end
   end
 
-  # TODO i18n
   def crumbs
     [].tap do |crumbs|
-      crumbs << ['fa fa-home', 'Home', root_path]
+      crumbs << ['fa fa-home', t('nav.home'), root_path]
       if params[:controller] == 'people' and @person
-        crumbs << ['fa fa-archive', 'Directory', new_search_path]
-        crumbs << ['fa fa-user', 'Profile']
+        crumbs << ['fa fa-archive', t('nav.directory'), new_search_path]
+        crumbs << ['fa fa-user', t('nav.profile')]
+      elsif params[:controller] == 'pages'
+        crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
       end
     end
   end

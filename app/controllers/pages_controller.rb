@@ -5,6 +5,8 @@ class PagesController < ApplicationController
   before_filter :get_page, :get_user, only: %w(show_for_public)
   before_filter :feature_enabled?, only: %w(show_for_public) # must follow get_page
 
+  layout 'signed_out'
+
   def index
     @pages = Page.where(system: true).order(:title)
   end
