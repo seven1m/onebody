@@ -194,7 +194,6 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     subexec (0.2.3)
-    terminal-notifier (1.6.0)
     thor (0.19.1)
     thread_safe (0.3.3)
     tilt (1.4.1)
@@ -254,7 +253,6 @@ DEPENDENCIES
   sanitize
   sass-rails (~> 4.0.2)
   shoulda-matchers
-  terminal-notifier
   truncate_html
   uglifier
   watchr
