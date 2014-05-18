@@ -762,64 +762,6 @@ en:
     username: Username
     your_key: your key
 
-  accounts:
-    birthday: Birthday
-    call_office: Call %{office_phone} during business hours.
-    cannot_edit: You cannot edit this account.
-    change_email_warning: After this change, all email from this site will be sent to this address. It will also be the address %{person} to sign into this site.
-    check_code: Check Code
-    create: Create Account
-    date_format: MM/DD/YYYY
-    description: Description
-    enter_code: Enter the code
-    enter_your_email: Enter your email address, then click the button below. If we have the address on file, an email will be sent to it allowing you to verify yourself and gain access to this site.
-    fill_required_fields: Please fill in all required fields.
-    gender: Gender
-    I_am_this_person: I am this person.
-    first_name: First Name
-    last_name: Last Name
-    leave_blank: Leave these fields blank if you don't want to change your password.
-    must_be_of_age: Must be at least %{years} years of age.
-    must_set_email_pass: You must set your personal email address and password to continue.
-    pending_approval: Your account is pending approval. You will receive an email once it's approved.
-    please_select_your_name: Please select your name from the list below
-    select_your_carrier: Select your mobile carrier
-    set_password_error: There was an error setting the password. Please try again.
-    set_your_email: You must set your personal email address and password to continue.
-    set_your_email_may_be_different: Please enter your personal email address and NEW password to complete your registration.
-    submission_will_be_reviewed: Your submission will be reviewed as soon as possible. You will receive an email once you have been approved.
-    text_messaging_fees: Text messaging fees may apply.
-    there_was_an_error: Sorry. There was an error. If you requested the office make a change, it's possible it just hasn't been done yet. Please try again later.
-    this_site_doesnt_allow_signup: This site does not allow people to sign up. Instead, you must either verify your already-existing account information or contact %{office_phone}.
-    type_your_email: Type your email address here
-    type_your_mobile: Type your mobile phone number here
-    uses: uses
-    verification_email_sent: The verification email has been sent. Please check your email and follow the instructions in the message you receive. (You may have to wait a minute or two for the email to arrive.)
-    verification_message_sent: The verification message has been sent. Please check your phone and enter the code you receive.
-    verification_max_attempts_reached: You have exceeded the daily limit for verification attempts.
-    verify: Verify Account
-    verify_email: Verify Email
-    verify_code_intro: Please enter the code you received on your mobile phone.
-    verify_by_email: Verify by email.
-    verify_by_email_message: We send you an email, you click the link inside, and you're done. Use this to reset your password.
-    verify_by_phone: Verify by mobile phone.
-    verify_by_phone_description_html: Enter your mobile phone number, select your carrier, then click the button below. If we have the number on file, a text message will be sent to it allowing you to verify yourself and gain access to this site. <strong>Text messaging fees may apply.</strong>
-    verify_by_phone_message: We send you a text message, you type the code it contains, and you're done.
-    verify_by_birthday: Verify by birthday.
-    verify_by_birthday_message: These submissions are reviewed by a real person and may take a few days to be approved.
-    verify_mobile: Verify Mobile
-    verify_who_you_are: First, we need to verify you are who you say you are. Please choose one of the following options to verify your identity. You only have to do this once, and it only takes a few minutes.
-    wrong_code_html: You entered the wrong code. <a href="/account/new?phone=true">Try again.</a>
-    you_use: you use
-    your_birthday: Birthday with Year (required)
-    your_carrier_will_charge: Your mobile carrier may and probably will charge you to receive this text message. Click OK to continue.
-    your_email: Email Address (required)
-    your_full_name: Your Full Name (required)
-    your_phone: Phone Number (required)
-    your_phone_description: in case we need to give you a call about your account
-    your_situation: Your Situation (required)
-    your_situation_description: Please give us a bit of information about you and your family, including how long you've been attending, and any other information that may help us verify your identity.
-
   albums:
     cannot_add_pictures_to_group: Cannot add pictures in this group.
     click_to_view: click to view

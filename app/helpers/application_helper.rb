@@ -155,8 +155,10 @@ module ApplicationHelper
     )
   end
 
-  def link_to_phone(phone, mobile=false)
-    link_to format_phone(phone, mobile), "tel:#{phone.digits_only}"
+  def link_to_phone(phone, options={})
+    label = options.delete(:label)
+    label ||= format_phone(phone, options.delete(:mobile))
+    link_to label, "tel:#{phone.digits_only}", options
   end
 
   def custom_field_name(index)

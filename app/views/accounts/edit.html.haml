@@ -1,0 +1,19 @@
+- @title = @person.name
+
+= form_for @person, url: person_account_path(@person) do |form|
+  = error_messages_for(form)
+
+  .form-group
+    = form.label :person_email, t('accounts.email_address')
+    = form.text_field :email, class: 'form-control'
+  .form-group
+    = form.label :person_password, t('accounts.password')
+    = form.password_field :password, class: 'form-control'
+  .form-group
+    - if @person.encrypted_password
+      = t('accounts.leave_blank')
+      %br/
+    = form.label :password_confirmation, t('accounts.password_confirm')
+    = form.password_field :password_confirmation, class: 'form-control'
+  .form-group
+    = submit_tag t('save_changes'), class: 'btn btn-primary'

@@ -1,0 +1,16 @@
+%p= t('accounts.verify_who_you_are')
+
+.box
+  .box-body
+    %p= link_to "<i class='fa fa-envelope'></i> #{t('accounts.verify_by_email')}".html_safe, new_account_path(email: true), class: 'btn btn-success'
+    %p= t('accounts.verify_by_email_message')
+
+.box
+  .box-body
+    %p= link_to "<i class='fa fa-mobile'></i> #{t('accounts.verify_by_phone')}".html_safe, new_account_path(phone: true), class: 'btn btn-warning'
+    %p= t('accounts.verify_by_phone_message')
+
+.box
+  .box-body
+    %p= link_to_phone(Setting.get(:contact, :community_office_phone), label: "<i class='fa fa-phone'></i> #{t('accounts.call_office', phone: Setting.get(:contact, :community_office_phone))}".html_safe, class: 'btn btn-info')
+    %p= t('accounts.call_office_message').html_safe

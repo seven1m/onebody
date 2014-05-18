@@ -19,7 +19,7 @@
           = show_attribute?(:mobile_phone) do
             %tr
               %td Mobile Phone
-              %td= link_to_phone @person.mobile_phone, :mobile
+              %td= link_to_phone @person.mobile_phone, mobile: true
           = show_attribute?(:home_phone) do
             %tr
               %td Home Phone

@@ -1,0 +1,12 @@
+- @title = t('accounts.verify_by_email')
+
+%p= t('accounts.enter_your_email')
+
+= form_tag account_path, method: 'post' do
+  = hidden_field_tag :email, true
+  = error_messages_for(@verification)
+  .form-group
+    %label{for: "verification_email"}= t('accounts.type_your_email')
+    = text_field_tag 'verification[email]', params[:email] == 'true' ? '' : params[:email], class: 'form-control'
+  .form-group
+    = submit_tag t('accounts.verify_email'), class: 'btn btn-primary'

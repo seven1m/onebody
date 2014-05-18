@@ -43,7 +43,6 @@ module NavHelper
     end.join.html_safe
   end
 
-  # TODO turn this into a presenter object
   def breadcrumbs
     content_tag(:ol, class: 'breadcrumb') do
       crumbs.map do |icon_class, label, path|

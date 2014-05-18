@@ -48,7 +48,7 @@ class SessionsController < ApplicationController
         flash[:warning] = t('session.email_found')
         redirect_to new_account_path(email: params[:email])
       else
-        flash[:error] = t('session.email_not_found_try_another')
+        flash[:error] = t('session.email_not_found')
         render action: 'new'
         flash.clear
       end

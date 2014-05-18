@@ -9,24 +9,16 @@ en:
         password: "Password"
       remember_me: "Remember me"
 
-    # old stuff
-
-    account_not_activated_html: Your account hasn't been activated yet. <a href="/pages/help">Click here</a> to get started.
+    account_not_activated_html: "Your account hasn't been activated yet. <a href='/pages/help'>Click here</a> to get started."
     create_the_first_user: "You may create the first user by running the command:"
     email_address: "Email Address:"
-    email_found: That email address was found, but you must verify it before you can sign in.
-    email_not_found: email not found
-    email_not_found_try_another: That email address cannot be found in our system. Please try another email.
-    help_signing_in: Help Signing In
-    i_need_help: I need help.
-    load_sample_data: "Alternatively, you can load up OneBody with some sample data by running the command:"
-    max_sign_in_attempts: We're sorry, but you have exceeded the maximum number of sign in attempts within a 15 minute period. You may try again in 15 minutes.
-    password: "Password:"
-    password_confirm: "Password (confirm):"
-    password_doesnt_match: The password you entered doesn't match our records. Please try again.
-    password_incorrect: password incorrect
-    please_sign_in: Please sign in.
-    sign_in: Sign In
-    sign_in_error_html: There was an error signing you in. Please <a href="%{url}">try again</a>.
-    sign_out: sign out
-    sign_up_or_sign_in_html: "<a href=\"%{url}\">Sign Up</a> for an account if you don't have one."
+    email_found: "That email address was found, but you must verify it before you can sign in."
+    email_not_found: "That email address cannot be found in our system. Please try another email."
+    forgot_password_button: "I forgot my password."
+    password_doesnt_match: "The password you entered does not match our records. Please try again."
+    help_link: "I need help."
+    help_heading: "Sign In Help"
+    max_sign_in_attempts: "We're sorry, but you have exceeded the maximum number of sign in attempts within a 15 minute period. You may try again in 15 minutes."
+    sign_in_button: "Sign me in."
+    sign_up_button: "Create an account."
+    sign_out: "Sign out"

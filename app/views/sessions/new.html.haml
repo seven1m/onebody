@@ -15,17 +15,9 @@
         = check_box_tag :remember_me, true, params[:remember_me]
         = label_tag :remember_me, t('session.form.remember_me')
     .footer
-      %button.btn.bg-olive.btn-block{type: 'submit'} Sign me in
+      %button.btn.bg-olive.btn-block{type: 'submit'}
+        %i{class: 'fa fa-sign-in'}
+        = t('session.sign_in_button')
       %p
-        %a{href: "#"} I forgot my password
-      %a.text-center{href: 'register.html'} Register a new membership
-  - if false # not yet
-    .margin.text-center
-      %span Sign in using social networks
-      %br/
-      %button.btn.bg-light-blue.btn-circle
-        %i.fa.fa-facebook
-      %button.btn.bg-aqua.btn-circle
-        %i.fa.fa-twitter
-      %button.btn.bg-red.btn-circle
-        %i.fa.fa-google-plus
+        = link_to t('session.sign_up_button'), new_account_path, class: 'btn btn-info'
+        = link_to t('session.forgot_password_button'), new_account_path(email: true), class: 'btn btn-warning pull-right'
