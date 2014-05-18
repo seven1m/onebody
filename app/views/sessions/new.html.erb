@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<form method="post" action="/session">
+<%= form_tag '/session' %>
   <%= hidden_field_tag :from, params[:from] %>
 
   <h2 class="double-margin-bottom"><%= t('session.please_sign_in') %></h2>
