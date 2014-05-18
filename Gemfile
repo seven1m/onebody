@@ -41,7 +41,7 @@ end
 group :development do
   gem 'zeus'
   gem 'watchr'
-  gem 'terminal-notifier' if RUBY_PLATFORM =~ /darwin/
+  gem 'terminal-notifier' 
 end
 
 group :development, :test do
