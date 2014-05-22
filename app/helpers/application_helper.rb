@@ -287,8 +287,9 @@ module ApplicationHelper
     end
   end
 
-  def pagination(scope)
-    will_paginate scope, renderer: BootstrapPagination::Rails
+  def pagination(scope, options={})
+    options.reverse_merge!(renderer: BootstrapPagination::Rails)
+    will_paginate scope, options
   end
 
   # TODO reevaluate with Rails 4.1

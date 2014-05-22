@@ -51,7 +51,7 @@
           / search form
           %form.sidebar-form{action: '/search', method: 'get'}
             .input-group
-              %input.form-control{name: "q", placeholder: "Search...", type: "text"}
+              = text_field_tag 'name', params[:name], placeholder: t('search.form.name'), class: 'form-control'
               %span.input-group-btn
                 %button#search-btn.btn.btn-flat{name: "seach", type: "submit"}
                   %i.fa.fa-search
@@ -61,35 +61,36 @@
             %li
               = link_to root_path do
                 %i.fa.fa-home
-                %span Home
+                %span= t('nav.home')
                 %small.badge.pull-right.bg-green 12 new
             %li
               = link_to @logged_in do
                 %i.fa.fa-user
-                %span Profile
+                %span= t('nav.profile')
             %li
               = link_to groups_path do
                 %i.fa.fa-group
-                %span Groups
+                %span= t('nav.groups')
                 %small.badge.pull-right.bg-green 2 new
-            %li.treeview
-              = link_to new_search_path do
+            %li
+              = link_to search_path do
                 %i.fa.fa-archive
-                %span Directory
-                %i.fa.fa-angle-left.pull-right
-              %ul.treeview-menu
-                %li
-                  = link_to search_path(business: true) do
-                    %i.fa.fa-angle-double-right
-                    Business Directory
-                %li
-                  = link_to new_printable_directory_path do
-                    %i.fa.fa-angle-double-right
-                    Printed Directory
-                %li
-                  = link_to new_search_path(advanced: true) do
-                    %i.fa.fa-angle-double-right
-                    Advanced Search
+                %span= t('nav.directory.top')
+                %i.fa.pull-right{class: directory_selected? ? 'fa-angle-down' : 'fa-angle-left'}
+              - if directory_selected?
+                %ul.treeview-menu.visible
+                  %li
+                    = link_to search_path(business: true) do
+                      %i.fa.fa-angle-double-right
+                      = t('nav.directory.business')
+                  %li
+                    = link_to new_printable_directory_path do
+                      %i.fa.fa-angle-double-right
+                      = t('nav.directory.printed')
+                  %li
+                    = link_to new_search_path(advanced: true) do
+                      %i.fa.fa-angle-double-right
+                      = t('nav.directory.advanced_search')
             %li
               = link_to admin_path do
                 %i.fa.fa-cogs

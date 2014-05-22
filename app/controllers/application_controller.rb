@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user
 
   def params_without_action
-    params.clone.delete_if { |k, v| %w(controller action).include? k }
+    params.except(:controller, :action)
   end
 
   protected

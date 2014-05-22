@@ -37,6 +37,30 @@ class Search
     self.name = name
   end
 
+  def birthday(key=nil)
+    if key
+      @birthday.try(:[], key).to_i
+    else
+      @birthday
+    end
+  end
+
+  def anniversary(key=nil)
+    if key
+      @anniversary.try(:[], key).to_i
+    else
+      @anniversary
+    end
+  end
+
+  def address(key=nil)
+    if key
+      @address.try(:[], key)
+    else
+      @address
+    end
+  end
+
   private
 
   def execute!

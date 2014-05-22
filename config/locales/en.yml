@@ -1134,12 +1134,6 @@ en:
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
 
-  nav: 
-    directory: Directory
-    groups: Groups
-    home: Home
-    profile: Profile
-
   news: 
     body_description: "Share your announcement, information, or news here:"
     deleted: News deleted.
@@ -1499,45 +1493,6 @@ en:
     relationship_type: "Type:"
     relationships: Relationships
     toggle_individual: Toggle Individual Relationship View    
-
-  search: 
-    add_selected: Add Selected
-    advanced_search: Advanced Search
-    all: All
-    anniversary: Anniversary
-    birthday: Birthday
-    browse: Browse
-    business_category: "Business Category:"
-    business_directory: Business Directory
-    category: Category
-    city: City
-    deacon: Deacon
-    elder: Elder
-    families_found: 
-      one: 1 family found
-      other: "%{count} families found"
-    family_name: Family Name
-    female: Female
-    gender: Gender
-    heading: "%{name} Directory"
-    male: Male
-    member: Member
-    results_not_shown: Some results not shown — be more specific.
-    name: Name
-    no_family: (no family)
-    not_showing_hidden_people: (not showing hidden people)
-    people_found:
-      one: "1 person found"
-      other: "%{count} people found"
-    printed_directory: Printed Directory
-    search: Directory Search
-    search_by_name: Search by name
-    searching: Searching...
-    show_all: (show all)
-    show_hidden: Show Hidden
-    staff: Staff
-    state: State
-    zip: Zip
 
   share:
     default_album_name: Album Name

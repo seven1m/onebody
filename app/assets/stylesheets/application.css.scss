@@ -53,6 +53,10 @@ th.actions, td.actions {
   }
 }
 
+.sidebar .sidebar-menu .treeview-menu.visible {
+  display: block;
+}
+
 // session //
 
 .form-box .alert {

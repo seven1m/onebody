@@ -1,0 +1,48 @@
+%p
+  = t("search.people_found", count: @search.count)
+  - if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil?
+    = t("search.not_showing_hidden_people")
+
+= pagination @people, params: params_without_action
+
+- if @people and @people.any?
+  %table.table.search-results
+    %tr
+      %th
+      - if @search.business
+        %th= t('search.column.business')
+        %th= t('search.column.category')
+      - else
+        %th= t('search.column.name')
+        %th= t('search.column.family')
+      - if show_birthdays?
+        %th= t('search.column.birthday')
+      %th
+    - @people.each do |person|
+      %tr.row-with-avatar
+        %td.avatar
+          = link_to person do
+            = avatar_tag person
+        - if @search.business
+          %td= link_to person.business_name, person_path(person, business: true)
+          %td
+            - if person.business_category.present?
+              = link_to person.business_category, search_path(business: true, category: person.business_category)
+        - else
+          %td
+            = link_to person.name, person_path(id: person)
+            - unless person.visible?
+              %i.fa.fa-lock
+          %td
+            - if person.family
+              = link_to person.family.name, person.family
+            - else
+              = t('search.no_family')
+        - if show_birthdays?
+          %td
+            - if person.birthday
+              = person.birthday.to_s(:date_without_year)
+        %td
+          = render partial: 'people/person_type', locals: {person: person}
+
+= pagination @people, params: params_without_action

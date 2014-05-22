@@ -6,4 +6,9 @@ module SearchesHelper
     params[:birthday][:day].present?
   end
 
+  def types_for_select
+    t('search.form.types').invert.to_a +
+    (Setting.get(:features, :custom_person_type) ? Person.custom_types : [])
+  end
+
 end

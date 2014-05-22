@@ -4,17 +4,11 @@ class SearchesController < ApplicationController
   MAX_SELECT_FAMILIES = 10
 
   def show
-    # A search should be referencable by URI, thus "show" makes sense;
-    # though "create" makes more sense from a resource standpoint.
-    # We'll do both. :-)
-    if params_without_action.any?
-      create
-    else
-      redirect_to new_search_path
-    end
+    create
   end
 
   def new
+    redirect_to search_path
   end
 
   def create

@@ -3,6 +3,11 @@ en:
   nav:
 
     home: "Home"
-    directory: "Directory"
+    directory:
+      top: "Directory"
+      business: "Business Directory"
+      printed: "Printed Directory"
+      advanced_search: "Advanced Search"
     profile: "Profile"
+    groups: "Groups"
     admin: "Admin Panel"

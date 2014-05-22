@@ -1,0 +1,23 @@
+.col-md-4.col-md-push-4
+  - if params[:advanced].nil?
+    #search-page
+      %h2.search-heading= t('search.heading', name: Setting.get(:name, :community))
+      = form_tag(search_path, method: 'get') do
+        = text_field_tag 'name', params[:name], id: 'name_search', class: 'search-field'
+        %br/
+        = submit_tag t('search.search')
+        = link_to t('search.browse'), search_path(browse: true), class: 'button'
+      %ul.links
+        %li= link_to t('search.advanced_search'), new_search_path(advanced: true)
+        %li= link_to t('search.printed_directory'), printable_directory_path
+        %li= link_to t('search.business_directory'), search_path(business: true)
+  - else
+    - content_for :sidebar do
+      = render partial: 'form'
+    %p#searching
+      = image_tag 'spinner.gif', alt: 'searching', class: 'no-border'
+      = t('search.searching')
+    #results
+  - content_for :head do
+    :javascript
+      $(function(){ $('#name_search')[0].focus() });
