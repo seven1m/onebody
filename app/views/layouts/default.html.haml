@@ -29,7 +29,8 @@
           %span.icon-bar
         .navbar-right
           = render 'layouts/navbar_right'
-        %h3.hidden-sm.hidden-xs{style: "float:right;font-size: 18px; line-height: 50px; padding: 0 10px; font-family: Abel, Helvetica, Arial, sans-serif; font-weight: normal; height: 50px; display: block; margin: 0; color: #fff;"} Cedar Ridge Christian Church
+        %h3.hidden-sm.hidden-xs{style: "float:right;font-size: 18px; line-height: 50px; padding: 0 10px; font-family: Abel, Helvetica, Arial, sans-serif; font-weight: normal; height: 50px; display: block; margin: 0; color: #fff;"}
+          = setting(:name, :site)
     .wrapper.row-offcanvas.row-offcanvas-left
       / Left side column. contains the logo and sidebar
       %aside.left-side.sidebar-offcanvas
