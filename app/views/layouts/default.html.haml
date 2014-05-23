@@ -68,6 +68,30 @@
               = link_to @logged_in do
                 %i.fa.fa-user
                 %span= t('nav.profile')
+                %i.fa.pull-right{class: profile_selected? ? 'fa-angle-down' : 'fa-angle-left'}
+              - if profile_selected?
+                %ul.treeview-menu.visible
+                  %li
+                    = link_to edit_person_path(@person) do
+                      = icon 'fa fa-pencil'
+                      = t('nav.profile_sub.edit')
+                  %li
+                    = link_to edit_person_account_path(@person) do
+                      = icon 'fa fa-key'
+                      = t('nav.profile_sub.password')
+                  %li
+                    = link_to edit_person_path(@person, email: true) do
+                      = icon 'fa fa-envelope'
+                      = t('nav.profile_sub.email')
+                  %li
+                    = link_to edit_person_privacy_path(@person) do
+                      = icon 'fa fa-lock'
+                      = t('nav.profile_sub.privacy')
+                  - if @logged_in.admin?(:edit_profiles)
+                    %li
+                      = link_to person_relationships_path(@person) do
+                        = icon 'fa fa-link'
+                        = t('nav.profile_sub.relationships')
             %li
               = link_to groups_path do
                 %i.fa.fa-group
@@ -76,22 +100,22 @@
             %li
               = link_to search_path do
                 %i.fa.fa-archive
-                %span= t('nav.directory.top')
+                %span= t('nav.directory')
                 %i.fa.pull-right{class: directory_selected? ? 'fa-angle-down' : 'fa-angle-left'}
               - if directory_selected?
                 %ul.treeview-menu.visible
                   %li
                     = link_to search_path(business: true) do
-                      %i.fa.fa-angle-double-right
-                      = t('nav.directory.business')
+                      = icon 'fa fa-briefcase'
+                      = t('nav.directory_sub.business')
                   %li
                     = link_to new_printable_directory_path do
-                      %i.fa.fa-angle-double-right
-                      = t('nav.directory.printed')
+                      = icon 'fa fa-print'
+                      = t('nav.directory_sub.printed')
                   %li
-                    = link_to new_search_path(advanced: true) do
-                      %i.fa.fa-angle-double-right
-                      = t('nav.directory.advanced_search')
+                    = link_to search_path(advanced: true) do
+                      = icon 'fa fa-search'
+                      = t('nav.directory_sub.advanced')
             %li
               = link_to admin_path do
                 %i.fa.fa-cogs

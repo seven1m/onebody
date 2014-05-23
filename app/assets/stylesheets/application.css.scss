@@ -54,8 +54,19 @@ th.actions, td.actions {
   }
 }
 
+// sidebar //
+
+.user-panel > .image img {
+  width: 45px;
+  height: 45px;
+}
+
 .sidebar .sidebar-menu .treeview-menu.visible {
   display: block;
+}
+
+.skin-blue .sidebar > .sidebar-menu > li.active > a {
+  background-color: lighten(#3C8DBC, 40);
 }
 
 // session //
