@@ -4,7 +4,7 @@
   .col-md-2
     = form_tag(search_path, method: 'get') do
       .form-group
-        = text_field_tag 'name', params[:name], class: 'form-control', placeholder: t('search.form.name'), autofocus: true
+        = text_field_tag 'name', params[:name], class: 'form-control', placeholder: t('search.form.name')
 
       - if @search.business
         = hidden_field_tag :business, true

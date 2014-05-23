@@ -14,10 +14,11 @@ $(document).on 'click', '.timeline-load-more a', (e) ->
     html = $.parseHTML(data.html)[0].innerHTML
     timeline.append(html).data('next-url', data.next)
 
-$(document).on 'ifToggled', '#enable-advanced-search', (e) ->
+# ifToggled for iCheck plugin
+$(document).on 'change, ifToggled', '#enable-advanced-search', (e) ->
   checked = $(this).is(':checked')
   $('.advanced-controls').toggle(checked)
   if not checked
     $('.advanced-controls').find('input, select').val('')
 
-$('#enable-advanced-search').trigger('ifToggled')
+$('#enable-advanced-search').trigger('change').trigger('ifToggled')
