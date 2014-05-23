@@ -11,8 +11,11 @@ RSpec.configure do |config|
   config.include SessionHelper
   config.include MailHelper
   config.before do
-    Site.current ||= Site.where(host: 'example.com').first_or_create! do |site|
-      site.name = 'Default'
+    begin
+      Site.current ||= Site.find(1)
+    rescue ActiveRecord::RecordNotFound
+      Site.connection.execute("DELETE FROM SITES; ALTER TABLE sites AUTO_INCREMENT = 1;")
+      Site.current = Site.create!(name: 'Default', host: 'example.com')
     end
   end
 end
