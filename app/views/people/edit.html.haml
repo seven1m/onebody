@@ -1,0 +1,30 @@
+- @title = t('people.edit.header')
+
+.row
+  .col-md-2
+
+  .col-md-10
+    - if @person.account_frozen?
+      .alert.alert-danger
+        = t('people.account_frozen_alert')
+
+    = error_messages_for @person
+
+    = render partial: 'pending_updates'
+    - if Setting.get(:features, :updates_must_be_approved) #and not @logged_in.admin?(:edit_profiles)
+      .alert.alert-warning
+        = t('people.changes_must_be_reviewed_html')
+    %p.discreet.small
+      = t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy'))
+
+    %h3= t('people.edit.photo')
+    = render partial: 'photo'
+    .form-field-hint= t('people.upload_a_picture_of_html', name: me? ? 'yourself' : @person.name)
+    = photo_upload_for @person
+
+    %h3= t('people.edit.family_photo')
+    = render partial: 'families/photo'
+    .form-field-hint= t('people.upload_family_picture_html')
+    = photo_upload_for @family
+
+    = render partial: 'form'

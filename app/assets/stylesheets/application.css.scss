@@ -27,15 +27,16 @@ th.actions, td.actions {
   text-align: right;
 }
 
+.alert {
+  // not sure why AdminLTE overrides this
+  margin-left: 0 !important;
+  padding-left: 15px !important;
+}
+
 // layout //
 
 .content-header .breadcrumb {
   margin-bottom: 10px;
-}
-
-.user-panel > .image img {
-  width: 45px;
-  height: 45px;
 }
 
 .push-down {

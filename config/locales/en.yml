@@ -1226,18 +1226,6 @@ en:
     deleted_html: This person has been deleted. You can restore the record <a href="%{url}">here</a>.
     description_of_business: Description of Business
     determine_by_birthday: Determine by birthday
-    edit:
-      about: About
-      basics: Basics
-      child_hint: If no birthday is specified, you must indicate whether this is a child or an adult.
-      description_hint: "A word or two about yourself — maybe your profession?"
-      email: Change Email Settings
-      family_photo: Family Photo
-      password: Change Password
-      person_type_hint: These do not control access — only designation.
-      photo: Profile Photo
-      privacy: Change Privacy Settings
-      profile: Edit Profile
     email: Email
     email_address: email address (account login) is
     enter_new_category: Enter the new category.

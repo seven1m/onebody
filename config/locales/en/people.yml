@@ -1,0 +1,18 @@
+en:
+
+  people:
+
+    account_frozen_alert: "This account is frozen. Changes cannot be made until it is unfrozen."
+
+    edit:
+      about: About
+      basics: Basics
+      child_hint: If no birthday is specified, you must indicate whether this is a child or an adult.
+      description_hint: "A word or two about yourself — maybe your profession?"
+      email: Change Email Settings
+      family_photo: Family Photo
+      password: Change Password
+      person_type_hint: These do not control access — only designation.
+      photo: Profile Photo
+      privacy: Change Privacy Settings
+      header: Edit Profile

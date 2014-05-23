@@ -62,14 +62,19 @@ module NavHelper
     [].tap do |crumbs|
       crumbs << ['fa fa-home', t('nav.home'), root_path]
       if params[:controller] == 'people' and @person
-        crumbs << ['fa fa-archive', t('nav.directory.top'), new_search_path]
+        crumbs << ['fa fa-archive', t('nav.directory'), new_search_path]
         crumbs << ['fa fa-user', t('nav.profile')]
       elsif params[:controller] == 'pages'
         crumbs << ['fa fa-gear', t('nav.admin'), admin_path]
       elsif params[:controller] == 'searches'
-        crumbs << ['fa fa-archive', t('nav.directory.top')]
+        crumbs << ['fa fa-archive', t('nav.directory')]
       end
     end
+  end
+
+  def profile_selected?
+    %w(people accounts privacies relationships).include?(params[:controller]) and
+    (me? or @logged_in.admin?(:edit_profiles))
   end
 
   def directory_selected?
