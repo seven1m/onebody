@@ -35,18 +35,21 @@ gem 'truncate_html'
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', require: false
 end
 
 group :development do
   gem 'zeus'
   gem 'watchr'
-  gem 'terminal-notifier' 
+  gem 'terminal-notifier'
 end
 
 group :development, :test do
   gem 'pry'
   gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'guard-rspec', require: false
 end
 
 group :production do

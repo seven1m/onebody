@@ -23,7 +23,7 @@ end
 def run_specs(test, force=false)
   if force || File.exist?(test)
     puts "-" * 80
-    rspec_cmd = File.exists?('.zeus.sock') ? "zeus test" : "rspec"
+    rspec_cmd = "spring rspec --color --tty"
     puts "#{rspec_cmd} #{test}"
     cmd = IO.popen("#{rspec_cmd} #{test} 2>&1")
     result = ''
