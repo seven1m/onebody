@@ -59,17 +59,17 @@
           / /.search form
           / sidebar menu: : style can be found in sidebar.less
           %ul.sidebar-menu
-            %li
+            %li{class: tab_selected?(:home) ? 'active' : ''}
               = link_to root_path do
                 %i.fa.fa-home
                 %span= t('nav.home')
                 %small.badge.pull-right.bg-green 12 new
-            %li
+            %li{class: tab_selected?(:profile) ? 'active' : ''}
               = link_to @logged_in do
                 %i.fa.fa-user
                 %span= t('nav.profile')
-                %i.fa.pull-right{class: profile_selected? ? 'fa-angle-down' : 'fa-angle-left'}
-              - if profile_selected?
+                %i.fa.pull-right{class: tab_selected?(:profile) ? 'fa-angle-down' : 'fa-angle-left'}
+              - if tab_selected?(:profile)
                 %ul.treeview-menu.visible
                   %li
                     = link_to edit_person_path(@person) do
@@ -92,17 +92,17 @@
                       = link_to person_relationships_path(@person) do
                         = icon 'fa fa-link'
                         = t('nav.profile_sub.relationships')
-            %li
+            %li{class: tab_selected?(:groups) ? 'active' : ''}
               = link_to groups_path do
                 %i.fa.fa-group
                 %span= t('nav.groups')
                 %small.badge.pull-right.bg-green 2 new
-            %li
+            %li{class: tab_selected?(:directory) ? 'active' : ''}
               = link_to search_path do
                 %i.fa.fa-archive
                 %span= t('nav.directory')
-                %i.fa.pull-right{class: directory_selected? ? 'fa-angle-down' : 'fa-angle-left'}
-              - if directory_selected?
+                %i.fa.pull-right{class: tab_selected?(:directory) ? 'fa-angle-down' : 'fa-angle-left'}
+              - if tab_selected?(:directory)
                 %ul.treeview-menu.visible
                   %li
                     = link_to search_path(business: true) do
@@ -116,7 +116,7 @@
                     = link_to search_path(advanced: true) do
                       = icon 'fa fa-search'
                       = t('nav.directory_sub.advanced')
-            %li
+            %li{class: tab_selected?(:admin) ? 'active' : ''}
               = link_to admin_path do
                 %i.fa.fa-cogs
                 %span Admin
