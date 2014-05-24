@@ -5,14 +5,14 @@
 
   .col-md-10
     - if @person.account_frozen?
-      .alert.alert-danger
-        = t('people.account_frozen_alert')
+      .callout.callout-danger
+        = t('people.account_frozen_callout')
 
     = error_messages_for @person
 
     = render partial: 'pending_updates'
     - if Setting.get(:features, :updates_must_be_approved) #and not @logged_in.admin?(:edit_profiles)
-      .alert.alert-warning
+      .callout.callout-warning
         = t('people.changes_must_be_reviewed_html')
     %p.discreet.small
       = t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy'))

@@ -83,7 +83,7 @@
                 %em Join a Group
               lorem ipsum dolor
   .col-lg-4.col-lg-pull-8.col-xs-6.col-xs-pull-6
-    - unless me?
+    - unless me? or not (setting(:features, :friends) and @person.messages_enabled?)
       .profile-controls
         - if setting(:features, :friends)
           = render partial: 'friendship'
