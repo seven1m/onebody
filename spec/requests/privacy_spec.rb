@@ -79,7 +79,7 @@ describe 'Privacy' do
       expect(response).to be_redirect
       follow_redirect!
       expect(response).to render_template('privacies/edit')
-      assert_select 'div.alert', /Agreement saved\./
+      assert_select 'div.callout', /Agreement saved\./
       @child.reload
       expect(@child.parental_consent).to_not be_nil
       expect(@child.parental_consent).to include("#{@head.name} \(#{@head.id}\)")

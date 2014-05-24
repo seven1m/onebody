@@ -175,6 +175,6 @@ describe PeopleController do
       get :show, {id: @person.id}, {logged_in_id: @admin.id}
     end
     expect(response).to be_success
-    assert_select 'div.alert', I18n.t('people.no_family_for_this_person')
+    assert_select 'div.callout', I18n.t('people.no_family_for_this_person')
   end
 end

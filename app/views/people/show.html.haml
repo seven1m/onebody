@@ -2,8 +2,15 @@
 - content_for :sub_title do
   = link_to "(#{@family.try(:name) || '?'})", @family
 
+- unless @person.visible?
+  .callout.callout-warning
+    = icon 'fa fa-lock'
+    = t('people.this_profile_is_hidden')
+
 - unless @family
-  .alert.alert-warning= t('people.no_family_for_this_person')
+  .callout.callout-warning
+    = icon 'fa fa-user'
+    = t('people.no_family_for_this_person')
 
 .row.profile
   .col-lg-8.col-lg-push-4.col-xs-6.col-xs-push-6
@@ -76,13 +83,12 @@
                 %em Join a Group
               lorem ipsum dolor
   .col-lg-4.col-lg-pull-8.col-xs-6.col-xs-pull-6
+    - unless me?
+      .profile-controls
+        - if setting(:features, :friends)
+          = render partial: 'friendship'
+        - if @person.messages_enabled?
+          = link_to new_message_path(to_person_id: @person), class: 'btn' do
+            = icon 'fa fa-envelope'
+            = t('messages.send_message')
     = timeline @stream_items
-    -#%ul.timeline
-      -#- @stream_items.each do |stream_item|
-        -#= timeline_item(stream_item)
-      -#%li
-        -#%i.fa.fa-clock-o
-        -#%div{style: "margin:5px 0 0 60px;"}
-          -#%a.btn.btn-info.btn-xs{href: "#"}
-            -#%i.fa.fa-arrow-down
-            -#load more

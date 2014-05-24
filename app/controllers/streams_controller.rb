@@ -8,9 +8,6 @@ class StreamsController < ApplicationController
     @count = @stream_items.count
     @stream_items.where!(person_id: params[:person_id]) if params[:person_id]
     @stream_items = @stream_items.paginate(page: params[:page], per_page: params[:per_page] || 5)
-    #@person = @logged_in
-    #@has_friendship_requests = @logged_in.pending_friendship_requests.count > 0
-    #@album_names = @person.albums.select(:name).map { |a| a.name }
     respond_to do |format|
       format.html
       format.xml { render layout: false }

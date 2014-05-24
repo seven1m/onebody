@@ -18,6 +18,7 @@ class StreamItem < ActiveRecord::Base
       .includes(:person, :group) \
       .where(streamable_type: shared_streamable_types) \
       .where(shared: true) \
+      .where("(group_id is not null or streamable_type != 'Message')")
       .where(
         "(group_id in (:group_ids) or (group_id is null and person_id in (:friend_ids)) or person_id = :id or streamable_type = 'NewsItem')",
         group_ids:  person.groups.active.pluck(:id),

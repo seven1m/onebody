@@ -72,13 +72,23 @@ module NavHelper
     end
   end
 
-  def profile_selected?
-    %w(people accounts privacies relationships).include?(params[:controller]) and
-    (me? or @logged_in.admin?(:edit_profiles))
+  def tab_selected
+    case params[:controller]
+    when 'streams'
+      :home
+    when *%w(people accounts privacies relationships)
+      :profile if me? or @logged_in.admin?(:edit_profiles)
+    when 'groups'
+      :groups
+    when *%w(searches printable_directories)
+      :directory
+    when /^administration\//
+      :admin
+    end
   end
 
-  def directory_selected?
-    %w(searches printable_directories).include?(params[:controller])
+  def tab_selected?(tab)
+    tab_selected == tab
   end
 
 end

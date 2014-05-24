@@ -6,8 +6,12 @@ class StreamItemDecorator < Draper::Decorator
 
   delegate_all
 
+  def publishable?
+    shared? and not (streamable_type == 'Message' and group_id.nil?)
+  end
+
   def to_html(options={})
-    return if streamable_type == 'Message' and group_id.nil?
+    return unless publishable?
     @big = options.delete(:big)
     h.content_tag(:li) do
       icon +

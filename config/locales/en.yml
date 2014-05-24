@@ -878,26 +878,6 @@ en:
     select_before_proceeding: Please select a family before proceeding.
     too_many: Too many at once
 
-  friends: 
-    accept: Accept Friend
-    add_friend_are_you_sure: Are you sure? An email will be sent to this person requesting friendship.
-    add_to_friends: Add to Friends
-    add_your_friends_to_profile_html: <a href="%{url}">Add your friends</a> to your profile page!
-    added_as_friend: "%{name} has been added as a friend."
-    already_pending: A friend request is already pending with %{name}.
-    cannot_request: You cannot request friendship with %{name}.
-    decline: Decline Friend
-    friend_request_pending: friend request pending
-    friends: Friends
-    pending_requests: Pending Friend Requests
-    people_requested: The following people have requested to be your friend.
-    personal_friends: "%{name} Friends"
-    remove_from_friends: Remove from Friends
-    request_sent: A friend request has been sent to %{name}.
-    search_in_the_directory: Search for friends in the directory
-    unknown_state: unknown state
-    you_have_pending_requests_html: You have <a href="%{url}">pending friend requests</a>.
-
   generated_files:
     building: "Building your file..."
     complete_heading: "Done!"
