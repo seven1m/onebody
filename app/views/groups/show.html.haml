@@ -2,7 +2,7 @@
 
 .row
   .col-md-3
-    = render partial: 'photo'
+    = group_avatar_tag(@group, size: :large)
 
     %h2= @group.name
     - if @group.description.to_s.any?

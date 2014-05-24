@@ -1,0 +1,24 @@
+- @title = t('groups.heading')
+
+- if @unapproved_groups.any?
+  .callout.callout-info
+    = t('groups.following_are_pending_approval', count: @unapproved_groups.length)
+    %table.table.group-list
+      - @unapproved_groups.each do |group|
+        %tr.row-with-avatar
+          %td= link_to group.name, group
+
+.row
+  .col-md-4
+    = render partial: 'search'
+    %h3= t('groups.browse_by_category')
+    %p= select_tag 'category', options_for_select(@categories), include_blank: true, onchange: "location.href='?category='+this.value"
+    %h3= t('groups.create_a_group')
+    %p
+      = t('groups.if_cant_find_create_it')
+    %p
+      = link_to t('groups.create_a_group'), new_group_path, class: 'add-icon'
+
+  .col-md-8
+    %h3= t('groups.your_groups')
+    = render partial: 'person_groups'
