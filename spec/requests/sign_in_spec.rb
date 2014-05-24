@@ -13,7 +13,7 @@ describe 'SignIn' do
 
     it 'should show error message' do
       expect(response).to be_success
-      assert_select 'div#notice', /email address/
+      assert_select 'div.alert', /email address/
     end
   end
 
@@ -24,7 +24,7 @@ describe 'SignIn' do
 
     it 'should show error message' do
       expect(response).to be_success
-      assert_select 'div#notice', /password/
+      assert_select 'div.alert', /password/
     end
   end
 

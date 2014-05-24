@@ -27,7 +27,7 @@ describe SessionsController do
 
   it "should sign out a user" do
     post :destroy
-    expect(response).to redirect_to(new_session_path)
+    expect(response).to redirect_to(root_path)
     expect(session[:logged_in_id]).to be_nil
   end
 

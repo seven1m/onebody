@@ -251,7 +251,7 @@ describe AccountsController do
         end
 
         it 'should indicate record not found' do
-          assert_select '#main', /not.*found/i
+          assert_select 'div.callout', /not.*found/i
         end
       end
 
@@ -270,7 +270,7 @@ describe AccountsController do
           end
 
           it 'should indicate that email was sent' do
-            assert_select '#main', /email.*sent/i
+            assert_select '.content', /email.*sent/i
           end
         end
 
@@ -314,8 +314,8 @@ describe AccountsController do
             expect(ActionMailer::Base.deliveries.last.subject).to eq("Verify Mobile")
           end
 
-          it 'should indicate that email was sent' do
-            assert_select '#main', /has been sent/i
+          it 'should indicate that message was sent' do
+            assert_select '.content', /has been sent/i
           end
         end
 

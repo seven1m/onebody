@@ -5,7 +5,7 @@ class Person
     extend ActiveSupport::Concern
 
     included do
-      scope :in_group_ids, -> ids { joins(:memberships).where('memberships.group_id in (?)', ids).select('memberships.group_id') }
+      scope :in_group_ids, -> ids { joins(:memberships).where('memberships.group_id in (?)', ids) }
     end
 
     def in_groups(groups)

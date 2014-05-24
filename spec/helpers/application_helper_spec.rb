@@ -45,16 +45,16 @@ describe ApplicationHelper do
 
   describe 'render_page_content' do
     before do
-      Page.find('system/sign_in_header').update_attributes!(body: 'safe<script>notsafe</script>')
+      Page.find('system/unauthorized').update_attributes!(body: 'safe<script>notsafe</script>')
     end
 
     it 'should return sanitized content' do
-      content = render_page_content('system/sign_in_header')
+      content = render_page_content('system/unauthorized')
       expect(content).to eq("safe")
     end
 
     it 'should be html_safe' do
-      expect(render_page_content('system/sign_in_header')).to be_html_safe
+      expect(render_page_content('system/unauthorized')).to be_html_safe
     end
 
     it 'should return nil if no page found' do

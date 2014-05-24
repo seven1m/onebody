@@ -135,5 +135,6 @@
               - if sub_title = yield(:sub_title).presence
                 %small= sub_title
         %section.content
+          = flash_messages
           = yield
     = javascript_include_tag 'application'

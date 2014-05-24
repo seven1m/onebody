@@ -17,11 +17,11 @@ describe 'Privacy' do
         sign_in_as @user
       end
 
-      it 'should not show child on parent profile' do
-        get "/people/#{@head.id}"
+      it 'should not show child on family page' do
+        get "/families/#{@head.family_id}"
         expect(response).to be_success
-        expect(response).to render_template('people/show')
-        assert_select '.family li', 2 # not 3 (should not see child)
+        expect(response).to render_template('families/show')
+        assert_select '.family .avatar', 2 # not 3 (should not see child)
         assert_no_match(/Megan/, response.body)
       end
 
@@ -43,10 +43,10 @@ describe 'Privacy' do
       end
 
       it 'should show child on parent profile' do
-        get "/people/#{@head.id}"
+        get "/families/#{@head.family_id}"
         expect(response).to be_success
-        expect(response).to render_template('people/show')
-        assert_select '.family li', 3
+        expect(response).to render_template('families/show')
+        assert_select '.family .avatar', 3
         expect(response.body).to match(/Megan/)
       end
 
@@ -79,7 +79,7 @@ describe 'Privacy' do
       expect(response).to be_redirect
       follow_redirect!
       expect(response).to render_template('privacies/edit')
-      assert_select 'div#notice', /Agreement saved\./
+      assert_select 'div.alert', /Agreement saved\./
       @child.reload
       expect(@child.parental_consent).to_not be_nil
       expect(@child.parental_consent).to include("#{@head.name} \(#{@head.id}\)")
@@ -94,16 +94,6 @@ describe 'Privacy' do
 
     it 'should allow child to sign in' do
       sign_in_as @child
-      assert_select '.left-sidebar h2', 'Your Homepage'
     end
   end
-
-  #it 'supports invisible profiles' do
-    #people(:jane).update_attribute :visible, false
-    #sign_in_as people(:jeremy)
-    #assert_select '.family li', 0 # only 1 visible family member -- no people displayed when there's only 1
-    #sign_in_as people(:peter)
-    #get "/people/#{people(:jane).id}"
-    #expect(response).to be_missing
-  #end
 end
