@@ -51,7 +51,7 @@ describe GroupsController do
     @admin = FactoryGirl.create(:person, :admin_manage_groups)
     @group.update_attribute :hidden, true
     get :index, {person_id: @person.id}, {logged_in_id: @admin.id}
-    assert_tag tag: 'tr', attributes: {class: 'grayed hidden-group'}
+    assert_select 'tr.grayed.hidden-group'
   end
 
   it "should search for groups by name" do
