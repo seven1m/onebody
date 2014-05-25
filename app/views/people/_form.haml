@@ -1,0 +1,206 @@
+= form_for @person do |form|
+  - if @logged_in.admin?(:edit_profiles)
+    = form.hidden_field :family_id
+  .form-group
+    = form.label :first_name
+    = form.text_field :first_name, size: 15, class: 'form-control'
+  .form-group
+    = form.label :last_name
+    = form.text_field :last_name, size: 15, class: 'form-control'
+  .form-group
+    = form.label :suffix
+    = form.select :suffix, [nil]+Setting.get(:system, :suffixes), {}, class: 'form-control'
+  .form-group
+    = form.label :description, t('accounts.description')
+    = form.text_field :description, class: 'form-control'
+    %span.help-block= t('people.edit.description_hint')
+  .form-group
+    = form.label :gender, t('accounts.gender')
+    = form.select :gender, [['', nil], [t('search.male'), 'Male'], [t('search.female'), 'Female']], class: 'form-control'
+  .form-group
+    = form.label :email, t('people.email')
+    = form.text_field :email, class: 'form-control'
+  .form-group
+    = form.label :mobile_phone, t('privacies.mobile_phone')
+    = form.phone_field :mobile_phone, class: 'form-control'
+    - unless @person.new_record?
+      %span.help-block= t('people.if_you_wish_to_remove_something_html', url: edit_person_privacy_path(@person))
+  .form-group
+    = form.label :work_phone, t('privacies.work_phone')
+    = form.phone_field :work_phone, class: 'form-control'
+  .form-group
+    = form.label :fax, t('privacies.fax')
+    = form.phone_field :fax, class: 'form-control'
+  .form-group
+    = form.label :birthday, t('privacies.birthday')
+    = form.date_field :birthday, class: 'form-control'
+  - if @logged_in.admin?(:edit_profiles)
+    .form-group#child-selection
+      = form.label :child, t('people.child')
+      %span.help-block= t('people.edit.child_hint')
+      = select_tag "person[child]", options_for_select([[t('people.determine_by_birthday'), nil], [t('Answer_yes'), true], [t('Answer_no'), false]], @person.child), id: "person_child", class: 'form-control'
+  .form-group
+    = form.label :anniversary, t('privacies.anniversary')
+    = form.date_field :anniversary, class: 'form-control'
+  .form-group
+    = render partial: 'edit_custom_fields'
+  - unless @person.new_record?
+    = fields_for @family do |family|
+      = render partial: 'families/form_fields', locals: {form: family}
+  - if @logged_in.admin?(:edit_profiles)
+    %h3= t('people.person_type')
+    .form-group
+      %span.help-block= t('people.edit.person_type_hint')
+      = form.check_box :member
+      = form.label :member, t('search.member'), class: 'inline'
+    .form-group
+      = form.check_box :staff
+      = form.label :staff,  t('search.staff'),  class: 'inline'
+    .form-group
+      = form.check_box :elder
+      = form.label :elder,  t('search.elder'),  class: 'inline'
+    .form-group
+      = form.check_box :deacon
+      = form.label :deacon, t('search.deacon'), class: 'inline'
+    - if Setting.get(:features, :custom_person_type)
+      .form-group
+        = form.label :custom_type, 'Custom Type:', class: 'inline'
+        = form.text_field :custom_type, size: 10
+        #person_custom_type_auto_complete.autocomplete
+        :javascript
+          // FIXME
+          //new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', #{custom_types.inspect}, {});
+    %h3= t('people.visibility')
+    - unless @person.adult_or_consent?
+      %em= t('people.this_person_is_not_an_adult', years: Setting.get(:system, :adult_age))
+      %br/
+    %span.help-block
+      - if @person.can_sign_in? and !@person.new_record?
+        = link_to t('people.click_to_send_verification_email'), account_path(email: @person.email), method: 'post', data: { confirm: t('are_you_sure') }, class: 'email-icon'
+    = content_tag :div, style: @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do
+      = form.check_box :can_sign_in
+      = form.label :can_sign_in,                  t('people.can_sign_in'),                  class: 'inline'
+      %br/
+      = form.check_box :visible_to_everyone
+      = form.label :visible_to_everyone,          t('people.visible_to_everyone'),          class: 'inline'
+      %br/
+      = form.check_box :visible_on_printed_directory
+      = form.label :visible_on_printed_directory, t('people.visible_on_printed_directory'), class: 'inline'
+      %br/
+      = form.check_box :full_access
+      = form.label :full_access,                  t('people.full_access'),                  class: 'inline'
+    - if Setting.get(:features, :edit_legacy_ids)
+      %h3= t('people.advanced')
+      = form.label :legacy_id,        t('people.legacy_external_id')
+      = form.text_field :legacy_id, size: 6
+      = form.label :legacy_family_id, t('people.family_legacy_external_id')
+      = form.text_field :legacy_family_id, size: 6
+  %h3= t('people.edit.about')
+  %div
+    %label{:for => "person_testimony"}
+      = t('people.testimony')
+      \:
+    %span.help-block= t('people.share_your_personal_testimony')
+    = form.text_area :testimony, rows: 15, style: 'width:95%;'
+    %br/
+    %label{:for => "person_about"}
+      = t('people.about_me')
+      \:
+    %span.help-block= t('people.tell_us_about_yourself')
+    = form.text_area :about, rows: 10, style: 'width:95%;'
+    %br/
+    %label{:for => "person_website"}
+      = t('people.website')
+      \:
+    = form.text_field :website
+  = hidden_field_tag :anchor, 'favorites'
+  %label{:for => "person_activities"}
+    = t('people.activities')
+    \:
+  = form.text_area :activities, rows: 4, cols: 80
+  %label{:for => "person_interests"}
+    = t('people.interests')
+    \:
+  = form.text_area :interests, rows: 4, cols: 80
+  %label{:for => "person_music"}
+    = t('people.music')
+    \:
+  = form.text_area :music, rows: 4, cols: 80
+  %label{:for => "person_tv_shows"}
+    = t('people.tv_shows')
+    \:
+  = form.text_area :tv_shows, rows: 4, cols: 80
+  %label{:for => "person_movies"}
+    = t('people.movies')
+    \:
+  = form.text_area :movies, rows: 4, cols: 80
+  %label{:for => "person_books"}
+    = t('people.books')
+    \:
+  = form.text_area :books, rows: 4, cols: 80
+  %label{:for => "person_quotes"}
+    = t('people.quotes')
+    \:
+  = form.text_area :quotes, rows: 4, cols: 80
+  %h3= t('people.business')
+  %span.help-block= t('people.if_you_wish_to_be_listed_business_dir_html', url: search_path(business: true))
+  %label{:for => "person_business_category"}= t('search.business_category')
+  %select#person_business_category{:name => "person[business_category]", :onchange => "if(this.value=='!') custom_select_val(this, '#{t('people.enter_new_category')}')"}
+    %option{:value => ""}
+    = options_for_select business_categories, @person.business_category
+    %option{:value => "!"}
+      [#{t('new_category')}]
+  %br/
+  %label{:for => "person_business_name"}
+    = t('people.business_name')
+    \:
+  = form.text_field :business_name
+  %br/
+  %label{:for => "person_business_description"}
+    = t('people.description_of_business')
+    \:
+  = form.text_area :business_description, rows: 3
+  %br/
+  %label{:for => "person_business_phone"}
+    = t('people.business_phone')
+    \:
+  = form.text_field :business_phone
+  %br/
+  %label{:for => "person_business_email"}
+    = t('people.business_email')
+    \:
+  = form.text_field :business_email
+  %br/
+  %label{:for => "person_business_website"}
+    = t('people.business_website')
+    \:
+  = form.text_field :business_website
+  %br/
+  %label{:for => "person_business_address"}
+    = t('people.business_address')
+    \:
+  = form.text_area :business_address, rows: 2
+  %p.double-margin-top= form.submit t('save_changes')
+:javascript
+  $('#person_birthday, #person_anniversary').datepicker({changeYear:true, yearRange:'1900:2025', dateFormat:'#{datepicker_format}'});
+
+  $('#person_birthday').bind('keyup', function(){
+    var val = $(this).val();
+    if(val == '' || val.match(/1900/)) {
+      $('#child-selection').show();
+    } else {
+      $('#child-selection select').val('');
+      $('#child-selection').hide();
+    }
+  }).trigger('keyup');
+
+  changes_made = false;
+  $(':input').bind('change', function(){
+    changes_made = true;
+  });
+
+  $('form').submit(function(){ changes_made = false });
+
+  window.onbeforeunload = function() {
+    if(changes_made) return '#{escape_javascript t('you_made_a_change_page')}';
+  }

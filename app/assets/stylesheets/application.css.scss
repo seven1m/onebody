@@ -112,7 +112,7 @@ img.avatar {
   @extend .img-thumbnail;
   margin: 0 10px 10px 0;
   &.small  { height: 75px;  }
-  &.medium { height: 250px; }
+  &.medium { max-height: 250px; }
 }
 
 // share //

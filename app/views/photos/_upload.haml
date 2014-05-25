@@ -1,0 +1,14 @@
+= form_tag url, multipart: true, method: 'put', class: 'photo-upload' do
+  .form-group.file-upload-group
+    %input{type: 'file', name: 'photo', class: 'file'}
+  .form-group.buttons
+    = link_to '#', class: 'btn btn-success photo-browse', style: 'display:none' do
+      = icon 'fa fa-folder-open-o'
+      = t('photos.browse')
+    = button_tag class: 'btn btn-success photo-upload' do
+      = icon 'fa fa-upload'
+      = t('photos.upload', name: name)
+    - if defined? delete and delete
+      = link_to url, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'photo-delete btn btn-danger' do
+        = icon 'fa fa-trash-o'
+        = t('photos.remove')

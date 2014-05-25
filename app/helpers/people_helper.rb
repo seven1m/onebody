@@ -36,7 +36,7 @@ module PeopleHelper
 
   def avatar_tag(person, options={})
     options.reverse_merge!(size: :tn, alt: person.try(:name))
-    options.reverse_merge!(class: "avatar #{options[:size]}")
+    options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
     image_tag(avatar_path(person, options.delete(:size)), options)
   end
 end
