@@ -11,13 +11,18 @@
 .row
   .col-md-4
     = render partial: 'search'
+
     %h3= t('groups.browse_by_category')
-    %p= select_tag 'category', options_for_select(@categories), include_blank: true, onchange: "location.href='?category='+this.value"
+    .group-category-lookup.form-inline
+      = select_tag 'category', options_for_select(@categories), include_blank: true, class: 'form-control'
+
     %h3= t('groups.create_a_group')
     %p
       = t('groups.if_cant_find_create_it')
     %p
-      = link_to t('groups.create_a_group'), new_group_path, class: 'add-icon'
+      = link_to new_group_path, class: 'btn btn-success' do
+        = icon 'fa fa-plus-circle'
+        = t('groups.create_a_group')
 
   .col-md-8
     %h3= t('groups.your_groups')

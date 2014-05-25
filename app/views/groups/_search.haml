@@ -1,0 +1,6 @@
+%h3= t('groups.search.heading')
+= form_tag(groups_path, method: 'get', class: 'form-inline group-search-form') do
+  .form-group
+    = text_field_tag :name, params[:name], class: 'form-control', placeholder: t('groups.search.name_placeholder')
+  .form-group
+    = submit_tag t('groups.search.submit'), class: 'btn btn-primary'

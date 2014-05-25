@@ -22,3 +22,7 @@ $(document).on 'change, ifToggled', '#enable-advanced-search', (e) ->
     $('.advanced-controls').find('input, select').val('')
 
 $('#enable-advanced-search').trigger('change').trigger('ifToggled')
+
+$(document).on 'change', '.group-category-lookup select', (e) ->
+  category = $(this).val()
+  location.href = '?category=' + category unless category == ''

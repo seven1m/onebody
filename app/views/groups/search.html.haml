@@ -1,0 +1,35 @@
+- content_for :sidebar do
+  %p= link_to t('groups.back_to_homepage'), groups_path, class: 'left-icon'
+  = render partial: 'search'
+  %h3= t('groups.browse_by_category')
+  %p= select_tag 'category', options_for_select(@categories, params[:category]), include_blank: true, onchange: "location.href='?category='+this.value"
+- if @groups.any?
+  %table.spaced
+    - @groups.each do |group|
+      - if @logged_in.can_see?(group)
+        %tr
+          %td
+            = render partial: 'thumbnail', locals: {group: group}
+          %td.group
+            = link_to group.name, group
+            - if group.private?
+              (private)
+            - if group.description.to_s.any?
+              %br/
+              = group.description
+            - if group.leader
+              %br/
+              = t('groups.leader')
+              \: #{link_to group.leader.name, person_path(group.leader)}
+            %br/
+            = t('people.person', count: group.people.count)
+- else
+  %p
+    %em= t('groups.no_groups_found')
+- if @logged_in.admin?(:manage_groups) and @hidden_groups.any?
+  %h3= t('groups.hidden_groups')
+  %p
+    = t('groups.only_admins_see_this_list')
+    \:
+    %br/
+    = @hidden_groups.map { |g| link_to(g.name, g) }.join(', ')

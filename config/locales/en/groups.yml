@@ -7,6 +7,11 @@ en:
       group_name: "Group"
       member_count: "Members"
 
+    search:
+      heading: "Search for a Group"
+      name_placeholder: "Search by name"
+      submit: "Search"
+
     accept: "Accept"
     add_somebody: "Add somebody"
     address_hint: "Give your group a unique email address so messages can be sent easily."
@@ -121,8 +126,6 @@ en:
     request_will_be_sent_to_admins: "Are you sure? A request will be sent to the group administrator(s)."
     settings_saved: "Group settings have been saved."
     scroll_left_and_right: "Scroll left and right to see all columns."
-    search: "Group Search"
-    search_for_a_group: "Search for a Group"
     select_one_or_more: "Select one or more above and choose an action"
     show_all: "Show all..."
     the_settings_are_for_advanced_users: "The settings below are for advanced users."
