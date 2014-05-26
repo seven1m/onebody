@@ -1,9 +1,0 @@
-<div class="news-item">
-  <h3>
-    <%= link_to news_item.title, news_item, class: 'no-underline' %>
-  </h3>
-  <%= render partial: 'news_item_meta', locals: {news_item: news_item, controls: false} %>
-  <div class="news-item-body">
-    <%= sanitize_html news_item.body %>
-  </div>
-</div>

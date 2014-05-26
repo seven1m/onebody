@@ -978,22 +978,6 @@ en:
     to_show_the_entire_message: to show the entire message.
     unknown_type: Unknown message type.
 
-  news: 
-    body_description: "Share your announcement, information, or news here:"
-    deleted: News deleted.
-    edit_news_post: Edit News Post
-    if_you_have_something_to_share_html: If you have something newsworthy to share, <a href="%{url}">submit it here</a>.
-    news: News
-    news_feed: News Feed
-    no_news_is_available: No news is available at this time.
-    return_to_news: « Return to News
-    save_news: Save News
-    saved: News saved.
-    submit_news: Submit News
-    subscribe_to_community_news_html: <a href="%{url}" class="feed-icon">Subscribe</a> to Community News with your feed reader.
-    title_description: "Give your post a concise title:"
-    welcome_to_the_place: Welcome to the place for community news.
-
   notes:
     about_this_note: about this note
     add_a_note: Add a Note

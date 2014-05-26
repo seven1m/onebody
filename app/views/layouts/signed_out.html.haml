@@ -9,6 +9,7 @@
     %meta{content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no", name: "viewport"}
     = yield(:meta)
     = stylesheet_link_tag 'application'
+    = yield(:css)
     = csrf_meta_tags
     %link{href: "//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic|Abel", rel: "stylesheet"}
     /[if lt IE 9]
@@ -34,3 +35,4 @@
               %h2= @title
             = content
     = javascript_include_tag 'application'
+    = yield(:js)

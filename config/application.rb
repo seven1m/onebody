@@ -37,6 +37,10 @@ module OneBody
     # Disable implicit join references in ActiveRecord
     config.active_record.disable_implicit_join_references = true
 
+    # Additional precompiled assets
+    config.assets.precompile += ['editor.js.coffee']
+    config.assets.precompile += ['editor.css.scss']
+
     config.generators do |g|
       g.test_framework :rspec
     end
