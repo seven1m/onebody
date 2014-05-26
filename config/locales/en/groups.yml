@@ -13,6 +13,16 @@ en:
       name_placeholder: "Search by name"
       submit: "Search"
 
+    batch:
+      category: "Category"
+      name: "Name"
+      address: "Email Prefix"
+      members_send: "Members Can Send"
+      private: "Private"
+      hidden: "Hidden"
+      class_link_code: "Link Code(s)"
+      approval_required_to_join: "Approval Required"
+
     accept: "Accept"
     add_somebody: "Add somebody"
     address_hint: "Give your group a unique email address so messages can be sent easily."
