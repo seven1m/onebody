@@ -1,2 +1,4 @@
-$('#add_friend_<%= @other_person.id %>').hide();
+button = $('#add_friend_<%= @other_person.id %>');
+button.find('.text').text(button.data('pending-label'))
+button.addClass('disabled');
 alert('<%= escape_javascript @message %>');

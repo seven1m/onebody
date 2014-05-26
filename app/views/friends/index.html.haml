@@ -1,0 +1,46 @@
+- @title = t('friends.personal_friends', name: @person.name_possessive)
+
+- if @pending.any?
+  .box.box-solid.box-success
+    .box-header
+      %h3.box-title
+        = icon 'fa fa-clock-o'
+        = t('friends.pending_requests')
+    .box-body
+      %p= t('friends.people_requested')
+      %ul.list-group{style: 'max-width: 500px'}
+        - @pending.each do |friendship_request|
+          %li.list-group-item
+            = link_to friendship_request.from do
+              = avatar_tag(friendship_request.from)
+              = friendship_request.from.name
+            .pull-right
+              = link_to person_friend_path(@logged_in, friendship_request, accept: true), method: 'put', class: 'btn btn-success' do
+                = icon 'fa fa-plus-circle'
+                = t('friends.accept')
+              = link_to person_friend_path(@logged_in, friendship_request, reject: true), method: 'put', data: { confirm: t('are_you_sure') }, class: 'btn bg-gray text-red' do
+                = icon 'fa fa-minus-circle'
+                = t('friends.decline')
+
+%h3= t('friends.friends')
+- if @friendships.any?
+  %ul#friends.list-group{style: 'max-width: 600px'}
+    - @friendships.each do |friendship|
+      %li.list-group-item{:id => "friendship_#{friendship.id}"}
+        = link_to friendship.friend do
+          = avatar_tag friendship.friend
+        = link_to friendship.friend.name, friendship.friend
+        (added #{friendship.created_at.to_time.to_s})
+        - if me?
+          = link_to person_friend_path(@person, friendship.friend), class: 'btn bg-gray text-red pull-right', method: 'delete', data: { confirm: t('are_you_sure') } do
+            = icon 'fa fa-minus-circle'
+            = t('friends.remove_from_friends')
+          .clearfix
+  = javascript_include_tag 'dragdrop.js'
+- else
+  %p= t('groups.nobody_yet')
+- if me?
+  %p.double-margin-top
+    = link_to search_path, class: 'btn btn-info' do
+      = icon 'fa fa-search'
+      = t('friends.search_in_the_directory')

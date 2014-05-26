@@ -1,12 +1,8 @@
 - if setting(:features, :friends)
-  - if @logged_in.friend? @person
-    = link_to person_friend_path(@logged_in, @person), method: 'delete', data: { confirm: t('are_you_sure') }, class: 'btn' do
-      = icon 'fa fa-minus-circle'
-      = t('friends.remove_from_friends')
-  - elsif @logged_in.can_request_friendship_with?(@person)
-    = link_to person_friends_path(@logged_in, friend_id: @person), remote: true, method: :post, data: { confirm: t('friends.add_friend_are_you_sure') }, id: "add_friend_#{@person.id}", class: 'btn add-friend' do
+  - if @logged_in.can_request_friendship_with?(@person)
+    = link_to person_friends_path(@logged_in, friend_id: @person), remote: true, method: :post, data: { confirm: t('friends.add_friend_are_you_sure'), 'pending-label' => t('friends.add_to_friends_pending') }, id: "add_friend_#{@person.id}", class: 'btn add-friend' do
       = icon 'fa fa-star'
-      = t('friends.add_to_friends')
+      %span.text= t('friends.add_to_friends')
   - elsif @logged_in.friendship_waiting_on? @person
     = link_to person_friends_path(@logged_in, friend_id: @person), remote: true, method: :post, data: { confirm: t('friends.add_friend_are_you_sure') }, id: "add_friend_#{@person.id}", class: 'btn add-friend disabled' do
       = icon 'fa fa-star'
