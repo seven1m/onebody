@@ -39,6 +39,15 @@ th.actions, td.actions {
   color: #ccc;
 }
 
+.field_with_errors label {
+  color: #f56954;
+}
+
+.field_with_errors .form-control {
+  border-color: #f56954 !important;
+  box-shadow: none;
+}
+
 // layout //
 
 .content-header .breadcrumb {
