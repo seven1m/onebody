@@ -24,3 +24,4 @@ pkg
 *.deb
 script/package
 .idea
+.vagrant
