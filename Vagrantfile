@@ -20,6 +20,7 @@ SCRIPT
 
 $setup = <<SCRIPT
 mysql -u root -pvagrant -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"
+mysql -u root -pvagrant -e "create database onebody_test; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
 SCRIPT
 
 $bundle = <<SCRIPT
