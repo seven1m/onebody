@@ -184,4 +184,14 @@ img.avatar {
     font-style: none;
     color: gray;
   }
+  .hidden-group {
+    display: none;
+  }
+  tr.description td {
+    border-top: none;
+    padding-top: 0;
+  }
+  .label {
+    margin-right: 5px;
+  }
 }

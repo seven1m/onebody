@@ -10,19 +10,35 @@
 
 .row
   .col-md-4
-    = render partial: 'search'
+    .box.box-info{style: 'margin-top: 25px'}
+      .box-header
+        %h3.box-title= t('groups.search.heading')
+      .box-body
+        = form_tag(groups_path, method: 'get', class: 'form-inline group-search-form') do
+          .form-group
+            = text_field_tag :name, params[:name], class: 'form-control', placeholder: t('groups.search.name_placeholder')
+          .form-group
+            = button_tag class: 'btn btn-info' do
+              = icon 'fa fa-search'
+              = t('groups.search.submit')
 
-    %h3= t('groups.browse_by_category')
-    .group-category-lookup.form-inline
-      = select_tag 'category', options_for_select(@categories), include_blank: true, class: 'form-control'
+    .box.box-info
+      .box-header
+        %h3.box-title= t('groups.browse_by_category')
+      .box-body
+        .group-category-lookup.form-inline
+          = select_tag 'category', options_for_select(@categories), include_blank: true, class: 'form-control'
 
-    %h3= t('groups.create_a_group')
-    %p
-      = t('groups.if_cant_find_create_it')
-    %p
-      = link_to new_group_path, class: 'btn btn-success' do
-        = icon 'fa fa-plus-circle'
-        = t('groups.create_a_group')
+    .box.box-success
+      .box-header
+        %h3.box-title= t('groups.create_a_group')
+      .box-body
+        %p
+          = t('groups.if_cant_find_create_it')
+        %p
+          = link_to new_group_path, class: 'btn btn-success' do
+            = icon 'fa fa-plus-circle'
+            = t('groups.create_a_group')
 
   .col-md-8
     %h3= t('groups.your_groups')

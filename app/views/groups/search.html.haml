@@ -3,38 +3,38 @@
     %tr
       %th
       %th= t('groups.table.group_name')
-      %th= Leader
+      %th Leader
       %th= t('groups.table.member_count')
 
-    - if not group.hidden? or @logged_in.admin?(:manage_groups)
-      %tr.row-with-avatar{class: group.hidden? ? 'grayed hidden-group' : ''}
-        %td.avatar
-          = group_avatar_tag(group)
-        %td.group
-          = link_to group.name, group
-          - if group.private?
-            %span.badge
-              = icon 'fa fa-lock'
-              = t('groups.private_group')
-        %td
-          = group.leader
-        %td
-          = group.memberships.count
-      %tr.description
-        = group.description
-    - if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? }
-      %tr
-        %td
-        %td= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'discreet'
-            - if group.description.to_s.any?
-              %br/
+    - @groups.each do |group|
+      - if not group.hidden? or @logged_in.admin?(:manage_groups)
+        %tr.row-with-avatar{class: group.hidden? ? 'grayed hidden-group' : ''}
+          %td.avatar
+            = group_avatar_tag(group)
+          %td.group
+            = link_to group.name, group
+            - if group.private?
+              %span.label.label-warning
+                = icon 'fa fa-lock'
+                = t('groups.private_group')
+            - if group.hidden?
+              %span.label.label-danger
+                = icon 'fa fa-eye-slash'
+                = t('groups.hidden_group')
+          %td
+            = link_to(group.leader.try(:name), group.leader) if group.leader
+          %td
+            = group.memberships.count
+        - if group.description.present?
+          %tr.description{class: group.hidden? ? 'grayed hidden-group' : ''}
+            %td
+            %td{colspan: 3}
               = group.description
-            - if group.leader
-              %br/
-              = t('groups.leader')
-              \: #{link_to group.leader.name, person_path(group.leader)}
-            %br/
-            = t('people.person', count: group.people.count)
+
+  - if @logged_in.admin?(:manage_groups) and @groups.detect { |g| g.hidden? }
+    %p
+      = link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'btn btn-danger'
+
 - else
   %p
     %em= t('groups.no_groups_found')
