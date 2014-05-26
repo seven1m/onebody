@@ -1,9 +1,13 @@
+- show_email_settings = params[:controller] == 'people' and (me? or @logged_in.admin?(:manage_groups))
+
 - if @person.groups.any?
   %table.table.group-list
     %tr
       %th
       %th= t('groups.table.group_name')
       %th= t('groups.table.member_count')
+      - if show_email_settings
+        %th= t('groups.table.email_enabled')
 
     - @person.memberships.order('groups.name').includes(:group).each do |membership|
       - if group = membership.group
@@ -14,27 +18,23 @@
             %td.group
               = link_to group.name, group
               - if group.private?
-                %span.badge
+                %span.label.label-warning
                   = icon 'fa fa-lock'
                   = t('groups.private_group')
-              - if params[:controller] == 'people' and (me? or @logged_in.admin?(:manage_groups))
-                %span
-                  = t('people.email')
-                  \:
-                  - if membership.get_email
-                    %strong{:title => t('groups.email_from_group_is_on')}= t('groups.email_on')
-                    |
-                    \#{link_to t('groups.email_off'), group_membership_path(group, @person, email: 'off'), method: 'put', data: { confirm: t('groups.if_ok_you_will_stop_receiving') }, title: t('groups.configure_email_from_group')}
-                  - else
-                    = link_to t('groups.email_on'), group_membership_path(group, @person, email: 'on'), method: 'put', data: { confirm: t('groups.if_ok_you_will_start_receiving') }, title: t('groups.configure_email_from_group')
-                    |
-                    %strong{:title => t('groups.email_from_group_is_off')}= t('groups.email_off')
+              - if group.hidden?
+                %span.label.label-danger
+                  = icon 'fa fa-eye-slash'
+                  = t('groups.hidden_group')
             %td
               = group.memberships.count
-    - if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? }
-      %tr
-        %td
-        %td= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'discreet'
+            - if show_email_settings
+              %td
+                .toggle{id: "group#{group.id}"}
+                  = link_to t('groups.email_off'), group_membership_path(group, @person, email: 'off'), method: 'put', remote: true, class: "off #{membership.get_email? ? 'toggle-enabled' : 'toggle-disabled'} btn-xs"
+                  = link_to t('groups.email_on'), group_membership_path(group, @person, email: 'on'), method: 'put', remote: true, class: "on #{membership.get_email? ? 'toggle-disabled' : 'toggle-enabled'} btn-xs"
+- if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? }
+  %p
+    = link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'btn btn-warning'
 
 - elsif me?
   %p

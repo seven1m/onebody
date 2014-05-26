@@ -1,0 +1,33 @@
+- @title = t('people.email.heading')
+
+.row
+  .col-lg-4
+    = form_for @person do |form|
+      = error_messages_for(form)
+      .box.box-info
+        .box-header
+          %h3.box-title= t('people.email.primary.heading')
+        .box-body
+          = t('people.email.primary.description_html')
+          .form-group
+            = form.label :email
+            = form.text_field :email, class: 'input-huge form-control'
+          .form-group
+            = submit_tag t('save_changes'), class: 'btn btn-success'
+
+      .box.box-warning
+        .box-header
+          %h3.box-title= t('people.email.alternate.heading')
+        .box-body
+          = t('people.email.alternate.description_html')
+          .form-group
+            = form.label :alternate_email
+            = form.text_field :alternate_email, class: 'form-control'
+          .form-group
+            = submit_tag t('save_changes'), class: 'btn btn-success'
+
+  .col-lg-8
+    = form_for @person do |form|
+      = hidden_field_tag :email, true
+      %h3= t('groups.group_emails')
+      = render partial: 'groups/person_groups'

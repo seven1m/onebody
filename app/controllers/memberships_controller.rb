@@ -32,7 +32,7 @@ class MembershipsController < ApplicationController
       @group.membership_requests.create(person: @person)
       flash[:warning] = t('groups.request_sent')
     end
-    redirect_back
+    redirect_to :back
   end
 
   def update
@@ -41,9 +41,13 @@ class MembershipsController < ApplicationController
     if params[:email]
       @person = Person.find(params[:id])
       if @logged_in.can_edit?(@group) or @logged_in.can_edit?(@person)
-        @group.set_options_for @person, {get_email: (params[:email] == 'on')}
+        @get_email = params[:email] == 'on'
+        @group.set_options_for @person, {get_email: @get_email}
         flash[:notice] = t('groups.email_settings_changed')
-        redirect_back
+        respond_to do |format|
+          format.html { redirect_to :back }
+          format.js
+        end
       else
         render text: t('There_was_an_error'), layout: true, status: 500
       end
@@ -52,7 +56,7 @@ class MembershipsController < ApplicationController
       @membership = @group.memberships.where(person_id: params[:id]).first_or_create
       @membership.update_attribute :admin, !params[:promote].nil?
       flash[:notice] = t('groups.user_settings_saved')
-      redirect_back
+      redirect_to :back
     else
       render text: t('not_authorized'), layout: true, status: 401
     end
@@ -70,7 +74,7 @@ class MembershipsController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_back }
+      format.html { redirect_to :back }
       format.js
     end
   end
@@ -127,7 +131,7 @@ class MembershipsController < ApplicationController
         end
         respond_to do |format|
           format.js
-          format.html { redirect_back }
+          format.html { redirect_to :back }
         end
       else
         render text: t('groups.must_specify_ids_list')

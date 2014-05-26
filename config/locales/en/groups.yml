@@ -6,6 +6,7 @@ en:
     table:
       group_name: "Group"
       member_count: "Members"
+      email_enabled: "Email enabled"
 
     search:
       heading: "Search for a Group"
@@ -55,8 +56,8 @@ en:
     edit_members: "Edit Group Members"
     email_from_group_is_on: "email from this group is ON"
     email_from_group_is_off: "email from this group is OFF"
-    email_off: "off"
-    email_on: "on"
+    email_off: "email off"
+    email_on: "email on"
     email_settings_changed: "Your email settings for the group have been changed."
     enable_attendance_tracking: "Enable Attendance Tracking"
     enable_calendar: "Enable Calendar"

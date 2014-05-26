@@ -1,0 +1,9 @@
+toggle = $('#group<%= @group.id %>');
+
+<% if @get_email %>
+  toggle.find('a.off').removeClass('toggle-disabled').addClass('toggle-enabled' );
+  toggle.find('a.on' ).removeClass('toggle-enabled' ).addClass('toggle-disabled');
+<% else %>
+  toggle.find('a.on' ).removeClass('toggle-disabled').addClass('toggle-enabled' );
+  toggle.find('a.off').removeClass('toggle-enabled' ).addClass('toggle-disabled');
+<% end %>

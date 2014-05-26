@@ -39,6 +39,28 @@ th.actions, td.actions {
   color: #ccc;
 }
 
+.toggle {
+  @extend .btn-group;
+}
+
+.toggle-enabled {
+  @extend .btn;
+  @extend .btn-info;
+  @extend .bg-gray;
+  @extend .text-aqua;
+}
+
+.toggle-disabled {
+  @extend .btn;
+  @extend .btn-info;
+  @extend .disabled;
+}
+
+.input-huge {
+  font-size: 30px;
+  height: 60px;
+}
+
 .field_with_errors label {
   color: #f56954;
 }

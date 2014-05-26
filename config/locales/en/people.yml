@@ -27,6 +27,25 @@ en:
       staff: "Staff"
       member: "Member"
 
+    email:
+      heading: "Email Settings"
+      primary:
+        heading: "Primary Email"
+        description_html: |
+          <p>This is your main email address used for login and receiving emails. Please note:</p>
+          <ul>
+            <li>This is the email address you must use to sign in.</li>
+            <li>All your group and private emails will be sent to this email address.</li>
+          </ul>
+      alternate:
+        heading: "Alternate Email"
+        description_html: |
+          <p>If you have another email (perhaps a work address) you wish to utilize to send email to groups, you may enter it here. Please note:</p>
+          <ul>
+            <li>This email address will not be visible to anyone except administrators.</li>
+            <li>You will not be able to use this address to sign into the site.</li>
+          </ul>
+
     about_me: "About Me"
     add_group: "Add Group"
     advanced: "Advanced"
@@ -53,7 +72,6 @@ en:
     deleted_html: "This person has been deleted. You can restore the record <a href='%{url}'>here</a>."
     description_of_business: "Description of Business"
     determine_by_birthday: "Determine by birthday"
-    email: "Email"
     email_address: "email address (account login) is"
     enter_new_category: "Enter the new category."
     family: "Family"
@@ -66,7 +84,6 @@ en:
     friendship_rejected: "Friendship rejected."
     full_access: "Full Access"
     groups: "Groups"
-    if_you_have_another_email: "If you have another email (perhaps a work address) you wish to utilize to send email to groups, you may enter it here."
     if_you_wish_to_be_listed_business_dir_html: "If you wish to be listed in the <a href='%{url}'>Business Directory</a>, Enter your business name, description, and other details below."
     if_you_wish_to_remove_something_html: "If you wish to remove something in order to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a> page and hide it."
     if_your_system_is_setup_to_sync_change: "If your system is set up to synchronize its data with an external source (e.g., a membership managment system), changes you make here may be overwritten on the next sync."
@@ -111,7 +128,6 @@ en:
       view_full: "read more"
       find_more: "Read other testimonies"
     this_account_is_frozen: "This account is frozen. %{name} cannot make changes to this profile or anyone else's until this account is unfrozen."
-    this_email_will_not_be_visible: "This email address will not be visible to anyone except administrators."
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
     this_person_is_not_an_adult: "This person is believed to be less than %{years} years of age, and does not have parental consent."
     this_profile_is_hidden: "This profile is hidden"
@@ -127,5 +143,4 @@ en:
     where_are_my_kids: "Where are my kids?"
     you_arent_in_any_groups: "You aren't in any groups yet."
     you_many_not_make_changes: "You may not make changes to your account at this time."
-    you_will_not_able_use_this_address: "You will not be able to use this address to sign into the site."
     your_account_has_been_frozen: "Your account has been frozen."
