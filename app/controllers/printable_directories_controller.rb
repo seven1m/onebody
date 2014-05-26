@@ -10,6 +10,7 @@ class PrintableDirectoriesController < ApplicationController
       Job.add("Person.find(#{@logged_in.id}).generate_and_email_directory_pdf(#{params[:with_pictures] ? 'true' : 'false'})")
       session[:directory_pdf_job] = Time.now
     else
+      @title = t('There_was_an_error')
       render text: t('printable_directories.already_sent'), layout: true, status: 401
     end
   end

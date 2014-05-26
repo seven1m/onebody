@@ -1,0 +1,12 @@
+- @title = t('printable_directories.heading')
+
+= form_tag printable_directory_path, method: 'post' do
+  %p= t('printable_directories.click_to_have_custom_pdf_via_email')
+  .form-group
+    = check_box_tag 'with_pictures', true, false
+    %label.inline{:for => "with_pictures"}= t('printable_directories.include_family_pictures')
+    = t('printable_directories.will_take_longer')
+  .form-group
+    = button_tag class: 'btn btn-success' do
+      = icon 'fa fa-envelope'
+      = t('printable_directories.email_custom_directory')
