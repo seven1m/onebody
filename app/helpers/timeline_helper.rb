@@ -2,22 +2,20 @@ module TimelineHelper
   def timeline(stream_items)
     last_date = nil
     if stream_items.any?
-      content_tag(:div, class: 'timeline-wrapper') do
-        content_tag(:ul, class: 'timeline', 'data-next-url' => next_timeline_url) do
-          [].tap do |items|
-            @stream_items.each_with_index do |stream_item, index|
-              next unless stream_item.decorate.publishable?
-              if stream_item.created_at != last_date
-                items << timeline_date_label(stream_item)
-                last_date = stream_item.created_at
-              end
-              items << stream_item.decorate.to_html(big: index == 0)
+      content_tag(:ul, class: 'timeline', 'data-next-url' => next_timeline_url) do
+        [].tap do |items|
+          @stream_items.each_with_index do |stream_item, index|
+            next unless stream_item.decorate.publishable?
+            if stream_item.created_at != last_date
+              items << timeline_date_label(stream_item)
+              last_date = stream_item.created_at
             end
-          end.join.html_safe
-        end.html_safe +
-        content_tag(:div, class: 'timeline-load-more') do
-          link_to(I18n.t('stream.load_more'), '#', class: 'btn btn-primary btn-xs')
-        end
+            items << stream_item.decorate.to_html(big: index == 0)
+          end
+        end.join.html_safe
+      end.html_safe +
+      content_tag(:div, class: 'timeline-load-more') do
+        link_to(I18n.t('stream.load_more'), '#', class: 'btn btn-primary btn-xs')
       end
     else
       content_tag(:p, t('stream.none'))

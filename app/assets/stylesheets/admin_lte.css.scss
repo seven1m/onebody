@@ -1645,6 +1645,7 @@ Component: timeline
 --------------------
 */
 .timeline {
+  position: relative; // XXX added by Tim
   margin: 0 0 30px 0;
   padding: 0;
   list-style: none;
@@ -1656,7 +1657,8 @@ Component: timeline
   bottom: 0;
   width: 5px;
   background: #ddd;
-  left: 45px;
+  //left: 45px; // XXX removed by Tim
+  left: 30px; // XXX added by Tim
   border: 1px solid #eee;
   margin: 0;
   -webkit-border-radius: 2px;
