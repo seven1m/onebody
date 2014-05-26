@@ -15,9 +15,9 @@
       %th= t('groups.batch.approval_required_to_join')
     - @groups.each do |group|
       %tr.group{:id => "group#{group.id}"}
-        %td= text_field_tag "groups[#{group.id}][category]", group.category, size: 20
-        %td= text_field_tag "groups[#{group.id}][name]", group.name, size: 20
-        %td= text_field_tag "groups[#{group.id}][address]", group.address, size: 20
+        %td= select_tag "groups[#{group.id}][category]", options_for_select(group_categories, group.category), class: 'can-create'
+        %td= text_field_tag "groups[#{group.id}][name]", group.name
+        %td= text_field_tag "groups[#{group.id}][address]", group.address
         %td
           = check_box_tag  "groups[#{group.id}][members_send]", true, group.members_send?, class: 'simple'
           = hidden_field_tag "groups[#{group.id}][members_send]", 0
@@ -39,31 +39,32 @@
       = t('saving')
       \...
 
-:javascript
-  $(':input').change(function() {
-    var el = $(this);
-    if(el.attr('type') == 'checkbox') {
-      if(el[0].checked) {
-        el.addClass('changed');
+- content_for :js do
+  :javascript
+    $(':input').change(function() {
+      var el = $(this);
+      if(el.attr('type') == 'checkbox') {
+        if(el[0].checked) {
+          el.addClass('changed');
+        } else {
+          el.next().addClass('changed');
+        }
       } else {
-        el.next().addClass('changed');
-      }
-    } else {
-      el.addClass('changed');
-    }
-  });
-  $('#batch_groups_form').submit(function(){
-    $('#loading').show();
-    var data = $(':input.changed').serializeArray();
-    $.ajax({
-      url: $(this).attr('action'),
-      type: 'POST',
-      data: data,
-      dataType: 'script',
-      complete: function(){
-        $(':input').removeClass('changed');
-        $('#loading').hide();
+        el.addClass('changed');
       }
     });
-    return false;
-  });
+    $('#batch_groups_form').submit(function(){
+      $('#loading').show();
+      var data = $(':input.changed').serializeArray();
+      $.ajax({
+        url: $(this).attr('action'),
+        type: 'POST',
+        data: data,
+        dataType: 'script',
+        complete: function(){
+          $(':input').removeClass('changed');
+          $('#loading').hide();
+        }
+      });
+      return false;
+    });

@@ -3,6 +3,10 @@ en:
   groups:
     heading: "Groups"
 
+    edit:
+      category:
+        new: "[new category]"
+
     table:
       group_name: "Group"
       member_count: "Members"

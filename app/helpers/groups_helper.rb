@@ -25,4 +25,9 @@ module GroupsHelper
     options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
     image_tag(group_avatar_path(group, options.delete(:size)), options)
   end
+
+  def group_categories
+    [[t('groups.edit.category.new'), '!']] + Group.categories.keys
+  end
+
 end

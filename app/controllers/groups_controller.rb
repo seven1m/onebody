@@ -157,11 +157,13 @@ class GroupsController < ApplicationController
       if request.post?
         @errors = []
         @groups = Group.order('category, name')
-        @groups.group_by(&:id).each do |id, groups|
-          group = groups.first
-          if vals = params[:groups][id.to_s]
-            unless group.update_attributes(vals.permit(*group_attributes))
-              @errors << [id, group.errors.full_messages]
+        @groups.each do |group|
+          if vals = params[:groups][group.id.to_s]
+            group.attributes = vals.permit(*group_attributes)
+            if group.changed?
+              unless group.save
+                @errors << [group.id, group.errors.full_messages]
+              end
             end
           end
         end
