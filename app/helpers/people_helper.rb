@@ -20,6 +20,10 @@ module PeopleHelper
     Person.business_categories
   end
 
+  def has_type?(person)
+    person.elder? or person.deacon? or person.staff? or person.member? or person.custom_type.present?
+  end
+
   def custom_types
     Person.custom_types
   end
@@ -35,8 +39,37 @@ module PeopleHelper
   end
 
   def avatar_tag(person, options={})
-    options.reverse_merge!(size: :tn, alt: person.try(:name))
-    options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
-    image_tag(avatar_path(person, options.delete(:size)), options)
+    if person.is_a?(Family)
+      family_avatar_tag(person, options)
+    elsif person.is_a?(Group)
+      group_avatar_tag(person, options)
+    else
+      options.reverse_merge!(size: :tn, alt: person.try(:name))
+      options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
+      image_tag(avatar_path(person, options.delete(:size)), options)
+    end
+  end
+
+  def link_to_person_role(person, options={})
+    options.reverse_merge!(separator: ' ')
+    roles = []
+    if Setting.get(:features, :custom_person_type) and person.custom_type.present?
+      roles << person.custom_type
+    end
+    roles += %w(elder deacon staff member).select do |role|
+      person.send("#{role}?")
+    end
+    if options[:only_one]
+      link_to_role(roles.first)
+    else
+      roles.map { |r| link_to_role(r) }.join(options[:separator]).html_safe
+    end
+  end
+
+  def link_to_role(role)
+    link_to search_path(type: role) do
+      icon('fa fa-star') + ' ' +
+      t(role, scope: 'people.roles', default: role)
+    end
   end
 end

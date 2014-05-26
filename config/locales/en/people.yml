@@ -17,6 +17,12 @@ en:
       privacy: "Change Privacy Settings"
       header: "Edit Profile"
 
+    roles:
+      elder: "Elder"
+      deacon: "Deacon"
+      staff: "Staff"
+      member: "Member"
+
     about_me: "About Me"
     add_group: "Add Group"
     advanced: "Advanced"
