@@ -1,19 +1,31 @@
-- content_for :sidebar do
-  %p= link_to t('groups.back_to_homepage'), groups_path, class: 'left-icon'
-  = render partial: 'search'
-  %h3= t('groups.browse_by_category')
-  %p= select_tag 'category', options_for_select(@categories, params[:category]), include_blank: true, onchange: "location.href='?category='+this.value"
 - if @groups.any?
-  %table.spaced
-    - @groups.each do |group|
-      - if @logged_in.can_see?(group)
-        %tr
-          %td
-            = render partial: 'thumbnail', locals: {group: group}
-          %td.group
-            = link_to group.name, group
-            - if group.private?
-              (private)
+  %table.table.group-list
+    %tr
+      %th
+      %th= t('groups.table.group_name')
+      %th= Leader
+      %th= t('groups.table.member_count')
+
+    - if not group.hidden? or @logged_in.admin?(:manage_groups)
+      %tr.row-with-avatar{class: group.hidden? ? 'grayed hidden-group' : ''}
+        %td.avatar
+          = group_avatar_tag(group)
+        %td.group
+          = link_to group.name, group
+          - if group.private?
+            %span.badge
+              = icon 'fa fa-lock'
+              = t('groups.private_group')
+        %td
+          = group.leader
+        %td
+          = group.memberships.count
+      %tr.description
+        = group.description
+    - if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? }
+      %tr
+        %td
+        %td= link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'discreet'
             - if group.description.to_s.any?
               %br/
               = group.description
