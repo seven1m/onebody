@@ -165,9 +165,11 @@ img.avatar {
 // share //
 
 .stream .buttons {
-  padding: 7px;
+  @extend .well;
+  padding: 10px;
   background-color: #eee;
   border-radius: 3px;
+  margin-bottom: 0;
   .btn {
     margin-bottom: 3px;
   }
