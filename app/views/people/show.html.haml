@@ -21,6 +21,9 @@
       .col-lg-6.col-md-12
         = avatar_tag @person, size: 'large', class: 'img-full'
         %table.table
+          %tr.row-with-avatar
+            %td= link_to avatar_tag(@family), @family
+            %td= link_to @family.try(:name), @family
           = show_attribute?(:website) do
             %tr
               %td Website
