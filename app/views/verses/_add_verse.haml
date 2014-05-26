@@ -1,0 +1,7 @@
+#add_verse
+  = form_for Verse.new do |form|
+    .form-group
+      = label_tag :id, t('verses.add_your_favorite_verse')
+      = text_field_tag :id, nil, placeholder: t('verses.example_verse'), class: 'form-control'
+    .form-group
+      = submit_tag t('verses.add_verse'), class: 'btn btn-success'

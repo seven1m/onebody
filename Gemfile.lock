@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/seven1m/acts_as_taggable_on_steroids.git
-  revision: 6e9629cb96cb3717968afd699e869db9784c989f
+  revision: c7a2ea153930e343b565badf71141681f268127b
   specs:
     acts_as_taggable_on_steroids (1.1)
 

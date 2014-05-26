@@ -16,6 +16,9 @@ img.img-full {
 tr.row-with-avatar {
   td, th {
     line-height: 2.3 !important;
+    p {
+      line-height: 1.8 !important;
+    }
   }
 }
 
@@ -68,6 +71,53 @@ th.actions, td.actions {
 .field_with_errors .form-control {
   border-color: #f56954 !important;
   box-shadow: none;
+}
+
+.discreet {
+  color: #aaa;
+}
+
+// tags //
+
+.tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    display: inline-block;
+    margin: 0 5px 5px 0;
+    a {
+      display: inline-block;
+      margin: 0;
+      padding: 3px;
+      @extend .bg-aqua;
+      border-radius: 3px 0 0 3px;
+      color: white;
+    }
+    a.delete {
+      border-radius: 0 3px 3px 0;
+      background-color: #bbb !important;
+    }
+    a.delete:hover {
+      @extend .bg-red;
+    }
+  }
+}
+
+.tag-cloud a {
+  display: inline-block;
+  &.size1 {
+    font-size: 80%;
+  }
+  &.size2 {
+    font-size: 100%;
+  }
+  &.size3 {
+    font-size: 150%;
+  }
+  &.size4 {
+    font-size: 200%;
+  }
 }
 
 // layout //
@@ -195,5 +245,20 @@ img.avatar {
   }
   .label {
     margin-right: 5px;
+  }
+}
+
+// verses //
+
+.passage {
+  font-size: 1.6em;
+  &.big {
+    font-size: 2.4em;
+  }
+}
+
+.people-list {
+  td, th {
+    padding: 0 10px 10px 0;
   }
 }

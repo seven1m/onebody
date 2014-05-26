@@ -7,6 +7,9 @@ class Verse < ActiveRecord::Base
   belongs_to :site
 
   scope_by_site_id
+
+  scope :with_people_count, -> { select('*, (select count(*) from people_verses where verse_id = verses.id) as people_count') }
+
   acts_as_taggable
 
   def admin?(person)
@@ -237,7 +240,7 @@ class Verse < ActiveRecord::Base
       elsif reference_or_id.is_a?(Symbol) or reference_or_id.to_s =~ /^\d+$/
         super
       else
-        where(reference: reference_or_id).first
+        find_by_reference(reference_or_id)
       end
     end
 

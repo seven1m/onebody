@@ -70,6 +70,8 @@ module NavHelper
         crumbs << ['fa fa-archive', t('nav.directory')]
       elsif params[:controller] == 'news' and params[:action] != 'index'
         crumbs << ['fa fa-bullhorn', t('news.heading'), news_path]
+      elsif params[:controller] == 'verses' and params[:action] != 'index'
+        crumbs << ['fa fa-book', t('verses.heading'), verses_path]
       end
     end
   end
