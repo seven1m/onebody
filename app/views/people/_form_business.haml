@@ -2,7 +2,7 @@
 
 .form-group
   = form.label :business_category
-  = form.select :business_category, options_for_select(business_categories), {}, class: 'form-control'
+  = form.select :business_category, business_categories, { include_blank: true }, class: 'form-control can-create', data: { 'custom-select-prompt' => t('people.edit.business_category.create_prompt') }
 
 .form-group
   = form.label :business_name
@@ -27,6 +27,3 @@
 .form-group
   = form.label :business_address
   = form.text_area :business_address, rows: 2, class: 'form-control'
-
-.form-group
-  = form.submit t('save_changes'), class: 'btn btn-primary'

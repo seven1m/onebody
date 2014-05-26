@@ -17,7 +17,7 @@ module PeopleHelper
   alias_method :attribute, :show_attribute? # TODO remove this
 
   def business_categories
-    Person.business_categories
+    [[t('people.edit.business_category.new'), '!']] + Person.business_categories
   end
 
   def has_type?(person)

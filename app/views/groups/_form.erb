@@ -9,7 +9,7 @@
 
     <%= form.label :category, t('groups.category_required') %>
     <div class="form-field-hint"><%= t('groups.category_hint') %></div>
-    <%= form.select :category, [''] + @categories + [['[new category]', '!']], {} ,{onChange: "if(this.value=='!') custom_select_val(this, 'Enter the new category.')"} %><br/>
+    <%= form.select :category, [''] + @categories + [['[new category]', '!']], {}, class: 'can-create' %><br/>
 
     <%= form.label :description, t('groups.description') %>
     <div class="form-field-hint"><%= t('groups.description_hint') %></div>

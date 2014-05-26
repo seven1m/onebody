@@ -215,6 +215,8 @@ en:
               invalid: The business email address is not formatted correctly (something@example.com).
             business_website: 
               invalid: The business website URL is not formatted correctly (are you missing 'http://' at the beginning?)
+            business_category:
+              exclusion: "You must enter a category for your business."
             child: 
               blank: The 'child' property must be either 'Yes' or 'No' because the birthday is unspecified.
               cannot_be_no: The 'child' property cannot be 'No' because the birthday indicates the person is not an adult.

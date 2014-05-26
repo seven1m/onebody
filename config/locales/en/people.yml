@@ -16,6 +16,10 @@ en:
       photo: "Profile Photo"
       privacy: "Change Privacy Settings"
       header: "Edit Profile"
+      business_category:
+        new: "[create a new category]"
+        create_prompt: "Enter the category for your business."
+
 
     roles:
       elder: "Elder"
