@@ -4,6 +4,8 @@
 #= require admin_lte
 #= require spin
 
+# # # timeline # # #
+
 $(document).on 'click', '.timeline-load-more a', (e) ->
   e.preventDefault()
   button = $(this)
@@ -14,6 +16,8 @@ $(document).on 'click', '.timeline-load-more a', (e) ->
     html = $.parseHTML(data.html)[0].innerHTML
     timeline.append(html).data('next-url', data.next)
 
+# # # search # # #
+
 # ifToggled for iCheck plugin
 $(document).on 'change, ifToggled', '#enable-advanced-search', (e) ->
   checked = $(this).is(':checked')
@@ -23,9 +27,13 @@ $(document).on 'change, ifToggled', '#enable-advanced-search', (e) ->
 
 $('#enable-advanced-search').trigger('change').trigger('ifToggled')
 
+# # # groups # # #
+
 $(document).on 'change', '.group-category-lookup select', (e) ->
   category = $(this).val()
   location.href = '?category=' + category unless category == ''
+
+# # # photo upload # # #
 
 $('.photo-upload .file-upload-group').hide()
 $('.photo-upload .photo-upload').hide()
@@ -37,3 +45,11 @@ $('.photo-upload input[type="file"]').change (e) ->
   button = form.find('.photo-browse').addClass('disabled').css('position', 'relative')
   new Spinner({radius: 5, length: 5, width: 2}).spin(button[0])
   form.submit()
+
+# # # tabs # # #
+
+if location.hash.match(/^#tab-/)
+  $(".nav-tabs a[href=##{location.hash.replace('#tab-', '')}]").tab('show')
+
+$('a[data-toggle="tab"]').on 'shown.bs.tab', (e) ->
+  window.location.hash = e.target.hash.replace('#', '#tab-')

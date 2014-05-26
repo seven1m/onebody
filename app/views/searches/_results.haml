@@ -18,6 +18,8 @@
       - if show_birthdays?
         %th= t('search.column.birthday')
       %th
+      - if show_testimonies?
+        %th= t('search.column.testimony')
     - @people.each do |person|
       %tr.row-with-avatar
         %td.avatar
@@ -43,6 +45,10 @@
             - if person.birthday
               = person.birthday.to_s(:date_without_year)
         %td
-          = render partial: 'people/person_type', locals: {person: person}
+          = link_to_person_role(person, separator: "<span class='text-gray'> / </span>")
+        - if show_testimonies?
+          %td
+            = truncate_words(person.testimony, length: 50)
+            = link_to t('search.results.testimony_read_more'), testimony_person_path(person), class: 'btn btn-xs bg-gray'
 
 = pagination @people, params: params_without_action

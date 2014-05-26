@@ -1,0 +1,11 @@
+- @title = t('people.testimony.heading', person: link_to(@person.name, @person)).html_safe
+
+.row
+  .col-md-2.hidden-sm.hidden-xs
+    %p= avatar_tag @person, size: :large
+    %p
+      = link_to @person, class: 'btn btn-info', style: 'width: 100%' do
+        = icon 'fa fa-user'
+        = t('people.testimony.view_profile')
+  .col-md-10
+    %p= preserve_breaks(@person.testimony)

@@ -94,7 +94,12 @@ en:
     show_hidden_groups: "Show Hidden Groups"
     suffix: "Suffix"
     tell_us_about_yourself: "Tell us about yourself. What's your personality like? What would your best friend say about you?"
-    testimony: "Testimony"
+    testimony:
+      box_heading: "Testimony"
+      heading: "Testimony of %{person}"
+      view_profile: "View Profile"
+      view_full: "read more"
+      find_more: "Read other testimonies"
     this_account_is_frozen: "This account is frozen. %{name} cannot make changes to this profile or anyone else's until this account is unfrozen."
     this_email_will_not_be_visible: "This email address will not be visible to anyone except administrators."
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."

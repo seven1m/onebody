@@ -9,6 +9,6 @@
       = icon 'fa fa-upload'
       = t('photos.upload', name: name)
     - if defined? delete and delete
-      = link_to url, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'photo-delete btn btn-danger' do
+      = link_to url, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'photo-delete btn bg-gray text-red pull-right' do
         = icon 'fa fa-trash-o'
         = t('photos.remove')

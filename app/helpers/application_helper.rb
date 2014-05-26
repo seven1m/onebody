@@ -292,6 +292,19 @@ module ApplicationHelper
     will_paginate scope, options
   end
 
+  def truncate_words(text, options={})
+    options.reverse_merge!(length: 100, separator: '…')
+    words = ''
+    text.split(' ').each do |word|
+      if words.size + word.size >= options[:length]
+        return words.chomp(' ') + options[:separator]
+      else
+        words << word + ' '
+      end
+    end
+    words
+  end
+
   # TODO reevaluate with Rails 4.1
   # this is an ugly hack for Rails 4 because I18n.exception_handler isn't working with the t() helper
   def t(*args)

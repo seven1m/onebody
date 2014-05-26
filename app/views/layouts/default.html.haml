@@ -65,7 +65,7 @@
                 %span= t('nav.home')
                 %small.badge.pull-right.bg-green 12 new
             %li{class: tab_selected?(:profile) ? 'active' : ''}
-              = link_to @logged_in do
+              = link_to @person || @logged_in do
                 %i.fa.fa-user
                 %span= t('nav.profile')
                 %i.fa.pull-right{class: tab_selected?(:profile) ? 'fa-angle-down' : 'fa-angle-left'}

@@ -7,6 +7,11 @@
 = error_messages_for @person
 
 .row
+  .col-lg-8
+    %p.discreet.small
+      = t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy'))
+    = render partial: 'form'
+
   .col-lg-4
     %h3= t('people.edit.photo')
     %p= avatar_tag @person, size: :large
@@ -15,14 +20,3 @@
     %h3= t('people.edit.family_photo')
     %p= family_avatar_tag @family, size: :large
     %p= photo_upload_for @family
-
-  .col-lg-8
-    %h3= t('people.edit.basics')
-    = render partial: 'pending_updates'
-    - if Setting.get(:features, :updates_must_be_approved) #and not @logged_in.admin?(:edit_profiles)
-      .callout.callout-info
-        = icon 'fa fa-check-square'
-        = t('people.changes_must_be_reviewed_html')
-    %p.discreet.small
-      = t('privacies.please_read_our_privacy_policy_html', url: help_path('privacy_policy'))
-    = render partial: 'form'

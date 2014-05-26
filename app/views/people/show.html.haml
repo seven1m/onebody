@@ -55,6 +55,23 @@
               %td= @person.anniversary.to_s(:date_without_year)
 
       .col-lg-6.col-md-12
+        - if @person.testimony.present?
+          .box.box-solid.box-success.testimony
+            .box-header
+              %h3.box-title
+                = link_to testimony_person_path(@person) do
+                  = icon 'fa fa-comment-o'
+                  = t('people.testimony.box_heading')
+            .box-body
+              %p= icon 'fa fa-quote-left'
+              %p
+                = preserve_breaks(truncate_words(@person.testimony, length: 250))
+                - if @person.testimony.size > 250
+                  = link_to t('people.testimony.view_full'), testimony_person_path(@person), class: 'btn bg-gray btn-xs'
+              %p.pull-right{style: 'margin-top: -25px'}= icon 'fa fa-quote-right'
+            .box-footer
+              = link_to t('people.testimony.find_more'), search_path(testimony: true), class: 'btn bg-gray btn-xs'
+
         - @groups.each do |group|
           .box{class: group_box_class(group)}
             .box-header

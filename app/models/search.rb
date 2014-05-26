@@ -9,6 +9,7 @@ class Search
                 :type,
                 :family_barcode_id,
                 :business,
+                :testimony,
                 :show_hidden
 
   def initialize(params={})
@@ -67,6 +68,7 @@ class Search
     return if @executed
     not_deleted!
     business!
+    testimony!
     order_by_name!
     parental_consent!
     name!
@@ -93,8 +95,13 @@ class Search
 
   def business!
     return unless business
-    where!("coalesce(people.business_name) != ''")
+    where!("coalesce(people.business_name, '') != ''")
     order!('people.business_name')
+  end
+
+  def testimony!
+    return unless testimony
+    where!("coalesce(people.testimony, '') != ''")
   end
 
   def order_by_name!

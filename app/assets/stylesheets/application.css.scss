@@ -27,6 +27,14 @@ th.actions, td.actions {
   text-align: right;
 }
 
+.tab-pane {
+  border: 1px solid #ddd;
+  border-top-width: 0;
+  border-radius: 0 0 5px 5px;
+  padding: 15px;
+  background: white;
+}
+
 // layout //
 
 .content-header .breadcrumb {
@@ -92,7 +100,9 @@ img.avatar {
   }
 }
 
-// timeline //
+.testimony .box-title a {
+  color: white !important;
+}
 
 .friends-alert {
   @extend .callout;
@@ -102,6 +112,8 @@ img.avatar {
     @extend .btn-xs;
   }
 }
+
+// timeline //
 
 .timeline-load-more {
   position: relative;

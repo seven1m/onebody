@@ -77,7 +77,7 @@ module NavHelper
     when 'streams'
       :home
     when *%w(people accounts privacies relationships)
-      :profile if me? or @logged_in.admin?(:edit_profiles)
+      :profile if me? or @logged_in.can_edit?(@person)
     when 'groups'
       :groups
     when *%w(searches printable_directories)
