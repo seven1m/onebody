@@ -18,7 +18,10 @@ en:
       header: "Edit Profile"
       business_category:
         new: "[create a new category]"
-        create_prompt: "Enter the category for your business."
+        create_prompt: "Enter the category for your business:"
+      custom_type:
+        new: "[create role]"
+        create_prompt: "Enter the role name:"
 
 
     roles:

@@ -110,6 +110,7 @@ en:
         fax: Fax
         birthday: Birthday
         anniversary: Anniversary
+        custom_type: Custom Role
     errors: 
       models: 
         admin: 

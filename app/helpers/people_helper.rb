@@ -20,12 +20,12 @@ module PeopleHelper
     [[t('people.edit.business_category.new'), '!']] + Person.business_categories
   end
 
-  def has_type?(person)
-    person.elder? or person.deacon? or person.staff? or person.member? or person.custom_type.present?
+  def custom_types
+    [[t('people.edit.custom_type.new'), '!']] + Person.custom_types
   end
 
-  def custom_types
-    Person.custom_types
+  def has_type?(person)
+    person.elder? or person.deacon? or person.staff? or person.member? or person.custom_type.present?
   end
 
   def avatar_path(person, size=:tn)

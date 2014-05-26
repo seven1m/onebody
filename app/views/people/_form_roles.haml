@@ -11,11 +11,7 @@
 .form-group
   = form.check_box :deacon
   = form.label :deacon, t('search.deacon'), class: 'inline'
-- if Setting.get(:features, :custom_person_type)
+- if setting(:features, :custom_person_type)
   .form-group
-    = form.label :custom_type, 'Custom Type:', class: 'inline'
-    = form.text_field :custom_type, size: 10
-    #person_custom_type_auto_complete.autocomplete
-    :javascript
-      // FIXME
-      //new Autocompleter.Local('person_custom_type', 'person_custom_type_auto_complete', #{custom_types.inspect}, {});
+    = form.label :custom_type
+    = form.select :custom_type, custom_types, { include_blank: true }, class: 'form-control can-create', data: { 'custom-select-prompt' => t('people.edit.custom_type.create_prompt') }
