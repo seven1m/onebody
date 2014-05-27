@@ -16,7 +16,7 @@ namespace :onebody do
       'Album'         => %w(description),
       'Comment'       => %w(text),
       'Message'       => %w(body html_body),
-      'NewsItem'      => %w(body),
+      'NewsItem'      => %w(title body),
       'Note'          => %w(body),
       'Page'          => %w(body),
       'Person'        => %w(about testimony business_description),
