@@ -29,7 +29,8 @@ cd /vagrant
 su vagrant -c '/bin/bash -l -c "gem install bundler --no-ri --no-rdoc"'
 su vagrant -c 'cp config/database.yml{.example,}'
 su vagrant -c '/bin/bash -l -c "bundle install"'
-su vagrant -c '/home/vagrant/.rvm/gems/ruby-2.1.1@onebody/bin/rake db:migrate'
+su vagrant -l -c 'cd /vagrant; sed -e"s/SOMETHING_RANDOM_HERE/$(rake -s secret)/g" config/secrets.yml.example > config/secrets.yml'
+su vagrant -c '/bin/bash -l -c "/home/vagrant/.rvm/gems/ruby-2.1.1@onebody/bin/rake db:migrate"'
 SCRIPT
 
 $run = <<SCRIPT
