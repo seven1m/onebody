@@ -34,7 +34,8 @@ user=$(cat <<USER
   fi
   bundle install
   if [[ ! -e config/secrets.yml ]]; then
-    sed -e"s/SOMETHING_RANDOM_HERE/\\$(rake -s secret)/g" config/secrets.yml.example > config/secrets.yml
+    secret=\\$(/home/vagrant/.rvm/gems/ruby-2.1.1@onebody/bin/rake -s secret)
+    sed -e"s/SOMETHING_RANDOM_HERE/\\$secret/g" config/secrets.yml.example > config/secrets.yml
   fi
   \\$HOME/.rvm/gems/ruby-2.1.1@onebody/bin/rake db:migrate
 USER
