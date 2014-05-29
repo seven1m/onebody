@@ -22,8 +22,9 @@ mysql -u root -pvagrant -e "create database if not exists onebody_test; grant al
 user=$(cat <<USER
   if [[ ! -d \\$HOME/.rvm ]]; then
     curl -sSL --insecure https://get.rvm.io | bash -s stable
-    /home/vagrant/.rvm/bin/rvm requirements
+    \\$HOME/.rvm/bin/rvm requirements
   fi
+  source \\$HOME/.bashrc
   rvm install 2.1.1
   cd /vagrant
   gem install bundler --no-ri --no-rdoc
@@ -34,7 +35,7 @@ user=$(cat <<USER
   if [[ ! -e config/secrets.yml ]]; then
     sed -e"s/SOMETHING_RANDOM_HERE/\\$(rake -s secret)/g" config/secrets.yml.example > config/secrets.yml
   fi
-  /home/vagrant/.rvm/gems/ruby-2.1.1@onebody/bin/rake db:migrate
+  \\$HOME/.rvm/gems/ruby-2.1.1@onebody/bin/rake db:migrate
 USER
 )
 su - vagrant -c "$user"
