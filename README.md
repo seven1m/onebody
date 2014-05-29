@@ -12,6 +12,8 @@ OneBody is open-source, web-based social networking and online directory softwar
 
 Now visit the site running in development mode at localhost:8080
 
+Whenever gems are updated or new migrations are needed, you can just run `vagrant provision`.
+
 ## Development Setup the Manual Way
 
 1. Install Ruby 2.1.1 or higher (we recommend you use [RVM](https://rvm.io/)).
