@@ -3,38 +3,46 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-$install = <<SCRIPT
+$setup = <<SCRIPT
 cd ~/
 set -ex
+
+# install prerequisites
 apt-get update -qq
 apt-get install -q -y build-essential curl libcurl4-openssl-dev nodejs git
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password vagrant'
 debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password vagrant'
 apt-get install -q -y mysql-server libmysqlclient-dev
-echo insecure >> ~/.curlrc
-su vagrant -c '/usr/bin/curl -sSL --insecure https://get.rvm.io | bash -s stable'
-/bin/bash -l -c "/home/vagrant/.rvm/bin/rvm requirements"
-su vagrant -c '/bin/bash -l -c "rvm install 2.1.1"'
-SCRIPT
 
-$setup = <<SCRIPT
-mysql -u root -pvagrant -e "create database onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"
-mysql -u root -pvagrant -e "create database onebody_test; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
-SCRIPT
+# setup db
+mysql -u root -pvagrant -e "create database if not exists onebody_dev; grant all on onebody_dev.* to onebody@localhost identified by 'onebody';"
+mysql -u root -pvagrant -e "create database if not exists onebody_test; grant all on onebody_test.* to onebody@localhost identified by 'onebody';"
 
-$bundle = <<SCRIPT
-set -ex
-cd /vagrant
-su vagrant -c '/bin/bash -l -c "gem install bundler --no-ri --no-rdoc"'
-su vagrant -c 'cp config/database.yml{.example,}'
-su vagrant -c '/bin/bash -l -c "bundle install"'
-su vagrant -l -c 'cd /vagrant; sed -e"s/SOMETHING_RANDOM_HERE/$(rake -s secret)/g" config/secrets.yml.example > config/secrets.yml'
-su vagrant -c '/bin/bash -l -c "/home/vagrant/.rvm/gems/ruby-2.1.1@onebody/bin/rake db:migrate"'
+# install rvm, ruby and gems, run migrations
+user=$(cat <<USER
+  if [[ ! -d \\$HOME/.rvm ]]; then
+    curl -sSL --insecure https://get.rvm.io | bash -s stable
+    \\$HOME/.rvm/bin/rvm requirements
+  fi
+  source \\$HOME/.bashrc
+  rvm install 2.1.1
+  cd /vagrant
+  gem install bundler --no-ri --no-rdoc
+  if [[ ! -e config/database.yml ]]; then
+    cp config/database.yml{.example,}
+  fi
+  bundle install
+  if [[ ! -e config/secrets.yml ]]; then
+    sed -e"s/SOMETHING_RANDOM_HERE/\\$(rake -s secret)/g" config/secrets.yml.example > config/secrets.yml
+  fi
+  \\$HOME/.rvm/gems/ruby-2.1.1@onebody/bin/rake db:migrate
+USER
+)
+su - vagrant -c "$user"
 SCRIPT
 
 $run = <<SCRIPT
-cd /vagrant
-su vagrant -c '/bin/bash -l -c "bundle exec rails server -d -p 3000"'
+su - vagrant -c "cd /vagrant && bundle exec rails server -d -p 3000"
 SCRIPT
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -42,8 +50,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 8080
   config.ssh.forward_agent = true
 
-  config.vm.provision :shell, :inline => $install
-  config.vm.provision :shell, :inline => $setup
-  config.vm.provision :shell, :inline => $bundle
-  config.vm.provision :shell, :inline => $run, run: "always"
+  config.vm.provision :shell, inline: $setup
+  config.vm.provision :shell, inline: $run, run: "always"
 end
