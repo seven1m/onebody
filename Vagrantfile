@@ -20,12 +20,13 @@ mysql -u root -pvagrant -e "create database if not exists onebody_test; grant al
 
 # install rvm, ruby and gems, run migrations
 user=$(cat <<USER
+  set -ex
   if [[ ! -d \\$HOME/.rvm ]]; then
     curl -sSL --insecure https://get.rvm.io | bash -s stable
     \\$HOME/.rvm/bin/rvm requirements
   fi
-  source \\$HOME/.bashrc
-  rvm install 2.1.1
+  source \\$HOME/.rvm/scripts/rvm
+  rvm use --install 2.1.1
   cd /vagrant
   gem install bundler --no-ri --no-rdoc
   if [[ ! -e config/database.yml ]]; then
