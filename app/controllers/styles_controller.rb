@@ -27,6 +27,7 @@ class StylesController < ApplicationController
     css = Sass::Engine.new(
       scss,
       syntax: :scss,
+      load_paths: [Rails.root.to_s],
       cache:  false,
       style:  :compressed
     ).render

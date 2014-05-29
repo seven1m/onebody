@@ -19,6 +19,14 @@ OneBody is open-source, web-based social networking and online directory softwar
 
 Now visit the site running in development mode at localhost:3000.
 
+## Development Setup using Vagrant
+
+1. Install and setup [Vagrant](http://docs.vagrantup.com/v2/installation/index.html).
+2. `git clone git://github.com/churchio/onebody.git && cd onebody`
+3. `vagrant up`
+
+Now visit the site running in development mode at localhost:8080
+
 ## Production Setup
 
 TODO
