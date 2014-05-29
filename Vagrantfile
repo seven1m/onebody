@@ -44,7 +44,11 @@ su - vagrant -c "$user"
 SCRIPT
 
 $run = <<SCRIPT
-su - vagrant -c "cd /vagrant && bundle exec rails server -d -p 3000"
+su - vagrant -c "
+  cd /vagrant
+  [[ -e tmp/pids/server.pid ]] && kill -HUP \\$(cat tmp/pids/server.pid)
+  bundle exec rails server -d -p 3000
+"
 SCRIPT
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
