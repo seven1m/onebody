@@ -11,6 +11,7 @@ en:
       message: "sent a message to %{group}"
       news: "posted news"
       note: "posted a note"
+      person: "was added to the community"
       picture:
         one: "shared a picture in %{album}"
         other: "shared some pictures in %{album}"
@@ -19,12 +20,15 @@ en:
     body:
       picture:
         alt: "click to enlarge"
+      person:
+        button: "Send %{person} a welcome message!"
 
     footer:
       button_label:
         album: "Show all"
         note: "Read more"
         verse: "Read more"
+        person: ""
 
     load_more: "load more..."
 

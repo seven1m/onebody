@@ -36,6 +36,7 @@ class Person < ActiveRecord::Base
   has_many :attendance_records
   has_many :stream_items
   has_many :generated_files
+  has_one :stream_item, as: :streamable
   belongs_to :site
 
   scope_by_site_id
@@ -80,6 +81,27 @@ class Person < ActiveRecord::Base
   def guess_last_name
     return unless family
     self.last_name = family.last_name
+  end
+
+  after_create :create_as_stream_item
+
+  def create_as_stream_item
+    StreamItem.create!(
+      title: name,
+      person_id: id,
+      streamable_type: 'Person',
+      streamable_id: id,
+      created_at: created_at,
+      shared: visible?
+    )
+  end
+
+  after_update :update_stream_item
+
+  def update_stream_item
+    return unless stream_item
+    stream_item.shared = visible?
+    stream_item.save!
   end
 
   def name
@@ -390,6 +412,7 @@ class Person < ActiveRecord::Base
     self.friendships.destroy_all
     self.membership_requests.destroy_all
     self.friendship_requests.destroy_all
+    self.stream_item.try(:destroy)
   end
 
   def set_default_visibility

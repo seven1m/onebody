@@ -38,6 +38,8 @@ class StreamItemDecorator < Draper::Decorator
       h.icon('fa fa-bullhorn bg-red')
     when 'Message'
       h.icon('fa fa-envelope bg-teal')
+    when 'Person'
+      h.icon('fa fa-user bg-pink')
     else
       h.icon('fa fa-circle bg-gray')
     end
@@ -62,6 +64,8 @@ class StreamItemDecorator < Draper::Decorator
         I18n.t('stream.header.news').html_safe
       when 'Message'
         I18n.t('stream.header.message', group: h.link_to(group.name, group)).html_safe
+      when 'Person'
+        I18n.t('stream.header.person')
       else
         streamable_type
       end
@@ -72,6 +76,10 @@ class StreamItemDecorator < Draper::Decorator
     h.content_tag(:div, class: 'timeline-body') do
       if streamable_type == 'Message'
         h.truncate_html(h.render_message_body(object), length: MAX_BODY_SIZE)
+      elsif streamable_type == 'Person' and streamable
+        h.link_to streamable, class: 'btn btn-info' do
+          I18n.t('stream.body.person.button', person: streamable.name)
+        end
       elsif object.body
         h.truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE)
       elsif streamable_type == 'Album'
@@ -90,7 +98,7 @@ class StreamItemDecorator < Draper::Decorator
   def footer
     h.content_tag(:div, class: 'timeline-footer') do
       label = I18n.t(streamable_type.downcase, scope: 'stream.footer.button_label', default: 'Read more')
-      h.link_to label, path, class: 'btn btn-primary btn-xs'
+      h.link_to label, path, class: 'btn btn-primary btn-xs' if label.present?
     end
   end
 
