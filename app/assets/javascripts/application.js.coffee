@@ -14,8 +14,11 @@ $(document).on 'click', '.timeline-load-more a', (e) ->
   timeline = button.parent().siblings('ul.timeline')
   $.getJSON timeline.data('next-url'), (data) ->
     loading.stop()
-    html = $.parseHTML(data.html)[0].innerHTML
-    timeline.append(html).data('next-url', data.next)
+    if data.items.length > 0
+      html = $.parseHTML(data.html)[0].innerHTML
+      timeline.append(html).data('next-url', data.next)
+    else
+      button.hide()
 
 # # # search # # #
 
