@@ -6,11 +6,17 @@ OneBody is open-source, web-based social networking and online directory softwar
 
 ## Development Setup using Vagrant
 
-1. Install and setup [Vagrant](http://docs.vagrantup.com/v2/installation/index.html).
+1. Install [Vagrant](http://docs.vagrantup.com/v2/installation/index.html).
 2. `git clone git://github.com/churchio/onebody.git && cd onebody`
 3. `vagrant up`
 
 Now visit the site running in development mode at localhost:8080
+
+Whenever gems are updated or new migrations are needed, you can just run `vagrant provision`.
+
+To restart the Rails server, type `vagrant reload`. Or you can `vagrant ssh` and restart the Rails server manually.
+
+For more help with Vagrant, check out the [Vagrant docs](http://docs.vagrantup.com/v2/).
 
 ## Development Setup the Manual Way
 
