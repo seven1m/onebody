@@ -54,6 +54,12 @@ en:
             <li>You will not be able to use this address to sign into the site.</li>
           </ul>
 
+    groups:
+      members: "members"
+      messages: "messages"
+      join:
+        button: "Find and join a group."
+
     about_me: "About Me"
     add_group: "Add Group"
     advanced: "Advanced"
@@ -91,7 +97,6 @@ en:
     friendship_must_specify: "Must specify accept=true or reject=true"
     friendship_rejected: "Friendship rejected."
     full_access: "Full Access"
-    groups: "Groups"
     if_you_wish_to_be_listed_business_dir_html: "If you wish to be listed in the <a href='%{url}'>Business Directory</a>, Enter your business name, description, and other details below."
     if_you_wish_to_remove_something_html: "If you wish to remove something in order to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a> page and hide it."
     if_your_system_is_setup_to_sync_change: "If your system is set up to synchronize its data with an external source (e.g., a membership managment system), changes you make here may be overwritten on the next sync."

@@ -89,22 +89,21 @@
                 %tr
                   %td
                     %i.fa.fa-users
-                    members
+                    = t('people.groups.members')
                   %td{style: "width:50px;"}= group.memberships.count
                 %tr
                   %td
                     %i.fa.fa-comments
-                    messages
+                    = t('people.groups.messages')
                   %td{style: "width:50px;"}= group.messages.count
         - if @groups.any?
           %p= link_to 'see all...', person_groups_path(@person)
         - if @groups.empty? and me?
           .box
             .box-body
-              %h3.box-title
-                %i.fa.fa-plus
-                %em Join a Group
-              lorem ipsum dolor
+              = link_to groups_path, class: 'btn btn-info' do
+                = icon 'fa fa-search'
+                = t('people.groups.join.button')
   .col-lg-4.col-lg-pull-8.col-xs-6.col-xs-pull-6
     - unless me? or not (setting(:features, :friends) and @person.messages_enabled?)
       .profile-controls
