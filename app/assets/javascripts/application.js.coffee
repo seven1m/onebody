@@ -1,5 +1,6 @@
 #= require jquery
 #= require jquery_ujs
+#= require jquery.scrollTo
 #= require bootstrap
 #= require admin_lte
 #= require spin
@@ -66,3 +67,18 @@ $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) ->
 
 if errored_pane = $('.tab-pane .field_with_errors:eq(1)').parents('.tab-pane').attr('id')
   $(".nav-tabs a[href=##{errored_pane}]").tab('show')
+
+# # # forms # # #
+
+$('.field_with_errors').each ->
+  $(this).parents('.form-group').addClass('has-error')
+    .find('label').prepend("<i class='fa fa-times-circle-o'></i> ")
+$('.form-errors li').each ->
+  id = $(this).data('attribute')
+  if $('#' + id).length > 0
+    button = $("<a href='#' class='btn btn-xs bg-gray text-red'><i class='fa fa-hand-o-down'></i></a>")
+    $(this).append(' ')
+    $(this).append(button)
+    button.click (e) ->
+      e.preventDefault()
+      $.scrollTo("##{id}:parent(.form-group)", offset: { top: -100 }, duration: 1000, easing: 'swing')

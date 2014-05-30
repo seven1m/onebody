@@ -178,11 +178,11 @@ module ApplicationHelper
       obj = form
     end
     if obj.errors.any?
-      content_tag(:div, class: 'callout callout-danger') do
+      content_tag(:div, class: 'callout callout-danger form-errors') do
         content_tag(:h4, t('There_were_errors')) +
         content_tag(:ul, class: 'list') do
-          obj.errors.full_messages.map do |message|
-            content_tag(:li, message)
+          obj.errors.map do |attribute, message|
+            content_tag(:li, message, data: { attribute: "#{obj.class.name.underscore}_#{attribute}" })
           end.join.html_safe
         end
       end
