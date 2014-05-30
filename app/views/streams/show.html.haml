@@ -29,7 +29,7 @@
           .buttons
             - if setting(:features, :notes)
               = link_to new_note_path, class: 'btn bg-blue' do
-                %i.fa.fa-comment
+                %i.fa.fa-file
                 = t('stream.share.button.note')
             - if setting(:features, :pictures)
               = link_to new_picture_path, class: 'btn bg-orange' do
