@@ -12,7 +12,7 @@ class StreamItemDecorator < Draper::Decorator
 
   def to_html(options={})
     return unless publishable?
-    @big = options.delete(:big)
+    @first = options.delete(:first)
     h.content_tag(:li) do
       icon +
       h.content_tag(:div, class: 'timeline-item') do
@@ -39,7 +39,7 @@ class StreamItemDecorator < Draper::Decorator
     when 'Message'
       h.icon('fa fa-envelope bg-teal')
     when 'Person'
-      h.icon('fa fa-user bg-pink')
+      h.icon('fa fa-user bg-olive')
     else
       h.icon('fa fa-circle bg-gray')
     end
@@ -84,9 +84,9 @@ class StreamItemDecorator < Draper::Decorator
         h.truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE)
       elsif streamable_type == 'Album'
         Array(object.context['picture_ids']).map do |picture_id, fingerprint, extension|
-          url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, @big ? :medium : :small)
+          url = Picture.photo_url_from_parts(picture_id, fingerprint, extension, @first ? :medium : :small)
           h.link_to(
-            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: "timeline-pic #{@big ? 'medium' : 'small'}"),
+            h.image_tag(url, alt: I18n.t('stream.body.picture.alt'), class: "timeline-pic #{@first ? 'medium' : 'small'}"),
             h.album_picture_path(streamable_id, picture_id),
             title: I18n.t('stream.body.picture.alt')
           )
