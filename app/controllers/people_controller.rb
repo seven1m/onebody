@@ -66,27 +66,29 @@ class PeopleController < ApplicationController
   end
 
   def create
-    if Person.can_create?
-      if @logged_in.admin?(:edit_profiles)
-        @business_categories = Person.business_categories
-        @custom_types = Person.custom_types
-        params[:person].cleanse(:birthday, :anniversary)
-        @person = Person.new_with_default_sharing(person_params)
-        @person.family_id = params[:person][:family_id]
-        respond_to do |format|
-          if @person.save
-            format.html { redirect_to @person.family }
-            format.xml  { render xml: @person, status: :created, location: @person }
-          else
-            format.html { render action: "new" }
-            format.xml  { render xml: @person.errors, status: :unprocessable_entity }
-          end
+    if params[:family_id] and @logged_in.admin?(:edit_profiles)
+      @family = Family.find(params[:family_id])
+      @person = Person.find(params[:person_id])
+      @family.people << @person
+      flash[:info] = t('people.move.success_message', person: @person.name, family: @family.name)
+      redirect_to @family
+    elsif @logged_in.admin?(:edit_profiles)
+      @business_categories = Person.business_categories
+      @custom_types = Person.custom_types
+      params[:person].cleanse(:birthday, :anniversary)
+      @person = Person.new_with_default_sharing(person_params)
+      @person.family_id = params[:person][:family_id]
+      respond_to do |format|
+        if @person.save
+          format.html { redirect_to @person.family }
+          format.xml  { render xml: @person, status: :created, location: @person }
+        else
+          format.html { render action: "new" }
+          format.xml  { render xml: @person.errors, status: :unprocessable_entity }
         end
-      else
-        render text: t('not_authorized'), layout: true, status: 401
       end
     else
-      render text: t('people.cant_be_added'), layout: true, status: 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 

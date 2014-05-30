@@ -27,33 +27,23 @@
       - @people.each do |person|
         %tr.row-with-avatar
           %td.avatar= link_to avatar_tag(person), person
-          %td= link_to person.name, person
-          - if @logged_in.admin?(:edit_profiles)
-            %td.actions
-              = link_to person, method: :delete, class: 'btn btn-danger btn-xs' do
-                %i{class: 'fa fa-minus-circle'}
+          %td
+            = link_to person.name, person
+            - unless person.visible?
+              %i.fa.fa-lock
+          %td.actions
+            - if @logged_in.can_edit?(person)
+              = link_to edit_person_path(person), class: 'btn bg-gray btn-xs text-yellow' do
+                = icon 'fa fa-pencil'
+            - if @logged_in.can_delete?(person)
+              = link_to person, method: :delete, class: 'btn bg-gray btn-xs text-red' do
+                = icon 'fa fa-minus-circle'
 
-
-    -#- if @logged_in.can_edit?(@family)
-      -#= link_to t('families.edit'), edit_family_path(@family), class: 'edit-icon'
-      -#= link_to t('families.delete'), @family, method: :delete, data: { confirm: t('families.are_you_sure') }, class: 'delete-icon'
-      -#= link_to t('relationships.family'), family_relationships_path(@family), class: 'people-icon'
-    -#- if @logged_in.admin?
-      -#= t('families.legacy_id')
-      -#= @family.legacy_id || t('none')
-
-    -#- @people.each do |person| 
-      -#= link_to person.name, person
-      -#= link_to '', edit_person_path(person), class: 'edit-icon' 
-      -#= link_to '', person, data: { confirm: t('are_you_sure') }, method: :delete, class: 'delete-icon' 
-      -#%br
-
--#- if @people.empty?
-  -#%em= t('families.no_one_yet')
--#- else
-  -#= t('families.drag_to_reorder_members')
-
--#%p
-  -#= t('families.add_members')
-  -#= link_to t('people.new_person'), new_person_path(family_id: @family), class: 'add-icon'
-  -#= link_to_function t('families.existing_person'), "$('#add_existing').toggle(); $('#add_person_name')[0].focus()", id: 'add_existing_link', class: 'add-icon'
+    - if @logged_in.can_edit?(@family)
+      .well
+        = link_to new_family_person_path(@family), class: 'btn btn-success' do
+          = icon 'fa fa-plus-circle'
+          = t('families.add.new')
+        = link_to family_search_path(@family), class: 'btn btn-warning pull-right' do
+          = icon 'fa fa-arrow-circle-left'
+          = t('families.add.existing')

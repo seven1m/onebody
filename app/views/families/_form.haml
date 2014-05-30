@@ -1,0 +1,11 @@
+= form_for @family do |form|
+  - if params[:compact]
+    = hidden_field_tag :compact, true
+  - if params[:people]
+    = hidden_field_tag :people,  true
+  - if params[:barcode]
+    = hidden_field_tag :barcode, true
+  = error_messages_for(form)
+  = render partial: 'form_fields', locals: {form: form}
+  .form-group
+    = button_tag t('families.edit.save'), class: 'btn btn-success'

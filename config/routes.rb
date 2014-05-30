@@ -60,6 +60,8 @@ OneBody::Application.routes.draw do
     end
     resource :photo
     resources :relationships
+    resources :people
+    resource :search
   end
 
   resources :groups do

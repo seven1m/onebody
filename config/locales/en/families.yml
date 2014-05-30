@@ -1,0 +1,18 @@
+en:
+  families:
+    add:
+      new: "New Person"
+      existing: "Move Person"
+
+    new:
+      heading: "New Family"
+
+    edit:
+      name: "Family Name"
+      name_help_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
+      last_name: "Family Last Name"
+      home_phone: "Home Phone"
+      address: "Address"
+      address2: "Address Line 2 (optional)"
+      city_st_zip: "City, State and Zip"
+      save: "Save Family"

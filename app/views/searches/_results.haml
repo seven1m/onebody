@@ -3,6 +3,13 @@
   - if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil?
     = t("search.not_showing_hidden_people")
 
+- if @family
+  .box.box-warning
+    .box-header
+      %h3.box-title= t('people.move.heading', family: @family.name)
+    .box-body
+      = t('people.move.description_html', family: @family.name, url: url_for(@family))
+
 = pagination @people, params: params_without_action
 
 - if @people and @people.any?
@@ -20,6 +27,8 @@
       %th
       - if show_testimonies?
         %th= t('search.column.testimony')
+      - if @family
+        %th
     - @people.each do |person|
       %tr.row-with-avatar
         %td.avatar
@@ -50,5 +59,11 @@
           %td
             = truncate_words(person.testimony, length: 50)
             = link_to t('search.results.testimony_read_more'), testimony_person_path(person), class: 'btn btn-xs bg-gray'
+        - if @family
+          %td
+            - unless @family.people.include?(person)
+              = link_to family_people_path(@family, person_id: person.id), data: { method: 'post', confirm: t('are_you_sure') }, class: 'btn btn-success btn-xs' do
+                = icon 'fa fa-plus-circle'
+                = t('people.move.add_button')
 
 = pagination @people, params: params_without_action

@@ -3,6 +3,8 @@ class SearchesController < ApplicationController
   MAX_SELECT_PEOPLE = 10
   MAX_SELECT_FAMILIES = 10
 
+  before_filter :get_family, if: -> { params[:family_id] }
+
   def show
     create
   end
@@ -40,6 +42,13 @@ class SearchesController < ApplicationController
         end
       end
     end
+  end
+
+  private
+
+  def get_family
+    @family = Family.find(params[:family_id])
+    raise StandardError unless @logged_in.can_edit?(@family)
   end
 
 end

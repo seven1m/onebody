@@ -851,35 +851,6 @@ en:
     view: View
     which_picture: Which picture are you commenting on?
 
-  families:
-    add_members: Add Family Members
-    add_existing_person_html: "Add an <em>existing</em> person to this family"
-    adding_will_remove_from_their_family_html: "Adding a person to this family will <em>remove</em> them from their current family."
-    are_you_sure: Are you sure? Clicking OK will delete this family and all the people in it.
-    cannot_delete_your_own: You cannot delete your own family.
-    city_st_zip: City, ST, Zip
-    delete: Delete Family
-    deleted_confirmation: Family Deleted?
-    drag_to_reorder_members: Drag the arrows to reorder family members.
-    edit: Edit Family
-    existing_person: Existing Person
-    family_id: Family ID
-    find_on_map: Find address on map
-    last_name: Family Last Name
-    last_name_example: Doe
-    legacy_id: Legacy ID
-    legacy_family_id: Legacy Family ID
-    name: Family Name
-    name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
-    new: New Family
-    no_one_yet: No one in this family yet.
-    not_found: Family not found.
-    only_in_mysql: This method is only available in a MySQL environment.
-    save: Save Family
-    saved: Family saved.
-    select_before_proceeding: Please select a family before proceeding.
-    too_many: Too many at once
-
   generated_files:
     building: "Building your file..."
     complete_heading: "Done!"
