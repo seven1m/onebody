@@ -235,7 +235,11 @@ describe PersonAuthorizer do
           expect(@user).to_not be_able_to(:update, @stranger)
         end
 
-        context 'admin has view_hidden_profiles privilege' do
+        it 'should not delete stranger' do
+          expect(@user).to_not be_able_to(:delete, @stranger)
+        end
+
+        context 'admin also has view_hidden_profiles privilege' do
           before do
             @user.admin.update_attributes!(view_hidden_profiles: true)
           end
@@ -246,6 +250,10 @@ describe PersonAuthorizer do
 
           it 'should update stranger' do
             expect(@user).to be_able_to(:update, @stranger)
+          end
+
+          it 'should delete stranger' do
+            expect(@user).to be_able_to(:delete, @stranger)
           end
         end
       end

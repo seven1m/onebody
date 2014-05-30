@@ -43,8 +43,8 @@ class PersonAuthorizer < ApplicationAuthorizer
     # admins with edit_profiles privilege
     if visible? and user.admin?(:edit_profiles)
       true
-    # admins with this privilege can edit all
-    elsif user.admin?(:view_hidden_profiles)
+    # admins with these privileges can see and edit all
+    elsif user.admin?(:view_hidden_profiles) and user.admin?(:edit_profiles)
       true
     end
   end
