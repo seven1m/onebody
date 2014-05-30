@@ -148,6 +148,9 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -277,6 +280,7 @@ DEPENDENCIES
   paperclip
   pdf-writer!
   pry
+  pry-remote
   rails (~> 4.0.0)
   rails_autolink
   rspec-rails (~> 3.0.0.beta)
