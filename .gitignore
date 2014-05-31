@@ -25,3 +25,4 @@ pkg
 script/package
 .idea
 .vagrant
+Vagrantfile.local
