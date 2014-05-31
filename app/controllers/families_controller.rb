@@ -85,7 +85,7 @@ class FamiliesController < ApplicationController
     @family = Family.find(params[:id])
     if @family.update_attributes(family_params)
       respond_to do |format|
-        format.html { flash[:notice] = t('families.saved'); redirect_to params[:redirect_to] || @family }
+        format.html { flash[:notice] = t('families.edit.saved'); redirect_to params[:redirect_to] || @family }
         format.xml  { render xml: @family.to_xml } if can_export?
       end
     else

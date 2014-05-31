@@ -43,6 +43,7 @@ class Person < ActiveRecord::Base
 
   scope :undeleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
+  scope :adults, -> { where(child: false) }
   scope :adults_or_have_consent, -> { where("child = 0 or coalesce(parental_consent, '') != ''") }
   scope :can_sign_in, -> { undeleted.where(can_sign_in: true) }
   scope :administrators, -> { undeleted.where('admin_id is not null') }

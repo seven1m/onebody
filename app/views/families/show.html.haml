@@ -1,4 +1,13 @@
 - @title = @family.name
+- content_for :sub_title do
+  = link_to edit_family_path(@family) do
+    = icon 'fa fa-pencil'
+    = t('families.show.edit_link')
+
+- if @logged_in.admin?(:edit_profiles) and @family.suggested_name != @family.name
+  .callout.callout-warning
+    = icon 'fa fa-info-circle'
+    = t('families.show.suggested_name_html', count: @family.people.adults.count, url: edit_family_path(@family), name: @family.suggested_name)
 
 .row
   .col-md-4

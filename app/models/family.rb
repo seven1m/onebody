@@ -191,6 +191,27 @@ class Family < ActiveRecord::Base
     }.try(:anniversary)
   end
 
+  def suggested_name
+    if people.adults.count == 1
+      people.adults.first.name
+    elsif people.adults.count >= 2
+      (first, second) = people.adults.limit(2)
+      if first.last_name == second.last_name
+        key = 'families.name.same_last_name'
+      else
+        key = 'families.name.different_last_names'
+      end
+      I18n.t(key,
+        adult1_fname: first.first_name,
+        adult1_lname: first.last_name,
+        adult1_name:  first.name,
+        adult2_fname: second.first_name,
+        adult2_lname: second.last_name,
+        adult2_name:  second.name
+       )
+    end
+  end
+
   alias_method :destroy_for_real, :destroy
   def destroy
     people.each(&:destroy)

@@ -71,6 +71,14 @@ $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) ->
 if errored_pane = $('.tab-pane .field_with_errors:eq(1)').parents('.tab-pane').attr('id')
   $(".nav-tabs a[href=##{errored_pane}]").tab('show')
 
+# # # families # # #
+
+$('.family-name-suggestion-button').click (e) ->
+  e.preventDefault()
+  $(this).parents('.form-group').find('.form-control').val(
+    $(this).data('name')
+  )
+
 # # # forms # # #
 
 $('.field_with_errors label').each ->

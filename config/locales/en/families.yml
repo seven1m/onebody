@@ -8,11 +8,25 @@ en:
       heading: "New Family"
 
     edit:
+      heading: "Edit Family"
       name: "Family Name"
-      name_help_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
+      name_example_html: "<em>John Doe</em> or <em>John &amp; Jane Doe</em>"
+      name_suggestion_html: "Suggested: <strong>%{name}</strong>"
+      name_suggestion_button: "Change"
       last_name: "Family Last Name"
       home_phone: "Home Phone"
       address: "Address"
       address2: "Address Line 2 (optional)"
       city_st_zip: "City, State and Zip"
       save: "Save Family"
+      saved: "Family changes saved."
+
+    show:
+      edit_link: "Edit Family"
+      suggested_name_html:
+        one: "There is one adult in this family. Consider <a href='%{url}'>changing the family name</a> to <strong>%{name}</strong>."
+        other: "There are %{count} adults in this family. Consider <a href='%{url}'>changing the family name</a> to <strong>%{name}</strong>."
+
+    name:
+      same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
+      different_last_names: "%{adult1_name} & %{adult2_name}"

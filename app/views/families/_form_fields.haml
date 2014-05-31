@@ -1,7 +1,15 @@
 .form-group
   = form.label :name, t('families.edit.name')
   = form.text_field :name, onkeyup: 'set_last_name()', class: 'form-control'
-  = t('families.edit.name_help_html')
+  %span.help-block
+    - if @family.suggested_name
+      - if @family.suggested_name != @family.name
+        = t('families.edit.name_suggestion_html', name: @family.suggested_name)
+        = link_to '#', class: 'btn btn-xs bg-gray family-name-suggestion-button', data: { name: @family.suggested_name } do
+          = icon 'fa fa-bolt'
+          = t('families.edit.name_suggestion_button')
+    - else
+      t('families.edit.name_example_html')
 .form-group
   = form.label :last_name, t('families.edit.last_name')
   = form.text_field :last_name, class: 'form-control'
