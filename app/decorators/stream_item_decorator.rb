@@ -40,6 +40,8 @@ class StreamItemDecorator < Draper::Decorator
       h.icon('fa fa-envelope bg-teal')
     when 'Person'
       h.icon('fa fa-user bg-olive')
+    when 'Site'
+      h.icon('fa fa-home bg-light-blue')
     else
       h.icon('fa fa-circle bg-gray')
     end
@@ -48,27 +50,28 @@ class StreamItemDecorator < Draper::Decorator
   def header
     h.content_tag(:h3, class: 'timeline-header') do
       if person
-        h.link_to(person.name, person)
+        who = h.link_to(person.name, person)
       else
-        I18n.t('stream.header.noone')
-      end +
-      ' ' +
+        who = I18n.t('stream.header.noone')
+      end
       case streamable_type
       when 'Note'
-        I18n.t('stream.header.note')
+        I18n.t('stream.header.note', who: who)
       when 'Album'
-        I18n.t('stream.header.picture', count: Array(object.context['picture_ids']).length, album: h.link_to(title, h.album_path(streamable_id))).html_safe
+        I18n.t('stream.header.picture', who: who, count: Array(object.context['picture_ids']).length, album: h.link_to(title, h.album_path(streamable_id))).html_safe
       when 'Verse'
-        I18n.t('stream.header.verse', ref: h.link_to(title, path)).html_safe
+        I18n.t('stream.header.verse', who: who, ref: h.link_to(title, path)).html_safe
       when 'NewsItem'
-        I18n.t('stream.header.news').html_safe
+        I18n.t('stream.header.news', who: who).html_safe
       when 'Message'
-        I18n.t('stream.header.message', group: h.link_to(group.name, group)).html_safe
+        I18n.t('stream.header.message', who: who, group: h.link_to(group.name, group)).html_safe
       when 'Person'
-        I18n.t('stream.header.person')
+        I18n.t('stream.header.person', who: who)
+      when 'Site'
+        I18n.t('stream.header.site', who: who, site: Setting.get(:name, :community))
       else
         streamable_type
-      end
+      end.html_safe
     end.html_safe
   end
 
@@ -91,6 +94,8 @@ class StreamItemDecorator < Draper::Decorator
             title: I18n.t('stream.body.picture.alt')
           )
         end.join(' ').html_safe
+      elsif streamable_type == 'Site'
+        I18n.t('stream.body.site.description', site: Setting.get(:name, :community))
       end
     end
   end
@@ -104,80 +109,15 @@ class StreamItemDecorator < Draper::Decorator
 
   def path
     case streamable_type
-    when 'Album', 'Note', 'Message'
+    when 'Album', 'Note', 'Message', 'Person', 'NewsItem', 'Verse'
       h.send(streamable_type.downcase + '_path', streamable_id)
+    when 'Site'
+      ''
+    # when 'PrayerRequest'
+      # FIXME
     else
-      streamable # FIXME extra query
+      streamable
     end
-  end
-
-    #/ timeline item
-    #%li
-      #%i.fa.fa-user.bg-aqua
-      #.timeline-item
-        #%span.time
-          #%i.fa.fa-clock-o
-          #9:35am
-        #%h3.timeline-header.no-border
-          #%a{href: "#"} Sarah Young
-          #accepted your friend request
-    #/ END timeline item
-    #/ timeline time label
-    #%li.time-label
-      #%span.bg-green
-        #8 Jan. 2014
-    #/ /.timeline-label
-    #/ timeline item
-    #%li
-      #%i.fa.fa-comment.bg-green
-      #.timeline-item
-        #%span.time
-          #%i.fa.fa-clock-o
-          #10:21am
-        #%h3.timeline-header.no-border
-          #%a{href: "#"} Jeremy Zongker
-          #posted a note.
-        #.timeline-body
-          #Bacon ipsum dolor sit amet pork hamburger strip steak jerky landjaeger chuck brisket. Salami doner corned beef rump kevin spare ribs jowl.
-        #.timeline-footer
-          #%a.btn.btn-primary.btn-xs Read more
-          #%a.btn.btn-primary.btn-xs Post a comment
-    #/ END timeline item
-    #/ timeline item
-    #%li
-      #%i.fa.fa-check-square-o.bg-yellow
-      #.timeline-item
-        #%span.time
-          #%i.fa.fa-clock-o
-          #8:55am
-        #%h3.timeline-header.no-border
-          #You checked into
-          #= succeed "." do
-            #%a{href: "#"} The Studio
-    #/ END timeline item
-    #/ timeline time label
-    #%li.time-label
-      #%span.bg-green
-        #3 Jan. 2014
-    #/ /.timeline-label
-    #/ timeline item
-    #%li
-      #%i.fa.fa-camera.bg-purple
-      #.timeline-item
-        #%span.time
-          #%i.fa.fa-clock-o
-          #3:09pm
-        #%h3.timeline-header
-          #%a{href: "#"} Mina Lee
-          #uploaded new photos
-        #.timeline-body
-          #%img.margin{alt: "...", src: "http://placehold.it/150x100"}
-          #%img.margin{alt: "...", src: "http://placehold.it/150x100"}
-          #%img.margin{alt: "...", src: "http://placehold.it/150x100"}
-          #%img.margin{alt: "...", src: "http://placehold.it/150x100"}
-
-  def controller
-    params[:controller]
   end
 
 end

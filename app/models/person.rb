@@ -101,6 +101,7 @@ class Person < ActiveRecord::Base
 
   def update_stream_item
     return unless stream_item
+    stream_item.title = name
     stream_item.shared = visible?
     stream_item.save!
   end

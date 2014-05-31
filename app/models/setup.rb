@@ -15,6 +15,7 @@ class Setup
       end
       if update_person!
         update_admin_settings!
+        update_stream_item!
         true
       else
         raise ActiveRecord::Rollback
@@ -62,6 +63,10 @@ class Setup
   def update_admin_settings!
     Setting.set_global('Contact', 'Bug Notification Email', @person.email)
     Setting.set_global('Contact', 'Tech Support Email', @person.email)
+  end
+
+  def update_stream_item!
+    Site.current.update_stream_item(@person)
   end
 
 end

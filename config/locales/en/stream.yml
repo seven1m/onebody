@@ -8,20 +8,23 @@ en:
 
     header:
       noone: "system"
-      message: "sent a message to %{group}"
-      news: "posted news"
-      note: "posted a note"
-      person: "was added to the community"
+      message: "%{who} sent a message to %{group}"
+      news: "%{who} posted news"
+      note: "%{who} posted a note"
+      person: "%{who} was added to the community"
       picture:
-        one: "shared a picture in %{album}"
-        other: "shared some pictures in %{album}"
-      verse: "shared %{ref}"
+        one: "%{who} shared a picture in %{album}"
+        other: "%{who} shared some pictures in %{album}"
+      site: "%{site}"
+      verse: "%{who} shared %{ref}"
 
     body:
       picture:
         alt: "click to enlarge"
       person:
         button: "Send %{person} a welcome message!"
+      site:
+        description: "Community site for %{site} was created!"
 
     footer:
       button_label:
@@ -29,6 +32,7 @@ en:
         note: "Read more"
         verse: "Read more"
         person: ""
+        site: ""
 
     load_more: "load more..."
 

@@ -12,6 +12,8 @@ class Site < ActiveRecord::Base
 
   Site.sub_tables.each { |n| has_many n.to_sym, dependent: :delete_all }
 
+  has_one :stream_item, as: :streamable
+
   cattr_accessor :current
 
   validates_presence_of :name, :host
@@ -32,7 +34,24 @@ class Site < ActiveRecord::Base
     },
     default_url:   "/images/missing_:style.png"
 
+  after_create :create_as_stream_item
 
+  def create_as_stream_item
+    StreamItem.create!(
+      title: Setting.get(:name, :community),
+      person_id: nil,
+      streamable_type: 'Site',
+      streamable_id: id,
+      created_at: created_at,
+      shared: true
+    )
+  end
+
+  def update_stream_item(person)
+    return unless stream_item
+    stream_item.person = person
+    stream_item.save!
+  end
 
   def default?
     id == 1

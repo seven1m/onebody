@@ -20,7 +20,7 @@ class StreamItem < ActiveRecord::Base
       .where(shared: true) \
       .where("(group_id is not null or streamable_type != 'Message')")
       .where(
-        "(group_id in (:group_ids) or (group_id is null and person_id in (:friend_ids)) or person_id = :id or streamable_type = 'NewsItem' or streamable_type = 'Person')",
+        "(group_id in (:group_ids) or (group_id is null and person_id in (:friend_ids)) or person_id = :id or streamable_type = 'NewsItem' or (streamable_type in ('Site', 'Person')))",
         group_ids:  person.groups.active.pluck(:id),
         friend_ids: person.sharing_with_people.pluck(:id),
         id:         person.id
@@ -36,6 +36,7 @@ class StreamItem < ActiveRecord::Base
       types << 'Note'     if Setting.get(:features, :notes)
       types << 'Person'
       types << 'PrayerRequest'
+      types << 'Site'
     end
   end
 end
