@@ -84,4 +84,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
 
   config.vm.provision :shell, inline: $setup
+
+  # apply local customizations
+  custom_file = File.expand_path("../Vagrantfile.local", __FILE__)
+  eval(File.read(custom_file)) if File.exists?(custom_file)
+
+  # ...for example, you can give your box more ram by adding this to your Vagrantfile.local:
+  #config.vm.provider :virtualbox do |vb|
+  #  vb.customize ["modifyvm", :id, "--memory", "2048"]
+  #end
 end
