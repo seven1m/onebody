@@ -1,14 +1,14 @@
-%p
-  = t("search.people_found", count: @search.count)
-  - if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil?
-    = t("search.not_showing_hidden_people")
-
 - if @family
   .box.box-warning
     .box-header
       %h3.box-title= t('people.move.heading', family: @family.name)
     .box-body
       = t('people.move.description_html', family: @family.name, url: url_for(@family))
+
+%p
+  = t("search.people_found", count: @search.count)
+  - if @logged_in.admin?(:view_hidden_profiles) and params[:show_hidden].nil?
+    = t("search.not_showing_hidden_people")
 
 = pagination @people, params: params_without_action
 
