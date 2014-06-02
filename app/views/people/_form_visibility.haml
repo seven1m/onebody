@@ -1,9 +1,6 @@
 - unless @person.adult_or_consent?
   %em= t('people.this_person_is_not_an_adult', years: Setting.get(:system, :adult_age))
   %br/
-%span.help-block
-  - if @person.can_sign_in? and !@person.new_record?
-    = link_to t('people.click_to_send_verification_email'), account_path(email: @person.email), method: 'post', data: { confirm: t('are_you_sure') }, class: 'email-icon'
 = content_tag :div, style: @person.adult_or_consent? ? nil : 'text-decoration:line-through;' do
   .form-group
     = form.check_box :can_sign_in
@@ -17,6 +14,9 @@
   .form-group
     = form.check_box :full_access
     = form.label :full_access,                  t('people.full_access'),                  class: 'inline'
+  - if @person.can_sign_in? and !@person.new_record?
+    .form-group
+      = render partial: 'admin_send_verification_button'
 - if Setting.get(:features, :edit_legacy_ids)
   .box.box-info
     .box-header

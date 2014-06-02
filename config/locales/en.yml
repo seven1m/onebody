@@ -106,6 +106,10 @@ en:
         link_code: "External Link Code"
         parents_of: "Link to parents of another group"
         hidden: "Hidden (Archived) Group"
+      person:
+        email: "Email"
+        first_name: "First Name"
+        last_name: "Last Name"
       prayer_request:
         answer: "Answer"
         answered_at: "Date Answered"

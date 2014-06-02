@@ -2,7 +2,7 @@ en:
   notifier:
     attached_your_custom_directory: Hello, %{name}. Attached is your custom printed directory from %{site}.
     be_sure_to_send_verification_email: Be sure to also click to "send verification email" to the user.
-    check_boxes_in_visibility_sidebar: Check all the appropriate boxes in the "Visibility" sidebar and save.
+    check_boxes_in_visibility_sidebar: Check all the appropriate boxes in the "Visibility" tab and save.
     click_link_to_complete_process: "Click the following link to complete the process: %{url}"
     has_submited_profile_update: has submitted a profile update
     if_you_cannot_click_link: If you cannot click the link above, you may need to copy and paste it into the address bar of your web browser.

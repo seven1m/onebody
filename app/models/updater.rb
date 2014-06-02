@@ -124,6 +124,10 @@ class Updater
     @family ||= person.family
   end
 
+  def show_verification_link?
+    changes[:person].try(:[], :can_sign_in) and person.can_sign_in?
+  end
+
   private
 
   # params that should update the model directly without approval

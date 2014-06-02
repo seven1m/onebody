@@ -12,6 +12,10 @@ en:
     forgot:
       heading: "Recover Account"
 
+    verification:
+      email:
+        via_admin: "A verification email has been sent to this user."
+
     birthday: "Birthday"
     call_office: "Call %{phone}"
     call_office_message: "Call the office during business hours."
