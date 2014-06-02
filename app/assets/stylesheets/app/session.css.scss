@@ -1,3 +1,12 @@
-.form-box .alert {
-  margin-left: 0;
+.form-box {
+  margin: 90px auto 80px auto;
+  .alert {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .form-box {
+    margin-top: 20px;
+  }
 }
