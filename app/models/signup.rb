@@ -82,6 +82,7 @@ class Signup
       last_name: last_name,
       birthday: birthday,
       gender: gender,
+      mobile_phone: mobile_phone,
       can_sign_in: full_access?,
       full_access: full_access?,
       visible_to_everyone: full_access?,

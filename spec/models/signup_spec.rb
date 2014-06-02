@@ -147,6 +147,7 @@ describe Signup do
         end
       end
     end
+
     context 'honeypot field contains text' do
       before do
         @signup = Signup.new(a_phone_number: '1234567890')
@@ -223,6 +224,10 @@ describe Signup do
 
               it 'should have a birthday' do
                 expect(@person.birthday).to eq(Date.new(1980, 1, 1))
+              end
+
+              it 'should have a mobile phone' do
+                expect(@person.mobile_phone).to eq('1234567890')
               end
 
               it 'should be able to sign in' do
