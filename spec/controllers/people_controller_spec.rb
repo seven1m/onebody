@@ -148,13 +148,6 @@ describe PeopleController do
     expect(response).to be_success
   end
 
-  it "should show business listing" do
-    @person.update_attributes!(business_name: 'Tim Morgan Enterprises')
-    get :show, {id: @person.id, business: true}, {logged_in_id: @person.id}
-    expect(response).to be_success
-    assert_select 'body', /Tim Morgan Enterprises/
-  end
-
   it "should not allow deletion of a global super admin" do
      @super_admin = FactoryGirl.create(:person, admin: Admin.create(super_admin: true))
      @global_super_admin = FactoryGirl.create(:person, email: 'support@example.com')
@@ -176,5 +169,31 @@ describe PeopleController do
     end
     expect(response).to be_success
     assert_select 'div.callout', I18n.t('people.no_family_for_this_person')
+  end
+
+  describe '#show' do
+    context '?business=true' do
+      context 'person has a business' do
+        before do
+          @person.business_name = 'Tim Morgan Enterprises'
+          @person.save!
+          get :show, { id: @person.id, business: true }, { logged_in_id: @person.id }
+        end
+
+        it 'shows the business template' do
+          expect(response).to render_template('business')
+        end
+      end
+
+      context 'person does not have a business' do
+        before do
+          get :show, { id: @person.id, business: true }, { logged_in_id: @person.id }
+        end
+
+        it 'renders the profile' do
+          expect(response).to render_template('show')
+        end
+      end
+    end
   end
 end

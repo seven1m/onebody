@@ -6,12 +6,12 @@
     %li
       = link_to t('people.edit.about'), '#about',      data: { toggle: 'tab' }
     %li
-      = link_to t('people.business'),   '#business',   data: { toggle: 'tab' }
+      = link_to t('people.edit.business'),   '#business',   data: { toggle: 'tab' }
     - if @logged_in.admin?(:edit_profiles)
       %li
-        = link_to t('people.person_type'), '#roles',     data: { toggle: 'tab' }
+        = link_to t('people.edit.person_type'), '#roles',     data: { toggle: 'tab' }
       %li
-        = link_to t('people.visibility'), '#visibility', data: { toggle: 'tab' }
+        = link_to t('people.edit.visibility'), '#visibility', data: { toggle: 'tab' }
 
   .tab-content
     .tab-pane.active#basics

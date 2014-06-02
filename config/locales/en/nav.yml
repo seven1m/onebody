@@ -8,6 +8,7 @@ en:
       business: "Business Directory"
       printed: "Printed Directory"
       advanced: "Advanced Search"
+    business_profile: "Business"
     profile: "Profile"
     profile_sub:
       edit: "Edit Profile"

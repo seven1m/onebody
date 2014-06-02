@@ -33,6 +33,12 @@ module ApplicationHelper
     text.gsub(/(\n\s*){3,}/, "\n\n")
   end
 
+  def format_text(text)
+    text = auto_link(text)
+    text = remove_excess_breaks(text).html_safe
+    preserve_breaks(text, false)
+  end
+
   def simple_url(url)
     url.sub(/^https?:\/\//, '').sub(/\/$/, '')
   end

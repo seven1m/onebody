@@ -1,0 +1,27 @@
+- @title = @person.business_name.presence || @person.name
+
+.row
+  .col-md-3
+    %p= avatar_tag @person, size: :large
+    %p= t('people.business.services_provided_by', person: link_to(@person.name, @person)).html_safe
+
+  .col-md-9
+    %p
+      = format_text @person.business_description
+    %table.table
+      - if @person.business_phone.present?
+        %tr
+          %td= t('people.business.phone')
+          %td= format_phone @person.business_phone
+      - if @person.business_email.present?
+        %tr
+          %td= t('people.business.email')
+          %td= mail_to @person.business_email
+      - if @person.business_website.present?
+        %tr
+          %td= t('people.business.website')
+          %td= link_to simple_url(@person.business_website), @person.business_website
+      - if @person.business_address.present?
+        %tr
+          %td= t('people.business.address')
+          %td= preserve_breaks @person.business_address

@@ -39,7 +39,7 @@ class PeopleController < ApplicationController
       @verses = @person.verses.order(:book, :chapter, :verse)
       @groups = @person.groups.limit(3).order("(select created_at from stream_items where group_id=groups.id order by created_at desc limit 1) desc")
       @stream_items = StreamItem.shared_with(@logged_in).where(person_id: @person.id).paginate(page: params[:timeline_page], per_page: 5)
-      if params[:business]
+      if params[:business] and @person.business_name.present?
         render action: 'business'
       else
         respond_to do |format|

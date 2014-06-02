@@ -61,7 +61,10 @@ module NavHelper
   def crumbs
     [].tap do |crumbs|
       crumbs << ['fa fa-home', t('nav.home'), root_path]
-      if params[:controller] == 'people' and @person
+      if params[:controller] == 'people' and params[:action] == 'show' and params[:business]
+        crumbs << ['fa fa-archive', t('nav.directory_sub.business'), search_path(business: true)]
+        crumbs << ['fa fa-briefcase', t('nav.business_profile')]
+      elsif params[:controller] == 'people' and @person
         crumbs << ['fa fa-archive', t('nav.directory'), search_path]
         crumbs << ['fa fa-user', t('nav.profile')]
       elsif params[:controller] == 'pages'
@@ -81,7 +84,7 @@ module NavHelper
     when 'streams'
       :home
     when *%w(people accounts privacies relationships)
-      :profile if @person.persisted? and (me? or @logged_in.can_edit?(@person))
+      :profile if @person.try(:persisted?) and (me? or @logged_in.can_edit?(@person))
     when 'groups'
       :groups
     when *%w(searches printable_directories)
