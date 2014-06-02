@@ -196,4 +196,36 @@ describe PeopleController do
       end
     end
   end
+
+  describe '#update' do
+    context 'given a id and a family_id and the param move_person' do
+      before do
+        @admin = FactoryGirl.create(:person, :admin_edit_profiles)
+        @old_family = @person.family
+        @other_family = FactoryGirl.create(:family)
+        post :update,
+          {
+            id: @person.id,
+            family_id: @other_family.id,
+            move_person: true
+          },
+          {
+            logged_in_id: @admin.id
+          }
+      end
+
+      it 'moves the person to the family' do
+        expect(@other_family.people.reload).to include(@person)
+        expect(@old_family.people.reload).to_not include(@person)
+      end
+
+      it 'redirects to the new family' do
+        expect(response).to redirect_to(@other_family)
+      end
+
+      it 'sets a flash message' do
+        expect(flash[:info]).to eq(I18n.t('people.move.success_message', person: @person.name, family: @other_family.name))
+      end
+    end
+  end
 end

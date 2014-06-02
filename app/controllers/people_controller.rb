@@ -66,13 +66,7 @@ class PeopleController < ApplicationController
   end
 
   def create
-    if params[:family_id] and @logged_in.admin?(:edit_profiles)
-      @family = Family.find(params[:family_id])
-      @person = Person.find(params[:person_id])
-      @family.people << @person
-      flash[:info] = t('people.move.success_message', person: @person.name, family: @family.name)
-      redirect_to @family
-    elsif @logged_in.admin?(:edit_profiles)
+    if @logged_in.admin?(:edit_profiles)
       @business_categories = Person.business_categories
       @custom_types = Person.custom_types
       params[:person].cleanse(:birthday, :anniversary)
@@ -110,7 +104,12 @@ class PeopleController < ApplicationController
 
   def update
     @person = Person.find(params[:id])
-    if @logged_in.can_edit?(@person)
+    if params[:move_person] and params[:family_id] and @logged_in.admin?(:edit_profiles)
+      @family = Family.find(params[:family_id])
+      @family.people << @person
+      flash[:info] = t('people.move.success_message', person: @person.name, family: @family.name)
+      redirect_to @family
+    elsif @logged_in.can_edit?(@person)
       @updater = Updater.new(params)
       if @updater.save!
         respond_to do |format|
@@ -142,7 +141,7 @@ class PeopleController < ApplicationController
         redirect_to @person.family
       end
     else
-     render text: t('not_authorized'), layout: true, status: 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 

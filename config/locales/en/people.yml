@@ -29,7 +29,7 @@ en:
     move:
       heading: "Add to %{family} family"
       description_html: "Find someone to add to the <a href='%{url}'>%{family}</a> family, then click the Add button..."
-      add_button: "Add to Family"
+      button: "Move to Family"
       success_message: "%{person} has been added to the %{family} family."
 
     roles:

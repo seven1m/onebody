@@ -62,8 +62,8 @@
         - if @family
           %td
             - unless @family.people.include?(person)
-              = link_to family_people_path(@family, person_id: person.id), data: { method: 'post', confirm: t('are_you_sure') }, class: 'btn btn-success btn-xs' do
-                = icon 'fa fa-plus-circle'
-                = t('people.move.add_button')
+              = link_to family_person_path(@family, @person, move_person: true), data: { method: 'put', confirm: t('are_you_sure') }, class: 'btn btn-warning btn-xs' do
+                = icon 'fa fa-arrow-circle-left'
+                = t('people.move.button')
 
 = pagination @people, params: params_without_action
