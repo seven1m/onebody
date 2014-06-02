@@ -20,7 +20,7 @@
       // prevent js links from firing before the rest of the js is loaded
       window.event_queue = [];
       document.addEventListener('click', function(e) {
-        if (e.target.getAttribute('href') == '#') {
+        if (e.target.getAttribute('href') == '#' || e.target.getAttribute('data-toggle') == 'tab') {
           e.preventDefault();
           event_queue.push(e);
         }
