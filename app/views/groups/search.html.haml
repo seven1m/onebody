@@ -35,14 +35,8 @@
 
   - if @logged_in.admin?(:manage_groups) and @groups.detect { |g| g.hidden? }
     %p
-      = link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'btn btn-danger'
+      = link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'btn btn-warning'
 
 - else
   %p
     %em= t('groups.no_groups_found')
-- if @logged_in.admin?(:manage_groups) and @hidden_groups.any?
-  %h3= t('groups.hidden_groups.heading')
-  %p
-    = t('groups.hidden_groups.description')
-  %p
-    = @hidden_groups.map { |g| link_to(g.name, g) }.join(', ')

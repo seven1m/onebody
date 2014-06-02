@@ -15,14 +15,12 @@ class GroupsController < ApplicationController
     # /groups?name=college
     elsif params[:category] or params[:name]
       @categories = Group.category_names
-      conditions = []
-      conditions.add_condition ['hidden = ? and approved = ?', false, true] unless @logged_in.admin?(:manage_groups)
-      conditions.add_condition ['category = ?', params[:category]] if params[:category]
-      conditions.add_condition ['name like ?', '%' + params[:name] + '%'] if params[:name]
-      @groups = Group.where(conditions).order('name')
-      conditions_for_hidden = conditions.dup
-      conditions_for_hidden[1] = true # only hidden groups
-      @hidden_groups = Group.where(conditions_for_hidden).order('name')
+      @groups = Group.all
+      @groups.where!(hidden: false, approved: true) unless @logged_in.admin?(:manage_groups)
+      @groups.where!(category: params[:category]) if params[:category].present?
+      @groups.where!('name like ?', "%#{params[:name]}%") if params[:name].present?
+      @groups.order!(:name)
+      @hidden_groups = @groups.where(hidden: true)
       respond_to do |format|
         format.html { render action: 'search' }
         format.js
