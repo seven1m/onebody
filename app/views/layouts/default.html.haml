@@ -11,10 +11,7 @@
     = stylesheet_link_tag 'application'
     = yield(:css)
     = csrf_meta_tags
-    %link{ href: '/apple-touch-icon-152x152.png', rel: 'apple-touch-icon', sizes: '152x152' }
-    %link{ href: '/favicon-196x196.png', rel: 'icon', sizes: '196x196', type: 'image/png' }
-    %link{ href: '/favicon-16x16.png', rel: 'icon', sizes: '16x16', type: 'image/png' }
-    %link{ href: '/favicon-32x32.png', rel: 'icon', sizes: '32x32', type: 'image/png' }
+    = render partial: 'layouts/favicons'
     %link{ href: "//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,300italic,400italic,600italic|Abel", rel: "stylesheet" }
     /[if lt IE 9]
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
