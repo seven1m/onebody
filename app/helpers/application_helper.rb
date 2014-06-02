@@ -167,16 +167,7 @@ module ApplicationHelper
   end
 
   def truncate_words(text, options={})
-    options.reverse_merge!(length: 100, separator: '…')
-    words = ''
-    text.split(' ').each do |word|
-      if words.size + word.size >= options[:length]
-        return words.chomp(' ') + options[:separator]
-      else
-        words << word + ' '
-      end
-    end
-    words
+    truncate(text, options.reverse_merge(separator: ' ', omission: '…'))
   end
 
   # TODO reevaluate with Rails 4.1
