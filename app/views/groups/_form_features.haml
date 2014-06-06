@@ -1,0 +1,27 @@
+.form-group
+  = form.check_box :email, class: 'checkbox', data: { toggle: '#group_address_field' }
+  = form.label :email, class: 'inline'
+.form-group#group_address_field{ style: 'display:none' }
+  .input-group
+    = form.text_field :address, size: 15, class: 'form-control'
+    %span.input-group-addon
+      @#{Site.current.host}
+  %span.help-block
+    = t('groups.edit.address.help')
+.form-group
+  = form.check_box :prayer, class: 'checkbox'
+  = form.label :prayer, class: 'inline'
+.form-group
+  = form.check_box :pictures, class: 'checkbox'
+  = form.label :pictures, class: 'inline'
+.form-group
+  = form.check_box :attendance, class: 'checkbox'
+  = form.label :attendance, class: 'inline'
+.form-group
+  = check_box_tag :calendar, nil, @group.gcal_private_link.to_s.any?, class: 'checkbox', data: { toggle: '#group_calendar_field' }
+  = label_tag :calendar, t('groups.edit.enable_calendar'), class: 'inline'
+.form-group#group_calendar_field
+  = form.label :gcal_private_link
+  = form.text_field :gcal_private_link, size: 50, class: 'form-control'
+  %span.help-block
+    = t('groups.edit.calendar.help')

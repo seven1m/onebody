@@ -111,6 +111,27 @@ en:
         birthday: Birthday
         anniversary: Anniversary
         custom_type: Custom Role
+      group:
+        name: "Name"
+        category: "Category"
+        description: "Description"
+        other_notes: "Other Notes"
+        leader_id: "Leader"
+        creator: "Creator"
+        meets: "Meets When"
+        location: "Location and Address"
+        direction: "Direction"
+        email: "Incoming Email"
+        prayer: "Prayer Requests"
+        pictures: "Picture Sharing"
+        attendance: "Attendance Tracking"
+        gcal_private_link: "Google Calendar Private Link"
+        approval_required_to_join: "Approval required for people to join group"
+        private: "Private Group"
+        members_send: "Group Members Can Post Messages"
+        link_code: "External Link Code"
+        parents_of: "Link to parents of another group"
+        hidden: "Hidden (Archived) Group"
     errors: 
       models: 
         admin: 

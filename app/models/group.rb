@@ -28,6 +28,7 @@ class Group < ActiveRecord::Base
   scope :linked, -> { where("link_code is not null and link_code != ''") }
   scope :parents_of, -> { where("parents_of is not null") }
   scope :checkin_destinations, -> { includes(:group_times).where('group_times.checkin_time_id is not null').order('group_times.ordering') }
+  scope :recent, -> age { where("created_at >= ?", age.ago) }
 
   scope_by_site_id
 
@@ -61,10 +62,6 @@ class Group < ActiveRecord::Base
 
   def inspect
     "<#{name}>"
-  end
-
-  def self.can_create?
-    Site.current.max_groups.nil? or Group.active.count < Site.current.max_groups
   end
 
   def admin?(person, exclude_global_admins=false)

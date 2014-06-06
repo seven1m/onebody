@@ -72,7 +72,7 @@ class GroupsController < ApplicationController
     @can_share = @group.can_share?(@logged_in)
     @albums = @group.albums.order('name')
     unless @group.approved? or @group.admin?(@logged_in)
-      render text: t('groups.this_group_is_pending_approval'), layout: true
+      render text: t('groups.pending_approval'), layout: true
       return
     end
     unless @logged_in.can_see?(@group)
@@ -82,36 +82,26 @@ class GroupsController < ApplicationController
   end
 
   def new
-    if Group.can_create?
-      @group = Group.new(creator_id: @logged_in.id)
-      @categories = Group.categories.keys
-    else
-      render text: t('groups.no_more'), layout: true, status: 401
-    end
+    @group = Group.new(creator_id: @logged_in.id)
+    @categories = Group.categories.keys
   end
 
   def create
-    if Group.can_create?
-      photo = params[:group].delete(:photo)
-      params[:group].cleanse 'address'
-      @group = Group.new(group_params)
-      @group.creator = @logged_in
-      @group.photo = photo
-      if @group.save
-        if @logged_in.admin?(:manage_groups)
-          @group.update_attribute(:approved, true)
-          flash[:notice] = t('groups.created')
-        else
-          @group.memberships.create(person: @logged_in, admin: true)
-          flash[:notice] = t('groups.created_pending_approval')
-        end
-        redirect_to @group
+    params[:group].cleanse 'address'
+    @group = Group.new(group_params)
+    @group.creator = @logged_in
+    if @group.save
+      if @logged_in.admin?(:manage_groups)
+        @group.update_attribute(:approved, true)
+        flash[:notice] = t('groups.created')
       else
-        @categories = Group.categories.keys
-        render action: 'new'
+        @group.memberships.create(person: @logged_in, admin: true)
+        flash[:notice] = t('groups.created_pending_approval')
       end
+      redirect_to @group
     else
-      render text: t('groups.no_more'), layout: true, status: 401
+      @categories = Group.categories.keys
+      render action: 'new'
     end
   end
 
@@ -131,7 +121,7 @@ class GroupsController < ApplicationController
       params[:group][:photo] = nil if params[:group][:photo] == 'remove'
       params[:group].cleanse 'address'
       if @group.update_attributes(group_params)
-        flash[:notice] = t('groups.settings_saved')
+        flash[:notice] = t('groups.saved')
         redirect_to @group
       else
         edit; render action: 'edit'
@@ -188,7 +178,7 @@ class GroupsController < ApplicationController
   end
 
   def feature_enabled?
-    unless Setting.get(:features, :groups) and (Site.current.max_groups.nil? or Site.current.max_groups > 0)
+    unless Setting.get(:features, :groups)
       redirect_to people_path
       false
     end

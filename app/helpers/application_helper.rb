@@ -20,7 +20,7 @@ module ApplicationHelper
 
   def flash_messages
     flash.map do |key, value|
-      content_tag(:div, value, class: flash_class(key))
+      content_tag(:div, preserve_breaks(value), class: flash_class(key))
     end.join.html_safe
   end
 
@@ -96,10 +96,21 @@ module ApplicationHelper
       content_tag(:div, class: 'callout callout-danger form-errors') do
         content_tag(:h4, t('There_were_errors')) +
         content_tag(:ul, class: 'list') do
-          obj.errors.map do |attribute, message|
+          uniq_errors(obj).map do |attribute, message|
             content_tag(:li, message, data: { attribute: "#{obj.class.name.underscore}_#{attribute}" })
           end.join.html_safe
         end
+      end
+    end
+  end
+
+  def uniq_errors(object)
+    # note: uniq doesn't work here since it isn't really an array
+    seen = []
+    object.errors.select do |attr, message|
+      unless seen.include?(message)
+        seen << message
+        message
       end
     end
   end

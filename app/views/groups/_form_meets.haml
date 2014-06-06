@@ -1,0 +1,17 @@
+.form-group
+  = form.label :meets
+  = form.text_field :meets, class: 'form-control'
+  %span.help-block
+    = t('groups.edit.meets.help')
+.form-group
+  = form.label :location
+  = form.text_area :location, rows: 3, class: 'form-control'
+  - if Setting.get(:services, :yahoo)
+    %span.help-block
+      = t('groups.edit.location.help')
+  #map-preview
+.form-group
+  = form.label :directions
+  = form.text_area :directions, rows: 3, class: 'form-control'
+  %span.help-block
+    = t('groups.edit.directions.help')

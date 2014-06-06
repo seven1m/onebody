@@ -108,6 +108,18 @@
                   %i.fa.fa-group
                   %span= t('nav.groups')
                   = new_group_badge
+                  %i.fa.pull-right{class: tab_selected?(:groups) ? 'fa-angle-down' : 'fa-angle-left'}
+                - if tab_selected?(:groups) and @group and @logged_in.can_edit?(@group)
+                  %ul.treeview-menu.visible
+                    - if @group.persisted?
+                      %li
+                        = link_to edit_group_path(@group) do
+                          = icon 'fa fa-pencil'
+                          = t('nav.groups_sub.edit')
+                    %li
+                      = link_to new_group_path do
+                        = icon 'fa fa-plus'
+                        = t('nav.groups_sub.new')
             %li{class: tab_selected?(:directory) ? 'active' : ''}
               = link_to search_path do
                 %i.fa.fa-archive

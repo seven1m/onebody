@@ -75,6 +75,8 @@ module NavHelper
         crumbs << ['fa fa-bullhorn', t('news.heading'), news_path]
       elsif params[:controller] == 'verses' and params[:action] != 'index'
         crumbs << ['fa fa-book', t('verses.heading'), verses_path]
+      elsif params[:controller] == 'groups' and params[:action] != 'index'
+        crumbs << ['fa fa-group', t('groups.heading'), groups_path]
       end
     end
   end

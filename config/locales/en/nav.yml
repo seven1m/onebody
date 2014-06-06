@@ -17,4 +17,10 @@ en:
       privacy: "Privacy"
       relationships: "Relationships"
     groups: "Groups"
+    groups_sub:
+      edit: "Edit Group"
+      new: "New Group"
+      new_count:
+        one: "1 new"
+        other: "%{count} new"
     admin: "Admin Panel"

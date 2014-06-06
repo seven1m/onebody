@@ -4,4 +4,12 @@
 #= require bootstrap
 #= require admin_lte
 #= require spin
-#= require_tree app
+#= require_tree ./app
+
+$('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
+  elm = $(elm)
+  toggle = (show) -> $(elm.data('toggle')).toggle(show)
+  if elm.is(':checkbox')
+    elm.on 'change, ifToggled', (e) ->
+      toggle(elm.is(':checked'))
+    toggle(elm.is(':checked'))
