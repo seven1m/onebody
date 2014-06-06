@@ -109,8 +109,8 @@ class StreamItemDecorator < Draper::Decorator
 
   def path
     case streamable_type
-    when 'Album', 'Note', 'Message', 'Person', 'NewsItem', 'Verse'
-      h.send(streamable_type.downcase + '_path', streamable_id)
+    when 'Album', 'Note', 'Message', 'Person', 'Verse', 'NewsItem'
+      h.send(streamable_type.underscore + '_path', streamable_id)
     when 'Site'
       ''
     # when 'PrayerRequest'
