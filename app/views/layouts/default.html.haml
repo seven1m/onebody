@@ -102,11 +102,12 @@
                       = link_to person_relationships_path(@person) do
                         = icon 'fa fa-link'
                         = t('nav.profile_sub.relationships')
-            %li{class: tab_selected?(:groups) ? 'active' : ''}
-              = link_to groups_path do
-                %i.fa.fa-group
-                %span= t('nav.groups')
-                %small.badge.pull-right.bg-green 2 new
+            - if setting(:features, :groups)
+              %li{class: tab_selected?(:groups) ? 'active' : ''}
+                = link_to groups_path do
+                  %i.fa.fa-group
+                  %span= t('nav.groups')
+                  = new_group_badge
             %li{class: tab_selected?(:directory) ? 'active' : ''}
               = link_to search_path do
                 %i.fa.fa-archive

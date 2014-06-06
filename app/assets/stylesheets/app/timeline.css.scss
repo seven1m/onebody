@@ -1,0 +1,11 @@
+.timeline-load-more {
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-pic {
+  @extend .img-thumbnail;
+  margin: 0 10px 10px 0;
+  &.small  { height: 75px;  }
+  &.medium { max-height: 250px; }
+}

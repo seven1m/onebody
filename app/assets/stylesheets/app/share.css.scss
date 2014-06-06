@@ -1,0 +1,14 @@
+.stream .buttons {
+  @extend .well;
+  padding: 10px;
+  background-color: #eee;
+  border-radius: 3px;
+  margin-bottom: 0;
+  .btn {
+    margin-bottom: 3px;
+  }
+}
+
+.dropdown-toggle.bg-teal {
+  border-left: 1px solid #27b1b2;
+}

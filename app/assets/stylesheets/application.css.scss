@@ -3,6 +3,8 @@
 @import "ionicons";
 @import "admin_lte";
 
+//= require_tree app
+
 // global //
 
 .half {
@@ -115,14 +117,14 @@ th.actions, td.actions {
   }
 }
 
+.push-down {
+  margin-top: 25px;
+}
+
 // layout //
 
 .content-header .breadcrumb {
   margin-bottom: 10px;
-}
-
-.push-down {
-  margin-top: 25px;
 }
 
 .centered-header .header {
@@ -133,133 +135,5 @@ th.actions, td.actions {
     float: none;
     width: auto;
     text-align: center;
-  }
-}
-
-// sidebar //
-
-.user-panel > .image img {
-  width: 45px;
-  height: 45px;
-}
-
-.sidebar .sidebar-menu .treeview-menu.visible {
-  display: block;
-  li a {
-    margin-left: 22px;
-  }
-}
-
-// session //
-
-.form-box .alert {
-  margin-left: 0;
-}
-
-// profile //
-
-@media (max-width: 570px) {
-  .profile .col-xs-6 {
-    left: 0;
-    width: auto;
-  }
-}
-
-img.avatar {
-  &.tn     { width: 35px;  }
-  &.small  { width: 75px;  }
-  &.medium { width: 250px; }
-}
-
-.profile-controls {
-  @extend .well;
-  padding-bottom: 10px;
-  .btn {
-    @extend .bg-light-blue;
-    margin: 0 10px 10px 0;
-  }
-}
-
-.testimony .box-title a {
-  color: white !important;
-}
-
-.friends-alert {
-  @extend .callout;
-  @extend .callout-info;
-  .btn {
-    @extend .btn-info;
-    @extend .btn-xs;
-  }
-}
-
-// timeline //
-
-.timeline-load-more {
-  position: relative;
-  z-index: 2;
-}
-
-.timeline-pic {
-  @extend .img-thumbnail;
-  margin: 0 10px 10px 0;
-  &.small  { height: 75px;  }
-  &.medium { max-height: 250px; }
-}
-
-// share //
-
-.stream .buttons {
-  @extend .well;
-  padding: 10px;
-  background-color: #eee;
-  border-radius: 3px;
-  margin-bottom: 0;
-  .btn {
-    margin-bottom: 3px;
-  }
-}
-
-.dropdown-toggle.bg-teal {
-  border-left: 1px solid #27b1b2;
-}
-
-// groups //
-
-.group-list {
-  td .info {
-    font-style: none;
-    color: gray;
-  }
-  .hidden-group {
-    display: none;
-  }
-  tr.description td {
-    border-top: none;
-    padding-top: 0;
-  }
-  .label {
-    margin-right: 5px;
-  }
-}
-
-.group.error {
-  td {
-    background-color: #fcc;
-  }
-}
-
-// verses //
-
-.passage {
-  font-size: 1.6em;
-  &.big {
-    font-size: 2.4em;
-  }
-}
-
-.people-list {
-  td, th {
-    padding: 0 10px 10px 0;
   }
 }

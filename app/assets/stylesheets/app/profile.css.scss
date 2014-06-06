@@ -1,0 +1,34 @@
+@media (max-width: 570px) {
+  .profile .col-xs-6 {
+    left: 0;
+    width: auto;
+  }
+}
+
+img.avatar {
+  &.tn     { width: 35px;  }
+  &.small  { width: 75px;  }
+  &.medium { width: 250px; }
+}
+
+.profile-controls {
+  @extend .well;
+  padding-bottom: 10px;
+  .btn {
+    @extend .bg-light-blue;
+    margin: 0 10px 10px 0;
+  }
+}
+
+.testimony .box-title a {
+  color: white !important;
+}
+
+.friends-alert {
+  @extend .callout;
+  @extend .callout-info;
+  .btn {
+    @extend .btn-info;
+    @extend .btn-xs;
+  }
+}

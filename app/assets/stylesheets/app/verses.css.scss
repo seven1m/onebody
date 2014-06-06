@@ -1,0 +1,12 @@
+.passage {
+  font-size: 1.6em;
+  &.big {
+    font-size: 2.4em;
+  }
+}
+
+.people-list {
+  td, th {
+    padding: 0 10px 10px 0;
+  }
+}
