@@ -3,62 +3,18 @@
 @import "ionicons";
 @import "admin_lte";
 
-//= require_tree app
-
-// global //
-
-.half {
-  @extend .col-md-6
-}
+@import "app/*";
 
 img.img-full {
   width: 100%;
-}
-
-tr.row-with-avatar {
-  td, th {
-    line-height: 2.3 !important;
-    p {
-      line-height: 1.8 !important;
-    }
-  }
-}
-
-th.avatar, td.avatar {
-  width: 35px;
 }
 
 th.actions, td.actions {
   text-align: right;
 }
 
-.tab-pane {
-  border: 1px solid #ddd;
-  border-top-width: 0;
-  border-radius: 0 0 5px 5px;
-  padding: 15px;
-  background: white;
-}
-
 .text-gray {
   color: #ccc;
-}
-
-.toggle {
-  @extend .btn-group;
-}
-
-.toggle-enabled {
-  @extend .btn;
-  @extend .btn-info;
-  @extend .bg-gray;
-  @extend .text-aqua;
-}
-
-.toggle-disabled {
-  @extend .btn;
-  @extend .btn-info;
-  @extend .disabled;
 }
 
 .input-huge {
@@ -74,66 +30,6 @@ th.actions, td.actions {
   color: #333;
 }
 
-// tags //
-
-.tags {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  li {
-    display: inline-block;
-    margin: 0 5px 5px 0;
-    a {
-      display: inline-block;
-      margin: 0;
-      padding: 3px;
-      @extend .bg-aqua;
-      border-radius: 3px 0 0 3px;
-      color: white;
-    }
-    a.delete {
-      border-radius: 0 3px 3px 0;
-      background-color: #bbb !important;
-    }
-    a.delete:hover {
-      @extend .bg-red;
-    }
-  }
-}
-
-.tag-cloud a {
-  display: inline-block;
-  &.size1 {
-    font-size: 80%;
-  }
-  &.size2 {
-    font-size: 100%;
-  }
-  &.size3 {
-    font-size: 150%;
-  }
-  &.size4 {
-    font-size: 200%;
-  }
-}
-
 .push-down {
   margin-top: 25px;
-}
-
-// layout //
-
-.content-header .breadcrumb {
-  margin-bottom: 10px;
-}
-
-.centered-header .header {
-  nav {
-    display: none;
-  }
-  .logo {
-    float: none;
-    width: auto;
-    text-align: center;
-  }
 }

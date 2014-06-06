@@ -1,0 +1,18 @@
+tr.row-with-avatar {
+  td, th {
+    line-height: 2.3 !important;
+    p {
+      line-height: 1.8 !important;
+    }
+  }
+}
+
+th.avatar, td.avatar {
+  width: 35px;
+}
+
+img.avatar {
+  &.tn     { width: 35px;  }
+  &.small  { width: 75px;  }
+  &.medium { width: 250px; }
+}

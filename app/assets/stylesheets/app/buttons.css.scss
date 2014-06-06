@@ -1,0 +1,21 @@
+.toggle {
+  @extend .btn-group;
+}
+
+.toggle-enabled {
+  @extend .btn;
+  @extend .btn-info;
+  @extend .bg-gray;
+  @extend .text-aqua;
+}
+
+.toggle-disabled {
+  @extend .btn;
+  @extend .btn-info;
+  @extend .disabled;
+}
+
+.btn.btn-delete {
+  @extend .bg-gray;
+  @extend .text-red;
+}

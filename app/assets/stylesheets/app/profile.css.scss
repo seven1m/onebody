@@ -5,12 +5,6 @@
   }
 }
 
-img.avatar {
-  &.tn     { width: 35px;  }
-  &.small  { width: 75px;  }
-  &.medium { width: 250px; }
-}
-
 .profile-controls {
   @extend .well;
   padding-bottom: 10px;

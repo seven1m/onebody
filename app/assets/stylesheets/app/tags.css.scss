@@ -1,0 +1,40 @@
+.tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    display: inline-block;
+    margin: 0 5px 5px 0;
+    a {
+      display: inline-block;
+      margin: 0;
+      padding: 3px;
+      @extend .bg-aqua;
+      border-radius: 3px 0 0 3px;
+      color: white;
+    }
+    a.delete {
+      border-radius: 0 3px 3px 0;
+      background-color: #bbb !important;
+    }
+    a.delete:hover {
+      @extend .bg-red;
+    }
+  }
+}
+
+.tag-cloud a {
+  display: inline-block;
+  &.size1 {
+    font-size: 80%;
+  }
+  &.size2 {
+    font-size: 100%;
+  }
+  &.size3 {
+    font-size: 150%;
+  }
+  &.size4 {
+    font-size: 200%;
+  }
+}
