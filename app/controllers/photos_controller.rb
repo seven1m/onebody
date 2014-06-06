@@ -15,13 +15,28 @@ class PhotosController < ApplicationController
         @object.photo = params[:photo]
         # annoying to users if changing their photo fails due to some other unrelated validation failure
         # this is a total hack
-        if @object.valid? or @object.errors.select { |a, e| a == :photo_content_type }.empty?
+        if @object.valid? or (errors = @object.errors.select { |a, e| a.to_s =~ /^photo/ }).empty?
           @object.save(validate: false)
         else
-          flash[:warning] = @object.errors.full_messages.join('; ')
+          @errors = errors
         end
       end
-      redirect_back
+      respond_to do |format|
+        format.html do
+          flash[:warning] = @errors.map(&:last).join("\n") if @errors
+          redirect_back
+        end
+        format.json do
+          if @errors
+            render json: { status: :error, errors: @errors.map(&:last).uniq }
+          else
+            urls = @object.photo.styles.each_with_object({}) do |(k, _), h|
+              h[k] = @object.photo.url(k)
+            end
+            render json: { status: :success, photo: urls }
+          end
+        end
+      end
     else
       render text: t('photos.unavailable'), status: 500
     end
@@ -31,7 +46,10 @@ class PhotosController < ApplicationController
     if @logged_in.can_edit?(@object)
       @object.photo = nil
       @object.save(validate: false)
-      redirect_back
+      respond_to do |format|
+        format.html { redirect_back }
+        format.json
+      end
     else
       render text: t('photos.unavailable'), status: 500
     end

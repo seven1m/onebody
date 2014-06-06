@@ -1,14 +1,21 @@
-= form_tag url, multipart: true, method: 'put', class: 'photo-upload' do
+.photo-upload{ data: { 'upload-url' => url, 'object-id' => object_id } }
   .form-group.file-upload-group
-    %input{type: 'file', name: 'photo', class: 'file'}
+    %input{ type: 'file', name: field_name, class: 'file', accept: 'image/png,image/x-png,image/gif,image/jpeg,image/*' }
+  .photo-error.callout.callout-danger{ style: 'display:none' }
+    %h3= t('photos.upload.error')
+    .body
+    .wrong-type{ style: 'display:none' }
+      = t('photos.upload.wrong_type')
+  .photo-selected{ style: 'display:none' }
+    = icon 'fa fa-arrow-circle-up'
+    = t('photos.uploading_filename', filename: "<span class='filename'></span>").html_safe
   .form-group.buttons
-    = link_to '#', class: 'btn btn-success photo-browse', style: 'display:none' do
+    = link_to '#', class: 'btn btn-info photo-browse', style: 'display:none' do
       = icon 'fa fa-folder-open-o'
       = t('photos.browse')
-    = button_tag class: 'btn btn-success photo-upload' do
+    = button_tag class: 'btn btn-success upload-button' do
       = icon 'fa fa-upload'
-      = t('photos.upload', name: name)
-    - if defined? delete and delete
-      = link_to url, method: 'delete', data: { confirm: t('are_you_sure') }, class: 'photo-delete btn bg-gray text-red pull-right' do
-        = icon 'fa fa-trash-o'
-        = t('photos.remove')
+      = t('photos.upload.button')
+    = link_to url, data: { 'confirm-message' => t('are_you_sure') }, class: 'photo-delete btn bg-gray text-red pull-right', style: (defined?(delete) and delete) ? '' : 'display:none' do
+      = icon 'fa fa-trash-o'
+      = t('photos.remove')

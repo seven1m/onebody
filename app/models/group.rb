@@ -41,8 +41,8 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :address, allow_nil: true, scope: :site_id
   validates_length_of :address, in: 2..30, allow_nil: true
   validates_uniqueness_of :cm_api_list_id, allow_nil: true, allow_blank: true, scope: :site_id
-  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE
-  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES
+  validates_attachment_size :photo, less_than: PAPERCLIP_PHOTO_MAX_SIZE, message: I18n.t('photo.too_large', size: 10, :scope => 'activerecord.errors.models.group.attributes')
+  validates_attachment_content_type :photo, content_type: PAPERCLIP_PHOTO_CONTENT_TYPES, message: I18n.t('photo.wrong_type', :scope => 'activerecord.errors.models.group.attributes')
 
   serialize :cached_parents
 

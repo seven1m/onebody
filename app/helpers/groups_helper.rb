@@ -23,6 +23,7 @@ module GroupsHelper
   def group_avatar_tag(group, options={})
     options.reverse_merge!(size: :tn, alt: group.try(:name))
     options.reverse_merge!(class: "avatar #{options[:size]} #{options[:class]}")
+    options.reverse_merge!(data: { id: "group#{group.id}", size: options[:size] })
     image_tag(group_avatar_path(group, options.delete(:size)), options)
   end
 

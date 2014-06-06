@@ -1,0 +1,5 @@
+<%- urls = @object.photo.styles.each_with_object({}) do |(k, _), h|
+      h[k] = avatar_path(@object, k)
+end
+-%>
+{"status":"deleted","placeholder":<%=raw urls.to_json %>}

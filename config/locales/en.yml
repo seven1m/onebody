@@ -161,6 +161,9 @@ en:
               taken: This family card (barcode id) is already taken by another family.
               too_long: This family card (barcode id) is too long (cannot be more than 50 digits).
               too_short: This family card (barcode id) is too short (must be 10 digits).
+            photo:
+              too_large: "The photo must be less than %{size} megabytes."
+              wrong_type: "The photo file type must be JPG, GIF, or PNG."
         friendship: 
           attributes: 
             friend_id: 
@@ -192,6 +195,9 @@ en:
               taken: There is another group with this name. Please choose another name.
             parents_of: 
               points_to_self: This group cannot link to itself.
+            photo:
+              too_large: "The photo must be less than %{size} megabytes."
+              wrong_type: "The photo file type must be JPG, GIF, or PNG."
         membership: 
           attributes: 
             group_id: 
@@ -259,10 +265,16 @@ en:
               too_short: The password is too short.
             website: 
               invalid: The website URL is not formatted correctly (are you missing 'http://' at the beginning?)
+            photo:
+              too_large: "The photo must be less than %{size} megabytes."
+              wrong_type: "The photo file type must be JPG, GIF, or PNG."
         picture: 
           attributes: 
             album_id: 
               blank: This picture must be associated with an album.
+            photo:
+              too_large: "The photo must be less than %{size} megabytes."
+              wrong_type: "The photo file type must be JPG, GIF, or PNG."
         prayer_request: 
           attributes: 
             group_id: 
@@ -1025,13 +1037,6 @@ en:
     is: person is
     one: 1 person
     other: "%{count} people"
-
-  photos:
-    object_not_found: Object not found.
-    browse: "Select Photo"
-    remove: Remove Photo
-    unavailable: Photo unavailable.
-    upload: Upload %{name}
 
   pictures: 
     add_a_picture: Add a Picture
