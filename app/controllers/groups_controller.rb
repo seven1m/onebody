@@ -61,10 +61,10 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @members = @group.people.minimal unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
     @member_of = @logged_in.member_of?(@group)
-    if @member_of or (not @group.private? and not @group.hidden?) or @group.admin?(@logged_in)
-      @stream_items = @group.shared_stream_items(20)
+    if @group.admin?(@logged_in)
+      @stream_items = @group.stream_items
     else
-      @stream_items = []
+      @stream_items = StreamItem.shared_with(@logged_in).where(group_id: @group.id)
     end
     @show_map = Setting.get(:services, :yahoo) && @group.mapable?
     @show_cal = @group.gcal_url

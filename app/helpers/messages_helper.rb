@@ -27,7 +27,7 @@ module MessagesHelper
   end
 
   def render_message_html_body(message_body)
-    html = sanitize_html(remove_sensitive_links(auto_link(message_body))).html_safe
+    html = sanitize_html(remove_sensitive_links(auto_link(message_body, sanitize: false))).html_safe
     html.gsub!(/(\-\s){20,}.{0,15}Hit "Reply".+$/m, '')
     html.gsub!(/<blockquote>(\s*[^\s]+.+\s*)<\/blockquote>/mi, "<div class=\"quoted-content\"><div style=\"display:none;\">\\1</div><a href=\"#\" onclick=\"$(this).hide().prev().show();return false;\">#{I18n.t('messages.show_quoted_content')}</a></div>")
     html.gsub!(/<p><p>[^:graph:]*<\/p><\/p>/, '<br/>') # paragraphs inside paragraphs? C'mon Microsoft!

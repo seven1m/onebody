@@ -177,20 +177,6 @@ class Group < ActiveRecord::Base
     gcal_private_link.to_s.match(/private\-([a-z0-9]+)/)[1] rescue ''
   end
 
-  def shared_stream_items(count)
-    items = stream_items.limit(count).order('stream_items.created_at desc').includes(:person)
-    # do our own eager loading here...
-    comment_people_ids = items.map { |s| s.context['comments'].to_a.map { |c| c['person_id'] } }.flatten
-    comment_people = Person.where(id: comment_people_ids).minimal.each_with_object({}) { |p, h| h[p.id] = p } # as a hash with id as the key
-    items.each do |stream_item|
-      stream_item.context['comments'].to_a.each do |comment|
-        comment['person'] = comment_people[comment['person_id']]
-      end
-      stream_item.readonly!
-    end
-    items
-  end
-
   before_destroy :remove_parent_of_links
 
   def remove_parent_of_links
