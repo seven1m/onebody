@@ -2,7 +2,8 @@ en:
 
   people:
 
-    account_frozen_alert: "This account is frozen. Changes cannot be made until it is unfrozen."
+    account_frozen:
+      callout: "This account is frozen. Changes cannot be made until it is unfrozen."
 
     edit:
       about: "About"
@@ -56,6 +57,8 @@ en:
             <li>This email address will not be visible to anyone except administrators.</li>
             <li>You will not be able to use this address to sign into the site.</li>
           </ul>
+      groups:
+        heading: "Group Email"
 
     groups:
       members: "members"
@@ -74,27 +77,26 @@ en:
       phone: "Phone"
       website: "Website"
 
-    about_me: "About Me"
+    testimony:
+      box_heading: "Testimony"
+      heading: "Testimony of %{person}"
+      view_profile: "View Profile"
+      view_full: "read more"
+      find_more: "Read other testimonies"
+
+    # TODO organize these better...
+
     add_group: "Add Group"
     advanced: "Advanced"
-    activities: "Activities"
-    alternate_email: "Alternate Email"
-    books: "Books"
     can_sign_in: "Can Sign In"
-    cant_be_added: "No people can be added at this time."
     cant_delete_yourself: "You cannot delete yourself."
     cant_delete: "You cannot delete this person."
-    change_your_picture: "Change Your Picture"
     changes_must_be_reviewed_html: "Changes to the details below must be <strong>reviewed by staff</strong>. To request changes, enter the details below and click 'Submit.'"
     changes_submitted: "Changes submitted."
     child: "Child"
     click_to_send_verification_email: "Send a password setup email to this user."
-    click_to_change_email_html: "<a href='%{url}'>Click here</a> to change this email address."
     deleted_html: "This person has been deleted. You can restore the record <a href='%{url}'>here</a>."
-    description_of_business: "Description of Business"
     determine_by_birthday: "Determine by birthday"
-    email_address: "email address (account login) is"
-    enter_new_category: "Enter the new category."
     family: "Family"
     family_legacy_external_id: "Family Legacy/External ID"
     find_a_group_html: "Find a group <a href='%{url}'>here</a>."
@@ -106,60 +108,27 @@ en:
     full_access: "Full Access"
     if_you_wish_to_be_listed_business_dir_html: "If you wish to be listed in the <a href='%{url}'>Business Directory</a>, enter your business name, description, and other details below."
     if_you_wish_to_remove_something_html: "If you wish to remove something in order to keep others from seeing it, instead go to the <a href='%{url}'>Privacy</a> page and hide it."
-    if_your_system_is_setup_to_sync_change: "If your system is set up to synchronize its data with an external source (e.g., a membership managment system), changes you make here may be overwritten on the next sync."
-    interests: "Interests"
     legacy_external_id: "Legacy/External ID"
     limited_access: "Your account currently has limited access; We're showing you an abbreviated profile page as a result."
     limited_access_denied: "Your account currently has limited access."
-    movies: "Movies"
-    music: "Music"
-    name: "Name"
     new_person: "New Person"
-    no_additional_access_avaiable: "No additional access options available at this time."
-    no_email: "%{name} doesn't have an email address in the system"
     no_family_for_this_person: "This person does not belong to a family. They will be unable to sign in and will not be visible to others on the site."
     no_groups_yet: "no groups yet"
     not_deleted: "Person not deleted."
     not_found: "Person not found."
-    nothing_here_yet: "Nothing here yet!"
-    only_an_approximation: "only an approximation"
     pending_approval: "pending approval"
     people: "People"
     person:
       one: "1 Person"
       other: "%{count} People"
     person_isnt_any_groups: "%{person} isn't in any groups right now."
-    person_type: "Roles"
-    quotes: "Quotes"
-    save_access: "Save Access"
-    select_file_to_upload: "Select a file on your computer to upload:"
-    send_email: "Send Email"
     share_your_personal_testimony: "Share your personal testimony — how you came to know Jesus Christ and how he has changed your life."
-    show_a_map_here_html: "Show a map here by providing OneBody with your Yahoo Maps API key. <a href='http://github.com/churchio/onebody/wikis/serviceapikeys'>Click here</a> for help."
-    show_full_screen: "show full screen"
     show_hidden_groups: "Show Hidden Groups"
-    suffix: "Suffix"
     tell_us_about_yourself: "Tell us about yourself. What's your personality like? What would your best friend say about you?"
-    testimony:
-      box_heading: "Testimony"
-      heading: "Testimony of %{person}"
-      view_profile: "View Profile"
-      view_full: "read more"
-      find_more: "Read other testimonies"
-    this_account_is_frozen: "This account is frozen. %{name} cannot make changes to this profile or anyone else's until this account is unfrozen."
     this_event_doesnt_have_pictures: "This event doesn't have any pictures yet."
     this_person_is_not_an_adult: "This person is believed to be less than %{years} years of age, and does not have parental consent."
     this_profile_is_hidden: "This profile is hidden"
-    tv_shows: "TV Shows"
-    upload_a_picture_of_html: "Upload a picture of %{name} here."
-    upload_family_picture_html: "Upload a family picture here."
     update_to_profile_is: "An update to this profile is"
-    verses: "Verses"
-    visibility: "Visibility"
     visible_on_printed_directory: "Visible on Printed Directory"
     visible_to_everyone: "Visible to everyone"
-    website: "Website"
-    where_are_my_kids: "Where are my kids?"
     you_arent_in_any_groups: "You aren't in any groups yet."
-    you_many_not_make_changes: "You may not make changes to your account at this time."
-    your_account_has_been_frozen: "Your account has been frozen."

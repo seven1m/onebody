@@ -2,7 +2,7 @@
 
 - if @unapproved_groups.any?
   .callout.callout-info
-    = t('groups.following_are_pending_approval', count: @unapproved_groups.length)
+    = t('groups.pending_approval.description', count: @unapproved_groups.length)
     %table.table.group-list
       - @unapproved_groups.each do |group|
         %tr.row-with-avatar
@@ -24,21 +24,21 @@
 
     .box.box-info
       .box-header
-        %h3.box-title= t('groups.browse_by_category')
+        %h3.box-title= t('groups.browse.heading')
       .box-body
         .group-category-lookup.form-inline
           = select_tag 'category', options_for_select(@categories), include_blank: true, class: 'form-control'
 
     .box.box-success
       .box-header
-        %h3.box-title= t('groups.create_a_group')
+        %h3.box-title= t('groups.create.heading')
       .box-body
         %p
-          = t('groups.if_cant_find_create_it')
+          = t('groups.create.description')
         %p
           = link_to new_group_path, class: 'btn btn-success' do
             = icon 'fa fa-plus-circle'
-            = t('groups.create_a_group')
+            = t('groups.create.button')
 
   .col-md-8
     %h3= t('groups.your_groups')

@@ -8,7 +8,7 @@ class AuthenticationsController < ApplicationController
     elsif person == nil
       render text: t('session.email_not_found'), status: 404
     else
-      render text: t('session.password_incorrect'), status: 401
+      render text: t('session.password_doesnt_match'), status: 401
     end
   end
 

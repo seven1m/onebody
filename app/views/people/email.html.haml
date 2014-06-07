@@ -29,5 +29,5 @@
   .col-lg-8
     = form_for @person do |form|
       = hidden_field_tag :email, true
-      %h3= t('groups.group_emails')
+      %h3= t('people.email.groups.heading')
       = render partial: 'groups/person_groups'

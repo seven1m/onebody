@@ -1,6 +1,10 @@
 en:
 
   friends:
+
+    index:
+      nobody_yet: "Nobody yet"
+
     accept: "Accept Friend"
     add_friend_are_you_sure: "Are you sure? An email will be sent to this person requesting friendship."
     add_to_friends: "Add to Friends"

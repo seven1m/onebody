@@ -1,0 +1,70 @@
+- content_for :sidebar do
+  %h2= t('memberships.index.heading', group: @group.name)
+  - if @logged_in.can_edit?(@group)
+    - if @group.approved?
+      = form_tag search_path, remote: true do
+        = hidden_field_tag :select_person, true
+        %p.double-margin-top
+          %label{:for => "add_person_name"}
+            = t('memberships.add.description')
+            \:
+          = text_field_tag 'name', nil, id: 'add_person_name'
+          - if @group.parents_of
+            %strong
+              Remember, this is a group automatically containing
+              parents of people in #{link_to @group.parents_of_group.name, @group.parents_of_group}.
+              Adding people manually should be done sparingly.
+          = submit_tag t('search.search_by_name')
+      #add_member{:style => "display:none;"}
+        = form_tag batch_group_memberships_path(@group), remote: true, id: 'add_people_form' do
+          #results
+          %p= submit_tag t('search.add_selected')
+      %p
+        = link_to t('admin.manage_admins'), '#', id: 'promote-people-action'
+    - else
+      %p.very-strong
+        = t('memberships.group_pending_approval')
+- if @logged_in.can_edit?(@group) and @requests.any?
+  %h3= t('memberships.requests.heading')
+  = form_tag batch_group_memberships_path(@group) do |form|
+    %table
+      - @requests.each do |req|
+        %tr
+          %td= check_box_tag 'ids[]', req.person.id, false, class: 'checkbox'
+          %td= link_to req.person.name, person_url(id: req.person)
+    .form-group
+      = t('memberships.requests.select_some')
+    .form-group
+      %input{:name => "commit", :style => "font-weight:bold;", :type => "submit", :value => t('memberships.requests.accept.button')}/
+      %input{:name => "commit", :type => "submit", :value => t('memberships.requests.ignore.button')}/
+%h3#people-heading= t('people.person', count: @group.people.count)
+- if @logged_in.can_edit?(@group)
+  .heading-action
+    = link_to t('.remove.enable'), '', class: 'delete-icon discreet', id: 'delete-people-action'
+%table#memberships.members
+  - @group.memberships.includes(:person).order('people.last_name', 'people.first_name').each do |membership|
+    - if person = membership.person
+      = render partial: 'person', locals: {person: person}
+- if @group.people.count == 0
+  %p
+    %em= t('none')
+:javascript
+  deleting_people = false;
+  $('#delete-people-action').toggle(function(){
+    deleting_people = true;
+    $('.delete-action').show();
+    $('#delete-people-action').html('#{escape_javascript t('.remove.execute')}');
+    return false;
+  }, function() {
+    deleting_people = false;
+    $('.delete-action').hide();
+    $('#delete-people-action').html('#{escape_javascript t('.remove.enable')}');
+    return false;
+  });
+  $('#promote-people-action').toggle(function(){
+    $('.promote-action').show();
+    return false;
+  }, function() {
+    $('.promote-action').hide();
+    return false;
+  });

@@ -1,0 +1,14 @@
+- content_for :sidebar do
+  %p= t('prayer.submitted_by', group_name: @req.group.name, person_name: @req.person.try(:name) || '?', date: @req.created_at.to_s(:date))
+  - if @req.answered_at
+    %p
+      = t('prayer.answered_on', date: @req.answered_at.to_s(:date))
+  - if @logged_in.can_edit?(@req)
+    %p= link_to t('prayer.edit_request'), edit_group_prayer_request_path(@req.group, @req), class: 'edit-icon'
+    %p= link_to t('prayer.delete_request'), [@req.group, @req], method: :delete, data: { confirm: t('are_you_sure') }, class: 'delete-icon'
+%h2= t('prayer.prayer_request')
+%p{:style => "font-size:larger;"}= @req.request
+- if @req.answer.to_s.any?
+  %h3= t('prayer.answer')
+  %p{:style => "font-size:larger;"}
+    = @req.answer

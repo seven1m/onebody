@@ -38,7 +38,7 @@
           .clearfix
   = javascript_include_tag 'dragdrop.js'
 - else
-  %p= t('groups.nobody_yet')
+  %p= t('.nobody_yet')
 - if me?
   %p.double-margin-top
     = link_to search_path, class: 'btn btn-info' do

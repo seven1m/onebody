@@ -1,0 +1,25 @@
+en:
+
+  memberships:
+
+    index:
+      heading: "People in the %{group} group"
+      remove:
+        enable: "Select people to remove"
+        execute: "Remove selected people"
+
+    add:
+      description: "Add someone to this group."
+
+    promote: "Promote member to admin"
+    demote: "Demote admin to regular member"
+
+    group_pending_approval: "This group is pending approval. You may not add people to it yet."
+
+    requests:
+      heading: "Requests to join this group"
+      select_some: "Select one or more above and choose an action."
+      accept:
+        button: "Accept"
+      ignore:
+        button: "Ignore"

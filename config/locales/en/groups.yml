@@ -8,6 +8,30 @@ en:
     saved: "Group changes have been saved."
     deleted: "Group deleted."
 
+    your_groups: "Your Groups"
+
+    hidden_group: "Hidden"
+    hidden_groups:
+      heading: "Hidden Groups"
+      description: "Only administrators (such as yourself) see this list."
+
+    linked_group: "This group is maintained by office staff."
+
+    private_group: "Private"
+
+    email_off: "email off"
+    email_on: "email on"
+
+    browse:
+      heading: "Browse by Category"
+    create:
+      heading: "Create a Group"
+      description: "If you can't find a group, it's easy to create one!"
+      button: "Create a Group"
+
+    new:
+      heading: "New Group"
+
     edit:
       heading: "Edit Group"
 
@@ -55,15 +79,18 @@ en:
 
     table:
       group_name: "Group"
+      leader: "Leader"
       member_count: "Members"
       email_enabled: "Email enabled"
 
     search:
       heading: "Search for a Group"
+      results_heading: "Group Search Results"
       name_placeholder: "Search by name"
       submit: "Search"
 
     batch:
+      heading: "Batch Edit Groups"
       category: "Category"
       name: "Name"
       address: "Email Prefix"
@@ -72,6 +99,7 @@ en:
       hidden: "Hidden"
       class_link_code: "Link Code(s)"
       approval_required_to_join: "Approval Required"
+      errors: "There was one or more errors in saving the changes. Errored records are highlighted below."
 
     files:
       heading:
@@ -79,119 +107,33 @@ en:
         size: "Size"
         created_at: "Uploaded"
 
-    pending_approval: "This group is pending approval."
-    not_found: "Group not found."
+    pending_approval:
+      this_group: "This group is pending approval."
+      description:
+        one: "The following group is pending approval:"
+        other: "The following groups are pending approval:"
+      count:
+        one: "%{count} group to approve"
+        other: "%{count} groups to approve"
 
-    # old stuff...
+    membership_requests:
+      count:
+        one: "%{count} membership request"
+        other: "%{count} membership requests"
 
-    #accept: "Accept"
-    #add_somebody: "Add somebody"
-    #advanced: "Advanced"
-    #approve_group: "Approve Group"
-    #are_you_sure_option: "Are you sure you want to %{option} email from the group %{group}?"
-    #attendance: "Attendance"
-    #back_to_group: "Back to %{name}"
-    #back_to_homepage: "Back to Your Groups"
-    #batch_edit_groups: "Batch Edit Groups"
-    #birthdays: "Birthdays"
-    #browse_by_category: "Browse by Category"
-    #by_allow_anyone_to_join: "By allow anyone to join this group without requiring admin approval, potentially any site user could see messages in this \"private\" group."
-    #cannot_remove_last_admin: "You cannot remove the last group admin. You may delete the group, however."
-    #category: "Category"
-    #category_required: "Category (required)"
-    #change_email_settings: "Change Email Settings"
-    #change_this_picture: "Change This Picture"
-    #click_save_changes_to_upload: "Click \"Save Changes\" at the bottom of this form to upload a new picture."
-    #configure_email_from_group: "configure email from this group"
-    #create_a_group: "Create a Group"
-    #created: "The group has been created."
-    #creator: "Creator"
-    #demote: "Demote"
-    #details: "Details"
-    #delete_group: "Delete Group"
-    #deleted: "Group deleted."
-    #directions: "Directions"
-    #done_removing_people: "Done."
-    #edit_group: "Edit Group"
-    #edit_members: "Edit Group Members"
-    #email_from_group_is_on: "email from this group is ON"
-    #email_from_group_is_off: "email from this group is OFF"
-    #email_off: "email off"
-    #email_on: "email on"
-    #email_settings_changed: "Your email settings for the group have been changed."
-    #enable_attendance_tracking: "Enable Attendance Tracking"
-    #enable_email: "Enable Email"
-    #enable_pictures: "Enable Pictures"
-    #enable_prayer_requests: "Enable Prayer Requests"
-    #features: "Features"
-    #following_are_pending_approval:
-      #one: "The following group is pending approval:"
-      #other: "The following groups are pending approval:"
-    #group_emails: "Group Emails"
-    #groupies: "Groupies"
-    #hidden_group: "Hidden Group"
-    #hidden_groups: "Hidden Groups"
-    #i_agree: "I Agree"
-    #if_cant_find_create_it: "If you can't find the group you're looking for, create it!"
-    #if_ok_you_will_stop_receiving: "If you click OK, you will no longer receive email from this group."
-    #if_ok_you_will_start_receiving: "If you click OK, you will start receiving email from this group."
-    #ignore: "Ignore"
-    #join_this_group: "Join This Group"
-    #last_admin_remove: "%{name} is the last admin and cannot be removed."
-    #leader: "Leader"
-    #leader_id: "Leader Id"
-    #leave_this_group: "Leave This Group"
-    #linked: "Linked Groups"
-    #linked_membership: "(linked)"
-    #location_address: "Location and Address"
-    #meets: "Meets"
-    #meets_when: "Meets When"
-    #members: "Group Members"
-    #members_send: "Members Send"
-    #must_specify_ids_list: "You must specify a list of ids."
-    #name_required: "Name (required)"
-    #new_group: "New Group"
-    #no_more: "No groups can be added at this time."
-    #nobody_yet: "nobody yet"
-    #not_authorized_view: "You are not authorized to view this group"
-    #not_authorized_post: "You are not authorized to post to this group."
-    #no_activity_yet: "This group hasn't had any activity yet."
-    #no_groups_found: "no groups found"
-    #only_admins_see_this_list: "Only administrators (such as yourself) see this list"
-    #or_send_from_your_email_html: "Or, send to <a href='mailto:%{email}'>%{email}</a> from your email client."
-    #other_notes: "Other Notes"
-    #parents_of: "Parents of:"
-    #pending_approval_count:
-      #one: "%{count} group to approve"
-      #other: "%{count} groups to approve"
-    #membership_request_count:
-      #one: "%{count} membership request"
-      #other: "%{count} membership requests"
-    #people_in_group: "People In %{name}"
-    #picture: "Group Picture"
-    #picture_hint: "Use a group shot or a clip-art graphic to help people recognize your group on this site."
-    #promote: "Promote"
-    #remove_group_photo: "Remove Group Photo"
-    #remove_people: "Remove People"
-    #requests: "Requests"
-    #request_sent: "A request to join this group has been sent to the group administrator(s)."
-    #request_will_be_sent_to_admins: "Are you sure? A request will be sent to the group administrator(s)."
-    #settings_saved: "Group settings have been saved."
-    #scroll_left_and_right: "Scroll left and right to see all columns."
-    #select_one_or_more: "Select one or more above and choose an action"
-    #show_all: "Show all..."
-    #there_was_errors_saving: "There was one or more errors in saving the changes. Errored records are highlighted in red. Scroll to see error messages."
-    #this_group_has_pending_html: "This group has pending <a href='%{url}'>group membership requests</a>."
-    #this_group_is_hidden: "This group is hidden. It's existence is hidden from most people."
-    #this_group_is_pending_you_may_not_add_people: "This group is pending approval. You may not add people to it yet."
-    #this_group_is_private: "This group is private. Only people in this group can see its messages."
-    #this_group_maintained_by_staff: "This group is maintained by office staff."
-    #types: "Types of Groups"
-    #unmapable_address: "This does not resemble a physical address; no map will be shown."
-    #user_settings_saved: "User settings saved."
-    #view_group: "View Group"
-    #view_members: "View Group Member Details"
-    #yes_do_it: "Yes, do it."
-    #you_are_to_remove_yourself: "You're about to remove yourself from this group! You won't be able to edit it anymore if you do that"
-    #you_requested_join_this_group: "You have requested to join this group."
-    #your_groups: "Your Groups"
+    not_found: "Group not found"
+    no_groups_found: "No groups found"
+
+    join:
+      button: "Join this group"
+      pending: "You have requested to join this group."
+      confirm: "Are you sure? A request will be sent to the group administrator(s)."
+      request_sent: "A request to join this group has been sent to the group administrator(s)."
+
+    leave:
+      button: "Leave this group"
+
+    last_admin_remove: "%{name} is the last admin and cannot be removed."
+
+    user_settings_saved: "User settings saved."
+    email_settings_changed: "Your email settings for the group have been changed."

@@ -30,7 +30,7 @@ class MembershipsController < ApplicationController
       @group.memberships.create(person: @person)
     elsif me?
       @group.membership_requests.create(person: @person)
-      flash[:warning] = t('groups.request_sent')
+      flash[:warning] = t('groups.join.request_sent')
     end
     redirect_to :back
   end
@@ -134,7 +134,7 @@ class MembershipsController < ApplicationController
           format.html { redirect_to :back }
         end
       else
-        render text: t('groups.must_specify_ids_list')
+        render text: 'error'
       end
     else
       render text: t('not_authorized'), layout: true, status: 401

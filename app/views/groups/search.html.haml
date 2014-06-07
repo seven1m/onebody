@@ -1,9 +1,11 @@
+- @title = t('groups.search.results_heading')
+
 - if @groups.any?
   %table.table.group-list
     %tr
       %th
       %th= t('groups.table.group_name')
-      %th Leader
+      %th= t('groups.table.leader')
       %th= t('groups.table.member_count')
 
     - @groups.each do |group|
@@ -39,9 +41,8 @@
   %p
     %em= t('groups.no_groups_found')
 - if @logged_in.admin?(:manage_groups) and @hidden_groups.any?
-  %h3= t('groups.hidden_groups')
+  %h3= t('groups.hidden_groups.heading')
   %p
-    = t('groups.only_admins_see_this_list')
-    \:
-    %br/
+    = t('groups.hidden_groups.description')
+  %p
     = @hidden_groups.map { |g| link_to(g.name, g) }.join(', ')

@@ -12,7 +12,7 @@
     <h3><%= t('admin.updates.groups_pending') %></h3>
     <% if not @complete and @unapproved_groups.any? %>
       <p>
-        <%= t('groups.following_are_pending_approval', count: @unapproved_groups.length) %>
+        <%= t('groups.pending_approval.description', count: @unapproved_groups.length) %>
         <%= raw @unapproved_groups.map { |g| link_to(g.name, g) }.join(', ') %>
       </p>
     <% else %>

@@ -27,7 +27,7 @@
 <h2><%= t('admin.deleted_people.deleted_people') %></h2>
 
 <% if params[:search] %>
-  <p><%= t('admin.deleted_people.search_results') %> <%= link_to t('groups.show_all'), administration_deleted_people_path %></p>
+  <p><%= t('admin.deleted_people.search_results') %> <%= link_to t('show_all'), administration_deleted_people_path %></p>
 <% end %>
 
 <%= will_paginate @people %>
@@ -37,15 +37,15 @@
     <table class="spaced">
       <tr>
         <th><input type="checkbox" onclick="$('.person_checkbox').attr('checked', this.checked)"/></th>
-        <th><%= sortable_column_heading(t('admin.syncs.id'), 'people.id') %></th>
-        <th><%= sortable_column_heading(t('admin.syncs.legacy_id'),        'people.legacy_id'       ) %></th>
-        <th><%= sortable_column_heading(t('accounts.last_name'),        'people.last_name'       ) %></th>
-        <th><%= sortable_column_heading(t('accounts.first_name'),       'people.first_name'      ) %></th>
-        <th><%= sortable_column_heading(t('families.family_id'),        'people.family_id'       ) %></th>
-        <th><%= sortable_column_heading(t('families.legacy_family_id'), 'people.legacy_family_id') %></th>
-        <th><%= sortable_column_heading(t('people.family'),      'families.name'          ) %></th>
-        <th><%= sortable_column_heading(t('families.deleted_confirmation'),  'families.deleted'       ) %></th>
-        <th><%= sortable_column_heading(t('admin.last_updated'),     'people.updated_at desc' ) %></th>
+        <th><%= sortable_column_heading(t('.table.id'), 'people.id') %></th>
+        <th><%= sortable_column_heading(t('.table.legacy_id'),        'people.legacy_id'       ) %></th>
+        <th><%= sortable_column_heading(t('.table.last_name'),        'people.last_name'       ) %></th>
+        <th><%= sortable_column_heading(t('.table.first_name'),       'people.first_name'      ) %></th>
+        <th><%= sortable_column_heading(t('.table.family_id'),        'people.family_id'       ) %></th>
+        <th><%= sortable_column_heading(t('.table.legacy_family_id'), 'people.legacy_family_id') %></th>
+        <th><%= sortable_column_heading(t('.table.family_name'),      'families.name'          ) %></th>
+        <th><%= sortable_column_heading(t('.table.family_deleted'),   'families.deleted'       ) %></th>
+        <th><%= sortable_column_heading(t('.table.updated_at'),       'people.updated_at desc' ) %></th>
       </tr>
       <% @people.each do |person| %>
         <tr>
@@ -60,7 +60,7 @@
             <td><%= person.family.name %></td>
             <td><%= person.family.deleted? ? t('admin.logs.deleted') : link_to(t('admin.active'), person.family) %></td>
           <% else %>
-            <td colspan="4"><em><%= t('families.not_found') %></em></td>
+            <td colspan="4"><em><%= t('.table.family_not_found') %></em></td>
           <% end %>
           <td><%= person.updated_at.to_s %></td>
         </tr>

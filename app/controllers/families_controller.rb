@@ -105,7 +105,7 @@ class FamiliesController < ApplicationController
   def destroy
     @family = Family.find(params[:id])
     if @family == @logged_in.family
-      flash[:warning] = t('families.cannot_delete_your_own')
+      flash[:warning] = t('families.delete.cannot_delete_your_own')
       redirect_to @family
     else
       @family.destroy
@@ -126,7 +126,7 @@ class FamiliesController < ApplicationController
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       ids = params[:hash][:legacy_id].to_s.split(',')
-      raise t('families.too_many') if ids.length > 1000
+      raise 'error' if ids.length > 1000
       hashes = Family.hashify(legacy_ids: ids, attributes: params[:hash][:attrs].split(','), debug: params[:hash][:debug])
       render xml: hashes
     else

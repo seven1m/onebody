@@ -164,7 +164,7 @@ class PeopleController < ApplicationController
   def hashify
     if @logged_in.admin?(:import_data) and Site.current.import_export_enabled?
       ids = params[:hash][:legacy_id].to_s.split(',')
-      raise t('families.too_many') if ids.length > 1000
+      raise 'error' if ids.length > 1000
       hashes = Person.hashify(legacy_ids: ids, attributes: params[:hash][:attrs].split(','), debug: params[:hash][:debug])
       render xml: hashes
     else

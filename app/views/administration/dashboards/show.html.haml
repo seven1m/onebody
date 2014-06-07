@@ -1,0 +1,52 @@
+- content_for :sidebar do
+  %h2= t('admin.dashboard')
+  %p= t('admin.dashboard_about')
+  - if @logged_in.super_admin?
+    %h3= t('admin.customization')
+    %ul.list
+      %li= link_to t('admin.settings.settings'), administration_settings_path
+      %li= link_to t('admin.logo.logo'), administration_logo_path
+      %li= link_to t('admin.styles.editor'), edit_style_path
+      %li= link_to t('admin.pages'), pages_path
+  - if Site.current.import_export_enabled?
+    - if @logged_in.admin?(:import_data) or @logged_in.admin?(:export_data)
+      %h3= t('admin.import_export')
+      - if @logged_in.admin?(:import_data)
+        %p= link_to t('admin.import_data_description'), import_people_path
+      - if @logged_in.admin?(:export_data)
+        %table.spaced
+          %tr
+            %th
+              = t('people.people')
+              (#{@person_count})
+            %td= link_to 'XML', people_path(format: 'xml')
+            %td= link_to 'CSV', people_path(format: 'csv')
+          - if Setting.get(:features, :groups)
+            %tr
+              %th
+                = t('nav.groups')
+                (#{@group_count})
+              %td= link_to 'XML', groups_path(format: 'xml')
+              %td= link_to 'CSV', groups_path(format: 'csv')
+  = render_plugin_hook :admin_dashboard_sidebar_bottom
+.metrics
+  - if @logged_in.admin?(:manage_updates)
+    = metric administration_updates_path, @update_count, 1, 5 do
+      = t('admin.updates.pending', count: @update_count)
+    = metric administration_emails_path, @email_changed_count, 1, 10 do
+      = t('admin.updates.changed_email', count: @email_changed_count)
+  - if @logged_in.admin?(:manage_sync) and @last_sync
+    = metric administration_syncs_path, @last_sync.error_count || 0, 1, 10 do
+      = t('admin.syncs.sync_errors', count: @last_sync.error_count)
+  - if @logged_in.admin?(:manage_groups)
+    = metric administration_updates_path, @groups_pending_approval_count, 1, 1 do
+      = t('groups.pending_approval.count', count: @groups_pending_approval_count)
+    = metric administration_membership_requests_path, @membership_request_count, 1, 1 do
+      = t('groups.membership_requests.count', count: @membership_request_count)
+  - if @logged_in.admin?(:manage_access)
+    = metric administration_admins_path, @admin_count, Site.current.max_admins && Site.current.max_admins*0.9, Site.current.max_admins do
+      = t('admin.admin_count', count: @admin_count)
+  - if @logged_in.admin?(:edit_profiles)
+    = metric administration_deleted_people_path, @deleted_people_count do
+      = t('admin.deleted_people_count', count: @deleted_people_count)
+  = render_plugin_hook(:admin_dashboard_metric)

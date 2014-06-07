@@ -21,6 +21,9 @@ en:
       save: "Save Family"
       saved: "Family changes saved."
 
+    delete:
+      cannot_delete_your_own: "You cannot delete your own family."
+
     show:
       edit_link: "Edit Family"
       suggested_name_html:
@@ -30,3 +33,5 @@ en:
     name:
       same_last_name: "%{adult1_fname} & %{adult2_fname} %{adult1_lname}"
       different_last_names: "%{adult1_name} & %{adult2_name}"
+
+    not_found: "Family not found"

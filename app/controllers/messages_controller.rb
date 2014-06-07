@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
     if @logged_in.can_see?(@group) and @group.email?
       @messages = @group.messages.order('created_at desc').page(params[:page])
     else
-      render text: t('groups.not_authorized_view'), layout: true, status: 401
+      render text: t('not_authorized'), layout: true, status: 401
     end
   end
 
@@ -85,7 +85,7 @@ class MessagesController < ApplicationController
         end
       end
     else
-      render text: t('groups.not_authorized_post'), layout: true, status: 500
+      render text: t('not_authorized'), layout: true, status: 500
     end
   end
 
