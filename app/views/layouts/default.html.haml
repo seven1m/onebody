@@ -62,7 +62,7 @@
           / search form
           %form.sidebar-form{action: '/search', method: 'get'}
             .input-group
-              = text_field_tag 'name', params[:name], placeholder: t('search.form.name'), class: 'form-control'
+              = text_field_tag 'name', @search.try(:name), placeholder: t('search.form.name'), class: 'form-control'
               %span.input-group-btn
                 %button#search-btn.btn.btn-flat{name: "seach", type: "submit"}
                   %i.fa.fa-search
