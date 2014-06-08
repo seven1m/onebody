@@ -1,7 +1,12 @@
 - @title = @group.name
 
 - if @group.mapable?
-  #map{ data: { latitude: @group.latitude, longitude: @group.longitude, notice: t('maps.notice') } }
+  - content_for :header do
+    #map{ data: { latitude: @group.latitude, longitude: @group.longitude, address: preserve_breaks(@group.location), notice: t('maps.notice') } }
+    %section.content-header.map-overlay
+      = breadcrumbs
+      %h1
+        = @title
 
 .row
   .col-md-6.col-md-push-6
