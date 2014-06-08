@@ -1,10 +1,7 @@
 - @title = @group.name
 
 - if @group.mapable?
-  .row
-    .col-sm-12
-      .well{ style: 'text-align:center' }
-        map goes here
+  #map{ data: { latitude: @group.latitude, longitude: @group.longitude, notice: t('maps.notice') } }
 
 .row
   .col-md-6.col-md-push-6

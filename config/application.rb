@@ -44,5 +44,10 @@ module OneBody
     config.generators do |g|
       g.test_framework :rspec
     end
+
+    # TODO remove this when we get to Rails 4.1
+    def secrets
+      @secrets ||= OpenStruct.new(YAML.load_file(Rails.root.join('config/secrets.yml'))[Rails.env])
+    end
   end
 end

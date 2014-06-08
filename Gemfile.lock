@@ -99,6 +99,7 @@ GEM
     font-awesome-rails (4.0.3.2)
       railties (>= 3.2, < 5.0)
     formatador (0.2.5)
+    geocoder (1.2.1)
     guard (2.6.1)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -267,6 +268,7 @@ DEPENDENCIES
   factory_girl_rails
   feedjira
   font-awesome-rails
+  geocoder
   guard-rspec
   haml
   highline

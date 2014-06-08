@@ -1,3 +1,4 @@
 - @title = t('groups.edit.heading')
+- content_for(:sub_title, link_to(@group.name, @group))
 
 = render partial: 'form'

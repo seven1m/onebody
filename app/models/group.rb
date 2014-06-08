@@ -56,9 +56,10 @@ class Group < ActiveRecord::Base
     end
   end
 
-  def name_group # returns something like "Morgan group"
-    "#{name}#{name =~ /group$/i ? '' : ' group'}"
-  end
+  geocoded_by :location
+  after_validation :geocode
+
+  blank_to_nil :address
 
   def inspect
     "<#{name}>"
@@ -83,13 +84,7 @@ class Group < ActiveRecord::Base
   end
 
   def mapable?
-    # must look like "OK 74137"
-    # TODO: this needs some work to be usable in other countries
-    location.to_s.any? && location =~ /\s[A-Z]{2}\s+\d{5}/ ? true : false
-  end
-
-  def address=(a)
-    write_attribute(:address, a == '' ? nil : a)
+    latitude and longitude
   end
 
   def get_options_for(person)

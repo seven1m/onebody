@@ -6,10 +6,8 @@
 .form-group
   = form.label :location
   = form.text_area :location, rows: 3, class: 'form-control'
-  - if Setting.get(:services, :yahoo)
-    %span.help-block
-      = t('groups.edit.location.help')
-  #map-preview
+  %span.help-block
+    = t('groups.edit.location.help')
 .form-group
   = form.label :directions
   = form.text_area :directions, rows: 3, class: 'form-control'

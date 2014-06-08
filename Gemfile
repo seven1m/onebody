@@ -32,6 +32,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'font-awesome-rails'
 gem 'ionicons-rails'
 gem 'truncate_html'
+gem 'geocoder'
 
 group :test do
   gem 'factory_girl_rails'
