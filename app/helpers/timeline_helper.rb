@@ -45,6 +45,8 @@ module TimelineHelper
     page ||= (params[:page] || 1).to_i + 1
     if params[:controller] == 'people' or params[:person_id]
       person_stream_url(@person || params[:person_id], format: :json, page: page)
+    elsif params[:controller] == 'groups'
+      group_stream_url(@group || params[:group_id], format: :json, page: page)
     else
       stream_url(format: :json, page: page)
     end

@@ -16,6 +16,10 @@
         %tr
           %td created
           %td= @group.created_at.to_s(:date)
+      - if @group.creator
+        %tr
+          %td created by
+          %td= link_to(@group.creator.name, @group.creator)
       %tr
         %td members
         %td

@@ -87,6 +87,7 @@ OneBody::Application.routes.draw do
         post :batch
       end
     end
+    resource :stream
     resource :photo
     resources :notes, :prayer_requests, :albums, :attachments
     resource :calendar
