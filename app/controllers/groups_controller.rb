@@ -61,11 +61,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @members = @group.people.minimal unless fragment_exist?(controller: 'groups', action: 'show', id: @group.id, fragment: 'members')
     @member_of = @logged_in.member_of?(@group)
-    if @group.admin?(@logged_in)
-      @stream_items = @group.stream_items
-    else
-      @stream_items = StreamItem.shared_with(@logged_in).where(group_id: @group.id)
-    end
+    @stream_items = @group.stream_items.paginate(page: params[:timeline_page], per_page: 5)
     @show_map = Setting.get(:services, :yahoo) && @group.mapable?
     @show_cal = @group.gcal_url
     @can_post = @group.can_post?(@logged_in)

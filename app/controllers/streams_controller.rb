@@ -8,7 +8,7 @@ class StreamsController < ApplicationController
     @count = @stream_items.count
     @stream_items.where!(person_id: params[:person_id]) if params[:person_id]
     @stream_items.where!(group_id:  params[:group_id])  if params[:group_id]
-    @stream_items = @stream_items.paginate(page: params[:page], per_page: params[:per_page] || 5)
+    @stream_items = @stream_items.paginate(page: params[:timeline_page], per_page: params[:per_page] || 5)
     respond_to do |format|
       format.html
       format.xml { render layout: false }

@@ -37,18 +37,22 @@ module TimelineHelper
 
   def timeline_load_more
     content_tag(:div, class: 'timeline-load-more') do
-      link_to(I18n.t('stream.load_more'), '#', class: 'btn btn-primary btn-xs')
+      link_to(I18n.t('stream.load_more'), "?timeline_page=#{timeline_page+1}", class: 'btn btn-primary btn-xs')
     end
   end
 
+  def timeline_page
+    (params[:timeline_page] || 1).to_i
+  end
+
   def next_timeline_url(page=nil)
-    page ||= (params[:page] || 1).to_i + 1
+    page = timeline_page + 1
     if params[:controller] == 'people' or params[:person_id]
-      person_stream_url(@person || params[:person_id], format: :json, page: page)
-    elsif params[:controller] == 'groups'
-      group_stream_url(@group || params[:group_id], format: :json, page: page)
+      person_stream_url(@person || params[:person_id], format: :json, timeline_page: page)
+    elsif params[:controller] == 'groups' or params[:group_id]
+      group_stream_url(@group || params[:group_id], format: :json, timeline_page: page)
     else
-      stream_url(format: :json, page: page)
+      stream_url(format: :json, timeline_page: page)
     end
   end
 
