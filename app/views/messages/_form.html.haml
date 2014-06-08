@@ -1,0 +1,19 @@
+= form_for @message, html: {enctype: 'multipart/form-data', id: 'message'} do |form|
+  = form.hidden_field :group_id
+  = form.hidden_field :to_person_id
+  = form.hidden_field :parent_id
+  - if @message.parent
+    = form.hidden_field :subject
+  - else
+    .form-group
+      = form.label :subject
+      = form.text_field :subject, class: 'form-control'
+  .form-group
+    = form.label :body
+    = form.text_area :body, rows: 15, cols: 80, class: 'form-control'
+  .form-group
+    %label{:for => "file"}= t('messages.attachment_optional')
+    %input#file{:multiple => "multiple", :name => "files[]", :type => "file"}
+    %span.help-block= t('multiple_files')
+  .form-group
+    = form.button t('messages.send_message'), class: 'btn btn-success'

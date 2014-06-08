@@ -1,0 +1,40 @@
+en:
+
+  messages: 
+
+    private:
+      heading: "Private Message"
+      description_html: "This will send a <em>private</em> email to %{person}."
+
+    group:
+      heading: "Group Message"
+      description_html: "This will send an email to every member of %{group}."
+      not_private: "This group is not set to private, so messages posted here may be visible by people who aren't group members."
+
+    # old stuff
+    ago: ago
+    attachment_optional: Attachment (optional)
+    attachments: Attachments
+    delete_message: Delete Message
+    file_missing: file missing
+    flag_cleared: Flag(s) cleared.
+    from: From
+    in: in
+    message_by: Message by
+    messages_in_html: Messages in <a href="%{url}">%{name}</a>
+    missing_param: Missing the message param.
+    no_email_for_person: Sorry. We don't have an email address on file for %{name}.
+    not_authorized_delete: You are not authorized to delete this message.
+    not_found: Message not found.
+    posted_by: posted by
+    reply: Reply
+    reply_by: Reply by
+    reply_to_this_message: Reply to this message
+    send_message: Send Email
+    sent: Your message has been sent.
+    show_quoted_content: show quoted content
+    some_quoted_text_is_hidden: Some quoted text in this message is hidden;
+    subject: Subject
+    to_show_the_entire_message: to show the entire message.
+    unknown_type: Unknown message type.
+

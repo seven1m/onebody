@@ -1,0 +1,20 @@
+%h2= t('messages.messages_in_html', url: group_path(@group), name: @group.name)
+- @messages.each do |message|
+  .stream-item
+    .stream-item-meta
+      - if message.person
+        %span.nowrap
+          %a{:href => url_for message.person}
+            = image_tag message.person.photo.exists? ? message.person.photo.url(:tn) : (message.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'), |
+              alt: message.person.name                                                                                                                                                |
+      - else
+        = image_tag 'clean/manoutline.tn.png', alt: ''
+      %div{:style => "clear:left;"}
+    .stream-item-body
+      %h2= link_to message.subject, message
+      = render partial: 'meta', locals: {message: message}
+      %div
+        = render_message_body(message)
+      - if (count = message.children.count) > 0
+        %p= pluralize count, t('messages.reply')
+= will_paginate @messages

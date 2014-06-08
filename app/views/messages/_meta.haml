@@ -1,0 +1,9 @@
+%p.timestamp
+  - if message.person
+    = t('messages.posted_by')
+    = link_to message.person.name, message.person
+  - if message.group
+    = t('messages.in')
+    = link_to message.group.name, message.group
+  = time_ago_in_words message.created_at
+  = t('messages.ago')

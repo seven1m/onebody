@@ -1,0 +1,7 @@
+- if message.attachments.any?
+  %h3= t('messages.attachments')
+  %p
+    - message.attachments.each do |attachment|
+      = link_to attachment.name, [message, attachment]
+      (#{number_to_human_size(attachment.file.size) rescue t('messages.file_missing')})
+      %br/
