@@ -7,7 +7,7 @@
             = avatar_tag comment.person
         %td
           = link_to comment.person.name, comment.person
-          = comment.created_at.to_s
+          = comment.created_at.to_s(:full)
           - if @logged_in.can_edit?(comment)
             .pull-right
               = link_to comment_path(comment), class: 'btn btn-xs bg-gray text-red', method: 'delete', data: { confirm: t('are_you_sure') } do

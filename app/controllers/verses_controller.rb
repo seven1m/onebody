@@ -36,7 +36,10 @@ class VersesController < ApplicationController
   def update
     @verse = Verse.find(params[:id])
     @verse.tag_list.remove(params[:remove_tag]) if params[:remove_tag]
-    @verse.tag_list.add(*params[:add_tags].split) if params[:add_tags]
+    if params[:add_tags]
+      add = params[:add_tags].split(/\s*,\s*|\s+/).map(&:downcase) - @verse.tag_list.map(&:downcase)
+      @verse.tag_list.add(*add)
+    end
     @verse.save
     respond_to do |format|
       format.html { redirect_to @verse }
