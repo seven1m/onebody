@@ -8,7 +8,9 @@
       = t('photos.upload.wrong_type')
   .photo-selected{ style: 'display:none' }
     = icon 'fa fa-arrow-circle-up'
-    = t('photos.uploading_filename', filename: "<span class='filename'></span>").html_safe
+    = t('photos.ready_filename', filename: "<span class='filename'></span>").html_safe
+  .progress.progress-striped.active{ style: 'display:none' }
+    .progress-bar{ role: 'progressbar', style: 'width: 0%' }
   .form-group.buttons
     = link_to '#', class: 'btn btn-info photo-browse', style: 'display:none' do
       = icon 'fa fa-folder-open-o'

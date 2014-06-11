@@ -2,10 +2,11 @@ class PhotoForm
 
   constructor: (@el) ->
     @input_group = @el.find('.file-upload-group').hide()
-    @upload_button = @el.find('.upload-button').hide().click @upload
     @browse_button = @el.find('.photo-browse').show().click @browse
     @delete_button = @el.find('.photo-delete').click @delete
     @uploading_status = @el.find('.photo-selected')
+    @upload_button = @el.find('.upload-button').hide()
+    @progress = @el.find('.progress')
     @error_callout = @el.find('.photo-error')
     @input = @el.find('input[type="file"]').change @select
     @url = @el.data('upload-url')
@@ -16,14 +17,13 @@ class PhotoForm
     @input.trigger('click')
 
   select: (e) =>
-    @uploading_status.show().find('.filename').text(@input.val())
-    if @url and @can_upload()
-      if @valid_type()
-        @error_callout.hide().find('.wrong-type').hide()
-        @upload_button.show()
-      else
-        @uploading_status.hide()
-        @error_callout.show().find('.wrong-type').show()
+    if @url and @can_upload() and @valid_type()
+      @uploading_status.show().find('.filename').text(@input.val())
+      @error_callout.hide().find('.wrong-type').hide()
+      @upload()
+    else if not @valid_type()
+      @uploading_status.hide()
+      @error_callout.show().find('.wrong-type').show()
 
   can_upload: =>
     typeof(window.FormData) != 'undefined'
@@ -32,11 +32,16 @@ class PhotoForm
     file = @input[0].files[0]
     file.type.match(/^image\//) and file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)/)
 
+  show_progress: (pct) =>
+    if pct != null
+      @progress.show().find('.progress-bar').css('width', pct + '%')
+    else
+      @progress.hide()
+
   upload: (e) =>
-    e.preventDefault()
+    e?.preventDefault()
+    @show_progress(20)
     url = @el.data('upload-url') + '.json'
-    @upload_button.addClass('disabled')
-    @spinner = new Spinner(radius: 5, length: 5, width: 2).spin(@uploading_status[0])
     data = new FormData()
     data.append 'photo', @input[0].files[0]
     $.ajax
@@ -48,8 +53,8 @@ class PhotoForm
       processData: false
       contentType: false
       complete: (d) =>
-        @spinner.stop()
-        @upload_button.removeClass('disabled').hide()
+        @show_progress(100)
+        setTimeout (=> @show_progress(null)), 800
         @uploading_status.hide()
         response = d.responseJSON
         if response.status == 'success'
@@ -58,6 +63,9 @@ class PhotoForm
           @error_callout.hide()
         else
           @error_callout.show().find('.body').html(response.errors.join("<br>"))
+      xhrFields:
+        onprogress: (e) =>
+          @show_progress(e.loaded / e.total) if e.lengthComputable
 
   delete: (e) =>
     e.preventDefault()

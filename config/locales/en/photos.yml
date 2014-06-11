@@ -9,4 +9,5 @@ en:
       button: "Upload"
       error: "Your photo could not be saved."
       wrong_type: "The photo file type must be JPG, GIF, or PNG."
-    uploading_filename: "Ready to upload %{filename}"
+    ready_filename: "Ready to upload %{filename}"
+    uploading_filename: "Uploading %{filename}"
