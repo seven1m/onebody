@@ -110,7 +110,7 @@
         - if setting(:features, :friends)
           = render partial: 'friendship'
         - if @person.messages_enabled?
-          = link_to new_message_path(to_person_id: @person), class: 'btn' do
+          = link_to new_message_path(to_person_id: @person), class: 'btn btn-info' do
             = icon 'fa fa-envelope'
             = t('messages.send_message')
     = timeline @stream_items

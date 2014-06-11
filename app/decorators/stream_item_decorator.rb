@@ -37,7 +37,7 @@ class StreamItemDecorator < Draper::Decorator
     when 'NewsItem'
       h.icon('fa fa-bullhorn bg-red')
     when 'Message'
-      h.icon('fa fa-envelope bg-teal')
+      h.icon('fa fa-envelope bg-aqua')
     when 'Person'
       h.icon('fa fa-user bg-olive')
     when 'PrayerRequest'

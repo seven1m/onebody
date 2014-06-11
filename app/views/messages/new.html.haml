@@ -1,7 +1,7 @@
 - if @message.to
   - @title = t('messages.private.heading')
   - content_for :sub_title, link_to(@message.to.name, @message.to)
-  %p= t('messages.private.description_html', person: link_to(@message.to.name, @mesage.to))
+  %p= t('messages.private.description_html', person: link_to(@message.to.name, @message.to))
 
 - elsif @message.group
   - @title = t('messages.group.heading')

@@ -79,7 +79,7 @@ OneBody::Application.routes.draw do
     end
     resources :messages do
       collection do
-        post :new
+        post :new # XXX why??
       end
     end
     resources :attendance do
