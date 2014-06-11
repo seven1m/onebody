@@ -40,6 +40,8 @@ class StreamItemDecorator < Draper::Decorator
       h.icon('fa fa-envelope bg-teal')
     when 'Person'
       h.icon('fa fa-user bg-olive')
+    when 'PrayerRequest'
+      h.icon('fa fa-heart bg-purple', style: 'line-height:2.2')
     when 'Site'
       h.icon('fa fa-home bg-light-blue')
     else
@@ -83,6 +85,19 @@ class StreamItemDecorator < Draper::Decorator
         h.link_to streamable, class: 'btn btn-info' do
           I18n.t('stream.body.person.button', person: streamable.name)
         end
+      elsif streamable_type == 'PrayerRequest' and streamable
+        h.preserve_breaks(object.body).tap do |html|
+          if streamable.answer.present?
+            html << h.content_tag(:div, class: 'prayer-answer') do
+              if streamable.answered_at
+                h.content_tag(:h4, I18n.t('prayer_requests.answer.on_date', date: streamable.answered_at.to_s(:date)))
+              else
+                h.content_tag(:h4, I18n.t('prayer_requests.answer.heading'))
+              end +
+              h.preserve_breaks(streamable.answer)
+            end
+          end
+        end.html_safe
       elsif object.body
         h.truncate_html(h.sanitize_html(h.auto_link(object.body)), length: MAX_BODY_SIZE)
       elsif streamable_type == 'Album'

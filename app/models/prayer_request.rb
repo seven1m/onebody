@@ -17,9 +17,11 @@ class PrayerRequest < ActiveRecord::Base
   end
 
   def body
-    html = "#{request}"
-    html << "<br/><strong>Answered #{answered_at ? answered_at.to_time.to_s(:date) : nil}:</strong> #{answer}" if answer.to_s.any?
-    html
+    request
+  end
+
+  def answered_at=(d)
+    self[:answered_at] = d.respond_to?(:strftime) ? d : Date.parse_in_locale(d.to_s)
   end
 
   def streamable?
@@ -46,7 +48,7 @@ class PrayerRequest < ActiveRecord::Base
   def update_stream_items
     return unless streamable?
     StreamItem.where(streamable_type: "PrayerRequest", streamable_id: id).each do |stream_item|
-      stream_item.body  = body
+      stream_item.body = body
       stream_item.save
     end
   end

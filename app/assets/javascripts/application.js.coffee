@@ -2,6 +2,7 @@
 #= require jquery_ujs
 #= require jquery.scrollTo
 #= require bootstrap
+#= require bootstrap-datepicker
 #= require admin_lte
 #= require spin
 #= require leaflet

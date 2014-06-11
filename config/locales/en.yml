@@ -133,6 +133,11 @@ en:
         link_code: "External Link Code"
         parents_of: "Link to parents of another group"
         hidden: "Hidden (Archived) Group"
+      prayer_request:
+        answer: "Answer"
+        answered_at: "Date Answered"
+        person_id: "Person needing prayer"
+        request: "Request"
     errors: 
       models: 
         admin: 
@@ -1025,33 +1030,6 @@ en:
     hide_my_name: "These are general community pictures — don't show my name on them (admin-only option)."
     upload: Upload!
   
-  prayer: 
-    add_a_prayer_request: Add a prayer request
-    add_prayer_request: Add Prayer Request
-    answer: Answer
-    answer_date: Answer Date
-    answered: Answered
-    answered_on: "Answered on %{date}."
-    by: By
-    cant_edit: You cannot edit this prayer request.
-    cant_delete: You cannot delete this prayer request.
-    cant_post: You cannot post a prayer request in this group because you are not a member.
-    delete_request: Delete Request
-    edit_prayer_request: Edit Prayer Request
-    edit_request: Edit Request
-    name: Prayer Request in %{group_name}
-    new_prayer_request: New Prayer Request
-    not_found: Prayer Request not found.
-    posted_by: posted by
-    prayer: Prayer
-    prayer_request: Prayer Request
-    prayer_requests: Prayer Requests
-    prayer_requests_in: Prayer Requests in
-    remember_to_come_back: Remember to come back and fill this section so your group can have a record of answered prayers.
-    request: Request
-    save_prayer_request: Save Prayer Request
-    submitted_by: "Request submitted by %{person_name} in %{group_name} on %{date}."
-
   prayer_signups:
     add_somebody: Add Somebody
     home_page_heading: Sign Up To Pray

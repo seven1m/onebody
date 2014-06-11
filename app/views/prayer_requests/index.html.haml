@@ -1,0 +1,38 @@
+- @title = t('prayer_requests.index.heading')
+- content_for :sub_title, link_to(@group.name, @group)
+
+- @reqs.each do |req|
+  .prayer-request.box
+    .box-header
+      %h3.box-title
+        = link_to req.created_at.to_s(:date), req
+    .box-body
+      = preserve_breaks req.request
+      - if req.answer.present?
+        .prayer-answer
+          - if req.answered_at
+            %h4= t('prayer_requests.answer.on_date', date: req.answered_at.to_s(:date))
+          - else
+            %h4= t('prayer_requests.answer.heading')
+          = preserve_breaks req.answer
+
+-#%h2
+  -#- if params[:answered]
+    -#answered
+  -#prayer requests in
+  -#= link_to @group.name, @group
+-#- @reqs.each do |req|
+  -#.stream-item
+    -#.stream-item-meta
+      -#- if req.person
+        -#%span.nowrap
+          -#%a{:href => url_for(req.person)}
+            -#= image_tag req.person.photo.exists? ? req.person.photo.url(:tn) : (req.person.gender == 'Female' ? 'clean/womanoutline.tn.png' : 'clean/manoutline.tn.png'), |
+              -#alt: req.person.name                                                                                                                                        |
+      -#- else
+        -#= image_tag 'clean/manoutline.tn.png', alt: ''
+      -#%div{:style => "clear:left;"}
+    -#.stream-item-body
+      -#%div= sanitize_html auto_link(req.body)
+      -#= render partial: 'meta', locals: {req: req}
+-#= will_paginate @reqs

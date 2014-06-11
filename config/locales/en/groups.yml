@@ -137,3 +137,20 @@ en:
 
     user_settings_saved: "User settings saved."
     email_settings_changed: "Your email settings for the group have been changed."
+
+    box:
+      messages:
+        text:
+          one: "Message"
+          other: "Messages"
+        new_link: "New Message"
+      prayer_requests:
+        text:
+          one: "Prayer Request"
+          other: "Prayer Requests"
+        new_link: "New Request"
+      pictures:
+        text:
+          one: "Picture"
+          other: "Pictures"
+        new_link: "New Picture"

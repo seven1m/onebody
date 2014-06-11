@@ -148,7 +148,7 @@ module ApplicationHelper
   end
 
   def datepicker_format
-    Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yy' : 'mm/dd/yy'
+    Setting.get(:formats, :date) =~ %r{%d/%m} ? 'dd/mm/yyyy' : 'mm/dd/yyyy'
   end
 
   # TODO remove after upgrade to Rails 4.1
@@ -166,8 +166,9 @@ module ApplicationHelper
     link_to label, '#', options
   end
 
-  def icon(css_class)
-    content_tag(:i, '', class: css_class)
+  def icon(css_class, options = {})
+    options[:class] = css_class
+    content_tag(:i, '', options)
   end
 
   def setting(section, name)

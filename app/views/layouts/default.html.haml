@@ -25,7 +25,7 @@
           event_queue.push(e);
         }
       }, false);
-  %body.skin-blue
+  %body.skin-blue{ date: { 'datepicker-format' => datepicker_format } }
     / header logo: style can be found in header.less
     %header.header
       = link_to 'CHURCH.IO', root_path, class: 'logo'

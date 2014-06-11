@@ -1,0 +1,25 @@
+= form_for [@group, @req] do |form|
+  = error_messages_for(form)
+  = form.hidden_field :group_id
+
+  %h3= t('prayer_requests.request.heading')
+
+  .form-group
+    = form.label :person_id
+    = form.select :person_id, @group.people.map { |p| [p.name, p.id] }, {}, class: 'form-control'
+  .form-group
+    = form.label :request
+    = form.text_area :request, rows: 5, class: 'form-control'
+
+  %h3= t('prayer_requests.answer.heading')
+  %p= t('prayer_requests.answer.description')
+
+  .form-group
+    = form.label :answered_at
+    = form.date_field :answered_at, value: @req.answered_at && @req.answered_at.to_s(:date), class: 'form-control'
+  .form-group
+    = form.label :answer
+    = form.text_area :answer, rows: 5, class: 'form-control'
+
+  .form-group
+    = form.button t('prayer_requests.save'), class: 'btn btn-success'
