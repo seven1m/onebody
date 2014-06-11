@@ -1,0 +1,11 @@
+.small-box {
+  & > a {
+    color: #f9f9f9;
+    display: block;
+  }
+  .inner {
+    padding: 10px;
+    position: relative;
+    z-index: 10;
+  }
+}

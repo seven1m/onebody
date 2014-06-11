@@ -41,5 +41,29 @@
             = t('groups.create.button')
 
   .col-md-8
+    - if new_groups.any?
+      %h3= t('groups.new_list.heading')
+      %table.table.group-list
+        %tr
+          %th
+          %th= t('groups.table.group_name')
+          %th= t('groups.table.member_count')
+        - new_groups.each do |group|
+          %tr.row-with-avatar
+            %td.avatar
+              = group_avatar_tag(group)
+            %td.name
+              = link_to group.name, group
+              - if group.private?
+                %span.label.label-warning
+                  = icon 'fa fa-lock'
+                  = t('groups.private_group')
+              - if group.hidden?
+                %span.label.label-danger
+                  = icon 'fa fa-eye-slash'
+                  = t('groups.hidden_group')
+            %td
+              = group.memberships.count
+
     %h3= t('groups.your_groups')
     = render partial: 'person_groups'

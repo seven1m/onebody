@@ -15,7 +15,7 @@
           %tr.row-with-avatar{class: group.hidden? ? 'grayed hidden-group' : ''}
             %td.avatar
               = group_avatar_tag(group)
-            %td.group
+            %td.name
               = link_to group.name, group
               - if group.private?
                 %span.label.label-warning
@@ -32,9 +32,10 @@
                 .toggle{id: "group#{group.id}"}
                   = link_to t('groups.email_off'), group_membership_path(group, @person, email: 'off'), method: 'put', remote: true, class: "off #{membership.get_email? ? 'toggle-enabled' : 'toggle-disabled'} btn-xs"
                   = link_to t('groups.email_on'), group_membership_path(group, @person, email: 'on'), method: 'put', remote: true, class: "on #{membership.get_email? ? 'toggle-disabled' : 'toggle-enabled'} btn-xs"
-- if @logged_in.admin?(:manage_groups) and @person.groups.detect { |g| g.hidden? }
-  %p
-    = link_to_function t('people.show_hidden_groups'), "$('.hidden-group').toggle()", class: 'btn btn-warning'
+
+  - if @logged_in.admin?(:manage_groups) and @person.groups.hidden.any?
+    %p
+      = link_to t('people.show_hidden_groups'), '#', class: 'btn btn-warning', data: { toggle: '.hidden-group' }
 
 - elsif me?
   %p

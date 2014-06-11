@@ -3,6 +3,9 @@ en:
   groups:
     heading: "Groups"
 
+    new_list:
+      heading: "New Groups"
+
     created: "Group created."
     created_pending_approval: "Your group has been created and is pending approval."
     saved: "Group changes have been saved."
@@ -28,6 +31,18 @@ en:
       heading: "Create a Group"
       description: "If you can't find a group, it's easy to create one!"
       button: "Create a Group"
+
+    show:
+      details:
+        created_at: "created"
+        created_by: "created by"
+        leader: "leader"
+        member_count: "members"
+      controls:
+        join: "Join Group"
+        leave: "Leave Group"
+        message: "Send Message"
+        prayer_request: "Request Prayer"
 
     new:
       heading: "New Group"

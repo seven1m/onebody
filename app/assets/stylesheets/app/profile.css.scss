@@ -5,15 +5,6 @@
   }
 }
 
-.profile-controls {
-  @extend .well;
-  padding-bottom: 10px;
-  .btn {
-    @extend .bg-light-blue;
-    margin: 0 10px 10px 0;
-  }
-}
-
 .testimony .box-title a {
   color: white !important;
 }

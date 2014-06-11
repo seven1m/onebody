@@ -12,7 +12,8 @@ class Group < ActiveRecord::Base
   has_many :prayer_requests, -> { order(created_at: :desc) }
   has_many :attendance_records
   has_many :albums, as: :owner
-  has_many :stream_items, dependent: :destroy, order: 'created_at desc'
+  has_many :album_pictures, through: :albums, source: :pictures
+  has_many :stream_items, -> { order('created_at desc') }, dependent: :destroy
   has_many :attachments, dependent: :delete_all
   belongs_to :creator, class_name: 'Person', foreign_key: 'creator_id'
   belongs_to :leader, class_name: 'Person', foreign_key: 'leader_id'
@@ -20,6 +21,7 @@ class Group < ActiveRecord::Base
   belongs_to :site
 
   scope :active, -> { where(hidden: false) }
+  scope :hidden, -> { where(hidden: true) }
   scope :unapproved, -> { where(approved: false) }
   scope :approved, -> { where(approved: true) }
   scope :is_public, -> { where(private: false, hidden: false) } # cannot be 'public'
@@ -124,7 +126,7 @@ class Group < ActiveRecord::Base
   end
 
   def can_send?(person)
-    (members_send and person.member_of?(self) and person.messages_enabled?) or admin?(person)
+    (email? and members_send? and person.member_of?(self) and person.messages_enabled?) or admin?(person)
   end
   alias_method 'can_post?', 'can_send?'
 
@@ -176,6 +178,14 @@ class Group < ActiveRecord::Base
 
   def remove_parent_of_links
     Group.where(parents_of: id).each { |g| g.update_attribute(:parents_of, nil) }
+  end
+
+  def can_add_prayer_request?(person)
+    prayer? and (person.member_of?(self) or admin?(person))
+  end
+
+  def can_add_album?(person)
+    pictures? and (person.member_of?(self) or admin?(person))
   end
 
   class << self

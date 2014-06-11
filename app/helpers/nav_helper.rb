@@ -103,15 +103,20 @@ module NavHelper
     tab_selected == tab
   end
 
-  NEW_GROUP_AGE = 5.days
+  def tab_expanded
+    if tab_selected?(:groups)
+      :groups if @group and @logged_in.can_edit?(@group)
+    else
+      tab_selected
+    end
+  end
+
+  def tab_expanded?(tab)
+    tab_expanded == tab
+  end
 
   def new_group_badge
-    count = if @logged_in.admin?(:manage_groups)
-      Group.recent(NEW_GROUP_AGE).count
-    else
-      Group.is_public.recent(NEW_GROUP_AGE).count
-    end
-    if count > 0
+    if (count = new_groups.count) > 0
       content_tag(:small, class: 'badge bg-green') do
         t('nav.groups_sub.new_count', count: count)
       end

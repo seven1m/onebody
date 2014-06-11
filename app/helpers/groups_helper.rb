@@ -31,4 +31,25 @@ module GroupsHelper
     [[t('groups.edit.category.new'), '!']] + Group.categories.keys
   end
 
+  def must_request_group_join?(group)
+    not group.admin?(@logged_in) and @group.approval_required_to_join?
+  end
+
+  NEW_GROUP_AGE = 5.days
+
+  def new_groups
+    if @logged_in.admin?(:manage_groups)
+      Group.recent(NEW_GROUP_AGE)
+    else
+      Group.is_public.recent(NEW_GROUP_AGE)
+    end
+  end
+
+  def group_content_column(&block)
+    count = [@group.email?, @group.prayer?, @group.pictures?].count { |t| t }
+    return if count == 0
+    width = 12 / count
+    content_tag(:div, class: "col-md-#{width}", &block)
+  end
+
 end

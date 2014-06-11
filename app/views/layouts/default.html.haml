@@ -78,8 +78,8 @@
               = link_to @person || @logged_in do
                 %i.fa.fa-user
                 %span= t('nav.profile')
-                %i.fa.pull-right{class: tab_selected?(:profile) ? 'fa-angle-down' : 'fa-angle-left'}
-              - if tab_selected?(:profile)
+                %i.fa.pull-right{class: tab_expanded?(:profile) ? 'fa-angle-down' : 'fa-angle-left'}
+              - if tab_expanded?(:profile)
                 %ul.treeview-menu.visible
                   %li
                     = link_to edit_person_path(@person) do
@@ -108,8 +108,8 @@
                   %i.fa.fa-group
                   %span= t('nav.groups')
                   = new_group_badge
-                  %i.fa.pull-right{class: tab_selected?(:groups) ? 'fa-angle-down' : 'fa-angle-left'}
-                - if tab_selected?(:groups) and @group and @logged_in.can_edit?(@group)
+                  %i.fa.pull-right{class: tab_expanded?(:groups) ? 'fa-angle-down' : 'fa-angle-left'}
+                - if tab_expanded?(:groups)
                   %ul.treeview-menu.visible
                     - if @group.persisted?
                       %li
@@ -124,8 +124,8 @@
               = link_to search_path do
                 %i.fa.fa-archive
                 %span= t('nav.directory')
-                %i.fa.pull-right{class: tab_selected?(:directory) ? 'fa-angle-down' : 'fa-angle-left'}
-              - if tab_selected?(:directory)
+                %i.fa.pull-right{class: tab_expanded?(:directory) ? 'fa-angle-down' : 'fa-angle-left'}
+              - if tab_expanded?(:directory)
                 %ul.treeview-menu.visible
                   %li
                     = link_to search_path(business: true) do

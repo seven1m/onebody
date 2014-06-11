@@ -15,3 +15,5 @@ $('[data-toggle^="#"], [data-toggle^="."]').each (i, elm) ->
     elm.on 'change, ifToggled', (e) ->
       toggle(elm.is(':checked'))
     toggle(elm.is(':checked'))
+  if elm.is('a')
+    elm.on 'click', toggle

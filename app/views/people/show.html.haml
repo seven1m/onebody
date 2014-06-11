@@ -106,7 +106,7 @@
                 = t('people.groups.join.button')
   .col-lg-4.col-lg-pull-8.col-xs-6.col-xs-pull-6
     - unless me? or not (setting(:features, :friends) and @person.messages_enabled?)
-      .profile-controls
+      .page-controls
         - if setting(:features, :friends)
           = render partial: 'friendship'
         - if @person.messages_enabled?

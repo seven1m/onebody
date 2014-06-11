@@ -48,10 +48,10 @@
                   %a.btn.bg-teal.dropdown-toggle{data: {toggle: 'dropdown'}}
                     %span.caret
                   %ul.dropdown-menu{role: 'menu'}
-                    - @logged_in.groups.active.each do |group|
+                    - @logged_in.groups.active.order('name').each do |group|
                       - next unless group.can_post?(@logged_in)
                       %li
-                        = link_to group.name, group
+                        = link_to group.name, new_group_message_path(group)
         .box-footer
           %em= t('stream.share.sharing_with_html', count: @logged_in.sharing_with_people.count, url: stream_people_path)
 
