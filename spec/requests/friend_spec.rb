@@ -13,7 +13,7 @@ describe 'Friend' do
     sign_in_as @user
 
     view_profile @friend
-    assert_select 'body', html: /Remove from Friends/
+    assert_select 'body', html: /Add to Friends/, count: 0
     assert_select '#add_friend_' + @friend.id.to_s, count: 0
 
     view_profile @stranger
@@ -35,7 +35,7 @@ describe 'Friend' do
     put "/people/#{@stranger.id}/friends/#{f.id}?accept=true"
     expect(response).to be_redirect
     view_profile @user
-    assert_select 'body', html: /Remove from Friends/
+    assert_select 'body', html: /Add to Friends/, count: 0
     assert_select '#add_friend_' + @user.id.to_s, count: 0
   end
 end
