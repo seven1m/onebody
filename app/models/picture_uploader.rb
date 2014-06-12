@@ -14,7 +14,7 @@ class PictureUploader
     Array(@params[:pictures]).each do |pic|
       picture = @album.pictures.new
       Authority.enforce(:create, picture, @user)
-      picture.person = @user unless @params[:remove_owner]
+      picture.person = @user
       picture.photo = pic
       picture.save
       if picture.photo.exists?

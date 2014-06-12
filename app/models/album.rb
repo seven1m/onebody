@@ -13,13 +13,6 @@ class Album < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:site_id, :owner_type, :owner_id]
 
-  def remove_owner=(remove)
-    if remove and Person.logged_in.admin?(:manage_pictures)
-      self.owner = nil
-      self.is_public = true
-    end
-  end
-
   def cover
     pictures.order('cover desc, id').first
   end
